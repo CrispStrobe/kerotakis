@@ -8,6 +8,9 @@
 //!   kero                      interactive session
 //!   kero run FILE.lab         replay a command script
 //!   kero run FILE.lab --json  replay, one JSON object per step on stdout
+//!   kero run FILE.lab --lang de   replay a file typed in German (or put
+//!                             `lang de` on its first line); the bench
+//!                             still echoes, logs and exports English
 //!   kero species              list the registry
 //!   kero materials            list the named household and school bottles
 //!   kero find <word>          search species and materials together
@@ -94,7 +97,29 @@ fn main() {
     let args: Vec<String> = std::env::args().skip(1).collect();
     match args.first().map(String::as_str) {
         Some("run") => {
-            let path = args.get(1).unwrap_or_else(|| usage());
+            // The path is the first argument that is not a flag and not a
+            // flag's value. Reading `args[1]` positionally worked for as
+            // long as `run` took no options with values, and stops the
+            // moment one does: `kero run --lang de lesson.lab` would have
+            // tried to open a file called `--lang`.
+            let mut path = None;
+            let mut expects_value = false;
+            for arg in &args[1..] {
+                if expects_value {
+                    expects_value = false;
+                    continue;
+                }
+                if arg == "--lang" {
+                    expects_value = true;
+                    continue;
+                }
+                if arg.starts_with('-') {
+                    continue;
+                }
+                path = Some(arg);
+                break;
+            }
+            let path = path.unwrap_or_else(|| usage());
             let json = args.iter().any(|a| a == "--json");
             let text = std::fs::read_to_string(path).unwrap_or_else(|e| {
                 eprintln!("kero: cannot read {path}: {e}");
@@ -113,8 +138,16 @@ fn main() {
                 masks: Vec::new(),
                 cover_masks: Vec::new(),
                 sealed_vessels: Default::default(),
-                // A lesson file is canonical English wherever it is run.
-                locale: kerotakis_core::Locale::EN,
+                // A `.lab` file is canonical English by default, and that
+                // default is load-bearing: every shipped lesson, the
+                // corpus and the replay cache are English lines, and none
+                // of them may change meaning because of an environment
+                // variable. `--lang de` (or `KERO_LANG=de`) says the
+                // FILE was typed in that language, and even then an
+                // English line is never rewritten — the alias index drops
+                // any word the English grammar already spends — so a
+                // shipped lesson run under `--lang de` is the same run.
+                locale: typing_language(),
             };
             for (lineno, line) in text.lines().enumerate() {
                 if let Err(e) = session.exec_line(line) {
@@ -1913,7 +1946,10 @@ fn usage() -> ! {
          usage:\n\
          \x20 kero [repl] [--lang de]    interactive bench; --lang lets you TYPE\n\
          \x20                            in that language (the bench answers in English)\n\
-         \x20 kero run FILE.lab [--json] replay a command script\n\
+         \x20 kero run FILE.lab [--json] [--lang de]\n\
+         \x20                            replay a command script; --lang says which\n\
+         \x20                            language the FILE was typed in (a `lang de`\n\
+         \x20                            first line in the file says the same thing)\n\
          \x20 kero study FILE.lab --vary add:v1:HCl=0.005..0.02:4\n\
          \x20        --collect ph@v1[,…] [--csv]   run it varied over a parameter\n\
          \x20 kero fit FILE.lab --param rate:REACTION:pre_exponential\n\
@@ -1969,6 +2005,7 @@ fn usage() -> ! {
          \x20 inspect [vessel]                       show state\n\
          \x20 explain [vessel]                       provenance\n\
          \x20 register <lv1|lv2|lv3>                 detail level\n\
+         \x20 lang <en|de>                           the language the LINES are typed in\n\
          \x20 species                                list available species\n\
          \x20 quit"
     );
@@ -2595,12 +2632,31 @@ fn simulate_mechanism(args: &[String]) -> ! {
     std::process::exit(0);
 }
 
-/// What language the person at the keyboard types in.
+/// The language tags a `lang` directive may name, for the refusal that
+/// says so. Read from the engine's own registry rather than written out,
+/// so a language added to `Locale::available` is offered here the same
+/// day.
+fn shipped_languages() -> String {
+    kerotakis_core::Locale::available()
+        .iter()
+        .map(|locale| locale.code())
+        .collect::<Vec<_>>()
+        .join(", ")
+}
+
+/// What language the lines being fed to the bench are typed in.
 ///
 /// `--lang de` on the command line, else `KERO_LANG`, else English.
 /// Anything unknown is English rather than an error: someone whose shell
 /// is set to a language nobody has translated should get the bench they
 /// had, not a refusal where the bench used to be.
+///
+/// The REPL and `run` share it, and sharing it is the point: a learner
+/// who can type `zugeben v1 Wasser 100mL` at the prompt could not put
+/// the same line in a file, because `run` hard-coded English. Nothing
+/// about the default moves — every shipped `.lab`, the corpus and the
+/// replay cache are canonical English, and stay so under any `--lang`,
+/// because a line the English grammar already parses is never rewritten.
 fn typing_language() -> kerotakis_core::Locale {
     let args: Vec<String> = std::env::args().collect();
     let flag = args
@@ -2669,10 +2725,12 @@ fn repl() {
                  electrochemistry cell <v> <v> · electrolyse <v> <A> <t>   (each half-cell wants its metal)\n\
                  analysis         titrate <v> <name> [<c>M] <step><mL|L> until <ph <t>|pe <op> <v>|colour persists>\n\
                  named reactions  react <v> <esterification|saponification|alcohol-oxidation|respiration>\n\
-                 the bench        new [beaker|flask|tube|cylinder|crucible] · remove <v> · inspect [v]\n\
-                 \x20                register <lv1|lv2|lv3> · explain [v] · quest · quit\n\
+                 the bench        new [beaker|flask|tube|cylinder|crucible] · discard <v> · remove <v>\n\
+                 \x20                inspect [v]\n\
+                 \x20                register <lv1|lv2|lv3> · lang <en|de> · explain [v] · quest · quit\n\
                  what is here     species (pure substances) · materials (household bottles) · find <word>\n\
-                 your own words   kero repl --lang de · zugeben/erhitzen/messen — the bench logs the English"
+                 your own words   kero repl --lang de · kero run --lang de FILE.lab · `lang de` as a\n\
+                 \x20                file's first line · zugeben/erhitzen/messen — the bench logs the English"
             );
             continue;
         }
@@ -2725,6 +2783,48 @@ impl Session {
                         ))
                     }
                 };
+                Ok(())
+            }
+            // A German-authored lesson declares itself, the way it
+            // declares its register. Without this a `.lab` written in
+            // German is only runnable by someone who remembers to pass
+            // `--lang de` on the command line, which makes the file's
+            // language a property of how it was invoked rather than of
+            // the file — and a lesson that is shared is invoked by
+            // someone else. It belongs on the first line; it is accepted
+            // wherever `register` is, because there is no reason for two
+            // rules.
+            //
+            // What it changes is the PARSER and nothing else. The bench
+            // still echoes, logs, saves and exports canonical English,
+            // so a lesson with `lang de` at the top produces the same
+            // transcript as its English twin.
+            "lang" => {
+                let Some(tag) = words.get(1) else {
+                    return Err(format!(
+                        "lang: name a language — the bench ships {}",
+                        shipped_languages()
+                    ));
+                };
+                let locale = kerotakis_core::Locale::parse(tag);
+                // `Locale::parse` answers English for anything it does not
+                // ship, which is the right answer for an environment
+                // variable someone else set and the wrong one for a line
+                // an author wrote on purpose: silently parsing a French
+                // lesson as English fails later, somewhere else, with a
+                // message about a verb.
+                let primary = tag
+                    .split(['-', '_'])
+                    .next()
+                    .unwrap_or("")
+                    .to_ascii_lowercase();
+                if locale.code() != primary {
+                    return Err(format!(
+                        "unknown language {tag:?} — the bench ships {}",
+                        shipped_languages()
+                    ));
+                }
+                self.locale = locale;
                 Ok(())
             }
             "explain" => {
@@ -3127,7 +3227,10 @@ impl Session {
                 &mut self.stack,
                 &kerotakis_safety::ReactiveGroupScreen,
             )
-            .map_err(|e| e.to_string())?;
+            // I18N: `kero --lang de` refuses in German too. The refusal is
+            // the one line a learner reads most often and it was the last
+            // English one left in a German REPL.
+            .map_err(|e| e.localize(self.locale))?;
         // The sealed set follows the matter: `exec_line` seals the vessel
         // an alias was added to, and every transfer out of a sealed
         // vessel seals the destination. Chemistry is untouched — this

@@ -28,9 +28,19 @@
     result,
     onclose,
     onexport,
+    onprovenance,
   }: {
     result: ResultSummary;
     onclose: () => void;
+    /**
+     * GUI-052: open the provenance drawer on this result.
+     *
+     * Optional, and the icon is drawn only when it is supplied — the shell
+     * passes it only where the engine actually recorded routing, so the
+     * card never offers a door onto an empty room. The card knows nothing
+     * about what is behind it; the drawer is the shell's to mount.
+     */
+    onprovenance?: () => void;
     /**
      * The card's exporter, handed UP to the shell.
      *
@@ -167,6 +177,15 @@
          close affordance, and it stops the click from also toggling the
          disclosure it sits inside. -->
     <span class="header-actions">
+      {#if onprovenance}
+        <button
+          class="icon-provenance"
+          type="button"
+          aria-label={t("where this answer came from")}
+          title={t("where this answer came from")}
+          onclick={(event) => { event.preventDefault(); event.stopPropagation(); onprovenance?.(); }}
+        >⌖</button>
+      {/if}
       <button
         class="icon-export"
         type="button"
@@ -253,6 +272,26 @@
     line-height: 1;
     cursor: pointer;
   }
+  /* Same 28px chrome as the export icon beside it: two icons in one header
+     that do not match read as two different kinds of control. */
+  .icon-provenance {
+    width: 28px;
+    height: 28px;
+    flex: none;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border: 1px solid var(--edge);
+    border-radius: 9px;
+    color: var(--dim);
+    background: var(--surface);
+    font: inherit;
+    font-size: .95rem;
+    font-weight: 800;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .icon-provenance:hover { color: var(--primary); border-color: var(--primary); }
   .icon-export:hover,
   .icon-export[aria-expanded="true"] { color: var(--primary); border-color: var(--primary); }
   .export-menu {

@@ -53,6 +53,79 @@ four fields is missing, if an id repeats, if a validity range is not an
 increasing pair of kelvin temperatures, or if a retrieval date is not an
 ISO date. A rate constant without a source cannot be merged.
 
+## Bringing your own mechanism file
+
+The parser is a front end for the **Cantera YAML format**, not for a
+Kerotakis-specific shape — the packs in this directory are written in that
+format because it is the one the combustion community already publishes in.
+Any file you supply at runtime is read by the same code:
+
+```sh
+cargo run -p kerotakis-cli -- mechanism inspect /path/to/your-mechanism.yaml
+```
+
+Nothing about supplying a file is restricted. **Shipping** one is, and the
+two are different questions — see *Licence, for a file you want to add*
+below.
+
+### The supported subset
+
+`parse_yaml` accepts a **portable subset**, audited construct by construct in
+`provenance/brd-040-cantera-audit.md`. What it models:
+
+| Cantera construct | Notes |
+|---|---|
+| `units:` — `length`, `time`, `quantity`, `energy`, `activation-energy`, `pressure` | `A` is rescaled by one concentration unit per reaction order above the first; `activation-energy` defaults to `energy`/`quantity`, as Cantera does |
+| `phases:` with `thermo: ideal-gas` | every phase in the document must be one; `species: all` or an explicit list |
+| `species:` with `composition:` and NASA7 `thermo` | two temperature bounds and one data row, or three bounds and two rows; `reference-pressure` honoured |
+| `type: elementary`, reversible (`<=>`) or not (`=>`) | reverse rate from NASA7 detailed balance, never an independent fit |
+| `type: three-body`, with `efficiencies` / `default-efficiency` | reversible or not |
+| `type: falloff` with `high-P-rate-constant`, `low-P-rate-constant`, optional `Troe: {A, T3, T1, T2}` | Lindemann without the `Troe` block; reversible or not |
+| `type: pressure-dependent-Arrhenius` with `rate-constants` | log-interpolated in pressure, duplicate pressures summed |
+| `orders:` / `negative-orders:` | irreversible elementary reactions only — see *Global steps* below |
+| `duplicate:`, `note:`, `id:`, transport and critical-parameter blocks | parsed and ignored, because they cannot change a rate |
+
+In a reversible pressure-dependent reaction the third-body or falloff
+correction multiplies the rate **constant**, so it applies to both directions
+and the equilibrium the thermochemistry fixes is untouched. The equilibrium
+constant excludes the collider: a bare `M` never enters the stoichiometry, and
+a collider written explicitly on both sides cancels out of it.
+
+Everything else is **refused with a typed error naming the reaction or field**
+— never dropped. That asymmetry is the design: a silently ignored key can turn
+a file into a mechanism that answers a different question than the one it
+asks. Refused constructs include Chebyshev and `linear-Burke` rates,
+chemically-activated reactions, `SRI` and `Tsang` falloff, Blowers–Masel
+rates, surface and edge phases, real-gas (Redlich–Kwong) phases, NASA9 and
+Shomate thermo, electron-collision rates, `nonreactant-orders`, cross-file
+section references, and per-value unit strings on `A`.
+
+Two known limits, both recorded in the audit:
+
+- **A document is validated whole**, not selected from. A file that pairs an
+  `ideal-gas` phase with a Redlich–Kwong variant of the same species — the
+  shape of Cantera's own `h2o2.yaml` — is refused for the real-gas phase even
+  though its gas phase is fully supported.
+- **Reaction types must be spelled out.** Cantera 3 auto-detects `three-body`
+  from a bare `M`; this parser requires the explicit `type`, on the principle
+  that refusing beats guessing.
+
+### Licence, for a file you want to add
+
+A file you load at runtime is yours and no licence question arises. A file
+**added to this directory** ships with the engine, and then only **CC0, CC BY,
+or a BSD/MIT-style grant** is acceptable — the pack must carry a
+redistribution grant in its own terms.
+
+This is not a formality. BRD-040 audited the mechanisms a combustion engineer
+would reach for first and found **not one of them carries such a grant**;
+Cantera, which distributes several, states in its own documentation that it
+"is not claiming to grant a license to" them. So the answer to "can we ship
+GRI-Mech?" is no, and it stays no. Write the reactions from a published
+evaluation instead, cite each one, and the result is a table of measured facts
+rather than a copy of somebody's file — which is exactly how every pack here
+came to exist.
+
 ## What these packs claim
 
 - The **major species** of gas-phase oxidation under the stated

@@ -307,6 +307,88 @@ pub fn unsparked_fuels(vessel: &Vessel) -> Vec<(SpeciesId, f64)> {
         .collect()
 }
 
+/// The oxygen mole fraction of the room's air.
+///
+/// An open vessel is not a ledger: its headspace is the room, and the
+/// room is not tracked. Reporting an open beaker's oxygen fraction as
+/// zero because no O₂ portion was ever deposited would be a false
+/// reading, and it is the reading `moles_of("O2") / gas_moles()` gives.
+/// The same 0.21 that `compartment.rs` fills standard air with.
+pub const ROOM_OXYGEN_FRACTION: f64 = 0.21;
+
+/// The oxygen fraction of the gas a flame in this vessel would meet.
+///
+/// One reading, two boundaries. A closed vessel owns its gas, so the
+/// fraction is its own — and that is the number `FlameStarved` reports
+/// when a jar puts a candle out. An open or swept vessel does not: the
+/// open one draws on the room, and the swept one is a nitrogen purge
+/// with none coming.
+pub fn oxygen_fraction(vessel: &Vessel) -> f64 {
+    match air(vessel) {
+        Air::Room => ROOM_OXYGEN_FRACTION,
+        Air::Inert => 0.0,
+        Air::Owned { oxygen, total } => {
+            if total > 0.0 {
+                oxygen / total
+            } else {
+                0.0
+            }
+        }
+    }
+}
+
+/// The most flammable thing standing in this vessel, and the temperature
+/// it would light itself at.
+#[derive(Debug, Clone, PartialEq)]
+pub struct IgnitionCandidate {
+    /// The species a flame would have taken.
+    pub fuel: SpeciesId,
+    /// How much of it is there.
+    pub moles: Moles,
+    /// Its autoignition temperature in air, K.
+    pub autoignition_k: f64,
+}
+
+/// The candidate a flame held to this vessel would have taken, if any.
+///
+/// "Most flammable" is the lowest autoignition temperature among the
+/// species actually present, and both tables are read: `GAS_AUTOIGNITION`
+/// for the vapours the equilibrium solver gates, `FUELS` for the curated
+/// solids and liquids NASA CEA cannot name. Reading only one of them
+/// would have called a candle unburnable in exactly the vessels the
+/// curated table exists for.
+///
+/// This is a reading of the vessel, not a prediction: it says what is
+/// there and what that thing needs, and nothing about whether a solver
+/// would burn it.
+pub fn ignition_candidate(vessel: &Vessel) -> Option<IgnitionCandidate> {
+    let present = |species: &str, autoignition_k: f64| {
+        let moles = vessel.moles_of(&SpeciesId::new(species));
+        (moles.0 > crate::OBSERVABLE_MOLES).then(|| IgnitionCandidate {
+            fuel: SpeciesId::new(species),
+            moles,
+            autoignition_k,
+        })
+    };
+    GAS_AUTOIGNITION
+        .iter()
+        .filter_map(|row| present(row.species, row.autoignition_k))
+        .chain(
+            FUELS
+                .iter()
+                .filter_map(|fuel| present(fuel.species, fuel.autoignition_k)),
+        )
+        // Lowest autoignition temperature wins: the thing that would have
+        // caught first is the thing the flame was offered. Ties cannot
+        // happen between the two tables as they stand, and `min_by` keeps
+        // the first if they ever do, which is table order and stable.
+        .min_by(|a, b| {
+            a.autoignition_k
+                .partial_cmp(&b.autoignition_k)
+                .unwrap_or(std::cmp::Ordering::Equal)
+        })
+}
+
 /// What the vessel's boundary offers a flame.
 #[derive(Debug, Clone, Copy, PartialEq)]
 enum Air {

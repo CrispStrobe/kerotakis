@@ -618,12 +618,19 @@ pub fn parse_yaml(text: &str) -> Result<ParsedMechanism, MechanismError> {
             }
         };
         let equation = parse_equation(&reaction.equation, number)?;
-        if equation.reversible && kind != ReactionKind::Elementary {
-            return Err(MechanismError::InvalidReaction {
-                reaction: number,
-                detail: "reversible pressure-dependent reactions are not supported yet".to_string(),
-            });
-        }
+        // BRD-040 §4 items 1 and 2. A reversible pressure-dependent reaction
+        // needs no new rate law, and refusing it was the single obstacle
+        // between this subset and the teaching set: §3.5 recorded that
+        // `gri30.yaml` and `air.yaml` both stopped here and nowhere else.
+        //
+        // Both corrections multiply the rate CONSTANT, not one direction of
+        // it. `RateExpression`'s evaluator already computes the third-body or
+        // falloff factor before dividing the reverse direction by Kc, so
+        // k_reverse = F(T, [M], P) · k_infinity / Kc — which is what Cantera
+        // computes. Kc itself is untouched: a bare `M` or a `(+M)` never
+        // enters the stoichiometry vector, and an explicitly written collider
+        // cancels between the two sides, so the equilibrium constant is that
+        // of the reaction without its third body, as it must be.
         let reversible = equation.reversible;
         match (kind, equation.has_collider) {
             (ReactionKind::Elementary | ReactionKind::Plog, true) => {
@@ -2040,6 +2047,211 @@ reactions:
         assert!(vessel.moles_of(&crate::SpeciesId::new("H2")).0 < 1.0);
         assert!(vessel.moles_of(&crate::SpeciesId::new("H")).0 > 0.0);
         assert!(vessel.pressure.0 > initial_pressure);
+    }
+
+    /// [`REVERSIBLE`]'s two-species thermochemistry — A and B are isomers, and
+    /// B carries an entropy constant of ln 4, so Kc is exactly 4 at every
+    /// temperature — plus an inert argon collider, so a third-body factor can
+    /// be made distinguishable from 1.
+    const REVERSIBLE_COLLIDER: &str = r#"
+description: reversible isomerisation with a collider
+phases:
+- name: gas
+  thermo: ideal-gas
+  species: [A, B, AR]
+species:
+- name: A
+  composition: {X: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 3000.0]
+    data:
+    - [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    - [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+- name: B
+  composition: {X: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 3000.0]
+    data:
+    - [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.3862943611198906]
+    - [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.3862943611198906]
+- name: AR
+  composition: {Ar: 1}
+"#;
+
+    /// BRD-040 §4 item 1. The collider concentration multiplies the reverse
+    /// direction as well as the forward one; applying it to only one of them
+    /// would move the equilibrium the thermochemistry fixes.
+    #[test]
+    fn reversible_three_body_applies_the_collider_to_both_directions() {
+        let yaml = format!(
+            "{REVERSIBLE_COLLIDER}reactions:\n- equation: A + M <=> B + M\n  type: three-body\n  rate-constant: {{A: 1.0, b: 0, Ea: 0}}\n  efficiencies: {{AR: 0.5}}\n"
+        );
+        let parsed = parse_yaml(&yaml).unwrap();
+        let detail = &parsed.summary().reaction_details[0];
+        assert!(detail.reversible);
+        assert_eq!(detail.rate_model, "three_body");
+        let arena = MechanismArena::default();
+        let network = parsed.compile_in(&arena);
+        let reaction = &network.reactions[0];
+        // `M` cancels between the sides, so it must not appear in the
+        // stoichiometry the equilibrium constant is built from.
+        assert_eq!(reaction.stoichiometry.len(), 2);
+        assert!(
+            (reaction
+                .equilibrium
+                .unwrap()
+                .concentration_equilibrium_constant(500.0)
+                - 4.0)
+                .abs()
+                < 1e-12
+        );
+
+        // [M]eff = [A] + [B] + 0.5[Ar] = 1.5 mol/L.
+        let mut vessel = sealed_gas(&[("A", 0.5), ("B", 0.5), ("AR", 1.0)]);
+        vessel.temperature = crate::Kelvin(500.0);
+        vessel.refresh_pressure();
+        let rates = reaction.rates_now(&vessel);
+        assert!((rates.forward - 1.5 * 0.5).abs() < 1e-12, "{rates:?}");
+        assert!((rates.reverse - 1.5 * 0.5 / 4.0).abs() < 1e-12, "{rates:?}");
+        assert!((rates.net - 0.5625).abs() < 1e-12, "{rates:?}");
+
+        // Detailed balance, and the property a one-sided collider factor
+        // breaks: at [B]/[A] = Kc the net rate is zero for every bath-gas
+        // loading, because the same factor divides out.
+        for argon in [0.5, 1.0, 10.0] {
+            let equilibrium = sealed_gas(&[("A", 0.2), ("B", 0.8), ("AR", argon)]);
+            let net = reaction.rate_now(&equilibrium);
+            assert!(net.abs() < 1e-12, "argon {argon}: {net}");
+        }
+    }
+
+    /// BRD-040 §4 item 2. The Troe broadening factor multiplies both
+    /// directions, so the forward/reverse ratio stays exactly Kc·[A]/[B]
+    /// however far into falloff the reaction is.
+    #[test]
+    fn reversible_falloff_broadens_both_directions() {
+        let yaml = format!(
+            "{REVERSIBLE_COLLIDER}reactions:\n- equation: A (+M) <=> B (+M)\n  type: falloff\n  high-P-rate-constant: {{A: 100.0, b: 0, Ea: 0}}\n  low-P-rate-constant: {{A: 1000.0, b: 0, Ea: 0}}\n  Troe: {{A: 0.5, T3: 1000.0, T1: 10000.0, T2: 5000.0}}\n"
+        );
+        let parsed = parse_yaml(&yaml).unwrap();
+        let detail = &parsed.summary().reaction_details[0];
+        assert!(detail.reversible);
+        assert_eq!(detail.rate_model, "troe");
+        let arena = MechanismArena::default();
+        let network = parsed.compile_in(&arena);
+        let reaction = &network.reactions[0];
+
+        // [M] = [A] + [B] = 1 mol/L, so Pr = k0[M]/kinf = 10 and the
+        // Lindemann limit is kinf·Pr/(1+Pr), broadened by Troe's F.
+        let vessel = sealed_gas(&[("A", 0.5), ("B", 0.5)]);
+        let parameters = Troe {
+            a: 0.5,
+            t3: 1000.0,
+            t1: 10000.0,
+            t2: Some(5000.0),
+        };
+        let k = (100.0 * 10.0 / 11.0) * parameters.broadening(vessel.temperature.0, 10.0);
+        let rates = reaction.rates_now(&vessel);
+        assert!((rates.forward - k * 0.5).abs() < 1e-9, "{rates:?}");
+        assert!((rates.reverse - k * 0.5 / 4.0).abs() < 1e-9, "{rates:?}");
+        assert!(
+            (rates.forward / rates.reverse - 4.0).abs() < 1e-9,
+            "{rates:?}"
+        );
+
+        let equilibrium = sealed_gas(&[("A", 0.2), ("B", 0.8)]);
+        assert!(reaction.rate_now(&equilibrium).abs() < 1e-12);
+    }
+
+    /// A reversible P-log reaction interpolates first and applies detailed
+    /// balance to the interpolated constant, so the ratio of the directions
+    /// is Kc·[A]/[B] at whatever pressure the vessel happens to hold.
+    #[test]
+    fn reversible_plog_applies_detailed_balance_to_the_interpolated_constant() {
+        let yaml = format!(
+            "{REVERSIBLE_COLLIDER}reactions:\n- equation: A <=> B\n  type: pressure-dependent-Arrhenius\n  rate-constants:\n  - {{P: 0.5 atm, A: 1.0, b: 0, Ea: 0}}\n  - {{P: 2.0 atm, A: 100.0, b: 0, Ea: 0}}\n"
+        );
+        let parsed = parse_yaml(&yaml).unwrap();
+        assert!(parsed.summary().reaction_details[0].reversible);
+        let arena = MechanismArena::default();
+        let network = parsed.compile_in(&arena);
+        let reaction = &network.reactions[0];
+
+        let vessel = sealed_gas(&[("A", 0.5), ("B", 0.5)]);
+        let rates = reaction.rates_now(&vessel);
+        assert!(rates.forward > 0.0, "{rates:?}");
+        assert!(
+            (rates.forward / rates.reverse - 4.0).abs() < 1e-9,
+            "{rates:?}"
+        );
+
+        let equilibrium = sealed_gas(&[("A", 0.2), ("B", 0.8)]);
+        assert!(reaction.rate_now(&equilibrium).abs() < 1e-12);
+    }
+
+    /// The `units:` block is the conversion trap, because `A` scales by one
+    /// concentration unit per order ABOVE the first and the low-pressure limb
+    /// of a falloff reaction is one order higher than its high-pressure limb.
+    /// A bimolecular `A` in cm³·mol⁻¹·s⁻¹ is 10⁻⁶ m³·mol⁻¹·s⁻¹, which is
+    /// 10⁻³ L·mol⁻¹·s⁻¹ in the litre-based unit the engine evaluates in; the
+    /// termolecular low-pressure `A` takes that factor twice.
+    #[test]
+    fn unit_blocks_scale_a_by_reaction_order_and_ea_by_the_calorie() {
+        // (units block, one declared concentration unit in mol/L, Ea scale)
+        let cases: [(&str, f64, f64); 4] = [
+            (
+                "units: {length: cm, quantity: mol, activation-energy: cal/mol}\n",
+                1.0e3,
+                4.184,
+            ),
+            (
+                "units: {length: m, quantity: kmol, activation-energy: J/mol}\n",
+                1.0,
+                1.0,
+            ),
+            (
+                "units: {length: m, quantity: mol, activation-energy: J/mol}\n",
+                1.0e-3,
+                1.0,
+            ),
+            // No `activation-energy` key: Cantera derives it from `energy`
+            // over `quantity`, so cal over mol is cal/mol.
+            (
+                "units: {length: cm, quantity: mol, energy: cal}\n",
+                1.0e3,
+                4.184,
+            ),
+        ];
+        for (block, concentration, ea_scale) in cases {
+            let yaml = format!(
+                "{COLLIDER_SPECIES}{block}reactions:\n- equation: H + O2 (+M) => HO2 (+M)\n  type: falloff\n  high-P-rate-constant: {{A: 1.0e12, b: 0, Ea: 1000.0}}\n  low-P-rate-constant: {{A: 1.0e18, b: 0, Ea: 1000.0}}\n"
+            );
+            let parsed = parse_yaml(&yaml).unwrap_or_else(|error| panic!("{block}: {error}"));
+            let detail = &parsed.summary().reaction_details[0];
+            // The high-pressure limb is second order: one concentration unit.
+            let high = 1.0e12 / concentration;
+            // The low-pressure limb is third order: two of them.
+            let low = 1.0e18 / (concentration * concentration);
+            assert!(
+                (detail.pre_exponential / high - 1.0).abs() < 1e-9,
+                "{block}: A {} vs {high}",
+                detail.pre_exponential
+            );
+            let declared_low = detail
+                .low_pressure_pre_exponential
+                .expect("a falloff reaction reports its low-pressure limb");
+            assert!(
+                (declared_low / low - 1.0).abs() < 1e-9,
+                "{block}: low-P A {declared_low} vs {low}"
+            );
+            assert!(
+                (detail.activation_energy_j_per_mol / (1000.0 * ea_scale) - 1.0).abs() < 1e-9,
+                "{block}: Ea {}",
+                detail.activation_energy_j_per_mol
+            );
+        }
     }
 
     #[test]

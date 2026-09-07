@@ -32,4 +32,22 @@ describe("spill and breakage presentation", () => {
     })).toBe("Evidence: 50.0% of bench react was recovered into vessel v3.");
     expect(incidentNotebookEvidence({ event: "transferred" })).toBeNull();
   });
+
+  /**
+   * A disposal is the one incident the reader MEANT to cause, which is
+   * exactly why the notebook has to record it. An experiment that ends
+   * "and then we threw it away" is missing the line saying how much of
+   * what — and the engine keeps the matter in the waste ledger precisely
+   * so that line can be written.
+   */
+  it("records a disposal with what it weighed, not just that it happened", () => {
+    expect(incidentNotebookEvidence({
+      event: "discarded", vessel: 0, grams_total: 100.0004, moles_total: 5.5509,
+      into: { surface: "waste" },
+      species: [{ species: "water", moles: 5.5509, phase: "Liquid" }],
+    })).toBe(
+      "Evidence: vessel v1 was emptied into the waste — 100.000 g (5.551 mol), "
+      + "still held and still weighed by the bench.",
+    );
+  });
 });

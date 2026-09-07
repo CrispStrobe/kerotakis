@@ -48,10 +48,12 @@ const PROFILES: &[SubstrateProfile] = &[
         // share of the recipe's unresolved solids — so this denominator
         // is the recipe's `unresolved_fraction` and has to move with it.
         // It fell from 0.13 to 0.123901 when the serum mineral buffer was
-        // resolved out of the unresolved balance; the lactose per gram of
-        // milk is unchanged, which is the point of writing the ratio out
-        // rather than the quotient.
-        substrate_share: 0.048 / 0.123_901,
+        // resolved out of the unresolved balance, and again to 0.1238494
+        // when the recipe's calcium rose to 40.0 mg per 100 g so that the
+        // aqueous tail could precipitate a calcium phosphate out of it;
+        // the lactose per gram of milk is unchanged either time, which is
+        // the point of writing the ratio out rather than the quotient.
+        substrate_share: 0.048 / 0.123_849_4,
     },
     SubstrateProfile {
         recipe_id: "food/gelatin",

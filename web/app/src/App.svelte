@@ -10,6 +10,7 @@
   import Shelf from "./lib/components/Shelf.svelte";
   import Inspector from "./lib/components/Inspector.svelte";
   import LatestResultCard from "./lib/components/LatestResultCard.svelte";
+  import ProvenanceDrawer from "./lib/components/ProvenanceDrawer.svelte";
   import Timeline from "./lib/components/Timeline.svelte";
   import LessonBar from "./lib/components/LessonBar.svelte";
   import Burette from "./lib/components/Burette.svelte";
@@ -306,6 +307,54 @@
   const selftest = selftestMode !== null;
   let selftestReported = false;
   const WORLD_SELFTEST_PHASE = "kero.selftest.world002.phase";
+  const GUI003_LESSONS = [
+    "cabbage-rainbow.lab",
+    "boiling-curve.lab",
+    "water-filter.lab",
+    "slime.lab",
+    "rusting.lab",
+  ] as const;
+
+  /** Stable semantic evidence from the rendered bench, not brittle HTML. */
+  function gui003DomFrame(file: string) {
+    const attributes = (element: Element) => Object.fromEntries(
+      [...element.attributes]
+        .filter(({ name }) => name.startsWith("data-"))
+        .map(({ name, value }): [string, string] => [name.slice(5), value])
+        .sort(([left], [right]) => left < right ? -1 : left > right ? 1 : 0),
+    );
+    return {
+      lesson: file.replace(/\.lab$/, ""),
+      vessels: [...document.querySelectorAll<HTMLElement>(".vessel")].map((vessel) => ({
+        ...attributes(vessel),
+        label: vessel.querySelector(".glassbtn")?.getAttribute("aria-label") ?? "",
+        liquids: [...vessel.querySelectorAll(".scene-liquid-layer")].map(attributes),
+        solids: [...vessel.querySelectorAll(".scene-solid")].map(attributes),
+        facts: [...vessel.querySelectorAll(".gel-status, .corrosion-readout")].map((fact) => ({
+          kind: [...fact.classList]
+            .filter((name) => !name.startsWith("svelte-"))
+            .sort()
+            .join(" "),
+          text: fact.textContent?.replace(/\s+/g, " ").trim() ?? "",
+          ...attributes(fact),
+        })),
+      })),
+    };
+  }
+
+  async function gui003Selftest() {
+    const frames: ReturnType<typeof gui003DomFrame>[] = [];
+    for (const file of GUI003_LESSONS) {
+      await session.clear();
+      const response = await fetch(new URL(`lessons/${file}`, resolvePayloadBase()).href);
+      if (!response.ok) throw new Error(`${file}: HTTP ${response.status}`);
+      await session.runExperiment(await response.text());
+      await tick();
+      frames.push(gui003DomFrame(file));
+    }
+    return frames;
+  }
+
   async function worldIsolationSelftest(): Promise<Record<string, boolean> | null> {
     if (!appStorage || !appSaveRepository) return { world_storage_ready: false };
     const phase = appStorage.getItem(WORLD_SELFTEST_PHASE);
@@ -411,6 +460,7 @@
     let unsupportedKiWarning = false;
     let scenarioError: string | null = null;
     let worldReport: Record<string, boolean> = {};
+    let gui003Dom: unknown[] = [];
     if (ready && selftestMode === "world-isolation") {
       const result = await worldIsolationSelftest();
       if (result === null) return;
@@ -450,6 +500,13 @@
         scenarioError = error instanceof Error ? error.message : String(error);
       }
     }
+    if (ready && selftestMode === "gui003") {
+      try {
+        gui003Dom = await gui003Selftest();
+      } catch (error) {
+        scenarioError = error instanceof Error ? error.message : String(error);
+      }
+    }
     void fetch("/selftest", {
       method: "POST",
       headers: { "content-type": "application/json" },
@@ -465,6 +522,7 @@
         dose_ordered: doseOrdered,
         unsupported_ki_warning: unsupportedKiWarning,
         scenario_error: scenarioError,
+        gui003_dom: gui003Dom,
         ...worldReport,
       }),
     });
@@ -621,6 +679,8 @@
   );
   let tableOpen = $state(false);
   let safetyOpen = $state(false);
+  /** GUI-052: the provenance drawer over the latest step's routing. */
+  let provenanceOpen = $state(false);
   let utilityStationOpen = $state(false);
   let removeRequest = $state<number | null>(null);
   const removeVessel = $derived(
@@ -834,6 +894,13 @@
   const selectedVessel = $derived(
     session.scene?.vessels.find((v) => v.id === session.selected) ?? null,
   );
+  /**
+   * GUI-052: what the engine recorded about how the latest step was
+   * computed, for the vessel the bench is looking at. `empty` decides
+   * whether the result card offers the door at all — a card that opens onto
+   * "nothing recorded" teaches the reader to stop pressing it.
+   */
+  const provenance = $derived(session.latestProvenance);
 
   function download(name: string, text: string, type = "text/plain") {
     const blob = new Blob([text], { type });
@@ -897,6 +964,7 @@
       else if (mapOpen) mapOpen = false;
       else if (roomOpen) roomOpen = false;
       else if (utilityStationOpen) utilityStationOpen = false;
+      else if (provenanceOpen) provenanceOpen = false;
       else if (safetyOpen) safetyOpen = false;
       else if (drillOpen) drillOpen = false;
       else if (toolboxOpen) toolboxOpen = false;
@@ -1022,6 +1090,7 @@
       <button class="tool" onclick={() => { toolsOpen = false; homeOpen = true; }}>{t("world map")}</button>
       <button class="tool" onclick={() => (tableOpen = true)}>{t("elements")}</button>
       <button class="tool" onclick={() => (toolboxOpen = true)}>{t("toolbox")}</button>
+      <button class="tool" onclick={() => (provenanceOpen = true)}>{t("provenance")}</button>
       <button class="tool" onclick={() => (drillOpen = true)}>{t("balance it")}</button>
       <button class="tool" onclick={() => { toolsOpen = false; roomOpen = true; }}>{t("lab rooms")}</button>
       {#if codexEntries.length > 0}
@@ -1403,7 +1472,11 @@
            rather than shrunk — the feed underneath is complete on its own,
            which is the same reason the card degrades away with JavaScript. -->
       {#if session.latestResult && session.register !== "lv3"}
-        <LatestResultCard result={session.latestResult} onclose={() => (session.latestResult = null)} />
+        <LatestResultCard
+          result={session.latestResult}
+          onclose={() => (session.latestResult = null)}
+          onprovenance={provenance.empty ? undefined : () => (provenanceOpen = true)}
+        />
       {/if}
       <Feed
         entries={session.feed}
@@ -1653,6 +1726,7 @@
   <ConceptMap
     entries={codexEntries}
     {session}
+    mode={labMode}
     kids={kidsExperiments}
     missions={lessons}
     onopenentry={(e) => {
@@ -1703,6 +1777,17 @@
 
 {#if safetyOpen}
   <SafetyBoard onclose={() => (safetyOpen = false)} />
+{/if}
+
+<!-- GUI-052: which solver answered, on what data, within what bounds, and
+     what it declined. Opened from the result card's header and from the
+     overflow menu, so it is reachable whether or not a card is showing. -->
+{#if provenanceOpen}
+  <ProvenanceDrawer
+    report={provenance}
+    register={session.register}
+    onclose={() => (provenanceOpen = false)}
+  />
 {/if}
 
 {#if roomOpen}

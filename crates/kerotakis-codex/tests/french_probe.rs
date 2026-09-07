@@ -114,3 +114,84 @@ fn a_new_language_is_one_file_in_a_directory() {
 
     let _ = std::fs::remove_dir_all(&dir);
 }
+
+/// The models half of the catalogue, which was dark for a year.
+///
+/// `models.toml` reported 100% German while its `name`, `power`, `explains`
+/// and `fails_at` were all English. Half of the reason was here: `Model` had
+/// no `_de` fields and no catch-all, so a sidecar key for one of them was
+/// injected into the TOML document correctly and then **dropped by serde**
+/// on the way into the struct, because no field claimed it. The parse
+/// succeeded, the export was English, and nothing anywhere said so.
+///
+/// The other half was that the coverage lint did not count those fields, so
+/// the gap could not be reported either. `tools/tests/test_codex_locale_lint.py`
+/// holds that half; this holds this one.
+const MODEL_ENGLISH: &str = r#"
+[[model]]
+id = "particle-model"
+name = "Particle model"
+power = "Lets you predict that matter is conserved when it appears to vanish."
+explains = ["dissolving without any loss of mass"]
+fails_at = ["Cannot say WHY sodium and chlorine react, only that they do."]
+[model.registers]
+lv1 = "Everything is made of pieces too small to see."
+lv2 = "One substance in three arrangements."
+lv3 = "A continuum is the large-number limit."
+[model.provenance]
+source = "editorial"
+"#;
+
+const MODEL_GERMAN: &str = r#"
+"particle-model.name" = "Teilchenmodell"
+"particle-model.power" = "Lässt vorhersagen, dass Materie erhalten bleibt, wenn sie zu verschwinden scheint."
+"particle-model.explains" = ["Lösen ohne jeden Masseverlust"]
+"particle-model.fails_at" = ["Kann nicht sagen, WARUM Natrium und Chlor reagieren, nur dass sie es tun."]
+"#;
+
+const MODEL_FRENCH: &str = r#"
+"particle-model.name" = "Modèle particulaire"
+"particle-model.fails_at" = ["Ne peut pas dire POURQUOI le sodium et le chlore réagissent."]
+"#;
+
+#[test]
+fn a_models_german_is_not_dropped_on_the_way_into_the_struct() {
+    let codex =
+        Codex::parse_with_translations(MODEL_ENGLISH, &[("de", MODEL_GERMAN)]).expect("parses");
+    let model = &codex.models[0];
+    assert_eq!(model.name_de.as_deref(), Some("Teilchenmodell"));
+    assert!(
+        model.power_de.is_some(),
+        "power_de was accepted and then lost"
+    );
+    assert_eq!(
+        model.explains_de,
+        Some(vec!["Lösen ohne jeden Masseverlust".to_string()]),
+    );
+    assert_eq!(
+        model.fails_at_de,
+        Some(vec![
+            "Kann nicht sagen, WARUM Natrium und Chlor reagieren, nur dass sie es tun.".to_string()
+        ]),
+        "fails_at is the field a model exists for; it must survive"
+    );
+}
+
+/// The same claim for a language the types do NOT name, which is the one
+/// that proves the catch-all rather than the four named fields.
+#[test]
+fn a_models_french_reaches_the_json_the_web_reads() {
+    let codex =
+        Codex::parse_with_translations(MODEL_ENGLISH, &[("fr", MODEL_FRENCH)]).expect("parses");
+    let json = serde_json::to_string(&codex.models[0]).expect("serialises");
+    assert!(
+        json.contains("Modèle particulaire"),
+        "the French model name was accepted by the parser and then lost.\n\
+         serialised model: {json}"
+    );
+    assert!(
+        json.contains("Ne peut pas dire POURQUOI"),
+        "the French boundary was accepted by the parser and then lost.\n\
+         serialised model: {json}"
+    );
+}

@@ -66,8 +66,8 @@ Existing = serves today's wasm/worker surface. Gap = named task.
 | `cmd` | Status | Request → `result_json` |
 |---|---|---|
 | `hello` | done | `{}` → `{ protocol, can_solve, engine_loaded, load_failure, aqueous_note, engine_version, git_rev, registers }`. `git_rev` is stamped by the build (`KEROTAKIS_GIT_REV`; null in unstamped dev builds). `packs` carries the WEB-003 inventory (kerotakis_core::packs_manifest; empty content_hash = built in, not yet independently deliverable — the honest pre-pipeline state); `load_pack` itself remains the open half. Must be answerable before any pack loads. |
-| `step` | done | `{ operator_json }` → `{ events, rendered, charts, ionic, scene, bench }` — `events` is the serde `Vec<Event>`, `rendered` the prose at the current register, `charts` the CAP-3 `Chart[]` the step's events earned (empty when none; first producer: the titration curve), `ionic` the GUI-092 `NetIonic[]` derived from the solved speciation (empty when none, which is the common case), `scene` the render model (one round trip repaints the bench). |
-| `run_script` | done | `{ script }` → `{ steps: [{operator, canonical, events, rendered, charts, ionic}], scene, bench }`. Additive 2026-09-06 (I18N): `canonical` is the line as the engine understood it, always in the canonical English grammar however it was typed — a session may be typed in the language `set_locale` named, and this is what the shell must log, save and export, so a German session replays on a bench that has never heard of German. Absent from an older host, in which case the line sent was canonical by definition. |
+| `step` | done | `{ operator_json }` → `{ events, rendered, charts, ionic, scene, bench }` — `events` is the serde `Vec<Event>`, `rendered` the prose at the current register, `charts` the CAP-3 `Chart[]` the step's events earned (empty when none; first producer: the titration curve), `ionic` the GUI-092 `NetIonic[]` derived from the solved speciation (empty when none, which is the common case), `scene` the render model (one round trip repaints the bench). Additive 2026-09-07 (GUI-052): `routes` is the step's routing evidence, `[{ solver, kind, chemistry, outcome, vessel?, reason? }]` — which solver was asked, in order, and what it answered. `kind` is `computed` / `curated` / `qualitative`; `outcome` is `"not_applicable"`, `"failed"`, or `{ succeeded: { event_count } }`; `reason` is the solver's OWN sentence for declining, present only where the solver overrides `capability()` with one worth reading; `vessel` names which beaker that pass examined, because a step may equilibrate more than one. Empty — not absent — for an operator that equilibrates nothing (`new`), which is a claim: this step routed through no solver, rather than inheriting the last step's. Absent from an older host. |
+| `run_script` | done | `{ script }` → `{ steps: [{operator, canonical, events, rendered, charts, ionic, routes}], scene, bench }`. Additive 2026-09-06 (I18N): `canonical` is the line as the engine understood it, always in the canonical English grammar however it was typed — a session may be typed in the language `set_locale` named, and this is what the shell must log, save and export, so a German session replays on a bench that has never heard of German. Absent from an older host, in which case the line sent was canonical by definition. |
 | `parse` | done (GUI-005, 9a9c744) | `{ line }` → `{ ok, operator?, canonical?, error? }`. Validate-only, never executes. Powers the command bar's live validation; `canonical` is the same additive field `run_script` returns, so a bar can show what the bench heard before anything runs. `error` is written in the session's language for the one refusal that is about the vocabulary itself — an unknown first word, which answers with the verbs that language has. `span` remains a candidate additive field. |
 | `grammar` | done (GUI-029) | `{}` → `[{ verb, example, typed, options? }]` — the verb inventory with a canonical example line each, and `options` for `react`. Additive 2026-09-06 (I18N): `typed` is the same example as a learner of the session's language would write it (null in English, and null for a line that is already what they would type). It is composed from the same alias tables the parser reads, so a suggestion a UI offers is always a line the bench accepts. The inventory itself stays canonical: an alias never enters it. |
 | `relations` | done (GUI-027) | `{}` → `[{ name, equation, args, purpose, validity, source, …_<locale> }]` — the CAP-5 named-relations catalogue. `args` is the CLI arg-spec string (`k=<hint>`, brackets for optional); clients build forms from it rather than hard-coding fields. Additive 2026-08-25 (GUI-087): `purpose` (what question it answers) and `validity` (where it stops being true). Additive 2026-08-29 (GUI-096): `source` — who published it and when, the leading clause of the same provenance line `calc` returns, so the catalogue and the computed result cannot cite different papers. Each prose field carries a `_<locale>` sibling per shipped language (`purpose_de`, `validity_de`, `source_de`); the unsuffixed field is English and is the per-string fallback, so a client selects `field_<locale> ?? field` and never a blank. Every one is non-empty for every row — a relation whose validity range is unstated teaches a learner to apply it outside that range. |
@@ -152,6 +152,44 @@ BRD-073: collision impulse and destination can be proposed now, but cannot
 discard matter or claim breakage before that chemistry-owned operator/event
 semantics lands. Replay persists the proposal seed; visual randomness may use
 it, chemistry amounts may not.
+
+### Disposal (`discard`) and the waste ledger
+
+`SpillDestination` has a fourth member, `{ "surface": "waste" }`, and it is
+the odd one out: the other three are places matter ENDED UP, this is a place
+it was PUT. `discard <vessel>` is the deliberate operation — the bench had no
+way to empty one vessel, so `remove` refused anything that was not already
+empty, `drain`/`decant` wanted a receiving vessel, and a UI's disposal control
+could only offer to clear the whole bench. It moves every condensed portion
+and every unresolved material in the vessel into that one shared compartment
+and emits `Discarded { vessel, into, moles_total, grams_total, species[],
+materials[] }`, where `species[]` is `{ species, moles, phase }` ordered
+largest-first (a total order, so the rendered evidence is identical on every
+host). Additive, like every other event: a client that does not know the tag
+ignores it.
+
+Three properties are the point, and all three are checked on both hosts:
+
+- **Nothing is destroyed.** The matter is in `Bench.spills` under the waste
+  destination, where `ConservedLedger` still weighs it and `RecoverSpill` can
+  still pour it back. `Operator::Spill` remains what it always was — the
+  record of an accident — and is still not a way to make matter disappear.
+- **The bin is screened as one mixture.** The safety screen assesses the
+  *combined* waste before anything moves, so acid poured into a bin that
+  already holds bleach is the incompatibility matrix's business. Unlike a
+  spill, which has already happened by the time the screen sees it, a veto
+  here REFUSES: `SafetyVeto` is emitted, no `Discarded` is, and the vessel is
+  left full.
+- **A closed vessel is refused, not quietly opened.** A sealed or
+  pressure-controlled vessel answers "open v1 first"; an open one has its
+  headspace vented as `GasEvolved`, exactly as `open` does. Temperature,
+  boundary, and apparatus state (sorbent beds, exchangers, material objects)
+  are untouched — a disposal empties a vessel, it does not tidy the bench.
+
+`Bench.spills` is not yet on the `bench` field of `step`/`run_script`, which
+carries `{ vessels }` on both hosts. A UI can therefore show that a disposal
+happened but not what the bin now holds; exposing the compartments is the
+obvious additive next step and is deliberately not done here.
 
 A versioned, per-vessel *render model*, derived engine-side from state +
 `appearance`/`spectrum` so native and web paint identically and golden tests

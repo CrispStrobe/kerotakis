@@ -68,6 +68,8 @@ step "portable deps"; gated python3 tools/portable-dependency-lint.py
 step "portable deps self-test"; gated python3 -m unittest tools.tests.test_portable_dependency_lint
 step "lesson coverage index self-test"; gated python3 -m unittest tools.tests.test_lessons_index
 step "curiosity capability index self-test"; gated python3 -m unittest tools/test_curiosity_index.py
+step "curiosity prose"; gated python3 tools/curiosity-prose.py --check
+step "curiosity prose self-test"; gated python3 -m unittest tools.tests.test_curiosity_prose
 step "kids experiment catalog self-test"; gated python3 -m unittest tools.tests.test_kids_catalog
 step "per-step prose self-test"; gated python3 -m unittest tools.tests.test_step_prose
 step "GPU release tools self-test"; gated bash tools/test-gpu-release-tools.sh
@@ -87,7 +89,11 @@ step "BRD-072 evaluator"; python3 -m unittest tools.tests.test_brd072_evaluate
 # fills (which renders as literal `{name}` on screen), a catalogue drifting
 # behind the source it translates, and a codex slug the map de-slugs into a
 # dictionary that has no word for it (which renders English inside German).
+# The curiosity prose gate runs in the --light block above, because a
+# half-translated corpus is a content hole a reader sees, not a build
+# failure a compiler finds.
 step "i18n catalogue"; python3 tools/codex-locale-lint.py --check
+step "i18n catalogue self-test"; python3 -m unittest tools.tests.test_codex_locale_lint
 step "i18n engine";    python3 tools/engine-locale-lint.py --check
 step "i18n vocabulary"; python3 tools/i18n-engine-vocabulary-lint.py --check
 step "i18n vocabulary self-test"; python3 -m unittest tools/test_i18n_engine_vocabulary.py

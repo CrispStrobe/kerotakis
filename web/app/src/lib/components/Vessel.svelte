@@ -14,6 +14,7 @@
     activityIntensity,
     adsorptionDarkening,
     autoignitionApproach,
+    unlitSmoke,
     bubbleRideLift,
     consumptionRemainder,
     corrosionBloom,
@@ -44,6 +45,8 @@
   import type { WebGpuMetricsRegistry } from "../webGpuMetricsRegistry";
   import { enzymeReadouts } from "../persistentReadouts";
   import { corrosionReadouts } from "../corrosionReadouts";
+  import { adsorptionReadouts } from "../adsorptionReadouts";
+  import { partitionReadouts } from "../partitionReadouts";
 
   let {
     vessel,
@@ -312,6 +315,8 @@
   );
   const shownSolidLayers = $derived(solidLayers(shownSolids.map(solidVolume), solidH, BOTTOM_Y));
   const persistentCorrosionReadouts = $derived(corrosionReadouts(vessel.corrosion));
+  const persistentAdsorptionReadouts = $derived(adsorptionReadouts(vessel.adsorption));
+  const persistentPartitionReadouts = $derived(partitionReadouts(vessel.partition));
   const rgb = (c: [number, number, number]) => `rgb(${c[0]},${c[1]},${c[2]})`;
   // The engine's srgb is TRANSMITTED light: pure water transmits white,
   // and painting that as an opaque white block is the wrong physics on
@@ -503,6 +508,9 @@
   // GUI-099 ANIM-7: the last six rows the audit still listed as missing.
   const flameStarvedEffect = $derived(latestEffect("flame-starve", 4600));
   const autoignitionEffect = $derived(latestEffect("below-autoignition", 4600));
+  // The audit's one row that could not be closed from the client: the
+  // engine now names WHICH absence, so there is something to draw.
+  const didNotIgniteEffect = $derived(latestEffect("did-not-ignite", 4200));
   const spikeEffect = $derived(latestEffect("spike", 5000));
   const solutePartitionEffect = $derived(latestEffect("solute-partition", 5000));
   const osmosisEffect = $derived(latestEffect("osmosis", 6000));
@@ -644,12 +652,16 @@
            A mixed solution is one layer and renders exactly as before. -->
       {#each stackedLayers as layer (layer.species + layer.y)}
         <rect
+          class="scene-liquid-layer"
           x={INNER_X}
           y={layer.y}
           width={INNER_W}
           height={layer.h}
           fill={rgb(layer.srgb)}
           opacity={liquidOpacity(layer.srgb)}
+          data-species={layer.species}
+          data-volume-l={layer.volume_l.toFixed(6)}
+          data-srgb={layer.srgb.join(",")}
         >
           <title>{t(layer.colour_word)} {t(layer.name)}</title>
         </rect>
@@ -657,6 +669,23 @@
           class="meniscus"
           d={`M ${INNER_X + 1} ${layer.y + 1.5} Q 50 ${layer.y - 1.5} ${INNER_X + INNER_W - 1} ${layer.y + 1.5}`}
         />
+      {/each}
+      {#each persistentPartitionReadouts as split (split.species)}
+        {@const lower = stackedLayers.find((layer) => layer.species === split.lower_solvent)}
+        {@const upper = stackedLayers.find((layer) => layer.species === split.upper_solvent)}
+        {#if lower && upper}
+          <!-- Two magnitude bars at the layers they describe. They show an
+               equilibrium share, never travel, mixing speed, or molecules. -->
+          <g
+            class="partition-marker"
+            data-species={split.species}
+            data-fraction-lower={split.fractionLower.toFixed(4)}
+          >
+            <rect x={INNER_X + 5} y={lower.y + lower.h / 2 - 1.5} width={Math.max(1, 22 * split.fractionLower)} height="3" rx="1" />
+            <rect x={INNER_X + 5} y={upper.y + upper.h / 2 - 1.5} width={Math.max(1, 22 * split.fractionUpper)} height="3" rx="1" />
+            <title>{t("computed equilibrium shares in the lower and upper layers; bars are not a mass-transfer animation")}</title>
+          </g>
+        {/if}
       {/each}
       {#if vessel.liquid.cloudiness > 0.01}
         <rect
@@ -905,13 +934,18 @@
       {#each shownSolids as solid, i (solid.species)}
         {@const layer = shownSolidLayers[i]!}
         {@const oxide = persistentCorrosionReadouts.find((progress) => progress.metal === solid.species)}
+        {@const adsorption = persistentAdsorptionReadouts.find((progress) => progress.sorbent === solid.species)}
         <rect
+          class="scene-solid"
           x={INNER_X}
           y={layer.y}
           width={INNER_W}
           height={layer.h}
           fill={rgb(solid.srgb)}
           class:metallic={solid.metallic}
+          data-species={solid.species}
+          data-moles={solid.moles.toFixed(6)}
+          data-srgb={solid.srgb.join(",")}
         >
           <title>{t(solid.colour_word)} {t(solid.name)} · {t("volume")} {(solidVolume(solid) * 1000).toPrecision(3)} mL</title>
         </rect>
@@ -962,6 +996,22 @@
               {/each}
             </g>
           {/if}
+        {/if}
+        {#if adsorption && adsorption.loading_mg_per_g != null}
+          <!-- A narrow capacity gauge, not dye-painted charcoal: height is
+               loading/q_max and deliberately claims no pore or surface map. -->
+          <rect
+            class="adsorption-marker"
+            x={INNER_X + 2}
+            y={layer.y + layer.h * (1 - adsorption.loadingFraction)}
+            width="3"
+            height={Math.max(1, layer.h * adsorption.loadingFraction)}
+            rx="1"
+            data-loading-fraction={adsorption.loadingFraction.toFixed(4)}
+            data-loading-mg-per-g={adsorption.loading_mg_per_g.toFixed(2)}
+          >
+            <title>{t("equilibrium loading toward the nominal Langmuir capacity; schematic gauge, not pore or surface coverage")}</title>
+          </rect>
         {/if}
       {/each}
       <!-- A lit rim on top of the deposit, so it reads as a settled layer
@@ -2415,6 +2465,46 @@
         <text x={INNER_X + INNER_W / 2} y="14" text-anchor="middle">−{formatReading(gap.gapK, 0)} K</text>
       </g>
     {/if}
+    {#if didNotIgniteEffect?.didNotIgnite}
+      <!-- GUI-099 ANIM-7: the row the audit left open, and the reason it
+           was open. `did_not_ignite` carried a vessel id and nothing
+           else, so there was no quantity for a visual to be a function
+           of and drawing anything would have been a picture of the word.
+           The engine now names the absence and the candidate fuel, and
+           only ONE of the four is drawable: a fuel that is merely too
+           cool gives off vapour, and the wisp is a function of how much
+           of it there is, thinned by how far short of catching it
+           stands. `no_fuel` draws nothing at all — a beaker of water has
+           no fuel to scale anything by — and neither does a smothered or
+           an unmodelled one. The reason rides on `data-reason` either
+           way, so the absence is still readable from the DOM when there
+           is deliberately no shape. -->
+      {@const absence = didNotIgniteEffect.didNotIgnite}
+      {@const smoke = unlitSmoke(absence.fuelMoles, absence.gapK, absence.reason)}
+      <g
+        class="did-not-ignite"
+        data-reason={absence.reason}
+        data-fuel-moles={absence.fuelMoles.toExponential(3)}
+        data-gap-k={absence.gapK.toFixed(1)}
+        data-oxygen-fraction={absence.oxygenFraction.toFixed(4)}
+        data-wisp={smoke.wisp.toFixed(3)}
+        data-drawn={smoke.draw ? "true" : "false"}
+        aria-label={smoke.draw
+          ? t("{fuel} did not catch: {gap} K short of the temperature it burns at", {
+              fuel: t(absence.fuel),
+              gap: formatReading(absence.gapK, 0),
+            })
+          : t("nothing ignited")}
+      >
+        {#if smoke.draw}
+          <path
+            class="unlit-wisp"
+            d={`M 50 16 q ${2 + smoke.wisp * 3} -4 0 -8 q ${-2 - smoke.wisp * 3} -4 0 -8`}
+            style={`opacity:${(0.12 + smoke.wisp * 0.43).toFixed(3)}; stroke-width:${(0.8 + smoke.wisp * 1.4).toFixed(2)}`}
+          />
+        {/if}
+      </g>
+    {/if}
     {#if spikeEffect?.nuclideSpike}
       <!-- GUI-099 ANIM-7: the tracer's opening activity — the number the
            Geiger will read — on a log ramp, because a becquerel is one
@@ -2734,6 +2824,45 @@
         <strong>{progress.percent}%</strong>
       </span>
     {/each}
+    {#each persistentAdsorptionReadouts as progress (progress.sorbent + progress.sorbate)}
+      <span
+        class="persistent-readout adsorption-readout"
+        data-held-fraction={progress.heldFraction.toFixed(4)}
+        data-loading-mg-per-g={progress.loading_mg_per_g?.toFixed(2)}
+        aria-label={t("{percent}% of {sorbate} held on {sorbent}; {dissolved} mg still dissolved; equilibrium, not removal rate", {
+          percent: progress.heldPercent,
+          sorbate: t(progress.sorbate),
+          sorbent: t(progress.sorbent),
+          dissolved: progress.still_dissolved_mg.toFixed(2),
+        })}
+        title={`${progress.boundary} · ${progress.provenance}`}
+      >
+        <small>{t(progress.sorbent)} · {t("dye held at equilibrium")}</small>
+        <strong>{progress.heldPercent}%</strong>
+        <span>{progress.held_mg.toFixed(1)} mg {t("held")} · {progress.still_dissolved_mg.toFixed(1)} mg {t("still dissolved")}</span>
+        {#if progress.loading_mg_per_g != null}
+          <em>{progress.loading_mg_per_g.toFixed(1)} mg/g · {t("parameters pending review")}</em>
+        {/if}
+      </span>
+    {/each}
+    {#each persistentPartitionReadouts as split (split.species)}
+      <span
+        class="persistent-readout partition-readout"
+        data-fraction-lower={split.fractionLower.toFixed(4)}
+        aria-label={t("At equilibrium, {lower}% of {species} is in lower {lowerSolvent}; {upper}% is in upper {upperSolvent}", {
+          lower: split.lowerPercent,
+          species: t(split.species),
+          lowerSolvent: t(split.lower_solvent),
+          upper: split.upperPercent,
+          upperSolvent: t(split.upper_solvent),
+        })}
+        title={`${split.boundary} · ${split.provenance}`}
+      >
+        <small>{t(split.species)} · {t("equilibrium split")}</small>
+        <strong>{split.lowerPercent}% ↓ / {split.upperPercent}% ↑</strong>
+        <span>{t(split.lower_solvent)} / {t(split.upper_solvent)}</span>
+      </span>
+    {/each}
     {#if apparatusTitle}
       <span
         class="apparatus-status"
@@ -2894,6 +3023,19 @@
     stroke: #71341d;
     stroke-width: 1;
     stroke-dasharray: 1.5 2.5;
+  }
+  .adsorption-marker {
+    pointer-events: none;
+    fill: #f0b34b;
+    stroke: #6e4b16;
+    stroke-width: .6;
+  }
+  .partition-marker {
+    pointer-events: none;
+    fill: var(--discovery);
+    stroke: color-mix(in srgb, var(--discovery) 62%, var(--ink));
+    stroke-width: .4;
+    opacity: .82;
   }
   .bulk-object {
     stroke: color-mix(in srgb, var(--ink) 58%, transparent);
@@ -3356,6 +3498,10 @@
   .thermal-equilibrium.detached rect { stroke: var(--dim); stroke-dasharray: 2 1.5; }
   .thermal-equilibrium .equilibrium-boundary { fill: var(--dim); font-size: 3.5px; }
   .gap-track { fill: color-mix(in srgb, var(--surface) 70%, transparent); stroke: var(--edge); stroke-width: .4; }
+  /* Smoke, not flame: grey, thin, and never as bright as the guttering
+     flame above it, because nothing here is burning. */
+  .unlit-wisp { fill: none; stroke: var(--dim); stroke-linecap: round; animation: wisp-rise 3.4s ease-in-out infinite; }
+  @keyframes wisp-rise { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1.5px); } }
   .gap-fill { fill: var(--danger); opacity: .7; }
   .decay-tick { stroke: var(--instrument); stroke-width: .8; stroke-linecap: round; animation: decay-flash 1.1s ease-out infinite; }
   @keyframes decay-flash { from { opacity: .95; } to { opacity: 0; } }
@@ -3708,6 +3854,7 @@
        still rendered at its engine value; only the movement stops. */
     .absorb-bubble { animation: none; opacity: .7; }
     .partition-arrow { animation: none; opacity: .8; }
+    .unlit-wisp { animation: none; }
     .corrosion-bloom circle { animation: none; }
     .reaction-front { animation: none; opacity: .6; }
     .neutralise-mark { animation: none; opacity: .8; }
@@ -3822,6 +3969,22 @@
     color: #9a4827;
     border-color: color-mix(in srgb, #a84f28 42%, var(--edge));
     background: color-mix(in srgb, #a84f28 7%, var(--surface));
+  }
+  .adsorption-readout {
+    flex-wrap: wrap;
+    color: #755017;
+    border-color: color-mix(in srgb, #b67b20 45%, var(--edge));
+    background: color-mix(in srgb, #b67b20 7%, var(--surface));
+  }
+  .adsorption-readout span,
+  .adsorption-readout em {
+    font-size: .72rem;
+  }
+  .partition-readout {
+    flex-wrap: wrap;
+  }
+  .partition-readout span {
+    font-size: .72rem;
   }
   /* Sized in px, not em: this is the one place on the bench where the
      number must survive a 64px-wide vessel on a 390px phone, and an em

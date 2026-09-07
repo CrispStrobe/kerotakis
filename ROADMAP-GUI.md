@@ -441,7 +441,8 @@ longer because their duration conveys computed magnitude.
   both sides of the boundary during migration.
 - **Determinism is a test asset**: scene JSON over replayed `.lab` scripts
   gives golden-file UI tests (DOM snapshot per step per register) with no
-  flakiness; Playwright drives the five canonical lessons per release.
+  flakiness; dependency-free headless Chrome drives the five canonical
+  lessons per release through the same DevTools harness as the PWA gate.
 
 ## Performance budgets (CI-gated, per the backend roadmap's low-end mandate)
 
@@ -472,15 +473,17 @@ every new dependency before its first import.
   CI over the lesson corpus), and Tauri's native dispatch
   (`web/app/src-tauri/src/lib.rs`) — one shape, drift fails before a client
   sees it. The versioned `hello` identity fields are shipped.*
-- [ ] **GUI-003 — Scene JSON v1.** Per-vessel render model derived from
+- [x] **GUI-003 — Scene JSON v1.** Per-vessel render model derived from
   existing state + appearance; golden-file tests over replayed lessons.
-  *Status 2026-09-06: structurally implemented — `kerotakis-core/src/scene.rs` (liquid
+  *Status 2026-09-06: complete — `kerotakis-core/src/scene.rs` (liquid
   colour+word, solids with metallic/precipitate split, headspace, badges,
   lv1 words), shape-pinning + behaviour tests in-module, wired into the
-  wasm `step`/`run_script` responses and `Lab::scene()`. Open for the
-  checkbox: numeric/behavioural scene goldens over replayed lessons and
-  browser/DOM snapshots for the representative five-lesson suite. The
-  landed whole-corpus contract checks pin structure, not those answers.*
+  wasm `step`/`run_script` responses and `Lab::scene()`. The representative
+  cabbage, boiling, filtration, polymer and corrosion lessons now have a
+  normalized numeric scene golden after every executable line, plus a
+  semantic real-browser DOM golden that pins the quantities and accessible
+  words actually rendered. Whole-corpus host conformance continues to pin
+  the protocol structure independently.*
 - [x] **GUI-004 — One-worker web engine.** Land OPT-11 (lab + IPhreeQC in a
   single module worker) behind `WorkerHost`; the current PWA runs on it
   unchanged. Measure; OPT-9 only if numbers demand.
@@ -1190,8 +1193,16 @@ hide them completely.
 - [ ] **GUI-050 — Studies UI** over CAP-2 (sweeps) with CAP-3 rendering.
 - [ ] **GUI-051 — Diagrams** (CAP-4 predominance/Pourbaix) and **Monte
   Carlo bands** (CAP-8) in the chart renderer.
-- [ ] **GUI-052 — Provenance drawer** rendering the R0 capability/validity
-  reports and the property-resolution ladder rung per number.
+- [x] **GUI-052 — Provenance drawer** rendering the R0 capability/validity
+  reports and the property-resolution ladder rung per number. The routing
+  record (`SolverStack::last_routes`) reaches the wire as `step.routes`,
+  native and wasm alike, with the declining solver's own sentence beside it;
+  `provenance.ts` builds the drawer's model from a step's events and routes,
+  and `ProvenanceDrawer.svelte` shows the solver chain in order, the datasets
+  and models any `provenance` names, the validity notes riding a reading, and
+  the honesty pass's refusals — each in the engine's own words. `ValidityBounds`
+  is deliberately not rendered: no solver in the tree populates it, so a box
+  for it would imply a check nobody ran (PR #512).
 
 Continuous, all phases: a11y audit per surface; perf budgets in CI on a
 throttled target profile; golden scene/DOM tests over the lesson corpus;
@@ -1382,16 +1393,19 @@ and presents them well.
   `phase-change` effect kind that no component rendered), and
   `SceneVessel.emulsion` is read by no component in the app.
 
-  ANIM-1 (thermal truth), ANIM-2 (matter and pressure) and ANIM-3 (the
-  three events that drew nothing) shipped across three PRs and took the
-  audit from 32/18/23 to **45 done, 11 partial, 17 missing**; see
-  `HISTORY.md`. Persistent corrosion extent moved one further missing row to
+  ANIM-1 (thermal truth, #450), ANIM-2 (matter and pressure, #454) and
+  ANIM-3 (the three events that drew nothing, #458) shipped across three PRs
+  and took the audit from 32/18/23 to **45 done, 11 partial, 17 missing**;
+  the six quantities the audit asked the engine for went onto the wire in
+  #462. See `HISTORY.md`. Persistent corrosion extent moved one further
+  missing row to
   done. The computed-motion tranche then made gas production cadence follow
   `rate_moles_per_second` and foam collapse follow `half_life_seconds`, moving
   two partial rows to done, reaching **48 done, 9 partial, 16 missing**.
 
-  ANIM-5 through ANIM-9 then closed the rest, five slices of at most six
-  rows each: 48/9/16 → 52/9/12 → 58/9/6 → 64/9/0 → 70/3/0 → **73 done, 0
+  ANIM-5 through ANIM-9 (#490, #492, #493, #494, #495) then closed the rest,
+  five slices of at most six rows each: 48/9/16 → 52/9/12 → 58/9/6 →
+  64/9/0 → 70/3/0 → **73 done, 0
   partial, 0 missing.** The last two slices are the ones worth naming here,
   because they were not absences but *constants*: `plated`'s magnitude was a
   literal `1`, so a copper blush and a nail gone orange drew the same
@@ -1401,11 +1415,22 @@ and presents them well.
   balance had computed. Every one of the 73 rows is now a function of an
   engine number carrying a `data-*` attribute that names it.
 
-  **This item is closed and the question it asks is not.** Two gaps outlive
-  the row count, both recorded in the audit. One event carries no quantity
-  at all — `Event::DidNotIgnite` has nothing but a vessel id, so nothing can
-  be drawn for it that is not a picture of the word, and its sibling
-  `FlameStarved` carries the three numbers instead. And a row score cannot
+  ANIM-10 adds a standing counterpart to the already-complete transient
+  partition row. While water and hexane coexist, the scene recomputes each
+  supported neutral solute's lower/upper equilibrium share from current matter
+  and the same UNIFAC calculation used by `drain`; the accessible bars survive
+  between events and disappear when the layers separate. This improves
+  persistence without changing the closed 73-row event score.
+
+  **This item is closed and the question it asks is not.** One gap outlives
+  the row count, recorded in the audit. (The other, `Event::DidNotIgnite`
+  carrying nothing but a vessel id, is now closed in #501: the event names
+  *which*
+  absence it is — `no_fuel`, `no_oxygen`, `below_autoignition`,
+  `not_modelled` — and carries the candidate fuel, its moles, the oxygen
+  fraction and the gap to the autoignition point, so a wisp scaled by the
+  fuel is drawn for the one of the four that is drawable and nothing at
+  all for the other three.) And a row score cannot
   see the difference between a visual that is right *at the instant of its
   event* and one that stays right *between* events; that was the whole
   subject of the scene-numbers PR, and it is the standing risk in every
@@ -1440,7 +1465,7 @@ lives in is not predictable from what the tool is.
   cupboard modal, opened from one small button at the right end of the
   MESSEN row, built from one merged model, with items on shelves grouped by
   what they do and an `(i)` per item saying what it models and what it does
-  not; the migration in three PRs, and the open questions.
+  not; the migration in three PRs, and the open questions. #463
 
 - [x] **GUI-101 — The cupboard, from one model.** `equipmentCatalogue.ts`
   merges `INSTRUMENTS`, `APPARATUS`, the transfer verbs (lifted out of
@@ -1454,14 +1479,15 @@ lives in is not predictable from what the tool is.
   from the same model, so it never scrolls. DoD: every entry appears exactly
   once with a group and an action; quick-access ordering and its default seed
   unit-tested; availability answered by the engine's catalog for every entry,
-  including the ungated-verb case.
+  including the ungated-verb case. #466
 
 - [x] **GUI-102 — Delete the duplicates.** `EquipmentCabinet.svelte` and
   `InstrumentTray.svelte` go; the shelf's *equipment* tab, the dock's single
   cupboard button and `UtilityStation`'s *power and apparatus* all open the
   one cupboard. `tools/test-ux-quality.mjs` gains a cupboard assertion.
 
-  Done 2026-09-06. The shelf pane's *equipment* tab is gone rather than
+  Done 2026-09-06 (#469). The shelf pane's *equipment* tab is gone rather
+  than
   rewired: it was a second view of one pane, and the pane it competed with
   is the reagent shelf. The tab row keeps two buttons — the pane you are in,
   and the door to the cupboard — so nothing is now reachable in two shapes.
@@ -1490,7 +1516,8 @@ lives in is not predictable from what the tool is.
   defects fixed: `directActions.ts` names the heat source explicitly
   (`heat v1 10kJ on burner`) and the cupboard's denominator is a constant over
   every tool a learner can ever have, printed only while something is locked.
-  Done 2026-09-06; §5 of the design note is now *Decisions* and carries the
+  Done 2026-09-06 (#475); §5 of the design note is now *Decisions* and
+  carries the
   reason for each. Per the convention at the top of this file, the detail and
   the lessons live in `HISTORY.md`.
 
@@ -1501,19 +1528,24 @@ is not, and the gap is now the largest single obstacle to the app being usable
 in a German classroom — which is the audience the curriculum mapping in
 `codex/` is explicitly aimed at.
 
-- [ ] **I18N-1 — The experiment catalog (Forschungsbibliothek).** 103
-  reactions carry English `question`, `misconception`, `reveals`, `next`,
-  `lv1`/`lv2`/`lv3` prose and `summary`. The concept topics beside them are
-  already German-only (`label_de`, `definition_de`, from the CC0 oehTopics
-  set), so the catalog currently mixes languages within one screen. Roughly
-  **84,000 words** of pedagogical prose; this is a sustained editorial task,
-  not a build step. Structure it as `*_de` fields beside the English ones —
-  the convention `label_de`/`definition_de` already establishes — so a
-  partially translated catalog degrades to English per field rather than
-  failing, and add a lint that reports coverage per file so progress is
-  measurable. Machine translation is not acceptable unreviewed here: a
-  misconception diagnosis that misstates the misconception is worse than an
-  English one.
+- [x] **I18N-1 — The experiment catalog (Forschungsbibliothek).** German for
+  every authored string the catalogue carries: **1255 of 1255**, up from
+  1108 of a denominator that was itself wrong. Translations stay one file
+  per language (`codex/i18n/<code>.toml`, keyed by the path to the English
+  field), folded into the `_de` siblings the shell already reads, so adding
+  French remains one new data file and no code.
+  `tools/codex-locale-lint.py` is promoted from a report to a gate in
+  `preflight.sh`: a stale key, a positional list whose length changed, an
+  age band (GUI-470 — this prose bypasses the locale bundles, so
+  `learnerWording.test.ts` cannot see it) and, for a language in `COMPLETE`,
+  a missing string all fail. A language NOT in `COMPLETE` is only reported
+  on, so a translation in progress stays committable.
+  `codexProse.test.ts` gates the same claim from the exported document the
+  app parses. The two things this uncovered are the point: `models.toml`
+  reported **100%** German while 325 of its 409 strings were English,
+  because the lint's field list omitted `name`/`power`/`explains`/`fails_at`
+  and `Model` had no `_de` fields for serde to keep — a coverage number is
+  only as honest as its denominator. #505
 
 - I18N-2 (map-screen vocabulary, 2026-08-30) and I18N-3 (engine
   vocabulary coverage, 2026-08-30) are done; see `HISTORY.md`. The

@@ -39,10 +39,15 @@ appearances or changes scientific behavior.
 ## Localisation is modular by design
 
 A new language (French, Chinese, Japanese) is added in one go by dropping one
-`crates/kerotakis-core/i18n/<lang>.toml` and one
-`web/app/src/locales/<lang>.json` (copied from `_template.json`), with no code
-change. Anything that would require code for a new language is a defect.
-`I18N.md` carries the full file list and the rule behind it.
+`crates/kerotakis-core/i18n/<lang>.toml`, one
+`web/app/src/locales/<lang>.json` (copied from `_template.json`), one
+`codex/i18n/<lang>.toml` and one
+`tests/coverage/curiosity-v1/i18n/<lang>.toml`, with no code change. Anything
+that would require code for a new language is a defect. That includes AUTHORED
+CONTENT, not only chrome: the capability explorer read as translated
+while listing five hundred English questions, because its buttons were in the
+bundle and its subject matter was not. `I18N.md` carries the full file list and
+the rule behind it.
 
 ---
 
@@ -1642,20 +1647,75 @@ are a sliver of school chemistry, while redox and rates are enormous
 blocks, and both are *already most of the way there* underneath. Phase
 behaviour returns when the school-facing layers are covered.
 
-#### P3s — States, freezing and boiling  ← **first, it is a correctness bug**
+#### P3s — States, freezing and boiling  ← closed, 2026-09-07
 
-- [ ] The bench happily reports **liquid water at −7.95 °C with a pH**. It
-      has no model of state at all: `Phase` is assigned when matter is
-      added and never reconsidered, so cooling a beaker past its freezing
-      point changes nothing but the number on the thermometer.
-- [ ] Melting/boiling points per species from the registry; the solvent
-      state re-evaluated whenever temperature changes.
-- [ ] **Colligative properties fall straight out** and are core curriculum:
-      freezing-point depression and boiling-point elevation from the
-      computed ionic strength — salt on icy roads, why seawater freezes
-      below 0 °C. PHREEQC gives us the osmotic coefficient already.
-- [ ] Honest boundary: a frozen or boiling vessel is a state the aqueous
-      solver does not model, and must say so rather than keep answering.
+All four items are done; see `HISTORY.md` for what each one taught. The
+last of them is worth restating here because it is a rule rather than a
+feature: **a vessel whose solvent is not a settled liquid does not report a
+solution.** Ice has no pH. A beaker on the boil has no *settled* pH,
+because solvent is leaving while the reading is taken and every molality
+the engine solved for belongs to a composition that has already changed.
+`solve::SolventState` is where that is decided, the honesty pass is where
+it is said, and the readout is withdrawn in the same breath so the meter
+cannot contradict the sentence.
+
+Two boundaries the closing tranche wrote down rather than crossed, both in
+`phase_route.rs`:
+
+- **A boil is only given to a species the registry carries as a liquid.**
+  `condensation_partner` can find a vapour's way back only for those, so a
+  boil given to a standard-phase solid — iodine, naphthalene, molten zinc —
+  would be one-way, and a transition this bench pays for has to run both
+  directions. Those substances melt and do not boil.
+- **No metal boils.** Zinc's 1180 K boiling point is inside a Bunsen's
+  reach and zinc fume is a named hazard, so it wants its own tranche with
+  its own safety row.
+
+Open, and small:
+
+- [ ] `paraffin` still carries no melting point. The note giving the
+      reason has been corrected — it used to blame the state model for
+      covering nothing but water, which has stopped being true — and the
+      real obstacle is now written down instead: a candle blend spanning
+      C20 to C40 softens across roughly 46–68 °C rather than melting at a
+      point, and `PhaseTransitions` has five temperatures and no slot for
+      a RANGE. Give it one, and the wax melts.
+- [ ] **The colligative relation is the DILUTE-solution law, used where it
+      is about nine per cent optimistic.** One molal brine comes out at
+      −3.72 °C against a real −3.4. The particle count is not the problem
+      and must not be blamed for it: the speciation is asked how many
+      particles there are, and for NaCl the answer really is two, because
+      no shipped database defines an aqueous NaCl ion pair. What is
+      missing is the solvent's activity — a textbook's i ≈ 1.85 is that
+      correction wearing the particle count's clothes. This item's
+      original text already named the fix: "PHREEQC gives us the osmotic
+      coefficient already." Pinned from both ends in
+      `colligative_numbers.rs` so it cannot be narrowed away quietly.
+- [ ] **Is a boil a curated route or a computed one?**
+      `PhaseRouteEquilibrator` declares `SolverRouteKind::Curated`, which
+      was right when sublimation and hydrates were its only customers —
+      there the curated record IS the answer. Now that it melts and boils,
+      what it produces is arithmetic over a curated parameter, which is
+      exactly the shape `CombustionEquilibrator` has and that one declares
+      itself `Computed`. Twenty corpus rows moved `computed -> curated` on
+      this alone, and `th-017` ("can ethanol boil before water?") now reads
+      as an expectation mismatch for having been answered better. Changing
+      the kind would move the sublimation and hydrate rows the other way,
+      so it wants its own measurement rather than a rider on someone
+      else's.
+- [ ] No tin and no glycerol in the registry at all. Tin at 232 °C is the
+      soldering-iron melting point a learner is most likely to have met.
+- [ ] The latent heats live in `phase_route.rs` as curated Rust tables
+      rather than in the registry, which is where the temperatures they
+      pair with live. `kerotakis_data::schema::PhaseProperty` already
+      declares `EnthalpyOfFusion` and `EnthalpyOfVaporisation`, both
+      dimension-checked and both unused, so the schema is not what is
+      stopping it — only the build script, the runtime loader, the export
+      crate and their fidelity tests. Worth doing now that the claim is
+      twenty-five rows rather than two. (`loader_fidelity.rs` compares
+      eighteen fields and silently omits `transitions` and
+      `aqueous_solubility_g_per_100_ml_at_100c`; fix that in the same
+      pass, or the new fields will be unpinned the same way.)
 
 #### P3e — Redox and electrochemistry  ← the biggest missing curriculum block
 
@@ -1984,8 +2044,12 @@ BDF integration, the Cantera-YAML front end, surface complexation, cation
 exchange, solid solutions, the cell chain and the seed registry. Each is
 recorded in `HISTORY.md` with its branch and CI run. Open:
 
-- [ ] Cantera-YAML mechanism parser (Arrhenius + three-body + Troe covers
-      GRI-Mech-class) + rate evaluator feeding diffsol
+- [x] Cantera-YAML mechanism parser (Arrhenius + three-body + Troe covers
+      GRI-Mech-class) + rate evaluator feeding diffsol — the parser and the
+      evaluator have existed since BRD-040 and the shipped packs in
+      `data/mechanisms/` are Cantera YAML; **#510** (merged 2026-09-07) closed
+      the last gap, the *reversible* three-body and falloff forms that are the
+      dominant shape in every published file. See `HISTORY.md`
 - [ ] Multi-step mechanisms, rate-determining steps, steady-state
       approximations — the university-level treatment that curated
       Arrhenius parameters cannot reach
@@ -2060,6 +2124,47 @@ deliberately declined as off-mission and points at the R-stages that
 already own the rest.
 
 ---
+
+## Open follow-ups from the 2026-09-05…07 sessions
+
+Recorded here so they survive the sessions that found them; each names the PR
+that raised it. Nothing below is a commitment to an order.
+
+- **Temperature-dependent Cp, the wiring half** — #507 landed 37 Cp(T) records
+  over 35 species that no ledger reads; #509 (in flight) moves the ~40
+  `Cp·ΔT` call sites onto `enthalpy_between` and takes the lesson goldens with
+  it. A species with no curve keeps its 298 K constant, deliberately, so "we
+  have a curve" and "we do not" stay different states of the data.
+- **`Vessel::heat_capacity` room-temperature residual** — open until #509
+  merges: the burner is still charged room-temperature prices for a crucible
+  at kiln temperature. #509 also names the term the two-line ledger never
+  had — the sensible heat the CO₂ carries out — which is what takes the #488
+  chalk case from 93.6 % to 99.5 %.
+- **The 28 codex models are exported and never rendered** (#505) —
+  `parseCodexIndex` keeps `doc.reactions` and drops `models` and `concepts`,
+  so every model, including every `fails_at`, reaches the browser and is
+  thrown away; there is no `Model` type in the shell. The German for them is
+  correct and *ready* rather than visible. Worth its own roadmap item.
+- **`curriculum[].system` renders as a raw de-hyphenated slug** — "bayern
+  lehrplanplus", "england national curriculum", in both languages; four
+  missing bundle keys on I18N-2's surface. It belongs with the neighbouring
+  design call: `curriculum[].stage` is a *citation* of an English syllabus
+  document, and rendering a citation in German would fabricate a section name
+  that does not exist (#505).
+- **Casein buffering is unmodelled** (#446, #508) — milk's diffusible mineral
+  buffer characterises a beaker near pH 6.7 and the three calcium phosphates
+  now precipitate, but casein stays unresolved, so a computed yoghurt pH is a
+  lower bound and not a prediction.
+- **`DidNotIgnite` is done** (#501) — the last animation-audit row the client
+  could not close; recorded here only because the audit's "what the engine
+  still lacks" list is where a reader will look for it.
+- **Open-vessel CO₂ uptake as a rate** — #496, a peer session's PR, still open.
+- **19 redundant worktrees** — the triage list is at
+  `/mnt/volume1/tmp-overflow/triage-prune-list-20260907.txt`. None was deleted:
+  main absorbed that work through re-authored PRs rather than cherry-picks, so
+  no branch HEAD is an ancestor of `origin/main` and every branch still differs
+  on at least one touched file. Left for the owner; prove the work is on
+  `origin/main` and check for live processes before deleting any of them.
 
 ## Open decisions
 

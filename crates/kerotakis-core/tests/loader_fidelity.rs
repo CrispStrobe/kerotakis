@@ -35,6 +35,7 @@ fn assert_species_eq(key: &str, built: &SpeciesData, loaded: &SpeciesData) {
     eq!(inchikey);
     eq!(molar_mass);
     eq!(heat_capacity);
+    eq!(heat_capacity_polys);
     eq!(density);
     eq!(standard_phase);
     eq!(appearance);

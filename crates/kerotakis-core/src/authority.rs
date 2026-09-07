@@ -55,9 +55,26 @@ pub enum TransferDestination {
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
 #[serde(tag = "surface", rename_all = "snake_case")]
 pub enum SpillDestination {
-    Bench { zone: String },
-    Tray { tray: String },
-    Floor { zone: String },
+    Bench {
+        zone: String,
+    },
+    Tray {
+        tray: String,
+    },
+    Floor {
+        zone: String,
+    },
+    /// The bench's waste ledger — where `discard` puts a vessel's contents.
+    ///
+    /// The other three are places matter ENDED UP. This one is a place it
+    /// was PUT, and that difference is the reason it is a spill compartment
+    /// at all rather than a deletion: disposal is the one operation a
+    /// learner performs expecting the matter to be gone, so it is the one
+    /// that most needs the matter to still be somewhere the ledger can
+    /// weigh. Everything discarded on a bench shares one bin, which is what
+    /// lets the safety screen see the acid meeting the bleach that somebody
+    /// else poured away ten minutes ago.
+    Waste,
 }
 
 /// A collision is evidence proposed by physics, not permission to mutate.

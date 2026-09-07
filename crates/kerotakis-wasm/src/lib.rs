@@ -20,7 +20,7 @@ pub mod worker;
 
 use kerotakis_core::{
     localize_events, render_events_in, render_vessel_in, Bench, Equilibrator, Event, Locale,
-    Operator, Register, SolverStack,
+    Operator, Refuses, Register, SolverRoute, SolverRouteOutcome, SolverStack,
 };
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
@@ -292,6 +292,9 @@ impl Lab {
             "charts": charts,
             "ionic": ionic,
             "quest": quest,
+            // GUI-052: which solver answered, and what the ones that did
+            // not said instead. Beside the events, never inside them.
+            "routes": self.stack.last_routes,
             "scene": kerotakis_core::scene(&self.bench),
             "bench": { "vessels": self.bench.vessels },
         });
@@ -338,6 +341,7 @@ impl Lab {
                         "charts": charts,
                         "ionic": ionic,
                         "quest": quest,
+                        "routes": self.stack.last_routes,
                     }));
                 }
                 Err(e) => {
@@ -380,7 +384,7 @@ impl Lab {
         let v = self
             .bench
             .vessel(kerotakis_core::VesselId(vessel))
-            .map_err(|e| JsError::new(&e.to_string()))?;
+            .map_err(|e| JsError::new(&e.localize(self.locale)))?;
         let census = kerotakis_core::particles::census(v, 30);
         let doc = serde_json::json!({
             "census": census,
@@ -394,7 +398,7 @@ impl Lab {
         let v = self
             .bench
             .vessel(kerotakis_core::VesselId(vessel))
-            .map_err(|e| JsError::new(&e.to_string()))?;
+            .map_err(|e| JsError::new(&e.localize(self.locale)))?;
         Ok(serde_json::to_string(&kerotakis_core::observe(v))
             .unwrap_or_else(|e| format!("{{\"error\":\"{e}\"}}")))
     }
@@ -405,7 +409,7 @@ impl Lab {
         let v = self
             .bench
             .vessel(kerotakis_core::VesselId(vessel))
-            .map_err(|e| JsError::new(&e.to_string()))?;
+            .map_err(|e| JsError::new(&e.localize(self.locale)))?;
         Ok(serde_json::json!({
             "rendered": render_vessel_in(v, self.register, self.locale),
             "vessel": v,
@@ -836,7 +840,7 @@ impl Lab {
         let v = self
             .bench
             .vessel(kerotakis_core::VesselId(vessel))
-            .map_err(|e| JsError::new(&e.to_string()))?;
+            .map_err(|e| JsError::new(&e.localize(self.locale)))?;
         let mixing = kerotakis_core::MixingEquilibrator;
         let curated = kerotakis_core::CuratedEquilibrator;
         let thermal = kerotakis_cea::ThermalEquilibrator;
@@ -848,6 +852,11 @@ impl Lab {
     }
 
     fn run(&mut self, op: Operator) -> Result<Vec<Event>, JsError> {
+        // An operator that never equilibrates — `new`, and everything else
+        // that only touches bookkeeping — would otherwise leave the PREVIOUS
+        // step's routes standing, and the drawer would attribute one step's
+        // routing to the next. Clearing here makes a step's routes its own.
+        self.stack.last_routes.clear();
         // The aqueous solver runs from shipped results; everything else is
         // computed here in the browser.
         let mut stack = SolverStack::new(vec![]);
@@ -861,7 +870,11 @@ impl Lab {
             &kerotakis_safety::ReactiveGroupScreen,
         );
         std::mem::swap(&mut stack, &mut self.stack);
-        result.map_err(|e| JsError::new(&e.to_string()))
+        // I18N: the first — and only — point in the stack that knows what
+        // language this session reads. `bench.rs` names the refusal; the
+        // sentence is chosen here, exactly as `localize_events` chooses the
+        // sentence for the events of a step that succeeded.
+        result.map_err(|e| JsError::new(&e.localize(self.locale)))
     }
 }
 
@@ -905,13 +918,63 @@ impl Equilibrator for CombinedSolver<'_> {
             .iter()
             .position(|solver| solver.name() == "honesty")
             .unwrap_or(self.stack.solvers.len());
-        run_solvers(&mut self.stack.solvers[..aqueous_at], vessel, &mut events);
+        // GUI-052: the browser records the same routing evidence the native
+        // stack does. `SolverStack::equilibrate` is never called here — this
+        // method replaces it — so the routes have to be collected by hand,
+        // in the same order, or the drawer would be empty on the web and
+        // full on the desktop for one identical step.
+        let mut routes = Vec::new();
+        run_solvers(
+            &mut self.stack.solvers[..aqueous_at],
+            vessel,
+            &mut events,
+            &mut routes,
+        );
         let mut aqueous = BrowserAqueous {
             inner: &mut *self.aqueous,
         };
-        let mut more = kerotakis_core::equilibrate_phase_coupled(&mut aqueous, vessel)?;
-        events.append(&mut more);
-        run_solvers(&mut self.stack.solvers[aqueous_at..], vessel, &mut events);
+        // The aqueous/phase-coupled pass runs unconditionally here, exactly
+        // as it did before this record existed: `equilibrate_phase_coupled`
+        // also settles freezing and boiling, which must not stop happening
+        // because the speciation engine had nothing to say. So the route is
+        // observed, never gated.
+        let chemistry = aqueous.chemistry_applies(vessel);
+        let kind = aqueous.route_kind();
+        let name = aqueous.name().to_string();
+        match kerotakis_core::equilibrate_phase_coupled(&mut aqueous, vessel) {
+            Ok(mut more) => {
+                routes.push(SolverRoute {
+                    solver: name,
+                    kind,
+                    chemistry,
+                    outcome: SolverRouteOutcome::Succeeded {
+                        event_count: more.len(),
+                    },
+                    vessel: Some(vessel.id),
+                    reason: None,
+                });
+                events.append(&mut more);
+            }
+            Err(error) => {
+                routes.push(SolverRoute {
+                    solver: name,
+                    kind,
+                    chemistry,
+                    outcome: SolverRouteOutcome::Failed,
+                    vessel: Some(vessel.id),
+                    reason: Some(error.to_string()),
+                });
+                self.stack.last_routes = routes;
+                return Err(error);
+            }
+        }
+        run_solvers(
+            &mut self.stack.solvers[aqueous_at..],
+            vessel,
+            &mut events,
+            &mut routes,
+        );
+        self.stack.last_routes = routes;
         Ok(events)
     }
 }
@@ -947,18 +1010,52 @@ fn run_solvers(
     solvers: &mut [Box<dyn Equilibrator>],
     vessel: &mut kerotakis_core::Vessel,
     events: &mut Vec<Event>,
+    routes: &mut Vec<SolverRoute>,
 ) {
     for solver in solvers {
+        let name = solver.name().to_string();
+        let kind = solver.route_kind();
+        let chemistry = solver.chemistry_applies(vessel);
         if !solver.applies(vessel) {
+            routes.push(SolverRoute {
+                solver: name,
+                kind,
+                chemistry,
+                outcome: SolverRouteOutcome::NotApplicable,
+                vessel: Some(vessel.id),
+                reason: kerotakis_core::solve::decline_reason(&**solver, vessel),
+            });
             continue;
         }
         match solver.equilibrate(vessel) {
-            Ok(mut more) => events.append(&mut more),
-            Err(error) => events.push(Event::SolverFailed {
-                vessel: vessel.id,
-                solver: solver.name().to_string(),
-                detail: error.to_string(),
-            }),
+            Ok(mut more) => {
+                routes.push(SolverRoute {
+                    solver: name,
+                    kind,
+                    chemistry,
+                    outcome: SolverRouteOutcome::Succeeded {
+                        event_count: more.len(),
+                    },
+                    vessel: Some(vessel.id),
+                    reason: None,
+                });
+                events.append(&mut more);
+            }
+            Err(error) => {
+                routes.push(SolverRoute {
+                    solver: name.clone(),
+                    kind,
+                    chemistry,
+                    outcome: SolverRouteOutcome::Failed,
+                    vessel: Some(vessel.id),
+                    reason: Some(error.to_string()),
+                });
+                events.push(Event::SolverFailed {
+                    vessel: vessel.id,
+                    solver: name,
+                    detail: error.to_string(),
+                });
+            }
         }
     }
 }

@@ -4,12 +4,14 @@
 use serde::{Deserialize, Serialize};
 
 use crate::authority::SpillDestination;
+use crate::combustion;
 use crate::instrument::InstrumentContract;
 use crate::material::{self, MaterialBasis, MaterialRecipe, MaterialRole};
 use crate::ops::{
-    CentrifugeSeparation, ElutedPeak, Endpoint, Event, Instrument, LogEntry,
+    CentrifugeSeparation, DiscardedPortion, ElutedPeak, Endpoint, Event, Instrument, LogEntry,
     MaterialComponentAdded, Operator,
 };
+use crate::refusal::{Refusal, Refuses};
 use crate::solve::{
     adiabatic_mix_temperature, Equilibrator, HonestyEquilibrator, MixingEquilibrator,
     PermissiveScreen, SafetyScreen, SafetyVerdict, SolverStack,
@@ -51,61 +53,196 @@ fn liquid_colour_word_of(vessel: &Vessel) -> &'static str {
 /// because `v2` did not exist yet and never mentioned `new`, and a learner
 /// who has just watched chalk dissolve is told there is no solid to grind
 /// without being told that is *because* it dissolved.
-#[derive(Debug, thiserror::Error)]
+#[derive(Debug)]
 pub enum BenchError {
-    #[error("no vessel {0} — make it first with `new`, which creates the next free vessel")]
     NoSuchVessel(VesselId),
-    #[error("unknown species '{0}' — not in the registry")]
     UnknownSpecies(SpeciesId),
-    #[error("unknown material '{0}' — not in the recipe registry")]
     UnknownMaterial(String),
-    #[error("material recipe identity does not match the pinned operator")]
     MaterialRecipeMismatch,
-    #[error("amount must be positive")]
     NonPositiveAmount,
-    #[error("nothing on the shelf is called '{0}' — it is neither a species nor a material")]
     UnstockableKey(String),
-    #[error("the '{key}' bottle holds {remaining} {unit}, and {requested} {unit} was asked for")]
     StockExhausted {
         key: String,
         requested: f64,
         remaining: f64,
         unit: crate::stock::StockUnit,
     },
-    #[error("fraction must be within 0..=1")]
     BadFraction,
-    #[error("source and target vessel are the same")]
     SelfTransfer,
-    #[error("vessel {0} is not empty — transfer or dispose of its contents first")]
     VesselNotEmpty(VesselId),
-    #[error("the last vessel must stay on the bench")]
+    VesselSealed(VesselId),
     LastVessel,
-    #[error("vessel {0} is broken and cannot be used")]
     BrokenVessel(VesselId),
-    #[error("no spill exists at the requested destination")]
     NoSuchSpill,
-    #[error(
-        "vessel {vessel} contains no solid {species} to grind — grinding changes a \
-         solid's particle size, so it has to happen before the solid dissolves, not after"
-    )]
     SolidNotPresent {
         vessel: VesselId,
         species: SpeciesId,
     },
-    #[error("centrifuge cannot run this vessel: {0}")]
     CentrifugeUnavailable(String),
-    #[error(
-        "centrifuge rotor is {imbalance_g:.2} g out of balance (sample {sample_g:.2} g, counterbalance {counterbalance_g:.2} g); match within 0.10 g"
-    )]
     CentrifugeImbalance {
         sample_g: f64,
         counterbalance_g: f64,
         imbalance_g: f64,
     },
-    #[error(transparent)]
-    Kinetics(#[from] crate::kinetics::IntegrationError),
-    #[error(transparent)]
-    Transport(#[from] crate::transport::TransportError),
+    Kinetics(crate::kinetics::IntegrationError),
+    Transport(crate::transport::TransportError),
+}
+
+/// Why the sentences moved out of `#[error(...)]` and into here.
+///
+/// `thiserror` writes a `Display` from an attribute, which is exactly the
+/// right amount of machinery for an error nobody but a programmer reads.
+/// These are read by a fourteen-year-old, in the middle of an otherwise
+/// German bench, and an attribute has nowhere to put a key. So each arm
+/// now names a [`Refusal`] — the same key/English/holes shape every event
+/// already renders through — and `Display` is `render(Locale::EN)`.
+///
+/// The English is therefore not duplicated: the sentence a CLI user sees
+/// is *generated from the template a translation replaces*, so the two
+/// cannot drift. `english_is_exactly_what_it_was` pins the wording of
+/// every arm against the strings that shipped before this change.
+impl Refuses for BenchError {
+    fn refusal(&self) -> Refusal {
+        match self {
+            BenchError::NoSuchVessel(v) => Refusal::new(
+                "error.no-such-vessel",
+                "no vessel {vessel} — make it first with `new`, which creates the next free vessel",
+            )
+            .with("vessel", v),
+            BenchError::UnknownSpecies(s) => Refusal::new(
+                "error.unknown-species",
+                "unknown species '{species}' — not in the registry",
+            )
+            .with("species", s),
+            BenchError::UnknownMaterial(m) => Refusal::new(
+                "error.unknown-material",
+                "unknown material '{material}' — not in the recipe registry",
+            )
+            .with("material", m),
+            BenchError::MaterialRecipeMismatch => Refusal::new(
+                "error.material-recipe-mismatch",
+                "material recipe identity does not match the pinned operator",
+            ),
+            BenchError::NonPositiveAmount => {
+                Refusal::new("error.non-positive-amount", "amount must be positive")
+            }
+            BenchError::UnstockableKey(k) => Refusal::new(
+                "error.unstockable-key",
+                "nothing on the shelf is called '{key}' — it is neither a species nor a material",
+            )
+            .with("key", k),
+            BenchError::StockExhausted {
+                key,
+                requested,
+                remaining,
+                unit,
+            } => Refusal::new(
+                "error.stock-exhausted",
+                "the '{key}' bottle holds {remaining} {unit}, and {requested} {unit} was asked for",
+            )
+            .with("key", key)
+            .with("unit", unit)
+            .with_number("remaining", remaining.to_string())
+            .with_number("requested", requested.to_string()),
+            BenchError::BadFraction => {
+                Refusal::new("error.bad-fraction", "fraction must be within 0..=1")
+            }
+            BenchError::SelfTransfer => Refusal::new(
+                "error.self-transfer",
+                "source and target vessel are the same",
+            ),
+            BenchError::VesselNotEmpty(v) => Refusal::new(
+                "error.vessel-not-empty",
+                "vessel {vessel} is not empty — transfer or dispose of its contents first",
+            )
+            .with("vessel", v),
+            // The refusal has to say what to do about it. "Sealed" is a
+            // fact; "open v1 first" is the next move, and a learner who is
+            // told only the fact has to guess which of `open`, `remove`
+            // and `decant` was meant.
+            BenchError::VesselSealed(v) => Refusal::new(
+                "error.vessel-sealed",
+                "vessel {vessel} is closed — open {vessel} first, then discard it. Tipping a \
+                 sealed vessel into the waste would empty a container that is still holding \
+                 its own atmosphere, and the gas has to go somewhere you can see",
+            )
+            .with("vessel", v),
+            BenchError::LastVessel => Refusal::new(
+                "error.last-vessel",
+                "the last vessel must stay on the bench",
+            ),
+            BenchError::BrokenVessel(v) => Refusal::new(
+                "error.broken-vessel",
+                "vessel {vessel} is broken and cannot be used",
+            )
+            .with("vessel", v),
+            BenchError::NoSuchSpill => Refusal::new(
+                "error.no-such-spill",
+                "no spill exists at the requested destination",
+            ),
+            BenchError::SolidNotPresent { vessel, species } => Refusal::new(
+                "error.solid-not-present",
+                "vessel {vessel} contains no solid {species} to grind — grinding changes a \
+                 solid's particle size, so it has to happen before the solid dissolves, not after",
+            )
+            .with("vessel", vessel)
+            .with("species", species),
+            BenchError::CentrifugeUnavailable(why) => Refusal::new(
+                "error.centrifuge-unavailable",
+                "centrifuge cannot run this vessel: {reason}",
+            )
+            .with("reason", why),
+            BenchError::CentrifugeImbalance {
+                sample_g,
+                counterbalance_g,
+                imbalance_g,
+            } => Refusal::new(
+                "error.centrifuge-imbalance",
+                "centrifuge rotor is {imbalance_g} g out of balance (sample {sample_g} g, \
+                 counterbalance {counterbalance_g} g); match within 0.10 g",
+            )
+            .with_number("imbalance_g", format!("{imbalance_g:.2}"))
+            .with_number("sample_g", format!("{sample_g:.2}"))
+            .with_number("counterbalance_g", format!("{counterbalance_g:.2}")),
+            // The two nested error types keep their own English for now.
+            // A pass-through key still gives the frame a place to live and
+            // a translator somewhere to start; splitting `TransportError`
+            // and `IntegrationError` into keys of their own is the same
+            // exercise one layer down, and it is not this change.
+            BenchError::Kinetics(e) => Refusal::new("error.kinetics", "{detail}").with("detail", e),
+            BenchError::Transport(e) => {
+                Refusal::new("error.transport", "{detail}").with("detail", e)
+            }
+        }
+    }
+}
+
+impl std::fmt::Display for BenchError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str(&self.refusal().render(crate::Locale::EN))
+    }
+}
+
+impl std::error::Error for BenchError {
+    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+        match self {
+            BenchError::Kinetics(e) => Some(e),
+            BenchError::Transport(e) => Some(e),
+            _ => None,
+        }
+    }
+}
+
+impl From<crate::kinetics::IntegrationError> for BenchError {
+    fn from(e: crate::kinetics::IntegrationError) -> Self {
+        BenchError::Kinetics(e)
+    }
+}
+
+impl From<crate::transport::TransportError> for BenchError {
+    fn from(e: crate::transport::TransportError) -> Self {
+        BenchError::Transport(e)
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -122,6 +259,53 @@ pub struct Bench {
     /// older token still restores.
     #[serde(default, skip_serializing_if = "crate::stock::StockLedger::is_empty")]
     pub stock: crate::stock::StockLedger,
+}
+
+/// How matter came to leave a vessel — which decides both what leaves and
+/// what a safety veto can still do about it.
+///
+/// A tipped beaker loses its liquid and keeps its powder; a broken one
+/// loses everything; a discard takes everything that is not gas, because
+/// the gas above it belongs to the room and is vented where a reader can
+/// see it go rather than filed silently into a bin.
+///
+/// The veto rule follows from the same distinction. A spill has already
+/// happened by the time the screen sees it — the acid is on the floor
+/// whatever the verdict — so a veto there can only warn loudly. A discard
+/// has NOT happened yet, so a veto refuses, the way `add` refuses, and
+/// nothing moves.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum SpillKind {
+    /// Poured or knocked over: the liquid goes, the powder stays.
+    Poured,
+    /// The container failed: everything in it is now outside it.
+    Broken,
+    /// Deliberate disposal into the waste ledger.
+    Discarded,
+}
+
+impl SpillKind {
+    fn takes(self, phase: Phase) -> bool {
+        match self {
+            SpillKind::Poured => matches!(phase, Phase::Liquid | Phase::Aqueous),
+            SpillKind::Discarded => phase != Phase::Gas,
+            SpillKind::Broken => true,
+        }
+    }
+
+    /// Unresolved material portions have no `Phase`; only the poured case
+    /// has to ask the recipe whether the portion runs out of the vessel.
+    fn takes_unresolved(self, portion: &UnresolvedMaterialPortion) -> bool {
+        match self {
+            SpillKind::Poured => material::unresolved_portion_is_liquid(portion),
+            SpillKind::Broken | SpillKind::Discarded => true,
+        }
+    }
+
+    /// Whether a veto refuses the move rather than shouting about it.
+    fn refusable(self) -> bool {
+        matches!(self, SpillKind::Discarded)
+    }
 }
 
 impl Default for Bench {
@@ -190,23 +374,19 @@ impl Bench {
         events.push(Event::VesselCreated { vessel: id });
     }
 
+    /// Move a fraction of `from` into a spill compartment. `Ok(false)`
+    /// means the safety screen refused a deliberate move; see [`SpillKind`].
     fn move_to_spill(
         &mut self,
         from: VesselId,
         destination: &SpillDestination,
         fraction: f64,
-        all_phases: bool,
+        kind: SpillKind,
         screen: &dyn SafetyScreen,
         events: &mut Vec<Event>,
-    ) -> Result<(), BenchError> {
+    ) -> Result<bool, BenchError> {
         let source = self.vessel(from)?.clone();
-        if !source.material_objects.is_empty() {
-            events.push(Event::ObjectSpillBoundary {
-                vessel: from,
-                object_count: source.material_objects.len(),
-            });
-        }
-        let eligible = |phase: Phase| all_phases || matches!(phase, Phase::Liquid | Phase::Aqueous);
+        let eligible = |phase: Phase| kind.takes(phase);
         let moved = source
             .contents
             .iter()
@@ -221,7 +401,7 @@ impl Bench {
         let unresolved = source
             .unresolved_materials
             .iter()
-            .filter(|portion| all_phases || material::unresolved_portion_is_liquid(portion))
+            .filter(|portion| kind.takes_unresolved(portion))
             .map(|portion| {
                 let mut moved = portion.clone();
                 moved.amount *= fraction;
@@ -288,14 +468,31 @@ impl Bench {
                 real_world,
                 contributors: contributors.clone(),
             }),
-            SafetyVerdict::Veto { reason } => events.push(Event::SpillHazard {
-                destination: destination.clone(),
-                severity: crate::solve::Severity::Danger,
-                rule: String::new(),
-                hazard: reason,
-                real_world: "Do not touch the spill; follow the declared cleanup procedure.".into(),
-                contributors,
-            }),
+            SafetyVerdict::Veto { reason } => {
+                if kind.refusable() {
+                    events.push(Event::SafetyVeto { reason });
+                    return Ok(false);
+                }
+                events.push(Event::SpillHazard {
+                    destination: destination.clone(),
+                    severity: crate::solve::Severity::Danger,
+                    rule: String::new(),
+                    hazard: reason,
+                    real_world: "Do not touch the spill; follow the declared cleanup procedure."
+                        .into(),
+                    contributors,
+                })
+            }
+        }
+
+        // Only now, once the screen has let the move through: a refused
+        // discard that had already announced its objects would be
+        // describing a boundary nothing crossed.
+        if !source.material_objects.is_empty() {
+            events.push(Event::ObjectSpillBoundary {
+                vessel: from,
+                object_count: source.material_objects.len(),
+            });
         }
 
         let source = self.vessel_mut(from)?;
@@ -306,7 +503,7 @@ impl Bench {
         }
         source.contents.retain(|portion| portion.moles.0 > 1e-15);
         for portion in &mut source.unresolved_materials {
-            if all_phases || material::unresolved_portion_is_liquid(portion) {
+            if kind.takes_unresolved(portion) {
                 portion.amount *= 1.0 - fraction;
             }
         }
@@ -322,7 +519,7 @@ impl Bench {
         } else {
             self.spills.push(spill);
         }
-        Ok(())
+        Ok(true)
     }
 
     fn recover_spill(
@@ -935,7 +1132,10 @@ impl Bench {
                     None if events
                         .iter()
                         .any(|event| matches!(event, Event::FlameStarved { .. })) => {}
-                    None => events.push(Event::DidNotIgnite { vessel: *vessel }),
+                    None => {
+                        let absence = self.ignition_absence(*vessel, &events);
+                        events.push(absence);
+                    }
                 }
             }
         }
@@ -946,6 +1146,90 @@ impl Bench {
             events: events.clone(),
         });
         Ok(events)
+    }
+
+    /// The `DidNotIgnite` a vessel has earned, read off the vessel the
+    /// learner is left with.
+    ///
+    /// `ignite` puts the spark back out before this is called, so the
+    /// temperature here is the one on the bench and not the 1200 K the
+    /// middle of the step ran at — which is the whole reason a gap to an
+    /// autoignition point is a real number rather than always negative.
+    ///
+    /// Where `cea-thermal` has already said `BelowAutoignition` in this
+    /// same step, that event is believed over anything recomputed here:
+    /// it is the solver that declined, it named the fuel it declined for,
+    /// and two sentences about one vessel must not disagree about which
+    /// substance they are describing.
+    fn ignition_absence(&self, vessel: VesselId, events: &[Event]) -> Event {
+        use crate::ops::DidNotIgniteReason as Why;
+        let Ok(v) = self.vessel(vessel) else {
+            return Event::DidNotIgnite {
+                vessel,
+                reason: Why::NotModelled,
+                fuel: None,
+                fuel_moles: None,
+                oxygen_fraction: None,
+                gap_k: None,
+            };
+        };
+        let oxygen = combustion::oxygen_fraction(v);
+        let stated = events.iter().find_map(|event| match event {
+            Event::BelowAutoignition {
+                vessel: id,
+                fuel,
+                autoignition,
+                temperature,
+            } if *id == vessel => Some((fuel.clone(), autoignition.0 - temperature.0)),
+            _ => None,
+        });
+        if let Some((fuel, gap)) = stated {
+            let moles = v.moles_of(&fuel);
+            return Event::DidNotIgnite {
+                vessel,
+                reason: Why::BelowAutoignition,
+                fuel: Some(fuel),
+                fuel_moles: Some(moles),
+                oxygen_fraction: Some(oxygen),
+                gap_k: Some(gap.max(0.0)),
+            };
+        }
+        let Some(candidate) = combustion::ignition_candidate(v) else {
+            // Nothing in there is a fuel at all. The oxygen fraction is
+            // still a true reading of the vessel and still worth carrying
+            // — it is what says a beaker of water sat in ordinary air —
+            // but there is no gap to anything and nothing to draw.
+            return Event::DidNotIgnite {
+                vessel,
+                reason: Why::NoFuel,
+                fuel: None,
+                fuel_moles: None,
+                oxygen_fraction: Some(oxygen),
+                gap_k: None,
+            };
+        };
+        let gap = candidate.autoignition_k - v.temperature.0;
+        // A vessel open to the room always has the room's air, so the
+        // oxygen reading can only condemn a boundary that owns its gas.
+        let starved = oxygen < combustion::LIMITING_OXYGEN_FRACTION;
+        let reason = if starved {
+            Why::NoOxygen
+        } else if gap > 0.0 {
+            Why::BelowAutoignition
+        } else {
+            // Fuel, air, and hot enough on paper — and a solver looked and
+            // burned none of it. The bench does not know why, and says so
+            // rather than inventing the fourth reason.
+            Why::NotModelled
+        };
+        Event::DidNotIgnite {
+            vessel,
+            reason,
+            fuel: Some(candidate.fuel),
+            fuel_moles: Some(candidate.moles),
+            oxygen_fraction: Some(oxygen),
+            gap_k: (reason == Why::BelowAutoignition).then_some(gap),
+        }
     }
 
     /// Offer what is left of a heat dose, pass by pass, until the vessel
@@ -1740,6 +2024,93 @@ impl Bench {
                     });
                 }
             }
+            Operator::Discard { vessel } => {
+                // A closed boundary is holding an atmosphere of its own.
+                // Tipping it into the bin would make that gas vanish with
+                // no line saying where it went, so the refusal names the
+                // one move that fixes it.
+                let source = self.vessel(*vessel)?;
+                if matches!(
+                    source.headspace,
+                    Headspace::Sealed { .. } | Headspace::PressureControlled { .. }
+                ) {
+                    return Err(BenchError::VesselSealed(*vessel));
+                }
+
+                // The ledger is read before anything moves, so a refusal
+                // costs nothing and the line cannot describe a state that
+                // never existed.
+                let mut discarded: Vec<DiscardedPortion> = source
+                    .contents
+                    .iter()
+                    .filter(|portion| portion.phase != Phase::Gas)
+                    .filter(|portion| portion.moles.0 > 1e-15)
+                    .map(|portion| DiscardedPortion {
+                        species: portion.species.clone(),
+                        moles: portion.moles,
+                        phase: portion.phase,
+                    })
+                    .collect();
+                // Largest first, ties broken by name: a total order, because
+                // the same discard has to print the same way on the desktop
+                // and in the browser.
+                discarded.sort_by(|a, b| {
+                    b.moles
+                        .0
+                        .partial_cmp(&a.moles.0)
+                        .unwrap_or(std::cmp::Ordering::Equal)
+                        .then_with(|| a.species.0.cmp(&b.species.0))
+                });
+                let mut materials: Vec<String> = source
+                    .unresolved_materials
+                    .iter()
+                    .filter(|portion| portion.amount > 1e-15)
+                    .map(|portion| portion.material.clone())
+                    .collect();
+                materials.sort();
+                materials.dedup();
+                let moles_total = Moles(discarded.iter().map(|portion| portion.moles.0).sum());
+                let mass_before = source.mass().0;
+
+                if self.move_to_spill(
+                    *vessel,
+                    &SpillDestination::Waste,
+                    1.0,
+                    SpillKind::Discarded,
+                    screen,
+                    &mut events,
+                )? {
+                    // Weighed as a difference, so whatever the vessel holds
+                    // that this move does not take — a sorbent bed, a lump
+                    // of chalk, an exchanger's load — cannot be counted as
+                    // thrown away.
+                    let grams_total = mass_before - self.vessel(*vessel)?.mass().0;
+
+                    // The headspace above what was tipped away goes to the
+                    // room, exactly as it does when a vessel is opened. The
+                    // boundary itself is untouched: an open vessel stays
+                    // open, and a swept one keeps its carrier gas.
+                    let v = self.vessel_mut(*vessel)?;
+                    let gases = vent_headspace(v);
+                    v.refresh_pressure();
+                    for (species, moles) in gases {
+                        events.push(Event::GasEvolved {
+                            vessel: *vessel,
+                            species,
+                            moles,
+                        });
+                    }
+
+                    events.push(Event::Discarded {
+                        vessel: *vessel,
+                        into: SpillDestination::Waste,
+                        moles_total,
+                        grams_total,
+                        species: discarded,
+                        materials,
+                    });
+                }
+            }
             Operator::Spill {
                 from,
                 destination,
@@ -1755,7 +2126,14 @@ impl Bench {
                 if self.is_broken(*from) {
                     return Err(BenchError::BrokenVessel(*from));
                 }
-                self.move_to_spill(*from, destination, *fraction, false, screen, &mut events)?;
+                self.move_to_spill(
+                    *from,
+                    destination,
+                    *fraction,
+                    SpillKind::Poured,
+                    screen,
+                    &mut events,
+                )?;
                 events.push(Event::SpillCreated {
                     destination: destination.clone(),
                     source: *from,
@@ -1788,7 +2166,7 @@ impl Bench {
                         *vessel,
                         destination_if_broken,
                         1.0,
-                        true,
+                        SpillKind::Broken,
                         screen,
                         &mut events,
                     )?;
@@ -2277,7 +2655,18 @@ impl Bench {
             Operator::Ignite { vessel } => {
                 let v = self.vessel_mut(*vessel)?;
                 if v.is_empty() {
-                    events.push(Event::DidNotIgnite { vessel: *vessel });
+                    // Nothing there is nothing to describe: no candidate,
+                    // no gas to take an oxygen fraction of, no gap to any
+                    // temperature. `NoFuel` with every reading absent is
+                    // the honest shape of an empty beaker.
+                    events.push(Event::DidNotIgnite {
+                        vessel: *vessel,
+                        reason: crate::ops::DidNotIgniteReason::NoFuel,
+                        fuel: None,
+                        fuel_moles: None,
+                        oxygen_fraction: None,
+                        gap_k: None,
+                    });
                 } else {
                     // A match brings a small volume to flame temperature.
                     // Whether anything catches is for the solvers to say;
@@ -2344,6 +2733,18 @@ impl Bench {
                             }
                         }
                     }
+                    // Said from here, and not from the honesty pass, and
+                    // the reason is evidence rather than tidiness. "There
+                    // is no water and something is still filed as
+                    // dissolved" looks like a stranded solution and is
+                    // not always one: a kneaded dough holds its water in
+                    // the flour matrix and pours NONE into the beaker, so
+                    // a fermentation product filed aqueous beside it
+                    // would trip that test with nothing wrong. What makes
+                    // the claim safe is knowing the water LEFT, and only
+                    // the two places that removed it know that. This is
+                    // one of them; `solve::StateEquilibrator`'s boiling
+                    // branch is the other, and it says the same sentence.
                     let stranded: Vec<&str> = v
                         .contents
                         .iter()
@@ -2354,13 +2755,7 @@ impl Bench {
                         events.push(Event::NotYetModeled {
                             cause: crate::ops::NotModelledCause::NoSolver,
                             vessel: *vessel,
-                            what: format!(
-                                "the last of the water is gone and {} are still shown as \
-                                 dissolved, which is not a state a beaker can be in. What \
-                                 they crystallise into is not decidable from the ions alone, \
-                                 so the bench will not guess at the solids",
-                                stranded.join(", ")
-                            ),
+                            what: crate::solve::stranded_solutes(&stranded),
                         });
                     }
                     // No energy is charged for the vaporisation, and that
@@ -4869,6 +5264,7 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         // Electrolysis moves matter, so the vessel is re-settled after it.
         Operator::Electrolyse { vessel, .. } => vec![*vessel],
         Operator::Spill { from, .. } => vec![*from],
+        Operator::Discard { vessel } => vec![*vessel],
         Operator::Impact { vessel, .. } => vec![*vessel],
         Operator::RecoverSpill { to, .. } => vec![*to],
         Operator::Decant { from, to, .. }
@@ -4985,7 +5381,9 @@ fn is_ionic(species: &SpeciesId) -> bool {
         .unwrap_or(false)
 }
 
-fn partition_groups(species: &SpeciesId) -> Option<kerotakis_thermo::unifac::GroupDecomposition> {
+pub(crate) fn partition_groups(
+    species: &SpeciesId,
+) -> Option<kerotakis_thermo::unifac::GroupDecomposition> {
     let mut g = kerotakis_thermo::unifac::GroupDecomposition::new();
     match species.0.as_str() {
         "ethanol" => {
@@ -5006,13 +5404,13 @@ fn partition_groups(species: &SpeciesId) -> Option<kerotakis_thermo::unifac::Gro
     Some(g)
 }
 
-fn water_groups() -> kerotakis_thermo::unifac::GroupDecomposition {
+pub(crate) fn water_groups() -> kerotakis_thermo::unifac::GroupDecomposition {
     let mut g = kerotakis_thermo::unifac::GroupDecomposition::new();
     g.insert(16, 1);
     g
 }
 
-fn hexane_groups() -> kerotakis_thermo::unifac::GroupDecomposition {
+pub(crate) fn hexane_groups() -> kerotakis_thermo::unifac::GroupDecomposition {
     let mut g = kerotakis_thermo::unifac::GroupDecomposition::new();
     g.insert(1, 2);
     g.insert(2, 4);

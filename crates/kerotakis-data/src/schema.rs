@@ -23,6 +23,11 @@ pub struct RegistryDocument {
     pub compositions: Vec<CompositionRecord>,
     #[serde(default)]
     pub phase_thermodynamics: Vec<PhaseThermodynamicRecord>,
+    /// The temperature dependence of the heat capacities above, where a
+    /// published curve exists. A species with no record here is modelled at
+    /// its 298 K constant, and the bench says so rather than extrapolating.
+    #[serde(default)]
+    pub heat_capacity_polynomials: Vec<HeatCapacityPolynomialRecord>,
     #[serde(default)]
     pub transport: Vec<TransportRecord>,
     #[serde(default)]
@@ -650,6 +655,79 @@ pub enum Phase {
     Gas,
     Plasma,
     Supercritical,
+}
+
+/// The temperature dependence of one molar heat capacity: the published
+/// polynomial rather than the single number a `MolarHeatCapacity` record
+/// carries.
+///
+/// A constant heat capacity is an honest answer only near the temperature it
+/// was measured at. Calcite is about 82 J/(mol.K) on a bench and about 130
+/// in a kiln; a burner billed at the first while driving a crucible to the
+/// second hands the charge more energy than its own ledger books, and the
+/// gap is not small. This record closes that, and it is kept BESIDE the
+/// constant rather than replacing it: the constant stays the 298 K value and
+/// stays the fallback, so a species with no curve is modelled exactly as it
+/// was and the difference between "we have a curve" and "we do not" is
+/// visible in the data rather than hidden in an extrapolation.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct HeatCapacityPolynomialRecord {
+    pub id: String,
+    pub species_id: String,
+    /// Which phase of the species the curve describes. Ice, liquid water and
+    /// steam are three records, not one.
+    pub phase: Phase,
+    pub form: HeatCapacityForm,
+    pub unit: Unit,
+    /// Contiguous intervals in ascending temperature order. Real tabulations
+    /// are piecewise, and a polynomial evaluated outside its own interval is
+    /// not an approximation but a different number entirely.
+    pub intervals: Vec<HeatCapacityInterval>,
+    /// What the curve does NOT claim.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub boundary: Option<String>,
+    pub evidence: Evidence,
+}
+
+/// Which published polynomial a set of coefficients belongs to.
+///
+/// Both forms are kept rather than one being converted into the other,
+/// because a conversion that is not exact is a new number and would need its
+/// own provenance. Shomate's basis is in fact a strict subset of NASA-9's, so
+/// a Shomate row could be rewritten exactly; a NASA-9 row generally could
+/// NOT, because its `a2/T` and `a7*T^4` terms have no Shomate counterpart and
+/// dropping them would be a refit rather than a transcription.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum HeatCapacityForm {
+    /// `Cp/R = a1/T^2 + a2/T + a3 + a4*T + a5*T^2 + a6*T^3 + a7*T^4`, T in
+    /// kelvin (NASA TP-2002-211556). Seven coefficients, a1 first.
+    Nasa9,
+    /// `Cp = A + B*t + C*t^2 + D*t^3 + E/t^2` with `t = T/1000`, directly in
+    /// J/(mol.K) (NIST WebBook). Five coefficients, A first.
+    Shomate,
+}
+
+impl HeatCapacityForm {
+    /// How many coefficients one interval of this form must carry.
+    pub fn coefficient_count(self) -> usize {
+        match self {
+            Self::Nasa9 => 7,
+            Self::Shomate => 5,
+        }
+    }
+}
+
+/// One temperature interval of a heat-capacity curve.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct HeatCapacityInterval {
+    pub t_min_k: f64,
+    pub t_max_k: f64,
+    pub coefficients: Vec<f64>,
+    /// The literature line the source file prints against this interval,
+    /// verbatim, so a reader lands on the table rather than on the envelope
+    /// the table was shipped in.
+    pub reference: String,
 }
 
 /// A single phase-specific thermodynamic fact. One property per record keeps

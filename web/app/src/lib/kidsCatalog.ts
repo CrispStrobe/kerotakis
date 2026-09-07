@@ -4,6 +4,7 @@ export type KidsStatus = "computed" | "partial" | "boundary" | "declined" | "unr
 export type KidsSafety = "home" | "school";
 /** Authored learning progress, independent of age and supervision. */
 export type KidsProgress = "starter" | "intermediate" | "advanced";
+export type KidsRecipeLine = { ingredient: string; quantity: string; preparation?: string };
 
 export interface KidsExperiment {
   id: string;
@@ -16,6 +17,13 @@ export interface KidsExperiment {
   topics: string[];
   ingredients: string[];
   apparatus: string[];
+  recipe?: KidsRecipeLine[];
+  recipe_de?: KidsRecipeLine[];
+  procedure?: string[];
+  procedure_de?: string[];
+  observations?: string[];
+  observations_de?: string[];
+  kits?: string[];
   lesson?: string;
   quest?: string;
   /** Reviewed exact cross-references. These are identifiers, never search terms. */
@@ -52,10 +60,28 @@ export function parseKidsCatalog(raw: unknown): KidsExperiment[] {
       && [value.safety_rationale_de, value.safety_guidance_de].every((text) => text === undefined || (typeof text === "string" && text.trim().length > 0))
       && [value.topics, value.ingredients, value.apparatus]
         .every((list) => Array.isArray(list) && list.every((item) => typeof item === "string"))
+      && [value.procedure, value.procedure_de, value.observations, value.observations_de, value.kits]
+        .every((list) => list === undefined || (Array.isArray(list) && list.length > 0 && list.every((item) => typeof item === "string" && item.trim().length > 0)))
+      && [value.recipe, value.recipe_de].every((recipe) => recipe === undefined || (
+        Array.isArray(recipe) && recipe.length > 0 && recipe.every((line) => line && typeof line === "object"
+          && typeof line.ingredient === "string" && typeof line.quantity === "string"
+          && (line.preparation === undefined || typeof line.preparation === "string"))
+      ))
       && [value.capabilities, value.codex].every((list) => list === undefined || (
         Array.isArray(list) && list.length > 0 && list.every((item) => typeof item === "string" && item.length > 0)
       ));
   });
+}
+
+export function kidsList(item: KidsExperiment, field: "procedure" | "observations", locale: string): string[] {
+  if (locale !== "de") return item[field] ?? [];
+  return field === "procedure"
+    ? (item.procedure_de ?? item.procedure ?? [])
+    : (item.observations_de ?? item.observations ?? []);
+}
+
+export function kidsRecipe(item: KidsExperiment, locale: string): KidsRecipeLine[] {
+  return locale === "de" ? (item.recipe_de ?? item.recipe ?? []) : (item.recipe ?? []);
 }
 
 export interface KidsConnections {

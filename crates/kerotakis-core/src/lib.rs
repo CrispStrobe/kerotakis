@@ -49,6 +49,7 @@ pub mod fermentation;
 pub mod foam;
 pub mod gas_tests;
 pub mod gel;
+pub mod heat_capacity;
 pub mod hmix;
 pub mod i18n;
 pub mod indicator;
@@ -75,6 +76,7 @@ pub mod plastics;
 pub mod polymer;
 pub mod properties;
 pub mod protein;
+pub mod refusal;
 pub mod relations;
 pub mod render;
 pub mod rheology;
@@ -126,10 +128,11 @@ pub use instrument::{
 };
 pub use ionic::{net_ionic, net_ionic_for, IonTerm, IonicBasis, NetIonic};
 pub use ledger::{audit_conservation, ConservedLedger};
-pub use ops::{Event, Instrument, LogEntry, Operator, PolymerState};
+pub use ops::{DiscardedPortion, Event, Instrument, LogEntry, Operator, PolymerState};
 pub use orchestrator::Orchestrator;
 pub use phase_route::PhaseRouteEquilibrator;
 pub use pigment::{opaque_mixture_colour, PigmentAmount, PigmentMixError, PigmentOptics};
+pub use refusal::{Refusal, Refuses};
 pub use render::{
     localize_event, localize_events, render_event, render_event_in, render_events,
     render_events_in, render_ionic, render_ionic_for, render_ionic_in, render_vessel,

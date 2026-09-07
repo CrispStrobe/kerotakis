@@ -219,6 +219,18 @@ pub enum Operator {
         destination_if_broken: SpillDestination,
         replay_seed: ReplaySeed,
     },
+    /// Empty ONE vessel into the bench's waste ledger.
+    ///
+    /// The bench had no way to dispose of a single vessel's contents.
+    /// `remove` refuses a vessel that is not empty, `drain` and `decant`
+    /// want a destination, and `Spill` is for matter that ended up
+    /// somewhere by accident — using it to make a beaker's contents
+    /// disappear would be a lie about how they got there. So this is the
+    /// deliberate one: everything condensed in the vessel moves to
+    /// `SpillDestination::Waste`, where it is still weighed and still
+    /// screened, and the vessel is left standing, still warm, still open,
+    /// with its apparatus (sorbent beds, exchangers, objects) untouched.
+    Discard { vessel: VesselId },
     /// Recover a fraction of a spill into an intact receiver.
     RecoverSpill {
         destination: SpillDestination,
@@ -707,6 +719,45 @@ impl PhaseTransition {
     }
 }
 
+/// Why an ignition source found nothing to take.
+///
+/// Four different absences, and a learner is doing a different experiment
+/// in each: a beaker of water was never going to burn, a candle in a
+/// nitrogen purge has fuel and no air, warm diesel is fuel and air and
+/// merely cool, and the fourth is the bench saying it does not know. They
+/// are told apart so a client can draw the one that happened; drawing all
+/// four the same way is what "nothing happens" already did.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
+#[serde(rename_all = "snake_case")]
+pub enum DidNotIgniteReason {
+    /// Nothing present is on either fuel table — neither the vapours
+    /// `combustion::GAS_AUTOIGNITION` gates nor the curated
+    /// `combustion::FUELS`. Water is the plain case.
+    NoFuel,
+    /// There is a fuel, and the gas around it cannot carry a flame: the
+    /// oxygen fraction is below `combustion::LIMITING_OXYGEN_FRACTION`,
+    /// which is the same threshold `FlameStarved` reports against.
+    NoOxygen,
+    /// Fuel and air both, and the vessel simply is not hot enough — the
+    /// case `Event::BelowAutoignition` states in full. `gap_k` says by
+    /// how much.
+    BelowAutoignition,
+    /// A chemistry solver examined the vessel and found no reaction, and
+    /// none of the three readings above explains it. The default,
+    /// because it is the reading that claims least — an older event with
+    /// no `reason` on the wire is exactly this much known.
+    #[default]
+    NotModelled,
+}
+
+/// One species' share of a `Discarded` line.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct DiscardedPortion {
+    pub species: SpeciesId,
+    pub moles: Moles,
+    pub phase: Phase,
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "event", rename_all = "snake_case")]
 pub enum Event {
@@ -737,6 +788,22 @@ pub enum Event {
         destination: SpillDestination,
         to: VesselId,
         fraction: f64,
+    },
+    /// One vessel was emptied into the waste. `moles_total`/`grams_total`
+    /// are what left the vessel, `species` what it was made of — a ledger
+    /// that cannot say what it swallowed is not a ledger.
+    Discarded {
+        vessel: VesselId,
+        into: SpillDestination,
+        moles_total: Moles,
+        grams_total: f64,
+        #[serde(default, skip_serializing_if = "Vec::is_empty")]
+        species: Vec<DiscardedPortion>,
+        /// Matter that is deliberately not resolved into species (a recipe
+        /// portion — milk, vinegar). Counted in `grams_total`, absent from
+        /// `species`, named here so the line can still say what went in.
+        #[serde(default, skip_serializing_if = "Vec::is_empty")]
+        materials: Vec<String>,
     },
     SpillHazard {
         destination: SpillDestination,
@@ -1694,8 +1761,49 @@ pub enum Event {
         energy_j: Option<f64>,
     },
     /// An ignition source was applied and nothing caught.
+    ///
+    /// The vessel id alone was everything this event carried, which made
+    /// it the one row of the animation audit that could not be closed
+    /// from the client: with no quantity on the wire, any visual for it
+    /// would have been a picture of the word "nothing". Its sibling
+    /// `FlameStarved` carries the fuel, what burned and the oxygen
+    /// fraction, and is drawn from those. These fields are the same
+    /// three, plus the distance to the autoignition point that
+    /// `BelowAutoignition` already computes — so a client can draw the
+    /// *particular* absence rather than a generic shrug.
+    ///
+    /// Every one of them is optional and every one is a reading of the
+    /// vessel as the learner is left with it: `ignite` puts the spark
+    /// back out, so these describe the reverted vessel, not the 1200 K
+    /// instant in the middle of the step.
     DidNotIgnite {
         vessel: VesselId,
+        /// Why nothing caught. A client draws a different absence for
+        /// each — a wisp over a fuel that is merely too cool, nothing at
+        /// all over a beaker of water.
+        #[serde(default)]
+        reason: DidNotIgniteReason,
+        /// The most flammable thing actually in the vessel: the
+        /// candidate a flame would have taken, by the lowest
+        /// autoignition temperature among the species present. `None`
+        /// is the whole of `NoFuel`.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        fuel: Option<SpeciesId>,
+        /// How much of that candidate is there. This is what a wisp
+        /// scales by: a milligram of wax and a block of it are not the
+        /// same non-event.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        fuel_moles: Option<Moles>,
+        /// The oxygen fraction of the gas the candidate stands in — the
+        /// same number `FlameStarved` reports, read the same way, so an
+        /// open vessel reports the room's air rather than an empty
+        /// ledger.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        oxygen_fraction: Option<f64>,
+        /// Autoignition temperature minus the vessel's, K, and only
+        /// where that is the reason: how far short of catching it is.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        gap_k: Option<f64>,
     },
     /// KID-12: the flame went out because of the air, not the fuel.
     ///

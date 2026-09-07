@@ -798,13 +798,22 @@ fn settle_phases(vessel: &mut Vessel, events: &mut Vec<Event>) {
 /// than the registry's — ice is 37.7 J/(mol·K), not water's 75.3:
 ///
 /// ```text
-/// water, vaporisation    40 650 / 75.3  = 540 K   (the largest)
+/// salt, fusion           28 160 / 50.5  = 558 K   (the largest)
+/// iron, fusion           13 810 / 25.1  = 550 K
+/// water, vaporisation    40 650 / 75.3  = 540 K
 /// dry ice, sublimation   25 200 / 47.0  = 536 K
+/// methanol, vaporisation 35 210 / 81.1  = 434 K
 /// water, fusion (ice)     6 010 / 37.7  = 159 K
 /// water, fusion (liquid)  6 010 / 75.3  =  80 K
 /// nitrogen, vaporisation  5 570 / 57.2  =  97 K
 /// ethanol, fusion         4 930 / 112.3 =  44 K
 /// ```
+///
+/// The two at the top arrived with the tranche that made the phase route
+/// general over the registry (PLAN P3s), and they moved the maximum by
+/// eighteen kelvin out of a thousand. `phase_routes.rs` now walks both
+/// tables against this constant rather than leaving the margin to be
+/// re-derived by hand, so a row added later cannot quietly exceed it.
 ///
 /// 1000 K clears all of them with room to spare. The excursion only
 /// approaches it when the vessel's contents have almost no heat capacity

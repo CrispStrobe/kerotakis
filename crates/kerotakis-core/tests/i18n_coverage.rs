@@ -36,6 +36,8 @@
 //! | events | `Event` serde variant names | `event.*` |
 //! | relations | `relations::RELATIONS` | `*_de` fields |
 //! | command verbs | `script::VERBS` + `VERB_SYNONYMS` | `script-verb.*` |
+//! | bench refusals | `Refusal::new` keys in `bench.rs` | `error.*` |
+//! | fixed gap reasons | `what: "…".to_string()` literals | `refusal.*` |
 //!
 //! The last row is the newest and the odd one out: it is not about a word
 //! the engine SAYS but about a word a learner may TYPE. It was excluded on
@@ -53,11 +55,13 @@
 //!
 //! # What is consciously NOT covered, and why
 //!
-//! - **Refusal reasons that interpolate a value.** `bench.rs` composes
-//!   these as finished English sentences and puts the sentence in the
-//!   event, so there is no key to enumerate — only a wire-format change
-//!   would give one. The fixed reasons are exact catalogue entries and
-//!   `render_locale.rs` pins them. See I18N.md, "The bench's refusals".
+//! - **`NotYetModeled` reasons that interpolate a value.** `bench.rs` and
+//!   `solve.rs` compose these as finished English sentences and put the
+//!   sentence in the EVENT, so there is no key to enumerate. The fixed
+//!   ones are exact `[refusal]` entries and `render_locale.rs` pins them.
+//!   The `BenchError` half of that paragraph is no longer true — those
+//!   carry a key and are gated below — and the rest is the same exercise
+//!   one layer along. See I18N.md, "The bench's refusals".
 //! - **LV2 and LV3 evidence lines.** Twelve of these are still inside a
 //!   bare `format!`. They are numeric evidence for a reader who has asked
 //!   for the working, not the sentence a learner reads, and converting
@@ -449,6 +453,192 @@ fn every_event_the_engine_can_emit_has_a_german_sentence() {
         missing.len(),
         missing.join("\n  ")
     );
+}
+
+// ── The refusals ────────────────────────────────────────────────────
+
+/// Every key the bench can refuse with, read out of the source that
+/// writes it.
+///
+/// `BenchError` is not a serde enum, so `serde_variants` cannot reach it,
+/// and a hand-written list of arms is the failure mode this file exists to
+/// avoid. What it does instead is read the keys out of `bench.rs` itself:
+/// a key can only enter the engine by being written there, so scanning for
+/// the literal finds every one — including the arm added in the commit
+/// that forgot to translate it.
+fn refusal_keys() -> Vec<String> {
+    const SOURCE: &str = include_str!("../src/bench.rs");
+    let mut keys: Vec<String> = SOURCE
+        .match_indices("\"error.")
+        .filter_map(|(at, _)| {
+            let rest = &SOURCE[at + 1..];
+            rest.find('"').map(|end| rest[..end].to_string())
+        })
+        .collect();
+    keys.sort_unstable();
+    keys.dedup();
+    assert!(
+        !keys.is_empty(),
+        "no `error.*` keys found in bench.rs — the refusals stopped naming \
+         themselves, and this gate is now checking nothing"
+    );
+    keys
+}
+
+/// A refusal a German learner cannot read is the report this all started
+/// from: *"many warnings/errors are NOT showing in German, like 'no vessel
+/// v2'"*.
+#[test]
+fn every_refusal_the_bench_can_give_has_german() {
+    let de = de();
+    let missing: Vec<String> = refusal_keys()
+        .into_iter()
+        .filter(|key| de.lookup(key).is_none())
+        .collect();
+    report("bench refusals", "error", missing);
+}
+
+/// And nothing translated is left describing a refusal that is gone.
+///
+/// The other direction, and the one `codex-locale-lint.py` learned to
+/// check the hard way: a stale key renders confidently and wrongly the day
+/// somebody reuses its name. Cheap here, because both sides are lists of
+/// keys rather than of sentences.
+#[test]
+fn no_german_refusal_translates_something_the_bench_cannot_say() {
+    let catalogue = catalogue();
+    let table = catalogue
+        .get("error")
+        .and_then(toml::Value::as_table)
+        .expect("de.toml has an [error] section");
+    let live = refusal_keys();
+    let stale: Vec<String> = table
+        .keys()
+        .filter(|k| !live.iter().any(|key| key == &format!("error.{k}")))
+        .cloned()
+        .collect();
+    assert!(
+        stale.is_empty(),
+        "{} German refusal(s) translate a key bench.rs no longer writes:\n  {}",
+        stale.len(),
+        stale.join("\n  ")
+    );
+}
+
+/// Every FIXED gap reason, read out of the sources that write it.
+///
+/// `Event::NotYetModeled` carries its reason as a finished sentence, so
+/// `[refusal]` is keyed by the English rather than by a place. That works
+/// for exactly the reasons which interpolate nothing — and there are
+/// eighteen of them, of which THIRTEEN reached a German learner in English
+/// while the table reported itself complete. It was complete: over the rows
+/// it had. This is the same denominator failure `codex-locale-lint.py`'s
+/// `models.toml` had, in a different table.
+///
+/// The inventory is scraped rather than listed, for the reason every other
+/// inventory in this file is: a hand-written list of gap reasons is a list
+/// somebody will forget to extend on the commit where it mattered. The
+/// shape `what: "…".to_string()` is what a fixed reason looks like; a
+/// reason built with `format!` cannot be keyed by its text at all and is
+/// deliberately not counted here (see the header).
+fn fixed_gap_reasons() -> Vec<(&'static str, String)> {
+    const SOURCES: &[(&str, &str)] = &[
+        ("bench.rs", include_str!("../src/bench.rs")),
+        ("solve.rs", include_str!("../src/solve.rs")),
+        ("selectivity.rs", include_str!("../src/selectivity.rs")),
+        ("gas_tests.rs", include_str!("../src/gas_tests.rs")),
+        ("displacement.rs", include_str!("../src/displacement.rs")),
+        ("family.rs", include_str!("../src/family.rs")),
+    ];
+    let mut out = Vec::new();
+    for &(file, source) in SOURCES {
+        let mut rest = source;
+        while let Some(at) = rest.find("what:") {
+            rest = &rest[at + 5..];
+            // The literal must be the very next thing: `what: format!(…)`
+            // and `what: why.clone()` are not fixed reasons.
+            let head = rest.trim_start();
+            if !head.starts_with('"') {
+                continue;
+            }
+            let body = &head[1..];
+            let Some(end) = closing_quote(body) else {
+                continue;
+            };
+            let (literal, after) = (&body[..end], body[end + 1..].trim_start());
+            // …and it must be turned into the `String` the field wants,
+            // which is what tells a reason from any other string nearby.
+            if !(after.starts_with(".to_string()") || after.starts_with(".into()")) {
+                continue;
+            }
+            out.push((file, unescape(literal)));
+        }
+    }
+    assert!(
+        out.len() > 10,
+        "only {} fixed gap reason(s) found — the shape they are written in \
+         must have changed, and this gate is now checking almost nothing",
+        out.len()
+    );
+    out
+}
+
+/// The index of the `"` that ends a Rust string literal, respecting `\"`.
+fn closing_quote(body: &str) -> Option<usize> {
+    let bytes = body.as_bytes();
+    let mut i = 0;
+    while i < bytes.len() {
+        match bytes[i] {
+            b'\\' => i += 2,
+            b'"' => return Some(i),
+            _ => i += 1,
+        }
+    }
+    None
+}
+
+/// A Rust literal's `\`-at-end-of-line continuation, undone — that is the
+/// only escape these sentences use, and the catalogue is keyed on the
+/// string the program actually builds.
+fn unescape(literal: &str) -> String {
+    let mut out = String::with_capacity(literal.len());
+    let mut chars = literal.chars().peekable();
+    while let Some(c) = chars.next() {
+        if c != '\\' {
+            out.push(c);
+            continue;
+        }
+        match chars.next() {
+            // A continuation eats the newline and the indent after it —
+            // and a long reason has several, so this cannot stop at the
+            // first one.
+            Some('\n') => {
+                while chars.peek().is_some_and(|c| *c == ' ' || *c == '\t') {
+                    chars.next();
+                }
+            }
+            Some('"') => out.push('"'),
+            Some('\\') => out.push('\\'),
+            Some('n') => out.push('\n'),
+            Some(other) => out.push(other),
+            None => break,
+        }
+    }
+    out
+}
+
+/// A gap explained in English inside an otherwise German sentence.
+#[test]
+fn every_fixed_gap_reason_has_german() {
+    let de = de();
+    let mut missing: Vec<String> = fixed_gap_reasons()
+        .into_iter()
+        .filter(|(_, what)| de.lookup(&format!("refusal.{what}")).is_none())
+        .map(|(file, what)| format!("{file}: \"{what}\""))
+        .collect();
+    missing.sort_unstable();
+    missing.dedup();
+    report("fixed gap reasons", "refusal", missing);
 }
 
 // ── The relations ───────────────────────────────────────────────────

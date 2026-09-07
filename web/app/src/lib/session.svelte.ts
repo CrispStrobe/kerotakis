@@ -45,6 +45,7 @@ import {
   type OutcomeMissionContract,
 } from "./outcomeMission";
 import { summarizeResult, type ResultSummary } from "./resultSummary";
+import { buildProvenance, type ProvenanceReport, type ProvenanceStep } from "./provenance";
 import { incidentNotebookEvidence } from "./incidents";
 
 export type FeedEntry = {
@@ -477,6 +478,17 @@ export class Session {
   /** Compact evidence digest for the latest accepted operation. */
   latestResult = $state<ResultSummary | null>(null);
   /**
+   * GUI-052: the LAST step of the latest accepted command, kept raw.
+   *
+   * `latestResult` flattens every step of a command into one digest, which
+   * is right for a summary card and wrong for provenance: routing belongs
+   * to a single equilibrium pass, and the routes of three lines of a script
+   * concatenated together would describe a solve that never happened. So
+   * the provenance drawer reads one step, and this is it. Null between
+   * commands, and on any command the engine refused.
+   */
+  latestStep = $state<ProvenanceStep | null>(null);
+  /**
    * Transient visual effects per vessel (GUI-026), derived STRICTLY from
    * typed events — an effect never fires without a computed event behind
    * it. Entries age out; the canvas animates what is younger than its
@@ -486,6 +498,21 @@ export class Session {
   /** Story-only material dispenses. The engine owns vessel amounts; this
    * ledger owns only what remains on the physical supply shelf. */
   storyStockUsed = $state<Record<string, number>>({});
+
+  /**
+   * The provenance of the latest step, narrowed to the vessel the bench is
+   * looking at.
+   *
+   * Always a report, never null: `empty` is the answer to "did the engine
+   * record anything", and a caller that wants to hide an affordance asks
+   * that rather than getting a null it has to guard everywhere. The drawer
+   * itself renders an empty report honestly -- "the bench recorded no
+   * routing for this step" is a true sentence and a better one than a
+   * missing panel.
+   */
+  get latestProvenance(): ProvenanceReport {
+    return buildProvenance(this.latestStep, { vessel: this.selected });
+  }
 
   /** Drops the language subscription if the session is reconnected. */
   private stopWatchingLocale: (() => void) | null = null;
@@ -776,6 +803,7 @@ export class Session {
       this.scene = await this.host.scene();
       this.inspector = null;
       this.latestResult = null;
+      this.latestStep = null;
       this.lastEquation = null;
       this.lastIonic = null;
       this.benchEquations = [];
@@ -961,6 +989,8 @@ export class Session {
       const resultEvents = result.steps.flatMap((step) => step.events);
       const resultLines = result.steps.flatMap((step) => step.rendered);
       this.latestResult = summarizeResult(resultEvents, resultLines, beforeScene, result.scene ?? this.scene);
+      // GUI-052: the last step, not the concatenation. See `latestStep`.
+      this.latestStep = (result.steps[result.steps.length - 1] as ProvenanceStep | undefined) ?? null;
       // Register lines are session state, not chemistry; everything else
       // that the engine accepted becomes part of the replayable script.
       // A command issued mid-history truncates the undone future first.
@@ -996,6 +1026,11 @@ export class Session {
       return true;
     } catch (e) {
       const refusal = e instanceof EngineError && e.kind === "refused";
+      // I18N: printed, never rewritten. The bench names its refusal with a
+      // key and the host renders it in this session's locale before it is
+      // thrown, so this string is already German on a German bench — and a
+      // shell that matched on its English would be a layer only English
+      // could pass through. See `EngineError` and `engineText`.
       this.feed.push({
         kind: refusal ? "refusal" : "error",
         text: e instanceof Error ? e.message : String(e),
@@ -1380,6 +1415,10 @@ export class Session {
       const was = this.position;
       this.position = target;
       this.latestResult = null;
+      // Stepping through history moves to a bench state no single step
+      // routed to; a stale routing record read against it would be the
+      // corpus classifier's neighbour bug on a screen.
+      this.latestStep = null;
       this.persist();
       this.feed.push({
         kind: "note",

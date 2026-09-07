@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { EngineHost, Scene, ScriptResult } from "./host/EngineHost";
+import { EngineError, type EngineHost, type Scene, type ScriptResult } from "./host/EngineHost";
 import { REGISTERS, Session, type StorageLike } from "./session.svelte";
 
 class FakeStorage implements StorageLike {
@@ -1045,6 +1045,79 @@ describe("Session", () => {
     expect(s.lastSpectators).toBe("Na⁺, NO₃⁻");
   });
 
+  /**
+   * GUI-052. The drawer reads ONE step, not the concatenation of a
+   * command's steps: routing belongs to a single equilibrium pass, and
+   * three lines of a script routed together describe a solve that never
+   * happened.
+   */
+  it("keeps the last step's routing, not the whole command's", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [
+        {
+          operator: {},
+          events: [],
+          rendered: ["did: new"],
+          routes: [],
+        },
+        {
+          operator: {},
+          events: [
+            {
+              event: "precipitated",
+              vessel: 0,
+              provenance: {
+                engine: "PHREEQC (IPhreeqc)",
+                dataset: "wateq4f.dat",
+                model: "ion association",
+                dataset_sources: [],
+                routing: "an aqueous solution is characterised",
+              },
+            },
+          ],
+          rendered: ["did: add v1 AgNO3 1.7g"],
+          routes: [
+            {
+              solver: "phreeqc-aqueous",
+              kind: "computed",
+              chemistry: true,
+              outcome: { succeeded: { event_count: 1 } },
+              vessel: 0,
+            },
+            {
+              solver: "honesty",
+              kind: "qualitative",
+              chemistry: false,
+              outcome: "not_applicable",
+              vessel: 0,
+              reason: "honesty does not apply to this vessel state",
+            },
+          ],
+        },
+      ],
+      scene: { scene: 1, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    await s.submit("add v1 AgNO3 1.7g");
+    const report = s.latestProvenance;
+    expect(report.empty).toBe(false);
+    expect(report.headline).toEqual({
+      solver: "phreeqc-aqueous",
+      dataset: "wateq4f.dat",
+      declined: 1,
+    });
+    expect(report.sources[0]?.engine).toBe("PHREEQC (IPhreeqc)");
+  });
+
+  /** A bench that has run nothing has nothing to show, and says so by
+   * being empty rather than by inventing a routing record. */
+  it("reports no provenance before anything has been run", async () => {
+    const s = new Session(new FakeHost());
+    expect(s.latestProvenance.empty).toBe(true);
+    expect(s.latestProvenance.headline).toBeNull();
+  });
+
   it("a step with no derivable ionic form leaves the strip molecular", async () => {
     const host = new FakeHost();
     host.runScript = async () => ({
@@ -1724,6 +1797,45 @@ describe("clearing the bench clears the whole bench", () => {
     expect(s.feed.filter((f) => f.kind === "command").map((f) => f.text)).toEqual([
       "add v1 water 100mL",
     ]);
+  });
+
+  /**
+   * I18N: the bench refuses in the learner's language, and the feed shows
+   * exactly what it said.
+   *
+   * Reported from the live German deploy: "many warnings/errors/info
+   * strings are NOT showing in German, like 'no vessel v2'". They were not
+   * untranslated, they were untranslatable — `BenchError` composed a
+   * finished English sentence and the hosts stringified it. The refusal now
+   * carries a key and its holes and the host renders it in the session
+   * locale; the shell's job is to print that and nothing else.
+   *
+   * The vessel NAME is the second half of the claim. `v2` identifies a
+   * vessel the learner can see, so it survives translation untouched — a
+   * refusal that says `kein Gefäß v2` is actionable and one that renamed it
+   * would not be.
+   */
+  it("shows the engine's refusal verbatim, in German, with the vessel name intact", async () => {
+    class RefusingHost extends FakeHost {
+      async runScript(script: string): Promise<ScriptResult> {
+        this.calls.push(`run:${script}`);
+        throw new EngineError(
+          "kein Gefäß v2 — lege es zuerst mit `new` an; das erzeugt das nächste freie Gefäß",
+          "refused",
+        );
+      }
+    }
+    const s = new Session(new RefusingHost(), new FakeStorage());
+    expect(await s.submit("filter v1 v2")).toBe(false);
+
+    const refusal = s.feed.at(-1)!;
+    expect(refusal.kind).toBe("refusal");
+    expect(refusal.text).toContain("kein Gefäß");
+    expect(refusal.text).toContain("v2");
+    expect(refusal.text).not.toContain("no vessel");
+    // A refused line is not chemistry that happened: it must not enter the
+    // replayable script.
+    expect(s.commandLog).toEqual([]);
   });
 
   /** An older host that reports no canonical line logs what was typed. */

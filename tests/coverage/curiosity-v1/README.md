@@ -5,6 +5,15 @@ observed native route for every prompt as an ID, owning task, outcome, and
 stable reason code. It deliberately excludes rendered prose, numerical solver
 details, and route timing.
 
+`i18n/<code>.toml` holds the corpus in other languages — one file per language,
+keyed by the id the shard already owns, with glossaries for the material
+classes and concept tags. It is NOT part of this gate and the shards do not
+know it exists: `CuriosityPrompt` is `deny_unknown_fields`, so a translation
+can never live in a shard, and the manifest names its shards explicitly, so a
+subdirectory here is invisible to the loader. `tools/curiosity-prose.py`
+validates it and `tools/curiosity-index.py` folds it into the browser's
+capability index. See `I18N.md`.
+
 Run the fast cross-family gate with:
 
 ```sh
@@ -29,6 +38,12 @@ cargo run -p kerotakis-cli -- coverage curiosity --emit-baseline
 
 Review the diff prompt by prompt, update the applicable `CAP-*`, `EXP-*`, or
 `BRD-*` task, and only then replace the checked-in baseline.
+
+Refreshed 2026-09-07 a seventeenth time (twenty rows, PLAN P3s: every
+liquid the registry knows now boils and every metal melts) — see below,
+and read that entry before quoting its count: not one row gained or lost
+an answer. All twenty moved from `computed` to `curated`, and eight of
+them thereby stopped being expectation mismatches.
 
 Refreshed 2026-09-06 a sixteenth time (six rows, the room the bench stands
 in) — see below.
@@ -102,6 +117,58 @@ BRD-014 (#237), `methanol` last moved by EXP-33 (#288), `PE` in EXP-12 — so
 the engine had genuinely improved and only the record was stale. Note the
 smoke set would NOT have caught this: none of the four are in it, which is
 why the full check is what runs.
+
+
+## Refresh 2026-09-07, seventeenth — the fuel in a flame boils
+
+Twenty rows, all `computed`/`computed-route` -> `curated`/`curated-route`,
+and every one of them is the same fact: PLAN P3s made the phase route
+general over the registry's own transition temperatures, so a liquid over a
+flame now boils and a metal in one now melts. `PhaseRouteEquilibrator`
+declares `SolverRouteKind::Curated`, so a vessel where it newly succeeds is
+classified by the curated branch instead of falling through to the computed
+one.
+
+**No row gained or lost an answer.** The disposition counts moved only
+between those two columns: `qualitative` stayed at 82, `boundary` at 60,
+`missing` at 3. Expectation mismatches fell from 82 to 76.
+
+Read row by row, they are one phenomenon in three shapes:
+
+- **The premise of the question became true.** `mat-013` asks what alloy
+  forms "when copper and zinc are MELTED together" and the bench used to
+  hold two solid metals through it. `th-124` asks whether MOLTEN iron can be
+  poured into water and was handed iron at 1600 °C — 62 K above its melting
+  point — still solid. Both now melt. Neither yet makes brass or a steam
+  explosion; the question's starting conditions merely stopped being false.
+- **The question was answered for the first time.** `th-017` — "can ethanol
+  boil before water in the same mixture?" — now boils the ethanol at 78.4 °C
+  and leaves the water. This is the one row whose `expected` was `computed`,
+  so it becomes a mismatch by being answered better, which is the wrong way
+  round and is why the classification note below exists.
+- **A liquid fuel in a flame vaporises.** The other seventeen are ethanol,
+  methanol, hexane, petrol or magnesium under `ignite`, where the fuel that
+  has not burned boils off. That is not a side effect to apologise for: a
+  liquid fuel burns in the vapour phase, and a bench that held a puddle of
+  ethanol liquid inside a 2000 K flame was wrong about it.
+
+Eight of the twenty (`mat-004`, `th-031`, `th-032`, `th-033`, `th-039`,
+`th-040`, `th-055`, `th-066`) declare `expected = "curated"` and were
+recorded as `computed`. They had been mismatches all along and are now
+matches — the corpus's own expectation agreed with the new route before the
+engine did.
+
+**One thing this refresh does not settle, recorded rather than fixed.**
+`curated` is an awkward word for a boil. The route consults a curated latent
+heat and a reviewed transition temperature, but what it produces is
+arithmetic: how many moles left, at what temperature the thermometer holds.
+Compare `CombustionEquilibrator`, which reads an equally curated table of
+heats of combustion and declares itself `Computed`. By that precedent
+`PhaseRouteEquilibrator` is arguably miscategorised — but it has been
+`Curated` since sublimation and hydrates were its only customers, where the
+curated record really is the answer, and changing it would move those rows
+in the opposite direction. That is a measurement someone should take on its
+own, not a rider on this one. It is why `th-017` reads as a mismatch.
 
 
 ## Refresh 2026-09-06, fifteenth — mat-054, a burner does not melt quartz

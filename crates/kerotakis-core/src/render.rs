@@ -609,6 +609,98 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 fraction * 100.0
             ),
         },
+        Event::Discarded {
+            vessel,
+            moles_total,
+            grams_total,
+            species,
+            materials,
+            ..
+        } => {
+            // The per-species lines are the point of the evidence
+            // registers here: "you threw it away" is a sentence, "you threw
+            // 0.050 mol of sulfuric acid away" is a claim about a bin that
+            // somebody may later pour something else into.
+            let breakdown = |precision: usize| -> String {
+                species
+                    .iter()
+                    .map(|portion| {
+                        locale.fill(
+                            "event.discarded.line",
+                            "  {vessel} → waste: {moles} mol {species} ({phase})",
+                            &[
+                                ("vessel", &vessel.to_string()),
+                                (
+                                    "moles",
+                                    &locale.number(format!("{:.*}", precision, portion.moles.0)),
+                                ),
+                                ("species", species_name(locale, &portion.species)),
+                                (
+                                    "phase",
+                                    locale
+                                        .lookup(phase_key(portion.phase))
+                                        .unwrap_or(match portion.phase {
+                                            Phase::Aqueous => "aqueous",
+                                            Phase::Liquid => "liquid",
+                                            Phase::Solid => "solid",
+                                            Phase::Gas => "gas",
+                                        }),
+                                ),
+                            ],
+                        )
+                    })
+                    .chain(materials.iter().map(|material| {
+                        locale.fill(
+                            "event.discarded.line-material",
+                            "  {vessel} → waste: {material} (unresolved)",
+                            &[("vessel", &vessel.to_string()), ("material", material)],
+                        )
+                    }))
+                    .collect::<Vec<_>>()
+                    .join("\n")
+            };
+            match register.level() {
+                1 => locale.fill(
+                    "event.discarded.lv1",
+                    "You empty {vessel} into the waste container. The vessel is left standing, empty and still warm.",
+                    &[("vessel", &vessel.to_string())],
+                ),
+                2 => {
+                    let head = locale.fill(
+                        "event.discarded.lv2",
+                        "{vessel} → waste: {grams} g ({moles} mol) discarded",
+                        &[
+                            ("vessel", &vessel.to_string()),
+                            ("grams", &locale.number(format!("{grams_total:.3}"))),
+                            ("moles", &locale.number(format!("{:.3}", moles_total.0))),
+                        ],
+                    );
+                    let lines = breakdown(3);
+                    if lines.is_empty() {
+                        head
+                    } else {
+                        format!("{head}\n{lines}")
+                    }
+                }
+                _ => {
+                    let head = locale.fill(
+                        "event.discarded.lv3",
+                        "{vessel} → waste: {grams} g ({moles} mol) discarded. Nothing is destroyed — the waste ledger holds it, weighs it, and the incompatibility screen sees the whole bin, so what is already in there decides whether the next disposal is allowed",
+                        &[
+                            ("vessel", &vessel.to_string()),
+                            ("grams", &locale.number(format!("{grams_total:.6}"))),
+                            ("moles", &locale.number(format!("{:.6}", moles_total.0))),
+                        ],
+                    );
+                    let lines = breakdown(6);
+                    if lines.is_empty() {
+                        head
+                    } else {
+                        format!("{head}\n{lines}")
+                    }
+                }
+            }
+        }
         Event::SpillHazard {
             destination,
             severity,
@@ -2788,20 +2880,104 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 ),
             }
         }
-        Event::DidNotIgnite { vessel } => match register.level() {
-            1 => {
-                locale.fill(
+        // The absence, told apart. "Nothing happens, not everything
+        // burns" was the whole vocabulary this event had, and it is only
+        // true of one of the four things that can have happened: said
+        // over a smothered candle it is a lie about candle wax, and said
+        // over warm diesel it throws away the number — the gap — that is
+        // the actual answer. The reason picks the sentence; the fields
+        // put the quantity in it.
+        Event::DidNotIgnite {
+            vessel,
+            reason,
+            fuel,
+            oxygen_fraction,
+            gap_k,
+            ..
+        } => {
+            use crate::ops::DidNotIgniteReason as Why;
+            let name = fuel.as_ref().map(|f| species_name(locale, f));
+            let percent =
+                locale.number(format!("{:.0}", oxygen_fraction.unwrap_or(0.0) * 100.0));
+            let gap = locale.number(format!("{:.0}", gap_k.unwrap_or(0.0)));
+            match (register.level(), reason) {
+                (1, Why::NoFuel) => locale.fill(
+                    "event.did-not-ignite.lv1-no-fuel",
+                    "You hold the flame to {vessel} — and nothing happens. There is nothing in there that burns.",
+                    &[("vessel", &vessel.to_string())],
+                ),
+                (1, Why::NoOxygen) => locale.fill(
+                    "event.did-not-ignite.lv1-no-oxygen",
+                    "You hold the flame to {vessel} — and nothing happens. The {name} is still there; the air around it is not. A flame needs oxygen, and this one has none.",
+                    &[("vessel", &vessel.to_string()), ("name", name.unwrap_or_default())],
+                ),
+                (1, Why::BelowAutoignition) => locale.fill(
+                    "event.did-not-ignite.lv1-below-autoignition",
+                    "You hold the flame to {vessel} — and nothing catches. The {name} is warm, but still {gap} degrees short of the temperature it burns at.",
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("name", name.unwrap_or_default()),
+                        ("gap", &gap),
+                    ],
+                ),
+                (1, Why::NotModelled) => locale.fill(
                     "event.did-not-ignite.lv1",
                     "You hold the flame to {vessel} — and nothing happens. Not everything burns.",
                     &[("vessel", &vessel.to_string())],
-                )
+                ),
+                (2, Why::NoFuel) => locale.fill(
+                    "event.did-not-ignite.lv2-no-fuel",
+                    "{vessel}: nothing ignited — nothing present is a fuel",
+                    &[("vessel", &vessel.to_string())],
+                ),
+                (2, Why::NoOxygen) => locale.fill(
+                    "event.did-not-ignite.lv2-no-oxygen",
+                    "{vessel}: nothing ignited — {name} is there, but the gas is only {percent}% oxygen",
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("name", name.unwrap_or_default()),
+                        ("percent", &percent),
+                    ],
+                ),
+                (2, Why::BelowAutoignition) => locale.fill(
+                    "event.did-not-ignite.lv2-below-autoignition",
+                    "{vessel}: nothing ignited — {name} is {gap} K below the temperature it lights at",
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("name", name.unwrap_or_default()),
+                        ("gap", &gap),
+                    ],
+                ),
+                (_, Why::NoFuel) => locale.fill(
+                    "event.did-not-ignite.lv3-no-fuel",
+                    "{vessel}: nothing ignited; no species present carries an autoignition temperature",
+                    &[("vessel", &vessel.to_string())],
+                ),
+                (_, Why::NoOxygen) => locale.fill(
+                    "event.did-not-ignite.lv3-no-oxygen",
+                    "{vessel}: nothing ignited; {name} present at oxygen fraction {percent}%, below the limiting fraction",
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("name", name.unwrap_or_default()),
+                        ("percent", &percent),
+                    ],
+                ),
+                (_, Why::BelowAutoignition) => locale.fill(
+                    "event.did-not-ignite.lv3-below-autoignition",
+                    "{vessel}: nothing ignited; {name} {gap} K below its autoignition temperature",
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("name", name.unwrap_or_default()),
+                        ("gap", &gap),
+                    ],
+                ),
+                (_, Why::NotModelled) => locale.fill(
+                    "event.did-not-ignite.lv3",
+                    "{vessel}: nothing ignited",
+                    &[("vessel", &vessel.to_string())],
+                ),
             }
-            _ => locale.fill(
-                "event.did-not-ignite.lv3",
-                "{vessel}: nothing ignited",
-                &[("vessel", &vessel.to_string())],
-            ),
-        },
+        }
         Event::FlameStarved {
             vessel,
             fuel,

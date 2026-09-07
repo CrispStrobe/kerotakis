@@ -183,6 +183,7 @@ const fn enzyme_species(key: &'static str, mass: f64, provenance: &'static str) 
         inchikey: "",
         molar_mass: mass,
         heat_capacity: 0.0,
+        heat_capacity_polys: &[],
         density: 1.35,
         standard_phase: Phase::Aqueous,
         appearance: Some("colourless"),

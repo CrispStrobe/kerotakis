@@ -5,6 +5,7 @@ import {
   activityIntensity,
   adsorptionDarkening,
   autoignitionApproach,
+  unlitSmoke,
   bubbleRideLift,
   consumptionRemainder,
   INCANDESCENCE_ONSET_K,
@@ -1198,6 +1199,55 @@ describe("the invisible ones (GUI-099 ANIM-3)", () => {
     });
     expect(gap!.kind).toBe("below-autoignition");
     expect(gap!.autoignitionGap!.gapK).toBeCloseTo(170, 10);
+  });
+
+  it("the unlit wisp rises with the fuel and thins with the gap", () => {
+    // Monotone in the driving quantity: more fuel, more wisp.
+    const little = unlitSmoke(1e-4, 100, "below_autoignition");
+    const more = unlitSmoke(1e-2, 100, "below_autoignition");
+    const lots = unlitSmoke(1, 100, "below_autoignition");
+    expect(more.wisp).toBeGreaterThan(little.wisp);
+    expect(lots.wisp).toBeGreaterThan(more.wisp);
+    // And monotone the other way in the gap: nearly hot enough shows
+    // more than 400 K short of it, at the same amount of fuel.
+    expect(unlitSmoke(1, 20, "below_autoignition").wisp).toBeGreaterThan(
+      unlitSmoke(1, 400, "below_autoignition").wisp,
+    );
+    // Bounded, and never negative.
+    expect(lots.wisp).toBeLessThanOrEqual(1);
+    expect(unlitSmoke(1e9, 0, "below_autoignition").wisp).toBeLessThanOrEqual(1);
+    expect(unlitSmoke(-1, 100, "below_autoignition")).toEqual({ draw: false, wisp: 0 });
+    expect(unlitSmoke(NaN, NaN, "below_autoignition")).toEqual({ draw: false, wisp: 0 });
+    // The three absences that must draw NOTHING, however much is there.
+    for (const reason of ["no_fuel", "no_oxygen", "not_modelled"]) {
+      expect(unlitSmoke(1, 20, reason)).toEqual({ draw: false, wisp: 0 });
+    }
+  });
+
+  it("did_not_ignite names which absence it is", () => {
+    const cool = effectFromEvent({
+      event: "did_not_ignite", vessel: 0, reason: "below_autoignition",
+      fuel: "propane", fuel_moles: 0.01, oxygen_fraction: 0.83, gap_k: 143.15,
+    });
+    expect(cool!.kind).toBe("did-not-ignite");
+    expect(cool!.didNotIgnite).toMatchObject({
+      reason: "below_autoignition", fuel: "propane", fuelMoles: 0.01, gapK: 143.15,
+    });
+    expect(cool!.reading).toBe(0.01);
+    expect(cool!.magnitude).toBeGreaterThan(0);
+
+    // A beaker of water: no candidate, and so nothing to draw.
+    const water = effectFromEvent({
+      event: "did_not_ignite", vessel: 0, reason: "no_fuel", oxygen_fraction: 0.21,
+    });
+    expect(water!.didNotIgnite).toMatchObject({ reason: "no_fuel", fuel: "", fuelMoles: 0, gapK: 0 });
+    expect(water!.magnitude).toBe(0);
+
+    // An event from before these fields existed knows only that nothing
+    // happened, and must not be read as a claim about a fuel.
+    const bare = effectFromEvent({ event: "did_not_ignite", vessel: 0 });
+    expect(bare!.didNotIgnite).toMatchObject({ reason: "not_modelled", fuel: "", fuelMoles: 0 });
+    expect(bare!.magnitude).toBe(0);
   });
 
   it("a tracer's ticks separate a whisper from a working source", () => {

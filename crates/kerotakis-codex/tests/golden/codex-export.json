@@ -931,7 +931,7 @@
       "progress": "intermediate",
       "equation": null,
       "summary": "c₁V₁ = c₂V₂:  0.01 mol/L × 0.1 L → 0.001 mol/L × 1 L",
-      "summary_de": "c₁V₁ = c₂V₂:  0.01 mol/L × 0.1 L → 0.001 mol/L × 1 L",
+      "summary_de": "c₁V₁ = c₂V₂:  0,01 mol/L × 0,1 L → 0,001 mol/L × 1 L",
       "concepts": [
         "dilution",
         "concentration"
@@ -7625,6 +7625,7 @@
       "progress": "intermediate",
       "equation": null,
       "summary": "25.0 g sugar into 100 mL water → balance 124.70 g → 20.05 % w/w → ρ = 1.0813 g/mL",
+      "summary_de": "25,0 g Zucker in 100 mL Wasser → Waage 124,70 g → 20,05 % w/w → ρ = 1,0813 g/mL",
       "concepts": [
         "concentration",
         "solutions",
@@ -7674,24 +7675,35 @@
         "absent": [],
         "predict": {
           "question": "You stir 25.0 g of sugar into 100 mL of water until it vanishes. The balance reads 124.70 g, so the syrup is 20.05 % sugar by mass. What would a hydrometer read for its density?",
+          "question_de": "Du rührst 25,0 g Zucker in 100 mL Wasser, bis er verschwunden ist. Die Waage zeigt 124,70 g, der Sirup besteht also zu 20,05 Massenprozent aus Zucker. Was würde ein Aräometer als Dichte anzeigen?",
           "options": [
             "0.998 g/mL — the sugar dissolved, and dissolving does not change water's density",
             "1.081 g/mL",
             "1.59 g/mL — the density of sugar crystals, which is what went in"
           ],
+          "options_de": [
+            "0,998 g/mL — der Zucker hat sich gelöst, und Lösen ändert die Dichte von Wasser nicht",
+            "1,081 g/mL",
+            "1,59 g/mL — die Dichte von Zuckerkristallen, und die sind hineingekommen"
+          ],
           "answer": 1,
           "misconception": "The first answer treats dissolving as disappearing: if you cannot see the sugar, it has stopped contributing mass to any millilitre you draw off. The balance says otherwise — 124.70 g now sits where 99.70 g of water sat. The last answer takes the crystal's own density, 1.59 g/mL, and hands it to the solution; but a solution is not a lump of sugar, it is sugar dispersed through water, and its density must lie between the two components. Density is the one property of a mixture you can read off a floating instrument in seconds, which is exactly why sugar refineries, brewers and winemakers meter concentration by it.",
+          "misconception_de": "Die erste Antwort setzt Lösen mit Verschwinden gleich: Was man nicht sieht, trägt auch zu keinem Milliliter mehr Masse bei, den man abschöpft. Die Waage sagt etwas anderes — dort, wo 99,70 g Wasser standen, stehen jetzt 124,70 g. Die letzte Antwort nimmt die Dichte des Kristalls selbst, 1,59 g/mL, und überträgt sie auf die Lösung; eine Lösung ist aber kein Zuckerklumpen, sondern Zucker, der im Wasser verteilt ist, und ihre Dichte muss zwischen den beiden Bestandteilen liegen. Die Dichte ist diejenige Eigenschaft einer Mischung, die man in Sekunden an einem schwimmenden Instrument ablesen kann — genau deshalb messen Zuckerraffinerien, Brauereien und Winzer ihre Konzentration darüber.",
           "diagnosis": [
             {
               "option": 0,
               "reveals": "Dissolved means gone: the sugar has been absorbed into the water's identity and no longer shows up in any bulk property, so the liquid is simply water again.",
+              "reveals_de": "Gelöst heißt weg: Der Zucker ist in der Identität des Wassers aufgegangen und taucht in keiner Stoffeigenschaft mehr auf, die Flüssigkeit ist also wieder einfach Wasser.",
               "next": "Weigh it. The bench's balance reads 124.70 g where 100 mL of water alone reads 99.70 g, and every one of those 25 extra grams is still in the beaker. Then run `kero properties sucrose-water-density w=0.2005`: 1.081 g/mL, well clear of water's 0.998. Dissolving hides a substance from your eyes, never from the scale.",
+              "next_de": "Wieg es. Die Waage des Labors zeigt 124,70 g, wo 100 mL Wasser allein 99,70 g anzeigen, und jedes einzelne dieser 25 zusätzlichen Gramm steckt noch im Becherglas. Führe dann `kero properties sucrose-water-density w=0.2005` aus: 1,081 g/mL, deutlich über den 0,998 des Wassers. Lösen verbirgt einen Stoff vor deinen Augen, niemals vor der Waage.",
               "source": null
             },
             {
               "option": 2,
               "reveals": "The solute's own density is transferred whole to the solution — 1.59 g/mL of sugar was added, so 1.59 g/mL is what you now have.",
+              "reveals_de": "Die Dichte des gelösten Stoffes wird unverändert auf die Lösung übertragen — es kam Zucker mit 1,59 g/mL hinein, also hat man jetzt 1,59 g/mL.",
               "next": "Bracket it before computing: the syrup is one part sugar to four parts water by mass, so its density has to sit much nearer water's 0.998 than crystal sugar's 1.59. `kero properties sucrose-water-density` puts it at 1.081. A mixture's density is a weighted compromise between its parts, never a copy of the heavier one.",
+              "next_de": "Grenze den Wert ein, bevor du rechnest: Der Sirup ist ein Teil Zucker auf vier Teile Wasser nach Masse, seine Dichte muss also viel näher bei den 0,998 des Wassers liegen als bei den 1,59 des Kristallzuckers. `kero properties sucrose-water-density` liefert 1,081. Die Dichte einer Mischung ist ein gewichteter Kompromiss zwischen ihren Bestandteilen, niemals eine Kopie des schwereren.",
               "source": null
             }
           ]
@@ -7701,8 +7713,11 @@
       },
       "registers": {
         "lv1": "Sugar that has dissolved has not gone anywhere — the scale proves it, reading 124.70 g where the water alone read 99.70 g. And because the sugar is still in there, the syrup is heavier for its size than plain water: 1.081 grams in every millilitre against water's 0.998. That is why a sugar-syrup float sinks lower in weak syrup than in strong, and why you can tell a drink's sweetness without tasting it.",
+        "lv1_de": "Zucker, der sich gelöst hat, ist nirgendwohin verschwunden — die Waage beweist es: 124,70 g, wo das Wasser allein 99,70 g anzeigte. Und weil der Zucker noch drin ist, ist der Sirup für seine Größe schwerer als reines Wasser: 1,081 Gramm in jedem Milliliter gegenüber 0,998 beim Wasser. Deshalb sinkt ein Aräometer in dünnem Sirup tiefer ein als in dickem, und deshalb kannst du die Süße eines Getränks bestimmen, ohne zu kosten.",
         "lv2": "Mass fraction first: 25.0 g of sucrose in 99.70 g of water is 25.0 / 124.70 = 20.05 % w/w, and the bench's balance confirms the 124.70 g. Feeding that fraction to the density correlation gives ρ = 1.0813 g/mL at 20 °C. Read the other way — which is how the instrument is actually used — a hydrometer reading of 1.0810 names a 20 % syrup, so density measures concentration. The syrup therefore occupies 124.70 g ÷ 1.0813 g/mL = 115.3 mL, appreciably more than the 100 mL of water it started from.",
-        "lv3": "The published datum is the inverse of what the bench needs: NBS Table 114 (Bates 1942) gives °Brix FROM apparent specific gravity as a cubic, so `sucrose_water_density_g_ml` inverts it by bisection rather than re-fitting a second polynomial — the cubic's derivative has a negative discriminant, so it is strictly increasing and the bisection converges to the bit, leaving the published coefficients as the only data in the file. Density then follows as ρ = d·ρ_water(20 °C), the water reference coming from the Tanaka correlation the rest of the bench already uses. Two limits are worth naming. The correlation refuses above 40 % w/w, because that is where NBS Table 114 stops and an extrapolated cubic is not a table. And the vessel's own `inspect` still reports 100.0 mL of liquid, not 115.3: the bench's liquid-volume model sums the solvent's volume and does not yet add a solute's partial molar volume, so the 115.3 mL here comes from mass ÷ density, not from the vessel. That gap is the honest reason this lesson reads the balance and the correlation rather than the vessel's volume."
+        "lv2_de": "Zuerst der Massenanteil: 25,0 g Saccharose in 99,70 g Wasser sind 25,0 / 124,70 = 20,05 % w/w, und die Waage des Labors bestätigt die 124,70 g. Gibt man diesen Anteil in die Dichtekorrelation, ergibt sich ρ = 1,0813 g/mL bei 20 °C. Andersherum gelesen — und so wird das Instrument tatsächlich benutzt — benennt eine Aräometeranzeige von 1,0810 einen 20-prozentigen Sirup, die Dichte misst also die Konzentration. Der Sirup nimmt damit 124,70 g ÷ 1,0813 g/mL = 115,3 mL ein, spürbar mehr als die 100 mL Wasser, aus denen er hervorgegangen ist.",
+        "lv3": "The published datum is the inverse of what the bench needs: NBS Table 114 (Bates 1942) gives °Brix FROM apparent specific gravity as a cubic, so `sucrose_water_density_g_ml` inverts it by bisection rather than re-fitting a second polynomial — the cubic's derivative has a negative discriminant, so it is strictly increasing and the bisection converges to the bit, leaving the published coefficients as the only data in the file. Density then follows as ρ = d·ρ_water(20 °C), the water reference coming from the Tanaka correlation the rest of the bench already uses. Two limits are worth naming. The correlation refuses above 40 % w/w, because that is where NBS Table 114 stops and an extrapolated cubic is not a table. And the vessel's own `inspect` still reports 100.0 mL of liquid, not 115.3: the bench's liquid-volume model sums the solvent's volume and does not yet add a solute's partial molar volume, so the 115.3 mL here comes from mass ÷ density, not from the vessel. That gap is the honest reason this lesson reads the balance and the correlation rather than the vessel's volume.",
+        "lv3_de": "Der veröffentlichte Datensatz ist die Umkehrung dessen, was das Labor braucht: NBS-Tabelle 114 (Bates 1942) gibt °Brix AUS der scheinbaren relativen Dichte als kubisches Polynom an, deshalb kehrt `sucrose_water_density_g_ml` sie durch Bisektion um, statt ein zweites Polynom neu anzupassen — die Ableitung der Kubik hat eine negative Diskriminante, sie ist also streng monoton steigend, die Bisektion konvergiert bis aufs Bit, und die veröffentlichten Koeffizienten bleiben die einzigen Daten in der Datei. Die Dichte folgt dann als ρ = d·ρ_Wasser(20 °C), wobei der Wasserbezug aus der Tanaka-Korrelation stammt, die das übrige Labor ohnehin verwendet. Zwei Grenzen sind zu nennen. Die Korrelation verweigert oberhalb von 40 % w/w, denn dort endet die NBS-Tabelle 114, und eine extrapolierte Kubik ist keine Tabelle. Und das `inspect` des Gefäßes meldet weiterhin 100,0 mL Flüssigkeit, nicht 115,3: Das Flüssigkeitsvolumen-Modell des Labors summiert das Volumen des Lösungsmittels und addiert noch kein partielles molares Volumen des gelösten Stoffes, die 115,3 mL hier kommen also aus Masse ÷ Dichte, nicht aus dem Gefäß. Diese Lücke ist der ehrliche Grund dafür, dass diese Lektion die Waage und die Korrelation abliest und nicht das Volumen des Gefäßes."
       },
       "provenance": {
         "source": "Density correlation: Bates, F. (1942), 'Polarimetry, Saccharimetry and the Sugars', NBS Circular C440 Table 114 (National Bureau of Standards, now NIST) — public-domain US government work; the published °Bx(d) cubic is inverted numerically, not re-fitted. Cross-checked against ISCOTABLES 7th ed. sucrose solution densities at 20 °C (independent source, agreement within 1.0 mg/mL over 0–40 % w/w). Water reference density: Tanaka et al. (2001), Metrologia 38 301–309. Sucrose crystal density 1.59 g/mL is the Kerotakis registry's stated teaching approximation, not redistributed SRD data. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-31)",
@@ -7715,6 +7730,7 @@
       "progress": "advanced",
       "equation": null,
       "summary": "100 mL water + 15 kJ: 25.00 °C → 60.99 °C, and σ falls 71.97 → 66.07 mN/m with it",
+      "summary_de": "100 mL Wasser + 15 kJ: 25,00 °C → 60,99 °C, und σ fällt dabei von 71,97 auf 66,07 mN/m",
       "concepts": [
         "heat-capacity",
         "before-and-after-measurement",
@@ -7762,24 +7778,35 @@
         "absent": [],
         "predict": {
           "question": "Two identical narrow glass tubes stand in water, one at 25 °C and one warmed to 61 °C. In which tube does the water climb higher, and why?",
+          "question_de": "Zwei gleiche enge Glasröhrchen stehen in Wasser, eines bei 25 °C und eines auf 61 °C erwärmt. In welchem Röhrchen steigt das Wasser höher, und warum?",
           "options": [
             "The warm one — warming makes water expand, and expanding water pushes further up the tube",
             "Neither — how far water climbs is set by the bore of the tube and nothing else",
             "The cool one — surface tension falls from 71.97 to 66.07 mN/m as the water warms, and the column it can hold falls with it"
           ],
+          "options_de": [
+            "Im warmen — Erwärmen dehnt Wasser aus, und sich ausdehnendes Wasser drückt weiter das Röhrchen hinauf",
+            "In keinem — wie hoch Wasser steigt, bestimmt allein der Innendurchmesser des Röhrchens",
+            "Im kühlen — die Oberflächenspannung fällt beim Erwärmen von 71,97 auf 66,07 mN/m, und die Säule, die sie tragen kann, fällt mit"
+          ],
           "answer": 2,
           "misconception": "The first answer reaches for thermal expansion, which is real but tiny and pushes the wrong way anyway: warmer water is less dense, and lower density on its own would let a column stand HIGHER, not lower. What actually decides it is the pull of the surface, and that weakens with heat — the same loosening of hydrogen bonding that eventually boils the liquid. The second answer takes the tube's bore for the whole story. The bore matters — halving it doubles the rise — but it is one factor in a ratio, and the liquid's own surface tension is another.",
+          "misconception_de": "Die erste Antwort greift zur Wärmeausdehnung. Die gibt es zwar, sie ist aber winzig und wirkt ohnehin in die andere Richtung: Wärmeres Wasser ist weniger dicht, und eine geringere Dichte allein ließe eine Säule HÖHER stehen, nicht niedriger. Entscheidend ist der Zug der Oberfläche, und der wird mit der Wärme schwächer — dieselbe Lockerung der Wasserstoffbrücken, die die Flüssigkeit am Ende sieden lässt. Die zweite Antwort hält den Innendurchmesser für die ganze Geschichte. Der Durchmesser zählt — ihn zu halbieren verdoppelt die Steighöhe —, aber er ist ein Faktor in einem Verhältnis, und die Oberflächenspannung der Flüssigkeit selbst ist ein anderer.",
           "diagnosis": [
             {
               "option": 0,
               "reveals": "Heat is read as a general-purpose 'more': hotter means bigger, more energetic, more push, so a hotter liquid must go further up.",
+              "reveals_de": "Wärme wird als Allzweck-'mehr' gelesen: heißer heißt größer, energiereicher, mit mehr Druck — eine heißere Flüssigkeit muss also weiter hinaufkommen.",
               "next": "Follow the two effects separately. Warming 25 °C water to 61 °C drops its density by well under 2 %, which by itself would raise the column slightly. It drops the surface tension by 8.2 %, from 71.97 to 66.07 mN/m, and the surface tension is the thing doing the lifting. The larger effect wins and the column falls. Heat loosens the very attractions that were holding the water up.",
+              "next_de": "Verfolge die beiden Wirkungen getrennt. Wasser von 25 °C auf 61 °C zu erwärmen senkt seine Dichte um deutlich weniger als 2 %, was für sich genommen die Säule leicht anheben würde. Es senkt die Oberflächenspannung um 8,2 %, von 71,97 auf 66,07 mN/m — und die Oberflächenspannung ist es, die hebt. Die größere Wirkung gewinnt, und die Säule fällt. Wärme lockert genau die Anziehungskräfte, die das Wasser oben hielten.",
               "source": null
             },
             {
               "option": 1,
               "reveals": "Capillary rise is filed as a property of the tube rather than of the pair — glass and liquid — so the same tube must always give the same climb.",
+              "reveals_de": "Die Kapillarsteighöhe wird als Eigenschaft des Röhrchens abgelegt und nicht als Eigenschaft des Paares — Glas und Flüssigkeit —, dasselbe Röhrchen müsste also immer dieselbe Steighöhe liefern.",
               "next": "Change only the liquid and watch it move: h = 2σcosθ/(ρgr) has the liquid's surface tension on top and its density underneath, with the tube contributing r and the wetting angle θ. Run `kero properties capillary-rise r=0.5 T=298.15` and then `r=0.25`: 29.44 mm and 58.89 mm, so the bore is real. Then hold the bore and move the temperature, and the number moves again.",
+              "next_de": "Ändere nur die Flüssigkeit und sieh zu, wie sich der Wert bewegt: In h = 2σcosθ/(ρgr) steht die Oberflächenspannung der Flüssigkeit oben und ihre Dichte unten, während das Röhrchen r und den Benetzungswinkel θ beisteuert. Führe `kero properties capillary-rise r=0.5 T=298.15` aus und dann `r=0.25`: 29,44 mm und 58,89 mm — der Innendurchmesser ist also real. Halte dann den Durchmesser fest und verändere die Temperatur, und die Zahl bewegt sich erneut.",
               "source": null
             }
           ]
@@ -7792,8 +7819,11 @@
       },
       "registers": {
         "lv1": "Water creeps up a narrow tube on its own, and it will climb about 29 mm in a tube half a millimetre wide. Warm the water and it does not climb as far. Heating shakes the water molecules loose from each other, and it is exactly that pull between them — the skin that lets an insect stand on a pond — that was hauling the column up the tube in the first place.",
+        "lv1_de": "Wasser kriecht von allein ein enges Röhrchen hinauf, in einem Röhrchen von einem halben Millimeter Weite etwa 29 mm hoch. Erwärme das Wasser, und es steigt nicht mehr so weit. Wärme rüttelt die Wassermoleküle voneinander los, und genau dieser Zug zwischen ihnen — die Haut, auf der ein Insekt über einen Teich läuft — hat die Säule überhaupt erst das Röhrchen hinaufgezogen.",
         "lv2": "The bench puts 15 kJ into 100 mL of water and the thermometer goes from 25.00 °C to 60.99 °C. Over that rise the surface tension falls from 71.97 to 66.07 mN/m, a drop of 8.2 %. Jurin's law, h = 2σcosθ/(ρgr), says the rise follows σ directly: in a clean glass tube of 0.5 mm bore at 25 °C the column stands at 29.44 mm, and halving the bore to 0.25 mm doubles it to 58.89 mm, because r sits underneath.",
-        "lv3": "Neither number is tabulated as a rise. σ(T) is evaluated from the IAPWS R1-76 release, σ = B·τ^μ·(1 + b·τ) with τ = 1 − T/T_c, and the height is then COMPUTED from it, the Tanaka water density and the CGPM's standard gravity — which is the whole point of the acceptance criterion for this experiment: curated values sourced, capillary rise derived from them, not tabulated beside them. The model boundary is instructive. The IAPWS release is happy to 100 °C, but the Tanaka density correlation stops at 40 °C, so `capillary_rise_mm` refuses at the 60.99 °C this very script reaches — a computed quantity is only as valid as its narrowest input, and the bench says so rather than extrapolating. This is why the lesson quotes the 61 °C surface tension but takes its capillary heights at 25 °C."
+        "lv2_de": "Das Labor gibt 15 kJ in 100 mL Wasser, und das Thermometer geht von 25,00 °C auf 60,99 °C. Über diesen Anstieg fällt die Oberflächenspannung von 71,97 auf 66,07 mN/m, ein Rückgang um 8,2 %. Das Jurin'sche Gesetz, h = 2σcosθ/(ρgr), sagt, dass die Steighöhe σ unmittelbar folgt: In einem sauberen Glasröhrchen von 0,5 mm Innendurchmesser steht die Säule bei 25 °C 29,44 mm hoch, und den Durchmesser auf 0,25 mm zu halbieren verdoppelt sie auf 58,89 mm, weil r unten steht.",
+        "lv3": "Neither number is tabulated as a rise. σ(T) is evaluated from the IAPWS R1-76 release, σ = B·τ^μ·(1 + b·τ) with τ = 1 − T/T_c, and the height is then COMPUTED from it, the Tanaka water density and the CGPM's standard gravity — which is the whole point of the acceptance criterion for this experiment: curated values sourced, capillary rise derived from them, not tabulated beside them. The model boundary is instructive. The IAPWS release is happy to 100 °C, but the Tanaka density correlation stops at 40 °C, so `capillary_rise_mm` refuses at the 60.99 °C this very script reaches — a computed quantity is only as valid as its narrowest input, and the bench says so rather than extrapolating. This is why the lesson quotes the 61 °C surface tension but takes its capillary heights at 25 °C.",
+        "lv3_de": "Keine der beiden Zahlen ist als Steighöhe tabelliert. σ(T) wird aus der IAPWS-Veröffentlichung R1-76 berechnet, σ = B·τ^μ·(1 + b·τ) mit τ = 1 − T/T_c, und die Höhe wird daraus, aus der Tanaka-Wasserdichte und der Normfallbeschleunigung der CGPM BERECHNET — worum es beim Abnahmekriterium dieses Experiments gerade geht: kuratierte Werte mit Quelle, und die Kapillarsteighöhe daraus abgeleitet statt danebengestellt. Die Modellgrenze ist lehrreich. Die IAPWS-Veröffentlichung reicht bis 100 °C, die Tanaka-Dichtekorrelation endet aber bei 40 °C, deshalb verweigert `capillary_rise_mm` bei den 60,99 °C, die genau dieses Skript erreicht — eine berechnete Größe ist nur so gültig wie ihre engste Eingangsgröße, und das Labor sagt das, statt zu extrapolieren. Deshalb zitiert die Lektion die Oberflächenspannung bei 61 °C, nimmt ihre Kapillarhöhen aber bei 25 °C."
       },
       "provenance": {
         "source": "Surface tension: IAPWS R1-76, 'Revised Release on the Surface Tension of Ordinary Water Substance' (International Association for the Properties of Water and Steam, 1994; revision 2014) — freely published release. Capillary rise: Jurin's law, standard textbook hydrostatics, computed from that surface tension with water density from Tanaka et al. (2001), Metrologia 38 301–309, and standard gravity 9.80665 m/s² (3rd CGPM, 1901). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-31)",
@@ -8614,6 +8644,7 @@
       "progress": "advanced",
       "equation": null,
       "summary": "MnO₂ loading, particle size, suspension, and stir speed now feed an explicit exposed-area and bounded mass-transfer model",
+      "summary_de": "MnO₂-Menge, Partikelgröße, Suspension und Rührgeschwindigkeit speisen jetzt ein explizites Modell aus freigelegter Fläche und begrenztem Stofftransport",
       "concepts": [
         "heterogeneous-catalysis",
         "surface-area",
@@ -8663,31 +8694,45 @@
         ],
         "predict": {
           "question": "Ten times as much manganese dioxide in the second flask, while the third stirs ten times faster. After the same one second, how do the three compare?",
+          "question_de": "Im zweiten Kolben liegt zehnmal so viel Mangandioxid, während der dritte zehnmal schneller rührt. Wie stehen die drei nach derselben einen Sekunde zueinander?",
           "options": [
             "The flask with more catalyst is faster; stirring helps a little too",
             "All three are identical, because a catalyst is not consumed and therefore its amount cannot matter",
             "Only the catalyst identity matters; its amount and the stir speed cannot enter a rate law",
             "The stirred flask is slower, because stirring cools it"
           ],
+          "options_de": [
+            "Der Kolben mit mehr Katalysator ist schneller; Rühren hilft ebenfalls ein wenig",
+            "Alle drei sind gleich, denn ein Katalysator wird nicht verbraucht, also kann seine Menge keine Rolle spielen",
+            "Nur die Identität des Katalysators zählt; seine Menge und die Rührgeschwindigkeit können in kein Geschwindigkeitsgesetz eingehen",
+            "Der gerührte Kolben ist langsamer, weil Rühren ihn abkühlt"
+          ],
           "answer": 0,
           "misconception": "A catalyst is retained, but that does not make its amount irrelevant. For a solid catalyst, more exposed area supplies more simultaneous reaction sites. Stirring keeps particles suspended and renews liquid at their surfaces. Kerotakis now consumes all four state variables, while deliberately bounding the mixing correction because this is a teaching correlation rather than a pore-scale transport simulation.",
+          "misconception_de": "Ein Katalysator bleibt erhalten, doch das macht seine Menge nicht bedeutungslos. Bei einem festen Katalysator liefert mehr freigelegte Fläche mehr gleichzeitige Reaktionsplätze. Rühren hält die Partikel in Schwebe und erneuert die Flüssigkeit an ihren Oberflächen. Kerotakis verarbeitet jetzt alle vier Zustandsgrößen und begrenzt dabei bewusst die Mischungskorrektur, denn dies ist eine Lehrkorrelation und keine Transportsimulation auf Porenebene.",
           "diagnosis": [
             {
               "option": 1,
               "reveals": "A catalyst is not consumed and does not appear in the stoichiometry, therefore how much of it there is cannot matter.",
+              "reveals_de": "Ein Katalysator wird nicht verbraucht und taucht in der Stöchiometrie nicht auf, also kann es nicht darauf ankommen, wie viel davon da ist.",
               "next": "Reason about where the reaction physically happens. On a solid catalyst it happens on the surface, so ten times the powder is ten times the surface; grinding it finer does the same again without adding any mass. 'Not consumed' and 'amount irrelevant' are different claims, and only the first is true.",
+              "next_de": "Überlege, wo die Reaktion körperlich stattfindet. An einem festen Katalysator geschieht sie an der Oberfläche, zehnmal so viel Pulver sind also zehnmal so viel Oberfläche; feiner zu mahlen bewirkt dasselbe noch einmal, ohne Masse hinzuzufügen. 'Wird nicht verbraucht' und 'Menge egal' sind zwei verschiedene Behauptungen, und nur die erste stimmt.",
               "source": null
             },
             {
               "option": 2,
               "reveals": "Catalyst identity is understood, but catalyst activity is still being treated as a boolean switch.",
+              "reveals_de": "Die Identität des Katalysators ist verstanden, seine Aktivität wird aber noch wie ein Ein-Aus-Schalter behandelt.",
               "next": "Compare the two equal-speed flasks first. Their only difference is MnO₂ mass, and the rate follows the nominal exposed area.",
+              "next_de": "Vergleiche zuerst die beiden gleich schnell gerührten Kolben. Ihr einziger Unterschied ist die MnO₂-Masse, und die Geschwindigkeit folgt der nominellen freigelegten Fläche.",
               "source": null
             },
             {
               "option": 3,
               "reveals": "Stirring is a mechanical input, so it must change the energy of the flask.",
+              "reveals_de": "Rühren ist ein mechanischer Eintrag, also muss es die Energie des Kolbens ändern.",
               "next": "Watch the thermometer through the stir: 25.0 °C before and after. Then separate the two ideas — stirring in a real flask helps by moving material to the surface, not by changing the temperature.",
+              "next_de": "Beobachte das Thermometer während des Rührens: 25,0 °C vorher und nachher. Trenne dann die beiden Vorstellungen — Rühren hilft in einem echten Kolben, indem es Material an die Oberfläche bringt, nicht indem es die Temperatur ändert.",
               "source": null
             }
           ]
@@ -8697,8 +8742,11 @@
       },
       "registers": {
         "lv1": "Three flasks stir for the same second: one with a pinch of black powder, one with ten pinches, and one spinning ten times faster. More powder fizzes faster because it offers more surface. Faster stirring helps too by keeping particles and fresh peroxide in contact, but its benefit levels off.",
+        "lv1_de": "Drei Kolben rühren dieselbe Sekunde lang: einer mit einer Prise schwarzem Pulver, einer mit zehn Prisen und einer, der zehnmal schneller dreht. Mehr Pulver sprudelt schneller, weil es mehr Oberfläche bietet. Schnelleres Rühren hilft auch, weil es Partikel und frisches Peroxid in Kontakt hält, doch sein Nutzen flacht ab.",
         "lv2": "The MnO₂ path multiplies its Arrhenius rate by exposed area relative to a declared reference. Nominal spherical area is A = 6V/d, so catalyst mass raises area and grinding to one tenth the diameter raises it tenfold. Suspension and stir-bar tip speed add a finite external-transfer correction; the `Stirred` and catalyst `Ground` events therefore report rate coupling as active.",
-        "lv3": "This is a progressive heterogeneous-catalysis model, not a Langmuir–Hinshelwood or pore-diffusion solver. Material lots carry particle diameter and suspended fraction. Their geometric areas are summed, weighted by contact, then multiplied by 1 + g·u/(u₁/₂+u), where u is computed bar-tip speed and g bounds the maximum mixing gain. It supports causal comparisons of mass, grinding and stirring while explicitly leaving BET pore area, adsorption, agglomeration and diffusion coefficients unresolved."
+        "lv2_de": "Der MnO₂-Pfad multipliziert seine Arrhenius-Geschwindigkeit mit der freigelegten Fläche bezogen auf einen angegebenen Referenzwert. Die nominelle Kugelfläche ist A = 6V/d, die Katalysatormasse erhöht also die Fläche, und auf ein Zehntel des Durchmessers zu mahlen erhöht sie um das Zehnfache. Suspension und Spitzengeschwindigkeit des Rührstabs fügen eine endliche Korrektur für den äußeren Stofftransport hinzu; die Ereignisse `Stirred` und `Ground` melden die Ratenkopplung deshalb als aktiv.",
+        "lv3": "This is a progressive heterogeneous-catalysis model, not a Langmuir–Hinshelwood or pore-diffusion solver. Material lots carry particle diameter and suspended fraction. Their geometric areas are summed, weighted by contact, then multiplied by 1 + g·u/(u₁/₂+u), where u is computed bar-tip speed and g bounds the maximum mixing gain. It supports causal comparisons of mass, grinding and stirring while explicitly leaving BET pore area, adsorption, agglomeration and diffusion coefficients unresolved.",
+        "lv3_de": "Dies ist ein schrittweise wachsendes Modell der heterogenen Katalyse, kein Langmuir-Hinshelwood- oder Porendiffusionslöser. Materialchargen tragen Partikeldurchmesser und suspendierten Anteil. Ihre geometrischen Flächen werden summiert, nach Kontakt gewichtet und dann mit 1 + g·u/(u₁/₂+u) multipliziert, wobei u die berechnete Rührstabspitzengeschwindigkeit ist und g den maximalen Mischungsgewinn begrenzt. Es trägt ursächliche Vergleiche von Masse, Mahlen und Rühren und lässt BET-Porenfläche, Adsorption, Agglomeration und Diffusionskoeffizienten ausdrücklich offen."
       },
       "provenance": {
         "source": "Do et al., Chemosphere 2009, report pseudo-first-order hydrogen-peroxide loss on pyrolusite and characterise its BET area. Editorial judgement (Kerotakis): spherical external area and the bounded stir-speed correlation are transparent teaching approximations, not fitted claims for a particular MnO₂ powder.",
@@ -11295,7 +11343,9 @@
     {
       "id": "teilchenmodell",
       "name": "Particle model (Teilchenmodell)",
+      "name_de": "Teilchenmodell",
       "power": "Lets you predict that matter is conserved when it appears to vanish — the sugar that dissolves, the puddle that dries — and to order the three states as one substance in three arrangements rather than as three substances. It is the first model that makes an invisible cause explain a visible effect.",
+      "power_de": "Damit lässt sich vorhersagen, dass Materie erhalten bleibt, wenn sie zu verschwinden scheint — der Zucker, der sich löst, die Pfütze, die trocknet. Und es ordnet die drei Aggregatzustände als einen Stoff in drei Anordnungen statt als drei Stoffe. Es ist das erste Modell, in dem eine unsichtbare Ursache eine sichtbare Wirkung erklärt.",
       "explains": [
         "dissolving without any loss of mass",
         "the three states of matter and every change between them",
@@ -11304,11 +11354,25 @@
         "thermal expansion",
         "why a solution is clear rather than cloudy"
       ],
+      "explains_de": [
+        "Lösen ohne jeden Masseverlust",
+        "die drei Aggregatzustände und jeden Übergang zwischen ihnen",
+        "Diffusion: warum ein Geruch durch einen Raum wandert, ohne dass ihn jemand trägt",
+        "warum sich Gase zusammendrücken lassen und Flüssigkeiten und Feststoffe nicht",
+        "Wärmeausdehnung",
+        "warum eine Lösung klar ist und nicht trüb"
+      ],
       "fails_at": [
         "Cannot say WHY sodium and chlorine react, only that they do — the particles have no parts to rearrange.",
         "Has no answer to why one substance is a metal and another a gas: every particle is the same featureless sphere.",
         "Cannot explain why oil and water refuse to mix, because it gives particles no way to attract each other differently.",
         "Taken literally it invites the classic error of attributing macroscopic properties to single particles — a hot particle that expands, a copper particle that is orange — and of filling the space between particles with air."
+      ],
+      "fails_at_de": [
+        "Kann nicht sagen, WARUM Natrium und Chlor reagieren, nur dass sie es tun — die Teilchen haben keine Bestandteile, die sich umordnen ließen.",
+        "Hat keine Antwort darauf, warum ein Stoff ein Metall ist und ein anderer ein Gas: Jedes Teilchen ist dieselbe merkmalslose Kugel.",
+        "Kann nicht erklären, warum Öl und Wasser sich nicht mischen wollen, denn es gibt den Teilchen keine Möglichkeit, einander unterschiedlich stark anzuziehen.",
+        "Wörtlich genommen lädt es zum klassischen Fehler ein, makroskopische Eigenschaften auf einzelne Teilchen zu übertragen — ein heißes Teilchen, das sich ausdehnt, ein Kupferteilchen, das orange ist — und den Raum zwischen den Teilchen mit Luft zu füllen."
       ],
       "superseded_by": "dalton-atommodell",
       "requires": [],
@@ -11330,7 +11394,9 @@
     {
       "id": "dalton-atommodell",
       "name": "Dalton's atomic model (Atommodell nach Dalton)",
+      "name_de": "Atommodell nach Dalton",
       "power": "Turns stuff into countable, indestructible units with a fixed mass per element, which is what makes a chemical formula and a balanced equation possible at all. With Dalton you can predict the mass ratio in which two elements combine before you run the experiment.",
+      "power_de": "Macht aus Stoff abzählbare, unzerstörbare Einheiten mit einer festen Masse je Element. Genau das macht eine chemische Formel und eine ausgeglichene Gleichung überhaupt erst möglich. Mit Dalton lässt sich das Massenverhältnis vorhersagen, in dem sich zwei Elemente verbinden, bevor der Versuch überhaupt läuft.",
       "explains": [
         "conservation of mass in a reaction",
         "the law of constant proportions: every sample of water has the same composition",
@@ -11338,11 +11404,24 @@
         "the difference between element, compound and mixture",
         "why a chemical equation must balance"
       ],
+      "explains_de": [
+        "die Erhaltung der Masse bei einer Reaktion",
+        "das Gesetz der konstanten Proportionen: Jede Wasserprobe hat dieselbe Zusammensetzung",
+        "das Gesetz der multiplen Proportionen: CO und CO2, aber niemals CO1.5",
+        "den Unterschied zwischen Element, Verbindung und Gemisch",
+        "warum eine chemische Gleichung ausgeglichen sein muss"
+      ],
       "fails_at": [
         "The atom is a solid indivisible sphere, so there is nothing that can be transferred: ions, charge, electrolysis and electricity are all outside the model.",
         "All atoms of an element are identical is simply false — isotopes exist, and are the reason chlorine's relative atomic mass is 35.45 rather than a whole number.",
         "Says nothing about why elements fall into families, so the periodic table has to be memorised rather than derived.",
         "Atoms that cannot be divided cannot decay, so radioactivity has no place in it."
+      ],
+      "fails_at_de": [
+        "Das Atom ist eine massive, unteilbare Kugel, also gibt es nichts, was übertragen werden könnte: Ionen, Ladung, Elektrolyse und Elektrizität liegen alle außerhalb des Modells.",
+        "Dass alle Atome eines Elements identisch seien, ist schlicht falsch — es gibt Isotope, und sie sind der Grund, warum die relative Atommasse von Chlor 35,45 beträgt statt einer ganzen Zahl.",
+        "Sagt nichts darüber, warum die Elemente in Familien zerfallen, sodass das Periodensystem auswendig gelernt statt hergeleitet werden muss.",
+        "Atome, die sich nicht teilen lassen, können auch nicht zerfallen; Radioaktivität hat darin keinen Platz."
       ],
       "superseded_by": "kern-huelle-modell",
       "requires": [
@@ -11366,7 +11445,9 @@
     {
       "id": "kern-huelle-modell",
       "name": "Nuclear model (Kern-Hülle-Modell, Rutherford)",
+      "name_de": "Kern-Hülle-Modell (Rutherford)",
       "power": "Splits the atom into two parts with different jobs: a tiny heavy nucleus that fixes identity and mass, and an outer electron region that does all the chemistry. That single split is what makes ions, charge, radioactivity and the distinction between a chemical and a nuclear change explainable at all.",
+      "power_de": "Teilt das Atom in zwei Teile mit verschiedenen Aufgaben: einen winzigen, schweren Kern, der Identität und Masse festlegt, und eine äußere Elektronenhülle, die die gesamte Chemie erledigt. Erst diese eine Trennung macht Ionen, Ladung, Radioaktivität und den Unterschied zwischen chemischer Umwandlung und Kernumwandlung überhaupt erklärbar.",
       "explains": [
         "the alpha-scattering experiment: most particles pass, a few bounce back",
         "that an atom is almost entirely empty space",
@@ -11375,10 +11456,23 @@
         "isotopes: same nuclear charge, different mass",
         "why no chemical reaction ever changes which element you have"
       ],
+      "explains_de": [
+        "den Alphateilchen-Streuversuch: Die meisten Teilchen fliegen hindurch, einige wenige prallen zurück",
+        "dass ein Atom fast vollständig leerer Raum ist",
+        "Ionen als Atome, die Elektronen abgegeben oder aufgenommen haben",
+        "Elektrolyse und elektrische Leitung in Lösungen",
+        "Isotope: gleiche Kernladung, andere Masse",
+        "warum keine chemische Reaktion je ändert, welches Element man vor sich hat"
+      ],
       "fails_at": [
         "A classical orbiting electron radiates and would spiral into the nucleus in about 10^-11 s. The model predicts that no atom can exist, which is the sharpest failure in the whole progression.",
         "The shell has no structure, so it cannot say why the noble gases are inert or why sodium loses exactly one electron.",
         "It predicts a continuous emission spectrum; glowing hydrogen actually gives a handful of sharp lines."
+      ],
+      "fails_at_de": [
+        "Ein klassisch umlaufendes Elektron strahlt und würde in etwa 10^-11 s in den Kern stürzen. Das Modell sagt vorher, dass gar kein Atom existieren kann — das schärfste Scheitern der ganzen Reihe.",
+        "Die Hülle hat keine Struktur; das Modell kann daher nicht sagen, warum die Edelgase reaktionsträge sind oder warum Natrium genau ein Elektron abgibt.",
+        "Es sagt ein kontinuierliches Emissionsspektrum vorher; glühender Wasserstoff liefert tatsächlich eine Handvoll scharfer Linien."
       ],
       "superseded_by": "schalenmodell",
       "requires": [
@@ -11402,7 +11496,9 @@
     {
       "id": "schalenmodell",
       "name": "Shell model (Schalenmodell, Bohr)",
+      "name_de": "Schalenmodell (Bohr)",
       "power": "Puts electrons in numbered shells of fixed capacity, and that one move makes the periodic table derivable instead of memorised: group number is the count of outer electrons, period number is the shell being filled, and the octet rule then tells you which ion an element forms before you have ever seen it react.",
+      "power_de": "Setzt Elektronen in nummerierte Schalen mit fester Kapazität. Dieser eine Schritt macht das Periodensystem herleitbar statt auswendig gelernt: Die Gruppennummer ist die Zahl der Außenelektronen, die Periodennummer ist die Schale, die gerade gefüllt wird, und die Oktettregel sagt dann, welches Ion ein Element bildet, bevor man es je hat reagieren sehen.",
       "explains": [
         "the line spectrum of hydrogen, quantitatively",
         "why the noble gases are unreactive",
@@ -11411,12 +11507,27 @@
         "ionisation energy rising across a period and jumping between shells",
         "flame colours as electrons falling back between shells"
       ],
+      "explains_de": [
+        "das Linienspektrum des Wasserstoffs, quantitativ",
+        "warum die Edelgase reaktionsträge sind",
+        "die Ionenladungen der Hauptgruppen und damit die Formeln der Salze",
+        "warum Natrium und Kalium sich gleich verhalten",
+        "die Ionisierungsenergie, die innerhalb einer Periode steigt und zwischen Schalen springt",
+        "Flammenfarben als Elektronen, die zwischen Schalen zurückfallen"
+      ],
       "fails_at": [
         "Predicts the wrong spectrum for anything bigger than hydrogen. Helium, with two electrons, already has no solution and the model's numbers are simply wrong.",
         "Cannot explain why the 4s shell fills before 3d, which is why the transition metals refuse to fit the tidy shell story.",
         "Electrons run on circles, so molecules have no shape: it cannot say why water is bent at 104.5 degrees or methane tetrahedral.",
         "No fine structure, and no account of lines splitting in a magnetic field.",
         "It is a hybrid — classical orbits with a quantum rule bolted on — and nothing inside the model justifies the rule."
+      ],
+      "fails_at_de": [
+        "Sagt für alles, was größer als Wasserstoff ist, das falsche Spektrum vorher. Schon Helium mit seinen zwei Elektronen hat keine Lösung, und die Zahlen des Modells sind schlicht falsch.",
+        "Kann nicht erklären, warum sich die 4s-Schale vor 3d füllt — deshalb fügen sich die Übergangsmetalle nicht in die saubere Schalengeschichte.",
+        "Elektronen laufen auf Kreisen, also haben Moleküle keine Gestalt: Das Modell kann nicht sagen, warum Wasser mit 104,5 Grad gewinkelt ist oder Methan tetraedrisch.",
+        "Keine Feinstruktur, und keine Erklärung dafür, dass sich Linien im Magnetfeld aufspalten.",
+        "Es ist ein Zwitter — klassische Bahnen mit einer angeschraubten Quantenregel —, und nichts im Modell selbst begründet diese Regel."
       ],
       "superseded_by": "kugelwolkenmodell",
       "requires": [
@@ -11440,7 +11551,9 @@
     {
       "id": "kugelwolkenmodell",
       "name": "Charge-cloud model (Kugelwolkenmodell, Kimball)",
+      "name_de": "Kugelwolkenmodell (Kimball)",
       "power": "Gives molecules a shape. Once the outer electrons are four repelling clouds rather than dots on a circle, the tetrahedron falls out, and a learner can predict from the formula alone that methane is tetrahedral, ammonia pyramidal and water bent — and that each lone pair squeezes the angle further.",
+      "power_de": "Gibt Molekülen eine Gestalt. Sind die Außenelektronen erst vier sich abstoßende Wolken statt Punkte auf einem Kreis, ergibt sich der Tetraeder von selbst. Lernende können dann allein aus der Formel vorhersagen, dass Methan tetraedrisch ist, Ammoniak pyramidal und Wasser gewinkelt — und dass jedes freie Elektronenpaar den Winkel weiter zusammendrückt.",
       "explains": [
         "the tetrahedral carbon atom, and hence the whole shape of organic chemistry",
         "bond angles of 109.5, 107 and 104.5 degrees in methane, ammonia and water",
@@ -11448,12 +11561,26 @@
         "the difference between bonding pairs and lone pairs",
         "single, double and triple bonds as one, two or three shared clouds"
       ],
+      "explains_de": [
+        "das tetraedrische Kohlenstoffatom und damit die gesamte Gestalt der organischen Chemie",
+        "Bindungswinkel von 109,5, 107 und 104,5 Grad in Methan, Ammoniak und Wasser",
+        "warum Wasser ein Dipol ist und Kohlenstoffdioxid nicht, obwohl beide polare Bindungen haben",
+        "den Unterschied zwischen bindenden und freien Elektronenpaaren",
+        "Einfach-, Doppel- und Dreifachbindungen als eine, zwei oder drei geteilte Wolken"
+      ],
       "fails_at": [
         "Every cloud is the same size and shape, so there is no s and no p, no subshells, and no way to say why an atom's outer electrons differ in energy at all.",
         "The photoelectron spectrum of methane shows two different valence ionisation energies, not four identical ones: the four equivalent bonds the model draws are not what the experiment sees.",
         "Transition metals break it. d electrons do not fit a four-cloud picture, and neither does an octahedral complex with six ligands.",
         "It cannot describe delocalisation: benzene comes out as two alternating structures, neither of which exists, and metals and conjugated dyes are outside it entirely.",
         "It is a geometry model with no spectroscopy and no energies in it — no ionisation energies, no colour, no bond strengths."
+      ],
+      "fails_at_de": [
+        "Jede Wolke hat dieselbe Größe und Gestalt, also gibt es kein s und kein p, keine Unterschalen und keine Möglichkeit zu sagen, warum sich die Außenelektronen eines Atoms überhaupt in ihrer Energie unterscheiden.",
+        "Das Photoelektronenspektrum von Methan zeigt zwei verschiedene Valenz-Ionisierungsenergien, nicht vier gleiche: Die vier gleichwertigen Bindungen, die das Modell zeichnet, sind nicht das, was der Versuch sieht.",
+        "An den Übergangsmetallen zerbricht es. d-Elektronen passen nicht in ein Bild aus vier Wolken, und ein oktaedrischer Komplex mit sechs Liganden ebenso wenig.",
+        "Es kann Delokalisierung nicht beschreiben: Benzol kommt als zwei alternierende Strukturen heraus, von denen keine existiert, und Metalle und konjugierte Farbstoffe liegen ganz außerhalb.",
+        "Es ist ein Geometriemodell ohne Spektroskopie und ohne Energien darin — keine Ionisierungsenergien, keine Farbe, keine Bindungsstärken."
       ],
       "superseded_by": "orbitalmodell",
       "requires": [
@@ -11477,7 +11604,9 @@
     {
       "id": "orbitalmodell",
       "name": "Orbital model (Orbitalmodell)",
+      "name_de": "Orbitalmodell",
       "power": "Replaces where the electron is with how likely it is to be there, and in doing so becomes the first model of the atom that is calculated rather than postulated. It gives the aufbau order and hence the shape of the periodic table including the d and f blocks; it gives molecular orbitals and hence bond order, magnetism and colour; and it is the only model in this progression whose error can be systematically reduced instead of patched.",
+      "power_de": "Ersetzt die Frage, wo das Elektron ist, durch die Frage, wie wahrscheinlich es dort ist — und wird damit das erste Atommodell, das berechnet und nicht postuliert wird. Es liefert die Aufbaureihenfolge und damit die Gestalt des Periodensystems einschließlich d- und f-Block. Es liefert Molekülorbitale und damit Bindungsordnung, Magnetismus und Farbe. Und es ist das einzige Modell dieser Reihe, dessen Fehler sich systematisch verkleinern lässt, statt geflickt zu werden.",
       "explains": [
         "the aufbau principle, Pauli exclusion and Hund's rule",
         "the s, p, d and f block structure of the periodic table",
@@ -11486,12 +11615,27 @@
         "delocalisation, aromaticity and the colour of dyes",
         "HOMO and LUMO, and hence where a molecule is attacked"
       ],
+      "explains_de": [
+        "das Aufbauprinzip, das Pauli-Prinzip und die Hundsche Regel",
+        "die Gliederung des Periodensystems in s-, p-, d- und f-Block",
+        "warum sich 4s vor 3d füllt",
+        "warum flüssiger Sauerstoff an einem Magneten hängen bleibt: zwei ungepaarte Elektronen in Pi-Stern-Orbitalen",
+        "Delokalisierung, Aromatizität und die Farbe von Farbstoffen",
+        "HOMO und LUMO und damit die Stelle, an der ein Molekül angegriffen wird"
+      ],
       "fails_at": [
         "There are no orbitals in a many-electron atom. An orbital is a one-electron function; the true wavefunction of even helium is not a product of them, so the 2p orbital of oxygen is an approximation being spoken of as an object.",
         "The Schrödinger equation has an exact solution for one electron only. Everything past hydrogen is an approximation whose accuracy has to be argued for rather than assumed.",
         "A single-determinant orbital picture cannot even break the bond in H2 correctly at long distance, which is the simplest case of the static correlation that defeats it across transition-metal and excited-state chemistry.",
         "As usually taught it is non-relativistic, so it gets gold's colour and mercury's liquidity wrong.",
         "It is not a model a learner can compute with: the predictions come out of software, so it buys explanation rather than hand calculation."
+      ],
+      "fails_at_de": [
+        "In einem Mehrelektronenatom gibt es keine Orbitale. Ein Orbital ist eine Ein-Elektronen-Funktion; schon die wahre Wellenfunktion des Heliums ist kein Produkt solcher Funktionen. Das 2p-Orbital des Sauerstoffs ist also eine Näherung, über die wie über ein Objekt gesprochen wird.",
+        "Die Schrödingergleichung hat nur für ein einziges Elektron eine exakte Lösung. Alles jenseits des Wasserstoffs ist eine Näherung, deren Genauigkeit begründet werden muss und nicht vorausgesetzt werden darf.",
+        "Ein Orbitalbild aus einer einzigen Determinante kann nicht einmal die Bindung in H2 bei großem Abstand korrekt aufbrechen. Das ist der einfachste Fall der statischen Korrelation, an der es in der Chemie der Übergangsmetalle und der angeregten Zustände durchweg scheitert.",
+        "So wie es üblicherweise gelehrt wird, ist es nichtrelativistisch; es bekommt daher die Farbe des Goldes und die Flüssigkeit des Quecksilbers falsch.",
+        "Es ist kein Modell, mit dem Lernende selbst rechnen können: Die Vorhersagen kommen aus Software. Es kauft also Erklärung ein und keine Handrechnung."
       ],
       "superseded_by": null,
       "requires": [
@@ -11516,18 +11660,32 @@
     {
       "id": "periodensystem",
       "name": "The periodic law (Periodensystem der Elemente)",
+      "name_de": "Periodensystem der Elemente",
       "power": "Compresses the properties of a hundred-odd elements into two coordinates. Group and period alone let you predict an element's ion charge, its formula with oxygen and chlorine, whether it is a metal, roughly how reactive it is and roughly how large its atoms are — for elements you have never met. Mendeleev's gaps show it is genuinely predictive rather than a filing system.",
+      "power_de": "Verdichtet die Eigenschaften von gut hundert Elementen auf zwei Koordinaten. Gruppe und Periode allein reichen, um die Ionenladung eines Elements vorherzusagen, seine Formel mit Sauerstoff und Chlor, ob es ein Metall ist, ungefähr wie reaktiv es ist und ungefähr wie groß seine Atome sind — für Elemente, die man nie zu Gesicht bekommen hat. Mendelejews Lücken zeigen, dass es wirklich vorhersagt und keine bloße Ablage ist.",
       "explains": [
         "why the alkali metals, the halogens and the noble gases each behave as a family",
         "trends in atomic radius, ionisation energy and electronegativity",
         "valency, and hence the formula of an unfamiliar oxide or chloride",
         "Mendeleev's prediction of eka-silicon, found as germanium in 1886"
       ],
+      "explains_de": [
+        "warum sich Alkalimetalle, Halogene und Edelgase jeweils als Familie verhalten",
+        "die Trends bei Atomradius, Ionisierungsenergie und Elektronegativität",
+        "die Wertigkeit und damit die Formel eines unbekannten Oxids oder Chlorids",
+        "Mendelejews Vorhersage des Eka-Siliciums, 1886 als Germanium gefunden"
+      ],
       "fails_at": [
         "Ordering by atomic mass — Mendeleev's own criterion — puts tellurium after iodine and argon after potassium, both wrong. The law only became exact when Moseley replaced mass with nuclear charge in 1913.",
         "The trends are trends, not laws: aluminium's ionisation energy is below magnesium's and oxygen's below nitrogen's, and only the orbital model explains the exceptions.",
         "It orders without explaining. Nothing in the table says why a period ends where it does; the shell model supplies that, and the d and f blocks need orbitals.",
         "Hydrogen has no home in it, and the lanthanides and actinides are printed underneath because they will not fit the page."
+      ],
+      "fails_at_de": [
+        "Die Ordnung nach Atommasse — Mendelejews eigenes Kriterium — stellt Tellur hinter Iod und Argon hinter Kalium, beides falsch. Das Gesetz wurde erst exakt, als Moseley 1913 die Masse durch die Kernladung ersetzte.",
+        "Die Trends sind Trends, keine Gesetze: Die Ionisierungsenergie des Aluminiums liegt unter der des Magnesiums und die des Sauerstoffs unter der des Stickstoffs. Nur das Orbitalmodell erklärt die Ausnahmen.",
+        "Es ordnet, ohne zu erklären. Nichts im System sagt, warum eine Periode dort endet, wo sie endet; das liefert das Schalenmodell, und d- und f-Block brauchen Orbitale.",
+        "Der Wasserstoff hat darin keine Heimat, und Lanthanoide und Actinoide werden darunter abgedruckt, weil sie nicht auf die Seite passen."
       ],
       "superseded_by": null,
       "requires": [
@@ -11551,7 +11709,9 @@
     {
       "id": "ionenbindung",
       "name": "Ionic bonding (Ionenbindung)",
+      "name_de": "Ionenbindung",
       "power": "Predicts from the periodic table alone which pairs of elements form a salt and what its formula will be — and, because the model is a three-dimensional lattice of alternating charges rather than a pair of partners, it predicts the whole property profile at once: hard, brittle, high-melting, insulating as a solid and conducting once molten or dissolved.",
+      "power_de": "Sagt allein aus dem Periodensystem voraus, welche Elementpaare ein Salz bilden und wie dessen Formel lautet. Und weil das Modell ein dreidimensionales Gitter abwechselnder Ladungen ist und kein Paar von Partnern, sagt es das ganze Eigenschaftsprofil auf einmal voraus: hart, spröde, hochschmelzend, als Feststoff isolierend und leitend, sobald es geschmolzen oder gelöst ist.",
       "explains": [
         "electron transfer from metal to nonmetal, and the ions that result",
         "the formula of a salt from the ion charges: NaCl, MgCl2, Al2O3",
@@ -11560,11 +11720,25 @@
         "why solid salt does not conduct but molten or dissolved salt does",
         "dissociation into mobile ions on dissolving"
       ],
+      "explains_de": [
+        "die Elektronenübertragung vom Metall zum Nichtmetall und die Ionen, die daraus entstehen",
+        "die Formel eines Salzes aus den Ionenladungen: NaCl, MgCl2, Al2O3",
+        "warum Salze hoch schmelzen und hart sind",
+        "warum ein geschlagener Salzkristall sauber spaltet, statt sich zu verbeulen",
+        "warum festes Salz nicht leitet, geschmolzenes oder gelöstes aber schon",
+        "die Dissoziation in bewegliche Ionen beim Lösen"
+      ],
       "fails_at": [
         "There is no fully ionic bond. Even NaCl has measurable covalent character, and by AlCl3 the salt has stopped being one: it sublimes at 180 degrees as covalent Al2Cl6 molecules.",
         "Complete transfer implies a dissolved salt is a gas of independent ions, and the engine's own answer disagrees — ion pairs and neutral complexes such as AgCl(aq) are really there.",
         "It cannot give a number. The lattice energy comes from a Born-Haber cycle, which is thermodynamics, not the transfer picture.",
         "It says nothing about which salts dissolve. Sodium chloride and silver chloride are both ionic; one goes in by the spoonful and the other does not."
+      ],
+      "fails_at_de": [
+        "Es gibt keine vollständig ionische Bindung. Selbst NaCl hat messbaren kovalenten Charakter, und bei AlCl3 ist das Salz keines mehr: Es sublimiert bei 180 Grad als kovalente Al2Cl6-Moleküle.",
+        "Vollständige Übertragung würde bedeuten, dass ein gelöstes Salz ein Gas unabhängiger Ionen ist. Die eigene Antwort der Engine widerspricht dem — Ionenpaare und neutrale Komplexe wie AgCl(aq) sind wirklich vorhanden.",
+        "Es kann keine Zahl liefern. Die Gitterenergie stammt aus einem Born-Haber-Kreisprozess, und das ist Thermodynamik, nicht das Bild der Übertragung.",
+        "Es sagt nichts darüber, welche Salze sich lösen. Natriumchlorid und Silberchlorid sind beide ionisch; das eine geht löffelweise hinein, das andere nicht."
       ],
       "superseded_by": "elektronegativitaet-kontinuum",
       "requires": [
@@ -11589,7 +11763,9 @@
     {
       "id": "elektronenpaarbindung",
       "name": "Covalent bonding (Atombindung / Elektronenpaarbindung, Lewis)",
+      "name_de": "Atombindung / Elektronenpaarbindung, Lewis",
       "power": "Lets you draw a molecule you have never seen from its formula alone: count the valence electrons, share them into pairs until every atom has a noble-gas configuration, and read off the number of bonds and the lone pairs. Almost all of organic chemistry is downstream of that one piece of bookkeeping.",
+      "power_de": "Erlaubt es, ein nie gesehenes Molekül allein aus seiner Formel zu zeichnen: die Valenzelektronen zählen, sie zu Paaren aufteilen, bis jedes Atom eine Edelgaskonfiguration hat, und die Zahl der Bindungen und der freien Elektronenpaare ablesen. Fast die gesamte organische Chemie folgt aus dieser einen Buchführung.",
       "explains": [
         "H2, Cl2, HCl, H2O, CH4, NH3 and every simple molecule",
         "single, double and triple bonds, and why they get shorter and stronger in that order",
@@ -11597,11 +11773,24 @@
         "why molecular substances melt low and do not conduct",
         "formal charge, and how to choose between competing structures"
       ],
+      "explains_de": [
+        "H2, Cl2, HCl, H2O, CH4, NH3 und jedes einfache Molekül",
+        "Einfach-, Doppel- und Dreifachbindungen und warum sie in dieser Reihenfolge kürzer und stärker werden",
+        "warum Nichtmetalle mit Nichtmetallen Moleküle ergeben und keine Gitter",
+        "warum molekulare Stoffe niedrig schmelzen und nicht leiten",
+        "die Formalladung und wie man zwischen konkurrierenden Strukturen wählt"
+      ],
       "fails_at": [
         "Lewis structures make O2 a tidy double bond with every electron paired, and therefore predict it to be non-magnetic. Liquid oxygen sticks to a magnet: it has two unpaired electrons, and only molecular-orbital theory gets this right.",
         "Benzene needs two structures that both do not exist plus a rule that reality lies in between; the model has no way to draw one delocalised system.",
         "The octet rule is broken by BF3, PCl5, SF6 and every free radical. A rule with that many exceptions is a heuristic.",
         "There are no energies in it: it cannot say whether a bond is strong, or whether a reaction will release heat."
+      ],
+      "fails_at_de": [
+        "Die Lewis-Schreibweise macht aus O2 eine saubere Doppelbindung mit lauter gepaarten Elektronen und sagt es damit als nicht magnetisch voraus. Flüssiger Sauerstoff bleibt an einem Magneten hängen: Er hat zwei ungepaarte Elektronen, und nur die Molekülorbitaltheorie trifft das richtig.",
+        "Benzol braucht zwei Strukturen, die beide nicht existieren, dazu eine Regel, dass die Wirklichkeit dazwischen liegt. Das Modell hat keine Möglichkeit, ein einziges delokalisiertes System zu zeichnen.",
+        "Die Oktettregel wird von BF3, PCl5, SF6 und jedem freien Radikal gebrochen. Eine Regel mit so vielen Ausnahmen ist eine Faustregel.",
+        "Es enthält keine Energien: Es kann nicht sagen, ob eine Bindung stark ist oder ob eine Reaktion Wärme freisetzt."
       ],
       "superseded_by": "elektronegativitaet-kontinuum",
       "requires": [
@@ -11625,7 +11814,9 @@
     {
       "id": "metallbindung",
       "name": "Metallic bonding (Metallbindung, Elektronengasmodell)",
+      "name_de": "Metallbindung, Elektronengasmodell",
       "power": "Explains a metal's entire property profile from one picture — fixed positive cores in a sea of mobile electrons. Electrical and thermal conduction, lustre, and above all malleability: a lattice held together by a shared electron sea can be deformed without breaking, which is exactly what an ionic lattice cannot do.",
+      "power_de": "Erklärt das gesamte Eigenschaftsprofil eines Metalls aus einem einzigen Bild — feste positive Atomrümpfe in einem See beweglicher Elektronen. Elektrische und thermische Leitfähigkeit, Glanz und vor allem Verformbarkeit: Ein Gitter, das ein gemeinsamer Elektronensee zusammenhält, lässt sich verformen, ohne zu brechen. Genau das kann ein Ionengitter nicht.",
       "explains": [
         "electrical conduction in a solid metal",
         "thermal conduction",
@@ -11634,11 +11825,25 @@
         "alloys as one metal lattice with another metal's atoms mixed in",
         "why metals form cations and never anions"
       ],
+      "explains_de": [
+        "die elektrische Leitfähigkeit in einem festen Metall",
+        "die Wärmeleitfähigkeit",
+        "Verformbarkeit und Duktilität, gegen die Sprödigkeit der Salze",
+        "den metallischen Glanz",
+        "Legierungen als ein Metallgitter, in das Atome eines anderen Metalls eingemischt sind",
+        "warum Metalle Kationen bilden und niemals Anionen"
+      ],
       "fails_at": [
         "It predicts every metal to conduct, and has no way to describe a semiconductor or an insulator — silicon sits between the two and the electron sea cannot say why. That needs band theory.",
         "Nothing in the sea sets a bond strength, so it cannot explain why mercury is liquid at room temperature while tungsten melts at 3400 degrees.",
         "It gets colour wrong by omission: copper and gold are not silver-grey, and the reason is relativistic band structure.",
         "Superconductivity, magnetism and the way resistance changes with temperature are all outside it."
+      ],
+      "fails_at_de": [
+        "Es sagt jedem Metall Leitfähigkeit voraus und kann weder einen Halbleiter noch einen Isolator beschreiben — Silicium liegt zwischen beiden, und der Elektronensee kann nicht sagen, warum. Dafür braucht es die Bändertheorie.",
+        "Nichts im See legt eine Bindungsstärke fest. Also kann es nicht erklären, warum Quecksilber bei Raumtemperatur flüssig ist, während Wolfram erst bei 3400 Grad schmilzt.",
+        "Die Farbe verfehlt es durch Auslassung: Kupfer und Gold sind nicht silbergrau, und der Grund ist die relativistische Bandstruktur.",
+        "Supraleitung, Magnetismus und die Art, wie sich der Widerstand mit der Temperatur ändert, liegen alle außerhalb."
       ],
       "superseded_by": "elektronegativitaet-kontinuum",
       "requires": [
@@ -11662,7 +11867,9 @@
     {
       "id": "elektronegativitaet-kontinuum",
       "name": "Electronegativity and the bond triangle (Elektronegativität, Bindungsdreieck)",
+      "name_de": "Elektronegativität, Bindungsdreieck",
       "power": "Replaces three separate bond types with one continuous map. Two numbers — the difference in electronegativity and its average — place any binary compound inside a triangle whose corners are ionic, covalent and metallic, so the question stops being which type is it and becomes how far towards each corner. On the way it predicts bond polarity, hence molecular dipoles, hence solubility and where a molecule gets attacked.",
+      "power_de": "Ersetzt drei getrennte Bindungstypen durch eine einzige stetige Karte. Zwei Zahlen — die Differenz der Elektronegativität und ihr Mittelwert — setzen jede binäre Verbindung in ein Dreieck, dessen Ecken ionisch, kovalent und metallisch sind. Die Frage ist dann nicht mehr, welcher Typ es ist, sondern wie weit es zu jeder Ecke hin liegt. Unterwegs sagt es die Bindungspolarität voraus, damit die Moleküldipole, damit die Löslichkeit und die Stelle, an der ein Molekül angegriffen wird.",
       "explains": [
         "polar covalent bonds and partial charges",
         "why HCl is polar and Cl2 is not",
@@ -11671,10 +11878,23 @@
         "why the metals sit bottom-left and the nonmetals top-right of the periodic table",
         "the reactive site of a carbonyl group"
       ],
+      "explains_de": [
+        "polare Atombindungen und Teilladungen",
+        "warum HCl polar ist und Cl2 nicht",
+        "warum CO2 polare Bindungen und kein Dipolmoment hat, Wasser dagegen beides",
+        "den Übergang von NaCl über AlCl3 zu SiCl4",
+        "warum die Metalle links unten und die Nichtmetalle rechts oben im Periodensystem stehen",
+        "die reaktive Stelle einer Carbonylgruppe"
+      ],
       "fails_at": [
         "Electronegativity cannot be measured. Pauling, Mulliken and Allred-Rochow define it differently and give different numbers, and the difference-above-1.7-is-ionic rule is a convention: HF has a difference of 1.9 and is a covalent gas.",
         "It is a property of an atom in a molecule, not of a free atom. The same element pulls harder in a higher oxidation state, and sp carbon pulls harder than sp3 carbon.",
         "The triangle classifies binary main-group compounds. It says little about coordination compounds and nothing at all about bond strength or reaction rate."
+      ],
+      "fails_at_de": [
+        "Die Elektronegativität lässt sich nicht messen. Pauling, Mulliken und Allred-Rochow definieren sie unterschiedlich und liefern unterschiedliche Zahlen, und die Regel, eine Differenz über 1,7 sei ionisch, ist eine Konvention: HF hat eine Differenz von 1,9 und ist ein kovalentes Gas.",
+        "Sie ist eine Eigenschaft eines Atoms in einem Molekül, nicht eines freien Atoms. Dasselbe Element zieht in einer höheren Oxidationsstufe stärker, und sp-Kohlenstoff zieht stärker als sp3-Kohlenstoff.",
+        "Das Dreieck ordnet binäre Hauptgruppenverbindungen ein. Über Komplexverbindungen sagt es wenig und über Bindungsstärke oder Reaktionsgeschwindigkeit gar nichts."
       ],
       "superseded_by": null,
       "requires": [
@@ -11701,7 +11921,9 @@
     {
       "id": "zwischenmolekulare-kraefte",
       "name": "Intermolecular forces (Zwischenmolekulare Kräfte)",
+      "name_de": "Zwischenmolekulare Kräfte",
       "power": "Separates how strong the bond inside a molecule is from how strongly molecules stick to each other, and that separation is what makes boiling points, solubility and like-dissolves-like predictable. From a structural formula alone a learner can rank substances by boiling point and say whether one will dissolve in water.",
+      "power_de": "Trennt, wie stark die Bindung innerhalb eines Moleküls ist, davon, wie stark Moleküle aneinander haften. Genau diese Trennung macht Siedepunkte, Löslichkeit und ‚Gleiches löst sich in Gleichem‘ vorhersagbar. Allein aus einer Strukturformel können Lernende Stoffe nach Siedepunkt ordnen und sagen, ob sich einer in Wasser löst.",
       "explains": [
         "boiling points rising along the alkanes, and alcohols boiling far above alkanes of the same size",
         "water's anomalously high boiling point, and why ice floats",
@@ -11710,11 +11932,25 @@
         "why molecular substances melt low although their internal bonds are strong",
         "base pairing in DNA and the folding of proteins, later on"
       ],
+      "explains_de": [
+        "Siedepunkte, die entlang der Alkane steigen, und Alkohole, die weit über Alkanen gleicher Größe sieden",
+        "den anomal hohen Siedepunkt des Wassers, und warum Eis schwimmt",
+        "warum sich Öl und Wasser nicht mischen",
+        "die Oberflächenspannung, und warum Wasser auf einem gewachsten Auto Perlen bildet",
+        "warum molekulare Stoffe niedrig schmelzen, obwohl ihre inneren Bindungen stark sind",
+        "später die Basenpaarung in der DNA und die Faltung der Proteine"
+      ],
       "fails_at": [
         "It ranks rather than calculates, and the ranking inverts: iodine is nonpolar and sublimes at 114 degrees, while polar HCl boils at minus 85. Dispersion forces in a large molecule beat dipole forces in a small one, and the hierarchy of adjectives cannot tell you when.",
         "The name hydrogen bond invites the classic exam error of explaining boiling by breaking O-H bonds inside the molecule. Boiling separates molecules; every one of them leaves whole.",
         "It cannot handle the hydrophobic effect, which is mainly entropic: oil and water separate less because oil attracts oil than because of what water has to do around it.",
         "Quantitative prediction of boiling points and miscibility needs an activity model or an equation of state, not a list of force names."
+      ],
+      "fails_at_de": [
+        "Es ordnet, statt zu rechnen, und die Ordnung kehrt sich um: Iod ist unpolar und sublimiert bei 114 Grad, während das polare HCl bei minus 85 siedet. Dispersionskräfte in einem großen Molekül schlagen Dipolkräfte in einem kleinen, und die Rangfolge der Adjektive kann nicht sagen, wann.",
+        "Der Name Wasserstoffbrückenbindung lädt zum klassischen Klausurfehler ein, das Sieden mit dem Brechen der O-H-Bindungen im Molekül zu erklären. Sieden trennt Moleküle voneinander; jedes einzelne geht unversehrt fort.",
+        "Den hydrophoben Effekt bekommt es nicht zu fassen; dieser ist überwiegend entropisch: Öl und Wasser trennen sich weniger deshalb, weil Öl Öl anzieht, als wegen dessen, was das Wasser ringsherum tun muss.",
+        "Eine quantitative Vorhersage von Siedepunkten und Mischbarkeit braucht ein Aktivitätsmodell oder eine Zustandsgleichung, keine Liste von Kräftenamen."
       ],
       "superseded_by": null,
       "requires": [
@@ -11739,7 +11975,9 @@
     {
       "id": "massenerhaltung",
       "name": "Conservation of mass (Gesetz von der Erhaltung der Masse)",
+      "name_de": "Gesetz von der Erhaltung der Masse",
       "power": "Turns a reaction into an accounting problem. Once nothing can be lost, an unknown mass can be calculated instead of measured, an equation has to balance, and any experiment that seems to gain or lose mass becomes a question — where did it go? — rather than a result. It is the first law in chemistry that lets a learner predict a number.",
+      "power_de": "Macht aus einer Reaktion eine Buchhaltungsaufgabe. Sobald nichts verloren gehen kann, lässt sich eine unbekannte Masse berechnen statt messen, muss eine Gleichung aufgehen, und jeder Versuch, der Masse zu gewinnen oder zu verlieren scheint, wird zu einer Frage — wo ist sie hin? — statt zu einem Ergebnis. Es ist das erste Gesetz der Chemie, mit dem Lernende eine Zahl vorhersagen können.",
       "explains": [
         "why a chemical equation must balance",
         "why a candle burning in a sealed jar keeps its mass",
@@ -11747,10 +11985,22 @@
         "why an open beaker of fizzing vinegar loses mass",
         "the basis of every stoichiometric calculation"
       ],
+      "explains_de": [
+        "warum eine Reaktionsgleichung aufgehen muss",
+        "warum eine Kerze, die in einem verschlossenen Glas brennt, ihre Masse behält",
+        "warum Eisen beim Rosten und Magnesium beim Verbrennen an Masse gewinnt",
+        "warum ein offenes Becherglas mit aufbrausendem Essig an Masse verliert",
+        "die Grundlage jeder stöchiometrischen Rechnung"
+      ],
       "fails_at": [
         "It holds only in a closed system. In an open beaker it appears to be false, and that appearance is the most productive confusion in school chemistry, because the gas that left is invisible.",
         "It is not exactly true. Mass and energy are equivalent, so an exothermic reaction really does lose mass — about 30 nanograms per tonne of coal burnt. Unmeasurable in chemistry, decisive in nuclear physics.",
         "It says nothing about whether a reaction happens, how fast, or in which direction — only about the bookkeeping if it does."
+      ],
+      "fails_at_de": [
+        "Es gilt nur im geschlossenen System. In einem offenen Becherglas scheint es falsch zu sein, und dieser Anschein ist die ergiebigste Verwirrung der Schulchemie, denn das entwichene Gas ist unsichtbar.",
+        "Es stimmt nicht exakt. Masse und Energie sind äquivalent, also verliert eine exotherme Reaktion tatsächlich Masse — etwa 30 Nanogramm je verbrannter Tonne Kohle. In der Chemie nicht messbar, in der Kernphysik entscheidend.",
+        "Es sagt nichts darüber, ob eine Reaktion abläuft, wie schnell oder in welche Richtung — nur etwas über die Buchführung, falls sie abläuft."
       ],
       "superseded_by": null,
       "requires": [
@@ -11774,7 +12024,9 @@
     {
       "id": "donator-akzeptor",
       "name": "The donor-acceptor concept (Donator-Akzeptor-Prinzip)",
+      "name_de": "Donator-Akzeptor-Prinzip",
       "power": "Collapses two apparently unrelated halves of the syllabus into one idea: a proton transfer and an electron transfer are the same kind of event. Both come as a pair of half-reactions, both define conjugate pairs, and both are ordered by a strength table read the same way — so a learner who has the concept can use a redox series exactly as they use a pKa table, and predict the direction of either from one rule.",
+      "power_de": "Führt zwei scheinbar unverbundene Hälften des Lehrplans zu einer einzigen Idee zusammen: Ein Protonenübergang und ein Elektronenübergang sind dieselbe Art von Ereignis. Beide treten als Paar von Teilreaktionen auf, beide bilden korrespondierende Paare, und beide werden von einer Stärketabelle geordnet, die man auf dieselbe Weise liest. Wer das Prinzip hat, benutzt eine Redoxreihe genau so wie eine pKa-Tabelle und sagt die Richtung von beidem aus einer einzigen Regel voraus.",
       "explains": [
         "acids and bases as proton donors and acceptors",
         "oxidation and reduction as electron donation and acceptance",
@@ -11783,11 +12035,25 @@
         "half-equations, and why the electrons must cancel",
         "why the electrochemical series and the acid-strength table are the same kind of object"
       ],
+      "explains_de": [
+        "Säuren und Basen als Protonendonatoren und Protonenakzeptoren",
+        "Oxidation und Reduktion als Abgabe und Aufnahme von Elektronen",
+        "korrespondierende Paare in beiden Familien: HA/A- und Ox/Red",
+        "warum Oxidation nie ohne Reduktion abläuft",
+        "Teilgleichungen, und warum die Elektronen sich aufheben müssen",
+        "warum die elektrochemische Spannungsreihe und die Säurestärketabelle dieselbe Art von Objekt sind"
+      ],
       "fails_at": [
         "The analogy is not an identity. A hydrated proton is a real species with a concentration a meter can read; there is no corresponding free electron in solution, so the electron activity is a bookkeeping construct rather than something you can measure directly.",
         "It gives direction, never rate. Hydrogen and oxygen sit together indefinitely although the electron transfer is overwhelmingly favourable, and the concept has nowhere to put that fact.",
         "Real waters are usually in redox disequilibrium: different couples in the same sample imply different potentials, so a single number for the whole solution is a fiction.",
         "It does not reach Lewis acid-base chemistry, where a pair is donated and no proton moves at all."
+      ],
+      "fails_at_de": [
+        "Die Analogie ist keine Identität. Ein hydratisiertes Proton ist eine reale Spezies mit einer Konzentration, die ein Messgerät anzeigen kann; ein entsprechendes freies Elektron gibt es in Lösung nicht. Die Elektronenaktivität ist deshalb ein Konstrukt der Buchführung und nichts direkt Messbares.",
+        "Es gibt die Richtung an, nie die Geschwindigkeit. Wasserstoff und Sauerstoff stehen unbegrenzt nebeneinander, obwohl der Elektronenübergang überwältigend begünstigt ist, und das Prinzip hat keinen Ort für diese Tatsache.",
+        "Reale Wässer befinden sich meist im Redox-Ungleichgewicht: Verschiedene Redoxpaare in derselben Probe implizieren verschiedene Potentiale, sodass eine einzige Zahl für die ganze Lösung eine Fiktion ist.",
+        "Es reicht nicht bis zur Lewis-Säure-Base-Chemie, in der ein Elektronenpaar übergeben wird und sich überhaupt kein Proton bewegt."
       ],
       "superseded_by": null,
       "requires": [
@@ -11812,7 +12078,9 @@
     {
       "id": "stossmodell",
       "name": "Collision theory (Stoßmodell / Stoßtheorie)",
+      "name_de": "Stoßmodell / Stoßtheorie",
       "power": "Explains rate, which is the dimension every equilibrium model is blind to. It makes concentration, temperature, surface area and catalysis one mechanism — how many collisions, how hard, how well aimed — so a learner can predict which of two experiments fizzes faster and say why, instead of memorising four separate rules.",
+      "power_de": "Erklärt die Geschwindigkeit — die eine Dimension, für die jedes Gleichgewichtsmodell blind ist. Konzentration, Temperatur, Oberfläche und Katalyse werden zu einem einzigen Mechanismus: wie viele Stöße, wie hart, wie gut gezielt. Lernende können damit vorhersagen, welches von zwei Experimenten schneller sprudelt, und auch sagen warum, statt vier getrennte Regeln auswendig zu lernen.",
       "explains": [
         "why a reaction speeds up at higher concentration or pressure",
         "why it roughly doubles in rate for every ten degrees",
@@ -11821,11 +12089,25 @@
         "what a catalyst does",
         "why a thermodynamically favourable reaction can simply not happen"
       ],
+      "explains_de": [
+        "warum eine Reaktion bei höherer Konzentration oder höherem Druck schneller wird",
+        "warum sich ihre Geschwindigkeit je zehn Grad etwa verdoppelt",
+        "warum Pulver schneller reagiert als ein Klumpen, und warum Mehlstaub explodieren kann",
+        "warum Rühren einer heterogenen Reaktion hilft",
+        "was ein Katalysator tut",
+        "warum eine thermodynamisch begünstigte Reaktion einfach nicht stattfinden kann"
+      ],
       "fails_at": [
         "Its numbers are wrong. Hard-sphere collision frequency overestimates the rate of anything more complex than an atom reaction, often by orders of magnitude, and has to be rescued by an empirical steric factor the model itself cannot predict.",
         "Molecules are not spheres and a collision is not instantaneous: there is no place in the model for orientation, vibration or a reaction path.",
         "It cannot describe a reaction that slows as it is heated, or one that proceeds by tunnelling instead of over the barrier.",
         "It suggests the rate law can be read off the equation. Real reaction orders are experimental facts about the mechanism and are frequently fractional."
+      ],
+      "fails_at_de": [
+        "Seine Zahlen stimmen nicht. Die Stoßfrequenz harter Kugeln überschätzt die Geschwindigkeit von allem, was komplexer ist als eine Atomreaktion, oft um Größenordnungen. Retten lässt sie sich nur durch einen empirischen sterischen Faktor, den das Modell selbst nicht vorhersagen kann.",
+        "Moleküle sind keine Kugeln, und ein Stoß ist nicht augenblicklich: Für Orientierung, Schwingung oder einen Reaktionsweg ist im Modell kein Platz.",
+        "Es kann keine Reaktion beschreiben, die beim Erhitzen langsamer wird, und keine, die durch die Barriere tunnelt, statt über sie hinwegzugehen.",
+        "Es legt nahe, das Geschwindigkeitsgesetz lasse sich an der Reaktionsgleichung ablesen. Echte Reaktionsordnungen sind experimentelle Tatsachen über den Mechanismus und häufig gebrochen."
       ],
       "superseded_by": "energieprofil",
       "requires": [
@@ -11850,7 +12132,9 @@
     {
       "id": "energieprofil",
       "name": "Energy profiles and activation (Energiediagramm, Aktivierungsenergie)",
+      "name_de": "Energiediagramm, Aktivierungsenergie",
       "power": "Puts thermodynamics and kinetics on one picture and keeps them apart: the height of the hill decides how fast, the difference between the two ends decides how far and whether heat comes out. That distinction — exothermic does not mean fast, and a catalyst changes the rate but not the position — is one learners otherwise conflate for years.",
+      "power_de": "Bringt Thermodynamik und Kinetik in ein Bild und hält sie zugleich auseinander: Die Höhe des Hügels entscheidet, wie schnell; der Unterschied zwischen den beiden Enden entscheidet, wie weit und ob Wärme frei wird. Diese Unterscheidung — exotherm heißt nicht schnell, und ein Katalysator ändert die Geschwindigkeit, aber nicht die Lage — werfen Lernende sonst über Jahre zusammen.",
       "explains": [
         "exothermic and endothermic reactions as two shapes of the same diagram",
         "why a fire needs a match although burning releases energy",
@@ -11859,11 +12143,25 @@
         "why the reverse reaction has a different activation energy",
         "enzyme action, later on"
       ],
+      "explains_de": [
+        "exotherme und endotherme Reaktionen als zwei Formen desselben Diagramms",
+        "warum ein Feuer ein Streichholz braucht, obwohl das Verbrennen Energie freisetzt",
+        "was ein Katalysator tut, und warum er weder die Produkte noch die freigesetzte Wärme ändert",
+        "den aktivierten Komplex auf der Spitze der Barriere",
+        "warum die Rückreaktion eine andere Aktivierungsenergie hat",
+        "später auch die Wirkung von Enzymen"
+      ],
       "fails_at": [
         "The reaction coordinate is a one-dimensional cartoon of a many-dimensional energy surface. Real reactions branch, pass several saddle points, and sometimes have no barrier at all.",
         "It draws the barrier as if height were the whole story of rate, but the tightness of the transition state matters as much: a well-ordered transition state is slow even over a low barrier.",
         "It cannot produce a barrier height. Activation energies are measured, or computed by quantum chemistry — the diagram summarises a result, it does not predict one.",
         "With energy on the axis it quietly implies that the heat released decides whether a reaction goes, which is false. Only the free-energy change does."
+      ],
+      "fails_at_de": [
+        "Die Reaktionskoordinate ist ein eindimensionales Zerrbild einer vieldimensionalen Energiefläche. Echte Reaktionen verzweigen sich, passieren mehrere Sattelpunkte und haben manchmal überhaupt keine Barriere.",
+        "Es zeichnet die Barriere, als wäre ihre Höhe die ganze Geschichte der Geschwindigkeit. Ebenso wichtig ist aber, wie eng der Übergangszustand ist: Ein streng geordneter Übergangszustand ist langsam, selbst über einer niedrigen Barriere.",
+        "Es kann keine Barrierenhöhe liefern. Aktivierungsenergien werden gemessen oder quantenchemisch berechnet — das Diagramm fasst ein Ergebnis zusammen, es sagt keines vorher.",
+        "Mit der Energie an der Achse legt es stillschweigend nahe, die freigesetzte Wärme entscheide darüber, ob eine Reaktion abläuft. Das ist falsch. Das tut allein die Änderung der freien Energie."
       ],
       "superseded_by": null,
       "requires": [
@@ -11888,7 +12186,9 @@
     {
       "id": "chemisches-gleichgewicht",
       "name": "Chemical equilibrium (Chemisches Gleichgewicht)",
+      "name_de": "Chemisches Gleichgewicht",
       "power": "Replaces reactions go to completion with reactions go to a position, and gives that position a number. With an equilibrium constant a learner can predict how far a reaction gets, calculate what is left over, and grasp that a reaction can be running fast in both directions while nothing appears to change. Weak acids, buffers, solubility products and industrial yield then stop being four topics and become one.",
+      "power_de": "Ersetzt den Satz, Reaktionen liefen vollständig ab, durch den Satz, Reaktionen liefen bis zu einer Lage — und gibt dieser Lage eine Zahl. Mit einer Gleichgewichtskonstante können Lernende vorhersagen, wie weit eine Reaktion kommt, ausrechnen, was übrig bleibt, und begreifen, dass eine Reaktion in beide Richtungen schnell laufen kann, während sich scheinbar nichts ändert. Schwache Säuren, Puffer, Löslichkeitsprodukte und industrielle Ausbeute sind dann nicht mehr vier Themen, sondern eines.",
       "explains": [
         "reversible reactions, and why they stop short",
         "that equilibrium is dynamic: labelled atoms keep swapping sides after the amounts stop changing",
@@ -11897,11 +12197,25 @@
         "how a buffer works",
         "why an industrial process never reaches its paper yield"
       ],
+      "explains_de": [
+        "umkehrbare Reaktionen, und warum sie vorzeitig stehen bleiben",
+        "dass das Gleichgewicht dynamisch ist: Markierte Atome wechseln weiter die Seiten, nachdem sich die Mengen nicht mehr ändern",
+        "warum eine schwache Säure nur teilweise dissoziiert",
+        "Löslichkeitsgrenzen und das Löslichkeitsprodukt",
+        "wie ein Puffer funktioniert",
+        "warum ein industrielles Verfahren seine Ausbeute auf dem Papier nie erreicht"
+      ],
       "fails_at": [
         "It says nothing about how long. A reaction with an enormous equilibrium constant that takes a geological age is described perfectly by the model and completely misunderstood by the learner who thinks it goes.",
         "Concentration is the wrong variable outside dilute solution: the constant is constant in activities, and in brine that correction is a factor rather than a percentage. Kerotakis can show this rather than assert it — asked the same brine question, three databases return three different amounts of undissolved salt, each labelled with the activity model that produced it.",
         "The equilibrium constant is not constant when the temperature changes, which makes it the one constant in school chemistry that misleads by its own name.",
         "Many real systems are not at equilibrium and stay that way. Living things most of all."
+      ],
+      "fails_at_de": [
+        "Es sagt nichts darüber, wie lange. Eine Reaktion mit einer riesigen Gleichgewichtskonstante, die ein erdgeschichtliches Zeitalter braucht, wird vom Modell einwandfrei beschrieben — und von Lernenden, die daraus schließen, sie laufe ab, völlig missverstanden.",
+        "Außerhalb verdünnter Lösungen ist die Konzentration die falsche Größe: Die Konstante ist in Aktivitäten konstant, und in Salzlauge ist diese Korrektur ein Faktor, keine Prozentangabe. Kerotakis kann das zeigen, statt es zu behaupten — stellt man dieselbe Salzlaugenfrage an drei Datenbanken, liefern sie drei verschiedene Mengen ungelösten Salzes, jede beschriftet mit dem Aktivitätsmodell, das sie erzeugt hat.",
+        "Die Gleichgewichtskonstante ist nicht konstant, wenn sich die Temperatur ändert. Damit ist sie die eine Konstante der Schulchemie, die schon durch ihren eigenen Namen in die Irre führt.",
+        "Viele reale Systeme sind nicht im Gleichgewicht und verharren so. Lebewesen am allermeisten."
       ],
       "superseded_by": null,
       "requires": [
@@ -11926,7 +12240,9 @@
     {
       "id": "le-chatelier",
       "name": "Le Chatelier's principle (Prinzip vom kleinsten Zwang)",
+      "name_de": "Prinzip vom kleinsten Zwang",
       "power": "Gives a direction of change with no calculation at all. Change a concentration, a pressure or a temperature and the principle tells you which way the yield moves — enough to explain the Haber process, why a fizzy drink goes flat, and why an industrial plant runs at conditions that look like a compromise, because they are one.",
+      "power_de": "Gibt eine Richtung der Änderung an, ganz ohne Rechnung. Ändert man eine Konzentration, einen Druck oder eine Temperatur, sagt das Prinzip, wohin sich die Ausbeute bewegt. Das genügt, um das Haber-Verfahren zu erklären, warum ein Sprudelgetränk schal wird und warum eine Industrieanlage bei Bedingungen läuft, die nach einem Kompromiss aussehen — weil sie einer sind.",
       "explains": [
         "shifting the position by adding or removing a substance",
         "pressure changing the position when the two sides have different gas mole numbers",
@@ -11935,11 +12251,25 @@
         "the common-ion effect",
         "the conditions chosen for the Haber-Bosch process"
       ],
+      "explains_de": [
+        "das Verschieben der Lage durch Zugabe oder Entnahme eines Stoffes",
+        "dass der Druck die Lage verschiebt, wenn die beiden Seiten verschiedene Gasstoffmengen haben",
+        "dass Erhitzen die endotherme Richtung begünstigt",
+        "warum ein Katalysator nichts verschiebt",
+        "den gemeinsamen-Ionen-Effekt",
+        "die für das Haber-Bosch-Verfahren gewählten Bedingungen"
+      ],
       "fails_at": [
         "It is a heuristic and it can be led into a wrong answer. Add more nitrogen to an equilibrated ammonia synthesis at constant temperature and pressure, once nitrogen is already in excess, and the mole fraction of ammonia falls — the system opposes the change and the yield still goes down.",
         "Adding an inert gas at constant volume changes nothing, although increasing the pressure sounds as though it should. The principle's own words mislead unless you already know the answer.",
         "It gives a direction and never a magnitude, and the shift is often negligible.",
         "The word Zwang invites teleology. Learners describe the system as wanting to oppose the change, a misconception the phrasing itself plants."
+      ],
+      "fails_at_de": [
+        "Es ist eine Heuristik, und man kann es zu einer falschen Antwort führen. Gibt man einer eingestellten Ammoniaksynthese bei konstanter Temperatur und konstantem Druck noch mehr Stickstoff zu, obwohl Stickstoff bereits im Überschuss vorliegt, so sinkt der Stoffmengenanteil des Ammoniaks — das System wirkt dem Zwang entgegen, und die Ausbeute geht trotzdem zurück.",
+        "Die Zugabe eines Inertgases bei konstantem Volumen ändert gar nichts, obwohl eine Druckerhöhung danach klingt, als müsste sie etwas ändern. Die eigenen Worte des Prinzips führen in die Irre, solange man die Antwort nicht schon kennt.",
+        "Es gibt eine Richtung an und nie eine Größe, und die Verschiebung ist oft vernachlässigbar.",
+        "Das Wort Zwang lädt zur Teleologie ein. Lernende beschreiben das System dann so, als WOLLE es dem Zwang entgegenwirken — eine Fehlvorstellung, die die Formulierung selbst sät."
       ],
       "superseded_by": "gibbs-energie",
       "requires": [
@@ -11963,7 +12293,9 @@
     {
       "id": "stoffmenge",
       "name": "Amount of substance - the mole (Stoffmenge, das Mol)",
+      "name_de": "Stoffmenge, das Mol",
       "power": "Lets you turn a mass you can weigh into a number of particles you cannot see, which is what makes any quantitative prediction possible at all. Without it a balanced equation is a sentence about atoms and a balance is a device for measuring grams, and the two never meet.",
+      "power_de": "Erlaubt es, eine Masse, die man wiegen kann, in eine Anzahl von Teilchen umzurechnen, die man nicht sehen kann. Genau das macht jede quantitative Vorhersage überhaupt erst möglich. Ohne sie ist eine ausgeglichene Reaktionsgleichung ein Satz über Atome und eine Waage ein Gerät zum Messen von Gramm — und die beiden treffen einander nie.",
       "explains": [
         "converting between mass and number of particles",
         "why equations balance in moles and not in grams",
@@ -11971,11 +12303,24 @@
         "the molar volume of a gas",
         "concentration, limiting reagent, yield and titration, all of which are built on it"
       ],
+      "explains_de": [
+        "das Umrechnen zwischen Masse und Teilchenzahl",
+        "warum Reaktionsgleichungen in Mol aufgehen und nicht in Gramm",
+        "die molare Masse, und warum sie zahlenmäßig der relativen Atommasse entspricht",
+        "das molare Volumen eines Gases",
+        "Konzentration, limitierender Reaktionspartner, Ausbeute und Titration, die alle darauf aufbauen"
+      ],
       "fails_at": [
         "It is not a model of anything physical. It is a unit — a chosen counting number — which is exactly why it is hard: there is nothing to picture, and a mole of something has no size, colour or feel.",
         "Nothing in the concept records which particles you counted. A mole of water is that many molecules but three times as many atoms, and a mole of oxygen is ambiguous until somebody says O or O2. This is the single commonest source of factor-of-two errors.",
         "The molar volume of 22.4 litres holds for an ideal gas at zero degrees and standard pressure only. Treating it as a property of gases is a routine mistake.",
         "It hides a change of definition. Since 2019 the mole is defined by fixing Avogadro's number, not by twelve grams of carbon-12, so molar mass is now a measured quantity with an uncertainty rather than an exact one."
+      ],
+      "fails_at_de": [
+        "Sie ist kein Modell von irgendetwas Physikalischem. Sie ist eine Einheit — eine gewählte Zählzahl —, und genau deshalb ist sie schwer: Es gibt nichts, das man sich vorstellen könnte, und ein Mol von etwas hat keine Größe, keine Farbe und nichts, was man ertasten könnte.",
+        "Nichts an dem Begriff hält fest, welche Teilchen man gezählt hat. Ein Mol Wasser ist diese Anzahl Moleküle, aber dreimal so viele Atome, und ein Mol Sauerstoff bleibt mehrdeutig, bis jemand O oder O2 sagt. Das ist die mit Abstand häufigste Quelle von Fehlern um den Faktor zwei.",
+        "Das molare Volumen von 22,4 Litern gilt nur für ein ideales Gas bei null Grad und Normdruck. Es als Eigenschaft von Gasen zu behandeln, ist ein Standardfehler.",
+        "Sie verbirgt einen Wechsel der Definition. Seit 2019 ist das Mol über die Festlegung der Avogadro-Zahl definiert und nicht mehr über zwölf Gramm Kohlenstoff-12. Die molare Masse ist damit eine gemessene Größe mit einer Unsicherheit statt einer exakten Größe."
       ],
       "superseded_by": null,
       "requires": [
@@ -12000,7 +12345,9 @@
     {
       "id": "stoechiometrie",
       "name": "Stoichiometry (Stöchiometrie)",
+      "name_de": "Stöchiometrie",
       "power": "Makes an equation predictive in grams. Given what you put in, it tells you how much you can get out, which reagent runs out first, and how good your experiment was — before you do it. This is the point where chemistry becomes an engineering discipline rather than a description.",
+      "power_de": "Macht eine Reaktionsgleichung in Gramm vorhersagekräftig. Aus dem, was man einsetzt, ergibt sich, wie viel herauskommen kann, welcher Reaktionspartner zuerst ausgeht und wie gut das Experiment war — bevor man es durchführt. Hier wird die Chemie von einer Beschreibung zu einer Ingenieurdisziplin.",
       "explains": [
         "mole ratios read straight off the coefficients",
         "limiting and excess reagent",
@@ -12009,10 +12356,23 @@
         "titration calculations",
         "empirical formula from combustion analysis"
       ],
+      "explains_de": [
+        "Molverhältnisse, direkt an den Koeffizienten abgelesen",
+        "limitierender Reaktionspartner und Überschuss",
+        "theoretische Ausbeute, tatsächliche Ausbeute und prozentuale Ausbeute",
+        "Atomökonomie",
+        "Titrationsrechnungen",
+        "die Verhältnisformel aus der Verbrennungsanalyse"
+      ],
       "fails_at": [
         "It assumes the equation you wrote is the reaction that happened. Side reactions, incomplete conversion and impurities are invisible to it, which is why the yield is never 100 per cent and the arithmetic never warns you.",
         "It assumes the reaction runs to completion, so the theoretical yield of an equilibrium process is not merely unachieved but unachievable.",
         "It is arithmetic, not chemistry. It will happily compute the yield of a reaction that does not occur."
+      ],
+      "fails_at_de": [
+        "Sie setzt voraus, dass die aufgeschriebene Gleichung die Reaktion ist, die tatsächlich abgelaufen ist. Nebenreaktionen, unvollständiger Umsatz und Verunreinigungen sind für sie unsichtbar. Deshalb liegt die Ausbeute nie bei 100 Prozent, und die Rechnung warnt nie davor.",
+        "Sie setzt voraus, dass die Reaktion vollständig abläuft. Die theoretische Ausbeute eines Gleichgewichtsprozesses wird daher nicht bloß nicht erreicht — sie ist unerreichbar.",
+        "Sie ist Rechnen, nicht Chemie. Sie berechnet bereitwillig die Ausbeute einer Reaktion, die gar nicht stattfindet."
       ],
       "superseded_by": null,
       "requires": [
@@ -12036,7 +12396,9 @@
     {
       "id": "konzentration",
       "name": "Concentration (Konzentration)",
+      "name_de": "Konzentration",
       "power": "Makes how much independent of how much you took. Concentration is intensive, so it can be compared between a test tube and a lake, carried through a dilution, and put straight into an equilibrium expression or a rate law. It is also what turns a titration from a colour change into a measurement.",
+      "power_de": "Macht das Wie-viel unabhängig davon, wie viel man genommen hat. Die Konzentration ist eine intensive Größe: Man kann sie zwischen einem Reagenzglas und einem See vergleichen, durch eine Verdünnung hindurch mitführen und direkt in einen Gleichgewichtsausdruck oder ein Geschwindigkeitsgesetz einsetzen. Sie macht aus einer Titration außerdem erst eine Messung statt eines Farbumschlags.",
       "explains": [
         "amount concentration as amount divided by volume",
         "dilution, and why the amount of solute does not change",
@@ -12044,11 +12406,24 @@
         "pH as a concentration on a logarithmic scale",
         "why a drop of bleach and a bottle of it are different hazards"
       ],
+      "explains_de": [
+        "die Stoffmengenkonzentration als Stoffmenge geteilt durch Volumen",
+        "die Verdünnung, und warum sich die Stoffmenge des gelösten Stoffes nicht ändert",
+        "die Titration, und wie sich eine unbekannte Konzentration aus einer bekannten ergibt",
+        "den pH-Wert als Konzentration auf einer logarithmischen Skala",
+        "warum ein Tropfen Bleichmittel und eine ganze Flasche davon verschiedene Gefahren sind"
+      ],
       "fails_at": [
         "Molar concentration depends on temperature, because the volume does. Molality does not, which is why thermodynamic work — and every number this engine computes — is per kilogram of water rather than per litre of solution, and why the two are not interchangeable once a solution is concentrated.",
         "Concentration is not what an equilibrium responds to. Activity is. In dilute solution they nearly coincide; at an ionic strength of 0.1 mol/kgw the activity coefficient of the silver ion is already about 0.78, and in brine the correction is a factor, not a percentage.",
         "It says nothing about which species are present. 0.1 mol/L phosphoric acid is a recipe, not a description: the solution actually holds four phosphate species in a pH-dependent mixture.",
         "Volumes do not add exactly, so a dilution calculation is an approximation — mixing 50 mL of ethanol with 50 mL of water gives about 96 mL."
+      ],
+      "fails_at_de": [
+        "Die molare Konzentration hängt von der Temperatur ab, weil das Volumen es tut. Die Molalität tut es nicht. Deshalb rechnet die Thermodynamik — und jede Zahl, die diese Engine berechnet — pro Kilogramm Wasser statt pro Liter Lösung, und deshalb sind die beiden nicht mehr austauschbar, sobald eine Lösung konzentriert ist.",
+        "Ein Gleichgewicht reagiert nicht auf die Konzentration. Es reagiert auf die Aktivität. In verdünnter Lösung fallen beide fast zusammen; bei einer Ionenstärke von 0,1 mol/kgw beträgt der Aktivitätskoeffizient des Silber-Ions bereits etwa 0,78, und in Salzlauge ist die Korrektur ein Faktor, keine Prozentangabe.",
+        "Sie sagt nichts darüber, welche Spezies vorliegen. 0,1 mol/L Phosphorsäure ist ein Rezept, keine Beschreibung: Die Lösung enthält tatsächlich vier Phosphat-Spezies in einer pH-abhängigen Mischung.",
+        "Volumina addieren sich nicht exakt, eine Verdünnungsrechnung ist also eine Näherung — 50 mL Ethanol mit 50 mL Wasser gemischt ergeben etwa 96 mL."
       ],
       "superseded_by": null,
       "requires": [
@@ -12072,7 +12447,9 @@
     {
       "id": "arrhenius",
       "name": "Arrhenius acid-base model (Arrhenius-Definition)",
+      "name_de": "Arrhenius-Definition",
       "power": "The first definition that makes acid a statement about composition rather than about taste. It predicts that every acid neutralises every base to give a salt and water, explains why acid and alkali solutions conduct, and reduces hundreds of neutralisations to a single ionic equation.",
+      "power_de": "Die erste Definition, die aus Säure eine Aussage über die Zusammensetzung macht statt über den Geschmack. Sie sagt voraus, dass jede Säure jede Base zu einem Salz und Wasser neutralisiert, erklärt, warum saure und alkalische Lösungen leiten, und führt hunderte Neutralisationen auf eine einzige Ionengleichung zurück.",
       "explains": [
         "acids as substances that give H+ in water, bases as substances that give OH-",
         "neutralisation as one reaction: H+ plus OH- gives water",
@@ -12081,11 +12458,25 @@
         "the pH scale in water",
         "why a strong acid conducts better than a weak one at the same concentration"
       ],
+      "explains_de": [
+        "Säuren als Stoffe, die in Wasser H+ abgeben, Basen als Stoffe, die OH- abgeben",
+        "Neutralisation als eine einzige Reaktion: H+ plus OH- ergibt Wasser",
+        "warum saure und alkalische Lösungen den elektrischen Strom leiten",
+        "Salzbildung als das, was übrig bleibt",
+        "die pH-Skala in Wasser",
+        "warum eine starke Säure bei gleicher Konzentration besser leitet als eine schwache"
+      ],
       "fails_at": [
         "It cannot explain why ammonia is a base. There is no hydroxide anywhere in NH3, and its solution is alkaline anyway. That single fact is what forced the next model.",
         "It is confined to water. Hydrogen chloride dissolved in benzene, or acid-base chemistry in liquid ammonia, is invisible to it.",
         "The bare proton it invokes does not exist in solution; at minimum it is hydrated as H3O+.",
         "It defines an acid by what the substance contains rather than by what happens in the reaction, so it cannot say that a species acts as an acid in one reaction and a base in another."
+      ],
+      "fails_at_de": [
+        "Sie kann nicht erklären, warum Ammoniak eine Base ist. In NH3 steckt nirgends ein Hydroxid, und seine Lösung ist trotzdem alkalisch. Genau diese eine Tatsache hat das nächste Modell erzwungen.",
+        "Sie ist auf Wasser beschränkt. In Benzol gelöster Chlorwasserstoff oder Säure-Base-Chemie in flüssigem Ammoniak ist für sie unsichtbar.",
+        "Das nackte Proton, das sie voraussetzt, existiert in Lösung nicht; mindestens ist es als H3O+ hydratisiert.",
+        "Sie definiert eine Säure darüber, was der Stoff enthält, und nicht darüber, was in der Reaktion geschieht. Deshalb kann sie nicht sagen, dass eine Spezies in der einen Reaktion als Säure und in einer anderen als Base wirkt."
       ],
       "superseded_by": "broensted-lowry",
       "requires": [
@@ -12110,7 +12501,9 @@
     {
       "id": "broensted-lowry",
       "name": "Brønsted-Lowry model (Brønsted-Lowry, Protonenübergang)",
+      "name_de": "Brønsted-Lowry, Protonenübergang",
       "power": "Redefines acid and base as roles in a reaction rather than properties of substances, and with that one move explains ammonia, buffers, why salt solutions can be acidic or basic, water's ability to act as both, and acid-base chemistry outside water entirely. It also makes acid strength comparative and tabulated: conjugate pairs order themselves, and the transfer runs from the stronger acid to the stronger base.",
+      "power_de": "Definiert Säure und Base als Rollen in einer Reaktion neu statt als Eigenschaften von Stoffen. Mit diesem einen Schritt erklärt das Modell Ammoniak, Puffer, warum Salzlösungen sauer oder basisch sein können, die Fähigkeit des Wassers, beides zu sein, und Säure-Base-Chemie ganz außerhalb von Wasser. Es macht die Säurestärke außerdem vergleichbar und tabellierbar: Korrespondierende Paare ordnen sich von selbst, und der Übergang läuft von der stärkeren Säure zur stärkeren Base.",
       "explains": [
         "ammonia as a base with no hydroxide in it",
         "conjugate acid-base pairs",
@@ -12119,11 +12512,25 @@
         "buffers, and why they resist added acid",
         "the shape of a titration curve"
       ],
+      "explains_de": [
+        "Ammoniak als Base, in der kein Hydroxid steckt",
+        "korrespondierende Säure-Base-Paare",
+        "amphotere Spezies wie Wasser und Hydrogencarbonat",
+        "warum Natriumacetatlösung basisch und Ammoniumchloridlösung sauer ist",
+        "Puffer, und warum sie zugegebener Säure widerstehen",
+        "die Form einer Titrationskurve"
+      ],
       "fails_at": [
         "There has to be a proton. It has nothing to say about boron trifluoride meeting ammonia, about metal-ion catalysis, or about why aluminium chloride is called an acid at all.",
         "Its strength scale is bound to the solvent. In water every acid stronger than H3O+ looks equally strong, so hydrochloric, hydrobromic and perchloric acid cannot be told apart in water at all.",
         "It gives position and direction but no rate, and proton transfers are not always fast — carbon acids can be extremely slow.",
         "A pKa is not a constant of nature. It shifts with ionic strength, which is why a textbook table and a real pH meter disagree."
+      ],
+      "fails_at_de": [
+        "Es muss ein Proton geben. Zu Bortrifluorid, das auf Ammoniak trifft, zur Katalyse durch Metallionen oder dazu, warum Aluminiumchlorid überhaupt eine Säure heißt, hat das Modell nichts zu sagen.",
+        "Seine Stärkeskala ist an das Lösungsmittel gebunden. In Wasser sieht jede Säure, die stärker als H3O+ ist, gleich stark aus; Salzsäure, Bromwasserstoffsäure und Perchlorsäure lassen sich in Wasser also überhaupt nicht unterscheiden.",
+        "Es liefert Lage und Richtung, aber keine Geschwindigkeit — und Protonenübergänge sind nicht immer schnell: Kohlenstoffsäuren können extrem langsam sein.",
+        "Ein pKa-Wert ist keine Naturkonstante. Er verschiebt sich mit der Ionenstärke, und deshalb sind sich eine Lehrbuchtabelle und ein echtes pH-Messgerät uneinig."
       ],
       "superseded_by": "lewis-saeure-base",
       "requires": [
@@ -12149,7 +12556,9 @@
     {
       "id": "lewis-saeure-base",
       "name": "Lewis acid-base model (Lewis-Säure-Base-Konzept)",
+      "name_de": "Lewis-Säure-Base-Konzept",
       "power": "Generalises acidity from gives a proton to accepts an electron pair, which brings metal ions, boron trifluoride, catalysis, complex formation and much of organic mechanism under one heading. It also joins the acid-base story to the donor-acceptor story and to curly arrows: a nucleophile is a Lewis base and an electrophile a Lewis acid.",
+      "power_de": "Verallgemeinert Acidität von gibt ein Proton ab zu nimmt ein Elektronenpaar auf. Damit fallen Metallionen, Bortrifluorid, Katalyse, Komplexbildung und ein großer Teil der organischen Mechanistik unter eine einzige Überschrift. Es verbindet die Säure-Base-Geschichte außerdem mit der Donator-Akzeptor-Geschichte und mit den Elektronenpfeilen: Ein Nucleophil ist eine Lewis-Base, ein Elektrophil eine Lewis-Säure.",
       "explains": [
         "the adduct of boron trifluoride and ammonia, an acid-base reaction with no proton in it",
         "why solutions of aluminium and iron(III) salts are acidic",
@@ -12158,10 +12567,23 @@
         "nucleophile and electrophile as one idea rather than two vocabularies",
         "the proton as a special case: an acceptor with no electrons of its own"
       ],
+      "explains_de": [
+        "das Addukt aus Bortrifluorid und Ammoniak, eine Säure-Base-Reaktion ganz ohne Proton",
+        "warum Lösungen von Aluminium- und Eisen(III)-Salzen sauer sind",
+        "die Komplexbildung zwischen einem Metallion und seinen Liganden",
+        "die Friedel-Crafts-Katalyse",
+        "Nucleophil und Elektrophil als einen einzigen Gedanken statt als zwei Vokabulare",
+        "das Proton als Sonderfall: ein Akzeptor ohne eigene Elektronen"
+      ],
       "fails_at": [
         "There is no single strength scale. Lewis acid strength depends on which base you measure it against, which is why the hard-and-soft classification had to be invented and why it stays qualitative.",
         "It is so general that it stops discriminating: under this definition nearly every reaction is an acid-base reaction, which is true and rarely useful.",
         "It gives nothing quantitative for aqueous acidity, so the proton chemistry a school course actually needs still runs on Brønsted."
+      ],
+      "fails_at_de": [
+        "Es gibt keine einheitliche Stärkeskala. Die Stärke einer Lewis-Säure hängt davon ab, gegen welche Base man sie misst. Deshalb musste die Einteilung in hart und weich erfunden werden, und deshalb bleibt sie qualitativ.",
+        "Das Konzept ist so allgemein, dass es aufhört zu unterscheiden: Unter dieser Definition ist nahezu jede Reaktion eine Säure-Base-Reaktion — was zutrifft und selten nützlich ist.",
+        "Für die Acidität in Wasser liefert es nichts Quantitatives. Die Protonenchemie, die ein Schulkurs tatsächlich braucht, läuft daher weiter über Brønsted."
       ],
       "superseded_by": null,
       "requires": [
@@ -12187,7 +12609,9 @@
     {
       "id": "enthalpie",
       "name": "Enthalpy (Enthalpie, Reaktionsenthalpie)",
+      "name_de": "Enthalpie, Reaktionsenthalpie",
       "power": "Puts a number on it got hot. Energy becomes a bookkeeping quantity like mass: tabulated per substance, additive along any route, and therefore predictable for reactions nobody has ever measured. It also says why making bonds releases energy and breaking them costs it, so a reaction's heat can be estimated from a table.",
+      "power_de": "Macht aus es wurde heiß eine Zahl. Energie wird zu einer Bilanzgröße wie die Masse: pro Stoff tabelliert, über jeden Weg addierbar und damit auch für Reaktionen vorhersagbar, die nie jemand gemessen hat. Sie sagt außerdem, warum das Knüpfen von Bindungen Energie freisetzt und ihr Brechen Energie kostet — die Wärme einer Reaktion lässt sich also aus einer Tabelle abschätzen.",
       "explains": [
         "exothermic and endothermic reactions",
         "why some things warm the beaker on dissolving and others chill it",
@@ -12196,10 +12620,23 @@
         "standard formation enthalpies, and reaction enthalpies computed from them",
         "the energy content of fuels and of food"
       ],
+      "explains_de": [
+        "exotherme und endotherme Reaktionen",
+        "warum manche Stoffe beim Lösen das Becherglas erwärmen und andere es abkühlen",
+        "die Kalorimetrie, und wie eine Reaktionswärme gemessen wird",
+        "den Hessschen Satz: dieselbe Wärme auf jedem Weg",
+        "Standardbildungsenthalpien, und die daraus berechneten Reaktionsenthalpien",
+        "den Energiegehalt von Brennstoffen und von Nahrung"
+      ],
       "fails_at": [
         "It does not predict whether a reaction happens, although it feels as though it should. Ammonium nitrate dissolving is strongly endothermic and happens by itself; ice above zero absorbs heat and melts anyway. Systems tend towards lower energy is the most common false generalisation in school chemistry.",
         "Bond-enthalpy estimates are averages taken across many different molecules, so they can be tens of kilojoules per mole out, and they apply to gases rather than to liquids or solids.",
         "It is defined at constant pressure and says nothing about how the energy is distributed, or about its own temperature dependence, until heat capacities are brought in."
+      ],
+      "fails_at_de": [
+        "Sie sagt nicht voraus, ob eine Reaktion abläuft, auch wenn es sich anfühlt, als müsste sie es tun. Das Lösen von Ammoniumnitrat ist stark endotherm und läuft von selbst ab; Eis über null Grad nimmt Wärme auf und schmilzt trotzdem. Systeme streben zu niedrigerer Energie ist die häufigste falsche Verallgemeinerung der Schulchemie.",
+        "Abschätzungen aus Bindungsenthalpien sind Mittelwerte über viele verschiedene Moleküle. Sie können also um Dutzende Kilojoule pro Mol danebenliegen, und sie gelten für Gase, nicht für Flüssigkeiten oder Feststoffe.",
+        "Sie ist bei konstantem Druck definiert. Sie sagt nichts darüber, wie die Energie verteilt ist, und nichts über ihre eigene Temperaturabhängigkeit, solange man die Wärmekapazitäten nicht hinzunimmt."
       ],
       "superseded_by": "gibbs-energie",
       "requires": [
@@ -12209,7 +12646,7 @@
       "embodied_by": "Directly, and with its own stated limits. Each vessel carries an energy balance: enthalpy is tracked as the sum of amount times heat capacity above 298.15 K, mixing solves for a common temperature rather than assuming one, and curated dissolution enthalpies move the thermometer — calcium chloride is a hot pack, potassium chloride a cold one. Two honest gaps: heat capacities are treated as temperature-independent in the aqueous path, and curated reactions carry no reaction enthalpy yet, so no heat effect is applied where none is known. The thermal solver is separate and better founded — NASA-9 polynomials give H(T) per species, and an adiabatic vessel is solved enthalpy-conserving rather than by dividing a reaction enthalpy by a heat capacity.",
       "registers": {
         "lv1": "Reactions do not only change what things are, they change how hot things are. Some give heat out, so the beaker warms up: burning, and the packs you snap to warm your hands. Some take heat in, so the beaker goes cold enough to freeze a puddle to the bench — that is what a cold pack is. Pulling things apart always costs energy and joining them up always gives energy back, and whichever is bigger decides whether it warms or cools.",
-        "lv1_de": "Reaktionen ändern nicht nur, was Dinge sind, sie ändern auch, wie heiß Dinge sind. Manche geben Wärme ab, sodass das Becherglas wärmer wird: Verbrennen, und die Wärmepacks, die du zum Handwärmen knickst. Manche nehmen Wärme auf, sodass das Becherglas kalt genug wird, um eine Pfütze auf der Labor festzufrieren — das ist, was ein Kältepack ist. Auseinanderziehen kostet immer Energie, und Zusammenfügen gibt immer Energie zurück, und was größer ist, entscheidet, ob es wärmer oder kälter wird.",
+        "lv1_de": "Reaktionen ändern nicht nur, was Dinge sind, sie ändern auch, wie heiß Dinge sind. Manche geben Wärme ab, sodass das Becherglas wärmer wird: Verbrennen, und die Wärmepacks, die du zum Handwärmen knickst. Manche nehmen Wärme auf, sodass das Becherglas kalt genug wird, um eine Pfütze im Labor festzufrieren — das ist, was ein Kältepack ist. Auseinanderziehen kostet immer Energie, und Zusammenfügen gibt immer Energie zurück, und was größer ist, entscheidet, ob es wärmer oder kälter wird.",
         "lv2": "The enthalpy change is the heat exchanged at constant pressure: negative when heat is released, positive when it is absorbed. It is a state function, so Hess's law lets it be added along any route, and standard formation enthalpies let any reaction's value be found as products minus reactants. Estimated from bonds, it is the energy of the bonds broken minus the energy of the bonds formed.",
         "lv2_de": "Die Reaktionsenthalpie ist die bei konstantem Druck ausgetauschte Wärme: negativ, wenn Wärme freigesetzt wird, positiv, wenn sie aufgenommen wird. Sie ist eine Zustandsgröße, sodass der Hesssche Satz erlaubt, sie über jeden beliebigen Weg zu addieren, und Standardbildungsenthalpien erlauben, den Wert jeder Reaktion als Produkte minus Edukte zu bestimmen. Aus Bindungen geschätzt, ist sie die Energie der gebrochenen Bindungen minus die Energie der gebildeten Bindungen.",
         "lv3": "Enthalpy is internal energy plus pressure times volume, and its change equals the heat at constant pressure for a closed system doing only expansion work. Hess's law is a consequence of its being a state function, and the whole tabulated apparatus of thermochemistry rests on that one property. Its temperature dependence follows from the difference in heat capacities, which is exactly what the NASA-9 polynomial form encodes: seven coefficients per temperature interval yielding heat capacity, enthalpy and entropy for a species. The decisive teaching point here is negative — enthalpy is not the criterion for spontaneity, and treating it as one is a persistent documented misconception that the next two models exist to correct.",
@@ -12224,7 +12661,9 @@
     {
       "id": "entropie",
       "name": "Entropy (Entropie)",
+      "name_de": "Entropie",
       "power": "Supplies the second reason things happen. Once you can count how many ways a state can be arranged, you can predict that gases mix and never unmix, that some solids dissolve even though it costs energy, and that heat flows one way only — none of which enthalpy can give you. It turns why does anything happen by itself into a question with an answer.",
+      "power_de": "Liefert den zweiten Grund, warum Dinge geschehen. Sobald man abzählen kann, auf wie viele Weisen sich ein Zustand anordnen lässt, lässt sich vorhersagen, dass Gase sich mischen und nie wieder entmischen, dass manche Feststoffe sich lösen, obwohl es Energie kostet, und dass Wärme nur in eine Richtung fließt — nichts davon kann die Enthalpie leisten. Aus warum geschieht überhaupt etwas von selbst wird so eine Frage mit einer Antwort.",
       "explains": [
         "why mixing is irreversible: milk never comes back out of the coffee",
         "why a salt can dissolve while making the beaker cold",
@@ -12233,11 +12672,25 @@
         "why a reaction that makes a gas has a strongly positive entropy change",
         "why a perfect crystal is the low-entropy case"
       ],
+      "explains_de": [
+        "warum Mischen unumkehrbar ist: Milch kommt nie wieder aus dem Kaffee heraus",
+        "warum ein Salz sich lösen kann und dabei das Becherglas kalt wird",
+        "warum ein Gas sich ohne jeden Schub ins Vakuum ausdehnt",
+        "warum Wärme von heiß nach kalt fließt und nie zurück",
+        "warum eine Reaktion, die ein Gas bildet, eine stark positive Entropieänderung hat",
+        "warum ein perfekter Kristall der Fall mit der niedrigsten Entropie ist"
+      ],
       "fails_at": [
         "Entropy is disorder is the metaphor that does most of the damage. Disorder is undefined, and the cases that matter look like the metaphor's opposite: oil separating from water and a supercooled liquid freezing both look tidier and are both entropy-driven overall.",
         "The system's entropy alone predicts nothing. Water freezing lowers it and is spontaneous below zero, because the surroundings gain more than the system loses — and counting the surroundings is exactly the step learners skip.",
         "It is statistical, so it is a near-certainty rather than a law: small systems fluctuate the wrong way, and the second law is a statement about overwhelming probability.",
         "It gives no rate at all. Diamond turning into graphite raises the entropy of the universe and takes geological time."
+      ],
+      "fails_at_de": [
+        "Entropie ist Unordnung ist die Metapher, die den größten Schaden anrichtet. Unordnung ist undefiniert, und die Fälle, auf die es ankommt, sehen aus wie ihr Gegenteil: Öl, das sich von Wasser trennt, und eine unterkühlte Flüssigkeit, die gefriert, wirken beide ordentlicher und sind beide insgesamt entropiegetrieben.",
+        "Die Entropie des Systems allein sagt nichts voraus. Gefrierendes Wasser senkt sie und läuft unterhalb von null Grad trotzdem freiwillig ab, weil die Umgebung mehr gewinnt, als das System verliert — und genau diesen Schritt, die Umgebung mitzuzählen, lassen Lernende aus.",
+        "Sie ist statistisch, also eher eine Beinahe-Gewissheit als ein Gesetz: Kleine Systeme schwanken in die falsche Richtung, und der zweite Hauptsatz ist eine Aussage über erdrückende Wahrscheinlichkeit.",
+        "Eine Geschwindigkeit liefert sie überhaupt nicht. Dass Diamant zu Graphit wird, erhöht die Entropie des Universums und dauert geologische Zeiträume."
       ],
       "superseded_by": null,
       "requires": [
@@ -12262,7 +12715,9 @@
     {
       "id": "gibbs-energie",
       "name": "Gibbs free energy (Gibbs-Energie, freie Enthalpie)",
+      "name_de": "Gibbs-Energie, freie Enthalpie",
       "power": "The single criterion for whether a reaction can happen at all. It folds enthalpy and entropy into one number whose sign answers the question every earlier model dodged, tells you the temperature at which the answer flips, and — through its relation to the equilibrium constant — makes does it go and how far does it go the same calculation. It is the top of the school chemistry model hierarchy.",
+      "power_de": "Das eine Kriterium dafür, ob eine Reaktion überhaupt ablaufen kann. Sie faltet Enthalpie und Entropie zu einer einzigen Zahl zusammen, deren Vorzeichen die Frage beantwortet, um die sich jedes frühere Modell gedrückt hat. Sie nennt die Temperatur, bei der die Antwort umschlägt, und macht über ihren Zusammenhang mit der Gleichgewichtskonstante aus läuft es ab und wie weit läuft es dieselbe Rechnung. Sie ist die Spitze der Modellhierarchie der Schulchemie.",
       "explains": [
         "why some reactions are spontaneous and others are not",
         "why endothermic reactions can happen by themselves",
@@ -12271,11 +12726,25 @@
         "the link between the free-energy change and the equilibrium constant",
         "cell voltages, and why a battery has the voltage it has"
       ],
+      "explains_de": [
+        "warum manche Reaktionen freiwillig ablaufen und andere nicht",
+        "warum endotherme Reaktionen von selbst ablaufen können",
+        "warum Kalkstein sich im Ofen zersetzt und nicht im Becherglas",
+        "warum manche Reaktionen sich beim Erhitzen umkehren",
+        "den Zusammenhang zwischen der Änderung der freien Energie und der Gleichgewichtskonstante",
+        "Zellspannungen, und warum eine Batterie genau die Spannung hat, die sie hat"
+      ],
       "fails_at": [
         "Spontaneous means possible, not actual. Diamond, petrol in air and a stick of dynamite are all thermodynamically doomed and are all sitting still. The free energy says nothing about rate, and every kinetics model exists in the gap it leaves.",
         "It is the criterion at constant temperature and pressure only. At constant volume the right quantity is the Helmholtz energy, and far from equilibrium neither applies.",
         "The standard free-energy change tells you where equilibrium lies, not which way your actual mixture will move. That needs the reaction quotient compared with the constant, and the two are confused constantly.",
         "Tabulated values assume ideal behaviour: in real solutions activity coefficients matter, and in melts and solid solutions the mixing terms defeat simple tables."
+      ],
+      "fails_at_de": [
+        "Freiwillig heißt möglich, nicht tatsächlich. Diamant, Benzin an der Luft und eine Stange Dynamit sind thermodynamisch allesamt verloren — und liegen allesamt still da. Die freie Energie sagt nichts über die Geschwindigkeit, und jedes Modell der Kinetik existiert in der Lücke, die sie lässt.",
+        "Sie ist das Kriterium nur bei konstanter Temperatur und konstantem Druck. Bei konstantem Volumen ist die Helmholtz-Energie die richtige Größe, und fern vom Gleichgewicht gilt keine von beiden.",
+        "Die freie Standardreaktionsenthalpie sagt, wo das Gleichgewicht liegt, nicht, wohin deine tatsächliche Mischung sich bewegen wird. Dafür braucht es den Vergleich des Reaktionsquotienten mit der Konstante, und die beiden werden ständig verwechselt.",
+        "Tabellierte Werte setzen ideales Verhalten voraus: In realen Lösungen zählen Aktivitätskoeffizienten, und in Schmelzen und Mischkristallen besiegen die Mischungsterme einfache Tabellen."
       ],
       "superseded_by": null,
       "requires": [
@@ -12290,7 +12759,7 @@
         "lv2": "The Gibbs energy change is the enthalpy change minus the temperature times the entropy change. Negative means the reaction is spontaneous as written, positive means the reverse is, zero means equilibrium. Because the entropy term is multiplied by temperature, a reaction that absorbs heat but increases entropy becomes spontaneous above a switch-over temperature — the enthalpy change divided by the entropy change — which is exactly why limestone decomposes in a kiln and not in a beaker. At equilibrium the standard free-energy change is fixed by the equilibrium constant, so free energy and K are one statement in two notations.",
         "lv2_de": "Die Änderung der Gibbs-Energie ist die Enthalpieänderung minus die Temperatur mal die Entropieänderung. Negativ bedeutet, die Reaktion läuft wie geschrieben freiwillig ab, positiv bedeutet, die Rückreaktion tut es, null bedeutet Gleichgewicht. Weil der Entropieterm mit der Temperatur multipliziert wird, wird eine Reaktion, die Wärme aufnimmt, aber die Entropie erhöht, oberhalb einer Umschlagtemperatur freiwillig — die Enthalpieänderung geteilt durch die Entropieänderung —, weshalb Kalkstein sich genau deshalb im Ofen zersetzt und nicht im Becherglas. Im Gleichgewicht ist die freie Standardreaktionsenthalpie durch die Gleichgewichtskonstante festgelegt, sodass freie Energie und K dieselbe Aussage in zwei Schreibweisen sind.",
         "lv3": "The Gibbs energy is enthalpy minus temperature times entropy, and at constant temperature and pressure a spontaneous change lowers it — which is the second law rewritten in variables belonging to the system alone. Equilibrium is then the minimum of G subject to element-balance constraints, and that is a computable statement rather than a rhetorical one: it is literally what a Gibbs minimiser does, and what PHREEQC's mass-action formulation is equivalent to. Two boundaries this codex insists on. Spontaneity is not rate, which is why the thermal solver stands down below 500 K instead of oxidising every metal on the bench. And the standard state is a choice, so the standard free-energy change and the actual one answer different questions.",
-        "lv3_de": "Die Gibbs-Energie ist die Enthalpie minus Temperatur mal Entropie, und bei konstanter Temperatur und konstantem Druck senkt eine freiwillige Änderung sie — das ist der zweite Hauptsatz, umgeschrieben in Größen, die allein zum System gehören. Gleichgewicht ist dann das Minimum von G unter Elementbilanz-Nebenbedingungen, und das ist eine berechenbare Aussage und keine rhetorische: Genau das tut ein Gibbs-Minimierer, und genau dazu ist PHREEQCs Massenwirkungsformulierung äquivalent. Zwei Grenzen, auf denen dieser Kodex besteht. Spontaneität ist keine Geschwindigkeit, weshalb der Thermik-Solver unterhalb von 500 K aussteigt, statt jedes Metall auf der Labor zu oxidieren. Und der Standardzustand ist eine Wahl, sodass die freie Standardreaktionsenthalpie und die tatsächliche unterschiedliche Fragen beantworten."
+        "lv3_de": "Die Gibbs-Energie ist die Enthalpie minus Temperatur mal Entropie, und bei konstanter Temperatur und konstantem Druck senkt eine freiwillige Änderung sie — das ist der zweite Hauptsatz, umgeschrieben in Größen, die allein zum System gehören. Gleichgewicht ist dann das Minimum von G unter Elementbilanz-Nebenbedingungen, und das ist eine berechenbare Aussage und keine rhetorische: Genau das tut ein Gibbs-Minimierer, und genau dazu ist PHREEQCs Massenwirkungsformulierung äquivalent. Zwei Grenzen, auf denen dieser Kodex besteht. Spontaneität ist keine Geschwindigkeit, weshalb der Thermik-Solver unterhalb von 500 K aussteigt, statt jedes Metall im Labor zu oxidieren. Und der Standardzustand ist eine Wahl, sodass die freie Standardreaktionsenthalpie und die tatsächliche unterschiedliche Fragen beantworten."
       },
       "provenance": {
         "source": "Gibbs, On the equilibrium of heterogeneous substances, Transactions of the Connecticut Academy, 1876-78; minimiser formulation from Gordon & McBride, NASA RP-1311; thermodynamic data from NASA CEA thermo.inp",
@@ -12301,7 +12770,9 @@
     {
       "id": "thermodynamische-vs-kinetische-kontrolle",
       "name": "Thermodynamic versus kinetic control",
+      "name_de": "Thermodynamische versus kinetische Kontrolle",
       "power": "Separates two questions that beginners hear as one: which product is the most stable, and which product you actually get. Once they come apart, a whole class of otherwise baffling observations becomes predictable — why the blue precipitate is not the black one, why diamond does not turn into graphite on the shelf, why the shelf itself is not on fire. It also tells you what to do about it: if the barrier is what stands in the way, heat it, and the stable product appears.",
+      "power_de": "Trennt zwei Fragen, die Anfänger als eine einzige hören: Welches Produkt ist das stabilste, und welches Produkt bekommt man tatsächlich. Sobald sie auseinanderfallen, wird eine ganze Klasse sonst rätselhafter Beobachtungen vorhersagbar — warum der blaue Niederschlag nicht der schwarze ist, warum Diamant im Regal nicht zu Graphit wird, warum das Regal selbst nicht brennt. Die Unterscheidung sagt auch, was dagegen zu tun ist: Steht die Barriere im Weg, dann erwärme, und das stabile Produkt erscheint.",
       "explains": [
         "why adding lye to copper sulfate gives pale blue Cu(OH)2 and not black CuO, even though CuO is the more stable solid",
         "why warming that suspension turns it black — the classic demonstration",
@@ -12310,11 +12781,25 @@
         "Ostwald's rule of stages: the phase that appears first is often the least stable one available, because it nucleates fastest",
         "why magnesium ribbon sits in air until you light it"
       ],
+      "explains_de": [
+        "warum die Zugabe von Natronlauge zu Kupfersulfat blassblaues Cu(OH)2 ergibt und nicht schwarzes CuO, obwohl CuO der stabilere Feststoff ist",
+        "warum diese Suspension beim Erwärmen schwarz wird — die klassische Demonstration",
+        "warum Diamant, Graphit und jedes metastabile Mineral unbegrenzt bestehen bleiben",
+        "warum eine Gibbs-Minimierung über das Ziel recht und über das Becherglas unrecht haben kann",
+        "die Ostwaldsche Stufenregel: Die zuerst erscheinende Phase ist oft die am wenigsten stabile verfügbare, weil sie am schnellsten keimt",
+        "warum Magnesiumband an der Luft liegen bleibt, bis man es anzündet"
+      ],
       "fails_at": [
         "It says which product is kinetically preferred only after you already know the barriers. On its own it predicts nothing quantitative — it is a frame for two other models, not a third model that replaces them.",
         "It gives no timescale. \"Metastable\" covers both a precipitate that converts in a minute of warming and a diamond that outlasts the solar system, and nothing in the idea distinguishes them.",
         "Nucleation, not just the activation barrier, decides which solid appears first, and surface energy and supersaturation belong to a theory this framing does not contain.",
         "Applied carelessly it becomes unfalsifiable: any disagreement between calculation and observation can be waved away as kinetics. It is only worth anything when the barrier is named and the conditions that overcome it are stated."
+      ],
+      "fails_at_de": [
+        "Sie sagt erst dann, welches Produkt kinetisch bevorzugt ist, wenn man die Barrieren bereits kennt. Für sich allein sagt sie nichts Quantitatives voraus — sie ist ein Rahmen für zwei andere Modelle und kein drittes Modell, das die beiden ersetzt.",
+        "Sie gibt keine Zeitskala. 'Metastabil' deckt sowohl einen Niederschlag ab, der sich in einer Minute Erwärmen umwandelt, als auch einen Diamanten, der das Sonnensystem überdauert, und nichts an dem Gedanken unterscheidet die beiden.",
+        "Nicht nur die Aktivierungsbarriere entscheidet, welcher Feststoff zuerst erscheint, sondern die Keimbildung — und Grenzflächenenergie und Übersättigung gehören zu einer Theorie, die diese Sichtweise nicht enthält.",
+        "Unachtsam angewendet wird sie nicht falsifizierbar: Jede Abweichung zwischen Rechnung und Beobachtung lässt sich als Kinetik abtun. Sie ist nur dann etwas wert, wenn die Barriere benannt und die Bedingungen genannt werden, die sie überwinden."
       ],
       "superseded_by": null,
       "requires": [

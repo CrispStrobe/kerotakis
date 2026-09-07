@@ -7,6 +7,8 @@
  * ships.
  */
 
+import type { LabMode } from "./worldState";
+
 export interface CodexRange {
   min?: number;
   max?: number;
@@ -280,4 +282,29 @@ export function metConcepts(entries: CodexEntry[], done: ReadonlySet<string>): S
 /** An entry is ready when everything it requires has been met. */
 export function entryReady(e: CodexEntry, met: ReadonlySet<string>): boolean {
   return (e.requires ?? []).every((r) => met.has(r));
+}
+
+/**
+ * Whether the laboratory a learner is standing in GATES this entry.
+ *
+ * `entryReady` answers a question about the authored learning progression:
+ * has this reader already met what the entry builds on. That is a true
+ * statement in either laboratory, and a useful one — but it is not a lock,
+ * and the concept map printed it as one ("gesperrt") no matter which door
+ * the learner had come through.
+ *
+ * Sandbox is defined by the absence of that gate: the world chooser
+ * promises "everything unlocked", the engine's catalog derives every
+ * material and every instrument as reachable there, and the map's own
+ * button opens the entry and runs it whatever this badge says. So a badge
+ * reading "locked" in Sandbox was never a refusal the product could carry
+ * out — it was a label contradicting the mode around it, and one the
+ * reader had no way to act on.
+ *
+ * Story keeps the rule. There the progression is the point, and an entry
+ * whose prerequisites are unmet is offered with the concepts it still
+ * needs named beside it.
+ */
+export function entryLocked(e: CodexEntry, met: ReadonlySet<string>, mode: LabMode): boolean {
+  return mode === "story" && !entryReady(e, met);
 }

@@ -56,6 +56,10 @@ export interface SceneVessel {
   coatings?: SceneCoating[];
   /** Current core-owned oxide bookkeeping; absent on older scene payloads. */
   corrosion?: SceneCorrosion[];
+  /** Stored sorbent/sorbate equilibrium split; absent on older scenes. */
+  adsorption?: SceneAdsorption[];
+  /** Standing neutral-solute split while two immiscible layers coexist. */
+  partition?: ScenePartition[];
   /** Prepared coherent objects whose ingredients remain object-owned. */
   material_objects?: SceneMaterialObject[];
   /** Conserved hard-water/fatty-soap aggregate. */
@@ -109,6 +113,30 @@ export interface SceneCorrosion {
   metal_in_oxide_moles: number;
   metal_in_oxide_fraction: number;
   words: string;
+}
+
+export interface SceneAdsorption {
+  sorbent: string;
+  sorbate: string;
+  held_mg: number;
+  still_dissolved_mg: number;
+  held_fraction: number;
+  loading_mg_per_g?: number | null;
+  loading_fraction?: number | null;
+  boundary: string;
+  provenance: string;
+}
+
+export interface ScenePartition {
+  species: string;
+  lower_solvent: string;
+  upper_solvent: string;
+  total_moles: number;
+  lower_moles: number;
+  upper_moles: number;
+  fraction_lower: number;
+  boundary: string;
+  provenance: string;
 }
 
 export interface SceneMaterialObject {
@@ -358,6 +386,11 @@ export interface StepResult {
   /** GUI-092: the net ionic equations the step earned, validated on
    * arrival by `ionic.ts` rather than trusted here. */
   ionic?: unknown[];
+  /** GUI-052: the step's routing evidence - which solver was asked, in
+   * order, and what it answered. Validated on arrival by `provenance.ts`
+   * rather than trusted here, and absent from a host built before it
+   * existed, which is why the drawer must survive not getting it. */
+  routes?: unknown[];
   quest?: QuestOutput[];
   scene?: Scene;
 }
@@ -373,12 +406,28 @@ export interface ScriptResult {
     events: unknown[];
     rendered: string[];
     ionic?: unknown[];
+    /** GUI-052; see `StepResult.routes`. */
+    routes?: unknown[];
     quest?: QuestOutput[];
   }[];
   scene?: Scene;
 }
 
-/** A structured engine failure. `refused` is a result, not a fault. */
+/**
+ * A structured engine failure. `refused` is a result, not a fault.
+ *
+ * I18N: `message` is **already in the session's language**. The bench names
+ * its refusal with a key (`error.no-such-vessel` and its siblings in
+ * `crates/kerotakis-core/src/bench.rs`) and both hosts render it through
+ * the locale they were given, on the way out — the same point and the same
+ * catalogue `localize_events` uses for the events of a step that succeeded.
+ *
+ * So nothing here may translate, match on, or reword it. A shell that
+ * recognised English refusal text would be a layer only English can pass
+ * through, and it would go quietly wrong the moment the engine's wording
+ * changed. A key with no German renders the English at the call site,
+ * per key — which is also the debugging signal that one is missing.
+ */
 export class EngineError extends Error {
   constructor(
     message: string,

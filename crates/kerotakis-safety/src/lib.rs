@@ -461,6 +461,21 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         // one into the other, so an absent row here would have appeared
         // only after a pH was measured.
         | "lactate"
+        // The three calcium phosphates. They read as the insoluble sulfate
+        // three rows above does: a sparingly soluble salt of a group-2
+        // metal and a weak acid's fully deprotonated anion, with nothing
+        // to say to anything else in a mixture screen. They DO dissolve in
+        // a strong acid, which every insoluble phosphate and carbonate on
+        // this shelf does; the difference from `Carbonate` is that no gas
+        // comes off, and `Carbonate`'s rules are written about the gas. So
+        // no group is claimed rather than one that means something else,
+        // exactly as the ammonium salts and the weak organic acids above.
+        // They are here at all because the aqueous tail can now precipitate
+        // them, so a vessel can hold one without anybody having dispensed
+        // it — and an absent row would have appeared only after a solve.
+        | "hydroxylapatite"
+        | "Ca3(PO4)2"
+        | "octacalcium_phosphate"
         | "citric_acid"
         | "C6H5O7-3"
         | "glucose"
@@ -731,6 +746,9 @@ pub const COVERED_KEYS: &[&str] = &[
     "hair_pigment",
     "hair_pigment_ox",
     "activated_charcoal",
+    "hydroxylapatite",
+    "Ca3(PO4)2",
+    "octacalcium_phosphate",
 ];
 
 /// The pH at or below which a solved vessel counts as strongly acidic.
@@ -1259,6 +1277,80 @@ mod tests {
             missing.is_empty(),
             "{} hazard sentence(s) have no German. Add each to \
              crates/kerotakis-core/i18n/de.toml:\n  {}",
+            missing.len(),
+            missing.join("\n  ")
+        );
+    }
+
+    /// …and so does every hazard sentence written OUTSIDE the matrix.
+    ///
+    /// The test above walks `INCOMPATIBLE`, which is the right inventory
+    /// for the nine rules that are rows in it and no inventory at all for
+    /// the two that are not. `water-reactive-slaking` and
+    /// `liquid-nitrogen-handling` are constructed inline, and the blind
+    /// spot was exactly the size of the bug: slaking happened to have
+    /// German, liquid nitrogen happened not to, and no test could tell
+    /// them apart. A German learner met the one Danger-severity rule about
+    /// a cryogen as a German `real_world` sentence wrapped around an
+    /// English `hazard` clause.
+    ///
+    /// So this reads the file instead. Every `hazard:` and `real_world:`
+    /// literal is a sentence somebody will see, wherever it was written,
+    /// and the source is the only inventory that includes the ones nobody
+    /// remembered to put in a table.
+    #[test]
+    fn every_hazard_sentence_in_this_file_has_german() {
+        const WHOLE_FILE: &str = include_str!("lib.rs");
+        // Stop at this module. Its fixtures say "somewhere real", which is
+        // not a sentence anyone reads and not one anybody should translate.
+        let source = match WHOLE_FILE.find("\n#[cfg(test)]") {
+            Some(cut) => &WHOLE_FILE[..cut],
+            None => WHOLE_FILE,
+        };
+        let de = kerotakis_core::Locale::parse("de");
+        let mut missing: Vec<String> = Vec::new();
+        let mut found = 0usize;
+        for (field, table) in [("hazard:", "hazard"), ("real_world:", "real_world")] {
+            let mut rest = source;
+            while let Some(at) = rest.find(field) {
+                rest = &rest[at + field.len()..];
+                let head = rest.trim_start();
+                // Only a literal. `hazard: rule.hazard.clone()` forwards
+                // a sentence written somewhere else, and somewhere else is
+                // where it gets checked.
+                if !head.starts_with('"') {
+                    continue;
+                }
+                let body = &head[1..];
+                let Some(end) = body.find('"') else { continue };
+                let sentence = &body[..end];
+                // `.to_string()` is what marks a sentence written HERE.
+                // The matrix's own rows are `&'static str` fields and have
+                // no such call, which is exactly right: they are covered
+                // by the test above, from the table, and counting them
+                // twice would only make this one's arithmetic lie about
+                // what it is guarding.
+                if !body[end + 1..].trim_start().starts_with(".to_string()") {
+                    continue;
+                }
+                found += 1;
+                if de.lookup(&format!("{table}.{sentence}")).is_none() {
+                    missing.push(format!("[{table}] \"{sentence}\""));
+                }
+            }
+        }
+        assert!(
+            found >= 4,
+            "only {found} hazard sentence(s) found in the source — the shape \
+             they are written in must have changed, and this gate is now \
+             checking nothing"
+        );
+        missing.sort();
+        missing.dedup();
+        assert!(
+            missing.is_empty(),
+            "{} hazard sentence(s) written outside the matrix have no German. \
+             Add each to crates/kerotakis-core/i18n/de.toml:\n  {}",
             missing.len(),
             missing.join("\n  ")
         );

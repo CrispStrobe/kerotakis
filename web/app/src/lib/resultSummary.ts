@@ -95,6 +95,7 @@ const CLASSIFICATIONS: Record<string, string> = {
   dissolved: "dissolution",
   dissolved_in_solvent: "dissolution",
   transferred: "transfer",
+  discarded: "disposal",
   added: "addition",
   material_added: "addition",
   observed: "observation",
@@ -139,7 +140,10 @@ const PRIORITY = [
   "chromatographed", "layers_formed", "decayed", "heat_of_mixing",
   "measured", "temperature_changed", "energy_transferred", "centrifuged",
   "stirred", "mixed", "transported", "gravity_settled", "ground", "irradiated", "dissolved", "dissolved_in_solvent",
-  "transferred", "added", "material_added", "observed", "inert", "inert_in_solvent",
+  // Below every reaction and every reading, above "added": a disposal is
+  // the last thing that happened to the vessel, but it is never the
+  // interesting thing that happened in the step.
+  "transferred", "discarded", "added", "material_added", "observed", "inert", "inert_in_solvent",
 ];
 
 function number(event: EngineEvent, key: string): number | undefined {

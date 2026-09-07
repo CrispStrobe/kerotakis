@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { catalogEntries } from "./catalogEntry";
-import { codexLearningLabel, guidedLearningLabel, kidsConnections, kidsExperimentMatches, kidsText, parseKidsCatalog, type KidsExperiment } from "./kidsCatalog";
+import { codexLearningLabel, guidedLearningLabel, kidsConnections, kidsExperimentMatches, kidsList, kidsRecipe, kidsText, parseKidsCatalog, type KidsExperiment } from "./kidsCatalog";
 
 const apple: KidsExperiment = {
   id: "K45", title: "Stop an apple going brown", phenomenon: "Enzymatic browning",
@@ -27,6 +27,19 @@ describe("kids catalog", () => {
     const safe = { ...apple, safety_rationale: "Dust can reach eyes.", safety_rationale_de: "Staub kann in die Augen gelangen." };
     expect(kidsText(safe, "safety_rationale", "de")).toBe("Staub kann in die Augen gelangen.");
     expect(kidsText(safe, "safety_rationale", "en")).toBe("Dust can reach eyes.");
+  });
+
+  it("selects localized structured procedure and recipe fields", () => {
+    const structured = {
+      ...apple,
+      procedure: ["Filter the mixture."], procedure_de: ["Das Gemisch filtrieren."],
+      observations: ["The solid remains."], observations_de: ["Der Feststoff bleibt zurück."],
+      recipe: [{ ingredient: "water", quantity: "100 mL" }],
+      recipe_de: [{ ingredient: "water", quantity: "100 mL", preparation: "Abmessen." }],
+    };
+    expect(kidsList(structured, "procedure", "de")).toEqual(["Das Gemisch filtrieren."]);
+    expect(kidsList(structured, "observations", "en")).toEqual(["The solid remains."]);
+    expect(kidsRecipe(structured, "de")[0]?.preparation).toBe("Abmessen.");
   });
 
   it("rejects malformed optional cross-references", () => {

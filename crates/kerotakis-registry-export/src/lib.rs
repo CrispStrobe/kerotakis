@@ -8,13 +8,15 @@
 use std::collections::BTreeMap;
 
 use kerotakis_core::{
+    heat_capacity::CpForm,
     species::{Colour, Phase as LegacyPhase, SpeciesData, REGISTRY},
     spectrum::BAND_NM,
     stoich::parse_formula,
 };
 use kerotakis_data::{
     Applicability, CompositionRecord, CultureMetabolism, Dimension, ElementAmount, Evidence,
-    FractionRange, IdentityRecord, Interval, MaterialBasis, MaterialComponent, MaterialConfidence,
+    FractionRange, HeatCapacityForm, HeatCapacityInterval, HeatCapacityPolynomialRecord,
+    IdentityRecord, Interval, MaterialBasis, MaterialComponent, MaterialConfidence,
     MaterialExpansionPolicy, MaterialGeometry, MaterialPhysicalForm, MaterialRecipe, MaterialRole,
     Method, ModelParameterRecord, ModelSubject, NumericRecord, OpticalRecord, Phase, PhaseProperty,
     PhaseThermodynamicRecord, RegistryDocument, SourceLane, SourceRecord, SpectralSample,
@@ -77,6 +79,15 @@ const DISSOLUTION_NOTES: &[(&str, &str)] = &[
 const RESISTIVITY_SOURCE: &str = "kerotakis/electrical-resistivity-v1";
 const RESISTIVITY_CITATION: &str = "Kerotakis curated electrical-resistivity tranche v1: bulk DC electrical resistivity of the pure solid at 293.15 K (20 C), in ohm.m. THE PROVENANCE LANE OF THIS TRANCHE IS PENDING REVIEW AND THE VALUES ARE RECORDED AS COMMONLY TABULATED. The CRC Handbook of Chemistry and Physics table 'Electrical Resistivity of Pure Metals' is the intended primary reference and these numbers agree with it to the precision quoted, but this is NOT a transcription from a positively identified copy of any single edition and no edition-level provenance is claimed: every row is flagged for reviewer confirmation against a positively identified copy before any stronger claim is made, exactly as the phase-transition tranche is. The values themselves are physical constants of the pure elements rather than anyone's compilation, and they are quoted only to the three or four figures that a room-temperature handbook column carries; no temperature coefficient, no purity dependence and no cold-worked or alloyed value is claimed, and each row's own `notes` field states what it does not cover. Graphite is the one row that is an order of magnitude rather than a measurement, and its note says so: graphite is strongly anisotropic and its resistivity depends on the grade, so the value here describes a polycrystalline bench rod and nothing finer. Compiled 2026-09-05";
 const RESISTIVITY_METHOD: &str = "curated electrical-resistivity tranche, provenance lane pending review; the row's own note states what the value does not cover";
+/// The heat capacities that stop being constants.
+///
+/// This tranche gets its own source for the same reason the transition and
+/// resistivity tranches got theirs, and one more besides: it is the only
+/// runtime-lane data in the registry that is not ours at all. It is NASA's
+/// file, already vendored for the equilibrium solver, read a second time.
+const HEAT_CAPACITY_CURVE_SOURCE: &str = "us-federal/nasa-cea-thermo-inp-v1";
+const HEAT_CAPACITY_CURVE_CITATION: &str = "NASA Chemical Equilibrium with Applications (CEA) thermodynamic database, thermo.inp, vendored at vendor/nasa-cea/thermo.inp and documented by NASA TP-2002-211556 (McBride, Zehe and Gordon, \"NASA Glenn Coefficients for Calculating Thermodynamic Properties of Individual Species\"). Copyright (c) United States Government as represented by the Administrator of NASA, licensed under Apache-2.0; the file is already vendored and read by kerotakis-cea, and these records are the same bytes read a second time rather than a second compilation. Each record carries its own literature reference verbatim - Gurvich, Chase (JANAF), Pankratz, Cox - and that line is kept on every interval so the reader lands on the table the coefficients came from, not on this envelope. The NASA-9 form is Cp/R = a1/T^2 + a2/T + a3 + a4*T + a5*T^2 + a6*T^3 + a7*T^4 with T in kelvin, and only a1..a7 are transcribed: the two integration constants b1 and b2 fix absolute enthalpy and entropy, which this tranche does not claim, because a bench that only needs a sensible-heat difference should not carry a formation enthalpy it never checks. What each row DOES claim is a molar heat capacity as a function of temperature over a stated interval; what it does not claim is any value outside that interval, any enthalpy of a phase or crystal transition, and any property of a real impure sample. The 298.15 K value of every curve is pinned against the constant heat capacity the registry already carried for that species, and agrees with it to better than 3 percent throughout - which is the check that these are the same substances and not merely the same names. Transcribed 2026-09-07";
+
 /// The same claim for a named OBJECT rather than a pure substance.
 ///
 /// It is a separate tranche and not an extension of the one above,
@@ -161,6 +172,7 @@ const ISOPROPANOL_SEED: SpeciesData = SpeciesData {
     inchikey: "KFZMGEQAYNKOFK-UHFFFAOYSA-N",
     molar_mass: 60.096,
     heat_capacity: 152.2,
+    heat_capacity_polys: &[],
     density: 0.785,
     standard_phase: LegacyPhase::Liquid,
     appearance: Some("colourless"),
@@ -185,6 +197,7 @@ const SUCROSE_SEED: SpeciesData = SpeciesData {
     inchikey: "CZMRCDWAGMRECN-SFOFJGFUSA-N",
     molar_mass: 342.2965,
     heat_capacity: 484.0,
+    heat_capacity_polys: &[],
     density: 1.59,
     standard_phase: LegacyPhase::Solid,
     appearance: Some("white"),
@@ -209,6 +222,7 @@ const IRON_III_OXIDE_SEED: SpeciesData = SpeciesData {
     inchikey: "JEIPFZHSYJVQDO-UHFFFAOYSA-N",
     molar_mass: 159.687,
     heat_capacity: 103.9,
+    heat_capacity_polys: &[],
     density: 5.24,
     standard_phase: LegacyPhase::Solid,
     appearance: Some("reddish brown"),
@@ -238,6 +252,7 @@ const EPSOMITE_SEED: SpeciesData = SpeciesData {
     inchikey: "WRUGWIBCXHJTDG-UHFFFAOYSA-L",
     molar_mass: 246.471,
     heat_capacity: 360.0,
+    heat_capacity_polys: &[],
     density: 1.68,
     standard_phase: LegacyPhase::Solid,
     appearance: Some("colourless to white crystals"),
@@ -262,6 +277,7 @@ const SILICA_SEED: SpeciesData = SpeciesData {
     inchikey: "VYPSYNLAJGMNEJ-UHFFFAOYSA-N",
     molar_mass: 60.084,
     heat_capacity: 44.6,
+    heat_capacity_polys: &[],
     density: 2.65,
     standard_phase: LegacyPhase::Solid,
     appearance: Some("colourless to white grains"),
@@ -357,6 +373,19 @@ pub fn export_current_registry() -> Result<RegistryDocument, String> {
             retrieved: Some("2026-09-05".to_string()),
         });
     }
+    // Same guard again. This one is not ours: it is NASA's file, Apache-2.0,
+    // already vendored for the equilibrium solver and read a second time.
+    if !document.heat_capacity_polynomials.is_empty() {
+        document.sources.push(SourceRecord {
+            id: HEAT_CAPACITY_CURVE_SOURCE.to_string(),
+            citation: HEAT_CAPACITY_CURVE_CITATION.to_string(),
+            licence: "Apache-2.0".to_string(),
+            lane: SourceLane::Runtime,
+            origin: Some("vendor/nasa-cea/thermo.inp".to_string()),
+            revision: Some("NASA TP-2002-211556".to_string()),
+            retrieved: Some("2026-09-07".to_string()),
+        });
+    }
     export_material_recipes(&mut document);
     // These records were authored in the source contract, not inherited from
     // the handwritten seed. Re-exporting generated SpeciesData must not turn
@@ -416,12 +445,12 @@ fn export_material_recipes(document: &mut RegistryDocument) {
     const SOURCE: &str = "kerotakis/material-recipes-v1";
     document.sources.push(SourceRecord {
         id: SOURCE.to_string(),
-        citation: "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, teaches that vegetable oil is less dense than water and does not dissolve in it, demonstrates that detergent helps oil and water mix, and its Colors on the Move activity records detergent driving food colouring rapidly across whole milk; a Journal of Chemical Education baker's-yeast gasometer study measures CO2 evolution, induction, steady production and nutrient depletion, while FAO fermentation material gives the balanced hexose-to-ethanol-and-CO2 pathway; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids; USDA ERS reports cow's milk as approximately 87% water with the balance milk fat and skim solids; ACS Making Glue and Mississippi State Extension describe vinegar separating milk casein into heavy white curds and liquid whey; USDA FoodData Central's white all-purpose wheat flour entry reports starch as the large majority of its carbohydrate, with protein, moisture, fibre, lipid and ash making up the rest, and its unsweetened apple-juice entry reports roughly 88% water with the sugars dominated by fructose and glucose rather than sucrose and the acidity carried mainly by malic acid; its raw-lemon-juice entry reports roughly 91% water with citric acid as the dominant acid at about 4.7% and ascorbic acid present at about 0.05%; ordinary flat glass is a soda-lime composition of roughly three quarters silica with soda, lime, magnesia and alumina as network modifiers; solid paraffin candle wax and a sheet of office paper are dispensed against room-temperature bulk densities of 0.90 and 0.80 g/mL; USDA FoodData Central's seedless-raisin entry reports roughly 15% water and 79% carbohydrate of which about 59% is sugars, and a dried grape is denser than water at roughly 1.35 g/mL, which is why raisins sink in it; USDA FoodData Central's Foundation Foods whole-milk entry (FDC 746782, 'Milk, whole, 3.25% milkfat, with added vitamin D', published 2019-12-16, retrieved 2026-09-05) reports per 100 g the analytical values 88.1 g water, 38.0 mg sodium, 150 mg potassium, 123 mg calcium, 101 mg phosphorus, 11.9 mg magnesium, 0.8 g ash and 4.81 g lactose, and those sodium, potassium, calcium and phosphorus totals are what the whole-milk recipe's diffusible mineral buffer is built from; milk's chloride and citrate are absent from that entry and come as single cited figures from Gaucheron F. (2005), 'The minerals of milk', Reproduction Nutrition Development 45:473-483, whose Table I gives whole milk 772 to 1207 mg/kg of chloride (22 to 34 mmol/kg) and 7 to 11 mmol/kg of citrate and whose Table II gives bulk skim milk pH 6.72, while the soluble share of the calcium is constrained against Le Graet Y. and Brule G. (1993), 'Les equilibres mineraux du lait: influence du pH et de la force ionique', Lait 73:51-60, which measured 27% of total calcium soluble at pH 6.6 - the recipe's own lot assumptions say which of its numbers is which, and say that casein's buffering is modelled by nothing".to_string(),
+        citation: "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, teaches that vegetable oil is less dense than water and does not dissolve in it, demonstrates that detergent helps oil and water mix, and its Colors on the Move activity records detergent driving food colouring rapidly across whole milk; a Journal of Chemical Education baker's-yeast gasometer study measures CO2 evolution, induction, steady production and nutrient depletion, while FAO fermentation material gives the balanced hexose-to-ethanol-and-CO2 pathway; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids; USDA ERS reports cow's milk as approximately 87% water with the balance milk fat and skim solids; ACS Making Glue and Mississippi State Extension describe vinegar separating milk casein into heavy white curds and liquid whey; USDA FoodData Central's white all-purpose wheat flour entry reports starch as the large majority of its carbohydrate, with protein, moisture, fibre, lipid and ash making up the rest, and its unsweetened apple-juice entry reports roughly 88% water with the sugars dominated by fructose and glucose rather than sucrose and the acidity carried mainly by malic acid; its raw-lemon-juice entry reports roughly 91% water with citric acid as the dominant acid at about 4.7% and ascorbic acid present at about 0.05%; ordinary flat glass is a soda-lime composition of roughly three quarters silica with soda, lime, magnesia and alumina as network modifiers; solid paraffin candle wax and a sheet of office paper are dispensed against room-temperature bulk densities of 0.90 and 0.80 g/mL; USDA FoodData Central's seedless-raisin entry reports roughly 15% water and 79% carbohydrate of which about 59% is sugars, and a dried grape is denser than water at roughly 1.35 g/mL, which is why raisins sink in it; USDA FoodData Central's Foundation Foods whole-milk entry (FDC 746782, 'Milk, whole, 3.25% milkfat, with added vitamin D', published 2019-12-16, retrieved 2026-09-05) reports per 100 g the analytical values 88.1 g water, 38.0 mg sodium, 150 mg potassium, 123 mg calcium, 101 mg phosphorus, 11.9 mg magnesium, 0.8 g ash and 4.81 g lactose, and those sodium, potassium, calcium and phosphorus totals are what the whole-milk recipe's serum mineral buffer is built from; milk's chloride and citrate are absent from that entry and come as single cited figures from Gaucheron F. (2005), 'The minerals of milk', Reproduction Nutrition Development 45:473-483, whose Table I gives whole milk 772 to 1207 mg/kg of chloride (22 to 34 mmol/kg) and 7 to 11 mmol/kg of citrate and whose Table II gives bulk skim milk pH 6.72, while the share of the calcium the recipe books into the serum is constrained against Le Graet Y. and Brule G. (1993), 'Les equilibres mineraux du lait: influence du pH et de la force ionique', Lait 73:51-60, which measured 27% of total calcium soluble at pH 6.6 - the recipe's own lot assumptions say which of its numbers is which, say that the solver now precipitates part of that calcium back out as octacalcium phosphate, and say that casein's buffering is modelled by nothing".to_string(),
         licence: "AGPL-3.0-or-later".to_string(),
         lane: SourceLane::Runtime,
         origin: Some("crates/kerotakis-registry-export/src/lib.rs".to_string()),
-        revision: Some("3".to_string()),
-        retrieved: Some("2026-09-05".to_string()),
+        revision: Some("4".to_string()),
+        retrieved: Some("2026-09-07".to_string()),
     });
     let component = |species_id: &str, fraction: f64| MaterialComponent {
         species_id: species_id.to_string(),
@@ -1093,14 +1122,14 @@ fn export_material_recipes(document: &mut RegistryDocument) {
                 component("water", 0.87),
                 component("K+", 0.0015),
                 component("Na+", 0.00038),
-                component("Ca+2", 0.0003484),
+                component("Ca+2", 0.0004),
                 component("Cl-", 0.001064),
                 component("H2PO4-", 0.0010669),
                 component("C6H5O7-3", 0.0017397),
             ],
             unresolved_fraction: Some(FractionRange {
-                lower: 0.123_901,
-                upper: 0.123_901,
+                lower: 0.123_849_4,
+                upper: 0.123_849_4,
             }),
             physical_form: MaterialPhysicalForm::HomogeneousLiquid,
             roles: vec![
@@ -1123,13 +1152,14 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             ),
             lot_assumptions: vec![
                 "the water fraction is unchanged at the previously reviewed 0.87. USDA FoodData Central 746782 (Foundation Foods, 'Milk, whole, 3.25% milkfat, with added vitamin D', published 2019-12-16, CC0, retrieved 2026-09-05) reports 88.1 g of water per 100 g; moving the water fraction is a separate decision from resolving the minerals and is deliberately not made here. Milk fat, casein and whey protein, lactose and natural variation remain together as conserved unresolved milk solids rather than fictional molecules".to_string(),
-                "THE MINERAL BUFFER IS MILK'S DIFFUSIBLE (SERUM) PHASE AND ONLY THAT, because the aqueous solver models a solution and the colloidal phase is not one. Per 100 g of milk: sodium 38.0 mg (1.65 mmol) and potassium 150.0 mg (3.84 mmol) are FDC 746782's analytical values entered whole, both being essentially fully diffusible in milk; chloride is 106.4 mg (3.00 mmol, about 30 mmol/kg), which FoodData Central does not report at all and which is cited in the next assumption; citrate is 174.0 mg (0.92 mmol, about 9.2 mmol/kg) entered as the citrate ion C6H5O7-3, which is what nearly nine tenths of milk's citrate actually is at pH 6.7 and is also the key the aqueous tail books dissolved citrate back into; and diffusible inorganic phosphate is 1.10 mmol entered as H2PO4-, which is 34.1 mg of phosphorus out of FDC's 101 mg of total P - the roughly one third of milk's phosphorus that is both inorganic and in the serum, the rest being colloidal or esterified onto casein and therefore not a solute".to_string(),
+                "THE MINERAL BUFFER IS MILK'S DIFFUSIBLE (SERUM) PHASE PLUS THE LITTLE THE SOLVER LAYS BACK DOWN. It was the diffusible phase and only that while nothing could precipitate, because a colloid is not a solution; the registry now holds hydroxylapatite, beta-tricalcium phosphate and octacalcium phosphate, so the aqueous tail can take a calcium phosphate out of this glass itself, and the calcium booked below is a little more than the diffusible share with the solver deciding how much of it stays dissolved. Per 100 g of milk: sodium 38.0 mg (1.65 mmol) and potassium 150.0 mg (3.84 mmol) are FDC 746782's analytical values entered whole, both being essentially fully diffusible in milk; chloride is 106.4 mg (3.00 mmol, about 30 mmol/kg), which FoodData Central does not report at all and which is cited in the next assumption; citrate is 174.0 mg (0.92 mmol, about 9.2 mmol/kg) entered as the citrate ion C6H5O7-3, which is what nearly nine tenths of milk's citrate actually is at pH 6.7 and is also the key the aqueous tail books dissolved citrate back into; and diffusible inorganic phosphate is 1.10 mmol entered as H2PO4-, which is 34.1 mg of phosphorus out of FDC's 101 mg of total P - the roughly one third of milk's phosphorus that is both inorganic and in the serum, the rest being colloidal or esterified onto casein and therefore not a solute".to_string(),
                 "CHLORIDE AND CITRATE ARE NOT IN THE FOODDATA CENTRAL ENTRY, and they come from Gaucheron F. (2005), 'The minerals of milk', Reproduction Nutrition Development 45:473-483, Table I, read open-access at rnd.edpsciences.org on 2026-09-05: chloride 772 to 1207 mg per kg of milk (22 to 34 mmol/kg) and citrate 7 to 11 mmol/kg. This recipe books 1064 mg/kg of chloride (30.0 mmol/kg) and 9.2 mmol/kg of citrate, each near the middle of its range. The molar figure is the primary one for the citrate: Gaucheron's mass column is that molar range multiplied by 189, the citrate ion's molar mass, which is also the species this recipe books, so 9.2 mmol/kg is 174 mg per 100 g. These are single figures from a paper, cited - not a redistributed dataset. The same paper's Table II gives bulk skim milk pH 6.72, which is the number this recipe's buffer is set against".to_string(),
-                "SOLUBLE CALCIUM IS THE ONE CONSTRAINED NUMBER HERE, and it says so rather than hiding among the sourced ones. 34.8 mg per 100 g (0.869 mmol) is 28.3% of FDC 746782's 123 mg of total calcium. Le Graet Y. and Brule G. (1993), 'Les equilibres mineraux du lait: influence du pH et de la force ionique', Lait 73:51-60, read open-access at lait.dairy-journal.org on 2026-09-05, measured 27% of total calcium soluble at pH 6.6 in unmodified milk and 29 to 35% under raised ionic strength; ultracentrifugal serum measurements put it nearer a third. 28.3% is inside that band AND is the share at which this ion set is electroneutral at pH 6.7. The band is what makes the choice defensible and the charge balance is what fixes it inside the band, so a reviewer should read this as a constrained parameter rather than as a transcription. The reason one number has to be constrained at all is the assumption below".to_string(),
-                "CASEIN IS NOT MODELLED AND ITS BUFFERING IS THEREFORE ABSENT, which is the largest single thing this recipe does not claim. In real milk the casein micelle is a polyanion carrying of the order of 10 mmol/kg of negative charge at pH 6.7 and holding a matching share of the serum's cations, and it is also - together with the colloidal calcium phosphate bound to it - the larger part of milk's buffer capacity between pH 6.6 and pH 5.0, which is exactly the interval a yoghurt fermentation crosses. None of that is here. Had every diffusible cation milk actually carries been booked as a free ion with no polyanion to balance it, this recipe would have sat near pH 7.4 rather than 6.7. What is booked instead is the ion set that balances, and the calcium left out is the calcium that in real milk is bound to the casein as colloidal calcium phosphate - so the constraint and the chemistry point the same way, which is the only thing that makes it defensible".to_string(),
+                "CALCIUM IS THE ONE CONSTRAINED NUMBER HERE, and it says so rather than hiding among the sourced ones. 40.0 mg per 100 g (0.998 mmol) is 32.5% of FDC 746782's 123 mg of total calcium. It was 34.8 mg (28.3%) while nothing in this lab could precipitate a calcium phosphate, and it moved when three of them entered the registry, because the number stopped meaning the same thing: it used to BE the diffusible calcium, entered whole and left dissolved, and it is now the calcium that goes into the glass before the solver has spoken. The solver lays about 30% of it back down as octacalcium phosphate, so what a meter dipped into this milk sees is 8.1 mmol per kg of water - 28.3 mg per 100 g, or 23.0% of the total. Le Graet Y. and Brule G. (1993), 'Les equilibres mineraux du lait: influence du pH et de la force ionique', Lait 73:51-60, read open-access at lait.dairy-journal.org on 2026-09-05, measured 27% of total calcium soluble at pH 6.6 in unmodified milk and 29 to 35% under raised ionic strength; ultracentrifugal serum measurements put it nearer a third. BOTH FIGURES SIT INSIDE THAT BAND, the 32.5% booked and the 23.0% computed, and 32.5% is also the value at which the equilibrated milk lands back on the pH the recipe computed before it could precipitate anything - 6.56, against Gaucheron's measured 6.72 for bulk skim milk. The band is what makes the choice defensible and the pH is what fixes it inside the band, so a reviewer should read this as a constrained parameter rather than as a transcription. The reason one number has to be constrained at all is the assumption two below".to_string(),
+                "WHAT COMES OUT OF THE GLASS, AND HOW LITTLE OF IT. Equilibrated at 25 degC this recipe precipitates about 36 mg of octacalcium phosphate per 100 g of milk - 37.5 mg in the 103 g that is 100 mL - carrying 0.29 mmol of calcium, which is 29% of the calcium the recipe books. That is a real colloidal calcium phosphate and it is the right phase - octacalcium phosphate is what a near-neutral calcium phosphate solution actually gives at bench temperature, and it is the family milk's own colloidal calcium phosphate and the first mineral of bone belong to. IT IS A FRACTION OF MILK'S COLLOID AND NOT A MODEL OF IT: real milk carries roughly two thirds to three quarters of its calcium in the casein micelle, of the order of 2.2 mmol or 90 mg per 100 g, and this takes out 0.29 mmol - about an eighth of it. The rest is absent for the same reason everything else about the micelle is absent - casein is not modelled, and booking more calcium with no polyanion to balance it drives this ion set past pH 9 before any solid forms. HYDROXYLAPATITE IS THE STABLE PHASE AND IS DELIBERATELY WITHHELD, by a kinetic floor on its own registry row, and the aqueous tail says so out loud on every vessel of this milk: fresh milk serum really is about eight log units supersaturated against apatite and really does not precipitate it, because the micelle holds its calcium phosphate as stabilised nanoclusters. Letting it precipitate here would take the milk to pH 5.7 and strip 58% of the calcium out of the serum, which is a beaker with no milk protein in it rather than a beaker of milk".to_string(),
+                "CASEIN IS NOT MODELLED AND ITS BUFFERING IS THEREFORE ABSENT, which is the largest single thing this recipe does not claim. In real milk the casein micelle is a polyanion carrying of the order of 10 mmol/kg of negative charge at pH 6.7 and holding a matching share of the serum's cations, and it is also - together with the colloidal calcium phosphate bound to it - the larger part of milk's buffer capacity between pH 6.6 and pH 5.0, which is exactly the interval a yoghurt fermentation crosses. None of that is here. Had every diffusible cation milk actually carries been booked as a free ion with no polyanion to balance it, this recipe would have sat near pH 7.4 rather than 6.7. What is booked instead is the ion set that balances, and the calcium left out is the calcium that in real milk is bound to the casein as colloidal calcium phosphate - so the constraint and the chemistry point the same way, which is the only thing that makes it defensible - and the 36 mg of octacalcium phosphate the solver now lays down is the near edge of that same colloid rather than a model of it".to_string(),
                 "CONSEQUENCE FOR AN ACIDIFICATION, stated because it is what this buffer will be used for: the phosphate and the citrate here are real and carry real buffer capacity, and having them is the whole difference between milk that models as water and milk that has a pH at all - but casein's share is missing, so the acid dose that takes this recipe to a given pH is smaller than the dose real milk needs. A computed yoghurt pH from this recipe is a LOWER BOUND on the real thing at the same acid rather than a prediction of it, and it should be read as one".to_string(),
-                "the buffer is booked as BARE IONS rather than as weighed salts, which is a first for a recipe in this registry and is deliberate twice over: milk serum is an ion mixture and not a set of salts anybody dissolved, and these six keys are exactly the ones the aqueous tail books its own solved element totals back into, so a vessel that has been through a solve and a vessel that has just been poured hold the same species. As written the set carries a net +0.37 mmol of charge per 100 g, and that is not a rounding error either: it is the second proton the phosphate gives up on its way to about 30% HPO4-2, which is where a solver puts it at pH 6.7".to_string(),
-                "THE BOOKED SERUM AGAINST THE MEASURED ONE, which is the check on the whole set. Per kg of water this recipe carries K 44, Na 19, Ca 10.0, Cl 34.5, inorganic phosphate 12.6 and citrate 10.6 mmol. The milk diffusate of Holt, Dalgleish and Jenness (1981), Anal. Biochem. 113:154-163, carries Ca 10.2, Na 22.0, K 38.0, inorganic phosphate 12.4, Cl 32.3, citrate 9.4 and sulfate 1.2 mmol/kg water at pH 6.70 and ionic strength 0.073 - THAT 1981 PAPER WAS NOT OPENED and is cited SECONDARY, through Gaucheron 2005 Table IV and through R. Gao, 'Ion Speciation in Milk-like Systems', PhD thesis, Wageningen University 2010, which reprint it and agree to the last digit. Gao's own ultracentrifugal serum (Chapter 6 Table 3, n = 10, mmol/kg water) carries serum Ca 10.6, K 47.4, Na 21.0, Cl 37.4, inorganic phosphate 11.3 and citrate 10.9 - MEASURED ON RECONSTITUTED LOW-HEAT SKIM MILK POWDER rather than on fresh whole milk, which is why it is a corroborating spread and not the source of any number here. Every ion this recipe books is inside that spread".to_string(),
+                "the buffer is booked as BARE IONS rather than as weighed salts, which is a first for a recipe in this registry and is deliberate twice over: milk serum is an ion mixture and not a set of salts anybody dissolved, and these six keys are exactly the ones the aqueous tail books its own solved element totals back into, so a vessel that has been through a solve and a vessel that has just been poured hold the same species. As written the set carries a net +0.62 mmol of charge per 100 g - it was +0.37 before the calcium moved - and that is not a rounding error either. Part of it is the second proton the phosphate gives up on its way to about 29% HPO4-2, which is where the solver puts it at the pH this milk lands on, and the rest is carried by ion pairing and by the small calcium phosphate that comes out. Nor is it a claim that milk carries a net charge: 0.62 mmol per 100 g is about 7 meq per kg of milk, which is the order of the negative charge the casein polyanion would have carried, and casein is not modelled".to_string(),
+                "THE BOOKED SERUM AGAINST THE MEASURED ONE, which is the check on the whole set. Per kg of water this recipe books K 44, Na 19, Ca 11.5, Cl 34.5, inorganic phosphate 12.6 and citrate 10.6 mmol, and once the octacalcium phosphate has come out the serum the solver hands back carries Ca 8.1 and inorganic phosphate 10.1. The milk diffusate of Holt, Dalgleish and Jenness (1981), Anal. Biochem. 113:154-163, carries Ca 10.2, Na 22.0, K 38.0, inorganic phosphate 12.4, Cl 32.3, citrate 9.4 and sulfate 1.2 mmol/kg water at pH 6.70 and ionic strength 0.073 - THAT 1981 PAPER WAS NOT OPENED and is cited SECONDARY, through Gaucheron 2005 Table IV and through R. Gao, 'Ion Speciation in Milk-like Systems', PhD thesis, Wageningen University 2010, which reprint it and agree to the last digit. Gao's own ultracentrifugal serum (Chapter 6 Table 3, n = 10, mmol/kg water) carries serum Ca 10.6, K 47.4, Na 21.0, Cl 37.4, inorganic phosphate 11.3 and citrate 10.9 - MEASURED ON RECONSTITUTED LOW-HEAT SKIM MILK POWDER rather than on fresh whole milk, which is why it is a corroborating spread and not the source of any number here. Every ion this recipe books is inside that spread; the two the solver moves, calcium and phosphate, come back about a fifth below it, which is the direction a model carrying no casein colloid should err in".to_string(),
                 "magnesium, sulfate, the serum ester phosphate and the dissolved carbon dioxide of fresh milk are deliberately not booked, and THE TWO OMISSIONS VERY NEARLY CANCEL, which is worth stating because a reviewer who restores one of them alone will watch the pH move. Leaving magnesium out removes about 7 meq per kg of water from the cation side; leaving the minor serum anions out removes about 9 meq from the anion side. That near-cancellation is why the booked set balances at a calcium share the literature measures rather than at one invented for the purpose. None of the four buffers anywhere near pH 6.7, so what they cost the pH meter is only the charge, and the charge is what has been accounted for".to_string(),
                 "1.03 g/mL and 60 g/L full-opacity are explicit room-temperature visual geometry parameters, not product specifications".to_string(),
                 "acid curdling is a bounded dose response calibrated to the familiar milk-and-vinegar classroom ratio; its 28% aggregate-solids ceiling separates estimated curd solids from wet-curd yield and its opacity response is independent".to_string(),
@@ -2087,7 +2117,7 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             ),
             lot_assumptions: vec![
                 "candle wax is a variable blend of long-chain alkanes spanning roughly C20 to C40, often with stearic acid, dye and scent. KID-12 resolves 92% of it as paraffin, one representative chain length standing for the blend; the stearic acid, dye and scent stay in the conserved remainder. This is a teaching stand-in and not a claim about any candle".to_string(),
-                "melting is not claimed: the installed state model derives its transitions from water's enthalpies of fusion and vaporisation and covers no other substance, so heating named wax must reach the engine's ordinary model boundary instead of a curated melt".to_string(),
+                "melting is not claimed, and the reason is no longer the one first written here. The state model does now cover substances other than water, so heating named wax reaching the engine's ordinary model boundary is a gap in this registry rather than a property of the engine. What stands in the way is the wax itself: a candle blend spanning C20 to C40 does not melt at a point, it softens across roughly 46 to 68 degrees Celsius, and a single curated melting temperature would be a sharper claim than the material supports. A melting RANGE is the honest shape for this row and the registry has no slot for one yet".to_string(),
                 "burning is claimed as of KID-12, and only as far as the heat: a curated heat of combustion, the oxygen the vessel actually holds, and carbon dioxide and water out. A wick, a melt pool, a luminous flame and soot are none of them modelled, so this is what a wax releases rather than what a candle looks like".to_string(),
                 "the bare words wax and Wachs remain unclaimed as material names because beeswax, soy wax and paraffin wax are different materials. The species paraffin is installed and can be added directly; asking for it by name gets the pure alkane and not this blend".to_string(),
             ],
@@ -5288,6 +5318,50 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
                 quantity: imported_number(value, symbol, dimension, phase, &source_id),
             });
     }
+
+    // The temperature dependence of that heat capacity, where a published
+    // curve exists. One record per phase: ice, liquid water and steam are
+    // three curves and the file says so three times.
+    for curve in species.heat_capacity_polys {
+        // `phase` the local binding above shadows `phase` the function, so
+        // this one takes the long way round to the same call.
+        let curve_phase = crate::phase(curve.phase);
+        let form = match curve.intervals.first().map(|i| i.form) {
+            Some(CpForm::Nasa9) | None => HeatCapacityForm::Nasa9,
+            Some(CpForm::Shomate) => HeatCapacityForm::Shomate,
+        };
+        document
+            .heat_capacity_polynomials
+            .push(HeatCapacityPolynomialRecord {
+                id: format!(
+                    "heat-capacity-polynomial/{}/{}",
+                    species.key,
+                    phase_slug(curve_phase)
+                ),
+                species_id: species.key.to_string(),
+                phase: curve_phase,
+                form,
+                unit: Unit {
+                    symbol: "J/(mol.K)".to_string(),
+                    dimension: Dimension::MolarHeatCapacity,
+                },
+                intervals: curve
+                    .intervals
+                    .iter()
+                    .map(|interval| HeatCapacityInterval {
+                        t_min_k: interval.t_min,
+                        t_max_k: interval.t_max,
+                        coefficients: interval.coefficients[..form.coefficient_count()].to_vec(),
+                        reference: interval.reference.to_string(),
+                    })
+                    .collect(),
+                boundary: Some(curve.boundary.to_string()),
+                evidence: Evidence {
+                    source_id: HEAT_CAPACITY_CURVE_SOURCE.to_string(),
+                    method: Method::Imported(curve.method.to_string()),
+                },
+            });
+    }
     // EXP-33: melting/boiling ride the typed properties; sublimation,
     // decomposition and dehydration ride `Other`, because the schema has no
     // variant for them and inventing one would claim a dimension check the
@@ -5612,6 +5686,20 @@ fn phase(value: LegacyPhase) -> Phase {
         LegacyPhase::Liquid => Phase::Liquid,
         LegacyPhase::Aqueous => Phase::Aqueous,
         LegacyPhase::Gas => Phase::Gas,
+    }
+}
+
+/// The record id spelling of a phase, matching the schema's own
+/// `snake_case` serialisation so a reader can grep the id and the field and
+/// find the same word.
+fn phase_slug(value: Phase) -> &'static str {
+    match value {
+        Phase::Solid => "solid",
+        Phase::Liquid => "liquid",
+        Phase::Aqueous => "aqueous",
+        Phase::Gas => "gas",
+        Phase::Plasma => "plasma",
+        Phase::Supercritical => "supercritical",
     }
 }
 

@@ -230,6 +230,23 @@ fn the_router_arrives_where_the_salt_would_have() {
 /// rather than sit in the vessel uncharacterised.
 #[test]
 fn water_pushes_esterification_back_in_the_full_stack() {
+    // Heat to the TEMPERATURE this test means, rather than to the joules
+    // that happened to produce it in the wet case.
+    //
+    // `HEAT_J` is sized for a litre of water and its doc comment says so:
+    // past the family's 323.15 K gate, "without approaching the boil". The
+    // DRY case has no litre of water. Two tenths of a mole of organic
+    // liquid is about 24 J/K, a hundred and seventy times less, so the
+    // same 180 kJ put it somewhere around eight thousand kelvin — and the
+    // test passed anyway, because nothing on this bench boiled an ordinary
+    // liquid and the flask sat there superheated while the family
+    // esterified in it. PLAN P3s made ethanol leave at 78 °C, the flask
+    // emptied, and the assertion that had been true for the wrong reason
+    // stopped being true at all.
+    //
+    // So both cases are carried to the same place, which is what the wet
+    // case's joules were a proxy for all along.
+    const TARGET_K: f64 = 341.0;
     let brew = |water: f64| {
         let mut bench = Bench::new();
         let mut stack = stack();
@@ -240,12 +257,28 @@ fn water_pushes_esterification_back_in_the_full_stack() {
         add(&mut bench, &mut stack, v, "CH3COOH", SCALE);
         add(&mut bench, &mut stack, v, "ethanol", SCALE);
         add(&mut bench, &mut stack, v, "H2SO4", 0.001);
-        heat(&mut bench, &mut stack, v, HEAT_J);
+        let cp = bench.vessel(v).unwrap().heat_capacity();
+        let rise = (TARGET_K - temperature(&bench, v)).max(0.0);
+        heat(&mut bench, &mut stack, v, cp * rise);
         (bench, v)
     };
 
     let (dry_bench, dv) = brew(0.0);
     let (wet_bench, wv) = brew(WATER);
+
+    // Pinned, so the flask cannot silently go back to being superheated:
+    // above the family's gate and below the lowest boiling point in it,
+    // which is ethanol's 351.39 K.
+    for (label, t) in [
+        ("dry", temperature(&dry_bench, dv)),
+        ("wet", temperature(&wet_bench, wv)),
+    ] {
+        assert!(
+            t > 323.15 && t < 351.39,
+            "the {label} flask must clear the family's 323.15 K gate without \
+             boiling its ethanol away, got {t} K"
+        );
+    }
     let dry = moles(&dry_bench, dv, "ethyl_acetate");
     let wet = moles(&wet_bench, wv, "ethyl_acetate");
     assert!(dry > 0.0, "the dry case should esterify at all");

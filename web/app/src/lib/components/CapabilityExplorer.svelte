@@ -1,8 +1,8 @@
 <script lang="ts">
   import { untrack } from "svelte";
-  import { capabilityMatches, type CapabilityPrompt, type CapabilitySupport } from "../capabilities";
+  import { capabilityMatches, localiseCapability, type CapabilityPrompt, type CapabilitySupport } from "../capabilities";
   import type { Session } from "../session.svelte";
-  import { t } from "../i18n.svelte";
+  import { i18n, t } from "../i18n.svelte";
 
   let { prompts, session, onclose, initial = null }: { prompts: CapabilityPrompt[]; session: Session; onclose: () => void; initial?: string | null } = $props();
   let query = $state(untrack(() => initial ?? ""));
@@ -12,13 +12,17 @@
   let open = $state<string | null>(untrack(() => initial));
   let running = $state<string | null>(null);
 
-  const topics = $derived([...new Set(prompts.map((prompt) => prompt.topic))].sort());
+  // Ordered by what the reader SEES, not by the identifier underneath: a
+  // German list sorted on English topic slugs is alphabetised against a
+  // word nobody on that screen can read.
+  const topics = $derived([...new Set(prompts.map((prompt) => prompt.topic))]
+    .sort((a, b) => t(a.replaceAll("_", " ")).localeCompare(t(b.replaceAll("_", " ")), i18n.locale)));
   const bands = $derived([...new Set(prompts.map((prompt) => prompt.age_band))].sort());
   const shown = $derived(prompts.filter((prompt) =>
     (support === "all" || prompt.support === support) &&
     (topic === "all" || prompt.topic === topic) &&
     (band === "all" || prompt.age_band === band) &&
-    capabilityMatches(prompt, query),
+    capabilityMatches(prompt, query, i18n.locale),
   ));
   /**
    * The corpus bands its prompts by school age. The learner never sees that.
@@ -89,16 +93,20 @@
     <p class="result-count">{t("{count} questions shown", { count: shown.length })}</p>
     <ul>
       {#each shown as prompt (prompt.id)}
+        {@const said = localiseCapability(prompt, i18n.locale, t)}
         <li>
           <button class="question" onclick={() => (open = open === prompt.id ? null : prompt.id)} aria-expanded={open === prompt.id}>
             <span class="id">{prompt.id}</span>
-            <strong>{t(prompt.question)}</strong>
+            <strong>{said.question}</strong>
             <span class="badge" data-support={prompt.support}>{t(prompt.support)}</span>
           </button>
           {#if open === prompt.id}
             <div class="details">
-              <p>{t(prompt.topic.replaceAll("_", " "))} · {bandLabel(prompt.age_band)} · {t(prompt.material_class.replaceAll("_", " ").replaceAll("-", " "))}</p>
-              <div class="tags">{#each prompt.tags as tag (tag)}<span>{t(tag.replaceAll("_", " "))}</span>{/each}</div>
+              <p>{t(prompt.topic.replaceAll("_", " "))} · {bandLabel(prompt.age_band)} · {said.materialClass}</p>
+              <!-- Keyed by position: the English tags are unique, but two of them can
+                   translate to one word, and a duplicate key is a crash rather than
+                   a repeated chip. -->
+              <div class="tags">{#each said.tags as tag, index (index)}<span>{tag}</span>{/each}</div>
               <p class="script-label">{t("bench script")}</p>
               <pre>{prompt.script.join("\n")}</pre>
               {#if prompt.support === "missing"}
