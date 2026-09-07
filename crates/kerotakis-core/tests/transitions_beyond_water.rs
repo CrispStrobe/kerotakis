@@ -85,8 +85,8 @@ fn cool(bench: &mut Bench, stack: &mut SolverStack, joules: f64) -> Vec<Event> {
 /// and the thermometer holds there while it does.
 ///
 /// 1 mol of ethanol is 46 g, about 58 mL. Warming it from 25 °C to its
-/// boiling point costs 112.3 × 78.24 ≈ 8.8 kJ; boiling all of it costs a
-/// further 38.6 kJ. 20 kJ therefore lands squarely on the plateau with
+/// boiling point costs 112.3 × 53.24 ≈ 6.0 kJ; boiling all of it would cost
+/// a further 38.6 kJ. 20 kJ therefore lands squarely on the plateau with
 /// most of the ethanol still in the flask, which is the observation.
 #[test]
 fn pure_ethanol_boils_at_its_own_point_and_the_thermometer_holds_there() {
@@ -114,7 +114,7 @@ fn pure_ethanol_boils_at_its_own_point_and_the_thermometer_holds_there() {
     let left = moles(&bench, "ethanol", Phase::Liquid);
     assert!(
         left > 0.6 && left < 0.8,
-        "20 kJ pays about 8.8 kJ of sensible heat and then buys ~0.29 mol of \
+        "20 kJ pays about 6.0 kJ of sensible heat and then buys ~0.36 mol of \
          vapour at 38.56 kJ/mol; {left} mol of liquid ethanol left"
     );
     assert!(
