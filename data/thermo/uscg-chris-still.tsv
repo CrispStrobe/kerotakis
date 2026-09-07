@@ -1,0 +1,7 @@
+# USCG CHRIS Chemical Hazards Response Information System, June 1999.
+# Reviewed fields only: section 9.2 molar mass, 9.3 normal boiling, 9.12 latent heat.
+# LicenseRef-US-Coast-Guard-Public-Domain; retrieved 2026-09-06.
+# Review: provenance/uscg-chris-still-review.md. Not a CAMEO database export.
+# species_id boiling_K latent_J_per_kg molar_mass_g_per_mol source
+methanol 337.7 1100000 32.04 https://cameochemicals.noaa.gov/chris/MAL.pdf
+isopropanol 355.5 666000 60.10 https://cameochemicals.noaa.gov/chris/IPA.pdf

@@ -78,6 +78,37 @@ Reactivity screening
   Safety. It does not contain or reproduce the CAMEO Chemicals database or any
   of its contributed proprietary fields.
 
+Reviewed ligand equilibrium constants
+- U.S. Bureau of Mines IC 9429 (1995), Charles M. Flynn, Jr. and Sandra M.
+  Haslem, Cyanide Chemistry — Precious Metals Processing and Waste Treatment.
+  Six 25 °C, zero-ionic-strength complex formation constants transcribed from
+  Tables D-7 and D-15. CDC Stacks explicitly identifies the report as Public
+  Domain: https://stacks.cdc.gov/view/cdc/206360 . See the per-field review in
+  provenance/usbm-ic9429-complexes-review.md. No spectra or rates are supplied.
+
+Reviewed hydrogen bromide gas uptake
+- Rolf Sander (2023), Compilation of Henry's law constants (version 5.0.0)
+  for water as solvent, Atmospheric Chemistry and Physics 23, 10901-12440,
+  https://doi.org/10.5194/acp-23-10901-2023 . Copyright Author(s) 2023,
+  licensed Creative Commons Attribution 4.0 International:
+  https://creativecommons.org/licenses/by/4.0/ . Only HBr note 146's
+  reference constant and temperature slope are used. Changes: converted
+  concentration/pressure units and derived a local reaction enthalpy using
+  the USGS PHREEQC pure-water density formulation. No endorsement implied.
+  See provenance/sander-2023-hbr-review.md for conditions and omissions.
+
+Reviewed additional-solvent distillation reference fields
+- U.S. Coast Guard CHRIS manual (June 1999), methanol (MAL) and isopropanol
+  (IPA), sections 9.2, 9.3 and 9.12: molar mass, normal boiling point and
+  latent heat. U.S. government physical-property information; see
+  https://www.uscg.mil/disclaim/ and the original NOAA-hosted manual PDFs
+  https://cameochemicals.noaa.gov/chris/MAL.pdf and
+  https://cameochemicals.noaa.gov/chris/IPA.pdf . This narrow slice excludes
+  third-party restricted categories and is not a CAMEO database export.
+  Unit conversion and a bounded constant-latent ideal-mixture approximation
+  are Kerotakis modifications, not government predictions or endorsement.
+  See provenance/uscg-chris-still-review.md for the limits.
+
 Development and build-time tools (not distributed with app binaries)
 - SUNDIALS/CVODE — BSD-3-Clause-style LLNL licence; Regents of the University
   of California / Lawrence Livermore National Laboratory. Used only as a

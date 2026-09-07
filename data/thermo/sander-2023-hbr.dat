@@ -1,0 +1,12 @@
+# HBr dissociative gas uptake; Sander (2023), CC-BY-4.0, note 146.
+# Source: https://doi.org/10.5194/acp-23-10901-2023
+# Changes: concentration/Pa basis converted to molal/atm using USGS pure-water
+# density; reference enthalpy derived from the source slope and density slope.
+# See provenance/sander-2023-hbr-review.md. The delta_h is a DERIVED LOCAL
+# reference-temperature slope, not a measured calorimetric value. Away from
+# 298.15 K this constant-enthalpy continuation requires an explicit boundary.
+PHASES
+HBr(g)
+    HBr = H+ + Br-
+    log_k 8.922102677041854
+    delta_h -82.76420684218871 kJ/mol
