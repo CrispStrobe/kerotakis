@@ -33,6 +33,40 @@ it had while it was open, which is why a few numbers appear twice below.
 
 **Engine**
 
+- **#509** — the heat ledger spends the **integral**, not the rectangle. Every
+  dose and every mix now solves for the temperature where the enthalpies
+  balance over Cp(T), so a beaker given 240 kJ lands at 470.2 °C where the flat
+  constant said 600.9 °C, and 60 kJ out of 100 mL leaves ice at −90.6 °C on
+  ice's own curve rather than −77.4 °C on water's. Bisections run to adjacent
+  floats; the conservation bound moves from a part in a million to a part in a
+  hundred thousand, because liquid water's NASA-9 fit differences an
+  antiderivative whose terms are ~1.2e9 J/mol cancelling to −9.2e8 and gives up
+  2.6e-7 J per mole — ice's fit gives up 4e-11, so it is that one curve's
+  conditioning, not the ledger. The last rectangle in the whole ledger was the
+  aqueous tail's, which balanced two flat spans read at different temperatures
+  and so made Hess's law order-dependent by 7.25e-5 K; that is now an area on
+  both sides. Two bugs the integral **exposed** rather than caused: CEA's
+  `Consumed` loop emitted only for `Phase::Solid` while its `Precipitated` loop
+  had no such guard, so once the larger melt budget left no solid magnesium the
+  ribbon burned without being reported (`combustion.rs` had fixed the identical
+  defect on the core path); and two codex entries tuned to straddle the 500 K
+  kinetic threshold no longer straddled it, so their doses were re-tuned to
+  reproduce the temperatures their prose already quotes
+- **#531** — an open vessel takes up the room's CO₂ **as a rate**.
+  `GasExchangeClock` joins the slow clock ahead of `ambient` and drives
+  dn/dt = k_L·A·K_H·Δp through the vessel's mouth, with k_L = 5.75e-6 m/s, the
+  still-air intercept of Cole & Caraco (1998) — a published number, and its
+  limits stated where it lives: a lake at low wind is an upper bound for a
+  beaker, chemical enhancement is unmodelled so a strong base is understated by
+  up to 10× near pH 12. A 200 mL beaker has τ ≈ 2.5 h, water reaches pH 5.68 in
+  about three hours, and limewater puts chalk down on the first day and reads
+  hazy after about a week. Outward transport stays instantaneous, deliberately:
+  a drink going flat is a different mechanism. Two real defects surfaced with
+  it — a school equation printed for a sixth of a micromole (the observability
+  floor now applies to spending a parcel, not earning it) and `unspent_acidity`
+  reading room carbon booked as HCO₃⁻, which let one transcript say both "4.48
+  mmol reacted" and "iron does not react, kinetically blocked"
+
 - **#501** — `Event::DidNotIgnite` gained the candidate fuel, its moles, the
   oxygen fraction, `gap_k` and a four-way `reason` (`NoFuel` / `NoOxygen` /
   `BelowAutoignition` / `NotModelled`), closing the one animation-audit row
@@ -78,6 +112,23 @@ it had while it was open, which is why a few numbers appear twice below.
   still need an optional `Refusal` on the event
 
 **Web / i18n**
+
+- **#528** — the catalogue answers instead of listing. A card says
+  `jetzt durchführbar` or names what is missing, and where the refusal is the
+  engine's it renders the engine's own reason; before the answer arrives it
+  says so rather than guessing. Story Map and Concept Map locks state what is
+  **left** rather than repeating an absolute threshold, and the concept map's
+  new gate is Story-only, because Sandbox gates nothing (#517)
+- **#527** — `docs/CURIOSITY-COVERAGE.md`: the standing analysis of the 500-row
+  corpus, from a fresh run rather than the recorded file. 497 rows answer, 3
+  produce nothing, baseline drift is zero. Of the 76 expectation mismatches
+  only **two** are engine gaps: 32 are the corpus under-predicting its own
+  engine, 11 are the provenance grades being ordered rather than ranked, 20 are
+  the classifier short-circuiting before it looks at which route succeeded, and
+  11 rest on the weakest evidence it accepts. The highest-value change named
+  there is a definition, not code: reading `expected` as a floor and merging
+  the two computed grades takes 76 to 22 without moving a row, and unblocks the
+  classifier fix that #362 died on
 
 - **I18N-1 (#505)** — the whole experiment catalogue speaks German: **1255 of
   1255** authored strings, up from 1108 of a denominator that was itself
@@ -130,6 +181,21 @@ it had while it was open, which is why a few numbers appear twice below.
   the receipt and forgets it on clear
 
 ### Lessons
+
+- a bench that answers a rate question instantly cannot teach it: limewater
+  going cloudy, rain turning acidic and a drink going flat are all the same
+  missing clock (#531).
+- an improvement can expose a latent bug rather than cause one, and the two look
+  identical from the failure: the integral melted the last solid magnesium and
+  a `Phase::Solid` guard that had been wrong all along stopped matching (#509).
+- a claim tuned to sit either side of a threshold is a claim about the
+  threshold; when the arithmetic under it changes, re-tune the dose and keep the
+  prose, never the reverse (#509).
+- a coverage mismatch is not a defect until you say which side is wrong — 43 of
+  76 were the corpus under-predicting its own engine or mislabelling it (#527).
+- characterising the solvent of every vessel silently cost 26 rows their honest
+  observation and turned 3 into solver failures: a grading leak and an engine
+  regression can wear the same number.
 
 - the coverage lint counted only the fields it knew, so a file that was 42.9 %
   German reported 100 %: a coverage number is only as honest as its
