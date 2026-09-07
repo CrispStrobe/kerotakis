@@ -257,8 +257,9 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 - [ ] **Status:** open; phase 1 (IR + chematic oracle), phase 2 (conservation
   ledger + order independence) and phase 3 (router wired into the standard
-  stack after `CuratedEquilibrator`, PRs #386 and #400, proven through the real
-  aqueous tail in #395) landed — recorded in `HISTORY.md`. **Size:** large. **Depends on:**
+  stack after `CuratedEquilibrator`, PRs #386 and #400, proven through the
+  real aqueous tail in #395) landed — recorded in `HISTORY.md`.
+  **Size:** large. **Depends on:**
   BRD-012 and the landed kinetics/curated-reaction infrastructure.
 - **Outcome:** one audited rule can apply a known transformation to structurally
   matching substrates without becoming an arbitrary predictor.
@@ -320,7 +321,8 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 ### BRD-023 — Familiar organic reaction-family pack v1
 
 - [ ] **Status:** open (BRD-023.S01 and the galvanic-corrosion (#387),
-  peroxide-bleach and alcohol-oxidation (#412) checkpoints shipped 2026-09-05; the bounded
+  peroxide-bleach and alcohol-oxidation (#412) checkpoints shipped
+  2026-09-05; the bounded
   thermoplastic/thermoset comparison became directly runnable in the unified
   catalogue 2026-09-06 — recorded in
   `HISTORY.md`). **Size:** large/data-heavy. **Depends on:** BRD-014 and
@@ -402,7 +404,8 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 ### BRD-041 — Familiar gas/combustion mechanism packs
 
 - [ ] **Status:** packs shipped 2026-09-05 (PRs #393, #399), routed into the
-  engine the same week (PRs #404, #406 and #410) — recorded in `HISTORY.md`. Three acceptance
+  engine the same week (PRs #404, #406 and #410) — recorded in `HISTORY.md`.
+  Three acceptance
   items remain open, listed below. **Size:** large/data-heavy. **Depends on:**
   BRD-040 (complete).
 - **Scope:** add reviewed reduced mechanisms for hydrogen/oxygen, methane,

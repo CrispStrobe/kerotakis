@@ -1397,13 +1397,15 @@ and presents them well.
   ANIM-3 (the three events that drew nothing, #458) shipped across three PRs
   and took the audit from 32/18/23 to **45 done, 11 partial, 17 missing**;
   the six quantities the audit asked the engine for went onto the wire in
-  #462. See `HISTORY.md`. Persistent corrosion extent moved one further missing row to
+  #462. See `HISTORY.md`. Persistent corrosion extent moved one further
+  missing row to
   done. The computed-motion tranche then made gas production cadence follow
   `rate_moles_per_second` and foam collapse follow `half_life_seconds`, moving
   two partial rows to done, reaching **48 done, 9 partial, 16 missing**.
 
   ANIM-5 through ANIM-9 (#490, #492, #493, #494, #495) then closed the rest,
-  five slices of at most six rows each: 48/9/16 → 52/9/12 → 58/9/6 → 64/9/0 → 70/3/0 → **73 done, 0
+  five slices of at most six rows each: 48/9/16 → 52/9/12 → 58/9/6 →
+  64/9/0 → 70/3/0 → **73 done, 0
   partial, 0 missing.** The last two slices are the ones worth naming here,
   because they were not absences but *constants*: `plated`'s magnitude was a
   literal `1`, so a copper blush and a nail gone orange drew the same
@@ -1415,7 +1417,8 @@ and presents them well.
 
   **This item is closed and the question it asks is not.** One gap outlives
   the row count, recorded in the audit. (The other, `Event::DidNotIgnite`
-  carrying nothing but a vessel id, is now closed in #501: the event names *which*
+  carrying nothing but a vessel id, is now closed in #501: the event names
+  *which*
   absence it is — `no_fuel`, `no_oxygen`, `below_autoignition`,
   `not_modelled` — and carries the candidate fuel, its moles, the oxygen
   fraction and the gap to the autoignition point, so a wisp scaled by the
