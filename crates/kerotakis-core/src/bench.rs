@@ -3457,10 +3457,24 @@ impl Bench {
                                 unit: reading.observable,
                                 note: None,
                             });
-                        } else {
-                            events.push(Event::NotYetModeled { cause: if gaps.is_empty() { crate::ops::NotModelledCause::NoSolution } else { crate::ops::NotModelledCause::ModelBoundary },
+                        } else if gaps.is_empty() {
+                            // Written out rather than folded into one push with
+                            // two conditionals: `every_fixed_gap_reason_has_german`
+                            // only sees a reason whose literal follows `what:`
+                            // directly, and this one has a German row to keep.
+                            events.push(Event::NotYetModeled {
+                                cause: crate::ops::NotModelledCause::NoSolution,
                                 vessel: *vessel,
-                                what: if gaps.is_empty() { "no aqueous solution for spectrophotometer".to_string() } else { format!("complete absorbance is unavailable: no absorption spectrum for {}", gaps.join(", ")) },
+                                what: "no aqueous solution for spectrophotometer".to_string(),
+                            });
+                        } else {
+                            events.push(Event::NotYetModeled {
+                                cause: crate::ops::NotModelledCause::ModelBoundary,
+                                vessel: *vessel,
+                                what: format!(
+                                    "complete absorbance is unavailable: no absorption spectrum for {}",
+                                    gaps.join(", ")
+                                ),
                             });
                         }
                     }
