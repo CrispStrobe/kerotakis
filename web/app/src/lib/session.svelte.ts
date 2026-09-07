@@ -153,6 +153,23 @@ export type MissionDebrief = {
   caseAward: string | null;
 };
 
+/**
+ * One `discard vN` receipt: what the bench's waste container just took.
+ *
+ * Kept structured rather than as the engine's rendered sentence, because
+ * the station wants the grams on their own and the sentence is already in
+ * the feed. `species` are engine species ids; `materials` are the portions
+ * the engine deliberately does not resolve into species (milk, vinegar),
+ * counted in the grams but absent from the species list.
+ */
+export type DiscardRecord = {
+  vessel: number;
+  gramsTotal: number;
+  molesTotal: number;
+  species: string[];
+  materials: string[];
+};
+
 export const REGISTERS = [
   { level: "lv1", label: "Look" },
   { level: "lv2", label: "Measure" },
@@ -455,6 +472,17 @@ export class Session {
     lines: string[];
     particles?: ParticleCensus;
   } | null>(null);
+  /**
+   * What the bench's shared waste container took last, from the engine's
+   * own `Event::Discarded` (the `discard vN` verb).
+   *
+   * The engine already renders the sentence, and that sentence goes to the
+   * feed in the reader's language like every other line. This is the same
+   * fact in structured form, so the disposal station can show a receipt
+   * for the press the reader just made without parsing prose back out of
+   * the feed to find it.
+   */
+  lastDiscard = $state<DiscardRecord | null>(null);
   /** The most recent balanced equation the engine rendered (GUI-025) —
    * the strip pins it beside the bench at lv2+. */
   lastEquation = $state<string | null>(null);
@@ -809,6 +837,7 @@ export class Session {
       this.latestStep = null;
       this.lastEquation = null;
       this.lastIonic = null;
+      this.lastDiscard = null;
       this.benchEquations = [];
       for (const extra of this.benchExtras) extra.reset();
       // The single note is the whole journal now: the feed is the record of
@@ -884,6 +913,21 @@ export class Session {
                 this.eventCollector.push(`${tag}:${event.species}`);
               }
             }
+          }
+          if (event?.event === "discarded") {
+            // `discard vN` (kerotakis-core::ops::Operator::Discard): the
+            // vessel's condensed portions went into the bench's shared
+            // waste container. Nothing was destroyed, so the totals are
+            // worth keeping — the station shows them back.
+            const portions = Array.isArray(event.species) ? event.species : [];
+            this.lastDiscard = {
+              vessel: Number(event.vessel ?? 0),
+              gramsTotal: Number(event.grams_total ?? 0),
+              molesTotal: Number(event.moles_total ?? 0),
+              species: portions.map((portion) =>
+                String((portion as { species?: unknown }).species ?? "")),
+              materials: (Array.isArray(event.materials) ? event.materials : []).map(String),
+            };
           }
           if (event?.event === "distilled") {
             // GUI-064b: distillation paced — steam leaves the source,

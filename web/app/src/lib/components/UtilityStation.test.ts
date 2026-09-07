@@ -3,6 +3,7 @@ import type { ComponentProps } from "svelte";
 import { render } from "svelte/server";
 import UtilityStation from "./UtilityStation.svelte";
 import { i18n } from "../i18n.svelte";
+import { isDisposable, wasteStationAction } from "../wasteStation";
 
 /**
  * The disposal station was a paragraph pretending to be a control.
@@ -14,10 +15,14 @@ import { i18n } from "../i18n.svelte";
  * reader with a full vessel followed a signpost to a statement.
  *
  * It is a button now, with the same ask-once shape the toolbar's empty
- * control has. What it must NOT be is a one-press destructive control, and
- * what it must not do is claim to empty a single vessel: the engine has no
- * verb that discards one vessel's contents, and the station would be lying
- * about the chemistry if it said otherwise.
+ * control has. What it must NOT be is a one-press destructive control.
+ *
+ * It does empty a single vessel now. `discard vN` is a real engine verb
+ * (kerotakis-core::ops::Operator::Discard), so the station offers the
+ * selected vessel to the bench's waste container whenever that vessel is
+ * holding something, and keeps its older bench-clearing meaning when it is
+ * not. `wasteStation.ts` owns that decision; the station's wording and the
+ * caller's command both read it, so they cannot disagree.
  */
 function body(props: Partial<ComponentProps<typeof UtilityStation>> = {}): string {
   return render(UtilityStation, {
@@ -76,5 +81,66 @@ describe("the utility station's disposal", () => {
 
   it("still names the vessel the other two stations act on", () => {
     expect(text(body({ vessel: 2 }))).toContain("v3");
+  });
+});
+
+describe("what the station's confirmed press means", () => {
+  it("submits discard for the selected vessel, addressed from one", () => {
+    expect(wasteStationAction({ id: 0, mass_g: 12.3 })).toEqual({
+      kind: "discard",
+      command: "discard v1",
+    });
+    expect(wasteStationAction({ id: 2, mass_g: 0.004 })).toEqual({
+      kind: "discard",
+      command: "discard v3",
+    });
+  });
+
+  it("falls back to clearing the bench when there is no vessel to empty", () => {
+    // No selection at all — a bench whose scene has not arrived, or a
+    // selection pointing at a vessel that is no longer there.
+    expect(wasteStationAction(null)).toEqual({ kind: "clear" });
+    expect(wasteStationAction(undefined)).toEqual({ kind: "clear" });
+    // A vessel standing there empty is not a disposal either: there is
+    // nothing for the container to take, and the press keeps the meaning
+    // the station has always had.
+    expect(wasteStationAction({ id: 0, mass_g: 0 })).toEqual({ kind: "clear" });
+  });
+
+  it("does not call floating-point dust a vessel worth emptying", () => {
+    expect(isDisposable({ id: 0, mass_g: 1e-12 })).toBe(false);
+    expect(isDisposable({ id: 0, mass_g: 1e-6 })).toBe(true);
+  });
+});
+
+describe("the station once it has a vessel to empty", () => {
+  it("names the vessel it would pour out, rather than the whole bench", () => {
+    const rendered = text(body({ vessel: 1, disposable: true }));
+    expect(rendered).toContain("Pour the contents of vessel v2");
+    // The bench-wide policy sentence belongs to the fallback. Leaving it
+    // standing over a press that empties one vessel would describe a
+    // different operation from the one about to happen.
+    expect(rendered).not.toContain("Chemical contents are never discarded silently");
+  });
+
+  it("stays pressable for a full vessel even when the bench has nothing to clear", () => {
+    // `clearable` asks whether the BENCH has anything to clear. A restored
+    // lab with a full vessel and an empty command log had a disposal
+    // control that was greyed out over a vessel nobody could empty.
+    expect(body({ disposable: true, clearable: false })).not.toContain("disabled");
+    expect(body({ disposable: false, clearable: false })).toContain("disabled");
+  });
+
+  it("says the disposal offer in German too", () => {
+    i18n.setLocale("de");
+    const rendered = text(body({ vessel: 0, disposable: true }));
+    expect(rendered).toContain("Abfallbehälter");
+    expect(rendered).not.toContain("waste container");
+  });
+
+  it("shows what the container took, and stays quiet before it has taken anything", () => {
+    const receipt = "The waste container took 12.30 g from v1.";
+    expect(text(body({ receipt }))).toContain(receipt);
+    expect(text(body())).not.toContain("waste container took");
   });
 });

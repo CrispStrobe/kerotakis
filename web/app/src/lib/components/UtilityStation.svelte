@@ -8,6 +8,8 @@
     onwaste,
     onclose,
     clearable = true,
+    disposable = false,
+    receipt = null,
   }: {
     vessel: number;
     onwater: () => void;
@@ -17,6 +19,15 @@
     onclose: () => void;
     /** False when there is nothing on the bench to dispose of. */
     clearable?: boolean;
+    /**
+     * True when the selected vessel is holding something the engine can
+     * pour into the bench's waste container — the `discard vN` verb.
+     * False falls the control back to emptying the whole bench, which is
+     * all this station could ever do before that verb existed.
+     */
+    disposable?: boolean;
+    /** What the container took last, already worded by the caller. */
+    receipt?: string | null;
   } = $props();
 
   // The waste station read like a control and did nothing: an `<article>`
@@ -26,7 +37,13 @@
   // a control, and "open waste station" in the remove-vessel dialog led
   // here and then stopped. So it asks, exactly the way the toolbar's own
   // empty control asks, and the press it takes afterwards is the one that
-  // empties the bench.
+  // does the disposal.
+  //
+  // What that press means now depends on `disposable`. A vessel with
+  // something in it is emptied into the bench's waste container by the
+  // engine's own `discard vN` verb — a replayable command, weighed and
+  // logged, not a UI deletion. A vessel with nothing in it leaves the
+  // station with only the older meaning it ever had: empty the bench.
   let armed = $state(false);
   let timer: ReturnType<typeof setTimeout> | null = null;
   function arm() {
@@ -63,20 +80,30 @@
         <b aria-hidden="true">→</b>
       </button>
       {#if armed}
-        <div class="station waste" role="group" aria-label={t("clear the bench?")}>
+        <div class="station waste" role="group" aria-label={disposable ? t("empty vessel v{vessel} into the waste container?", { vessel: vessel + 1 }) : t("clear the bench?")}>
           <span class="station-icon" aria-hidden="true">⌫</span>
-          <span><strong>{t("clear the bench?")}</strong><small>{t("empty this bench — the other laboratory is untouched")}</small></span>
+          <span>
+            <strong>{disposable ? t("empty vessel v{vessel} into the waste container?", { vessel: vessel + 1 }) : t("clear the bench?")}</strong>
+            <small>{disposable
+              ? t("The container keeps what it takes: nothing is destroyed, and it is weighed with everything already in there.")
+              : t("empty this bench — the other laboratory is untouched")}</small>
+          </span>
           <span class="confirm">
-            <button class="yes" onclick={() => { disarm(); onwaste(); }}>{t("clear the bench")}</button>
+            <button class="yes" onclick={() => { disarm(); onwaste(); }}>{disposable ? t("empty into the waste container") : t("clear the bench")}</button>
             <button class="no" onclick={disarm}>{t("keep it")}</button>
           </span>
         </div>
       {:else}
-        <button class="station waste" onclick={arm} disabled={!clearable}>
+        <button class="station waste" onclick={arm} disabled={!disposable && !clearable}>
           <span class="station-icon" aria-hidden="true">⌫</span>
-          <span><strong>{t("waste station")}</strong><small>{t("Chemical contents are never discarded silently. Empty vessels can be removed at the bench; disposal chemistry remains an explicit operation.")}</small></span>
+          <span><strong>{t("waste station")}</strong><small>{disposable
+            ? t("Pour the contents of vessel v{vessel} into the bench's waste container. Nothing goes in until you confirm it here.", { vessel: vessel + 1 })
+            : t("Chemical contents are never discarded silently. Empty vessels can be removed at the bench; disposal chemistry remains an explicit operation.")}</small></span>
           <b aria-hidden="true">→</b>
         </button>
+      {/if}
+      {#if receipt}
+        <p class="receipt">{receipt}</p>
       {/if}
     </div>
   </dialog>
@@ -108,6 +135,7 @@
   button.waste:hover:not(:disabled), button.waste:focus-visible:not(:disabled) { border-color: var(--danger); }
   button.waste:disabled { opacity: .5; cursor: default; transform: none; box-shadow: none; }
   .waste b { color: var(--warning); }
+  .receipt { margin: 0; padding: .55rem .7rem; border: 1px dashed color-mix(in srgb, var(--warning) 45%, var(--edge)); border-radius: 12px; color: var(--dim); font-size: .68rem; line-height: 1.45; }
   .confirm { display: flex; flex-wrap: wrap; gap: .35rem; }
   .confirm button { min-height: 40px; padding: .4rem .7rem; border: 1px solid var(--edge); border-radius: var(--radius-sm); color: var(--ink); background: var(--surface); font: inherit; font-weight: 650; cursor: pointer; }
   .confirm .yes { color: var(--on-accent); border-color: var(--danger); background: var(--danger); }
