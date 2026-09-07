@@ -44,6 +44,7 @@
   import type { WebGpuMetricsRegistry } from "../webGpuMetricsRegistry";
   import { enzymeReadouts } from "../persistentReadouts";
   import { corrosionReadouts } from "../corrosionReadouts";
+  import { adsorptionReadouts } from "../adsorptionReadouts";
 
   let {
     vessel,
@@ -312,6 +313,7 @@
   );
   const shownSolidLayers = $derived(solidLayers(shownSolids.map(solidVolume), solidH, BOTTOM_Y));
   const persistentCorrosionReadouts = $derived(corrosionReadouts(vessel.corrosion));
+  const persistentAdsorptionReadouts = $derived(adsorptionReadouts(vessel.adsorption));
   const rgb = (c: [number, number, number]) => `rgb(${c[0]},${c[1]},${c[2]})`;
   // The engine's srgb is TRANSMITTED light: pure water transmits white,
   // and painting that as an opaque white block is the wrong physics on
@@ -905,6 +907,7 @@
       {#each shownSolids as solid, i (solid.species)}
         {@const layer = shownSolidLayers[i]!}
         {@const oxide = persistentCorrosionReadouts.find((progress) => progress.metal === solid.species)}
+        {@const adsorption = persistentAdsorptionReadouts.find((progress) => progress.sorbent === solid.species)}
         <rect
           x={INNER_X}
           y={layer.y}
@@ -962,6 +965,22 @@
               {/each}
             </g>
           {/if}
+        {/if}
+        {#if adsorption && adsorption.loading_mg_per_g != null}
+          <!-- A narrow capacity gauge, not dye-painted charcoal: height is
+               loading/q_max and deliberately claims no pore or surface map. -->
+          <rect
+            class="adsorption-marker"
+            x={INNER_X + 2}
+            y={layer.y + layer.h * (1 - adsorption.loadingFraction)}
+            width="3"
+            height={Math.max(1, layer.h * adsorption.loadingFraction)}
+            rx="1"
+            data-loading-fraction={adsorption.loadingFraction.toFixed(4)}
+            data-loading-mg-per-g={adsorption.loading_mg_per_g.toFixed(2)}
+          >
+            <title>{t("equilibrium loading toward the nominal Langmuir capacity; schematic gauge, not pore or surface coverage")}</title>
+          </rect>
         {/if}
       {/each}
       <!-- A lit rim on top of the deposit, so it reads as a settled layer
@@ -2734,6 +2753,27 @@
         <strong>{progress.percent}%</strong>
       </span>
     {/each}
+    {#each persistentAdsorptionReadouts as progress (progress.sorbent + progress.sorbate)}
+      <span
+        class="persistent-readout adsorption-readout"
+        data-held-fraction={progress.heldFraction.toFixed(4)}
+        data-loading-mg-per-g={progress.loading_mg_per_g?.toFixed(2)}
+        aria-label={t("{percent}% of {sorbate} held on {sorbent}; {dissolved} mg still dissolved; equilibrium, not removal rate", {
+          percent: progress.heldPercent,
+          sorbate: t(progress.sorbate),
+          sorbent: t(progress.sorbent),
+          dissolved: progress.still_dissolved_mg.toFixed(2),
+        })}
+        title={`${progress.boundary} · ${progress.provenance}`}
+      >
+        <small>{t(progress.sorbent)} · {t("dye held at equilibrium")}</small>
+        <strong>{progress.heldPercent}%</strong>
+        <span>{progress.held_mg.toFixed(1)} mg {t("held")} · {progress.still_dissolved_mg.toFixed(1)} mg {t("still dissolved")}</span>
+        {#if progress.loading_mg_per_g != null}
+          <em>{progress.loading_mg_per_g.toFixed(1)} mg/g · {t("parameters pending review")}</em>
+        {/if}
+      </span>
+    {/each}
     {#if apparatusTitle}
       <span
         class="apparatus-status"
@@ -2894,6 +2934,12 @@
     stroke: #71341d;
     stroke-width: 1;
     stroke-dasharray: 1.5 2.5;
+  }
+  .adsorption-marker {
+    pointer-events: none;
+    fill: #f0b34b;
+    stroke: #6e4b16;
+    stroke-width: .6;
   }
   .bulk-object {
     stroke: color-mix(in srgb, var(--ink) 58%, transparent);
@@ -3822,6 +3868,16 @@
     color: #9a4827;
     border-color: color-mix(in srgb, #a84f28 42%, var(--edge));
     background: color-mix(in srgb, #a84f28 7%, var(--surface));
+  }
+  .adsorption-readout {
+    flex-wrap: wrap;
+    color: #755017;
+    border-color: color-mix(in srgb, #b67b20 45%, var(--edge));
+    background: color-mix(in srgb, #b67b20 7%, var(--surface));
+  }
+  .adsorption-readout span,
+  .adsorption-readout em {
+    font-size: .72rem;
   }
   /* Sized in px, not em: this is the one place on the bench where the
      number must survive a 64px-wide vessel on a 390px phone, and an em

@@ -91,6 +91,70 @@ pub const ISOTHERMS: &[Isotherm] = &[Isotherm {
 /// under what a school balance resolves.
 const OBSERVABLE_MG: f64 = 0.1;
 
+/// Persistent projection of one stored sorbent/sorbate ledger row.
+///
+/// These values are deliberately reconstructed from current matter, never
+/// from `Event::Adsorbed`: save/restore, filtering and later dilution must all
+/// produce the same answer even when the event that established the split is
+/// long gone.
+#[derive(Debug, Clone, PartialEq)]
+pub struct StandingAdsorption {
+    pub sorbent: String,
+    pub sorbate: String,
+    pub held_mg: f64,
+    pub still_dissolved_mg: f64,
+    pub loading_mg_per_g: Option<f64>,
+    pub loading_fraction: Option<f64>,
+    pub held_fraction: f64,
+    pub boundary: String,
+    pub provenance: String,
+}
+
+/// Read every supported adsorption split directly from stored vessel matter.
+pub fn standing(vessel: &Vessel) -> Vec<StandingAdsorption> {
+    vessel
+        .adsorbed
+        .iter()
+        .filter(|entry| entry.moles.0 > 1e-15)
+        .filter_map(|entry| {
+            let isotherm = ISOTHERMS.iter().find(|row| {
+                row.sorbent == entry.sorbent.0.as_str() && row.sorbate == entry.sorbate.0.as_str()
+            })?;
+            let sorbate = species::lookup(&entry.sorbate)?;
+            let held_mg = entry.moles.0 * sorbate.molar_mass * 1_000.0;
+            let still_dissolved_mg = vessel
+                .contents
+                .iter()
+                .filter(|portion| {
+                    portion.species == entry.sorbate
+                        && matches!(portion.phase, Phase::Aqueous | Phase::Liquid)
+                })
+                .map(|portion| portion.moles.0 * sorbate.molar_mass * 1_000.0)
+                .sum::<f64>();
+            let grams = sorbent_grams(vessel, &entry.sorbent.0);
+            let loading_mg_per_g = (grams > 0.0).then(|| held_mg / grams);
+            let loading_fraction = loading_mg_per_g
+                .map(|loading| (loading / isotherm.capacity_mg_per_g).clamp(0.0, 1.0));
+            let total_mg = held_mg + still_dissolved_mg;
+            Some(StandingAdsorption {
+                sorbent: entry.sorbent.0.clone(),
+                sorbate: entry.sorbate.0.clone(),
+                held_mg,
+                still_dissolved_mg,
+                loading_mg_per_g,
+                loading_fraction,
+                held_fraction: if total_mg > 0.0 {
+                    held_mg / total_mg
+                } else {
+                    0.0
+                },
+                boundary: isotherm.boundary.to_string(),
+                provenance: isotherm.source.to_string(),
+            })
+        })
+        .collect()
+}
+
 /// Grams of a sorbent solid actually lying in the vessel.
 fn sorbent_grams(vessel: &Vessel, key: &str) -> f64 {
     let id = SpeciesId::new(key);

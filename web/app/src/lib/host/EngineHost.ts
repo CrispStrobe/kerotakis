@@ -56,6 +56,8 @@ export interface SceneVessel {
   coatings?: SceneCoating[];
   /** Current core-owned oxide bookkeeping; absent on older scene payloads. */
   corrosion?: SceneCorrosion[];
+  /** Stored sorbent/sorbate equilibrium split; absent on older scenes. */
+  adsorption?: SceneAdsorption[];
   /** Prepared coherent objects whose ingredients remain object-owned. */
   material_objects?: SceneMaterialObject[];
   /** Conserved hard-water/fatty-soap aggregate. */
@@ -109,6 +111,18 @@ export interface SceneCorrosion {
   metal_in_oxide_moles: number;
   metal_in_oxide_fraction: number;
   words: string;
+}
+
+export interface SceneAdsorption {
+  sorbent: string;
+  sorbate: string;
+  held_mg: number;
+  still_dissolved_mg: number;
+  held_fraction: number;
+  loading_mg_per_g?: number | null;
+  loading_fraction?: number | null;
+  boundary: string;
+  provenance: string;
 }
 
 export interface SceneMaterialObject {

@@ -2376,6 +2376,12 @@
   "gelling from {from}% to {to}% of the polymer": "",
   "{a} °C and {b} °C settled at {into} °C": "",
   "{moles} mol of water driven off at {celsius} °C": "",
-  "{moles} mol of water taken back into the hydrate": ""
+  "{moles} mol of water taken back into the hydrate": "",
+  "dye held at equilibrium": "",
+  "held": "",
+  "still dissolved": "",
+  "parameters pending review": "",
+  "equilibrium loading toward the nominal Langmuir capacity; schematic gauge, not pore or surface coverage": "",
+  "{percent}% of {sorbate} held on {sorbent}; {dissolved} mg still dissolved; equilibrium, not removal rate": ""
  }
 }

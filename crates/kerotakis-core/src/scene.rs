@@ -85,6 +85,10 @@ pub struct SceneVessel {
     /// not event history, a rate, coating thickness, or surface coverage.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub corrosion: Vec<SceneCorrosion>,
+    /// Current sorbent/sorbate split from the vessel's stored adsorption
+    /// ledger. This is equilibrium bookkeeping, never replayed event history.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub adsorption: Vec<SceneAdsorption>,
     /// Prepared coherent objects with object-owned inventories.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub material_objects: Vec<SceneMaterialObject>,
@@ -395,6 +399,26 @@ pub struct SceneCorrosion {
     pub words: String,
 }
 
+/// Standing adsorption bookkeeping for one supported sorbent/sorbate pair.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SceneAdsorption {
+    pub sorbent: String,
+    pub sorbate: String,
+    pub held_mg: f64,
+    pub still_dissolved_mg: f64,
+    pub held_fraction: f64,
+    /// Absent only for an inconsistent legacy snapshot with held dye but no
+    /// remaining sorbent mass on which to express a loading.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub loading_mg_per_g: Option<f64>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub loading_fraction: Option<f64>,
+    /// The model's limitations, carried with the quantities they qualify.
+    pub boundary: String,
+    /// Honest provenance text; current parameters remain pending review.
+    pub provenance: String,
+}
+
 fn fully_settled() -> f64 {
     1.0
 }
@@ -670,6 +694,20 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
             })
         })
         .collect();
+    let adsorption: Vec<SceneAdsorption> = crate::adsorption::standing(v)
+        .into_iter()
+        .map(|row| SceneAdsorption {
+            sorbent: row.sorbent,
+            sorbate: row.sorbate,
+            held_mg: row.held_mg,
+            still_dissolved_mg: row.still_dissolved_mg,
+            held_fraction: row.held_fraction,
+            loading_mg_per_g: row.loading_mg_per_g,
+            loading_fraction: row.loading_fraction,
+            boundary: row.boundary,
+            provenance: row.provenance,
+        })
+        .collect();
     let bulk_component_keys: std::collections::BTreeSet<String> = bulk_observations
         .iter()
         .flat_map(|object| {
@@ -851,6 +889,19 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
             words.push_str(" Food-colour drops are resting on the milk surface.");
         }
     }
+    for row in &adsorption {
+        words.push_str(&format!(
+            " {:.0}% of the tracked {} is held on {}; {:.2} mg remains dissolved. This is an equilibrium split, not a removal rate.",
+            row.held_fraction * 100.0,
+            species::lookup(&crate::SpeciesId::new(&row.sorbate))
+                .map(|data| data.name)
+                .unwrap_or(&row.sorbate),
+            species::lookup(&crate::SpeciesId::new(&row.sorbent))
+                .map(|data| data.name)
+                .unwrap_or(&row.sorbent),
+            row.still_dissolved_mg,
+        ));
+    }
     if let Some(emulsion) = &emulsion_observation {
         words.push_str(&format!(
             " Stirring has dispersed {:.0}% of the {} as cloudy droplets; the rest remains above the water.",
@@ -890,6 +941,7 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
         bulk_objects,
         coatings,
         corrosion,
+        adsorption,
         material_objects: v
             .material_objects
             .iter()
@@ -1262,6 +1314,14 @@ mod tests {
         json.as_object_mut().unwrap().remove("coatings");
         let old: SceneVessel = serde_json::from_value(json).unwrap();
         assert!(old.coatings.is_empty());
+    }
+
+    #[test]
+    fn older_scene_json_without_adsorption_still_deserializes() {
+        let mut json = serde_json::to_value(scene_vessel(&vessel_with(&[]))).unwrap();
+        json.as_object_mut().unwrap().remove("adsorption");
+        let old: SceneVessel = serde_json::from_value(json).unwrap();
+        assert!(old.adsorption.is_empty());
     }
 
     #[test]
