@@ -185,9 +185,18 @@ fn bleach_and_ammonia_warns_then_shows_the_chloramine() {
     );
 
     // The reactants are consumed; the alkali byproduct makes it basic.
+    //
+    // "Consumed" now means to a part in a thousand rather than to 1e-9,
+    // and the leftover is the other side of the same tenth of a percent:
+    // the ammonia can only react with the hypochlorite the ledger holds as
+    // `ClO-`, and at pH 10.6 a thousandth of the couple is sitting as
+    // `HClO`. `curated` runs once per step and the tail re-equilibrates
+    // afterwards, so the remainder reacts on the NEXT step rather than
+    // this one — a one-step lag, and the honest consequence of the couple
+    // being real instead of one indivisible `NaOCl` portion.
     let vessel = bench.vessel(v).unwrap();
     assert!((vessel.moles_of(&SpeciesId::new("NaOCl")).0).abs() < 1e-9);
-    assert!((vessel.moles_of(&SpeciesId::new("NH3")).0).abs() < 1e-9);
+    assert!(vessel.moles_of(&SpeciesId::new("NH3")).0 < 1e-3);
     assert!(
         vessel.moles_of(&SpeciesId::new("ClO-")).0 < 1e-3,
         "and so is the hypochlorite it was speciated into"

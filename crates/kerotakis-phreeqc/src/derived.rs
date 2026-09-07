@@ -95,14 +95,9 @@ fn oxyanion_groups() -> &'static [(&'static str, &'static str)] {
         // The order makes that a non-question instead of a near miss.
         ("C3H5O3", "Lactate"),
         ("C2H3O2", "Acetate"), // CH3COO
-        // Hypochlorite, from the couple `databases::minteq_v4()` borrows
-        // out of llnl.dat. Nothing currently collides with it — the group
-        // is one chlorine and one oxygen, so only a formula carrying both
-        // can claim it — and the residue rules below refuse the higher
-        // oxychlorines rather than mis-booking them: NaClO3 extracts one
-        // ClO and is then left with two oxygens that no cation's charge
-        // can carry away as water, which is the `o > h` guard's job.
-        ("ClO", "Hypochlorite"),
+        // Hypochlorite is NOT here, deliberately — see
+        // `extract_hypochlorite` below for why greedy extraction is the
+        // wrong shape for it.
         ("HCO3", "C"),
         ("CO3", "C"),
         ("NO3", "N(5)"),
@@ -757,11 +752,65 @@ fn cation_charge(element: &str, indexes: [&DbIndex; 3]) -> Option<f64> {
         .map(|f| f.charge)
 }
 
+/// Hypochlorite, extracted by its own rule rather than by
+/// `oxyanion_groups`, because greedy extraction is the wrong shape for it
+/// and the wrongness is not hypothetical.
+///
+/// `ClO` as a greedy group takes one chlorine and one oxygen out of ANY
+/// formula that has both. Atacamite is `Cu2ClH3O3` — a hydroxychloride,
+/// the green that grows on copper near the sea — and the greedy rule
+/// booked its chloride and one of its three hydroxide oxygens as
+/// hypochlorite, which cost the phase its registry match and put the
+/// `copper-patina` lesson back to "nothing can precipitate out of it
+/// here". The shipped databases are full of the same shape:
+/// `Zn2(OH)3Cl`, `Zn5(OH)8Cl2`, `CdOHCl`, `Pb2(OH)3Cl`,
+/// `Fe(OH)2.7Cl.3`.
+///
+/// What actually identifies hypochlorite is that its oxygen is bound to
+/// the chlorine and there is EXACTLY ONE of each: `O == Cl`, with nothing
+/// left over for a hydroxide to claim. Spare oxygen means something else —
+/// a chlorate, a perchlorate, or a hydroxide salt — and this returns
+/// `false` for all of them, leaving them to the `o > h` guard to refuse.
+///
+/// Hydrogen decides the last case. `HClO` is the free acid and carries one
+/// proton per chlorine; `CdOHCl` has the same three counts plus a metal,
+/// and its hydrogen is a hydroxide's. So a formula with a cation in it may
+/// carry no hydrogen at all.
+fn extract_hypochlorite(counts: &mut BTreeMap<String, f64>) -> Option<f64> {
+    let cl = counts.get("Cl").copied().unwrap_or(0.0);
+    let o = counts.get("O").copied().unwrap_or(0.0);
+    let h = counts.get("H").copied().unwrap_or(0.0);
+    if cl < 1.0 || o != cl {
+        return None;
+    }
+    let has_cation = counts
+        .keys()
+        .any(|el| CATION_RESIDUE.contains(&el.as_str()));
+    let protonation_fits = if has_cation {
+        h == 0.0
+    } else {
+        h == 0.0 || h == cl
+    };
+    if !protonation_fits {
+        return None;
+    }
+    counts.remove("Cl");
+    counts.remove("O");
+    if h == cl {
+        counts.remove("H");
+    }
+    Some(cl)
+}
+
 fn contribution_from_counts(
     mut counts: BTreeMap<String, f64>,
     indexes: [&DbIndex; 3],
 ) -> Option<Vec<(String, f64)>> {
     let mut contrib: Vec<(String, f64)> = Vec::new();
+
+    if let Some(n) = extract_hypochlorite(&mut counts) {
+        contrib.push(("Hypochlorite".to_string(), n));
+    }
 
     for (group_formula, element) in oxyanion_groups() {
         let sig = parse_formula(group_formula).expect("group formulas parse");
@@ -1128,9 +1177,28 @@ mod tests {
         // defines all three spellings — `Cl(1)  ClO-` at line 107, the
         // formation at 898, `H+ + ClO- = HClO  log_k 7.5692` at 4493. The
         // `o > h` guard's refusal was sound and is still what refuses
-        // NaClO3; the claim built on top of it was not. `ClO` is now an
-        // extracted group and bleach dissolves as sodium and hypochlorite.
-        assert!(matches!(role("NaOCl"), Some(DerivedRole::Dissolves(_))));
+        // NaClO3; the claim built on top of it was not. Bleach dissolves as
+        // sodium and hypochlorite now.
+        assert_eq!(
+            dissolves("NaOCl"),
+            vec![("Hypochlorite".into(), 1.0), ("Na".into(), 1.0)]
+        );
+        assert_eq!(dissolves("ClO-"), vec![("Hypochlorite".into(), 1.0)]);
+        assert_eq!(dissolves("HClO"), vec![("Hypochlorite".into(), 1.0)]);
+
+        // And the thing `extract_hypochlorite` exists to protect. Atacamite
+        // is Cu2ClH3O3 — a hydroxychloride, not an oxychlorine — and the
+        // first version of this, a greedy `ClO` group in
+        // `oxyanion_groups`, took its chloride and one of its three
+        // hydroxide oxygens and called them hypochlorite. The phase lost
+        // its registry match and `copper-patina.lab` went back to saying
+        // nothing could precipitate. The databases are full of the same
+        // shape: `Zn2(OH)3Cl`, `CdOHCl`, `Pb2(OH)3Cl`.
+        assert!(
+            matches!(role("atacamite"), Some(DerivedRole::Mineral { .. })),
+            "atacamite is a mineral, not a hypochlorite salt: {:?}",
+            role("atacamite")
+        );
 
         // Honestly unmappable: organics (residual C), gases.
         assert!(role("ethanol").is_none());

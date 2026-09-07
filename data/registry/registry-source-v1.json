@@ -25288,6 +25288,186 @@
       }
     },
     {
+      "id": "molar-mass/ClO-",
+      "species_id": "ClO-",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 51.452,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/ClO-",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/ClO-",
+      "species_id": "ClO-",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/ClO-",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/ClO-",
+      "species_id": "ClO-",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/ClO-",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/HClO",
+      "species_id": "HClO",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 52.46,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/HClO",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/HClO",
+      "species_id": "HClO",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/HClO",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/HClO",
+      "species_id": "HClO",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/HClO",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
       "id": "molar-mass/NH2Cl",
       "species_id": "NH2Cl",
       "phase": "gas",
@@ -41773,186 +41953,6 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
-    },
-    {
-      "id": "molar-mass/ClO-",
-      "species_id": "ClO-",
-      "phase": "aqueous",
-      "property": "molar_mass",
-      "quantity": {
-        "value": 51.452,
-        "unit": {
-          "symbol": "g/mol",
-          "dimension": "molar_mass"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": null,
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "aqueous",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "not_reported"
-        },
-        "source_id": "legacy/ClO-",
-        "method": {
-          "kind": "imported",
-          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
-        }
-      }
-    },
-    {
-      "id": "heat-capacity/ClO-",
-      "species_id": "ClO-",
-      "phase": "aqueous",
-      "property": "molar_heat_capacity",
-      "quantity": {
-        "value": 0.0,
-        "unit": {
-          "symbol": "J/(mol.K)",
-          "dimension": "molar_heat_capacity"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": null,
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "aqueous",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "not_reported"
-        },
-        "source_id": "legacy/ClO-",
-        "method": {
-          "kind": "imported",
-          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
-        }
-      }
-    },
-    {
-      "id": "density/ClO-",
-      "species_id": "ClO-",
-      "phase": "aqueous",
-      "property": "mass_density",
-      "quantity": {
-        "value": 1.0,
-        "unit": {
-          "symbol": "g/mL",
-          "dimension": "mass_density"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": null,
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "aqueous",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "not_reported"
-        },
-        "source_id": "legacy/ClO-",
-        "method": {
-          "kind": "imported",
-          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
-        }
-      }
-    },
-    {
-      "id": "molar-mass/HClO",
-      "species_id": "HClO",
-      "phase": "aqueous",
-      "property": "molar_mass",
-      "quantity": {
-        "value": 52.46,
-        "unit": {
-          "symbol": "g/mol",
-          "dimension": "molar_mass"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": null,
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "aqueous",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "not_reported"
-        },
-        "source_id": "legacy/HClO",
-        "method": {
-          "kind": "imported",
-          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
-        }
-      }
-    },
-    {
-      "id": "heat-capacity/HClO",
-      "species_id": "HClO",
-      "phase": "aqueous",
-      "property": "molar_heat_capacity",
-      "quantity": {
-        "value": 0.0,
-        "unit": {
-          "symbol": "J/(mol.K)",
-          "dimension": "molar_heat_capacity"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": null,
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "aqueous",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "not_reported"
-        },
-        "source_id": "legacy/HClO",
-        "method": {
-          "kind": "imported",
-          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
-        }
-      }
-    },
-    {
-      "id": "density/HClO",
-      "species_id": "HClO",
-      "phase": "aqueous",
-      "property": "mass_density",
-      "quantity": {
-        "value": 1.0,
-        "unit": {
-          "symbol": "g/mL",
-          "dimension": "mass_density"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": null,
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "aqueous",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "not_reported"
-        },
-        "source_id": "legacy/HClO",
-        "method": {
-          "kind": "imported",
-          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
-        }
-      }
     }
   ],
   "heat_capacity_polynomials": [
@@ -53091,6 +53091,72 @@
       }
     },
     {
+      "id": "dissolves-without-speciation/ClO-",
+      "subject": {
+        "kind": "species",
+        "id": "ClO-"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/ClO-",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/HClO",
+      "subject": {
+        "kind": "species",
+        "id": "HClO"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/HClO",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
       "id": "dissolves-without-speciation/NH2Cl",
       "subject": {
         "kind": "species",
@@ -60707,72 +60773,6 @@
           "kind": "exact"
         },
         "source_id": "legacy/octacalcium_phosphate",
-        "method": {
-          "kind": "derived",
-          "detail": "parsed from the verbatim legacy declaration"
-        }
-      }
-    },
-    {
-      "id": "dissolves-without-speciation/ClO-",
-      "subject": {
-        "kind": "species",
-        "id": "ClO-"
-      },
-      "model": "legacy-runtime",
-      "parameter": "dissolves-without-speciation",
-      "quantity": {
-        "value": 0.0,
-        "unit": {
-          "symbol": "1",
-          "dimension": "dimensionless"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": null,
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": null,
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "exact"
-        },
-        "source_id": "legacy/ClO-",
-        "method": {
-          "kind": "derived",
-          "detail": "parsed from the verbatim legacy declaration"
-        }
-      }
-    },
-    {
-      "id": "dissolves-without-speciation/HClO",
-      "subject": {
-        "kind": "species",
-        "id": "HClO"
-      },
-      "model": "legacy-runtime",
-      "parameter": "dissolves-without-speciation",
-      "quantity": {
-        "value": 0.0,
-        "unit": {
-          "symbol": "1",
-          "dimension": "dimensionless"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": null,
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": null,
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "exact"
-        },
-        "source_id": "legacy/HClO",
         "method": {
           "kind": "derived",
           "detail": "parsed from the verbatim legacy declaration"

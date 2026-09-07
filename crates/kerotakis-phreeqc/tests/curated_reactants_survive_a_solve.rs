@@ -141,6 +141,17 @@ const KNOWN_UNREACHABLE: &[(&str, &str)] = &[
     // bottle row. Deleting them would trade a live capability for a shorter
     // file.
     (
+        "ClO⁻ + 2 HCl → Cl2↑ + Cl⁻ + H₂O",
+        "covered, and unreachable for the same reason as `NaOCl + 2 HCl` \
+         above rather than for a new one: it names `HCl`, which the readback \
+         books as `Cl⁻` plus a charge imbalance. This static walk therefore \
+         cannot see it fire, and it fires anyway — on the step the acid is \
+         ADDED, which is the step this row exists for. It is the sibling \
+         that covers bleach already in solution meeting a descaler poured \
+         in now; `ClO⁻ + Cl⁻ + 2 H⁺` covers the case where both have been \
+         through a solve, and that one this walk does see.",
+    ),
+    (
         "NaOCl + Cl⁻ + 2 H⁺ → Cl2↑ + Na⁺ + H₂O",
         "covered: the `ClO⁻ + Cl⁻ + 2 H⁺` row fires in its place, on the \
          anion a solved bleach solution actually holds, and asks for the \
