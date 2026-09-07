@@ -65,6 +65,36 @@
   }
 
   const answered = $derived(report.routes.filter((route) => route.outcome === "answered").length);
+
+  /**
+   * lv1's whole answer, composed here rather than in the template so the
+   * sentence is one translatable unit per shape — a German reader gets a
+   * sentence a translator wrote, not three fragments concatenated in
+   * English word order.
+   */
+  const headlineText = $derived.by(() => {
+    const headline = report.headline;
+    if (!headline) {
+      return report.routes.length > 0
+        ? t("no solver answered this step")
+        : t("the bench recorded no routing for this step");
+    }
+    return headline.dataset
+      ? t("answered by {solver} using {dataset}", {
+          solver: headline.solver,
+          dataset: headline.dataset,
+        })
+      : t("answered by {solver}", { solver: headline.solver });
+  });
+
+  const declinedText = $derived.by(() => {
+    const headline = report.headline;
+    if (!headline || headline.declined <= 0) return null;
+    return t("{declined} of {asked} solvers had nothing to add", {
+      declined: headline.declined,
+      asked: report.routes.length,
+    });
+  });
 </script>
 
 <div
@@ -94,26 +124,8 @@
            who answered, on what data, and how many were asked and had
            nothing to add. -->
       <p class="headline">
-        {#if report.headline}
-          {report.headline.dataset
-            ? t("answered by {solver} using {dataset}", {
-                solver: report.headline.solver,
-                dataset: report.headline.dataset,
-              })
-            : t("answered by {solver}", { solver: report.headline.solver })}
-          {#if report.headline.declined > 0}
-            <span class="aside">
-              {t("{declined} of {asked} solvers had nothing to add", {
-                declined: report.headline.declined,
-                asked: report.routes.length,
-              })}
-            </span>
-          {/if}
-        {:else if report.routes.length > 0}
-          {t("no solver answered this step")}
-        {:else}
-          {t("the bench recorded no routing for this step")}
-        {/if}
+        {headlineText}
+        {#if declinedText}<span class="aside">{declinedText}</span>{/if}
       </p>
 
       <!-- A refusal is shown at every register. It is the one thing a
