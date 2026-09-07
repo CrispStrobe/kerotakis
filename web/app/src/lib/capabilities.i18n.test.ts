@@ -22,12 +22,16 @@ import { capabilityMatches, localiseCapability, type CapabilityPrompt } from "./
 
 const corpus = join(import.meta.dirname, "../../../../tests/coverage/curiosity-v1");
 
-/** The corpus is authored one `key = "value"` per line, with no escapes. */
+/**
+ * The corpus is authored one `key = "value"` per line, with no escapes —
+ * and one shard writes `key="value"`, with no spaces at all. Both are the
+ * same TOML; only a reader that assumes one of them is wrong.
+ */
 function rows(text: string, section: string): Map<string, string> {
   const body = text.split(`\n[${section}]\n`)[1]?.split("\n[")[0] ?? "";
   const found = new Map<string, string>();
   for (const line of body.split("\n")) {
-    const [, key, value] = /^"([^"]+)" = "([^"]*)"$/.exec(line.trim()) ?? [];
+    const [, key, value] = /^"([^"]+)"\s*=\s*"([^"]*)"$/.exec(line.trim()) ?? [];
     if (key !== undefined && value !== undefined) found.set(key, value);
   }
   return found;
@@ -44,9 +48,9 @@ for (const shard of ["aqueous-household", "thermal-fire", "materials-handling", 
   const text = readFileSync(join(corpus, `${shard}.toml`), "utf8");
   let id: string | null = null;
   for (const line of text.split("\n")) {
-    const [, foundId] = /^id = "([^"]+)"$/.exec(line) ?? [];
+    const [, foundId] = /^id\s*=\s*"([^"]+)"$/.exec(line) ?? [];
     if (foundId !== undefined) id = foundId;
-    const [, question] = /^question = "(.+)"$/.exec(line) ?? [];
+    const [, question] = /^question\s*=\s*"(.+)"$/.exec(line) ?? [];
     if (question !== undefined && id !== null) english.set(id, question);
   }
 }
