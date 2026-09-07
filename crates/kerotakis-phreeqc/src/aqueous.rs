@@ -1695,11 +1695,21 @@ impl Equilibrator for PhreeqcEquilibrator {
             // each lands on T₀ + q/Cp(water): the mixing term that cools the
             // second beaker is exactly the term the enthalpy balance gives
             // back.
-            let cp = trial.heat_capacity();
-            let cp_before = start.heat_capacity();
+            //
+            // And it is the INTEGRAL that has to balance, not the rectangle.
+            // `Cp(start)·(t₀ − t_ref)` and `Cp(trial)·(t − t_ref)` read one
+            // curve at two temperatures and then treat both as flat, and the
+            // error that leaves depends on where the beaker was standing when
+            // the reagent arrived — so it is a different error for each order
+            // they arrive in, and Hess's law breaks again in the fifth
+            // decimal. Acid-then-base passes through 25 °C and base-then-acid
+            // through 35.7 °C, and the two rectangles landed 7.25e-5 K apart
+            // on the same final solution. The area under each side's own
+            // Cp(T) is a state function and puts them back together.
             let t_ref = Kelvin::STANDARD.0;
-            let next = if cp > 0.0 {
-                t_ref + (cp_before * (t0 - t_ref) + q_joules) / cp
+            let held = start.energy_between(t_ref, t0) + q_joules;
+            let next = if trial.heat_capacity() > 0.0 {
+                trial.temperature_after_from(t_ref, held)
             } else {
                 t0
             };

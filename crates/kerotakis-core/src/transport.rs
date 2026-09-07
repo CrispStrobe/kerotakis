@@ -14,7 +14,7 @@
 use serde::{Deserialize, Serialize};
 
 use crate::ops::Event;
-use crate::solve::{adiabatic_mix_temperature, Equilibrator, SolveError};
+use crate::solve::{adiabatic_mix_into, Equilibrator, SolveError};
 use crate::species::{self, Phase, SpeciesId};
 use crate::units::{Joules, Kelvin, Liters, Moles};
 use crate::vessel::{Portion, ThermalMode, Vessel};
@@ -117,17 +117,42 @@ impl MobileParcel {
         )
     }
 
+    /// Heat capacity of the parcel where it currently is, J/K.
+    ///
+    /// Per phase and along each species' curve, exactly as `Vessel` charges
+    /// its own contents. It used to read the registry constant regardless of
+    /// phase, which meant a parcel of ice mixed into a cell at liquid
+    /// water's price - the same defect `states::heat_capacity_in` was
+    /// written to close inside a vessel.
     pub fn heat_capacity(&self) -> f64 {
+        self.heat_capacity_at(self.temperature.0)
+    }
+
+    /// The same, at a stated temperature.
+    pub fn heat_capacity_at(&self, t_k: f64) -> f64 {
         self.contents
             .iter()
             .filter_map(|portion| {
-                species::lookup(&portion.species).map(|data| portion.moles.0 * data.heat_capacity)
+                species::lookup(&portion.species).map(|data| {
+                    portion.moles.0 * crate::states::heat_capacity_at(data, portion.phase, t_k)
+                })
             })
             .sum()
     }
 
+    /// The heat this parcel absorbs going from `t0` to `t1`, J.
+    pub fn energy_between(&self, t0: f64, t1: f64) -> f64 {
+        crate::solve::portions_enthalpy(
+            self.contents
+                .iter()
+                .map(|portion| (&portion.species, portion.moles.0, portion.phase)),
+            t0,
+            t1,
+        )
+    }
+
     pub fn sensible_energy(&self) -> Joules {
-        Joules(self.heat_capacity() * (self.temperature.0 - Kelvin::STANDARD.0))
+        Joules(self.energy_between(Kelvin::STANDARD.0, self.temperature.0))
     }
 
     fn scaled(&self, fraction: f64) -> Self {
@@ -298,12 +323,10 @@ impl CellChain {
             };
             let cell = &mut self.cells[index];
             if matches!(cell.thermal_mode, ThermalMode::Adiabatic) {
-                cell.temperature = adiabatic_mix_temperature(
-                    cell.temperature,
-                    cell.heat_capacity(),
-                    incoming.temperature,
-                    incoming.heat_capacity(),
-                );
+                let settled = adiabatic_mix_into(cell, incoming.temperature, |t| {
+                    incoming.energy_between(incoming.temperature.0, t)
+                });
+                cell.temperature = settled;
             }
             for portion in &incoming.contents {
                 cell.deposit(portion.species.clone(), portion.moles, portion.phase);

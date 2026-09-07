@@ -233,59 +233,77 @@ fn ten_grams_of_chalk_and_forty_kilojoules_stop_at_the_flame() {
         book.sensible_j
     );
 
-    // Energy: the crucible's own books, and what is still outside them.
+    // Energy: the crucible's own books, and there is nothing left outside
+    // them.
     //
-    // What the crucible costs, as the operator's ledger counts it, is the
-    // warmth it still holds plus the price of breaking the carbonate apart:
+    // What the crucible costs is three things, and it took two changes to
+    // be able to write all three down:
     //
-    //     Cp(CaO) · ΔT                     6 195 J
-    //     0.1 mol × 178.8 kJ/mol          17 880 J
-    //                                     ────────
-    //                                      24 075 J
+    //     the sensible heat the lime still holds     7 529 J
+    //     0.1 mol x 178.8 kJ/mol                    17 880 J
+    //     the sensible heat the CO2 carried out      7 783 J
+    //                                               --------
+    //                                               33 192 J
     //
-    // The burner used to book 13 941 J of that — 58 % — and the hole was
+    // The burner used to book 13 941 J of that - 58 % - and the hole was
     // one lane away. `ThermalEquilibrator` solved an ADIABATIC charge that
     // admitted eight times the vessel's own moles of air and let that air's
     // sensible heat pay for the decomposition, though room air is at 298 K
-    // and `Vessel::heat_capacity()` never held it. It books 22 538 J now,
-    // 93.6 %, and the calcination finishes instead of stopping half way.
+    // and `Vessel::heat_capacity()` never held it. Closing that took it to
+    // 22 538 J against a TWO-term ledger of 24 075 J, 93.6 %.
     //
-    // The 1 537 J still missing is not one error but two, of opposite sign,
-    // and both are outside this operator:
+    // That 93.6 % was two errors of opposite sign, and both are now named.
+    // `Vessel::heat_capacity()` was a room-temperature constant - 82.3
+    // J/(mol.K) for calcite, 42.0 for lime - while the NASA-9 polynomials
+    // the solver reads rise to about 139 and 53 by 1500 K. The burner was
+    // billed at 25 C prices for a crucible at 1500 C, and BOTH sides of the
+    // ratio were wrong with it: the ledger charged too little to warm the
+    // charge, and `vessel.enthalpy()` under-reported what the charge was
+    // holding. Both integrate the same curves now.
     //
-    //   +3 625 J  The carbon dioxide leaves at the temperature it formed at
-    //             (995 K, 983 K, 1350 K over the four passes) and takes its
-    //             sensible heat with it. A kiln really does pay that, and
-    //             the two-term ledger above simply does not name it.
-    //   −6 433 J  `Vessel::heat_capacity()` is a room-temperature constant —
-    //             82.3 J/(mol·K) for calcite, 42.0 for lime — while the
-    //             NASA-9 polynomials the solver reads rise with temperature,
-    //             to about 123 and 55 by 1500 K. The burner is therefore
-    //             billed at 25 °C heat capacities for a crucible at 1500 °C,
-    //             and hands the charge more energy than it books. That is a
-    //             separate defect, in `kerotakis-core`'s registry rather
-    //             than here, and closing it would move every heat and cool
-    //             step on the bench.
+    // With that gone, the second error stopped hiding behind it. The carbon
+    // dioxide leaves at the temperature it formed at and takes its sensible
+    // heat with it - a kiln really does pay that - and the two-line ledger
+    // simply never named it. Naming it closes the balance to 99.5 %.
     //
-    // So the band below is 8 %, not 5 %, and it is written as a band around
-    // a number rather than a floor: a change in EITHER direction is a
-    // failure someone has to explain.
+    // The 0.5 % that is left has a sign and a reason: the exhaust term here
+    // is charged at the crucible's FINAL temperature, and some of the CO2
+    // left on earlier passes when the crucible was cooler. So the accounted
+    // figure is a slight over-estimate, and `delivered < accounted` below is
+    // an assertion about that direction rather than a formality.
     let warming = vessel.enthalpy().0;
     let chemistry = 0.1 * CALCINATION_ENTHALPY_J_PER_MOL;
-    let accounted = warming + chemistry;
+    // The gas's own sensible heat, from the same NASA-9 record the
+    // minimiser used. `h` is referenced so that h(298.15) is the formation
+    // enthalpy, which makes the difference a pure sensible heat.
+    let co2 = kerotakis_cea::nasa9::db()
+        .species
+        .get("CO2")
+        .expect("thermo.inp has carbon dioxide");
+    let exhaust = 0.1
+        * (co2
+            .h(vessel.temperature.0)
+            .expect("CO2 enthalpy at the ceiling")
+            - co2.h(298.15).expect("CO2 enthalpy at 298.15 K"));
+    let accounted = warming + chemistry + exhaust;
+    assert!(
+        exhaust > 7000.0 && exhaust < 8500.0,
+        "0.1 mol of CO2 taken from 25 C to 1500 C carries about 7.8 kJ out \
+         of the crucible, this says {exhaust:.1} J\n{seen}"
+    );
     assert!(
         book.delivered_j < accounted,
         "the burner cannot deliver more than the crucible costs: delivered \
          {:.1} J against warming {warming:.1} J plus calcination \
-         {chemistry:.1} J = {accounted:.1} J\n{seen}",
+         {chemistry:.1} J plus exhaust {exhaust:.1} J = {accounted:.1} J\n{seen}",
         book.delivered_j
     );
     assert!(
-        book.delivered_j > 0.92 * accounted,
+        book.delivered_j > 0.99 * accounted,
         "the burner should pay for what the crucible cost: {accounted:.1} J of \
-         warming and calcination against {:.1} J booked, which is {:.1} % and \
-         leaves a bigger hole than the hot exhaust and the constant-Cp bench \
-         account for\n{seen}",
+         warming, calcination and hot exhaust against {:.1} J booked, which is \
+         {:.1} % and leaves a bigger hole than charging the exhaust at the \
+         final temperature accounts for\n{seen}",
         book.delivered_j,
         100.0 * book.delivered_j / accounted
     );
@@ -321,12 +339,13 @@ fn five_kilojoules_is_delivered_whole_because_the_chalk_stays_cold() {
         vessel.temperature.0 <= BUNSEN_CEILING_K + 1e-6,
         "still under the flame\n{seen}"
     );
-    // 5 kJ into 8.19 J/K reaches 908 K, and CEA finds the calcination has
-    // only just begun there: 0.0025 mol of the 0.1 goes, and the price of
-    // it pulls the crucible back to 873 K rather than letting the dose
-    // raise it further. The crucible pays that out of its own heat now —
-    // the room it stands in no longer chips in (`gibbs::OpenAtmosphere`),
-    // which is why less of the chalk goes than it used to.
+    // 5 kJ used to reach 908 K, on a crucible billed 8.19 J/K all the way
+    // up. Calcite's own curve takes it from 8.38 J/K at 25 C to 12.1 by
+    // 900 K, so the same dose now reaches about 775 K - which is the
+    // point of the change, and it is also why less of the chalk goes than
+    // it did. The crucible pays for its own calcination out of its own
+    // heat: the room it stands in does not chip in
+    // (`gibbs::OpenAtmosphere`).
     let chalk_left = vessel.moles_of(&SpeciesId::new("CaCO3")).0;
     assert!(
         chalk_left > 0.09,
@@ -354,7 +373,12 @@ fn a_crucible_stopped_half_way_can_be_heated_again() {
     let mut s = stack();
     let v = VesselId(0);
     add(&mut bench, &mut s, v, "CaCO3", 0.1);
-    let first = heat(&mut bench, &mut s, v, 5.0);
+    // 7 kJ rather than 5: on its own heat-capacity curve the crucible costs
+    // about a quarter more to warm than the room-temperature constant said,
+    // and 5 kJ no longer reaches the temperature where the carbonate starts
+    // to go. The state this test needs is a half-calcined crucible, and the
+    // dose that leaves one is now a bigger dose.
+    let first = heat(&mut bench, &mut s, v, 7.0);
     let half = bench.vessel(v).expect("vessel");
     assert!(
         half.moles_of(&SpeciesId::new("CaCO3")).0 > 0.01

@@ -84,7 +84,7 @@
     "vessels": [
       {
         "boiling-k": "373.15",
-        "temperature-k": "370.14",
+        "temperature-k": "369.99",
         "vessel-id": "0",
         "label": "beaker v1: The liquid is colourless and clear.",
         "liquids": [
@@ -106,7 +106,7 @@
           {
             "species": "solution",
             "srgb": "255,255,255",
-            "volume-l": "0.087223"
+            "volume-l": "0.087255"
           }
         ],
         "solids": [],
@@ -121,7 +121,7 @@
           {
             "species": "solution",
             "srgb": "255,255,255",
-            "volume-l": "0.007211"
+            "volume-l": "0.007243"
           }
         ],
         "solids": [],
@@ -136,7 +136,7 @@
           {
             "species": "solution",
             "srgb": "255,255,255",
-            "volume-l": "0.088465"
+            "volume-l": "0.088503"
           }
         ],
         "solids": [],

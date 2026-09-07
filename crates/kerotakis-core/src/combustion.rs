@@ -634,18 +634,18 @@ impl Equilibrator for CombustionEquilibrator {
         // energy and warms nothing; only a closed boundary, which keeps
         // its own hot gas, can be warmed by it.
         let heat_stays = matches!(air_at_start, Air::Owned { .. });
-        if heat_stays && matches!(vessel.thermal_mode, crate::vessel::ThermalMode::Adiabatic) {
-            let cp = vessel.heat_capacity();
-            if cp > 0.0 {
-                let from = vessel.temperature;
-                let to = Kelvin(from.0 + released_j / cp);
-                vessel.temperature = to;
-                events.push(Event::TemperatureChanged {
-                    vessel: vessel.id,
-                    from,
-                    to,
-                });
-            }
+        if heat_stays
+            && matches!(vessel.thermal_mode, crate::vessel::ThermalMode::Adiabatic)
+            && vessel.heat_capacity() > 0.0
+        {
+            let from = vessel.temperature;
+            let to = Kelvin(vessel.temperature_after(released_j));
+            vessel.temperature = to;
+            events.push(Event::TemperatureChanged {
+                vessel: vessel.id,
+                from,
+                to,
+            });
         }
         events.push(Event::ThermalEquilibrium {
             vessel: vessel.id,

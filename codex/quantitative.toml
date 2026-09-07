@@ -986,7 +986,7 @@ computed_by = "Kerotakis energy balance (enthalpy-conserving) over curated ΔH_d
 id = "chalk-below-the-kiln"
 progress = "intermediate"
 spine = ["der-energiebegriff"]
-summary = "CaCO₃(s) + heat → CaCO₃(s)   ·   147 °C is hot, and nothing happens"
+summary = "CaCO₃(s) + heat → CaCO₃(s)   ·   134 °C is hot, and nothing happens"
 concepts = ["decomposition-threshold"]
 requires = ["thermal-decomposition"]
 calculations = ["temperature-rise", "enthalpy-change"]
@@ -1029,10 +1029,10 @@ measure v1 balance
 [reaction.expect]
 events = ["added:CaCO3"]
 absent = ["gas_evolved:CO2", "precipitated:CaO"]
-temperature_c = { min = 140.0, max = 155.0 }
+temperature_c = { min = 130.0, max = 142.0 }
 
 [reaction.expect.predict]
-question = "10 g of chalk in a crucible. Put 1 kJ of heat in — enough to take it to 147 °C, hotter than boiling water. What comes out?"
+question = "10 g of chalk in a crucible. Put 1 kJ of heat in — enough to take it to 134 °C, hotter than boiling water. What comes out?"
 options = [
   "Quicklime and carbon dioxide — it decomposed",
   "Hot chalk. Nothing else. The balance still reads 10.00 g",
@@ -1043,7 +1043,7 @@ misconception = "'Heating causes decomposition' becomes a rule with no threshold
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
-reveals = "Heating causes decomposition, threshold-free: 147 °C is impressively hot by kitchen standards, so chemistry must be happening."
+reveals = "Heating causes decomposition, threshold-free: 134 °C is impressively hot by kitchen standards, so chemistry must be happening."
 next = "Push it in stages and weigh between each: hotter, hotter, still 10.00 g — then past the threshold in `chalk-in-the-kiln`, where everything happens at once. The pair of entries is the lesson: thresholds are not gradual approaches to drama."
 
 [[reaction.expect.predict.diagnosis]]
@@ -1053,7 +1053,7 @@ next = "Read the balance to its last digit: 10.00 g, not 9.9-something. Below th
 
 [reaction.registers]
 lv1 = "Chalk in a crucible over a flame, hot enough to burn you badly, and when it cools down it is still chalk. Same white powder, same weight on the balance. Heating is not a magic ingredient: it has to be enough heat, and 'enough' is a specific number for every substance."
-lv2 = "1 kJ into 0.0999 mol of CaCO₃ at 81.9 J·mol⁻¹·K⁻¹ raises it by 122 K: 25 °C → 147.2 °C, and the bench confirms 147.21 °C. No CO₂ is evolved, no CaO appears, and the balance still reads 10.00 g. Calcium carbonate needs roughly 900 °C before the decomposition runs."
+lv2 = "1 kJ into 0.0999 mol of CaCO₃ is not that kilojoule divided by one heat capacity. Calcite's climbs with temperature — 83.8 J·mol⁻¹·K⁻¹ at 25 °C, and 91.4 averaged over the rise itself — so the same kilojoule buys 109 K and not the 122 the room-temperature figure promises: 25 °C → 134.5 °C, and the bench confirms 134.47 °C. No CO₂ is evolved, no CaO appears, and the balance still reads 10.00 g. Calcium carbonate needs roughly 900 °C before the decomposition runs."
 lv3 = "The equilibrium partial pressure of CO₂ over calcite at 420 K is around 10⁻¹⁵ bar — vastly below the ambient 10⁻³·⁴ bar — so the thermodynamic driving force points the other way and the carbonate is the stable phase. The Gibbs minimiser is not switched off here; it is run and returns 'unchanged', which is a computed result and not an assumption. A learner can move the heat up and find the crossing themselves."
 
 [reaction.provenance]
@@ -1103,12 +1103,12 @@ options = [
   "It is hard-coded as 900 °C",
 ]
 answer = 1
-misconception = "A simulator is assumed to be a lookup table with animation on top, so any number it produces is assumed to have been typed in by someone. This one was not: the same solve that says 147 °C changes nothing says 1000 °C changes everything, and neither answer was written down in advance. That is the difference between a model and a recording."
+misconception = "A simulator is assumed to be a lookup table with animation on top, so any number it produces is assumed to have been typed in by someone. This one was not: the same solve that says 134 °C changes nothing says 1000 °C changes everything, and neither answer was written down in advance. That is the difference between a model and a recording."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Simulation as recording: numbers come from tables someone typed, so somewhere in this program a decomposition-temperatures table is being consulted."
-next = "`explain` the vessel: the provenance names NASA thermodynamic polynomials and a Gibbs minimisation — no decomposition table exists to consult. The same solve that refused at 147 °C calcines at 1000 °C, having looked nothing up in between."
+next = "`explain` the vessel: the provenance names NASA thermodynamic polynomials and a Gibbs minimisation — no decomposition table exists to consult. The same solve that refused at 134 °C calcines at 1000 °C, having looked nothing up in between."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
@@ -1302,7 +1302,7 @@ source = "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
 [reaction.setup]
 script = """
 add v1 Mg 1.2g
-heat v1 0.25kJ
+heat v1 0.26275kJ
 measure v1 thermometer
 new
 add v2 Mg 1.2g
@@ -1364,12 +1364,12 @@ source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB)"
 [reaction.setup]
 script = """
 add v1 Mg 1.2g
-heat v1 0.245kJ
+heat v1 0.2573kJ
 measure v1 thermometer
 measure v1 balance
 new
 add v2 Mg 1.2g
-heat v2 0.25kJ
+heat v2 0.2628kJ
 measure v2 thermometer
 measure v2 balance
 """
@@ -1406,7 +1406,7 @@ next = "Watch the cooler ribbon for as long as you like: no smoulder, no creepin
 
 [reaction.registers]
 lv1 = "Two identical ribbons. Heat one to 224 °C and it is just a hot ribbon. Heat the other four degrees further and it erupts into a two-thousand-degree fire. Nothing about the metal or the air changed — there is a line, and everything depends on which side of it you are."
-lv2 = "Equilibrium says magnesium in air should be magnesium oxide at every temperature: ΔH = −601 kJ/mol and ΔG is negative throughout. It is not, because a coherent oxide layer stops oxygen reaching the metal. The bench encodes that with an explicit threshold at 500 K (226.85 °C): below it the thermal solver stands down and leaves solids alone, and 224.29 °C leaves 1.20 g of metal while 228.4 °C gives 1.99 g of oxide."
+lv2 = "Equilibrium says magnesium in air should be magnesium oxide at every temperature: ΔH = −601 kJ/mol and ΔG is negative throughout. It is not, because a coherent oxide layer stops oxygen reaching the metal. The bench encodes that with an explicit threshold at 500 K (226.85 °C): below it the thermal solver stands down and leaves solids alone, and 224.30 °C leaves 1.20 g of metal while 228.40 °C gives 1.99 g of oxide."
 lv3 = "This threshold is an admitted stand-in, not a kinetic model. The engine computes equilibrium and equilibrium would oxidise every metal on the bench instantly; a real treatment needs activation energies, an Arrhenius rate and a diffusion model for the passivating layer, which is an L5 concern and not wired. The honest move is to make the boundary a named constant a learner can read — KINETIC_THRESHOLD_K — rather than to let equilibrium quietly lie about the world. Do not read 226.85 °C as magnesium's ignition temperature; read it as the engine saying 'kinetics lives here and I do not model it'."
 
 [reaction.provenance]

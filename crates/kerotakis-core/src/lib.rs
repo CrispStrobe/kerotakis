@@ -164,9 +164,24 @@ pub use vessel::{
 mod tests {
     use super::*;
 
+    /// Equal amounts of water at 20 °C and 80 °C meet in the middle - or
+    /// rather, at 50.014 °C, which is where they actually meet.
+    ///
+    /// It used to be exactly 50.000, because both sides were charged the
+    /// same constant 75.3 J/(mol·K) and a weighted mean of two equal weights
+    /// is the midpoint. Water's real heat capacity has a MINIMUM near 35 °C
+    /// and rises at both ends - 75.335 at 20, 75.575 at 80 - so the hot half
+    /// gives up more per kelvin than the cold half takes, and they settle
+    /// fractionally above halfway.
+    ///
+    /// The bench finds that by balancing enthalpies rather than averaging
+    /// temperatures. Averaging is the same answer only while every heat
+    /// capacity is a constant, and with curves it is not even conservative:
+    /// pouring a millilitre of room-temperature water into a beaker a kelvin
+    /// warm changed the bench's total enthalpy by 3 parts in 10^5, which is
+    /// what `conservation::energy_is_conserved` is for.
     #[test]
     fn thermal_mixing_of_hot_and_cold_water() {
-        // Equal amounts of water at 20 °C and 80 °C meet in the middle.
         let mut bench = Bench::new();
         let v = VesselId(0);
         bench
@@ -186,9 +201,21 @@ mod tests {
             })
             .unwrap();
         let t = bench.vessel(v).unwrap().temperature.to_celsius();
-        assert!((t - 50.0).abs() < 1e-9, "expected 50 °C, got {t}");
+        assert!(
+            (t - 50.014).abs() < 0.005,
+            "20 and 80 settle at 50.014 on water's own curve, not at 50.000, got {t}"
+        );
     }
 
+    /// Heat divided by heat capacity is a temperature rise - but the heat
+    /// capacity is the one INTEGRATED over the rise, not the one at the
+    /// bottom of it.
+    ///
+    /// 7530 J used to be exactly ten kelvin into ten moles of water, because
+    /// ten moles at a flat 75.3 J/(mol·K) is 753 J/K. Water's curve makes
+    /// those ten kelvin cost 7535.5 J, so 7530 J buys 9.9927 of them. The
+    /// test asserts the balance rather than the rounding: what the vessel
+    /// holds afterwards is what was put in.
     #[test]
     fn heating_raises_temperature_by_q_over_cp() {
         let mut bench = Bench::new();
@@ -208,8 +235,18 @@ mod tests {
                 source: None,
             })
             .unwrap();
-        let t = bench.vessel(v).unwrap().temperature.0;
-        assert!((t - (298.15 + 10.0)).abs() < 1e-9);
+        let vessel = bench.vessel(v).unwrap();
+        let t = vessel.temperature.0;
+        assert!(
+            (t - (298.15 + 9.9927)).abs() < 1e-3,
+            "7530 J into ten moles of water is 9.9927 K on water's own curve, got {}",
+            t - 298.15
+        );
+        let held = vessel.energy_between(298.15, t);
+        assert!(
+            (held - 7530.0).abs() < 1e-6,
+            "and every joule of it is accounted for: {held}"
+        );
     }
 
     #[test]

@@ -148,7 +148,7 @@
       "Ten grams of chalk into the crucible.",
       "Weigh it first: 10.00 g, the number to come back to.",
       "One kilojoule of heat goes in — enough to burn a hand badly.",
-      "The thermometer reads about 147 °C. Hot, and nowhere near the roughly 900 °C this powder needs.",
+      "The thermometer reads about 134 °C. Hot, and nowhere near the roughly 900 °C this powder needs.",
       "Weigh it again: still 10.00 g of chalk. No gas left, no new solid appeared. Heat is not an ingredient; it has to be enough heat, and 'enough' is a specific number."
     ],
     "chalk-in-the-kiln": [
@@ -685,12 +685,12 @@
     ],
     "why-the-shelf-is-not-on-fire": [
       "1.2 g of magnesium ribbon into the first crucible.",
-      "0.245 kJ of heat — just short of the threshold.",
+      "0.2573 kJ of heat — just short of the threshold.",
       "The thermometer reads about 224 °C.",
       "Weigh it: still 1.20 g of metal. Hot, and nothing has happened.",
       "A second crucible, for the same ribbon a few degrees further.",
       "The same 1.2 g of magnesium.",
-      "0.25 kJ this time — a whisker more.",
+      "0.2628 kJ this time — a whisker more.",
       "The thermometer is now past the threshold and the ribbon has caught, running to thousands of degrees.",
       "Weigh it: 1.99 g of oxide. Nothing about the metal or the air changed between the two crucibles; there is a line, and everything depends on which side of it you are — which is also why the shelf of magnesium in the cupboard is not on fire."
     ],

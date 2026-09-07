@@ -765,8 +765,10 @@ pub fn displace(vessel: &mut Vessel) -> (Vec<Event>, Vec<Displacement>) {
         // temperature: the metal leaving takes its heat capacity with it
         // and the metal arriving brings its own.
         let t_ref = Kelvin::STANDARD.0;
-        let cp_before = vessel.heat_capacity();
-        let t0 = vessel.temperature.0;
+        // The sensible heat the vessel holds BEFORE the swap, integrated,
+        // so the balance below is an enthalpy balance rather than a pair of
+        // rectangles that only agree while Cp is flat.
+        let held_before = vessel.energy_between(t_ref, vessel.temperature.0);
 
         // Reductant: metal out, its ion in.
         let metal_gone = xi / red.electrons;
@@ -839,12 +841,9 @@ pub fn displace(vessel: &mut Vessel) -> (Vec<Event>, Vec<Displacement>) {
         // re-counted as a neutralisation.
         vessel.solute_charge = solute_charge(vessel);
 
-        if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) {
-            let cp_after = vessel.heat_capacity();
-            if cp_after > 0.0 {
-                let t_new = t_ref + (cp_before * (t0 - t_ref) + heat_joules) / cp_after;
-                vessel.temperature = Kelvin(t_new.max(0.0));
-            }
+        if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) && vessel.heat_capacity() > 0.0 {
+            let t_new = vessel.temperature_after_from(t_ref, held_before + heat_joules);
+            vessel.temperature = Kelvin(t_new.max(0.0));
         }
 
         let record = Displacement {

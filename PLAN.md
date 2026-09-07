@@ -2139,6 +2139,42 @@ that raised it. Nothing below is a commitment to an order.
   `Cp·ΔT` call sites onto `enthalpy_between` and takes the lesson goldens with
   it. A species with no curve keeps its 298 K constant, deliberately, so "we
   have a curve" and "we do not" stay different states of the data.
+
+  What the integral actually moved, for the planning docs: the biggest lesson
+  shift is `boiling-curve`'s third beaker, 240 kJ into 100 mL, from 600.9 °C
+  to 470.2 °C (874.06 K → 743.40 K) — a fixed dose buys fewer degrees once the
+  price per degree is allowed to climb. Its siblings move the same way and less
+  far: 169.0 → 167.2 °C for 60 kJ, 97.0 → 96.8 °C for 30 kJ. Cooling moves the
+  other way for the same reason, the liquid leg costing more per kelvin than
+  the room-temperature constant so less budget survives the plateau: −71.8 →
+  −70.9 °C, −23.5 → −23.2 °C. Mixes land where the enthalpies balance rather
+  than where the temperatures average (50.00 → 50.01 °C), a plateau's leftover
+  is now spent from the threshold over the contents the vessel has *now*
+  (`luminol-temperature`'s hot beaker lands on 373.15 K instead of 9.65 K under
+  it, and its cold one no longer freezes past 0 °C and melts back — one event
+  fewer), and solubilities follow the shifted temperature (borax 0.0879 →
+  0.0878 mol dissolved; sucrose's limit 0.6264 → 0.6271 mol, so 0.2501 → 0.2494
+  mol precipitates). Off the goldens, ice chilled by 60 kJ out of 100 mL lands
+  at −90.6 °C rather than −77.4: ice's own capacity falls from 2.09 to about
+  1.57 J/(g·K) on the way down, and the constant was only the top of the curve.
+  The last rectangle in the ledger was in `kerotakis-phreeqc`'s aqueous tail,
+  where balancing two flat Cp spans instead of two areas made Hess's law
+  order-dependent by 7.25e-5 K.
+- **Liquid water's Cp fit is ill-conditioned for differencing** (#509) — its
+  NASA-9 record is a narrow fit, 273.15 to 600 K, carrying a 1/T² term, and the
+  antiderivative the ledger differences is a sum of terms of order 1.2e9 J/mol
+  cancelling to −9.2e8. A double gives up about 2.6e-7 J per mole of liquid
+  water per difference taken, which is why two energy round trips in #509 close
+  to 1.9e-9 J and 9.9e-7 J rather than to machine epsilon, and why their bounds
+  are a hundred-thousandth of a joule with the measurement written beside them.
+  Ice's fit gives up 4e-11 J/mol and nitrogen's 4e-12, so this is one curve's
+  conditioning and not the arithmetic. `t.ln()` is libm rather than correctly
+  rounded, so the floor itself moves about one unit between platforms.
+  Evaluating each interval's integral in `(T − T_mid)` rather than about zero
+  would buy most of it back; it moves every golden in the last digits, so it
+  wants its own change. Nothing observable depends on it — the worse of the two
+  residues is 3e-9 K — but any future test that asks the ledger for an exact
+  joule will meet this floor and should be told why.
 - **`Vessel::heat_capacity` room-temperature residual** — open until #509
   merges: the burner is still charged room-temperature prices for a crucible
   at kiln temperature. #509 also names the term the two-line ledger never

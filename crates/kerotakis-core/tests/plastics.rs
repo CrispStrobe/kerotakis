@@ -70,18 +70,27 @@ fn a_wholly_unresolved_block_can_be_heated_at_all() {
         event,
         Event::NotYetModeled { what, .. } if what.contains("empty vessel")
     )));
-    // A vessel with no declared polymer in it is unchanged: this term is
-    // narrow on purpose, so no existing material's energy accounting moves.
+    // A vessel with no declared polymer in it carries no unresolved term at
+    // all: this addition is narrow on purpose, so no existing material's
+    // energy accounting moves because of it. The comparison is against the
+    // species' own heat capacity AT the vessel's temperature, which is what
+    // the ledger spends now - calcite is 83.5 J/(mol.K) at 25 C on its
+    // curve against the 81.9 the registry constant carries, and reading the
+    // constant here would be checking the sum against a table the bench no
+    // longer uses.
     let (plain, _) = run(&["add v1 chalk_stick 2g"]);
-    let resolved: f64 = vessel(&plain)
+    let plain_vessel = vessel(&plain);
+    let at = plain_vessel.temperature.0;
+    let resolved: f64 = plain_vessel
         .contents
         .iter()
         .filter_map(|portion| {
-            kerotakis_core::species::lookup(&portion.species)
-                .map(|data| portion.moles.0 * data.heat_capacity)
+            kerotakis_core::species::lookup(&portion.species).map(|data| {
+                portion.moles.0 * kerotakis_core::states::heat_capacity_at(data, portion.phase, at)
+            })
         })
         .sum();
-    assert!((vessel(&plain).heat_capacity() - resolved).abs() < 1e-12);
+    assert!((plain_vessel.heat_capacity() - resolved).abs() < 1e-12);
 }
 
 /// mat-025 itself. Five kilojoules into two grams is a great deal of heat,

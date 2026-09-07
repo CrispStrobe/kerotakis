@@ -69,12 +69,27 @@ fn assert_ledger(
             .abs()
             < 1e-12
     );
+    // Moles and charge close to 1e-12 because they are added and subtracted.
+    // Energy does not, because it is INTEGRATED: every cell's sensible energy
+    // is a difference of liquid water's antiderivative, and that particular
+    // fit is badly conditioned for differencing. Its terms at 300 K are of
+    // order 1.2e9 J/mol and cancel to -9.2e8, so a double gives up about
+    // 2.6e-7 J per mole of water per difference taken, and a step over four
+    // cells plus an inlet and an effluent takes several. Ice's fit gives up
+    // 4e-11 and nitrogen's 4e-12 - this is one curve's conditioning, not the
+    // ledger's arithmetic, and no rearrangement of THIS test can improve it.
+    //
+    // Measured: 9.9e-7 J against the ~250 J the chain holds, which is 3e-9 K
+    // spread over the cells. A hundredth of a millijoule is an order above
+    // that, leaves room for a libm whose `ln` rounds the other way, and is
+    // still far below anything the chain is asked to show.
+    let energy_residue = chain_before_energy + step.injected.sensible_energy().0
+        - chain.total_sensible_energy().0
+        - step.effluent.sensible_energy().0;
     assert!(
-        (chain_before_energy + step.injected.sensible_energy().0
-            - chain.total_sensible_energy().0
-            - step.effluent.sensible_energy().0)
-            .abs()
-            < 1e-8
+        energy_residue.abs() < 1e-5,
+        "sensible energy in minus sensible energy out must close: \
+         {energy_residue:e} J over {chain_before_energy} J held before the step",
     );
 }
 
