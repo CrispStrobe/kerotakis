@@ -43,6 +43,7 @@
   import RemoveVesselDialog from "./lib/components/RemoveVesselDialog.svelte";
   import QuestBar from "./lib/components/QuestBar.svelte";
   import { i18n, t } from "./lib/i18n.svelte";
+  import { registerText } from "./lib/registerText";
   import { instrumentSurface } from "./lib/instrumentSurface.svelte";
   import { parseCodexIndex, type CodexEntry } from "./lib/codex";
   import { parseCapabilityIndex, type CapabilityPrompt } from "./lib/capabilities";
@@ -261,6 +262,19 @@
       const control = collapsed ? "button.pane-rail" : ".pane-heading button.panel-collapse";
       document.querySelector<HTMLElement>(`${pane} ${control}`)?.focus();
     });
+  }
+
+  /**
+   * Choosing a reagent means the same thing wherever it is chosen: pour it
+   * into the selected vessel and put the bench in front of the person who
+   * poured it. The cabinet did the second half and the periodic table did
+   * not, so on a narrow window a tap in the table dispensed correctly into
+   * a bench nobody was looking at — the reported "nothing happens". One
+   * handler now, so the two cannot drift apart again.
+   */
+  function addReagent(line: string) {
+    void dispense(line);
+    pane = "bench";
   }
 
   /**
@@ -1114,7 +1128,12 @@
             <option value="">{t("choose a quest…")}</option>
             {#each quests as quest (quest.id)}
               <option value={quest.id as string}>
-                {(quest.title as Record<string, string>)?.[session.register] ?? quest.id}
+                {registerText(
+                  quest.title as Record<string, string>,
+                  session.register,
+                  i18n.locale,
+                  quest.id as string,
+                )}
               </option>
             {/each}
           </select>
@@ -1188,11 +1207,19 @@
 <QuestBar {session} />
 
 <main data-pane={pane}>
-  <!-- Collapsed, a side panel is a 20 px rail at the screen edge and the
-       bench takes every pixel it gave up. Hover or focus the rail to read
-       the panel over the stage; press it to pin the panel back into the
-       layout. Touch has no hover, so the press is the whole interaction
-       there — which is why the reveal is never the only way in. -->
+  <!-- Collapsed, a side panel is gone: not a column, not an overlay, not a
+       hover peek. All that is left at the screen edge is one small floating
+       chevron, and the bench takes every pixel the panel gave up. Pressing
+       the chevron brings the panel back as a normal column that pushes the
+       stage aside, exactly as it was before. Each chevron points the way
+       its panel is about to travel: the heading's sends the lane out to
+       its edge (`‹` on the shelf, `›` on the journal), and the floating
+       one that replaces it points back inwards (`›` on the left edge, `‹`
+       on the right), so the two read as one lane sliding away and back.
+       A panel that reappeared under the pointer was the bug — it hovered over the experiment and there
+       was no way to keep it away. Below the phone breakpoint the tabs still
+       give each pane the whole screen, so the collapsed state is ignored
+       there and the chevron never shows. -->
   <nav class="shelf-pane" class:collapsed={cabinetCollapsed}>
     {#if cabinetCollapsed}
       <button
@@ -1261,10 +1288,7 @@
         stockUsed={session.storyStockUsed}
         bottles={shelfBottles}
         focusRequest={shelfFocusRequest}
-        onadd={(line) => {
-          void dispense(line);
-          pane = "bench";
-        }}
+        onadd={addReagent}
       />
     </div>
   </nav>
@@ -1756,7 +1780,7 @@
     experiments={codexEntries}
     onadd={(item) => {
       tableOpen = false;
-      void dispense(
+      addReagent(
         `add v${session.selected + 1} ${item.key} ${defaultAmount(session.register, item.phase)}`,
       );
     }}
@@ -1765,9 +1789,12 @@
       void startLesson(file);
     }}
     onexperiment={(id) => {
+      // Closing first, before the lookup can fail: an id that missed used
+      // to leave the table open and nothing else changed, so the press
+      // looked ignored rather than unsuccessful.
+      tableOpen = false;
       const entry = codexEntries.find((candidate) => candidate.id === id);
       if (!entry) return;
-      tableOpen = false;
       catalogInitial = entry;
       catalogOpen = true;
     }}
@@ -1808,6 +1835,16 @@
     onequipment={() => {
       utilityStationOpen = false;
       instrumentSurface.open = true;
+    }}
+    clearable={session.clearable && !session.busy}
+    onwaste={() => {
+      // The station has already asked, so this is the confirmed press.
+      // It empties the laboratory you are standing in and no other, which
+      // is the only disposal the engine will do today: there is no verb
+      // that discards one vessel's contents, and inventing one in the UI
+      // would mean deleting chemistry state the engine never agreed to.
+      utilityStationOpen = false;
+      clearBench();
     }}
     onclose={() => (utilityStationOpen = false)}
   />
@@ -2254,6 +2291,47 @@
     padding-top: 0.55rem;
     border-top: 1px solid var(--edge);
   }
+  /* The quest picker had no rules of its own at all. It inherited `font:
+     inherit` from app.css and nothing else, so it drew as a raw OS control
+     on a themed panel — light grey on dark, a head shorter than every
+     button beside it. Worse, a `<select>` is as wide as its widest option
+     and `lv3` quest titles run past a hundred characters: as a flex item
+     with the default `min-width: auto` it refused to shrink, escaped its
+     `minmax(0, 1fr)` drawer track, and spilled over the drawer's own
+     rounded edge. Its own row, and a width it cannot exceed. */
+  .quest-picker {
+    flex-basis: 100%;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.15rem;
+  }
+  .quest-picker > span {
+    flex: none;
+    color: var(--dim);
+    font-size: 0.68rem;
+  }
+  .quest-picker select {
+    min-width: 0;
+    /* `flex: 1` alone would still be floored by the intrinsic width of the
+       longest option; `min-width: 0` is what lets the track win. A native
+       select truncates its own display text once it cannot grow, so no
+       `text-overflow` is needed — and no `appearance: none` either, since
+       there is no house chevron to put back in place of the OS one. */
+    flex: 1;
+    min-height: 40px;
+    padding: 0.25rem 0.4rem;
+    border: 1px solid var(--edge);
+    border-radius: var(--radius-sm);
+    color: var(--ink);
+    background: var(--surface-raised);
+    font: inherit;
+    font-size: 0.78rem;
+    font-weight: 650;
+    cursor: pointer;
+  }
+  .quest-picker select:hover { border-color: var(--primary); }
   .utility-locale {
     flex-basis: 100%;
     display: flex;
@@ -2459,7 +2537,7 @@
     background: var(--surface);
   }
 
-  /* The rail exists only where a panel can be collapsed out of the
+  /* The chevron exists only where a panel can be collapsed out of the
      layout; the phone gives each pane the whole screen by tab instead. */
   .pane-rail {
     display: none;
@@ -2468,58 +2546,49 @@
   @media (min-width: 981px) {
     .shelf-pane,
     aside { transition: width 180ms ease, box-shadow 180ms ease; }
-    /* 20 px of edge, and the bench keeps the rest. The old collapsed
-       panel still held a 44 px column open to say nothing. */
+    /* Collapsed, the lane is nothing but a lane-width strip holding one
+       floating chevron: no frame, no fill, no shadow, so the button reads
+       as sitting on the stage rather than as a panel squeezed thin. */
     .shelf-pane.collapsed,
     aside.collapsed {
-      width: 20px;
-      overflow: visible;
-      box-shadow: none;
-      background: var(--surface-raised);
-    }
-    .pane-rail {
-      display: flex;
-      width: 100%;
-      height: 100%;
+      width: 28px;
       align-items: center;
       justify-content: center;
-      padding: 0;
+      overflow: visible;
       border: 0;
-      color: var(--dim);
+      box-shadow: none;
       background: none;
+    }
+    /* The panel is not hidden behind a hover — it is out of the layout
+       entirely. `display: none` is deliberate over `visibility` so that
+       nothing inside it is focusable, measurable, or read aloud while the
+       lane is closed; the only way back is the chevron. */
+    .shelf-pane.collapsed .pane-body,
+    aside.collapsed .pane-body {
+      display: none;
+    }
+    .pane-rail {
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 44px;
+      flex: none;
+      padding: 0;
+      border: 1px solid var(--edge);
+      border-radius: 9px;
+      color: var(--dim);
+      background: var(--surface-raised);
+      box-shadow: 0 6px 18px var(--shadow);
       font: inherit;
-      font-size: 0.9rem;
+      font-size: 1rem;
       cursor: pointer;
     }
-    .shelf-pane.collapsed:hover .pane-rail,
-    aside.collapsed:hover .pane-rail { color: var(--primary); }
+    .pane-rail:hover { color: var(--primary); border-color: var(--primary); }
     .pane-rail:focus-visible {
       color: var(--primary);
       outline: 2px solid var(--primary);
-      outline-offset: -2px;
+      outline-offset: 2px;
     }
-    /* Revealed over the stage, not beside it: peeking must not move the
-       bench, or every hover would reflow the experiment underneath. */
-    .shelf-pane.collapsed .pane-body,
-    aside.collapsed .pane-body {
-      position: absolute;
-      top: 0.75rem;
-      bottom: 0.75rem;
-      z-index: 15;
-      width: min(15rem, 20vw);
-      border: 1px solid var(--edge);
-      border-radius: var(--radius-lg);
-      background: var(--surface);
-      box-shadow: 0 18px 55px var(--shadow-strong);
-      overflow: hidden;
-      visibility: hidden;
-    }
-    .shelf-pane.collapsed .pane-body { left: 0.75rem; }
-    aside.collapsed .pane-body { right: 0.75rem; width: min(18rem, 23vw); }
-    .shelf-pane.collapsed:hover .pane-body,
-    .shelf-pane.collapsed:focus-within .pane-body,
-    aside.collapsed:hover .pane-body,
-    aside.collapsed:focus-within .pane-body { visibility: visible; }
   }
 
   @media (max-width: 980px) {

@@ -513,48 +513,80 @@ try {
   check("visible buttons have an accessible name", desktop.unnamed === 0, `${desktop.unnamed} unnamed`);
   check("the rendered page has no duplicate ids", desktop.duplicateIds.length === 0, desktop.duplicateIds.join(", "));
 
-  // A collapsed side panel used to keep a 44 px column open to say nothing.
-  // Collapsed is a rail at the screen edge; the stage takes the rest, and
-  // the panel comes back over it on focus and pins on press.
+  // A collapsed side panel used to keep a 44 px column open to say nothing,
+  // and then to keep the whole panel one hover away from covering the stage.
+  // Collapsed now means gone: a floating chevron at the screen edge, the
+  // stage taking the rest, and nothing that can reappear under the pointer.
   await page.evaluate(`(() => {
     document.querySelector('nav.shelf-pane .panel-collapse')?.click();
     document.querySelector('main > aside .panel-collapse')?.click();
   })()`);
   await new Promise((resolve) => setTimeout(resolve, 300));
   const collapsed = JSON.parse(await layoutAudit());
-  check("a collapsed panel is a slim rail, not a column",
+  check("a collapsed panel is a chevron at the edge, not a column",
     Boolean(collapsed.cabinet && collapsed.journal)
-      && collapsed.cabinet.width <= 24 && collapsed.journal.width <= 24,
+      && collapsed.cabinet.width <= 40 && collapsed.journal.width <= 40,
     `${Math.round(collapsed.cabinet?.width ?? -1)}px / ${Math.round(collapsed.journal?.width ?? -1)}px`);
   check("the bench stage takes the freed width",
     collapsed.bench.width > desktop.bench.width + 150,
     `${Math.round(desktop.bench.width)}px → ${Math.round(collapsed.bench.width)}px`);
   check("collapsing keeps every control named and the page unscrolled",
     collapsed.unnamed === 0 && collapsed.bodyOverflow <= 1, `${collapsed.unnamed} unnamed`);
-  const revealed = JSON.parse(await page.evaluate(`(() => {
+  // The regression this replaces: the panel used to sit in the document,
+  // invisible, and a hover or a stray focus put it back over the bench. It
+  // must now be out of the layout entirely, and stay out when hovered and
+  // when the chevron itself takes focus.
+  const hidden = JSON.parse(await page.evaluate(`(() => {
+    const measure = (paneSelector) => {
+      const body = document.querySelector(paneSelector + ' .pane-body');
+      if (!body) return { present: false, laidOut: false, shown: false };
+      const style = getComputedStyle(body);
+      const rect = body.getBoundingClientRect();
+      return {
+        present: true,
+        laidOut: rect.width > 0 && rect.height > 0,
+        shown: style.display !== "none" && style.visibility === "visible",
+      };
+    };
     const rail = document.querySelector('nav.shelf-pane button.pane-rail');
     rail?.focus();
-    const body = document.querySelector('nav.shelf-pane .pane-body');
     return JSON.stringify({
       rail: Boolean(rail),
       named: Boolean(rail?.getAttribute('aria-label')),
+      expanded: rail?.getAttribute('aria-expanded'),
       focused: document.activeElement === rail,
-      shown: body ? getComputedStyle(body).visibility === "visible" : false,
-      width: body?.getBoundingClientRect().width ?? 0,
+      railWidth: rail?.getBoundingClientRect().width ?? 0,
+      cabinet: measure('nav.shelf-pane'),
+      journal: measure('main > aside'),
+      focusables: [...document.querySelectorAll('nav.shelf-pane .pane-body button, main > aside .pane-body button')]
+        .filter((button) => button.offsetParent).length,
     });
   })()`));
-  check("the rail is a named, focusable control", revealed.rail && revealed.named && revealed.focused);
-  check("focusing the rail reveals the panel over the stage",
-    revealed.shown && revealed.width > 120, `${Math.round(revealed.width)}px`);
+  check("the chevron is a named, focusable control", hidden.rail && hidden.named && hidden.focused);
+  check("the chevron reports the panel as collapsed", hidden.expanded === "false", String(hidden.expanded));
+  check("the chevron is a small floating button, not a full-height rail",
+    hidden.railWidth > 0 && hidden.railWidth <= 40, `${Math.round(hidden.railWidth)}px`);
+  check("a collapsed panel is absent from the layout",
+    !hidden.cabinet.laidOut && !hidden.cabinet.shown && !hidden.journal.laidOut && !hidden.journal.shown,
+    `cabinet ${JSON.stringify(hidden.cabinet)} journal ${JSON.stringify(hidden.journal)}`);
+  check("a collapsed panel leaves nothing behind to focus", hidden.focusables === 0, `${hidden.focusables} controls`);
   await page.evaluate(`(() => {
     document.querySelector('nav.shelf-pane button.pane-rail')?.click();
     document.querySelector('main > aside button.pane-rail')?.click();
   })()`);
   await new Promise((resolve) => setTimeout(resolve, 300));
   const pinned = JSON.parse(await layoutAudit());
-  check("pressing the rail pins the panel back into the layout",
+  check("pressing the chevron puts the panel back into the layout",
     pinned.cabinet.width > 100 && pinned.journal.width > 100,
     `${Math.round(pinned.cabinet.width)}px / ${Math.round(pinned.journal.width)}px`);
+  check("the restored panel pushes the stage instead of covering it",
+    pinned.cabinet.right <= pinned.bench.left + 1 && pinned.bench.right <= pinned.journal.left + 1,
+    `${Math.round(pinned.cabinet.right)} | ${Math.round(pinned.bench.left)}-${Math.round(pinned.bench.right)} | ${Math.round(pinned.journal.left)}`);
+  const restored = JSON.parse(await page.evaluate(`(() => {
+    const body = document.querySelector('nav.shelf-pane .pane-body');
+    return JSON.stringify({ width: body?.getBoundingClientRect().width ?? 0 });
+  })()`));
+  check("the restored panel renders its body again", restored.width > 120, `${Math.round(restored.width)}px`);
 
   check("the periodic table opens from the bench", await openPeriodicTable());
   const labTable = JSON.parse(await periodicAudit());
@@ -562,6 +594,37 @@ try {
   check("the default table omits hazardous and synthetic identities",
     ["Po", "At", "Fr", "Ra", "Og"].every((symbol) => !labTable.symbols.includes(symbol)));
   check("every element cell has an accessible name", labTable.unnamed === 0, `${labTable.unnamed} unnamed`);
+
+  // "Nothing happens when I click a reagent in the periodic table." The
+  // press did reach the engine, but the surface never came back to the
+  // bench that had just changed, so the whole gesture looked ignored. The
+  // only honest way to test that is to press it and see the bench move.
+  const reagentPress = JSON.parse(await page.evaluate(`(async () => {
+    const before = document.querySelectorAll('.feed > *').length;
+    const cell = [...document.querySelectorAll('dialog.table-panel button.el')]
+      .find((element) => !element.classList.contains('unsupported'));
+    cell?.click();
+    await new Promise((resolve) => setTimeout(resolve, 120));
+    const chip = document.querySelector('dialog.table-panel button.add[data-key]');
+    const key = chip?.getAttribute('data-key') ?? null;
+    chip?.click();
+    await new Promise((resolve) => setTimeout(resolve, 900));
+    return JSON.stringify({
+      element: Boolean(cell),
+      chip: Boolean(chip),
+      key,
+      closed: !document.querySelector('dialog.table-panel'),
+      grew: document.querySelectorAll('.feed > *').length > before,
+    });
+  })()`));
+  check("picking an element offers its shelf reagents", reagentPress.element && reagentPress.chip);
+  check("a periodic-table reagent carries the key the bench command needs",
+    Boolean(reagentPress.key), String(reagentPress.key));
+  check("pressing a periodic-table reagent closes the table and moves the bench",
+    reagentPress.closed && reagentPress.grew,
+    `closed ${reagentPress.closed}, journal grew ${reagentPress.grew}`);
+
+  check("the periodic table reopens from the bench", await openPeriodicTable());
   await page.evaluate(`document.querySelector('dialog.table-panel button.mode')?.click()`);
   const fullTable = JSON.parse(await periodicAudit());
   check("the explicit full-table mode exposes all 118 identities", fullTable.options === 118, `${fullTable.options} cells`);

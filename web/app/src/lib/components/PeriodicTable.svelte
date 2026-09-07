@@ -14,7 +14,7 @@
   } from "../elements";
   import type { ShelfItem } from "../session.svelte";
   import SpeciesChip from "./SpeciesChip.svelte";
-  import { t } from "../i18n.svelte";
+  import { t, tEngine } from "../i18n.svelte";
 
   let {
     shelf,
@@ -22,6 +22,7 @@
     coverage = null,
     lessons = [],
     experiments = [],
+    element = null,
     onadd,
     onlesson,
     onexperiment,
@@ -32,13 +33,19 @@
     coverage?: ElementCoverageReport | null;
     lessons?: ElementLessonIndexEntry[];
     experiments?: ElementExperimentIndexEntry[];
+    /** Open with this symbol already chosen, rather than on the bare grid. */
+    element?: string | null;
     onadd: (item: ShelfItem) => void;
     onlesson?: (file: string) => void;
     onexperiment?: (id: string) => void;
     onclose: () => void;
   } = $props();
 
-  let picked = $state<ElementInfo | null>(null);
+  // The opening selection, not a binding: once the table is up, which
+  // element is chosen belongs to whoever is reading it.
+  let picked = $state<ElementInfo | null>(
+    element ? (ELEMENTS.find((candidate) => candidate.symbol === element) ?? null) : null,
+  );
   let fullTable = $state(false);
   let query = $state("");
   const visibleElements = $derived(elementsMatchingSearch(
@@ -199,7 +206,7 @@
           <ul class="species">
             {#each inLab as item (item.key)}
               <li>
-                <button class="add" onclick={() => onadd(item)}>
+                <button class="add" data-key={item.key} onclick={() => onadd(item)}>
                   <SpeciesChip {item} />
                   <span>{t(item.name)}</span>
                   <span class="formula">{item.formula}</span>
@@ -224,7 +231,10 @@
                   disabled={route.kind === "lesson" ? !onlesson : !onexperiment}
                 >
                   <strong>{route.kind === "lesson" ? t("lesson") : t("experiment")}</strong>
-                  <span>{t(route.label)}</span>
+                  <span>{t(route.title)}</span>
+                  {#if tEngine(route, "summary")}
+                    <small class="route-summary">{tEngine(route, "summary")}</small>
+                  {/if}
                   <small>{t("needs: {materials}", { materials: route.requiredShelfKeys.join(", ") })}</small>
                 </button>
               </li>

@@ -5,13 +5,41 @@
     vessel,
     onwater,
     onequipment,
+    onwaste,
     onclose,
+    clearable = true,
   }: {
     vessel: number;
     onwater: () => void;
     onequipment: () => void;
+    /** Fired only after the reader has confirmed. */
+    onwaste: () => void;
     onclose: () => void;
+    /** False when there is nothing on the bench to dispose of. */
+    clearable?: boolean;
   } = $props();
+
+  // The waste station read like a control and did nothing: an `<article>`
+  // among two buttons, explaining a policy where the other two offered an
+  // action. The policy it states is real — nothing is discarded without
+  // being asked for — but stating it is not the same as refusing to have
+  // a control, and "open waste station" in the remove-vessel dialog led
+  // here and then stopped. So it asks, exactly the way the toolbar's own
+  // empty control asks, and the press it takes afterwards is the one that
+  // empties the bench.
+  let armed = $state(false);
+  let timer: ReturnType<typeof setTimeout> | null = null;
+  function arm() {
+    armed = true;
+    if (timer) clearTimeout(timer);
+    // Disarms itself: an armed button left on screen becomes a trap.
+    timer = setTimeout(() => (armed = false), 8000);
+  }
+  function disarm() {
+    armed = false;
+    if (timer) clearTimeout(timer);
+    timer = null;
+  }
 </script>
 
 <div class="scrim" role="presentation" onclick={onclose} onkeydown={(event) => event.key === "Escape" && onclose()}>
@@ -34,10 +62,22 @@
         <span><strong>{t("power and apparatus")}</strong><small>{t("Open powered instruments, probes, heaters, and separators.")}</small></span>
         <b aria-hidden="true">→</b>
       </button>
-      <article class="station waste">
-        <span class="station-icon" aria-hidden="true">⌫</span>
-        <span><strong>{t("waste station")}</strong><small>{t("Chemical contents are never discarded silently. Empty vessels can be removed at the bench; disposal chemistry remains an explicit operation.")}</small></span>
-      </article>
+      {#if armed}
+        <div class="station waste" role="group" aria-label={t("clear the bench?")}>
+          <span class="station-icon" aria-hidden="true">⌫</span>
+          <span><strong>{t("clear the bench?")}</strong><small>{t("empty this bench — the other laboratory is untouched")}</small></span>
+          <span class="confirm">
+            <button class="yes" onclick={() => { disarm(); onwaste(); }}>{t("clear the bench")}</button>
+            <button class="no" onclick={disarm}>{t("keep it")}</button>
+          </span>
+        </div>
+      {:else}
+        <button class="station waste" onclick={arm} disabled={!clearable}>
+          <span class="station-icon" aria-hidden="true">⌫</span>
+          <span><strong>{t("waste station")}</strong><small>{t("Chemical contents are never discarded silently. Empty vessels can be removed at the bench; disposal chemistry remains an explicit operation.")}</small></span>
+          <b aria-hidden="true">→</b>
+        </button>
+      {/if}
     </div>
   </dialog>
 </div>
@@ -65,4 +105,10 @@
   .power .station-icon { color: var(--ink); background: var(--action); }
   .waste { background: color-mix(in srgb, var(--warning) 6%, var(--surface-raised)); }
   .waste .station-icon { color: var(--warning); background: color-mix(in srgb, var(--warning) 13%, var(--surface)); }
+  button.waste:hover:not(:disabled), button.waste:focus-visible:not(:disabled) { border-color: var(--danger); }
+  button.waste:disabled { opacity: .5; cursor: default; transform: none; box-shadow: none; }
+  .waste b { color: var(--warning); }
+  .confirm { display: flex; flex-wrap: wrap; gap: .35rem; }
+  .confirm button { min-height: 40px; padding: .4rem .7rem; border: 1px solid var(--edge); border-radius: var(--radius-sm); color: var(--ink); background: var(--surface); font: inherit; font-weight: 650; cursor: pointer; }
+  .confirm .yes { color: var(--on-accent); border-color: var(--danger); background: var(--danger); }
 </style>
