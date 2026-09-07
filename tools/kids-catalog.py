@@ -12,6 +12,12 @@ ALLOWED_STATUS = {"computed", "partial", "boundary", "declined", "unreachable"}
 ALLOWED_SAFETY = {"home", "school"}
 ALLOWED_PROGRESS = {"starter", "intermediate", "advanced"}
 SAFETY_DETAIL_REQUIRED = {"K03", "K19", "K35", "K41", "K54"}
+STRUCTURED_PREVIEW_REQUIRED = {"K02", "K04", "K26", "K31", "K33"}
+KNOWN_KITS = {"balloon-kit", "candle-kit", "paper-chromatography-kit", "filter-funnel-kit", "magnet-kit"}
+REQUIRED_KIT_BY_EXPERIMENT = {
+    "K02": "balloon-kit", "K04": "candle-kit", "K26": "paper-chromatography-kit",
+    "K31": "magnet-kit", "K33": "filter-funnel-kit",
+}
 EXPECTED_STATUS_COUNTS = {
     "computed": 52, "partial": 5, "boundary": 1, "declined": 2, "unreachable": 0,
 }
@@ -61,6 +67,25 @@ def validate(document: dict, root: pathlib.Path = ROOT) -> list[dict]:
             values = row.get(field)
             if not isinstance(values, list) or not values or not all(isinstance(v, str) and v for v in values):
                 raise ValueError(f"{kid}: {field} must be a non-empty string array")
+        for field in ("procedure", "observations", "kits"):
+            values = row.get(field)
+            if values is not None and (not isinstance(values, list) or not values or not all(isinstance(v, str) and v.strip() for v in values)):
+                raise ValueError(f"{kid}: {field} must be a non-empty string array")
+        recipe = row.get("recipe")
+        if recipe is not None:
+            if not isinstance(recipe, list) or not recipe:
+                raise ValueError(f"{kid}: recipe must be a non-empty array")
+            for line in recipe:
+                if not isinstance(line, dict) or line.get("ingredient") not in row["ingredients"] or not isinstance(line.get("quantity"), str) or not line["quantity"].strip():
+                    raise ValueError(f"{kid}: recipe lines need a listed ingredient and quantity")
+                if "preparation" in line and (not isinstance(line["preparation"], str) or not line["preparation"].strip()):
+                    raise ValueError(f"{kid}: recipe preparation must be non-empty")
+        if any(kit not in KNOWN_KITS for kit in row.get("kits", [])):
+            raise ValueError(f"{kid}: kits must contain existing exact kit identifiers")
+        if kid in STRUCTURED_PREVIEW_REQUIRED and not all(row.get(field) for field in ("recipe", "procedure", "observations", "kits")):
+            raise ValueError(f"{kid}: structured recipe, procedure, observations and kit are required")
+        if kid in REQUIRED_KIT_BY_EXPERIMENT and row.get("kits") != [REQUIRED_KIT_BY_EXPERIMENT[kid]]:
+            raise ValueError(f"{kid}: expected exact familiar kit {REQUIRED_KIT_BY_EXPERIMENT[kid]}")
         if status in {"partial", "boundary", "declined", "unreachable"} and not row.get("boundary"):
             raise ValueError(f"{kid}: non-computed status requires a boundary")
         lesson = row.get("lesson")
@@ -102,6 +127,22 @@ def add_translation(document: dict, translation: dict) -> dict:
             if not isinstance(value, str) or not value.strip():
                 raise ValueError(f"{source['id']}: missing German {field}")
             source[f"{field}_{locale}"] = value
+        for field in ("procedure", "observations"):
+            if source.get(field):
+                value = target.get(field)
+                if not isinstance(value, list) or len(value) != len(source[field]) or not all(isinstance(v, str) and v.strip() for v in value):
+                    raise ValueError(f"{source['id']}: German {field} must match the English item count")
+                source[f"{field}_{locale}"] = value
+        if source.get("recipe"):
+            value = target.get("recipe")
+            if not isinstance(value, list) or len(value) != len(source["recipe"]):
+                raise ValueError(f"{source['id']}: German recipe must match the English item count")
+            for original, translated_line in zip(source["recipe"], value):
+                if not isinstance(translated_line, dict) or translated_line.get("ingredient") != original["ingredient"] or not isinstance(translated_line.get("quantity"), str) or not translated_line["quantity"].strip():
+                    raise ValueError(f"{source['id']}: German recipe must preserve ingredients and translate quantities")
+                if original.get("preparation") and (not isinstance(translated_line.get("preparation"), str) or not translated_line["preparation"].strip()):
+                    raise ValueError(f"{source['id']}: German recipe must translate preparation")
+            source[f"recipe_{locale}"] = value
     return document
 
 

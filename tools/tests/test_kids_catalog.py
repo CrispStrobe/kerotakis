@@ -38,6 +38,20 @@ class KidsCatalogTests(unittest.TestCase):
             self.assertTrue(translated[kid]["safety_rationale"].strip())
             self.assertTrue(translated[kid]["safety_guidance"].strip())
 
+    def test_representative_experiments_have_localized_structured_previews_and_exact_kits(self):
+        rows = {row["id"]: row for row in MODULE.validate(self.document)}
+        translated = {row["id"]: row for row in self.german["experiments"]}
+        seen_kits = set()
+        for kid in MODULE.STRUCTURED_PREVIEW_REQUIRED:
+            row = rows[kid]
+            self.assertTrue(row["recipe"] and row["procedure"] and row["observations"])
+            self.assertEqual(len(translated[kid]["recipe"]), len(row["recipe"]))
+            self.assertEqual(len(translated[kid]["procedure"]), len(row["procedure"]))
+            self.assertEqual(len(translated[kid]["observations"]), len(row["observations"]))
+            self.assertEqual(row["kits"], [MODULE.REQUIRED_KIT_BY_EXPERIMENT[kid]])
+            seen_kits.update(row["kits"])
+        self.assertEqual(seen_kits, MODULE.KNOWN_KITS)
+
     def test_every_launch_link_exists(self):
         rows = MODULE.validate(self.document)
         self.assertTrue(all((ROOT / "lessons" / row["lesson"]).is_file() for row in rows if row.get("lesson")))

@@ -23,11 +23,22 @@ consumer from being placed before every available teacher of a prerequisite.
 Structured, localized safety rationale and before-you-begin guidance now
 cover the five school-supervision gaps found by the GUI audit: K03, K19, K35,
 K41 and K54. The unified experiment cards show supervision before launch and
-repeat actionable guidance in their existing details/procedure/run views. The
-remaining follow-up remains translation of full lesson narration, structured
-recipe quantities and observations, and exact links from experiment apparatus
-to the five existing classroom-kit part lists. These belong in the same
+repeat actionable guidance in their existing details/procedure/run views.
+Catalogue prose is now available in both supported languages; the remaining
+follow-up is broadening structured recipes, observations and apparatus
+definitions across the rest of the corpus. These belong in the same
 Experiments/Codex/Missions flow, never a separate surface.
+
+The second tranche closes that apparatus/preview gap for a representative
+set spanning gas collection, combustion, chromatography, magnetic separation
+and filtration: K02, K04, K26, K31 and K33. Each now carries a concise recipe
+with quantities or an honestly non-numeric prepared portion, preparation
+notes, procedure steps and expected observations in English and German. The
+quantities come from the shipped `.lab` command where it names one; K31's
+quest does not declare masses, so its recipe deliberately says “one prepared
+portion” instead of inventing a number. Exact kit identifiers connect those
+five rows to all five familiar apparatus definitions and expose their real
+part lists in the same unified catalogue card/details flow.
 
 Thirty experiments a child actually meets — the volcano, the elephant
 toothpaste, the naked egg, the red-cabbage rainbow — driven through the
