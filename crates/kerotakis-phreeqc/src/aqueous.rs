@@ -1477,6 +1477,12 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
         }
     }
 
+    // Nothing dissolved is not a speciation problem, whether or not the vessel
+    // also holds material the adapter cannot name. Declining here is what makes
+    // `unspeciated_solute_notes` the answer for an unrepresented ionic feed
+    // instead of pure water's pH — and building a problem for plain solvent
+    // books a successful *computed chemistry* route that computed nothing,
+    // which the curiosity classifier reads as the whole prompt's answer.
     if kgw <= 0.0 || solutes == 0 {
         return None;
     }

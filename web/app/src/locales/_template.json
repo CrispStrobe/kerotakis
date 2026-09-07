@@ -3,6 +3,11 @@
  "@@name": "",
  "@@note": "Copy to <code>.json, set @@locale, translate the VALUES only. Keys are English source text and must not change.",
  "terms": {
+  "endpoint is not a full drop": "",
+  "equal charge different clocks": "",
+  "equilibrium can run backward": "",
+  "grouping does not change water heat": "",
+  "three components one cut": "",
   "hydrogen ion": "",
   "dissolved carbon dioxide": "",
   "carbonate ion": "",
