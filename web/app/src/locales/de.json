@@ -2362,6 +2362,8 @@
   "{material} changed by {grams} g as water crossed the membrane": "{material} veränderte sich um {grams} g, als Wasser die Membran durchquerte",
   "the flame quit at {percent}% oxygen after burning {moles} mol": "Die Flamme erlosch bei {percent}% Sauerstoff, nachdem {moles} mol verbrannt waren",
   "{gap} K below the temperature {fuel} lights itself at": "{gap} K unter der Temperatur, bei der sich {fuel} selbst entzündet",
+  "{fuel} did not catch: {gap} K short of the temperature it burns at": "{fuel} hat nicht gezündet: {gap} K unter der Temperatur, bei der es brennt",
+  "nothing ignited": "nichts entzündet",
   "{nuclide} spiked at {activity} Bq": "{nuclide} mit {activity} Bq zugegeben",
   "settled at {celsius} °C": "eingestellt bei {celsius} °C",
   "settled at {celsius} °C — the exhaust's temperature; the vessel holds nothing": "eingestellt bei {celsius} °C — die Temperatur der Abgase; das Gefäß enthält nichts",

@@ -1401,11 +1401,14 @@ and presents them well.
   balance had computed. Every one of the 73 rows is now a function of an
   engine number carrying a `data-*` attribute that names it.
 
-  **This item is closed and the question it asks is not.** Two gaps outlive
-  the row count, both recorded in the audit. One event carries no quantity
-  at all — `Event::DidNotIgnite` has nothing but a vessel id, so nothing can
-  be drawn for it that is not a picture of the word, and its sibling
-  `FlameStarved` carries the three numbers instead. And a row score cannot
+  **This item is closed and the question it asks is not.** One gap outlives
+  the row count, recorded in the audit. (The other, `Event::DidNotIgnite`
+  carrying nothing but a vessel id, is now closed: the event names *which*
+  absence it is — `no_fuel`, `no_oxygen`, `below_autoignition`,
+  `not_modelled` — and carries the candidate fuel, its moles, the oxygen
+  fraction and the gap to the autoignition point, so a wisp scaled by the
+  fuel is drawn for the one of the four that is drawable and nothing at
+  all for the other three.) And a row score cannot
   see the difference between a visual that is right *at the instant of its
   event* and one that stays right *between* events; that was the whole
   subject of the scene-numbers PR, and it is the standing risk in every

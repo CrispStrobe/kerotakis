@@ -374,17 +374,48 @@ Every one of those carries a `data-*` attribute naming the number that drives
 it, so the browser UX gate and any later test can assert on the *quantity*
 rather than on the presence of a shape.
 
-## What the engine still lacks
+## What the engine still lacked — and no longer does
 
-One row cannot be closed from the client at all. **`Event::DidNotIgnite`
-carries nothing but the vessel id** — no fuel, no oxygen fraction, no gap
-to the autoignition temperature — so there is no quantity for a visual to
-be a function of, and drawing anything for it would be a picture of the
-word. Its sibling `FlameStarved` carries `fuel`, `burned` and
-`oxygen_fraction` and is drawn; the shared row above is marked done on
-that half alone, and deliberately says so. Giving `DidNotIgnite` the same
-three fields (or the gap `BelowAutoignition` already computes) would close
-the other half.
+**`Event::DidNotIgnite` carried nothing but the vessel id** — no fuel, no
+oxygen fraction, no gap to the autoignition temperature — so there was no
+quantity for a visual to be a function of, and drawing anything for it
+would have been a picture of the word. Its sibling `FlameStarved` carries
+`fuel`, `burned` and `oxygen_fraction` and was drawn; the shared row above
+was marked done on that half alone, and said so.
+
+**Done.** `DidNotIgnite` now carries the same three readings plus the gap
+`BelowAutoignition` computes, and — the field that turned out to matter
+most — a `reason` naming *which* absence this is: `no_fuel`, `no_oxygen`,
+`below_autoignition`, `not_modelled`. The reason is what makes the row
+drawable, because the four are not one visual with four magnitudes; they
+are one visual and three deliberate blanks:
+
+- `below_autoignition` draws a faint wisp, `unlitSmoke` scaling it by the
+  candidate's moles on a log ramp and thinning it by the gap. A milligram
+  of wax and a block of it are not the same non-event, and something
+  400 K short of catching is not visibly doing anything.
+- `no_fuel` draws **nothing**, on purpose. A flask of spent air has no
+  fuel to scale a wisp by, and a wisp over it would invent a substance.
+  So do `no_oxygen` (a smothered fuel is not warm) and `not_modelled`
+  (the bench does not know).
+
+`no_fuel` is also narrower than it sounds, and the tests say why. A
+beaker of water held in a flame is **not** one: it goes past the aqueous
+model's 300 °C ceiling, no chemistry solver claims the state, and the
+bench answers `NotYetModeled` — it may not turn a gap in the modelling
+into a claim that water does not burn. `NoFuel` is only said about a
+vessel a solver actually examined.
+
+The reason, the fuel moles, the gap and the oxygen fraction are all on
+`data-*` attributes whether or not a shape is drawn, so the absence stays
+readable from the DOM exactly where the drawing is deliberately empty —
+which is the only way a test can tell "nothing to draw" from "nothing
+drawn". The candidate fuel is the most flammable species actually
+present, read from both tables that already decide what burns
+(`combustion::GAS_AUTOIGNITION` and `combustion::FUELS`), so a candle is
+not called unburnable in the vessels the curated table exists for.
+
+The row above is now done on both halves.
 
 ## What the engine should add
 
