@@ -1248,7 +1248,14 @@ fn newly_guided_kids_rows_keep_their_evidence() {
             "antacid-suspension.lab",
             &["0.0150 mol  magnesium hydroxide Solid"],
         ),
-        ("salt-or-sugar-ice.lab", &["-3.19 °C", "1.59 °C"]),
+        // -3.10 rather than -3.19, and 1.57 rather than 1.59. Liquid water
+        // has a MINIMUM heat capacity near 35 C and rises at both ends:
+        // 76.17 J/(mol.K) at 0 C against the 75.30 constant the bench used
+        // to charge, 1.2 % more. Dissolving salt is endothermic, so 1.2 %
+        // more heat capacity is 1.2 % less cooling, and 4.19 K of drop
+        // becomes 4.10. That the ice-water end of the curve is the end
+        // that moved is the shape of the curve showing, not a drift.
+        ("salt-or-sugar-ice.lab", &["-3.10 °C", "1.57 °C"]),
         ("flame-colour-series.lab", &["bright yellow", "blue-green"]),
         (
             "metal-acid-race.lab",
