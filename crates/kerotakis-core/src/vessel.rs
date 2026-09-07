@@ -926,6 +926,56 @@ pub struct Vessel {
     /// that merely correlates with it.
     #[serde(default)]
     pub free_proton: f64,
+    /// The CO₂ partial pressure the aqueous solver last MEASURED for this
+    /// solution, atm; `None` until one has.
+    ///
+    /// Persisted for exactly the reason [`Vessel::free_hydroxide`] is:
+    /// `solution` is wiped at the top of every step, and the gas-exchange
+    /// clock runs in the OPERATOR phase, before any solver has looked at
+    /// the vessel this step. Without this the clock would have nothing to
+    /// compute a driving force from and an open beaker would never
+    /// exchange anything.
+    ///
+    /// It is derived from the measured CO₂(aq) molality through the same
+    /// Sander (2015) coefficient the clock drives with, so the two agree
+    /// by construction and the vessel settles exactly on the atmospheric
+    /// value rather than near it.
+    #[serde(default)]
+    pub co2_partial_pressure_atm: Option<f64>,
+    /// Moles of CO₂ the gas-exchange clock has decided crossed the surface
+    /// and the aqueous solver has not applied yet. Positive is inward.
+    ///
+    /// The clock owns the RATE and the solver owns the CHEMISTRY, and this
+    /// is the handoff between them. The clock cannot speciate the carbon
+    /// it moves — dissolved inorganic carbon is booked as bicarbonate, so
+    /// debiting a degassing vessel by hand would mean taking H and O out
+    /// of a portion whose mass is only right because of where the carbon
+    /// came from, which is the trap the C(4) split walked into. Instead
+    /// the amount is parked here, and the aqueous tail spends it by adding
+    /// it to the ELEMENT TOTALS it poses the solve with — symmetric in both
+    /// directions, with the engine doing the speciation and the charge. A
+    /// `REACTION` block was tried first and speciated correctly, but the
+    /// readback walks input PORTIONS and dropped every atom of it;
+    /// `partition` records that measurement.
+    ///
+    /// Cleared by whoever applies it. A vessel with no aqueous solver
+    /// under it accumulates nothing, because nothing measured a pressure.
+    ///
+    /// **It arrives on the BALANCE 17 g/mol too heavy, and that is not new
+    /// but it is now reachable from the open bench.** The readback books
+    /// every dissolved inorganic carbon as HCO₃⁻ (61 g/mol) while PHREEQC's
+    /// water mass does not drop for the H and O it lent, so a mole of CO₂
+    /// (44 g/mol) delivered by the room weighs a water too much. From a
+    /// bicarbonate SOLID that booking is exact, because the solid brought
+    /// its own H and O; from a gas it is not, and at bench pH most of the
+    /// carbon is really CO₂(aq) anyway, so the name is wrong as well as the
+    /// mass. `kerotakis-phreeqc/tests/sealed_mass.rs` measures it on the
+    /// sealed path and is `#[ignore]`d pending a C(4) protonation split
+    /// with a water debit — the aqueous lane's, and untouched here.
+    /// Currently 0.013 g for a beaker of water standing a month; the same
+    /// defect, not a second one.
+    #[serde(default)]
+    pub pending_co2_transfer_mol: f64,
     /// `Some` once an aqueous solver has characterised the solution; `None`
     /// means no solver has — and the honesty pass says so.
     #[serde(default)]
@@ -968,6 +1018,8 @@ impl Vessel {
             step_start: None,
             free_hydroxide: 0.0,
             free_proton: 0.0,
+            co2_partial_pressure_atm: None,
+            pending_co2_transfer_mol: 0.0,
             solution: None,
             lots: Vec::new(),
             resolved: ResolvedState::default(),

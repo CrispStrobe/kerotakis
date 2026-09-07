@@ -1303,4 +1303,28 @@ mod tests {
         // Malate's row stays: nothing has been added for it.
         assert!(UNSPECIATED_ACIDS.iter().any(|(k, _)| *k == "malic_acid"));
     }
+
+    /// EXP-57: the atmospheric CO2 pressure exists in two places now —
+    /// here as a log10, because a saturation index is what PHREEQC wants,
+    /// and in `kerotakis_core::clock` as an absolute pressure, because
+    /// that is what a rate multiplies. They are ONE physical constant, and
+    /// somebody editing either has no way to see the other. This notices.
+    ///
+    /// The same discipline as the enthalpy basis: a number that has been
+    /// derived a second way is only trustworthy while something still
+    /// compares the two.
+    #[test]
+    fn the_atmospheric_co2_pressure_agrees_with_the_clock() {
+        let (_, _, log_p) = ATMOSPHERIC
+            .iter()
+            .find(|(phase, ..)| *phase == "CO2(g)")
+            .expect("CO2 is the atmospheric reservoir");
+        let as_atm = 10f64.powf(*log_p);
+        let clock = kerotakis_core::clock::ATMOSPHERIC_CO2_ATM;
+        assert!(
+            (as_atm - clock).abs() < clock * 1e-3,
+            "10^{log_p} is {as_atm} atm but the gas-exchange clock drives \
+             at {clock} atm; they are the same constant"
+        );
+    }
 }

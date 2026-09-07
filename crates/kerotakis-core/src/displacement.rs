@@ -347,6 +347,57 @@ pub fn unspent_acidity(vessel: &Vessel) -> f64 {
     (-vessel.solute_charge).max(0.0) + bound_protons(vessel)
 }
 
+/// The titratable acidity that ROOM AIR ALONE accounts for in this vessel,
+/// in moles — the zero point of "is there acid in this beaker", not a
+/// reagent in it.
+///
+/// EXP-57 put a room around the bench, and the room is slightly acid.
+/// Water standing open comes to pH 5.6, which is what rain is, and every
+/// mole of CO₂ that arrives is booked by the aqueous readback as HCO₃⁻ —
+/// an anion with no cation beside it, so [`unspent_acidity`] reads a
+/// proton for each one. It is not wrong to: carbonic acid IS titratable.
+/// It is wrong to call it a REAGENT.
+///
+/// Without this the gates below flip on the room itself. Measured: iron
+/// and oxygen in salt water for a day takes up 1.35 µmol of carbon, clears
+/// the 1 µmol bar by a third, and the displacement route takes a beaker
+/// the corrosion route is already computing — so `th-068` said both
+/// "iron corrodes, 4.48 mmol reacted" and "iron does not react" in one
+/// transcript. Two engines narrating one beaker is precisely what these
+/// gates exist to prevent, and a threshold in absolute moles could not
+/// tell a room from a reagent.
+///
+/// The ceiling is Henry's law at the room's partial pressure, over the
+/// vessel's own liquid — the same `K_H` and the same
+/// [`crate::clock::ATMOSPHERIC_CO2_ATM`] that
+/// [`crate::clock::GasExchangeClock`] delivers the carbon with, so the
+/// allowance and the delivery cannot drift apart. Every mole of it is a
+/// mole of titratable acidity at most, which makes this an upper bound
+/// rather than a fit.
+///
+/// Zero for anything that is not open to the room: a sealed or swept
+/// headspace is a boundary somebody chose, and its carbon is a reagent.
+pub fn room_air_acidity_mol(vessel: &Vessel) -> f64 {
+    if !matches!(vessel.headspace, crate::vessel::Headspace::Open) {
+        return 0.0;
+    }
+    let volume_l = vessel.liquid_volume().0;
+    if volume_l <= 0.0 {
+        return 0.0;
+    }
+    let Some(coeff) = crate::properties::henry_lookup("CO2") else {
+        return 0.0;
+    };
+    let k_h = crate::properties::henry_at_t(coeff, vessel.temperature.0).value;
+    k_h * crate::clock::ATMOSPHERIC_CO2_ATM * volume_l
+}
+
+/// Whether there is acid here a metal could actually get at — above the
+/// room's own contribution, which [`room_air_acidity_mol`] states.
+pub fn acid_beyond_the_room(vessel: &Vessel) -> bool {
+    oxidant_available(vessel, &SERIES[2]) > crate::OBSERVABLE_MOLES
+}
+
 /// Protons the ledger holds on undissociated weak acids — the ones
 /// `solute_charge` cannot see, because an undissociated acid is neutral.
 ///
@@ -389,9 +440,32 @@ pub fn solute_charge(vessel: &Vessel) -> f64 {
 }
 
 /// How much of an oxidant is there to be reduced, in moles of it.
+///
+/// For the hydrogen couple this is the titratable acidity LESS what room
+/// air alone puts there — see [`room_air_acidity_mol`]. A metal is offered
+/// the acid somebody poured in, not the pH of the room it is standing in.
+/// The subtraction is at most a micromole or two, which would dissolve
+/// less iron than the bench can see, and without it every open beaker on
+/// the bench became an acid beaker the moment it was left to stand.
 fn oxidant_available(vessel: &Vessel, c: &Couple) -> f64 {
     if c.oxidised == HYDROGEN_ION {
-        unspent_acidity(vessel)
+        let beyond = unspent_acidity(vessel) - room_air_acidity_mol(vessel);
+        // And below what the bench admits it can see, there is no acid
+        // here at all. `TRACE` is 1e-12 and right for CONTINUING a
+        // reaction that is already running; it is far too low a bar for
+        // STARTING one, because starting one means saying so out loud.
+        // Measured on `th-068`: netting the room off left 19 nmol of
+        // residue — a twentieth of a micromole, which would dissolve
+        // 9 nmol of iron — and on that the bench told a reader that iron
+        // is kinetically blocked in this acid, in the same transcript as
+        // it computed 4.48 mmol of rust. `OBSERVABLE_MOLES` is the
+        // engine's own answer to "is this worth mentioning", and it is
+        // the answer here too.
+        if beyond <= crate::OBSERVABLE_MOLES {
+            0.0
+        } else {
+            beyond
+        }
     } else {
         moles_in(vessel, c.oxidised, Phase::Aqueous)
     }
@@ -831,7 +905,7 @@ pub fn bystanders(vessel: &Vessel, just_plated: &[&str]) -> Vec<Event> {
         // every solid in contact with liquid.
         return events;
     }
-    let acid = oxidant_available(vessel, &SERIES[2]) > crate::OBSERVABLE_MOLES;
+    let acid = acid_beyond_the_room(vessel);
     for c in SERIES.iter().filter(|c| c.reduced_phase == Phase::Solid) {
         if moles_in(vessel, c.reduced, Phase::Solid) <= crate::OBSERVABLE_MOLES {
             continue;

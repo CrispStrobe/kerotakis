@@ -1,7 +1,20 @@
-//! Carbonate chemistry with an open vessel: the fizz is computed. CO2
-//! escapes through an equilibrium phase pinned at atmospheric partial
-//! pressure — supersaturation bubbles out, an undersaturated solution stays
-//! quiet, and the balance sees the mass leave.
+//! Carbonate chemistry with an open vessel: the fizz is computed.
+//!
+//! An ACIDIFIED solution is driven far past saturation by the reaction
+//! itself, and the CO2 leaves within the step that makes it — that is the
+//! fizz, and it is chemistry rather than transport.
+//!
+//! Carbon LEAVING an open vessel is equilibrium, as it always was: the
+//! adapter offers a CO2(g) phase holding zero moles, so a supersaturated
+//! solution degasses to the atmospheric value and an undersaturated one
+//! does nothing.
+//!
+//! Carbon ARRIVING is new, and it is a rate. A phase with no moles in it
+//! cannot be dissolved from, so room air could previously only ever take
+//! carbon away — and the offer was gated on carbon already being present,
+//! so a beaker of hydroxide was not offered the room at all. EXP-57 gives
+//! that direction to `GasExchangeClock`, which means a vessel has to be
+//! WAITED on before it has taken anything up.
 
 #![cfg(feature = "engine")]
 
@@ -40,14 +53,32 @@ fn evolved_co2(events: &[Event]) -> f64 {
         .sum()
 }
 
+fn wait_with(bench: &mut Bench, solver: &mut dyn Equilibrator, seconds: f64) -> Vec<Event> {
+    bench
+        .step_with(Operator::Wait { seconds }, solver, &ReactiveGroupScreen)
+        .expect("step")
+}
+
+fn ph_of(bench: &Bench, v: VesselId) -> f64 {
+    bench
+        .vessel(v)
+        .unwrap()
+        .solution
+        .clone()
+        .expect("characterised")
+        .ph
+}
+
+/// Chemistry the test author had to learn from the engine: a 0.05 m
+/// bicarbonate solution IS supersaturated versus atmospheric pCO2 and does
+/// lose CO2 in an open beaker, drifting basic — but only a modest fraction,
+/// nothing like an acidified fizz.
+///
+/// EXP-57 left this alone on purpose. Whether the loss is a fizz or a seep
+/// over days is still the equilibrium answer here; only the INWARD
+/// direction became a rate. See `GasExchangeClock::advance`.
 #[test]
 fn baking_soda_alone_degasses_slowly_not_dramatically() {
-    // Chemistry the test author had to learn from the engine: a 0.5 m
-    // bicarbonate solution IS supersaturated versus atmospheric pCO2 and
-    // does lose CO2 in an open beaker, drifting basic — but only a modest
-    // fraction, nothing like an acidified fizz. (Whether it *bubbles* or
-    // seeps out over hours is kinetics — L5's job; equilibrium only says
-    // where it ends.)
     let mut eq = PhreeqcEquilibrator::new().expect("engine");
     let mut bench = Bench::new();
     let v = VesselId(0);
@@ -59,16 +90,57 @@ fn baking_soda_alone_degasses_slowly_not_dramatically() {
         co2 > 0.005 && co2 < 0.02,
         "open-vessel equilibrium releases a modest fraction (~23%), got {co2} mol"
     );
-    let ph = bench
-        .vessel(v)
-        .unwrap()
-        .solution
-        .clone()
-        .expect("characterised")
-        .ph;
+    let ph = ph_of(&bench, v);
     assert!(
         ph > 8.0 && ph < 9.7,
         "degassed bicarbonate drifts basic, got {ph}"
+    );
+}
+
+/// The other half of EXP-57, and the one that was simply missing: the
+/// atmospheric reservoir used to be offered only when carbon was ALREADY
+/// dissolved, so a beaker of sodium hydroxide — which is the classic thing
+/// that goes off in room air — could not take up CO2 at all. Air does not
+/// check first.
+///
+/// The hydroxide is invisible in `contents`, because the aqueous tail
+/// carries free base as `solute_charge` rather than as an NaOH portion.
+/// The clock reads the MEASURED free hydroxide the solver persists, which
+/// is the only reading that survives the step boundary.
+#[test]
+fn a_beaker_of_alkali_carbonates_in_the_room() {
+    let mut eq = PhreeqcEquilibrator::new().expect("engine");
+    let mut bench = Bench::new();
+    let v = VesselId(0);
+    add_with(&mut bench, &mut eq, v, "water", 55.51);
+    add_with(&mut bench, &mut eq, v, "NaOH", 0.01);
+
+    let ph_fresh = ph_of(&bench, v);
+    assert!(
+        ph_fresh > 11.0,
+        "bench-strength alkali starts strong, got {ph_fresh}"
+    );
+
+    let mut absorbed = 0.0;
+    for _ in 0..30 {
+        let events = wait_with(&mut bench, &mut eq, 86_400.0);
+        absorbed += events
+            .iter()
+            .filter_map(|e| match e {
+                Event::GasAbsorbed { species, moles, .. } if species.0 == "CO2" => Some(moles.0),
+                _ => None,
+            })
+            .sum::<f64>();
+    }
+    assert!(
+        absorbed > 0.0,
+        "an open beaker of hydroxide must take up room CO2; it took {absorbed} mol"
+    );
+    let ph_stood = ph_of(&bench, v);
+    assert!(
+        ph_stood < ph_fresh,
+        "carbonating an alkali brings its pH down: {ph_fresh} -> {ph_stood} \
+         (absorbed {absorbed} mol)"
     );
 }
 
