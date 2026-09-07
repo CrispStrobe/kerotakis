@@ -2,7 +2,8 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    # Verify this isolated audit even while its draft PR conflicts with main.
+    branches: [main, audit/chemistry-experiments-20260906]
   pull_request:
 
 env:
