@@ -111,10 +111,21 @@ fn heating_a_sealed_gas_raises_pressure_in_proportion_to_temperature() {
         })
         .unwrap();
     let after = bench.vessel(vessel).unwrap();
-    let expected_temperature = before.temperature.0 + 50.0 / before.heat_capacity();
+    // The ledger integrates now, so the rectangle `50 J / Cv` and the answer
+    // differ by the curvature of Cv over the rise - about a hundredth of a
+    // kelvin for a gas over ten. Compare against the integral, and check
+    // separately that what it integrated was Cv and not Cp.
+    let expected_temperature = before.temperature_after(50.0);
     assert!(
         (after.temperature.0 - expected_temperature).abs() < 1e-10,
         "a rigid gas uses Cv = Cp - R"
+    );
+    let rectangle = before.temperature.0 + 50.0 / before.heat_capacity();
+    assert!(
+        (after.temperature.0 - rectangle).abs() < 0.05,
+        "and the curve has not run away from the constant it replaced: \
+         {} against {rectangle}",
+        after.temperature.0
     );
     let pressure_ratio = after.pressure.0 / before.pressure.0;
     let temperature_ratio = after.temperature.0 / before.temperature.0;
@@ -142,10 +153,17 @@ fn a_pressure_controller_expands_the_headspace_when_heated() {
         })
         .unwrap();
     let after = bench.vessel(vessel).unwrap();
-    let expected_temperature = before.temperature.0 + 50.0 / before.heat_capacity();
+    let expected_temperature = before.temperature_after(50.0);
     assert!(
         (after.temperature.0 - expected_temperature).abs() < 1e-10,
         "a moving constant-pressure boundary uses Cp"
+    );
+    let rectangle = before.temperature.0 + 50.0 / before.heat_capacity();
+    assert!(
+        (after.temperature.0 - rectangle).abs() < 0.05,
+        "and the curve has not run away from the constant it replaced: \
+         {} against {rectangle}",
+        after.temperature.0
     );
     let (before_volume, after_volume) = (
         before.headspace_volume().unwrap().0,
