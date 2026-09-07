@@ -192,25 +192,58 @@ pub fn equilibrate_tp(
     // kiln, say) must enter through a condensed phase from the start —
     // otherwise its element-balance row is all zeros and the very first
     // linear solve is singular.
+    //
+    // The seed also has to be FEASIBLE, and one phase is not always enough
+    // to make it so. The most stable carrier of calcium is the carbonate,
+    // and a crucible half way through a calcination holds 0.1 mol of
+    // calcium against 0.05 mol of carbon: putting every calcium atom into
+    // carbonate asks for twice the carbon that exists, the gas phase
+    // cannot lend carbon back (that would be a negative amount of CO2),
+    // and the oxide that should take up the slack is admissible only once
+    // the balance holds — which it now never can. Every temperature went
+    // singular. So walk the carriers most-stable-first and give each one
+    // as much as the REMAINING budget supports, until the element is
+    // covered. Where the first carrier can hold the lot, which is every
+    // case this solver met before a burner could leave a crucible half
+    // calcined, the seed is exactly what it always was.
     let mut active_cond: Vec<usize> = Vec::new();
-    for (j, el) in elements.iter().enumerate() {
+    let mut left: Vec<f64> = elements
+        .iter()
+        .map(|el| budget.get(el).copied().unwrap_or(0.0))
+        .collect();
+    for (j, _) in elements.iter().enumerate() {
         let carried_by_gas = gas.iter().any(|&i| a(i, j) > 0.0);
         if carried_by_gas {
             continue;
         }
-        // Pick the most stable condensed carrier (lowest μ° per atom).
-        let carrier = cond
-            .iter()
-            .copied()
-            .filter(|&c| a(c, j) > 0.0)
-            .min_by(|&x, &y| (mu0[x] / a(x, j)).total_cmp(&(mu0[y] / a(y, j))));
-        match carrier {
-            Some(c) if !active_cond.contains(&c) => {
-                active_cond.push(c);
-                n[c] = budget.get(el).copied().unwrap_or(0.0) / a(c, j).max(1.0);
+        // The condensed carriers of this element, most stable per atom
+        // first (lowest μ° per atom).
+        let mut carriers: Vec<usize> = cond.iter().copied().filter(|&c| a(c, j) > 0.0).collect();
+        if carriers.is_empty() {
+            return Err(CeaError::NoSpecies);
+        }
+        carriers.sort_by(|&x, &y| (mu0[x] / a(x, j)).total_cmp(&(mu0[y] / a(y, j))));
+        for c in carriers {
+            if left[j] <= 0.0 {
+                break;
             }
-            Some(_) => {}
-            None => return Err(CeaError::NoSpecies),
+            if active_cond.contains(&c) {
+                continue;
+            }
+            // The most of this phase the budget can still support.
+            let feasible = (0..elements.len())
+                .filter(|&k| a(c, k) > 0.0)
+                .map(|k| left[k] / a(c, k))
+                .fold(f64::INFINITY, f64::min);
+            let take = (left[j] / a(c, j)).min(feasible);
+            if !take.is_finite() || take <= 0.0 {
+                continue;
+            }
+            active_cond.push(c);
+            n[c] = take;
+            for (k, slot) in left.iter_mut().enumerate() {
+                *slot -= take * a(c, k);
+            }
         }
     }
 
@@ -219,10 +252,6 @@ pub fn equilibrate_tp(
     // converging; capping the retries keeps that from spinning the full 400
     // iterations.
     let mut admissions = vec![0u8; pool.len()];
-
-    // How often a singular solve has been repaired by admitting a second
-    // condensed carrier the initial basis left out (see the rescue below).
-    let mut phase_rescues = 0u8;
 
     // How often a singular linear solve has been repaired by re-seeding a
     // crushed gas carrier (see the rescue below). Capped so a genuinely
@@ -361,55 +390,6 @@ pub fn equilibrate_tp(
                 decay_guard = true;
                 n_total = gas.iter().map(|&i| n[i]).sum::<f64>().max(TRACE);
                 continue;
-            }
-            // The other repairable one, and it is a fact about the
-            // INITIAL BASIS rather than about a transient. An element no
-            // gas can carry is seeded into its single most stable
-            // condensed carrier above — and if that carrier also needs a
-            // second element the budget is short of, no amount of it can
-            // satisfy both rows. A crucible half way through a calcination
-            // is exactly that: 0.1 mol of calcium against 0.05 mol of
-            // carbon, so every calcium atom would have to be a carbonate
-            // and only half of them can be. The phase that takes up the
-            // slack — the oxide — is admissible only once the balance
-            // holds, and the balance cannot hold until it is admitted, so
-            // the solve circles and goes singular. Before this existed the
-            // state never arose: the old open-air answer calcined chalk in
-            // one pass and the minimiser was never handed a vessel holding
-            // both phases at once.
-            //
-            // Admit it here, where the solve has already failed. Only an
-            // element that NO gas can carry qualifies, which is what makes
-            // this a repair of the seeding rather than a new heuristic:
-            // every other element can reach its budget through the gas
-            // phase and never needed a second solid.
-            if phase_rescues < 8 {
-                let mut admitted_phase = false;
-                for (j, el) in elements.iter().enumerate() {
-                    if gas_carries[j] {
-                        continue;
-                    }
-                    let target = budget.get(el).copied().unwrap_or(0.0);
-                    let have: f64 = (0..pool.len()).map(|i| a(i, j) * n[i]).sum();
-                    if have >= target * (1.0 - BALANCE_TOL) {
-                        continue;
-                    }
-                    let carrier = cond
-                        .iter()
-                        .copied()
-                        .filter(|&c| !active_cond.contains(&c) && a(c, j) > 0.0)
-                        .min_by(|&x, &y| (mu0[x] / a(x, j)).total_cmp(&(mu0[y] / a(y, j))));
-                    if let Some(c) = carrier {
-                        active_cond.push(c);
-                        admissions[c] = admissions[c].saturating_add(1);
-                        n[c] = (target - have) / a(c, j);
-                        admitted_phase = true;
-                    }
-                }
-                if admitted_phase {
-                    phase_rescues += 1;
-                    continue;
-                }
             }
             // The genuine one: one condensed phase is the sole repository
             // of every element and the gas phase has collapsed — the
