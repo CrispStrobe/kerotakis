@@ -93,9 +93,12 @@ Computed, not scripted:
   Water freezes and boils on a plateau that *moves* with what is dissolved
   in it — the cryoscopic and ebullioscopic constants are derived from
   water's own enthalpies of fusion and vaporisation rather than tabulated,
-  and the particle count comes from the solved speciation, so a mole of
-  salt freezes a kilogram of water at −3.4 °C (not the ideal −3.72: some
-  of it is ion-paired) while a mole of sugar boils it at 100.5 °C. Beyond
+  and the particle count comes from the solved speciation rather than a
+  looked-up van 't Hoff factor, so a mole of salt freezes a kilogram of
+  water at −3.72 °C and a mole of sugar boils it at 100.5 °C. Real brine
+  freezes at about −3.4, and the eight per cent is stated rather than
+  tuned away: the dilute-solution law is being used at one molal, where
+  the solvent's activity is no longer its mole fraction. Beyond
   the solvent, ethanol boils at 78.4 °C and holds the thermometer there,
   naphthalene draws the school cooling curve at 80.2 °C, glacial acetic
   acid freezes at 16.6 °C, and a flame casts lead, zinc, aluminium, silver

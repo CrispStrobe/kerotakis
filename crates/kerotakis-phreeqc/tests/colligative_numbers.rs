@@ -39,14 +39,29 @@ fn add(bench: &mut Bench, solvers: &mut SolverStack, key: &str, moles: f64) {
 }
 
 /// One mole of sodium chloride in one kilogram of water: 58.4 g, the exact
-/// spoonful every textbook uses, and it freezes near −3.4 °C.
+/// spoonful every textbook uses.
 ///
-/// Not −3.72. Two moles of particles per mole of salt would give the ideal
-/// 2 × 1.86, and real brine at this concentration does not manage it: some
-/// of the sodium and chloride is paired, so the particle count PHREEQC
-/// reports is below two per formula unit and the depression is below the
-/// ideal. That gap is the reason the van 't Hoff factor is a *measured*
-/// quantity in a textbook and a *counted* one here.
+/// The bench says −3.72 °C and a thermometer in real brine says about
+/// −3.4, and the eight per cent between them is a boundary of this model
+/// rather than an error in it — so it is asserted from BOTH ends here,
+/// which is the only way a test can hold a stated approximation to
+/// account.
+///
+/// The particle count is not where the gap is. Counting is what this bench
+/// does honestly: the speciation is asked how many particles there are
+/// rather than a van 't Hoff factor being looked up, and for this salt the
+/// answer really is two — no database shipped with the bench defines an
+/// aqueous NaCl ion pair (minteq.v4 carries `Halite`, which is the solid),
+/// so nothing is paired and nothing pretends to be.
+///
+/// The gap is that `states::transitions` applies the DILUTE-solution law,
+/// ΔT = K_f · m, at one molal, where the solvent's activity is no longer
+/// its mole fraction. A textbook's i ≈ 1.85 for this solution is that
+/// activity correction wearing the particle count's clothes — it is not a
+/// claim that fifteen per cent of the salt is undissociated. PLAN's P3s
+/// text points at the fix ("PHREEQC gives us the osmotic coefficient
+/// already"); until it is wired, the law is used where it is about nine
+/// per cent optimistic and this test is where that is written down.
 #[test]
 fn a_textbook_spoonful_of_salt_freezes_the_water_near_minus_three_point_four() {
     let mut bench = Bench::new();
@@ -58,18 +73,26 @@ fn a_textbook_spoonful_of_salt_freezes_the_water_near_minus_three_point_four() {
     let vessel = bench.vessel(VesselId(0)).unwrap();
     let (transitions, _) = solve::vessel_transitions(vessel);
     let freezing_c = transitions.freezing_k - 273.15;
+
+    // What the model IS: two counted particles through the dilute law.
     assert!(
-        (freezing_c + 3.4).abs() < 0.4,
-        "1 molal NaCl freezes near -3.4 C; this bench says {freezing_c:.3} C \
-         from {:.4} mol/kg of counted particles (an ideal i = 2 would give \
-         -3.72 C, and ion pairing is why it is less)",
+        (transitions.solute_molality - 2.0).abs() < 0.05,
+        "a mole of NaCl dissociates into two counted particles and none of \
+         the shipped databases pairs them back up: {:.4} mol/kg",
         transitions.solute_molality
     );
     assert!(
-        transitions.solute_molality > 1.5 && transitions.solute_molality <= 2.05,
-        "a mole of NaCl must count as about two particles; ion pairing may take \
-         it below two and nothing may take it above: {:.4} mol/kg",
-        transitions.solute_molality
+        (freezing_c + 3.72).abs() < 0.06,
+        "two molal of particles through K_f = 1.86 is -3.72 C: got {freezing_c:.3} C"
+    );
+
+    // What the world is, and how far the model is from it. Widening this
+    // band would hide the approximation; narrowing it would fail on a
+    // change that made the answer BETTER.
+    assert!(
+        (freezing_c + 3.4).abs() < 0.4,
+        "real 1 molal brine freezes near -3.4 C and the dilute law is \
+         entitled to be a few tenths optimistic, not more: {freezing_c:.3} C"
     );
 }
 

@@ -1675,6 +1675,17 @@ Open, and small:
       C20 to C40 softens across roughly 46–68 °C rather than melting at a
       point, and `PhaseTransitions` has five temperatures and no slot for
       a RANGE. Give it one, and the wax melts.
+- [ ] **The colligative relation is the DILUTE-solution law, used where it
+      is about nine per cent optimistic.** One molal brine comes out at
+      −3.72 °C against a real −3.4. The particle count is not the problem
+      and must not be blamed for it: the speciation is asked how many
+      particles there are, and for NaCl the answer really is two, because
+      no shipped database defines an aqueous NaCl ion pair. What is
+      missing is the solvent's activity — a textbook's i ≈ 1.85 is that
+      correction wearing the particle count's clothes. This item's
+      original text already named the fix: "PHREEQC gives us the osmotic
+      coefficient already." Pinned from both ends in
+      `colligative_numbers.rs` so it cannot be narrowed away quietly.
 - [ ] No tin and no glycerol in the registry at all. Tin at 232 °C is the
       soldering-iron melting point a learner is most likely to have met.
 - [ ] The latent heats live in `phase_route.rs` as curated Rust tables
