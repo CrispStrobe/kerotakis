@@ -1292,6 +1292,57 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
         }
     }
 
+    // EXP-57: the carbon the gas-exchange clock decided crossed the
+    // surface this step, applied to the ELEMENT TOTALS.
+    //
+    // The totals are the one representation both halves of this adapter
+    // already agree on: the input writes them into `SOLUTION`, and the
+    // readback books every dissolved element back through
+    // `derived::booking_ion`. Carbon that arrived from the room is
+    // therefore speciated and KEPT, with no new machinery on either side.
+    //
+    // Both of the more obvious routes were tried first and both failed
+    // silently, which is why they are written down:
+    //
+    //   * A PHREEQC `REACTION` block. The engine accepted it and speciated
+    //     it correctly, and the readback then dropped every atom — that
+    //     rebuild walks the vessel's input PORTIONS, so an element with no
+    //     portion of its own has nowhere to be booked. Measured: a beaker
+    //     of hydroxide took up 7.6e-4 mol over thirty simulated days,
+    //     announced every parcel, and came back holding water and sodium.
+    //     The events and the vessel disagreed, and the vessel is what the
+    //     next step reads.
+    //   * Depositing a `CO2` portion into the ledger. `role("CO2")` is
+    //     deliberately `None` — carbon dioxide is a GAS to this bench, not
+    //     a dissolved solute — so the portion contributed nothing to the
+    //     totals and never reached the engine at all.
+    //
+    // Outward transfer is clamped to the carbon actually present: a
+    // solution cannot give back more than it holds, and an element total
+    // driven negative is not a small error underneath PHREEQC.
+    if vessel.pending_co2_transfer_mol != 0.0 {
+        let carbon_now: f64 = totals
+            .iter()
+            .filter(|(el, _)| el == "C" || el.starts_with("C("))
+            .map(|(_, moles)| *moles)
+            .sum();
+        let applied = vessel.pending_co2_transfer_mol.max(-carbon_now);
+        if applied != 0.0 {
+            match totals.iter_mut().find(|(el, _)| el == "C") {
+                Some(entry) => entry.1 += applied,
+                None => totals.push(("C".to_string(), applied)),
+            }
+            if !elements.iter().any(|e| e == "C") {
+                elements.push("C".to_string());
+            }
+            // A beaker of plain water holds no solutes at all, and the
+            // refusal below would decline to solve it — so carbon the room
+            // is delivering has to count as one, or the vessel that needs
+            // this most is the one vessel that never gets a solve.
+            solutes += 1;
+        }
+    }
+
     if kgw <= 0.0 || solutes == 0 {
         return None;
     }
@@ -1327,6 +1378,28 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
                 phases.push((phase.to_string(), exchange.initial_moles, 0.0));
                 continue;
             }
+            // EXP-57: an OPEN vessel is no longer equilibrated with the
+            // room here. Pinning CO2(g) at the atmospheric saturation
+            // index is the `dt -> infinity` answer, and it made every open
+            // vessel arrive instantly: soda water went flat as it was
+            // poured. Room air is a RATE, and `GasExchangeClock` owns it —
+            // it parks the moles that crossed the surface and the REACTION
+            // block below spends them. A vessel that is never waited on
+            // therefore keeps the carbon it was given, which is what a
+            // bench does over the seconds a reading takes.
+            //
+            // This also retires the `all_present` gate for open vessels,
+            // which is the second half of the same defect: the reservoir
+            // used to be offered only when carbon was ALREADY dissolved,
+            // so a beaker of water or of sodium hydroxide could not take
+            // up CO2 from the room at all. The clock asks no such
+            // question — a solution holding no carbon simply has the
+            // largest driving force there is.
+            //
+            // A SWEPT headspace keeps the old treatment on purpose: it is
+            // a different boundary, an inert carrier deliberately held far
+            // from equilibrium, and its gate is sound — a sweep can only
+            // strip carbon that is already there.
             let gas_formula = phase.trim_end_matches("(g)");
             let required = crate::dbindex::parse_formula(gas_formula).unwrap_or_default();
             let all_present = required
@@ -1334,6 +1407,25 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
                 .filter(|el| *el != "O" && *el != "H")
                 .all(|el| elements.iter().any(|e| e == el));
             let listed = phases.iter().any(|(name, ..)| name == phase);
+            // EXP-57: the gate STAYS, and the reason is worth recording
+            // because the task that led here asked for it to go.
+            //
+            // This phase carries zero moles, so PHREEQC can only ever take
+            // carbon OUT through it — and carbon that is not dissolved
+            // cannot be removed. Offering it to a vessel with no carbon
+            // buys nothing and costs a great deal: `SOLUTION` is posed with
+            // `pH 7 charge`, so pH is the charge-balancing variable, and
+            // handing it a carbon reservoir to balance against moved 0.1 M
+            // ammonium chloride from pH 5.2 to 3.54 and lost nitrogen
+            // across the ammonia/ammonium split.
+            //
+            // What the gate was blocking was UPTAKE, and uptake no longer
+            // comes through this phase at all: `GasExchangeClock` sizes it
+            // and `partition` adds it to the element totals above. The
+            // clock asks no question about carbon being present — a
+            // solution holding none simply has the largest driving force
+            // there is — so the beaker of hydroxide is answered without
+            // touching this.
             if all_present && !listed {
                 phases.push((phase.to_string(), 0.0, target.unwrap_or(*target_si)));
                 external_gases.push(ExternalGas {
@@ -1558,6 +1650,13 @@ impl Equilibrator for PhreeqcEquilibrator {
                 ),
             });
         }
+        // EXP-57: how much carbon crosses the surface this step. It is
+        // held here and applied inside `partition`, and deliberately NOT
+        // cleared until the solve has settled: the temperature fixed point
+        // below re-solves a copy of `start` up to eight times, and a
+        // transfer that vanished after the first pass would make the
+        // iterations disagree about what is in the beaker.
+        let gas_exchange_mol = vessel.pending_co2_transfer_mol;
         let start = vessel.clone();
         let t0 = start.temperature.0;
         let mut guess = t0;
@@ -1652,6 +1751,31 @@ impl Equilibrator for PhreeqcEquilibrator {
         {
             *pressure = vessel.pressure;
             *total_moles = vessel.gas_moles();
+        }
+        if gas_exchange_mol != 0.0 {
+            // Spent, and announced here rather than by the clock that sized
+            // it: one parcel, one engine describing it. KID-11 is explicit
+            // that a transfer reported twice is how an observable comes to
+            // be doubled.
+            //
+            // The amount reported is the one the clock sized, which
+            // `partition` will only have trimmed if the vessel held less
+            // carbon than the clock believed — and both read that carbon
+            // off the same ledger, so they agree except at the last digit.
+            vessel.pending_co2_transfer_mol = 0.0;
+            events.push(if gas_exchange_mol > 0.0 {
+                Event::GasAbsorbed {
+                    vessel: vessel.id,
+                    species: SpeciesId::new("CO2"),
+                    moles: Moles(gas_exchange_mol),
+                }
+            } else {
+                Event::GasEvolved {
+                    vessel: vessel.id,
+                    species: SpeciesId::new("CO2"),
+                    moles: Moles(-gas_exchange_mol),
+                }
+            });
         }
         Ok(events)
     }
@@ -2176,6 +2300,51 @@ impl PhreeqcEquilibrator {
             problem.kgw,
         );
 
+        // EXP-57: the CO2 partial pressure this solution actually stands
+        // at, for `GasExchangeClock` to drive from. Persisted beside the
+        // hydroxide and for the same reason — the clock runs in the
+        // OPERATOR phase, before any solver has looked at the vessel, so
+        // `solution` is already empty by the time it needs this.
+        //
+        // The dissolved-CO2 species is named by the DATABASE, and the
+        // databases disagree: minteq.v4 calls it `H2CO3`, wateq4f calls
+        // it `CO2`. Asking under one name only would read zero on the
+        // other dataset — and a zero here does not mean "no carbon", it
+        // means the largest driving force there is, so the beaker would
+        // carbonate at full tilt forever. Both are asked for; only one of
+        // them can be present. This is the same trap the lactate
+        // extension hit, where a name that existed in one database and
+        // not the other failed silently and returned 0.0.
+        //
+        // Molality stands in for molarity, as it does everywhere dilute
+        // on this bench: the clock's own clamp works in litres, and the
+        // two agree to well under a percent in anything a school bench
+        // pours.
+        let co2_moles = {
+            let species = vessel.solution.as_ref().map(|s| s.species.as_slice());
+            measured_species_moles(species, "CO2", problem.kgw)
+                + measured_species_moles(species, "H2CO3", problem.kgw)
+        };
+        vessel.co2_partial_pressure_atm =
+            kerotakis_core::properties::henry_lookup("CO2").map(|coeff| {
+                let k_h = kerotakis_core::properties::henry_at_t(coeff, vessel.temperature.0).value;
+                (co2_moles / problem.kgw) / k_h
+            });
+        // Spent: the REACTION block carried it into this very solve, and
+        // leaving it set would apply the same parcel again next step.
+        //
+        // This is also where the transfer is ANNOUNCED. The clock that
+        // sized it deliberately stayed quiet, and an open vessel no longer
+        // has a CO2(g) equilibrium phase for the usual degassing path to
+        // report through — so without this the carbon would leave the
+        // ledger with nothing saying so, and a balance watching the beaker
+        // would simply see mass go missing.
+        //
+        // It is pushed BEFORE the adiabatic block below, which sums gas
+        // events to price the step: carbon dioxide coming out of solution
+        // takes its enthalpy with it, and a vessel that degasses over a
+        // long wait should cool for the same reason an open one does when
+        // it fizzes.
         if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) {
             // Gas this solver gave off, added to whatever the solvers
             // above it already booked into the snapshot.
