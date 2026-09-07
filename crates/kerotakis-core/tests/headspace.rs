@@ -246,22 +246,36 @@ fn trapped_air_takes_part_of_the_heat_that_an_open_liquid_keeps() {
         "the same heat warms liquid plus trapped air less than open liquid"
     );
     // Both vessels were dosed by inverting the very integral `enthalpy()`
-    // evaluates, so the round trip should close to the last float the
-    // bisection can reach - `Cp` times one ulp of the answer, which is
-    // picojoules here. Named residues rather than a bare `assert!`, so a
-    // machine that disagrees says by how much instead of costing a round
-    // trip to find out.
+    // evaluates, so the round trip closes to whatever differencing that
+    // integral costs. That is NOT machine epsilon on 1000 J, and the reason
+    // is worth writing down, because it is a property of one curve rather
+    // than of the ledger.
+    //
+    // Liquid water's NASA-9 record is a narrow fit (273-600 K) carrying a
+    // 1/T^2 term, and its antiderivative at 300 K is a sum of terms of order
+    // 1.2e9 J/mol that cancel to -9.2e8, out of which the ten-kelvin answer
+    // of ~900 J/mol is then subtracted. A double gives up about 2.6e-7 J per
+    // mole of liquid water differenced, and `t.ln()` is libm rather than
+    // correctly rounded, so the floor moves by about one of those between
+    // platforms. Ice's own fit gives up 4e-11 and nitrogen's 4e-12: it is
+    // liquid water's conditioning, not the arithmetic everywhere.
+    //
+    // Measured: 1.9e-9 J out of 1000 on the sealed vessel, which is 2e-11 K
+    // on a beaker of 83.9 J/K. A hundred-thousandth of a joule leaves room
+    // for a libm that rounds the other way and is still four orders under
+    // anything the bench can observe. Named residues rather than bare
+    // `assert!`s, so a machine that disagrees says by how much.
     let open_residue = open_state.enthalpy().0 - 1_000.0;
     let sealed_residue = sealed_state.enthalpy().0 - 1_000.0;
     assert!(
-        open_residue.abs() < 1e-9,
+        open_residue.abs() < 1e-5,
         "an open vessel's sensible energy is the heat it was given: \
          {open_residue:e} J out at {} K over {} J/K",
         open_state.temperature.0,
         open_state.heat_capacity(),
     );
     assert!(
-        sealed_residue.abs() < 1e-9,
+        sealed_residue.abs() < 1e-5,
         "and a sealed one's is too, spending Cv on the trapped air: \
          {sealed_residue:e} J out at {} K over {} J/K",
         sealed_state.temperature.0,
