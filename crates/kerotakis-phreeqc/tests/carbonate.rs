@@ -116,7 +116,10 @@ fn a_beaker_of_alkali_carbonates_in_the_room() {
     add_with(&mut bench, &mut eq, v, "NaOH", 0.01);
 
     let ph_fresh = ph_of(&bench, v);
-    assert!(ph_fresh > 11.0, "bench-strength alkali starts strong, got {ph_fresh}");
+    assert!(
+        ph_fresh > 11.0,
+        "bench-strength alkali starts strong, got {ph_fresh}"
+    );
 
     let mut absorbed = 0.0;
     for _ in 0..30 {
