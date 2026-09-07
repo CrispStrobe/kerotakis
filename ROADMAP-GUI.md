@@ -1518,7 +1518,7 @@ in a German classroom — which is the audience the curriculum mapping in
   reported **100%** German while 325 of its 409 strings were English,
   because the lint's field list omitted `name`/`power`/`explains`/`fails_at`
   and `Model` had no `_de` fields for serde to keep — a coverage number is
-  only as honest as its denominator. #504
+  only as honest as its denominator. #505
 
 - I18N-2 (map-screen vocabulary, 2026-08-30) and I18N-3 (engine
   vocabulary coverage, 2026-08-30) are done; see `HISTORY.md`. The
