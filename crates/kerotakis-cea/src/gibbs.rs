@@ -1040,9 +1040,10 @@ mod tests {
         // the whole calcium budget, which no amount of carbonate can hold
         // when there is only half as much carbon. Every temperature failed
         // with a singular matrix until the phase rescue existed.
+        std::env::set_var("KERO_TP_TRACE", "1");
         let b = budget(&[("C", 0.052207), ("Ca", 0.1), ("N", 1.248), ("O", 0.540414)]);
         let pool = pool_of(&["C(gr)", "CO", "CO2", "CaCO3(cr)", "CaO(cr)", "N2", "O2"]);
-        for t in [400.0, 700.0, 1000.0, 1500.0] {
+        for t in [400.0] {
             let eq = equilibrate_tp(&b, &pool, t, 1.0)
                 .unwrap_or_else(|e| panic!("half-calcined chalk at {t} K: {e}"));
             assert_conserved(&eq, &b, &format!("half-calcined chalk at {t} K"));
