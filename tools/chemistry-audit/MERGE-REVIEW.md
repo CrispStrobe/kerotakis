@@ -38,6 +38,15 @@ merge of the PR into main. No failing or incomplete gate is a merge approval.
 
 ## Still required
 
+The earlier WebAssembly gate exposed an independent phase-physics regression:
+an unavailable aqueous engine prevented pure water from freezing. The fallback
+now retains `SolverFailed`, clears stale speciation, and computes water phase
+changes only for a verified pure-water inventory. Unknown and ionic mixtures
+remain withheld. New tests cover freezing, melting, boiling, conserved mass and
+latent energy at three scales, and mixture refusal; execution remains a CI gate.
+Workflow concurrency supersedes only revisions of the same PR/ref, never other
+worktrees' branches or their runs.
+
 Two new lessons lack core frozen-output snapshot entries. Their entries must
 come from actual test execution and be reviewed; they have not been invented.
 CI now uploads generated `*.actual.json` files even on failure for that review.
