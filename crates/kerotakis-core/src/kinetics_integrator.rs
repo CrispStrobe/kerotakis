@@ -271,11 +271,29 @@ impl<'a> ExtentSystem<'a> {
 
         for term in expression.orders {
             let concentration = if term.species == PROTON {
-                self.vessel
+                let initial_activity = self
+                    .vessel
                     .solution
                     .as_ref()
                     .map(|solution| 10f64.powf(-solution.ph))
-                    .unwrap_or(0.0)
+                    .unwrap_or(0.0);
+                // A catalytic acid dependency does not consume acid. When
+                // the network does consume represented H+ equivalents,
+                // however, a cached initial pH is not an infinite reservoir.
+                // Freeze the activity coefficient within this kinetic step,
+                // not the activity: depletion must slow the rate itself.
+                let consumes_protons = self.reactions.iter().any(|reaction| {
+                    reaction
+                        .stoichiometry
+                        .iter()
+                        .any(|entry| entry.species == PROTON && entry.coefficient < 0.0)
+                });
+                let initial = phase_moles(self.vessel, PROTON, Phase::Aqueous);
+                if consumes_protons && initial > 0.0 {
+                    initial_activity * self.amount(extents, PROTON, Phase::Aqueous) / initial
+                } else {
+                    initial_activity
+                }
             } else if let Some(phase) = term.phase {
                 self.amount(extents, term.species, phase) / litres
             } else {

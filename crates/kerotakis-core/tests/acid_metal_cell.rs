@@ -5,6 +5,7 @@ fn acidic_metal(id: usize, metal: &str, ph: f64) -> Vessel {
     vessel.deposit(SpeciesId::new("water"), Moles(2.75), Phase::Liquid);
     vessel.deposit(SpeciesId::new(metal), Moles(0.01), Phase::Solid);
     vessel.solution = Some(kerotakis_core::vessel::SolutionInfo {
+        solvent_kg: None,
         ph,
         pe: None,
         redox: Vec::new(),

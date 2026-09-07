@@ -635,6 +635,22 @@ fn execute_prompt(
                     // the answer to "can a sealed vessel burst?", with a
                     // number in it — not a gap beside the safety line.
                     | Event::Burst { .. }
+                    // EXP-4: and so is a solid coming out of solution. A
+                    // beaker of limewater that CO2 has just turned cloudy
+                    // has answered "can carbon dioxide turn limewater
+                    // cloudy?" — with a quantity — and it is not made
+                    // unanswered by the honest note beside it that dosing a
+                    // gas has no rate model in this bench. `mat-086` fell
+                    // from computed to missing on exactly that pairing, with
+                    // its precipitation unchanged.
+                    //
+                    // Listed HERE and deliberately NOT in `typed_observation`
+                    // below, for the same reason as the corrosion verdict and
+                    // the adsorption split above it: a precipitate should stop
+                    // a prompt being called `missing`, and should never
+                    // outrank a computed or curated route that was the real
+                    // answer.
+                    | Event::Precipitated { .. }
                     | Event::Inert { .. }
                     | Event::InertInSolvent { .. }
             )

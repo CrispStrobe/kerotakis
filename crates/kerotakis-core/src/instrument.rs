@@ -259,39 +259,7 @@ impl Default for Spectrophotometer {
 impl Spectrophotometer {
     /// Compute the full absorbance spectrum of the vessel's solution.
     pub fn measure_spectrum(&self, vessel: &Vessel) -> [f64; crate::spectrum::BANDS] {
-        use crate::species;
-        let mut total = [0.0f64; crate::spectrum::BANDS];
-
-        // Sum ε·c·l for each coloured solute
-        let water_kg = vessel
-            .contents
-            .iter()
-            .filter(|p| {
-                p.species.0 == "water"
-                    && (p.phase == crate::species::Phase::Liquid
-                        || p.phase == crate::species::Phase::Aqueous)
-            })
-            .map(|p| p.moles.0 * 0.018015)
-            .sum::<f64>();
-
-        if water_kg < 1e-6 {
-            return total;
-        }
-
-        for portion in &vessel.contents {
-            if portion.phase != crate::species::Phase::Aqueous {
-                continue;
-            }
-            if let Some(data) = species::lookup(&portion.species) {
-                if let Some(spectrum) = data.spectrum {
-                    let molality = portion.moles.0 / water_kg;
-                    for (i, band) in total.iter_mut().enumerate() {
-                        *band += spectrum[i] * molality * self.path_cm;
-                    }
-                }
-            }
-        }
-        total
+        crate::solution_optics::absorbance(vessel, self.path_cm)
     }
 }
 
@@ -310,6 +278,11 @@ impl InstrumentContract for Spectrophotometer {
     }
     fn measure(&self, vessel: &Vessel) -> Option<Reading> {
         let spectrum = self.measure_spectrum(vessel);
+        // A partial spectrum is useful diagnostically, but is not a complete
+        // instrument reading. The appearance reports the missing species.
+        if !crate::solution_optics::spectral_gaps(vessel).is_empty() {
+            return None;
+        }
         let peak_abs = spectrum.iter().copied().fold(0.0f64, f64::max);
         let peak_idx = spectrum
             .iter()

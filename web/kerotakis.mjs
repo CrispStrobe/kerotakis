@@ -38,7 +38,7 @@ class PhreeqcPool {
         this.instances = instances;
     }
 
-    static async create(createIPhreeqc, loadDatabase) {
+    static async create(createIPhreeqc, loadDatabase, preparedDatabase) {
         const mod = await createIPhreeqc();
         const c = (name, ret, args) => mod.cwrap(name, ret, args);
         // Read C strings by hand rather than letting the glue do it.
@@ -77,7 +77,12 @@ class PhreeqcPool {
         };
 
         const instances = {};
-        for (const [tag, file] of Object.entries(DATABASES)) {
+        const variants = Object.entries(DATABASES).flatMap(([tag, file]) => [
+            [tag, file], [tag + "#pinned", file],
+        ]);
+        const prepared = {};
+        for (const [tag, file] of variants) {
+            const baseTag = tag.split("#")[0];
             const id = api.create();
             if (id < 0) throw new Error(`CreateIPhreeqc failed for ${tag}`);
             // No filesystem in this build; everything is strings in memory.
@@ -90,7 +95,11 @@ class PhreeqcPool {
             // saturation indices, and the bench reads both.
             api.outputStringOn(id, 1);
 
-            const text = await loadDatabase(file);
+            // The Rust adapter owns the component namespace and reviewed
+            // extensions. A raw upstream file cannot solve its isolated input.
+            const text = prepared[baseTag] ??= preparedDatabase
+                ? await preparedDatabase(baseTag)
+                : await loadDatabase(file);
             if (api.loadDb(id, text) !== 0) {
                 throw new Error(`loading ${file}: ${api.error(id)}`);
             }
@@ -108,7 +117,11 @@ class PhreeqcPool {
 
     /// The solver hook the Rust bench calls. Synchronous by necessity.
     solve(dbTag, input) {
-        const id = this.instances[dbTag] ?? this.instances["wateq4f"];
+        // DELETE clears numbered reactants, not database redefinitions.
+        // Match the native pool: pinned species definitions never touch the
+        // pristine instance used by a later coupled redox calculation.
+        const suffix = input.includes("SOLUTION_SPECIES") ? "#pinned" : "";
+        const id = this.instances[dbTag + suffix] ?? this.instances["wateq4f" + suffix];
         // Instances are pooled across vessels. Clear numbered solutions and
         // reactants in a separate run so a populated SURFACE 1 cannot leak
         // into the next cell, while the real run retains one clean selected-
@@ -145,7 +158,11 @@ export async function openLab(Lab, opts) {
     const lab = new Lab();
     if (opts.results) lab.loadResults(opts.results);
     if (opts.createIPhreeqc) {
-        const pool = await PhreeqcPool.create(opts.createIPhreeqc, opts.loadDatabase);
+        const pool = await PhreeqcPool.create(
+            opts.createIPhreeqc,
+            opts.loadDatabase,
+            typeof lab.aqueousDatabase === "function" ? (tag) => lab.aqueousDatabase(tag) : undefined,
+        );
         // Bound so `this` survives the trip through Rust.
         lab.setSolver((dbTag, input) => pool.solve(dbTag, input));
     }

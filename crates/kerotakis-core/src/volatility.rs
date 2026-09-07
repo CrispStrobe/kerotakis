@@ -61,6 +61,73 @@ use crate::vessel::Vessel;
 /// over 101.325 J/(L·atm).
 pub const R_LITRE_ATM: f64 = 0.082_057_366;
 
+/// Plan a non-binary cut before changing either vessel. `None` retains the
+/// established ethanol/water activity-coefficient owner. Unknown liquid
+/// components are refusals, never silently dropped from the volatile inventory.
+pub fn additional_solvent_cut(
+    vessel: &Vessel,
+    take: kerotakis_thermo::vle::StillTake,
+    stages: u32,
+) -> Result<Option<(Vec<SpeciesId>, kerotakis_thermo::batch::BatchCut)>, String> {
+    use kerotakis_thermo::batch::{ideal_still, ConstantLatent};
+    let mut inventory = std::collections::BTreeMap::<String, f64>::new();
+    for p in &vessel.contents {
+        if p.moles.0 <= 0.0 || !matches!(p.phase, Phase::Liquid | Phase::Aqueous) {
+            continue;
+        }
+        let data = species::lookup(&p.species)
+            .ok_or_else(|| format!("unregistered condensed species {}", p.species.0))?;
+        if p.phase == Phase::Liquid
+            || matches!(data.standard_phase, Phase::Liquid | Phase::Gas)
+            || coefficient_for(&p.species.0).is_some()
+        {
+            *inventory.entry(p.species.0.to_string()).or_default() += p.moles.0;
+        }
+    }
+    if inventory
+        .keys()
+        .all(|key| key == "water" || key == "ethanol")
+    {
+        return Ok(None);
+    }
+    let mut ids = Vec::new();
+    let mut amounts = Vec::new();
+    let mut models = Vec::new();
+    for (key, amount) in inventory {
+        let existing = match key.as_str() {
+            // The existing still's own latent-reference temperatures (100 C
+            // and 78.3 C, documented beside its latent heats), not the
+            // separately licensed registry phase-transition table.
+            "water" => Some((373.15, kerotakis_thermo::vle::WATER_HVAP_KJ_PER_MOL)),
+            "ethanol" => Some((351.45, kerotakis_thermo::vle::ETHANOL_HVAP_KJ_PER_MOL)),
+            _ => None,
+        };
+        let properties = existing.or_else(|| {
+            include_str!("../../../data/thermo/uscg-chris-still.tsv")
+                .lines().filter(|l| !l.starts_with('#')).find_map(|line| {
+                    let fields: Vec<_> = line.split_whitespace().collect();
+                    if fields.len() != 5 || fields[0] != key { return None; }
+                    let boiling: f64 = fields[1].parse().ok()?;
+                    let latent: f64 = fields[2].parse().ok()?;
+                    let mass: f64 = fields[3].parse().ok()?;
+                    Some((boiling, latent * mass / 1_000_000.0))
+                })
+        }).ok_or_else(|| format!("distillation needs reviewed vapour-pressure/latent-heat properties for {key}; no component was transferred"))?;
+        ids.push(SpeciesId::new(&key));
+        amounts.push(amount);
+        models.push(ConstantLatent {
+            boiling_k: properties.0,
+            latent_kj_mol: properties.1,
+            // An editorial local approximation domain, NOT an Antoine fit
+            // or a claim that constant latent heat is accurate to a set %.
+            valid_k: (properties.0 - 40.0, properties.0 + 40.0),
+        });
+    }
+    let cut = ideal_still(&amounts, &models, take, stages, vessel.pressure.0 / 1000.0)
+        .ok_or_else(|| "multicomponent distillation is outside the bounded constant-latent Clausius-Clapeyron domain (within 40 K of each normal boiling point, 1-128 ideal stages); no component was transferred".to_string())?;
+    Ok(Some((ids, cut)))
+}
+
 /// Below this the ledger is not moved at all; between this and
 /// `OBSERVABLE_MOLES` it is moved without an event.
 const TRACE: f64 = 1e-12;
@@ -95,7 +162,14 @@ impl Partition {
 /// with the `(aq)` suffix removed.
 pub fn coefficient_for(key: &str) -> Option<&'static HenryCoefficient> {
     let data = species::lookup_key(key)?;
-    if data.standard_phase == Phase::Gas {
+    if data.standard_phase == Phase::Gas
+        || species::REGISTRY.iter().any(|gas| {
+            gas.standard_phase == Phase::Gas && gas.formula == data.formula.trim_end_matches("(aq)")
+        })
+    {
+        // A dissolved analytical alias of a native gas belongs to the same
+        // aqueous/gas solver. Partitioning it here would create a second gas
+        // identity and double-own the Henry equilibrium.
         return None;
     }
     henry_lookup(key).or_else(|| henry_lookup(data.formula.trim_end_matches("(aq)")))
@@ -311,7 +385,7 @@ mod tests {
             coefficient_for("NH3").is_some(),
             "ammonia solution partitions"
         );
-        for gas in ["CO2", "O2", "N2", "H2"] {
+        for gas in ["CO2", "CO2(aq)", "O2", "N2", "H2"] {
             assert!(
                 coefficient_for(gas).is_none(),
                 "{gas} arrives as a gas and is PHREEQC's to dissolve"

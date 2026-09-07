@@ -8,6 +8,9 @@
 use kerotakis_core::*;
 use kerotakis_phreeqc::{PathOutcome, PhreeqcEquilibrator};
 
+const WATEQ_DATASET: &str = "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice";
+const PITZER_DATASET: &str = "pitzer.dat, with the reviewed Sander HBr gas-uptake slice";
+
 fn add(bench: &mut Bench, eq: &mut PhreeqcEquilibrator, v: VesselId, key: &str, moles: f64) {
     bench
         .step_with(
@@ -40,7 +43,13 @@ fn every_answer_carries_its_provenance() {
         .provenance
         .expect("provenance recorded");
     assert!(p.engine.contains("PHREEQC"));
-    assert_eq!(p.dataset, "wateq4f.dat");
+    assert_eq!(p.dataset, WATEQ_DATASET);
+    for source in ["usbm-ic9429-complexes-25c", "sander-2023-hbr-reference"] {
+        assert!(
+            p.dataset_sources.iter().any(|id| id == source),
+            "missing {source}: {p:?}"
+        );
+    }
     assert!(p.model.contains("Debye"), "model named: {}", p.model);
     assert!(!p.routing.is_empty(), "routing reason given");
     assert!(
@@ -65,7 +74,17 @@ fn concentrated_brine_is_routed_to_pitzer_and_says_so() {
         .unwrap()
         .provenance
         .unwrap();
-    assert_eq!(p.dataset, "pitzer.dat");
+    assert_eq!(p.dataset, PITZER_DATASET);
+    assert!(p
+        .dataset_sources
+        .iter()
+        .any(|id| id == "sander-2023-hbr-reference"));
+    assert!(
+        !p.dataset_sources
+            .iter()
+            .any(|id| id == "usbm-ic9429-complexes-25c"),
+        "the Pitzer route does not load the USBM complex extension"
+    );
     assert!(p.model.contains("Pitzer"));
     assert!(
         p.routing.contains("concentrated"),
@@ -125,7 +144,7 @@ fn a_dataset_that_cannot_express_the_question_says_so() {
     let paths = eq.compare_paths(&vessel);
     let pitzer = paths
         .iter()
-        .find(|p| p.dataset == "pitzer.dat")
+        .find(|p| p.dataset == PITZER_DATASET)
         .expect("pitzer reported");
     match &pitzer.outcome {
         PathOutcome::CannotExpress { missing_elements } => {

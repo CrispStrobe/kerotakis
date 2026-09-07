@@ -373,3 +373,69 @@ sha256 = "8c17d7c825b266383547993e175c619b3dda264930545dbe50251fea2a5047e2"
 [[source.checksum]]
 path = "crates/kerotakis-data/tests/fixtures/quarantine/usda-fdc-v1/manifest.json"
 sha256 = "5c157b7b3411827e0ca76d36544220e3df42e3386833a32fac7e34a396881557"
+
+[[source]]
+id = "usbm-ic9429-complexes-25c"
+name = "USBM IC 9429 copper-ammine and ferric-thiocyanate reference constants"
+kind = "data"
+lane = "runtime-data"
+decision = "approved"
+licence = "LicenseRef-US-Bureau-of-Mines-Public-Domain"
+origin = "https://stacks.cdc.gov/view/cdc/206360"
+terms = "https://stacks.cdc.gov/view/cdc/206360"
+copyright = "U.S. Bureau of Mines; specific report explicitly marked Public Domain by CDC Stacks"
+retrieved = "2026-09-06"
+attribution = "Flynn, C. M., Jr. and Haslem, S. M. (1995), USBM IC 9429, Tables D-7 p.149 and D-15 p.165; preserve cited compilation provenance."
+paths = ["data/thermo/usbm-ic9429-complexes.dat"]
+allowed_outputs = ["embedded-runtime-database", "web-runtime-database"]
+targets = ["native", "web", "ios", "android"]
+reviewer = "Kerotakis chemistry audit; per-field review provenance/usbm-ic9429-complexes-review.md"
+notes = "Only six visually checked cumulative constants, 25 C and ionic strength zero. No spectra, reaction heat, temperature derivatives or rates imported. Original PDF SHA-256 9e37d39dcf66f7ab6da0e6fbeafdd06622e415a434643c0ceabe1b874a2424a2."
+
+[[source.checksum]]
+path = "data/thermo/usbm-ic9429-complexes.dat"
+sha256 = "e54c011acc81b1be969073f55eeab1956ef9a9574958fce4a101fb6cd7d2a97c"
+
+[[source]]
+id = "sander-2023-hbr-reference"
+name = "Sander 2023 hydrogen bromide dissociative Henry constant and local slope"
+kind = "data"
+lane = "runtime-data"
+decision = "approved"
+licence = "CC-BY-4.0"
+origin = "https://doi.org/10.5194/acp-23-10901-2023"
+terms = "https://acp.copernicus.org/articles/23/10901/2023/"
+copyright = "Rolf Sander, Author(s) 2023"
+retrieved = "2026-09-06"
+attribution = "Rolf Sander (2023), Compilation of Henry's law constants (version 5.0.0) for water as solvent, ACP 23, 10901-12440, doi:10.5194/acp-23-10901-2023; CC BY 4.0; HBr note 146, citing Carslaw et al. (1995). Adapted to molal/atm basis and local reaction enthalpy."
+paths = ["data/thermo/sander-2023-hbr.dat"]
+allowed_outputs = ["embedded-runtime-database", "web-runtime-database"]
+targets = ["native", "web", "ios", "android"]
+reviewer = "Kerotakis chemistry audit; per-field review provenance/sander-2023-hbr-review.md"
+notes = "Explicit attribution-only runtime-data exception for this two-field slice, not blanket clearance of cited publications or LLNL data. Original PDF SHA-256 8c059bc311cacb0b4626f1935a06f990303d9af0af50721dd5fb864ddbc88bad. Derived logK and local delta_h use USGS IPhreeqc pure-water density at 298.15 K and 1 atm; off-reference constant-enthalpy continuation is an approximation, not validated temperature coverage."
+
+[[source.checksum]]
+path = "data/thermo/sander-2023-hbr.dat"
+sha256 = "1183a5a9e0d247bcff832b02aadf1d76d67bb89ea0b4f2f65ec04ab8c5effa05"
+
+[[source]]
+id = "uscg-chris-still-reference"
+name = "USCG CHRIS methanol and isopropanol boiling and latent reference fields"
+kind = "data"
+lane = "runtime-data"
+decision = "approved"
+licence = "LicenseRef-US-Coast-Guard-Public-Domain"
+origin = "https://cameochemicals.noaa.gov/chris/MAL.pdf"
+terms = "https://www.uscg.mil/disclaim/"
+copyright = "U.S. Coast Guard CHRIS manual physical-property fields; no third-party marking on selected fields"
+retrieved = "2026-09-06"
+attribution = "U.S. Coast Guard, CHRIS Chemical Hazards Response Information System, June 1999, MAL and IPA sections 9.2, 9.3 and 9.12. NOAA-hosted original manual PDFs. See provenance/uscg-chris-still-review.md."
+paths = ["data/thermo/uscg-chris-still.tsv"]
+allowed_outputs = ["embedded-runtime-data"]
+targets = ["native", "web", "ios", "android"]
+reviewer = "Kerotakis chemistry audit; narrow per-field government-manual review"
+notes = "Only two normal boiling points, two latent heats and their molar-mass conversions. Not CAMEO database exports; no CAS, NFPA, DuPont, AEGL, ERPG or response fields. Secondary PDF https://cameochemicals.noaa.gov/chris/IPA.pdf . Original PDF hashes and explicitly approximate constant-latent domain are documented in the review. No quarantined Antoine coefficients promoted."
+
+[[source.checksum]]
+path = "data/thermo/uscg-chris-still.tsv"
+sha256 = "6d760d3ed36bba2862ac925832465c96982c05048b81683c91588bf8daf52215"

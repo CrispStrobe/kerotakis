@@ -1,0 +1,169 @@
+# Kerotakis-authored codex text is CC BY 4.0 (see NOTICE), separately from
+# the AGPL-3.0-or-later code that replays every claim in it.
+# Original Kerotakis text, CC BY 4.0; model-assisted editorial draft, 2026-09-07.
+# Preserved law/control lessons; no new imported constants or output tables.
+
+[[reaction]]
+id = "three-components-one-cut"
+progress = "advanced"
+summary = "A computed distillation cut moves three components without creating or discarding any of them"
+concepts = ["phase-change", "latent-heat", "conservation-of-mass", "model-boundary"]
+requires = ["amount-of-substance", "mixtures"]
+calculations = ["enthalpy-change"]
+models = ["conservation-of-mass", "equilibrium", "enthalpy"]
+apparatus = ["distillation-flask", "condenser", "beaker"]
+
+[reaction.setup]
+script = """
+add v1 water 3mol
+add v1 methanol 0.3mol
+add v1 isopropanol 0.2mol
+new
+distil v1 v2 0.2
+inspect v1
+inspect v2
+"""
+
+[reaction.expect]
+events = ["distilled"]
+absent = ["solver_failed"]
+
+[reaction.expect.predict]
+question = "Does the most volatile component arrive alone in the receiver?"
+options = ["Yes: distillation transfers one component at a time", "No: the vapor is a mixture, and every component must be counted in both vessels"]
+answer = 1
+misconception = "Enrichment is confused with perfect separation; a mixed vapor can favor one component without excluding the others."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "A boiling-point ordering is mistaken for a sequence of pure-component withdrawals."
+next = "Add each component's remaining and collected amounts, then compare the receiver composition with the starting composition."
+
+[reaction.registers]
+lv1 = "The receiver gets a mixture, not just the easiest component to evaporate; what moved out of the source must appear somewhere else."
+lv2 = "The starting total is 3 + 0.3 + 0.2 = 3.5 mol, so a molar cut fraction of 0.2 requests 0.7 mol in total, not that fraction of every component; check each component separately across the source and receiver."
+lv3 = "The generic Rayleigh calculation uses ideal Raoult mixing and a bounded constant-latent Clausius–Clapeyron approximation; it does not predict nonideal azeotropes or measured apparatus performance, and reported duty sums withdrawn condensate latent heat only, excluding sensible heating and reflux/reboiler circulation."
+
+[reaction.provenance]
+source = "Original audit-derived lesson; conservation and cut-fraction arithmetic, existing reviewed USCG CHRIS still inputs and existing water latent reference; no new imported data. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-07."
+computed_by = "Kerotakis generic multicomponent Rayleigh solver; independent third/fourth-fleet component and latent-duty checks"
+
+[[reaction]]
+id = "equal-charge-different-clocks"
+progress = "intermediate"
+summary = "Equal delivered charge gives equal modeled water-electrolysis production despite different current schedules"
+concepts = ["electrolysis", "faraday-law", "charge-conservation"]
+requires = ["amount-of-substance"]
+calculations = ["faraday"]
+models = ["stoichiometry", "conservation-of-mass"]
+apparatus = ["beaker", "power-supply"]
+
+[reaction.setup]
+script = """
+add v1 water 250mL
+add v1 KNO3 0.001mol
+electrolyse v1 0.2A 60s
+new
+add v2 water 250mL
+add v2 KNO3 0.001mol
+electrolyse v2 0.1A 120s
+new
+add v3 water 250mL
+add v3 KNO3 0.001mol
+electrolyse v3 0.2A 30s
+electrolyse v3 0.2A 30s
+inspect v1
+inspect v2
+inspect v3
+"""
+
+[reaction.expect]
+events = ["electrolysed:H2", "gas_evolved:H2", "gas_evolved:O2"]
+absent = ["solver_failed"]
+
+[reaction.expect.predict]
+question = "Which current schedule produces the most hydrogen in this water-electrolysis model?"
+options = ["The largest current always produces the most", "All three schedules produce the same amount because they deliver equal charge"]
+answer = 1
+misconception = "Current is treated as an amount instead of a rate of charge delivery; the duration and the sum over separate pulses are missing."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "An instantaneous setting is used to predict a total without integrating over time."
+next = "Multiply current by duration for each pulse and add the pulses, then compare the generated electrode-product amounts rather than only the gas remaining in the open vessels."
+
+[reaction.registers]
+lv1 = "A smaller current can catch up by running longer, and splitting a delivery does not erase its first part."
+lv2 = "Each schedule delivers Q = It = 12 C; with water in excess the model gives n(H2) = Q/(2F) and n(O2) = Q/(4F), so compare cumulative electrode production rather than treating escaped gas as missing production."
+lv3 = "These controls test the existing ideal charge-to-product model, not measured current efficiency, electrode overpotential or apparatus gas collection; the independent atom ledger balances final contents against external gas evolved minus absorbed, counting retained headspace gas only in contents and never adding production events as another material reservoir."
+
+[reaction.provenance]
+source = "Original audit-derived control lesson; Faraday charge/stoichiometry arithmetic using the existing runtime Faraday constant, no new imported data. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-07."
+computed_by = "Kerotakis generic solvent-electrolysis operator and ordinary aqueous/gas stack; independent third-fleet charge and external-flow atom checks"
+
+[[reaction]]
+id = "grouping-does-not-change-water-heat"
+progress = "intermediate"
+summary = "Grouping the same three water portions differently preserves their final sensible-energy balance"
+concepts = ["calorimetry", "heat-capacity", "state-functions"]
+requires = ["amount-of-substance"]
+calculations = ["enthalpy-change", "temperature-rise"]
+models = ["enthalpy", "conservation-of-mass"]
+apparatus = ["beaker", "thermometer"]
+
+[reaction.setup]
+script = """
+new
+add v2 water 1mol
+heat v2 300J
+new
+add v3 water 2mol
+cool v3 200J
+new
+add v4 water 3mol
+heat v4 100J
+new
+mix v2 1 v3 1 into v5
+mix v5 1 v4 1 into v1
+measure v1 thermometer
+new
+add v6 water 1mol
+heat v6 300J
+new
+add v7 water 2mol
+cool v7 200J
+new
+add v8 water 3mol
+heat v8 100J
+new
+mix v7 1 v8 1 into v9
+new
+mix v6 1 v9 1 into v10
+measure v10 thermometer
+"""
+
+[reaction.expect]
+events = ["mixed", "temperature_changed", "measured"]
+absent = ["solver_failed"]
+# From 25 + (300 - 200 + 100)/(6 * 75.3), not a stored simulation answer.
+temperature_c = { min = 25.44, max = 25.45 }
+
+[reaction.expect.predict]
+question = "Does combining the warmer pair first change the final temperature when all three water portions are eventually combined?"
+options = ["Yes: the first mixture sets a temperature that the later mixture remembers", "No: the same total water and retained sensible energy determine the final temperature"]
+answer = 1
+misconception = "Intermediate temperature is treated as conserved, rather than the energy carried by each amount of water."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "Unweighted intermediate temperatures replace an amount-weighted energy balance."
+next = "Sum the energy additions and removals, divide by the total heat capacity, and compare the final thermometers in v1 and v10."
+
+[reaction.registers]
+lv1 = "Different intermediate temperatures can lead to the same final temperature when the same water and energy end up together."
+lv2 = "Each branch starts with 6 mol of water at 25 °C and retains 300 - 200 + 100 = 200 J; with the existing water heat capacity of 75.3 J/(mol K), the final temperature follows from 25 + 200/(6 × 75.3), regardless of grouping."
+lv3 = "This is an adiabatic, constant-heat-capacity sensible-energy control for water with no phase transition or reactive mixing; it does not claim that real vessels lose no heat, or that grouping preserves temperature if material escapes or different chemistry occurs along the paths."
+
+[reaction.provenance]
+source = "Original audit-derived control lesson; sensible-energy conservation with the existing water heat-capacity input, no new imported data. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-07."
+computed_by = "Kerotakis generic heating/cooling and material-conserving MIX; independent third-fleet three-water energy/associativity checks"

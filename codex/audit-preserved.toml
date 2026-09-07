@@ -1,0 +1,96 @@
+# Kerotakis-authored codex text is CC BY 4.0 (see NOTICE), separately from
+# the AGPL-3.0-or-later code that replays every claim in it.
+# Original Kerotakis text, CC BY 4.0; model-assisted editorial draft, 2026-09-06.
+# No new external constants: these entries exercise existing generic models.
+
+[[reaction]]
+id = "endpoint-is-not-a-full-drop"
+progress = "intermediate"
+summary = "A coarse trial step brackets the endpoint; a computed partial step reaches it"
+concepts = ["equivalence-point", "concentration"]
+requires = ["amount-of-substance"]
+calculations = ["titration-stoichiometry", "concentration"]
+models = ["particle-model"]
+apparatus = ["beaker", "burette", "ph-meter"]
+
+[reaction.setup]
+script = """
+add v1 water 200mL
+add v1 HCl 0.0023mol
+titrate v1 NaOH 0.1M 7mL until ph 7
+measure v1 ph
+new
+add v2 water 200mL
+add v2 HCl 0.0023mol
+titrate v2 NaOH 0.1M 1mL until ph 7
+measure v2 ph
+"""
+
+[reaction.expect]
+ph = { min = 6.9999, max = 7.0001 }
+absent = ["solver_failed"]
+
+[reaction.expect.predict]
+question = "The acid requires about 23 mL of titrant. The automatic calculation tries 7 mL steps. Must it stop at 28 mL?"
+options = ["Yes: the trial step determines the endpoint accuracy", "No: it can refine the bracket and commit only part of the last step"]
+answer = 1
+misconception = "A trial interval is not a physical minimum droplet. The numerical solver can recompute a smaller addition from the same pre-dose state."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "A search setting is mistaken for an indivisible physical dose."
+next = "Compare the final pH values and delivered volumes for the 7 mL and 1 mL trial increments; then distinguish this numerical precision from instrument uncertainty."
+
+[reaction.registers]
+lv1 = "Both virtual burettes can stop at the same target even though one searches in larger steps. They do not have to pour the entire last trial dose."
+lv2 = "For the 1:1 reaction, V = n/c = 0.0023 mol / (0.1 mol/L) = 0.023 L. Compare this equivalent-volume estimate with the computed volume; pH 7 is the chosen target, not a universal definition of equivalence at every temperature."
+lv3 = "Each trial includes the carrier water, temperature change, and aqueous solve. Once the target is bracketed, the algorithm restores the pre-dose state for each refinement and commits one accepted partial dose. This validates numerical endpoint resolution, not real burette calibration or indicator error."
+
+[reaction.provenance]
+source = "Original audit preservation; stoichiometric derivation V=n/c. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-06; no imported numeric data."
+computed_by = "Kerotakis generic titration refinement and PHREEQC aqueous equilibrium"
+
+[[reaction]]
+id = "equilibrium-can-run-backward"
+progress = "advanced"
+summary = "An equilibrium request can form or consume ester, depending on the initial mixture"
+concepts = ["chemical-equilibrium"]
+requires = ["amount-of-substance"]
+calculations = ["percentage-yield"]
+models = ["equilibrium"]
+apparatus = ["beaker"]
+
+[reaction.setup]
+script = """
+add v1 CH3COOH 0.01mol
+add v1 ethanol 0.01mol
+react v1 esterification
+new
+add v2 water 0.01mol
+add v2 ethyl_acetate 0.01mol
+react v2 esterification
+"""
+
+[reaction.expect]
+events = ["org_reacted"]
+absent = ["solver_failed"]
+
+[reaction.expect.predict]
+question = "The second vessel starts with ester and water, not acid and alcohol. What can the same equilibrium calculation do?"
+options = ["Nothing: a reaction command only consumes the reactants in its name", "Consume some ester and water to form acid and alcohol"]
+answer = 1
+misconception = "A reaction name is not a one-way instruction. The sign of the calculated extent depends on the initial reaction quotient."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "The written forward direction is confused with a restriction on equilibrium."
+next = "Inspect both final inventories. Change the initial ester or water amount and ask which direction would move the quotient toward equilibrium."
+
+[reaction.registers]
+lv1 = "One virtual mixture makes ester; the other consumes some of it. Equilibrium can be approached from either side."
+lv2 = "For acid + alcohol ⇌ ester + water, the existing ideal-mixture model uses Q = n(ester)n(water)/(n(acid)n(alcohol)) and K = 4. The bounded extent may be positive or negative; neither starting mixture must react to completion."
+lv3 = "The explicit request solves mass action against the current inventory. It is not a kinetic simulation and does not predict how quickly an uncatalyzed mixture changes. Aqueous dissociation and phase partitioning can alter the subsequently displayed molecular amounts, so the isolated mass-action regression checks the equilibrium operator before those other owners run."
+
+[reaction.provenance]
+source = "Original audit preservation using the already shipped ideal-mixture esterification model; no new empirical constants. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-06."
+computed_by = "Kerotakis generic reversible mass-action extent solver, followed by the ordinary solver stack"

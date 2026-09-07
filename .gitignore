@@ -28,3 +28,7 @@ THIRD_PARTY_LICENSES.html
 *.mobileprovision
 *.provisionprofile
 web/app/node_modules
+
+# Snapshot suites write the regenerated file beside the golden so a failure
+# can be judged rather than guessed. It is an artefact, never a commit.
+*.actual.json

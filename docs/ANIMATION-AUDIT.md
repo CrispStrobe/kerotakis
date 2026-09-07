@@ -312,7 +312,7 @@ picture of a vessel.
   from one disintegration a second to a teaching source's megabecquerels.
   `partitioned` splits ten dots across the two layers at `fraction_lower`,
   drawn inside the bands the engine's own volumes made, and the two counts
-  always sum to ten because the solute did not go anywhere else. 
+  always sum to ten because the solute did not go anywhere else.
   `osmosis_changed` swells or shrinks the object and points the arrows by
   the **sign** of `mass_change_g`, which is the whole observation: an egg
   in syrup and an egg in water arrive as the same event. And

@@ -96,6 +96,12 @@ pub trait Equilibrator {
     }
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError>;
 
+    /// Missing time models relevant to a wait, without claiming a rate from an
+    /// equilibrium calculation. Ordinary additions need not repeat these notes.
+    fn time_boundaries(&self, _vessel: &Vessel) -> Vec<Event> {
+        Vec::new()
+    }
+
     /// Mix two solutions by fraction into a target vessel using the solver's
     /// native mixing (PHREEQC MIX). Returns `None` if the solver does not
     /// support native mixing; the caller falls back to `equilibrate`.
@@ -210,6 +216,13 @@ impl SolverStack {
 }
 
 impl Equilibrator for SolverStack {
+    fn time_boundaries(&self, vessel: &Vessel) -> Vec<Event> {
+        self.solvers
+            .iter()
+            .flat_map(|s| s.time_boundaries(vessel))
+            .collect()
+    }
+
     fn name(&self) -> &'static str {
         "solver-stack"
     }
@@ -1369,6 +1382,20 @@ pub fn equilibrate_phase_coupled(
                         solver: chemistry.name().to_string(),
                         detail: error.to_string(),
                     });
+                    // Pure solvent phase physics does not require an aqueous
+                    // engine or a pre-warmed speciation result. A failed
+                    // chemistry calculation must not leave pure liquid water
+                    // below freezing solely because that engine is absent.
+                    // Mixtures and unresolved material are deliberately NOT
+                    // eligible: their unknown activities can move the phase
+                    // boundary, so a pure-water answer would be fabricated.
+                    if independent_water_phase_inventory(vessel) {
+                        vessel.solution = None;
+                        vessel.resolved.invalidate();
+                        vessel.free_proton = 0.0;
+                        vessel.free_hydroxide = 0.0;
+                        events.extend(states.equilibrate(vessel)?);
+                    }
                     return Ok(events);
                 }
             }
@@ -1467,6 +1494,25 @@ pub fn equilibrate_phase_coupled(
         }
     }
     Ok(events)
+}
+
+fn independent_water_phase_inventory(vessel: &Vessel) -> bool {
+    vessel.solute_charge == 0.0
+        && vessel.unresolved_materials.is_empty()
+        && vessel.material_objects.is_empty()
+        && vessel.surfaces.is_empty()
+        && vessel.exchanges.is_empty()
+        && vessel.adsorbed.is_empty()
+        && vessel.solid_solutions.is_empty()
+        && vessel
+            .contents
+            .iter()
+            .any(|p| p.species.0 == SOLVENT && p.moles.0 > 0.0)
+        && vessel.contents.iter().all(|p| {
+            p.moles.0.is_finite()
+                && p.moles.0 >= 0.0
+                && (p.moles.0 == 0.0 || p.species.0 == SOLVENT)
+        })
 }
 
 /// An application-stack adapter for one chemistry solver coupled to solvent

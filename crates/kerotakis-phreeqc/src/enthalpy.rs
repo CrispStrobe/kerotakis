@@ -128,8 +128,13 @@ pub const DISSOCIATION: &[(&str, &[(&str, f64)])] = &[
     // dissolution enthalpy, and as the aqueous portion a curated reaction
     // deposits it is just the ions.
     ("HCl", &[("H+", 1.0), ("Cl-", 1.0)]),
+    ("HBr", &[("H+", 1.0), ("Br-", 1.0)]),
     ("HNO3", &[("H+", 1.0), ("NO3-", 1.0)]),
     ("H2SO4", &[("H+", 2.0), ("SO4-2", 1.0)]),
+    // An aqueous analytical equivalent only. This expresses the same
+    // conserved master-basis inventory, not a measured heat of dissolving
+    // solid KSCN (which has no curated dissolution enthalpy here).
+    ("KSCN", &[("K+", 1.0), ("Thiocyanate-", 1.0)]),
 ];
 
 /// A species the balance cannot price, named so the refusal can say which.
@@ -142,6 +147,13 @@ pub struct Unpriced {
 /// The enthalpy of one aqueous species relative to the master basis.
 fn aqueous_enthalpy(key: &str, db_tag: &str) -> Option<f64> {
     let idx = derived::index_for(db_tag);
+    // The public ledger spells the conserved ligand physically; its
+    // native pseudo-component master is the same reference basis. This
+    // must not map metal complexes to the free ligand's zero enthalpy.
+    let key = match key {
+        "SCN-" => "Thiocyanate-",
+        other => other,
+    };
     if key == "water" || key == "H2O" {
         return Some(0.0);
     }
@@ -302,6 +314,11 @@ fn phase_of(key: u8) -> Phase {
 fn tally(contents: &[Portion]) -> BTreeMap<(String, u8), f64> {
     let mut t = BTreeMap::new();
     for p in contents {
+        // Analytical H/O equivalents are not free-ion activities. Hydroxide
+        // enthalpy is supplied separately from the measured species state.
+        if p.phase == Phase::Aqueous && matches!(p.species.0.as_str(), "H+" | "OH-") {
+            continue;
+        }
         *t.entry((p.species.0.clone(), phase_key(p.phase)))
             .or_insert(0.0) += p.moles.0;
     }
@@ -454,6 +471,40 @@ mod tests {
     }
 
     const DB: &str = "minteq.v4";
+
+    #[test]
+    fn aqueous_thiocyanate_relabelling_preserves_known_heat_not_unknown_properties() {
+        for db in ["wateq4f", "minteq.v4"] {
+            let neutralisation =
+                heat_released_j(&[], 0.01, &[], 0.0, &[], db).expect("known hydroxide heat");
+            assert!(neutralisation > 0.0);
+            for moles in [1e-6, 0.001, 0.1] {
+                let before = [portion("KSCN", moles, Phase::Aqueous)];
+                let after = [
+                    portion("K+", moles, Phase::Aqueous),
+                    portion("SCN-", moles, Phase::Aqueous),
+                ];
+                let relabel = heat_released_j(&before, 0.0, &after, 0.0, &[], db)
+                    .expect("same aqueous master-basis inventory");
+                assert!(relabel.abs() < 1e-12, "{db}: {relabel}");
+                let combined = heat_released_j(&before, 0.01, &after, 0.0, &[], db)
+                    .expect("analytical relabelling cannot suppress known reaction heat");
+                assert!((combined - neutralisation).abs() < 1e-10);
+            }
+            assert!(species_enthalpy("KSCN", Phase::Solid, db).is_err());
+            for complex in [
+                "Fe(SCN)+2",
+                "Fe(SCN)2+",
+                "Fe(Thiocyanate)+2",
+                "Fe(Thiocyanate)2+",
+                "Cu(NH3)4+2",
+            ] {
+                assert!(species_enthalpy(complex, Phase::Aqueous, db).is_err());
+            }
+        }
+        assert!(species_enthalpy("SCN-", Phase::Aqueous, "pitzer").is_err());
+        assert!(species_enthalpy("KSCN", Phase::Aqueous, "pitzer").is_err());
+    }
 
     /// A solid is where its ions go, less what the trip costs. Both terms
     /// belong in this one number: charging the dissolution separately, per

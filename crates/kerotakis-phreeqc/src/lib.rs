@@ -15,13 +15,25 @@ use std::ffi::{CStr, CString};
 
 pub mod acceptance;
 mod aqueous;
+pub mod aqueous_gases;
+pub mod complexation;
 pub mod dbindex;
 pub mod derived;
 pub mod enthalpy;
+mod inventory;
+mod native_namespace;
+mod phase_diagnostics;
 pub mod pourbaix;
+mod redox_isolation;
 pub use aqueous::{
     CacheData, CacheEntry, PathOutcome, PathResult, PhreeqcEquilibrator, SolveHook, SolveOutput,
 };
+
+/// The exact native database namespace expected by an external solver hook.
+/// Hosts must load this version rather than an unextended upstream file.
+pub fn aqueous_database(tag: &str) -> Result<String, String> {
+    native_namespace::database(tag).map(|db| String::from_utf8_lossy(&db.database).into_owned())
+}
 
 #[cfg(feature = "engine")]
 mod ffi {
@@ -52,8 +64,9 @@ mod ffi {
     }
 }
 
-/// Thermodynamic databases embedded in the binary (all USGS User Rights
-/// Notice, distributed with IPhreeqc).
+/// Thermodynamic databases embedded in the binary: the upstream files carry
+/// the USGS User Rights Notice; the shared ligand extension is independently
+/// reviewed U.S. Bureau of Mines public-domain data.
 ///
 /// Stored as bytes: some upstream files carry Latin-1 characters in comments
 /// (e.g. the degree sign in pitzer.dat), so they are not valid UTF-8. PHREEQC
@@ -65,8 +78,9 @@ pub mod databases {
     pub const WATEQ4F: &[u8] = include_bytes!("../../../vendor/iphreeqc/database/wateq4f.dat");
     /// Metals, complexation, sorption. PRIVATE on purpose: everything
     /// goes through [`minteq_v4()`], which adds the reviewed lactate and
-    /// hypochlorite definitions. Reading these bytes directly would give a
-    /// caller a database the engine is not running.
+    /// hypochlorite definitions and the shared reviewed ligand slice. Reading
+    /// these bytes directly would give a caller a database the engine is not
+    /// running.
     const MINTEQ_V4: &[u8] = include_bytes!("../../../vendor/iphreeqc/database/minteq.v4.dat");
     /// Pitzer model — brines, high ionic strength.
     pub const PITZER: &[u8] = include_bytes!("../../../vendor/iphreeqc/database/pitzer.dat");
@@ -176,35 +190,32 @@ SOLUTION_SPECIES
     /// Byte offset of the final `END` line, which is where a database
     /// stops being read. `None` when the file has none, in which case the
     /// end of the file is the right place after all.
-    fn find_last_end(text: &[u8]) -> Option<usize> {
+    pub(super) fn find_last_end(text: &[u8]) -> Option<usize> {
         let mut at = None;
         let mut line_start = 0usize;
-        for (i, byte) in text.iter().enumerate() {
-            if *byte == b'\n' {
-                let line = &text[line_start..i];
-                let trimmed: &[u8] = {
-                    let s = line
-                        .iter()
-                        .position(|c| !c.is_ascii_whitespace())
-                        .unwrap_or(line.len());
-                    let e = line
-                        .iter()
-                        .rposition(|c| !c.is_ascii_whitespace())
-                        .map(|p| p + 1)
-                        .unwrap_or(s);
-                    &line[s..e]
-                };
-                if trimmed.eq_ignore_ascii_case(b"END") {
-                    at = Some(line_start);
-                }
-                line_start = i + 1;
+        // Include the final unterminated line; appending after a bare trailing
+        // END would otherwise silently discard every extension definition.
+        for line in text.split_inclusive(|b| *b == b'\n') {
+            let start = line
+                .iter()
+                .position(|c| !c.is_ascii_whitespace())
+                .unwrap_or(line.len());
+            let end = line
+                .iter()
+                .rposition(|c| !c.is_ascii_whitespace())
+                .map(|p| p + 1)
+                .unwrap_or(start);
+            if line[start..end].eq_ignore_ascii_case(b"END") {
+                at = Some(line_start);
             }
+            line_start += line.len();
         }
         at
     }
 
     /// minteq.v4 as this lab runs it: the vendored file plus
-    /// [`LACTATE_EXTENSION`] and [`HYPOCHLORITE_EXTENSION`].
+    /// [`LACTATE_EXTENSION`], [`HYPOCHLORITE_EXTENSION`] and the reviewed
+    /// reference-temperature ligand slice.
     ///
     /// Everything that loads or PARSES the database goes through here, so
     /// the engine, the derived index, the element bookings and the
@@ -229,8 +240,25 @@ SOLUTION_SPECIES
             bytes.extend_from_slice(LACTATE_EXTENSION);
             bytes.extend_from_slice(HYPOCHLORITE_EXTENSION);
             bytes.extend_from_slice(&text[insert_at..]);
-            bytes
+            super::aqueous_gases::append_to(&super::complexation::append_to(&bytes))
         })
+    }
+
+    /// WATEQ4F plus the reviewed 25 C copper/thiocyanate ligand slice.
+    /// The unmodified `WATEQ4F` bytes remain available for upstream-oracle tests.
+    pub fn wateq4f() -> &'static [u8] {
+        use std::sync::OnceLock;
+        static EXTENDED: OnceLock<Vec<u8>> = OnceLock::new();
+        EXTENDED.get_or_init(|| {
+            super::aqueous_gases::append_to(&super::complexation::append_to(WATEQ4F))
+        })
+    }
+
+    /// Pitzer plus reviewed gas uptake; no unsupported ligand extension.
+    pub fn pitzer() -> &'static [u8] {
+        use std::sync::OnceLock;
+        static EXTENDED: OnceLock<Vec<u8>> = OnceLock::new();
+        EXTENDED.get_or_init(|| super::aqueous_gases::append_to(PITZER))
     }
 }
 

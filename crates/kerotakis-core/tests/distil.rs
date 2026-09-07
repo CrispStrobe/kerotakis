@@ -8,6 +8,103 @@
 
 use kerotakis_core::*;
 
+#[test]
+fn additional_solvents_are_computed_not_silently_left_behind() {
+    for solvent in ["methanol", "isopropanol"] {
+        for scale in [0.01, 1.0, 100.0] {
+            let (mut bench, _) = bench_with(&[
+                Operator::NewVessel { kind: None },
+                Operator::NewVessel { kind: None },
+                Operator::Add {
+                    vessel: VesselId(1),
+                    species: SpeciesId::new("water"),
+                    moles: Moles(4.0 * scale),
+                    at: None,
+                },
+                Operator::Add {
+                    vessel: VesselId(1),
+                    species: SpeciesId::new(solvent),
+                    moles: Moles(0.2 * scale),
+                    at: None,
+                },
+            ]);
+            let initial_water = moles_in(&bench, 1, "water");
+            let initial_solvent = moles_in(&bench, 1, solvent);
+            let events = bench
+                .step(Operator::Distil {
+                    from: VesselId(1),
+                    to: VesselId(2),
+                    fraction: Some(0.1),
+                    energy: None,
+                    stages: 1,
+                })
+                .unwrap();
+            let over_water = moles_in(&bench, 2, "water");
+            let over_solvent = moles_in(&bench, 2, solvent);
+            assert!(over_solvent > 0.0, "{solvent} must join its own vapour");
+            assert!(
+                over_solvent / (over_water + over_solvent)
+                    > initial_solvent / (initial_water + initial_solvent)
+            );
+            assert!(
+                (over_water + over_solvent - 0.1 * (initial_water + initial_solvent)).abs()
+                    < 1e-8 * scale
+            );
+            for (id, initial) in [("water", initial_water), (solvent, initial_solvent)] {
+                assert!(
+                    (moles_in(&bench, 1, id) + moles_in(&bench, 2, id) - initial).abs()
+                        < 1e-8 * scale
+                );
+            }
+            assert!(events.iter().any(
+                |event| matches!(event, Event::Distilled { components, model, .. }
+                if components.len() == 2 && model.contains("azeotropes") && model.contains("CHRIS"))
+            ));
+        }
+    }
+}
+
+#[test]
+fn unrepresented_competing_liquid_is_an_atomic_distillation_boundary() {
+    // Operators consume canonical registry identifiers, not bottle aliases.
+    for solvent in ["propanone", "NH3"] {
+        let (mut bench, _) = bench_with(&[
+            Operator::NewVessel { kind: None },
+            Operator::NewVessel { kind: None },
+            Operator::Add {
+                vessel: VesselId(1),
+                species: SpeciesId::new("water"),
+                moles: Moles(4.0),
+                at: None,
+            },
+            Operator::Add {
+                vessel: VesselId(1),
+                species: SpeciesId::new(solvent),
+                moles: Moles(0.2),
+                at: None,
+            },
+        ]);
+        let before = bench.vessels[1].contents.clone();
+        let events = bench
+            .step(Operator::Distil {
+                from: VesselId(1),
+                to: VesselId(2),
+                fraction: Some(0.1),
+                energy: None,
+                stages: 1,
+            })
+            .unwrap();
+        assert_eq!(before, bench.vessels[1].contents);
+        assert!(bench.vessels[2].contents.is_empty());
+        assert!(events.iter().any(
+            |event| matches!(event, Event::NotYetModeled { what, .. } if what.contains(solvent))
+        ));
+        assert!(!events
+            .iter()
+            .any(|event| matches!(event, Event::Distilled { .. })));
+    }
+}
+
 fn bench_with(ops: &[Operator]) -> (Bench, Vec<Event>) {
     let mut bench = Bench::new();
     let mut events = Vec::new();

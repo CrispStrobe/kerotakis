@@ -113,11 +113,14 @@ fn the_withheld_phase_is_declared_rather_than_hidden() {
         );
     }
     let said = all.iter().any(|e| {
-        matches!(e, Event::NotYetModeled { what, .. }
-            if what.contains("Tenorite") && what.contains("holding back"))
+        matches!(e, Event::NotYetModeled { what, cause: ops::NotModelledCause::ModelBoundary, .. }
+            if what.contains("Tenorite")
+                && what.contains("deliberately withheld")
+                && what.contains("formation-temperature threshold")
+                && what.contains("not a computed nucleation or growth rate"))
     });
     assert!(
         said,
-        "a curated kinetic claim must be visible, not silent: {all:?}"
+        "the curated phase boundary and uncomputed kinetics must be explicit: {all:?}"
     );
 }

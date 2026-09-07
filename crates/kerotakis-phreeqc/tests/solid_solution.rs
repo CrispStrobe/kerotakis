@@ -51,11 +51,11 @@ fn strontium_inventory(vessel: &Vessel) -> f64 {
 }
 
 fn carbon_inventory(vessel: &Vessel) -> f64 {
-    vessel.moles_of(&SpeciesId::new("HCO3-")).0
-        + vessel.moles_of(&SpeciesId::new("CO2")).0
-        + component(vessel, SolidSolutionComponent::CalciumCarbonate)
-        + component(vessel, SolidSolutionComponent::StrontiumCarbonate)
-        + pure_solid(vessel, "CaCO3")
+    kerotakis_core::ledger::ConservedLedger::from_vessel(vessel)
+        .elements
+        .get("C")
+        .copied()
+        .unwrap_or(0.0)
 }
 
 #[test]

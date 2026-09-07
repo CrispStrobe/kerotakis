@@ -1,0 +1,18 @@
+# Compare cumulative production for equal charge, not gas left in open vessels.
+# Ideal electrode stoichiometry; real current efficiency is not modeled.
+register lv3
+add v1 water 250mL
+add v1 KNO3 0.001mol
+electrolyse v1 0.2A 60s
+new
+add v2 water 250mL
+add v2 KNO3 0.001mol
+electrolyse v2 0.1A 120s
+new
+add v3 water 250mL
+add v3 KNO3 0.001mol
+electrolyse v3 0.2A 30s
+electrolyse v3 0.2A 30s
+inspect v1
+inspect v2
+inspect v3

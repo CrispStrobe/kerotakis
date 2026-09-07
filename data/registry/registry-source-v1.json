@@ -1602,6 +1602,15 @@
       "origin": "crates/kerotakis-registry-export/src/lib.rs",
       "revision": "4",
       "retrieved": "2026-09-07"
+    },
+    {
+      "id": "kerotakis/aqueous-basis-v1",
+      "citation": "Kerotakis analytical aqueous basis: formula stoichiometry and existing registry atomic mass basis. Aqueous partial heat capacities are not modeled (zero); density is an unused placeholder because solvent carries volume. No equilibrium or kinetic constants introduced.",
+      "licence": "CC0-1.0",
+      "lane": "runtime",
+      "origin": "Kerotakis original stoichiometric derivation",
+      "revision": "1",
+      "retrieved": "2026-09-06"
     }
   ],
   "identities": [
@@ -4266,6 +4275,118 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "H+",
+      "canonical_key": "H+",
+      "name": "hydrogen ion",
+      "identifiers": {},
+      "synonyms": [],
+      "evidence": {
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "CO2(aq)",
+      "canonical_key": "CO2(aq)",
+      "name": "dissolved carbon dioxide",
+      "identifiers": {},
+      "synonyms": [],
+      "evidence": {
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "CO3-2",
+      "canonical_key": "CO3-2",
+      "name": "carbonate ion",
+      "identifiers": {},
+      "synonyms": [],
+      "evidence": {
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "HPO4-2",
+      "canonical_key": "HPO4-2",
+      "name": "hydrogen phosphate ion",
+      "identifiers": {},
+      "synonyms": [],
+      "evidence": {
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "PO4-3",
+      "canonical_key": "PO4-3",
+      "name": "phosphate ion",
+      "identifiers": {},
+      "synonyms": [],
+      "evidence": {
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "NO2-",
+      "canonical_key": "NO2-",
+      "name": "nitrite ion",
+      "identifiers": {},
+      "synonyms": [],
+      "evidence": {
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "KSCN",
+      "canonical_key": "KSCN",
+      "name": "potassium thiocyanate (aqueous reagent)",
+      "identifiers": {},
+      "synonyms": [],
+      "evidence": {
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "SCN-",
+      "canonical_key": "SCN-",
+      "name": "thiocyanate ion",
+      "identifiers": {},
+      "synonyms": [],
+      "evidence": {
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
         }
       }
     },
@@ -22010,6 +22131,823 @@
       }
     },
     {
+      "id": "composition/H+",
+      "species_id": "H+",
+      "formula": "H+",
+      "elements": [
+        {
+          "element": "H",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/aqueous-basis-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "formula stoichiometry and registry atomic mass basis"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      },
+      "evidence": {
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "composition/CO2(aq)",
+      "species_id": "CO2(aq)",
+      "formula": "CO2",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/aqueous-basis-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "formula stoichiometry and registry atomic mass basis"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/aqueous-basis-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "formula stoichiometry and registry atomic mass basis"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      },
+      "evidence": {
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "composition/CO3-2",
+      "species_id": "CO3-2",
+      "formula": "CO3-2",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/aqueous-basis-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "formula stoichiometry and registry atomic mass basis"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/aqueous-basis-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "formula stoichiometry and registry atomic mass basis"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": -2.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      },
+      "evidence": {
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "composition/HPO4-2",
+      "species_id": "HPO4-2",
+      "formula": "HPO4-2",
+      "elements": [
+        {
+          "element": "H",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/aqueous-basis-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "formula stoichiometry and registry atomic mass basis"
+            }
+          }
+        },
+        {
+          "element": "P",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/aqueous-basis-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "formula stoichiometry and registry atomic mass basis"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 4.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/aqueous-basis-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "formula stoichiometry and registry atomic mass basis"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": -2.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      },
+      "evidence": {
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "composition/PO4-3",
+      "species_id": "PO4-3",
+      "formula": "PO4-3",
+      "elements": [
+        {
+          "element": "P",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/aqueous-basis-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "formula stoichiometry and registry atomic mass basis"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 4.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/aqueous-basis-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "formula stoichiometry and registry atomic mass basis"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": -3.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      },
+      "evidence": {
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "composition/NO2-",
+      "species_id": "NO2-",
+      "formula": "NO2-",
+      "elements": [
+        {
+          "element": "N",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/aqueous-basis-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "formula stoichiometry and registry atomic mass basis"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/aqueous-basis-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "formula stoichiometry and registry atomic mass basis"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": -1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      },
+      "evidence": {
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "composition/KSCN",
+      "species_id": "KSCN",
+      "formula": "KSCN",
+      "elements": [
+        {
+          "element": "K",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/aqueous-basis-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "formula stoichiometry and registry atomic mass basis"
+            }
+          }
+        },
+        {
+          "element": "S",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/aqueous-basis-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "formula stoichiometry and registry atomic mass basis"
+            }
+          }
+        },
+        {
+          "element": "C",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/aqueous-basis-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "formula stoichiometry and registry atomic mass basis"
+            }
+          }
+        },
+        {
+          "element": "N",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/aqueous-basis-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "formula stoichiometry and registry atomic mass basis"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      },
+      "evidence": {
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "composition/SCN-",
+      "species_id": "SCN-",
+      "formula": "SCN-",
+      "elements": [
+        {
+          "element": "S",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/aqueous-basis-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "formula stoichiometry and registry atomic mass basis"
+            }
+          }
+        },
+        {
+          "element": "C",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/aqueous-basis-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "formula stoichiometry and registry atomic mass basis"
+            }
+          }
+        },
+        {
+          "element": "N",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/aqueous-basis-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "formula stoichiometry and registry atomic mass basis"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": -1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      },
+      "evidence": {
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
       "id": "composition/hydroxylapatite",
       "species_id": "hydroxylapatite",
       "formula": "Ca5(PO4)3OH",
@@ -32330,7 +33268,7 @@
       "phase": "aqueous",
       "property": "molar_mass",
       "quantity": {
-        "value": 17.008,
+        "value": 17.007,
         "unit": {
           "symbol": "g/mol",
           "dimension": "molar_mass"
@@ -32347,10 +33285,10 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "legacy/OH-",
+        "source_id": "kerotakis/aqueous-basis-v1",
         "method": {
-          "kind": "imported",
-          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+          "kind": "derived",
+          "detail": "registry water mass 18.015 minus hydrogen mass 1.008; consistent hydroxide analytical basis"
         }
       }
     },
@@ -41681,6 +42619,726 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/H+",
+      "species_id": "H+",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 1.008,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/H+",
+      "species_id": "H+",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "density/H+",
+      "species_id": "H+",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/CO2(aq)",
+      "species_id": "CO2(aq)",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 44.009,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/CO2(aq)",
+      "species_id": "CO2(aq)",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "density/CO2(aq)",
+      "species_id": "CO2(aq)",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/CO3-2",
+      "species_id": "CO3-2",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 60.009,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/CO3-2",
+      "species_id": "CO3-2",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "density/CO3-2",
+      "species_id": "CO3-2",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/HPO4-2",
+      "species_id": "HPO4-2",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 95.978,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/HPO4-2",
+      "species_id": "HPO4-2",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "density/HPO4-2",
+      "species_id": "HPO4-2",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/PO4-3",
+      "species_id": "PO4-3",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 94.97,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/PO4-3",
+      "species_id": "PO4-3",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "density/PO4-3",
+      "species_id": "PO4-3",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/NO2-",
+      "species_id": "NO2-",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 46.005,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/NO2-",
+      "species_id": "NO2-",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "density/NO2-",
+      "species_id": "NO2-",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/KSCN",
+      "species_id": "KSCN",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 97.1763,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/KSCN",
+      "species_id": "KSCN",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "density/KSCN",
+      "species_id": "KSCN",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/SCN-",
+      "species_id": "SCN-",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 58.078,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/SCN-",
+      "species_id": "SCN-",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
+        }
+      }
+    },
+    {
+      "id": "density/SCN-",
+      "species_id": "SCN-",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/aqueous-basis-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "formula stoichiometry and registry atomic mass basis"
         }
       }
     },

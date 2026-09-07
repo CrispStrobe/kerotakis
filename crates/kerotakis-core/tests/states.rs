@@ -179,6 +179,7 @@ impl Equilibrator for ParticleBalanceSolver {
         }
         let particle_molality = self.particle_moles / liquid_kg;
         vessel.solution = Some(SolutionInfo {
+            solvent_kg: None,
             pe: None,
             redox: Vec::new(),
             ph: 7.0,

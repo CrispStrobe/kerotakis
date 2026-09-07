@@ -47,6 +47,32 @@ fn fired(events: &[Event], family: &str) -> bool {
 }
 
 #[test]
+fn passive_warnings_require_all_structural_reactants() {
+    let router = family_equilibrator();
+    for scale in [1e-4, 0.1, 1.0, 10.0] {
+        let mut v = vessel(
+            &[
+                ("water", 5.55 * scale),
+                ("CH3COOH", 0.01 * scale),
+                ("HCO3-", 0.001 * scale),
+            ],
+            298.15,
+        );
+        assert!(
+            router.time_boundaries(&v).is_empty(),
+            "acid and carbonate are not an acid/alcohol pair"
+        );
+        v.deposit(
+            SpeciesId::new("ethanol"),
+            Moles(0.01 * scale),
+            Phase::Liquid,
+        );
+        assert!(router.time_boundaries(&v).iter().any(|e| matches!(e,
+            Event::NotYetModeled { what, .. } if what.contains("fischer-esterification"))));
+    }
+}
+
+#[test]
 fn the_shipped_pack_lints_and_names_its_families() {
     let records = family_records().expect("the pack lints clean");
     let ids: Vec<&str> = records.iter().map(|r| r.id.as_str()).collect();

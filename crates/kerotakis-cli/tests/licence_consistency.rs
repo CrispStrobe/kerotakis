@@ -98,6 +98,8 @@ fn contributing_data_section_says_cc_by_cc0() {
 #[test]
 fn codex_headers_use_the_declared_kerotakis_data_licence() {
     for file in [
+        "audit-discoveries.toml",
+        "audit-preserved.toml",
         "aqueous.toml",
         "inorganic.toml",
         "models.toml",

@@ -265,11 +265,25 @@ try {
     })()`);
     await waitFor(page, `!document.querySelector('form.bar input').disabled`, { timeout: 60000 });
 
-    const journal = await page.evaluate(`(() => {
-      const t = [...document.querySelectorAll('*')].filter((n) => !n.children.length)
-        .map((n) => (n.textContent || "").trim());
-      return t.find((x) => /^v1: \\+/.test(x)) ?? "";
-    })()`);
+    // Feed renders the vessel as a child chip and removes its `v1:`
+    // prefix from the prose. A leaf-only page scan can never find that
+    // line: the chip is a leaf, but the observation beside it is not.
+    // Read the actual observation for v1, excluding its chip. Waiting
+    // for that observation also covers the render after busy clears;
+    // neither the wait nor the selector assumes a German translation.
+    const addedJournalLine = `(() => {
+      for (const row of document.querySelectorAll('.feed p.line')) {
+        if (row.querySelector('.vessel-chip')?.textContent?.trim() !== "v1") continue;
+        const prose = row.cloneNode(true);
+        prose.querySelector('.vessel-chip')?.remove();
+        const text = (prose.textContent || "").trim();
+        if (/^\\+/.test(text)) return text;
+      }
+      return "";
+    })()`;
+    const added = await waitFor(page, `Boolean(${addedJournalLine})`, { timeout: 60000 });
+    check("the journal renders the addition", added === true);
+    const journal = await page.evaluate(addedJournalLine);
     check("the journal names the species in German", /Wasser/.test(journal),
           JSON.stringify(journal.slice(0, 50)));
     check("the journal counts with a decimal comma", /,\d/.test(journal) && !/\.\d/.test(journal),

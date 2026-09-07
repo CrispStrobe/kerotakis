@@ -34,10 +34,10 @@
     "a-salt-with-no-database": [
       "100 mL Wasser in das erste Becherglas.",
       "Natriumthiosulfat löst sich darin — das Salz, das diese Werkbank halten und umsetzen, aber nicht auf der pH-Skala verorten kann.",
-      "Säure kommt obendrauf. Das Messgerät zeigt pH 1,7485817506.",
+      "Säure kommt hinzu, und ihr berechneter pH-Wert muss mit dem Hinweis erscheinen, dass der Beitrag des gelösten Thiosulfats nicht modelliert ist.",
       "Ein zweites Becherglas, für dieselbe Säure ganz ohne Thiosulfat.",
       "Dieselben 100 mL Wasser.",
-      "Dieselbe Säure, allein. Auch hier zeigt das Messgerät 1,7485817506 — auf zwölf Stellen identisch, denn das Thiosulfat hat zu der Bilanz, die der Löser tatsächlich löst, nichts beigetragen.",
+      "Dieselbe Säure kommt allein als Vergleich hinzu; ähnliche berechnete pH-Werte wären kein Beweis dafür, dass Thiosulfat die Acidität tatsächlich nicht beeinflusst.",
       "Ein drittes Becherglas, um die Frage direkt zu stellen.",
       "Wieder Wasser.",
       "Das Thiosulfat für sich, ohne Reaktionspartner.",
@@ -186,8 +186,8 @@
     ],
     "cold-from-baking-soda": [
       "100 mL Wasser, Ausgangstemperatur 25 °C.",
-      "8,4 g Hydrogencarbonat lösen sich — und müssen sich dafür Energie vom Wasser leihen.",
-      "Das Thermometer zeigt etwa 21 °C. Das Wasser ist kälter, weil es geliehen hat: Nichts wurde gekühlt, das Lösen selbst hat die Wärme genommen."
+      "Gib 8,4 g Hydrogencarbonat hinzu und beachte, dass das Modell des offenen Bechers Auflösung, Carbonatspeziation und Kohlendioxidaustausch gemeinsam bilanziert.",
+      "Lies die Abkühlung am Thermometer als vollständige adiabatische Energiebilanz ab, nicht als Auflösung allein oder als Vorhersage von Wärmeverlusten und Gasübertragungszeiten eines wirklichen Bechers."
     ],
     "cold-pack": [
       "100 mL Wasser, und das Thermometer beginnt bei Raumtemperatur.",
@@ -255,8 +255,45 @@
       "Ein zweites Becherglas.",
       "Dieselben 100 mL Wasser.",
       "Die doppelte Thiosulfatmenge — 1,58 g. Das ist das Einzige, was sich unterscheidet.",
-      "Wieder dieselbe Säure, in derselben Menge — das Einzige, was zwischen beiden konstant bleibt.",
-      "Zehn Sekunden vergehen, auf einer Uhr für beide. Das starke Becherglas hat doppelt so viel gelbe Trübung erzeugt wie das schwache: nicht ein bisschen mehr, sondern doppelt. Drängt man die Teilchen doppelt so eng, treffen sie sich doppelt so oft."
+      "Dieselbe Säuremenge gibt beiden Gefäßen denselben endlichen Vorrat an Protonenäquivalenten.",
+      "Vergleiche nach zehn Sekunden die Schwefelmengen: Doppeltes Thiosulfat verdoppelt bei gleicher Protonenaktivität die modellierte Anfangsrate, aber der Säureverbrauch verhindert eine automatische Verdopplung der Ausbeute nach endlicher Zeit."
+    ],
+    "endpoint-is-not-a-full-drop": [
+      "Das erste Gefäß erhält 200 mL Wasser für die Titration mit groben Suchschritten.",
+      "Gib 0,0023 mol Salzsäure hinzu, um die von der Base zu neutralisierende Stoffmenge festzulegen.",
+      "Die automatische Titration sucht mit 7-mL-Probezuschlägen nach pH 7 und verfeinert das letzte Suchintervall, statt den letzten Zuschlag vollständig zu übernehmen.",
+      "Lies den berechneten End-pH als Prüfung des numerischen Endpunkts ab, nicht als Aussage über die Unsicherheit einer wirklichen Bürette.",
+      "Erstelle ein zweites Gefäß für die Kontrolle mit kleineren Suchschritten.",
+      "Gib dieselben 200 mL Wasser hinein, damit die Lösungsmittelmenge gleich bleibt.",
+      "Gib dieselbe Säuremenge hinzu, sodass sich nur die Schrittweite der Titrationssuche unterscheidet.",
+      "Wiederhole die Berechnung mit derselben Maßlösungskonzentration und demselben pH-Ziel, aber mit 1-mL-Probezuschlägen.",
+      "Vergleiche diesen End-pH und das angegebene zugegebene Volumen mit dem groben Suchlauf, um Suchschrittweite und Endpunktauflösung auseinanderzuhalten."
+    ],
+    "equal-charge-different-clocks": [
+      "Gib dem ersten Gefäß 250 mL Wasser.",
+      "Gib Kaliumnitrat als Leitelektrolyt hinzu.",
+      "Führe bei 0,2 A für 60 Sekunden Ladung zu und beachte beide Elektrodenprodukte.",
+      "Erstelle ein zweites Gefäß als Kontrolle mit kleinerem Strom.",
+      "Verwende dieselbe Wassermenge.",
+      "Verwende dieselbe Elektrolytmenge.",
+      "Halbiere den Strom und verdopple die Dauer, sodass die zugeführte Ladung gleich bleibt.",
+      "Erstelle ein drittes Gefäß für eine aufgeteilte Zufuhr.",
+      "Gib dieselbe Wassermenge hinein.",
+      "Gib dieselbe Elektrolytmenge hinein.",
+      "Führe die erste Hälfte der Ladung beim ursprünglichen Strom zu.",
+      "Führe die zweite Hälfte zu und addiere ihre Produktion zur ersten, statt diese zu ersetzen.",
+      "Betrachte das erste Gefäß und bedenke, dass erzeugtes Gas ein offenes Gefäß verlassen kann.",
+      "Betrachte das zweite Gefäß und vergleiche die gesamte Elektrodenproduktion mit dem ersten Verlauf.",
+      "Betrachte das dritte Gefäß und vergleiche die Summe beider Pulse mit den anderen Zufuhren gleicher Ladung."
+    ],
+    "equilibrium-can-run-backward": [
+      "Beginne im ersten Gefäß mit 0,01 mol Essigsäure, einem Ausgangsstoff des Gleichgewichtsmodells.",
+      "Gib dieselbe Stoffmenge Ethanol als zweiten Ausgangsstoff hinzu.",
+      "Fordere die Gleichgewichtsberechnung für das ideale Gemisch an und achte auf Esterbildung, ohne den berechneten Reaktionsfortschritt als Reaktionsdauer zu deuten.",
+      "Erstelle ein zweites Gefäß, um dich demselben Gleichgewicht von der Produktseite zu nähern.",
+      "Gib 0,01 mol Wasser hinzu, das in der aufgeschriebenen Hinreaktion ein Produkt ist.",
+      "Gib dieselbe Stoffmenge Ethylacetat hinzu, sodass dieses Gefäß mit Ester und Wasser statt mit Säure und Alkohol beginnt.",
+      "Fordere dieselbe Gleichgewichtsberechnung an und vergleiche das Vorzeichen des Reaktionsfortschritts mit dem ersten Gefäß, wobei die Rückreaktion möglich ist, ohne vollständige Hydrolyse vorauszusetzen."
     ],
     "ethanol-and-water-mix": [
       "100 mL Wasser.",
@@ -289,6 +326,35 @@
       "Dieselben 1,2 g Magnesium.",
       "Direkt zünden, bei der Zündtemperatur der Werkbank.",
       "Das Thermometer zeigt rund sechshundert Grad mehr als beim ersten. Gleiche Reaktion, gleiche freigesetzte Energie; die vorher zugeführte Wärme ist beim Entzünden nicht verschwunden — eine Flammentemperatur ist eine Bilanz und keine Eigenschaft des Metalls."
+    ],
+    "grouping-does-not-change-water-heat": [
+      "Lass v1 als Endvorlage leer und erstelle das erste Wassergefäß.",
+      "Gib ein Mol Wasser als erste Portion hinein.",
+      "Führe dieser Portion 300 J fühlbare Wärme zu.",
+      "Erstelle ein Gefäß für die zweite Portion.",
+      "Gib zwei Mol Wasser hinein.",
+      "Entziehe dieser Portion 200 J.",
+      "Erstelle ein Gefäß für die dritte Portion.",
+      "Gib drei Mol Wasser hinein.",
+      "Führe dieser Portion 100 J zu.",
+      "Erstelle ein Zwischengefäß zum Mischen.",
+      "Vereinige die erste und zweite Portion vollständig, wobei Stoffmengen und Energie gemeinsam übertragen werden.",
+      "Vereinige diese Zwischenmischung mit der dritten Portion in v1.",
+      "Lies die Endtemperatur der ersten Gruppierung ab.",
+      "Erstelle das erste Gefäß eines gleichen zweiten Zweigs.",
+      "Gib dasselbe eine Mol Wasser hinein.",
+      "Führe dieselben 300 J zu.",
+      "Erstelle das Gefäß für die zweite Portion.",
+      "Gib dieselben zwei Mol Wasser hinein.",
+      "Entziehe dieselben 200 J.",
+      "Erstelle das Gefäß für die dritte Portion.",
+      "Gib dieselben drei Mol Wasser hinein.",
+      "Führe dieselben 100 J zu.",
+      "Erstelle das andere Zwischengefäß zum Mischen.",
+      "Vereinige diesmal zuerst die zweite und dritte Portion.",
+      "Erstelle eine Vorlage für die Endmischung des zweiten Zweigs.",
+      "Gib die erste Portion zu dieser Zwischenmischung, sodass alle sechs Mol und ihre Nettoenergie erhalten bleiben.",
+      "Vergleiche das abschließende Thermometer mit v1, nicht die unterschiedlichen Zwischentemperaturen."
     ],
     "half-neutralised-vinegar": [
       "Ein Liter Wasser.",
@@ -463,11 +529,11 @@
     "the-acid-is-never-used-up": [
       "100 mL Wasser.",
       "0,79 g Thiosulfat lösen sich.",
-      "Nur 0,002 mol Säure — merke dir diese Zahl, denn die Reaktion wird gleich weit mehr davon brauchen.",
-      "Jetzt den pH-Wert ablesen: 1,74858175066.",
-      "Zehn Minuten vergehen, und das Becherglas wird dick und gelb: Etwa 93 % des Thiosulfats sind zu Schwefel geworden.",
-      "Den pH-Wert erneut ablesen: 1,74858175066, dieselben zwölf Stellen. Nach der angegebenen Gleichung hätte dieser Umsatz rund 9 mmol Protonen gebraucht, im Becherglas waren 2. Ein echtes Becherglas wäre ohne Säure stehengeblieben — das ist eine dokumentierte Grenze des Modells, und sie zu kennen ist besser, als zufällig darauf zu stoßen.",
-      "Sieh dir an, was da ist: Der Schwefel ist echt, die Bilanz dazu ist es nicht."
+      "Der Vorrat von 0,002 mol Säure erlaubt höchstens 0,001 mol Schwefel, weil der ausgeglichene kinetische Schritt zwei Protonenäquivalente pro Schwefelatom verbraucht.",
+      "Notiere den berechneten Anfangs-pH und behalte den fehlenden Beitrag der Thiosulfatspeziation im Blick.",
+      "Warte zehn Minuten, während das begrenzte kinetische Modell den erfassten Säurevorrat verbraucht und die Protonenaktivität bei lokal festgehaltenem Aktivitätskoeffizienten senkt.",
+      "Lies den pH-Wert nach erneuter wässriger Gleichgewichtseinstellung ab, statt ihn allein aus der Säurekapazität abzuleiten.",
+      "Prüfe den Schwefelbestand an seiner stöchiometrischen Grenze und beachte, dass dieses verbrauchende Geschwindigkeitsmodell keine ungekoppelte Nachlieferung aus schwachen Säurepuffern bereitstellt."
     ],
     "the-acid-term-is-an-activity": [
       "100 mL Wasser in das erste Gefäß.",
@@ -481,7 +547,7 @@
       "Wieder dasselbe Wasser.",
       "Wieder dasselbe Thiosulfat.",
       "0,001 mol Säure — die Hälfte des Bezugswerts.",
-      "Eine Sekunde für alle drei. Die doppelte Säuremenge vervielfacht die Rate um 1,94, die halbe um 0,51 — nicht um 2 und 0,5: Das Geschwindigkeitsgesetz liest die vom Löser berechnete Acidität, und in einer gedrängten Lösung stehen sich Ionen gegenseitig im Weg, doppelt so viele drücken also nicht doppelt so stark."
+      "Vergleiche nach einer Sekunde die Schwefelmengen getrennt von den anfänglichen Protonenaktivitätsverhältnissen, denn das Modell beginnt mit berechneter Aktivität und verbraucht anschließend Säure bei lokal festgehaltenem Aktivitätskoeffizienten."
     ],
     "the-antacid-runs-on-arithmetic": [
       "100 mL Wasser, um darin die nachgestellte Magensäure anzusetzen.",
@@ -505,18 +571,18 @@
       "Noch einmal dasselbe Wasser.",
       "Die halbe Thiosulfatmenge.",
       "Und zum dritten Mal dieselbe Säure. Drei Bechergläser, ein Unterschied.",
-      "Vierundzwanzig Sekunden vergehen — die Zeit, die das stärkste Becherglas braucht, um ein daruntergelegtes Kreuz zu verdecken.",
-      "Sieh dir das mittlere Becherglas an: trüb, aber noch nicht verdeckend.",
-      "Sieh dir das starke an: trüb genug, um das Kreuz zu verbergen. Vierundzwanzig Sekunden.",
-      "Sieh dir das schwache an: kaum angefangen.",
+      "Warte vierundzwanzig Sekunden bis zur ersten Beobachtung, ohne dies als Zeitpunkt des verschwindenden Kreuzes vorauszusetzen.",
+      "Betrachte das Becherglas mittlerer Konzentration und notiere die vom Modell tatsächlich angegebene Trübung.",
+      "Betrachte das konzentriertere Becherglas zur selben Zeit, statt vorauszusetzen, dass es ein Kreuz verdeckt.",
+      "Betrachte das schwächere Becherglas, um den ersten Vergleich bei gleicher Zeit abzuschließen.",
       "Weitere fünfundzwanzig Sekunden.",
-      "Jetzt verdeckt auch das mittlere Becherglas sein Kreuz, nach neunundvierzig Sekunden — etwa die doppelte Zeit des starken bei halber Stärke.",
-      "Das starke ist noch weiter gekommen.",
-      "Das schwache wartet noch.",
+      "Betrachte das mittlere Becherglas nach neunundvierzig Sekunden und vergleiche es mit seinem früheren Zustand.",
+      "Betrachte das konzentriertere Becherglas und bedenke, dass eine schnellere Anfangsreaktion auch die Säure schneller verbraucht.",
+      "Betrachte das schwächere Becherglas, ohne einen festen Beobachtungszeitpunkt als Überschreiten einer optischen Schwelle zu deuten.",
       "Weitere vierundsechzig Sekunden.",
-      "Das mittlere Becherglas ist längst verdeckt.",
-      "Das starke ebenso.",
-      "Und das schwache verbirgt sein Kreuz zuletzt, nach hundertdreizehn Sekunden. Die Uhr ist hier das Messinstrument — beachte aber, dass sich die Zeiten nicht genau verdoppeln: Bis zur Ablesung hat jedes Becherglas schon einen Teil seines Thiosulfats verbraucht."
+      "Betrachte das mittlere Becherglas nach hundertdreizehn Sekunden, wobei die Schwefelbildung weiterhin durch die zugegebene Säure begrenzt bleibt.",
+      "Betrachte das konzentriertere Becherglas unter derselben Säurekapazitätsgrenze, unabhängig von seinem größeren Thiosulfatvorrat.",
+      "Betrachte zum Abschluss der Zeitreihe das schwächere Becherglas und bedenke, dass die Trübungsschwellen Lehrkonventionen sind und Warten keine fehlende Säure nachliefert."
     ],
     "the-daniell-cell-offers-its-voltage": [
       "100 mL Wasser für die Zink-Halbzelle.",
@@ -599,7 +665,7 @@
       "Dasselbe Wasser bei 55 °C.",
       "Dasselbe Thiosulfat.",
       "Und zum vierten Mal dieselbe Säure.",
-      "Zehn Sekunden auf einer Uhr für alle vier. Je zehn Grad verdoppeln den entstandenen Schwefel ungefähr — die Faktoren sind aber 1,90, dann 1,80, dann 1,69. Jeder Schritt bringt etwas weniger als der vorige: „Es verdoppelt sich“ ist eine nützliche Regel, kein Versprechen."
+      "Vergleiche nach zehn Sekunden die Schwefelmengen und unterscheide Arrhenius-Ratenverhältnisse von säurebegrenzten Ausbeuten nach endlicher Zeit, wobei Extrapolationen über den kalibrierten Temperaturbereich hinaus nicht unabhängig validiert sind."
     ],
     "theoretical-yield-and-what-a-real-lab-loses": [
       "500 mL Wasser.",
@@ -623,6 +689,15 @@
       "Ein tausendstel Gramm Katalase ist alles, was der dritte Kolben bekommt — ein Hunderttausendstel der Peroxidmasse.",
       "Eine Sekunde vergeht für alle drei. Der schlichte Kolben hat nichts getan, was die Werkbank melden würde, der Mangan-Kolben hat ein wenig zersetzt, und der Katalase-Kolben ist bereits fertig."
     ],
+    "three-components-one-cut": [
+      "Beginne im Ausgangsgefäß mit drei Mol Wasser.",
+      "Gib Methanol als eine flüchtige Komponente hinzu.",
+      "Gib Isopropanol als weitere Komponente hinzu, die die Berechnung nicht verwerfen darf.",
+      "Erstelle eine leere Vorlage für den berechneten Destillationsschnitt.",
+      "Entnimm ein Fünftel der gesamten Stoffmenge mit der offengelegten Näherung eines idealen Gemischs.",
+      "Betrachte den Rest im Ausgangsgefäß und behalte jede Komponente in der Bilanz.",
+      "Betrachte die Vorlage und addiere ihre Komponenten zu den verbliebenen Stoffmengen, ohne Anreicherung mit Reinheit zu verwechseln."
+    ],
     "two-beakers-and-one-clock": [
       "100 mL Wasser bei 25 °C in das erste Becherglas.",
       "0,79 g Thiosulfat, bei derselben Temperatur.",
@@ -632,11 +707,11 @@
       "Dasselbe Thiosulfat.",
       "Dieselbe Säure, in derselben Menge. Alles stimmt überein bis auf die zehn Grad.",
       "Zwanzig Sekunden vergehen — eine Uhr, beide Bechergläser, gemeinsam gestartet und gestoppt.",
-      "Sieh dir das kalte an: leicht trüb.",
-      "Sieh dir das warme an: deutlich trüb, fast doppelt so viel Schwefel. Sonst war nichts anders, also kann nichts anderes die Ursache sein.",
+      "Betrachte das kühlere Becherglas, um Schwefel und Trübung nach der gemeinsamen Wartezeit festzuhalten.",
+      "Betrachte das wärmere Becherglas zur selben Zeit, ohne eine doppelt so große Schwefelausbeute vorauszusetzen.",
       "Weitere zwanzig Sekunden auf derselben Uhr.",
-      "Das kalte Becherglas ist etwas langsamer geworden: Es hat weniger Thiosulfat übrig als am Anfang.",
-      "Und das warme ist stärker langsamer geworden, weil es mehr verbraucht hat. Ändere eines nach dem anderen, und der Vergleich sagt etwas aus; ändere zwei, und er sagt nichts — so sorgfältig man auch gemessen hat."
+      "Betrachte das kühlere Becherglas erneut, dessen weitere Rate sowohl vom übrigen Thiosulfat als auch von der übrigen Säure abhängt.",
+      "Betrachte das wärmere Becherglas erneut und vergleiche die Verläufe, denn eine gemeinsame Uhr hält weder ihre Raten noch ihre übrigen Reagenzienvorräte gleich."
     ],
     "two-paths-one-temperature": [
       "100 mL Wasser in das erste Becherglas.",

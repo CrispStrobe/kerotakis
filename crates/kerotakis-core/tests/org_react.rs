@@ -64,16 +64,22 @@ fn esterification_makes_the_ester_and_conserves_mass() {
         })
         .expect("an OrgReacted event");
     assert!(
-        (extent - 0.10).abs() < 1e-12,
-        "the acid limits: extent {extent}"
+        extent > 0.0 && extent < 0.10,
+        "equilibrium stops before the limiting reagent: {extent}"
     );
     let v = bench.vessel(VesselId(0)).unwrap();
     let moles_of = |key: &str| v.moles_of(&SpeciesId::new(key)).0;
-    assert!((moles_of("ethyl_acetate") - 0.10).abs() < 1e-12);
-    assert!((moles_of("water") - 0.10).abs() < 1e-12);
-    assert!(moles_of("CH3COOH") < 1e-12, "the acid is spent");
+    assert!((moles_of("ethyl_acetate") - extent).abs() < 1e-12);
+    assert!((moles_of("water") - extent).abs() < 1e-12);
+    assert!((moles_of("CH3COOH") - (0.10 - extent)).abs() < 1e-12);
+    let quotient =
+        moles_of("ethyl_acetate") * moles_of("water") / (moles_of("CH3COOH") * moles_of("ethanol"));
     assert!(
-        (moles_of("ethanol") - 0.05).abs() < 1e-12,
+        (quotient - 4.0).abs() < 1e-10,
+        "the equilibrium constant sets the yield, Q={quotient}"
+    );
+    assert!(
+        (moles_of("ethanol") - (0.15 - extent)).abs() < 1e-12,
         "the excess alcohol stays"
     );
     let after = mass_g(&bench);
@@ -95,6 +101,11 @@ fn the_round_trip_returns_the_alcohol() {
                 .unwrap(),
         )
         .unwrap();
+    let ester_made = bench
+        .vessel(VesselId(0))
+        .unwrap()
+        .moles_of(&SpeciesId::new("ethyl_acetate"))
+        .0;
     add(&mut bench, "NaOH", 0.10);
     let events = bench
         .step(
@@ -112,7 +123,10 @@ fn the_round_trip_returns_the_alcohol() {
         (moles_of("ethanol") - 0.10).abs() < 1e-12,
         "the alcohol came back"
     );
-    assert!((moles_of("NaOAc") - 0.10).abs() < 1e-12, "the acid's salt");
+    assert!(
+        (moles_of("NaOAc") - ester_made).abs() < 1e-12,
+        "each hydrolysed ester becomes the acid's salt"
+    );
     assert!(moles_of("ethyl_acetate") < 1e-12, "the ester is gone");
 }
 
@@ -120,6 +134,7 @@ fn the_round_trip_returns_the_alcohol() {
 fn a_missing_reactant_refuses_out_loud() {
     let mut bench = Bench::new();
     add(&mut bench, "ethanol", 0.10);
+    let before = serde_json::to_value(&bench.vessel(VesselId(0)).unwrap().contents).unwrap();
     let events = bench
         .step(
             script::parse_op("react v1 esterification")
@@ -134,9 +149,20 @@ fn a_missing_reactant_refuses_out_loud() {
     assert!(
         events.iter().any(|e| matches!(
             e,
-            Event::NotYetModeled { what, .. } if what.contains("CH3COOH")
+            Event::NotYetModeled {
+                cause: ops::NotModelledCause::NothingToActOn,
+                vessel: VesselId(0),
+                what,
+            } if what.contains("esterification")
+                && what.contains("neither forward nor reverse reactants provide capacity")
+                && what.contains("1e-12 mol no-conversion tolerance")
         )),
-        "the refusal names what is missing"
+        "the refusal identifies unavailable reaction capacity, not a model error or equilibrium"
+    );
+    assert_eq!(
+        before,
+        serde_json::to_value(&bench.vessel(VesselId(0)).unwrap().contents).unwrap(),
+        "refusing a feed with no available reaction direction must leave its inventory unchanged"
     );
 }
 
