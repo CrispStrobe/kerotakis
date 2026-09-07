@@ -127,7 +127,10 @@ describe("the periodic table's reagents", () => {
     // display only and is translated.
     const rendered = body();
     expect(rendered).toContain('data-key="NaCl"');
-    expect(rendered).toContain('class="add"');
+    // Unterminated on purpose, as every other rendered-markup assertion in
+    // this directory is: Svelte appends its scoping class to any element the
+    // component styles, so the attribute is `class="add svelte-…"`.
+    expect(rendered).toContain('class="add');
   });
 
   it("names the reagent in German while keeping its key and formula", () => {

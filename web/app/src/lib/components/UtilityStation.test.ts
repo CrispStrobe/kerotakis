@@ -42,7 +42,10 @@ afterEach(() => i18n.setLocale("en"));
 describe("the utility station's disposal", () => {
   it("offers disposal as a control, not as a paragraph", () => {
     const rendered = body();
-    expect(rendered).toContain('class="station waste"');
+    // Unterminated on purpose, as every other rendered-markup assertion in
+    // this directory is: Svelte appends its scoping class to any element the
+    // component styles, so the attribute is `class="station waste svelte-…"`.
+    expect(rendered).toContain('class="station waste');
     expect(rendered).toContain("<button");
     // The shape the other two stations have: a button, with the same
     // affordance chevron, rather than an <article> among buttons.
