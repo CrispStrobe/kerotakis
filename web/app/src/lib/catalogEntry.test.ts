@@ -333,7 +333,7 @@ describe("the shipped library", () => {
     const story = scripted.filter((entry) => entryLocked(entry.script!, new Set(), "story"));
     expect(story.length).toBeGreaterThan(50);
     // ...and it is progress, not a wall: meeting every concept opens it.
-    expect(scripted.filter((entry) => entryLocked(entry.script!, everything, "story"))).toEqual([]);
+    expect(scripted.filter((entry) => entryLocked(entry.script!, everything, "story")).map((entry) => entry.id)).toEqual([]);
   });
 });
 
