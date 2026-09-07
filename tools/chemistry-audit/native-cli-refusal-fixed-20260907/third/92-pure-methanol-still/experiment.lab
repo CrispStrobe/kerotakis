@@ -1,0 +1,6 @@
+# Does the multicomponent solver reduce to the pure-component normal-boiling and molar-cut limit?
+register lv3
+add v1 methanol 0.4mol
+new
+distil v1 v2 0.25
+inspect

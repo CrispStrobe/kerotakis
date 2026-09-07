@@ -1,0 +1,8 @@
+# Can one computed cut transport and conserve three volatile components?
+register lv3
+add v1 water 3mol
+add v1 methanol 0.3mol
+add v1 isopropanol 0.2mol
+new
+distil v1 v2 0.2
+inspect

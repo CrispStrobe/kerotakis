@@ -1,0 +1,7 @@
+# Does a known aqueous volatile with no reviewed still model cause atomic refusal rather than false pure-water distillation?
+register lv3
+add v1 water 3mol
+add v1 NH3 0.003mol
+new
+distil v1 v2 0.2
+inspect

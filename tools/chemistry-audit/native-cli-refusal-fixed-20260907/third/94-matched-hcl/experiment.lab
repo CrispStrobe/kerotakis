@@ -1,0 +1,6 @@
+# Does replacing HBr with equimolar HCl preserve dilute strong-acid pH?
+register lv3
+add v1 water 500mL
+add v1 HCl 0.0001mol
+measure v1 ph
+inspect

@@ -1,5 +1,56 @@
 # Safe integration review, 2026-09-07
 
+## Current handoff — 2026-09-07 09:12 UTC
+
+This section supersedes the historical checkpoints below. Work stays in
+`/mnt/volume1/kero-experiment-audit`, branch
+`audit/chemistry-experiments-20260906`; latest pushed implementation is
+`4be55cb6d029b3868e79a2f854fc249b55a22dcc`. PR #504 is not merged.
+
+Coordination boundary: the parallel integrator owns PR #497 GUI-003, KIDS
+procedure kits, standing adsorption/partition/osmosis readouts, live
+Catalog/StoryMap discovery, main sync, and shared planning-MD reconciliation.
+Do not edit/rebase/push those branches or files. Keep audit progress/history
+in this directory. No other worktree or process was changed for this handoff.
+GitHub status polls must be at least five minutes apart. Last status poll:
+2026-09-07 approximately 09:10:50 UTC; next no earlier than 09:16 UTC.
+Reading that completed run's failure logs is not a new status poll.
+
+Validated locally: original/second native fleets 86 runs and 164 scientific
+checks; native inventory 150/150; selected catalog 10 runs/30 checks; full
+catalog 110 entries; web 1,125 tests; phase fallback three tests; reviewed core
+lesson snapshot; atomic refusal two tests; native startup two tests; step
+prose ten tests. Native startup now fails closed if required PHREEQC cannot
+initialize; native experiment outputs already carried PHREEQC provenance.
+Core-only snapshots deliberately do not instantiate that native stack.
+
+Third-fleet discovery used one unchanged native binary: 36 runs, 173/174
+checks, native inventory 69/69. Its one physical defect (post-refusal solver
+mutation) is fixed and has passing focused tests. The rebuilt-binary replay
+in `native-cli-refusal-fixed-20260907` completed with 32 successful runs and
+four 90-second startup timeouts (91–94): 155 checks passed, ten unmet because
+those outputs were missing. Host load was approximately 89 during the issue;
+that is evidence of contention, not proof every timeout has that sole cause.
+This is not a clean full-fleet validation. Preserve both runs without waiving
+checks; retry in a fresh directory under usable execution conditions.
+
+CI run 34096877766 is complete **failure** (22 jobs completed). Failed jobs:
+Full preflight, browser demo, presentation adapters, native macOS and Linux.
+Failure logs identify repository provenance, codex/registry snapshots, README
+counts, German catalog count (110 actual versus 108 expected), withheld-phase
+diagnostics, aqueous provenance/routing, and ferric-chloride acidity assertions.
+These require review against the exact CI merge source; do not blindly bless
+snapshots or change scientific tolerances. Catalog/discovery and shared README
+changes may overlap the integrator's ownership: coordinate before touching
+those files. Full CI and any necessary current-base integration remain pending;
+no merge approval, force push, admin bypass, or claim of all-errors-fixed.
+
+Next audit work: diagnose remaining owned chemistry/provenance failures; review
+computed snapshot artifacts; obtain a clean rebuilt CLI fleet; then obtain
+fresh passing combined CI and coordinate safe integration. Do not independently
+reconcile main or shared planning files. No local builds/replay processes from
+this agent remain running at this handoff.
+
 The user requested checking CI, safely merging PR #504, then continuing.
 This review integrates main `3860e36f4fc0787946bc017518607d197fe5e7ba`
 into audit head `f33faa96ff1f5dcf4aa5d5ca5680e6dff2a934ad` before any

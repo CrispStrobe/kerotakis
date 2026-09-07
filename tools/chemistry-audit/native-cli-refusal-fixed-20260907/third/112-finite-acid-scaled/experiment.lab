@@ -1,0 +1,7 @@
+# Does scaling vessel and inventories preserve a kinetic trajectory per unit amount?
+register lv3
+add v1 water 1L
+add v1 HCl 0.01mol
+add v1 Na2S2O3 0.01mol
+wait 10s
+inspect

@@ -1,0 +1,6 @@
+# Does twice the charge double each gas amount while water remains in excess?
+register lv3
+add v1 water 250mL
+add v1 KNO3 0.001mol
+electrolyse v1 0.2A 120s
+inspect

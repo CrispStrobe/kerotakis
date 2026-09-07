@@ -1,0 +1,8 @@
+# Does scaling all three inventories tenfold scale the cut without changing its composition?
+register lv3
+add v1 water 30mol
+add v1 methanol 3mol
+add v1 isopropanol 2mol
+new
+distil v1 v2 0.2
+inspect

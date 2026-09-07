@@ -1,0 +1,16 @@
+# Does changing the parenthesization of three-water mixing preserve final temperature?
+register lv3
+add v1 water 1mol
+heat v1 300J
+new
+add v2 water 2mol
+cool v2 200J
+new
+add v3 water 3mol
+heat v3 100J
+new
+mix v2 1 v3 1 into v4
+new
+mix v1 1 v4 1 into v5
+measure v5 temp
+inspect

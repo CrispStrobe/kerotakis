@@ -1,0 +1,16 @@
+# Does a three-vessel acid/base/spectator MIX conserve equivalents and predict residual acidity?
+register lv3
+add v1 water 100mL
+add v1 HCl 0.002mol
+new
+add v2 water 200mL
+add v2 KOH 0.001mol
+new
+add v3 water 300mL
+add v3 NaNO3 0.001mol
+new
+mix v1 1 v2 1 into v4
+new
+mix v4 1 v3 1 into v5
+measure v5 ph
+inspect

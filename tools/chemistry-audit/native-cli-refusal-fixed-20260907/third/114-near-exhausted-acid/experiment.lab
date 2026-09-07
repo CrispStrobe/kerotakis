@@ -1,0 +1,7 @@
+# Can a long wait avoid manufacturing acid or sulfur beyond a tiny supplied acid capacity?
+register lv3
+add v1 water 100mL
+add v1 HCl 0.0001mol
+add v1 Na2S2O3 0.001mol
+wait 1000s
+inspect

@@ -1,0 +1,7 @@
+# Does dividing a charge delivery into two commands preserve cumulative Faraday products?
+register lv3
+add v1 water 250mL
+add v1 KNO3 0.001mol
+electrolyse v1 0.2A 30s
+electrolyse v1 0.2A 30s
+inspect

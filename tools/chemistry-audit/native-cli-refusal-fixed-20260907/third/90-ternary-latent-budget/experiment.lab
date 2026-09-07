@@ -1,0 +1,8 @@
+# Does an energy-limited ternary cut obey its explicitly latent-only 3 kJ budget?
+register lv3
+add v1 water 3mol
+add v1 methanol 0.3mol
+add v1 isopropanol 0.2mol
+new
+distil v1 v2 3kJ stages 2
+inspect

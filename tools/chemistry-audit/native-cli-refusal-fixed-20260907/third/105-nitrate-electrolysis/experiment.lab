@@ -1,0 +1,6 @@
+# Does an inert potassium nitrate electrolyte support Faraday-limited water electrolysis?
+register lv3
+add v1 water 250mL
+add v1 KNO3 0.001mol
+electrolyse v1 0.2A 60s
+inspect

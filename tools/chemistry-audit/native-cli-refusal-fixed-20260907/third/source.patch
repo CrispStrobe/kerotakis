@@ -1,0 +1,16 @@
+diff --git a/crates/kerotakis-core/tests/frozen_behavior.rs b/crates/kerotakis-core/tests/frozen_behavior.rs
+index 5826e868..a79a2793 100644
+--- a/crates/kerotakis-core/tests/frozen_behavior.rs
++++ b/crates/kerotakis-core/tests/frozen_behavior.rs
+@@ -63,7 +63,10 @@ fn snapshot_vessel(v: &Vessel) -> serde_json::Value {
+     snap
+ }
+ 
+-/// Run a lesson and return a snapshot of each vessel + all events.
++/// Run a lesson on the deliberately engine-free core bench and snapshot it.
++/// This pins core behavior and its honest capability boundaries, not the
++/// native CLI's complete chemistry stack. CLI integration tests and catalog
++/// replay exercise the same lessons with PHREEQC and the standard solvers.
+ fn run_lesson(path: &Path) -> serde_json::Value {
+     let content = fs::read_to_string(path).unwrap();
+     let mut bench = Bench::default();

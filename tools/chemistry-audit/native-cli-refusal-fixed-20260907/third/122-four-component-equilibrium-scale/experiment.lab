@@ -1,0 +1,8 @@
+# Does scaling all four initial amounts preserve the dimensionless equilibrium quotient and scaled extent?
+register lv3
+add v1 CH3COOH 0.001mol
+add v1 ethanol 0.002mol
+add v1 ethyl_acetate 0.0005mol
+add v1 water 0.0015mol
+react v1 esterification
+inspect
