@@ -69,12 +69,19 @@ fn assert_ledger(
             .abs()
             < 1e-12
     );
+    // The energy ledger is solved rather than evaluated now - every mix
+    // finds the temperature where the two sides' integrals cancel - so this
+    // one names its residue instead of asserting a bare inequality. A
+    // bracket run down to adjacent floats should leave `Cp` times an ulp per
+    // mix, far under this bound; anything larger is a defect and not a
+    // rounding, and the number is what tells the two apart.
+    let energy_residue = chain_before_energy + step.injected.sensible_energy().0
+        - chain.total_sensible_energy().0
+        - step.effluent.sensible_energy().0;
     assert!(
-        (chain_before_energy + step.injected.sensible_energy().0
-            - chain.total_sensible_energy().0
-            - step.effluent.sensible_energy().0)
-            .abs()
-            < 1e-8
+        energy_residue.abs() < 1e-8,
+        "sensible energy in minus sensible energy out must close: \
+         {energy_residue:e} J over {chain_before_energy} J held before the step",
     );
 }
 

@@ -112,19 +112,29 @@ fn heating_a_sealed_gas_raises_pressure_in_proportion_to_temperature() {
         .unwrap();
     let after = bench.vessel(vessel).unwrap();
     // The ledger integrates now, so the rectangle `50 J / Cv` and the answer
-    // differ by the curvature of Cv over the rise - about a hundredth of a
-    // kelvin for a gas over ten. Compare against the integral, and check
-    // separately that what it integrated was Cv and not Cp.
+    // differ by the curvature of Cv over the rise. Compare against the
+    // integral, and check separately that what it integrated was Cv and not
+    // Cp.
     let expected_temperature = before.temperature_after(50.0);
     assert!(
         (after.temperature.0 - expected_temperature).abs() < 1e-10,
         "a rigid gas uses Cv = Cp - R"
     );
+    // A litre of air is 0.041 mol and 0.85 J/K, so 50 J is a rise of nearly
+    // sixty kelvin, not the ten this bound was first written for. Air's Cp
+    // climbs about half a per cent over that span, so the integral lands a
+    // quarter of a per cent - 0.147 K - BELOW the room-temperature rectangle:
+    // a dose buys fewer degrees when the price per degree is rising. The
+    // bound is a fraction of the rise rather than a fixed number of kelvin,
+    // because that is the shape of the claim - the curve has not run away
+    // from the constant - and it is the only form that stays meaningful when
+    // the dose changes.
     let rectangle = before.temperature.0 + 50.0 / before.heat_capacity();
+    let rise = rectangle - before.temperature.0;
     assert!(
-        (after.temperature.0 - rectangle).abs() < 0.05,
+        (after.temperature.0 - rectangle).abs() < 0.01 * rise,
         "and the curve has not run away from the constant it replaced: \
-         {} against {rectangle}",
+         {} against {rectangle} over a rise of {rise}",
         after.temperature.0
     );
     let pressure_ratio = after.pressure.0 / before.pressure.0;
@@ -158,11 +168,15 @@ fn a_pressure_controller_expands_the_headspace_when_heated() {
         (after.temperature.0 - expected_temperature).abs() < 1e-10,
         "a moving constant-pressure boundary uses Cp"
     );
+    // The same claim, as the same fraction of the same kind of rise; a
+    // moving boundary spends Cp rather than Cv, so this vessel climbs less
+    // far for the same dose and the gap is smaller still.
     let rectangle = before.temperature.0 + 50.0 / before.heat_capacity();
+    let rise = rectangle - before.temperature.0;
     assert!(
-        (after.temperature.0 - rectangle).abs() < 0.05,
+        (after.temperature.0 - rectangle).abs() < 0.01 * rise,
         "and the curve has not run away from the constant it replaced: \
-         {} against {rectangle}",
+         {} against {rectangle} over a rise of {rise}",
         after.temperature.0
     );
     let (before_volume, after_volume) = (
@@ -231,8 +245,28 @@ fn trapped_air_takes_part_of_the_heat_that_an_open_liquid_keeps() {
         sealed_state.temperature.0 < open_state.temperature.0,
         "the same heat warms liquid plus trapped air less than open liquid"
     );
-    assert!((open_state.enthalpy().0 - 1_000.0).abs() < 1e-9);
-    assert!((sealed_state.enthalpy().0 - 1_000.0).abs() < 1e-9);
+    // Both vessels were dosed by inverting the very integral `enthalpy()`
+    // evaluates, so the round trip should close to the last float the
+    // bisection can reach - `Cp` times one ulp of the answer, which is
+    // picojoules here. Named residues rather than a bare `assert!`, so a
+    // machine that disagrees says by how much instead of costing a round
+    // trip to find out.
+    let open_residue = open_state.enthalpy().0 - 1_000.0;
+    let sealed_residue = sealed_state.enthalpy().0 - 1_000.0;
+    assert!(
+        open_residue.abs() < 1e-9,
+        "an open vessel's sensible energy is the heat it was given: \
+         {open_residue:e} J out at {} K over {} J/K",
+        open_state.temperature.0,
+        open_state.heat_capacity(),
+    );
+    assert!(
+        sealed_residue.abs() < 1e-9,
+        "and a sealed one's is too, spending Cv on the trapped air: \
+         {sealed_residue:e} J out at {} K over {} J/K",
+        sealed_state.temperature.0,
+        sealed_state.heat_capacity(),
+    );
     assert!(sealed_state.pressure.0 > Pascal::ATMOSPHERIC.0);
 }
 
