@@ -1302,7 +1302,7 @@ source = "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
 [reaction.setup]
 script = """
 add v1 Mg 1.2g
-heat v1 0.25kJ
+heat v1 0.26275kJ
 measure v1 thermometer
 new
 add v2 Mg 1.2g

@@ -6684,7 +6684,7 @@
         "gibbs-minimisation"
       ],
       "setup": {
-        "script": "add v1 Mg 1.2g\nheat v1 0.25kJ\nmeasure v1 thermometer\nnew\nadd v2 Mg 1.2g\nignite v2\nmeasure v2 thermometer\n"
+        "script": "add v1 Mg 1.2g\nheat v1 0.26275kJ\nmeasure v1 thermometer\nnew\nadd v2 Mg 1.2g\nignite v2\nmeasure v2 thermometer\n"
       },
       "expect": {
         "events": [
