@@ -14,6 +14,7 @@
     activityIntensity,
     adsorptionDarkening,
     autoignitionApproach,
+    unlitSmoke,
     bubbleRideLift,
     consumptionRemainder,
     corrosionBloom,
@@ -503,6 +504,9 @@
   // GUI-099 ANIM-7: the last six rows the audit still listed as missing.
   const flameStarvedEffect = $derived(latestEffect("flame-starve", 4600));
   const autoignitionEffect = $derived(latestEffect("below-autoignition", 4600));
+  // The audit's one row that could not be closed from the client: the
+  // engine now names WHICH absence, so there is something to draw.
+  const didNotIgniteEffect = $derived(latestEffect("did-not-ignite", 4200));
   const spikeEffect = $derived(latestEffect("spike", 5000));
   const solutePartitionEffect = $derived(latestEffect("solute-partition", 5000));
   const osmosisEffect = $derived(latestEffect("osmosis", 6000));
@@ -2415,6 +2419,46 @@
         <text x={INNER_X + INNER_W / 2} y="14" text-anchor="middle">−{formatReading(gap.gapK, 0)} K</text>
       </g>
     {/if}
+    {#if didNotIgniteEffect?.didNotIgnite}
+      <!-- GUI-099 ANIM-7: the row the audit left open, and the reason it
+           was open. `did_not_ignite` carried a vessel id and nothing
+           else, so there was no quantity for a visual to be a function
+           of and drawing anything would have been a picture of the word.
+           The engine now names the absence and the candidate fuel, and
+           only ONE of the four is drawable: a fuel that is merely too
+           cool gives off vapour, and the wisp is a function of how much
+           of it there is, thinned by how far short of catching it
+           stands. `no_fuel` draws nothing at all — a beaker of water has
+           no fuel to scale anything by — and neither does a smothered or
+           an unmodelled one. The reason rides on `data-reason` either
+           way, so the absence is still readable from the DOM when there
+           is deliberately no shape. -->
+      {@const absence = didNotIgniteEffect.didNotIgnite}
+      {@const smoke = unlitSmoke(absence.fuelMoles, absence.gapK, absence.reason)}
+      <g
+        class="did-not-ignite"
+        data-reason={absence.reason}
+        data-fuel-moles={absence.fuelMoles.toExponential(3)}
+        data-gap-k={absence.gapK.toFixed(1)}
+        data-oxygen-fraction={absence.oxygenFraction.toFixed(4)}
+        data-wisp={smoke.wisp.toFixed(3)}
+        data-drawn={smoke.draw ? "true" : "false"}
+        aria-label={smoke.draw
+          ? t("{fuel} did not catch: {gap} K short of the temperature it burns at", {
+              fuel: t(absence.fuel),
+              gap: formatReading(absence.gapK, 0),
+            })
+          : t("nothing ignited")}
+      >
+        {#if smoke.draw}
+          <path
+            class="unlit-wisp"
+            d={`M 50 16 q ${2 + smoke.wisp * 3} -4 0 -8 q ${-2 - smoke.wisp * 3} -4 0 -8`}
+            style={`opacity:${(0.12 + smoke.wisp * 0.43).toFixed(3)}; stroke-width:${(0.8 + smoke.wisp * 1.4).toFixed(2)}`}
+          />
+        {/if}
+      </g>
+    {/if}
     {#if spikeEffect?.nuclideSpike}
       <!-- GUI-099 ANIM-7: the tracer's opening activity — the number the
            Geiger will read — on a log ramp, because a becquerel is one
@@ -3356,6 +3400,10 @@
   .thermal-equilibrium.detached rect { stroke: var(--dim); stroke-dasharray: 2 1.5; }
   .thermal-equilibrium .equilibrium-boundary { fill: var(--dim); font-size: 3.5px; }
   .gap-track { fill: color-mix(in srgb, var(--surface) 70%, transparent); stroke: var(--edge); stroke-width: .4; }
+  /* Smoke, not flame: grey, thin, and never as bright as the guttering
+     flame above it, because nothing here is burning. */
+  .unlit-wisp { fill: none; stroke: var(--dim); stroke-linecap: round; animation: wisp-rise 3.4s ease-in-out infinite; }
+  @keyframes wisp-rise { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1.5px); } }
   .gap-fill { fill: var(--danger); opacity: .7; }
   .decay-tick { stroke: var(--instrument); stroke-width: .8; stroke-linecap: round; animation: decay-flash 1.1s ease-out infinite; }
   @keyframes decay-flash { from { opacity: .95; } to { opacity: 0; } }
@@ -3708,6 +3756,7 @@
        still rendered at its engine value; only the movement stops. */
     .absorb-bubble { animation: none; opacity: .7; }
     .partition-arrow { animation: none; opacity: .8; }
+    .unlit-wisp { animation: none; }
     .corrosion-bloom circle { animation: none; }
     .reaction-front { animation: none; opacity: .6; }
     .neutralise-mark { animation: none; opacity: .8; }

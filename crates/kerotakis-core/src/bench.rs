@@ -4,6 +4,7 @@
 use serde::{Deserialize, Serialize};
 
 use crate::authority::SpillDestination;
+use crate::combustion;
 use crate::instrument::InstrumentContract;
 use crate::material::{self, MaterialBasis, MaterialRecipe, MaterialRole};
 use crate::ops::{
@@ -930,7 +931,10 @@ impl Bench {
                     None if events
                         .iter()
                         .any(|event| matches!(event, Event::FlameStarved { .. })) => {}
-                    None => events.push(Event::DidNotIgnite { vessel: *vessel }),
+                    None => {
+                        let absence = self.ignition_absence(*vessel, &events);
+                        events.push(absence);
+                    }
                 }
             }
         }
@@ -941,6 +945,90 @@ impl Bench {
             events: events.clone(),
         });
         Ok(events)
+    }
+
+    /// The `DidNotIgnite` a vessel has earned, read off the vessel the
+    /// learner is left with.
+    ///
+    /// `ignite` puts the spark back out before this is called, so the
+    /// temperature here is the one on the bench and not the 1200 K the
+    /// middle of the step ran at — which is the whole reason a gap to an
+    /// autoignition point is a real number rather than always negative.
+    ///
+    /// Where `cea-thermal` has already said `BelowAutoignition` in this
+    /// same step, that event is believed over anything recomputed here:
+    /// it is the solver that declined, it named the fuel it declined for,
+    /// and two sentences about one vessel must not disagree about which
+    /// substance they are describing.
+    fn ignition_absence(&self, vessel: VesselId, events: &[Event]) -> Event {
+        use crate::ops::DidNotIgniteReason as Why;
+        let Ok(v) = self.vessel(vessel) else {
+            return Event::DidNotIgnite {
+                vessel,
+                reason: Why::NotModelled,
+                fuel: None,
+                fuel_moles: None,
+                oxygen_fraction: None,
+                gap_k: None,
+            };
+        };
+        let oxygen = combustion::oxygen_fraction(v);
+        let stated = events.iter().find_map(|event| match event {
+            Event::BelowAutoignition {
+                vessel: id,
+                fuel,
+                autoignition,
+                temperature,
+            } if *id == vessel => Some((fuel.clone(), autoignition.0 - temperature.0)),
+            _ => None,
+        });
+        if let Some((fuel, gap)) = stated {
+            let moles = v.moles_of(&fuel);
+            return Event::DidNotIgnite {
+                vessel,
+                reason: Why::BelowAutoignition,
+                fuel: Some(fuel),
+                fuel_moles: Some(moles),
+                oxygen_fraction: Some(oxygen),
+                gap_k: Some(gap.max(0.0)),
+            };
+        }
+        let Some(candidate) = combustion::ignition_candidate(v) else {
+            // Nothing in there is a fuel at all. The oxygen fraction is
+            // still a true reading of the vessel and still worth carrying
+            // — it is what says a beaker of water sat in ordinary air —
+            // but there is no gap to anything and nothing to draw.
+            return Event::DidNotIgnite {
+                vessel,
+                reason: Why::NoFuel,
+                fuel: None,
+                fuel_moles: None,
+                oxygen_fraction: Some(oxygen),
+                gap_k: None,
+            };
+        };
+        let gap = candidate.autoignition_k - v.temperature.0;
+        // A vessel open to the room always has the room's air, so the
+        // oxygen reading can only condemn a boundary that owns its gas.
+        let starved = oxygen < combustion::LIMITING_OXYGEN_FRACTION;
+        let reason = if starved {
+            Why::NoOxygen
+        } else if gap > 0.0 {
+            Why::BelowAutoignition
+        } else {
+            // Fuel, air, and hot enough on paper — and a solver looked and
+            // burned none of it. The bench does not know why, and says so
+            // rather than inventing the fourth reason.
+            Why::NotModelled
+        };
+        Event::DidNotIgnite {
+            vessel,
+            reason,
+            fuel: Some(candidate.fuel),
+            fuel_moles: Some(candidate.moles),
+            oxygen_fraction: Some(oxygen),
+            gap_k: (reason == Why::BelowAutoignition).then_some(gap),
+        }
     }
 
     /// Offer what is left of a heat dose, pass by pass, until the vessel
@@ -2272,7 +2360,18 @@ impl Bench {
             Operator::Ignite { vessel } => {
                 let v = self.vessel_mut(*vessel)?;
                 if v.is_empty() {
-                    events.push(Event::DidNotIgnite { vessel: *vessel });
+                    // Nothing there is nothing to describe: no candidate,
+                    // no gas to take an oxygen fraction of, no gap to any
+                    // temperature. `NoFuel` with every reading absent is
+                    // the honest shape of an empty beaker.
+                    events.push(Event::DidNotIgnite {
+                        vessel: *vessel,
+                        reason: crate::ops::DidNotIgniteReason::NoFuel,
+                        fuel: None,
+                        fuel_moles: None,
+                        oxygen_fraction: None,
+                        gap_k: None,
+                    });
                 } else {
                     // A match brings a small volume to flame temperature.
                     // Whether anything catches is for the solvers to say;

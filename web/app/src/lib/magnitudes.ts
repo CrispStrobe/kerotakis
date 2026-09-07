@@ -472,6 +472,33 @@ export interface AutoignitionGapRun {
   gapK: number;
 }
 
+/**
+ * Why an ignition source found nothing to take. Mirrors the engine's
+ * `DidNotIgniteReason`, snake_case as it arrives on the wire.
+ */
+export type DidNotIgniteReason =
+  | "no_fuel"
+  | "no_oxygen"
+  | "below_autoignition"
+  | "not_modelled";
+
+/**
+ * A flame held to a vessel, and nothing. The audit's last open row: the
+ * event carried a vessel id and nothing else, so there was no quantity
+ * for a visual to be a function of. `reason` says which absence this is
+ * and `fuelMoles` is what the one drawable absence scales by; `gapK` is
+ * how far short of catching the candidate stands, and is 0 wherever the
+ * reason is not the temperature.
+ */
+export interface DidNotIgniteRun {
+  reason: DidNotIgniteReason;
+  /** Empty where there was no candidate at all — the `no_fuel` case. */
+  fuel: string;
+  fuelMoles: number;
+  oxygenFraction: number;
+  gapK: number;
+}
+
 /** A radionuclide tracer's opening activity — what the Geiger will read. */
 export interface NuclideSpikeRun {
   nuclide: string;
@@ -706,6 +733,8 @@ export interface Effect {
   flameStarved?: FlameStarvedRun;
   /** Engine-computed distance to autoignition, for the gap bar. */
   autoignitionGap?: AutoignitionGapRun;
+  /** Engine-named absence, for the wisp over a fuel that did not take. */
+  didNotIgnite?: DidNotIgniteRun;
   /** Engine-computed opening activity, for the tracer ticks. */
   nuclideSpike?: NuclideSpikeRun;
   /** Engine-computed solute split, for the dots across the two layers. */
@@ -1294,6 +1323,47 @@ export function autoignitionApproach(
 }
 
 /**
+ * The wisp over a fuel a flame was held to and did not take.
+ *
+ * The audit's one open row. `did_not_ignite` used to carry a vessel id
+ * and nothing else, so there was no quantity for a visual to be a
+ * function of and the honest thing was to draw nothing at all. It now
+ * carries the candidate fuel, how much of it there is and the gap to the
+ * temperature it would light at, and this is the only mapping that reads
+ * them.
+ *
+ * Two rules, and both are about NOT drawing:
+ *
+ * - `no_fuel` draws nothing, ever. A beaker of water has no fuel to
+ *   scale anything by, and a wisp over it would invent a substance.
+ * - `no_oxygen` and `not_modelled` draw nothing either. Smoke means a
+ *   warm fuel giving off vapour; a smothered one is not warm and an
+ *   unmodelled one is not known.
+ *
+ * That leaves `below_autoignition`, where the wisp is a function of the
+ * fuel moles on a log ramp — a milligram of wax and a block of it are
+ * not the same non-event — and is thinned by the gap, because something
+ * 400 K short of catching is not visibly doing anything and something
+ * 20 K short is about to.
+ */
+export function unlitSmoke(
+  fuelMoles: number,
+  gapK: number,
+  reason: string,
+): { draw: boolean; wisp: number } {
+  const moles = Number.isFinite(fuelMoles) ? Math.max(0, fuelMoles) : 0;
+  const gap = Number.isFinite(gapK) ? Math.max(0, gapK) : 0;
+  if (reason !== "below_autoignition" || moles <= 0) return { draw: false, wisp: 0 };
+  // A milligram is barely there and a mole is a full wisp; below a
+  // microgram-scale amount there is nothing to see and the ramp floors.
+  const amount = scale(Math.log10(moles), -6, 0);
+  // 500 K short is cold and still, 0 K short is on the point of
+  // catching. Never zero while there IS fuel: the ramp only ever thins.
+  const nearness = 0.25 + 0.75 * (1 - scale(gap, 0, 500));
+  return { draw: true, wisp: Math.min(1, amount * nearness) };
+}
+
+/**
  * How busy a tracer's opening activity reads.
  *
  * Logarithmic over the range a school tracer spans — a becquerel is one
@@ -1769,6 +1839,33 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
           autoignitionK,
           temperatureK,
           gapK: gap.gapK,
+        },
+      };
+    }
+    case "did_not_ignite": {
+      // The audit's one open row, closed. Everything here is optional on
+      // the wire and every default is the one that draws nothing: an
+      // event from before these fields existed reads as `not_modelled`
+      // with no fuel, which is exactly as much as it knew.
+      const reason = String(e.reason ?? "not_modelled") as DidNotIgniteReason;
+      const fuelMoles = Math.max(0, Number(e.fuel_moles ?? 0));
+      const gapK = Math.max(0, Number(e.gap_k ?? 0));
+      const oxygenFraction = Math.max(0, Number(e.oxygen_fraction ?? 0));
+      const smoke = unlitSmoke(fuelMoles, gapK, reason);
+      return {
+        kind: "did-not-ignite",
+        at: now,
+        durationMs: 4200,
+        magnitude: smoke.wisp,
+        species: String(e.fuel ?? ""),
+        reading: fuelMoles,
+        unit: "mol",
+        didNotIgnite: {
+          reason,
+          fuel: String(e.fuel ?? ""),
+          fuelMoles,
+          oxygenFraction,
+          gapK,
         },
       };
     }
