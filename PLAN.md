@@ -1642,20 +1642,75 @@ are a sliver of school chemistry, while redox and rates are enormous
 blocks, and both are *already most of the way there* underneath. Phase
 behaviour returns when the school-facing layers are covered.
 
-#### P3s — States, freezing and boiling  ← **first, it is a correctness bug**
+#### P3s — States, freezing and boiling  ← closed, 2026-09-07
 
-- [ ] The bench happily reports **liquid water at −7.95 °C with a pH**. It
-      has no model of state at all: `Phase` is assigned when matter is
-      added and never reconsidered, so cooling a beaker past its freezing
-      point changes nothing but the number on the thermometer.
-- [ ] Melting/boiling points per species from the registry; the solvent
-      state re-evaluated whenever temperature changes.
-- [ ] **Colligative properties fall straight out** and are core curriculum:
-      freezing-point depression and boiling-point elevation from the
-      computed ionic strength — salt on icy roads, why seawater freezes
-      below 0 °C. PHREEQC gives us the osmotic coefficient already.
-- [ ] Honest boundary: a frozen or boiling vessel is a state the aqueous
-      solver does not model, and must say so rather than keep answering.
+All four items are done; see `HISTORY.md` for what each one taught. The
+last of them is worth restating here because it is a rule rather than a
+feature: **a vessel whose solvent is not a settled liquid does not report a
+solution.** Ice has no pH. A beaker on the boil has no *settled* pH,
+because solvent is leaving while the reading is taken and every molality
+the engine solved for belongs to a composition that has already changed.
+`solve::SolventState` is where that is decided, the honesty pass is where
+it is said, and the readout is withdrawn in the same breath so the meter
+cannot contradict the sentence.
+
+Two boundaries the closing tranche wrote down rather than crossed, both in
+`phase_route.rs`:
+
+- **A boil is only given to a species the registry carries as a liquid.**
+  `condensation_partner` can find a vapour's way back only for those, so a
+  boil given to a standard-phase solid — iodine, naphthalene, molten zinc —
+  would be one-way, and a transition this bench pays for has to run both
+  directions. Those substances melt and do not boil.
+- **No metal boils.** Zinc's 1180 K boiling point is inside a Bunsen's
+  reach and zinc fume is a named hazard, so it wants its own tranche with
+  its own safety row.
+
+Open, and small:
+
+- [ ] `paraffin` still carries no melting point. The note giving the
+      reason has been corrected — it used to blame the state model for
+      covering nothing but water, which has stopped being true — and the
+      real obstacle is now written down instead: a candle blend spanning
+      C20 to C40 softens across roughly 46–68 °C rather than melting at a
+      point, and `PhaseTransitions` has five temperatures and no slot for
+      a RANGE. Give it one, and the wax melts.
+- [ ] **The colligative relation is the DILUTE-solution law, used where it
+      is about nine per cent optimistic.** One molal brine comes out at
+      −3.72 °C against a real −3.4. The particle count is not the problem
+      and must not be blamed for it: the speciation is asked how many
+      particles there are, and for NaCl the answer really is two, because
+      no shipped database defines an aqueous NaCl ion pair. What is
+      missing is the solvent's activity — a textbook's i ≈ 1.85 is that
+      correction wearing the particle count's clothes. This item's
+      original text already named the fix: "PHREEQC gives us the osmotic
+      coefficient already." Pinned from both ends in
+      `colligative_numbers.rs` so it cannot be narrowed away quietly.
+- [ ] **Is a boil a curated route or a computed one?**
+      `PhaseRouteEquilibrator` declares `SolverRouteKind::Curated`, which
+      was right when sublimation and hydrates were its only customers —
+      there the curated record IS the answer. Now that it melts and boils,
+      what it produces is arithmetic over a curated parameter, which is
+      exactly the shape `CombustionEquilibrator` has and that one declares
+      itself `Computed`. Twenty corpus rows moved `computed -> curated` on
+      this alone, and `th-017` ("can ethanol boil before water?") now reads
+      as an expectation mismatch for having been answered better. Changing
+      the kind would move the sublimation and hydrate rows the other way,
+      so it wants its own measurement rather than a rider on someone
+      else's.
+- [ ] No tin and no glycerol in the registry at all. Tin at 232 °C is the
+      soldering-iron melting point a learner is most likely to have met.
+- [ ] The latent heats live in `phase_route.rs` as curated Rust tables
+      rather than in the registry, which is where the temperatures they
+      pair with live. `kerotakis_data::schema::PhaseProperty` already
+      declares `EnthalpyOfFusion` and `EnthalpyOfVaporisation`, both
+      dimension-checked and both unused, so the schema is not what is
+      stopping it — only the build script, the runtime loader, the export
+      crate and their fidelity tests. Worth doing now that the claim is
+      twenty-five rows rather than two. (`loader_fidelity.rs` compares
+      eighteen fields and silently omits `transitions` and
+      `aqueous_solubility_g_per_100_ml_at_100c`; fix that in the same
+      pass, or the new fields will be unpinned the same way.)
 
 #### P3e — Redox and electrochemistry  ← the biggest missing curriculum block
 

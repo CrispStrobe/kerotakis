@@ -313,30 +313,205 @@ fn release_gas(vessel: &mut Vessel, species: SpeciesId, moles: Moles, events: &m
 /// with the colligative shifts `states.rs` computes on top, and two
 /// solvers moving the same ice would be a bug rather than a redundancy.
 /// This table is for the substances that model was never about.
-pub const FUSION_ENTHALPIES: &[LatentHeat] = &[LatentHeat {
-    species: "ethanol",
-    // 4.93 kJ/mol at the 159.01 K melting point already in the registry.
-    kj_per_mol: 4.93,
-    provenance: "Ethanol enthalpy of fusion 4.93 kJ/mol at its normal melting point: NIST Chemistry WebBook, SRD 69, ethanol (CAS 64-17-5), phase-change data, https://webbook.nist.gov/cgi/cbook.cgi?ID=C64175&Mask=4. The value is roughly a fifth of water's 6.01 kJ/mol per mole and about a ninth per gram, which is why a small pour of liquid nitrogen can freeze ethanol but would barely dent the same mass of water",
-}];
+///
+/// ## Why the table is no longer one row
+///
+/// It used to be one, and the comment beside it said the shortness was the
+/// point: a row here is a deliberate act, because [`Ledger`] turns it into
+/// a plateau on a thermometer. That has not changed. What changed is the
+/// claim the shortness was protecting — that the bench models water's
+/// transitions and nobody else's — which PLAN P3s lists as a correctness
+/// bug rather than a boundary. A bench that holds a crucible of lead at
+/// 700 K and calls it solid is making the same mistake as the one that
+/// reported liquid water at −7.95 °C: it is returning the absence of a
+/// model as an observation.
+///
+/// So the route below is now general over the registry's own reviewed
+/// melting points, and this table is what decides which of them the bench
+/// will actually pay for. Every row is a substance whose melting a learner
+/// can reach: the organic liquids a freezing mixture solidifies, the wax-
+/// like solid a cooling curve is drawn on, the metals a flame can cast,
+/// and the two alkali halides whose molten state is a different substance
+/// from their solution.
+pub const FUSION_ENTHALPIES: &[LatentHeat] = &[
+    LatentHeat {
+        species: "ethanol",
+        // 4.93 kJ/mol at the 159.01 K melting point already in the registry.
+        kj_per_mol: 4.93,
+        provenance: "Ethanol enthalpy of fusion 4.93 kJ/mol at its normal melting point: NIST Chemistry WebBook, SRD 69, ethanol (CAS 64-17-5), phase-change data, https://webbook.nist.gov/cgi/cbook.cgi?ID=C64175&Mask=4. The value is roughly a fifth of water's 6.01 kJ/mol per mole and about a ninth per gram, which is why a small pour of liquid nitrogen can freeze ethanol but would barely dent the same mass of water",
+    },
+    LatentHeat {
+        species: "methanol",
+        // 3.18 kJ/mol at the 175.62 K melting point in the registry.
+        kj_per_mol: 3.18,
+        provenance: "Methanol enthalpy of fusion 3.18 kJ/mol at its normal melting point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance.",
+    },
+    LatentHeat {
+        species: "propanone",
+        // 5.69 kJ/mol at the 178.45 K melting point in the registry.
+        kj_per_mol: 5.69,
+        provenance: "Propanone (acetone) enthalpy of fusion 5.69 kJ/mol at its normal melting point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance.",
+    },
+    LatentHeat {
+        species: "isopropanol",
+        // 5.37 kJ/mol at the 185.25 K melting point in the registry.
+        kj_per_mol: 5.37,
+        provenance: "Propan-2-ol enthalpy of fusion 5.37 kJ/mol at its normal melting point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance.",
+    },
+    LatentHeat {
+        species: "hexane",
+        // 13.08 kJ/mol at the 177.88 K melting point in the registry.
+        kj_per_mol: 13.08,
+        provenance: "Hexane enthalpy of fusion 13.08 kJ/mol at its normal melting point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance.",
+    },
+    LatentHeat {
+        species: "ethyl_acetate",
+        // 10.48 kJ/mol at the 189.55 K melting point in the registry.
+        kj_per_mol: 10.48,
+        provenance: "Ethyl acetate enthalpy of fusion 10.48 kJ/mol at its normal melting point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance.",
+    },
+    LatentHeat {
+        species: "CH3COOH",
+        // 11.73 kJ/mol at the 289.75 K melting point in the registry.
+        kj_per_mol: 11.73,
+        provenance: "Acetic acid enthalpy of fusion 11.73 kJ/mol at its 289.75 K melting point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance. This is the row that makes \"glacial\" mean something: pure acetic acid at 16.6 degrees Celsius is a solid, and a cold laboratory really does freeze the bottle. It says nothing about vinegar, which is acetic acid dissolved in water and freezes on the solvent's depressed point instead",
+    },
+    LatentHeat {
+        species: "naphthalene",
+        // 19.01 kJ/mol at the 353.4 K melting point in the registry.
+        kj_per_mol: 19.01,
+        provenance: "Naphthalene enthalpy of fusion 19.01 kJ/mol at its 353.4 K melting point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance. Naphthalene is the substance school cooling-curve experiments are actually run on, because the plateau sits in a water bath's reach. No enthalpy of vaporisation is claimed for it here: its 491 K boiling point is outside what that experiment goes near, and a row would install a boil this tranche has not checked",
+    },
+    LatentHeat {
+        species: "Pb",
+        // 4.77 kJ/mol at the 600.61 K melting point in the registry.
+        kj_per_mol: 4.77,
+        provenance: "Lead enthalpy of fusion 4.77 kJ/mol at its 600.61 K melting point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance.",
+    },
+    LatentHeat {
+        species: "Zn",
+        // 7.32 kJ/mol at the 692.68 K melting point in the registry.
+        kj_per_mol: 7.32,
+        provenance: "Zinc enthalpy of fusion 7.32 kJ/mol at its 692.68 K melting point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance.",
+    },
+    LatentHeat {
+        species: "Mg",
+        // 8.48 kJ/mol at the 923.15 K melting point in the registry.
+        kj_per_mol: 8.48,
+        provenance: "Magnesium enthalpy of fusion 8.48 kJ/mol at its 923.15 K melting point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance.",
+    },
+    LatentHeat {
+        species: "Al",
+        // 10.71 kJ/mol at the 933.47 K melting point in the registry.
+        kj_per_mol: 10.71,
+        provenance: "Aluminium enthalpy of fusion 10.71 kJ/mol at its 933.47 K melting point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance.",
+    },
+    LatentHeat {
+        species: "Ag",
+        // 11.28 kJ/mol at the 1234.93 K melting point in the registry.
+        kj_per_mol: 11.28,
+        provenance: "Silver enthalpy of fusion 11.28 kJ/mol at its 1234.93 K melting point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance.",
+    },
+    LatentHeat {
+        species: "Cu",
+        // 13.26 kJ/mol at the 1357.77 K melting point in the registry.
+        kj_per_mol: 13.26,
+        provenance: "Copper enthalpy of fusion 13.26 kJ/mol at its 1357.77 K melting point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance.",
+    },
+    LatentHeat {
+        species: "Fe",
+        // 13.81 kJ/mol at the 1811.15 K melting point in the registry.
+        kj_per_mol: 13.81,
+        provenance: "Iron enthalpy of fusion 13.81 kJ/mol at its 1811.15 K melting point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance. A laboratory Bunsen tops out at 1773.15 K (crate::apparatus::BUNSEN_CEILING_K), forty kelvin short of this, so the bench melts lead, zinc, aluminium, silver and copper over a flame and declines to melt iron. That is not a gap in the table; it is the reason a blacksmith needs a forge",
+    },
+    LatentHeat {
+        species: "NaCl",
+        // 28.16 kJ/mol at the 1073.85 K melting point in the registry.
+        kj_per_mol: 28.16,
+        provenance: "Sodium chloride enthalpy of fusion 28.16 kJ/mol at its 1073.85 K melting point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance. Molten salt, not brine: this is the state a Downs cell electrolyses, and it is a different substance from the solution every other salt row on this bench is about",
+    },
+    LatentHeat {
+        species: "KCl",
+        // 26.28 kJ/mol at the 1044.15 K melting point in the registry.
+        kj_per_mol: 26.28,
+        provenance: "Potassium chloride enthalpy of fusion 26.28 kJ/mol at its 1044.15 K melting point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance.",
+    },
+];
 
 /// Enthalpies of vaporisation at the normal boiling point.
 ///
-/// Also deliberately short, and for a sharper reason than the fusion
-/// table's: this bench has no boiling route for an ordinary liquid at
-/// all. Ethanol above 78 °C is not modelled here and is not modelled
-/// anywhere else either — `states.rs` boils water and nothing boils
-/// anything else. Giving ethanol a row would silently install a general
-/// boiling route through the back door of a cryogen tranche, so it does
-/// not get one. What IS here is the one substance whose *whole point* is
-/// that it boils: a cryogen, which is a liquid only because it is cold
-/// and is otherwise a gas the registry already ships.
-pub const VAPORISATION_ENTHALPIES: &[LatentHeat] = &[LatentHeat {
-    species: "liquid_nitrogen",
-    // 5.6 kJ/mol at 77 K, at the precision displayed by NIST SRD 69.
-    kj_per_mol: 5.6,
-    provenance: "Nitrogen enthalpy of vaporisation 5.6 kJ/mol at 77 K: NIST Chemistry WebBook, SRD 69, nitrogen (CAS 7727-37-9), phase-change data, https://webbook.nist.gov/cgi/cbook.cgi?ID=C7727379&Mask=4. It is about a fourteenth of water's 40.65 kJ/mol per mole, which is why liquid nitrogen boils away rapidly",
-}];
+/// This table used to hold one row, liquid nitrogen, and refused ethanol
+/// on the ground that "giving ethanol a row would silently install a
+/// general boiling route through the back door of a cryogen tranche".
+/// The route is no longer installed silently or through a back door: PLAN
+/// P3s asks for it in as many words, and ethanol standing liquid at 200 °C
+/// because nothing would boil it is exactly the dishonesty that item
+/// names. The row is given, and the reason is written down here.
+///
+/// **Only liquids get a row, and that is a constraint rather than an
+/// oversight.** [`condensation_partner`] can find a vapour's way back to
+/// the flask only for a species the registry carries with
+/// `standard_phase == Liquid`, so a boil given to a standard-phase solid —
+/// iodine, naphthalene, molten zinc — would be one-way: the vapour could
+/// leave a sealed vessel's liquid behind and never come back on cooling.
+/// A transition this bench pays for has to run in both directions or the
+/// ledger is not a ledger, so those substances melt here and do not boil,
+/// and a reader who wants to know why is reading it.
+///
+/// **No metal boils here either**, for the same reason plus a sharper one:
+/// zinc's 1180 K boiling point is inside a Bunsen's reach and zinc fume is
+/// a real hazard with a real name, so it is a claim that wants its own
+/// tranche and its own safety row rather than a line in this one.
+pub const VAPORISATION_ENTHALPIES: &[LatentHeat] = &[
+    LatentHeat {
+        species: "liquid_nitrogen",
+        // 5.6 kJ/mol at 77 K, at the precision displayed by NIST SRD 69.
+        kj_per_mol: 5.6,
+        provenance: "Nitrogen enthalpy of vaporisation 5.6 kJ/mol at 77 K: NIST Chemistry WebBook, SRD 69, nitrogen (CAS 7727-37-9), phase-change data, https://webbook.nist.gov/cgi/cbook.cgi?ID=C7727379&Mask=4. It is about a fourteenth of water's 40.65 kJ/mol per mole, which is why liquid nitrogen boils away rapidly",
+    },
+    LatentHeat {
+        species: "ethanol",
+        // 38.56 kJ/mol at the 351.39 K boiling point in the registry.
+        kj_per_mol: 38.56,
+        provenance: "Ethanol enthalpy of vaporisation 38.56 kJ/mol at its normal boiling point: NIST Chemistry WebBook, SRD 69, ethanol (CAS 64-17-5), phase-change data, https://webbook.nist.gov/cgi/cbook.cgi?ID=C64175&Mask=4. Against water's 40.65 kJ/mol it is nearly the same per mole and less than half per gram, which is why a spirit burner empties so much faster than a kettle",
+    },
+    LatentHeat {
+        species: "methanol",
+        // 35.21 kJ/mol at the 337.85 K boiling point in the registry.
+        kj_per_mol: 35.21,
+        provenance: "Methanol enthalpy of vaporisation 35.21 kJ/mol at its normal boiling point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance.",
+    },
+    LatentHeat {
+        species: "propanone",
+        // 29.10 kJ/mol at the 329.25 K boiling point in the registry.
+        kj_per_mol: 29.10,
+        provenance: "Propanone (acetone) enthalpy of vaporisation 29.10 kJ/mol at its normal boiling point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance.",
+    },
+    LatentHeat {
+        species: "isopropanol",
+        // 39.85 kJ/mol at the 355.35 K boiling point in the registry.
+        kj_per_mol: 39.85,
+        provenance: "Propan-2-ol enthalpy of vaporisation 39.85 kJ/mol at its normal boiling point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance.",
+    },
+    LatentHeat {
+        species: "hexane",
+        // 28.85 kJ/mol at the 341.88 K boiling point in the registry.
+        kj_per_mol: 28.85,
+        provenance: "Hexane enthalpy of vaporisation 28.85 kJ/mol at its normal boiling point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance.",
+    },
+    LatentHeat {
+        species: "ethyl_acetate",
+        // 31.94 kJ/mol at the 350.21 K boiling point in the registry.
+        kj_per_mol: 31.94,
+        provenance: "Ethyl acetate enthalpy of vaporisation 31.94 kJ/mol at its normal boiling point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance.",
+    },
+    LatentHeat {
+        species: "CH3COOH",
+        // 23.70 kJ/mol at the 391.05 K boiling point in the registry.
+        kj_per_mol: 23.70,
+        provenance: "Acetic acid enthalpy of vaporisation 23.70 kJ/mol at its normal boiling point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance. The number looks too small for a hydrogen-bonded liquid and the reason is chemistry rather than error: acetic acid vapour is largely the cyclic dimer, so half the hydrogen bonds survive the boil and are never paid for. This bench releases the vapour as monomeric CH3COOH because that is the only acetic acid the registry carries, and the dimer is not modelled",
+    },
+];
 
 /// The enthalpy of fusion of a substance, J/mol, or `None` where this
 /// bench claims none — which for a solvent means its own model owns it.

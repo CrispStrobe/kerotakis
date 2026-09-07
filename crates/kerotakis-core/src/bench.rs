@@ -2438,6 +2438,18 @@ impl Bench {
                             }
                         }
                     }
+                    // Said from here, and not from the honesty pass, and
+                    // the reason is evidence rather than tidiness. "There
+                    // is no water and something is still filed as
+                    // dissolved" looks like a stranded solution and is
+                    // not always one: a kneaded dough holds its water in
+                    // the flour matrix and pours NONE into the beaker, so
+                    // a fermentation product filed aqueous beside it
+                    // would trip that test with nothing wrong. What makes
+                    // the claim safe is knowing the water LEFT, and only
+                    // the two places that removed it know that. This is
+                    // one of them; `solve::StateEquilibrator`'s boiling
+                    // branch is the other, and it says the same sentence.
                     let stranded: Vec<&str> = v
                         .contents
                         .iter()
@@ -2448,13 +2460,7 @@ impl Bench {
                         events.push(Event::NotYetModeled {
                             cause: crate::ops::NotModelledCause::NoSolver,
                             vessel: *vessel,
-                            what: format!(
-                                "the last of the water is gone and {} are still shown as \
-                                 dissolved, which is not a state a beaker can be in. What \
-                                 they crystallise into is not decidable from the ions alone, \
-                                 so the bench will not guess at the solids",
-                                stranded.join(", ")
-                            ),
+                            what: crate::solve::stranded_solutes(&stranded),
                         });
                     }
                     // No energy is charged for the vaporisation, and that

@@ -1298,6 +1298,33 @@ impl Equilibrator for StateEquilibrator {
             // The solvent mass changed, so every molality and activity the
             // aqueous engine solved for describes water that has left.
             vessel.solution = None;
+
+            // Boiled DRY, not merely boiling. Said here and not in the
+            // honesty pass because here there is evidence: this branch
+            // just removed the water, so "no water, and something is
+            // still filed as dissolved" cannot be confused with a vessel
+            // that never had any. `evaporate` says the same sentence for
+            // the same reason, and they share it (`stranded_solutes`)
+            // rather than each composing their own.
+            let dry = !vessel
+                .contents
+                .iter()
+                .any(|p| p.species == solvent && p.phase == Phase::Liquid);
+            if dry {
+                let stranded: Vec<&str> = vessel
+                    .contents
+                    .iter()
+                    .filter(|p| p.phase == Phase::Aqueous)
+                    .filter_map(|p| species::lookup(&p.species).map(|d| d.name))
+                    .collect();
+                if !stranded.is_empty() {
+                    events.push(Event::NotYetModeled {
+                        cause: crate::ops::NotModelledCause::NoSolver,
+                        vessel: vessel.id,
+                        what: stranded_solutes(&stranded),
+                    });
+                }
+            }
         }
 
         Ok(events)
@@ -1499,6 +1526,163 @@ fn curated_solid_product(species: &SpeciesId) -> bool {
 /// pass names the boundary instead.
 pub const AQUEOUS_MODEL_CEILING_K: f64 = 573.15;
 
+/// What the SOLVENT'S OWN STATE says about whether this vessel has an
+/// aqueous solution to characterise at all.
+///
+/// PLAN P3s, the last of the four: *"a frozen or boiling vessel is a state
+/// the aqueous solver does not model, and must say so rather than keep
+/// answering."* The first three items of that cluster gave the bench a
+/// state model; this one makes the state model's verdict reach the
+/// readouts. Without it the withdrawal is silent, and silence is what the
+/// −7.95 °C bug was made of: `StateEquilibrator` clears `vessel.solution`
+/// on every transition, `partition` counts only liquid water toward `kgw`,
+/// and between them a frozen beaker simply stops having a pH — with no
+/// sentence anywhere saying that ice is why.
+///
+/// Boiling is the case that survived all of that, and it needs the
+/// argument spelled out because a boiling solution plainly *has* a pH.
+/// What it does not have is a **settled** one. Solvent is leaving the
+/// vessel while the reading is taken, so every molality the engine solved
+/// for is the molality of a solution that is concentrating as you look at
+/// it; PHREEQC was handed a composition that had already changed by the
+/// time it answered. The honest report is the transition — the plateau,
+/// the elevation, the steam — and not a pH quoted to two decimals off a
+/// composition with a stopwatch running on it.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum SolventState {
+    /// Liquid water below its boiling point: the aqueous engines' home
+    /// ground, and the only state that reports a solution.
+    Settled,
+    /// The solvent is in a state that has no solution to report — ice, or
+    /// on the boil — but nothing is dissolved in it anyway, so there is
+    /// nothing being withheld and nothing to apologise for.
+    ///
+    /// This variant is the difference between an honesty pass and a
+    /// nagging one. A kettle of pure water at 100 °C is in exactly the
+    /// state [`SolventState::Boiling`] describes, and telling its user
+    /// that no settled pH is reported for the nothing dissolved in it
+    /// would be the "noise dressed as honesty" this module keeps warning
+    /// itself about. The `StateChanged` event the boil already emits is
+    /// the whole story there.
+    Pure,
+    /// Every drop of the solvent this vessel holds is ice.
+    Frozen,
+    /// Liquid solvent standing at or above its own (colligatively shifted,
+    /// pressure-shifted) boiling point.
+    Boiling,
+    /// No solvent here.
+    ///
+    /// Deliberately **not** "the solvent boiled away and left its ions
+    /// stranded", though that state exists and is worth naming. A vessel
+    /// holding aqueous-filed matter and no water looks identical to one
+    /// whose solvent left, and is not always the same thing: a kneaded
+    /// dough holds its water in the flour matrix and pours none into the
+    /// beaker, so a fermentation product filed aqueous beside it would
+    /// trip that test with nothing wrong. Naming it safely needs the one
+    /// fact a snapshot cannot carry — that the water *left* — so the
+    /// claim is made by the two passes that removed it (`evaporate`, and
+    /// the boiling branch of [`StateEquilibrator`]) and the sentence they
+    /// share is [`stranded_solutes`].
+    Absent,
+}
+
+impl SolventState {
+    /// The sentence the bench owes a reader, and the cause to file it
+    /// under. `None` where there is nothing to apologise for.
+    ///
+    pub fn boundary(self) -> Option<(String, crate::ops::NotModelledCause)> {
+        match self {
+            Self::Settled | Self::Pure | Self::Absent => None,
+            Self::Frozen => Some((
+                "the water in this vessel is ice, and ice is not a solution: pH, ionic strength and speciation all describe particles dissolved in a liquid, so none of them is reported while the solvent is frozen".to_string(),
+                crate::ops::NotModelledCause::NoSolution,
+            )),
+            Self::Boiling => Some((
+                "the water is at the boil and leaving as steam, so what is dissolved in the rest is concentrating while you look at it: this bench reports the transition rather than a settled pH for a composition that is still changing".to_string(),
+                crate::ops::NotModelledCause::ModelBoundary,
+            )),
+        }
+    }
+}
+
+/// Read the solvent's state off a vessel.
+///
+/// The boiling test uses the vessel's OWN transition — [`vessel_transitions`],
+/// the same call `StateEquilibrator` makes — rather than 373.15 K, so a
+/// pressure cooker and a salted pan are judged on their own plateau and a
+/// flask under vacuum is called boiling at 60 °C when it really is.
+pub fn solvent_state(vessel: &Vessel) -> SolventState {
+    let solvent = SpeciesId::new(SOLVENT);
+    let mut liquid = 0.0;
+    let mut ice = 0.0;
+    let mut dissolved = false;
+    for p in &vessel.contents {
+        if p.species == solvent {
+            match p.phase {
+                Phase::Liquid | Phase::Aqueous => liquid += p.moles.0,
+                Phase::Solid => ice += p.moles.0,
+                Phase::Gas => {}
+            }
+        } else if p.phase == Phase::Aqueous {
+            dissolved = true;
+        }
+    }
+    // Is there anything here whose pH, ionic strength or speciation a
+    // reader could be waiting for? A standing `solution` counts even when
+    // no portion is filed aqueous, because that is the answer being
+    // withheld.
+    let characterisable = dissolved || vessel.solution.is_some();
+    if liquid > crate::OBSERVABLE_MOLES {
+        // At or above the plateau. The settle in `StateEquilibrator` puts
+        // a boiling vessel EXACTLY on `boiling_k`, so this has to admit
+        // equality or the state it just computed would not be readable.
+        let (t, _) = vessel_transitions(vessel);
+        // A SEALED vessel at its own raised boiling point is not this
+        // case, and the distinction is the whole argument rather than a
+        // detail. What disqualifies an open beaker on the boil is that it
+        // is losing mass to the room while the reading is taken, so the
+        // aqueous engine — which solves a closed system — was handed a
+        // composition that had already changed. Under a lid the steam
+        // stays, the pressure it raises lifts the boiling point until the
+        // two agree, and liquid and vapour at coexistence in a closed
+        // vessel is an equilibrium the engine is entitled to solve. It
+        // keeps its pH.
+        if vessel.temperature.0 >= t.boiling_k - 1e-9 && !vessel.owns_headspace_gas() {
+            return if characterisable {
+                SolventState::Boiling
+            } else {
+                SolventState::Pure
+            };
+        }
+        return SolventState::Settled;
+    }
+    if ice > crate::OBSERVABLE_MOLES {
+        return if characterisable {
+            SolventState::Frozen
+        } else {
+            SolventState::Pure
+        };
+    }
+    SolventState::Absent
+}
+
+/// The sentence for dissolved matter whose solvent has left, by name.
+///
+/// Shared by the two passes entitled to say it — `evaporate`, and the
+/// boiling branch of [`StateEquilibrator`] — so that a beaker taken to
+/// dryness by a burner gets the same words as one dried on a hotplate.
+/// Which verb reached the state is not the reader's problem; that it is a
+/// state no beaker can be in is.
+pub fn stranded_solutes(names: &[&str]) -> String {
+    format!(
+        "the last of the water is gone and {} are still shown as dissolved, \
+         which is not a state a beaker can be in. What they crystallise into \
+         is not decidable from the ions alone, so the bench will not guess at \
+         the solids",
+        names.join(", ")
+    )
+}
+
 /// A solid portion of a substance that is a liquid at standard conditions,
 /// standing below its curated melting point: frozen, not unreacted.
 fn frozen_liquid(vessel: &Vessel, species: &SpeciesId) -> bool {
@@ -1528,6 +1712,32 @@ impl Equilibrator for HonestyEquilibrator {
 
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
         let mut events = Vec::new();
+        // The solvent's own state is asked FIRST, before the "a solution
+        // was characterised, so there is no gap" early return below.
+        //
+        // That order is the whole point. `StateEquilibrator` withdraws
+        // `vessel.solution` the moment it freezes or boils anything, but
+        // the phase-coupled loop then runs the chemistry again over
+        // whatever liquid is left and hands a fresh pH straight back — so
+        // a beaker on the boil arrives here with an answer standing, and
+        // an early return would let it stand. The state pass has already
+        // decided this vessel is not a settled solution; this is where
+        // that decision reaches the reader and the meter.
+        let state = solvent_state(vessel);
+        if let Some((what, cause)) = state.boundary() {
+            events.push(Event::NotYetModeled {
+                cause,
+                vessel: vessel.id,
+                what,
+            });
+            // And withdraw the reading itself, so `PhMeter::applies` is
+            // false and the conductivity meter and the pH badge go with
+            // it. Reporting the boundary in prose while the instrument
+            // still answers would be the honesty pass contradicting the
+            // bench in the same breath.
+            vessel.solution = None;
+            return Ok(events);
+        }
         if vessel.solution.is_some() {
             return Ok(events);
         }
@@ -1711,6 +1921,19 @@ impl Equilibrator for HonestyEquilibrator {
         let delta = crate::delta::StateDelta::new("honesty");
         let mut events = Vec::new();
 
+        // Same order and same reason as `equilibrate` above: the solvent's
+        // state is asked before a standing answer can short-circuit it.
+        // The preview cannot withdraw the reading (it holds the vessel by
+        // reference), so it says the sentence and leaves the withdrawal to
+        // the pass that owns the mutation.
+        if let Some((what, cause)) = solvent_state(vessel).boundary() {
+            events.push(Event::NotYetModeled {
+                cause,
+                vessel: vessel.id,
+                what,
+            });
+            return Ok((delta, events));
+        }
         if vessel.solution.is_some() {
             return Ok((delta, events));
         }

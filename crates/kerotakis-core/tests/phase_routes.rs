@@ -534,24 +534,75 @@ fn a_lone_dewar_of_liquid_nitrogen_settles_on_its_boiling_point() {
 ///
 /// Water must never appear in either: `solve::StateEquilibrator` owns the
 /// solvent's freezing and boiling with the colligative shifts on top, and
-/// two solvers moving the same ice would be a bug. Ethanol must never
-/// appear in the vaporisation table: it would install a general boiling
-/// route through the back door of a cryogen tranche, and this bench boils
-/// nothing but water and the one cryogen.
+/// two solvers moving the same ice would be a bug.
+///
+/// The tables are no longer short, and the invariant that replaced
+/// "ethanol must not appear" is sharper than the one it retired: a
+/// vaporisation row commits the bench to a boil, and the boil is only
+/// reversible for a species the registry carries as a liquid, because
+/// `condensation_partner` searches for a liquid. A solid with a
+/// vaporisation row would let a sealed flask lose its contents to a
+/// headspace they can never come back from.
 #[test]
-fn the_cryogen_tables_are_deliberately_short() {
-    use kerotakis_core::phase_route::{fusion_enthalpy, is_condensed_gas, vaporisation_enthalpy};
+fn every_boil_this_bench_pays_for_can_be_undone() {
+    use kerotakis_core::phase_route::{
+        fusion_enthalpy, is_condensed_gas, vaporisation_enthalpy, FUSION_ENTHALPIES,
+        VAPORISATION_ENTHALPIES,
+    };
     assert!(
         fusion_enthalpy("water").is_none(),
         "the solvent's fusion belongs to states.rs and must not be duplicated here"
     );
     assert!(vaporisation_enthalpy("water").is_none());
-    assert!(
-        vaporisation_enthalpy("ethanol").is_none(),
-        "this bench has no general boiling route and must not pretend to"
-    );
-    assert!(fusion_enthalpy("ethanol").is_some());
-    assert!(vaporisation_enthalpy("liquid_nitrogen").is_some());
+
+    for row in VAPORISATION_ENTHALPIES {
+        let data = kerotakis_core::species::lookup(&SpeciesId::new(row.species))
+            .unwrap_or_else(|| panic!("{} is not in the registry", row.species));
+        assert_eq!(
+            data.standard_phase,
+            Phase::Liquid,
+            "{} carries an enthalpy of vaporisation but the registry calls it a {:?}: \
+             the vapour would have no liquid to condense back to",
+            row.species,
+            data.standard_phase
+        );
+        assert!(
+            data.transitions.and_then(|t| t.boiling_k).is_some(),
+            "{} has a latent heat of boiling and no temperature to boil at",
+            row.species
+        );
+    }
+
+    for row in FUSION_ENTHALPIES {
+        let data = kerotakis_core::species::lookup(&SpeciesId::new(row.species))
+            .unwrap_or_else(|| panic!("{} is not in the registry", row.species));
+        assert!(
+            data.transitions.and_then(|t| t.melting_k).is_some(),
+            "{} has a latent heat of melting and no temperature to melt at",
+            row.species
+        );
+        assert!(
+            row.kj_per_mol > 0.0,
+            "{} would release heat by melting",
+            row.species
+        );
+    }
+
+    // Every latent heat has to be payable inside one clock sub-step, or
+    // the last of a substance changes phase in an ever-smaller fraction
+    // for ever. `clock::LEDGER_EXCURSION_K` is 1000 K; the largest
+    // dH/Cp here must clear it.
+    for row in FUSION_ENTHALPIES.iter().chain(VAPORISATION_ENTHALPIES) {
+        let data = kerotakis_core::species::lookup(&SpeciesId::new(row.species)).unwrap();
+        let excursion = row.kj_per_mol * 1000.0 / data.heat_capacity;
+        assert!(
+            excursion < 1000.0,
+            "{} needs a {excursion:.0} K excursion to pay its latent heat, \
+             which is more than the clock allows itself",
+            row.species
+        );
+    }
+
     // And the superheat correction is gated on being a condensed gas,
     // which is why frozen ethanol can still melt.
     assert!(is_condensed_gas("liquid_nitrogen"));
