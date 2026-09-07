@@ -182,27 +182,14 @@ impl HeatSource {
         self.power.0 - self.heat_loss_w_per_k * (vessel_temp.0 - self.ambient.0)
     }
 
-    /// How much energy this source can still put into a vessel of heat
-    /// capacity `cp` sitting at `now` before the vessel is as hot as the
-    /// source, J. Zero when the vessel has already reached the ceiling.
+    /// How much energy this source can still put into `vessel` before the
+    /// vessel is as hot as the source, J. Zero when it has already reached
+    /// the ceiling.
     ///
-    /// The constant-capacity form. [`HeatSource::headroom_for`] is the one
-    /// to reach for when the vessel is at hand: over the span between a
-    /// bench and a burner flame, `Cp` is not one number and this one
-    /// under-reports what the source can still deliver.
-    pub fn headroom_j(&self, now: Kelvin, cp: f64) -> f64 {
-        if cp <= 0.0 {
-            return 0.0;
-        }
-        ((self.ceiling.0 - now.0) * cp).max(0.0)
-    }
-
-    /// The same headroom, integrated over the vessel's own heat-capacity
-    /// curves rather than its capacity at the temperature it is at now.
-    ///
-    /// This is the difference between charging a crucible its bench price
-    /// all the way to 1500 °C and charging it what heating it actually
-    /// costs.
+    /// This replaced a `headroom_j(now, cp)` that took one heat capacity and
+    /// multiplied it by the whole span. Over the distance between a bench
+    /// and a burner flame `Cp` is not one number, and that form charged a
+    /// crucible its room-temperature price all the way to 1500 °C.
     pub fn headroom_for(&self, vessel: &Vessel) -> f64 {
         if vessel.heat_capacity() <= 0.0 {
             return 0.0;
