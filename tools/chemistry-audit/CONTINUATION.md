@@ -16,9 +16,11 @@
   concepts. Preserve all entries and translations.
 - `crates/kerotakis-core/tests/golden/lessons.actual.json` is an intentionally
   retained untracked diagnostic artifact. Do not delete or stage it casually.
-- CI run 34133207021 tested the rebased PR and failed preflight, native Linux,
-  native macOS and the browser demo. The element/i18n/registry/Scene causes and
-  narrow repairs are recorded in `HISTORY.md`; rebuilt CI is still required.
+- CI run 34139824033 tests head `f9ada6f3`. At the last permitted poll it was
+  still running its full preflight, with two known failed jobs: native macOS
+  curiosity coverage and the real-browser semantic DOM golden. Exact diagnosis
+  and grouped prompt IDs are recorded in `HISTORY.md`. Do not merge or bless
+  either baseline.
 - Expansion and catalog work are paused until the repaired PR run passes.
 - The sixth fleet has 24 inputs and 66 frozen checks. It has not run on a CLI
   built from the repaired head. Its contract is `SIXTH-BATCH.md`.
@@ -27,27 +29,26 @@
 
 ## Required order
 
-1. Commit only the reviewed CI repair. Exclude `scene_golden.rs`, every
-   `*.actual.json` file and all temporary diagnostics.
-2. Push with an explicit lease against the observed remote audit head.
-3. Inspect PR #504 checks without changing the branch; poll no more often than
-   every 300 seconds.
-4. If CI is green, record that completion in `HISTORY.md`; remove the resolved
-   CI blocker from this file and notify the integrator.
-5. If CI fails, download failed logs and generated artifacts once. Map each
-   failure to a specific source or expectation before editing.
-6. Fix only audit-owned causes. Preserve all 113 entries, every diagnostic test
-   and every evidence artifact. Do not replace conflicted or generated files
-   wholesale; compare records and fields semantically.
-7. Run narrow non-compiling checks locally where safe. Let CI own full Rust,
-   browser and cross-platform builds while the host remains memory constrained.
-8. Push the tested repair with an explicit lease, then return to step 3.
-9. After repaired CI passes, use the exact rebuilt CLI for the sixth fleet in a
-   fresh output directory. Run the frozen analyzer without changing its bounds.
-10. Classify every sixth result as pass, fail, unsupported or uncertain. Diagnose
-   failures before proposing a production change.
-11. Only then review distinct successful lessons for catalog inclusion. Coordinate
-    with the integrator before editing shared catalog/discovery files.
+1. Let run 34139824033 settle; poll GitHub no more often than every 300 seconds.
+2. Repair the three pure-water freeze/melt failures by keeping independent water
+   phase transitions out of a failing aqueous solve. Mixtures must still fail
+   explicitly when aqueous state is unresolved.
+3. Correct coverage route attribution generically. A successful pure-water setup
+   route must not reclassify a later qualitative or typed answer. Classify the 69
+   changed rows after that repair; do not regenerate the baseline wholesale.
+4. Treat `aq-053` and `aq-085` as unsupported expectations unless a reviewed
+   hypochlorite or repeated-extraction model is added. Make precipitation an
+   answering event for `mat-086` only if its event trace proves that precipitation
+   answered the question despite an unrelated boundary event.
+5. Fix production behavior behind the browser differences while preserving
+   current main's audited GUI003 goldens. Do not stage generated DOM output.
+6. Preserve all 113 entries, every evidence artifact and the untracked lessons
+   diagnostic. Exclude temporary `scene_golden.rs` logging and every
+   `*.actual.json` file from commits.
+7. Run focused regressions, `git diff --check`, count checks and curiosity
+   coverage. Push only an internally consistent repair with an explicit lease.
+8. Leave PR #504 draft and unmerged. Expansion remains out of scope until its CI
+   is green and the integrator authorizes the next tranche.
 
 ## Task scopes
 

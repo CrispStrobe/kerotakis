@@ -169,6 +169,53 @@ boundary made the numeric five-lesson golden pass without editing either GUI003
 golden. The untracked `lessons.actual.json` and temporary Scene diagnostics were
 excluded from the repair.
 
+### Run 34139824033 diagnosis
+
+Run 34139824033 tested head `f9ada6f3`. At the last permitted status poll, full
+preflight was still running; two jobs had already failed:
+
+- Native macOS passed formatting, Clippy, the Rust test suite and codex coverage,
+  then failed `coverage curiosity --check`. Its report contained 497 completed
+  prompt results plus three solver failures: 336 computed, 43 curated, 54
+  qualitative, 60 boundary and four missing; 82 expectations mismatched and 69
+  baseline rows drifted. A local run of the same command reproduced those counts.
+- The browser built and ran successfully, then its semantic DOM comparison
+  failed. The retained differences are small cabbage-indicator temperature,
+  volume and one-colour-channel changes, plus slime becoming colourless/clear.
+  Current main's audited GUI003 goldens remain unchanged.
+
+The three solver failures are `aq-097`, `th-002` and `th-003`. Each cools pure
+water through freezing; PHREEQC is attempted first and fails at the solution
+phase boundary before the independent water phase fallback emits its valid phase
+answer. Coverage retains the earlier `SolverFailed`, so the later fallback cannot
+make the prompt pass. The narrow production repair is to let an independent-water
+phase transition run before aqueous chemistry while retaining explicit chemistry
+failure for mixtures and unresolved inventories.
+
+The 69 baseline changes split into 35 computed typed-engine-event to computed
+computed-route, 26 qualitative typed-observation to computed computed-route,
+three qualitative qualitative-route to computed computed-route, one computed
+typed-engine-event to qualitative qualitative-route, the three water solver
+failures above and `mat-086` from computed to missing. The common 64 upgrades to
+computed are consistent with route attribution being contaminated by the newly
+enabled pure-water setup solve; they are not evidence that those questions gained
+a computed answer. They require a generic route-attribution repair followed by a
+row-wise rerun, not baseline blessing. `bio-062` and every surviving drift must be
+reviewed separately after that repair.
+
+Three expected-computed prompts stand aside. `aq-053` has no reviewed aqueous
+hypochlorite model; `aq-085` does not execute the repeated-versus-single
+extraction comparison its question claims. Their expectations are unsupported.
+`mat-086` does compute limewater precipitation, but the coverage missing guard
+does not recognize precipitation as an answering event when another
+`NotYetModeled` event is present. Its complete event trace must determine whether
+that boundary is incidental before changing the classifier.
+
+No baseline or GUI003 golden was regenerated. No production repair was rushed
+into this checkpoint. The diagnostic JSON remains in `/tmp` and the pre-existing
+untracked `crates/kerotakis-core/tests/golden/lessons.actual.json` remains
+unmodified and untracked.
+
 Stale cross-branch catalog counts were reconciled to 113 entries and 167 used
 concepts while preserving 189 defined concepts. The audit never modified the
 integrator's GUI003, KIDS, readout, discovery or main-synchronization branches.
