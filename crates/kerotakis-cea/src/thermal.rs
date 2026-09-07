@@ -444,6 +444,39 @@ fn charge(vessel: &Vessel) -> Option<Charge> {
     })
 }
 
+/// TEMPORARY diagnostic hook: charge this vessel exactly as the solver
+/// would, then report what the (T, P) minimiser says at each temperature.
+#[doc(hidden)]
+pub fn probe(vessel: &Vessel, temperatures: &[f64]) -> Vec<String> {
+    let Some(charge) = charge(vessel) else {
+        return vec!["this vessel does not charge the thermal solver".to_string()];
+    };
+    let elements: Vec<String> = charge.budget.keys().cloned().collect();
+    let pool = pool_for(&elements);
+    let mut out = vec![
+        format!("budget {:?}", charge.budget),
+        format!("air {:?}", charge.air),
+        format!(
+            "pool {:?}",
+            pool.iter().map(|s| s.name.as_str()).collect::<Vec<_>>()
+        ),
+    ];
+    for t in temperatures {
+        match equilibrate_tp(&charge.budget, &pool, *t, 1.0) {
+            Ok(eq) => out.push(format!(
+                "  {t:.0} K OK H={:.1} {:?}",
+                eq.enthalpy,
+                eq.composition
+                    .iter()
+                    .filter(|(_, m)| *m > 1e-9)
+                    .collect::<Vec<_>>()
+            )),
+            Err(e) => out.push(format!("  {t:.0} K ERR {e}")),
+        }
+    }
+    out
+}
+
 impl Equilibrator for ThermalEquilibrator {
     fn name(&self) -> &'static str {
         "cea-thermal"

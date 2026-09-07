@@ -170,6 +170,36 @@ fn measure_the_open_air_reservoir() {
     let mut out = String::new();
     let v = VesselId(0);
 
+    // The state pass 1 leaves behind, probed at the exact temperatures
+    // the HP bisection visits.
+    {
+        let mut vessel = Vessel::new(VesselId(0), "crucible");
+        for (key, moles) in [("CaCO3", 0.052207), ("CaO", 0.047793)] {
+            vessel.contents.push(Portion {
+                species: SpeciesId::new(key),
+                moles: Moles(moles),
+                phase: kerotakis_core::species::Phase::Solid,
+            });
+        }
+        vessel.temperature = Kelvin(BUNSEN_CEILING_K);
+        let mut ts = vec![250.0, 400.0, 640.0, 1024.0, 1638.0, 2621.0];
+        // The bisection's own walk from (250, 6000).
+        let (mut lo, mut hi) = (250.0f64, 6000.0f64);
+        for _ in 0..12 {
+            let mid = 0.5 * (lo + hi);
+            ts.push(mid);
+            if mid > 1000.0 {
+                hi = mid;
+            } else {
+                lo = mid;
+            }
+        }
+        let _ = writeln!(&mut out, "\n=== PROBE: the state pass 1 leaves ===");
+        for line in kerotakis_cea::thermal::probe(&vessel, &ts) {
+            let _ = writeln!(&mut out, "{line}");
+        }
+    }
+
     trace_passes(&mut out, "0.1 mol CaCO3, 40 kJ", 0.1, 40_000.0);
     trace_passes(&mut out, "0.1 mol CaCO3, 5 kJ", 0.1, 5_000.0);
 
