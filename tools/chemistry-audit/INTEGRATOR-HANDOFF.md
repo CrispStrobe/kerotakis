@@ -11,11 +11,10 @@ Do not edit, rebase, push or merge the integrator's branches or reserved files.
 
 Do not merge PR #504. A green rebuild is necessary but does not grant merge
 authority. CI must rebuild the current audit branch, including functional repair
-`5338e3e6982015aae2ef619162ba922598a458d7`, and all required checks must pass. The
-previous run, 34118803477, tested `cc6bcccf` and failed; its causes and repairs
-are recorded in `HISTORY.md`. Local narrow checks do not replace rebuilt CI.
-The latest status read was 2026-09-07 13:55 UTC; no run or check suite was
-attached to current head, and GitHub reported mergeability as unknown.
+`5338e3e6` as rebased onto main `139a18d6`, and all required checks must pass.
+The previous run, 34118803477, tested `cc6bcccf` and failed; its causes and
+repairs are recorded in `HISTORY.md`. Local narrow checks do not replace rebuilt
+CI. No successful run is yet attached to the rebased head.
 
 When CI settles, send the integrator:
 

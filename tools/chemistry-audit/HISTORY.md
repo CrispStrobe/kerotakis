@@ -5,6 +5,26 @@ JSON, NDJSON, stderr, hashes and test logs remain in their evidence directories.
 Counts describe the recorded revision and declared model domain, not universal
 experimental accuracy.
 
+## 2026-09-07 — PR #504 rebase onto `139a18d6`
+
+PR #504 was rebased with merge topology preserved from pre-rebase head
+`b5894243` onto `origin/main` at `139a18d6`. Backup branch
+`backup/audit-504-before-main-sync-20260907-141633` retains the old head.
+
+Four conflicts were reconciled record-by-record. CI retains `--locked` and
+`--no-fail-fast`. Element coverage retains main's larger hydrogen/oxygen set.
+The registry now contains the union of main's eight aqueous identities and the
+audit's three calcium-phosphate identities, 37 NASA heat-capacity curves and
+recipe/provenance revisions: 179 identities, 646 phase-property records and no
+duplicate record IDs. The golden registry contains the same 179 species and all
+37 curves.
+
+The audit evidence manifest is unchanged at 2,260 files. The Codex snapshot
+still has 113 unique experiment IDs, 28 models, 189 defined concepts and 167
+used concepts. JSON parsing, duplicate-ID checks, `cargo fmt --check` and diff
+checks passed. Full compilation and cross-platform validation remain delegated
+to GitHub CI after the rebased branch is pushed.
+
 ## 2026-09-07 — PR #504 CI repair
 
 Run 34118803477 tested audit head `cc6bcccf` through merge commit `3825363777`.

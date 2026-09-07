@@ -5,18 +5,18 @@
 - Worktree: `/mnt/volume1/kero-experiment-audit`.
 - Branch: `audit/chemistry-experiments-20260906`.
 - PR: #504; do not merge.
-- Latest functional repair: `5338e3e6982015aae2ef619162ba922598a458d7`.
-  Read the current branch and remote heads with Git; do not copy a cached head
-  from documentation.
-- Base after the delegated rebase: `9084c03e8e807f002b4e6011bdde1236556d7df9`.
+- Current base: `139a18d6b70f0d19c7a65e4e7699e5c30c3b58e0`. The rebased
+  head must be read from Git because this document is part of its final commit.
+- Pre-rebase head `b5894243` is retained by backup branch
+  `backup/audit-504-before-main-sync-20260907-141633`.
 - Catalog: 113 unique entries, 28 models, 189 defined concepts and 167 used
   concepts. Preserve all entries and translations.
 - `crates/kerotakis-core/tests/golden/lessons.actual.json` is an intentionally
   retained untracked diagnostic artifact. Do not delete or stage it casually.
-- CI run 34118803477 tested head `cc6bcccf` through merge commit `3825363777` and
-  failed five jobs. Commit `5338e3e6` repairs the diagnosed causes. At the
-  2026-09-07 13:55 UTC poll, GitHub showed no checks or run for that commit and
-  PR mergeability was unknown. Do not claim CI success.
+- CI run 34118803477 tested old head `cc6bcccf` and failed five jobs. Its four
+  root causes and functional repair are recorded in `HISTORY.md`. The repair is
+  included in the rebased branch, but the new head has not yet passed CI. Do not
+  claim success from local checks.
 - Expansion and catalog work are paused until the repaired PR run passes.
 - The sixth fleet has 24 inputs and 66 frozen checks. It has not run on a CLI
   built from the repaired head. Its contract is `SIXTH-BATCH.md`.
@@ -25,8 +25,10 @@
 
 ## Required order
 
-1. Establish the next eligible GitHub poll time from the last recorded poll.
-2. Inspect PR #504 checks without changing the branch.
+1. Push the rebased head with an explicit lease against the observed remote
+   audit head.
+2. Inspect PR #504 checks without changing the branch; poll no more often than
+   every 300 seconds.
 3. If CI is green, record that completion in `HISTORY.md`; remove the resolved
    CI blocker from this file and notify the integrator.
 4. If CI fails, download failed logs and generated artifacts once. Map each
