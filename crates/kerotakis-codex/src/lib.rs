@@ -750,14 +750,31 @@ impl Vocabulary {
 pub struct Model {
     pub id: String,
     pub name: String,
+    /// German. The catalogue translates field by field into `_de`
+    /// siblings so an untranslated string falls back to English on its
+    /// own, rather than an entry needing a complete German twin before
+    /// any of it can ship.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub name_de: Option<String>,
     /// What this model lets a learner *predict or order* that they could
     /// not before. Not "what it says" — what it buys.
     pub power: String,
+    /// German, as `name_de`.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub power_de: Option<String>,
     /// Phenomena it accounts for.
     #[serde(default)]
     pub explains: Vec<String>,
+    /// German, as `name_de`. Translated as a WHOLE array rather than
+    /// element by element: a list rewritten wholesale cannot drift out of
+    /// alignment with the English one item at a time.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub explains_de: Option<Vec<String>>,
     /// Where it stops working, in plain terms. The honest edge.
     pub fails_at: Vec<String>,
+    /// German, as `explains_de`.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub fails_at_de: Option<Vec<String>>,
     /// The model that takes over, and why it is needed.
     #[serde(default)]
     pub superseded_by: Option<String>,
@@ -770,6 +787,20 @@ pub struct Model {
     pub embodied_by: Option<String>,
     pub registers: Registers,
     pub provenance: Provenance,
+    /// Translations into languages no field here names.
+    ///
+    /// `name_de` is a field; `name_fr` is not, and without somewhere to
+    /// land it would be parsed and then silently discarded. That is not
+    /// hypothetical — before these fields existed, EVERY German
+    /// translation of a model was discarded exactly this way, which is
+    /// why `models.toml` reported full coverage while `name`, `power`,
+    /// `explains` and `fails_at` rendered in English.
+    #[serde(
+        flatten,
+        default,
+        skip_serializing_if = "std::collections::BTreeMap::is_empty"
+    )]
+    pub other_locales: std::collections::BTreeMap<String, toml::Value>,
 }
 
 #[derive(Debug, Default, Serialize, Deserialize)]
