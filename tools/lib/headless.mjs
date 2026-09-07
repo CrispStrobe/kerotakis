@@ -39,8 +39,9 @@ const MIME = {
 };
 
 /** Serve `dir` under PREFIX on an ephemeral port. */
-export function serve(dir) {
+export function serve(dir, { handleRequest } = {}) {
   const server = createServer(async (req, res) => {
+    if (handleRequest && await handleRequest(req, res)) return;
     let path = decodeURIComponent(new URL(req.url, "http://x").pathname);
     if (!path.startsWith(PREFIX)) {
       res.writeHead(404).end("outside the deploy prefix");
