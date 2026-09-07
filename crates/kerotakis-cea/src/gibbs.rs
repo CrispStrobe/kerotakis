@@ -165,6 +165,8 @@ pub fn equilibrate_tp(
         mu0.push(g / (R * t));
     }
 
+    // TEMPORARY per-iteration trace.
+    let trace = std::env::var("KERO_TP_TRACE").is_ok();
     let gas: Vec<usize> = (0..pool.len()).filter(|i| pool[*i].is_gas()).collect();
     let cond: Vec<usize> = (0..pool.len()).filter(|i| !pool[*i].is_gas()).collect();
 
@@ -192,26 +194,72 @@ pub fn equilibrate_tp(
     // kiln, say) must enter through a condensed phase from the start —
     // otherwise its element-balance row is all zeros and the very first
     // linear solve is singular.
+    //
+    // The seed also has to be FEASIBLE, and one phase is not always enough
+    // to make it so. The most stable carrier of calcium is the carbonate,
+    // and a crucible half way through a calcination holds 0.1 mol of
+    // calcium against 0.05 mol of carbon: putting every calcium atom into
+    // carbonate asks for twice the carbon that exists, the gas phase
+    // cannot lend carbon back (that would be a negative amount of CO2),
+    // and the oxide that should take up the slack is admissible only once
+    // the balance holds — which it now never can. Every temperature went
+    // singular. So walk the carriers most-stable-first and give each one
+    // as much as the REMAINING budget supports, until the element is
+    // covered. Where the first carrier can hold the lot, which is every
+    // case this solver met before a burner could leave a crucible half
+    // calcined, the seed is exactly what it always was.
     let mut active_cond: Vec<usize> = Vec::new();
-    for (j, el) in elements.iter().enumerate() {
+    let mut left: Vec<f64> = elements
+        .iter()
+        .map(|el| budget.get(el).copied().unwrap_or(0.0))
+        .collect();
+    for (j, _) in elements.iter().enumerate() {
         let carried_by_gas = gas.iter().any(|&i| a(i, j) > 0.0);
         if carried_by_gas {
             continue;
         }
-        // Pick the most stable condensed carrier (lowest μ° per atom).
-        let carrier = cond
-            .iter()
-            .copied()
-            .filter(|&c| a(c, j) > 0.0)
-            .min_by(|&x, &y| (mu0[x] / a(x, j)).total_cmp(&(mu0[y] / a(y, j))));
-        match carrier {
-            Some(c) if !active_cond.contains(&c) => {
-                active_cond.push(c);
-                n[c] = budget.get(el).copied().unwrap_or(0.0) / a(c, j).max(1.0);
-            }
-            Some(_) => {}
-            None => return Err(CeaError::NoSpecies),
+        // The condensed carriers of this element, most stable per atom
+        // first (lowest μ° per atom).
+        let mut carriers: Vec<usize> = cond.iter().copied().filter(|&c| a(c, j) > 0.0).collect();
+        if carriers.is_empty() {
+            return Err(CeaError::NoSpecies);
         }
+        carriers.sort_by(|&x, &y| (mu0[x] / a(x, j)).total_cmp(&(mu0[y] / a(y, j))));
+        for c in carriers {
+            if left[j] <= 0.0 {
+                break;
+            }
+            if active_cond.contains(&c) {
+                continue;
+            }
+            // The most of this phase the budget can still support.
+            let feasible = (0..elements.len())
+                .filter(|&k| a(c, k) > 0.0)
+                .map(|k| left[k] / a(c, k))
+                .fold(f64::INFINITY, f64::min);
+            let take = (left[j] / a(c, j)).min(feasible);
+            if !take.is_finite() || take <= 0.0 {
+                continue;
+            }
+            active_cond.push(c);
+            n[c] = take;
+            for (k, slot) in left.iter_mut().enumerate() {
+                *slot -= take * a(c, k);
+            }
+        }
+    }
+
+    if trace {
+        eprintln!(
+            "TP {t:.0} K seed: cond {:?}, gas {:?}",
+            active_cond
+                .iter()
+                .map(|&c| (pool[c].name.as_str(), n[c]))
+                .collect::<Vec<_>>(),
+            gas.iter()
+                .map(|&i| (pool[i].name.as_str(), n[i]))
+                .collect::<Vec<_>>()
+        );
     }
 
     // How often each condensed phase has been admitted. A phase that is
@@ -241,9 +289,42 @@ pub fn equilibrate_tp(
     let gas_carries: Vec<bool> = (0..elements.len())
         .map(|j| gas.iter().any(|&i| a(i, j) > 0.0))
         .collect();
-    let is_sole_carrier = |c: usize, active: &[usize]| -> bool {
+    // The most of a condensed phase the budget can hold at all. A mole of
+    // calcium carbonate needs a mole of calcium and a mole of carbon, and
+    // there are only so many of each: no equilibrium, and no step on the
+    // way to one, may contain more of the phase than that. Newton does not
+    // know it — the damping above bounds a condensed phase that is
+    // SHRINKING and leaves a growing one free — and a half-calcined
+    // crucible is where that showed: one step put 1.6 mol of carbonate in a
+    // vessel holding 0.1 mol of calcium, and nothing recovered from it.
+    let phase_cap = |c: usize| -> f64 {
+        (0..elements.len())
+            .filter(|&k| a(c, k) > 0.0)
+            .map(|k| budget.get(&elements[k]).copied().unwrap_or(0.0) / a(c, k))
+            .fold(f64::INFINITY, f64::min)
+    };
+    // Whether dropping this phase would leave an element no gas can carry
+    // with no way back to its budget.
+    //
+    // One carrier per element is the ordinary case and this is then just
+    // "is it the last one". Two carriers sharing an element is the case
+    // that needs the AMOUNTS as well as the names: chalk and lime both hold
+    // calcium, so neither looked like the last one, and a single step
+    // dropped both — leaving the calcium row all zeros and every subsequent
+    // solve singular.
+    let would_strand = |c: usize, survivors: &[usize]| -> bool {
         (0..elements.len()).any(|j| {
-            a(c, j) > 0.0 && !gas_carries[j] && !active.iter().any(|&o| o != c && a(o, j) > 0.0)
+            if gas_carries[j] || a(c, j) <= 0.0 {
+                return false;
+            }
+            let target = budget.get(&elements[j]).copied().unwrap_or(0.0);
+            let reachable: f64 = survivors
+                .iter()
+                .copied()
+                .filter(|&o| o != c)
+                .map(|o| a(o, j) * phase_cap(o))
+                .sum();
+            reachable < target * (1.0 - 1e-12)
         })
     };
 
@@ -320,6 +401,18 @@ pub fn equilibrate_tp(
             n_total - sum_gas + gas.iter().map(|&i| n[i] * mu(i, &n, n_total)).sum::<f64>();
 
         if !solve_flat(&mut m_flat, dim, stride) {
+            if trace {
+                eprintln!(
+                    "TP {t:.0} K it{iteration} SINGULAR: cond {:?}, gas {:?}, rescues {rescues}",
+                    active_cond
+                        .iter()
+                        .map(|&c| (pool[c].name.as_str(), n[c]))
+                        .collect::<Vec<_>>(),
+                    gas.iter()
+                        .map(|&i| (pool[i].name.as_str(), n[i]))
+                        .collect::<Vec<_>>()
+                );
+            }
             // Singular. Two distinct situations land here.
             //
             // The repairable one: a Newton transient crushed a gas species
@@ -400,12 +493,14 @@ pub fn equilibrate_tp(
         // stalled iteration used to be misread as a converged one. Below a
         // tenth of a percent of a step, remove the phase instead.
         let mut forced_drop: Vec<usize> = Vec::new();
+        let mut survivors: Vec<usize> = active_cond.clone();
         for (c_idx, &c) in active_cond.iter().enumerate() {
             let dn = m_flat[(nel + c_idx) * stride + dim];
             if dn < 0.0 && n[c] > 0.0 {
                 let limit = (0.9 * n[c] / -dn).min(1.0);
-                if limit < 1e-3 && !is_sole_carrier(c, &active_cond) {
+                if limit < 1e-3 && !would_strand(c, &survivors) {
                     forced_drop.push(c);
+                    survivors.retain(|&o| o != c);
                 } else {
                     lambda = lambda.min(limit);
                 }
@@ -425,7 +520,7 @@ pub fn equilibrate_tp(
         for (c_idx, &c) in active_cond.iter().enumerate() {
             let dn = lambda * m_flat[(nel + c_idx) * stride + dim];
             max_change = max_change.max((dn / n_total.max(TRACE)).abs());
-            n[c] = (n[c] + dn).max(0.0);
+            n[c] = (n[c] + dn).max(0.0).min(phase_cap(c));
         }
         let step_n = lambda * d_ln_n;
         n_total = (n_total.max(TRACE).ln() + step_n).exp();
@@ -439,7 +534,7 @@ pub fn equilibrate_tp(
         // balance tolerance, and Newton solves condensed phases for Δn
         // directly, so it climbs back to its true value in one step.
         for &c in &active_cond {
-            if n[c] <= TRACE && is_sole_carrier(c, &active_cond) {
+            if n[c] <= TRACE && would_strand(c, &active_cond) {
                 n[c] = (total_budget * 1e-14).max(1e-16);
             }
         }
@@ -452,6 +547,20 @@ pub fn equilibrate_tp(
         // step alone silently returned compositions that created matter —
         // heating chalk produced twice the carbon it started with.
         let residual = balance_residual(&pool, &n, &elements, budget);
+
+        if trace && iteration <= 40 {
+            eprintln!(
+                "TP {t:.0} K it{iteration}: lambda {lambda:.3e} max_change {max_change:.3e} \
+                 residual {residual:.3e} cond {:?} gas {:?}",
+                active_cond
+                    .iter()
+                    .map(|&c| (pool[c].name.as_str(), n[c]))
+                    .collect::<Vec<_>>(),
+                gas.iter()
+                    .map(|&i| (pool[i].name.as_str(), n[i]))
+                    .collect::<Vec<_>>()
+            );
+        }
 
         // Phase management: drop an exhausted condensed phase; admit one
         // whose chemical potential says it should exist.
@@ -528,6 +637,74 @@ fn finish(pool: &[&Species], n: &[f64], t: f64, pressure_bar: f64) -> Equilibriu
     }
 }
 
+/// The part of an adiabatic charge that is the room the vessel stands in
+/// rather than anything the vessel holds.
+///
+/// A closed bomb's contents are all inventory: everything in the charge is
+/// there because it was weighed in, and an adiabatic solve may move heat
+/// freely between any two parts of it. An OPEN vessel is not that problem.
+/// Its atmosphere has to be in the element budget — a crucible with no air
+/// above it has no gas phase at all, and nothing could burn — but it is
+/// **not a thermal store the vessel owns**. It is room air, and room air is
+/// at 298 K.
+///
+/// So the atmosphere gets one asymmetric rule, and this type is what
+/// carries it into the temperature search:
+///
+/// > The air a vessel stands in may carry heat AWAY from the charge. It may
+/// > never pay FOR it.
+///
+/// The upward half is the flame: a burn really does entrain the room and
+/// really does heat it, and the nitrogen it drags through the flame front
+/// is the diluent that keeps an adiabatic flame temperature finite. The
+/// downward half is what this exists to forbid. An endothermic
+/// decomposition — calcining chalk in a crucible — would otherwise be part
+/// paid for by the sensible heat of eight times the vessel's own moles of
+/// air cooling from kiln temperature back down, heat that no burner ever
+/// delivered and that `Vessel::heat_capacity()` has never contained.
+#[derive(Debug, Clone)]
+pub struct OpenAtmosphere {
+    /// Species name → moles of it admitted to the charge.
+    pub admitted: BTreeMap<String, f64>,
+    /// The temperature the admitted gas was valued at when the reactants'
+    /// enthalpy was totalled.
+    pub inlet_k: f64,
+}
+
+/// Heat the atmosphere would be HANDING the charge at this temperature, J,
+/// as a negative number; zero when it is taking heat instead.
+///
+/// Only the admitted gas that is still atmosphere counts — oxygen that a
+/// burn has bound into a product is no longer the room's, and its enthalpy
+/// of formation is the reaction's business. Everything else enters at
+/// `inlet_k` and leaves at `t`, so its sensible change is what the charge
+/// gained or lost by having it there.
+fn atmosphere_credit(atmosphere: Option<&OpenAtmosphere>, eq: &Equilibrium) -> f64 {
+    let Some(atmosphere) = atmosphere else {
+        return 0.0;
+    };
+    let db = crate::nasa9::db();
+    let mut sensible = 0.0;
+    for (name, admitted) in &atmosphere.admitted {
+        let Some(species) = db.get(name) else {
+            continue;
+        };
+        let still_air = eq.moles_of(name).min(*admitted);
+        if still_air <= 0.0 {
+            continue;
+        }
+        let (Some(out), Some(in_)) = (species.h(eq.temperature), species.h(atmosphere.inlet_k))
+        else {
+            continue;
+        };
+        sensible += still_air * (out - in_);
+    }
+    // Positive: the atmosphere absorbed heat, which is allowed and already
+    // in the products' enthalpy. Negative: it is trying to pay, and this is
+    // the amount that must be taken back out of the balance.
+    sensible.min(0.0)
+}
+
 /// Find the adiabatic temperature: the temperature at which the products'
 /// enthalpy equals the reactants' — the flame temperature of a burning
 /// mixture, computed rather than tabulated.
@@ -536,6 +713,22 @@ pub fn equilibrate_hp(
     candidates: &[&Species],
     enthalpy: f64,
     pressure_bar: f64,
+) -> Result<Equilibrium, CeaError> {
+    equilibrate_hp_open(budget, candidates, enthalpy, pressure_bar, None)
+}
+
+/// [`equilibrate_hp`] for a vessel that stands open in a room.
+///
+/// Identical to it wherever the charge ends up hotter than it started —
+/// every flame temperature in this crate is the same number it always was —
+/// and different only where the answer would have been bought with the
+/// atmosphere's own sensible heat. See [`OpenAtmosphere`].
+pub fn equilibrate_hp_open(
+    budget: &BTreeMap<String, f64>,
+    candidates: &[&Species],
+    enthalpy: f64,
+    pressure_bar: f64,
+    atmosphere: Option<&OpenAtmosphere>,
 ) -> Result<Equilibrium, CeaError> {
     // Bisection on T: H(T) rises monotonically, so this is robust where a
     // Newton step on a stiff flame problem is not.
@@ -574,7 +767,10 @@ pub fn equilibrate_hp(
             Err(e) => return Err(e),
         }
     };
-    if last.enthalpy > enthalpy {
+    // What the charge's own matter has to account for. The atmosphere's
+    // sensible heat is subtracted back out wherever it would be a credit,
+    // so the balance the search closes is the vessel's, not the room's.
+    if last.enthalpy - atmosphere_credit(atmosphere, &last) > enthalpy {
         return Ok(last); // colder than the data supports; honest floor
     }
     let mut failed_mids = 0u8;
@@ -586,7 +782,7 @@ pub fn equilibrate_hp(
                     eprintln!("HP mid {mid:.0} K ok, H={:.3e}", eq.enthalpy);
                 }
                 last = eq;
-                if last.enthalpy < enthalpy {
+                if last.enthalpy - atmosphere_credit(atmosphere, &last) < enthalpy {
                     lo = mid;
                 } else {
                     hi = mid;
@@ -731,6 +927,114 @@ mod tests {
         (b, pool)
     }
 
+    /// The atmosphere `chalk_in_air` puts in that budget, by name.
+    fn admitted_air() -> BTreeMap<String, f64> {
+        budget(&[("N2", 0.624), ("O2", 0.168)])
+    }
+
+    /// Enthalpy of a composition at `t`, less whatever of it is still the
+    /// room's own air: what the VESSEL is holding, in J.
+    fn own_enthalpy(eq: &Equilibrium, t: f64) -> f64 {
+        let db = crate::db();
+        let air = admitted_air();
+        eq.composition
+            .iter()
+            .filter_map(|(name, moles)| {
+                let s = db.get(name)?;
+                let mine = moles - air.get(name).copied().unwrap_or(0.0).min(*moles);
+                Some(s.h(t)? * mine)
+            })
+            .sum()
+    }
+
+    #[test]
+    fn the_room_a_vessel_stands_in_may_be_warmed_and_may_never_pay() {
+        // 0.1 mol of chalk at burner temperature, charged the way
+        // `thermal.rs` charges it: with eight times its own moles of air in
+        // the budget, because the gas phase needs to exist.
+        //
+        // That air is 0.792 mol of N2 and O2 at 1773 K. Let it into the
+        // energy balance and it is a 26 J/K flywheel against the chalk's
+        // own 10 — so a calcination that costs 17.9 kJ barely moves the
+        // thermometer, and most of the bill is paid by room air cooling
+        // down. It cannot be: room air is at 298 K, and a crucible standing
+        // in it is not a bomb calorimeter.
+        let (b, pool) = chalk_in_air();
+        let t = 1773.15;
+        let db = crate::db();
+        let chalk = 0.0999 * db.get("CaCO3(cr)").unwrap().h(t).unwrap();
+        let air: f64 = admitted_air()
+            .iter()
+            .map(|(name, moles)| db.get(name).unwrap().h(t).unwrap() * moles)
+            .sum();
+
+        let as_inventory = equilibrate_hp(&b, &pool, chalk + air, 1.0).expect("closed answer");
+        let atmosphere = OpenAtmosphere {
+            admitted: admitted_air(),
+            inlet_k: t,
+        };
+        let as_a_room = equilibrate_hp_open(&b, &pool, chalk + air, 1.0, Some(&atmosphere))
+            .expect("open answer");
+
+        assert!(
+            as_a_room.temperature < as_inventory.temperature - 100.0,
+            "treating the room as a thermal store holds the crucible up at {:.0} K              where its own enthalpy only reaches {:.0} K",
+            as_inventory.temperature,
+            as_a_room.temperature
+        );
+        assert_conserved(&as_a_room, &b, "chalk in a room");
+
+        // And the open answer BALANCES on the vessel alone: what the chalk
+        // was worth at 1773 K is what the crucible's own matter is worth
+        // where the solve lands, to a few joules out of 17 900.
+        let before = chalk;
+        let after = own_enthalpy(&as_a_room, as_a_room.temperature);
+        assert!(
+            (after - before).abs() < 100.0,
+            "the vessel's own energy balance must close: {before:.1} J of chalk went in              and {after:.1} J came out, a gap of {:.1} J against a 17 880 J calcination",
+            after - before
+        );
+        // The same balance on the old answer is the size of the defect.
+        let inventory_after = own_enthalpy(&as_inventory, as_inventory.temperature);
+        assert!(
+            inventory_after - before > 5_000.0,
+            "the closed reading should be the one that invents energy, but it is out              by only {:.1} J",
+            inventory_after - before
+        );
+    }
+
+    #[test]
+    fn declaring_the_room_does_not_move_a_flame() {
+        // The rule is one-sided on purpose. A flame really does entrain the
+        // room and really does heat it, and the nitrogen it drags through
+        // the front is the diluent that keeps the adiabatic temperature
+        // finite — so every solve that ends HOTTER than it started is the
+        // number it was before this existed.
+        let species = pool_of(&[
+            "CH4", "O2", "N2", "CO2", "H2O", "CO", "H2", "OH", "O", "H", "NO",
+        ]);
+        let reactants = [("CH4", 1.0), ("O2", 2.0), ("N2", 7.52)];
+        let h_cold: f64 = reactants
+            .iter()
+            .map(|(n, m)| crate::db().get(n).unwrap().h(298.15).unwrap() * m)
+            .sum();
+        let b = budget(&[("C", 1.0), ("H", 4.0), ("O", 4.0), ("N", 15.04)]);
+
+        let plain = equilibrate_hp(&b, &species, h_cold, 1.0).expect("flame");
+        let atmosphere = OpenAtmosphere {
+            admitted: budget(&[("N2", 7.52), ("O2", 2.0)]),
+            inlet_k: 298.15,
+        };
+        let open = equilibrate_hp_open(&b, &species, h_cold, 1.0, Some(&atmosphere))
+            .expect("flame in a room");
+        assert!(
+            (plain.temperature - open.temperature).abs() < 1e-9,
+            "an exothermic solve may not move: {:.1} K became {:.1} K",
+            plain.temperature,
+            open.temperature
+        );
+    }
+
     #[test]
     fn calcining_chalk_conserves_every_element() {
         // The case that exposed the bug: 0.1 mol of chalk heated in air
@@ -758,6 +1062,41 @@ mod tests {
         assert!(
             hot.moles_of("CaO(cr)") > 0.09,
             "chalk calcines by 1500 K: {:?}",
+            hot.composition
+        );
+    }
+
+    #[test]
+    fn a_crucible_half_way_through_a_calcination_still_solves() {
+        // What one pass of a burner leaves: 0.052 mol of chalk beside
+        // 0.048 mol of lime, standing in the same air. Calcium has no
+        // gaseous carrier at all, so it has to be shared between two
+        // solids — and the initial basis seeds exactly one of them, with
+        // the whole calcium budget, which no amount of carbonate can hold
+        // when there is only half as much carbon. Every temperature failed
+        // with a singular matrix until the phase rescue existed.
+        std::env::set_var("KERO_TP_TRACE", "1");
+        let b = budget(&[("C", 0.052207), ("Ca", 0.1), ("N", 1.248), ("O", 0.540414)]);
+        let pool = pool_of(&["C(gr)", "CO", "CO2", "CaCO3(cr)", "CaO(cr)", "N2", "O2"]);
+        for t in [400.0, 700.0, 1000.0, 1500.0] {
+            let eq = equilibrate_tp(&b, &pool, t, 1.0)
+                .unwrap_or_else(|e| panic!("half-calcined chalk at {t} K: {e}"));
+            assert_conserved(&eq, &b, &format!("half-calcined chalk at {t} K"));
+        }
+        // And the answer is chemistry, not merely arithmetic that closed:
+        // cold, the carbon stays locked up as carbonate and the spare
+        // calcium is lime; hot, nothing is left but lime and gas.
+        let cold = equilibrate_tp(&b, &pool, 400.0, 1.0).expect("cold");
+        assert!(
+            (cold.moles_of("CaCO3(cr)") - 0.052207).abs() < 1e-4
+                && (cold.moles_of("CaO(cr)") - 0.047793).abs() < 1e-4,
+            "at 400 K both solids stand: {:?}",
+            cold.composition
+        );
+        let hot = equilibrate_tp(&b, &pool, 1500.0, 1.0).expect("hot");
+        assert!(
+            hot.moles_of("CaCO3(cr)") < 1e-6 && (hot.moles_of("CaO(cr)") - 0.1).abs() < 1e-4,
+            "at 1500 K the rest gives way too: {:?}",
             hot.composition
         );
     }

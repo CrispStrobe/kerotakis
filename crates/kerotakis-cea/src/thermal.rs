@@ -11,7 +11,10 @@
 //!   in air: oxygen is available without being weighed in, and product
 //!   gases leave. This mirrors the aqueous solver's escaping-gas phases,
 //!   and it is what makes the problem well-posed — with no atmosphere,
-//!   calcite below its decomposition point has no gas phase at all.
+//!   calcite below its decomposition point has no gas phase at all. Being a
+//!   reservoir cuts one way only: the room may be warmed by what happens in
+//!   the vessel, and may never pay for it. See
+//!   [`crate::gibbs::OpenAtmosphere`].
 //! * **Species map by composition, not by a hand-written table.** A solid
 //!   `CaCO3` in the registry finds CEA's `CaCO3(cr)` because their formulas
 //!   agree; nothing lists the pair.
@@ -25,7 +28,7 @@ use kerotakis_core::{
     Vessel,
 };
 
-use crate::gibbs::equilibrate_tp;
+use crate::gibbs::{equilibrate_tp, OpenAtmosphere};
 use crate::nasa9::{db, Species};
 
 /// Air, as mole fractions of the reservoir the vessel stands in.
@@ -53,6 +56,19 @@ pub const KINETIC_THRESHOLD_K: f64 = 500.0;
 /// the vessel. A beaker's headspace is small but never zero; this keeps the
 /// oxygen supply generous enough not to be the limiting reagent by accident
 /// while staying finite.
+///
+/// **This is a chemical control volume and nothing else.** It sizes two
+/// things: how much oxygen a burn may draw on, and how much nitrogen is
+/// there to dilute the gas phase — the second is why a carbonate gives way
+/// below its one-bar decomposition temperature, since what the equilibrium
+/// answers to is CO₂'s partial pressure and not its amount.
+///
+/// It is **not** a thermal mass the vessel owns. It used to act as one in
+/// the adiabatic solve, which is how eight times the vessel's own moles of
+/// air came to pay part of a calcination; [`crate::gibbs::OpenAtmosphere`]
+/// is the rule that stops it. Enlarging or shrinking this number therefore
+/// changes what the chemistry can reach and what the flame is diluted by,
+/// and no longer changes who pays for an endothermic step.
 const AIR_RATIO: f64 = 8.0;
 
 /// The temperature the exhaust of an open burn is vented at, K.
@@ -358,9 +374,11 @@ pub struct ThermalEquilibrator;
 struct Charge {
     /// Element budget including the atmospheric reservoir.
     budget: BTreeMap<String, f64>,
-    /// Elements contributed by the atmosphere alone, so the products can be
-    /// told apart from the air they burned in.
-    from_air: BTreeMap<String, f64>,
+    /// The atmosphere the vessel stands in, as species rather than
+    /// elements: how much N2 and O2 was admitted. Both the reactants'
+    /// enthalpy and the open-vessel rule that governs it need the amounts
+    /// by name — see [`OpenAtmosphere`].
+    air: BTreeMap<String, f64>,
     /// Registry species that mapped, with their amounts.
     mapped: Vec<(SpeciesId, f64)>,
     /// At least one input came from CEA's feed-only section rather than its
@@ -410,21 +428,53 @@ fn charge(vessel: &Vessel) -> Option<Charge> {
         + budget.get("H").copied().unwrap_or(0.0) / 4.0
         - budget.get("O").copied().unwrap_or(0.0) / 2.0;
     let air_moles = ((condensed_moles.max(0.01)) * AIR_RATIO).max(stoich_o2.max(0.0) * 1.20 / 0.21);
-    let mut from_air: BTreeMap<String, f64> = BTreeMap::new();
+    let mut air: BTreeMap<String, f64> = BTreeMap::new();
     for (name, fraction) in AIR {
         let Some(s) = db().get(name) else { continue };
+        *air.entry(s.name.clone()).or_insert(0.0) += fraction * air_moles;
         for (el, count) in &s.composition {
-            let n = count * fraction * air_moles;
-            *budget.entry(el.clone()).or_insert(0.0) += n;
-            *from_air.entry(el.clone()).or_insert(0.0) += n;
+            *budget.entry(el.clone()).or_insert(0.0) += count * fraction * air_moles;
         }
     }
     Some(Charge {
         budget,
-        from_air,
+        air,
         mapped,
         used_feed_thermo,
     })
+}
+
+/// TEMPORARY diagnostic hook: charge this vessel exactly as the solver
+/// would, then report what the (T, P) minimiser says at each temperature.
+#[doc(hidden)]
+pub fn probe(vessel: &Vessel, temperatures: &[f64]) -> Vec<String> {
+    let Some(charge) = charge(vessel) else {
+        return vec!["this vessel does not charge the thermal solver".to_string()];
+    };
+    let elements: Vec<String> = charge.budget.keys().cloned().collect();
+    let pool = pool_for(&elements);
+    let mut out = vec![
+        format!("budget {:?}", charge.budget),
+        format!("air {:?}", charge.air),
+        format!(
+            "pool {:?}",
+            pool.iter().map(|s| s.name.as_str()).collect::<Vec<_>>()
+        ),
+    ];
+    for t in temperatures {
+        match equilibrate_tp(&charge.budget, &pool, *t, 1.0) {
+            Ok(eq) => out.push(format!(
+                "  {t:.0} K OK H={:.1} {:?}",
+                eq.enthalpy,
+                eq.composition
+                    .iter()
+                    .filter(|(_, m)| *m > 1e-9)
+                    .collect::<Vec<_>>()
+            )),
+            Err(e) => out.push(format!("  {t:.0} K ERR {e}")),
+        }
+    }
+    out
 }
 
 impl Equilibrator for ThermalEquilibrator {
@@ -528,9 +578,24 @@ impl Equilibrator for ThermalEquilibrator {
                 charge.budget, charge.mapped, charge.used_feed_thermo
             );
         }
+        // The vessel stands open. Its atmosphere is in the budget because
+        // the chemistry needs it there — the oxygen a burn consumes, and
+        // the nitrogen whose partial pressure sets where a carbonate gives
+        // way — but it is the room's heat, not the vessel's. Carrying it
+        // here lets the adiabatic search refuse to spend it.
+        let atmosphere = OpenAtmosphere {
+            admitted: charge.air.clone(),
+            inlet_k: t,
+        };
         let adiabatic = matches!(vessel.thermal_mode, ThermalMode::Adiabatic);
         let (eq, feed_tp_fallback) = if adiabatic {
-            match crate::gibbs::equilibrate_hp(&charge.budget, &pool, h_before, 1.0) {
+            match crate::gibbs::equilibrate_hp_open(
+                &charge.budget,
+                &pool,
+                h_before,
+                1.0,
+                Some(&atmosphere),
+            ) {
                 Ok(eq) => (eq, false),
                 // HP is the preferred flame calculation. The first liquid-
                 // fuel slice retains a deterministic TP fallback at the
@@ -753,15 +818,14 @@ impl Equilibrator for ThermalEquilibrator {
 }
 
 fn air_enthalpy(charge: &Charge, t: f64) -> f64 {
-    // The air that entered the problem, valued at the same temperature.
-    AIR.iter()
-        .filter_map(|(name, fraction)| {
-            let s = db().get(name)?;
-            let el = s.composition.keys().next()?;
-            let atoms = s.composition.values().next()?;
-            let moles = charge.from_air.get(el).copied().unwrap_or(0.0) / atoms;
-            let _ = fraction;
-            Some(s.h(t)? * moles)
-        })
+    // The air that entered the problem, valued at the vessel's own
+    // temperature. Whether it may still be worth that much once the solve
+    // lands is `OpenAtmosphere`'s question, not this one's: what stays air
+    // has its sensible change taken back out of the balance wherever it
+    // would be paying for the chemistry rather than being warmed by it.
+    charge
+        .air
+        .iter()
+        .filter_map(|(name, moles)| Some(db().get(name)?.h(t)? * moles))
         .sum()
 }
