@@ -2327,8 +2327,7 @@ impl PhreeqcEquilibrator {
         };
         vessel.co2_partial_pressure_atm =
             kerotakis_core::properties::henry_lookup("CO2").map(|coeff| {
-                let k_h =
-                    kerotakis_core::properties::henry_at_t(coeff, vessel.temperature.0).value;
+                let k_h = kerotakis_core::properties::henry_at_t(coeff, vessel.temperature.0).value;
                 (co2_moles / problem.kgw) / k_h
             });
         // Spent: the REACTION block carried it into this very solve, and

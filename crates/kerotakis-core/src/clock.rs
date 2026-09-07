@@ -1470,7 +1470,11 @@ mod tests {
         // `H2O`: `liquid_volume` resolves the portion through
         // `species::lookup`, and a name it cannot resolve reads as no
         // liquid at all rather than as an error.
-        v.deposit(SpeciesId::new("water"), Moles(200.0 / 18.015), Phase::Liquid);
+        v.deposit(
+            SpeciesId::new("water"),
+            Moles(200.0 / 18.015),
+            Phase::Liquid,
+        );
         v
     }
 
@@ -1520,7 +1524,8 @@ mod tests {
             298.15,
         )
         .value;
-        let expected = STILL_SURFACE_K_L_M_PER_S * area * k_h * ATMOSPHERIC_CO2_ATM * 1000.0 * 3600.0;
+        let expected =
+            STILL_SURFACE_K_L_M_PER_S * area * k_h * ATMOSPHERIC_CO2_ATM * 1000.0 * 3600.0;
         assert!(
             (v.pending_co2_transfer_mol - expected).abs() < expected * 1e-9,
             "expected {expected}, got {}",
@@ -1566,7 +1571,13 @@ mod tests {
         // one the code used is a test that fails for arithmetic reasons.
         let volume_l = v.liquid_volume().0;
         let mut events = Vec::new();
-        advance(&mut v, 86_400.0 * 30.0, ClockContext::default(), &mut events).expect("advances");
+        advance(
+            &mut v,
+            86_400.0 * 30.0,
+            ClockContext::default(),
+            &mut events,
+        )
+        .expect("advances");
         let k_h = crate::properties::henry_at_t(
             crate::properties::henry_lookup("CO2").expect("CO2 is tabulated"),
             298.15,
@@ -1608,8 +1619,13 @@ mod tests {
         // hydroxide: 0.1 mol/L in 200 mL.
         v.free_hydroxide = 0.02;
         let mut events = Vec::new();
-        advance(&mut v, 86_400.0 * 365.0, ClockContext::default(), &mut events)
-            .expect("advances");
+        advance(
+            &mut v,
+            86_400.0 * 365.0,
+            ClockContext::default(),
+            &mut events,
+        )
+        .expect("advances");
 
         let k_h = crate::properties::henry_at_t(
             crate::properties::henry_lookup("CO2").expect("CO2 is tabulated"),
