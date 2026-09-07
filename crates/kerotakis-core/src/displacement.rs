@@ -767,11 +767,9 @@ pub fn displace(vessel: &mut Vessel) -> (Vec<Event>, Vec<Displacement>) {
         // re-counted as a neutralisation.
         vessel.solute_charge = solute_charge(vessel);
 
-        if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) {
-            if vessel.heat_capacity() > 0.0 {
-                let t_new = vessel.temperature_after_from(t_ref, held_before + heat_joules);
-                vessel.temperature = Kelvin(t_new.max(0.0));
-            }
+        if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) && vessel.heat_capacity() > 0.0 {
+            let t_new = vessel.temperature_after_from(t_ref, held_before + heat_joules);
+            vessel.temperature = Kelvin(t_new.max(0.0));
         }
 
         let record = Displacement {

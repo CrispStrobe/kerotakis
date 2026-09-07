@@ -218,10 +218,9 @@ impl Clock for DecayClock {
         // an answer and a silent nothing is not.
         if energy_j > 0.0 {
             let from = vessel.temperature;
-            if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) {
-                if vessel.heat_capacity() > 0.0 {
-                    vessel.temperature = Kelvin(vessel.temperature_after(energy_j));
-                }
+            if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) && vessel.heat_capacity() > 0.0
+            {
+                vessel.temperature = Kelvin(vessel.temperature_after(energy_j));
             }
             events.push(Event::ReactionHeatReleased {
                 vessel: vessel.id,
@@ -264,10 +263,10 @@ impl Clock for CuratedKineticsClock {
                 // per stoichiometric extent at 25 °C.
                 let energy_j = 98_200.0 * moles.0;
                 let from = vessel.temperature;
-                if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) {
-                    if vessel.heat_capacity() > 0.0 {
-                        vessel.temperature = Kelvin(vessel.temperature_after(energy_j));
-                    }
+                if matches!(vessel.thermal_mode, ThermalMode::Adiabatic)
+                    && vessel.heat_capacity() > 0.0
+                {
+                    vessel.temperature = Kelvin(vessel.temperature_after(energy_j));
                 }
                 if moles.0 >= crate::OBSERVABLE_MOLES {
                     events.push(Event::GasProduced {
@@ -390,11 +389,10 @@ impl Clock for GasMechanismClock {
                 return Ok(());
             }
             let from = vessel.temperature;
-            if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) {
-                if vessel.heat_capacity() > 0.0 {
-                    vessel.temperature = Kelvin(vessel.temperature_after(released_j));
-                    vessel.refresh_pressure();
-                }
+            if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) && vessel.heat_capacity() > 0.0
+            {
+                vessel.temperature = Kelvin(vessel.temperature_after(released_j));
+                vessel.refresh_pressure();
             }
             events.push(Event::ReactionHeatReleased {
                 vessel: vessel.id,
