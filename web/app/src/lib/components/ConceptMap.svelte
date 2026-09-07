@@ -167,7 +167,13 @@
    * through the material, and never a refusal. */
   const pending = (e: CodexEntry): string[] => (e.requires ?? []).filter((r) => !met.has(r));
 
-  const missionAccess = (link: Elsewhere) => link.kind === "mission"
+  /** The Story district gate, and only in Story.
+   *
+   * Sandbox gates nothing — that is the whole difference between the two
+   * laboratories, and `entryLocked` above already honours it for catalogue
+   * entries. A mission link that read the district gate unconditionally
+   * would have been the one surface in Sandbox that still refused. */
+  const missionAccess = (link: Elsewhere) => link.kind === "mission" && mode === "story"
     ? missionAvailability(missions, session.completedMissions, link.mission)
     : null;
 

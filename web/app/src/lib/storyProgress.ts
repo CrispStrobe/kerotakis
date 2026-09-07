@@ -108,7 +108,10 @@ export function missionAvailability(
 ): { unlocked: boolean; remaining: number } {
   const district = storyDistricts(missions, completedIds)
     .find((candidate) => candidate.missions.some((item) => item.file === mission.file));
-  if (!district) return { unlocked: false, remaining: 0 };
+  // A mission no district claims is a mission this gate has no opinion
+  // about, and silence is not a lock: refusing it would have disabled the
+  // link under the sentence "complete 0 more missions to unlock".
+  if (!district) return { unlocked: true, remaining: 0 };
   return {
     unlocked: district.unlocked,
     remaining: remainingMissions(district.minimumCompleted, completedIds.size),

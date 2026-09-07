@@ -32,4 +32,19 @@ describe("discovery uses the two live product surfaces", () => {
     expect(concept).toContain("else if (access?.unlocked) onopenmission?.(link.id)");
     expect(concept).toContain("data-mission-unlocked");
   });
+
+  it("and gates those mission links in Story only, because Sandbox gates nothing", () => {
+    // `entryLocked(entry, met, mode)` already makes Sandbox open every
+    // catalogue entry. A mission link reading the district gate with no mode
+    // would have been the single surface still refusing in Sandbox.
+    const concept = source("components/ConceptMap.svelte");
+    expect(concept).toContain('link.kind === "mission" && mode === "story"');
+  });
+
+  it("names a locked instrument, never the engine's measure: wire tag", () => {
+    const catalog = source("components/Catalog.svelte");
+    expect(catalog).toContain("function accessName(item: CatalogItem)");
+    expect(catalog).toContain("equipmentById(item.id)");
+    expect(catalog).not.toContain("t(slugWords(catalogItem.id))");
+  });
 });

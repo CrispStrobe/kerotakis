@@ -44,6 +44,7 @@
   import KitStrip from "./KitStrip.svelte";
   import { t, tSlug, tEngine, i18n } from "../i18n.svelte";
   import { available } from "../catalogProgress";
+  import { equipmentById } from "../equipmentCatalogue";
   import type { CatalogItem } from "../host/EngineHost";
   import {
     CATALOG_DURATIONS,
@@ -163,6 +164,20 @@
   /** Exact authored relations only: direct Codex ids, lesson ids, or capability ids. */
   function authoredRelated(entry: CatalogEntry): CatalogEntry[] {
     return authoredRelatedEntries(entry, all).slice(0, 4);
+  }
+
+  /**
+   * What to CALL a catalog id on screen.
+   *
+   * The engine keys instruments `measure:<token>`, and `slugWords` leaves a
+   * colon alone, so `t(slugWords(item.id))` handed the dictionary a wire tag
+   * and the German build rendered "measure:ph". Ask the one equipment model
+   * for its name first — every entry name has German — and only fall back to
+   * the spaced slug, which is right for the reagent keys.
+   */
+  function accessName(item: CatalogItem): string {
+    const entry = equipmentById(item.id);
+    return entry ? t(entry.name) : t(slugWords(item.id));
   }
 
   function accessNote(item: CatalogItem): string | null {
@@ -597,7 +612,7 @@
             </p>
             {#each item.access as catalogItem (catalogItem.id)}
               {@const note = accessNote(catalogItem)}
-              {#if note}<p class="access-reason" data-catalog-reason={catalogItem.reason.reason}>{t(slugWords(catalogItem.id))}: {note}</p>{/if}
+              {#if note}<p class="access-reason" data-catalog-reason={catalogItem.reason.reason}>{accessName(catalogItem)}: {note}</p>{/if}
             {/each}
             {#if item.boundary}<p class="boundary">{item.boundary}</p>{/if}
             {#if links && links.linkedLearning > 0}
@@ -672,7 +687,7 @@
       </p>
       {#each open.access as catalogItem (catalogItem.id)}
         {@const note = accessNote(catalogItem)}
-        {#if note}<p class="access-reason" data-catalog-reason={catalogItem.reason.reason}>{t(slugWords(catalogItem.id))}: {note}</p>{/if}
+        {#if note}<p class="access-reason" data-catalog-reason={catalogItem.reason.reason}>{accessName(catalogItem)}: {note}</p>{/if}
       {/each}
       {#if authoredRelated(open).length > 0}
         <div class="connections" aria-label={t("continue with")}>

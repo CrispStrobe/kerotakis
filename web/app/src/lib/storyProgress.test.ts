@@ -82,6 +82,16 @@ describe("story progression", () => {
     expect(missionAvailability(missions, new Set(), missions[5]!)).toEqual({ unlocked: false, remaining: 3 });
     expect(missionAvailability(missions, new Set(["silver-and-salt"]), missions[2]!)).toEqual({ unlocked: true, remaining: 0 });
   });
+
+  it("opens a mission no district claims rather than refusing it with a zero", () => {
+    // Every district filters by topic, so a mission carrying a topic none of
+    // them lists belongs to no district. Refusing it would have disabled the
+    // link under "complete 0 more missions to unlock" — a sentence, and a
+    // refusal, that nothing in the progression actually asked for.
+    const orphan: MissionSummary = { file: "nowhere.lab", name: "nowhere", topic: "no such topic" };
+    expect(missionAvailability([...missions, orphan], new Set(), orphan))
+      .toEqual({ unlocked: true, remaining: 0 });
+  });
 });
 
 describe("the opening district is a choice, not a queue", () => {
