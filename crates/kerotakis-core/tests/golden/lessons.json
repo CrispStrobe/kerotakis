@@ -90,7 +90,7 @@
       "v2: 10.00 kJ requested; 10.00 kJ delivered — time model not yet coupled",
       "v2: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: starch does not react — starch does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
-      "v2 thermometer: 72.41 °C",
+"v2 thermometer: 72.37 °C",
       "v3: new vessel",
       "v3: +50.300 g white_vinegar_5_percent (2 known ingredients)",
       "v3: +5.000 g baking_soda (1 known ingredients)",
@@ -135,7 +135,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 345.5587
+"temperature_k": 345.5248
       },
       {
         "contents": [
@@ -226,7 +226,7 @@
       "v1: 25.0 °C → 70.9 °C",
       "v1: 20.00 kJ requested; 20.00 kJ delivered — time model not yet coupled",
       "v1: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
-      "v1: 70.9 °C → 2.0 °C",
+"v1: 70.9 °C → 2.1 °C",
       "v1: 30.00 kJ requested; 30.00 kJ removed — time model not yet coupled",
       "v1: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: The liquid is white and so cloudy you cannot see through it."
@@ -248,7 +248,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 275.1893
+"temperature_k": 275.2262
       }
     ]
   },
@@ -256,21 +256,21 @@
     "event_count": 25,
     "events_sample": [
       "v1: +5.5343 mol water",
-      "v1: 25.0 °C → 97.0 °C",
+"v1: 25.0 °C → 96.8 °C",
       "v1: 30.00 kJ requested; 30.00 kJ delivered — time model not yet coupled",
-      "v1 thermometer: 96.99 °C",
+"v1 thermometer: 96.84 °C",
       "v2: new vessel",
       "v2: +5.5343 mol water",
-      "v2: 25.0 °C → 169.0 °C",
+"v2: 25.0 °C → 167.2 °C",
       "v2: 60.00 kJ requested; 60.00 kJ delivered — time model not yet coupled",
-      "v2 thermometer: 168.98 °C",
+"v2 thermometer: 167.20 °C",
       "v2 balance: 99.70 g",
       "v3: new vessel",
       "v3: +5.5343 mol water",
-      "v3: 25.0 °C → 600.9 °C",
+"v3: 25.0 °C → 470.2 °C",
       "v3: 240.00 kJ requested; 240.00 kJ delivered — time model not yet coupled",
       "v3: not yet modelled — the aqueous model's temperature ceiling at 300 °C: the shipped thermodynamic databases' temperature expressions end there, so this solution is reported uncharacterised rather than extrapolated",
-      "v3 thermometer: 600.91 °C",
+"v3 thermometer: 470.25 °C",
       "v3 balance: 99.70 g",
       "v4: new vessel",
       "v4: +5.5343 mol water",
@@ -288,7 +288,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 370.1389
+"temperature_k": 369.9922
       },
       {
         "contents": [
@@ -300,7 +300,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 442.1277
+"temperature_k": 440.3518
       },
       {
         "contents": [
@@ -312,7 +312,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 874.061
+"temperature_k": 743.3967
       },
       {
         "contents": [
@@ -329,7 +329,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 436.3948
+"temperature_k": 434.8049
       }
     ]
   },
@@ -342,18 +342,18 @@
       "v1: not yet modelled — sodium tetraborate (borax) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v1: 25.0 °C → 81.8 °C",
       "v1: 25.00 kJ requested; 25.00 kJ delivered — time model not yet coupled",
-      "v1: 0.0879 mol sodium tetraborate (borax) dissolved",
+"v1: 0.0878 mol sodium tetraborate (borax) dissolved",
       "v1: not yet modelled — sodium tetraborate (borax) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v1: 81.8 °C → 13.6 °C",
       "v1: 30.00 kJ requested; 30.00 kJ removed — time model not yet coupled",
-      "v1: 0.0957 mol sodium tetraborate (borax) precipitated ↓",
+"v1: 0.0956 mol sodium tetraborate (borax) precipitated ↓",
       "v1: not yet modelled — sodium tetraborate (borax) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v2: new vessel",
       "v2: +5.5343 mol water",
       "v2: +0.7304 mol sucrose",
       "v2: 0.6367 mol sucrose dissolved",
       "v2: not yet modelled — sucrose dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
-      "v2: 25.0 °C → 57.5 °C",
+"v2: 25.0 °C → 57.4 °C",
       "v2: 25.00 kJ requested; 25.00 kJ delivered — time model not yet coupled",
       "v2: 0.0937 mol sucrose dissolved"
     ],
@@ -379,7 +379,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 286.7822
+"temperature_k": 286.7875
       },
       {
         "contents": [
@@ -396,7 +396,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 291.6584
+"temperature_k": 291.6603
       }
     ]
   },
@@ -1537,7 +1537,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 307.296
+"temperature_k": 307.2908
       },
       {
         "contents": [
@@ -1564,7 +1564,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 307.8835
+"temperature_k": 307.878
       }
     ]
   },
@@ -1618,7 +1618,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 298.5994
+"temperature_k": 298.5991
       },
       {
         "contents": [
@@ -1645,7 +1645,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 299.825
+"temperature_k": 299.8238
       }
     ]
   },
@@ -1697,13 +1697,13 @@
       "v1 thermometer: 20.00 °C",
       "v1: 20.0 °C → 50.0 °C",
       "v1: +5.5343 mol water — 11.0686 mol now in vessel",
-      "v1 thermometer: 50.00 °C",
+"v1 thermometer: 50.01 °C",
       "v1 balance: 199.40 g",
       "v2: new vessel",
       "v2: 25.0 °C → 50.0 °C",
       "v1 → v2: 50% of the liquid",
-      "v2 thermometer: 50.00 °C",
-      "v2: 50.0 °C → 49.7 °C",
+"v2 thermometer: 50.01 °C",
+"v2: 50.0 °C → 49.8 °C",
       "v2: +0.0856 mol sodium chloride",
       "v2: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction"
     ],
@@ -1719,7 +1719,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 323.15
+"temperature_k": 323.1643
       },
       {
         "contents": [
@@ -1736,7 +1736,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 322.8935
+"temperature_k": 322.9068
       }
     ]
   },
@@ -2054,13 +2054,13 @@
       "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: new vessel",
       "v2: +5.5343 mol water",
-      "v1: 25.0 °C → -10.6 °C",
+"v1: 25.0 °C → -10.4 °C",
       "v1: 15.00 kJ requested; 15.00 kJ removed — time model not yet coupled",
       "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
-      "v2: 25.0 °C → -11.0 °C",
+"v2: 25.0 °C → -10.8 °C",
       "v2: 15.00 kJ requested; 15.00 kJ removed — time model not yet coupled",
-      "v1 thermometer: -10.56 °C",
-      "v2 thermometer: -10.99 °C",
+"v1 thermometer: -10.39 °C",
+"v2 thermometer: -10.81 °C",
       "v1: The liquid is white and so cloudy you cannot see through it.",
       "v2: The liquid is colourless and clear."
     ],
@@ -2081,7 +2081,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 262.5865
+"temperature_k": 262.7637
       },
       {
         "contents": [
@@ -2093,7 +2093,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 262.1556
+"temperature_k": 262.3396
       }
     ]
   },
@@ -2104,10 +2104,10 @@
       "v1: +0.4876 mol sodium acetate",
       "v1: not yet modelled — sodium acetate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1 thermometer: 25.00 °C",
-      "v1: 25.0 °C → -23.5 °C",
+"v1: 25.0 °C → -23.2 °C",
       "v1: 12.00 kJ requested; 12.00 kJ removed — time model not yet coupled",
       "v1: not yet modelled — sodium acetate in contact with liquid: no wired solver models this dissolution/reaction",
-      "v1 thermometer: -23.52 °C"
+"v1 thermometer: -23.24 °C"
     ],
     "lesson": "hand-warmer.lab",
     "vessels": [
@@ -2126,7 +2126,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 249.6308
+"temperature_k": 249.9074
       }
     ]
   },
@@ -2628,7 +2628,7 @@
       "v1: 30.1 µmol sucrose dissolved",
       "v1: not yet modelled — cellulose (anhydroglucose unit) in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — citric acid in contact with liquid: no wired solver models this dissolution/reaction",
-      "v1: 25.0 °C → 221.7 °C",
+"v1: 25.0 °C → 217.7 °C",
       "v1: 2.00 kJ requested; 2.00 kJ delivered — time model not yet coupled",
       "v1: not yet modelled — the water is at the boil and leaving as steam, so what is dissolved in the rest is concentrating while you look at it: this bench reports the transition rather than a settled pH for a composition that is still changing",
       "v1: The liquid is white and so cloudy you cannot see through it, there is white cellulose (anhydroglucose unit) at the bottom, a piece of paper floats on top.",
@@ -2637,9 +2637,9 @@
       "v1: not yet modelled — the last of the water is gone and D-fructose (fruit sugar), D-glucose (dextrose), sucrose are still shown as dissolved, which is not a state a beaker can be in. What they crystallise into is not decidable from the ions alone, so the bench will not guess at the solids",
       "v1: not yet modelled — cellulose (anhydroglucose unit) in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — citric acid in contact with liquid: no wired solver models this dissolution/reaction",
-      "v1: 221.7 °C → 1069.0 °C",
+"v1: 217.7 °C → 1065.1 °C",
       "v1: 2.00 kJ requested; 2.00 kJ delivered — time model not yet coupled",
-      "v1: the dry lemon mark is 100% brown at 1342.2 K"
+"v1: the dry lemon mark is 100% brown at 1338.2 K"
     ],
     "lesson": "invisible-ink-boundary.lab",
     "vessels": [
@@ -2673,7 +2673,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 1342.1724
+"temperature_k": 1338.2331
       },
       {
         "contents": [
@@ -3504,28 +3504,28 @@
     ]
   },
   "luminol-temperature": {
-    "event_count": 29,
+"event_count": 28,
     "events_sample": [
       "v1: +20.000 g luminol_glow_solution (0 known ingredients)",
       "v1: +5.000 g hydrogen_peroxide_3_percent (2 known ingredients)",
       "v1: relative blue-light intensity 1.27; estimated half-life 47.2s at 298.1 K",
-      "v1: 25.0 °C → -71.8 °C",
+"v1: 25.0 °C → -70.9 °C",
       "v1: 2.00 kJ requested; 2.00 kJ removed — time model not yet coupled",
       "v1: relative blue-light intensity 0.35; estimated half-life 171.7s at 273.1 K",
       "v2: new vessel",
       "v2: +20.000 g luminol_glow_solution (0 known ingredients)",
       "v2: +5.000 g hydrogen_peroxide_3_percent (2 known ingredients)",
       "v2: relative blue-light intensity 1.27; estimated half-life 47.2s at 298.1 K",
-      "v2: 25.0 °C → 121.8 °C",
+"v2: 25.0 °C → 121.4 °C",
       "v2: 2.00 kJ requested; 2.00 kJ delivered — time model not yet coupled",
       "v2: relative blue-light intensity 4.00; estimated half-life 10.7s at 333.1 K",
       "v1: The liquid is colourless and clear.",
       "v2: The liquid is colourless and clear.",
       "v1: water froze at 0.0 °C",
-      "v1: water melted at 0.0 °C",
-      "v1: -71.8 °C → 0.0 °C",
-      "v2: 0.000734 mol O2 produced (2.445e-5 mol/s)",
-      "v2: peroxide-decomposition released 72.03 J"
+"v1: -70.9 °C → 0.0 °C",
+"v2: 0.000719 mol O2 produced (2.398e-5 mol/s)",
+"v2: peroxide-decomposition released 70.65 J",
+"v2: 121.4 °C → 124.7 °C"
     ],
     "lesson": "luminol-temperature.lab",
     "vessels": [
@@ -3537,12 +3537,12 @@
             "species": "H2O2"
           },
           {
-            "moles": 0.07504069,
+"moles": 0.10551687,
             "phase": "Liquid",
             "species": "water"
           },
           {
-            "moles": 0.1941794,
+"moles": 0.16370322,
             "phase": "Solid",
             "species": "water"
           }
@@ -3554,24 +3554,24 @@
       {
         "contents": [
           {
-            "moles": 0.0029434,
+"moles": 0.00297156,
             "phase": "Liquid",
             "species": "H2O2"
           },
           {
-            "moles": 0.00073353,
+"moles": 0.00071945,
             "phase": "Gas",
             "species": "O2"
           },
           {
-            "moles": 0.26424913,
+"moles": 0.27060178,
             "phase": "Liquid",
             "species": "water"
           }
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 363.4964
+"temperature_k": 373.15
       }
     ]
   },
@@ -3985,12 +3985,12 @@
       "v1: 25.0 °C → 50.1 °C",
       "v1: 10.45 kJ requested; 10.45 kJ delivered — time model not yet coupled",
       "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
-      "v1 thermometer: 50.07 °C",
+"v1 thermometer: 50.06 °C",
       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
       "v1: 50.1 °C → 3.3 °C",
       "v1: 19.50 kJ requested; 19.50 kJ removed — time model not yet coupled",
       "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
-      "v1 thermometer: 3.29 °C",
+"v1 thermometer: 3.32 °C",
       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel"
     ],
     "lesson": "neutral-moves.lab",
@@ -4010,7 +4010,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 276.436
+"temperature_k": 276.4659
       }
     ]
   },
@@ -4449,12 +4449,12 @@
       "v2: not yet modelled — sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v2: +2.00 mmol hydrochloric acid",
       "v2: not yet modelled — sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
-      "v2: 25.0 °C → 44.2 °C",
+"v2: 25.0 °C → 44.1 °C",
       "v2: 8.00 kJ requested; 8.00 kJ delivered — time model not yet coupled",
       "v2: not yet modelled — sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v1: 100% of the suspended particles settle in 20 s",
       "v2: 100% of the suspended particles settle in 20 s",
-      "v2: 44.2 °C → 44.0 °C",
+"v2: 44.1 °C → 44.0 °C",
       "v1: not yet modelled — sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v2: not yet modelled — sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v1: The liquid is colourless and clear, there is white sodium thiosulfate at the bottom."
@@ -4503,7 +4503,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 316.836
+"temperature_k": 316.8249
       }
     ]
   },
@@ -4520,12 +4520,12 @@
       "v2: 95.0 °C → 59.7 °C",
       "v2: +300.000 g table_sugar (1 known ingredients)",
       "v2: 0.8764 mol sucrose dissolved",
-      "v2: 59.7 °C → 24.0 °C",
+"v2: 59.7 °C → 24.1 °C",
       "v2: 30.00 kJ requested; 30.00 kJ removed — time model not yet coupled",
-      "v2: supersaturated — 0.8764 mol sucrose dissolved against a limit of 0.6264 mol at this temperature (1.40× saturation); it stays in solution until something seeds it",
+"v2: supersaturated — 0.8764 mol sucrose dissolved against a limit of 0.6271 mol at this temperature (1.40× saturation); it stays in solution until something seeds it",
       "v2: The liquid is colourless and clear.",
       "v2: +1.000 g table_sugar (1 known ingredients)",
-      "v2: 0.2501 mol sucrose precipitated ↓",
+"v2: 0.2494 mol sucrose precipitated ↓",
       "v2: not yet modelled — sucrose dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v2: The liquid is white and so cloudy you cannot see through it."
     ],
@@ -4556,12 +4556,12 @@
       {
         "contents": [
           {
-            "moles": 0.62637962,
+"moles": 0.62707434,
             "phase": "Aqueous",
             "species": "sucrose"
           },
           {
-            "moles": 0.25297498,
+"moles": 0.25228026,
             "phase": "Solid",
             "species": "sucrose"
           },
@@ -4573,7 +4573,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 297.166
+"temperature_k": 297.2323
       }
     ]
   },
@@ -4840,7 +4840,7 @@
       "v1: 0.0 °C → 1.0 °C",
       "v1: +0.3422 mol sodium chloride",
       "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
-      "v1 thermometer: 1.00 °C",
+"v1 thermometer: 0.99 °C",
       "v1: The liquid is white and so cloudy you cannot see through it.",
       "v2: new vessel",
       "v2: 25.0 °C → 0.0 °C",
@@ -4848,7 +4848,7 @@
       "v2: 0.0 °C → 1.6 °C",
       "v2: +0.0584 mol sucrose",
       "v2: 0.0584 mol sucrose dissolved",
-      "v2 thermometer: 1.59 °C",
+"v2 thermometer: 1.57 °C",
       "v2: The liquid is colourless and clear."
     ],
     "lesson": "salt-or-sugar-ice.lab",
@@ -4868,7 +4868,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 274.1455
+"temperature_k": 274.136
       },
       {
         "contents": [
@@ -4885,7 +4885,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 274.7387
+"temperature_k": 274.7239
       }
     ]
   },
