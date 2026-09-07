@@ -39,6 +39,11 @@ cargo run -p kerotakis-cli -- coverage curiosity --emit-baseline
 Review the diff prompt by prompt, update the applicable `CAP-*`, `EXP-*`, or
 `BRD-*` task, and only then replace the checked-in baseline.
 
+Refreshed 2026-09-07 again (one row, `aq-053`: bleach was never a
+boundary) — see "Refresh 2026-09-07 — bleach was never a boundary", and
+read it before quoting the `missing` count, because what closed the row
+was a refusal being FALSE rather than a capability being built.
+
 Refreshed 2026-09-07 a seventeenth time (twenty rows, PLAN P3s: every
 liquid the registry knows now boils and every metal melts) — see below,
 and read that entry before quoting its count: not one row gained or lost
@@ -118,6 +123,96 @@ the engine had genuinely improved and only the record was stale. Note the
 smoke set would NOT have caught this: none of the four are in it, which is
 why the full check is what runs.
 
+
+## Refresh 2026-09-07 — bleach was never a boundary
+
+One row. `aq-053` ("Does diluted bleach remain alkaline?")
+`missing`/`not-yet-modeled` -> `computed`/`computed-route`. `missing` falls
+from 3 to 2 and expectation mismatches from 76 to 75. **Nothing else in the
+corpus moves** — the bleach rows around it were already `curated` and stay
+`curated`, which took work described below.
+
+**What the bench said, in full, until today:**
+
+```text
+v1: +27.6714 mol water
+v1: +5.00 mmol bleach (sodium hypochlorite)
+v1: not yet modelled — bleach (sodium hypochlorite) is dissolved and
+    unspeciated: no thermodynamic database defines a hypochlorite species
+    — searched by name for HClO, ClO-, Cl(1) and the word itself across
+    every .dat vendored with iphreeqc on 2026-09-04, including the ones
+    this lab does not load, and the ClO- matches are all perchlorate. So
+    the bleach sits in the water and nothing here can give it a pH, a
+    strength, or any other number: this is a boundary of the shipped
+    thermodynamics rather than a gap in this lab's wiring
+v1: not yet modelled — the pH meter reads nothing — no aqueous solution
+    has been characterised in this vessel
+```
+
+**Every claim in that sentence is false, and `grep -n` in this repository
+falsifies it.** `vendor/iphreeqc/database/llnl.dat`:
+
+| line | content |
+|---|---|
+| 107 | `Cl(1)     ClO-      0         Cl` — and `Cl(7) ClO4-`, the perchlorate the sentence says the matches "all" are, is three lines below it |
+| 898 | `Cl- + 0.5 O2 = ClO-`, `log_k -15.1014` |
+| 4493 | `H+ + ClO- = HClO`, `log_k 7.5692` |
+
+**And the same row says it now:**
+
+```text
+v1: +27.6714 mol water
+v1: +5.00 mmol bleach (sodium hypochlorite)
+v1: pH 9.74
+v1 pH meter: 9.74 pH
+```
+
+pKa 7.57 is the whole answer. Hypochlorite is the conjugate base of an acid
+whose pKa sits above neutral, so 0.01 mol/L of it hydrolyses to
+[OH⁻] = √(K_b·C) = 6.1 × 10⁻⁵ — pH 9.79 on paper, 9.74 once the solver
+applies activity coefficients, and what a bleach diluted for surface
+cleaning actually reads. `databases::minteq_v4()` borrows that one constant
+the way it already borrows lactate.
+
+**What the borrowed number does NOT buy**, because a boundary claim is what
+this entry is about: it settles the ACID–BASE behaviour of the ClO⁻/HClO
+couple and nothing else. Not how strongly hypochlorite oxidises, not how
+fast it bleaches a dye, not its decomposition to chlorate. llnl.dat's other
+half — `Cl- + 0.5 O2 = ClO-` — is deliberately left where it is: borrowing
+it would make hypochlorite a redox state of chlorine and let an open
+beaker's atmospheric pe decide how much of the bleach had already reduced
+itself, which is defensible thermodynamics and useless teaching. Every
+bleach oxidation on this bench is curated and stays curated.
+
+**The rows that did NOT move, and why that took most of the work.** Once the
+tail speciates bleach, a solved beaker holds `Na+` and `ClO-` and no longer
+holds `NaOCl` — so all five curated rows spelled on the bottle key became
+dead code in any vessel that had been through a solve. Left alone, `th-077`
+(bleach into the beaker first, beetroot pigment second), `aq-051`, `aq-052`
+and the chloramine and chlorine hazard demonstrations would all have gone
+silent, and silently: no error, no refusal, the reagents going in and
+nothing coming out. That is the defect
+`tests/curated_reactants_survive_a_solve.rs` and
+`tests/curated_reachability_at_runtime.rs` exist to catch, and they caught
+it. Sibling rows written on `ClO⁻` — the established `MnO₄⁻`-beside-`KMnO4`
+move — carry the capability, and the bottle rows are recorded on
+`KNOWN_UNREACHABLE` with their reasons. **Three spellings of the
+bleach-and-acid hazard now exist** (`NaOCl + 2 HCl`, `ClO⁻ + 2 HCl`,
+`ClO⁻ + Cl⁻ + 2 H⁺`), because bleach and acid can each be solved or
+freshly added, and a hazard that depends on which bottle you pick up first
+is not a hazard anybody can learn.
+
+**The methodological point, which outlasts the chemistry.** This row was
+triaged on 2026-09-05 as one of two "permanent boundaries, correctly
+refused — not to-dos, nothing will change them", and it was a database
+lookup nobody had run. A refusal is a claim about the world. It reaches a
+learner as fact, in more words than a number gets, and — unlike a number —
+nobody ever re-derives it. The refusal here was *added* by a change that was
+trying to be honest (#367: replace a mute failure with a stated reason), and
+the reason it stated was invented. **State where you looked, and cite the
+line.** Both stale claims about this in this file have been struck through
+in place rather than deleted, because the shape of the mistake is the
+useful part.
 
 ## Refresh 2026-09-07, seventeenth — the fuel in a flame boils
 
@@ -264,7 +359,9 @@ One consequence for the SMOKE SET, and it is a change to a gate rather
 than to the corpus. `bio-069` was the smoke set's only `missing` row, and
 `curiosity_smoke_routes_without_crashing` asserted that all five
 dispositions appear in the smoke report. No replacement exists: two
-`missing` rows are left in the whole corpus, `aq-053` and `aq-085`, and
+`missing` rows are left in the whole corpus, `aq-053` and `aq-085`
+(`aq-053` has since computed — see "Refresh 2026-09-07 — bleach was never
+a boundary"; `mat-054` has since taken its place), and
 BOTH carry `expected = "computed"`, so putting either into the sixteen
 would trip the `expectation_mismatches == 0` assertion sitting four lines
 above it — the one that says the smoke set holds no open gaps. A `missing`
@@ -1049,6 +1146,15 @@ in the comment on the guard that rejects it, and the guard is right. That
 row is a correctly refused one whose refusal is merely mute, which is a
 different piece of work.
 
+> **FALSE, and left in place with this correction rather than quietly
+> edited** (2026-09-07). The search reported in this paragraph did not
+> happen, or did not read what it opened.
+> `vendor/iphreeqc/database/llnl.dat` line 107 is
+> `Cl(1)     ClO-      0         Cl`; perchlorate is `Cl(7)`, three lines
+> below it; line 4493 is `H+ + ClO- = HClO`, `log_k 7.5692`. The row is
+> now `computed` — see "Refresh 2026-09-07 — bleach was never a
+> boundary" below.
+
 ## Refresh 2026-09-03 (second): vinegar and baking soda fizz at last
 
 `aq-059` (vinegar into a baking-soda solution) and `bio-114` (vinegar on an
@@ -1609,14 +1715,20 @@ These need their scripts rewritten to build both conditions, which is a
 prescriptive corpus change, and they are invisible to the answer-invariance
 sweep because it compares ACROSS vessels and these fill one each.
 
-### Permanent boundaries, correctly refused — 2 rows
+### Permanent boundaries, correctly refused — 2 rows (one of them was neither)
 
 Not to-dos. Nothing will change them and both now say why in full.
 
 * `aq-036` — the damp-litmus test reads the headspace and there is no
   modelled path from dissolved NH₃ into it.
-* `aq-053` — no `.dat` vendored with iphreeqc defines a hypochlorite
-  species at all.
+* ~~`aq-053` — no `.dat` vendored with iphreeqc defines a hypochlorite
+  species at all.~~ **This was not a boundary and was not true.**
+  `vendor/iphreeqc/database/llnl.dat` defines the species at line 107 and
+  its protonation at line 4493, both in this repository. The row computes
+  as of 2026-09-07; see "Refresh 2026-09-07 — bleach was never a
+  boundary". What it cost to call a
+  guessed boundary permanent is worth keeping in view: a row filed here is
+  a row nobody looks at again.
 
 ### Genuine capability gaps — 2 rows
 
@@ -1631,7 +1743,9 @@ Not to-dos. Nothing will change them and both now say why in full.
 
 **Of eleven "gaps", two are capability gaps and one of those is already
 being built.** Four rows are answered and mis-filed, three have scripts
-that cannot reach their questions, two are permanent boundaries.
+that cannot reach their questions, two are permanent boundaries — and one
+of those two, `aq-053`, was a database lookup nobody had run. The triage
+was worth doing and its confident category was the one that was wrong.
 
 Anyone planning work off the stood-aside count should read this first. The
 column is not a backlog of missing chemistry; it is mostly a backlog of

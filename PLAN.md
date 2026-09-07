@@ -350,18 +350,26 @@ Notes per layer:
   1. **Curated codex outcome** — shows exactly what forms (the current seed
      entries live here).
   2. **Computed outcome** where a solver genuinely covers it. The
-     hypochlorite example this list used to give has since been SPIKED AND
-     ANSWERED, negatively, and the answer is worth keeping because it is
-     permanent: chlorine evolution from hypochlorite + acid CANNOT become
-     computed, because no PHREEQC database defines a hypochlorite species
-     at all. Searched by name for `HClO`, `ClO-`, `Cl(1)` and the word
-     itself across every `.dat` vendored with iphreeqc on 2026-09-04 —
-     including llnl.dat, which is the one this note proposed — and the
-     `ClO-` matches are all perchlorate. It stays curated permanently, and
-     it now fires in both orders (#357) with the beaker saying why it
-     cannot be speciated (#367, `NotInAnyDatabase`). The general point
-     survives its own example: the cascade is right, and a route that no
-     shipped database can supply is a boundary rather than a to-do; an L2g Gibbs minimisation finding a strongly
+     hypochlorite example this list used to give was SPIKED, answered
+     negatively, recorded as PERMANENT — and the negative answer was
+     wrong. It said that no PHREEQC database defines a hypochlorite species
+     at all, on the strength of a search "across every `.dat` vendored with
+     iphreeqc on 2026-09-04, including llnl.dat, which is the one this note
+     proposed", and reported that the `ClO-` matches "are all perchlorate".
+     `vendor/iphreeqc/database/llnl.dat` line 107 is
+     `Cl(1)     ClO-      0         Cl`; perchlorate is `Cl(7)`, three
+     lines below it; line 4493 is `H+ + ClO- = HClO`, `log_k 7.5692`. Two
+     minutes of `grep -n` in this repository falsify both claims, and the
+     note stood for three days because a negative answer marked "permanent"
+     is one nobody re-checks. `databases::minteq_v4()` now borrows that
+     protonation constant and a beaker of diluted bleach computes pH 9.8. What survives, and is worth separating from the wreckage of
+     its example: the ACID–BASE half of hypochlorite is computed and the
+     OXIDATION half is still curated, because a log K for a protonation
+     says nothing about how strongly the anion oxidises — so the cascade's
+     shape is right even where this note's confidence was not. The
+     methodological lesson is the sharper one: a boundary claim is a claim,
+     it reaches learners as fact, and unlike a computed number nobody ever
+     re-derives it. State where you looked, and cite the line. An L2g Gibbs minimisation finding a strongly
      exothermic accessible state (high adiabatic flame T) *is* an
      energetic-mixture detector; build-time RMG/xtb ΔH_rxn plus classical
      indicators (oxygen balance, energetic functional groups) give

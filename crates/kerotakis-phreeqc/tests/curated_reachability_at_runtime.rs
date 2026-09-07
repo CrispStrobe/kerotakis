@@ -102,9 +102,10 @@ fn fires_when_added_in(order: &[(&str, f64)], reaction: &CuratedReaction) -> boo
 
 /// Reactions this test cannot pose, with the reason. Not a list of
 /// failures — a list of things the harness above is not equipped to build.
-const NOT_POSED: &[(&str, &str)] = &[(
-    "NaOCl + Cl⁻ + 2 H⁺ → Cl2↑ + Na⁺ + H₂O",
-    "one of its three reagents is the vessel's acidity, which is not a \
+const NOT_POSED: &[(&str, &str)] = &[
+    (
+        "NaOCl + Cl⁻ + 2 H⁺ → Cl2↑ + Na⁺ + H₂O",
+        "one of its three reagents is the vessel's acidity, which is not a \
      species and so is not in `reactants` for this harness to add. Adding \
      bare `Cl-` happens to supply some — an anion with no cation IS a \
      charge imbalance, which is what this bench means by free acid — but \
@@ -112,7 +113,21 @@ const NOT_POSED: &[(&str, &str)] = &[(
      the chloride went in first or last and neither answer is about the \
      reaction. Both real orders are covered directly in `acid_base.rs`, \
      along with the case that matters most: brine and bleach doing nothing.",
-)];
+    ),
+    (
+        "ClO⁻ + Cl⁻ + 2 H⁺ → Cl2↑ + H₂O",
+        "the sibling of the row above, written on the anion a solved bleach \
+         solution holds, and not posable here for exactly the same reason: \
+         its third reagent is the vessel's acidity.",
+    ),
+    (
+        "HClO + Cl⁻ + H⁺ → Cl2↑ + H₂O",
+        "the same row on the couple's acid form, and unposable for the same \
+         reason a third time: the proton it needs is the vessel's acidity, \
+         which is a charge imbalance rather than a species this harness can \
+         add.",
+    ),
+];
 
 #[test]
 fn every_curated_reaction_is_reachable_in_every_order() {

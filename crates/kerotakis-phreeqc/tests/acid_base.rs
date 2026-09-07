@@ -162,10 +162,18 @@ fn bleach_and_ammonia_warns_then_shows_the_chloramine() {
             |e| matches!(e, Event::HazardWarning { hazard, .. } if hazard.contains("chloramine")),
         )
         .expect("hazard warning must be present");
+    // 0.0999 mol rather than 0.1000, and the missing tenth of a percent is
+    // chemistry rather than slop. The reaction is written on `ClO⁻`, and a
+    // solved bleach at pH 10.6 is not entirely hypochlorite: pKa 7.57 puts
+    // about one part in a thousand in the undissociated `HClO`, which this
+    // row cannot consume. It is a one-step lag, not a loss — the next solve
+    // re-equilibrates the couple and the remainder is there to react. The
+    // tolerance was 1e-9 while `NaOCl` was one indivisible portion and
+    // could not survive the couple being real.
     let gas_pos = events
         .iter()
         .position(
-            |e| matches!(e, Event::GasEvolved { species, moles, .. } if species.0 == "NH2Cl" && (moles.0 - 0.1).abs() < 1e-9),
+            |e| matches!(e, Event::GasEvolved { species, moles, .. } if species.0 == "NH2Cl" && (moles.0 - 0.1).abs() < 1e-3),
         )
         .expect("chloramine gas must actually evolve");
     assert!(warn_pos < gas_pos, "the warning precedes the chemistry");
@@ -176,14 +184,27 @@ fn bleach_and_ammonia_warns_then_shows_the_chloramine() {
         "the equation is shown"
     );
 
-    // The reactants are consumed; the NaOH byproduct makes it basic.
+    // The reactants are consumed; the alkali byproduct makes it basic.
+    //
+    // "Consumed" now means to a part in a thousand rather than to 1e-9,
+    // and the leftover is the other side of the same tenth of a percent:
+    // the ammonia can only react with the hypochlorite the ledger holds as
+    // `ClO-`, and at pH 10.6 a thousandth of the couple is sitting as
+    // `HClO`. `curated` runs once per step and the tail re-equilibrates
+    // afterwards, so the remainder reacts on the NEXT step rather than
+    // this one — a one-step lag, and the honest consequence of the couple
+    // being real instead of one indivisible `NaOCl` portion.
     let vessel = bench.vessel(v).unwrap();
     assert!((vessel.moles_of(&SpeciesId::new("NaOCl")).0).abs() < 1e-9);
-    assert!((vessel.moles_of(&SpeciesId::new("NH3")).0).abs() < 1e-9);
+    assert!(vessel.moles_of(&SpeciesId::new("NH3")).0 < 1e-3);
+    assert!(
+        vessel.moles_of(&SpeciesId::new("ClO-")).0 < 1e-3,
+        "and so is the hypochlorite it was speciated into"
+    );
     let ph = vessel.solution.clone().expect("characterised").ph;
     assert!(
         ph > 12.0,
-        "0.1 mol NaOH byproduct in 100 mL is strongly basic, got pH {ph}"
+        "0.1 mol of alkali in 100 mL is strongly basic, got pH {ph}"
     );
 }
 
@@ -784,55 +805,44 @@ fn vinegar_alone_raises_no_alarm() {
     );
 }
 
-/// Bleach in water says why it cannot be modelled, instead of nothing.
+/// The sentence bleach used to say about itself, and must never say again.
 ///
-/// The whole run used to be three lines, all true, which between them
-/// never said the bleach was the reason:
+/// For three days a beaker of bleach and water answered like this, and
+/// every word after "not yet modelled" was false:
 ///
 /// ```text
-/// v1: +27.6714 mol water
-/// v1: +0.0050 mol bleach (sodium hypochlorite)
-/// v1: the pH meter reads nothing — no aqueous solution has been
-///     characterised in this vessel
+/// v1: not yet modelled — bleach (sodium hypochlorite) is dissolved and
+///     unspeciated: no thermodynamic database defines a hypochlorite
+///     species … and the ClO- matches are all perchlorate
 /// ```
 ///
-/// A learner is told an instrument failed. What actually happened is that
-/// no thermodynamic database defines a hypochlorite species — searched by
-/// name across every `.dat` vendored with iphreeqc, including the ones
-/// this lab does not load, and the `ClO-` matches are all perchlorate.
-///
-/// That is a fact about the world rather than a gap in the wiring, which
-/// is exactly the distinction `NotInAnyDatabase` exists to carry: not in
-/// this lab's gift, and not in anybody's. It does not move the row —
-/// `aq-053` still stands aside, correctly, because there is still no pH
-/// to give — and that is the point. The bench got more honest without the
-/// number moving, which is the opposite of the trade that made #362 wrong.
+/// `vendor/iphreeqc/database/llnl.dat`, in this repository, defines the
+/// species at line 107 and its protonation at line 4493. The row before
+/// this one had been the good citizen of the file — it replaced a silent
+/// refusal with a stated reason, which was the right instinct — and the
+/// reason it stated was made up. A refusal is a claim, it is quoted to a
+/// learner as fact, and unlike a computed number nobody ever re-derives
+/// it. `tests/hypochlorite_speciation.rs` holds what the beaker says now;
+/// this test only holds the door shut.
 #[test]
-fn bleach_says_why_it_cannot_be_speciated() {
+fn bleach_never_claims_again_that_no_database_defines_it() {
     let mut bench = Bench::new();
     let mut stack = stack();
     let v = VesselId(0);
     add(&mut bench, &mut stack, v, "water", 27.67);
     let events = add(&mut bench, &mut stack, v, "NaOCl", 0.005);
 
-    let note = events
-        .iter()
-        .find_map(|e| match e {
-            Event::NotYetModeled { what, cause, .. } if what.contains("hypochlorite") => {
-                Some((what.clone(), *cause))
-            }
-            _ => None,
-        })
-        .unwrap_or_else(|| panic!("bleach must say why it is unspeciated: {events:?}"));
-
-    assert_eq!(
-        note.1,
-        kerotakis_core::ops::NotModelledCause::NotInAnyDatabase,
-        "no shipped database defines it, which is a boundary and not a to-do"
-    );
+    for event in &events {
+        let Event::NotYetModeled { what, .. } = event else {
+            continue;
+        };
+        assert!(
+            !what.contains("hypochlorite") && !what.contains("perchlorate"),
+            "bleach speciates now — no refusal may name it: {what}"
+        );
+    }
     assert!(
-        note.0.contains("database"),
-        "and the sentence names what is missing: {}",
-        note.0
+        bench.vessel(v).unwrap().solution.is_some(),
+        "and the vessel is characterised rather than standing aside: {events:?}"
     );
 }

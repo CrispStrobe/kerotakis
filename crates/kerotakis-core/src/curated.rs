@@ -182,6 +182,96 @@ pub const REACTIONS: &[CuratedReaction] = &[
         catalyst: None,
         acid_protons: None,
     },
+    // The same hazard a third and a fourth time, written in the names a
+    // beaker holds once the bleach has been through a solve.
+    //
+    // Both rows above name `NaOCl`, and since the aqueous tail speciates
+    // hypochlorite there is no `NaOCl` portion left in any vessel that has
+    // been solved — bleach in water is sodium ion and hypochlorite ion, as
+    // it is in the bottle. Without these two, adding bleach to water and
+    // THEN pouring in a descaler would have gone quiet: two reviewed
+    // entries describing the most dangerous thing a household can do by
+    // accident, neither able to fire. The two `MnO₄⁻` rows are the
+    // precedent and this is the same move.
+    //
+    // FOUR ROWS FOR ONE REACTION IS MORE THAN ANYBODY WANTS, and it is
+    // what the ordering costs: the bleach may or may not have been solved,
+    // and so may the acid, and `curated` runs before the tail so both
+    // states are reachable. This first one is bleach already in solution
+    // and the descaler arriving now — the ledger still holds it as `HCl`,
+    // because the tail has not seen it yet.
+    CuratedReaction {
+        equation: "ClO⁻ + 2 HCl → Cl2↑ + Cl⁻ + H₂O",
+        reactants: &[("ClO-", 1.0), ("HCl", 2.0)],
+        products: &[
+            ("Cl2", 1.0, Phase::Gas),
+            ("Cl-", 1.0, Phase::Aqueous),
+            ("water", 1.0, Phase::Liquid),
+        ],
+        solvent: None,
+        min_temp_k: None,
+        catalyst: None,
+        acid_protons: None,
+    },
+    // And this one is both of them solved: the acid is gone into chloride
+    // and a charge imbalance, the bleach into hypochlorite. Written on the
+    // anion plus the vessel's own acidity, for exactly the reason the
+    // `NaOCl + Cl⁻` row gives — hypochlorite and chloride alone are bleach
+    // and salt water, which does nothing. It is the proton that makes this
+    // go, and `acid_protons` is what asks for it.
+    CuratedReaction {
+        equation: "ClO⁻ + Cl⁻ + 2 H⁺ → Cl2↑ + H₂O",
+        reactants: &[("ClO-", 1.0), ("Cl-", 1.0)],
+        products: &[("Cl2", 1.0, Phase::Gas), ("water", 1.0, Phase::Liquid)],
+        solvent: None,
+        min_temp_k: None,
+        catalyst: None,
+        acid_protons: Some(2.0),
+    },
+    // ...and the same two again on the UNDISSOCIATED acid, which is not
+    // pedantry: it is where the reaction actually goes.
+    //
+    // `HOCl + H+ + Cl- -> Cl2 + H2O` is the mechanism in every textbook -
+    // it is hypochlorous acid, not the anion, that the chloride attacks -
+    // and once the couple is speciated the ledger holds both members. Two
+    // rows on `ClO⁻` alone stop at the anion's share: at pH 10.4 that is
+    // 99.9% of it, and the missing tenth of a percent left 0.0002 mol of
+    // hydrochloric acid unspent and took a beaker that should read pH 7
+    // down to pH 3.5. `curated` iterates within a step, so with these two
+    // present the anion reacts, the couple's acid form reacts after it,
+    // and the acid is spent to the last millimole.
+    CuratedReaction {
+        equation: "HClO + HCl → Cl2↑ + H₂O",
+        reactants: &[("HClO", 1.0), ("HCl", 1.0)],
+        products: &[("Cl2", 1.0, Phase::Gas), ("water", 1.0, Phase::Liquid)],
+        solvent: None,
+        min_temp_k: None,
+        catalyst: None,
+        acid_protons: None,
+    },
+    CuratedReaction {
+        equation: "HClO + Cl⁻ + H⁺ → Cl2↑ + H₂O",
+        reactants: &[("HClO", 1.0), ("Cl-", 1.0)],
+        products: &[("Cl2", 1.0, Phase::Gas), ("water", 1.0, Phase::Liquid)],
+        solvent: None,
+        min_temp_k: None,
+        catalyst: None,
+        acid_protons: Some(1.0),
+    },
+    // Chloramine, on the ion, for the same reason: `NH3 + NaOCl` above
+    // cannot fire in a solved beaker. The sodium is absent from both sides
+    // here because it never took part — it is a spectator in the bottle and
+    // a spectator in the beaker — so the alkali the reaction really leaves
+    // behind is the hydroxide ion, which is what the row says.
+    CuratedReaction {
+        equation: "NH3 + ClO⁻ → NH2Cl↑ + OH⁻",
+        reactants: &[("NH3", 1.0), ("ClO-", 1.0)],
+        products: &[("NH2Cl", 1.0, Phase::Gas), ("OH-", 1.0, Phase::Aqueous)],
+        solvent: None,
+        min_temp_k: None,
+        catalyst: None,
+        acid_protons: None,
+    },
     CuratedReaction {
         equation: "4 KMnO4 + 3 C₂H₅OH → 4 MnO₂↓ + 3 CH₃COOH + 4 KOH + H₂O",
         reactants: &[("KMnO4", 4.0), ("ethanol", 3.0)],
@@ -372,6 +462,58 @@ pub const REACTIONS: &[CuratedReaction] = &[
         products: &[
             ("indigo_carmine_ox", 1.0, Phase::Aqueous),
             ("NaCl", 1.0, Phase::Aqueous),
+        ],
+        solvent: None,
+        min_temp_k: None,
+        catalyst: None,
+        acid_protons: None,
+    },
+    // The same three bleachings on the ion the vessel holds after a solve.
+    //
+    // These are not redundancy. The three rows above fire only while the
+    // bleach is the reagent being ADDED, because `curated` runs before the
+    // aqueous tail: on that one step the ledger still holds `NaOCl`. Put
+    // the bleach in first and stir the dye in afterwards — which is how
+    // `th-077` is written and how anybody actually does it — and the
+    // hypochlorite has already been speciated into `ClO-` by the time the
+    // dye arrives. That order dependence is exactly the defect the
+    // `NaOCl + Cl⁻` comment above describes, and it is repaired the same
+    // way rather than left for the next reader to rediscover.
+    //
+    // The spectator changes with the spelling: where the bottle rows leave
+    // `NaCl`, these leave the chloride ion alone, because the sodium was
+    // never in the reaction — it is in the beaker either way, booked by the
+    // tail as `Na+`.
+    CuratedReaction {
+        equation: "betanin + ClO⁻ → betanin(ox) + Cl⁻",
+        reactants: &[("betanin", 1.0), ("ClO-", 1.0)],
+        products: &[
+            ("betanin_ox", 1.0, Phase::Aqueous),
+            ("Cl-", 1.0, Phase::Aqueous),
+        ],
+        solvent: None,
+        min_temp_k: None,
+        catalyst: None,
+        acid_protons: None,
+    },
+    CuratedReaction {
+        equation: "curcumin + ClO⁻ → curcumin(ox) + Cl⁻",
+        reactants: &[("curcumin", 1.0), ("ClO-", 1.0)],
+        products: &[
+            ("curcumin_ox", 1.0, Phase::Aqueous),
+            ("Cl-", 1.0, Phase::Aqueous),
+        ],
+        solvent: None,
+        min_temp_k: None,
+        catalyst: None,
+        acid_protons: None,
+    },
+    CuratedReaction {
+        equation: "indigo carmine + ClO⁻ → isatin sulfonate + Cl⁻",
+        reactants: &[("indigo_carmine", 1.0), ("ClO-", 1.0)],
+        products: &[
+            ("indigo_carmine_ox", 1.0, Phase::Aqueous),
+            ("Cl-", 1.0, Phase::Aqueous),
         ],
         solvent: None,
         min_temp_k: None,

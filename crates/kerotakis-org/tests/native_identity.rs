@@ -57,8 +57,16 @@ fn the_tranche_only_grows_deliberately() {
         // fructose (D-configured, anomer unspecified), malic and citric
         // acid, and the citrate ion minteq.v4 books dissolved citrate
         // back as. Cellulose deliberately joins none of them — a polymer
-        // has no molecular structure to curate.
-        108,
+        // has no molecular structure to curate. The hypochlorite work adds
+        // `ClO-` and `HClO`, and they are here rather than deferred
+        // BECAUSE of the trap they carry: hypochlorite's key is not its
+        // acid's with the last character changed, which is what the
+        // acetate and lactate pairs in this registry invite you to assume.
+        // PubChem writes the anion as a charged skeleton, so the first
+        // block differs and the suffix stays -N. Recomputing both from
+        // their SMILES is what makes the registry rows checkable rather
+        // than quoted.
+        110,
         "structures were added or removed — update this pin and say why \
          in the same commit"
     );
