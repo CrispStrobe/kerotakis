@@ -1669,6 +1669,7 @@
   <ConceptMap
     entries={codexEntries}
     {session}
+    mode={labMode}
     kids={kidsExperiments}
     missions={lessons}
     onopenentry={(e) => {

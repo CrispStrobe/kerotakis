@@ -9,9 +9,27 @@
    * entries, kids tasks, and guided missions — each with the reason it is
    * offered and a button that opens it. A concept the shipped content
    * cannot reach says so rather than showing an empty panel.
+   *
+   * The panel is TWO surfaces, and the layout says so (owner, German
+   * deploy: "there is not enough screen space for the Missions below the
+   * map"). The graph used to take a flexible column and the activity list
+   * a 14rem strip beneath it, so on anything but a tall desktop the list
+   * a learner had just asked for was the part that lost: three links
+   * became a row and a half, and the missions sat below the fold of a
+   * panel that did not scroll as a whole.
+   *
+   * So: wide, they are side by side — the graph scrolls in its own box on
+   * the left, the activities for the selected concept take a column of
+   * their own on the right that never falls below 20rem and scrolls by
+   * itself. Narrow, a graph is the wrong shape entirely, and it collapses
+   * to the accordion the list wanted to be all along: concepts in
+   * prerequisite order, the selected one expanding its activities inline
+   * where the finger already is. Either way the header — the tally and
+   * the one close affordance — stays put and only the body moves.
    */
   import {
     conceptGraph,
+    entryLocked,
     entryReady,
     metConcepts,
     type CodexEntry,
@@ -20,11 +38,13 @@
   import { kidsText, type KidsExperiment } from "../kidsCatalog";
   import type { MissionSummary } from "../storyProgress";
   import type { Session } from "../session.svelte";
+  import type { LabMode } from "../worldState";
   import { i18n, t, tSlug } from "../i18n.svelte";
 
   let {
     entries,
     session,
+    mode,
     kids = [],
     missions = [],
     onopenentry,
@@ -34,6 +54,9 @@
   }: {
     entries: CodexEntry[];
     session: Session;
+    /** Which laboratory this is. Sandbox gates nothing; Story keeps the
+     * authored progression. */
+    mode: LabMode;
     kids?: KidsExperiment[];
     missions?: MissionSummary[];
     /** Hand the tapped entry to the experiment page. */
@@ -48,6 +71,25 @@
   const graph = $derived(conceptGraph(entries));
   const met = $derived(metConcepts(entries, session.completedExperiments));
   let picked = $state<string | null>(null);
+
+  /**
+   * One column or two, decided by the width the panel actually has.
+   *
+   * A media query alone could hide one of two copies of the activity
+   * list, but then every button and every measurement inside it would
+   * exist twice in the document. The query drives state instead, so
+   * exactly one shape is ever mounted.
+   */
+  const COMPACT = "(max-width: 47.5rem)";
+  let compact = $state(false);
+  $effect(() => {
+    if (typeof window === "undefined" || typeof window.matchMedia !== "function") return;
+    const query = window.matchMedia(COMPACT);
+    compact = query.matches;
+    const onchange = (event: MediaQueryListEvent) => (compact = event.matches);
+    query.addEventListener("change", onchange);
+    return () => query.removeEventListener("change", onchange);
+  });
 
   // Layout: columns by depth, rows in each column's sorted order.
   const COL_W = 170;
@@ -110,6 +152,13 @@
   const linkTitle = (link: Elsewhere): string =>
     link.kind === "kids" ? kidsText(link.kid, "title", i18n.locale) : t(link.mission.name);
 
+  const conceptName = (concept: string): string => t(concept.replace(/-/g, " "));
+
+  /** The concepts an entry builds on that this learner has not met yet.
+   * In Story they are the reason it is gated; in Sandbox they are a route
+   * through the material, and never a refusal. */
+  const pending = (e: CodexEntry): string[] => (e.requires ?? []).filter((r) => !met.has(r));
+
   function edgePath(e: { from: string; to: string }): string {
     const a = layout.at.get(e.from);
     const b = layout.at.get(e.to);
@@ -119,7 +168,58 @@
     const mid = (ax + bx) / 2;
     return `M ${ax} ${a.y} C ${mid} ${a.y} ${mid} ${b.y} ${bx} ${b.y}`;
   }
+
+  function toggle(concept: string): void {
+    picked = picked === concept ? null : concept;
+  }
 </script>
+
+{#snippet activities()}
+  {#if picked}
+    <h3>{conceptName(picked)}</h3>
+    {#if links.length === 0}
+      <p class="none">{t("no activity teaches this concept yet")}</p>
+    {/if}
+    <ul>
+      {#each teaching as link (link.id)}
+        {@const e = link.entry}
+        {@const gated = entryLocked(e, met, mode)}
+        {@const waiting = pending(e)}
+        <li>
+          <button class="entry" onclick={() => onopenentry(e)}>
+            <span class="ready" class:ok={!gated} class:locked={gated}>
+              {gated ? t("locked") : t("ready")}
+            </span>
+            {tSlug(e.id)}
+            {#if link.done}<span class="done">✓</span>{/if}
+          </button>
+          <span class="why">{t(relationLabel(link.relation))}</span>
+          {#if waiting.length > 0}
+            <span class="needs">
+              {gated
+                ? t("needs: {concepts}", { concepts: waiting.map(tSlug).join(", ") })
+                : t("builds on: {concepts}", { concepts: waiting.map(tSlug).join(", ") })}
+            </span>
+          {/if}
+        </li>
+      {/each}
+      {#each elsewhere as link (link.kind + ":" + link.id)}
+        <li>
+          <button
+            class="entry"
+            onclick={() => (link.kind === "kids" ? onopenkids?.(link.id) : onopenmission?.(link.id))}
+            disabled={link.kind === "kids" ? onopenkids === undefined : onopenmission === undefined}
+          >
+            <span class="ready kind">{link.kind === "kids" ? t("experiment") : t("mission")}</span>
+            {linkTitle(link)}
+            {#if link.done}<span class="done">✓</span>{/if}
+          </button>
+          <span class="why">{t(relationLabel(link.relation))}</span>
+        </li>
+      {/each}
+    </ul>
+  {/if}
+{/snippet}
 
 <div
   class="scrim"
@@ -129,6 +229,7 @@
 >
   <dialog open
     class="map"
+    class:compact
     aria-modal="true"
     aria-label={t("concept map")}
     onclick={(e) => e.stopPropagation()}
@@ -142,72 +243,67 @@
     </header>
     {#if graph.nodes.length === 0}
       <p class="empty">{t("the codex export has not arrived yet — the map draws itself from it")}</p>
-    {:else}
-      <div class="scroll">
-        <svg width={layout.width} height={layout.height} role="img" aria-label={t("concept graph")}>
-          {#each shownEdges as e (e.from + "→" + e.to)}
-            <path class="edge" d={edgePath(e)} />
-          {/each}
+    {:else if compact}
+      <!-- One column: a laid-out graph does not survive a phone, so the
+           layering becomes an indent and the activities open inline under
+           the concept the finger just chose. -->
+      <div class="body stacked">
+        <ul class="concepts">
           {#each graph.nodes as n (n.concept)}
-            {@const p = layout.at.get(n.concept)!}
-            <g transform={`translate(${p.x} ${p.y})`}>
-              <foreignObject x="0" y="-16" width="132" height="34">
-                <button
-                  class="node"
-                  class:met={met.has(n.concept)}
-                  class:on={picked === n.concept}
-                  onclick={() => (picked = picked === n.concept ? null : n.concept)}
-                >
-                  {t(n.concept.replace(/-/g, " "))}
-                  <small>{n.count}</small>
-                </button>
-              </foreignObject>
-            </g>
+            <li>
+              <button
+                class="node concept-row"
+                class:met={met.has(n.concept)}
+                class:on={picked === n.concept}
+                style={`--depth: ${n.depth}`}
+                aria-expanded={picked === n.concept}
+                onclick={() => toggle(n.concept)}
+              >
+                <span class="concept-name">{conceptName(n.concept)}</span>
+                <small>{n.count}</small>
+              </button>
+              {#if picked === n.concept}
+                <div class="teach inline">
+                  {@render activities()}
+                </div>
+              {/if}
+            </li>
           {/each}
-        </svg>
+        </ul>
       </div>
-      {#if picked}
-        <div class="teach">
-          <h3>{t(picked.replace(/-/g, " "))}</h3>
-          {#if links.length === 0}
-            <p class="none">{t("no activity teaches this concept yet")}</p>
-          {/if}
-          <ul>
-            {#each teaching as link (link.id)}
-              {@const e = link.entry}
-              <li>
-                <button class="entry" onclick={() => onopenentry(e)}>
-                  <span class="ready" class:ok={entryReady(e, met)}>
-                    {entryReady(e, met) ? t("ready") : t("locked")}
-                  </span>
-                  {tSlug(e.id)}
-                  {#if link.done}<span class="done">✓</span>{/if}
-                </button>
-                <span class="why">{t(relationLabel(link.relation))}</span>
-                {#if !entryReady(e, met)}
-                  <span class="needs">
-                    {t("needs: {concepts}", { concepts: (e.requires ?? []).filter((r) => !met.has(r)).map(tSlug).join(", ") })}
-                  </span>
-                {/if}
-              </li>
+    {:else}
+      <div class="body split">
+        <div class="scroll">
+          <svg width={layout.width} height={layout.height} role="img" aria-label={t("concept graph")}>
+            {#each shownEdges as e (e.from + "→" + e.to)}
+              <path class="edge" d={edgePath(e)} />
             {/each}
-            {#each elsewhere as link (link.kind + ":" + link.id)}
-              <li>
-                <button
-                  class="entry"
-                  onclick={() => (link.kind === "kids" ? onopenkids?.(link.id) : onopenmission?.(link.id))}
-                  disabled={link.kind === "kids" ? onopenkids === undefined : onopenmission === undefined}
-                >
-                  <span class="ready kind">{link.kind === "kids" ? t("experiment") : t("mission")}</span>
-                  {linkTitle(link)}
-                  {#if link.done}<span class="done">✓</span>{/if}
-                </button>
-                <span class="why">{t(relationLabel(link.relation))}</span>
-              </li>
+            {#each graph.nodes as n (n.concept)}
+              {@const p = layout.at.get(n.concept)!}
+              <g transform={`translate(${p.x} ${p.y})`}>
+                <foreignObject x="0" y="-16" width="132" height="34">
+                  <button
+                    class="node"
+                    class:met={met.has(n.concept)}
+                    class:on={picked === n.concept}
+                    onclick={() => toggle(n.concept)}
+                  >
+                    {conceptName(n.concept)}
+                    <small>{n.count}</small>
+                  </button>
+                </foreignObject>
+              </g>
             {/each}
-          </ul>
+          </svg>
         </div>
-      {/if}
+        <aside class="teach">
+          {#if picked}
+            {@render activities()}
+          {:else}
+            <p class="none">{t("choose a concept to see what teaches it")}</p>
+          {/if}
+        </aside>
+      </div>
     {/if}
   </dialog>
 </div>
@@ -232,8 +328,12 @@
     border: 1px solid var(--edge);
     border-radius: 12px;
     padding: 1rem;
-    width: min(96vw, 900px);
-    max-height: 92vh;
+    width: min(96vw, 1040px);
+    /* The scrim's own padding is part of the height budget: 92vh plus
+       2rem of padding is taller than the screen it is centred in, and the
+       header went off the top before anything inside could scroll. */
+    max-height: calc(100vh - 2rem);
+    max-height: calc(100dvh - 2rem);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -242,6 +342,8 @@
     display: flex;
     align-items: baseline;
     gap: 0.7rem;
+    /* Fixed: the tally and the close stay whatever the body does. */
+    flex: 0 0 auto;
   }
   h2 {
     margin: 0;
@@ -258,14 +360,29 @@
     color: var(--dim);
     font-size: 0.85rem;
   }
+  .body {
+    flex: 1 1 auto;
+    /* Without this a flex child refuses to shrink below its content and
+       the panel grows past the viewport instead of scrolling. */
+    min-height: 0;
+    margin-top: 0.6rem;
+  }
+  .body.split {
+    display: grid;
+    /* The activity list is the half the owner could not read. It gets a
+       floor, and the graph takes what is left. */
+    grid-template-columns: minmax(0, 1fr) minmax(20rem, 24rem);
+    gap: 0.6rem;
+  }
+  .body.stacked {
+    overflow-y: auto;
+  }
   .scroll {
     overflow: auto;
-    margin-top: 0.6rem;
     border: 1px solid var(--edge);
     border-radius: 8px;
     background: var(--panel);
-    flex: 1;
-    min-height: 10rem;
+    min-height: 0;
   }
   .edge {
     fill: none;
@@ -297,10 +414,48 @@
   .node small {
     color: var(--dim);
   }
+  .concepts {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .concept-row {
+    /* Depth was the graph's x axis; here it is the indent, capped so a
+       deep concept still gets most of a narrow row for its name. */
+    margin-left: calc(min(var(--depth), 4) * 0.6rem);
+    width: auto;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    /* A row is a touch target before it is a label. */
+    min-height: 44px;
+    text-align: start;
+    border-radius: 10px;
+    font-size: 0.82rem;
+  }
+  .concept-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   .teach {
-    margin-top: 0.6rem;
-    max-height: 14rem;
+    min-height: 0;
+  }
+  .body.split .teach {
     overflow-y: auto;
+    border: 1px solid var(--edge);
+    border-radius: 8px;
+    background: var(--panel);
+    padding: 0.5rem 0.6rem;
+  }
+  .teach.inline {
+    margin: 0.3rem 0 0.5rem;
+    padding: 0.4rem 0.6rem;
+    border-left: 2px solid var(--edge-strong);
   }
   .teach h3 {
     margin: 0 0 0.3rem;
@@ -311,6 +466,9 @@
     margin: 0;
     padding: 0;
   }
+  .teach li {
+    padding: 0.15rem 0;
+  }
   .entry {
     background: none;
     border: 0;
@@ -319,6 +477,7 @@
     font-size: 0.85rem;
     padding: 0.25rem 0;
     cursor: pointer;
+    text-align: start;
   }
   .entry:hover {
     color: var(--hot);
@@ -330,6 +489,7 @@
     padding: 0.05rem 0.45rem;
     color: var(--dim);
     margin-right: 0.35rem;
+    white-space: nowrap;
   }
   .ready.ok {
     border-color: var(--good);

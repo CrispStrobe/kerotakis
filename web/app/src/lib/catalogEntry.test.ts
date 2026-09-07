@@ -32,7 +32,7 @@ import {
   topicLabel,
   type CatalogFilters,
 } from "./catalogEntry";
-import { parseCodexIndex, type CodexEntry } from "./codex";
+import { entryLocked, metConcepts, parseCodexIndex, type CodexEntry } from "./codex";
 import { type KidsExperiment } from "./kidsCatalog";
 import codexExportJson from "../../../../crates/kerotakis-codex/tests/golden/codex-export.json?raw";
 import kidsCatalogJson from "../../../../data/kids/experiments-v1.json?raw";
@@ -294,6 +294,46 @@ describe("the shipped library", () => {
     const first = placements[0]!;
     const shown = filterCatalogEntries(entries, { ...NO_CATALOG_FILTERS, curriculum: first.key });
     expect(shown.length).toBeGreaterThan(0);
+  });
+
+  /**
+   * Sandbox locks nothing, over the whole library rather than a sample.
+   *
+   * Owner, from the German deploy: "why are some experiments 'gesperrt' in
+   * Sandbox mode???". They were: the authored learning progression
+   * (`CodexEntry.requires`) is a real ordering and the concept map printed
+   * it as a lock in both laboratories, so a reader who had come through
+   * the door marked "everything unlocked" was told most of the library was
+   * shut — by a badge over a button that would have opened it anyway.
+   *
+   * Walked over every shipped entry at three points on the progression —
+   * nothing run, one concept met, everything met — because a rule that
+   * only reads correctly for a learner with an empty record is the bug
+   * this replaces. The Story half is asserted alongside it: if the
+   * prerequisites stopped gating there too, the fix would have deleted the
+   * progression rather than scoped it.
+   */
+  it("locks nothing in Sandbox, at any point in a learner's progression", () => {
+    const everything = new Set(entries.flatMap((entry) => entry.concepts));
+    const records: ReadonlySet<string>[] = [
+      new Set<string>(),
+      metConcepts(codex, new Set(["hot-pack"])),
+      everything,
+    ];
+    const scripted = entries.filter((entry) => entry.script !== null);
+    expect(scripted.length).toBeGreaterThan(100);
+
+    for (const met of records) {
+      const sandbox = scripted.filter((entry) => entryLocked(entry.script!, met, "sandbox"));
+      expect(sandbox.map((entry) => entry.id)).toEqual([]);
+    }
+
+    // Story still orders the library, and the fresh record is the one where
+    // that ordering has the most to say.
+    const story = scripted.filter((entry) => entryLocked(entry.script!, new Set(), "story"));
+    expect(story.length).toBeGreaterThan(50);
+    // ...and it is progress, not a wall: meeting every concept opens it.
+    expect(scripted.filter((entry) => entryLocked(entry.script!, everything, "story"))).toEqual([]);
   });
 });
 
