@@ -26,11 +26,16 @@ import { i18n, tEngine } from "./i18n.svelte";
 import codexExportJson from "../../../../crates/kerotakis-codex/tests/golden/codex-export.json?raw";
 
 type Registers = Record<string, string>;
-type Diagnosis = { reveals?: string; next?: string; reveals_de?: string; next_de?: string };
+type Diagnosis = {
+  reveals?: string | null;
+  next?: string | null;
+  reveals_de?: string | null;
+  next_de?: string | null;
+};
 type Predict = {
-  question?: string;
-  options?: string[];
-  misconception?: string;
+  question?: string | null;
+  options?: string[] | null;
+  misconception?: string | null;
   diagnosis?: Diagnosis[];
   question_de?: string;
   options_de?: string[];
@@ -38,17 +43,17 @@ type Predict = {
 };
 type Reaction = {
   id: string;
-  summary?: string;
-  summary_de?: string;
+  summary?: string | null;
+  summary_de?: string | null;
   registers: Registers;
   expect?: { predict?: Predict };
 };
 type Model = {
   id: string;
-  name?: string;
-  power?: string;
-  explains?: string[];
-  fails_at?: string[];
+  name?: string | null;
+  power?: string | null;
+  explains?: string[] | null;
+  fails_at?: string[] | null;
   registers: Registers;
 } & Record<string, unknown>;
 
@@ -58,8 +63,20 @@ const codex = JSON.parse(codexExportJson) as { reactions: Reaction[]; models: Mo
 type Pair = { where: string; english: string | string[]; german: unknown };
 
 const pairs: Pair[] = [];
-const add = (where: string, english: string | string[] | undefined, german: unknown) => {
-  if (english === undefined) return;
+
+/** `null`, not `undefined`, is how an absent field arrives.
+ *
+ * `summary` is `Option<String>` with no `skip_serializing_if`, so the 56
+ * entries that carry an `equation` instead serialise `"summary": null` —
+ * present as a key, empty as a value. An empty list is the same statement in
+ * the other shape. Neither is an untranslated string; there is nothing there
+ * to translate.
+ */
+const authored = (v: string | string[] | null | undefined): v is string | string[] =>
+  v !== null && v !== undefined && v.length > 0;
+
+const add = (where: string, english: string | string[] | null | undefined, german: unknown) => {
+  if (!authored(english)) return;
   pairs.push({ where, english, german });
 };
 
@@ -121,7 +138,7 @@ describe("the German catalogue renders no English prose", () => {
   });
 
   it("has a German sibling for every authored English string", () => {
-    const missing = pairs.filter((p) => p.german === undefined || p.german === null);
+    const missing = pairs.filter((p) => !authored(p.german as string | string[] | null));
     expect(missing.map((p) => p.where).sort()).toEqual([]);
   });
 

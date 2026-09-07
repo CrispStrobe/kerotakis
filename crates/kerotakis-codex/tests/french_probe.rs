@@ -156,11 +156,14 @@ const MODEL_FRENCH: &str = r#"
 
 #[test]
 fn a_models_german_is_not_dropped_on_the_way_into_the_struct() {
-    let codex = Codex::parse_with_translations(MODEL_ENGLISH, &[("de", MODEL_GERMAN)])
-        .expect("parses");
+    let codex =
+        Codex::parse_with_translations(MODEL_ENGLISH, &[("de", MODEL_GERMAN)]).expect("parses");
     let model = &codex.models[0];
     assert_eq!(model.name_de.as_deref(), Some("Teilchenmodell"));
-    assert!(model.power_de.is_some(), "power_de was accepted and then lost");
+    assert!(
+        model.power_de.is_some(),
+        "power_de was accepted and then lost"
+    );
     assert_eq!(
         model.explains_de,
         Some(vec!["Lösen ohne jeden Masseverlust".to_string()]),
@@ -168,8 +171,7 @@ fn a_models_german_is_not_dropped_on_the_way_into_the_struct() {
     assert_eq!(
         model.fails_at_de,
         Some(vec![
-            "Kann nicht sagen, WARUM Natrium und Chlor reagieren, nur dass sie es tun."
-                .to_string()
+            "Kann nicht sagen, WARUM Natrium und Chlor reagieren, nur dass sie es tun.".to_string()
         ]),
         "fails_at is the field a model exists for; it must survive"
     );
@@ -179,8 +181,8 @@ fn a_models_german_is_not_dropped_on_the_way_into_the_struct() {
 /// that proves the catch-all rather than the four named fields.
 #[test]
 fn a_models_french_reaches_the_json_the_web_reads() {
-    let codex = Codex::parse_with_translations(MODEL_ENGLISH, &[("fr", MODEL_FRENCH)])
-        .expect("parses");
+    let codex =
+        Codex::parse_with_translations(MODEL_ENGLISH, &[("fr", MODEL_FRENCH)]).expect("parses");
     let json = serde_json::to_string(&codex.models[0]).expect("serialises");
     assert!(
         json.contains("Modèle particulaire"),
