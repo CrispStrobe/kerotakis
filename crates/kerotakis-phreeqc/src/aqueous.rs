@@ -1320,7 +1320,7 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
     // Outward transfer is clamped to the carbon actually present: a
     // solution cannot give back more than it holds, and an element total
     // driven negative is not a small error underneath PHREEQC.
-    if vessel.pending_co2_transfer_mol != 0.0 {
+    if vessel.pending_co2_transfer_mol.abs() > kerotakis_core::clock::CO2_TRANSFER_FLOOR_MOL {
         let carbon_now: f64 = totals
             .iter()
             .filter(|(el, _)| el == "C" || el.starts_with("C("))
@@ -1378,28 +1378,23 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
                 phases.push((phase.to_string(), exchange.initial_moles, 0.0));
                 continue;
             }
-            // EXP-57: an OPEN vessel is no longer equilibrated with the
-            // room here. Pinning CO2(g) at the atmospheric saturation
-            // index is the `dt -> infinity` answer, and it made every open
-            // vessel arrive instantly: soda water went flat as it was
-            // poured. Room air is a RATE, and `GasExchangeClock` owns it —
-            // it parks the moles that crossed the surface and the REACTION
-            // block below spends them. A vessel that is never waited on
-            // therefore keeps the carbon it was given, which is what a
-            // bench does over the seconds a reading takes.
+            // EXP-57 changed NOTHING here, and the reader is owed that
+            // plainly, because the direction of travel invites the
+            // opposite reading.
             //
-            // This also retires the `all_present` gate for open vessels,
-            // which is the second half of the same defect: the reservoir
-            // used to be offered only when carbon was ALREADY dissolved,
-            // so a beaker of water or of sodium hydroxide could not take
-            // up CO2 from the room at all. The clock asks no such
-            // question — a solution holding no carbon simply has the
-            // largest driving force there is.
+            // This phase is offered holding ZERO moles. PHREEQC can
+            // precipitate into it and cannot dissolve from it, so for an
+            // open vessel it is a one-way valve: carbon above the room's
+            // partial pressure leaves within the step, and carbon below it
+            // does nothing at all. That outward half stays equilibrium,
+            // exactly as it was — see `GasExchangeClock::advance` for why
+            // making it a rate needs a decision about fizz that this
+            // change does not take.
             //
-            // A SWEPT headspace keeps the old treatment on purpose: it is
-            // a different boundary, an inert carrier deliberately held far
-            // from equilibrium, and its gate is sound — a sweep can only
-            // strip carbon that is already there.
+            // What EXP-57 adds is the INWARD half, and it does not come
+            // through this phase, because it cannot: uptake needs a source
+            // of moles and this has none. `GasExchangeClock` sizes it and
+            // the element-totals block above delivers it.
             let gas_formula = phase.trim_end_matches("(g)");
             let required = crate::dbindex::parse_formula(gas_formula).unwrap_or_default();
             let all_present = required
@@ -1656,7 +1651,18 @@ impl Equilibrator for PhreeqcEquilibrator {
         // below re-solves a copy of `start` up to eight times, and a
         // transfer that vanished after the first pass would make the
         // iterations disagree about what is in the beaker.
-        let gas_exchange_mol = vessel.pending_co2_transfer_mol;
+        // Left PARKED below the floor rather than dropped: a wait too
+        // short to be worth a solve still moved carbon, and it is spent
+        // once enough of it has piled up. `partition` reads the same
+        // threshold, so the two never disagree about whether this step
+        // carried anything.
+        let gas_exchange_mol = if vessel.pending_co2_transfer_mol.abs()
+            > kerotakis_core::clock::CO2_TRANSFER_FLOOR_MOL
+        {
+            vessel.pending_co2_transfer_mol
+        } else {
+            0.0
+        };
         let start = vessel.clone();
         let t0 = start.temperature.0;
         let mut guess = t0;
@@ -2330,21 +2336,6 @@ impl PhreeqcEquilibrator {
                 let k_h = kerotakis_core::properties::henry_at_t(coeff, vessel.temperature.0).value;
                 (co2_moles / problem.kgw) / k_h
             });
-        // Spent: the REACTION block carried it into this very solve, and
-        // leaving it set would apply the same parcel again next step.
-        //
-        // This is also where the transfer is ANNOUNCED. The clock that
-        // sized it deliberately stayed quiet, and an open vessel no longer
-        // has a CO2(g) equilibrium phase for the usual degassing path to
-        // report through — so without this the carbon would leave the
-        // ledger with nothing saying so, and a balance watching the beaker
-        // would simply see mass go missing.
-        //
-        // It is pushed BEFORE the adiabatic block below, which sums gas
-        // events to price the step: carbon dioxide coming out of solution
-        // takes its enthalpy with it, and a vessel that degasses over a
-        // long wait should cool for the same reason an open one does when
-        // it fizzes.
         if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) {
             // Gas this solver gave off, added to whatever the solvers
             // above it already booked into the snapshot.

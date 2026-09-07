@@ -951,12 +951,29 @@ pub struct Vessel {
     /// debiting a degassing vessel by hand would mean taking H and O out
     /// of a portion whose mass is only right because of where the carbon
     /// came from, which is the trap the C(4) split walked into. Instead
-    /// the amount is parked here, and the aqueous tail spends it as a
-    /// PHREEQC `REACTION` in the same step — symmetric in both directions,
-    /// with the engine doing the speciation and the charge.
+    /// the amount is parked here, and the aqueous tail spends it by adding
+    /// it to the ELEMENT TOTALS it poses the solve with — symmetric in both
+    /// directions, with the engine doing the speciation and the charge. A
+    /// `REACTION` block was tried first and speciated correctly, but the
+    /// readback walks input PORTIONS and dropped every atom of it;
+    /// `partition` records that measurement.
     ///
     /// Cleared by whoever applies it. A vessel with no aqueous solver
     /// under it accumulates nothing, because nothing measured a pressure.
+    ///
+    /// **It arrives on the BALANCE 17 g/mol too heavy, and that is not new
+    /// but it is now reachable from the open bench.** The readback books
+    /// every dissolved inorganic carbon as HCO₃⁻ (61 g/mol) while PHREEQC's
+    /// water mass does not drop for the H and O it lent, so a mole of CO₂
+    /// (44 g/mol) delivered by the room weighs a water too much. From a
+    /// bicarbonate SOLID that booking is exact, because the solid brought
+    /// its own H and O; from a gas it is not, and at bench pH most of the
+    /// carbon is really CO₂(aq) anyway, so the name is wrong as well as the
+    /// mass. `kerotakis-phreeqc/tests/sealed_mass.rs` measures it on the
+    /// sealed path and is `#[ignore]`d pending a C(4) protonation split
+    /// with a water debit — the aqueous lane's, and untouched here.
+    /// Currently 0.013 g for a beaker of water standing a month; the same
+    /// defect, not a second one.
     #[serde(default)]
     pub pending_co2_transfer_mol: f64,
     /// `Some` once an aqueous solver has characterised the solution; `None`

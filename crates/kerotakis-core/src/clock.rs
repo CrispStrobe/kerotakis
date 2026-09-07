@@ -642,10 +642,17 @@ pub fn exchange_area_m2(label: &str) -> f64 {
 /// The intercept is the still-air value — 2.07 cm/h = 5.75e-6 m/s — and
 /// it is the one a bench wants, because there is no wind over a beaker.
 /// The Schmidt number 600 the fit is normalised to IS CO₂ in fresh water
-/// at 20 °C, so at bench temperature this already is the CO₂ velocity and
-/// takes no Schmidt correction. That is the only reason a limnology
-/// number can be carried across without a second conversion nobody
-/// checked.
+/// at 20 °C, so this already is a CO₂ velocity and needs no gas-to-gas
+/// conversion. That is the only reason a limnology number can be carried
+/// across without a second conversion nobody checked.
+///
+/// It is held CONSTANT with temperature, and that is an approximation with
+/// a direction rather than an identity. `k_L ∝ Sc^(-1/2)`, and CO₂'s
+/// Schmidt number in fresh water falls from 600 at 20 °C to about 510 at
+/// 25 °C, so the room-temperature velocity is really some 8 % higher than
+/// this, and a beaker of hot water higher again. Left flat deliberately: a
+/// temperature-dependent `k_L` is a second correlation and a second claim,
+/// and 8 % is far inside the lake-versus-beaker boundary below.
 ///
 /// **It is a lake at low wind and not a beaker, and that is the
 /// boundary.** A lake surface at nominally zero wind still has convective
@@ -963,43 +970,28 @@ fn coalesce_substep_events(scratch: Vec<Event>, events: &mut Vec<Event>) {
     events.extend(out);
 }
 
-/// The room, at last.
+/// Below this, a transfer is not worth POSING A SOLVE for.
 ///
-/// Every clock above this one is something happening INSIDE the vessel.
-/// This one is the vessel sitting in a room, and it runs last because it
-/// is the only one whose driving force is a temperature the others may
-/// have just changed: a peroxide decomposition warms the beaker in the
-/// same wait that the room then starts taking that warmth back.
+/// It is [`crate::OBSERVABLE_MOLES`] and not some smaller number of its
+/// own, because spending this parcel is not quiet: the aqueous tail
+/// announces every one as a `GasAbsorbed`, and the carbon it delivers is
+/// booked as bicarbonate, which the reaction-family screen can then see.
+/// A first cut set the floor a thousand times lower and a jar of
+/// vinaigrette left to stand printed
+/// `HCO₃⁻ + CH₃COOH → CH₃COO⁻ + H₂O + CO₂↑` at a sixth of a micromole —
+/// a school equation, in front of a child, for carbon that is not really
+/// bicarbonate and in an amount the bench says outright it cannot see
+/// (`bio-017`). An engine that will not report a nanomole of chlorine as a
+/// gas cloud must not narrate one as a reaction either.
 ///
-/// Newton's law of cooling, `Q̇ = h·A·(T_room − T)`, with `h·A` from
-/// [`ambient_conductance_w_per_k`] and the vessel's own heat capacity as
-/// the thermal mass. It is a lumped-capacitance model: one temperature for
-/// the whole vessel, no gradient through the glass and none through the
-/// contents, which is the standard approximation for a small well-mixed
-/// object and is stated on [`NATURAL_CONVECTION_H_W_PER_M2K`] along with
-/// the radiation it leaves out.
-///
-/// **A sealed vessel exchanges heat too.** The seal keeps matter in; it is
-/// not a vacuum flask, and the glass conducts either way. What it changes
-/// is where the gas goes: cooling a sealed flask drops its pressure and
-/// may condense its vapour, and the contents stay in the flask.
-///
-/// **A thermostatted vessel does not drift at all**, because the bath IS
-/// its surroundings, and modelling a water bath as a beaker in a room
-/// would be modelling it twice.
-///
-/// **This is not a second heat-delivery path.** `Bench::deliver_remaining_heat`
-/// is what a BURNER does — a dose bounded by the apparatus's own ceiling,
-/// offered in passes with the solver stack in scope. This is what a ROOM
-/// does over an interval, and it exists here because `wait` has no solver
-/// in scope and the room's driving force is a temperature the clocks above
-/// have just changed. What the two share is everything that could
-/// disagree: `Vessel::heat_capacity` for the thermal mass, and
-/// `phase_route`/`solve::StateEquilibrator` for what a phase change costs.
-/// Neither owns a joule the other cannot see.
-/// Below this, a transfer is not worth a step's arithmetic: a nanomole of
-/// CO₂ in a beaker moves the pH by far less than the bench narrates.
-const CO2_TRANSFER_FLOOR_MOL: f64 = 1e-9;
+/// It is a floor on SPENDING and deliberately not on earning. The clock
+/// always books what crossed the surface; the aqueous tail declines to
+/// apply it until there is enough to be worth applying, and it stays
+/// parked on the vessel until then. Dropping it instead would have made a
+/// `wait` of one second transfer nothing at all — and a thousand of them
+/// still nothing, while a single `wait 1000s` moved the lot. A bench is
+/// entitled to type the same interval either way.
+pub const CO2_TRANSFER_FLOOR_MOL: f64 = crate::OBSERVABLE_MOLES;
 
 /// EXP-57: an open vessel trades CO₂ with the room, and it takes hours.
 ///
@@ -1035,7 +1027,25 @@ const CO2_TRANSFER_FLOOR_MOL: f64 = 1e-9;
 /// For the default 250 mL beaker holding 200 mL, `A` is 3.85e-3 m², so
 /// `k_L*A/V` is 1.1e-4 s⁻¹ and the time constant is about 2.5 hours. That
 /// is the number that matters: a glass left over a lunch break has moved
-/// perceptibly, and one left overnight has arrived.
+/// perceptibly, and one left overnight has arrived. The same beaker
+/// holding 100 mL arrives twice as fast, because the surface is the mouth
+/// and does not shrink with what is poured into it.
+///
+/// A wait is integrated in CLOSED FORM rather than as one Euler step —
+/// linearly while a chemical sink holds the driving force open, then
+/// exponentially once nothing is consuming the gas. `advance` derives
+/// both. The distinction is not cosmetic: a straight line over an hour
+/// puts 100 mL of water 80 % of the way to the room when the answer is
+/// 55 %, and clamping that at the capacity then reads as arrival.
+///
+/// What this does NOT model is a limewater beaker going cloudy on the
+/// hour, and it should not be expected to. Saturated limewater holds
+/// about 4 mmol of hydroxide in 200 mL; at 2.9e-10 mol/s that is months,
+/// not an afternoon, and the gap is the chemical enhancement stated on
+/// [`STILL_SURFACE_K_L_M_PER_S`] plus the calcium the solid keeps feeding
+/// back. The bench will show the drift on a `wait` measured in days. Said
+/// here because "limewater goes cloudy in air" is the demonstration this
+/// clock is most likely to be reached for.
 ///
 /// This clock computes the amount and parks it in
 /// [`Vessel::pending_co2_transfer_mol`]; the aqueous tail spends it. It
@@ -1122,53 +1132,109 @@ impl Clock for GasExchangeClock {
         // quietly loses a factor of a thousand.
         const LITRES_PER_M3: f64 = 1000.0;
         let area = free_surface_area_m2(&vessel.label);
-        let mut transfer =
-            STILL_SURFACE_K_L_M_PER_S * area * k_h * driving * LITRES_PER_M3 * seconds;
 
-        // The most that can cross before the difference is gone. Past it
-        // the vessel would overshoot the room and come back on the next
-        // wait, which is an oscillation rather than a slower approach.
-        // This is the counterpart of `ambient_substeps`: the same
-        // stability problem, settled with one clamp rather than by
-        // subdividing, because unlike heat this driving force has no paid
-        // transition to cross on the way.
+        // What is left to cross before the difference is gone — and it is
+        // NOT Henry's law alone, which is the whole difficulty.
         //
-        // **The capacity is not Henry's law alone, and that is the whole
-        // difficulty.** Henry says what a litre of water holds as
-        // DISSOLVED GAS, and for plain water that is the answer. It is not
-        // the answer for anything that CONSUMES the gas: 0.02 mol of
-        // sodium hydroxide in 200 mL takes up seven and a half THOUSAND
-        // times the Henry capacity, because every CO₂ that arrives becomes
-        // bicarbonate and stops exerting a pressure. Clamping there would
+        // Henry says what a litre of water holds as DISSOLVED GAS, and for
+        // plain water that is the answer. It is not the answer for
+        // anything that CONSUMES the gas: 0.02 mol of sodium hydroxide in
+        // 200 mL takes up seven and a half THOUSAND times the Henry
+        // capacity, because every CO₂ that arrives becomes bicarbonate and
+        // stops exerting a pressure. Stopping at the Henry figure would
         // have admitted one 7500th of the right amount per wait, and the
         // beaker of hydroxide this clock exists to un-break would have sat
         // in the room looking inert — a capacity computed from something
         // that merely correlates with it, holding only while nothing
         // reacts.
         //
-        // So the chemical sink is counted too, in the direction it acts:
+        // So the chemical sink is counted too: the free hydroxide the
+        // aqueous solver measured, a CO₂ apiece. It is carried on the
+        // vessel for exactly this class of reason. Both terms are bounds
+        // rather than predictions — the solver re-measures the pressure
+        // next step and the rate picks up from there.
+        let henry_capacity = k_h * driving * volume_l;
+        let base_sink = vessel.free_hydroxide.max(0.0);
+
+        // The two capacities are spent in DIFFERENT SHAPES, and taking
+        // them both as one clamped straight line is what a first cut got
+        // wrong. `AmbientClock` meets the same problem and subdivides;
+        // here the integral is elementary, so it is written down exactly
+        // instead.
         //
-        //   INWARD  — the free hydroxide the aqueous solver measured, a
-        //             CO₂ apiece. It is carried on the vessel for exactly
-        //             this class of reason.
-        //   OUTWARD — the dissolved carbon actually present, because a
-        //             solution cannot give back more than it holds.
+        //   * The chemical sink is spent LINEARLY. While free hydroxide
+        //     remains it eats the arriving CO₂, the solution's own partial
+        //     pressure does not rise, and the driving force therefore does
+        //     not fall. Full rate until the base is gone.
+        //   * The Henry capacity is spent EXPONENTIALLY. Once nothing is
+        //     consuming it, every CO₂ that dissolves raises `p_solution`
+        //     and closes the gap that drives the next one:
+        //     `dn/dt = (n_eq - n)/tau` with `tau = V / (k_L * A)`.
         //
-        // Both are bounds rather than predictions: the solver re-measures
-        // the pressure next step and the rate picks up from there.
-        let henry_capacity = k_h * driving.abs() * volume_l;
-        let capacity = henry_capacity + vessel.free_hydroxide.max(0.0);
-        if transfer.abs() > capacity {
-            transfer = capacity.copysign(transfer);
-        }
-        if transfer.abs() <= CO2_TRANSFER_FLOOR_MOL {
+        // Straight-lining the second half over a whole `wait` is a real
+        // error and always in the same direction — too fast. 100 mL of
+        // water over one hour is 80 % of the way to equilibrium as a
+        // straight line and 55 % as the exponential, and it is the sort of
+        // discrepancy that then gets clamped and looks like arrival.
+        let tau_s = volume_l / (STILL_SURFACE_K_L_M_PER_S * area * LITRES_PER_M3);
+        let max_rate_mol_per_s = STILL_SURFACE_K_L_M_PER_S * area * k_h * driving * LITRES_PER_M3;
+        if !(tau_s > 0.0) || !(max_rate_mol_per_s > 0.0) {
             return Ok(());
         }
+        // How long the base holds the driving force wide open.
+        let base_seconds = base_sink / max_rate_mol_per_s;
+        let transfer = if seconds <= base_seconds {
+            max_rate_mol_per_s * seconds
+        } else {
+            base_sink + henry_capacity * (1.0 - (-(seconds - base_seconds) / tau_s).exp())
+        };
+        // `henry_capacity / max_rate == tau_s` identically, so the two
+        // branches meet with the same slope at `base_seconds` and the
+        // whole curve is continuous; and `1 - exp(-x) < 1` for every
+        // finite x, so no wait however long can overshoot the room.
+        //
+        // Booked whatever its size — see [`CO2_TRANSFER_FLOOR_MOL`] for
+        // why the smallness test belongs to whoever SPENDS this and not
+        // to whoever earns it.
         vessel.pending_co2_transfer_mol += transfer;
         Ok(())
     }
 }
 
+/// The room, at last.
+///
+/// Every clock above this one is something happening INSIDE the vessel.
+/// This one is the vessel sitting in a room, and it runs last because it
+/// is the only one whose driving force is a temperature the others may
+/// have just changed: a peroxide decomposition warms the beaker in the
+/// same wait that the room then starts taking that warmth back.
+///
+/// Newton's law of cooling, `Q̇ = h·A·(T_room − T)`, with `h·A` from
+/// [`ambient_conductance_w_per_k`] and the vessel's own heat capacity as
+/// the thermal mass. It is a lumped-capacitance model: one temperature for
+/// the whole vessel, no gradient through the glass and none through the
+/// contents, which is the standard approximation for a small well-mixed
+/// object and is stated on [`NATURAL_CONVECTION_H_W_PER_M2K`] along with
+/// the radiation it leaves out.
+///
+/// **A sealed vessel exchanges heat too.** The seal keeps matter in; it is
+/// not a vacuum flask, and the glass conducts either way. What it changes
+/// is where the gas goes: cooling a sealed flask drops its pressure and
+/// may condense its vapour, and the contents stay in the flask.
+///
+/// **A thermostatted vessel does not drift at all**, because the bath IS
+/// its surroundings, and modelling a water bath as a beaker in a room
+/// would be modelling it twice.
+///
+/// **This is not a second heat-delivery path.** `Bench::deliver_remaining_heat`
+/// is what a BURNER does — a dose bounded by the apparatus's own ceiling,
+/// offered in passes with the solver stack in scope. This is what a ROOM
+/// does over an interval, and it exists here because `wait` has no solver
+/// in scope and the room's driving force is a temperature the clocks above
+/// have just changed. What the two share is everything that could
+/// disagree: `Vessel::heat_capacity` for the thermal mass, and
+/// `phase_route`/`solve::StateEquilibrator` for what a phase change costs.
+/// Neither owns a joule the other cannot see.
 pub struct AmbientClock;
 
 impl Clock for AmbientClock {
@@ -1513,29 +1579,50 @@ mod tests {
     /// whether a glass left over a lunch break has visibly moved.
     #[test]
     fn the_uptake_is_the_published_transfer_velocity() {
-        let mut v = open_beaker_of_water();
-        v.co2_partial_pressure_atm = Some(0.0);
-        let mut events = Vec::new();
-        advance(&mut v, 3600.0, ClockContext::default(), &mut events).expect("advances");
-
         let area = free_surface_area_m2("beaker");
         let k_h = crate::properties::henry_at_t(
             crate::properties::henry_lookup("CO2").expect("CO2 is tabulated"),
             298.15,
         )
         .value;
-        let expected =
-            STILL_SURFACE_K_L_M_PER_S * area * k_h * ATMOSPHERIC_CO2_ATM * 1000.0 * 3600.0;
+
+        // The INITIAL slope is the published velocity outright, so a short
+        // wait measures `k_L` and nothing else. One second, where the
+        // exponential and its tangent agree to a part in ten thousand.
+        let mut v = open_beaker_of_water();
+        v.co2_partial_pressure_atm = Some(0.0);
+        let mut events = Vec::new();
+        advance(&mut v, 10.0, ClockContext::default(), &mut events).expect("advances");
+        let slope = STILL_SURFACE_K_L_M_PER_S * area * k_h * ATMOSPHERIC_CO2_ATM * 1000.0 * 10.0;
+        assert!(
+            (v.pending_co2_transfer_mol - slope).abs() < slope * 1e-3,
+            "the initial rate is k_L*A*K_H*p_air: expected {slope}, got {}",
+            v.pending_co2_transfer_mol
+        );
+
+        // And an hour is that rate relaxing, not that rate held: the
+        // vessel's own partial pressure rises as it fills and closes the
+        // gap that drives the next molecule.
+        let mut v = open_beaker_of_water();
+        v.co2_partial_pressure_atm = Some(0.0);
+        let mut events = Vec::new();
+        advance(&mut v, 3600.0, ClockContext::default(), &mut events).expect("advances");
+        let volume_l = v.liquid_volume().0;
+        let tau = volume_l / (STILL_SURFACE_K_L_M_PER_S * area * 1000.0);
+        let to_equilibrium = k_h * ATMOSPHERIC_CO2_ATM * volume_l;
+        let expected = to_equilibrium * (1.0 - (-3600.0 / tau).exp());
         assert!(
             (v.pending_co2_transfer_mol - expected).abs() < expected * 1e-9,
             "expected {expected}, got {}",
             v.pending_co2_transfer_mol
         );
+        assert!(
+            v.pending_co2_transfer_mol < slope * 360.0,
+            "and it must be BELOW the straight line, which is the point"
+        );
 
-        // And the time constant that follows from it, stated so a reader
-        // can check the claim in the doc comment above.
-        let to_equilibrium = k_h * ATMOSPHERIC_CO2_ATM * 0.2;
-        let tau = to_equilibrium / (expected / 3600.0);
+        // The time constant the doc comment claims, checked rather than
+        // asserted in prose.
         assert!(
             (7200.0..11000.0).contains(&tau),
             "the beaker's time constant should be hours, got {tau} s"
@@ -1644,6 +1731,35 @@ mod tests {
             v.pending_co2_transfer_mol <= 0.02 + henry_only + 1e-12,
             "and not more than the hydroxide can consume, got {}",
             v.pending_co2_transfer_mol
+        );
+    }
+
+    /// A thousand one-second waits and one thousand-second wait must move
+    /// the same carbon. They cannot be identical — the long wait sees the
+    /// gap close as it goes and the short ones do not — but they must not
+    /// differ by everything, which is what a floor applied to the EARNING
+    /// rather than the SPENDING did: a second's uptake is 2.9e-10 mol,
+    /// under [`CO2_TRANSFER_FLOOR_MOL`], and every one of the thousand was
+    /// thrown away.
+    #[test]
+    fn a_thousand_short_waits_are_not_nothing() {
+        let mut short = open_beaker_of_water();
+        short.co2_partial_pressure_atm = Some(0.0);
+        let mut events = Vec::new();
+        for _ in 0..1000 {
+            advance(&mut short, 1.0, ClockContext::default(), &mut events).expect("advances");
+        }
+
+        let mut long = open_beaker_of_water();
+        long.co2_partial_pressure_atm = Some(0.0);
+        let mut events = Vec::new();
+        advance(&mut long, 1000.0, ClockContext::default(), &mut events).expect("advances");
+
+        assert!(
+            short.pending_co2_transfer_mol > long.pending_co2_transfer_mol * 0.9,
+            "a thousand seconds a second at a time moved {} mol against {} mol in one go",
+            short.pending_co2_transfer_mol,
+            long.pending_co2_transfer_mol
         );
     }
 
