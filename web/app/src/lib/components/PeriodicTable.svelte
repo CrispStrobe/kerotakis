@@ -44,7 +44,7 @@
   // The opening selection, not a binding: once the table is up, which
   // element is chosen belongs to whoever is reading it.
   let picked = $state<ElementInfo | null>(
-    element ? ELEMENTS.find((candidate) => candidate.symbol === element) ?? null : null,
+    element ? (ELEMENTS.find((candidate) => candidate.symbol === element) ?? null) : null,
   );
   let fullTable = $state(false);
   let query = $state("");
