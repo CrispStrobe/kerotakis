@@ -125,14 +125,14 @@ fn milk_precipitates_a_calcium_phosphate_instead_of_apologising() {
     assert!(
         ocp > 1e-7,
         "100 mL of milk must lay down a calcium phosphate; it holds {ocp:.4e} mol \
-         ({mass_mg:.3f} mg) of octacalcium phosphate. Full output:\n{text}"
+         ({mass_mg:.3} mg) of octacalcium phosphate. Full output:\n{text}"
     );
     // A few milligrams, not a curd. The bound is loose on purpose: what is
     // being pinned is that a real but small colloid comes out, which is
     // what a recipe carrying no casein can honestly produce.
     assert!(
         (0.5..=20.0).contains(&mass_mg),
-        "the colloid should be a few milligrams per 100 mL, got {mass_mg:.3f} mg"
+        "the colloid should be a few milligrams per 100 mL, got {mass_mg:.3} mg"
     );
     assert!(
         text.to_lowercase().contains("octacalcium phosphate"),
