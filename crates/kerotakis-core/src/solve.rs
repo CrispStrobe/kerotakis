@@ -1988,7 +1988,10 @@ mod route_trace_tests {
         })]);
         let mut vessel = Vessel::new(crate::vessel::VesselId(3), "beaker");
         stack.equilibrate(&mut vessel).expect("stack succeeds");
-        assert_eq!(stack.last_routes[0].vessel, Some(crate::vessel::VesselId(3)));
+        assert_eq!(
+            stack.last_routes[0].vessel,
+            Some(crate::vessel::VesselId(3))
+        );
         let reason = stack.last_routes[0]
             .reason
             .as_deref()
