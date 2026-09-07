@@ -3357,7 +3357,11 @@ mod native_startup_tests {
         assert!(thermal < phase);
         assert!(phase < names.iter().position(|name| *name == "honesty").unwrap());
         let mut bench = Bench::new();
-        for (species, amount) in [("water", 3.0), ("NaCl", 0.001)] {
+        // Solvent alone is not a speciation problem and this adapter declines
+        // it, so the characterisation is asserted once there is something
+        // dissolved to characterise — which is what "the native stack really
+        // computes aqueous chemistry" means.
+        for (species, amount, characterised) in [("water", 3.0, false), ("NaCl", 0.001, true)] {
             let events = bench
                 .step_with(
                     Operator::Add {
@@ -3376,10 +3380,11 @@ mod native_startup_tests {
                     .any(|e| matches!(e, Event::SolverFailed { .. })),
                 "{events:?}"
             );
-            assert!(
+            assert_eq!(
                 events
                     .iter()
                     .any(|e| matches!(e, Event::SolutionCharacterized { .. })),
+                characterised,
                 "{events:?}"
             );
         }

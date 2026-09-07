@@ -2207,6 +2207,38 @@ that raised it. Nothing below is a commitment to an order.
   could not close; recorded here only because the audit's "what the engine
   still lacks" list is where a reader will look for it.
 - **Open-vessel CO₂ uptake as a rate** — #496, a peer session's PR, still open.
+- **Characterising a solvent-only vessel** (#529, from #504) — a beaker of
+  plain water, or of water and a neutral molecular solute, gets no
+  `SolutionInfo`: `PhreeqcEquilibrator::partition` declines when nothing with
+  a derived role is dissolved. Sugar water has a pH, so this is a hole, and
+  #504 tried to close it. Measured on that branch, closing it moved 69
+  curiosity-corpus rows, and only 35 of them were the reason-code
+  strengthening it looks like from a distance:
+  - **26 rows lost a typed observation.** `aq-016…021`, `bio-007…112`,
+    `mat-021…084`, `th-101` fell from `qualitative/typed-observation` to
+    `computed/computed-route`. `typed_observation` in `coverage.rs` is
+    computed from events alone, and neither aside-guard beside it can be
+    tripped by a *computed* route — so the smell, gas test or "this does not
+    dissolve" that used to be the row's answer stopped being emitted.
+    `bio-042` (starch + HCl + heat) and `mat-029` (PET + NaOH + heat) are in
+    that list, and the classifier's own comment names them as rows where "the
+    polymer is unchanged" *is* the answer.
+  - **3 rows became hard solver failures.** `aq-097`, `th-002`, `th-003` all
+    cool pure water through freezing; PHREEQC is then asked to solve it and
+    fails at the solution phase boundary, and the `SolverFailed` is recorded
+    before the independent water-phase fallback gets to answer.
+  - `mat-086` fell from computed to missing.
+
+  None of that is reachable from the coverage classifier: it is what the
+  engine emits that changed. So the order is (1) make an aqueous solve of a
+  solvent-only vessel not suppress the honesty pass's typed observations,
+  (2) run the phase transition before the aqueous attempt for an independent
+  water inventory so freezing water never reaches a solver that cannot solve
+  it, (3) then open the gate and review the remaining rows one at a time.
+  Until then the two tests that pin the wanted behaviour —
+  `native_startup_tests::successful_native_startup_retains_aqueous_computation_and_provenance`
+  and `unsupported_ionic::unknown_ionic_feed_is_distinct_from_a_neutral_molecular_solute`
+  — assert the boundary the product actually has, and say so in a comment.
 - **19 redundant worktrees** — the triage list is at
   `/mnt/volume1/tmp-overflow/triage-prune-list-20260907.txt`. None was deleted:
   main absorbed that work through re-authored PRs rather than cherry-picks, so

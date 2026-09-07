@@ -52,6 +52,11 @@ fn unknown_ionic_feed_is_distinct_from_a_neutral_molecular_solute() {
                 .iter()
                 .any(|p| p.species.0 == "Na2S2O3" && (p.moles.0 - 0.001 * scale).abs() < 1e-12));
         }
+        // The contrast this test is named for: a neutral molecular solute is
+        // not accused of being an unmapped ion. It is a separate question
+        // whether a vessel whose only solute has no derived role should be
+        // characterised at all — this adapter declines that as it always has,
+        // because nothing is dissolved that it can speciate.
         let mut sugar = Vessel::new(VesselId(0), "beaker");
         sugar.deposit(SpeciesId::new("water"), Moles(5.55 * scale), Phase::Liquid);
         sugar.deposit(
@@ -59,10 +64,19 @@ fn unknown_ionic_feed_is_distinct_from_a_neutral_molecular_solute() {
             Moles(0.001 * scale),
             Phase::Aqueous,
         );
-        eq.equilibrate(&mut sugar).unwrap();
+        let events = eq.equilibrate(&mut sugar).unwrap();
         assert!(
-            sugar.solution.is_some(),
-            "neutral solutes retain water characterization"
+            !events.iter().any(|e| matches!(e,
+                Event::NotYetModeled { what, .. }
+                if what.contains("ionic solute without an aqueous component mapping"))),
+            "a neutral solute is not an unmapped ion: {events:?}"
+        );
+        assert!(
+            sugar
+                .contents
+                .iter()
+                .any(|p| p.species.0 == "sucrose" && (p.moles.0 - 0.001 * scale).abs() < 1e-12),
+            "and it is still all there"
         );
     }
 }
