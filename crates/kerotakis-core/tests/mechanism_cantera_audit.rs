@@ -47,6 +47,31 @@ const FALLOFF_REACTION: &str = "- equation: 2 H2O (+M) => 2 H2 + O2 (+M)
   low-P-rate-constant: {A: 1.0e15, b: 0.0, Ea: 0.0}
 ";
 
+/// A species block carrying NASA7 thermochemistry, for the cases that need a
+/// reverse rate. The coefficients are all zero — the point under test is the
+/// rate-law shape, not a particular equilibrium constant — but they are real
+/// NASA7 polynomials over a real temperature range, so the detailed-balance
+/// path runs rather than being short-circuited.
+const THERMO_BASE: &str = r"
+description: BRD-040 audit fixture with thermochemistry
+units: {length: cm, quantity: mol, activation-energy: cal/mol}
+phases:
+- name: gas
+  thermo: ideal-gas
+  species: [H, OH, H2O]
+species:
+- name: H
+  composition: {H: 1}
+  thermo: {model: NASA7, temperature-ranges: [200.0, 3000.0], data: [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]}
+- name: OH
+  composition: {H: 1, O: 1}
+  thermo: {model: NASA7, temperature-ranges: [200.0, 3000.0], data: [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]}
+- name: H2O
+  composition: {H: 2, O: 1}
+  thermo: {model: NASA7, temperature-ranges: [200.0, 3000.0], data: [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]}
+reactions:
+";
+
 /// Append extra keys to the single reaction entry of [`BASE`].
 fn with_reaction_fields(extra: &str) -> String {
     format!("{BASE}{extra}")
@@ -559,19 +584,49 @@ fn falloff_notation_without_a_type_is_refused_rather_than_downgraded() {
 }
 
 /// Reversible pressure-dependent reactions are the dominant form in every real
-/// mechanism file, so the refusal must say so plainly rather than fail on an
-/// unrelated check downstream.
+/// mechanism file — §4 counted five reversible three-body and one reversible
+/// falloff step in `h2o2.yaml`, twelve and twenty-nine in `gri30.yaml` — and
+/// §3.5 recorded that `gri30.yaml` and `air.yaml` both stopped on this refusal
+/// and on nothing else. They are accepted now (BRD-040 §4 items 1 and 2): the
+/// pressure correction multiplies the rate constant, and the NASA7 detailed
+/// balance divides it, so the two compose without a new rate law. The unit
+/// tests in `kinetics::mechanism` check the arithmetic; this one checks that
+/// the shapes a real file is written in reach the parser at all.
 #[test]
-fn reversible_pressure_dependent_reactions_are_refused_plainly() {
+fn reversible_pressure_dependent_reactions_are_accepted() {
+    for (label, reaction) in [
+        (
+            "three-body",
+            "- equation: H + OH + M <=> H2O + M\n  type: three-body\n  rate-constant: {A: 1.0e12, b: 0.5, Ea: 10000.0}\n  efficiencies: {H2O: 12.0}\n",
+        ),
+        (
+            "Lindemann falloff",
+            "- equation: H + OH (+M) <=> H2O (+M)\n  type: falloff\n  high-P-rate-constant: {A: 1.0e12, b: 0.0, Ea: 0.0}\n  low-P-rate-constant: {A: 1.0e18, b: 0.0, Ea: 0.0}\n",
+        ),
+        (
+            "Troe falloff",
+            "- equation: H + OH (+M) <=> H2O (+M)\n  type: falloff\n  high-P-rate-constant: {A: 1.0e12, b: 0.0, Ea: 0.0}\n  low-P-rate-constant: {A: 1.0e18, b: 0.0, Ea: 0.0}\n  Troe: {A: 0.7, T3: 94.0, T1: 1756.0, T2: 5182.0}\n",
+        ),
+    ] {
+        let yaml = format!("{THERMO_BASE}{reaction}");
+        let mechanism =
+            parse_yaml(&yaml).unwrap_or_else(|error| panic!("{label} should parse: {error}"));
+        let detail = &mechanism.summary().reaction_details[0];
+        assert!(detail.reversible, "{label}");
+    }
+}
+
+/// The reverse direction is derived from thermochemistry, so a reversible
+/// pressure-dependent reaction over species that declare none must still be
+/// refused — and for that reason, named, rather than for its reaction type.
+#[test]
+fn reversible_pressure_dependent_reactions_still_need_thermochemistry() {
     let yaml = BASE.replace(
         "- equation: 2 H2 + O2 => 2 H2O\n  rate-constant: {A: 1.0e12, b: 0.5, Ea: 10000.0}\n",
         "- equation: 2 H2 + O2 + M <=> 2 H2O + M\n  type: three-body\n  rate-constant: {A: 1.0e12, b: 0.5, Ea: 10000.0}\n",
     );
     let error = field_error(&yaml);
-    assert!(
-        error.contains("reversible pressure-dependent reactions"),
-        "{error}"
-    );
+    assert!(error.contains("missing NASA7 thermochemistry"), "{error}");
 }
 
 /// Negative activation energies appear four times in Cantera's own

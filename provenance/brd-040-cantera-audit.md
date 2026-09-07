@@ -44,10 +44,10 @@ parsed into a network that answered a different question; these were the bugs.
 | `elementary` (irreversible) | Supported | |
 | `elementary` (reversible) | Supported | reverse rate from NASA7 detailed balance |
 | `three-body` (irreversible) | Supported | `efficiencies`, `default-efficiency` honoured |
-| `three-body` (reversible) | **Refused** | the dominant real form — see §4 |
+| `three-body` (reversible) | **Refused** → **Supported (2026-09-07, BRD-041)** | the dominant real form; the collider factor multiplies both directions and Kc excludes the collider — §4 item 1 |
 | `falloff` + `Troe` (irreversible) | Supported | `T2` optional |
 | `falloff`, no sub-block (Lindemann, irreversible) | Supported | |
-| `falloff` (reversible) | **Refused** | see §4 |
+| `falloff` (reversible) | **Refused** → **Supported (2026-09-07, BRD-041)** | Troe and Lindemann; the blending factor multiplies both directions — §4 item 2 |
 | `falloff` + `SRI` | **Was silent** → refused | dropped, reaction degraded to Lindemann |
 | `falloff` + `Tsang` | **Was silent** → refused | same |
 | `pressure-dependent-Arrhenius` (PLOG) | Supported | log-interpolated, duplicate pressures summed |
@@ -215,14 +215,15 @@ message that names the actual obstacle:
 
 | File | Refusal |
 | --- | --- |
-| `gri30.yaml`, `air.yaml` | `reaction 1: reversible pressure-dependent reactions are not supported yet` — the §4 gap, and nothing else |
+| `gri30.yaml`, `air.yaml` | `reaction 1: reversible pressure-dependent reactions are not supported yet` — the §4 gap, and nothing else. **Closed 2026-09-07 (BRD-041)**; both files now reach the end of the reaction list. |
 | `h2o2.yaml`, `nDodecane_Reitz.yaml` | `phase 'ohmech-RK' / 'nDodecane_RK': only ideal-gas kinetics are supported (got thermo 'Redlich-Kwong')` — see §3.6 |
 | `ammonia-CO-H2-Alzueta-2023.yaml` | `unsupported Cantera document section 'baseline-pdep-reactions'` — previously "mechanism has no reactions", of a file with 54 |
 | `ptcombust.yaml` | `phase 'gas': unsupported value '- gri30.yaml/reactions: declared-species' for Cantera field 'reactions'` |
 | `methane_pox_on_pt.yaml` | `phase 'Pt_surf': only ideal-gas kinetics are supported (got thermo 'ideal-surface')` |
 
 That `gri30.yaml` and `air.yaml` both stop at the same line is the evidence
-behind §4: one gap stands between the subset and the teaching set.
+behind §4: one gap stands between the subset and the teaching set. That gap is
+closed (2026-09-07, BRD-041) — see §4 items 1 and 2.
 
 ### 3.6 A document is validated whole, not selected from
 
@@ -258,8 +259,21 @@ teaching set reduces to **exactly three rate-law additions**:
    forward machinery and the NASA7 detailed-balance path both already exist —
    this is a matter of allowing the two to combine, which the parser currently
    forbids outright.
+   **Done (2026-09-07, BRD-041).** It was exactly that: allowing the two to
+   combine. `RateExpression`'s evaluator already computed the collider factor
+   before dividing the reverse direction by Kc, so no rate law was added, and
+   Kc needed no adjustment because a bare `M` never enters the stoichiometry
+   vector (and a collider written explicitly on both sides cancels out of it).
+   `reversible_three_body_applies_the_collider_to_both_directions` fixes the
+   property that a one-sided factor would break: at `[B]/[A] = Kc` the net rate
+   is zero for **every** bath-gas loading.
 2. **Reversible falloff reactions** (Troe and Lindemann). Same equilibrium
    reverse; the pressure-dependent correction multiplies both directions.
+   **Done (2026-09-07, BRD-041)**, in the same change and for the same reason.
+   `reversible_falloff_broadens_both_directions` holds the forward/reverse
+   ratio at exactly `Kc·[A]/[B]` however far into falloff the reaction sits.
+   Reversible P-log came along with them: it interpolates first and applies
+   detailed balance to the interpolated constant.
 3. **Negative activation energies.** Drop the `Ea ≥ 0` guard. `Ea` in a fitted
    Arrhenius expression is a fitted parameter, not a barrier height, and
    negative values are ordinary. The guard should become a finiteness check.
@@ -451,7 +465,9 @@ and neither is anything else BRD-041 needs.
 - No FFI, no new dependency, no `Cargo.toml` change.
 - No mechanism file in the diff or in the tree.
 - No new rate-law family implemented. The reversible three-body and reversible
-  falloff work identified in §4 belongs to BRD-041.
+  falloff work identified in §4 belongs to BRD-041, and was done there
+  (2026-09-07) — still without a new rate-law family, because both are
+  compositions of machinery this audit found already present.
 - Files fetched for inspection stayed outside the repository.
 - **Not done, deliberately:** no numerical cross-check against a running
   Cantera. This audit compares the parser to the *specification* and to real
