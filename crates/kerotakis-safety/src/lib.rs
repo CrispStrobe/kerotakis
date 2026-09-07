@@ -407,6 +407,14 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         // to another substance rather than about ingestion.
         | "PVA"
         | "Na2B4O7"
+        // The borate couple the aqueous engine now books dissolved boron
+        // between. Same screen, same answer as the salt they come from:
+        // boric acid is a mild irritant and not for swallowing, and it
+        // reacts with nothing on this bench. Assessed and clean is a
+        // stronger statement than unlisted, which is why they are named
+        // here rather than left to the default arm.
+        | "H3BO3"
+        | "H2BO3-"
         // KID-12: a wax burns, which is a hazard of temperature rather than
         // of mixing. The L0 screen classes substances by what they do to
         // each other, and paraffin does nothing to anything here.
@@ -680,6 +688,8 @@ pub const COVERED_KEYS: &[&str] = &[
     "NaOCl",
     "ClO-",
     "HClO",
+    "H3BO3",
+    "H2BO3-",
     "KOH",
     "NaOH",
     "OH-",

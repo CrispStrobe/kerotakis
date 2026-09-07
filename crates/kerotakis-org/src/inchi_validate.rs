@@ -75,6 +75,16 @@ pub const CURATED_STRUCTURES: &[(&str, &str)] = &[
     // `data/registry/registry-source-v1.json` checkable instead of quoted.
     ("ClO-", "[O-]Cl"),
     ("HClO", "OCl"),
+    // The borate couple, and the same trap wearing different clothes.
+    // Boric acid is KGBXLFKZBHKPEV-UHFFFAOYSA-N and dihydrogenborate is
+    // URSLCTBXQMKCFE-UHFFFAOYSA-N: a DIFFERENT first block, because
+    // PubChem writes the anion as a charged skeleton (`/q-1`) rather than
+    // as the acid plus a `/p-1` layer. Both records were fetched (CID 7628
+    // and CID 4035503) before either key was written down, and recomputing
+    // them here is what turns the two registry rows into claims this gate
+    // can check.
+    ("H3BO3", "OB(O)O"),
+    ("H2BO3-", "OB(O)[O-]"),
     // --- metals & non-metal elements ---
     // CAP-13 spike (2026-08-30): the bare bracket atoms joined once the
     // bridge stopped going through a V2000 molfile, which had no way to
