@@ -43,6 +43,7 @@
   import RemoveVesselDialog from "./lib/components/RemoveVesselDialog.svelte";
   import QuestBar from "./lib/components/QuestBar.svelte";
   import { i18n, t } from "./lib/i18n.svelte";
+  import { registerText } from "./lib/registerText";
   import { instrumentSurface } from "./lib/instrumentSurface.svelte";
   import { parseCodexIndex, type CodexEntry } from "./lib/codex";
   import { parseCapabilityIndex, type CapabilityPrompt } from "./lib/capabilities";
@@ -1127,7 +1128,12 @@
             <option value="">{t("choose a quest…")}</option>
             {#each quests as quest (quest.id)}
               <option value={quest.id as string}>
-                {(quest.title as Record<string, string>)?.[session.register] ?? quest.id}
+                {registerText(
+                  quest.title as Record<string, string>,
+                  session.register,
+                  i18n.locale,
+                  quest.id as string,
+                )}
               </option>
             {/each}
           </select>
@@ -1825,6 +1831,16 @@
       utilityStationOpen = false;
       instrumentSurface.open = true;
     }}
+    clearable={session.clearable && !session.busy}
+    onwaste={() => {
+      // The station has already asked, so this is the confirmed press.
+      // It empties the laboratory you are standing in and no other, which
+      // is the only disposal the engine will do today: there is no verb
+      // that discards one vessel's contents, and inventing one in the UI
+      // would mean deleting chemistry state the engine never agreed to.
+      utilityStationOpen = false;
+      clearBench();
+    }}
     onclose={() => (utilityStationOpen = false)}
   />
 {/if}
@@ -2270,6 +2286,47 @@
     padding-top: 0.55rem;
     border-top: 1px solid var(--edge);
   }
+  /* The quest picker had no rules of its own at all. It inherited `font:
+     inherit` from app.css and nothing else, so it drew as a raw OS control
+     on a themed panel — light grey on dark, a head shorter than every
+     button beside it. Worse, a `<select>` is as wide as its widest option
+     and `lv3` quest titles run past a hundred characters: as a flex item
+     with the default `min-width: auto` it refused to shrink, escaped its
+     `minmax(0, 1fr)` drawer track, and spilled over the drawer's own
+     rounded edge. Its own row, and a width it cannot exceed. */
+  .quest-picker {
+    flex-basis: 100%;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.15rem;
+  }
+  .quest-picker > span {
+    flex: none;
+    color: var(--dim);
+    font-size: 0.68rem;
+  }
+  .quest-picker select {
+    min-width: 0;
+    /* `flex: 1` alone would still be floored by the intrinsic width of the
+       longest option; `min-width: 0` is what lets the track win. A native
+       select truncates its own display text once it cannot grow, so no
+       `text-overflow` is needed — and no `appearance: none` either, since
+       there is no house chevron to put back in place of the OS one. */
+    flex: 1;
+    min-height: 40px;
+    padding: 0.25rem 0.4rem;
+    border: 1px solid var(--edge);
+    border-radius: var(--radius-sm);
+    color: var(--ink);
+    background: var(--surface-raised);
+    font: inherit;
+    font-size: 0.78rem;
+    font-weight: 650;
+    cursor: pointer;
+  }
+  .quest-picker select:hover { border-color: var(--primary); }
   .utility-locale {
     flex-basis: 100%;
     display: flex;

@@ -30,6 +30,7 @@ import {
   type Effect,
 } from "./magnitudes";
 import { i18n, t } from "./i18n.svelte";
+import { registerText } from "./registerText";
 import { missionTitle } from "./storyProgress";
 import { caseAwardedTools, contaminatedSampleComplete } from "./storyChapter";
 import { access as catalogAccess, catalogMap, type CatalogMap } from "./catalogProgress";
@@ -247,7 +248,9 @@ export class Session {
     };
     this.feed.push({
       kind: "note",
-      text: t("quest started: {title}", { title: spec.title[this.register] ?? spec.id }),
+      text: t("quest started: {title}", {
+        title: registerText(spec.title, this.register, i18n.locale, spec.id),
+      }),
     });
   }
 

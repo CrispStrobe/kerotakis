@@ -7,7 +7,8 @@
    * own — this bar is the scoreboard, not the voice.
    */
   import type { Session } from "../session.svelte";
-  import { t } from "../i18n.svelte";
+  import { i18n, t } from "../i18n.svelte";
+  import { registerText } from "../registerText";
 
   let { session }: { session: Session } = $props();
 
@@ -28,8 +29,8 @@
 {#if quest}
   <div class="quest" class:complete={quest.complete} role="region" aria-label={t("quest {id}", { id: quest.id })}>
     <div class="head">
-      <strong>{quest.title[lv] ?? quest.id}</strong>
-      <span class="goal">{quest.goal[lv] ?? ""}</span>
+      <strong>{registerText(quest.title, lv, i18n.locale, quest.id)}</strong>
+      <span class="goal">{registerText(quest.goal, lv, i18n.locale)}</span>
       <button class="leave" onclick={() => void session.stopQuest()}>
         {quest.complete ? t("done — close") : t("abandon")}
       </button>
@@ -38,7 +39,7 @@
       {#each quest.claims as c (c.id)}
         <li class:ok={c.satisfied}>
           {c.satisfied ? "✓" : "○"}
-          {c.title[lv] ?? c.id}
+          {registerText(c.title, lv, i18n.locale, c.id)}
         </li>
       {/each}
     </ul>
