@@ -29,6 +29,18 @@
    * cannot be expected to recognise it from a symbol. Chemistry's own
    * notation does the work where it has some — pH, mL, λ are the names of
    * these measurements, not abbreviations of them.
+   *
+   * One row, one flow, nothing taken out of it (owner, German deploy:
+   * "'Alle Geräte' overlays on top of the Messen pieces"). The door used
+   * to be `position: sticky; right: 0`, which in a scrolling flex row
+   * pins it to the right edge of the SCROLLPORT and lets the instruments
+   * travel underneath it — so the pill that leads to everything sat on
+   * top of the two pills it was meant to sit after. It is now simply the
+   * last item in the row; when the row does not fit, the row scrolls, and
+   * a scrolled row hides nothing behind anything. Same reason the hidden
+   * names stopped being absolutely positioned: `.cupboard-door` was the
+   * only positioned ancestor in this subtree, so every other button's
+   * clipped label was resolving against IT.
    */
   import { t } from "../i18n.svelte";
   import { INSTRUMENTS, instrumentCommand } from "../instruments";
@@ -58,7 +70,7 @@
   }
 </script>
 
-<div class="tray" role="group" aria-label={t("instruments for {vessel}", { vessel: v })}>
+<div class="instrument-tray" role="group" aria-label={t("instruments for {vessel}", { vessel: v })}>
   {#each quick as inst (inst.token)}
     <button
       disabled={busy}
@@ -70,8 +82,8 @@
       <span class="name">{t(inst.label)}</span>
     </button>
   {/each}
-  <!-- The door to everything else. Sticky, so it stays reachable even if a
-       locale with longer names ever pushes the row past its container. -->
+  <!-- The door to everything else: last in the row, in flow, after the
+       instruments rather than over them. -->
   <button
     class="cupboard-door"
     title={t("Open the equipment cabinet")}
@@ -84,14 +96,16 @@
 </div>
 
 <style>
-  .tray {
+  .instrument-tray {
     display: flex;
     flex-wrap: nowrap;
+    align-items: center;
     gap: 0.35rem;
     padding: 0.5rem 1rem;
     border-top: 1px solid var(--edge);
     /* Four pills and the door fit; the overflow rule stays as the guard for
-       a locale whose names are longer than German's. */
+       a locale whose names are longer than German's. Scrolling is what a
+       row that does not fit does — never overlapping. */
     overflow-x: auto;
     overflow-y: hidden;
     scrollbar-width: thin;
@@ -106,7 +120,7 @@
     font-size: 0.74rem;
     padding: 0.25rem 0.7rem;
     cursor: pointer;
-    min-height: 34px;
+    min-height: 44px;
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
@@ -123,9 +137,9 @@
     cursor: default;
   }
   .cupboard-door {
-    position: sticky;
-    right: 0;
-    margin-left: auto;
+    /* Pushed to the far end when the row has room to spare, and simply
+       the next pill along when it has not. */
+    margin-inline-start: auto;
     border-color: color-mix(in srgb, var(--action) 45%, var(--edge));
     color: var(--ink);
     background: color-mix(in srgb, var(--action) 12%, var(--panel));
@@ -148,8 +162,10 @@
   /* Below a phone's width the names are what costs the room, so the glyphs
      carry the row alone and the name survives as the accessible name. */
   @media (max-width: 30rem) {
+    /* Clipped rather than positioned: the name stays the accessible name
+       and costs one pixel of the row, without needing a positioned
+       ancestor it cannot be sure of. */
     .name {
-      position: absolute;
       width: 1px;
       height: 1px;
       overflow: hidden;
@@ -158,7 +174,8 @@
     }
     button {
       padding: 0.25rem;
-      min-width: 40px;
+      min-width: 44px;
+      gap: 0;
       justify-content: center;
     }
     .glyph {

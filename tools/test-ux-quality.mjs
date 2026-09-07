@@ -90,11 +90,11 @@ const openStrip = async () => {
           .filter(Boolean).join(' ')));
     button?.click();
   })()`);
-  return waitFor(page, `document.querySelector('.tray button')`, { timeout: 20000 });
+  return waitFor(page, `document.querySelector('.instrument-tray button')`, { timeout: 20000 });
 };
 
 const stripAudit = () => page.evaluate(`(() => {
-  const tray = document.querySelector('.tray');
+  const tray = document.querySelector('.instrument-tray');
   if (!tray) return JSON.stringify({ instruments: 0, doors: 0, repeated: 1 });
   const buttons = [...tray.querySelectorAll('button')];
   const tokens = buttons.map((item) => item.getAttribute('data-token')).filter(Boolean);
@@ -102,6 +102,112 @@ const stripAudit = () => page.evaluate(`(() => {
     instruments: tokens.length,
     doors: buttons.filter((item) => item.classList.contains('cupboard-door')).length,
     repeated: tokens.filter((token) => ['eyes', 'thermometer', 'ph'].includes(token)).length,
+  });
+})()`);
+
+/** Two frames and a tick: enough for a reflow and the shell's own
+ * re-render to land before anything is measured. */
+const settle = () => new Promise((resolve) => setTimeout(resolve, 300));
+
+/** GUI-475, owner: "'Alle Geräte' overlays on top of the Messen pieces".
+ * The door was `position: sticky; right: 0` in a scrolling flex row, which
+ * pins it to the scrollport and lets the instrument pills travel beneath
+ * it. Boxes rather than styles: whatever the CSS says, two buttons in one
+ * row must not share pixels. */
+const trayAudit = () => page.evaluate(`(() => {
+  const tray = document.querySelector('.instrument-tray');
+  if (!tray) return JSON.stringify({ present: false, buttons: 0, overlaps: [], small: [] });
+  const named = (button) => (button.getAttribute('aria-label') || button.getAttribute('title') || button.textContent || '').trim();
+  const boxes = [...tray.querySelectorAll('button')]
+    .filter((button) => button.offsetParent)
+    .map((button) => ({ name: named(button), box: button.getBoundingClientRect() }));
+  const overlaps = [];
+  for (let i = 0; i < boxes.length; i++) {
+    for (let j = i + 1; j < boxes.length; j++) {
+      const a = boxes[i].box;
+      const b = boxes[j].box;
+      const shared = Math.min(a.right, b.right) - Math.max(a.left, b.left);
+      const stacked = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
+      if (shared > 1 && stacked > 1) overlaps.push(boxes[i].name + ' over ' + boxes[j].name);
+    }
+  }
+  return JSON.stringify({
+    present: true,
+    buttons: boxes.length,
+    overlaps,
+    small: boxes.filter((item) => item.box.width < 43.5 || item.box.height < 43.5).map((item) => item.name),
+  });
+})()`);
+
+/** GUI-053 again, owner: "there is not enough screen space for the Missions
+ * below the map". The concept map is two surfaces — the graph and the
+ * activities affiliated with the selected concept — and the second one is
+ * what a reader opened the panel for. It is reached from the utilities
+ * drawer; "Karte" is it, "Weltkarte" is the world map, so the label is
+ * matched whole rather than by substring. */
+const openConceptMap = async () => {
+  const wanted = ["map", "karte"];
+  const present = () => page.evaluate(`Boolean([...document.querySelectorAll('button.tool')].find((item) =>
+    ${JSON.stringify(wanted)}.includes((item.textContent || "").trim().toLocaleLowerCase())))`);
+  if (!(await present())) {
+    await page.evaluate(`document.querySelector('button.utility-toggle')?.click()`);
+    await waitFor(page, `document.querySelector('.utility-drawer')`, { timeout: 5000 });
+  }
+  // The codex export is fetched independently of the bench, and the button
+  // is deliberately absent until it lands. Clicking before then races the
+  // filesystem rather than testing a layout.
+  await waitFor(page, `[...document.querySelectorAll('button.tool')].some((item) =>
+    ${JSON.stringify(wanted)}.includes((item.textContent || "").trim().toLocaleLowerCase()))`,
+    { timeout: 30000 });
+  await page.evaluate(`(() => {
+    const button = [...document.querySelectorAll('button.tool')].find((item) =>
+      ${JSON.stringify(wanted)}.includes((item.textContent || "").trim().toLocaleLowerCase()));
+    button?.click();
+  })()`);
+  return waitFor(page, `document.querySelector('dialog.map')`, { timeout: 20000 });
+};
+
+/** Choose the concept with the most entries behind it — the one whose
+ * activity list is long enough for "below the fold" to mean anything. */
+const pickBusiestConcept = async () => {
+  const chosen = await page.evaluate(`(() => {
+    const panel = document.querySelector('dialog.map');
+    const nodes = [...(panel?.querySelectorAll('button.node') ?? [])];
+    if (nodes.length === 0) return "";
+    const count = (button) => Number((button.querySelector('small')?.textContent || "0").trim());
+    const best = nodes.reduce((a, b) => (count(b) > count(a) ? b : a));
+    best.click();
+    return (best.textContent || "").trim();
+  })()`);
+  await waitFor(page, `document.querySelectorAll('dialog.map .teach li').length >= 3`, { timeout: 10000 });
+  return chosen;
+};
+
+/** The activities, measured after being scrolled to: a list whose tail can
+ * be reached is the whole claim, and a panel that simply grew past the
+ * screen would fail it at the last row rather than the first. */
+const conceptMapAudit = () => page.evaluate(`(() => {
+  const panel = document.querySelector('dialog.map');
+  if (!panel) return JSON.stringify({ present: false });
+  const doc = document.documentElement;
+  const outside = (box) => box
+    ? Math.max(0, box.right - doc.clientWidth, -box.left, box.bottom - doc.clientHeight, -box.top)
+    : 0;
+  const teach = panel.querySelector('.teach');
+  const items = [...(teach?.querySelectorAll('li') ?? [])];
+  items[items.length - 1]?.scrollIntoView({ block: 'end', inline: 'nearest' });
+  const tail = items[items.length - 1]?.getBoundingClientRect();
+  const head = panel.querySelector('header');
+  return JSON.stringify({
+    present: true,
+    compact: panel.classList.contains('compact'),
+    items: items.length,
+    lockedBadges: panel.querySelectorAll('.ready.locked').length,
+    teachWidth: teach ? Math.round(teach.getBoundingClientRect().width) : 0,
+    panelOutside: Math.round(outside(panel.getBoundingClientRect())),
+    headerOutside: Math.round(outside(head?.getBoundingClientRect())),
+    close: Boolean(panel.querySelector('header button.icon-close')),
+    tailOutside: Math.round(outside(tail)),
   });
 })()`);
 
@@ -507,6 +613,56 @@ try {
         `${setsOff.items} items, ${setsOff.kitNames} kit names`);
   await page.evaluate(`document.querySelector('dialog.cupboard button.icon-close')?.click()`);
 
+  // The concept map at the three widths it is actually read at. The dialog
+  // is a fixed overlay, so the viewport moves under one open panel rather
+  // than reloading the app three times — which is also the harder test:
+  // the layout has to survive the change, not merely be born into it.
+  if (await openConceptMap()) {
+    const concept = await pickBusiestConcept();
+    const wide = JSON.parse(await conceptMapAudit());
+    check("the concept map lists at least three activities for a busy concept",
+      wide.items >= 3, `${concept}: ${wide.items} links`);
+    check("the desktop concept map gives the activities a column of their own",
+      wide.compact === false && wide.teachWidth >= 320, `${wide.teachWidth}px`);
+    check("the desktop concept map keeps its last activity on screen",
+      wide.panelOutside <= 1 && wide.tailOutside <= 1,
+      `${wide.panelOutside}px panel, ${wide.tailOutside}px tail`);
+    check("the concept map header stays fixed with its close",
+      wide.close === true && wide.headerOutside <= 1, `${wide.headerOutside}px`);
+    // Sandbox is the laboratory this audit stands in, and it gates nothing.
+    check("Sandbox marks no experiment locked in the concept map",
+      wide.lockedBadges === 0, `${wide.lockedBadges} locked badges`);
+
+    // A resize is announced, not applied: the browser reflows and the shell
+    // re-renders on later frames, so measuring in the same breath measures
+    // the width that has just gone.
+    await viewport(768, 900);
+    await settle();
+    const tablet = JSON.parse(await conceptMapAudit());
+    check("the 768 px concept map keeps the activities beside the graph",
+      tablet.compact === false && tablet.teachWidth >= 320, `${tablet.teachWidth}px`);
+    check("the 768 px concept map keeps its last activity on screen",
+      tablet.panelOutside <= 1 && tablet.tailOutside <= 1,
+      `${tablet.panelOutside}px panel, ${tablet.tailOutside}px tail`);
+    check("Sandbox marks no experiment locked at 768 px", tablet.lockedBadges === 0,
+      `${tablet.lockedBadges} locked badges`);
+
+    await viewport(390, 844);
+    await settle();
+    const phone = JSON.parse(await conceptMapAudit());
+    check("the 390 px concept map collapses the graph to a list",
+      phone.compact === true && phone.items >= 3, `${phone.items} links`);
+    check("the 390 px concept map keeps its last activity on screen",
+      phone.panelOutside <= 1 && phone.tailOutside <= 1,
+      `${phone.panelOutside}px panel, ${phone.tailOutside}px tail`);
+    check("Sandbox marks no experiment locked at 390 px", phone.lockedBadges === 0,
+      `${phone.lockedBadges} locked badges`);
+
+    await viewport(1440, 900);
+    await page.evaluate(`document.querySelector('dialog.map button.icon-close')?.click()`);
+  } else {
+    check("the concept map opens from the utilities drawer", false, "no dialog.map");
+  }
 
   const dockTargets = JSON.parse(await page.evaluate(`JSON.stringify(
     [...document.querySelectorAll('.actions button')].filter((button) => button.offsetParent)
@@ -592,6 +748,21 @@ try {
     await page.evaluate(`document.querySelector('.pour-overlay .cancel')?.click()`);
   } else {
     check("the pour chooser opens on the stage, not above it", false, "no .pour-overlay");
+  }
+
+  // The MESSEN strip at the width the owner reported it at. Boxes are only
+  // boxes once the row is laid out, so the wait is for a VISIBLE button
+  // rather than for one in the document.
+  if (await openStrip()
+      && await waitFor(page, `Boolean(document.querySelector('.instrument-tray button')?.offsetParent)`, { timeout: 10000 })) {
+    const tray = JSON.parse(await trayAudit());
+    check("the MESSEN strip is one row of separate buttons at 390 px",
+      tray.present && tray.buttons >= 2 && tray.overlaps.length === 0,
+      tray.overlaps.join(", ") || `${tray.buttons} buttons`);
+    check("every MESSEN button keeps a 44 px touch target at 390 px",
+      tray.small.length === 0, tray.small.join(", "));
+  } else {
+    check("the MESSEN strip is one row of separate buttons at 390 px", false, "no .instrument-tray");
   }
 
   // 320 CSS pixels remains a real supported width: compact phones, split
