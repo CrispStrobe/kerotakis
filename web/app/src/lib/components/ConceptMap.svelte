@@ -328,7 +328,9 @@
     border: 1px solid var(--edge);
     border-radius: 12px;
     padding: 1rem;
-    width: min(96vw, 1040px);
+    /* Of the scrim's own content box, so the panel can never be wider
+       than the room it is centred in. */
+    width: min(100%, 1040px);
     /* The scrim's own padding is part of the height budget: 92vh plus
        2rem of padding is taller than the screen it is centred in, and the
        header went off the top before anything inside could scroll. */
@@ -372,6 +374,10 @@
     /* The activity list is the half the owner could not read. It gets a
        floor, and the graph takes what is left. */
     grid-template-columns: minmax(0, 1fr) minmax(20rem, 24rem);
+    /* An implicit `auto` row sizes to its tallest content and takes the
+       panel with it; pinned to the body's own height, the two columns
+       scroll instead. */
+    grid-template-rows: minmax(0, 1fr);
     gap: 0.6rem;
   }
   .body.stacked {

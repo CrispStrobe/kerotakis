@@ -149,6 +149,12 @@ const openConceptMap = async () => {
     await page.evaluate(`document.querySelector('button.utility-toggle')?.click()`);
     await waitFor(page, `document.querySelector('.utility-drawer')`, { timeout: 5000 });
   }
+  // The codex export is fetched independently of the bench, and the button
+  // is deliberately absent until it lands. Clicking before then races the
+  // filesystem rather than testing a layout.
+  await waitFor(page, `[...document.querySelectorAll('button.tool')].some((item) =>
+    ${JSON.stringify(wanted)}.includes((item.textContent || "").trim().toLocaleLowerCase()))`,
+    { timeout: 30000 });
   await page.evaluate(`(() => {
     const button = [...document.querySelectorAll('button.tool')].find((item) =>
       ${JSON.stringify(wanted)}.includes((item.textContent || "").trim().toLocaleLowerCase()));
