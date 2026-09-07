@@ -12,8 +12,9 @@
   the content happened to ship in.
 
   So the tiers are gone. `lib/catalogEntry.ts` maps both corpora into one
-  view model — deriving the level, the age, the duration and the topics
-  that only one side carried — and everything below draws exactly one kind
+  view model — preserving authored learning progress, curriculum-placement
+  metadata, duration and topics that only one side carried — and everything
+  below draws exactly one kind
   of card from it. What used to be the tier is now the LEVEL chip, which is
   a claim about the experiment rather than about the person reading it, and
   which composes with every other filter instead of partitioning the

@@ -23,11 +23,11 @@ consumer from being placed before every available teacher of a prerequisite.
 Structured, localized safety rationale and before-you-begin guidance now
 cover the five school-supervision gaps found by the GUI audit: K03, K19, K35,
 K41 and K54. The unified experiment cards show supervision before launch and
-repeat actionable guidance in their existing details/procedure/run views. The
-remaining follow-up is translation of full lesson narration and broadening
-structured recipes, observations and apparatus definitions across the rest of
-the corpus. These belong in the same Experiments/Codex/Missions flow, never a
-separate surface.
+repeat actionable guidance in their existing details/procedure/run views.
+Catalogue prose is now available in both supported languages; the remaining
+follow-up is broadening structured recipes, observations and apparatus
+definitions across the rest of the corpus. These belong in the same
+Experiments/Codex/Missions flow, never a separate surface.
 
 The second tranche closes that apparatus/preview gap for a representative
 set spanning gas collection, combustion, chromatography, magnetic separation
