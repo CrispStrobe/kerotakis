@@ -74,7 +74,10 @@ fn heat_put_in_and_taken_out_again_comes_back() {
     );
     let spent = vessel(&bench).energy_between(started, hot);
     bench
-        .step(parse_op(&format!("cool v1 {spent}J")).unwrap().unwrap())
+        .step(Operator::Cool {
+            vessel: VesselId(0),
+            energy: units::Joules(spent),
+        })
         .unwrap();
     let back = vessel(&bench).temperature.0;
     assert!(
