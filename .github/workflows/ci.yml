@@ -5,6 +5,14 @@ on:
     branches: [main]
   pull_request:
 
+# A superseded revision of one pull request must not keep a runner busy while
+# its replacement waits behind it. Different PRs and branches keep independent
+# groups, and pushes to main are never cancelled: main's per-commit signal is
+# the record of what actually shipped.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 env:
   CARGO_TERM_COLOR: always
 
@@ -107,6 +115,9 @@ jobs:
     name: Test (native)
     runs-on: ${{ matrix.os }}
     strategy:
+      # The same reason `--no-fail-fast` is passed to cargo below: a macOS-only
+      # failure must not hide whatever ubuntu would have said, and vice versa.
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
     steps:
@@ -140,6 +151,17 @@ jobs:
       # explain rather than a number someone regenerates.
       - name: Curiosity coverage — the recorded route is still the route
         run: cargo run -p kerotakis-cli -- coverage curiosity --check
+      # A snapshot test that fails prints a diff, but the whole regenerated
+      # file is what someone actually needs to judge whether the new value is
+      # right. The suites already write it beside the golden; keep it.
+      - name: Preserve regenerated snapshots for review
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: snapshot-differences-${{ runner.os }}-${{ github.sha }}
+          path: crates/**/tests/golden/*.actual.json
+          if-no-files-found: ignore
+          retention-days: 30
 
   my-basic-preview:
     name: MY-BASIC preview (${{ matrix.os }})
