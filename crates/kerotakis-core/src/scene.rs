@@ -219,7 +219,7 @@ pub struct SceneOsmosis {
     pub mass_change_g: f64,
     /// `into_object`, `out_of_object`, or `balanced`.
     pub direction: String,
-    /// Short machine-visible provenance/boundary statement for clients.
+    /// Short machine-visible model provenance and boundary for clients.
     pub basis: String,
 }
 
@@ -954,7 +954,7 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
                     "balanced"
                 }
                 .to_string(),
-                basis: "cumulative modeled water transfer; not object size, membrane mechanics, or final equilibrium"
+                basis: "stored cumulative output of the bounded osmolarity-gradient teaching model (20% water exchange per 1 osmol/L contrast over a 24 h exponential timescale, capped at 40% per step); not object size, membrane mechanics, ion selectivity, or final equilibrium"
                     .to_string(),
             });
             SceneMaterialObject {

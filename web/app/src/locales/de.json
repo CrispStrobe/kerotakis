@@ -2435,6 +2435,6 @@
   "into object": "in das Objekt hinein",
   "out of object": "aus dem Objekt heraus",
   "not object size or final equilibrium": "keine Aussage über Objektgröße oder Endgleichgewicht",
-  "cumulative modeled water transfer; not object size, membrane mechanics, or final equilibrium": "kumulativer modellierter Wassertransport; keine Aussage über Objektgröße, Membranmechanik oder Endgleichgewicht"
+  "stored cumulative output of the bounded osmolarity-gradient teaching model (20% water exchange per 1 osmol/L contrast over a 24 h exponential timescale, capped at 40% per step); not object size, membrane mechanics, ion selectivity, or final equilibrium": "Gespeicherte kumulative Ausgabe des begrenzten Osmolaritätsgradienten-Lehrmodells (20 % Wasseraustausch pro 1 osmol/L Unterschied über eine exponentielle Zeitskala von 24 h, begrenzt auf 40 % pro Schritt); keine Aussage über Objektgröße, Membranmechanik, Ionenselektivität oder Endgleichgewicht"
  }
 }

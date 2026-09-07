@@ -2435,6 +2435,6 @@
   "into object": "",
   "out of object": "",
   "not object size or final equilibrium": "",
-  "cumulative modeled water transfer; not object size, membrane mechanics, or final equilibrium": ""
+  "stored cumulative output of the bounded osmolarity-gradient teaching model (20% water exchange per 1 osmol/L contrast over a 24 h exponential timescale, capped at 40% per step); not object size, membrane mechanics, ion selectivity, or final equilibrium": ""
  }
 }
