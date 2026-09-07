@@ -5,8 +5,11 @@
 - Worktree: `/mnt/volume1/kero-experiment-audit`.
 - Branch: `audit/chemistry-experiments-20260906`.
 - PR: #504; do not merge.
-- Current base: `139a18d6b70f0d19c7a65e4e7699e5c30c3b58e0`. The rebased
-  head must be read from Git because this document is part of its final commit.
+- Actual audit merge base: `139a18d6b70f0d19c7a65e4e7699e5c30c3b58e0`.
+  Current `origin/main` observed before the documentation amendment:
+  `2d364e0dfccb7d635ceb12a0fa9c6001b2b14dea`. No further rebase is authorized.
+- CI repair commit: `ff7edc6cd9805c8665a5865cc6a71e85b39ee833`.
+  Read the current branch head from Git because this document follows it.
 - Pre-rebase head `b5894243` is retained by backup branch
   `backup/audit-504-before-main-sync-20260907-141633`.
 - Catalog: 113 unique entries, 28 models, 189 defined concepts and 167 used
@@ -38,11 +41,12 @@
    wholesale; compare records and fields semantically.
 7. Run narrow non-compiling checks locally where safe. Let CI own full Rust,
    browser and cross-platform builds while the host remains memory constrained.
-8. After repaired CI passes, use the exact rebuilt CLI for the sixth fleet in a
+8. Push the tested repair with an explicit lease, then return to step 3.
+9. After repaired CI passes, use the exact rebuilt CLI for the sixth fleet in a
    fresh output directory. Run the frozen analyzer without changing its bounds.
-9. Classify every sixth result as pass, fail, unsupported or uncertain. Diagnose
+10. Classify every sixth result as pass, fail, unsupported or uncertain. Diagnose
    failures before proposing a production change.
-10. Only then review distinct successful lessons for catalog inclusion. Coordinate
+11. Only then review distinct successful lessons for catalog inclusion. Coordinate
     with the integrator before editing shared catalog/discovery files.
 
 ## Task scopes
