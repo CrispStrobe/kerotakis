@@ -1290,7 +1290,7 @@
     },
     {
       "id": "legacy/Na2B4O7",
-      "citation": "Anhydrous sodium tetraborate as the formula unit. Household borax is the decahydrate; the ten waters are not carried here, so a dose given in grams of this species is grams of the anhydrous salt rather than of the box. Molar mass from IUPAC/CIAAW 2021 atomic weights; density and the Kopp's-rule heat capacity are explicit teaching approximations. Borate speciation is not modelled: no shipped database is asked for it, so this dissolves without contributing to pH or ionic strength and the bench says so",
+      "citation": "Anhydrous sodium tetraborate as the formula unit. Household borax is the decahydrate; the ten waters are not carried here, so a dose given in grams of this species is grams of the anhydrous salt rather than of the box. Molar mass from IUPAC/CIAAW 2021 atomic weights; density and the Kopp's-rule heat capacity are explicit teaching approximations. Borate speciation IS modelled - the sentence that used to stand here said `no shipped database is asked for it`, which was true about this lab's wiring and shipped as a claim about the databases. wateq4f.dat line 16 and minteq.v4.dat line 17 both define the element as `B  H3BO3`, both carry `H3BO3 = H2BO3- + H+` (log_k -9.24 and -9.236) and minteq adds the polyborates, the Na/Mg/Ca/Sr/Ba/Ag borate pairs and Hfo sorption; pitzer spells the same element `B  B(OH)3`. What this SALT does not do is hand its dissolved part to the engine, and the reason is the two solubilities above it: an aqueous role is phase-blind, so it would enter the crystals on the bottom of the beaker into solution together with the part that dissolved, and no dataset this lab routes spells a sodium borate solid that could bound it instead (minteq.v4 and wateq4f have Pb, Zn, Cd and Co metaborates between them and nothing more). The curated bound is therefore the only bound there is, this dissolves without contributing to pH or ionic strength, and the bench says so",
       "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
       "lane": "build_oracle",
       "origin": "crates/kerotakis-core/src/species.rs",
@@ -1552,6 +1552,24 @@
     {
       "id": "legacy/octacalcium_phosphate",
       "citation": "octacalcium phosphate, the calcium phosphate that actually comes out of a near-neutral solution at bench temperature, and the third of the three phases a beaker of milk used to be told it was supersaturated against. It is the reachable one of the three: hydroxylapatite and beta-tricalcium phosphate both carry a kinetic floor and this row carries none, so this is the solid that forms when milk or any similar serum is equilibrated here - which is the right answer, because the colloidal calcium phosphate of milk and the first mineral of bone are both members of this family rather than apatite. THE FORMULA IS THE DATABASE'S HALF FORMULA UNIT AND THE NAME IS THE MINERAL'S, and the gap between them is stated rather than hidden: minteq.v4.dat defines the phase as `Ca4H(PO4)3:3H2O`, which is half of Ca8H2(PO4)6:6H2O, while crystallographic octacalcium phosphate is Ca8H2(PO4)6:5H2O - five waters per whole unit, not six. This row is written in the database's spelling because the phase matcher pairs a registry solid with a database phase by parsed composition and hydrate count, so any other spelling would simply fail to pair; the half unit of water is the database's and is not a crystallographic claim by this lab. NO InChIKey IS CLAIMED FOR THIS ROW, and the empty field is deliberate. PubChem CID 123896 (retrieved 2026-09-07, PUG REST property record: title 'Octacalcium phosphate', molecular formula Ca4HO12P3, molecular weight 446.23, InChIKey YIGWVOWKHUSYER-UHFFFAOYSA-F, IUPAC name tetracalcium;hydrogen phosphate;diphosphate) is the ANHYDROUS half unit, and this row is the trihydrate. Borrowing that key would have identified this species as a substance it is not, so the row takes `legacy:species/octacalcium_phosphate` as its canonical key instead and says here what the nearest verified identifier is. Molar mass 500.27 g/mol is the arithmetic from IUPAC/CIAAW 2021 atomic weights: 4 x 40.078 + 7 x 1.008 + 3 x 30.973762 + 15 x 15.999 = 500.274, which is also PubChem's anhydrous 446.23 plus three waters at 18.015. DENSITY 2.61 g/mL RIDES A PENDING-REVIEW PROVENANCE LANE: it is the commonly tabulated crystal density of octacalcium phosphate, no positively identified copy of a reference was opened for it, and it is flagged for reviewer confirmation as the phase-transition and resistivity tranches are. HEAT CAPACITY 489.5 J/(mol.K) IS AN ESTIMATE: Kopp's rule over the standard atomic contributions, 4 x 26.0 (Ca) + 3 x 22.6 (P) + 15 x 16.7 (O) + 7 x 9.6 (H) = 489.5, written out so it can be checked, and carrying the crystal water as ordinary atoms rather than as bound water - which is one of the reasons it is an estimate. NO DEHYDRATION TEMPERATURE IS CLAIMED even though this is a hydrate, and the silence is deliberate: this registry pairs a hydrate with its anhydrous form by formula when a dehydration temperature exists, there is no `Ca4H(PO4)3` species here to pair with, and octacalcium phosphate does not simply lose its water on warming - it hydrolyses towards apatite, which is a different reaction from a dehydration. WHAT IS NOT CLAIMED: no enthalpy of dissolution, no melting point, and no single-figure aqueous solubility.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/H3BO3",
+      "citation": "boric acid, the neutral member of the borate couple and the master species every thermodynamic dataset this lab routes already uses for the element boron. IDENTITY VERIFIED against PubChem CID 7628 on 2026-09-07 (PUG REST property record): molecular formula BH3O3, molecular weight 61.84, IUPAC name boric acid, InChIKey KGBXLFKZBHKPEV-UHFFFAOYSA-N. Molar mass 61.833 g/mol, which is B 10.811 + 3 H 1.008 + 3 O 15.9994 from IUPAC/CIAAW 2021 atomic weights and agrees with PubChem's 61.84. THIS ROW EXISTS BECAUSE THE DATABASES WERE ALREADY THERE AND NOTHING ASKED THEM. wateq4f.dat line 16 is `B  H3BO3  0  10.81  10.81`, minteq.v4.dat line 17 is `B  H3BO3  0  B  10.81` and pitzer.dat spells the same element `B  B(OH)3`; the dissociation `H3BO3 = H2BO3- + H+` is at minteq.v4 line 4912 (log_k -9.236, delta_h 13 kJ) and wateq4f line 335 (log_k -9.24), with the polyborates `H5(BO3)2-` and `H8(BO3)3-`, the Na/Mg/Ca/Sr/Ba/Ag borate pairs and Hfo sorption beside them. What was missing was a boron row in `derived.rs`, not a borate in a database - the registry's own note used to say `no shipped database is asked for it`, which was true about the wiring and shipped as a claim about the world. The phase is AQUEOUS and that is a claim about what this row is for rather than about boric acid, which is a real white powder: this pair is the aqueous booking couple for the element, the two names `derived::PROTONATION_SPLITS` divides a boron total between, and it carries the registry's shared conventions for a dissolved species - 0.0 J/(mol.K) for a heat capacity that is not modelled and the 1.0 g/mL placeholder every dissolved species here carries, because solution volume is carried by the liquid phase. WHAT IT SETTLES IS THE ACID-BASE BEHAVIOUR AND NOTHING ELSE: pKa 9.24 and therefore the pH of a borate solution. It says nothing about how borate crosslinks poly(vinyl alcohol), nothing about borax's solubility curve, and nothing about the thermal expansion of borosilicate glass.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/H2BO3-",
+      "citation": "dihydrogenborate, the conjugate base of boric acid and the anion a borate solution actually holds above pH 9. IDENTITY VERIFIED against PubChem CID 4035503 on 2026-09-07 (PUG REST property record): molecular formula BH2O3-, molecular weight 60.83, IUPAC name dihydrogen borate, InChIKey URSLCTBXQMKCFE-UHFFFAOYSA-N. NOTE THE FIRST BLOCK, because it is NOT boric acid's: the acid is KGBXLFKZBHKPEV-UHFFFAOYSA-N and this is URSLCTBXQMKCFE, a different skeleton hash entirely. PubChem writes the anion as a charged skeleton (InChI=1S/BH2O3/c2-1(3)4/h2-3H/q-1) rather than as the acid plus a /p-1 deprotonation layer, so it takes the -N suffix and its own first block - the same trap `ClO-` carries, and the opposite of the acetate (QTBSBXVTEAMEQO-UHFFFAOYSA-N/-M) and lactate (JVTAAEKCZFNVCJ-UHFFFAOYSA-N/-M) pairs in this same registry, which DO differ only in the final character. Fetched before it was written down. Molar mass 60.825 g/mol, which is B 10.811 + 2 H 1.008 + 3 O 15.9994 from IUPAC/CIAAW 2021 atomic weights and agrees with PubChem's 60.83. The spelling is the databases' own: `H2BO3-` is what minteq.v4 line 4912 and wateq4f line 335 both call it, so unlike hypochlorite no name is borrowed or translated here. Ion Cp is not modelled and carries the registry's shared 0.0 J/(mol.K) for aqueous ions; the 1.0 g/mL density is the same shared placeholder every dissolved ion here carries.",
       "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
       "lane": "build_oracle",
       "origin": "crates/kerotakis-core/src/species.rs",
@@ -4430,6 +4448,38 @@
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/octacalcium_phosphate",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "H3BO3",
+      "canonical_key": "KGBXLFKZBHKPEV-UHFFFAOYSA-N",
+      "name": "boric acid",
+      "identifiers": {
+        "inchikey": "KGBXLFKZBHKPEV-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/H3BO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "H2BO3-",
+      "canonical_key": "URSLCTBXQMKCFE-UHFFFAOYSA-N",
+      "name": "dihydrogenborate",
+      "identifiers": {
+        "inchikey": "URSLCTBXQMKCFE-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/H2BO3-",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -23352,6 +23402,244 @@
       },
       "evidence": {
         "source_id": "legacy/octacalcium_phosphate",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/H3BO3",
+      "species_id": "H3BO3",
+      "formula": "H3BO3",
+      "elements": [
+        {
+          "element": "B",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/H3BO3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/H3BO3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/H3BO3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/H3BO3",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/H3BO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/H2BO3-",
+      "species_id": "H2BO3-",
+      "formula": "H2BO3-",
+      "elements": [
+        {
+          "element": "B",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/H2BO3-",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/H2BO3-",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/H2BO3-",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": -1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/H2BO3-",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/H2BO3-",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -43611,6 +43899,186 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "molar-mass/H3BO3",
+      "species_id": "H3BO3",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 61.833,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/H3BO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/H3BO3",
+      "species_id": "H3BO3",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/H3BO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/H3BO3",
+      "species_id": "H3BO3",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/H3BO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/H2BO3-",
+      "species_id": "H2BO3-",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 60.825,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/H2BO3-",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/H2BO3-",
+      "species_id": "H2BO3-",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/H2BO3-",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/H2BO3-",
+      "species_id": "H2BO3-",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/H2BO3-",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
     }
   ],
   "heat_capacity_polynomials": [
@@ -62436,6 +62904,72 @@
           "detail": "parsed from the verbatim legacy declaration"
         }
       }
+    },
+    {
+      "id": "dissolves-without-speciation/H3BO3",
+      "subject": {
+        "kind": "species",
+        "id": "H3BO3"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/H3BO3",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/H2BO3-",
+      "subject": {
+        "kind": "species",
+        "id": "H2BO3-"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/H2BO3-",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
     }
   ],
   "material_recipes": [
@@ -67859,7 +68393,7 @@
       "preparation": "ordinary laboratory borosilicate: 81% resolved silica with a conserved 19% boria-and-modifier remainder",
       "lot_assumptions": [
         "the silica is reported as the installed SiO2 species so the object's silicon and oxygen are real inventory; sharing one species key with quartz sand carries no claim about polymorph, grain structure or optical quality",
-        "the boron oxide that makes this glass take thermal shock is NOT resolved, and it is the whole reason the material has a separate name: no shipped database defines a borate that would let it dissolve or react, so resolving it would put an invented oxide in the beaker. It stays in the conserved 19%, which means the bench holds the composition of borosilicate without holding the property borosilicate is bought for",
+        "the boron oxide that makes this glass take thermal shock is NOT resolved, and the reason given here was false until 2026-09-07. It read \"no shipped database defines a borate that would let it dissolve or react\", and every dataset this lab routes defines the element outright: wateq4f.dat line 16 and minteq.v4.dat line 17 both carry `B  H3BO3`, pitzer spells the same element `B  B(OH)3`, and the first two carry `H3BO3 = H2BO3- + H+` at pKa 9.24 as well. The bench speciates that couple now. The real reason the boria stays in the conserved 19% is the assumption two rows down and has nothing to do with the thermodynamics: a resolved component is one that goes into solution, and glass does not. Resolving it would not have put an invented oxide in the beaker - it would have put a real one there and then let the beaker dissolve into whatever it was holding. The bench therefore holds the composition of borosilicate without holding the property borosilicate is bought for, which is still true and was always the honest sentence",
         "low thermal expansion, and therefore the resistance to cracking on a hotplate, is the property this recipe cannot express; a run that needs it needs physics this bench does not have",
         "glass is unreactive in the terms the aqueous engine models, which is not the same as inert: hydrofluoric-acid etching and hot-alkali attack are real chemistry the bench does not have and does not claim",
         "softening, annealing, thermal shock, scratching and breaking are physics this recipe does not claim"
@@ -70731,7 +71265,7 @@
       "preparation": "household borax as sold: the decahydrate, so a little over half its mass is the anhydrous salt and the rest is water of crystallisation",
       "lot_assumptions": [
         "borax is sold as the decahydrate Na2B4O7·10H2O; 52.7% of that mass is the anhydrous salt, and the ten waters stay in the conserved remainder rather than being released as free water, because dehydrating a hydrate is a phase change this recipe does not perform",
-        "borate speciation is not modelled: no shipped database is asked for it, so this contributes no pH and no ionic strength, and the bench says so",
+        "the dissolved borax is not handed to the aqueous engine, and the reason written here before was wrong about why. It said \"no shipped database is asked for it\", which was a true sentence about this lab's wiring that read as a claim about the databases: all three routed datasets define boron, two of them carry `H3BO3 = H2BO3- + H+` at pKa 9.24, and the bench speciates boric acid and borate from those rows today. What borax has that a dissolved borate does not is a curated solubility bound - 2.5 g/100 mL at 20 degC, 27.4 at 100 - and an aqueous role is phase-blind: handing this salt one would enter the crystals sitting on the bottom of the beaker into solution along with the part that actually dissolved. The bound could move to the engine instead if any routed dataset spelled a sodium borate SOLID, and none does (minteq.v4 and wateq4f between them have Pb, Zn, Cd and Co metaborates and nothing else). So the bound stays curated, the salt keeps its own key, and it still contributes no pH and no ionic strength - which the bench still says out loud",
         "borax is a mild irritant and not for eating; the L0 screen classes it by what it does to other substances, which is nothing it knows"
       ],
       "substitutions": [],

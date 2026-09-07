@@ -65,8 +65,12 @@ fn the_tranche_only_grows_deliberately() {
         // PubChem writes the anion as a charged skeleton, so the first
         // block differs and the suffix stays -N. Recomputing both from
         // their SMILES is what makes the registry rows checkable rather
-        // than quoted.
-        110,
+        // than quoted. The borate work adds `H3BO3` and `H2BO3-` for the
+        // same reason: dihydrogenborate's first block is URSLCTBXQMKCFE
+        // and boric acid's is KGBXLFKZBHKPEV, so once again the anion is
+        // not the acid's key with a character changed, and once again the
+        // pattern is convincing enough to guess wrong from.
+        112,
         "structures were added or removed — update this pin and say why \
          in the same commit"
     );

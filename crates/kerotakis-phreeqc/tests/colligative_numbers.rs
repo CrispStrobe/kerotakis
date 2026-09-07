@@ -50,9 +50,42 @@ fn add(bench: &mut Bench, solvers: &mut SolverStack, key: &str, moles: f64) {
 /// The particle count is not where the gap is. Counting is what this bench
 /// does honestly: the speciation is asked how many particles there are
 /// rather than a van 't Hoff factor being looked up, and for this salt the
-/// answer really is two — no database shipped with the bench defines an
-/// aqueous NaCl ion pair (minteq.v4 carries `Halite`, which is the solid),
-/// so nothing is paired and nothing pretends to be.
+/// answer really is two — no database this bench LOADS defines an aqueous
+/// NaCl ion pair (minteq.v4 carries `Halite`, which is the solid), so
+/// nothing is paired and nothing pretends to be.
+///
+/// **That scope word is load-bearing, and it used to be missing.** The
+/// sentence read "no database shipped with the bench", and one shipped
+/// here does: `vendor/iphreeqc/database/llnl.dat` line 5733 writes
+/// `Na+ + Cl- = NaCl`, `log_k -0.777`, with a calculated ΔH beside it.
+/// Vendored and not routed is a different claim from absent, and this is
+/// the file where a stated approximation is held to account, so it is the
+/// last place that should blur them.
+///
+/// **The pair is deliberately NOT borrowed, and the arithmetic is why.**
+/// log K −0.777 is K = 0.167, so with ideal ionic activities about one
+/// formula unit in seven would be paired; at one molal, where γ± ≈ 0.66
+/// and the ion-activity product is nearer 0.44, about one in fourteen.
+/// That moves the particle count from 2.00 to roughly 1.93 and this test's
+/// answer from −3.72 °C to about −3.59 — most of the way to −3.4, by
+/// precisely the mechanism this comment and PLAN's P3s item both say is
+/// not the problem. It would be a better number reached through worse
+/// physics, and it would then hide the real correction behind a partial
+/// cancellation, which is the failure mode that is hardest to find later.
+///
+/// The decisive evidence is which datasets carry the pair. Not
+/// phreeqc.dat, not wateq4f.dat, not minteq.v4.dat — and above all not
+/// pitzer.dat, the dataset built FOR concentrated brine and the one that
+/// would need an ion pair most if the deviation at one molal were
+/// speciation. pitzer has none; it handles Na⁺/Cl⁻ with virial
+/// coefficients instead (`PITZER`, `-B0`, `Cl-  Na+  7.534e-2`, with `-B1`
+/// and `-C0` rows beside it), which is to say it corrects the SOLVENT's
+/// activity and leaves both ions free. llnl's `NaCl` is a fitting device
+/// that extends a Debye–Hückel-family database's range, not a claim that a
+/// fourteenth of dissolved salt is undissociated, and its log K is fitted
+/// to llnl's own activity model rather than to the one wateq4f runs. So
+/// the fix stays the one PLAN already named — the osmotic coefficient,
+/// which PHREEQC computes and this bench does not yet read.
 ///
 /// The gap is that `states::transitions` applies the DILUTE-solution law,
 /// ΔT = K_f · m, at one molal, where the solvent's activity is no longer

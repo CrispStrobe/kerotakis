@@ -1697,12 +1697,24 @@ Open, and small:
       −3.72 °C against a real −3.4. The particle count is not the problem
       and must not be blamed for it: the speciation is asked how many
       particles there are, and for NaCl the answer really is two, because
-      no shipped database defines an aqueous NaCl ion pair. What is
-      missing is the solvent's activity — a textbook's i ≈ 1.85 is that
+      no database this bench LOADS defines an aqueous NaCl ion pair. That
+      scope word was missing until 2026-09-07 and the sentence was false
+      without it: `vendor/iphreeqc/database/llnl.dat` line 5733 is
+      `Na+ + Cl- = NaCl`, `log_k -0.777`, vendored here and not routed.
+      **It is judged and declined, not overlooked.** Borrowing it would
+      pair about one formula unit in fourteen at one molal, take the count
+      from 2.00 to 1.93 and the answer from −3.72 to −3.59 — most of the
+      gap closed by the one mechanism this item says is not the problem.
+      pitzer.dat, built for brine, carries no NaCl pair either and
+      corrects the SOLVENT instead, with `-B0 Cl- Na+ 7.534e-2` and its
+      `-B1`/`-C0` siblings; llnl's pair is a range-extending fitting
+      device tied to llnl's own activity model. So what is missing is
+      still the solvent's activity — a textbook's i ≈ 1.85 is that
       correction wearing the particle count's clothes. This item's
       original text already named the fix: "PHREEQC gives us the osmotic
       coefficient already." Pinned from both ends in
-      `colligative_numbers.rs` so it cannot be narrowed away quietly.
+      `colligative_numbers.rs` so it cannot be narrowed away quietly, and
+      the declined borrow is written out there too.
 - [ ] **Is a boil a curated route or a computed one?**
       `PhaseRouteEquilibrator` declares `SolverRouteKind::Curated`, which
       was right when sublimation and hydrates were its only customers —

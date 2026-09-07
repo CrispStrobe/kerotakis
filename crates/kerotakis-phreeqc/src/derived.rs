@@ -450,6 +450,23 @@ pub const PROTONATION_SPLITS: &[(&str, &[(&str, &str)])] = &[
         "Hypochlorite",
         &[("H(Hypochlorite)", "HClO"), ("Hypochlorite-", "ClO-")],
     ),
+    // Boron, and this split is the borax buffer itself. `H3BO3 = H2BO3- +
+    // H+` is log K −9.236 in minteq.v4 (line 4912) and −9.24 in wateq4f
+    // (line 335), so pKa 9.24 — and a borax solution sits AT that pKa by
+    // construction rather than near it: dissolving Na₂B₄O₇ books four
+    // borons against two sodiums, the charge balance asks for two moles of
+    // anion out of four moles of boron, and half-neutralised is the
+    // definition of a buffer at its pKa. Booking the element total under a
+    // single ion would have named a 50:50 mixture after one of its halves.
+    //
+    // Unlike hypochlorite, no spelling is borrowed here: `H3BO3` and
+    // `H2BO3-` are the names both routed databases that carry the couple
+    // already use, and they are the registry's keys unchanged. pitzer
+    // spells the same element `B(OH)3`/`B(OH)4-`, so neither column exists
+    // on the brine route — which the all-or-nothing rule in the readback
+    // handles by falling back to the single booking ion, exactly as it
+    // does for pitzer's missing nitrogen.
+    ("B", &[("H3BO3", "H3BO3"), ("H2BO3-", "H2BO3-")]),
 ];
 
 /// The protonation split for an element state, if it has one.
@@ -718,6 +735,48 @@ impl Derived {
                 roles.insert(s.key, DerivedRole::Dissolves(vec![(element.clone(), 1.0)]));
                 continue;
             }
+            // A soluble solid whose dissolution this bench BOUNDS with a
+            // curated number keeps that bound, and does not get a
+            // `Dissolves` role.
+            //
+            // `Dissolves` is phase-blind on purpose — `partition` enters
+            // its element totals whatever phase the portion is in — so a
+            // solid handed this role dissolves ENTIRELY, however much of
+            // it is in the beaker. That is right for the salts it was
+            // written for, which have no curated limit and are freely
+            // soluble at bench doses. It is wrong for a bottle whose whole
+            // interest is that most of it sits on the bottom.
+            //
+            // Where a routed database defines the solid there is no
+            // conflict: the `Mineral` branch above claims it first, the
+            // portion goes into `EQUILIBRIUM_PHASES`, and the saturation
+            // index does the bounding. This guard is for the other case,
+            // and boron is what put it here. Every one of the three
+            // datasets defines the element (`B  H3BO3`) and two of them
+            // carry `H3BO3 = H2BO3- + H+`, so `extract_borate` now derives
+            // a contribution for `Na2B4O7` where nothing did before — and
+            // NONE of the three spells a sodium borate SOLID. minteq.v4
+            // and wateq4f have `Pb(BO2)2`, `Zn(BO2)2`, `Cd(BO2)2` and
+            // (minteq only) `Co(BO2)2`, which is the entire boron mineral
+            // shelf on the routes that carry the couple. Without this
+            // guard, 25 g of borax into 100 mL of water entered the engine
+            // as 0.497 mol of boron in 0.1 kg of solvent, the crystals on
+            // the bottom of the snowflake beaker stopped existing, and
+            // nothing said so: `saturation_moves` had already done the
+            // honest arithmetic (2.5 g/100 mL at 20 °C, 27.4 at 100) and
+            // the tail undid it on the same step.
+            //
+            // The curated limit is the registry's own statement that this
+            // bench bounds the dissolution itself. It is not evidence
+            // against speciating the DISSOLVED part — that is a separate
+            // and better change, and it wants `saturation_moves` to be
+            // able to see a dissolved amount that has been booked onto
+            // ions, which it cannot today.
+            let bounded_solid =
+                s.standard_phase == Phase::Solid && s.aqueous_solubility_g_per_100_ml.is_some();
+            if bounded_solid {
+                continue;
+            }
             if let Some(contrib) = derive_contribution(s.formula, indexes) {
                 roles.insert(s.key, DerivedRole::Dissolves(contrib));
             }
@@ -866,6 +925,88 @@ fn extract_hypochlorite(counts: &mut BTreeMap<String, f64>) -> Option<f64> {
     Some(cl)
 }
 
+/// Borate, extracted by its own exact rule rather than by
+/// `oxyanion_groups`, for the same reason `extract_hypochlorite` above has
+/// one: the greedy machinery cannot spell this group.
+///
+/// **Boron was never refused by the databases. Nothing asked them.** All
+/// three datasets this lab routes define the element outright —
+/// `wateq4f.dat` line 16 `B  H3BO3  0  10.81  10.81`, `minteq.v4.dat`
+/// line 17 `B  H3BO3  0  B  10.81`, `pitzer.dat` `B  B(OH)3  0  B  10.81`
+/// — and both of the first two carry the dissociation that gives borax its
+/// pH: `H3BO3 = H2BO3- + H+`, `log_k -9.236` at minteq.v4 line 4912 and
+/// `-9.24` at wateq4f line 335, with the polyborates, the alkali and
+/// alkaline-earth borate pairs and Hfo sorption beside them. What was
+/// missing was three lines in THIS file. `Na2B4O7` decomposes to Na₂B₄O₇,
+/// no group in `oxyanion_groups` contains boron, `B` is not in
+/// `RESIDUE_OK`, so `derive_contribution` returned `None` and the salt got
+/// the `dissolves_without_speciation` fallback — and the registry then
+/// wrote down "no shipped database is asked for it", which is a true
+/// sentence about the wiring that shipped as a claim about the world. The
+/// borosilicate recipe made the stronger claim outright: "no shipped
+/// database defines a borate that would let it dissolve or react". That
+/// one was simply false.
+///
+/// **Why a group cannot spell it.** `oxyanion_groups` contributes ONE
+/// element unit per matched group, so a group has to contain exactly one
+/// boron; but boron's oxygen in a solid is 1.5 per B (the oxide unit is
+/// B₂O₃), and "BO1.5" is not a formula. Halving it to `BO2` is not the
+/// same rule: on Na₂B₄O₇ it fits three times and leaves `Na2BO`, booking
+/// three quarters of the boron and stranding the fourth.
+///
+/// **What the rule is, exactly.** All boron here is boron(III) and its
+/// oxygen is oxide oxygen, so this takes ALL of the boron or none of it,
+/// together with exactly 1.5 O per boron, and hands whatever is left to
+/// the residue rules unchanged. Those rules then do the charge arithmetic
+/// they already do for a metal oxide: Na₂B₄O₇ leaves `Na2O`, whose
+/// implied cation charge is (2·1 − 0)/2 = +1 and matches sodium's, so the
+/// orphan oxygen leaves as water and PHREEQC's `pH charge` recovers the
+/// two protons — which is the borax buffer, 4 mol B against 2 mol Na
+/// sitting at pKa 9.24 by construction.
+///
+/// **What it excludes, by name.** A formula with less than 1.5 O per B is
+/// not a borate and is refused whole: `NaBH4` (borohydride, O = 0) and
+/// `BF3` and `B2H6` never reach the residue rules at all. A formula
+/// carrying any element that is neither boron, oxygen, hydrogen nor a
+/// simple cation is refused before any oxygen is taken, which is what
+/// keeps this from being greedy in the way #530's first `ClO` attempt
+/// was: a borate-sulfate or a boronic acid would otherwise have had 1.5
+/// oxygens per boron pulled out from under another group's feet. It runs
+/// AFTER `oxyanion_groups` so that a sulfate's or a carbonate's oxygen is
+/// already spoken for, and AFTER the free-acid guard because that guard
+/// counts fitted group units and this is not a fit: B₂O₃ is two borons
+/// because it has two borons, not because two units happened to fit.
+fn extract_borate(counts: &mut BTreeMap<String, f64>) -> Option<f64> {
+    let b = counts.get("B").copied().unwrap_or(0.0);
+    if b <= 0.0 {
+        return None;
+    }
+    let o = counts.get("O").copied().unwrap_or(0.0);
+    // 1.5 oxygens per boron: the oxide unit is B2O3, and boron(III) is the
+    // only oxidation state any of these datasets speciates.
+    let needed = 1.5 * b;
+    if o < needed {
+        return None;
+    }
+    // Nothing but boron, its oxygen, hydrogen and simple cations may be
+    // present. Anything else means the oxygen is contested and this rule
+    // has no business deciding whose it is.
+    if counts
+        .keys()
+        .any(|el| el != "B" && el != "O" && el != "H" && !CATION_RESIDUE.contains(&el.as_str()))
+    {
+        return None;
+    }
+    counts.remove("B");
+    let rest = o - needed;
+    if rest > 0.0 {
+        counts.insert("O".to_string(), rest);
+    } else {
+        counts.remove("O");
+    }
+    Some(b)
+}
+
 fn contribution_from_counts(
     mut counts: BTreeMap<String, f64>,
     indexes: [&DbIndex; 3],
@@ -914,6 +1055,18 @@ fn contribution_from_counts(
         .any(|el| el != "H" && el != "O" && RESIDUE_OK.contains(&el.as_str()));
     if no_cation_residue && contrib.iter().any(|(_, fit)| *fit > 1.0) {
         return None;
+    }
+
+    // Borate, after the guard above rather than before it: the guard
+    // counts fitted group units and refuses a no-cation formula that
+    // yielded more than one, which is right for glucose-as-three-acetates
+    // and wrong for B2O3-as-two-borons. See `extract_borate` for why this
+    // is not an `oxyanion_groups` row and for what it excludes.
+    if let Some(n) = extract_borate(&mut counts) {
+        if !indexes.iter().any(|idx| idx.has_element("B")) {
+            return None;
+        }
+        contrib.push(("B".to_string(), n));
     }
 
     // Hydroxide pairs and acid protons drop out: they live in the water /
