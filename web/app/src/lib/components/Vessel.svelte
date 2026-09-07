@@ -11,15 +11,20 @@
     bubblePeriodS,
     compressedVolumeL,
     condensationFilm,
+    activityIntensity,
     adsorptionDarkening,
+    autoignitionApproach,
     bubbleRideLift,
     corrosionBloom,
     depositParticles,
     electrodePairBubbles,
     headspaceVolumeL,
     incandescence,
+    flameGutter,
     neutralisationMarks,
+    osmoticSwell,
     partitionTint,
+    soluteSplit,
   } from "../magnitudes";
   import { i18n, t } from "../i18n.svelte";
   import DeployedApparatus from "./DeployedApparatus.svelte";
@@ -485,6 +490,13 @@
   const bubbleRideEffect = $derived(latestEffect("bubble-ride", 9000));
   const adsorbEffect = $derived(latestEffect("adsorb", 5200));
   const thickenEffect = $derived(latestEffect("thicken", 3600));
+  // GUI-099 ANIM-7: the last six rows the audit still listed as missing.
+  const flameStarvedEffect = $derived(latestEffect("flame-starve", 4600));
+  const autoignitionEffect = $derived(latestEffect("below-autoignition", 4600));
+  const spikeEffect = $derived(latestEffect("spike", 5000));
+  const solutePartitionEffect = $derived(latestEffect("solute-partition", 5000));
+  const osmosisEffect = $derived(latestEffect("osmosis", 6000));
+  const thermalEquilibriumEffect = $derived(latestEffect("thermal-equilibrium", 5000));
   // GUI-099 scene numbers: frost forms below the temperature THIS liquid
   // freezes at, which the engine computes with the colligative depression
   // its solutes bought. 272 K was a constant that made brine frost early and
@@ -1493,6 +1505,82 @@
         </g>
       </g>
     {/if}
+    {#if solutePartitionEffect?.solutePartition && liquidH > 0}
+      <!-- GUI-099 ANIM-7: the solute's split across the two layers, which
+           is the whole point of a separating funnel and drew nothing in
+           the vessel. The dots always sum to ten, because the solute did
+           not go anywhere else — a split that loses one is a picture of a
+           leak — and each band is the layer the engine's own volumes drew. -->
+      {@const split = soluteSplit(solutePartitionEffect.solutePartition.fractionLower)}
+      {@const lowBand = stackedLayers.length > 0 ? stackedLayers[0]! : { y: BOTTOM_Y - liquidH / 2, h: liquidH / 2 }}
+      {@const topBand = stackedLayers.length > 1 ? stackedLayers[stackedLayers.length - 1]! : { y: BOTTOM_Y - liquidH, h: liquidH / 2 }}
+      <g
+        class="solute-partition"
+        data-fraction-lower={solutePartitionEffect.solutePartition.fractionLower.toFixed(4)}
+        data-lower-dots={split.lower}
+        data-upper-dots={split.upper}
+        aria-label={t("{percent}% of the {species} sat in the lower layer", {
+          percent: Math.round(solutePartitionEffect.solutePartition.fractionLower * 100),
+          species: t(solutePartitionEffect.solutePartition.species),
+        })}
+      >
+        {#each Array.from({ length: split.lower }, (_, i) => i) as i (`lower-${i}`)}
+          <circle
+            class="partition-dot"
+            cx={INNER_X + 5 + ((i * 17) % Math.max(1, INNER_W - 10))}
+            cy={lowBand.y + 1.5 + ((i * 5) % Math.max(1, lowBand.h - 3))}
+            r="1.1"
+          />
+        {/each}
+        {#each Array.from({ length: split.upper }, (_, i) => i) as i (`upper-${i}`)}
+          <circle
+            class="partition-dot upper"
+            cx={INNER_X + 5 + ((i * 13) % Math.max(1, INNER_W - 10))}
+            cy={topBand.y + 1.5 + ((i * 5) % Math.max(1, topBand.h - 3))}
+            r="1.1"
+          />
+        {/each}
+      </g>
+    {/if}
+    {#if osmosisEffect?.osmosis}
+      <!-- GUI-099 ANIM-7: water crossing a membrane. The SIGN is the whole
+           observation — an egg in syrup shrinks and an egg in water swells
+           and both arrive as this one event — so the arrows point the way
+           the engine's mass change says and the body grows or shrinks by
+           its size. -->
+      {@const osmo = osmosisEffect.osmosis}
+      {@const move = osmoticSwell(osmo.massChangeG)}
+      {@const bodyY = BOTTOM_Y - Math.max(9, liquidH / 2)}
+      {@const bodyR = 6 + (move.direction === "in" ? move.swell * 4 : -move.swell * 3)}
+      <g
+        class="osmosis"
+        data-mass-change-g={osmo.massChangeG.toFixed(4)}
+        data-water-moles={osmo.waterMoles.toExponential(3)}
+        data-osmosis-direction={move.direction}
+        data-osmosis-swell={move.swell.toFixed(3)}
+        aria-label={t("{material} changed by {grams} g as water crossed the membrane", {
+          material: t(osmo.material),
+          grams: formatReading(osmo.massChangeG, 3),
+        })}
+      >
+        <ellipse
+          class="osmotic-body"
+          cx={INNER_X + INNER_W / 2}
+          cy={bodyY}
+          rx={Math.max(2.5, bodyR)}
+          ry={Math.max(2, bodyR * 0.82)}
+        />
+        {#each [-1, 1] as side, i (side)}
+          <path
+            class="osmotic-arrow"
+            d={move.direction === "in"
+              ? `M ${INNER_X + INNER_W / 2 + side * 13} ${bodyY} L ${INNER_X + INNER_W / 2 + side * (Math.max(2.5, bodyR) + 2)} ${bodyY}`
+              : `M ${INNER_X + INNER_W / 2 + side * (Math.max(2.5, bodyR) + 2)} ${bodyY} L ${INNER_X + INNER_W / 2 + side * 13} ${bodyY}`}
+            style={`animation-delay:${(i * 0.4).toFixed(2)}s`}
+          />
+        {/each}
+      </g>
+    {/if}
     {#if active("electrolyse", 8000) && liquidH > 0}
       <!-- GUI-099: each electrode is sized by what actually comes off IT.
            The engine now names both half-reactions, so splitting water draws
@@ -1973,6 +2061,130 @@
           })}</title>
         </rect>
       {/if}
+    {/if}
+    {#if flameStarvedEffect?.flameStarved}
+      <!-- GUI-099 ANIM-7, KID-12: the flame quit because of the AIR. A
+           candle under a jar stops while roughly four fifths of the jar's
+           oxygen is still in it, so the readout is that fraction — the
+           number that contradicts "it used up all the oxygen" — and the
+           flame's remaining opacity is how far the air fell below its own
+           share. `burned: 0` means it never caught, and then NO flame is
+           drawn: the air was already too thin to light in. -->
+      {@const starve = flameStarvedEffect.flameStarved}
+      {@const gutter = flameGutter(starve.oxygenFraction, starve.burnedMoles)}
+      <g
+        class="flame-starved"
+        data-oxygen-fraction={starve.oxygenFraction.toFixed(4)}
+        data-burned-moles={starve.burnedMoles.toExponential(3)}
+        data-guttering={gutter.guttering.toFixed(3)}
+        data-caught={gutter.caught ? "true" : "false"}
+        aria-label={t("the flame quit at {percent}% oxygen after burning {moles} mol", {
+          percent: formatReading(starve.oxygenFraction * 100, 1),
+          moles: formatReading(starve.burnedMoles, 4),
+        })}
+      >
+        {#if gutter.caught}
+          <path
+            class="guttering-flame"
+            d={`M 50 14 q ${3 + gutter.guttering * 2} -5 0 -10 q ${-3 - gutter.guttering * 2} -5 0 -9`}
+            style={`opacity:${(1 - gutter.guttering * 0.85).toFixed(3)}`}
+          />
+        {/if}
+        <rect class="starve-readout" x={INNER_X + 2} y="2" width={INNER_W - 4} height="9" rx="3" />
+        <text x={INNER_X + INNER_W / 2} y="8.4" text-anchor="middle">
+          O₂ {formatReading(starve.oxygenFraction * 100, 1)}%
+        </text>
+      </g>
+    {/if}
+    {#if autoignitionEffect?.autoignitionGap}
+      <!-- GUI-099 ANIM-7, BRD-041: warm, in air, and below the temperature
+           it would light itself at — so nothing burns, and the gap IS the
+           answer. The bar fills toward the autoignition point and never
+           reaches it, because reaching it is a different event. -->
+      {@const gap = autoignitionEffect.autoignitionGap}
+      {@const approach = autoignitionApproach(gap.temperatureK, gap.autoignitionK)}
+      <g
+        class="autoignition-gap"
+        data-autoignition-k={gap.autoignitionK.toFixed(1)}
+        data-temperature-k={gap.temperatureK.toFixed(1)}
+        data-gap-k={gap.gapK.toFixed(1)}
+        data-approach={approach.approach.toFixed(3)}
+        aria-label={t("{gap} K below the temperature {fuel} lights itself at", {
+          gap: formatReading(gap.gapK, 0),
+          fuel: t(gap.fuel),
+        })}
+      >
+        <rect class="gap-track" x={INNER_X + 3} y="4" width={INNER_W - 6} height="4" rx="2" />
+        <rect
+          class="gap-fill"
+          x={INNER_X + 3}
+          y="4"
+          width={Math.max(0.5, (INNER_W - 6) * approach.approach)}
+          height="4"
+          rx="2"
+        />
+        <text x={INNER_X + INNER_W / 2} y="14" text-anchor="middle">−{formatReading(gap.gapK, 0)} K</text>
+      </g>
+    {/if}
+    {#if spikeEffect?.nuclideSpike}
+      <!-- GUI-099 ANIM-7: the tracer's opening activity — the number the
+           Geiger will read — on a log ramp, because a becquerel is one
+           disintegration a second and a teaching source is megabecquerels. -->
+      {@const spike = spikeEffect.nuclideSpike}
+      {@const ticks = Math.max(1, Math.round(1 + activityIntensity(spike.activityBq) * 7))}
+      <g
+        class="nuclide-spike"
+        data-activity-bq={spike.activityBq.toExponential(3)}
+        data-nuclide-moles={spike.moles.toExponential(3)}
+        data-activity-intensity={activityIntensity(spike.activityBq).toFixed(3)}
+        data-tick-count={ticks}
+        aria-label={t("{nuclide} spiked at {activity} Bq", {
+          nuclide: t(spike.nuclide),
+          activity: formatReading(spike.activityBq, 0),
+        })}
+      >
+        {#each Array.from({ length: ticks }, (_, i) => i) as i (i)}
+          <line
+            class="decay-tick"
+            x1={INNER_X + 5 + ((i * 19) % Math.max(1, INNER_W - 10))}
+            y1={BOTTOM_Y - 6 - ((i * 11) % Math.max(4, Math.round(Math.max(6, liquidH) * 0.7)))}
+            x2={INNER_X + 8 + ((i * 19) % Math.max(1, INNER_W - 10))}
+            y2={BOTTOM_Y - 9 - ((i * 11) % Math.max(4, Math.round(Math.max(6, liquidH) * 0.7)))}
+            style={`animation-delay:${(i * 0.19).toFixed(2)}s`}
+          />
+        {/each}
+      </g>
+    {/if}
+    {#if thermalEquilibriumEffect?.thermalEquilibrium}
+      <!-- GUI-099 ANIM-7: the settled temperature. When the burn consumed
+           everything the number is the EXHAUST's and not the glass's, and
+           the badge says so and steps off the vessel — "thermal
+           equilibrium at 2496 °C" once reached a reader over an empty
+           beaker, which is a true number attached to a wrong picture. -->
+      {@const settled = thermalEquilibriumEffect.thermalEquilibrium}
+      {@const badgeY = settled.holdsNothing ? 2 : Math.max(2, BOTTOM_Y - Math.max(6, liquidH) - 12)}
+      <g
+        class="thermal-equilibrium"
+        class:detached={settled.holdsNothing}
+        data-settled-k={settled.temperatureK.toFixed(1)}
+        data-reaction-energy-j={settled.reactionEnergyJ === undefined ? "" : settled.reactionEnergyJ.toExponential(3)}
+        data-holds-nothing={settled.holdsNothing ? "true" : "false"}
+        aria-label={settled.holdsNothing
+          ? t("settled at {celsius} °C — the exhaust's temperature; the vessel holds nothing", {
+              celsius: formatReading(settled.temperatureK - 273.15, 0),
+            })
+          : t("settled at {celsius} °C", { celsius: formatReading(settled.temperatureK - 273.15, 0) })}
+      >
+        <rect x={INNER_X + 2} y={badgeY} width={INNER_W - 4} height={settled.holdsNothing ? 13 : 9} rx="3" />
+        <text x={INNER_X + INNER_W / 2} y={badgeY + 6.2} text-anchor="middle">
+          ⇌ {formatReading(settled.temperatureK - 273.15, 0)} °C
+        </text>
+        {#if settled.holdsNothing}
+          <text class="equilibrium-boundary" x={INNER_X + INNER_W / 2} y={badgeY + 11.2} text-anchor="middle">
+            {t("exhaust, not the glass")}
+          </text>
+        {/if}
+      </g>
     {/if}
     {#if adsorbEffect?.adsorption}
       <!-- GUI-099 ANIM-6, BRD-032: the sorbent, and what the beaker still
@@ -2828,6 +3040,23 @@
   .rider-bubble { fill: none; stroke: var(--dim); stroke-width: .5; }
   .sorbent-bed { fill: #241f1c; pointer-events: none; }
   .shear-arc { fill: none; stroke: var(--instrument); stroke-linecap: round; }
+  /* GUI-099 ANIM-7. Widths, counts, opacities and radii are set inline
+     from engine numbers; these rules give the shapes their material. */
+  .partition-dot { fill: var(--instrument); opacity: .75; }
+  .partition-dot.upper { fill: var(--cloud); opacity: .85; }
+  .osmotic-body { fill: color-mix(in srgb, #e8d9a8 72%, var(--surface)); stroke: var(--edge-strong); stroke-width: .6; }
+  .osmotic-arrow { fill: none; stroke: var(--instrument); stroke-width: 1.1; stroke-linecap: round; animation: osmotic-flow 1.8s ease-in-out infinite; }
+  @keyframes osmotic-flow { 0%, 100% { opacity: .2; } 50% { opacity: .9; } }
+  .guttering-flame { fill: none; stroke: #ff8c00; stroke-width: 1.6; stroke-linecap: round; animation: gutter-out 1.6s ease-in-out infinite; }
+  @keyframes gutter-out { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(.55); } }
+  .starve-readout, .thermal-equilibrium rect { fill: color-mix(in srgb, var(--surface) 84%, transparent); stroke: var(--instrument); stroke-width: .5; }
+  .flame-starved text, .autoignition-gap text, .thermal-equilibrium text { fill: var(--ink); font: 700 4.2px system-ui, sans-serif; }
+  .thermal-equilibrium.detached rect { stroke: var(--dim); stroke-dasharray: 2 1.5; }
+  .thermal-equilibrium .equilibrium-boundary { fill: var(--dim); font-size: 3.5px; }
+  .gap-track { fill: color-mix(in srgb, var(--surface) 70%, transparent); stroke: var(--edge); stroke-width: .4; }
+  .gap-fill { fill: var(--danger); opacity: .7; }
+  .decay-tick { stroke: var(--instrument); stroke-width: .8; stroke-linecap: round; animation: decay-flash 1.1s ease-out infinite; }
+  @keyframes decay-flash { from { opacity: .95; } to { opacity: 0; } }
   @keyframes fall {
     from {
       transform: translateY(0);
@@ -3149,6 +3378,9 @@
     .reaction-front { animation: none; opacity: .6; }
     .neutralise-mark { animation: none; opacity: .8; }
     .rider { animation: none; }
+    .osmotic-arrow { animation: none; opacity: .8; }
+    .guttering-flame { animation: none; }
+    .decay-tick { animation: none; opacity: .8; }
     .glassbtn.pouring { animation: none; }
     .burette-fill,
     .piston-assembly .lid,

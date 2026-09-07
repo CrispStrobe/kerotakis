@@ -29,12 +29,17 @@ Three sources feed the stage, and the audit distinguishes them:
 
 ## Score
 
-| | before GUI-099 | after PR 1 | after PR 2 | after PR 3 | after PR 4 | after corrosion extent | after computed gas/foam motion | after ANIM-5 | after ANIM-6 |
-|---|---|---|---|---|---|---|---|---|---|
-| done | 32 | 36 | 41 | 45 | 45 | 46 | 48 | 52 | 58 |
-| partial | 18 | 17 | 12 | 11 | 11 | 11 | 9 | 9 | 9 |
-| missing | 23 | 20 | 20 | 17 | 17 | 16 | 16 | 12 | 6 |
-| **total rows** | **73** | **73** | **73** | **73** | **73** | **73** | **73** | **73** | **73** |
+| | before GUI-099 | after PR 1 | after PR 2 | after PR 3 | after PR 4 | after corrosion extent | after computed gas/foam motion | after ANIM-5 | after ANIM-6 | after ANIM-7 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| done | 32 | 36 | 41 | 45 | 45 | 46 | 48 | 52 | 58 | 64 |
+| partial | 18 | 17 | 12 | 11 | 11 | 11 | 9 | 9 | 9 | 9 |
+| missing | 23 | 20 | 20 | 17 | 17 | 16 | 16 | 12 | 6 | 0 |
+| **total rows** | **73** | **73** | **73** | **73** | **73** | **73** | **73** | **73** | **73** | **73** |
+
+**Nothing is *missing* any more.** Every row the audit walked now has a
+visual that is a function of an engine-computed quantity. The nine that
+remain *partial* are listed with what they still draw from a constant, and
+they are the whole of what is left of GUI-099's original list.
 
 **PR 4 deliberately moves no row, and that is the point.** It is the
 engine-side lane: the list under *What the engine should add* below, put on
@@ -66,7 +71,7 @@ the next lane can pick it up without repeating this walk.
 | `boiling_point_routed` | `pressure_kpa`, `boiling` (K), `shifted_by`, `route`, `model` | nothing | the same rolling boil, held at the routed plateau (vacuum, pressure, salted solvent) | missing | **done** (PR 1) |
 | `evaporated` | `moles` | three fixed steam columns, opacity from moles | plume count, reach and opacity from moles; rolling boil in the liquid | partial | **done** (PR 1) |
 | `distilled` | `water`, `ethanol`, `at`, `ended`, `stages`, `energy_kj`, `azeotropic` | still rig, boiling range and column plate count drawn | — | done | done |
-| `thermal_equilibrium` | the settled temperature | nothing (feed only) | — | missing | missing |
+| `thermal_equilibrium` | the settled temperature, `reaction_energy_j`, `holds_nothing` | nothing (feed only) | the settled temperature, and whose it is when the burn left the vessel empty | missing | **done** (ANIM-7) |
 
 The boil is the headline fix. `steaming` was `temperature_k >= 368` — a
 constant that is wrong under a partial vacuum, wrong in a pressurised vessel,
@@ -128,8 +133,8 @@ non-aqueous liquid frost at water's threshold.
 | `polymer_swelled` | `swelling_ratio_g_per_g`, `capacity_g_per_g` | snow height from the ratio against capacity | — | done | done |
 | `surface_spread` | `to_cleared_fraction` | particles fleeing the surfactant | — | done | done |
 | `surface_colour_spread` | `to_spread_fraction`, `spot_count` | colour spots spreading | — | done | done |
-| `partitioned` | `fraction_lower` | nothing in the vessel | the solute's split across the two layers | missing | missing |
-| `osmosis_changed` | `water_moles`, `mass_change_g` | nothing | the egg/potato swelling or shrinking | missing | missing |
+| `partitioned` | `fraction_lower` | nothing in the vessel | the solute's split across the two layers | missing | **done** (ANIM-7) |
+| `osmosis_changed` | `water_moles`, `mass_change_g` | nothing | the egg/potato swelling or shrinking | missing | **done** (ANIM-7) |
 | `diluted` | `volume`, `moles` | swirl, magnitude from the added volume | — | done | done |
 | `mixed` | `fraction_a`, `fraction_b`, `temperature_a`/`_b`/`_into` | swirl from the summed fractions; **the three temperatures unused** | thermal mixing visible as the streams meet | partial | partial |
 | `transferred` | `fraction` | pour stream; angle and particle mass from the accepted fraction | — | done | done |
@@ -143,8 +148,8 @@ non-aqueous liquid frost at water's threshold.
 |---|---|---|---|---|---|
 | `ignited` | `flame` (colour word), `energy_j` | flame scale from `energy_j` (100 J → 50 kJ), colour from `flame`, WebGPU flame where enabled | — plus the driving number readable from the DOM | done | done (`data-flame-energy-j`, PR 2) |
 | `flame_test` | `species`, `colour` | burner rig, flame colour from the event; a restrained fixed size, because the event carries no energy | — | done | done |
-| `did_not_ignite` / `flame_starved` | `fuel`, `burned`, `oxygen_fraction` | nothing | a flame that catches and gutters out at `oxygen_fraction` | missing | missing |
-| `below_autoignition` | the gap to the autoignition temperature | nothing | — | missing | missing |
+| `did_not_ignite` / `flame_starved` | `fuel`, `burned`, `oxygen_fraction` — **`did_not_ignite` carries none of them** | nothing | a flame that catches and gutters out at `oxygen_fraction` | missing | **done** (ANIM-7, `flame_starved` only) |
+| `below_autoignition` | `autoignition`, `temperature` — the gap between them | nothing | the gap itself, since the answer is that nothing burns | missing | **done** (ANIM-7) |
 | `reacted` | `moles`, `seconds`, `catalyst`, `activation_energy` | nothing in the vessel | reaction extent over the elapsed bench seconds | missing | **done** (ANIM-6) |
 | `reaction_heat_released` | `energy_j` | nothing | the exotherm, on the same ramp the heat of mixing uses | missing | **done** (ANIM-6) |
 | `fermented` | `sucrose_moles`, `ethanol_moles`, `carbon_dioxide_moles`, `active_yeast_grams`, `seconds` | **nothing** | slow bubbling paced over `seconds`, sized by the CO₂ moles | missing | **done** (PR 3) |
@@ -152,7 +157,7 @@ non-aqueous liquid frost at water's threshold.
 | `electrolysed` | `amps`, `seconds`, `coulombs`, `electrons`, `moles`, `grams`, `per_ion`, **`anode_species`/`anode_moles`, `cathode_species`/`cathode_moles`** (PR 4) | bubbles at two electrodes, count from moles, duration from seconds; **both electrodes got the same count off one product's moles** | each electrode sized by what actually leaves *it* — twice as many bubbles at the cathode as at the anode when water splits | partial | **done** (PR 3 charge, PR 4 ratio) |
 | `cell_voltage` | `volts` | connection arc, magnitude from \|V\| | — | done | done |
 | `decayed` | `parent`, `daughter`, `mode`, `moles`, `half_life_s` | the Geiger comes from a `measured` reading, not from `decayed` | decay drawn from the event, not only when an instrument is held | partial | partial |
-| `nuclide_spiked` | `activity_bq` | nothing | initial activity | missing | missing |
+| `nuclide_spiked` | `activity_bq`, `moles` | nothing | initial activity | missing | **done** (ANIM-7) |
 | `irradiated` | `wavelength_nm`, `irradiance_w_m2` | lamp, magnitude from the irradiance | — | done | done |
 | `uv_attenuated` | `wavelength_nm`, `band`, `transmitted_fraction`, `mechanism` | **nothing** | the beam dimming to `transmitted_fraction` through the sunscreen | missing | **done** (PR 3) |
 | `chemiluminescence_observed` | `relative_intensity`, `half_life_s` | the scene's glow, strength from the intensity | — | done | done |
@@ -287,6 +292,28 @@ picture of a vessel.
   only where the engine says `sheared_hard`: oobleck stirred slowly is a
   liquid, and drawing resistance there would be a picture of the recipe.
 
+- **ANIM-7 (the last six)** — `flame_starved` draws the flame guttering at
+  the oxygen fraction the engine says the air had fallen to, and draws
+  **no flame at all** when `burned` is zero, because that is a carbon-
+  dioxide extinguisher and the air was already too thin to light in; the
+  readout is the fraction itself, which is the number that contradicts "it
+  used up all the oxygen". `below_autoignition` draws the gap, because the
+  answer BRD-041 gives is that nothing burns — the bar fills toward the
+  autoignition point and never reaches it, since reaching it is a
+  different event. `nuclide_spiked` ticks at `activity_bq` on a log ramp
+  from one disintegration a second to a teaching source's megabecquerels.
+  `partitioned` splits ten dots across the two layers at `fraction_lower`,
+  drawn inside the bands the engine's own volumes made, and the two counts
+  always sum to ten because the solute did not go anywhere else. 
+  `osmosis_changed` swells or shrinks the object and points the arrows by
+  the **sign** of `mass_change_g`, which is the whole observation: an egg
+  in syrup and an egg in water arrive as the same event. And
+  `thermal_equilibrium` shows the settled temperature — with the badge
+  stepping off the glass and saying "exhaust, not the glass" wherever
+  `holds_nothing` is set, because "thermal equilibrium at 2496 °C" once
+  reached a reader over an empty beaker: a true number attached to a
+  picture that invites the wrong reading.
+
 - **Computed gas/foam motion** — `gas_produced.rate_moles_per_second` now sets
   the visible-bubble cadence while total moles continue to set count and size;
   `foam_changed.half_life_seconds` sets the foam head's collapse to half height.
@@ -296,6 +323,18 @@ picture of a vessel.
 Every one of those carries a `data-*` attribute naming the number that drives
 it, so the browser UX gate and any later test can assert on the *quantity*
 rather than on the presence of a shape.
+
+## What the engine still lacks
+
+One row cannot be closed from the client at all. **`Event::DidNotIgnite`
+carries nothing but the vessel id** — no fuel, no oxygen fraction, no gap
+to the autoignition temperature — so there is no quantity for a visual to
+be a function of, and drawing anything for it would be a picture of the
+word. Its sibling `FlameStarved` carries `fuel`, `burned` and
+`oxygen_fraction` and is drawn; the shared row above is marked done on
+that half alone, and deliberately says so. Giving `DidNotIgnite` the same
+three fields (or the gap `BelowAutoignition` already computes) would close
+the other half.
 
 ## What the engine should add
 

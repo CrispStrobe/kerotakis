@@ -2357,6 +2357,14 @@
   "{object} needs {percent}% of its own volume in clinging gas to rise": "",
   "{percent}% of the {sorbate} is on the {sorbent}; {remaining} mol still in solution": "",
   "still in solution": "",
-  "shear-thickened to {percent}% at {speed} m/s": ""
+  "shear-thickened to {percent}% at {speed} m/s": "",
+  "{percent}% of the {species} sat in the lower layer": "",
+  "{material} changed by {grams} g as water crossed the membrane": "",
+  "the flame quit at {percent}% oxygen after burning {moles} mol": "",
+  "{gap} K below the temperature {fuel} lights itself at": "",
+  "{nuclide} spiked at {activity} Bq": "",
+  "settled at {celsius} °C": "",
+  "settled at {celsius} °C — the exhaust's temperature; the vessel holds nothing": "",
+  "exhaust, not the glass": ""
  }
 }
