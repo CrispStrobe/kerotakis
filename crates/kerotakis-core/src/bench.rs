@@ -386,12 +386,6 @@ impl Bench {
         events: &mut Vec<Event>,
     ) -> Result<bool, BenchError> {
         let source = self.vessel(from)?.clone();
-        if !source.material_objects.is_empty() {
-            events.push(Event::ObjectSpillBoundary {
-                vessel: from,
-                object_count: source.material_objects.len(),
-            });
-        }
         let eligible = |phase: Phase| kind.takes(phase);
         let moved = source
             .contents
@@ -489,6 +483,16 @@ impl Bench {
                     contributors,
                 })
             }
+        }
+
+        // Only now, once the screen has let the move through: a refused
+        // discard that had already announced its objects would be
+        // describing a boundary nothing crossed.
+        if !source.material_objects.is_empty() {
+            events.push(Event::ObjectSpillBoundary {
+                vessel: from,
+                object_count: source.material_objects.len(),
+            });
         }
 
         let source = self.vessel_mut(from)?;
