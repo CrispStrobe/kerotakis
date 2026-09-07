@@ -450,6 +450,21 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         // one into the other, so an absent row here would have appeared
         // only after a pH was measured.
         | "lactate"
+        // The three calcium phosphates. They read as the insoluble sulfate
+        // three rows above does: a sparingly soluble salt of a group-2
+        // metal and a weak acid's fully deprotonated anion, with nothing
+        // to say to anything else in a mixture screen. They DO dissolve in
+        // a strong acid, which every insoluble phosphate and carbonate on
+        // this shelf does; the difference from `Carbonate` is that no gas
+        // comes off, and `Carbonate`'s rules are written about the gas. So
+        // no group is claimed rather than one that means something else,
+        // exactly as the ammonium salts and the weak organic acids above.
+        // They are here at all because the aqueous tail can now precipitate
+        // them, so a vessel can hold one without anybody having dispensed
+        // it — and an absent row would have appeared only after a solve.
+        | "hydroxylapatite"
+        | "Ca3(PO4)2"
+        | "octacalcium_phosphate"
         | "citric_acid"
         | "C6H5O7-3"
         | "glucose"
@@ -712,6 +727,9 @@ pub const COVERED_KEYS: &[&str] = &[
     "hair_pigment",
     "hair_pigment_ox",
     "activated_charcoal",
+    "hydroxylapatite",
+    "Ca3(PO4)2",
+    "octacalcium_phosphate",
 ];
 
 /// The pH at or below which a solved vessel counts as strongly acidic.
