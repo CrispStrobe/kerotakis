@@ -1504,19 +1504,24 @@ is not, and the gap is now the largest single obstacle to the app being usable
 in a German classroom — which is the audience the curriculum mapping in
 `codex/` is explicitly aimed at.
 
-- [ ] **I18N-1 — The experiment catalog (Forschungsbibliothek).** 103
-  reactions carry English `question`, `misconception`, `reveals`, `next`,
-  `lv1`/`lv2`/`lv3` prose and `summary`. The concept topics beside them are
-  already German-only (`label_de`, `definition_de`, from the CC0 oehTopics
-  set), so the catalog currently mixes languages within one screen. Roughly
-  **84,000 words** of pedagogical prose; this is a sustained editorial task,
-  not a build step. Structure it as `*_de` fields beside the English ones —
-  the convention `label_de`/`definition_de` already establishes — so a
-  partially translated catalog degrades to English per field rather than
-  failing, and add a lint that reports coverage per file so progress is
-  measurable. Machine translation is not acceptable unreviewed here: a
-  misconception diagnosis that misstates the misconception is worse than an
-  English one.
+- [x] **I18N-1 — The experiment catalog (Forschungsbibliothek).** German for
+  every authored string the catalogue carries: **1255 of 1255**, up from
+  1108 of a denominator that was itself wrong. Translations stay one file
+  per language (`codex/i18n/<code>.toml`, keyed by the path to the English
+  field), folded into the `_de` siblings the shell already reads, so adding
+  French remains one new data file and no code.
+  `tools/codex-locale-lint.py` is promoted from a report to a gate in
+  `preflight.sh`: a stale key, a positional list whose length changed, an
+  age band (GUI-470 — this prose bypasses the locale bundles, so
+  `learnerWording.test.ts` cannot see it) and, for a language in `COMPLETE`,
+  a missing string all fail. A language NOT in `COMPLETE` is only reported
+  on, so a translation in progress stays committable.
+  `codexProse.test.ts` gates the same claim from the exported document the
+  app parses. The two things this uncovered are the point: `models.toml`
+  reported **100%** German while 325 of its 409 strings were English,
+  because the lint's field list omitted `name`/`power`/`explains`/`fails_at`
+  and `Model` had no `_de` fields for serde to keep — a coverage number is
+  only as honest as its denominator. #505
 
 - I18N-2 (map-screen vocabulary, 2026-08-30) and I18N-3 (engine
   vocabulary coverage, 2026-08-30) are done; see `HISTORY.md`. The

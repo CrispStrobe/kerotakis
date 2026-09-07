@@ -88,6 +88,7 @@ step "BRD-072 evaluator"; python3 -m unittest tools.tests.test_brd072_evaluate
 # behind the source it translates, and a codex slug the map de-slugs into a
 # dictionary that has no word for it (which renders English inside German).
 step "i18n catalogue"; python3 tools/codex-locale-lint.py --check
+step "i18n catalogue self-test"; python3 -m unittest tools.tests.test_codex_locale_lint
 step "i18n engine";    python3 tools/engine-locale-lint.py --check
 step "i18n vocabulary"; python3 tools/i18n-engine-vocabulary-lint.py --check
 step "i18n vocabulary self-test"; python3 -m unittest tools/test_i18n_engine_vocabulary.py
