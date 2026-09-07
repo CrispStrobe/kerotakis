@@ -1,12 +1,31 @@
 #!/usr/bin/env python3
-"""Build the browser's static capability index from reviewed corpus data."""
+"""Build the browser's static capability index from reviewed corpus data.
+
+The index carries the corpus's authored English AND every language shipped
+beside it: `tools/curiosity-prose.py` validates
+`tests/coverage/curiosity-v1/i18n/<locale>.toml` and folds it in here as
+`question_de`-style siblings, so the explorer reads one file and adding a
+language changes nothing in this exporter.
+"""
 
 from __future__ import annotations
 
+import importlib.util
 import json
 import pathlib
 import sys
 import tomllib
+
+# The validator's filename is hyphenated like every other tool here, which
+# is not importable by name; loading it by path keeps ONE definition of
+# what a valid translation is, shared by this exporter and the preflight
+# gate, rather than a second copy that drifts.
+_SPEC = importlib.util.spec_from_file_location(
+    "curiosity_prose", pathlib.Path(__file__).with_name("curiosity-prose.py")
+)
+prose = importlib.util.module_from_spec(_SPEC)
+assert _SPEC.loader
+_SPEC.loader.exec_module(prose)
 
 
 def build(corpus: pathlib.Path) -> dict:
@@ -33,6 +52,7 @@ def build(corpus: pathlib.Path) -> dict:
     prompts.sort(key=lambda row: row["id"])
     if len(prompts) != manifest["target_prompts"] or set(observed) != {p["id"] for p in prompts}:
         raise ValueError("corpus and reviewed baseline must describe the same target prompt set")
+    prose.apply(prompts, prose.read_translations(corpus))
     return {"schema": 1, "corpus": manifest["id"], "prompts": prompts}
 
 

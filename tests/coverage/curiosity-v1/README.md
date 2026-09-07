@@ -5,6 +5,15 @@ observed native route for every prompt as an ID, owning task, outcome, and
 stable reason code. It deliberately excludes rendered prose, numerical solver
 details, and route timing.
 
+`i18n/<code>.toml` holds the corpus in other languages — one file per language,
+keyed by the id the shard already owns, with glossaries for the material
+classes and concept tags. It is NOT part of this gate and the shards do not
+know it exists: `CuriosityPrompt` is `deny_unknown_fields`, so a translation
+can never live in a shard, and the manifest names its shards explicitly, so a
+subdirectory here is invisible to the loader. `tools/curiosity-prose.py`
+validates it and `tools/curiosity-index.py` folds it into the browser's
+capability index. See `I18N.md`.
+
 Run the fast cross-family gate with:
 
 ```sh
