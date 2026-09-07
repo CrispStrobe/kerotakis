@@ -228,6 +228,36 @@ pub const REACTIONS: &[CuratedReaction] = &[
         catalyst: None,
         acid_protons: Some(2.0),
     },
+    // ...and the same two again on the UNDISSOCIATED acid, which is not
+    // pedantry: it is where the reaction actually goes.
+    //
+    // `HOCl + H+ + Cl- -> Cl2 + H2O` is the mechanism in every textbook -
+    // it is hypochlorous acid, not the anion, that the chloride attacks -
+    // and once the couple is speciated the ledger holds both members. Two
+    // rows on `ClO⁻` alone stop at the anion's share: at pH 10.4 that is
+    // 99.9% of it, and the missing tenth of a percent left 0.0002 mol of
+    // hydrochloric acid unspent and took a beaker that should read pH 7
+    // down to pH 3.5. `curated` iterates within a step, so with these two
+    // present the anion reacts, the couple's acid form reacts after it,
+    // and the acid is spent to the last millimole.
+    CuratedReaction {
+        equation: "HClO + HCl → Cl2↑ + H₂O",
+        reactants: &[("HClO", 1.0), ("HCl", 1.0)],
+        products: &[("Cl2", 1.0, Phase::Gas), ("water", 1.0, Phase::Liquid)],
+        solvent: None,
+        min_temp_k: None,
+        catalyst: None,
+        acid_protons: None,
+    },
+    CuratedReaction {
+        equation: "HClO + Cl⁻ + H⁺ → Cl2↑ + H₂O",
+        reactants: &[("HClO", 1.0), ("Cl-", 1.0)],
+        products: &[("Cl2", 1.0, Phase::Gas), ("water", 1.0, Phase::Liquid)],
+        solvent: None,
+        min_temp_k: None,
+        catalyst: None,
+        acid_protons: Some(1.0),
+    },
     // Chloramine, on the ion, for the same reason: `NH3 + NaOCl` above
     // cannot fire in a solved beaker. The sodium is absent from both sides
     // here because it never took part — it is a spectator in the bottle and

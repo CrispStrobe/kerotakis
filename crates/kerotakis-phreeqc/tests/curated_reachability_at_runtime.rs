@@ -120,6 +120,13 @@ const NOT_POSED: &[(&str, &str)] = &[
          solution holds, and not posable here for exactly the same reason: \
          its third reagent is the vessel's acidity.",
     ),
+    (
+        "HClO + Cl⁻ + H⁺ → Cl2↑ + H₂O",
+        "the same row on the couple's acid form, and unposable for the same \
+         reason a third time: the proton it needs is the vessel's acidity, \
+         which is a charge imbalance rather than a species this harness can \
+         add.",
+    ),
 ];
 
 #[test]

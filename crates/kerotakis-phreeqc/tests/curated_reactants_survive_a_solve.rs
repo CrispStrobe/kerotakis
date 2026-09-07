@@ -152,6 +152,14 @@ const KNOWN_UNREACHABLE: &[(&str, &str)] = &[
          through a solve, and that one this walk does see.",
     ),
     (
+        "HClO + HCl → Cl2↑ + H₂O",
+        "covered, and unreachable here for the third time for the one \
+         reason: it names `HCl`, which the readback books as `Cl⁻`. It is \
+         the mechanism row - hypochlorous acid is what the chloride \
+         actually attacks - and `HClO + Cl⁻ + H⁺` covers the order where \
+         the acid has already been solved.",
+    ),
+    (
         "NaOCl + Cl⁻ + 2 H⁺ → Cl2↑ + Na⁺ + H₂O",
         "covered: the `ClO⁻ + Cl⁻ + 2 H⁺` row fires in its place, on the \
          anion a solved bleach solution actually holds, and asks for the \
