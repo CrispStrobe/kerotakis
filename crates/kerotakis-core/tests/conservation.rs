@@ -7,6 +7,27 @@ use kerotakis_core::units::Liters;
 use kerotakis_core::*;
 use proptest::prelude::*;
 
+/// The sensible heat matter carries in with it when it arrives at
+/// `celsius`, J, counted as deliberate input to the budget.
+///
+/// This used to be `n * Cp * (T_in - T_ref)` with `Cp` the room-temperature
+/// constant. That is the same number only while the heat capacity is flat,
+/// and water's is not: it has a minimum near 35 °C and reaches 76.17
+/// J/(mol·K) at 0 °C, so a mole of ice-cold water arriving carries 0.23 %
+/// more away from 25 °C than the rectangle said. The budget has to measure
+/// the same quantity the bench holds, or the test compares two different
+/// claims and calls the difference a leak.
+fn arriving_enthalpy(key: &str, moles: f64, celsius: f64) -> f64 {
+    let data = kerotakis_core::species::lookup(&SpeciesId::new(key)).expect("curated species");
+    moles
+        * kerotakis_core::states::enthalpy_between(
+            data,
+            data.standard_phase,
+            Kelvin::STANDARD.0,
+            celsius + 273.15,
+        )
+}
+
 #[derive(Debug, Clone)]
 enum RandOp {
     AddWater {
@@ -103,11 +124,7 @@ fn apply(bench: &mut Bench, op: &RandOp) -> Option<f64> {
                 moles: Moles(*moles),
                 at: Some(Kelvin::from_celsius(*celsius)),
             })
-            .map(|_| {
-                // Matter entering at T_in brings enthalpy n·Cp·(T_in − T_ref)
-                // with it; count it as deliberate input.
-                *moles * 75.3 * (celsius + 273.15 - 298.15)
-            }),
+            .map(|_| arriving_enthalpy("water", *moles, *celsius)),
         RandOp::AddEthanol { celsius, moles } => bench
             .step(Operator::Add {
                 vessel: pick(1),
@@ -115,7 +132,7 @@ fn apply(bench: &mut Bench, op: &RandOp) -> Option<f64> {
                 moles: Moles(*moles),
                 at: Some(Kelvin::from_celsius(*celsius)),
             })
-            .map(|_| *moles * 112.3 * (celsius + 273.15 - 298.15)),
+            .map(|_| arriving_enthalpy("ethanol", *moles, *celsius)),
         RandOp::AddSalt { moles } => bench
             .step(Operator::Add {
                 vessel: pick(2),
