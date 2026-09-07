@@ -47,6 +47,14 @@ latent energy at three scales, and mixture refusal; execution remains a CI gate.
 Workflow concurrency supersedes only revisions of the same PR/ref, never other
 worktrees' branches or their runs.
 
+A local full web sweep found one further stale corpus-count assertion; updated
+it to 110 codex plus 60 guided entries. Its focused suite passes all 26 tests.
+The sweep itself was not clean (1,121 passed, one stale-count failure and one
+worker timeout), so full web validation remains required. Pre-execution review
+also strengthened third-fleet atomic-refusal physical-state checks and added
+electrolysis atom ledgers including external gas exchange without changing
+the predeclared numeric tolerances.
+
 Two new lessons lack core frozen-output snapshot entries. Their entries must
 come from actual test execution and be reviewed; they have not been invented.
 CI now uploads generated `*.actual.json` files even on failure for that review.

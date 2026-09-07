@@ -141,10 +141,24 @@ def analyse(directory):
         index = next(i for i, row in enumerate(rows[91]) if row.get("operator", {}).get("op") == "distil")
         before = next(row["bench"] for row in reversed(rows[91][:index]) if "bench" in row)
         after = rows[91][index]["bench"]
-        valid = [v["contents"] for v in before["vessels"]] == [v["contents"] for v in after["vessels"]]
+        # Refusal must preserve physical state, not merely the number of
+        # molecules. Exclude solver caches/step bookkeeping, which are not
+        # physical changes and need not survive a command unchanged.
+        physical = ("id", "contents", "temperature", "pressure", "thermal_mode",
+                    "headspace", "elapsed_seconds", "excess_enthalpy_j", "solute_charge",
+                    "nuclides", "unresolved_materials", "material_objects", "surfaces",
+                    "exchanges", "adsorbed", "solid_solutions", "soap_scum",
+                    "lemon_paper_mark", "foam", "surface_particles", "surface_colours",
+                    "emulsion", "charred_materials")
+        def state(bench):
+            return [{key: v.get(key) for key in physical} for v in bench["vessels"]]
+        valid = state(before) == state(after)
+        changed = [key for key in physical
+                   if [v.get(key) for v in before["vessels"]]
+                   != [v.get(key) for v in after["vessels"]]]
         diagnostic = events(91, "not_yet_modeled")
         valid &= not events(91, "distilled") and any("NH3" in e["what"] and "distillation" in e["what"] for e in diagnostic)
-        return valid, diagnostic
+        return valid, {"diagnostics": diagnostic, "changed_physical_fields": changed}
     guarded("91: unsupported aqueous volatile is atomically withheld", rejected_still, "expected-model-boundary")
 
     for k in [93, 94]:
@@ -202,6 +216,40 @@ def analyse(directory):
             # that would count the same generated gas twice.
             return valid, {"charge_C": charge, "generated_mol": production, "accounting": "sum electrode production events, independent of final gas location"}
         guarded(f"{k}: Faraday charge and both electrode products", faraday_check)
+        def electrolysis_ledger(k=k):
+            start = next(i for i, row in enumerate(rows[k])
+                         if row.get("operator", {}).get("op") == "electrolyse")
+            before = next(row["bench"] for row in reversed(rows[k][:start]) if "bench" in row)
+            after = records[k]["final"]
+            # These probes have no interfaces or material objects. Refuse
+            # to claim complete atom accounting if such a ledger appears.
+            separate = ("unresolved_materials", "material_objects", "surfaces",
+                        "exchanges", "adsorbed", "solid_solutions")
+            if any(v.get(key) for bench in (before, after)
+                   for v in bench["vessels"] for key in separate):
+                return False, {"coverage_limitation": "material exists outside the species contents ledger"}
+            net_out = {element: 0.0 for element in ("H", "O", "N", "K")}
+            flows = []
+            for row in rows[k][start:]:
+                for event in row.get("events", []):
+                    if event["event"] not in ("gas_evolved", "gas_absorbed"):
+                        continue
+                    sign = 1 if event["event"] == "gas_evolved" else -1
+                    flows.append(event)
+                    for element in net_out:
+                        net_out[element] += sign * event["moles"] * composition[event["species"]].get(element, 0)
+            delta = {element: sum(atoms(v, element) for v in after["vessels"])
+                     - sum(atoms(v, element) for v in before["vessels"])
+                     for element in net_out}
+            # Compare changes, not large solvent totals: the standard
+            # inventory tolerance must not hide a missing small gas dose.
+            # Retained headspace gas is already in contents. GasContained
+            # and Electrolysed are NOT extra external material flows.
+            return all(close(delta[e], -net_out[e]) for e in net_out), {
+                "inventory_change_mol_atoms": delta, "net_external_out_mol_atoms": net_out,
+                "external_flows": flows,
+                "accounting": "final minus pre-electrolysis contents plus evolved minus absorbed; all vessels and phases"}
+        guarded(f"{k}: electrolysis material ledger including external gas exchange", electrolysis_ledger, "conservation")
     guarded("105–108: equal/split/doubled charge controls", lambda:
             (all(close(electrolysis[k][key] / factor, electrolysis[105][key], absolute=1e-10)
                  for k, factor in [(106, 1), (107, 2), (108, 1)] for key in ["H2", "O2"]), electrolysis))
