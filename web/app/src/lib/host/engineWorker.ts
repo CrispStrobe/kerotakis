@@ -36,6 +36,7 @@ type Lab = {
   setRegister(level: string): void;
   setLocale(code: string): void;
   setSolver(hook: (dbTag: string, input: string) => string): void;
+  aqueousDatabase(tag: string): string;
   scene(): string;
   state(): string;
   species(): string;
@@ -103,11 +104,22 @@ async function init(engineBase: string) {
         locateFile: (p: string) => new URL(p, base).href,
         ...opts,
       });
-    const pool = await PhreeqcPool.create(factory, async (file: string) => {
-      const res = await fetch(new URL(`db/${file}`, base).href);
-      if (!res.ok) throw new Error(`fetching ${file}: HTTP ${res.status}`);
-      return res.text();
-    });
+    const engine = lab;
+    const pool = await PhreeqcPool.create(
+      factory,
+      async (file: string) => {
+        const res = await fetch(new URL(`db/${file}`, base).href);
+        if (!res.ok) throw new Error(`fetching ${file}: HTTP ${res.status}`);
+        return res.text();
+      },
+      // The adapter owns the component namespace and the reviewed extensions,
+      // and it writes its input in those names. Handing this pool the raw
+      // shipped `.dat` instead gives the browser an engine that cannot solve
+      // what the browser asks it — silently, as a degraded answer rather than
+      // an error. `openLab` in kerotakis.mjs already does this; this worker
+      // builds its own pool and has to do it too.
+      (tag: string) => engine.aqueousDatabase(tag),
+    );
     lab.setSolver((dbTag: string, input: string) => pool.solve(dbTag, input));
   } catch (e) {
     // Honest degradation: the bench runs from shipped results and says so.
