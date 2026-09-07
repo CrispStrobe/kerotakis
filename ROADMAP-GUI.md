@@ -1393,16 +1393,17 @@ and presents them well.
   `phase-change` effect kind that no component rendered), and
   `SceneVessel.emulsion` is read by no component in the app.
 
-  ANIM-1 (thermal truth), ANIM-2 (matter and pressure) and ANIM-3 (the
-  three events that drew nothing) shipped across three PRs and took the
-  audit from 32/18/23 to **45 done, 11 partial, 17 missing**; see
-  `HISTORY.md`. Persistent corrosion extent moved one further missing row to
+  ANIM-1 (thermal truth, #450), ANIM-2 (matter and pressure, #454) and
+  ANIM-3 (the three events that drew nothing, #458) shipped across three PRs
+  and took the audit from 32/18/23 to **45 done, 11 partial, 17 missing**;
+  the six quantities the audit asked the engine for went onto the wire in
+  #462. See `HISTORY.md`. Persistent corrosion extent moved one further missing row to
   done. The computed-motion tranche then made gas production cadence follow
   `rate_moles_per_second` and foam collapse follow `half_life_seconds`, moving
   two partial rows to done, reaching **48 done, 9 partial, 16 missing**.
 
-  ANIM-5 through ANIM-9 then closed the rest, five slices of at most six
-  rows each: 48/9/16 → 52/9/12 → 58/9/6 → 64/9/0 → 70/3/0 → **73 done, 0
+  ANIM-5 through ANIM-9 (#490, #492, #493, #494, #495) then closed the rest,
+  five slices of at most six rows each: 48/9/16 → 52/9/12 → 58/9/6 → 64/9/0 → 70/3/0 → **73 done, 0
   partial, 0 missing.** The last two slices are the ones worth naming here,
   because they were not absences but *constants*: `plated`'s magnitude was a
   literal `1`, so a copper blush and a nail gone orange drew the same
@@ -1414,7 +1415,7 @@ and presents them well.
 
   **This item is closed and the question it asks is not.** One gap outlives
   the row count, recorded in the audit. (The other, `Event::DidNotIgnite`
-  carrying nothing but a vessel id, is now closed: the event names *which*
+  carrying nothing but a vessel id, is now closed in #501: the event names *which*
   absence it is — `no_fuel`, `no_oxygen`, `below_autoignition`,
   `not_modelled` — and carries the candidate fuel, its moles, the oxygen
   fraction and the gap to the autoignition point, so a wisp scaled by the
@@ -1454,7 +1455,7 @@ lives in is not predictable from what the tool is.
   cupboard modal, opened from one small button at the right end of the
   MESSEN row, built from one merged model, with items on shelves grouped by
   what they do and an `(i)` per item saying what it models and what it does
-  not; the migration in three PRs, and the open questions.
+  not; the migration in three PRs, and the open questions. #463
 
 - [x] **GUI-101 — The cupboard, from one model.** `equipmentCatalogue.ts`
   merges `INSTRUMENTS`, `APPARATUS`, the transfer verbs (lifted out of
@@ -1468,14 +1469,15 @@ lives in is not predictable from what the tool is.
   from the same model, so it never scrolls. DoD: every entry appears exactly
   once with a group and an action; quick-access ordering and its default seed
   unit-tested; availability answered by the engine's catalog for every entry,
-  including the ungated-verb case.
+  including the ungated-verb case. #466
 
 - [x] **GUI-102 — Delete the duplicates.** `EquipmentCabinet.svelte` and
   `InstrumentTray.svelte` go; the shelf's *equipment* tab, the dock's single
   cupboard button and `UtilityStation`'s *power and apparatus* all open the
   one cupboard. `tools/test-ux-quality.mjs` gains a cupboard assertion.
 
-  Done 2026-09-06. The shelf pane's *equipment* tab is gone rather than
+  Done 2026-09-06 (#469). The shelf pane's *equipment* tab is gone rather
+  than
   rewired: it was a second view of one pane, and the pane it competed with
   is the reagent shelf. The tab row keeps two buttons — the pane you are in,
   and the door to the cupboard — so nothing is now reachable in two shapes.
@@ -1504,7 +1506,8 @@ lives in is not predictable from what the tool is.
   defects fixed: `directActions.ts` names the heat source explicitly
   (`heat v1 10kJ on burner`) and the cupboard's denominator is a constant over
   every tool a learner can ever have, printed only while something is locked.
-  Done 2026-09-06; §5 of the design note is now *Decisions* and carries the
+  Done 2026-09-06 (#475); §5 of the design note is now *Decisions* and
+  carries the
   reason for each. Per the convention at the top of this file, the detail and
   the lessons live in `HISTORY.md`.
 

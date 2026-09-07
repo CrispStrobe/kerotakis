@@ -2039,8 +2039,12 @@ BDF integration, the Cantera-YAML front end, surface complexation, cation
 exchange, solid solutions, the cell chain and the seed registry. Each is
 recorded in `HISTORY.md` with its branch and CI run. Open:
 
-- [ ] Cantera-YAML mechanism parser (Arrhenius + three-body + Troe covers
-      GRI-Mech-class) + rate evaluator feeding diffsol
+- [x] Cantera-YAML mechanism parser (Arrhenius + three-body + Troe covers
+      GRI-Mech-class) + rate evaluator feeding diffsol — the parser and the
+      evaluator have existed since BRD-040 and the shipped packs in
+      `data/mechanisms/` are Cantera YAML; **#510** (merged 2026-09-07) closed
+      the last gap, the *reversible* three-body and falloff forms that are the
+      dominant shape in every published file. See `HISTORY.md`
 - [ ] Multi-step mechanisms, rate-determining steps, steady-state
       approximations — the university-level treatment that curated
       Arrhenius parameters cannot reach
@@ -2115,6 +2119,47 @@ deliberately declined as off-mission and points at the R-stages that
 already own the rest.
 
 ---
+
+## Open follow-ups from the 2026-09-05…07 sessions
+
+Recorded here so they survive the sessions that found them; each names the PR
+that raised it. Nothing below is a commitment to an order.
+
+- **Temperature-dependent Cp, the wiring half** — #507 landed 37 Cp(T) records
+  over 35 species that no ledger reads; #509 (in flight) moves the ~40
+  `Cp·ΔT` call sites onto `enthalpy_between` and takes the lesson goldens with
+  it. A species with no curve keeps its 298 K constant, deliberately, so "we
+  have a curve" and "we do not" stay different states of the data.
+- **`Vessel::heat_capacity` room-temperature residual** — open until #509
+  merges: the burner is still charged room-temperature prices for a crucible
+  at kiln temperature. #509 also names the term the two-line ledger never
+  had — the sensible heat the CO₂ carries out — which is what takes the #488
+  chalk case from 93.6 % to 99.5 %.
+- **The 28 codex models are exported and never rendered** (#505) —
+  `parseCodexIndex` keeps `doc.reactions` and drops `models` and `concepts`,
+  so every model, including every `fails_at`, reaches the browser and is
+  thrown away; there is no `Model` type in the shell. The German for them is
+  correct and *ready* rather than visible. Worth its own roadmap item.
+- **`curriculum[].system` renders as a raw de-hyphenated slug** — "bayern
+  lehrplanplus", "england national curriculum", in both languages; four
+  missing bundle keys on I18N-2's surface. It belongs with the neighbouring
+  design call: `curriculum[].stage` is a *citation* of an English syllabus
+  document, and rendering a citation in German would fabricate a section name
+  that does not exist (#505).
+- **Casein buffering is unmodelled** (#446, #508) — milk's diffusible mineral
+  buffer characterises a beaker near pH 6.7 and the three calcium phosphates
+  now precipitate, but casein stays unresolved, so a computed yoghurt pH is a
+  lower bound and not a prediction.
+- **`DidNotIgnite` is done** (#501) — the last animation-audit row the client
+  could not close; recorded here only because the audit's "what the engine
+  still lacks" list is where a reader will look for it.
+- **Open-vessel CO₂ uptake as a rate** — #496, a peer session's PR, still open.
+- **19 redundant worktrees** — the triage list is at
+  `/mnt/volume1/tmp-overflow/triage-prune-list-20260907.txt`. None was deleted:
+  main absorbed that work through re-authored PRs rather than cherry-picks, so
+  no branch HEAD is an ancestor of `origin/main` and every branch still differs
+  on at least one touched file. Left for the owner; prove the work is on
+  `origin/main` and check for live processes before deleting any of them.
 
 ## Open decisions
 

@@ -14,10 +14,72 @@ it had while it was open, which is why a few numbers appear twice below.
 
 ## 2026-09-07
 
+**Engine**
+
+- **#501** — `Event::DidNotIgnite` gained the candidate fuel, its moles, the
+  oxygen fraction, `gap_k` and a four-way `reason` (`NoFuel` / `NoOxygen` /
+  `BelowAutoignition` / `NotModelled`), closing the one animation-audit row
+  that could not be closed from the client: three of the four are deliberate
+  blanks, and only one of them is drawable
+- **#507** — `heat_capacity_polynomials` entered the registry: 37 Cp(T)
+  records over 35 species, with an evaluator and tests that say the curves
+  belong to the substances they are filed under, and **no ledger reading them
+  yet**, so no lesson golden, corpus row or flame temperature moves
+- **#508** — hydroxylapatite, β-Ca₃(PO₄)₂ and octacalcium phosphate entered
+  the registry with PubChem identities fetched 2026-09-07 and each row stating
+  what its identifier does not settle, so milk lays down a calcium phosphate
+  instead of apologising for phases `minteq.v4` has and this lab did not
+  (the gap #446 left behind)
+- **#510** — the portable Cantera-YAML parser accepts the **reversible**
+  three-body and falloff forms, which is the dominant shape in every published
+  mechanism file and the one refusal standing between the shipped subset and
+  `gri30.yaml` / `air.yaml`. No new rate law was needed: a third-body factor
+  and a falloff blending function multiply the rate *constant*, not one
+  direction of it, so `RateExpression`'s evaluator already applied them.
+  BRD-040 §4 items 1 and 2
+- **#513** — hotfix: #508 regenerated `crates/kerotakis-core/tests/golden/registry.json`
+  from a branch cut before #507, so the three new species carried no
+  `heat_capacity_polys` field and `registry_matches_the_golden_snapshot`
+  failed for every branch
+
+**Web / i18n**
+
+- **I18N-1 (#505)** — the whole experiment catalogue speaks German: **1255 of
+  1255** authored strings, up from 1108 of a denominator that was itself
+  wrong, with `models.toml` going from a reported 100 % on 84 fields to
+  196/196; `tools/codex-locale-lint.py` is promoted from a report to a gate in
+  `preflight.sh`, and `codexProse.test.ts` gates the same claim from the
+  exported document the app parses
+- **#506** — `kero run` reads a `.lab` file in the language it was typed in:
+  `--lang de`, `KERO_LANG`, and a `lang de` first line for the case a flag
+  cannot cover — a shared lesson whose reader does not know what it was
+  written in. Unlike the flag, an unshipped tag in the directive is refused by
+  name
 - **GUI-052** — provenance drawer: the solver routing record reaches the wire
   as `step.routes` (native and wasm), and the drawer shows which solver
   answered, on what dataset and model, within what stated bounds, and what the
   bench declined — each in the engine's own sentence (PR #512)
+
+### Lessons
+
+- the coverage lint counted only the fields it knew, so a file that was 42.9 %
+  German reported 100 %: a coverage number is only as honest as its
+  denominator.
+- a golden regenerated from a stale branch turns one merge into a red main for
+  every branch; regenerate against the tip being merged into, not the tip the
+  branch was cut from.
+- an event carrying nothing but a vessel id cannot be drawn at all — a visual
+  has to be a function of a quantity, so the engine must name the absence
+  before a client can show it.
+- splitting the data half of a physical model from the wiring half is what
+  makes a large change reviewable: #507 moved no golden precisely because
+  nothing read it yet.
+- `ValidityBounds` is deliberately left unrendered in the provenance drawer:
+  no solver in the tree populates it, so a box for it would imply a check
+  nobody ran (#512).
+- a parser refusal can look like a missing model and be neither: #510 needed no
+  new rate law, because a third-body factor and a falloff function multiply the
+  rate constant rather than one direction of it.
 
 ## 2026-09-06
 
@@ -51,13 +113,173 @@ it had while it was open, which is why a few numbers appear twice below.
 - **BRD-032 / learning slice** — made the liquid-nitrogen/ethanol phase-change
   model an Energy Yard investigation, with source-backed cryogen/asphyxiant
   handling warnings, last-tier Story stock and mission-only loan access
-- **ANIM-2** — matter and pressure: precipitate count from moles, grain size from molar volume, piston height from V=nRT/P (PR 2 of GUI-099)
+- **ANIM-2** — matter and pressure: precipitate count from moles, grain size from molar volume, piston height from V=nRT/P (PR 2 of GUI-099, #454)
 - **BRD-023** — promoted the bounded thermoplastic/thermoset heat comparison into the unified catalogue with a runnable script and complete German learner copy
 - **BRD-032** — promoted methyl-orange adsorption on activated charcoal into the unified catalogue with a runnable filtration script and explicit parameter/safety boundaries
+
+**Engine**
+
+- **#452** — nothing is heated above its heat source: `apparatus::HeatSource`
+  gained a name, a ceiling and provenance (burner 1500 °C, candle 1400 °C,
+  hotplate 550 °C), so `heat v1 40kJ` on chalk stopped reading 4913 °C and
+  teaching that chalk on a burner makes carbon monoxide. Two findings from the
+  same CI transcript sweep land with it: ice was being chilled at liquid
+  water's heat capacity, and the particle count behind sugar water's
+  colligative shift was zero
+- **#456** — the room the bench stands in: a new `ambient` clock member, last
+  in `standard_clocks()`, cools every vessel toward 298.15 K by Newton's law
+  with `h = 7.0 W/(m²·K)` **computed** from Bahrami's ENSC 388 natural-convection
+  correlation rather than guessed — so open dry ice sublimes, an ignited beaker
+  stops sitting at 2496 °C for the session, and a heated vessel cools
+- **#457** — four things the bench said that were not true: an inverted
+  displacement verdict that told the more reactive metal it sat above the less
+  reactive one, warnings about reagents that were not in the beaker, a pale
+  green solution called colourless, and a conductivity sixty percent too high
+- **#459** — a flame's plume is re-settled at a stated exhaust temperature
+  before it is vented, on the same solver and the same conserved element
+  budget, so a burning beaker gives up carbon dioxide and water instead of the
+  dissociation products it really had at 2769 K
+- **#460** — a dry burn is not a precipitate (`Event::Precipitated.dry`,
+  `serde(default)` and combustion-only, so older logs read exactly as before)
+  and 39 µmol is not zero (`si_amount` in the inventory table)
+- **#462** — six quantities the animation audit named went onto the wire:
+  `boiling_point_k` / `melting_point_k`, `headspace_volume_l` /
+  `headspace_moles`, `StateChanged.kind` / `.moles`, and the electrolysis
+  anode/cathode species and moles — each replacing a client-side
+  reconstruction that is kept underneath for older logs
+- **#483** — six defects the second CI transcript sweep (18 experiments) found
+  in the telling rather than the physics: the heat split reported as an
+  enthalpy difference, an equilibrium temperature from the last pass with
+  chemistry rather than where the vessel ends, duplicate phase-change lines
+  over a wait's sub-steps, a doubled burst hazard, µmol inventory rows printed
+  as 0.0000, and a solid "at the bottom" for 1e-12 mol
+- **#488** — an open vessel's air may carry heat away, never pay for
+  chemistry: `gibbs::OpenAtmosphere` admits only the air that is still gas and
+  only the downward half of its sensible change, so a 17.9 kJ calcination
+  stops being ~10 kJ subsidised by a room no burner ever paid for
+- **#489** — the lemon-cell power guard asserted on `" W"`, which is a test
+  against a letter and not against watts; the lesson's own word "Whichever"
+  tripped it. `states_watts` matches the unit shape instead, hand-rolled
+  rather than pulling in `regex` for four characters of lookbehind
+
+**Web**
+
+- **GUI-099 ANIM-1 (#450)** — `docs/ANIMATION-AUDIT.md`, the walk: every event
+  kind that changes a vessel's visible state, 73 rows scored **32 done, 18
+  partial, 23 missing** — plus the tranche it names first, chiefly `steaming`
+  moving off a hard-coded `temperature_k >= 368` and onto `state_changed.at`,
+  the plateau the solver actually held the vessel at
+- **GUI-099 ANIM-3 (#458)** — the three events that produced no picture at
+  all: emulsion (droplet count from `dispersed_fraction`, size from
+  `dispersed_volume_l` shared between them, drift-back on the engine's
+  coalescence half-life), fermentation over its own seconds, and the
+  spectrophotometer beam; electrolysis redrawn on charge, which is the honest
+  driver
+- **GUI-099 ANIM-5 (#490)** — five rows whose driving number the wire already
+  carried: `gas_absorbed` (the mirror of `gas_evolved`, on the same log ramp),
+  `headspace_partitioned`, `headspace_equilibrated`, `supersaturated` and
+  `corroded_fraction`
+- **GUI-099 ANIM-6 (#492)** — six more: `reacted` (the commonest event the
+  bench emits and it drew nothing — extent ring on the moles, tempo on
+  moles ÷ seconds), `reaction_heat_released` on the same ramp as
+  `heat_of_mixing`, `neutralised`, `bubble_ride`, `adsorbed`, `thickened`
+- **GUI-099 ANIM-7 (#493)** — the last six `missing` rows: `flame_starved`
+  (no flame at all when `burned` is zero), `below_autoignition`,
+  `nuclide_spiked`, `partitioned`, `osmosis_changed`, `thermal_equilibrium`
+- **GUI-099 ANIM-8 (#494)** — the constants six rows were still drawn from:
+  `plated`, `consumed`, `ground`, `vessel_swept`, `enzyme_hydrolysed`,
+  `decayed`
+- **GUI-099 ANIM-9 (#495)** — the last three the audit called partial —
+  `gel_formed`'s sol→gel step, `mixed` putting all three temperatures on one
+  warmth ramp, `hydrated`/`dehydrated` — taking the audit to **73 done, 0
+  partial, 0 missing**, each row carrying a `data-*` attribute naming the
+  quantity that drives it
+- **#451** — a script runs step by step when the learner wants it to: a second
+  pacer in `catalogRunner.ts` that submits one line, reports what it wrote into
+  the feed, and waits for a `next` / `rest` / `stop` verdict; its presence is
+  the mode, so an automatic run passes nothing
+- **#453** — the activity kits went behind an `(i)` like the reagents, with the
+  pattern extracted into shared `InfoToggle.svelte` / `InfoPanel.svelte`
+  components rather than copied into a second one that drifts
+- **#461** — the flame under the vessel is named, so a candle stays a candle:
+  every heater in the cabinet emitted a bare `heat` and therefore silently
+  claimed a 1500 °C burner; the hotplate was borrowing 950 °C it does not have
+- **GUI-101 (#466)** — one cupboard from one model: `equipmentCatalogue.ts`
+  merges instruments, apparatus verbs, the six transfer verbs (which had no
+  module and therefore no test) and the kits into one list keyed by the id
+  space `equipmentAccess()` already answers about, with a kit an `aliasOf` the
+  tool it skins and **no new path into the engine**
+- **GUI-102 (#469)** — the second instrument surface deleted:
+  `EquipmentCabinet.svelte` and `cabinetTab` go, and all five places that
+  switched a tab in order to show equipment open the one cupboard
+- **GUI-103 (#475)** — the owner's five cupboard decisions, in one PR: four
+  recents plus the door, the dock keeps its three landmarks, kits become a
+  header chip, five shelves, and both defects fixed
+- **#464** — the journal and the shelf open on their content: two rows of
+  chrome instead of seven, with the tooltip as state rather than `title=`
+  (which reaches a mouse and nothing else)
+- **#465** — the app shell enters the bench: the deployment boots into the
+  laboratory last stood in rather than `WorldHome`, the `kero>` console moves
+  behind a persisted toggle, and the register becomes a `<select>` in place of
+  a three-button radiogroup that hid two of the three under 760 px
+- **#468** — one catalogue surface, no tier: `catalogEntry.ts` maps both
+  corpora into one view model and *derives* what only one side carried,
+  because a filter half the library cannot answer is the tier split wearing a
+  filter's clothes
+- **#471** — a learner is addressed by level, never by age: the three
+  remaining age surfaces (catalogue card, explorer filter, explorer bands)
+  lose their year labels; the corpus's `age_band` identifier stays, because
+  curriculum placements really are stated in school years
+- **#472** — the logbook is the log again: #464's header rendered entries
+  carrying a `status` as icons *and* filtered them out of the list, so a
+  restored session's two entries showed as zero
+- **#473** — one telling of a reading, and one you can read: `summarizeResult`
+  returns `null` when the winning event is a plain reading carrying nothing
+  computed beside it, so a thermometer's number is not printed three times
+- **#474** — the apparatus and the pour belong on the stage: every apparatus
+  part now carries `at`, its position in the vessel's own `0 0 100 140`
+  viewBox, so the naming sits on the picture instead of in a 12 rem column
+  beside it
+- **#486** — CI's `presentation-authority` job named **13** vitest files by
+  hand while `web/app` held **93**; the job now runs the whole suite, after a
+  deliberate diagnostic commit that widened it without touching a test
+- **#487** — `MissionControl.svelte` deleted: 13 KB and 23 translated strings
+  that nothing has ever mounted, with its thirteen locale keys removed from
+  both `de.json` and `_template.json` so bundle parity is unchanged
+- **#491** — one sentence per step, as data: `data/steps/step-prose-v1.json`
+  keyed by the codex entry whose script it paces, merged by
+  `tools/step-prose.py` into the `{ say, say_de }` sibling shape the codex and
+  guided exports already use, so a guided card inherits the sentences of the
+  script it resolves to
+
+**i18n**
+
+- **#470** — a learner types the grammar in their own language: an alias layer
+  read at parse time and rewritten away before anything is stored, so a session
+  typed in German replays byte-identically on a bench that has never heard of
+  German. `a_canonical_line_is_never_rewritten` walks the whole verb inventory
+  in every shipped language; adding French is one `fr.toml` and no code
+
+**Docs**
+
+- **GUI-100 (#463)** — `docs/INSTRUMENTS-ONE-SURFACE.md`: what each of the
+  three instrument surfaces lists, how it is opened, what it emits into the
+  engine grammar; the duplication measured (all 12 instruments listed twice,
+  `chromatograph` three times, the kits a fourth vocabulary); the target and
+  the three-PR migration
+- **#467** — `HISTORY.md` created, and finished work moved out of the eight
+  planning files into it: `PLAN.md` 2912 → 2143 lines, `ROADMAP-GUI.md`
+  2294 → 1454, `BREADTH.md` 2755 → 825, so reading a planning file to find
+  what is left no longer means reading past most of what is done
 
 ### Lessons
 
 - a visual counts only when its size, count, colour, tempo or position is a function of an engine-computed quantity; a picture of the verb drawn at a constant does not.
+- a suite that cannot fail is indistinguishable from one that passes: CI named 13 of 93 vitest files by hand, and the other 80 were written, reviewed and merged while nothing ever executed them.
+- a guard that matches a letter rather than a unit can only be satisfied by rewording prose it has no business constraining, which teaches everyone to route around it instead of taking it seriously.
+- a heat source has a temperature of its own; dividing a dose by a heat capacity and writing the answer on the thermometer will heat chalk to 4913 °C and then teach, correctly for 5186 K, that it makes carbon monoxide.
+- a combustion plume vented frozen at flame temperature claims the room still holds its dissociation products; re-settle the gas at a stated exhaust temperature before it leaves.
+- the ANIM series was numbered twice on 2026-09-06 — once for the standing/persistent scene tranche (#478, #484, #498) and once for the event-visual tranche (#450, #454, #458, #490–#495). Slice numbers are never reused, so the collision is left on record; the PR number is what disambiguates them.
 
 ## 2026-09-05
 
@@ -97,6 +319,69 @@ it had while it was open, which is why a few numbers appear twice below.
 
 - **KID-5** — galvanic coupling extension (BRD-023): lower-E metal corrodes for both, zinc-corrosion companion entry, barrier table for passive/paint films (crates/kerotakis-core/src/corrosion.rs)
 
+**Engine**
+
+- **#436** — ammonia reaches the litmus, and a burst seal is an answer: new
+  `kerotakis_core::volatility` moves a dissolved species with a reviewed Henry
+  coefficient (`properties::HENRY_COEFFICIENTS`, Sander 2015) to its
+  equilibrium share of an owned headspace in either direction, **booking no
+  heat on purpose** — the amount is robust to the representation, the heat is
+  not — and `Event::Burst` joins the classifier's answering list. aq-036 and
+  aq-062 leave `missing`
+- **#437** — a fizz is not a fire: `Bench::step_with`'s ignite arm read
+  "something was consumed or a gas came off" as ignition, so a beaker of
+  vinegar and baking soda caught fire on every step, kept the spark's 1200 K,
+  boiled, and logged 388 °C. Only a combustion engine's
+  `ThermalEquilibrium { reaction_energy_j: Some(>0) }` counts now; the
+  acid-base products are kept and only the flame is undone
+- **#446** — milk gets its mineral buffer, and lactate gets a key: `whole_milk`
+  stops being `[water 0.87] + 0.13 unresolved` and carries six bare ions per
+  100 g, so a vessel of it has solutes for `partition` to find and
+  `measure v1 ph` reads something — the half that makes the aqueous lane's
+  lactate number defensible
+- **#447** — sealed mass across the gas/solution crossing: two full-stack tests
+  in `crates/kerotakis-phreeqc/tests/sealed_mass.rs` separated the candidates
+  (the crossing alone, then the sealed volcano weighed against what went in),
+  and the fix landed on the same branch once the inventory said where the mass
+  went
+
+**Web**
+
+- **#438** — the shelf carries identity and the two states that change what a
+  tap will *do* (a mission loan, an empty bottle); everything descriptive moved
+  behind a small `(i)` opening one `<dl>` at a time. One filter row, and an
+  honest instrument tally
+- **#439** — the concept map leads somewhere: `conceptLinks.ts` joins one
+  concept to every activity affiliated with it through three relations, each
+  named for exactly what it can defend — `teaches`, `evidence` and
+  `materials` — built from cross-references that already exist rather than a
+  new table someone has to maintain
+- **#440** — guided experiments run on the visible bench, in one catalogue:
+  `catalogRunner.ts` walks a script one `submit()` per line at a
+  caller-controlled pace, and the full-screen scrim that hid the bench for the
+  whole run is gone. The run was never fake; two presentation faults hid it
+- **#442** — the learner chooses what to balance, and the drill says why:
+  `balancingCandidates` replaces the flat pool with three tiers — the bench,
+  the active mission, then the rest of the catalogue — and refuses a partial
+  kit overlap. The defect was the silence, not the selection
+- **#443** — six bench-chrome defects, each a control that said one thing and
+  did another: `clear()` reaches registered bench extras through
+  `session.registerBenchExtra`, and `session.clearable` answers the real
+  question rather than gating on an empty command log
+- **#444** — the whole district opens, and a mission can be abandoned: three of
+  Discovery Hall's seven missions were counted in the header and never drawn,
+  so the board honestly said "0 of 7" beside a case on which they could not be
+  opened; they are listed beneath the case and deliberately not promoted into
+  it, whose evidence bar stays three leads
+
+**i18n**
+
+- **#441** — English fragments closed inside German sentences, at the source:
+  26 arms of `render.rs` wrote the catalogue's **English** name via
+  `species::lookup(id).map(|d| d.name)` and about half then forgot the
+  `locale.lookup` beside them, so the fallback was per term and no gate saw
+  it. The two lines are now one `species_name(locale, id)`
+
 ### Lessons
 
 - a condensed-gas phase such as dry ice or liquid nitrogen must never be matched to a database mineral phase by formula alone, since its stability is a temperature threshold, not a solubility product.
@@ -105,6 +390,10 @@ it had while it was open, which is why a few numbers appear twice below.
 - BRD-041's 25-prompt acceptance floor was not met as counted: the three rows that moved closed through a registry-identity fix reaching CEA equilibrium, not through the reviewed reduced mechanism the criterion actually asks for.
 - milk's diffusible mineral buffer now characterises a beaker of milk near pH 6.7, but casein stays unresolved so a computed yoghurt pH is only a lower bound, not a prediction.
 - BRD-014.S06 was independently claimed the same day by two unrelated shipped tranches (insulator resistivity and diesel identity); slice numbers are never reused, so the collision is left on record for a reviewer to reconcile.
+- a fragment composed in Rust or in a Svelte expression and then dropped into a translated template is a leak no amount of catalogue work can reach, and no locale gate reports it.
+- the PHREEQC GAS_PHASE block had no temperature, so a sealed vessel's headspace was solved at the database default while the rest of the bench had moved.
+- something being consumed, or a gas coming off, is not evidence of fire: a beaker that fizzes on every step is read as burning unless ignition is tied to a combustion engine's own reaction energy.
+- a heat term whose magnitude is robust and whose sign is not should be left unbooked and said so; a 35 kJ/mol desorption enthalpy priced against a portion carrying the mass of the solute alone would cool a jar by hundreds of kelvin.
 
 ## 2026-09-04
 
