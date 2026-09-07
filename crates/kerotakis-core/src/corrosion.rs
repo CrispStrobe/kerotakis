@@ -232,7 +232,11 @@ fn has_oxygen(vessel: &Vessel) -> bool {
 /// thermodynamics and its own overpotential gate, and two solvers must not
 /// both narrate one beaker.
 fn displacement_owns(vessel: &Vessel) -> bool {
-    if crate::displacement::unspent_acidity(vessel) > crate::OBSERVABLE_MOLES {
+    // Above the room's own contribution, not above zero: EXP-57 made every
+    // open beaker slightly acid, and `displacement::room_air_acidity_mol`
+    // says how slightly. An absolute bar handed the displacement route a
+    // beaker the corrosion route was already computing.
+    if crate::displacement::acid_beyond_the_room(vessel) {
         return true;
     }
     // A dissolved metal ion only makes this displacement's beaker if some
