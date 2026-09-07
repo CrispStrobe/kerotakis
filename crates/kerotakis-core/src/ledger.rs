@@ -290,6 +290,7 @@ mod tests {
         v.temperature = Kelvin(298.15);
         v.deposit(SpeciesId::new("water"), Moles(5.5), Phase::Liquid);
         v.deposit(SpeciesId::new("S2O3-2"), Moles(0.1), Phase::Aqueous);
+        v.deposit(SpeciesId::new("Na+"), Moles(0.2), Phase::Aqueous);
         v.solution = Some(crate::vessel::SolutionInfo {
             solvent_kg: None,
             redox: Vec::new(),
