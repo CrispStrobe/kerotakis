@@ -7,7 +7,9 @@
 //! 0 °C was right — 10.4 kJ to reach it, then 33.3 kJ spent freezing 5.53
 //! mol at 6.01 kJ/mol — and the remaining 16.3 kJ was then spent chilling
 //! ICE at liquid water's 75.3 J/(mol·K). Ice's own 37.7 puts the same
-//! beaker at −78 °C. The plateau being right is why it survived: the
+//! beaker at −78 °C, and ice's own CURVE — 37.7 at the melting point,
+//! falling to about 28 near 180 K, the constant being only the top of it —
+//! puts it at −90.6 °C. The plateau being right is why it survived: the
 //! observation the heating curve is drawn for was never the wrong one.
 //!
 //! And 20 g of sugar in 100 mL boiled at exactly 100.00 °C, which is the
@@ -86,16 +88,27 @@ fn the_leftover_energy_chills_ice_at_ices_own_heat_capacity() {
     let seen = transcript(&bench, &events);
     let vessel = bench.vessel(VesselId(0)).expect("vessel");
 
-    // 10.4 kJ to 0 °C, 33.4 kJ to freeze it, 16.2 kJ into 209 J/K of ice.
+    // 10.4 kJ to 0 °C, 33.4 kJ to freeze it, 16.2 kJ into ice.
     let celsius = vessel.temperature.to_celsius();
     // 49.55 kJ short of 0 °C at liquid water's 418 J/K, 33.36 kJ of that
-    // spent freezing 5.5508 mol, and the remaining 16.19 kJ over 209.3 J/K
-    // of ice: −77.4 °C. Pinned tightly, because the number this replaces
-    // (−39.2 °C) is exactly a factor of two away and a loose band would
-    // not have caught it.
+    // spent freezing 5.5508 mol, and the remaining 16.19 kJ into ice.
+    //
+    // Where that leaves the beaker moved when the ledger began integrating
+    // Cp(T) rather than multiplying a constant, and it moved for the reason
+    // the constant was always an abbreviation: ice's heat capacity is 2.09
+    // J/(g·K) at the melting point and roughly 1.57 near 180 K, falling
+    // almost linearly in between. The rectangle 209.3 J/K priced that last
+    // 16.19 kJ at 77.4 K; the area under the real curve buys 90.6, and the
+    // vessel reports 156.6 J/K — 28.2 J/(mol·K), 1.57 J/(g·K) — where it
+    // stops, which is ice's own tabulated value at 182 K.
+    //
+    // Still pinned tightly. The defect this test was written to catch
+    // (−39.2 °C, ice charged at liquid water's capacity) is a factor of two
+    // away, and the flat-ice answer (−77.4 °C) is 13 K away; a band loose
+    // enough to admit either would not be testing anything.
     assert!(
-        (celsius + 77.4).abs() < 1.5,
-        "60 kJ out of 100 mL of water leaves ice at about −77.4 °C, not \
+        (celsius + 90.6).abs() < 1.5,
+        "60 kJ out of 100 mL of water leaves ice at about −90.6 °C, not \
          {celsius:.2} °C\n{seen}"
     );
 
