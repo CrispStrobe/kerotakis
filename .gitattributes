@@ -2,3 +2,7 @@
 vendor/my-basic/LICENSE -text
 vendor/my-basic/my_basic.c -text
 vendor/my-basic/my_basic.h -text
+
+# Recorder evidence is hash-pinned: unified-diff blank context lines contain
+# one space by definition. Do not rewrite those bytes as source formatting.
+tools/chemistry-audit/**/source.patch -text -whitespace
