@@ -486,6 +486,48 @@ if (!resultsPath) {
     }
 }
 
+// --- The routing contract on the wire (GUI-052) -------------------------
+// The other half of the parity assertion in `web/app/src-tauri/src/lib.rs`
+// (`steps_carry_solver_routes_without_leaking`). The browser does not call
+// `SolverStack::equilibrate` at all — the wasm `CombinedSolver` splices the
+// cached aqueous engine into the middle of the stack by hand — so a step
+// that routes on the desktop and reports nothing here is exactly the bug
+// this check exists to catch. Same key, same shape, same leak rule.
+{
+    const lab = new Lab();
+    const doc = JSON.parse(lab.runScript("new\nadd v1 water 100mL"));
+    checks++;
+    if (!Array.isArray(doc.steps?.[0]?.routes) || doc.steps[0].routes.length !== 0) {
+        fail("routes", "`new` equilibrates nothing and must report no routes: "
+            + JSON.stringify(doc.steps?.[0]?.routes));
+    }
+    const routes = doc.steps?.[1]?.routes;
+    checks++;
+    if (!Array.isArray(routes) || routes.length === 0) {
+        fail("routes", `a step that equilibrates must carry routing; got ${JSON.stringify(routes)}`);
+    } else {
+        checks++;
+        for (const route of routes) {
+            if (typeof route.solver !== "string"
+                || typeof route.chemistry !== "boolean"
+                || !["computed", "curated", "qualitative"].includes(route.kind)
+                || !(typeof route.outcome === "string" || typeof route.outcome === "object")) {
+                fail("routes", `route missing contract fields: ${JSON.stringify(route)}`);
+            }
+            if ("reason" in route && typeof route.reason !== "string") {
+                fail("routes", `reason present but not a sentence: ${JSON.stringify(route)}`);
+            }
+        }
+        checks++;
+        if (!routes.some((route) => route.outcome?.succeeded?.event_count !== undefined)) {
+            fail("routes", `no solver answered a water addition: ${JSON.stringify(routes)}`);
+        }
+        const answered = routes.filter((route) => route.outcome?.succeeded).length;
+        console.log(`routes: ${routes.length} solvers asked, ${answered} answered `
+            + `(${routes.map((route) => route.solver).join(", ")})`);
+    }
+}
+
 // --- The ionic contract on the wire (GUI-092) ---------------------------
 // Silver nitrate met by table salt must carry a net ionic equation derived
 // from the solved speciation — and it must not name the spectators, which
