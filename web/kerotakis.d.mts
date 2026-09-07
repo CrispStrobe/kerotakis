@@ -10,6 +10,13 @@ export class PhreeqcPool {
   static create(
     createIPhreeqc: CreateIPhreeqc,
     loadDatabase: (filename: string) => Promise<string>,
+    /**
+     * The adapter's own database text for a tag — the isolated component
+     * namespace plus the reviewed extensions — used in preference to the raw
+     * shipped `.dat`, because the adapter writes its input in those names.
+     * Optional so a host with no Rust engine beside it still gets a pool.
+     */
+    preparedDatabase?: (tag: string) => string | Promise<string>,
   ): Promise<PhreeqcPool>;
   /** The synchronous solver hook the Rust bench calls. */
   solve(dbTag: string, input: string): string;
