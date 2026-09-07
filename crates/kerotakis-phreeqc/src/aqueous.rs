@@ -27,9 +27,9 @@ use std::collections::BTreeMap;
 use std::rc::Rc;
 use std::sync::OnceLock;
 
-use crate::PhreeqcError;
 #[cfg(feature = "engine")]
-use crate::{databases, Phreeqc};
+use crate::Phreeqc;
+use crate::PhreeqcError;
 
 fn env_dump_input_all() -> bool {
     static V: OnceLock<bool> = OnceLock::new();
@@ -51,7 +51,7 @@ fn env_readback() -> bool {
     *V.get_or_init(|| std::env::var("KERO_READBACK").is_ok())
 }
 
-use crate::derived::{self, DerivedRole, ATMOSPHERIC};
+use crate::derived::{self, DerivedRole, ATMOSPHERIC, EQUILIBRIUM_GASES};
 use crate::enthalpy;
 
 /// Moles of free hydroxide, from PHREEQC's own species distribution.
@@ -83,10 +83,119 @@ fn measured_species_moles(species: Option<&[SpeciesDetail]>, name: &str, water_k
 /// database we are not running, in the field whose entire job is to let a
 /// reader trace where a number came from.
 fn dataset_name(db_tag: &str) -> String {
-    match db_tag {
-        "minteq.v4" => "minteq.v4.dat plus one reviewed lactate definition".to_string(),
+    let base = match db_tag {
+        "minteq.v4" => {
+            "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes"
+                .to_string()
+        }
+        "wateq4f" => "wateq4f.dat plus USBM IC 9429 reference-temperature complexes".to_string(),
         other => format!("{other}.dat"),
+    };
+    format!("{base}, with the reviewed Sander HBr gas-uptake slice")
+}
+
+fn dataset_sources(db_tag: &str) -> Vec<String> {
+    let mut sources: Vec<_> = derived::index_for(db_tag)
+        .citations
+        .iter()
+        .take(3)
+        .cloned()
+        .collect();
+    if matches!(db_tag, "wateq4f" | "minteq.v4") {
+        sources.push(crate::complexation::SOURCE_ID.into());
     }
+    sources.push(crate::aqueous_gases::SOURCE_ID.into());
+    sources
+}
+
+fn reference_complex_boundary(vessel: &Vessel, distribution: &[SpeciesDetail]) -> Option<Event> {
+    let thiocyanate = distribution
+        .iter()
+        .any(|s| s.molality > TRACE && (s.name.contains("Thiocyanate") || s.name.contains("SCN")));
+    let complexes = distribution
+        .iter()
+        .any(|s| s.molality > TRACE && crate::complexation::uses_reference_complexes(&s.name));
+    if !complexes && !thiocyanate {
+        return None;
+    }
+    let temperature_note = if crate::complexation::temperature_covered(vessel.temperature.0) {
+        "The solution is at the tabulated reference temperature."
+    } else {
+        "At this vessel temperature these are reference-temperature approximations, not validated temperature-dependent constants."
+    };
+    let mut what = if complexes {
+        format!("Copper–ammine / iron–thiocyanate speciation uses public-domain USBM IC 9429 cumulative constants at 25 °C and zero ionic strength, with the selected database's activity corrections. {temperature_note} Complex-formation enthalpies, rate laws, and complex spectra are not supplied by this data slice; reaction heat and colour are incomplete where those contributions matter.")
+    } else {
+        String::new()
+    };
+    if thiocyanate {
+        what.push_str(" Thiocyanate is treated as a conserved SCN- ligand. HNCS protonation, ligand redox, and binding to metals other than Fe(III) are not covered by this slice; in particular it is not an exhaustive strong-acid thiocyanate model. KSCN is an aqueous analytical equivalent, not a solid dissolution model.");
+    }
+    Some(Event::NotYetModeled {
+        cause: kerotakis_core::ops::NotModelledCause::ModelBoundary,
+        vessel: vessel.id,
+        what: what.trim().into(),
+    })
+}
+
+fn reactive_gas_boundary(vessel: &Vessel, problem: &Problem) -> Option<Event> {
+    if !problem.gases.iter().any(|(_, species, _)| species == "HBr")
+        && !problem
+            .external_gases
+            .iter()
+            .any(|gas| gas.species == "HBr")
+    {
+        return None;
+    }
+    let temperature = if crate::aqueous_gases::temperature_covered(vessel.temperature.0) {
+        "This state is at the 25 °C reference temperature."
+    } else {
+        "Away from 25 °C this uses a local constant-enthalpy van't Hoff approximation, not a validated broad-temperature correlation."
+    };
+    Some(Event::NotYetModeled {
+        cause: kerotakis_core::ops::NotModelledCause::ModelBoundary,
+        vessel: vessel.id,
+        what: format!("HBr gas uptake uses the dissociative Henry constant from the CC-BY Sander compilation, converted from concentration to the dilute molal standard state. The reaction enthalpy is derived from its local temperature slope and solvent-density correction, not an independent calorimetric measurement. {temperature} Gas transfer is an equilibrium boundary, not a time-dependent absorption model."),
+    })
+}
+
+fn redox_distribution(
+    problem: &Problem,
+    db_tag: &str,
+    value: &dyn Fn(&str) -> Option<f64>,
+) -> Vec<kerotakis_core::RedoxState> {
+    // The redox split, read back from the per-valence totals asked for
+    // in `build_input`. A state at zero is kept out: "0 mol of Mn(VII)"
+    // is true and is not what anyone means by a distribution.
+    let mut redox: Vec<kerotakis_core::RedoxState> = Vec::new();
+    for column in valence_totals(problem, db_tag) {
+        let Some(moles) = value(&column) else {
+            continue;
+        };
+        // A state that would render as "0%" is noise, not a
+        // distribution: reporting "100% Fe(II), 0% Fe(III)" tells the
+        // reader less than "all iron as Fe(II)" does.
+        if moles <= 1e-12 {
+            continue;
+        }
+        let Some((element, rest)) = column.split_once('(') else {
+            continue;
+        };
+        let Ok(oxidation) = rest.trim_end_matches(')').parse::<i32>() else {
+            continue;
+        };
+        redox.push(kerotakis_core::RedoxState {
+            element: element.to_string(),
+            oxidation,
+            molality: moles,
+        });
+    }
+    redox.sort_by(|a, b| {
+        a.element
+            .cmp(&b.element)
+            .then(b.molality.total_cmp(&a.molality))
+    });
+    redox
 }
 
 const WATER_MOLAR_MASS: f64 = 18.015;
@@ -311,6 +420,12 @@ fn neutralisation_enthalpy(engine: &mut Phreeqc) -> Option<f64> {
     (v.is_finite() && v > 0.0).then_some(-v)
 }
 
+#[cfg(feature = "engine")]
+fn load_native_database(tag: &str) -> Result<Phreeqc, PhreeqcError> {
+    let database = crate::native_namespace::database(tag).map_err(PhreeqcError::Engine)?;
+    Phreeqc::with_database(&database.database)
+}
+
 impl PhreeqcEquilibrator {
     /// Install an outside solver. See [`SolveOutput`].
     pub fn set_hook(&mut self, hook: SolveHook) {
@@ -329,18 +444,19 @@ impl PhreeqcEquilibrator {
     #[cfg(feature = "engine")]
     fn engine_for(&mut self, db_tag: &str, input: &str) -> Result<&mut Phreeqc, SolveError> {
         if input.contains("SOLUTION_SPECIES") {
-            let (slot, database): (&mut Option<Phreeqc>, &[u8]) = match db_tag {
-                "minteq.v4" => (&mut self.pinned_organic, databases::minteq_v4()),
-                "pitzer" => (&mut self.pinned_brine, databases::PITZER),
-                _ => (&mut self.pinned_inorganic, databases::WATEQ4F),
+            let slot = match db_tag {
+                "minteq.v4" => &mut self.pinned_organic,
+                "pitzer" => &mut self.pinned_brine,
+                _ => &mut self.pinned_inorganic,
             };
             if slot.is_none() {
-                *slot = Some(Phreeqc::with_database(database).map_err(|e| {
-                    SolveError::NotConverged {
-                        solver: "phreeqc-aqueous".to_string(),
-                        detail: format!("could not load a pinned engine instance: {e}"),
-                    }
-                })?);
+                *slot =
+                    Some(
+                        load_native_database(db_tag).map_err(|e| SolveError::NotConverged {
+                            solver: "phreeqc-aqueous".to_string(),
+                            detail: format!("could not load a pinned engine instance: {e}"),
+                        })?,
+                    );
             }
             Ok(slot.as_mut().expect("just created"))
         } else {
@@ -354,6 +470,13 @@ impl PhreeqcEquilibrator {
 
     pub(crate) fn run_raw(&mut self, db_tag: &str, input: &str) -> Result<SolveOutput, SolveError> {
         self.engine_calls += 1;
+        let namespace = crate::native_namespace::database(db_tag).map_err(|detail| {
+            SolveError::NotConverged {
+                solver: "phreeqc-component-isolation".into(),
+                detail,
+            }
+        })?;
+        let native_input = crate::native_namespace::input(namespace, input);
         #[cfg(feature = "engine")]
         {
             let engine = self.engine_for(db_tag, input)?;
@@ -363,12 +486,12 @@ impl PhreeqcEquilibrator {
                     solver: "phreeqc-aqueous".to_string(),
                     detail: format!("could not reset reused IPhreeqc state: {e}"),
                 })?;
-            engine.run(input).map_err(|e| {
+            engine.run(&native_input).map_err(|e| {
                 // The input is the whole question; when the engine refuses
                 // it, being able to see it is the difference between a
                 // diagnosis and a guess.
                 if env_dump_input() {
-                    eprintln!("--- PHREEQC input that failed ---\n{input}---");
+                    eprintln!("--- PHREEQC input that failed ---\n{native_input}---");
                 }
                 SolveError::NotConverged {
                     solver: "phreeqc-aqueous".to_string(),
@@ -377,8 +500,8 @@ impl PhreeqcEquilibrator {
             })?;
             Ok(SolveOutput {
                 pe_undetermined: false,
-                selected: engine.selected_output(),
-                report: engine.output_string(),
+                selected: crate::native_namespace::selected(namespace, engine.selected_output()),
+                report: crate::native_namespace::report(namespace, &engine.output_string()),
             })
         }
         #[cfg(not(feature = "engine"))]
@@ -389,10 +512,13 @@ impl PhreeqcEquilibrator {
                     detail: "this state is not in the shipped results and there is no solver here to compute it".to_string(),
                 });
             };
-            hook(db_tag, input).map_err(|e| SolveError::NotConverged {
+            let mut output = hook(db_tag, &native_input).map_err(|e| SolveError::NotConverged {
                 solver: "phreeqc-aqueous (external engine)".to_string(),
                 detail: e,
-            })
+            })?;
+            output.selected = crate::native_namespace::selected(namespace, output.selected);
+            output.report = crate::native_namespace::report(namespace, &output.report);
+            Ok(output)
         }
     }
 
@@ -568,24 +694,23 @@ impl PhreeqcEquilibrator {
         // a root: it walked to an edge, and the edge is not a measurement.
         let (mut saw_below, mut saw_above) = (false, false);
         let mut mid = 0.5 * (lo + hi);
-        for _ in 0..34 {
-            mid = 0.5 * (lo + hi);
-            let input = build_input_at(vessel, problem, db_tag, Some((mid, coupling)));
-            // A single awkward trial must not end the search. PHREEQC will
-            // refuse some electron activities outright — a residual of one
-            // part in a hundred thousand on chloride is enough — and those
-            // are scattered through the range rather than at its edges.
-            // Aborting on the first one threw away a titration the bisection
-            // had very nearly solved, and reported the reagents as unreacted.
+        let mut interior_probe: u32 = 1;
+        // Failed evaluations have no residual sign. Keep the valid bounds
+        // unchanged and try dyadic interior points: midpoint, quarters,
+        // eighths, sixteenths. Both sides of a numerical hole are explored.
+        // Reset to the midpoint after each successful bound update. The
+        // total evaluation budget and per-interval probe budget are bounded.
+        for _ in 0..68 {
+            let level = 31 - interior_probe.leading_zeros();
+            let denominator = 1_u32 << (level + 1);
+            let numerator = 2 * (interior_probe - (1_u32 << level)) + 1;
+            let trial_pe = lo + (hi - lo) * numerator as f64 / denominator as f64;
+            let input = build_input_at(vessel, problem, db_tag, Some((trial_pe, coupling)));
             let Ok(out) = self.run_trial(db_tag, &input) else {
-                // Keep moving in the direction the last usable answer
-                // pointed, so the bracket steps over the bad patch instead
-                // of stalling on it.
-                match last_sum {
-                    Some(sum) if sum < coupling.target => lo = mid,
-                    Some(_) => hi = mid,
-                    None => lo = mid,
+                if interior_probe == 15 {
+                    break;
                 }
+                interior_probe += 1;
                 continue;
             };
             let Some(sum) = oxidation_sum(&out.selected, &coupling.columns, problem.kgw) else {
@@ -594,6 +719,8 @@ impl PhreeqcEquilibrator {
                     detail: "the coupled run reported no oxidation-state totals".to_string(),
                 });
             };
+            mid = trial_pe;
+            interior_probe = 1;
             if env_redox() {
                 eprintln!("  pe={mid:.3} sum={sum:.6e} target={:.6e}", coupling.target);
             }
@@ -635,9 +762,9 @@ impl PhreeqcEquilibrator {
 impl PhreeqcEquilibrator {
     #[cfg(feature = "engine")]
     pub fn new() -> Result<Self, PhreeqcError> {
-        let mut inorganic = Phreeqc::with_database(databases::WATEQ4F)?;
-        let mut organic = Phreeqc::with_database(databases::minteq_v4())?;
-        let mut brine = Phreeqc::with_database(databases::PITZER)?;
+        let mut inorganic = load_native_database("wateq4f")?;
+        let mut organic = load_native_database("minteq.v4")?;
+        let mut brine = load_native_database("pitzer")?;
         // Asked once, of each dataset, rather than written down by us. A
         // dataset that declines to answer simply contributes no
         // neutralisation heat, which is the state the bench was in before.
@@ -1134,25 +1261,31 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
 
     for p in &vessel.contents {
         if p.phase == Phase::Gas {
+            // Explicit gas boundaries are handled before analytical solutes.
             if let Some(volume) = vessel.headspace_volume() {
                 // Only gases whose liquid exchange this adapter explicitly
                 // supports enter PHREEQC. Nitrogen and oxygen are retained
                 // as inert pressure/mass inventory: unrestricted equilibrium
                 // turns room air into nitrate, a thermodynamic endpoint that
-                // is kinetically impossible on a bench. CO2 is the first
-                // approved gas/liquid model; later gases grow this list.
-                if !ATMOSPHERIC
+                // is kinetically impossible on a bench. Reviewed reactive
+                // gases use the database's own dissolution equilibrium.
+                if !EQUILIBRIUM_GASES
                     .iter()
-                    .any(|(_, species, ..)| *species == p.species.0)
+                    .any(|(_, species)| *species == p.species.0)
                 {
                     continue;
                 }
-                const R_LITRE_ATM: f64 = 0.082_057_366;
+                // This is a conversion into PHREEQC's input convention,
+                // not the lab's physical gas constant. Its native initializer
+                // divides PV by R_LITER_ATM=0.0820597 (global_structures.h).
+                // Using CODATA here silently changes supplied gas moles.
+                const NATIVE_R_LITRE_ATM: f64 = 0.082_059_7;
                 let Some(data) = species::lookup(&p.species) else {
                     continue;
                 };
                 let phase = format!("{}(g)", data.formula);
-                let partial_pressure = p.moles.0 * R_LITRE_ATM * vessel.temperature.0 / volume.0;
+                let partial_pressure =
+                    p.moles.0 * NATIVE_R_LITRE_ATM * vessel.temperature.0 / volume.0;
                 gases.push((phase, p.species.0.clone(), partial_pressure));
                 if let Some(formula) = crate::dbindex::parse_formula(data.formula) {
                     for element in formula
@@ -1163,9 +1296,9 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
                     }
                 }
                 solutes += 1;
-            } else if let Some((phase, species, ..)) = ATMOSPHERIC
+            } else if let Some((phase, species)) = EQUILIBRIUM_GASES
                 .iter()
-                .find(|(_, species, ..)| *species == p.species.0)
+                .find(|(_, species)| *species == p.species.0)
             {
                 // A gas explicitly added to an external boundary is a
                 // finite dose passing through the liquid. Pure CO2 sets SI
@@ -1211,6 +1344,7 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
                 kgw += p.moles.0 * WATER_MOLAR_MASS / 1000.0
             }
             DerivedRole::Solvent => {}
+            DerivedRole::Dissolves(_) if matches!(p.species.0.as_str(), "H+" | "OH-") => {}
             DerivedRole::Dissolves(els) => {
                 solutes += 1;
                 for (el, coeff) in els {
@@ -1350,7 +1484,7 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
     if vessel.owns_headspace_gas() {
         // A finite headspace must admit gases that can form from the
         // solution even when none was initially present.
-        for (phase, species, _) in ATMOSPHERIC {
+        for (phase, species) in EQUILIBRIUM_GASES {
             let gas_formula = phase.trim_end_matches("(g)");
             let required = crate::dbindex::parse_formula(gas_formula).unwrap_or_default();
             let all_present = required
@@ -1362,6 +1496,12 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
             }
         }
     } else {
+        // Explicit finite doses are admitted by the reviewed gas capability,
+        // not by atmospheric abundance. Each is capped by supplied moles;
+        // no persistent reservoir is created for an absent atmospheric gas.
+        for exchange in &external_gases {
+            phases.push((exchange.phase.clone(), exchange.initial_moles, 0.0));
+        }
         // Reservoir boundaries do not own a gas inventory. An open vessel
         // sees room-air partial pressures; an inert nitrogen sweep drives
         // volatile products toward a near-zero partial pressure.
@@ -1375,7 +1515,7 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
                 .iter()
                 .find(|exchange| exchange.phase == *phase)
             {
-                phases.push((phase.to_string(), exchange.initial_moles, 0.0));
+                let _ = exchange; // the finite dose was added above
                 continue;
             }
             // EXP-57 changed NOTHING here, and the reader is owed that
@@ -1707,8 +1847,14 @@ impl Equilibrator for PhreeqcEquilibrator {
             // on the same final solution. The area under each side's own
             // Cp(T) is a state function and puts them back together.
             let t_ref = Kelvin::STANDARD.0;
+            // A vessel held at a bath temperature is held: only an adiabatic
+            // one moves with the heat its own chemistry released, and letting
+            // the fixed-point loop walk a thermostatted vessel away from t0
+            // made the bath a suggestion.
             let held = start.energy_between(t_ref, t0) + q_joules;
-            let next = if trial.heat_capacity() > 0.0 {
+            let next = if !matches!(start.thermal_mode, ThermalMode::Adiabatic) {
+                t0
+            } else if trial.heat_capacity() > 0.0 {
                 trial.temperature_after_from(t_ref, held)
             } else {
                 t0
@@ -1739,6 +1885,11 @@ impl Equilibrator for PhreeqcEquilibrator {
         events.extend(unspeciated_solute_notes(vessel));
         let ph_now = vessel.solution.as_ref().map(|s| s.ph);
         events.extend(milk_buffer_notes(vessel, ph_now));
+        // Observability gates narration, never the physical state. Dropping
+        // sub-0.01 K updates loses energy and makes pouring order matter.
+        if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) {
+            vessel.temperature = Kelvin(t_final.max(0.0));
+        }
         if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) && (t_final - t0).abs() > 0.01 {
             // From where the vessel actually started, not from the last
             // trial temperature the iteration happened to stop on.
@@ -1904,6 +2055,14 @@ impl Equilibrator for PhreeqcEquilibrator {
             elements: merged_elements,
         };
 
+        // Native MIX does not run the closed electron-budget root. Let the
+        // ordinary equilibrium owner compute coupled redox from the already
+        // merged inventory; accepting MIX here would choose a different
+        // electron reservoir merely because the user poured two solutions.
+        if redox_coupling(&merged_problem, db_tag).is_some() {
+            return None;
+        }
+
         let input = build_mix_input(
             soln_a,
             &problem_a,
@@ -1954,12 +2113,19 @@ impl Equilibrator for PhreeqcEquilibrator {
             new_exchanges,
             new_solid_solutions,
             mut new_ions,
-            _,
+            unnameable,
             protonation,
         ) = match readback {
             Ok(v) => v,
             Err(e) => return abandoned(e),
         };
+
+        if unnameable.iter().any(|(_, n)| *n > 1e-10) {
+            return abandoned(SolveError::NotConverged {
+                solver: "phreeqc-inventory".into(),
+                detail: format!("cannot commit unrepresented elemental states: {unnameable:?}"),
+            });
+        }
 
         let balance = Self::apply_balance_corrections(
             vessel,
@@ -1987,15 +2153,39 @@ impl Equilibrator for PhreeqcEquilibrator {
             &protonation,
         );
 
+        let before_inventory = vessel.clone();
         vessel.contents = contents;
         vessel.surfaces = new_surfaces;
         vessel.exchanges = new_exchanges;
         vessel.solid_solutions = new_solid_solutions;
+        let reservoirs: Vec<&str> = merged_problem
+            .external_gases
+            .iter()
+            .filter(|g| matches!(g.kind, ExternalGasKind::Reservoir))
+            .map(|g| g.species.as_str())
+            .collect();
+        if let Err(error) =
+            crate::inventory::complete_basis(&before_inventory, vessel, &events, &reservoirs)
+        {
+            *vessel = before_inventory;
+            return abandoned(error);
+        }
+        vessel.free_hydroxide = value("m_OH-")
+            .map(|m| m * solvent_kgw_out)
+            .unwrap_or_else(|| free_hydroxide_moles(Some(&cached.speciation), solvent_kgw_out));
+        vessel.free_proton = value("m_H+")
+            .map(|m| m * solvent_kgw_out)
+            .unwrap_or_else(|| {
+                measured_species_moles(Some(&cached.speciation), "H+", solvent_kgw_out)
+            });
         vessel.refresh_pressure();
 
+        events.extend(reference_complex_boundary(vessel, &cached.speciation));
         vessel.solution = Some(SolutionInfo {
-            pe: value("pe"),
-            redox: Vec::new(),
+            solvent_kg: value("mass_H2O"),
+            // MIX itself does not solve the lab's electron-budget root.
+            pe: None,
+            redox: redox_distribution(&merged_problem, db_tag, &value),
             ph,
             ionic_strength: mu,
             species: cached.speciation.clone(),
@@ -2006,12 +2196,7 @@ impl Equilibrator for PhreeqcEquilibrator {
                     .activity_model
                     .describe()
                     .to_string(),
-                dataset_sources: derived::index_for(db_tag)
-                    .citations
-                    .iter()
-                    .take(3)
-                    .cloned()
-                    .collect(),
+                dataset_sources: dataset_sources(db_tag),
                 routing: "MIX: two solved solutions combined by fraction".to_string(),
             }),
         });
@@ -2097,6 +2282,13 @@ impl PhreeqcEquilibrator {
             protonation,
         ) = self.readback_raw_values(&problem, db_tag, &cached.rows, &value)?;
 
+        if unnameable.iter().any(|(_, amount)| *amount > 1e-10) {
+            return Err(SolveError::NotConverged {
+                solver: "phreeqc-inventory".into(),
+                detail: format!("cannot commit unrepresented elemental states: {unnameable:?}"),
+            });
+        }
+
         let (new_phases, new_gases, ph, mu) = Self::apply_balance_corrections(
             vessel,
             &problem,
@@ -2139,7 +2331,7 @@ impl PhreeqcEquilibrator {
         let a_before = vessel.solute_charge;
         let a_after: f64 = contents
             .iter()
-            .filter(|p| p.phase == Phase::Aqueous)
+            .filter(|p| p.phase == Phase::Aqueous && !matches!(p.species.0.as_str(), "H+" | "OH-"))
             .filter_map(|p| {
                 let d = species::lookup(&p.species)?;
                 let f = kerotakis_core::stoich::parse_formula(d.formula).ok()?;
@@ -2193,6 +2385,33 @@ impl PhreeqcEquilibrator {
             .sum();
         let to_carbonate = neutralised.min(carbonate_route);
         neutralised -= to_carbonate;
+        // A change in weak-acid speciation can cancel analytical charge
+        // without consuming free hydroxide. In particular, a preceding
+        // saponification has already spent its base. Bound the narration by
+        // the hydroxide still measured here plus that supplied by actual
+        // undissolved hydroxide reagents, not analytical H/O coordinates.
+        let supplied_base: f64 = vessel
+            .contents
+            .iter()
+            .map(|p| {
+                enthalpy::DISSOCIATION
+                    .iter()
+                    .find(|(key, _)| *key == p.species.0)
+                    .map(|(_, products)| {
+                        products
+                            .iter()
+                            .filter(|(key, _)| *key == "OH-")
+                            .map(|(_, coefficient)| coefficient * p.moles.0)
+                            .sum::<f64>()
+                    })
+                    .unwrap_or(0.0)
+            })
+            .sum();
+        let remaining_base = value("m_OH-")
+            .map(|m| m * solvent_kgw_out)
+            .unwrap_or_else(|| free_hydroxide_moles(Some(&cached.speciation), solvent_kgw_out));
+        neutralised = neutralised
+            .min((vessel.free_hydroxide.max(0.0) + supplied_base - remaining_base).max(0.0));
         // The extent has been computed here for a while to get the heat
         // right, and then discarded. It is a reaction that happened, so it
         // belongs in the ledger — and it is what the net ionic equation
@@ -2204,10 +2423,18 @@ impl PhreeqcEquilibrator {
                 moles: Moles(neutralised),
             });
         }
+        let before_inventory = vessel.clone();
         vessel.contents = contents;
         vessel.surfaces = new_surfaces;
         vessel.exchanges = new_exchanges;
         vessel.solid_solutions = new_solid_solutions;
+        let reservoirs: Vec<&str> = problem
+            .external_gases
+            .iter()
+            .filter(|g| matches!(g.kind, ExternalGasKind::Reservoir))
+            .map(|g| g.species.as_str())
+            .collect();
+        crate::inventory::complete_basis(&before_inventory, vessel, &events, &reservoirs)?;
         vessel.refresh_pressure();
         if vessel.owns_headspace_gas() && !problem.gases.is_empty() {
             events.push(Event::HeadspaceEquilibrated {
@@ -2301,20 +2528,28 @@ impl PhreeqcEquilibrator {
         // a beaker handed a bare cation carries it as nothing; both read as
         // hydroxide, and both then invent a neutralisation at 55.81 kJ a
         // mole. One of them reached MINUS 27 K.
-        let measured_oh = free_hydroxide_moles(
-            vessel.solution.as_ref().map(|s| s.species.as_slice()),
-            problem.kgw,
-        );
+        let measured_oh = value("m_OH-")
+            .map(|m| m * solvent_kgw_out)
+            .unwrap_or_else(|| {
+                free_hydroxide_moles(
+                    vessel.solution.as_ref().map(|s| s.species.as_slice()),
+                    solvent_kgw_out,
+                )
+            });
         vessel.free_hydroxide = measured_oh;
         // Written beside it and unused by this balance — H+ is a master
         // species and carries no enthalpy — but a gate above the tail has
         // no other way to read it once `solution` has been cleared. See
         // the field docs for why it is not `unspent_acidity`.
-        vessel.free_proton = measured_species_moles(
-            vessel.solution.as_ref().map(|s| s.species.as_slice()),
-            "H+",
-            problem.kgw,
-        );
+        vessel.free_proton = value("m_H+")
+            .map(|m| m * solvent_kgw_out)
+            .unwrap_or_else(|| {
+                measured_species_moles(
+                    vessel.solution.as_ref().map(|s| s.species.as_slice()),
+                    "H+",
+                    solvent_kgw_out,
+                )
+            });
 
         // EXP-57: the CO2 partial pressure this solution actually stands
         // at, for `GasExchangeClock` to drive from. Persisted beside the
@@ -2480,7 +2715,7 @@ impl PhreeqcEquilibrator {
             .elements
             .iter()
             .all(|el| derived::index_for("pitzer").has_element(el));
-        let (db_tag, routing) = if needs_extended {
+        let (db_tag, mut routing) = if needs_extended {
             (
                 "minteq.v4",
                 "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)".to_string(),
@@ -2500,9 +2735,14 @@ impl PhreeqcEquilibrator {
         } else {
             (
                 "wateq4f",
-                "the default for dilute inorganic aqueous chemistry".to_string(),
+                "the default inorganic aqueous dataset".to_string(),
             )
         };
+        if potential_molality > 1.0 && db_tag != "pitzer" {
+            routing.push_str(&format!(
+                "; the input has a potentially concentrated solute load (~{potential_molality:.1} mol/kgw, not a measured ionic strength), but the Pitzer route cannot represent all requested chemistry. This activity-model fallback is not a validated concentrated-mixture prediction"
+            ));
+        }
         if !problem.surfaces.is_empty() {
             if potential_molality > 1.0 && db_tag != "minteq.v4" {
                 return Err(SolveError::NotConverged {
@@ -2678,7 +2918,15 @@ impl PhreeqcEquilibrator {
             }
         }
         let input = build_input(vessel, &problem, db_tag);
-        let key = format!("#{db_tag}\n{input}");
+        // Old caches predate independent native N/S balances and the reviewed
+        // ligand slice. They must miss, never masquerade as current chemistry.
+        let database_hash = crate::native_namespace::fingerprint(db_tag).map_err(|detail| {
+            SolveError::NotConverged {
+                solver: "phreeqc-component-isolation".into(),
+                detail,
+            }
+        })?;
+        let key = format!("#aqueous-isolated-v1:{db_tag}:{database_hash}\n{input}");
 
         Ok(Some(SolveSetup {
             problem,
@@ -2975,6 +3223,9 @@ impl PhreeqcEquilibrator {
             // iron(III) hydroxide from a ferrous salt with no oxidant in
             // the beaker. With no redox partner, the dissolved total goes
             // back to the vessel in the state distribution it went in as.
+            // N/S are independently conserved by the native component
+            // problem. Reassigning those totals here would erase legitimate
+            // mixed-state feeds entering through a mineral or MIX.
             if FAST_REDOX.contains(&base) && redox_coupling(problem, db_tag).is_none() {
                 let inputs: Vec<(&String, f64)> = problem
                     .totals
@@ -3400,8 +3651,10 @@ impl PhreeqcEquilibrator {
                     }
                     // Freely soluble but unspeciated: it goes into
                     // solution, and that is the whole claim.
-                    let dissolves =
-                        species::lookup(&p.species).is_some_and(|d| d.dissolves_without_speciation);
+                    let dissolves = species::lookup(&p.species).is_some_and(|d| {
+                        d.dissolves_without_speciation
+                            && d.aqueous_solubility_g_per_100_ml.is_none()
+                    });
                     if dissolves && p.phase == Phase::Solid {
                         contents.push(Portion {
                             species: p.species.clone(),
@@ -3565,6 +3818,11 @@ impl PhreeqcEquilibrator {
                         }
                     }
                     ExternalGasKind::Dose => {
+                        events.push(Event::NotYetModeled {
+                            cause: kerotakis_core::ops::NotModelledCause::RateNotModelled,
+                            vessel: vessel.id,
+                            what: format!("{} finite gas dose: uptake is an instantaneous equilibrium calculation, not a mass-transfer rate. After the dose, only explicitly configured atmospheric species exchange with an external reservoir; no new reservoir is inferred from the dose. Waiting time does not parameterise degassing", exchange.species),
+                        });
                         let absorbed = exchange.initial_moles - moles;
                         if absorbed > TRACE {
                             events.push(Event::GasAbsorbed {
@@ -3676,32 +3934,7 @@ impl PhreeqcEquilibrator {
         events: &mut Vec<Event>,
     ) {
         let idx = derived::index_for(db_tag);
-        // The redox split, read back from the per-valence totals asked for
-        // in `build_input`. A state at zero is kept out: "0 mol of Mn(VII)"
-        // is true and is not what anyone means by a distribution.
-        let mut redox: Vec<kerotakis_core::RedoxState> = Vec::new();
-        for column in valence_totals(problem, db_tag) {
-            let Some(moles) = value(&column) else {
-                continue;
-            };
-            // A state that would render as "0%" is noise, not a
-            // distribution: reporting "100% Fe(II), 0% Fe(III)" tells the
-            // reader less than "all iron as Fe(II)" does.
-            if moles <= 1e-12 {
-                continue;
-            }
-            let Some((element, rest)) = column.split_once('(') else {
-                continue;
-            };
-            let Ok(oxidation) = rest.trim_end_matches(')').parse::<i32>() else {
-                continue;
-            };
-            redox.push(kerotakis_core::RedoxState {
-                element: element.to_string(),
-                oxidation,
-                molality: moles,
-            });
-        }
+        let mut redox = redox_distribution(problem, db_tag, value);
         // Say what the input does to redox, because it is load-bearing and
         // otherwise invisible. Naming an oxidation state in a PHREEQC
         // solution *decouples* that element: it gets its own mass balance
@@ -3751,7 +3984,10 @@ impl PhreeqcEquilibrator {
                 .then(b.molality.total_cmp(&a.molality))
         });
 
+        events.extend(reference_complex_boundary(vessel, &speciation));
+        events.extend(reactive_gas_boundary(vessel, problem));
         let info = SolutionInfo {
+            solvent_kg: value("mass_H2O"),
             redox,
             pe: (redox_constrained && pe_determined)
                 .then(|| value("pe"))
@@ -3763,7 +3999,7 @@ impl PhreeqcEquilibrator {
                 engine: "PHREEQC (IPhreeqc, USGS)".to_string(),
                 dataset: dataset_name(db_tag),
                 model: idx.activity_model.describe().to_string(),
-                dataset_sources: idx.citations.iter().take(3).cloned().collect(),
+                dataset_sources: dataset_sources(db_tag),
                 routing: if redox_note.is_empty() {
                     routing
                 } else {
@@ -3797,73 +4033,15 @@ impl PhreeqcEquilibrator {
             });
         }
 
-        // The honesty boundary, said out loud.
-        //
-        // Only phases this lab can *name* are offered to the solver, so that
-        // an equilibrium can never contain a mineral we would have to drop
-        // (losing mass) or display with no story attached. That filter is
-        // right and stays. What was wrong is that it was silent: copper
-        // sulfate and lye reported pH 9.9 holding 0.01 mol/L of Cu(2+), a
-        // solution that cannot exist, because both Cu(OH)2 and tenorite are
-        // in the database and neither is in our registry.
-        //
-        // A phase we *did* offer gets driven to SI 0 by the solver, so it
-        // never appears here. Anything left is a phase the database says
-        // would form and we declined to model.
         let offered: Vec<&str> = problem.phases.iter().map(|(p, ..)| p.as_str()).collect();
-        let mut ignored: Vec<(&str, f64)> = saturation
-            .iter()
-            .filter(|(phase, si)| {
-                *si >= SUPERSATURATION_REPORTING_SI && !offered.contains(&phase.as_str())
-            })
-            .map(|(p, si)| (p.as_str(), *si))
-            .collect();
-        ignored.sort_by(|a, b| b.1.total_cmp(&a.1));
-
-        // Two different admissions, and conflating them would be its own
-        // small dishonesty. A phase we cannot name at all is a gap in the
-        // registry. A phase we *can* name but withheld is a deliberate
-        // kinetic claim — tenorite is the stable copper solid and we are
-        // asserting it does not form fast enough to see at this
-        // temperature — and the user is entitled to know which they are
-        // looking at.
-        let (withheld, unnamed): (Vec<_>, Vec<_>) = ignored.iter().partition(|(phase, _)| {
-            derived::phase_by_name(phase)
-                .and_then(|p| species::lookup_key(p.species))
-                .and_then(|d| d.forms_only_above_k)
-                .is_some()
-        });
-        let describe = |list: &[&(&str, f64)]| {
-            let named: Vec<String> = list
-                .iter()
-                .take(3)
-                .map(|(p, si)| format!("{p} (SI {si:+.1})"))
-                .collect();
-            let rest = match list.len().saturating_sub(3) {
-                0 => String::new(),
-                n => format!(", and {n} more"),
-            };
-            format!("{}{rest}", named.join(", "))
-        };
-        if !unnamed.is_empty() {
-            events.push(Event::NotYetModeled { cause: kerotakis_core::ops::NotModelledCause::PhaseNotInRegistry,
-                vessel: vessel.id,
-                what: format!(
-                    "a real beaker would not stay like this: the solution is supersaturated against {}. Those phases are in {db_tag}.dat but not in this lab's registry, so nothing can precipitate out of it here",
-                    describe(&unnamed)
-                ),
-            });
-        }
-        if !withheld.is_empty() {
-            let t_c = vessel.temperature.to_celsius();
-            events.push(Event::NotYetModeled { cause: kerotakis_core::ops::NotModelledCause::PhaseNotInRegistry,
-                vessel: vessel.id,
-                what: format!(
-                    "the solution is supersaturated against {}, which this lab is deliberately holding back: it is the more stable solid, but at {t_c:.0} °C the metastable one forms first and stays. That is a claim about rates, not about equilibrium, and it is curated rather than computed",
-                    describe(&withheld)
-                ),
-            });
-        }
+        events.extend(crate::phase_diagnostics::events(
+            vessel.id,
+            vessel.temperature.0,
+            db_tag,
+            saturation,
+            &offered,
+            SUPERSATURATION_REPORTING_SI,
+        ));
     }
 }
 
@@ -3909,15 +4087,73 @@ fn holds_unspeciated_solute(vessel: &Vessel) -> bool {
         portion.species.0 == "water" && portion.phase == Phase::Liquid && portion.moles.0 > TRACE
     });
     has_water
-        && derived::UNSPECIATED_SOLUTES.iter().any(|(key, _)| {
+        && (derived::UNSPECIATED_SOLUTES.iter().any(|(key, _)| {
             vessel
                 .contents
                 .iter()
                 .any(|portion| portion.species.0 == *key && portion.moles.0 > TRACE)
+        }) || !unmapped_ionic_solutes(vessel).is_empty())
+}
+
+/// A soluble ionic feed cannot inherit pure water's pH merely because no
+/// database contribution was derived for it. Neutral sugars/alcohols and
+/// insoluble objects do not trip this boundary.
+fn unmapped_ionic_solutes(vessel: &Vessel) -> Vec<&str> {
+    vessel
+        .contents
+        .iter()
+        .filter_map(|portion| {
+            // H/O analytical coordinates are handled by the aqueous balance,
+            // not by element contributions. They are not unsupported solutes.
+            if portion.moles.0 <= TRACE
+                || matches!(portion.species.0.as_str(), "H+" | "OH-")
+                || derived::role(&portion.species.0).is_some()
+            {
+                return None;
+            }
+            let data = species::lookup(&portion.species)?;
+            if portion.phase != Phase::Aqueous && !data.dissolves_without_speciation {
+                return None;
+            }
+            let formula = kerotakis_core::stoich::parse_formula(data.formula).ok()?;
+            let ionic = formula.charge != 0.0
+                || formula.counts.keys().any(|el| {
+                    matches!(
+                        el.as_str(),
+                        "Li" | "Na"
+                            | "K"
+                            | "Rb"
+                            | "Cs"
+                            | "Mg"
+                            | "Ca"
+                            | "Sr"
+                            | "Ba"
+                            | "Al"
+                            | "Fe"
+                            | "Cu"
+                            | "Zn"
+                            | "Ag"
+                            | "Cd"
+                            | "Pb"
+                            | "Co"
+                            | "Ni"
+                            | "Mn"
+                            | "Cr"
+                    )
+                });
+            ionic.then_some(portion.species.0.as_str())
         })
+        .collect()
 }
 
 fn unspeciated_solute_notes(vessel: &Vessel) -> Vec<Event> {
+    if !vessel
+        .contents
+        .iter()
+        .any(|p| p.species.0 == "water" && p.phase == Phase::Liquid && p.moles.0 > TRACE)
+    {
+        return Vec::new();
+    }
     let mut notes: Vec<(&str, &str)> = derived::UNSPECIATED_SOLUTES
         .iter()
         .filter(|(key, _)| {
@@ -3930,7 +4166,7 @@ fn unspeciated_solute_notes(vessel: &Vessel) -> Vec<Event> {
         .collect();
     notes.sort_unstable();
     notes.dedup();
-    notes
+    let mut events: Vec<_> = notes
         .into_iter()
         .map(|(key, why)| {
             let name = kerotakis_core::species::lookup_key(key)
@@ -3944,7 +4180,24 @@ fn unspeciated_solute_notes(vessel: &Vessel) -> Vec<Event> {
                 what: format!("{name} is dissolved and unspeciated: {why}"),
             }
         })
-        .collect()
+        .collect();
+    let mut unknown = unmapped_ionic_solutes(vessel);
+    unknown.sort_unstable();
+    unknown.dedup();
+    for key in unknown {
+        if derived::UNSPECIATED_SOLUTES
+            .iter()
+            .any(|(known, _)| *known == key)
+        {
+            continue;
+        }
+        events.push(Event::NotYetModeled {
+            cause: kerotakis_core::ops::NotModelledCause::NotSpeciated,
+            vessel: vessel.id,
+            what: format!("{key} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."),
+        });
+    }
+    events
 }
 
 fn unspeciated_acid_notes(vessel: &Vessel) -> Vec<Event> {
@@ -4236,16 +4489,30 @@ fn redox_coupling(problem: &Problem, db_tag: &str) -> Option<RedoxCoupling> {
 
 /// Σ (oxidation state × moles) read back from a solved distribution.
 fn oxidation_sum(rows: &[Vec<String>], columns: &[String], kgw: f64) -> Option<f64> {
+    if rows.len() < 2 || columns.is_empty() || !kgw.is_finite() || kgw <= 0.0 {
+        return None;
+    }
     let header = rows.first()?;
     let last = rows.last()?;
     let mut sum = 0.0;
-    for column in columns {
-        let Some(i) = header.iter().position(|h| h == column) else {
-            continue;
-        };
+    for (requested, column) in columns.iter().enumerate() {
+        // A partial or ambiguous projection cannot close an electron ledger.
+        if columns[..requested].contains(column) {
+            return None;
+        }
+        let i = header.iter().position(|h| h == column)?;
+        if header[i + 1..].contains(column) {
+            return None;
+        }
         let molality: f64 = last.get(i)?.parse().ok()?;
+        if !molality.is_finite() || molality < 0.0 {
+            return None;
+        }
         let state = tagged_state(column)? as f64;
         sum += state * molality * kgw;
+        if !sum.is_finite() {
+            return None;
+        }
     }
     Some(sum)
 }
@@ -4495,7 +4762,7 @@ fn mix_selected_output(merged: &Problem, db_tag: &str) -> String {
     // mixture that carries reduced nitrogen has to come back knowing
     // whether it is ammonia or ammonium, or decanting one beaker into
     // another would rename what is in it.
-    let mut molalities: Vec<&str> = Vec::new();
+    let mut molalities: Vec<&str> = vec!["H+", "OH-"];
     for total in &totals {
         for (species, _) in derived::protonation_split(total).unwrap_or(&[]) {
             if !molalities.contains(species) {
@@ -4839,7 +5106,9 @@ fn build_input_at(
     // vessel with both a surface and an exchanger would have been staking
     // its readback on the answer. Columns are read by name, so a single
     // combined list is right under either reading.
-    let mut molalities: Vec<&str> = Vec::new();
+    // Heat and catalyst gates need numerical output, not the rounded text
+    // report used for human-readable speciation.
+    let mut molalities: Vec<&str> = vec!["H+", "OH-"];
     if !problem.surfaces.is_empty() {
         molalities.extend(["Hfo_sOZn+", "Hfo_wOZn+", "Hfo_wSO4-", "Hfo_wOHSO4-2"]);
         if db_tag == "minteq.v4" {
@@ -4944,4 +5213,62 @@ pub(crate) fn parse_species_distribution(output: &str) -> Vec<SpeciesDetail> {
     }
     result.sort_by(|a, b| b.molality.total_cmp(&a.molality));
     result
+}
+
+#[cfg(test)]
+mod oxidation_sum_tests {
+    use super::oxidation_sum;
+
+    fn rows(header: &[&str], values: &[&str]) -> Vec<Vec<String>> {
+        [header, values]
+            .into_iter()
+            .map(|row| row.iter().map(|s| (*s).to_string()).collect())
+            .collect()
+    }
+
+    #[test]
+    fn invalid_or_partial_native_ledgers_are_not_balances() {
+        let columns = vec!["Fe(2)".into(), "Fe(3)".into()];
+        for value in ["NaN", "inf", "-inf", "-0.001", "invalid", "1e308"] {
+            assert_eq!(
+                oxidation_sum(&rows(&["Fe(2)", "Fe(3)"], &[value, "0"]), &columns, 1.0),
+                None,
+                "{value}"
+            );
+        }
+        for data in [
+            vec![],
+            vec![vec!["Fe(2)".into(), "Fe(3)".into()]],
+            rows(&["pH"], &["7"]),
+            rows(&["Fe(2)"], &["0.1"]),
+            rows(&["Fe(2)", "Fe(3)"], &["0.1"]),
+            rows(&["Fe(2)", "Fe(2)", "Fe(3)"], &["0.1", "0.2", "0.3"]),
+        ] {
+            assert_eq!(oxidation_sum(&data, &columns, 1.0), None, "{data:?}");
+        }
+        let data = rows(&["Fe(2)", "Fe(3)"], &["0.1", "0.2"]);
+        for kg in [0.0, -1.0, f64::NAN, f64::INFINITY, f64::NEG_INFINITY] {
+            assert_eq!(oxidation_sum(&data, &columns, kg), None);
+        }
+        assert_eq!(oxidation_sum(&data, &[], 1.0), None);
+        assert_eq!(
+            oxidation_sum(&data, &["Fe(2)".into(), "Fe(2)".into()], 1.0),
+            None
+        );
+        assert_eq!(
+            oxidation_sum(&rows(&["Fe"], &["0.1"]), &["Fe".into()], 1.0),
+            None
+        );
+    }
+
+    #[test]
+    fn valid_negative_oxidation_sum_and_zero_population_are_preserved() {
+        let columns = vec!["S(-2)".into(), "S(6)".into()];
+        let data = rows(&["S(-2)", "S(6)"], &["0.5", "0"]);
+        assert_eq!(oxidation_sum(&data, &columns, 2.0), Some(-2.0));
+        assert_eq!(
+            oxidation_sum(&rows(&["S(-2)", "S(6)"], &["0", "0"]), &columns, 1.0),
+            Some(0.0)
+        );
+    }
 }

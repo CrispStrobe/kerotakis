@@ -55,6 +55,11 @@ pub struct DerivedPhase {
 /// databases know.
 pub const ATMOSPHERIC: &[(&str, &str, f64)] = &[("CO2(g)", "CO2", -3.408)];
 
+/// Reviewed gas/liquid equilibrium capabilities, independent of an ambient
+/// reservoir. A finite supplied gas is not an infinite atmospheric source.
+/// HBr's phase data and applicability are recorded with the gas data slice.
+pub const EQUILIBRIUM_GASES: &[(&str, &str)] = &[("CO2(g)", "CO2"), ("HBr(g)", "HBr")];
+
 /// Oxyanion groups: the valence-carrying units formulas decompose into.
 /// (Element-count signatures; order matters — longest/most specific first.)
 fn oxyanion_groups() -> &'static [(&'static str, &'static str)] {
@@ -233,6 +238,9 @@ const BOOKING_OVERRIDES: &[(&str, &str)] = &[
     // rather than optional: the master-species fallback would book matter
     // into `Hypochlorite-`, which nothing downstream can resolve.
     ("Hypochlorite", "ClO-"),
+    // Same shape, for the reviewed ligand slice: PHREEQC's component is
+    // `Thiocyanate`, the registry's word for the ion is `SCN-`.
+    ("Thiocyanate", "SCN-"),
     ("Mn(7)", "MnO4-"),
     // Bare manganese books as the reduced ion, which is what the databases
     // treat as the master species and what dissolved manganese actually is
@@ -381,6 +389,26 @@ pub fn foreign_phase_definition(name: &str, db_tag: &str) -> Option<String> {
 /// `CH3COOH`. Asking PHREEQC for the registry key, or booking the database
 /// name, would each fail silently in its own direction.
 pub const PROTONATION_SPLITS: &[(&str, &[(&str, &str)])] = &[
+    (
+        "C",
+        &[
+            ("CO2", "CO2(aq)"),
+            // MINTEQ's hydrated neutral-carbon basis. Solvent completion
+            // supplies the H2O difference; water has zero basis enthalpy.
+            ("H2CO3", "CO2(aq)"),
+            ("HCO3-", "HCO3-"),
+            ("CO3-2", "CO3-2"),
+        ],
+    ),
+    (
+        "P",
+        &[
+            ("H3PO4", "H3PO4"),
+            ("H2PO4-", "H2PO4-"),
+            ("HPO4-2", "HPO4-2"),
+            ("PO4-3", "PO4-3"),
+        ],
+    ),
     ("N(-3)", &[("NH3", "NH3"), ("NH4+", "NH4+")]),
     // Acetate. The consequence is larger than the row: booking the whole
     // element total as `CH3COO-` left undissociated acetic acid out of the
@@ -507,9 +535,9 @@ pub fn index_for(db_tag: &str) -> &'static DbIndex {
 
 impl Derived {
     fn build() -> Derived {
-        let wateq4f = DbIndex::parse(databases::WATEQ4F);
+        let wateq4f = DbIndex::parse(databases::wateq4f());
         let minteq = DbIndex::parse(databases::minteq_v4());
-        let pitzer = DbIndex::parse(databases::PITZER);
+        let pitzer = DbIndex::parse(databases::pitzer());
         let indexes = [&wateq4f, &minteq, &pitzer];
 
         // --- Candidate phases: database phases whose formula matches a
@@ -644,8 +672,12 @@ impl Derived {
                 roles.insert(s.key, DerivedRole::Solvent);
                 continue;
             }
-            if s.standard_phase == Phase::Gas {
-                continue; // gases don't enter aqueous problems directly
+            if s.standard_phase == Phase::Gas
+                && !EQUILIBRIUM_GASES
+                    .iter()
+                    .any(|(_, species)| *species == s.key)
+            {
+                continue;
             }
             // A metal is not its cation. Deriving a role for magnesium
             // ribbon from its formula booked it as Mg²⁺ on contact with
@@ -707,7 +739,7 @@ impl Derived {
 
 /// A solid registry species whose formula matches this composition and
 /// hydrate count exactly.
-fn registry_solid_matching(
+pub(crate) fn registry_solid_matching(
     composition: &BTreeMap<String, f64>,
     waters: f64,
 ) -> Option<&'static str> {
@@ -731,7 +763,39 @@ fn registry_solid_matching(
 /// protons; anything else unaccounted → unmappable).
 fn derive_contribution(formula: &str, indexes: [&DbIndex; 3]) -> Option<Vec<(String, f64)>> {
     let (base, _) = split_hydrate(formula);
-    let counts = parse_formula(&base)?;
+    let mut counts = parse_formula(&base)?;
+    // Preserve the explicitly written ligand identity, not an empirical
+    // C/N/S coincidence (thiourea, for example, is not ammonium thiocyanate).
+    // Counterions and multiplicities still go through the generic parser.
+    if base.contains("SCN") {
+        let ligands = ["S", "C", "N"]
+            .iter()
+            .map(|el| counts.get(*el).copied().unwrap_or(0.0))
+            .fold(f64::INFINITY, f64::min);
+        if ligands > 0.0 && ligands.is_finite() {
+            for el in ["S", "C", "N"] {
+                let left = counts.get(el).copied().unwrap_or(0.0) - ligands;
+                if left == 0.0 {
+                    counts.remove(el);
+                } else {
+                    counts.insert(el.into(), left);
+                }
+            }
+            let mut result = if counts.is_empty() {
+                Vec::new()
+            } else {
+                contribution_from_counts(counts, indexes)?
+            };
+            result.push(("Thiocyanate".into(), ligands));
+            return Some(result);
+        }
+    }
+    // CO2 is a complete molecular identity, not an extractable functional
+    // group. Greedily subtracting it from arbitrary organic formulas would
+    // turn malic acid into acetate plus carbon dioxide.
+    if counts.len() == 2 && counts.get("C") == Some(&1.0) && counts.get("O") == Some(&2.0) {
+        return Some(vec![("C".into(), 1.0)]);
+    }
     contribution_from_counts(counts, indexes)
 }
 
@@ -1203,7 +1267,10 @@ mod tests {
         // Honestly unmappable: organics (residual C), gases.
         assert!(role("ethanol").is_none());
         assert!(role("Cl2").is_none());
-        assert!(role("CO2").is_none());
+        // These roles describe already-aqueous analytical feeds. Physical
+        // gas portions still enter through the separate finite-gas owner.
+        assert_eq!(dissolves("CO2"), vec![("C".into(), 1.0)]);
+        assert_eq!(dissolves("HBr"), vec![("Br".into(), 1.0)]);
     }
 
     #[test]
@@ -1287,8 +1354,9 @@ mod tests {
         }
         // 696 → 707 with OPT-8: the same eleven parser-dividend minerals,
         // counted here before polymorph dedupe.
-        assert_eq!(every.len(), 707, "phases, gases included");
-        assert_eq!(every.iter().filter(|n| n.ends_with("(g)")).count(), 24);
+        // The reviewed HBr gas adds one phase, not a shelf mineral.
+        assert_eq!(every.len(), 708, "phases, gases included");
+        assert_eq!(every.iter().filter(|n| n.ends_with("(g)")).count(), 25);
         assert!(
             idx.iter().all(|i| i.has_phase("CO2(g)")),
             "CO2(g) is shared by all three, so it inflates the shared count"

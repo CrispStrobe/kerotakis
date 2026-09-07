@@ -6,7 +6,7 @@
 //!
 //! Usage: cargo run -p kerotakis-phreeqc --bin generate-dbindex -- <output-dir>
 
-use kerotakis_phreeqc::dbindex::DbIndex;
+use kerotakis_phreeqc::{databases, dbindex::DbIndex};
 use std::fs;
 use std::path::PathBuf;
 
@@ -18,23 +18,13 @@ fn main() {
     );
     fs::create_dir_all(&output_dir).unwrap();
 
+    // Generate the same database the solver and runtime index actually load,
+    // including reviewed extensions (lactate and ligand complexes).
     let databases = [
-        (
-            "phreeqc",
-            include_bytes!("../../../../vendor/iphreeqc/database/phreeqc.dat").as_slice(),
-        ),
-        (
-            "wateq4f",
-            include_bytes!("../../../../vendor/iphreeqc/database/wateq4f.dat").as_slice(),
-        ),
-        (
-            "minteq_v4",
-            include_bytes!("../../../../vendor/iphreeqc/database/minteq.v4.dat").as_slice(),
-        ),
-        (
-            "pitzer",
-            include_bytes!("../../../../vendor/iphreeqc/database/pitzer.dat").as_slice(),
-        ),
+        ("phreeqc", databases::PHREEQC),
+        ("wateq4f", databases::wateq4f()),
+        ("minteq_v4", databases::minteq_v4()),
+        ("pitzer", databases::pitzer()),
     ];
 
     for (name, data) in &databases {

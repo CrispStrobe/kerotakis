@@ -11,13 +11,14 @@
 //! pass has nothing left to say about the registry.
 //!
 //! What it does still say — and what this file pins as deliberate rather
-//! than as a leftover — is the OTHER note, the one about rates. Fresh
+//! than as a leftover — is the OTHER note, the curated metastability boundary. Fresh
 //! milk serum really is about eight log units supersaturated against
 //! hydroxylapatite and really does not precipitate it: the casein micelle
 //! holds its calcium phosphate as stabilised nanoclusters, and casein is
-//! not modelled here. Two of the three phases therefore carry a kinetic
-//! floor in the registry, exactly as tenorite does, and the tail reports
-//! that it is withholding them. Letting apatite equilibrate instead takes
+//! not modelled here. Two of the three phases therefore carry a formation-
+//! temperature threshold in the registry, exactly as tenorite does, and the tail
+//! reports that it is withholding them without claiming a computed rate.
+//! Letting apatite equilibrate instead takes
 //! this milk to pH 5.73 and strips 58 % of the calcium out of the serum,
 //! which is a beaker with no milk protein in it.
 //!
@@ -32,7 +33,7 @@ use kerotakis_core::*;
 use kerotakis_phreeqc::PhreeqcEquilibrator;
 
 /// The registry-gap apology, by the two phrases that are its own and not
-/// the kinetic note's. Matching on "supersaturated against" alone would
+/// the metastability note's. Matching on "supersaturated against" alone would
 /// catch the curated withholding note too, and that note is supposed to
 /// be there.
 const REGISTRY_GAP: [&str; 2] = [
@@ -165,13 +166,20 @@ fn apatite_is_withheld_out_loud_rather_than_precipitated() {
         0.0,
         "beta-tricalcium phosphate is a furnace product, not a precipitate"
     );
+    let note = lines
+        .iter()
+        .find(|line| line.contains("Hydroxylapatite") && line.contains("deliberately withheld"))
+        .unwrap_or_else(|| {
+            panic!("milk must name the apatite it is withholding. Full output:\n{text}")
+        });
     assert!(
-        text.contains("Hydroxylapatite") && text.contains("deliberately holding back"),
-        "milk must say that it is holding apatite back, and why. Full output:\n{text}"
+        note.contains("below the registry's formation-temperature threshold")
+            && note.contains("curated metastability boundary"),
+        "the apatite note must give the actual editorial selection boundary: {note}"
     );
     assert!(
-        text.contains("claim about rates"),
-        "and it must say that the claim is about rates. Full output:\n{text}"
+        note.contains("not a computed nucleation or growth rate"),
+        "the same note must distinguish withholding from a computed rate: {note}"
     );
 }
 

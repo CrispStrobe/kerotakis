@@ -158,19 +158,26 @@ fn iron_iii_chloride_makes_a_genuinely_acidic_solution() {
         names(&info)
     );
     // And the honest half: at pH 2 the amorphous hydroxide is not
-    // supersaturated, but hematite and goethite are — phases the
-    // registry does not carry. The bench says so instead of quietly
-    // reporting a solution that could not stand.
-    let note = events
-        .iter()
-        .find_map(|e| match e {
-            Event::NotYetModeled { what, .. } => Some(what.clone()),
-            _ => None,
-        })
-        .expect("the honesty pass speaks about the unmodelled phases");
+    // supersaturated, but hematite and goethite are. Goethite is missing
+    // from the registry; hematite is registered but excluded from this
+    // aqueous problem. Neither SI supplies precipitation kinetics, and
+    // those distinct reasons must survive regardless of event ordering.
     assert!(
-        note.contains("supersaturated") && note.contains("Hematite"),
-        "the note must name what it cannot precipitate: {note}"
+        events.iter().any(|event| matches!(event,
+            Event::NotYetModeled { cause: ops::NotModelledCause::PhaseNotInRegistry, what, .. }
+                if what.contains("Goethite") && what.contains("supersaturated")
+                    && what.contains("no matching solid") && !what.contains("Hematite")
+        )),
+        "the missing Goethite phase must have its own accurate diagnostic: {events:?}"
+    );
+    assert!(
+        events.iter().any(|event| matches!(event,
+            Event::NotYetModeled { cause: ops::NotModelledCause::ModelBoundary, what, .. }
+                if what.contains("Hematite") && what.contains("supersaturated")
+                    && what.contains("Matching solids exist") && what.contains("not offered")
+                    && what.contains("timescale are not predicted")
+        )),
+        "registered-but-excluded Hematite must not be described as absent: {events:?}"
     );
     assert!(
         precipitated(&events, "Fe(OH)3") < 1e-9,
