@@ -1,0 +1,7 @@
+# Can finite CO2 uptake conserve carbon in a sealed water/headspace system?
+register lv3
+add v1 water 500mL
+seal v1 250mL
+add v1 CO2 0.0002mol
+measure v1 pressure
+inspect

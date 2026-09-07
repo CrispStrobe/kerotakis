@@ -1,0 +1,9 @@
+# Does fourfold solvent dilution shift residual-acid pH logarithmically?
+register lv3
+add v1 water 250mL
+add v1 NaNO3 0.0003mol
+add v1 HCl 0.001mol
+add v1 KOH 0.0004mol
+add v1 water 750mL
+measure v1 ph
+inspect

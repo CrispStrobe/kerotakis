@@ -1,0 +1,8 @@
+# Can gaseous acid neutralize pre-existing sodium hydroxide without losing neutralization heat or bromine?
+register lv3
+add v1 water 500mL
+add v1 NaOH 0.002mol
+add v1 HBr 0.002mol
+measure v1 ph
+measure v1 temp
+inspect

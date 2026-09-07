@@ -1,0 +1,8 @@
+# Does adding more initial ester suppress net forward extent at the same other inventories?
+register lv3
+add v1 CH3COOH 0.012mol
+add v1 ethanol 0.03mol
+add v1 ethyl_acetate 0.012mol
+add v1 water 0.006mol
+react v1 esterification
+inspect

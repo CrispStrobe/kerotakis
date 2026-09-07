@@ -1,5 +1,48 @@
 # Safe integration review, 2026-09-07
 
+## Latest audit state — 2026-09-07 09:38 UTC
+
+This supersedes earlier pending-run checkpoints below. Ownership restrictions
+and the minimum five-minute GitHub polling interval remain in force. No
+reserved integrator branches/files or shared planning files were edited.
+
+- Clean third-fleet validation now passes all 36 runs and 174 checks, including
+  physical-state preservation on refused distillation; native inventory 69/69.
+  Evidence: `native-cli-validation-20260907`.
+- The next batch was authored and executed: 36 new cases 123–158, all 108
+  scientific checks pass, native inventory 49/49 across 197 rows, no alias
+  leaks. Evidence and pre-execution hashes: `fourth-batch-1` and its reports.
+  No tolerances changed after observing output. CI now includes this fleet;
+  actionlint and whitespace checks pass.
+- Across four fleets, 158 distinct cases and 446 scientific checks pass at
+  their recorded revisions. Original failed and timeout runs remain preserved.
+  This is not a guarantee outside documented model domains or a full CI pass.
+- CLI repository provenance tests now pass (2/2). Its remaining failure was
+  a stale count: three reviewed distributed data slices had been added.
+- Five native assertion failures were reviewed and repaired without changing
+  production chemistry or numerical tolerances: extended dataset provenance,
+  metastable-phase boundary wording, and distinct missing-versus-excluded
+  ferric phases. Those three test files still require CI execution. Their
+  local build was stopped after sccache shutdown/CPU starvation; only validated
+  audit-owned compiler/client/Cargo PIDs were terminated, no artifacts deleted.
+- Linux/macOS snapshot artifacts are byte-identical. All differences are
+  explained by newer main heat-capacity schema and German metadata; see
+  `CI-SNAPSHOT-REVIEW.md`. They must be integrated with their matching source,
+  not copied blindly into this older local base.
+
+Remaining: integrator-owned README/catalog counts and source/snapshot sync
+(`INTEGRATOR-HANDOFF.md`), then fresh passing combined CI and coordinated safe
+merge. Latest inspected completed run is still 34096877766 (failed at older
+head 4be55cb6). No additional status polling since approximately 09:10:50 UTC;
+subsequent accesses read completed logs/artifacts only. No merge is claimed.
+No local build or experiment process remains running at this checkpoint.
+
+Catalog recommendations: a conserved ternary still cut, equal/split-charge
+electrolysis, and three-water heat grouping. The last two may best extend
+existing lessons. Recommendations are audit-owned notes, not edits to the
+parallel integrator's app catalog. Endpoint refinement and reverse equilibrium
+were already preserved earlier in this audit.
+
 ## Current handoff — 2026-09-07 09:12 UTC
 
 This section supersedes the historical checkpoints below. Work stays in

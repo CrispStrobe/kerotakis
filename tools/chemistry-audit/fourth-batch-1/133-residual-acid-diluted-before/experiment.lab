@@ -1,0 +1,8 @@
+# Does dilution before neutralization approach the same final chemical state?
+register lv3
+add v1 water 1L
+add v1 NaNO3 0.0003mol
+add v1 HCl 0.001mol
+add v1 KOH 0.0004mol
+measure v1 ph
+inspect

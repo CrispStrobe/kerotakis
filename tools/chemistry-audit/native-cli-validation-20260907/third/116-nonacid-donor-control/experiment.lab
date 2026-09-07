@@ -1,0 +1,8 @@
+# Does glucose avoid the conservative proton-donor guard while strong acid can still be consumed?
+register lv3
+add v1 water 100mL
+add v1 HCl 0.001mol
+add v1 Na2S2O3 0.001mol
+add v1 glucose 0.002mol
+wait 10s
+inspect

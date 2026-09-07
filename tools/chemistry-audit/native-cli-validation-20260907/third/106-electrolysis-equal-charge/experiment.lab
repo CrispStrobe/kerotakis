@@ -1,0 +1,6 @@
+# Does half the current for twice the time deliver the same products?
+register lv3
+add v1 water 250mL
+add v1 KNO3 0.001mol
+electrolyse v1 0.1A 120s
+inspect

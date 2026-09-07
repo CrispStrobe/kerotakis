@@ -1,0 +1,763 @@
+{
+  "scope": "Native redox-element aqueous totals versus formula-counted aqueous portions; separate ligand pools may require a narrower comparison.",
+  "registry": {
+    "path": "/mnt/volume1/kero-experiment-audit/data/registry/registry-source-v1.json",
+    "sha256": "43f858992a05358d543767021e457693a1cf724c904f6d9a7adb6bc7f6a25cc1"
+  },
+  "inputs": [
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/123-three-alcohol-family-cut/stdout.ndjson",
+      "sha256": "c4016ea98a5324297d70469a3a6262b38bf15054a0c578c8ac81427b721a67fb"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/124-three-solvent-small-scale/stdout.ndjson",
+      "sha256": "a9c44094ca0f7048290be4e903e193d0f6e78cc414c7247cf1976cb4b3207b9f"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/125-three-solvent-reordered/stdout.ndjson",
+      "sha256": "807b3ae900bdea765b5b208f8a470a319564a6bb73f129c1710074a7cf117a34"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/126-ternary-one-kilojoule/stdout.ndjson",
+      "sha256": "7cb7250bced7da8f5f00dae547508274620c91adc65733ac8843c6368d1f2ef4"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/127-ternary-two-kilojoules/stdout.ndjson",
+      "sha256": "240b71c2d54292e67763652f0ba85990fe79821a1dcf4194030bea9afb6f5af6"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/128-four-component-still/stdout.ndjson",
+      "sha256": "2724f3f5b3d629b37364739ade8b8bafbc9d51e0b4760d67a92fa48fd367ad81"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/129-partial-neutralization-spectator/stdout.ndjson",
+      "sha256": "bc664269cd9e2e708d1653e0f50a5861ea1f2b9ef96ae5641ca693f62be8c626"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/130-partial-neutralization-reversed/stdout.ndjson",
+      "sha256": "4d5212feb9e0a89bb8dfe70a35486b73ab43e5f1d99749f96eeecda1bfede239"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/131-partial-neutralization-scale/stdout.ndjson",
+      "sha256": "1297181b2e78f20276c1e9095d7f5fe0da9e6b0603c76934e4ccae3d42ea583c"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/132-residual-acid-diluted-after/stdout.ndjson",
+      "sha256": "73f223615305ecdabee265f132d0b356e38c0f739961671bd0c3c91fe655db24"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/133-residual-acid-diluted-before/stdout.ndjson",
+      "sha256": "6218eaf5a196486cf642a0e9a64320b8f8a3554bc32c942fa3ea6574cb5cff56"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/134-complete-the-neutralization/stdout.ndjson",
+      "sha256": "8a30436e0822ee374b15cafd3c8aa9f4f0ac2795ca13917a5dcb2aabc3383b32"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/135-sulfate-limits-barium/stdout.ndjson",
+      "sha256": "b431feaf3f70dca44058fe81c0576d569033a8ea1b1e7d39b42fa3298c4a32f6"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/136-sulfate-first-barium/stdout.ndjson",
+      "sha256": "e2cd65e9e340fafefb7c4a0fcdeb835cd97811fa79ed01a1b0bb48e1e53f6fae"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/137-sulfate-limited-scale/stdout.ndjson",
+      "sha256": "d645f60befd196e98a743378f1d7774fec566542b80d7974d7f5df6e228c2264"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/138-magnesium-hydroxide/stdout.ndjson",
+      "sha256": "fe25b53c0cdf9cd14bfbea5afc8e26f62788ddba21534e513cf579c2bd7af465"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/139-magnesium-acid-reversal/stdout.ndjson",
+      "sha256": "12293b525546f911783603f695d7b860f4924a23a9e0e84e2bbde497b723466a"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/140-magnesium-half-base/stdout.ndjson",
+      "sha256": "5c91dd577de4944a7937cf5840e99b7650d677df64b7cfd31ac7cbe48dd81679"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/141-closed-co2-small-space/stdout.ndjson",
+      "sha256": "b39252f0c34c88919b4cc68eb1c97a64b6fd85fda482670d0b88d872d97a3cf8"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/142-closed-co2-large-space/stdout.ndjson",
+      "sha256": "101da176a02bcaab8deaa7f2e8219b7231fd1d7793634a4cb4e7e2855618918e"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/143-closed-co2-double-dose/stdout.ndjson",
+      "sha256": "613fccf15797aa737f9ce458385537584e3ada3da55d4c60c995e5939580714e"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/144-closed-co2-more-water/stdout.ndjson",
+      "sha256": "475f520aa119886bbd786b9ca2ccd2fab51ba3173ae628464f079d4776c77932"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/145-dry-gas-single-heat/stdout.ndjson",
+      "sha256": "93a9f39e4a5044cdff7aeee014835d7b59c9998bb06421b9a8dcbdf451af6821"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/146-dry-gas-partitioned-heat/stdout.ndjson",
+      "sha256": "02e9bd678c31707da60cbfa09d55ea4622db6c2a9ed790838a133192921b2056"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/147-asymmetric-ester-forward/stdout.ndjson",
+      "sha256": "c659ff82ada3c38c2ec89d1946b5f9d9b74cb12e876a8425039e175bf4427b81"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/148-asymmetric-ester-product-control/stdout.ndjson",
+      "sha256": "f01954eaf9c81f99401cfb891d8eb2b287e5f439e4f1dbcb20bb81a3b582f878"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/149-asymmetric-ester-reverse/stdout.ndjson",
+      "sha256": "0c0e3b4014e772ac696bad1c0744be75f0ec1f0fd6885e7b07806b4906c49c32"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/150-asymmetric-reverse-scale/stdout.ndjson",
+      "sha256": "03f042279c07b243015a3f86e476eadffe49c9afe347d8aeb4ca28c819c4ea16"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/151-already-at-mass-action/stdout.ndjson",
+      "sha256": "bde8370b6a1b4d215e0368a8bf658041d3b67a62e8a2552952a13e1253b42199"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/152-water-limited-reverse/stdout.ndjson",
+      "sha256": "618f75ec8801ff1091315dbb82beeffe266486eab0861db030079bd16503dc63"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/153-acetate-two-to-one-acid/stdout.ndjson",
+      "sha256": "5405675da3d2640f31ad52e7ef559d79d58c92c2f62564e5f09c7fd4d2339ec0"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/154-acetate-fourfold-dilution/stdout.ndjson",
+      "sha256": "e6ec82b192fef7fb1694364b13644fbf1a35c7f4b790e463f7612f45085eb0ba"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/155-acetate-inverted-ratio/stdout.ndjson",
+      "sha256": "131ff3bc50efa78fb3d59744657c1c9df9c56ea8dab6dbc5b3ab81a1809fd0a9"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/156-acetate-small-acid-pulse/stdout.ndjson",
+      "sha256": "0eae6026166bb350e7d84a6792a24364da2d335e658627e3edaaec9d2222fc54"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/157-acetate-small-base-pulse/stdout.ndjson",
+      "sha256": "05d661f042973f8f4f072e4624a6642d2da9baf8df97d19ddf6e31093b274786"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/158-acetate-extensive-scale/stdout.ndjson",
+      "sha256": "0fce99e55160dc46dcd669ff4b755914dc23ff6134492ddbbd6c45e40766426f"
+    }
+  ],
+  "absolute_tolerance_mol": 1e-08,
+  "relative_tolerance": 1e-06,
+  "rows_checked": 197,
+  "comparisons_checked": 49,
+  "comparisons_passed": 49,
+  "states_observed": [
+    {
+      "element": "N",
+      "oxidation": 5
+    },
+    {
+      "element": "S",
+      "oxidation": 6
+    }
+  ],
+  "maximum_absolute_error_mol": 0.0,
+  "comparisons": [
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/129-partial-neutralization-spectator/stdout.ndjson",
+      "line": 2,
+      "step": 1,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.00029999999999987724,
+      "aqueous_inventory_moles": 0.00029999999999987724,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0299999999999877e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/129-partial-neutralization-spectator/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.00029999999999987724,
+      "aqueous_inventory_moles": 0.00029999999999987724,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0299999999999877e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/129-partial-neutralization-spectator/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.00029999999999987724,
+      "aqueous_inventory_moles": 0.00029999999999987724,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0299999999999877e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/129-partial-neutralization-spectator/stdout.ndjson",
+      "line": 5,
+      "step": 4,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.00029999999999987724,
+      "aqueous_inventory_moles": 0.00029999999999987724,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0299999999999877e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/129-partial-neutralization-spectator/stdout.ndjson",
+      "line": 6,
+      "step": 5,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.00029999999999987724,
+      "aqueous_inventory_moles": 0.00029999999999987724,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0299999999999877e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/130-partial-neutralization-reversed/stdout.ndjson",
+      "line": 2,
+      "step": 1,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.00029999999999987724,
+      "aqueous_inventory_moles": 0.00029999999999987724,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0299999999999877e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/130-partial-neutralization-reversed/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.00029999999999987724,
+      "aqueous_inventory_moles": 0.00029999999999987724,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0299999999999877e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/130-partial-neutralization-reversed/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.00029999999999987724,
+      "aqueous_inventory_moles": 0.00029999999999987724,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0299999999999877e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/130-partial-neutralization-reversed/stdout.ndjson",
+      "line": 5,
+      "step": 4,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.00029999999999987724,
+      "aqueous_inventory_moles": 0.00029999999999987724,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0299999999999877e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/130-partial-neutralization-reversed/stdout.ndjson",
+      "line": 6,
+      "step": 5,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.00029999999999987724,
+      "aqueous_inventory_moles": 0.00029999999999987724,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0299999999999877e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/131-partial-neutralization-scale/stdout.ndjson",
+      "line": 2,
+      "step": 1,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.0029999999999987727,
+      "aqueous_inventory_moles": 0.0029999999999987727,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2999999999998773e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/131-partial-neutralization-scale/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.0029999999999987727,
+      "aqueous_inventory_moles": 0.0029999999999987727,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2999999999998773e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/131-partial-neutralization-scale/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.0029999999999987727,
+      "aqueous_inventory_moles": 0.0029999999999987727,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2999999999998773e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/131-partial-neutralization-scale/stdout.ndjson",
+      "line": 5,
+      "step": 4,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.0029999999999987727,
+      "aqueous_inventory_moles": 0.0029999999999987727,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2999999999998773e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/131-partial-neutralization-scale/stdout.ndjson",
+      "line": 6,
+      "step": 5,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.0029999999999987727,
+      "aqueous_inventory_moles": 0.0029999999999987727,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2999999999998773e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/132-residual-acid-diluted-after/stdout.ndjson",
+      "line": 2,
+      "step": 1,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.00029999999999987724,
+      "aqueous_inventory_moles": 0.00029999999999987724,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0299999999999877e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/132-residual-acid-diluted-after/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.00029999999999987724,
+      "aqueous_inventory_moles": 0.00029999999999987724,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0299999999999877e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/132-residual-acid-diluted-after/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.00029999999999987724,
+      "aqueous_inventory_moles": 0.00029999999999987724,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0299999999999877e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/132-residual-acid-diluted-after/stdout.ndjson",
+      "line": 5,
+      "step": 4,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.00029999999999991123,
+      "aqueous_inventory_moles": 0.00029999999999991123,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0299999999999912e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/132-residual-acid-diluted-after/stdout.ndjson",
+      "line": 6,
+      "step": 5,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.00029999999999991123,
+      "aqueous_inventory_moles": 0.00029999999999991123,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0299999999999912e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/132-residual-acid-diluted-after/stdout.ndjson",
+      "line": 7,
+      "step": 6,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.00029999999999991123,
+      "aqueous_inventory_moles": 0.00029999999999991123,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0299999999999912e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/133-residual-acid-diluted-before/stdout.ndjson",
+      "line": 2,
+      "step": 1,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.0003000000000000268,
+      "aqueous_inventory_moles": 0.0003000000000000268,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0300000000000028e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/133-residual-acid-diluted-before/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.0003000000000000268,
+      "aqueous_inventory_moles": 0.0003000000000000268,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0300000000000028e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/133-residual-acid-diluted-before/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.0003000000000000268,
+      "aqueous_inventory_moles": 0.0003000000000000268,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0300000000000028e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/133-residual-acid-diluted-before/stdout.ndjson",
+      "line": 5,
+      "step": 4,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.0003000000000000268,
+      "aqueous_inventory_moles": 0.0003000000000000268,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0300000000000028e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/133-residual-acid-diluted-before/stdout.ndjson",
+      "line": 6,
+      "step": 5,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.0003000000000000268,
+      "aqueous_inventory_moles": 0.0003000000000000268,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0300000000000028e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/134-complete-the-neutralization/stdout.ndjson",
+      "line": 2,
+      "step": 1,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.00029999999999987724,
+      "aqueous_inventory_moles": 0.00029999999999987724,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0299999999999877e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/134-complete-the-neutralization/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.00029999999999987724,
+      "aqueous_inventory_moles": 0.00029999999999987724,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0299999999999877e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/134-complete-the-neutralization/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.00029999999999987724,
+      "aqueous_inventory_moles": 0.00029999999999987724,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0299999999999877e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/134-complete-the-neutralization/stdout.ndjson",
+      "line": 5,
+      "step": 4,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.00029999999999999233,
+      "aqueous_inventory_moles": 0.00029999999999999233,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0299999999999993e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/134-complete-the-neutralization/stdout.ndjson",
+      "line": 6,
+      "step": 5,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.00029999999999999233,
+      "aqueous_inventory_moles": 0.00029999999999999233,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0299999999999993e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/134-complete-the-neutralization/stdout.ndjson",
+      "line": 7,
+      "step": 6,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.00029999999999999233,
+      "aqueous_inventory_moles": 0.00029999999999999233,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0299999999999993e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/135-sulfate-limits-barium/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 1.0855401112726356e-07,
+      "aqueous_inventory_moles": 1.0855401112726356e-07,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0000108554011127e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/135-sulfate-limits-barium/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 1.0855401112726356e-07,
+      "aqueous_inventory_moles": 1.0855401112726356e-07,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0000108554011127e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/136-sulfate-first-barium/stdout.ndjson",
+      "line": 2,
+      "step": 1,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0004000000000000202,
+      "aqueous_inventory_moles": 0.0004000000000000202,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.040000000000002e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/136-sulfate-first-barium/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 1.0855600528659756e-07,
+      "aqueous_inventory_moles": 1.0855600528659756e-07,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0000108556005287e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/136-sulfate-first-barium/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 1.0855600528659756e-07,
+      "aqueous_inventory_moles": 1.0855600528659756e-07,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0000108556005287e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/137-sulfate-limited-scale/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 1.0855401112726355e-06,
+      "aqueous_inventory_moles": 1.0855401112726355e-06,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0001085540111272e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/137-sulfate-limited-scale/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 1.0855401112726355e-06,
+      "aqueous_inventory_moles": 1.0855401112726355e-06,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0001085540111272e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/138-magnesium-hydroxide/stdout.ndjson",
+      "line": 2,
+      "step": 1,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0009999999999999564,
+      "aqueous_inventory_moles": 0.0009999999999999564,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0999999999999956e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/138-magnesium-hydroxide/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0010000000000000018,
+      "aqueous_inventory_moles": 0.0010000000000000018,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1000000000000003e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/138-magnesium-hydroxide/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0010000000000000018,
+      "aqueous_inventory_moles": 0.0010000000000000018,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1000000000000003e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/139-magnesium-acid-reversal/stdout.ndjson",
+      "line": 2,
+      "step": 1,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0009999999999999564,
+      "aqueous_inventory_moles": 0.0009999999999999564,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0999999999999956e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/139-magnesium-acid-reversal/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0010000000000000018,
+      "aqueous_inventory_moles": 0.0010000000000000018,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1000000000000003e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/139-magnesium-acid-reversal/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0010000000000004276,
+      "aqueous_inventory_moles": 0.0010000000000004276,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1000000000000428e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/139-magnesium-acid-reversal/stdout.ndjson",
+      "line": 5,
+      "step": 4,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0010000000000004276,
+      "aqueous_inventory_moles": 0.0010000000000004276,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1000000000000428e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/140-magnesium-half-base/stdout.ndjson",
+      "line": 2,
+      "step": 1,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0009999999999999564,
+      "aqueous_inventory_moles": 0.0009999999999999564,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0999999999999956e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/140-magnesium-half-base/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0010000000000000924,
+      "aqueous_inventory_moles": 0.0010000000000000924,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1000000000000092e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/fourth-batch-1/140-magnesium-half-base/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0010000000000000924,
+      "aqueous_inventory_moles": 0.0010000000000000924,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1000000000000092e-08,
+      "passed": true
+    }
+  ],
+  "mismatches": [],
+  "invalid_comparisons": [],
+  "internal_alias_leaks": [],
+  "passed": true
+}

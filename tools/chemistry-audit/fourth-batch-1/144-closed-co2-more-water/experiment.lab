@@ -1,0 +1,7 @@
+# Does more water accommodate at least as much of the same sealed CO2 dose?
+register lv3
+add v1 water 1L
+seal v1 250mL
+add v1 CO2 0.0002mol
+measure v1 pressure
+inspect

@@ -1,0 +1,11 @@
+# Is the full-stack finite-acid trajectory stable to dividing elapsed time into five steps?
+register lv3
+add v1 water 100mL
+add v1 HCl 0.001mol
+add v1 Na2S2O3 0.001mol
+wait 2s
+wait 2s
+wait 2s
+wait 2s
+wait 2s
+inspect

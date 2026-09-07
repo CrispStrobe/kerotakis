@@ -1,0 +1,9 @@
+# Can a second base dose spend precisely the remaining acid rather than overshoot from stale inventory?
+register lv3
+add v1 water 250mL
+add v1 NaNO3 0.0003mol
+add v1 HCl 0.001mol
+add v1 KOH 0.0004mol
+add v1 KOH 0.0006mol
+measure v1 ph
+inspect

@@ -29,7 +29,7 @@ fn repository_source_manifest_passes_the_live_gate() {
         String::from_utf8_lossy(&out.stderr)
     );
     let stdout = String::from_utf8(out.stdout).unwrap();
-    // Three quarantine snapshots now sit beside the eight distributed sources:
+    // Three quarantine snapshots now sit beside eleven distributed sources:
     // BRD-011's ChEBI identity slice (CC BY 4.0, release 253), BRD-013's USDA
     // FoodData Central Foundation Foods release, and BRD-010's PubChem PUG
     // REST snapshot. All three are committed for reproducibility and ship in
@@ -37,8 +37,12 @@ fn repository_source_manifest_passes_the_live_gate() {
     // Pinning the two numbers separately is the point: a quarantine record
     // that quietly became a distributed one would move the second number and
     // fail here.
-    assert!(stdout.contains("11 sources valid"), "{stdout}");
-    assert!(stdout.contains("8 distributed"), "{stdout}");
+    // The audit adds three reviewed distributed data slices: USBM reference
+    // complexes, Sander HBr uptake, and USCG solvent properties. Keep this
+    // independent approval count explicit rather than deriving it from the
+    // manifest under test and accidentally approving lane changes.
+    assert!(stdout.contains("14 sources valid"), "{stdout}");
+    assert!(stdout.contains("11 distributed"), "{stdout}");
 }
 
 #[test]

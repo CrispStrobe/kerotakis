@@ -1,0 +1,150 @@
+diff --git a/crates/kerotakis-cli/tests/provenance.rs b/crates/kerotakis-cli/tests/provenance.rs
+index 4e805cd3..37d41cf0 100644
+--- a/crates/kerotakis-cli/tests/provenance.rs
++++ b/crates/kerotakis-cli/tests/provenance.rs
+@@ -29,7 +29,7 @@ fn repository_source_manifest_passes_the_live_gate() {
+         String::from_utf8_lossy(&out.stderr)
+     );
+     let stdout = String::from_utf8(out.stdout).unwrap();
+-    // Three quarantine snapshots now sit beside the eight distributed sources:
++    // Three quarantine snapshots now sit beside eleven distributed sources:
+     // BRD-011's ChEBI identity slice (CC BY 4.0, release 253), BRD-013's USDA
+     // FoodData Central Foundation Foods release, and BRD-010's PubChem PUG
+     // REST snapshot. All three are committed for reproducibility and ship in
+@@ -37,8 +37,12 @@ fn repository_source_manifest_passes_the_live_gate() {
+     // Pinning the two numbers separately is the point: a quarantine record
+     // that quietly became a distributed one would move the second number and
+     // fail here.
+-    assert!(stdout.contains("11 sources valid"), "{stdout}");
+-    assert!(stdout.contains("8 distributed"), "{stdout}");
++    // The audit adds three reviewed distributed data slices: USBM reference
++    // complexes, Sander HBr uptake, and USCG solvent properties. Keep this
++    // independent approval count explicit rather than deriving it from the
++    // manifest under test and accidentally approving lane changes.
++    assert!(stdout.contains("14 sources valid"), "{stdout}");
++    assert!(stdout.contains("11 distributed"), "{stdout}");
+ }
+ 
+ #[test]
+diff --git a/crates/kerotakis-phreeqc/tests/metastable.rs b/crates/kerotakis-phreeqc/tests/metastable.rs
+index 0328ee16..e1ce6f0d 100644
+--- a/crates/kerotakis-phreeqc/tests/metastable.rs
++++ b/crates/kerotakis-phreeqc/tests/metastable.rs
+@@ -113,11 +113,14 @@ fn the_withheld_phase_is_declared_rather_than_hidden() {
+         );
+     }
+     let said = all.iter().any(|e| {
+-        matches!(e, Event::NotYetModeled { what, .. }
+-            if what.contains("Tenorite") && what.contains("holding back"))
++        matches!(e, Event::NotYetModeled { what, cause: ops::NotModelledCause::ModelBoundary, .. }
++            if what.contains("Tenorite")
++                && what.contains("deliberately withheld")
++                && what.contains("formation-temperature threshold")
++                && what.contains("not a computed nucleation or growth rate"))
+     });
+     assert!(
+         said,
+-        "a curated kinetic claim must be visible, not silent: {all:?}"
++        "the curated phase boundary and uncomputed kinetics must be explicit: {all:?}"
+     );
+ }
+diff --git a/crates/kerotakis-phreeqc/tests/provenance.rs b/crates/kerotakis-phreeqc/tests/provenance.rs
+index b1814fb1..1f17882a 100644
+--- a/crates/kerotakis-phreeqc/tests/provenance.rs
++++ b/crates/kerotakis-phreeqc/tests/provenance.rs
+@@ -8,6 +8,9 @@
+ use kerotakis_core::*;
+ use kerotakis_phreeqc::{PathOutcome, PhreeqcEquilibrator};
+ 
++const WATEQ_DATASET: &str = "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice";
++const PITZER_DATASET: &str = "pitzer.dat, with the reviewed Sander HBr gas-uptake slice";
++
+ fn add(bench: &mut Bench, eq: &mut PhreeqcEquilibrator, v: VesselId, key: &str, moles: f64) {
+     bench
+         .step_with(
+@@ -40,7 +43,13 @@ fn every_answer_carries_its_provenance() {
+         .provenance
+         .expect("provenance recorded");
+     assert!(p.engine.contains("PHREEQC"));
+-    assert_eq!(p.dataset, "wateq4f.dat");
++    assert_eq!(p.dataset, WATEQ_DATASET);
++    for source in ["usbm-ic9429-complexes-25c", "sander-2023-hbr-reference"] {
++        assert!(
++            p.dataset_sources.iter().any(|id| id == source),
++            "missing {source}: {p:?}"
++        );
++    }
+     assert!(p.model.contains("Debye"), "model named: {}", p.model);
+     assert!(!p.routing.is_empty(), "routing reason given");
+     assert!(
+@@ -65,7 +74,17 @@ fn concentrated_brine_is_routed_to_pitzer_and_says_so() {
+         .unwrap()
+         .provenance
+         .unwrap();
+-    assert_eq!(p.dataset, "pitzer.dat");
++    assert_eq!(p.dataset, PITZER_DATASET);
++    assert!(p
++        .dataset_sources
++        .iter()
++        .any(|id| id == "sander-2023-hbr-reference"));
++    assert!(
++        !p.dataset_sources
++            .iter()
++            .any(|id| id == "usbm-ic9429-complexes-25c"),
++        "the Pitzer route does not load the USBM complex extension"
++    );
+     assert!(p.model.contains("Pitzer"));
+     assert!(
+         p.routing.contains("concentrated"),
+@@ -125,7 +144,7 @@ fn a_dataset_that_cannot_express_the_question_says_so() {
+     let paths = eq.compare_paths(&vessel);
+     let pitzer = paths
+         .iter()
+-        .find(|p| p.dataset == "pitzer.dat")
++        .find(|p| p.dataset == PITZER_DATASET)
+         .expect("pitzer reported");
+     match &pitzer.outcome {
+         PathOutcome::CannotExpress { missing_elements } => {
+diff --git a/crates/kerotakis-phreeqc/tests/school_salts.rs b/crates/kerotakis-phreeqc/tests/school_salts.rs
+index 00932164..3e4a2e50 100644
+--- a/crates/kerotakis-phreeqc/tests/school_salts.rs
++++ b/crates/kerotakis-phreeqc/tests/school_salts.rs
+@@ -158,19 +158,26 @@ fn iron_iii_chloride_makes_a_genuinely_acidic_solution() {
+         names(&info)
+     );
+     // And the honest half: at pH 2 the amorphous hydroxide is not
+-    // supersaturated, but hematite and goethite are — phases the
+-    // registry does not carry. The bench says so instead of quietly
+-    // reporting a solution that could not stand.
+-    let note = events
+-        .iter()
+-        .find_map(|e| match e {
+-            Event::NotYetModeled { what, .. } => Some(what.clone()),
+-            _ => None,
+-        })
+-        .expect("the honesty pass speaks about the unmodelled phases");
++    // supersaturated, but hematite and goethite are. Goethite is missing
++    // from the registry; hematite is registered but excluded from this
++    // aqueous problem. Neither SI supplies precipitation kinetics, and
++    // those distinct reasons must survive regardless of event ordering.
++    assert!(
++        events.iter().any(|event| matches!(event,
++            Event::NotYetModeled { cause: ops::NotModelledCause::PhaseNotInRegistry, what, .. }
++                if what.contains("Goethite") && what.contains("supersaturated")
++                    && what.contains("no matching solid") && !what.contains("Hematite")
++        )),
++        "the missing Goethite phase must have its own accurate diagnostic: {events:?}"
++    );
+     assert!(
+-        note.contains("supersaturated") && note.contains("Hematite"),
+-        "the note must name what it cannot precipitate: {note}"
++        events.iter().any(|event| matches!(event,
++            Event::NotYetModeled { cause: ops::NotModelledCause::ModelBoundary, what, .. }
++                if what.contains("Hematite") && what.contains("supersaturated")
++                    && what.contains("Matching solids exist") && what.contains("not offered")
++                    && what.contains("timescale are not predicted")
++        )),
++        "registered-but-excluded Hematite must not be described as absent: {events:?}"
+     );
+     assert!(
+         precipitated(&events, "Fe(OH)3") < 1e-9,

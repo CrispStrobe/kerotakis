@@ -1,0 +1,8 @@
+# Does uncoupled proton-consuming kinetics explicitly withhold a weak-acid buffered trajectory?
+register lv3
+add v1 water 100mL
+add v1 CH3COOH 0.001mol
+add v1 NaOAc 0.001mol
+add v1 Na2S2O3 0.001mol
+wait 10s
+inspect

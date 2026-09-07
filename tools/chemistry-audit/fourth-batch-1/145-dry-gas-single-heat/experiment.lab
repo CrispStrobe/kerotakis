@@ -1,0 +1,7 @@
+# Does heating a dry sealed nitrogen/air inventory preserve atoms and ideal-gas pressure?
+register lv3
+seal v1 250mL
+add v1 N2 0.002mol
+heat v1 5J
+measure v1 pressure
+inspect

@@ -1,0 +1,8 @@
+# Does doubling latent duty withdraw more of each component without exceeding the feed?
+register lv3
+add v1 water 3mol
+add v1 ethanol 0.3mol
+add v1 methanol 0.3mol
+new
+distil v1 v2 2kJ
+inspect

@@ -1,0 +1,1363 @@
+{
+  "fleet": "123\u2013158",
+  "binary_sha256": "43f041c05fbdc795b5b2ac77b214a74dfd7fbae2b8983ddeefa3e1c023414bcd",
+  "checks": [
+    {
+      "check": "123: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "124: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "125: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "126: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "127: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "128: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "129: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "129: supplied nonvolatile element inventory",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Na": 0.0003,
+          "Cl": 0.001,
+          "K": 0.0004
+        },
+        "actual_mol_atoms": {
+          "Na": 0.00029999999999987724,
+          "Cl": 0.0010000000000000063,
+          "K": 0.0004000000000000025
+        }
+      }
+    },
+    {
+      "check": "130: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "130: supplied nonvolatile element inventory",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Na": 0.0003,
+          "K": 0.0004,
+          "Cl": 0.001
+        },
+        "actual_mol_atoms": {
+          "Na": 0.00029999999999987724,
+          "K": 0.0004000000000000025,
+          "Cl": 0.0010000000000000063
+        }
+      }
+    },
+    {
+      "check": "131: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "131: supplied nonvolatile element inventory",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Na": 0.003,
+          "Cl": 0.01,
+          "K": 0.004
+        },
+        "actual_mol_atoms": {
+          "Na": 0.0029999999999987727,
+          "Cl": 0.010000000000000063,
+          "K": 0.004000000000000025
+        }
+      }
+    },
+    {
+      "check": "132: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "132: supplied nonvolatile element inventory",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Na": 0.0003,
+          "Cl": 0.001,
+          "K": 0.0004
+        },
+        "actual_mol_atoms": {
+          "Na": 0.00029999999999991123,
+          "Cl": 0.000999999999999704,
+          "K": 0.00039999999999998137
+        }
+      }
+    },
+    {
+      "check": "133: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "133: supplied nonvolatile element inventory",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Na": 0.0003,
+          "Cl": 0.001,
+          "K": 0.0004
+        },
+        "actual_mol_atoms": {
+          "Na": 0.0003000000000000268,
+          "Cl": 0.000999999999999757,
+          "K": 0.0004000000000000025
+        }
+      }
+    },
+    {
+      "check": "134: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "134: supplied nonvolatile element inventory",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Na": 0.0003,
+          "Cl": 0.001,
+          "K": 0.001
+        },
+        "actual_mol_atoms": {
+          "Na": 0.00029999999999999233,
+          "Cl": 0.0010000000000000575,
+          "K": 0.0010000000000000575
+        }
+      }
+    },
+    {
+      "check": "135: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "135: supplied nonvolatile element inventory",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Ba": 0.001,
+          "Cl": 0.002,
+          "Na": 0.0008
+        },
+        "actual_mol_atoms": {
+          "Ba": 0.0009999999999999564,
+          "Cl": 0.0020000000000000473,
+          "Na": 0.000800000000000019
+        }
+      }
+    },
+    {
+      "check": "136: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "136: supplied nonvolatile element inventory",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Na": 0.0008,
+          "Ba": 0.001,
+          "Cl": 0.002
+        },
+        "actual_mol_atoms": {
+          "Na": 0.0007999999999998872,
+          "Ba": 0.000999999999999788,
+          "Cl": 0.0019999999999999675
+        }
+      }
+    },
+    {
+      "check": "137: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "137: supplied nonvolatile element inventory",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Ba": 0.01,
+          "Cl": 0.02,
+          "Na": 0.008
+        },
+        "actual_mol_atoms": {
+          "Ba": 0.009999999999999565,
+          "Cl": 0.020000000000000472,
+          "Na": 0.00800000000000019
+        }
+      }
+    },
+    {
+      "check": "138: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "138: supplied nonvolatile element inventory",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Mg": 0.001,
+          "Na": 0.002
+        },
+        "actual_mol_atoms": {
+          "Mg": 0.0010000000000000091,
+          "Na": 0.0020000000000000035
+        }
+      }
+    },
+    {
+      "check": "139: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "139: supplied nonvolatile element inventory",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Mg": 0.001,
+          "Na": 0.002,
+          "Cl": 0.003
+        },
+        "actual_mol_atoms": {
+          "Mg": 0.0010000000000036182,
+          "Na": 0.0020000000000000577,
+          "Cl": 0.0030000000000000864
+        }
+      }
+    },
+    {
+      "check": "140: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "140: supplied nonvolatile element inventory",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Mg": 0.001,
+          "Na": 0.001
+        },
+        "actual_mol_atoms": {
+          "Mg": 0.000999999999999928,
+          "Na": 0.0009999999999996936
+        }
+      }
+    },
+    {
+      "check": "141: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "142: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "143: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "144: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "145: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "146: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "147: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "148: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "149: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "150: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "151: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "152: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "153: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "153: supplied nonvolatile element inventory",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Na": 0.002
+        },
+        "actual_mol_atoms": {
+          "Na": 0.0020000000000000126
+        }
+      }
+    },
+    {
+      "check": "154: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "154: supplied nonvolatile element inventory",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Na": 0.002
+        },
+        "actual_mol_atoms": {
+          "Na": 0.001999999999999514
+        }
+      }
+    },
+    {
+      "check": "155: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "155: supplied nonvolatile element inventory",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Na": 0.004
+        },
+        "actual_mol_atoms": {
+          "Na": 0.004000000000000025
+        }
+      }
+    },
+    {
+      "check": "156: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "156: supplied nonvolatile element inventory",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Na": 0.002,
+          "Cl": 0.0004
+        },
+        "actual_mol_atoms": {
+          "Na": 0.0020000000000000126,
+          "Cl": 0.0004000000000000025
+        }
+      }
+    },
+    {
+      "check": "157: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "157: supplied nonvolatile element inventory",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Na": 0.002,
+          "K": 0.0004
+        },
+        "actual_mol_atoms": {
+          "Na": 0.0020000000000000126,
+          "K": 0.0004000000000000025
+        }
+      }
+    },
+    {
+      "check": "158: execution and finite final inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "158: supplied nonvolatile element inventory",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Na": 0.02
+        },
+        "actual_mol_atoms": {
+          "Na": 0.020000000000000125
+        }
+      }
+    },
+    {
+      "check": "123: componentwise cut and latent/molar budget",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "initial_mol": {
+          "water": 3.0,
+          "ethanol": 0.3,
+          "methanol": 0.3
+        },
+        "receiver_mol": {
+          "water": 0.2862858773492642,
+          "ethanol": 0.0589503057399175,
+          "methanol": 0.08676381691081825
+        },
+        "reported_latent_kj": 16.970552667925123,
+        "model": "Ideal-liquid Raoult/Rayleigh approximation with constant-latent Clausius-Clapeyron pressures, bounded within 40 K of every normal boiling point. USCG CHRIS June 1999 fields 9.2/9.3/9.12 for additional solvents; existing water/ethanol latent-reference data. Activity coefficients, azeotropes and dissolved-solute boiling shifts are not predicted. Dissolved solids without registered volatility are treated as nonvolatile. Stage enrichment uses a total-reflux composition cascade as a separation approximation, not a literal operating column. Reported energy counts only withdrawn condensate latent heat, excluding reflux/reboiler circulation and sensible heating. Sensible condensate mixing uses the source temperature."
+      }
+    },
+    {
+      "check": "124: componentwise cut and latent/molar budget",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "initial_mol": {
+          "water": 0.3,
+          "ethanol": 0.03,
+          "methanol": 0.03
+        },
+        "receiver_mol": {
+          "water": 0.028628587734926422,
+          "ethanol": 0.005895030573991735,
+          "methanol": 0.008676381691081826
+        },
+        "reported_latent_kj": 1.6970552667925118,
+        "model": "Ideal-liquid Raoult/Rayleigh approximation with constant-latent Clausius-Clapeyron pressures, bounded within 40 K of every normal boiling point. USCG CHRIS June 1999 fields 9.2/9.3/9.12 for additional solvents; existing water/ethanol latent-reference data. Activity coefficients, azeotropes and dissolved-solute boiling shifts are not predicted. Dissolved solids without registered volatility are treated as nonvolatile. Stage enrichment uses a total-reflux composition cascade as a separation approximation, not a literal operating column. Reported energy counts only withdrawn condensate latent heat, excluding reflux/reboiler circulation and sensible heating. Sensible condensate mixing uses the source temperature."
+      }
+    },
+    {
+      "check": "125: componentwise cut and latent/molar budget",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "initial_mol": {
+          "methanol": 0.3,
+          "water": 3.0,
+          "ethanol": 0.3
+        },
+        "receiver_mol": {
+          "methanol": 0.08676381691081825,
+          "water": 0.2862858773492642,
+          "ethanol": 0.0589503057399175
+        },
+        "reported_latent_kj": 16.970552667925123,
+        "model": "Ideal-liquid Raoult/Rayleigh approximation with constant-latent Clausius-Clapeyron pressures, bounded within 40 K of every normal boiling point. USCG CHRIS June 1999 fields 9.2/9.3/9.12 for additional solvents; existing water/ethanol latent-reference data. Activity coefficients, azeotropes and dissolved-solute boiling shifts are not predicted. Dissolved solids without registered volatility are treated as nonvolatile. Stage enrichment uses a total-reflux composition cascade as a separation approximation, not a literal operating column. Reported energy counts only withdrawn condensate latent heat, excluding reflux/reboiler circulation and sensible heating. Sensible condensate mixing uses the source temperature."
+      }
+    },
+    {
+      "check": "126: componentwise cut and latent/molar budget",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "initial_mol": {
+          "water": 3.0,
+          "ethanol": 0.3,
+          "methanol": 0.3
+        },
+        "receiver_mol": {
+          "water": 0.016391150138182074,
+          "ethanol": 0.003568727268512691,
+          "methanol": 0.005560517686927757
+        },
+        "reported_latent_kj": 1.0,
+        "model": "Ideal-liquid Raoult/Rayleigh approximation with constant-latent Clausius-Clapeyron pressures, bounded within 40 K of every normal boiling point. USCG CHRIS June 1999 fields 9.2/9.3/9.12 for additional solvents; existing water/ethanol latent-reference data. Activity coefficients, azeotropes and dissolved-solute boiling shifts are not predicted. Dissolved solids without registered volatility are treated as nonvolatile. Stage enrichment uses a total-reflux composition cascade as a separation approximation, not a literal operating column. Reported energy counts only withdrawn condensate latent heat, excluding reflux/reboiler circulation and sensible heating. Sensible condensate mixing uses the source temperature."
+      }
+    },
+    {
+      "check": "127: componentwise cut and latent/molar budget",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "initial_mol": {
+          "water": 3.0,
+          "ethanol": 0.3,
+          "methanol": 0.3
+        },
+        "receiver_mol": {
+          "water": 0.032840654738831354,
+          "ethanol": 0.007126528490229849,
+          "methanol": 0.011065672503123123
+        },
+        "reported_latent_kj": 2.0,
+        "model": "Ideal-liquid Raoult/Rayleigh approximation with constant-latent Clausius-Clapeyron pressures, bounded within 40 K of every normal boiling point. USCG CHRIS June 1999 fields 9.2/9.3/9.12 for additional solvents; existing water/ethanol latent-reference data. Activity coefficients, azeotropes and dissolved-solute boiling shifts are not predicted. Dissolved solids without registered volatility are treated as nonvolatile. Stage enrichment uses a total-reflux composition cascade as a separation approximation, not a literal operating column. Reported energy counts only withdrawn condensate latent heat, excluding reflux/reboiler circulation and sensible heating. Sensible condensate mixing uses the source temperature."
+      }
+    },
+    {
+      "check": "128: componentwise cut and latent/molar budget",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "initial_mol": {
+          "water": 4.0,
+          "ethanol": 0.2,
+          "methanol": 0.15,
+          "isopropanol": 0.1
+        },
+        "receiver_mol": {
+          "water": 0.3526780824519255,
+          "ethanol": 0.036286798232995326,
+          "methanol": 0.03993833988647007,
+          "isopropanol": 0.016096779428608828
+        },
+        "reported_latent_kj": 17.789937940548178,
+        "model": "Ideal-liquid Raoult/Rayleigh approximation with constant-latent Clausius-Clapeyron pressures, bounded within 40 K of every normal boiling point. USCG CHRIS June 1999 fields 9.2/9.3/9.12 for additional solvents; existing water/ethanol latent-reference data. Activity coefficients, azeotropes and dissolved-solute boiling shifts are not predicted. Dissolved solids without registered volatility are treated as nonvolatile. Stage enrichment uses a total-reflux composition cascade as a separation approximation, not a literal operating column. Reported energy counts only withdrawn condensate latent heat, excluding reflux/reboiler circulation and sensible heating. Sensible condensate mixing uses the source temperature."
+      }
+    },
+    {
+      "check": "123/124: still order/scale control",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "water": [
+          0.2862858773492642,
+          0.2862858773492642
+        ],
+        "ethanol": [
+          0.0589503057399175,
+          0.05895030573991735
+        ],
+        "methanol": [
+          0.08676381691081825,
+          0.08676381691081825
+        ]
+      }
+    },
+    {
+      "check": "123/125: still order/scale control",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "water": [
+          0.2862858773492642,
+          0.2862858773492642
+        ],
+        "ethanol": [
+          0.0589503057399175,
+          0.0589503057399175
+        ],
+        "methanol": [
+          0.08676381691081825,
+          0.08676381691081825
+        ]
+      }
+    },
+    {
+      "check": "126/127: greater latent budget withdraws more of every component",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "water": [
+          0.016391150138182074,
+          0.032840654738831354
+        ],
+        "ethanol": [
+          0.003568727268512691,
+          0.007126528490229849
+        ],
+        "methanol": [
+          0.005560517686927757,
+          0.011065672503123123
+        ]
+      }
+    },
+    {
+      "check": "129: residual strong-acid concentration law",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "pH": 2.64883692657,
+        "ideal_pH": 2.619788758288394
+      }
+    },
+    {
+      "check": "130: residual strong-acid concentration law",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "pH": 2.648838020403,
+        "ideal_pH": 2.619788758288394
+      }
+    },
+    {
+      "check": "131: residual strong-acid concentration law",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "pH": 2.64883692657,
+        "ideal_pH": 2.619788758288394
+      }
+    },
+    {
+      "check": "132: residual strong-acid concentration law",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "pH": 3.237187682213,
+        "ideal_pH": 3.2218487496163566
+      }
+    },
+    {
+      "check": "133: residual strong-acid concentration law",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "pH": 3.237184294869,
+        "ideal_pH": 3.2218487496163566
+      }
+    },
+    {
+      "check": "129/130: neutralization path/scale pH",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": [
+        2.64883692657,
+        2.648838020403
+      ]
+    },
+    {
+      "check": "129/131: neutralization path/scale pH",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": [
+        2.64883692657,
+        2.64883692657
+      ]
+    },
+    {
+      "check": "132/133: neutralization path/scale pH",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": [
+        3.237187682213,
+        3.237184294869
+      ]
+    },
+    {
+      "check": "129/130: acid/base order thermal state",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": [
+        298.19357859421444,
+        298.1935785941886
+      ]
+    },
+    {
+      "check": "129/132: logarithmic residual-acid dilution",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": [
+        2.64883692657,
+        3.237187682213
+      ]
+    },
+    {
+      "check": "134: remaining-equivalent endpoint",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "pH": 6.996188405783
+      }
+    },
+    {
+      "check": "135: sulfate-limited barium precipitation",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": [
+        {
+          "species": "BaSO4",
+          "metal_mol_atoms": 0.0003998914459889
+        }
+      ]
+    },
+    {
+      "check": "136: sulfate-limited barium precipitation",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": [
+        {
+          "species": "BaSO4",
+          "metal_mol_atoms": 0.0003998914439947
+        }
+      ]
+    },
+    {
+      "check": "137: sulfate-limited barium precipitation",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": [
+        {
+          "species": "BaSO4",
+          "metal_mol_atoms": 0.003998914459889
+        }
+      ]
+    },
+    {
+      "check": "135/136: precipitate order/scale control",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": [
+        0.0003998914459889,
+        0.0003998914439947
+      ]
+    },
+    {
+      "check": "135/137: precipitate order/scale control",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": [
+        0.0003998914459889,
+        0.00039989144598890004
+      ]
+    },
+    {
+      "check": "138/139/140: magnesium precipitation, acid reversal and hydroxide limitation",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "138": [
+          {
+            "species": "Mg(OH)2",
+            "metal_mol_atoms": 0.0009351718392706
+          }
+        ],
+        "139": [],
+        "140": [
+          {
+            "species": "Mg(OH)2",
+            "metal_mol_atoms": 0.0004729573960087
+          }
+        ]
+      }
+    },
+    {
+      "check": "141: finite-headspace ideal-gas law",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "gas_mol": 0.010289143102764228,
+        "reported_Pa": 102025.79111908277,
+        "ideal_Pa": 102025.79112096317
+      }
+    },
+    {
+      "check": "141: closed-system gas atoms including initially trapped air",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "added_mol_atoms": {
+          "C": 0.0002,
+          "N": 0.0,
+          "O": 0.0004
+        },
+        "inventory_change_mol_atoms": {
+          "C": 0.00020000001609741616,
+          "N": 0.0,
+          "O": 0.00039999999999906777
+        },
+        "unexpected_external_gas_flows": []
+      }
+    },
+    {
+      "check": "142: finite-headspace ideal-gas law",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "gas_mol": 0.041007931428303994,
+        "reported_Pa": 101657.11041130194,
+        "ideal_Pa": 101657.11041317556
+      }
+    },
+    {
+      "check": "142: closed-system gas atoms including initially trapped air",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "added_mol_atoms": {
+          "C": 0.0002,
+          "N": 0.0,
+          "O": 0.0004
+        },
+        "inventory_change_mol_atoms": {
+          "C": 0.0002000000341720392,
+          "N": 0.0,
+          "O": 0.00039999999999906777
+        },
+        "unexpected_external_gas_flows": []
+      }
+    },
+    {
+      "check": "143: finite-headspace ideal-gas law",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "gas_mol": 0.010363487033116799,
+        "reported_Pa": 102763.387791955,
+        "ideal_Pa": 102763.38779384902
+      }
+    },
+    {
+      "check": "143: closed-system gas atoms including initially trapped air",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "added_mol_atoms": {
+          "C": 0.0004,
+          "N": 0.0,
+          "O": 0.0008
+        },
+        "inventory_change_mol_atoms": {
+          "C": 0.00040000003209060634,
+          "N": 0.0,
+          "O": 0.0007999999999981355
+        },
+        "unexpected_external_gas_flows": []
+      }
+    },
+    {
+      "check": "144: finite-headspace ideal-gas law",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "gas_mol": 0.010259749256624899,
+        "reported_Pa": 101734.16379525086,
+        "ideal_Pa": 101734.16379712589
+      }
+    },
+    {
+      "check": "144: closed-system gas atoms including initially trapped air",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "added_mol_atoms": {
+          "C": 0.0002,
+          "N": 0.0,
+          "O": 0.0004
+        },
+        "inventory_change_mol_atoms": {
+          "C": 0.00020000000931593107,
+          "N": 0.0,
+          "O": 0.00039999999999906777
+        },
+        "unexpected_external_gas_flows": []
+      }
+    },
+    {
+      "check": "145: finite-headspace ideal-gas law",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "gas_mol": 0.012218511131082362,
+        "reported_Pa": 129135.68988759627,
+        "ideal_Pa": 129135.68988997632
+      }
+    },
+    {
+      "check": "145: closed-system gas atoms including initially trapped air",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "added_mol_atoms": {
+          "C": 0.0,
+          "N": 0.004,
+          "O": 0.0
+        },
+        "inventory_change_mol_atoms": {
+          "C": 0.0,
+          "N": 0.004,
+          "O": 0.0
+        },
+        "unexpected_external_gas_flows": []
+      }
+    },
+    {
+      "check": "146: finite-headspace ideal-gas law",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "gas_mol": 0.012218511131082362,
+        "reported_Pa": 129135.68988759627,
+        "ideal_Pa": 129135.68988997632
+      }
+    },
+    {
+      "check": "146: closed-system gas atoms including initially trapped air",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "added_mol_atoms": {
+          "C": 0.0,
+          "N": 0.004,
+          "O": 0.0
+        },
+        "inventory_change_mol_atoms": {
+          "C": 0.0,
+          "N": 0.004,
+          "O": 0.0
+        },
+        "unexpected_external_gas_flows": []
+      }
+    },
+    {
+      "check": "141\u2013144: finite CO2 solvent/headspace/dose controls",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "141": 0.000129368090280022,
+        "142": 6.611331365536832e-05,
+        "143": 0.00025502417592064217,
+        "144": 0.00015876192963786392
+      }
+    },
+    {
+      "check": "145/146: dry-gas heat partition and warming",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "145": {
+          "temperature_K": 317.785313130839,
+          "pressure_Pa": 129135.68988759627
+        },
+        "146": {
+          "temperature_K": 317.785313130839,
+          "pressure_Pa": 129135.68988759627
+        }
+      }
+    },
+    {
+      "check": "147: current-inventory mass action, direction and conserved atoms",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "pre_request_mol": {
+          "CH3COOH": 0.012,
+          "ethanol": 0.03,
+          "ethyl_acetate": 0.003,
+          "water": 0.006
+        },
+        "extent_mol": 0.009593970762605618,
+        "Q_after_signed_extent": 4.000000000000002,
+        "boundaries": [
+          "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled"
+        ]
+      }
+    },
+    {
+      "check": "148: current-inventory mass action, direction and conserved atoms",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "pre_request_mol": {
+          "CH3COOH": 0.012,
+          "ethanol": 0.03,
+          "ethyl_acetate": 0.012,
+          "water": 0.006
+        },
+        "extent_mol": 0.008527794945755767,
+        "Q_after_signed_extent": 3.999999999999998,
+        "boundaries": [
+          "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled"
+        ]
+      }
+    },
+    {
+      "check": "149: current-inventory mass action, direction and conserved atoms",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "pre_request_mol": {
+          "CH3COOH": 0.006,
+          "ethanol": 0.01,
+          "ethyl_acetate": 0.03,
+          "water": 0.02
+        },
+        "extent_mol": -0.0029317121994613064,
+        "Q_after_signed_extent": 4.000000000000003,
+        "boundaries": [
+          "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled"
+        ]
+      }
+    },
+    {
+      "check": "150: current-inventory mass action, direction and conserved atoms",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "pre_request_mol": {
+          "CH3COOH": 0.042,
+          "ethanol": 0.07,
+          "ethyl_acetate": 0.21,
+          "water": 0.14
+        },
+        "extent_mol": -0.020521985396229167,
+        "Q_after_signed_extent": 4.0,
+        "boundaries": [
+          "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled"
+        ]
+      }
+    },
+    {
+      "check": "151: current-inventory mass action, direction and conserved atoms",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "pre_request_mol": {
+          "CH3COOH": 0.01,
+          "ethanol": 0.01,
+          "ethyl_acetate": 0.04,
+          "water": 0.01
+        },
+        "extent_mol": 0,
+        "Q_after_signed_extent": 4.0,
+        "boundaries": []
+      }
+    },
+    {
+      "check": "152: current-inventory mass action, direction and conserved atoms",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "pre_request_mol": {
+          "CH3COOH": 0,
+          "ethanol": 0,
+          "ethyl_acetate": 0.048,
+          "water": 0.012
+        },
+        "extent_mol": -0.007088007490635062,
+        "Q_after_signed_extent": 4.000000000000001,
+        "boundaries": [
+          "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled"
+        ]
+      }
+    },
+    {
+      "check": "147/148: product addition suppresses forward extent",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "147": 0.009593970762605618,
+        "148": 0.008527794945755767
+      }
+    },
+    {
+      "check": "149/150: reverse extent extensive scaling",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": [
+        -0.0029317121994613064,
+        -0.0029317121994613094
+      ]
+    },
+    {
+      "check": "152: water-limited reverse capacity",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "extent_mol": -0.007088007490635062
+      }
+    },
+    {
+      "check": "153/154: buffer dilution is not strong-acid dilution",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": [
+        4.431523761451,
+        4.462937257844
+      ]
+    },
+    {
+      "check": "153/155: buffer ratio logarithm",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "pH_change": 0.585676257697,
+        "ideal_change": 0.6020599913279624
+      }
+    },
+    {
+      "check": "153/156: buffered equivalent-pulse law",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "pH_change": -0.1348483325140002,
+        "ideal_ratio_change": -0.13830269816628143
+      }
+    },
+    {
+      "check": "153/157: buffered equivalent-pulse law",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "pH_change": 0.1203426955469995,
+        "ideal_ratio_change": 0.12493873660829992
+      }
+    },
+    {
+      "check": "153/158: intensive buffer scale",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": [
+        4.431523761451,
+        4.431523761451
+      ]
+    }
+  ],
+  "passed": 108,
+  "unmet": 0
+}

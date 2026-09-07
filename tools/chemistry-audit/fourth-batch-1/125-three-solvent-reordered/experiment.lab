@@ -1,0 +1,8 @@
+# Does the same cut survive a different solvent addition order?
+register lv3
+add v1 methanol 0.3mol
+add v1 water 3mol
+add v1 ethanol 0.3mol
+new
+distil v1 v2 0.12
+inspect

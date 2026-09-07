@@ -1,0 +1,8 @@
+# Does reducing all inventories tenfold preserve the cut composition?
+register lv3
+add v1 water 0.3mol
+add v1 ethanol 0.03mol
+add v1 methanol 0.03mol
+new
+distil v1 v2 0.12
+inspect

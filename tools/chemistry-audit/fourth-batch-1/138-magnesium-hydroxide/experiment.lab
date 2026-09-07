@@ -1,0 +1,6 @@
+# Does magnesium precipitation account for two hydroxide equivalents per supplied metal?
+register lv3
+add v1 water 400mL
+add v1 MgSO4 0.001mol
+add v1 NaOH 0.002mol
+inspect

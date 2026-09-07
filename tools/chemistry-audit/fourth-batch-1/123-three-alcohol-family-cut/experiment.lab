@@ -1,0 +1,8 @@
+# Does the computed water/ethanol/methanol cut conserve all three molecular inventories?
+register lv3
+add v1 water 3mol
+add v1 ethanol 0.3mol
+add v1 methanol 0.3mol
+new
+distil v1 v2 0.12
+inspect

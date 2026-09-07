@@ -1,0 +1,8 @@
+# Does a small latent-only budget match the withdrawn components' enthalpies?
+register lv3
+add v1 water 3mol
+add v1 ethanol 0.3mol
+add v1 methanol 0.3mol
+new
+distil v1 v2 1kJ
+inspect

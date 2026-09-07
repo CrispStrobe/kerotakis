@@ -1,0 +1,8 @@
+# Does an initially mixed four-component ester system solve mass action from its actual state?
+register lv3
+add v1 CH3COOH 0.01mol
+add v1 ethanol 0.02mol
+add v1 ethyl_acetate 0.005mol
+add v1 water 0.015mol
+react v1 esterification
+inspect

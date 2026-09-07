@@ -1,5 +1,26 @@
 # Chemistry audit history and continuation
 
+## 2026-09-07 09:38 UTC — clean replay and fourth fleet
+
+The third fleet now passes all 174 checks across 36 runs, and 69 native
+inventory comparisons, on the repaired CLI. The earlier timeout run remains
+preserved; no assertion was waived. A fourth independently designed fleet
+(123–158) then completed with 108/108 scientific checks and 49/49 native
+inventory comparisons. Four fleets now cover 158 distinct cases with 446
+passing scientific checks at their recorded revisions.
+
+Reviewed stale CI assertions were updated without altering numerical chemistry
+criteria. CLI provenance integration tests pass locally; three repaired native
+test files await CI after a resource-starved local build was stopped safely.
+The fourth fleet is wired into CI and its generator/analyzer/model limits were
+hashed before interpreting output. See `FOURTH-BATCH.md` and `fourth-batch-1`.
+
+Current cross-branch failures include integrator-owned counts and source/schema
+snapshot synchronization, documented in `INTEGRATOR-HANDOFF.md` and
+`CI-SNAPSHOT-REVIEW.md`. Reserved files remain untouched. PR #504 is unmerged;
+fresh combined CI is still required. Catalog candidates are recommendations,
+not app changes: ternary cuts, equal/split charge, and three-water heat grouping.
+
 ## 2026-09-07 — native CLI and integration checkpoint
 
 Audit branch only: `audit/chemistry-experiments-20260906`; PR #504 remains

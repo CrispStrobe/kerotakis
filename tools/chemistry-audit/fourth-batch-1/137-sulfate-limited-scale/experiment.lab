@@ -1,0 +1,6 @@
+# Does scaling both unequal feeds and solvent scale the computed precipitate?
+register lv3
+add v1 water 5L
+add v1 BaCl2 0.01mol
+add v1 Na2SO4 0.004mol
+inspect

@@ -1,0 +1,9 @@
+# Can the same generic still conserve four simultaneously volatile components?
+register lv3
+add v1 water 4mol
+add v1 ethanol 0.2mol
+add v1 methanol 0.15mol
+add v1 isopropanol 0.1mol
+new
+distil v1 v2 0.1
+inspect

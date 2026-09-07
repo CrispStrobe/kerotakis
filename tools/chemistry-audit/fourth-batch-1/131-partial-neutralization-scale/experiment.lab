@@ -1,0 +1,8 @@
+# Does a tenfold larger solution retain the same intensive acidity?
+register lv3
+add v1 water 2.5L
+add v1 NaNO3 0.003mol
+add v1 HCl 0.01mol
+add v1 KOH 0.004mol
+measure v1 ph
+inspect

@@ -1,0 +1,7 @@
+# Does inverting the acid/base ratio change pH by the logarithm of the ratio change?
+register lv3
+add v1 water 500mL
+add v1 CH3COOH 0.002mol
+add v1 NaOAc 0.004mol
+measure v1 ph
+inspect

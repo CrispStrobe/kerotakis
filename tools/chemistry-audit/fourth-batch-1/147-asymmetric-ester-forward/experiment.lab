@@ -1,0 +1,8 @@
+# Does an asymmetric four-component mixture solve the mass-action equation from its current state?
+register lv3
+add v1 CH3COOH 0.012mol
+add v1 ethanol 0.03mol
+add v1 ethyl_acetate 0.003mol
+add v1 water 0.006mol
+react v1 esterification
+inspect

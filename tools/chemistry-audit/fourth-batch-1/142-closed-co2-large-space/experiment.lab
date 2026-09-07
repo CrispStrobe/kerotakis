@@ -1,0 +1,7 @@
+# Does larger headspace leave no more of the same CO2 dose in solution?
+register lv3
+add v1 water 500mL
+seal v1 1L
+add v1 CO2 0.0002mol
+measure v1 pressure
+inspect

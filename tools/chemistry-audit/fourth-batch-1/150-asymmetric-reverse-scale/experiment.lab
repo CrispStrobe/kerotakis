@@ -1,0 +1,8 @@
+# Does a sevenfold scale change preserve the reverse equilibrium extent per unit amount?
+register lv3
+add v1 CH3COOH 0.042mol
+add v1 ethanol 0.07mol
+add v1 ethyl_acetate 0.21mol
+add v1 water 0.14mol
+react v1 esterification
+inspect

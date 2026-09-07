@@ -1,0 +1,6 @@
+# Does a product-only mixture with excess ester respect its smaller initial water supply?
+register lv3
+add v1 ethyl_acetate 0.048mol
+add v1 water 0.012mol
+react v1 esterification
+inspect

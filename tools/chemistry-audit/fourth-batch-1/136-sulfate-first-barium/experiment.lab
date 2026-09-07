@@ -1,0 +1,6 @@
+# Does reversing these unequal feeds preserve the precipitated barium amount?
+register lv3
+add v1 water 500mL
+add v1 Na2SO4 0.0004mol
+add v1 BaCl2 0.001mol
+inspect

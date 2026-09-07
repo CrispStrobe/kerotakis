@@ -1,0 +1,7 @@
+# Does tenfold scaling preserve the buffer's intensive pH?
+register lv3
+add v1 water 5L
+add v1 CH3COOH 0.04mol
+add v1 NaOAc 0.02mol
+measure v1 ph
+inspect

@@ -1,0 +1,7 @@
+# Does excess acid remove the magnesium solid rather than preserve a cached phase?
+register lv3
+add v1 water 400mL
+add v1 MgSO4 0.001mol
+add v1 NaOH 0.002mol
+add v1 HCl 0.003mol
+inspect

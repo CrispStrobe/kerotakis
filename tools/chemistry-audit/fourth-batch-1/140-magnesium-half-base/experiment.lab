@@ -1,0 +1,6 @@
+# Does halving hydroxide reduce the solid magnesium amount?
+register lv3
+add v1 water 400mL
+add v1 MgSO4 0.001mol
+add v1 NaOH 0.001mol
+inspect

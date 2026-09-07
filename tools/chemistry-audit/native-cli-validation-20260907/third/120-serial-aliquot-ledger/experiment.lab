@@ -1,0 +1,9 @@
+# Do two successive quarter-decants leave 9/16 of a dissolved spectator inventory?
+register lv3
+add v1 water 400mL
+add v1 KCl 0.008mol
+new
+new
+decant v1 v2 0.25
+decant v1 v3 0.25
+inspect

@@ -1,0 +1,8 @@
+# Does splitting the same dry-gas energy delivery preserve final temperature and pressure?
+register lv3
+seal v1 250mL
+add v1 N2 0.002mol
+heat v1 2J
+heat v1 3J
+measure v1 pressure
+inspect

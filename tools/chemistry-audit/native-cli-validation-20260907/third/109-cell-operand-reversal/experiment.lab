@@ -1,0 +1,12 @@
+# Does the automatically oriented cell keep the same physical anode, cathode and emf when its operands are swapped?
+register lv3
+add v1 water 300mL
+add v1 ZnSO4 0.003mol
+add v1 Zn 0.001mol
+new
+add v2 water 300mL
+add v2 CuSO4 0.003mol
+add v2 Cu 0.001mol
+cell v1 v2
+cell v2 v1
+inspect
