@@ -1658,15 +1658,21 @@ fn codex_lint(dir: &str) -> ! {
                 Ok(None) => {}
                 Ok(Some(op)) => {
                     match bench.step_with(op, &mut stack, &kerotakis_safety::ReactiveGroupScreen) {
-                        Ok(mut events) => observed.append(&mut events),
+                        Ok(mut events) => {
+                            // Scalar events belong only to this operation's
+                            // post-state; never leak an older reading into a
+                            // later `after:N` selector.
+                            let scalar_events = semantic_scalar_events(&events);
+                            observed.append(&mut events);
+                            let mut state = semantic_state(&bench);
+                            state.events = scalar_events;
+                            semantic_trace.states.push(state);
+                        }
                         Err(e) => {
                             problems.push(format!("{}: setup failed: {e}", entry.id));
                             failed = true;
                             break;
                         }
-                    }
-                    if !failed {
-                        semantic_trace.states.push(semantic_state(&bench));
                     }
                 }
                 Err(e) => {
@@ -1895,7 +1901,45 @@ fn semantic_state(bench: &Bench) -> kerotakis_codex::semantic::State {
             )
         })
         .collect();
-    State { vessels }
+    State {
+        vessels,
+        events: Vec::new(),
+    }
+}
+
+/// Numeric event fields exposed to semantic assertions. This strict allowlist
+/// makes every addition to the assertion contract deliberate.
+fn semantic_scalar_events(events: &[Event]) -> Vec<kerotakis_codex::semantic::ScalarEvent> {
+    use kerotakis_codex::semantic::ScalarEvent;
+
+    events
+        .iter()
+        .filter_map(|event| {
+            let (kind, fields): (&str, Vec<(&str, f64)>) = match event {
+                Event::CellVoltage {
+                    volts,
+                    standard_volts,
+                    ..
+                } => (
+                    "cell_voltage",
+                    vec![("volts", *volts), ("standard_volts", *standard_volts)],
+                ),
+                Event::AcidMetalCellVoltage { volts, ph, .. } => (
+                    "acid_metal_cell_voltage",
+                    vec![("volts", *volts), ("ph", *ph)],
+                ),
+                Event::Measured { value, .. } => ("measured", vec![("value", *value)]),
+                _ => return None,
+            };
+            Some(ScalarEvent {
+                kind: kind.into(),
+                fields: fields
+                    .into_iter()
+                    .map(|(name, value)| (name.into(), value))
+                    .collect(),
+            })
+        })
+        .collect()
 }
 
 /// Load the curriculum spine, if the directory carries one.
@@ -3369,6 +3413,51 @@ impl Session {
 #[cfg(test)]
 mod native_startup_tests {
     use super::*;
+
+    #[test]
+    fn semantic_event_adapter_exposes_only_documented_scalar_fields() {
+        let events = vec![
+            Event::CellVoltage {
+                anode: VesselId(0),
+                cathode: VesselId(1),
+                volts: 1.08,
+                standard_volts: 1.10,
+                notation: "cell".into(),
+                equation: "reaction".into(),
+            },
+            Event::AcidMetalCellVoltage {
+                anode: VesselId(0),
+                cathode: VesselId(1),
+                volts: 0.72,
+                ph: 1.5,
+            },
+            Event::Measured {
+                vessel: VesselId(0),
+                instrument: Instrument::PressureGauge,
+                value: 101.325,
+                unit: "kPa".into(),
+                note: Some("not a scalar contract field".into()),
+            },
+            Event::SolutionCharacterized {
+                vessel: VesselId(0),
+                ph: 7.0,
+                ionic_strength: 0.1,
+            },
+        ];
+
+        let scalars = semantic_scalar_events(&events);
+        assert_eq!(scalars.len(), 3);
+        assert_eq!(scalars[0].kind, "cell_voltage");
+        assert_eq!(scalars[0].fields.len(), 2);
+        assert_eq!(scalars[0].fields["volts"], 1.08);
+        assert_eq!(scalars[0].fields["standard_volts"], 1.10);
+        assert_eq!(scalars[1].kind, "acid_metal_cell_voltage");
+        assert_eq!(scalars[1].fields["volts"], 0.72);
+        assert_eq!(scalars[1].fields["ph"], 1.5);
+        assert_eq!(scalars[2].kind, "measured");
+        assert_eq!(scalars[2].fields.len(), 1);
+        assert_eq!(scalars[2].fields["value"], 101.325);
+    }
 
     #[test]
     fn primary_engine_initialization_failure_never_constructs_a_reduced_stack() {

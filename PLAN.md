@@ -59,9 +59,13 @@ The second tranche is fixed at 18 concepts: seven guided Experiments K64–K70,
 seven Codex comparisons, and four Missions. Its pressure, buffer, neutralisation,
 precipitation, thermal and process comparisons reuse exact scripts already
 passed by the 219–458 fleet. Voltage-event ordering and 2:1 equilibrium scaling
-remain explicitly event-verified until the generic semantic schema gains event
-scalars and dimensionless transforms; neither is represented by a convenient
-but false state proxy.
+landed through PR #552 and now drive the next generic gate: exact-operation
+numeric event selectors plus two-sample ratios with absolute and relative
+tolerances. The CLI exposes only an explicit event-field allowlist, and the GUI
+must continue to mark event and species values unavailable until its scene
+contract carries them; neither may be represented by a convenient but false
+state proxy. PR #555 carries this separate CI-reviewed schema change; the next
+immutable source fleet is not frozen until that generic gate lands.
 - **`tests/coverage/curiosity-v1/README.md`** — the corpus refresh log. It is a
   test artefact, not a planning file; leave it alone.
 - **`docs/CURIOSITY-COVERAGE.md`** — the standing analysis of that corpus: the

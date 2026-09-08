@@ -45,10 +45,18 @@ export interface CodexExpect {
   assertions?: CodexAssertion[];
 }
 
-export type CodexAssertionKind = "equal" | "increasing" | "decreasing" | "conserved" | "unchanged";
+export type CodexAssertionKind = "equal" | "increasing" | "decreasing" | "conserved" | "unchanged" | "ratio";
 export type CodexAssertionStep = "initial" | "final" | `after:${number}`;
 export interface CodexAssertionSample { step: CodexAssertionStep; metric: string; vessel?: string }
-export interface CodexAssertion { kind: CodexAssertionKind; tolerance?: number; samples: CodexAssertionSample[] }
+export interface CodexAssertion {
+  kind: CodexAssertionKind;
+  tolerance?: number;
+  /** For `ratio`, the second sample must equal this multiple of the first. */
+  ratio?: number;
+  /** Scale-aware supplement to `tolerance`, matching the engine-side gate. */
+  relative_tolerance?: number;
+  samples: CodexAssertionSample[];
+}
 
 export type CodexProgress = "starter" | "intermediate" | "advanced";
 
