@@ -526,7 +526,14 @@
   "conservation of energy": "",
   "electrochemical cell": "",
   "pressure sensor": "",
-  "sealed vessel": ""
+  "sealed vessel": "",
+  "conjugate base shifts buffer ph": "",
+  "copper concentration lifts cell voltage": "",
+  "distillation cut controls collection": "",
+  "electrolysis products follow time": "",
+  "pressure follows gas amount": "",
+  "pressure follows headspace": "",
+  "split heat same temperature": ""
  },
  "messages": {
   "endpoint is not a full drop": "",

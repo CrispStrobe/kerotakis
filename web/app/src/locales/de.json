@@ -526,7 +526,14 @@
   "conservation of energy": "Energieerhaltung",
   "electrochemical cell": "elektrochemische Zelle",
   "pressure sensor": "Drucksensor",
-  "sealed vessel": "geschlossenes Gefäß"
+  "sealed vessel": "geschlossenes Gefäß",
+  "conjugate base shifts buffer ph": "Korrespondierende Base verschiebt den Puffer-pH",
+  "copper concentration lifts cell voltage": "Kupferkonzentration erhöht die Zellspannung",
+  "distillation cut controls collection": "Der Destillationsschnitt steuert die Auffangmenge",
+  "electrolysis products follow time": "Elektrolyseprodukte folgen der Zeit",
+  "pressure follows gas amount": "Druck folgt der Gasmenge",
+  "pressure follows headspace": "Druck folgt dem Kopfraum",
+  "split heat same temperature": "Geteilte Wärme, gleiche Temperatur"
  },
  "messages": {
   "endpoint is not a full drop": "Der Endpunkt ist kein ganzer Tropfen",
