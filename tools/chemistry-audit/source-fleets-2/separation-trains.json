@@ -35,12 +35,12 @@
     {
       "id": "639-brine-path-3",
       "question": "Do evaporation paths with the same retained water reach the same brine state?",
-      "script": "add v1 water 400mL\nadd v1 KCl 0.025mol\nevaporate v1 0.25\nevaporate v1 0.333333"
+      "script": "add v1 water 400mL\nadd v1 KCl 0.025mol\nevaporate v1 0.25\nevaporate v1 0.3333333333333333"
     },
     {
       "id": "640-brine-path-4",
       "question": "Do evaporation paths with the same retained water reach the same brine state?",
-      "script": "add v1 water 400mL\nadd v1 KCl 0.025mol\nevaporate v1 0.1\nevaporate v1 0.444444"
+      "script": "add v1 water 400mL\nadd v1 KCl 0.025mol\nevaporate v1 0.1\nevaporate v1 0.4444444444444444"
     },
     {
       "id": "641-still-route-1",

@@ -48,9 +48,11 @@ def separation_trains() -> dict:
             [f"add v1 water {150*scale}mL", f"add v1 SiO2 {0.001*scale:g}mol", f"add v1 NaCl {0.004*scale:g}mol", "new", "filter v1 v2", "inspect"]))
     specs.append(("filter-scale", "case-elements-conserved", {"elements":["Si","Na","Cl"], "before_op":"filter"}, variants))
     variants=[]
-    for i,(a,b) in enumerate(((0.5,None),(0.2,0.375),(0.25,1/3),(0.1,4/9))):
-        lines=["add v1 water 400mL","add v1 KCl 0.025mol",f"evaporate v1 {a:g}"]
-        if b is not None: lines.append(f"evaporate v1 {b:g}")
+    for i,(a,b) in enumerate((("0.5",None),("0.2","0.375"),
+                              ("0.25","0.3333333333333333"),
+                              ("0.1","0.4444444444444444"))):
+        lines=["add v1 water 400mL","add v1 KCl 0.025mol",f"evaporate v1 {a}"]
+        if b is not None: lines.append(f"evaporate v1 {b}")
         variants.append((f"brine-path-{i+1}","Do evaporation paths with the same retained water reach the same brine state?",lines))
     specs.append(("evaporation-path", "final-inventory-equal", {"species":["water","KCl"],"atol":1e-9,"rtol":1e-7}, variants))
     variants=[]
@@ -104,10 +106,10 @@ def household_biochemistry() -> dict:
     variants=[(f"baking-soda-dose-{m}","How does baking-soda dose shift a fixed vinegar mixture?",["add v1 white_vinegar_5_percent 50mL",f"add v1 baking_soda {m}g","measure v1 ph","inspect v1"]) for m in (1,2,3,4)]
     specs.append(("soda-ph","event-scalar-order",{"event":"measured","field":"value","occurrence":"last","direction":"increasing","min_delta":.01},variants))
     variants=[
-        ("starch-then-iodine","Does feed order change the elemental ledger of a starch-iodine test?",["add v1 water 200mL","add v1 starch 0.0004mol","add v1 iodine_solution 1mL","inspect v1"]),
-        ("iodine-then-starch","Does reversing both feeds change the same test ledger?",["add v1 water 200mL","add v1 iodine_solution 1mL","add v1 starch 0.0004mol","inspect v1"]),
-        ("split-starch","Does splitting starch delivery change the same test ledger?",["add v1 water 200mL","add v1 starch 0.0001mol","add v1 iodine_solution 1mL","add v1 starch 0.0003mol","inspect v1"]),
-        ("split-iodine","Does splitting iodine delivery change the same test ledger?",["add v1 water 200mL","add v1 iodine_solution 0.4mL","add v1 starch 0.0004mol","add v1 iodine_solution 0.6mL","inspect v1"]),
+        ("starch-then-iodine","Does feed order change the elemental ledger of a starch-iodine test?",["add v1 water 200mL","add v1 starch 0.0004mol","add v1 lugol_solution_1_percent 1mL","inspect v1"]),
+        ("iodine-then-starch","Does reversing both feeds change the same test ledger?",["add v1 water 200mL","add v1 lugol_solution_1_percent 1mL","add v1 starch 0.0004mol","inspect v1"]),
+        ("split-starch","Does splitting starch delivery change the same test ledger?",["add v1 water 200mL","add v1 starch 0.0001mol","add v1 lugol_solution_1_percent 1mL","add v1 starch 0.0003mol","inspect v1"]),
+        ("split-iodine","Does splitting iodine delivery change the same test ledger?",["add v1 water 200mL","add v1 lugol_solution_1_percent 0.4mL","add v1 starch 0.0004mol","add v1 lugol_solution_1_percent 0.6mL","inspect v1"]),
     ]
     specs.append(("starch-routes","final-elements-equal",{"elements":["C","I","H","O"],"atol":1e-8,"rtol":1e-7},variants))
     variants=[

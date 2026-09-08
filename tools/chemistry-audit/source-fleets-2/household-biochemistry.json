@@ -65,22 +65,22 @@
     {
       "id": "693-starch-then-iodine",
       "question": "Does feed order change the elemental ledger of a starch-iodine test?",
-      "script": "add v1 water 200mL\nadd v1 starch 0.0004mol\nadd v1 iodine_solution 1mL\ninspect v1"
+      "script": "add v1 water 200mL\nadd v1 starch 0.0004mol\nadd v1 lugol_solution_1_percent 1mL\ninspect v1"
     },
     {
       "id": "694-iodine-then-starch",
       "question": "Does reversing both feeds change the same test ledger?",
-      "script": "add v1 water 200mL\nadd v1 iodine_solution 1mL\nadd v1 starch 0.0004mol\ninspect v1"
+      "script": "add v1 water 200mL\nadd v1 lugol_solution_1_percent 1mL\nadd v1 starch 0.0004mol\ninspect v1"
     },
     {
       "id": "695-split-starch",
       "question": "Does splitting starch delivery change the same test ledger?",
-      "script": "add v1 water 200mL\nadd v1 starch 0.0001mol\nadd v1 iodine_solution 1mL\nadd v1 starch 0.0003mol\ninspect v1"
+      "script": "add v1 water 200mL\nadd v1 starch 0.0001mol\nadd v1 lugol_solution_1_percent 1mL\nadd v1 starch 0.0003mol\ninspect v1"
     },
     {
       "id": "696-split-iodine",
       "question": "Does splitting iodine delivery change the same test ledger?",
-      "script": "add v1 water 200mL\nadd v1 iodine_solution 0.4mL\nadd v1 starch 0.0004mol\nadd v1 iodine_solution 0.6mL\ninspect v1"
+      "script": "add v1 water 200mL\nadd v1 lugol_solution_1_percent 0.4mL\nadd v1 starch 0.0004mol\nadd v1 lugol_solution_1_percent 0.6mL\ninspect v1"
     },
     {
       "id": "697-milk-then-acid",
