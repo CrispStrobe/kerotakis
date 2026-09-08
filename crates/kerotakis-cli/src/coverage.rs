@@ -579,6 +579,7 @@ fn execute_prompt(
         all_events.extend(step_events.iter().cloned());
         events = step_events;
         routes.extend(stack.last_routes.iter().cloned());
+        routes.extend(observation_routes(&events));
     }
 
     if let Some(Event::SolverFailed { solver, detail, .. }) = all_events
@@ -693,6 +694,26 @@ fn execute_prompt(
             && route.chemistry
             && matches!(route.outcome, SolverRouteOutcome::Succeeded { .. })
     });
+
+    if succeeded(SolverRouteKind::Curated) && routes.iter().any(|route| route.solver == "gas-test")
+    {
+        return Ok(result(
+            prompt,
+            Disposition::Curated,
+            "curated-route",
+            routes,
+        ));
+    }
+    if succeeded(SolverRouteKind::Computed)
+        && routes.iter().any(|route| route.solver == "pressure-gauge")
+    {
+        return Ok(result(
+            prompt,
+            Disposition::Computed,
+            "computed-route",
+            routes,
+        ));
+    }
 
     // Route evidence is stronger than an observation-shaped aside. Once a
     // chemistry-bearing computed route succeeded, classify the transcript by
@@ -856,6 +877,39 @@ fn execute_prompt(
         (Disposition::Missing, "no-applicable-model")
     };
     Ok(result(prompt, observed, reason, routes))
+}
+
+/// Operator-level answers participate in the same provenance account as
+/// equilibrium solvers. They used to emit a typed result without a route, so
+/// coverage could only call a sourced gas test "qualitative" and an ideal-gas
+/// pressure calculation a generic measurement.
+fn observation_routes(events: &[Event]) -> Vec<SolverRoute> {
+    events
+        .iter()
+        .filter_map(|event| match event {
+            Event::GasTested { vessel, .. } => Some(SolverRoute {
+                solver: "gas-test".to_string(),
+                kind: SolverRouteKind::Curated,
+                chemistry: true,
+                outcome: SolverRouteOutcome::Succeeded { event_count: 1 },
+                vessel: Some(*vessel),
+                reason: None,
+            }),
+            Event::Measured {
+                vessel,
+                instrument: kerotakis_core::Instrument::PressureGauge,
+                ..
+            } => Some(SolverRoute {
+                solver: "pressure-gauge".to_string(),
+                kind: SolverRouteKind::Computed,
+                chemistry: false,
+                outcome: SolverRouteOutcome::Succeeded { event_count: 1 },
+                vessel: Some(*vessel),
+                reason: None,
+            }),
+            _ => None,
+        })
+        .collect()
 }
 
 fn result(
