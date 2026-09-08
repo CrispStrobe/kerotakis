@@ -21,7 +21,23 @@ pub struct MoleDelta {
 #[derive(Debug, Clone, PartialEq)]
 pub enum ElectrodeInventory {
     Substrate,
-    Deposit { species: SpeciesId },
+    Deposit {
+        species: SpeciesId,
+        growth: Option<crate::compartment::DepositGrowthModel>,
+        effect: Option<crate::electrochemistry::PassivationEffect>,
+    },
+}
+
+impl ElectrodeInventory {
+    fn same_reservoir(&self, other: &Self) -> bool {
+        match (self, other) {
+            (Self::Substrate, Self::Substrate) => true,
+            (Self::Deposit { species: left, .. }, Self::Deposit { species: right, .. }) => {
+                left == right
+            }
+            _ => false,
+        }
+    }
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -273,16 +289,50 @@ impl StateDelta {
                         "substrate".to_owned(),
                     )
                 }
-                ElectrodeInventory::Deposit { species } => (
-                    species.0.clone(),
-                    electrode
+                ElectrodeInventory::Deposit {
+                    species,
+                    growth,
+                    effect,
+                } => {
+                    let existing = electrode
                         .deposits
                         .iter()
-                        .filter(|deposit| deposit.species == species.0)
-                        .map(|deposit| deposit.moles)
-                        .sum(),
-                    format!("deposit:{}", species.0),
-                ),
+                        .find(|deposit| deposit.species == species.0);
+                    if existing
+                        .and_then(|deposit| deposit.effect)
+                        .zip(*effect)
+                        .is_some_and(|(existing, proposed)| existing != proposed)
+                    {
+                        errors.push(DeltaError::InvalidElectrodeDelta {
+                            electrode: change.electrode.clone(),
+                            reason: format!("deposit {} changes kinetic effect", species.0),
+                        });
+                    }
+                    if growth.is_some_and(|model| {
+                        model
+                            .geometry(
+                                (existing.map_or(0.0, |deposit| deposit.moles) + change.moles)
+                                    .max(0.0),
+                                electrode.area_m2,
+                            )
+                            .is_err()
+                    }) {
+                        errors.push(DeltaError::InvalidElectrodeDelta {
+                            electrode: change.electrode.clone(),
+                            reason: format!("deposit {} has invalid growth geometry", species.0),
+                        });
+                    }
+                    (
+                        species.0.clone(),
+                        electrode
+                            .deposits
+                            .iter()
+                            .filter(|deposit| deposit.species == species.0)
+                            .map(|deposit| deposit.moles)
+                            .sum(),
+                        format!("deposit:{}", species.0),
+                    )
+                }
             };
             let key = (change.electrode.clone(), inventory_key);
             if !checked.insert(key) {
@@ -293,7 +343,7 @@ impl StateDelta {
                 .iter()
                 .filter(|candidate| {
                     candidate.electrode == change.electrode
-                        && candidate.inventory == change.inventory
+                        && candidate.inventory.same_reservoir(&change.inventory)
                 })
                 .map(|candidate| candidate.moles)
                 .sum();
@@ -346,22 +396,40 @@ impl StateDelta {
                         *moles += change.moles;
                     }
                 }
-                ElectrodeInventory::Deposit { species } => {
+                ElectrodeInventory::Deposit {
+                    species,
+                    growth,
+                    effect,
+                } => {
+                    let area_m2 = electrode.area_m2;
                     if let Some(deposit) = electrode
                         .deposits
                         .iter_mut()
                         .find(|deposit| deposit.species == species.0)
                     {
                         deposit.moles += change.moles;
+                        if deposit.effect.is_none() {
+                            deposit.effect = *effect;
+                        }
+                        if let Some(model) = growth {
+                            if let Ok((thickness, coverage)) =
+                                model.geometry(deposit.moles.max(0.0), area_m2)
+                            {
+                                deposit.thickness_m = Some(thickness);
+                                deposit.coverage_fraction = Some(coverage);
+                            }
+                        }
                     } else if change.moles > 0.0 {
+                        let geometry =
+                            growth.and_then(|model| model.geometry(change.moles, area_m2).ok());
                         electrode
                             .deposits
                             .push(crate::compartment::ElectrodeDeposit {
                                 species: species.0.clone(),
                                 moles: change.moles,
-                                thickness_m: None,
-                                coverage_fraction: None,
-                                effect: None,
+                                thickness_m: geometry.map(|value| value.0),
+                                coverage_fraction: geometry.map(|value| value.1),
+                                effect: *effect,
                             });
                     }
                 }
@@ -630,6 +698,7 @@ mod tests {
         crate::compartment::ElectrodeState {
             label: "anode".into(),
             material: "Zn".into(),
+            surface_preparation: None,
             substrate_moles: Some(0.01),
             area_m2: 0.001,
             roughness: 1.0,
@@ -648,6 +717,40 @@ mod tests {
         delta.commit_conserved(&mut vessel, 1e-12).unwrap();
         assert!((vessel.electrodes[0].substrate_moles.unwrap() - 0.008).abs() < 1e-12);
         assert!((vessel.moles_of(&SpeciesId::new("Zn+2")).0 - 0.002).abs() < 1e-12);
+    }
+
+    #[test]
+    fn electrodeposition_updates_conserved_matter_and_computed_geometry() {
+        let mut vessel = Vessel::new(VesselId(0), "plating cell");
+        let mut electrode = zinc_electrode();
+        electrode.material = "Pt".into();
+        electrode.substrate_moles = None;
+        electrode.area_m2 = 0.01;
+        vessel.electrodes.push(electrode);
+        vessel.deposit(SpeciesId::new("Cu"), Moles(2e-6), Phase::Solid);
+        let growth = crate::compartment::DepositGrowthModel::IslandCoalescence {
+            molar_volume_m3_per_mol: 1e-5,
+            coalescence_thickness_m: 1e-6,
+        };
+        let delta = StateDelta::new("plating")
+            .with_moles(SpeciesId::new("Cu"), Phase::Solid, -2e-6)
+            .with_electrode_moles(
+                "anode",
+                ElectrodeInventory::Deposit {
+                    species: SpeciesId::new("Cu"),
+                    growth: Some(growth),
+                    effect: Some(crate::electrochemistry::PassivationEffect::Conductive),
+                },
+                2e-6,
+            );
+        delta.commit_conserved(&mut vessel, 1e-12).unwrap();
+        let deposit = &vessel.electrodes[0].deposits[0];
+        assert!((deposit.thickness_m.unwrap() - 1e-6).abs() < 1e-15);
+        assert!((deposit.coverage_fraction.unwrap() - 0.002).abs() < 1e-15);
+        assert_eq!(
+            deposit.effect,
+            Some(crate::electrochemistry::PassivationEffect::Conductive)
+        );
     }
 
     #[test]

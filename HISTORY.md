@@ -70,6 +70,16 @@ it had while it was open, which is why a few numbers appear twice below.
   current tolerance cannot represent cancellation of large opposing partial
   currents. The solver now combines absolute tolerance with a scale-relative
   cancellation bound; all 513 core library tests pass
+- `feat/modular-electrode-kinetics` — closed three further generic surface
+  gaps before admitting empirical data. Parameter selection now matches the
+  electrode's persisted preparation and typed hydrodynamic bounds, and a
+  correlated parameter envelope retains reported fit ranges without inventing
+  a distribution. Stagnant-film and rotating-disk models compute transport
+  ceilings from SI diffusivity, concentration, geometry, viscosity and rpm.
+  Conformal and island-coalescence growth compute deposit thickness and
+  coverage from conserved moles; the same atomic delta updates matter and
+  geometry, while unknown deposit coverage/effect refuses derived passivation
+  instead of treating the surface as clean
 - **#541** — the heat-capacity integral in **difference form**. Each NASA-9 and
   Shomate term is now written so `(t1 − t0)` factors out, instead of evaluating
   an antiderivative at both ends and subtracting terms around 1.2e9 J/mol that

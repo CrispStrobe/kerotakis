@@ -168,6 +168,12 @@ pub struct ElectrodeState {
     pub label: String,
     /// The metal or conductor material (e.g. "Zn", "Cu", "Pt").
     pub material: String,
+    /// Reproducible preparation state used to select surface-sensitive
+    /// kinetic records (for example "diamond-polished 1 um"). Unknown is
+    /// distinct from any preparation and therefore matches no constrained
+    /// record.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub surface_preparation: Option<String>,
     /// Finite substrate inventory when the electrode itself may be consumed.
     /// `None` denotes external apparatus whose lifetime is out of scope.
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -193,6 +199,13 @@ impl ElectrodeState {
         }
         if self.material.trim().is_empty() {
             return Err("electrode material must be named");
+        }
+        if self
+            .surface_preparation
+            .as_ref()
+            .is_some_and(|preparation| preparation.trim().is_empty())
+        {
+            return Err("electrode surface preparation must be named when known");
         }
         if self
             .substrate_moles
@@ -237,6 +250,81 @@ impl ElectrodeState {
             available_fraction,
         }
     }
+
+    /// Conservative availability implied by every characterised deposit.
+    /// Layers with unknown geometry or effect are a model gap, not a clean
+    /// surface. The most blocking layer wins; multiplying coverages would
+    /// invent statistical independence between stacked films.
+    pub fn deposit_available_fraction(&self) -> Result<f64, &'static str> {
+        let mut available = 1.0_f64;
+        for deposit in self.deposits.iter().filter(|deposit| deposit.moles > 0.0) {
+            let coverage = deposit
+                .coverage_fraction
+                .ok_or("deposit coverage is not characterised")?;
+            let effect = deposit
+                .effect
+                .ok_or("deposit kinetic effect is not characterised")?;
+            available = available.min(
+                crate::electrochemistry::SurfaceCoverage {
+                    theta: coverage,
+                    effect,
+                }
+                .active_fraction(),
+            );
+        }
+        Ok(available)
+    }
+}
+
+/// Geometry assumed while a deposited phase grows. Parameters are data: the
+/// engine computes coverage and thickness but does not guess morphology.
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+#[serde(tag = "morphology", rename_all = "snake_case")]
+pub enum DepositGrowthModel {
+    /// A continuous film covers the surface as soon as it exists.
+    Conformal { molar_volume_m3_per_mol: f64 },
+    /// Constant-height islands spread laterally until they coalesce, then the
+    /// continuous film thickens.
+    IslandCoalescence {
+        molar_volume_m3_per_mol: f64,
+        coalescence_thickness_m: f64,
+    },
+}
+
+impl DepositGrowthModel {
+    pub fn geometry(self, moles: f64, geometric_area_m2: f64) -> Result<(f64, f64), &'static str> {
+        let (molar_volume, coalescence) = match self {
+            Self::Conformal {
+                molar_volume_m3_per_mol,
+            } => (molar_volume_m3_per_mol, None),
+            Self::IslandCoalescence {
+                molar_volume_m3_per_mol,
+                coalescence_thickness_m,
+            } => (molar_volume_m3_per_mol, Some(coalescence_thickness_m)),
+        };
+        if !moles.is_finite()
+            || moles < 0.0
+            || !geometric_area_m2.is_finite()
+            || geometric_area_m2 <= 0.0
+            || !molar_volume.is_finite()
+            || molar_volume <= 0.0
+            || coalescence.is_some_and(|height| !height.is_finite() || height <= 0.0)
+        {
+            return Err("deposit growth parameters must be finite and physical");
+        }
+        if moles == 0.0 {
+            return Ok((0.0, 0.0));
+        }
+        let volume = moles * molar_volume;
+        match coalescence {
+            None => Ok((volume / geometric_area_m2, 1.0)),
+            Some(height) => {
+                let coverage = (volume / (geometric_area_m2 * height)).min(1.0);
+                let thickness = volume / (geometric_area_m2 * coverage);
+                Ok((thickness, coverage))
+            }
+        }
+    }
 }
 
 /// A layer deposited on an electrode surface.
@@ -262,6 +350,7 @@ impl Default for ElectrodeState {
         Self {
             label: "electrode".into(),
             material: "Pt".into(),
+            surface_preparation: None,
             substrate_moles: None,
             area_m2: 1e-4,
             roughness: 1.0,
@@ -289,6 +378,7 @@ mod tests {
         let electrode = ElectrodeState {
             label: "zinc anode".into(),
             material: "Zn".into(),
+            surface_preparation: Some("project test polish".into()),
             substrate_moles: Some(0.01),
             area_m2: 0.001,
             roughness: 1.5,
@@ -306,6 +396,20 @@ mod tests {
         assert!(loaded.validate().is_ok());
         assert_eq!(loaded.deposits.len(), 1);
         assert_eq!(loaded.deposits[0].species, "Cu");
+    }
+
+    #[test]
+    fn island_growth_computes_coverage_then_thickness() {
+        let model = DepositGrowthModel::IslandCoalescence {
+            molar_volume_m3_per_mol: 1e-5,
+            coalescence_thickness_m: 1e-6,
+        };
+        let (thin, half) = model.geometry(0.5e-3, 0.01).unwrap();
+        assert!((thin - 1e-6).abs() < 1e-15);
+        assert!((half - 0.5).abs() < 1e-12);
+        let (thick, full) = model.geometry(2e-3, 0.01).unwrap();
+        assert!((thick - 2e-6).abs() < 1e-15);
+        assert_eq!(full, 1.0);
     }
 
     #[test]

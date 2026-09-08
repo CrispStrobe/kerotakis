@@ -102,18 +102,20 @@ delta and share one inventory-limiting scale before atomic conservation-checked
 commit. The shipped empirical parameter registry remains empty until
 licence-cleared records survive review.
 
-The non-mutating runtime pipeline and explicit standard-state gas reference are
-now complete. Continue in this order: (1) advance its inventory-limited delta on
-the existing clock without letting `displacement` or `corrosion` mutate the
-same step; depletion must shorten and recompute a substep rather than freeze one
-competition fraction across the remainder; (2) admit one narrowly bounded
-permissively licensed polarization dataset with matched controls; (3) only then
-replace the editorial iron/zinc rates and expose current, potential, limiting
-mechanism and uncertainty to clients. Owned sealed gas has a computed ideal
-fugacity; standard-state gas is used only when a reviewed parameterisation
-declares that reference condition. Absent gas and open/swept reservoir
-composition otherwise remain refusals rather than receiving an arbitrary
-activity floor.
+The non-mutating runtime pipeline, parameter/preparation/hydrodynamic domains,
+computed transport models, deposit growth and explicit standard-state gas
+reference are complete. Continue in this order: (1) compute interfacial
+activity and double-layer/film transients; (2) advance inventory-limited deltas
+on the existing clock without letting `displacement` or `corrosion` mutate the
+same step—depletion must shorten and recompute rather than freeze one
+competition fraction; (3) connect electrodes across finite compartments and
+book irreversible electrical heat; (4) admit one narrowly bounded permissively
+licensed polarization dataset with matched controls; (5) only then replace the
+editorial iron/zinc rates and expose current, potential, limiting mechanism and
+uncertainty to clients. Owned sealed gas has a computed ideal fugacity;
+standard-state gas is used only when a reviewed parameterisation declares that
+reference condition. Absent gas and open/swept reservoir composition otherwise
+remain refusals rather than receiving an arbitrary activity floor.
 
 No qualitative overpotential, lesson-calibrated rate or neighbouring material's
 parameter may be promoted into this path. Missing or overlapping parameter

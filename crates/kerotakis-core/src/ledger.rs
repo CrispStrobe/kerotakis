@@ -356,6 +356,7 @@ mod tests {
         after.electrodes.push(crate::compartment::ElectrodeState {
             label: "cathode".into(),
             material: "Pt".into(),
+            surface_preparation: None,
             substrate_moles: None,
             area_m2: 0.01,
             roughness: 1.0,

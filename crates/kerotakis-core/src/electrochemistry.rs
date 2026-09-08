@@ -122,6 +122,11 @@ pub struct ExchangeCurrentRecord {
     /// Relative standard uncertainty when the source supports one.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub relative_uncertainty: Option<f64>,
+    /// Joint admissible range of fitted kinetic parameters. This records
+    /// protocol sensitivity and scatter without pretending the parameters are
+    /// independent Gaussian errors.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub parameter_envelope: Option<KineticParameterEnvelope>,
     /// Required account of measurement scatter, fit sensitivity and omissions.
     pub uncertainty_note: String,
     /// Whether this record has been reviewed for the runtime allowlist.
@@ -154,6 +159,94 @@ pub struct ActivityBound {
     pub maximum: f64,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+pub struct ParameterBound {
+    pub minimum: f64,
+    pub maximum: f64,
+}
+
+impl ParameterBound {
+    fn validate(self, strictly_positive: bool) -> bool {
+        self.minimum.is_finite()
+            && self.maximum.is_finite()
+            && if strictly_positive {
+                self.minimum > 0.0
+            } else {
+                self.minimum >= 0.0
+            }
+            && self.minimum <= self.maximum
+    }
+
+    fn contains(self, value: f64) -> bool {
+        value.is_finite() && value >= self.minimum && value <= self.maximum
+    }
+}
+
+/// Correlated bounds reported for one fitted parameter set. Runtime uses the
+/// reviewed nominal parameters; sensitivity tools may evaluate this envelope
+/// without manufacturing a probability distribution the source did not give.
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+pub struct KineticParameterEnvelope {
+    pub exchange_current_density_a_per_m2: ParameterBound,
+    pub alpha_anodic: ParameterBound,
+    pub alpha_cathodic: ParameterBound,
+}
+
+impl KineticParameterEnvelope {
+    fn validates_nominal(self, nominal: ButlerVolmerParams) -> bool {
+        self.exchange_current_density_a_per_m2.validate(true)
+            && self.alpha_anodic.validate(true)
+            && self.alpha_cathodic.validate(true)
+            && self.exchange_current_density_a_per_m2.contains(nominal.j0)
+            && self.alpha_anodic.contains(nominal.alpha_a)
+            && self.alpha_cathodic.contains(nominal.alpha_c)
+    }
+}
+
+/// Actual flow state at the electrode. Unspecified quantities cannot satisfy
+/// a record that declares a bound for them.
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize, Default)]
+pub struct HydrodynamicCondition {
+    pub rotation_rate_rpm: Option<f64>,
+    pub fluid_velocity_m_per_s: Option<f64>,
+    pub diffusion_layer_m: Option<f64>,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize, Default)]
+pub struct HydrodynamicDomain {
+    pub rotation_rate_rpm: Option<ParameterBound>,
+    pub fluid_velocity_m_per_s: Option<ParameterBound>,
+    pub diffusion_layer_m: Option<ParameterBound>,
+}
+
+impl HydrodynamicDomain {
+    fn validate(self) -> bool {
+        [
+            self.rotation_rate_rpm,
+            self.fluid_velocity_m_per_s,
+            self.diffusion_layer_m,
+        ]
+        .into_iter()
+        .flatten()
+        .all(|bound| bound.validate(false))
+    }
+
+    fn accepts(self, actual: HydrodynamicCondition) -> bool {
+        self.validate()
+            && self
+                .rotation_rate_rpm
+                .is_none_or(|bound| actual.rotation_rate_rpm.is_some_and(|v| bound.contains(v)))
+            && self.fluid_velocity_m_per_s.is_none_or(|bound| {
+                actual
+                    .fluid_velocity_m_per_s
+                    .is_some_and(|v| bound.contains(v))
+            })
+            && self
+                .diffusion_layer_m
+                .is_none_or(|bound| actual.diffusion_layer_m.is_some_and(|v| bound.contains(v)))
+    }
+}
+
 /// The measured domain of an electrochemical kinetic parameter set.
 ///
 /// Thermodynamic feasibility may be extrapolated by the equilibrium solver;
@@ -166,6 +259,8 @@ pub struct KineticValidityDomain {
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub activities: Vec<ActivityBound>,
     pub surface_preparation: String,
+    #[serde(default)]
+    pub hydrodynamics: HydrodynamicDomain,
     pub note: String,
 }
 
@@ -177,6 +272,7 @@ impl KineticValidityDomain {
             && self.temperature_min_k <= self.temperature_max_k
             && !self.surface_preparation.trim().is_empty()
             && !self.note.trim().is_empty()
+            && self.hydrodynamics.validate()
             && self.activities.iter().all(|bound| {
                 !bound.species.trim().is_empty()
                     && bound.minimum.is_finite()
@@ -186,11 +282,19 @@ impl KineticValidityDomain {
             })
     }
 
-    pub fn accepts(&self, temperature_k: f64, activities: &[(String, f64)]) -> bool {
+    pub fn accepts(
+        &self,
+        temperature_k: f64,
+        activities: &[(String, f64)],
+        surface_preparation: Option<&str>,
+        hydrodynamics: HydrodynamicCondition,
+    ) -> bool {
         self.validate()
             && temperature_k.is_finite()
             && temperature_k >= self.temperature_min_k
             && temperature_k <= self.temperature_max_k
+            && surface_preparation == Some(self.surface_preparation.as_str())
+            && self.hydrodynamics.accepts(hydrodynamics)
             && self.activities.iter().all(|bound| {
                 activities
                     .iter()
@@ -211,6 +315,8 @@ impl ExchangeCurrentRecord {
         electrode_material: &str,
         temperature_k: f64,
         activities: &[(String, f64)],
+        surface_preparation: Option<&str>,
+        hydrodynamics: HydrodynamicCondition,
     ) -> bool {
         self.reviewed
             && !self.id.trim().is_empty()
@@ -220,9 +326,17 @@ impl ExchangeCurrentRecord {
             && self
                 .relative_uncertainty
                 .is_none_or(|value| value.is_finite() && value >= 0.0)
+            && self
+                .parameter_envelope
+                .is_none_or(|envelope| envelope.validates_nominal(self.kinetics))
             && self.electrode_material == electrode_material
             && self.kinetics.validate().is_ok()
-            && self.validity.accepts(temperature_k, activities)
+            && self.validity.accepts(
+                temperature_k,
+                activities,
+                surface_preparation,
+                hydrodynamics,
+            )
     }
 }
 
@@ -246,12 +360,20 @@ pub fn select_exchange_current<'a>(
     electrode_material: &str,
     temperature_k: f64,
     activities: &[(String, f64)],
+    surface_preparation: Option<&str>,
+    hydrodynamics: HydrodynamicCondition,
 ) -> Result<&'a ExchangeCurrentRecord, ParameterSelectionError> {
     let matching: Vec<_> = records
         .iter()
         .filter(|record| {
             record.reaction == reaction
-                && record.applies_to(electrode_material, temperature_k, activities)
+                && record.applies_to(
+                    electrode_material,
+                    temperature_k,
+                    activities,
+                    surface_preparation,
+                    hydrodynamics,
+                )
         })
         .collect();
     match matching.as_slice() {
@@ -871,6 +993,8 @@ pub fn parameterized_partial_reaction<'a>(
     standard_reduction_potential_v: f64,
     temperature_k: f64,
     domain_activities: &[(String, f64)],
+    surface_preparation: Option<&str>,
+    hydrodynamics: HydrodynamicCondition,
     quotient_activities: &[EquilibriumActivity<'_>],
     reactive_area_ratio: f64,
     limiting_current_anodic_a_per_m2: Option<f64>,
@@ -882,6 +1006,8 @@ pub fn parameterized_partial_reaction<'a>(
         electrode_material,
         temperature_k,
         domain_activities,
+        surface_preparation,
+        hydrodynamics,
     )
     .map_err(CandidateReactionError::Parameters)?;
     let equilibrium_potential_v = equilibrium_potential_v(
@@ -917,6 +1043,8 @@ pub enum FaradaicReservoir<'a> {
     ElectrodeDeposit {
         electrode: &'a str,
         species: &'a str,
+        growth: Option<crate::compartment::DepositGrowthModel>,
+        effect: Option<PassivationEffect>,
     },
 }
 
@@ -946,15 +1074,71 @@ pub struct ElectrochemicalReactionDefinition<'a> {
     pub standard_reduction_potential_v: f64,
     pub quotient_requirements: &'a [ActivityRequirement<'a>],
     pub kinetic_domain_requirements: &'a [ActivityRequirement<'a>],
-    /// Fraction of this surface available to this particular reaction.
-    pub available_surface_fraction: f64,
+    /// How this reaction obtains the currently available area.
+    pub surface_availability: SurfaceAvailabilityModel,
     /// Mass-transfer ceilings per real reactive area, before the surface-area
     /// multiplier is applied.
-    pub limiting_current_anodic_a_per_m2: Option<f64>,
-    pub limiting_current_cathodic_a_per_m2: Option<f64>,
+    pub anodic_transport: Option<CurrentLimitModel>,
+    pub cathodic_transport: Option<CurrentLimitModel>,
     /// Atom-balanced matter bookkeeping in the anodic direction.
     pub anodic_terms: &'a [FaradaicTerm<'a>],
     pub electrons_produced: f64,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+#[serde(tag = "model", rename_all = "snake_case")]
+pub enum SurfaceAvailabilityModel {
+    /// Reaction-specific measured or modelled availability.
+    Explicit { fraction: f64 },
+    /// Conservative availability computed from characterised deposit layers.
+    FromDeposits,
+}
+
+impl SurfaceAvailabilityModel {
+    fn resolve(self, electrode: &crate::ElectrodeState) -> Result<f64, &'static str> {
+        match self {
+            Self::Explicit { fraction }
+                if fraction.is_finite() && (0.0..=1.0).contains(&fraction) =>
+            {
+                Ok(fraction)
+            }
+            Self::Explicit { .. } => {
+                Err("explicit surface availability must be within zero and one")
+            }
+            Self::FromDeposits => electrode.deposit_available_fraction(),
+        }
+    }
+}
+
+/// How a partial reaction obtains its transport ceiling. A directly measured
+/// ceiling remains representable, while common geometries compute it from
+/// physical inputs instead of scripting a result.
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+#[serde(tag = "model", rename_all = "snake_case")]
+pub enum CurrentLimitModel {
+    MeasuredCurrentDensity { amperes_per_m2: f64 },
+    DiffusionLayer(crate::heterogeneous::DiffusionLayerTransport),
+    RotatingDisk(crate::heterogeneous::RotatingDiskTransport),
+}
+
+impl CurrentLimitModel {
+    pub fn current_density_limit(
+        self,
+        electrons_per_mole: f64,
+    ) -> Result<f64, crate::heterogeneous::SurfaceRateError> {
+        match self {
+            Self::MeasuredCurrentDensity { amperes_per_m2 }
+                if amperes_per_m2.is_finite() && amperes_per_m2 > 0.0 =>
+            {
+                Ok(amperes_per_m2)
+            }
+            Self::MeasuredCurrentDensity { .. } => {
+                Err(crate::heterogeneous::SurfaceRateError::InvalidTransport)
+            }
+            Self::DiffusionLayer(model) => model.current_density_limit(electrons_per_mole),
+            Self::RotatingDisk(model) => model.current_density_limit(electrons_per_mole),
+        }
+    }
 }
 
 #[derive(Debug, Clone)]
@@ -1010,6 +1194,7 @@ pub fn propose_electrochemical_step<'a>(
     records: &'a [ExchangeCurrentRecord],
     definitions: &'a [ElectrochemicalReactionDefinition<'a>],
     seconds: f64,
+    hydrodynamics: HydrodynamicCondition,
     control: CellControl,
     transport: TransportLimits,
     solver: CurrentBalanceSolver,
@@ -1059,12 +1244,6 @@ pub fn propose_electrochemical_step<'a>(
             || !definition.electrons_produced.is_finite()
             || definition.electrons_produced <= 0.0
             || definition.anodic_terms.is_empty()
-            || definition
-                .limiting_current_anodic_a_per_m2
-                .is_some_and(|limit| !limit.is_finite() || limit <= 0.0)
-            || definition
-                .limiting_current_cathodic_a_per_m2
-                .is_some_and(|limit| !limit.is_finite() || limit <= 0.0)
         {
             return Err(ElectrochemicalStepError::InvalidDefinition {
                 reaction: definition.id.to_owned(),
@@ -1085,7 +1264,15 @@ pub fn propose_electrochemical_step<'a>(
             .iter()
             .map(|term| (term.species.to_owned(), term.activity))
             .collect();
-        let surface = electrode.reactive_surface(definition.available_surface_fraction);
+        let available_fraction =
+            definition
+                .surface_availability
+                .resolve(electrode)
+                .map_err(|reason| ElectrochemicalStepError::InvalidDefinition {
+                    reaction: definition.id.to_owned(),
+                    reason: reason.to_owned(),
+                })?;
+        let surface = electrode.reactive_surface(available_fraction);
         surface
             .validate()
             .map_err(|reason| ElectrochemicalStepError::InvalidElectrode {
@@ -1098,6 +1285,22 @@ pub fn propose_electrochemical_step<'a>(
                 reason: format!("{reason:?}"),
             }
         })?;
+        let anodic_limit = definition
+            .anodic_transport
+            .map(|model| model.current_density_limit(definition.electrons_produced))
+            .transpose()
+            .map_err(|reason| ElectrochemicalStepError::InvalidDefinition {
+                reaction: definition.id.to_owned(),
+                reason: format!("invalid anodic transport model: {reason:?}"),
+            })?;
+        let cathodic_limit = definition
+            .cathodic_transport
+            .map(|model| model.current_density_limit(definition.electrons_produced))
+            .transpose()
+            .map_err(|reason| ElectrochemicalStepError::InvalidDefinition {
+                reaction: definition.id.to_owned(),
+                reason: format!("invalid cathodic transport model: {reason:?}"),
+            })?;
         partial_reactions.push(
             parameterized_partial_reaction(
                 records,
@@ -1106,10 +1309,12 @@ pub fn propose_electrochemical_step<'a>(
                 definition.standard_reduction_potential_v,
                 temperature_k,
                 &domain,
+                electrode.surface_preparation.as_deref(),
+                hydrodynamics,
                 &quotient,
                 reactive_area_m2 / surface.geometric_area_m2,
-                definition.limiting_current_anodic_a_per_m2,
-                definition.limiting_current_cathodic_a_per_m2,
+                anodic_limit,
+                cathodic_limit,
             )
             .map_err(|error| ElectrochemicalStepError::Candidate {
                 reaction: definition.id.to_owned(),
@@ -1191,14 +1396,20 @@ pub fn faradaic_state_delta(
                     crate::delta::ElectrodeInventory::Substrate,
                     moles,
                 ),
-                FaradaicReservoir::ElectrodeDeposit { electrode, species } => delta
-                    .with_electrode_moles(
-                        electrode,
-                        crate::delta::ElectrodeInventory::Deposit {
-                            species: crate::SpeciesId::new(species),
-                        },
-                        moles,
-                    ),
+                FaradaicReservoir::ElectrodeDeposit {
+                    electrode,
+                    species,
+                    growth,
+                    effect,
+                } => delta.with_electrode_moles(
+                    electrode,
+                    crate::delta::ElectrodeInventory::Deposit {
+                        species: crate::SpeciesId::new(species),
+                        growth,
+                        effect,
+                    },
+                    moles,
+                ),
             };
         }
     }
@@ -1361,11 +1572,33 @@ mod tests {
                 maximum: 0.2,
             }],
             surface_preparation: "test surface".into(),
+            hydrodynamics: HydrodynamicDomain::default(),
             note: "test domain".into(),
         };
-        assert!(domain.accepts(298.15, &[("H+".into(), 0.1)]));
-        assert!(!domain.accepts(298.15, &[]));
-        assert!(!domain.accepts(320.0, &[("H+".into(), 0.1)]));
+        assert!(domain.accepts(
+            298.15,
+            &[("H+".into(), 0.1)],
+            Some("test surface"),
+            HydrodynamicCondition::default(),
+        ));
+        assert!(!domain.accepts(
+            298.15,
+            &[],
+            Some("test surface"),
+            HydrodynamicCondition::default(),
+        ));
+        assert!(!domain.accepts(
+            320.0,
+            &[("H+".into(), 0.1)],
+            Some("test surface"),
+            HydrodynamicCondition::default(),
+        ));
+        assert!(!domain.accepts(
+            298.15,
+            &[("H+".into(), 0.1)],
+            Some("different surface"),
+            HydrodynamicCondition::default(),
+        ));
     }
 
     fn parameter_record(id: &str) -> ExchangeCurrentRecord {
@@ -1388,11 +1621,26 @@ mod tests {
                     maximum: 0.1,
                 }],
                 surface_preparation: "project-authored test surface".into(),
+                hydrodynamics: HydrodynamicDomain::default(),
                 note: "test-only exact parameter".into(),
             },
             source: "project-authored exact test".into(),
             license: PermissiveDataLicense::Mit,
             relative_uncertainty: Some(0.0),
+            parameter_envelope: Some(KineticParameterEnvelope {
+                exchange_current_density_a_per_m2: ParameterBound {
+                    minimum: 1.0,
+                    maximum: 1.0,
+                },
+                alpha_anodic: ParameterBound {
+                    minimum: 0.5,
+                    maximum: 0.5,
+                },
+                alpha_cathodic: ParameterBound {
+                    minimum: 0.5,
+                    maximum: 0.5,
+                },
+            }),
             uncertainty_note: "exact synthetic test parameter".into(),
             reviewed: true,
         }
@@ -1403,13 +1651,29 @@ mod tests {
         let activities = [("M+2".into(), 0.05)];
         let first = parameter_record("first");
         assert_eq!(
-            select_exchange_current(&[first.clone()], "M+2/M", "M", 298.15, &activities)
-                .unwrap()
-                .id,
+            select_exchange_current(
+                &[first.clone()],
+                "M+2/M",
+                "M",
+                298.15,
+                &activities,
+                Some("project-authored test surface"),
+                HydrodynamicCondition::default(),
+            )
+            .unwrap()
+            .id,
             "first"
         );
         assert!(matches!(
-            select_exchange_current(&[first.clone()], "M+2/M", "M", 320.0, &activities),
+            select_exchange_current(
+                &[first.clone()],
+                "M+2/M",
+                "M",
+                320.0,
+                &activities,
+                Some("project-authored test surface"),
+                HydrodynamicCondition::default(),
+            ),
             Err(ParameterSelectionError::NoApplicableRecord { .. })
         ));
         assert!(matches!(
@@ -1418,10 +1682,78 @@ mod tests {
                 "M+2/M",
                 "M",
                 298.15,
-                &activities
+                &activities,
+                Some("project-authored test surface"),
+                HydrodynamicCondition::default(),
             ),
             Err(ParameterSelectionError::AmbiguousRecords { .. })
         ));
+    }
+
+    #[test]
+    fn parameter_selection_enforces_preparation_flow_and_envelope() {
+        let activities = [("M+2".into(), 0.05)];
+        let mut record = parameter_record("rde-record");
+        record.validity.hydrodynamics.rotation_rate_rpm = Some(ParameterBound {
+            minimum: 1000.0,
+            maximum: 1400.0,
+        });
+        assert!(select_exchange_current(
+            &[record.clone()],
+            "M+2/M",
+            "M",
+            298.15,
+            &activities,
+            Some("project-authored test surface"),
+            HydrodynamicCondition {
+                rotation_rate_rpm: Some(1200.0),
+                ..HydrodynamicCondition::default()
+            },
+        )
+        .is_ok());
+        assert!(select_exchange_current(
+            &[record.clone()],
+            "M+2/M",
+            "M",
+            298.15,
+            &activities,
+            Some("project-authored test surface"),
+            HydrodynamicCondition::default(),
+        )
+        .is_err());
+        assert!(select_exchange_current(
+            &[record.clone()],
+            "M+2/M",
+            "M",
+            298.15,
+            &activities,
+            Some("unpolished"),
+            HydrodynamicCondition {
+                rotation_rate_rpm: Some(1200.0),
+                ..HydrodynamicCondition::default()
+            },
+        )
+        .is_err());
+
+        record
+            .parameter_envelope
+            .as_mut()
+            .unwrap()
+            .exchange_current_density_a_per_m2
+            .maximum = 0.5;
+        assert!(select_exchange_current(
+            &[record],
+            "M+2/M",
+            "M",
+            298.15,
+            &activities,
+            Some("project-authored test surface"),
+            HydrodynamicCondition {
+                rotation_rate_rpm: Some(1200.0),
+                ..HydrodynamicCondition::default()
+            },
+        )
+        .is_err());
     }
 
     #[test]
@@ -1434,7 +1766,18 @@ mod tests {
             activity: 0.01,
         }];
         let partial = parameterized_partial_reaction(
-            &records, "M+2/M", "M", -0.5, 298.15, &domain, &quotient, 1.0, None, None,
+            &records,
+            "M+2/M",
+            "M",
+            -0.5,
+            298.15,
+            &domain,
+            Some("project-authored test surface"),
+            HydrodynamicCondition::default(),
+            &quotient,
+            1.0,
+            None,
+            None,
         )
         .unwrap();
         let expected = -0.5 + crate::relations::nernst_slope(crate::Kelvin::STANDARD) / 2.0 * -2.0;
@@ -1660,6 +2003,7 @@ mod tests {
         vessel.electrodes.push(crate::ElectrodeState {
             label: "zinc".into(),
             material: "Zn".into(),
+            surface_preparation: None,
             substrate_moles: Some(0.01),
             area_m2: 1e-6,
             roughness: 1.0,
@@ -1747,9 +2091,9 @@ mod tests {
                 standard_reduction_potential_v: -1.0,
                 quotient_requirements: ZINC_QUOTIENT,
                 kinetic_domain_requirements: ZINC_QUOTIENT,
-                available_surface_fraction: 1.0,
-                limiting_current_anodic_a_per_m2: None,
-                limiting_current_cathodic_a_per_m2: None,
+                surface_availability: SurfaceAvailabilityModel::Explicit { fraction: 1.0 },
+                anodic_transport: None,
+                cathodic_transport: None,
                 anodic_terms: ZINC_TERMS,
                 electrons_produced: 2.0,
             },
@@ -1758,9 +2102,9 @@ mod tests {
                 standard_reduction_potential_v: 0.0,
                 quotient_requirements: HYDROGEN_QUOTIENT,
                 kinetic_domain_requirements: &HYDROGEN_QUOTIENT[..1],
-                available_surface_fraction: 1.0,
-                limiting_current_anodic_a_per_m2: None,
-                limiting_current_cathodic_a_per_m2: None,
+                surface_availability: SurfaceAvailabilityModel::Explicit { fraction: 1.0 },
+                anodic_transport: None,
+                cathodic_transport: None,
                 anodic_terms: HYDROGEN_TERMS,
                 electrons_produced: 2.0,
             },
@@ -1769,6 +2113,7 @@ mod tests {
         vessel.electrodes.push(crate::ElectrodeState {
             label: "zinc".into(),
             material: "Zn".into(),
+            surface_preparation: Some("project-authored test surface".into()),
             substrate_moles: Some(0.01),
             area_m2: 0.1,
             roughness: 2.0,
@@ -1805,6 +2150,7 @@ mod tests {
             &records,
             &definitions,
             60.0,
+            HydrodynamicCondition::default(),
             CellControl::OpenCircuit,
             TransportLimits {
                 solution_resistance_ohm: 0.0,
