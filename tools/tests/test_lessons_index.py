@@ -54,6 +54,14 @@ measure v1 ph
         self.assertEqual(entry["topic"], "heat & fire")
         self.assertEqual(entry["kit"], ["ethanol", "liquid_nitrogen"])
 
+    def test_staged_salt_transfer_is_an_intermediate_separation_mission(self):
+        lesson = ROOT / "lessons" / "follow-the-salt-through-staged-transfers.lab"
+        entry = next(item for item in MODULE.index(lesson.parent)
+                     if item["file"] == lesson.name)
+        self.assertEqual(entry["topic"], "separations")
+        self.assertEqual(entry["progress"], "intermediate")
+        self.assertEqual(entry["kit"], ["NaCl", "water"])
+
 
 if __name__ == "__main__":
     unittest.main()

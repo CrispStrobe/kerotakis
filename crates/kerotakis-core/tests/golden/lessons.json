@@ -1335,6 +1335,148 @@
       }
     ]
   },
+  "dilute-the-current-carriers": {
+    "event_count": 33,
+    "events_sample": [
+      "v1: +11.0686 mol water",
+      "v2: new vessel",
+      "v2: +11.0686 mol water",
+      "v3: new vessel",
+      "v1 (100%) + v2 (100%) → v3 at 25.00 °C",
+      "v3 conductivity meter: 0.05 µS/cm — 25 °C limiting-law water baseline from H⁺/OH⁻ autoprotolysis; explicitly nonionic solutes add no charge carriers. Temperature dependence, dissolved CO₂ and trace contamination are outside this ideal blank",
+      "v4: new vessel",
+      "v4: +11.0686 mol water",
+      "v4: +1.00 mmol sodium chloride",
+      "v4: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v5: new vessel",
+      "v5: +11.0686 mol water",
+      "v6: new vessel",
+      "v4 (100%) + v5 (100%) → v6 at 25.00 °C",
+      "v6 conductivity meter: 0.05 µS/cm — 25 °C limiting-law water baseline from H⁺/OH⁻ autoprotolysis; explicitly nonionic solutes add no charge carriers. Temperature dependence, dissolved CO₂ and trace contamination are outside this ideal blank",
+      "v7: new vessel",
+      "v7: +11.0686 mol water",
+      "v7: +2.00 mmol sodium chloride",
+      "v7: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v8: new vessel"
+    ],
+    "lesson": "dilute-the-current-carriers.lab",
+    "vessels": [
+      {
+        "contents": [],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 22.13710797,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "Solid",
+            "species": "NaCl"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 22.13710797,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.002,
+            "phase": "Solid",
+            "species": "NaCl"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 22.13710797,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.004,
+            "phase": "Solid",
+            "species": "NaCl"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 22.13710797,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "dry-then-wet-fizz": {
     "event_count": 13,
     "events_sample": [
@@ -2177,6 +2319,77 @@
       }
     ]
   },
+  "follow-the-salt-through-staged-transfers": {
+    "event_count": 15,
+    "events_sample": [
+      "v1: +16.6028 mol water",
+      "v1: +3.00 mmol sodium chloride",
+      "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1 balance: 299.28 g",
+      "v2: new vessel",
+      "v2: +16.6028 mol water",
+      "v2: +3.00 mmol sodium chloride",
+      "v2: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2 balance: 299.28 g",
+      "v3: new vessel",
+      "v4: new vessel",
+      "v1 → v3: 100% of the liquid",
+      "v2 → v4: 50% of the liquid",
+      "v2: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2 → v4: 100% of the liquid"
+    ],
+    "lesson": "follow-the-salt-through-staged-transfers.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.003,
+            "phase": "Solid",
+            "species": "NaCl"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.003,
+            "phase": "Solid",
+            "species": "NaCl"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 16.60283097,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 16.60283097,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "grinding-rate-boundary": {
     "event_count": 12,
     "events_sample": [
@@ -2798,6 +3011,178 @@
         "headspace": "Open",
         "label": "beaker",
         "temperature_k": 348.15
+      }
+    ]
+  },
+  "hot-share-temperature": {
+    "event_count": 39,
+    "events_sample": [
+      "v1: 25.0 °C → 80.0 °C",
+      "v1: +11.0686 mol water",
+      "v2: new vessel",
+      "v2: 25.0 °C → 20.0 °C",
+      "v2: +11.0686 mol water",
+      "v3: new vessel",
+      "v3: 25.0 °C → 32.0 °C",
+      "v1 (20%) + v2 (80%) → v3 at 32.00 °C",
+      "v3 thermometer: 32.00 °C",
+      "v4: new vessel",
+      "v4: 25.0 °C → 80.0 °C",
+      "v4: +11.0686 mol water",
+      "v5: new vessel",
+      "v5: 25.0 °C → 20.0 °C",
+      "v5: +11.0686 mol water",
+      "v6: new vessel",
+      "v6: 25.0 °C → 44.0 °C",
+      "v4 (40%) + v5 (60%) → v6 at 44.01 °C",
+      "v6 thermometer: 44.01 °C",
+      "v7: new vessel"
+    ],
+    "lesson": "hot-share-temperature.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 8.85484319,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 353.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 2.2137108,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 293.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 11.06855398,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 305.154
+      },
+      {
+        "contents": [
+          {
+            "moles": 6.64113239,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 353.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 4.42742159,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 293.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 11.06855398,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 317.1596
+      },
+      {
+        "contents": [
+          {
+            "moles": 4.42742159,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 353.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 6.64113239,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 293.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 11.06855398,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 329.1688
+      },
+      {
+        "contents": [
+          {
+            "moles": 2.2137108,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 353.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 8.85484319,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 293.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 11.06855398,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 341.1696
       }
     ]
   },
@@ -4006,6 +4391,114 @@
           },
           {
             "moles": 5.03033028,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "measure-twice": {
+    "event_count": 24,
+    "events_sample": [
+      "v1: +22.1371 mol water",
+      "v1: +120 µmol potassium nitrate",
+      "v1: not yet modelled — the conductivity meter reads nothing — no aqueous solution has been characterised",
+      "v1: not yet modelled — the conductivity meter reads nothing — no aqueous solution has been characterised",
+      "v2: new vessel",
+      "v2: +30.4385 mol water",
+      "v2: +110 µmol hydrochloric acid",
+      "v2: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v2: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v3: new vessel",
+      "v3: +18.2631 mol water",
+      "v3: 25.0 °C → 25.2 °C",
+      "v3: 0.33 kJ requested; 0.33 kJ delivered — time model not yet coupled",
+      "v3 thermometer: 25.24 °C",
+      "v3 thermometer: 25.24 °C",
+      "v4: new vessel",
+      "v4: sealed over 0.420 L of headspace, trapping 0.0172 mol of room air",
+      "v4: +3.10 mmol nitrogen — 0.0167 mol now in vessel",
+      "v4 pressure gauge: 119.62 kPa",
+      "v4 pressure gauge: 119.62 kPa"
+    ],
+    "lesson": "measure-twice.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.00012,
+            "phase": "Solid",
+            "species": "KNO3"
+          },
+          {
+            "moles": 22.13710797,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.00011,
+            "phase": "Liquid",
+            "species": "HCl"
+          },
+          {
+            "moles": 30.43852345,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 18.26311407,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.3898
+      },
+      {
+        "contents": [
+          {
+            "moles": 6.87e-6,
+            "phase": "Gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 0.01666372,
+            "phase": "Gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.00359651,
+            "phase": "Gas",
+            "species": "O2"
+          }
+        ],
+        "headspace": "Sealed { volume: Liters(0.42) }",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 11.62198168,
             "phase": "Liquid",
             "species": "water"
           }

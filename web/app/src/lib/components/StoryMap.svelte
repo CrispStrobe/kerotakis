@@ -1,6 +1,7 @@
 <script lang="ts">
   import { untrack } from "svelte";
   import { t } from "../i18n.svelte";
+  import { levelLabel } from "../catalogEntry";
   import { continuationLabel, missionDistrictId, missionId, nextUnlockedMission, remainingMissions, storyDistricts, type MissionSummary } from "../storyProgress";
   import CaseBoard from "./CaseBoard.svelte";
 
@@ -145,6 +146,7 @@
                     <div>
                       <span class="topic">{done ? t("mission complete") : running ? t("mission in progress") : t(mission.topic ?? "more")}</span>
                       <h3>{t(mission.name)}</h3>
+                      {#if mission.progress}<span class="mission-progress">{t(levelLabel(mission.progress))}</span>{/if}
                       {#if mission.blurb}<p>{t(mission.blurb)}</p>{/if}
                     </div>
                     <button onclick={() => onstart(mission.file)}>
@@ -224,6 +226,7 @@
   .mission-status { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 12px; color: var(--primary); background: color-mix(in srgb, var(--primary) 10%, var(--surface)); font-size: .72rem; font-weight: 900; }
   .done .mission-status { color: var(--on-accent); background: var(--success); }
   article h3 { margin: .15rem 0; font-size: .9rem; }
+  .mission-progress { display: inline-block; margin: 0 0 .2rem; padding: .12rem .42rem; border-radius: 999px; color: var(--primary); background: color-mix(in srgb, var(--primary) 10%, transparent); font-size: .62rem; font-weight: 800; }
   article p { max-width: 38rem; margin: 0; color: var(--dim); font-size: .7rem; }
   article button, footer button { min-height: 38px; border: 0; border-radius: 11px; color: var(--on-accent); background: var(--primary); cursor: pointer; font-weight: 800; }
   article button { display: flex; align-items: center; gap: 1rem; padding: 0 .75rem; }

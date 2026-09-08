@@ -1,0 +1,26 @@
+# Follow the salt through staged transfers
+# One beaker is poured all at once. The other takes two stages. Does either route lose salt?
+
+# Prepare two equal portions of salt water.
+add v1 water 300mL
+add v1 NaCl 0.003mol
+measure v1 balance
+new
+add v2 water 300mL
+add v2 NaCl 0.003mol
+measure v2 balance
+
+# Give each portion an empty receiver.
+new
+new
+
+# Move the first portion in one pour, and the second in two successive pours.
+decant v1 v3 1
+decant v2 v4 0.5
+decant v2 v4 1
+
+# Inspect every vessel. The route changes where the solution waits, not the total H, O, Na or Cl in each source-receiver pair.
+inspect v1
+inspect v2
+inspect v3
+inspect v4

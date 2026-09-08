@@ -1,0 +1,278 @@
+# Kerotakis-authored codex text is CC BY 4.0 (see NOTICE), separately from
+# the AGPL-3.0-or-later code that replays every claim in it.
+# Original audit-derived teaching text; no source-to-example mappings.
+
+[[reaction]]
+id = "the-salt-forgets-its-side"
+progress = "intermediate"
+summary = "The same water and salt reach the same mixed inventory whichever source holds the salt"
+concepts = ["mixtures", "conservation-of-mass", "state-functions"]
+requires = ["amount-of-substance"]
+calculations = ["concentration", "mass-accounting"]
+models = ["particle-model", "conservation-of-mass"]
+apparatus = ["beaker"]
+
+[reaction.setup]
+script = """
+add v1 water 150mL
+add v1 NaCl 0.002mol
+new
+add v2 water 250mL
+new
+mix v1 1 v2 1 into v3
+new
+add v4 water 150mL
+new
+add v5 water 250mL
+add v5 NaCl 0.002mol
+new
+mix v4 1 v5 1 into v6
+new
+add v7 water 150mL
+add v7 NaCl 0.0008mol
+new
+add v8 water 250mL
+add v8 NaCl 0.0012mol
+new
+mix v7 1 v8 1 into v9
+new
+add v10 water 300mL
+add v10 NaCl 0.001mol
+new
+add v11 water 500mL
+add v11 NaCl 0.003mol
+new
+mix v10 0.5 v11 0.5 into v12
+inspect v3
+inspect v6
+inspect v9
+inspect v12
+"""
+
+[reaction.expect]
+events = ["mixed"]
+absent = ["solver_failed"]
+
+[reaction.expect.predict]
+question = "Four paths deliver 400 mL of water and 0.002 mol of salt to a receiver. Does it matter which source held the salt first?"
+options = ["Yes: the receiver remembers which side supplied the salt", "No: equal final water and salt inventories give the same mixed state"]
+answer = 1
+misconception = "A material's route to a well-mixed final inventory is mistaken for an additional state variable."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "The labels on the source beakers are being carried into the final state even though the model combines their complete inventories."
+next = "Add the water, sodium and chloride amounts in each path, then compare the four receiver inventories rather than their source labels."
+
+[reaction.registers]
+lv1 = "Salt can begin in the left beaker, the right beaker or both. Once the same amounts are completely mixed, the receiver cannot tell those paths apart."
+lv2 = "Each path puts 400 mL of water and 0.002 mol of NaCl into its receiver. The dissolved sodium and chloride ledgers therefore agree even when the salt was split or only half of larger source portions was used."
+lv3 = "This is path independence for a complete equilibrium mixing operation, not a claim about finite mixing time, imperfect pouring or spatial concentration gradients. The comparison is supported by the fleet's independent final-inventory relation, while the catalogue replay checks the typed mixing events."
+
+[reaction.provenance]
+source = "Original source-fleet promotion from generic mixture path-independence controls; no source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08."
+computed_by = "Kerotakis generic material-conserving MIX and ordinary aqueous solver stack; independent four-path inventory audit"
+
+[[reaction]]
+id = "two-evaporation-paths-one-brine"
+progress = "intermediate"
+summary = "Removing the same net fraction of water in one or two steps leaves the same dilute brine"
+concepts = ["evaporation", "conservation-of-mass", "state-functions"]
+requires = ["amount-of-substance", "dissolving"]
+calculations = ["percentage", "mass-accounting"]
+models = ["particle-model", "conservation-of-mass"]
+apparatus = ["evaporating-basin", "balance"]
+
+[reaction.setup]
+script = """
+add v1 water 0.40L
+add v1 NaCl 0.030mol
+evaporate v1 0.4
+new
+add v2 water 0.40L
+add v2 NaCl 0.030mol
+evaporate v2 0.2
+evaporate v2 0.25
+inspect v1
+inspect v2
+"""
+
+[reaction.expect]
+events = ["evaporated"]
+absent = ["solver_failed"]
+
+[reaction.expect.predict]
+question = "One basin loses 40% of its water at once. Another loses 20%, then 25% of what remains. Which basin finishes with more water?"
+options = ["The second, because 20% + 25% is larger than 40%", "Neither: both retain 60% of their starting water"]
+answer = 1
+misconception = "Percentages taken from changing amounts are added as though they shared the same denominator."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "The second percentage is being taken from the starting water instead of from the 80% that remains after the first step."
+next = "Multiply the retained fractions: 0.80 × 0.75 = 0.60, then compare the salt and water inventories of both basins."
+
+[reaction.registers]
+lv1 = "Taking four tenths of the water once leaves the same brine as taking one fifth, then one quarter of what is left. The salt stays in both basins."
+lv2 = "The one-step path retains 1 - 0.40 = 0.60 of the water. The two-step path retains (1 - 0.20)(1 - 0.25) = 0.60, so both finish with the same water and the original 0.030 mol salt inventory."
+lv3 = "The equality is a composition-of-fractions control for the engine's ideal solvent-removal operator. It does not model evaporation rate, heat duty, splashing or volatile solutes, and these dilute cases are deliberately separate from a crystallisation-yield lesson."
+
+[reaction.provenance]
+source = "Original source-fleet promotion from generic evaporation path controls; no source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08."
+computed_by = "Kerotakis generic evaporation operator and ordinary aqueous solver stack; independent retained-fraction inventory audit"
+
+[[reaction]]
+id = "energy-is-not-a-distillation-fraction"
+progress = "advanced"
+summary = "A distillation energy budget pays latent duty; it is not a disguised fraction of the feed"
+concepts = ["distillation", "latent-heat", "phase-change", "model-boundary"]
+requires = ["amount-of-substance", "mixtures"]
+calculations = ["enthalpy-change"]
+models = ["equilibrium", "enthalpy", "conservation-of-mass"]
+apparatus = ["distillation-flask", "condenser", "beaker"]
+
+[reaction.setup]
+script = """
+add v1 water 2.8mol
+add v1 ethanol 0.24mol
+add v1 methanol 0.08mol
+new
+distil v1 v2 1.0kJ stages 2
+new
+add v3 water 2.8mol
+add v3 ethanol 0.24mol
+add v3 methanol 0.08mol
+new
+distil v3 v4 2.0kJ stages 2
+inspect v1
+inspect v2
+inspect v3
+inspect v4
+"""
+
+[reaction.expect]
+events = ["distilled"]
+absent = ["solver_failed"]
+
+[reaction.expect.predict]
+question = "The same ternary feed receives either 1 kJ or 2 kJ of modeled latent duty. Is the number 2 therefore a 2% distillation cut?"
+options = ["Yes: every distillation input is interpreted as a feed fraction", "No: energy and fraction are different controls, and the energy budget determines how much latent duty can be paid"]
+answer = 1
+misconception = "A quantity with energy units is treated as a dimensionless fraction because both controls can increase collected material."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "Units have been discarded, hiding the difference between kilojoules supplied and a fraction of total moles requested."
+next = "Compare the command units and the total material in the two receivers; then contrast this pair with a dimensionless cut-fraction command."
+
+[reaction.registers]
+lv1 = "More energy lets the virtual still move more liquid, but a kilojoule is not a percentage of the flask. It is a different kind of instruction."
+lv2 = "Both stills start with 3.12 mol of the same mixture and use two stages. The second receives twice the latent-duty budget, so the computed receiver total increases; neither 1 kJ nor 2 kJ names a fixed fraction of 3.12 mol."
+lv3 = "The energy form of the generic Rayleigh operation bounds withdrawal by the sum of component latent duties. It omits sensible heating, heat loss, reflux and reboiler circulation, so its reported duty is not a prediction of real utility consumption or separation efficiency."
+
+[reaction.provenance]
+source = "Original source-fleet promotion from generic distillation duty controls using existing reviewed model inputs; no source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08."
+computed_by = "Kerotakis generic multicomponent Rayleigh solver; independent paired latent-duty monotonicity audit"
+
+[[reaction]]
+id = "equilibrium-forgets-feed-order"
+progress = "advanced"
+summary = "Reversing the order of identical esterification feeds leaves the same computed equilibrium inventory"
+concepts = ["chemical-equilibrium", "reaction-quotient", "state-functions"]
+requires = ["amount-of-substance"]
+calculations = ["equilibrium-expression"]
+models = ["equilibrium", "conservation-of-mass"]
+apparatus = ["beaker"]
+
+[reaction.setup]
+script = """
+add v1 CH3COOH 0.013mol
+add v1 ethanol 0.009mol
+add v1 ethyl_acetate 0.002mol
+add v1 water 0.005mol
+react v1 esterification
+new
+add v2 water 0.005mol
+add v2 ethyl_acetate 0.002mol
+add v2 ethanol 0.009mol
+add v2 CH3COOH 0.013mol
+react v2 esterification
+inspect v1
+inspect v2
+"""
+
+[reaction.expect]
+events = ["org_reacted"]
+absent = ["solver_failed"]
+
+[reaction.expect.predict]
+question = "Two vessels contain identical final feed amounts, but the second receives them in reverse order. Which reaches a different computed esterification equilibrium?"
+options = ["The first, because the earliest reagent determines the reaction direction", "Neither: the equilibrium request uses the current inventory, not the feed history"]
+answer = 1
+misconception = "An equilibrium state is treated as a procedural memory of the order in which an identical inventory was assembled."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "The sequence of additions is being substituted for the reaction quotient calculated from the complete starting inventory."
+next = "Write the four amounts beside both vessels, verify that they match, and then compare their computed final inventories."
+
+[reaction.registers]
+lv1 = "Putting the same four substances into a virtual beaker in reverse order does not change where its equilibrium settles."
+lv2 = "Both vessels begin the explicit equilibrium request with 0.013 mol acid, 0.009 mol alcohol, 0.002 mol ester and 0.005 mol water. Equal starting quotients and bounds therefore give equal final inventories."
+lv3 = "This is a commutativity control for assembling the state passed to the ideal-mixture mass-action solver. It does not say that real feed order is irrelevant when additions change temperature, phases, side reactions or kinetics before equilibrium is requested."
+
+[reaction.provenance]
+source = "Original source-fleet promotion from generic reversible-equilibrium feed-order controls; no source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08."
+computed_by = "Kerotakis generic reversible mass-action extent solver; independent paired final-inventory audit"
+
+[[reaction]]
+id = "equilibrium-is-not-a-yield-button"
+progress = "advanced"
+summary = "Requesting the same equilibrium twice does not manufacture a second increment of yield"
+concepts = ["chemical-equilibrium", "reaction-quotient", "state-functions"]
+requires = ["amount-of-substance"]
+calculations = ["equilibrium-expression", "percentage-yield"]
+models = ["equilibrium", "conservation-of-mass"]
+apparatus = ["beaker"]
+
+[reaction.setup]
+script = """
+add v1 CH3COOH 0.018mol
+add v1 ethanol 0.006mol
+add v1 ethyl_acetate 0.001mol
+add v1 water 0.009mol
+react v1 esterification
+new
+add v2 CH3COOH 0.018mol
+add v2 ethanol 0.006mol
+add v2 ethyl_acetate 0.001mol
+add v2 water 0.009mol
+react v2 esterification
+react v2 esterification
+inspect v1
+inspect v2
+"""
+
+[reaction.expect]
+events = ["org_reacted"]
+absent = ["solver_failed"]
+
+[reaction.expect.predict]
+question = "One vessel is asked to reach esterification equilibrium once and its twin is asked twice. Does the second request create another increment of ester?"
+options = ["Yes: every reaction command adds another batch of product", "No: after the first solve the quotient is already at equilibrium, so the repeated request is a material no-op"]
+answer = 1
+misconception = "An equilibrium request is mistaken for a fixed conversion step that can be repeated to drive yield toward completion."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "The command is being read as an instruction to advance by a preset extent rather than to solve for a state satisfying mass action."
+next = "Compare both final inventories, then calculate the reaction quotient after the first request and ask what driving force remains."
+
+[reaction.registers]
+lv1 = "Equilibrium is a destination, not a button that adds more product each time. Once the virtual mixture is there, asking again leaves its material unchanged."
+lv2 = "The first request adjusts the four-component inventory until its reaction quotient matches the model's equilibrium constant. Starting from that settled inventory, the second bounded extent is zero apart from numerical tolerance."
+lv3 = "Idempotence is a necessary fixed-point property of the equilibrium operator: solve(solve(state)) = solve(state). This says nothing about the time required by a real uncatalyzed mixture, and aqueous speciation can still change the displayed molecular partition after the isolated organic solve."
+
+[reaction.provenance]
+source = "Original source-fleet promotion from generic reversible-equilibrium idempotence controls; no source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08."
+computed_by = "Kerotakis generic reversible mass-action extent solver; independent repeated-request final-inventory audit"

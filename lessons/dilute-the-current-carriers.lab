@@ -1,0 +1,36 @@
+# Conductivity follows ion concentration after mixing
+# Equal final water volumes receive increasing sodium-chloride amounts. This
+# isolates ion concentration from volume before the conductivity readings.
+register lv2
+add v1 water 200mL
+new
+add v2 water 200mL
+new
+mix v1 1 v2 1 into v3
+measure v3 conductivity
+new
+add v4 water 200mL
+add v4 NaCl 0.001mol
+new
+add v5 water 200mL
+new
+mix v4 1 v5 1 into v6
+measure v6 conductivity
+new
+add v7 water 200mL
+add v7 NaCl 0.002mol
+new
+add v8 water 200mL
+new
+mix v7 1 v8 1 into v9
+measure v9 conductivity
+new
+add v10 water 200mL
+add v10 NaCl 0.004mol
+new
+add v11 water 200mL
+new
+mix v10 1 v11 1 into v12
+measure v12 conductivity
+# Conductivity is estimated from the computed ions; cell constant, electrode
+# polarisation, calibration drift and temperature compensation are absent.

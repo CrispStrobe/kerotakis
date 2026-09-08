@@ -3,6 +3,16 @@
 > Finished work is not listed here. What landed, and what it taught us, is in
 > [HISTORY.md](HISTORY.md). Task numbers are never renumbered and never reused.
 
+## Source-fleet catalog promotion (2026-09-08)
+
+The guided catalog now extends through K63. K61 varies the hot fraction in an
+otherwise controlled water mix, K62 varies electrolyte concentration at fixed
+final volume, and K63 verifies that repeated measurements do not mutate the
+bench. Each row has authored learning progress, an existing Mission lesson,
+complete ingredient/apparatus access metadata and German presentation. Five
+additional discoveries live in Codex and one staged-transfer comparison lives
+in Missions; no third learning surface was introduced.
+
 ## GUI reachability follow-up (2026-09-06)
 
 The discovery tranche makes those authored links navigable in both directions:
