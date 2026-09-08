@@ -719,6 +719,21 @@ cell v7 v8
 [reaction.expect]
 events = ["cell_voltage"]
 absent = ["solver_failed", "no_cell"]
+[[reaction.expect.assertions]]
+kind = "decreasing"
+tolerance = 0.0001
+[[reaction.expect.assertions.samples]]
+step = "after:8"
+metric = "event:cell_voltage.volts"
+[[reaction.expect.assertions.samples]]
+step = "after:17"
+metric = "event:cell_voltage.volts"
+[[reaction.expect.assertions.samples]]
+step = "after:26"
+metric = "event:cell_voltage.volts"
+[[reaction.expect.assertions.samples]]
+step = "after:35"
+metric = "event:cell_voltage.volts"
 [reaction.expect.predict]
 question = "The copper half-cell stays fixed while more zinc sulfate is added to the zinc half-cell. How does the open-circuit voltage change?"
 options = ["It rises because more ions always make a stronger cell", "It falls because greater zinc-ion activity raises the reaction quotient"]
@@ -731,10 +746,10 @@ next = "Write Q = a(Zn2+)/a(Cu2+) and use the sign before ln Q in the Nernst equ
 [reaction.registers]
 lv1 = "Adding more zinc ions makes this zinc-copper cell's measured push smaller, while the copper side stays the same."
 lv2 = "The four cells differ only in zinc-sulfate amount. Raising zinc-ion activity raises the reaction quotient for Zn + Cu2+ → Zn2+ + Cu, so the Nernst voltage falls."
-lv3 = "The engine computes activities after aqueous speciation and then evaluates the Nernst relation. The catalog gate currently verifies four typed voltage events but cannot assert their ordering because event values are not semantic-state metrics; this limitation is stated rather than replaced with a proxy."
+lv3 = "The engine computes activities after aqueous speciation and then evaluates the Nernst relation. The semantic gate reads the voltage field from each exact cell-operation event and requires all four values to decrease by more than 0.0001 V; the GUI leaves that event-only comparison visibly unavailable rather than replacing it with a scene proxy."
 [reaction.provenance]
 source = "Original promotion from generic Daniell-cell concentration controls; no private source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08."
-computed_by = "Kerotakis aqueous activity and electrochemical-cell solver; typed voltage-event replay"
+computed_by = "Kerotakis aqueous activity and electrochemical-cell solver; exact-step decreasing voltage-event assertion"
 
 [[reaction]]
 id = "mixing-temperature-does-not-remember-sides"
@@ -823,6 +838,58 @@ react v2 esterification
 [reaction.expect]
 events = ["org_reacted"]
 absent = ["solver_failed"]
+[[reaction.expect.assertions]]
+kind = "ratio"
+ratio = 2.0
+tolerance = 1e-10
+relative_tolerance = 1e-8
+[[reaction.expect.assertions.samples]]
+step = "after:6"
+metric = "moles:CH3COOH"
+vessel = "v1"
+[[reaction.expect.assertions.samples]]
+step = "after:12"
+metric = "moles:CH3COOH"
+vessel = "v2"
+[[reaction.expect.assertions]]
+kind = "ratio"
+ratio = 2.0
+tolerance = 1e-10
+relative_tolerance = 1e-8
+[[reaction.expect.assertions.samples]]
+step = "after:6"
+metric = "moles:ethanol"
+vessel = "v1"
+[[reaction.expect.assertions.samples]]
+step = "after:12"
+metric = "moles:ethanol"
+vessel = "v2"
+[[reaction.expect.assertions]]
+kind = "ratio"
+ratio = 2.0
+tolerance = 1e-10
+relative_tolerance = 1e-8
+[[reaction.expect.assertions.samples]]
+step = "after:6"
+metric = "moles:ethyl_acetate"
+vessel = "v1"
+[[reaction.expect.assertions.samples]]
+step = "after:12"
+metric = "moles:ethyl_acetate"
+vessel = "v2"
+[[reaction.expect.assertions]]
+kind = "ratio"
+ratio = 2.0
+tolerance = 1e-10
+relative_tolerance = 1e-8
+[[reaction.expect.assertions.samples]]
+step = "after:6"
+metric = "moles:water"
+vessel = "v1"
+[[reaction.expect.assertions.samples]]
+step = "after:12"
+metric = "moles:water"
+vessel = "v2"
 [reaction.expect.predict]
 question = "Every component in an equilibrium mixture is doubled before the same equilibrium calculation. What should happen to the final amounts?"
 options = ["They stay unchanged because an equilibrium constant fixes amounts", "They double while the equilibrium composition and reaction quotient stay the same"]
@@ -835,7 +902,7 @@ next = "Compare mole fractions and the reaction quotient first, then compare eac
 [reaction.registers]
 lv1 = "Making the whole recipe twice as large makes twice as much of every final substance; it does not change the recipe's balance point."
 lv2 = "The second vessel begins with exactly twice every component. Its reaction quotient and composition match the first, so equilibrium preserves the proportions while extensive amounts double."
-lv3 = "This is homogeneity of the ideal-mixture equilibrium problem under extensive scaling. The current semantic schema has neither ratios nor relative tolerance, so lint verifies the real reaction events but deliberately does not encode the unsafe surrogate claim that two unequal mole values should compare equal."
+lv3 = "This is homogeneity of the ideal-mixture equilibrium problem under extensive scaling. Four semantic ratio assertions require the second vessel's acid, alcohol, ester and water inventories to be twice the first within declared absolute and relative tolerances; the GUI marks species values unavailable until its scene contract can expose them completely."
 [reaction.provenance]
 source = "Original promotion from generic organic-equilibrium scaling controls; no private source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08."
-computed_by = "Kerotakis generic reversible mass-action extent solver; typed reaction-event replay (2:1 relation not expressible by current assertion schema)"
+computed_by = "Kerotakis generic reversible mass-action extent solver; four exact 2:1 final-inventory assertions"
