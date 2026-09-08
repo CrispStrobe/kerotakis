@@ -89,7 +89,9 @@ it had while it was open, which is why a few numbers appear twice below.
   permanganate-strength oxidizer when mixed with hexane or iodide. Rebuilt CI
   then exposed a shared grammar hole: non-finite amounts could enter any
   amount-bearing operator. The common amount parser now rejects both
-  non-finite input and conversion overflow before an operator can be logged.
+  non-finite input and conversion overflow before an operator can be logged;
+  the preserved lesson's derived title also has a German shell-vocabulary
+  entry.
 
 **Coverage contract**
 
