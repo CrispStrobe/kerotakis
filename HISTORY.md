@@ -26,6 +26,18 @@ it had while it was open, which is why a few numbers appear twice below.
   yet authored, the card says so instead of disappearing or inventing a dose;
   the linked lesson remains the executable procedure
 
+**Coverage contract**
+
+- **Curiosity grading** — made `expected` a minimum capability requirement:
+  computed and curated are equal answer grades, either satisfies the other,
+  and both satisfy a qualitative floor; boundaries remain distinct
+- **Route attribution** — successful chemistry-bearing computed routes now
+  outrank observation-shaped asides, while sourced gas tests and ideal-gas
+  pressure readings finally publish explicit route evidence
+- **Comparative corpus** — `mat-003`, `mat-108` and `aq-085` now construct
+  matched conditions; repeated extraction spends the same total solvent in
+  one large or two small portions instead of asking a comparison after one run
+
 **Engine**
 
 - **#537** — `energy_is_conserved` had gone flaky, and the bound was not the

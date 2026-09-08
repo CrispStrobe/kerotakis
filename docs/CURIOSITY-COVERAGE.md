@@ -295,7 +295,7 @@ temperature too; today it walks to −273.1 °C and then says it could not.
 The ranking is by rows-per-unit-effort, and the first item is worth more than
 everything below it combined.
 
-### 1. Define the grades. Zero engine work. 76 → 22.
+### 1. Define the grades. Implemented on `improve/coverage-and-kids-next`.
 
 Two changes to what a mismatch *means*, both of which the repo has already
 argued for in prose without acting on:
@@ -321,7 +321,7 @@ Today, relabelling it `Computed` is net **−7** on the mismatch count (fixes
 argues against a change that may well be correct. Under a merged grade it is
 score-neutral, and can be settled as the measurement it is.
 
-### 2. Let a succeeded computed route outrank the observation short-circuits. 22 → 12.
+### 2. Let a succeeded computed route outrank observation short-circuits. Implemented on `improve/coverage-and-kids-next`.
 
 Ten rows — `aq-111`, `aq-112`, `aq-113`, `aq-114`, `aq-115`, `aq-124`,
 `th-081`, `th-090`, `mat-008`, `aq-037` — have a computed-chemistry route
@@ -345,7 +345,7 @@ reports "sharp, pungent ammonia" — the divergence is already pinned by
 written to fail once a path from solution to headspace exists). The ammonia
 headspace path remains the live engine gap from this pair.
 
-### 4. Give the gas tests and the instruments a route. 10 → 4.
+### 4. Give gas tests and pressure instruments a route. Implemented on `improve/coverage-and-kids-next`.
 
 `aq-035`, `aq-038`, `bio-032` print real curated verdicts — `limewater —
 positive`, with sourced thresholds from `kerotakis-core::gas_tests` — that no
@@ -354,7 +354,7 @@ the precedence is arranged. `th-086`, `th-087`, `th-088` compute an ideal-gas
 pressure in the vessel rather than in a route, with the same consequence.
 Declaring these as routes is a small, mechanical change and closes six rows.
 
-### 5. Rows whose script could not ask their question — scripts repaired.
+### 5. Rows whose script could not ask their question — scripts repaired on `improve/coverage-and-kids-next`.
 
 The comparative rows `mat-003`, `mat-108`, and `aq-085` now build both
 conditions. The first two compare matched vessels; `aq-085` spends the same
