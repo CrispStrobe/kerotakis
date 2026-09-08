@@ -32,15 +32,15 @@
     ],
     "a-salt-with-no-database": [
       "100 mL of water in the first beaker.",
-      "Sodium thiosulfate dissolves into it — the salt this bench can hold and react but cannot place on the pH scale.",
-      "Acid goes in, and its computed pH must be accompanied by the warning that the dissolved thiosulfate contribution is not modeled.",
+      "Sodium thiosulfate dissolves into it — and it speciates, which this bench said for months it could not do.",
+      "Acid goes in. The meter reads 1.8837734312, and the salt is part of that number: at this acidity some of the anion is holding a proton.",
       "A second beaker, for the same acid with no thiosulfate at all.",
       "The same 100 mL of water.",
-      "The same acid goes in alone as a reference; similar computed pH values would not prove that thiosulfate has no real effect on acidity.",
+      "The same acid goes in alone as a reference. It reads 1.7485817507 — a seventh of a unit lower, and the difference is the salt next door.",
       "A third beaker, to ask the question directly.",
       "Water again.",
       "The thiosulfate on its own, with nothing to react with.",
-      "Ask for the pH and the bench says it has no way to work it out. A stated gap is a better answer than a confident number nobody checked."
+      "Ask for the pH and it reads 7.0249045339 — not the alkaline value the textbook rule predicts, because thiosulfuric acid is not weak, and not the 7.00 a program with nothing to say would print. This bench used to print nothing here, and that refusal was wrong."
     ],
     "a-spark-that-changes-nothing": [
       "Five grams of potassium chloride go into the crucible — no water, just the dry salt.",

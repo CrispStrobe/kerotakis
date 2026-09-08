@@ -238,6 +238,17 @@ const BOOKING_OVERRIDES: &[(&str, &str)] = &[
     // rather than optional: the master-species fallback would book matter
     // into `Hypochlorite-`, which nothing downstream can resolve.
     ("Hypochlorite", "ClO-"),
+    // Thiosulfate's master species in the borrowed block is
+    // `Thiosulfate-2`, which PHREEQC insists on because a master species
+    // must contain its element's name; the registry - and every chemist -
+    // writes `S2O3-2`. There is no protonation split beside it, and that
+    // is the citrate precedent rather than an omission: the couple's pKa
+    // is 1.01, so above pH 3 the anion is the whole of the element and
+    // naming the total after it loses nothing. In the practical's beaker
+    // a small fraction is `H(Thiosulfate)-`, which the pH accounts for
+    // and the ledger books under the anion, exactly as minteq's three
+    // citrate constants all book back as `C6H5O7-3`.
+    ("Thiosulfate", "S2O3-2"),
     // Same shape, for the reviewed ligand slice: PHREEQC's component is
     // `Thiocyanate`, the registry's word for the ion is `SCN-`.
     ("Thiocyanate", "SCN-"),
@@ -1007,6 +1018,65 @@ fn extract_borate(counts: &mut BTreeMap<String, f64>) -> Option<f64> {
     Some(b)
 }
 
+/// Thiosulfate, by an exact rule for the reason `extract_hypochlorite`
+/// has one: the greedy machinery would reach into another oxyanion's
+/// oxygen, and #530 proved that is not hypothetical.
+///
+/// What identifies thiosulfate is that it is EXACTLY two sulfurs and
+/// three oxygens - one sulfate-like centre with one of its oxygens
+/// replaced by the second sulfur, which is the whole of why the anion
+/// falls apart into sulfur when it is acidified. A greedy `S2O3` group
+/// would take those counts out of any formula that could spare them, and
+/// the shipped databases are full of formulas that can: `S2O8-2`,
+/// `S2O6-2`, `S2O5-2`, `S2O4-2` and `S4O6-2` all carry two or more
+/// sulfurs and three or more oxygens and none of them is thiosulfate.
+///
+/// **What it excludes, by name.** Sulfite and sulfate (one sulfur, so the
+/// count is wrong before the oxygen is looked at), metabisulfite `S2O5`,
+/// dithionite `S2O4`, persulfate `S2O8`, tetrathionate `S4O6`, pyrite
+/// `FeS2` (no oxygen), and any formula carrying an element that is neither
+/// sulfur, oxygen, hydrogen nor a simple cation - which is what stops it
+/// claiming the oxygen of a nitrate or a carbonate in the same salt. It
+/// runs BEFORE the group loop, like hypochlorite, because the counts it
+/// demands are exact: nothing it accepts could have been claimed by `SO4`
+/// first, which needs four oxygens per sulfur where this has one and a
+/// half.
+///
+/// Hydrogen decides the last case exactly as it does for hypochlorite:
+/// `H2S2O3` is the free acid and carries two protons, while a salt carries
+/// a cation instead and no hydrogen of its own.
+fn extract_thiosulfate(counts: &mut BTreeMap<String, f64>) -> Option<f64> {
+    let sulfur = counts.get("S").copied().unwrap_or(0.0);
+    let oxygen = counts.get("O").copied().unwrap_or(0.0);
+    let hydrogen = counts.get("H").copied().unwrap_or(0.0);
+    if sulfur != 2.0 || oxygen != 3.0 {
+        return None;
+    }
+    if counts
+        .keys()
+        .any(|el| el != "S" && el != "O" && el != "H" && !CATION_RESIDUE.contains(&el.as_str()))
+    {
+        return None;
+    }
+    let has_cation = counts
+        .keys()
+        .any(|el| CATION_RESIDUE.contains(&el.as_str()));
+    let protonation_fits = if has_cation {
+        hydrogen == 0.0
+    } else {
+        hydrogen == 0.0 || hydrogen == 2.0
+    };
+    if !protonation_fits {
+        return None;
+    }
+    counts.remove("S");
+    counts.remove("O");
+    if hydrogen == 2.0 {
+        counts.remove("H");
+    }
+    Some(1.0)
+}
+
 fn contribution_from_counts(
     mut counts: BTreeMap<String, f64>,
     indexes: [&DbIndex; 3],
@@ -1015,6 +1085,10 @@ fn contribution_from_counts(
 
     if let Some(n) = extract_hypochlorite(&mut counts) {
         contrib.push(("Hypochlorite".to_string(), n));
+    }
+
+    if let Some(n) = extract_thiosulfate(&mut counts) {
+        contrib.push(("Thiosulfate".to_string(), n));
     }
 
     for (group_formula, element) in oxyanion_groups() {

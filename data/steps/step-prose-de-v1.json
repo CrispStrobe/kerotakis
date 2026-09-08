@@ -33,15 +33,15 @@
     ],
     "a-salt-with-no-database": [
       "100 mL Wasser in das erste Becherglas.",
-      "Natriumthiosulfat löst sich darin — das Salz, das diese Werkbank halten und umsetzen, aber nicht auf der pH-Skala verorten kann.",
-      "Säure kommt hinzu, und ihr berechneter pH-Wert muss mit dem Hinweis erscheinen, dass der Beitrag des gelösten Thiosulfats nicht modelliert ist.",
+      "Natriumthiosulfat löst sich darin — und es wird speziiert, was diese Werkbank monatelang von sich behauptet hat, nicht zu können.",
+      "Säure kommt hinzu. Das Messgerät zeigt 1,8837734312, und das Salz steckt in dieser Zahl mit drin: Bei dieser Acidität hält ein Teil des Anions ein Proton.",
       "Ein zweites Becherglas, für dieselbe Säure ganz ohne Thiosulfat.",
       "Dieselben 100 mL Wasser.",
-      "Dieselbe Säure kommt allein als Vergleich hinzu; ähnliche berechnete pH-Werte wären kein Beweis dafür, dass Thiosulfat die Acidität tatsächlich nicht beeinflusst.",
+      "Dieselbe Säure kommt allein als Vergleich hinzu. Sie zeigt 1,7485817507 — eine Siebtel-Einheit tiefer, und der Unterschied ist das Salz nebenan.",
       "Ein drittes Becherglas, um die Frage direkt zu stellen.",
       "Wieder Wasser.",
       "Das Thiosulfat für sich, ohne Reaktionspartner.",
-      "Frage nach dem pH-Wert, und die Werkbank sagt, dass sie ihn nicht bestimmen kann. Eine ausgesprochene Lücke ist eine bessere Antwort als eine selbstsichere Zahl, die niemand geprüft hat."
+      "Frage nach dem pH-Wert, und er lautet 7,0249045339 — nicht der alkalische Wert, den die Lehrbuchregel vorhersagt, denn Thiosulfatsäure ist nicht schwach, und nicht die 7,00, die ein Programm ohne Antwort ausgeben würde. Diese Werkbank hat hier früher gar nichts ausgegeben, und diese Verweigerung war falsch."
     ],
     "a-spark-that-changes-nothing": [
       "Fünf Gramm Kaliumchlorid kommen in den Tiegel — kein Wasser, nur das trockene Salz.",

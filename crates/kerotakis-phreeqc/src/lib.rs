@@ -77,8 +77,9 @@ pub mod databases {
     /// Extended natural-water species (incl. Ag, trace metals).
     pub const WATEQ4F: &[u8] = include_bytes!("../../../vendor/iphreeqc/database/wateq4f.dat");
     /// Metals, complexation, sorption. PRIVATE on purpose: everything
-    /// goes through [`minteq_v4()`], which adds the reviewed lactate and
-    /// hypochlorite definitions and the shared reviewed ligand slice. Reading
+    /// goes through [`minteq_v4()`], which adds the reviewed lactate,
+    /// hypochlorite and thiosulfate definitions and the shared reviewed
+    /// ligand slice. Reading
     /// these bytes directly would give a caller a database the engine is not
     /// running.
     const MINTEQ_V4: &[u8] = include_bytes!("../../../vendor/iphreeqc/database/minteq.v4.dat");
@@ -187,6 +188,64 @@ SOLUTION_SPECIES
         log_k 7.5692
 ";
 
+    /// One reviewed anion added to minteq.v4: thiosulfate, the salt the
+    /// disappearing-cross practical is run with.
+    ///
+    /// Another refusal that was a claim about the world, and wrong.
+    /// `species.rs` said "Sodium thiosulfate is in no PHREEQC database we
+    /// ship" and `codex/rates.toml` told a learner the same thing.
+    /// `vendor/iphreeqc/database/llnl.dat` is shipped in this repository
+    /// and carries, at line 229, `S(+2)     S2O3-2    0         S`, with
+    /// the formation at line 739 and `H+ + S2O3-2 = HS2O3-`, `log_k
+    /// 1.0139`, at line 4585. Vendored and not routed is a fair thing to
+    /// say; "in no database we ship" is not.
+    ///
+    /// **A pseudo-element, not sulfur's `S(+2)`.** The same trade
+    /// `HYPOCHLORITE_EXTENSION` makes, and the reason is sharper here.
+    /// llnl enters thiosulfate as a redox STATE of sulfur, one of nine it
+    /// defines between `S(-2)` and `S(+8)`; the three datasets this lab
+    /// routes define exactly two, `S(-2)` and `S(6)`, coupled through pe by
+    /// `SO4-2 + 9 H+ + 8 e- = HS- + 4 H2O`. An open beaker's pe is pinned
+    /// from atmospheric oxygen at about 19.6, and sulfur is not in
+    /// `aqueous::FAST_REDOX`, so nothing would hold the state: the engine
+    /// would oxidise the bottle of hypo to sulfate before the acid arrived
+    /// and report it as the contents of the beaker. Thermodynamically
+    /// defensible over geological time, useless for a practical that runs
+    /// in forty seconds. `Thiosulfate` is therefore its own element with no
+    /// redox partner, as `Lactate` and `Hypochlorite` are. What the
+    /// borrowed number settles is the ACID-BASE behaviour of the anion and
+    /// NOTHING ELSE: not its reducing strength, not the iodine titration,
+    /// not the rate at which acid decomposes it to sulfur. Those are
+    /// curated and stay curated.
+    ///
+    /// **Alkalinity 0, and it is llnl's own column.** Hypochlorite takes 1
+    /// because its acid is weak with pKa 7.57. Thiosulfuric acid is not:
+    /// pKa2 is 1.01 by the constant borrowed here (1.6-1.7 in the
+    /// handbooks), so at the alkalinity endpoint the anion accepts no
+    /// protons at all, exactly as sulfate does. llnl's own row writes 0 in
+    /// that column and this copies it rather than reasoning to it.
+    ///
+    /// **No enthalpy, deliberately** - llnl states `-delta_H 0` for this
+    /// protonation with the comment "Not possible to calculate enthalpy of
+    /// reaction HS2O3-". Zero there means unknown, not athermal, and it is
+    /// the same trade the two extensions above make.
+    ///
+    /// 112.1302 g/mol is 2 S 32.066 + 3 O 15.9994 from IUPAC/CIAAW 2021,
+    /// and agrees with PubChem CID 1084's 112.13. The spelling is
+    /// PHREEQC's, not chemistry's: a master species must contain its
+    /// element's name, so the couple goes in as `Thiosulfate-2` and
+    /// `H(Thiosulfate)-` and `derived::BOOKING_OVERRIDES` maps the element
+    /// onto the registry's `S2O3-2`.
+    const THIOSULFATE_EXTENSION: &[u8] = b"
+SOLUTION_MASTER_SPECIES
+    Thiosulfate   Thiosulfate-2   0   112.1302   112.1302
+SOLUTION_SPECIES
+    Thiosulfate-2 = Thiosulfate-2
+        log_k 0
+    H+ + Thiosulfate-2 = H(Thiosulfate)-
+        log_k 1.0139
+";
+
     /// Byte offset of the final `END` line, which is where a database
     /// stops being read. `None` when the file has none, in which case the
     /// end of the file is the right place after all.
@@ -214,8 +273,9 @@ SOLUTION_SPECIES
     }
 
     /// minteq.v4 as this lab runs it: the vendored file plus
-    /// [`LACTATE_EXTENSION`], [`HYPOCHLORITE_EXTENSION`] and the reviewed
-    /// reference-temperature ligand slice.
+    /// [`LACTATE_EXTENSION`], [`HYPOCHLORITE_EXTENSION`],
+    /// [`THIOSULFATE_EXTENSION`] and the reviewed reference-temperature
+    /// ligand slice.
     ///
     /// Everything that loads or PARSES the database goes through here, so
     /// the engine, the derived index, the element bookings and the
@@ -234,11 +294,15 @@ SOLUTION_SPECIES
             let text = MINTEQ_V4;
             let insert_at = find_last_end(text).unwrap_or(text.len());
             let mut bytes = Vec::with_capacity(
-                text.len() + LACTATE_EXTENSION.len() + HYPOCHLORITE_EXTENSION.len(),
+                text.len()
+                    + LACTATE_EXTENSION.len()
+                    + HYPOCHLORITE_EXTENSION.len()
+                    + THIOSULFATE_EXTENSION.len(),
             );
             bytes.extend_from_slice(&text[..insert_at]);
             bytes.extend_from_slice(LACTATE_EXTENSION);
             bytes.extend_from_slice(HYPOCHLORITE_EXTENSION);
+            bytes.extend_from_slice(THIOSULFATE_EXTENSION);
             bytes.extend_from_slice(&text[insert_at..]);
             super::aqueous_gases::append_to(&super::complexation::append_to(&bytes))
         })

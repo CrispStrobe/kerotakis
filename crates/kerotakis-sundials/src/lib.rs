@@ -238,7 +238,12 @@ mod tests {
     fn test_cvode_zero_duration() {
         let mut vessel = vessel_with(
             &[
-                ("Na2S2O3", 0.1, Phase::Aqueous),
+                ("S2O3-2", 0.1, Phase::Aqueous),
+                // The sodium the salt brings with it: a hand-built vessel
+                // that names the ion has to be electroneutral, or the
+                // represented-acid bookkeeping reads a beaker that holds
+                // base. See `kinetics::tests::thiosulfate`.
+                ("Na+", 0.2, Phase::Aqueous),
                 ("HCl", 0.1, Phase::Aqueous),
             ],
             25.0,
@@ -255,7 +260,8 @@ mod tests {
         // as diffsol for the thiosulfate-acid reaction
         let mut vessel_cvode = vessel_with(
             &[
-                ("Na2S2O3", 0.1, Phase::Aqueous),
+                ("S2O3-2", 0.1, Phase::Aqueous),
+                ("Na+", 0.2, Phase::Aqueous),
                 ("HCl", 0.2, Phase::Aqueous),
             ],
             25.0,

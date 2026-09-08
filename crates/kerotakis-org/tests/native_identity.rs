@@ -65,12 +65,18 @@ fn the_tranche_only_grows_deliberately() {
         // PubChem writes the anion as a charged skeleton, so the first
         // block differs and the suffix stays -N. Recomputing both from
         // their SMILES is what makes the registry rows checkable rather
-        // than quoted. The borate work adds `H3BO3` and `H2BO3-` for the
-        // same reason: dihydrogenborate's first block is URSLCTBXQMKCFE
-        // and boric acid's is KGBXLFKZBHKPEV, so once again the anion is
-        // not the acid's key with a character changed, and once again the
-        // pattern is convincing enough to guess wrong from.
-        112,
+        // than quoted. Three more rows join for that reason, and between
+        // them they show the trap has no single shape. The borate pair,
+        // `H3BO3` and `H2BO3-`: dihydrogenborate's first block is
+        // URSLCTBXQMKCFE and boric acid's is KGBXLFKZBHKPEV, so the anion
+        // is again NOT the acid's key with a character changed. And
+        // `S2O3-2`, which fails the other way: PubChem's `thiosulfate` BY
+        // NAME is the monoanion at -M while the dianion this bench books
+        // is -L, and there the two first blocks ARE shared with the acid.
+        // Two pairs, two opposite patterns, and no way to infer either
+        // from the other - so every key is fetched and every one is
+        // recomputed here.
+        113,
         "structures were added or removed — update this pin and say why \
          in the same commit"
     );

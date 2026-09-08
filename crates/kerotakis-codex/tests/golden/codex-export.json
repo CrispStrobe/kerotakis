@@ -8166,8 +8166,8 @@
           ]
         },
         "ph": {
-          "min": 1.82,
-          "max": 1.88
+          "min": 1.95,
+          "max": 2.01
         },
         "temperature_c": null
       },
@@ -8281,8 +8281,8 @@
           ]
         },
         "ph": {
-          "min": 1.7,
-          "max": 1.8
+          "min": 1.86,
+          "max": 1.92
         },
         "temperature_c": null
       },
@@ -8387,8 +8387,8 @@
           ]
         },
         "ph": {
-          "min": 2.7,
-          "max": 2.76
+          "min": 2.83,
+          "max": 2.89
         },
         "temperature_c": null
       },
@@ -8494,8 +8494,8 @@
           ]
         },
         "ph": {
-          "min": 1.82,
-          "max": 1.88
+          "min": 1.95,
+          "max": 2.01
         },
         "temperature_c": {
           "min": 24.5,
@@ -9218,8 +9218,8 @@
           ]
         },
         "ph": {
-          "min": 2.09,
-          "max": 2.15
+          "min": 2.22,
+          "max": 2.28
         },
         "temperature_c": {
           "min": 24.5,
@@ -9244,8 +9244,8 @@
       "id": "a-salt-with-no-database",
       "progress": "intermediate",
       "equation": null,
-      "summary": "An unrepresented soluble ion must not inherit pure water's pH",
-      "summary_de": "Ein nicht dargestelltes lösliches Ion darf nicht den pH von reinem Wasser erben",
+      "summary": "The refusal was the error. llnl.dat is shipped here and defines the ion, so the salt speciates: 7.0249045339 alone, and the acid control moves from 1.7485817507 to 1.8837734312",
+      "summary_de": "Die Verweigerung war der Fehler. llnl.dat wird hier mit ausgeliefert und definiert das Ion, das Salz wird also speziiert: 7,0249045339 allein, und die Säurekontrolle wandert von 1,7485817507 auf 1,8837734312",
       "concepts": [
         "species-without-a-database"
       ],
@@ -9292,61 +9292,71 @@
       },
       "expect": {
         "events": [
-          "not_yet_modelled",
-          "added:Na2S2O3"
+          "added:Na2S2O3",
+          "measured"
         ],
         "absent": [
           "solver_failed",
-          "dissolved:Na2S2O3"
+          "not_yet_modelled"
         ],
         "predict": {
-          "question": "What should a pH tool do when the added soluble salt has no integrated aqueous speciation model?",
-          "question_de": "Was soll ein pH-Werkzeug tun, wenn für das zugegebene lösliche Salz kein integriertes wässriges Speziationsmodell vorliegt?",
+          "question": "A tool reports that it has no speciation data for a salt you added. What is the check that this claim is true?",
+          "question_de": "Ein Werkzeug meldet, es habe keine Speziationsdaten für ein zugegebenes Salz. Wie prüft man, ob diese Behauptung stimmt?",
           "options": [
-            "Guess a plausible alkaline value",
-            "Report pure water's pH as though the salt were neutral",
-            "Disclose the missing ionic contribution and withhold a complete salt-only pH"
+            "Accept it: a tool that declines to answer is being honest, and honesty is the point",
+            "Compare with a textbook value and accept the refusal if the two disagree",
+            "Search the data the tool actually ships for the species, by name, and read what it says",
+            "Add more of the salt and see whether the refusal changes"
           ],
           "options_de": [
-            "Einen plausiblen alkalischen Wert schätzen",
-            "Den pH von reinem Wasser ausgeben, als wäre das Salz neutral",
-            "Den fehlenden Ionenbeitrag nennen und einen vollständigen pH nur für das Salz verweigern"
+            "Sie akzeptieren: Ein Werkzeug, das keine Antwort gibt, ist ehrlich, und darum geht es",
+            "Mit einem Lehrbuchwert vergleichen und die Verweigerung akzeptieren, wenn beide nicht übereinstimmen",
+            "Die Daten, die das Werkzeug tatsächlich mitliefert, namentlich nach der Spezies durchsuchen und lesen, was dort steht",
+            "Mehr von dem Salz zugeben und sehen, ob sich die Verweigerung ändert"
           ],
           "answer": 2,
-          "misconception": "Accepting material and predicting its equilibrium are separate capabilities. A plausible number is not evidence that the missing chemistry was computed.",
-          "misconception_de": "Material anzunehmen und sein Gleichgewicht vorherzusagen sind verschiedene Fähigkeiten. Eine plausible Zahl belegt nicht, dass die fehlende Chemie berechnet wurde.",
+          "misconception": "A refusal is a claim about the world. It reaches you as a fact, it can be wrong in exactly the way a computed number can be wrong, and unlike a computed number nobody ever re-derives it. This bench said for months that sodium thiosulfate was in no PHREEQC database it shipped. `vendor/iphreeqc/database/llnl.dat` is shipped in this repository; line 229 reads `S(+2)  S2O3-2  0  S` and line 4585 `H+ + S2O3-2 = HS2O3-`. The check that would have caught it is one `grep` in one directory, and declining to answer is only honest while the reason for declining is still true.",
+          "misconception_de": "Eine Verweigerung ist eine Behauptung über die Welt. Sie erreicht dich als Tatsache, sie kann genauso falsch sein wie eine berechnete Zahl, und anders als eine berechnete Zahl leitet sie niemand je neu her. Dieses Labor sagte monatelang, Natriumthiosulfat komme in keiner von ihm ausgelieferten PHREEQC-Datenbank vor. `vendor/iphreeqc/database/llnl.dat` wird in diesem Repository mit ausgeliefert; Zeile 229 lautet `S(+2)  S2O3-2  0  S` und Zeile 4585 `H+ + S2O3-2 = HS2O3-`. Die Prüfung, die das aufgedeckt hätte, ist ein `grep` in einem Verzeichnis, und keine Antwort zu geben ist nur so lange ehrlich, wie der Grund dafür noch zutrifft.",
           "diagnosis": [
             {
               "option": 0,
-              "reveals": "A remembered qualitative expectation is treated as a computed measurement.",
-              "reveals_de": "Eine erinnerte qualitative Erwartung wird als berechnete Messung behandelt.",
-              "next": "Ask which species, equilibria and data support the number before accepting it.",
-              "next_de": "Frage nach den Spezies, Gleichgewichten und Daten hinter der Zahl, bevor du sie akzeptierst.",
+              "reveals": "A stated gap is treated as self-verifying, because a tool has nothing to gain by inventing one.",
+              "reveals_de": "Eine ausgesprochene Lücke wird als selbstbestätigend behandelt, weil ein Werkzeug nichts davon hat, sich eine auszudenken.",
+              "next": "It has nothing to gain and it can still be wrong. A gap is a claim that data does not exist, and that claim goes stale the moment the data ships or the wiring reaches it. What was missing here was never data: the element was in the file and no code path asked for it.",
+              "next_de": "Es hat nichts davon und kann trotzdem falsch liegen. Eine Lücke ist die Behauptung, dass Daten nicht existieren, und diese Behauptung veraltet in dem Moment, in dem die Daten mitgeliefert werden oder die Verdrahtung sie erreicht. Hier fehlten nie Daten: Das Element stand in der Datei, und kein Codepfad hat danach gefragt.",
               "source": null
             },
             {
               "option": 1,
-              "reveals": "Unrepresented ions are treated as a nonionic solute.",
-              "reveals_de": "Nicht dargestellte Ionen werden wie ein nichtionischer gelöster Stoff behandelt.",
-              "next": "Compare the salt-only vessel with the represented acid control and read the model-boundary notice.",
-              "next_de": "Vergleiche das Gefäß nur mit Salz mit der dargestellten Säurekontrolle und lies den Hinweis auf die Modellgrenze.",
+              "reveals": "The textbook is treated as the arbiter of whether the tool has data.",
+              "reveals_de": "Das Lehrbuch wird zum Schiedsrichter darüber gemacht, ob das Werkzeug Daten hat.",
+              "next": "Two separate questions. The textbook rule for this salt says a solution of it is alkaline, and the computed answer is 7.0249045339 - so the textbook and the tool disagree, and the tool is right: thiosulfuric acid is not a weak acid, pKa2 about 1.0, so its anion barely hydrolyses. Disagreement with a rule of thumb is not evidence about what a program's data contains.",
+              "next_de": "Zwei getrennte Fragen. Die Lehrbuchregel für dieses Salz sagt, seine Lösung sei alkalisch, und der berechnete Wert ist 7,0249045339 — Lehrbuch und Werkzeug widersprechen sich also, und das Werkzeug hat recht: Thiosulfatsäure ist keine schwache Säure, pKs₂ etwa 1,0, ihr Anion hydrolysiert also kaum. Ein Widerspruch zu einer Faustregel sagt nichts darüber aus, welche Daten ein Programm enthält.",
+              "source": null
+            },
+            {
+              "option": 3,
+              "reveals": "The refusal is treated as a threshold effect that more material might cross.",
+              "reveals_de": "Die Verweigerung wird als Schwelleneffekt gedeutet, den mehr Material überschreiten könnte.",
+              "next": "A missing equilibrium constant is missing at every concentration. What DOES change with the amount is the thing worth measuring: this salt shifts the acid control from 1.7485817507 to 1.8837734312 and its ionic strength from 0.02006018054 to 0.16490617732, which is how you tell a computed number from a default in the first place.",
+              "next_de": "Eine fehlende Gleichgewichtskonstante fehlt bei jeder Konzentration. Was sich mit der Menge SEHR WOHL ändert, ist genau das, was zu messen sich lohnt: Dieses Salz verschiebt die Säurekontrolle von 1,7485817507 auf 1,8837734312 und ihre Ionenstärke von 0,02006018054 auf 0,16490617732 — und genau daran unterscheidet man eine berechnete Zahl von einem Vorgabewert.",
               "source": null
             }
           ]
         },
         "ph": {
-          "min": 1.7,
-          "max": 1.8
+          "min": 1.84,
+          "max": 1.93
         },
         "temperature_c": null
       },
       "registers": {
-        "lv1": "The bench can hold this salt without pretending it knows every effect of the dissolved ions.",
-        "lv1_de": "Das Labor kann dieses Salz enthalten, ohne vorzutäuschen, jede Wirkung der gelösten Ionen zu kennen.",
-        "lv2": "The represented acid can still be characterized, but its pH excludes the missing thiosulfate contribution and must say so. Salt alone must not receive a silently inherited pure-water pH.",
-        "lv2_de": "Die dargestellte Säure kann weiterhin charakterisiert werden; ihr pH lässt den fehlenden Thiosulfatbeitrag jedoch aus und muss das offenlegen. Das Salz allein darf keinen stillschweigend übernommenen Reinwasser-pH erhalten.",
-        "lv3": "Thiosulfate's kinetic inventory and its missing aqueous equilibrium slice are separate ownership questions. Keeping a soluble salt in the inventory is not a speciation calculation; the generic ionic-coverage gate distinguishes it from water and neutral nonionic solutes.",
-        "lv3_de": "Das kinetische Thiosulfatinventar und sein fehlendes wässriges Gleichgewichtsmodell sind getrennte Zuständigkeiten. Ein lösliches Salz im Inventar zu erhalten ist keine Speziationsrechnung; die allgemeine Ionen-Abdeckungsprüfung unterscheidet es von Wasser und neutralen nichtionischen Stoffen."
+        "lv1": "This bench used to say it could not work out what this salt does to acidity, and that was a better answer than a confident number nobody checked - right up until somebody checked it, and found the data in one of the lab's own files. Saying you do not know is honest. Going back to find out whether you still do not is the other half of the same honesty.",
+        "lv1_de": "Dieses Labor sagte früher, es könne nicht bestimmen, was dieses Salz mit der Acidität macht, und das war eine bessere Antwort als eine selbstsichere Zahl, die niemand geprüft hat — genau bis jemand sie geprüft und die Daten in einer der eigenen Dateien des Labors gefunden hat. Zu sagen, dass man etwas nicht weiß, ist ehrlich. Nachzusehen, ob man es immer noch nicht weiß, ist die andere Hälfte derselben Ehrlichkeit.",
+        "lv2": "Three beakers. The acid alone reads 1.7485817507. The same acid with the salt in it reads 1.8837734312, because part of the anion holds a proton at this acidity, and its ionic strength goes from 0.02006018054 to 0.16490617732. The salt alone reads 7.0249045339 - not the alkaline value the textbook rule for a salt of a weak acid predicts, because thiosulfuric acid is not weak, and not the 7.00 a program with nothing to say would print.",
+        "lv2_de": "Drei Bechergläser. Die Säure allein zeigt 1,7485817507. Dieselbe Säure mit dem Salz darin zeigt 1,8837734312, weil bei dieser Acidität ein Teil des Anions ein Proton hält, und ihre Ionenstärke geht von 0,02006018054 auf 0,16490617732. Das Salz allein zeigt 7,0249045339 — nicht den alkalischen Wert, den die Lehrbuchregel für das Salz einer schwachen Säure vorhersagt, denn Thiosulfatsäure ist nicht schwach, und nicht die 7,00, die ein Programm ohne Antwort ausgeben würde.",
+        "lv3": "The entry keeps the name of the mistake. The claim it used to teach was that thiosulfate had no aqueous equilibrium slice in any shipped dataset; vendor/iphreeqc/database/llnl.dat is shipped here and carries `S(+2)  S2O3-2  0  S` at line 229 and `H+ + S2O3-2 = HS2O3-  log_k 1.0139` at line 4585. databases::minteq_v4() borrows that constant as the pseudo-element `Thiosulfate`, deliberately NOT as sulfur's S(+2) redox state: the routed datasets define only S(-2) and S(6), coupled through pe, and an open beaker's pe is pinned near 19.6 by atmospheric oxygen, so as a genuine oxidation state the bottle would have oxidised itself to sulfate before the acid arrived. The borrowed number settles acid-base behaviour and nothing else - the reducing chemistry and the decomposition rate stay curated. The rate law was re-keyed onto `S2O3-2` in the same change, because a solved beaker holds that and no `Na2S2O3`, and its calibrated pre-exponential was re-fitted from 2.2e8 to 3.0e8 to hold the forty-second observable against the new proton activity.",
+        "lv3_de": "Der Eintrag behält den Namen des Fehlers. Was er früher lehrte, war, Thiosulfat habe in keinem mitgelieferten Datensatz ein wässriges Gleichgewichtsmodell; `vendor/iphreeqc/database/llnl.dat` wird hier mit ausgeliefert und führt `S(+2)  S2O3-2  0  S` in Zeile 229 und `H+ + S2O3-2 = HS2O3-  log_k 1.0139` in Zeile 4585. databases::minteq_v4() übernimmt diese Konstante als Pseudoelement `Thiosulfate`, bewusst NICHT als Schwefels Redoxstufe S(+2): Die verwendeten Datensätze kennen nur S(-2) und S(6), über pe gekoppelt, und das pe eines offenen Becherglases liegt durch Luftsauerstoff bei etwa 19,6 — als echte Oxidationsstufe hätte sich die Flasche zu Sulfat oxidiert, bevor die Säure da war. Die übernommene Zahl klärt das Säure-Base-Verhalten und sonst nichts; die reduzierende Chemie und die Zerfallsgeschwindigkeit bleiben kuratiert. Im selben Zug wurde das Geschwindigkeitsgesetz auf `S2O3-2` umgeschlüsselt, weil ein gelöstes Becherglas dieses hält und kein `Na2S2O3`, und sein kalibrierter Vorfaktor von 2,2e8 auf 3,0e8 nachgeführt, damit die Vierzig-Sekunden-Beobachtung gegen die neue Protonenaktivität erhalten bleibt."
       },
       "provenance": {
         "source": "Existing Kerotakis calibrated thiosulfate rate parameters and PHREEQC aqueous data; original stoichiometric and model-boundary review, model-assisted editorial revision 2026-09-06. No new empirical constant imported.",
