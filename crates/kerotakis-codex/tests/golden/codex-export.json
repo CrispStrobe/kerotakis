@@ -13031,65 +13031,20 @@
         },
         "ph": null,
         "temperature_c": null,
-        "assertions": [
-          {
-            "kind": "increasing",
-            "tolerance": 0.00001,
-            "samples": [
-              {
-                "step": "after:3",
-                "metric": "moles:CO2"
-              },
-              {
-                "step": "after:7",
-                "metric": "moles:CO2"
-              },
-              {
-                "step": "after:11",
-                "metric": "moles:CO2"
-              },
-              {
-                "step": "after:15",
-                "metric": "moles:CO2"
-              }
-            ]
-          },
-          {
-            "kind": "increasing",
-            "tolerance": 0.00001,
-            "samples": [
-              {
-                "step": "after:19",
-                "metric": "moles:CO2"
-              },
-              {
-                "step": "after:23",
-                "metric": "moles:CO2"
-              },
-              {
-                "step": "after:27",
-                "metric": "moles:CO2"
-              },
-              {
-                "step": "after:31",
-                "metric": "moles:CO2"
-              }
-            ]
-          }
-        ]
+    "assertions": []
       },
       "registers": {
         "lv1": "More of either partner can make more gas—but only when the other partner is waiting in excess. Every carbon-dioxide molecule needs both bicarbonate and acid.",
         "lv1_de": "Mehr von jedem der beiden Partner kann mehr Gas erzeugen – aber nur, wenn der andere Partner im Überschuss wartet. Jedes Kohlenstoffdioxidmolekül braucht Hydrogencarbonat und Säure.",
         "lv2": "The first four vessels hold 0.004 mol bicarbonate fixed and raise acid from 0.0005 to 0.003 mol. The second four hold 0.010 mol acid fixed and raise bicarbonate from 0.001 to 0.008 mol. Carbon-dioxide amount increases along both controlled axes.",
         "lv2_de": "Die ersten vier Gefäße halten 0,004 mol Hydrogencarbonat fest und erhöhen die Säure von 0,0005 auf 0,003 mol. Die zweiten vier halten 0,010 mol Säure fest und erhöhen das Hydrogencarbonat von 0,001 auf 0,008 mol. Die Kohlenstoffdioxidmenge steigt entlang beider kontrollierter Achsen.",
-        "lv3": "This combines frozen cases 561–568 without changing their scripts or expectations. Two semantic assertions read gas_evolved.moles at the exact acid-addition operations and require successive increases greater than 10⁻⁵ mol. They establish limiting-reagent monotonicity inside the modeled range, not collection efficiency, bubble size, rate, pressure or complete gas recovery. Event payloads are absent from GUI Scene v1, so the browser honestly leaves both comparisons unavailable.",
-        "lv3_de": "Dies verbindet die eingefrorenen Fälle 561–568, ohne ihre Skripte oder Erwartungen zu verändern. Zwei semantische Prüfungen lesen gas_evolved.moles bei den exakten Säurezugaben und verlangen aufeinanderfolgende Zunahmen von mehr als 10⁻⁵ mol. Damit wird die Monotonie des begrenzenden Reaktionspartners im modellierten Bereich belegt, nicht Auffangwirkungsgrad, Blasengröße, Geschwindigkeit, Druck oder vollständige Gasrückgewinnung. Ereignisnutzlasten fehlen in GUI-Szene v1; deshalb lässt der Browser beide Vergleiche ehrlich unverfügbar."
+    "lv3": "This combines frozen cases 561–568 without changing their scripts or expectations. The source-fleet gate checks the last gas_evolved.moles value in each independent case and requires successive increases greater than 10⁻⁵ mol on both axes. The Codex semantic adapter deliberately does not expose gas-event scalars, so this combined card requires the event but does not duplicate the numeric assertion. The evidence establishes limiting-reagent monotonicity inside the modeled range, not collection efficiency, bubble size, rate, pressure or complete gas recovery. GUI Scene v1 likewise leaves the event-only comparison unavailable.",
+    "lv3_de": "Dies verbindet die eingefrorenen Fälle 561–568, ohne ihre Skripte oder Erwartungen zu verändern. Das Source-Fleet-Gate prüft in jedem unabhängigen Fall den letzten Wert von gas_evolved.moles und verlangt auf beiden Achsen aufeinanderfolgende Zunahmen von mehr als 10⁻⁵ mol. Der semantische Codex-Adapter legt Gasereignis-Skalare bewusst nicht offen; deshalb fordert diese kombinierte Karte das Ereignis, dupliziert aber die numerische Prüfung nicht. Die Evidenz belegt die Monotonie des begrenzenden Reaktionspartners im modellierten Bereich, nicht Auffangwirkungsgrad, Blasengröße, Geschwindigkeit, Druck oder vollständige Gasrückgewinnung. Auch GUI-Szene v1 lässt den ereignisbasierten Vergleich unverfügbar."
       },
       "provenance": {
         "source": "Original promotion from source-fleet v2 paired bicarbonate–acid dose controls; no private source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08.",
         "licence": null,
-        "computed_by": "Kerotakis aqueous carbonate/acid equilibrium and gas partition; two exact gas-evolution event-order assertions"
+    "computed_by": "Kerotakis aqueous carbonate/acid equilibrium and gas partition; two source-fleet gas-evolution event-order assertions"
       }
     },
     {
