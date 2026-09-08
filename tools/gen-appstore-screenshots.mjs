@@ -72,17 +72,41 @@ if (!SOURCE.startsWith("http")) {
 }
 const page = await browser();
 
+/** Wait past Chrome's initial about:blank load before using origin storage. */
+const waitForCommittedDocument = async (url) => {
+  const expected = new URL(url);
+  const deadline = Date.now() + 30000;
+  while (Date.now() < deadline) {
+    try {
+      const ready = await page.evaluate(`(() =>
+        location.origin === ${JSON.stringify(expected.origin)}
+        && location.pathname.replace(/\\/+$/, "") === ${JSON.stringify(expected.pathname.replace(/\/+$/, ""))}
+        && location.search === ${JSON.stringify(expected.search)}
+        && document.readyState === "complete"
+      )()`);
+      if (ready) return;
+    } catch {
+      // Runtime contexts are briefly unavailable while navigation commits.
+    }
+    await new Promise((resolve) => setTimeout(resolve, 100));
+  }
+  throw new Error(`navigation did not commit: ${url}`);
+};
+
 /** Type a line into the command bar and wait for the engine to answer. */
 const run = async (line) => {
+  const ready = await waitFor(page, `!!document.querySelector('form.bar input')`,
+                              { timeout: 30000 });
+  if (!ready) throw new Error("command bar did not become ready");
   await page.evaluate(`(() => {
-    const input = document.querySelector('form.bar input[aria-label="command"]');
+    const input = document.querySelector('form.bar input');
     if (!input) throw new Error("no command bar");
     Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")
       .set.call(input, ${JSON.stringify(line)});
     input.dispatchEvent(new Event("input", { bubbles: true }));
     input.form.dispatchEvent(new SubmitEvent("submit", { bubbles: true, cancelable: true }));
   })()`);
-  await waitFor(page, `!document.querySelector('form.bar input[aria-label="command"]').disabled`,
+  await waitFor(page, `!document.querySelector('form.bar input').disabled`,
                 { timeout: 90000 });
 };
 
@@ -97,14 +121,24 @@ try {
         deviceScaleFactor: shot.scale, mobile: shot.mobile,
       }, page.sessionId);
 
-      await page.goto(`${origin.replace(/\/$/, "")}/app/`);
+      const appBase = `${origin.replace(/\/$/, "")}/app/`;
+      const identity = `${locale}-${shot.family}`;
+      const primeUrl = `${appBase}?appstore-shot=${encodeURIComponent(identity)}-prime`;
+      const appUrl = `${appBase}?appstore-shot=${encodeURIComponent(identity)}-capture`;
+      await page.goto(primeUrl);
+      await waitForCommittedDocument(primeUrl);
       // Locale and console preference are set before the photographed boot,
       // exactly as returning readers have them stored on-device.
       await page.evaluate(`(() => {
+        // The screenshot browser is disposable. Start every device capture
+        // from the same empty lab instead of restoring the preceding shot's
+        // autosaved vessel and appending another experiment to it.
+        localStorage.clear();
         localStorage.setItem("kerotakis.console.v1", "shown");
         localStorage.setItem("kerotakis.locale", ${JSON.stringify(locale.split("-")[0])});
       })()`);
-      await page.goto(`${origin.replace(/\/$/, "")}/app/`);
+      await page.goto(appUrl);
+      await waitForCommittedDocument(appUrl);
       const entered = await waitFor(page, `(() => {
         const chooser = [...document.querySelectorAll('h1, h2')]
           .some((h) => /Where do you want to work|Wo möchtest du/i.test(h.textContent || ""));
