@@ -1,8 +1,13 @@
+export type MissionProgress = "starter" | "intermediate" | "advanced";
+
 export type MissionSummary = {
   file: string;
   name: string;
   blurb?: string;
   topic?: string;
+  /** Authored learning depth. It labels a mission but never changes which
+   * district is open; district completion remains the sole unlock rule. */
+  progress?: MissionProgress;
   /** Shelf keys the lesson's own commands use, from `tools/lessons-index.py`.
    * The `.lab` file stays authoritative; this is rebuilt for every payload. */
   kit?: string[];

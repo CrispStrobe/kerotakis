@@ -825,6 +825,13 @@ numbers are never re-bound.
   nonionic-water repairs await the authoritative replay. Post-218 runs, further
   repairs, reviewed promotion and bilingual presentation remain open. The
   license/source-to-case survey is private and outside Git by policy.
+  **Completion 2026-09-08:** PR #542 landed the complete programme on `main`.
+  GitHub's revision-bound run passed all 404 checks: 66 for frozen cases
+  195–218 and 338 for the ten source-informed families, covering all 240
+  scripts 219–458. The reviewed promotion tranche adds three guided
+  Experiments, five Codex investigations and one Mission; parameter variants
+  remain audit evidence. All promoted material is original EN/DE prose and is
+  classified by learning progress, never age.
 
 ## Declined items (all corpora, recorded with reasons)
 

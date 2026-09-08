@@ -47,3 +47,20 @@ The aggregate gate requires exactly 240 unique IDs and scripts, a contiguous
 range 219–458, ten family reports, and the frozen total check count. Only
 distinct reviewed concepts enter Experiments/Codex/Missions; parameter variants
 remain regression evidence.
+
+## Promotion ledger
+
+The first reviewed tranche promotes nine distinct teaching ideas without
+copying parameter variants or exposing private source mappings:
+
+- Experiments K61–K63: hot-water fraction, electrolyte concentration after
+  mixing, and non-mutating repeated measurements.
+- Codex: mixture feed-side invariance, equivalent evaporation paths,
+  energy-budget distillation, equilibrium feed-order invariance, and
+  equilibrium idempotence.
+- Missions: whole versus staged salt-solution transfer, classified as
+  intermediate learning progress while retaining the existing district gate.
+
+The original manifests and all relations remain the stronger regression
+evidence; catalog replay is a learner-facing representative, not a replacement
+for the fleet.

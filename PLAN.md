@@ -33,6 +33,16 @@ appearances or changes scientific behavior.
   (GUI-xxx, BRD-xxx, EXP-xxx, CAP-xxx, KID-xx, ARCH-xxx) are **never
   renumbered and never reused**; a completed item keeps its number and date.
 - **HISTORY.md** — what landed and what was learned, newest first.
+
+## Current experiment-expansion checkpoint (2026-09-08)
+
+The source-informed audit programme is complete on `main`: 24 frozen sixth-
+fleet cases plus 240 original source-informed scripts passed 404 execution and
+relation checks on GitHub CI, keeping the deployment VPS out of the build/run
+path. The first distinct-concept promotion is confined to the existing
+Experiments, Codex and Missions surfaces: three guided investigations, five
+Codex cards and one Mission. Learning progress is authored explicitly; source
+URLs and source-to-case research mappings remain private.
 - **`tests/coverage/curiosity-v1/README.md`** — the corpus refresh log. It is a
   test artefact, not a planning file; leave it alone.
 - **`docs/CURIOSITY-COVERAGE.md`** — the standing analysis of that corpus: the

@@ -58,6 +58,14 @@ it had while it was open, which is why a few numbers appear twice below.
   landing the tree whole would have more than doubled that to carry records of
   runs that had already happened
 
+**Source-informed experiment programme**
+
+- PR #542 landed a GitHub-built, revision-bound chemistry audit: frozen cases
+  195–218 passed 66/66 checks and 240 original cases 219–458 passed 338/338.
+  The first catalog tranche then selected nine distinct ideas: K61–K63, five
+  runnable Codex cards and one intermediate staged-transfer Mission, all on
+  the existing bilingual Experiments/Codex/Missions surfaces. Private source
+  mappings remain outside Git; variants remain regression evidence.
 
 **Source-fleet coverage audit**
 

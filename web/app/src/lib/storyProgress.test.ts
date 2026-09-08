@@ -54,6 +54,21 @@ describe("story progression", () => {
       .toEqual(missions.map((mission) => mission.file).sort());
   });
 
+  it("preserves authored learning progress without turning it into a gate", () => {
+    const staged: MissionSummary = {
+      file: "follow-the-salt-through-staged-transfers.lab",
+      name: "follow the salt through staged transfers",
+      topic: "separations",
+      progress: "intermediate",
+    };
+    const dock = storyDistricts([...missions, staged], new Set())
+      .find((district) => district.id === "systems-dock")!;
+    expect(dock.unlocked).toBe(false);
+    expect(dock.missions).toContainEqual(staged);
+    expect(missionAvailability([...missions, staged], new Set(), staged))
+      .toEqual({ unlocked: false, remaining: 4 });
+  });
+
   it("selects an active continuation, then the first unlocked incomplete mission", () => {
     expect(nextUnlockedMission(missions, new Set(), "never-mix")?.file).toBe("never-mix.lab");
     expect(nextUnlockedMission(missions, new Set(["silver-and-salt"]))?.file).toBe("never-mix.lab");

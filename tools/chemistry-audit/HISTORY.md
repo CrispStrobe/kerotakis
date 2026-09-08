@@ -5,6 +5,15 @@ JSON, NDJSON, stderr, hashes and test logs remain in their evidence directories.
 Counts describe the recorded revision and declared model domain, not universal
 experimental accuracy.
 
+## 2026-09-08 — first catalog promotion
+
+After PR #542 passed and merged, nine distinct concepts were selected from the
+240-case source-informed fleet. Three became guided Experiments (K61–K63), five
+became runnable Codex cards, and one became a staged-transfer Mission. The GUI
+receives ingredients, apparatus, safety/boundary detail, complete German prose
+and explicit learning-progress metadata through those existing surfaces. No
+parameter-only duplicate or private source mapping entered the public catalog.
+
 ## 2026-09-08 — source-informed continuation begins
 
 PR #542 moved frozen cases 195–218 to an authoritative GitHub runner so the

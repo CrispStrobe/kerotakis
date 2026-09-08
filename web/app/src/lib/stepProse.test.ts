@@ -141,11 +141,11 @@ class WalkBench implements RunnerBench {
  * The unified catalogue is the reason this walk exists at all: a guided
  * card whose run resolves to a codex script inherits that script's prose,
  * and the two halves of the library must not disagree about which line a
- * sentence belongs to. So the walk is over the guided sixty, resolved by
+ * sentence belongs to. So the walk is over all guided entries, resolved by
  * `catalogEntries`, run by `runCatalogEntry`, with the prose handed in
  * exactly as the panel hands it in.
  */
-describe("all sixty guided experiments still run, prose or no prose", () => {
+describe("all sixty-three guided experiments still run, prose or no prose", () => {
   const prose = parseStepProse(shipped);
   const entries = catalogEntries(codex, guided, {
     locale: "en",
@@ -154,7 +154,7 @@ describe("all sixty guided experiments still run, prose or no prose", () => {
   }).filter((entry) => entry.source === "guided");
 
   it("is the whole guided catalogue, and every card has an action", () => {
-    expect(entries).toHaveLength(60);
+    expect(entries).toHaveLength(63);
     expect(entries.filter((entry) => entry.run.kind === "boundary" && entry.status === "computed")).toEqual([]);
   });
 

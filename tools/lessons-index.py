@@ -33,8 +33,16 @@ TOPICS = {
     "gases & pressure": ["sealed-gas"],
     "rates": ["elephant-toothpaste", "yeast-fermentation", "rates",
               "luminol-temperature"],
-    "separations": ["water-filter", "spirit-still", "transport-column"],
+    "separations": ["water-filter", "spirit-still", "transport-column",
+                    "follow-the-salt-through-staged-transfers"],
     "safety": ["never-mix"],
+}
+
+# Learning progress is authored independently of district unlocking.  Most of
+# the older missions predate this metadata; new promotions state it explicitly
+# instead of deriving it from apparatus, safety, or the learner's age.
+PROGRESS = {
+    "follow-the-salt-through-staged-transfers": "intermediate",
 }
 
 # A collection says what the existing lesson can demonstrate and, separately,
@@ -93,6 +101,8 @@ def index(directory: pathlib.Path) -> list[dict]:
             # authoritative; this field is rebuilt for every payload.
             "kit": lesson_kit(text),
         }
+        if p.stem in PROGRESS:
+            entry["progress"] = PROGRESS[p.stem]
         entry.update(COLLECTIONS.get(p.stem, {}))
         out.append(entry)
     topics = list(TOPICS) + ["more"]

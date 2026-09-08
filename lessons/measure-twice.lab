@@ -1,0 +1,29 @@
+# Measure twice, change nothing
+# Each instrument reads the same unchanged vessel twice. The paired values are
+# a control for the bench's deterministic, non-invasive measurement contract.
+register lv1
+add v1 water 0.40L
+add v1 KNO3 0.00012mol
+measure v1 conductivity
+measure v1 conductivity
+new
+add v2 water 0.55L
+add v2 HCl 0.00011mol
+measure v2 ph
+measure v2 ph
+new
+add v3 water 0.33L
+heat v3 330J
+measure v3 temp
+measure v3 temp
+new
+seal v4 0.42L
+add v4 N2 0.0031mol
+measure v4 pressure
+measure v4 pressure
+new
+add v5 water 0.21L
+measure v5 balance
+measure v5 balance
+# Calibration error, drift, random noise, sample consumption and probe
+# disturbance are deliberately outside this deterministic instrument model.
