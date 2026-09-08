@@ -740,6 +740,55 @@ pub struct EquilibriumActivity<'a> {
     pub activity: f64,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ActivitySource {
+    ResolvedAqueous,
+    OwnedIdealGas,
+    PurePhase,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct ActivityRequirement<'a> {
+    pub species: &'a str,
+    pub coefficient: f64,
+    pub source: ActivitySource,
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub struct ActivityResolutionError {
+    pub species: String,
+    pub source: ActivitySource,
+}
+
+/// Resolve a reaction quotient from authoritative vessel state. A missing gas
+/// in an open boundary or an unsolved aqueous activity is a typed gap; only a
+/// declared pure phase receives unit activity.
+pub fn resolve_equilibrium_activities<'a>(
+    vessel: &crate::Vessel,
+    requirements: &[ActivityRequirement<'a>],
+) -> Result<Vec<EquilibriumActivity<'a>>, ActivityResolutionError> {
+    requirements
+        .iter()
+        .map(|requirement| {
+            let species_id = crate::SpeciesId::new(requirement.species);
+            let activity = match requirement.source {
+                ActivitySource::ResolvedAqueous => vessel.resolved_aqueous_activity(&species_id),
+                ActivitySource::OwnedIdealGas => vessel.ideal_gas_activity(&species_id),
+                ActivitySource::PurePhase => Some(1.0),
+            }
+            .ok_or_else(|| ActivityResolutionError {
+                species: requirement.species.to_owned(),
+                source: requirement.source,
+            })?;
+            Ok(EquilibriumActivity {
+                species: requirement.species,
+                coefficient: requirement.coefficient,
+                activity,
+            })
+        })
+        .collect()
+}
+
 /// Compute the equilibrium potential from a complete activity quotient.
 pub fn equilibrium_potential_v(
     standard_reduction_potential_v: f64,
@@ -1141,6 +1190,85 @@ mod tests {
         let expected = -0.5 + crate::relations::nernst_slope(crate::Kelvin::STANDARD) / 2.0 * -2.0;
         assert!((partial.equilibrium_potential_v - expected).abs() < 1e-12);
         assert_eq!(partial.parameter_record_id, Some("measured-set"));
+    }
+
+    #[test]
+    fn vessel_exposes_only_resolved_aqueous_and_owned_gas_activities() {
+        let mut vessel = crate::Vessel::new(crate::VesselId(0), "activity cell");
+        vessel.solution = Some(crate::SolutionInfo {
+            scope: crate::SolutionScope::Complete,
+            solvent_kg: Some(1.0),
+            redox: Vec::new(),
+            pe: None,
+            ph: 2.0,
+            ionic_strength: 0.1,
+            species: vec![crate::SpeciesDetail {
+                name: "Zn+2".into(),
+                molality: 0.1,
+                activity: 0.075,
+            }],
+            provenance: None,
+        });
+        assert!(
+            (vessel
+                .resolved_aqueous_activity(&crate::SpeciesId::new("H+"))
+                .unwrap()
+                - 0.01)
+                .abs()
+                < 1e-12
+        );
+        assert_eq!(
+            vessel.resolved_aqueous_activity(&crate::SpeciesId::new("Zn+2")),
+            Some(0.075)
+        );
+        assert_eq!(
+            vessel.ideal_gas_activity(&crate::SpeciesId::new("H2")),
+            None
+        );
+        let hydrogen_quotient = [
+            ActivityRequirement {
+                species: "H+",
+                coefficient: -2.0,
+                source: ActivitySource::ResolvedAqueous,
+            },
+            ActivityRequirement {
+                species: "H2",
+                coefficient: 1.0,
+                source: ActivitySource::OwnedIdealGas,
+            },
+        ];
+        assert_eq!(
+            resolve_equilibrium_activities(&vessel, &hydrogen_quotient),
+            Err(ActivityResolutionError {
+                species: "H2".into(),
+                source: ActivitySource::OwnedIdealGas,
+            })
+        );
+
+        vessel.headspace = crate::Headspace::Sealed {
+            volume: crate::Liters(1.0),
+        };
+        let one_atm_moles = crate::constants::STANDARD_ATMOSPHERE * 1e-3
+            / (crate::constants::GAS_CONSTANT * vessel.temperature.0);
+        vessel.deposit(
+            crate::SpeciesId::new("H2"),
+            crate::Moles(one_atm_moles),
+            crate::Phase::Gas,
+        );
+        assert!(
+            (vessel
+                .ideal_gas_activity(&crate::SpeciesId::new("H2"))
+                .unwrap()
+                - 1.0)
+                .abs()
+                < 1e-12
+        );
+        let activities = resolve_equilibrium_activities(&vessel, &hydrogen_quotient).unwrap();
+        let potential = equilibrium_potential_v(0.0, 2.0, 298.15, &activities).unwrap();
+        assert!(
+            (potential + 2.0 * crate::relations::nernst_slope(crate::Kelvin::STANDARD)).abs()
+                < 1e-12
+        );
     }
 
     #[test]

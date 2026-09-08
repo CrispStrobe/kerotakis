@@ -102,13 +102,15 @@ delta and share one inventory-limiting scale before atomic conservation-checked
 commit. The shipped empirical parameter registry remains empty until
 licence-cleared records survive review.
 
-Continue in this order: (1) adapt solved vessel activities and gas fugacities
-into the generic reaction-quotient/parameter selector; (2) advance the resulting
-state delta on the existing clock without letting `displacement` or `corrosion`
-mutate the same step; (3) admit one narrowly bounded permissively licensed
-polarization dataset with matched controls; (4) only then replace the editorial
-iron/zinc rates and expose current, potential, limiting mechanism and
-uncertainty to clients.
+Continue in this order: (1) define the validated initial-gas/nucleation boundary
+needed by gas-evolving reactions, then assemble the resolved activity inputs
+into runtime candidates; (2) advance the resulting state delta on the existing
+clock without letting `displacement` or `corrosion` mutate the same step; (3)
+admit one narrowly bounded permissively licensed polarization dataset with
+matched controls; (4) only then replace the editorial iron/zinc rates and expose
+current, potential, limiting mechanism and uncertainty to clients. Owned sealed
+gas has a computed ideal fugacity; absent gas and open/swept reservoir
+composition remain refusals rather than receiving an arbitrary activity floor.
 
 No qualitative overpotential, lesson-calibrated rate or neighbouring material's
 parameter may be promoted into this path. Missing or overlapping parameter
