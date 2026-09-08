@@ -95,7 +95,20 @@ def call(method: str, path: str, body: dict | None = None) -> tuple[int, dict]:
 def expect(method: str, path: str, body: dict | None = None, ok=(200, 201, 204)) -> dict:
     """`call`, but a status outside `ok` is fatal and prints Apple's own
     reasons — which are far more specific than the HTTP code."""
+    # Apple's API sometimes emits a short-lived UNEXPECTED_ERROR burst. GET,
+    # PATCH and DELETE are safe to repeat; POST is deliberately excluded
+    # because a server error can be ambiguous after resource creation.
+    retry_delays = (3, 10, 20) if method in ("GET", "PATCH", "DELETE") else ()
     status, doc = call(method, path, body)
+    for attempt, delay in enumerate(retry_delays, start=1):
+        if status < 500 or status in ok:
+            break
+        print(
+            f"{method} {path} -> HTTP {status}; retry {attempt}/{len(retry_delays)}",
+            file=sys.stderr,
+        )
+        time.sleep(delay)
+        status, doc = call(method, path, body)
     if status not in ok:
         print(f"{method} {path} -> HTTP {status}", file=sys.stderr)
         for e in doc.get("errors", [{"detail": json.dumps(doc)}]):
