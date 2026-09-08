@@ -44,16 +44,24 @@ Experiments, Codex and Missions surfaces: three guided investigations, five
 Codex cards and one Mission. Learning progress is authored explicitly; source
 URLs and source-to-case research mappings remain private.
 
-The next expansion is ordered and intentionally split into reviewable CI-backed
-changes: (1) make catalog claims machine-checkable as final/intermediate state
-relations, (2) show those comparisons in the existing script-backed Codex run
-result, (3) promote a second 18-concept tranche into Experiments, Codex and
-Missions without parameter-only
-duplicates, (4) close generic engine boundaries exposed by those replays, and
-(5) freeze and execute the next source-informed batch in GitHub Actions. There
-is no fourth learner-facing surface. The deployment VPS may parse, format and
-inspect these changes, but compilation, browser tests and fleet execution stay
-on GitHub CI.
+The ordered semantic/catalog programme is now on `main`: catalog claims are
+machine-checkable, comparisons appear in the existing script-backed Codex run
+result, the second 18-concept tranche is in Experiments/Codex/Missions, and the
+generic scalar/ratio event boundary is closed. PR #552 carried K64–K70, seven
+Codex comparisons and four Missions; PR #555 carried exact-operation numeric
+event selectors and two-sample ratios. There is no fourth learner-facing
+surface.
+
+The active checkpoint is the separately versioned source-informed v2 corpus.
+Main's seventh fleet already owns IDs 459–488, so this corpus is frozen at 288
+cases, IDs 489–776, in twelve families of 24 with 80 named relations and 368
+execution-plus-relation checks. Public manifests contain original questions
+and scripts but no source identities or source-to-case mapping. The first
+authoritative execution occurs only after the complete contract is committed;
+failures are retained without tuning expectations from observed output. Twelve
+GitHub Actions shards run at most four in parallel from one revision-bound CLI
+artifact. The deployment VPS may parse, format and inspect these changes, but
+compilation, browser tests and fleet execution stay on GitHub CI.
 
 The second tranche is fixed at 18 concepts: seven guided Experiments K64–K70,
 seven Codex comparisons, and four Missions. Its pressure, buffer, neutralisation,
@@ -64,8 +72,9 @@ numeric event selectors plus two-sample ratios with absolute and relative
 tolerances. The CLI exposes only an explicit event-field allowlist, and the GUI
 must continue to mark event and species values unavailable until its scene
 contract carries them; neither may be represented by a convenient but false
-state proxy. PR #555 carries this separate CI-reviewed schema change; the next
-immutable source fleet is not frozen until that generic gate lands.
+state proxy. PR #555 has landed; the immutable successor corpus is the active
+CI-backed work described above and in
+`tools/chemistry-audit/SOURCE-FLEETS-2.md`.
 - **`tests/coverage/curiosity-v1/README.md`** — the corpus refresh log. It is a
   test artefact, not a planning file; leave it alone.
 - **`docs/CURIOSITY-COVERAGE.md`** — the standing analysis of that corpus: the

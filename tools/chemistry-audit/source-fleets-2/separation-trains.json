@@ -1,0 +1,242 @@
+{
+  "schema": "kerotakis-source-fleet-v2",
+  "family": "separation-trains",
+  "cases": [
+    {
+      "id": "633-sand-brine-scale-1",
+      "question": "Does an extensively scaled filter train retain proportional silica and salt?",
+      "script": "add v1 water 150mL\nadd v1 SiO2 0.001mol\nadd v1 NaCl 0.004mol\nnew\nfilter v1 v2\ninspect"
+    },
+    {
+      "id": "634-sand-brine-scale-2",
+      "question": "Does an extensively scaled filter train retain proportional silica and salt?",
+      "script": "add v1 water 300mL\nadd v1 SiO2 0.002mol\nadd v1 NaCl 0.008mol\nnew\nfilter v1 v2\ninspect"
+    },
+    {
+      "id": "635-sand-brine-scale-3",
+      "question": "Does an extensively scaled filter train retain proportional silica and salt?",
+      "script": "add v1 water 450mL\nadd v1 SiO2 0.003mol\nadd v1 NaCl 0.012mol\nnew\nfilter v1 v2\ninspect"
+    },
+    {
+      "id": "636-sand-brine-scale-4",
+      "question": "Does an extensively scaled filter train retain proportional silica and salt?",
+      "script": "add v1 water 600mL\nadd v1 SiO2 0.004mol\nadd v1 NaCl 0.016mol\nnew\nfilter v1 v2\ninspect"
+    },
+    {
+      "id": "637-brine-path-1",
+      "question": "Do evaporation paths with the same retained water reach the same brine state?",
+      "script": "add v1 water 400mL\nadd v1 KCl 0.025mol\nevaporate v1 0.5"
+    },
+    {
+      "id": "638-brine-path-2",
+      "question": "Do evaporation paths with the same retained water reach the same brine state?",
+      "script": "add v1 water 400mL\nadd v1 KCl 0.025mol\nevaporate v1 0.2\nevaporate v1 0.375"
+    },
+    {
+      "id": "639-brine-path-3",
+      "question": "Do evaporation paths with the same retained water reach the same brine state?",
+      "script": "add v1 water 400mL\nadd v1 KCl 0.025mol\nevaporate v1 0.25\nevaporate v1 0.333333"
+    },
+    {
+      "id": "640-brine-path-4",
+      "question": "Do evaporation paths with the same retained water reach the same brine state?",
+      "script": "add v1 water 400mL\nadd v1 KCl 0.025mol\nevaporate v1 0.1\nevaporate v1 0.444444"
+    },
+    {
+      "id": "641-still-route-1",
+      "question": "Does feed order leave the same ideal binary separation?",
+      "script": "add v1 water 3mol\nadd v1 ethanol 0.3mol\nnew\ndistil v1 v2 0.2"
+    },
+    {
+      "id": "642-still-route-2",
+      "question": "Does feed order leave the same ideal binary separation?",
+      "script": "add v1 ethanol 0.3mol\nadd v1 water 3mol\nnew\ndistil v1 v2 0.2"
+    },
+    {
+      "id": "643-still-route-3",
+      "question": "Does feed order leave the same ideal binary separation?",
+      "script": "add v1 water 6mol\nadd v1 ethanol 0.6mol\nnew\ndistil v1 v2 0.1"
+    },
+    {
+      "id": "644-still-route-4",
+      "question": "Does feed order leave the same ideal binary separation?",
+      "script": "add v1 ethanol 0.6mol\nadd v1 water 6mol\nnew\ndistil v1 v2 0.1"
+    },
+    {
+      "id": "645-filter-decant-0.2",
+      "question": "How does the decanted share move dissolved salt after filtration?",
+      "script": "add v1 water 300mL\nadd v1 SiO2 0.002mol\nadd v1 NaCl 0.006mol\nnew\nfilter v1 v2\nnew\ndecant v2 v3 0.2\ninspect"
+    },
+    {
+      "id": "646-filter-decant-0.4",
+      "question": "How does the decanted share move dissolved salt after filtration?",
+      "script": "add v1 water 300mL\nadd v1 SiO2 0.002mol\nadd v1 NaCl 0.006mol\nnew\nfilter v1 v2\nnew\ndecant v2 v3 0.4\ninspect"
+    },
+    {
+      "id": "647-filter-decant-0.6",
+      "question": "How does the decanted share move dissolved salt after filtration?",
+      "script": "add v1 water 300mL\nadd v1 SiO2 0.002mol\nadd v1 NaCl 0.006mol\nnew\nfilter v1 v2\nnew\ndecant v2 v3 0.6\ninspect"
+    },
+    {
+      "id": "648-filter-decant-0.8",
+      "question": "How does the decanted share move dissolved salt after filtration?",
+      "script": "add v1 water 300mL\nadd v1 SiO2 0.002mol\nadd v1 NaCl 0.006mol\nnew\nfilter v1 v2\nnew\ndecant v2 v3 0.8\ninspect"
+    },
+    {
+      "id": "649-filter-salt-0.001",
+      "question": "Does a filter conserve dissolved nitrate while retaining silica?",
+      "script": "add v1 water 250mL\nadd v1 SiO2 0.002mol\nadd v1 NaNO3 0.001mol\nnew\nfilter v1 v2\ninspect"
+    },
+    {
+      "id": "650-filter-salt-0.002",
+      "question": "Does a filter conserve dissolved nitrate while retaining silica?",
+      "script": "add v1 water 250mL\nadd v1 SiO2 0.002mol\nadd v1 NaNO3 0.002mol\nnew\nfilter v1 v2\ninspect"
+    },
+    {
+      "id": "651-filter-salt-0.004",
+      "question": "Does a filter conserve dissolved nitrate while retaining silica?",
+      "script": "add v1 water 250mL\nadd v1 SiO2 0.002mol\nadd v1 NaNO3 0.004mol\nnew\nfilter v1 v2\ninspect"
+    },
+    {
+      "id": "652-filter-salt-0.008",
+      "question": "Does a filter conserve dissolved nitrate while retaining silica?",
+      "script": "add v1 water 250mL\nadd v1 SiO2 0.002mol\nadd v1 NaNO3 0.008mol\nnew\nfilter v1 v2\ninspect"
+    },
+    {
+      "id": "653-dry-filtrate-200",
+      "question": "What remains when a filtered salt solution is dried?",
+      "script": "add v1 water 200mL\nadd v1 SiO2 0.002mol\nadd v1 NaCl 0.01mol\nnew\nfilter v1 v2\nevaporate v2 1\ninspect"
+    },
+    {
+      "id": "654-dry-filtrate-300",
+      "question": "What remains when a filtered salt solution is dried?",
+      "script": "add v1 water 300mL\nadd v1 SiO2 0.002mol\nadd v1 NaCl 0.01mol\nnew\nfilter v1 v2\nevaporate v2 1\ninspect"
+    },
+    {
+      "id": "655-dry-filtrate-400",
+      "question": "What remains when a filtered salt solution is dried?",
+      "script": "add v1 water 400mL\nadd v1 SiO2 0.002mol\nadd v1 NaCl 0.01mol\nnew\nfilter v1 v2\nevaporate v2 1\ninspect"
+    },
+    {
+      "id": "656-dry-filtrate-500",
+      "question": "What remains when a filtered salt solution is dried?",
+      "script": "add v1 water 500mL\nadd v1 SiO2 0.002mol\nadd v1 NaCl 0.01mol\nnew\nfilter v1 v2\nevaporate v2 1\ninspect"
+    }
+  ],
+  "relations": [
+    {
+      "id": "v2b-separation-trains-filter-scale",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "633-sand-brine-scale-1",
+        "634-sand-brine-scale-2",
+        "635-sand-brine-scale-3",
+        "636-sand-brine-scale-4"
+      ],
+      "parameters": {
+        "elements": [
+          "Si",
+          "Na",
+          "Cl"
+        ],
+        "before_op": "filter"
+      }
+    },
+    {
+      "id": "v2b-separation-trains-evaporation-path",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "cases": [
+        "637-brine-path-1",
+        "638-brine-path-2",
+        "639-brine-path-3",
+        "640-brine-path-4"
+      ],
+      "parameters": {
+        "species": [
+          "water",
+          "KCl"
+        ],
+        "atol": 1e-09,
+        "rtol": 1e-07
+      }
+    },
+    {
+      "id": "v2b-separation-trains-still-ledger",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "641-still-route-1",
+        "642-still-route-2",
+        "643-still-route-3",
+        "644-still-route-4"
+      ],
+      "parameters": {
+        "elements": [
+          "C",
+          "H",
+          "O"
+        ],
+        "before_op": "distil"
+      }
+    },
+    {
+      "id": "v2b-separation-trains-decant-conservation",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "645-filter-decant-0.2",
+        "646-filter-decant-0.4",
+        "647-filter-decant-0.6",
+        "648-filter-decant-0.8"
+      ],
+      "parameters": {
+        "elements": [
+          "Si",
+          "Na",
+          "Cl"
+        ],
+        "before_op": "filter"
+      }
+    },
+    {
+      "id": "v2b-separation-trains-nitrate-ledger",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "649-filter-salt-0.001",
+        "650-filter-salt-0.002",
+        "651-filter-salt-0.004",
+        "652-filter-salt-0.008"
+      ],
+      "parameters": {
+        "elements": [
+          "Si",
+          "Na",
+          "N"
+        ],
+        "before_op": "filter"
+      }
+    },
+    {
+      "id": "v2b-separation-trains-dry-ledger",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "653-dry-filtrate-200",
+        "654-dry-filtrate-300",
+        "655-dry-filtrate-400",
+        "656-dry-filtrate-500"
+      ],
+      "parameters": {
+        "elements": [
+          "Si",
+          "Na",
+          "Cl"
+        ],
+        "before_op": "filter"
+      }
+    }
+  ]
+}

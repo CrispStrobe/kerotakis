@@ -1,0 +1,236 @@
+{
+  "schema": "kerotakis-source-fleet-v2",
+  "family": "polyprotic-carbonate",
+  "cases": [
+    {
+      "id": "513-phosphoric-dose-0.0003",
+      "question": "How does phosphoric-acid dose move pH?",
+      "script": "add v1 water 300mL\nadd v1 H3PO4 0.0003mol\nmeasure v1 ph"
+    },
+    {
+      "id": "514-phosphoric-dose-0.0006",
+      "question": "How does phosphoric-acid dose move pH?",
+      "script": "add v1 water 300mL\nadd v1 H3PO4 0.0006mol\nmeasure v1 ph"
+    },
+    {
+      "id": "515-phosphoric-dose-0.0012",
+      "question": "How does phosphoric-acid dose move pH?",
+      "script": "add v1 water 300mL\nadd v1 H3PO4 0.0012mol\nmeasure v1 ph"
+    },
+    {
+      "id": "516-phosphoric-dose-0.0024",
+      "question": "How does phosphoric-acid dose move pH?",
+      "script": "add v1 water 300mL\nadd v1 H3PO4 0.0024mol\nmeasure v1 ph"
+    },
+    {
+      "id": "517-phosphoric-dilution-100",
+      "question": "How does dilution move the pH of fixed phosphoric acid?",
+      "script": "add v1 water 100mL\nadd v1 H3PO4 0.001mol\nmeasure v1 ph"
+    },
+    {
+      "id": "518-phosphoric-dilution-200",
+      "question": "How does dilution move the pH of fixed phosphoric acid?",
+      "script": "add v1 water 200mL\nadd v1 H3PO4 0.001mol\nmeasure v1 ph"
+    },
+    {
+      "id": "519-phosphoric-dilution-400",
+      "question": "How does dilution move the pH of fixed phosphoric acid?",
+      "script": "add v1 water 400mL\nadd v1 H3PO4 0.001mol\nmeasure v1 ph"
+    },
+    {
+      "id": "520-phosphoric-dilution-800",
+      "question": "How does dilution move the pH of fixed phosphoric acid?",
+      "script": "add v1 water 800mL\nadd v1 H3PO4 0.001mol\nmeasure v1 ph"
+    },
+    {
+      "id": "521-bicarbonate-dose-0.0005",
+      "question": "How does bicarbonate dose move aqueous pH?",
+      "script": "add v1 water 300mL\nadd v1 NaHCO3 0.0005mol\nmeasure v1 ph"
+    },
+    {
+      "id": "522-bicarbonate-dose-0.001",
+      "question": "How does bicarbonate dose move aqueous pH?",
+      "script": "add v1 water 300mL\nadd v1 NaHCO3 0.001mol\nmeasure v1 ph"
+    },
+    {
+      "id": "523-bicarbonate-dose-0.002",
+      "question": "How does bicarbonate dose move aqueous pH?",
+      "script": "add v1 water 300mL\nadd v1 NaHCO3 0.002mol\nmeasure v1 ph"
+    },
+    {
+      "id": "524-bicarbonate-dose-0.004",
+      "question": "How does bicarbonate dose move aqueous pH?",
+      "script": "add v1 water 300mL\nadd v1 NaHCO3 0.004mol\nmeasure v1 ph"
+    },
+    {
+      "id": "525-carbonate-dose-0.00025",
+      "question": "How does carbonate dose move aqueous pH?",
+      "script": "add v1 water 300mL\nadd v1 Na2CO3 0.00025mol\nmeasure v1 ph"
+    },
+    {
+      "id": "526-carbonate-dose-0.0005",
+      "question": "How does carbonate dose move aqueous pH?",
+      "script": "add v1 water 300mL\nadd v1 Na2CO3 0.0005mol\nmeasure v1 ph"
+    },
+    {
+      "id": "527-carbonate-dose-0.001",
+      "question": "How does carbonate dose move aqueous pH?",
+      "script": "add v1 water 300mL\nadd v1 Na2CO3 0.001mol\nmeasure v1 ph"
+    },
+    {
+      "id": "528-carbonate-dose-0.002",
+      "question": "How does carbonate dose move aqueous pH?",
+      "script": "add v1 water 300mL\nadd v1 Na2CO3 0.002mol\nmeasure v1 ph"
+    },
+    {
+      "id": "529-carbonate-acid-0.0002",
+      "question": "How does acid dose move a fixed carbonate solution's pH?",
+      "script": "add v1 water 300mL\nadd v1 Na2CO3 0.002mol\nadd v1 HCl 0.0002mol\nmeasure v1 ph"
+    },
+    {
+      "id": "530-carbonate-acid-0.0005",
+      "question": "How does acid dose move a fixed carbonate solution's pH?",
+      "script": "add v1 water 300mL\nadd v1 Na2CO3 0.002mol\nadd v1 HCl 0.0005mol\nmeasure v1 ph"
+    },
+    {
+      "id": "531-carbonate-acid-0.001",
+      "question": "How does acid dose move a fixed carbonate solution's pH?",
+      "script": "add v1 water 300mL\nadd v1 Na2CO3 0.002mol\nadd v1 HCl 0.001mol\nmeasure v1 ph"
+    },
+    {
+      "id": "532-carbonate-acid-0.002",
+      "question": "How does acid dose move a fixed carbonate solution's pH?",
+      "script": "add v1 water 300mL\nadd v1 Na2CO3 0.002mol\nadd v1 HCl 0.002mol\nmeasure v1 ph"
+    },
+    {
+      "id": "533-carbonate-scale-1",
+      "question": "Does proportional carbonate scaling preserve pH?",
+      "script": "add v1 water 200mL\nadd v1 Na2CO3 0.001mol\nmeasure v1 ph"
+    },
+    {
+      "id": "534-carbonate-scale-2",
+      "question": "Does proportional carbonate scaling preserve pH?",
+      "script": "add v1 water 400mL\nadd v1 Na2CO3 0.002mol\nmeasure v1 ph"
+    },
+    {
+      "id": "535-carbonate-scale-3",
+      "question": "Does proportional carbonate scaling preserve pH?",
+      "script": "add v1 water 600mL\nadd v1 Na2CO3 0.003mol\nmeasure v1 ph"
+    },
+    {
+      "id": "536-carbonate-scale-4",
+      "question": "Does proportional carbonate scaling preserve pH?",
+      "script": "add v1 water 800mL\nadd v1 Na2CO3 0.004mol\nmeasure v1 ph"
+    }
+  ],
+  "relations": [
+    {
+      "id": "pc-phosphoric-dose",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "513-phosphoric-dose-0.0003",
+        "514-phosphoric-dose-0.0006",
+        "515-phosphoric-dose-0.0012",
+        "516-phosphoric-dose-0.0024"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "decreasing",
+        "min_delta": 0.02
+      }
+    },
+    {
+      "id": "pc-phosphoric-dilution",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "517-phosphoric-dilution-100",
+        "518-phosphoric-dilution-200",
+        "519-phosphoric-dilution-400",
+        "520-phosphoric-dilution-800"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 0.02
+      }
+    },
+    {
+      "id": "pc-bicarbonate-dose",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "521-bicarbonate-dose-0.0005",
+        "522-bicarbonate-dose-0.001",
+        "523-bicarbonate-dose-0.002",
+        "524-bicarbonate-dose-0.004"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 0.02
+      }
+    },
+    {
+      "id": "pc-carbonate-dose",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "525-carbonate-dose-0.00025",
+        "526-carbonate-dose-0.0005",
+        "527-carbonate-dose-0.001",
+        "528-carbonate-dose-0.002"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 0.02
+      }
+    },
+    {
+      "id": "pc-carbonate-acid",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "529-carbonate-acid-0.0002",
+        "530-carbonate-acid-0.0005",
+        "531-carbonate-acid-0.001",
+        "532-carbonate-acid-0.002"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "decreasing",
+        "min_delta": 0.02
+      }
+    },
+    {
+      "id": "pc-carbonate-scale",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-equal",
+      "cases": [
+        "533-carbonate-scale-1",
+        "534-carbonate-scale-2",
+        "535-carbonate-scale-3",
+        "536-carbonate-scale-4"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "atol": 0.03,
+        "rtol": 0.0
+      }
+    }
+  ]
+}

@@ -1,0 +1,236 @@
+{
+  "schema": "kerotakis-source-fleet-v2",
+  "family": "quantitative-solutions",
+  "cases": [
+    {
+      "id": "489-fixed-salt-dilution-100",
+      "question": "How does dilution change conductivity when the salt amount is fixed?",
+      "script": "add v1 water 100mL\nadd v1 NaCl 0.002mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "490-fixed-salt-dilution-200",
+      "question": "How does dilution change conductivity when the salt amount is fixed?",
+      "script": "add v1 water 200mL\nadd v1 NaCl 0.002mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "491-fixed-salt-dilution-400",
+      "question": "How does dilution change conductivity when the salt amount is fixed?",
+      "script": "add v1 water 400mL\nadd v1 NaCl 0.002mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "492-fixed-salt-dilution-800",
+      "question": "How does dilution change conductivity when the salt amount is fixed?",
+      "script": "add v1 water 800mL\nadd v1 NaCl 0.002mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "493-salt-dose-conductivity-0.0005",
+      "question": "How does sodium chloride amount change conductivity in fixed water?",
+      "script": "add v1 water 350mL\nadd v1 NaCl 0.0005mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "494-salt-dose-conductivity-0.001",
+      "question": "How does sodium chloride amount change conductivity in fixed water?",
+      "script": "add v1 water 350mL\nadd v1 NaCl 0.001mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "495-salt-dose-conductivity-0.002",
+      "question": "How does sodium chloride amount change conductivity in fixed water?",
+      "script": "add v1 water 350mL\nadd v1 NaCl 0.002mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "496-salt-dose-conductivity-0.004",
+      "question": "How does sodium chloride amount change conductivity in fixed water?",
+      "script": "add v1 water 350mL\nadd v1 NaCl 0.004mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "497-acid-dose-ph-0.0002",
+      "question": "How does strong-acid amount change pH in the same water volume?",
+      "script": "add v1 water 500mL\nadd v1 HCl 0.0002mol\nmeasure v1 ph"
+    },
+    {
+      "id": "498-acid-dose-ph-0.0005",
+      "question": "How does strong-acid amount change pH in the same water volume?",
+      "script": "add v1 water 500mL\nadd v1 HCl 0.0005mol\nmeasure v1 ph"
+    },
+    {
+      "id": "499-acid-dose-ph-0.001",
+      "question": "How does strong-acid amount change pH in the same water volume?",
+      "script": "add v1 water 500mL\nadd v1 HCl 0.001mol\nmeasure v1 ph"
+    },
+    {
+      "id": "500-acid-dose-ph-0.002",
+      "question": "How does strong-acid amount change pH in the same water volume?",
+      "script": "add v1 water 500mL\nadd v1 HCl 0.002mol\nmeasure v1 ph"
+    },
+    {
+      "id": "501-base-dose-ph-0.0002",
+      "question": "How does strong-base amount change pH in the same water volume?",
+      "script": "add v1 water 500mL\nadd v1 NaOH 0.0002mol\nmeasure v1 ph"
+    },
+    {
+      "id": "502-base-dose-ph-0.0005",
+      "question": "How does strong-base amount change pH in the same water volume?",
+      "script": "add v1 water 500mL\nadd v1 NaOH 0.0005mol\nmeasure v1 ph"
+    },
+    {
+      "id": "503-base-dose-ph-0.001",
+      "question": "How does strong-base amount change pH in the same water volume?",
+      "script": "add v1 water 500mL\nadd v1 NaOH 0.001mol\nmeasure v1 ph"
+    },
+    {
+      "id": "504-base-dose-ph-0.002",
+      "question": "How does strong-base amount change pH in the same water volume?",
+      "script": "add v1 water 500mL\nadd v1 NaOH 0.002mol\nmeasure v1 ph"
+    },
+    {
+      "id": "505-saline-extensive-1",
+      "question": "Does proportional scaling preserve saline conductivity?",
+      "script": "add v1 water 250mL\nadd v1 NaCl 0.001mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "506-saline-extensive-2",
+      "question": "Does proportional scaling preserve saline conductivity?",
+      "script": "add v1 water 500mL\nadd v1 NaCl 0.002mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "507-saline-extensive-3",
+      "question": "Does proportional scaling preserve saline conductivity?",
+      "script": "add v1 water 750mL\nadd v1 NaCl 0.003mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "508-saline-extensive-4",
+      "question": "Does proportional scaling preserve saline conductivity?",
+      "script": "add v1 water 1000mL\nadd v1 NaCl 0.004mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "509-fixed-solute-mass-100",
+      "question": "Does adding solvent preserve the solute atoms before measurement?",
+      "script": "add v1 water 100mL\nadd v1 KCl 0.002mol\nmeasure v1 balance"
+    },
+    {
+      "id": "510-fixed-solute-mass-200",
+      "question": "Does adding solvent preserve the solute atoms before measurement?",
+      "script": "add v1 water 200mL\nadd v1 KCl 0.002mol\nmeasure v1 balance"
+    },
+    {
+      "id": "511-fixed-solute-mass-400",
+      "question": "Does adding solvent preserve the solute atoms before measurement?",
+      "script": "add v1 water 400mL\nadd v1 KCl 0.002mol\nmeasure v1 balance"
+    },
+    {
+      "id": "512-fixed-solute-mass-800",
+      "question": "Does adding solvent preserve the solute atoms before measurement?",
+      "script": "add v1 water 800mL\nadd v1 KCl 0.002mol\nmeasure v1 balance"
+    }
+  ],
+  "relations": [
+    {
+      "id": "qs-fixed-salt-dilution",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "489-fixed-salt-dilution-100",
+        "490-fixed-salt-dilution-200",
+        "491-fixed-salt-dilution-400",
+        "492-fixed-salt-dilution-800"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "decreasing",
+        "min_delta": 1e-08
+      }
+    },
+    {
+      "id": "qs-salt-dose-conductivity",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "493-salt-dose-conductivity-0.0005",
+        "494-salt-dose-conductivity-0.001",
+        "495-salt-dose-conductivity-0.002",
+        "496-salt-dose-conductivity-0.004"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 1e-08
+      }
+    },
+    {
+      "id": "qs-acid-dose-ph",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "497-acid-dose-ph-0.0002",
+        "498-acid-dose-ph-0.0005",
+        "499-acid-dose-ph-0.001",
+        "500-acid-dose-ph-0.002"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "decreasing",
+        "min_delta": 0.1
+      }
+    },
+    {
+      "id": "qs-base-dose-ph",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "501-base-dose-ph-0.0002",
+        "502-base-dose-ph-0.0005",
+        "503-base-dose-ph-0.001",
+        "504-base-dose-ph-0.002"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 0.1
+      }
+    },
+    {
+      "id": "qs-saline-extensive",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-equal",
+      "cases": [
+        "505-saline-extensive-1",
+        "506-saline-extensive-2",
+        "507-saline-extensive-3",
+        "508-saline-extensive-4"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "atol": 0.02,
+        "rtol": 0.002
+      }
+    },
+    {
+      "id": "qs-fixed-solute-mass",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "509-fixed-solute-mass-100",
+        "510-fixed-solute-mass-200",
+        "511-fixed-solute-mass-400",
+        "512-fixed-solute-mass-800"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 1.0
+      }
+    }
+  ]
+}

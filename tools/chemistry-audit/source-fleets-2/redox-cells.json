@@ -1,0 +1,264 @@
+{
+  "schema": "kerotakis-source-fleet-v2",
+  "family": "redox-cells",
+  "cases": [
+    {
+      "id": "537-copper-activity-0.0005",
+      "question": "How does one half-cell ion amount shift Daniell voltage?",
+      "script": "add v1 water 200mL\nadd v1 ZnSO4 0.002mol\nadd v1 Zn 0.05mol\nnew\nadd v2 water 200mL\nadd v2 CuSO4 0.0005mol\nadd v2 Cu 0.05mol\ncell v1 v2"
+    },
+    {
+      "id": "538-copper-activity-0.001",
+      "question": "How does one half-cell ion amount shift Daniell voltage?",
+      "script": "add v1 water 200mL\nadd v1 ZnSO4 0.002mol\nadd v1 Zn 0.05mol\nnew\nadd v2 water 200mL\nadd v2 CuSO4 0.001mol\nadd v2 Cu 0.05mol\ncell v1 v2"
+    },
+    {
+      "id": "539-copper-activity-0.004",
+      "question": "How does one half-cell ion amount shift Daniell voltage?",
+      "script": "add v1 water 200mL\nadd v1 ZnSO4 0.002mol\nadd v1 Zn 0.05mol\nnew\nadd v2 water 200mL\nadd v2 CuSO4 0.004mol\nadd v2 Cu 0.05mol\ncell v1 v2"
+    },
+    {
+      "id": "540-copper-activity-0.008",
+      "question": "How does one half-cell ion amount shift Daniell voltage?",
+      "script": "add v1 water 200mL\nadd v1 ZnSO4 0.002mol\nadd v1 Zn 0.05mol\nnew\nadd v2 water 200mL\nadd v2 CuSO4 0.008mol\nadd v2 Cu 0.05mol\ncell v1 v2"
+    },
+    {
+      "id": "541-zinc-activity-0.0005",
+      "question": "How does one half-cell ion amount shift Daniell voltage?",
+      "script": "add v1 water 200mL\nadd v1 ZnSO4 0.0005mol\nadd v1 Zn 0.05mol\nnew\nadd v2 water 200mL\nadd v2 CuSO4 0.008mol\nadd v2 Cu 0.05mol\ncell v1 v2"
+    },
+    {
+      "id": "542-zinc-activity-0.001",
+      "question": "How does one half-cell ion amount shift Daniell voltage?",
+      "script": "add v1 water 200mL\nadd v1 ZnSO4 0.001mol\nadd v1 Zn 0.05mol\nnew\nadd v2 water 200mL\nadd v2 CuSO4 0.008mol\nadd v2 Cu 0.05mol\ncell v1 v2"
+    },
+    {
+      "id": "543-zinc-activity-0.004",
+      "question": "How does one half-cell ion amount shift Daniell voltage?",
+      "script": "add v1 water 200mL\nadd v1 ZnSO4 0.004mol\nadd v1 Zn 0.05mol\nnew\nadd v2 water 200mL\nadd v2 CuSO4 0.008mol\nadd v2 Cu 0.05mol\ncell v1 v2"
+    },
+    {
+      "id": "544-zinc-activity-0.008",
+      "question": "How does one half-cell ion amount shift Daniell voltage?",
+      "script": "add v1 water 200mL\nadd v1 ZnSO4 0.008mol\nadd v1 Zn 0.05mol\nnew\nadd v2 water 200mL\nadd v2 CuSO4 0.008mol\nadd v2 Cu 0.05mol\ncell v1 v2"
+    },
+    {
+      "id": "545-zinc-copper-salt-first",
+      "question": "Does feed order alter the final displacement inventory?",
+      "script": "add v1 water 200mL\nadd v1 CuSO4 0.003mol\nadd v1 Zn 0.004mol\ninspect v1"
+    },
+    {
+      "id": "546-zinc-copper-metal-first",
+      "question": "Does reversed feed order alter the final displacement inventory?",
+      "script": "add v1 water 200mL\nadd v1 Zn 0.004mol\nadd v1 CuSO4 0.003mol\ninspect v1"
+    },
+    {
+      "id": "547-zinc-copper-split-salt",
+      "question": "Does splitting the salt feed alter the final displacement inventory?",
+      "script": "add v1 water 200mL\nadd v1 CuSO4 0.001mol\nadd v1 Zn 0.004mol\nadd v1 CuSO4 0.002mol\ninspect v1"
+    },
+    {
+      "id": "548-zinc-copper-split-metal",
+      "question": "Does splitting the metal feed alter the final displacement inventory?",
+      "script": "add v1 water 200mL\nadd v1 Zn 0.001mol\nadd v1 CuSO4 0.003mol\nadd v1 Zn 0.003mol\ninspect v1"
+    },
+    {
+      "id": "549-iron-copper-salt-first",
+      "question": "Does feed order alter the final displacement inventory?",
+      "script": "add v1 water 200mL\nadd v1 CuSO4 0.003mol\nadd v1 Fe 0.004mol\ninspect v1"
+    },
+    {
+      "id": "550-iron-copper-metal-first",
+      "question": "Does reversed feed order alter the final displacement inventory?",
+      "script": "add v1 water 200mL\nadd v1 Fe 0.004mol\nadd v1 CuSO4 0.003mol\ninspect v1"
+    },
+    {
+      "id": "551-iron-copper-split-salt",
+      "question": "Does splitting the salt feed alter the final displacement inventory?",
+      "script": "add v1 water 200mL\nadd v1 CuSO4 0.001mol\nadd v1 Fe 0.004mol\nadd v1 CuSO4 0.002mol\ninspect v1"
+    },
+    {
+      "id": "552-iron-copper-split-metal",
+      "question": "Does splitting the metal feed alter the final displacement inventory?",
+      "script": "add v1 water 200mL\nadd v1 Fe 0.001mol\nadd v1 CuSO4 0.003mol\nadd v1 Fe 0.003mol\ninspect v1"
+    },
+    {
+      "id": "553-copper-silver-salt-first",
+      "question": "Does feed order alter the final displacement inventory?",
+      "script": "add v1 water 200mL\nadd v1 AgNO3 0.003mol\nadd v1 Cu 0.004mol\ninspect v1"
+    },
+    {
+      "id": "554-copper-silver-metal-first",
+      "question": "Does reversed feed order alter the final displacement inventory?",
+      "script": "add v1 water 200mL\nadd v1 Cu 0.004mol\nadd v1 AgNO3 0.003mol\ninspect v1"
+    },
+    {
+      "id": "555-copper-silver-split-salt",
+      "question": "Does splitting the salt feed alter the final displacement inventory?",
+      "script": "add v1 water 200mL\nadd v1 AgNO3 0.001mol\nadd v1 Cu 0.004mol\nadd v1 AgNO3 0.002mol\ninspect v1"
+    },
+    {
+      "id": "556-copper-silver-split-metal",
+      "question": "Does splitting the metal feed alter the final displacement inventory?",
+      "script": "add v1 water 200mL\nadd v1 Cu 0.001mol\nadd v1 AgNO3 0.003mol\nadd v1 Cu 0.003mol\ninspect v1"
+    },
+    {
+      "id": "557-magnesium-copper-salt-first",
+      "question": "Does feed order alter the final displacement inventory?",
+      "script": "add v1 water 200mL\nadd v1 CuSO4 0.003mol\nadd v1 Mg 0.004mol\ninspect v1"
+    },
+    {
+      "id": "558-magnesium-copper-metal-first",
+      "question": "Does reversed feed order alter the final displacement inventory?",
+      "script": "add v1 water 200mL\nadd v1 Mg 0.004mol\nadd v1 CuSO4 0.003mol\ninspect v1"
+    },
+    {
+      "id": "559-magnesium-copper-split-salt",
+      "question": "Does splitting the salt feed alter the final displacement inventory?",
+      "script": "add v1 water 200mL\nadd v1 CuSO4 0.001mol\nadd v1 Mg 0.004mol\nadd v1 CuSO4 0.002mol\ninspect v1"
+    },
+    {
+      "id": "560-magnesium-copper-split-metal",
+      "question": "Does splitting the metal feed alter the final displacement inventory?",
+      "script": "add v1 water 200mL\nadd v1 Mg 0.001mol\nadd v1 CuSO4 0.003mol\nadd v1 Mg 0.003mol\ninspect v1"
+    }
+  ],
+  "relations": [
+    {
+      "id": "rc-copper-activity",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "537-copper-activity-0.0005",
+        "538-copper-activity-0.001",
+        "539-copper-activity-0.004",
+        "540-copper-activity-0.008"
+      ],
+      "parameters": {
+        "event": "cell_voltage",
+        "field": "volts",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 0.0001
+      }
+    },
+    {
+      "id": "rc-zinc-activity",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "541-zinc-activity-0.0005",
+        "542-zinc-activity-0.001",
+        "543-zinc-activity-0.004",
+        "544-zinc-activity-0.008"
+      ],
+      "parameters": {
+        "event": "cell_voltage",
+        "field": "volts",
+        "occurrence": "last",
+        "direction": "decreasing",
+        "min_delta": 0.0001
+      }
+    },
+    {
+      "id": "rc-zinc-copper-path",
+      "kind": "conservation",
+      "assertion": "final-elements-equal",
+      "cases": [
+        "545-zinc-copper-salt-first",
+        "546-zinc-copper-metal-first",
+        "547-zinc-copper-split-salt",
+        "548-zinc-copper-split-metal"
+      ],
+      "parameters": {
+        "elements": [
+          "Cu",
+          "Zn",
+          "Fe",
+          "Ag",
+          "Mg",
+          "S",
+          "N",
+          "O"
+        ],
+        "atol": 1e-08,
+        "rtol": 1e-06
+      }
+    },
+    {
+      "id": "rc-iron-copper-path",
+      "kind": "conservation",
+      "assertion": "final-elements-equal",
+      "cases": [
+        "549-iron-copper-salt-first",
+        "550-iron-copper-metal-first",
+        "551-iron-copper-split-salt",
+        "552-iron-copper-split-metal"
+      ],
+      "parameters": {
+        "elements": [
+          "Cu",
+          "Zn",
+          "Fe",
+          "Ag",
+          "Mg",
+          "S",
+          "N",
+          "O"
+        ],
+        "atol": 1e-08,
+        "rtol": 1e-06
+      }
+    },
+    {
+      "id": "rc-copper-silver-path",
+      "kind": "conservation",
+      "assertion": "final-elements-equal",
+      "cases": [
+        "553-copper-silver-salt-first",
+        "554-copper-silver-metal-first",
+        "555-copper-silver-split-salt",
+        "556-copper-silver-split-metal"
+      ],
+      "parameters": {
+        "elements": [
+          "Cu",
+          "Zn",
+          "Fe",
+          "Ag",
+          "Mg",
+          "S",
+          "N",
+          "O"
+        ],
+        "atol": 1e-08,
+        "rtol": 1e-06
+      }
+    },
+    {
+      "id": "rc-magnesium-copper-path",
+      "kind": "conservation",
+      "assertion": "final-elements-equal",
+      "cases": [
+        "557-magnesium-copper-salt-first",
+        "558-magnesium-copper-metal-first",
+        "559-magnesium-copper-split-salt",
+        "560-magnesium-copper-split-metal"
+      ],
+      "parameters": {
+        "elements": [
+          "Cu",
+          "Zn",
+          "Fe",
+          "Ag",
+          "Mg",
+          "S",
+          "N",
+          "O"
+        ],
+        "atol": 1e-08,
+        "rtol": 1e-06
+      }
+    }
+  ]
+}
