@@ -12344,20 +12344,44 @@
           ]
         },
         "ph": null,
-        "temperature_c": null
+        "temperature_c": null,
+        "assertions": [
+          {
+            "kind": "decreasing",
+            "tolerance": 0.0001,
+            "samples": [
+              {
+                "step": "after:8",
+                "metric": "event:cell_voltage.volts"
+              },
+              {
+                "step": "after:17",
+                "metric": "event:cell_voltage.volts"
+              },
+              {
+                "step": "after:26",
+                "metric": "event:cell_voltage.volts"
+              },
+              {
+                "step": "after:35",
+                "metric": "event:cell_voltage.volts"
+              }
+            ]
+          }
+        ]
       },
       "registers": {
         "lv1": "Adding more zinc ions makes this zinc-copper cell's measured push smaller, while the copper side stays the same.",
         "lv1_de": "Mehr Zinkionen machen den gemessenen Antrieb dieses Zink-Kupfer-Elements kleiner, während die Kupferseite gleich bleibt.",
         "lv2": "The four cells differ only in zinc-sulfate amount. Raising zinc-ion activity raises the reaction quotient for Zn + Cu2+ → Zn2+ + Cu, so the Nernst voltage falls.",
         "lv2_de": "Die vier Zellen unterscheiden sich nur in der Zinksulfatmenge. Eine höhere Zinkionenaktivität erhöht den Reaktionsquotienten für Zn + Cu2+ → Zn2+ + Cu; deshalb fällt die Nernst-Spannung.",
-        "lv3": "The engine computes activities after aqueous speciation and then evaluates the Nernst relation. The catalog gate currently verifies four typed voltage events but cannot assert their ordering because event values are not semantic-state metrics; this limitation is stated rather than replaced with a proxy.",
-        "lv3_de": "Die Engine berechnet nach der wässrigen Speziierung die Aktivitäten und wertet dann die Nernst-Beziehung aus. Die Katalogprüfung bestätigt derzeit vier typisierte Spannungsereignisse, kann ihre Reihenfolge aber nicht prüfen, weil Ereigniswerte keine semantischen Zustandsmetriken sind; diese Grenze wird genannt statt durch einen Stellvertreter ersetzt."
+        "lv3": "The engine computes activities after aqueous speciation and then evaluates the Nernst relation. The semantic gate reads the voltage field from each exact cell-operation event and requires all four values to decrease by more than 0.0001 V; the GUI leaves that event-only comparison visibly unavailable rather than replacing it with a scene proxy.",
+        "lv3_de": "Die Engine berechnet nach der wässrigen Speziierung die Aktivitäten und wertet dann die Nernst-Beziehung aus. Die semantische Prüfung liest das Spannungsfeld jedes exakten Zelloperationsereignisses und verlangt, dass alle vier Werte um mehr als 0,0001 V abnehmen; die GUI kennzeichnet diesen nur im Ereignis vorhandenen Vergleich als nicht verfügbar, statt ihn durch einen Szenen-Stellvertreter zu ersetzen."
       },
       "provenance": {
         "source": "Original promotion from generic Daniell-cell concentration controls; no private source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08.",
         "licence": null,
-        "computed_by": "Kerotakis aqueous activity and electrochemical-cell solver; typed voltage-event replay"
+        "computed_by": "Kerotakis aqueous activity and electrochemical-cell solver; exact-step decreasing voltage-event assertion"
       }
     },
     {
@@ -12522,20 +12546,94 @@
           ]
         },
         "ph": null,
-        "temperature_c": null
+        "temperature_c": null,
+        "assertions": [
+          {
+            "kind": "ratio",
+            "tolerance": 1e-10,
+            "relative_tolerance": 1e-8,
+            "ratio": 2.0,
+            "samples": [
+              {
+                "step": "after:6",
+                "metric": "moles:CH3COOH",
+                "vessel": "v1"
+              },
+              {
+                "step": "after:12",
+                "metric": "moles:CH3COOH",
+                "vessel": "v2"
+              }
+            ]
+          },
+          {
+            "kind": "ratio",
+            "tolerance": 1e-10,
+            "relative_tolerance": 1e-8,
+            "ratio": 2.0,
+            "samples": [
+              {
+                "step": "after:6",
+                "metric": "moles:ethanol",
+                "vessel": "v1"
+              },
+              {
+                "step": "after:12",
+                "metric": "moles:ethanol",
+                "vessel": "v2"
+              }
+            ]
+          },
+          {
+            "kind": "ratio",
+            "tolerance": 1e-10,
+            "relative_tolerance": 1e-8,
+            "ratio": 2.0,
+            "samples": [
+              {
+                "step": "after:6",
+                "metric": "moles:ethyl_acetate",
+                "vessel": "v1"
+              },
+              {
+                "step": "after:12",
+                "metric": "moles:ethyl_acetate",
+                "vessel": "v2"
+              }
+            ]
+          },
+          {
+            "kind": "ratio",
+            "tolerance": 1e-10,
+            "relative_tolerance": 1e-8,
+            "ratio": 2.0,
+            "samples": [
+              {
+                "step": "after:6",
+                "metric": "moles:water",
+                "vessel": "v1"
+              },
+              {
+                "step": "after:12",
+                "metric": "moles:water",
+                "vessel": "v2"
+              }
+            ]
+          }
+        ]
       },
       "registers": {
         "lv1": "Making the whole recipe twice as large makes twice as much of every final substance; it does not change the recipe's balance point.",
         "lv1_de": "Wird das ganze Rezept doppelt so groß, entsteht von jedem Endstoff doppelt so viel; der Gleichgewichtspunkt des Rezepts ändert sich nicht.",
         "lv2": "The second vessel begins with exactly twice every component. Its reaction quotient and composition match the first, so equilibrium preserves the proportions while extensive amounts double.",
         "lv2_de": "Das zweite Gefäß beginnt mit genau der doppelten Menge jeder Komponente. Reaktionsquotient und Zusammensetzung stimmen mit dem ersten überein, daher erhält das Gleichgewicht die Anteile, während sich extensive Mengen verdoppeln.",
-        "lv3": "This is homogeneity of the ideal-mixture equilibrium problem under extensive scaling. The current semantic schema has neither ratios nor relative tolerance, so lint verifies the real reaction events but deliberately does not encode the unsafe surrogate claim that two unequal mole values should compare equal.",
-        "lv3_de": "Dies ist die Homogenität des Gleichgewichtsproblems einer idealen Mischung unter extensiver Skalierung. Das gegenwärtige semantische Schema kennt weder Verhältnisse noch relative Toleranzen; deshalb prüft der Linter die wirklichen Reaktionsereignisse, kodiert aber bewusst nicht die falsche Ersatzbehauptung, zwei ungleiche Stoffmengen müssten gleich sein."
+        "lv3": "This is homogeneity of the ideal-mixture equilibrium problem under extensive scaling. Four semantic ratio assertions require the second vessel's acid, alcohol, ester and water inventories to be twice the first within declared absolute and relative tolerances; the GUI marks species values unavailable until its scene contract can expose them completely.",
+        "lv3_de": "Dies ist die Homogenität des Gleichgewichtsproblems einer idealen Mischung unter extensiver Skalierung. Vier semantische Verhältnisprüfungen verlangen, dass die Bestände an Säure, Alkohol, Ester und Wasser im zweiten Gefäß innerhalb festgelegter absoluter und relativer Toleranzen doppelt so groß sind wie im ersten; die GUI kennzeichnet Spezieswerte als nicht verfügbar, bis ihr Szenenvertrag sie vollständig bereitstellt."
       },
       "provenance": {
         "source": "Original promotion from generic organic-equilibrium scaling controls; no private source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08.",
         "licence": null,
-        "computed_by": "Kerotakis generic reversible mass-action extent solver; typed reaction-event replay (2:1 relation not expressible by current assertion schema)"
+        "computed_by": "Kerotakis generic reversible mass-action extent solver; four exact 2:1 final-inventory assertions"
       }
     },
     {
