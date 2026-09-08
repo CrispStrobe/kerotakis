@@ -3055,6 +3055,8 @@ impl Bench {
                     return Err(BenchError::SelfTransfer);
                 }
                 let source = self.vessel(*from)?.clone();
+                self.ensure_destination(*to, &mut events);
+                self.vessel(*to)?;
                 let Some((_upper, lower)) = crate::solve::layered_pair(&source) else {
                     events.push(Event::NotYetModeled {
                         cause: crate::ops::NotModelledCause::NothingToActOn,
@@ -3153,8 +3155,6 @@ impl Bench {
                     .filter(|(s, ..)| *s == lower_id)
                     .map(|(_, m, _)| m.0)
                     .sum::<f64>();
-                self.ensure_destination(*to, &mut events);
-                self.vessel(*to)?;
                 {
                     let src = self.vessel_mut(*from)?;
                     for (spec, m, _) in &moved {

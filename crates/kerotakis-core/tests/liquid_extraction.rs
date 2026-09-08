@@ -263,7 +263,7 @@ fn reviewed_iodine_solubility_feeds_the_standing_water_hexane_partition() {
 }
 
 #[test]
-fn draining_outside_an_empirical_partition_temperature_is_atomic() {
+fn draining_outside_an_empirical_partition_temperature_moves_no_material() {
     let mut bench = Bench::new();
     for line in [
         "add v1 water 2mol",
@@ -275,11 +275,16 @@ fn draining_outside_an_empirical_partition_temperature_is_atomic() {
             .unwrap();
     }
     bench.vessels[0].temperature.0 = 310.0;
-    let before = serde_json::to_value(&bench.vessels).unwrap();
+    let before_source = serde_json::to_value(&bench.vessels[0]).unwrap();
     let events = bench
         .step(parse_op("drain v1 v2").unwrap().expect("operator"))
         .unwrap();
-    assert_eq!(serde_json::to_value(&bench.vessels).unwrap(), before);
+    assert_eq!(
+        serde_json::to_value(&bench.vessels[0]).unwrap(),
+        before_source
+    );
+    assert_eq!(bench.vessels.len(), 2);
+    assert!(bench.vessels[1].contents.is_empty());
     assert!(events.iter().any(|event| matches!(
         event,
         Event::NotYetModeled { what, .. } if what.contains("only reviewed at")
