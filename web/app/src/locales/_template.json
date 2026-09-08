@@ -2581,6 +2581,10 @@
   "Warm the gas, stop before burst": "",
   "Current, time and electrolysis yield": "",
   "Filter, then concentrate the brine": "",
-  "Track precipitate and filtrate through drying": ""
+  "Track precipitate and filtrate through drying": "",
+  "Two limits, one carbon-dioxide ledger": "",
+  "Hold bicarbonate fixed while acid rises, then hold acid in excess while bicarbonate rises. Which reagent limits the computed carbon dioxide?": "",
+  "Waiting is not a reaction trigger": "",
+  "Give identical peroxide samples four different waits. Does elapsed time invent a reaction the model was never told to run?": ""
   }
 }

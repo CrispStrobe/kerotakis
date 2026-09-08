@@ -1,0 +1,32 @@
+# Waiting is not a reaction trigger
+# Give identical peroxide samples four different waits. Does elapsed time invent a reaction the model was never told to run?
+# Intermediate mission. Inspect the complete inventory after 30, 60, 120 and
+# 240 seconds: the clock advances, but an unregistered kinetic mechanism does
+# not appear merely because time passed.
+#
+# Model boundary: this is a test of the bench contract, not a claim that real
+# hydrogen peroxide is indefinitely stable. Real decomposition depends on
+# concentration, temperature, light, impurities, surfaces and catalysts; none
+# is inferred here. Use only teacher-prepared dilute peroxide, eye protection
+# and clean compatible apparatus for any physical comparison. Do not ingest it
+# or return used material to its stock container.
+register lv2
+add v1 water 200mL
+add v1 H2O2 0.01mol
+wait 30s
+inspect v1
+new
+add v2 water 200mL
+add v2 H2O2 0.01mol
+wait 60s
+inspect v2
+new
+add v3 water 200mL
+add v3 H2O2 0.01mol
+wait 120s
+inspect v3
+new
+add v4 water 200mL
+add v4 H2O2 0.01mol
+wait 240s
+inspect v4

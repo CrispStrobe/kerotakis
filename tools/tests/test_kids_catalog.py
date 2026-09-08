@@ -15,9 +15,9 @@ class KidsCatalogTests(unittest.TestCase):
         self.document = json.loads((ROOT / "data/kids/experiments-v1.json").read_text())
         self.german = json.loads((ROOT / "data/kids/experiments-de-v1.json").read_text())
 
-    def test_catalog_is_the_exact_audited_seventy(self):
+    def test_catalog_is_the_exact_audited_seventy_two(self):
         rows = MODULE.validate(self.document)
-        self.assertEqual([row["id"] for row in rows], [f"K{i:02d}" for i in range(1, 71)])
+        self.assertEqual([row["id"] for row in rows], [f"K{i:02d}" for i in range(1, 73)])
 
     def test_non_computed_rows_explain_the_boundary(self):
         rows = MODULE.validate(self.document)
@@ -91,7 +91,7 @@ class KidsCatalogTests(unittest.TestCase):
     def test_german_must_have_exactly_the_same_rows(self):
         broken = json.loads(json.dumps(self.german))
         broken["experiments"].pop()
-        with self.assertRaisesRegex(ValueError, "same K01 through K70"):
+        with self.assertRaisesRegex(ValueError, "same K01 through K72"):
             MODULE.add_translation(self.document, broken)
 
     def test_source_fleet_promotions_are_runnable_and_progress_ordered(self):
@@ -105,6 +105,23 @@ class KidsCatalogTests(unittest.TestCase):
         self.assertEqual(rows["K64"]["progress"], "intermediate")
         self.assertEqual(rows["K66"]["progress"], "advanced")
         self.assertEqual(rows["K70"]["lesson"], "split-heat-same-temperature.lab")
+        self.assertEqual(rows["K71"]["progress"], "intermediate")
+        self.assertEqual(rows["K71"]["lesson"], "saline-scaling-preserves-conductivity.lab")
+        self.assertEqual(rows["K72"]["progress"], "intermediate")
+        self.assertEqual(rows["K72"]["lesson"], "neutral-sugars-are-conductivity-controls.lab")
+
+    def test_new_conductivity_promotions_preserve_the_audited_claims(self):
+        rows = {row["id"]: row for row in MODULE.validate(self.document)}
+        translated = {row["id"]: row for row in self.german["experiments"]}
+        self.assertIn("preserves the computed conductivity", rows["K71"]["phenomenon"])
+        self.assertEqual(rows["K71"]["ingredients"], ["water", "NaCl"])
+        self.assertIn("not the total size", rows["K71"]["observations"][1])
+        self.assertIn("does not supply ionic charge carriers", rows["K72"]["phenomenon"])
+        self.assertEqual(rows["K72"]["ingredients"], ["water", "glucose", "sucrose"])
+        self.assertIn("does not predict exactly zero", rows["K72"]["boundary"])
+        for kid in ("K71", "K72"):
+            self.assertEqual(len(translated[kid]["procedure"]), len(rows[kid]["procedure"]))
+            self.assertEqual(len(translated[kid]["observations"]), len(rows[kid]["observations"]))
 
     def test_newly_computed_filter_and_luminol_keep_their_honest_routes(self):
         rows = {row["id"]: row for row in MODULE.validate(self.document)}

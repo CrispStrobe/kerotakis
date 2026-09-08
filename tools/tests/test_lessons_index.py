@@ -62,6 +62,22 @@ measure v1 ph
         self.assertEqual(entry["progress"], "intermediate")
         self.assertEqual(entry["kit"], ["NaCl", "water"])
 
+    def test_dual_axis_carbon_dioxide_lesson_is_an_intermediate_acid_base_mission(self):
+        lesson = ROOT / "lessons" / "two-limits-one-carbon-dioxide-ledger.lab"
+        entry = next(item for item in MODULE.index(lesson.parent)
+                     if item["file"] == lesson.name)
+        self.assertEqual(entry["topic"], "acids & bases")
+        self.assertEqual(entry["progress"], "intermediate")
+        self.assertEqual(entry["kit"], ["HCl", "NaHCO3", "water"])
+
+    def test_wait_boundary_lesson_is_an_intermediate_rates_mission(self):
+        lesson = ROOT / "lessons" / "wait-is-not-a-reaction-trigger.lab"
+        entry = next(item for item in MODULE.index(lesson.parent)
+                     if item["file"] == lesson.name)
+        self.assertEqual(entry["topic"], "rates")
+        self.assertEqual(entry["progress"], "intermediate")
+        self.assertEqual(entry["kit"], ["H2O2", "water"])
+
 
 if __name__ == "__main__":
     unittest.main()

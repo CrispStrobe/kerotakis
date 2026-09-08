@@ -906,3 +906,364 @@ lv3 = "This is homogeneity of the ideal-mixture equilibrium problem under extens
 [reaction.provenance]
 source = "Original promotion from generic organic-equilibrium scaling controls; no private source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08."
 computed_by = "Kerotakis generic reversible mass-action extent solver; four exact 2:1 final-inventory assertions"
+
+[[reaction]]
+id = "saline-conductivity-is-intensive"
+progress = "intermediate"
+summary = "Scaling water and salt together preserves the modeled conductivity"
+concepts = ["conductivity", "concentration", "intensive-properties"]
+requires = ["amount-of-substance", "dissolving"]
+calculations = ["concentration", "proportional-reasoning"]
+models = ["particle-model", "aqueous-equilibrium"]
+apparatus = ["beaker", "conductivity-meter"]
+
+[reaction.setup]
+script = """
+add v1 water 250mL
+add v1 NaCl 0.001mol
+measure v1 conductivity
+new
+add v2 water 500mL
+add v2 NaCl 0.002mol
+measure v2 conductivity
+new
+add v3 water 750mL
+add v3 NaCl 0.003mol
+measure v3 conductivity
+new
+add v4 water 1000mL
+add v4 NaCl 0.004mol
+measure v4 conductivity
+"""
+
+[reaction.expect]
+events = ["measured"]
+absent = ["solver_failed"]
+
+[[reaction.expect.assertions]]
+kind = "equal"
+tolerance = 0.02
+relative_tolerance = 0.002
+[[reaction.expect.assertions.samples]]
+step = "after:3"
+metric = "event:measured.value"
+[[reaction.expect.assertions.samples]]
+step = "after:7"
+metric = "event:measured.value"
+[[reaction.expect.assertions.samples]]
+step = "after:11"
+metric = "event:measured.value"
+[[reaction.expect.assertions.samples]]
+step = "after:15"
+metric = "event:measured.value"
+
+[reaction.expect.predict]
+question = "Four beakers contain one, two, three and four times as much salt water, but every recipe keeps the same salt-to-water ratio. Which has the greatest conductivity?"
+options = ["The largest, because it contains the most salt in total", "None: proportional scaling keeps the ion concentration and modeled conductivity equal"]
+answer = 1
+misconception = "The extensive amount of dissolved salt is confused with its concentration, which controls the conductivity model."
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "The extra salt has been counted without the proportional extra water that contains it."
+next = "Divide salt amount by water volume for each beaker, then compare the four conductivity readings."
+
+[reaction.registers]
+lv1 = "A larger beaker of the same salt-water recipe conducts like the smaller one. It contains more ions, but also proportionally more water."
+lv2 = "All four preparations contain 0.004 mol NaCl per litre of water. Their total salt amounts differ fourfold, while the modeled concentration and therefore the conductivity agree."
+lv3 = "The four exact source-fleet scripts, cases 505–508, form an extensive-scaling control. A semantic equality assertion reads each measured event with the frozen absolute and relative tolerances. Conductivity is treated as intensive only within this aqueous model; temperature dependence, electrode geometry, calibration and high-concentration nonlinearity are outside the claim. The GUI leaves event-only values unavailable rather than substituting a scene proxy."
+
+[reaction.provenance]
+source = "Original promotion from source-fleet v2 proportional saline controls; no private source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08."
+computed_by = "Kerotakis aqueous speciation and conductivity estimator; four exact measured-event equality assertions"
+
+[[reaction]]
+id = "sugar-is-not-an-electrolyte-control"
+progress = "intermediate"
+summary = "Changing the amount or identity of neutral dissolved sugar leaves the modeled conductivity control unchanged"
+concepts = ["conductivity", "electrolytes", "experimental-controls"]
+requires = ["dissolving", "particle-model"]
+calculations = ["comparison-of-controls"]
+models = ["particle-model", "aqueous-equilibrium"]
+apparatus = ["beaker", "conductivity-meter"]
+
+[reaction.setup]
+script = """
+add v1 water 250mL
+add v1 glucose 0.001mol
+measure v1 conductivity
+new
+add v2 water 250mL
+add v2 glucose 0.002mol
+measure v2 conductivity
+new
+add v3 water 250mL
+add v3 sucrose 0.001mol
+measure v3 conductivity
+new
+add v4 water 250mL
+add v4 sucrose 0.002mol
+measure v4 conductivity
+"""
+
+[reaction.expect]
+events = ["measured"]
+absent = ["solver_failed"]
+[[reaction.expect.assertions]]
+kind = "equal"
+tolerance = 1e-6
+relative_tolerance = 1e-5
+[[reaction.expect.assertions.samples]]
+step = "after:3"
+metric = "event:measured.value"
+[[reaction.expect.assertions.samples]]
+step = "after:7"
+metric = "event:measured.value"
+[[reaction.expect.assertions.samples]]
+step = "after:11"
+metric = "event:measured.value"
+[[reaction.expect.assertions.samples]]
+step = "after:15"
+metric = "event:measured.value"
+
+[reaction.expect.predict]
+question = "Equal water portions receive either glucose or sucrose at two different amounts. Does adding more dissolved sugar make the modeled conductivity rise?"
+options = ["Yes: every dissolved particle carries electric current", "No: these neutral sugars dissolve without supplying the mobile ions used by this conductivity model"]
+answer = 1
+misconception = "Dissolving is treated as identical to dissociating into charged particles."
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "Neutral sugar molecules have been counted as charge carriers merely because they are dispersed in water."
+next = "Write the charges of the dissolved particles, then contrast the sugar controls with sodium chloride at the same water volume."
+
+[reaction.registers]
+lv1 = "Sugar can disappear into water without becoming an electric charge. More glucose or sucrose therefore does not make this virtual meter climb."
+lv2 = "The four controls change sugar identity and amount while holding water fixed. Glucose and sucrose remain neutral molecular solutes, so none contributes the ions counted by the conductivity estimator."
+lv3 = "Cases 681–684 are a negative-control relation, not a universal claim that real sugar solutions have exactly zero conductance. The semantic assertion compares the four exact measured-event values within the frozen tolerances. Trace ionic impurities, water autoionisation, electrode response, viscosity and concentration-dependent mobility are not resolved here. Because Scene v1 has no event payload, the GUI reports this comparison as unavailable rather than inventing a value."
+
+[reaction.provenance]
+source = "Original promotion from source-fleet v2 neutral-sugar controls; no private source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08."
+computed_by = "Kerotakis aqueous species and conductivity estimator; four exact measured-event equality assertions"
+
+[[reaction]]
+id = "gas-yield-has-two-limiting-reagent-axes"
+progress = "intermediate"
+summary = "Carbon-dioxide yield rises with either reactant while the other remains in excess"
+concepts = ["limiting-reagent", "gas-production", "stoichiometry"]
+requires = ["amount-of-substance", "balanced-equations"]
+calculations = ["limiting-reagent", "mole-ratio"]
+models = ["conservation-of-mass", "aqueous-equilibrium"]
+apparatus = ["beaker"]
+
+[reaction.setup]
+script = """
+add v1 water 250mL
+add v1 NaHCO3 0.004mol
+add v1 HCl 0.0005mol
+inspect v1
+new
+add v2 water 250mL
+add v2 NaHCO3 0.004mol
+add v2 HCl 0.001mol
+inspect v2
+new
+add v3 water 250mL
+add v3 NaHCO3 0.004mol
+add v3 HCl 0.002mol
+inspect v3
+new
+add v4 water 250mL
+add v4 NaHCO3 0.004mol
+add v4 HCl 0.003mol
+inspect v4
+new
+add v5 water 250mL
+add v5 NaHCO3 0.001mol
+add v5 HCl 0.01mol
+inspect v5
+new
+add v6 water 250mL
+add v6 NaHCO3 0.002mol
+add v6 HCl 0.01mol
+inspect v6
+new
+add v7 water 250mL
+add v7 NaHCO3 0.004mol
+add v7 HCl 0.01mol
+inspect v7
+new
+add v8 water 250mL
+add v8 NaHCO3 0.008mol
+add v8 HCl 0.01mol
+inspect v8
+"""
+
+[reaction.expect]
+events = ["gas_evolved:CO2"]
+absent = ["solver_failed"]
+[[reaction.expect.assertions]]
+kind = "increasing"
+tolerance = 1e-5
+[[reaction.expect.assertions.samples]]
+step = "after:3"
+metric = "event:gas_evolved.moles"
+[[reaction.expect.assertions.samples]]
+step = "after:7"
+metric = "event:gas_evolved.moles"
+[[reaction.expect.assertions.samples]]
+step = "after:11"
+metric = "event:gas_evolved.moles"
+[[reaction.expect.assertions.samples]]
+step = "after:15"
+metric = "event:gas_evolved.moles"
+[[reaction.expect.assertions]]
+kind = "increasing"
+tolerance = 1e-5
+[[reaction.expect.assertions.samples]]
+step = "after:19"
+metric = "event:gas_evolved.moles"
+[[reaction.expect.assertions.samples]]
+step = "after:23"
+metric = "event:gas_evolved.moles"
+[[reaction.expect.assertions.samples]]
+step = "after:27"
+metric = "event:gas_evolved.moles"
+[[reaction.expect.assertions.samples]]
+step = "after:31"
+metric = "event:gas_evolved.moles"
+
+[reaction.expect.predict]
+question = "Which change can increase carbon-dioxide yield: adding more acid to excess bicarbonate, or adding more bicarbonate to excess acid?"
+options = ["Only more acid can do so, because acid makes the bubbles", "Either can do so while it is the limiting reactant; the partner must remain in excess"]
+answer = 1
+misconception = "Gas production is assigned to one named ingredient instead of to the stoichiometric meeting of both reactants."
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "Bicarbonate has been treated as a passive medium even though its carbon becomes the carbon dioxide."
+next = "Balance HCO3− + H+ → CO2 + H2O, then identify the limiting amount along each four-vessel axis."
+
+[reaction.registers]
+lv1 = "More of either partner can make more gas—but only when the other partner is waiting in excess. Every carbon-dioxide molecule needs both bicarbonate and acid."
+lv2 = "The first four vessels hold 0.004 mol bicarbonate fixed and raise acid from 0.0005 to 0.003 mol. The second four hold 0.010 mol acid fixed and raise bicarbonate from 0.001 to 0.008 mol. Carbon-dioxide amount increases along both controlled axes."
+lv3 = "This combines frozen cases 561–568 without changing their scripts or expectations. Two semantic assertions read gas_evolved.moles at the exact acid-addition operations and require successive increases greater than 10⁻⁵ mol. They establish limiting-reagent monotonicity inside the modeled range, not collection efficiency, bubble size, rate, pressure or complete gas recovery. Event payloads are absent from GUI Scene v1, so the browser honestly leaves both comparisons unavailable."
+
+[reaction.provenance]
+source = "Original promotion from source-fleet v2 paired bicarbonate–acid dose controls; no private source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08."
+computed_by = "Kerotakis aqueous carbonate/acid equilibrium and gas partition; two exact gas-evolution event-order assertions"
+
+[[reaction]]
+id = "waiting-is-not-a-peroxide-reaction-command"
+progress = "intermediate"
+summary = "Waiting alone advances the clock but does not invent an unrequested peroxide reaction"
+concepts = ["kinetics", "experimental-controls", "model-boundary"]
+requires = ["conservation-of-mass", "reaction-rate"]
+calculations = ["controlled-comparison", "mass-accounting"]
+models = ["conservation-of-mass", "collision-theory"]
+apparatus = ["beaker", "stopwatch"]
+
+[reaction.setup]
+script = """
+add v1 water 200mL
+add v1 H2O2 0.01mol
+wait 30s
+inspect v1
+new
+add v2 water 200mL
+add v2 H2O2 0.01mol
+wait 60s
+inspect v2
+new
+add v3 water 200mL
+add v3 H2O2 0.01mol
+wait 120s
+inspect v3
+new
+add v4 water 200mL
+add v4 H2O2 0.01mol
+wait 240s
+inspect v4
+"""
+
+[reaction.expect]
+absent = ["reacted:peroxide-decomposition", "solver_failed"]
+[[reaction.expect.assertions]]
+kind = "equal"
+tolerance = 1e-10
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "moles:H2O2"
+vessel = "v1"
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "moles:H2O2"
+vessel = "v2"
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "moles:H2O2"
+vessel = "v3"
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "moles:H2O2"
+vessel = "v4"
+[[reaction.expect.assertions]]
+kind = "unchanged"
+tolerance = 1e-10
+[[reaction.expect.assertions.samples]]
+step = "after:2"
+metric = "moles:H2O2"
+vessel = "v1"
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "moles:H2O2"
+vessel = "v1"
+[[reaction.expect.assertions]]
+kind = "unchanged"
+tolerance = 1e-10
+[[reaction.expect.assertions.samples]]
+step = "after:6"
+metric = "moles:H2O2"
+vessel = "v2"
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "moles:H2O2"
+vessel = "v2"
+[[reaction.expect.assertions]]
+kind = "unchanged"
+tolerance = 1e-10
+[[reaction.expect.assertions.samples]]
+step = "after:10"
+metric = "moles:H2O2"
+vessel = "v3"
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "moles:H2O2"
+vessel = "v3"
+[[reaction.expect.assertions]]
+kind = "unchanged"
+tolerance = 1e-10
+[[reaction.expect.assertions.samples]]
+step = "after:14"
+metric = "moles:H2O2"
+vessel = "v4"
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "moles:H2O2"
+vessel = "v4"
+
+[reaction.expect.predict]
+question = "Four identical peroxide samples merely wait for 30, 60, 120 or 240 seconds. In this script, does the longer wait by itself consume more peroxide?"
+options = ["Yes: the clock automatically chooses and runs every possible reaction", "No: wait advances modeled time, but this control requests no peroxide reaction pathway"]
+answer = 1
+misconception = "Passing time in a simulator is mistaken for an instruction to infer and execute every chemically possible process."
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "A kinetic mechanism and its conditions have been assumed even though the script supplied only a clock interval."
+next = "Compare H2O2 immediately after each addition with its final inventory, then contrast the control with a script that explicitly requests the curated peroxide reaction."
+
+[reaction.registers]
+lv1 = "A stopwatch does not choose a reaction. These four virtual samples wait for different times and keep the peroxide they were given."
+lv2 = "Every vessel begins with 0.010 mol H2O2 in 200 mL water. The four waits differ eightfold, yet each final peroxide inventory equals its own post-addition inventory and the other three finals."
+lv3 = "Frozen cases 657–660 are a model-boundary control: their source-fleet relation proves elemental conservation before and after wait, while this catalogue replay adds exact unchanged and cross-vessel H2O2 assertions. This does not claim that real peroxide is indefinitely stable. It states that bare wait does not select an unrequested kinetic network. Species inventories are unavailable in GUI Scene v1, so the browser displays no fabricated comparison."
+
+[reaction.provenance]
+source = "Original promotion from source-fleet v2 peroxide wait controls; no private source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08."
+computed_by = "Kerotakis shared-clock wait operator and material ledger; four unchanged plus one final-inventory equality assertion"

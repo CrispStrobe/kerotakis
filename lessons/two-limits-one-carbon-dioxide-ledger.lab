@@ -1,0 +1,51 @@
+# Two limits, one carbon-dioxide ledger
+# Hold bicarbonate fixed while acid rises, then hold acid in excess while bicarbonate rises. Which reagent limits the computed carbon dioxide?
+# Intermediate mission. Compare both four-vessel series: a larger dose raises
+# the carbon ledger only until the other reactant becomes limiting.
+#
+# Model boundary: these are equilibrium inventory calculations, not a fizz-rate
+# or bubble-volume prediction. The open virtual vessels can release carbon
+# dioxide; foam height, nucleation, gas capture, heat exchange, mixing time and
+# real preparation error are absent. A physical analogue should use small,
+# teacher-prepared dilute portions, eye protection and an open vessel—never seal
+# an acid/carbonate mixture.
+register lv2
+add v1 water 250mL
+add v1 NaHCO3 0.004mol
+add v1 HCl 0.0005mol
+inspect v1
+new
+add v2 water 250mL
+add v2 NaHCO3 0.004mol
+add v2 HCl 0.001mol
+inspect v2
+new
+add v3 water 250mL
+add v3 NaHCO3 0.004mol
+add v3 HCl 0.002mol
+inspect v3
+new
+add v4 water 250mL
+add v4 NaHCO3 0.004mol
+add v4 HCl 0.003mol
+inspect v4
+new
+add v5 water 250mL
+add v5 NaHCO3 0.001mol
+add v5 HCl 0.01mol
+inspect v5
+new
+add v6 water 250mL
+add v6 NaHCO3 0.002mol
+add v6 HCl 0.01mol
+inspect v6
+new
+add v7 water 250mL
+add v7 NaHCO3 0.004mol
+add v7 HCl 0.01mol
+inspect v7
+new
+add v8 water 250mL
+add v8 NaHCO3 0.008mol
+add v8 HCl 0.01mol
+inspect v8
