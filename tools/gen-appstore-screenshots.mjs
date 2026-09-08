@@ -130,6 +130,10 @@ try {
       // Locale and console preference are set before the photographed boot,
       // exactly as returning readers have them stored on-device.
       await page.evaluate(`(() => {
+        // The screenshot browser is disposable. Start every device capture
+        // from the same empty lab instead of restoring the preceding shot's
+        // autosaved vessel and appending another experiment to it.
+        localStorage.clear();
         localStorage.setItem("kerotakis.console.v1", "shown");
         localStorage.setItem("kerotakis.locale", ${JSON.stringify(locale.split("-")[0])});
       })()`);
