@@ -656,6 +656,7 @@ fn execute_prompt(
                     // outrank a computed or curated route that was the real
                     // answer.
                     | Event::Precipitated { .. }
+                    | Event::Extracted { .. }
                     | Event::Inert { .. }
                     | Event::InertInSolvent { .. }
             )

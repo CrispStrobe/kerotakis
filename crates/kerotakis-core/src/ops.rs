@@ -271,6 +271,18 @@ pub enum Operator {
     /// liquid–liquid equilibrium says there *are* layers; one phase has
     /// nothing to drain separately, and the bench says so.
     Drain { from: VesselId, to: VesselId },
+    /// Contact an aqueous source with a stated total amount of fresh
+    /// extracting solvent, split into equal ideal stages, and collect every
+    /// organic phase in `to`. Each supported neutral solute is transferred by
+    /// its own distribution coefficient; matter is never consumed.
+    Extract {
+        from: VesselId,
+        to: VesselId,
+        solvent: SpeciesId,
+        total_solvent: Moles,
+        #[serde(default = "one_stage")]
+        stages: u32,
+    },
     /// Let time pass. Rates need a clock, and this is it.
     ///
     /// Deliberately not per-vessel: every vessel on the bench advances by
@@ -1664,6 +1676,16 @@ pub enum Event {
         solvent: SpeciesId,
         moles: Moles,
     },
+    /// Fresh-solvent liquid/liquid extraction completed, with the comparison
+    /// against one stage using the same total solvent computed beside it.
+    Extracted {
+        from: VesselId,
+        to: VesselId,
+        solvent: SpeciesId,
+        total_solvent: Moles,
+        stages: u32,
+        solutes: Vec<ExtractionSplit>,
+    },
     /// Two liquid layers formed: mixing these liquids raises the Gibbs
     /// energy instead of lowering it, so they split — computed
     /// liquid–liquid equilibrium, not a solubility table. `upper`
@@ -2079,6 +2101,18 @@ pub enum Event {
         courant: f64,
         effluent_moles: Vec<(SpeciesId, Moles)>,
     },
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct ExtractionSplit {
+    pub species: SpeciesId,
+    pub extracted: Moles,
+    pub remaining: Moles,
+    pub partition_k: f64,
+    pub single_stage_efficiency: f64,
+    pub staged_efficiency: f64,
+    pub model: String,
+    pub provenance: String,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

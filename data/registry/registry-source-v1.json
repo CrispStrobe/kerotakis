@@ -1649,6 +1649,15 @@
       "retrieved": "2026-09-07"
     },
     {
+      "id": "literature/hartley-campbell-iodine-water",
+      "citation": "H. Hartley and N. P. Campbell, 'The solubility of iodine in water', J. Chem. Soc., Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741: 0.3393 g I2 per litre water at 25 °C. Kerotakis converts this factual measurement to 0.03393 g/100 mL and releases its transcription as CC0; no source text or table is redistributed.",
+      "licence": "CC0-1.0",
+      "lane": "runtime",
+      "origin": "https://doi.org/10.1039/CT9089300741",
+      "revision": "J. Chem. Soc., Trans. 1908, 93, 741-745",
+      "retrieved": "2026-09-08"
+    },
+    {
       "id": "kerotakis/aqueous-basis-v1",
       "citation": "Kerotakis analytical aqueous basis: formula stoichiometry and existing registry atomic mass basis. Aqueous partial heat capacities are not modeled (zero); density is an unused placeholder because solvent carries volume. No equilibrium or kinetic constants introduced.",
       "licence": "CC0-1.0",
@@ -58612,7 +58621,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0.0,
+        "value": 1.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -58629,10 +58638,50 @@
         "uncertainty": {
           "kind": "exact"
         },
-        "source_id": "legacy/I2",
+        "source_id": "literature/hartley-campbell-iodine-water",
         "method": {
-          "kind": "derived",
-          "detail": "parsed from the verbatim legacy declaration"
+          "kind": "curated",
+          "detail": "neutral iodine dissolves up to the separately recorded water-solubility limit without aqueous speciation"
+        }
+      }
+    },
+    {
+      "id": "aqueous-solubility/I2",
+      "subject": {
+        "kind": "species",
+        "id": "I2"
+      },
+      "model": "bounded-room-temperature-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml",
+      "quantity": {
+        "value": 0.03393,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": {
+            "lower": 298.15,
+            "upper": 298.15,
+            "unit": {
+              "symbol": "K",
+              "dimension": "temperature"
+            }
+          },
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": "water",
+          "phase": "solid",
+          "notes": "single reviewed 25 °C point; no temperature dependence is inferred"
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "literature/hartley-campbell-iodine-water",
+        "method": {
+          "kind": "curated",
+          "detail": "0.3393 g/L converted exactly to 0.03393 g/100 mL"
         }
       }
     },

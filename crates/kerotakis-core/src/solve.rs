@@ -1008,7 +1008,9 @@ fn dissolved_particle_molality(vessel: &Vessel) -> f64 {
     if water_kg <= 0.0 {
         return speciated;
     }
-    let liquid_ml = vessel.liquid_volume().0 * 1000.0;
+    let water_ml = species::lookup(&solvent)
+        .map(|water| water.liters_from_moles(Moles(water_kg / 0.018_015)).0 * 1000.0)
+        .unwrap_or(0.0);
     let unspeciated: f64 = vessel
         .contents
         .iter()
@@ -1022,7 +1024,7 @@ fn dissolved_particle_molality(vessel: &Vessel) -> f64 {
             // solubility is sitting on the bottom of the beaker, and a
             // crystal on the bottom raises nothing.
             let dissolved = match data.aqueous_solubility_at(vessel.temperature.0) {
-                Some(limit) => p.moles.0.min(limit * liquid_ml / 100.0 / data.molar_mass),
+                Some(limit) => p.moles.0.min(limit * water_ml / 100.0 / data.molar_mass),
                 None => p.moles.0,
             };
             Some(dissolved / water_kg)

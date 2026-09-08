@@ -155,15 +155,15 @@ fn one_reviewed_bottle_is_not_a_mixture_someone_made() {
     );
 }
 
-/// The other half of the same rule: pouring the two together is mixing, and
-/// mixing still warns — even though some third bottle happens to contain
-/// both. Nothing here weakens the screen; it narrows what counts as a pour.
+/// Molecular iodine and iodide form the familiar triiodide equilibrium;
+/// bringing them together is not the strong-oxidiser/reducer incompatibility
+/// represented by the safety matrix.
 #[test]
-fn pouring_the_same_two_species_separately_still_warns() {
+fn pouring_iodine_and_iodide_separately_does_not_invent_an_explosion() {
     let out = run_repl("add v1 water 100mL\nadd v1 KI 1g\nadd v1 I2 1g\nquit\n");
     assert!(
-        out.contains("HAZARD"),
-        "an oxidiser and a reducing agent brought together by hand must warn:\n{out}"
+        !out.contains("HAZARD"),
+        "iodine plus iodide must not inherit the permanganate hazard:\n{out}"
     );
 }
 

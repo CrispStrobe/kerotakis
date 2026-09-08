@@ -40,6 +40,7 @@ pub const VERBS: &[(&str, &str)] = &[
     ("evaporate", "evaporate v1 0.5"),
     ("decant", "decant v1 v2 0.5"),
     ("drain", "drain v1 v2"),
+    ("extract", "extract v1 v2 hexane 0.5mol stages 4"),
     ("distil", "distil v1 v2 0.5"),
     ("measure", "measure v1 ph"),
     ("chromatograph", "chromatograph v1"),
@@ -1040,6 +1041,40 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
             Operator::Drain {
                 from: parse_vessel(words[1])?,
                 to: parse_vessel(words[2])?,
+            }
+        }
+        "extract" => {
+            if words.len() < 5 {
+                return Err(
+                    "usage: extract <from> <to> <solvent> <total-amount><mol|g|mL> [stages <n>]"
+                        .into(),
+                );
+            }
+            let solvent = SpeciesId::new(words[3]);
+            let data = species::lookup(&solvent)
+                .ok_or_else(|| format!("unknown species '{}'", words[3]))?;
+            let total_solvent = parse_amount(words[4], data)?;
+            let stages = if words.len() == 5 {
+                1
+            } else if words.len() == 7 && words[5] == "stages" {
+                words[6]
+                    .parse::<u32>()
+                    .map_err(|_| format!("bad stage count '{}'", words[6]))?
+            } else {
+                return Err(
+                    "usage: extract <from> <to> <solvent> <total-amount><mol|g|mL> [stages <n>]"
+                        .into(),
+                );
+            };
+            if stages == 0 {
+                return Err("extraction needs at least one stage".into());
+            }
+            Operator::Extract {
+                from: parse_vessel(words[1])?,
+                to: parse_vessel(words[2])?,
+                solvent,
+                total_solvent,
+                stages,
             }
         }
         "distil" | "distill" => {

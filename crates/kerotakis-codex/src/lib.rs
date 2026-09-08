@@ -1438,6 +1438,10 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         E::LayersFormed { .. } => ("layers_formed", None),
         E::MaterialLayersFormed { .. } => ("material_layers_formed", None),
         E::Drained { .. } => ("drained", None),
+        E::Extracted { solutes, .. } => (
+            "extracted",
+            (solutes.len() == 1).then(|| solutes[0].species.0.as_str()),
+        ),
         E::Partitioned { species, .. } => ("partitioned", Some(species.0.as_str())),
         E::Chromatographed { .. } => ("chromatographed", None),
         E::OrgReacted { name, .. } => ("org_reacted", Some(name.as_str())),

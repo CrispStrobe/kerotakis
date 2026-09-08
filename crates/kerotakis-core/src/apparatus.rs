@@ -318,6 +318,62 @@ pub struct ExtractionResult {
     pub efficiency: f64,
 }
 
+/// One experimentally reviewed distribution coefficient for a named
+/// solute/solvent pair. `K` is always concentration in `organic_solvent`
+/// divided by concentration in `aqueous_solvent`; carrying that direction
+/// beside the number prevents the reciprocal from silently entering a
+/// calculation.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct PartitionCoefficient {
+    pub solute: &'static str,
+    pub organic_solvent: &'static str,
+    pub aqueous_solvent: &'static str,
+    pub k_organic_over_aqueous: f64,
+    pub reference_temperature_k: f64,
+    pub temperature_tolerance_k: f64,
+    pub source: &'static str,
+}
+
+/// Reviewed teaching-scale liquid/liquid data that cannot honestly be made
+/// from the organic-group model. Facts and identifiers only; no third-party
+/// implementation or source text is vendored.
+pub const PARTITION_COEFFICIENTS: &[PartitionCoefficient] = &[PartitionCoefficient {
+    solute: "I2",
+    organic_solvent: "hexane",
+    aqueous_solvent: "water",
+    k_organic_over_aqueous: 85.0,
+    reference_temperature_k: 298.15,
+    // The source states one equilibrium constant but no temperature curve.
+    // Admit only an ordinary room-temperature reading; a wider range would
+    // be an invented temperature model.
+    temperature_tolerance_k: 0.5,
+    source: "K = 85: Edexcel A-level Chemistry, Equilibrium II question 2, I2(aq) <=> I2(hexane); aqueous solubility 0.3393 g/L at 25 °C: Hartley & Campbell, J. Chem. Soc. Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741; neither source gives a temperature model",
+}];
+
+pub fn partition_coefficient(
+    solute: &SpeciesId,
+    organic_solvent: &SpeciesId,
+    aqueous_solvent: &SpeciesId,
+    temperature_k: f64,
+) -> Option<&'static PartitionCoefficient> {
+    partition_coefficient_row(solute, organic_solvent, aqueous_solvent).filter(|row| {
+        temperature_k.is_finite()
+            && (temperature_k - row.reference_temperature_k).abs() <= row.temperature_tolerance_k
+    })
+}
+
+pub fn partition_coefficient_row(
+    solute: &SpeciesId,
+    organic_solvent: &SpeciesId,
+    aqueous_solvent: &SpeciesId,
+) -> Option<&'static PartitionCoefficient> {
+    PARTITION_COEFFICIENTS.iter().find(|row| {
+        row.solute == solute.0
+            && row.organic_solvent == organic_solvent.0
+            && row.aqueous_solvent == aqueous_solvent.0
+    })
+}
+
 /// Single-stage liquid-liquid extraction (APP-004).
 ///
 /// Given a partition coefficient K = [solute]_organic / [solute]_aqueous,
@@ -328,9 +384,17 @@ pub fn extract(
     organic_volume_l: f64,
     partition_coefficient: f64,
 ) -> ExtractionResult {
-    if aqueous_volume_l <= 0.0 || organic_volume_l <= 0.0 || partition_coefficient <= 0.0 {
+    if !solute_moles.is_finite()
+        || !aqueous_volume_l.is_finite()
+        || !organic_volume_l.is_finite()
+        || !partition_coefficient.is_finite()
+        || solute_moles <= 0.0
+        || aqueous_volume_l <= 0.0
+        || organic_volume_l <= 0.0
+        || partition_coefficient <= 0.0
+    {
         return ExtractionResult {
-            aqueous_moles: solute_moles,
+            aqueous_moles: solute_moles.max(0.0),
             organic_moles: 0.0,
             efficiency: 0.0,
         };
@@ -358,23 +422,88 @@ pub fn extract_repeated(
     partition_coefficient: f64,
     stages: usize,
 ) -> ExtractionResult {
-    let mut remaining = solute_moles;
-    let mut total_organic = 0.0;
-    for _ in 0..stages {
-        let result = extract(
-            remaining,
-            aqueous_volume_l,
-            organic_volume_per_stage_l,
-            partition_coefficient,
-        );
-        remaining = result.aqueous_moles;
-        total_organic += result.organic_moles;
+    if stages == 0 {
+        return ExtractionResult {
+            aqueous_moles: solute_moles.max(0.0),
+            organic_moles: 0.0,
+            efficiency: 0.0,
+        };
     }
+    let one = extract(
+        solute_moles,
+        aqueous_volume_l,
+        organic_volume_per_stage_l,
+        partition_coefficient,
+    );
+    if one.efficiency == 0.0 {
+        return one;
+    }
+    // Every stage sees a fresh, equal solvent portion. The fraction left
+    // after one stage is therefore raised to `stages`; this closed form is
+    // mathematically identical to a loop but remains fast for thousands or
+    // millions of requested stages and avoids accumulated subtraction error.
+    let remaining_fraction = (one.aqueous_moles / solute_moles).powf(stages as f64);
+    let remaining = solute_moles * remaining_fraction;
+    let total_organic = solute_moles - remaining;
     ExtractionResult {
         aqueous_moles: remaining,
         organic_moles: total_organic,
         efficiency: total_organic / solute_moles,
     }
+}
+
+/// Repeated extraction when undissolved solute may replenish the aqueous
+/// phase up to a reviewed saturation concentration.
+///
+/// Returns `None` when the requested solvent cannot dissolve the full solid
+/// inventory across all stages. That three-phase remainder needs an explicit
+/// solid-equilibrium result rather than the dissolved-only result type above.
+pub fn extract_repeated_with_aqueous_solubility(
+    solute_moles: f64,
+    aqueous_volume_l: f64,
+    organic_volume_per_stage_l: f64,
+    partition_coefficient: f64,
+    aqueous_solubility_mol_l: f64,
+    stages: usize,
+) -> Option<ExtractionResult> {
+    if stages == 0 || !aqueous_solubility_mol_l.is_finite() || aqueous_solubility_mol_l <= 0.0 {
+        return None;
+    }
+    let one = extract(
+        solute_moles,
+        aqueous_volume_l,
+        organic_volume_per_stage_l,
+        partition_coefficient,
+    );
+    if one.efficiency == 0.0 {
+        return None;
+    }
+    let aqueous_at_saturation = aqueous_solubility_mol_l * aqueous_volume_l;
+    let organic_at_saturation =
+        partition_coefficient * aqueous_solubility_mol_l * organic_volume_per_stage_l;
+    let total_capacity = aqueous_at_saturation + organic_at_saturation * stages as f64;
+    if solute_moles > total_capacity * (1.0 + 1e-12) {
+        return None;
+    }
+
+    let first_stage_capacity = aqueous_at_saturation + organic_at_saturation;
+    let saturated_stages = if solute_moles <= first_stage_capacity {
+        0
+    } else {
+        ((solute_moles - first_stage_capacity) / organic_at_saturation)
+            .ceil()
+            .min(stages as f64) as usize
+    };
+    let after_saturated = solute_moles - saturated_stages as f64 * organic_at_saturation;
+    let unsaturated_stages = stages - saturated_stages;
+    let fraction_left_per_stage = one.aqueous_moles / solute_moles;
+    let remaining = after_saturated * fraction_left_per_stage.powf(unsaturated_stages as f64);
+    let extracted = solute_moles - remaining;
+    Some(ExtractionResult {
+        aqueous_moles: remaining,
+        organic_moles: extracted,
+        efficiency: extracted / solute_moles,
+    })
 }
 
 /// Recrystallization result (APP-005).
@@ -534,6 +663,41 @@ mod tests {
             result.aqueous_moles,
             result.organic_moles
         );
+    }
+
+    #[test]
+    fn extraction_handles_zero_and_many_stages_without_nan_or_iteration() {
+        let zero = extract(0.0, 0.1, 0.1, 5.0);
+        assert_eq!(zero.efficiency, 0.0);
+        assert!(zero.aqueous_moles.is_finite());
+
+        let none = extract_repeated(0.1, 0.1, 0.05, 5.0, 0);
+        assert_eq!(none.aqueous_moles, 0.1);
+        assert_eq!(none.efficiency, 0.0);
+
+        let many = extract_repeated(0.1, 0.1, 0.05, 5.0, 1_000_000);
+        assert!(many.aqueous_moles >= 0.0);
+        assert!((many.organic_moles - 0.1).abs() < 1e-12);
+        assert_eq!(many.efficiency, 1.0);
+    }
+
+    #[test]
+    fn crystalline_reservoir_replenishes_each_stage_with_a_bounded_capacity() {
+        let result =
+            extract_repeated_with_aqueous_solubility(0.005, 0.036, 0.016, 85.0, 0.001_336_832, 4)
+                .expect("four portions can dissolve this loading");
+        let dissolved_only = extract_repeated(0.005, 0.036, 0.016, 85.0, 4);
+        assert!(result.efficiency < dissolved_only.efficiency);
+        assert!((result.aqueous_moles + result.organic_moles - 0.005).abs() < 1e-12);
+        assert!(extract_repeated_with_aqueous_solubility(
+            0.01,
+            0.036,
+            0.016,
+            85.0,
+            0.001_336_832,
+            4,
+        )
+        .is_none());
     }
 
     // ── APP-005: recrystallization ────────────────────────────────

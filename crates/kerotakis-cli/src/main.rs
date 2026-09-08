@@ -2742,6 +2742,7 @@ fn repl() {
                  time and mixing  wait <t><s|min|h> · stir <v> [<rpm> <s>] · grind <v> <name> <um>\n\
                  gas boundary     seal <v> <vol> · regulate <v> <bar> <vol> · sweep <v> <bar> · open <v>\n\
                  move things      decant/filter/drain <from> <to> · dilute <v> <vol> · evaporate <v> <frac>\n\
+                 \x20                extract <from> <to> <solvent> <amount> [stages <n>]\n\
                  \x20                distil <from> <to> <frac|energy> [stages <n>] · magnet <from> <to>\n\
                  \x20                centrifuge <v> <g> <s> · transport <v..> from <in> to <out> steps <n>\n\
                  look and measure look <v> · smell <v> · measure <v> <thermometer|balance|ph|…>\n\

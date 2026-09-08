@@ -2180,6 +2180,55 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 &[("from", &from.to_string()), ("to", &to.to_string()), ("solvent", &solvent.0.to_string()), ("moles", &locale.number(format!("{:.6}", moles.0)))],
             ),
         },
+        Event::Extracted {
+            from,
+            to,
+            solvent,
+            total_solvent,
+            stages,
+            solutes,
+        } => {
+            let summary = solutes
+                .iter()
+                .map(|split| {
+                    locale.fill(
+                        "event.extracted.split",
+                        "{species}: {staged}% extracted ({single}% in one equal-total-solvent stage), K={k}",
+                        &[
+                            ("species", species_name(locale, &split.species)),
+                            ("staged", &locale.number(format!("{:.1}", split.staged_efficiency * 100.0))),
+                            ("single", &locale.number(format!("{:.1}", split.single_stage_efficiency * 100.0))),
+                            ("k", &locale.number(format!("{:.3}", split.partition_k))),
+                        ],
+                    )
+                })
+                .collect::<Vec<_>>()
+                .join("; ");
+            match register.level() {
+                1 => locale.fill(
+                    "event.extracted.lv1",
+                    "You shake {from} with fresh {solvent} in {stages} portions and collect the extracts in {to}. {summary}",
+                    &[("from", &from.to_string()), ("to", &to.to_string()), ("solvent", species_name(locale, solvent)), ("stages", &stages.to_string()), ("summary", &summary)],
+                ),
+                2 => locale.fill(
+                    "event.extracted.lv2",
+                    "{from} -> {to}: {total} mol {solvent}, divided across {stages} ideal extraction stages — {summary}",
+                    &[("from", &from.to_string()), ("to", &to.to_string()), ("total", &locale.number(format!("{:.4}", total_solvent.0))), ("solvent", species_name(locale, solvent)), ("stages", &stages.to_string()), ("summary", &summary)],
+                ),
+                _ => {
+                    let evidence = solutes
+                        .iter()
+                        .map(|split| format!("{} [{}; {}]", split.species.0, split.model, split.provenance))
+                        .collect::<Vec<_>>()
+                        .join("; ");
+                    locale.fill(
+                        "event.extracted.lv3",
+                        "{from} -> {to}: repeated equilibrium extraction with {total} mol {solvent} over {stages} equal fresh portions; K=[solute]organic/[solute]aqueous; mass balance closes at every stage — {summary}. {evidence}",
+                        &[("from", &from.to_string()), ("to", &to.to_string()), ("total", &locale.number(format!("{:.6}", total_solvent.0))), ("solvent", &solvent.0), ("stages", &stages.to_string()), ("summary", &summary), ("evidence", &evidence)],
+                    )
+                }
+            }
+        }
         Event::LayersFormed { vessel, upper, lower } => match register.level() {
             1 => locale.fill(
                 "event.layers-formed.lv1",

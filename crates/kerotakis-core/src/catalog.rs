@@ -145,6 +145,7 @@ const APPARATUS_MILESTONES: &[(&str, u32)] = &[
     ("bunsen", 1),
     ("evaporate", 1),
     ("drain", 1),
+    ("extract", 1),
     ("magnet", 1),
     ("react", 1),
     ("regulate", 2),

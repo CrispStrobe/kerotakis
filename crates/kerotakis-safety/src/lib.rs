@@ -185,7 +185,13 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         "NH4NO3" => &[OxidizerStrong],
         "H2O2" => &[OxidizerStrong],
         "KMnO4" | "KIO3" => &[OxidizerStrong],
-        "Cl2" | "I2" => &[OxidizerStrong],
+        "Cl2" => &[OxidizerStrong],
+        // Molecular iodine is an oxidising reagent, but it is not a strong
+        // oxidising-material class comparable to permanganate.  Assigning it
+        // that incompatibility group falsely labelled ordinary iodine/hexane
+        // partitioning (and iodine/iodide solutions) as an ignition or
+        // explosion hazard.
+        "I2" => &[],
         "MnO4-" => &[OxidizerStrong],
 
         // ── hypochlorite (specific sub-class of oxidizer) ─────────
@@ -1163,12 +1169,11 @@ impl SafetyScreen for ReactiveGroupScreen {
 ///
 /// The reactivity matrix asks whether two *reactive groups* are compatible,
 /// which is the right question about a mixture someone made and the wrong
-/// question about a manufactured reagent. Lugol's solution is iodine plus
-/// potassium iodide — an oxidiser and a reducing agent by the matrix, a
-/// stable pharmacy reagent in fact — so one millilitre of it into a beaker
-/// of water raised a Danger-level "at scale, such mixtures can detonate"
-/// on a starch test aimed at eight-year-olds. A banner that fires on a
-/// starch test is a banner nobody reads on the day it matters.
+/// question about a manufactured reagent. This exception was introduced
+/// after a stable pharmacy reagent raised a Danger-level warning merely
+/// because two components arrived together. It remains necessary for other
+/// reviewed multi-component bottles even though molecular iodine is now
+/// correctly outside the strong-oxidiser group.
 ///
 /// The recipes are the authority: if a reviewed `MaterialRecipe` lists both
 /// species as components of one bottle, that pairing was reviewed when the
