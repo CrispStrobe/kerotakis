@@ -1,0 +1,289 @@
+{
+  "schema": "kerotakis-source-fleet-v1",
+  "family": "solubility-precipitation",
+  "cases": [
+    {
+      "id": "243-silver-chloride-salt-first",
+      "question": "Does addition order change silver chloride formation?",
+      "script": "add v1 water 200mL\nadd v1 NaCl 0.004mol\nadd v1 AgNO3 0.004mol\ninspect v1"
+    },
+    {
+      "id": "244-silver-chloride-silver-first",
+      "question": "Does reversing the reagents change silver chloride formation?",
+      "script": "add v1 water 200mL\nadd v1 AgNO3 0.004mol\nadd v1 NaCl 0.004mol\ninspect v1"
+    },
+    {
+      "id": "245-silver-chloride-split-salt",
+      "question": "Does splitting chloride delivery change the final phase inventory?",
+      "script": "add v1 water 200mL\nadd v1 NaCl 0.001mol\nadd v1 AgNO3 0.004mol\nadd v1 NaCl 0.003mol\ninspect v1"
+    },
+    {
+      "id": "246-silver-chloride-split-silver",
+      "question": "Does splitting silver delivery change the final phase inventory?",
+      "script": "add v1 water 200mL\nadd v1 AgNO3 0.0015mol\nadd v1 NaCl 0.004mol\nadd v1 AgNO3 0.0025mol\ninspect v1"
+    },
+    {
+      "id": "247-silver-chloride-scale-1",
+      "question": "Does silver chloride production scale with an extensive recipe?",
+      "script": "add v1 water 100mL\nadd v1 NaCl 0.001mol\nadd v1 AgNO3 0.001mol\ninspect v1"
+    },
+    {
+      "id": "248-silver-chloride-scale-2",
+      "question": "Does silver chloride production scale with an extensive recipe?",
+      "script": "add v1 water 200mL\nadd v1 NaCl 0.002mol\nadd v1 AgNO3 0.002mol\ninspect v1"
+    },
+    {
+      "id": "249-silver-chloride-scale-3",
+      "question": "Does silver chloride production scale with an extensive recipe?",
+      "script": "add v1 water 300mL\nadd v1 NaCl 0.003mol\nadd v1 AgNO3 0.003mol\ninspect v1"
+    },
+    {
+      "id": "250-silver-chloride-scale-4",
+      "question": "Does silver chloride production scale with an extensive recipe?",
+      "script": "add v1 water 400mL\nadd v1 NaCl 0.004mol\nadd v1 AgNO3 0.004mol\ninspect v1"
+    },
+    {
+      "id": "251-silver-limited-chloride-0.001",
+      "question": "What changes when chloride is raised around a fixed silver amount?",
+      "script": "add v1 water 250mL\nadd v1 NaCl 0.001mol\nadd v1 AgNO3 0.0023mol\ninspect v1"
+    },
+    {
+      "id": "252-silver-limited-chloride-0.002",
+      "question": "What changes when chloride is raised around a fixed silver amount?",
+      "script": "add v1 water 250mL\nadd v1 NaCl 0.002mol\nadd v1 AgNO3 0.0023mol\ninspect v1"
+    },
+    {
+      "id": "253-silver-limited-chloride-0.004",
+      "question": "What changes when chloride is raised around a fixed silver amount?",
+      "script": "add v1 water 250mL\nadd v1 NaCl 0.004mol\nadd v1 AgNO3 0.0023mol\ninspect v1"
+    },
+    {
+      "id": "254-silver-limited-chloride-0.008",
+      "question": "What changes when chloride is raised around a fixed silver amount?",
+      "script": "add v1 water 250mL\nadd v1 NaCl 0.008mol\nadd v1 AgNO3 0.0023mol\ninspect v1"
+    },
+    {
+      "id": "255-chloride-limited-silver-0.001",
+      "question": "What changes when silver is raised around a fixed chloride amount?",
+      "script": "add v1 water 250mL\nadd v1 NaCl 0.0027mol\nadd v1 AgNO3 0.001mol\ninspect v1"
+    },
+    {
+      "id": "256-chloride-limited-silver-0.002",
+      "question": "What changes when silver is raised around a fixed chloride amount?",
+      "script": "add v1 water 250mL\nadd v1 NaCl 0.0027mol\nadd v1 AgNO3 0.002mol\ninspect v1"
+    },
+    {
+      "id": "257-chloride-limited-silver-0.004",
+      "question": "What changes when silver is raised around a fixed chloride amount?",
+      "script": "add v1 water 250mL\nadd v1 NaCl 0.0027mol\nadd v1 AgNO3 0.004mol\ninspect v1"
+    },
+    {
+      "id": "258-chloride-limited-silver-0.008",
+      "question": "What changes when silver is raised around a fixed chloride amount?",
+      "script": "add v1 water 250mL\nadd v1 NaCl 0.0027mol\nadd v1 AgNO3 0.008mol\ninspect v1"
+    },
+    {
+      "id": "259-carbonate-calcium-first",
+      "question": "Does addition order alter calcium carbonate precipitation?",
+      "script": "add v1 water 250mL\nadd v1 CaCl2 0.003mol\nadd v1 Na2CO3 0.003mol\ninspect v1"
+    },
+    {
+      "id": "260-carbonate-carbonate-first",
+      "question": "Does reversing the reagents alter calcium carbonate precipitation?",
+      "script": "add v1 water 250mL\nadd v1 Na2CO3 0.003mol\nadd v1 CaCl2 0.003mol\ninspect v1"
+    },
+    {
+      "id": "261-carbonate-split-calcium",
+      "question": "Does split calcium delivery alter the final carbonate phases?",
+      "script": "add v1 water 250mL\nadd v1 CaCl2 0.001mol\nadd v1 Na2CO3 0.003mol\nadd v1 CaCl2 0.002mol\ninspect v1"
+    },
+    {
+      "id": "262-carbonate-split-carbonate",
+      "question": "Does split carbonate delivery alter the final carbonate phases?",
+      "script": "add v1 water 250mL\nadd v1 Na2CO3 0.001mol\nadd v1 CaCl2 0.003mol\nadd v1 Na2CO3 0.002mol\ninspect v1"
+    },
+    {
+      "id": "263-filter-agcl-reference",
+      "question": "Where do silver chloride and its liquid go during filtration?",
+      "script": "add v1 water 200mL\nadd v1 NaCl 0.003mol\nadd v1 AgNO3 0.003mol\nnew\nfilter v1 v2\ninspect"
+    },
+    {
+      "id": "264-filter-agcl-split-feed",
+      "question": "Does split reagent delivery conserve the filtered system?",
+      "script": "add v1 water 200mL\nadd v1 NaCl 0.001mol\nadd v1 NaCl 0.002mol\nadd v1 AgNO3 0.003mol\nnew\nfilter v1 v2\ninspect"
+    },
+    {
+      "id": "265-filter-agcl-reverse-feed",
+      "question": "Does reversed reagent order conserve the filtered system?",
+      "script": "add v1 water 200mL\nadd v1 AgNO3 0.003mol\nadd v1 NaCl 0.003mol\nnew\nfilter v1 v2\ninspect"
+    },
+    {
+      "id": "266-filter-agcl-split-silver",
+      "question": "Does split silver delivery conserve the filtered system?",
+      "script": "add v1 water 200mL\nadd v1 AgNO3 0.001mol\nadd v1 NaCl 0.003mol\nadd v1 AgNO3 0.002mol\nnew\nfilter v1 v2\ninspect"
+    }
+  ],
+  "relations": [
+    {
+      "id": "sol-agcl-path-independence",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "cases": [
+        "243-silver-chloride-salt-first",
+        "244-silver-chloride-silver-first",
+        "245-silver-chloride-split-salt",
+        "246-silver-chloride-split-silver"
+      ],
+      "parameters": {
+        "species": [
+          "Ag+",
+          "Cl-",
+          "AgCl"
+        ],
+        "phases": [
+          "Liquid",
+          "Solid"
+        ],
+        "atol": 2e-08,
+        "rtol": 2e-06
+      }
+    },
+    {
+      "id": "sol-agcl-extensive-elements",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "247-silver-chloride-scale-1",
+        "248-silver-chloride-scale-2",
+        "249-silver-chloride-scale-3",
+        "250-silver-chloride-scale-4"
+      ],
+      "parameters": {
+        "elements": [
+          "Ag",
+          "Cl",
+          "Na",
+          "N"
+        ],
+        "before_op": "inspect"
+      }
+    },
+    {
+      "id": "sol-agcl-precipitation",
+      "kind": "boundary",
+      "assertion": "event-present",
+      "cases": [
+        "247-silver-chloride-scale-1",
+        "248-silver-chloride-scale-2",
+        "249-silver-chloride-scale-3",
+        "250-silver-chloride-scale-4"
+      ],
+      "parameters": {
+        "event": "precipitated",
+        "count": 1
+      }
+    },
+    {
+      "id": "sol-silver-limited-conservation",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "251-silver-limited-chloride-0.001",
+        "252-silver-limited-chloride-0.002",
+        "253-silver-limited-chloride-0.004",
+        "254-silver-limited-chloride-0.008"
+      ],
+      "parameters": {
+        "elements": [
+          "Ag",
+          "Cl",
+          "Na",
+          "N"
+        ],
+        "before_op": "inspect"
+      }
+    },
+    {
+      "id": "sol-chloride-limited-conservation",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "255-chloride-limited-silver-0.001",
+        "256-chloride-limited-silver-0.002",
+        "257-chloride-limited-silver-0.004",
+        "258-chloride-limited-silver-0.008"
+      ],
+      "parameters": {
+        "elements": [
+          "Ag",
+          "Cl",
+          "Na",
+          "N"
+        ],
+        "before_op": "inspect"
+      }
+    },
+    {
+      "id": "sol-caco3-path-independence",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "cases": [
+        "259-carbonate-calcium-first",
+        "260-carbonate-carbonate-first",
+        "261-carbonate-split-calcium",
+        "262-carbonate-split-carbonate"
+      ],
+      "parameters": {
+        "species": [
+          "Ca+2",
+          "CO3-2",
+          "CaCO3"
+        ],
+        "phases": [
+          "Liquid",
+          "Solid"
+        ],
+        "atol": 2e-08,
+        "rtol": 2e-06
+      }
+    },
+    {
+      "id": "sol-filter-system-equality",
+      "kind": "conservation",
+      "assertion": "final-elements-equal",
+      "cases": [
+        "263-filter-agcl-reference",
+        "264-filter-agcl-split-feed",
+        "265-filter-agcl-reverse-feed",
+        "266-filter-agcl-split-silver"
+      ],
+      "parameters": {
+        "elements": [
+          "Ag",
+          "Cl",
+          "Na",
+          "N",
+          "H",
+          "O"
+        ],
+        "atol": 2e-08,
+        "rtol": 2e-06
+      }
+    },
+    {
+      "id": "sol-filter-event",
+      "kind": "boundary",
+      "assertion": "event-present",
+      "cases": [
+        "263-filter-agcl-reference",
+        "264-filter-agcl-split-feed",
+        "265-filter-agcl-reverse-feed",
+        "266-filter-agcl-split-silver"
+      ],
+      "parameters": {
+        "event": "filtered",
+        "count": 1
+      }
+    }
+  ]
+}

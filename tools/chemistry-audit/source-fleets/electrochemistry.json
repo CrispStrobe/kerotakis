@@ -1,0 +1,266 @@
+{
+  "schema": "kerotakis-source-fleet-v1",
+  "family": "electrochemistry",
+  "cases": [
+    {
+      "id": "291-daniell-copper-0.0005",
+      "question": "How does copper-ion amount shift the open-circuit Daniell voltage?",
+      "script": "add v1 water 200mL\nadd v1 ZnSO4 0.01mol\nadd v1 Zn 0.05mol\nnew\nadd v2 water 200mL\nadd v2 CuSO4 0.0005mol\nadd v2 Cu 0.05mol\ncell v1 v2"
+    },
+    {
+      "id": "292-daniell-copper-0.001",
+      "question": "How does copper-ion amount shift the open-circuit Daniell voltage?",
+      "script": "add v1 water 200mL\nadd v1 ZnSO4 0.01mol\nadd v1 Zn 0.05mol\nnew\nadd v2 water 200mL\nadd v2 CuSO4 0.001mol\nadd v2 Cu 0.05mol\ncell v1 v2"
+    },
+    {
+      "id": "293-daniell-copper-0.005",
+      "question": "How does copper-ion amount shift the open-circuit Daniell voltage?",
+      "script": "add v1 water 200mL\nadd v1 ZnSO4 0.01mol\nadd v1 Zn 0.05mol\nnew\nadd v2 water 200mL\nadd v2 CuSO4 0.005mol\nadd v2 Cu 0.05mol\ncell v1 v2"
+    },
+    {
+      "id": "294-daniell-copper-0.01",
+      "question": "How does copper-ion amount shift the open-circuit Daniell voltage?",
+      "script": "add v1 water 200mL\nadd v1 ZnSO4 0.01mol\nadd v1 Zn 0.05mol\nnew\nadd v2 water 200mL\nadd v2 CuSO4 0.01mol\nadd v2 Cu 0.05mol\ncell v1 v2"
+    },
+    {
+      "id": "295-daniell-zinc-0.0005",
+      "question": "How does zinc-ion amount shift the open-circuit Daniell voltage?",
+      "script": "add v1 water 200mL\nadd v1 ZnSO4 0.0005mol\nadd v1 Zn 0.05mol\nnew\nadd v2 water 200mL\nadd v2 CuSO4 0.008mol\nadd v2 Cu 0.05mol\ncell v1 v2"
+    },
+    {
+      "id": "296-daniell-zinc-0.001",
+      "question": "How does zinc-ion amount shift the open-circuit Daniell voltage?",
+      "script": "add v1 water 200mL\nadd v1 ZnSO4 0.001mol\nadd v1 Zn 0.05mol\nnew\nadd v2 water 200mL\nadd v2 CuSO4 0.008mol\nadd v2 Cu 0.05mol\ncell v1 v2"
+    },
+    {
+      "id": "297-daniell-zinc-0.005",
+      "question": "How does zinc-ion amount shift the open-circuit Daniell voltage?",
+      "script": "add v1 water 200mL\nadd v1 ZnSO4 0.005mol\nadd v1 Zn 0.05mol\nnew\nadd v2 water 200mL\nadd v2 CuSO4 0.008mol\nadd v2 Cu 0.05mol\ncell v1 v2"
+    },
+    {
+      "id": "298-daniell-zinc-0.01",
+      "question": "How does zinc-ion amount shift the open-circuit Daniell voltage?",
+      "script": "add v1 water 200mL\nadd v1 ZnSO4 0.01mol\nadd v1 Zn 0.05mol\nnew\nadd v2 water 200mL\nadd v2 CuSO4 0.008mol\nadd v2 Cu 0.05mol\ncell v1 v2"
+    },
+    {
+      "id": "299-electrolysis-charge-fast",
+      "question": "Does charge, rather than current alone, govern ideal electrolysis products?",
+      "script": "add v1 water 250mL\nadd v1 KNO3 0.001mol\nelectrolyse v1 0.2A 60s\ninspect v1"
+    },
+    {
+      "id": "300-electrolysis-charge-slow",
+      "question": "Does half the current for twice the time give the same products?",
+      "script": "add v1 water 250mL\nadd v1 KNO3 0.001mol\nelectrolyse v1 0.1A 120s\ninspect v1"
+    },
+    {
+      "id": "301-electrolysis-charge-split",
+      "question": "Do two equal charge intervals give the same cumulative products?",
+      "script": "add v1 water 250mL\nadd v1 KNO3 0.001mol\nelectrolyse v1 0.2A 30s\nelectrolyse v1 0.2A 30s\ninspect v1"
+    },
+    {
+      "id": "302-electrolysis-charge-unequal",
+      "question": "Do unequal intervals with equal total charge give the same products?",
+      "script": "add v1 water 250mL\nadd v1 KNO3 0.001mol\nelectrolyse v1 0.2A 20s\nelectrolyse v1 0.2A 40s\ninspect v1"
+    },
+    {
+      "id": "303-electrolysis-time-15",
+      "question": "How does electrolysis duration change product inventory at fixed current?",
+      "script": "add v1 water 250mL\nadd v1 Na2SO4 0.001mol\nelectrolyse v1 0.2A 15s\ninspect v1"
+    },
+    {
+      "id": "304-electrolysis-time-30",
+      "question": "How does electrolysis duration change product inventory at fixed current?",
+      "script": "add v1 water 250mL\nadd v1 Na2SO4 0.001mol\nelectrolyse v1 0.2A 30s\ninspect v1"
+    },
+    {
+      "id": "305-electrolysis-time-60",
+      "question": "How does electrolysis duration change product inventory at fixed current?",
+      "script": "add v1 water 250mL\nadd v1 Na2SO4 0.001mol\nelectrolyse v1 0.2A 60s\ninspect v1"
+    },
+    {
+      "id": "306-electrolysis-time-120",
+      "question": "How does electrolysis duration change product inventory at fixed current?",
+      "script": "add v1 water 250mL\nadd v1 Na2SO4 0.001mol\nelectrolyse v1 0.2A 120s\ninspect v1"
+    },
+    {
+      "id": "307-electrolysis-current-0.05",
+      "question": "How does imposed current change product inventory over fixed time?",
+      "script": "add v1 water 250mL\nadd v1 Na2SO4 0.001mol\nelectrolyse v1 0.05A 75s\ninspect v1"
+    },
+    {
+      "id": "308-electrolysis-current-0.1",
+      "question": "How does imposed current change product inventory over fixed time?",
+      "script": "add v1 water 250mL\nadd v1 Na2SO4 0.001mol\nelectrolyse v1 0.1A 75s\ninspect v1"
+    },
+    {
+      "id": "309-electrolysis-current-0.2",
+      "question": "How does imposed current change product inventory over fixed time?",
+      "script": "add v1 water 250mL\nadd v1 Na2SO4 0.001mol\nelectrolyse v1 0.2A 75s\ninspect v1"
+    },
+    {
+      "id": "310-electrolysis-current-0.4",
+      "question": "How does imposed current change product inventory over fixed time?",
+      "script": "add v1 water 250mL\nadd v1 Na2SO4 0.001mol\nelectrolyse v1 0.4A 75s\ninspect v1"
+    },
+    {
+      "id": "311-electrolysis-extensive-1",
+      "question": "Does scaling water, electrolyte, and charge preserve elemental accounting?",
+      "script": "add v1 water 110mL\nadd v1 KNO3 0.00045mol\nelectrolyse v1 0.2A 28s\ninspect v1"
+    },
+    {
+      "id": "312-electrolysis-extensive-2",
+      "question": "Does scaling water, electrolyte, and charge preserve elemental accounting?",
+      "script": "add v1 water 220mL\nadd v1 KNO3 0.0009mol\nelectrolyse v1 0.2A 56s\ninspect v1"
+    },
+    {
+      "id": "313-electrolysis-extensive-3",
+      "question": "Does scaling water, electrolyte, and charge preserve elemental accounting?",
+      "script": "add v1 water 330mL\nadd v1 KNO3 0.00135mol\nelectrolyse v1 0.2A 84s\ninspect v1"
+    },
+    {
+      "id": "314-electrolysis-extensive-4",
+      "question": "Does scaling water, electrolyte, and charge preserve elemental accounting?",
+      "script": "add v1 water 440mL\nadd v1 KNO3 0.0018mol\nelectrolyse v1 0.2A 112s\ninspect v1"
+    }
+  ],
+  "relations": [
+    {
+      "id": "ec-copper-activity-voltage",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "291-daniell-copper-0.0005",
+        "292-daniell-copper-0.001",
+        "293-daniell-copper-0.005",
+        "294-daniell-copper-0.01"
+      ],
+      "parameters": {
+        "event": "cell_voltage",
+        "field": "volts",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 0.0001
+      }
+    },
+    {
+      "id": "ec-zinc-activity-voltage",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "295-daniell-zinc-0.0005",
+        "296-daniell-zinc-0.001",
+        "297-daniell-zinc-0.005",
+        "298-daniell-zinc-0.01"
+      ],
+      "parameters": {
+        "event": "cell_voltage",
+        "field": "volts",
+        "occurrence": "last",
+        "direction": "decreasing",
+        "min_delta": 0.0001
+      }
+    },
+    {
+      "id": "ec-equal-charge-inventory",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "cases": [
+        "299-electrolysis-charge-fast",
+        "300-electrolysis-charge-slow",
+        "301-electrolysis-charge-split",
+        "302-electrolysis-charge-unequal"
+      ],
+      "parameters": {
+        "species": [
+          "H2",
+          "O2",
+          "water",
+          "K+",
+          "NO3-"
+        ],
+        "phases": [
+          "Liquid",
+          "Gas"
+        ],
+        "atol": 1e-09,
+        "rtol": 1e-07
+      }
+    },
+    {
+      "id": "ec-time-hydrogen-order",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "303-electrolysis-time-15",
+        "304-electrolysis-time-30",
+        "305-electrolysis-time-60",
+        "306-electrolysis-time-120"
+      ],
+      "parameters": {
+        "event": "electrolysed",
+        "field": "moles",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 1e-07
+      }
+    },
+    {
+      "id": "ec-time-element-conservation",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "303-electrolysis-time-15",
+        "304-electrolysis-time-30",
+        "305-electrolysis-time-60",
+        "306-electrolysis-time-120"
+      ],
+      "parameters": {
+        "elements": [
+          "H",
+          "O",
+          "Na",
+          "S"
+        ],
+        "before_op": "electrolyse"
+      }
+    },
+    {
+      "id": "ec-current-hydrogen-order",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "307-electrolysis-current-0.05",
+        "308-electrolysis-current-0.1",
+        "309-electrolysis-current-0.2",
+        "310-electrolysis-current-0.4"
+      ],
+      "parameters": {
+        "event": "electrolysed",
+        "field": "moles",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 1e-07
+      }
+    },
+    {
+      "id": "ec-extensive-conservation",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "311-electrolysis-extensive-1",
+        "312-electrolysis-extensive-2",
+        "313-electrolysis-extensive-3",
+        "314-electrolysis-extensive-4"
+      ],
+      "parameters": {
+        "elements": [
+          "H",
+          "O",
+          "K",
+          "N"
+        ],
+        "before_op": "electrolyse"
+      }
+    }
+  ]
+}

@@ -1,0 +1,262 @@
+{
+  "schema": "kerotakis-source-fleet-v1",
+  "family": "mixing-transfer",
+  "cases": [
+    {
+      "id": "315-water-mix-hot-first",
+      "question": "Does hot/cold input order alter the equilibrium mixing temperature?",
+      "script": "add v1 water 100mL @ 80C\nnew\nadd v2 water 100mL @ 20C\nnew\nmix v1 1 v2 1 into v3\nmeasure v3 thermometer"
+    },
+    {
+      "id": "316-water-mix-cold-first",
+      "question": "Does reversing hot/cold vessel order alter the mixing temperature?",
+      "script": "add v1 water 100mL @ 20C\nnew\nadd v2 water 100mL @ 80C\nnew\nmix v1 1 v2 1 into v3\nmeasure v3 thermometer"
+    },
+    {
+      "id": "317-water-mix-halves",
+      "question": "Does halving both source portions preserve the mixing temperature?",
+      "script": "add v1 water 200mL @ 80C\nnew\nadd v2 water 200mL @ 20C\nnew\nmix v1 0.5 v2 0.5 into v3\nmeasure v3 thermometer"
+    },
+    {
+      "id": "318-water-mix-extensive",
+      "question": "Does doubling both equal portions preserve the mixing temperature?",
+      "script": "add v1 water 200mL @ 80C\nnew\nadd v2 water 200mL @ 20C\nnew\nmix v1 1 v2 1 into v3\nmeasure v3 thermometer"
+    },
+    {
+      "id": "319-water-mix-hot-fraction-0.2",
+      "question": "How does the hot-water share move the final mixing temperature?",
+      "script": "add v1 water 200mL @ 80C\nnew\nadd v2 water 200mL @ 20C\nnew\nmix v1 0.2 v2 0.8 into v3\nmeasure v3 thermometer"
+    },
+    {
+      "id": "320-water-mix-hot-fraction-0.4",
+      "question": "How does the hot-water share move the final mixing temperature?",
+      "script": "add v1 water 200mL @ 80C\nnew\nadd v2 water 200mL @ 20C\nnew\nmix v1 0.4 v2 0.6 into v3\nmeasure v3 thermometer"
+    },
+    {
+      "id": "321-water-mix-hot-fraction-0.6",
+      "question": "How does the hot-water share move the final mixing temperature?",
+      "script": "add v1 water 200mL @ 80C\nnew\nadd v2 water 200mL @ 20C\nnew\nmix v1 0.6 v2 0.4 into v3\nmeasure v3 thermometer"
+    },
+    {
+      "id": "322-water-mix-hot-fraction-0.8",
+      "question": "How does the hot-water share move the final mixing temperature?",
+      "script": "add v1 water 200mL @ 80C\nnew\nadd v2 water 200mL @ 20C\nnew\nmix v1 0.8 v2 0.2 into v3\nmeasure v3 thermometer"
+    },
+    {
+      "id": "323-salt-transfer-whole",
+      "question": "Does one whole transfer preserve the system's elemental inventory?",
+      "script": "add v1 water 300mL\nadd v1 NaCl 0.003mol\nnew\ndecant v1 v2 1\ninspect"
+    },
+    {
+      "id": "324-salt-transfer-two-halves",
+      "question": "Do two successive half transfers preserve total elemental inventory?",
+      "script": "add v1 water 300mL\nadd v1 NaCl 0.003mol\nnew\ndecant v1 v2 0.5\ndecant v1 v2 1\ninspect"
+    },
+    {
+      "id": "325-salt-transfer-split-solute",
+      "question": "Does splitting solute addition alter conserved inventory during transfer?",
+      "script": "add v1 water 300mL\nadd v1 NaCl 0.001mol\nadd v1 NaCl 0.002mol\nnew\ndecant v1 v2 1\ninspect"
+    },
+    {
+      "id": "326-salt-transfer-solute-first",
+      "question": "Does adding solute before solvent alter conserved inventory during transfer?",
+      "script": "add v1 NaCl 0.003mol\nadd v1 water 300mL\nnew\ndecant v1 v2 1\ninspect"
+    },
+    {
+      "id": "327-mix-salt-left",
+      "question": "Does source order alter a mixed saline inventory?",
+      "script": "add v1 water 150mL\nadd v1 NaCl 0.002mol\nnew\nadd v2 water 250mL\nnew\nmix v1 1 v2 1 into v3\ninspect"
+    },
+    {
+      "id": "328-mix-salt-right",
+      "question": "Does moving the same salt to the other source alter mixed inventory?",
+      "script": "add v1 water 150mL\nnew\nadd v2 water 250mL\nadd v2 NaCl 0.002mol\nnew\nmix v1 1 v2 1 into v3\ninspect"
+    },
+    {
+      "id": "329-mix-salt-split",
+      "question": "Does splitting salt between sources alter mixed inventory?",
+      "script": "add v1 water 150mL\nadd v1 NaCl 0.0008mol\nnew\nadd v2 water 250mL\nadd v2 NaCl 0.0012mol\nnew\nmix v1 1 v2 1 into v3\ninspect"
+    },
+    {
+      "id": "330-mix-salt-portioned",
+      "question": "Does pre-portioning both sources alter the same mixed inventory?",
+      "script": "add v1 water 300mL\nadd v1 NaCl 0.001mol\nnew\nadd v2 water 500mL\nadd v2 NaCl 0.003mol\nnew\nmix v1 0.5 v2 0.5 into v3\ninspect"
+    },
+    {
+      "id": "331-mix-conductivity-0",
+      "question": "How does conserved electrolyte amount affect conductivity after mixing?",
+      "script": "add v1 water 200mL\nnew\nadd v2 water 200mL\nnew\nmix v1 1 v2 1 into v3\nmeasure v3 conductivity"
+    },
+    {
+      "id": "332-mix-conductivity-0.001",
+      "question": "How does conserved electrolyte amount affect conductivity after mixing?",
+      "script": "add v1 water 200mL\nadd v1 NaCl 0.001mol\nnew\nadd v2 water 200mL\nnew\nmix v1 1 v2 1 into v3\nmeasure v3 conductivity"
+    },
+    {
+      "id": "333-mix-conductivity-0.002",
+      "question": "How does conserved electrolyte amount affect conductivity after mixing?",
+      "script": "add v1 water 200mL\nadd v1 NaCl 0.002mol\nnew\nadd v2 water 200mL\nnew\nmix v1 1 v2 1 into v3\nmeasure v3 conductivity"
+    },
+    {
+      "id": "334-mix-conductivity-0.004",
+      "question": "How does conserved electrolyte amount affect conductivity after mixing?",
+      "script": "add v1 water 200mL\nadd v1 NaCl 0.004mol\nnew\nadd v2 water 200mL\nnew\nmix v1 1 v2 1 into v3\nmeasure v3 conductivity"
+    },
+    {
+      "id": "335-mix-extensive-1",
+      "question": "Does extensive scaling preserve the temperature of an unequal thermal mixture?",
+      "script": "add v1 water 50mL @ 70C\nnew\nadd v2 water 100mL @ 25C\nnew\nmix v1 1 v2 1 into v3\nmeasure v3 thermometer"
+    },
+    {
+      "id": "336-mix-extensive-2",
+      "question": "Does extensive scaling preserve the temperature of an unequal thermal mixture?",
+      "script": "add v1 water 100mL @ 70C\nnew\nadd v2 water 200mL @ 25C\nnew\nmix v1 1 v2 1 into v3\nmeasure v3 thermometer"
+    },
+    {
+      "id": "337-mix-extensive-3",
+      "question": "Does extensive scaling preserve the temperature of an unequal thermal mixture?",
+      "script": "add v1 water 150mL @ 70C\nnew\nadd v2 water 300mL @ 25C\nnew\nmix v1 1 v2 1 into v3\nmeasure v3 thermometer"
+    },
+    {
+      "id": "338-mix-extensive-4",
+      "question": "Does extensive scaling preserve the temperature of an unequal thermal mixture?",
+      "script": "add v1 water 200mL @ 70C\nnew\nadd v2 water 400mL @ 25C\nnew\nmix v1 1 v2 1 into v3\nmeasure v3 thermometer"
+    }
+  ],
+  "relations": [
+    {
+      "id": "mix-equal-water-temperature",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-equal",
+      "cases": [
+        "315-water-mix-hot-first",
+        "316-water-mix-cold-first",
+        "317-water-mix-halves",
+        "318-water-mix-extensive"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "atol": 0.03,
+        "rtol": 0.0
+      }
+    },
+    {
+      "id": "mix-hot-share-order",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "319-water-mix-hot-fraction-0.2",
+        "320-water-mix-hot-fraction-0.4",
+        "321-water-mix-hot-fraction-0.6",
+        "322-water-mix-hot-fraction-0.8"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 1.0
+      }
+    },
+    {
+      "id": "mix-transfer-system-elements",
+      "kind": "conservation",
+      "assertion": "final-elements-equal",
+      "cases": [
+        "323-salt-transfer-whole",
+        "324-salt-transfer-two-halves",
+        "325-salt-transfer-split-solute",
+        "326-salt-transfer-solute-first"
+      ],
+      "parameters": {
+        "elements": [
+          "H",
+          "O",
+          "Na",
+          "Cl"
+        ],
+        "atol": 1e-08,
+        "rtol": 1e-07
+      }
+    },
+    {
+      "id": "mix-salt-path-independence",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "cases": [
+        "327-mix-salt-left",
+        "328-mix-salt-right",
+        "329-mix-salt-split",
+        "330-mix-salt-portioned"
+      ],
+      "parameters": {
+        "species": [
+          "water",
+          "Na+",
+          "Cl-"
+        ],
+        "phases": [
+          "Liquid"
+        ],
+        "atol": 1e-08,
+        "rtol": 1e-07
+      }
+    },
+    {
+      "id": "mix-conductivity-order",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "331-mix-conductivity-0",
+        "332-mix-conductivity-0.001",
+        "333-mix-conductivity-0.002",
+        "334-mix-conductivity-0.004"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 1e-08
+      }
+    },
+    {
+      "id": "mix-extensive-temperature",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-equal",
+      "cases": [
+        "335-mix-extensive-1",
+        "336-mix-extensive-2",
+        "337-mix-extensive-3",
+        "338-mix-extensive-4"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "atol": 0.03,
+        "rtol": 0.0
+      }
+    },
+    {
+      "id": "mix-extensive-elements",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "335-mix-extensive-1",
+        "336-mix-extensive-2",
+        "337-mix-extensive-3",
+        "338-mix-extensive-4"
+      ],
+      "parameters": {
+        "elements": [
+          "H",
+          "O"
+        ],
+        "before_op": "mix"
+      }
+    }
+  ]
+}

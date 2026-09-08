@@ -1,0 +1,249 @@
+{
+  "schema": "kerotakis-source-fleet-v1",
+  "family": "gas-boundaries",
+  "cases": [
+    {
+      "id": "267-gas-amount-0.001",
+      "question": "How does gas amount change pressure at fixed sealed volume?",
+      "script": "seal v1 500mL\nadd v1 N2 0.001mol\nmeasure v1 pressure"
+    },
+    {
+      "id": "268-gas-amount-0.002",
+      "question": "How does gas amount change pressure at fixed sealed volume?",
+      "script": "seal v1 500mL\nadd v1 N2 0.002mol\nmeasure v1 pressure"
+    },
+    {
+      "id": "269-gas-amount-0.004",
+      "question": "How does gas amount change pressure at fixed sealed volume?",
+      "script": "seal v1 500mL\nadd v1 N2 0.004mol\nmeasure v1 pressure"
+    },
+    {
+      "id": "270-gas-amount-0.008",
+      "question": "How does gas amount change pressure at fixed sealed volume?",
+      "script": "seal v1 500mL\nadd v1 N2 0.008mol\nmeasure v1 pressure"
+    },
+    {
+      "id": "271-gas-volume-1000",
+      "question": "How does reducing sealed headspace change pressure for fixed gas amount?",
+      "script": "seal v1 1000mL\nadd v1 N2 0.0037mol\nmeasure v1 pressure"
+    },
+    {
+      "id": "272-gas-volume-750",
+      "question": "How does reducing sealed headspace change pressure for fixed gas amount?",
+      "script": "seal v1 750mL\nadd v1 N2 0.0037mol\nmeasure v1 pressure"
+    },
+    {
+      "id": "273-gas-volume-500",
+      "question": "How does reducing sealed headspace change pressure for fixed gas amount?",
+      "script": "seal v1 500mL\nadd v1 N2 0.0037mol\nmeasure v1 pressure"
+    },
+    {
+      "id": "274-gas-volume-250",
+      "question": "How does reducing sealed headspace change pressure for fixed gas amount?",
+      "script": "seal v1 250mL\nadd v1 N2 0.0037mol\nmeasure v1 pressure"
+    },
+    {
+      "id": "275-gas-heating-0",
+      "question": "How does added energy change the pressure of a fixed sealed gas?",
+      "script": "seal v1 500mL\nadd v1 N2 0.0042mol\nmeasure v1 pressure"
+    },
+    {
+      "id": "276-gas-heating-100",
+      "question": "How does added energy change the pressure of a fixed sealed gas?",
+      "script": "seal v1 500mL\nadd v1 N2 0.0042mol\nheat v1 100J\nmeasure v1 pressure"
+    },
+    {
+      "id": "277-gas-heating-200",
+      "question": "How does added energy change the pressure of a fixed sealed gas?",
+      "script": "seal v1 500mL\nadd v1 N2 0.0042mol\nheat v1 200J\nmeasure v1 pressure"
+    },
+    {
+      "id": "278-gas-heating-400",
+      "question": "How does added energy change the pressure of a fixed sealed gas?",
+      "script": "seal v1 500mL\nadd v1 N2 0.0042mol\nheat v1 400J\nmeasure v1 pressure"
+    },
+    {
+      "id": "279-gas-energy-single",
+      "question": "Does one energy pulse reach the same state as partitioned pulses?",
+      "script": "seal v1 500mL\nadd v1 N2 0.004mol\nheat v1 300J\nmeasure v1 pressure"
+    },
+    {
+      "id": "280-gas-energy-halves",
+      "question": "Do two equal energy pulses reach the same final state?",
+      "script": "seal v1 500mL\nadd v1 N2 0.004mol\nheat v1 150J\nheat v1 150J\nmeasure v1 pressure"
+    },
+    {
+      "id": "281-gas-energy-unequal",
+      "question": "Do unequal energy pulses with the same sum reach the same state?",
+      "script": "seal v1 500mL\nadd v1 N2 0.004mol\nheat v1 80J\nheat v1 220J\nmeasure v1 pressure"
+    },
+    {
+      "id": "282-gas-energy-three-pulses",
+      "question": "Do three energy pulses with the same sum reach the same state?",
+      "script": "seal v1 500mL\nadd v1 N2 0.004mol\nheat v1 50J\nheat v1 100J\nheat v1 150J\nmeasure v1 pressure"
+    },
+    {
+      "id": "283-gas-roundtrip-50",
+      "question": "Does equal heating and cooling restore the initial sealed-gas temperature?",
+      "script": "seal v1 600mL\nadd v1 N2 0.005mol\nheat v1 50J\ncool v1 50J\nmeasure v1 pressure"
+    },
+    {
+      "id": "284-gas-roundtrip-100",
+      "question": "Does equal heating and cooling restore the initial sealed-gas temperature?",
+      "script": "seal v1 600mL\nadd v1 N2 0.005mol\nheat v1 100J\ncool v1 100J\nmeasure v1 pressure"
+    },
+    {
+      "id": "285-gas-roundtrip-200",
+      "question": "Does equal heating and cooling restore the initial sealed-gas temperature?",
+      "script": "seal v1 600mL\nadd v1 N2 0.005mol\nheat v1 200J\ncool v1 200J\nmeasure v1 pressure"
+    },
+    {
+      "id": "286-gas-roundtrip-400",
+      "question": "Does equal heating and cooling restore the initial sealed-gas temperature?",
+      "script": "seal v1 600mL\nadd v1 N2 0.005mol\nheat v1 400J\ncool v1 400J\nmeasure v1 pressure"
+    },
+    {
+      "id": "287-gas-extensive-1",
+      "question": "Does scaling gas amount, volume, and energy preserve intensive state?",
+      "script": "seal v1 250mL\nadd v1 N2 0.002mol\nheat v1 75J\nmeasure v1 pressure"
+    },
+    {
+      "id": "288-gas-extensive-2",
+      "question": "Does scaling gas amount, volume, and energy preserve intensive state?",
+      "script": "seal v1 500mL\nadd v1 N2 0.004mol\nheat v1 150J\nmeasure v1 pressure"
+    },
+    {
+      "id": "289-gas-extensive-3",
+      "question": "Does scaling gas amount, volume, and energy preserve intensive state?",
+      "script": "seal v1 750mL\nadd v1 N2 0.006mol\nheat v1 225J\nmeasure v1 pressure"
+    },
+    {
+      "id": "290-gas-extensive-4",
+      "question": "Does scaling gas amount, volume, and energy preserve intensive state?",
+      "script": "seal v1 1000mL\nadd v1 N2 0.008mol\nheat v1 300J\nmeasure v1 pressure"
+    }
+  ],
+  "relations": [
+    {
+      "id": "gas-amount-pressure-order",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "267-gas-amount-0.001",
+        "268-gas-amount-0.002",
+        "269-gas-amount-0.004",
+        "270-gas-amount-0.008"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 100.0
+      }
+    },
+    {
+      "id": "gas-volume-pressure-order",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "271-gas-volume-1000",
+        "272-gas-volume-750",
+        "273-gas-volume-500",
+        "274-gas-volume-250"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 100.0
+      }
+    },
+    {
+      "id": "gas-heating-pressure-order",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "275-gas-heating-0",
+        "276-gas-heating-100",
+        "277-gas-heating-200",
+        "278-gas-heating-400"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 1.0
+      }
+    },
+    {
+      "id": "gas-energy-partition",
+      "kind": "metamorphic",
+      "assertion": "final-scalar-equal",
+      "cases": [
+        "279-gas-energy-single",
+        "280-gas-energy-halves",
+        "281-gas-energy-unequal",
+        "282-gas-energy-three-pulses"
+      ],
+      "parameters": {
+        "path": "v1.temperature_k",
+        "atol": 1e-07,
+        "rtol": 1e-07
+      }
+    },
+    {
+      "id": "gas-energy-roundtrip",
+      "kind": "metamorphic",
+      "assertion": "final-scalar-equal",
+      "cases": [
+        "283-gas-roundtrip-50",
+        "284-gas-roundtrip-100",
+        "285-gas-roundtrip-200",
+        "286-gas-roundtrip-400"
+      ],
+      "parameters": {
+        "path": "v1.temperature_k",
+        "atol": 1e-07,
+        "rtol": 1e-07
+      }
+    },
+    {
+      "id": "gas-extensive-pressure",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-equal",
+      "cases": [
+        "287-gas-extensive-1",
+        "288-gas-extensive-2",
+        "289-gas-extensive-3",
+        "290-gas-extensive-4"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "atol": 2.0,
+        "rtol": 2e-05
+      }
+    },
+    {
+      "id": "gas-extensive-conservation",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "287-gas-extensive-1",
+        "288-gas-extensive-2",
+        "289-gas-extensive-3",
+        "290-gas-extensive-4"
+      ],
+      "parameters": {
+        "elements": [
+          "N"
+        ],
+        "before_op": "heat"
+      }
+    }
+  ]
+}

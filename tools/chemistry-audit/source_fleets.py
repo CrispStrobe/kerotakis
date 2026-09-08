@@ -12,23 +12,59 @@ import time
 
 ROOT = Path(__file__).resolve().parents[2]
 MANIFEST_DIR = Path(__file__).with_name("source-fleets")
+ASSERTIONS = {
+    "final-inventory-equal", "final-elements-equal", "case-elements-conserved",
+    "final-scalar-equal", "final-scalar-order", "event-scalar-equal",
+    "event-scalar-order", "event-present", "event-boundary-present",
+}
+RELATION_KINDS = {"conservation", "independent-law", "metamorphic", "boundary"}
 
 
 def load_manifests(directory: Path = MANIFEST_DIR):
     manifests = [json.loads(path.read_text()) for path in sorted(directory.glob("*.json"))]
     if not manifests:
         raise ValueError(f"no manifests in {directory}")
-    cases, identifiers, scripts = [], set(), set()
+    cases, identifiers, scripts, relation_ids = [], set(), set(), set()
     for manifest in manifests:
         if manifest.get("schema") != "kerotakis-source-fleet-v1":
             raise ValueError(f"unsupported schema in {manifest.get('family', '<unknown>')}")
         if len(manifest.get("cases", [])) != 24:
             raise ValueError(f"{manifest['family']} must contain exactly 24 cases")
-        participants = {key for relation in manifest.get("relations", []) for key in relation["cases"]}
-        for case in manifest["cases"]:
+        family_cases = manifest.get("cases", [])
+        family_ids = {case.get("id") for case in family_cases}
+        if len(family_ids) != 24 or None in family_ids:
+            raise ValueError(f"{manifest['family']} has duplicate or missing case ids")
+        relations = manifest.get("relations", [])
+        if not relations:
+            raise ValueError(f"{manifest['family']} has no relations")
+        participants = set()
+        for relation in relations:
+            relation_id = relation.get("id")
+            if not relation_id or relation_id in relation_ids:
+                raise ValueError(f"duplicate or missing relation id: {relation_id}")
+            relation_ids.add(relation_id)
+            if relation.get("kind") not in RELATION_KINDS:
+                raise ValueError(f"unsupported or missing relation kind in {relation_id}")
+            if relation.get("assertion") not in ASSERTIONS:
+                raise ValueError(f"unsupported assertion in {relation_id}")
+            linked = relation.get("cases")
+            if not isinstance(linked, list) or not linked:
+                raise ValueError(f"relation has no cases: {relation_id}")
+            unknown = set(linked) - family_ids
+            if unknown:
+                raise ValueError(f"relation {relation_id} has unknown cases: {sorted(unknown)}")
+            if not isinstance(relation.get("parameters"), dict):
+                raise ValueError(f"relation has no parameter object: {relation_id}")
+            participants.update(linked)
+        for case in family_cases:
             key, script = case["id"], case["script"]
+            question = case.get("question", "").strip()
             if key in identifiers or script in scripts:
                 raise ValueError(f"duplicate id or script: {key}")
+            if not question or not script.strip():
+                raise ValueError(f"empty question or script: {key}")
+            if "http://" in question or "https://" in question or "www." in question:
+                raise ValueError(f"public source link in question: {key}")
             if key not in participants:
                 raise ValueError(f"case has no independent relation: {key}")
             identifiers.add(key); scripts.add(script); cases.append((manifest, case))
