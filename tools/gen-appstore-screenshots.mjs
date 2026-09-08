@@ -95,18 +95,18 @@ const waitForCommittedDocument = async (url) => {
 
 /** Type a line into the command bar and wait for the engine to answer. */
 const run = async (line) => {
-  const ready = await waitFor(page, `!!document.querySelector('form.bar input[aria-label="command"]')`,
+  const ready = await waitFor(page, `!!document.querySelector('form.bar input')`,
                               { timeout: 30000 });
   if (!ready) throw new Error("command bar did not become ready");
   await page.evaluate(`(() => {
-    const input = document.querySelector('form.bar input[aria-label="command"]');
+    const input = document.querySelector('form.bar input');
     if (!input) throw new Error("no command bar");
     Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")
       .set.call(input, ${JSON.stringify(line)});
     input.dispatchEvent(new Event("input", { bubbles: true }));
     input.form.dispatchEvent(new SubmitEvent("submit", { bubbles: true, cancelable: true }));
   })()`);
-  await waitFor(page, `!document.querySelector('form.bar input[aria-label="command"]').disabled`,
+  await waitFor(page, `!document.querySelector('form.bar input').disabled`,
                 { timeout: 90000 });
 };
 
