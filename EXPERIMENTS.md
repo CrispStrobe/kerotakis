@@ -787,13 +787,12 @@ numbers are never re-bound.
   where wrong routing triggers the same screen that guards the bench.
   Acceptance: a clear-the-bench quest gradeable entirely by existing safety
   machinery plus the rule table.
-- **EXP-53 — Computed experiment audit and portfolio expansion** — PR #504 is
-  the unmerged evidence branch. First reconcile it field-by-field with current
-  main while preserving all 113 catalog entries and raw failed runs; then require
-  rebuilt CI on the reconciled head. Only after that gate, run frozen cases
-  195–218 on a binary tied to that head, retaining every unsupported or
-  implausible result. Promote a small set of distinct successful concepts to the
-  catalog with original EN/DE prose; keep parameter variants as regression cases.
+- **EXP-53 — Computed experiment audit and portfolio expansion** — #529 landed
+  the generic repairs rebuilt from PR #504 without its evidence tree. PR #504
+  is now an archived evidence branch, not a merge candidate; preserve its 113
+  catalog entries and raw failed runs for review. Any later promotion must be a
+  small, independently reviewed set of distinct successful concepts with
+  original EN/DE prose; keep parameter variants as regression cases.
   Acceptance: no experiment-ID dispatch or output fitting; checks frozen before
   execution; raw input/output, hashes and failures retained; conservation and
   independent laws checked separately from process success; private source URLs,

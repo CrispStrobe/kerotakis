@@ -72,17 +72,15 @@ rather than by assumption.** Thirteen PRs landed after it — #514–#522, #524,
 unchanged `baseline.toml`. A green `--check` on an untouched baseline *is* the
 statement that no row moved.
 
-**#509 (the Cp(T) heat ledger) is still open** and has therefore moved nothing
-on `main`. It is the one to watch: it changes how much energy a `heat` step
-actually spends, which is the input to every phase-route row #511 just created,
-and it had a magnesium-combustion regression. When it lands, the rows to read
-first are the twenty from #511 — if any of them leave `curated`, that is #509's
-ledger disagreeing with the plateau, not a coverage change.
+**#509 (the Cp(T) heat ledger) has landed.** Its integral heat accounting and
+follow-up conservation repair are now on main. The baseline gate records the
+resulting classifications; this historical census must not be read as the
+current report.
 
-So the honest answer to "do we cover more now?" is: **not since midday.** The
-count has been flat at 497/500 answered-or-refused since 2026-09-06, and the
-work merged today was breadth in the GUI, i18n and the scene layer rather than
-in the bench's chemistry.
+Since this census, #509, #529, #530, #531, #535, #536 and #537 changed the
+engine and its evidence. Run `kero coverage curiosity --check --json` for the
+current count; the numbers below are the dated argument that motivated the
+remaining grading and classifier work, not a live dashboard.
 
 ## The 76 mismatches: mostly a definition problem, not a defect list
 
@@ -194,11 +192,11 @@ takes, and eleven rows are mismatches for guessing wrong. Seven of them had a
 computed-chemistry route succeed *as well as* the curated one; they lost a
 precedence race, nothing more.
 
-## The three `missing` rows
+## The three `missing` rows at the time of this census
 
-### `aq-053` — "Does diluted bleach remain alkaline?"
+### `aq-053` — "Does diluted bleach remain alkaline?" — closed by #530
 
-The bench prints, today:
+Before #530 the bench printed:
 
 > not yet modelled — bleach (sodium hypochlorite) is dissolved and unspeciated:
 > no thermodynamic database defines a hypochlorite species — searched by name
@@ -206,7 +204,9 @@ The bench prints, today:
 > iphreeqc on 2026-09-04, including the ones this lab does not load, and the
 > ClO- matches are all perchlorate.
 
-**That claim is false, and it is shipped to learners.** `vendor/iphreeqc/database/llnl.dat`,
+**That claim was false.** #530 borrowed the reviewed hypochlorite couple from
+`llnl.dat`; diluted bleach now computes near pH 9.74. The evidence that found
+the defect remains below. `vendor/iphreeqc/database/llnl.dat`,
 vendored in this repo, contains:
 
 - line 107 — `Cl(1)     ClO-      0         Cl`, a `SOLUTION_MASTER_SPECIES`
@@ -336,14 +336,14 @@ seven are no longer breakages, and the same change is worth ten rows at no cost.
 PR #362 tried this ordering once and was closed unmerged for exactly this
 reason; the grade definition is what unblocks it.
 
-### 3. The two real data gaps. 12 → 10.
+### 3. The two real data gaps at the time. 12 → 10.
 
-`aq-053` (hypochlorite, above) and `aq-036` (no gaseous ammonia species, so the
+`aq-053` (hypochlorite, closed by #530) and `aq-036` (no gaseous ammonia species, so the
 damp-litmus test reads an empty headspace while `smell v1` on the same vessel
 reports "sharp, pungent ammonia" — the divergence is already pinned by
 `gas_tests.rs::smell_and_gas_test_disagree_about_dissolved_ammonia`, a test
-written to fail once a path from solution to headspace exists). `aq-053` is the
-cheaper of the two and carries the false-claim fix with it.
+written to fail once a path from solution to headspace exists). The ammonia
+headspace path remains the live engine gap from this pair.
 
 ### 4. Give the gas tests and the instruments a route. 10 → 4.
 

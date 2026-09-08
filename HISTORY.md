@@ -69,7 +69,7 @@ it had while it was open, which is why a few numbers appear twice below.
 
 ## 2026-09-07
 
-**Chemistry audit — unmerged PR #504**
+**Chemistry audit — archived evidence branch #504; generic repairs landed as #529**
 
 - **EXP-53 audit evidence** — 194 original virtual cases accumulated 565
   predeclared conservation, model-law and matched-control passes on their
@@ -77,14 +77,14 @@ it had while it was open, which is why a few numbers appear twice below.
   zero-extent/missing-reactant diagnostic were retained, repaired generically
   and covered by regression tests. These results are evidence for declared
   model domains, not empirical certification or 194 production case branches.
-- The audit branch carries three original bilingual catalog lessons and totals
+- The archived audit branch carries three original bilingual catalog lessons and totals
   113 entries, 28 models, 189 defined concepts and 167 used concepts. Its safe
   rebase preserved 179 registry identities and 37 Cp(T) records field-by-field.
 - CI run 34118803477 failed on deterministic snapshot ordering/formatting, two
   stale diagnostic assertions and a stale German journal selector. Functional
   repair `5338e3e6` and documentation consolidation `b5894243` are pushed on
-  the audit branch; PR #504 remains draft, conflicting with newer main and has
-  no rebuilt check suite. No merge is claimed.
+  the audit branch. Its generic repairs were rebuilt and merged independently
+  as #529; PR #504 remains an evidence archive and is not a merge candidate.
 
 **Engine**
 
