@@ -2325,6 +2325,7 @@ mod tests {
         // The native activity and the conserved acid inventory are distinct;
         // a pH value alone must not manufacture an infinite acid reservoir.
         v.solution = Some(crate::vessel::SolutionInfo {
+            scope: Default::default(),
             solvent_kg: None,
             redox: Vec::new(),
             pe: None,
@@ -2924,6 +2925,7 @@ mod tests {
                 v.deposit(SpeciesId::new(term.species), Moles(0.02), term.phase);
             }
             v.solution = Some(crate::vessel::SolutionInfo {
+                scope: Default::default(),
                 solvent_kg: None,
                 redox: Vec::new(),
                 pe: None,

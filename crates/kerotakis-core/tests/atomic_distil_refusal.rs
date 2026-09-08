@@ -24,6 +24,7 @@ fn prepared(solute: &str, scale: f64) -> Bench {
     bench.vessels[0].deposit(SpeciesId::new("water"), Moles(3.0 * scale), Phase::Liquid);
     bench.vessels[0].deposit(SpeciesId::new(solute), Moles(0.003 * scale), Phase::Aqueous);
     bench.vessels[0].solution = Some(SolutionInfo {
+        scope: Default::default(),
         solvent_kg: Some(0.054 * scale),
         pe: None,
         redox: vec![],

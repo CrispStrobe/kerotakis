@@ -1372,6 +1372,32 @@ pub fn equilibrate_phase_coupled(
     let mut events = Vec::new();
     let mut states = StateEquilibrator;
 
+    // A phase transition of independent pure water is a solvent-state
+    // question, not an aqueous-speciation question. Probe that transition on
+    // a clone before asking chemistry. This keeps ordinary room-temperature
+    // water eligible for characterization, while water that is freezing,
+    // melting, or boiling never reaches a solver whose solution model is
+    // undefined at the phase boundary. Mixtures remain on the coupled path:
+    // their activities move the boundary and cannot be replaced by pure-water
+    // physics.
+    if independent_water_phase_inventory(vessel) {
+        let mut phase_trial = vessel.clone();
+        phase_trial.solution = None;
+        phase_trial.resolved.invalidate();
+        phase_trial.free_proton = 0.0;
+        phase_trial.free_hydroxide = 0.0;
+        let phase_events = states.equilibrate(&mut phase_trial)?;
+        if phase_events.iter().any(|event| {
+            matches!(
+                event,
+                Event::StateChanged { species, .. } if species.0 == SOLVENT
+            )
+        }) {
+            *vessel = phase_trial;
+            return Ok(phase_events);
+        }
+    }
+
     for pass in 0..MAX_PASSES {
         if chemistry.applies(vessel) {
             match chemistry.equilibrate(vessel) {
@@ -1796,7 +1822,11 @@ impl Equilibrator for HonestyEquilibrator {
             vessel.solution = None;
             return Ok(events);
         }
-        if vessel.solution.is_some() {
+        if vessel
+            .solution
+            .as_ref()
+            .is_some_and(|solution| solution.scope == crate::vessel::SolutionScope::Complete)
+        {
             return Ok(events);
         }
         let has_liquid = vessel
@@ -1992,7 +2022,11 @@ impl Equilibrator for HonestyEquilibrator {
             });
             return Ok((delta, events));
         }
-        if vessel.solution.is_some() {
+        if vessel
+            .solution
+            .as_ref()
+            .is_some_and(|solution| solution.scope == crate::vessel::SolutionScope::Complete)
+        {
             return Ok((delta, events));
         }
 

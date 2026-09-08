@@ -20,6 +20,7 @@ fn iodide_peroxide_vessel(celsius: f64, ki: f64, h2o2: f64) -> Vessel {
     v.deposit(SpeciesId::new("H2O2"), Moles(h2o2), Phase::Liquid);
     v.temperature = Kelvin(273.15 + celsius);
     v.solution = Some(SolutionInfo {
+        scope: Default::default(),
         solvent_kg: None,
         redox: Vec::new(),
         pe: None,
