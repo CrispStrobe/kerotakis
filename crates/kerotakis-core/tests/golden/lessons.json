@@ -1789,12 +1789,12 @@
       "v1: +0.0100 mol acetic acid",
       "v1: +0.0100 mol ethanol",
       "v1: esterification ran — CH3COOH + C2H5OH ⇌ CH3COOC2H5 + H2O (0.007 mol reacted)",
-      "v1: not yet modelled — a mixed solvent that is mostly organic (water is 40% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
+      "v1: not yet modelled — a mixed solvent that is mostly organic (water is 33% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
       "v2: new vessel",
       "v2: +0.0100 mol water",
       "v2: +0.0100 mol ethyl_acetate",
       "v2: esterification ran — CH3COOH + C2H5OH ⇌ CH3COOC2H5 + H2O (-0.003 mol reacted)",
-      "v2: not yet modelled — a mixed solvent that is mostly organic (water is 40% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised"
+      "v2: not yet modelled — a mixed solvent that is mostly organic (water is 33% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised"
     ],
     "lesson": "equilibrium-can-run-backward.lab",
     "vessels": [
