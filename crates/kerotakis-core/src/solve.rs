@@ -96,6 +96,13 @@ pub trait Equilibrator {
     }
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError>;
 
+    /// Record a model-backed operation that runs directly on the bench rather
+    /// than through an equilibrium pass. Most equilibrators ignore this;
+    /// [`SolverStack`] retains it beside equilibrium routes so diagnostics can
+    /// attribute a pressure reading, gas test, or explicitly requested
+    /// curated reaction to the model that actually produced it.
+    fn record_route(&mut self, _route: SolverRoute) {}
+
     /// Missing time models relevant to a wait, without claiming a rate from an
     /// equilibrium calculation. Ordinary additions need not repeat these notes.
     fn time_boundaries(&self, _vessel: &Vessel) -> Vec<Event> {
@@ -216,6 +223,10 @@ impl SolverStack {
 }
 
 impl Equilibrator for SolverStack {
+    fn record_route(&mut self, route: SolverRoute) {
+        self.last_routes.push(route);
+    }
+
     fn time_boundaries(&self, vessel: &Vessel) -> Vec<Event> {
         self.solvers
             .iter()
@@ -1972,6 +1983,7 @@ impl Equilibrator for HonestyEquilibrator {
                         why: format!(
                             "{name} does not dissolve in water: its reviewed solubility is {limit:.4} g per 100 mL, which is below anything a beaker would show. It is still all there"
                         ),
+                        computed: false,
                         spent: None,
                     });
                         continue;
@@ -2104,6 +2116,7 @@ impl Equilibrator for HonestyEquilibrator {
                         why: format!(
                             "{name} does not dissolve in water: its reviewed solubility is {limit:.4} g per 100 mL, which is below anything a beaker would show. It is still all there"
                         ),
+                        computed: false,
                         spent: None,
                     });
                         continue;

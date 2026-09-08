@@ -5,6 +5,45 @@ JSON, NDJSON, stderr, hashes and test logs remain in their evidence directories.
 Counts describe the recorded revision and declared model domain, not universal
 experimental accuracy.
 
+## 2026-09-08 — coverage tail and seventh fleet
+
+The 500-prompt classifier now gives computed/curated routes precedence over the
+generic handle-and-inspect observation shortcut. Successful direct pressure
+readings, classical gas tests, named organic reactions and the starch–iodine
+optical model record their own route; refusals do not. Electrochemical negative
+results are marked computed at emission, while observational insolubility stays
+qualitative. Corpus repairs add iodide to the starch test, measure pressure on
+both sides of venting, and correct empty-vessel ignition to a qualitative
+requirement. The audited result is 328 computed, 56 curated, 55 qualitative, 60
+boundary and 1 unrequired missing row, with zero unmet requirements and zero
+solver failures.
+
+Frozen cases 459–488 then ran as 30 process-isolated experiments. All processes
+completed. The first analyzer pass rejected 13 checks: eight compared kPa with
+Pa; four counted NH3 but omitted protonated NH4+ and assumed damp litmus must
+remain positive despite water/temperature partitioning; one evaluated the
+post-aqueous molecular ester inventory rather than the explicit reaction step.
+Those were checker/expectation defects, not engine output changes. Reanalysis of
+the preserved raw run passed 69/69 conservation, equilibrium, threshold and
+ideal-gas checks. Raw evidence remains private in `/tmp/kero-seventh-459-488`
+for this worktree and is uploaded by CI for durable retention.
+
+The run confirms ammonia dose, water-retention and temperature orderings;
+forward, reverse, scaled, feed-order and repeated ester equilibrium; four paired
+positive/negative gas tests; and pressure dose, volume, heat, extensive and vent
+relations. Existing ester-equilibrium and sealed-gas catalog entries already
+preserve those ideas. The distinct ammonia water/air partition experiment is a
+catalog candidate. Acid–metal surface-area and elapsed-time kinetics remain an
+explicit gap; no output was promoted as a rate.
+
+Local gates passed: the complete `kerotakis-core` and `kerotakis-cli` test
+suites, focused direct-route regression tests, the light preflight including the
+engine-free build, the analyzer negative control, the preserved-run 69/69
+reanalysis, and the full 500-prompt curiosity check with zero baseline drift,
+unmet requirements, or solver failures. The final audited distribution is 328
+computed, 56 curated, 55 qualitative, 60 boundary and 1 unrequired missing
+prompt.
+
 ## 2026-09-08 — first catalog promotion
 
 After PR #542 passed and merged, nine distinct concepts were selected from the

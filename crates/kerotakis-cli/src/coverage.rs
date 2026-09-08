@@ -684,16 +684,22 @@ fn execute_prompt(
             && matches!(route.outcome, SolverRouteOutcome::Succeeded { .. })
     });
 
+    let gas_test_route = routes.iter().any(|route| {
+        route.solver.starts_with("gas-test:")
+            && matches!(route.outcome, SolverRouteOutcome::Succeeded { event_count } if event_count > 0)
+    });
+    let computed_inert = all_events
+        .iter()
+        .any(|event| matches!(event, Event::Inert { computed: true, .. }));
     let typed_observation = all_events.iter().any(|event| {
         matches!(
             event,
             Event::Smelled { .. }
-                | Event::GasTested { .. }
                 | Event::FlameTest { .. }
                 | Event::DidNotIgnite { .. }
-                | Event::Inert { .. }
                 | Event::InertInSolvent { .. }
-        )
+        ) || matches!(event, Event::GasTested { .. }) && !gas_test_route
+            || matches!(event, Event::Inert { .. }) && !computed_inert
     })
         // KID-12: a flame that never caught is a typed observation. One
         // that burned first and then ran out of air is a computed
@@ -812,6 +818,9 @@ fn execute_prompt(
         && all_events
             .iter()
             .any(|event| matches!(event, Event::Observed { .. } | Event::Measured { .. }))
+        && !succeeded(SolverRouteKind::Curated)
+        && !computed_chemistry
+        && !succeeded(SolverRouteKind::Computed)
     {
         return Ok(result(
             prompt,

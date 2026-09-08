@@ -86,6 +86,50 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
+  seventh-fleet:
+    name: Frozen fleet 459-488
+    needs: build-cli
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: recursive
+      - uses: actions/download-artifact@v7
+        with:
+          name: chemistry-audit-cli-${{ github.sha }}
+      - run: chmod +x target/release/kero
+      - name: Prepare the evidence envelope
+        run: |
+          mkdir -p audit-evidence
+          printf '%s\n' "${GITHUB_SHA}" > audit-evidence/revision.txt
+      - name: Verify the analyzer rejects missing evidence
+        run: python3 tools/chemistry-audit/analyse_seventh.py --self-test
+      - name: Record all 30 process-isolated experiments
+        run: >-
+          python3 tools/chemistry-audit/seventh_batch.py
+          --binary target/release/kero
+          --out audit-evidence/seventh-459-488
+      - name: Bind the frozen contract and harness to the evidence
+        run: |
+          sha256sum \
+            tools/chemistry-audit/seventh_batch.py \
+            tools/chemistry-audit/analyse_seventh.py \
+            tools/chemistry-audit/SEVENTH-BATCH.md \
+            > audit-evidence/seventh-459-488/preflight-sha256.txt
+      - name: Apply independent laws and matched controls
+        run: >-
+          python3 tools/chemistry-audit/analyse_seventh.py
+          audit-evidence/seventh-459-488
+          --out audit-evidence/seventh-459-488/law-checks.json
+      - name: Preserve raw successes and failures
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: chemistry-audit-seventh-${{ github.sha }}
+          path: audit-evidence
+          if-no-files-found: error
+          retention-days: 30
+
   source-fleets:
     name: Source fleet ${{ matrix.family }}
     needs: build-cli

@@ -23,6 +23,7 @@ evidence harnesses, and they are never imported by a crate or the web app.
 | `SIXTH-BATCH.md` | Frozen contract for cases 195–218; its repaired-head 66/66 run is archived |
 | `CONTINUATION.md`, `INTEGRATOR-HANDOFF.md` | Superseded operating state of PR #504, kept as record |
 | `source_fleets.py`, `source-fleets/*.json`, `analyse_source_fleets.py`, `aggregate_source_fleets.py`, `SOURCE-FLEETS.md` | Validator, recorder, named-relation analyzer, aggregate gate and frozen contract for source-informed cases 219–458 |
+| `seventh_batch.py`, `analyse_seventh.py`, `SEVENTH-BATCH.md` | Frozen 30-case regression fleet for ammonia headspace, ester equilibrium, gas tests and pressure/venting (459–488) |
 
 Python standard library only; no new dependency, no external dataset.
 
