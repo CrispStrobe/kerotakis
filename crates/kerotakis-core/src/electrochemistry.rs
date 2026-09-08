@@ -725,6 +725,92 @@ pub fn faradaic_extent_moles(
     Ok(current_amps * seconds / (electrons_per_extent * FARADAY))
 }
 
+/// Matter reservoir changed by an electrochemical half-reaction written in
+/// its anodic direction (electrons produced). Negative solved extent applies
+/// the reverse, cathodic direction.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum FaradaicReservoir<'a> {
+    Bulk {
+        species: &'a str,
+        phase: crate::Phase,
+    },
+    ElectrodeSubstrate {
+        electrode: &'a str,
+    },
+    ElectrodeDeposit {
+        electrode: &'a str,
+        species: &'a str,
+    },
+}
+
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct FaradaicTerm<'a> {
+    pub reservoir: FaradaicReservoir<'a>,
+    /// Moles created per mole of anodic extent; negative consumes.
+    pub coefficient: f64,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct FaradaicHalfReaction<'a> {
+    pub id: &'a str,
+    pub electrons_produced: f64,
+    pub terms: &'a [FaradaicTerm<'a>],
+}
+
+/// Convert a solved current balance into one atomic state proposal. No vessel
+/// is mutated here; inventory limits and element conservation are enforced by
+/// `StateDelta::commit_conserved` after all coupled half-reactions are present.
+pub fn faradaic_state_delta(
+    balance: &CurrentBalance,
+    partial_reactions: &[PartialReaction<'_>],
+    half_reactions: &[FaradaicHalfReaction<'_>],
+    geometric_area_m2: f64,
+    seconds: f64,
+) -> Result<crate::delta::StateDelta, ElectrochemistryError> {
+    if partial_reactions.len() != half_reactions.len()
+        || partial_reactions
+            .iter()
+            .zip(half_reactions)
+            .any(|(partial, half)| {
+                partial.id != half.id
+                    || !half.electrons_produced.is_finite()
+                    || half.electrons_produced <= 0.0
+                    || (partial.kinetics.n - half.electrons_produced).abs() > 1e-12
+                    || half.terms.iter().any(|term| !term.coefficient.is_finite())
+            })
+    {
+        return Err(ElectrochemistryError::InvalidCondition(
+            "partial currents and balanced anodic half-reactions must match",
+        ));
+    }
+    let extents = balance.extents(partial_reactions, geometric_area_m2, seconds)?;
+    let mut delta = crate::delta::StateDelta::new("electrochemical current balance");
+    for (extent, half) in extents.iter().zip(half_reactions) {
+        for term in half.terms {
+            let moles = term.coefficient * extent.extent_moles;
+            delta = match term.reservoir {
+                FaradaicReservoir::Bulk { species, phase } => {
+                    delta.with_moles(crate::SpeciesId::new(species), phase, moles)
+                }
+                FaradaicReservoir::ElectrodeSubstrate { electrode } => delta.with_electrode_moles(
+                    electrode,
+                    crate::delta::ElectrodeInventory::Substrate,
+                    moles,
+                ),
+                FaradaicReservoir::ElectrodeDeposit { electrode, species } => delta
+                    .with_electrode_moles(
+                        electrode,
+                        crate::delta::ElectrodeInventory::Deposit {
+                            species: crate::SpeciesId::new(species),
+                        },
+                        moles,
+                    ),
+            };
+        }
+    }
+    Ok(delta)
+}
+
 // ── ELEC-007: Competing reactions ─────────────────────────────────
 
 /// Outcome of thermodynamic/kinetic competition at an electrode.
@@ -1005,5 +1091,88 @@ mod tests {
         assert!(extents[0].extent_moles > 0.0);
         assert!(extents[1].extent_moles < 0.0);
         assert!((extents[0].extent_moles + extents[1].extent_moles).abs() < 1e-10);
+    }
+
+    #[test]
+    fn paired_half_reactions_commit_one_conserved_acid_metal_step() {
+        const ZINC_TERMS: &[FaradaicTerm<'static>] = &[
+            FaradaicTerm {
+                reservoir: FaradaicReservoir::ElectrodeSubstrate { electrode: "zinc" },
+                coefficient: -1.0,
+            },
+            FaradaicTerm {
+                reservoir: FaradaicReservoir::Bulk {
+                    species: "Zn+2",
+                    phase: crate::Phase::Aqueous,
+                },
+                coefficient: 1.0,
+            },
+        ];
+        // Anodic convention: H2 -> 2 H+ + 2 e-. Cathodic current makes the
+        // signed extent negative and therefore runs these terms backward.
+        const HYDROGEN_TERMS: &[FaradaicTerm<'static>] = &[
+            FaradaicTerm {
+                reservoir: FaradaicReservoir::Bulk {
+                    species: "H2",
+                    phase: crate::Phase::Gas,
+                },
+                coefficient: -1.0,
+            },
+            FaradaicTerm {
+                reservoir: FaradaicReservoir::Bulk {
+                    species: "H+",
+                    phase: crate::Phase::Aqueous,
+                },
+                coefficient: 2.0,
+            },
+        ];
+        let mut zinc = reaction("zinc", -1.0);
+        zinc.kinetics.n = 2.0;
+        zinc.kinetics.j0 = 1e-3;
+        let mut hydrogen = reaction("hydrogen", 0.0);
+        hydrogen.kinetics.n = 2.0;
+        hydrogen.kinetics.j0 = 1e-3;
+        let partials = [zinc, hydrogen];
+        let halves = [
+            FaradaicHalfReaction {
+                id: "zinc",
+                electrons_produced: 2.0,
+                terms: ZINC_TERMS,
+            },
+            FaradaicHalfReaction {
+                id: "hydrogen",
+                electrons_produced: 2.0,
+                terms: HYDROGEN_TERMS,
+            },
+        ];
+        let balance = CurrentBalanceSolver::default()
+            .solve_mixed_potential(&partials, 298.15)
+            .unwrap();
+
+        let mut vessel = crate::Vessel::new(crate::VesselId(0), "acid cell");
+        vessel.electrodes.push(crate::ElectrodeState {
+            label: "zinc".into(),
+            material: "Zn".into(),
+            substrate_moles: Some(0.01),
+            area_m2: 1e-6,
+            roughness: 1.0,
+            deposits: Vec::new(),
+        });
+        vessel.deposit(
+            crate::SpeciesId::new("H+"),
+            crate::Moles(1e-6),
+            crate::Phase::Aqueous,
+        );
+        let delta = faradaic_state_delta(&balance, &partials, &halves, 1e-6, 1.0)
+            .unwrap()
+            .limited_to_inventory(&vessel)
+            .unwrap();
+        delta.commit_conserved(&mut vessel, 1e-10).unwrap();
+
+        assert!(vessel.moles_of(&crate::SpeciesId::new("Zn+2")).0 > 0.0);
+        assert!(vessel.moles_of(&crate::SpeciesId::new("H2")).0 > 0.0);
+        assert!(vessel.electrodes[0].substrate_moles.unwrap() < 0.01);
+        assert!(vessel.moles_of(&crate::SpeciesId::new("H+")).0 < 1e-15);
+        assert!((vessel.moles_of(&crate::SpeciesId::new("H2")).0 - 0.5e-6).abs() < 1e-12);
     }
 }

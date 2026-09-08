@@ -49,7 +49,11 @@ it had while it was open, which is why a few numbers appear twice below.
   surface-preparation domains; gaps and overlaps refuse instead of
   extrapolating or depending on registry order. Exact synthetic tests caught a
   false convergence rule: a narrow voltage bracket is insufficient on a steep
-  polarization curve unless the current residual also closes
+  polarization curve unless the current residual also closes. Coupled anodic
+  and cathodic extents now form one transactional delta and take one shared
+  depletion scale before commit; implementing that exposed and fixed the older
+  general case where two individually valid withdrawals could jointly overdraw
+  one bulk reservoir
 - **#541** — the heat-capacity integral in **difference form**. Each NASA-9 and
   Shomate term is now written so `(t1 − t0)` factors out, instead of evaluating
   an antiderivative at both ends and subtracting terms around 1.2e9 J/mol that

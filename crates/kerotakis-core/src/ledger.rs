@@ -354,6 +354,7 @@ mod tests {
         before.deposit(SpeciesId::new("Cu"), Moles(0.01), Phase::Solid);
         let mut after = Vessel::new(VesselId(0), "cell");
         after.electrodes.push(crate::compartment::ElectrodeState {
+            label: "cathode".into(),
             material: "Pt".into(),
             substrate_moles: None,
             area_m2: 0.01,

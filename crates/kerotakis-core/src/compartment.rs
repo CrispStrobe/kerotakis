@@ -164,6 +164,8 @@ pub enum InterfaceKind {
 /// the derived Nernst potential computed in displacement.rs.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ElectrodeState {
+    /// Stable identity for operators and transactional deltas.
+    pub label: String,
     /// The metal or conductor material (e.g. "Zn", "Cu", "Pt").
     pub material: String,
     /// Finite substrate inventory when the electrode itself may be consumed.
@@ -186,6 +188,9 @@ fn default_roughness() -> f64 {
 
 impl ElectrodeState {
     pub fn validate(&self) -> Result<(), &'static str> {
+        if self.label.trim().is_empty() {
+            return Err("electrode label must be named");
+        }
         if self.material.trim().is_empty() {
             return Err("electrode material must be named");
         }
@@ -255,6 +260,7 @@ pub struct ElectrodeDeposit {
 impl Default for ElectrodeState {
     fn default() -> Self {
         Self {
+            label: "electrode".into(),
             material: "Pt".into(),
             substrate_moles: None,
             area_m2: 1e-4,
@@ -281,6 +287,7 @@ mod tests {
     #[test]
     fn electrode_state_round_trips() {
         let electrode = ElectrodeState {
+            label: "zinc anode".into(),
             material: "Zn".into(),
             substrate_moles: Some(0.01),
             area_m2: 0.001,

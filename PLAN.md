@@ -97,15 +97,16 @@ The reusable foundation is carried by `feat/modular-electrode-kinetics`: one
 SI-unit Butler–Volmer implementation; explicit, conserved electrode substrate
 and deposit state; a mixed-potential/current-control solver; typed parameter
 domains; and shared area/roughness/coverage/diffusion arithmetic for every
-heterogeneous reaction. The shipped empirical parameter registry remains empty
-until licence-cleared records survive review.
+heterogeneous reaction. Coupled half-reactions become one stoichiometric state
+delta and share one inventory-limiting scale before atomic conservation-checked
+commit. The shipped empirical parameter registry remains empty until
+licence-cleared records survive review.
 
 Continue in this order: (1) form candidate half-reactions from computed
-activities and Nernst potentials; (2) combine all half-reaction extents into one
-inventory-limited, conservation-checked state delta; (3) advance that delta on
-the existing clock without letting `displacement` or `corrosion` mutate the same
-step; (4) admit one narrowly bounded permissively licensed polarization dataset
-with matched controls; (5) only then replace the editorial iron/zinc rates and
+activities and Nernst potentials; (2) advance the resulting state delta on the
+existing clock without letting `displacement` or `corrosion` mutate the same
+step; (3) admit one narrowly bounded permissively licensed polarization dataset
+with matched controls; (4) only then replace the editorial iron/zinc rates and
 expose current, potential, limiting mechanism and uncertainty to clients.
 
 No qualitative overpotential, lesson-calibrated rate or neighbouring material's
