@@ -15,9 +15,9 @@ class KidsCatalogTests(unittest.TestCase):
         self.document = json.loads((ROOT / "data/kids/experiments-v1.json").read_text())
         self.german = json.loads((ROOT / "data/kids/experiments-de-v1.json").read_text())
 
-    def test_catalog_is_the_exact_audited_sixty(self):
+    def test_catalog_keeps_the_audited_sixty_and_appends_reviewed_lessons(self):
         rows = MODULE.validate(self.document)
-        self.assertEqual([row["id"] for row in rows], [f"K{i:02d}" for i in range(1, 61)])
+        self.assertEqual([row["id"] for row in rows], [f"K{i:02d}" for i in range(1, 65)])
 
     def test_non_computed_rows_explain_the_boundary(self):
         rows = MODULE.validate(self.document)
@@ -91,7 +91,7 @@ class KidsCatalogTests(unittest.TestCase):
     def test_german_must_have_exactly_the_same_rows(self):
         broken = json.loads(json.dumps(self.german))
         broken["experiments"].pop()
-        with self.assertRaisesRegex(ValueError, "same K01 through K60"):
+        with self.assertRaisesRegex(ValueError, "same append-only K ids"):
             MODULE.add_translation(self.document, broken)
 
     def test_newly_computed_filter_and_luminol_keep_their_honest_routes(self):

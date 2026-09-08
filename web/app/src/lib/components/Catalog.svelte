@@ -697,11 +697,15 @@
         </div>
       {/if}
 
-      {#if open.recipe.length > 0 || open.procedure.length > 0 || open.observations.length > 0 || open.kits.length > 0}
+      {#if open.recipe.length > 0 || open.apparatus.length > 0 || open.procedure.length > 0 || open.observations.length > 0 || open.kits.length > 0}
         <section class="structured-preview" aria-label={t("procedure preview")}>
           {#if open.recipe.length > 0}
             <h3>{t("recipe")}</h3>
             <ul>{#each open.recipe as line (line.ingredient)}<li><strong>{tSlug(line.ingredient)}</strong> — {line.quantity}{line.preparation ? ` · ${line.preparation}` : ""}</li>{/each}</ul>
+          {/if}
+          {#if open.apparatus.length > 0}
+            <h3>{t("apparatus")}</h3>
+            <p>{open.apparatus.map((part) => tSlug(part)).join(" · ")}</p>
           {/if}
           {#if open.kits.length > 0}
             <h3>{t("apparatus parts")}</h3>

@@ -42,6 +42,17 @@ describe("kids catalog", () => {
     expect(kidsRecipe(structured, "de")[0]?.preparation).toBe("Abmessen.");
   });
 
+  it("keeps every corpus row useful while authored detail is broadened", () => {
+    const guided = { ...apple, lesson: "apple-browning.lab" };
+    expect(kidsRecipe(guided, "en")).toEqual([
+      { ingredient: "ascorbic_acid", quantity: "quantity not authored" },
+      { ingredient: "apple", quantity: "quantity not authored" },
+    ]);
+    expect(kidsList(guided, "procedure", "de")).toHaveLength(2);
+    expect(kidsList(guided, "observations", "de")).toEqual([apple.phenomenon_de]);
+    expect(kidsList(apple, "procedure", "en")[0]).toContain("model boundary");
+  });
+
   it("rejects malformed optional cross-references", () => {
     expect(parseKidsCatalog({ schema: 1, experiments: [{ ...apple, capabilities: [] }] })).toEqual([]);
     expect(parseKidsCatalog({ schema: 1, experiments: [{ ...apple, codex: [42] }] })).toEqual([]);

@@ -276,8 +276,8 @@ describe("the shipped library", () => {
 
   it("is one list of both corpora", () => {
     expect(codex).toHaveLength(113);
-    expect(guided).toHaveLength(60);
-    expect(entries).toHaveLength(173);
+    expect(guided).toHaveLength(64);
+    expect(entries).toHaveLength(177);
     expect(entries).toHaveLength(codex.length + guided.length);
     expect(new Set(entries.map((entry) => entry.id)).size).toBe(entries.length);
   });

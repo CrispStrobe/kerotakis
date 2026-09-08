@@ -48,6 +48,13 @@ portion” instead of inventing a number. Exact kit identifiers connect those
 five rows to all five familiar apparatus definitions and expose their real
 part lists in the same unified catalogue card/details flow.
 
+Every remaining row now has an honest bilingual structured preview in that
+same flow while authored recipes are expanded: all declared ingredients and
+apparatus are visible, missing quantities say explicitly that they were not
+authored, linked lessons provide the replayable procedure, and the authored
+phenomenon supplies the observation target. These fallbacks do not invent
+kitchen doses or apparatus parts; reviewed fields replace them one-for-one.
+
 Thirty experiments a child actually meets — the volcano, the elephant
 toothpaste, the naked egg, the red-cabbage rainbow — driven through the
 shipped bench as a stranger would drive it, and the register of what came
@@ -786,11 +793,12 @@ branch — the materials work moved corpus rows rather than verdict rows.
 What the second thirty and the 12–16 list now need is a short list, and it is
 mechanisms rather than substances:
 
-- **Protein.** No protein species is installed. Egg white, gelatine, cream,
-  albumin and onion are all on the shelf now and none can do the thing it is
-  used to teach. Five demonstrations, one gap.
-- **Enzymes beyond amylase.** `pepsin`, `lactase`, `protease`, `lipase`,
-  `catalase` are named by corpus rows and only amylase has a reaction.
+- **Protein structure and food enzymes — first tranche landed.** Egg white and
+  albumin now carry bounded irreversible thermal denaturation; protease,
+  lactase and lipase act only on their declared unresolved food fractions,
+  with matched no-enzyme and wrong-enzyme controls. K61–K64 expose the four
+  replayable lessons in the unified catalogue. Still open: casein gelation,
+  pepsin, texture, named peptide products and general protein chemistry.
 - **Photosynthesis.** `pondweed`, `leaf`, `chlorophyll`, `germinating_seed` —
   five rows, and a mechanism the bench has no shape for at all.
 - **Browning.** Apple, potato and bread are all present and none browns; it

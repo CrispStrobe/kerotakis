@@ -14,6 +14,18 @@ it had while it was open, which is why a few numbers appear twice below.
 
 ## 2026-09-08
 
+**Learning surfaces**
+
+- **K61–K64** — brought the already-computed protein/enzyme tranche into the
+  unified experiment catalogue: thermal egg-white/albumin denaturation and
+  protease, lactase and lipase specificity now have authored learning-progress
+  bands, exact bilingual recipes, matched controls, safety guidance, honest
+  boundaries and direct doors to their replayable lessons
+- **KIDS structured preview** — every guided row now exposes all declared
+  ingredients and apparatus in both languages. Where exact recipe prose is not
+  yet authored, the card says so instead of disappearing or inventing a dose;
+  the linked lesson remains the executable procedure
+
 **Engine**
 
 - **#537** — `energy_is_conserved` had gone flaky, and the bound was not the

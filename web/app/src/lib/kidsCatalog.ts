@@ -74,14 +74,26 @@ export function parseKidsCatalog(raw: unknown): KidsExperiment[] {
 }
 
 export function kidsList(item: KidsExperiment, field: "procedure" | "observations", locale: string): string[] {
-  if (locale !== "de") return item[field] ?? [];
-  return field === "procedure"
-    ? (item.procedure_de ?? item.procedure ?? [])
-    : (item.observations_de ?? item.observations ?? []);
+  const authored = locale === "de"
+    ? (field === "procedure" ? item.procedure_de ?? item.procedure : item.observations_de ?? item.observations)
+    : item[field];
+  if (authored?.length) return authored;
+  if (field === "observations") return [kidsText(item, "phenomenon", locale)];
+  if (item.lesson) {
+    return locale === "de"
+      ? ["Stelle die aufgeführten Stoffe und Geräte bereit.", "Öffne die geführte Untersuchung; ihre reproduzierbaren Schritte steuern das Labor."]
+      : ["Collect the listed materials and apparatus.", "Open the guided investigation; its replayable steps control the laboratory."];
+  }
+  return locale === "de"
+    ? ["Prüfe die Modellgrenze, bevor du diesen Aufbau im Labor versuchst."]
+    : ["Review the model boundary before attempting this setup in the laboratory."];
 }
 
 export function kidsRecipe(item: KidsExperiment, locale: string): KidsRecipeLine[] {
-  return locale === "de" ? (item.recipe_de ?? item.recipe ?? []) : (item.recipe ?? []);
+  const authored = locale === "de" ? item.recipe_de ?? item.recipe : item.recipe;
+  if (authored?.length) return authored;
+  const quantity = locale === "de" ? "Menge nicht angegeben" : "quantity not authored";
+  return item.ingredients.map((ingredient) => ({ ingredient, quantity }));
 }
 
 export interface KidsConnections {
