@@ -113,6 +113,13 @@ pub struct ExchangeCurrentRecord {
     pub electrode_material: String,
     /// Canonical SI kinetic parameters. Current density is A/m².
     pub kinetics: ElectrodeKineticModel,
+    /// Whether the numbers are a direct fit, a reproduced published model,
+    /// or a quarantined model that has not passed reproduction.
+    pub evidence: KineticEvidenceKind,
+    /// Published temperature/activity dependence of the kinetic prefactor.
+    /// The stored kinetic model is always the cited reference condition.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub scaling: Option<KineticConditionScaling>,
     /// Conditions under which this record may be applied.
     pub validity: KineticValidityDomain,
     /// Source citation.
@@ -137,9 +144,53 @@ pub struct ExchangeCurrentRecord {
 
 /// Exact preparation label for the reviewed stainless-steel HER measurement.
 pub const VAN_EDE_STAINLESS_PREPARATION: &str = "1 um diamond polish; ethanol degreased; ultrasonicated 3 min; cathodically polarized at -1.5 V vs Ag/AgCl/saturated KCl for 5 min; immersed 0.5 h";
+pub const HAN_Q345R_PREPARATION: &str = "Q345R cross-section; ground through 800 grit SiC; acetone ultrasonication 10 min; ethanol rinse; nitrogen dried; tested immediately";
 
-/// Curated exchange-current records from reviewed permissive sources. Each
-/// entry is one compatible measured ensemble, never a range midpoint.
+fn han_q345r_validity() -> KineticValidityDomain {
+    KineticValidityDomain {
+        temperature_min_k: 303.15,
+        temperature_max_k: 353.15,
+        activities: vec![ActivityBound {
+            species: "H+".into(),
+            minimum: 1.0e-9,
+            maximum: 1.0e-5,
+        }],
+        surface_preparation: HAN_Q345R_PREPARATION.into(),
+        hydrodynamics: HydrodynamicDomain {
+            rotation_rate_rpm: None,
+            fluid_velocity_m_per_s: Some(ParameterBound {
+                minimum: 0.0,
+                maximum: 0.0,
+            }),
+            diffusion_layer_m: None,
+        },
+        validated_slices: vec![
+            KineticValiditySlice {
+                temperature_min_k: 303.15,
+                temperature_max_k: 303.15,
+                activities: vec![ActivityBound {
+                    species: "H+".into(),
+                    minimum: 1.0e-9,
+                    maximum: 1.0e-5,
+                }],
+            },
+            KineticValiditySlice {
+                temperature_min_k: 303.15,
+                temperature_max_k: 353.15,
+                activities: vec![ActivityBound {
+                    species: "H+".into(),
+                    minimum: 1.0e-6,
+                    maximum: 1.0e-6,
+                }],
+            },
+        ],
+        note: "Initial active corrosion in static 1 wt.% NaCl; published model validated at 30 degC over pH 5-9 and at pH 6 over 30-80 degC; no passive layer".into(),
+    }
+}
+
+/// Reviewed records and explicitly quarantined candidates from permissive
+/// sources. Runtime selection admits only `reviewed` entries. Each measured
+/// entry is one compatible ensemble, never a range midpoint.
 pub static EXCHANGE_CURRENTS: std::sync::LazyLock<Vec<ExchangeCurrentRecord>> =
     std::sync::LazyLock::new(|| {
         vec![ExchangeCurrentRecord {
@@ -152,6 +203,8 @@ pub static EXCHANGE_CURRENTS: std::sync::LazyLock<Vec<ExchangeCurrentRecord>> =
                 tafel_slope_v_per_decade: (0.16 + 0.14 + 0.16) / 3.0,
                 electrons_per_extent: 2.0,
             },
+            evidence: KineticEvidenceKind::MeasuredFit,
+            scaling: None,
             validity: KineticValidityDomain {
                 temperature_min_k: 289.15,
                 temperature_max_k: 289.15,
@@ -169,6 +222,7 @@ pub static EXCHANGE_CURRENTS: std::sync::LazyLock<Vec<ExchangeCurrentRecord>> =
                     fluid_velocity_m_per_s: None,
                     diffusion_layer_m: None,
                 },
+                validated_slices: Vec::new(),
                 note: "N2-deaerated 0.1 M boric-acid/borax buffer at pH 7.5 with 0.027 M chloride; oxygen below 0.30 ppm; 0.50 mV/s initial upward scan; three repetitions".into(),
             },
             source: "M. C. van Ede and U. Angst, Tafel slopes and exchange current densities of oxygen reduction and hydrogen evolution on steel, Corrosion Engineering, Science and Technology (2024), doi:10.1177/1478422X241227829, Supplementary Table B1".into(),
@@ -198,6 +252,8 @@ pub static EXCHANGE_CURRENTS: std::sync::LazyLock<Vec<ExchangeCurrentRecord>> =
                 tafel_slope_v_per_decade: (0.18 + 0.17 + 0.18) / 3.0,
                 electrons_per_extent: 4.0,
             },
+            evidence: KineticEvidenceKind::MeasuredFit,
+            scaling: None,
             validity: KineticValidityDomain {
                 temperature_min_k: 293.15,
                 temperature_max_k: 293.15,
@@ -215,6 +271,7 @@ pub static EXCHANGE_CURRENTS: std::sync::LazyLock<Vec<ExchangeCurrentRecord>> =
                     fluid_velocity_m_per_s: None,
                     diffusion_layer_m: None,
                 },
+                validated_slices: Vec::new(),
                 note: "Air-bubbled 0.1 M boric-acid/borax buffer at pH 7.5 with 0.027 M chloride; room temperature around 20 degC; 0.50 mV/s initial upward scan; three repetitions".into(),
             },
             source: "M. C. van Ede and U. Angst, Tafel slopes and exchange current densities of oxygen reduction and hydrogen evolution on steel, Corrosion Engineering, Science and Technology (2024), doi:10.1177/1478422X241227829, Supplementary Table C1".into(),
@@ -234,6 +291,127 @@ pub static EXCHANGE_CURRENTS: std::sync::LazyLock<Vec<ExchangeCurrentRecord>> =
             }),
             uncertainty_note: "Nominal values are arithmetic means computed from all three exact 1200 rpm, 0.50 mV/s upward-scan repetitions in Table C1 (i0,O2 3.5e-7, 1.9e-7, 4.2e-7 A/m2; |b_cath| 0.18, 0.17, 0.18 V/dec). The envelope is their observed min/max. Their measured limiting currents (2.2, 1.6, 2.2 A/m2) are validation evidence, not embedded kinetics: runtime transport remains computed from its oxygen inventory and diffusion model.".into(),
             reviewed: true,
+        }, ExchangeCurrentRecord {
+            id: "han-2018-q345r-fe-dissolution-model".into(),
+            reaction: "Fe+2/Fe".into(),
+            electrode_material: "Q345R steel".into(),
+            kinetics: ElectrodeKineticModel::DirectionalTafel {
+                direction: TafelDirection::Anodic,
+                exchange_current_density_a_per_m2: 1.0,
+                tafel_slope_v_per_decade: 0.070,
+                electrons_per_extent: 2.0,
+            },
+            evidence: KineticEvidenceKind::PublishedModelPendingReproduction,
+            scaling: Some(KineticConditionScaling {
+                reference_temperature_k: 298.15,
+                activation_enthalpy_j_per_mol: 37_500.0,
+                activity_terms: Vec::new(),
+                tafel_slope: None,
+            }),
+            validity: han_q345r_validity(),
+            source: "Han et al., Corrosion Behaviors of Q345R Steel at the Initial Stage in an Oxygen-Containing Aqueous Environment: Experiment and Modeling, Materials 11 (2018) 1462, doi:10.3390/ma11081462, equations 23-25 and Tables 1-4".into(),
+            license: PermissiveDataLicense::CcBy40,
+            relative_uncertainty: None,
+            parameter_envelope: None,
+            directional_tafel_envelope: None,
+            uncertainty_note: "This is the article's published model parameterisation, not a direct exchange-current fit from one polarization branch. The paper uses j0,Fe(ref)=1 A/m2 at 298.15 K, activation enthalpy 37.5 kJ/mol and 70 mV/dec; its pH order is zero throughout the candidate pH 5-9 domain. The source reports results only on two intersecting slices, which are retained rather than expanded to their Cartesian product. Literal reproduction does not match the reported model current, so runtime selection excludes this record.".into(),
+            reviewed: false,
+        }, ExchangeCurrentRecord {
+            id: "han-2018-q345r-oxygen-reduction-model".into(),
+            reaction: "O2/H2O/OH-".into(),
+            electrode_material: "Q345R steel".into(),
+            kinetics: ElectrodeKineticModel::DirectionalTafel {
+                direction: TafelDirection::Cathodic,
+                exchange_current_density_a_per_m2: 2.8e-3,
+                tafel_slope_v_per_decade: 0.120,
+                electrons_per_extent: 4.0,
+            },
+            evidence: KineticEvidenceKind::PublishedModelPendingReproduction,
+            scaling: Some(KineticConditionScaling {
+                reference_temperature_k: 303.15,
+                activation_enthalpy_j_per_mol: 23_200.0,
+                activity_terms: vec![ActivityPowerLaw {
+                    species: "H+".into(),
+                    reference_activity: 1.0e-4,
+                    exponent: TemperatureDependentExponent::Linear {
+                        intercept: 0.0,
+                        slope_per_k: -0.001678,
+                    },
+                }],
+                tafel_slope: None,
+            }),
+            validity: han_q345r_validity(),
+            source: "Han et al., Materials 11 (2018) 1462, doi:10.3390/ma11081462, equations 2-11 and Table 1".into(),
+            license: PermissiveDataLicense::CcBy40,
+            relative_uncertainty: None,
+            parameter_envelope: None,
+            directional_tafel_envelope: None,
+            uncertainty_note: "Published Q345R mixed-potential candidate: j0,O2(ref)=2.8e-3 A/m2 at 303.15 K, activation enthalpy 23.2 kJ/mol, fixed 0.120 V/dec cathodic slope and temperature-dependent proton-activity exponent -0.001678*T. Oxygen diffusion is computed separately from state. Literal reproduction does not match the reported model current, so runtime selection excludes this record.".into(),
+            reviewed: false,
+        }, ExchangeCurrentRecord {
+            id: "han-2018-q345r-proton-reduction-model".into(),
+            reaction: "H+/H2".into(),
+            electrode_material: "Q345R steel".into(),
+            kinetics: ElectrodeKineticModel::DirectionalTafel {
+                direction: TafelDirection::Cathodic,
+                exchange_current_density_a_per_m2: 0.03,
+                tafel_slope_v_per_decade: 2.303 * GAS_CONSTANT * 298.15 / (0.5 * FARADAY),
+                electrons_per_extent: 2.0,
+            },
+            evidence: KineticEvidenceKind::PublishedModelPendingReproduction,
+            scaling: Some(KineticConditionScaling {
+                reference_temperature_k: 298.15,
+                activation_enthalpy_j_per_mol: 30_000.0,
+                activity_terms: vec![ActivityPowerLaw {
+                    species: "H+".into(),
+                    reference_activity: 1.0e-4,
+                    exponent: TemperatureDependentExponent::Constant { value: 0.5 },
+                }],
+                tafel_slope: Some(TafelSlopeTemperatureModel::TransferCoefficient {
+                    alpha: 0.5,
+                    electrons_in_rate_step: 1.0,
+                }),
+            }),
+            validity: han_q345r_validity(),
+            source: "Han et al., Materials 11 (2018) 1462, doi:10.3390/ma11081462, equations 12-18 and Table 1".into(),
+            license: PermissiveDataLicense::CcBy40,
+            relative_uncertainty: None,
+            parameter_envelope: None,
+            directional_tafel_envelope: None,
+            uncertainty_note: "Published Q345R mixed-potential candidate: j0,H+(ref)=0.03 A/m2 at 298.15 K, activation enthalpy 30 kJ/mol, half-order proton dependence and a Tafel slope computed from alpha=0.5 and a one-electron rate step. Proton diffusion is computed separately from state. Literal reproduction does not match the reported model current, so runtime selection excludes this record.".into(),
+            reviewed: false,
+        }, ExchangeCurrentRecord {
+            id: "han-2018-q345r-water-reduction-model".into(),
+            reaction: "H2O/H2/OH-".into(),
+            electrode_material: "Q345R steel".into(),
+            kinetics: ElectrodeKineticModel::DirectionalTafel {
+                direction: TafelDirection::Cathodic,
+                exchange_current_density_a_per_m2: 1.4e-5,
+                tafel_slope_v_per_decade: 2.303 * GAS_CONSTANT * 293.15 / (0.5 * FARADAY),
+                electrons_per_extent: 2.0,
+            },
+            evidence: KineticEvidenceKind::PublishedModelPendingReproduction,
+            scaling: Some(KineticConditionScaling {
+                reference_temperature_k: 293.15,
+                activation_enthalpy_j_per_mol: 30_000.0,
+                activity_terms: vec![ActivityPowerLaw {
+                    species: "H+".into(),
+                    reference_activity: 1.0e-4,
+                    exponent: TemperatureDependentExponent::Constant { value: -0.5 },
+                }],
+                tafel_slope: Some(TafelSlopeTemperatureModel::TransferCoefficient {
+                    alpha: 0.5,
+                    electrons_in_rate_step: 1.0,
+                }),
+            }),
+            validity: han_q345r_validity(),
+            source: "Han et al., Materials 11 (2018) 1462, doi:10.3390/ma11081462, equations 19-22 and Table 1".into(),
+            license: PermissiveDataLicense::CcBy40,
+            relative_uncertainty: None,
+            parameter_envelope: None,
+            directional_tafel_envelope: None,
+            uncertainty_note: "Published Q345R mixed-potential candidate: j0,H2O(ref)=1.4e-5 A/m2 at 293.15 K, activation enthalpy 30 kJ/mol, inverse half-order proton dependence and a Tafel slope computed from alpha=0.5 and a one-electron rate step. Literal reproduction does not match the reported model current, so runtime selection excludes this record.".into(),
+            reviewed: false,
         }]
     });
 
@@ -248,6 +426,88 @@ pub enum PermissiveDataLicense {
     Mit,
     Bsd3Clause,
     Apache20,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum KineticEvidenceKind {
+    MeasuredFit,
+    PublishedValidatedModel,
+    PublishedModelPendingReproduction,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct KineticConditionScaling {
+    pub reference_temperature_k: f64,
+    pub activation_enthalpy_j_per_mol: f64,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub activity_terms: Vec<ActivityPowerLaw>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub tafel_slope: Option<TafelSlopeTemperatureModel>,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct ActivityPowerLaw {
+    pub species: String,
+    pub reference_activity: f64,
+    pub exponent: TemperatureDependentExponent,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+#[serde(tag = "model", rename_all = "snake_case")]
+pub enum TemperatureDependentExponent {
+    Constant { value: f64 },
+    Linear { intercept: f64, slope_per_k: f64 },
+}
+
+impl TemperatureDependentExponent {
+    fn at(self, temperature_k: f64) -> f64 {
+        match self {
+            Self::Constant { value } => value,
+            Self::Linear {
+                intercept,
+                slope_per_k,
+            } => intercept + slope_per_k * temperature_k,
+        }
+    }
+
+    fn validate(self) -> bool {
+        match self {
+            Self::Constant { value } => value.is_finite(),
+            Self::Linear {
+                intercept,
+                slope_per_k,
+            } => intercept.is_finite() && slope_per_k.is_finite(),
+        }
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+#[serde(tag = "model", rename_all = "snake_case")]
+pub enum TafelSlopeTemperatureModel {
+    TransferCoefficient {
+        alpha: f64,
+        electrons_in_rate_step: f64,
+    },
+}
+
+impl TafelSlopeTemperatureModel {
+    fn at(self, temperature_k: f64) -> Result<f64, &'static str> {
+        let Self::TransferCoefficient {
+            alpha,
+            electrons_in_rate_step,
+        } = self;
+        if !alpha.is_finite()
+            || alpha <= 0.0
+            || !electrons_in_rate_step.is_finite()
+            || electrons_in_rate_step <= 0.0
+            || !temperature_k.is_finite()
+            || temperature_k <= 0.0
+        {
+            return Err("Tafel slope temperature model is not physical");
+        }
+        Ok(2.303 * GAS_CONSTANT * temperature_k / (alpha * electrons_in_rate_step * FARADAY))
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -272,6 +532,24 @@ pub enum ElectrodeKineticModel {
         tafel_slope_v_per_decade: f64,
         electrons_per_extent: f64,
     },
+    /// Piecewise anodic law for an active branch followed by a passive
+    /// plateau and, optionally, transpassive growth. Transition potentials
+    /// are overpotentials relative to the reaction's computed equilibrium
+    /// potential, so Nernst shifts remain thermodynamic rather than fitted.
+    ActivePassive {
+        exchange_current_density_a_per_m2: f64,
+        active_tafel_slope_v_per_decade: f64,
+        electrons_per_extent: f64,
+        passivation_onset_overpotential_v: f64,
+        passive_current_density_a_per_m2: f64,
+        transpassive: Option<TranspassiveBranch>,
+    },
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+pub struct TranspassiveBranch {
+    pub onset_overpotential_v: f64,
+    pub tafel_slope_v_per_decade: f64,
 }
 
 impl ElectrodeKineticModel {
@@ -295,6 +573,34 @@ impl ElectrodeKineticModel {
             Self::DirectionalTafel { .. } => Err(
                 "directional Tafel current, slope and electron count must be finite and positive",
             ),
+            Self::ActivePassive {
+                exchange_current_density_a_per_m2,
+                active_tafel_slope_v_per_decade,
+                electrons_per_extent,
+                passivation_onset_overpotential_v,
+                passive_current_density_a_per_m2,
+                transpassive,
+            } if exchange_current_density_a_per_m2.is_finite()
+                && exchange_current_density_a_per_m2 > 0.0
+                && active_tafel_slope_v_per_decade.is_finite()
+                && active_tafel_slope_v_per_decade > 0.0
+                && electrons_per_extent.is_finite()
+                && electrons_per_extent > 0.0
+                && passivation_onset_overpotential_v.is_finite()
+                && passive_current_density_a_per_m2.is_finite()
+                && passive_current_density_a_per_m2 > 0.0
+                && transpassive.is_none_or(|branch| {
+                    branch.onset_overpotential_v.is_finite()
+                        && branch.onset_overpotential_v > passivation_onset_overpotential_v
+                        && branch.tafel_slope_v_per_decade.is_finite()
+                        && branch.tafel_slope_v_per_decade > 0.0
+                }) =>
+            {
+                Ok(())
+            }
+            Self::ActivePassive { .. } => Err(
+                "active/passive currents, slopes and electron count must be positive, with ordered finite transition potentials",
+            ),
         }
     }
 
@@ -302,6 +608,10 @@ impl ElectrodeKineticModel {
         match self {
             Self::ButlerVolmer { parameters } => parameters.n,
             Self::DirectionalTafel {
+                electrons_per_extent,
+                ..
+            } => electrons_per_extent,
+            Self::ActivePassive {
                 electrons_per_extent,
                 ..
             } => electrons_per_extent,
@@ -335,6 +645,146 @@ impl ElectrodeKineticModel {
                 }
             }
             Self::DirectionalTafel { .. } => f64::NAN,
+            Self::ActivePassive {
+                exchange_current_density_a_per_m2,
+                active_tafel_slope_v_per_decade,
+                passivation_onset_overpotential_v,
+                passive_current_density_a_per_m2,
+                transpassive,
+                ..
+            } if self.validate().is_ok()
+                && overpotential_v.is_finite()
+                && temperature_k.is_finite()
+                && temperature_k > 0.0 =>
+            {
+                if overpotential_v < passivation_onset_overpotential_v {
+                    exchange_current_density_a_per_m2
+                        * 10.0_f64.powf(
+                            (overpotential_v / active_tafel_slope_v_per_decade)
+                                .clamp(-300.0, 300.0),
+                        )
+                } else {
+                    match transpassive {
+                        Some(branch) if overpotential_v >= branch.onset_overpotential_v => {
+                            passive_current_density_a_per_m2
+                                * 10.0_f64.powf(
+                                    ((overpotential_v - branch.onset_overpotential_v)
+                                        / branch.tafel_slope_v_per_decade)
+                                        .clamp(0.0, 300.0),
+                                )
+                        }
+                        _ => passive_current_density_a_per_m2,
+                    }
+                }
+            }
+            Self::ActivePassive { .. } => f64::NAN,
+        }
+    }
+
+    fn at_conditions(
+        self,
+        prefactor_factor: f64,
+        condition_slope_v_per_decade: Option<f64>,
+    ) -> Result<Self, &'static str> {
+        if !prefactor_factor.is_finite() || prefactor_factor <= 0.0 {
+            return Err("kinetic prefactor scale must be finite and positive");
+        }
+        let scaled = match self {
+            Self::ButlerVolmer { mut parameters } => {
+                if condition_slope_v_per_decade.is_some() {
+                    return Err(
+                        "a Tafel slope override cannot be applied to Butler-Volmer kinetics",
+                    );
+                }
+                parameters.j0 *= prefactor_factor;
+                Self::ButlerVolmer { parameters }
+            }
+            Self::DirectionalTafel {
+                direction,
+                exchange_current_density_a_per_m2,
+                tafel_slope_v_per_decade,
+                electrons_per_extent,
+            } => Self::DirectionalTafel {
+                direction,
+                exchange_current_density_a_per_m2: exchange_current_density_a_per_m2
+                    * prefactor_factor,
+                tafel_slope_v_per_decade: condition_slope_v_per_decade
+                    .unwrap_or(tafel_slope_v_per_decade),
+                electrons_per_extent,
+            },
+            Self::ActivePassive {
+                exchange_current_density_a_per_m2,
+                active_tafel_slope_v_per_decade,
+                electrons_per_extent,
+                passivation_onset_overpotential_v,
+                passive_current_density_a_per_m2,
+                transpassive,
+            } => {
+                if condition_slope_v_per_decade.is_some() {
+                    return Err(
+                        "a Tafel slope override cannot yet be applied to active/passive kinetics",
+                    );
+                }
+                Self::ActivePassive {
+                    exchange_current_density_a_per_m2: exchange_current_density_a_per_m2
+                        * prefactor_factor,
+                    active_tafel_slope_v_per_decade,
+                    electrons_per_extent,
+                    passivation_onset_overpotential_v,
+                    passive_current_density_a_per_m2: passive_current_density_a_per_m2
+                        * prefactor_factor,
+                    transpassive,
+                }
+            }
+        };
+        scaled.validate()?;
+        Ok(scaled)
+    }
+}
+
+impl KineticConditionScaling {
+    fn validate(&self) -> bool {
+        self.reference_temperature_k.is_finite()
+            && self.reference_temperature_k > 0.0
+            && self.activation_enthalpy_j_per_mol.is_finite()
+            && self.activity_terms.iter().all(|term| {
+                !term.species.trim().is_empty()
+                    && term.reference_activity.is_finite()
+                    && term.reference_activity > 0.0
+                    && term.exponent.validate()
+            })
+            && self
+                .tafel_slope
+                .is_none_or(|model| model.at(self.reference_temperature_k).is_ok())
+    }
+
+    fn factor(
+        &self,
+        temperature_k: f64,
+        activities: &[(String, f64)],
+    ) -> Result<f64, &'static str> {
+        if !self.validate() || !temperature_k.is_finite() || temperature_k <= 0.0 {
+            return Err("kinetic condition scaling is not physical");
+        }
+        let thermal = (-self.activation_enthalpy_j_per_mol / GAS_CONSTANT
+            * (1.0 / temperature_k - 1.0 / self.reference_temperature_k))
+            .exp();
+        let activity = self.activity_terms.iter().try_fold(1.0, |factor, term| {
+            let actual = activities
+                .iter()
+                .find(|(species, _)| species == &term.species)
+                .map(|(_, value)| *value)
+                .ok_or("condition scaling requires a missing activity")?;
+            if !actual.is_finite() || actual <= 0.0 {
+                return Err("condition scaling activities must be finite and positive");
+            }
+            Ok(factor * (actual / term.reference_activity).powf(term.exponent.at(temperature_k)))
+        })?;
+        let factor = thermal * activity;
+        if factor.is_finite() && factor > 0.0 {
+            Ok(factor)
+        } else {
+            Err("condition scaling produced a non-finite prefactor")
         }
     }
 }
@@ -483,7 +933,58 @@ pub struct KineticValidityDomain {
     pub surface_preparation: String,
     #[serde(default)]
     pub hydrodynamics: HydrodynamicDomain,
+    /// Optional union of actually validated temperature/activity slices.
+    /// The outer bounds above remain a cheap envelope; when slices are
+    /// present, matching one complete slice is additionally required.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub validated_slices: Vec<KineticValiditySlice>,
     pub note: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct KineticValiditySlice {
+    pub temperature_min_k: f64,
+    pub temperature_max_k: f64,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub activities: Vec<ActivityBound>,
+}
+
+impl KineticValiditySlice {
+    fn validate(&self) -> bool {
+        self.temperature_min_k.is_finite()
+            && self.temperature_max_k.is_finite()
+            && self.temperature_min_k > 0.0
+            && self.temperature_min_k <= self.temperature_max_k
+            && valid_activity_bounds(&self.activities)
+    }
+
+    fn accepts(&self, temperature_k: f64, activities: &[(String, f64)]) -> bool {
+        self.validate()
+            && temperature_k >= self.temperature_min_k
+            && temperature_k <= self.temperature_max_k
+            && activity_bounds_accept(&self.activities, activities)
+    }
+}
+
+fn valid_activity_bounds(bounds: &[ActivityBound]) -> bool {
+    bounds.iter().all(|bound| {
+        !bound.species.trim().is_empty()
+            && bound.minimum.is_finite()
+            && bound.maximum.is_finite()
+            && bound.minimum >= 0.0
+            && bound.minimum <= bound.maximum
+    })
+}
+
+fn activity_bounds_accept(bounds: &[ActivityBound], activities: &[(String, f64)]) -> bool {
+    bounds.iter().all(|bound| {
+        activities
+            .iter()
+            .find(|(species, _)| species == &bound.species)
+            .is_some_and(|(_, activity)| {
+                activity.is_finite() && *activity >= bound.minimum && *activity <= bound.maximum
+            })
+    })
 }
 
 impl KineticValidityDomain {
@@ -495,12 +996,11 @@ impl KineticValidityDomain {
             && !self.surface_preparation.trim().is_empty()
             && !self.note.trim().is_empty()
             && self.hydrodynamics.validate()
-            && self.activities.iter().all(|bound| {
-                !bound.species.trim().is_empty()
-                    && bound.minimum.is_finite()
-                    && bound.maximum.is_finite()
-                    && bound.minimum >= 0.0
-                    && bound.minimum <= bound.maximum
+            && valid_activity_bounds(&self.activities)
+            && self.validated_slices.iter().all(|slice| {
+                slice.validate()
+                    && slice.temperature_min_k >= self.temperature_min_k
+                    && slice.temperature_max_k <= self.temperature_max_k
             })
     }
 
@@ -517,21 +1017,33 @@ impl KineticValidityDomain {
             && temperature_k <= self.temperature_max_k
             && surface_preparation == Some(self.surface_preparation.as_str())
             && self.hydrodynamics.accepts(hydrodynamics)
-            && self.activities.iter().all(|bound| {
-                activities
+            && activity_bounds_accept(&self.activities, activities)
+            && (self.validated_slices.is_empty()
+                || self
+                    .validated_slices
                     .iter()
-                    .find(|(species, _)| species == &bound.species)
-                    .map(|(_, activity)| {
-                        activity.is_finite()
-                            && *activity >= bound.minimum
-                            && *activity <= bound.maximum
-                    })
-                    .unwrap_or(false)
-            })
+                    .any(|slice| slice.accepts(temperature_k, activities)))
     }
 }
 
 impl ExchangeCurrentRecord {
+    pub fn kinetics_at(
+        &self,
+        temperature_k: f64,
+        activities: &[(String, f64)],
+    ) -> Result<ElectrodeKineticModel, &'static str> {
+        match &self.scaling {
+            Some(scaling) => self.kinetics.at_conditions(
+                scaling.factor(temperature_k, activities)?,
+                scaling
+                    .tafel_slope
+                    .map(|model| model.at(temperature_k))
+                    .transpose()?,
+            ),
+            None => Ok(self.kinetics),
+        }
+    }
+
     pub fn applies_to(
         &self,
         electrode_material: &str,
@@ -557,6 +1069,10 @@ impl ExchangeCurrentRecord {
             && !(self.parameter_envelope.is_some() && self.directional_tafel_envelope.is_some())
             && self.electrode_material == electrode_material
             && self.kinetics.validate().is_ok()
+            && self
+                .scaling
+                .as_ref()
+                .is_none_or(|scaling| scaling.validate())
             && self.validity.accepts(
                 temperature_k,
                 activities,
@@ -1641,6 +2157,7 @@ pub fn equilibrium_potential_v(
 #[derive(Debug, Clone, PartialEq)]
 pub enum CandidateReactionError {
     Parameters(ParameterSelectionError),
+    Scaling(&'static str),
     Equilibrium(ElectrochemistryError),
 }
 
@@ -1679,11 +2196,14 @@ pub fn parameterized_partial_reaction<'a>(
         quotient_activities,
     )
     .map_err(CandidateReactionError::Equilibrium)?;
+    let kinetics = record
+        .kinetics_at(temperature_k, domain_activities)
+        .map_err(CandidateReactionError::Scaling)?;
     Ok(PartialReaction {
         id: reaction,
         parameter_record_id: Some(&record.id),
         equilibrium_potential_v,
-        kinetics: record.kinetics,
+        kinetics,
         reactive_area_ratio,
         limiting_current_anodic_a_per_m2,
         limiting_current_cathodic_a_per_m2,
@@ -1780,7 +2300,13 @@ pub struct InterfacialCondition {
 pub struct AppliedKineticParameters {
     pub reaction_id: String,
     pub record_id: String,
+    pub evidence: KineticEvidenceKind,
+    /// Condition-adjusted parameters actually supplied to the solver.
     pub nominal: ElectrodeKineticModel,
+    /// Parameters at the source's declared reference condition.
+    pub reference: ElectrodeKineticModel,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub scaling: Option<KineticConditionScaling>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub parameter_envelope: Option<KineticParameterEnvelope>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -2199,7 +2725,10 @@ pub fn propose_electrochemical_step<'a>(
             AppliedKineticParameters {
                 reaction_id: partial.id.to_owned(),
                 record_id: record.id.clone(),
-                nominal: record.kinetics,
+                evidence: record.evidence,
+                nominal: partial.kinetics,
+                reference: record.kinetics,
+                scaling: record.scaling.clone(),
                 parameter_envelope: record.parameter_envelope,
                 directional_tafel_envelope: record.directional_tafel_envelope,
                 relative_uncertainty: record.relative_uncertainty,
@@ -2753,6 +3282,37 @@ mod tests {
     }
 
     #[test]
+    fn active_passive_law_has_active_plateau_and_transpassive_regions() {
+        let model = ElectrodeKineticModel::ActivePassive {
+            exchange_current_density_a_per_m2: 1.0e-3,
+            active_tafel_slope_v_per_decade: 0.050,
+            electrons_per_extent: 2.0,
+            passivation_onset_overpotential_v: 0.20,
+            passive_current_density_a_per_m2: 0.02,
+            transpassive: Some(TranspassiveBranch {
+                onset_overpotential_v: 0.80,
+                tafel_slope_v_per_decade: 0.10,
+            }),
+        };
+        assert!((model.current_density(0.10, 298.15) - 0.1).abs() < 1e-12);
+        assert!((model.current_density(0.30, 298.15) - 0.02).abs() < 1e-12);
+        assert!((model.current_density(0.90, 298.15) - 0.2).abs() < 1e-12);
+        assert!(ElectrodeKineticModel::ActivePassive {
+            exchange_current_density_a_per_m2: 1.0e-3,
+            active_tafel_slope_v_per_decade: 0.050,
+            electrons_per_extent: 2.0,
+            passivation_onset_overpotential_v: 0.20,
+            passive_current_density_a_per_m2: 0.02,
+            transpassive: Some(TranspassiveBranch {
+                onset_overpotential_v: 0.10,
+                tafel_slope_v_per_decade: 0.10,
+            }),
+        }
+        .validate()
+        .is_err());
+    }
+
+    #[test]
     fn shipped_her_record_matches_only_its_exact_measured_domain() {
         let activity = 10.0_f64.powf(-7.5);
         let selected = select_exchange_current(
@@ -2852,6 +3412,220 @@ mod tests {
             ),
             Err(ParameterSelectionError::NoApplicableRecord { .. })
         ));
+    }
+
+    #[test]
+    fn condition_scaling_composes_arrhenius_and_arbitrary_activity_orders() {
+        let scaling = KineticConditionScaling {
+            reference_temperature_k: 298.15,
+            activation_enthalpy_j_per_mol: 40_000.0,
+            activity_terms: vec![
+                ActivityPowerLaw {
+                    species: "A".into(),
+                    reference_activity: 0.1,
+                    exponent: TemperatureDependentExponent::Constant { value: 2.0 },
+                },
+                ActivityPowerLaw {
+                    species: "B".into(),
+                    reference_activity: 1.0,
+                    exponent: TemperatureDependentExponent::Constant { value: -1.0 },
+                },
+            ],
+            tafel_slope: None,
+        };
+        let factor = scaling
+            .factor(308.15, &[("A".into(), 0.2), ("B".into(), 0.5)])
+            .unwrap();
+        let thermal = (-40_000.0 / GAS_CONSTANT * (1.0 / 308.15 - 1.0 / 298.15)).exp();
+        assert!((factor / (thermal * 8.0) - 1.0).abs() < 1e-12);
+        assert!(scaling.factor(308.15, &[("A".into(), 0.2)]).is_err());
+
+        // Apparent activation enthalpies can be negative for composite
+        // mechanisms; the generic scaler must preserve rather than censor
+        // such a reviewed parameterisation.
+        let inverse_thermal = KineticConditionScaling {
+            activation_enthalpy_j_per_mol: -10_000.0,
+            activity_terms: Vec::new(),
+            ..scaling
+        };
+        assert!(inverse_thermal.factor(308.15, &[]).unwrap() < 1.0);
+    }
+
+    #[test]
+    fn q345r_candidate_scales_but_stays_outside_the_runtime_allowlist() {
+        let selected = EXCHANGE_CURRENTS
+            .iter()
+            .find(|record| record.id == "han-2018-q345r-fe-dissolution-model")
+            .unwrap();
+        assert_eq!(
+            selected.evidence,
+            KineticEvidenceKind::PublishedModelPendingReproduction
+        );
+        assert!(!selected.reviewed);
+        let scaled = selected
+            .kinetics_at(353.15, &[("H+".into(), 1.0e-6)])
+            .unwrap();
+        let expected = (-37_500.0 / GAS_CONSTANT * (1.0 / 353.15 - 1.0 / 298.15)).exp();
+        assert!(matches!(
+            scaled,
+            ElectrodeKineticModel::DirectionalTafel {
+                exchange_current_density_a_per_m2,
+                ..
+            } if (exchange_current_density_a_per_m2 / expected - 1.0).abs() < 1e-12
+        ));
+
+        assert!(matches!(
+            select_exchange_current(
+                EXCHANGE_CURRENTS.as_slice(),
+                "Fe+2/Fe",
+                "Q345R steel",
+                353.15,
+                &[("H+".into(), 1.0e-8)],
+                Some(HAN_Q345R_PREPARATION),
+                HydrodynamicCondition {
+                    fluid_velocity_m_per_s: Some(0.0),
+                    ..HydrodynamicCondition::default()
+                },
+            ),
+            Err(ParameterSelectionError::NoApplicableRecord { .. })
+        ));
+        assert!(selected.validity.accepts(
+            303.15,
+            &[("H+".into(), 1.0e-8)],
+            Some(HAN_Q345R_PREPARATION),
+            HydrodynamicCondition {
+                fluid_velocity_m_per_s: Some(0.0),
+                ..HydrodynamicCondition::default()
+            },
+        ));
+        assert!(!selected.validity.accepts(
+            353.15,
+            &[("H+".into(), 1.0e-8)],
+            Some(HAN_Q345R_PREPARATION),
+            HydrodynamicCondition {
+                fluid_velocity_m_per_s: Some(0.0),
+                ..HydrodynamicCondition::default()
+            },
+        ));
+        assert!(matches!(
+            select_exchange_current(
+                EXCHANGE_CURRENTS.as_slice(),
+                "Fe+2/Fe",
+                "Q345R steel",
+                303.15,
+                &[("H+".into(), 1.0e-6)],
+                Some(HAN_Q345R_PREPARATION),
+                HydrodynamicCondition {
+                    fluid_velocity_m_per_s: Some(0.0),
+                    ..HydrodynamicCondition::default()
+                },
+            ),
+            Err(ParameterSelectionError::NoApplicableRecord { .. })
+        ));
+        assert!(select_exchange_current(
+            EXCHANGE_CURRENTS.as_slice(),
+            "Fe+2/Fe",
+            "Q345R steel",
+            353.15,
+            &[("H+".into(), 1.0e-6)],
+            Some(HAN_Q345R_PREPARATION),
+            HydrodynamicCondition {
+                fluid_velocity_m_per_s: Some(0.0),
+                ..HydrodynamicCondition::default()
+            },
+        )
+        .is_err());
+    }
+
+    #[test]
+    fn printed_q345r_equations_do_not_reproduce_the_cited_model_current() {
+        let temperature_k = 303.15;
+        let proton_activity = 1.0e-6;
+        let domain = [("H+".into(), proton_activity)];
+        let candidate = |id: &str| {
+            EXCHANGE_CURRENTS
+                .iter()
+                .find(|record| record.id == id)
+                .unwrap()
+                .kinetics_at(temperature_k, &domain)
+                .unwrap()
+        };
+        let pkw = 29.3868 - 0.0737549 * temperature_k + 7.747881e-5 * temperature_k * temperature_k;
+        let nernst_decade = 2.303 * GAS_CONSTANT * temperature_k / FARADAY;
+        let oxygen_equilibrium_v = 0.401 - nernst_decade * (6.0 - pkw);
+        let proton_equilibrium_v = -nernst_decade * 6.0;
+        let water_equilibrium_v = -0.828 - nernst_decade * (6.0 - pkw);
+        let viscosity_ratio = 10.0_f64.powf(
+            (1.3272 * (293.15 - temperature_k) - 0.001053 * (293.15 - temperature_k).powi(2))
+                / (temperature_k - 168.15),
+        );
+        let diffusion_layer_m =
+            (-5.0e-5 * temperature_k.powi(2) + 3.015e-2 * temperature_k - 4.144) / 1000.0;
+        let oxygen_diffusivity = 2.3e-9 * temperature_k / 298.15 / viscosity_ratio;
+        let proton_diffusivity = 9.31e-9 * temperature_k / 298.15 / viscosity_ratio;
+        let reactions = [
+            PartialReaction {
+                id: "Fe+2/Fe",
+                parameter_record_id: None,
+                equilibrium_potential_v: -0.447,
+                kinetics: candidate("han-2018-q345r-fe-dissolution-model"),
+                reactive_area_ratio: 1.0,
+                film_resistance_ohm_m2: 0.0,
+                limiting_current_anodic_a_per_m2: None,
+                limiting_current_cathodic_a_per_m2: None,
+            },
+            PartialReaction {
+                id: "O2/H2O/OH-",
+                parameter_record_id: None,
+                equilibrium_potential_v: oxygen_equilibrium_v,
+                kinetics: candidate("han-2018-q345r-oxygen-reduction-model"),
+                reactive_area_ratio: 1.0,
+                film_resistance_ohm_m2: 0.0,
+                limiting_current_anodic_a_per_m2: None,
+                limiting_current_cathodic_a_per_m2: Some(limiting_current_density_si(
+                    4.0,
+                    oxygen_diffusivity,
+                    0.08 / 32.0,
+                    diffusion_layer_m,
+                )),
+            },
+            PartialReaction {
+                id: "H+/H2",
+                parameter_record_id: None,
+                equilibrium_potential_v: proton_equilibrium_v,
+                kinetics: candidate("han-2018-q345r-proton-reduction-model"),
+                reactive_area_ratio: 1.0,
+                film_resistance_ohm_m2: 0.0,
+                limiting_current_anodic_a_per_m2: None,
+                limiting_current_cathodic_a_per_m2: Some(limiting_current_density_si(
+                    1.0,
+                    proton_diffusivity,
+                    1.0e-3,
+                    diffusion_layer_m,
+                )),
+            },
+            PartialReaction {
+                id: "H2O/H2/OH-",
+                parameter_record_id: None,
+                equilibrium_potential_v: water_equilibrium_v,
+                kinetics: candidate("han-2018-q345r-water-reduction-model"),
+                reactive_area_ratio: 1.0,
+                film_resistance_ohm_m2: 0.0,
+                limiting_current_anodic_a_per_m2: None,
+                limiting_current_cathodic_a_per_m2: None,
+            },
+        ];
+        let balance = CurrentBalanceSolver::default()
+            .solve_mixed_potential(&reactions, temperature_k)
+            .unwrap();
+        let corrosion_current = balance.partial_currents[0].current_density_a_per_m2;
+
+        // Equations 2-25 as printed reproduce the potential reasonably, but
+        // not Table 2's stated model current (0.017 A/m2). This pinned
+        // discrepancy is why all four source records remain unreviewed.
+        assert!((balance.electrode_potential_v - 0.2415 + 0.807).abs() < 0.002);
+        assert!((corrosion_current - 0.0262).abs() < 0.001);
+        assert!((corrosion_current - 0.017).abs() > 0.005);
     }
 
     #[test]
@@ -3044,6 +3818,7 @@ mod tests {
             }],
             surface_preparation: "test surface".into(),
             hydrodynamics: HydrodynamicDomain::default(),
+            validated_slices: Vec::new(),
             note: "test domain".into(),
         };
         assert!(domain.accepts(
@@ -3085,6 +3860,8 @@ mod tests {
                     n: 2.0,
                 },
             },
+            evidence: KineticEvidenceKind::MeasuredFit,
+            scaling: None,
             validity: KineticValidityDomain {
                 temperature_min_k: 290.0,
                 temperature_max_k: 310.0,
@@ -3095,6 +3872,7 @@ mod tests {
                 }],
                 surface_preparation: "project-authored test surface".into(),
                 hydrodynamics: HydrodynamicDomain::default(),
+                validated_slices: Vec::new(),
                 note: "test-only exact parameter".into(),
             },
             source: "project-authored exact test".into(),
@@ -3126,7 +3904,7 @@ mod tests {
         let first = parameter_record("first");
         assert_eq!(
             select_exchange_current(
-                &[first.clone()],
+                std::slice::from_ref(&first),
                 "M+2/M",
                 "M",
                 298.15,
@@ -3140,7 +3918,7 @@ mod tests {
         );
         assert!(matches!(
             select_exchange_current(
-                &[first.clone()],
+                std::slice::from_ref(&first),
                 "M+2/M",
                 "M",
                 320.0,

@@ -133,18 +133,27 @@ current. A reusable active/passive polarization law requires a source with
 reported transition potentials, branch currents and exact surface/electrolyte
 domain, plus an independently licensed anodic dissolution branch.
 
-Two permissive sources can carry the next implementation. Wilson, Sunde and
-Erbe's CC0 dataset (`doi:10.18710/CHYUQX`) provides raw, replicate polarization
-tables for polished pure iron in acid, pH-9 borate, 3.5 wt% NaCl and NaOH, plus
-controlled oxide thickness, dark/light state, flow, reference-electrode and
-surface metadata. Use it to fit and test active/passive transition laws; a net
-polarization curve must not be mislabeled as an isolated anodic partial current.
-Han et al.'s CC BY 4.0 Q345R study (`doi:10.3390/ma11081462`) publishes a full
-mixed-potential model—Fe oxidation, ORR, proton reduction, water reduction,
-temperature/activity scaling and oxygen transport—and numerical validation
-tables for 1 wt% NaCl. Implement its condition-dependent prefactors and
-non-rectangular validity slices generically before admitting those model-backed
-records. Keep model-backed evidence visibly distinct from measured branch fits.
+The generic extension boundary is now implemented: kinetic prefactors compose
+Arrhenius and arbitrary activity-power terms; Tafel slopes may derive from
+temperature and transfer coefficients; validity domains can be unions of
+measured slices; applied results distinguish direct fits, reproduced published
+models and quarantined candidates; and anodic laws can represent active,
+passive and transpassive regions relative to the computed equilibrium
+potential.
+
+Two permissive-source reviews define the remaining evidence boundary. Wilson,
+Sunde and Erbe's CC0 dataset (`doi:10.18710/CHYUQX`) provides raw replicate
+polarization tables for polished pure iron, but they are net mixed-current
+curves rather than isolated anodic partial currents. They may validate future
+whole-curve decompositions; no branch coefficients may be fitted from them
+alone. Han et al.'s CC BY 4.0 Q345R model
+(`doi:10.3390/ma11081462`) is encoded as four non-runtime candidates. At
+303.15 K, pH 6 and 0.08 mg/L O2, its printed equations reproduce the reported
+potential (about -0.807 versus -0.810 V SCE) but produce about 0.0262 A/m2,
+not Table 2's 0.017 A/m2. Resolve that attributable discrepancy before marking
+the model records reviewed. Do not tune a coefficient or digitize a plot to
+force acceptance. Full evidence and hashes are in
+`provenance/electrochemical-model-extension-review.md`.
 - **`tests/coverage/curiosity-v1/README.md`** — the corpus refresh log. It is a
   test artefact, not a planning file; leave it alone.
 - **`docs/CURIOSITY-COVERAGE.md`** — the standing analysis of that corpus: the

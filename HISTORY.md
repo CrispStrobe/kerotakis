@@ -107,6 +107,16 @@ it had while it was open, which is why a few numbers appear twice below.
   hydrodynamics. A second CC BY source was classified as active/passive and
   polarity-reversal validation only because its curves were not numerically
   tabulated; no coefficients were digitized or invented
+- `feat/modular-electrode-kinetics` — generalized kinetic conditions beyond
+  fixed rectangular records: composable Arrhenius/activity-order prefactors,
+  temperature-derived Tafel slopes, union-shaped validation slices, typed
+  measured/model/pending evidence and a potential-dependent
+  active/passive/transpassive anodic law. A CC0 pure-iron curve set was refused
+  as an isolated anodic fit because it measures net mixed current. Four CC BY
+  Q345R source-model records remain quarantined and unselectable: their printed
+  equations reproduce the 30 °C, pH 6 corrosion potential but calculate about
+  0.0262 A/m2 rather than the paper table's 0.017 A/m2. A regression test pins
+  the discrepancy instead of blessing a tuned coefficient
 - **#541** — the heat-capacity integral in **difference form**. Each NASA-9 and
   Shomate term is now written so `(t1 − t0)` factors out, instead of evaluating
   an antiderivative at both ends and subtracting terms around 1.2e9 J/mol that
