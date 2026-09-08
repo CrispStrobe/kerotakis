@@ -12757,6 +12757,443 @@
       }
     },
     {
+      "id": "saline-conductivity-is-intensive",
+      "progress": "intermediate",
+      "equation": null,
+      "summary": "Scaling water and salt together preserves the modeled conductivity",
+      "summary_de": "Werden Wasser und Salz gemeinsam skaliert, bleibt die modellierte Leitfähigkeit erhalten",
+      "concepts": [
+        "conductivity",
+        "concentration",
+        "intensive-properties"
+      ],
+      "requires": [
+        "amount-of-substance",
+        "dissolving"
+      ],
+      "spine": [],
+      "curriculum": [],
+      "apparatus": [
+        "beaker",
+        "conductivity-meter"
+      ],
+      "calculations": [
+        "concentration",
+        "proportional-reasoning"
+      ],
+      "models": [
+        "particle-model",
+        "aqueous-equilibrium"
+      ],
+      "setup": {
+        "script": "add v1 water 250mL\nadd v1 NaCl 0.001mol\nmeasure v1 conductivity\nnew\nadd v2 water 500mL\nadd v2 NaCl 0.002mol\nmeasure v2 conductivity\nnew\nadd v3 water 750mL\nadd v3 NaCl 0.003mol\nmeasure v3 conductivity\nnew\nadd v4 water 1000mL\nadd v4 NaCl 0.004mol\nmeasure v4 conductivity\n"
+      },
+      "expect": {
+        "events": [
+          "measured"
+        ],
+        "absent": [
+          "solver_failed"
+        ],
+        "predict": {
+          "question": "Four beakers contain one, two, three and four times as much salt water, but every recipe keeps the same salt-to-water ratio. Which has the greatest conductivity?",
+          "question_de": "Vier Becher enthalten die ein-, zwei-, drei- und vierfache Menge Salzwasser, doch jedes Rezept behält dasselbe Verhältnis von Salz zu Wasser. Welcher hat die größte Leitfähigkeit?",
+          "options": [
+            "The largest, because it contains the most salt in total",
+            "None: proportional scaling keeps the ion concentration and modeled conductivity equal"
+          ],
+          "options_de": [
+            "Der größte, weil er insgesamt das meiste Salz enthält",
+            "Keiner: Proportionales Skalieren erhält Ionenkonzentration und modellierte Leitfähigkeit"
+          ],
+          "answer": 1,
+          "misconception": "The extensive amount of dissolved salt is confused with its concentration, which controls the conductivity model.",
+          "misconception_de": "Die extensive Menge gelösten Salzes wird mit seiner Konzentration verwechselt, welche das Leitfähigkeitsmodell bestimmt.",
+          "diagnosis": [
+            {
+              "option": 0,
+              "reveals": "The extra salt has been counted without the proportional extra water that contains it.",
+              "reveals_de": "Das zusätzliche Salz wurde gezählt, nicht aber das proportional zusätzliche Wasser, das es enthält.",
+              "next": "Divide salt amount by water volume for each beaker, then compare the four conductivity readings.",
+              "next_de": "Teile in jedem Becher die Salzmenge durch das Wasservolumen und vergleiche dann die vier Leitfähigkeitsmessungen.",
+              "source": null
+            }
+          ]
+        },
+        "ph": null,
+        "temperature_c": null,
+        "assertions": [
+          {
+            "kind": "equal",
+            "tolerance": 0.02,
+            "relative_tolerance": 0.002,
+            "samples": [
+              {
+                "step": "after:3",
+                "metric": "event:measured.value"
+              },
+              {
+                "step": "after:7",
+                "metric": "event:measured.value"
+              },
+              {
+                "step": "after:11",
+                "metric": "event:measured.value"
+              },
+              {
+                "step": "after:15",
+                "metric": "event:measured.value"
+              }
+            ]
+          }
+        ]
+      },
+      "registers": {
+        "lv1": "A larger beaker of the same salt-water recipe conducts like the smaller one. It contains more ions, but also proportionally more water.",
+        "lv1_de": "Ein größerer Becher mit demselben Salzwasserrezept leitet wie der kleinere. Er enthält mehr Ionen, aber auch proportional mehr Wasser.",
+        "lv2": "All four preparations contain 0.004 mol NaCl per litre of water. Their total salt amounts differ fourfold, while the modeled concentration and therefore the conductivity agree.",
+        "lv2_de": "Alle vier Ansätze enthalten 0,004 mol NaCl je Liter Wasser. Ihre gesamten Salzmengen unterscheiden sich um den Faktor vier, während die modellierte Konzentration und damit die Leitfähigkeit übereinstimmen.",
+        "lv3": "The four exact source-fleet scripts, cases 505–508, form an extensive-scaling control. A semantic equality assertion reads each measured event with the frozen absolute and relative tolerances. Conductivity is treated as intensive only within this aqueous model; temperature dependence, electrode geometry, calibration and high-concentration nonlinearity are outside the claim. The GUI leaves event-only values unavailable rather than substituting a scene proxy.",
+        "lv3_de": "Die vier exakten Skripte der Versuchsreihe, Fälle 505–508, bilden eine Kontrolle der extensiven Skalierung. Eine semantische Gleichheitsprüfung liest jedes Messereignis mit den eingefrorenen absoluten und relativen Toleranzen. Leitfähigkeit gilt nur innerhalb dieses wässrigen Modells als intensiv; Temperaturabhängigkeit, Elektrodengeometrie, Kalibrierung und Nichtlinearität bei hohen Konzentrationen liegen außerhalb der Aussage. Die GUI lässt Werte, die nur im Ereignis vorkommen, unverfügbar, statt einen Szenen-Stellvertreter einzusetzen."
+      },
+      "provenance": {
+        "source": "Original promotion from source-fleet v2 proportional saline controls; no private source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08.",
+        "licence": null,
+        "computed_by": "Kerotakis aqueous speciation and conductivity estimator; four exact measured-event equality assertions"
+      }
+    },
+    {
+      "id": "sugar-is-not-an-electrolyte-control",
+      "progress": "intermediate",
+      "equation": null,
+      "summary": "Changing the amount or identity of neutral dissolved sugar leaves the modeled conductivity control unchanged",
+      "summary_de": "Weder Menge noch Identität eines neutralen gelösten Zuckers verändern die modellierte Leitfähigkeitskontrolle",
+      "concepts": [
+        "conductivity",
+        "electrolytes",
+        "experimental-controls"
+      ],
+      "requires": [
+        "dissolving",
+        "amount-of-substance"
+      ],
+      "spine": [],
+      "curriculum": [],
+      "apparatus": [
+        "beaker",
+        "conductivity-meter"
+      ],
+      "calculations": [
+        "comparison-of-controls"
+      ],
+      "models": [
+        "particle-model",
+        "aqueous-equilibrium"
+      ],
+      "setup": {
+        "script": "add v1 water 250mL\nadd v1 glucose 0.001mol\nmeasure v1 conductivity\nnew\nadd v2 water 250mL\nadd v2 glucose 0.002mol\nmeasure v2 conductivity\nnew\nadd v3 water 250mL\nadd v3 sucrose 0.001mol\nmeasure v3 conductivity\nnew\nadd v4 water 250mL\nadd v4 sucrose 0.002mol\nmeasure v4 conductivity\n"
+      },
+      "expect": {
+        "events": [
+          "measured"
+        ],
+        "absent": [
+          "solver_failed"
+        ],
+        "predict": {
+          "question": "Equal water portions receive either glucose or sucrose at two different amounts. Does adding more dissolved sugar make the modeled conductivity rise?",
+          "question_de": "Gleiche Wasserportionen erhalten Glucose oder Saccharose in zwei unterschiedlichen Mengen. Lässt mehr gelöster Zucker die modellierte Leitfähigkeit steigen?",
+          "options": [
+            "Yes: every dissolved particle carries electric current",
+            "No: these neutral sugars dissolve without supplying the mobile ions used by this conductivity model"
+          ],
+          "options_de": [
+            "Ja: Jedes gelöste Teilchen trägt elektrischen Strom",
+            "Nein: Diese neutralen Zucker lösen sich, ohne die beweglichen Ionen für dieses Leitfähigkeitsmodell zu liefern"
+          ],
+          "answer": 1,
+          "misconception": "Dissolving is treated as identical to dissociating into charged particles.",
+          "misconception_de": "Lösen wird mit der Dissoziation in geladene Teilchen gleichgesetzt.",
+          "diagnosis": [
+            {
+              "option": 0,
+              "reveals": "Neutral sugar molecules have been counted as charge carriers merely because they are dispersed in water.",
+              "reveals_de": "Neutrale Zuckermoleküle wurden allein deshalb als Ladungsträger gezählt, weil sie im Wasser verteilt sind.",
+              "next": "Write the charges of the dissolved particles, then contrast the sugar controls with sodium chloride at the same water volume.",
+              "next_de": "Notiere die Ladungen der gelösten Teilchen und stelle die Zuckerkontrollen dann Natriumchlorid bei gleichem Wasservolumen gegenüber.",
+              "source": null
+            }
+          ]
+        },
+        "ph": null,
+        "temperature_c": null,
+        "assertions": [
+          {
+            "kind": "equal",
+            "tolerance": 1e-6,
+            "relative_tolerance": 0.00001,
+            "samples": [
+              {
+                "step": "after:3",
+                "metric": "event:measured.value"
+              },
+              {
+                "step": "after:7",
+                "metric": "event:measured.value"
+              },
+              {
+                "step": "after:11",
+                "metric": "event:measured.value"
+              },
+              {
+                "step": "after:15",
+                "metric": "event:measured.value"
+              }
+            ]
+          }
+        ]
+      },
+      "registers": {
+        "lv1": "Sugar can disappear into water without becoming an electric charge. More glucose or sucrose therefore does not make this virtual meter climb.",
+        "lv1_de": "Zucker kann im Wasser verschwinden, ohne zu einer elektrischen Ladung zu werden. Mehr Glucose oder Saccharose lässt dieses virtuelle Messgerät deshalb nicht steigen.",
+        "lv2": "The four controls change sugar identity and amount while holding water fixed. Glucose and sucrose remain neutral molecular solutes, so none contributes the ions counted by the conductivity estimator.",
+        "lv2_de": "Die vier Kontrollen verändern Zuckerart und -menge bei gleichbleibendem Wasser. Glucose und Saccharose bleiben neutrale molekulare gelöste Stoffe; keiner liefert die Ionen, die der Leitfähigkeitsschätzer zählt.",
+        "lv3": "Cases 681–684 are a negative-control relation, not a universal claim that real sugar solutions have exactly zero conductance. The semantic assertion compares the four exact measured-event values within the frozen tolerances. Trace ionic impurities, water autoionisation, electrode response, viscosity and concentration-dependent mobility are not resolved here. Because Scene v1 has no event payload, the GUI reports this comparison as unavailable rather than inventing a value.",
+        "lv3_de": "Die Fälle 681–684 sind eine Negativkontrolle, keine allgemeine Behauptung, wirkliche Zuckerlösungen hätten exakt null Leitfähigkeit. Die semantische Prüfung vergleicht die vier exakten Messereigniswerte innerhalb der eingefrorenen Toleranzen. Ionische Spurenverunreinigungen, Autoprotolyse des Wassers, Elektrodenantwort, Viskosität und konzentrationsabhängige Beweglichkeit werden hier nicht aufgelöst. Da Szene v1 keine Ereignisnutzlast trägt, meldet die GUI diesen Vergleich als unverfügbar, statt einen Wert zu erfinden."
+      },
+      "provenance": {
+        "source": "Original promotion from source-fleet v2 neutral-sugar controls; no private source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08.",
+        "licence": null,
+        "computed_by": "Kerotakis aqueous species and conductivity estimator; four exact measured-event equality assertions"
+      }
+    },
+    {
+      "id": "gas-yield-has-two-limiting-reagent-axes",
+      "progress": "intermediate",
+      "equation": null,
+      "summary": "Carbon-dioxide yield rises with either reactant while the other remains in excess",
+      "summary_de": "Die Kohlenstoffdioxidausbeute steigt mit jedem der beiden Reaktionspartner, solange der andere im Überschuss bleibt",
+      "concepts": [
+        "limiting-reagent",
+        "gas-production",
+        "stoichiometry"
+      ],
+      "requires": [
+        "amount-of-substance"
+      ],
+      "spine": [],
+      "curriculum": [],
+      "apparatus": [
+        "beaker"
+      ],
+      "calculations": [
+        "limiting-reagent",
+        "mole-ratio"
+      ],
+      "models": [
+        "conservation-of-mass",
+        "aqueous-equilibrium"
+      ],
+      "setup": {
+        "script": "add v1 water 250mL\nadd v1 NaHCO3 0.004mol\nadd v1 HCl 0.0005mol\ninspect v1\nnew\nadd v2 water 250mL\nadd v2 NaHCO3 0.004mol\nadd v2 HCl 0.001mol\ninspect v2\nnew\nadd v3 water 250mL\nadd v3 NaHCO3 0.004mol\nadd v3 HCl 0.002mol\ninspect v3\nnew\nadd v4 water 250mL\nadd v4 NaHCO3 0.004mol\nadd v4 HCl 0.003mol\ninspect v4\nnew\nadd v5 water 250mL\nadd v5 NaHCO3 0.001mol\nadd v5 HCl 0.01mol\ninspect v5\nnew\nadd v6 water 250mL\nadd v6 NaHCO3 0.002mol\nadd v6 HCl 0.01mol\ninspect v6\nnew\nadd v7 water 250mL\nadd v7 NaHCO3 0.004mol\nadd v7 HCl 0.01mol\ninspect v7\nnew\nadd v8 water 250mL\nadd v8 NaHCO3 0.008mol\nadd v8 HCl 0.01mol\ninspect v8\n"
+      },
+      "expect": {
+        "events": [
+          "gas_evolved:CO2"
+        ],
+        "absent": [
+          "solver_failed"
+        ],
+        "predict": {
+          "question": "Which change can increase carbon-dioxide yield: adding more acid to excess bicarbonate, or adding more bicarbonate to excess acid?",
+          "question_de": "Welche Änderung kann die Kohlenstoffdioxidausbeute erhöhen: mehr Säure bei überschüssigem Hydrogencarbonat oder mehr Hydrogencarbonat bei überschüssiger Säure?",
+          "options": [
+            "Only more acid can do so, because acid makes the bubbles",
+            "Either can do so while it is the limiting reactant; the partner must remain in excess"
+          ],
+          "options_de": [
+            "Nur mehr Säure kann das, weil die Säure die Blasen erzeugt",
+            "Beides kann die Ausbeute erhöhen, solange es der begrenzende Reaktionspartner ist und der andere im Überschuss bleibt"
+          ],
+          "answer": 1,
+          "misconception": "Gas production is assigned to one named ingredient instead of to the stoichiometric meeting of both reactants.",
+          "misconception_de": "Die Gasbildung wird einem benannten Bestandteil zugeschrieben statt dem stöchiometrischen Zusammentreffen beider Reaktionspartner.",
+          "diagnosis": [
+            {
+              "option": 0,
+              "reveals": "Bicarbonate has been treated as a passive medium even though its carbon becomes the carbon dioxide.",
+              "reveals_de": "Hydrogencarbonat wurde als passives Medium behandelt, obwohl sein Kohlenstoff zum Kohlenstoffdioxid wird.",
+              "next": "Balance HCO3− + H+ → CO2 + H2O, then identify the limiting amount along each four-vessel axis.",
+              "next_de": "Gleiche HCO3− + H+ → CO2 + H2O aus und bestimme dann entlang jeder Vier-Gefäß-Achse die begrenzende Menge.",
+              "source": null
+            }
+          ]
+        },
+        "ph": null,
+        "temperature_c": null
+      },
+      "registers": {
+        "lv1": "More of either partner can make more gas—but only when the other partner is waiting in excess. Every carbon-dioxide molecule needs both bicarbonate and acid.",
+        "lv1_de": "Mehr von jedem der beiden Partner kann mehr Gas erzeugen – aber nur, wenn der andere Partner im Überschuss wartet. Jedes Kohlenstoffdioxidmolekül braucht Hydrogencarbonat und Säure.",
+        "lv2": "The first four vessels hold 0.004 mol bicarbonate fixed and raise acid from 0.0005 to 0.003 mol. The second four hold 0.010 mol acid fixed and raise bicarbonate from 0.001 to 0.008 mol. Carbon-dioxide amount increases along both controlled axes.",
+        "lv2_de": "Die ersten vier Gefäße halten 0,004 mol Hydrogencarbonat fest und erhöhen die Säure von 0,0005 auf 0,003 mol. Die zweiten vier halten 0,010 mol Säure fest und erhöhen das Hydrogencarbonat von 0,001 auf 0,008 mol. Die Kohlenstoffdioxidmenge steigt entlang beider kontrollierter Achsen.",
+        "lv3": "This combines frozen cases 561–568 without changing their scripts or expectations. The source-fleet gate checks the last gas_evolved.moles value in each independent case and requires successive increases greater than 10⁻⁵ mol on both axes. The Codex semantic adapter deliberately does not expose gas-event scalars, so this combined card requires the event but does not duplicate the numeric assertion. The evidence establishes limiting-reagent monotonicity inside the modeled range, not collection efficiency, bubble size, rate, pressure or complete gas recovery. GUI Scene v1 likewise leaves the event-only comparison unavailable.",
+        "lv3_de": "Dies verbindet die eingefrorenen Fälle 561–568, ohne ihre Skripte oder Erwartungen zu verändern. Das Source-Fleet-Gate prüft in jedem unabhängigen Fall den letzten Wert von gas_evolved.moles und verlangt auf beiden Achsen aufeinanderfolgende Zunahmen von mehr als 10⁻⁵ mol. Der semantische Codex-Adapter legt Gasereignis-Skalare bewusst nicht offen; deshalb fordert diese kombinierte Karte das Ereignis, dupliziert aber die numerische Prüfung nicht. Die Evidenz belegt die Monotonie des begrenzenden Reaktionspartners im modellierten Bereich, nicht Auffangwirkungsgrad, Blasengröße, Geschwindigkeit, Druck oder vollständige Gasrückgewinnung. Auch GUI-Szene v1 lässt den ereignisbasierten Vergleich unverfügbar."
+      },
+      "provenance": {
+        "source": "Original promotion from source-fleet v2 paired bicarbonate–acid dose controls; no private source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08.",
+        "licence": null,
+        "computed_by": "Kerotakis aqueous carbonate/acid equilibrium and gas partition; two source-fleet gas-evolution event-order assertions"
+      }
+    },
+    {
+      "id": "longer-waits-advance-peroxide-kinetics",
+      "progress": "intermediate",
+      "equation": null,
+      "summary": "Longer waits advance the registered peroxide decomposition network",
+      "summary_de": "Längeres Warten treibt das registrierte Netzwerk der Peroxidzersetzung voran",
+      "concepts": [
+        "kinetics",
+        "experimental-controls",
+        "model-boundary"
+      ],
+      "requires": [
+        "conservation-of-mass",
+        "reaction-rate"
+      ],
+      "spine": [],
+      "curriculum": [],
+      "apparatus": [
+        "beaker",
+        "stopwatch"
+      ],
+      "calculations": [
+        "controlled-comparison",
+        "mass-accounting"
+      ],
+      "models": [
+        "conservation-of-mass",
+        "collision-theory"
+      ],
+      "setup": {
+        "script": "add v1 water 200mL\nadd v1 H2O2 0.01mol\nwait 30s\ninspect v1\nnew\nadd v2 water 200mL\nadd v2 H2O2 0.01mol\nwait 60s\ninspect v2\nnew\nadd v3 water 200mL\nadd v3 H2O2 0.01mol\nwait 120s\ninspect v3\nnew\nadd v4 water 200mL\nadd v4 H2O2 0.01mol\nwait 240s\ninspect v4\n"
+      },
+      "expect": {
+        "events": [
+          "reacted:peroxide-decomposition"
+        ],
+        "absent": [
+          "solver_failed"
+        ],
+        "predict": {
+          "question": "Does a wait leave hydrogen peroxide unchanged when the registered peroxide-decomposition network is available?",
+          "question_de": "Bleibt Wasserstoffperoxid beim Warten unverändert, wenn das registrierte Zersetzungsnetzwerk verfügbar ist?",
+          "options": [
+            "Yes: wait changes only the displayed clock",
+            "No: elapsed time advances the registered kinetic network while conserving the elements"
+          ],
+          "options_de": [
+            "Ja: Warten ändert nur die angezeigte Uhr",
+            "Nein: Verstrichene Zeit treibt das registrierte kinetische Netzwerk voran, während die Elemente erhalten bleiben"
+          ],
+          "answer": 1,
+          "misconception": "The clock is treated as display-only even when the simulator has an explicit kinetic network for the material.",
+          "misconception_de": "Die Uhr gilt als reine Anzeige, obwohl für das Material ein ausdrückliches kinetisches Netzwerk registriert ist.",
+          "diagnosis": [
+            {
+              "option": 0,
+              "reveals": "The registered peroxide-decomposition pathway and its time evolution have been ignored.",
+              "reveals_de": "Der registrierte Weg der Peroxidzersetzung und seine zeitliche Entwicklung wurden übersehen.",
+              "next": "Compare each vessel's H2O2 inventory immediately after addition with its inventory after elapsed modeled time.",
+              "next_de": "Vergleiche in jedem Gefäß den H2O2-Bestand unmittelbar nach der Zugabe mit dem Bestand nach verstrichener Modellzeit.",
+              "source": null
+            }
+          ]
+        },
+        "ph": null,
+        "temperature_c": null,
+        "assertions": [
+          {
+            "kind": "decreasing",
+            "tolerance": 1e-10,
+            "samples": [
+              {
+                "step": "after:2",
+                "metric": "moles:H2O2",
+                "vessel": "v1"
+              },
+              {
+                "step": "final",
+                "metric": "moles:H2O2",
+                "vessel": "v1"
+              }
+            ]
+          },
+          {
+            "kind": "decreasing",
+            "tolerance": 1e-10,
+            "samples": [
+              {
+                "step": "after:6",
+                "metric": "moles:H2O2",
+                "vessel": "v2"
+              },
+              {
+                "step": "final",
+                "metric": "moles:H2O2",
+                "vessel": "v2"
+              }
+            ]
+          },
+          {
+            "kind": "decreasing",
+            "tolerance": 1e-10,
+            "samples": [
+              {
+                "step": "after:10",
+                "metric": "moles:H2O2",
+                "vessel": "v3"
+              },
+              {
+                "step": "final",
+                "metric": "moles:H2O2",
+                "vessel": "v3"
+              }
+            ]
+          },
+          {
+            "kind": "decreasing",
+            "tolerance": 1e-10,
+            "samples": [
+              {
+                "step": "after:14",
+                "metric": "moles:H2O2",
+                "vessel": "v4"
+              },
+              {
+                "step": "final",
+                "metric": "moles:H2O2",
+                "vessel": "v4"
+              }
+            ]
+          }
+        ]
+      },
+      "registers": {
+        "lv1": "Waiting advances this virtual peroxide reaction: some H2O2 decomposes, while its hydrogen and oxygen remain accounted for.",
+        "lv1_de": "Warten treibt diese virtuelle Peroxidreaktion voran: Ein Teil des H2O2 zerfällt, während Wasserstoff und Sauerstoff bilanziert bleiben.",
+        "lv2": "Every vessel begins with 0.010 mol H2O2 in 200 mL water. The registered kinetic network runs as modeled time advances, so each post-wait peroxide inventory is lower than its own post-addition inventory.",
+        "lv2_de": "Jedes Gefäß beginnt mit 0,010 mol H2O2 in 200 mL Wasser. Mit der Modellzeit läuft das registrierte kinetische Netzwerk, sodass jeder H2O2-Bestand nach dem Warten unter seinem eigenen Bestand nach der Zugabe liegt.",
+        "lv3": "Frozen cases 657–660 assert elemental conservation across each wait, not molecular stasis. This catalogue replay adds four semantic decreases in H2O2 and requires the registered peroxide-decomposition event. The sequential vessels share one clock, so it makes no cross-vessel rate comparison. This is a simulator-contract observation, not a new empirical peroxide rate. Species inventories remain unavailable in GUI Scene v1 rather than being replaced by a scene proxy.",
+        "lv3_de": "Die eingefrorenen Fälle 657–660 prüfen die Elementerhaltung über jedes Warten, nicht molekularen Stillstand. Diese Katalogwiedergabe ergänzt vier semantische Abnahmen von H2O2 und fordert das registrierte Ereignis der Peroxidzersetzung. Die nacheinander angelegten Gefäße teilen eine Uhr; daher wird keine gefäßübergreifende Geschwindigkeit verglichen. Dies ist eine Beobachtung des Simulatorvertrags, keine neue empirische Peroxidrate. Speziesbestände bleiben in GUI-Szene v1 unverfügbar, statt durch einen Szenenwert ersetzt zu werden."
+      },
+      "provenance": {
+        "source": "Original promotion from source-fleet v2 peroxide wait controls; no private source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08.",
+        "licence": null,
+        "computed_by": "Kerotakis registered peroxide kinetic network and material ledger; four within-vessel H2O2 decrease assertions"
+      }
+    },
+    {
       "id": "liquid-nitrogen-freezes-ethanol",
       "progress": "advanced",
       "equation": null,

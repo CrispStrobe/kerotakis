@@ -13,6 +13,10 @@
   "equilibrium can run backward": "",
   "grouping does not change water heat": "",
   "three components one cut": "",
+  "neutral sugars are conductivity controls": "",
+  "saline scaling preserves conductivity": "",
+  "two limits one carbon dioxide ledger": "",
+  "longer waits advance peroxide kinetics": "",
   "hydrogen ion": "",
   "dissolved carbon dioxide": "",
   "carbonate ion": "",
@@ -537,6 +541,15 @@
   "split heat same temperature": ""
  },
  "messages": {
+  "electrolytes": "",
+  "experimental controls": "",
+  "gas production": "",
+  "gas yield has two limiting reagent axes": "",
+  "kinetics": "",
+  "saline conductivity is intensive": "",
+  "sugar is not an electrolyte control": "",
+  "longer waits advance peroxide kinetics": "",
+  "aqueous equilibrium": "",
   "endpoint is not a full drop": "",
   "equilibrium can run backward": "",
   "three components one cut": "",
@@ -2581,6 +2594,10 @@
   "Warm the gas, stop before burst": "",
   "Current, time and electrolysis yield": "",
   "Filter, then concentrate the brine": "",
-  "Track precipitate and filtrate through drying": ""
+  "Track precipitate and filtrate through drying": "",
+  "Two limits, one carbon-dioxide ledger": "",
+  "Hold bicarbonate fixed while acid rises, then hold acid in excess while bicarbonate rises. Which reagent limits the computed carbon dioxide?": "",
+  "Longer waits advance peroxide kinetics": "",
+  "Give identical peroxide samples four different waits. Does elapsed time invent a reaction the model was never told to run?": ""
   }
 }

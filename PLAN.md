@@ -63,12 +63,19 @@ expectation or engine behavior changed. Twelve GitHub Actions shards ran at
 most four in parallel from one revision-bound CLI artifact, with no build or
 fleet workload on the deployment VPS.
 
-The next experiment-expansion step is review, not another bulk run: cluster the
-80 passing relations by distinct learner-visible concept, remove ideas already
-represented by K61–K70 and the existing Codex/Missions catalog, and promote only
-the strongest bilingual representatives through those three existing surfaces.
-The 288-case corpus remains regression evidence even when a concept is not
-promoted.
+The first review of all 80 relations selects four distinct concepts. Intensive
+saline conductivity and neutral-sugar conductivity controls become K71–K72
+Experiments with paired Codex assertions. Two-axis carbonate limiting-reagent
+evidence and the registered peroxide network's time evolution become Missions
+with paired Codex cards. The gas card relies on the source-fleet scalar-order
+gate because the Codex adapter does not expose gas-event scalars; the peroxide
+card carries native semantic assertions. The latter preserves the fleet's elemental-
+conservation claim while checking that H2O2 decreases during modeled time; it
+is a simulator contract, not a new empirical rate law. Crystallisation
+groups are rejected because their frozen relations prove evaporation rather
+than crystal formation; thermal, pressure, cell, transfer, filtration and
+evaporation-path overlaps stay regression-only. The complete 288-case corpus
+remains evidence even when a concept is not promoted.
 
 The second tranche is fixed at 18 concepts: seven guided Experiments K64–K70,
 seven Codex comparisons, and four Missions. Its pressure, buffer, neutralisation,

@@ -55,3 +55,22 @@ relation group passes and review confirms a distinct teaching concept, a
 learner-visible comparison, complete English/German content, explicit learning
 progress, honest ingredients/apparatus/safety/boundary metadata and a catalog
 semantic assertion. Parameter-only variants remain regression evidence.
+
+## Reviewed promotion ledger
+
+The first v2 review promotes four concepts and rejects the other relation
+groups as duplicates, parameter variants, or evidence too weak for the desired
+learner-facing claim. K71 plus its Codex card show that conductivity is
+intensive when saline amount and water scale together. K72 plus its Codex card
+use glucose and sucrose as neutral-solute conductivity controls. A Mission and
+Codex card use cases 561–568 to expose both limiting-reagent axes of carbonate
+gas production. A second Mission and Codex card make cases 657–660 an explicit
+model-contract investigation: modeled time advances the registered peroxide
+network while the fleet's hydrogen-and-oxygen conservation claim remains the
+authority. This is not a new empirical peroxide rate law.
+
+Crystallisation-labelled groups were not promoted because their assertions
+prove evaporation rather than crystal formation. Existing thermal, pressure,
+cell-voltage, transfer, filtration and evaporation-path lessons already cover
+the corresponding v2 relations. The complete 288-case corpus remains the
+stronger regression record.
