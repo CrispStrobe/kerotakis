@@ -121,6 +121,18 @@ pub const CURATED_STRUCTURES: &[(&str, &str)] = &[
     // rather than different from it - the opposite of the hypochlorite
     // pair above. Neither pattern generalises, so both were fetched.
     ("S2O3-2", "[O-]S(=O)(=O)[S-]"),
+    // Sulfite's conjugate pair, both halves of the element the sulfite
+    // borrow adds. The two keys share their first block and differ only in
+    // the suffix letter - -L for the dianion, -M for the monoanion - which
+    // is thiosulfate's pattern and the OPPOSITE of hypochlorite's, where
+    // the acid and the anion differ in the first block. Neither pattern
+    // generalises, so both were fetched from PubChem rather than one
+    // derived from the other: CID 1099 for `SO3-2` and CID 104748 for
+    // `HSO3-`. Asking for the bare name `sulfite` returns the DIANION
+    // here, where the same question about thiosulfate returned the
+    // monoanion - one more reason the suffix is never assumed.
+    ("SO3-2", "[O-]S(=O)[O-]"),
+    ("HSO3-", "OS(=O)[O-]"),
     ("AgNO3", "[Ag+].[O-][N+](=O)[O-]"),
     ("NaNO3", "[Na+].[O-][N+](=O)[O-]"),
     ("KNO3", "[K+].[O-][N+](=O)[O-]"),

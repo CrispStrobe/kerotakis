@@ -246,6 +246,113 @@ SOLUTION_SPECIES
         log_k 1.0139
 ";
 
+    /// One reviewed anion added to minteq.v4: sulfite, and unlike the three
+    /// above it MOVES THE pH OF EVERY VESSEL THAT HAS EVER HELD THE SALT.
+    ///
+    /// `vendor/iphreeqc/database/llnl.dat` line 231 is
+    /// `S(+4)     SO3-2     0         S` and line 4591 is
+    /// `SO3-2 + H+ = HSO3-`, `log_k 7.2054`. Same borrow as lactate (#448),
+    /// hypochlorite (#530) and thiosulfate (#536); same reason it is a
+    /// borrow rather than a refusal.
+    ///
+    /// **A pseudo-element, not sulfur's `S(+4)`, and here the argument is
+    /// strongest of the four.** llnl enters sulfite as a redox STATE of
+    /// sulfur; the three datasets this lab routes define two, `S(-2)` and
+    /// `S(6)`, coupled through pe. An open beaker's pe is pinned near 19.6
+    /// by atmospheric oxygen and sulfur is not in `aqueous::FAST_REDOX`, so
+    /// nothing would hold the state. For thiosulfate that was already fatal.
+    /// For sulfite it is worse, because the oxidation is not a modelling
+    /// artefact but the substance's actual headline chemistry: llnl's own
+    /// line 1348 is `SO4-2 = SO3-2 + 0.5 O2`, and
+    /// `kerotakis-safety` classes `Na2SO3` as a `ReducingAgent`. Entered as
+    /// `S(+4)` the engine would air-oxidise the bottle to sulfate the
+    /// instant it dissolved and report SULFATE as the contents of the
+    /// beaker - thermodynamically defensible on a long enough view, and a
+    /// lie about what is in front of the learner.
+    ///
+    /// **What that choice costs, stated rather than hidden.** As its own
+    /// element sulfite has no redox partner, so this bench cannot compute
+    /// sulfite reducing anything, cannot compute it slowly going off in air,
+    /// and cannot compute the iodine or permanganate titrations from
+    /// thermodynamics. What the borrowed number settles is the ACID-BASE
+    /// behaviour of the anion and nothing else. Every one of those other
+    /// claims is curated today and stays curated; none of them silently
+    /// becomes wrong, because none of them was ever routed through the
+    /// equilibrium solver.
+    ///
+    /// **Alkalinity 1, and this is the one number here that is NOT a
+    /// transcription.** llnl writes 0 in that column. That is inconsistent
+    /// with the very constant this block borrows: alkalinity counts the
+    /// protons a species accepts down to the CO2 endpoint near pH 4.5, and
+    /// at pH 4.5 sulfite is protonated, because its pKa is 7.20. Thiosulfate
+    /// took llnl's 0 and the reasoning agreed with it, pKa2 being 1.01;
+    /// hypochlorite takes 1 at pKa 7.57 and minteq's own `Acetate` takes 1
+    /// at 4.76. Sulfite at 7.20 is the hypochlorite case, not the
+    /// thiosulfate one. Copying the 0 would import llnl's inconsistency and
+    /// make sulfite the only weak-acid anion on this bench that contributes
+    /// nothing to alkalinity. If that judgement is wrong, this is the line
+    /// to change.
+    ///
+    /// **The enthalpy IS carried, and that is new.** The other three
+    /// extensions dropped `-delta_H` because llnl said "Not possible to
+    /// calculate" and zero there means unknown. Line 4593 says
+    /// `-delta_H 9.33032 kJ/mol # Calculated enthalpy of reaction HSO3-`,
+    /// which is a datum rather than a hole, so it comes across and the
+    /// couple is temperature-dependent by van't Hoff. Dropping it would
+    /// have been the claim that protonating sulfite is athermal.
+    ///
+    /// **llnl's `-analytic` is deliberately NOT taken.** Line 4595 carries a
+    /// five-term fit which evaluates to 7.2316 at 25 C against the stated
+    /// `log_k 7.2054` - llnl's row disagrees with itself by 0.026 log units.
+    /// PHREEQC prefers `-analytic` when present, so including it would
+    /// silently borrow a different constant from the one this change is
+    /// reviewed on. The stated log K is what goes in.
+    ///
+    /// **The second protonation is NOT borrowed.** llnl line 4343 has
+    /// `2 H+ + SO3-2 = H2SO3`, `log_k 9.2132`, implying pKa1 2.01 for
+    /// sulfurous acid. It is left out of this change and the consequence is
+    /// real and bounded: below about pH 3 this bench will report HSO3- where
+    /// some of the sulfur is really H2SO3 (and, physically, dissolved SO2).
+    /// That is one review's worth of work on its own, it needs the SO2
+    /// degassing question answered with it, and it does not affect the
+    /// near-neutral vessels this change is about.
+    ///
+    /// 80.0642 g/mol is S 32.066 + 3 O 15.9994 (IUPAC/CIAAW 2021). The
+    /// spelling is PHREEQC's: a master species must contain its element's
+    /// name, so the couple goes in as `Sulfite-2` and `H(Sulfite)-`, and
+    /// `derived::BOOKING_OVERRIDES` and `derived::PROTONATION_SPLITS` map
+    /// them onto the registry's `SO3-2` and `HSO3-`.
+    ///
+    /// **A protonation split is REQUIRED here, where thiosulfate needed
+    /// none, and the reason is NOT the one you would guess.** The tempting
+    /// argument is that pKa 7.20 sits in the bench's range so a sulfite
+    /// beaker is half anion and half acid. That is wrong, and the harvest
+    /// in `sulfite_speciation.rs` says so: a salt of a weak acid
+    /// HYDROLYSES, so 0.05 M sodium sulfite settles at pH 9.70 - two and a
+    /// half units ABOVE the pKa - and is 99.86 % `SO3-2`. On its own that
+    /// would argue FOR the thiosulfate treatment of a single booking ion.
+    ///
+    /// The real reason is that this bench stocks TWO bottles and they sit
+    /// on OPPOSITE SIDES of the constant. Sodium sulfite reads pH 9.70 and
+    /// is essentially all dianion; sodium bisulfite, `NaHSO3`, reads pH
+    /// 4.17 and is 99.83 % `HSO3-`. One booking ion cannot serve both:
+    /// whichever were chosen, the other bottle would be booked as a
+    /// species it is almost none of. And the moment a sulfite solution is
+    /// acidified the split is real in a single vessel too - 0.002 mol of
+    /// HCl into that beaker gives pH 7.04 and a genuine 60/40 mixture.
+    /// Booking either bottle under one name would be the acetate bug that
+    /// `curated_reactants_survive_a_solve` exists to catch.
+    const SULFITE_EXTENSION: &[u8] = b"
+SOLUTION_MASTER_SPECIES
+    Sulfite   Sulfite-2   1   80.0642   80.0642
+SOLUTION_SPECIES
+    Sulfite-2 = Sulfite-2
+        log_k 0
+    H+ + Sulfite-2 = H(Sulfite)-
+        log_k 7.2054
+        -delta_H 9.33032 kJ/mol
+";
+
     /// Byte offset of the final `END` line, which is where a database
     /// stops being read. `None` when the file has none, in which case the
     /// end of the file is the right place after all.
@@ -274,8 +381,8 @@ SOLUTION_SPECIES
 
     /// minteq.v4 as this lab runs it: the vendored file plus
     /// [`LACTATE_EXTENSION`], [`HYPOCHLORITE_EXTENSION`],
-    /// [`THIOSULFATE_EXTENSION`] and the reviewed reference-temperature
-    /// ligand slice.
+    /// [`THIOSULFATE_EXTENSION`], [`SULFITE_EXTENSION`] and the reviewed
+    /// reference-temperature ligand slice.
     ///
     /// Everything that loads or PARSES the database goes through here, so
     /// the engine, the derived index, the element bookings and the
@@ -297,12 +404,14 @@ SOLUTION_SPECIES
                 text.len()
                     + LACTATE_EXTENSION.len()
                     + HYPOCHLORITE_EXTENSION.len()
-                    + THIOSULFATE_EXTENSION.len(),
+                    + THIOSULFATE_EXTENSION.len()
+                    + SULFITE_EXTENSION.len(),
             );
             bytes.extend_from_slice(&text[..insert_at]);
             bytes.extend_from_slice(LACTATE_EXTENSION);
             bytes.extend_from_slice(HYPOCHLORITE_EXTENSION);
             bytes.extend_from_slice(THIOSULFATE_EXTENSION);
+            bytes.extend_from_slice(SULFITE_EXTENSION);
             bytes.extend_from_slice(&text[insert_at..]);
             super::aqueous_gases::append_to(&super::complexation::append_to(&bytes))
         })

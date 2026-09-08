@@ -75,7 +75,7 @@
     },
     {
       "id": "legacy/Na2SO3",
-      "citation": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values. Sulfite is absent from the three datasets this lab ROUTES - wateq4f, minteq.v4 and pitzer define sulfur only as S(-2) and S(6), with nothing between them - so it dissolves without being speciated. The sentence that used to stand here said `like thiosulfate it is absent from every shipped PHREEQC database`, and by 2026-09-07 both halves of that were wrong: thiosulfate is speciated now, and vendor/iphreeqc/database/llnl.dat, which is shipped in this repository, defines sulfur(IV) at line 231 (`S(+4)  SO3-2  0  S`) with `SO3-2 + H+ = HSO3-  log_k 7.2054` at line 4592. Absent from the routed datasets and absent outright are different claims and this row now makes the smaller one. THE COUPLE IS DELIBERATELY NOT BORROWED IN THE SAME CHANGE THAT BORROWED THIOSULFATE'S, and the reason is the constant itself: pKa 7.20 is sulfurous acid's measured second dissociation and sits squarely in the range a bench works in, so unlike thiosulfate's 1.01 it would move the pH of every vessel that has ever held this salt. That is a change worth making and worth reviewing on its own evidence rather than riding on another one. Until it does, this is a genuinely unrepresented ion, and crates/kerotakis-phreeqc/tests/unsupported_ionic.rs uses it as the subject that thiosulfate stopped being",
+      "citation": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values. SULFITE IS SPECIATED NOW, and the paragraph that stood here predicted this change and asked for it: it said the couple was deliberately not borrowed alongside thiosulfate's because pKa 7.20 sits squarely in the range a bench works in, so it would move the pH of every vessel that has ever held this salt, and that this was worth reviewing on its own evidence rather than riding on another change. This is that review. databases::minteq_v4() borrows llnl.dat's `SO3-2 + H+ = HSO3-  log_k 7.2054` (line 4591, with the master species at line 231) as the pseudo-element `Sulfite`, deliberately NOT as sulfur's S(+4) redox state: an open beaker's pe is pinned near 19.6 by atmospheric oxygen and sulfur is not in aqueous::FAST_REDOX, so entered as a redox state the engine would air-oxidise this bottle to sulfate the instant it dissolved and report sulfate as the contents of the beaker. Unlike thiosulfate the borrow also needs a derived::PROTONATION_SPLITS row, and the measured reason is not the obvious one: a beaker of this salt is NOT half and half at pKa 7.20, because the salt of a weak acid hydrolyses - 0.05 M sodium sulfite settles at pH 9.70 and is 99.86% SO3-2. The split is needed because the bench stocks two bottles that straddle the constant: NaHSO3 reads pH 4.17 and is 99.83% HSO3-, so one booking ion would book one of the two as a species it is barely any of. Acidified, both forms are real in a single vessel too: 0.002 mol of HCl into that beaker gives pH 7.04 and a 60/40 mixture. What the borrowed number settles is the ACID-BASE behaviour of the anion and nothing else: sulfite's reducing chemistry, its slow air oxidation and the iodine and permanganate titrations are curated and stay curated. dissolves_without_speciation is therefore 0 here, and leaving it at 1 would have double-counted the salt in solve::dissolved_particle_molality and moved the boiling point twice.",
       "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
       "lane": "build_oracle",
       "origin": "crates/kerotakis-core/src/species.rs",
@@ -1573,6 +1573,24 @@
       "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
       "lane": "build_oracle",
       "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/SO3-2",
+      "citation": "sulfite ion, the anion sodium sulfite actually is once it is in water, and the key the aqueous readback needs before a solved sulfite solution has anywhere honest to book. IDENTITY VERIFIED against PubChem CID 1099 on 2026-09-08 (PUG REST property record): molecular formula O3S-2, charge -2, InChIKey LSNNMFCWUKXFEE-UHFFFAOYSA-L. THE FINAL CHARACTER WAS FETCHED, NOT ASSUMED. Asking PubChem for the bare name `sulfite` returns the DIANION here (CID 1099, -L), which is the opposite of what the same question returned for thiosulfate, where the bare name gave the monoanion at -M and the dianion had to be asked for separately. The conjugate pair shares its first block, LSNNMFCWUKXFEE, and differs only in the suffix letter - -L for this dianion and -M for hydrogensulfite (CID 104748) - because both records are written from the H2SO3 skeleton with a /p-n layer. That is thiosulfate's pattern and the exact opposite of hypochlorite's, where the acid and the anion differ in the FIRST block. Neither pattern generalises; both keys in this pair were fetched separately.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-phreeqc/src/lib.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/HSO3-",
+      "citation": "hydrogensulfite (bisulfite) ion, the OTHER half of the sulfite element and the reason this borrow needed a `derived::PROTONATION_SPLITS` row where thiosulfate needed none. llnl.dat line 4591 gives `SO3-2 + H+ = HSO3-  log_k 7.2054`. A sodium sulfite beaker is not divided at that constant - it hydrolyses to pH 9.70 and is almost all dianion - but a sodium BISULFITE beaker reads pH 4.17 and is almost all this ion, so the two bottles the bench stocks sit on opposite sides of the pKa and a single booking ion is wrong for one of them; booking the whole total as the dianion would drop this ion out of the ledger, which is the acetate bug. IDENTITY VERIFIED against PubChem CID 104748 on 2026-09-08 (PUG REST property record): molecular formula HO3S-, charge -1, InChIKey LSNNMFCWUKXFEE-UHFFFAOYSA-M. Fetched by the unambiguous name `hydrogensulfite`, not derived from the dianion's key by changing the suffix.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-phreeqc/src/lib.rs",
       "revision": null,
       "retrieved": null
     },
@@ -4489,6 +4507,38 @@
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/H2BO3-",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "SO3-2",
+      "canonical_key": "LSNNMFCWUKXFEE-UHFFFAOYSA-L",
+      "name": "sulfite ion",
+      "identifiers": {
+        "inchikey": "LSNNMFCWUKXFEE-UHFFFAOYSA-L"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/SO3-2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "HSO3-",
+      "canonical_key": "LSNNMFCWUKXFEE-UHFFFAOYSA-M",
+      "name": "bisulfite ion",
+      "identifiers": {
+        "inchikey": "LSNNMFCWUKXFEE-UHFFFAOYSA-M"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/HSO3-",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -23665,6 +23715,217 @@
       },
       "evidence": {
         "source_id": "legacy/H2BO3-",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/SO3-2",
+      "species_id": "SO3-2",
+      "formula": "SO3-2",
+      "elements": [
+        {
+          "element": "O",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/SO3-2",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "S",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/SO3-2",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": -2.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/SO3-2",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/SO3-2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/HSO3-",
+      "species_id": "HSO3-",
+      "formula": "HSO3-",
+      "elements": [
+        {
+          "element": "H",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/HSO3-",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/HSO3-",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "S",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/HSO3-",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": -1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/HSO3-",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/HSO3-",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -44198,6 +44459,66 @@
       }
     },
     {
+      "id": "molar-mass/SO3-2",
+      "species_id": "SO3-2",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 80.0642,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/SO3-2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/HSO3-",
+      "species_id": "HSO3-",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 81.0722,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/HSO3-",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
       "id": "molar-mass/S2O3-2",
       "species_id": "S2O3-2",
       "phase": "aqueous",
@@ -44228,6 +44549,66 @@
       }
     },
     {
+      "id": "heat-capacity/SO3-2",
+      "species_id": "SO3-2",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/SO3-2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/HSO3-",
+      "species_id": "HSO3-",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/HSO3-",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
       "id": "heat-capacity/S2O3-2",
       "species_id": "S2O3-2",
       "phase": "aqueous",
@@ -44251,6 +44632,66 @@
           "kind": "not_reported"
         },
         "source_id": "legacy/S2O3-2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/SO3-2",
+      "species_id": "SO3-2",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/SO3-2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/HSO3-",
+      "species_id": "HSO3-",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/HSO3-",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -54640,7 +55081,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 1.0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -63172,6 +63613,72 @@
           "kind": "exact"
         },
         "source_id": "legacy/H2BO3-",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/SO3-2",
+      "subject": {
+        "kind": "species",
+        "id": "SO3-2"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/SO3-2",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/HSO3-",
+      "subject": {
+        "kind": "species",
+        "id": "HSO3-"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/HSO3-",
         "method": {
           "kind": "derived",
           "detail": "parsed from the verbatim legacy declaration"

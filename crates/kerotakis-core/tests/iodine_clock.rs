@@ -32,11 +32,31 @@ fn iodide_peroxide_vessel(celsius: f64, ki: f64, h2o2: f64) -> Vessel {
     v
 }
 
+/// The vessel as it exists AFTER a solve, which is the only vessel this
+/// reaction ever runs in.
+///
+/// It used to deposit the bottle, `NaHSO3`, and that stopped being honest
+/// when `databases::minteq_v4()` borrowed sulfite's acid constant: a solved
+/// beaker holds `Na+` and `HSO3-` and no `NaHSO3` at all, so a hand-built
+/// vessel naming the bottle was testing a mixture the bench cannot
+/// produce. The rate law is keyed on `HSO3-` now and these vessels hold
+/// what it names.
+///
+/// **The sodium is deposited too, and it is not decoration.** A hand-built
+/// vessel whose reactant has become a bare anion is not electroneutral
+/// without it, and the represented-strong-acid bookkeeping derives
+/// spendable acid from exactly that balance - drop the counterion and the
+/// vessel reads as holding base. `NaHSO3` splits one-for-one, so one `Na+`
+/// per `HSO3-` is the whole of the correction here.
+///
+/// `KIO3` stays as the bottle deliberately: no routed dataset defines
+/// iodate, so it is what a solved vessel still holds.
 fn landolt_vessel(celsius: f64, kio3: f64, nahso3: f64) -> Vessel {
     let mut v = Vessel::new(VesselId(0), "beaker");
     v.deposit(SpeciesId::new("water"), Moles(5.5343), Phase::Liquid);
     v.deposit(SpeciesId::new("KIO3"), Moles(kio3), Phase::Aqueous);
-    v.deposit(SpeciesId::new("NaHSO3"), Moles(nahso3), Phase::Aqueous);
+    v.deposit(SpeciesId::new("HSO3-"), Moles(nahso3), Phase::Aqueous);
+    v.deposit(SpeciesId::new("Na+"), Moles(nahso3), Phase::Aqueous);
     v.temperature = Kelvin(273.15 + celsius);
     v
 }
@@ -130,9 +150,9 @@ fn landolt_consumes_bisulfite() {
     let mut v = landolt_vessel(25.0, 0.002, 0.006);
     advance(&mut v, 120.0).unwrap();
     assert!(
-        moles_of(&v, "NaHSO3") < 0.001,
+        moles_of(&v, "HSO3-") < 0.001,
         "bisulfite must be substantially consumed: {}",
-        moles_of(&v, "NaHSO3")
+        moles_of(&v, "HSO3-")
     );
 }
 
@@ -142,8 +162,8 @@ fn landolt_concentration_doubles_rate() {
     let mut b = landolt_vessel(25.0, 0.002, 0.006);
     advance(&mut a, 2.0).unwrap();
     advance(&mut b, 2.0).unwrap();
-    let consumed_a = 0.006 - moles_of(&a, "NaHSO3");
-    let consumed_b = 0.006 - moles_of(&b, "NaHSO3");
+    let consumed_a = 0.006 - moles_of(&a, "HSO3-");
+    let consumed_b = 0.006 - moles_of(&b, "HSO3-");
     let ratio = consumed_b / consumed_a;
     assert!(
         (1.8..2.2).contains(&ratio),
@@ -157,8 +177,8 @@ fn landolt_warmer_is_faster() {
     let mut warm = landolt_vessel(40.0, 0.002, 0.006);
     advance(&mut cold, 3.0).unwrap();
     advance(&mut warm, 3.0).unwrap();
-    let consumed_cold = 0.006 - moles_of(&cold, "NaHSO3");
-    let consumed_warm = 0.006 - moles_of(&warm, "NaHSO3");
+    let consumed_cold = 0.006 - moles_of(&cold, "HSO3-");
+    let consumed_warm = 0.006 - moles_of(&warm, "HSO3-");
     let ratio = consumed_warm / consumed_cold;
     assert!(
         ratio > 2.0,
@@ -167,11 +187,52 @@ fn landolt_warmer_is_faster() {
 }
 
 #[test]
-fn landolt_produces_ki_and_bisulfate() {
+fn landolt_produces_ki_and_sulfate() {
     let mut v = landolt_vessel(25.0, 0.002, 0.006);
     advance(&mut v, 120.0).unwrap();
     assert!(moles_of(&v, "KI") > 0.0, "must produce KI");
-    assert!(moles_of(&v, "NaHSO4") > 0.0, "must produce NaHSO₄");
+    // Sulfate rather than `NaHSO4`, because the sodium left the arrow with
+    // the bottle name: oxidising bisulfite gives sulfate and the proton it
+    // was carrying, and the sodium was never a participant.
+    assert!(moles_of(&v, "SO4-2") > 0.0, "must produce sulfate");
+    assert!(
+        moles_of(&v, "H+") > 0.0,
+        "and the protons that acidify a running Landolt mixture"
+    );
+}
+
+/// One long step must cost the same as ten short ones.
+///
+/// This is the guard the re-keyed stoichiometry needs, and it is named
+/// after a real failure rather than a hypothetical: when #536 made
+/// thiosulfate a bare anion, a hand-built vessel lost its counterion, the
+/// represented-strong-acid bookkeeping read the vessel as holding base,
+/// and one long step disagreed with ten short ones by 58 %.
+///
+/// This reaction now MINTS PROTONS - `3 H+` per iodate, which is real
+/// chemistry, a running Landolt mixture does acidify - and that is a new
+/// thing for that bookkeeping. If the protons it produces were to feed
+/// back into the acid inventory inconsistently, the disagreement would
+/// show up here first and nowhere else.
+#[test]
+fn the_clock_agrees_with_itself_over_one_step_and_ten() {
+    let mut one = landolt_vessel(25.0, 0.002, 0.006);
+    advance(&mut one, 20.0).unwrap();
+
+    let mut ten = landolt_vessel(25.0, 0.002, 0.006);
+    for _ in 0..10 {
+        advance(&mut ten, 2.0).unwrap();
+    }
+
+    for key in ["HSO3-", "KIO3", "KI", "SO4-2", "H+"] {
+        let a = moles_of(&one, key);
+        let b = moles_of(&ten, key);
+        let scale = a.abs().max(b.abs()).max(1e-9);
+        assert!(
+            (a - b).abs() / scale < 0.02,
+            "{key}: one 20 s step gives {a}, ten 2 s steps give {b}"
+        );
+    }
 }
 
 // ── Network-level checks ───────────────────────────────────────────

@@ -160,11 +160,35 @@ fn the_thiosulfate_matcher_is_exact() {
         }
         other => panic!("the salt must book thiosulfate plus its sodium, got {other:?}"),
     }
-    // Sulfite is one sulfur, so the count is wrong before the oxygen is
-    // looked at; no routed dataset defines sulfur(IV) and none is
-    // borrowed here, so it stays unmappable.
-    assert!(derived::role("SO3-2").is_none());
+    // Sulfite USED to be the demonstration that this matcher is exact,
+    // by being unmappable: one sulfur, so the count was wrong before the
+    // oxygen was looked at. It is mappable now - its couple is borrowed
+    // too - so the property has to be asserted directly instead of by an
+    // absence, which is the stronger form anyway. The two matchers must
+    // never claim each other's ion, and the sulfur count is what keeps
+    // them apart.
+    match derived::role("SO3-2") {
+        Some(DerivedRole::Dissolves(els)) => {
+            assert!(
+                els.iter().any(|(e, n)| e == "Sulfite" && *n == 1.0),
+                "sulfite books its own element, got {els:?}"
+            );
+            assert!(
+                !els.iter().any(|(e, _)| e == "Thiosulfate"),
+                "the thiosulfate matcher must not reach into sulfite: {els:?}"
+            );
+        }
+        other => panic!("sulfite books the Sulfite element, got {other:?}"),
+    }
+    match derived::role("S2O3-2") {
+        Some(DerivedRole::Dissolves(els)) => assert!(
+            !els.iter().any(|(e, _)| e == "Sulfite"),
+            "and the sulfite matcher must not reach into thiosulfate: {els:?}"
+        ),
+        other => panic!("thiosulfate still books its own element, got {other:?}"),
+    }
     assert_eq!(derived::booking_ion("Thiosulfate"), Some("S2O3-2"));
+    assert_eq!(derived::booking_ion("Sulfite"), Some("SO3-2"));
 }
 
 /// The clock reaction still runs, on the name the vessel actually holds.

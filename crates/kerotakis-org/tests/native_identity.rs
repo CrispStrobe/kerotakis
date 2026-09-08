@@ -76,7 +76,17 @@ fn the_tranche_only_grows_deliberately() {
         // Two pairs, two opposite patterns, and no way to infer either
         // from the other - so every key is fetched and every one is
         // recomputed here.
-        113,
+        //
+        // 113 -> 115 for sulfite's conjugate pair, `SO3-2` and `HSO3-`,
+        // added with the borrow of llnl's `SO3-2 + H+ = HSO3-`. It is a
+        // THIRD reading of the same trap: these two share their first
+        // block, LSNNMFCWUKXFEE, and differ only in the suffix, which is
+        // the thiosulfate pattern - but PubChem's bare name `sulfite`
+        // returns the DIANION where `thiosulfate` returned the monoanion,
+        // so even within one pattern the lookup does not behave the same
+        // way twice. Both keys fetched (CID 1099 and CID 104748), neither
+        // inferred from the other.
+        115,
         "structures were added or removed — update this pin and say why \
          in the same commit"
     );
