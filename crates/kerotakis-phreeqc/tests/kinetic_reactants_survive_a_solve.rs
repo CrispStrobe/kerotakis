@@ -65,7 +65,11 @@ fn survives(key: &str) -> bool {
 fn every_aqueous_rate_law_can_find_its_own_reactants_after_a_solve() {
     let mut broken: Vec<String> = Vec::new();
     for reaction in kinetics::REGISTRY.iter() {
-        for term in reaction.stoichiometry.iter().filter(|t| t.coefficient < 0.0) {
+        for term in reaction
+            .stoichiometry
+            .iter()
+            .filter(|t| t.coefficient < 0.0)
+        {
             if term.phase != kerotakis_core::Phase::Aqueous {
                 continue;
             }

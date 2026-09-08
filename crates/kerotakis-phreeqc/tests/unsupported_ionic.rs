@@ -67,11 +67,7 @@ fn unknown_ionic_feed_is_distinct_from_a_neutral_molecular_solute() {
         for acid in [0.0, 1e-4] {
             let mut v = Vessel::new(VesselId(0), "beaker");
             v.deposit(SpeciesId::new("water"), Moles(5.55 * scale), Phase::Liquid);
-            v.deposit(
-                SpeciesId::new("KIO3"),
-                Moles(0.001 * scale),
-                Phase::Aqueous,
-            );
+            v.deposit(SpeciesId::new("KIO3"), Moles(0.001 * scale), Phase::Aqueous);
             if acid > 0.0 {
                 v.deposit(SpeciesId::new("HCl"), Moles(acid * scale), Phase::Aqueous);
             }

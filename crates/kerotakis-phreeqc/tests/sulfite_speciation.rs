@@ -162,10 +162,10 @@ fn the_two_bottles_land_on_opposite_sides_of_the_constant() {
 
     // Each bottle is dominated by a DIFFERENT ion, which is the whole
     // argument for the split.
-    let dianion_share = moles(&basic, v1, "SO3-2")
-        / (moles(&basic, v1, "SO3-2") + moles(&basic, v1, "HSO3-"));
-    let acid_share = moles(&acidic, v2, "HSO3-")
-        / (moles(&acidic, v2, "SO3-2") + moles(&acidic, v2, "HSO3-"));
+    let dianion_share =
+        moles(&basic, v1, "SO3-2") / (moles(&basic, v1, "SO3-2") + moles(&basic, v1, "HSO3-"));
+    let acid_share =
+        moles(&acidic, v2, "HSO3-") / (moles(&acidic, v2, "SO3-2") + moles(&acidic, v2, "HSO3-"));
     assert!(
         dianion_share > 0.95,
         "the sulfite bottle is essentially all dianion, got {dianion_share}"
