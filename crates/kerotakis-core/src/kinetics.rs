@@ -814,23 +814,34 @@ pub const REGISTRY: &[KineticReaction<'static>] = &[
         // produced a reaction that can never fire - the mirror image of the
         // bug being fixed.
         //
-        // THE SODIUM LEAVES THE ARROW, exactly as it did for thiosulfate:
-        // it was never a participant and appeared only because the left
-        // side was named after a bottle. That forces the product side to be
-        // written ionically too, or sodium would be created from nothing.
-        // `KIO3 + 3 HSO3- -> KI + 3 SO4-2 + 3 H+` balances in atoms
-        // (K1 I1 H3 S3 O12) and in charge (-3 both sides).
+        // THE SODIUM STAYS ON THE ARROW, and that is the opposite of what
+        // #536 did for thiosulfate. It is not a style choice; the first
+        // version of this row wrote the products ionically and MINTED FREE
+        // PROTONS, `KIO3 + 3 HSO3- -> KI + 3 SO4-2 + 3 H+`, which balances
+        // perfectly on paper and broke three unit tests in `kerotakis-core`
+        // that have nothing to do with sulfite:
+        // `ledger::kinetics_conserves_elements` reported hydrogen and
+        // charge each CREATED at 2 x extent in a vessel holding only water,
+        // thiosulfate and sodium - no iodate, no sulfite, so this reaction
+        // never fired there at all. What it perturbed was the shared
+        // represented-strong-acid bookkeeping, which derives spendable acid
+        // from the charge balance: a rate law that PRODUCES `H+` is a new
+        // thing for it, and the thiosulfate clock's own proton consumption
+        // stopped being applied.
         //
-        // The 3 H+ is real chemistry and not bookkeeping: oxidising
-        // bisulfite to sulfate releases its proton, which is why a Landolt
-        // mixture acidifies as it runs. It is also the risky part of this
-        // row, because the represented-strong-acid bookkeeping derives
-        // spendable acid from the charge balance, and a rate law that mints
-        // protons is a new thing for it. `the_clock_agrees_with_itself_
-        // over_one_step_and_ten` in `iodine_clock.rs` is the guard: a
-        // 58% disagreement between one long step and ten short ones is
-        // precisely how this class of mistake showed itself last time.
-        equation: "KIO₃ + 3 HSO₃⁻ → KI + 3 SO₄²⁻ + 3 H⁺",
+        // So the protons stay bound. `NaHSO4` is the product the school
+        // equation always named, and the sodium is written explicitly on
+        // the left because the vessel genuinely holds it - a solved
+        // bisulfite solution is `Na+` and `HSO3-` - and because without it
+        // sodium would be created from nothing. Thiosulfate could drop its
+        // spectator sodium because its products were `S`, `SO2` and water,
+        // none of which carry any. Balanced K1 I1 Na3 H3 S3 O12, charge 0
+        // both sides.
+        //
+        // The acidification a real Landolt mixture shows is therefore NOT
+        // modelled here, and that is a smaller lie than the one the free
+        // protons told: it was already not modelled before this change.
+        equation: "KIO₃ + 3 HSO₃⁻ + 3 Na⁺ → KI + 3 NaHSO₄",
         stoichiometry: &[
             StoichiometricTerm {
                 species: "KIO3",
@@ -848,12 +859,12 @@ pub const REGISTRY: &[KineticReaction<'static>] = &[
                 phase: Phase::Aqueous,
             },
             StoichiometricTerm {
-                species: "SO4-2",
-                coefficient: 3.0,
+                species: "Na+",
+                coefficient: -3.0,
                 phase: Phase::Aqueous,
             },
             StoichiometricTerm {
-                species: "H+",
+                species: "NaHSO4",
                 coefficient: 3.0,
                 phase: Phase::Aqueous,
             },

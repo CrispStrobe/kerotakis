@@ -187,18 +187,14 @@ fn landolt_warmer_is_faster() {
 }
 
 #[test]
-fn landolt_produces_ki_and_sulfate() {
+fn landolt_produces_ki_and_bisulfate() {
     let mut v = landolt_vessel(25.0, 0.002, 0.006);
     advance(&mut v, 120.0).unwrap();
     assert!(moles_of(&v, "KI") > 0.0, "must produce KI");
-    // Sulfate rather than `NaHSO4`, because the sodium left the arrow with
-    // the bottle name: oxidising bisulfite gives sulfate and the proton it
-    // was carrying, and the sodium was never a participant.
-    assert!(moles_of(&v, "SO4-2") > 0.0, "must produce sulfate");
-    assert!(
-        moles_of(&v, "H+") > 0.0,
-        "and the protons that acidify a running Landolt mixture"
-    );
+    // `NaHSO4`, with the proton still bound. Writing the products as
+    // sulfate plus free `H+` balances on paper and perturbs the shared
+    // represented-acid bookkeeping - see the note on the reaction.
+    assert!(moles_of(&v, "NaHSO4") > 0.0, "must produce NaHSO₄");
 }
 
 /// One long step must cost the same as ten short ones.
@@ -224,7 +220,7 @@ fn the_clock_agrees_with_itself_over_one_step_and_ten() {
         advance(&mut ten, 2.0).unwrap();
     }
 
-    for key in ["HSO3-", "KIO3", "KI", "SO4-2", "H+"] {
+    for key in ["HSO3-", "KIO3", "KI", "NaHSO4", "Na+"] {
         let a = moles_of(&one, key);
         let b = moles_of(&ten, key);
         let scale = a.abs().max(b.abs()).max(1e-9);
