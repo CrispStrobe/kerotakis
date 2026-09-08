@@ -8,8 +8,12 @@ The first authoritative execution has now been reviewed. Its failures remain
 preserved as evidence; contract corrections are limited to units, output shape,
 open-system boundaries and the distinction between phase identity and elemental
 retention. Reusable engine regressions cover the genuine gaps. A second CI run
-is pending, and no case is eligible for catalog promotion until that run and the
-remaining numerical-order audit are complete.
+and the numerical-order audit completed before any catalog promotion began.
+
+That repair loop is now complete: the final GitHub execution passed all ten
+families, 240/240 scripts and 338/338 execution and named-relation checks. The
+separate sixth fleet also remained 66/66. Promotion is therefore gated only by
+distinct-concept and bilingual catalog review, not by unresolved engine output.
 
 The programme contains ten families of 24 original scripts: acid/base and
 buffers, solubility and precipitation, gas boundaries, electrochemistry,

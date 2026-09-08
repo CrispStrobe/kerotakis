@@ -321,6 +321,13 @@ ledger but differ at trace scale in phase partition because their sequential
 thermal paths differ; the relation now asserts Ag/Cl retention rather than the
 false claim that those paths are thermodynamically identical.
 
+The final fleet execution at merge revision `957cfce3` passed all 404 checks:
+66 for cases 195–218 and 338 execution/relation checks for all 240 cases
+219–458. Its complete 822-file artifact is retained as
+`/mnt/storage/kerotakis-archive/chemistry-audit-source-final-195-458-957cfce3.tar.gz`
+with SHA-256
+`970f6f5e6ea59448ce247f2b0c748bd323eecbdc21fdc71af73521baa0f629f5`.
+
 Known limitations retained throughout the audit include mixed-solvent ionic
 activity, physical gas-transfer and uncatalyzed reaction rates, nucleation,
 surface and geometry effects, calibrated detection thresholds, complete copper-
