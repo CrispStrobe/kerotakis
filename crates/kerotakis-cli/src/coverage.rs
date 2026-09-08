@@ -715,19 +715,6 @@ fn execute_prompt(
         ));
     }
 
-    // Route evidence is stronger than an observation-shaped aside. Once a
-    // chemistry-bearing computed route succeeded, classify the transcript by
-    // that route; smells, flame tests and inert notes remain in the transcript
-    // as evidence but no longer hide the mechanism that actually ran.
-    if computed_chemistry {
-        return Ok(result(
-            prompt,
-            Disposition::Computed,
-            "computed-route",
-            routes,
-        ));
-    }
-
     let typed_observation = all_events.iter().any(|event| {
         matches!(
             event,
@@ -746,6 +733,19 @@ fn execute_prompt(
         || all_events.iter().any(|event| {
             matches!(event, Event::FlameStarved { burned, .. } if burned.0 <= 0.0)
         });
+
+    // Route evidence is stronger than an observation-shaped aside. Only
+    // preempt that branch when an aside is actually present; this deliberately
+    // leaves the existing curated-versus-computed route precedence untouched
+    // for transcripts that contain no such observation.
+    if typed_observation && computed_chemistry {
+        return Ok(result(
+            prompt,
+            Disposition::Computed,
+            "computed-route",
+            routes,
+        ));
+    }
 
     // A typed observation BESIDE a computed result does not make the row a
     // typed observation. That is KID-12's rule above, generalised from the
