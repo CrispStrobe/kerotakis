@@ -12,6 +12,61 @@ it had while it was open, which is why a few numbers appear twice below.
 
 ---
 
+## 2026-09-08
+
+**Engine**
+
+- **#537** — `energy_is_conserved` had gone flaky, and the bound was not the
+  first thing wrong. Ablating the failing script one operator at a time put the
+  whole 1.57e-2 J on `AddSalt`: `NonAqueousEquilibrator` dissolves a solid into
+  an organic solvent by relabelling it `Solid` → `Liquid` **at a fixed
+  temperature**, and NaCl owns a Cp(T) curve for its solid and none for its
+  liquid, so the fallback constant and the curve agree at 298.15 K and nowhere
+  else. The residue was quadratic in (T − 298.15) and independent of how much
+  salt was poured, because only the solubility limit ever dissolved. The
+  relabelling now holds enthalpy rather than temperature, the rule the aqueous
+  tail already kept: 1.57e-2 J → 2.1e-6 J. Only then the bound, which had been
+  scaling by a **signed** sum that near-cancellation can drive to nothing; it is
+  now `3e-6 × gross + 5e-6 × water`, the second term because water poured in at
+  room temperature moves no energy and is still differenced. 4096 random scripts,
+  tightest margin 100×
+- **#535** — borate. `wateq4f` and `minteq.v4` both define it and both are
+  **loaded**, and the bench refused anyway: no boron in `derived.rs`'s oxyanion
+  groups, so borax fell to the "dissolves without speciation" fallback and the
+  registry wrote that down as a fact about databases. The finding was the guard,
+  not the extraction — `DerivedRole::Dissolves` is phase-blind, so the first
+  working version put the undissolved crystals of the borax-snowflake lesson
+  into solution on the same step that computed them. A soluble solid whose
+  dissolution this bench bounds with a curated number now keeps that bound; over
+  all 21 solubility-limited species it changes exactly one outcome. The aqueous
+  NaCl ion pair was corrected in wording and **declined** in substance: it would
+  close most of the colligative gap by the one mechanism PLAN.md says is not the
+  problem, and pitzer.dat, built for brine, carries no such pair either
+- **#536** — thiosulfate, borrowed from `llnl.dat` as hypochlorite and lactate
+  were. Hypo in pure water now reads **pH 7.025**, which is neither the
+  textbook rule's 8.5 nor a defaulted 7.00; the codex entry that had called the
+  refusal correct *and* 8.5 "the right chemistry" keeps its id, because the id
+  now names the mistake. The casualty was not a curated rule but the **kinetic**
+  rate law, which named the bottle in its stoichiometry and orders while a
+  solved beaker holds the ion — and five hand-built test vessels, which lost
+  electroneutrality when the reactant became a bare 2− anion, so the
+  represented-strong-acid bookkeeping read them as holding base and one 100 s
+  step disagreed with ten 10 s steps by 58%
+
+### Lessons
+
+- a residue that is quadratic in temperature and flat in quantity is a
+  relabelling, not an accumulation: ablate the script one operator at a time
+  before touching a tolerance (#537).
+- a tolerance scaled by a signed net can be driven to nothing by cancellation
+  while the arithmetic under it handled hundreds of kilojoules (#537).
+- "no database defines it" and "nothing here asks for it" are different
+  statements, and the second escalating into the first is how borate was refused
+  by a bench that had it loaded all along (#535).
+- speciating a reagent moves it from the bottle to the ion, and everything keyed
+  on the bottle follows — curated rules (#530), rate laws and the
+  electroneutrality of hand-built test vessels (#536).
+
 ## 2026-09-07
 
 **Chemistry audit — unmerged PR #504**
