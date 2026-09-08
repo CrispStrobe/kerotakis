@@ -800,6 +800,19 @@ numbers are never re-bound.
   OCR and source mappings absent from the public repository; no GPL/LGPL/NC or
   otherwise incompatible new runtime dependency or data. The audit owner may
   push its branch but must not merge without explicit authority.
+  **Disposition 2026-09-08:** PR #504 was closed unmerged. Its generic engine
+  repairs landed as #529; its probes, analyzers and audit documents landed as
+  `tools/chemistry-audit/`. The 2,260 raw run records that satisfy the
+  "raw input/output, hashes and failures retained" criterion — per-case scripts
+  as executed, full stdout/stderr, exit state, the frozen law-check reports,
+  per-fleet source-revision manifests with SHA-256, and every failed and
+  unsupported result — are retained outside the checkout as one archive:
+  `/mnt/storage/kerotakis-archive/chemistry-audit-evidence-20260906.tar.gz`,
+  SHA-256 `9053802227ce2fc57ed74d65d6074a661f30affe8fdaf40e2d8e724be759bb28`,
+  3,120,920 bytes, 2,260 files, taken from commit `a96c4a74` on branch
+  `audit/chemistry-experiments-20260906`, which is kept so the archive can be
+  rebuilt from Git. `tools/chemistry-audit/README.md` says how to verify both.
+  Cases 195–218 remain frozen and unrun; that half of the item is still open.
 
 ## Declined items (all corpora, recorded with reasons)
 
