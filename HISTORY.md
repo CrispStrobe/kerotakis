@@ -59,7 +59,17 @@ it had while it was open, which is why a few numbers appear twice below.
   serialized result. Vessel state now exposes solver-resolved aqueous activity
   and ideal-gas activity for finite owned headspaces as shared primitives;
   unresolved aqueous species and open/swept gas reservoirs remain absent rather
-  than silently becoming concentrations or unit fugacities
+  than silently becoming concentrations or unit fugacities. A generic runtime
+  proposal now resolves separate equilibrium and kinetic-domain activities,
+  selects records, balances all competing partial currents, converts them to
+  one Faradaic delta and reports the uniform inventory fraction without
+  mutating the vessel. Standard-state gas is an explicit reference condition,
+  distinct from measured owned gas, so a reviewed gas-evolution
+  parameterisation can start without inventing headspace composition. Its
+  end-to-end acid/metal test exposed a second solver defect: fixed absolute
+  current tolerance cannot represent cancellation of large opposing partial
+  currents. The solver now combines absolute tolerance with a scale-relative
+  cancellation bound; all 513 core library tests pass
 - **#541** — the heat-capacity integral in **difference form**. Each NASA-9 and
   Shomate term is now written so `(t1 − t0)` factors out, instead of evaluating
   an antiderivative at both ends and subtracting terms around 1.2e9 J/mol that

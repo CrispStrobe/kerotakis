@@ -482,6 +482,9 @@ pub struct CurrentBalanceSolver {
     pub maximum_potential_v: f64,
     pub potential_tolerance_v: f64,
     pub current_tolerance_a_per_m2: f64,
+    /// Relative cancellation tolerance against the sum of absolute partial
+    /// currents. Needed when two large physical currents balance near zero.
+    pub relative_current_tolerance: f64,
     pub maximum_iterations: usize,
 }
 
@@ -492,12 +495,24 @@ impl Default for CurrentBalanceSolver {
             maximum_potential_v: 3.0,
             potential_tolerance_v: 1e-9,
             current_tolerance_a_per_m2: 1e-9,
+            relative_current_tolerance: 1e-14,
             maximum_iterations: 160,
         }
     }
 }
 
 impl CurrentBalanceSolver {
+    fn current_converged(&self, balance: &CurrentBalance, target: f64) -> bool {
+        let scale = balance
+            .partial_currents
+            .iter()
+            .map(|partial| partial.current_density_a_per_m2.abs())
+            .sum::<f64>()
+            .max(target.abs());
+        (balance.net_current_density_a_per_m2 - target).abs()
+            <= self.current_tolerance_a_per_m2 + self.relative_current_tolerance * scale
+    }
+
     fn currents_at(
         &self,
         reactions: &[PartialReaction<'_>],
@@ -546,6 +561,8 @@ impl CurrentBalanceSolver {
             || self.minimum_potential_v >= self.maximum_potential_v
             || !self.current_tolerance_a_per_m2.is_finite()
             || self.current_tolerance_a_per_m2 <= 0.0
+            || !self.relative_current_tolerance.is_finite()
+            || self.relative_current_tolerance < 0.0
             || self.maximum_iterations == 0
         {
             return Err(ElectrochemistryError::InvalidCondition(
@@ -560,10 +577,10 @@ impl CurrentBalanceSolver {
         let mut f_lower = lower_balance.net_current_density_a_per_m2 - target_current_density;
         let f_upper = upper_balance.net_current_density_a_per_m2 - target_current_density;
 
-        if f_lower.abs() <= self.current_tolerance_a_per_m2 {
+        if self.current_converged(&lower_balance, target_current_density) {
             return Ok(lower_balance);
         }
-        if f_upper.abs() <= self.current_tolerance_a_per_m2 {
+        if self.current_converged(&upper_balance, target_current_density) {
             return Ok(upper_balance);
         }
         if f_lower.signum() == f_upper.signum() {
@@ -578,7 +595,7 @@ impl CurrentBalanceSolver {
             let middle = 0.5 * (lower + upper);
             let balance = self.currents_at(reactions, middle, temperature_k)?;
             let f_middle = balance.net_current_density_a_per_m2 - target_current_density;
-            if f_middle.abs() <= self.current_tolerance_a_per_m2 {
+            if self.current_converged(&balance, target_current_density) {
                 return Ok(balance);
             }
             if middle <= lower || middle >= upper {
@@ -592,9 +609,13 @@ impl CurrentBalanceSolver {
             }
         }
         let balance = self.currents_at(reactions, 0.5 * (lower + upper), temperature_k)?;
-        Err(ElectrochemistryError::DidNotConverge {
-            residual: balance.net_current_density_a_per_m2 - target_current_density,
-        })
+        if self.current_converged(&balance, target_current_density) {
+            Ok(balance)
+        } else {
+            Err(ElectrochemistryError::DidNotConverge {
+                residual: balance.net_current_density_a_per_m2 - target_current_density,
+            })
+        }
     }
 
     pub fn solve_mixed_potential(
@@ -744,6 +765,12 @@ pub struct EquilibriumActivity<'a> {
 pub enum ActivitySource {
     ResolvedAqueous,
     OwnedIdealGas,
+    /// Unit fugacity used by a parameterisation explicitly referred to the
+    /// standard gas state (for example a standard-state hydrogen-evolution
+    /// polarization curve). This is a declared thermodynamic reference, not
+    /// an estimate of absent headspace gas and not an arbitrary activity
+    /// floor.
+    StandardStateGas,
     PurePhase,
 }
 
@@ -774,6 +801,7 @@ pub fn resolve_equilibrium_activities<'a>(
             let activity = match requirement.source {
                 ActivitySource::ResolvedAqueous => vessel.resolved_aqueous_activity(&species_id),
                 ActivitySource::OwnedIdealGas => vessel.ideal_gas_activity(&species_id),
+                ActivitySource::StandardStateGas => Some(1.0),
                 ActivitySource::PurePhase => Some(1.0),
             }
             .ok_or_else(|| ActivityResolutionError {
@@ -899,6 +927,223 @@ pub struct FaradaicHalfReaction<'a> {
     pub id: &'a str,
     pub electrons_produced: f64,
     pub terms: &'a [FaradaicTerm<'a>],
+}
+
+/// A complete, data-driven electrode reaction available to the runtime.
+///
+/// Quotient inputs determine the reversible potential. Kinetic-domain inputs
+/// select a measured parameter record and are deliberately separate: surface
+/// poisons, catalysts and supporting electrolyte can constrain a fit without
+/// belonging in the balanced half-reaction quotient.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct ElectrochemicalReactionDefinition<'a> {
+    pub id: &'a str,
+    pub standard_reduction_potential_v: f64,
+    pub quotient_requirements: &'a [ActivityRequirement<'a>],
+    pub kinetic_domain_requirements: &'a [ActivityRequirement<'a>],
+    /// Fraction of this surface available to this particular reaction.
+    pub available_surface_fraction: f64,
+    /// Mass-transfer ceilings per real reactive area, before the surface-area
+    /// multiplier is applied.
+    pub limiting_current_anodic_a_per_m2: Option<f64>,
+    pub limiting_current_cathodic_a_per_m2: Option<f64>,
+    /// Atom-balanced matter bookkeeping in the anodic direction.
+    pub anodic_terms: &'a [FaradaicTerm<'a>],
+    pub electrons_produced: f64,
+}
+
+#[derive(Debug, Clone)]
+pub struct ElectrochemicalStepProposal {
+    pub balance: CurrentBalance,
+    /// Unbounded Faraday-law proposal, retained for diagnostics.
+    pub requested_delta: crate::delta::StateDelta,
+    /// Uniformly inventory-limited proposal safe to conservation-check and
+    /// commit atomically.
+    pub accepted_delta: crate::delta::StateDelta,
+    pub accepted_fraction: f64,
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub enum ElectrochemicalStepError {
+    InvalidCondition {
+        reason: String,
+    },
+    InvalidDefinition {
+        reaction: String,
+        reason: String,
+    },
+    ElectrodeNotFound {
+        electrode: String,
+    },
+    AmbiguousElectrode {
+        electrode: String,
+    },
+    InvalidElectrode {
+        electrode: String,
+        reason: String,
+    },
+    Activity {
+        reaction: String,
+        error: ActivityResolutionError,
+    },
+    Candidate {
+        reaction: String,
+        error: CandidateReactionError,
+    },
+    Balance(ElectrochemistryError),
+    Inventory(Vec<crate::delta::DeltaError>),
+}
+
+/// Assemble and solve any set of competing electrode reactions against one
+/// vessel snapshot. The function is intentionally non-mutating: a clock owner
+/// may inspect depletion, shorten the interval, re-equilibrate, and then commit
+/// `accepted_delta` exactly once.
+#[allow(clippy::too_many_arguments)]
+pub fn propose_electrochemical_step<'a>(
+    vessel: &crate::Vessel,
+    electrode_label: &str,
+    records: &'a [ExchangeCurrentRecord],
+    definitions: &'a [ElectrochemicalReactionDefinition<'a>],
+    seconds: f64,
+    control: CellControl,
+    transport: TransportLimits,
+    solver: CurrentBalanceSolver,
+) -> Result<ElectrochemicalStepProposal, ElectrochemicalStepError> {
+    if !seconds.is_finite() || seconds < 0.0 {
+        return Err(ElectrochemicalStepError::InvalidCondition {
+            reason: "duration must be finite and non-negative".into(),
+        });
+    }
+    let temperature_k = vessel.temperature.0;
+    if !temperature_k.is_finite() || temperature_k <= 0.0 {
+        return Err(ElectrochemicalStepError::InvalidCondition {
+            reason: "vessel temperature must be finite and positive".into(),
+        });
+    }
+    let matching: Vec<_> = vessel
+        .electrodes
+        .iter()
+        .filter(|electrode| electrode.label == electrode_label)
+        .collect();
+    let electrode = match matching.as_slice() {
+        [electrode] => *electrode,
+        [] => {
+            return Err(ElectrochemicalStepError::ElectrodeNotFound {
+                electrode: electrode_label.to_owned(),
+            });
+        }
+        _ => {
+            return Err(ElectrochemicalStepError::AmbiguousElectrode {
+                electrode: electrode_label.to_owned(),
+            });
+        }
+    };
+    electrode
+        .validate()
+        .map_err(|reason| ElectrochemicalStepError::InvalidElectrode {
+            electrode: electrode_label.to_owned(),
+            reason: reason.to_owned(),
+        })?;
+
+    let mut partial_reactions = Vec::with_capacity(definitions.len());
+    let mut half_reactions = Vec::with_capacity(definitions.len());
+    let mut reaction_ids = std::collections::BTreeSet::new();
+    for definition in definitions {
+        if definition.id.trim().is_empty()
+            || !reaction_ids.insert(definition.id)
+            || !definition.electrons_produced.is_finite()
+            || definition.electrons_produced <= 0.0
+            || definition.anodic_terms.is_empty()
+            || definition
+                .limiting_current_anodic_a_per_m2
+                .is_some_and(|limit| !limit.is_finite() || limit <= 0.0)
+            || definition
+                .limiting_current_cathodic_a_per_m2
+                .is_some_and(|limit| !limit.is_finite() || limit <= 0.0)
+        {
+            return Err(ElectrochemicalStepError::InvalidDefinition {
+                reaction: definition.id.to_owned(),
+                reason: "reaction ids must be unique and named; electron counts, terms and optional transport limits must be physical".into(),
+            });
+        }
+        let quotient = resolve_equilibrium_activities(vessel, definition.quotient_requirements)
+            .map_err(|error| ElectrochemicalStepError::Activity {
+                reaction: definition.id.to_owned(),
+                error,
+            })?;
+        let domain = resolve_equilibrium_activities(vessel, definition.kinetic_domain_requirements)
+            .map_err(|error| ElectrochemicalStepError::Activity {
+                reaction: definition.id.to_owned(),
+                error,
+            })?;
+        let domain: Vec<_> = domain
+            .iter()
+            .map(|term| (term.species.to_owned(), term.activity))
+            .collect();
+        let surface = electrode.reactive_surface(definition.available_surface_fraction);
+        surface
+            .validate()
+            .map_err(|reason| ElectrochemicalStepError::InvalidElectrode {
+                electrode: electrode_label.to_owned(),
+                reason: format!("{reason:?}"),
+            })?;
+        let reactive_area_m2 = surface.reactive_area_m2().map_err(|reason| {
+            ElectrochemicalStepError::InvalidElectrode {
+                electrode: electrode_label.to_owned(),
+                reason: format!("{reason:?}"),
+            }
+        })?;
+        partial_reactions.push(
+            parameterized_partial_reaction(
+                records,
+                definition.id,
+                &electrode.material,
+                definition.standard_reduction_potential_v,
+                temperature_k,
+                &domain,
+                &quotient,
+                reactive_area_m2 / surface.geometric_area_m2,
+                definition.limiting_current_anodic_a_per_m2,
+                definition.limiting_current_cathodic_a_per_m2,
+            )
+            .map_err(|error| ElectrochemicalStepError::Candidate {
+                reaction: definition.id.to_owned(),
+                error,
+            })?,
+        );
+        half_reactions.push(FaradaicHalfReaction {
+            id: definition.id,
+            electrons_produced: definition.electrons_produced,
+            terms: definition.anodic_terms,
+        });
+    }
+
+    let balance = solver
+        .solve_control(
+            &partial_reactions,
+            temperature_k,
+            electrode.area_m2,
+            control,
+            transport,
+        )
+        .map_err(ElectrochemicalStepError::Balance)?;
+    let requested_delta = faradaic_state_delta(
+        &balance,
+        &partial_reactions,
+        &half_reactions,
+        electrode.area_m2,
+        seconds,
+    )
+    .map_err(ElectrochemicalStepError::Balance)?;
+    let limited = requested_delta
+        .inventory_limited(vessel)
+        .map_err(ElectrochemicalStepError::Inventory)?;
+    Ok(ElectrochemicalStepProposal {
+        balance,
+        requested_delta,
+        accepted_delta: limited.delta,
+        accepted_fraction: limited.accepted_fraction,
+    })
 }
 
 /// Convert a solved current balance into one atomic state proposal. No vessel
@@ -1244,6 +1489,15 @@ mod tests {
                 source: ActivitySource::OwnedIdealGas,
             })
         );
+        let reference_hydrogen = [ActivityRequirement {
+            species: "H2",
+            coefficient: 1.0,
+            source: ActivitySource::StandardStateGas,
+        }];
+        assert_eq!(
+            resolve_equilibrium_activities(&vessel, &reference_hydrogen).unwrap()[0].activity,
+            1.0
+        );
 
         vessel.headspace = crate::Headspace::Sealed {
             volume: crate::Liters(1.0),
@@ -1416,5 +1670,150 @@ mod tests {
         assert!(vessel.electrodes[0].substrate_moles.unwrap() < 0.01);
         assert!(vessel.moles_of(&crate::SpeciesId::new("H+")).0 < 1e-15);
         assert!((vessel.moles_of(&crate::SpeciesId::new("H2")).0 - 0.5e-6).abs() < 1e-12);
+    }
+
+    #[test]
+    fn generic_step_pipeline_resolves_selects_solves_and_limits() {
+        const ZINC_QUOTIENT: &[ActivityRequirement<'static>] = &[ActivityRequirement {
+            species: "Zn+2",
+            coefficient: -1.0,
+            source: ActivitySource::ResolvedAqueous,
+        }];
+        const HYDROGEN_QUOTIENT: &[ActivityRequirement<'static>] = &[
+            ActivityRequirement {
+                species: "H+",
+                coefficient: -2.0,
+                source: ActivitySource::ResolvedAqueous,
+            },
+            ActivityRequirement {
+                species: "H2",
+                coefficient: 1.0,
+                source: ActivitySource::StandardStateGas,
+            },
+        ];
+        const ZINC_TERMS: &[FaradaicTerm<'static>] = &[
+            FaradaicTerm {
+                reservoir: FaradaicReservoir::ElectrodeSubstrate { electrode: "zinc" },
+                coefficient: -1.0,
+            },
+            FaradaicTerm {
+                reservoir: FaradaicReservoir::Bulk {
+                    species: "Zn+2",
+                    phase: crate::Phase::Aqueous,
+                },
+                coefficient: 1.0,
+            },
+        ];
+        const HYDROGEN_TERMS: &[FaradaicTerm<'static>] = &[
+            FaradaicTerm {
+                reservoir: FaradaicReservoir::Bulk {
+                    species: "H2",
+                    phase: crate::Phase::Gas,
+                },
+                coefficient: -1.0,
+            },
+            FaradaicTerm {
+                reservoir: FaradaicReservoir::Bulk {
+                    species: "H+",
+                    phase: crate::Phase::Aqueous,
+                },
+                coefficient: 2.0,
+            },
+        ];
+
+        let mut zinc_record = parameter_record("synthetic-zinc");
+        zinc_record.reaction = "Zn+2/Zn".into();
+        zinc_record.electrode_material = "Zn".into();
+        zinc_record.validity.activities[0].species = "Zn+2".into();
+        let mut hydrogen_record = parameter_record("synthetic-hydrogen-on-zinc");
+        hydrogen_record.reaction = "H+/H2".into();
+        hydrogen_record.electrode_material = "Zn".into();
+        hydrogen_record.validity.activities[0].species = "H+".into();
+        let records = [zinc_record, hydrogen_record];
+        let definitions = [
+            ElectrochemicalReactionDefinition {
+                id: "Zn+2/Zn",
+                standard_reduction_potential_v: -1.0,
+                quotient_requirements: ZINC_QUOTIENT,
+                kinetic_domain_requirements: ZINC_QUOTIENT,
+                available_surface_fraction: 1.0,
+                limiting_current_anodic_a_per_m2: None,
+                limiting_current_cathodic_a_per_m2: None,
+                anodic_terms: ZINC_TERMS,
+                electrons_produced: 2.0,
+            },
+            ElectrochemicalReactionDefinition {
+                id: "H+/H2",
+                standard_reduction_potential_v: 0.0,
+                quotient_requirements: HYDROGEN_QUOTIENT,
+                kinetic_domain_requirements: &HYDROGEN_QUOTIENT[..1],
+                available_surface_fraction: 1.0,
+                limiting_current_anodic_a_per_m2: None,
+                limiting_current_cathodic_a_per_m2: None,
+                anodic_terms: HYDROGEN_TERMS,
+                electrons_produced: 2.0,
+            },
+        ];
+        let mut vessel = crate::Vessel::new(crate::VesselId(0), "generic acid cell");
+        vessel.electrodes.push(crate::ElectrodeState {
+            label: "zinc".into(),
+            material: "Zn".into(),
+            substrate_moles: Some(0.01),
+            area_m2: 0.1,
+            roughness: 2.0,
+            deposits: Vec::new(),
+        });
+        vessel.deposit(
+            crate::SpeciesId::new("H+"),
+            crate::Moles(1e-6),
+            crate::Phase::Aqueous,
+        );
+        vessel.deposit(
+            crate::SpeciesId::new("Zn+2"),
+            crate::Moles(1e-9),
+            crate::Phase::Aqueous,
+        );
+        vessel.solution = Some(crate::SolutionInfo {
+            scope: crate::SolutionScope::Complete,
+            solvent_kg: Some(1.0),
+            redox: Vec::new(),
+            pe: None,
+            ph: 2.0,
+            ionic_strength: 0.1,
+            species: vec![crate::SpeciesDetail {
+                name: "Zn+2".into(),
+                molality: 0.05,
+                activity: 0.05,
+            }],
+            provenance: None,
+        });
+
+        let proposal = propose_electrochemical_step(
+            &vessel,
+            "zinc",
+            &records,
+            &definitions,
+            60.0,
+            CellControl::OpenCircuit,
+            TransportLimits {
+                solution_resistance_ohm: 0.0,
+                limiting_current_cathodic: None,
+                limiting_current_anodic: None,
+            },
+            CurrentBalanceSolver::default(),
+        )
+        .unwrap();
+        assert!(proposal.accepted_fraction < 1.0);
+        assert!(proposal.accepted_fraction > 0.0);
+        assert!(proposal.balance.partial_currents[0].current_density_a_per_m2 > 0.0);
+        assert!(proposal.balance.partial_currents[1].current_density_a_per_m2 < 0.0);
+        let mut committed = vessel.clone();
+        proposal
+            .accepted_delta
+            .commit_conserved(&mut committed, 1e-10)
+            .unwrap();
+        assert!(committed.moles_of(&crate::SpeciesId::new("H2")).0 > 0.0);
+        assert!(committed.moles_of(&crate::SpeciesId::new("H+")).0 < 1e-15);
+        assert!(committed.electrodes[0].substrate_moles.unwrap() < 0.01);
     }
 }

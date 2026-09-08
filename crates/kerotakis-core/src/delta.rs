@@ -58,6 +58,18 @@ pub struct StateDelta {
     pub source: &'static str,
 }
 
+/// One coupled state proposal after a single, uniform inventory limit.
+///
+/// The fraction applies to every material and relative-energy term in the
+/// original proposal. Keeping it explicit lets callers report depletion and
+/// choose a smaller clock step without reconstructing the limit from rounded
+/// mole changes.
+#[derive(Debug, Clone)]
+pub struct InventoryLimitedDelta {
+    pub delta: StateDelta,
+    pub accepted_fraction: f64,
+}
+
 /// Reasons a delta cannot be committed.
 #[derive(Debug, Clone, PartialEq)]
 pub enum DeltaError {
@@ -389,6 +401,14 @@ impl StateDelta {
         &self,
         vessel: &crate::vessel::Vessel,
     ) -> Result<Self, Vec<DeltaError>> {
+        self.inventory_limited(vessel).map(|limited| limited.delta)
+    }
+
+    /// Return both the uniformly limited proposal and its accepted fraction.
+    pub fn inventory_limited(
+        &self,
+        vessel: &crate::vessel::Vessel,
+    ) -> Result<InventoryLimitedDelta, Vec<DeltaError>> {
         let errors = self.validate(vessel);
         let mut scale = 1.0_f64;
         let mut fatal = Vec::new();
@@ -427,7 +447,10 @@ impl StateDelta {
         }
         let residual = limited.validate(vessel);
         if residual.is_empty() {
-            Ok(limited)
+            Ok(InventoryLimitedDelta {
+                delta: limited,
+                accepted_fraction: scale,
+            })
         } else {
             Err(residual)
         }
@@ -583,9 +606,24 @@ mod tests {
         let delta = StateDelta::new("test")
             .with_moles(SpeciesId::new("NaCl"), Phase::Aqueous, -0.2)
             .with_moles(SpeciesId::new("HCl"), Phase::Aqueous, 0.4);
-        let limited = delta.limited_to_inventory(&vessel).unwrap();
-        assert!((limited.net_moles(&SpeciesId::new("NaCl"), Phase::Aqueous) + 0.1).abs() < 1e-12);
-        assert!((limited.net_moles(&SpeciesId::new("HCl"), Phase::Aqueous) - 0.2).abs() < 1e-12);
+        let limited = delta.inventory_limited(&vessel).unwrap();
+        assert!((limited.accepted_fraction - 0.5).abs() < 1e-12);
+        assert!(
+            (limited
+                .delta
+                .net_moles(&SpeciesId::new("NaCl"), Phase::Aqueous)
+                + 0.1)
+                .abs()
+                < 1e-12
+        );
+        assert!(
+            (limited
+                .delta
+                .net_moles(&SpeciesId::new("HCl"), Phase::Aqueous)
+                - 0.2)
+                .abs()
+                < 1e-12
+        );
     }
 
     fn zinc_electrode() -> crate::compartment::ElectrodeState {
