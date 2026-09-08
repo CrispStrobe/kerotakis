@@ -176,6 +176,42 @@ fn pure_water_and_nonionic_solute_have_an_explicit_limiting_law_blank() {
     assert!(nonionic_aqueous_conductance(vessel(&electrolyte)).is_none());
 }
 
+#[test]
+fn a_nonionic_aqueous_blank_has_an_explicit_neutral_ph_reading() {
+    use kerotakis_core::*;
+    let mut bench = Bench::new();
+    let mut solver = SolverStack::new(vec![
+        Box::new(MixingEquilibrator),
+        Box::new(HonestyEquilibrator),
+    ]);
+    for command in ["add v1 water 400mL", "add v1 glucose 0.00008mol"] {
+        let op = parse_op(command).expect("parse").expect("operator");
+        bench
+            .step_with(op, &mut solver, &PermissiveScreen)
+            .expect("step");
+    }
+    let events = bench
+        .step_with(
+            Operator::Measure {
+                vessel: VesselId(0),
+                instrument: Instrument::PhMeter,
+            },
+            &mut solver,
+            &PermissiveScreen,
+        )
+        .expect("measure");
+    assert!(
+        events.iter().any(|event| matches!(
+            event,
+            Event::Measured { value, unit, note: Some(note), .. }
+                if (*value - 7.0).abs() < f64::EPSILON
+                    && unit == "pH"
+                    && note.contains("water-autoprotolysis baseline")
+        )),
+        "{events:?}"
+    );
+}
+
 // ── The bench arm: `measure <vessel> conductivity` on a dry metal ────────
 
 #[test]

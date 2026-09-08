@@ -139,7 +139,7 @@
         "field": "value",
         "occurrence": "last",
         "direction": "increasing",
-        "min_delta": 100.0
+        "min_delta": 1.0
       }
     },
     {
@@ -157,7 +157,7 @@
         "field": "value",
         "occurrence": "last",
         "direction": "increasing",
-        "min_delta": 100.0
+        "min_delta": 1.0
       }
     },
     {
@@ -189,7 +189,7 @@
         "282-gas-energy-three-pulses"
       ],
       "parameters": {
-        "path": "v1.temperature_k",
+        "path": "v1.temperature",
         "atol": 1e-07,
         "rtol": 1e-07
       }
@@ -205,7 +205,7 @@
         "286-gas-roundtrip-400"
       ],
       "parameters": {
-        "path": "v1.temperature_k",
+        "path": "v1.temperature",
         "atol": 1e-07,
         "rtol": 1e-07
       }

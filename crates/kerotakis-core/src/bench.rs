@@ -3204,6 +3204,19 @@ impl Bench {
                             unit: "pH".to_string(),
                             note: None,
                         }),
+                        None if crate::conductivity::neutral_aqueous_ph(v).is_some() => {
+                            events.push(Event::Measured {
+                                vessel: *vessel,
+                                instrument: *instrument,
+                                value: crate::conductivity::neutral_aqueous_ph(v)
+                                    .expect("guard established a neutral aqueous blank"),
+                                unit: "pH".to_string(),
+                                note: Some(
+                                    "ideal 25 °C water-autoprotolysis baseline; listed neutral unspeciated solutes are assumed to add no acidity or basicity. Dissolved CO₂, activity effects, temperature dependence and trace contamination are outside this blank"
+                                        .to_string(),
+                                ),
+                            })
+                        }
                         None => events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::NoSolution,
                             vessel: *vessel,
                             what: "the pH meter reads nothing — no aqueous solution has been characterised in this vessel"

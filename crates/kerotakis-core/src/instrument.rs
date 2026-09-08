@@ -118,7 +118,7 @@ impl InstrumentContract for PhMeter {
     }
 
     fn applies(&self, vessel: &Vessel) -> bool {
-        vessel.solution.is_some()
+        vessel.solution.is_some() || crate::conductivity::neutral_aqueous_ph(vessel).is_some()
     }
 
     fn mode(&self) -> InstrumentMode {
@@ -126,13 +126,17 @@ impl InstrumentContract for PhMeter {
     }
 
     fn measure(&self, vessel: &Vessel) -> Option<Reading> {
-        let sol = vessel.solution.as_ref()?;
+        let value = vessel
+            .solution
+            .as_ref()
+            .map(|solution| solution.ph)
+            .or_else(|| crate::conductivity::neutral_aqueous_ph(vessel))?;
         Some(Reading {
             observable: "pH".into(),
-            value: sol.ph,
+            value,
             unit: "pH".into(),
             precision: Some(0.01),
-            in_range: sol.ph > 0.0 && sol.ph < 14.0,
+            in_range: value > 0.0 && value < 14.0,
         })
     }
 }

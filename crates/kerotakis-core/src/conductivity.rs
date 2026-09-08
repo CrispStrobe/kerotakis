@@ -337,6 +337,29 @@ pub fn nonionic_aqueous_conductance(vessel: &Vessel) -> Option<f64> {
     })
 }
 
+/// Ideal pH for a room-temperature water blank containing only solutes whose
+/// acid/base neutrality is explicitly admitted here. This is deliberately
+/// narrower than `dissolves_without_speciation`: that dissolution flag also
+/// covers substances whose acid/base chemistry is merely not implemented.
+pub fn neutral_aqueous_ph(vessel: &Vessel) -> Option<f64> {
+    const PH_NEUTRAL_UNSPECIATED: &[&str] = &["glucose"];
+    if vessel.solution.is_some()
+        || vessel.liquid_volume().0 <= 0.0
+        || !vessel.unresolved_materials.is_empty()
+        || (vessel.temperature.0 - 298.15).abs() > 0.01
+    {
+        return None;
+    }
+    vessel
+        .contents
+        .iter()
+        .all(|portion| {
+            portion.species.0 == "water"
+                || PH_NEUTRAL_UNSPECIATED.contains(&portion.species.0.as_str())
+        })
+        .then_some(7.0)
+}
+
 /// What the meter reads from a dry solid: the curated resistivity, its
 /// reciprocal, and the citation that has to travel with both.
 ///

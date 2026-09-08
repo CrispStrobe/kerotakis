@@ -263,16 +263,17 @@
     },
     {
       "id": "r435-09-inert-ignite-null",
-      "kind": "metamorphic",
+      "kind": "conservation",
       "cases": [
         "451-inert-potassium-before-ignite",
         "452-inert-potassium-after-ignite"
       ],
-      "assertion": "final-inventory-equal",
+      "assertion": "final-elements-equal",
       "description": "An unsupported combustion path must not consume potassium chloride.",
       "parameters": {
-        "species": [
-          "KCl"
+        "elements": [
+          "K",
+          "Cl"
         ],
         "rtol": 1e-10,
         "atol": 1e-12
@@ -316,15 +317,12 @@
         "457-glucose-ph-before-wait",
         "458-glucose-ph-after-wait"
       ],
-      "assertion": "final-scalar-equal",
+      "assertion": "event-scalar-equal",
       "description": "Waiting alone must not alter neutral-solute pH.",
       "parameters": {
-        "path": [
-          "vessels",
-          0,
-          "solution",
-          "ph"
-        ],
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
         "rtol": 1e-10,
         "atol": 1e-09
       }

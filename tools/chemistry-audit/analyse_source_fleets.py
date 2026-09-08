@@ -213,8 +213,13 @@ def _relation(relation, records, composition):
             components = _event(record, relation).get("components")
             if not isinstance(components, list) or not components:
                 raise ValueError("event has no component inventory")
-            values.append(sum(float(component[1]) for component in components
-                              if isinstance(component, list) and len(component) == 2))
+            if any(not isinstance(component, list) or len(component) != 2
+                   or not isinstance(component[0], str)
+                   or isinstance(component[1], bool)
+                   or not isinstance(component[1], (int, float))
+                   for component in components):
+                raise ValueError("event has a malformed component inventory")
+            values.append(sum(float(component[1]) for component in components))
     else:  # pragma: no cover - dispatch exhaustiveness guard
         raise ValueError(f"unhandled assertion: {assertion}")
     if assertion.endswith("-equal"):
@@ -352,7 +357,8 @@ def analyse(evidence_dir: Path, manifest_dir: Path = source_fleets.MANIFEST_DIR,
                 errors.append("relation references a case outside its family")
             try:
                 passed, evidence = _relation(relation, records, composition) if not errors else (False, errors)
-            except (KeyError, IndexError, TypeError, ValueError, ZeroDivisionError, OverflowError) as exc:
+            except (KeyError, IndexError, StopIteration, TypeError, ValueError,
+                    ZeroDivisionError, OverflowError) as exc:
                 passed, evidence = False, {"missing_or_invalid_evidence": str(exc)}
             checks.append({"check": f"{manifest['family']}:{relation_id}",
                            "kind": relation.get("kind", "invalid"), "assertion": relation.get("assertion"),
@@ -382,6 +388,8 @@ def _fixture(directory, mutation=None):
          "assertion": "event-scalar-equal", "parameters": {"event": "measured", "field": "value"}},
         {"id": "ordered-reading", "kind": "independent-law", "cases": [cases[0]["id"], cases[1]["id"]],
          "assertion": "event-scalar-order", "parameters": {"event": "measured", "field": "value"}},
+        {"id": "ordered-components", "kind": "independent-law", "cases": [cases[0]["id"], cases[1]["id"]],
+         "assertion": "event-components-total-order", "parameters": {"event": "measured"}},
         {"id": "reading-present", "kind": "boundary", "cases": [cases[0]["id"]],
          "assertion": "event-present", "parameters": {"event": "measured", "count": 1}},
         {"id": "observed", "kind": "boundary", "cases": [cases[0]["id"]],
@@ -398,7 +406,8 @@ def _fixture(directory, mutation=None):
         bench = {"vessels": [{"id": 0, "temperature": 298.15, "pressure": 101325.0,
                                "contents": [{"species": "water", "phase": "liquid", "moles": 1.0}]}]}
         rows = [{"bench": bench, "events": []}, {"bench": bench, "events": [
-            {"event": "measured", "value": 1.0, "boundary": "fixture boundary"}]}]
+            {"event": "measured", "value": 1.0, "components": [["water", 1.0]],
+             "boundary": "fixture boundary"}]}]
         (case_dir / "experiment.lab").write_text(
             f"# {case['question']}\nregister lv3\n{case['script']}\ninspect\n")
         (case_dir / "stdout.ndjson").write_text("\n".join(json.dumps(row) for row in rows) + "\n")
@@ -434,6 +443,9 @@ def self_test():
                 (e / c[0]["id"] / "stdout.ndjson").read_text().replace('"fixture boundary"', '""')),
             "altered-inventory": lambda e, c: (e / c[0]["id"] / "stdout.ndjson").write_text(
                 (e / c[0]["id"] / "stdout.ndjson").read_text().replace('"moles": 1.0', '"moles": 2.0', 1)),
+            "malformed-components": lambda e, c: (e / c[0]["id"] / "stdout.ndjson").write_text(
+                (e / c[0]["id"] / "stdout.ndjson").read_text().replace(
+                    '[["water", 1.0]]', '[["water", 1.0], ["broken"]]', 1)),
         }
         for name, mutation in mutations.items():
             evidence, manifests = _fixture(root / name, mutation)

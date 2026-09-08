@@ -208,10 +208,10 @@ def observables_controls() -> dict:
         ("neutral-solute-conductivity", "event-scalar-order", "Neutral glucose must not exceed the water blank as though fully ionic.", {"event": "measured", "field": "value", "occurrence": "last", "direction": "decreasing", "min_delta": 0.0}),
         ("water-wait-null", "final-inventory-equal", "Waiting must not invent material in plain water.", {"species": ["water"], "rtol": 1e-10, "atol": 1e-12}),
         ("glucose-wait-null", "final-elements-equal", "Waiting must not create a filterable carbon-bearing phase.", {"elements": ["C", "H", "O"]}),
-        ("inert-ignite-null", "final-inventory-equal", "An unsupported combustion path must not consume potassium chloride.", {"species": ["KCl"], "rtol": 1e-10, "atol": 1e-12}),
+        ("inert-ignite-null", "final-elements-equal", "An unsupported combustion path must not consume potassium chloride.", {"elements": ["K", "Cl"], "rtol": 1e-10, "atol": 1e-12}),
         ("gas-wait-null", "final-scalar-equal", "Waiting without a process must preserve sealed-gas pressure.", {"path": "v1.pressure", "rtol": 1e-10, "atol": 1e-6}),
         ("water-filter-mass", "final-elements-equal", "Filtering plain water must conserve hydrogen and oxygen across vessels.", {"elements": ["H", "O"]}),
-        ("glucose-ph-wait-null", "final-scalar-equal", "Waiting alone must not alter neutral-solute pH.", {"path": ["vessels", 0, "solution", "ph"], "rtol": 1e-10, "atol": 1e-9}),
+        ("glucose-ph-wait-null", "event-scalar-equal", "Waiting alone must not alter neutral-solute pH.", {"event": "measured", "field": "value", "occurrence": "last", "rtol": 1e-10, "atol": 1e-9}),
     ]
     return paired_family("observables-negative-controls", "Observables and negative controls", c, specs)
 

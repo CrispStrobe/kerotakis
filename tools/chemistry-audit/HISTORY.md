@@ -279,6 +279,27 @@ No source procedure, branded name, figure or table was vendored. Original virtua
 experiments use existing reviewed runtime inputs and standard-library analysis.
 Hazardous source concepts remain non-operational gaps.
 
+## First 219–458 execution review (2026-09-08)
+
+The first GitHub execution preserved its raw evidence before any expectation was
+changed. Four families passed outright. The failures separated into contract
+mistakes and reusable engine gaps: pressure readings were checked as though kPa
+were Pa; two gas relations named a nonexistent final-state field; open
+electrolysis was incorrectly required to retain vented H/O; a phase change was
+mistaken for KCl consumption; the acetate alias was not accepted; inert sealed
+gas was routed to open CEA exhaust; a glucose-water blank lacked an explicit pH
+reading; and acetic acid was omitted from mixed-solvent routing.
+
+The next revision corrects those contracts from physical boundaries rather than
+observed values. Generic production repairs retain sealed inert gas during
+heating, admit only an explicitly listed neutral unspeciated solute to the ideal
+25 °C pH blank, and count acetic acid in the mixed-solvent denominator while
+still reporting its unmodelled acid chemistry. Regression tests accompany each
+engine repair. The analyzer now turns missing events and malformed component
+inventories into explicit failed checks. The remaining silver feed-order
+discrepancy stays open pending a deterministic equilibrium repair; its frozen
+tolerance has not been widened.
+
 Known limitations retained throughout the audit include mixed-solvent ionic
 activity, physical gas-transfer and uncatalyzed reaction rates, nucleation,
 surface and geometry effects, calibrated detection thresholds, complete copper-

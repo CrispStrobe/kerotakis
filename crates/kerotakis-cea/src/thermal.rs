@@ -417,6 +417,18 @@ fn charge(vessel: &Vessel) -> Option<Charge> {
     if mapped.is_empty() {
         return None;
     }
+    // A hot sealed atmosphere is a gas-law problem, not a combustion
+    // equilibrium. Sending unchanged N2/O2/CO2 through the open-atmosphere
+    // CEA route discarded every gas as exhaust, even though the headspace was
+    // sealed. Stand down for this inert gas-only inventory; the bench's
+    // pressure settlement retains it and applies P=nRT/V.
+    if condensed_moles == 0.0
+        && mapped
+            .iter()
+            .all(|(id, _)| matches!(id.0.as_str(), "N2" | "O2" | "CO2"))
+    {
+        return None;
+    }
 
     // The atmosphere the vessel stands in.
     // Keep the historical atmosphere floor for hot solids, but give an

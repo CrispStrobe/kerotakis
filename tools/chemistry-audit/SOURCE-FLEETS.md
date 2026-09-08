@@ -4,6 +4,13 @@ Status: architecture frozen; manifests are frozen family by family before any
 authoritative execution. Observed output must never be used to change an
 expectation or tolerance.
 
+The first authoritative execution has now been reviewed. Its failures remain
+preserved as evidence; contract corrections are limited to units, output shape,
+open-system boundaries and the distinction between phase identity and elemental
+retention. Reusable engine regressions cover the genuine gaps. A second CI run
+is pending, and no case is eligible for catalog promotion until that run and the
+remaining numerical-order audit are complete.
+
 The programme contains ten families of 24 original scripts: acid/base and
 buffers, solubility and precipitation, gas boundaries, electrochemistry,
 mixing and transfer, filtration and evaporation, distillation, thermal and

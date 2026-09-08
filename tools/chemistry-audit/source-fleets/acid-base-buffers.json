@@ -85,42 +85,42 @@
     {
       "id": "235-acetate-buffer-0.001",
       "question": "How does added conjugate base change the pH of a fixed weak-acid portion?",
-      "script": "add v1 water 400mL\nadd v1 CH3COOH 0.004mol\nadd v1 CH3COONa 0.001mol\nmeasure v1 ph"
+      "script": "add v1 water 400mL\nadd v1 CH3COOH 0.004mol\nadd v1 NaOAc 0.001mol\nmeasure v1 ph"
     },
     {
       "id": "236-acetate-buffer-0.002",
       "question": "How does added conjugate base change the pH of a fixed weak-acid portion?",
-      "script": "add v1 water 400mL\nadd v1 CH3COOH 0.004mol\nadd v1 CH3COONa 0.002mol\nmeasure v1 ph"
+      "script": "add v1 water 400mL\nadd v1 CH3COOH 0.004mol\nadd v1 NaOAc 0.002mol\nmeasure v1 ph"
     },
     {
       "id": "237-acetate-buffer-0.004",
       "question": "How does added conjugate base change the pH of a fixed weak-acid portion?",
-      "script": "add v1 water 400mL\nadd v1 CH3COOH 0.004mol\nadd v1 CH3COONa 0.004mol\nmeasure v1 ph"
+      "script": "add v1 water 400mL\nadd v1 CH3COOH 0.004mol\nadd v1 NaOAc 0.004mol\nmeasure v1 ph"
     },
     {
       "id": "238-acetate-buffer-0.008",
       "question": "How does added conjugate base change the pH of a fixed weak-acid portion?",
-      "script": "add v1 water 400mL\nadd v1 CH3COOH 0.004mol\nadd v1 CH3COONa 0.008mol\nmeasure v1 ph"
+      "script": "add v1 water 400mL\nadd v1 CH3COOH 0.004mol\nadd v1 NaOAc 0.008mol\nmeasure v1 ph"
     },
     {
       "id": "239-buffer-extensive-1",
       "question": "Does extensive scaling preserve the pH of an acetate buffer?",
-      "script": "add v1 water 180mL\nadd v1 CH3COOH 0.0018mol\nadd v1 CH3COONa 0.0018mol\nmeasure v1 ph"
+      "script": "add v1 water 180mL\nadd v1 CH3COOH 0.0018mol\nadd v1 NaOAc 0.0018mol\nmeasure v1 ph"
     },
     {
       "id": "240-buffer-extensive-2",
       "question": "Does extensive scaling preserve the pH of an acetate buffer?",
-      "script": "add v1 water 360mL\nadd v1 CH3COOH 0.0036mol\nadd v1 CH3COONa 0.0036mol\nmeasure v1 ph"
+      "script": "add v1 water 360mL\nadd v1 CH3COOH 0.0036mol\nadd v1 NaOAc 0.0036mol\nmeasure v1 ph"
     },
     {
       "id": "241-buffer-extensive-3",
       "question": "Does extensive scaling preserve the pH of an acetate buffer?",
-      "script": "add v1 water 540mL\nadd v1 CH3COOH 0.0054mol\nadd v1 CH3COONa 0.0054mol\nmeasure v1 ph"
+      "script": "add v1 water 540mL\nadd v1 CH3COOH 0.0054mol\nadd v1 NaOAc 0.0054mol\nmeasure v1 ph"
     },
     {
       "id": "242-buffer-extensive-4",
       "question": "Does extensive scaling preserve the pH of an acetate buffer?",
-      "script": "add v1 water 720mL\nadd v1 CH3COOH 0.0072mol\nadd v1 CH3COONa 0.0072mol\nmeasure v1 ph"
+      "script": "add v1 water 720mL\nadd v1 CH3COOH 0.0072mol\nadd v1 NaOAc 0.0072mol\nmeasure v1 ph"
     }
   ],
   "relations": [
