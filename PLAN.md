@@ -64,8 +64,8 @@ numeric event selectors plus two-sample ratios with absolute and relative
 tolerances. The CLI exposes only an explicit event-field allowlist, and the GUI
 must continue to mark event and species values unavailable until its scene
 contract carries them; neither may be represented by a convenient but false
-state proxy. This schema change remains a separate CI-reviewed branch before
-the next immutable source fleet is frozen.
+state proxy. PR #555 carries this separate CI-reviewed schema change; the next
+immutable source fleet is not frozen until that generic gate lands.
 - **`tests/coverage/curiosity-v1/README.md`** — the corpus refresh log. It is a
   test artefact, not a planning file; leave it alone.
 - **`docs/CURIOSITY-COVERAGE.md`** — the standing analysis of that corpus: the
