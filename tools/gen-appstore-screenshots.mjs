@@ -81,6 +81,7 @@ const waitForCommittedDocument = async (url) => {
       const ready = await page.evaluate(`(() =>
         location.origin === ${JSON.stringify(expected.origin)}
         && location.pathname.replace(/\\/+$/, "") === ${JSON.stringify(expected.pathname.replace(/\/+$/, ""))}
+        && location.search === ${JSON.stringify(expected.search)}
         && document.readyState === "complete"
       )()`);
       if (ready) return;
@@ -94,6 +95,9 @@ const waitForCommittedDocument = async (url) => {
 
 /** Type a line into the command bar and wait for the engine to answer. */
 const run = async (line) => {
+  const ready = await waitFor(page, `!!document.querySelector('form.bar input[aria-label="command"]')`,
+                              { timeout: 30000 });
+  if (!ready) throw new Error("command bar did not become ready");
   await page.evaluate(`(() => {
     const input = document.querySelector('form.bar input[aria-label="command"]');
     if (!input) throw new Error("no command bar");
@@ -117,9 +121,12 @@ try {
         deviceScaleFactor: shot.scale, mobile: shot.mobile,
       }, page.sessionId);
 
-      const appUrl = `${origin.replace(/\/$/, "")}/app/`;
-      await page.goto(appUrl);
-      await waitForCommittedDocument(appUrl);
+      const appBase = `${origin.replace(/\/$/, "")}/app/`;
+      const identity = `${locale}-${shot.family}`;
+      const primeUrl = `${appBase}?appstore-shot=${encodeURIComponent(identity)}-prime`;
+      const appUrl = `${appBase}?appstore-shot=${encodeURIComponent(identity)}-capture`;
+      await page.goto(primeUrl);
+      await waitForCommittedDocument(primeUrl);
       // Locale and console preference are set before the photographed boot,
       // exactly as returning readers have them stored on-device.
       await page.evaluate(`(() => {
