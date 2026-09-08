@@ -72,6 +72,26 @@ if (!SOURCE.startsWith("http")) {
 }
 const page = await browser();
 
+/** Wait past Chrome's initial about:blank load before using origin storage. */
+const waitForCommittedDocument = async (url) => {
+  const expected = new URL(url);
+  const deadline = Date.now() + 30000;
+  while (Date.now() < deadline) {
+    try {
+      const ready = await page.evaluate(`(() =>
+        location.origin === ${JSON.stringify(expected.origin)}
+        && location.pathname.replace(/\\/+$/, "") === ${JSON.stringify(expected.pathname.replace(/\/+$/, ""))}
+        && document.readyState === "complete"
+      )()`);
+      if (ready) return;
+    } catch {
+      // Runtime contexts are briefly unavailable while navigation commits.
+    }
+    await new Promise((resolve) => setTimeout(resolve, 100));
+  }
+  throw new Error(`navigation did not commit: ${url}`);
+};
+
 /** Type a line into the command bar and wait for the engine to answer. */
 const run = async (line) => {
   await page.evaluate(`(() => {
@@ -97,14 +117,17 @@ try {
         deviceScaleFactor: shot.scale, mobile: shot.mobile,
       }, page.sessionId);
 
-      await page.goto(`${origin.replace(/\/$/, "")}/app/`);
+      const appUrl = `${origin.replace(/\/$/, "")}/app/`;
+      await page.goto(appUrl);
+      await waitForCommittedDocument(appUrl);
       // Locale and console preference are set before the photographed boot,
       // exactly as returning readers have them stored on-device.
       await page.evaluate(`(() => {
         localStorage.setItem("kerotakis.console.v1", "shown");
         localStorage.setItem("kerotakis.locale", ${JSON.stringify(locale.split("-")[0])});
       })()`);
-      await page.goto(`${origin.replace(/\/$/, "")}/app/`);
+      await page.goto(appUrl);
+      await waitForCommittedDocument(appUrl);
       const entered = await waitFor(page, `(() => {
         const chooser = [...document.querySelectorAll('h1, h2')]
           .some((h) => /Where do you want to work|Wo möchtest du/i.test(h.textContent || ""));
