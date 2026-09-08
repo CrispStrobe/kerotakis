@@ -74,10 +74,8 @@ fn unknown_ionic_feed_is_distinct_from_a_neutral_molecular_solute() {
                 .any(|p| p.species.0 == "Na2SO3" && (p.moles.0 - 0.001 * scale).abs() < 1e-12));
         }
         // The contrast this test is named for: a neutral molecular solute is
-        // not accused of being an unmapped ion. It is a separate question
-        // whether a vessel whose only solute has no derived role should be
-        // characterised at all — this adapter declines that as it always has,
-        // because nothing is dissolved that it can speciate.
+        // not accused of being an unmapped ion and does not prevent the
+        // solvent's own autoionisation from being characterized.
         let mut sugar = Vessel::new(VesselId(0), "beaker");
         sugar.deposit(SpeciesId::new("water"), Moles(5.55 * scale), Phase::Liquid);
         sugar.deposit(
@@ -85,7 +83,16 @@ fn unknown_ionic_feed_is_distinct_from_a_neutral_molecular_solute() {
             Moles(0.001 * scale),
             Phase::Aqueous,
         );
+        let calls_before = eq.engine_calls();
         let events = eq.equilibrate(&mut sugar).unwrap();
+        let solution = sugar.solution.as_ref().expect("water is characterized");
+        assert!(solution.ph.is_finite());
+        assert!(solution.ionic_strength.is_finite());
+        assert_eq!(
+            eq.engine_calls(),
+            calls_before,
+            "solvent-only characterization must remain a constant-time analytic evaluation"
+        );
         assert!(
             !events.iter().any(|e| matches!(e,
                 Event::NotYetModeled { what, .. }
@@ -100,4 +107,72 @@ fn unknown_ionic_feed_is_distinct_from_a_neutral_molecular_solute() {
             "and it is still all there"
         );
     }
+}
+
+#[test]
+fn solvent_autoionisation_tracks_temperature_without_native_calls() {
+    let mut eq = PhreeqcEquilibrator::new().unwrap();
+    let mut readings = Vec::new();
+    for temperature in [273.15, 298.15, 323.15] {
+        let mut vessel = Vessel::new(VesselId(0), "beaker");
+        vessel.temperature = Kelvin(temperature);
+        vessel.deposit(SpeciesId::new("water"), Moles(5.55), Phase::Liquid);
+        let events = eq.equilibrate(&mut vessel).unwrap();
+        assert!(events.is_empty(), "plain water needs no narrated reaction");
+        let solution = vessel.solution.expect("liquid water is characterized");
+        assert_eq!(solution.species.len(), 2);
+        assert!((solution.species[0].molality - solution.species[1].molality).abs() < 1e-15);
+        readings.push(solution.ph);
+    }
+    assert!((readings[0] - 7.47).abs() < 0.03, "0 C: {readings:?}");
+    assert!((readings[1] - 7.00).abs() < 0.01, "25 C: {readings:?}");
+    assert!((readings[2] - 6.63).abs() < 0.03, "50 C: {readings:?}");
+    assert_eq!(eq.engine_calls(), 0);
+}
+
+#[test]
+fn solvent_support_does_not_claim_mostly_organic_mixtures_as_chemistry() {
+    let eq = PhreeqcEquilibrator::new().unwrap();
+    let mut vessel = Vessel::new(VesselId(0), "beaker");
+    // Representative post-esterification inventory: water exists, but the
+    // liquid medium remains mostly organic and is outside the aqueous model.
+    vessel.deposit(SpeciesId::new("water"), Moles(0.067), Phase::Liquid);
+    vessel.deposit(SpeciesId::new("ethanol"), Moles(0.033), Phase::Liquid);
+    vessel.deposit(SpeciesId::new("ethyl_acetate"), Moles(0.067), Phase::Liquid);
+    vessel.deposit(SpeciesId::new("CH3COOH"), Moles(0.033), Phase::Aqueous);
+
+    assert!(!eq.applies(&vessel));
+    assert!(!eq.chemistry_applies(&vessel));
+}
+
+#[test]
+fn solvent_characterization_preserves_honesty_for_unmodelled_spectators() {
+    let mut eq = PhreeqcEquilibrator::new().unwrap();
+    let mut vessel = Vessel::new(VesselId(0), "beaker");
+    vessel.deposit(SpeciesId::new("water"), Moles(5.55), Phase::Liquid);
+    vessel.deposit(SpeciesId::new("PET"), Moles(0.001), Phase::Solid);
+    let before = vessel.contents.clone();
+
+    let support_events = eq.equilibrate(&mut vessel).unwrap();
+    assert!(
+        support_events.is_empty(),
+        "solvent support state is not a narrated reaction"
+    );
+    let events = HonestyEquilibrator.equilibrate(&mut vessel).unwrap();
+
+    assert!(
+        vessel.solution.is_some(),
+        "the water still has a solution state"
+    );
+    assert_eq!(
+        vessel.contents, before,
+        "a partial solve cannot relabel matter"
+    );
+    assert!(
+        events
+            .iter()
+            .any(|event| matches!(event, Event::Inert { species, .. }
+            if species.0 == "PET")),
+        "the solvent answer must not silence the spectator's typed verdict: {events:?}"
+    );
 }

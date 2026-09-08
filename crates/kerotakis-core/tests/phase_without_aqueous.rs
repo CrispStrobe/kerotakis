@@ -16,6 +16,7 @@ impl Equilibrator for MissingChemistry {
 
 fn stale_solution() -> SolutionInfo {
     SolutionInfo {
+        scope: Default::default(),
         solvent_kg: None,
         pe: None,
         redox: vec![],
@@ -42,14 +43,15 @@ fn water(moles: f64, phase: Phase, temperature: f64) -> Vessel {
     v
 }
 
-fn assert_failed_but_phase_computed(v: &mut Vessel) -> Vec<Event> {
+fn assert_phase_computed_without_asking_chemistry(v: &mut Vessel) -> Vec<Event> {
     let events = equilibrate_phase_coupled(&mut MissingChemistry, v).unwrap();
     assert_eq!(
         events
             .iter()
             .filter(|e| matches!(e, Event::SolverFailed { .. }))
             .count(),
-        1
+        0,
+        "independent solvent phase physics must run before aqueous chemistry"
     );
     assert!(
         events
@@ -97,7 +99,7 @@ fn pure_water_freezes_melts_and_boils_with_conserved_latent_energy_across_scales
             // 20 K, so the rectangle and the area differ in the fourth
             // decimal — which is exactly the size of the assertion below.
             let available = v.energy_between(boundary, initial_t).abs();
-            let events = assert_failed_but_phase_computed(&mut v);
+            let events = assert_phase_computed_without_asking_chemistry(&mut v);
             assert!((v.temperature.0 - boundary).abs() < 1e-9);
             let transferred: f64 = events
                 .iter()

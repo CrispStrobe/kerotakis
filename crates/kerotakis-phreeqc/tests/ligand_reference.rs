@@ -38,6 +38,7 @@ fn reported_thiocyanate_complexes_keep_unknown_spectra_explicit() {
     let mut vessel = Vessel::new(VesselId(0), "beaker");
     vessel.deposit(SpeciesId::new("water"), Moles(5.55), Phase::Liquid);
     vessel.solution = Some(SolutionInfo {
+        scope: Default::default(),
         solvent_kg: Some(0.1),
         ph: 2.0,
         pe: None,

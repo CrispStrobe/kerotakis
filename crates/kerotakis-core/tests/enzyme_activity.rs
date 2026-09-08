@@ -186,6 +186,7 @@ fn decant_carries_progress_and_catalyst_proportionally() {
 /// solved acidity by hand is how a core test exercises the same term.
 fn at_ph(bench: &mut Bench, ph: f64) {
     bench.vessels[0].solution = Some(kerotakis_core::vessel::SolutionInfo {
+        scope: Default::default(),
         solvent_kg: None,
         ph,
         pe: None,

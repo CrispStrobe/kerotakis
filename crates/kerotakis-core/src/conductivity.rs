@@ -539,6 +539,7 @@ mod tests {
 
     fn solved(ionic_strength: f64, species: Vec<SpeciesDetail>) -> SolutionInfo {
         SolutionInfo {
+            scope: Default::default(),
             solvent_kg: None,
             pe: None,
             redox: Vec::new(),

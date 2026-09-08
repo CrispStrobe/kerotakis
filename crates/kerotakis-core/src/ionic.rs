@@ -627,6 +627,7 @@ mod tests {
         let mut v = Vessel::new(VesselId(0), "beaker");
         v.temperature = Kelvin::STANDARD;
         v.solution = Some(SolutionInfo {
+            scope: Default::default(),
             solvent_kg: None,
             pe: None,
             redox: Vec::new(),

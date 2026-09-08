@@ -292,6 +292,7 @@ mod tests {
         v.deposit(SpeciesId::new("S2O3-2"), Moles(0.1), Phase::Aqueous);
         v.deposit(SpeciesId::new("Na+"), Moles(0.2), Phase::Aqueous);
         v.solution = Some(crate::vessel::SolutionInfo {
+            scope: Default::default(),
             solvent_kg: None,
             redox: Vec::new(),
             pe: None,

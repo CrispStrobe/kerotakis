@@ -603,9 +603,35 @@ pub struct Provenance {
     pub routing: String,
 }
 
+/// How much of a vessel's liquid composition a [`SolutionInfo`] describes.
+///
+/// Most engines speciate the represented solution as a whole. A
+/// solvent-only record is deliberately narrower: it provides water's own
+/// autoionisation state for instruments while leaving neutral or insoluble
+/// spectators outside that calculation. Consumers that decide whether an
+/// unmodelled-material diagnostic is still owed must be able to tell those
+/// cases apart without parsing provenance prose.
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum SolutionScope {
+    #[default]
+    Complete,
+    SolventOnly,
+}
+
+impl SolutionScope {
+    fn is_complete(scope: &Self) -> bool {
+        matches!(scope, Self::Complete)
+    }
+}
+
 /// What an aqueous solver last computed about this vessel's solution.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct SolutionInfo {
+    /// Whether the numbers cover the represented solution or only the
+    /// solvent. Omitted on the wire for the historical complete case.
+    #[serde(default, skip_serializing_if = "SolutionScope::is_complete")]
+    pub scope: SolutionScope,
     /// Solvent mass used by the native species distribution, in kg.
     /// Distinct from the solvent in the reconstructed analytical inventory.
     #[serde(default, skip_serializing_if = "Option::is_none")]

@@ -16,8 +16,8 @@
 use kerotakis_core::{
     species, Equilibrator, Event, ExchangeIon, ExchangeOccupancy, ExchangeSites, Headspace, Kelvin,
     Moles, Phase, Portion, Provenance, SolidSolution, SolidSolutionComponent, SolidSolutionModel,
-    SolutionInfo, SolveError, SpeciesDetail, SpeciesId, SurfaceOccupancy, SurfaceSiteKind,
-    SurfaceSites, SurfaceSorbate, ThermalMode, Vessel,
+    SolutionInfo, SolutionScope, SolveError, SpeciesDetail, SpeciesId, SurfaceOccupancy,
+    SurfaceSiteKind, SurfaceSites, SurfaceSorbate, ThermalMode, Vessel,
 };
 
 #[cfg(feature = "engine")]
@@ -994,6 +994,11 @@ impl PhreeqcEquilibrator {
 #[derive(Clone)]
 struct Problem {
     kgw: f64,
+    /// True when PHREEQC is being asked only for the solvent's
+    /// autoionisation state. Neutral or otherwise unrepresented spectators
+    /// are deliberately absent from the input and must not be rebuilt as if
+    /// the aqueous engine had modelled them.
+    solvent_only: bool,
     /// Element totals in solution, mol.
     totals: Vec<(String, f64)>,
     /// Phases: (name, initial moles, target saturation index).
@@ -1019,6 +1024,87 @@ struct Problem {
     /// involved phases (a dissolving solid puts its elements into solution
     /// even when none started there).
     elements: Vec<String>,
+}
+
+/// Evaluate the water-dissociation relation shipped in PHREEQC's own
+/// database without starting the native solver.
+///
+/// `phreeqc.dat` defines `H2O = OH- + H+` with the six-coefficient
+/// temperature expression below. In a solvent-only problem electroneutrality
+/// gives equal proton and hydroxide activities, so pH is exactly half pKw in
+/// this ideal-dilute limit. A full engine call cannot add another degree of
+/// freedom to that one-equation problem; it only makes routine water setup
+/// hundreds of times more expensive.
+fn water_autoionisation_log_k(temperature_k: f64) -> Option<f64> {
+    if !temperature_k.is_finite() || temperature_k <= 0.0 {
+        return None;
+    }
+    // vendor/iphreeqc/database/phreeqc.dat, aqueous species, OH-.
+    const A: [f64; 6] = [
+        293.29227,
+        0.1360833,
+        -10576.913,
+        -123.73158,
+        0.0,
+        -6.996455e-5,
+    ];
+    let t = temperature_k;
+    let log_k = A[0] + A[1] * t + A[2] / t + A[3] * t.log10() + A[4] / (t * t) + A[5] * t * t;
+    log_k.is_finite().then_some(log_k)
+}
+
+fn characterize_solvent_only(vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
+    let Some(log_k) = water_autoionisation_log_k(vessel.temperature.0) else {
+        return Err(SolveError::NotConverged {
+            solver: "water-autoionisation".to_string(),
+            detail: format!(
+                "the water-dissociation relation is undefined at {:.6} K",
+                vessel.temperature.0
+            ),
+        });
+    };
+    let ph = -0.5 * log_k;
+    let activity = 10.0_f64.powf(-ph);
+    let solvent_kg = partition(vessel).map(|problem| problem.kgw);
+
+    vessel.free_proton = activity * solvent_kg.unwrap_or(0.0);
+    vessel.free_hydroxide = activity * solvent_kg.unwrap_or(0.0);
+    vessel.solution = Some(SolutionInfo {
+        scope: SolutionScope::SolventOnly,
+        solvent_kg,
+        pe: None,
+        redox: Vec::new(),
+        ph,
+        // For equal monovalent H+ and OH-, I = 1/2 (m + m) = m.
+        ionic_strength: activity,
+        species: vec![
+            SpeciesDetail {
+                name: "H+".to_string(),
+                molality: activity,
+                activity,
+            },
+            SpeciesDetail {
+                name: "OH-".to_string(),
+                molality: activity,
+                activity,
+            },
+        ],
+        provenance: Some(Provenance {
+            engine: "Kerotakis analytic equilibrium evaluator".to_string(),
+            dataset: "vendored USGS phreeqc.dat".to_string(),
+            model: "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)"
+                .to_string(),
+            dataset_sources: vec!["USGS PHREEQC thermodynamic database".to_string()],
+            routing: "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory"
+                .to_string(),
+        }),
+    });
+    vessel.refresh_pressure();
+    // This is support state, not a reaction result. The ordinary honesty
+    // rung runs after us and retains ownership of any spectator diagnostics;
+    // an empty event list also prevents coverage from filing routine water
+    // setup as a computed answer.
+    Ok(Vec::new())
 }
 
 #[derive(Clone, Copy, PartialEq, Eq)]
@@ -1477,15 +1563,17 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
         }
     }
 
-    // Nothing dissolved is not a speciation problem, whether or not the vessel
-    // also holds material the adapter cannot name. Declining here is what makes
-    // `unspeciated_solute_notes` the answer for an unrepresented ionic feed
-    // instead of pure water's pH — and building a problem for plain solvent
-    // books a successful *computed chemistry* route that computed nothing,
-    // which the curiosity classifier reads as the whole prompt's answer.
-    if kgw <= 0.0 || solutes == 0 {
+    // Unrepresented acids and ionic solutes must never inherit pure water's
+    // pH. Neutral spectators may: they do not contribute to the acid/base
+    // balance, and the solvent's autoionisation is still a real solution
+    // state. `Problem::solvent_only` keeps that deliberately partial solve
+    // from rebuilding or silencing the unrepresented material.
+    if kgw <= 0.0
+        || (solutes == 0 && (holds_unspeciated_acid(vessel) || holds_unspeciated_solute(vessel)))
+    {
         return None;
     }
+    let solvent_only = solutes == 0;
     append_candidate_phases(vessel, &elements, &mut phases);
     if vessel.owns_headspace_gas() {
         // A finite headspace must admit gases that can form from the
@@ -1580,6 +1668,7 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
     }
     Some(Problem {
         kgw,
+        solvent_only,
         totals,
         phases,
         gases,
@@ -1726,6 +1815,18 @@ impl Equilibrator for PhreeqcEquilibrator {
                 || holds_unspeciated_solute(vessel))
     }
 
+    fn chemistry_applies(&self, vessel: &Vessel) -> bool {
+        // Characterising water's own H+/OH- equilibrium is useful support
+        // state for meters, but it is not an answer that anything in the
+        // beaker reacted. Keep that distinction in the machine-readable
+        // route: coverage must not call an unrelated experiment "computed"
+        // merely because its setup included water.
+        self.applies(vessel)
+            && (partition(vessel).is_some_and(|problem| !problem.solvent_only)
+                || holds_unspeciated_acid(vessel)
+                || holds_unspeciated_solute(vessel))
+    }
+
     /// Solve, and keep solving until the temperature stops moving.
     ///
     /// Solubility depends on temperature and dissolution changes the
@@ -1745,6 +1846,9 @@ impl Equilibrator for PhreeqcEquilibrator {
         // different vessel is a guess, not a memory. The warm start exists
         // for the temperature fixed point *inside* this call.
         self.warm_pe = None;
+        if partition(vessel).is_some_and(|problem| problem.solvent_only) {
+            return characterize_solvent_only(vessel);
+        }
         if let Some(surface) = vessel
             .surfaces
             .iter()
@@ -1964,6 +2068,14 @@ impl Equilibrator for PhreeqcEquilibrator {
         // Both source vessels must be solvable aqueous problems.
         let problem_a = partition(soln_a)?;
         let problem_b = partition(soln_b)?;
+        // Let the ordinary mixed-vessel equilibrium path handle these. It
+        // has a zero-engine fast path when the result is still solvent-only,
+        // while a real solute in the other source still receives a complete
+        // aqueous solve. Native MIX would turn every pour of plain water into
+        // an expensive engine call for no additional information.
+        if problem_a.solvent_only || problem_b.solvent_only {
+            return None;
+        }
 
         // Route both to the same database; refuse if they disagree.
         let needs_extended_a = problem_a
@@ -2034,6 +2146,7 @@ impl Equilibrator for PhreeqcEquilibrator {
         // mixture, not about either source solution.
         let merged_problem = Problem {
             kgw: problem_a.kgw * frac_a + problem_b.kgw * frac_b,
+            solvent_only: false,
             totals: {
                 let mut t: Vec<(String, f64)> = Vec::new();
                 for (el, moles) in &problem_a.totals {
@@ -2188,6 +2301,7 @@ impl Equilibrator for PhreeqcEquilibrator {
 
         events.extend(reference_complex_boundary(vessel, &cached.speciation));
         vessel.solution = Some(SolutionInfo {
+            scope: Default::default(),
             solvent_kg: value("mass_H2O"),
             // MIX itself does not solve the lab's electron-budget root.
             pe: None,
@@ -3993,6 +4107,7 @@ impl PhreeqcEquilibrator {
         events.extend(reference_complex_boundary(vessel, &speciation));
         events.extend(reactive_gas_boundary(vessel, problem));
         let info = SolutionInfo {
+            scope: Default::default(),
             solvent_kg: value("mass_H2O"),
             redox,
             pe: (redox_constrained && pe_determined)
