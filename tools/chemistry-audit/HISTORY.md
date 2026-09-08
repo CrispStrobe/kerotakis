@@ -5,6 +5,28 @@ JSON, NDJSON, stderr, hashes and test logs remain in their evidence directories.
 Counts describe the recorded revision and declared model domain, not universal
 experimental accuracy.
 
+## 2026-09-08 — ammonia catalog promotion and kinetics boundary
+
+The distinct seventh-fleet ammonia comparison is now a live Codex experiment.
+Four sealed flasks vary temperature or water inventory while holding ammonia
+dose and headspace volume fixed. Semantic assertions replay both pressure
+orderings; typed events require headspace partition, gas testing and pressure
+measurement. The computed controls give 0.084 versus 0.346 kPa ammonia partial
+pressure at 10 versus 40 °C, and 0.177 versus 0.036 kPa with 0.10 versus 0.50 L
+water near 25 °C. Damp litmus crosses the existing detection threshold in the
+two higher-headspace cases. Full Codex replay passes 119 entries, and the nine
+new German fields pass the shipped-locale completeness check. The app catalog
+also carries a German title and apparatus label plus 27 line-aligned English
+and German pacing sentences; its catalog and presentation tests pass.
+
+Acid–metal elapsed-time kinetics was reviewed but not fabricated. The current
+hydrogen-overpotential data is a qualitative table near one current density;
+it lacks the surface state, exchange-current/Tafel ranges, mass-transfer limits
+and evolving oxide/deposit state needed to predict time. Published parameters
+vary with those conditions and even with fitting method. No rate constant,
+experiment dispatch or numerical claim was added. The required implementation
+order and acceptance controls remain in `CONTINUATION.md`.
+
 ## 2026-09-08 — coverage tail and seventh fleet
 
 The 500-prompt classifier now gives computed/curated routes precedence over the

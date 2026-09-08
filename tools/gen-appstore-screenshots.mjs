@@ -44,21 +44,22 @@ if (!SOURCE) {
 }
 
 const SCRIPT = ["add v1 water 200mL", "add v1 NaCl 0.1mol", "add v1 AgNO3 0.01mol"];
+const LOCALES = ["en-US", "de-DE"];
 
 /** width/height are CSS pixels; the file is width*scale by height*scale. */
 const SHOTS = [
   {
-    name: "iphone-67-bench.png",
+    family: "iphone-67",
     displayType: "APP_IPHONE_67",
     width: 645, height: 1398, scale: 2, mobile: true,
   },
   {
-    name: "ipad-129-bench.png",
+    family: "ipad-129",
     displayType: "APP_IPAD_PRO_3GEN_129",
     width: 1032, height: 1376, scale: 2, mobile: false,
   },
   {
-    name: "desktop-bench.png",
+    family: "desktop",
     displayType: "APP_DESKTOP",
     width: 1440, height: 900, scale: 2, mobile: false,
   },
@@ -89,56 +90,89 @@ mkdirSync(OUT, { recursive: true });
 const made = [];
 
 try {
-  for (const shot of SHOTS) {
-    await page.cdp.send("Emulation.setDeviceMetricsOverride", {
-      width: shot.width, height: shot.height,
-      deviceScaleFactor: shot.scale, mobile: shot.mobile,
-    }, page.sessionId);
+  for (const locale of LOCALES) {
+    for (const shot of SHOTS) {
+      await page.cdp.send("Emulation.setDeviceMetricsOverride", {
+        width: shot.width, height: shot.height,
+        deviceScaleFactor: shot.scale, mobile: shot.mobile,
+      }, page.sessionId);
 
-    await page.goto(`${origin.replace(/\/$/, "")}/app/`);
-    // The bench is entered directly now, and the `kero>` line is opt-in and
-    // remembered — so ask for it before the app boots, the same way a
-    // reader who turned it on in the utilities menu arrives.
-    await page.evaluate(`localStorage.setItem("kerotakis.console.v1", "shown")`);
-    await page.goto(`${origin.replace(/\/$/, "")}/app/`);
-    const entered = await waitFor(page, `(() => {
-      const chooser = [...document.querySelectorAll('h1, h2')]
-        .some((h) => /Where do you want to work|Wo möchtest du/i.test(h.textContent || ""));
-      return !chooser && !!document.querySelector('main .bench-pane')
-        && !!document.querySelector('form.bar input');
-    })()`, { timeout: 90000 });
-    if (!entered) throw new Error(`${shot.name}: the bench never appeared`);
+      await page.goto(`${origin.replace(/\/$/, "")}/app/`);
+      // Locale and console preference are set before the photographed boot,
+      // exactly as returning readers have them stored on-device.
+      await page.evaluate(`(() => {
+        localStorage.setItem("kerotakis.console.v1", "shown");
+        localStorage.setItem("kerotakis.locale", ${JSON.stringify(locale.split("-")[0])});
+      })()`);
+      await page.goto(`${origin.replace(/\/$/, "")}/app/`);
+      const entered = await waitFor(page, `(() => {
+        const chooser = [...document.querySelectorAll('h1, h2')]
+          .some((h) => /Where do you want to work|Wo möchtest du/i.test(h.textContent || ""));
+        return !chooser && !!document.querySelector('main .bench-pane')
+          && !!document.querySelector('form.bar input')
+          && document.documentElement.lang === ${JSON.stringify(locale.split("-")[0])};
+      })()`, { timeout: 90000 });
+      if (!entered) throw new Error(`${locale} ${shot.family}: the bench never appeared`);
 
-    await waitFor(page, `(() => {
-      const status = document.querySelector('.status');
-      return status && !status.textContent.includes('starting') && !status.textContent.includes('startet');
-    })()`, { timeout: 90000 });
+      await waitFor(page, `(() => {
+        const status = document.querySelector('.status');
+        return status && !status.textContent.includes('starting') && !status.textContent.includes('startet');
+      })()`, { timeout: 90000 });
 
-    for (const line of SCRIPT) await run(line);
+      for (const line of SCRIPT) await run(line);
 
-    const painted = await waitFor(page, `document.querySelectorAll('.bench .vessel').length > 0`,
-                                  { timeout: 90000 });
-    if (!painted) throw new Error(`${shot.name}: the computed vessel scene never painted`);
+      const painted = await waitFor(page, `document.querySelectorAll('.bench .vessel').length > 0`,
+                                    { timeout: 90000 });
+      if (!painted) throw new Error(`${locale} ${shot.family}: the computed vessel scene never painted`);
 
     // A refused command is not an error — the bench says so calmly and
     // carries on. It is, however, the wrong frame to sell the app with.
-    const refused = await page.evaluate(`(() => {
-      const text = document.querySelector('.journal, aside')?.textContent ?? "";
-      return /not yet available|noch nicht verfügbar|cannot|refus/i.test(text);
-    })()`);
-    if (refused) throw new Error(`${shot.name}: the bench refused a command`);
+      const refused = await page.evaluate(`(() => {
+        const text = document.querySelector('.journal, aside')?.textContent ?? "";
+        return /not yet available|noch nicht verfügbar|cannot|refus/i.test(text);
+      })()`);
+      if (refused) throw new Error(`${locale} ${shot.family}: the bench refused a command`);
 
-    const { data } = await page.cdp.send("Page.captureScreenshot",
-      { format: "png", captureBeyondViewport: false }, page.sessionId);
-    const path = join(OUT, shot.name);
-    writeFileSync(path, Buffer.from(data, "base64"));
-    const px = `${shot.width * shot.scale}x${shot.height * shot.scale}`;
-    made.push({ ...shot, path, px });
-    console.log(`   ${path}  ${px}  ${shot.displayType}`);
+      const capture = async (position, subject) => {
+        const { data } = await page.cdp.send("Page.captureScreenshot",
+          { format: "png", captureBeyondViewport: false }, page.sessionId);
+        const name = `${locale}-${shot.family}-${position}-${subject}.png`;
+        const path = join(OUT, name);
+        writeFileSync(path, Buffer.from(data, "base64"));
+        const px = `${shot.width * shot.scale}x${shot.height * shot.scale}`;
+        made.push({ ...shot, name, locale, path, px });
+        console.log(`   ${path}  ${px}  ${shot.displayType}  ${locale}`);
+      };
+
+      // Three honest views of the same computed result demonstrate the
+      // product's central promise: observation, measurement, then model.
+      await capture("01", "observation");
+      await page.evaluate(`(() => {
+        const select = document.querySelector('.dial select');
+        if (!select) throw new Error('no detail-level control');
+        select.value = 'lv2';
+        select.dispatchEvent(new Event('change', { bubbles: true }));
+        if (${shot.mobile}) document.querySelector('nav.tabs button:nth-child(3)')?.click();
+      })()`);
+      await waitFor(page, `document.querySelector('.dial select')?.value === 'lv2'`,
+                    { timeout: 30000 });
+      await new Promise((resolve) => setTimeout(resolve, 750));
+      await capture("02", "measurements");
+
+      await page.evaluate(`(() => {
+        const select = document.querySelector('.dial select');
+        select.value = 'lv3';
+        select.dispatchEvent(new Event('change', { bubbles: true }));
+      })()`);
+      await waitFor(page, `document.querySelector('.dial select')?.value === 'lv3'`,
+                    { timeout: 30000 });
+      await new Promise((resolve) => setTimeout(resolve, 750));
+      await capture("03", "model");
+    }
   }
 
   writeFileSync(join(OUT, "manifest.json"), JSON.stringify(
-    made.map(({ name, displayType, px }) => ({ name, displayType, pixels: px })), null, 2));
+    made.map(({ name, displayType, locale, px }) => ({ name, displayType, locale, pixels: px })), null, 2));
   console.log(`\n   ${made.length} shots, manifest in ${join(OUT, "manifest.json")}`);
 } finally {
   await page.close?.();

@@ -47,7 +47,6 @@ import client  # noqa: E402
 
 HERE = pathlib.Path(__file__).resolve().parent
 META = json.loads((HERE / "metadata.json").read_text())
-LOCALE = META["primaryLocale"]
 APP = META["appId"]
 
 # Which platform's version localisation each display type belongs on.
@@ -62,7 +61,7 @@ PLATFORM_OF = {
 DRY = False
 
 
-def localisation_for(platform: str) -> str | None:
+def localisation_for(platform: str, locale: str) -> str | None:
     """The version localisation a set for this platform hangs off."""
     for v in client.paged(f"/v1/apps/{APP}/appStoreVersions"):
         if v["attributes"]["platform"] != platform:
@@ -70,7 +69,7 @@ def localisation_for(platform: str) -> str | None:
         for loc in client.paged(
             f"/v1/appStoreVersions/{v['id']}/appStoreVersionLocalizations"
         ):
-            if loc["attributes"]["locale"] == LOCALE:
+            if loc["attributes"]["locale"] == locale:
                 return loc["id"]
     return None
 
@@ -168,19 +167,20 @@ def main() -> int:
     root = pathlib.Path(args.directory)
     manifest = json.loads((root / "manifest.json").read_text())
 
-    by_type: dict[str, list[pathlib.Path]] = {}
+    by_type: dict[tuple[str, str], list[pathlib.Path]] = {}
     for entry in manifest:
-        by_type.setdefault(entry["displayType"], []).append(root / entry["name"])
+        locale = entry.get("locale", META["primaryLocale"])
+        by_type.setdefault((locale, entry["displayType"]), []).append(root / entry["name"])
 
     print(f"Kerotakis screenshots ({APP}){' — DRY RUN' if DRY else ''}")
-    for display_type, paths in by_type.items():
+    for (locale, display_type), paths in by_type.items():
         platform = PLATFORM_OF.get(display_type)
         if not platform:
             print(f"   {display_type}: unknown platform mapping — skipped")
             continue
-        loc_id = localisation_for(platform)
+        loc_id = localisation_for(platform, locale)
         if not loc_id:
-            print(f"   {display_type}: no {platform} {LOCALE} localisation — skipped")
+            print(f"   {display_type}: no {platform} {locale} localisation — skipped")
             continue
         sets = existing_sets(loc_id)
         if args.replace and display_type in sets and not DRY:
@@ -190,7 +190,7 @@ def main() -> int:
             sets = existing_sets(loc_id)
         set_id = sets[display_type]["id"] if display_type in sets else (
             "(new)" if DRY else ensure_set(loc_id, display_type, sets))
-        print(f"   {display_type} -> {platform}")
+        print(f"   {display_type} -> {platform} {locale}")
         for path in paths:
             upload_one(set_id, path)
     return 0

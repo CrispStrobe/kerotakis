@@ -1,6 +1,126 @@
 {
   "reactions": [
     {
+      "id": "ammonia-between-water-and-air",
+      "progress": "advanced",
+      "equation": null,
+      "summary": "Water amount and temperature shift ammonia between solution and a finite headspace",
+      "summary_de": "Wassermenge und Temperatur verschieben Ammoniak zwischen Lösung und einem endlichen Gasraum",
+      "concepts": [
+        "chemical-equilibrium",
+        "controlled-comparison",
+        "detection-limit"
+      ],
+      "requires": [
+        "amount-of-substance",
+        "solutions"
+      ],
+      "spine": [],
+      "curriculum": [],
+      "apparatus": [
+        "conical-flask",
+        "stopper",
+        "pressure-gauge",
+        "damp-litmus-paper",
+        "water-bath"
+      ],
+      "calculations": [
+        "concentration"
+      ],
+      "models": [
+        "equilibrium",
+        "particle-model",
+        "measurement-model"
+      ],
+      "setup": {
+        "script": "add v1 water 0.10L @ 10C\nseal v1 0.50L\nadd v1 NH3 0.010mol\ntest v1 litmus\nmeasure v1 pressure\nnew\nadd v2 water 0.10L @ 40C\nseal v2 0.50L\nadd v2 NH3 0.010mol\ntest v2 litmus\nmeasure v2 pressure\nnew\nadd v3 water 0.10L\nseal v3 0.50L\nadd v3 NH3 0.010mol\ntest v3 litmus\nmeasure v3 pressure\nnew\nadd v4 water 0.50L\nseal v4 0.50L\nadd v4 NH3 0.010mol\ntest v4 litmus\nmeasure v4 pressure\ninspect v1\ninspect v2\ninspect v3\ninspect v4\n"
+      },
+      "expect": {
+        "events": [
+          "headspace_partitioned",
+          "gas_tested",
+          "measured"
+        ],
+        "absent": [
+          "solver_failed"
+        ],
+        "predict": {
+          "question": "Each sealed flask receives the same ammonia and has the same headspace. Which changes move more ammonia into that headspace?",
+          "question_de": "Jeder verschlossene Kolben erhält dieselbe Ammoniakmenge und denselben Gasraum. Welche Änderungen bringen mehr Ammoniak in diesen Gasraum?",
+          "options": [
+            "Colder water and more water",
+            "Warmer water and less water"
+          ],
+          "options_de": [
+            "Kälteres Wasser und mehr Wasser",
+            "Wärmeres Wasser und weniger Wasser"
+          ],
+          "answer": 1,
+          "misconception": "Gas solubility is treated as a fixed label on ammonia instead of an equilibrium that depends on solvent amount and temperature.",
+          "misconception_de": "Die Gaslöslichkeit wird als festes Etikett des Ammoniaks behandelt statt als Gleichgewicht, das von Lösungsmittelmenge und Temperatur abhängt.",
+          "diagnosis": [
+            {
+              "option": 0,
+              "reveals": "The direction of gas dissolution and the effect of a larger solvent reservoir have both been reversed.",
+              "reveals_de": "Sowohl die Richtung der Gaslösung als auch die Wirkung eines größeren Lösungsmittelvorrats wurden umgekehrt.",
+              "next": "Compare each matched pair separately: first keep water amount fixed and change temperature, then keep temperature fixed and change water amount.",
+              "next_de": "Vergleiche die beiden passenden Paare getrennt: Halte zuerst die Wassermenge fest und ändere die Temperatur; halte danach die Temperatur fest und ändere die Wassermenge.",
+              "source": null
+            }
+          ]
+        },
+        "ph": null,
+        "temperature_c": null,
+        "assertions": [
+          {
+            "kind": "increasing",
+            "tolerance": 1e-6,
+            "samples": [
+              {
+                "step": "final",
+                "metric": "pressure_kpa",
+                "vessel": "v1"
+              },
+              {
+                "step": "final",
+                "metric": "pressure_kpa",
+                "vessel": "v2"
+              }
+            ]
+          },
+          {
+            "kind": "decreasing",
+            "tolerance": 1e-6,
+            "samples": [
+              {
+                "step": "final",
+                "metric": "pressure_kpa",
+                "vessel": "v3"
+              },
+              {
+                "step": "final",
+                "metric": "pressure_kpa",
+                "vessel": "v4"
+              }
+            ]
+          }
+        ]
+      },
+      "registers": {
+        "lv1": "The warmer flask and the flask with less water leave more ammonia in the air space. Damp litmus responds only when that gas fraction reaches its detection threshold.",
+        "lv1_de": "Der wärmere Kolben und der Kolben mit weniger Wasser lassen mehr Ammoniak im Gasraum. Feuchtes Lackmuspapier reagiert erst, wenn dieser Gasanteil seine Nachweisgrenze erreicht.",
+        "lv2": "The four flasks keep ammonia amount and headspace volume fixed while changing one control at a time. The computed pressure order and the paired litmus outcomes show that warmer water retains less ammonia, whereas a larger water inventory retains more.",
+        "lv2_de": "Die vier Kolben halten Ammoniakmenge und Gasraumvolumen fest und ändern jeweils nur eine Einflussgröße. Die berechnete Druckreihenfolge und die Lackmuspaare zeigen: Wärmeres Wasser hält weniger Ammoniak zurück, eine größere Wassermenge dagegen mehr.",
+        "lv3": "The bench couples aqueous ammonia speciation to a finite-headspace Henry-law partition and then applies a separate curated damp-litmus detection floor. This is an equilibrium and measurement model, not an evaporation-rate prediction; activity corrections outside the reviewed aqueous domain, mass-transfer time and real-strip response are not claimed.",
+        "lv3_de": "Die virtuelle Bank koppelt die wässrige Ammoniakspeziierung an eine Henry-Verteilung mit endlichem Gasraum und wendet danach eine getrennte kuratierte Nachweisgrenze für feuchtes Lackmuspapier an. Dies ist ein Gleichgewichts- und Messmodell, keine Vorhersage der Verdampfungsgeschwindigkeit; Aktivitätskorrekturen außerhalb des geprüften wässrigen Bereichs, Stoffübergangszeiten und das Verhalten realer Teststreifen werden nicht behauptet."
+      },
+      "provenance": {
+        "source": "Original seventh-fleet promotion from generic ammonia partition controls; no source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08.",
+        "licence": null,
+        "computed_by": "Kerotakis aqueous equilibrium, finite-headspace partition and curated damp-litmus threshold; semantic pressure-order checks"
+      }
+    },
+    {
       "id": "strong-base",
       "progress": "starter",
       "equation": "NaOH(s) → Na⁺(aq) + OH⁻(aq)",
