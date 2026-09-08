@@ -3296,7 +3296,21 @@ impl Bench {
                         // solid the registry has no resistivity for is a
                         // missing datum, which is a different refusal from
                         // "no solution here" and is named as one.
-                        None => match crate::conductivity::dry_solid_conductance(v) {
+                        None => if let Some(value) =
+                            crate::conductivity::nonionic_aqueous_conductance(v)
+                        {
+                            events.push(Event::Measured {
+                                vessel: *vessel,
+                                instrument: *instrument,
+                                value,
+                                unit: "µS/cm".to_string(),
+                                note: Some(
+                                    "25 °C limiting-law water baseline from H⁺/OH⁻ autoprotolysis; explicitly nonionic solutes add no charge carriers. Temperature dependence, dissolved CO₂ and trace contamination are outside this ideal blank"
+                                        .to_string(),
+                                ),
+                            });
+                        } else {
+                            match crate::conductivity::dry_solid_conductance(v) {
                             Some(solid) => events.push(Event::Measured {
                                 vessel: *vessel,
                                 instrument: *instrument,
@@ -3326,6 +3340,7 @@ impl Bench {
                                         what: "the conductivity meter reads nothing — no aqueous solution has been characterised".to_string(),
                                     });
                                 }
+                            }
                             }
                         },
                     },

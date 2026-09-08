@@ -308,6 +308,35 @@ pub fn specific_conductance(info: &SolutionInfo) -> Estimate {
     }
 }
 
+/// The 25 °C limiting-law reading for water containing only explicitly
+/// nonionic solutes. Such solutes deliberately have no PHREEQC speciation,
+/// but that must not make a conductivity probe disappear. The water baseline
+/// is derived from 10⁻⁷ mol/L each of H⁺ and OH⁻ and the same limiting ionic
+/// conductivities used by [`specific_conductance`].
+pub fn nonionic_aqueous_conductance(vessel: &Vessel) -> Option<f64> {
+    if vessel.solution.is_some()
+        || vessel.liquid_volume().0 <= 0.0
+        || !vessel.unresolved_materials.is_empty()
+    {
+        return None;
+    }
+    let explicitly_nonionic = vessel.contents.iter().all(|portion| {
+        portion.species.as_str() == "water"
+            || crate::species::lookup_key(portion.species.as_str())
+                .is_some_and(|data| data.dissolves_without_speciation)
+    });
+    explicitly_nonionic.then(|| {
+        let lambda = |name| {
+            LIMITING_CONDUCTIVITY
+                .iter()
+                .find(|(key, _)| *key == name)
+                .expect("H+ and OH- limiting conductivities are curated")
+                .1
+        };
+        (lambda("H+") + lambda("OH-")) * 1e-7 * 1000.0
+    })
+}
+
 /// What the meter reads from a dry solid: the curated resistivity, its
 /// reciprocal, and the citation that has to travel with both.
 ///
