@@ -42,8 +42,17 @@ pub struct CuriosityPrompt {
     pub age_band: AgeBand,
     pub action: ActionFamily,
     pub material_class: String,
-    /// What this prompt must EVENTUALLY be able to answer, and by which
-    /// route — a requirement on the engine, not a prediction of it.
+    /// What this prompt must EVENTUALLY be able to answer — a requirement
+    /// on the engine, not a prediction of it.
+    ///
+    /// It is a FLOOR, not an equality, and it says nothing about the
+    /// route. `coverage::meets_requirement` is where that is enforced and
+    /// argued; the short form is that `Missing` < `Qualitative` <
+    /// `Computed` = `Curated`, that the last two are one grade because
+    /// they are ordered by provenance rather than by quality, and that
+    /// `Boundary` is off the scale and compares only for equality. A row
+    /// required to hand-wave and answered with a Gibbs energy has met its
+    /// requirement.
     ///
     /// Absent means no requirement has been stated, which is a real and
     /// common position: most prompts are questions we would like answered
@@ -142,7 +151,11 @@ pub enum Disposition {
     ///
     /// Checked BEFORE `Computed`, so a prompt whose beaker does both is
     /// recorded as curated. That is a statement about which route carries
-    /// the claim, not about which is better.
+    /// the claim, not about which is better — and since 2026-09-08 the
+    /// grading rule says so out loud: `Curated` and `Computed` are one
+    /// grade when a requirement is checked, and stay two labels
+    /// everywhere the record is DESCRIPTIVE (`by_observed`, and
+    /// `baseline.toml`, which is drift-gated on the distinction).
     Curated,
     /// A typed observation answered: a smell, a gas test, a flame test, an
     /// inert verdict — or, for a handle-and-inspect prompt, an `Observed`

@@ -8,13 +8,51 @@ This is a companion to `tests/coverage/curiosity-v1/README.md`, not a
 replacement. That file is the refresh *log* — 2000 lines, newest first, one
 entry per baseline change, and it is where the reasoning for any individual row
 lives. This file is the standing *analysis*: the shape of the remaining tail,
-which side of each mismatch is wrong, and the order to work them in. When the
-two disagree, the log is the record of what happened and this page is the
-argument about what to do next; fix the argument here.
+which side of each unmet requirement is wrong, and the order to work them in.
+When the two disagree, the log is the record of what happened and this page is
+the argument about what to do next; fix the argument here.
+
+## What the count means, since 2026-09-08
+
+`expected` is a **floor**, not an equality. The field has been declared a
+requirement on the engine since #341, and a requirement is met when it is
+exceeded: a row required to hand-wave that answers with a Gibbs minimisation has
+over-met it, and is not a finding. `computed` and `curated` are **one grade**
+when a requirement is checked, because they are ordered by provenance rather
+than by quality. `boundary` is **off the scale** and compares for equality only.
+
+The metric is therefore `unmet requirements`, and there is no second count. The
+old `expectation mismatches`, which required equality on all four grades, is
+gone — not reported beside this one — so any number quoted from before
+2026-09-08 is under a definition that no longer exists. `coverage.rs`'s
+`meets_requirement` is where the rule and its reasoning live, including the two
+parts that are easy to get wrong:
+
+- **Why `boundary` is not ranked.** It is produced not only by the
+  declared-boundary short circuit but by any `Event::SafetyVeto`. If it sat
+  above `qualitative`, an over-eager veto that swallowed an ordinary
+  dissolution question would satisfy that row's floor and pass in silence.
+  That is the worst regression this bench can have, so no ordering may bless
+  it.
+- **Where the merge stops.** It is in the comparator only. `by_observed` still
+  counts `computed` and `curated` separately and `baseline.toml` still records
+  which one each row took. #511 moved twenty rows between those two grades and
+  was reviewable *because* the baseline records the distinction; merged into
+  the baseline it would have been a zero-diff PR.
+
+**This count is a backlog, not a regression gate.** A floor is blind in one
+direction — a row that requires `qualitative` and computes today still meets its
+floor after falling back to `qualitative`. `baseline.toml` is what catches that,
+per row and at higher fidelity than any grade: it records the exact outcome
+*and* the exact reason code for all 500 rows, and `--check` fails on either
+moving, on every PR. No separate ratchet on the grade is needed, and one would
+only duplicate a subset of that at lower fidelity. Read the two lines together:
+`unmet requirements` says what work is left, `baseline drift` says whether
+anything moved.
 
 ## How these numbers were obtained
 
-Built `kerotakis-cli` at `2d364e0d` (`origin/main`, the merge of #525) and ran
+Built `kerotakis-cli` at `dcd817f7` (`origin/main`, the merge of #541) and ran
 the report without `--check`, which prints the counts and the split that the CI
 gate only ever reduces to an exit code:
 
@@ -23,21 +61,21 @@ cargo run -p kerotakis-cli -- coverage curiosity
 ```
 
 The individual transcripts quoted below are from running the row's own `script`
-through `kero` at the same commit. Nothing here is read off the recorded
-baseline; the baseline is quoted only where it agrees, which it does, exactly.
+through `kero`. Nothing here is read off the recorded baseline; the baseline is
+quoted only where it agrees, which it does, exactly.
 
 ## The fresh numbers
 
 ```
 curiosity curiosity-v1: 500 prompts
-  computed     312
-  curated       43
-  qualitative   82
-  boundary      60
-  missing        3
-  expectation mismatches: 76
-    engine stood aside (corpus claimed it): 2
-    route differs (both answer):           74
+  computed     313
+  curated      43
+  qualitative  82
+  boundary     60
+  missing      2
+  unmet requirements: 22
+    engine stood aside (corpus claimed it): 1
+    answered below the required grade:     21
   solver/runtime failures: 0
   baseline drift: 0
 ```
@@ -46,74 +84,57 @@ curiosity curiosity-v1: 500 prompts
 the route, on every one of the 500 rows, so the gate is measuring the engine
 and not a stale file.
 
-437 of 500 rows produce an answer; 60 more are deliberate refusals that are
+438 of 500 rows produce an answer; 60 more are deliberate refusals that are
 correct to refuse (weaponisation, medical advice, fracture mechanics the bench
-does not model), each with its own reason code. Three rows produce nothing. On
+does not model), each with its own reason code. Two rows produce nothing. On
 the only reading of "covered" that is not self-flattering — *the bench either
-answers or says precisely why it will not* — that is **497 of 500**.
+answers or says precisely why it will not* — that is **498 of 500**.
 
-## Did coverage move today?
+## Did coverage move?
 
-**Yes, once, and only once.** `baseline.toml` was last touched by `57466555`,
-inside **#511** (per-liquid plateaus), which moved twenty rows from
-`computed`/`computed-route` to `curated`/`curated-route` and dropped
-expectation mismatches from 82 to 76. Not one of those twenty gained or lost an
-answer: `qualitative` stayed at 82, `boundary` at 60, `missing` at 3. What
-changed is that `PhaseRouteEquilibrator` now succeeds where it used to decline,
-and it declares itself a curated-kind solver, so the classifier files those
-vessels under the curated branch instead of letting them fall through to the
-computed one. Eight of the twenty stopped being mismatches purely because of
-that relabelling.
+`baseline.toml` was last touched by `57466555`, inside **#511** (per-liquid
+plateaus), which moved twenty rows from `computed`/`computed-route` to
+`curated`/`curated-route`. Not one of those twenty gained or lost an answer:
+`qualitative` stayed at 82 and `boundary` at 60. What changed is that
+`PhaseRouteEquilibrator` now succeeds where it used to decline, and it declares
+itself a curated-kind solver, so the classifier files those vessels under the
+curated branch instead of letting them fall through to the computed one. Under
+the grade defined above that relabelling is invisible to the count, which is
+the point of merging the two.
 
 **Everything merged after #511 moved nothing, and we know that positively
-rather than by assumption.** Thirteen PRs landed after it — #514–#522, #524,
-#525, #497, #512 — and every one of them passed
+rather than by assumption.** Every PR since has passed
 `cargo run -p kerotakis-cli -- coverage curiosity --check` in CI against an
-unchanged `baseline.toml`. A green `--check` on an untouched baseline *is* the
+unchanged `baseline.toml` — including #509 and #541, the Cp(T) heat ledger and
+its difference-form repair, which were the changes most likely to move the
+twenty rows #511 created. A green `--check` on an untouched baseline *is* the
 statement that no row moved.
 
-**#509 (the Cp(T) heat ledger) is still open** and has therefore moved nothing
-on `main`. It is the one to watch: it changes how much energy a `heat` step
-actually spends, which is the input to every phase-route row #511 just created,
-and it had a magnesium-combustion regression. When it lands, the rows to read
-first are the twenty from #511 — if any of them leave `curated`, that is #509's
-ledger disagreeing with the plateau, not a coverage change.
+## The 22: one open question and two named gaps
 
-So the honest answer to "do we cover more now?" is: **not since midday.** The
-count has been flat at 497/500 answered-or-refused since 2026-09-06, and the
-work merged today was breadth in the GUI, i18n and the scene layer rather than
-in the bench's chemistry.
+An unmet requirement is a row whose observed grade is below the floor its
+`expected` declares. It is not a defect count and never was, but it is now a
+short enough list to read row by row, which is the whole reason for the
+definition. Grouped by shape:
 
-## The 76 mismatches: mostly a definition problem, not a defect list
-
-An expectation mismatch is a row whose `expected` in the shard differs from the
-observed outcome. It is not a defect count and never was. Grouped by shape,
-with the actual succeeded solver routes from the JSON report:
-
-| expected → observed | n | what the evidence says |
+| required → observed | n | what the evidence says |
 |---|---|---|
-| qualitative → computed | 26 | 18 have a real succeeded route. **The expectation is wrong.** |
-| computed → qualitative | 15 | 10 have a succeeded *computed-chemistry* route the classifier discarded. **The engine's classifier is wrong.** |
-| computed → curated | 11 | 7 had a computed route succeed *as well*; curated simply wins the race. **The label is wrong.** |
-| curated → computed | 10 | 7 answered by a better road than predicted. **The expectation is wrong.** |
-| qualitative → curated | 7 | all 7 have a curated route. **The expectation is wrong.** |
-| curated → qualitative | 5 | the gas tests: a real curated answer with no route to attribute it to. **The classifier is wrong.** |
-| computed → missing | 2 | `aq-053`, `aq-085`. **The engine is wrong.** |
+| computed → qualitative | 15 | filed `qualitative` by an observation short circuit that never looks at which route succeeded. **The engine's classifier is wrong**, on at least ten of them. |
+| curated → qualitative | 6 | five gas tests and instrument verdicts with no route to attribute the answer to; `bio-062` is the exception and is a real curated gap. |
+| computed → missing | 1 | `aq-085`. **The engine is wrong.** |
 
-The census, so the classes visibly add up: **43** rows are not a defect in
-anything (32 mis-stated expectations plus 11 rows disagreeing about a label that
-carries no quality ordering), **20** are the classifier discarding evidence it
-has already recorded, **2** are real engine gaps, and the remaining **11** are
-honest mismatches resting on the weakest evidence the classifier accepts. Only
-that last group of 13 — the 2 gaps and the 11 weak rows — is a backlog of
-missing chemistry, and one number covering all seven populations cannot be acted
-on, which is what the report's `expectation_split` was already trying to say.
+Twenty of the twenty-two carry reason code `typed-observation`, one
+(`aq-085`) carries `not-yet-modeled`, and one (`bio-062`, esterification)
+carries `qualitative-route`. So the remaining tail is one open question about
+what `Disposition::Qualitative` means, plus two named gaps — which is a far
+better artefact to hand the next person than a number mixing seven populations.
 
-### Where the expectation is wrong — 32 rows
+### The 53 rows that now meet their floor by exceeding it
 
-The corpus predicted a hand-waved answer and got a mechanism. The owner's own
-example is `bio-018`, "Why do oil and vinegar separate into layers?", which
-expects `qualitative` and prints:
+These used to be counted. They are not defects and never were: the corpus
+predicted a hand-waved answer and got a mechanism. The owner's own example is
+`bio-018`, "Why do oil and vinegar separate into layers?", which requires
+`qualitative` and prints:
 
 ```
 v1: two layers — hexane floating on water; mixing them would raise the
@@ -121,20 +142,24 @@ v1: two layers — hexane floating on water; mixing them would raise the
 ```
 
 That is better than `qualitative`, not worse. Same for `th-042` ("will copper
-burn in oxygen?", expected `curated`, answered by a CEA Gibbs minimisation),
+burn in oxygen?", required `curated`, answered by a CEA Gibbs minimisation),
 `th-043` (sulfur, same), `bio-080` (respiration), `mat-089` (acid rain on
-marble) and the seven fire-suppression rows in `qualitative → curated`. None of
-these is a defect in anything. They are a corpus that under-predicted its own
-engine.
+marble) and the seven fire-suppression rows. Twenty more are rows that took the
+curated road where the corpus guessed computed, or the reverse; nobody can
+predict which of the two a vessel takes and nobody should be scored on it.
 
-Eight rows in this group are the exception and should **not** be swept up with
-the rest: `th-029`, `mat-009`, `mat-011`, `mat-088`, `mat-109`, `mat-120`,
-`mat-121`, `bio-076` are `computed` only via `typed-engine-event`, the
-classifier's weakest evidence — "no solver route claimed this vessel, but typed
-events happened, so call it computed". Their disposition flatters them. Leave
-their expectations alone; they are honest mismatches.
+**Eight of them are flattered rather than met, and the floor rule swallows
+that**, which is the one real cost of this definition and is recorded here so
+it is not lost: `th-029`, `mat-009`, `mat-011`, `mat-088`, `mat-109`,
+`mat-120`, `mat-121` and `bio-076` are `computed` only via
+`typed-engine-event`, the classifier's weakest evidence — "no solver route
+claimed this vessel, but typed events happened, so call it computed". Their
+disposition flatters them, and under a floor they pass a `qualitative`
+requirement on that basis. What still watches them is `baseline.toml`: the
+reason code is part of the drift-gated record, so if any of the eight changes
+evidence class, `--check` says so by name.
 
-### Where the classifier is wrong — 20 rows
+### Where the classifier is wrong — 15 rows
 
 `crates/kerotakis-cli/src/coverage.rs` runs two short-circuits *before* it ever
 looks at which solver route succeeded:
@@ -182,58 +207,28 @@ reading with a unit ought to count as quantitative is a real question about what
 `Disposition::Qualitative` means — the enum carries no definition."* It is still
 open, and it is now the largest single item in the tail.
 
-### Where the label is wrong — 11 rows
+### Why `computed` and `curated` are one grade
 
-`computed` and `curated` are not ordered by quality and the repo has now
-documented that twice from opposite directions. `PhaseRouteEquilibrator`
-consults a curated latent heat and produces arithmetic, and declares itself
-`Curated`. `CombustionEquilibrator` reads an equally curated table of heats of
-combustion and declares itself `Computed`. Whichever of the two is
-miscategorised, the corpus cannot be expected to predict which road a vessel
-takes, and eleven rows are mismatches for guessing wrong. Seven of them had a
-computed-chemistry route succeed *as well as* the curated one; they lost a
-precedence race, nothing more.
+`PhaseRouteEquilibrator` consults a curated latent heat and produces
+arithmetic, and declares itself `Curated`. `CombustionEquilibrator` reads an
+equally curated table of heats of combustion and declares itself `Computed`.
+Whichever of the two is miscategorised, the corpus cannot be expected to
+predict which road a vessel takes. Under the old equality rule eleven rows were
+findings for guessing wrong, seven of which had a computed-chemistry route
+succeed *as well as* the curated one and simply lost a precedence race. They
+are not findings now, and the PLAN item asking whether a boil is curated or
+computed is decidable on its merits rather than on its effect on a score.
 
-## The three `missing` rows
+## The two `missing` rows
 
-### `aq-053` — "Does diluted bleach remain alkaline?"
-
-The bench prints, today:
-
-> not yet modelled — bleach (sodium hypochlorite) is dissolved and unspeciated:
-> no thermodynamic database defines a hypochlorite species — searched by name
-> for HClO, ClO-, Cl(1) and the word itself across every .dat vendored with
-> iphreeqc on 2026-09-04, including the ones this lab does not load, and the
-> ClO- matches are all perchlorate.
-
-**That claim is false, and it is shipped to learners.** `vendor/iphreeqc/database/llnl.dat`,
-vendored in this repo, contains:
-
-- line 107 — `Cl(1)     ClO-      0         Cl`, a `SOLUTION_MASTER_SPECIES`
-  for chlorine(+I). Perchlorate is a *different* master species three lines
-  later, `Cl(7)     ClO4-     0         Cl`.
-- line 898 — `Cl- + 0.5 O2 = ClO-`, `log_k -15.1014`, `-delta_H 66.0361 kJ/mol`,
-  with an `-analytic` expansion valid 0–300 °C.
-- line 4493 — `H+ + ClO- = HClO`, `log_k 7.5692`.
-
-That last line is the whole answer to the question. pKa(HOCl) = 7.57, so
-5 mmol of NaOCl in 500 mL hydrolyses to a pH near 10 — **yes, diluted bleach
-remains alkaline**, and the bench has had the constant on disk the entire time.
-The search recorded in `derived.rs` looked at the vendored `.dat` files and
-missed the one that has it; `UNSPECIATED_SOLUTES` and the two test comments
-asserting `NotInAnyDatabase` are wrong on the facts.
-
-This is the **same root cause as the yoghurt gap** the corpus README already
-names — lactate is in `llnl-organics` and that file is not among the four this
-lab loads — and `crates/kerotakis-phreeqc/src/lib.rs` already shows the cheap
-pattern: borrow the single reviewed `log K` from an unloaded llnl file with its
-provenance, without loading the whole database. Two constants close `aq-053`.
-
-**What it needs:** correct the false claim (mandatory, regardless of anything
-else), then either index `llnl.dat` alongside wateq4f/minteq.v4/pitzer in
-`generate-dbindex.rs`, or borrow `H+ + ClO- = HClO, log_k 7.5692` the way the
-lactate work does. Half a day, one row, and it removes a sentence that teaches
-the opposite of the chemistry.
+`aq-053` ("Does diluted bleach remain alkaline?") was the third and closed on
+2026-09-07: the refusal rested on a claim about the shipped databases that was
+never true — `llnl.dat` carries `H+ + ClO- = HClO, log_k 7.5692` — and #530
+borrowed the reviewed couple, so diluted bleach now computes near pH 9.7. The
+evidence and the argument are in the corpus README under "Refresh 2026-09-07 —
+bleach was never a boundary"; what matters here is the shape, because it
+recurs: the row was not blocked by missing chemistry but by a wrong sentence
+about where the chemistry lives.
 
 ### `aq-085` — "Can repeated small hexane extractions remove more iodine than one tiny extraction?"
 
@@ -264,11 +259,20 @@ missing:
    question is comparative. This is the `mat-003`/`mat-006` defect the corpus
    README already identified and it is a corpus change, not an engine one.
 
+**Rewriting the script alone would be a false close.** The `missing` branch
+reads only the *final* step's events, so a script that ends on a `look` rather
+than on the step that carries the apology stops being `missing` without
+anything having been modelled. #329 measured that rule on this exact row and
+declined to ship it — "the layers drained, but the question is whether
+**iodine** partitions, and iodine's dissolution is exactly what is unmodelled".
+The comparative script is worth having; the row should keep reading `missing`
+until a K_D exists.
+
 ### `mat-054` — "Can glass be melted and cooled into a crystal?"
 
-No expectation is declared, so it contributes nothing to the 76. It was
-deliberately moved to `missing` when `heat` gained a source with a temperature
-of its own, and the run shows the bound being enforced honestly:
+No expectation is declared, so it states no requirement and cannot be unmet. It
+was deliberately moved to `missing` when `heat` gained a source with a
+temperature of its own, and the run shows the bound being enforced honestly:
 
 ```
 v1: 100.00 kJ requested; 2.19 kJ delivered, 97.81 kJ undelivered —
@@ -292,34 +296,14 @@ temperature too; today it walks to −273.1 °C and then says it could not.
 
 ## What to do, in order
 
-The ranking is by rows-per-unit-effort, and the first item is worth more than
-everything below it combined.
+The ranking is by rows-per-unit-effort.
 
-### 1. Define the grades. Zero engine work. 76 → 22.
+### 1. Define the grades. Done, 2026-09-08. No row moved.
 
-Two changes to what a mismatch *means*, both of which the repo has already
-argued for in prose without acting on:
-
-- **`computed` and `curated` are one grade.** They are ordered by provenance,
-  not by quality, and the repo has documented from both directions that the
-  boundary is not principled. Merging them removes 21 mismatches that are
-  disagreements about which of two equally good roads a vessel took.
-- **`expected` is a floor, not an equality.** It is already declared to be a
-  *requirement on the engine*. A requirement is met when it is exceeded. A row
-  that was required to be `qualitative` and came back with a Gibbs energy has
-  over-met it. This removes 33 more.
-
-Together: **76 → 22**, and — this is the part worth pausing on — **every one of
-the 22 survivors has reason code `typed-observation` or `not-yet-modeled`.**
-Nothing else is left. The entire remaining tail collapses to one question and
-two known gaps, which is a far better artefact to hand the next person than a
-number that mixes seven populations.
-
-It also makes the `PhaseRouteEquilibrator` question decidable on its merits.
-Today, relabelling it `Computed` is net **−7** on the mismatch count (fixes
-`th-017`, breaks eight rows that declare `expected = "curated"`), so the score
-argues against a change that may well be correct. Under a merged grade it is
-score-neutral, and can be settled as the measurement it is.
+The definition at the top of this page, landed with `baseline drift: 0`, no
+regenerated baseline and 22 rows left open. It is recorded here as done because
+the steps below were sequenced behind it and the sequencing was the argument
+for doing it first.
 
 ### 2. Let a succeeded computed route outrank the observation short-circuits. 22 → 12.
 
@@ -327,23 +311,50 @@ Ten rows — `aq-111`, `aq-112`, `aq-113`, `aq-114`, `aq-115`, `aq-124`,
 `th-081`, `th-090`, `mat-008`, `aq-037` — have a computed-chemistry route
 recorded as `succeeded` in their own report and are filed `qualitative` anyway.
 
-**This must be sequenced after step 1, and that is the whole reason step 1 comes
-first.** Done today, the change moves seven further rows (`aq-116`, `aq-117`,
-`mat-032`, `mat-073`, `mat-087`, `mat-116`, `mat-124`) from `qualitative` to
-`computed`, all of which declare `expected = "qualitative"` — so it breaks seven
-to fix ten, a net of +2, and looks like a bad trade. Under a floor rule those
-seven are no longer breakages, and the same change is worth ten rows at no cost.
-PR #362 tried this ordering once and was closed unmerged for exactly this
-reason; the grade definition is what unblocks it.
+**This was sequenced after step 1, and that was the reason step 1 came first.**
+Under the equality rule the change moved seven further rows (`aq-116`,
+`aq-117`, `mat-032`, `mat-073`, `mat-087`, `mat-116`, `mat-124`) from
+`qualitative` to `computed`, all of which declare `expected = "qualitative"`.
+The ledger there was **nine fixed and seven broken** — not ten, because
+`aq-037` requires `curated` and lands on `computed`, so it is closed by the
+merged grade and not by the classifier — for a net improvement of two, which
+was too small to carry a change of this size. Under the floor rule the seven
+are no longer breakages and the same change is worth ten rows at no cost.
+
+Two cautions, both already measured and both in `coverage.rs`'s own comments,
+because this is the change most likely to be attempted broadly and it should
+not be. Guarding the whole branch with "a computed route succeeded" was tried,
+moved fifteen rows and *raised* the count: for a smell or a gas test the typed
+observation IS the answer, even in a beaker that also ran an aqueous solve, and
+`bio-042` (starch + HCl + heat) and `mat-029` (PET + NaOH + heat) have no
+curated hydrolysis at all, so "the polymer is unchanged" is their answer. The
+change that is worth ten rows is the narrow one against the
+`HandleAndInspect` short circuit, not a general precedence flip.
+
+**This is not what PR #362 attempted.** #362 ("a caveat is not the absence of
+an answer") added `Event::Reacted` to the `NotYetModeled` allow-list; its own
+body records that the count did not change, and the corpus README records why
+it was closed — the same rule also moved `mat-099`, which demonstrates the
+opposite of what its question asks. That is a semantic objection about what a
+row is asking, and no grade definition touches it. #362 is not unblocked by
+step 1 and should not be cited as though it were.
 
 ### 3. The two real data gaps. 12 → 10.
 
-`aq-053` (hypochlorite, above) and `aq-036` (no gaseous ammonia species, so the
-damp-litmus test reads an empty headspace while `smell v1` on the same vessel
-reports "sharp, pungent ammonia" — the divergence is already pinned by
+`aq-036`: no gaseous ammonia species, so the damp-litmus test reads an empty
+headspace while `smell v1` on the same vessel reports "sharp, pungent ammonia".
+The divergence is already pinned by
 `gas_tests.rs::smell_and_gas_test_disagree_about_dissolved_ammonia`, a test
-written to fail once a path from solution to headspace exists). `aq-053` is the
-cheaper of the two and carries the false-claim fix with it.
+written to fail once a path from solution to headspace exists. Note what must
+*not* happen here: giving the gas test a route would file the row `curated` and
+close it on the count while the bench still reports a confident negative on a
+question it cannot see, which is worse than standing aside because nothing
+about it looks like a gap.
+
+`bio-062` ("can ethanol and acetic acid form an ester?") is the other, and it
+is the only row in the 22 whose reason code is `qualitative-route` rather than
+`typed-observation`: a qualitative route answered, and there is no curated
+esterification for it to have taken instead.
 
 ### 4. Give the gas tests and the instruments a route. 10 → 4.
 
@@ -352,29 +363,35 @@ positive`, with sourced thresholds from `kerotakis-core::gas_tests` — that no
 solver route claims, so the classifier can never file them as `curated` however
 the precedence is arranged. `th-086`, `th-087`, `th-088` compute an ideal-gas
 pressure in the vessel rather than in a route, with the same consequence.
-Declaring these as routes is a small, mechanical change and closes six rows.
+Declaring these as routes closes all six, and it should declare what the
+*solver* did rather than synthesising a route for every typed event, or
+`routes` stops being the record of which solver claimed a vessel — and a
+negative gas test would be promoted to `curated` alongside a positive one,
+which is exactly the trap under `aq-036` above.
 
-### 5. Rows whose script cannot ask their question. Corpus work, no engine work.
+### 5. Rows whose script cannot ask their question. 4 → 1. Corpus work, no engine work.
 
-`th-025`, `th-094`, `th-120`, and the comparative rows `mat-003`, `mat-108`,
-`aq-085`. A perfect model answers "how fast"; these questions ask "faster than
+`th-025`, `th-094`, `th-120` — the last three of the 22 that any script change
+can reach — and the comparative rows `mat-003`, `mat-108`, `aq-085`. A perfect
+model answers "how fast"; these questions ask "faster than
 what" and the scripts build one condition. `mat-003` and `mat-006` print
 byte-identical output and only one of them is answered — the difference is
 entirely in the question, and no classifier that reads events can ever see it.
 This is the ceiling on what any classifier change can achieve, and it is worth
-stating before anyone plans a sixth round of them.
+stating before anyone plans a sixth round of them. A rewritten script closes
+the *question*; whether it may also close the *disposition* is the trap under
+`aq-085` above.
 
-### 6. `aq-085`'s partition coefficient, and `mat-054`'s torch.
+### 6. `aq-085`'s partition coefficient, and `mat-054`'s torch. 1 → 0.
 
 Real engine work, one row each, and both are honest about their ceilings — see
 above. Worth doing for the capability, not for the count.
 
 ---
 
-**The single highest-value change is the first one, and it is not an engine
-change at all.** Defining `computed` and `curated` as one grade and `expected`
-as a floor turns a 76-row number that mixes seven populations into a 22-row list
-where every entry is the same open question or a named gap — and it converts the
-classifier fix in step 2 from a losing trade into a winning one. No row moves,
-no baseline is regenerated, and the gate gets strictly harder to satisfy by
-accident.
+**The remaining tail is one question and two gaps.** Twenty of the twenty-two
+open rows are the same argument about whether an instrument reading with a unit
+is quantitative, and that should be settled by deciding what
+`Disposition::Qualitative` IS — not by adjusting the classifier until the count
+looks better, which is the failure the enum's own doc comment exists to make
+harder.

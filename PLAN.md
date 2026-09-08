@@ -36,9 +36,11 @@ appearances or changes scientific behavior.
 - **`tests/coverage/curiosity-v1/README.md`** — the corpus refresh log. It is a
   test artefact, not a planning file; leave it alone.
 - **`docs/CURIOSITY-COVERAGE.md`** — the standing analysis of that corpus: the
-  current numbers, which side of each expectation mismatch is wrong, and the
-  ranked work. Read it before planning off the mismatch count, which mixes
-  seven populations that mean different things.
+  current numbers, which side of each unmet requirement is wrong, and the
+  ranked work. Read its opening section before planning off the count: since
+  2026-09-08 `expected` is a floor rather than an equality, `computed` and
+  `curated` are one grade when a requirement is checked, and the count is a
+  backlog rather than a regression gate — baseline drift is the gate.
 
 ## Localisation is modular by design
 
@@ -1722,11 +1724,13 @@ Open, and small:
       what it produces is arithmetic over a curated parameter, which is
       exactly the shape `CombustionEquilibrator` has and that one declares
       itself `Computed`. Twenty corpus rows moved `computed -> curated` on
-      this alone, and `th-017` ("can ethanol boil before water?") now reads
-      as an expectation mismatch for having been answered better. Changing
-      the kind would move the sublimation and hydrate rows the other way,
-      so it wants its own measurement rather than a rider on someone
-      else's.
+      this alone. That used to make `th-017` ("can ethanol boil before
+      water?") a finding for having been answered better; since the two are
+      one grade when a requirement is checked (2026-09-08) it is not, and
+      the question is decidable on its merits rather than on its effect on
+      a count. Changing the kind would move the sublimation and hydrate
+      rows the other way, so it wants its own measurement rather than a
+      rider on someone else's.
 - [ ] No tin and no glycerol in the registry at all. Tin at 232 °C is the
       soldering-iron melting point a learner is most likely to have met.
 - [ ] The latent heats live in `phase_route.rs` as curated Rust tables
