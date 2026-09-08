@@ -31,20 +31,20 @@ pub(crate) struct CuriosityReport {
     by_material_class: BTreeMap<String, BTreeMap<Disposition, usize>>,
     by_age_band: BTreeMap<AgeBand, BTreeMap<Disposition, usize>>,
     by_owning_task: BTreeMap<String, BTreeMap<Disposition, usize>>,
-    expectation_mismatches: usize,
-    /// WORLD/coverage: the mismatch count split into the three populations
-    /// it conflates. One number cannot be acted on; these three have
-    /// different owners and opposite meanings.
-    expectation_split: ExpectationSplit,
+    unmet_requirements: usize,
+    /// WORLD/coverage: the unmet-requirement count split into the two
+    /// populations it conflates. One number cannot be acted on; these two
+    /// have different owners and opposite meanings.
+    unmet_split: RequirementSplit,
     failures: Vec<PromptFailure>,
     baseline_drift: Vec<BaselineDrift>,
 }
 
-/// "Expectation mismatch" is three different things wearing one label.
+/// An unmet requirement is two different things wearing one label.
 ///
-/// A prompt's `expected` is a REQUIREMENT on the engine: what it must
-/// eventually answer, and by which route. Two populations can fail one, and
-/// they are not the same event, so they are never summed.
+/// A prompt's `expected` is a REQUIREMENT on the engine: the grade its
+/// answer must at least reach. Two populations can fail one, and they are
+/// not the same event, so they are never summed.
 ///
 /// There used to be a third — `engine_gained`, for a corpus that said
 /// `missing` where the engine now answers. It is gone because its cause is
@@ -54,7 +54,7 @@ pub(crate) struct CuriosityReport {
 /// now, so this bucket cannot be reached; what the engine actually does is
 /// the baseline's job, and the baseline is drift-gated.
 #[derive(Debug, Default, Serialize)]
-struct ExpectationSplit {
+struct RequirementSplit {
     /// Corpus claimed an answer; the engine stood aside. Named for what was
     /// OBSERVED, not for a cause: the reason is not established here, and
     /// early evidence says these are not one thing either. A script may
@@ -65,16 +65,19 @@ struct ExpectationSplit {
     /// `not-yet-modeled`. This is the tail worth WORKING, not a count of
     /// missing features.
     engine_stood_aside: usize,
-    /// Both answer, by different routes. Neither is missing; the author
-    /// predicted one road and the engine took another.
-    route_differs: usize,
+    /// The engine answered, and the answer does not reach the grade the
+    /// row requires: a required quantity came back as a hand-wave, or a
+    /// required answer came back as a refusal. NOT a route difference —
+    /// two answers of the same grade by different routes now MEET the
+    /// requirement and are not counted at all.
+    below_required_grade: usize,
 }
 
-impl ExpectationSplit {
+impl RequirementSplit {
     /// Record one unmet requirement. Which population it belongs to is
     /// decided by where `Missing` sits: the engine stood aside if the
-    /// requirement got nothing, and otherwise both answered by different
-    /// roads.
+    /// requirement got nothing, and otherwise it answered below the grade
+    /// the row required.
     fn record(&mut self, required: Disposition, observed: Disposition) {
         debug_assert_ne!(
             required,
@@ -83,7 +86,7 @@ impl ExpectationSplit {
         );
         match (required, observed) {
             (_, Disposition::Missing) => self.engine_stood_aside += 1,
-            _ => self.route_differs += 1,
+            _ => self.below_required_grade += 1,
         }
     }
 }
@@ -222,33 +225,35 @@ pub(crate) fn command(args: &[String], build_stack: fn() -> SolverStack) {
                 report.by_observed[&disposition]
             );
         }
-        println!(
-            "  expectation mismatches: {}",
-            report.expectation_mismatches
-        );
+        println!("  unmet requirements: {}", report.unmet_requirements);
         // Split, because the two are not the same event: one is a
         // capability the corpus asserts and the engine does not have, the
-        // other is both answering by different roads.
+        // other is an answer that does not reach the grade the row asks
+        // for.
         println!(
             "    engine stood aside (corpus claimed it): {}",
-            report.expectation_split.engine_stood_aside
+            report.unmet_split.engine_stood_aside
         );
         println!(
-            "    route differs (both answer):           {}",
-            report.expectation_split.route_differs
+            "    answered below the required grade:     {}",
+            report.unmet_split.below_required_grade
         );
-        // The stood-aside column is the only one with work in it, so it is
-        // the only one worth naming row by row.
-        for result in report
-            .prompts
-            .iter()
-            .filter(|r| r.observed == Disposition::Missing && r.expected.is_some())
-        {
+        // Both columns are backlog now, so both are worth naming row by
+        // row. Under equality this list was seven populations long and
+        // could not be read; under a floor it is short enough that the
+        // reader of a CI log can see the whole tail without re-running 500
+        // prompts to find out which rows it means.
+        for result in report.prompts.iter().filter(|r| {
+            r.expected
+                .is_some_and(|required| !meets_requirement(required, r.observed))
+        }) {
             println!(
-                "      {} [{}] expected {}",
+                "      {} [{}] requires {}, observed {} ({})",
                 result.id,
                 result.owning_task,
-                result.expected.map(disposition_name).unwrap_or("nothing")
+                result.expected.map(disposition_name).unwrap_or("nothing"),
+                disposition_name(result.observed),
+                result.reason_code
             );
         }
         println!("  solver/runtime failures: {}", report.failures.len());
@@ -301,8 +306,8 @@ pub(crate) fn run(
         .into_iter()
         .map(|disposition| (disposition, 0))
         .collect::<BTreeMap<_, _>>();
-    let mut expectation_mismatches = 0;
-    let mut expectation_split = ExpectationSplit::default();
+    let mut unmet_requirements = 0;
+    let mut unmet_split = RequirementSplit::default();
     let mut failures = Vec::new();
     let mut by_action = BTreeMap::new();
     let mut by_material_class = BTreeMap::new();
@@ -333,9 +338,9 @@ pub(crate) fn run(
                 // carried `missing` here and 64 of them counted as
                 // mismatches against a requirement nobody had made.
                 if let Some(required) = result.expected {
-                    if required != result.observed {
-                        expectation_mismatches += 1;
-                        expectation_split.record(required, result.observed);
+                    if !meets_requirement(required, result.observed) {
+                        unmet_requirements += 1;
+                        unmet_split.record(required, result.observed);
                     }
                 }
                 results.push(result);
@@ -354,8 +359,8 @@ pub(crate) fn run(
         by_material_class,
         by_age_band,
         by_owning_task,
-        expectation_mismatches,
-        expectation_split,
+        unmet_requirements,
+        unmet_split,
         failures,
         baseline_drift: Vec::new(),
     })
@@ -829,6 +834,70 @@ fn execute_prompt(
     Ok(result(prompt, observed, reason, routes))
 }
 
+/// Where a disposition sits on the scale a requirement is measured against.
+///
+/// Deliberately a PARTIAL order, in two pieces, and both pieces are load
+/// bearing.
+///
+/// **The scale.** `Missing` < `Qualitative` < a quantified answer. A row
+/// required to say something qualitative and answered with a Gibbs
+/// minimisation has over-met its requirement, not failed it.
+///
+/// **`Computed` and `Curated` share the top rung.** They are ordered by
+/// PROVENANCE, not by quality, and the repo has documented that from both
+/// directions: `PhaseRouteEquilibrator` does arithmetic over a curated
+/// latent heat and declares itself `Curated`, while `CombustionEquilibrator`
+/// reads an equally curated table of heats of combustion and declares itself
+/// `Computed`. A corpus author cannot predict which of the two roads a
+/// vessel takes and should not be scored on guessing. The distinction is
+/// not thereby discarded: `by_observed` still counts the two separately and
+/// `baseline.toml` still records which one each row took, so a row moving
+/// between them is still a reviewable, drift-gated event. It is only the
+/// REQUIREMENT that stops caring.
+///
+/// **`Boundary` is not on the scale at all**, which is why this returns an
+/// `Option`. A correct refusal is not a weaker or a stronger version of a
+/// computed answer; it is an answer to a different question about the row.
+/// Ranking it would be actively unsafe in one direction: `Boundary` is
+/// produced not only by the declared-boundary short circuit at the top of
+/// `execute_prompt` but by any `Event::SafetyVeto`, so an over-eager veto
+/// that swallowed an ordinary dissolution question would satisfy a
+/// `qualitative` floor and pass in silence. That is the worst regression
+/// this bench can have, and no ordering may bless it. Boundary rows are
+/// therefore compared for equality and nothing else.
+fn grade(disposition: Disposition) -> Option<u8> {
+    match disposition {
+        Disposition::Missing => Some(0),
+        Disposition::Qualitative => Some(1),
+        Disposition::Computed | Disposition::Curated => Some(2),
+        Disposition::Boundary => None,
+    }
+}
+
+/// Whether an observation meets the requirement a row declares.
+///
+/// `expected` is a FLOOR, not an equality. The field is already declared to
+/// be a requirement on the engine, and a requirement is met when it is
+/// exceeded.
+///
+/// What this metric is NOT is a regression gate, and the division of labour
+/// matters because a floor is blind in one direction: a row that requires
+/// `qualitative` and computes today would still meet its floor after falling
+/// back to `qualitative`. `baseline.toml` is what catches that, per row and
+/// at higher fidelity than any grade — it records the exact outcome AND the
+/// exact reason code for all 500 rows and `--check` fails on either moving.
+/// So the count below is a BACKLOG ("what work is left") and baseline drift
+/// is the REGRESSION GATE ("did anything move"). A second, weaker ratchet on
+/// the grade would only duplicate a subset of what the baseline already
+/// holds.
+fn meets_requirement(required: Disposition, observed: Disposition) -> bool {
+    match (grade(required), grade(observed)) {
+        (Some(floor), Some(reached)) => reached >= floor,
+        // At least one side is `Boundary`, which is off the scale.
+        _ => required == observed,
+    }
+}
+
 fn result(
     prompt: &CuriosityPrompt,
     observed: Disposition,
@@ -885,18 +954,79 @@ mod tests {
     #[test]
     fn an_unmet_requirement_is_sorted_by_where_missing_sits() {
         use Disposition::*;
-        let mut split = ExpectationSplit::default();
+        let mut split = RequirementSplit::default();
 
         // The corpus required an answer and the engine stands aside. This
         // is the tail worth working.
         split.record(Computed, Missing);
         split.record(Curated, Missing);
 
-        // Both answered, by different roads.
+        // The engine answered, below the grade the row requires.
         split.record(Computed, Qualitative);
 
         assert_eq!(split.engine_stood_aside, 2);
-        assert_eq!(split.route_differs, 1);
+        assert_eq!(split.below_required_grade, 1);
+    }
+
+    #[test]
+    fn a_requirement_is_a_floor_and_an_exceeded_floor_is_met() {
+        use Disposition::*;
+
+        // Exactly met.
+        assert!(meets_requirement(Qualitative, Qualitative));
+        assert!(meets_requirement(Computed, Computed));
+
+        // Over-met. `bio-018` ("why do oil and vinegar separate?") requires
+        // a hand-wave and answers with a Gibbs energy; that is better than
+        // required, not different from required.
+        assert!(meets_requirement(Qualitative, Computed));
+        assert!(meets_requirement(Qualitative, Curated));
+
+        // Under-met, in both of the two shapes that exist. `aq-113`
+        // computes three numbers and is filed `qualitative` by the
+        // observation short circuit; `aq-085` has no partition coefficient
+        // and stands aside.
+        assert!(!meets_requirement(Computed, Qualitative));
+        assert!(!meets_requirement(Curated, Qualitative));
+        assert!(!meets_requirement(Computed, Missing));
+        assert!(!meets_requirement(Qualitative, Missing));
+    }
+
+    #[test]
+    fn computed_and_curated_are_one_grade_in_both_directions() {
+        use Disposition::*;
+
+        // The whole argument for the merge: the two are ordered by
+        // provenance and a corpus author cannot predict which road a
+        // vessel takes. `th-017` ("can ethanol boil before water?")
+        // requires `computed` and is answered by `PhaseRouteEquilibrator`,
+        // which declares itself curated over a curated latent heat.
+        assert!(meets_requirement(Computed, Curated));
+        assert!(meets_requirement(Curated, Computed));
+    }
+
+    #[test]
+    fn boundary_is_off_the_scale_and_compares_only_for_equality() {
+        use Disposition::*;
+
+        // A declared refusal met by a refusal.
+        assert!(meets_requirement(Boundary, Boundary));
+
+        // THE REASON BOUNDARY IS NOT RANKED. `Event::SafetyVeto` files any
+        // row as `Boundary`, so an over-eager veto could swallow an
+        // ordinary question. If `Boundary` outranked `Qualitative` this
+        // would pass in silence, which is the worst regression this bench
+        // can have.
+        assert!(!meets_requirement(Qualitative, Boundary));
+        assert!(!meets_requirement(Computed, Boundary));
+        assert!(!meets_requirement(Curated, Boundary));
+
+        // And the other direction: a row that must refuse is not satisfied
+        // by an answer, however well computed.
+        assert!(!meets_requirement(Boundary, Computed));
+        assert!(!meets_requirement(Boundary, Curated));
+        assert!(!meets_requirement(Boundary, Qualitative));
+        assert!(!meets_requirement(Boundary, Missing));
     }
 
     use super::*;
@@ -944,8 +1074,8 @@ mod tests {
             by_material_class: BTreeMap::new(),
             by_age_band: BTreeMap::new(),
             by_owning_task: BTreeMap::new(),
-            expectation_mismatches: 0,
-            expectation_split: ExpectationSplit::default(),
+            unmet_requirements: 0,
+            unmet_split: RequirementSplit::default(),
             failures: Vec::new(),
             baseline_drift: Vec::new(),
         }

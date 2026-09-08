@@ -14,6 +14,44 @@ it had while it was open, which is why a few numbers appear twice below.
 
 ## 2026-09-08
 
+**Coverage contract**
+
+- **The curiosity grade is a floor, and the previous count is gone.**
+  `expected` has been a requirement on the engine since #341; it is now read
+  as a MINIMUM rather than as an equality, `computed` and `curated` are one
+  grade when a requirement is checked, and `boundary` is off the scale and
+  compares for equality only. The metric was `expectation mismatches`, which
+  required equality on all four grades and stood at **75**; it is now
+  `unmet requirements` and stands at **22**. The old definition was REMOVED
+  rather than reported beside the new one, so no count under it survives
+  anywhere but in these dated entries, which stay as written — the JSON key
+  moved with it (`expectation_mismatches` -> `unmet_requirements`,
+  `route_differs` -> `below_required_grade`) so nothing can read a redefined
+  number under an unchanged name. **No row moved and `baseline drift` is 0**,
+  which is the property that separates a definition change from a
+  classifier change. Why: the two provenance grades are ordered by which
+  solver claimed a vessel and not by quality — `PhaseRouteEquilibrator` does
+  arithmetic over a curated latent heat and calls itself curated,
+  `CombustionEquilibrator` reads an equally curated table and calls itself
+  computed — and a row required to hand-wave that answers with a Gibbs
+  energy has over-met its requirement rather than failed it. The merge is in
+  the comparator only: `by_observed` and `baseline.toml` still record which
+  road each row took, so #511-class relabelling stays reviewable. `boundary`
+  is deliberately NOT ranked, because `Event::SafetyVeto` files any row as
+  `boundary` and an over-eager veto swallowing an ordinary question must
+  never satisfy a `qualitative` floor. No ratchet was added: `baseline.toml`
+  plus `--check` already ratchets every row on exact outcome and exact
+  reason code, on every PR, which is strictly finer than a ratchet on the
+  grade. Two claims in `docs/CURIOSITY-COVERAGE.md` were corrected against
+  the record in the same change — PR **#362** is not the PR that attempted
+  the classifier reordering (it added `Event::Reacted` to the
+  `NotYetModeled` allow-list, its own body records that the count did not
+  move, and it was closed because the rule also moved `mat-099`) and is not
+  unblocked by this; and the ledger for that reordering is **nine fixed and
+  seven broken**, not ten and seven, because `aq-037` requires `curated` and
+  lands on `computed`, which reverses the sign of the document's own
+  conclusion from a losing trade to a two-row improvement
+
 **Engine**
 
 - **#537** — `energy_is_conserved` had gone flaky, and the bound was not the

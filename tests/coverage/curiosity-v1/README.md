@@ -39,6 +39,15 @@ cargo run -p kerotakis-cli -- coverage curiosity --emit-baseline
 Review the diff prompt by prompt, update the applicable `CAP-*`, `EXP-*`, or
 `BRD-*` task, and only then replace the checked-in baseline.
 
+**2026-09-08 — the grade is a floor, and the old count is gone.** NO row
+moved and `baseline drift` is 0; what changed is what the report counts. See
+"How a requirement is graded (2026-09-08)" below, and read it before quoting
+any count from an entry beneath it: every number in this log dated earlier
+than today is under the superseded equality rule, and earlier entries also
+name the assertion by its old symbol `expectation_mismatches`, which is now
+`unmet_requirements`. Those entries stay as written; this log is a record of
+what happened, not a dashboard.
+
 Refreshed 2026-09-07 again (one row, `aq-053`: bleach was never a
 boundary) — see "Refresh 2026-09-07 — bleach was never a boundary", and
 read it before quoting the `missing` count, because what closed the row
@@ -817,7 +826,60 @@ the ones that triage identified as permanent boundaries, scripts that cannot
 reach their question, or the one remaining capability gap (`mat-011`,
 metallic conduction, which needs sourced data the registry does not carry).
 
-## What "expectation mismatch" actually counts (2026-09-02)
+## How a requirement is graded (2026-09-08)
+
+`expected` is a **floor**, not an equality, and the report's number is
+`unmet requirements` — a row whose observed grade is BELOW the floor its
+`expected` declares. There is no second count: the previous metric, which
+required equality on all four grades, was removed in the same change rather
+than reported beside this one, so nothing in this repository now states a
+count under the old definition. The JSON key moved with it,
+`expectation_mismatches` -> `unmet_requirements`, and the split's second
+column `route_differs` -> `below_required_grade`, because two answers of the
+same grade by different routes are exactly what stopped being counted.
+
+The order is PARTIAL, and both pieces are load bearing. `missing` <
+`qualitative` < (`computed` = `curated`); `boundary` is off the scale and
+compares for equality only.
+
+- **`computed` and `curated` are one grade** when a requirement is checked,
+  because they are ordered by provenance and not by quality:
+  `PhaseRouteEquilibrator` does arithmetic over a curated latent heat and
+  declares itself curated, `CombustionEquilibrator` reads an equally curated
+  table and declares itself computed, and no corpus author can predict which
+  road a vessel takes. The merge is in the COMPARATOR ONLY. `by_observed`
+  still counts the two separately and this baseline still records which one
+  each row took — #511 moved twenty rows between them and was reviewable
+  precisely because of that, and merged into the baseline it would have been
+  a zero-diff PR.
+- **`boundary` is not ranked**, and that is a safety property rather than a
+  taxonomy preference. `Disposition::Boundary` is produced not only by the
+  declared-boundary short circuit at the top of `execute_prompt` but by any
+  `Event::SafetyVeto`. Rank it above `qualitative` and an over-eager veto
+  that swallowed an ordinary dissolution question would satisfy that row's
+  floor and pass in silence, which is the worst regression this bench can
+  have.
+- **`missing` meets nothing**, including a `missing` requirement — which
+  `lint` rejects at load anyway.
+
+**This baseline, not the count, is the regression gate.** A floor is blind in
+one direction: a row that requires `qualitative` and computes today still
+meets its floor after falling back to `qualitative`. Fifty-three rows are in
+that position. What catches such a fall is this file, which records the exact
+outcome AND the exact reason code for all 500 rows and is compared on every
+PR — a strictly finer ratchet than any "best grade seen" record on the grade
+could be, which is why no such ratchet was added. Note that under the OLD
+equality rule that same fall made the count go DOWN, so the floor is less
+perverse here, not more.
+
+One consequence worth naming rather than discovering: eight rows
+(`th-029`, `mat-009`, `mat-011`, `mat-088`, `mat-109`, `mat-120`, `mat-121`,
+`bio-076`) are `computed` only via `typed-engine-event`, the classifier's
+weakest evidence, and under a floor they now pass a `qualitative`
+requirement on that basis. Their reason code is part of the drift-gated
+record here, so a change in their evidence class is still caught by name.
+
+## What "expectation mismatch" actually counted (2026-09-02, superseded 2026-09-08)
 
 The summary used to print one number — 151 — and one number here cannot be
 acted on, because it conflates three populations with different owners and

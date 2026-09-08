@@ -21,7 +21,7 @@ fn curiosity_smoke_routes_without_crashing() {
     let report: serde_json::Value =
         serde_json::from_slice(&output.stdout).expect("one JSON coverage report");
     assert_eq!(report["prompts"].as_array().map(Vec::len), Some(16));
-    assert_eq!(report["expectation_mismatches"], 0);
+    assert_eq!(report["unmet_requirements"], 0);
     assert_eq!(report["failures"].as_array().map(Vec::len), Some(0));
     let drift = report["baseline_drift"].as_array().expect("drift array");
     assert!(
@@ -41,12 +41,17 @@ fn curiosity_smoke_routes_without_crashing() {
     // answered, and the note says so at length.
     //
     // No replacement exists. Two `missing` rows are left in the whole
-    // corpus, `aq-085` and `mat-054`, and BOTH carry `expected =
-    // "computed"` — so putting either into the smoke set would trip the
-    // `expectation_mismatches == 0` assertion above, which is the
-    // assertion that says the smoke set holds no open gaps. A `missing`
-    // row that could sit here would have to be one the corpus does not
-    // expect to compute, and there is none.
+    // corpus, `aq-085` and `mat-054`. `aq-085` carries `expected =
+    // "computed"`, so putting it into the smoke set would trip the
+    // `unmet_requirements == 0` assertion above — `missing` is the bottom
+    // of the grade scale and meets no floor, which is the one place the
+    // floor rule of 2026-09-08 is deliberately as strict as the equality
+    // rule it replaced. That assertion is the one that says the smoke set
+    // holds no open gaps. `mat-054` declares no expectation at all, so it
+    // would slip past the assertion while adding a `missing` row that
+    // states nothing about the engine — which is not a gate either. A
+    // `missing` row that could sit here would have to be one the corpus
+    // requires to stay silent, and `lint` rejects those at load.
     //
     // `aq-053` (bleach) used to be named here as the third. It computes
     // as of 2026-09-07: llnl.dat defines the hypochlorite couple and
