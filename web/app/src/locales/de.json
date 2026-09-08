@@ -537,6 +537,14 @@
   "split heat same temperature": "Geteilte Wärme, gleiche Temperatur"
  },
  "messages": {
+  "electrolytes": "Elektrolyte",
+  "experimental controls": "Kontrollversuche",
+  "gas production": "Gasbildung",
+  "gas yield has two limiting reagent axes": "Die Gasausbeute hat zwei Achsen limitierender Reagenzien",
+  "kinetics": "Kinetik",
+  "saline conductivity is intensive": "Die Leitfähigkeit einer Salzlösung ist eine intensive Größe",
+  "sugar is not an electrolyte control": "Zucker ist kein Elektrolyt: Kontrollversuch",
+  "waiting is not a peroxide reaction command": "Warten ist kein Befehl für eine Peroxidreaktion",
   "endpoint is not a full drop": "Der Endpunkt ist kein ganzer Tropfen",
   "equilibrium can run backward": "Ein Gleichgewicht kann sich rückwärts verschieben",
   "three components one cut": "Drei Komponenten, ein Destillat",
