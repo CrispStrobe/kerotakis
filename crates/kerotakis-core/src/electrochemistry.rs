@@ -801,8 +801,17 @@ pub fn resolve_equilibrium_activities<'a>(
             let activity = match requirement.source {
                 ActivitySource::ResolvedAqueous => vessel.resolved_aqueous_activity(&species_id),
                 ActivitySource::OwnedIdealGas => vessel.ideal_gas_activity(&species_id),
-                ActivitySource::StandardStateGas => Some(1.0),
-                ActivitySource::PurePhase => Some(1.0),
+                ActivitySource::StandardStateGas => crate::species::lookup(&species_id)
+                    .filter(|species| species.standard_phase == crate::Phase::Gas)
+                    .map(|_| 1.0),
+                ActivitySource::PurePhase => crate::species::lookup(&species_id)
+                    .filter(|species| {
+                        matches!(
+                            species.standard_phase,
+                            crate::Phase::Solid | crate::Phase::Liquid
+                        )
+                    })
+                    .map(|_| 1.0),
             }
             .ok_or_else(|| ActivityResolutionError {
                 species: requirement.species.to_owned(),
@@ -1498,6 +1507,12 @@ mod tests {
             resolve_equilibrium_activities(&vessel, &reference_hydrogen).unwrap()[0].activity,
             1.0
         );
+        let water_is_not_a_standard_gas = [ActivityRequirement {
+            species: "water",
+            coefficient: 1.0,
+            source: ActivitySource::StandardStateGas,
+        }];
+        assert!(resolve_equilibrium_activities(&vessel, &water_is_not_a_standard_gas).is_err());
 
         vessel.headspace = crate::Headspace::Sealed {
             volume: crate::Liters(1.0),
