@@ -72,7 +72,7 @@ it had while it was open, which is why a few numbers appear twice below.
 - **#543** — a vessel containing only liquid water now receives a computed,
   finite neutral-solution characterization without invoking an external engine;
   the rule is based on solvent identity and phase, not on a lesson or prompt.
-- **`feat/liquid-liquid-extraction`** — added a generic `extract` operator with
+- **#547** — added a generic `extract` operator with
   arbitrary source, receiver, solvent amount and stage count. It uses a reviewed
   distribution coefficient when one exists and otherwise a UNIFAC activity-
   coefficient prediction converted to the concentration convention by solvent

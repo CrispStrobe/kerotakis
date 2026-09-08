@@ -41,7 +41,7 @@ CI, ownership and integration queue is therefore not resumable.
 
 Two gaps recorded by the audit then closed on current main. #543 computes the
 neutral characterization of solvent-only water without an external-engine
-round trip. The `feat/liquid-liquid-extraction` tranche adds the generic staged
+round trip. #547 adds the generic staged
 operator, shared standing/drain partition prediction, reviewed iodine bounds
 and a preserved lesson; `aq-085` is the only curiosity baseline row it moves.
 Persistent solid/water/organic equilibrium beyond the reviewed capacity remains
