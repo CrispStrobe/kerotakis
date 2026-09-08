@@ -8,8 +8,8 @@ use crate::combustion;
 use crate::instrument::InstrumentContract;
 use crate::material::{self, MaterialBasis, MaterialRecipe, MaterialRole};
 use crate::ops::{
-    CentrifugeSeparation, DiscardedPortion, ElutedPeak, Endpoint, Event, Instrument, LogEntry,
-    MaterialComponentAdded, Operator,
+    CentrifugeSeparation, DiscardedPortion, ElutedPeak, Endpoint, Event, ExtractionSplit,
+    Instrument, LogEntry, MaterialComponentAdded, Operator,
 };
 use crate::refusal::{Refusal, Refuses};
 use crate::solve::{
@@ -3051,13 +3051,13 @@ impl Bench {
                 }
             }
             Operator::Drain { from, to } => {
-                self.ensure_destination(*to, &mut events);
                 if from == to {
                     return Err(BenchError::SelfTransfer);
                 }
+                let source = self.vessel(*from)?.clone();
+                self.ensure_destination(*to, &mut events);
                 self.vessel(*to)?;
-                let src = self.vessel_mut(*from)?;
-                let Some((_upper, lower)) = crate::solve::layered_pair(src) else {
+                let Some((_upper, lower)) = crate::solve::layered_pair(&source) else {
                     events.push(Event::NotYetModeled {
                         cause: crate::ops::NotModelledCause::NothingToActOn,
                         vessel: *from,
@@ -3076,22 +3076,30 @@ impl Bench {
                 // stay behind: a stopcock passes liquid, and a solid sitting
                 // in the funnel is a filtration question, not a separation
                 // one.
-                let lower_solvent_moles: f64 = src
+                let lower_solvent_moles: f64 = source
                     .contents
                     .iter()
                     .filter(|p| p.species == lower_id && p.phase == Phase::Liquid)
                     .map(|p| p.moles.0)
                     .sum();
-                let upper_solvent_moles: f64 = src
+                let upper_solvent_moles: f64 = source
                     .contents
                     .iter()
                     .filter(|p| p.species == upper_id && p.phase == Phase::Liquid)
                     .map(|p| p.moles.0)
                     .sum();
-                let t_k = src.temperature.0;
+                let lower_volume_l = species::lookup(&lower_id)
+                    .and_then(|data| data.molar_volume_l_per_mol())
+                    .map(|volume| volume * lower_solvent_moles)
+                    .unwrap_or(0.0);
+                let upper_volume_l = species::lookup(&upper_id)
+                    .and_then(|data| data.molar_volume_l_per_mol())
+                    .map(|volume| volume * upper_solvent_moles)
+                    .unwrap_or(0.0);
+                let t_k = source.temperature.0;
                 let mut partitioned: Vec<(SpeciesId, f64)> = Vec::new();
                 let mut moved: Vec<(SpeciesId, Moles, Phase)> = Vec::new();
-                for p in src.contents.iter() {
+                for p in &source.contents {
                     let is_lower_solvent = p.species == lower_id && p.phase == Phase::Liquid;
                     let dissolved = p.phase == Phase::Aqueous
                         || (p.phase == Phase::Liquid
@@ -3100,20 +3108,45 @@ impl Bench {
                     if is_lower_solvent {
                         moved.push((p.species.clone(), p.moles, p.phase));
                     } else if dissolved {
-                        match partition_groups(&p.species) {
-                            Some(solute) => {
-                                let f = kerotakis_thermo::lle::partition_fraction_lower(
-                                    &solute,
-                                    &water_groups(),
-                                    &hexane_groups(),
-                                    lower_solvent_moles,
-                                    upper_solvent_moles,
-                                    t_k,
-                                );
+                        if let Some(row) = crate::apparatus::partition_coefficient_row(
+                            &p.species, &upper_id, &lower_id,
+                        ) {
+                            if crate::apparatus::partition_coefficient(
+                                &p.species, &upper_id, &lower_id, t_k,
+                            )
+                            .is_none()
+                            {
+                                events.push(Event::NotYetModeled {
+                                    cause: crate::ops::NotModelledCause::ModelBoundary,
+                                    vessel: *from,
+                                    what: format!(
+                                        "the {} {}/{} distribution coefficient is only reviewed at {:.2} K (tolerance +/- {:.2} K); this vessel is at {:.2} K",
+                                        p.species.0,
+                                        upper_id.0,
+                                        lower_id.0,
+                                        row.reference_temperature_k,
+                                        row.temperature_tolerance_k,
+                                        t_k
+                                    ),
+                                });
+                                *disposition = ApplyDisposition::Unchanged;
+                                return Ok(events);
+                            }
+                        }
+                        match partition_k(&p.species, &upper_id, &lower_id, t_k) {
+                            Some(prediction) if lower_volume_l > 0.0 && upper_volume_l > 0.0 => {
+                                let f = crate::apparatus::extract(
+                                    p.moles.0,
+                                    lower_volume_l,
+                                    upper_volume_l,
+                                    prediction.k_organic_over_aqueous,
+                                )
+                                .aqueous_moles
+                                    / p.moles.0;
                                 moved.push((p.species.clone(), Moles(p.moles.0 * f), p.phase));
                                 partitioned.push((p.species.clone(), f));
                             }
-                            None => moved.push((p.species.clone(), p.moles, p.phase)),
+                            Some(_) | None => moved.push((p.species.clone(), p.moles, p.phase)),
                         }
                     }
                 }
@@ -3122,10 +3155,13 @@ impl Bench {
                     .filter(|(s, ..)| *s == lower_id)
                     .map(|(_, m, _)| m.0)
                     .sum::<f64>();
-                for (spec, m, _) in &moved {
-                    src.withdraw(spec, *m);
+                {
+                    let src = self.vessel_mut(*from)?;
+                    for (spec, m, _) in &moved {
+                        src.withdraw(spec, *m);
+                    }
                 }
-                let t_from = src.temperature;
+                let t_from = source.temperature;
                 let dst = self.vessel_mut(*to)?;
                 if matches!(dst.thermal_mode, ThermalMode::Adiabatic) {
                     let t_new = adiabatic_mix_into(dst, t_from, |t| {
@@ -3155,6 +3191,389 @@ impl Bench {
                     to: *to,
                     solvent: lower_id,
                     moles: Moles(solvent_moles),
+                });
+            }
+            Operator::Extract {
+                from,
+                to,
+                solvent,
+                total_solvent,
+                stages,
+            } => {
+                if from == to {
+                    return Err(BenchError::SelfTransfer);
+                }
+                if !total_solvent.0.is_finite() || total_solvent.0 <= 0.0 || *stages == 0 {
+                    return Err(BenchError::NonPositiveAmount);
+                }
+                let solvent_data = species::lookup(solvent)
+                    .ok_or_else(|| BenchError::UnknownSpecies(solvent.clone()))?;
+                if solvent_data.standard_phase != Phase::Liquid {
+                    *disposition = ApplyDisposition::Unchanged;
+                    events.push(Event::NotYetModeled {
+                        cause: crate::ops::NotModelledCause::ModelBoundary,
+                        vessel: *from,
+                        what: format!(
+                            "{} is not a liquid extracting solvent at room conditions",
+                            solvent_data.name
+                        ),
+                    });
+                    return Ok(events);
+                }
+
+                let water = SpeciesId::new("water");
+                let source = self.vessel(*from)?.clone();
+                if crate::solve::layered_pair(&source).is_some() {
+                    *disposition = ApplyDisposition::Unchanged;
+                    events.push(Event::NotYetModeled {
+                        cause: crate::ops::NotModelledCause::ModelBoundary,
+                        vessel: *from,
+                        what: "fresh staged extraction requires one aqueous liquid phase at the start; drain an existing organic layer first"
+                            .to_string(),
+                    });
+                    return Ok(events);
+                }
+                let water_moles: f64 = source
+                    .contents
+                    .iter()
+                    .filter(|portion| portion.species == water && portion.phase == Phase::Liquid)
+                    .map(|portion| portion.moles.0)
+                    .sum();
+                let water_volume_l = species::lookup(&water)
+                    .and_then(|data| data.molar_volume_l_per_mol())
+                    .map(|volume| volume * water_moles)
+                    .unwrap_or(0.0);
+                let organic_volume_l = solvent_data
+                    .molar_volume_l_per_mol()
+                    .map(|volume| volume * total_solvent.0)
+                    .unwrap_or(0.0);
+                if water_volume_l <= 0.0 || organic_volume_l <= 0.0 {
+                    *disposition = ApplyDisposition::Unchanged;
+                    events.push(Event::NotYetModeled {
+                        cause: crate::ops::NotModelledCause::NoSolution,
+                        vessel: *from,
+                        what: "liquid-liquid extraction needs a water phase and a liquid extracting solvent with a known molar volume"
+                            .to_string(),
+                    });
+                    return Ok(events);
+                }
+
+                // Track dissolved and crystalline inventory separately.
+                // A distribution coefficient acts on the first. A solid
+                // can join only when the empirical row also carries a
+                // reviewed aqueous solubility bound.
+                let mut inventory = std::collections::BTreeMap::<SpeciesId, (f64, f64)>::new();
+                for portion in &source.contents {
+                    if portion.moles.0 > 0.0
+                        && portion.species != water
+                        && portion.species != *solvent
+                    {
+                        let entry = inventory.entry(portion.species.clone()).or_default();
+                        if portion.phase == Phase::Aqueous {
+                            entry.0 += portion.moles.0;
+                        } else if portion.phase == Phase::Solid {
+                            entry.1 += portion.moles.0;
+                        }
+                    }
+                }
+                let mut splits = Vec::new();
+                let mut outside = Vec::new();
+                for (solute, (aqueous_moles, solid_moles)) in inventory {
+                    let empirical =
+                        crate::apparatus::partition_coefficient_row(&solute, solvent, &water);
+                    if let Some(row) = empirical {
+                        if crate::apparatus::partition_coefficient(
+                            &solute,
+                            solvent,
+                            &water,
+                            source.temperature.0,
+                        )
+                        .is_none()
+                        {
+                            events.push(Event::NotYetModeled {
+                                cause: crate::ops::NotModelledCause::ModelBoundary,
+                                vessel: *from,
+                                what: format!(
+                                    "the {} {}/water distribution coefficient is only reviewed at {:.2} K (tolerance +/- {:.2} K); this vessel is at {:.2} K",
+                                    solute.0,
+                                    solvent.0,
+                                    row.reference_temperature_k,
+                                    row.temperature_tolerance_k,
+                                    source.temperature.0
+                                ),
+                            });
+                            continue;
+                        }
+                    }
+                    let Some(prediction) =
+                        partition_k(&solute, solvent, &water, source.temperature.0)
+                    else {
+                        if aqueous_moles > 0.0 || solid_moles > 0.0 {
+                            outside.push(solute);
+                        }
+                        continue;
+                    };
+                    let solubility = species::lookup(&solute).and_then(|data| {
+                        data.aqueous_solubility_at(source.temperature.0)
+                            .map(|grams_per_100_ml| grams_per_100_ml * 10.0 / data.molar_mass)
+                    });
+                    let moles = if solid_moles > 0.0 {
+                        if solubility.is_none() {
+                            outside.push(solute);
+                            continue;
+                        }
+                        aqueous_moles + solid_moles
+                    } else {
+                        aqueous_moles
+                    };
+                    if moles <= 0.0 {
+                        continue;
+                    }
+                    let (single, repeated) = if solid_moles > 0.0 {
+                        let limit = solubility.expect("solid inventory was gated on solubility");
+                        let single = crate::apparatus::extract_repeated_with_aqueous_solubility(
+                            moles,
+                            water_volume_l,
+                            organic_volume_l,
+                            prediction.k_organic_over_aqueous,
+                            limit,
+                            1,
+                        );
+                        let repeated = crate::apparatus::extract_repeated_with_aqueous_solubility(
+                            moles,
+                            water_volume_l,
+                            organic_volume_l / f64::from(*stages),
+                            prediction.k_organic_over_aqueous,
+                            limit,
+                            *stages as usize,
+                        );
+                        let (Some(single), Some(repeated)) = (single, repeated) else {
+                            events.push(Event::NotYetModeled {
+                                cause: crate::ops::NotModelledCause::ModelBoundary,
+                                vessel: *from,
+                                what: format!(
+                                    "the {} loading exceeds the reviewed water/{} capacity implied by its {:.6} mol/L aqueous solubility at {:.2} K; a persistent solid/liquid/organic three-phase equilibrium is not yet modelled",
+                                    solute.0,
+                                    solvent.0,
+                                    limit,
+                                    source.temperature.0,
+                                ),
+                            });
+                            continue;
+                        };
+                        (single, repeated)
+                    } else {
+                        (
+                            crate::apparatus::extract(
+                                moles,
+                                water_volume_l,
+                                organic_volume_l,
+                                prediction.k_organic_over_aqueous,
+                            ),
+                            crate::apparatus::extract_repeated(
+                                moles,
+                                water_volume_l,
+                                organic_volume_l / f64::from(*stages),
+                                prediction.k_organic_over_aqueous,
+                                *stages as usize,
+                            ),
+                        )
+                    };
+                    splits.push(ExtractionSplit {
+                        species: solute,
+                        extracted: Moles(repeated.organic_moles),
+                        remaining: Moles(repeated.aqueous_moles),
+                        partition_k: prediction.k_organic_over_aqueous,
+                        single_stage_efficiency: single.efficiency,
+                        staged_efficiency: repeated.efficiency,
+                        model: format!(
+                            "ideal equilibrium stages; fresh equal solvent portions; {}{}",
+                            prediction.model,
+                            if solid_moles > 0.0 {
+                                "; crystalline reservoir replenishes water only to the reviewed saturation concentration"
+                            } else {
+                                ""
+                            }
+                        ),
+                        provenance: prediction.provenance,
+                    });
+                }
+                if splits.is_empty() {
+                    if events.is_empty() || !outside.is_empty() {
+                        events.push(Event::NotYetModeled {
+                            cause: crate::ops::NotModelledCause::NotParameterised,
+                            vessel: *from,
+                            what: format!(
+                                "no reviewed {}/water distribution coefficient for {}",
+                                solvent.0,
+                                if outside.is_empty() {
+                                    "any solute in this vessel".to_string()
+                                } else {
+                                    outside
+                                        .iter()
+                                        .map(|species| species.0.as_str())
+                                        .collect::<Vec<_>>()
+                                        .join(", ")
+                                }
+                            ),
+                        });
+                    }
+                    *disposition = ApplyDisposition::Unchanged;
+                    return Ok(events);
+                }
+                if !outside.is_empty() {
+                    events.push(Event::NotYetModeled {
+                        cause: crate::ops::NotModelledCause::NotParameterised,
+                        vessel: *from,
+                        what: format!(
+                            "the extraction moved the supported solutes, but has no reviewed {}/water distribution coefficient for {}",
+                            solvent.0,
+                            outside
+                                .iter()
+                                .map(|species| species.0.as_str())
+                                .collect::<Vec<_>>()
+                                .join(", ")
+                        ),
+                    });
+                }
+
+                let mut probe = source.clone();
+                probe.deposit(solvent.clone(), *total_solvent, Phase::Liquid);
+                match screen.assess(&probe) {
+                    SafetyVerdict::Allow => {}
+                    SafetyVerdict::Warn {
+                        severity,
+                        rule,
+                        hazard,
+                        real_world,
+                    } => events.push(Event::HazardWarning {
+                        severity,
+                        rule,
+                        hazard,
+                        real_world,
+                    }),
+                    SafetyVerdict::Veto { reason } => {
+                        events.push(Event::SafetyVeto { reason });
+                        *disposition = ApplyDisposition::Unchanged;
+                        return Ok(events);
+                    }
+                }
+                if let Ok(existing) = self.vessel(*to) {
+                    let mut receiver_probe = existing.clone();
+                    receiver_probe.deposit(solvent.clone(), *total_solvent, Phase::Liquid);
+                    for split in &splits {
+                        receiver_probe.deposit(
+                            split.species.clone(),
+                            split.extracted,
+                            Phase::Aqueous,
+                        );
+                    }
+                    match screen.assess(&receiver_probe) {
+                        SafetyVerdict::Allow => {}
+                        SafetyVerdict::Warn {
+                            severity,
+                            rule,
+                            hazard,
+                            real_world,
+                        } => {
+                            if !events.iter().any(
+                                |event| matches!(event, Event::HazardWarning { rule: seen, .. } if seen == &rule),
+                            ) {
+                                events.push(Event::HazardWarning {
+                                    severity,
+                                    rule,
+                                    hazard,
+                                    real_world,
+                                });
+                            }
+                        }
+                        SafetyVerdict::Veto { reason } => {
+                            events.push(Event::SafetyVeto { reason });
+                            *disposition = ApplyDisposition::Unchanged;
+                            return Ok(events);
+                        }
+                    }
+                }
+                // Refusals above are atomic: a command that cannot be
+                // computed must not leave behind even an empty receiver.
+                // A broken target is not creatable, so detect that before
+                // consuming stock; every other absent target can safely be
+                // materialised after the stock draw succeeds.
+                if !self.vessels.iter().any(|vessel| vessel.id == *to)
+                    && self.broken_vessels.contains(to)
+                {
+                    return Err(BenchError::NoSuchVessel(*to));
+                }
+                if let Err(refusal) = self.stock.draw(&solvent.0, total_solvent.0) {
+                    events.push(stock_refusal_event(&solvent.0, refusal));
+                    *disposition = ApplyDisposition::Unchanged;
+                    return Ok(events);
+                }
+                self.ensure_destination(*to, &mut events);
+
+                let source_temperature = source.temperature;
+                let contact_temperature = if matches!(source.thermal_mode, ThermalMode::Adiabatic) {
+                    adiabatic_mix_into(&source, Kelvin::STANDARD, |temperature| {
+                        portions_enthalpy(
+                            [(solvent, total_solvent.0, Phase::Liquid)],
+                            Kelvin::STANDARD.0,
+                            temperature,
+                        )
+                    })
+                } else {
+                    source_temperature
+                };
+                if (contact_temperature.0 - source_temperature.0).abs() > 1e-9 {
+                    events.push(Event::TemperatureChanged {
+                        vessel: *from,
+                        from: source_temperature,
+                        to: contact_temperature,
+                    });
+                }
+                {
+                    let src = self.vessel_mut(*from)?;
+                    src.temperature = contact_temperature;
+                    for split in &splits {
+                        src.withdraw(&split.species, Moles(split.extracted.0 + split.remaining.0));
+                        src.deposit(split.species.clone(), split.remaining, Phase::Aqueous);
+                    }
+                }
+                let incoming = std::iter::once((solvent, total_solvent.0, Phase::Liquid)).chain(
+                    splits
+                        .iter()
+                        .map(|split| (&split.species, split.extracted.0, Phase::Aqueous)),
+                );
+                let receiver_temperature = {
+                    let dst = self.vessel(*to)?;
+                    if matches!(dst.thermal_mode, ThermalMode::Adiabatic) {
+                        adiabatic_mix_into(dst, contact_temperature, |temperature| {
+                            portions_enthalpy(incoming.clone(), contact_temperature.0, temperature)
+                        })
+                    } else {
+                        dst.temperature
+                    }
+                };
+                {
+                    let dst = self.vessel_mut(*to)?;
+                    dst.temperature = receiver_temperature;
+                    dst.deposit_lot(
+                        solvent.clone(),
+                        *total_solvent,
+                        Phase::Liquid,
+                        Some("fresh extracting solvent".to_string()),
+                        None,
+                    );
+                    for split in &splits {
+                        dst.deposit(split.species.clone(), split.extracted, Phase::Aqueous);
+                    }
+                }
+                events.push(Event::Extracted {
+                    from: *from,
+                    to: *to,
+                    solvent: solvent.clone(),
+                    total_solvent: *total_solvent,
+                    stages: *stages,
+                    solutes: splits,
                 });
             }
             Operator::Wait { seconds } => {
@@ -5423,7 +5842,8 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         | Operator::Filter { from, to }
         | Operator::Magnet { from, to }
         | Operator::Distil { from, to, .. }
-        | Operator::Drain { from, to } => vec![*from, *to],
+        | Operator::Drain { from, to }
+        | Operator::Extract { from, to, .. } => vec![*from, *to],
         Operator::Mix { a, b, into, .. } => vec![*a, *b, *into],
         Operator::Grind { vessel, .. }
         | Operator::Centrifuge { vessel, .. }
@@ -5554,6 +5974,60 @@ pub(crate) fn partition_groups(
         _ => return None,
     }
     Some(g)
+}
+
+pub(crate) struct PartitionPrediction {
+    pub k_organic_over_aqueous: f64,
+    pub model: &'static str,
+    pub provenance: String,
+}
+
+/// A direction-safe coefficient shared by every liquid/liquid operation.
+/// Empirical rows win where molecular group decomposition would be fiction;
+/// otherwise UNIFAC computes the infinite-dilution coefficient from the
+/// curated structure groups.
+pub(crate) fn partition_k(
+    solute: &SpeciesId,
+    organic_solvent: &SpeciesId,
+    aqueous_solvent: &SpeciesId,
+    temperature_k: f64,
+) -> Option<PartitionPrediction> {
+    if let Some(row) = crate::apparatus::partition_coefficient(
+        solute,
+        organic_solvent,
+        aqueous_solvent,
+        temperature_k,
+    ) {
+        return Some(PartitionPrediction {
+            k_organic_over_aqueous: row.k_organic_over_aqueous,
+            model: "constant dilute-solution distribution coefficient",
+            provenance: row.source.to_string(),
+        });
+    }
+    if organic_solvent.0 != "hexane" || aqueous_solvent.0 != "water" {
+        return None;
+    }
+    let groups = partition_groups(solute)?;
+    let mole_fraction_ratio =
+        kerotakis_thermo::lle::infinite_dilution_gamma(&groups, &water_groups(), temperature_k)
+            / kerotakis_thermo::lle::infinite_dilution_gamma(
+                &groups,
+                &hexane_groups(),
+                temperature_k,
+            );
+    // UNIFAC gives an infinite-dilution mole-fraction ratio. The extraction
+    // operator consumes a concentration ratio, so convert with the pure
+    // solvent molar concentrations. This makes the volume formula exactly
+    // agree with the existing equal-activity mole-balance formula.
+    let water_molar_volume = species::lookup(aqueous_solvent)?.molar_volume_l_per_mol()?;
+    let organic_molar_volume = species::lookup(organic_solvent)?.molar_volume_l_per_mol()?;
+    let k = mole_fraction_ratio * water_molar_volume / organic_molar_volume;
+    (k.is_finite() && k > 0.0).then(|| PartitionPrediction {
+        k_organic_over_aqueous: k,
+        model: "UNIFAC infinite-dilution activity-coefficient ratio converted from mole-fraction to concentration basis with solvent molar volumes",
+        provenance: "Fredenslund, Jones & Prausnitz, AIChE Journal 21(6), 1086-1099 (1975); curated water/hexane and solute group decompositions"
+            .to_string(),
+    })
 }
 
 pub(crate) fn water_groups() -> kerotakis_thermo::unifac::GroupDecomposition {

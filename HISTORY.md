@@ -75,6 +75,32 @@ it had while it was open, which is why a few numbers appear twice below.
   condensation reports the curated latent-heat phase route that actually
   answered it (`th-097`). No unrelated baseline was regenerated.
 
+**Separation and solution behavior**
+
+- **#543** — a vessel containing only liquid water now receives a computed,
+  finite neutral-solution characterization without invoking an external engine;
+  the rule is based on solvent identity and phase, not on a lesson or prompt.
+- **#547** — added a generic `extract` operator with
+  arbitrary source, receiver, solvent amount and stage count. It uses a reviewed
+  distribution coefficient when one exists and otherwise a UNIFAC activity-
+  coefficient prediction converted to the concentration convention by solvent
+  molar volumes. Repeated equal portions use a closed-form mass balance, so the
+  cost does not grow with the requested stage count; every refusal is atomic.
+  A reviewed 25 °C iodine/water solubility point bounds crystalline-reservoir
+  replenishment, and loadings that require an unsupported persistent
+  solid/water/organic equilibrium stand aside explicitly. Standing layer
+  readouts, drain and extraction now share the same partition calculation.
+  The new `repeated-liquid-extraction.lab` lesson preserves the same-total-
+  solvent comparison, moving `aq-085` from missing to computed and leaving the
+  other 499 curiosity rows unchanged. A live run also exposed and removed a
+  false safety warning: molecular iodine is no longer treated as a
+  permanganate-strength oxidizer when mixed with hexane or iodide. Rebuilt CI
+  then exposed a shared grammar hole: non-finite amounts could enter any
+  amount-bearing operator. The common amount parser now rejects both
+  non-finite input and conversion overflow before an operator can be logged;
+  the preserved lesson's derived title also has a German shell-vocabulary
+  entry.
+
 **Coverage contract**
 
 - **The curiosity grade is a floor, and the previous count is gone.**

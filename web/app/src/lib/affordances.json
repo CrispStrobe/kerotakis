@@ -18,6 +18,7 @@
   "evaporate": "Apparatus form: evaporating dish",
   "decant": "Transfer tool with fraction chips (25/50/75/100%)",
   "drain": "Transfer tool: tap source, tap target",
+  "extract": "planned:GUI-033 — separatory-funnel form needs source, receiver, extracting solvent, total solvent amount and fresh-portion count",
   "distil": "Two-vessel tool: still (tap source, tap receiver; fraction chips)",
   "measure": "Instrument tray in the Inspector (every instrument the parser accepts, incl. UV-Vis, the density meter and eyes)",
   "chromatograph": "Instrument tray in the Inspector",

@@ -3228,6 +3228,7 @@
   },
   {
     "appearance": "dark violet crystals",
+    "aqueous_solubility_g_per_100_ml": 0.03393,
     "colour": {
       "b": 61,
       "g": 27,
@@ -3236,7 +3237,7 @@
     },
     "density": 4.933,
     "dissolution_enthalpy_kj": null,
-    "dissolves_without_speciation": false,
+    "dissolves_without_speciation": true,
     "flame_colour": null,
     "forms_only_above_k": null,
     "formula": "I2",

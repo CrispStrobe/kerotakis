@@ -40,6 +40,7 @@ pub const VERBS: &[(&str, &str)] = &[
     ("evaporate", "evaporate v1 0.5"),
     ("decant", "decant v1 v2 0.5"),
     ("drain", "drain v1 v2"),
+    ("extract", "extract v1 v2 hexane 0.5mol stages 4"),
     ("distil", "distil v1 v2 0.5"),
     ("measure", "measure v1 ph"),
     ("chromatograph", "chromatograph v1"),
@@ -1042,6 +1043,40 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
                 to: parse_vessel(words[2])?,
             }
         }
+        "extract" => {
+            if words.len() < 5 {
+                return Err(
+                    "usage: extract <from> <to> <solvent> <total-amount><mol|g|mL> [stages <n>]"
+                        .into(),
+                );
+            }
+            let solvent = SpeciesId::new(words[3]);
+            let data = species::lookup(&solvent)
+                .ok_or_else(|| format!("unknown species '{}'", words[3]))?;
+            let total_solvent = parse_amount(words[4], data)?;
+            let stages = if words.len() == 5 {
+                1
+            } else if words.len() == 7 && words[5] == "stages" {
+                words[6]
+                    .parse::<u32>()
+                    .map_err(|_| format!("bad stage count '{}'", words[6]))?
+            } else {
+                return Err(
+                    "usage: extract <from> <to> <solvent> <total-amount><mol|g|mL> [stages <n>]"
+                        .into(),
+                );
+            };
+            if stages == 0 {
+                return Err("extraction needs at least one stage".into());
+            }
+            Operator::Extract {
+                from: parse_vessel(words[1])?,
+                to: parse_vessel(words[2])?,
+                solvent,
+                total_solvent,
+                stages,
+            }
+        }
         "distil" | "distill" => {
             if words.len() < 4 {
                 return Err(
@@ -1456,7 +1491,8 @@ pub fn parse_vessel(word: &str) -> Result<VesselId, String> {
 /// `0.5mol`, `10g`, `100mL` (unit required, so units are never guessed).
 pub fn parse_amount(word: &str, data: &SpeciesData) -> Result<Moles, String> {
     let (value, unit) = split_unit(word)?;
-    match unit {
+    finite(value, "amount")?;
+    let amount = match unit {
         "mol" => Ok(Moles(value)),
         // Household amounts. A child does not weigh things in grams, and
         // demanding they do is the fastest way to lose them. These are
@@ -1472,7 +1508,13 @@ pub fn parse_amount(word: &str, data: &SpeciesData) -> Result<Moles, String> {
         other => Err(format!(
             "unknown amount '{other}' — try g, mL, L, mol, or a kitchen measure: spoon, pinch, cup, splash, drop"
         )),
-    }
+    }?;
+    // A finite input can still overflow while converting a mass, volume or
+    // kitchen measure to moles. Reject that at the grammar boundary too: every
+    // operator containing an amount must remain serializable before it can
+    // reach the bench or its saved log.
+    finite(amount.0, "amount")?;
+    Ok(amount)
 }
 
 /// Convert a user amount into a recipe's declared basis. Mass-fraction

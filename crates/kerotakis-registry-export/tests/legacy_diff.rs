@@ -647,6 +647,7 @@ fn compare_model_parameters(
     phase: Phase,
     source_id: &str,
 ) {
+    const IODINE_WATER_SOURCE: &str = "literature/hartley-campbell-iodine-water";
     let dissolves = parameter(
         document,
         &format!("dissolves-without-speciation/{}", species.key),
@@ -660,19 +661,44 @@ fn compare_model_parameters(
         }
     );
     assert_eq!(dissolves.quantity.uncertainty, Uncertainty::Exact);
-    assert_eq!(dissolves.quantity.source_id, source_id);
+    if species.key == "I2" {
+        assert_eq!(dissolves.quantity.source_id, IODINE_WATER_SOURCE);
+        assert!(matches!(dissolves.quantity.method, Method::Curated(_)));
+    } else {
+        assert_eq!(dissolves.quantity.source_id, source_id);
+    }
 
     match species.aqueous_solubility_g_per_100_ml {
         Some(value) => {
             let solubility = parameter(document, &format!("aqueous-solubility/{}", species.key));
-            assert_imported_quantity(
-                &solubility.quantity,
-                value,
-                "g/100mL",
-                Dimension::MassConcentration,
-                phase,
-                source_id,
-            );
+            if species.key == "I2" {
+                assert_eq!(solubility.quantity.value, value);
+                assert_eq!(solubility.quantity.unit.symbol, "g/100mL");
+                assert_eq!(
+                    solubility.quantity.unit.dimension,
+                    Dimension::MassConcentration
+                );
+                assert_eq!(solubility.quantity.conditions.phase, Some(phase));
+                let temperature = solubility
+                    .quantity
+                    .conditions
+                    .temperature
+                    .as_ref()
+                    .expect("reviewed iodine solubility states its temperature");
+                assert_eq!((temperature.lower, temperature.upper), (298.15, 298.15));
+                assert_eq!(solubility.quantity.uncertainty, Uncertainty::NotReported);
+                assert_eq!(solubility.quantity.source_id, IODINE_WATER_SOURCE);
+                assert!(matches!(solubility.quantity.method, Method::Curated(_)));
+            } else {
+                assert_imported_quantity(
+                    &solubility.quantity,
+                    value,
+                    "g/100mL",
+                    Dimension::MassConcentration,
+                    phase,
+                    source_id,
+                );
+            }
         }
         None => assert_missing_parameter(document, &format!("aqueous-solubility/{}", species.key)),
     }

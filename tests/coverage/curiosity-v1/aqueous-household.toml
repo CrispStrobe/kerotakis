@@ -1001,14 +1001,14 @@ smoke = false
 
 [[prompt]]
 id = "aq-085"
-question = "Can repeated small hexane extractions remove more iodine than one tiny extraction?"
+question = "With the same total hexane, can repeated small extractions remove more iodine than one extraction?"
 age_band = "age16_to18"
 action = "separate"
 material_class = "solvent-extraction"
 expected = "computed"
 owning_task = "EXP-18"
 tags = ["partitioning"]
-script = ["new", "add v1 water 2mol", "add v1 hexane 0.5mol", "add v1 I2 0.001mol", "drain v1 v2"]
+script = ["new", "add v1 water 2mol", "add v1 I2 0.001mol", "extract v1 v2 hexane 0.5mol stages 4"]
 smoke = false
 
 [[prompt]]

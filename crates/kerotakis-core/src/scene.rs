@@ -477,22 +477,39 @@ fn standing_partition(vessel: &Vessel) -> Vec<ScenePartition> {
         if !matches!(portion.phase, Phase::Aqueous | Phase::Liquid) {
             continue;
         }
-        if crate::bench::partition_groups(&portion.species).is_some() {
-            *solutes.entry(portion.species.0.clone()).or_default() += portion.moles.0;
-        }
+        *solutes.entry(portion.species.0.clone()).or_default() += portion.moles.0;
     }
+    let lower_id = crate::SpeciesId::new(lower);
+    let upper_id = crate::SpeciesId::new(upper);
+    let Some(lower_volume_l) = crate::species::lookup(&lower_id)
+        .and_then(|data| data.molar_volume_l_per_mol())
+        .map(|volume| volume * lower_solvent_moles)
+    else {
+        return Vec::new();
+    };
+    let Some(upper_volume_l) = crate::species::lookup(&upper_id)
+        .and_then(|data| data.molar_volume_l_per_mol())
+        .map(|volume| volume * upper_solvent_moles)
+    else {
+        return Vec::new();
+    };
     solutes
         .into_iter()
         .filter_map(|(species, total_moles)| {
-            let groups = crate::bench::partition_groups(&crate::SpeciesId::new(&species))?;
-            let fraction_lower = kerotakis_thermo::lle::partition_fraction_lower(
-                &groups,
-                &crate::bench::water_groups(),
-                &crate::bench::hexane_groups(),
-                lower_solvent_moles,
-                upper_solvent_moles,
+            let prediction = crate::bench::partition_k(
+                &crate::SpeciesId::new(&species),
+                &upper_id,
+                &lower_id,
                 vessel.temperature.0,
-            );
+            )?;
+            let fraction_lower = crate::apparatus::extract(
+                total_moles,
+                lower_volume_l,
+                upper_volume_l,
+                prediction.k_organic_over_aqueous,
+            )
+            .aqueous_moles
+                / total_moles;
             Some(ScenePartition {
                 species,
                 lower_solvent: lower.to_string(),
@@ -501,8 +518,8 @@ fn standing_partition(vessel: &Vessel) -> Vec<ScenePartition> {
                 lower_moles: total_moles * fraction_lower,
                 upper_moles: total_moles * (1.0 - fraction_lower),
                 fraction_lower,
-                boundary: "instant equal-activity equilibrium at the current temperature and layer amounts; neutral curated UNIFAC solutes only, with no mass-transfer rate, emulsion, interface geometry, ion partition, or concentration-dependent solute interaction".to_string(),
-                provenance: "UNIFAC infinite-dilution activity coefficients: Fredenslund, Jones & Prausnitz, AIChE Journal 21(6), 1086–1099 (1975); curated water/hexane and solute group decompositions".to_string(),
+                boundary: format!("instant equal-activity equilibrium at the current temperature and layer volumes; neutral dilute solutes only, with no mass-transfer rate, emulsion, interface geometry, ion partition, or concentration-dependent solute interaction; {}", prediction.model),
+                provenance: prediction.provenance,
             })
         })
         .collect()

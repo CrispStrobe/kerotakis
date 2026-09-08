@@ -509,8 +509,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "aq-085"
 owning_task = "EXP-18"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "aq-086"

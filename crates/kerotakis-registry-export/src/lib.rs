@@ -395,6 +395,7 @@ pub fn export_current_registry() -> Result<RegistryDocument, String> {
     ))
     .map_err(|error| error.to_string())?;
     const BASIS: &str = "kerotakis/aqueous-basis-v1";
+    const REVIEWED_PARAMETER_SOURCES: &[&str] = &["literature/hartley-campbell-iodine-water"];
     for record in reviewed
         .identities
         .iter()
@@ -434,9 +435,30 @@ pub fn export_current_registry() -> Result<RegistryDocument, String> {
             *out = record.clone();
         }
     }
+    // Scalar properties newly reviewed after the legacy table was retired
+    // keep their source and method from the source contract. The runtime
+    // SpeciesData projection intentionally has no per-field provenance, so
+    // exporting it alone would otherwise relabel the value as a legacy fact.
+    for record in reviewed
+        .model_parameters
+        .iter()
+        .filter(|record| REVIEWED_PARAMETER_SOURCES.contains(&record.quantity.source_id.as_str()))
+    {
+        if let Some(out) = document
+            .model_parameters
+            .iter_mut()
+            .find(|candidate| candidate.id == record.id)
+        {
+            *out = record.clone();
+        } else {
+            document.model_parameters.push(record.clone());
+        }
+    }
     document
         .sources
-        .extend(reviewed.sources.into_iter().filter(|s| s.id == BASIS));
+        .extend(reviewed.sources.into_iter().filter(|source| {
+            source.id == BASIS || REVIEWED_PARAMETER_SOURCES.contains(&source.id.as_str())
+        }));
     document.validate().map_err(|error| error.to_string())?;
     Ok(document)
 }

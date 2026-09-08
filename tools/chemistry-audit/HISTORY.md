@@ -42,6 +42,21 @@ pending CI. The failed evidence archive is
 `/mnt/storage/kerotakis-archive/chemistry-audit-sixth-195-218-ef4d11b8.tar.gz`
 (SHA-256 `95f3a114b5c4f3d0f4642efda0848e856c0e1d481748e6a2e5b66098ce431975`).
 
+## 2026-09-08 — audit closure and successor repairs
+
+PR #504 closed unmerged. Its production subset landed through #529 and its
+reproducible harnesses, analyzers and archive index landed separately; the old
+CI, ownership and integration queue is therefore not resumable.
+
+Two gaps recorded by the audit then closed on current main. #543 computes the
+neutral characterization of solvent-only water without an external-engine
+round trip. #547 adds the generic staged
+operator, shared standing/drain partition prediction, reviewed iodine bounds
+and a preserved lesson; `aq-085` is the only curiosity baseline row it moves.
+Persistent solid/water/organic equilibrium beyond the reviewed capacity remains
+an explicit boundary, and a direct separatory-funnel GUI form remains future UI
+work rather than a fabricated one-click action.
+
 ## 2026-09-07 — PR #504 rebase onto `139a18d6`
 
 PR #504 was rebased with merge topology preserved from pre-rebase head

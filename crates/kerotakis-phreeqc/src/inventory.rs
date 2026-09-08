@@ -35,8 +35,8 @@ pub(crate) fn complete_basis(
         }
     }
     after.contents.retain(|p| {
-        !(p.phase == Phase::Aqueous && matches!(p.species.0.as_str(), "H+" | "OH-"))
-            && !(p.phase == Phase::Liquid && p.species.0 == "water")
+        !(p.phase == Phase::Aqueous && matches!(p.species.0.as_str(), "H+" | "OH-")
+            || p.phase == Phase::Liquid && p.species.0 == "water")
     });
     let booked = ConservedLedger::from_vessel(after).elements;
     let remaining =

@@ -52,7 +52,8 @@ anything moved.
 
 ## How these numbers were obtained
 
-Built `kerotakis-cli` at `dcd817f7` (`origin/main`, the merge of #541) and ran
+Built `kerotakis-cli` from `origin/main` at `22aba0e9` plus the reviewed
+liquid-liquid extraction tranche and ran
 the report without `--check`, which prints the counts and the split that the CI
 gate only ever reduces to an exit code:
 
@@ -68,13 +69,13 @@ quoted only where it agrees, which it does, exactly.
 
 ```
 curiosity curiosity-v1: 500 prompts
-  computed     313
+  computed     314
   curated      43
   qualitative  82
   boundary     60
-  missing      2
-  unmet requirements: 22
-    engine stood aside (corpus claimed it): 1
+  missing      1
+  unmet requirements: 21
+    engine stood aside (corpus claimed it): 0
     answered below the required grade:     21
   solver/runtime failures: 0
   baseline drift: 0
@@ -84,16 +85,16 @@ curiosity curiosity-v1: 500 prompts
 the route, on every one of the 500 rows, so the gate is measuring the engine
 and not a stale file.
 
-438 of 500 rows produce an answer; 60 more are deliberate refusals that are
+439 of 500 rows produce an answer; 60 more are deliberate refusals that are
 correct to refuse (weaponisation, medical advice, fracture mechanics the bench
-does not model), each with its own reason code. Two rows produce nothing. On
+does not model), each with its own reason code. One row produces nothing. On
 the only reading of "covered" that is not self-flattering — *the bench either
-answers or says precisely why it will not* — that is **498 of 500**.
+answers or says precisely why it will not* — that is **499 of 500**.
 
 ## Did coverage move?
 
-`baseline.toml` was last touched by `57466555`, inside **#511** (per-liquid
-plateaus), which moved twenty rows from `computed`/`computed-route` to
+Before this tranche, `baseline.toml` was last touched by `57466555`, inside
+**#511** (per-liquid plateaus), which moved twenty rows from `computed`/`computed-route` to
 `curated`/`curated-route`. Not one of those twenty gained or lost an answer:
 `qualitative` stayed at 82 and `boundary` at 60. What changed is that
 `PhaseRouteEquilibrator` now succeeds where it used to decline, and it declares
@@ -102,15 +103,14 @@ curated branch instead of letting them fall through to the computed one. Under
 the grade defined above that relabelling is invisible to the count, which is
 the point of merging the two.
 
-**Everything merged after #511 moved nothing, and we know that positively
-rather than by assumption.** Every PR since has passed
-`cargo run -p kerotakis-cli -- coverage curiosity --check` in CI against an
-unchanged `baseline.toml` — including #509 and #541, the Cp(T) heat ledger and
-its difference-form repair, which were the changes most likely to move the
-twenty rows #511 created. A green `--check` on an untouched baseline *is* the
-statement that no row moved.
+The liquid-liquid extraction tranche intentionally moves exactly one row:
+`aq-085` from `missing/not-yet-modeled` to `computed/computed-route`. Its script
+now asks the same-total-solvent comparison, and the typed extraction event
+reports both the repeated-stage result and the one-stage control. Removing that
+single reviewed baseline change leaves every other row byte-for-byte stable;
+`--check` reports zero solver/runtime failures and zero drift.
 
-## The 22: one open question and two named gaps
+## The 21: one classification question and two named gaps
 
 An unmet requirement is a row whose observed grade is below the floor its
 `expected` declares. It is not a defect count and never was, but it is now a
@@ -121,13 +121,11 @@ definition. Grouped by shape:
 |---|---|---|
 | computed → qualitative | 15 | filed `qualitative` by an observation short circuit that never looks at which route succeeded. **The engine's classifier is wrong**, on at least ten of them. |
 | curated → qualitative | 6 | five gas tests and instrument verdicts with no route to attribute the answer to; `bio-062` is the exception and is a real curated gap. |
-| computed → missing | 1 | `aq-085`. **The engine is wrong.** |
 
-Twenty of the twenty-two carry reason code `typed-observation`, one
-(`aq-085`) carries `not-yet-modeled`, and one (`bio-062`, esterification)
-carries `qualitative-route`. So the remaining tail is one open question about
-what `Disposition::Qualitative` means, plus two named gaps — which is a far
-better artefact to hand the next person than a number mixing seven populations.
+Twenty of the twenty-one carry reason code `typed-observation`; one
+(`bio-062`, esterification) carries `qualitative-route`. The former set still
+contains both classifier questions and scripts that do not express their
+comparison, while `aq-036` and `bio-062` are the two chemistry gaps.
 
 ### The 53 rows that now meet their floor by exceeding it
 
@@ -219,54 +217,7 @@ succeed *as well as* the curated one and simply lost a precedence race. They
 are not findings now, and the PLAN item asking whether a boil is curated or
 computed is decidable on its merits rather than on its effect on a score.
 
-## The two `missing` rows
-
-`aq-053` ("Does diluted bleach remain alkaline?") was the third and closed on
-2026-09-07: the refusal rested on a claim about the shipped databases that was
-never true — `llnl.dat` carries `H+ + ClO- = HClO, log_k 7.5692` — and #530
-borrowed the reviewed couple, so diluted bleach now computes near pH 9.7. The
-evidence and the argument are in the corpus README under "Refresh 2026-09-07 —
-bleach was never a boundary"; what matters here is the shape, because it
-recurs: the row was not blocked by missing chemistry but by a wrong sentence
-about where the chemistry lives.
-
-### `aq-085` — "Can repeated small hexane extractions remove more iodine than one tiny extraction?"
-
-Three separate blockers, and the arithmetic is not one of them:
-
-```rust
-// crates/kerotakis-core/src/apparatus.rs
-pub fn extract_repeated(
-    solute_moles: f64, aqueous_volume_l: f64, organic_volume_per_stage_l: f64,
-    partition_coefficient: f64, stages: usize,
-) -> ExtractionResult
-```
-
-`extract_repeated` already exists and already computes exactly what the question
-asks. It is reachable from no verb in the script language. What is actually
-missing:
-
-1. **A partition coefficient for the solute.** Nothing in the registry carries
-   a K_D. The run says so: `iodine in contact with liquid: no wired solver
-   models this dissolution/reaction`. `volatility.rs` is the *headspace*
-   partition (Henry's law, gas/liquid) and does not cover liquid/liquid;
-   `lle.rs` computes whether two solvents split, which it does correctly here
-   ("two layers — hexane floating on water"), but says nothing about where a
-   third component goes.
-2. **A verb.** `drain` moves the lower layer with everything dissolved in it;
-   there is no `extract` operator to reach `extract_repeated`.
-3. **The script cannot ask its own question.** It builds one extraction. The
-   question is comparative. This is the `mat-003`/`mat-006` defect the corpus
-   README already identified and it is a corpus change, not an engine one.
-
-**Rewriting the script alone would be a false close.** The `missing` branch
-reads only the *final* step's events, so a script that ends on a `look` rather
-than on the step that carries the apology stops being `missing` without
-anything having been modelled. #329 measured that rule on this exact row and
-declined to ship it — "the layers drained, but the question is whether
-**iodine** partitions, and iodine's dissolution is exactly what is unmodelled".
-The comparative script is worth having; the row should keep reading `missing`
-until a K_D exists.
+## The one `missing` row
 
 ### `mat-054` — "Can glass be melted and cooled into a crystal?"
 
@@ -298,20 +249,12 @@ temperature too; today it walks to −273.1 °C and then says it could not.
 
 The ranking is by rows-per-unit-effort.
 
-### 1. Define the grades. Done, 2026-09-08. No row moved.
-
-The definition at the top of this page, landed with `baseline drift: 0`, no
-regenerated baseline and 22 rows left open. It is recorded here as done because
-the steps below were sequenced behind it and the sequencing was the argument
-for doing it first.
-
-### 2. Let a succeeded computed route outrank the observation short-circuits. 22 → 12.
+### 1. Let a succeeded computed route outrank the observation short-circuits. 21 → 11.
 
 Ten rows — `aq-111`, `aq-112`, `aq-113`, `aq-114`, `aq-115`, `aq-124`,
 `th-081`, `th-090`, `mat-008`, `aq-037` — have a computed-chemistry route
 recorded as `succeeded` in their own report and are filed `qualitative` anyway.
 
-**This was sequenced after step 1, and that was the reason step 1 came first.**
 Under the equality rule the change moved seven further rows (`aq-116`,
 `aq-117`, `mat-032`, `mat-073`, `mat-087`, `mat-116`, `mat-124`) from
 `qualitative` to `computed`, all of which declare `expected = "qualitative"`.
@@ -337,9 +280,9 @@ body records that the count did not change, and the corpus README records why
 it was closed — the same rule also moved `mat-099`, which demonstrates the
 opposite of what its question asks. That is a semantic objection about what a
 row is asking, and no grade definition touches it. #362 is not unblocked by
-step 1 and should not be cited as though it were.
+the floor definition and should not be cited as though it were.
 
-### 3. The two real data gaps. 12 → 10.
+### 2. The two real data gaps. 11 → 9.
 
 `aq-036`: no gaseous ammonia species, so the damp-litmus test reads an empty
 headspace while `smell v1` on the same vessel reports "sharp, pungent ammonia".
@@ -352,11 +295,11 @@ question it cannot see, which is worse than standing aside because nothing
 about it looks like a gap.
 
 `bio-062` ("can ethanol and acetic acid form an ester?") is the other, and it
-is the only row in the 22 whose reason code is `qualitative-route` rather than
+is the only row in the 21 whose reason code is `qualitative-route` rather than
 `typed-observation`: a qualitative route answered, and there is no curated
 esterification for it to have taken instead.
 
-### 4. Give the gas tests and the instruments a route. 10 → 4.
+### 3. Give the gas tests and the instruments a route. 9 → 3.
 
 `aq-035`, `aq-038`, `bio-032` print real curated verdicts — `limewater —
 positive`, with sourced thresholds from `kerotakis-core::gas_tests` — that no
@@ -369,29 +312,29 @@ Declaring these as routes closes all six, and it should declare what the
 negative gas test would be promoted to `curated` alongside a positive one,
 which is exactly the trap under `aq-036` above.
 
-### 5. Rows whose script cannot ask their question. 4 → 1. Corpus work, no engine work.
+### 4. Rows whose script cannot ask their question. 3 → 0. Corpus work, no engine work.
 
-`th-025`, `th-094`, `th-120` — the last three of the 22 that any script change
-can reach — and the comparative rows `mat-003`, `mat-108`, `aq-085`. A perfect
+`th-025`, `th-094`, `th-120` — the last three of the 21 that any script change
+can reach — and the comparative rows `mat-003`, `mat-108`. A perfect
 model answers "how fast"; these questions ask "faster than
 what" and the scripts build one condition. `mat-003` and `mat-006` print
 byte-identical output and only one of them is answered — the difference is
 entirely in the question, and no classifier that reads events can ever see it.
 This is the ceiling on what any classifier change can achieve, and it is worth
 stating before anyone plans a sixth round of them. A rewritten script closes
-the *question*; whether it may also close the *disposition* is the trap under
-`aq-085` above.
+the question without changing the classifier.
 
-### 6. `aq-085`'s partition coefficient, and `mat-054`'s torch. 1 → 0.
+### 5. `mat-054`'s torch. One missing row, outside the unmet-requirement count.
 
-Real engine work, one row each, and both are honest about their ceilings — see
-above. Worth doing for the capability, not for the count.
+Real engine work with an honest ceiling — see above. Worth doing for the
+capability, not for the count.
 
 ---
 
-**The remaining tail is one question and two gaps.** Twenty of the twenty-two
-open rows are the same argument about whether an instrument reading with a unit
-is quantitative, and that should be settled by deciding what
+**The remaining tail is classification, script expression and two chemistry
+gaps.** Twenty of the twenty-one open rows are typed observations, including
+the argument about whether an instrument reading with a unit is quantitative;
+that should be settled by deciding what
 `Disposition::Qualitative` IS — not by adjusting the classifier until the count
 looks better, which is the failure the enum's own doc comment exists to make
 harder.

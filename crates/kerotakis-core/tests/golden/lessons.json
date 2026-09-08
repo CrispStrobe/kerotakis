@@ -5305,6 +5305,54 @@
       }
     ]
   },
+  "repeated-liquid-extraction": {
+    "event_count": 6,
+    "events_sample": [
+      "v1: +2.0000 mol water",
+      "v1: +1.00 mmol iodine",
+      "v1: 48.3 µmol iodine dissolved",
+      "v1: not yet modelled — iodine dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+      "v2: new vessel",
+      "v1 -> v2: 0.5000 mol hexane, divided across 4 ideal extraction stages — iodine: 100.0% extracted (99.4% in one equal-total-solvent stage), K=85.000"
+    ],
+    "lesson": "repeated-liquid-extraction.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.0,
+            "phase": "Aqueous",
+            "species": "I2"
+          },
+          {
+            "moles": 2.0,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "Aqueous",
+            "species": "I2"
+          },
+          {
+            "moles": 0.5,
+            "phase": "Liquid",
+            "species": "hexane"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "rock-candy": {
     "event_count": 18,
     "events_sample": [

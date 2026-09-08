@@ -1,0 +1,20 @@
+# One solvent budget, several extractions
+#
+# A separatory funnel does not reward one large shake as much as several
+# smaller shakes with fresh solvent. This run gives four equal portions the
+# same TOTAL hexane allowance as the one-stage comparison printed beside it.
+# The engine computes both from phase volumes and K = [I2]hexane/[I2]water;
+# neither percentage is scripted into the lesson.
+register lv2
+
+add v1 water 2mol
+add v1 I2 0.001mol
+extract v1 v2 hexane 0.5mol stages 4
+
+# At lv3 the result also names the coefficient direction, mass balance,
+# saturation guard and provenance. This reviewed iodine model is restricted
+# to 25 °C; other solutes with molecular group decompositions use the shared
+# UNIFAC route, while unsupported pairs are refused explicitly.
+register lv3
+inspect v1
+inspect v2
