@@ -52,16 +52,23 @@ Codex comparisons and four Missions; PR #555 carried exact-operation numeric
 event selectors and two-sample ratios. There is no fourth learner-facing
 surface.
 
-The active checkpoint is the separately versioned source-informed v2 corpus.
+The separately versioned source-informed v2 corpus landed through PR #560.
 Main's seventh fleet already owns IDs 459–488, so this corpus is frozen at 288
 cases, IDs 489–776, in twelve families of 24 with 80 named relations and 368
-execution-plus-relation checks. Public manifests contain original questions
-and scripts but no source identities or source-to-case mapping. The first
-authoritative execution occurs only after the complete contract is committed;
-failures are retained without tuning expectations from observed output. Twelve
-GitHub Actions shards run at most four in parallel from one revision-bound CLI
-artifact. The deployment VPS may parse, format and inspect these changes, but
-compilation, browser tests and fleet execution stay on GitHub CI.
+execution-plus-relation checks, all passing on GitHub CI. Public manifests
+contain original questions and scripts but no source identities or
+source-to-case mapping. The first failed evidence was retained and only
+input-generation/workflow-envelope defects were repaired; no scientific
+expectation or engine behavior changed. Twelve GitHub Actions shards ran at
+most four in parallel from one revision-bound CLI artifact, with no build or
+fleet workload on the deployment VPS.
+
+The next experiment-expansion step is review, not another bulk run: cluster the
+80 passing relations by distinct learner-visible concept, remove ideas already
+represented by K61–K70 and the existing Codex/Missions catalog, and promote only
+the strongest bilingual representatives through those three existing surfaces.
+The 288-case corpus remains regression evidence even when a concept is not
+promoted.
 
 The second tranche is fixed at 18 concepts: seven guided Experiments K64–K70,
 seven Codex comparisons, and four Missions. Its pressure, buffer, neutralisation,
