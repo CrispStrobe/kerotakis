@@ -422,7 +422,8 @@ fn charge(vessel: &Vessel) -> Option<Charge> {
     // CEA route discarded every gas as exhaust, even though the headspace was
     // sealed. Stand down for this inert gas-only inventory; the bench's
     // pressure settlement retains it and applies P=nRT/V.
-    if condensed_moles == 0.0
+    if vessel.owns_headspace_gas()
+        && condensed_moles == 0.0
         && mapped
             .iter()
             .all(|(id, _)| matches!(id.0.as_str(), "N2" | "O2" | "CO2"))

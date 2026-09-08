@@ -317,15 +317,11 @@ pub fn nonionic_aqueous_conductance(vessel: &Vessel) -> Option<f64> {
     if vessel.solution.is_some()
         || vessel.liquid_volume().0 <= 0.0
         || !vessel.unresolved_materials.is_empty()
+        || (vessel.temperature.0 - 298.15).abs() > 0.01
     {
         return None;
     }
-    let explicitly_nonionic = vessel.contents.iter().all(|portion| {
-        portion.species.0.as_str() == "water"
-            || crate::species::lookup_key(portion.species.0.as_str())
-                .is_some_and(|data| data.dissolves_without_speciation)
-    });
-    explicitly_nonionic.then(|| {
+    neutral_water_contents(vessel).then(|| {
         let lambda = |name| {
             LIMITING_CONDUCTIVITY
                 .iter()
@@ -342,7 +338,6 @@ pub fn nonionic_aqueous_conductance(vessel: &Vessel) -> Option<f64> {
 /// narrower than `dissolves_without_speciation`: that dissolution flag also
 /// covers substances whose acid/base chemistry is merely not implemented.
 pub fn neutral_aqueous_ph(vessel: &Vessel) -> Option<f64> {
-    const PH_NEUTRAL_UNSPECIATED: &[&str] = &["glucose"];
     if vessel.solution.is_some()
         || vessel.liquid_volume().0 <= 0.0
         || !vessel.unresolved_materials.is_empty()
@@ -350,14 +345,16 @@ pub fn neutral_aqueous_ph(vessel: &Vessel) -> Option<f64> {
     {
         return None;
     }
-    vessel
-        .contents
-        .iter()
-        .all(|portion| {
-            portion.species.0 == "water"
-                || PH_NEUTRAL_UNSPECIATED.contains(&portion.species.0.as_str())
-        })
-        .then_some(7.0)
+    neutral_water_contents(vessel).then_some(7.0)
+}
+
+fn neutral_water_contents(vessel: &Vessel) -> bool {
+    // This is a reviewed chemistry assertion, not an inference from
+    // `dissolves_without_speciation`, which also covers unmodelled acids.
+    const NEUTRAL_UNSPECIATED: &[&str] = &["glucose"];
+    vessel.contents.iter().all(|portion| {
+        portion.species.0 == "water" || NEUTRAL_UNSPECIATED.contains(&portion.species.0.as_str())
+    })
 }
 
 /// What the meter reads from a dry solid: the curated resistivity, its

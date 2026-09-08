@@ -183,7 +183,9 @@ impl InstrumentContract for ConductivityMeter {
         "conductivity meter"
     }
     fn applies(&self, vessel: &Vessel) -> bool {
-        vessel.solution.is_some() || crate::conductivity::dry_solid_conductance(vessel).is_some()
+        vessel.solution.is_some()
+            || crate::conductivity::nonionic_aqueous_conductance(vessel).is_some()
+            || crate::conductivity::dry_solid_conductance(vessel).is_some()
     }
     fn mode(&self) -> InstrumentMode {
         InstrumentMode::Passive
@@ -199,6 +201,15 @@ impl InstrumentContract for ConductivityMeter {
                 in_range: est.trustworthy()
                     && est.microsiemens_per_cm > 0.0
                     && est.microsiemens_per_cm < 1e6,
+            });
+        }
+        if let Some(value) = crate::conductivity::nonionic_aqueous_conductance(vessel) {
+            return Some(Reading {
+                observable: "conductivity".into(),
+                value,
+                unit: "µS/cm".into(),
+                precision: Some(1.0),
+                in_range: true,
             });
         }
         // A dry metal is the other kind of conductor, and it is reported in

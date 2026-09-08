@@ -1355,6 +1355,7 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
             .0
             .cmp(&b.species.0)
             .then_with(|| a.phase.cmp(&b.phase))
+            .then_with(|| a.moles.0.total_cmp(&b.moles.0))
     });
     for p in contents {
         if p.phase == Phase::Gas {
@@ -1678,12 +1679,21 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
         }
     }
     totals.sort_by(|a, b| a.0.cmp(&b.0));
-    phases.sort_by(|a, b| a.0.cmp(&b.0));
-    gases.sort_by(|a, b| a.0.cmp(&b.0).then_with(|| a.1.cmp(&b.1)));
+    phases.sort_by(|a, b| {
+        a.0.cmp(&b.0)
+            .then_with(|| a.1.total_cmp(&b.1))
+            .then_with(|| a.2.total_cmp(&b.2))
+    });
+    gases.sort_by(|a, b| {
+        a.0.cmp(&b.0)
+            .then_with(|| a.1.cmp(&b.1))
+            .then_with(|| a.2.total_cmp(&b.2))
+    });
     external_gases.sort_by(|a, b| {
         a.phase
             .cmp(&b.phase)
             .then_with(|| a.species.cmp(&b.species))
+            .then_with(|| a.initial_moles.total_cmp(&b.initial_moles))
     });
     elements.sort();
 
