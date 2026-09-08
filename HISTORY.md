@@ -16,6 +16,16 @@ it had while it was open, which is why a few numbers appear twice below.
 
 **Second source-informed experiment corpus**
 
+- **#562** — reviewed all 80 v2 relation groups and promoted four distinct
+  concepts onto the existing learner surfaces: K71–K72, two Missions and four
+  bilingual Codex cards. Native replay corrected two draft assumptions before
+  merge: waits advance the registered peroxide-decomposition network, while
+  cases 657–660 authoritatively assert elemental conservation; and numeric
+  carbonate gas ordering remains owned by the independent source-fleet gate
+  because the Codex semantic adapter intentionally exposes no gas-event scalar.
+  The final head passed Linux and macOS native tests, full preflight, browser,
+  WebAssembly, presentation adapters, all 240 original cases and all 288 v2
+  cases. No engine behavior changed and no build ran on the deployment VPS.
 - **#560** — froze and executed 288 original scripts, IDs 489–776, in twelve
   scientific families on GitHub CI. All 288 executions and 80 conservation,
   independent-law, metamorphic and explicit-boundary relations pass: 368/368.
