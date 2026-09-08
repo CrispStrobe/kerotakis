@@ -335,6 +335,8 @@ pub fn limiting_current_density_si(
 #[derive(Debug, Clone, Copy)]
 pub struct PartialReaction<'a> {
     pub id: &'a str,
+    /// Exact reviewed parameter record, distinct from reaction identity.
+    pub parameter_record_id: Option<&'a str>,
     pub equilibrium_potential_v: f64,
     pub kinetics: ButlerVolmerParams,
     /// Reactive area for this reaction divided by geometric electrode area.
@@ -388,6 +390,8 @@ impl PartialReaction<'_> {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct PartialCurrent {
     pub reaction_id: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub parameter_record_id: Option<String>,
     /// Signed A/m² referred to geometric electrode area.
     pub current_density_a_per_m2: f64,
 }
@@ -507,6 +511,7 @@ impl CurrentBalanceSolver {
             net += current;
             partial_currents.push(PartialCurrent {
                 reaction_id: reaction.id.to_owned(),
+                parameter_record_id: reaction.parameter_record_id.map(str::to_owned),
                 current_density_a_per_m2: current,
             });
         }
@@ -725,6 +730,96 @@ pub fn faradaic_extent_moles(
     Ok(current_amps * seconds / (electrons_per_extent * FARADAY))
 }
 
+/// One species activity in a reduction half-reaction. Coefficients follow the
+/// usual reaction quotient convention: products positive, reactants negative;
+/// pure solids and liquids are omitted because their activity is one.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct EquilibriumActivity<'a> {
+    pub species: &'a str,
+    pub coefficient: f64,
+    pub activity: f64,
+}
+
+/// Compute the equilibrium potential from a complete activity quotient.
+pub fn equilibrium_potential_v(
+    standard_reduction_potential_v: f64,
+    electrons: f64,
+    temperature_k: f64,
+    activities: &[EquilibriumActivity<'_>],
+) -> Result<f64, ElectrochemistryError> {
+    if activities.iter().any(|term| {
+        term.species.trim().is_empty()
+            || !term.coefficient.is_finite()
+            || !term.activity.is_finite()
+            || term.activity <= 0.0
+    }) {
+        return Err(ElectrochemistryError::InvalidCondition(
+            "reaction-quotient activities must be named, finite and positive",
+        ));
+    }
+    let ln_q = activities
+        .iter()
+        .map(|term| term.coefficient * term.activity.ln())
+        .sum();
+    crate::relations::nernst_reaction_quotient(
+        standard_reduction_potential_v,
+        electrons,
+        ln_q,
+        crate::Kelvin(temperature_k),
+    )
+    .ok_or(ElectrochemistryError::InvalidCondition(
+        "standard potential, electron count and temperature must be physical",
+    ))
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub enum CandidateReactionError {
+    Parameters(ParameterSelectionError),
+    Equilibrium(ElectrochemistryError),
+}
+
+/// Join thermodynamic activities to exactly one valid kinetic record. This is
+/// the generic adapter used by acid-metal, corrosion, plating and battery
+/// routes; it contains no reaction-specific branching.
+#[allow(clippy::too_many_arguments)]
+pub fn parameterized_partial_reaction<'a>(
+    records: &'a [ExchangeCurrentRecord],
+    reaction: &'a str,
+    electrode_material: &str,
+    standard_reduction_potential_v: f64,
+    temperature_k: f64,
+    domain_activities: &[(String, f64)],
+    quotient_activities: &[EquilibriumActivity<'_>],
+    reactive_area_ratio: f64,
+    limiting_current_anodic_a_per_m2: Option<f64>,
+    limiting_current_cathodic_a_per_m2: Option<f64>,
+) -> Result<PartialReaction<'a>, CandidateReactionError> {
+    let record = select_exchange_current(
+        records,
+        reaction,
+        electrode_material,
+        temperature_k,
+        domain_activities,
+    )
+    .map_err(CandidateReactionError::Parameters)?;
+    let equilibrium_potential_v = equilibrium_potential_v(
+        standard_reduction_potential_v,
+        record.kinetics.n,
+        temperature_k,
+        quotient_activities,
+    )
+    .map_err(CandidateReactionError::Equilibrium)?;
+    Ok(PartialReaction {
+        id: reaction,
+        parameter_record_id: Some(&record.id),
+        equilibrium_potential_v,
+        kinetics: record.kinetics,
+        reactive_area_ratio,
+        limiting_current_anodic_a_per_m2,
+        limiting_current_cathodic_a_per_m2,
+    })
+}
+
 /// Matter reservoir changed by an electrochemical half-reaction written in
 /// its anodic direction (electrons produced). Negative solved extent applies
 /// the reverse, cathodic direction.
@@ -902,6 +997,7 @@ mod tests {
     fn reaction(id: &'static str, equilibrium_potential_v: f64) -> PartialReaction<'static> {
         PartialReaction {
             id,
+            parameter_record_id: None,
             equilibrium_potential_v,
             kinetics: ButlerVolmerParams {
                 j0: 1.0,
@@ -1027,6 +1123,24 @@ mod tests {
             ),
             Err(ParameterSelectionError::AmbiguousRecords { .. })
         ));
+    }
+
+    #[test]
+    fn candidate_joins_full_nernst_quotient_to_reviewed_kinetics() {
+        let records = [parameter_record("measured-set")];
+        let domain = [("M+2".into(), 0.01)];
+        let quotient = [EquilibriumActivity {
+            species: "M+2",
+            coefficient: -1.0,
+            activity: 0.01,
+        }];
+        let partial = parameterized_partial_reaction(
+            &records, "M+2/M", "M", -0.5, 298.15, &domain, &quotient, 1.0, None, None,
+        )
+        .unwrap();
+        let expected = -0.5 + crate::relations::nernst_slope(crate::Kelvin::STANDARD) / 2.0 * -2.0;
+        assert!((partial.equilibrium_potential_v - expected).abs() < 1e-12);
+        assert_eq!(partial.parameter_record_id, Some("measured-set"));
     }
 
     #[test]

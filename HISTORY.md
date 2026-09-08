@@ -53,7 +53,10 @@ it had while it was open, which is why a few numbers appear twice below.
   and cathodic extents now form one transactional delta and take one shared
   depletion scale before commit; implementing that exposed and fixed the older
   general case where two individually valid withdrawals could jointly overdraw
-  one bulk reservoir
+  one bulk reservoir. A general reaction-quotient Nernst relation now joins
+  arbitrary computed activities to exactly one reviewed kinetic record, while
+  preserving reaction identity and parameter-record identity separately in the
+  serialized result
 - **#541** — the heat-capacity integral in **difference form**. Each NASA-9 and
   Shomate term is now written so `(t1 − t0)` factors out, instead of evaluating
   an antiderivative at both ends and subtracting terms around 1.2e9 J/mol that
