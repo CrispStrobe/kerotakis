@@ -360,12 +360,15 @@ mod tests {
             substrate_moles: None,
             area_m2: 0.01,
             roughness: 1.0,
+            double_layer_capacitance_f_per_m2: None,
+            interfacial_potential_v: None,
             deposits: vec![crate::compartment::ElectrodeDeposit {
                 species: "Cu".into(),
                 moles: 0.01,
                 thickness_m: None,
                 coverage_fraction: None,
                 effect: Some(crate::electrochemistry::PassivationEffect::Conductive),
+                electrical_resistivity_ohm_m: None,
             }],
         });
         let before = ConservedLedger::from_vessel(&before);

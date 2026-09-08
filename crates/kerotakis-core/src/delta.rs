@@ -48,6 +48,12 @@ pub struct ElectrodeMoleDelta {
     pub moles: f64,
 }
 
+#[derive(Debug, Clone, PartialEq)]
+pub struct ElectrodePotentialDelta {
+    pub electrode: String,
+    pub potential_v: f64,
+}
+
 /// A proposed change to a vessel's thermal state.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum ThermalDelta {
@@ -68,6 +74,8 @@ pub struct StateDelta {
     pub mole_changes: Vec<MoleDelta>,
     /// Matter transferred to or from explicit electrode inventories.
     pub electrode_changes: Vec<ElectrodeMoleDelta>,
+    /// Persistent interfacial electrical state after a transient solve.
+    pub electrode_potential_changes: Vec<ElectrodePotentialDelta>,
     /// Thermal state change.
     pub thermal: Option<ThermalDelta>,
     /// Which model produced this delta.
@@ -115,6 +123,7 @@ pub enum DeltaError {
         requested: f64,
     },
     UnscalableThermalDelta,
+    UnscalableElectricalDelta,
 }
 
 impl std::fmt::Display for DeltaError {
@@ -150,6 +159,9 @@ impl std::fmt::Display for DeltaError {
             DeltaError::UnscalableThermalDelta => {
                 write!(f, "an absolute-temperature delta cannot be inventory-scaled")
             }
+            DeltaError::UnscalableElectricalDelta => {
+                write!(f, "an electrode-potential delta cannot be inventory-scaled")
+            }
         }
     }
 }
@@ -159,6 +171,7 @@ impl StateDelta {
         Self {
             mole_changes: Vec::new(),
             electrode_changes: Vec::new(),
+            electrode_potential_changes: Vec::new(),
             thermal: None,
             source,
         }
@@ -175,6 +188,19 @@ impl StateDelta {
             inventory,
             moles,
         });
+        self
+    }
+
+    pub fn with_electrode_potential(
+        mut self,
+        electrode: impl Into<String>,
+        potential_v: f64,
+    ) -> Self {
+        self.electrode_potential_changes
+            .push(ElectrodePotentialDelta {
+                electrode: electrode.into(),
+                potential_v,
+            });
         self
     }
 
@@ -357,6 +383,27 @@ impl StateDelta {
             }
         }
 
+        let mut potentials = std::collections::BTreeSet::new();
+        for change in &self.electrode_potential_changes {
+            let matching_count = vessel
+                .electrodes
+                .iter()
+                .filter(|electrode| electrode.label == change.electrode)
+                .count();
+            if matching_count != 1 || !change.potential_v.is_finite() {
+                errors.push(DeltaError::InvalidElectrodeDelta {
+                    electrode: change.electrode.clone(),
+                    reason: "potential update requires one named electrode and a finite value"
+                        .into(),
+                });
+            } else if !potentials.insert(change.electrode.clone()) {
+                errors.push(DeltaError::InvalidElectrodeDelta {
+                    electrode: change.electrode.clone(),
+                    reason: "potential may be set only once per atomic delta".into(),
+                });
+            }
+        }
+
         errors
     }
 
@@ -430,11 +477,22 @@ impl StateDelta {
                                 thickness_m: geometry.map(|value| value.0),
                                 coverage_fraction: geometry.map(|value| value.1),
                                 effect: *effect,
+                                electrical_resistivity_ohm_m: None,
                             });
                     }
                 }
             }
             electrode.deposits.retain(|deposit| deposit.moles > 1e-15);
+        }
+
+        for change in &self.electrode_potential_changes {
+            if let Some(electrode) = vessel
+                .electrodes
+                .iter_mut()
+                .find(|electrode| electrode.label == change.electrode)
+            {
+                electrode.interfacial_potential_v = Some(change.potential_v);
+            }
         }
 
         if let Some(thermal) = &self.thermal {
@@ -502,6 +560,9 @@ impl StateDelta {
         }
         if scale < 1.0 && matches!(self.thermal, Some(ThermalDelta::SetTemperature(_))) {
             return Err(vec![DeltaError::UnscalableThermalDelta]);
+        }
+        if scale < 1.0 && !self.electrode_potential_changes.is_empty() {
+            return Err(vec![DeltaError::UnscalableElectricalDelta]);
         }
         let mut limited = self.clone();
         for change in &mut limited.mole_changes {
@@ -594,7 +655,10 @@ impl StateDelta {
 
     /// Whether this delta has no changes at all.
     pub fn is_empty(&self) -> bool {
-        self.mole_changes.is_empty() && self.electrode_changes.is_empty() && self.thermal.is_none()
+        self.mole_changes.is_empty()
+            && self.electrode_changes.is_empty()
+            && self.electrode_potential_changes.is_empty()
+            && self.thermal.is_none()
     }
 }
 
@@ -702,6 +766,8 @@ mod tests {
             substrate_moles: Some(0.01),
             area_m2: 0.001,
             roughness: 1.0,
+            double_layer_capacitance_f_per_m2: None,
+            interfacial_potential_v: None,
             deposits: Vec::new(),
         }
     }

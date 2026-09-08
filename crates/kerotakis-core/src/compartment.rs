@@ -183,6 +183,12 @@ pub struct ElectrodeState {
     /// Surface roughness factor (real area / geometric area). Default 1.0.
     #[serde(default = "default_roughness")]
     pub roughness: f64,
+    /// Differential double-layer capacitance per geometric area.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub double_layer_capacitance_f_per_m2: Option<f64>,
+    /// Last committed interfacial potential used by transient control.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub interfacial_potential_v: Option<f64>,
     /// Deposited material on the electrode surface (e.g. from electroplating).
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub deposits: Vec<ElectrodeDeposit>,
@@ -216,6 +222,22 @@ impl ElectrodeState {
         if !self.area_m2.is_finite() || self.area_m2 <= 0.0 {
             return Err("electrode area must be finite and positive");
         }
+        if self.double_layer_capacitance_f_per_m2.is_some()
+            != self.interfacial_potential_v.is_some()
+        {
+            return Err(
+                "electrode capacitance and interfacial potential must be specified together",
+            );
+        }
+        if self
+            .double_layer_capacitance_f_per_m2
+            .is_some_and(|value| !value.is_finite() || value <= 0.0)
+            || self
+                .interfacial_potential_v
+                .is_some_and(|value| !value.is_finite())
+        {
+            return Err("electrode capacitance and potential must be physical");
+        }
         self.reactive_surface(1.0)
             .validate()
             .map_err(|_| "electrode area and roughness must be finite and positive")?;
@@ -229,6 +251,9 @@ impl ElectrodeState {
                 || deposit
                     .coverage_fraction
                     .is_some_and(|value| !value.is_finite() || !(0.0..=1.0).contains(&value))
+                || deposit
+                    .electrical_resistivity_ohm_m
+                    .is_some_and(|value| !value.is_finite() || value < 0.0)
         }) {
             return Err(
                 "electrode deposits require valid identity, amount, thickness and coverage",
@@ -273,6 +298,22 @@ impl ElectrodeState {
             );
         }
         Ok(available)
+    }
+
+    /// Area-specific film resistance, sum(thickness × resistivity), Ω·m².
+    pub fn deposit_film_resistance_ohm_m2(&self) -> Result<f64, &'static str> {
+        self.deposits
+            .iter()
+            .filter(|deposit| deposit.moles > 0.0)
+            .try_fold(0.0, |total, deposit| {
+                let thickness = deposit
+                    .thickness_m
+                    .ok_or("deposit thickness is not characterised")?;
+                let resistivity = deposit
+                    .electrical_resistivity_ohm_m
+                    .ok_or("deposit electrical resistivity is not characterised")?;
+                Ok(total + thickness * resistivity)
+            })
     }
 }
 
@@ -343,6 +384,10 @@ pub struct ElectrodeDeposit {
     /// Kinetic role of this layer. Absence means no defensible model is known.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub effect: Option<crate::electrochemistry::PassivationEffect>,
+    /// Bulk electrical resistivity used with computed thickness for film
+    /// ohmic loss, Ω·m.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub electrical_resistivity_ohm_m: Option<f64>,
 }
 
 impl Default for ElectrodeState {
@@ -354,6 +399,8 @@ impl Default for ElectrodeState {
             substrate_moles: None,
             area_m2: 1e-4,
             roughness: 1.0,
+            double_layer_capacitance_f_per_m2: None,
+            interfacial_potential_v: None,
             deposits: Vec::new(),
         }
     }
@@ -382,12 +429,15 @@ mod tests {
             substrate_moles: Some(0.01),
             area_m2: 0.001,
             roughness: 1.5,
+            double_layer_capacitance_f_per_m2: Some(0.2),
+            interfacial_potential_v: Some(0.0),
             deposits: vec![ElectrodeDeposit {
                 species: "Cu".into(),
                 moles: 0.0001,
                 thickness_m: Some(1e-6),
                 coverage_fraction: Some(0.25),
                 effect: Some(crate::electrochemistry::PassivationEffect::Conductive),
+                electrical_resistivity_ohm_m: Some(1e-7),
             }],
         };
         let json = serde_json::to_string(&electrode).unwrap();

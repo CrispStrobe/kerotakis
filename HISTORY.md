@@ -80,6 +80,14 @@ it had while it was open, which is why a few numbers appear twice below.
   coverage from conserved moles; the same atomic delta updates matter and
   geometry, while unknown deposit coverage/effect refuses derived passivation
   instead of treating the surface as clean
+- `feat/modular-electrode-kinetics` — added adaptive depletion integration,
+  implicit resistive-film polarization, backward-Euler double-layer charging,
+  and irreversible solution/film heat without converting capacitive current
+  into reaction extent. Diffusion and rotating-disk transport now use electrons
+  per transported mole, and surface concentration feeds back through the Nernst
+  quotient until current and interfacial activity converge. A connected-cell
+  solver enforces one total current across unequal electrode areas and includes
+  both electrode polarizations and solution iR
 - **#541** — the heat-capacity integral in **difference form**. Each NASA-9 and
   Shomate term is now written so `(t1 − t0)` factors out, instead of evaluating
   an antiderivative at both ends and subtracting terms around 1.2e9 J/mol that

@@ -103,16 +103,15 @@ commit. The shipped empirical parameter registry remains empty until
 licence-cleared records survive review.
 
 The non-mutating runtime pipeline, parameter/preparation/hydrodynamic domains,
-computed transport models, deposit growth and explicit standard-state gas
-reference are complete. Continue in this order: (1) compute interfacial
-activity and double-layer/film transients; (2) advance inventory-limited deltas
-on the existing clock without letting `displacement` or `corrosion` mutate the
-same step—depletion must shorten and recompute rather than freeze one
-competition fraction; (3) connect electrodes across finite compartments and
-book irreversible electrical heat; (4) admit one narrowly bounded permissively
-licensed polarization dataset with matched controls; (5) only then replace the
-editorial iron/zinc rates and expose current, potential, limiting mechanism and
-uncertainty to clients. Owned sealed gas has a computed ideal fugacity;
+computed transport models, deposit growth, interfacial activity feedback,
+double-layer/film transients, connected-electrode circuit balance, irreversible
+heat and explicit standard-state gas reference are complete. Continue in this
+order: (1) make a configured electrochemical network the exclusive clock owner
+for its reaction ids—depletion must shorten, re-equilibrate and recompute rather
+than freeze one competition fraction; (2) admit one narrowly bounded
+permissively licensed polarization dataset with matched controls; (3) only then
+replace the editorial iron/zinc rates and expose current, potential, limiting
+mechanism and parameter envelopes to clients. Owned sealed gas has a computed ideal fugacity;
 standard-state gas is used only when a reviewed parameterisation declares that
 reference condition. Absent gas and open/swept reservoir composition otherwise
 remain refusals rather than receiving an arbitrary activity floor.
