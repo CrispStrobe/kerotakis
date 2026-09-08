@@ -12875,7 +12875,7 @@
       ],
       "requires": [
         "dissolving",
-        "particle-model"
+        "amount-of-substance"
       ],
       "spine": [],
       "curriculum": [],
@@ -12979,8 +12979,7 @@
         "stoichiometry"
       ],
       "requires": [
-        "amount-of-substance",
-        "balanced-equations"
+        "amount-of-substance"
       ],
       "spine": [],
       "curriculum": [],
@@ -13039,19 +13038,19 @@
             "samples": [
               {
                 "step": "after:3",
-                "metric": "event:gas_evolved.moles"
+                "metric": "moles:CO2"
               },
               {
                 "step": "after:7",
-                "metric": "event:gas_evolved.moles"
+                "metric": "moles:CO2"
               },
               {
                 "step": "after:11",
-                "metric": "event:gas_evolved.moles"
+                "metric": "moles:CO2"
               },
               {
                 "step": "after:15",
-                "metric": "event:gas_evolved.moles"
+                "metric": "moles:CO2"
               }
             ]
           },
@@ -13061,19 +13060,19 @@
             "samples": [
               {
                 "step": "after:19",
-                "metric": "event:gas_evolved.moles"
+                "metric": "moles:CO2"
               },
               {
                 "step": "after:23",
-                "metric": "event:gas_evolved.moles"
+                "metric": "moles:CO2"
               },
               {
                 "step": "after:27",
-                "metric": "event:gas_evolved.moles"
+                "metric": "moles:CO2"
               },
               {
                 "step": "after:31",
-                "metric": "event:gas_evolved.moles"
+                "metric": "moles:CO2"
               }
             ]
           }
@@ -13094,11 +13093,11 @@
       }
     },
     {
-      "id": "waiting-is-not-a-peroxide-reaction-command",
+      "id": "longer-waits-advance-peroxide-kinetics",
       "progress": "intermediate",
       "equation": null,
-      "summary": "Waiting alone advances the clock but does not invent an unrequested peroxide reaction",
-      "summary_de": "Warten lässt die Uhr weiterlaufen, erfindet aber keine nicht angeforderte Peroxidreaktion",
+      "summary": "Longer waits advance the registered peroxide decomposition network",
+      "summary_de": "Längeres Warten treibt das registrierte Netzwerk der Peroxidzersetzung voran",
       "concepts": [
         "kinetics",
         "experimental-controls",
@@ -13126,32 +13125,33 @@
         "script": "add v1 water 200mL\nadd v1 H2O2 0.01mol\nwait 30s\ninspect v1\nnew\nadd v2 water 200mL\nadd v2 H2O2 0.01mol\nwait 60s\ninspect v2\nnew\nadd v3 water 200mL\nadd v3 H2O2 0.01mol\nwait 120s\ninspect v3\nnew\nadd v4 water 200mL\nadd v4 H2O2 0.01mol\nwait 240s\ninspect v4\n"
       },
       "expect": {
-        "events": [],
+        "events": [
+          "reacted:peroxide-decomposition"
+        ],
         "absent": [
-          "reacted:peroxide-decomposition",
           "solver_failed"
         ],
         "predict": {
-          "question": "Four identical peroxide samples merely wait for 30, 60, 120 or 240 seconds. In this script, does the longer wait by itself consume more peroxide?",
-          "question_de": "Vier gleiche Peroxidproben warten lediglich 30, 60, 120 oder 240 Sekunden. Verbraucht in diesem Skript die längere Wartezeit allein mehr Peroxid?",
+          "question": "Does a wait leave hydrogen peroxide unchanged when the registered peroxide-decomposition network is available?",
+          "question_de": "Bleibt Wasserstoffperoxid beim Warten unverändert, wenn das registrierte Zersetzungsnetzwerk verfügbar ist?",
           "options": [
-            "Yes: the clock automatically chooses and runs every possible reaction",
-            "No: wait advances modeled time, but this control requests no peroxide reaction pathway"
+            "Yes: wait changes only the displayed clock",
+            "No: elapsed time advances the registered kinetic network while conserving the elements"
           ],
           "options_de": [
-            "Ja: Die Uhr wählt und startet automatisch jede mögliche Reaktion",
-            "Nein: Warten lässt die modellierte Zeit verstreichen, aber diese Kontrolle fordert keinen Peroxid-Reaktionsweg an"
+            "Ja: Warten ändert nur die angezeigte Uhr",
+            "Nein: Verstrichene Zeit treibt das registrierte kinetische Netzwerk voran, während die Elemente erhalten bleiben"
           ],
           "answer": 1,
-          "misconception": "Passing time in a simulator is mistaken for an instruction to infer and execute every chemically possible process.",
-          "misconception_de": "Das Verstreichen von Zeit in einer Simulation wird mit dem Auftrag verwechselt, jeden chemisch möglichen Vorgang abzuleiten und auszuführen.",
+          "misconception": "The clock is treated as display-only even when the simulator has an explicit kinetic network for the material.",
+          "misconception_de": "Die Uhr gilt als reine Anzeige, obwohl für das Material ein ausdrückliches kinetisches Netzwerk registriert ist.",
           "diagnosis": [
             {
               "option": 0,
-              "reveals": "A kinetic mechanism and its conditions have been assumed even though the script supplied only a clock interval.",
-              "reveals_de": "Ein kinetischer Mechanismus und seine Bedingungen wurden angenommen, obwohl das Skript nur ein Zeitintervall vorgab.",
-              "next": "Compare H2O2 immediately after each addition with its final inventory, then contrast the control with a script that explicitly requests the curated peroxide reaction.",
-              "next_de": "Vergleiche H2O2 unmittelbar nach jeder Zugabe mit seinem Endbestand und stelle die Kontrolle dann einem Skript gegenüber, das ausdrücklich die kuratierte Peroxidreaktion anfordert.",
+              "reveals": "The registered peroxide-decomposition pathway and its time evolution have been ignored.",
+              "reveals_de": "Der registrierte Weg der Peroxidzersetzung und seine zeitliche Entwicklung wurden übersehen.",
+              "next": "Compare each vessel's H2O2 inventory immediately after addition with its inventory after elapsed modeled time.",
+              "next_de": "Vergleiche in jedem Gefäß den H2O2-Bestand unmittelbar nach der Zugabe mit dem Bestand nach verstrichener Modellzeit.",
               "source": null
             }
           ]
@@ -13160,33 +13160,7 @@
         "temperature_c": null,
         "assertions": [
           {
-            "kind": "equal",
-            "tolerance": 1e-10,
-            "samples": [
-              {
-                "step": "final",
-                "metric": "moles:H2O2",
-                "vessel": "v1"
-              },
-              {
-                "step": "final",
-                "metric": "moles:H2O2",
-                "vessel": "v2"
-              },
-              {
-                "step": "final",
-                "metric": "moles:H2O2",
-                "vessel": "v3"
-              },
-              {
-                "step": "final",
-                "metric": "moles:H2O2",
-                "vessel": "v4"
-              }
-            ]
-          },
-          {
-            "kind": "unchanged",
+            "kind": "decreasing",
             "tolerance": 1e-10,
             "samples": [
               {
@@ -13202,7 +13176,7 @@
             ]
           },
           {
-            "kind": "unchanged",
+            "kind": "decreasing",
             "tolerance": 1e-10,
             "samples": [
               {
@@ -13218,7 +13192,7 @@
             ]
           },
           {
-            "kind": "unchanged",
+            "kind": "decreasing",
             "tolerance": 1e-10,
             "samples": [
               {
@@ -13234,7 +13208,7 @@
             ]
           },
           {
-            "kind": "unchanged",
+            "kind": "decreasing",
             "tolerance": 1e-10,
             "samples": [
               {
@@ -13252,17 +13226,17 @@
         ]
       },
       "registers": {
-        "lv1": "A stopwatch does not choose a reaction. These four virtual samples wait for different times and keep the peroxide they were given.",
-        "lv1_de": "Eine Stoppuhr wählt keine Reaktion. Diese vier virtuellen Proben warten unterschiedlich lange und behalten das Peroxid, das sie erhalten haben.",
-        "lv2": "Every vessel begins with 0.010 mol H2O2 in 200 mL water. The four waits differ eightfold, yet each final peroxide inventory equals its own post-addition inventory and the other three finals.",
-        "lv2_de": "Jedes Gefäß beginnt mit 0,010 mol H2O2 in 200 mL Wasser. Die vier Wartezeiten unterscheiden sich um den Faktor acht; trotzdem entspricht jeder Endbestand an Peroxid seinem eigenen Bestand nach der Zugabe und den drei anderen Endbeständen.",
-        "lv3": "Frozen cases 657–660 are a model-boundary control: their source-fleet relation proves elemental conservation before and after wait, while this catalogue replay adds exact unchanged and cross-vessel H2O2 assertions. This does not claim that real peroxide is indefinitely stable. It states that bare wait does not select an unrequested kinetic network. Species inventories are unavailable in GUI Scene v1, so the browser displays no fabricated comparison.",
-        "lv3_de": "Die eingefrorenen Fälle 657–660 sind eine Kontrolle der Modellgrenze: Ihre Versuchsreihenrelation belegt die Elementerhaltung vor und nach dem Warten; diese Katalogwiedergabe ergänzt exakte Prüfungen auf unveränderte und gefäßübergreifend gleiche H2O2-Bestände. Dies behauptet nicht, wirkliches Peroxid sei unbegrenzt stabil. Es besagt, dass ein bloßes Warten kein nicht angefordertes kinetisches Netzwerk auswählt. Speziesbestände sind in GUI-Szene v1 unverfügbar, deshalb zeigt der Browser keinen erfundenen Vergleich."
+        "lv1": "Waiting advances this virtual peroxide reaction: some H2O2 decomposes, while its hydrogen and oxygen remain accounted for.",
+        "lv1_de": "Warten treibt diese virtuelle Peroxidreaktion voran: Ein Teil des H2O2 zerfällt, während Wasserstoff und Sauerstoff bilanziert bleiben.",
+        "lv2": "Every vessel begins with 0.010 mol H2O2 in 200 mL water. The registered kinetic network runs as modeled time advances, so each post-wait peroxide inventory is lower than its own post-addition inventory.",
+        "lv2_de": "Jedes Gefäß beginnt mit 0,010 mol H2O2 in 200 mL Wasser. Mit der Modellzeit läuft das registrierte kinetische Netzwerk, sodass jeder H2O2-Bestand nach dem Warten unter seinem eigenen Bestand nach der Zugabe liegt.",
+        "lv3": "Frozen cases 657–660 assert elemental conservation across each wait, not molecular stasis. This catalogue replay adds four semantic decreases in H2O2 and requires the registered peroxide-decomposition event. The sequential vessels share one clock, so it makes no cross-vessel rate comparison. This is a simulator-contract observation, not a new empirical peroxide rate. Species inventories remain unavailable in GUI Scene v1 rather than being replaced by a scene proxy.",
+        "lv3_de": "Die eingefrorenen Fälle 657–660 prüfen die Elementerhaltung über jedes Warten, nicht molekularen Stillstand. Diese Katalogwiedergabe ergänzt vier semantische Abnahmen von H2O2 und fordert das registrierte Ereignis der Peroxidzersetzung. Die nacheinander angelegten Gefäße teilen eine Uhr; daher wird keine gefäßübergreifende Geschwindigkeit verglichen. Dies ist eine Beobachtung des Simulatorvertrags, keine neue empirische Peroxidrate. Speziesbestände bleiben in GUI-Szene v1 unverfügbar, statt durch einen Szenenwert ersetzt zu werden."
       },
       "provenance": {
         "source": "Original promotion from source-fleet v2 peroxide wait controls; no private source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08.",
         "licence": null,
-        "computed_by": "Kerotakis shared-clock wait operator and material ledger; four unchanged plus one final-inventory equality assertion"
+        "computed_by": "Kerotakis registered peroxide kinetic network and material ledger; four within-vessel H2O2 decrease assertions"
       }
     },
     {

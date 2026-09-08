@@ -4908,6 +4908,122 @@
       }
     ]
   },
+  "longer-waits-advance-peroxide-kinetics": {
+    "event_count": 41,
+    "events_sample": [
+      "v1: +11.0686 mol water",
+      "v1: +0.0100 mol hydrogen peroxide",
+      "v1: 0.000001 mol O2 produced (4.062e-8 mol/s)",
+      "v1: peroxide-decomposition released 0.12 J",
+      "v1: 1.22 µmol reacted in 30 s  —  2 H₂O₂ → 2 H₂O + O₂↑",
+      "v2: new vessel",
+      "v2: +11.0686 mol water",
+      "v2: +0.0100 mol hydrogen peroxide",
+      "v1: 0.000002 mol O2 produced (4.060e-8 mol/s)",
+      "v1: peroxide-decomposition released 0.24 J",
+      "v1: 2.44 µmol reacted in 60 s  —  2 H₂O₂ → 2 H₂O + O₂↑",
+      "v2: 0.000002 mol O2 produced (4.061e-8 mol/s)",
+      "v2: peroxide-decomposition released 0.24 J",
+      "v2: 2.44 µmol reacted in 60 s  —  2 H₂O₂ → 2 H₂O + O₂↑",
+      "v3: new vessel",
+      "v3: +11.0686 mol water",
+      "v3: +0.0100 mol hydrogen peroxide",
+      "v1: 0.000005 mol O2 produced (4.057e-8 mol/s)",
+      "v1: peroxide-decomposition released 0.48 J",
+      "v1: 4.87 µmol reacted in 120 s  —  2 H₂O₂ → 2 H₂O + O₂↑"
+    ],
+    "lesson": "longer-waits-advance-peroxide-kinetics.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.0099635,
+            "phase": "Liquid",
+            "species": "H2O2"
+          },
+          {
+            "moles": 0.00001825,
+            "phase": "Gas",
+            "species": "O2"
+          },
+          {
+            "moles": 11.06859048,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.1521
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.00996593,
+            "phase": "Liquid",
+            "species": "H2O2"
+          },
+          {
+            "moles": 0.00001703,
+            "phase": "Gas",
+            "species": "O2"
+          },
+          {
+            "moles": 11.06858805,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.152
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.00997079,
+            "phase": "Liquid",
+            "species": "H2O2"
+          },
+          {
+            "moles": 0.0000146,
+            "phase": "Gas",
+            "species": "O2"
+          },
+          {
+            "moles": 11.06858319,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.1517
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.00998052,
+            "phase": "Liquid",
+            "species": "H2O2"
+          },
+          {
+            "moles": 9.74e-6,
+            "phase": "Gas",
+            "species": "O2"
+          },
+          {
+            "moles": 11.06857346,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.1511
+      }
+    ]
+  },
   "luminol-temperature": {
     "event_count": 28,
     "events_sample": [
@@ -8384,122 +8500,6 @@
         "headspace": "Open",
         "label": "beaker",
         "temperature_k": 298.15
-      }
-    ]
-  },
-  "wait-is-not-a-reaction-trigger": {
-    "event_count": 41,
-    "events_sample": [
-      "v1: +11.0686 mol water",
-      "v1: +0.0100 mol hydrogen peroxide",
-      "v1: 0.000001 mol O2 produced (4.062e-8 mol/s)",
-      "v1: peroxide-decomposition released 0.12 J",
-      "v1: 1.22 µmol reacted in 30 s  —  2 H₂O₂ → 2 H₂O + O₂↑",
-      "v2: new vessel",
-      "v2: +11.0686 mol water",
-      "v2: +0.0100 mol hydrogen peroxide",
-      "v1: 0.000002 mol O2 produced (4.060e-8 mol/s)",
-      "v1: peroxide-decomposition released 0.24 J",
-      "v1: 2.44 µmol reacted in 60 s  —  2 H₂O₂ → 2 H₂O + O₂↑",
-      "v2: 0.000002 mol O2 produced (4.061e-8 mol/s)",
-      "v2: peroxide-decomposition released 0.24 J",
-      "v2: 2.44 µmol reacted in 60 s  —  2 H₂O₂ → 2 H₂O + O₂↑",
-      "v3: new vessel",
-      "v3: +11.0686 mol water",
-      "v3: +0.0100 mol hydrogen peroxide",
-      "v1: 0.000005 mol O2 produced (4.057e-8 mol/s)",
-      "v1: peroxide-decomposition released 0.48 J",
-      "v1: 4.87 µmol reacted in 120 s  —  2 H₂O₂ → 2 H₂O + O₂↑"
-    ],
-    "lesson": "wait-is-not-a-reaction-trigger.lab",
-    "vessels": [
-      {
-        "contents": [
-          {
-            "moles": 0.0099635,
-            "phase": "Liquid",
-            "species": "H2O2"
-          },
-          {
-            "moles": 0.00001825,
-            "phase": "Gas",
-            "species": "O2"
-          },
-          {
-            "moles": 11.06859048,
-            "phase": "Liquid",
-            "species": "water"
-          }
-        ],
-        "headspace": "Open",
-        "label": "beaker",
-        "temperature_k": 298.1521
-      },
-      {
-        "contents": [
-          {
-            "moles": 0.00996593,
-            "phase": "Liquid",
-            "species": "H2O2"
-          },
-          {
-            "moles": 0.00001703,
-            "phase": "Gas",
-            "species": "O2"
-          },
-          {
-            "moles": 11.06858805,
-            "phase": "Liquid",
-            "species": "water"
-          }
-        ],
-        "headspace": "Open",
-        "label": "beaker",
-        "temperature_k": 298.152
-      },
-      {
-        "contents": [
-          {
-            "moles": 0.00997079,
-            "phase": "Liquid",
-            "species": "H2O2"
-          },
-          {
-            "moles": 0.0000146,
-            "phase": "Gas",
-            "species": "O2"
-          },
-          {
-            "moles": 11.06858319,
-            "phase": "Liquid",
-            "species": "water"
-          }
-        ],
-        "headspace": "Open",
-        "label": "beaker",
-        "temperature_k": 298.1517
-      },
-      {
-        "contents": [
-          {
-            "moles": 0.00998052,
-            "phase": "Liquid",
-            "species": "H2O2"
-          },
-          {
-            "moles": 9.74e-6,
-            "phase": "Gas",
-            "species": "O2"
-          },
-          {
-            "moles": 11.06857346,
-            "phase": "Liquid",
-            "species": "water"
-          }
-        ],
-        "headspace": "Open",
-        "label": "beaker",
-        "temperature_k": 298.1511
       }
     ]
   },
