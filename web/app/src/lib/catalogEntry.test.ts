@@ -372,7 +372,10 @@ describe("the shipped library", () => {
    * progression rather than scoped it.
    */
   it("locks nothing in Sandbox, at any point in a learner's progression", () => {
-    const everything = new Set(entries.flatMap((entry) => entry.concepts));
+    const everything = new Set(entries.flatMap((entry) => [
+      ...entry.concepts,
+      ...(entry.script?.requires ?? []),
+    ]));
     const records: ReadonlySet<string>[] = [
       new Set<string>(),
       metConcepts(codex, new Set(["hot-pack"])),
