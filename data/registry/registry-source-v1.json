@@ -1581,7 +1581,7 @@
       "citation": "sulfite ion, the anion sodium sulfite actually is once it is in water, and the key the aqueous readback needs before a solved sulfite solution has anywhere honest to book. IDENTITY VERIFIED against PubChem CID 1099 on 2026-09-08 (PUG REST property record): molecular formula O3S-2, charge -2, InChIKey LSNNMFCWUKXFEE-UHFFFAOYSA-L. THE FINAL CHARACTER WAS FETCHED, NOT ASSUMED. Asking PubChem for the bare name `sulfite` returns the DIANION here (CID 1099, -L), which is the opposite of what the same question returned for thiosulfate, where the bare name gave the monoanion at -M and the dianion had to be asked for separately. The conjugate pair shares its first block, LSNNMFCWUKXFEE, and differs only in the suffix letter - -L for this dianion and -M for hydrogensulfite (CID 104748) - because both records are written from the H2SO3 skeleton with a /p-n layer. That is thiosulfate's pattern and the exact opposite of hypochlorite's, where the acid and the anion differ in the FIRST block. Neither pattern generalises; both keys in this pair were fetched separately.",
       "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
       "lane": "build_oracle",
-      "origin": "crates/kerotakis-phreeqc/src/lib.rs",
+      "origin": "crates/kerotakis-core/src/species.rs",
       "revision": null,
       "retrieved": null
     },
@@ -1590,7 +1590,7 @@
       "citation": "hydrogensulfite (bisulfite) ion, the OTHER half of the sulfite element and the reason this borrow needed a `derived::PROTONATION_SPLITS` row where thiosulfate needed none. llnl.dat line 4591 gives `SO3-2 + H+ = HSO3-  log_k 7.2054`. A sodium sulfite beaker is not divided at that constant - it hydrolyses to pH 9.70 and is almost all dianion - but a sodium BISULFITE beaker reads pH 4.17 and is almost all this ion, so the two bottles the bench stocks sit on opposite sides of the pKa and a single booking ion is wrong for one of them; booking the whole total as the dianion would drop this ion out of the ledger, which is the acetate bug. IDENTITY VERIFIED against PubChem CID 104748 on 2026-09-08 (PUG REST property record): molecular formula HO3S-, charge -1, InChIKey LSNNMFCWUKXFEE-UHFFFAOYSA-M. Fetched by the unambiguous name `hydrogensulfite`, not derived from the dianion's key by changing the suffix.",
       "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
       "lane": "build_oracle",
-      "origin": "crates/kerotakis-phreeqc/src/lib.rs",
+      "origin": "crates/kerotakis-core/src/species.rs",
       "revision": null,
       "retrieved": null
     },
@@ -44489,6 +44489,66 @@
       }
     },
     {
+      "id": "heat-capacity/SO3-2",
+      "species_id": "SO3-2",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/SO3-2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/SO3-2",
+      "species_id": "SO3-2",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/SO3-2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
       "id": "molar-mass/HSO3-",
       "species_id": "HSO3-",
       "phase": "aqueous",
@@ -44498,6 +44558,66 @@
         "unit": {
           "symbol": "g/mol",
           "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/HSO3-",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/HSO3-",
+      "species_id": "HSO3-",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/HSO3-",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/HSO3-",
+      "species_id": "HSO3-",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
         },
         "conditions": {
           "temperature": null,
@@ -44549,66 +44669,6 @@
       }
     },
     {
-      "id": "heat-capacity/SO3-2",
-      "species_id": "SO3-2",
-      "phase": "aqueous",
-      "property": "molar_heat_capacity",
-      "quantity": {
-        "value": 0.0,
-        "unit": {
-          "symbol": "J/(mol.K)",
-          "dimension": "molar_heat_capacity"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": null,
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "aqueous",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "not_reported"
-        },
-        "source_id": "legacy/SO3-2",
-        "method": {
-          "kind": "imported",
-          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
-        }
-      }
-    },
-    {
-      "id": "heat-capacity/HSO3-",
-      "species_id": "HSO3-",
-      "phase": "aqueous",
-      "property": "molar_heat_capacity",
-      "quantity": {
-        "value": 0.0,
-        "unit": {
-          "symbol": "J/(mol.K)",
-          "dimension": "molar_heat_capacity"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": null,
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "aqueous",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "not_reported"
-        },
-        "source_id": "legacy/HSO3-",
-        "method": {
-          "kind": "imported",
-          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
-        }
-      }
-    },
-    {
       "id": "heat-capacity/S2O3-2",
       "species_id": "S2O3-2",
       "phase": "aqueous",
@@ -44632,66 +44692,6 @@
           "kind": "not_reported"
         },
         "source_id": "legacy/S2O3-2",
-        "method": {
-          "kind": "imported",
-          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
-        }
-      }
-    },
-    {
-      "id": "density/SO3-2",
-      "species_id": "SO3-2",
-      "phase": "aqueous",
-      "property": "mass_density",
-      "quantity": {
-        "value": 1.0,
-        "unit": {
-          "symbol": "g/mL",
-          "dimension": "mass_density"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": null,
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "aqueous",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "not_reported"
-        },
-        "source_id": "legacy/SO3-2",
-        "method": {
-          "kind": "imported",
-          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
-        }
-      }
-    },
-    {
-      "id": "density/HSO3-",
-      "species_id": "HSO3-",
-      "phase": "aqueous",
-      "property": "mass_density",
-      "quantity": {
-        "value": 1.0,
-        "unit": {
-          "symbol": "g/mL",
-          "dimension": "mass_density"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": null,
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "aqueous",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "not_reported"
-        },
-        "source_id": "legacy/HSO3-",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
