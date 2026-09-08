@@ -1491,7 +1491,8 @@ pub fn parse_vessel(word: &str) -> Result<VesselId, String> {
 /// `0.5mol`, `10g`, `100mL` (unit required, so units are never guessed).
 pub fn parse_amount(word: &str, data: &SpeciesData) -> Result<Moles, String> {
     let (value, unit) = split_unit(word)?;
-    match unit {
+    finite(value, "amount")?;
+    let amount = match unit {
         "mol" => Ok(Moles(value)),
         // Household amounts. A child does not weigh things in grams, and
         // demanding they do is the fastest way to lose them. These are
@@ -1507,7 +1508,13 @@ pub fn parse_amount(word: &str, data: &SpeciesData) -> Result<Moles, String> {
         other => Err(format!(
             "unknown amount '{other}' — try g, mL, L, mol, or a kitchen measure: spoon, pinch, cup, splash, drop"
         )),
-    }
+    }?;
+    // A finite input can still overflow while converting a mass, volume or
+    // kitchen measure to moles. Reject that at the grammar boundary too: every
+    // operator containing an amount must remain serializable before it can
+    // reach the bench or its saved log.
+    finite(amount.0, "amount")?;
+    Ok(amount)
 }
 
 /// Convert a user amount into a recipe's declared basis. Mass-fraction

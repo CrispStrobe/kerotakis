@@ -86,7 +86,10 @@ it had while it was open, which is why a few numbers appear twice below.
   solvent comparison, moving `aq-085` from missing to computed and leaving the
   other 499 curiosity rows unchanged. A live run also exposed and removed a
   false safety warning: molecular iodine is no longer treated as a
-  permanganate-strength oxidizer when mixed with hexane or iodide.
+  permanganate-strength oxidizer when mixed with hexane or iodide. Rebuilt CI
+  then exposed a shared grammar hole: non-finite amounts could enter any
+  amount-bearing operator. The common amount parser now rejects both
+  non-finite input and conversion overflow before an operator can be logged.
 
 **Coverage contract**
 

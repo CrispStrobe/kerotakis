@@ -225,6 +225,8 @@ fn extraction_grammar_defaults_to_one_stage_and_rejects_nonfinite_or_zero_inputs
         .unwrap();
     let before = serde_json::to_value(&bench.vessels).unwrap();
     assert!(parse_op("extract v1 v2 hexane NaNmol").is_err());
+    assert!(parse_op("extract v1 v2 hexane 1e999mol").is_err());
+    assert!(parse_op("add v1 water NaNmol").is_err());
     assert_eq!(serde_json::to_value(&bench.vessels).unwrap(), before);
 }
 
