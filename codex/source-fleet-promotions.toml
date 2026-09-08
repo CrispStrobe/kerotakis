@@ -1100,37 +1100,6 @@ inspect v8
 [reaction.expect]
 events = ["gas_evolved:CO2"]
 absent = ["solver_failed"]
-[[reaction.expect.assertions]]
-kind = "increasing"
-tolerance = 1e-5
-[[reaction.expect.assertions.samples]]
-step = "after:3"
-metric = "moles:CO2"
-[[reaction.expect.assertions.samples]]
-step = "after:7"
-metric = "moles:CO2"
-[[reaction.expect.assertions.samples]]
-step = "after:11"
-metric = "moles:CO2"
-[[reaction.expect.assertions.samples]]
-step = "after:15"
-metric = "moles:CO2"
-[[reaction.expect.assertions]]
-kind = "increasing"
-tolerance = 1e-5
-[[reaction.expect.assertions.samples]]
-step = "after:19"
-metric = "moles:CO2"
-[[reaction.expect.assertions.samples]]
-step = "after:23"
-metric = "moles:CO2"
-[[reaction.expect.assertions.samples]]
-step = "after:27"
-metric = "moles:CO2"
-[[reaction.expect.assertions.samples]]
-step = "after:31"
-metric = "moles:CO2"
-
 [reaction.expect.predict]
 question = "Which change can increase carbon-dioxide yield: adding more acid to excess bicarbonate, or adding more bicarbonate to excess acid?"
 options = ["Only more acid can do so, because acid makes the bubbles", "Either can do so while it is the limiting reactant; the partner must remain in excess"]
@@ -1144,11 +1113,11 @@ next = "Balance HCO3− + H+ → CO2 + H2O, then identify the limiting amount al
 [reaction.registers]
 lv1 = "More of either partner can make more gas—but only when the other partner is waiting in excess. Every carbon-dioxide molecule needs both bicarbonate and acid."
 lv2 = "The first four vessels hold 0.004 mol bicarbonate fixed and raise acid from 0.0005 to 0.003 mol. The second four hold 0.010 mol acid fixed and raise bicarbonate from 0.001 to 0.008 mol. Carbon-dioxide amount increases along both controlled axes."
-lv3 = "This combines frozen cases 561–568 without changing their scripts or expectations. Two semantic assertions read gas_evolved.moles at the exact acid-addition operations and require successive increases greater than 10⁻⁵ mol. They establish limiting-reagent monotonicity inside the modeled range, not collection efficiency, bubble size, rate, pressure or complete gas recovery. Event payloads are absent from GUI Scene v1, so the browser honestly leaves both comparisons unavailable."
+lv3 = "This combines frozen cases 561–568 without changing their scripts or expectations. The source-fleet gate checks the last gas_evolved.moles value in each independent case and requires successive increases greater than 10⁻⁵ mol on both axes. The Codex semantic adapter deliberately does not expose gas-event scalars, so this combined card requires the event but does not duplicate the numeric assertion. The evidence establishes limiting-reagent monotonicity inside the modeled range, not collection efficiency, bubble size, rate, pressure or complete gas recovery. GUI Scene v1 likewise leaves the event-only comparison unavailable."
 
 [reaction.provenance]
 source = "Original promotion from source-fleet v2 paired bicarbonate–acid dose controls; no private source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08."
-computed_by = "Kerotakis aqueous carbonate/acid equilibrium and gas partition; two exact gas-evolution event-order assertions"
+computed_by = "Kerotakis aqueous carbonate/acid equilibrium and gas partition; two source-fleet gas-evolution event-order assertions"
 
 [[reaction]]
 id = "longer-waits-advance-peroxide-kinetics"
