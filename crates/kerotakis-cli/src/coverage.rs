@@ -787,14 +787,36 @@ fn execute_prompt(
     // an `Adsorbed` event is the only thing that lifts it, exactly as a
     // succeeded curated route is the only thing that lifts the clause
     // above.
-    let inert_beside_curated = all_events
+    let inert_beside_an_answer = all_events
         .iter()
         .any(|event| matches!(event, Event::Inert { .. } | Event::InertInSolvent { .. }))
         && (succeeded(SolverRouteKind::Curated)
             || all_events
                 .iter()
-                .any(|event| matches!(event, Event::Adsorbed { .. })));
-    if typed_observation && !plated_beside_an_aside && !inert_beside_curated {
+                .any(|event| matches!(event, Event::Adsorbed { .. }))
+            // EXP-57: a corrosion verdict lifts it too, for exactly the
+            // reason `Corroded` is kept OUT of `typed_observation` above —
+            // an inert verdict standing beside one is an aside about a
+            // spectator reaction, and the corrosion answer is the real one.
+            //
+            // They are answers to DIFFERENT questions. `Inert` here is the
+            // displacement solver's verdict from the activity series
+            // ("this metal will not displace that ion"); `Corroded` is the
+            // corrosion route's verdict about the metal wasting. A beaker
+            // can honestly get both, and letting the aside outrank the
+            // answer demotes the whole prompt to `qualitative`.
+            //
+            // Found when open vessels started taking up CO2 from the room:
+            // the water reaches its true pH 5.6 instead of 7, which is
+            // acid enough to WAKE the displacement solver, which then
+            // emitted an `Inert` aside that outranked six corrosion
+            // prompts that had answered perfectly well. The trigger was
+            // new; the fragility was already here, waiting for anything
+            // that moved the pH.
+            || all_events
+                .iter()
+                .any(|event| matches!(event, Event::Corroded { .. })));
+    if typed_observation && !plated_beside_an_aside && !inert_beside_an_answer {
         return Ok(result(
             prompt,
             Disposition::Qualitative,
