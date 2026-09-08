@@ -321,8 +321,8 @@ pub fn nonionic_aqueous_conductance(vessel: &Vessel) -> Option<f64> {
         return None;
     }
     let explicitly_nonionic = vessel.contents.iter().all(|portion| {
-        portion.species.as_str() == "water"
-            || crate::species::lookup_key(portion.species.as_str())
+        portion.species.0.as_str() == "water"
+            || crate::species::lookup_key(portion.species.0.as_str())
                 .is_some_and(|data| data.dissolves_without_speciation)
     });
     explicitly_nonionic.then(|| {
