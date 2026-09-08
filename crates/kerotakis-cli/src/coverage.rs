@@ -982,6 +982,31 @@ mod tests {
     }
 
     #[test]
+    fn operator_answers_publish_routes() {
+        let vessel = kerotakis_core::VesselId(0);
+        let routes = observation_routes(&[
+            Event::GasTested {
+                vessel,
+                test: kerotakis_core::gas_tests::GasTest::Limewater,
+                positive: true,
+                notes: "cloudy".to_string(),
+            },
+            Event::Measured {
+                vessel,
+                instrument: kerotakis_core::Instrument::PressureGauge,
+                value: 101.325,
+                unit: "kPa".to_string(),
+                note: None,
+            },
+        ]);
+        assert_eq!(routes.len(), 2);
+        assert_eq!(routes[0].solver, "gas-test");
+        assert_eq!(routes[0].kind, SolverRouteKind::Curated);
+        assert_eq!(routes[1].solver, "pressure-gauge");
+        assert_eq!(routes[1].kind, SolverRouteKind::Computed);
+    }
+
+    #[test]
     fn an_unmet_requirement_is_sorted_by_where_missing_sits() {
         use Disposition::*;
         let mut split = ExpectationSplit::default();
