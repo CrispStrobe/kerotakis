@@ -463,6 +463,40 @@ mod tests {
     }
 
     #[test]
+    fn characterised_deposits_compute_blocking_and_series_resistance() {
+        let electrode = ElectrodeState {
+            label: "steel".into(),
+            material: "Fe".into(),
+            surface_preparation: None,
+            substrate_moles: Some(1.0),
+            area_m2: 0.01,
+            roughness: 1.0,
+            double_layer_capacitance_f_per_m2: None,
+            interfacial_potential_v: None,
+            deposits: vec![
+                ElectrodeDeposit {
+                    species: "oxide-a".into(),
+                    moles: 1e-6,
+                    thickness_m: Some(2e-9),
+                    coverage_fraction: Some(0.75),
+                    effect: Some(crate::electrochemistry::PassivationEffect::Passivating),
+                    electrical_resistivity_ohm_m: Some(1e6),
+                },
+                ElectrodeDeposit {
+                    species: "oxide-b".into(),
+                    moles: 1e-6,
+                    thickness_m: Some(3e-9),
+                    coverage_fraction: Some(0.36),
+                    effect: Some(crate::electrochemistry::PassivationEffect::SemiPassivating),
+                    electrical_resistivity_ohm_m: Some(2e6),
+                },
+            ],
+        };
+        assert!((electrode.deposit_available_fraction().unwrap() - 0.25).abs() < 1e-12);
+        assert!((electrode.deposit_film_resistance_ohm_m2().unwrap() - 8e-3).abs() < 1e-15);
+    }
+
+    #[test]
     fn compartment_default_is_room_conditions() {
         let c = Compartment::default();
         assert!((c.temperature.0 - 298.15).abs() < 0.01);

@@ -99,19 +99,19 @@ and deposit state; a mixed-potential/current-control solver; typed parameter
 domains; and shared area/roughness/coverage/diffusion arithmetic for every
 heterogeneous reaction. Coupled half-reactions become one stoichiometric state
 delta and share one inventory-limiting scale before atomic conservation-checked
-commit. The shipped empirical parameter registry remains empty until
-licence-cleared records survive review.
+commit. Empirical records enter only after licence and domain review.
 
 The non-mutating runtime pipeline, parameter/preparation/hydrodynamic domains,
 computed transport models, deposit growth, interfacial activity feedback,
-double-layer/film transients, connected-electrode circuit balance, irreversible
-heat and explicit standard-state gas reference are complete. Continue in this
-order: (1) make a configured electrochemical network the exclusive clock owner
-for its reaction ids—depletion must shorten, re-equilibrate and recompute rather
-than freeze one competition fraction; (2) admit one narrowly bounded
-permissively licensed polarization dataset with matched controls; (3) only then
-replace the editorial iron/zinc rates and expose current, potential, limiting
-mechanism and parameter envelopes to clients. Owned sealed gas has a computed ideal fugacity;
+double-layer/film transients, connected-electrode circuit balance, atomic
+two-compartment commit, irreversible heat, exclusive clock ownership and
+explicit standard-state gas reference are complete. The first bounded CC BY
+4.0 cathodic HER ensemble is admitted with exact domain and replicate envelope.
+Next, admit compatible anodic metal-dissolution and cathodic oxygen-reduction
+records before replacing the editorial iron/zinc clocks; the HER record alone
+cannot quantify either full corrosion cell. Then expose current, potential,
+limiting mechanism and parameter envelopes in CLI/GUI clients. Owned sealed
+gas has a computed ideal fugacity;
 standard-state gas is used only when a reviewed parameterisation declares that
 reference condition. Absent gas and open/swept reservoir composition otherwise
 remain refusals rather than receiving an arbitrary activity floor.

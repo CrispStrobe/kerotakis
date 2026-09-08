@@ -22,12 +22,15 @@ use crate::units::{Kelvin, Moles};
 use crate::vessel::{ThermalMode, Vessel};
 
 /// What the caller knows about this passage of time.
-#[derive(Debug, Clone, Copy, Default)]
+#[derive(Debug, Clone, Default)]
 pub struct ClockContext {
     /// Whether suspended solids may settle: `wait` says yes; a turning
     /// stir bar says no.
     pub settle_under_gravity: bool,
     pub kinetic: KineticContext,
+    /// Reactions owned by a configured higher-fidelity engine for this same
+    /// interval. Curated kinetics must never mutate them a second time.
+    pub excluded_kinetic_reactions: Vec<String>,
 }
 
 /// One slow engine. `advance` moves the vessel by `seconds` and appends
@@ -73,6 +76,88 @@ pub fn advance(
         clock.advance(vessel, seconds, &ctx, events)?;
     }
     Ok(())
+}
+
+/// Runtime configuration for one electrode network that replaces any legacy
+/// rate laws with matching reaction ids during the same clock interval.
+#[derive(Debug, Clone, Copy)]
+pub struct ElectrochemicalClockConfig<'a> {
+    pub electrode_label: &'a str,
+    pub records: &'a [crate::electrochemistry::ExchangeCurrentRecord],
+    pub definitions: &'a [crate::electrochemistry::ElectrochemicalReactionDefinition<'a>],
+    pub hydrodynamics: crate::electrochemistry::HydrodynamicCondition,
+    pub control: crate::electrochemistry::CellControl,
+    pub transport: crate::electrochemistry::TransportLimits,
+    pub solver: crate::electrochemistry::CurrentBalanceSolver,
+    pub options: crate::electrochemistry::ElectrochemicalAdvanceOptions,
+}
+
+#[derive(Debug, thiserror::Error)]
+pub enum ElectrochemicalClockError {
+    #[error("ordinary clock failed: {0}")]
+    Clock(#[from] IntegrationError),
+    #[error("electrode clock failed: {0:?}")]
+    Electrochemical(crate::electrochemistry::ElectrochemicalStepError),
+}
+
+/// Run the standard shared clock with a configured electrode network inserted
+/// at the curated-kinetics position. Matching legacy reactions are excluded
+/// first, and the supplied equilibrium stack runs after every committed
+/// electrochemical segment, including depletion boundaries.
+pub fn advance_with_electrochemistry(
+    vessel: &mut Vessel,
+    seconds: f64,
+    mut ctx: ClockContext,
+    events: &mut Vec<Event>,
+    config: ElectrochemicalClockConfig<'_>,
+    equilibrator: &mut dyn Equilibrator,
+) -> Result<crate::electrochemistry::ElectrochemicalAdvanceReport, ElectrochemicalClockError> {
+    for definition in config.definitions {
+        if !ctx
+            .excluded_kinetic_reactions
+            .iter()
+            .any(|id| id == definition.id)
+        {
+            ctx.excluded_kinetic_reactions
+                .push(definition.id.to_owned());
+        }
+    }
+    let seconds = seconds.max(0.0);
+    let mut trial = vessel.clone();
+    let mut trial_events = Vec::new();
+    let mut report = None;
+    for clock in standard_clocks() {
+        clock.advance(&mut trial, seconds, &ctx, &mut trial_events)?;
+        if clock.name() == "curated-kinetics" {
+            let electrode_report = crate::electrochemistry::advance_electrochemical(
+                &mut trial,
+                config.electrode_label,
+                config.records,
+                config.definitions,
+                seconds,
+                config.hydrodynamics,
+                config.control,
+                config.transport,
+                config.solver,
+                config.options,
+                &mut |state| {
+                    let equilibrium_events = equilibrator.equilibrate(state).map_err(|error| {
+                        crate::electrochemistry::ElectrochemicalStepError::Equilibration {
+                            reason: error.to_string(),
+                        }
+                    })?;
+                    trial_events.extend(equilibrium_events);
+                    Ok(())
+                },
+            )
+            .map_err(ElectrochemicalClockError::Electrochemical)?;
+            report = Some(electrode_report);
+        }
+    }
+    let report = report.expect("the standard clock always contains curated kinetics");
+    *vessel = trial;
+    events.extend(trial_events);
+    Ok(report)
 }
 
 /// An emulsion left standing separates on its half-life.
@@ -257,6 +342,13 @@ impl Clock for CuratedKineticsClock {
         events: &mut Vec<Event>,
     ) -> Result<(), IntegrationError> {
         for reaction in crate::kinetics::REGISTRY {
+            if ctx
+                .excluded_kinetic_reactions
+                .iter()
+                .any(|excluded| excluded == reaction.id)
+            {
+                continue;
+            }
             let other_reactants_present = reaction
                 .reactants()
                 .filter(|term| term.species != crate::kinetics::PROTON)
@@ -275,9 +367,12 @@ impl Clock for CuratedKineticsClock {
                 }
             }
         }
-        for (reaction, moles) in
-            crate::kinetics::advance_with_context(vessel, seconds, ctx.kinetic)?
-        {
+        for (reaction, moles) in crate::kinetics::advance_with_context_excluding(
+            vessel,
+            seconds,
+            ctx.kinetic,
+            &ctx.excluded_kinetic_reactions,
+        )? {
             if reaction.id == "peroxide-decomposition" {
                 // 2 H2O2(l) -> 2 H2O(l) + O2(g), approximately -98.2 kJ
                 // per stoichiometric extent at 25 °C.

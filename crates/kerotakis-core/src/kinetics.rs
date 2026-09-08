@@ -2154,7 +2154,31 @@ pub fn advance_with_context(
     seconds: f64,
     context: KineticContext,
 ) -> Result<Vec<(&'static KineticReaction<'static>, Moles)>, IntegrationError> {
-    if let Some(reactions) = overridden_reactions() {
+    advance_with_context_excluding(vessel, seconds, context, &[])
+}
+
+/// Advance curated kinetics while another engine has exclusive ownership of
+/// named reactions. Exclusion happens before the coupled network is assembled,
+/// so an electrochemical reaction cannot be integrated once here and once by
+/// its electrode clock during the same interval.
+pub fn advance_with_context_excluding(
+    vessel: &mut Vessel,
+    seconds: f64,
+    context: KineticContext,
+    excluded_reaction_ids: &[String],
+) -> Result<Vec<(&'static KineticReaction<'static>, Moles)>, IntegrationError> {
+    let override_reactions = overridden_reactions();
+    if override_reactions.is_some() || !excluded_reaction_ids.is_empty() {
+        let source = override_reactions.as_deref().unwrap_or(REGISTRY);
+        let reactions: Vec<_> = source
+            .iter()
+            .filter(|reaction| {
+                !excluded_reaction_ids
+                    .iter()
+                    .any(|excluded| excluded == reaction.id)
+            })
+            .copied()
+            .collect();
         let network = ReactionNetwork {
             id: NETWORK.id,
             reactions: &reactions,
@@ -2833,6 +2857,39 @@ mod tests {
             "a catalyst comes out as it went in"
         );
         assert!(v.moles_of(&SpeciesId::new("H2O2")).0 < 0.1);
+    }
+
+    #[test]
+    fn exclusive_owner_removes_reaction_before_network_integration() {
+        let initial = 0.1;
+        let mut excluded = vessel_with(
+            &[
+                ("water", 5.5343, Phase::Liquid),
+                ("H2O2", initial, Phase::Liquid),
+            ],
+            25.0,
+        );
+        let extents = advance_with_context_excluding(
+            &mut excluded,
+            60.0,
+            KineticContext::default(),
+            &["peroxide-decomposition".to_owned()],
+        )
+        .unwrap();
+        assert!(extents
+            .iter()
+            .all(|(reaction, _)| reaction.id != "peroxide-decomposition"));
+        assert!((excluded.moles_of(&SpeciesId::new("H2O2")).0 - initial).abs() < 1e-12);
+
+        let mut ordinary = vessel_with(
+            &[
+                ("water", 5.5343, Phase::Liquid),
+                ("H2O2", initial, Phase::Liquid),
+            ],
+            25.0,
+        );
+        advance_with_context(&mut ordinary, 60.0, KineticContext::default()).unwrap();
+        assert!(ordinary.moles_of(&SpeciesId::new("H2O2")).0 < initial);
     }
 
     #[test]

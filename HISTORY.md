@@ -88,6 +88,16 @@ it had while it was open, which is why a few numbers appear twice below.
   quotient until current and interfacial activity converge. A connected-cell
   solver enforces one total current across unequal electrode areas and includes
   both electrode polarizations and solution iR
+- `feat/modular-electrode-kinetics` — made configured electrode networks the
+  exclusive shared-clock owner of matching reaction ids, with fallible
+  equilibrium re-solves at depletion boundaries, and made two-compartment
+  commits atomic. The combined ordinary/electrode clock publishes its cloned
+  state and buffered events only after the whole interval succeeds. Results
+  now carry exact parameter provenance and uncertainty
+  envelopes. The first shipped record is the CC BY 4.0 van Ede/Angst
+  X5CrNi18-10 cathodic HER ensemble: arithmetic means and observed replicate
+  bounds from Supplementary Table B1. A directional Tafel law preserves what
+  was measured without inventing an anodic Butler–Volmer coefficient
 - **#541** — the heat-capacity integral in **difference form**. Each NASA-9 and
   Shomate term is now written so `(t1 − t0)` factors out, instead of evaluating
   an antiderivative at both ends and subtracting terms around 1.2e9 J/mol that

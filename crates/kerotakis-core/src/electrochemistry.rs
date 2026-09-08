@@ -112,7 +112,7 @@ pub struct ExchangeCurrentRecord {
     /// Electrode substrate or alloy on which the value was measured.
     pub electrode_material: String,
     /// Canonical SI kinetic parameters. Current density is A/m².
-    pub kinetics: ButlerVolmerParams,
+    pub kinetics: ElectrodeKineticModel,
     /// Conditions under which this record may be applied.
     pub validity: KineticValidityDomain,
     /// Source citation.
@@ -127,16 +127,69 @@ pub struct ExchangeCurrentRecord {
     /// independent Gaussian errors.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub parameter_envelope: Option<KineticParameterEnvelope>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub directional_tafel_envelope: Option<DirectionalTafelEnvelope>,
     /// Required account of measurement scatter, fit sensitivity and omissions.
     pub uncertainty_note: String,
     /// Whether this record has been reviewed for the runtime allowlist.
     pub reviewed: bool,
 }
 
-/// Curated exchange-current records from reviewed sources.
-/// Empty until a permissively licensed measurement can be represented with
-/// its complete material, surface, electrolyte and uncertainty domain.
-pub const EXCHANGE_CURRENTS: &[ExchangeCurrentRecord] = &[];
+/// Exact preparation label for the reviewed stainless-steel HER measurement.
+pub const VAN_EDE_STAINLESS_PREPARATION: &str = "1 um diamond polish; ethanol degreased; ultrasonicated 3 min; cathodically polarized at -1.5 V vs Ag/AgCl/saturated KCl for 5 min; immersed 0.5 h";
+
+/// Curated exchange-current records from reviewed permissive sources. Each
+/// entry is one compatible measured ensemble, never a range midpoint.
+pub static EXCHANGE_CURRENTS: std::sync::LazyLock<Vec<ExchangeCurrentRecord>> =
+    std::sync::LazyLock::new(|| {
+        vec![ExchangeCurrentRecord {
+            id: "van-ede-2024-her-x5crni18-10-1200rpm-up-mean".into(),
+            reaction: "H+/H2".into(),
+            electrode_material: "X5CrNi18-10 stainless steel".into(),
+            kinetics: ElectrodeKineticModel::DirectionalTafel {
+                direction: TafelDirection::Cathodic,
+                exchange_current_density_a_per_m2: (1.1e-2 + 1.7e-2 + 1.7e-2) / 3.0,
+                tafel_slope_v_per_decade: (0.16 + 0.14 + 0.16) / 3.0,
+                electrons_per_extent: 2.0,
+            },
+            validity: KineticValidityDomain {
+                temperature_min_k: 289.15,
+                temperature_max_k: 289.15,
+                activities: vec![ActivityBound {
+                    species: "H+".into(),
+                    minimum: 10.0_f64.powf(-7.5),
+                    maximum: 10.0_f64.powf(-7.5),
+                }],
+                surface_preparation: VAN_EDE_STAINLESS_PREPARATION.into(),
+                hydrodynamics: HydrodynamicDomain {
+                    rotation_rate_rpm: Some(ParameterBound {
+                        minimum: 1200.0,
+                        maximum: 1200.0,
+                    }),
+                    fluid_velocity_m_per_s: None,
+                    diffusion_layer_m: None,
+                },
+                note: "N2-deaerated 0.1 M boric-acid/borax buffer at pH 7.5 with 0.027 M chloride; oxygen below 0.30 ppm; 0.50 mV/s initial upward scan; three repetitions".into(),
+            },
+            source: "M. C. van Ede and U. Angst, Tafel slopes and exchange current densities of oxygen reduction and hydrogen evolution on steel, Corrosion Engineering, Science and Technology (2024), doi:10.1177/1478422X241227829, Supplementary Table B1".into(),
+            license: PermissiveDataLicense::CcBy40,
+            relative_uncertainty: None,
+            parameter_envelope: None,
+            directional_tafel_envelope: Some(DirectionalTafelEnvelope {
+                exchange_current_density_a_per_m2: ParameterBound {
+                    minimum: 1.1e-2,
+                    maximum: 1.7e-2,
+                },
+                tafel_slope_v_per_decade: ParameterBound {
+                    minimum: 0.14,
+                    maximum: 0.16,
+                },
+                replicate_count: 3,
+            }),
+            uncertainty_note: "Nominal values are arithmetic means computed from all three exact 1200 rpm, 0.50 mV/s upward-scan repetitions in Table B1 (j0 0.011, 0.017, 0.017 A/m2; |b| 0.16, 0.14, 0.16 V/dec). The envelope is their observed min/max, not an independent Gaussian distribution; other scan and rotation settings remain different domains.".into(),
+            reviewed: true,
+        }]
+    });
 
 /// Closed allowlist for parameter records that may ship with the engine.
 /// An NC, copyleft or unknown licence cannot be represented accidentally.
@@ -149,6 +202,95 @@ pub enum PermissiveDataLicense {
     Mit,
     Bsd3Clause,
     Apache20,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum TafelDirection {
+    Anodic,
+    Cathodic,
+}
+
+/// A reviewed kinetic law may describe a complete reversible couple or one
+/// experimentally isolated Tafel branch. Directional data remain directional;
+/// an unmeasured reverse transfer coefficient is never manufactured.
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+#[serde(tag = "model", rename_all = "snake_case")]
+pub enum ElectrodeKineticModel {
+    ButlerVolmer {
+        parameters: ButlerVolmerParams,
+    },
+    DirectionalTafel {
+        direction: TafelDirection,
+        exchange_current_density_a_per_m2: f64,
+        tafel_slope_v_per_decade: f64,
+        electrons_per_extent: f64,
+    },
+}
+
+impl ElectrodeKineticModel {
+    pub fn validate(self) -> Result<(), &'static str> {
+        match self {
+            Self::ButlerVolmer { parameters } => parameters.validate(),
+            Self::DirectionalTafel {
+                exchange_current_density_a_per_m2,
+                tafel_slope_v_per_decade,
+                electrons_per_extent,
+                ..
+            } if exchange_current_density_a_per_m2.is_finite()
+                && exchange_current_density_a_per_m2 > 0.0
+                && tafel_slope_v_per_decade.is_finite()
+                && tafel_slope_v_per_decade > 0.0
+                && electrons_per_extent.is_finite()
+                && electrons_per_extent > 0.0 =>
+            {
+                Ok(())
+            }
+            Self::DirectionalTafel { .. } => Err(
+                "directional Tafel current, slope and electron count must be finite and positive",
+            ),
+        }
+    }
+
+    pub fn electrons_per_extent(self) -> f64 {
+        match self {
+            Self::ButlerVolmer { parameters } => parameters.n,
+            Self::DirectionalTafel {
+                electrons_per_extent,
+                ..
+            } => electrons_per_extent,
+        }
+    }
+
+    pub fn current_density(self, overpotential_v: f64, temperature_k: f64) -> f64 {
+        match self {
+            Self::ButlerVolmer { parameters } => {
+                parameters.current_density(overpotential_v, temperature_k)
+            }
+            Self::DirectionalTafel {
+                direction,
+                exchange_current_density_a_per_m2,
+                tafel_slope_v_per_decade,
+                ..
+            } if self.validate().is_ok()
+                && overpotential_v.is_finite()
+                && temperature_k.is_finite()
+                && temperature_k > 0.0 =>
+            {
+                let signed_decades = match direction {
+                    TafelDirection::Anodic => overpotential_v / tafel_slope_v_per_decade,
+                    TafelDirection::Cathodic => -overpotential_v / tafel_slope_v_per_decade,
+                };
+                let magnitude = exchange_current_density_a_per_m2
+                    * 10.0_f64.powf(signed_decades.clamp(-300.0, 300.0));
+                match direction {
+                    TafelDirection::Anodic => magnitude,
+                    TafelDirection::Cathodic => -magnitude,
+                }
+            }
+            Self::DirectionalTafel { .. } => f64::NAN,
+        }
+    }
 }
 
 /// One activity constraint carried by a kinetic parameter record.
@@ -192,14 +334,48 @@ pub struct KineticParameterEnvelope {
     pub alpha_cathodic: ParameterBound,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+pub struct DirectionalTafelEnvelope {
+    pub exchange_current_density_a_per_m2: ParameterBound,
+    pub tafel_slope_v_per_decade: ParameterBound,
+    pub replicate_count: usize,
+}
+
+impl DirectionalTafelEnvelope {
+    fn validates_nominal(self, nominal: ElectrodeKineticModel) -> bool {
+        let ElectrodeKineticModel::DirectionalTafel {
+            exchange_current_density_a_per_m2,
+            tafel_slope_v_per_decade,
+            ..
+        } = nominal
+        else {
+            return false;
+        };
+        self.replicate_count > 0
+            && self.exchange_current_density_a_per_m2.validate(true)
+            && self.tafel_slope_v_per_decade.validate(true)
+            && self
+                .exchange_current_density_a_per_m2
+                .contains(exchange_current_density_a_per_m2)
+            && self
+                .tafel_slope_v_per_decade
+                .contains(tafel_slope_v_per_decade)
+    }
+}
+
 impl KineticParameterEnvelope {
-    fn validates_nominal(self, nominal: ButlerVolmerParams) -> bool {
+    fn validates_nominal(self, nominal: ElectrodeKineticModel) -> bool {
+        let ElectrodeKineticModel::ButlerVolmer { parameters } = nominal else {
+            return false;
+        };
         self.exchange_current_density_a_per_m2.validate(true)
             && self.alpha_anodic.validate(true)
             && self.alpha_cathodic.validate(true)
-            && self.exchange_current_density_a_per_m2.contains(nominal.j0)
-            && self.alpha_anodic.contains(nominal.alpha_a)
-            && self.alpha_cathodic.contains(nominal.alpha_c)
+            && self
+                .exchange_current_density_a_per_m2
+                .contains(parameters.j0)
+            && self.alpha_anodic.contains(parameters.alpha_a)
+            && self.alpha_cathodic.contains(parameters.alpha_c)
     }
 }
 
@@ -329,6 +505,10 @@ impl ExchangeCurrentRecord {
             && self
                 .parameter_envelope
                 .is_none_or(|envelope| envelope.validates_nominal(self.kinetics))
+            && self
+                .directional_tafel_envelope
+                .is_none_or(|envelope| envelope.validates_nominal(self.kinetics))
+            && !(self.parameter_envelope.is_some() && self.directional_tafel_envelope.is_some())
             && self.electrode_material == electrode_material
             && self.kinetics.validate().is_ok()
             && self.validity.accepts(
@@ -456,7 +636,7 @@ pub struct PartialReaction<'a> {
     /// Exact reviewed parameter record, distinct from reaction identity.
     pub parameter_record_id: Option<&'a str>,
     pub equilibrium_potential_v: f64,
-    pub kinetics: ButlerVolmerParams,
+    pub kinetics: ElectrodeKineticModel,
     /// Reactive area for this reaction divided by geometric electrode area.
     pub reactive_area_ratio: f64,
     /// Area-specific resistance of surface films, Ω·m².
@@ -608,7 +788,7 @@ impl CurrentBalance {
                     extent_moles: faradaic_extent_moles(
                         current_amps,
                         seconds,
-                        reaction.kinetics.n,
+                        reaction.kinetics.electrons_per_extent(),
                     )?,
                 })
             })
@@ -1036,6 +1216,70 @@ impl ConnectedCellBalance {
     }
 }
 
+#[derive(Debug, Clone, PartialEq)]
+pub enum ConnectedCommitError {
+    SameVessel,
+    Left(Vec<crate::delta::DeltaError>),
+    Right(Vec<crate::delta::DeltaError>),
+}
+
+/// Convert both sides of a connected circuit over the same interval. The
+/// circuit solver has already enforced equal electron current; each side's
+/// balanced half-reactions now produce a local conserved matter delta.
+#[allow(clippy::too_many_arguments)]
+pub fn connected_faradaic_deltas(
+    balance: &ConnectedCellBalance,
+    left_reactions: &[PartialReaction<'_>],
+    left_half_reactions: &[FaradaicHalfReaction<'_>],
+    left_area_m2: f64,
+    right_reactions: &[PartialReaction<'_>],
+    right_half_reactions: &[FaradaicHalfReaction<'_>],
+    right_area_m2: f64,
+    seconds: f64,
+) -> Result<(crate::delta::StateDelta, crate::delta::StateDelta), ElectrochemistryError> {
+    Ok((
+        faradaic_state_delta(
+            &balance.left,
+            left_reactions,
+            left_half_reactions,
+            left_area_m2,
+            seconds,
+        )?,
+        faradaic_state_delta(
+            &balance.right,
+            right_reactions,
+            right_half_reactions,
+            right_area_m2,
+            seconds,
+        )?,
+    ))
+}
+
+/// Validate and commit a two-compartment electrical step atomically. Both
+/// deltas are tried on clones before either caller-owned vessel changes.
+pub fn commit_connected_deltas(
+    left: &mut crate::Vessel,
+    left_delta: &crate::delta::StateDelta,
+    right: &mut crate::Vessel,
+    right_delta: &crate::delta::StateDelta,
+    conservation_tolerance: f64,
+) -> Result<(), ConnectedCommitError> {
+    if left.id == right.id {
+        return Err(ConnectedCommitError::SameVessel);
+    }
+    let mut left_trial = left.clone();
+    left_delta
+        .commit_conserved(&mut left_trial, conservation_tolerance)
+        .map_err(ConnectedCommitError::Left)?;
+    let mut right_trial = right.clone();
+    right_delta
+        .commit_conserved(&mut right_trial, conservation_tolerance)
+        .map_err(ConnectedCommitError::Right)?;
+    *left = left_trial;
+    *right = right_trial;
+    Ok(())
+}
+
 /// Deterministic circuit solver around the same per-electrode current solver.
 /// Explicit current bounds are part of the numerical contract: a caller must
 /// not silently extrapolate polarization data to manufacture a bracket.
@@ -1384,7 +1628,7 @@ pub fn parameterized_partial_reaction<'a>(
     .map_err(CandidateReactionError::Parameters)?;
     let equilibrium_potential_v = equilibrium_potential_v(
         standard_reduction_potential_v,
-        record.kinetics.n,
+        record.kinetics.electrons_per_extent(),
         temperature_k,
         quotient_activities,
     )
@@ -1476,9 +1720,30 @@ pub struct InterfacialCondition {
     pub surface_concentration_mol_per_m3: f64,
     pub bulk_activity: f64,
     pub surface_activity: f64,
+    pub bulk_equilibrium_potential_v: f64,
+    pub surface_equilibrium_potential_v: f64,
     pub depleted_at_surface: bool,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub surface_ph: Option<f64>,
+}
+
+/// Exact kinetic evidence used by a solved proposal. Bounds remain bounds:
+/// clients can display or deliberately sweep them without the engine
+/// inventing an independence assumption or probability distribution.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct AppliedKineticParameters {
+    pub reaction_id: String,
+    pub record_id: String,
+    pub nominal: ElectrodeKineticModel,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub parameter_envelope: Option<KineticParameterEnvelope>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub directional_tafel_envelope: Option<DirectionalTafelEnvelope>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub relative_uncertainty: Option<f64>,
+    pub uncertainty_note: String,
+    pub source: String,
+    pub license: PermissiveDataLicense,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
@@ -1605,6 +1870,7 @@ impl CurrentLimitModel {
 pub struct ElectrochemicalStepProposal {
     pub balance: CurrentBalance,
     pub interfacial_conditions: Vec<InterfacialCondition>,
+    pub applied_parameters: Vec<AppliedKineticParameters>,
     /// Unbounded Faraday-law proposal, retained for diagnostics.
     pub requested_delta: crate::delta::StateDelta,
     /// Uniformly inventory-limited proposal safe to conservation-check and
@@ -1618,6 +1884,7 @@ pub struct ElectrochemicalAdvanceSegment {
     pub seconds: f64,
     pub balance: CurrentBalance,
     pub interfacial_conditions: Vec<InterfacialCondition>,
+    pub applied_parameters: Vec<AppliedKineticParameters>,
     pub delta: crate::delta::StateDelta,
     pub inventory_limited: bool,
 }
@@ -1684,6 +1951,9 @@ pub enum ElectrochemicalStepError {
     VanishedInterfacialActivity {
         reaction: String,
         species: String,
+    },
+    Equilibration {
+        reason: String,
     },
     Inventory(Vec<crate::delta::DeltaError>),
     Commit(Vec<crate::delta::DeltaError>),
@@ -1870,6 +2140,29 @@ pub fn propose_electrochemical_step<'a>(
             terms: definition.anodic_terms,
         });
     }
+    let applied_parameters = partial_reactions
+        .iter()
+        .map(|partial| {
+            let record_id = partial
+                .parameter_record_id
+                .expect("the runtime pipeline only constructs parameterized reactions");
+            let record = records
+                .iter()
+                .find(|record| record.id == record_id)
+                .expect("selected record remains in the caller-owned registry");
+            AppliedKineticParameters {
+                reaction_id: partial.id.to_owned(),
+                record_id: record.id.clone(),
+                nominal: record.kinetics,
+                parameter_envelope: record.parameter_envelope,
+                directional_tafel_envelope: record.directional_tafel_envelope,
+                relative_uncertainty: record.relative_uncertainty,
+                uncertainty_note: record.uncertainty_note.clone(),
+                source: record.source.clone(),
+                license: record.license,
+            }
+        })
+        .collect::<Vec<_>>();
 
     let transient = electrode
         .double_layer_capacitance_f_per_m2
@@ -1916,7 +2209,7 @@ pub fn propose_electrochemical_step<'a>(
                 let (bulk_concentration, surface_concentration) = model
                     .surface_concentration(
                         current.current_density_a_per_m2 / partial.reactive_area_ratio,
-                        partial.kinetics.n,
+                        partial.kinetics.electrons_per_extent(),
                         transported.moles_per_extent,
                     )
                     .map_err(|reason| ElectrochemicalStepError::InvalidDefinition {
@@ -1928,6 +2221,28 @@ pub fn propose_electrochemical_step<'a>(
                 } else {
                     0.0
                 };
+                let index = definitions
+                    .iter()
+                    .position(|definition| definition.id == partial.id)
+                    .expect("validated reaction ids remain aligned");
+                let mut local_quotient = resolved_quotients[index].clone();
+                if let Some(term) = local_quotient
+                    .iter_mut()
+                    .find(|term| term.species == transported.species)
+                {
+                    term.activity = surface_activity;
+                }
+                let surface_equilibrium_potential_v = if surface_activity > 0.0 {
+                    equilibrium_potential_v(
+                        definitions[index].standard_reduction_potential_v,
+                        partial.kinetics.electrons_per_extent(),
+                        temperature_k,
+                        &local_quotient,
+                    )
+                    .map_err(ElectrochemicalStepError::Balance)?
+                } else {
+                    partial.equilibrium_potential_v
+                };
                 Ok(InterfacialCondition {
                     reaction_id: partial.id.to_owned(),
                     species: transported.species.to_owned(),
@@ -1935,6 +2250,8 @@ pub fn propose_electrochemical_step<'a>(
                     surface_concentration_mol_per_m3: surface_concentration,
                     bulk_activity,
                     surface_activity,
+                    bulk_equilibrium_potential_v: partial_reactions[index].equilibrium_potential_v,
+                    surface_equilibrium_potential_v,
                     depleted_at_surface: surface_concentration <= f64::EPSILON * bulk_concentration,
                     surface_ph: (transported.species == "H+" && surface_activity > 0.0)
                         .then(|| -surface_activity.log10()),
@@ -2000,7 +2317,7 @@ pub fn propose_electrochemical_step<'a>(
                 local_term.activity = condition.surface_activity;
                 let target = equilibrium_potential_v(
                     definitions[index].standard_reduction_potential_v,
-                    reactions[index].kinetics.n,
+                    reactions[index].kinetics.electrons_per_extent(),
                     temperature_k,
                     &local_quotient,
                 )
@@ -2056,6 +2373,7 @@ pub fn propose_electrochemical_step<'a>(
         return Ok(ElectrochemicalStepProposal {
             balance: initial_balance,
             interfacial_conditions: initial_interfaces,
+            applied_parameters,
             requested_delta,
             accepted_delta: limited.delta,
             accepted_fraction: limited.accepted_fraction,
@@ -2096,6 +2414,7 @@ pub fn propose_electrochemical_step<'a>(
         if limited.accepted_fraction >= 1.0 - 1e-12 {
             return Ok(ElectrochemicalStepProposal {
                 interfacial_conditions: interfaces,
+                applied_parameters,
                 balance: balance.clone(),
                 requested_delta,
                 accepted_delta: limited
@@ -2131,7 +2450,7 @@ pub fn advance_electrochemical<'a>(
     transport: TransportLimits,
     solver: CurrentBalanceSolver,
     options: ElectrochemicalAdvanceOptions,
-    equilibrate: &mut dyn FnMut(&mut crate::Vessel),
+    equilibrate: &mut dyn FnMut(&mut crate::Vessel) -> Result<(), ElectrochemicalStepError>,
 ) -> Result<ElectrochemicalAdvanceReport, ElectrochemicalStepError> {
     if !options.conservation_tolerance.is_finite()
         || options.conservation_tolerance < 0.0
@@ -2208,11 +2527,12 @@ pub fn advance_electrochemical<'a>(
             seconds: segment_seconds,
             balance: proposal.balance,
             interfacial_conditions: proposal.interfacial_conditions,
+            applied_parameters: proposal.applied_parameters,
             delta: proposal.accepted_delta,
             inventory_limited,
         });
         elapsed += segment_seconds;
-        equilibrate(vessel);
+        equilibrate(vessel)?;
         if !inventory_limited {
             return Ok(ElectrochemicalAdvanceReport {
                 requested_seconds: seconds,
@@ -2248,7 +2568,8 @@ pub fn faradaic_state_delta(
                 partial.id != half.id
                     || !half.electrons_produced.is_finite()
                     || half.electrons_produced <= 0.0
-                    || (partial.kinetics.n - half.electrons_produced).abs() > 1e-12
+                    || (partial.kinetics.electrons_per_extent() - half.electrons_produced).abs()
+                        > 1e-12
                     || half.terms.iter().any(|term| !term.coefficient.is_finite())
             })
     {
@@ -2373,6 +2694,63 @@ mod tests {
     }
 
     #[test]
+    fn directional_tafel_retains_the_measured_branch() {
+        let model = ElectrodeKineticModel::DirectionalTafel {
+            direction: TafelDirection::Cathodic,
+            exchange_current_density_a_per_m2: 0.017,
+            tafel_slope_v_per_decade: 0.14,
+            electrons_per_extent: 2.0,
+        };
+        assert!((model.current_density(0.0, 289.15) + 0.017).abs() < 1e-15);
+        assert!((model.current_density(-0.14, 289.15) + 0.17).abs() < 1e-12);
+        assert!(model.current_density(0.14, 289.15) < 0.0);
+    }
+
+    #[test]
+    fn shipped_her_record_matches_only_its_exact_measured_domain() {
+        let activity = 10.0_f64.powf(-7.5);
+        let selected = select_exchange_current(
+            EXCHANGE_CURRENTS.as_slice(),
+            "H+/H2",
+            "X5CrNi18-10 stainless steel",
+            289.15,
+            &[("H+".into(), activity)],
+            Some(VAN_EDE_STAINLESS_PREPARATION),
+            HydrodynamicCondition {
+                rotation_rate_rpm: Some(1200.0),
+                ..HydrodynamicCondition::default()
+            },
+        )
+        .unwrap();
+        assert_eq!(selected.license, PermissiveDataLicense::CcBy40);
+        assert!(matches!(
+            selected.kinetics,
+            ElectrodeKineticModel::DirectionalTafel {
+                direction: TafelDirection::Cathodic,
+                exchange_current_density_a_per_m2,
+                tafel_slope_v_per_decade,
+                ..
+            } if (exchange_current_density_a_per_m2 - 1.5e-2).abs() < 1e-15
+                && (tafel_slope_v_per_decade - 0.15333333333333332).abs() < 1e-15
+        ));
+        assert!(matches!(
+            select_exchange_current(
+                EXCHANGE_CURRENTS.as_slice(),
+                "H+/H2",
+                "X5CrNi18-10 stainless steel",
+                289.15,
+                &[("H+".into(), activity)],
+                Some(VAN_EDE_STAINLESS_PREPARATION),
+                HydrodynamicCondition {
+                    rotation_rate_rpm: Some(600.0),
+                    ..HydrodynamicCondition::default()
+                },
+            ),
+            Err(ParameterSelectionError::NoApplicableRecord { .. })
+        ));
+    }
+
+    #[test]
     fn limiting_current_positive() {
         let j_l = limiting_current_density(2.0, 1e-5, 1e-6, 0.05);
         assert!(j_l > 0.0);
@@ -2383,11 +2761,13 @@ mod tests {
             id,
             parameter_record_id: None,
             equilibrium_potential_v,
-            kinetics: ButlerVolmerParams {
-                j0: 1.0,
-                alpha_a: 0.5,
-                alpha_c: 0.5,
-                n: 1.0,
+            kinetics: ElectrodeKineticModel::ButlerVolmer {
+                parameters: ButlerVolmerParams {
+                    j0: 1.0,
+                    alpha_a: 0.5,
+                    alpha_c: 0.5,
+                    n: 1.0,
+                },
             },
             reactive_area_ratio: 1.0,
             film_resistance_ohm_m2: 0.0,
@@ -2461,6 +2841,27 @@ mod tests {
             (driven.right.net_current_density_a_per_m2 * 0.02 + driven.current_amps).abs() < 1e-9
         );
         assert!(driven.irreversible_solution_heat_j(10.0).unwrap() > 0.0);
+    }
+
+    #[test]
+    fn connected_commit_is_atomic_when_second_compartment_refuses() {
+        let mut left = crate::Vessel::new(crate::VesselId(1), "left");
+        let mut right = crate::Vessel::new(crate::VesselId(2), "right");
+        let original_temperature = left.temperature;
+        let left_delta = crate::delta::StateDelta::new("connected-test").with_thermal(
+            crate::delta::ThermalDelta::SetTemperature(crate::Kelvin(320.0)),
+        );
+        let right_delta = crate::delta::StateDelta::new("connected-test").with_moles(
+            crate::SpeciesId::new("H2O"),
+            crate::Phase::Liquid,
+            -1.0,
+        );
+        let error =
+            commit_connected_deltas(&mut left, &left_delta, &mut right, &right_delta, 1e-10)
+                .unwrap_err();
+        assert!(matches!(error, ConnectedCommitError::Right(_)));
+        assert_eq!(left.temperature, original_temperature);
+        assert_eq!(right.moles_of(&crate::SpeciesId::new("H2O")).0, 0.0);
     }
 
     #[test]
@@ -2572,11 +2973,13 @@ mod tests {
             id: id.into(),
             reaction: "M+2/M".into(),
             electrode_material: "M".into(),
-            kinetics: ButlerVolmerParams {
-                j0: 1.0,
-                alpha_a: 0.5,
-                alpha_c: 0.5,
-                n: 2.0,
+            kinetics: ElectrodeKineticModel::ButlerVolmer {
+                parameters: ButlerVolmerParams {
+                    j0: 1.0,
+                    alpha_a: 0.5,
+                    alpha_c: 0.5,
+                    n: 2.0,
+                },
             },
             validity: KineticValidityDomain {
                 temperature_min_k: 290.0,
@@ -2607,6 +3010,7 @@ mod tests {
                     maximum: 0.5,
                 },
             }),
+            directional_tafel_envelope: None,
             uncertainty_note: "exact synthetic test parameter".into(),
             reviewed: true,
         }
@@ -2943,11 +3347,23 @@ mod tests {
             },
         ];
         let mut zinc = reaction("zinc", -1.0);
-        zinc.kinetics.n = 2.0;
-        zinc.kinetics.j0 = 1e-3;
+        zinc.kinetics = ElectrodeKineticModel::ButlerVolmer {
+            parameters: ButlerVolmerParams {
+                j0: 1e-3,
+                alpha_a: 0.5,
+                alpha_c: 0.5,
+                n: 2.0,
+            },
+        };
         let mut hydrogen = reaction("hydrogen", 0.0);
-        hydrogen.kinetics.n = 2.0;
-        hydrogen.kinetics.j0 = 1e-3;
+        hydrogen.kinetics = ElectrodeKineticModel::ButlerVolmer {
+            parameters: ButlerVolmerParams {
+                j0: 1e-3,
+                alpha_a: 0.5,
+                alpha_c: 0.5,
+                n: 2.0,
+            },
+        };
         let partials = [zinc, hydrogen];
         let halves = [
             FaradaicHalfReaction {
@@ -3149,10 +3565,16 @@ mod tests {
         assert!(proposal.accepted_fraction > 0.0);
         assert!(proposal.balance.partial_currents[0].current_density_a_per_m2 > 0.0);
         assert!(proposal.balance.partial_currents[1].current_density_a_per_m2 < 0.0);
+        assert_eq!(proposal.applied_parameters.len(), 2);
+        assert_eq!(
+            proposal.applied_parameters[1].record_id,
+            "synthetic-hydrogen-on-zinc"
+        );
         assert_eq!(proposal.interfacial_conditions.len(), 1);
         let interface = &proposal.interfacial_conditions[0];
         assert_eq!(interface.species, "H+");
         assert!(interface.surface_concentration_mol_per_m3 < 10.0);
+        assert!(interface.surface_equilibrium_potential_v < interface.bulk_equilibrium_potential_v);
         assert!(interface.depleted_at_surface || interface.surface_ph.is_some_and(|ph| ph > 2.0));
         let mut committed = vessel.clone();
         proposal
@@ -3192,6 +3614,102 @@ mod tests {
             .commit_conserved(&mut capacitive, 1e-10)
             .unwrap();
 
+        let mut clocked = vessel.clone();
+        struct ClearSpentAcid;
+        impl crate::solve::Equilibrator for ClearSpentAcid {
+            fn name(&self) -> &'static str {
+                "test-equilibrium"
+            }
+
+            fn equilibrate(
+                &mut self,
+                state: &mut crate::Vessel,
+            ) -> Result<Vec<crate::ops::Event>, crate::solve::SolveError> {
+                if state.moles_of(&crate::SpeciesId::new("H+")).0 < 1e-15 {
+                    state.solution = None;
+                }
+                Ok(Vec::new())
+            }
+        }
+        let mut clock_events = Vec::new();
+        let clock_report = crate::clock::advance_with_electrochemistry(
+            &mut clocked,
+            60.0,
+            crate::clock::ClockContext::default(),
+            &mut clock_events,
+            crate::clock::ElectrochemicalClockConfig {
+                electrode_label: "zinc",
+                records: &records,
+                definitions: &definitions,
+                hydrodynamics: HydrodynamicCondition::default(),
+                control: CellControl::OpenCircuit,
+                transport: TransportLimits {
+                    solution_resistance_ohm: 0.0,
+                    limiting_current_cathodic: None,
+                    limiting_current_anodic: None,
+                },
+                solver: CurrentBalanceSolver::default(),
+                options: ElectrochemicalAdvanceOptions::default(),
+            },
+            &mut ClearSpentAcid,
+        )
+        .unwrap();
+        assert_eq!(clock_report.segments.len(), 1);
+        assert!(clock_report.segments[0].inventory_limited);
+
+        struct FailingEquilibrium;
+        impl crate::solve::Equilibrator for FailingEquilibrium {
+            fn name(&self) -> &'static str {
+                "failing-test-equilibrium"
+            }
+
+            fn equilibrate(
+                &mut self,
+                _state: &mut crate::Vessel,
+            ) -> Result<Vec<crate::ops::Event>, crate::solve::SolveError> {
+                Err(crate::solve::SolveError::NotConverged {
+                    solver: self.name().into(),
+                    detail: "deliberate rollback probe".into(),
+                })
+            }
+        }
+        let mut rolled_back = vessel.clone();
+        let original = rolled_back.clone();
+        let mut rolled_back_events = Vec::new();
+        let failed = crate::clock::advance_with_electrochemistry(
+            &mut rolled_back,
+            60.0,
+            crate::clock::ClockContext::default(),
+            &mut rolled_back_events,
+            crate::clock::ElectrochemicalClockConfig {
+                electrode_label: "zinc",
+                records: &records,
+                definitions: &definitions,
+                hydrodynamics: HydrodynamicCondition::default(),
+                control: CellControl::OpenCircuit,
+                transport: TransportLimits {
+                    solution_resistance_ohm: 0.0,
+                    limiting_current_cathodic: None,
+                    limiting_current_anodic: None,
+                },
+                solver: CurrentBalanceSolver::default(),
+                options: ElectrochemicalAdvanceOptions::default(),
+            },
+            &mut FailingEquilibrium,
+        );
+        assert!(matches!(
+            failed,
+            Err(crate::clock::ElectrochemicalClockError::Electrochemical(
+                ElectrochemicalStepError::Equilibration { .. }
+            ))
+        ));
+        assert_eq!(rolled_back.elapsed_seconds, original.elapsed_seconds);
+        assert_eq!(
+            rolled_back.moles_of(&crate::SpeciesId::new("H+")).0,
+            original.moles_of(&crate::SpeciesId::new("H+")).0
+        );
+        assert!(rolled_back_events.is_empty());
+
         let mut advanced = vessel;
         let report = advance_electrochemical(
             &mut advanced,
@@ -3212,6 +3730,7 @@ mod tests {
                 if state.moles_of(&crate::SpeciesId::new("H+")).0 < 1e-15 {
                     state.solution = None;
                 }
+                Ok(())
             },
         )
         .unwrap();
