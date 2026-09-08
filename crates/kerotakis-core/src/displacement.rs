@@ -721,6 +721,7 @@ pub fn displace(vessel: &mut Vessel) -> (Vec<Event>, Vec<Displacement>) {
                     why: format!(
                         "{name} should dissolve in this acid by the series (driving force {driving:+.2} V), but hydrogen has to form on {name}, and on that surface it costs an overpotential of about {eta:.2} V. Kinetically blocked on the timescale of a lesson, not thermodynamically inert — the difference between a bench and a battery"
                     ),
+                    computed: true,
                     spent: None,
                 });
                 settled.push((red.reduced, ox.oxidised));
@@ -1012,6 +1013,7 @@ pub fn bystanders(vessel: &Vessel, just_plated: &[&str]) -> Vec<Event> {
                 vessel: vessel.id,
                 species: SpeciesId::new(c.reduced),
                 why,
+                computed: true,
                 spent: Some(SpeciesId::new(o.oxidised)),
             });
         } else if let Some(o) = idle_against {
@@ -1027,6 +1029,7 @@ pub fn bystanders(vessel: &Vessel, just_plated: &[&str]) -> Vec<Event> {
                     "{name} sits above {other} in the activity series (E° {:+.3} V against {:+.3} V), so the electrons would have to flow uphill: the less reactive metal does not displace the more reactive one",
                     c.e0_volts, o.e0_volts
                 ),
+                computed: true,
                 spent: None,
             });
         } else if acid && c.e0_volts > 0.0 {
@@ -1039,6 +1042,7 @@ pub fn bystanders(vessel: &Vessel, just_plated: &[&str]) -> Vec<Event> {
                     "{name} sits above hydrogen in the activity series (E° {:+.3} V against 0.000 V for 2H⁺/H₂), so dilute acid cannot take its electrons. An oxidising acid such as nitric would, by a different couple, and that is not modelled",
                     c.e0_volts
                 ),
+                computed: true,
                 spent: None,
             });
         } else if !acid

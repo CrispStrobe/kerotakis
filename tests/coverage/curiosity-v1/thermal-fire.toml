@@ -289,7 +289,7 @@ material_class = "gas"
 expected = "computed"
 owning_task = "CAP-25"
 tags = ["pressure", "venting"]
-script = ["add v1 CO2 0.1mol", "seal v1 1L", "open v1", "look v1"]
+script = ["add v1 CO2 0.1mol", "seal v1 1L", "measure v1 pressure", "open v1", "measure v1 pressure"]
 smoke = false
 
 [[prompt]]
@@ -1086,7 +1086,7 @@ material_class = "gas"
 expected = "computed"
 owning_task = "CAP-25"
 tags = ["hydrogen", "venting"]
-script = ["add v1 H2 0.1mol", "seal v1 1L", "open v1", "look v1"]
+script = ["add v1 H2 0.1mol", "seal v1 1L", "measure v1 pressure", "open v1", "measure v1 pressure"]
 smoke = false
 
 [[prompt]]
@@ -1397,7 +1397,7 @@ question = "What happens if I try to ignite an empty beaker?"
 age_band = "age9_to12"
 action = "burn_and_oxidise"
 material_class = "empty_vessel"
-expected = "computed"
+expected = "qualitative"
 owning_task = "CAP-1"
 tags = ["empty_vessel", "ignition"]
 script = ["ignite v1", "look v1"]

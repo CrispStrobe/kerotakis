@@ -355,7 +355,7 @@ material_class = "carbohydrate_test"
 expected = "curated"
 owning_task = "EXP-9"
 tags = ["iodine_test", "starch"]
-script = ["add v1 water 100mL", "add v1 starch 0.01mol", "add v1 I2 0.001mol", "look v1"]
+script = ["add v1 water 100mL", "add v1 starch 0.01mol", "add v1 KI 0.001mol", "add v1 I2 0.001mol", "look v1"]
 smoke = true
 
 [[prompt]]

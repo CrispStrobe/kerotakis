@@ -1157,6 +1157,11 @@ pub enum Event {
         vessel: VesselId,
         species: SpeciesId,
         why: String,
+        /// True when a quantitative chemistry model evaluated a negative
+        /// reaction outcome (for example an electrochemical driving force),
+        /// rather than an observational rule merely noting insolubility.
+        #[serde(default, skip_serializing_if = "is_false")]
+        computed: bool,
         /// The ion this metal has just finished displacing, where THAT is
         /// the reason nothing more is happening.
         ///

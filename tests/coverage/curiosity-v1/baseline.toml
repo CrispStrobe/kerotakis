@@ -209,26 +209,26 @@ reason_code = "computed-route"
 [[observation]]
 id = "aq-035"
 owning_task = "EXP-25"
-outcome = "qualitative"
-reason_code = "typed-observation"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "aq-036"
 owning_task = "EXP-25"
-outcome = "qualitative"
-reason_code = "typed-observation"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "aq-037"
 owning_task = "EXP-25"
-outcome = "qualitative"
-reason_code = "typed-observation"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "aq-038"
 owning_task = "EXP-25"
-outcome = "qualitative"
-reason_code = "typed-observation"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "aq-039"
@@ -665,32 +665,32 @@ reason_code = "unlabelled-mixture"
 [[observation]]
 id = "aq-111"
 owning_task = "EXP-21"
-outcome = "qualitative"
-reason_code = "typed-observation"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "aq-112"
 owning_task = "CAP-14"
-outcome = "qualitative"
-reason_code = "typed-observation"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "aq-113"
 owning_task = "CAP-3"
-outcome = "qualitative"
-reason_code = "typed-observation"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "aq-114"
 owning_task = "EXP-21"
-outcome = "qualitative"
-reason_code = "typed-observation"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "aq-115"
 owning_task = "EXP-21"
-outcome = "qualitative"
-reason_code = "typed-observation"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "aq-116"
@@ -743,8 +743,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "aq-124"
 owning_task = "EXP-11"
-outcome = "qualitative"
-reason_code = "typed-observation"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "aq-125"
@@ -941,8 +941,8 @@ reason_code = "curated-route"
 [[observation]]
 id = "bio-032"
 owning_task = "EXP-9"
-outcome = "qualitative"
-reason_code = "typed-observation"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "bio-033"
@@ -1115,26 +1115,26 @@ reason_code = "typed-engine-event"
 [[observation]]
 id = "bio-061"
 owning_task = "BRD-023"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "bio-062"
 owning_task = "BRD-023"
-outcome = "qualitative"
-reason_code = "qualitative-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "bio-063"
 owning_task = "BRD-023"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "bio-064"
 owning_task = "BRD-023"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "bio-065"
@@ -1229,8 +1229,8 @@ reason_code = "typed-engine-event"
 [[observation]]
 id = "bio-080"
 owning_task = "BRD-052"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "bio-081"
@@ -1361,8 +1361,8 @@ reason_code = "typed-observation"
 [[observation]]
 id = "bio-102"
 owning_task = "BRD-023"
-outcome = "qualitative"
-reason_code = "typed-observation"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "bio-103"
@@ -1547,8 +1547,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "mat-008"
 owning_task = "CAP-8"
-outcome = "qualitative"
-reason_code = "typed-observation"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "mat-009"
@@ -1937,8 +1937,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "mat-073"
 owning_task = "EXP-17"
-outcome = "qualitative"
-reason_code = "typed-observation"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "mat-074"
@@ -2021,8 +2021,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "mat-087"
 owning_task = "BRD-060"
-outcome = "qualitative"
-reason_code = "typed-observation"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "mat-088"
@@ -2105,8 +2105,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "mat-101"
 owning_task = "BRD-023"
-outcome = "qualitative"
-reason_code = "typed-observation"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "mat-102"
@@ -2243,8 +2243,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "mat-124"
 owning_task = "CAP-1"
-outcome = "qualitative"
-reason_code = "typed-observation"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "mat-125"
@@ -2388,19 +2388,19 @@ reason_code = "computed-route"
 id = "th-023"
 owning_task = "CAP-25"
 outcome = "computed"
-reason_code = "typed-engine-event"
+reason_code = "computed-route"
 
 [[observation]]
 id = "th-024"
 owning_task = "CAP-25"
 outcome = "computed"
-reason_code = "typed-engine-event"
+reason_code = "computed-route"
 
 [[observation]]
 id = "th-025"
 owning_task = "CAP-25"
-outcome = "qualitative"
-reason_code = "typed-observation"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "th-026"
@@ -2735,8 +2735,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "th-081"
 owning_task = "EXP-18"
-outcome = "qualitative"
-reason_code = "typed-observation"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "th-082"
@@ -2765,20 +2765,20 @@ reason_code = "computed-route"
 [[observation]]
 id = "th-086"
 owning_task = "CAP-25"
-outcome = "qualitative"
-reason_code = "typed-observation"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "th-087"
 owning_task = "CAP-25"
-outcome = "qualitative"
-reason_code = "typed-observation"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "th-088"
 owning_task = "CAP-25"
-outcome = "qualitative"
-reason_code = "typed-observation"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "th-089"
@@ -2789,14 +2789,14 @@ reason_code = "computed-route"
 [[observation]]
 id = "th-090"
 owning_task = "CAP-25"
-outcome = "qualitative"
-reason_code = "typed-observation"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "th-091"
 owning_task = "BRD-073"
-outcome = "qualitative"
-reason_code = "typed-observation"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "th-092"
@@ -2813,14 +2813,14 @@ reason_code = "computed-route"
 [[observation]]
 id = "th-094"
 owning_task = "CAP-25"
-outcome = "qualitative"
-reason_code = "typed-observation"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "th-095"
 owning_task = "BRD-012"
-outcome = "qualitative"
-reason_code = "typed-observation"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "th-096"
