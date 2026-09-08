@@ -39,8 +39,11 @@ import client  # noqa: E402
 
 HERE = pathlib.Path(__file__).resolve().parent
 META = json.loads((HERE / "metadata.json").read_text())
-LOCALE = META["primaryLocale"]
 PLATFORM = {"ios": "IOS", "macos": "MAC_OS"}
+LOCALES = {
+    META["primaryLocale"]: {"app": META["app"], "beta": META["beta"]},
+    **META.get("locales", {}),
+}
 
 
 def platform_of(build_id: str) -> str | None:
@@ -113,28 +116,30 @@ def review_detail(app: str) -> None:
 
 
 def app_localization(app: str) -> None:
-    b = META["beta"]
     existing = {
         loc["attributes"]["locale"]: loc
         for loc in client.paged(f"/v1/apps/{app}/betaAppLocalizations")
     }
-    attrs = {
-        "description": b["description"],
-        "feedbackEmail": b["feedbackEmail"],
-        "privacyPolicyUrl": META["app"]["privacyPolicyUrl"],
-    }
-    if LOCALE in existing:
-        loc_id = existing[LOCALE]["id"]
-        client.expect("PATCH", f"/v1/betaAppLocalizations/{loc_id}",
-                      {"data": {"type": "betaAppLocalizations", "id": loc_id,
-                                "attributes": attrs}})
-        print(f"   beta app localization ({LOCALE}): updated")
-    else:
-        client.expect("POST", "/v1/betaAppLocalizations",
-                      {"data": {"type": "betaAppLocalizations",
-                                "attributes": {**attrs, "locale": LOCALE},
-                                "relationships": {"app": {"data": {"type": "apps", "id": app}}}}})
-        print(f"   beta app localization ({LOCALE}): created")
+    for locale, copy in LOCALES.items():
+        attrs = {
+            "description": copy["beta"]["description"],
+            "feedbackEmail": META["beta"]["feedbackEmail"],
+            "privacyPolicyUrl": copy["app"].get(
+                "privacyPolicyUrl", META["app"]["privacyPolicyUrl"]
+            ),
+        }
+        if locale in existing:
+            loc_id = existing[locale]["id"]
+            client.expect("PATCH", f"/v1/betaAppLocalizations/{loc_id}",
+                          {"data": {"type": "betaAppLocalizations", "id": loc_id,
+                                    "attributes": attrs}})
+            print(f"   beta app localization ({locale}): updated")
+        else:
+            client.expect("POST", "/v1/betaAppLocalizations",
+                          {"data": {"type": "betaAppLocalizations",
+                                    "attributes": {**attrs, "locale": locale},
+                                    "relationships": {"app": {"data": {"type": "apps", "id": app}}}}})
+            print(f"   beta app localization ({locale}): created")
 
 
 def build_localization(build_id: str) -> None:
@@ -142,19 +147,20 @@ def build_localization(build_id: str) -> None:
         loc["attributes"]["locale"]: loc
         for loc in client.paged(f"/v1/builds/{build_id}/betaBuildLocalizations")
     }
-    whats_new = META["beta"]["whatToTest"]
-    if LOCALE in existing:
-        loc_id = existing[LOCALE]["id"]
-        client.expect("PATCH", f"/v1/betaBuildLocalizations/{loc_id}",
-                      {"data": {"type": "betaBuildLocalizations", "id": loc_id,
-                                "attributes": {"whatsNew": whats_new}}})
-        print(f"   what to test ({LOCALE}): updated")
-    else:
-        client.expect("POST", "/v1/betaBuildLocalizations",
-                      {"data": {"type": "betaBuildLocalizations",
-                                "attributes": {"whatsNew": whats_new, "locale": LOCALE},
-                                "relationships": {"build": {"data": {"type": "builds", "id": build_id}}}}})
-        print(f"   what to test ({LOCALE}): created")
+    for locale, copy in LOCALES.items():
+        whats_new = copy["beta"]["whatToTest"]
+        if locale in existing:
+            loc_id = existing[locale]["id"]
+            client.expect("PATCH", f"/v1/betaBuildLocalizations/{loc_id}",
+                          {"data": {"type": "betaBuildLocalizations", "id": loc_id,
+                                    "attributes": {"whatsNew": whats_new}}})
+            print(f"   what to test ({locale}): updated")
+        else:
+            client.expect("POST", "/v1/betaBuildLocalizations",
+                          {"data": {"type": "betaBuildLocalizations",
+                                    "attributes": {"whatsNew": whats_new, "locale": locale},
+                                    "relationships": {"build": {"data": {"type": "builds", "id": build_id}}}}})
+            print(f"   what to test ({locale}): created")
 
 
 def ensure_group(app: str, name: str, internal: bool) -> dict:

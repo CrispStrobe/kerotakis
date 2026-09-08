@@ -45,9 +45,12 @@ import client  # noqa: E402
 
 HERE = pathlib.Path(__file__).resolve().parent
 META = json.loads((HERE / "metadata.json").read_text())
-LOCALE = META["primaryLocale"]
 APP = META["appId"]
 PLATFORM = {"ios": "IOS", "macos": "MAC_OS"}
+LOCALES = {
+    META["primaryLocale"]: {"app": META["app"], "beta": META["beta"]},
+    **META.get("locales", {}),
+}
 
 DRY = False
 
@@ -69,37 +72,39 @@ def version_localisation(version: dict) -> None:
     """Description, keywords, and the three URLs, per platform."""
     app = META["app"]
     platform = version["attributes"]["platform"]
-    attrs = {
-        "description": app["description"],
-        "keywords": app["keywords"],
-        "supportUrl": app["supportUrl"],
-        "marketingUrl": app["marketingUrl"],
-        "promotionalText": app["promotionalText"],
-    }
     existing = {
         loc["attributes"]["locale"]: loc
         for loc in client.paged(
             f"/v1/appStoreVersions/{version['id']}/appStoreVersionLocalizations"
         )
     }
-    if LOCALE in existing:
-        change(
-            "PATCH",
-            f"/v1/appStoreVersionLocalizations/{existing[LOCALE]['id']}",
-            {"data": {"type": "appStoreVersionLocalizations",
-                      "id": existing[LOCALE]["id"], "attributes": attrs}},
-            f"{platform} listing ({LOCALE}): updated",
-        )
-    else:
-        change(
-            "POST",
-            "/v1/appStoreVersionLocalizations",
-            {"data": {"type": "appStoreVersionLocalizations",
-                      "attributes": {**attrs, "locale": LOCALE},
-                      "relationships": {"appStoreVersion": {
-                          "data": {"type": "appStoreVersions", "id": version["id"]}}}}},
-            f"{platform} listing ({LOCALE}): created",
-        )
+    for locale, copy in LOCALES.items():
+        localized = copy["app"]
+        attrs = {
+            "description": localized["description"],
+            "keywords": localized["keywords"],
+            "supportUrl": app["supportUrl"],
+            "marketingUrl": app["marketingUrl"],
+            "promotionalText": localized["promotionalText"],
+        }
+        if locale in existing:
+            change(
+                "PATCH",
+                f"/v1/appStoreVersionLocalizations/{existing[locale]['id']}",
+                {"data": {"type": "appStoreVersionLocalizations",
+                          "id": existing[locale]["id"], "attributes": attrs}},
+                f"{platform} listing ({locale}): updated",
+            )
+        else:
+            change(
+                "POST",
+                "/v1/appStoreVersionLocalizations",
+                {"data": {"type": "appStoreVersionLocalizations",
+                          "attributes": {**attrs, "locale": locale},
+                          "relationships": {"appStoreVersion": {
+                              "data": {"type": "appStoreVersions", "id": version["id"]}}}}},
+                f"{platform} listing ({locale}): created",
+            )
 
 
 def version_copyright(version: dict) -> None:
@@ -156,33 +161,46 @@ def app_localisation() -> None:
         print("   name/subtitle: no editable appInfo — skipped")
         return
     app = META["app"]
-    attrs = {
-        "name": app["name"],
-        "subtitle": app["subtitle"],
-        "privacyPolicyUrl": app["privacyPolicyUrl"],
-    }
     existing = {
         loc["attributes"]["locale"]: loc
         for loc in client.paged(f"/v1/appInfos/{editable[0]['id']}/appInfoLocalizations")
     }
-    if LOCALE in existing:
-        change(
-            "PATCH",
-            f"/v1/appInfoLocalizations/{existing[LOCALE]['id']}",
-            {"data": {"type": "appInfoLocalizations",
-                      "id": existing[LOCALE]["id"], "attributes": attrs}},
-            f"name/subtitle/privacy ({LOCALE}): updated",
-        )
-    else:
-        change(
-            "POST",
-            "/v1/appInfoLocalizations",
-            {"data": {"type": "appInfoLocalizations",
-                      "attributes": {**attrs, "locale": LOCALE},
-                      "relationships": {"appInfo": {
-                          "data": {"type": "appInfos", "id": editable[0]["id"]}}}}},
-            f"name/subtitle/privacy ({LOCALE}): created",
-        )
+    for locale, copy in LOCALES.items():
+        localized = copy["app"]
+        attrs = {
+            "name": localized["name"],
+            "subtitle": localized["subtitle"],
+            "privacyPolicyUrl": localized.get("privacyPolicyUrl", app["privacyPolicyUrl"]),
+        }
+        if locale in existing:
+            change(
+                "PATCH",
+                f"/v1/appInfoLocalizations/{existing[locale]['id']}",
+                {"data": {"type": "appInfoLocalizations",
+                          "id": existing[locale]["id"], "attributes": attrs}},
+                f"name/subtitle/privacy ({locale}): updated",
+            )
+        else:
+            change(
+                "POST",
+                "/v1/appInfoLocalizations",
+                {"data": {"type": "appInfoLocalizations",
+                          "attributes": {**attrs, "locale": locale},
+                          "relationships": {"appInfo": {
+                              "data": {"type": "appInfos", "id": editable[0]["id"]}}}}},
+                f"name/subtitle/privacy ({locale}): created",
+            )
+
+
+def content_rights() -> None:
+    declaration = META["contentRightsDeclaration"]
+    change(
+        "PATCH",
+        f"/v1/apps/{APP}",
+        {"data": {"type": "apps", "id": APP,
+                  "attributes": {"contentRightsDeclaration": declaration}}},
+        f"content rights: {declaration}",
+    )
 
 
 def review_detail() -> None:
@@ -243,6 +261,7 @@ def main() -> int:
     DRY = args.dry_run
 
     print(f"Kerotakis listing ({APP}){' — DRY RUN' if DRY else ''}")
+    content_rights()
     app_localisation()
     categories()
 

@@ -5,7 +5,7 @@ on:
     inputs:
       action:
         type: choice
-        options: [audit, listing, testflight]
+        options: [audit, listing, store, testflight]
         default: audit
       platform:
         type: choice
@@ -42,6 +42,14 @@ jobs:
                 python3 tools/asc/listing.py
               else
                 python3 tools/asc/listing.py "$PLATFORM"
+              fi
+              ;;
+            store)
+              if [ "$PLATFORM" = both ]; then
+                python3 tools/asc/store.py ios
+                python3 tools/asc/store.py macos
+              else
+                python3 tools/asc/store.py "$PLATFORM"
               fi
               ;;
             testflight)

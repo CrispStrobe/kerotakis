@@ -12,6 +12,7 @@
   "teamId": "N9XSJ4M3GT",
   "sku": "KEROTAKIS-001",
   "primaryLocale": "en-US",
+  "contentRightsDeclaration": "USES_THIRD_PARTY_CONTENT",
   "app": {
     "name": "Kerotakis",
     "subtitle": "Chemistry that computes",
@@ -41,5 +42,21 @@
   "groups": {
     "internal": "Internal Testers",
     "external": "Public Beta"
+  },
+  "locales": {
+    "de-DE": {
+      "app": {
+        "name": "Kerotakis",
+        "subtitle": "Chemie, die wirklich rechnet",
+        "privacyPolicyUrl": "https://crispstrobe.github.io/kerotakis/privacy.de.html",
+        "keywords": "Chemie,Labor,Titration,pH,Löslichkeit,Gleichgewicht,Redox,Simulation,Wissenschaft,Schule",
+        "description": "Kerotakis ist ein virtuelles Chemielabor, das echte Chemie berechnet.\n\nZiehe Reagenzien auf gezeichnete Glasgeräte und ein echtes wässriges Gleichgewichtsmodell antwortet. Nichts darin ist eine Ergebnistabelle: Jede Zahl wird zur Laufzeit aus einer thermodynamischen Datenbank berechnet. So kann der Labortisch etwas zeigen, das ein Lehrbuch nicht kann – wie ein Modell arbeitet und ebenso, wo seine Grenzen liegen.\n\nWAS BERECHNET WIRD\n\n• Lösen und Ausfällen anhand tatsächlicher Löslichkeitsgrenzen. Acht Mol Salz in einem Liter Wasser lassen ungefähr 1,9 Mol ungelöst, weil das Gleichgewicht es so ergibt.\n• Säuren und Basen aus der Ladungsbilanz – starke, schwache und mehrprotonige Säuren über alle pKs-Werte hinweg sowie Puffer, die einer Säurezugabe widerstehen, während reines Wasser stark reagiert.\n• Titrationskurven mit einer Bürette, bis zum Äquivalenzpunkt und darüber hinaus.\n• Frei wählbare Gasgrenzen: in den Raum entlüften, das Gefäß schließen, den Druck regeln oder mit Stickstoff spülen. Druck, Volumen, Energie und Stoffbilanz folgen der gewählten Randbedingung.\n• Reaktionswärmen, die das Thermometer bewegen: Calciumchlorid wird zum Wärmekissen, Kaliumchlorid zum Kältekissen.\n• Eine elektrochemische Spannungsreihe, die über berechnete Nernst-Potentiale entscheidet – einschließlich Reaktionen, die nicht stattfinden, etwa wenn Kupfer verdünnte Säure unbeachtet lässt.\n• Trennverfahren: einen Niederschlag filtrieren, eine Salzlösung zu Kristallen eindampfen oder ein Gemisch destillieren.\n\nDREI EBENEN, EINE SIMULATION\n\nEin Darstellungsregler erklärt jedes Ergebnis in der gewünschten Tiefe. Ebene eins beschreibt, was du beobachten würdest: Die Lösung wurde trüb, ein weißer Feststoff setzte sich ab. Ebene zwei ergänzt Messwerte. Ebene drei zeigt alle Spezies, Aktivitäten und Koeffizienten hinter dem Ergebnis – stets dieselbe Berechnung, niemals eine andere Simulation.\n\nJedes Ergebnis nennt seine Herkunft. Wenn eine Sicherheitseinschätzung fehlt, sagt die App „nicht bewertet“, statt Sicherheit vorzutäuschen.\n\nIMMER OFFLINE\n\nDer Solver, die thermodynamischen Datenbanken und die gesamte Lektionsbibliothek sind in der App enthalten. Sie stellt keine Netzwerkanfragen, benötigt kein Konto und sammelt keinerlei Daten. Sie funktioniert auch vollständig ohne Verbindung.\n\nKerotakis verwendet IPhreeqc vom U.S. Geological Survey. Kerotakis ist freie Software; der Quellcode liegt unter github.com/CrispStrobe/kerotakis.",
+        "promotionalText": "Ein Chemielabor, in dem Ergebnisse berechnet statt vorgegeben werden – von der sichtbaren Beobachtung bis zu jeder Spezies im Gleichgewicht."
+      },
+      "beta": {
+        "description": "Kerotakis ist ein virtueller Chemielabortisch, der echte Chemie berechnet: ein reales wässriges Gleichgewichtsmodell, vollständig offline, mit einem Regler, der jedes Ergebnis von „es wurde trüb“ bis zu allen Spezies und Aktivitätskoeffizienten erklärt.\n\nDies ist die erste öffentliche Version. Die Rechenengine ist gründlich getestet; die neue App darum herum ist der Schwerpunkt dieses Betatests.",
+        "whatToTest": "Dies ist die erste öffentliche Version – deshalb ist jede Rückmeldung hilfreich.\n\nBesonders interessant:\n• Lektionsauswahl: Lassen sich die Lektionen verständlich Schritt für Schritt durchführen?\n• Der Darstellungsregler (Ebene 1 / 2 / 3) bei einem Ergebnis, das dich interessiert.\n• Reagenzien aus dem Schrank auf Glasgeräte ziehen und Werkzeuge mit zwei Gefäßen verwenden (filtrieren, dekantieren, destillieren).\n• Eine .lab-Sitzung oder ein Notizbuch speichern und eine .lab-Datei wieder öffnen.\n• Das Gerät drehen und die Darstellung auf einem kleinen Bildschirm prüfen.\n\nBekannt: Die App stellt keine Netzwerkanfragen; nichts hier benötigt eine Verbindung. Falls eine Berechnung hängen bleibt oder eine Zahl falsch aussieht, sende bitte die genaue Befehlsfolge."
+      }
+    }
   }
 }

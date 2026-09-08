@@ -1,0 +1,76 @@
+name: App Store screenshots
+
+on:
+  workflow_dispatch:
+    inputs:
+      source:
+        description: "Deployed Kerotakis root URL"
+        type: string
+        default: "https://crispstrobe.github.io/kerotakis"
+      upload:
+        description: "Replace editable App Store screenshot sets"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  screenshots:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+
+      - name: Capture real EN/DE app views at Apple dimensions
+        env:
+          SOURCE: ${{ inputs.source }}
+        run: node tools/gen-appstore-screenshots.mjs "$SOURCE" appstore-shots
+
+      - name: Verify manifest and dimensions
+        run: |
+          set -euo pipefail
+          node - <<'JS'
+          const fs = require('fs');
+          const rows = JSON.parse(fs.readFileSync('appstore-shots/manifest.json'));
+          if (rows.length !== 18) throw new Error(`expected 18 screenshots, found ${rows.length}`);
+          const expected = new Set(['1290x2796', '2064x2752', '2880x1800']);
+          for (const row of rows) {
+            if (!['en-US', 'de-DE'].includes(row.locale)) throw new Error(`bad locale: ${row.locale}`);
+            if (!expected.has(row.pixels)) throw new Error(`bad dimensions: ${row.name} ${row.pixels}`);
+            if (!fs.existsSync(`appstore-shots/${row.name}`)) throw new Error(`missing ${row.name}`);
+          }
+          console.log(`verified ${rows.length} screenshots in EN/DE`);
+          JS
+
+      - uses: actions/upload-artifact@v6
+        with:
+          name: kerotakis-appstore-screenshots
+          path: appstore-shots
+          if-no-files-found: error
+          retention-days: 30
+
+      - uses: actions/setup-python@v6
+        if: inputs.upload
+        with:
+          python-version: "3.12"
+
+      - name: Install App Store API dependency
+        if: inputs.upload
+        run: python3 -m pip install --quiet --disable-pip-version-check cryptography
+
+      - name: Apply bilingual listing and upload screenshots
+        if: inputs.upload
+        env:
+          ASC_API_KEY_P8_BASE64: ${{ secrets.ASC_API_KEY_P8_BASE64 }}
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_TEAM_ID: ${{ secrets.ASC_TEAM_ID }}
+        run: |
+          set -euo pipefail
+          python3 tools/asc/listing.py
+          python3 tools/asc/screenshots.py appstore-shots --dry-run --replace
+          python3 tools/asc/screenshots.py appstore-shots --replace
