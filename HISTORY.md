@@ -14,6 +14,51 @@ it had while it was open, which is why a few numbers appear twice below.
 
 ## 2026-09-08
 
+**Engine**
+
+- **#541** — the heat-capacity integral in **difference form**. Each NASA-9 and
+  Shomate term is now written so `(t1 − t0)` factors out, instead of evaluating
+  an antiderivative at both ends and subtracting terms around 1.2e9 J/mol that
+  cancel to −9.2e8. Liquid water's residue falls from 7.9e-7 to 8.0e-8 J/mol on
+  arbitrary spans and from 7.3e-7 to 5.7e-10 on spans under a kelvin. The ratio
+  understates it: the old error was a **floor independent of span**, so a mole
+  differenced across a millikelvin shed the same quarter-microjoule as a mole
+  boiled, while the new one is proportional to the span and therefore to energy
+  moved. That is what let the `5e-6 × water` term come out of the conservation
+  bound (#537), proved over 4096 scripts — tightest margin 100× to 230 373×,
+  and 464 of them now close at exactly zero, which the antiderivative form could
+  not do for any script touching water. **Not one golden moved**: not the CLI
+  replay pins, the browser DOM golden, the lesson or scene goldens, the registry
+  snapshot, and no corpus drift. A change scoped as "moves every golden in the
+  last digits" moved nothing, because the residue it deleted had always been
+  below the precision anything is pinned to
+- **#546** — the sulfite couple, borrowed from `llnl.dat` as hypochlorite (#530),
+  lactate (#448) and thiosulfate (#536) were. A sulfite vessel had **no pH at
+  all** before; it now reads 9.70, bisulfite reads 4.17, and acidified sulfite
+  buffers at 7.04. Entered as a **pseudo-element rather than as `S(+4)`**,
+  because a real redox state would let the bench air-oxidise the bottle to
+  sulfate on contact with water and then report sulfate as the beaker's
+  contents. Two mistakes are recorded here because both were instructive. A
+  plausible claim — that an acid constant of 7.20 inside the working range makes
+  a sulfite beaker half and half — was written in five places **before** being
+  measured, and is false: the salt hydrolyses and is 99.86 % dianion. The split
+  is justified by a truer argument, that the two bottles the bench stocks
+  straddle the constant. And the chemically correct ionic equation was still
+  wrong for this engine: minting free `H+` from a rate law perturbed the shared
+  represented-strong-acid bookkeeping and broke three tests **in a vessel the
+  reaction never fires in**, so the protons stay bound in the product salt and
+  the spectator sodium goes back on the arrow — the opposite of what #536 did,
+  because there the products carry no sodium and here the product is a sodium
+  salt
+- **#539** — the chemistry audit's evidence tree stops being carried. The 25
+  reusable probes and documents land in the repository; the 2 235 one-off run
+  records are archived to storage as one verified tarball, with its checksum,
+  size, file count and source commit recorded where EXP-53's retention criteria
+  ask for them, and PR #504 is closed. The repository tracks 1 809 files, so
+  landing the tree whole would have more than doubled that to carry records of
+  runs that had already happened
+
+
 **Source-fleet coverage audit**
 
 - Audited the two curiosity-coverage movements row by row: sealed inert-gas
@@ -120,6 +165,27 @@ it had while it was open, which is why a few numbers appear twice below.
 - speciating a reagent moves it from the bottle to the ion, and everything keyed
   on the bottle follows — curated rules (#530), rate laws and the
   electroneutrality of hand-built test vessels (#536).
+
+- an improvement can be worth landing when it changes no output at all: #541's
+  value was deleting a tolerance term that existed to cover one fit's
+  arithmetic, and every golden staying put is the evidence that it was safe.
+- the entry above has a **fourth** surface, and the pattern is now a rule:
+  prose addressed to a learner goes stale too, because a quest saying "the rate
+  law is consuming the bottle" describes something the bench stopped doing.
+  Only sentences about what the ENGINE does age; "the bottle is on the shelf"
+  stays true. Rate laws had no guard through three of these and now have
+  `kinetic_reactants_survive_a_solve` (#546).
+- a chemically correct equation can still be the wrong thing to write in an
+  engine: free protons from a rate law are real chemistry and broke bookkeeping
+  in a vessel the reaction never touches (#546).
+- write the claim after the measurement, not before it. Five copies of a
+  plausible sentence about an acid constant were all wrong, and the harvest test
+  caught it only because it ran before the assertions were written (#546).
+- a guard can be necessary and still test the wrong axis: a step-size
+  consistency check cannot see a cross-reaction bookkeeping interaction (#546).
+- three of the four CI failures on #546 were formatting, lint and export
+  ordering, each of which fails BEFORE any test runs and so reports under a job
+  name that reads like a test failure.
 
 ## 2026-09-07
 
