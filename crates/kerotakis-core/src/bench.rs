@@ -14,7 +14,8 @@ use crate::ops::{
 use crate::refusal::{Refusal, Refuses};
 use crate::solve::{
     adiabatic_mix_into, portions_enthalpy, Equilibrator, HonestyEquilibrator, MixingEquilibrator,
-    PermissiveScreen, SafetyScreen, SafetyVerdict, SolverStack,
+    PermissiveScreen, SafetyScreen, SafetyVerdict, SolverRoute, SolverRouteKind,
+    SolverRouteOutcome, SolverStack,
 };
 use crate::species::{self, Phase, SpeciesId};
 use crate::spill::SpillCompartment;
@@ -1158,12 +1159,101 @@ impl Bench {
             }
         }
 
+        self.record_direct_model_route(&op, &events, solver);
+
         self.log.push(LogEntry {
             step: self.log.len(),
             operator: op,
             events: events.clone(),
         });
         Ok(events)
+    }
+
+    /// Direct bench operations can be model evaluations even though they do
+    /// not pass through an [`Equilibrator`]. Keep their provenance in the same
+    /// diagnostic stream as equilibrium routes, but only after a valid result
+    /// event exists. A refusal therefore never masquerades as a successful
+    /// model route.
+    fn record_direct_model_route(
+        &self,
+        op: &Operator,
+        events: &[Event],
+        solver: &mut dyn Equilibrator,
+    ) {
+        let route = match op {
+            Operator::TestGas { vessel, test }
+                if events.iter().any(
+                    |event| matches!(event, Event::GasTested { test: seen, .. } if seen == test),
+                ) =>
+            {
+                Some((
+                    format!("gas-test:{test}"),
+                    SolverRouteKind::Curated,
+                    false,
+                    *vessel,
+                ))
+            }
+            Operator::Measure {
+                vessel,
+                instrument: Instrument::PressureGauge,
+            } if events.iter().any(|event| {
+                matches!(
+                    event,
+                    Event::Measured {
+                        instrument: Instrument::PressureGauge,
+                        ..
+                    }
+                )
+            }) =>
+            {
+                Some((
+                    "instrument:pressure-gauge".to_string(),
+                    SolverRouteKind::Computed,
+                    false,
+                    *vessel,
+                ))
+            }
+            Operator::Measure {
+                vessel,
+                instrument: Instrument::Eyes,
+            } if events
+                .iter()
+                .any(|event| matches!(event, Event::Observed { .. }))
+                && self
+                    .vessel(*vessel)
+                    .is_ok_and(|state| crate::starch_iodine::complex_moles(state) > 0.0) =>
+            {
+                Some((
+                    "appearance:starch-iodine".to_string(),
+                    SolverRouteKind::Curated,
+                    false,
+                    *vessel,
+                ))
+            }
+            Operator::React { vessel, reaction }
+                if events.iter().any(
+                    |event| matches!(event, Event::OrgReacted { name, .. } if name == reaction),
+                ) =>
+            {
+                Some((
+                    format!("curated-reaction:{reaction}"),
+                    SolverRouteKind::Curated,
+                    true,
+                    *vessel,
+                ))
+            }
+            _ => None,
+        };
+        if let Some((name, kind, chemistry, vessel)) = route {
+            solver.record_route(SolverRoute {
+                solver: name,
+                kind,
+                chemistry,
+                outcome: SolverRouteOutcome::Succeeded { event_count: 1 },
+                vessel: Some(vessel),
+                reason: None,
+            });
+        }
     }
 
     /// The `DidNotIgnite` a vessel has earned, read off the vessel the

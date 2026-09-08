@@ -2533,7 +2533,13 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 ),
             }
         }
-        Event::Inert { vessel, species: sid, why, spent } => {
+        Event::Inert {
+            vessel,
+            species: sid,
+            why,
+            spent,
+            ..
+        } => {
             let name = species_name(locale, sid);
             // The exhausted-couple case gets its own lv1 sentence, because
             // the generic one says the opposite of what happened. See
