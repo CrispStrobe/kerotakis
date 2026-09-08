@@ -92,6 +92,38 @@ describe("what the runner will submit", () => {
 });
 
 describe("running an entry on the visible bench", () => {
+  it("captures only authored semantic checkpoints", async () => {
+    const bench = new FakeBench();
+    const without = await runCatalogEntry(bench, ENTRY, { pause: instantly });
+    expect(without.snapshots).toEqual([]);
+
+    const withAssertions = {
+      ...ENTRY,
+      id: "semantic-checkpoints",
+      expect: {
+        ...ENTRY.expect,
+        assertions: [{
+          kind: "equal" as const,
+          samples: [
+            { step: "initial" as const, metric: "mass_g" },
+            { step: "after:2" as const, metric: "mass_g" },
+            { step: "final" as const, metric: "mass_g" },
+          ],
+        }],
+      },
+    };
+    const outcome = await runCatalogEntry(new FakeBench(), withAssertions, { pause: instantly });
+    expect(outcome.snapshots.map(({ step }) => step)).toEqual(["initial", "after:2", "final"]);
+    expect(outcome.walked).toBe(true);
+  });
+
+  it("marks refused semantic runs as incomplete", async () => {
+    const bench = new FakeBench();
+    bench.refuse = "add v1 HCl 0.01mol";
+    const outcome = await runCatalogEntry(bench, ENTRY, { pause: instantly });
+    expect(outcome.walked).toBe(false);
+  });
+
   it("walks the script one submit at a time, announcing each line first", async () => {
     const bench = new FakeBench();
     bench.events = ["neutralised"];

@@ -2522,6 +2522,24 @@
   "Prepare two equal portions of salt water.": "",
   "Give each portion an empty receiver.": "",
   "Move the first portion in one pour, and the second in two successive pours.": "",
-  "Inspect every vessel. The route changes where the solution waits, not the total H, O, Na or Cl in each source-receiver pair.": ""
- }
+  "Inspect every vessel. The route changes where the solution waits, not the total H, O, Na or Cl in each source-receiver pair.": "",
+  "trial comparison": "",
+  "compare the trials": "",
+  "equal": "",
+  "increasing": "",
+  "decreasing": "",
+  "conserved": "",
+  "unchanged": "",
+  "initial": "",
+  "final": "",
+  "after step {step}": "",
+  "not available": "",
+  "mass g": "",
+  "temperature c": "",
+  "pressure kpa": "",
+  "elapsed s": "",
+  "relationship holds": "",
+  "relationship does not hold": "",
+  "relationship unavailable": ""
+  }
 }

@@ -42,6 +42,8 @@
   } from "../codex";
   import type { Session } from "../session.svelte";
   import KitStrip from "./KitStrip.svelte";
+  import ComparisonResults from "./ComparisonResults.svelte";
+  import { comparisonRows, type ComparisonRow } from "../comparisonResults";
   import { t, tSlug, tEngine, i18n } from "../i18n.svelte";
   import { available } from "../catalogProgress";
   import { equipmentById } from "../equipmentCatalogue";
@@ -206,6 +208,7 @@
   let tab = $state<"theory" | "procedure" | "run">("theory");
   let predicted = $state<number | null>(null);
   let result = $state<CheckResult | null>(null);
+  let comparisons = $state<ComparisonRow[]>([]);
   let refusedLine = $state<string | null>(null);
 
   /** Linked learning, for the entries that name any. */
@@ -279,6 +282,7 @@
     tab = entry.script ? at : "theory";
     predicted = null;
     result = null;
+    comparisons = [];
     refusedLine = null;
     asking = false;
     decision = null;
@@ -387,6 +391,7 @@
     decision = chosen;
     running = true;
     result = null;
+    comparisons = [];
     refusedLine = null;
     step = null;
     stepReport = null;
@@ -415,6 +420,9 @@
           : undefined,
       });
       result = outcome.result;
+      comparisons = outcome.walked
+        ? comparisonRows(script.expect.assertions ?? [], outcome.snapshots, outcome.comparisonVessels, outcome.vesselOffset)
+        : [];
       halted = outcome.halted;
       refusedLine = outcome.refusedAt === null ? null : (outcome.ran.at(-1) ?? null);
     } finally {
@@ -858,6 +866,7 @@
                 </li>
               {/if}
             </ul>
+            <ComparisonResults rows={comparisons} />
             <button class="link" onclick={onclose}>{t("look at the bench")} →</button>
             {#if prediction && predicted !== null}
               {#if predicted === prediction.answer}

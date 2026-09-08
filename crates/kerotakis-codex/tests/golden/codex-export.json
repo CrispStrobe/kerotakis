@@ -11379,7 +11379,35 @@
           ]
         },
         "ph": null,
-        "temperature_c": null
+        "temperature_c": null,
+        "assertions": [
+          {
+            "kind": "equal",
+            "tolerance": 1e-8,
+            "samples": [
+              {
+                "step": "final",
+                "metric": "mass_g",
+                "vessel": "v3"
+              },
+              {
+                "step": "final",
+                "metric": "mass_g",
+                "vessel": "v6"
+              },
+              {
+                "step": "final",
+                "metric": "mass_g",
+                "vessel": "v9"
+              },
+              {
+                "step": "final",
+                "metric": "mass_g",
+                "vessel": "v12"
+              }
+            ]
+          }
+        ]
       },
       "registers": {
         "lv1": "Salt can begin in the left beaker, the right beaker or both. Once the same amounts are completely mixed, the receiver cannot tell those paths apart.",
@@ -11460,7 +11488,25 @@
           ]
         },
         "ph": null,
-        "temperature_c": null
+        "temperature_c": null,
+        "assertions": [
+          {
+            "kind": "equal",
+            "tolerance": 1e-8,
+            "samples": [
+              {
+                "step": "final",
+                "metric": "mass_g",
+                "vessel": "v1"
+              },
+              {
+                "step": "final",
+                "metric": "mass_g",
+                "vessel": "v2"
+              }
+            ]
+          }
+        ]
       },
       "registers": {
         "lv1": "Taking four tenths of the water once leaves the same brine as taking one fifth, then one quarter of what is left. The salt stays in both basins.",
@@ -11543,7 +11589,25 @@
           ]
         },
         "ph": null,
-        "temperature_c": null
+        "temperature_c": null,
+        "assertions": [
+          {
+            "kind": "increasing",
+            "tolerance": 1e-8,
+            "samples": [
+              {
+                "step": "final",
+                "metric": "mass_g",
+                "vessel": "v2"
+              },
+              {
+                "step": "final",
+                "metric": "mass_g",
+                "vessel": "v4"
+              }
+            ]
+          }
+        ]
       },
       "registers": {
         "lv1": "More energy lets the virtual still move more liquid, but a kilojoule is not a percentage of the flask. It is a different kind of instruction.",
@@ -11621,7 +11685,41 @@
           ]
         },
         "ph": null,
-        "temperature_c": null
+        "temperature_c": null,
+        "assertions": [
+          {
+            "kind": "equal",
+            "tolerance": 1e-9,
+            "samples": [
+              {
+                "step": "final",
+                "metric": "moles:ethyl_acetate",
+                "vessel": "v1"
+              },
+              {
+                "step": "final",
+                "metric": "moles:ethyl_acetate",
+                "vessel": "v2"
+              }
+            ]
+          },
+          {
+            "kind": "equal",
+            "tolerance": 1e-9,
+            "samples": [
+              {
+                "step": "final",
+                "metric": "moles:CH3COOH",
+                "vessel": "v1"
+              },
+              {
+                "step": "final",
+                "metric": "moles:CH3COOH",
+                "vessel": "v2"
+              }
+            ]
+          }
+        ]
       },
       "registers": {
         "lv1": "Putting the same four substances into a virtual beaker in reverse order does not change where its equilibrium settles.",
@@ -11700,7 +11798,41 @@
           ]
         },
         "ph": null,
-        "temperature_c": null
+        "temperature_c": null,
+        "assertions": [
+          {
+            "kind": "equal",
+            "tolerance": 1e-9,
+            "samples": [
+              {
+                "step": "final",
+                "metric": "moles:ethyl_acetate",
+                "vessel": "v1"
+              },
+              {
+                "step": "final",
+                "metric": "moles:ethyl_acetate",
+                "vessel": "v2"
+              }
+            ]
+          },
+          {
+            "kind": "equal",
+            "tolerance": 1e-9,
+            "samples": [
+              {
+                "step": "final",
+                "metric": "moles:ethanol",
+                "vessel": "v1"
+              },
+              {
+                "step": "final",
+                "metric": "moles:ethanol",
+                "vessel": "v2"
+              }
+            ]
+          }
+        ]
       },
       "registers": {
         "lv1": "Equilibrium is a destination, not a button that adds more product each time. Once the virtual mixture is there, asking again leaves its material unchanged.",
