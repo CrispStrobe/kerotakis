@@ -161,6 +161,28 @@ fn solid_iodine_outside_the_reviewed_solubility_domain_is_atomic() {
 }
 
 #[test]
+fn a_dissolved_supersaturated_state_is_not_mistaken_for_a_solid_reservoir() {
+    let mut bench = Bench::new();
+    bench.vessels[0].deposit(SpeciesId::new("water"), Moles(2.0), Phase::Liquid);
+    bench.vessels[0].deposit(SpeciesId::new("I2"), Moles(0.01), Phase::Aqueous);
+
+    let events = bench
+        .step(
+            parse_op("extract v1 v2 hexane 0.5mol")
+                .unwrap()
+                .expect("operator"),
+        )
+        .unwrap();
+    assert!(events
+        .iter()
+        .any(|event| matches!(event, Event::Extracted { .. })));
+    assert!(!events.iter().any(|event| matches!(
+        event,
+        Event::NotYetModeled { what, .. } if what.contains("three-phase equilibrium")
+    )));
+}
+
+#[test]
 fn group_model_extracts_a_dissolved_supported_solute_without_a_named_case() {
     let mut bench = Bench::new();
     bench

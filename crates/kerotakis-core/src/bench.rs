@@ -3329,7 +3329,8 @@ impl Bench {
                     if moles <= 0.0 {
                         continue;
                     }
-                    let (single, repeated) = if let Some(limit) = solubility {
+                    let (single, repeated) = if solid_moles > 0.0 {
+                        let limit = solubility.expect("solid inventory was gated on solubility");
                         let single = crate::apparatus::extract_repeated_with_aqueous_solubility(
                             moles,
                             water_volume_l,
