@@ -384,3 +384,458 @@ lv3 = "Idempotence is a necessary fixed-point property of the equilibrium operat
 [reaction.provenance]
 source = "Original source-fleet promotion from generic reversible-equilibrium idempotence controls; no source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08."
 computed_by = "Kerotakis generic reversible mass-action extent solver; independent repeated-request final-inventory audit"
+
+[[reaction]]
+id = "buffer-ph-is-intensive"
+progress = "advanced"
+summary = "Scaling water, weak acid, and conjugate base together preserves the buffer pH"
+concepts = ["buffers", "ph", "intensive-properties"]
+requires = ["acids-and-bases", "amount-of-substance"]
+calculations = ["concentration", "acid-base-equilibrium"]
+models = ["equilibrium"]
+apparatus = ["beaker", "ph-meter"]
+[reaction.setup]
+script = """
+add v1 water 180mL
+add v1 CH3COOH 0.0018mol
+add v1 NaOAc 0.0018mol
+measure v1 ph
+new
+add v2 water 360mL
+add v2 CH3COOH 0.0036mol
+add v2 NaOAc 0.0036mol
+measure v2 ph
+new
+add v3 water 540mL
+add v3 CH3COOH 0.0054mol
+add v3 NaOAc 0.0054mol
+measure v3 ph
+new
+add v4 water 720mL
+add v4 CH3COOH 0.0072mol
+add v4 NaOAc 0.0072mol
+measure v4 ph
+"""
+[reaction.expect]
+events = ["measured"]
+absent = ["solver_failed"]
+[[reaction.expect.assertions]]
+kind = "equal"
+tolerance = 0.03
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "ph"
+vessel = "v1"
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "ph"
+vessel = "v2"
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "ph"
+vessel = "v3"
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "ph"
+vessel = "v4"
+[reaction.expect.predict]
+question = "Four acetate buffers have the same composition but contain one, two, three, or four times as much material. Which has the highest pH?"
+options = ["The largest, because it contains the most base", "None: scaling acid, base, and water together preserves their ratio and pH"]
+answer = 1
+misconception = "Total amount of base is mistaken for base concentration and for the acid-to-base ratio that controls buffer pH."
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "An extensive amount is being used as though it were an intensive composition."
+next = "Divide acid and acetate moles by water amount in every vessel, then compare the four pH readings."
+[reaction.registers]
+lv1 = "A larger buffer is not a stronger-tasting version of the same recipe. When every amount grows together, its pH stays the same."
+lv2 = "All four vessels have the same acid-to-acetate ratio and the same concentrations. The computed pH therefore agrees even though their total amounts differ fourfold."
+lv3 = "pH is intensive under extensive scaling at fixed composition, temperature, and activity model. Buffer capacity is extensive, however: the larger vessel can absorb proportionally more added acid before this equality fails."
+[reaction.provenance]
+source = "Original promotion from generic extensive-scaling buffer controls; no private source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08."
+computed_by = "Kerotakis aqueous equilibrium solver; four-way final-pH equality assertion"
+
+[[reaction]]
+id = "neutralisation-forgets-addition-order"
+progress = "intermediate"
+summary = "Acid-first, base-first, and split additions reach the same final pH for the same neutral inventory"
+concepts = ["neutralisation", "ph", "state-functions"]
+requires = ["strong-acids", "strong-bases"]
+calculations = ["acid-base-stoichiometry"]
+models = ["ionic-bonding", "equilibrium"]
+apparatus = ["beaker", "ph-meter"]
+[reaction.setup]
+script = """
+add v1 water 300mL
+add v1 HCl 0.001mol
+add v1 NaOH 0.001mol
+measure v1 ph
+new
+add v2 water 300mL
+add v2 NaOH 0.001mol
+add v2 HCl 0.001mol
+measure v2 ph
+new
+add v3 water 300mL
+add v3 HCl 0.0004mol
+add v3 HCl 0.0006mol
+add v3 NaOH 0.001mol
+measure v3 ph
+new
+add v4 water 300mL
+add v4 HCl 0.001mol
+add v4 NaOH 0.0003mol
+add v4 NaOH 0.0007mol
+measure v4 ph
+"""
+[reaction.expect]
+events = ["measured"]
+absent = ["solver_failed"]
+[[reaction.expect.assertions]]
+kind = "equal"
+tolerance = 0.03
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "ph"
+vessel = "v1"
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "ph"
+vessel = "v2"
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "ph"
+vessel = "v3"
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "ph"
+vessel = "v4"
+[reaction.expect.predict]
+question = "Equal strong-acid and strong-base totals are combined acid-first, base-first, or in split portions. Which route has a different final pH?"
+options = ["At least one, because the first reagent fixes whether the water becomes acidic or alkaline", "None: after equilibration the same final inventory gives the same pH"]
+answer = 1
+misconception = "A transient excess during pouring is mistaken for a lasting part of the equilibrated final state."
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "The order-dependent intermediate state is being carried into a calculation that depends on the final inventory."
+next = "For each route, total the delivered HCl and NaOH before comparing the final pH readings."
+[reaction.registers]
+lv1 = "Pouring acid first or base first changes the journey, but equal final amounts leave the same neutral water."
+lv2 = "Each route supplies 0.001 mol HCl and 0.001 mol NaOH to 300 mL water. Splitting either dose does not change the final excess of hydrogen or hydroxide ions."
+lv3 = "This path-independence claim is restricted to the final equilibrated strong-acid/strong-base inventory. Transient local pH, heat release, splashing, and finite mixing rates can depend strongly on order in a real vessel."
+[reaction.provenance]
+source = "Original promotion from generic neutralisation-order controls; no private source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08."
+computed_by = "Kerotakis aqueous equilibrium solver; four-way final-pH equality assertion"
+
+[[reaction]]
+id = "carbonate-precipitate-forgets-feed-order"
+progress = "intermediate"
+summary = "Reversing or splitting equal calcium and carbonate feeds leaves the same calculated calcite amount"
+concepts = ["precipitation", "solubility-equilibrium", "state-functions"]
+requires = ["ions-in-solution", "amount-of-substance"]
+calculations = ["limiting-reagent"]
+models = ["equilibrium", "ionic-bonding"]
+apparatus = ["beaker"]
+[reaction.setup]
+script = """
+add v1 water 250mL
+add v1 CaCl2 0.003mol
+add v1 Na2CO3 0.003mol
+inspect v1
+new
+add v2 water 250mL
+add v2 Na2CO3 0.003mol
+add v2 CaCl2 0.003mol
+inspect v2
+new
+add v3 water 250mL
+add v3 CaCl2 0.001mol
+add v3 Na2CO3 0.003mol
+add v3 CaCl2 0.002mol
+inspect v3
+new
+add v4 water 250mL
+add v4 Na2CO3 0.001mol
+add v4 CaCl2 0.003mol
+add v4 Na2CO3 0.002mol
+inspect v4
+"""
+[reaction.expect]
+events = ["precipitated:CaCO3"]
+absent = ["solver_failed"]
+[[reaction.expect.assertions]]
+kind = "equal"
+tolerance = 2e-8
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "moles:CaCO3"
+vessel = "v1"
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "moles:CaCO3"
+vessel = "v2"
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "moles:CaCO3"
+vessel = "v3"
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "moles:CaCO3"
+vessel = "v4"
+[reaction.expect.predict]
+question = "The same calcium and carbonate totals are delivered in four different orders. Which route leaves a different calculated amount of calcite?"
+options = ["The route that adds calcium first, because the first solid locks in the history", "None: the equilibrium phase calculation uses the same final elemental inventory"]
+answer = 1
+misconception = "The first visible precipitate is assumed to determine the final equilibrium amount even when the complete inventory is identical."
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "Nucleation history is being substituted for the equilibrium material balance used by this model."
+next = "Add the calcium and carbonate feeds in each vessel, then compare both the precipitation events and final CaCO3 inventories."
+[reaction.registers]
+lv1 = "Calcium can arrive first, carbonate can arrive first, or either can arrive in pieces. With the same final amounts, the virtual beakers make the same chalk."
+lv2 = "Every vessel ends with 0.003 mol calcium feed and 0.003 mol carbonate feed in 250 mL water. The solver therefore returns equal final calcite inventories."
+lv3 = "The assertion concerns the equilibrium phase amount, not nucleation history or crystal form. Real precipitation can retain order-dependent particle sizes, polymorphs, occlusion, and supersaturation because those kinetic details are outside this replay."
+[reaction.provenance]
+source = "Original promotion from generic carbonate feed-order controls; no private source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08."
+computed_by = "Kerotakis aqueous phase-equilibrium solver; four-way final-CaCO3 equality assertion"
+
+[[reaction]]
+id = "pressure-is-intensive-under-scaling"
+progress = "advanced"
+summary = "Scaling gas amount, sealed volume, and heat together preserves the calculated pressure"
+concepts = ["gas-pressure", "intensive-properties", "scaling"]
+requires = ["particle-model", "amount-of-substance"]
+calculations = ["ideal-gas-law"]
+models = ["particle-model"]
+apparatus = ["sealed-vessel", "pressure-sensor"]
+[reaction.setup]
+script = """
+seal v1 250mL
+add v1 N2 0.002mol
+heat v1 75J
+measure v1 pressure
+new
+seal v2 500mL
+add v2 N2 0.004mol
+heat v2 150J
+measure v2 pressure
+new
+seal v3 750mL
+add v3 N2 0.006mol
+heat v3 225J
+measure v3 pressure
+new
+seal v4 1000mL
+add v4 N2 0.008mol
+heat v4 300J
+measure v4 pressure
+"""
+[reaction.expect]
+events = ["measured"]
+absent = ["solver_failed", "burst"]
+[[reaction.expect.assertions]]
+kind = "equal"
+tolerance = 0.002
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "pressure_kpa"
+vessel = "v1"
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "pressure_kpa"
+vessel = "v2"
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "pressure_kpa"
+vessel = "v3"
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "pressure_kpa"
+vessel = "v4"
+[reaction.expect.predict]
+question = "Gas amount, vessel volume, and heating are all multiplied by the same factor. What happens to the final pressure?"
+options = ["It rises with the total number of gas particles", "It stays the same because particles per volume and energy per particle stay the same"]
+answer = 1
+misconception = "Pressure is treated as an extensive total rather than an intensive state determined by density and temperature."
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "Particle number has been increased without also accounting for the proportional increase in available volume."
+next = "Compare n/V and heat per mole for all four vessels before reading their pressures."
+[reaction.registers]
+lv1 = "A gas sample can be twice or four times as large without having a larger pressure, if its container and heating grow by the same factor."
+lv2 = "Each trial keeps n/V and energy per mole fixed. The resulting temperature and ideal-gas pressure are therefore equal while total gas amount and volume scale."
+lv3 = "Pressure is intensive under this proportional scaling because p = nRT/V and the thermal state is scaled consistently. The equality assumes the model's ideal gas, rigid volume, uniform temperature, and unchanged vessel boundary."
+[reaction.provenance]
+source = "Original promotion from generic sealed-gas scaling controls; no private source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08."
+computed_by = "Kerotakis sealed-headspace gas law and thermal model; four-way final-pressure equality assertion"
+
+[[reaction]]
+id = "zinc-ions-lower-cell-voltage"
+progress = "advanced"
+summary = "Increasing zinc-ion activity lowers the calculated open-circuit Daniell-cell voltage"
+concepts = ["electrochemical-cells", "nernst-equation", "activities"]
+requires = ["redox", "amount-of-substance"]
+calculations = ["cell-potential", "reaction-quotient"]
+models = ["equilibrium", "electron-transfer"]
+apparatus = ["electrochemical-cell", "voltmeter"]
+[reaction.setup]
+script = """
+add v1 water 200mL
+add v1 ZnSO4 0.0005mol
+add v1 Zn 0.05mol
+new
+add v2 water 200mL
+add v2 CuSO4 0.008mol
+add v2 Cu 0.05mol
+cell v1 v2
+new
+add v3 water 200mL
+add v3 ZnSO4 0.001mol
+add v3 Zn 0.05mol
+new
+add v4 water 200mL
+add v4 CuSO4 0.008mol
+add v4 Cu 0.05mol
+cell v3 v4
+new
+add v5 water 200mL
+add v5 ZnSO4 0.005mol
+add v5 Zn 0.05mol
+new
+add v6 water 200mL
+add v6 CuSO4 0.008mol
+add v6 Cu 0.05mol
+cell v5 v6
+new
+add v7 water 200mL
+add v7 ZnSO4 0.01mol
+add v7 Zn 0.05mol
+new
+add v8 water 200mL
+add v8 CuSO4 0.008mol
+add v8 Cu 0.05mol
+cell v7 v8
+"""
+[reaction.expect]
+events = ["cell_voltage"]
+absent = ["solver_failed", "no_cell"]
+[reaction.expect.predict]
+question = "The copper half-cell stays fixed while more zinc sulfate is added to the zinc half-cell. How does the open-circuit voltage change?"
+options = ["It rises because more ions always make a stronger cell", "It falls because greater zinc-ion activity raises the reaction quotient"]
+answer = 1
+misconception = "Electrolyte amount is treated as a generic source of voltage without considering which ion appears in the cell reaction quotient."
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "Conductivity and Nernst potential are being conflated, and the zinc ion's side of the quotient has been ignored."
+next = "Write Q = a(Zn2+)/a(Cu2+) and use the sign before ln Q in the Nernst equation."
+[reaction.registers]
+lv1 = "Adding more zinc ions makes this zinc-copper cell's measured push smaller, while the copper side stays the same."
+lv2 = "The four cells differ only in zinc-sulfate amount. Raising zinc-ion activity raises the reaction quotient for Zn + Cu2+ → Zn2+ + Cu, so the Nernst voltage falls."
+lv3 = "The engine computes activities after aqueous speciation and then evaluates the Nernst relation. The catalog gate currently verifies four typed voltage events but cannot assert their ordering because event values are not semantic-state metrics; this limitation is stated rather than replaced with a proxy."
+[reaction.provenance]
+source = "Original promotion from generic Daniell-cell concentration controls; no private source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08."
+computed_by = "Kerotakis aqueous activity and electrochemical-cell solver; typed voltage-event replay"
+
+[[reaction]]
+id = "mixing-temperature-does-not-remember-sides"
+progress = "intermediate"
+summary = "Reversing the two source vessels leaves the same calculated mixed temperature"
+concepts = ["thermal-equilibrium", "energy-conservation", "state-functions"]
+requires = ["temperature", "heat-capacity"]
+calculations = ["thermal-energy-balance"]
+models = ["particle-model", "conservation-of-energy"]
+apparatus = ["beaker", "thermometer"]
+[reaction.setup]
+script = """
+add v1 water 0.18L
+heat v1 1200J
+new
+add v2 water 0.27L
+cool v2 500J
+new
+mix v1 1 v2 1 into v3
+measure v3 temp
+new
+add v4 water 0.18L
+heat v4 1200J
+new
+add v5 water 0.27L
+cool v5 500J
+new
+mix v5 1 v4 1 into v6
+measure v6 temp
+"""
+[reaction.expect]
+events = ["mixed", "measured"]
+absent = ["solver_failed"]
+[[reaction.expect.assertions]]
+kind = "equal"
+tolerance = 1e-8
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "temperature_c"
+vessel = "v3"
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "temperature_c"
+vessel = "v6"
+[reaction.expect.predict]
+question = "The same warm and cool water portions are mixed, but their order in the command is reversed. Which receiver finishes warmer?"
+options = ["The one whose hot portion is named first", "Neither: the same total energy and heat capacity give the same equilibrium temperature"]
+answer = 1
+misconception = "The left-to-right order of a mixing command is mistaken for a physical source of thermal energy."
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "A label and operand position are being treated as though they changed the energy balance."
+next = "Calculate the sum of each portion's heat capacity times temperature in both orders, then compare the receiver readings."
+[reaction.registers]
+lv1 = "Calling one beaker left and the other right cannot change the final warmth when all their water and energy are mixed."
+lv2 = "Both trials combine the same 0.18 L warmed portion and 0.27 L cooled portion. Reversing the operands preserves total thermal energy and heat capacity, so the receiver temperatures agree."
+lv3 = "The mixing operator is commutative for these homogeneous water portions because its equilibrium temperature follows a symmetric energy balance. Heat loss, finite mixing time, and spatial gradients could break the laboratory observation but are outside this instantaneous model."
+[reaction.provenance]
+source = "Original promotion from generic thermal mixing-order controls; no private source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08."
+computed_by = "Kerotakis thermal energy-balance operator; receiver-temperature equality assertion"
+
+[[reaction]]
+id = "scaling-mixture-scales-equilibrium"
+progress = "advanced"
+summary = "Doubling every component doubles the calculated equilibrium inventory while preserving composition"
+concepts = ["chemical-equilibrium", "scaling", "intensive-properties"]
+requires = ["reaction-quotient", "amount-of-substance"]
+calculations = ["equilibrium-expression", "mole-fraction"]
+models = ["equilibrium", "conservation-of-mass"]
+apparatus = ["beaker"]
+[reaction.setup]
+script = """
+add v1 CH3COOH 0.013mol
+add v1 ethanol 0.009mol
+add v1 ethyl_acetate 0.002mol
+add v1 water 0.005mol
+inspect v1
+react v1 esterification
+new
+add v2 CH3COOH 0.026mol
+add v2 ethanol 0.018mol
+add v2 ethyl_acetate 0.004mol
+add v2 water 0.01mol
+react v2 esterification
+"""
+[reaction.expect]
+events = ["org_reacted"]
+absent = ["solver_failed"]
+[reaction.expect.predict]
+question = "Every component in an equilibrium mixture is doubled before the same equilibrium calculation. What should happen to the final amounts?"
+options = ["They stay unchanged because an equilibrium constant fixes amounts", "They double while the equilibrium composition and reaction quotient stay the same"]
+answer = 1
+misconception = "The equilibrium constant is mistaken for a fixed number of moles rather than a constraint on activities or composition."
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "An intensive equilibrium relation is being read as a cap on extensive inventory."
+next = "Compare mole fractions and the reaction quotient first, then compare each final mole inventory between the two scales."
+[reaction.registers]
+lv1 = "Making the whole recipe twice as large makes twice as much of every final substance; it does not change the recipe's balance point."
+lv2 = "The second vessel begins with exactly twice every component. Its reaction quotient and composition match the first, so equilibrium preserves the proportions while extensive amounts double."
+lv3 = "This is homogeneity of the ideal-mixture equilibrium problem under extensive scaling. The current semantic schema has neither ratios nor relative tolerance, so lint verifies the real reaction events but deliberately does not encode the unsafe surrogate claim that two unequal mole values should compare equal."
+[reaction.provenance]
+source = "Original promotion from generic organic-equilibrium scaling controls; no private source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08."
+computed_by = "Kerotakis generic reversible mass-action extent solver; typed reaction-event replay (2:1 relation not expressible by current assertion schema)"

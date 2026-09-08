@@ -154,7 +154,7 @@ describe("all sixty-three guided experiments still run, prose or no prose", () =
   }).filter((entry) => entry.source === "guided");
 
   it("is the whole guided catalogue, and every card has an action", () => {
-    expect(entries).toHaveLength(63);
+    expect(entries).toHaveLength(70);
     expect(entries.filter((entry) => entry.run.kind === "boundary" && entry.status === "computed")).toEqual([]);
   });
 

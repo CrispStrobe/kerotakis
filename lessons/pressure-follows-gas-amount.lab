@@ -1,0 +1,18 @@
+# More gas, more pressure
+register lv2
+seal v1 500mL
+add v1 N2 0.001mol
+measure v1 pressure
+new
+seal v2 500mL
+add v2 N2 0.002mol
+measure v2 pressure
+new
+seal v3 500mL
+add v3 N2 0.004mol
+measure v3 pressure
+new
+seal v4 500mL
+add v4 N2 0.008mol
+measure v4 pressure
+# Ideal rigid headspaces only; leakage and gauge uncertainty are omitted.

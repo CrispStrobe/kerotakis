@@ -1,0 +1,18 @@
+# Pressure rises when headspace shrinks
+register lv2
+seal v1 1000mL
+add v1 N2 0.0037mol
+measure v1 pressure
+new
+seal v2 750mL
+add v2 N2 0.0037mol
+measure v2 pressure
+new
+seal v3 500mL
+add v3 N2 0.0037mol
+measure v3 pressure
+new
+seal v4 250mL
+add v4 N2 0.0037mol
+measure v4 pressure
+# Ideal rigid headspaces only; real pressure work requires rated apparatus.

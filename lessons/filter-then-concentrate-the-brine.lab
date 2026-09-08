@@ -1,0 +1,22 @@
+# Filter, then concentrate the brine
+# Trace silica, salt and water through filtration and half evaporation, then
+# repeat at twice the extensive scale. The filter retains silica while the
+# salt-bearing filtrate is concentrated; doubling inputs doubles inventories.
+register lv2
+add v1 water 0.30L
+add v1 SiO2 0.003mol
+add v1 NaCl 0.020mol
+new
+filter v1 v2
+evaporate v2 0.5
+inspect v1
+inspect v2
+new
+add v3 water 0.60L
+add v3 SiO2 0.006mol
+add v3 NaCl 0.040mol
+new
+filter v3 v4
+evaporate v4 0.5
+inspect v3
+inspect v4

@@ -54,6 +54,14 @@ duplicates, (4) close generic engine boundaries exposed by those replays, and
 is no fourth learner-facing surface. The deployment VPS may parse, format and
 inspect these changes, but compilation, browser tests and fleet execution stay
 on GitHub CI.
+
+The second tranche is fixed at 18 concepts: seven guided Experiments K64–K70,
+seven Codex comparisons, and four Missions. Its pressure, buffer, neutralisation,
+precipitation, thermal and process comparisons reuse exact scripts already
+passed by the 219–458 fleet. Voltage-event ordering and 2:1 equilibrium scaling
+remain explicitly event-verified until the generic semantic schema gains event
+scalars and dimensionless transforms; neither is represented by a convenient
+but false state proxy.
 - **`tests/coverage/curiosity-v1/README.md`** — the corpus refresh log. It is a
   test artefact, not a planning file; leave it alone.
 - **`docs/CURIOSITY-COVERAGE.md`** — the standing analysis of that corpus: the

@@ -1,0 +1,11 @@
+# Split heat pulses reach the same temperature
+register lv2
+add v1 water 0.2L
+heat v1 900J
+measure v1 temp
+new
+add v2 water 0.2L
+heat v2 360J
+heat v2 540J
+measure v2 temp
+# Adiabatic constant-heat-capacity vessels omit heat loss and container heat.

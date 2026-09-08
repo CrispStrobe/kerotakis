@@ -500,7 +500,33 @@
   "{percent}% of tracked {metal} is locked in modeled oxide; schematic marker, not surface coverage": "{percent}% des erfassten {metal} sind im modellierten Oxid gebunden; schematische Markierung, keine Oberflächenbedeckung",
   "{percent}% of tracked {metal} is locked in modeled oxide; current contents, not corrosion rate or history": "{percent}% des erfassten {metal} sind im modellierten Oxid gebunden; aktueller Inhalt, keine Korrosionsrate oder Historie",
   "Oxide added directly is indistinguishable from oxide formed here.": "Direkt zugegebenes Oxid ist nicht von hier gebildetem Oxid zu unterscheiden.",
-  "{family} enzyme model: {percent}% of {substrate} converted in {material}": "{family}-Enzymmodell: {percent} % von {substrate} in {material} umgesetzt"
+  "{family} enzyme model: {percent}% of {substrate} converted in {material}": "{family}-Enzymmodell: {percent} % von {substrate} in {material} umgesetzt",
+  "buffer ph is intensive": "Der Puffer-pH ist eine intensive Größe",
+  "carbonate precipitate forgets feed order": "Der Carbonatniederschlag vergisst die Zugabereihenfolge",
+  "mixing temperature does not remember sides": "Die Mischtemperatur erinnert sich nicht an Seiten",
+  "neutralisation forgets addition order": "Die Neutralisation vergisst die Zugabereihenfolge",
+  "pressure is intensive under scaling": "Druck bleibt bei Skalierung intensiv",
+  "scaling mixture scales equilibrium": "Skalieren des Gemischs skaliert den Gleichgewichtsbestand",
+  "zinc ions lower cell voltage": "Zinkionen senken die Zellspannung",
+  "warm the gas stop before burst": "Gas erwärmen und vor dem Bersten stoppen",
+  "current time and electrolysis yield": "Strom, Zeit und Elektrolyseausbeute",
+  "filter then concentrate the brine": "Filtrieren und dann die Salzlösung konzentrieren",
+  "track precipitate and filtrate through drying": "Niederschlag und Filtrat beim Trocknen verfolgen",
+  "activities": "Aktivitäten",
+  "electrochemical cells": "elektrochemische Zellen",
+  "gas pressure": "Gasdruck",
+  "intensive properties": "intensive Eigenschaften",
+  "ions in solution": "Ionen in Lösung",
+  "nernst equation": "Nernst-Gleichung",
+  "redox": "Redox",
+  "scaling": "Skalierung",
+  "solubility equilibrium": "Löslichkeitsgleichgewicht",
+  "strong acids": "starke Säuren",
+  "thermal equilibrium": "thermisches Gleichgewicht",
+  "conservation of energy": "Energieerhaltung",
+  "electrochemical cell": "elektrochemische Zelle",
+  "pressure sensor": "Drucksensor",
+  "sealed vessel": "geschlossenes Gefäß"
  },
  "messages": {
   "endpoint is not a full drop": "Der Endpunkt ist kein ganzer Tropfen",
@@ -2540,6 +2566,10 @@
   "Prepare two equal portions of salt water.": "Bereite zwei gleiche Portionen Salzwasser vor.",
   "Give each portion an empty receiver.": "Gib jeder Portion ein leeres Auffanggefäß.",
   "Move the first portion in one pour, and the second in two successive pours.": "Fülle die erste Portion in einem Zug und die zweite in zwei aufeinanderfolgenden Zügen um.",
-  "Inspect every vessel. The route changes where the solution waits, not the total H, O, Na or Cl in each source-receiver pair.": "Untersuche jedes Gefäß. Der Weg ändert, wo die Lösung wartet, nicht die Gesamtmengen H, O, Na oder Cl in jedem Paar aus Quelle und Auffanggefäß."
+  "Inspect every vessel. The route changes where the solution waits, not the total H, O, Na or Cl in each source-receiver pair.": "Untersuche jedes Gefäß. Der Weg ändert, wo die Lösung wartet, nicht die Gesamtmengen H, O, Na oder Cl in jedem Paar aus Quelle und Auffanggefäß.",
+  "Warm the gas, stop before burst": "Gas erwärmen und vor dem Bersten stoppen",
+  "Current, time and electrolysis yield": "Strom, Zeit und Elektrolyseausbeute",
+  "Filter, then concentrate the brine": "Filtrieren und dann die Salzlösung konzentrieren",
+  "Track precipitate and filtrate through drying": "Niederschlag und Filtrat beim Trocknen verfolgen"
  }
 }

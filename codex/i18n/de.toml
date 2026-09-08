@@ -1360,3 +1360,74 @@
 "equilibrium-is-not-a-yield-button.registers.lv1" = "Gleichgewicht ist ein Ziel und keine Taste, die bei jedem Drücken mehr Produkt hinzufügt. Ist das virtuelle Gemisch dort angekommen, bleibt sein Stoffbestand bei einer erneuten Anfrage unverändert."
 "equilibrium-is-not-a-yield-button.registers.lv2" = "Der erste Auftrag verändert den Vierkomponentenbestand, bis sein Reaktionsquotient der Gleichgewichtskonstante des Modells entspricht. Ausgehend von diesem eingestellten Bestand ist der zweite begrenzte Reaktionsfortschritt bis auf numerische Toleranz null."
 "equilibrium-is-not-a-yield-button.registers.lv3" = "Idempotenz ist eine notwendige Fixpunkteigenschaft des Gleichgewichtsoperators: solve(solve(Zustand)) = solve(Zustand). Das sagt nichts über die Zeit aus, die ein wirkliches unkatalysiertes Gemisch benötigt; auch kann die wässrige Speziierung nach der isolierten organischen Berechnung die dargestellte molekulare Verteilung noch verändern."
+
+# Second original source-fleet promotion tranche, 2026-09-08.
+"buffer-ph-is-intensive.summary" = "Werden Wasser, schwache Säure und korrespondierende Base gemeinsam skaliert, bleibt der Puffer-pH gleich"
+"buffer-ph-is-intensive.expect.predict.question" = "Vier Acetatpuffer haben dieselbe Zusammensetzung, enthalten aber die ein-, zwei-, drei- oder vierfache Stoffmenge. Welcher hat den höchsten pH-Wert?"
+"buffer-ph-is-intensive.expect.predict.options" = ["Der größte, weil er die meiste Base enthält", "Keiner: Werden Säure, Base und Wasser gemeinsam skaliert, bleiben ihr Verhältnis und der pH-Wert gleich"]
+"buffer-ph-is-intensive.expect.predict.misconception" = "Die Gesamtmenge der Base wird mit ihrer Konzentration und mit dem Säure-Base-Verhältnis verwechselt, das den Puffer-pH bestimmt."
+"buffer-ph-is-intensive.expect.predict.diagnosis.0.reveals" = "Eine extensive Stoffmenge wird so verwendet, als wäre sie eine intensive Zusammensetzung."
+"buffer-ph-is-intensive.expect.predict.diagnosis.0.next" = "Teile in jedem Gefäß die Stoffmengen von Säure und Acetat durch die Wassermenge und vergleiche danach die vier pH-Werte."
+"buffer-ph-is-intensive.registers.lv1" = "Ein größerer Puffer ist nicht bloß eine stärker schmeckende Version desselben Rezepts. Wachsen alle Mengen gemeinsam, bleibt sein pH-Wert gleich."
+"buffer-ph-is-intensive.registers.lv2" = "Alle vier Gefäße haben dasselbe Verhältnis von Säure zu Acetat und dieselben Konzentrationen. Deshalb stimmen die berechneten pH-Werte überein, obwohl sich die Gesamtmengen um den Faktor vier unterscheiden."
+"buffer-ph-is-intensive.registers.lv3" = "Bei gleichbleibender Zusammensetzung, Temperatur und gleichem Aktivitätsmodell ist der pH-Wert unter extensiver Skalierung intensiv. Die Pufferkapazität ist dagegen extensiv: Das größere Gefäß kann proportional mehr zugesetzte Säure aufnehmen, bevor diese Gleichheit versagt."
+
+"neutralisation-forgets-addition-order.summary" = "Säure zuerst, Base zuerst und geteilte Zugaben erreichen bei demselben neutralen Endbestand denselben pH-Wert"
+"neutralisation-forgets-addition-order.expect.predict.question" = "Gleiche Gesamtmengen starker Säure und starker Base werden säurezuerst, basezuerst oder portionsweise vereinigt. Welcher Weg hat einen anderen End-pH?"
+"neutralisation-forgets-addition-order.expect.predict.options" = ["Mindestens einer, weil das erste Reagenz festlegt, ob das Wasser sauer oder alkalisch wird", "Keiner: Nach der Gleichgewichtseinstellung ergibt derselbe Endbestand denselben pH-Wert"]
+"neutralisation-forgets-addition-order.expect.predict.misconception" = "Ein vorübergehender Überschuss während des Eingießens wird für einen dauerhaften Teil des eingestellten Endzustands gehalten."
+"neutralisation-forgets-addition-order.expect.predict.diagnosis.0.reveals" = "Der reihenfolgeabhängige Zwischenzustand wird in eine Rechnung übernommen, die vom Endbestand abhängt."
+"neutralisation-forgets-addition-order.expect.predict.diagnosis.0.next" = "Summiere für jeden Weg die zugegebenen Mengen HCl und NaOH, bevor du die abschließenden pH-Werte vergleichst."
+"neutralisation-forgets-addition-order.registers.lv1" = "Ob Säure oder Base zuerst eingegossen wird, verändert den Weg; gleiche Endmengen hinterlassen jedoch dasselbe neutrale Wasser."
+"neutralisation-forgets-addition-order.registers.lv2" = "Jeder Weg gibt 0,001 mol HCl und 0,001 mol NaOH zu 300 mL Wasser. Das Aufteilen einer der beiden Portionen ändert den abschließenden Überschuss an Wasserstoff- oder Hydroxidionen nicht."
+"neutralisation-forgets-addition-order.registers.lv3" = "Diese Wegunabhängigkeit gilt nur für den abschließend eingestellten Bestand aus starker Säure und starker Base. Lokaler pH-Wert, Wärmefreisetzung, Spritzen und endliche Mischgeschwindigkeiten können in einem wirklichen Gefäß stark von der Reihenfolge abhängen."
+
+"carbonate-precipitate-forgets-feed-order.summary" = "Werden gleiche Calcium- und Carbonatzugaben umgekehrt oder aufgeteilt, bleibt dieselbe berechnete Calcitmenge zurück"
+"carbonate-precipitate-forgets-feed-order.expect.predict.question" = "Dieselben Gesamtmengen Calcium und Carbonat werden in vier unterschiedlichen Reihenfolgen zugegeben. Welcher Weg hinterlässt eine andere berechnete Calcitmenge?"
+"carbonate-precipitate-forgets-feed-order.expect.predict.options" = ["Der Weg mit Calcium zuerst, weil der erste Feststoff die Vorgeschichte festhält", "Keiner: Die Gleichgewichtsrechnung der Phasen verwendet denselben abschließenden Elementbestand"]
+"carbonate-precipitate-forgets-feed-order.expect.predict.misconception" = "Es wird angenommen, der erste sichtbare Niederschlag bestimme die endgültige Gleichgewichtsmenge, obwohl der vollständige Bestand gleich ist."
+"carbonate-precipitate-forgets-feed-order.expect.predict.diagnosis.0.reveals" = "Die Keimbildungsgeschichte ersetzt die Gleichgewichts-Stoffbilanz, mit der dieses Modell rechnet."
+"carbonate-precipitate-forgets-feed-order.expect.predict.diagnosis.0.next" = "Addiere in jedem Gefäß die Calcium- und Carbonatzugaben und vergleiche danach sowohl die Fällungsereignisse als auch die endgültigen CaCO3-Bestände."
+"carbonate-precipitate-forgets-feed-order.registers.lv1" = "Calcium kann zuerst kommen, Carbonat kann zuerst kommen oder eines von beiden portionsweise. Bei gleichen Endmengen bilden die virtuellen Becher dieselbe Menge Kreide."
+"carbonate-precipitate-forgets-feed-order.registers.lv2" = "Jedes Gefäß endet mit 0,003 mol Calciumzugabe und 0,003 mol Carbonatzugabe in 250 mL Wasser. Deshalb liefert der Löser gleiche abschließende Calcitbestände."
+"carbonate-precipitate-forgets-feed-order.registers.lv3" = "Die Prüfung betrifft die Gleichgewichtsmenge der Phase, nicht die Keimbildungsgeschichte oder Kristallform. Wirkliche Fällungen können wegen der hier nicht modellierten Kinetik reihenfolgeabhängige Teilchengrößen, Polymorphe, Einschlüsse und Übersättigungen bewahren."
+
+"pressure-is-intensive-under-scaling.summary" = "Werden Gasmenge, abgeschlossenes Volumen und Wärme gemeinsam skaliert, bleibt der berechnete Druck gleich"
+"pressure-is-intensive-under-scaling.expect.predict.question" = "Gasmenge, Gefäßvolumen und Erwärmung werden alle mit demselben Faktor multipliziert. Was geschieht mit dem Enddruck?"
+"pressure-is-intensive-under-scaling.expect.predict.options" = ["Er steigt mit der Gesamtzahl der Gasteilchen", "Er bleibt gleich, weil Teilchen pro Volumen und Energie pro Teilchen gleich bleiben"]
+"pressure-is-intensive-under-scaling.expect.predict.misconception" = "Druck wird als extensive Gesamtgröße behandelt statt als intensive Zustandsgröße, die durch Dichte und Temperatur bestimmt wird."
+"pressure-is-intensive-under-scaling.expect.predict.diagnosis.0.reveals" = "Die Teilchenzahl wurde erhöht, ohne die proportionale Zunahme des verfügbaren Volumens zu berücksichtigen."
+"pressure-is-intensive-under-scaling.expect.predict.diagnosis.0.next" = "Vergleiche n/V und die Wärme pro Mol für alle vier Gefäße, bevor du ihre Drücke abliest."
+"pressure-is-intensive-under-scaling.registers.lv1" = "Eine Gasportion kann doppelt oder viermal so groß sein, ohne einen größeren Druck zu haben, wenn ihr Behälter und die Erwärmung um denselben Faktor wachsen."
+"pressure-is-intensive-under-scaling.registers.lv2" = "Jeder Versuch hält n/V und die Energie pro Mol konstant. Deshalb sind Endtemperatur und idealer Gasdruck gleich, während Gesamtgasmenge und Volumen skalieren."
+"pressure-is-intensive-under-scaling.registers.lv3" = "Unter dieser proportionalen Skalierung ist der Druck intensiv, weil p = nRT/V gilt und der thermische Zustand entsprechend skaliert wird. Die Gleichheit setzt das ideale Gas des Modells, ein starres Volumen, gleichmäßige Temperatur und eine unveränderte Gefäßgrenze voraus."
+
+"zinc-ions-lower-cell-voltage.summary" = "Eine höhere Zinkionenaktivität senkt die berechnete Leerlaufspannung des Daniell-Elements"
+"zinc-ions-lower-cell-voltage.expect.predict.question" = "Die Kupferhalbzelle bleibt gleich, während der Zinkhalbzelle mehr Zinksulfat zugesetzt wird. Wie ändert sich die Leerlaufspannung?"
+"zinc-ions-lower-cell-voltage.expect.predict.options" = ["Sie steigt, weil mehr Ionen immer eine stärkere Zelle ergeben", "Sie fällt, weil die höhere Zinkionenaktivität den Reaktionsquotienten vergrößert"]
+"zinc-ions-lower-cell-voltage.expect.predict.misconception" = "Die Elektrolytmenge gilt als allgemeine Spannungsquelle, ohne zu beachten, welches Ion im Reaktionsquotienten der Zelle steht."
+"zinc-ions-lower-cell-voltage.expect.predict.diagnosis.0.reveals" = "Leitfähigkeit und Nernst-Potential werden verwechselt und die Seite des Zinkions im Quotienten wird übergangen."
+"zinc-ions-lower-cell-voltage.expect.predict.diagnosis.0.next" = "Schreibe Q = a(Zn2+)/a(Cu2+) auf und beachte das Vorzeichen vor ln Q in der Nernst-Gleichung."
+"zinc-ions-lower-cell-voltage.registers.lv1" = "Mehr Zinkionen machen den gemessenen Antrieb dieses Zink-Kupfer-Elements kleiner, während die Kupferseite gleich bleibt."
+"zinc-ions-lower-cell-voltage.registers.lv2" = "Die vier Zellen unterscheiden sich nur in der Zinksulfatmenge. Eine höhere Zinkionenaktivität erhöht den Reaktionsquotienten für Zn + Cu2+ → Zn2+ + Cu; deshalb fällt die Nernst-Spannung."
+"zinc-ions-lower-cell-voltage.registers.lv3" = "Die Engine berechnet nach der wässrigen Speziierung die Aktivitäten und wertet dann die Nernst-Beziehung aus. Die Katalogprüfung bestätigt derzeit vier typisierte Spannungsereignisse, kann ihre Reihenfolge aber nicht prüfen, weil Ereigniswerte keine semantischen Zustandsmetriken sind; diese Grenze wird genannt statt durch einen Stellvertreter ersetzt."
+
+"mixing-temperature-does-not-remember-sides.summary" = "Das Vertauschen der beiden Quellgefäße lässt dieselbe berechnete Mischtemperatur zurück"
+"mixing-temperature-does-not-remember-sides.expect.predict.question" = "Dieselben warmen und kühlen Wasserportionen werden gemischt, doch ihre Reihenfolge im Befehl wird vertauscht. Welches Zielgefäß ist am Ende wärmer?"
+"mixing-temperature-does-not-remember-sides.expect.predict.options" = ["Dasjenige, bei dem die heiße Portion zuerst genannt wird", "Keines: Dieselbe Gesamtenergie und Wärmekapazität ergeben dieselbe Gleichgewichtstemperatur"]
+"mixing-temperature-does-not-remember-sides.expect.predict.misconception" = "Die Leserichtung eines Mischbefehls wird für eine physikalische Quelle thermischer Energie gehalten."
+"mixing-temperature-does-not-remember-sides.expect.predict.diagnosis.0.reveals" = "Eine Beschriftung und Operandenposition werden behandelt, als veränderten sie die Energiebilanz."
+"mixing-temperature-does-not-remember-sides.expect.predict.diagnosis.0.next" = "Berechne in beiden Reihenfolgen die Summe aus Wärmekapazität mal Temperatur jeder Portion und vergleiche dann die Zieltemperaturen."
+"mixing-temperature-does-not-remember-sides.registers.lv1" = "Den einen Becher links und den anderen rechts zu nennen kann die Endwärme nicht ändern, wenn ihr gesamtes Wasser und ihre Energie gemischt werden."
+"mixing-temperature-does-not-remember-sides.registers.lv2" = "Beide Versuche verbinden dieselbe erwärmte Portion von 0,18 L und dieselbe gekühlte Portion von 0,27 L. Das Vertauschen der Operanden erhält Gesamtwärmeenergie und Wärmekapazität, daher stimmen die Temperaturen der Zielgefäße überein."
+"mixing-temperature-does-not-remember-sides.registers.lv3" = "Für diese homogenen Wasserportionen ist der Mischoperator kommutativ, weil seine Gleichgewichtstemperatur aus einer symmetrischen Energiebilanz folgt. Wärmeverlust, endliche Mischzeit und räumliche Gradienten könnten die Laborbeobachtung brechen, liegen aber außerhalb dieses unmittelbaren Modells."
+
+"scaling-mixture-scales-equilibrium.summary" = "Das Verdoppeln jeder Komponente verdoppelt den berechneten Gleichgewichtsbestand und erhält dabei die Zusammensetzung"
+"scaling-mixture-scales-equilibrium.expect.predict.question" = "Jede Komponente einer Gleichgewichtsmischung wird vor derselben Gleichgewichtsrechnung verdoppelt. Was soll mit den Endmengen geschehen?"
+"scaling-mixture-scales-equilibrium.expect.predict.options" = ["Sie bleiben unverändert, weil eine Gleichgewichtskonstante Stoffmengen festlegt", "Sie verdoppeln sich, während Gleichgewichtszusammensetzung und Reaktionsquotient gleich bleiben"]
+"scaling-mixture-scales-equilibrium.expect.predict.misconception" = "Die Gleichgewichtskonstante wird für eine feste Molzahl gehalten statt für eine Bedingung an Aktivitäten oder Zusammensetzung."
+"scaling-mixture-scales-equilibrium.expect.predict.diagnosis.0.reveals" = "Eine intensive Gleichgewichtsbeziehung wird als Obergrenze eines extensiven Bestands gelesen."
+"scaling-mixture-scales-equilibrium.expect.predict.diagnosis.0.next" = "Vergleiche zuerst Stoffmengenanteile und Reaktionsquotient und danach für jede Spezies die abschließenden Molbestände beider Maßstäbe."
+"scaling-mixture-scales-equilibrium.registers.lv1" = "Wird das ganze Rezept doppelt so groß, entsteht von jedem Endstoff doppelt so viel; der Gleichgewichtspunkt des Rezepts ändert sich nicht."
+"scaling-mixture-scales-equilibrium.registers.lv2" = "Das zweite Gefäß beginnt mit genau der doppelten Menge jeder Komponente. Reaktionsquotient und Zusammensetzung stimmen mit dem ersten überein, daher erhält das Gleichgewicht die Anteile, während sich extensive Mengen verdoppeln."
+"scaling-mixture-scales-equilibrium.registers.lv3" = "Dies ist die Homogenität des Gleichgewichtsproblems einer idealen Mischung unter extensiver Skalierung. Das gegenwärtige semantische Schema kennt weder Verhältnisse noch relative Toleranzen; deshalb prüft der Linter die wirklichen Reaktionsereignisse, kodiert aber bewusst nicht die falsche Ersatzbehauptung, zwei ungleiche Stoffmengen müssten gleich sein."

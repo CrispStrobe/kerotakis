@@ -1,0 +1,22 @@
+# Conjugate base shifts a buffer's pH
+register lv2
+add v1 water 400mL
+add v1 CH3COOH 0.004mol
+add v1 NaOAc 0.001mol
+measure v1 ph
+new
+add v2 water 400mL
+add v2 CH3COOH 0.004mol
+add v2 NaOAc 0.002mol
+measure v2 ph
+new
+add v3 water 400mL
+add v3 CH3COOH 0.004mol
+add v3 NaOAc 0.004mol
+measure v3 ph
+new
+add v4 water 400mL
+add v4 CH3COOH 0.004mol
+add v4 NaOAc 0.008mol
+measure v4 ph
+# Computed aqueous activities omit probe and preparation uncertainty.

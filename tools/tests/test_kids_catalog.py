@@ -15,9 +15,9 @@ class KidsCatalogTests(unittest.TestCase):
         self.document = json.loads((ROOT / "data/kids/experiments-v1.json").read_text())
         self.german = json.loads((ROOT / "data/kids/experiments-de-v1.json").read_text())
 
-    def test_catalog_is_the_exact_audited_sixty_three(self):
+    def test_catalog_is_the_exact_audited_seventy(self):
         rows = MODULE.validate(self.document)
-        self.assertEqual([row["id"] for row in rows], [f"K{i:02d}" for i in range(1, 64)])
+        self.assertEqual([row["id"] for row in rows], [f"K{i:02d}" for i in range(1, 71)])
 
     def test_non_computed_rows_explain_the_boundary(self):
         rows = MODULE.validate(self.document)
@@ -91,7 +91,7 @@ class KidsCatalogTests(unittest.TestCase):
     def test_german_must_have_exactly_the_same_rows(self):
         broken = json.loads(json.dumps(self.german))
         broken["experiments"].pop()
-        with self.assertRaisesRegex(ValueError, "same K01 through K63"):
+        with self.assertRaisesRegex(ValueError, "same K01 through K70"):
             MODULE.add_translation(self.document, broken)
 
     def test_source_fleet_promotions_are_runnable_and_progress_ordered(self):
@@ -102,6 +102,9 @@ class KidsCatalogTests(unittest.TestCase):
         self.assertEqual(rows["K61"]["lesson"], "hot-share-temperature.lab")
         self.assertEqual(rows["K62"]["lesson"], "dilute-the-current-carriers.lab")
         self.assertEqual(rows["K63"]["lesson"], "measure-twice.lab")
+        self.assertEqual(rows["K64"]["progress"], "intermediate")
+        self.assertEqual(rows["K66"]["progress"], "advanced")
+        self.assertEqual(rows["K70"]["lesson"], "split-heat-same-temperature.lab")
 
     def test_newly_computed_filter_and_luminol_keep_their_honest_routes(self):
         rows = {row["id"]: row for row in MODULE.validate(self.document)}

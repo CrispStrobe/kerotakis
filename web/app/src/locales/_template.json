@@ -500,7 +500,33 @@
   "{percent}% of tracked {metal} is locked in modeled oxide; schematic marker, not surface coverage": "",
   "{percent}% of tracked {metal} is locked in modeled oxide; current contents, not corrosion rate or history": "",
   "Oxide added directly is indistinguishable from oxide formed here.": "",
-  "{family} enzyme model: {percent}% of {substrate} converted in {material}": ""
+  "{family} enzyme model: {percent}% of {substrate} converted in {material}": "",
+  "buffer ph is intensive": "",
+  "carbonate precipitate forgets feed order": "",
+  "mixing temperature does not remember sides": "",
+  "neutralisation forgets addition order": "",
+  "pressure is intensive under scaling": "",
+  "scaling mixture scales equilibrium": "",
+  "zinc ions lower cell voltage": "",
+  "warm the gas stop before burst": "",
+  "current time and electrolysis yield": "",
+  "filter then concentrate the brine": "",
+  "track precipitate and filtrate through drying": "",
+  "activities": "",
+  "electrochemical cells": "",
+  "gas pressure": "",
+  "intensive properties": "",
+  "ions in solution": "",
+  "nernst equation": "",
+  "redox": "",
+  "scaling": "",
+  "solubility equilibrium": "",
+  "strong acids": "",
+  "thermal equilibrium": "",
+  "conservation of energy": "",
+  "electrochemical cell": "",
+  "pressure sensor": "",
+  "sealed vessel": ""
  },
  "messages": {
   "endpoint is not a full drop": "",
@@ -2540,6 +2566,10 @@
   "elapsed s": "",
   "relationship holds": "",
   "relationship does not hold": "",
-  "relationship unavailable": ""
+  "relationship unavailable": "",
+  "Warm the gas, stop before burst": "",
+  "Current, time and electrolysis yield": "",
+  "Filter, then concentrate the brine": "",
+  "Track precipitate and filtrate through drying": ""
   }
 }
