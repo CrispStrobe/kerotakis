@@ -52,7 +52,7 @@ anything moved.
 
 ## How these numbers were obtained
 
-Built `kerotakis-cli` from `origin/main` at `6c392179` plus the reviewed
+Built `kerotakis-cli` from `origin/main` at `22aba0e9` plus the reviewed
 liquid-liquid extraction tranche and ran
 the report without `--check`, which prints the counts and the split that the CI
 gate only ever reduces to an exit code:
