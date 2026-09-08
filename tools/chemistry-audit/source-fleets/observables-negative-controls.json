@@ -223,7 +223,7 @@
         "event": "measured",
         "field": "value",
         "occurrence": "last",
-        "direction": "nonincreasing",
+        "direction": "decreasing",
         "min_delta": 0.0
       }
     },
@@ -319,7 +319,12 @@
       "assertion": "final-scalar-equal",
       "description": "Waiting alone must not alter neutral-solute pH.",
       "parameters": {
-        "path": "v1.ph",
+        "path": [
+          "vessels",
+          0,
+          "solution",
+          "ph"
+        ],
         "rtol": 1e-10,
         "atol": 1e-09
       }

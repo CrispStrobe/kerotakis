@@ -246,11 +246,10 @@
         "375-still-duty-1-low",
         "376-still-duty-1-high"
       ],
-      "assertion": "event-scalar-order",
+      "assertion": "event-components-total-order",
       "description": "A larger latent duty must transfer more total material.",
       "parameters": {
         "event": "distilled",
-        "field": "total_moles",
         "occurrence": "last",
         "direction": "increasing",
         "min_delta": 1e-12
@@ -263,11 +262,10 @@
         "377-still-duty-2-low",
         "378-still-duty-2-high"
       ],
-      "assertion": "event-scalar-order",
+      "assertion": "event-components-total-order",
       "description": "A larger latent duty must transfer more total material.",
       "parameters": {
         "event": "distilled",
-        "field": "total_moles",
         "occurrence": "last",
         "direction": "increasing",
         "min_delta": 1e-12
@@ -280,11 +278,10 @@
         "379-still-duty-3-low",
         "380-still-duty-3-high"
       ],
-      "assertion": "event-scalar-order",
+      "assertion": "event-components-total-order",
       "description": "A larger latent duty must transfer more total material.",
       "parameters": {
         "event": "distilled",
-        "field": "total_moles",
         "occurrence": "last",
         "direction": "increasing",
         "min_delta": 1e-12
@@ -297,11 +294,10 @@
         "381-still-fraction-4-low",
         "382-still-fraction-4-high"
       ],
-      "assertion": "event-scalar-order",
+      "assertion": "event-components-total-order",
       "description": "A larger requested fraction must transfer more total material.",
       "parameters": {
         "event": "distilled",
-        "field": "total_moles",
         "occurrence": "last",
         "direction": "increasing",
         "min_delta": 1e-12
@@ -314,11 +310,10 @@
         "383-still-fraction-5-low",
         "384-still-fraction-5-high"
       ],
-      "assertion": "event-scalar-order",
+      "assertion": "event-components-total-order",
       "description": "A larger requested fraction must transfer more total material.",
       "parameters": {
         "event": "distilled",
-        "field": "total_moles",
         "occurrence": "last",
         "direction": "increasing",
         "min_delta": 1e-12
@@ -331,11 +326,10 @@
         "385-still-fraction-6-low",
         "386-still-fraction-6-high"
       ],
-      "assertion": "event-scalar-order",
+      "assertion": "event-components-total-order",
       "description": "A larger requested fraction must transfer more total material.",
       "parameters": {
         "event": "distilled",
-        "field": "total_moles",
         "occurrence": "last",
         "direction": "increasing",
         "min_delta": 1e-12

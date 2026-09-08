@@ -19,6 +19,7 @@ ASSERTIONS = {
     "final-inventory-equal", "final-elements-equal", "case-elements-conserved",
     "final-scalar-equal", "final-scalar-order", "event-scalar-equal",
     "event-scalar-order", "event-present", "event-boundary-present",
+    "event-components-total-order",
 }
 
 
@@ -206,6 +207,14 @@ def _relation(relation, records, composition):
     elif assertion == "event-boundary-present":
         boundaries = [_event(record, relation).get("boundary") for record in selected]
         return all(isinstance(value, str) and bool(value.strip()) for value in boundaries), boundaries
+    elif assertion == "event-components-total-order":
+        values = []
+        for record in selected:
+            components = _event(record, relation).get("components")
+            if not isinstance(components, list) or not components:
+                raise ValueError("event has no component inventory")
+            values.append(sum(float(component[1]) for component in components
+                              if isinstance(component, list) and len(component) == 2))
     else:  # pragma: no cover - dispatch exhaustiveness guard
         raise ValueError(f"unhandled assertion: {assertion}")
     if assertion.endswith("-equal"):
@@ -224,8 +233,13 @@ def _normalized_relation(relation):
     return {**parameters, **relation}
 
 
-def analyse(evidence_dir: Path, manifest_dir: Path = source_fleets.MANIFEST_DIR):
+def analyse(evidence_dir: Path, manifest_dir: Path = source_fleets.MANIFEST_DIR, family=None):
     manifests, cases = source_fleets.load_manifests(manifest_dir)
+    if family:
+        manifests = [manifest for manifest in manifests if manifest["family"] == family]
+        cases = [(manifest, case) for manifest, case in cases if manifest["family"] == family]
+        if not manifests:
+            raise ValueError(f"unknown family: {family}")
     specs = {case["id"]: (manifest, case) for manifest, case in cases}
     summary_path = evidence_dir / "summary.json"
     if not summary_path.is_file():
@@ -433,6 +447,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("directory", type=Path, nargs="?")
     parser.add_argument("--manifests", type=Path, default=source_fleets.MANIFEST_DIR)
+    parser.add_argument("--family")
     parser.add_argument("--out", type=Path)
     parser.add_argument("--self-test", action="store_true")
     args = parser.parse_args()
@@ -441,7 +456,7 @@ def main():
         return
     if args.directory is None:
         parser.error("evidence directory required")
-    result = analyse(args.directory, args.manifests)
+    result = analyse(args.directory, args.manifests, args.family)
     output = json.dumps(result, indent=2, allow_nan=False) + "\n"
     if args.out:
         with args.out.open("x") as handle:

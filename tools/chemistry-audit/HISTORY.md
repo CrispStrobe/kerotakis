@@ -14,11 +14,24 @@ does not commit `Cargo.lock`, and a revision marker made the deliberately fresh
 run directory nonempty. Both failures and logs remain in GitHub; both fixes are
 infrastructure-only and the frozen scripts/checks are unchanged.
 
-The next programme is fixed at 240 original cases, IDs 219–458, across ten
-24-case scientific families. `source_fleets.py` validates immutable expanded
-manifests and records process-isolated raw evidence; `SOURCE-FLEETS.md` freezes
-the CI and scientific contract. Source/license mappings remain in private
-storage, never this repository. No post-218 case has run yet.
+The next programme is fixed and expanded at 240 original, distinct scripts,
+IDs 219–458, across ten 24-case scientific families with 97 frozen relations.
+`source_fleets.py` validates and records them; a named-relation analyzer has no
+expression evaluator and rejects missing, nonfinite, unregistered and mutated
+evidence. Ten bounded GitHub shards and a 240-case aggregate gate are wired.
+Source/license mappings remain in private storage, never this repository. No
+post-218 case has run yet.
+
+The first authoritative sixth-fleet execution retained 78 files and passed
+56/66 checks. Ten unmet checks reduced to two generic gaps: amount parsing split
+at the `e` in scientific notation, and pure/nonionic water without PHREEQC
+speciation produced no conductivity observation. The parser now accepts signed
+scientific exponents. The blank is computed at 25 °C from water autoprotolysis
+and the existing H⁺/OH⁻ limiting ionic conductivities, with temperature,
+dissolved CO₂ and contamination explicitly out of scope. A repaired replay is
+pending CI. The failed evidence archive is
+`/mnt/storage/kerotakis-archive/chemistry-audit-sixth-195-218-ef4d11b8.tar.gz`
+(SHA-256 `95f3a114b5c4f3d0f4642efda0848e856c0e1d481748e6a2e5b66098ce431975`).
 
 ## 2026-09-07 — PR #504 rebase onto `139a18d6`
 

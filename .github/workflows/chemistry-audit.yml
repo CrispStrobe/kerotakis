@@ -19,8 +19,8 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  sixth-fleet:
-    name: Frozen fleet 195-218
+  build-cli:
+    name: Build audited CLI once
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -28,14 +28,38 @@ jobs:
           submodules: recursive
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
+      - run: cargo build --release -p kerotakis-cli
+      - run: |
+          sha256sum target/release/kero > binary-sha256.txt
+          git submodule status > submodules.txt
+      - uses: actions/upload-artifact@v6
+        with:
+          name: chemistry-audit-cli-${{ github.sha }}
+          path: |
+            target/release/kero
+            Cargo.lock
+            binary-sha256.txt
+            submodules.txt
+          retention-days: 7
+
+  sixth-fleet:
+    name: Frozen fleet 195-218
+    needs: build-cli
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: recursive
+      - uses: actions/download-artifact@v7
+        with:
+          name: chemistry-audit-cli-${{ github.sha }}
+      - run: chmod +x target/release/kero
       - name: Prepare the evidence envelope
         run: |
           mkdir -p audit-evidence
           printf '%s\n' "${GITHUB_SHA}" > audit-evidence/revision.txt
       - name: Verify the frozen analyzer rejects missing evidence
         run: python3 tools/chemistry-audit/analyse_sixth.py --self-test
-      - name: Build the audited CLI from this exact revision
-        run: cargo build --release -p kerotakis-cli
       - name: Record all 24 process-isolated experiments
         run: >-
           python3 tools/chemistry-audit/sixth_batch.py
@@ -61,3 +85,68 @@ jobs:
           path: audit-evidence
           if-no-files-found: error
           retention-days: 30
+
+  source-fleets:
+    name: Source fleet ${{ matrix.family }}
+    needs: build-cli
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        family:
+          - acid-base-buffers
+          - solubility-precipitation
+          - gas-boundaries
+          - electrochemistry
+          - mixing-transfer
+          - filtration-evaporation
+          - distillation
+          - thermal-phase-paths
+          - organic-equilibria
+          - observables-negative-controls
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v7
+        with:
+          name: chemistry-audit-cli-${{ github.sha }}
+      - run: chmod +x target/release/kero
+      - name: Validate frozen manifests and analyzer mutations
+        run: |
+          python3 tools/chemistry-audit/source_fleets.py --validate
+          python3 tools/chemistry-audit/analyse_source_fleets.py --self-test
+          python3 tools/chemistry-audit/generate_source_fleets.py --check
+          python3 tools/chemistry-audit/generate_source_manifests_b.py --check
+      - name: Record 24 process-isolated experiments
+        run: >-
+          python3 tools/chemistry-audit/source_fleets.py
+          --family '${{ matrix.family }}'
+          --binary target/release/kero
+          --out 'audit-evidence/${{ matrix.family }}'
+      - name: Apply frozen named relations
+        run: >-
+          python3 tools/chemistry-audit/analyse_source_fleets.py
+          'audit-evidence/${{ matrix.family }}'
+          --family '${{ matrix.family }}'
+          --out 'audit-evidence/${{ matrix.family }}/${{ matrix.family }}-law-checks.json'
+      - name: Preserve raw successes and failures
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: chemistry-audit-${{ matrix.family }}-${{ github.sha }}
+          path: audit-evidence
+          if-no-files-found: error
+          retention-days: 30
+
+  source-fleet-aggregate:
+    name: All 240 source-informed cases
+    if: always()
+    needs: source-fleets
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v7
+        with:
+          pattern: chemistry-audit-*-${{ github.sha }}
+          path: downloaded-evidence
+      - run: python3 tools/chemistry-audit/aggregate_source_fleets.py downloaded-evidence

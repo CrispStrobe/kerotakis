@@ -818,9 +818,11 @@ numbers are never re-bound.
   runner; two preserved infrastructure failures (absent committed lockfile,
   then a deliberately nonempty evidence directory) were corrected without
   executing or changing the frozen cases. The post-218 programme is frozen at
-  240 original cases, IDs 219–458, in ten 24-case families with bounded CI
-  shards and one aggregate gate. A manifest validator/recorder and public
-  generic contract are in place; expanded manifests, family analyzers, runs,
+  240 original cases, IDs 219–458, in ten 24-case families with 97 frozen
+  relations, bounded CI shards and one aggregate gate. Expanded manifests, a
+  safe named-relation analyzer and mutation controls are in place. The first
+  195–218 run passed 56/66 and exposed two generic gaps; their parser and ideal
+  nonionic-water repairs await the authoritative replay. Post-218 runs, further
   repairs, reviewed promotion and bilingual presentation remain open. The
   license/source-to-case survey is private and outside Git by policy.
 

@@ -16,6 +16,7 @@ ASSERTIONS = {
     "final-inventory-equal", "final-elements-equal", "case-elements-conserved",
     "final-scalar-equal", "final-scalar-order", "event-scalar-equal",
     "event-scalar-order", "event-present", "event-boundary-present",
+    "event-components-total-order",
 }
 RELATION_KINDS = {"conservation", "independent-law", "metamorphic", "boundary"}
 

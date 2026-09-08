@@ -6,6 +6,7 @@ source references and must be run before observing engine output.
 """
 from __future__ import annotations
 
+import argparse
 import json
 from pathlib import Path
 
@@ -106,12 +107,12 @@ def distillation() -> dict:
         if i < 3:
             x = case(number, f"still-duty-{i + 1}-low", f"How much does a low latent-energy budget transfer in still trial {i + 1}?", base + f"distil v1 v2 {1.0 + i * .4}kJ stages 2")
             y = case(number + 1, f"still-duty-{i + 1}-high", f"Does a larger latent-energy budget transfer more in trial {i + 1}?", base + f"distil v1 v2 {2.0 + i * .8}kJ stages 2")
-            specs.append((f"energy-monotone-{i + 1}", "event-scalar-order", "A larger latent duty must transfer more total material.", {"event": "distilled", "field": "total_moles", "occurrence": "last", "direction": "increasing", "min_delta": 1e-12}))
+            specs.append((f"energy-monotone-{i + 1}", "event-components-total-order", "A larger latent duty must transfer more total material.", {"event": "distilled", "occurrence": "last", "direction": "increasing", "min_delta": 1e-12}))
         else:
             frac = .08 + (i - 3) * .02
             x = case(number, f"still-fraction-{i + 1}-low", f"What receiver inventory follows the smaller cut in trial {i + 1}?", base + f"distil v1 v2 {frac}")
             y = case(number + 1, f"still-fraction-{i + 1}-high", f"Does a larger requested cut transfer more material in trial {i + 1}?", base + f"distil v1 v2 {frac * 2}")
-            specs.append((f"fraction-monotone-{i + 1}", "event-scalar-order", "A larger requested fraction must transfer more total material.", {"event": "distilled", "field": "total_moles", "occurrence": "last", "direction": "increasing", "min_delta": 1e-12}))
+            specs.append((f"fraction-monotone-{i + 1}", "event-components-total-order", "A larger requested fraction must transfer more total material.", {"event": "distilled", "occurrence": "last", "direction": "increasing", "min_delta": 1e-12}))
         c += [x, y]; number += 2
     return paired_family("distillation", "Distillation", c, specs)
 
@@ -204,25 +205,38 @@ def observables_controls() -> dict:
         ("temperature-repeat", "event-scalar-equal", "Repeated temperature readings must agree.", {"event": "measured", "field": "value", "occurrence": "first,last", "atol": 1e-9, "rtol": 1e-10}),
         ("pressure-repeat", "event-scalar-equal", "Repeated pressure readings must agree.", {"event": "measured", "field": "value", "occurrence": "first,last", "atol": 1e-6, "rtol": 1e-10}),
         ("balance-repeat", "event-scalar-equal", "Repeated balance readings must agree.", {"event": "measured", "field": "value", "occurrence": "first,last", "atol": 1e-9, "rtol": 1e-10}),
-        ("neutral-solute-conductivity", "event-scalar-order", "Neutral glucose must not exceed the water blank as though fully ionic.", {"event": "measured", "field": "value", "occurrence": "last", "direction": "nonincreasing", "min_delta": 0.0}),
+        ("neutral-solute-conductivity", "event-scalar-order", "Neutral glucose must not exceed the water blank as though fully ionic.", {"event": "measured", "field": "value", "occurrence": "last", "direction": "decreasing", "min_delta": 0.0}),
         ("water-wait-null", "final-inventory-equal", "Waiting must not invent material in plain water.", {"species": ["water"], "rtol": 1e-10, "atol": 1e-12}),
         ("glucose-wait-null", "final-elements-equal", "Waiting must not create a filterable carbon-bearing phase.", {"elements": ["C", "H", "O"]}),
         ("inert-ignite-null", "final-inventory-equal", "An unsupported combustion path must not consume potassium chloride.", {"species": ["KCl"], "rtol": 1e-10, "atol": 1e-12}),
         ("gas-wait-null", "final-scalar-equal", "Waiting without a process must preserve sealed-gas pressure.", {"path": "v1.pressure", "rtol": 1e-10, "atol": 1e-6}),
         ("water-filter-mass", "final-elements-equal", "Filtering plain water must conserve hydrogen and oxygen across vessels.", {"elements": ["H", "O"]}),
-        ("glucose-ph-wait-null", "final-scalar-equal", "Waiting alone must not alter neutral-solute pH.", {"path": "v1.ph", "rtol": 1e-10, "atol": 1e-9}),
+        ("glucose-ph-wait-null", "final-scalar-equal", "Waiting alone must not alter neutral-solute pH.", {"path": ["vessels", 0, "solution", "ph"], "rtol": 1e-10, "atol": 1e-9}),
     ]
     return paired_family("observables-negative-controls", "Observables and negative controls", c, specs)
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    mode = parser.add_mutually_exclusive_group(required=True)
+    mode.add_argument("--write", action="store_true")
+    mode.add_argument("--check", action="store_true")
+    args = parser.parse_args()
     manifests = [filtration_evaporation(), distillation(), thermal_phase(),
                  organic_equilibria(), observables_controls()]
     OUT.mkdir(parents=True, exist_ok=True)
+    stale = []
     for manifest in manifests:
         path = OUT / f"{manifest['family']}.json"
-        path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n")
-        print(path)
+        content = json.dumps(manifest, indent=2, ensure_ascii=False) + "\n"
+        if args.write:
+            path.write_text(content)
+        elif not path.exists() or path.read_text() != content:
+            stale.append(str(path))
+    if stale:
+        raise SystemExit("stale or missing generated manifests: " + ", ".join(stale))
+    print(json.dumps({"families": 5, "cases": 120,
+                      "status": "written" if args.write else "current"}))
 
 
 if __name__ == "__main__":
