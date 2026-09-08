@@ -881,6 +881,10 @@ pub struct Vessel {
     /// Finite solid/liquid interfaces. Defaulted for old save compatibility.
     #[serde(default)]
     pub surfaces: Vec<SurfaceSites>,
+    /// Explicit electrode surfaces. Empty for ordinary glassware; serialized
+    /// as primary state so area, roughness and deposits survive replay.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub electrodes: Vec<crate::compartment::ElectrodeState>,
     /// Finite cation-exchange interfaces. Defaulted for old save compatibility.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub exchanges: Vec<ExchangeSites>,
@@ -1041,6 +1045,7 @@ impl Vessel {
             thermal_mode: ThermalMode::Adiabatic,
             headspace: Headspace::Open,
             surfaces: Vec::new(),
+            electrodes: Vec::new(),
             exchanges: Vec::new(),
             adsorbed: Vec::new(),
             solid_solutions: Vec::new(),
@@ -1061,6 +1066,7 @@ impl Vessel {
             && self.unresolved_materials.is_empty()
             && self.material_objects.is_empty()
             && self.surfaces.is_empty()
+            && self.electrodes.is_empty()
             && self.exchanges.is_empty()
             && self.adsorbed.is_empty()
             && self.solid_solutions.is_empty()
@@ -1389,6 +1395,26 @@ impl Vessel {
                         .sum::<f64>()
             })
             .sum();
+        let electrode_inventory: f64 = self
+            .electrodes
+            .iter()
+            .map(|electrode| {
+                electrode
+                    .substrate_moles
+                    .and_then(|moles| {
+                        species::lookup_key(&electrode.material).map(|data| moles * data.molar_mass)
+                    })
+                    .unwrap_or(0.0)
+                    + electrode
+                        .deposits
+                        .iter()
+                        .filter_map(|deposit| {
+                            species::lookup_key(&deposit.species)
+                                .map(|data| deposit.moles * data.molar_mass)
+                        })
+                        .sum::<f64>()
+            })
+            .sum();
         let exchangers: f64 = self
             .exchanges
             .iter()
@@ -1425,6 +1451,7 @@ impl Vessel {
         Grams(
             contents
                 + interfaces
+                + electrode_inventory
                 + exchangers
                 + bound
                 + solid_solutions

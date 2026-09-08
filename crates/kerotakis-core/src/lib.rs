@@ -50,6 +50,7 @@ pub mod foam;
 pub mod gas_tests;
 pub mod gel;
 pub mod heat_capacity;
+pub mod heterogeneous;
 pub mod hmix;
 pub mod i18n;
 pub mod indicator;
@@ -120,6 +121,7 @@ pub use element_coverage::{
     ElementCoverageError, ElementCoverageReport, ElementShelfItem, InstalledLessonRoute,
     InstalledRunnableRoute, RunnableElementRoute, ShelfItemKind, ELEMENT_SYMBOLS,
 };
+pub use heterogeneous::{ReactiveSurface, SurfaceRateError};
 pub use i18n::Locale;
 pub use instrument::{
     read_transition, Balance, ConductivityMeter, InstrumentContract, InstrumentMode,

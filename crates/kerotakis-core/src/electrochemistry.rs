@@ -3,6 +3,14 @@
 
 use serde::{Deserialize, Serialize};
 
+use crate::butler_volmer::ButlerVolmerParams;
+pub use crate::constants::FARADAY;
+use crate::constants::GAS_CONSTANT;
+pub use crate::heterogeneous::{transport_limited_flux, ReactiveSurface};
+
+/// Backward-compatible public name for the canonical gas constant.
+pub const R_GAS: f64 = GAS_CONSTANT;
+
 // ── ELEC-005: Galvanostatic and potentiostatic control ─────────────
 
 /// How the electrochemical cell is driven.
@@ -40,6 +48,11 @@ impl TransportLimits {
     /// IR drop: voltage lost to solution resistance at a given current.
     pub fn ir_drop(&self, current_amps: f64) -> f64 {
         current_amps.abs() * self.solution_resistance_ohm
+    }
+
+    /// Signed solution-potential drop for implicit current-control solves.
+    pub fn signed_ir_drop(&self, current_amps: f64) -> f64 {
+        current_amps * self.solution_resistance_ohm
     }
 
     /// Whether the current is diffusion-limited on the cathodic side.
@@ -92,18 +105,25 @@ impl SurfaceCoverage {
 /// source and stated validity conditions.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ExchangeCurrentRecord {
+    /// Stable identifier for this measured parameter set.
+    pub id: String,
     /// The electrode reaction (e.g. "Cu²⁺/Cu").
     pub reaction: String,
-    /// Exchange current density in A/cm².
-    pub j0_a_per_cm2: f64,
-    /// Transfer coefficient α (assumed symmetric if only one given).
-    pub alpha: f64,
-    /// Temperature at which j₀ was measured, K.
-    pub temperature_k: f64,
-    /// Electrolyte conditions (e.g. "0.5 M CuSO₄").
-    pub electrolyte: String,
+    /// Electrode substrate or alloy on which the value was measured.
+    pub electrode_material: String,
+    /// Canonical SI kinetic parameters. Current density is A/m².
+    pub kinetics: ButlerVolmerParams,
+    /// Conditions under which this record may be applied.
+    pub validity: KineticValidityDomain,
     /// Source citation.
     pub source: String,
+    /// Licence applying to the distributable parameter record.
+    pub license: PermissiveDataLicense,
+    /// Relative standard uncertainty when the source supports one.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub relative_uncertainty: Option<f64>,
+    /// Required account of measurement scatter, fit sensitivity and omissions.
+    pub uncertainty_note: String,
     /// Whether this record has been reviewed for the runtime allowlist.
     pub reviewed: bool,
 }
@@ -117,12 +137,140 @@ pub const EXCHANGE_CURRENTS: &[ExchangeCurrentRecord] = &[
     // full citation metadata per ELEC-003 requirements.
 ];
 
-// ── ELEC-004: Butler-Volmer / Tafel kinetics ──────────────────────
+/// Closed allowlist for parameter records that may ship with the engine.
+/// An NC, copyleft or unknown licence cannot be represented accidentally.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum PermissiveDataLicense {
+    PublicDomain,
+    Cc0,
+    CcBy40,
+    Mit,
+    Bsd3Clause,
+    Apache20,
+}
 
-/// Faraday constant, C/mol.
-pub const FARADAY: f64 = 96_485.332;
-/// Gas constant, J/(mol·K).
-pub const R_GAS: f64 = 8.314_462_618;
+/// One activity constraint carried by a kinetic parameter record.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct ActivityBound {
+    pub species: String,
+    pub minimum: f64,
+    pub maximum: f64,
+}
+
+/// The measured domain of an electrochemical kinetic parameter set.
+///
+/// Thermodynamic feasibility may be extrapolated by the equilibrium solver;
+/// kinetic measurements may not. A caller that cannot satisfy every bound
+/// must return an unquantifiable result instead of borrowing the record.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct KineticValidityDomain {
+    pub temperature_min_k: f64,
+    pub temperature_max_k: f64,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub activities: Vec<ActivityBound>,
+    pub surface_preparation: String,
+    pub note: String,
+}
+
+impl KineticValidityDomain {
+    pub fn validate(&self) -> bool {
+        self.temperature_min_k.is_finite()
+            && self.temperature_max_k.is_finite()
+            && self.temperature_min_k > 0.0
+            && self.temperature_min_k <= self.temperature_max_k
+            && !self.surface_preparation.trim().is_empty()
+            && !self.note.trim().is_empty()
+            && self.activities.iter().all(|bound| {
+                !bound.species.trim().is_empty()
+                    && bound.minimum.is_finite()
+                    && bound.maximum.is_finite()
+                    && bound.minimum >= 0.0
+                    && bound.minimum <= bound.maximum
+            })
+    }
+
+    pub fn accepts(&self, temperature_k: f64, activities: &[(String, f64)]) -> bool {
+        self.validate()
+            && temperature_k.is_finite()
+            && temperature_k >= self.temperature_min_k
+            && temperature_k <= self.temperature_max_k
+            && self.activities.iter().all(|bound| {
+                activities
+                    .iter()
+                    .find(|(species, _)| species == &bound.species)
+                    .map(|(_, activity)| {
+                        activity.is_finite()
+                            && *activity >= bound.minimum
+                            && *activity <= bound.maximum
+                    })
+                    .unwrap_or(false)
+            })
+    }
+}
+
+impl ExchangeCurrentRecord {
+    pub fn applies_to(
+        &self,
+        electrode_material: &str,
+        temperature_k: f64,
+        activities: &[(String, f64)],
+    ) -> bool {
+        self.reviewed
+            && !self.id.trim().is_empty()
+            && !self.reaction.trim().is_empty()
+            && !self.source.trim().is_empty()
+            && !self.uncertainty_note.trim().is_empty()
+            && self
+                .relative_uncertainty
+                .is_none_or(|value| value.is_finite() && value >= 0.0)
+            && self.electrode_material == electrode_material
+            && self.kinetics.validate().is_ok()
+            && self.validity.accepts(temperature_k, activities)
+    }
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub enum ParameterSelectionError {
+    NoApplicableRecord {
+        reaction: String,
+        electrode_material: String,
+    },
+    AmbiguousRecords {
+        record_ids: Vec<String>,
+    },
+}
+
+/// Select one reviewed parameter domain without an order-dependent fallback.
+/// Overlapping records are an ambiguity to curate, not permission to choose
+/// whichever happened to be listed first.
+pub fn select_exchange_current<'a>(
+    records: &'a [ExchangeCurrentRecord],
+    reaction: &str,
+    electrode_material: &str,
+    temperature_k: f64,
+    activities: &[(String, f64)],
+) -> Result<&'a ExchangeCurrentRecord, ParameterSelectionError> {
+    let matching: Vec<_> = records
+        .iter()
+        .filter(|record| {
+            record.reaction == reaction
+                && record.applies_to(electrode_material, temperature_k, activities)
+        })
+        .collect();
+    match matching.as_slice() {
+        [record] => Ok(record),
+        [] => Err(ParameterSelectionError::NoApplicableRecord {
+            reaction: reaction.to_owned(),
+            electrode_material: electrode_material.to_owned(),
+        }),
+        records => Err(ParameterSelectionError::AmbiguousRecords {
+            record_ids: records.iter().map(|record| record.id.clone()).collect(),
+        }),
+    }
+}
+
+// ── ELEC-004: Butler-Volmer / Tafel kinetics ──────────────────────
 
 /// Butler-Volmer current density at a given overpotential.
 ///
@@ -136,10 +284,13 @@ pub fn butler_volmer(
     overpotential_v: f64,
     temperature_k: f64,
 ) -> f64 {
-    let f_over_rt = FARADAY / (R_GAS * temperature_k);
-    exchange_current_density
-        * ((alpha_a * f_over_rt * overpotential_v).exp()
-            - (-alpha_c * f_over_rt * overpotential_v).exp())
+    ButlerVolmerParams {
+        j0: exchange_current_density,
+        alpha_a,
+        alpha_c,
+        n: 1.0,
+    }
+    .current_density(overpotential_v, temperature_k)
 }
 
 /// Tafel approximation for high overpotentials (|η| >> RT/F).
@@ -149,7 +300,7 @@ pub fn tafel_overpotential(
     alpha: f64,
     temperature_k: f64,
 ) -> f64 {
-    let b = 2.303 * R_GAS * temperature_k / (alpha * FARADAY);
+    let b = 2.303 * GAS_CONSTANT * temperature_k / (alpha * FARADAY);
     b * (current_density.abs() / exchange_current_density)
         .max(1e-30)
         .log10()
@@ -164,6 +315,414 @@ pub fn limiting_current_density(
 ) -> f64 {
     electrons * FARADAY * diffusivity_cm2_per_s * bulk_concentration_mol_per_cm3
         / diffusion_layer_cm
+}
+
+/// Diffusion-limited current density in canonical SI units.
+pub fn limiting_current_density_si(
+    electrons: f64,
+    diffusivity_m2_per_s: f64,
+    bulk_concentration_mol_per_m3: f64,
+    diffusion_layer_m: f64,
+) -> f64 {
+    electrons * FARADAY * diffusivity_m2_per_s * bulk_concentration_mol_per_m3 / diffusion_layer_m
+}
+
+// ── Coupled partial-current solver ─────────────────────────────────
+
+/// One independently parameterised redox couple available on a surface.
+/// Its equilibrium potential is computed by the thermodynamic layer; this
+/// type supplies kinetics and optional mass-transfer ceilings.
+#[derive(Debug, Clone, Copy)]
+pub struct PartialReaction<'a> {
+    pub id: &'a str,
+    pub equilibrium_potential_v: f64,
+    pub kinetics: ButlerVolmerParams,
+    /// Reactive area for this reaction divided by geometric electrode area.
+    pub reactive_area_ratio: f64,
+    pub limiting_current_anodic_a_per_m2: Option<f64>,
+    pub limiting_current_cathodic_a_per_m2: Option<f64>,
+}
+
+impl PartialReaction<'_> {
+    pub fn current_density(
+        &self,
+        electrode_potential_v: f64,
+        temperature_k: f64,
+    ) -> Result<f64, ElectrochemistryError> {
+        self.kinetics
+            .validate()
+            .map_err(ElectrochemistryError::InvalidKinetics)?;
+        if !self.equilibrium_potential_v.is_finite()
+            || !electrode_potential_v.is_finite()
+            || !temperature_k.is_finite()
+            || temperature_k <= 0.0
+        {
+            return Err(ElectrochemistryError::InvalidCondition(
+                "potentials and positive temperature must be finite",
+            ));
+        }
+        if !self.reactive_area_ratio.is_finite() || self.reactive_area_ratio < 0.0 {
+            return Err(ElectrochemistryError::InvalidSurface(
+                "reactive-area ratio must be finite and non-negative",
+            ));
+        }
+        let kinetic = self.kinetics.current_density(
+            electrode_potential_v - self.equilibrium_potential_v,
+            temperature_k,
+        );
+        let limit = if kinetic >= 0.0 {
+            self.limiting_current_anodic_a_per_m2
+        } else {
+            self.limiting_current_cathodic_a_per_m2
+        };
+        let current = transport_limited_flux(kinetic, limit) * self.reactive_area_ratio;
+        if !current.is_finite() {
+            return Err(ElectrochemistryError::InvalidCondition(
+                "current or transport limit is outside its physical domain",
+            ));
+        }
+        Ok(current)
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct PartialCurrent {
+    pub reaction_id: String,
+    /// Signed A/m² referred to geometric electrode area.
+    pub current_density_a_per_m2: f64,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct CurrentBalance {
+    /// Potential at the reacting interface after solution-resistance loss.
+    pub electrode_potential_v: f64,
+    /// Potential imposed or measured outside the solution resistance.
+    pub terminal_potential_v: f64,
+    pub partial_currents: Vec<PartialCurrent>,
+    pub net_current_density_a_per_m2: f64,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct FaradaicExtent {
+    pub reaction_id: String,
+    pub current_amps: f64,
+    /// Signed extent: positive selects the anodic direction declared by the
+    /// half-reaction; negative selects its cathodic direction.
+    pub extent_moles: f64,
+}
+
+impl CurrentBalance {
+    pub fn extents(
+        &self,
+        reactions: &[PartialReaction<'_>],
+        geometric_area_m2: f64,
+        seconds: f64,
+    ) -> Result<Vec<FaradaicExtent>, ElectrochemistryError> {
+        if reactions.len() != self.partial_currents.len()
+            || !geometric_area_m2.is_finite()
+            || geometric_area_m2 <= 0.0
+        {
+            return Err(ElectrochemistryError::InvalidCondition(
+                "current balance and reaction list must match on a positive electrode area",
+            ));
+        }
+        self.partial_currents
+            .iter()
+            .zip(reactions)
+            .map(|(partial, reaction)| {
+                if partial.reaction_id != reaction.id {
+                    return Err(ElectrochemistryError::InvalidCondition(
+                        "current balance and reaction order do not match",
+                    ));
+                }
+                let current_amps = partial.current_density_a_per_m2 * geometric_area_m2;
+                Ok(FaradaicExtent {
+                    reaction_id: partial.reaction_id.clone(),
+                    current_amps,
+                    extent_moles: faradaic_extent_moles(
+                        current_amps,
+                        seconds,
+                        reaction.kinetics.n,
+                    )?,
+                })
+            })
+            .collect()
+    }
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub enum ElectrochemistryError {
+    InvalidKinetics(&'static str),
+    InvalidSurface(&'static str),
+    InvalidCondition(&'static str),
+    NoPartialReactions,
+    NoActivePartialReactions,
+    CurrentNotBracketed {
+        lower_current_density: f64,
+        upper_current_density: f64,
+        target_current_density: f64,
+    },
+    ControlNotBracketed {
+        lower_residual_v: f64,
+        upper_residual_v: f64,
+    },
+    DidNotConverge {
+        residual: f64,
+    },
+}
+
+/// Bounded deterministic solver for a mixed potential or imposed current.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct CurrentBalanceSolver {
+    pub minimum_potential_v: f64,
+    pub maximum_potential_v: f64,
+    pub potential_tolerance_v: f64,
+    pub current_tolerance_a_per_m2: f64,
+    pub maximum_iterations: usize,
+}
+
+impl Default for CurrentBalanceSolver {
+    fn default() -> Self {
+        Self {
+            minimum_potential_v: -3.0,
+            maximum_potential_v: 3.0,
+            potential_tolerance_v: 1e-9,
+            current_tolerance_a_per_m2: 1e-9,
+            maximum_iterations: 160,
+        }
+    }
+}
+
+impl CurrentBalanceSolver {
+    fn currents_at(
+        &self,
+        reactions: &[PartialReaction<'_>],
+        potential_v: f64,
+        temperature_k: f64,
+    ) -> Result<CurrentBalance, ElectrochemistryError> {
+        let mut partial_currents = Vec::with_capacity(reactions.len());
+        let mut net = 0.0;
+        for reaction in reactions {
+            let current = reaction.current_density(potential_v, temperature_k)?;
+            net += current;
+            partial_currents.push(PartialCurrent {
+                reaction_id: reaction.id.to_owned(),
+                current_density_a_per_m2: current,
+            });
+        }
+        Ok(CurrentBalance {
+            electrode_potential_v: potential_v,
+            terminal_potential_v: potential_v,
+            partial_currents,
+            net_current_density_a_per_m2: net,
+        })
+    }
+
+    /// Solve Σjᵢ(E) = target. A target of zero is a freely corroding mixed
+    /// potential: individual anodic and cathodic currents may remain large.
+    pub fn solve_for_current_density(
+        &self,
+        reactions: &[PartialReaction<'_>],
+        temperature_k: f64,
+        target_current_density: f64,
+    ) -> Result<CurrentBalance, ElectrochemistryError> {
+        if reactions.is_empty() {
+            return Err(ElectrochemistryError::NoPartialReactions);
+        }
+        if !reactions
+            .iter()
+            .any(|reaction| reaction.reactive_area_ratio > 0.0)
+        {
+            return Err(ElectrochemistryError::NoActivePartialReactions);
+        }
+        if !target_current_density.is_finite()
+            || !self.minimum_potential_v.is_finite()
+            || !self.maximum_potential_v.is_finite()
+            || self.minimum_potential_v >= self.maximum_potential_v
+            || !self.current_tolerance_a_per_m2.is_finite()
+            || self.current_tolerance_a_per_m2 <= 0.0
+            || self.maximum_iterations == 0
+        {
+            return Err(ElectrochemistryError::InvalidCondition(
+                "current target and ordered potential bounds must be finite",
+            ));
+        }
+
+        let mut lower = self.minimum_potential_v;
+        let mut upper = self.maximum_potential_v;
+        let lower_balance = self.currents_at(reactions, lower, temperature_k)?;
+        let upper_balance = self.currents_at(reactions, upper, temperature_k)?;
+        let mut f_lower = lower_balance.net_current_density_a_per_m2 - target_current_density;
+        let f_upper = upper_balance.net_current_density_a_per_m2 - target_current_density;
+
+        if f_lower.abs() <= self.current_tolerance_a_per_m2 {
+            return Ok(lower_balance);
+        }
+        if f_upper.abs() <= self.current_tolerance_a_per_m2 {
+            return Ok(upper_balance);
+        }
+        if f_lower.signum() == f_upper.signum() {
+            return Err(ElectrochemistryError::CurrentNotBracketed {
+                lower_current_density: lower_balance.net_current_density_a_per_m2,
+                upper_current_density: upper_balance.net_current_density_a_per_m2,
+                target_current_density,
+            });
+        }
+
+        for _ in 0..self.maximum_iterations {
+            let middle = 0.5 * (lower + upper);
+            let balance = self.currents_at(reactions, middle, temperature_k)?;
+            let f_middle = balance.net_current_density_a_per_m2 - target_current_density;
+            if f_middle.abs() <= self.current_tolerance_a_per_m2 {
+                return Ok(balance);
+            }
+            if middle <= lower || middle >= upper {
+                return Err(ElectrochemistryError::DidNotConverge { residual: f_middle });
+            }
+            if f_middle.signum() == f_lower.signum() {
+                lower = middle;
+                f_lower = f_middle;
+            } else {
+                upper = middle;
+            }
+        }
+        let balance = self.currents_at(reactions, 0.5 * (lower + upper), temperature_k)?;
+        Err(ElectrochemistryError::DidNotConverge {
+            residual: balance.net_current_density_a_per_m2 - target_current_density,
+        })
+    }
+
+    pub fn solve_mixed_potential(
+        &self,
+        reactions: &[PartialReaction<'_>],
+        temperature_k: f64,
+    ) -> Result<CurrentBalance, ElectrochemistryError> {
+        self.solve_for_current_density(reactions, temperature_k, 0.0)
+    }
+
+    /// Evaluate potentiostatic, galvanostatic or freely corroding operation
+    /// using the same partial-current model. Solution resistance is solved
+    /// implicitly for potentiostatic control rather than subtracted once.
+    pub fn solve_control(
+        &self,
+        reactions: &[PartialReaction<'_>],
+        temperature_k: f64,
+        geometric_area_m2: f64,
+        control: CellControl,
+        transport: TransportLimits,
+    ) -> Result<CurrentBalance, ElectrochemistryError> {
+        if !geometric_area_m2.is_finite()
+            || geometric_area_m2 <= 0.0
+            || !transport.solution_resistance_ohm.is_finite()
+            || transport.solution_resistance_ohm < 0.0
+        {
+            return Err(ElectrochemistryError::InvalidCondition(
+                "electrode area must be positive and solution resistance non-negative",
+            ));
+        }
+        match control {
+            CellControl::OpenCircuit => self.solve_mixed_potential(reactions, temperature_k),
+            CellControl::Galvanostatic { current_amps } => {
+                let mut balance = self.solve_for_current_density(
+                    reactions,
+                    temperature_k,
+                    current_amps / geometric_area_m2,
+                )?;
+                balance.terminal_potential_v =
+                    balance.electrode_potential_v + transport.signed_ir_drop(current_amps);
+                Ok(balance)
+            }
+            CellControl::Potentiostatic { voltage } => {
+                if !voltage.is_finite() {
+                    return Err(ElectrochemistryError::InvalidCondition(
+                        "applied potential must be finite",
+                    ));
+                }
+                if !self.potential_tolerance_v.is_finite()
+                    || self.potential_tolerance_v <= 0.0
+                    || self.maximum_iterations == 0
+                {
+                    return Err(ElectrochemistryError::InvalidCondition(
+                        "potential tolerance and iteration count must be positive",
+                    ));
+                }
+                if transport.solution_resistance_ohm == 0.0 {
+                    let mut balance = self.currents_at(reactions, voltage, temperature_k)?;
+                    balance.terminal_potential_v = voltage;
+                    return Ok(balance);
+                }
+                let residual =
+                    |potential: f64| -> Result<(f64, CurrentBalance), ElectrochemistryError> {
+                        let balance = self.currents_at(reactions, potential, temperature_k)?;
+                        let current_amps = balance.net_current_density_a_per_m2 * geometric_area_m2;
+                        Ok((
+                            potential + transport.signed_ir_drop(current_amps) - voltage,
+                            balance,
+                        ))
+                    };
+                let (mut f_lower, _) = residual(self.minimum_potential_v)?;
+                let (f_upper, _) = residual(self.maximum_potential_v)?;
+                if f_lower.signum() == f_upper.signum() {
+                    return Err(ElectrochemistryError::ControlNotBracketed {
+                        lower_residual_v: f_lower,
+                        upper_residual_v: f_upper,
+                    });
+                }
+                let mut lower = self.minimum_potential_v;
+                let mut upper = self.maximum_potential_v;
+                for _ in 0..self.maximum_iterations {
+                    let middle = 0.5 * (lower + upper);
+                    let (f_middle, mut balance) = residual(middle)?;
+                    if f_middle.abs() <= self.potential_tolerance_v
+                        || upper - lower <= self.potential_tolerance_v
+                    {
+                        balance.terminal_potential_v = voltage;
+                        return Ok(balance);
+                    }
+                    if f_middle.signum() == f_lower.signum() {
+                        lower = middle;
+                        f_lower = f_middle;
+                    } else {
+                        upper = middle;
+                    }
+                }
+                let (_, mut balance) = residual(0.5 * (lower + upper))?;
+                let current_amps = balance.net_current_density_a_per_m2 * geometric_area_m2;
+                let final_residual = balance.electrode_potential_v
+                    + transport.signed_ir_drop(current_amps)
+                    - voltage;
+                balance.terminal_potential_v = voltage;
+                if final_residual.abs() <= self.potential_tolerance_v {
+                    Ok(balance)
+                } else {
+                    Err(ElectrochemistryError::DidNotConverge {
+                        residual: final_residual,
+                    })
+                }
+            }
+        }
+    }
+}
+
+/// Convert a signed partial current into signed reaction extent by Faraday's
+/// law. Stoichiometric inventory limiting is deliberately a later, separate
+/// operation so every consumer uses the normal conservation ledger.
+pub fn faradaic_extent_moles(
+    current_amps: f64,
+    seconds: f64,
+    electrons_per_extent: f64,
+) -> Result<f64, ElectrochemistryError> {
+    if !current_amps.is_finite()
+        || !seconds.is_finite()
+        || seconds < 0.0
+        || !electrons_per_extent.is_finite()
+        || electrons_per_extent <= 0.0
+    {
+        return Err(ElectrochemistryError::InvalidCondition(
+            "current, non-negative time and positive electron count must be finite",
+        ));
+    }
+    Ok(current_amps * seconds / (electrons_per_extent * FARADAY))
 }
 
 // ── ELEC-007: Competing reactions ─────────────────────────────────
@@ -252,5 +811,199 @@ mod tests {
     fn limiting_current_positive() {
         let j_l = limiting_current_density(2.0, 1e-5, 1e-6, 0.05);
         assert!(j_l > 0.0);
+    }
+
+    fn reaction(id: &'static str, equilibrium_potential_v: f64) -> PartialReaction<'static> {
+        PartialReaction {
+            id,
+            equilibrium_potential_v,
+            kinetics: ButlerVolmerParams {
+                j0: 1.0,
+                alpha_a: 0.5,
+                alpha_c: 0.5,
+                n: 1.0,
+            },
+            reactive_area_ratio: 1.0,
+            limiting_current_anodic_a_per_m2: None,
+            limiting_current_cathodic_a_per_m2: None,
+        }
+    }
+
+    #[test]
+    fn open_circuit_balances_nonzero_partial_currents() {
+        let reactions = [reaction("metal", -1.0), reaction("hydrogen", 0.0)];
+        let balance = CurrentBalanceSolver::default()
+            .solve_mixed_potential(&reactions, 298.15)
+            .unwrap();
+        assert!((balance.electrode_potential_v + 0.5).abs() < 1e-8);
+        assert!(balance.net_current_density_a_per_m2.abs() < 1e-8);
+        assert!(balance.partial_currents[0].current_density_a_per_m2 > 0.0);
+        assert!(balance.partial_currents[1].current_density_a_per_m2 < 0.0);
+        assert!(balance.partial_currents[0].current_density_a_per_m2.abs() > 1.0);
+    }
+
+    #[test]
+    fn area_ratio_changes_the_mixed_potential() {
+        let anodic = reaction("metal", -1.0);
+        let mut cathodic = reaction("hydrogen", 0.0);
+        cathodic.reactive_area_ratio = 10.0;
+        let balance = CurrentBalanceSolver::default()
+            .solve_mixed_potential(&[anodic, cathodic], 298.15)
+            .unwrap();
+        assert!(balance.electrode_potential_v > -0.5);
+    }
+
+    #[test]
+    fn transport_limit_caps_one_partial_current() {
+        let mut cathodic = reaction("oxygen", 0.0);
+        cathodic.limiting_current_cathodic_a_per_m2 = Some(2.0);
+        let current = cathodic.current_density(-1.0, 298.15).unwrap();
+        assert!(current < 0.0 && current.abs() < 2.0);
+    }
+
+    #[test]
+    fn faraday_conversion_is_extensive_in_current_and_time() {
+        let one = faradaic_extent_moles(FARADAY, 1.0, 1.0).unwrap();
+        let two = faradaic_extent_moles(2.0 * FARADAY, 1.0, 1.0).unwrap();
+        assert!((one - 1.0).abs() < 1e-12);
+        assert!((two - 2.0).abs() < 1e-12);
+    }
+
+    #[test]
+    fn kinetic_domains_require_every_declared_activity() {
+        let domain = KineticValidityDomain {
+            temperature_min_k: 290.0,
+            temperature_max_k: 310.0,
+            activities: vec![ActivityBound {
+                species: "H+".into(),
+                minimum: 0.05,
+                maximum: 0.2,
+            }],
+            surface_preparation: "test surface".into(),
+            note: "test domain".into(),
+        };
+        assert!(domain.accepts(298.15, &[("H+".into(), 0.1)]));
+        assert!(!domain.accepts(298.15, &[]));
+        assert!(!domain.accepts(320.0, &[("H+".into(), 0.1)]));
+    }
+
+    fn parameter_record(id: &str) -> ExchangeCurrentRecord {
+        ExchangeCurrentRecord {
+            id: id.into(),
+            reaction: "M+2/M".into(),
+            electrode_material: "M".into(),
+            kinetics: ButlerVolmerParams {
+                j0: 1.0,
+                alpha_a: 0.5,
+                alpha_c: 0.5,
+                n: 2.0,
+            },
+            validity: KineticValidityDomain {
+                temperature_min_k: 290.0,
+                temperature_max_k: 310.0,
+                activities: vec![ActivityBound {
+                    species: "M+2".into(),
+                    minimum: 0.01,
+                    maximum: 0.1,
+                }],
+                surface_preparation: "project-authored test surface".into(),
+                note: "test-only exact parameter".into(),
+            },
+            source: "project-authored exact test".into(),
+            license: PermissiveDataLicense::Mit,
+            relative_uncertainty: Some(0.0),
+            uncertainty_note: "exact synthetic test parameter".into(),
+            reviewed: true,
+        }
+    }
+
+    #[test]
+    fn parameter_selection_refuses_gaps_and_overlap() {
+        let activities = [("M+2".into(), 0.05)];
+        let first = parameter_record("first");
+        assert_eq!(
+            select_exchange_current(&[first.clone()], "M+2/M", "M", 298.15, &activities)
+                .unwrap()
+                .id,
+            "first"
+        );
+        assert!(matches!(
+            select_exchange_current(&[first.clone()], "M+2/M", "M", 320.0, &activities),
+            Err(ParameterSelectionError::NoApplicableRecord { .. })
+        ));
+        assert!(matches!(
+            select_exchange_current(
+                &[first, parameter_record("second")],
+                "M+2/M",
+                "M",
+                298.15,
+                &activities
+            ),
+            Err(ParameterSelectionError::AmbiguousRecords { .. })
+        ));
+    }
+
+    #[test]
+    fn galvanostatic_control_keeps_current_and_books_ir_drop() {
+        let reactions = [reaction("couple", 0.0)];
+        let balance = CurrentBalanceSolver::default()
+            .solve_control(
+                &reactions,
+                298.15,
+                2.0,
+                CellControl::Galvanostatic { current_amps: 4.0 },
+                TransportLimits {
+                    solution_resistance_ohm: 0.25,
+                    limiting_current_cathodic: None,
+                    limiting_current_anodic: None,
+                },
+            )
+            .unwrap();
+        assert!((balance.net_current_density_a_per_m2 - 2.0).abs() < 1e-8);
+        assert!((balance.terminal_potential_v - balance.electrode_potential_v - 1.0).abs() < 1e-8);
+    }
+
+    #[test]
+    fn a_fully_blocked_surface_has_no_invented_potential() {
+        let mut blocked = reaction("blocked", 0.0);
+        blocked.reactive_area_ratio = 0.0;
+        assert_eq!(
+            CurrentBalanceSolver::default().solve_mixed_potential(&[blocked], 298.15),
+            Err(ElectrochemistryError::NoActivePartialReactions)
+        );
+    }
+
+    #[test]
+    fn potentiostatic_control_solves_ir_drop_implicitly() {
+        let reactions = [reaction("couple", 0.0)];
+        let balance = CurrentBalanceSolver::default()
+            .solve_control(
+                &reactions,
+                298.15,
+                0.01,
+                CellControl::Potentiostatic { voltage: 0.2 },
+                TransportLimits {
+                    solution_resistance_ohm: 10.0,
+                    limiting_current_cathodic: None,
+                    limiting_current_anodic: None,
+                },
+            )
+            .unwrap();
+        let current = balance.net_current_density_a_per_m2 * 0.01;
+        assert!((balance.electrode_potential_v + current * 10.0 - 0.2).abs() < 1e-8);
+        assert_eq!(balance.terminal_potential_v, 0.2);
+    }
+
+    #[test]
+    fn mixed_current_converts_each_half_reaction_to_extent() {
+        let reactions = [reaction("metal", -1.0), reaction("hydrogen", 0.0)];
+        let balance = CurrentBalanceSolver::default()
+            .solve_mixed_potential(&reactions, 298.15)
+            .unwrap();
+        let extents = balance.extents(&reactions, 0.01, 60.0).unwrap();
+        assert_eq!(extents.len(), 2);
+        assert!(extents[0].extent_moles > 0.0);
+        assert!(extents[1].extent_moles < 0.0);
+        assert!((extents[0].extent_moles + extents[1].extent_moles).abs() < 1e-10);
     }
 }

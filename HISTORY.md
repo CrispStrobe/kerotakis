@@ -39,6 +39,17 @@ it had while it was open, which is why a few numbers appear twice below.
 
 **Engine**
 
+- `feat/modular-electrode-kinetics` — consolidated electrode kinetics onto one
+  SI-unit Butler–Volmer kernel and added a deterministic mixed-potential,
+  galvanostatic and implicit-iR potentiostatic solver. Finite electrode
+  substrates and deposits now survive replay and participate in mass/element
+  ledgers. The pre-existing heterogeneous-rate records now execute shared
+  area, shrinking-sphere and diffusion-limit arithmetic. Parameter records use
+  a closed permissive-licence enum and explicit temperature, activity and
+  surface-preparation domains; gaps and overlaps refuse instead of
+  extrapolating or depending on registry order. Exact synthetic tests caught a
+  false convergence rule: a narrow voltage bracket is insufficient on a steep
+  polarization curve unless the current residual also closes
 - **#541** — the heat-capacity integral in **difference form**. Each NASA-9 and
   Shomate term is now written so `(t1 − t0)` factors out, instead of evaluating
   an antiderivative at both ends and subtracting terms around 1.2e9 J/mol that

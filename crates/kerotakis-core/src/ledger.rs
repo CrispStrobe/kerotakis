@@ -83,6 +83,33 @@ impl ConservedLedger {
             }
         }
 
+        // Finite electrode substrates and their deposits own matter outside
+        // bulk contents. External apparatus has `substrate_moles = None` and
+        // deliberately contributes no inventory until material transfers.
+        for electrode in &vessel.electrodes {
+            let inventory = electrode
+                .substrate_moles
+                .into_iter()
+                .map(|moles| (electrode.material.as_str(), moles))
+                .chain(
+                    electrode
+                        .deposits
+                        .iter()
+                        .map(|deposit| (deposit.species.as_str(), deposit.moles)),
+                );
+            for (species_key, moles) in inventory {
+                let sid = crate::SpeciesId::new(species_key);
+                if let Some(formula) =
+                    species::lookup(&sid).and_then(|data| stoich::parse_formula(data.formula).ok())
+                {
+                    for (element, count) in formula.counts {
+                        *elements.entry(element).or_default() += count * moles;
+                    }
+                    charge += formula.charge * moles;
+                }
+            }
+        }
+
         // Prepared objects own their resolved ingredients outside bulk contents.
         for component in vessel.material_objects.iter().flat_map(|o| &o.components) {
             if let Some(formula) = species::lookup(&component.species)
@@ -319,5 +346,29 @@ mod tests {
             "kinetics violated conservation: {:?}",
             real_violations
         );
+    }
+
+    #[test]
+    fn moving_solid_onto_an_electrode_keeps_its_inventory() {
+        let mut before = Vessel::new(VesselId(0), "cell");
+        before.deposit(SpeciesId::new("Cu"), Moles(0.01), Phase::Solid);
+        let mut after = Vessel::new(VesselId(0), "cell");
+        after.electrodes.push(crate::compartment::ElectrodeState {
+            material: "Pt".into(),
+            substrate_moles: None,
+            area_m2: 0.01,
+            roughness: 1.0,
+            deposits: vec![crate::compartment::ElectrodeDeposit {
+                species: "Cu".into(),
+                moles: 0.01,
+                thickness_m: None,
+                coverage_fraction: None,
+                effect: Some(crate::electrochemistry::PassivationEffect::Conductive),
+            }],
+        });
+        let before = ConservedLedger::from_vessel(&before);
+        let after = ConservedLedger::from_vessel(&after);
+        assert_eq!(before.elements, after.elements);
+        assert!((before.mass - after.mass).abs() < 1e-12);
     }
 }

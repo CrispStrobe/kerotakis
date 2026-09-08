@@ -90,6 +90,28 @@ contract carries them; neither may be represented by a convenient but false
 state proxy. PR #555 has landed; the immutable successor corpus is the active
 CI-backed work described above and in
 `tools/chemistry-audit/SOURCE-FLEETS-2.md`.
+
+## Electrochemical kinetics — next ordered work
+
+The reusable foundation is carried by `feat/modular-electrode-kinetics`: one
+SI-unit Butler–Volmer implementation; explicit, conserved electrode substrate
+and deposit state; a mixed-potential/current-control solver; typed parameter
+domains; and shared area/roughness/coverage/diffusion arithmetic for every
+heterogeneous reaction. The shipped empirical parameter registry remains empty
+until licence-cleared records survive review.
+
+Continue in this order: (1) form candidate half-reactions from computed
+activities and Nernst potentials; (2) combine all half-reaction extents into one
+inventory-limited, conservation-checked state delta; (3) advance that delta on
+the existing clock without letting `displacement` or `corrosion` mutate the same
+step; (4) admit one narrowly bounded permissively licensed polarization dataset
+with matched controls; (5) only then replace the editorial iron/zinc rates and
+expose current, potential, limiting mechanism and uncertainty to clients.
+
+No qualitative overpotential, lesson-calibrated rate or neighbouring material's
+parameter may be promoted into this path. Missing or overlapping parameter
+domains are typed refusals. Open circuit means zero net external current, not
+zero anodic and cathodic partial currents.
 - **`tests/coverage/curiosity-v1/README.md`** — the corpus refresh log. It is a
   test artefact, not a planning file; leave it alone.
 - **`docs/CURIOSITY-COVERAGE.md`** — the standing analysis of that corpus: the

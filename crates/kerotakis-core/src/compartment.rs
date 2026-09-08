@@ -48,6 +48,9 @@ pub struct Compartment {
     /// Derived chemistry state — invalidated on mutation.
     #[serde(default)]
     pub resolved: ResolvedState,
+    /// Electrochemical surfaces exposed to this well-mixed region.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub electrodes: Vec<ElectrodeState>,
 }
 
 impl Default for Compartment {
@@ -59,6 +62,7 @@ impl Default for Compartment {
             pressure: Pascal(101325.0),
             volume_mode: VolumeMode::Open,
             resolved: ResolvedState::default(),
+            electrodes: Vec::new(),
         }
     }
 }
@@ -162,6 +166,10 @@ pub enum InterfaceKind {
 pub struct ElectrodeState {
     /// The metal or conductor material (e.g. "Zn", "Cu", "Pt").
     pub material: String,
+    /// Finite substrate inventory when the electrode itself may be consumed.
+    /// `None` denotes external apparatus whose lifetime is out of scope.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub substrate_moles: Option<f64>,
     /// Geometric area in m².
     pub area_m2: f64,
     /// Surface roughness factor (real area / geometric area). Default 1.0.
@@ -176,6 +184,56 @@ fn default_roughness() -> f64 {
     1.0
 }
 
+impl ElectrodeState {
+    pub fn validate(&self) -> Result<(), &'static str> {
+        if self.material.trim().is_empty() {
+            return Err("electrode material must be named");
+        }
+        if self
+            .substrate_moles
+            .is_some_and(|moles| !moles.is_finite() || moles < 0.0)
+        {
+            return Err("finite electrode inventory must be non-negative");
+        }
+        if !self.area_m2.is_finite() || self.area_m2 <= 0.0 {
+            return Err("electrode area must be finite and positive");
+        }
+        self.reactive_surface(1.0)
+            .validate()
+            .map_err(|_| "electrode area and roughness must be finite and positive")?;
+        if self.deposits.iter().any(|deposit| {
+            deposit.species.trim().is_empty()
+                || !deposit.moles.is_finite()
+                || deposit.moles < 0.0
+                || deposit
+                    .thickness_m
+                    .is_some_and(|value| !value.is_finite() || value < 0.0)
+                || deposit
+                    .coverage_fraction
+                    .is_some_and(|value| !value.is_finite() || !(0.0..=1.0).contains(&value))
+        }) {
+            return Err(
+                "electrode deposits require valid identity, amount, thickness and coverage",
+            );
+        }
+        Ok(())
+    }
+
+    /// Construct reaction-specific surface geometry. Availability is supplied
+    /// per reaction: a conductive deposit can block metal dissolution while
+    /// remaining active for a cathodic reaction.
+    pub fn reactive_surface(
+        &self,
+        available_fraction: f64,
+    ) -> crate::heterogeneous::ReactiveSurface {
+        crate::heterogeneous::ReactiveSurface {
+            geometric_area_m2: self.area_m2,
+            roughness_factor: self.roughness,
+            available_fraction,
+        }
+    }
+}
+
 /// A layer deposited on an electrode surface.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ElectrodeDeposit {
@@ -186,12 +244,19 @@ pub struct ElectrodeDeposit {
     /// Thickness estimate in metres (if known).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub thickness_m: Option<f64>,
+    /// Geometric coverage when measured or computed.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub coverage_fraction: Option<f64>,
+    /// Kinetic role of this layer. Absence means no defensible model is known.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub effect: Option<crate::electrochemistry::PassivationEffect>,
 }
 
 impl Default for ElectrodeState {
     fn default() -> Self {
         Self {
             material: "Pt".into(),
+            substrate_moles: None,
             area_m2: 1e-4,
             roughness: 1.0,
             deposits: Vec::new(),
@@ -217,17 +282,21 @@ mod tests {
     fn electrode_state_round_trips() {
         let electrode = ElectrodeState {
             material: "Zn".into(),
+            substrate_moles: Some(0.01),
             area_m2: 0.001,
             roughness: 1.5,
             deposits: vec![ElectrodeDeposit {
                 species: "Cu".into(),
                 moles: 0.0001,
                 thickness_m: Some(1e-6),
+                coverage_fraction: Some(0.25),
+                effect: Some(crate::electrochemistry::PassivationEffect::Conductive),
             }],
         };
         let json = serde_json::to_string(&electrode).unwrap();
         let loaded: ElectrodeState = serde_json::from_str(&json).unwrap();
         assert_eq!(loaded.material, "Zn");
+        assert!(loaded.validate().is_ok());
         assert_eq!(loaded.deposits.len(), 1);
         assert_eq!(loaded.deposits[0].species, "Cu");
     }

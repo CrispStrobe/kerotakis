@@ -27,14 +27,38 @@ pub struct ButlerVolmerParams {
 }
 
 impl ButlerVolmerParams {
+    /// Validate the physical parameter domain before it reaches a solver.
+    pub fn validate(&self) -> Result<(), &'static str> {
+        if !self.j0.is_finite() || self.j0 <= 0.0 {
+            return Err("exchange-current density must be finite and positive");
+        }
+        if !self.alpha_a.is_finite() || self.alpha_a <= 0.0 || self.alpha_a > 1.0 {
+            return Err("anodic transfer coefficient must lie in (0, 1]");
+        }
+        if !self.alpha_c.is_finite() || self.alpha_c <= 0.0 || self.alpha_c > 1.0 {
+            return Err("cathodic transfer coefficient must lie in (0, 1]");
+        }
+        if !self.n.is_finite() || self.n <= 0.0 {
+            return Err("electron count must be finite and positive");
+        }
+        Ok(())
+    }
+
     /// Current density (A/m²) from overpotential (V) at temperature (K).
     ///
     /// Positive j = anodic (oxidation), negative j = cathodic (reduction).
     pub fn current_density(&self, eta: f64, t_kelvin: f64) -> f64 {
+        if self.validate().is_err() || !t_kelvin.is_finite() || t_kelvin <= 0.0 {
+            return f64::NAN;
+        }
         let f_rt = F / (R * t_kelvin);
         self.j0
-            * ((self.alpha_a * self.n * f_rt * eta).exp()
-                - (-self.alpha_c * self.n * f_rt * eta).exp())
+            * ((self.alpha_a * self.n * f_rt * eta)
+                .clamp(-700.0, 700.0)
+                .exp()
+                - (-self.alpha_c * self.n * f_rt * eta)
+                    .clamp(-700.0, 700.0)
+                    .exp())
     }
 
     /// Tafel slope for the anodic branch, V/decade.
@@ -104,5 +128,15 @@ mod tests {
             (j_pos + j_neg).abs() < 1e-10,
             "symmetric BV should give antisymmetric current"
         );
+    }
+
+    #[test]
+    fn invalid_parameters_do_not_enter_the_numerics() {
+        let bad = ButlerVolmerParams {
+            j0: -1.0,
+            ..typical_params()
+        };
+        assert!(bad.validate().is_err());
+        assert!(bad.current_density(0.1, 298.15).is_nan());
     }
 }
