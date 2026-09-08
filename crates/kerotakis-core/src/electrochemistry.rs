@@ -129,13 +129,9 @@ pub struct ExchangeCurrentRecord {
 }
 
 /// Curated exchange-current records from reviewed sources.
-///
-/// Sources: Bard & Faulkner, Electrochemical Methods (2001), Table 3.6.2;
-/// CRC Handbook of Chemistry and Physics, 97th ed.
-pub const EXCHANGE_CURRENTS: &[ExchangeCurrentRecord] = &[
-    // These are representative values; actual records should carry
-    // full citation metadata per ELEC-003 requirements.
-];
+/// Empty until a permissively licensed measurement can be represented with
+/// its complete material, surface, electrolyte and uncertainty domain.
+pub const EXCHANGE_CURRENTS: &[ExchangeCurrentRecord] = &[];
 
 /// Closed allowlist for parameter records that may ship with the engine.
 /// An NC, copyleft or unknown licence cannot be represented accidentally.
