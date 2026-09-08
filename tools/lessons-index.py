@@ -34,7 +34,7 @@ TOPICS = {
                                 "salt-from-brine"],
     "gases & pressure": ["sealed-gas", "warm-the-gas-stop-before-burst"],
     "rates": ["elephant-toothpaste", "yeast-fermentation", "rates",
-              "luminol-temperature", "wait-is-not-a-reaction-trigger"],
+              "luminol-temperature", "longer-waits-advance-peroxide-kinetics"],
     "separations": ["water-filter", "spirit-still", "transport-column",
                     "follow-the-salt-through-staged-transfers",
                     "filter-then-concentrate-the-brine",
@@ -52,7 +52,7 @@ PROGRESS = {
     "filter-then-concentrate-the-brine": "intermediate",
     "track-precipitate-and-filtrate-through-drying": "advanced",
     "two-limits-one-carbon-dioxide-ledger": "intermediate",
-    "wait-is-not-a-reaction-trigger": "intermediate",
+    "longer-waits-advance-peroxide-kinetics": "intermediate",
     "saline-scaling-preserves-conductivity": "intermediate",
     "neutral-sugars-are-conductivity-controls": "intermediate",
 }

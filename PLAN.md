@@ -66,9 +66,10 @@ fleet workload on the deployment VPS.
 The first review of all 80 relations selects four distinct concepts. Intensive
 saline conductivity and neutral-sugar conductivity controls become K71–K72
 Experiments with paired Codex assertions. Two-axis carbonate limiting-reagent
-evidence and the explicit “wait cannot invent a kinetic network” boundary
-become Missions with paired Codex assertions. The latter is a simulator
-contract, not a claim that real peroxide never decomposes. Crystallisation
+evidence and the registered peroxide network's time evolution become Missions
+with paired Codex assertions. The latter preserves the fleet's elemental-
+conservation claim while checking that H2O2 decreases during modeled time; it
+is a simulator contract, not a new empirical rate law. Crystallisation
 groups are rejected because their frozen relations prove evaporation rather
 than crystal formation; thermal, pressure, cell, transfer, filtration and
 evaporation-path overlaps stay regression-only. The complete 288-case corpus

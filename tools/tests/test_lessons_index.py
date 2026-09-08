@@ -71,7 +71,7 @@ measure v1 ph
         self.assertEqual(entry["kit"], ["HCl", "NaHCO3", "water"])
 
     def test_wait_boundary_lesson_is_an_intermediate_rates_mission(self):
-        lesson = ROOT / "lessons" / "wait-is-not-a-reaction-trigger.lab"
+        lesson = ROOT / "lessons" / "longer-waits-advance-peroxide-kinetics.lab"
         entry = next(item for item in MODULE.index(lesson.parent)
                      if item["file"] == lesson.name)
         self.assertEqual(entry["topic"], "rates")

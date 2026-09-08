@@ -13,6 +13,10 @@
   "equilibrium can run backward": "Ein Gleichgewicht kann sich rückwärts verschieben",
   "grouping does not change water heat": "Die Mischreihenfolge ändert die Wärmebilanz nicht",
   "three components one cut": "Drei Komponenten, ein Destillat",
+  "neutral sugars are conductivity controls": "Neutrale Zucker sind Leitfähigkeitskontrollen",
+  "saline scaling preserves conductivity": "Proportionales Skalieren einer Salzlösung erhält die Leitfähigkeit",
+  "two limits one carbon dioxide ledger": "Zwei begrenzende Reaktionspartner, eine Kohlenstoffdioxidbilanz",
+  "longer waits advance peroxide kinetics": "Längeres Warten treibt die Peroxidkinetik voran",
   "hydrogen ion": "Wasserstoff-Ion",
   "dissolved carbon dioxide": "gelöstes Kohlenstoffdioxid",
   "carbonate ion": "Carbonat-Ion",
@@ -544,7 +548,8 @@
   "kinetics": "Kinetik",
   "saline conductivity is intensive": "Die Leitfähigkeit einer Salzlösung ist eine intensive Größe",
   "sugar is not an electrolyte control": "Zucker ist kein Elektrolyt: Kontrollversuch",
-  "waiting is not a peroxide reaction command": "Warten ist kein Befehl für eine Peroxidreaktion",
+  "longer waits advance peroxide kinetics": "Längeres Warten treibt die Peroxidkinetik voran",
+  "aqueous equilibrium": "Wässriges Gleichgewicht",
   "endpoint is not a full drop": "Der Endpunkt ist kein ganzer Tropfen",
   "equilibrium can run backward": "Ein Gleichgewicht kann sich rückwärts verschieben",
   "three components one cut": "Drei Komponenten, ein Destillat",
@@ -2592,7 +2597,7 @@
   "Track precipitate and filtrate through drying": "Niederschlag und Filtrat beim Trocknen verfolgen",
   "Two limits, one carbon-dioxide ledger": "Zwei Begrenzungen, eine Kohlenstoffdioxid-Bilanz",
   "Hold bicarbonate fixed while acid rises, then hold acid in excess while bicarbonate rises. Which reagent limits the computed carbon dioxide?": "Halte Hydrogencarbonat konstant und erhöhe die Säure; halte dann die Säure im Überschuss und erhöhe das Hydrogencarbonat. Welcher Stoff begrenzt das berechnete Kohlenstoffdioxid?",
-  "Waiting is not a reaction trigger": "Warten löst keine Reaktion aus",
+  "Longer waits advance peroxide kinetics": "Längeres Warten treibt die Peroxidkinetik voran",
   "Give identical peroxide samples four different waits. Does elapsed time invent a reaction the model was never told to run?": "Lass identische Peroxidproben vier unterschiedlich lange warten. Erfindet verstrichene Zeit eine Reaktion, deren Ablauf dem Modell nie vorgegeben wurde?"
  }
 }

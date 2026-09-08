@@ -65,8 +65,9 @@ intensive when saline amount and water scale together. K72 plus its Codex card
 use glucose and sucrose as neutral-solute conductivity controls. A Mission and
 Codex card use cases 561–568 to expose both limiting-reagent axes of carbonate
 gas production. A second Mission and Codex card make cases 657–660 an explicit
-model-contract investigation: advancing the clock cannot invent a kinetic
-network, and this is not a claim that real peroxide never decomposes.
+model-contract investigation: modeled time advances the registered peroxide
+network while the fleet's hydrogen-and-oxygen conservation claim remains the
+authority. This is not a new empirical peroxide rate law.
 
 Crystallisation-labelled groups were not promoted because their assertions
 prove evaporation rather than crystal formation. Existing thermal, pressure,

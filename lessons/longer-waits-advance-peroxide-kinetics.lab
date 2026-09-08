@@ -1,0 +1,32 @@
+# Longer waits advance peroxide kinetics
+# Give identical peroxide samples four different waits. What does the registered kinetic network do as modeled time advances?
+# Intermediate mission. Inspect the complete inventory after 30, 60, 120 and
+# 240 seconds: peroxide decomposition advances while hydrogen and oxygen remain
+# accounted for.
+#
+# Model boundary: this is a test of the bench's registered peroxide network,
+# not a new empirical rate law. Real decomposition also depends on concentration,
+# temperature, light, impurities, surfaces and catalysts. Use only
+# teacher-prepared dilute peroxide, eye protection
+# and clean compatible apparatus for any physical comparison. Do not ingest it
+# or return used material to its stock container.
+register lv2
+add v1 water 200mL
+add v1 H2O2 0.01mol
+wait 30s
+inspect v1
+new
+add v2 water 200mL
+add v2 H2O2 0.01mol
+wait 60s
+inspect v2
+new
+add v3 water 200mL
+add v3 H2O2 0.01mol
+wait 120s
+inspect v3
+new
+add v4 water 200mL
+add v4 H2O2 0.01mol
+wait 240s
+inspect v4

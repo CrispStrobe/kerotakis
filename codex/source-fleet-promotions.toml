@@ -981,7 +981,7 @@ id = "sugar-is-not-an-electrolyte-control"
 progress = "intermediate"
 summary = "Changing the amount or identity of neutral dissolved sugar leaves the modeled conductivity control unchanged"
 concepts = ["conductivity", "electrolytes", "experimental-controls"]
-requires = ["dissolving", "particle-model"]
+requires = ["dissolving", "amount-of-substance"]
 calculations = ["comparison-of-controls"]
 models = ["particle-model", "aqueous-equilibrium"]
 apparatus = ["beaker", "conductivity-meter"]
@@ -1049,7 +1049,7 @@ id = "gas-yield-has-two-limiting-reagent-axes"
 progress = "intermediate"
 summary = "Carbon-dioxide yield rises with either reactant while the other remains in excess"
 concepts = ["limiting-reagent", "gas-production", "stoichiometry"]
-requires = ["amount-of-substance", "balanced-equations"]
+requires = ["amount-of-substance"]
 calculations = ["limiting-reagent", "mole-ratio"]
 models = ["conservation-of-mass", "aqueous-equilibrium"]
 apparatus = ["beaker"]
@@ -1105,31 +1105,31 @@ kind = "increasing"
 tolerance = 1e-5
 [[reaction.expect.assertions.samples]]
 step = "after:3"
-metric = "event:gas_evolved.moles"
+metric = "moles:CO2"
 [[reaction.expect.assertions.samples]]
 step = "after:7"
-metric = "event:gas_evolved.moles"
+metric = "moles:CO2"
 [[reaction.expect.assertions.samples]]
 step = "after:11"
-metric = "event:gas_evolved.moles"
+metric = "moles:CO2"
 [[reaction.expect.assertions.samples]]
 step = "after:15"
-metric = "event:gas_evolved.moles"
+metric = "moles:CO2"
 [[reaction.expect.assertions]]
 kind = "increasing"
 tolerance = 1e-5
 [[reaction.expect.assertions.samples]]
 step = "after:19"
-metric = "event:gas_evolved.moles"
+metric = "moles:CO2"
 [[reaction.expect.assertions.samples]]
 step = "after:23"
-metric = "event:gas_evolved.moles"
+metric = "moles:CO2"
 [[reaction.expect.assertions.samples]]
 step = "after:27"
-metric = "event:gas_evolved.moles"
+metric = "moles:CO2"
 [[reaction.expect.assertions.samples]]
 step = "after:31"
-metric = "event:gas_evolved.moles"
+metric = "moles:CO2"
 
 [reaction.expect.predict]
 question = "Which change can increase carbon-dioxide yield: adding more acid to excess bicarbonate, or adding more bicarbonate to excess acid?"
@@ -1151,9 +1151,9 @@ source = "Original promotion from source-fleet v2 paired bicarbonate–acid dose
 computed_by = "Kerotakis aqueous carbonate/acid equilibrium and gas partition; two exact gas-evolution event-order assertions"
 
 [[reaction]]
-id = "waiting-is-not-a-peroxide-reaction-command"
+id = "longer-waits-advance-peroxide-kinetics"
 progress = "intermediate"
-summary = "Waiting alone advances the clock but does not invent an unrequested peroxide reaction"
+summary = "Longer waits advance the registered peroxide decomposition network"
 concepts = ["kinetics", "experimental-controls", "model-boundary"]
 requires = ["conservation-of-mass", "reaction-rate"]
 calculations = ["controlled-comparison", "mass-accounting"]
@@ -1184,28 +1184,10 @@ inspect v4
 """
 
 [reaction.expect]
-absent = ["reacted:peroxide-decomposition", "solver_failed"]
+events = ["reacted:peroxide-decomposition"]
+absent = ["solver_failed"]
 [[reaction.expect.assertions]]
-kind = "equal"
-tolerance = 1e-10
-[[reaction.expect.assertions.samples]]
-step = "final"
-metric = "moles:H2O2"
-vessel = "v1"
-[[reaction.expect.assertions.samples]]
-step = "final"
-metric = "moles:H2O2"
-vessel = "v2"
-[[reaction.expect.assertions.samples]]
-step = "final"
-metric = "moles:H2O2"
-vessel = "v3"
-[[reaction.expect.assertions.samples]]
-step = "final"
-metric = "moles:H2O2"
-vessel = "v4"
-[[reaction.expect.assertions]]
-kind = "unchanged"
+kind = "decreasing"
 tolerance = 1e-10
 [[reaction.expect.assertions.samples]]
 step = "after:2"
@@ -1216,7 +1198,7 @@ step = "final"
 metric = "moles:H2O2"
 vessel = "v1"
 [[reaction.expect.assertions]]
-kind = "unchanged"
+kind = "decreasing"
 tolerance = 1e-10
 [[reaction.expect.assertions.samples]]
 step = "after:6"
@@ -1227,7 +1209,7 @@ step = "final"
 metric = "moles:H2O2"
 vessel = "v2"
 [[reaction.expect.assertions]]
-kind = "unchanged"
+kind = "decreasing"
 tolerance = 1e-10
 [[reaction.expect.assertions.samples]]
 step = "after:10"
@@ -1238,7 +1220,7 @@ step = "final"
 metric = "moles:H2O2"
 vessel = "v3"
 [[reaction.expect.assertions]]
-kind = "unchanged"
+kind = "decreasing"
 tolerance = 1e-10
 [[reaction.expect.assertions.samples]]
 step = "after:14"
@@ -1250,20 +1232,20 @@ metric = "moles:H2O2"
 vessel = "v4"
 
 [reaction.expect.predict]
-question = "Four identical peroxide samples merely wait for 30, 60, 120 or 240 seconds. In this script, does the longer wait by itself consume more peroxide?"
-options = ["Yes: the clock automatically chooses and runs every possible reaction", "No: wait advances modeled time, but this control requests no peroxide reaction pathway"]
+question = "Does a wait leave hydrogen peroxide unchanged when the registered peroxide-decomposition network is available?"
+options = ["Yes: wait changes only the displayed clock", "No: elapsed time advances the registered kinetic network while conserving the elements"]
 answer = 1
-misconception = "Passing time in a simulator is mistaken for an instruction to infer and execute every chemically possible process."
+misconception = "The clock is treated as display-only even when the simulator has an explicit kinetic network for the material."
 [[reaction.expect.predict.diagnosis]]
 option = 0
-reveals = "A kinetic mechanism and its conditions have been assumed even though the script supplied only a clock interval."
-next = "Compare H2O2 immediately after each addition with its final inventory, then contrast the control with a script that explicitly requests the curated peroxide reaction."
+reveals = "The registered peroxide-decomposition pathway and its time evolution have been ignored."
+next = "Compare each vessel's H2O2 inventory immediately after addition with its inventory after elapsed modeled time."
 
 [reaction.registers]
-lv1 = "A stopwatch does not choose a reaction. These four virtual samples wait for different times and keep the peroxide they were given."
-lv2 = "Every vessel begins with 0.010 mol H2O2 in 200 mL water. The four waits differ eightfold, yet each final peroxide inventory equals its own post-addition inventory and the other three finals."
-lv3 = "Frozen cases 657–660 are a model-boundary control: their source-fleet relation proves elemental conservation before and after wait, while this catalogue replay adds exact unchanged and cross-vessel H2O2 assertions. This does not claim that real peroxide is indefinitely stable. It states that bare wait does not select an unrequested kinetic network. Species inventories are unavailable in GUI Scene v1, so the browser displays no fabricated comparison."
+lv1 = "Waiting advances this virtual peroxide reaction: some H2O2 decomposes, while its hydrogen and oxygen remain accounted for."
+lv2 = "Every vessel begins with 0.010 mol H2O2 in 200 mL water. The registered kinetic network runs as modeled time advances, so each post-wait peroxide inventory is lower than its own post-addition inventory."
+lv3 = "Frozen cases 657–660 assert elemental conservation across each wait, not molecular stasis. This catalogue replay adds four semantic decreases in H2O2 and requires the registered peroxide-decomposition event. The sequential vessels share one clock, so it makes no cross-vessel rate comparison. This is a simulator-contract observation, not a new empirical peroxide rate. Species inventories remain unavailable in GUI Scene v1 rather than being replaced by a scene proxy."
 
 [reaction.provenance]
 source = "Original promotion from source-fleet v2 peroxide wait controls; no private source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08."
-computed_by = "Kerotakis shared-clock wait operator and material ledger; four unchanged plus one final-inventory equality assertion"
+computed_by = "Kerotakis registered peroxide kinetic network and material ledger; four within-vessel H2O2 decrease assertions"
