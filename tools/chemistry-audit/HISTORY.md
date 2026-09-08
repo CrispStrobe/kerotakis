@@ -5,6 +5,21 @@ JSON, NDJSON, stderr, hashes and test logs remain in their evidence directories.
 Counts describe the recorded revision and declared model domain, not universal
 experimental accuracy.
 
+## 2026-09-08 — source-informed continuation begins
+
+PR #542 moved frozen cases 195–218 to an authoritative GitHub runner so the
+small deployment host does not compile or execute fleets. Its first two runs
+exposed workflow-envelope defects before any experiment executed: this checkout
+does not commit `Cargo.lock`, and a revision marker made the deliberately fresh
+run directory nonempty. Both failures and logs remain in GitHub; both fixes are
+infrastructure-only and the frozen scripts/checks are unchanged.
+
+The next programme is fixed at 240 original cases, IDs 219–458, across ten
+24-case scientific families. `source_fleets.py` validates immutable expanded
+manifests and records process-isolated raw evidence; `SOURCE-FLEETS.md` freezes
+the CI and scientific contract. Source/license mappings remain in private
+storage, never this repository. No post-218 case has run yet.
+
 ## 2026-09-07 — PR #504 rebase onto `139a18d6`
 
 PR #504 was rebased with merge topology preserved from pre-rebase head

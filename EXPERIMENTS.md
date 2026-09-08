@@ -814,6 +814,15 @@ numbers are never re-bound.
   `audit/chemistry-experiments-20260906`, which is kept so the archive can be
   rebuilt from Git. `tools/chemistry-audit/README.md` says how to verify both.
   Cases 195–218 remain frozen and unrun; that half of the item is still open.
+  **Continuation 2026-09-08:** PR #542 now supplies the current-main GitHub
+  runner; two preserved infrastructure failures (absent committed lockfile,
+  then a deliberately nonempty evidence directory) were corrected without
+  executing or changing the frozen cases. The post-218 programme is frozen at
+  240 original cases, IDs 219–458, in ten 24-case families with bounded CI
+  shards and one aggregate gate. A manifest validator/recorder and public
+  generic contract are in place; expanded manifests, family analyzers, runs,
+  repairs, reviewed promotion and bilingual presentation remain open. The
+  license/source-to-case survey is private and outside Git by policy.
 
 ## Declined items (all corpora, recorded with reasons)
 

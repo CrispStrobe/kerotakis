@@ -22,6 +22,7 @@ evidence harnesses, and they are never imported by a crate or the web app.
 | `HISTORY.md` | The narrative record of what the audit found |
 | `SIXTH-BATCH.md` | Frozen contract for cases 195–218, which never ran on a repaired head |
 | `CONTINUATION.md`, `INTEGRATOR-HANDOFF.md` | Superseded operating state of PR #504, kept as record |
+| `source_fleets.py`, `source-fleets/*.json`, `SOURCE-FLEETS.md` | Manifest validator/recorder and frozen contract for source-informed cases 219–458 |
 
 Python standard library only; no new dependency, no external dataset.
 
