@@ -1,0 +1,55 @@
+name: App Store preparation
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        type: choice
+        options: [audit, listing, testflight]
+        default: audit
+      platform:
+        type: choice
+        options: [both, ios, macos]
+        default: both
+
+permissions:
+  contents: read
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: python3 -m pip install --quiet --disable-pip-version-check cryptography
+      - name: Audit or prepare App Store Connect
+        env:
+          ASC_API_KEY_P8_BASE64: ${{ secrets.ASC_API_KEY_P8_BASE64 }}
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_TEAM_ID: ${{ secrets.ASC_TEAM_ID }}
+          ACTION: ${{ inputs.action }}
+          PLATFORM: ${{ inputs.platform }}
+        run: |
+          set -euo pipefail
+          case "$ACTION" in
+            audit) python3 tools/asc/audit.py ;;
+            listing)
+              if [ "$PLATFORM" = both ]; then
+                python3 tools/asc/listing.py
+              else
+                python3 tools/asc/listing.py "$PLATFORM"
+              fi
+              ;;
+            testflight)
+              if [ "$PLATFORM" = both ]; then
+                python3 tools/asc/testflight.py ios
+                python3 tools/asc/testflight.py macos
+              else
+                python3 tools/asc/testflight.py "$PLATFORM"
+              fi
+              ;;
+          esac
