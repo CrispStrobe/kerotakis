@@ -1,7 +1,16 @@
 # Source-informed fleets v2: cases 489–776
 
-Status: architecture frozen before authoritative execution. This second corpus
-does not alter or reinterpret the archived 219–458 evidence.
+Status: complete on `main` through PR #560. All 288 scripts and all 80 named
+relations pass: 368/368 execution-plus-relation checks. This second corpus does
+not alter or reinterpret the archived 219–458 evidence.
+
+The first authoritative run preserved 284/288 successful executions and
+362/368 total checks. Four starch scripts used an unregistered shorthand for
+the shipped Lugol material; one equal-evaporation-path relation exposed decimal
+formatting that had rounded two rational fractions; and the old aggregate's
+broad artifact pattern also collected v2 reports. These were input-generation
+and workflow-envelope defects. The repaired run changed no engine code and did
+not widen, reverse or remove a scientific expectation.
 
 The programme contains twelve families of 24 original scripts: quantitative
 solutions, polyprotic/carbonate systems, redox cells, gas production and

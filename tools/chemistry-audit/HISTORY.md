@@ -5,6 +5,24 @@ JSON, NDJSON, stderr, hashes and test logs remain in their evidence directories.
 Counts describe the recorded revision and declared model domain, not universal
 experimental accuracy.
 
+## 2026-09-08 — second source-informed corpus
+
+PR #560 added the separately versioned 489–776 corpus: twelve families, 288
+original scripts and 80 named relations. GitHub built one revision-bound CLI,
+ran family shards with at most four in parallel, preserved every raw result and
+passed the final aggregate at 368/368. The deployment VPS did not compile or
+execute the fleet.
+
+The first authoritative run remains useful negative evidence: 284/288
+executions and 362/368 checks passed. Four starch cases named a non-existent
+`iodine_solution` instead of the shipped `lugol_solution_1_percent`; generator
+formatting rounded two rational staged-evaporation fractions; and the legacy
+aggregate artifact glob admitted the new v2 reports. Those contract/envelope
+defects were repaired without production changes or post-output adjustment of
+a scientific direction or tolerance. Source identities and source-to-case
+mappings remain private; the public corpus contains only original questions,
+scripts and generic relations.
+
 ## 2026-09-08 — ammonia catalog promotion and kinetics boundary
 
 The distinct seventh-fleet ammonia comparison is now a live Codex experiment.

@@ -14,6 +14,19 @@ it had while it was open, which is why a few numbers appear twice below.
 
 ## 2026-09-08
 
+**Second source-informed experiment corpus**
+
+- **#560** — froze and executed 288 original scripts, IDs 489–776, in twelve
+  scientific families on GitHub CI. All 288 executions and 80 conservation,
+  independent-law, metamorphic and explicit-boundary relations pass: 368/368.
+  The first preserved run passed 284/288 executions and 362/368 total checks;
+  review found an unregistered Lugol-material shorthand, premature decimal
+  formatting of rational evaporation fractions, and an overlapping artifact
+  glob. The repaired run changed only generator inputs and the workflow
+  envelope—no engine code and no widened, reversed or removed expectation.
+  Public manifests carry no source identity or source-to-case mapping, and the
+  deployment VPS performed no build or fleet execution.
+
 **Engine**
 
 - **#541** — the heat-capacity integral in **difference form**. Each NASA-9 and
