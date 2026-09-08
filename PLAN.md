@@ -63,14 +63,15 @@ expectation or engine behavior changed. Twelve GitHub Actions shards ran at
 most four in parallel from one revision-bound CLI artifact, with no build or
 fleet workload on the deployment VPS.
 
-The first review of all 80 relations selects four distinct concepts. Intensive
+The first review of all 80 relations landed through PR #562 and selected four
+distinct concepts. Intensive
 saline conductivity and neutral-sugar conductivity controls become K71–K72
 Experiments with paired Codex assertions. Two-axis carbonate limiting-reagent
 evidence and the registered peroxide network's time evolution become Missions
 with paired Codex cards. The gas card relies on the source-fleet scalar-order
 gate because the Codex adapter does not expose gas-event scalars; the peroxide
-card carries native semantic assertions. The latter preserves the fleet's elemental-
-conservation claim while checking that H2O2 decreases during modeled time; it
+card carries native semantic assertions. The latter preserves the fleet's
+elemental-conservation claim while checking that H2O2 decreases during modeled time; it
 is a simulator contract, not a new empirical rate law. Crystallisation
 groups are rejected because their frozen relations prove evaporation rather
 than crystal formation; thermal, pressure, cell, transfer, filtration and

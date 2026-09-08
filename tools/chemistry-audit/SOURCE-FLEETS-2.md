@@ -58,7 +58,9 @@ semantic assertion. Parameter-only variants remain regression evidence.
 
 ## Reviewed promotion ledger
 
-The first v2 review promotes four concepts and rejects the other relation
+PR #562 landed the first v2 review after full GitHub CI passed on Linux, macOS,
+WebAssembly, browser, presentation, preflight, and both source-fleet generations.
+It promotes four concepts and rejects the other relation
 groups as duplicates, parameter variants, or evidence too weak for the desired
 learner-facing claim. K71 plus its Codex card show that conductivity is
 intensive when saline amount and water scale together. K72 plus its Codex card
