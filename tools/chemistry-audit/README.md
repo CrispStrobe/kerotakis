@@ -20,8 +20,9 @@ evidence harnesses, and they are never imported by a crate or the web app.
 | `basis_records.py`, `merge_codex_snapshot.py`, `revision.py`, `obsolete_tests.py` | One-shot migration, merge, source-revision and disk-hygiene helpers |
 | `standalone_batch.rs`, `hbr_native_preflight.cpp` | Low-resource native probes for the thermo kernel and the HBr preflight |
 | `HISTORY.md` | The narrative record of what the audit found |
-| `SIXTH-BATCH.md` | Frozen contract for cases 195–218, which never ran on a repaired head |
+| `SIXTH-BATCH.md` | Frozen contract for cases 195–218; its repaired-head 66/66 run is archived |
 | `CONTINUATION.md`, `INTEGRATOR-HANDOFF.md` | Superseded operating state of PR #504, kept as record |
+| `source_fleets.py`, `source-fleets/*.json`, `analyse_source_fleets.py`, `aggregate_source_fleets.py`, `SOURCE-FLEETS.md` | Validator, recorder, named-relation analyzer, aggregate gate and frozen contract for source-informed cases 219–458 |
 
 Python standard library only; no new dependency, no external dataset.
 
@@ -43,6 +44,23 @@ reuse one, so a replay can never overwrite an earlier run's raw evidence:
 python3 tools/chemistry-audit/run.py --binary target/debug/kero --out /tmp/fleet-1
 python3 tools/chemistry-audit/analyse.py /tmp/fleet-1 --out /tmp/fleet-1/law-checks.json
 ```
+
+The repository's `Chemistry audit fleets` workflow performs authoritative
+current-main runs for frozen fleet 195–218 and ten source-informed family
+shards covering 219–458. It builds the CLI on GitHub's runner,
+records each case in a separate process, binds the harness and frozen contract
+by SHA-256, applies the independent analyzer and uploads the complete evidence
+whether the checks pass or fail. This keeps expensive fleet work off the small
+deployment host and makes a failed experiment an artifact rather than lost log
+text.
+
+Run 34200411053 established 66/66 for fleet 195–218. Its 78-file artifact is
+archived at `/mnt/storage/kerotakis-archive/chemistry-audit-sixth-195-218-36eb425c.tar.gz`
+(SHA-256 `5f19afcf35ffdf8047a43eaaf19429ec2c35fc24baaf315cbe37a6855f177459`).
+The same run's first 219–458 execution, including all failures used by the next
+repair, is an 821-file archive at
+`/mnt/storage/kerotakis-archive/chemistry-audit-source-219-458-36eb425c.tar.gz`
+(SHA-256 `98cbfe7e1c82c57edd3f5868840df40da1d6e77eecf53a9d27bcfc1912a73808`).
 
 `basis_records.py` is a completed one-time migration and now refuses by design;
 `merge_codex_snapshot.py` requires an unmerged index; `obsolete_tests.py` is

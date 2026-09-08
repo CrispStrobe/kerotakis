@@ -1,0 +1,309 @@
+{
+  "schema": "kerotakis-source-fleet-v1",
+  "family": "thermal-phase-paths",
+  "title": "Thermal and phase paths",
+  "cases": [
+    {
+      "id": "387-water-heat-single-1",
+      "question": "What temperature follows one heat delivery in calorimetry trial 1?",
+      "script": "add v1 water 0.2L\nheat v1 900J\nmeasure v1 temp"
+    },
+    {
+      "id": "388-water-heat-split-1",
+      "question": "Does splitting the same heat delivery preserve temperature in trial 1?",
+      "script": "add v1 water 0.2L\nheat v1 360.0J\nheat v1 540.0J\nmeasure v1 temp"
+    },
+    {
+      "id": "389-water-heat-single-2",
+      "question": "What temperature follows one heat delivery in calorimetry trial 2?",
+      "script": "add v1 water 0.25L\nheat v1 1100J\nmeasure v1 temp"
+    },
+    {
+      "id": "390-water-heat-split-2",
+      "question": "Does splitting the same heat delivery preserve temperature in trial 2?",
+      "script": "add v1 water 0.25L\nheat v1 440.0J\nheat v1 660.0J\nmeasure v1 temp"
+    },
+    {
+      "id": "391-water-heat-single-3",
+      "question": "What temperature follows one heat delivery in calorimetry trial 3?",
+      "script": "add v1 water 0.30000000000000004L\nheat v1 1300J\nmeasure v1 temp"
+    },
+    {
+      "id": "392-water-heat-split-3",
+      "question": "Does splitting the same heat delivery preserve temperature in trial 3?",
+      "script": "add v1 water 0.30000000000000004L\nheat v1 520.0J\nheat v1 780.0J\nmeasure v1 temp"
+    },
+    {
+      "id": "393-water-heat-single-4",
+      "question": "What temperature follows one heat delivery in calorimetry trial 4?",
+      "script": "add v1 water 0.35000000000000003L\nheat v1 1500J\nmeasure v1 temp"
+    },
+    {
+      "id": "394-water-heat-split-4",
+      "question": "Does splitting the same heat delivery preserve temperature in trial 4?",
+      "script": "add v1 water 0.35000000000000003L\nheat v1 600.0J\nheat v1 900.0J\nmeasure v1 temp"
+    },
+    {
+      "id": "395-thermal-mix-forward-1",
+      "question": "What equilibrium temperature follows hot-first mixing trial 1?",
+      "script": "add v1 water 0.18L\nheat v1 1200J\nnew\nadd v2 water 0.27L\ncool v2 500J\nnew\nmix v1 1 v2 1 into v3\nmeasure v3 temp"
+    },
+    {
+      "id": "396-thermal-mix-reverse-1",
+      "question": "Does operand reversal preserve the mixed temperature in trial 1?",
+      "script": "add v1 water 0.18L\nheat v1 1200J\nnew\nadd v2 water 0.27L\ncool v2 500J\nnew\nmix v2 1 v1 1 into v3\nmeasure v3 temp"
+    },
+    {
+      "id": "397-thermal-mix-forward-2",
+      "question": "What equilibrium temperature follows hot-first mixing trial 2?",
+      "script": "add v1 water 0.19999999999999998L\nheat v1 1350J\nnew\nadd v2 water 0.30000000000000004L\ncool v2 600J\nnew\nmix v1 1 v2 1 into v3\nmeasure v3 temp"
+    },
+    {
+      "id": "398-thermal-mix-reverse-2",
+      "question": "Does operand reversal preserve the mixed temperature in trial 2?",
+      "script": "add v1 water 0.19999999999999998L\nheat v1 1350J\nnew\nadd v2 water 0.30000000000000004L\ncool v2 600J\nnew\nmix v2 1 v1 1 into v3\nmeasure v3 temp"
+    },
+    {
+      "id": "399-thermal-mix-forward-3",
+      "question": "What equilibrium temperature follows hot-first mixing trial 3?",
+      "script": "add v1 water 0.22L\nheat v1 1500J\nnew\nadd v2 water 0.33L\ncool v2 700J\nnew\nmix v1 1 v2 1 into v3\nmeasure v3 temp"
+    },
+    {
+      "id": "400-thermal-mix-reverse-3",
+      "question": "Does operand reversal preserve the mixed temperature in trial 3?",
+      "script": "add v1 water 0.22L\nheat v1 1500J\nnew\nadd v2 water 0.33L\ncool v2 700J\nnew\nmix v2 1 v1 1 into v3\nmeasure v3 temp"
+    },
+    {
+      "id": "401-thermal-mix-forward-4",
+      "question": "What equilibrium temperature follows hot-first mixing trial 4?",
+      "script": "add v1 water 0.24L\nheat v1 1650J\nnew\nadd v2 water 0.36L\ncool v2 800J\nnew\nmix v1 1 v2 1 into v3\nmeasure v3 temp"
+    },
+    {
+      "id": "402-thermal-mix-reverse-4",
+      "question": "Does operand reversal preserve the mixed temperature in trial 4?",
+      "script": "add v1 water 0.24L\nheat v1 1650J\nnew\nadd v2 water 0.36L\ncool v2 800J\nnew\nmix v2 1 v1 1 into v3\nmeasure v3 temp"
+    },
+    {
+      "id": "403-thermal-roundtrip-1",
+      "question": "Does equal heating and cooling recover the initial thermal state in trial 1?",
+      "script": "add v1 water 0.24L\nheat v1 400J\ncool v1 400J\nmeasure v1 temp"
+    },
+    {
+      "id": "404-thermal-blank-1",
+      "question": "What reference temperature does untouched water have in trial 1?",
+      "script": "add v1 water 0.24L\nmeasure v1 temp"
+    },
+    {
+      "id": "405-thermal-roundtrip-2",
+      "question": "Does equal heating and cooling recover the initial thermal state in trial 2?",
+      "script": "add v1 water 0.27L\nheat v1 500J\ncool v1 500J\nmeasure v1 temp"
+    },
+    {
+      "id": "406-thermal-blank-2",
+      "question": "What reference temperature does untouched water have in trial 2?",
+      "script": "add v1 water 0.27L\nmeasure v1 temp"
+    },
+    {
+      "id": "407-thermal-roundtrip-3",
+      "question": "Does equal heating and cooling recover the initial thermal state in trial 3?",
+      "script": "add v1 water 0.3L\nheat v1 600J\ncool v1 600J\nmeasure v1 temp"
+    },
+    {
+      "id": "408-thermal-blank-3",
+      "question": "What reference temperature does untouched water have in trial 3?",
+      "script": "add v1 water 0.3L\nmeasure v1 temp"
+    },
+    {
+      "id": "409-thermal-roundtrip-4",
+      "question": "Does equal heating and cooling recover the initial thermal state in trial 4?",
+      "script": "add v1 water 0.32999999999999996L\nheat v1 700J\ncool v1 700J\nmeasure v1 temp"
+    },
+    {
+      "id": "410-thermal-blank-4",
+      "question": "What reference temperature does untouched water have in trial 4?",
+      "script": "add v1 water 0.32999999999999996L\nmeasure v1 temp"
+    }
+  ],
+  "relations": [
+    {
+      "id": "r387-01-heat-partition-1",
+      "kind": "metamorphic",
+      "cases": [
+        "387-water-heat-single-1",
+        "388-water-heat-split-1"
+      ],
+      "assertion": "final-scalar-equal",
+      "description": "Partitioning heat input must preserve final temperature.",
+      "parameters": {
+        "path": "v1.temperature",
+        "rtol": 1e-10,
+        "atol": 1e-08
+      }
+    },
+    {
+      "id": "r387-02-heat-partition-2",
+      "kind": "metamorphic",
+      "cases": [
+        "389-water-heat-single-2",
+        "390-water-heat-split-2"
+      ],
+      "assertion": "final-scalar-equal",
+      "description": "Partitioning heat input must preserve final temperature.",
+      "parameters": {
+        "path": "v1.temperature",
+        "rtol": 1e-10,
+        "atol": 1e-08
+      }
+    },
+    {
+      "id": "r387-03-heat-partition-3",
+      "kind": "metamorphic",
+      "cases": [
+        "391-water-heat-single-3",
+        "392-water-heat-split-3"
+      ],
+      "assertion": "final-scalar-equal",
+      "description": "Partitioning heat input must preserve final temperature.",
+      "parameters": {
+        "path": "v1.temperature",
+        "rtol": 1e-10,
+        "atol": 1e-08
+      }
+    },
+    {
+      "id": "r387-04-heat-partition-4",
+      "kind": "metamorphic",
+      "cases": [
+        "393-water-heat-single-4",
+        "394-water-heat-split-4"
+      ],
+      "assertion": "final-scalar-equal",
+      "description": "Partitioning heat input must preserve final temperature.",
+      "parameters": {
+        "path": "v1.temperature",
+        "rtol": 1e-10,
+        "atol": 1e-08
+      }
+    },
+    {
+      "id": "r387-05-mix-order-1",
+      "kind": "metamorphic",
+      "cases": [
+        "395-thermal-mix-forward-1",
+        "396-thermal-mix-reverse-1"
+      ],
+      "assertion": "final-scalar-equal",
+      "description": "Mix operand order must not change receiver temperature.",
+      "parameters": {
+        "path": "v3.temperature",
+        "rtol": 1e-10,
+        "atol": 1e-08
+      }
+    },
+    {
+      "id": "r387-06-mix-order-2",
+      "kind": "metamorphic",
+      "cases": [
+        "397-thermal-mix-forward-2",
+        "398-thermal-mix-reverse-2"
+      ],
+      "assertion": "final-scalar-equal",
+      "description": "Mix operand order must not change receiver temperature.",
+      "parameters": {
+        "path": "v3.temperature",
+        "rtol": 1e-10,
+        "atol": 1e-08
+      }
+    },
+    {
+      "id": "r387-07-mix-order-3",
+      "kind": "metamorphic",
+      "cases": [
+        "399-thermal-mix-forward-3",
+        "400-thermal-mix-reverse-3"
+      ],
+      "assertion": "final-scalar-equal",
+      "description": "Mix operand order must not change receiver temperature.",
+      "parameters": {
+        "path": "v3.temperature",
+        "rtol": 1e-10,
+        "atol": 1e-08
+      }
+    },
+    {
+      "id": "r387-08-mix-order-4",
+      "kind": "metamorphic",
+      "cases": [
+        "401-thermal-mix-forward-4",
+        "402-thermal-mix-reverse-4"
+      ],
+      "assertion": "final-scalar-equal",
+      "description": "Mix operand order must not change receiver temperature.",
+      "parameters": {
+        "path": "v3.temperature",
+        "rtol": 1e-10,
+        "atol": 1e-08
+      }
+    },
+    {
+      "id": "r387-09-energy-roundtrip-1",
+      "kind": "metamorphic",
+      "cases": [
+        "403-thermal-roundtrip-1",
+        "404-thermal-blank-1"
+      ],
+      "assertion": "final-scalar-equal",
+      "description": "Equal positive and negative energy transfers must recover temperature.",
+      "parameters": {
+        "path": "v1.temperature",
+        "rtol": 1e-10,
+        "atol": 1e-08
+      }
+    },
+    {
+      "id": "r387-10-energy-roundtrip-2",
+      "kind": "metamorphic",
+      "cases": [
+        "405-thermal-roundtrip-2",
+        "406-thermal-blank-2"
+      ],
+      "assertion": "final-scalar-equal",
+      "description": "Equal positive and negative energy transfers must recover temperature.",
+      "parameters": {
+        "path": "v1.temperature",
+        "rtol": 1e-10,
+        "atol": 1e-08
+      }
+    },
+    {
+      "id": "r387-11-energy-roundtrip-3",
+      "kind": "metamorphic",
+      "cases": [
+        "407-thermal-roundtrip-3",
+        "408-thermal-blank-3"
+      ],
+      "assertion": "final-scalar-equal",
+      "description": "Equal positive and negative energy transfers must recover temperature.",
+      "parameters": {
+        "path": "v1.temperature",
+        "rtol": 1e-10,
+        "atol": 1e-08
+      }
+    },
+    {
+      "id": "r387-12-energy-roundtrip-4",
+      "kind": "metamorphic",
+      "cases": [
+        "409-thermal-roundtrip-4",
+        "410-thermal-blank-4"
+      ],
+      "assertion": "final-scalar-equal",
+      "description": "Equal positive and negative energy transfers must recover temperature.",
+      "parameters": {
+        "path": "v1.temperature",
+        "rtol": 1e-10,
+        "atol": 1e-08
+      }
+    }
+  ]
+}

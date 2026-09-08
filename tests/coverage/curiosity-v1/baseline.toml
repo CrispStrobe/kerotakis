@@ -2388,7 +2388,7 @@ reason_code = "computed-route"
 id = "th-023"
 owning_task = "CAP-25"
 outcome = "computed"
-reason_code = "computed-route"
+reason_code = "typed-engine-event"
 
 [[observation]]
 id = "th-024"
@@ -2831,8 +2831,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "th-097"
 owning_task = "BRD-032"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "th-098"

@@ -1,0 +1,331 @@
+{
+  "schema": "kerotakis-source-fleet-v1",
+  "family": "observables-negative-controls",
+  "title": "Observables and negative controls",
+  "cases": [
+    {
+      "id": "435-conductivity-nitrate-once",
+      "question": "What conductivity is reported for a dilute potassium nitrate solution?",
+      "script": "add v1 water 0.40L\nadd v1 KNO3 0.00012mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "436-conductivity-nitrate-repeat",
+      "question": "Does immediately repeating a conductivity reading leave it unchanged?",
+      "script": "add v1 water 0.40L\nadd v1 KNO3 0.00012mol\nmeasure v1 conductivity\nmeasure v1 conductivity"
+    },
+    {
+      "id": "437-ph-acid-once",
+      "question": "What pH is reported for a finite dilute hydrochloric acid dose?",
+      "script": "add v1 water 0.55L\nadd v1 HCl 0.00011mol\nmeasure v1 ph"
+    },
+    {
+      "id": "438-ph-acid-repeat",
+      "question": "Does an immediate second pH reading reproduce the first?",
+      "script": "add v1 water 0.55L\nadd v1 HCl 0.00011mol\nmeasure v1 ph\nmeasure v1 ph"
+    },
+    {
+      "id": "439-temperature-water-once",
+      "question": "What temperature is reported after a defined heat input?",
+      "script": "add v1 water 0.33L\nheat v1 330J\nmeasure v1 temp"
+    },
+    {
+      "id": "440-temperature-water-repeat",
+      "question": "Does observing temperature twice avoid changing the thermal state?",
+      "script": "add v1 water 0.33L\nheat v1 330J\nmeasure v1 temp\nmeasure v1 temp"
+    },
+    {
+      "id": "441-pressure-nitrogen-once",
+      "question": "What pressure does a sealed finite nitrogen inventory establish?",
+      "script": "seal v1 0.42L\nadd v1 N2 0.0031mol\nmeasure v1 pressure"
+    },
+    {
+      "id": "442-pressure-nitrogen-repeat",
+      "question": "Does repeating a pressure reading preserve the same gas state?",
+      "script": "seal v1 0.42L\nadd v1 N2 0.0031mol\nmeasure v1 pressure\nmeasure v1 pressure"
+    },
+    {
+      "id": "443-balance-water-once",
+      "question": "What mass does the balance report for this water portion?",
+      "script": "add v1 water 0.21L\nmeasure v1 balance"
+    },
+    {
+      "id": "444-balance-water-repeat",
+      "question": "Does a second balance reading leave mass unchanged?",
+      "script": "add v1 water 0.21L\nmeasure v1 balance\nmeasure v1 balance"
+    },
+    {
+      "id": "445-conductivity-water-blank",
+      "question": "Does plain water provide an explicit conductivity blank?",
+      "script": "add v1 water 0.37L\nmeasure v1 conductivity"
+    },
+    {
+      "id": "446-conductivity-glucose-control",
+      "question": "Does neutral glucose avoid impersonating a strong electrolyte?",
+      "script": "add v1 water 0.37L\nadd v1 glucose 0.00010mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "447-look-water-before-wait",
+      "question": "What visible features are reported for plain water before waiting?",
+      "script": "add v1 water 0.29L\nlook v1"
+    },
+    {
+      "id": "448-look-water-after-wait",
+      "question": "Does waiting alone avoid inventing a visible change in plain water?",
+      "script": "add v1 water 0.29L\nwait 2s\nlook v1"
+    },
+    {
+      "id": "449-filter-glucose-before",
+      "question": "What carbon inventory is present before filtering dissolved glucose?",
+      "script": "add v1 water 0.31L\nadd v1 glucose 0.0009mol\nnew\nfilter v1 v2"
+    },
+    {
+      "id": "450-filter-glucose-after-wait",
+      "question": "Does waiting before filtering invent a retained glucose solid?",
+      "script": "add v1 water 0.31L\nadd v1 glucose 0.0009mol\nwait 3s\nnew\nfilter v1 v2"
+    },
+    {
+      "id": "451-inert-potassium-before-ignite",
+      "question": "What mass and temperature describe potassium chloride before an ignition request?",
+      "script": "add v1 KCl 0.003mol\nmeasure v1 balance\nmeasure v1 temp"
+    },
+    {
+      "id": "452-inert-potassium-after-ignite",
+      "question": "Does an ignition request avoid consuming inert potassium chloride?",
+      "script": "add v1 KCl 0.003mol\nignite v1\nmeasure v1 balance\nmeasure v1 temp"
+    },
+    {
+      "id": "453-dry-nitrogen-before-wait",
+      "question": "What pressure is observed for sealed nitrogen before waiting?",
+      "script": "seal v1 0.48L\nadd v1 N2 0.0036mol\nmeasure v1 pressure"
+    },
+    {
+      "id": "454-dry-nitrogen-after-wait",
+      "question": "Does waiting without a process leave sealed nitrogen pressure unchanged?",
+      "script": "seal v1 0.48L\nadd v1 N2 0.0036mol\nwait 4s\nmeasure v1 pressure"
+    },
+    {
+      "id": "455-water-balance-before-filter",
+      "question": "What total mass enters a filter when only water is present?",
+      "script": "add v1 water 0.26L\nnew\nmeasure v1 balance\nfilter v1 v2"
+    },
+    {
+      "id": "456-water-balance-after-filter",
+      "question": "Does filtering plain water conserve combined vessel mass?",
+      "script": "add v1 water 0.26L\nnew\nfilter v1 v2\nmeasure v2 balance"
+    },
+    {
+      "id": "457-glucose-ph-before-wait",
+      "question": "What pH is reported for a neutral glucose control?",
+      "script": "add v1 water 0.43L\nadd v1 glucose 0.0002mol\nmeasure v1 ph"
+    },
+    {
+      "id": "458-glucose-ph-after-wait",
+      "question": "Does waiting alone avoid generating acidity in the glucose control?",
+      "script": "add v1 water 0.43L\nadd v1 glucose 0.0002mol\nwait 5s\nmeasure v1 ph"
+    }
+  ],
+  "relations": [
+    {
+      "id": "r435-01-conductivity-repeat",
+      "kind": "metamorphic",
+      "cases": [
+        "435-conductivity-nitrate-once",
+        "436-conductivity-nitrate-repeat"
+      ],
+      "assertion": "event-scalar-equal",
+      "description": "Repeated conductivity readings must agree.",
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "first,last",
+        "atol": 1e-12,
+        "rtol": 1e-10
+      }
+    },
+    {
+      "id": "r435-02-ph-repeat",
+      "kind": "metamorphic",
+      "cases": [
+        "437-ph-acid-once",
+        "438-ph-acid-repeat"
+      ],
+      "assertion": "event-scalar-equal",
+      "description": "Repeated pH readings must agree.",
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "first,last",
+        "atol": 1e-10,
+        "rtol": 1e-10
+      }
+    },
+    {
+      "id": "r435-03-temperature-repeat",
+      "kind": "metamorphic",
+      "cases": [
+        "439-temperature-water-once",
+        "440-temperature-water-repeat"
+      ],
+      "assertion": "event-scalar-equal",
+      "description": "Repeated temperature readings must agree.",
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "first,last",
+        "atol": 1e-09,
+        "rtol": 1e-10
+      }
+    },
+    {
+      "id": "r435-04-pressure-repeat",
+      "kind": "metamorphic",
+      "cases": [
+        "441-pressure-nitrogen-once",
+        "442-pressure-nitrogen-repeat"
+      ],
+      "assertion": "event-scalar-equal",
+      "description": "Repeated pressure readings must agree.",
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "first,last",
+        "atol": 1e-06,
+        "rtol": 1e-10
+      }
+    },
+    {
+      "id": "r435-05-balance-repeat",
+      "kind": "metamorphic",
+      "cases": [
+        "443-balance-water-once",
+        "444-balance-water-repeat"
+      ],
+      "assertion": "event-scalar-equal",
+      "description": "Repeated balance readings must agree.",
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "first,last",
+        "atol": 1e-09,
+        "rtol": 1e-10
+      }
+    },
+    {
+      "id": "r435-06-neutral-solute-conductivity",
+      "kind": "metamorphic",
+      "cases": [
+        "445-conductivity-water-blank",
+        "446-conductivity-glucose-control"
+      ],
+      "assertion": "event-scalar-order",
+      "description": "Neutral glucose must not exceed the water blank as though fully ionic.",
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "decreasing",
+        "min_delta": 0.0
+      }
+    },
+    {
+      "id": "r435-07-water-wait-null",
+      "kind": "metamorphic",
+      "cases": [
+        "447-look-water-before-wait",
+        "448-look-water-after-wait"
+      ],
+      "assertion": "final-inventory-equal",
+      "description": "Waiting must not invent material in plain water.",
+      "parameters": {
+        "species": [
+          "water"
+        ],
+        "rtol": 1e-10,
+        "atol": 1e-12
+      }
+    },
+    {
+      "id": "r435-08-glucose-wait-null",
+      "kind": "conservation",
+      "cases": [
+        "449-filter-glucose-before",
+        "450-filter-glucose-after-wait"
+      ],
+      "assertion": "final-elements-equal",
+      "description": "Waiting must not create a filterable carbon-bearing phase.",
+      "parameters": {
+        "elements": [
+          "C",
+          "H",
+          "O"
+        ]
+      }
+    },
+    {
+      "id": "r435-09-inert-ignite-null",
+      "kind": "conservation",
+      "cases": [
+        "451-inert-potassium-before-ignite",
+        "452-inert-potassium-after-ignite"
+      ],
+      "assertion": "final-elements-equal",
+      "description": "An unsupported combustion path must not consume potassium chloride.",
+      "parameters": {
+        "elements": [
+          "K",
+          "Cl"
+        ],
+        "rtol": 1e-10,
+        "atol": 1e-12
+      }
+    },
+    {
+      "id": "r435-10-gas-wait-null",
+      "kind": "metamorphic",
+      "cases": [
+        "453-dry-nitrogen-before-wait",
+        "454-dry-nitrogen-after-wait"
+      ],
+      "assertion": "final-scalar-equal",
+      "description": "Waiting without a process must preserve sealed-gas pressure.",
+      "parameters": {
+        "path": "v1.pressure",
+        "rtol": 1e-10,
+        "atol": 1e-06
+      }
+    },
+    {
+      "id": "r435-11-water-filter-mass",
+      "kind": "conservation",
+      "cases": [
+        "455-water-balance-before-filter",
+        "456-water-balance-after-filter"
+      ],
+      "assertion": "final-elements-equal",
+      "description": "Filtering plain water must conserve hydrogen and oxygen across vessels.",
+      "parameters": {
+        "elements": [
+          "H",
+          "O"
+        ]
+      }
+    },
+    {
+      "id": "r435-12-glucose-ph-wait-null",
+      "kind": "metamorphic",
+      "cases": [
+        "457-glucose-ph-before-wait",
+        "458-glucose-ph-after-wait"
+      ],
+      "assertion": "event-scalar-equal",
+      "description": "Waiting alone must not alter neutral-solute pH.",
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "rtol": 1e-10,
+        "atol": 1e-09
+      }
+    }
+  ]
+}

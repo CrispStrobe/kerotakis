@@ -1,0 +1,281 @@
+{
+  "schema": "kerotakis-source-fleet-v1",
+  "family": "acid-base-buffers",
+  "cases": [
+    {
+      "id": "219-strong-acid-0.00025",
+      "question": "How does increasing strong-acid amount move the pH of a fixed water portion?",
+      "script": "add v1 water 400mL\nadd v1 HCl 0.00025mol\nmeasure v1 ph"
+    },
+    {
+      "id": "220-strong-acid-0.0005",
+      "question": "How does increasing strong-acid amount move the pH of a fixed water portion?",
+      "script": "add v1 water 400mL\nadd v1 HCl 0.0005mol\nmeasure v1 ph"
+    },
+    {
+      "id": "221-strong-acid-0.001",
+      "question": "How does increasing strong-acid amount move the pH of a fixed water portion?",
+      "script": "add v1 water 400mL\nadd v1 HCl 0.001mol\nmeasure v1 ph"
+    },
+    {
+      "id": "222-strong-acid-0.002",
+      "question": "How does increasing strong-acid amount move the pH of a fixed water portion?",
+      "script": "add v1 water 400mL\nadd v1 HCl 0.002mol\nmeasure v1 ph"
+    },
+    {
+      "id": "223-acid-dilution-100",
+      "question": "Does diluting a fixed strong-acid amount raise pH while retaining its atoms?",
+      "script": "add v1 water 100mL\nadd v1 HCl 0.0012mol\nmeasure v1 ph"
+    },
+    {
+      "id": "224-acid-dilution-200",
+      "question": "Does diluting a fixed strong-acid amount raise pH while retaining its atoms?",
+      "script": "add v1 water 200mL\nadd v1 HCl 0.0012mol\nmeasure v1 ph"
+    },
+    {
+      "id": "225-acid-dilution-400",
+      "question": "Does diluting a fixed strong-acid amount raise pH while retaining its atoms?",
+      "script": "add v1 water 400mL\nadd v1 HCl 0.0012mol\nmeasure v1 ph"
+    },
+    {
+      "id": "226-acid-dilution-800",
+      "question": "Does diluting a fixed strong-acid amount raise pH while retaining its atoms?",
+      "script": "add v1 water 800mL\nadd v1 HCl 0.0012mol\nmeasure v1 ph"
+    },
+    {
+      "id": "227-strong-base-0.00025",
+      "question": "How does increasing strong-base amount move the pH of a fixed water portion?",
+      "script": "add v1 water 400mL\nadd v1 NaOH 0.00025mol\nmeasure v1 ph"
+    },
+    {
+      "id": "228-strong-base-0.0005",
+      "question": "How does increasing strong-base amount move the pH of a fixed water portion?",
+      "script": "add v1 water 400mL\nadd v1 NaOH 0.0005mol\nmeasure v1 ph"
+    },
+    {
+      "id": "229-strong-base-0.001",
+      "question": "How does increasing strong-base amount move the pH of a fixed water portion?",
+      "script": "add v1 water 400mL\nadd v1 NaOH 0.001mol\nmeasure v1 ph"
+    },
+    {
+      "id": "230-strong-base-0.002",
+      "question": "How does increasing strong-base amount move the pH of a fixed water portion?",
+      "script": "add v1 water 400mL\nadd v1 NaOH 0.002mol\nmeasure v1 ph"
+    },
+    {
+      "id": "231-neutral-order-acid-first",
+      "question": "Does reagent order alter a neutral strong-acid/strong-base inventory?",
+      "script": "add v1 water 300mL\nadd v1 HCl 0.001mol\nadd v1 NaOH 0.001mol\nmeasure v1 ph"
+    },
+    {
+      "id": "232-neutral-order-base-first",
+      "question": "Does reversing reagent order alter the same neutral inventory?",
+      "script": "add v1 water 300mL\nadd v1 NaOH 0.001mol\nadd v1 HCl 0.001mol\nmeasure v1 ph"
+    },
+    {
+      "id": "233-neutral-split-acid",
+      "question": "Does splitting the acid addition alter the neutral final inventory?",
+      "script": "add v1 water 300mL\nadd v1 HCl 0.0004mol\nadd v1 HCl 0.0006mol\nadd v1 NaOH 0.001mol\nmeasure v1 ph"
+    },
+    {
+      "id": "234-neutral-split-base",
+      "question": "Does splitting the base addition alter the neutral final inventory?",
+      "script": "add v1 water 300mL\nadd v1 HCl 0.001mol\nadd v1 NaOH 0.0003mol\nadd v1 NaOH 0.0007mol\nmeasure v1 ph"
+    },
+    {
+      "id": "235-acetate-buffer-0.001",
+      "question": "How does added conjugate base change the pH of a fixed weak-acid portion?",
+      "script": "add v1 water 400mL\nadd v1 CH3COOH 0.004mol\nadd v1 NaOAc 0.001mol\nmeasure v1 ph"
+    },
+    {
+      "id": "236-acetate-buffer-0.002",
+      "question": "How does added conjugate base change the pH of a fixed weak-acid portion?",
+      "script": "add v1 water 400mL\nadd v1 CH3COOH 0.004mol\nadd v1 NaOAc 0.002mol\nmeasure v1 ph"
+    },
+    {
+      "id": "237-acetate-buffer-0.004",
+      "question": "How does added conjugate base change the pH of a fixed weak-acid portion?",
+      "script": "add v1 water 400mL\nadd v1 CH3COOH 0.004mol\nadd v1 NaOAc 0.004mol\nmeasure v1 ph"
+    },
+    {
+      "id": "238-acetate-buffer-0.008",
+      "question": "How does added conjugate base change the pH of a fixed weak-acid portion?",
+      "script": "add v1 water 400mL\nadd v1 CH3COOH 0.004mol\nadd v1 NaOAc 0.008mol\nmeasure v1 ph"
+    },
+    {
+      "id": "239-buffer-extensive-1",
+      "question": "Does extensive scaling preserve the pH of an acetate buffer?",
+      "script": "add v1 water 180mL\nadd v1 CH3COOH 0.0018mol\nadd v1 NaOAc 0.0018mol\nmeasure v1 ph"
+    },
+    {
+      "id": "240-buffer-extensive-2",
+      "question": "Does extensive scaling preserve the pH of an acetate buffer?",
+      "script": "add v1 water 360mL\nadd v1 CH3COOH 0.0036mol\nadd v1 NaOAc 0.0036mol\nmeasure v1 ph"
+    },
+    {
+      "id": "241-buffer-extensive-3",
+      "question": "Does extensive scaling preserve the pH of an acetate buffer?",
+      "script": "add v1 water 540mL\nadd v1 CH3COOH 0.0054mol\nadd v1 NaOAc 0.0054mol\nmeasure v1 ph"
+    },
+    {
+      "id": "242-buffer-extensive-4",
+      "question": "Does extensive scaling preserve the pH of an acetate buffer?",
+      "script": "add v1 water 720mL\nadd v1 CH3COOH 0.0072mol\nadd v1 NaOAc 0.0072mol\nmeasure v1 ph"
+    }
+  ],
+  "relations": [
+    {
+      "id": "ab-strong-acid-monotonic",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "219-strong-acid-0.00025",
+        "220-strong-acid-0.0005",
+        "221-strong-acid-0.001",
+        "222-strong-acid-0.002"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "decreasing",
+        "min_delta": 0.2
+      }
+    },
+    {
+      "id": "ab-dilution-ph-order",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "223-acid-dilution-100",
+        "224-acid-dilution-200",
+        "225-acid-dilution-400",
+        "226-acid-dilution-800"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 0.2
+      }
+    },
+    {
+      "id": "ab-dilution-elements",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "223-acid-dilution-100",
+        "224-acid-dilution-200",
+        "225-acid-dilution-400",
+        "226-acid-dilution-800"
+      ],
+      "parameters": {
+        "elements": [
+          "H",
+          "Cl"
+        ],
+        "before_op": "measure"
+      }
+    },
+    {
+      "id": "ab-strong-base-monotonic",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "227-strong-base-0.00025",
+        "228-strong-base-0.0005",
+        "229-strong-base-0.001",
+        "230-strong-base-0.002"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 0.2
+      }
+    },
+    {
+      "id": "ab-neutral-path-independence",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "cases": [
+        "231-neutral-order-acid-first",
+        "232-neutral-order-base-first",
+        "233-neutral-split-acid",
+        "234-neutral-split-base"
+      ],
+      "parameters": {
+        "species": [
+          "water",
+          "H+",
+          "OH-",
+          "Na+",
+          "Cl-"
+        ],
+        "phases": [
+          "Liquid"
+        ],
+        "atol": 1e-09,
+        "rtol": 1e-07
+      }
+    },
+    {
+      "id": "ab-conjugate-base-order",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "235-acetate-buffer-0.001",
+        "236-acetate-buffer-0.002",
+        "237-acetate-buffer-0.004",
+        "238-acetate-buffer-0.008"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 0.1
+      }
+    },
+    {
+      "id": "ab-buffer-intensive",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-equal",
+      "cases": [
+        "239-buffer-extensive-1",
+        "240-buffer-extensive-2",
+        "241-buffer-extensive-3",
+        "242-buffer-extensive-4"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "atol": 0.03,
+        "rtol": 0.0
+      }
+    },
+    {
+      "id": "ab-buffer-conservation",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "239-buffer-extensive-1",
+        "240-buffer-extensive-2",
+        "241-buffer-extensive-3",
+        "242-buffer-extensive-4"
+      ],
+      "parameters": {
+        "elements": [
+          "C",
+          "H",
+          "O",
+          "Na"
+        ],
+        "before_op": "measure"
+      }
+    }
+  ]
+}

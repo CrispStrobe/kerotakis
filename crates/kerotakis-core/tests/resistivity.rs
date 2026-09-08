@@ -163,6 +163,60 @@ fn an_aqueous_vessel_stays_the_solution_meters_business() {
     assert!(dry_solid_conductance(vessel(&bench)).is_none());
 }
 
+#[test]
+fn pure_water_and_nonionic_solute_have_an_explicit_limiting_law_blank() {
+    use kerotakis_core::conductivity::nonionic_aqueous_conductance;
+    let water = run(&["add v1 water 400mL"]);
+    let glucose = run(&["add v1 water 400mL", "add v1 glucose 0.00008mol"]);
+    let acid = run(&["add v1 water 400mL", "add v1 malic_acid 0.00008mol"]);
+    let electrolyte = run(&["add v1 water 400mL", "add v1 KNO3 0.00008mol"]);
+    let mut warm = vessel(&water).clone();
+    warm.temperature = kerotakis_core::units::Kelvin(310.0);
+
+    let expected = (349.65 + 198.0) * 1e-7 * 1000.0;
+    assert!((nonionic_aqueous_conductance(vessel(&water)).unwrap() - expected).abs() < 1e-12);
+    assert!((nonionic_aqueous_conductance(vessel(&glucose)).unwrap() - expected).abs() < 1e-12);
+    assert!(nonionic_aqueous_conductance(vessel(&acid)).is_none());
+    assert!(nonionic_aqueous_conductance(vessel(&electrolyte)).is_none());
+    assert!(nonionic_aqueous_conductance(&warm).is_none());
+}
+
+#[test]
+fn a_nonionic_aqueous_blank_has_an_explicit_neutral_ph_reading() {
+    use kerotakis_core::*;
+    let mut bench = Bench::new();
+    let mut solver = SolverStack::new(vec![
+        Box::new(MixingEquilibrator),
+        Box::new(HonestyEquilibrator),
+    ]);
+    for command in ["add v1 water 400mL", "add v1 glucose 0.00008mol"] {
+        let op = parse_op(command).expect("parse").expect("operator");
+        bench
+            .step_with(op, &mut solver, &PermissiveScreen)
+            .expect("step");
+    }
+    let events = bench
+        .step_with(
+            Operator::Measure {
+                vessel: VesselId(0),
+                instrument: Instrument::PhMeter,
+            },
+            &mut solver,
+            &PermissiveScreen,
+        )
+        .expect("measure");
+    assert!(
+        events.iter().any(|event| matches!(
+            event,
+            Event::Measured { value, unit, note: Some(note), .. }
+                if (*value - 7.0).abs() < f64::EPSILON
+                    && unit == "pH"
+                    && note.contains("water-autoprotolysis baseline")
+        )),
+        "{events:?}"
+    );
+}
+
 // ── The bench arm: `measure <vessel> conductivity` on a dry metal ────────
 
 #[test]

@@ -308,6 +308,55 @@ pub fn specific_conductance(info: &SolutionInfo) -> Estimate {
     }
 }
 
+/// The 25 °C limiting-law reading for water containing only explicitly
+/// nonionic solutes. Such solutes deliberately have no PHREEQC speciation,
+/// but that must not make a conductivity probe disappear. The water baseline
+/// is derived from 10⁻⁷ mol/L each of H⁺ and OH⁻ and the same limiting ionic
+/// conductivities used by [`specific_conductance`].
+pub fn nonionic_aqueous_conductance(vessel: &Vessel) -> Option<f64> {
+    if vessel.solution.is_some()
+        || vessel.liquid_volume().0 <= 0.0
+        || !vessel.unresolved_materials.is_empty()
+        || (vessel.temperature.0 - 298.15).abs() > 0.01
+    {
+        return None;
+    }
+    neutral_water_contents(vessel).then(|| {
+        let lambda = |name| {
+            LIMITING_CONDUCTIVITY
+                .iter()
+                .find(|(key, _)| *key == name)
+                .expect("H+ and OH- limiting conductivities are curated")
+                .1
+        };
+        (lambda("H+") + lambda("OH-")) * 1e-7 * 1000.0
+    })
+}
+
+/// Ideal pH for a room-temperature water blank containing only solutes whose
+/// acid/base neutrality is explicitly admitted here. This is deliberately
+/// narrower than `dissolves_without_speciation`: that dissolution flag also
+/// covers substances whose acid/base chemistry is merely not implemented.
+pub fn neutral_aqueous_ph(vessel: &Vessel) -> Option<f64> {
+    if vessel.solution.is_some()
+        || vessel.liquid_volume().0 <= 0.0
+        || !vessel.unresolved_materials.is_empty()
+        || (vessel.temperature.0 - 298.15).abs() > 0.01
+    {
+        return None;
+    }
+    neutral_water_contents(vessel).then_some(7.0)
+}
+
+fn neutral_water_contents(vessel: &Vessel) -> bool {
+    // This is a reviewed chemistry assertion, not an inference from
+    // `dissolves_without_speciation`, which also covers unmodelled acids.
+    const NEUTRAL_UNSPECIATED: &[&str] = &["glucose"];
+    vessel.contents.iter().all(|portion| {
+        portion.species.0 == "water" || NEUTRAL_UNSPECIATED.contains(&portion.species.0.as_str())
+    })
+}
+
 /// What the meter reads from a dry solid: the curated resistivity, its
 /// reciprocal, and the citation that has to travel with both.
 ///

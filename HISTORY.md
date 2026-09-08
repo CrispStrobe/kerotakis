@@ -14,6 +14,14 @@ it had while it was open, which is why a few numbers appear twice below.
 
 ## 2026-09-08
 
+**Source-fleet coverage audit**
+
+- Audited the two curiosity-coverage movements row by row: sealed inert-gas
+  warming now remains on the typed pressure/thermal event path instead of
+  being claimed by combustion equilibrium (`th-023`), while steam
+  condensation reports the curated latent-heat phase route that actually
+  answered it (`th-097`). No unrelated baseline was regenerated.
+
 **Coverage contract**
 
 - **The curiosity grade is a floor, and the previous count is gone.**
@@ -51,6 +59,14 @@ it had while it was open, which is why a few numbers appear twice below.
   seven broken**, not ten and seven, because `aq-037` requires `curated` and
   lands on `computed`, which reverses the sign of the document's own
   conclusion from a losing trade to a two-row improvement
+
+**Experiment audit**
+
+- **EXP-53 continuation** — moved frozen cases 195–218 onto a dedicated GitHub
+  CI fleet: the runner builds the audited CLI from the workflow revision,
+  isolates all 24 scripts, binds the frozen harness and contract by SHA-256,
+  applies 66 predeclared independent checks and uploads raw evidence even when
+  a check fails; no fleet build is charged to the deployment VPS
 
 **Engine**
 

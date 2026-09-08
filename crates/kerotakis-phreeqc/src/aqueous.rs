@@ -1345,7 +1345,19 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
         }
     };
 
-    for p in &vessel.contents {
+    // Equivalent inventories must pose byte-identical nonlinear problems.
+    // Vessel contents retain learner feed order, which is meaningful for the
+    // narrative but not for an equilibrium state function. Accumulating and
+    // emitting in that order changed PHREEQC's iteration path at trace scale.
+    let mut contents: Vec<_> = vessel.contents.iter().collect();
+    contents.sort_by(|a, b| {
+        a.species
+            .0
+            .cmp(&b.species.0)
+            .then_with(|| a.phase.cmp(&b.phase))
+            .then_with(|| a.moles.0.total_cmp(&b.moles.0))
+    });
+    for p in contents {
         if p.phase == Phase::Gas {
             // Explicit gas boundaries are handled before analytical solutes.
             if let Some(volume) = vessel.headspace_volume() {
@@ -1666,6 +1678,25 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
             }
         }
     }
+    totals.sort_by(|a, b| a.0.cmp(&b.0));
+    phases.sort_by(|a, b| {
+        a.0.cmp(&b.0)
+            .then_with(|| a.1.total_cmp(&b.1))
+            .then_with(|| a.2.total_cmp(&b.2))
+    });
+    gases.sort_by(|a, b| {
+        a.0.cmp(&b.0)
+            .then_with(|| a.1.cmp(&b.1))
+            .then_with(|| a.2.total_cmp(&b.2))
+    });
+    external_gases.sort_by(|a, b| {
+        a.phase
+            .cmp(&b.phase)
+            .then_with(|| a.species.cmp(&b.species))
+            .then_with(|| a.initial_moles.total_cmp(&b.initial_moles))
+    });
+    elements.sort();
+
     Some(Problem {
         kgw,
         solvent_only,
@@ -5338,7 +5369,8 @@ pub(crate) fn parse_species_distribution(output: &str) -> Vec<SpeciesDetail> {
 
 #[cfg(test)]
 mod oxidation_sum_tests {
-    use super::oxidation_sum;
+    use super::{build_input, oxidation_sum, partition};
+    use kerotakis_core::{Moles, Phase, SpeciesId, Vessel, VesselId};
 
     fn rows(header: &[&str], values: &[&str]) -> Vec<Vec<String>> {
         [header, values]
@@ -5390,6 +5422,27 @@ mod oxidation_sum_tests {
         assert_eq!(
             oxidation_sum(&rows(&["S(-2)", "S(6)"], &["0", "0"]), &columns, 1.0),
             Some(0.0)
+        );
+    }
+
+    #[test]
+    fn equilibrium_input_is_independent_of_feed_order() {
+        fn silver_chloride_feed(order: &[&str]) -> Vessel {
+            let mut vessel = Vessel::new(VesselId(0), "feed order");
+            vessel.deposit(SpeciesId::new("water"), Moles(16.65), Phase::Liquid);
+            for species in order {
+                vessel.deposit(SpeciesId::new(species), Moles(0.0012), Phase::Solid);
+            }
+            vessel
+        }
+
+        let forward = silver_chloride_feed(&["NaCl", "AgNO3"]);
+        let reverse = silver_chloride_feed(&["AgNO3", "NaCl"]);
+        let forward_problem = partition(&forward).expect("aqueous problem");
+        let reverse_problem = partition(&reverse).expect("aqueous problem");
+        assert_eq!(
+            build_input(&forward, &forward_problem, "minteq.v4"),
+            build_input(&reverse, &reverse_problem, "minteq.v4")
         );
     }
 }

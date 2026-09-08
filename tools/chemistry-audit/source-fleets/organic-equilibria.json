@@ -1,0 +1,372 @@
+{
+  "schema": "kerotakis-source-fleet-v1",
+  "family": "organic-equilibria",
+  "title": "Organic equilibria",
+  "cases": [
+    {
+      "id": "411-ester-feed-forward-1",
+      "question": "What equilibrium follows organic feed arrangement 1?",
+      "script": "add v1 CH3COOH 0.013mol\nadd v1 ethanol 0.009mol\nadd v1 ethyl_acetate 0.002mol\nadd v1 water 0.005mol\nreact v1 esterification"
+    },
+    {
+      "id": "412-ester-feed-reverse-1",
+      "question": "Does reversing all feeds preserve organic equilibrium 1?",
+      "script": "add v1 water 0.005mol\nadd v1 ethyl_acetate 0.002mol\nadd v1 ethanol 0.009mol\nadd v1 CH3COOH 0.013mol\nreact v1 esterification"
+    },
+    {
+      "id": "413-ester-feed-forward-2",
+      "question": "What equilibrium follows organic feed arrangement 2?",
+      "script": "add v1 CH3COOH 0.011mol\nadd v1 ethanol 0.016mol\nadd v1 ethyl_acetate 0.003mol\nadd v1 water 0.004mol\nreact v1 esterification"
+    },
+    {
+      "id": "414-ester-feed-reverse-2",
+      "question": "Does reversing all feeds preserve organic equilibrium 2?",
+      "script": "add v1 water 0.004mol\nadd v1 ethyl_acetate 0.003mol\nadd v1 ethanol 0.016mol\nadd v1 CH3COOH 0.011mol\nreact v1 esterification"
+    },
+    {
+      "id": "415-ester-feed-forward-3",
+      "question": "What equilibrium follows organic feed arrangement 3?",
+      "script": "add v1 CH3COOH 0.007mol\nadd v1 ethanol 0.01mol\nadd v1 ethyl_acetate 0.014mol\nadd v1 water 0.012mol\nreact v1 esterification"
+    },
+    {
+      "id": "416-ester-feed-reverse-3",
+      "question": "Does reversing all feeds preserve organic equilibrium 3?",
+      "script": "add v1 water 0.012mol\nadd v1 ethyl_acetate 0.014mol\nadd v1 ethanol 0.01mol\nadd v1 CH3COOH 0.007mol\nreact v1 esterification"
+    },
+    {
+      "id": "417-ester-feed-forward-4",
+      "question": "What equilibrium follows organic feed arrangement 4?",
+      "script": "add v1 CH3COOH 0.018mol\nadd v1 ethanol 0.006mol\nadd v1 ethyl_acetate 0.001mol\nadd v1 water 0.009mol\nreact v1 esterification"
+    },
+    {
+      "id": "418-ester-feed-reverse-4",
+      "question": "Does reversing all feeds preserve organic equilibrium 4?",
+      "script": "add v1 water 0.009mol\nadd v1 ethyl_acetate 0.001mol\nadd v1 ethanol 0.006mol\nadd v1 CH3COOH 0.018mol\nreact v1 esterification"
+    },
+    {
+      "id": "419-ester-feed-forward-5",
+      "question": "What equilibrium follows organic feed arrangement 5?",
+      "script": "add v1 CH3COOH 0.008mol\nadd v1 ethanol 0.012mol\nadd v1 ethyl_acetate 0.02mol\nadd v1 water 0.007mol\nreact v1 esterification"
+    },
+    {
+      "id": "420-ester-feed-reverse-5",
+      "question": "Does reversing all feeds preserve organic equilibrium 5?",
+      "script": "add v1 water 0.007mol\nadd v1 ethyl_acetate 0.02mol\nadd v1 ethanol 0.012mol\nadd v1 CH3COOH 0.008mol\nreact v1 esterification"
+    },
+    {
+      "id": "421-ester-feed-forward-6",
+      "question": "What equilibrium follows organic feed arrangement 6?",
+      "script": "add v1 CH3COOH 0.021mol\nadd v1 ethanol 0.015mol\nadd v1 ethyl_acetate 0.004mol\nadd v1 water 0.003mol\nreact v1 esterification"
+    },
+    {
+      "id": "422-ester-feed-reverse-6",
+      "question": "Does reversing all feeds preserve organic equilibrium 6?",
+      "script": "add v1 water 0.003mol\nadd v1 ethyl_acetate 0.004mol\nadd v1 ethanol 0.015mol\nadd v1 CH3COOH 0.021mol\nreact v1 esterification"
+    },
+    {
+      "id": "423-ester-scale-base-1",
+      "question": "What equilibrium extent follows base-scale organic trial 1?",
+      "script": "add v1 CH3COOH 0.013mol\nadd v1 ethanol 0.009mol\nadd v1 ethyl_acetate 0.002mol\nadd v1 water 0.005mol\ninspect v1\nreact v1 esterification"
+    },
+    {
+      "id": "424-ester-scale-large-1",
+      "question": "Does extensive scaling preserve the intensive equilibrium in trial 1?",
+      "script": "add v1 CH3COOH 0.026mol\nadd v1 ethanol 0.018mol\nadd v1 ethyl_acetate 0.004mol\nadd v1 water 0.01mol\nreact v1 esterification"
+    },
+    {
+      "id": "425-ester-scale-base-2",
+      "question": "What equilibrium extent follows base-scale organic trial 2?",
+      "script": "add v1 CH3COOH 0.011mol\nadd v1 ethanol 0.016mol\nadd v1 ethyl_acetate 0.003mol\nadd v1 water 0.004mol\ninspect v1\nreact v1 esterification"
+    },
+    {
+      "id": "426-ester-scale-large-2",
+      "question": "Does extensive scaling preserve the intensive equilibrium in trial 2?",
+      "script": "add v1 CH3COOH 0.033mol\nadd v1 ethanol 0.048mol\nadd v1 ethyl_acetate 0.009000000000000001mol\nadd v1 water 0.012mol\nreact v1 esterification"
+    },
+    {
+      "id": "427-ester-scale-base-3",
+      "question": "What equilibrium extent follows base-scale organic trial 3?",
+      "script": "add v1 CH3COOH 0.007mol\nadd v1 ethanol 0.01mol\nadd v1 ethyl_acetate 0.014mol\nadd v1 water 0.012mol\ninspect v1\nreact v1 esterification"
+    },
+    {
+      "id": "428-ester-scale-large-3",
+      "question": "Does extensive scaling preserve the intensive equilibrium in trial 3?",
+      "script": "add v1 CH3COOH 0.028mol\nadd v1 ethanol 0.04mol\nadd v1 ethyl_acetate 0.056mol\nadd v1 water 0.048mol\nreact v1 esterification"
+    },
+    {
+      "id": "429-ester-once-4",
+      "question": "What state follows one equilibrium request in organic trial 4?",
+      "script": "add v1 CH3COOH 0.018mol\nadd v1 ethanol 0.006mol\nadd v1 ethyl_acetate 0.001mol\nadd v1 water 0.009mol\ninspect v1\nreact v1 esterification"
+    },
+    {
+      "id": "430-ester-repeat-4",
+      "question": "Does a second equilibrium request leave organic trial 4 unchanged?",
+      "script": "add v1 CH3COOH 0.018mol\nadd v1 ethanol 0.006mol\nadd v1 ethyl_acetate 0.001mol\nadd v1 water 0.009mol\nreact v1 esterification\nreact v1 esterification"
+    },
+    {
+      "id": "431-ester-once-5",
+      "question": "What state follows one equilibrium request in organic trial 5?",
+      "script": "add v1 CH3COOH 0.008mol\nadd v1 ethanol 0.012mol\nadd v1 ethyl_acetate 0.02mol\nadd v1 water 0.007mol\ninspect v1\nreact v1 esterification"
+    },
+    {
+      "id": "432-ester-repeat-5",
+      "question": "Does a second equilibrium request leave organic trial 5 unchanged?",
+      "script": "add v1 CH3COOH 0.008mol\nadd v1 ethanol 0.012mol\nadd v1 ethyl_acetate 0.02mol\nadd v1 water 0.007mol\nreact v1 esterification\nreact v1 esterification"
+    },
+    {
+      "id": "433-ester-once-6",
+      "question": "What state follows one equilibrium request in organic trial 6?",
+      "script": "add v1 CH3COOH 0.021mol\nadd v1 ethanol 0.015mol\nadd v1 ethyl_acetate 0.004mol\nadd v1 water 0.003mol\ninspect v1\nreact v1 esterification"
+    },
+    {
+      "id": "434-ester-repeat-6",
+      "question": "Does a second equilibrium request leave organic trial 6 unchanged?",
+      "script": "add v1 CH3COOH 0.021mol\nadd v1 ethanol 0.015mol\nadd v1 ethyl_acetate 0.004mol\nadd v1 water 0.003mol\nreact v1 esterification\nreact v1 esterification"
+    }
+  ],
+  "relations": [
+    {
+      "id": "r411-01-organic-feed-order-1",
+      "kind": "metamorphic",
+      "cases": [
+        "411-ester-feed-forward-1",
+        "412-ester-feed-reverse-1"
+      ],
+      "assertion": "final-inventory-equal",
+      "description": "Feed order must preserve the equilibrium inventory.",
+      "parameters": {
+        "species": [
+          "CH3COOH",
+          "ethanol",
+          "ethyl_acetate",
+          "water"
+        ],
+        "rtol": 1e-08,
+        "atol": 1e-10
+      }
+    },
+    {
+      "id": "r411-02-organic-feed-order-2",
+      "kind": "metamorphic",
+      "cases": [
+        "413-ester-feed-forward-2",
+        "414-ester-feed-reverse-2"
+      ],
+      "assertion": "final-inventory-equal",
+      "description": "Feed order must preserve the equilibrium inventory.",
+      "parameters": {
+        "species": [
+          "CH3COOH",
+          "ethanol",
+          "ethyl_acetate",
+          "water"
+        ],
+        "rtol": 1e-08,
+        "atol": 1e-10
+      }
+    },
+    {
+      "id": "r411-03-organic-feed-order-3",
+      "kind": "metamorphic",
+      "cases": [
+        "415-ester-feed-forward-3",
+        "416-ester-feed-reverse-3"
+      ],
+      "assertion": "final-inventory-equal",
+      "description": "Feed order must preserve the equilibrium inventory.",
+      "parameters": {
+        "species": [
+          "CH3COOH",
+          "ethanol",
+          "ethyl_acetate",
+          "water"
+        ],
+        "rtol": 1e-08,
+        "atol": 1e-10
+      }
+    },
+    {
+      "id": "r411-04-organic-feed-order-4",
+      "kind": "metamorphic",
+      "cases": [
+        "417-ester-feed-forward-4",
+        "418-ester-feed-reverse-4"
+      ],
+      "assertion": "final-inventory-equal",
+      "description": "Feed order must preserve the equilibrium inventory.",
+      "parameters": {
+        "species": [
+          "CH3COOH",
+          "ethanol",
+          "ethyl_acetate",
+          "water"
+        ],
+        "rtol": 1e-08,
+        "atol": 1e-10
+      }
+    },
+    {
+      "id": "r411-05-organic-feed-order-5",
+      "kind": "metamorphic",
+      "cases": [
+        "419-ester-feed-forward-5",
+        "420-ester-feed-reverse-5"
+      ],
+      "assertion": "final-inventory-equal",
+      "description": "Feed order must preserve the equilibrium inventory.",
+      "parameters": {
+        "species": [
+          "CH3COOH",
+          "ethanol",
+          "ethyl_acetate",
+          "water"
+        ],
+        "rtol": 1e-08,
+        "atol": 1e-10
+      }
+    },
+    {
+      "id": "r411-06-organic-feed-order-6",
+      "kind": "metamorphic",
+      "cases": [
+        "421-ester-feed-forward-6",
+        "422-ester-feed-reverse-6"
+      ],
+      "assertion": "final-inventory-equal",
+      "description": "Feed order must preserve the equilibrium inventory.",
+      "parameters": {
+        "species": [
+          "CH3COOH",
+          "ethanol",
+          "ethyl_acetate",
+          "water"
+        ],
+        "rtol": 1e-08,
+        "atol": 1e-10
+      }
+    },
+    {
+      "id": "r411-07-organic-scale-1",
+      "kind": "metamorphic",
+      "cases": [
+        "423-ester-scale-base-1",
+        "424-ester-scale-large-1"
+      ],
+      "assertion": "final-inventory-equal",
+      "description": "Equilibrium inventories must scale with all starting amounts.",
+      "parameters": {
+        "species": [
+          "CH3COOH",
+          "ethanol",
+          "ethyl_acetate",
+          "water"
+        ],
+        "scale": 2.0,
+        "rtol": 1e-08,
+        "atol": 1e-10
+      }
+    },
+    {
+      "id": "r411-08-organic-scale-2",
+      "kind": "metamorphic",
+      "cases": [
+        "425-ester-scale-base-2",
+        "426-ester-scale-large-2"
+      ],
+      "assertion": "final-inventory-equal",
+      "description": "Equilibrium inventories must scale with all starting amounts.",
+      "parameters": {
+        "species": [
+          "CH3COOH",
+          "ethanol",
+          "ethyl_acetate",
+          "water"
+        ],
+        "scale": 3.0,
+        "rtol": 1e-08,
+        "atol": 1e-10
+      }
+    },
+    {
+      "id": "r411-09-organic-scale-3",
+      "kind": "metamorphic",
+      "cases": [
+        "427-ester-scale-base-3",
+        "428-ester-scale-large-3"
+      ],
+      "assertion": "final-inventory-equal",
+      "description": "Equilibrium inventories must scale with all starting amounts.",
+      "parameters": {
+        "species": [
+          "CH3COOH",
+          "ethanol",
+          "ethyl_acetate",
+          "water"
+        ],
+        "scale": 4.0,
+        "rtol": 1e-08,
+        "atol": 1e-10
+      }
+    },
+    {
+      "id": "r411-10-organic-idempotence-4",
+      "kind": "metamorphic",
+      "cases": [
+        "429-ester-once-4",
+        "430-ester-repeat-4"
+      ],
+      "assertion": "final-inventory-equal",
+      "description": "A repeated equilibrium request must be a material no-op.",
+      "parameters": {
+        "species": [
+          "CH3COOH",
+          "ethanol",
+          "ethyl_acetate",
+          "water"
+        ],
+        "rtol": 1e-08,
+        "atol": 1e-10
+      }
+    },
+    {
+      "id": "r411-11-organic-idempotence-5",
+      "kind": "metamorphic",
+      "cases": [
+        "431-ester-once-5",
+        "432-ester-repeat-5"
+      ],
+      "assertion": "final-inventory-equal",
+      "description": "A repeated equilibrium request must be a material no-op.",
+      "parameters": {
+        "species": [
+          "CH3COOH",
+          "ethanol",
+          "ethyl_acetate",
+          "water"
+        ],
+        "rtol": 1e-08,
+        "atol": 1e-10
+      }
+    },
+    {
+      "id": "r411-12-organic-idempotence-6",
+      "kind": "metamorphic",
+      "cases": [
+        "433-ester-once-6",
+        "434-ester-repeat-6"
+      ],
+      "assertion": "final-inventory-equal",
+      "description": "A repeated equilibrium request must be a material no-op.",
+      "parameters": {
+        "species": [
+          "CH3COOH",
+          "ethanol",
+          "ethyl_acetate",
+          "water"
+        ],
+        "rtol": 1e-08,
+        "atol": 1e-10
+      }
+    }
+  ]
+}

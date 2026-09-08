@@ -1860,7 +1860,8 @@ impl Equilibrator for HonestyEquilibrator {
         // dressed as honesty.
         let has_solute = vessel.contents.iter().any(|p| {
             p.species.0 != SOLVENT
-                && !crate::nonaqueous::KNOWN_SOLVENTS.contains(&p.species.0.as_str())
+                && (p.species.0 == "CH3COOH"
+                    || !crate::nonaqueous::KNOWN_SOLVENTS.contains(&p.species.0.as_str()))
                 && p.phase != Phase::Gas
         });
         // ...and not when the curated chemistry already answered in this

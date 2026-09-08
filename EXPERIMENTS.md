@@ -788,12 +788,13 @@ numbers are never re-bound.
   Acceptance: a clear-the-bench quest gradeable entirely by existing safety
   machinery plus the rule table.
 - **EXP-53 — Computed experiment audit and portfolio expansion** — PR #504 is
-  the unmerged evidence branch. First reconcile it field-by-field with current
-  main while preserving all 113 catalog entries and raw failed runs; then require
-  rebuilt CI on the reconciled head. Only after that gate, run frozen cases
-  195–218 on a binary tied to that head, retaining every unsupported or
-  implausible result. Promote a small set of distinct successful concepts to the
-  catalog with original EN/DE prose; keep parameter variants as regression cases.
+  closed as an evidence archive: its generic product repairs landed as #529 and
+  its reusable harness as #539. Frozen cases 195–218 now run against the exact
+  current revision in the `Chemistry audit fleets` GitHub workflow, retaining
+  every unsupported or implausible result as an artifact. Continue with
+  source-informed original fleets in the same freeze-before-execution format.
+  Promote only distinct successful concepts to the catalog with original EN/DE
+  prose; keep parameter variants as regression cases.
   Acceptance: no experiment-ID dispatch or output fitting; checks frozen before
   execution; raw input/output, hashes and failures retained; conservation and
   independent laws checked separately from process success; private source URLs,
@@ -813,6 +814,17 @@ numbers are never re-bound.
   `audit/chemistry-experiments-20260906`, which is kept so the archive can be
   rebuilt from Git. `tools/chemistry-audit/README.md` says how to verify both.
   Cases 195–218 remain frozen and unrun; that half of the item is still open.
+  **Continuation 2026-09-08:** PR #542 now supplies the current-main GitHub
+  runner; two preserved infrastructure failures (absent committed lockfile,
+  then a deliberately nonempty evidence directory) were corrected without
+  executing or changing the frozen cases. The post-218 programme is frozen at
+  240 original cases, IDs 219–458, in ten 24-case families with 97 frozen
+  relations, bounded CI shards and one aggregate gate. Expanded manifests, a
+  safe named-relation analyzer and mutation controls are in place. The first
+  195–218 run passed 56/66 and exposed two generic gaps; their parser and ideal
+  nonionic-water repairs await the authoritative replay. Post-218 runs, further
+  repairs, reviewed promotion and bilingual presentation remain open. The
+  license/source-to-case survey is private and outside Git by policy.
 
 ## Declined items (all corpora, recorded with reasons)
 

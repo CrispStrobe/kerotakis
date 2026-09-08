@@ -48,6 +48,29 @@ fn heat(bench: &mut Bench, stack: &mut SolverStack, v: VesselId, kj: f64) -> Vec
 }
 
 #[test]
+fn heating_a_sealed_inert_gas_never_routes_it_to_open_exhaust() {
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    let v = VesselId(0);
+    bench
+        .step_with(
+            Operator::Seal {
+                vessel: v,
+                headspace_volume: Liters(0.5),
+            },
+            &mut stack,
+            &PermissiveScreen,
+        )
+        .expect("seal");
+    add(&mut bench, &mut stack, v, "N2", 0.0042);
+    heat(&mut bench, &mut stack, v, 0.2);
+    let vessel = bench.vessel(v).expect("v1");
+
+    assert!(vessel.moles_of(&SpeciesId::new("N2")).0 > 0.0042);
+    assert!(vessel.pressure.0 > 101_325.0);
+}
+
+#[test]
 fn species_map_into_the_nasa_data_by_formula() {
     // Nothing lists these pairs; they are matched by composition.
     assert_eq!(kerotakis_cea::cea_name("CaCO3"), Some("CaCO3(cr)"));

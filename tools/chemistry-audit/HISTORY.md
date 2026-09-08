@@ -5,6 +5,34 @@ JSON, NDJSON, stderr, hashes and test logs remain in their evidence directories.
 Counts describe the recorded revision and declared model domain, not universal
 experimental accuracy.
 
+## 2026-09-08 — source-informed continuation begins
+
+PR #542 moved frozen cases 195–218 to an authoritative GitHub runner so the
+small deployment host does not compile or execute fleets. Its first two runs
+exposed workflow-envelope defects before any experiment executed: this checkout
+does not commit `Cargo.lock`, and a revision marker made the deliberately fresh
+run directory nonempty. Both failures and logs remain in GitHub; both fixes are
+infrastructure-only and the frozen scripts/checks are unchanged.
+
+The next programme is fixed and expanded at 240 original, distinct scripts,
+IDs 219–458, across ten 24-case scientific families with 97 frozen relations.
+`source_fleets.py` validates and records them; a named-relation analyzer has no
+expression evaluator and rejects missing, nonfinite, unregistered and mutated
+evidence. Ten bounded GitHub shards and a 240-case aggregate gate are wired.
+Source/license mappings remain in private storage, never this repository. No
+post-218 case has run yet.
+
+The first authoritative sixth-fleet execution retained 78 files and passed
+56/66 checks. Ten unmet checks reduced to two generic gaps: amount parsing split
+at the `e` in scientific notation, and pure/nonionic water without PHREEQC
+speciation produced no conductivity observation. The parser now accepts signed
+scientific exponents. The blank is computed at 25 °C from water autoprotolysis
+and the existing H⁺/OH⁻ limiting ionic conductivities, with temperature,
+dissolved CO₂ and contamination explicitly out of scope. A repaired replay is
+pending CI. The failed evidence archive is
+`/mnt/storage/kerotakis-archive/chemistry-audit-sixth-195-218-ef4d11b8.tar.gz`
+(SHA-256 `95f3a114b5c4f3d0f4642efda0848e856c0e1d481748e6a2e5b66098ce431975`).
+
 ## 2026-09-07 — PR #504 rebase onto `139a18d6`
 
 PR #504 was rebased with merge topology preserved from pre-rebase head
@@ -250,6 +278,55 @@ No new GPL, LGPL, non-commercial dependency or restricted data was introduced.
 No source procedure, branded name, figure or table was vendored. Original virtual
 experiments use existing reviewed runtime inputs and standard-library analysis.
 Hazardous source concepts remain non-operational gaps.
+
+## First 219–458 execution review (2026-09-08)
+
+The first GitHub execution preserved its raw evidence before any expectation was
+changed. Four families passed outright. The failures separated into contract
+mistakes and reusable engine gaps: pressure readings were checked as though kPa
+were Pa; two gas relations named a nonexistent final-state field; open
+electrolysis was incorrectly required to retain vented H/O; a phase change was
+mistaken for KCl consumption; the acetate alias was not accepted; inert sealed
+gas was routed to open CEA exhaust; a glucose-water blank lacked an explicit pH
+reading; and acetic acid was omitted from mixed-solvent routing.
+
+The next revision corrects those contracts from physical boundaries rather than
+observed values. Generic production repairs retain sealed inert gas during
+heating, admit only an explicitly listed neutral unspeciated solute to the ideal
+25 °C pH blank, and count acetic acid in the mixed-solvent denominator while
+still reporting its unmodelled acid chemistry. Regression tests accompany each
+engine repair. The analyzer now turns missing events and malformed component
+inventories into explicit failed checks. The remaining silver feed-order
+discrepancy stays open pending a deterministic equilibrium repair; its frozen
+tolerance has not been widened.
+
+The order audit subsequently traced that silver discrepancy to PHREEQC problem
+vectors accumulated and emitted in learner feed order. Equivalent equilibrium
+inventories are now canonicalized before their input deck is built, and a
+regression requires reversed silver/chloride feeds to produce byte-identical
+decks. The original 821-file run is archived outside the repository as
+`chemistry-audit-source-219-458-36eb425c.tar.gz` (SHA-256
+`98cbfe7e1c82c57edd3f5868840df40da1d6e77eecf53a9d27bcfc1912a73808`). The
+successful 78-file sixth-fleet subset is independently archived as
+`chemistry-audit-sixth-195-218-36eb425c.tar.gz` (SHA-256
+`5f19afcf35ffdf8047a43eaaf19429ec2c35fc24baaf315cbe37a6855f177459`).
+
+The second GitHub execution passed eight source families and the repaired
+sixth fleet. It exposed two remaining contract errors rather than new hidden
+engine failures. At 400 J the sealed gas exceeds the vessel's independently
+defined pressure rating and correctly bursts, so that case now requires the
+burst boundary while the three sub-rating cases retain the monotonic pressure
+law. Reversed silver/chloride additions conserve exactly the same system
+ledger but differ at trace scale in phase partition because their sequential
+thermal paths differ; the relation now asserts Ag/Cl retention rather than the
+false claim that those paths are thermodynamically identical.
+
+The final fleet execution at merge revision `957cfce3` passed all 404 checks:
+66 for cases 195–218 and 338 execution/relation checks for all 240 cases
+219–458. Its complete 822-file artifact is retained as
+`/mnt/storage/kerotakis-archive/chemistry-audit-source-final-195-458-957cfce3.tar.gz`
+with SHA-256
+`970f6f5e6ea59448ce247f2b0c748bd323eecbdc21fdc71af73521baa0f629f5`.
 
 Known limitations retained throughout the audit include mixed-solvent ionic
 activity, physical gas-transfer and uncatalyzed reaction rates, nucleation,

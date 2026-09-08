@@ -23,7 +23,7 @@ use crate::vessel::Vessel;
 /// Solvents this rung understands: one of these as the only liquid,
 /// with no water anywhere, makes the vessel a single-solvent organic
 /// bench.
-pub const KNOWN_SOLVENTS: &[&str] = &["ethanol", "hexane", "ethyl_acetate", "propanone"];
+pub const KNOWN_SOLVENTS: &[&str] = &["ethanol", "hexane", "ethyl_acetate", "propanone", "CH3COOH"];
 
 /// Curated solubility of a solid in an organic solvent near room
 /// temperature, g of solute per 100 mL of solvent. `0.0` renders as
