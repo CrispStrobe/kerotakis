@@ -241,12 +241,14 @@ fn the_sulfite_matcher_is_exact() {
     // that passes the count. A greedy `("SO3", "Sulfite")` group row would
     // have booked an azo dye's sulfonate as a bottle of sulfite; the exact
     // rule refuses it on its carbon and nitrogen.
-    match derived::role("methyl_orange") {
-        Some(DerivedRole::Dissolves(els)) => assert!(
-            !els.iter().any(|(e, _)| e == "Sulfite"),
-            "the dye is not a sulfite: {els:?}"
-        ),
-        _ => {}
-    }
+    // Asserted unconditionally rather than inside a `if let`, because the
+    // interesting failure is the dye booking sulfite under ANY role, and a
+    // conditional arm would pass silently if the role were ever `None` or
+    // a mineral - which is exactly the shape of hole this file is about.
+    let dye = derived::role("methyl_orange");
+    assert!(
+        !matches!(&dye, Some(DerivedRole::Dissolves(els)) if els.iter().any(|(e, _)| e == "Sulfite")),
+        "an azo dye with one sulfur and three oxygens must never book sulfite, got {dye:?}"
+    );
     assert_eq!(derived::booking_ion("Sulfite"), Some("SO3-2"));
 }

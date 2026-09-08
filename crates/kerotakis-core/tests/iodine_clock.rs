@@ -2,7 +2,7 @@
 //!
 //! Two clock reactions beside the landed thiosulfate clock: the
 //! iodide–peroxide clock (H₂O₂ + 2 KI → I₂ + 2 KOH) and the
-//! iodate–bisulfite Landolt clock (KIO₃ + 3 NaHSO₃ → KI + 3 NaHSO₄).
+//! iodate–bisulfite Landolt clock (KIO₃ + 3 HSO₃⁻ + 3 Na⁺ → KI + 3 NaHSO₄).
 //! Each must show clock time scaling with concentration and temperature.
 
 use kerotakis_core::kinetics::{self, advance};
