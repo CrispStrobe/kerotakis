@@ -39,6 +39,7 @@ import argparse
 import json
 import pathlib
 import sys
+import time
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import client  # noqa: E402
@@ -194,12 +195,30 @@ def app_localisation() -> None:
 
 def content_rights() -> None:
     declaration = META["contentRightsDeclaration"]
-    change(
-        "PATCH",
-        f"/v1/apps/{APP}",
-        {"data": {"type": "apps", "id": APP,
-                  "attributes": {"contentRightsDeclaration": declaration}}},
-        f"content rights: {declaration}",
+    if DRY:
+        print(f"   would PATCH content rights: {declaration}")
+        return
+    body = {"data": {"type": "apps", "id": APP,
+                     "attributes": {"contentRightsDeclaration": declaration}}}
+    # App Store Connect occasionally returns UNEXPECTED_ERROR for this one
+    # app-level field while accepting every neighbouring resource. Retry
+    # server failures, but do not let that prevent independent localisations
+    # and screenshots from being prepared. The final audit keeps the omission
+    # visible so it cannot be mistaken for a completed declaration.
+    for attempt, delay in enumerate((5, 15, 30, 0), start=1):
+        status, doc = client.call("PATCH", f"/v1/apps/{APP}", body)
+        if status in (200, 201, 204):
+            print(f"   content rights: {declaration}")
+            return
+        if status < 500:
+            raise SystemExit(f"content rights -> HTTP {status}: {doc}")
+        if delay:
+            print(f"   content rights: Apple HTTP {status}, retry {attempt}/4")
+            time.sleep(delay)
+    print(
+        "   WARNING: Apple still refused Content Rights with a server error; "
+        "select Yes in App Store Connect before submission",
+        file=sys.stderr,
     )
 
 
