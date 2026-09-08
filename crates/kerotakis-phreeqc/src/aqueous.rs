@@ -5431,7 +5431,7 @@ mod oxidation_sum_tests {
             let mut vessel = Vessel::new(VesselId(0), "feed order");
             vessel.deposit(SpeciesId::new("water"), Moles(16.65), Phase::Liquid);
             for species in order {
-                vessel.deposit(SpeciesId::new(*species), Moles(0.0012), Phase::Solid);
+                vessel.deposit(SpeciesId::new(species), Moles(0.0012), Phase::Solid);
             }
             vessel
         }
