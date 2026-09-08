@@ -30,8 +30,8 @@ jobs:
       - uses: Swatinem/rust-cache@v2
       - name: Prepare the evidence envelope
         run: |
-          mkdir -p audit-evidence/sixth-195-218
-          printf '%s\n' "${GITHUB_SHA}" > audit-evidence/sixth-195-218/revision.txt
+          mkdir -p audit-evidence
+          printf '%s\n' "${GITHUB_SHA}" > audit-evidence/revision.txt
       - name: Verify the frozen analyzer rejects missing evidence
         run: python3 tools/chemistry-audit/analyse_sixth.py --self-test
       - name: Build the audited CLI from this exact revision
@@ -58,6 +58,6 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: chemistry-audit-sixth-${{ github.sha }}
-          path: audit-evidence/sixth-195-218
+          path: audit-evidence
           if-no-files-found: error
           retention-days: 30
