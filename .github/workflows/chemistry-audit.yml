@@ -1,0 +1,59 @@
+name: Chemistry audit fleets
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/chemistry-audit.yml"
+      - "tools/chemistry-audit/**"
+      - "crates/kerotakis-*/**"
+      - "data/**"
+      - "Cargo.toml"
+      - "Cargo.lock"
+  workflow_dispatch:
+
+concurrency:
+  group: chemistry-audit-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  sixth-fleet:
+    name: Frozen fleet 195-218
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: recursive
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Verify the frozen analyzer rejects missing evidence
+        run: python3 tools/chemistry-audit/analyse_sixth.py --self-test
+      - name: Build the audited CLI from this exact revision
+        run: cargo build --locked --release -p kerotakis-cli
+      - name: Record all 24 process-isolated experiments
+        run: >-
+          python3 tools/chemistry-audit/sixth_batch.py
+          --binary target/release/kero
+          --out audit-evidence/sixth-195-218
+      - name: Bind the frozen contract and harness to the evidence
+        run: |
+          sha256sum \
+            tools/chemistry-audit/sixth_batch.py \
+            tools/chemistry-audit/analyse_sixth.py \
+            tools/chemistry-audit/SIXTH-BATCH.md \
+            > audit-evidence/sixth-195-218/preflight-sha256.txt
+      - name: Apply independent laws and matched controls
+        run: >-
+          python3 tools/chemistry-audit/analyse_sixth.py
+          audit-evidence/sixth-195-218
+          --out audit-evidence/sixth-195-218/law-checks.json
+      - name: Preserve raw successes and failures
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: chemistry-audit-sixth-${{ github.sha }}
+          path: audit-evidence/sixth-195-218
+          if-no-files-found: error
+          retention-days: 30

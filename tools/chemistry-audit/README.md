@@ -44,6 +44,14 @@ python3 tools/chemistry-audit/run.py --binary target/debug/kero --out /tmp/fleet
 python3 tools/chemistry-audit/analyse.py /tmp/fleet-1 --out /tmp/fleet-1/law-checks.json
 ```
 
+The repository's `Chemistry audit fleets` workflow performs the authoritative
+current-main run for frozen fleet 195–218. It builds the CLI on GitHub's runner,
+records each case in a separate process, binds the harness and frozen contract
+by SHA-256, applies the independent analyzer and uploads the complete evidence
+whether the checks pass or fail. This keeps expensive fleet work off the small
+deployment host and makes a failed experiment an artifact rather than lost log
+text.
+
 `basis_records.py` is a completed one-time migration and now refuses by design;
 `merge_codex_snapshot.py` requires an unmerged index; `obsolete_tests.py` is
 tied to a 2026-09-06 build-cache cutoff and to a worktree with

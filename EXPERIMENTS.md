@@ -788,12 +788,13 @@ numbers are never re-bound.
   Acceptance: a clear-the-bench quest gradeable entirely by existing safety
   machinery plus the rule table.
 - **EXP-53 — Computed experiment audit and portfolio expansion** — PR #504 is
-  the unmerged evidence branch. First reconcile it field-by-field with current
-  main while preserving all 113 catalog entries and raw failed runs; then require
-  rebuilt CI on the reconciled head. Only after that gate, run frozen cases
-  195–218 on a binary tied to that head, retaining every unsupported or
-  implausible result. Promote a small set of distinct successful concepts to the
-  catalog with original EN/DE prose; keep parameter variants as regression cases.
+  closed as an evidence archive: its generic product repairs landed as #529 and
+  its reusable harness as #539. Frozen cases 195–218 now run against the exact
+  current revision in the `Chemistry audit fleets` GitHub workflow, retaining
+  every unsupported or implausible result as an artifact. Continue with
+  source-informed original fleets in the same freeze-before-execution format.
+  Promote only distinct successful concepts to the catalog with original EN/DE
+  prose; keep parameter variants as regression cases.
   Acceptance: no experiment-ID dispatch or output fitting; checks frozen before
   execution; raw input/output, hashes and failures retained; conservation and
   independent laws checked separately from process success; private source URLs,

@@ -52,6 +52,14 @@ it had while it was open, which is why a few numbers appear twice below.
   lands on `computed`, which reverses the sign of the document's own
   conclusion from a losing trade to a two-row improvement
 
+**Experiment audit**
+
+- **EXP-53 continuation** — moved frozen cases 195–218 onto a dedicated GitHub
+  CI fleet: the runner builds the audited CLI from the workflow revision,
+  isolates all 24 scripts, binds the frozen harness and contract by SHA-256,
+  applies 66 predeclared independent checks and uploads raw evidence even when
+  a check fails; no fleet build is charged to the deployment VPS
+
 **Engine**
 
 - **#537** — `energy_is_conserved` had gone flaky, and the bound was not the
