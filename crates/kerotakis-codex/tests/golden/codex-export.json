@@ -11860,7 +11860,7 @@
         "intensive-properties"
       ],
       "requires": [
-        "acids-and-bases",
+        "weak-acids",
         "amount-of-substance"
       ],
       "spine": [],
@@ -11968,7 +11968,7 @@
         "state-functions"
       ],
       "requires": [
-        "strong-acids",
+        "acids",
         "strong-bases"
       ],
       "spine": [],
@@ -12076,7 +12076,7 @@
         "state-functions"
       ],
       "requires": [
-        "ions-in-solution",
+        "ions",
         "amount-of-substance"
       ],
       "spine": [],
@@ -12183,7 +12183,6 @@
         "scaling"
       ],
       "requires": [
-        "particle-model",
         "amount-of-substance"
       ],
       "spine": [],
@@ -12291,7 +12290,7 @@
         "activities"
       ],
       "requires": [
-        "redox",
+        "redox-reactions",
         "amount-of-substance"
       ],
       "spine": [],
@@ -12373,7 +12372,6 @@
         "state-functions"
       ],
       "requires": [
-        "temperature",
         "heat-capacity"
       ],
       "spine": [],
