@@ -103,35 +103,76 @@ impl CpInterval {
         }
     }
 
-    /// The antiderivative ∫Cp dT evaluated at `t`, J/mol, up to the constant
-    /// that cancels in a difference.
-    fn integral(&self, t: f64) -> f64 {
+    /// ∫Cp dT between two temperatures both inside this interval, J/mol.
+    ///
+    /// Every term is written as a DIFFERENCE OF POWERS carrying `(t1 - t0)`
+    /// as an explicit factor, not as an antiderivative evaluated twice and
+    /// subtracted. Algebraically the two are the same line; in a double they
+    /// are not.
+    ///
+    /// Liquid water is the curve that shows why. Its NASA-9 fit has huge
+    /// alternating coefficients — `a1` is 1.3e9 — so the antiderivative sums
+    /// terms of order 1.2e9 J/mol that cancel to about -9.2e8. A double
+    /// holds about 2.4e-7 at that magnitude, so the difference of two such
+    /// numbers is quantised in steps of a quarter-microjoule NO MATTER HOW
+    /// NARROW THE SPAN. A mole of water arriving a millikelvin off standard
+    /// gave up the same 2.6e-7 J of noise as a mole boiled. That floor,
+    /// not the ledger, is what `conservation.rs` used to carry a
+    /// per-mole-of-water term for; ice's fit gives up 4e-11 and nitrogen's
+    /// 4e-12, which is the tell that it was one curve's conditioning.
+    ///
+    /// Factored this way the largest intermediate for a 100 K span of
+    /// liquid water is ~2.7e7 rather than 1.2e9, and — the part that
+    /// actually matters — every intermediate is proportional to `(t1 - t0)`,
+    /// so the error vanishes with the span instead of sitting at a floor.
+    /// Measured against a 60-digit reference over the shipped curves, the
+    /// worst residue for liquid water falls from 7.9e-7 to 8.0e-8 J/mol on
+    /// arbitrary spans and from 7.3e-7 to 5.7e-10 J/mol on spans under a
+    /// kelvin.
+    ///
+    /// Note this deliberately does NOT re-centre on the interval midpoint.
+    /// Re-centring would need the coefficients rewritten about `t_mid`,
+    /// which is a transformation of published numbers; this is the same
+    /// published numbers, regrouped.
+    fn enthalpy(&self, t0: f64, t1: f64) -> f64 {
         let c = &self.coefficients;
+        let d = t1 - t0;
         match self.form {
             CpForm::Nasa9 => {
-                R * (-c[0] / t
-                    + c[1] * t.ln()
-                    + c[2] * t
-                    + c[3] * t * t / 2.0
-                    + c[4] * t * t * t / 3.0
-                    + c[5] * t * t * t * t / 4.0
-                    + c[6] * t * t * t * t * t / 5.0)
+                // a1: -1/t1 + 1/t0 = (t1 - t0)/(t0·t1).
+                // a2: ln(t1) - ln(t0) = ln1p((t1 - t0)/t0). Forming the
+                //     ratio t1/t0 first would round a narrow span's
+                //     information away before the logarithm ever saw it.
+                // a3..a7: tⁿ⁺¹ differences factored by (t1 - t0).
+                R * (c[0] * d / (t0 * t1)
+                    + c[1] * (d / t0).ln_1p()
+                    + c[2] * d
+                    + c[3] / 2.0 * (t1 + t0) * d
+                    + c[4] / 3.0 * (t1 * t1 + t1 * t0 + t0 * t0) * d
+                    + c[5] / 4.0 * (t1 + t0) * (t1 * t1 + t0 * t0) * d
+                    + c[6] / 5.0
+                        * (t1 * t1 * t1 * t1
+                            + t1 * t1 * t1 * t0
+                            + t1 * t1 * t0 * t0
+                            + t1 * t0 * t0 * t0
+                            + t0 * t0 * t0 * t0)
+                        * d)
             }
             CpForm::Shomate => {
-                let s = t / 1000.0;
+                // The same regrouping in `t = T/1000`. `ds` is differenced
+                // in kelvin and scaled, not differenced after scaling, so
+                // the span keeps every bit it arrived with.
+                let s0 = t0 / 1000.0;
+                let s1 = t1 / 1000.0;
+                let ds = d / 1000.0;
                 1000.0
-                    * (c[0] * s
-                        + c[1] * s * s / 2.0
-                        + c[2] * s * s * s / 3.0
-                        + c[3] * s * s * s * s / 4.0
-                        - c[4] / s)
+                    * (c[0] * ds
+                        + c[1] / 2.0 * (s1 + s0) * ds
+                        + c[2] / 3.0 * (s1 * s1 + s1 * s0 + s0 * s0) * ds
+                        + c[3] / 4.0 * (s1 + s0) * (s1 * s1 + s0 * s0) * ds
+                        + c[4] * ds / (s0 * s1))
             }
         }
-    }
-
-    /// ∫Cp dT between two temperatures both inside this interval, J/mol.
-    fn enthalpy(&self, t0: f64, t1: f64) -> f64 {
-        self.integral(t1) - self.integral(t0)
     }
 }
 
@@ -405,6 +446,79 @@ mod tests {
             (back - 298.15).abs() < 1e-3,
             "and taking it back out should return, got {back}"
         );
+    }
+
+    /// Liquid water as the registry ships it: the worst-conditioned curve
+    /// on the bench, and the reason `enthalpy` is written in difference
+    /// form. Transcribed from `heat-capacity-polynomial/water/liquid`.
+    const WATER_LIQUID: CpInterval = CpInterval {
+        t_min: 273.15,
+        t_max: 373.15,
+        form: CpForm::Nasa9,
+        coefficients: [
+            1326371304.0,
+            -24482953.88,
+            187942.8776,
+            -767.899505,
+            1.761556813,
+            -0.002151167128,
+            1.092570813e-06,
+        ],
+        reference: "H2O(L): Liquid. Cox,1989. Haar,1984. Keenan,1984. Stimson,1969.",
+    };
+
+    #[test]
+    fn a_narrow_span_of_water_is_resolved_and_not_quantised() {
+        // Over a span this short the curve is a straight line to far
+        // better than the tolerances below, so the midpoint rectangle IS
+        // the integral and any disagreement is arithmetic, not calculus.
+        //
+        // Evaluating the antiderivative twice and subtracting cannot pass
+        // this. Liquid water's antiderivative is ~-9.2e8 J/mol here, where
+        // a double's step is 2.4e-7, so the answer came back quantised: at
+        // h = 1e-6 K it was wrong by 0.17 %, and at h = 1e-9 K it was
+        // wrong by 100 % because it came back as exactly zero. That
+        // quarter-microjoule per mole is the whole of the per-mole-of-water
+        // floor `conservation.rs` used to carry.
+        let t = 298.15;
+        for (h, tolerance) in [(1e-3, 1e-7), (1e-6, 1e-7), (1e-9, 1e-3)] {
+            let got = WATER_LIQUID.enthalpy(t, t + h);
+            let want = WATER_LIQUID.cp(t + 0.5 * h) * h;
+            assert!(
+                got != 0.0,
+                "a span of {h} K of liquid water is real heat, not zero"
+            );
+            assert!(
+                (got - want).abs() <= tolerance * want.abs(),
+                "over {h} K at {t} K: got {got} J/mol against {want} J/mol, \
+                 a relative {} outside the {tolerance} this form should hold",
+                (got - want).abs() / want.abs()
+            );
+        }
+    }
+
+    #[test]
+    fn the_whole_liquid_range_resolves_narrow_spans() {
+        // The same claim as above, swept, because 298.15 K could be a
+        // lucky point. Nothing about the argument is special to room
+        // temperature: the antiderivative is ~1e9 J/mol everywhere on this
+        // interval, so everywhere on it the old form quantised the answer.
+        for step in 0..=20 {
+            let t = 273.15 + 100.0 * step as f64 / 20.0;
+            for h in [1e-3, 1e-5] {
+                let (a, b) = if t + h > 373.15 {
+                    (t - h, t)
+                } else {
+                    (t, t + h)
+                };
+                let got = WATER_LIQUID.enthalpy(a, b);
+                let want = WATER_LIQUID.cp(0.5 * (a + b)) * h;
+                assert!(
+                    (got - want).abs() <= 1e-6 * want.abs(),
+                    "{h} K at {t} K: {got} J/mol against {want} J/mol"
+                );
+            }
+        }
     }
 
     #[test]

@@ -349,32 +349,40 @@ proptest! {
         // a typical script, where gross is about three times net; what it
         // removes is the cliff, not the rigour.
         //
-        // SECOND, a floor that scales with the MATTER differenced rather
-        // than the energy moved, because the two come apart: water poured
-        // in at 25.0 C moves no energy at all and is still differenced.
-        // Liquid water's NASA-9 fit sums an antiderivative of terms ~1.2e9
-        // J/mol cancelling to -9.2e8, so a double gives up ~2.6e-7 J per
-        // mole per difference (#509; ice's fit gives up 4e-11 and
-        // nitrogen's 4e-12 - it is that one curve's conditioning, not the
-        // ledger). The worst case in the sweep is exactly this: 33.3 mol of
-        // near-room-temperature water, 306 J of traffic, 1.08e-5 J left
-        // over, which is 3.2e-7 J per mole and would sit only 28x inside a
-        // purely relative bound. Five microjoules per mole is twenty times
-        // the per-difference figure, leaving room for the several
-        // differences an operator takes. PLAN.md's `(T - T_mid)`
-        // reformulation would buy most of this term back.
+        // There used to be a SECOND term here, a floor of 5e-6 J per mole
+        // of water held, and it is gone. It never described the ledger. It
+        // described one curve's arithmetic: `CpInterval::integral` summed
+        // liquid water's NASA-9 antiderivative, whose terms run to 1.2e9
+        // J/mol and cancel to -9.2e8, so a double quantised every
+        // difference in steps of ~2.6e-7 J/mol however narrow the span -
+        // water poured in at 25.0 C moved no energy and still shed noise.
+        // `enthalpy` is now written as a difference of powers with
+        // `(t1 - t0)` factored out of every term, so the residue is
+        // proportional to the span, which is to say proportional to the
+        // energy actually moved, which is to say already covered by the
+        // relative term above. Measured against a 60-digit reference, the
+        // worst residue for liquid water fell from 7.9e-7 to 8.0e-8 J/mol
+        // over arbitrary spans and from 7.3e-7 to 5.7e-10 J/mol over spans
+        // under a kelvin.
         //
-        // With both terms the tightest margin over those 4096 scripts is
-        // 100x, and the next tightest 228x.
+        // The evidence for dropping it, matched against the sweep that set
+        // the old bound: 4096 random scripts, up to 1.07 MJ of gross
+        // traffic, up to 339 mol of water and 39 operators. The TIGHTEST
+        // margin is now 230373x, where with the water term it was 100x and
+        // the next tightest 228x. 464 of those 4096 scripts came back with
+        // a residue of EXACTLY zero, which the antiderivative form could
+        // not do for any script that touched water. The worst residue per
+        // mole of water held is 6.3e-8 J/mol, against the 3.2e-7 J/mol that
+        // motivated the floor - and unlike that figure it is not a floor,
+        // because it rides on 51 kJ of traffic rather than on 306 J.
         //
-        // The 0.0157 J that failed job 101869813421 was NOT this floor and
+        // The 0.0157 J that failed job 101869813421 was NOT arithmetic and
         // is not tolerated here. Dissolving a solid in an organic solvent
         // moved the portion from its own Cp(T) curve onto the flat registry
         // constant and rewrote the vessel's enthalpy for free; that is a
         // leak, and it is fixed in `nonaqueous.rs`. Its seed is pinned in
         // `conservation.proptest-regressions` so it is re-run every time.
-        let water = bench.total_moles(&SpeciesId::new("water")).0;
-        let tolerance = 3e-6 * gross.max(1.0) + 5e-6 * water;
+        let tolerance = 3e-6 * gross.max(1.0);
         prop_assert!(
             (h - budget).abs() < tolerance,
             "bench enthalpy {h} J diverged from heat budget {budget} J by more \
