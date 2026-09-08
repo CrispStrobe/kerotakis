@@ -228,10 +228,16 @@ def gases() -> dict:
             lines.append(f"heat v1 {energy}J")
         lines.append("measure v1 pressure")
         group.append(case(number, f"gas-heating-{energy}",
-            "How does added energy change the pressure of a fixed sealed gas?", *lines))
+            ("Does this heat input exceed the sealed vessel's pressure rating?"
+             if energy == 400 else
+             "How does added energy change the pressure of a fixed sealed gas?"), *lines))
     cases += group
-    relations.append(relation("gas-heating-pressure-order", "event-scalar-order", group,
-        event="measured", field="value", occurrence="last", direction="increasing", min_delta=1.0))
+    relations += [
+        relation("gas-heating-pressure-order", "event-scalar-order", group[:3],
+            event="measured", field="value", occurrence="last", direction="increasing", min_delta=1.0),
+        relation("gas-heating-burst-boundary", "event-present", [group[3]],
+            event="burst", count=1),
+    ]
 
     group = [
         case(279, "gas-energy-single", "Does one energy pulse reach the same state as partitioned pulses?",

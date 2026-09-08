@@ -1,6 +1,7 @@
 use kerotakis_core::nonaqueous::{water_fraction_among_solvents, AQUEOUS_WATER_FRACTION_FLOOR};
+use kerotakis_core::ops::NotModelledCause;
 use kerotakis_core::solve::{Equilibrator, HonestyEquilibrator};
-use kerotakis_core::{Event, NotModelledCause, Phase, SpeciesId, Vessel, VesselId};
+use kerotakis_core::{Event, Phase, SpeciesId, Vessel, VesselId};
 
 #[test]
 fn acetic_acid_counts_as_solvent_when_routing_low_water_organic_mixtures() {

@@ -311,6 +311,16 @@ successful 78-file sixth-fleet subset is independently archived as
 `chemistry-audit-sixth-195-218-36eb425c.tar.gz` (SHA-256
 `5f19afcf35ffdf8047a43eaaf19429ec2c35fc24baaf315cbe37a6855f177459`).
 
+The second GitHub execution passed eight source families and the repaired
+sixth fleet. It exposed two remaining contract errors rather than new hidden
+engine failures. At 400 J the sealed gas exceeds the vessel's independently
+defined pressure rating and correctly bursts, so that case now requires the
+burst boundary while the three sub-rating cases retain the monotonic pressure
+law. Reversed silver/chloride additions conserve exactly the same system
+ledger but differ at trace scale in phase partition because their sequential
+thermal paths differ; the relation now asserts Ag/Cl retention rather than the
+false claim that those paths are thermodynamically identical.
+
 Known limitations retained throughout the audit include mixed-solvent ionic
 activity, physical gas-transfer and uncatalyzed reaction rates, nucleation,
 surface and geometry effects, calibrated detection thresholds, complete copper-

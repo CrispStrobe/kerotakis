@@ -59,7 +59,7 @@
     },
     {
       "id": "278-gas-heating-400",
-      "question": "How does added energy change the pressure of a fixed sealed gas?",
+      "question": "Does this heat input exceed the sealed vessel's pressure rating?",
       "script": "seal v1 500mL\nadd v1 N2 0.0042mol\nheat v1 400J\nmeasure v1 pressure"
     },
     {
@@ -167,8 +167,7 @@
       "cases": [
         "275-gas-heating-0",
         "276-gas-heating-100",
-        "277-gas-heating-200",
-        "278-gas-heating-400"
+        "277-gas-heating-200"
       ],
       "parameters": {
         "event": "measured",
@@ -176,6 +175,18 @@
         "occurrence": "last",
         "direction": "increasing",
         "min_delta": 1.0
+      }
+    },
+    {
+      "id": "gas-heating-burst-boundary",
+      "kind": "boundary",
+      "assertion": "event-present",
+      "cases": [
+        "278-gas-heating-400"
+      ],
+      "parameters": {
+        "event": "burst",
+        "count": 1
       }
     },
     {

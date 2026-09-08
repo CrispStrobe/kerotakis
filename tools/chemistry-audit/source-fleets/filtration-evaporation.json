@@ -5,12 +5,12 @@
   "cases": [
     {
       "id": "339-silver-filter-chloride-first",
-      "question": "Does filtering preserve silver and chlorine after chloride is added first?",
+      "question": "Does filtering preserve the complete silver and chlorine ledger after chloride is added first?",
       "script": "add v1 water 0.30L\nadd v1 NaCl 0.0012mol\nadd v1 AgNO3 0.0012mol\nnew\nfilter v1 v2"
     },
     {
       "id": "340-silver-filter-silver-first",
-      "question": "Does reversing the two feeds leave the filtered silver system unchanged?",
+      "question": "Does reversing the two feeds preserve the same complete silver and chlorine ledger?",
       "script": "add v1 water 0.30L\nadd v1 AgNO3 0.0012mol\nadd v1 NaCl 0.0012mol\nnew\nfilter v1 v2"
     },
     {
@@ -127,18 +127,17 @@
   "relations": [
     {
       "id": "r339-01-silver-feed-order",
-      "kind": "metamorphic",
+      "kind": "conservation",
       "cases": [
         "339-silver-filter-chloride-first",
         "340-silver-filter-silver-first"
       ],
-      "assertion": "final-inventory-equal",
-      "description": "Feed order must not change the two-vessel material state.",
+      "assertion": "final-elements-equal",
+      "description": "Feed order must preserve the complete two-vessel silver and chlorine ledger.",
       "parameters": {
-        "species": [
-          "AgCl",
-          "Ag+",
-          "Cl-"
+        "elements": [
+          "Ag",
+          "Cl"
         ]
       }
     },

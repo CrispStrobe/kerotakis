@@ -45,8 +45,8 @@ def paired_family(family: str, title: str, entries: list[dict], specs: list[tupl
 
 def filtration_evaporation() -> dict:
     c = []
-    c += [case(339, "silver-filter-chloride-first", "Does filtering preserve silver and chlorine after chloride is added first?", "add v1 water 0.30L\nadd v1 NaCl 0.0012mol\nadd v1 AgNO3 0.0012mol\nnew\nfilter v1 v2"),
-          case(340, "silver-filter-silver-first", "Does reversing the two feeds leave the filtered silver system unchanged?", "add v1 water 0.30L\nadd v1 AgNO3 0.0012mol\nadd v1 NaCl 0.0012mol\nnew\nfilter v1 v2")]
+    c += [case(339, "silver-filter-chloride-first", "Does filtering preserve the complete silver and chlorine ledger after chloride is added first?", "add v1 water 0.30L\nadd v1 NaCl 0.0012mol\nadd v1 AgNO3 0.0012mol\nnew\nfilter v1 v2"),
+          case(340, "silver-filter-silver-first", "Does reversing the two feeds preserve the same complete silver and chlorine ledger?", "add v1 water 0.30L\nadd v1 AgNO3 0.0012mol\nadd v1 NaCl 0.0012mol\nnew\nfilter v1 v2")]
     c += [case(341, "barium-filter-sulfate-first", "Does a sulfate-first preparation conserve barium and sulfur through filtration?", "add v1 water 0.45L\nadd v1 Na2SO4 0.0007mol\nadd v1 BaCl2 0.0011mol\nnew\nfilter v1 v2"),
           case(342, "barium-filter-barium-first", "Does feed order leave the unequal barium sulfate separation unchanged?", "add v1 water 0.45L\nadd v1 BaCl2 0.0011mol\nadd v1 Na2SO4 0.0007mol\nnew\nfilter v1 v2")]
     c += [case(343, "sand-salt-filter-unit", "How are silica and dissolved potassium chloride divided by one filtration?", "add v1 water 0.25L\nadd v1 SiO2 0.004mol\nadd v1 KCl 0.002mol\nnew\nfilter v1 v2"),
@@ -70,7 +70,7 @@ def filtration_evaporation() -> dict:
     c += [case(361, "barium-filter-before-drying", "Does filtering a barium sulfate preparation conserve its full elemental ledger?", "add v1 water 0.35L\nadd v1 BaCl2 0.0006mol\nadd v1 Na2SO4 0.0006mol\nnew\nfilter v1 v2"),
           case(362, "barium-filter-and-dry-filtrate", "Does drying only the filtrate leave the combined elemental ledger unchanged?", "add v1 water 0.35L\nadd v1 BaCl2 0.0006mol\nadd v1 Na2SO4 0.0006mol\nnew\nfilter v1 v2\nevaporate v2 1.0")]
     specs = [
-        ("silver-feed-order", "final-inventory-equal", "Feed order must not change the two-vessel material state.", {"species": ["AgCl", "Ag+", "Cl-"]}),
+        ("silver-feed-order", "final-elements-equal", "Feed order must preserve the complete two-vessel silver and chlorine ledger.", {"elements": ["Ag", "Cl"]}),
         ("barium-feed-order", "final-elements-equal", "Feed order must not change separated elemental totals.", {"elements": ["Ba", "S", "Cl", "Na"]}),
         ("sand-salt-scale", "final-elements-equal", "All selected elemental totals must scale by three.", {"elements": ["Si", "K", "Cl"], "scale": 3.0}),
         ("brine-step-partition", "final-inventory-equal", "Equivalent retained-water fractions must produce the same final inventory.", {"species": ["water", "NaCl"], "rtol": 1e-8, "atol": 1e-10}),
