@@ -14,6 +14,14 @@ it had while it was open, which is why a few numbers appear twice below.
 
 ## 2026-09-08
 
+**Source-fleet coverage audit**
+
+- Audited the two curiosity-coverage movements row by row: sealed inert-gas
+  warming now remains on the typed pressure/thermal event path instead of
+  being claimed by combustion equilibrium (`th-023`), while steam
+  condensation reports the curated latent-heat phase route that actually
+  answered it (`th-097`). No unrelated baseline was regenerated.
+
 **Coverage contract**
 
 - **The curiosity grade is a floor, and the previous count is gone.**
