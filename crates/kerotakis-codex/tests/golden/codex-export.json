@@ -11849,6 +11849,698 @@
       }
     },
     {
+      "id": "buffer-ph-is-intensive",
+      "progress": "advanced",
+      "equation": null,
+      "summary": "Scaling water, weak acid, and conjugate base together preserves the buffer pH",
+      "summary_de": "Werden Wasser, schwache Säure und korrespondierende Base gemeinsam skaliert, bleibt der Puffer-pH gleich",
+      "concepts": [
+        "buffers",
+        "ph",
+        "intensive-properties"
+      ],
+      "requires": [
+        "acids-and-bases",
+        "amount-of-substance"
+      ],
+      "spine": [],
+      "curriculum": [],
+      "apparatus": [
+        "beaker",
+        "ph-meter"
+      ],
+      "calculations": [
+        "concentration",
+        "acid-base-equilibrium"
+      ],
+      "models": [
+        "equilibrium"
+      ],
+      "setup": {
+        "script": "add v1 water 180mL\nadd v1 CH3COOH 0.0018mol\nadd v1 NaOAc 0.0018mol\nmeasure v1 ph\nnew\nadd v2 water 360mL\nadd v2 CH3COOH 0.0036mol\nadd v2 NaOAc 0.0036mol\nmeasure v2 ph\nnew\nadd v3 water 540mL\nadd v3 CH3COOH 0.0054mol\nadd v3 NaOAc 0.0054mol\nmeasure v3 ph\nnew\nadd v4 water 720mL\nadd v4 CH3COOH 0.0072mol\nadd v4 NaOAc 0.0072mol\nmeasure v4 ph\n"
+      },
+      "expect": {
+        "events": [
+          "measured"
+        ],
+        "absent": [
+          "solver_failed"
+        ],
+        "predict": {
+          "question": "Four acetate buffers have the same composition but contain one, two, three, or four times as much material. Which has the highest pH?",
+          "question_de": "Vier Acetatpuffer haben dieselbe Zusammensetzung, enthalten aber die ein-, zwei-, drei- oder vierfache Stoffmenge. Welcher hat den höchsten pH-Wert?",
+          "options": [
+            "The largest, because it contains the most base",
+            "None: scaling acid, base, and water together preserves their ratio and pH"
+          ],
+          "options_de": [
+            "Der größte, weil er die meiste Base enthält",
+            "Keiner: Werden Säure, Base und Wasser gemeinsam skaliert, bleiben ihr Verhältnis und der pH-Wert gleich"
+          ],
+          "answer": 1,
+          "misconception": "Total amount of base is mistaken for base concentration and for the acid-to-base ratio that controls buffer pH.",
+          "misconception_de": "Die Gesamtmenge der Base wird mit ihrer Konzentration und mit dem Säure-Base-Verhältnis verwechselt, das den Puffer-pH bestimmt.",
+          "diagnosis": [
+            {
+              "option": 0,
+              "reveals": "An extensive amount is being used as though it were an intensive composition.",
+              "reveals_de": "Eine extensive Stoffmenge wird so verwendet, als wäre sie eine intensive Zusammensetzung.",
+              "next": "Divide acid and acetate moles by water amount in every vessel, then compare the four pH readings.",
+              "next_de": "Teile in jedem Gefäß die Stoffmengen von Säure und Acetat durch die Wassermenge und vergleiche danach die vier pH-Werte.",
+              "source": null
+            }
+          ]
+        },
+        "ph": null,
+        "temperature_c": null,
+        "assertions": [
+          {
+            "kind": "equal",
+            "tolerance": 0.03,
+            "samples": [
+              {
+                "step": "final",
+                "metric": "ph",
+                "vessel": "v1"
+              },
+              {
+                "step": "final",
+                "metric": "ph",
+                "vessel": "v2"
+              },
+              {
+                "step": "final",
+                "metric": "ph",
+                "vessel": "v3"
+              },
+              {
+                "step": "final",
+                "metric": "ph",
+                "vessel": "v4"
+              }
+            ]
+          }
+        ]
+      },
+      "registers": {
+        "lv1": "A larger buffer is not a stronger-tasting version of the same recipe. When every amount grows together, its pH stays the same.",
+        "lv1_de": "Ein größerer Puffer ist nicht bloß eine stärker schmeckende Version desselben Rezepts. Wachsen alle Mengen gemeinsam, bleibt sein pH-Wert gleich.",
+        "lv2": "All four vessels have the same acid-to-acetate ratio and the same concentrations. The computed pH therefore agrees even though their total amounts differ fourfold.",
+        "lv2_de": "Alle vier Gefäße haben dasselbe Verhältnis von Säure zu Acetat und dieselben Konzentrationen. Deshalb stimmen die berechneten pH-Werte überein, obwohl sich die Gesamtmengen um den Faktor vier unterscheiden.",
+        "lv3": "pH is intensive under extensive scaling at fixed composition, temperature, and activity model. Buffer capacity is extensive, however: the larger vessel can absorb proportionally more added acid before this equality fails.",
+        "lv3_de": "Bei gleichbleibender Zusammensetzung, Temperatur und gleichem Aktivitätsmodell ist der pH-Wert unter extensiver Skalierung intensiv. Die Pufferkapazität ist dagegen extensiv: Das größere Gefäß kann proportional mehr zugesetzte Säure aufnehmen, bevor diese Gleichheit versagt."
+      },
+      "provenance": {
+        "source": "Original promotion from generic extensive-scaling buffer controls; no private source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08.",
+        "licence": null,
+        "computed_by": "Kerotakis aqueous equilibrium solver; four-way final-pH equality assertion"
+      }
+    },
+    {
+      "id": "neutralisation-forgets-addition-order",
+      "progress": "intermediate",
+      "equation": null,
+      "summary": "Acid-first, base-first, and split additions reach the same final pH for the same neutral inventory",
+      "summary_de": "Säure zuerst, Base zuerst und geteilte Zugaben erreichen bei demselben neutralen Endbestand denselben pH-Wert",
+      "concepts": [
+        "neutralisation",
+        "ph",
+        "state-functions"
+      ],
+      "requires": [
+        "strong-acids",
+        "strong-bases"
+      ],
+      "spine": [],
+      "curriculum": [],
+      "apparatus": [
+        "beaker",
+        "ph-meter"
+      ],
+      "calculations": [
+        "acid-base-stoichiometry"
+      ],
+      "models": [
+        "ionic-bonding",
+        "equilibrium"
+      ],
+      "setup": {
+        "script": "add v1 water 300mL\nadd v1 HCl 0.001mol\nadd v1 NaOH 0.001mol\nmeasure v1 ph\nnew\nadd v2 water 300mL\nadd v2 NaOH 0.001mol\nadd v2 HCl 0.001mol\nmeasure v2 ph\nnew\nadd v3 water 300mL\nadd v3 HCl 0.0004mol\nadd v3 HCl 0.0006mol\nadd v3 NaOH 0.001mol\nmeasure v3 ph\nnew\nadd v4 water 300mL\nadd v4 HCl 0.001mol\nadd v4 NaOH 0.0003mol\nadd v4 NaOH 0.0007mol\nmeasure v4 ph\n"
+      },
+      "expect": {
+        "events": [
+          "measured"
+        ],
+        "absent": [
+          "solver_failed"
+        ],
+        "predict": {
+          "question": "Equal strong-acid and strong-base totals are combined acid-first, base-first, or in split portions. Which route has a different final pH?",
+          "question_de": "Gleiche Gesamtmengen starker Säure und starker Base werden säurezuerst, basezuerst oder portionsweise vereinigt. Welcher Weg hat einen anderen End-pH?",
+          "options": [
+            "At least one, because the first reagent fixes whether the water becomes acidic or alkaline",
+            "None: after equilibration the same final inventory gives the same pH"
+          ],
+          "options_de": [
+            "Mindestens einer, weil das erste Reagenz festlegt, ob das Wasser sauer oder alkalisch wird",
+            "Keiner: Nach der Gleichgewichtseinstellung ergibt derselbe Endbestand denselben pH-Wert"
+          ],
+          "answer": 1,
+          "misconception": "A transient excess during pouring is mistaken for a lasting part of the equilibrated final state.",
+          "misconception_de": "Ein vorübergehender Überschuss während des Eingießens wird für einen dauerhaften Teil des eingestellten Endzustands gehalten.",
+          "diagnosis": [
+            {
+              "option": 0,
+              "reveals": "The order-dependent intermediate state is being carried into a calculation that depends on the final inventory.",
+              "reveals_de": "Der reihenfolgeabhängige Zwischenzustand wird in eine Rechnung übernommen, die vom Endbestand abhängt.",
+              "next": "For each route, total the delivered HCl and NaOH before comparing the final pH readings.",
+              "next_de": "Summiere für jeden Weg die zugegebenen Mengen HCl und NaOH, bevor du die abschließenden pH-Werte vergleichst.",
+              "source": null
+            }
+          ]
+        },
+        "ph": null,
+        "temperature_c": null,
+        "assertions": [
+          {
+            "kind": "equal",
+            "tolerance": 0.03,
+            "samples": [
+              {
+                "step": "final",
+                "metric": "ph",
+                "vessel": "v1"
+              },
+              {
+                "step": "final",
+                "metric": "ph",
+                "vessel": "v2"
+              },
+              {
+                "step": "final",
+                "metric": "ph",
+                "vessel": "v3"
+              },
+              {
+                "step": "final",
+                "metric": "ph",
+                "vessel": "v4"
+              }
+            ]
+          }
+        ]
+      },
+      "registers": {
+        "lv1": "Pouring acid first or base first changes the journey, but equal final amounts leave the same neutral water.",
+        "lv1_de": "Ob Säure oder Base zuerst eingegossen wird, verändert den Weg; gleiche Endmengen hinterlassen jedoch dasselbe neutrale Wasser.",
+        "lv2": "Each route supplies 0.001 mol HCl and 0.001 mol NaOH to 300 mL water. Splitting either dose does not change the final excess of hydrogen or hydroxide ions.",
+        "lv2_de": "Jeder Weg gibt 0,001 mol HCl und 0,001 mol NaOH zu 300 mL Wasser. Das Aufteilen einer der beiden Portionen ändert den abschließenden Überschuss an Wasserstoff- oder Hydroxidionen nicht.",
+        "lv3": "This path-independence claim is restricted to the final equilibrated strong-acid/strong-base inventory. Transient local pH, heat release, splashing, and finite mixing rates can depend strongly on order in a real vessel.",
+        "lv3_de": "Diese Wegunabhängigkeit gilt nur für den abschließend eingestellten Bestand aus starker Säure und starker Base. Lokaler pH-Wert, Wärmefreisetzung, Spritzen und endliche Mischgeschwindigkeiten können in einem wirklichen Gefäß stark von der Reihenfolge abhängen."
+      },
+      "provenance": {
+        "source": "Original promotion from generic neutralisation-order controls; no private source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08.",
+        "licence": null,
+        "computed_by": "Kerotakis aqueous equilibrium solver; four-way final-pH equality assertion"
+      }
+    },
+    {
+      "id": "carbonate-precipitate-forgets-feed-order",
+      "progress": "intermediate",
+      "equation": null,
+      "summary": "Reversing or splitting equal calcium and carbonate feeds leaves the same calculated calcite amount",
+      "summary_de": "Werden gleiche Calcium- und Carbonatzugaben umgekehrt oder aufgeteilt, bleibt dieselbe berechnete Calcitmenge zurück",
+      "concepts": [
+        "precipitation",
+        "solubility-equilibrium",
+        "state-functions"
+      ],
+      "requires": [
+        "ions-in-solution",
+        "amount-of-substance"
+      ],
+      "spine": [],
+      "curriculum": [],
+      "apparatus": [
+        "beaker"
+      ],
+      "calculations": [
+        "limiting-reagent"
+      ],
+      "models": [
+        "equilibrium",
+        "ionic-bonding"
+      ],
+      "setup": {
+        "script": "add v1 water 250mL\nadd v1 CaCl2 0.003mol\nadd v1 Na2CO3 0.003mol\ninspect v1\nnew\nadd v2 water 250mL\nadd v2 Na2CO3 0.003mol\nadd v2 CaCl2 0.003mol\ninspect v2\nnew\nadd v3 water 250mL\nadd v3 CaCl2 0.001mol\nadd v3 Na2CO3 0.003mol\nadd v3 CaCl2 0.002mol\ninspect v3\nnew\nadd v4 water 250mL\nadd v4 Na2CO3 0.001mol\nadd v4 CaCl2 0.003mol\nadd v4 Na2CO3 0.002mol\ninspect v4\n"
+      },
+      "expect": {
+        "events": [
+          "precipitated:CaCO3"
+        ],
+        "absent": [
+          "solver_failed"
+        ],
+        "predict": {
+          "question": "The same calcium and carbonate totals are delivered in four different orders. Which route leaves a different calculated amount of calcite?",
+          "question_de": "Dieselben Gesamtmengen Calcium und Carbonat werden in vier unterschiedlichen Reihenfolgen zugegeben. Welcher Weg hinterlässt eine andere berechnete Calcitmenge?",
+          "options": [
+            "The route that adds calcium first, because the first solid locks in the history",
+            "None: the equilibrium phase calculation uses the same final elemental inventory"
+          ],
+          "options_de": [
+            "Der Weg mit Calcium zuerst, weil der erste Feststoff die Vorgeschichte festhält",
+            "Keiner: Die Gleichgewichtsrechnung der Phasen verwendet denselben abschließenden Elementbestand"
+          ],
+          "answer": 1,
+          "misconception": "The first visible precipitate is assumed to determine the final equilibrium amount even when the complete inventory is identical.",
+          "misconception_de": "Es wird angenommen, der erste sichtbare Niederschlag bestimme die endgültige Gleichgewichtsmenge, obwohl der vollständige Bestand gleich ist.",
+          "diagnosis": [
+            {
+              "option": 0,
+              "reveals": "Nucleation history is being substituted for the equilibrium material balance used by this model.",
+              "reveals_de": "Die Keimbildungsgeschichte ersetzt die Gleichgewichts-Stoffbilanz, mit der dieses Modell rechnet.",
+              "next": "Add the calcium and carbonate feeds in each vessel, then compare both the precipitation events and final CaCO3 inventories.",
+              "next_de": "Addiere in jedem Gefäß die Calcium- und Carbonatzugaben und vergleiche danach sowohl die Fällungsereignisse als auch die endgültigen CaCO3-Bestände.",
+              "source": null
+            }
+          ]
+        },
+        "ph": null,
+        "temperature_c": null,
+        "assertions": [
+          {
+            "kind": "equal",
+            "tolerance": 2e-8,
+            "samples": [
+              {
+                "step": "final",
+                "metric": "moles:CaCO3",
+                "vessel": "v1"
+              },
+              {
+                "step": "final",
+                "metric": "moles:CaCO3",
+                "vessel": "v2"
+              },
+              {
+                "step": "final",
+                "metric": "moles:CaCO3",
+                "vessel": "v3"
+              },
+              {
+                "step": "final",
+                "metric": "moles:CaCO3",
+                "vessel": "v4"
+              }
+            ]
+          }
+        ]
+      },
+      "registers": {
+        "lv1": "Calcium can arrive first, carbonate can arrive first, or either can arrive in pieces. With the same final amounts, the virtual beakers make the same chalk.",
+        "lv1_de": "Calcium kann zuerst kommen, Carbonat kann zuerst kommen oder eines von beiden portionsweise. Bei gleichen Endmengen bilden die virtuellen Becher dieselbe Menge Kreide.",
+        "lv2": "Every vessel ends with 0.003 mol calcium feed and 0.003 mol carbonate feed in 250 mL water. The solver therefore returns equal final calcite inventories.",
+        "lv2_de": "Jedes Gefäß endet mit 0,003 mol Calciumzugabe und 0,003 mol Carbonatzugabe in 250 mL Wasser. Deshalb liefert der Löser gleiche abschließende Calcitbestände.",
+        "lv3": "The assertion concerns the equilibrium phase amount, not nucleation history or crystal form. Real precipitation can retain order-dependent particle sizes, polymorphs, occlusion, and supersaturation because those kinetic details are outside this replay.",
+        "lv3_de": "Die Prüfung betrifft die Gleichgewichtsmenge der Phase, nicht die Keimbildungsgeschichte oder Kristallform. Wirkliche Fällungen können wegen der hier nicht modellierten Kinetik reihenfolgeabhängige Teilchengrößen, Polymorphe, Einschlüsse und Übersättigungen bewahren."
+      },
+      "provenance": {
+        "source": "Original promotion from generic carbonate feed-order controls; no private source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08.",
+        "licence": null,
+        "computed_by": "Kerotakis aqueous phase-equilibrium solver; four-way final-CaCO3 equality assertion"
+      }
+    },
+    {
+      "id": "pressure-is-intensive-under-scaling",
+      "progress": "advanced",
+      "equation": null,
+      "summary": "Scaling gas amount, sealed volume, and heat together preserves the calculated pressure",
+      "summary_de": "Werden Gasmenge, abgeschlossenes Volumen und Wärme gemeinsam skaliert, bleibt der berechnete Druck gleich",
+      "concepts": [
+        "gas-pressure",
+        "intensive-properties",
+        "scaling"
+      ],
+      "requires": [
+        "particle-model",
+        "amount-of-substance"
+      ],
+      "spine": [],
+      "curriculum": [],
+      "apparatus": [
+        "sealed-vessel",
+        "pressure-sensor"
+      ],
+      "calculations": [
+        "ideal-gas-law"
+      ],
+      "models": [
+        "particle-model"
+      ],
+      "setup": {
+        "script": "seal v1 250mL\nadd v1 N2 0.002mol\nheat v1 75J\nmeasure v1 pressure\nnew\nseal v2 500mL\nadd v2 N2 0.004mol\nheat v2 150J\nmeasure v2 pressure\nnew\nseal v3 750mL\nadd v3 N2 0.006mol\nheat v3 225J\nmeasure v3 pressure\nnew\nseal v4 1000mL\nadd v4 N2 0.008mol\nheat v4 300J\nmeasure v4 pressure\n"
+      },
+      "expect": {
+        "events": [
+          "measured"
+        ],
+        "absent": [
+          "solver_failed",
+          "burst"
+        ],
+        "predict": {
+          "question": "Gas amount, vessel volume, and heating are all multiplied by the same factor. What happens to the final pressure?",
+          "question_de": "Gasmenge, Gefäßvolumen und Erwärmung werden alle mit demselben Faktor multipliziert. Was geschieht mit dem Enddruck?",
+          "options": [
+            "It rises with the total number of gas particles",
+            "It stays the same because particles per volume and energy per particle stay the same"
+          ],
+          "options_de": [
+            "Er steigt mit der Gesamtzahl der Gasteilchen",
+            "Er bleibt gleich, weil Teilchen pro Volumen und Energie pro Teilchen gleich bleiben"
+          ],
+          "answer": 1,
+          "misconception": "Pressure is treated as an extensive total rather than an intensive state determined by density and temperature.",
+          "misconception_de": "Druck wird als extensive Gesamtgröße behandelt statt als intensive Zustandsgröße, die durch Dichte und Temperatur bestimmt wird.",
+          "diagnosis": [
+            {
+              "option": 0,
+              "reveals": "Particle number has been increased without also accounting for the proportional increase in available volume.",
+              "reveals_de": "Die Teilchenzahl wurde erhöht, ohne die proportionale Zunahme des verfügbaren Volumens zu berücksichtigen.",
+              "next": "Compare n/V and heat per mole for all four vessels before reading their pressures.",
+              "next_de": "Vergleiche n/V und die Wärme pro Mol für alle vier Gefäße, bevor du ihre Drücke abliest.",
+              "source": null
+            }
+          ]
+        },
+        "ph": null,
+        "temperature_c": null,
+        "assertions": [
+          {
+            "kind": "equal",
+            "tolerance": 0.002,
+            "samples": [
+              {
+                "step": "final",
+                "metric": "pressure_kpa",
+                "vessel": "v1"
+              },
+              {
+                "step": "final",
+                "metric": "pressure_kpa",
+                "vessel": "v2"
+              },
+              {
+                "step": "final",
+                "metric": "pressure_kpa",
+                "vessel": "v3"
+              },
+              {
+                "step": "final",
+                "metric": "pressure_kpa",
+                "vessel": "v4"
+              }
+            ]
+          }
+        ]
+      },
+      "registers": {
+        "lv1": "A gas sample can be twice or four times as large without having a larger pressure, if its container and heating grow by the same factor.",
+        "lv1_de": "Eine Gasportion kann doppelt oder viermal so groß sein, ohne einen größeren Druck zu haben, wenn ihr Behälter und die Erwärmung um denselben Faktor wachsen.",
+        "lv2": "Each trial keeps n/V and energy per mole fixed. The resulting temperature and ideal-gas pressure are therefore equal while total gas amount and volume scale.",
+        "lv2_de": "Jeder Versuch hält n/V und die Energie pro Mol konstant. Deshalb sind Endtemperatur und idealer Gasdruck gleich, während Gesamtgasmenge und Volumen skalieren.",
+        "lv3": "Pressure is intensive under this proportional scaling because p = nRT/V and the thermal state is scaled consistently. The equality assumes the model's ideal gas, rigid volume, uniform temperature, and unchanged vessel boundary.",
+        "lv3_de": "Unter dieser proportionalen Skalierung ist der Druck intensiv, weil p = nRT/V gilt und der thermische Zustand entsprechend skaliert wird. Die Gleichheit setzt das ideale Gas des Modells, ein starres Volumen, gleichmäßige Temperatur und eine unveränderte Gefäßgrenze voraus."
+      },
+      "provenance": {
+        "source": "Original promotion from generic sealed-gas scaling controls; no private source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08.",
+        "licence": null,
+        "computed_by": "Kerotakis sealed-headspace gas law and thermal model; four-way final-pressure equality assertion"
+      }
+    },
+    {
+      "id": "zinc-ions-lower-cell-voltage",
+      "progress": "advanced",
+      "equation": null,
+      "summary": "Increasing zinc-ion activity lowers the calculated open-circuit Daniell-cell voltage",
+      "summary_de": "Eine höhere Zinkionenaktivität senkt die berechnete Leerlaufspannung des Daniell-Elements",
+      "concepts": [
+        "electrochemical-cells",
+        "nernst-equation",
+        "activities"
+      ],
+      "requires": [
+        "redox",
+        "amount-of-substance"
+      ],
+      "spine": [],
+      "curriculum": [],
+      "apparatus": [
+        "electrochemical-cell",
+        "voltmeter"
+      ],
+      "calculations": [
+        "cell-potential",
+        "reaction-quotient"
+      ],
+      "models": [
+        "equilibrium",
+        "electron-transfer"
+      ],
+      "setup": {
+        "script": "add v1 water 200mL\nadd v1 ZnSO4 0.0005mol\nadd v1 Zn 0.05mol\nnew\nadd v2 water 200mL\nadd v2 CuSO4 0.008mol\nadd v2 Cu 0.05mol\ncell v1 v2\nnew\nadd v3 water 200mL\nadd v3 ZnSO4 0.001mol\nadd v3 Zn 0.05mol\nnew\nadd v4 water 200mL\nadd v4 CuSO4 0.008mol\nadd v4 Cu 0.05mol\ncell v3 v4\nnew\nadd v5 water 200mL\nadd v5 ZnSO4 0.005mol\nadd v5 Zn 0.05mol\nnew\nadd v6 water 200mL\nadd v6 CuSO4 0.008mol\nadd v6 Cu 0.05mol\ncell v5 v6\nnew\nadd v7 water 200mL\nadd v7 ZnSO4 0.01mol\nadd v7 Zn 0.05mol\nnew\nadd v8 water 200mL\nadd v8 CuSO4 0.008mol\nadd v8 Cu 0.05mol\ncell v7 v8\n"
+      },
+      "expect": {
+        "events": [
+          "cell_voltage"
+        ],
+        "absent": [
+          "solver_failed",
+          "no_cell"
+        ],
+        "predict": {
+          "question": "The copper half-cell stays fixed while more zinc sulfate is added to the zinc half-cell. How does the open-circuit voltage change?",
+          "question_de": "Die Kupferhalbzelle bleibt gleich, während der Zinkhalbzelle mehr Zinksulfat zugesetzt wird. Wie ändert sich die Leerlaufspannung?",
+          "options": [
+            "It rises because more ions always make a stronger cell",
+            "It falls because greater zinc-ion activity raises the reaction quotient"
+          ],
+          "options_de": [
+            "Sie steigt, weil mehr Ionen immer eine stärkere Zelle ergeben",
+            "Sie fällt, weil die höhere Zinkionenaktivität den Reaktionsquotienten vergrößert"
+          ],
+          "answer": 1,
+          "misconception": "Electrolyte amount is treated as a generic source of voltage without considering which ion appears in the cell reaction quotient.",
+          "misconception_de": "Die Elektrolytmenge gilt als allgemeine Spannungsquelle, ohne zu beachten, welches Ion im Reaktionsquotienten der Zelle steht.",
+          "diagnosis": [
+            {
+              "option": 0,
+              "reveals": "Conductivity and Nernst potential are being conflated, and the zinc ion's side of the quotient has been ignored.",
+              "reveals_de": "Leitfähigkeit und Nernst-Potential werden verwechselt und die Seite des Zinkions im Quotienten wird übergangen.",
+              "next": "Write Q = a(Zn2+)/a(Cu2+) and use the sign before ln Q in the Nernst equation.",
+              "next_de": "Schreibe Q = a(Zn2+)/a(Cu2+) auf und beachte das Vorzeichen vor ln Q in der Nernst-Gleichung.",
+              "source": null
+            }
+          ]
+        },
+        "ph": null,
+        "temperature_c": null
+      },
+      "registers": {
+        "lv1": "Adding more zinc ions makes this zinc-copper cell's measured push smaller, while the copper side stays the same.",
+        "lv1_de": "Mehr Zinkionen machen den gemessenen Antrieb dieses Zink-Kupfer-Elements kleiner, während die Kupferseite gleich bleibt.",
+        "lv2": "The four cells differ only in zinc-sulfate amount. Raising zinc-ion activity raises the reaction quotient for Zn + Cu2+ → Zn2+ + Cu, so the Nernst voltage falls.",
+        "lv2_de": "Die vier Zellen unterscheiden sich nur in der Zinksulfatmenge. Eine höhere Zinkionenaktivität erhöht den Reaktionsquotienten für Zn + Cu2+ → Zn2+ + Cu; deshalb fällt die Nernst-Spannung.",
+        "lv3": "The engine computes activities after aqueous speciation and then evaluates the Nernst relation. The catalog gate currently verifies four typed voltage events but cannot assert their ordering because event values are not semantic-state metrics; this limitation is stated rather than replaced with a proxy.",
+        "lv3_de": "Die Engine berechnet nach der wässrigen Speziierung die Aktivitäten und wertet dann die Nernst-Beziehung aus. Die Katalogprüfung bestätigt derzeit vier typisierte Spannungsereignisse, kann ihre Reihenfolge aber nicht prüfen, weil Ereigniswerte keine semantischen Zustandsmetriken sind; diese Grenze wird genannt statt durch einen Stellvertreter ersetzt."
+      },
+      "provenance": {
+        "source": "Original promotion from generic Daniell-cell concentration controls; no private source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08.",
+        "licence": null,
+        "computed_by": "Kerotakis aqueous activity and electrochemical-cell solver; typed voltage-event replay"
+      }
+    },
+    {
+      "id": "mixing-temperature-does-not-remember-sides",
+      "progress": "intermediate",
+      "equation": null,
+      "summary": "Reversing the two source vessels leaves the same calculated mixed temperature",
+      "summary_de": "Das Vertauschen der beiden Quellgefäße lässt dieselbe berechnete Mischtemperatur zurück",
+      "concepts": [
+        "thermal-equilibrium",
+        "energy-conservation",
+        "state-functions"
+      ],
+      "requires": [
+        "temperature",
+        "heat-capacity"
+      ],
+      "spine": [],
+      "curriculum": [],
+      "apparatus": [
+        "beaker",
+        "thermometer"
+      ],
+      "calculations": [
+        "thermal-energy-balance"
+      ],
+      "models": [
+        "particle-model",
+        "conservation-of-energy"
+      ],
+      "setup": {
+        "script": "add v1 water 0.18L\nheat v1 1200J\nnew\nadd v2 water 0.27L\ncool v2 500J\nnew\nmix v1 1 v2 1 into v3\nmeasure v3 temp\nnew\nadd v4 water 0.18L\nheat v4 1200J\nnew\nadd v5 water 0.27L\ncool v5 500J\nnew\nmix v5 1 v4 1 into v6\nmeasure v6 temp\n"
+      },
+      "expect": {
+        "events": [
+          "mixed",
+          "measured"
+        ],
+        "absent": [
+          "solver_failed"
+        ],
+        "predict": {
+          "question": "The same warm and cool water portions are mixed, but their order in the command is reversed. Which receiver finishes warmer?",
+          "question_de": "Dieselben warmen und kühlen Wasserportionen werden gemischt, doch ihre Reihenfolge im Befehl wird vertauscht. Welches Zielgefäß ist am Ende wärmer?",
+          "options": [
+            "The one whose hot portion is named first",
+            "Neither: the same total energy and heat capacity give the same equilibrium temperature"
+          ],
+          "options_de": [
+            "Dasjenige, bei dem die heiße Portion zuerst genannt wird",
+            "Keines: Dieselbe Gesamtenergie und Wärmekapazität ergeben dieselbe Gleichgewichtstemperatur"
+          ],
+          "answer": 1,
+          "misconception": "The left-to-right order of a mixing command is mistaken for a physical source of thermal energy.",
+          "misconception_de": "Die Leserichtung eines Mischbefehls wird für eine physikalische Quelle thermischer Energie gehalten.",
+          "diagnosis": [
+            {
+              "option": 0,
+              "reveals": "A label and operand position are being treated as though they changed the energy balance.",
+              "reveals_de": "Eine Beschriftung und Operandenposition werden behandelt, als veränderten sie die Energiebilanz.",
+              "next": "Calculate the sum of each portion's heat capacity times temperature in both orders, then compare the receiver readings.",
+              "next_de": "Berechne in beiden Reihenfolgen die Summe aus Wärmekapazität mal Temperatur jeder Portion und vergleiche dann die Zieltemperaturen.",
+              "source": null
+            }
+          ]
+        },
+        "ph": null,
+        "temperature_c": null,
+        "assertions": [
+          {
+            "kind": "equal",
+            "tolerance": 1e-8,
+            "samples": [
+              {
+                "step": "final",
+                "metric": "temperature_c",
+                "vessel": "v3"
+              },
+              {
+                "step": "final",
+                "metric": "temperature_c",
+                "vessel": "v6"
+              }
+            ]
+          }
+        ]
+      },
+      "registers": {
+        "lv1": "Calling one beaker left and the other right cannot change the final warmth when all their water and energy are mixed.",
+        "lv1_de": "Den einen Becher links und den anderen rechts zu nennen kann die Endwärme nicht ändern, wenn ihr gesamtes Wasser und ihre Energie gemischt werden.",
+        "lv2": "Both trials combine the same 0.18 L warmed portion and 0.27 L cooled portion. Reversing the operands preserves total thermal energy and heat capacity, so the receiver temperatures agree.",
+        "lv2_de": "Beide Versuche verbinden dieselbe erwärmte Portion von 0,18 L und dieselbe gekühlte Portion von 0,27 L. Das Vertauschen der Operanden erhält Gesamtwärmeenergie und Wärmekapazität, daher stimmen die Temperaturen der Zielgefäße überein.",
+        "lv3": "The mixing operator is commutative for these homogeneous water portions because its equilibrium temperature follows a symmetric energy balance. Heat loss, finite mixing time, and spatial gradients could break the laboratory observation but are outside this instantaneous model.",
+        "lv3_de": "Für diese homogenen Wasserportionen ist der Mischoperator kommutativ, weil seine Gleichgewichtstemperatur aus einer symmetrischen Energiebilanz folgt. Wärmeverlust, endliche Mischzeit und räumliche Gradienten könnten die Laborbeobachtung brechen, liegen aber außerhalb dieses unmittelbaren Modells."
+      },
+      "provenance": {
+        "source": "Original promotion from generic thermal mixing-order controls; no private source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08.",
+        "licence": null,
+        "computed_by": "Kerotakis thermal energy-balance operator; receiver-temperature equality assertion"
+      }
+    },
+    {
+      "id": "scaling-mixture-scales-equilibrium",
+      "progress": "advanced",
+      "equation": null,
+      "summary": "Doubling every component doubles the calculated equilibrium inventory while preserving composition",
+      "summary_de": "Das Verdoppeln jeder Komponente verdoppelt den berechneten Gleichgewichtsbestand und erhält dabei die Zusammensetzung",
+      "concepts": [
+        "chemical-equilibrium",
+        "scaling",
+        "intensive-properties"
+      ],
+      "requires": [
+        "reaction-quotient",
+        "amount-of-substance"
+      ],
+      "spine": [],
+      "curriculum": [],
+      "apparatus": [
+        "beaker"
+      ],
+      "calculations": [
+        "equilibrium-expression",
+        "mole-fraction"
+      ],
+      "models": [
+        "equilibrium",
+        "conservation-of-mass"
+      ],
+      "setup": {
+        "script": "add v1 CH3COOH 0.013mol\nadd v1 ethanol 0.009mol\nadd v1 ethyl_acetate 0.002mol\nadd v1 water 0.005mol\ninspect v1\nreact v1 esterification\nnew\nadd v2 CH3COOH 0.026mol\nadd v2 ethanol 0.018mol\nadd v2 ethyl_acetate 0.004mol\nadd v2 water 0.01mol\nreact v2 esterification\n"
+      },
+      "expect": {
+        "events": [
+          "org_reacted"
+        ],
+        "absent": [
+          "solver_failed"
+        ],
+        "predict": {
+          "question": "Every component in an equilibrium mixture is doubled before the same equilibrium calculation. What should happen to the final amounts?",
+          "question_de": "Jede Komponente einer Gleichgewichtsmischung wird vor derselben Gleichgewichtsrechnung verdoppelt. Was soll mit den Endmengen geschehen?",
+          "options": [
+            "They stay unchanged because an equilibrium constant fixes amounts",
+            "They double while the equilibrium composition and reaction quotient stay the same"
+          ],
+          "options_de": [
+            "Sie bleiben unverändert, weil eine Gleichgewichtskonstante Stoffmengen festlegt",
+            "Sie verdoppeln sich, während Gleichgewichtszusammensetzung und Reaktionsquotient gleich bleiben"
+          ],
+          "answer": 1,
+          "misconception": "The equilibrium constant is mistaken for a fixed number of moles rather than a constraint on activities or composition.",
+          "misconception_de": "Die Gleichgewichtskonstante wird für eine feste Molzahl gehalten statt für eine Bedingung an Aktivitäten oder Zusammensetzung.",
+          "diagnosis": [
+            {
+              "option": 0,
+              "reveals": "An intensive equilibrium relation is being read as a cap on extensive inventory.",
+              "reveals_de": "Eine intensive Gleichgewichtsbeziehung wird als Obergrenze eines extensiven Bestands gelesen.",
+              "next": "Compare mole fractions and the reaction quotient first, then compare each final mole inventory between the two scales.",
+              "next_de": "Vergleiche zuerst Stoffmengenanteile und Reaktionsquotient und danach für jede Spezies die abschließenden Molbestände beider Maßstäbe.",
+              "source": null
+            }
+          ]
+        },
+        "ph": null,
+        "temperature_c": null
+      },
+      "registers": {
+        "lv1": "Making the whole recipe twice as large makes twice as much of every final substance; it does not change the recipe's balance point.",
+        "lv1_de": "Wird das ganze Rezept doppelt so groß, entsteht von jedem Endstoff doppelt so viel; der Gleichgewichtspunkt des Rezepts ändert sich nicht.",
+        "lv2": "The second vessel begins with exactly twice every component. Its reaction quotient and composition match the first, so equilibrium preserves the proportions while extensive amounts double.",
+        "lv2_de": "Das zweite Gefäß beginnt mit genau der doppelten Menge jeder Komponente. Reaktionsquotient und Zusammensetzung stimmen mit dem ersten überein, daher erhält das Gleichgewicht die Anteile, während sich extensive Mengen verdoppeln.",
+        "lv3": "This is homogeneity of the ideal-mixture equilibrium problem under extensive scaling. The current semantic schema has neither ratios nor relative tolerance, so lint verifies the real reaction events but deliberately does not encode the unsafe surrogate claim that two unequal mole values should compare equal.",
+        "lv3_de": "Dies ist die Homogenität des Gleichgewichtsproblems einer idealen Mischung unter extensiver Skalierung. Das gegenwärtige semantische Schema kennt weder Verhältnisse noch relative Toleranzen; deshalb prüft der Linter die wirklichen Reaktionsereignisse, kodiert aber bewusst nicht die falsche Ersatzbehauptung, zwei ungleiche Stoffmengen müssten gleich sein."
+      },
+      "provenance": {
+        "source": "Original promotion from generic organic-equilibrium scaling controls; no private source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08.",
+        "licence": null,
+        "computed_by": "Kerotakis generic reversible mass-action extent solver; typed reaction-event replay (2:1 relation not expressible by current assertion schema)"
+      }
+    },
+    {
       "id": "liquid-nitrogen-freezes-ethanol",
       "progress": "advanced",
       "equation": null,
