@@ -333,7 +333,7 @@ pub(crate) fn run(
                 // carried `missing` here and 64 of them counted as
                 // mismatches against a requirement nobody had made.
                 if let Some(required) = result.expected {
-                    if required != result.observed {
+                    if !meets_requirement(required, result.observed) {
                         expectation_mismatches += 1;
                         expectation_split.record(required, result.observed);
                     }
@@ -359,6 +359,22 @@ pub(crate) fn run(
         failures,
         baseline_drift: Vec::new(),
     })
+}
+
+/// Whether an observed answer satisfies the corpus's minimum requirement.
+///
+/// Computed and curated name provenance routes, not quality levels, and are
+/// therefore the same answer grade. A quantitative/mechanistic answer exceeds
+/// a qualitative requirement. Boundary remains a distinct promise: executing
+/// a refusal is not weaker or stronger than answering the chemistry.
+fn meets_requirement(required: Disposition, observed: Disposition) -> bool {
+    use Disposition::*;
+    match required {
+        Computed | Curated => matches!(observed, Computed | Curated),
+        Qualitative => matches!(observed, Qualitative | Computed | Curated),
+        Boundary => observed == Boundary,
+        Missing => false,
+    }
 }
 
 impl CuriosityReport {
@@ -678,6 +694,19 @@ fn execute_prompt(
             && matches!(route.outcome, SolverRouteOutcome::Succeeded { .. })
     });
 
+    // Route evidence is stronger than an observation-shaped aside. Once a
+    // chemistry-bearing computed route succeeded, classify the transcript by
+    // that route; smells, flame tests and inert notes remain in the transcript
+    // as evidence but no longer hide the mechanism that actually ran.
+    if computed_chemistry {
+        return Ok(result(
+            prompt,
+            Disposition::Computed,
+            "computed-route",
+            routes,
+        ));
+    }
+
     let typed_observation = all_events.iter().any(|event| {
         matches!(
             event,
@@ -882,6 +911,22 @@ fn flag_value<'a>(args: &'a [String], flag: &str) -> Option<&'a str> {
 
 #[cfg(test)]
 mod tests {
+    use super::*;
+
+    #[test]
+    fn expectations_are_capability_floors_not_route_equality() {
+        use Disposition::*;
+        assert!(meets_requirement(Qualitative, Qualitative));
+        assert!(meets_requirement(Qualitative, Computed));
+        assert!(meets_requirement(Qualitative, Curated));
+        assert!(meets_requirement(Computed, Curated));
+        assert!(meets_requirement(Curated, Computed));
+        assert!(!meets_requirement(Computed, Qualitative));
+        assert!(!meets_requirement(Boundary, Computed));
+        assert!(meets_requirement(Boundary, Boundary));
+        assert!(!meets_requirement(Missing, Missing));
+    }
+
     #[test]
     fn an_unmet_requirement_is_sorted_by_where_missing_sits() {
         use Disposition::*;
@@ -898,8 +943,6 @@ mod tests {
         assert_eq!(split.engine_stood_aside, 2);
         assert_eq!(split.route_differs, 1);
     }
-
-    use super::*;
 
     fn observation(id: &str, outcome: BaselineOutcome) -> BaselineObservation {
         BaselineObservation {
