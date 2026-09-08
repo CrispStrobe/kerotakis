@@ -158,7 +158,12 @@ export interface CatalogRunOutcome {
   recorded: boolean;
   /** True when the learner ended the run before the script ran out. */
   halted: boolean;
+  /** True only when every runnable line was accepted and completed. */
+  walked: boolean;
   snapshots: ComparisonSnapshot[];
+  /** One-based vessel numbers owned by the (possibly shifted) script. */
+  comparisonVessels: number[];
+  /** Number added to authored vessel labels when fresh glassware was chosen. */
   vesselOffset: number;
 }
 
@@ -346,10 +351,15 @@ export async function runCatalogEntry(
   const vesselOffset = decision === "fresh" ? highestVesselNumber(bench.scene) : 0;
   const script = scriptForDecision(entry.setup.script, decision, bench.scene);
   const lines = runnableLines(script);
+  const comparisonVessels = scriptVesselNumbers(script);
   const say = alignSay(options.say, entry.setup.script, script);
 
   const ran: string[] = [];
-  const snapshots: ComparisonSnapshot[] = [comparisonSnapshot("initial", bench.scene)];
+  const requestedSnapshots = new Set(
+    (entry.expect?.assertions ?? []).flatMap((assertion) => assertion.samples.map((sample) => sample.step)),
+  );
+  const snapshots: ComparisonSnapshot[] = [];
+  if (requestedSnapshots.has("initial")) snapshots.push(comparisonSnapshot("initial", bench.scene));
   let refusedAt: number | null = null;
   let halted = false;
   // Manual until the learner says otherwise: "finish the rest" is a
@@ -371,7 +381,8 @@ export async function runCatalogEntry(
         refusedAt = index;
         break;
       }
-      snapshots.push(comparisonSnapshot(`after:${index + 1}`, bench.scene));
+      const snapshotStep = `after:${index + 1}` as const;
+      if (requestedSnapshots.has(snapshotStep)) snapshots.push(comparisonSnapshot(snapshotStep, bench.scene));
       const more = index < lines.length - 1;
       if (onstepdone && manual && more) {
         const verdict = await onstepdone({
@@ -398,7 +409,7 @@ export async function runCatalogEntry(
   }
 
   const result = checkExpect(entry.expect ?? {}, observed, bench.finalStateForCheck());
-  snapshots.push(comparisonSnapshot("final", bench.scene));
+  if (requestedSnapshots.has("final")) snapshots.push(comparisonSnapshot("final", bench.scene));
   // Completion is recorded once, and only for a script that actually ran
   // out. A run the learner stopped after one lucky line can satisfy the
   // expectations by accident; crediting it would be crediting the check,
@@ -408,5 +419,5 @@ export async function runCatalogEntry(
   const walked = refusedAt === null && !halted && ran.length === lines.length;
   const recorded = result.allOk && walked && !bench.completedExperiments.has(entry.id);
   if (recorded) bench.markExperimentDone(entry.id);
-  return { ran, observed, result, refusedAt, recorded, halted, snapshots, vesselOffset };
+  return { ran, observed, result, refusedAt, recorded, halted, walked, snapshots, comparisonVessels, vesselOffset };
 }

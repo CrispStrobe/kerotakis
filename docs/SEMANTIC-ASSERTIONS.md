@@ -35,5 +35,7 @@ conservation claims; non-additive metrics require a vessel.
 `kero codex lint` captures state after every operation from the actual engine
 replay and fails on a false claim, an unknown metric or vessel, an unavailable
 pH, or an out-of-range step. Assertions are exported with the rest of
-`expect`, so other clients can show the authored relationship without
-reinterpreting prose.
+`expect`. The script-backed Codex result view shows scene-projected values
+without reinterpreting prose. Species-mole relationships remain visibly marked
+unavailable there because Scene v1 does not expose complete species inventory;
+the engine-side lint still verifies them.

@@ -69,6 +69,23 @@ impl Assertion {
         if self.samples.len() < 2 {
             return Err("a semantic assertion needs at least two samples".into());
         }
+        let metric = &self.samples[0].metric;
+        if self.samples.iter().any(|sample| sample.metric != *metric) {
+            return Err("all samples in a semantic assertion must use the same metric".into());
+        }
+        if self.kind == Kind::Conserved
+            && (!is_additive(metric) || self.samples.iter().any(|sample| sample.vessel.is_some()))
+        {
+            return Err(
+                "a conserved assertion must use whole-bench mass_g or moles:SPECIES samples".into(),
+            );
+        }
+        if self.kind == Kind::Unchanged {
+            let vessel = &self.samples[0].vessel;
+            if self.samples.iter().any(|sample| sample.vessel != *vessel) {
+                return Err("an unchanged assertion must keep the same vessel".into());
+            }
+        }
         let values = self
             .samples
             .iter()
@@ -101,9 +118,15 @@ fn sample(spec: &Sample, trace: &Trace) -> Result<f64, String> {
             .len()
             .checked_sub(1)
             .ok_or("replay trace is empty")?,
-        s if s.starts_with("after:") => s[6..]
-            .parse::<usize>()
-            .map_err(|_| format!("invalid step '{s}'"))?,
+        s if s.starts_with("after:") => {
+            let index = s[6..]
+                .parse::<usize>()
+                .map_err(|_| format!("invalid step '{s}'"))?;
+            if index == 0 {
+                return Err("invalid step 'after:0' (operation counts are one-based)".into());
+            }
+            index
+        }
         s => {
             return Err(format!(
                 "invalid step '{s}' (use initial, final, or after:N)"
@@ -124,6 +147,20 @@ fn sample(spec: &Sample, trace: &Trace) -> Result<f64, String> {
         if spec.metric != "mass_g" && !spec.metric.starts_with("moles:") {
             return Err(format!("metric '{}' needs a vessel", spec.metric));
         }
+        if let Some(species) = spec.metric.strip_prefix("moles:") {
+            if !state
+                .vessels
+                .values()
+                .any(|v| v.moles.contains_key(species))
+            {
+                return Err(format!("species '{species}' is absent from the bench"));
+            }
+            return Ok(state
+                .vessels
+                .values()
+                .map(|v| v.moles.get(species).copied().unwrap_or(0.0))
+                .sum());
+        }
         state
             .vessels
             .values()
@@ -139,9 +176,17 @@ fn vessel_metric(v: &VesselValues, metric: &str) -> Result<f64, String> {
         "pressure_kpa" => Ok(v.pressure_kpa),
         "elapsed_s" => Ok(v.elapsed_s),
         "ph" => v.ph.ok_or_else(|| "pH was not characterised".into()),
-        m if m.starts_with("moles:") => Ok(*v.moles.get(&m[6..]).unwrap_or(&0.0)),
+        m if m.starts_with("moles:") => v
+            .moles
+            .get(&m[6..])
+            .copied()
+            .ok_or_else(|| format!("species '{}' is absent from the vessel", &m[6..])),
         _ => Err(format!("unknown metric '{metric}'")),
     }
+}
+
+fn is_additive(metric: &str) -> bool {
+    metric == "mass_g" || metric.starts_with("moles:")
 }
 
 #[cfg(test)]
@@ -205,6 +250,51 @@ mod tests {
             .evaluate(&trace(&[1.0]))
             .unwrap_err()
             .contains("needs a vessel"));
+        c.samples[0].metric = "mass_g".into();
+        c.samples[0].step = "after:0".into();
+        c.samples[1].metric = "mass_g".into();
+        assert!(c
+            .evaluate(&trace(&[1.0]))
+            .unwrap_err()
+            .contains("one-based"));
+    }
+    #[test]
+    fn refuses_vacuous_or_structurally_invalid_relationships() {
+        let mut c = claim(Kind::Equal);
+        for sample in &mut c.samples {
+            sample.metric = "moles:TYPO".into();
+        }
+        assert!(c
+            .evaluate(&trace(&[1.0, 1.0]))
+            .unwrap_err()
+            .contains("absent"));
+        for sample in &mut c.samples {
+            sample.vessel = None;
+        }
+        assert!(c
+            .evaluate(&trace(&[1.0, 1.0]))
+            .unwrap_err()
+            .contains("absent"));
+
+        let mut mixed = claim(Kind::Equal);
+        mixed.samples[1].metric = "temperature_c".into();
+        assert!(mixed
+            .evaluate(&trace(&[1.0, 1.0]))
+            .unwrap_err()
+            .contains("same metric"));
+
+        let conserved = claim(Kind::Conserved);
+        assert!(conserved
+            .evaluate(&trace(&[1.0, 1.0]))
+            .unwrap_err()
+            .contains("whole-bench"));
+
+        let mut unchanged = claim(Kind::Unchanged);
+        unchanged.samples[1].vessel = Some("v2".into());
+        assert!(unchanged
+            .evaluate(&trace(&[1.0, 1.0]))
+            .unwrap_err()
+            .contains("same vessel"));
     }
     #[test]
     fn authored_toml_is_backward_compatible_and_defaults_tolerance() {

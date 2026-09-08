@@ -2537,6 +2537,9 @@
   "mass g": "",
   "temperature c": "",
   "pressure kpa": "",
-  "elapsed s": ""
- }
+  "elapsed s": "",
+  "relationship holds": "",
+  "relationship does not hold": "",
+  "relationship unavailable": ""
+  }
 }

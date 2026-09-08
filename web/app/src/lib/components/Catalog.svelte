@@ -420,7 +420,9 @@
           : undefined,
       });
       result = outcome.result;
-      comparisons = comparisonRows(script.expect.assertions ?? [], outcome.snapshots, outcome.vesselOffset);
+      comparisons = outcome.walked
+        ? comparisonRows(script.expect.assertions ?? [], outcome.snapshots, outcome.comparisonVessels, outcome.vesselOffset)
+        : [];
       halted = outcome.halted;
       refusedLine = outcome.refusedAt === null ? null : (outcome.ran.at(-1) ?? null);
     } finally {

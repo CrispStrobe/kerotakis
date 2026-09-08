@@ -46,8 +46,9 @@ URLs and source-to-case research mappings remain private.
 
 The next expansion is ordered and intentionally split into reviewable CI-backed
 changes: (1) make catalog claims machine-checkable as final/intermediate state
-relations, (2) show those comparisons in the existing Codex/Experiment/Mission
-run result, (3) promote a second 18-concept tranche without parameter-only
+relations, (2) show those comparisons in the existing script-backed Codex run
+result, (3) promote a second 18-concept tranche into Experiments, Codex and
+Missions without parameter-only
 duplicates, (4) close generic engine boundaries exposed by those replays, and
 (5) freeze and execute the next source-informed batch in GitHub Actions. There
 is no fourth learner-facing surface. The deployment VPS may parse, format and
