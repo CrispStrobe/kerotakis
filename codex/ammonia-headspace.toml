@@ -1,0 +1,97 @@
+# Kerotakis-authored codex text is CC BY 4.0 (see NOTICE), separately from
+# the AGPL-3.0-or-later code that replays every claim in it.
+# Original audit-derived teaching text; no source-to-example mapping or new
+# empirical constant. The script exercises the existing reviewed models.
+
+[[reaction]]
+id = "ammonia-between-water-and-air"
+progress = "advanced"
+summary = "Water amount and temperature shift ammonia between solution and a finite headspace"
+concepts = ["chemical-equilibrium", "controlled-comparison", "detection-limit"]
+requires = ["amount-of-substance", "solutions"]
+calculations = ["concentration"]
+models = ["equilibrium", "particle-model", "measurement-model"]
+apparatus = ["conical-flask", "stopper", "pressure-gauge", "damp-litmus-paper", "water-bath"]
+
+[reaction.setup]
+script = """
+add v1 water 0.10L @ 10C
+seal v1 0.50L
+add v1 NH3 0.010mol
+test v1 litmus
+measure v1 pressure
+new
+add v2 water 0.10L @ 40C
+seal v2 0.50L
+add v2 NH3 0.010mol
+test v2 litmus
+measure v2 pressure
+new
+add v3 water 0.10L
+seal v3 0.50L
+add v3 NH3 0.010mol
+test v3 litmus
+measure v3 pressure
+new
+add v4 water 0.50L
+seal v4 0.50L
+add v4 NH3 0.010mol
+test v4 litmus
+measure v4 pressure
+inspect v1
+inspect v2
+inspect v3
+inspect v4
+"""
+
+[reaction.expect]
+events = ["headspace_partitioned", "gas_tested", "measured"]
+absent = ["solver_failed"]
+
+[[reaction.expect.assertions]]
+kind = "increasing"
+tolerance = 1e-6
+
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "pressure_kpa"
+vessel = "v1"
+
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "pressure_kpa"
+vessel = "v2"
+
+[[reaction.expect.assertions]]
+kind = "decreasing"
+tolerance = 1e-6
+
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "pressure_kpa"
+vessel = "v3"
+
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "pressure_kpa"
+vessel = "v4"
+
+[reaction.expect.predict]
+question = "Each sealed flask receives the same ammonia and has the same headspace. Which changes move more ammonia into that headspace?"
+options = ["Colder water and more water", "Warmer water and less water"]
+answer = 1
+misconception = "Gas solubility is treated as a fixed label on ammonia instead of an equilibrium that depends on solvent amount and temperature."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "The direction of gas dissolution and the effect of a larger solvent reservoir have both been reversed."
+next = "Compare each matched pair separately: first keep water amount fixed and change temperature, then keep temperature fixed and change water amount."
+
+[reaction.registers]
+lv1 = "The warmer flask and the flask with less water leave more ammonia in the air space. Damp litmus responds only when that gas fraction reaches its detection threshold."
+lv2 = "The four flasks keep ammonia amount and headspace volume fixed while changing one control at a time. The computed pressure order and the paired litmus outcomes show that warmer water retains less ammonia, whereas a larger water inventory retains more."
+lv3 = "The bench couples aqueous ammonia speciation to a finite-headspace Henry-law partition and then applies a separate curated damp-litmus detection floor. This is an equilibrium and measurement model, not an evaporation-rate prediction; activity corrections outside the reviewed aqueous domain, mass-transfer time and real-strip response are not claimed."
+
+[reaction.provenance]
+source = "Original seventh-fleet promotion from generic ammonia partition controls; no source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08."
+computed_by = "Kerotakis aqueous equilibrium, finite-headspace partition and curated damp-litmus threshold; semantic pressure-order checks"

@@ -132,7 +132,7 @@ describe("the German catalogue renders no English prose", () => {
   it("finds the catalogue, so the walk is not vacuous", () => {
     // Asserted rather than derived: a walk over an empty list passes
     // loudly and proves nothing.
-    expect(codex.reactions).toHaveLength(125);
+    expect(codex.reactions).toHaveLength(126);
     expect(codex.models).toHaveLength(28);
     expect(pairs.length).toBeGreaterThanOrEqual(1250);
   });
