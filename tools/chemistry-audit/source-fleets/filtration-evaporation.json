@@ -1,0 +1,335 @@
+{
+  "schema": "kerotakis-source-fleet-v1",
+  "family": "filtration-evaporation",
+  "title": "Filtration and evaporation",
+  "cases": [
+    {
+      "id": "339-silver-filter-chloride-first",
+      "question": "Does filtering preserve silver and chlorine after chloride is added first?",
+      "script": "add v1 water 0.30L\nadd v1 NaCl 0.0012mol\nadd v1 AgNO3 0.0012mol\nnew\nfilter v1 v2"
+    },
+    {
+      "id": "340-silver-filter-silver-first",
+      "question": "Does reversing the two feeds leave the filtered silver system unchanged?",
+      "script": "add v1 water 0.30L\nadd v1 AgNO3 0.0012mol\nadd v1 NaCl 0.0012mol\nnew\nfilter v1 v2"
+    },
+    {
+      "id": "341-barium-filter-sulfate-first",
+      "question": "Does a sulfate-first preparation conserve barium and sulfur through filtration?",
+      "script": "add v1 water 0.45L\nadd v1 Na2SO4 0.0007mol\nadd v1 BaCl2 0.0011mol\nnew\nfilter v1 v2"
+    },
+    {
+      "id": "342-barium-filter-barium-first",
+      "question": "Does feed order leave the unequal barium sulfate separation unchanged?",
+      "script": "add v1 water 0.45L\nadd v1 BaCl2 0.0011mol\nadd v1 Na2SO4 0.0007mol\nnew\nfilter v1 v2"
+    },
+    {
+      "id": "343-sand-salt-filter-unit",
+      "question": "How are silica and dissolved potassium chloride divided by one filtration?",
+      "script": "add v1 water 0.25L\nadd v1 SiO2 0.004mol\nadd v1 KCl 0.002mol\nnew\nfilter v1 v2"
+    },
+    {
+      "id": "344-sand-salt-filter-triple",
+      "question": "Does tripling every extensive input triple both separated inventories?",
+      "script": "add v1 water 0.75L\nadd v1 SiO2 0.012mol\nadd v1 KCl 0.006mol\nnew\nfilter v1 v2"
+    },
+    {
+      "id": "345-brine-evaporation-single",
+      "question": "What state follows removal of forty percent of the water from dilute brine?",
+      "script": "add v1 water 0.40L\nadd v1 NaCl 0.030mol\nevaporate v1 0.4"
+    },
+    {
+      "id": "346-brine-evaporation-partitioned",
+      "question": "Do two successive water-removal steps matching the same retained fraction reach the same state?",
+      "script": "add v1 water 0.40L\nadd v1 NaCl 0.030mol\nevaporate v1 0.2\nevaporate v1 0.25"
+    },
+    {
+      "id": "347-potassium-brine-half",
+      "question": "Does half evaporation retain all potassium and chlorine in the vessel?",
+      "script": "add v1 water 0.32L\nadd v1 KCl 0.045mol\nevaporate v1 0.5"
+    },
+    {
+      "id": "348-potassium-brine-two-halves",
+      "question": "Does splitting the same retained-water fraction preserve the potassium chloride result?",
+      "script": "add v1 water 0.32L\nadd v1 KCl 0.045mol\nevaporate v1 0.2928932188\nevaporate v1 0.2928932188"
+    },
+    {
+      "id": "349-nitrate-evaporation-unit",
+      "question": "Does evaporation remove solvent without consuming sodium nitrate?",
+      "script": "add v1 water 0.20L\nadd v1 NaNO3 0.010mol\nevaporate v1 0.6"
+    },
+    {
+      "id": "350-nitrate-evaporation-fourfold",
+      "question": "Does fourfold extensive scaling preserve phase fractions while scaling inventory?",
+      "script": "add v1 water 0.80L\nadd v1 NaNO3 0.040mol\nevaporate v1 0.6"
+    },
+    {
+      "id": "351-dilute-sugar-filter",
+      "question": "Does a filter pass dissolved glucose while conserving carbon?",
+      "script": "add v1 water 0.28L\nadd v1 glucose 0.003mol\nnew\nfilter v1 v2"
+    },
+    {
+      "id": "352-dilute-sugar-filter-reordered",
+      "question": "Does creating the receiver before dissolving sugar change the filtered result?",
+      "script": "new\nadd v1 water 0.28L\nadd v1 glucose 0.003mol\nfilter v1 v2"
+    },
+    {
+      "id": "353-silver-filter-dilute",
+      "question": "Does extra solvent alter total silver and chlorine recovered across a filter?",
+      "script": "add v1 water 0.90L\nadd v1 AgNO3 0.0005mol\nadd v1 NaCl 0.0004mol\nnew\nfilter v1 v2"
+    },
+    {
+      "id": "354-silver-filter-concentrated",
+      "question": "Does less solvent preserve the same total elemental ledger across filtration?",
+      "script": "add v1 water 0.30L\nadd v1 AgNO3 0.0005mol\nadd v1 NaCl 0.0004mol\nnew\nfilter v1 v2"
+    },
+    {
+      "id": "355-brine-evaporate-mild",
+      "question": "Does a mild evaporation retain the complete sodium and chlorine inventory?",
+      "script": "add v1 water 0.36L\nadd v1 NaCl 0.055mol\nevaporate v1 0.25"
+    },
+    {
+      "id": "356-brine-evaporate-deep",
+      "question": "Does deeper evaporation retain the same nonvolatile elemental inventory?",
+      "script": "add v1 water 0.36L\nadd v1 NaCl 0.055mol\nevaporate v1 0.75"
+    },
+    {
+      "id": "357-mixed-salts-filter",
+      "question": "Can filtration conserve calcium, potassium, chloride and nitrate in a clear mixed solution?",
+      "script": "add v1 water 0.50L\nadd v1 CaCl2 0.001mol\nadd v1 KNO3 0.0015mol\nnew\nfilter v1 v2"
+    },
+    {
+      "id": "358-mixed-salts-filter-feed-reverse",
+      "question": "Does reversing soluble-salt feeds preserve the filtered inventories?",
+      "script": "add v1 water 0.50L\nadd v1 KNO3 0.0015mol\nadd v1 CaCl2 0.001mol\nnew\nfilter v1 v2"
+    },
+    {
+      "id": "359-silica-brine-filter-then-evaporate",
+      "question": "What remains after retaining silica and concentrating the salt-bearing filtrate?",
+      "script": "add v1 water 0.30L\nadd v1 SiO2 0.003mol\nadd v1 NaCl 0.020mol\nnew\nfilter v1 v2\nevaporate v2 0.5"
+    },
+    {
+      "id": "360-silica-brine-scaled-process",
+      "question": "Does doubling the full filter-and-evaporate process double every recovered element?",
+      "script": "add v1 water 0.60L\nadd v1 SiO2 0.006mol\nadd v1 NaCl 0.040mol\nnew\nfilter v1 v2\nevaporate v2 0.5"
+    },
+    {
+      "id": "361-barium-filter-before-drying",
+      "question": "Does filtering a barium sulfate preparation conserve its full elemental ledger?",
+      "script": "add v1 water 0.35L\nadd v1 BaCl2 0.0006mol\nadd v1 Na2SO4 0.0006mol\nnew\nfilter v1 v2"
+    },
+    {
+      "id": "362-barium-filter-and-dry-filtrate",
+      "question": "Does drying only the filtrate leave the combined elemental ledger unchanged?",
+      "script": "add v1 water 0.35L\nadd v1 BaCl2 0.0006mol\nadd v1 Na2SO4 0.0006mol\nnew\nfilter v1 v2\nevaporate v2 1.0"
+    }
+  ],
+  "relations": [
+    {
+      "id": "r339-01-silver-feed-order",
+      "kind": "metamorphic",
+      "cases": [
+        "339-silver-filter-chloride-first",
+        "340-silver-filter-silver-first"
+      ],
+      "assertion": "final-inventory-equal",
+      "description": "Feed order must not change the two-vessel material state.",
+      "parameters": {
+        "species": [
+          "AgCl",
+          "Ag+",
+          "Cl-"
+        ]
+      }
+    },
+    {
+      "id": "r339-02-barium-feed-order",
+      "kind": "conservation",
+      "cases": [
+        "341-barium-filter-sulfate-first",
+        "342-barium-filter-barium-first"
+      ],
+      "assertion": "final-elements-equal",
+      "description": "Feed order must not change separated elemental totals.",
+      "parameters": {
+        "elements": [
+          "Ba",
+          "S",
+          "Cl",
+          "Na"
+        ]
+      }
+    },
+    {
+      "id": "r339-03-sand-salt-scale",
+      "kind": "conservation",
+      "cases": [
+        "343-sand-salt-filter-unit",
+        "344-sand-salt-filter-triple"
+      ],
+      "assertion": "final-elements-equal",
+      "description": "All selected elemental totals must scale by three.",
+      "parameters": {
+        "elements": [
+          "Si",
+          "K",
+          "Cl"
+        ],
+        "scale": 3.0
+      }
+    },
+    {
+      "id": "r339-04-brine-step-partition",
+      "kind": "metamorphic",
+      "cases": [
+        "345-brine-evaporation-single",
+        "346-brine-evaporation-partitioned"
+      ],
+      "assertion": "final-inventory-equal",
+      "description": "Equivalent retained-water fractions must produce the same final inventory.",
+      "parameters": {
+        "species": [
+          "water",
+          "NaCl"
+        ],
+        "rtol": 1e-08,
+        "atol": 1e-10
+      }
+    },
+    {
+      "id": "r339-05-potassium-step-partition",
+      "kind": "metamorphic",
+      "cases": [
+        "347-potassium-brine-half",
+        "348-potassium-brine-two-halves"
+      ],
+      "assertion": "final-inventory-equal",
+      "description": "Partitioning evaporation must preserve the final material state.",
+      "parameters": {
+        "species": [
+          "water",
+          "KCl"
+        ],
+        "rtol": 1e-07,
+        "atol": 1e-10
+      }
+    },
+    {
+      "id": "r339-06-nitrate-scale",
+      "kind": "conservation",
+      "cases": [
+        "349-nitrate-evaporation-unit",
+        "350-nitrate-evaporation-fourfold"
+      ],
+      "assertion": "final-elements-equal",
+      "description": "Fourfold input scale must give fourfold elemental totals.",
+      "parameters": {
+        "elements": [
+          "Na",
+          "N"
+        ],
+        "scale": 4.0
+      }
+    },
+    {
+      "id": "r339-07-dissolved-filter-setup",
+      "kind": "metamorphic",
+      "cases": [
+        "351-dilute-sugar-filter",
+        "352-dilute-sugar-filter-reordered"
+      ],
+      "assertion": "final-inventory-equal",
+      "description": "Receiver creation order must not affect dissolved-solute transfer.",
+      "parameters": {
+        "species": [
+          "glucose",
+          "water"
+        ]
+      }
+    },
+    {
+      "id": "r339-08-silver-dilution-ledger",
+      "kind": "conservation",
+      "cases": [
+        "353-silver-filter-dilute",
+        "354-silver-filter-concentrated"
+      ],
+      "assertion": "final-elements-equal",
+      "description": "Solvent dilution must not alter supplied silver or chlorine totals.",
+      "parameters": {
+        "elements": [
+          "Ag",
+          "Cl"
+        ]
+      }
+    },
+    {
+      "id": "r339-09-evaporation-nonvolatile-ledger",
+      "kind": "conservation",
+      "cases": [
+        "355-brine-evaporate-mild",
+        "356-brine-evaporate-deep"
+      ],
+      "assertion": "final-elements-equal",
+      "description": "Evaporation depth must not alter sodium or chlorine totals.",
+      "parameters": {
+        "elements": [
+          "Na",
+          "Cl"
+        ]
+      }
+    },
+    {
+      "id": "r339-10-soluble-feed-order",
+      "kind": "metamorphic",
+      "cases": [
+        "357-mixed-salts-filter",
+        "358-mixed-salts-filter-feed-reverse"
+      ],
+      "assertion": "final-inventory-equal",
+      "description": "Soluble feed order must not affect the filtered state.",
+      "parameters": {
+        "species": [
+          "CaCl2",
+          "KNO3"
+        ]
+      }
+    },
+    {
+      "id": "r339-11-combined-process-scale",
+      "kind": "conservation",
+      "cases": [
+        "359-silica-brine-filter-then-evaporate",
+        "360-silica-brine-scaled-process"
+      ],
+      "assertion": "final-elements-equal",
+      "description": "The complete separation path must scale by two.",
+      "parameters": {
+        "elements": [
+          "Si",
+          "Na",
+          "Cl"
+        ],
+        "scale": 2.0
+      }
+    },
+    {
+      "id": "r339-12-filtrate-drying-conservation",
+      "kind": "conservation",
+      "cases": [
+        "361-barium-filter-before-drying",
+        "362-barium-filter-and-dry-filtrate"
+      ],
+      "assertion": "final-elements-equal",
+      "description": "Removing water from one output must preserve combined non-hydrogen and non-oxygen totals.",
+      "parameters": {
+        "elements": [
+          "Ba",
+          "S",
+          "Cl",
+          "Na"
+        ]
+      }
+    }
+  ]
+}

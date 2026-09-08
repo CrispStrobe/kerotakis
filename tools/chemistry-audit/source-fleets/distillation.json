@@ -1,0 +1,345 @@
+{
+  "schema": "kerotakis-source-fleet-v1",
+  "family": "distillation",
+  "title": "Distillation",
+  "cases": [
+    {
+      "id": "363-still-order-1-forward",
+      "question": "Does ternary still path 1 conserve all volatile components?",
+      "script": "add v1 water 3.0mol\nadd v1 ethanol 0.24mol\nadd v1 methanol 0.08mol\nnew\ndistil v1 v2 0.14"
+    },
+    {
+      "id": "364-still-order-1-reverse",
+      "question": "Does reordered feed 1 produce the same distillation cut?",
+      "script": "add v1 methanol 0.08mol\nadd v1 water 3.0mol\nadd v1 ethanol 0.24mol\nnew\ndistil v1 v2 0.14"
+    },
+    {
+      "id": "365-still-order-2-forward",
+      "question": "Does ternary still path 2 conserve all volatile components?",
+      "script": "add v1 water 3.2mol\nadd v1 methanol 0.18mol\nadd v1 isopropanol 0.07mol\nnew\ndistil v1 v2 0.14"
+    },
+    {
+      "id": "366-still-order-2-reverse",
+      "question": "Does reordered feed 2 produce the same distillation cut?",
+      "script": "add v1 isopropanol 0.07mol\nadd v1 water 3.2mol\nadd v1 methanol 0.18mol\nnew\ndistil v1 v2 0.14"
+    },
+    {
+      "id": "367-still-order-3-forward",
+      "question": "Does ternary still path 3 conserve all volatile components?",
+      "script": "add v1 water 3.4mol\nadd v1 ethanol 0.13mol\nadd v1 isopropanol 0.11mol\nnew\ndistil v1 v2 0.14"
+    },
+    {
+      "id": "368-still-order-3-reverse",
+      "question": "Does reordered feed 3 produce the same distillation cut?",
+      "script": "add v1 isopropanol 0.11mol\nadd v1 water 3.4mol\nadd v1 ethanol 0.13mol\nnew\ndistil v1 v2 0.14"
+    },
+    {
+      "id": "369-still-order-4-forward",
+      "question": "Does ternary still path 4 conserve all volatile components?",
+      "script": "add v1 water 3.6mol\nadd v1 ethanol 0.2mol\nadd v1 methanol 0.05mol\nnew\ndistil v1 v2 0.14"
+    },
+    {
+      "id": "370-still-order-4-reverse",
+      "question": "Does reordered feed 4 produce the same distillation cut?",
+      "script": "add v1 methanol 0.05mol\nadd v1 water 3.6mol\nadd v1 ethanol 0.2mol\nnew\ndistil v1 v2 0.14"
+    },
+    {
+      "id": "371-still-order-5-forward",
+      "question": "Does ternary still path 5 conserve all volatile components?",
+      "script": "add v1 water 3.8mol\nadd v1 methanol 0.14mol\nadd v1 isopropanol 0.09mol\nnew\ndistil v1 v2 0.14"
+    },
+    {
+      "id": "372-still-order-5-reverse",
+      "question": "Does reordered feed 5 produce the same distillation cut?",
+      "script": "add v1 isopropanol 0.09mol\nadd v1 water 3.8mol\nadd v1 methanol 0.14mol\nnew\ndistil v1 v2 0.14"
+    },
+    {
+      "id": "373-still-order-6-forward",
+      "question": "Does ternary still path 6 conserve all volatile components?",
+      "script": "add v1 water 4.0mol\nadd v1 ethanol 0.16mol\nadd v1 isopropanol 0.06mol\nnew\ndistil v1 v2 0.14"
+    },
+    {
+      "id": "374-still-order-6-reverse",
+      "question": "Does reordered feed 6 produce the same distillation cut?",
+      "script": "add v1 isopropanol 0.06mol\nadd v1 water 4.0mol\nadd v1 ethanol 0.16mol\nnew\ndistil v1 v2 0.14"
+    },
+    {
+      "id": "375-still-duty-1-low",
+      "question": "How much does a low latent-energy budget transfer in still trial 1?",
+      "script": "add v1 water 2.8mol\nadd v1 ethanol 0.24mol\nadd v1 methanol 0.08mol\nnew\ndistil v1 v2 1.0kJ stages 2"
+    },
+    {
+      "id": "376-still-duty-1-high",
+      "question": "Does a larger latent-energy budget transfer more in trial 1?",
+      "script": "add v1 water 2.8mol\nadd v1 ethanol 0.24mol\nadd v1 methanol 0.08mol\nnew\ndistil v1 v2 2.0kJ stages 2"
+    },
+    {
+      "id": "377-still-duty-2-low",
+      "question": "How much does a low latent-energy budget transfer in still trial 2?",
+      "script": "add v1 water 3.05mol\nadd v1 methanol 0.18mol\nadd v1 isopropanol 0.07mol\nnew\ndistil v1 v2 1.4kJ stages 2"
+    },
+    {
+      "id": "378-still-duty-2-high",
+      "question": "Does a larger latent-energy budget transfer more in trial 2?",
+      "script": "add v1 water 3.05mol\nadd v1 methanol 0.18mol\nadd v1 isopropanol 0.07mol\nnew\ndistil v1 v2 2.8kJ stages 2"
+    },
+    {
+      "id": "379-still-duty-3-low",
+      "question": "How much does a low latent-energy budget transfer in still trial 3?",
+      "script": "add v1 water 3.3mol\nadd v1 ethanol 0.13mol\nadd v1 isopropanol 0.11mol\nnew\ndistil v1 v2 1.8kJ stages 2"
+    },
+    {
+      "id": "380-still-duty-3-high",
+      "question": "Does a larger latent-energy budget transfer more in trial 3?",
+      "script": "add v1 water 3.3mol\nadd v1 ethanol 0.13mol\nadd v1 isopropanol 0.11mol\nnew\ndistil v1 v2 3.6kJ stages 2"
+    },
+    {
+      "id": "381-still-fraction-4-low",
+      "question": "What receiver inventory follows the smaller cut in trial 4?",
+      "script": "add v1 water 3.55mol\nadd v1 ethanol 0.2mol\nadd v1 methanol 0.05mol\nnew\ndistil v1 v2 0.08"
+    },
+    {
+      "id": "382-still-fraction-4-high",
+      "question": "Does a larger requested cut transfer more material in trial 4?",
+      "script": "add v1 water 3.55mol\nadd v1 ethanol 0.2mol\nadd v1 methanol 0.05mol\nnew\ndistil v1 v2 0.16"
+    },
+    {
+      "id": "383-still-fraction-5-low",
+      "question": "What receiver inventory follows the smaller cut in trial 5?",
+      "script": "add v1 water 3.8mol\nadd v1 methanol 0.14mol\nadd v1 isopropanol 0.09mol\nnew\ndistil v1 v2 0.1"
+    },
+    {
+      "id": "384-still-fraction-5-high",
+      "question": "Does a larger requested cut transfer more material in trial 5?",
+      "script": "add v1 water 3.8mol\nadd v1 methanol 0.14mol\nadd v1 isopropanol 0.09mol\nnew\ndistil v1 v2 0.2"
+    },
+    {
+      "id": "385-still-fraction-6-low",
+      "question": "What receiver inventory follows the smaller cut in trial 6?",
+      "script": "add v1 water 4.05mol\nadd v1 ethanol 0.16mol\nadd v1 isopropanol 0.06mol\nnew\ndistil v1 v2 0.12"
+    },
+    {
+      "id": "386-still-fraction-6-high",
+      "question": "Does a larger requested cut transfer more material in trial 6?",
+      "script": "add v1 water 4.05mol\nadd v1 ethanol 0.16mol\nadd v1 isopropanol 0.06mol\nnew\ndistil v1 v2 0.24"
+    }
+  ],
+  "relations": [
+    {
+      "id": "r363-01-feed-order-1",
+      "kind": "metamorphic",
+      "cases": [
+        "363-still-order-1-forward",
+        "364-still-order-1-reverse"
+      ],
+      "assertion": "final-inventory-equal",
+      "description": "Feed order must not change either vessel after the same cut.",
+      "parameters": {
+        "species": [
+          "water",
+          "ethanol",
+          "methanol"
+        ],
+        "rtol": 1e-08,
+        "atol": 1e-10
+      }
+    },
+    {
+      "id": "r363-02-feed-order-2",
+      "kind": "metamorphic",
+      "cases": [
+        "365-still-order-2-forward",
+        "366-still-order-2-reverse"
+      ],
+      "assertion": "final-inventory-equal",
+      "description": "Feed order must not change either vessel after the same cut.",
+      "parameters": {
+        "species": [
+          "water",
+          "methanol",
+          "isopropanol"
+        ],
+        "rtol": 1e-08,
+        "atol": 1e-10
+      }
+    },
+    {
+      "id": "r363-03-feed-order-3",
+      "kind": "metamorphic",
+      "cases": [
+        "367-still-order-3-forward",
+        "368-still-order-3-reverse"
+      ],
+      "assertion": "final-inventory-equal",
+      "description": "Feed order must not change either vessel after the same cut.",
+      "parameters": {
+        "species": [
+          "water",
+          "ethanol",
+          "isopropanol"
+        ],
+        "rtol": 1e-08,
+        "atol": 1e-10
+      }
+    },
+    {
+      "id": "r363-04-feed-order-4",
+      "kind": "metamorphic",
+      "cases": [
+        "369-still-order-4-forward",
+        "370-still-order-4-reverse"
+      ],
+      "assertion": "final-inventory-equal",
+      "description": "Feed order must not change either vessel after the same cut.",
+      "parameters": {
+        "species": [
+          "water",
+          "ethanol",
+          "methanol"
+        ],
+        "rtol": 1e-08,
+        "atol": 1e-10
+      }
+    },
+    {
+      "id": "r363-05-feed-order-5",
+      "kind": "metamorphic",
+      "cases": [
+        "371-still-order-5-forward",
+        "372-still-order-5-reverse"
+      ],
+      "assertion": "final-inventory-equal",
+      "description": "Feed order must not change either vessel after the same cut.",
+      "parameters": {
+        "species": [
+          "water",
+          "methanol",
+          "isopropanol"
+        ],
+        "rtol": 1e-08,
+        "atol": 1e-10
+      }
+    },
+    {
+      "id": "r363-06-feed-order-6",
+      "kind": "metamorphic",
+      "cases": [
+        "373-still-order-6-forward",
+        "374-still-order-6-reverse"
+      ],
+      "assertion": "final-inventory-equal",
+      "description": "Feed order must not change either vessel after the same cut.",
+      "parameters": {
+        "species": [
+          "water",
+          "ethanol",
+          "isopropanol"
+        ],
+        "rtol": 1e-08,
+        "atol": 1e-10
+      }
+    },
+    {
+      "id": "r363-07-energy-monotone-1",
+      "kind": "metamorphic",
+      "cases": [
+        "375-still-duty-1-low",
+        "376-still-duty-1-high"
+      ],
+      "assertion": "event-scalar-order",
+      "description": "A larger latent duty must transfer more total material.",
+      "parameters": {
+        "event": "distilled",
+        "field": "total_moles",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 1e-12
+      }
+    },
+    {
+      "id": "r363-08-energy-monotone-2",
+      "kind": "metamorphic",
+      "cases": [
+        "377-still-duty-2-low",
+        "378-still-duty-2-high"
+      ],
+      "assertion": "event-scalar-order",
+      "description": "A larger latent duty must transfer more total material.",
+      "parameters": {
+        "event": "distilled",
+        "field": "total_moles",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 1e-12
+      }
+    },
+    {
+      "id": "r363-09-energy-monotone-3",
+      "kind": "metamorphic",
+      "cases": [
+        "379-still-duty-3-low",
+        "380-still-duty-3-high"
+      ],
+      "assertion": "event-scalar-order",
+      "description": "A larger latent duty must transfer more total material.",
+      "parameters": {
+        "event": "distilled",
+        "field": "total_moles",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 1e-12
+      }
+    },
+    {
+      "id": "r363-10-fraction-monotone-4",
+      "kind": "metamorphic",
+      "cases": [
+        "381-still-fraction-4-low",
+        "382-still-fraction-4-high"
+      ],
+      "assertion": "event-scalar-order",
+      "description": "A larger requested fraction must transfer more total material.",
+      "parameters": {
+        "event": "distilled",
+        "field": "total_moles",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 1e-12
+      }
+    },
+    {
+      "id": "r363-11-fraction-monotone-5",
+      "kind": "metamorphic",
+      "cases": [
+        "383-still-fraction-5-low",
+        "384-still-fraction-5-high"
+      ],
+      "assertion": "event-scalar-order",
+      "description": "A larger requested fraction must transfer more total material.",
+      "parameters": {
+        "event": "distilled",
+        "field": "total_moles",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 1e-12
+      }
+    },
+    {
+      "id": "r363-12-fraction-monotone-6",
+      "kind": "metamorphic",
+      "cases": [
+        "385-still-fraction-6-low",
+        "386-still-fraction-6-high"
+      ],
+      "assertion": "event-scalar-order",
+      "description": "A larger requested fraction must transfer more total material.",
+      "parameters": {
+        "event": "distilled",
+        "field": "total_moles",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 1e-12
+      }
+    }
+  ]
+}
