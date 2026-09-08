@@ -844,11 +844,11 @@ ratio = 2.0
 tolerance = 1e-10
 relative_tolerance = 1e-8
 [[reaction.expect.assertions.samples]]
-step = "after:6"
+step = "after:5"
 metric = "moles:CH3COOH"
 vessel = "v1"
 [[reaction.expect.assertions.samples]]
-step = "after:12"
+step = "after:11"
 metric = "moles:CH3COOH"
 vessel = "v2"
 [[reaction.expect.assertions]]
@@ -857,11 +857,11 @@ ratio = 2.0
 tolerance = 1e-10
 relative_tolerance = 1e-8
 [[reaction.expect.assertions.samples]]
-step = "after:6"
+step = "after:5"
 metric = "moles:ethanol"
 vessel = "v1"
 [[reaction.expect.assertions.samples]]
-step = "after:12"
+step = "after:11"
 metric = "moles:ethanol"
 vessel = "v2"
 [[reaction.expect.assertions]]
@@ -870,11 +870,11 @@ ratio = 2.0
 tolerance = 1e-10
 relative_tolerance = 1e-8
 [[reaction.expect.assertions.samples]]
-step = "after:6"
+step = "after:5"
 metric = "moles:ethyl_acetate"
 vessel = "v1"
 [[reaction.expect.assertions.samples]]
-step = "after:12"
+step = "after:11"
 metric = "moles:ethyl_acetate"
 vessel = "v2"
 [[reaction.expect.assertions]]
@@ -883,11 +883,11 @@ ratio = 2.0
 tolerance = 1e-10
 relative_tolerance = 1e-8
 [[reaction.expect.assertions.samples]]
-step = "after:6"
+step = "after:5"
 metric = "moles:water"
 vessel = "v1"
 [[reaction.expect.assertions.samples]]
-step = "after:12"
+step = "after:11"
 metric = "moles:water"
 vessel = "v2"
 [reaction.expect.predict]

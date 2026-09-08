@@ -32,8 +32,9 @@ to zero. Ratio and equality-style checks use
 continue to use the absolute `tolerance` as their minimum step.
 
 `step` is `initial`, `final`, or `after:N`, where N is the one-based count of
-parsed operations (comments and blank lines do not count). A vessel is named
-by its script id (`v1`, `v2`, …). Metrics are `mass_g`, `temperature_c`,
+parsed bench operations. Comments, blank lines, and shell-only reads such as
+`inspect` do not count. A vessel is named by its script id (`v1`, `v2`, …).
+Metrics are `mass_g`, `temperature_c`,
 `pressure_kpa`, `elapsed_s`, `ph`, `moles:SPECIES`, and
 `event:EVENT.FIELD`. Event metrics read one finite numeric field from the named
 event emitted by an exact `after:N` operation. They do not accept `initial` or

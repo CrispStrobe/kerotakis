@@ -12675,12 +12675,12 @@
             "ratio": 2.0,
             "samples": [
               {
-                "step": "after:6",
+                "step": "after:5",
                 "metric": "moles:CH3COOH",
                 "vessel": "v1"
               },
               {
-                "step": "after:12",
+                "step": "after:11",
                 "metric": "moles:CH3COOH",
                 "vessel": "v2"
               }
@@ -12693,12 +12693,12 @@
             "ratio": 2.0,
             "samples": [
               {
-                "step": "after:6",
+                "step": "after:5",
                 "metric": "moles:ethanol",
                 "vessel": "v1"
               },
               {
-                "step": "after:12",
+                "step": "after:11",
                 "metric": "moles:ethanol",
                 "vessel": "v2"
               }
@@ -12711,12 +12711,12 @@
             "ratio": 2.0,
             "samples": [
               {
-                "step": "after:6",
+                "step": "after:5",
                 "metric": "moles:ethyl_acetate",
                 "vessel": "v1"
               },
               {
-                "step": "after:12",
+                "step": "after:11",
                 "metric": "moles:ethyl_acetate",
                 "vessel": "v2"
               }
@@ -12729,12 +12729,12 @@
             "ratio": 2.0,
             "samples": [
               {
-                "step": "after:6",
+                "step": "after:5",
                 "metric": "moles:water",
                 "vessel": "v1"
               },
               {
-                "step": "after:12",
+                "step": "after:11",
                 "metric": "moles:water",
                 "vessel": "v2"
               }
