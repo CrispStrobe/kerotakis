@@ -249,6 +249,16 @@ const BOOKING_OVERRIDES: &[(&str, &str)] = &[
     // and the ledger books under the anion, exactly as minteq's three
     // citrate constants all book back as `C6H5O7-3`.
     ("Thiosulfate", "S2O3-2"),
+    // Sulfite's master species in the borrowed block is `Sulfite-2` for
+    // the same PHREEQC reason; the registry writes `SO3-2`. UNLIKE
+    // thiosulfate this row does NOT stand alone - there is a
+    // `PROTONATION_SPLITS` entry beside it, because the bench stocks two
+    // sulfite bottles that sit on opposite sides of pKa 7.20: sodium
+    // sulfite hydrolyses to pH 9.70 and is almost all `SO3-2`, sodium
+    // bisulfite reads pH 4.17 and is almost all `HSO3-`. One booking ion
+    // would book one of them as a species it is barely any of, which is
+    // the acetate bug, not the citrate case.
+    ("Sulfite", "SO3-2"),
     // Same shape, for the reviewed ligand slice: PHREEQC's component is
     // `Thiocyanate`, the registry's word for the ion is `SCN-`.
     ("Thiocyanate", "SCN-"),
@@ -460,6 +470,23 @@ pub const PROTONATION_SPLITS: &[(&str, &[(&str, &str)])] = &[
     (
         "Hypochlorite",
         &[("H(Hypochlorite)", "HClO"), ("Hypochlorite-", "ClO-")],
+    ),
+    // Sulfite, and this is the row the whole change turns on. Thiosulfate
+    // took the citrate precedent and had NO split: at pKa 1.01 the anion is
+    // the whole of the element anywhere a bench works, so naming the total
+    // after it lost nothing.
+    //
+    // Sulfite needs the split for a reason that is NOT "pKa 7.20 is in the
+    // working range so the beaker is half and half". Measured, a sulfite
+    // beaker is not half and half: the salt hydrolyses to pH 9.70 and is
+    // 99.86 % `SO3-2`. The reason is that the bench stocks BOTH bottles,
+    // and they straddle the constant - `NaHSO3` reads pH 4.17 and is
+    // 99.83 % `HSO3-`. A single booking ion is wrong for one of the two
+    // whichever one is picked. Acidify the sulfite and both forms are real
+    // in one vessel as well: 0.002 mol of HCl gives pH 7.04, 60/40.
+    (
+        "Sulfite",
+        &[("H(Sulfite)-", "HSO3-"), ("Sulfite-2", "SO3-2")],
     ),
     // Boron, and this split is the borax buffer itself. `H3BO3 = H2BO3- +
     // H+` is log K −9.236 in minteq.v4 (line 4912) and −9.24 in wateq4f
@@ -1032,7 +1059,10 @@ fn extract_borate(counts: &mut BTreeMap<String, f64>) -> Option<f64> {
 /// sulfurs and three or more oxygens and none of them is thiosulfate.
 ///
 /// **What it excludes, by name.** Sulfite and sulfate (one sulfur, so the
-/// count is wrong before the oxygen is looked at), metabisulfite `S2O5`,
+/// count is wrong before the oxygen is looked at - and sulfite now has its
+/// own exact rule in `extract_sulfite` below, so the two matchers must
+/// stay disjoint by that sulfur count and `sulfite_and_thiosulfate_never_
+/// claim_each_other` holds them to it), metabisulfite `S2O5`,
 /// dithionite `S2O4`, persulfate `S2O8`, tetrathionate `S4O6`, pyrite
 /// `FeS2` (no oxygen), and any formula carrying an element that is neither
 /// sulfur, oxygen, hydrogen nor a simple cation - which is what stops it
@@ -1077,6 +1107,70 @@ fn extract_thiosulfate(counts: &mut BTreeMap<String, f64>) -> Option<f64> {
     Some(1.0)
 }
 
+/// Sulfite, by an exact rule for the same reason thiosulfate and
+/// hypochlorite have one, and with one extra case they do not.
+///
+/// What identifies sulfite is EXACTLY one sulfur and three oxygens. The
+/// neighbouring oxyanion is sulfate at one sulfur and FOUR, so the two
+/// cannot be confused by a counting rule - which is why the greedy `SO4`
+/// group in `oxyanion_groups()` cannot claim a sulfite and why this rule
+/// can run before it safely.
+///
+/// **The extra case is a protonated SALT.** Thiosulfate and hypochlorite
+/// could assume that a formula with a cation carries no hydrogen of its
+/// own, because sodium hypochlorite and sodium thiosulfate are the only
+/// salts of theirs a bench holds. Sulfite has two: `Na2SO3` AND `NaHSO3`,
+/// sodium bisulfite, which is `Na1 H1 O3 S1` and is the reagent the
+/// Landolt clock is actually run with. So a cation permits zero or one
+/// hydrogen here where the older rules permit only zero, and the hydrogen
+/// is consumed when it is there.
+///
+/// **What it excludes, by name.** Sulfate and bisulfate (four oxygens),
+/// sulfur dioxide `SO2` (two), metabisulfite `S2O5`, dithionite `S2O4` and
+/// thiosulfate itself (two sulfurs, rejected before the oxygen is looked
+/// at), and any formula carrying an element that is neither sulfur, oxygen,
+/// hydrogen nor a simple cation. That last clause is what stops it claiming
+/// the three oxygens of `methyl_orange`, which is `C14 H14 N3 Na1 O3 S1` -
+/// exactly one sulfur and three oxygens, and the ONLY registry formula that
+/// passes the count while not being a sulfite. It is refused on its carbon
+/// and nitrogen, deliberately and not by accident: a greedy `("SO3",
+/// "Sulfite")` row in `oxyanion_groups()` would have booked the dye's
+/// sulfonate as a bottle of sulfite, which is exactly the atacamite failure
+/// #530 was written about.
+fn extract_sulfite(counts: &mut BTreeMap<String, f64>) -> Option<f64> {
+    let sulfur = counts.get("S").copied().unwrap_or(0.0);
+    let oxygen = counts.get("O").copied().unwrap_or(0.0);
+    let hydrogen = counts.get("H").copied().unwrap_or(0.0);
+    if sulfur != 1.0 || oxygen != 3.0 {
+        return None;
+    }
+    if counts
+        .keys()
+        .any(|el| el != "S" && el != "O" && el != "H" && !CATION_RESIDUE.contains(&el.as_str()))
+    {
+        return None;
+    }
+    let has_cation = counts
+        .keys()
+        .any(|el| CATION_RESIDUE.contains(&el.as_str()));
+    // `Na2SO3` and `NaHSO3` with a cation; `SO3-2`, `HSO3-` and the free
+    // acid `H2SO3` without one.
+    let protonation_fits = if has_cation {
+        hydrogen == 0.0 || hydrogen == 1.0
+    } else {
+        hydrogen == 0.0 || hydrogen == 1.0 || hydrogen == 2.0
+    };
+    if !protonation_fits {
+        return None;
+    }
+    counts.remove("S");
+    counts.remove("O");
+    if hydrogen > 0.0 {
+        counts.remove("H");
+    }
+    Some(1.0)
+}
+
 fn contribution_from_counts(
     mut counts: BTreeMap<String, f64>,
     indexes: [&DbIndex; 3],
@@ -1089,6 +1183,10 @@ fn contribution_from_counts(
 
     if let Some(n) = extract_thiosulfate(&mut counts) {
         contrib.push(("Thiosulfate".to_string(), n));
+    }
+
+    if let Some(n) = extract_sulfite(&mut counts) {
+        contrib.push(("Sulfite".to_string(), n));
     }
 
     for (group_formula, element) in oxyanion_groups() {

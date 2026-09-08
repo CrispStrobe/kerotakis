@@ -45,7 +45,7 @@ when = "reacted:iodate-bisulfite-clock"
 [nudges.say]
 lv1 = "The bisulfite is being used up — something sudden happens when it runs out."
 lv2 = "The Landolt clock is ticking. When the bisulfite is gone, I₂ appears all at once. Try a second beaker at a different temperature to see the Arrhenius effect."
-lv3 = "The iodate–bisulfite rate law is consuming NaHSO₃. The clock endpoint is bisulfite exhaustion; a second run at a different temperature or iodate concentration demonstrates the rate law's dependence."
+lv3 = "The iodate–bisulfite rate law is consuming HSO₃⁻ — the bottle dissolves to the ion, and the law is keyed on the ion. The clock endpoint is bisulfite exhaustion; a second run at a different temperature or iodate concentration demonstrates the rate law's dependence."
 
 # ── Claims ──────────────────────────────────────────────────────────
 # Minimum two; satisfiable in any order; at least two completion

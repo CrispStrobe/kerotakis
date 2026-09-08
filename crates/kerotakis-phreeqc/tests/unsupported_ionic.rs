@@ -23,27 +23,43 @@ fn analytical_proton_and_hydroxide_are_not_unsupported_ionic_feeds() {
     }
 }
 
-/// The unrepresented ionic salt here is SULFITE, and it used to be
-/// thiosulfate.
+/// The unrepresented ionic salt here is IODATE. It has been thiosulfate,
+/// then sulfite, and now potassium iodate, and each move was this test
+/// doing its job rather than being worked around: a subject stops being a
+/// subject when the bench learns to place it.
 ///
-/// That swap is the test doing its job rather than being worked around.
-/// `Na2S2O3` was this file's example of "an ion this bench cannot place",
-/// and `databases::minteq_v4()` now borrows llnl.dat's thiosulfate couple,
-/// so the example stopped being an example: the salt speciates, the vessel
-/// gets a solution, and the warning this test looks for is correctly not
-/// raised. The property under test is untouched and still needs a subject,
-/// so it moves to the sibling salt one oxidation state up.
+/// `Na2S2O3` went first, when `databases::minteq_v4()` borrowed llnl.dat's
+/// thiosulfate couple. `Na2SO3` replaced it, and the comment that stood
+/// here said in so many words that sulfite was the honest choice only
+/// UNTIL somebody reviewed the borrow - pKa 7.20 sits inside the range a
+/// bench works in, so speciating it would move the pH of every vessel that
+/// had ever held the salt, and that wanted its own change. That change is
+/// the one that rewrote this comment, so sulfite is placed now too.
 ///
-/// `Na2SO3` is the honest choice and not merely the convenient one. llnl
-/// defines sulfur(IV) too - `S(+4)  SO3-2` at line 231 and
-/// `SO3-2 + H+ = HSO3-`, `log_k 7.2054`, at line 4592 - so it is absent
-/// from the three datasets this lab ROUTES rather than absent outright,
-/// which is the distinction the thiosulfate work exists to insist on. It is
-/// deliberately not borrowed in the same change: pKa 7.20 sits squarely in
-/// the range a bench works in, so unlike thiosulfate's 1.01 it would move
-/// the pH of every vessel that has ever held it, and that wants its own
-/// review rather than a ride on this one. Until it gets one, sulfite is a
-/// real unrepresented ion and this test has a real subject.
+/// **`KIO3` is the honest successor, and the standard it meets is worth
+/// stating exactly, because it is the WEAKER of the two standards this
+/// file has used.** Iodate is absent from the three datasets this lab
+/// ROUTES - `IO3-` appears zero times in minteq.v4, wateq4f and pitzer -
+/// and `oxyanion_groups()` has no row for it, so the bench genuinely
+/// cannot place it. But it is NOT absent outright: llnl.dat, sit.dat and
+/// the Thermoddem database, all vendored in this repository, define it.
+/// So iodate sits exactly where sulfite sat, and could be borrowed by the
+/// same three-line move if somebody reviews the constants.
+///
+/// **The stronger standard was searched for and is not available**, which
+/// is the part worth recording so the next person does not repeat the
+/// search. Of the registry's ionic salts, every anion - iodate,
+/// permanganate, nitrate, tetraborate, thiosulfate, sulfite, sulfate,
+/// bisulfate, hypochlorite - is defined in at least one vendored database.
+/// The single registry species that IS absent from every vendored file is
+/// `methyl_orange`, an azo dye no geochemical database carries, and it
+/// cannot be this test's subject for an unrelated reason: it is flagged
+/// `dissolves_without_speciation`, so it is deliberately treated as a
+/// dissolved neutral and never raises the unmapped-ion warning at all. It
+/// would test the sugar branch below, not this one.
+///
+/// So: the property is unchanged and still needs a subject, the subject is
+/// the best available rather than the ideal one, and the file says which.
 #[test]
 fn unknown_ionic_feed_is_distinct_from_a_neutral_molecular_solute() {
     let mut eq = PhreeqcEquilibrator::new().unwrap();
@@ -51,18 +67,14 @@ fn unknown_ionic_feed_is_distinct_from_a_neutral_molecular_solute() {
         for acid in [0.0, 1e-4] {
             let mut v = Vessel::new(VesselId(0), "beaker");
             v.deposit(SpeciesId::new("water"), Moles(5.55 * scale), Phase::Liquid);
-            v.deposit(
-                SpeciesId::new("Na2SO3"),
-                Moles(0.001 * scale),
-                Phase::Aqueous,
-            );
+            v.deposit(SpeciesId::new("KIO3"), Moles(0.001 * scale), Phase::Aqueous);
             if acid > 0.0 {
                 v.deposit(SpeciesId::new("HCl"), Moles(acid * scale), Phase::Aqueous);
             }
             assert!(eq.applies(&v));
             let events = eq.equilibrate(&mut v).unwrap();
             assert!(events.iter().any(|e| matches!(e,
-                Event::NotYetModeled { what, .. } if what.contains("Na2SO3"))));
+                Event::NotYetModeled { what, .. } if what.contains("KIO3"))));
             assert_eq!(
                 v.solution.is_some(),
                 acid > 0.0,
@@ -71,7 +83,7 @@ fn unknown_ionic_feed_is_distinct_from_a_neutral_molecular_solute() {
             assert!(v
                 .contents
                 .iter()
-                .any(|p| p.species.0 == "Na2SO3" && (p.moles.0 - 0.001 * scale).abs() < 1e-12));
+                .any(|p| p.species.0 == "KIO3" && (p.moles.0 - 0.001 * scale).abs() < 1e-12));
         }
         // The contrast this test is named for: a neutral molecular solute is
         // not accused of being an unmapped ion and does not prevent the

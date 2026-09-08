@@ -795,7 +795,53 @@ pub const REGISTRY: &[KineticReaction<'static>] = &[
     },
     KineticReaction {
         id: "iodate-bisulfite-clock",
-        equation: "KIO₃ + 3 NaHSO₃ → KI + 3 NaHSO₄",
+        // RE-KEYED ONTO THE ION THE VESSEL ACTUALLY HOLDS, and this is the
+        // half of the sulfite borrow that would have gone silent.
+        // `NaHSO3` named the BOTTLE in both the stoichiometry and the rate
+        // orders. Once `databases::minteq_v4()` speciates sulfite a solved
+        // beaker holds `Na+` and `HSO3-` and no `NaHSO3` at all, so this
+        // law would have matched in a dry vessel, failed in every wet one,
+        // and said nothing either way. `curated_reactants_survive_a_solve`
+        // guards curated reactions; NOTHING guards rate laws, which is why
+        // this is the second time in three days the same fix is made by
+        // hand - see `kinetics_reactants_survive_a_solve.rs`, added here so
+        // it is the last time.
+        //
+        // The IODATE side is deliberately left as the bottle. `KIO3` does
+        // NOT speciate: no routed dataset defines iodate and
+        // `oxyanion_groups()` has no row for it, so `KIO3` is still what
+        // the vessel holds after a solve. Re-keying it to `IO3-` would have
+        // produced a reaction that can never fire - the mirror image of the
+        // bug being fixed.
+        //
+        // THE SODIUM STAYS ON THE ARROW, and that is the opposite of what
+        // #536 did for thiosulfate. It is not a style choice; the first
+        // version of this row wrote the products ionically and MINTED FREE
+        // PROTONS, `KIO3 + 3 HSO3- -> KI + 3 SO4-2 + 3 H+`, which balances
+        // perfectly on paper and broke three unit tests in `kerotakis-core`
+        // that have nothing to do with sulfite:
+        // `ledger::kinetics_conserves_elements` reported hydrogen and
+        // charge each CREATED at 2 x extent in a vessel holding only water,
+        // thiosulfate and sodium - no iodate, no sulfite, so this reaction
+        // never fired there at all. What it perturbed was the shared
+        // represented-strong-acid bookkeeping, which derives spendable acid
+        // from the charge balance: a rate law that PRODUCES `H+` is a new
+        // thing for it, and the thiosulfate clock's own proton consumption
+        // stopped being applied.
+        //
+        // So the protons stay bound. `NaHSO4` is the product the school
+        // equation always named, and the sodium is written explicitly on
+        // the left because the vessel genuinely holds it - a solved
+        // bisulfite solution is `Na+` and `HSO3-` - and because without it
+        // sodium would be created from nothing. Thiosulfate could drop its
+        // spectator sodium because its products were `S`, `SO2` and water,
+        // none of which carry any. Balanced K1 I1 Na3 H3 S3 O12, charge 0
+        // both sides.
+        //
+        // The acidification a real Landolt mixture shows is therefore NOT
+        // modelled here, and that is a smaller lie than the one the free
+        // protons told: it was already not modelled before this change.
+        equation: "KIO₃ + 3 HSO₃⁻ + 3 Na⁺ → KI + 3 NaHSO₄",
         stoichiometry: &[
             StoichiometricTerm {
                 species: "KIO3",
@@ -803,13 +849,18 @@ pub const REGISTRY: &[KineticReaction<'static>] = &[
                 phase: Phase::Aqueous,
             },
             StoichiometricTerm {
-                species: "NaHSO3",
+                species: "HSO3-",
                 coefficient: -3.0,
                 phase: Phase::Aqueous,
             },
             StoichiometricTerm {
                 species: "KI",
                 coefficient: 1.0,
+                phase: Phase::Aqueous,
+            },
+            StoichiometricTerm {
+                species: "Na+",
+                coefficient: -3.0,
                 phase: Phase::Aqueous,
             },
             StoichiometricTerm {
@@ -832,14 +883,31 @@ pub const REGISTRY: &[KineticReaction<'static>] = &[
                     order: 1.0,
                 },
                 OrderTerm {
-                    species: "NaHSO3",
+                    species: "HSO3-",
                     phase: Some(Phase::Aqueous),
                     order: 1.0,
                 },
             ],
             arrhenius: RateLaw {
-                // Calibrated so 0.02 M KIO3 + 0.06 M NaHSO3 at 25 °C
-                // reaches endpoint (bisulfite exhausted) in about 25 seconds.
+                // UNCHANGED BY THE RE-KEYING, and that was measured rather
+                // than assumed. Thiosulfate's `A` had to move 2.2e8 -> 3.0e8
+                // when #536 speciated it, because protonating at pKa 1.01
+                // took protons out of the beaker and the law is first order
+                // in one of them. Nothing equivalent happens here: the law
+                // is first order in the bisulfite ion, and a vessel that
+                // held 0.006 mol of `NaHSO3` holds 0.006 mol of `HSO3-`
+                // after the rename, so the rate is the same number. Probed
+                // against `origin/main` at 5, 10, 25 and 40 s, the fraction
+                // of bisulfite remaining is 0.8261, 0.7038, 0.4873 and
+                // 0.3726 BEFORE and AFTER, identical to four decimals.
+                //
+                // The line this replaced said the mixture "reaches endpoint
+                // (bisulfite exhausted) in about 25 seconds". That was
+                // already inaccurate on main and is left alone here rather
+                // than quietly corrected in a change about sulfite: at 25 s
+                // the measured mixture is 51 % consumed, and 99 % takes
+                // longer than 300 s. The calibration is not touched by this
+                // change; the claim about it is now what was measured.
                 pre_exponential: 1.8e8,
                 temperature_exponent: 0.0,
                 activation_energy: 48_000.0,

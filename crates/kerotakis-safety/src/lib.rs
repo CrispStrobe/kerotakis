@@ -200,7 +200,14 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         "NaOCl" | "ClO-" | "HClO" => &[OxidizerHypochlorite],
 
         // ── reducing agents ───────────────────────────────────────
-        "Na2SO3" | "NaHSO3" => &[ReducingAgent],
+        // Both bottles and both ions, for the reason spelled out on the
+        // hypo row below. Sulfite needs FOUR names where hypo needed two,
+        // because the element is split: the bench stocks `Na2SO3` and
+        // `NaHSO3`, and a solved vessel holds `Na+` with `SO3-2` and
+        // `HSO3-` in whatever proportion the pH dictates. Screening only
+        // the bottles would mean a beaker of sodium sulfite stopped being
+        // a reducing agent the moment anybody put water in it.
+        "Na2SO3" | "NaHSO3" | "SO3-2" | "HSO3-" => &[ReducingAgent],
         // The bottle and the ion it becomes carry the same screen. Once
         // the tail speciates hypo the vessel holds `S2O3-2` and no
         // `Na2S2O3`, and a hazard that depended on which name the ledger
@@ -683,6 +690,8 @@ pub const COVERED_KEYS: &[&str] = &[
     "Na2S2O3",
     "S2O3-2",
     "Na2SO3",
+    "SO3-2",
+    "HSO3-",
     "Na2SO4",
     "NaCl",
     "NaNO3",
