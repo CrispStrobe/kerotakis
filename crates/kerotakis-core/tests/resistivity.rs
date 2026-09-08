@@ -170,15 +170,15 @@ fn pure_water_and_nonionic_solute_have_an_explicit_limiting_law_blank() {
     let glucose = run(&["add v1 water 400mL", "add v1 glucose 0.00008mol"]);
     let acid = run(&["add v1 water 400mL", "add v1 malic_acid 0.00008mol"]);
     let electrolyte = run(&["add v1 water 400mL", "add v1 KNO3 0.00008mol"]);
-    let mut warm = run(&["add v1 water 400mL"]);
-    warm.vessel_mut(VesselId(0)).expect("v1").temperature = Kelvin(310.0);
+    let mut warm = vessel(&water).clone();
+    warm.temperature = kerotakis_core::units::Kelvin(310.0);
 
     let expected = (349.65 + 198.0) * 1e-7 * 1000.0;
     assert!((nonionic_aqueous_conductance(vessel(&water)).unwrap() - expected).abs() < 1e-12);
     assert!((nonionic_aqueous_conductance(vessel(&glucose)).unwrap() - expected).abs() < 1e-12);
     assert!(nonionic_aqueous_conductance(vessel(&acid)).is_none());
     assert!(nonionic_aqueous_conductance(vessel(&electrolyte)).is_none());
-    assert!(nonionic_aqueous_conductance(vessel(&warm)).is_none());
+    assert!(nonionic_aqueous_conductance(&warm).is_none());
 }
 
 #[test]
