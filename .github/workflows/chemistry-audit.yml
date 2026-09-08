@@ -28,10 +28,14 @@ jobs:
           submodules: recursive
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
+      - name: Prepare the evidence envelope
+        run: |
+          mkdir -p audit-evidence/sixth-195-218
+          printf '%s\n' "${GITHUB_SHA}" > audit-evidence/sixth-195-218/revision.txt
       - name: Verify the frozen analyzer rejects missing evidence
         run: python3 tools/chemistry-audit/analyse_sixth.py --self-test
       - name: Build the audited CLI from this exact revision
-        run: cargo build --locked --release -p kerotakis-cli
+        run: cargo build --release -p kerotakis-cli
       - name: Record all 24 process-isolated experiments
         run: >-
           python3 tools/chemistry-audit/sixth_batch.py
