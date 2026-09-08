@@ -98,6 +98,15 @@ it had while it was open, which is why a few numbers appear twice below.
   X5CrNi18-10 cathodic HER ensemble: arithmetic means and observed replicate
   bounds from Supplementary Table B1. A directional Tafel law preserves what
   was measured without inventing an anodic Butler–Volmer coefficient
+- `feat/modular-electrode-kinetics` — extended that same reviewed CC BY 4.0
+  source to its exact X5CrNi18-10 oxygen-reduction ensemble. Supplementary
+  Table C1's three compatible upward-scan repetitions supply the arithmetic
+  mean and observed envelope for the cathodic Tafel branch. The paper's
+  measured rotating-disk limiting currents remain validation evidence: the
+  engine continues to derive transport ceilings from oxygen inventory and
+  hydrodynamics. A second CC BY source was classified as active/passive and
+  polarity-reversal validation only because its curves were not numerically
+  tabulated; no coefficients were digitized or invented
 - **#541** — the heat-capacity integral in **difference form**. Each NASA-9 and
   Shomate term is now written so `(t1 − t0)` factors out, instead of evaluating
   an antiderivative at both ends and subtracting terms around 1.2e9 J/mol that

@@ -105,11 +105,13 @@ The non-mutating runtime pipeline, parameter/preparation/hydrodynamic domains,
 computed transport models, deposit growth, interfacial activity feedback,
 double-layer/film transients, connected-electrode circuit balance, atomic
 two-compartment commit, irreversible heat, exclusive clock ownership and
-explicit standard-state gas reference are complete. The first bounded CC BY
-4.0 cathodic HER ensemble is admitted with exact domain and replicate envelope.
-Next, admit compatible anodic metal-dissolution and cathodic oxygen-reduction
-records before replacing the editorial iron/zinc clocks; the HER record alone
-cannot quantify either full corrosion cell. Then expose current, potential,
+explicit standard-state gas reference are complete. Bounded CC BY 4.0 cathodic
+HER and ORR ensembles are admitted for one exact stainless-steel preparation,
+with replicate envelopes; ORR limiting current remains computed from oxygen
+inventory and transport rather than copied from the source apparatus. Next,
+admit a compatible anodic metal-dissolution branch before replacing the
+editorial iron/zinc clocks; cathodic branches alone cannot quantify a full
+corrosion cell. Then expose current, potential,
 limiting mechanism and parameter envelopes in CLI/GUI clients. Owned sealed
 gas has a computed ideal fugacity;
 standard-state gas is used only when a reviewed parameterisation declares that
@@ -120,6 +122,29 @@ No qualitative overpotential, lesson-calibrated rate or neighbouring material's
 parameter may be promoted into this path. Missing or overlapping parameter
 domains are typed refusals. Open circuit means zero net external current, not
 zero anodic and cathodic partial currents.
+
+Open-source search can also supply validation cases before it supplies runtime
+parameters. Xie, Li and Li's CC BY 4.0 Q235/zinc study in simulated concrete
+solution reports pH-dependent OCP, passive-current and polarity-reversal
+behavior, but no numerical polarization table. Preserve those published points
+as future active/passive-transition acceptance targets; do not infer missing
+Tafel branches from plotted curves or confuse corrosion current with exchange
+current. A reusable active/passive polarization law requires a source with
+reported transition potentials, branch currents and exact surface/electrolyte
+domain, plus an independently licensed anodic dissolution branch.
+
+Two permissive sources can carry the next implementation. Wilson, Sunde and
+Erbe's CC0 dataset (`doi:10.18710/CHYUQX`) provides raw, replicate polarization
+tables for polished pure iron in acid, pH-9 borate, 3.5 wt% NaCl and NaOH, plus
+controlled oxide thickness, dark/light state, flow, reference-electrode and
+surface metadata. Use it to fit and test active/passive transition laws; a net
+polarization curve must not be mislabeled as an isolated anodic partial current.
+Han et al.'s CC BY 4.0 Q345R study (`doi:10.3390/ma11081462`) publishes a full
+mixed-potential model—Fe oxidation, ORR, proton reduction, water reduction,
+temperature/activity scaling and oxygen transport—and numerical validation
+tables for 1 wt% NaCl. Implement its condition-dependent prefactors and
+non-rectangular validity slices generically before admitting those model-backed
+records. Keep model-backed evidence visibly distinct from measured branch fits.
 - **`tests/coverage/curiosity-v1/README.md`** — the corpus refresh log. It is a
   test artefact, not a planning file; leave it alone.
 - **`docs/CURIOSITY-COVERAGE.md`** — the standing analysis of that corpus: the

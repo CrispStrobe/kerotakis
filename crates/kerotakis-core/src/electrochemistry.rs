@@ -188,6 +188,52 @@ pub static EXCHANGE_CURRENTS: std::sync::LazyLock<Vec<ExchangeCurrentRecord>> =
             }),
             uncertainty_note: "Nominal values are arithmetic means computed from all three exact 1200 rpm, 0.50 mV/s upward-scan repetitions in Table B1 (j0 0.011, 0.017, 0.017 A/m2; |b| 0.16, 0.14, 0.16 V/dec). The envelope is their observed min/max, not an independent Gaussian distribution; other scan and rotation settings remain different domains.".into(),
             reviewed: true,
+        }, ExchangeCurrentRecord {
+            id: "van-ede-2024-orr-x5crni18-10-1200rpm-up-mean".into(),
+            reaction: "O2/H2O/OH-".into(),
+            electrode_material: "X5CrNi18-10 stainless steel".into(),
+            kinetics: ElectrodeKineticModel::DirectionalTafel {
+                direction: TafelDirection::Cathodic,
+                exchange_current_density_a_per_m2: (3.5e-7 + 1.9e-7 + 4.2e-7) / 3.0,
+                tafel_slope_v_per_decade: (0.18 + 0.17 + 0.18) / 3.0,
+                electrons_per_extent: 4.0,
+            },
+            validity: KineticValidityDomain {
+                temperature_min_k: 293.15,
+                temperature_max_k: 293.15,
+                activities: vec![ActivityBound {
+                    species: "H+".into(),
+                    minimum: 10.0_f64.powf(-7.5),
+                    maximum: 10.0_f64.powf(-7.5),
+                }],
+                surface_preparation: VAN_EDE_STAINLESS_PREPARATION.into(),
+                hydrodynamics: HydrodynamicDomain {
+                    rotation_rate_rpm: Some(ParameterBound {
+                        minimum: 1200.0,
+                        maximum: 1200.0,
+                    }),
+                    fluid_velocity_m_per_s: None,
+                    diffusion_layer_m: None,
+                },
+                note: "Air-bubbled 0.1 M boric-acid/borax buffer at pH 7.5 with 0.027 M chloride; room temperature around 20 degC; 0.50 mV/s initial upward scan; three repetitions".into(),
+            },
+            source: "M. C. van Ede and U. Angst, Tafel slopes and exchange current densities of oxygen reduction and hydrogen evolution on steel, Corrosion Engineering, Science and Technology (2024), doi:10.1177/1478422X241227829, Supplementary Table C1".into(),
+            license: PermissiveDataLicense::CcBy40,
+            relative_uncertainty: None,
+            parameter_envelope: None,
+            directional_tafel_envelope: Some(DirectionalTafelEnvelope {
+                exchange_current_density_a_per_m2: ParameterBound {
+                    minimum: 1.9e-7,
+                    maximum: 4.2e-7,
+                },
+                tafel_slope_v_per_decade: ParameterBound {
+                    minimum: 0.17,
+                    maximum: 0.18,
+                },
+                replicate_count: 3,
+            }),
+            uncertainty_note: "Nominal values are arithmetic means computed from all three exact 1200 rpm, 0.50 mV/s upward-scan repetitions in Table C1 (i0,O2 3.5e-7, 1.9e-7, 4.2e-7 A/m2; |b_cath| 0.18, 0.17, 0.18 V/dec). The envelope is their observed min/max. Their measured limiting currents (2.2, 1.6, 2.2 A/m2) are validation evidence, not embedded kinetics: runtime transport remains computed from its oxygen inventory and diffusion model.".into(),
+            reviewed: true,
         }]
     });
 
@@ -2743,6 +2789,64 @@ mod tests {
                 Some(VAN_EDE_STAINLESS_PREPARATION),
                 HydrodynamicCondition {
                     rotation_rate_rpm: Some(600.0),
+                    ..HydrodynamicCondition::default()
+                },
+            ),
+            Err(ParameterSelectionError::NoApplicableRecord { .. })
+        ));
+    }
+
+    #[test]
+    fn shipped_orr_record_preserves_branch_scatter_and_requires_its_domain() {
+        let activity = 10.0_f64.powf(-7.5);
+        let selected = select_exchange_current(
+            EXCHANGE_CURRENTS.as_slice(),
+            "O2/H2O/OH-",
+            "X5CrNi18-10 stainless steel",
+            293.15,
+            &[("H+".into(), activity)],
+            Some(VAN_EDE_STAINLESS_PREPARATION),
+            HydrodynamicCondition {
+                rotation_rate_rpm: Some(1200.0),
+                ..HydrodynamicCondition::default()
+            },
+        )
+        .unwrap();
+        assert_eq!(selected.license, PermissiveDataLicense::CcBy40);
+        assert!(matches!(
+            selected.kinetics,
+            ElectrodeKineticModel::DirectionalTafel {
+                direction: TafelDirection::Cathodic,
+                exchange_current_density_a_per_m2,
+                tafel_slope_v_per_decade,
+                electrons_per_extent: 4.0,
+            } if (exchange_current_density_a_per_m2 - 3.2e-7).abs() < 1e-20
+                && (tafel_slope_v_per_decade - 0.17666666666666667).abs() < 1e-15
+        ));
+        assert_eq!(
+            selected.directional_tafel_envelope,
+            Some(DirectionalTafelEnvelope {
+                exchange_current_density_a_per_m2: ParameterBound {
+                    minimum: 1.9e-7,
+                    maximum: 4.2e-7,
+                },
+                tafel_slope_v_per_decade: ParameterBound {
+                    minimum: 0.17,
+                    maximum: 0.18,
+                },
+                replicate_count: 3,
+            })
+        );
+        assert!(matches!(
+            select_exchange_current(
+                EXCHANGE_CURRENTS.as_slice(),
+                "O2/H2O/OH-",
+                "X5CrNi18-10 stainless steel",
+                289.15,
+                &[("H+".into(), activity)],
+                Some(VAN_EDE_STAINLESS_PREPARATION),
+                HydrodynamicCondition {
+                    rotation_rate_rpm: Some(1200.0),
                     ..HydrodynamicCondition::default()
                 },
             ),
