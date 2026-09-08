@@ -949,6 +949,326 @@
       }
     ]
   },
+  "conjugate-base-shifts-buffer-ph": {
+    "event_count": 23,
+    "events_sample": [
+      "v1: +22.1371 mol water",
+      "v1: +4.00 mmol acetic acid",
+      "v1: +1.00 mmol sodium acetate",
+      "v1: not yet modelled — sodium acetate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v2: new vessel",
+      "v2: +22.1371 mol water",
+      "v2: +4.00 mmol acetic acid",
+      "v2: +2.00 mmol sodium acetate",
+      "v2: not yet modelled — sodium acetate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v3: new vessel",
+      "v3: +22.1371 mol water",
+      "v3: +4.00 mmol acetic acid",
+      "v3: +4.00 mmol sodium acetate",
+      "v3: not yet modelled — sodium acetate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v3: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v4: new vessel",
+      "v4: +22.1371 mol water",
+      "v4: +4.00 mmol acetic acid"
+    ],
+    "lesson": "conjugate-base-shifts-buffer-ph.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.004,
+            "phase": "Liquid",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 0.001,
+            "phase": "Solid",
+            "species": "NaOAc"
+          },
+          {
+            "moles": 22.13710797,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.004,
+            "phase": "Liquid",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 0.002,
+            "phase": "Solid",
+            "species": "NaOAc"
+          },
+          {
+            "moles": 22.13710797,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.004,
+            "phase": "Liquid",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 0.004,
+            "phase": "Solid",
+            "species": "NaOAc"
+          },
+          {
+            "moles": 22.13710797,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.004,
+            "phase": "Liquid",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 0.008,
+            "phase": "Solid",
+            "species": "NaOAc"
+          },
+          {
+            "moles": 22.13710797,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "copper-concentration-lifts-cell-voltage": {
+    "event_count": 59,
+    "events_sample": [
+      "v1: +11.0686 mol water",
+      "v1: +0.0100 mol zinc sulfate",
+      "v1: not yet modelled — zinc sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: +0.0500 mol zinc",
+      "v1: not yet modelled — zinc sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — zinc in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: new vessel",
+      "v2: +11.0686 mol water",
+      "v2: +500 µmol copper sulfate",
+      "v2: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: +0.0500 mol copper",
+      "v2: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: not yet modelled — copper in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1–v2: no cell — v1 has Zn but none of its ion in solution: a metal in water that does not contain its own ion has no defined potential here",
+      "v3: new vessel",
+      "v3: +11.0686 mol water",
+      "v3: +0.0100 mol zinc sulfate",
+      "v3: not yet modelled — zinc sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v3: +0.0500 mol zinc",
+      "v3: not yet modelled — zinc sulfate in contact with liquid: no wired solver models this dissolution/reaction"
+    ],
+    "lesson": "copper-concentration-lifts-cell-voltage.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.05,
+            "phase": "Solid",
+            "species": "Zn"
+          },
+          {
+            "moles": 0.01,
+            "phase": "Solid",
+            "species": "ZnSO4"
+          },
+          {
+            "moles": 11.06855398,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.05,
+            "phase": "Solid",
+            "species": "Cu"
+          },
+          {
+            "moles": 0.0005,
+            "phase": "Solid",
+            "species": "CuSO4"
+          },
+          {
+            "moles": 11.06855398,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.05,
+            "phase": "Solid",
+            "species": "Zn"
+          },
+          {
+            "moles": 0.01,
+            "phase": "Solid",
+            "species": "ZnSO4"
+          },
+          {
+            "moles": 11.06855398,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.05,
+            "phase": "Solid",
+            "species": "Cu"
+          },
+          {
+            "moles": 0.001,
+            "phase": "Solid",
+            "species": "CuSO4"
+          },
+          {
+            "moles": 11.06855398,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.05,
+            "phase": "Solid",
+            "species": "Zn"
+          },
+          {
+            "moles": 0.01,
+            "phase": "Solid",
+            "species": "ZnSO4"
+          },
+          {
+            "moles": 11.06855398,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.05,
+            "phase": "Solid",
+            "species": "Cu"
+          },
+          {
+            "moles": 0.005,
+            "phase": "Solid",
+            "species": "CuSO4"
+          },
+          {
+            "moles": 11.06855398,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.05,
+            "phase": "Solid",
+            "species": "Zn"
+          },
+          {
+            "moles": 0.01,
+            "phase": "Solid",
+            "species": "ZnSO4"
+          },
+          {
+            "moles": 11.06855398,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.05,
+            "phase": "Solid",
+            "species": "Cu"
+          },
+          {
+            "moles": 0.01,
+            "phase": "Solid",
+            "species": "CuSO4"
+          },
+          {
+            "moles": 11.06855398,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "copper-patina": {
     "event_count": 12,
     "events_sample": [
@@ -1054,6 +1374,102 @@
           },
           {
             "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "current-time-and-electrolysis-yield": {
+    "event_count": 23,
+    "events_sample": [
+      "v1: +13.8357 mol water",
+      "v1: +1.00 mmol sodium sulfate",
+      "v1: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — nothing here can be electrolysed: the solvent-electrolysis model requires a dissolved supporting electrolyte; pure water has finite but very low conductivity, and the voltage, electrode spacing and overpotentials needed to sustain the requested current are not modelled",
+      "v1: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: new vessel",
+      "v2: +13.8357 mol water",
+      "v2: +1.00 mmol sodium sulfate",
+      "v2: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: not yet modelled — nothing here can be electrolysed: the solvent-electrolysis model requires a dissolved supporting electrolyte; pure water has finite but very low conductivity, and the voltage, electrode spacing and overpotentials needed to sustain the requested current are not modelled",
+      "v2: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v3: new vessel",
+      "v3: +13.8357 mol water",
+      "v3: +1.00 mmol sodium sulfate",
+      "v3: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v3: not yet modelled — nothing here can be electrolysed: the solvent-electrolysis model requires a dissolved supporting electrolyte; pure water has finite but very low conductivity, and the voltage, electrode spacing and overpotentials needed to sustain the requested current are not modelled",
+      "v3: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v4: new vessel",
+      "v4: +13.8357 mol water",
+      "v4: +1.00 mmol sodium sulfate"
+    ],
+    "lesson": "current-time-and-electrolysis-yield.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "Solid",
+            "species": "Na2SO4"
+          },
+          {
+            "moles": 13.83569248,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "Solid",
+            "species": "Na2SO4"
+          },
+          {
+            "moles": 13.83569248,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "Solid",
+            "species": "Na2SO4"
+          },
+          {
+            "moles": 13.83569248,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "Solid",
+            "species": "Na2SO4"
+          },
+          {
+            "moles": 13.83569248,
             "phase": "Liquid",
             "species": "water"
           }
@@ -1477,6 +1893,113 @@
       }
     ]
   },
+  "distillation-cut-controls-collection": {
+    "event_count": 11,
+    "events_sample": [
+      "v1: +3.5500 mol water",
+      "v1: +0.2000 mol ethanol",
+      "v1: +0.0500 mol methanol",
+      "v2: new vessel",
+      "v1 → v2: 0.030584 mol ethanol + 0.011278 mol methanol + 0.262137 mol water; 370.66 K → 370.91 K; 1 stage(s); 12.235 kJ latent heat. Ideal-liquid Raoult/Rayleigh approximation with constant-latent Clausius-Clapeyron pressures, bounded within 40 K of every normal boiling point. USCG CHRIS June 1999 fields 9.2/9.3/9.12 for additional solvents; existing water/ethanol latent-reference data. Activity coefficients, azeotropes and dissolved-solute boiling shifts are not predicted. Dissolved solids without registered volatility are treated as nonvolatile. Stage enrichment uses a total-reflux composition cascade as a separation approximation, not a literal operating column. Reported energy counts only withdrawn condensate latent heat, excluding reflux/reboiler circulation and sensible heating. Sensible condensate mixing uses the source temperature.",
+      "v3: new vessel",
+      "v3: +3.5500 mol water",
+      "v3: +0.2000 mol ethanol",
+      "v3: +0.0500 mol methanol",
+      "v4: new vessel",
+      "v3 → v4: 0.058863 mol ethanol + 0.020767 mol methanol + 0.528370 mol water; 370.66 K → 371.16 K; 1 stage(s); 24.484 kJ latent heat. Ideal-liquid Raoult/Rayleigh approximation with constant-latent Clausius-Clapeyron pressures, bounded within 40 K of every normal boiling point. USCG CHRIS June 1999 fields 9.2/9.3/9.12 for additional solvents; existing water/ethanol latent-reference data. Activity coefficients, azeotropes and dissolved-solute boiling shifts are not predicted. Dissolved solids without registered volatility are treated as nonvolatile. Stage enrichment uses a total-reflux composition cascade as a separation approximation, not a literal operating column. Reported energy counts only withdrawn condensate latent heat, excluding reflux/reboiler circulation and sensible heating. Sensible condensate mixing uses the source temperature."
+    ],
+    "lesson": "distillation-cut-controls-collection.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.16941554,
+            "phase": "Liquid",
+            "species": "ethanol"
+          },
+          {
+            "moles": 0.03872168,
+            "phase": "Liquid",
+            "species": "methanol"
+          },
+          {
+            "moles": 3.28786278,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.03058446,
+            "phase": "Liquid",
+            "species": "ethanol"
+          },
+          {
+            "moles": 0.01127832,
+            "phase": "Liquid",
+            "species": "methanol"
+          },
+          {
+            "moles": 0.26213722,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.14113709,
+            "phase": "Liquid",
+            "species": "ethanol"
+          },
+          {
+            "moles": 0.02923289,
+            "phase": "Liquid",
+            "species": "methanol"
+          },
+          {
+            "moles": 3.02163002,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.05886291,
+            "phase": "Liquid",
+            "species": "ethanol"
+          },
+          {
+            "moles": 0.02076711,
+            "phase": "Liquid",
+            "species": "methanol"
+          },
+          {
+            "moles": 0.52836998,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "dry-then-wet-fizz": {
     "event_count": 13,
     "events_sample": [
@@ -1622,6 +2145,102 @@
       },
       {
         "contents": [],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "electrolysis-products-follow-time": {
+    "event_count": 23,
+    "events_sample": [
+      "v1: +13.8357 mol water",
+      "v1: +1.00 mmol sodium sulfate",
+      "v1: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — nothing here can be electrolysed: the solvent-electrolysis model requires a dissolved supporting electrolyte; pure water has finite but very low conductivity, and the voltage, electrode spacing and overpotentials needed to sustain the requested current are not modelled",
+      "v1: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: new vessel",
+      "v2: +13.8357 mol water",
+      "v2: +1.00 mmol sodium sulfate",
+      "v2: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: not yet modelled — nothing here can be electrolysed: the solvent-electrolysis model requires a dissolved supporting electrolyte; pure water has finite but very low conductivity, and the voltage, electrode spacing and overpotentials needed to sustain the requested current are not modelled",
+      "v2: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v3: new vessel",
+      "v3: +13.8357 mol water",
+      "v3: +1.00 mmol sodium sulfate",
+      "v3: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v3: not yet modelled — nothing here can be electrolysed: the solvent-electrolysis model requires a dissolved supporting electrolyte; pure water has finite but very low conductivity, and the voltage, electrode spacing and overpotentials needed to sustain the requested current are not modelled",
+      "v3: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v4: new vessel",
+      "v4: +13.8357 mol water",
+      "v4: +1.00 mmol sodium sulfate"
+    ],
+    "lesson": "electrolysis-products-follow-time.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "Solid",
+            "species": "Na2SO4"
+          },
+          {
+            "moles": 13.83569248,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "Solid",
+            "species": "Na2SO4"
+          },
+          {
+            "moles": 13.83569248,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "Solid",
+            "species": "Na2SO4"
+          },
+          {
+            "moles": 13.83569248,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "Solid",
+            "species": "Na2SO4"
+          },
+          {
+            "moles": 13.83569248,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
         "headspace": "Open",
         "label": "beaker",
         "temperature_k": 298.15
@@ -1986,6 +2605,102 @@
           },
           {
             "moles": 0.00666667,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "filter-then-concentrate-the-brine": {
+    "event_count": 23,
+    "events_sample": [
+      "v1: +16.6028 mol water",
+      "v1: +3.00 mmol silicon dioxide (quartz)",
+      "v1: 59.9 µmol silicon dioxide (quartz) dissolved",
+      "v1: silicon dioxide (quartz) does not react — silicon dioxide (quartz) does not dissolve in water: its reviewed solubility is 0.0012 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v1: +0.0200 mol sodium chloride",
+      "v1: silicon dioxide (quartz) does not react — silicon dioxide (quartz) does not dissolve in water: its reviewed solubility is 0.0012 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: new vessel",
+      "v1 → v2: filtrate passed; residue retained",
+      "v2: 8.301 mol water evaporated",
+      "v2: supersaturated — 59.9 µmol silicon dioxide (quartz) dissolved against a limit of 30.0 µmol at this temperature (2.00× saturation); it stays in solution until something seeds it",
+      "v3: new vessel",
+      "v3: +33.2057 mol water",
+      "v3: +6.00 mmol silicon dioxide (quartz)",
+      "v3: 120 µmol silicon dioxide (quartz) dissolved",
+      "v3: silicon dioxide (quartz) does not react — silicon dioxide (quartz) does not dissolve in water: its reviewed solubility is 0.0012 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v3: +0.0400 mol sodium chloride",
+      "v3: silicon dioxide (quartz) does not react — silicon dioxide (quartz) does not dissolve in water: its reviewed solubility is 0.0012 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v3: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v4: new vessel"
+    ],
+    "lesson": "filter-then-concentrate-the-brine.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.02,
+            "phase": "Solid",
+            "species": "NaCl"
+          },
+          {
+            "moles": 0.00294008,
+            "phase": "Solid",
+            "species": "SiO2"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.00005992,
+            "phase": "Aqueous",
+            "species": "SiO2"
+          },
+          {
+            "moles": 8.30141549,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.04,
+            "phase": "Solid",
+            "species": "NaCl"
+          },
+          {
+            "moles": 0.00588017,
+            "phase": "Solid",
+            "species": "SiO2"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.00011983,
+            "phase": "Aqueous",
+            "species": "SiO2"
+          },
+          {
+            "moles": 16.60283097,
             "phase": "Liquid",
             "species": "water"
           }
@@ -5165,6 +5880,228 @@
       }
     ]
   },
+  "pressure-follows-gas-amount": {
+    "event_count": 15,
+    "events_sample": [
+      "v1: sealed over 0.500 L of headspace, trapping 0.0204 mol of room air",
+      "v1: +1.00 mmol nitrogen — 0.0171 mol now in vessel",
+      "v1 pressure gauge: 106.28 kPa",
+      "v2: new vessel",
+      "v2: sealed over 0.500 L of headspace, trapping 0.0204 mol of room air",
+      "v2: +2.00 mmol nitrogen — 0.0181 mol now in vessel",
+      "v2 pressure gauge: 111.24 kPa",
+      "v3: new vessel",
+      "v3: sealed over 0.500 L of headspace, trapping 0.0204 mol of room air",
+      "v3: +4.00 mmol nitrogen — 0.0201 mol now in vessel",
+      "v3 pressure gauge: 121.16 kPa",
+      "v4: new vessel",
+      "v4: sealed over 0.500 L of headspace, trapping 0.0204 mol of room air",
+      "v4: +8.00 mmol nitrogen — 0.0241 mol now in vessel",
+      "v4 pressure gauge: 140.99 kPa"
+    ],
+    "lesson": "pressure-follows-gas-amount.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 8.17e-6,
+            "phase": "Gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 0.01714729,
+            "phase": "Gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.00428156,
+            "phase": "Gas",
+            "species": "O2"
+          }
+        ],
+        "headspace": "Sealed { volume: Liters(0.5) }",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 8.17e-6,
+            "phase": "Gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 0.01814729,
+            "phase": "Gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.00428156,
+            "phase": "Gas",
+            "species": "O2"
+          }
+        ],
+        "headspace": "Sealed { volume: Liters(0.5) }",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 8.17e-6,
+            "phase": "Gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 0.02014729,
+            "phase": "Gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.00428156,
+            "phase": "Gas",
+            "species": "O2"
+          }
+        ],
+        "headspace": "Sealed { volume: Liters(0.5) }",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 8.17e-6,
+            "phase": "Gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 0.02414729,
+            "phase": "Gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.00428156,
+            "phase": "Gas",
+            "species": "O2"
+          }
+        ],
+        "headspace": "Sealed { volume: Liters(0.5) }",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "pressure-follows-headspace": {
+    "event_count": 15,
+    "events_sample": [
+      "v1: sealed over 1.000 L of headspace, trapping 0.0409 mol of room air",
+      "v1: +3.70 mmol nitrogen — 0.0360 mol now in vessel",
+      "v1 pressure gauge: 110.50 kPa",
+      "v2: new vessel",
+      "v2: sealed over 0.750 L of headspace, trapping 0.0307 mol of room air",
+      "v2: +3.70 mmol nitrogen — 0.0279 mol now in vessel",
+      "v2 pressure gauge: 113.55 kPa",
+      "v3: new vessel",
+      "v3: sealed over 0.500 L of headspace, trapping 0.0204 mol of room air",
+      "v3: +3.70 mmol nitrogen — 0.0198 mol now in vessel",
+      "v3 pressure gauge: 119.67 kPa",
+      "v4: new vessel",
+      "v4: sealed over 0.250 L of headspace, trapping 0.0102 mol of room air",
+      "v4: +3.70 mmol nitrogen — 0.0118 mol now in vessel",
+      "v4 pressure gauge: 138.01 kPa"
+    ],
+    "lesson": "pressure-follows-headspace.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.00001635,
+            "phase": "Gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 0.03599458,
+            "phase": "Gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.00856311,
+            "phase": "Gas",
+            "species": "O2"
+          }
+        ],
+        "headspace": "Sealed { volume: Liters(1.0) }",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.00001226,
+            "phase": "Gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 0.02792094,
+            "phase": "Gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.00642233,
+            "phase": "Gas",
+            "species": "O2"
+          }
+        ],
+        "headspace": "Sealed { volume: Liters(0.75) }",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 8.17e-6,
+            "phase": "Gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 0.01984729,
+            "phase": "Gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.00428156,
+            "phase": "Gas",
+            "species": "O2"
+          }
+        ],
+        "headspace": "Sealed { volume: Liters(0.5) }",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 4.09e-6,
+            "phase": "Gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 0.01177365,
+            "phase": "Gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.00214078,
+            "phase": "Gas",
+            "species": "O2"
+          }
+        ],
+        "headspace": "Sealed { volume: Liters(0.25) }",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "protease-and-gelatin": {
     "event_count": 14,
     "events_sample": [
@@ -6266,6 +7203,49 @@
       }
     ]
   },
+  "split-heat-same-temperature": {
+    "event_count": 11,
+    "events_sample": [
+      "v1: +11.0686 mol water",
+      "v1: 25.0 °C → 26.1 °C",
+      "v1: 0.90 kJ requested; 0.90 kJ delivered — time model not yet coupled",
+      "v1 thermometer: 26.08 °C",
+      "v2: new vessel",
+      "v2: +11.0686 mol water",
+      "v2: 25.0 °C → 25.4 °C",
+      "v2: 0.36 kJ requested; 0.36 kJ delivered — time model not yet coupled",
+      "v2: 25.4 °C → 26.1 °C",
+      "v2: 0.54 kJ requested; 0.54 kJ delivered — time model not yet coupled",
+      "v2 thermometer: 26.08 °C"
+    ],
+    "lesson": "split-heat-same-temperature.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 11.06855398,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 299.2291
+      },
+      {
+        "contents": [
+          {
+            "moles": 11.06855398,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 299.2291
+      }
+    ]
+  },
   "starch-iodine-test": {
     "event_count": 10,
     "events_sample": [
@@ -6630,6 +7610,84 @@
       }
     ]
   },
+  "track-precipitate-and-filtrate-through-drying": {
+    "event_count": 18,
+    "events_sample": [
+      "v1: +19.3700 mol water",
+      "v1: +600 µmol barium chloride",
+      "v1: not yet modelled — barium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: +600 µmol sodium sulfate",
+      "v1: not yet modelled — barium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: new vessel",
+      "v1 → v2: filtrate passed; residue retained",
+      "v3: new vessel",
+      "v3: +19.3700 mol water",
+      "v3: +600 µmol barium chloride",
+      "v3: not yet modelled — barium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v3: +600 µmol sodium sulfate",
+      "v3: not yet modelled — barium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v3: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v4: new vessel",
+      "v3 → v4: filtrate passed; residue retained",
+      "v4: 19.370 mol water evaporated"
+    ],
+    "lesson": "track-precipitate-and-filtrate-through-drying.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.0006,
+            "phase": "Solid",
+            "species": "BaCl2"
+          },
+          {
+            "moles": 0.0006,
+            "phase": "Solid",
+            "species": "Na2SO4"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 19.36996947,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.0006,
+            "phase": "Solid",
+            "species": "BaCl2"
+          },
+          {
+            "moles": 0.0006,
+            "phase": "Solid",
+            "species": "Na2SO4"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "transport-column": {
     "event_count": 15,
     "events_sample": [
@@ -6932,6 +7990,106 @@
         "headspace": "Open",
         "label": "beaker",
         "temperature_k": 298.15
+      }
+    ]
+  },
+  "warm-the-gas-stop-before-burst": {
+    "event_count": 26,
+    "events_sample": [
+      "v1: sealed over 0.500 L of headspace, trapping 0.0204 mol of room air",
+      "v1: +4.20 mmol nitrogen — 0.0203 mol now in vessel",
+      "v1 pressure gauge: 122.15 kPa",
+      "v2: new vessel",
+      "v2: sealed over 0.500 L of headspace, trapping 0.0204 mol of room air",
+      "v2: +4.20 mmol nitrogen — 0.0203 mol now in vessel",
+      "v2: 25.0 °C → 217.3 °C",
+      "v2: 0.10 kJ requested; 0.10 kJ delivered — time model not yet coupled",
+      "v2 pressure gauge: 200.94 kPa",
+      "v3: new vessel",
+      "v3: sealed over 0.500 L of headspace, trapping 0.0204 mol of room air",
+      "v3: +4.20 mmol nitrogen — 0.0203 mol now in vessel",
+      "v3: 25.0 °C → 401.5 °C",
+      "v3: 0.20 kJ requested; 0.20 kJ delivered — time model not yet coupled",
+      "v3 pressure gauge: 276.38 kPa",
+      "v4: new vessel",
+      "v4: sealed over 0.500 L of headspace, trapping 0.0204 mol of room air",
+      "v4: +4.20 mmol nitrogen — 0.0203 mol now in vessel",
+      "v4: 25.0 °C → 742.5 °C",
+      "v4: 0.40 kJ requested; 0.40 kJ delivered, 0.00 kJ undelivered — Bunsen burner, ceiling 1500 °C; of what arrived, -0.00 kJ is warmth the vessel still holds and 0.40 kJ went into chemistry or a phase change (1 passes) — time model not yet coupled"
+    ],
+    "lesson": "warm-the-gas-stop-before-burst.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 8.17e-6,
+            "phase": "Gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 0.02034729,
+            "phase": "Gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.00428156,
+            "phase": "Gas",
+            "species": "O2"
+          }
+        ],
+        "headspace": "Sealed { volume: Liters(0.5) }",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 8.17e-6,
+            "phase": "Gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 0.02034729,
+            "phase": "Gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.00428156,
+            "phase": "Gas",
+            "species": "O2"
+          }
+        ],
+        "headspace": "Sealed { volume: Liters(0.5) }",
+        "label": "beaker",
+        "temperature_k": 490.4829
+      },
+      {
+        "contents": [
+          {
+            "moles": 8.17e-6,
+            "phase": "Gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 0.02034729,
+            "phase": "Gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.00428156,
+            "phase": "Gas",
+            "species": "O2"
+          }
+        ],
+        "headspace": "Sealed { volume: Liters(0.5) }",
+        "label": "beaker",
+        "temperature_k": 674.6175
+      },
+      {
+        "contents": [],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 1015.668
       }
     ]
   },

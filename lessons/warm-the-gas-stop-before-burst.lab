@@ -1,0 +1,23 @@
+# Warm the gas, stop before burst
+# Predict the pressure order for equal sealed gas samples given 0 J, 100 J,
+# 200 J and 400 J. The first three remain measurable; the last crosses the
+# vessel boundary. Stop there: a burst is evidence, not an invitation to retry.
+register lv2
+seal v1 500mL
+add v1 N2 0.0042mol
+measure v1 pressure
+new
+seal v2 500mL
+add v2 N2 0.0042mol
+heat v2 100J
+measure v2 pressure
+new
+seal v3 500mL
+add v3 N2 0.0042mol
+heat v3 200J
+measure v3 pressure
+new
+seal v4 500mL
+add v4 N2 0.0042mol
+heat v4 400J
+measure v4 pressure

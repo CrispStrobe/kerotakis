@@ -1,0 +1,24 @@
+# Current, time and electrolysis yield
+# Hold time at 75 s and order the product inventories made by 0.05 A, 0.1 A,
+# 0.2 A and 0.4 A. Connect the order to charge Q = I t; current alone is not
+# a yield law when time is allowed to change.
+register lv3
+add v1 water 250mL
+add v1 Na2SO4 0.001mol
+electrolyse v1 0.05A 75s
+inspect v1
+new
+add v2 water 250mL
+add v2 Na2SO4 0.001mol
+electrolyse v2 0.1A 75s
+inspect v2
+new
+add v3 water 250mL
+add v3 Na2SO4 0.001mol
+electrolyse v3 0.2A 75s
+inspect v3
+new
+add v4 water 250mL
+add v4 Na2SO4 0.001mol
+electrolyse v4 0.4A 75s
+inspect v4

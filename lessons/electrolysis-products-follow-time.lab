@@ -1,0 +1,22 @@
+# Electrolysis products follow time
+register lv2
+add v1 water 250mL
+add v1 Na2SO4 0.001mol
+electrolyse v1 0.2A 15s
+inspect v1
+new
+add v2 water 250mL
+add v2 Na2SO4 0.001mol
+electrolyse v2 0.2A 30s
+inspect v2
+new
+add v3 water 250mL
+add v3 Na2SO4 0.001mol
+electrolyse v3 0.2A 60s
+inspect v3
+new
+add v4 water 250mL
+add v4 Na2SO4 0.001mol
+electrolyse v4 0.2A 120s
+inspect v4
+# Ideal Faraday-law production omits efficiency, overpotential and gas capture.

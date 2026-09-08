@@ -1,0 +1,23 @@
+# Track precipitate and filtrate through drying
+# Form barium sulfate twice. Filter both preparations, then dry only the
+# second filtrate. Account for BaSO4 residue and the soluble spectator ions
+# across each source-receiver system before deciding whether matter was lost.
+register lv3
+add v1 water 0.35L
+add v1 BaCl2 0.0006mol
+add v1 Na2SO4 0.0006mol
+new
+filter v1 v2
+inspect v1
+inspect v2
+new
+add v3 water 0.35L
+add v3 BaCl2 0.0006mol
+add v3 Na2SO4 0.0006mol
+new
+filter v3 v4
+evaporate v4 1.0
+inspect v3
+inspect v4
+# Simulation only: soluble barium salts are toxic. A physical version requires
+# trained supervision, eye protection, gloves, and hazardous-waste collection.

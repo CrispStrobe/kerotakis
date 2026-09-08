@@ -25,16 +25,19 @@ TOPICS = {
     "heat & fire": ["calorimetry", "fire", "grit", "liquid-nitrogen-freezes-ethanol"],
     "redox & electricity": ["spannungsreihe", "electrode", "electrolysis",
                             "lemon-cell", "water-electrolysis", "counting-in-fives",
-                            "permanganate-standardisation"],
+                            "permanganate-standardisation",
+                            "current-time-and-electrolysis-yield"],
     "water chemistry": ["hard-water", "limewater"],
     "corrosion & materials": ["rusting", "copper-patina", "instant-snow"],
     "crystals & solubility": ["rock-candy", "borax-snowflake", "blue-crystals",
                                 "salt-from-brine"],
-    "gases & pressure": ["sealed-gas"],
+    "gases & pressure": ["sealed-gas", "warm-the-gas-stop-before-burst"],
     "rates": ["elephant-toothpaste", "yeast-fermentation", "rates",
               "luminol-temperature"],
     "separations": ["water-filter", "spirit-still", "transport-column",
-                    "follow-the-salt-through-staged-transfers"],
+                    "follow-the-salt-through-staged-transfers",
+                    "filter-then-concentrate-the-brine",
+                    "track-precipitate-and-filtrate-through-drying"],
     "safety": ["never-mix"],
 }
 
@@ -43,6 +46,10 @@ TOPICS = {
 # instead of deriving it from apparatus, safety, or the learner's age.
 PROGRESS = {
     "follow-the-salt-through-staged-transfers": "intermediate",
+    "warm-the-gas-stop-before-burst": "intermediate",
+    "current-time-and-electrolysis-yield": "advanced",
+    "filter-then-concentrate-the-brine": "intermediate",
+    "track-precipitate-and-filtrate-through-drying": "advanced",
 }
 
 # A collection says what the existing lesson can demonstrate and, separately,

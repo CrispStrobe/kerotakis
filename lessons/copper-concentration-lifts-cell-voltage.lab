@@ -1,0 +1,38 @@
+# Copper ions lift Daniell-cell voltage
+register lv3
+add v1 water 200mL
+add v1 ZnSO4 0.01mol
+add v1 Zn 0.05mol
+new
+add v2 water 200mL
+add v2 CuSO4 0.0005mol
+add v2 Cu 0.05mol
+cell v1 v2
+new
+add v3 water 200mL
+add v3 ZnSO4 0.01mol
+add v3 Zn 0.05mol
+new
+add v4 water 200mL
+add v4 CuSO4 0.001mol
+add v4 Cu 0.05mol
+cell v3 v4
+new
+add v5 water 200mL
+add v5 ZnSO4 0.01mol
+add v5 Zn 0.05mol
+new
+add v6 water 200mL
+add v6 CuSO4 0.005mol
+add v6 Cu 0.05mol
+cell v5 v6
+new
+add v7 water 200mL
+add v7 ZnSO4 0.01mol
+add v7 Zn 0.05mol
+new
+add v8 water 200mL
+add v8 CuSO4 0.01mol
+add v8 Cu 0.05mol
+cell v7 v8
+# These are equilibrium open-circuit voltages, not delivered-current tests.

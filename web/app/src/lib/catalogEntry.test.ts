@@ -275,9 +275,9 @@ describe("the shipped library", () => {
   const entries = catalogEntries(codex, guided, context());
 
   it("is one list of both corpora", () => {
-    expect(codex).toHaveLength(118);
-    expect(guided).toHaveLength(63);
-    expect(entries).toHaveLength(181);
+    expect(codex).toHaveLength(125);
+    expect(guided).toHaveLength(70);
+    expect(entries).toHaveLength(195);
     expect(entries).toHaveLength(codex.length + guided.length);
     expect(new Set(entries.map((entry) => entry.id)).size).toBe(entries.length);
   });
@@ -372,7 +372,10 @@ describe("the shipped library", () => {
    * progression rather than scoped it.
    */
   it("locks nothing in Sandbox, at any point in a learner's progression", () => {
-    const everything = new Set(entries.flatMap((entry) => entry.concepts));
+    const everything = new Set(entries.flatMap((entry) => [
+      ...entry.concepts,
+      ...(entry.script?.requires ?? []),
+    ]));
     const records: ReadonlySet<string>[] = [
       new Set<string>(),
       metConcepts(codex, new Set(["hot-pack"])),

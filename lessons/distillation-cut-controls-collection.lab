@@ -1,0 +1,16 @@
+# A larger distillation cut collects more
+register lv2
+add v1 water 3.55mol
+add v1 ethanol 0.2mol
+add v1 methanol 0.05mol
+new
+distil v1 v2 0.08
+new
+add v3 water 3.55mol
+add v3 ethanol 0.2mol
+add v3 methanol 0.05mol
+new
+distil v3 v4 0.16
+inspect v2
+inspect v4
+# The equilibrium cut is not a prediction of real column performance or purity.
