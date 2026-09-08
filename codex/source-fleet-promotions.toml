@@ -53,6 +53,30 @@ inspect v12
 events = ["mixed"]
 absent = ["solver_failed"]
 
+[[reaction.expect.assertions]]
+kind = "equal"
+tolerance = 1e-8
+
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "mass_g"
+vessel = "v3"
+
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "mass_g"
+vessel = "v6"
+
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "mass_g"
+vessel = "v9"
+
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "mass_g"
+vessel = "v12"
+
 [reaction.expect.predict]
 question = "Four paths deliver 400 mL of water and 0.002 mol of salt to a receiver. Does it matter which source held the salt first?"
 options = ["Yes: the receiver remembers which side supplied the salt", "No: equal final water and salt inventories give the same mixed state"]
@@ -100,6 +124,20 @@ inspect v2
 [reaction.expect]
 events = ["evaporated"]
 absent = ["solver_failed"]
+
+[[reaction.expect.assertions]]
+kind = "equal"
+tolerance = 1e-8
+
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "mass_g"
+vessel = "v1"
+
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "mass_g"
+vessel = "v2"
 
 [reaction.expect.predict]
 question = "One basin loses 40% of its water at once. Another loses 20%, then 25% of what remains. Which basin finishes with more water?"
@@ -154,6 +192,20 @@ inspect v4
 events = ["distilled"]
 absent = ["solver_failed"]
 
+[[reaction.expect.assertions]]
+kind = "increasing"
+tolerance = 1e-8
+
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "mass_g"
+vessel = "v2"
+
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "mass_g"
+vessel = "v4"
+
 [reaction.expect.predict]
 question = "The same ternary feed receives either 1 kJ or 2 kJ of modeled latent duty. Is the number 2 therefore a 2% distillation cut?"
 options = ["Yes: every distillation input is interpreted as a feed fraction", "No: energy and fraction are different controls, and the energy budget determines how much latent duty can be paid"]
@@ -204,6 +256,34 @@ inspect v2
 [reaction.expect]
 events = ["org_reacted"]
 absent = ["solver_failed"]
+
+[[reaction.expect.assertions]]
+kind = "equal"
+tolerance = 1e-9
+
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "moles:ethyl_acetate"
+vessel = "v1"
+
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "moles:ethyl_acetate"
+vessel = "v2"
+
+[[reaction.expect.assertions]]
+kind = "equal"
+tolerance = 1e-9
+
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "moles:CH3COOH"
+vessel = "v1"
+
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "moles:CH3COOH"
+vessel = "v2"
 
 [reaction.expect.predict]
 question = "Two vessels contain identical final feed amounts, but the second receives them in reverse order. Which reaches a different computed esterification equilibrium?"
@@ -256,6 +336,34 @@ inspect v2
 [reaction.expect]
 events = ["org_reacted"]
 absent = ["solver_failed"]
+
+[[reaction.expect.assertions]]
+kind = "equal"
+tolerance = 1e-9
+
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "moles:ethyl_acetate"
+vessel = "v1"
+
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "moles:ethyl_acetate"
+vessel = "v2"
+
+[[reaction.expect.assertions]]
+kind = "equal"
+tolerance = 1e-9
+
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "moles:ethanol"
+vessel = "v1"
+
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "moles:ethanol"
+vessel = "v2"
 
 [reaction.expect.predict]
 question = "One vessel is asked to reach esterification equilibrium once and its twin is asked twice. Does the second request create another increment of ester?"

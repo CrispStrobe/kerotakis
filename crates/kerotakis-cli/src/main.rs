@@ -1649,6 +1649,9 @@ fn codex_lint(dir: &str) -> ! {
         let mut bench = Bench::new();
         let mut stack = build_stack();
         let mut observed: Vec<Event> = Vec::new();
+        let mut semantic_trace = kerotakis_codex::semantic::Trace {
+            states: vec![semantic_state(&bench)],
+        };
         let mut failed = false;
         for line in entry.setup.script.lines() {
             match kerotakis_core::script::parse_op(line) {
@@ -1661,6 +1664,9 @@ fn codex_lint(dir: &str) -> ! {
                             failed = true;
                             break;
                         }
+                    }
+                    if !failed {
+                        semantic_trace.states.push(semantic_state(&bench));
                     }
                 }
                 Err(e) => {
@@ -1708,6 +1714,16 @@ fn codex_lint(dir: &str) -> ! {
                 problems.push(format!(
                     "{}: claims '{claim}' does NOT happen, but it did",
                     entry.id
+                ));
+            }
+        }
+        for (index, assertion) in entry.expect.assertions.iter().enumerate() {
+            if let Err(detail) = assertion.evaluate(&semantic_trace) {
+                problems.push(format!(
+                    "{}: semantic assertion {} ({:?}) did not hold: {detail}",
+                    entry.id,
+                    index + 1,
+                    assertion.kind
                 ));
             }
         }
@@ -1854,6 +1870,32 @@ fn codex_lint(dir: &str) -> ! {
         eprintln!("  · {p}");
     }
     std::process::exit(1);
+}
+
+fn semantic_state(bench: &Bench) -> kerotakis_codex::semantic::State {
+    use kerotakis_codex::semantic::{State, VesselValues};
+    let vessels = bench
+        .vessels
+        .iter()
+        .map(|v| {
+            let mut moles = std::collections::BTreeMap::new();
+            for portion in &v.contents {
+                *moles.entry(portion.species.0.clone()).or_insert(0.0) += portion.moles.0;
+            }
+            (
+                format!("v{}", v.id.0 + 1),
+                VesselValues {
+                    mass_g: v.mass().0,
+                    temperature_c: v.temperature.to_celsius(),
+                    pressure_kpa: v.pressure.0 / 1_000.0,
+                    elapsed_s: v.elapsed_seconds,
+                    ph: v.solution.as_ref().map(|s| s.ph),
+                    moles,
+                },
+            )
+        })
+        .collect();
+    State { vessels }
 }
 
 /// Load the curriculum spine, if the directory carries one.

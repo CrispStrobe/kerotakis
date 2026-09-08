@@ -40,7 +40,15 @@ export interface CodexExpect {
   predict?: CodexPrediction | null;
   ph?: CodexRange | null;
   temperature_c?: CodexRange | null;
+  /** Authored multi-trial claim. The engine-side exporter is the source of
+   * truth; this consumer shape only names what the comparison card reads. */
+  assertions?: CodexAssertion[];
 }
+
+export type CodexAssertionKind = "equal" | "increasing" | "decreasing" | "conserved" | "unchanged";
+export type CodexAssertionStep = "initial" | "final" | `after:${number}`;
+export interface CodexAssertionSample { step: CodexAssertionStep; metric: string; vessel?: string }
+export interface CodexAssertion { kind: CodexAssertionKind; tolerance?: number; samples: CodexAssertionSample[] }
 
 export type CodexProgress = "starter" | "intermediate" | "advanced";
 

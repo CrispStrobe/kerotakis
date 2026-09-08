@@ -17,6 +17,7 @@
 pub mod curiosity;
 pub mod prose;
 pub mod quest;
+pub mod semantic;
 
 /// Every event kind `event_matches` knows, for lint use. Kept beside
 /// the matcher on purpose: a new Event arm extends both or the quest
@@ -257,6 +258,10 @@ pub struct Expect {
     pub ph: Option<Range>,
     #[serde(default)]
     pub temperature_c: Option<Range>,
+    /// Relationships that must hold between states produced by the replay.
+    /// Unlike `events`, these prove the advertised scientific relationship.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub assertions: Vec<semantic::Assertion>,
 }
 
 /// A prediction the learner commits to before running the experiment.
@@ -1045,7 +1050,11 @@ impl Codex {
                     ));
                 }
             }
-            if r.expect.events.is_empty() && r.expect.ph.is_none() {
+            if r.expect.events.is_empty()
+                && r.expect.ph.is_none()
+                && r.expect.temperature_c.is_none()
+                && r.expect.assertions.is_empty()
+            {
                 problems.push(format!(
                     "{}: claims nothing checkable; an entry the solvers cannot verify is a story, not chemistry",
                     r.id

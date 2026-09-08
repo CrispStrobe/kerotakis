@@ -43,6 +43,16 @@ path. The first distinct-concept promotion is confined to the existing
 Experiments, Codex and Missions surfaces: three guided investigations, five
 Codex cards and one Mission. Learning progress is authored explicitly; source
 URLs and source-to-case research mappings remain private.
+
+The next expansion is ordered and intentionally split into reviewable CI-backed
+changes: (1) make catalog claims machine-checkable as final/intermediate state
+relations, (2) show those comparisons in the existing Codex/Experiment/Mission
+run result, (3) promote a second 18-concept tranche without parameter-only
+duplicates, (4) close generic engine boundaries exposed by those replays, and
+(5) freeze and execute the next source-informed batch in GitHub Actions. There
+is no fourth learner-facing surface. The deployment VPS may parse, format and
+inspect these changes, but compilation, browser tests and fleet execution stay
+on GitHub CI.
 - **`tests/coverage/curiosity-v1/README.md`** — the corpus refresh log. It is a
   test artefact, not a planning file; leave it alone.
 - **`docs/CURIOSITY-COVERAGE.md`** — the standing analysis of that corpus: the
