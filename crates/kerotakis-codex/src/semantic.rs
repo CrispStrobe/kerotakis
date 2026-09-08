@@ -244,6 +244,7 @@ mod tests {
         c.samples[1].step = "after:9".into();
         assert!(c.evaluate(&trace(&[1.0])).unwrap_err().contains("outside"));
         c.samples[1].step = "final".into();
+        c.samples[0].metric = "temperature_c".into();
         c.samples[1].metric = "temperature_c".into();
         c.samples[1].vessel = None;
         assert!(c
