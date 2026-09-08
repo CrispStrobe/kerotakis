@@ -1,0 +1,238 @@
+{
+  "schema": "kerotakis-source-fleet-v2",
+  "family": "kinetics-boundaries",
+  "cases": [
+    {
+      "id": "657-peroxide-wait-30",
+      "question": "Does the current modeled clock conserve an unstirred peroxide sample across this interval?",
+      "script": "add v1 water 200mL\nadd v1 H2O2 0.01mol\nwait 30s\ninspect v1"
+    },
+    {
+      "id": "658-peroxide-wait-60",
+      "question": "Does the current modeled clock conserve an unstirred peroxide sample across this interval?",
+      "script": "add v1 water 200mL\nadd v1 H2O2 0.01mol\nwait 60s\ninspect v1"
+    },
+    {
+      "id": "659-peroxide-wait-120",
+      "question": "Does the current modeled clock conserve an unstirred peroxide sample across this interval?",
+      "script": "add v1 water 200mL\nadd v1 H2O2 0.01mol\nwait 120s\ninspect v1"
+    },
+    {
+      "id": "660-peroxide-wait-240",
+      "question": "Does the current modeled clock conserve an unstirred peroxide sample across this interval?",
+      "script": "add v1 water 200mL\nadd v1 H2O2 0.01mol\nwait 240s\ninspect v1"
+    },
+    {
+      "id": "661-acid-metal-wait-10",
+      "question": "Does the current modeled clock conserve zinc and chlorine across this interval?",
+      "script": "add v1 water 200mL\nadd v1 HCl 0.004mol\nadd v1 Zn 0.002mol\nwait 10s\ninspect v1"
+    },
+    {
+      "id": "662-acid-metal-wait-30",
+      "question": "Does the current modeled clock conserve zinc and chlorine across this interval?",
+      "script": "add v1 water 200mL\nadd v1 HCl 0.004mol\nadd v1 Zn 0.002mol\nwait 30s\ninspect v1"
+    },
+    {
+      "id": "663-acid-metal-wait-60",
+      "question": "Does the current modeled clock conserve zinc and chlorine across this interval?",
+      "script": "add v1 water 200mL\nadd v1 HCl 0.004mol\nadd v1 Zn 0.002mol\nwait 60s\ninspect v1"
+    },
+    {
+      "id": "664-acid-metal-wait-120",
+      "question": "Does the current modeled clock conserve zinc and chlorine across this interval?",
+      "script": "add v1 water 200mL\nadd v1 HCl 0.004mol\nadd v1 Zn 0.002mol\nwait 120s\ninspect v1"
+    },
+    {
+      "id": "665-peroxide-heat-0",
+      "question": "Does the current modeled clock conserve peroxide elements after this heat input and interval?",
+      "script": "add v1 water 200mL\nadd v1 H2O2 0.01mol\nheat v1 0J\nwait 60s\ninspect v1"
+    },
+    {
+      "id": "666-peroxide-heat-100",
+      "question": "Does the current modeled clock conserve peroxide elements after this heat input and interval?",
+      "script": "add v1 water 200mL\nadd v1 H2O2 0.01mol\nheat v1 100J\nwait 60s\ninspect v1"
+    },
+    {
+      "id": "667-peroxide-heat-200",
+      "question": "Does the current modeled clock conserve peroxide elements after this heat input and interval?",
+      "script": "add v1 water 200mL\nadd v1 H2O2 0.01mol\nheat v1 200J\nwait 60s\ninspect v1"
+    },
+    {
+      "id": "668-peroxide-heat-300",
+      "question": "Does the current modeled clock conserve peroxide elements after this heat input and interval?",
+      "script": "add v1 water 200mL\nadd v1 H2O2 0.01mol\nheat v1 300J\nwait 60s\ninspect v1"
+    },
+    {
+      "id": "669-zinc-dose-0.0005",
+      "question": "Does the current modeled clock conserve zinc and chlorine for this starting dose?",
+      "script": "add v1 water 250mL\nadd v1 HCl 0.006mol\nadd v1 Zn 0.0005mol\nwait 60s\ninspect v1"
+    },
+    {
+      "id": "670-zinc-dose-0.001",
+      "question": "Does the current modeled clock conserve zinc and chlorine for this starting dose?",
+      "script": "add v1 water 250mL\nadd v1 HCl 0.006mol\nadd v1 Zn 0.001mol\nwait 60s\ninspect v1"
+    },
+    {
+      "id": "671-zinc-dose-0.002",
+      "question": "Does the current modeled clock conserve zinc and chlorine for this starting dose?",
+      "script": "add v1 water 250mL\nadd v1 HCl 0.006mol\nadd v1 Zn 0.002mol\nwait 60s\ninspect v1"
+    },
+    {
+      "id": "672-zinc-dose-0.004",
+      "question": "Does the current modeled clock conserve zinc and chlorine for this starting dose?",
+      "script": "add v1 water 250mL\nadd v1 HCl 0.006mol\nadd v1 Zn 0.004mol\nwait 60s\ninspect v1"
+    },
+    {
+      "id": "673-wait-partition-1",
+      "question": "Within the current modeled clock, does partitioning equal elapsed time preserve the peroxide state?",
+      "script": "add v1 water 220mL\nadd v1 H2O2 0.011mol\nwait 120s\ninspect v1"
+    },
+    {
+      "id": "674-wait-partition-2",
+      "question": "Within the current modeled clock, does partitioning equal elapsed time preserve the peroxide state?",
+      "script": "add v1 water 220mL\nadd v1 H2O2 0.011mol\nwait 60s\nwait 60s\ninspect v1"
+    },
+    {
+      "id": "675-wait-partition-3",
+      "question": "Within the current modeled clock, does partitioning equal elapsed time preserve the peroxide state?",
+      "script": "add v1 water 220mL\nadd v1 H2O2 0.011mol\nwait 30s\nwait 90s\ninspect v1"
+    },
+    {
+      "id": "676-wait-partition-4",
+      "question": "Within the current modeled clock, does partitioning equal elapsed time preserve the peroxide state?",
+      "script": "add v1 water 220mL\nadd v1 H2O2 0.011mol\nwait 20s\nwait 40s\nwait 60s\ninspect v1"
+    },
+    {
+      "id": "677-acid-dose-0.0005",
+      "question": "Does the current modeled clock conserve zinc and chlorine for this acid dose?",
+      "script": "add v1 water 250mL\nadd v1 HCl 0.0005mol\nadd v1 Zn 0.002mol\nwait 60s\ninspect v1"
+    },
+    {
+      "id": "678-acid-dose-0.001",
+      "question": "Does the current modeled clock conserve zinc and chlorine for this acid dose?",
+      "script": "add v1 water 250mL\nadd v1 HCl 0.001mol\nadd v1 Zn 0.002mol\nwait 60s\ninspect v1"
+    },
+    {
+      "id": "679-acid-dose-0.002",
+      "question": "Does the current modeled clock conserve zinc and chlorine for this acid dose?",
+      "script": "add v1 water 250mL\nadd v1 HCl 0.002mol\nadd v1 Zn 0.002mol\nwait 60s\ninspect v1"
+    },
+    {
+      "id": "680-acid-dose-0.004",
+      "question": "Does the current modeled clock conserve zinc and chlorine for this acid dose?",
+      "script": "add v1 water 250mL\nadd v1 HCl 0.004mol\nadd v1 Zn 0.002mol\nwait 60s\ninspect v1"
+    }
+  ],
+  "relations": [
+    {
+      "id": "v2b-kinetics-boundaries-peroxide-time",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "657-peroxide-wait-30",
+        "658-peroxide-wait-60",
+        "659-peroxide-wait-120",
+        "660-peroxide-wait-240"
+      ],
+      "parameters": {
+        "elements": [
+          "H",
+          "O"
+        ],
+        "before_op": "wait"
+      }
+    },
+    {
+      "id": "v2b-kinetics-boundaries-metal-time",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "661-acid-metal-wait-10",
+        "662-acid-metal-wait-30",
+        "663-acid-metal-wait-60",
+        "664-acid-metal-wait-120"
+      ],
+      "parameters": {
+        "elements": [
+          "Zn",
+          "Cl"
+        ],
+        "before_op": "wait"
+      }
+    },
+    {
+      "id": "v2b-kinetics-boundaries-temperature-ledger",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "665-peroxide-heat-0",
+        "666-peroxide-heat-100",
+        "667-peroxide-heat-200",
+        "668-peroxide-heat-300"
+      ],
+      "parameters": {
+        "elements": [
+          "H",
+          "O"
+        ],
+        "before_op": "wait"
+      }
+    },
+    {
+      "id": "v2b-kinetics-boundaries-zinc-dose-ledger",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "669-zinc-dose-0.0005",
+        "670-zinc-dose-0.001",
+        "671-zinc-dose-0.002",
+        "672-zinc-dose-0.004"
+      ],
+      "parameters": {
+        "elements": [
+          "Zn",
+          "Cl"
+        ],
+        "before_op": "wait"
+      }
+    },
+    {
+      "id": "v2b-kinetics-boundaries-time-partition",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "cases": [
+        "673-wait-partition-1",
+        "674-wait-partition-2",
+        "675-wait-partition-3",
+        "676-wait-partition-4"
+      ],
+      "parameters": {
+        "species": [
+          "H2O2",
+          "water",
+          "O2"
+        ],
+        "atol": 1e-09,
+        "rtol": 1e-07
+      }
+    },
+    {
+      "id": "v2b-kinetics-boundaries-acid-dose-ledger",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "677-acid-dose-0.0005",
+        "678-acid-dose-0.001",
+        "679-acid-dose-0.002",
+        "680-acid-dose-0.004"
+      ],
+      "parameters": {
+        "elements": [
+          "Zn",
+          "Cl"
+        ],
+        "before_op": "wait"
+      }
+    }
+  ]
+}

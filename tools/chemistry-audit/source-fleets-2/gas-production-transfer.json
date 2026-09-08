@@ -1,0 +1,264 @@
+{
+  "schema": "kerotakis-source-fleet-v2",
+  "family": "gas-production-transfer",
+  "cases": [
+    {
+      "id": "561-carbonate-acid-dose-0.0005",
+      "question": "How does acid dose change carbon dioxide production?",
+      "script": "add v1 water 250mL\nadd v1 NaHCO3 0.004mol\nadd v1 HCl 0.0005mol\ninspect v1"
+    },
+    {
+      "id": "562-carbonate-acid-dose-0.001",
+      "question": "How does acid dose change carbon dioxide production?",
+      "script": "add v1 water 250mL\nadd v1 NaHCO3 0.004mol\nadd v1 HCl 0.001mol\ninspect v1"
+    },
+    {
+      "id": "563-carbonate-acid-dose-0.002",
+      "question": "How does acid dose change carbon dioxide production?",
+      "script": "add v1 water 250mL\nadd v1 NaHCO3 0.004mol\nadd v1 HCl 0.002mol\ninspect v1"
+    },
+    {
+      "id": "564-carbonate-acid-dose-0.003",
+      "question": "How does acid dose change carbon dioxide production?",
+      "script": "add v1 water 250mL\nadd v1 NaHCO3 0.004mol\nadd v1 HCl 0.003mol\ninspect v1"
+    },
+    {
+      "id": "565-carbonate-dose-0.001",
+      "question": "How does bicarbonate dose change gas production with excess acid?",
+      "script": "add v1 water 250mL\nadd v1 NaHCO3 0.001mol\nadd v1 HCl 0.01mol\ninspect v1"
+    },
+    {
+      "id": "566-carbonate-dose-0.002",
+      "question": "How does bicarbonate dose change gas production with excess acid?",
+      "script": "add v1 water 250mL\nadd v1 NaHCO3 0.002mol\nadd v1 HCl 0.01mol\ninspect v1"
+    },
+    {
+      "id": "567-carbonate-dose-0.004",
+      "question": "How does bicarbonate dose change gas production with excess acid?",
+      "script": "add v1 water 250mL\nadd v1 NaHCO3 0.004mol\nadd v1 HCl 0.01mol\ninspect v1"
+    },
+    {
+      "id": "568-carbonate-dose-0.008",
+      "question": "How does bicarbonate dose change gas production with excess acid?",
+      "script": "add v1 water 250mL\nadd v1 NaHCO3 0.008mol\nadd v1 HCl 0.01mol\ninspect v1"
+    },
+    {
+      "id": "569-sealed-carbonate-0.001",
+      "question": "Does sealed acid-carbonate chemistry retain carbon in the vessel?",
+      "script": "seal v1 750mL\nadd v1 water 200mL\nadd v1 NaHCO3 0.001mol\nadd v1 HCl 0.006mol\nmeasure v1 pressure"
+    },
+    {
+      "id": "570-sealed-carbonate-0.002",
+      "question": "Does sealed acid-carbonate chemistry retain carbon in the vessel?",
+      "script": "seal v1 750mL\nadd v1 water 200mL\nadd v1 NaHCO3 0.002mol\nadd v1 HCl 0.006mol\nmeasure v1 pressure"
+    },
+    {
+      "id": "571-sealed-carbonate-0.003",
+      "question": "Does sealed acid-carbonate chemistry retain carbon in the vessel?",
+      "script": "seal v1 750mL\nadd v1 water 200mL\nadd v1 NaHCO3 0.003mol\nadd v1 HCl 0.006mol\nmeasure v1 pressure"
+    },
+    {
+      "id": "572-sealed-carbonate-0.004",
+      "question": "Does sealed acid-carbonate chemistry retain carbon in the vessel?",
+      "script": "seal v1 750mL\nadd v1 water 200mL\nadd v1 NaHCO3 0.004mol\nadd v1 HCl 0.006mol\nmeasure v1 pressure"
+    },
+    {
+      "id": "573-gas-amount-0.001",
+      "question": "How does nitrogen amount change sealed pressure?",
+      "script": "seal v1 800mL\nadd v1 N2 0.001mol\nmeasure v1 pressure"
+    },
+    {
+      "id": "574-gas-amount-0.002",
+      "question": "How does nitrogen amount change sealed pressure?",
+      "script": "seal v1 800mL\nadd v1 N2 0.002mol\nmeasure v1 pressure"
+    },
+    {
+      "id": "575-gas-amount-0.004",
+      "question": "How does nitrogen amount change sealed pressure?",
+      "script": "seal v1 800mL\nadd v1 N2 0.004mol\nmeasure v1 pressure"
+    },
+    {
+      "id": "576-gas-amount-0.008",
+      "question": "How does nitrogen amount change sealed pressure?",
+      "script": "seal v1 800mL\nadd v1 N2 0.008mol\nmeasure v1 pressure"
+    },
+    {
+      "id": "577-gas-volume-1200",
+      "question": "How does headspace volume change pressure for fixed gas?",
+      "script": "seal v1 1200mL\nadd v1 N2 0.004mol\nmeasure v1 pressure"
+    },
+    {
+      "id": "578-gas-volume-900",
+      "question": "How does headspace volume change pressure for fixed gas?",
+      "script": "seal v1 900mL\nadd v1 N2 0.004mol\nmeasure v1 pressure"
+    },
+    {
+      "id": "579-gas-volume-600",
+      "question": "How does headspace volume change pressure for fixed gas?",
+      "script": "seal v1 600mL\nadd v1 N2 0.004mol\nmeasure v1 pressure"
+    },
+    {
+      "id": "580-gas-volume-300",
+      "question": "How does headspace volume change pressure for fixed gas?",
+      "script": "seal v1 300mL\nadd v1 N2 0.004mol\nmeasure v1 pressure"
+    },
+    {
+      "id": "581-gas-energy-0",
+      "question": "How does thermal input change sealed-gas pressure?",
+      "script": "seal v1 700mL\nadd v1 N2 0.004mol\nmeasure v1 pressure"
+    },
+    {
+      "id": "582-gas-energy-50",
+      "question": "How does thermal input change sealed-gas pressure?",
+      "script": "seal v1 700mL\nadd v1 N2 0.004mol\nheat v1 50J\nmeasure v1 pressure"
+    },
+    {
+      "id": "583-gas-energy-100",
+      "question": "How does thermal input change sealed-gas pressure?",
+      "script": "seal v1 700mL\nadd v1 N2 0.004mol\nheat v1 100J\nmeasure v1 pressure"
+    },
+    {
+      "id": "584-gas-energy-150",
+      "question": "How does thermal input change sealed-gas pressure?",
+      "script": "seal v1 700mL\nadd v1 N2 0.004mol\nheat v1 150J\nmeasure v1 pressure"
+    }
+  ],
+  "relations": [
+    {
+      "id": "gt-carbonate-acid-dose",
+      "kind": "boundary",
+      "assertion": "event-present",
+      "cases": [
+        "561-carbonate-acid-dose-0.0005",
+        "562-carbonate-acid-dose-0.001",
+        "563-carbonate-acid-dose-0.002",
+        "564-carbonate-acid-dose-0.003"
+      ],
+      "parameters": {
+        "event": "gas_evolved"
+      }
+    },
+    {
+      "id": "gt-carbonate-acid-dose-amount",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "561-carbonate-acid-dose-0.0005",
+        "562-carbonate-acid-dose-0.001",
+        "563-carbonate-acid-dose-0.002",
+        "564-carbonate-acid-dose-0.003"
+      ],
+      "parameters": {
+        "event": "gas_evolved",
+        "field": "moles",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 1e-05
+      }
+    },
+    {
+      "id": "gt-carbonate-dose",
+      "kind": "boundary",
+      "assertion": "event-present",
+      "cases": [
+        "565-carbonate-dose-0.001",
+        "566-carbonate-dose-0.002",
+        "567-carbonate-dose-0.004",
+        "568-carbonate-dose-0.008"
+      ],
+      "parameters": {
+        "event": "gas_evolved"
+      }
+    },
+    {
+      "id": "gt-carbonate-dose-amount",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "565-carbonate-dose-0.001",
+        "566-carbonate-dose-0.002",
+        "567-carbonate-dose-0.004",
+        "568-carbonate-dose-0.008"
+      ],
+      "parameters": {
+        "event": "gas_evolved",
+        "field": "moles",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 1e-05
+      }
+    },
+    {
+      "id": "gt-sealed-carbonate",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "569-sealed-carbonate-0.001",
+        "570-sealed-carbonate-0.002",
+        "571-sealed-carbonate-0.003",
+        "572-sealed-carbonate-0.004"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 0.01
+      }
+    },
+    {
+      "id": "gt-gas-amount",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "573-gas-amount-0.001",
+        "574-gas-amount-0.002",
+        "575-gas-amount-0.004",
+        "576-gas-amount-0.008"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 0.01
+      }
+    },
+    {
+      "id": "gt-gas-volume",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "577-gas-volume-1200",
+        "578-gas-volume-900",
+        "579-gas-volume-600",
+        "580-gas-volume-300"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 0.01
+      }
+    },
+    {
+      "id": "gt-gas-energy",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "581-gas-energy-0",
+        "582-gas-energy-50",
+        "583-gas-energy-100",
+        "584-gas-energy-150"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 0.01
+      }
+    }
+  ]
+}

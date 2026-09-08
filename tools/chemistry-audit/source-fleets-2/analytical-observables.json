@@ -1,0 +1,236 @@
+{
+  "schema": "kerotakis-source-fleet-v2",
+  "family": "analytical-observables",
+  "cases": [
+    {
+      "id": "729-conductivity-0",
+      "question": "How does a controlled amount change the conductivity reading?",
+      "script": "add v1 water 275mL\nmeasure v1 conductivity"
+    },
+    {
+      "id": "730-conductivity-0.001",
+      "question": "How does a controlled amount change the conductivity reading?",
+      "script": "add v1 water 275mL\nadd v1 NaCl 0.001mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "731-conductivity-0.002",
+      "question": "How does a controlled amount change the conductivity reading?",
+      "script": "add v1 water 275mL\nadd v1 NaCl 0.002mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "732-conductivity-0.004",
+      "question": "How does a controlled amount change the conductivity reading?",
+      "script": "add v1 water 275mL\nadd v1 NaCl 0.004mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "733-acid-ph-0.00025",
+      "question": "How does a controlled amount change the ph reading?",
+      "script": "add v1 water 275mL\nadd v1 HCl 0.00025mol\nmeasure v1 ph"
+    },
+    {
+      "id": "734-acid-ph-0.0005",
+      "question": "How does a controlled amount change the ph reading?",
+      "script": "add v1 water 275mL\nadd v1 HCl 0.0005mol\nmeasure v1 ph"
+    },
+    {
+      "id": "735-acid-ph-0.001",
+      "question": "How does a controlled amount change the ph reading?",
+      "script": "add v1 water 275mL\nadd v1 HCl 0.001mol\nmeasure v1 ph"
+    },
+    {
+      "id": "736-acid-ph-0.002",
+      "question": "How does a controlled amount change the ph reading?",
+      "script": "add v1 water 275mL\nadd v1 HCl 0.002mol\nmeasure v1 ph"
+    },
+    {
+      "id": "737-base-ph-0.00025",
+      "question": "How does a controlled amount change the ph reading?",
+      "script": "add v1 water 275mL\nadd v1 NaOH 0.00025mol\nmeasure v1 ph"
+    },
+    {
+      "id": "738-base-ph-0.0005",
+      "question": "How does a controlled amount change the ph reading?",
+      "script": "add v1 water 275mL\nadd v1 NaOH 0.0005mol\nmeasure v1 ph"
+    },
+    {
+      "id": "739-base-ph-0.001",
+      "question": "How does a controlled amount change the ph reading?",
+      "script": "add v1 water 275mL\nadd v1 NaOH 0.001mol\nmeasure v1 ph"
+    },
+    {
+      "id": "740-base-ph-0.002",
+      "question": "How does a controlled amount change the ph reading?",
+      "script": "add v1 water 275mL\nadd v1 NaOH 0.002mol\nmeasure v1 ph"
+    },
+    {
+      "id": "741-balance-water-50",
+      "question": "How does water volume change the balance reading?",
+      "script": "add v1 water 50mL\nmeasure v1 balance"
+    },
+    {
+      "id": "742-balance-water-100",
+      "question": "How does water volume change the balance reading?",
+      "script": "add v1 water 100mL\nmeasure v1 balance"
+    },
+    {
+      "id": "743-balance-water-200",
+      "question": "How does water volume change the balance reading?",
+      "script": "add v1 water 200mL\nmeasure v1 balance"
+    },
+    {
+      "id": "744-balance-water-400",
+      "question": "How does water volume change the balance reading?",
+      "script": "add v1 water 400mL\nmeasure v1 balance"
+    },
+    {
+      "id": "745-thermometer-10",
+      "question": "Does the thermometer retain the ordering of prepared water temperatures?",
+      "script": "add v1 water 200mL @ 10C\nmeasure v1 thermometer"
+    },
+    {
+      "id": "746-thermometer-20",
+      "question": "Does the thermometer retain the ordering of prepared water temperatures?",
+      "script": "add v1 water 200mL @ 20C\nmeasure v1 thermometer"
+    },
+    {
+      "id": "747-thermometer-40",
+      "question": "Does the thermometer retain the ordering of prepared water temperatures?",
+      "script": "add v1 water 200mL @ 40C\nmeasure v1 thermometer"
+    },
+    {
+      "id": "748-thermometer-70",
+      "question": "Does the thermometer retain the ordering of prepared water temperatures?",
+      "script": "add v1 water 200mL @ 70C\nmeasure v1 thermometer"
+    },
+    {
+      "id": "749-pressure-amount-0.001",
+      "question": "How does sealed nitrogen amount change the pressure-gauge reading?",
+      "script": "seal v1 650mL\nadd v1 N2 0.001mol\nmeasure v1 pressure"
+    },
+    {
+      "id": "750-pressure-amount-0.002",
+      "question": "How does sealed nitrogen amount change the pressure-gauge reading?",
+      "script": "seal v1 650mL\nadd v1 N2 0.002mol\nmeasure v1 pressure"
+    },
+    {
+      "id": "751-pressure-amount-0.003",
+      "question": "How does sealed nitrogen amount change the pressure-gauge reading?",
+      "script": "seal v1 650mL\nadd v1 N2 0.003mol\nmeasure v1 pressure"
+    },
+    {
+      "id": "752-pressure-amount-0.004",
+      "question": "How does sealed nitrogen amount change the pressure-gauge reading?",
+      "script": "seal v1 650mL\nadd v1 N2 0.004mol\nmeasure v1 pressure"
+    }
+  ],
+  "relations": [
+    {
+      "id": "v2b-analytical-observables-conductivity",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "729-conductivity-0",
+        "730-conductivity-0.001",
+        "731-conductivity-0.002",
+        "732-conductivity-0.004"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 1e-08
+      }
+    },
+    {
+      "id": "v2b-analytical-observables-acid-ph",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "733-acid-ph-0.00025",
+        "734-acid-ph-0.0005",
+        "735-acid-ph-0.001",
+        "736-acid-ph-0.002"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "decreasing",
+        "min_delta": 0.1
+      }
+    },
+    {
+      "id": "v2b-analytical-observables-base-ph",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "737-base-ph-0.00025",
+        "738-base-ph-0.0005",
+        "739-base-ph-0.001",
+        "740-base-ph-0.002"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 0.1
+      }
+    },
+    {
+      "id": "v2b-analytical-observables-balance-order",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "741-balance-water-50",
+        "742-balance-water-100",
+        "743-balance-water-200",
+        "744-balance-water-400"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 40
+      }
+    },
+    {
+      "id": "v2b-analytical-observables-temperature-order",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "745-thermometer-10",
+        "746-thermometer-20",
+        "747-thermometer-40",
+        "748-thermometer-70"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 5
+      }
+    },
+    {
+      "id": "v2b-analytical-observables-pressure-order",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "749-pressure-amount-0.001",
+        "750-pressure-amount-0.002",
+        "751-pressure-amount-0.003",
+        "752-pressure-amount-0.004"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 1
+      }
+    }
+  ]
+}

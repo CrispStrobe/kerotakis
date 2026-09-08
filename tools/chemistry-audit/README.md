@@ -23,6 +23,7 @@ evidence harnesses, and they are never imported by a crate or the web app.
 | `SIXTH-BATCH.md` | Frozen contract for cases 195–218; its repaired-head 66/66 run is archived |
 | `CONTINUATION.md`, `INTEGRATOR-HANDOFF.md` | Superseded operating state of PR #504, kept as record |
 | `source_fleets.py`, `source-fleets/*.json`, `analyse_source_fleets.py`, `aggregate_source_fleets.py`, `SOURCE-FLEETS.md` | Validator, recorder, named-relation analyzer, aggregate gate and frozen contract for source-informed cases 219–458 |
+| `source_fleets_2.py`, `source-fleets-2/*.json`, `analyse_source_fleets_2.py`, `aggregate_source_fleets_2.py`, `SOURCE-FLEETS-2.md` | Separate privacy-checked contract and GitHub-CI harness for 288 source-informed cases 489–776; it does not mutate the first corpus |
 | `seventh_batch.py`, `analyse_seventh.py`, `SEVENTH-BATCH.md` | Frozen 30-case regression fleet for ammonia headspace, ester equilibrium, gas tests and pressure/venting (459–488) |
 
 Python standard library only; no new dependency, no external dataset.
@@ -54,6 +55,11 @@ by SHA-256, applies the independent analyzer and uploads the complete evidence
 whether the checks pass or fail. This keeps expensive fleet work off the small
 deployment host and makes a failed experiment an artifact rather than lost log
 text.
+
+The same workflow carries a separately versioned v2 matrix for cases 489–776:
+twelve 24-case shards with at most four running concurrently and a distinct
+aggregate gate. Its scripts still run sequentially inside each shard, and all
+authoritative execution remains on GitHub rather than the deployment VPS.
 
 Run 34200411053 established 66/66 for fleet 195–218. Its 78-file artifact is
 archived at `/mnt/storage/kerotakis-archive/chemistry-audit-sixth-195-218-36eb425c.tar.gz`
