@@ -1603,13 +1603,18 @@ fn parse_duration_seconds(raw: &str) -> Result<f64, String> {
 }
 
 fn split_unit(word: &str) -> Result<(f64, &str), String> {
-    let split = word
-        .find(|c: char| c.is_ascii_alphabetic())
-        .ok_or_else(|| format!("'{word}' needs a unit suffix"))?;
-    let value: f64 = word[..split]
-        .parse()
-        .map_err(|_| format!("bad number in '{word}'"))?;
-    Ok((value, &word[split..]))
+    // Do not split at the `e` in scientific notation. Looking for the first
+    // alphabetic byte made a perfectly ordinary generated dose such as
+    // `8e-05mol` become the number `8` with the unit `e-05mol`.
+    for (split, _) in word.char_indices().skip(1) {
+        let (number, unit) = word.split_at(split);
+        if unit.chars().all(|c| c.is_ascii_alphabetic()) {
+            if let Ok(value) = number.parse::<f64>() {
+                return Ok((value, unit));
+            }
+        }
+    }
+    Err(format!("'{word}' needs a valid number and unit suffix"))
 }
 
 /// A number with a unit suffix, matched longest-first so `ms` cannot be
@@ -1638,6 +1643,13 @@ fn parse_suffixed(raw: &str, units: &[(&str, f64)], what: &str) -> Result<f64, S
 #[cfg(test)]
 mod localised_grammar {
     use super::*;
+
+    #[test]
+    fn amount_suffix_split_preserves_scientific_notation() {
+        assert_eq!(split_unit("8e-05mol"), Ok((8e-5, "mol")));
+        assert_eq!(split_unit("1.25E+2mL"), Ok((125.0, "mL")));
+        assert_eq!(split_unit("0.004mol"), Ok((0.004, "mol")));
+    }
 
     fn de() -> Locale {
         Locale::parse("de")
