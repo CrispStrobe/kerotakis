@@ -300,6 +300,17 @@ inventories into explicit failed checks. The remaining silver feed-order
 discrepancy stays open pending a deterministic equilibrium repair; its frozen
 tolerance has not been widened.
 
+The order audit subsequently traced that silver discrepancy to PHREEQC problem
+vectors accumulated and emitted in learner feed order. Equivalent equilibrium
+inventories are now canonicalized before their input deck is built, and a
+regression requires reversed silver/chloride feeds to produce byte-identical
+decks. The original 821-file run is archived outside the repository as
+`chemistry-audit-source-219-458-36eb425c.tar.gz` (SHA-256
+`98cbfe7e1c82c57edd3f5868840df40da1d6e77eecf53a9d27bcfc1912a73808`). The
+successful 78-file sixth-fleet subset is independently archived as
+`chemistry-audit-sixth-195-218-36eb425c.tar.gz` (SHA-256
+`5f19afcf35ffdf8047a43eaaf19429ec2c35fc24baaf315cbe37a6855f177459`).
+
 Known limitations retained throughout the audit include mixed-solvent ionic
 activity, physical gas-transfer and uncatalyzed reaction rates, nucleation,
 surface and geometry effects, calibrated detection thresholds, complete copper-
