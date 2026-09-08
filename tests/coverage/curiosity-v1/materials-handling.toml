@@ -33,7 +33,7 @@ material_class="metals"
 expected="qualitative"
 owning_task="CAP-16"
 tags=["CAP-16", "EXP-13"]
-script=["add v1 Mg 1g", "grind v1 Mg 50um", "add v1 water 100mL", "add v1 HCl 0.02mol"]
+script=["new", "add v1 Mg 1g", "add v1 water 100mL", "add v1 HCl 0.02mol", "add v2 Mg 1g", "grind v2 Mg 50um", "add v2 water 100mL", "add v2 HCl 0.02mol"]
 smoke=false
 
 [[prompt]]
@@ -1275,7 +1275,7 @@ material_class="corrosion"
 expected="qualitative"
 owning_task="CAP-16"
 tags=["CAP-16", "EXP-13"]
-script=["add v1 water 100mL", "add v1 Mg 1g", "add v1 HCl 0.02mol", "wait 30s"]
+script=["new", "add v1 water 100mL", "add v1 Mg 1g", "wait 30s", "add v2 water 100mL", "add v2 Mg 1g", "add v2 HCl 0.02mol", "wait 30s"]
 smoke=false
 
 [[prompt]]

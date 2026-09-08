@@ -1008,7 +1008,7 @@ material_class = "solvent-extraction"
 expected = "computed"
 owning_task = "EXP-18"
 tags = ["partitioning"]
-script = ["new", "add v1 water 2mol", "add v1 hexane 0.5mol", "add v1 I2 0.001mol", "drain v1 v2"]
+script = ["new", "new", "new", "new", "add v1 water 2mol", "add v1 I2 0.001mol", "add v1 hexane 0.5mol", "drain v1 v2", "add v3 water 2mol", "add v3 I2 0.001mol", "add v3 hexane 0.25mol", "drain v3 v4", "add v4 hexane 0.25mol", "drain v4 v5", "look v1", "look v2", "look v3", "look v4", "look v5"]
 smoke = false
 
 [[prompt]]

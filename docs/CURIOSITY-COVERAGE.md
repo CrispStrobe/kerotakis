@@ -354,15 +354,14 @@ the precedence is arranged. `th-086`, `th-087`, `th-088` compute an ideal-gas
 pressure in the vessel rather than in a route, with the same consequence.
 Declaring these as routes is a small, mechanical change and closes six rows.
 
-### 5. Rows whose script cannot ask their question. Corpus work, no engine work.
+### 5. Rows whose script could not ask their question — scripts repaired.
 
-`th-025`, `th-094`, `th-120`, and the comparative rows `mat-003`, `mat-108`,
-`aq-085`. A perfect model answers "how fast"; these questions ask "faster than
-what" and the scripts build one condition. `mat-003` and `mat-006` print
-byte-identical output and only one of them is answered — the difference is
-entirely in the question, and no classifier that reads events can ever see it.
-This is the ceiling on what any classifier change can achieve, and it is worth
-stating before anyone plans a sixth round of them.
+The comparative rows `mat-003`, `mat-108`, and `aq-085` now build both
+conditions. The first two compare matched vessels; `aq-085` spends the same
+total hexane in one 0.5 mol extraction and two 0.25 mol extractions. This makes
+the experiments askable without pretending the classifier can judge the
+comparison from unrelated events. The iodine partition coefficient remains a
+real engine gap.
 
 ### 6. `aq-085`'s partition coefficient, and `mat-054`'s torch.
 
