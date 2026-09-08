@@ -1354,7 +1354,7 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
         a.species
             .0
             .cmp(&b.species.0)
-            .then_with(|| format!("{:?}", a.phase).cmp(&format!("{:?}", b.phase)))
+            .then_with(|| a.phase.cmp(&b.phase))
     });
     for p in contents {
         if p.phase == Phase::Gas {
