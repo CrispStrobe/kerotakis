@@ -16,6 +16,7 @@
 use std::collections::BTreeSet;
 
 use crate::constants::{FARADAY, GAS_CONSTANT};
+use crate::local_equilibrium::{solve_square, LocalEquilibriumError, LocalEquilibriumNetwork};
 
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct ElectrodiffusionSpecies<'a> {
@@ -66,6 +67,47 @@ pub struct NernstPlanckState {
     pub right_concentrations_mol_per_m3: Vec<f64>,
     pub ionic_current_density_a_per_m2: f64,
     pub charge_residual_mol_per_m3: f64,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct ReactiveNernstPlanckOptions {
+    pub mass_action_tolerance: f64,
+    pub maximum_newton_iterations: usize,
+    pub minimum_continuation_step: f64,
+}
+
+impl Default for ReactiveNernstPlanckOptions {
+    fn default() -> Self {
+        Self {
+            mass_action_tolerance: 1.0e-8,
+            maximum_newton_iterations: 64,
+            minimum_continuation_step: 1.0e-6,
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub struct ReactiveNernstPlanckState {
+    pub transport: NernstPlanckState,
+    /// Positive values advance the corresponding authored homogeneous reaction.
+    pub homogeneous_reaction_flux_extents_mol_per_m2_s: Vec<f64>,
+    pub maximum_mass_action_residual: f64,
+}
+
+#[derive(Debug, Clone, PartialEq, thiserror::Error)]
+pub enum ReactiveElectrodiffusionError {
+    #[error(transparent)]
+    Transport(#[from] ElectrodiffusionError),
+    #[error(transparent)]
+    Equilibrium(#[from] LocalEquilibriumError),
+    #[error("reactive electrodiffusion species do not match: {0}")]
+    SpeciesMismatch(String),
+    #[error("reactive electrodiffusion bulk is not at the authored local equilibrium")]
+    BulkNotEquilibrated,
+    #[error("reactive electrodiffusion options are invalid")]
+    InvalidOptions,
+    #[error("coupled reactive electrodiffusion did not converge")]
+    DidNotConverge,
 }
 
 #[derive(Debug, Clone, PartialEq, thiserror::Error)]
@@ -180,6 +222,123 @@ impl NernstPlanckDomain {
         })
     }
 
+    /// Couples steady electrodiffusion to arbitrary fast homogeneous reactions.
+    ///
+    /// The supplied Faradaic flux is positive for surface consumption. Forward
+    /// homogeneous reaction extent produces species with positive authored
+    /// stoichiometric coefficients, reducing the transport flux needed from
+    /// the bulk. Continuation from the equilibrated zero-flux state avoids
+    /// imposing a reaction-specific initial guess.
+    pub fn reactive_electroneutral_surface(
+        self,
+        species: &[ElectrodiffusionSpecies<'_>],
+        network: &LocalEquilibriumNetwork<'_>,
+        bulk_concentrations_mol_per_m3: &[f64],
+        faradaic_consumed_fluxes_mol_per_m2_s: &[f64],
+        options: ReactiveNernstPlanckOptions,
+    ) -> Result<ReactiveNernstPlanckState, ReactiveElectrodiffusionError> {
+        if !options.mass_action_tolerance.is_finite()
+            || options.mass_action_tolerance <= 0.0
+            || options.maximum_newton_iterations == 0
+            || !options.minimum_continuation_step.is_finite()
+            || !(0.0..=1.0).contains(&options.minimum_continuation_step)
+            || options.minimum_continuation_step == 0.0
+        {
+            return Err(ReactiveElectrodiffusionError::InvalidOptions);
+        }
+        self.validate_species_and_inputs(species, bulk_concentrations_mol_per_m3, None)?;
+        if faradaic_consumed_fluxes_mol_per_m2_s.len() != species.len() {
+            return Err(
+                ElectrodiffusionError::InvalidInput("wrong number of fluxes".into()).into(),
+            );
+        }
+        for ((transport, equilibrium), flux) in species
+            .iter()
+            .zip(network.species)
+            .zip(faradaic_consumed_fluxes_mol_per_m2_s)
+        {
+            if transport.id != equilibrium.id || transport.charge != equilibrium.charge {
+                return Err(ReactiveElectrodiffusionError::SpeciesMismatch(
+                    equilibrium.id.into(),
+                ));
+            }
+            if !flux.is_finite() {
+                return Err(ElectrodiffusionError::InvalidInput(transport.id.into()).into());
+            }
+        }
+        if species.len() != network.species.len() {
+            return Err(ReactiveElectrodiffusionError::SpeciesMismatch(
+                "different species counts".into(),
+            ));
+        }
+        let stoichiometry = network.validate()?;
+        let bulk_equilibrium = network.equilibrate(bulk_concentrations_mol_per_m3)?;
+        if bulk_equilibrium
+            .concentrations_mol_per_m3
+            .iter()
+            .zip(bulk_concentrations_mol_per_m3)
+            .any(|(solved, authored)| !relative_close(*solved, *authored, 1.0e-8))
+        {
+            return Err(ReactiveElectrodiffusionError::BulkNotEquilibrated);
+        }
+
+        let flux_scale = species
+            .iter()
+            .zip(bulk_concentrations_mol_per_m3)
+            .map(|(entry, concentration)| {
+                entry.diffusivity_m2_per_s / self.layer_thickness_m * concentration.max(1.0)
+            })
+            .chain(
+                faradaic_consumed_fluxes_mol_per_m2_s
+                    .iter()
+                    .map(|value| value.abs()),
+            )
+            .fold(1.0e-12, f64::max);
+        let mut extents = vec![0.0; network.reactions.len()];
+        let mut lambda = 0.0_f64;
+        let mut continuation_step = 0.125_f64;
+        let mut final_state = None;
+        while lambda < 1.0 {
+            let target = (lambda + continuation_step).min(1.0);
+            let mut guess = extents.clone();
+            if lambda > 0.0 {
+                for value in &mut guess {
+                    *value *= target / lambda;
+                }
+            }
+            match solve_reactive_stage(
+                self,
+                species,
+                network,
+                &stoichiometry,
+                bulk_concentrations_mol_per_m3,
+                faradaic_consumed_fluxes_mol_per_m2_s,
+                target,
+                guess,
+                flux_scale,
+                options,
+            ) {
+                Ok(state) => {
+                    extents.clone_from(&state.homogeneous_reaction_flux_extents_mol_per_m2_s);
+                    final_state = Some(state);
+                    lambda = target;
+                    continuation_step = (continuation_step * 1.5).min(1.0 - lambda);
+                }
+                Err(ReactiveElectrodiffusionError::DidNotConverge)
+                | Err(ReactiveElectrodiffusionError::Transport(
+                    ElectrodiffusionError::NotBracketed | ElectrodiffusionError::DidNotConverge,
+                )) => {
+                    continuation_step *= 0.5;
+                    if continuation_step < options.minimum_continuation_step {
+                        return Err(ReactiveElectrodiffusionError::DidNotConverge);
+                    }
+                }
+                Err(error) => return Err(error),
+            }
+        }
+        final_state.ok_or(ReactiveElectrodiffusionError::DidNotConverge)
+    }
+
     fn validate_species_and_inputs(
         self,
         species: &[ElectrodiffusionSpecies<'_>],
@@ -231,6 +390,146 @@ impl NernstPlanckDomain {
         }
         Ok(())
     }
+}
+
+fn relative_close(left: f64, right: f64, tolerance: f64) -> bool {
+    (left - right).abs() <= tolerance * left.abs().max(right.abs()).max(1.0)
+}
+
+#[allow(clippy::too_many_arguments)]
+fn solve_reactive_stage(
+    domain: NernstPlanckDomain,
+    species: &[ElectrodiffusionSpecies<'_>],
+    network: &LocalEquilibriumNetwork<'_>,
+    stoichiometry: &[Vec<f64>],
+    bulk: &[f64],
+    faradaic_fluxes: &[f64],
+    continuation: f64,
+    mut extents: Vec<f64>,
+    flux_scale: f64,
+    options: ReactiveNernstPlanckOptions,
+) -> Result<ReactiveNernstPlanckState, ReactiveElectrodiffusionError> {
+    for _ in 0..options.maximum_newton_iterations {
+        let (transport, residual) = reactive_residual(
+            domain,
+            species,
+            network,
+            stoichiometry,
+            bulk,
+            faradaic_fluxes,
+            continuation,
+            &extents,
+        )?;
+        let maximum_residual = residual.iter().map(|value| value.abs()).fold(0.0, f64::max);
+        if maximum_residual <= options.mass_action_tolerance {
+            return Ok(ReactiveNernstPlanckState {
+                transport,
+                homogeneous_reaction_flux_extents_mol_per_m2_s: extents,
+                maximum_mass_action_residual: maximum_residual,
+            });
+        }
+        let mut jacobian = vec![vec![0.0; extents.len()]; extents.len()];
+        for column in 0..extents.len() {
+            let step = 1.0e-6 * extents[column].abs().max(flux_scale);
+            let mut shifted = extents.clone();
+            shifted[column] += step;
+            let plus = reactive_residual(
+                domain,
+                species,
+                network,
+                stoichiometry,
+                bulk,
+                faradaic_fluxes,
+                continuation,
+                &shifted,
+            )
+            .ok()
+            .map(|(_, value)| value);
+            shifted[column] = extents[column] - step;
+            let minus = reactive_residual(
+                domain,
+                species,
+                network,
+                stoichiometry,
+                bulk,
+                faradaic_fluxes,
+                continuation,
+                &shifted,
+            )
+            .ok()
+            .map(|(_, value)| value);
+            for row in 0..extents.len() {
+                jacobian[row][column] = match (&plus, &minus) {
+                    (Some(plus), Some(minus)) => (plus[row] - minus[row]) / (2.0 * step),
+                    (Some(plus), None) => (plus[row] - residual[row]) / step,
+                    (None, Some(minus)) => (residual[row] - minus[row]) / step,
+                    (None, None) => return Err(ReactiveElectrodiffusionError::DidNotConverge),
+                };
+            }
+        }
+        let direction = solve_square(jacobian, residual.iter().map(|value| -*value).collect())
+            .ok_or(ReactiveElectrodiffusionError::DidNotConverge)?;
+        let mut line_scale = 1.0;
+        let mut accepted = None;
+        for _ in 0..40 {
+            let trial = extents
+                .iter()
+                .zip(&direction)
+                .map(|(value, change)| value + line_scale * change)
+                .collect::<Vec<_>>();
+            if let Ok((_, trial_residual)) = reactive_residual(
+                domain,
+                species,
+                network,
+                stoichiometry,
+                bulk,
+                faradaic_fluxes,
+                continuation,
+                &trial,
+            ) {
+                let trial_merit = trial_residual
+                    .iter()
+                    .map(|value| value.abs())
+                    .fold(0.0, f64::max);
+                if trial_merit < maximum_residual {
+                    accepted = Some(trial);
+                    break;
+                }
+            }
+            line_scale *= 0.5;
+        }
+        extents = accepted.ok_or(ReactiveElectrodiffusionError::DidNotConverge)?;
+    }
+    Err(ReactiveElectrodiffusionError::DidNotConverge)
+}
+
+#[allow(clippy::too_many_arguments)]
+fn reactive_residual(
+    domain: NernstPlanckDomain,
+    species: &[ElectrodiffusionSpecies<'_>],
+    network: &LocalEquilibriumNetwork<'_>,
+    stoichiometry: &[Vec<f64>],
+    bulk: &[f64],
+    faradaic_fluxes: &[f64],
+    continuation: f64,
+    reaction_flux_extents: &[f64],
+) -> Result<(NernstPlanckState, Vec<f64>), ReactiveElectrodiffusionError> {
+    let fluxes = faradaic_fluxes
+        .iter()
+        .enumerate()
+        .map(|(index, faradaic)| {
+            continuation * faradaic
+                - stoichiometry
+                    .iter()
+                    .zip(reaction_flux_extents)
+                    .map(|(reaction, extent)| reaction[index] * extent)
+                    .sum::<f64>()
+        })
+        .collect::<Vec<_>>();
+    let transport = domain.electroneutral_surface(species, bulk, &fluxes)?;
+    let residual =
+        network.mass_action_residuals(&transport.right_concentrations_mol_per_m3, stoichiometry);
+    Ok((transport, residual))
 }
 
 fn valid_concentration(value: f64) -> bool {
@@ -389,6 +688,10 @@ fn bounded_root(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::local_equilibrium::{
+        LocalEquilibriumComponent, LocalEquilibriumReaction, LocalEquilibriumSpecies,
+        LocalEquilibriumTerm,
+    };
 
     const EQUAL: &[ElectrodiffusionSpecies<'_>] = &[
         ElectrodiffusionSpecies {
@@ -1011,5 +1314,254 @@ mod tests {
         assert!(NernstPlanckDomain::default()
             .zero_current_junction(&ions, &[1_000.0, 1_000.0], &[500.0, 500.0])
             .is_ok());
+    }
+
+    #[test]
+    fn weak_acid_surface_couples_mass_action_migration_and_component_fluxes() {
+        const ACID_AND_PROTON: &[LocalEquilibriumComponent<'_>] = &[
+            LocalEquilibriumComponent {
+                id: "acid",
+                amount: 1.0,
+            },
+            LocalEquilibriumComponent {
+                id: "proton",
+                amount: 1.0,
+            },
+        ];
+        const PROTON: &[LocalEquilibriumComponent<'_>] = &[LocalEquilibriumComponent {
+            id: "proton",
+            amount: 1.0,
+        }];
+        const ACID: &[LocalEquilibriumComponent<'_>] = &[LocalEquilibriumComponent {
+            id: "acid",
+            amount: 1.0,
+        }];
+        const LOCAL_SPECIES: &[LocalEquilibriumSpecies<'_>] = &[
+            LocalEquilibriumSpecies {
+                id: "HA",
+                charge: 0,
+                activity_coefficient: 1.0,
+                components: ACID_AND_PROTON,
+            },
+            LocalEquilibriumSpecies {
+                id: "H+",
+                charge: 1,
+                activity_coefficient: 1.0,
+                components: PROTON,
+            },
+            LocalEquilibriumSpecies {
+                id: "A-",
+                charge: -1,
+                activity_coefficient: 1.0,
+                components: ACID,
+            },
+        ];
+        const TERMS: &[LocalEquilibriumTerm<'_>] = &[
+            LocalEquilibriumTerm {
+                species: "HA",
+                coefficient: -1.0,
+            },
+            LocalEquilibriumTerm {
+                species: "H+",
+                coefficient: 1.0,
+            },
+            LocalEquilibriumTerm {
+                species: "A-",
+                coefficient: 1.0,
+            },
+        ];
+        const REACTIONS: &[LocalEquilibriumReaction<'_>] = &[LocalEquilibriumReaction {
+            id: "acid",
+            terms: TERMS,
+            log10_equilibrium_constant: -4.76,
+        }];
+        let network = LocalEquilibriumNetwork {
+            species: LOCAL_SPECIES,
+            reactions: REACTIONS,
+        };
+        let bulk = network
+            .equilibrate(&[100.0, 1.0e-6, 1.0e-6])
+            .unwrap()
+            .concentrations_mol_per_m3;
+        let transport_species = [
+            ElectrodiffusionSpecies {
+                id: "HA",
+                charge: 0,
+                diffusivity_m2_per_s: 0.8e-9,
+            },
+            ElectrodiffusionSpecies {
+                id: "H+",
+                charge: 1,
+                diffusivity_m2_per_s: 9.3e-9,
+            },
+            ElectrodiffusionSpecies {
+                id: "A-",
+                charge: -1,
+                diffusivity_m2_per_s: 1.1e-9,
+            },
+        ];
+        let state = NernstPlanckDomain::default()
+            .reactive_electroneutral_surface(
+                &transport_species,
+                &network,
+                &bulk,
+                &[0.0, 1.0e-4, 0.0],
+                ReactiveNernstPlanckOptions::default(),
+            )
+            .unwrap();
+        let surface = &state.transport.right_concentrations_mol_per_m3;
+        let quotient = (surface[1] / 1_000.0) * (surface[2] / 1_000.0) / (surface[0] / 1_000.0);
+        assert!((quotient.log10() + 4.76).abs() < 1e-8);
+        assert!(state.homogeneous_reaction_flux_extents_mol_per_m2_s[0] > 0.0);
+        let flux = &state.transport.fluxes_mol_per_m2_s;
+        assert!((flux[0] + flux[2]).abs() < 1e-10);
+        assert!((flux[0] + flux[1] - 1.0e-4).abs() < 1e-10);
+        assert!(state.transport.charge_residual_mol_per_m3.abs() < 1e-8);
+    }
+
+    #[test]
+    fn two_reaction_polyprotic_network_solves_without_a_special_case() {
+        const ACID_TWO_H: &[LocalEquilibriumComponent<'_>] = &[
+            LocalEquilibriumComponent {
+                id: "acid",
+                amount: 1.0,
+            },
+            LocalEquilibriumComponent {
+                id: "proton",
+                amount: 2.0,
+            },
+        ];
+        const ACID_ONE_H: &[LocalEquilibriumComponent<'_>] = &[
+            LocalEquilibriumComponent {
+                id: "acid",
+                amount: 1.0,
+            },
+            LocalEquilibriumComponent {
+                id: "proton",
+                amount: 1.0,
+            },
+        ];
+        const PROTON: &[LocalEquilibriumComponent<'_>] = &[LocalEquilibriumComponent {
+            id: "proton",
+            amount: 1.0,
+        }];
+        const ACID: &[LocalEquilibriumComponent<'_>] = &[LocalEquilibriumComponent {
+            id: "acid",
+            amount: 1.0,
+        }];
+        let local_species = [
+            LocalEquilibriumSpecies {
+                id: "H2A",
+                charge: 0,
+                activity_coefficient: 1.0,
+                components: ACID_TWO_H,
+            },
+            LocalEquilibriumSpecies {
+                id: "H+",
+                charge: 1,
+                activity_coefficient: 1.0,
+                components: PROTON,
+            },
+            LocalEquilibriumSpecies {
+                id: "HA-",
+                charge: -1,
+                activity_coefficient: 1.0,
+                components: ACID_ONE_H,
+            },
+            LocalEquilibriumSpecies {
+                id: "A2-",
+                charge: -2,
+                activity_coefficient: 1.0,
+                components: ACID,
+            },
+        ];
+        let first_terms = [
+            LocalEquilibriumTerm {
+                species: "H2A",
+                coefficient: -1.0,
+            },
+            LocalEquilibriumTerm {
+                species: "H+",
+                coefficient: 1.0,
+            },
+            LocalEquilibriumTerm {
+                species: "HA-",
+                coefficient: 1.0,
+            },
+        ];
+        let second_terms = [
+            LocalEquilibriumTerm {
+                species: "HA-",
+                coefficient: -1.0,
+            },
+            LocalEquilibriumTerm {
+                species: "H+",
+                coefficient: 1.0,
+            },
+            LocalEquilibriumTerm {
+                species: "A2-",
+                coefficient: 1.0,
+            },
+        ];
+        let reactions = [
+            LocalEquilibriumReaction {
+                id: "first",
+                terms: &first_terms,
+                log10_equilibrium_constant: -3.0,
+            },
+            LocalEquilibriumReaction {
+                id: "second",
+                terms: &second_terms,
+                log10_equilibrium_constant: -6.0,
+            },
+        ];
+        let network = LocalEquilibriumNetwork {
+            species: &local_species,
+            reactions: &reactions,
+        };
+        let bulk = network
+            .equilibrate(&[50.0, 1.0e-6, 1.0e-6, 0.0])
+            .unwrap()
+            .concentrations_mol_per_m3;
+        let transport_species = [
+            ElectrodiffusionSpecies {
+                id: "H2A",
+                charge: 0,
+                diffusivity_m2_per_s: 0.7e-9,
+            },
+            ElectrodiffusionSpecies {
+                id: "H+",
+                charge: 1,
+                diffusivity_m2_per_s: 9.3e-9,
+            },
+            ElectrodiffusionSpecies {
+                id: "HA-",
+                charge: -1,
+                diffusivity_m2_per_s: 1.2e-9,
+            },
+            ElectrodiffusionSpecies {
+                id: "A2-",
+                charge: -2,
+                diffusivity_m2_per_s: 0.9e-9,
+            },
+        ];
+        let state = NernstPlanckDomain::default()
+            .reactive_electroneutral_surface(
+                &transport_species,
+                &network,
+                &bulk,
+                &[0.0, 5.0e-5, 0.0, 0.0],
+                ReactiveNernstPlanckOptions::default(),
+            )
+            .unwrap();
+        assert_eq!(
+            state.homogeneous_reaction_flux_extents_mol_per_m2_s.len(),
+            2
+        );
+        assert!(state.maximum_mass_action_residual < 1e-8);
+        assert!(state.transport.charge_residual_mol_per_m3.abs() < 1e-8);
+        let flux = &state.transport.fluxes_mol_per_m2_s;
+        assert!((flux[0] + flux[2] + flux[3]).abs() < 1e-10);
+        assert!((2.0 * flux[0] + flux[1] + flux[2] - 5.0e-5).abs() < 1e-10);
     }
 }

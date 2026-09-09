@@ -180,7 +180,7 @@ impl LocalEquilibriumNetwork<'_> {
         Err(LocalEquilibriumError::DidNotConverge { maximum_residual })
     }
 
-    fn validate(&self) -> Result<Vec<Vec<f64>>, LocalEquilibriumError> {
+    pub(crate) fn validate(&self) -> Result<Vec<Vec<f64>>, LocalEquilibriumError> {
         if self.species.is_empty() || self.reactions.is_empty() {
             return Err(LocalEquilibriumError::EmptyNetwork);
         }
@@ -289,7 +289,7 @@ impl LocalEquilibriumNetwork<'_> {
         Ok(stoichiometry)
     }
 
-    fn mass_action_residuals(
+    pub(crate) fn mass_action_residuals(
         &self,
         concentrations: &[f64],
         stoichiometry: &[Vec<f64>],
@@ -447,7 +447,7 @@ fn positive_step_scale(
     scale
 }
 
-fn solve_square(mut matrix: Vec<Vec<f64>>, mut rhs: Vec<f64>) -> Option<Vec<f64>> {
+pub(crate) fn solve_square(mut matrix: Vec<Vec<f64>>, mut rhs: Vec<f64>) -> Option<Vec<f64>> {
     let n = rhs.len();
     for column in 0..n {
         let pivot = (column..n).max_by(|a, b| {

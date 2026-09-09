@@ -310,6 +310,13 @@ it had while it was open, which is why a few numbers appear twice below.
   closed form is no longer only the binary symmetric case; the `bernoulli`
   Taylor/`exp_m1` seam is probed directly; and all seven refusal paths are now
   exercised, `DidNotConverge` included.
+- **`feat/reactive-electrodiffusion`** — coupled arbitrary validated homogeneous
+  reaction networks to the constant-field Nernst–Planck boundary. A continuation
+  solve now finds every homogeneous reaction-flux extent while enforcing surface
+  mass action, conserved-component fluxes, migration and electroneutrality; it
+  does not substitute an effective buffer diffusivity. Independent one- and
+  two-reaction acid systems with unequal species diffusivities close mass action,
+  charge and component-flux balances without reaction-specific code.
 - **`feat/nernst-planck-boundary`** — added a reusable one-dimensional,
   constant-field Nernst–Planck boundary with a stable Scharfetter–Gummel flux.
   It computes zero-current liquid-junction potentials or an electroneutral
