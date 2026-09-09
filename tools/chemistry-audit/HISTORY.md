@@ -5,6 +5,19 @@ JSON, NDJSON, stderr, hashes and test logs remain in their evidence directories.
 Counts describe the recorded revision and declared model domain, not universal
 experimental accuracy.
 
+## 2026-09-09 — independent 240-case current-engine replay
+
+A separate private fleet replay ran 240/240 scripts successfully with the green
+release CLI from public commit `a29d9255`. Median case time was 0.63–0.67 s.
+All 216 modeled physical checks passed. Aqueous screening retained six failures:
+three reciprocal strong-acid/base pairs reached identical inventories and
+temperatures but differed by 6.41e-5 to 4.79e-4 pH, exposing a real solver-state
+defect. Separation retained 16 failures from one invalid frozen assumption:
+silica partly equilibrated into solution before filtration, while the filter
+correctly separated phases and conserved silicon. Raw inputs, outputs, hashes,
+contracts and classifications are preserved only in the private research repo
+at commit `98f32f2`; no source identity or source mapping entered this repo.
+
 ## 2026-09-08 — second source-informed corpus
 
 PR #560 added the separately versioned 489–776 corpus: twelve families, 288

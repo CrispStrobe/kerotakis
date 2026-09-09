@@ -51,6 +51,14 @@ fn env_readback() -> bool {
     *V.get_or_init(|| std::env::var("KERO_READBACK").is_ok())
 }
 
+// A solution property must be computed at the temperature the vessel finally
+// reports. A loose 0.05 K thermal stop left pH from the preceding trial in the
+// state; matched acid/base inventories could then retain their feed history at
+// the fourth decimal place. This is an absolute numerical convergence target,
+// not a chemistry-specific tolerance.
+const THERMAL_FIXED_POINT_TOLERANCE_K: f64 = 1e-6;
+const MAX_THERMAL_FIXED_POINT_PASSES: usize = 16;
+
 use crate::derived::{self, DerivedRole, ATMOSPHERIC, EQUILIBRIUM_GASES};
 use crate::enthalpy;
 
@@ -1949,8 +1957,10 @@ impl Equilibrator for PhreeqcEquilibrator {
         let mut guess = t0;
         let mut volume_guess = start.headspace_volume();
         let mut settled: Option<(Vessel, Vec<Event>, f64)> = None;
+        let mut fixed_point_converged = false;
+        let mut last_temperature_residual = f64::INFINITY;
 
-        for _ in 0..8 {
+        for _ in 0..MAX_THERMAL_FIXED_POINT_PASSES {
             let mut trial = start.clone();
             trial.temperature = Kelvin(guess);
             if let (Headspace::PressureControlled { pressure, .. }, Some(volume)) =
@@ -2007,13 +2017,26 @@ impl Equilibrator for PhreeqcEquilibrator {
                 }
                 _ => true,
             };
-            let converged = (next - guess).abs() < 0.05 && volume_converged;
+            last_temperature_residual = (next - guess).abs();
+            let converged =
+                last_temperature_residual < THERMAL_FIXED_POINT_TOLERANCE_K && volume_converged;
             settled = Some((trial, events, next));
             guess = next;
             volume_guess = next_volume;
             if converged {
+                fixed_point_converged = true;
                 break;
             }
+        }
+
+        if !fixed_point_converged {
+            return Err(SolveError::NotConverged {
+                solver: self.name().to_string(),
+                detail: format!(
+                    "coupled aqueous temperature did not converge within {MAX_THERMAL_FIXED_POINT_PASSES} passes (last residual {:.6e} K)",
+                    last_temperature_residual
+                ),
+            });
         }
 
         let Some((solved, mut events, t_final)) = settled else {
@@ -3732,6 +3755,47 @@ impl PhreeqcEquilibrator {
             let column = format!("g_{phase}");
             let moles = value(&column).ok_or_else(|| missing(&column))?;
             new_gases.push((phase.clone(), species.clone(), moles.max(0.0)));
+        }
+
+        // In a homogeneous closed solution, analytical element totals are
+        // conserved coordinates, not solver observations. Reusing PHREEQC's
+        // rounded readback as the next step's input introduced a few parts in
+        // 1e9 of artificial charge imbalance. Near neutral pH that is enough
+        // to remember whether acid or base arrived first. Project only tiny
+        // readback residuals back onto the exact input totals; any larger
+        // discrepancy remains visible, and phase/interface/gas ownership uses
+        // the explicit balance paths above instead of this simple projection.
+        let homogeneous = problem.surfaces.is_empty()
+            && problem.exchanges.is_empty()
+            && problem.solid_solutions.is_empty()
+            && problem.gases.is_empty()
+            && problem.external_gases.is_empty()
+            && new_phases.iter().all(|(_, amount)| *amount <= TRACE);
+        if homogeneous {
+            let mut targets = BTreeMap::<String, f64>::new();
+            for (element, amount) in &problem.totals {
+                *targets
+                    .entry(element.split('(').next().unwrap_or(element).to_string())
+                    .or_default() += amount;
+            }
+            for (element, target) in targets {
+                let current: f64 = new_ions
+                    .iter()
+                    .filter(|(candidate, _)| {
+                        candidate.split('(').next().unwrap_or(candidate) == element
+                    })
+                    .map(|(_, amount)| amount)
+                    .sum();
+                let tolerance = 1e-14_f64.max(target.abs() * 1e-7);
+                if current > 0.0 && (current - target).abs() <= tolerance {
+                    let scale = target / current;
+                    for (candidate, amount) in new_ions.iter_mut() {
+                        if candidate.split('(').next().unwrap_or(candidate) == element {
+                            *amount *= scale;
+                        }
+                    }
+                }
+            }
         }
         let ph = value("pH").ok_or_else(|| missing("pH"))?;
         let mu = value("mu").ok_or_else(|| missing("mu"))?;

@@ -133,9 +133,20 @@ fn identical_states_hit_the_cache() {
 
     let first = run(&mut eq);
     assert_eq!(eq.cache_hits(), 0, "first run is all engine calls");
+    let calls_after_first = eq.engine_calls();
     let second = run(&mut eq);
-    // Two engine calls: the salt and the weak acid. Pure solvent has no
-    // speciation problem and never reaches the engine, so it caches nothing.
-    assert_eq!(eq.cache_hits(), 2, "identical replay must hit the cache");
+    // Every thermal fixed-point trial from the first run must replay from the
+    // cache. Pure solvent has no speciation problem and never reaches the
+    // engine, so it contributes neither calls nor hits.
+    assert_eq!(
+        eq.engine_calls(),
+        calls_after_first,
+        "identical replay must make no new engine calls"
+    );
+    assert_eq!(
+        eq.cache_hits(),
+        calls_after_first,
+        "every first-run engine call must have a cached replay"
+    );
     assert_eq!(first, second, "cached answers are bit-identical");
 }

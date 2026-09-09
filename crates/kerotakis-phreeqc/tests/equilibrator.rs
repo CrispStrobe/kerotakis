@@ -401,6 +401,43 @@ fn hess_holds_when_a_reagent_arrives_into_a_warm_beaker() {
     );
 }
 
+/// The converged thermometer and the reported solution must describe the same
+/// state. This low-dose case caught a thermal fixed point that stopped while
+/// its temperature was still moving: the final inventories and temperatures
+/// agreed, but pH retained which bottle had been poured first.
+#[test]
+fn dilute_neutral_solution_does_not_retain_feed_order_in_ph() {
+    let solve = |dose: f64, reverse: bool| {
+        let mut s = stack();
+        let mut bench = Bench::new();
+        let v = VesselId(0);
+        add(&mut bench, &mut s, v, "water", 34.866_175_045_795_174);
+        let order = if reverse {
+            [("NaOH", dose), ("HCl", dose)]
+        } else {
+            [("HCl", dose), ("NaOH", dose)]
+        };
+        for (species, moles) in order {
+            add(&mut bench, &mut s, v, species, moles);
+        }
+        let vessel = bench.vessel(v).expect("vessel");
+        (
+            vessel.temperature.0,
+            vessel.solution.as_ref().expect("characterized").ph,
+        )
+    };
+
+    for dose in [0.000_23, 0.000_67, 0.001_37, 0.002_71] {
+        let acid_first = solve(dose, false);
+        let base_first = solve(dose, true);
+        assert!((acid_first.0 - base_first.0).abs() < 1e-8);
+        assert!(
+            (acid_first.1 - base_first.1).abs() < 1e-5,
+            "matched final states at {dose} mol retained feed order in pH: {acid_first:?} vs {base_first:?}"
+        );
+    }
+}
+
 /// The heat of neutralisation is counted, and counted only once.
 ///
 /// `H⁺ + OH⁻ → H₂O` never appears as a reaction PHREEQC reports — it is
