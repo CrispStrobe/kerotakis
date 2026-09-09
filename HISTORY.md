@@ -16,6 +16,18 @@ it had while it was open, which is why a few numbers appear twice below.
 
 **Electrochemical kinetics**
 
+- **`feat/interfacial-local-equilibrium`** — added a generic extent-based local
+  mass-action solver with authored conserved components, charge balance,
+  caller-supplied activity coefficients, positivity-preserving Newton steps and
+  explicit temperature/relaxation validity. Electrode diffusion layers can now
+  couple any reviewed fast homogeneous network when all participating species
+  have a mathematically compatible common steady transfer coefficient or
+  transient relaxation time. Bulk disequilibrium, dependent or unbalanced
+  reactions, insufficient timescale separation and mixed transport modes
+  refuse. The diffusion-only adapter also enforces electroneutral bulk and zero
+  net Faradaic charge across the local network; charged coupling names
+  Nernst–Planck migration as the next required model instead of inventing an
+  effective diffusivity. The implementation uses no external code or data.
 - **`feat/transient-diffusion-layer`** — added the exact constant-flux advance
   for a lumped Nernst diffusion layer, including signed production/consumption,
   relaxation to the quasi-steady limit, an exact depletion time and time-split

@@ -60,6 +60,7 @@ pub mod ionic;
 pub mod kinetics;
 pub mod kitchen_biology;
 pub mod ledger;
+pub mod local_equilibrium;
 pub mod material;
 pub mod molecule;
 pub mod nonaqueous;
