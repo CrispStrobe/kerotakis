@@ -1,0 +1,11 @@
+# One substance, two phases: filter only the solid
+register lv2
+add v1 water 12mol
+add v1 SiO2 0.0004mol
+add v1 NaCl 0.0008mol
+new
+filter v1 v2
+inspect
+# The aqueous equilibrium decides how much silica is dissolved. The filter
+# then transfers the liquid phase and retains the solid phase; it does not
+# decide by chemical identity.

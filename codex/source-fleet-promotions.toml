@@ -1218,3 +1218,69 @@ lv3 = "Frozen cases 657–660 assert elemental conservation across each wait, no
 [reaction.provenance]
 source = "Original promotion from source-fleet v2 peroxide wait controls; no private source mapping or new empirical constant. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-08."
 computed_by = "Kerotakis registered peroxide kinetic network and material ledger; four within-vessel H2O2 decrease assertions"
+
+[[reaction]]
+id = "one-substance-two-phases-through-a-filter"
+progress = "intermediate"
+summary = "Equilibrium splits silica across phases; filtration separates those phases, not the substance name"
+concepts = ["filtration", "solubility", "phase-equilibrium", "conservation-of-mass"]
+requires = ["dissolving", "filtration"]
+calculations = ["phase-inventory", "mass-accounting"]
+models = ["aqueous-equilibrium", "particle-model"]
+apparatus = ["beaker", "filter-funnel", "filter-paper"]
+
+[reaction.setup]
+script = """
+add v1 water 12mol
+add v1 SiO2 0.0004mol
+add v1 NaCl 0.0008mol
+new
+filter v1 v2
+inspect
+"""
+
+[reaction.expect]
+events = ["dissolved:SiO2", "filtered"]
+absent = ["solver_failed"]
+
+[[reaction.expect.assertions]]
+kind = "conserved"
+tolerance = 1e-10
+relative_tolerance = 1e-7
+[[reaction.expect.assertions.samples]]
+step = "after:2"
+metric = "moles:SiO2"
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "moles:SiO2"
+
+[[reaction.expect.assertions]]
+kind = "decreasing"
+tolerance = 1e-10
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "moles:SiO2"
+vessel = "v1"
+[[reaction.expect.assertions.samples]]
+step = "final"
+metric = "moles:SiO2"
+vessel = "v2"
+
+[reaction.expect.predict]
+question = "Some of one silica dose is solid and some is dissolved before filtration. Where does the silica go?"
+options = ["All silica stays on the paper because filters recognize the substance", "Solid silica stays on the paper while dissolved silica follows the water into the receiver"]
+answer = 1
+misconception = "A separation method is treated as selecting a chemical identity instead of a physical phase."
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "Dissolved and solid portions of the same substance have been assigned the same filter behaviour."
+next = "Inspect both vessels after filtration and compare their SiO2 inventories without losing sight of the whole-bench silicon balance."
+
+[reaction.registers]
+lv1 = "The paper catches the solid grains, but it cannot catch the silica that has joined the water. One substance can take two routes because it occupies two phases."
+lv2 = "The aqueous equilibrium dissolves a smaller part of the silica dose before filtration. The filter retains the remaining solid in v1 and transfers the aqueous silica with water to v2; their combined SiO2 amount is conserved."
+lv3 = "This is a phase-ledger test, not an all-or-nothing solubility rule. One semantic assertion conserves total SiO2 across the operation and another requires the retained solid inventory to exceed the dissolved filtrate inventory. The thermodynamic equilibrium omits dissolution rate, grain-size distribution and adsorption, while the ideal filter omits pores, entrainment and losses."
+
+[reaction.provenance]
+source = "Original promotion from a private generic separation-control fleet; no source mapping or external prose. Editorial judgement (Kerotakis), 2026-09-09."
+computed_by = "Kerotakis aqueous phase equilibrium and phase-selective filter; whole-bench conservation and two-vessel inventory assertions"

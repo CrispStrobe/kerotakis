@@ -461,3 +461,20 @@ activity, physical gas-transfer and uncatalyzed reaction rates, nucleation,
 surface and geometry effects, calibrated detection thresholds, complete copper-
 ammine and iron-thiocyanate spectra/thermodynamics, and exact household-mixture
 composition. Passing equilibrium or inventory checks does not close those gaps.
+
+## Independent 240-case replay and catalog preservation (2026-09-09)
+
+An independent 240-case replay completed without process failures. Its 178/184
+aqueous checks exposed feed-order memory near neutral pH; the generic thermal
+fixed-point and analytical-total projection repair is tracked separately. All
+16 separation expectation failures assumed that a silica charge stayed wholly
+solid, while the engine consistently dissolved about 10.826% and conserved the
+rest across filtration. The 56 physical boundary results remained explicit:
+nonideal VLE, kinetics, organic-rich solvents and electrode nonideality.
+
+The raw scripts, traces, evaluations and dispositions remain in the private
+research repository at `98f32f2`; no source mapping entered this repository.
+One conceptually distinct result became K73: equilibrium may put one chemical
+identity in solid and aqueous phases, so a filter separates by phase rather
+than by name. The other candidates duplicate existing lessons, vary only a
+parameter, or depend on a still-open model boundary.

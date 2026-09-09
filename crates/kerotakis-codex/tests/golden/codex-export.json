@@ -13194,6 +13194,123 @@
       }
     },
     {
+      "id": "one-substance-two-phases-through-a-filter",
+      "progress": "intermediate",
+      "equation": null,
+      "summary": "Equilibrium splits silica across phases; filtration separates those phases, not the substance name",
+      "summary_de": "Das Gleichgewicht verteilt Siliciumdioxid auf zwei Phasen; die Filtration trennt diese Phasen und nicht den Stoffnamen",
+      "concepts": [
+        "filtration",
+        "solubility",
+        "phase-equilibrium",
+        "conservation-of-mass"
+      ],
+      "requires": [
+        "dissolving",
+        "filtration"
+      ],
+      "spine": [],
+      "curriculum": [],
+      "apparatus": [
+        "beaker",
+        "filter-funnel",
+        "filter-paper"
+      ],
+      "calculations": [
+        "phase-inventory",
+        "mass-accounting"
+      ],
+      "models": [
+        "aqueous-equilibrium",
+        "particle-model"
+      ],
+      "setup": {
+        "script": "add v1 water 12mol\nadd v1 SiO2 0.0004mol\nadd v1 NaCl 0.0008mol\nnew\nfilter v1 v2\ninspect\n"
+      },
+      "expect": {
+        "events": [
+          "dissolved:SiO2",
+          "filtered"
+        ],
+        "absent": [
+          "solver_failed"
+        ],
+        "predict": {
+          "question": "Some of one silica dose is solid and some is dissolved before filtration. Where does the silica go?",
+          "question_de": "Ein Teil derselben Siliciumdioxidmenge ist vor der Filtration fest, ein anderer gelöst. Wohin gelangt das Siliciumdioxid?",
+          "options": [
+            "All silica stays on the paper because filters recognize the substance",
+            "Solid silica stays on the paper while dissolved silica follows the water into the receiver"
+          ],
+          "options_de": [
+            "Alles Siliciumdioxid bleibt auf dem Papier, weil Filter den Stoff erkennen",
+            "Festes Siliciumdioxid bleibt auf dem Papier, gelöstes Siliciumdioxid folgt dem Wasser in das Auffanggefäß"
+          ],
+          "answer": 1,
+          "misconception": "A separation method is treated as selecting a chemical identity instead of a physical phase.",
+          "misconception_de": "Ein Trennverfahren wird so verstanden, als wähle es eine chemische Identität statt einer physikalischen Phase.",
+          "diagnosis": [
+            {
+              "option": 0,
+              "reveals": "Dissolved and solid portions of the same substance have been assigned the same filter behaviour.",
+              "reveals_de": "Dem gelösten und dem festen Anteil desselben Stoffes wurde dasselbe Filterverhalten zugeschrieben.",
+              "next": "Inspect both vessels after filtration and compare their SiO2 inventories without losing sight of the whole-bench silicon balance.",
+              "next_de": "Untersuche nach der Filtration beide Gefäße und vergleiche ihre SiO2-Bestände, ohne die Siliciumbilanz des gesamten Labors aus dem Blick zu verlieren.",
+              "source": null
+            }
+          ]
+        },
+        "ph": null,
+        "temperature_c": null,
+        "assertions": [
+          {
+            "kind": "conserved",
+            "tolerance": 1e-10,
+            "relative_tolerance": 1e-7,
+            "samples": [
+              {
+                "step": "after:2",
+                "metric": "moles:SiO2"
+              },
+              {
+                "step": "final",
+                "metric": "moles:SiO2"
+              }
+            ]
+          },
+          {
+            "kind": "decreasing",
+            "tolerance": 1e-10,
+            "samples": [
+              {
+                "step": "final",
+                "metric": "moles:SiO2",
+                "vessel": "v1"
+              },
+              {
+                "step": "final",
+                "metric": "moles:SiO2",
+                "vessel": "v2"
+              }
+            ]
+          }
+        ]
+      },
+      "registers": {
+        "lv1": "The paper catches the solid grains, but it cannot catch the silica that has joined the water. One substance can take two routes because it occupies two phases.",
+        "lv1_de": "Das Papier fängt die festen Körner, aber nicht das Siliciumdioxid, das sich dem Wasser angeschlossen hat. Derselbe Stoff nimmt zwei Wege, weil er in zwei Phasen vorliegt.",
+        "lv2": "The aqueous equilibrium dissolves a smaller part of the silica dose before filtration. The filter retains the remaining solid in v1 and transfers the aqueous silica with water to v2; their combined SiO2 amount is conserved.",
+        "lv2_de": "Das wässrige Gleichgewicht löst vor der Filtration einen kleineren Teil der Siliciumdioxidmenge. Der Filter hält den übrigen Feststoff in v1 zurück und überträgt das wässrige Siliciumdioxid mit dem Wasser nach v2; die gemeinsame SiO2-Menge bleibt erhalten.",
+        "lv3": "This is a phase-ledger test, not an all-or-nothing solubility rule. One semantic assertion conserves total SiO2 across the operation and another requires the retained solid inventory to exceed the dissolved filtrate inventory. The thermodynamic equilibrium omits dissolution rate, grain-size distribution and adsorption, while the ideal filter omits pores, entrainment and losses.",
+        "lv3_de": "Dies ist eine Prüfung der Phasenbilanz und keine Alles-oder-nichts-Löslichkeitsregel. Eine semantische Prüfung erhält die gesamte SiO2-Menge über den Vorgang; eine zweite verlangt, dass der zurückgehaltene Feststoffbestand größer als der gelöste Bestand im Filtrat ist. Das thermodynamische Gleichgewicht lässt Lösungsgeschwindigkeit, Korngrößenverteilung und Adsorption aus; der ideale Filter lässt Poren, Mitreißen und Verluste aus."
+      },
+      "provenance": {
+        "source": "Original promotion from a private generic separation-control fleet; no source mapping or external prose. Editorial judgement (Kerotakis), 2026-09-09.",
+        "licence": null,
+        "computed_by": "Kerotakis aqueous phase equilibrium and phase-selective filter; whole-bench conservation and two-vessel inventory assertions"
+      }
+    },
+    {
       "id": "liquid-nitrogen-freezes-ethanol",
       "progress": "advanced",
       "equation": null,
