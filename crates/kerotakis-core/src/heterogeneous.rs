@@ -48,6 +48,11 @@ pub struct DiffusionLayerAdvance {
 }
 
 impl DiffusionLayerTransport {
+    pub fn relaxation_time_seconds(self) -> Result<f64, SurfaceRateError> {
+        self.molar_flux_limit()?;
+        Ok(self.diffusion_layer_m.powi(2) / self.diffusivity_m2_per_s)
+    }
+
     pub fn molar_flux_limit(self) -> Result<f64, SurfaceRateError> {
         if !self.diffusivity_m2_per_s.is_finite()
             || self.diffusivity_m2_per_s <= 0.0
@@ -110,7 +115,7 @@ impl DiffusionLayerTransport {
                 depleted: false,
             });
         }
-        let relaxation_rate_per_s = self.diffusivity_m2_per_s / self.diffusion_layer_m.powi(2);
+        let relaxation_rate_per_s = 1.0 / self.relaxation_time_seconds()?;
         let steady_concentration = self.bulk_concentration_mol_per_m3
             + net_production_mol_per_m2_s * self.diffusion_layer_m / self.diffusivity_m2_per_s;
         let concentration_at = |elapsed: f64| {

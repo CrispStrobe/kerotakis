@@ -54,6 +54,14 @@ pub struct ElectrodePotentialDelta {
     pub potential_v: f64,
 }
 
+#[derive(Debug, Clone, PartialEq)]
+pub struct ElectrodeInterfacialSpeciesDelta {
+    pub electrode: String,
+    pub reaction_id: String,
+    pub species: String,
+    pub surface_concentration_mol_per_m3: f64,
+}
+
 /// A proposed change to a vessel's thermal state.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum ThermalDelta {
@@ -76,6 +84,8 @@ pub struct StateDelta {
     pub electrode_changes: Vec<ElectrodeMoleDelta>,
     /// Persistent interfacial electrical state after a transient solve.
     pub electrode_potential_changes: Vec<ElectrodePotentialDelta>,
+    /// Persistent near-surface concentration changes after a transient slice.
+    pub electrode_interfacial_species_changes: Vec<ElectrodeInterfacialSpeciesDelta>,
     /// Thermal state change.
     pub thermal: Option<ThermalDelta>,
     /// Which model produced this delta.
@@ -172,6 +182,7 @@ impl StateDelta {
             mole_changes: Vec::new(),
             electrode_changes: Vec::new(),
             electrode_potential_changes: Vec::new(),
+            electrode_interfacial_species_changes: Vec::new(),
             thermal: None,
             source,
         }
@@ -200,6 +211,23 @@ impl StateDelta {
             .push(ElectrodePotentialDelta {
                 electrode: electrode.into(),
                 potential_v,
+            });
+        self
+    }
+
+    pub fn with_electrode_interfacial_species(
+        mut self,
+        electrode: impl Into<String>,
+        reaction_id: impl Into<String>,
+        species: impl Into<String>,
+        surface_concentration_mol_per_m3: f64,
+    ) -> Self {
+        self.electrode_interfacial_species_changes
+            .push(ElectrodeInterfacialSpeciesDelta {
+                electrode: electrode.into(),
+                reaction_id: reaction_id.into(),
+                species: species.into(),
+                surface_concentration_mol_per_m3,
             });
         self
     }
@@ -404,6 +432,36 @@ impl StateDelta {
             }
         }
 
+        let mut interface_keys = std::collections::BTreeSet::new();
+        for change in &self.electrode_interfacial_species_changes {
+            let matching_count = vessel
+                .electrodes
+                .iter()
+                .filter(|electrode| electrode.label == change.electrode)
+                .count();
+            let key = (
+                change.electrode.as_str(),
+                change.reaction_id.as_str(),
+                change.species.as_str(),
+            );
+            if matching_count != 1
+                || change.reaction_id.trim().is_empty()
+                || change.species.trim().is_empty()
+                || !change.surface_concentration_mol_per_m3.is_finite()
+                || change.surface_concentration_mol_per_m3 < 0.0
+            {
+                errors.push(DeltaError::InvalidElectrodeDelta {
+                    electrode: change.electrode.clone(),
+                    reason: "interfacial update requires one named electrode, named reaction/species and a non-negative concentration".into(),
+                });
+            } else if !interface_keys.insert(key) {
+                errors.push(DeltaError::InvalidElectrodeDelta {
+                    electrode: change.electrode.clone(),
+                    reason: "one interfacial species may be set only once per atomic delta".into(),
+                });
+            }
+        }
+
         errors
     }
 
@@ -495,6 +553,30 @@ impl StateDelta {
             }
         }
 
+        for change in &self.electrode_interfacial_species_changes {
+            if let Some(electrode) = vessel
+                .electrodes
+                .iter_mut()
+                .find(|electrode| electrode.label == change.electrode)
+            {
+                if let Some(state) = electrode.interfacial_species.iter_mut().find(|state| {
+                    state.reaction_id == change.reaction_id && state.species == change.species
+                }) {
+                    state.surface_concentration_mol_per_m3 =
+                        change.surface_concentration_mol_per_m3;
+                } else {
+                    electrode.interfacial_species.push(
+                        crate::compartment::ElectrodeInterfacialSpecies {
+                            reaction_id: change.reaction_id.clone(),
+                            species: change.species.clone(),
+                            surface_concentration_mol_per_m3: change
+                                .surface_concentration_mol_per_m3,
+                        },
+                    );
+                }
+            }
+        }
+
         if let Some(thermal) = &self.thermal {
             match thermal {
                 ThermalDelta::SetTemperature(t) => vessel.temperature = *t,
@@ -561,7 +643,10 @@ impl StateDelta {
         if scale < 1.0 && matches!(self.thermal, Some(ThermalDelta::SetTemperature(_))) {
             return Err(vec![DeltaError::UnscalableThermalDelta]);
         }
-        if scale < 1.0 && !self.electrode_potential_changes.is_empty() {
+        if scale < 1.0
+            && (!self.electrode_potential_changes.is_empty()
+                || !self.electrode_interfacial_species_changes.is_empty())
+        {
             return Err(vec![DeltaError::UnscalableElectricalDelta]);
         }
         let mut limited = self.clone();
@@ -658,6 +743,7 @@ impl StateDelta {
         self.mole_changes.is_empty()
             && self.electrode_changes.is_empty()
             && self.electrode_potential_changes.is_empty()
+            && self.electrode_interfacial_species_changes.is_empty()
             && self.thermal.is_none()
     }
 }
@@ -768,6 +854,7 @@ mod tests {
             roughness: 1.0,
             double_layer_capacitance_f_per_m2: None,
             interfacial_potential_v: None,
+            interfacial_species: Vec::new(),
             deposits: Vec::new(),
         }
     }

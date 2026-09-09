@@ -98,23 +98,19 @@ and typed potential frames. Quasi-steady local activities now couple any number
 of stoichiometric reactants and products through one reaction quotient. Continue
 in this order:
 
-1. Integrate the exact constant-flux diffusion-layer advance into persisted
-   electrode state and the adaptive current solve. The reusable transient
-   primitive exists; the current runtime path still uses quasi-steady stagnant-
-   film and rotating-disk boundaries.
-2. Couple homogeneous buffer/speciation reactions inside the diffusion layer,
+1. Couple homogeneous buffer/speciation reactions inside the diffusion layer,
    then add migration and electroneutrality through a Nernst–Planck boundary
    model. Do not represent either effect by tuning an effective diffusivity.
-3. Add sweep-direction hysteresis, breakdown/repassivation state and evolving
+2. Add sweep-direction hysteresis, breakdown/repassivation state and evolving
    films only with forward/reverse or time-series evidence that identifies
    their parameters. A forward polarization curve cannot identify hysteresis.
-4. Add dynamic bubble coverage only after a permissive primary source supplies
+3. Add dynamic bubble coverage only after a permissive primary source supplies
    an identified evolution law. Explicit measured coverage may already scale
    active area; current alone does not determine coverage.
-5. Expose partial currents, potential frame, per-species surface activities,
+4. Expose partial currents, potential frame, per-species surface activities,
    transport/film limitation, parameter bounds and fit diagnostics through the
    GUI authority surface.
-6. Add quantitative learner experiments only after their parameter domain and
+5. Add quantitative learner experiments only after their parameter domain and
    matched controls pass the whole-curve and conservation gates.
 
 Open circuit remains zero net external current, not zero partial currents.
