@@ -5,6 +5,31 @@ JSON, NDJSON, stderr, hashes and test logs remain in their evidence directories.
 Counts describe the recorded revision and declared model domain, not universal
 experimental accuracy.
 
+## 2026-09-09 — independent 240-case current-engine replay
+
+A separate private fleet replay ran 240/240 scripts successfully with the green
+release CLI from public commit `a29d9255`. Median case time was 0.63–0.67 s.
+All 216 modeled physical checks passed. Aqueous screening retained six failures:
+three reciprocal strong-acid/base pairs reached identical inventories and
+temperatures but differed by 6.41e-5 to 4.79e-4 pH, exposing a real solver-state
+defect. Separation retained 16 failures from one invalid frozen assumption:
+silica partly equilibrated into solution before filtration, while the filter
+correctly separated phases and conserved silicon. Raw inputs, outputs, hashes,
+contracts and classifications are preserved only in the private research repo
+at commit `98f32f2`; no source identity or source mapping entered this repo.
+
+The first CI run of the generic repair then found two convergence edges. The
+hot saturated KCl case still contracted after 16 thermal passes, so the bounded
+safety ceiling was raised without relaxing the 1e-6 K target. A cold alkaline
+CaO/MnO2 solution reached an exact two-point cycle, 1.72e-5 K wide, because
+PHREEQC selected output has finite decimal precision. The solver now accepts
+only a sub-5e-5 K repeated two-cycle, stores speciation at the exact temperature
+where it was solved, and continues into the coupled solvent-phase calculation;
+wider cycling or divergence still refuses. Targeted feed-order, KCl and
+partial-freezing paths plus the full curiosity corpus cover these contracts.
+The consistent cabbage-rainbow pH moves one audited semantic-DOM green channel
+from 64 to 65; no other GUI003 field or numeric scene golden changed.
+
 ## 2026-09-08 — second source-informed corpus
 
 PR #560 added the separately versioned 489–776 corpus: twelve families, 288

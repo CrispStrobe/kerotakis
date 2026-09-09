@@ -93,10 +93,9 @@ CI-backed work described above and in
 
 ## Electrochemical kinetics — next ordered work
 
-#559, #564 and #565 provide the shared computed engine, whole-curve validation
-and typed potential frames. Quasi-steady local activities now couple any number
-of stoichiometric reactants and products through one reaction quotient. Continue
-in this order:
+#559 and #564–#567 provide the shared computed engine, whole-curve validation,
+typed potential frames, multispecies interfacial transport and persistent
+transient diffusion layers. Continue in this order:
 
 1. Couple homogeneous buffer/speciation reactions inside the diffusion layer,
    then add migration and electroneutrality through a Nernst–Planck boundary
