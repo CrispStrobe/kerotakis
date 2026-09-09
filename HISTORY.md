@@ -16,6 +16,22 @@ it had while it was open, which is why a few numbers appear twice below.
 
 **Electrochemical kinetics**
 
+- **`feat/coupled-interfacial-transport`** — generalized the quasi-steady
+  electrode boundary from one transported reactant per direction to any number
+  of stoichiometric reactants and products. Signed Faradaic fluxes now update
+  all local activities in one quotient before one Nernst potential is solved;
+  the tightest consumed species supplies each directional current ceiling.
+  Diffusion-layer and rotating-disk geometries compose per species, zero-bulk
+  products require an explicit activity coefficient, and ambiguous mixtures of
+  legacy and coupled transport refuse. A balanced oxygen-reduction test proves
+  simultaneous O2/H+ depletion, common potential feedback and conservation.
+- **#565** — typed active/passive transition potentials as overpotential, SHE,
+  or a declared reference offset. Kinetic overpotential stays separate from the
+  empirical transition coordinate, film-corrected interface potential is used
+  inside the implicit solve, and legacy JSON defaults to overpotential. The
+  CC0 alkaline diagnostic found that a six-parameter active/passive fit worsened
+  holdout error in all eight dark curves and was non-identifiable in two, so no
+  source-specific decomposition or catalog experiment was promoted.
 - **#564** — added signed whole-polarization-curve prediction and bounded
   fitting over the shared partial-current engine. Measurements now declare
   area, reference offset, current polarity and scan timing; CSV and whitespace
