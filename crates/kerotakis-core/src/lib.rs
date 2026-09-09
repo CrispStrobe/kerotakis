@@ -74,6 +74,7 @@ pub mod phase_route;
 pub mod photochem;
 pub mod pigment;
 pub mod plastics;
+pub mod polarization;
 pub mod polymer;
 pub mod properties;
 pub mod protein;

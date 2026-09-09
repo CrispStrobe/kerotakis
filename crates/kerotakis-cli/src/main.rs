@@ -21,6 +21,7 @@ mod coverage;
 mod diagram;
 mod fit;
 mod mcp;
+mod polarization;
 mod provenance;
 mod study;
 mod sweep;
@@ -329,6 +330,7 @@ fn main() {
             study::study_command(&args[1..]);
         }
         Some("fit") => fit::fit_command(&args[1..]),
+        Some("polarization") => polarization::polarization_command(&args[1..]),
         Some("prewarm") => {
             // Build-time: replay lesson scripts through the real engine and
             // export every solver result, so guided content never waits for
@@ -2065,6 +2067,16 @@ fn usage() -> ! {
          \x20 kero fit FILE.lab --param rate:REACTION:pre_exponential\n\
          \x20        --data observations.csv --observe amount:SPECIES@vN\n\
          \x20        --bounds LO..HI --loss sse    fit one curated rate constant\n\
+         \x20 kero polarization predict|fit --model MODEL.json --data CURVE.csv\n\
+         \x20        --potential-column NAME --current-column NAME --area-m2 AREA\n\
+         \x20        --current-sign anodic-positive|cathodic-positive\n\
+         \x20        (--reference she | --reference-offset-v V --reference-label LABEL)\n\
+         \x20        [--format whitespace --skip-lines N --potential-index N\n\
+         \x20         --current-index N --time-index N --derive-sweep-rate\n\
+         \x20         --header-line N --potential-header-token TEXT\n\
+         \x20         --current-header-token TEXT\n\
+         \x20         [--allow-time-segments]\n\
+         \x20         --min-abs-sweep-rate V --max-abs-sweep-rate V]\n\
          \x20 kero serve --mcp           the bench as an MCP server (stdio)\n\
          \x20 kero species               list known species\n\
          \x20 kero materials             list the named household and school bottles\n\
