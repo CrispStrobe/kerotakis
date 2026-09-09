@@ -533,14 +533,16 @@ pub enum ElectrodeKineticModel {
         electrons_per_extent: f64,
     },
     /// Piecewise anodic law for an active branch followed by a passive
-    /// plateau and, optionally, transpassive growth. Transition potentials
-    /// are overpotentials relative to the reaction's computed equilibrium
-    /// potential, so Nernst shifts remain thermodynamic rather than fitted.
+    /// plateau and, optionally, transpassive growth. The reference frame of
+    /// both transition potentials is explicit.
     ActivePassive {
         exchange_current_density_a_per_m2: f64,
         active_tafel_slope_v_per_decade: f64,
         electrons_per_extent: f64,
-        passivation_onset_overpotential_v: f64,
+        #[serde(alias = "passivation_onset_overpotential_v")]
+        passivation_onset_potential_v: f64,
+        #[serde(default, skip_serializing_if = "PotentialFrame::is_overpotential")]
+        transition_potential_frame: PotentialFrame,
         passive_current_density_a_per_m2: f64,
         transpassive: Option<TranspassiveBranch>,
     },
@@ -548,8 +550,50 @@ pub enum ElectrodeKineticModel {
 
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
 pub struct TranspassiveBranch {
-    pub onset_overpotential_v: f64,
+    #[serde(alias = "onset_overpotential_v")]
+    pub onset_potential_v: f64,
     pub tafel_slope_v_per_decade: f64,
+}
+
+/// Coordinate system used by empirical transition potentials. Kinetic
+/// overpotential always remains relative to the reaction equilibrium; this
+/// frame controls only passivation/transpassivation boundaries.
+#[derive(Debug, Clone, Copy, PartialEq, Default, Serialize, Deserialize)]
+#[serde(tag = "kind", rename_all = "snake_case")]
+pub enum PotentialFrame {
+    #[default]
+    Overpotential,
+    StandardHydrogen,
+    DeclaredReference {
+        volts_vs_she: f64,
+    },
+}
+
+impl PotentialFrame {
+    pub fn is_overpotential(&self) -> bool {
+        matches!(self, Self::Overpotential)
+    }
+
+    fn validate(&self) -> bool {
+        match self {
+            Self::Overpotential | Self::StandardHydrogen => true,
+            Self::DeclaredReference { volts_vs_she } => volts_vs_she.is_finite(),
+        }
+    }
+
+    fn coordinate(
+        &self,
+        overpotential_v: f64,
+        electrode_potential_she_v: Option<f64>,
+    ) -> Option<f64> {
+        match self {
+            Self::Overpotential => Some(overpotential_v),
+            Self::StandardHydrogen => electrode_potential_she_v,
+            Self::DeclaredReference { volts_vs_she, .. } => {
+                electrode_potential_she_v.map(|potential| potential - volts_vs_she)
+            }
+        }
+    }
 }
 
 impl ElectrodeKineticModel {
@@ -577,7 +621,8 @@ impl ElectrodeKineticModel {
                 exchange_current_density_a_per_m2,
                 active_tafel_slope_v_per_decade,
                 electrons_per_extent,
-                passivation_onset_overpotential_v,
+                passivation_onset_potential_v,
+                transition_potential_frame,
                 passive_current_density_a_per_m2,
                 transpassive,
             } if exchange_current_density_a_per_m2.is_finite()
@@ -586,12 +631,13 @@ impl ElectrodeKineticModel {
                 && active_tafel_slope_v_per_decade > 0.0
                 && electrons_per_extent.is_finite()
                 && electrons_per_extent > 0.0
-                && passivation_onset_overpotential_v.is_finite()
+                && passivation_onset_potential_v.is_finite()
+                && transition_potential_frame.validate()
                 && passive_current_density_a_per_m2.is_finite()
                 && passive_current_density_a_per_m2 > 0.0
                 && transpassive.is_none_or(|branch| {
-                    branch.onset_overpotential_v.is_finite()
-                        && branch.onset_overpotential_v > passivation_onset_overpotential_v
+                    branch.onset_potential_v.is_finite()
+                        && branch.onset_potential_v > passivation_onset_potential_v
                         && branch.tafel_slope_v_per_decade.is_finite()
                         && branch.tafel_slope_v_per_decade > 0.0
                 }) =>
@@ -619,6 +665,30 @@ impl ElectrodeKineticModel {
     }
 
     pub fn current_density(self, overpotential_v: f64, temperature_k: f64) -> f64 {
+        self.current_density_in_frame(overpotential_v, None, temperature_k)
+    }
+
+    /// Evaluate kinetics with both thermodynamic overpotential and the
+    /// absolute SHE electrode potential available to empirical transitions.
+    pub fn current_density_at(
+        self,
+        electrode_potential_she_v: f64,
+        equilibrium_potential_she_v: f64,
+        temperature_k: f64,
+    ) -> f64 {
+        self.current_density_in_frame(
+            electrode_potential_she_v - equilibrium_potential_she_v,
+            Some(electrode_potential_she_v),
+            temperature_k,
+        )
+    }
+
+    fn current_density_in_frame(
+        self,
+        overpotential_v: f64,
+        electrode_potential_she_v: Option<f64>,
+        temperature_k: f64,
+    ) -> f64 {
         match self {
             Self::ButlerVolmer { parameters } => {
                 parameters.current_density(overpotential_v, temperature_k)
@@ -648,7 +718,8 @@ impl ElectrodeKineticModel {
             Self::ActivePassive {
                 exchange_current_density_a_per_m2,
                 active_tafel_slope_v_per_decade,
-                passivation_onset_overpotential_v,
+                passivation_onset_potential_v,
+                transition_potential_frame,
                 passive_current_density_a_per_m2,
                 transpassive,
                 ..
@@ -657,7 +728,12 @@ impl ElectrodeKineticModel {
                 && temperature_k.is_finite()
                 && temperature_k > 0.0 =>
             {
-                if overpotential_v < passivation_onset_overpotential_v {
+                let Some(transition_potential_v) = transition_potential_frame
+                    .coordinate(overpotential_v, electrode_potential_she_v)
+                else {
+                    return f64::NAN;
+                };
+                if transition_potential_v < passivation_onset_potential_v {
                     exchange_current_density_a_per_m2
                         * 10.0_f64.powf(
                             (overpotential_v / active_tafel_slope_v_per_decade)
@@ -665,10 +741,10 @@ impl ElectrodeKineticModel {
                         )
                 } else {
                     match transpassive {
-                        Some(branch) if overpotential_v >= branch.onset_overpotential_v => {
+                        Some(branch) if transition_potential_v >= branch.onset_potential_v => {
                             passive_current_density_a_per_m2
                                 * 10.0_f64.powf(
-                                    ((overpotential_v - branch.onset_overpotential_v)
+                                    ((transition_potential_v - branch.onset_potential_v)
                                         / branch.tafel_slope_v_per_decade)
                                         .clamp(0.0, 300.0),
                                 )
@@ -716,7 +792,8 @@ impl ElectrodeKineticModel {
                 exchange_current_density_a_per_m2,
                 active_tafel_slope_v_per_decade,
                 electrons_per_extent,
-                passivation_onset_overpotential_v,
+                passivation_onset_potential_v,
+                transition_potential_frame,
                 passive_current_density_a_per_m2,
                 transpassive,
             } => {
@@ -730,7 +807,8 @@ impl ElectrodeKineticModel {
                         * prefactor_factor,
                     active_tafel_slope_v_per_decade,
                     electrons_per_extent,
-                    passivation_onset_overpotential_v,
+                    passivation_onset_potential_v,
+                    transition_potential_frame,
                     passive_current_density_a_per_m2: passive_current_density_a_per_m2
                         * prefactor_factor,
                     transpassive,
@@ -1235,8 +1313,11 @@ impl PartialReaction<'_> {
                 "film resistance must be finite and non-negative",
             ));
         }
-        let overpotential = electrode_potential_v - self.equilibrium_potential_v;
-        let unconstrained = self.kinetics.current_density(overpotential, temperature_k);
+        let unconstrained = self.kinetics.current_density_at(
+            electrode_potential_v,
+            self.equilibrium_potential_v,
+            temperature_k,
+        );
         let limit = if unconstrained >= 0.0 {
             self.limiting_current_anodic_a_per_m2
         } else {
@@ -1247,8 +1328,9 @@ impl PartialReaction<'_> {
             current_without_film
         } else {
             let current_at = |trial: f64| {
-                let kinetic = self.kinetics.current_density(
-                    overpotential - trial * self.film_resistance_ohm_m2,
+                let kinetic = self.kinetics.current_density_at(
+                    electrode_potential_v - trial * self.film_resistance_ohm_m2,
+                    self.equilibrium_potential_v,
                     temperature_k,
                 );
                 trial - transport_limited_flux(kinetic, limit)
@@ -3287,10 +3369,11 @@ mod tests {
             exchange_current_density_a_per_m2: 1.0e-3,
             active_tafel_slope_v_per_decade: 0.050,
             electrons_per_extent: 2.0,
-            passivation_onset_overpotential_v: 0.20,
+            passivation_onset_potential_v: 0.20,
+            transition_potential_frame: PotentialFrame::Overpotential,
             passive_current_density_a_per_m2: 0.02,
             transpassive: Some(TranspassiveBranch {
-                onset_overpotential_v: 0.80,
+                onset_potential_v: 0.80,
                 tafel_slope_v_per_decade: 0.10,
             }),
         };
@@ -3301,15 +3384,77 @@ mod tests {
             exchange_current_density_a_per_m2: 1.0e-3,
             active_tafel_slope_v_per_decade: 0.050,
             electrons_per_extent: 2.0,
-            passivation_onset_overpotential_v: 0.20,
+            passivation_onset_potential_v: 0.20,
+            transition_potential_frame: PotentialFrame::Overpotential,
             passive_current_density_a_per_m2: 0.02,
             transpassive: Some(TranspassiveBranch {
-                onset_overpotential_v: 0.10,
+                onset_potential_v: 0.10,
                 tafel_slope_v_per_decade: 0.10,
             }),
         }
         .validate()
         .is_err());
+    }
+
+    #[test]
+    fn active_passive_transitions_use_their_declared_potential_frame() {
+        let absolute = ElectrodeKineticModel::ActivePassive {
+            exchange_current_density_a_per_m2: 1.0e-8,
+            active_tafel_slope_v_per_decade: 0.10,
+            electrons_per_extent: 2.0,
+            passivation_onset_potential_v: 0.20,
+            transition_potential_frame: PotentialFrame::StandardHydrogen,
+            passive_current_density_a_per_m2: 0.02,
+            transpassive: None,
+        };
+        // At E_eq=-0.5 V, an overpotential-only interpretation would already
+        // passivate both points. Their absolute SHE coordinates do not.
+        assert!((absolute.current_density_at(0.10, -0.50, 298.15) - 1.0e-2).abs() < 1e-12);
+        assert!((absolute.current_density_at(0.30, -0.50, 298.15) - 0.02).abs() < 1e-12);
+        assert!(absolute.current_density(0.60, 298.15).is_nan());
+
+        let declared = ElectrodeKineticModel::ActivePassive {
+            exchange_current_density_a_per_m2: 1.0e-8,
+            active_tafel_slope_v_per_decade: 0.10,
+            electrons_per_extent: 2.0,
+            transition_potential_frame: PotentialFrame::DeclaredReference {
+                volts_vs_she: 0.210,
+            },
+            passivation_onset_potential_v: 0.0,
+            passive_current_density_a_per_m2: 0.02,
+            transpassive: None,
+        };
+        assert!(declared.current_density_at(0.20, -0.50, 298.15) > 0.02);
+        assert!((declared.current_density_at(0.22, -0.50, 298.15) - 0.02).abs() < 1e-12);
+    }
+
+    #[test]
+    fn legacy_active_passive_json_defaults_to_overpotential() {
+        let legacy = serde_json::json!({
+            "model": "active_passive",
+            "exchange_current_density_a_per_m2": 0.001,
+            "active_tafel_slope_v_per_decade": 0.05,
+            "electrons_per_extent": 2.0,
+            "passivation_onset_overpotential_v": 0.2,
+            "passive_current_density_a_per_m2": 0.02,
+            "transpassive": {
+                "onset_overpotential_v": 0.8,
+                "tafel_slope_v_per_decade": 0.1
+            }
+        });
+        let model: ElectrodeKineticModel = serde_json::from_value(legacy).unwrap();
+        let ElectrodeKineticModel::ActivePassive {
+            transition_potential_frame,
+            passivation_onset_potential_v,
+            transpassive: Some(transpassive),
+            ..
+        } = model
+        else {
+            panic!("legacy active/passive record changed kind")
+        };
+        assert_eq!(transition_potential_frame, PotentialFrame::Overpotential);
+        assert_eq!(passivation_onset_potential_v, 0.2);
+        assert_eq!(transpassive.onset_potential_v, 0.8);
     }
 
     #[test]
