@@ -2353,10 +2353,20 @@ pub struct ElectrochemicalReactionDefinition<'a> {
     /// is consumed. This supports any number of reactants and products; the
     /// legacy directional pair above remains available for one-species data.
     pub interfacial_transport: &'a [InterfacialTransportTerm<'a>],
+    /// Optional fast homogeneous chemistry in the same lumped diffusion
+    /// layer. The adapter validates its evidence and transport timescales;
+    /// it never silently treats an arbitrary reaction as instantaneous.
+    pub local_equilibrium: Option<InterfacialLocalEquilibrium<'a>>,
     pub film_resistance: FilmResistanceModel,
     /// Atom-balanced matter bookkeeping in the anodic direction.
     pub anodic_terms: &'a [FaradaicTerm<'a>],
     pub electrons_produced: f64,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct InterfacialLocalEquilibrium<'a> {
+    pub network: crate::local_equilibrium::LocalEquilibriumNetwork<'a>,
+    pub validity: crate::local_equilibrium::LocalEquilibriumValidity,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq)]
@@ -2370,6 +2380,8 @@ pub struct TransportedSpecies<'a> {
 pub struct InterfacialTransportTerm<'a> {
     pub species: &'a str,
     /// Moles produced per mole of anodic reaction extent. Negative consumes.
+    /// Zero is allowed only for a species participating in the attached
+    /// homogeneous local-equilibrium network.
     pub coefficient: f64,
     pub transport: CurrentLimitModel,
     /// Optional molar activity coefficient for a species absent from the bulk.
@@ -2613,6 +2625,136 @@ impl CurrentLimitModel {
     }
 }
 
+fn nearly_equal(left: f64, right: f64, relative_tolerance: f64) -> bool {
+    (left - right).abs() <= relative_tolerance * left.abs().max(right.abs()).max(1.0)
+}
+
+fn validate_local_equilibrium_coupling(
+    definition: &ElectrochemicalReactionDefinition<'_>,
+    temperature_k: f64,
+    seconds: f64,
+) -> Result<Option<crate::local_equilibrium::LocalEquilibriumState>, String> {
+    let Some(coupling) = definition.local_equilibrium else {
+        return Ok(None);
+    };
+    let mut bulk = Vec::with_capacity(coupling.network.species.len());
+    let mut first_mode = None;
+    let mut common_rate_or_time = None;
+    let mut slower_process_time_s = f64::INFINITY;
+    for species in coupling.network.species {
+        let transported = definition
+            .interfacial_transport
+            .iter()
+            .find(|term| term.species == species.id)
+            .ok_or_else(|| {
+                format!(
+                    "local-equilibrium species {} needs one interfacial transport term",
+                    species.id
+                )
+            })?;
+        let (mode, compatibility_value, relaxation_time_s, bulk_concentration) = match transported
+            .transport
+        {
+            CurrentLimitModel::DiffusionLayer(model) => (
+                false,
+                model.diffusivity_m2_per_s / model.diffusion_layer_m,
+                model
+                    .relaxation_time_seconds()
+                    .map_err(|reason| format!("invalid local-equilibrium transport: {reason:?}"))?,
+                model.bulk_concentration_mol_per_m3,
+            ),
+            CurrentLimitModel::TransientDiffusionLayer(model) => {
+                let relaxation = model
+                    .relaxation_time_seconds()
+                    .map_err(|reason| format!("invalid local-equilibrium transport: {reason:?}"))?;
+                (
+                    true,
+                    relaxation,
+                    relaxation,
+                    model.bulk_concentration_mol_per_m3,
+                )
+            }
+            _ => {
+                return Err(
+                        "local equilibrium currently requires diffusion-layer transport for every network species"
+                            .into(),
+                    );
+            }
+        };
+        if first_mode.is_some_and(|first| first != mode) {
+            return Err(
+                "local-equilibrium species cannot mix steady and transient transport modes".into(),
+            );
+        }
+        if common_rate_or_time.is_some_and(|first| !nearly_equal(first, compatibility_value, 1e-9))
+        {
+            return Err(if mode {
+                "transient local-equilibrium species need one common diffusion relaxation time"
+                    .into()
+            } else {
+                "steady local-equilibrium species need one common mass-transfer coefficient".into()
+            });
+        }
+        first_mode = Some(mode);
+        common_rate_or_time = Some(compatibility_value);
+        slower_process_time_s = slower_process_time_s.min(relaxation_time_s);
+        bulk.push(bulk_concentration);
+    }
+    if first_mode == Some(true) {
+        slower_process_time_s = slower_process_time_s.min(seconds);
+    }
+    coupling
+        .validity
+        .validate(temperature_k, slower_process_time_s)
+        .map_err(|error| error.to_string())?;
+    let equilibrated = coupling
+        .network
+        .equilibrate(&bulk)
+        .map_err(|error| error.to_string())?;
+    if bulk
+        .iter()
+        .zip(&equilibrated.concentrations_mol_per_m3)
+        .any(|(authored, solved)| !nearly_equal(*authored, *solved, 1e-8))
+    {
+        return Err(
+            "local-equilibrium transport bulk concentrations are not mutually equilibrated".into(),
+        );
+    }
+    let bulk_charge = coupling
+        .network
+        .species
+        .iter()
+        .zip(&equilibrated.concentrations_mol_per_m3)
+        .map(|(species, concentration)| f64::from(species.charge) * concentration)
+        .sum::<f64>();
+    if bulk_charge.abs() > 1e-8 {
+        return Err(
+            "charged local-equilibrium bulk needs an explicit electrodiffusion model".into(),
+        );
+    }
+    let faradaic_charge = coupling
+        .network
+        .species
+        .iter()
+        .map(|species| {
+            let coefficient = definition
+                .interfacial_transport
+                .iter()
+                .find(|term| term.species == species.id)
+                .expect("every local-equilibrium species has validated transport")
+                .coefficient;
+            f64::from(species.charge) * coefficient
+        })
+        .sum::<f64>();
+    if faradaic_charge.abs() > 1e-10 {
+        return Err(
+            "charged interfacial flux needs Nernst-Planck migration before local equilibrium can be coupled"
+                .into(),
+        );
+    }
+    Ok(Some(equilibrated))
+}
+
 #[derive(Debug, Clone)]
 pub struct ElectrochemicalStepProposal {
     pub balance: CurrentBalance,
@@ -2801,7 +2943,14 @@ pub fn propose_electrochemical_step<'a>(
             || definition.interfacial_transport.iter().any(|term| {
                 term.species.trim().is_empty()
                     || !term.coefficient.is_finite()
-                    || term.coefficient == 0.0
+                    || (term.coefficient == 0.0
+                        && !definition.local_equilibrium.is_some_and(|coupling| {
+                            coupling
+                                .network
+                                .species
+                                .iter()
+                                .any(|species| species.id == term.species)
+                        }))
                     || matches!(
                         term.transport,
                         CurrentLimitModel::MeasuredCurrentDensity { .. }
@@ -2839,10 +2988,22 @@ pub fn propose_electrochemical_step<'a>(
             .iter()
             .map(|term| (term.species.to_owned(), term.activity))
             .collect();
+        let local_bulk = validate_local_equilibrium_coupling(definition, temperature_k, seconds)
+            .map_err(|reason| ElectrochemicalStepError::InvalidDefinition {
+                reaction: definition.id.to_owned(),
+                reason,
+            })?;
         if let Some(term) = definition.interfacial_transport.iter().find(|term| {
             !quotient
                 .iter()
                 .any(|requirement| requirement.species == term.species)
+                && !definition.local_equilibrium.is_some_and(|coupling| {
+                    coupling
+                        .network
+                        .species
+                        .iter()
+                        .any(|species| species.id == term.species)
+                })
         }) {
             return Err(ElectrochemicalStepError::InvalidDefinition {
                 reaction: definition.id.to_owned(),
@@ -2851,6 +3012,23 @@ pub fn propose_electrochemical_step<'a>(
                     term.species
                 ),
             });
+        }
+        if let (Some(coupling), Some(bulk_state)) =
+            (definition.local_equilibrium, local_bulk.as_ref())
+        {
+            for (species, activity) in coupling.network.species.iter().zip(&bulk_state.activities) {
+                if let Some(term) = quotient.iter().find(|term| term.species == species.id) {
+                    if !nearly_equal(term.activity, *activity, 1e-8) {
+                        return Err(ElectrochemicalStepError::InvalidDefinition {
+                            reaction: definition.id.to_owned(),
+                            reason: format!(
+                                "bulk activity for local-equilibrium species {} disagrees with the electrochemical quotient",
+                                species.id
+                            ),
+                        });
+                    }
+                }
+            }
         }
         let available_fraction =
             definition
@@ -2902,6 +3080,9 @@ pub fn propose_electrochemical_step<'a>(
                 reason: format!("invalid cathodic transport model: {reason:?}"),
             })?;
         for term in definition.interfacial_transport {
+            if term.coefficient == 0.0 {
+                continue;
+            }
             let limit = term
                 .transport
                 .current_density_limit(definition.electrons_produced, term.coefficient.abs())
@@ -3096,14 +3277,30 @@ pub fn propose_electrochemical_step<'a>(
                         };
                     let quotient_term = local_quotient
                         .iter_mut()
-                        .find(|term| term.species == transported.species)
-                        .expect("coupled transported species was validated against quotient");
-                    let bulk_activity = quotient_term.activity;
+                        .find(|term| term.species == transported.species);
+                    let local_species = definition.local_equilibrium.and_then(|coupling| {
+                        coupling
+                            .network
+                            .species
+                            .iter()
+                            .find(|species| species.id == transported.species)
+                    });
+                    let bulk_activity = quotient_term.as_ref().map_or_else(
+                        || {
+                            local_species
+                                .expect("transported species was validated against a quotient or local network")
+                                .activity_coefficient
+                                * bulk_concentration
+                                / 1000.0
+                        },
+                        |term| term.activity,
+                    );
                     let surface_activity = if bulk_concentration > 0.0 {
                         bulk_activity * surface_concentration / bulk_concentration
                     } else {
-                        transported
-                            .zero_bulk_activity_coefficient
+                        transported.zero_bulk_activity_coefficient.or_else(|| {
+                            local_species.map(|species| species.activity_coefficient)
+                        })
                             .map(|coefficient| coefficient * surface_concentration / 1000.0)
                             .ok_or_else(|| ElectrochemicalStepError::InvalidDefinition {
                                 reaction: partial.id.to_owned(),
@@ -3113,7 +3310,9 @@ pub fn propose_electrochemical_step<'a>(
                                 ),
                             })?
                     };
-                    quotient_term.activity = surface_activity;
+                    if let Some(term) = quotient_term {
+                        term.activity = surface_activity;
+                    }
                     species_conditions.push((
                         transported.species,
                         bulk_concentration,
@@ -3122,6 +3321,61 @@ pub fn propose_electrochemical_step<'a>(
                         surface_activity,
                         is_transient,
                     ));
+                }
+                if let Some(coupling) = definition.local_equilibrium {
+                    let initial = coupling
+                        .network
+                        .species
+                        .iter()
+                        .map(|species| {
+                            species_conditions
+                                .iter()
+                                .find(|condition| condition.0 == species.id)
+                                .expect("every local-equilibrium species has validated transport")
+                                .2
+                        })
+                        .collect::<Vec<_>>();
+                    let equilibrated = coupling.network.equilibrate(&initial).map_err(|error| {
+                        ElectrochemicalStepError::InvalidDefinition {
+                            reaction: partial.id.to_owned(),
+                            reason: format!(
+                                "cannot resolve local interfacial equilibrium: {error}"
+                            ),
+                        }
+                    })?;
+                    let charge = coupling
+                        .network
+                        .species
+                        .iter()
+                        .zip(&equilibrated.concentrations_mol_per_m3)
+                        .map(|(species, concentration)| f64::from(species.charge) * concentration)
+                        .sum::<f64>();
+                    if charge.abs() > 1e-8 {
+                        return Err(ElectrochemicalStepError::InvalidDefinition {
+                            reaction: partial.id.to_owned(),
+                            reason: "local interfacial equilibrium left the electroneutral diffusion-only domain; Nernst-Planck migration is required".into(),
+                        });
+                    }
+                    for ((species, concentration), activity) in coupling
+                        .network
+                        .species
+                        .iter()
+                        .zip(&equilibrated.concentrations_mol_per_m3)
+                        .zip(&equilibrated.activities)
+                    {
+                        let condition = species_conditions
+                            .iter_mut()
+                            .find(|condition| condition.0 == species.id)
+                            .expect("every local-equilibrium species has validated transport");
+                        condition.2 = *concentration;
+                        condition.4 = *activity;
+                        if let Some(term) = local_quotient
+                            .iter_mut()
+                            .find(|term| term.species == species.id)
+                        {
+                            term.activity = *activity;
+                        }
+                    }
                 }
             }
 
@@ -3214,16 +3468,18 @@ pub fn propose_electrochemical_step<'a>(
                 }
                 let mut local_quotient = resolved_quotients[index].clone();
                 for condition in reaction_conditions {
+                    let Some(local_term) = local_quotient
+                        .iter_mut()
+                        .find(|term| term.species == condition.species)
+                    else {
+                        continue;
+                    };
                     if condition.surface_activity <= 0.0 {
                         return Err(ElectrochemicalStepError::VanishedInterfacialActivity {
                             reaction: condition.reaction_id.clone(),
                             species: condition.species.clone(),
                         });
                     }
-                    let local_term = local_quotient
-                        .iter_mut()
-                        .find(|term| term.species == condition.species)
-                        .expect("transported species was validated against quotient");
                     local_term.activity = condition.surface_activity;
                 }
                 let target = equilibrium_potential_v(
@@ -4843,6 +5099,7 @@ mod tests {
                 anodic_transported_species: None,
                 cathodic_transported_species: None,
                 interfacial_transport: &[],
+                local_equilibrium: None,
                 film_resistance: FilmResistanceModel::None,
                 anodic_terms: ZINC_TERMS,
                 electrons_produced: 2.0,
@@ -4858,6 +5115,7 @@ mod tests {
                 anodic_transported_species: None,
                 cathodic_transported_species: None,
                 interfacial_transport: HYDROGEN_INTERFACE,
+                local_equilibrium: None,
                 film_resistance: FilmResistanceModel::None,
                 anodic_terms: HYDROGEN_TERMS,
                 electrons_produced: 2.0,
@@ -5101,6 +5359,10 @@ mod tests {
 
     #[test]
     fn one_partial_reaction_couples_multiple_surface_activities() {
+        use crate::local_equilibrium::{
+            LocalEquilibriumComponent, LocalEquilibriumNetwork, LocalEquilibriumReaction,
+            LocalEquilibriumSpecies, LocalEquilibriumTerm, LocalEquilibriumValidity,
+        };
         const QUOTIENT: &[ActivityRequirement<'static>] = &[
             ActivityRequirement {
                 species: "O2",
@@ -5161,7 +5423,52 @@ mod tests {
                 ),
                 zero_bulk_activity_coefficient: None,
             },
+            InterfacialTransportTerm {
+                species: "O2-bound",
+                coefficient: 0.0,
+                transport: CurrentLimitModel::TransientDiffusionLayer(
+                    crate::heterogeneous::DiffusionLayerTransport {
+                        diffusivity_m2_per_s: 2.0e-9,
+                        bulk_concentration_mol_per_m3: 100.0,
+                        diffusion_layer_m: 1.0e-4,
+                    },
+                ),
+                zero_bulk_activity_coefficient: None,
+            },
         ];
+        const OXYGEN_POOL: &[LocalEquilibriumComponent<'static>] = &[LocalEquilibriumComponent {
+            id: "oxygen-pool",
+            amount: 1.0,
+        }];
+        const LOCAL_SPECIES: &[LocalEquilibriumSpecies<'static>] = &[
+            LocalEquilibriumSpecies {
+                id: "O2",
+                charge: 0,
+                activity_coefficient: 1.0,
+                components: OXYGEN_POOL,
+            },
+            LocalEquilibriumSpecies {
+                id: "O2-bound",
+                charge: 0,
+                activity_coefficient: 1.0,
+                components: OXYGEN_POOL,
+            },
+        ];
+        const LOCAL_TERMS: &[LocalEquilibriumTerm<'static>] = &[
+            LocalEquilibriumTerm {
+                species: "O2",
+                coefficient: -1.0,
+            },
+            LocalEquilibriumTerm {
+                species: "O2-bound",
+                coefficient: 1.0,
+            },
+        ];
+        const LOCAL_REACTIONS: &[LocalEquilibriumReaction<'static>] = &[LocalEquilibriumReaction {
+            id: "oxygen-binding",
+            terms: LOCAL_TERMS,
+            log10_equilibrium_constant: 0.0,
+        }];
 
         let mut record = parameter_record("synthetic-acid-oxygen-reduction");
         record.reaction = "O2/H2O".into();
@@ -5186,6 +5493,18 @@ mod tests {
             anodic_transported_species: None,
             cathodic_transported_species: None,
             interfacial_transport: INTERFACE,
+            local_equilibrium: Some(InterfacialLocalEquilibrium {
+                network: LocalEquilibriumNetwork {
+                    species: LOCAL_SPECIES,
+                    reactions: LOCAL_REACTIONS,
+                },
+                validity: LocalEquilibriumValidity {
+                    minimum_temperature_k: 273.15,
+                    maximum_temperature_k: 323.15,
+                    maximum_relaxation_time_s: 1.0e-5,
+                    minimum_timescale_separation: 100.0,
+                },
+            }),
             film_resistance: FilmResistanceModel::None,
             anodic_terms: TERMS,
             electrons_produced: 4.0,
@@ -5249,12 +5568,25 @@ mod tests {
             CurrentBalanceSolver::default(),
         )
         .unwrap();
-        assert_eq!(proposal.interfacial_conditions.len(), 2);
-        assert!(proposal
-            .interfacial_conditions
-            .iter()
-            .all(|condition| condition.surface_concentration_mol_per_m3
-                < condition.bulk_concentration_mol_per_m3));
+        assert_eq!(proposal.interfacial_conditions.len(), 3);
+        let condition = |species| {
+            proposal
+                .interfacial_conditions
+                .iter()
+                .find(|condition| condition.species == species)
+                .unwrap()
+        };
+        assert!(condition("O2").surface_concentration_mol_per_m3 < 100.0);
+        assert!(condition("H+").surface_concentration_mol_per_m3 < 100.0);
+        let local_quotient =
+            condition("O2-bound").surface_activity / condition("O2").surface_activity;
+        assert!(local_quotient.log10().abs() < 1e-9);
+        assert!(
+            (condition("O2").surface_concentration_mol_per_m3
+                - condition("O2-bound").surface_concentration_mol_per_m3)
+                .abs()
+                < 1e-8
+        );
         assert_eq!(
             proposal.interfacial_conditions[0].surface_equilibrium_potential_v,
             proposal.interfacial_conditions[1].surface_equilibrium_potential_v
@@ -5268,14 +5600,14 @@ mod tests {
                 .accepted_delta
                 .electrode_interfacial_species_changes
                 .len(),
-            2
+            3
         );
         let first_oxygen = proposal.interfacial_conditions[0].surface_concentration_mol_per_m3;
         proposal
             .accepted_delta
             .commit_conserved(&mut vessel, 1e-10)
             .unwrap();
-        assert_eq!(vessel.electrodes[0].interfacial_species.len(), 2);
+        assert_eq!(vessel.electrodes[0].interfacial_species.len(), 3);
         let next = propose_electrochemical_step(
             &vessel,
             "working",
@@ -5293,5 +5625,128 @@ mod tests {
         )
         .unwrap();
         assert!(next.interfacial_conditions[0].surface_concentration_mol_per_m3 < first_oxygen);
+
+        let mut unequal_terms = [INTERFACE[0], INTERFACE[1], INTERFACE[2]];
+        unequal_terms[2].transport = CurrentLimitModel::TransientDiffusionLayer(
+            crate::heterogeneous::DiffusionLayerTransport {
+                diffusivity_m2_per_s: 8.0e-9,
+                bulk_concentration_mol_per_m3: 100.0,
+                diffusion_layer_m: 1.0e-4,
+            },
+        );
+        let unequal = ElectrochemicalReactionDefinition {
+            interfacial_transport: &unequal_terms,
+            ..definition
+        };
+        assert!(validate_local_equilibrium_coupling(&unequal, 298.15, 0.01)
+            .unwrap_err()
+            .contains("common diffusion relaxation time"));
+
+        let mut disequilibrated_terms = [INTERFACE[0], INTERFACE[1], INTERFACE[2]];
+        disequilibrated_terms[2].transport = CurrentLimitModel::TransientDiffusionLayer(
+            crate::heterogeneous::DiffusionLayerTransport {
+                diffusivity_m2_per_s: 2.0e-9,
+                bulk_concentration_mol_per_m3: 99.0,
+                diffusion_layer_m: 1.0e-4,
+            },
+        );
+        let disequilibrated = ElectrochemicalReactionDefinition {
+            interfacial_transport: &disequilibrated_terms,
+            ..definition
+        };
+        assert!(
+            validate_local_equilibrium_coupling(&disequilibrated, 298.15, 0.01)
+                .unwrap_err()
+                .contains("not mutually equilibrated")
+        );
+        assert!(
+            validate_local_equilibrium_coupling(&definition, 350.0, 0.01)
+                .unwrap_err()
+                .contains("outside")
+        );
+        assert!(
+            validate_local_equilibrium_coupling(&definition, 298.15, 1.0e-6)
+                .unwrap_err()
+                .contains("too slow")
+        );
+
+        let mut steady_terms = [INTERFACE[0], INTERFACE[1], INTERFACE[2]];
+        for index in [0, 2] {
+            steady_terms[index].transport =
+                CurrentLimitModel::DiffusionLayer(crate::heterogeneous::DiffusionLayerTransport {
+                    diffusivity_m2_per_s: 2.0e-9,
+                    bulk_concentration_mol_per_m3: 100.0,
+                    diffusion_layer_m: 1.0e-4,
+                });
+        }
+        let steady = ElectrochemicalReactionDefinition {
+            interfacial_transport: &steady_terms,
+            ..definition
+        };
+        assert!(validate_local_equilibrium_coupling(&steady, 298.15, 0.01).is_ok());
+        steady_terms[2].transport =
+            CurrentLimitModel::DiffusionLayer(crate::heterogeneous::DiffusionLayerTransport {
+                diffusivity_m2_per_s: 8.0e-9,
+                bulk_concentration_mol_per_m3: 100.0,
+                diffusion_layer_m: 1.0e-4,
+            });
+        let unequal_steady = ElectrochemicalReactionDefinition {
+            interfacial_transport: &steady_terms,
+            ..definition
+        };
+        assert!(
+            validate_local_equilibrium_coupling(&unequal_steady, 298.15, 0.01)
+                .unwrap_err()
+                .contains("common mass-transfer coefficient")
+        );
+
+        let charged_species = [
+            LocalEquilibriumSpecies {
+                charge: 1,
+                ..LOCAL_SPECIES[0]
+            },
+            LocalEquilibriumSpecies {
+                charge: 1,
+                ..LOCAL_SPECIES[1]
+            },
+            LocalEquilibriumSpecies {
+                id: "counterion",
+                charge: -1,
+                activity_coefficient: 1.0,
+                components: OXYGEN_POOL,
+            },
+        ];
+        let charged_terms = [
+            INTERFACE[0],
+            INTERFACE[2],
+            InterfacialTransportTerm {
+                species: "counterion",
+                coefficient: 0.0,
+                transport: CurrentLimitModel::TransientDiffusionLayer(
+                    crate::heterogeneous::DiffusionLayerTransport {
+                        diffusivity_m2_per_s: 2.0e-9,
+                        bulk_concentration_mol_per_m3: 200.0,
+                        diffusion_layer_m: 1.0e-4,
+                    },
+                ),
+                zero_bulk_activity_coefficient: None,
+            },
+        ];
+        let charged_flux = ElectrochemicalReactionDefinition {
+            interfacial_transport: &charged_terms,
+            local_equilibrium: Some(InterfacialLocalEquilibrium {
+                network: LocalEquilibriumNetwork {
+                    species: &charged_species,
+                    reactions: LOCAL_REACTIONS,
+                },
+                ..definition.local_equilibrium.unwrap()
+            }),
+            ..definition
+        };
+        assert!(
+            validate_local_equilibrium_coupling(&charged_flux, 298.15, 0.01)
+                .unwrap_err()
+                .contains("Nernst-Planck migration")
+        );
     }
 }
