@@ -93,67 +93,28 @@ CI-backed work described above and in
 
 ## Electrochemical kinetics — next ordered work
 
-The reusable foundation is carried by `feat/modular-electrode-kinetics`: one
-SI-unit Butler–Volmer implementation; explicit, conserved electrode substrate
-and deposit state; a mixed-potential/current-control solver; typed parameter
-domains; and shared area/roughness/coverage/diffusion arithmetic for every
-heterogeneous reaction. Coupled half-reactions become one stoichiometric state
-delta and share one inventory-limiting scale before atomic conservation-checked
-commit. Empirical records enter only after licence and domain review.
+#559 and #564 provide the shared computed engine and whole-curve validation
+surface. Continue in this order:
 
-The non-mutating runtime pipeline, parameter/preparation/hydrodynamic domains,
-computed transport models, deposit growth, interfacial activity feedback,
-double-layer/film transients, connected-electrode circuit balance, atomic
-two-compartment commit, irreversible heat, exclusive clock ownership and
-explicit standard-state gas reference are complete. Bounded CC BY 4.0 cathodic
-HER and ORR ensembles are admitted for one exact stainless-steel preparation,
-with replicate envelopes; ORR limiting current remains computed from oxygen
-inventory and transport rather than copied from the source apparatus. Next,
-admit a compatible anodic metal-dissolution branch before replacing the
-editorial iron/zinc clocks; cathodic branches alone cannot quantify a full
-corrosion cell. Then expose current, potential,
-limiting mechanism and parameter envelopes in CLI/GUI clients. Owned sealed
-gas has a computed ideal fugacity;
-standard-state gas is used only when a reviewed parameterisation declares that
-reference condition. Absent gas and open/swept reservoir composition otherwise
-remain refusals rather than receiving an arbitrary activity floor.
+1. Compare active/passive and additional-partial-current models across the
+   CC0 alkaline replicate set. Keep fitted decompositions diagnostic until an
+   independent permissive source identifies the partial branches.
+2. Add sweep-direction hysteresis, breakdown/repassivation state and evolving
+   films only with forward/reverse or time-series evidence that identifies
+   their parameters. A forward polarization curve cannot identify hysteresis.
+3. Couple local concentration and pH to current and diffusion before adding
+   dynamic bubble coverage. Explicit measured coverage may scale active area;
+   an unreviewed current-to-coverage correlation may not.
+4. Expose partial currents, potential frame, transport/film limitation,
+   parameter bounds and fit diagnostics through the GUI authority surface.
+5. Add quantitative learner experiments only after their parameter domain and
+   matched controls pass the whole-curve and conservation gates.
 
-No qualitative overpotential, lesson-calibrated rate or neighbouring material's
-parameter may be promoted into this path. Missing or overlapping parameter
-domains are typed refusals. Open circuit means zero net external current, not
-zero anodic and cathodic partial currents.
-
-Open-source search can also supply validation cases before it supplies runtime
-parameters. Xie, Li and Li's CC BY 4.0 Q235/zinc study in simulated concrete
-solution reports pH-dependent OCP, passive-current and polarity-reversal
-behavior, but no numerical polarization table. Preserve those published points
-as future active/passive-transition acceptance targets; do not infer missing
-Tafel branches from plotted curves or confuse corrosion current with exchange
-current. A reusable active/passive polarization law requires a source with
-reported transition potentials, branch currents and exact surface/electrolyte
-domain, plus an independently licensed anodic dissolution branch.
-
-The generic extension boundary is now implemented: kinetic prefactors compose
-Arrhenius and arbitrary activity-power terms; Tafel slopes may derive from
-temperature and transfer coefficients; validity domains can be unions of
-measured slices; applied results distinguish direct fits, reproduced published
-models and quarantined candidates; and anodic laws can represent active,
-passive and transpassive regions relative to the computed equilibrium
-potential.
-
-Two permissive-source reviews define the remaining evidence boundary. Wilson,
-Sunde and Erbe's CC0 dataset (`doi:10.18710/CHYUQX`) provides raw replicate
-polarization tables for polished pure iron, but they are net mixed-current
-curves rather than isolated anodic partial currents. They may validate future
-whole-curve decompositions; no branch coefficients may be fitted from them
-alone. Han et al.'s CC BY 4.0 Q345R model
-(`doi:10.3390/ma11081462`) is encoded as four non-runtime candidates. At
-303.15 K, pH 6 and 0.08 mg/L O2, its printed equations reproduce the reported
-potential (about -0.807 versus -0.810 V SCE) but produce about 0.0262 A/m2,
-not Table 2's 0.017 A/m2. Resolve that attributable discrepancy before marking
-the model records reviewed. Do not tune a coefficient or digitize a plot to
-force acceptance. Full evidence and hashes are in
-`provenance/electrochemical-model-extension-review.md`.
+Open circuit remains zero net external current, not zero partial currents.
+Never infer isolated branches from net current, digitize plots for runtime
+coefficients, tune discrepancies away, or borrow parameters across materials,
+surface preparations, electrolytes or hydrodynamic domains. Missing evidence,
+activities, gas boundary state and overlapping parameter domains must refuse.
 - **`tests/coverage/curiosity-v1/README.md`** — the corpus refresh log. It is a
   test artefact, not a planning file; leave it alone.
 - **`docs/CURIOSITY-COVERAGE.md`** — the standing analysis of that corpus: the

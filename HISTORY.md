@@ -12,6 +12,26 @@ it had while it was open, which is why a few numbers appear twice below.
 
 ---
 
+## 2026-09-09
+
+**Electrochemical kinetics**
+
+- **#564** — added signed whole-polarization-curve prediction and bounded
+  fitting over the shared partial-current engine. Measurements now declare
+  area, reference offset, current polarity and scan timing; CSV and whitespace
+  imports validate their schema and acquisition seams. Fits report holdout
+  error, convergence, bounds and Jacobian rank, and refuse underdetermined or
+  non-identifiable parameter sets. Synthetic tests and wasm passed. A private
+  CC0 49-file fleet found 48 curves and one impedance table: 46 fits converged,
+  two did not, and 43 hit a bound, rejecting the diagnostic two-Tafel model as
+  a transferable cross-electrolyte parameterisation.
+- **#559** — landed the modular electrode engine: condition-scaled reviewed
+  kinetics, computed Nernst and transport terms, mixed/current-controlled and
+  connected-cell solves, finite conserved electrodes/deposits, implicit film
+  and double-layer effects, atomic Faradaic commits, typed validity refusals,
+  and quarantined source records whose printed equations do not reproduce
+  their reported current.
+
 ## 2026-09-08
 
 **Second source-informed experiment corpus**

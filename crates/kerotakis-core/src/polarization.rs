@@ -196,9 +196,9 @@ pub enum FitSelector {
     TafelSlope { reaction: usize },
     ButlerVolmerAnodicTransferCoefficient { reaction: usize },
     ButlerVolmerCathodicTransferCoefficient { reaction: usize },
-    PassivationOnsetOverpotential { reaction: usize },
+    PassivationOnsetPotential { reaction: usize },
     PassiveCurrentDensity { reaction: usize },
-    TranspassiveOnsetOverpotential { reaction: usize },
+    TranspassiveOnsetPotential { reaction: usize },
     TranspassiveTafelSlope { reaction: usize },
     ReactiveAreaRatio { reaction: usize },
     FilmResistance { reaction: usize },
@@ -597,13 +597,13 @@ fn apply_point(
                     }
                 }
             }
-            FitSelector::PassivationOnsetOverpotential { reaction } => {
+            FitSelector::PassivationOnsetPotential { reaction } => {
                 let kinetics = &mut reaction_mut(&mut candidate, reaction)?.kinetics;
                 match kinetics {
                     ElectrodeKineticModel::ActivePassive {
-                        passivation_onset_overpotential_v,
+                        passivation_onset_potential_v,
                         ..
-                    } => *passivation_onset_overpotential_v = value,
+                    } => *passivation_onset_potential_v = value,
                     _ => {
                         return Err(PolarizationError::InvalidFit(
                             "passivation onset requires active/passive kinetics",
@@ -625,13 +625,13 @@ fn apply_point(
                     }
                 }
             }
-            FitSelector::TranspassiveOnsetOverpotential { reaction } => {
+            FitSelector::TranspassiveOnsetPotential { reaction } => {
                 let kinetics = &mut reaction_mut(&mut candidate, reaction)?.kinetics;
                 match kinetics {
                     ElectrodeKineticModel::ActivePassive {
                         transpassive: Some(branch),
                         ..
-                    } => branch.onset_overpotential_v = value,
+                    } => branch.onset_potential_v = value,
                     _ => {
                         return Err(PolarizationError::InvalidFit(
                             "transpassive onset requires a configured transpassive branch",
@@ -942,10 +942,12 @@ mod tests {
                     exchange_current_density_a_per_m2: 0.1,
                     active_tafel_slope_v_per_decade: 0.1,
                     electrons_per_extent: 2.0,
-                    passivation_onset_overpotential_v: 0.2,
+                    passivation_onset_potential_v: 0.2,
+                    transition_potential_frame:
+                        crate::electrochemistry::PotentialFrame::Overpotential,
                     passive_current_density_a_per_m2: 0.01,
                     transpassive: Some(crate::electrochemistry::TranspassiveBranch {
-                        onset_overpotential_v: 0.8,
+                        onset_potential_v: 0.8,
                         tafel_slope_v_per_decade: 0.2,
                     }),
                 },
@@ -965,7 +967,7 @@ mod tests {
         };
         let parameters = vec![
             parameter(
-                FitSelector::PassivationOnsetOverpotential { reaction: 0 },
+                FitSelector::PassivationOnsetPotential { reaction: 0 },
                 0.1,
                 0.3,
             ),
@@ -975,7 +977,7 @@ mod tests {
                 0.02,
             ),
             parameter(
-                FitSelector::TranspassiveOnsetOverpotential { reaction: 0 },
+                FitSelector::TranspassiveOnsetPotential { reaction: 0 },
                 0.6,
                 1.0,
             ),
@@ -988,7 +990,7 @@ mod tests {
         ];
         let changed = apply_point(&model, &parameters, &[0.5; 5]).unwrap();
         let ElectrodeKineticModel::ActivePassive {
-            passivation_onset_overpotential_v,
+            passivation_onset_potential_v,
             passive_current_density_a_per_m2,
             transpassive: Some(transpassive),
             ..
@@ -996,9 +998,9 @@ mod tests {
         else {
             panic!("active/passive model changed kind")
         };
-        assert!((passivation_onset_overpotential_v - 0.2).abs() < 1e-12);
+        assert!((passivation_onset_potential_v - 0.2).abs() < 1e-12);
         assert!((passive_current_density_a_per_m2 - 0.0125).abs() < 1e-12);
-        assert!((transpassive.onset_overpotential_v - 0.8).abs() < 1e-12);
+        assert!((transpassive.onset_potential_v - 0.8).abs() < 1e-12);
         assert!((transpassive.tafel_slope_v_per_decade - 0.2).abs() < 1e-12);
         assert_eq!(
             changed.reactions[0].limiting_current_anodic_a_per_m2,
