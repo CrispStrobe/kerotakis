@@ -97,6 +97,28 @@ Reviewed hydrogen bromide gas uptake
   the USGS PHREEQC pure-water density formulation. No endorsement implied.
   See provenance/sander-2023-hbr-review.md for conditions and omissions.
 
+Reviewed stainless-steel hydrogen-evolution kinetics
+- M. C. van Ede and U. Angst (2024), Tafel slopes and exchange current
+  densities of oxygen reduction and hydrogen evolution on steel,
+  https://doi.org/10.1177/1478422X241227829 . Copyright the authors,
+  licensed Creative Commons Attribution 4.0 International:
+  https://creativecommons.org/licenses/by/4.0/ . Three same-condition
+  cathodic HER rows from Supplementary Table B1 and three same-condition ORR
+  rows from Supplementary Table C1 are used. Changes: arithmetic means and
+  observed min/max were computed in SI units. No endorsement
+  implied. See provenance/van-ede-2024-her-review.md.
+
+Reviewed Q345R corrosion-model candidates
+- Han et al. (2018), Corrosion Behaviors of Q345R Steel at the Initial Stage
+  in an Oxygen-Containing Aqueous Environment: Experiment and Modeling,
+  https://doi.org/10.3390/ma11081462 . Copyright the authors, licensed Creative
+  Commons Attribution 4.0 International:
+  https://creativecommons.org/licenses/by/4.0/ . Published equations and
+  parameter values are represented as quarantined, non-runtime candidates;
+  their condition scaling and validity geometry were generalized. No
+  endorsement implied. See
+  provenance/electrochemical-model-extension-review.md.
+
 Reviewed additional-solvent distillation reference fields
 - U.S. Coast Guard CHRIS manual (June 1999), methanol (MAL) and isopropanol
   (IPA), sections 9.2, 9.3 and 9.12: molar mass, normal boiling point and

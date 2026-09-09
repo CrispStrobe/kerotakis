@@ -48,6 +48,9 @@ pub struct Compartment {
     /// Derived chemistry state — invalidated on mutation.
     #[serde(default)]
     pub resolved: ResolvedState,
+    /// Electrochemical surfaces exposed to this well-mixed region.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub electrodes: Vec<ElectrodeState>,
 }
 
 impl Default for Compartment {
@@ -59,6 +62,7 @@ impl Default for Compartment {
             pressure: Pascal(101325.0),
             volume_mode: VolumeMode::Open,
             resolved: ResolvedState::default(),
+            electrodes: Vec::new(),
         }
     }
 }
@@ -160,13 +164,31 @@ pub enum InterfaceKind {
 /// the derived Nernst potential computed in displacement.rs.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ElectrodeState {
+    /// Stable identity for operators and transactional deltas.
+    pub label: String,
     /// The metal or conductor material (e.g. "Zn", "Cu", "Pt").
     pub material: String,
+    /// Reproducible preparation state used to select surface-sensitive
+    /// kinetic records (for example "diamond-polished 1 um"). Unknown is
+    /// distinct from any preparation and therefore matches no constrained
+    /// record.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub surface_preparation: Option<String>,
+    /// Finite substrate inventory when the electrode itself may be consumed.
+    /// `None` denotes external apparatus whose lifetime is out of scope.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub substrate_moles: Option<f64>,
     /// Geometric area in m².
     pub area_m2: f64,
     /// Surface roughness factor (real area / geometric area). Default 1.0.
     #[serde(default = "default_roughness")]
     pub roughness: f64,
+    /// Differential double-layer capacitance per geometric area.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub double_layer_capacitance_f_per_m2: Option<f64>,
+    /// Last committed interfacial potential used by transient control.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub interfacial_potential_v: Option<f64>,
     /// Deposited material on the electrode surface (e.g. from electroplating).
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub deposits: Vec<ElectrodeDeposit>,
@@ -174,6 +196,176 @@ pub struct ElectrodeState {
 
 fn default_roughness() -> f64 {
     1.0
+}
+
+impl ElectrodeState {
+    pub fn validate(&self) -> Result<(), &'static str> {
+        if self.label.trim().is_empty() {
+            return Err("electrode label must be named");
+        }
+        if self.material.trim().is_empty() {
+            return Err("electrode material must be named");
+        }
+        if self
+            .surface_preparation
+            .as_ref()
+            .is_some_and(|preparation| preparation.trim().is_empty())
+        {
+            return Err("electrode surface preparation must be named when known");
+        }
+        if self
+            .substrate_moles
+            .is_some_and(|moles| !moles.is_finite() || moles < 0.0)
+        {
+            return Err("finite electrode inventory must be non-negative");
+        }
+        if !self.area_m2.is_finite() || self.area_m2 <= 0.0 {
+            return Err("electrode area must be finite and positive");
+        }
+        if self.double_layer_capacitance_f_per_m2.is_some()
+            != self.interfacial_potential_v.is_some()
+        {
+            return Err(
+                "electrode capacitance and interfacial potential must be specified together",
+            );
+        }
+        if self
+            .double_layer_capacitance_f_per_m2
+            .is_some_and(|value| !value.is_finite() || value <= 0.0)
+            || self
+                .interfacial_potential_v
+                .is_some_and(|value| !value.is_finite())
+        {
+            return Err("electrode capacitance and potential must be physical");
+        }
+        self.reactive_surface(1.0)
+            .validate()
+            .map_err(|_| "electrode area and roughness must be finite and positive")?;
+        if self.deposits.iter().any(|deposit| {
+            deposit.species.trim().is_empty()
+                || !deposit.moles.is_finite()
+                || deposit.moles < 0.0
+                || deposit
+                    .thickness_m
+                    .is_some_and(|value| !value.is_finite() || value < 0.0)
+                || deposit
+                    .coverage_fraction
+                    .is_some_and(|value| !value.is_finite() || !(0.0..=1.0).contains(&value))
+                || deposit
+                    .electrical_resistivity_ohm_m
+                    .is_some_and(|value| !value.is_finite() || value < 0.0)
+        }) {
+            return Err(
+                "electrode deposits require valid identity, amount, thickness and coverage",
+            );
+        }
+        Ok(())
+    }
+
+    /// Construct reaction-specific surface geometry. Availability is supplied
+    /// per reaction: a conductive deposit can block metal dissolution while
+    /// remaining active for a cathodic reaction.
+    pub fn reactive_surface(
+        &self,
+        available_fraction: f64,
+    ) -> crate::heterogeneous::ReactiveSurface {
+        crate::heterogeneous::ReactiveSurface {
+            geometric_area_m2: self.area_m2,
+            roughness_factor: self.roughness,
+            available_fraction,
+        }
+    }
+
+    /// Conservative availability implied by every characterised deposit.
+    /// Layers with unknown geometry or effect are a model gap, not a clean
+    /// surface. The most blocking layer wins; multiplying coverages would
+    /// invent statistical independence between stacked films.
+    pub fn deposit_available_fraction(&self) -> Result<f64, &'static str> {
+        let mut available = 1.0_f64;
+        for deposit in self.deposits.iter().filter(|deposit| deposit.moles > 0.0) {
+            let coverage = deposit
+                .coverage_fraction
+                .ok_or("deposit coverage is not characterised")?;
+            let effect = deposit
+                .effect
+                .ok_or("deposit kinetic effect is not characterised")?;
+            available = available.min(
+                crate::electrochemistry::SurfaceCoverage {
+                    theta: coverage,
+                    effect,
+                }
+                .active_fraction(),
+            );
+        }
+        Ok(available)
+    }
+
+    /// Area-specific film resistance, sum(thickness × resistivity), Ω·m².
+    pub fn deposit_film_resistance_ohm_m2(&self) -> Result<f64, &'static str> {
+        self.deposits
+            .iter()
+            .filter(|deposit| deposit.moles > 0.0)
+            .try_fold(0.0, |total, deposit| {
+                let thickness = deposit
+                    .thickness_m
+                    .ok_or("deposit thickness is not characterised")?;
+                let resistivity = deposit
+                    .electrical_resistivity_ohm_m
+                    .ok_or("deposit electrical resistivity is not characterised")?;
+                Ok(total + thickness * resistivity)
+            })
+    }
+}
+
+/// Geometry assumed while a deposited phase grows. Parameters are data: the
+/// engine computes coverage and thickness but does not guess morphology.
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+#[serde(tag = "morphology", rename_all = "snake_case")]
+pub enum DepositGrowthModel {
+    /// A continuous film covers the surface as soon as it exists.
+    Conformal { molar_volume_m3_per_mol: f64 },
+    /// Constant-height islands spread laterally until they coalesce, then the
+    /// continuous film thickens.
+    IslandCoalescence {
+        molar_volume_m3_per_mol: f64,
+        coalescence_thickness_m: f64,
+    },
+}
+
+impl DepositGrowthModel {
+    pub fn geometry(self, moles: f64, geometric_area_m2: f64) -> Result<(f64, f64), &'static str> {
+        let (molar_volume, coalescence) = match self {
+            Self::Conformal {
+                molar_volume_m3_per_mol,
+            } => (molar_volume_m3_per_mol, None),
+            Self::IslandCoalescence {
+                molar_volume_m3_per_mol,
+                coalescence_thickness_m,
+            } => (molar_volume_m3_per_mol, Some(coalescence_thickness_m)),
+        };
+        if !moles.is_finite()
+            || moles < 0.0
+            || !geometric_area_m2.is_finite()
+            || geometric_area_m2 <= 0.0
+            || !molar_volume.is_finite()
+            || molar_volume <= 0.0
+            || coalescence.is_some_and(|height| !height.is_finite() || height <= 0.0)
+        {
+            return Err("deposit growth parameters must be finite and physical");
+        }
+        if moles == 0.0 {
+            return Ok((0.0, 0.0));
+        }
+        let volume = moles * molar_volume;
+        match coalescence {
+            None => Ok((volume / geometric_area_m2, 1.0)),
+            Some(height) => {
+                let coverage = (volume / (geometric_area_m2 * height)).min(1.0);
+                let thickness = volume / (geometric_area_m2 * coverage);
+                Ok((thickness, coverage))
+            }
+        }
+    }
 }
 
 /// A layer deposited on an electrode surface.
@@ -186,14 +378,29 @@ pub struct ElectrodeDeposit {
     /// Thickness estimate in metres (if known).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub thickness_m: Option<f64>,
+    /// Geometric coverage when measured or computed.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub coverage_fraction: Option<f64>,
+    /// Kinetic role of this layer. Absence means no defensible model is known.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub effect: Option<crate::electrochemistry::PassivationEffect>,
+    /// Bulk electrical resistivity used with computed thickness for film
+    /// ohmic loss, Ω·m.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub electrical_resistivity_ohm_m: Option<f64>,
 }
 
 impl Default for ElectrodeState {
     fn default() -> Self {
         Self {
+            label: "electrode".into(),
             material: "Pt".into(),
+            surface_preparation: None,
+            substrate_moles: None,
             area_m2: 1e-4,
             roughness: 1.0,
+            double_layer_capacitance_f_per_m2: None,
+            interfacial_potential_v: None,
             deposits: Vec::new(),
         }
     }
@@ -216,20 +423,77 @@ mod tests {
     #[test]
     fn electrode_state_round_trips() {
         let electrode = ElectrodeState {
+            label: "zinc anode".into(),
             material: "Zn".into(),
+            surface_preparation: Some("project test polish".into()),
+            substrate_moles: Some(0.01),
             area_m2: 0.001,
             roughness: 1.5,
+            double_layer_capacitance_f_per_m2: Some(0.2),
+            interfacial_potential_v: Some(0.0),
             deposits: vec![ElectrodeDeposit {
                 species: "Cu".into(),
                 moles: 0.0001,
                 thickness_m: Some(1e-6),
+                coverage_fraction: Some(0.25),
+                effect: Some(crate::electrochemistry::PassivationEffect::Conductive),
+                electrical_resistivity_ohm_m: Some(1e-7),
             }],
         };
         let json = serde_json::to_string(&electrode).unwrap();
         let loaded: ElectrodeState = serde_json::from_str(&json).unwrap();
         assert_eq!(loaded.material, "Zn");
+        assert!(loaded.validate().is_ok());
         assert_eq!(loaded.deposits.len(), 1);
         assert_eq!(loaded.deposits[0].species, "Cu");
+    }
+
+    #[test]
+    fn island_growth_computes_coverage_then_thickness() {
+        let model = DepositGrowthModel::IslandCoalescence {
+            molar_volume_m3_per_mol: 1e-5,
+            coalescence_thickness_m: 1e-6,
+        };
+        let (thin, half) = model.geometry(0.5e-3, 0.01).unwrap();
+        assert!((thin - 1e-6).abs() < 1e-15);
+        assert!((half - 0.5).abs() < 1e-12);
+        let (thick, full) = model.geometry(2e-3, 0.01).unwrap();
+        assert!((thick - 2e-6).abs() < 1e-15);
+        assert_eq!(full, 1.0);
+    }
+
+    #[test]
+    fn characterised_deposits_compute_blocking_and_series_resistance() {
+        let electrode = ElectrodeState {
+            label: "steel".into(),
+            material: "Fe".into(),
+            surface_preparation: None,
+            substrate_moles: Some(1.0),
+            area_m2: 0.01,
+            roughness: 1.0,
+            double_layer_capacitance_f_per_m2: None,
+            interfacial_potential_v: None,
+            deposits: vec![
+                ElectrodeDeposit {
+                    species: "oxide-a".into(),
+                    moles: 1e-6,
+                    thickness_m: Some(2e-9),
+                    coverage_fraction: Some(0.75),
+                    effect: Some(crate::electrochemistry::PassivationEffect::Passivating),
+                    electrical_resistivity_ohm_m: Some(1e6),
+                },
+                ElectrodeDeposit {
+                    species: "oxide-b".into(),
+                    moles: 1e-6,
+                    thickness_m: Some(3e-9),
+                    coverage_fraction: Some(0.36),
+                    effect: Some(crate::electrochemistry::PassivationEffect::SemiPassivating),
+                    electrical_resistivity_ohm_m: Some(2e6),
+                },
+            ],
+        };
+        assert!((electrode.deposit_available_fraction().unwrap() - 0.25).abs() < 1e-12);
+        assert!((electrode.deposit_film_resistance_ohm_m2().unwrap() - 8e-3).abs() < 1e-15);
     }
 
     #[test]

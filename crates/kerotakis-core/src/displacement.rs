@@ -493,24 +493,14 @@ fn oxidant_available(vessel: &Vessel, c: &Couple) -> f64 {
 /// The activity of a dissolved species, and whether it came from the
 /// solver's speciation or is molality standing in for it.
 fn activity_of(vessel: &Vessel, key: &str) -> Option<(f64, bool)> {
+    if let Some(activity) = vessel.resolved_aqueous_activity(&SpeciesId::new(key)) {
+        return Some((activity, true));
+    }
     if key == HYDROGEN_ION {
-        // The solver's pH is the measurement; the unspent acidity is only
-        // an amount.
-        if let Some(info) = &vessel.solution {
-            return Some((10f64.powf(-info.ph), true));
-        }
+        // Without a solve, the unspent acidity is only an amount and this
+        // fallback remains explicitly marked unresolved.
         let w = kgw(vessel);
         return (w > 0.0).then(|| (oxidant_available(vessel, &SERIES[2]) / w, false));
-    }
-    let formula = species::lookup_key(key).map(|d| d.formula).unwrap_or(key);
-    if let Some(s) = vessel
-        .solution
-        .as_ref()
-        .and_then(|info| info.species.iter().find(|s| s.name == formula))
-    {
-        if s.activity > 0.0 {
-            return Some((s.activity, true));
-        }
     }
     let w = kgw(vessel);
     (w > 0.0).then(|| (moles_in(vessel, key, Phase::Aqueous) / w, false))

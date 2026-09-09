@@ -881,6 +881,10 @@ pub struct Vessel {
     /// Finite solid/liquid interfaces. Defaulted for old save compatibility.
     #[serde(default)]
     pub surfaces: Vec<SurfaceSites>,
+    /// Explicit electrode surfaces. Empty for ordinary glassware; serialized
+    /// as primary state so area, roughness and deposits survive replay.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub electrodes: Vec<crate::compartment::ElectrodeState>,
     /// Finite cation-exchange interfaces. Defaulted for old save compatibility.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub exchanges: Vec<ExchangeSites>,
@@ -1041,6 +1045,7 @@ impl Vessel {
             thermal_mode: ThermalMode::Adiabatic,
             headspace: Headspace::Open,
             surfaces: Vec::new(),
+            electrodes: Vec::new(),
             exchanges: Vec::new(),
             adsorbed: Vec::new(),
             solid_solutions: Vec::new(),
@@ -1061,6 +1066,7 @@ impl Vessel {
             && self.unresolved_materials.is_empty()
             && self.material_objects.is_empty()
             && self.surfaces.is_empty()
+            && self.electrodes.is_empty()
             && self.exchanges.is_empty()
             && self.adsorbed.is_empty()
             && self.solid_solutions.is_empty()
@@ -1086,6 +1092,26 @@ impl Vessel {
                 .map(|p| p.moles.0)
                 .sum(),
         )
+    }
+
+    /// Activity reported by the aqueous equilibrium solver for one registry
+    /// species. No concentration fallback is made here: kinetic parameter
+    /// domains that require activity must refuse unresolved vessels.
+    pub fn resolved_aqueous_activity(&self, species_id: &SpeciesId) -> Option<f64> {
+        let solution = self.solution.as_ref()?;
+        if species_id.0 == "H+" {
+            let activity = 10f64.powf(-solution.ph);
+            return (activity.is_finite() && activity > 0.0).then_some(activity);
+        }
+        let formula = species::lookup(species_id)
+            .map(|data| data.formula)
+            .unwrap_or(&species_id.0);
+        solution
+            .species
+            .iter()
+            .find(|detail| detail.name == formula || detail.name == species_id.0)
+            .map(|detail| detail.activity)
+            .filter(|activity| activity.is_finite() && *activity > 0.0)
     }
 
     /// Add matter, merging with an existing portion of the same species and
@@ -1389,6 +1415,26 @@ impl Vessel {
                         .sum::<f64>()
             })
             .sum();
+        let electrode_inventory: f64 = self
+            .electrodes
+            .iter()
+            .map(|electrode| {
+                electrode
+                    .substrate_moles
+                    .and_then(|moles| {
+                        species::lookup_key(&electrode.material).map(|data| moles * data.molar_mass)
+                    })
+                    .unwrap_or(0.0)
+                    + electrode
+                        .deposits
+                        .iter()
+                        .filter_map(|deposit| {
+                            species::lookup_key(&deposit.species)
+                                .map(|data| deposit.moles * data.molar_mass)
+                        })
+                        .sum::<f64>()
+            })
+            .sum();
         let exchangers: f64 = self
             .exchanges
             .iter()
@@ -1425,6 +1471,7 @@ impl Vessel {
         Grams(
             contents
                 + interfaces
+                + electrode_inventory
                 + exchangers
                 + bound
                 + solid_solutions
@@ -1483,6 +1530,32 @@ impl Vessel {
                 .map(|portion| portion.moles.0)
                 .sum(),
         )
+    }
+
+    /// Ideal-gas fugacity relative to the 1 atm standard state for a gas in
+    /// an owned headspace. Open and swept boundaries have no finite stored
+    /// composition and therefore return `None` rather than assuming room air.
+    pub fn ideal_gas_activity(&self, species_id: &SpeciesId) -> Option<f64> {
+        let volume_m3 = self.headspace_volume()?.0 * 1e-3;
+        let moles = self
+            .contents
+            .iter()
+            .filter(|portion| portion.phase == Phase::Gas && portion.species == *species_id)
+            .map(|portion| portion.moles.0)
+            .sum::<f64>();
+        if !volume_m3.is_finite()
+            || volume_m3 <= 0.0
+            || !moles.is_finite()
+            || moles <= 0.0
+            || !self.temperature.0.is_finite()
+            || self.temperature.0 <= 0.0
+        {
+            return None;
+        }
+        let partial_pressure_pa =
+            moles * crate::constants::GAS_CONSTANT * self.temperature.0 / volume_m3;
+        let activity = partial_pressure_pa / crate::constants::STANDARD_ATMOSPHERE;
+        (activity.is_finite() && activity > 0.0).then_some(activity)
     }
 
     /// Recompute pressure from the owned gas inventory. The first model is

@@ -17,6 +17,43 @@ pub struct MoleDelta {
     pub moles: f64,
 }
 
+/// Which conserved inventory on a named electrode changes.
+#[derive(Debug, Clone, PartialEq)]
+pub enum ElectrodeInventory {
+    Substrate,
+    Deposit {
+        species: SpeciesId,
+        growth: Option<crate::compartment::DepositGrowthModel>,
+        effect: Option<crate::electrochemistry::PassivationEffect>,
+    },
+}
+
+impl ElectrodeInventory {
+    fn same_reservoir(&self, other: &Self) -> bool {
+        match (self, other) {
+            (Self::Substrate, Self::Substrate) => true,
+            (Self::Deposit { species: left, .. }, Self::Deposit { species: right, .. }) => {
+                left == right
+            }
+            _ => false,
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub struct ElectrodeMoleDelta {
+    pub electrode: String,
+    pub inventory: ElectrodeInventory,
+    /// Positive adds material; negative consumes it.
+    pub moles: f64,
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub struct ElectrodePotentialDelta {
+    pub electrode: String,
+    pub potential_v: f64,
+}
+
 /// A proposed change to a vessel's thermal state.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum ThermalDelta {
@@ -35,10 +72,26 @@ pub enum ThermalDelta {
 pub struct StateDelta {
     /// Species amount changes (positive = deposit, negative = withdraw).
     pub mole_changes: Vec<MoleDelta>,
+    /// Matter transferred to or from explicit electrode inventories.
+    pub electrode_changes: Vec<ElectrodeMoleDelta>,
+    /// Persistent interfacial electrical state after a transient solve.
+    pub electrode_potential_changes: Vec<ElectrodePotentialDelta>,
     /// Thermal state change.
     pub thermal: Option<ThermalDelta>,
     /// Which model produced this delta.
     pub source: &'static str,
+}
+
+/// One coupled state proposal after a single, uniform inventory limit.
+///
+/// The fraction applies to every material and relative-energy term in the
+/// original proposal. Keeping it explicit lets callers report depletion and
+/// choose a smaller clock step without reconstructing the limit from rounded
+/// mole changes.
+#[derive(Debug, Clone)]
+pub struct InventoryLimitedDelta {
+    pub delta: StateDelta,
+    pub accepted_fraction: f64,
 }
 
 /// Reasons a delta cannot be committed.
@@ -52,7 +105,25 @@ pub enum DeltaError {
         requested: f64,
     },
     /// Element totals don't balance (for reaction deltas).
-    ElementImbalance { element: String, net: f64 },
+    ElementImbalance {
+        element: String,
+        net: f64,
+    },
+    UnknownElectrode {
+        electrode: String,
+    },
+    InvalidElectrodeDelta {
+        electrode: String,
+        reason: String,
+    },
+    ElectrodeNegativity {
+        electrode: String,
+        species: String,
+        available: f64,
+        requested: f64,
+    },
+    UnscalableThermalDelta,
+    UnscalableElectricalDelta,
 }
 
 impl std::fmt::Display for DeltaError {
@@ -70,6 +141,27 @@ impl std::fmt::Display for DeltaError {
             DeltaError::ElementImbalance { element, net } => {
                 write!(f, "element {element} has net change {net:.6e} mol")
             }
+            DeltaError::UnknownElectrode { electrode } => {
+                write!(f, "electrode {electrode} does not exist")
+            }
+            DeltaError::InvalidElectrodeDelta { electrode, reason } => {
+                write!(f, "cannot change electrode {electrode}: {reason}")
+            }
+            DeltaError::ElectrodeNegativity {
+                electrode,
+                species,
+                available,
+                requested,
+            } => write!(
+                f,
+                "cannot withdraw {requested:.6e} mol of {species} from electrode {electrode}; only {available:.6e} available"
+            ),
+            DeltaError::UnscalableThermalDelta => {
+                write!(f, "an absolute-temperature delta cannot be inventory-scaled")
+            }
+            DeltaError::UnscalableElectricalDelta => {
+                write!(f, "an electrode-potential delta cannot be inventory-scaled")
+            }
         }
     }
 }
@@ -78,9 +170,38 @@ impl StateDelta {
     pub fn new(source: &'static str) -> Self {
         Self {
             mole_changes: Vec::new(),
+            electrode_changes: Vec::new(),
+            electrode_potential_changes: Vec::new(),
             thermal: None,
             source,
         }
+    }
+
+    pub fn with_electrode_moles(
+        mut self,
+        electrode: impl Into<String>,
+        inventory: ElectrodeInventory,
+        moles: f64,
+    ) -> Self {
+        self.electrode_changes.push(ElectrodeMoleDelta {
+            electrode: electrode.into(),
+            inventory,
+            moles,
+        });
+        self
+    }
+
+    pub fn with_electrode_potential(
+        mut self,
+        electrode: impl Into<String>,
+        potential_v: f64,
+    ) -> Self {
+        self.electrode_potential_changes
+            .push(ElectrodePotentialDelta {
+                electrode: electrode.into(),
+                potential_v,
+            });
+        self
     }
 
     /// Add a species deposit/withdrawal to this delta.
@@ -104,23 +225,182 @@ impl StateDelta {
     pub fn validate(&self, vessel: &crate::vessel::Vessel) -> Vec<DeltaError> {
         let mut errors = Vec::new();
 
-        // Check positivity: withdrawals must not exceed available amounts
+        // Check positivity cumulatively: two individually valid withdrawals
+        // must not overdraw the same reservoir when committed together.
+        let mut checked_bulk = std::collections::BTreeSet::new();
         for change in &self.mole_changes {
-            if change.moles < 0.0 {
-                let available = vessel
-                    .contents
-                    .iter()
-                    .filter(|p| p.species == change.species && p.phase == change.phase)
-                    .map(|p| p.moles.0)
-                    .sum::<f64>();
-                if -change.moles > available + 1e-15 {
-                    errors.push(DeltaError::Negativity {
-                        species: change.species.0.clone(),
-                        phase: change.phase,
+            if !change.moles.is_finite() {
+                errors.push(DeltaError::Negativity {
+                    species: change.species.0.clone(),
+                    phase: change.phase,
+                    available: 0.0,
+                    requested: f64::NAN,
+                });
+                continue;
+            }
+            let key = (change.species.clone(), change.phase);
+            if !checked_bulk.insert(key) {
+                continue;
+            }
+            let cumulative_change: f64 = self
+                .mole_changes
+                .iter()
+                .filter(|candidate| {
+                    candidate.species == change.species && candidate.phase == change.phase
+                })
+                .map(|candidate| candidate.moles)
+                .sum();
+            let available = vessel
+                .contents
+                .iter()
+                .filter(|portion| {
+                    portion.species == change.species && portion.phase == change.phase
+                })
+                .map(|portion| portion.moles.0)
+                .sum::<f64>();
+            if cumulative_change < 0.0 && -cumulative_change > available + 1e-15 {
+                errors.push(DeltaError::Negativity {
+                    species: change.species.0.clone(),
+                    phase: change.phase,
+                    available,
+                    requested: -cumulative_change,
+                });
+            }
+        }
+
+        let mut checked = std::collections::BTreeSet::new();
+        for change in &self.electrode_changes {
+            let matching_count = vessel
+                .electrodes
+                .iter()
+                .filter(|electrode| electrode.label == change.electrode)
+                .count();
+            if matching_count == 0 {
+                errors.push(DeltaError::UnknownElectrode {
+                    electrode: change.electrode.clone(),
+                });
+                continue;
+            }
+            if matching_count > 1 {
+                errors.push(DeltaError::InvalidElectrodeDelta {
+                    electrode: change.electrode.clone(),
+                    reason: "label is ambiguous".into(),
+                });
+                continue;
+            }
+            let electrode = vessel
+                .electrodes
+                .iter()
+                .find(|electrode| electrode.label == change.electrode)
+                .expect("counted exactly one electrode above");
+            if !change.moles.is_finite() {
+                errors.push(DeltaError::InvalidElectrodeDelta {
+                    electrode: change.electrode.clone(),
+                    reason: "mole change must be finite".into(),
+                });
+                continue;
+            }
+            let (species, available, inventory_key) = match &change.inventory {
+                ElectrodeInventory::Substrate => {
+                    let Some(available) = electrode.substrate_moles else {
+                        errors.push(DeltaError::InvalidElectrodeDelta {
+                            electrode: change.electrode.clone(),
+                            reason: "external apparatus has no finite substrate inventory".into(),
+                        });
+                        continue;
+                    };
+                    (
+                        electrode.material.clone(),
                         available,
-                        requested: -change.moles,
-                    });
+                        "substrate".to_owned(),
+                    )
                 }
+                ElectrodeInventory::Deposit {
+                    species,
+                    growth,
+                    effect,
+                } => {
+                    let existing = electrode
+                        .deposits
+                        .iter()
+                        .find(|deposit| deposit.species == species.0);
+                    if existing
+                        .and_then(|deposit| deposit.effect)
+                        .zip(*effect)
+                        .is_some_and(|(existing, proposed)| existing != proposed)
+                    {
+                        errors.push(DeltaError::InvalidElectrodeDelta {
+                            electrode: change.electrode.clone(),
+                            reason: format!("deposit {} changes kinetic effect", species.0),
+                        });
+                    }
+                    if growth.is_some_and(|model| {
+                        model
+                            .geometry(
+                                (existing.map_or(0.0, |deposit| deposit.moles) + change.moles)
+                                    .max(0.0),
+                                electrode.area_m2,
+                            )
+                            .is_err()
+                    }) {
+                        errors.push(DeltaError::InvalidElectrodeDelta {
+                            electrode: change.electrode.clone(),
+                            reason: format!("deposit {} has invalid growth geometry", species.0),
+                        });
+                    }
+                    (
+                        species.0.clone(),
+                        electrode
+                            .deposits
+                            .iter()
+                            .filter(|deposit| deposit.species == species.0)
+                            .map(|deposit| deposit.moles)
+                            .sum(),
+                        format!("deposit:{}", species.0),
+                    )
+                }
+            };
+            let key = (change.electrode.clone(), inventory_key);
+            if !checked.insert(key) {
+                continue;
+            }
+            let cumulative_change: f64 = self
+                .electrode_changes
+                .iter()
+                .filter(|candidate| {
+                    candidate.electrode == change.electrode
+                        && candidate.inventory.same_reservoir(&change.inventory)
+                })
+                .map(|candidate| candidate.moles)
+                .sum();
+            if cumulative_change < 0.0 && -cumulative_change > available + 1e-15 {
+                errors.push(DeltaError::ElectrodeNegativity {
+                    electrode: change.electrode.clone(),
+                    species,
+                    available,
+                    requested: -cumulative_change,
+                });
+            }
+        }
+
+        let mut potentials = std::collections::BTreeSet::new();
+        for change in &self.electrode_potential_changes {
+            let matching_count = vessel
+                .electrodes
+                .iter()
+                .filter(|electrode| electrode.label == change.electrode)
+                .count();
+            if matching_count != 1 || !change.potential_v.is_finite() {
+                errors.push(DeltaError::InvalidElectrodeDelta {
+                    electrode: change.electrode.clone(),
+                    reason: "potential update requires one named electrode and a finite value"
+                        .into(),
+                });
+            } else if !potentials.insert(change.electrode.clone()) {
+                errors.push(DeltaError::InvalidElectrodeDelta {
+                    electrode: change.electrode.clone(),
+                    reason: "potential may be set only once per atomic delta".into(),
+                });
             }
         }
 
@@ -149,6 +429,72 @@ impl StateDelta {
             }
         }
 
+        for change in &self.electrode_changes {
+            let Some(electrode) = vessel
+                .electrodes
+                .iter_mut()
+                .find(|electrode| electrode.label == change.electrode)
+            else {
+                continue;
+            };
+            match &change.inventory {
+                ElectrodeInventory::Substrate => {
+                    if let Some(moles) = &mut electrode.substrate_moles {
+                        *moles += change.moles;
+                    }
+                }
+                ElectrodeInventory::Deposit {
+                    species,
+                    growth,
+                    effect,
+                } => {
+                    let area_m2 = electrode.area_m2;
+                    if let Some(deposit) = electrode
+                        .deposits
+                        .iter_mut()
+                        .find(|deposit| deposit.species == species.0)
+                    {
+                        deposit.moles += change.moles;
+                        if deposit.effect.is_none() {
+                            deposit.effect = *effect;
+                        }
+                        if let Some(model) = growth {
+                            if let Ok((thickness, coverage)) =
+                                model.geometry(deposit.moles.max(0.0), area_m2)
+                            {
+                                deposit.thickness_m = Some(thickness);
+                                deposit.coverage_fraction = Some(coverage);
+                            }
+                        }
+                    } else if change.moles > 0.0 {
+                        let geometry =
+                            growth.and_then(|model| model.geometry(change.moles, area_m2).ok());
+                        electrode
+                            .deposits
+                            .push(crate::compartment::ElectrodeDeposit {
+                                species: species.0.clone(),
+                                moles: change.moles,
+                                thickness_m: geometry.map(|value| value.0),
+                                coverage_fraction: geometry.map(|value| value.1),
+                                effect: *effect,
+                                electrical_resistivity_ohm_m: None,
+                            });
+                    }
+                }
+            }
+            electrode.deposits.retain(|deposit| deposit.moles > 1e-15);
+        }
+
+        for change in &self.electrode_potential_changes {
+            if let Some(electrode) = vessel
+                .electrodes
+                .iter_mut()
+                .find(|electrode| electrode.label == change.electrode)
+            {
+                electrode.interfacial_potential_v = Some(change.potential_v);
+            }
+        }
+
         if let Some(thermal) = &self.thermal {
             match thermal {
                 ThermalDelta::SetTemperature(t) => vessel.temperature = *t,
@@ -172,6 +518,71 @@ impl StateDelta {
         }
         self.apply(vessel);
         Ok(())
+    }
+
+    /// Scale every coupled material change by the single factor required to
+    /// avoid the first depleted reservoir. This preserves stoichiometry and
+    /// competition fractions; independently clamping terms would not.
+    pub fn limited_to_inventory(
+        &self,
+        vessel: &crate::vessel::Vessel,
+    ) -> Result<Self, Vec<DeltaError>> {
+        self.inventory_limited(vessel).map(|limited| limited.delta)
+    }
+
+    /// Return both the uniformly limited proposal and its accepted fraction.
+    pub fn inventory_limited(
+        &self,
+        vessel: &crate::vessel::Vessel,
+    ) -> Result<InventoryLimitedDelta, Vec<DeltaError>> {
+        let errors = self.validate(vessel);
+        let mut scale = 1.0_f64;
+        let mut fatal = Vec::new();
+        for error in errors {
+            match error {
+                DeltaError::Negativity {
+                    available,
+                    requested,
+                    ..
+                }
+                | DeltaError::ElectrodeNegativity {
+                    available,
+                    requested,
+                    ..
+                } if requested.is_finite() && requested > 0.0 && available.is_finite() => {
+                    scale = scale.min((available / requested).clamp(0.0, 1.0));
+                }
+                other => fatal.push(other),
+            }
+        }
+        if !fatal.is_empty() {
+            return Err(fatal);
+        }
+        if scale < 1.0 && matches!(self.thermal, Some(ThermalDelta::SetTemperature(_))) {
+            return Err(vec![DeltaError::UnscalableThermalDelta]);
+        }
+        if scale < 1.0 && !self.electrode_potential_changes.is_empty() {
+            return Err(vec![DeltaError::UnscalableElectricalDelta]);
+        }
+        let mut limited = self.clone();
+        for change in &mut limited.mole_changes {
+            change.moles *= scale;
+        }
+        for change in &mut limited.electrode_changes {
+            change.moles *= scale;
+        }
+        if let Some(ThermalDelta::AddEnergy(energy)) = &mut limited.thermal {
+            energy.0 *= scale;
+        }
+        let residual = limited.validate(vessel);
+        if residual.is_empty() {
+            Ok(InventoryLimitedDelta {
+                delta: limited,
+                accepted_fraction: scale,
+            })
+        } else {
+            Err(residual)
+        }
     }
 
     /// ARCH-009: Transactional commit with conservation audit and rollback.
@@ -244,7 +655,10 @@ impl StateDelta {
 
     /// Whether this delta has no changes at all.
     pub fn is_empty(&self) -> bool {
-        self.mole_changes.is_empty() && self.thermal.is_none()
+        self.mole_changes.is_empty()
+            && self.electrode_changes.is_empty()
+            && self.electrode_potential_changes.is_empty()
+            && self.thermal.is_none()
     }
 }
 
@@ -304,6 +718,120 @@ mod tests {
         let errors = delta.validate(&v);
         assert_eq!(errors.len(), 1);
         assert!(matches!(errors[0], DeltaError::Negativity { .. }));
+    }
+
+    #[test]
+    fn cumulative_bulk_overdraw_is_rejected() {
+        let vessel = test_vessel();
+        let delta = StateDelta::new("test")
+            .with_moles(SpeciesId::new("NaCl"), Phase::Aqueous, -0.06)
+            .with_moles(SpeciesId::new("NaCl"), Phase::Aqueous, -0.06);
+        assert!(matches!(
+            delta.validate(&vessel).as_slice(),
+            [DeltaError::Negativity { requested, .. }] if (*requested - 0.12).abs() < 1e-12
+        ));
+    }
+
+    #[test]
+    fn one_inventory_scale_preserves_a_coupled_reaction() {
+        let vessel = test_vessel();
+        let delta = StateDelta::new("test")
+            .with_moles(SpeciesId::new("NaCl"), Phase::Aqueous, -0.2)
+            .with_moles(SpeciesId::new("HCl"), Phase::Aqueous, 0.4);
+        let limited = delta.inventory_limited(&vessel).unwrap();
+        assert!((limited.accepted_fraction - 0.5).abs() < 1e-12);
+        assert!(
+            (limited
+                .delta
+                .net_moles(&SpeciesId::new("NaCl"), Phase::Aqueous)
+                + 0.1)
+                .abs()
+                < 1e-12
+        );
+        assert!(
+            (limited
+                .delta
+                .net_moles(&SpeciesId::new("HCl"), Phase::Aqueous)
+                - 0.2)
+                .abs()
+                < 1e-12
+        );
+    }
+
+    fn zinc_electrode() -> crate::compartment::ElectrodeState {
+        crate::compartment::ElectrodeState {
+            label: "anode".into(),
+            material: "Zn".into(),
+            surface_preparation: None,
+            substrate_moles: Some(0.01),
+            area_m2: 0.001,
+            roughness: 1.0,
+            double_layer_capacitance_f_per_m2: None,
+            interfacial_potential_v: None,
+            deposits: Vec::new(),
+        }
+    }
+
+    #[test]
+    fn electrode_and_bulk_changes_commit_as_one_conserved_delta() {
+        let mut vessel = Vessel::new(VesselId(0), "cell");
+        vessel.electrodes.push(zinc_electrode());
+        let delta = StateDelta::new("electrode reaction")
+            .with_electrode_moles("anode", ElectrodeInventory::Substrate, -0.002)
+            .with_moles(SpeciesId::new("Zn+2"), Phase::Aqueous, 0.002);
+
+        delta.commit_conserved(&mut vessel, 1e-12).unwrap();
+        assert!((vessel.electrodes[0].substrate_moles.unwrap() - 0.008).abs() < 1e-12);
+        assert!((vessel.moles_of(&SpeciesId::new("Zn+2")).0 - 0.002).abs() < 1e-12);
+    }
+
+    #[test]
+    fn electrodeposition_updates_conserved_matter_and_computed_geometry() {
+        let mut vessel = Vessel::new(VesselId(0), "plating cell");
+        let mut electrode = zinc_electrode();
+        electrode.material = "Pt".into();
+        electrode.substrate_moles = None;
+        electrode.area_m2 = 0.01;
+        vessel.electrodes.push(electrode);
+        vessel.deposit(SpeciesId::new("Cu"), Moles(2e-6), Phase::Solid);
+        let growth = crate::compartment::DepositGrowthModel::IslandCoalescence {
+            molar_volume_m3_per_mol: 1e-5,
+            coalescence_thickness_m: 1e-6,
+        };
+        let delta = StateDelta::new("plating")
+            .with_moles(SpeciesId::new("Cu"), Phase::Solid, -2e-6)
+            .with_electrode_moles(
+                "anode",
+                ElectrodeInventory::Deposit {
+                    species: SpeciesId::new("Cu"),
+                    growth: Some(growth),
+                    effect: Some(crate::electrochemistry::PassivationEffect::Conductive),
+                },
+                2e-6,
+            );
+        delta.commit_conserved(&mut vessel, 1e-12).unwrap();
+        let deposit = &vessel.electrodes[0].deposits[0];
+        assert!((deposit.thickness_m.unwrap() - 1e-6).abs() < 1e-15);
+        assert!((deposit.coverage_fraction.unwrap() - 0.002).abs() < 1e-15);
+        assert_eq!(
+            deposit.effect,
+            Some(crate::electrochemistry::PassivationEffect::Conductive)
+        );
+    }
+
+    #[test]
+    fn cumulative_electrode_overdraw_is_atomic() {
+        let mut vessel = Vessel::new(VesselId(0), "cell");
+        vessel.electrodes.push(zinc_electrode());
+        let delta = StateDelta::new("bad electrode reaction")
+            .with_electrode_moles("anode", ElectrodeInventory::Substrate, -0.006)
+            .with_electrode_moles("anode", ElectrodeInventory::Substrate, -0.006);
+
+        assert!(matches!(
+            delta.commit(&mut vessel),
+            Err(errors) if errors.iter().any(|error| matches!(error, DeltaError::ElectrodeNegativity { .. }))
+        ));
+        assert_eq!(vessel.electrodes[0].substrate_moles, Some(0.01));
     }
 
     #[test]

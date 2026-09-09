@@ -5580,6 +5580,7 @@ fn advance_vessel_time(
         crate::clock::ClockContext {
             settle_under_gravity,
             kinetic: kinetic_context,
+            excluded_kinetic_reactions: Vec::new(),
         },
         events,
     )?;

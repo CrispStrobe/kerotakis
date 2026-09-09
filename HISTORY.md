@@ -39,6 +39,84 @@ it had while it was open, which is why a few numbers appear twice below.
 
 **Engine**
 
+- `feat/modular-electrode-kinetics` — consolidated electrode kinetics onto one
+  SI-unit Butler–Volmer kernel and added a deterministic mixed-potential,
+  galvanostatic and implicit-iR potentiostatic solver. Finite electrode
+  substrates and deposits now survive replay and participate in mass/element
+  ledgers. The pre-existing heterogeneous-rate records now execute shared
+  area, shrinking-sphere and diffusion-limit arithmetic. Parameter records use
+  a closed permissive-licence enum and explicit temperature, activity and
+  surface-preparation domains; gaps and overlaps refuse instead of
+  extrapolating or depending on registry order. Exact synthetic tests caught a
+  false convergence rule: a narrow voltage bracket is insufficient on a steep
+  polarization curve unless the current residual also closes. Coupled anodic
+  and cathodic extents now form one transactional delta and take one shared
+  depletion scale before commit; implementing that exposed and fixed the older
+  general case where two individually valid withdrawals could jointly overdraw
+  one bulk reservoir. A general reaction-quotient Nernst relation now joins
+  arbitrary computed activities to exactly one reviewed kinetic record, while
+  preserving reaction identity and parameter-record identity separately in the
+  serialized result. Vessel state now exposes solver-resolved aqueous activity
+  and ideal-gas activity for finite owned headspaces as shared primitives;
+  unresolved aqueous species and open/swept gas reservoirs remain absent rather
+  than silently becoming concentrations or unit fugacities. A generic runtime
+  proposal now resolves separate equilibrium and kinetic-domain activities,
+  selects records, balances all competing partial currents, converts them to
+  one Faradaic delta and reports the uniform inventory fraction without
+  mutating the vessel. Standard-state gas is an explicit reference condition,
+  distinct from measured owned gas, so a reviewed gas-evolution
+  parameterisation can start without inventing headspace composition. Its
+  end-to-end acid/metal test exposed a second solver defect: fixed absolute
+  current tolerance cannot represent cancellation of large opposing partial
+  currents. The solver now combines absolute tolerance with a scale-relative
+  cancellation bound; all 513 core library tests pass
+- `feat/modular-electrode-kinetics` — closed three further generic surface
+  gaps before admitting empirical data. Parameter selection now matches the
+  electrode's persisted preparation and typed hydrodynamic bounds, and a
+  correlated parameter envelope retains reported fit ranges without inventing
+  a distribution. Stagnant-film and rotating-disk models compute transport
+  ceilings from SI diffusivity, concentration, geometry, viscosity and rpm.
+  Conformal and island-coalescence growth compute deposit thickness and
+  coverage from conserved moles; the same atomic delta updates matter and
+  geometry, while unknown deposit coverage/effect refuses derived passivation
+  instead of treating the surface as clean
+- `feat/modular-electrode-kinetics` — added adaptive depletion integration,
+  implicit resistive-film polarization, backward-Euler double-layer charging,
+  and irreversible solution/film heat without converting capacitive current
+  into reaction extent. Diffusion and rotating-disk transport now use electrons
+  per transported mole, and surface concentration feeds back through the Nernst
+  quotient until current and interfacial activity converge. A connected-cell
+  solver enforces one total current across unequal electrode areas and includes
+  both electrode polarizations and solution iR
+- `feat/modular-electrode-kinetics` — made configured electrode networks the
+  exclusive shared-clock owner of matching reaction ids, with fallible
+  equilibrium re-solves at depletion boundaries, and made two-compartment
+  commits atomic. The combined ordinary/electrode clock publishes its cloned
+  state and buffered events only after the whole interval succeeds. Results
+  now carry exact parameter provenance and uncertainty
+  envelopes. The first shipped record is the CC BY 4.0 van Ede/Angst
+  X5CrNi18-10 cathodic HER ensemble: arithmetic means and observed replicate
+  bounds from Supplementary Table B1. A directional Tafel law preserves what
+  was measured without inventing an anodic Butler–Volmer coefficient
+- `feat/modular-electrode-kinetics` — extended that same reviewed CC BY 4.0
+  source to its exact X5CrNi18-10 oxygen-reduction ensemble. Supplementary
+  Table C1's three compatible upward-scan repetitions supply the arithmetic
+  mean and observed envelope for the cathodic Tafel branch. The paper's
+  measured rotating-disk limiting currents remain validation evidence: the
+  engine continues to derive transport ceilings from oxygen inventory and
+  hydrodynamics. A second CC BY source was classified as active/passive and
+  polarity-reversal validation only because its curves were not numerically
+  tabulated; no coefficients were digitized or invented
+- `feat/modular-electrode-kinetics` — generalized kinetic conditions beyond
+  fixed rectangular records: composable Arrhenius/activity-order prefactors,
+  temperature-derived Tafel slopes, union-shaped validation slices, typed
+  measured/model/pending evidence and a potential-dependent
+  active/passive/transpassive anodic law. A CC0 pure-iron curve set was refused
+  as an isolated anodic fit because it measures net mixed current. Four CC BY
+  Q345R source-model records remain quarantined and unselectable: their printed
+  equations reproduce the 30 °C, pH 6 corrosion potential but calculate about
+  0.0262 A/m2 rather than the paper table's 0.017 A/m2. A regression test pins
+  the discrepancy instead of blessing a tuned coefficient
 - **#541** — the heat-capacity integral in **difference form**. Each NASA-9 and
   Shomate term is now written so `(t1 − t0)` factors out, instead of evaluating
   an antiderivative at both ends and subtracting terms around 1.2e9 J/mol that

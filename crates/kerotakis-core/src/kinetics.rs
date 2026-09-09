@@ -2154,7 +2154,31 @@ pub fn advance_with_context(
     seconds: f64,
     context: KineticContext,
 ) -> Result<Vec<(&'static KineticReaction<'static>, Moles)>, IntegrationError> {
-    if let Some(reactions) = overridden_reactions() {
+    advance_with_context_excluding(vessel, seconds, context, &[])
+}
+
+/// Advance curated kinetics while another engine has exclusive ownership of
+/// named reactions. Exclusion happens before the coupled network is assembled,
+/// so an electrochemical reaction cannot be integrated once here and once by
+/// its electrode clock during the same interval.
+pub fn advance_with_context_excluding(
+    vessel: &mut Vessel,
+    seconds: f64,
+    context: KineticContext,
+    excluded_reaction_ids: &[String],
+) -> Result<Vec<(&'static KineticReaction<'static>, Moles)>, IntegrationError> {
+    let override_reactions = overridden_reactions();
+    if override_reactions.is_some() || !excluded_reaction_ids.is_empty() {
+        let source = override_reactions.as_deref().unwrap_or(REGISTRY);
+        let reactions: Vec<_> = source
+            .iter()
+            .filter(|reaction| {
+                !excluded_reaction_ids
+                    .iter()
+                    .any(|excluded| excluded == reaction.id)
+            })
+            .copied()
+            .collect();
         let network = ReactionNetwork {
             id: NETWORK.id,
             reactions: &reactions,
@@ -2836,6 +2860,39 @@ mod tests {
     }
 
     #[test]
+    fn exclusive_owner_removes_reaction_before_network_integration() {
+        let initial = 0.1;
+        let mut excluded = vessel_with(
+            &[
+                ("water", 5.5343, Phase::Liquid),
+                ("H2O2", initial, Phase::Liquid),
+            ],
+            25.0,
+        );
+        let extents = advance_with_context_excluding(
+            &mut excluded,
+            60.0,
+            KineticContext::default(),
+            &["peroxide-decomposition".to_owned()],
+        )
+        .unwrap();
+        assert!(extents
+            .iter()
+            .all(|(reaction, _)| reaction.id != "peroxide-decomposition"));
+        assert!((excluded.moles_of(&SpeciesId::new("H2O2")).0 - initial).abs() < 1e-12);
+
+        let mut ordinary = vessel_with(
+            &[
+                ("water", 5.5343, Phase::Liquid),
+                ("H2O2", initial, Phase::Liquid),
+            ],
+            25.0,
+        );
+        advance_with_context(&mut ordinary, 60.0, KineticContext::default()).unwrap();
+        assert!(ordinary.moles_of(&SpeciesId::new("H2O2")).0 < initial);
+    }
+
+    #[test]
     fn the_integrator_matches_the_analytic_solution() {
         // The oracle that needs no dependency and never goes stale: a
         // first-order decay has a closed form, so the adaptive integrator
@@ -3471,6 +3528,39 @@ pub enum SurfaceAreaModel {
     SpecificArea { m2_per_g: f64 },
 }
 
+impl SurfaceAreaModel {
+    /// Resolve the current geometric area from explicit mass state. Constant
+    /// areas ignore both masses; shrinking spheres require the initial mass;
+    /// specific-area records use the current mass directly.
+    pub fn area_m2(
+        &self,
+        current_mass_g: f64,
+        initial_mass_g: Option<f64>,
+    ) -> Result<f64, crate::heterogeneous::SurfaceRateError> {
+        use crate::heterogeneous::SurfaceRateError;
+        if !current_mass_g.is_finite() || current_mass_g < 0.0 {
+            return Err(SurfaceRateError::InvalidMass);
+        }
+        let area = match *self {
+            SurfaceAreaModel::Constant { area_m2 } => area_m2,
+            SurfaceAreaModel::ShrinkingSphere { initial_area_m2 } => {
+                let initial_mass_g = initial_mass_g
+                    .filter(|mass| mass.is_finite() && *mass > 0.0)
+                    .ok_or(SurfaceRateError::InvalidMass)?;
+                initial_area_m2
+                    * (current_mass_g / initial_mass_g)
+                        .clamp(0.0, 1.0)
+                        .powf(2.0 / 3.0)
+            }
+            SurfaceAreaModel::SpecificArea { m2_per_g } => m2_per_g * current_mass_g,
+        };
+        if !area.is_finite() || area < 0.0 {
+            return Err(SurfaceRateError::InvalidArea);
+        }
+        Ok(area)
+    }
+}
+
 /// Effective diffusion coefficient for porous or stagnant-layer limited
 /// reactions. Units: m²/s.
 #[derive(Debug, Clone, Copy, PartialEq, serde::Serialize, serde::Deserialize)]
@@ -3492,6 +3582,59 @@ pub struct HeterogeneousRate {
     /// Mean particle diameter in metres (for shrinking-sphere models).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub particle_diameter_m: Option<f64>,
+}
+
+impl HeterogeneousRate {
+    pub fn reactive_surface(
+        &self,
+        current_mass_g: f64,
+        initial_mass_g: Option<f64>,
+        roughness_factor: f64,
+        available_fraction: f64,
+    ) -> Result<crate::heterogeneous::ReactiveSurface, crate::heterogeneous::SurfaceRateError> {
+        let surface = crate::heterogeneous::ReactiveSurface {
+            geometric_area_m2: self.surface.area_m2(current_mass_g, initial_mass_g)?,
+            roughness_factor,
+            available_fraction,
+        };
+        surface.validate()?;
+        Ok(surface)
+    }
+
+    /// Apply the optional Nernst-film transport ceiling to an intrinsic molar
+    /// flux. Concentration is mol/m³, making the resulting flux mol/(m²·s).
+    pub fn effective_flux(
+        &self,
+        intrinsic_mol_per_m2_s: f64,
+        bulk_concentration_mol_per_m3: f64,
+    ) -> Result<f64, crate::heterogeneous::SurfaceRateError> {
+        use crate::heterogeneous::SurfaceRateError;
+        if !intrinsic_mol_per_m2_s.is_finite()
+            || !bulk_concentration_mol_per_m3.is_finite()
+            || bulk_concentration_mol_per_m3 < 0.0
+        {
+            return Err(SurfaceRateError::InvalidTransport);
+        }
+        let limit = self
+            .diffusion
+            .map(|film| {
+                if !film.d_eff_m2_per_s.is_finite()
+                    || film.d_eff_m2_per_s <= 0.0
+                    || !film.layer_thickness_m.is_finite()
+                    || film.layer_thickness_m <= 0.0
+                {
+                    return Err(SurfaceRateError::InvalidTransport);
+                }
+                Ok(film.d_eff_m2_per_s * bulk_concentration_mol_per_m3 / film.layer_thickness_m)
+            })
+            .transpose()?;
+        let flux = crate::heterogeneous::transport_limited_flux(intrinsic_mol_per_m2_s, limit);
+        if flux.is_finite() {
+            Ok(flux)
+        } else {
+            Err(SurfaceRateError::InvalidTransport)
+        }
+    }
 }
 
 #[cfg(test)]
@@ -3528,5 +3671,24 @@ mod heterogeneous_tests {
         let json = serde_json::to_string(&rate).unwrap();
         let loaded: HeterogeneousRate = serde_json::from_str(&json).unwrap();
         assert_eq!(loaded, rate);
+    }
+
+    #[test]
+    fn shrinking_sphere_area_and_transport_use_shared_surface_math() {
+        let rate = HeterogeneousRate {
+            surface: SurfaceAreaModel::ShrinkingSphere {
+                initial_area_m2: 4.0,
+            },
+            diffusion: Some(EffectiveDiffusion {
+                d_eff_m2_per_s: 1e-9,
+                layer_thickness_m: 1e-4,
+            }),
+            particle_diameter_m: None,
+        };
+        let surface = rate.reactive_surface(0.125, Some(1.0), 2.0, 0.5).unwrap();
+        assert!((surface.geometric_area_m2 - 1.0).abs() < 1e-12);
+        assert!((surface.reactive_area_m2().unwrap() - 1.0).abs() < 1e-12);
+        let flux = rate.effective_flux(1.0, 100.0).unwrap();
+        assert!(flux > 0.0 && flux < 1e-3);
     }
 }

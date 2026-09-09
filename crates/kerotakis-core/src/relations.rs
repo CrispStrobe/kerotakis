@@ -66,6 +66,26 @@ pub fn nernst(e0: f64, n: f64, activity: f64, temperature: Kelvin) -> RelationRe
     }
 }
 
+/// General Nernst equation from the natural logarithm of the reaction
+/// quotient for a reduction half-reaction: E = E° - RT/(nF) ln Q.
+/// Keeping `ln_q` avoids overflow when several activities are multiplied.
+pub fn nernst_reaction_quotient(
+    e0: f64,
+    electrons: f64,
+    ln_q: f64,
+    temperature: Kelvin,
+) -> Option<f64> {
+    (e0.is_finite()
+        && electrons.is_finite()
+        && electrons > 0.0
+        && ln_q.is_finite()
+        && temperature.0.is_finite()
+        && temperature.0 > 0.0)
+        .then(|| {
+            e0 - constants::GAS_CONSTANT * temperature.0 * ln_q / (electrons * constants::FARADAY)
+        })
+}
+
 // ── Arrhenius equation ───────────────────────────────────────────────
 
 const ARRHENIUS_PROVENANCE: &str =
@@ -607,6 +627,14 @@ mod tests {
             "Cu²⁺/Cu at 0.01 M: {} vs expected {expected}",
             result.value
         );
+    }
+
+    #[test]
+    fn quotient_form_handles_both_sides_of_a_half_reaction() {
+        // 2 H+ + 2 e- -> H2 at a(H+)=0.1 and f(H2)=1 has Q=100.
+        let volts = nernst_reaction_quotient(0.0, 2.0, 100.0_f64.ln(), Kelvin::STANDARD).unwrap();
+        assert!((volts + 0.05916).abs() < 1e-4);
+        assert!(nernst_reaction_quotient(0.0, 0.0, 0.0, Kelvin::STANDARD).is_none());
     }
 
     #[test]
