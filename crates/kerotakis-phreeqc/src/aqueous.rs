@@ -2031,8 +2031,7 @@ impl Equilibrator for PhreeqcEquilibrator {
             last_temperature_residual = (next - guess).abs();
             let quantized_two_cycle = previous_guess.is_some_and(|previous| {
                 (next - previous).abs() <= 1e-12
-                    && last_temperature_residual
-                        < THERMAL_FIXED_POINT_QUANTIZATION_CYCLE_K
+                    && last_temperature_residual < THERMAL_FIXED_POINT_QUANTIZATION_CYCLE_K
             });
             let converged = volume_converged
                 && (last_temperature_residual < THERMAL_FIXED_POINT_TOLERANCE_K
