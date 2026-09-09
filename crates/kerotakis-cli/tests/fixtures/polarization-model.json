@@ -1,0 +1,18 @@
+{
+  "reactions": [
+    {
+      "id": "metal-oxidation",
+      "equilibrium_potential_she_v": -0.4,
+      "kinetics": {
+        "model": "directional_tafel",
+        "direction": "anodic",
+        "exchange_current_density_a_per_m2": 0.2,
+        "tafel_slope_v_per_decade": 0.12,
+        "electrons_per_extent": 2.0
+      },
+      "reactive_area_ratio": 1.0,
+      "film_resistance_ohm_m2": 0.0
+    }
+  ],
+  "double_layer_capacitance_f_per_m2": 0.0
+}
