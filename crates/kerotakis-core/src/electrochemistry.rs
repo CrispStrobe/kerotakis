@@ -2389,8 +2389,14 @@ pub struct InterfacialCondition {
     pub bulk_equilibrium_potential_v: f64,
     pub surface_equilibrium_potential_v: f64,
     pub depleted_at_surface: bool,
+    #[serde(default, skip_serializing_if = "is_false")]
+    pub transient: bool,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub surface_ph: Option<f64>,
+}
+
+fn is_false(value: &bool) -> bool {
+    !*value
 }
 
 /// Exact kinetic evidence used by a solved proposal. Bounds remain bounds:
@@ -2470,8 +2476,12 @@ impl SurfaceAvailabilityModel {
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "model", rename_all = "snake_case")]
 pub enum CurrentLimitModel {
-    MeasuredCurrentDensity { amperes_per_m2: f64 },
+    MeasuredCurrentDensity {
+        amperes_per_m2: f64,
+    },
     DiffusionLayer(crate::heterogeneous::DiffusionLayerTransport),
+    /// Persist the lumped Nernst-layer concentration across clock slices.
+    TransientDiffusionLayer(crate::heterogeneous::DiffusionLayerTransport),
     RotatingDisk(crate::heterogeneous::RotatingDiskTransport),
 }
 
@@ -2493,7 +2503,7 @@ impl CurrentLimitModel {
             Self::MeasuredCurrentDensity { .. } => {
                 Err(crate::heterogeneous::SurfaceRateError::InvalidTransport)
             }
-            Self::DiffusionLayer(model) => {
+            Self::DiffusionLayer(model) | Self::TransientDiffusionLayer(model) => {
                 model.current_density_limit(electrons_per_extent / transported_moles_per_extent)
             }
             Self::RotatingDisk(model) => {
@@ -2531,7 +2541,7 @@ impl CurrentLimitModel {
                     model.bulk_concentration_mol_per_m3 * fraction,
                 ))
             }
-            Self::MeasuredCurrentDensity { .. } => {
+            Self::MeasuredCurrentDensity { .. } | Self::TransientDiffusionLayer(_) => {
                 Err(crate::heterogeneous::SurfaceRateError::InvalidTransport)
             }
         }
@@ -2585,7 +2595,7 @@ impl CurrentLimitModel {
                         * omega.sqrt(),
                 )
             }
-            Self::MeasuredCurrentDensity { .. } => {
+            Self::MeasuredCurrentDensity { .. } | Self::TransientDiffusionLayer(_) => {
                 return Err(SurfaceRateError::InvalidTransport);
             }
         };
@@ -2640,16 +2650,20 @@ pub struct ElectrochemicalAdvanceReport {
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct ElectrochemicalAdvanceOptions {
     pub conservation_tolerance: f64,
-    pub maximum_depletion_substeps: usize,
+    pub maximum_substeps: usize,
     pub minimum_substep_seconds: f64,
+    /// Maximum clock slice as a fraction of the fastest transient diffusion
+    /// relaxation time. Smaller values tighten nonlinear current/state coupling.
+    pub maximum_transient_step_fraction: f64,
 }
 
 impl Default for ElectrochemicalAdvanceOptions {
     fn default() -> Self {
         Self {
             conservation_tolerance: 1e-10,
-            maximum_depletion_substeps: 32,
+            maximum_substeps: 8192,
             minimum_substep_seconds: 1e-12,
+            maximum_transient_step_fraction: 0.02,
         }
     }
 }
@@ -2696,6 +2710,7 @@ pub enum ElectrochemicalStepError {
     Commit(Vec<crate::delta::DeltaError>),
     DepletionDidNotAdvance,
     TooManyDepletionSubsteps,
+    TooManyAdvanceSubsteps,
 }
 
 /// Assemble and solve any set of competing electrode reactions against one
@@ -2774,6 +2789,12 @@ pub fn propose_electrochemical_step<'a>(
                 != definition.anodic_transported_species.is_some()
             || definition.cathodic_transport.is_some()
                 != definition.cathodic_transported_species.is_some()
+            || definition
+                .anodic_transport
+                .is_some_and(|model| matches!(model, CurrentLimitModel::TransientDiffusionLayer(_)))
+            || definition
+                .cathodic_transport
+                .is_some_and(|model| matches!(model, CurrentLimitModel::TransientDiffusionLayer(_)))
             || (!definition.interfacial_transport.is_empty()
                 && (definition.anodic_transport.is_some()
                     || definition.cathodic_transport.is_some()))
@@ -2959,7 +2980,9 @@ pub fn propose_electrochemical_step<'a>(
     let transient = electrode
         .double_layer_capacitance_f_per_m2
         .zip(electrode.interfacial_potential_v);
-    let interfacial_conditions = |balance: &CurrentBalance, reactions: &[PartialReaction<'_>]| {
+    let interfacial_conditions = |balance: &CurrentBalance,
+                                  reactions: &[PartialReaction<'_>],
+                                  duration: f64| {
         let mut resolved = Vec::new();
         for (index, ((current, partial), definition)) in balance
             .partial_currents
@@ -3020,21 +3043,57 @@ pub fn propose_electrochemical_step<'a>(
                         surface_concentration,
                         bulk_activity,
                         surface_activity,
+                        false,
                     ));
                 }
             } else {
                 let extent_flux =
                     current_per_real_area / (partial.kinetics.electrons_per_extent() * FARADAY);
                 for transported in definition.interfacial_transport {
-                    let (bulk_concentration, surface_concentration) = transported
-                        .transport
-                        .surface_concentration_from_net_production(
-                            extent_flux * transported.coefficient,
-                        )
-                        .map_err(|reason| ElectrochemicalStepError::InvalidDefinition {
-                            reaction: partial.id.to_owned(),
-                            reason: format!("cannot resolve interfacial transport: {reason:?}"),
-                        })?;
+                    let net_production = extent_flux * transported.coefficient;
+                    let (bulk_concentration, surface_concentration, is_transient) =
+                        match transported.transport {
+                            CurrentLimitModel::TransientDiffusionLayer(model) => {
+                                let initial = electrode
+                                    .interfacial_species
+                                    .iter()
+                                    .find(|state| {
+                                        state.reaction_id == partial.id
+                                            && state.species == transported.species
+                                    })
+                                    .map_or(model.bulk_concentration_mol_per_m3, |state| {
+                                        state.surface_concentration_mol_per_m3
+                                    });
+                                let advanced = model
+                                    .advance_constant_flux(initial, net_production, duration)
+                                    .map_err(|reason| {
+                                        ElectrochemicalStepError::InvalidDefinition {
+                                            reaction: partial.id.to_owned(),
+                                            reason: format!(
+                                                "cannot resolve transient interfacial transport: {reason:?}"
+                                            ),
+                                        }
+                                    })?;
+                                (
+                                    model.bulk_concentration_mol_per_m3,
+                                    advanced.surface_concentration_mol_per_m3,
+                                    true,
+                                )
+                            }
+                            model => {
+                                let (bulk, surface) = model
+                                    .surface_concentration_from_net_production(net_production)
+                                    .map_err(|reason| {
+                                        ElectrochemicalStepError::InvalidDefinition {
+                                            reaction: partial.id.to_owned(),
+                                            reason: format!(
+                                                "cannot resolve interfacial transport: {reason:?}"
+                                            ),
+                                        }
+                                    })?;
+                                (bulk, surface, false)
+                            }
+                        };
                     let quotient_term = local_quotient
                         .iter_mut()
                         .find(|term| term.species == transported.species)
@@ -3061,6 +3120,7 @@ pub fn propose_electrochemical_step<'a>(
                         surface_concentration,
                         bulk_activity,
                         surface_activity,
+                        is_transient,
                     ));
                 }
             }
@@ -3083,6 +3143,7 @@ pub fn propose_electrochemical_step<'a>(
                 surface_concentration,
                 bulk_activity,
                 surface_activity,
+                transient,
             ) in species_conditions
             {
                 resolved.push(InterfacialCondition {
@@ -3096,6 +3157,7 @@ pub fn propose_electrochemical_step<'a>(
                     surface_equilibrium_potential_v,
                     depleted_at_surface: surface_concentration
                         <= f64::EPSILON * bulk_concentration.max(1.0),
+                    transient,
                     surface_ph: (species == "H+" && surface_activity > 0.0)
                         .then(|| -surface_activity.log10()),
                 });
@@ -3139,7 +3201,7 @@ pub fn propose_electrochemical_step<'a>(
         let mut last_change = f64::INFINITY;
         for _ in 0..128 {
             let balance = solve_balance_once(duration, &reactions)?;
-            let conditions = interfacial_conditions(&balance, &reactions)?;
+            let conditions = interfacial_conditions(&balance, &reactions, duration)?;
             let mut targets = reactions.clone();
             last_change = 0.0_f64;
             for (index, definition) in definitions.iter().enumerate() {
@@ -3207,15 +3269,36 @@ pub fn propose_electrochemical_step<'a>(
             crate::delta::ThermalDelta::AddEnergy(crate::Joules(initial_heat)),
         );
     }
+    let persist_interfacial_state =
+        |mut delta: crate::delta::StateDelta, interfaces: &[InterfacialCondition]| {
+            for condition in interfaces.iter().filter(|condition| condition.transient) {
+                delta = delta.with_electrode_interfacial_species(
+                    electrode_label,
+                    &condition.reaction_id,
+                    &condition.species,
+                    condition.surface_concentration_mol_per_m3,
+                );
+            }
+            delta
+        };
+    let requested_delta =
+        persist_interfacial_state(initial_matter_delta.clone(), &initial_interfaces);
     let requested_delta = if transient.is_some() {
-        initial_matter_delta
-            .clone()
+        requested_delta
             .with_electrode_potential(electrode_label, initial_balance.electrode_potential_v)
     } else {
-        initial_matter_delta.clone()
+        requested_delta
     };
+    let has_transient_transport = definitions.iter().any(|definition| {
+        definition.interfacial_transport.iter().any(|term| {
+            matches!(
+                term.transport,
+                CurrentLimitModel::TransientDiffusionLayer(_)
+            )
+        })
+    });
 
-    if transient.is_none() {
+    if transient.is_none() && !has_transient_transport {
         let limited = initial_matter_delta
             .inventory_limited(vessel)
             .map_err(ElectrochemicalStepError::Inventory)?;
@@ -3261,14 +3344,19 @@ pub fn propose_electrochemical_step<'a>(
             .inventory_limited(vessel)
             .map_err(ElectrochemicalStepError::Inventory)?;
         if limited.accepted_fraction >= 1.0 - 1e-12 {
+            let accepted_delta = persist_interfacial_state(limited.delta, &interfaces);
+            let accepted_delta = if transient.is_some() {
+                accepted_delta
+                    .with_electrode_potential(electrode_label, balance.electrode_potential_v)
+            } else {
+                accepted_delta
+            };
             return Ok(ElectrochemicalStepProposal {
                 interfacial_conditions: interfaces,
                 applied_parameters,
                 balance: balance.clone(),
                 requested_delta,
-                accepted_delta: limited
-                    .delta
-                    .with_electrode_potential(electrode_label, balance.electrode_potential_v),
+                accepted_delta,
                 accepted_fraction: accepted_seconds / seconds,
             });
         }
@@ -3305,7 +3393,10 @@ pub fn advance_electrochemical<'a>(
         || options.conservation_tolerance < 0.0
         || !options.minimum_substep_seconds.is_finite()
         || options.minimum_substep_seconds <= 0.0
-        || options.maximum_depletion_substeps == 0
+        || !options.maximum_transient_step_fraction.is_finite()
+        || options.maximum_transient_step_fraction <= 0.0
+        || options.maximum_transient_step_fraction > 1.0
+        || options.maximum_substeps == 0
     {
         return Err(ElectrochemicalStepError::InvalidCondition {
             reason: "advance tolerances and substep count must be physical".into(),
@@ -3322,7 +3413,7 @@ pub fn advance_electrochemical<'a>(
 
     let mut elapsed = 0.0;
     let mut segments = Vec::new();
-    for _ in 0..options.maximum_depletion_substeps {
+    for _ in 0..options.maximum_substeps {
         let remaining = seconds - elapsed;
         if remaining <= seconds.max(1.0) * f64::EPSILON {
             return Ok(ElectrochemicalAdvanceReport {
@@ -3332,12 +3423,24 @@ pub fn advance_electrochemical<'a>(
                 boundary: None,
             });
         }
+        let maximum_transient_seconds = definitions
+            .iter()
+            .flat_map(|definition| definition.interfacial_transport)
+            .filter_map(|term| match term.transport {
+                CurrentLimitModel::TransientDiffusionLayer(model) => model
+                    .relaxation_time_seconds()
+                    .ok()
+                    .map(|relaxation| relaxation * options.maximum_transient_step_fraction),
+                _ => None,
+            })
+            .fold(f64::INFINITY, f64::min);
+        let requested_segment_seconds = remaining.min(maximum_transient_seconds);
         let proposal = match propose_electrochemical_step(
             vessel,
             electrode_label,
             records,
             definitions,
-            remaining,
+            requested_segment_seconds,
             hydrodynamics,
             control,
             transport,
@@ -3354,7 +3457,7 @@ pub fn advance_electrochemical<'a>(
             }
             Err(error) => return Err(error),
         };
-        let segment_seconds = remaining * proposal.accepted_fraction;
+        let segment_seconds = requested_segment_seconds * proposal.accepted_fraction;
         if !segment_seconds.is_finite() || segment_seconds < options.minimum_substep_seconds {
             let error = ElectrochemicalStepError::DepletionDidNotAdvance;
             if segments.is_empty() {
@@ -3382,7 +3485,9 @@ pub fn advance_electrochemical<'a>(
         });
         elapsed += segment_seconds;
         equilibrate(vessel)?;
-        if !inventory_limited {
+        if !inventory_limited
+            && requested_segment_seconds >= remaining - seconds.max(1.0) * f64::EPSILON
+        {
             return Ok(ElectrochemicalAdvanceReport {
                 requested_seconds: seconds,
                 elapsed_seconds: elapsed.min(seconds),
@@ -3395,7 +3500,7 @@ pub fn advance_electrochemical<'a>(
         requested_seconds: seconds,
         elapsed_seconds: elapsed,
         segments,
-        boundary: Some(ElectrochemicalStepError::TooManyDepletionSubsteps),
+        boundary: Some(ElectrochemicalStepError::TooManyAdvanceSubsteps),
     })
 }
 
@@ -4355,7 +4460,7 @@ mod tests {
             .exchange_current_density_a_per_m2
             .maximum = 0.5;
         assert!(select_exchange_current(
-            &[record],
+            std::slice::from_ref(&record),
             "M+2/M",
             "M",
             298.15,
@@ -4634,6 +4739,7 @@ mod tests {
             roughness: 1.0,
             double_layer_capacitance_f_per_m2: None,
             interfacial_potential_v: None,
+            interfacial_species: Vec::new(),
             deposits: Vec::new(),
         });
         vessel.deposit(
@@ -4767,6 +4873,7 @@ mod tests {
             roughness: 2.0,
             double_layer_capacitance_f_per_m2: None,
             interfacial_potential_v: None,
+            interfacial_species: Vec::new(),
             deposits: Vec::new(),
         });
         vessel.deposit(
@@ -5009,7 +5116,7 @@ mod tests {
         const TERMS: &[FaradaicTerm<'static>] = &[
             FaradaicTerm {
                 reservoir: FaradaicReservoir::Bulk {
-                    species: "H2O",
+                    species: "water",
                     phase: crate::Phase::Liquid,
                 },
                 coefficient: -2.0,
@@ -5033,7 +5140,7 @@ mod tests {
             InterfacialTransportTerm {
                 species: "O2",
                 coefficient: 1.0,
-                transport: CurrentLimitModel::DiffusionLayer(
+                transport: CurrentLimitModel::TransientDiffusionLayer(
                     crate::heterogeneous::DiffusionLayerTransport {
                         diffusivity_m2_per_s: 2.0e-9,
                         bulk_concentration_mol_per_m3: 100.0,
@@ -5045,7 +5152,7 @@ mod tests {
             InterfacialTransportTerm {
                 species: "H+",
                 coefficient: 4.0,
-                transport: CurrentLimitModel::DiffusionLayer(
+                transport: CurrentLimitModel::TransientDiffusionLayer(
                     crate::heterogeneous::DiffusionLayerTransport {
                         diffusivity_m2_per_s: 9.0e-9,
                         bulk_concentration_mol_per_m3: 100.0,
@@ -5093,10 +5200,11 @@ mod tests {
             roughness: 1.0,
             double_layer_capacitance_f_per_m2: None,
             interfacial_potential_v: None,
+            interfacial_species: Vec::new(),
             deposits: Vec::new(),
         });
         vessel.deposit(
-            crate::SpeciesId::new("H2O"),
+            crate::SpeciesId::new("water"),
             crate::Moles(55.5),
             crate::Phase::Liquid,
         );
@@ -5128,7 +5236,7 @@ mod tests {
         let proposal = propose_electrochemical_step(
             &vessel,
             "working",
-            &[record],
+            std::slice::from_ref(&record),
             &[definition],
             0.01,
             HydrodynamicCondition::default(),
@@ -5155,5 +5263,35 @@ mod tests {
             proposal.interfacial_conditions[0].surface_equilibrium_potential_v
                 < proposal.interfacial_conditions[0].bulk_equilibrium_potential_v
         );
+        assert_eq!(
+            proposal
+                .accepted_delta
+                .electrode_interfacial_species_changes
+                .len(),
+            2
+        );
+        let first_oxygen = proposal.interfacial_conditions[0].surface_concentration_mol_per_m3;
+        proposal
+            .accepted_delta
+            .commit_conserved(&mut vessel, 1e-10)
+            .unwrap();
+        assert_eq!(vessel.electrodes[0].interfacial_species.len(), 2);
+        let next = propose_electrochemical_step(
+            &vessel,
+            "working",
+            std::slice::from_ref(&record),
+            &[definition],
+            0.01,
+            HydrodynamicCondition::default(),
+            CellControl::Potentiostatic { voltage: 1.0 },
+            TransportLimits {
+                solution_resistance_ohm: 0.0,
+                limiting_current_cathodic: None,
+                limiting_current_anodic: None,
+            },
+            CurrentBalanceSolver::default(),
+        )
+        .unwrap();
+        assert!(next.interfacial_conditions[0].surface_concentration_mol_per_m3 < first_oxygen);
     }
 }

@@ -189,9 +189,20 @@ pub struct ElectrodeState {
     /// Last committed interfacial potential used by transient control.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub interfacial_potential_v: Option<f64>,
+    /// Persisted near-surface concentrations for explicitly transient
+    /// electrode transport models, keyed by reaction and species.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub interfacial_species: Vec<ElectrodeInterfacialSpecies>,
     /// Deposited material on the electrode surface (e.g. from electroplating).
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub deposits: Vec<ElectrodeDeposit>,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct ElectrodeInterfacialSpecies {
+    pub reaction_id: String,
+    pub species: String,
+    pub surface_concentration_mol_per_m3: f64,
 }
 
 fn default_roughness() -> f64 {
@@ -212,6 +223,18 @@ impl ElectrodeState {
             .is_some_and(|preparation| preparation.trim().is_empty())
         {
             return Err("electrode surface preparation must be named when known");
+        }
+        let mut interface_keys = std::collections::BTreeSet::new();
+        if self.interfacial_species.iter().any(|state| {
+            state.reaction_id.trim().is_empty()
+                || state.species.trim().is_empty()
+                || !state.surface_concentration_mol_per_m3.is_finite()
+                || state.surface_concentration_mol_per_m3 < 0.0
+                || !interface_keys.insert((state.reaction_id.as_str(), state.species.as_str()))
+        }) {
+            return Err(
+                "interfacial species must be uniquely named with non-negative concentration",
+            );
         }
         if self
             .substrate_moles
@@ -401,6 +424,7 @@ impl Default for ElectrodeState {
             roughness: 1.0,
             double_layer_capacitance_f_per_m2: None,
             interfacial_potential_v: None,
+            interfacial_species: Vec::new(),
             deposits: Vec::new(),
         }
     }
@@ -431,6 +455,11 @@ mod tests {
             roughness: 1.5,
             double_layer_capacitance_f_per_m2: Some(0.2),
             interfacial_potential_v: Some(0.0),
+            interfacial_species: vec![ElectrodeInterfacialSpecies {
+                reaction_id: "H+/H2".into(),
+                species: "H+".into(),
+                surface_concentration_mol_per_m3: 1.0,
+            }],
             deposits: vec![ElectrodeDeposit {
                 species: "Cu".into(),
                 moles: 0.0001,
@@ -446,6 +475,7 @@ mod tests {
         assert!(loaded.validate().is_ok());
         assert_eq!(loaded.deposits.len(), 1);
         assert_eq!(loaded.deposits[0].species, "Cu");
+        assert_eq!(loaded.interfacial_species.len(), 1);
     }
 
     #[test]
@@ -473,6 +503,7 @@ mod tests {
             roughness: 1.0,
             double_layer_capacitance_f_per_m2: None,
             interfacial_potential_v: None,
+            interfacial_species: Vec::new(),
             deposits: vec![
                 ElectrodeDeposit {
                     species: "oxide-a".into(),

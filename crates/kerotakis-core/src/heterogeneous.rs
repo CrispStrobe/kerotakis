@@ -37,7 +37,22 @@ pub struct DiffusionLayerTransport {
     pub diffusion_layer_m: f64,
 }
 
+/// Result of the exact lumped diffusion-layer balance under a constant
+/// interfacial production flux. A depletion boundary ends the accepted slice;
+/// continuing at the requested flux would make concentration negative.
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+pub struct DiffusionLayerAdvance {
+    pub surface_concentration_mol_per_m3: f64,
+    pub accepted_seconds: f64,
+    pub depleted: bool,
+}
+
 impl DiffusionLayerTransport {
+    pub fn relaxation_time_seconds(self) -> Result<f64, SurfaceRateError> {
+        self.molar_flux_limit()?;
+        Ok(self.diffusion_layer_m.powi(2) / self.diffusivity_m2_per_s)
+    }
+
     pub fn molar_flux_limit(self) -> Result<f64, SurfaceRateError> {
         if !self.diffusivity_m2_per_s.is_finite()
             || self.diffusivity_m2_per_s <= 0.0
@@ -69,6 +84,68 @@ impl DiffusionLayerTransport {
         Ok((self.bulk_concentration_mol_per_m3
             - consumed_mol_per_m2_s * self.diffusion_layer_m / self.diffusivity_m2_per_s)
             .max(0.0))
+    }
+
+    /// Advance the well-mixed Nernst diffusion layer exactly for a constant
+    /// net production flux. Positive flux produces the species at the surface;
+    /// negative flux consumes it. The model solves
+    /// `dc/dt = D (c_bulk - c) / delta^2 + flux / delta`.
+    /// This is the Nernst-layer mass balance used by Hankins, Yablonsky & Kiss,
+    /// PLoS ONE 12 e0173786 (2017), DOI 10.1371/journal.pone.0173786 (CC BY 4.0).
+    pub fn advance_constant_flux(
+        self,
+        initial_surface_concentration_mol_per_m3: f64,
+        net_production_mol_per_m2_s: f64,
+        seconds: f64,
+    ) -> Result<DiffusionLayerAdvance, SurfaceRateError> {
+        if !initial_surface_concentration_mol_per_m3.is_finite()
+            || initial_surface_concentration_mol_per_m3 < 0.0
+            || !net_production_mol_per_m2_s.is_finite()
+            || !seconds.is_finite()
+            || seconds < 0.0
+        {
+            return Err(SurfaceRateError::InvalidTransport);
+        }
+        // Reuse the steady model's complete physical-domain validation.
+        self.molar_flux_limit()?;
+        if seconds == 0.0 {
+            return Ok(DiffusionLayerAdvance {
+                surface_concentration_mol_per_m3: initial_surface_concentration_mol_per_m3,
+                accepted_seconds: 0.0,
+                depleted: false,
+            });
+        }
+        let relaxation_rate_per_s = 1.0 / self.relaxation_time_seconds()?;
+        let steady_concentration = self.bulk_concentration_mol_per_m3
+            + net_production_mol_per_m2_s * self.diffusion_layer_m / self.diffusivity_m2_per_s;
+        let concentration_at = |elapsed: f64| {
+            steady_concentration
+                + (initial_surface_concentration_mol_per_m3 - steady_concentration)
+                    * (-relaxation_rate_per_s * elapsed).exp()
+        };
+        let final_concentration = concentration_at(seconds);
+        if final_concentration >= 0.0 {
+            return Ok(DiffusionLayerAdvance {
+                surface_concentration_mol_per_m3: final_concentration,
+                accepted_seconds: seconds,
+                depleted: false,
+            });
+        }
+
+        let ratio = -steady_concentration
+            / (initial_surface_concentration_mol_per_m3 - steady_concentration);
+        if !(0.0..=1.0).contains(&ratio) || ratio == 0.0 {
+            return Err(SurfaceRateError::InvalidTransport);
+        }
+        let depletion_seconds = -ratio.ln() / relaxation_rate_per_s;
+        if !depletion_seconds.is_finite() || !(0.0..=seconds).contains(&depletion_seconds) {
+            return Err(SurfaceRateError::InvalidTransport);
+        }
+        Ok(DiffusionLayerAdvance {
+            surface_concentration_mol_per_m3: 0.0,
+            accepted_seconds: depletion_seconds,
+            depleted: true,
+        })
     }
 }
 
@@ -194,6 +271,56 @@ mod tests {
         assert!((film.molar_flux_limit().unwrap() - 1e-4).abs() < 1e-15);
         assert_eq!(film.surface_concentration(1e-4).unwrap(), 0.0);
         assert!((film.surface_concentration(0.5e-4).unwrap() - 5.0).abs() < 1e-12);
+    }
+
+    #[test]
+    fn transient_layer_relaxes_to_the_same_steady_concentration() {
+        let film = DiffusionLayerTransport {
+            diffusivity_m2_per_s: 1e-9,
+            bulk_concentration_mol_per_m3: 10.0,
+            diffusion_layer_m: 1e-4,
+        };
+        let half_limit = -0.5 * film.molar_flux_limit().unwrap();
+        let advanced = film
+            .advance_constant_flux(10.0, half_limit, 10_000.0)
+            .unwrap();
+        assert!(!advanced.depleted);
+        assert_eq!(advanced.accepted_seconds, 10_000.0);
+        assert!((advanced.surface_concentration_mol_per_m3 - 5.0).abs() < 1e-12);
+    }
+
+    #[test]
+    fn transient_layer_stops_exactly_at_depletion() {
+        let film = DiffusionLayerTransport {
+            diffusivity_m2_per_s: 1e-9,
+            bulk_concentration_mol_per_m3: 10.0,
+            diffusion_layer_m: 1e-4,
+        };
+        let twice_limit = -2.0 * film.molar_flux_limit().unwrap();
+        let advanced = film.advance_constant_flux(10.0, twice_limit, 20.0).unwrap();
+        let expected = (2.0_f64).ln() * film.diffusion_layer_m.powi(2) / film.diffusivity_m2_per_s;
+        assert!(advanced.depleted);
+        assert_eq!(advanced.surface_concentration_mol_per_m3, 0.0);
+        assert!((advanced.accepted_seconds - expected).abs() < 1e-12);
+    }
+
+    #[test]
+    fn transient_layer_is_invariant_to_time_partitioning() {
+        let film = DiffusionLayerTransport {
+            diffusivity_m2_per_s: 2e-9,
+            bulk_concentration_mol_per_m3: 20.0,
+            diffusion_layer_m: 2e-4,
+        };
+        let flux = 0.25 * film.molar_flux_limit().unwrap();
+        let whole = film.advance_constant_flux(4.0, flux, 3.0).unwrap();
+        let first = film.advance_constant_flux(4.0, flux, 1.0).unwrap();
+        let split = film
+            .advance_constant_flux(first.surface_concentration_mol_per_m3, flux, 2.0)
+            .unwrap();
+        assert!(
+            (whole.surface_concentration_mol_per_m3 - split.surface_concentration_mol_per_m3).abs()
+                < 1e-12
+        );
     }
 
     #[test]
