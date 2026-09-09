@@ -54,8 +54,8 @@ describe("codex labels are translated", () => {
   it("finds the catalogue, so the walk is not vacuous", () => {
     // Every count below is asserted rather than derived, because a test
     // that walks an empty list passes loudly and means nothing.
-    // The preserved 113-entry catalog plus seventeen source-fleet promotions.
-    expect(experiments).toHaveLength(130);
+    // The preserved 113-entry catalog plus eighteen source-fleet promotions.
+    expect(experiments).toHaveLength(131);
     expect(concepts.length).toBeGreaterThanOrEqual(153);
   });
 

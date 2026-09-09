@@ -145,7 +145,7 @@ class WalkBench implements RunnerBench {
  * `catalogEntries`, run by `runCatalogEntry`, with the prose handed in
  * exactly as the panel hands it in.
  */
-describe("all seventy-two guided experiments still run, prose or no prose", () => {
+describe("all seventy-three guided experiments still run, prose or no prose", () => {
   const prose = parseStepProse(shipped);
   const entries = catalogEntries(codex, guided, {
     locale: "en",
@@ -154,7 +154,7 @@ describe("all seventy-two guided experiments still run, prose or no prose", () =
   }).filter((entry) => entry.source === "guided");
 
   it("is the whole guided catalogue, and every card has an action", () => {
-    expect(entries).toHaveLength(72);
+    expect(entries).toHaveLength(73);
     expect(entries.filter((entry) => entry.run.kind === "boundary" && entry.status === "computed")).toEqual([]);
   });
 
