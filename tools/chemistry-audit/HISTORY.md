@@ -18,6 +18,18 @@ correctly separated phases and conserved silicon. Raw inputs, outputs, hashes,
 contracts and classifications are preserved only in the private research repo
 at commit `98f32f2`; no source identity or source mapping entered this repo.
 
+The first CI run of the generic repair then found two convergence edges. The
+hot saturated KCl case still contracted after 16 thermal passes, so the bounded
+safety ceiling was raised without relaxing the 1e-6 K target. A cold alkaline
+CaO/MnO2 solution reached an exact two-point cycle, 1.72e-5 K wide, because
+PHREEQC selected output has finite decimal precision. The solver now accepts
+only a sub-5e-5 K repeated two-cycle, stores speciation at the exact temperature
+where it was solved, and continues into the coupled solvent-phase calculation;
+wider cycling or divergence still refuses. Targeted feed-order, KCl and
+partial-freezing paths plus the full curiosity corpus cover these contracts.
+The consistent cabbage-rainbow pH moves one audited semantic-DOM green channel
+from 64 to 65; no other GUI003 field or numeric scene golden changed.
+
 ## 2026-09-08 — second source-informed corpus
 
 PR #560 added the separately versioned 489–776 corpus: twelve families, 288

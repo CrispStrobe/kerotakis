@@ -197,3 +197,70 @@ fn cooling_reactive_lime_solutions_reports_the_settled_temperature() {
         );
     }
 }
+
+#[test]
+fn quantized_thermal_cycle_still_reaches_the_phase_coupled_state() {
+    // PHREEQC's decimal selected output makes this cold alkaline solution
+    // alternate between two thermal-map values 1.72e-5 K apart.  That
+    // numerical two-cycle must not turn a solvable mixture into liquid water
+    // below its own freezing point.
+    let mut bench = Bench::new();
+    let mut solvers = production_stack();
+    for command in [
+        "add v1 water 100mL",
+        "add v1 CaO 1g",
+        "add v1 MnO2 0.1g",
+        "cool v1 20kJ",
+    ] {
+        let events = bench
+            .step_with(
+                parse_op(command).unwrap().unwrap(),
+                &mut solvers,
+                &kerotakis_safety::ReactiveGroupScreen,
+            )
+            .unwrap();
+        assert!(
+            !events
+                .iter()
+                .any(|event| matches!(event, Event::SolverFailed { .. })),
+            "{command}: {events:?}"
+        );
+    }
+
+    let settled = bench.vessel(VesselId(0)).unwrap();
+    assert!(water_moles(settled, Phase::Solid) > 0.0);
+    assert!(water_moles(settled, Phase::Liquid) > 0.0);
+    let liquidus = kerotakis_core::states::transitions(particle_molality(settled)).freezing_k;
+    assert!(
+        (settled.temperature.0 - liquidus).abs() <= PHASE_COUPLED_TEMPERATURE_TOLERANCE_K,
+        "temperature {} K and re-solved liquidus {liquidus} K disagree",
+        settled.temperature.0
+    );
+}
+
+#[test]
+fn hot_saturated_kcl_reaches_the_strict_thermal_fixed_point() {
+    let mut bench = Bench::new();
+    let mut solvers = production_stack();
+    for command in ["add v1 water 100mL @ 60C", "add v1 KCl 50g"] {
+        let events = bench
+            .step_with(
+                parse_op(command).unwrap().unwrap(),
+                &mut solvers,
+                &kerotakis_safety::ReactiveGroupScreen,
+            )
+            .unwrap();
+        assert!(
+            !events
+                .iter()
+                .any(|event| matches!(event, Event::SolverFailed { .. })),
+            "{command}: {events:?}"
+        );
+    }
+    assert!(bench
+        .vessel(VesselId(0))
+        .unwrap()
+        .solution
+        .as_ref()
+        .is_some_and(|solution| solution.ph.is_finite()));
+}

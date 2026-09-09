@@ -57,7 +57,17 @@ fn env_readback() -> bool {
 // the fourth decimal place. This is an absolute numerical convergence target,
 // not a chemistry-specific tolerance.
 const THERMAL_FIXED_POINT_TOLERANCE_K: f64 = 1e-6;
-const MAX_THERMAL_FIXED_POINT_PASSES: usize = 16;
+// Selected-output amounts have finite decimal precision.  Near a phase
+// boundary that can make the otherwise contracting thermal map alternate
+// between two adjacent representable states instead of landing on one.  A
+// cycle narrower than this is numerical quantisation, not non-convergence;
+// wider cycles are still refused.
+const THERMAL_FIXED_POINT_QUANTIZATION_CYCLE_K: f64 = 5e-5;
+// The hot, near-saturated KCl route contracts more slowly than dilute acid/
+// base states.  This is a safety ceiling, not an iteration budget: leave
+// enough room for every normally contracting state to meet the same strict
+// tolerance, while still refusing oscillation or divergence.
+const MAX_THERMAL_FIXED_POINT_PASSES: usize = 64;
 
 use crate::derived::{self, DerivedRole, ATMOSPHERIC, EQUILIBRIUM_GASES};
 use crate::enthalpy;
@@ -1959,6 +1969,7 @@ impl Equilibrator for PhreeqcEquilibrator {
         let mut settled: Option<(Vessel, Vec<Event>, f64)> = None;
         let mut fixed_point_converged = false;
         let mut last_temperature_residual = f64::INFINITY;
+        let mut previous_guess: Option<f64> = None;
 
         for _ in 0..MAX_THERMAL_FIXED_POINT_PASSES {
             let mut trial = start.clone();
@@ -2018,9 +2029,20 @@ impl Equilibrator for PhreeqcEquilibrator {
                 _ => true,
             };
             last_temperature_residual = (next - guess).abs();
-            let converged =
-                last_temperature_residual < THERMAL_FIXED_POINT_TOLERANCE_K && volume_converged;
-            settled = Some((trial, events, next));
+            let quantized_two_cycle = previous_guess.is_some_and(|previous| {
+                (next - previous).abs() <= 1e-12
+                    && last_temperature_residual
+                        < THERMAL_FIXED_POINT_QUANTIZATION_CYCLE_K
+            });
+            let converged = volume_converged
+                && (last_temperature_residual < THERMAL_FIXED_POINT_TOLERANCE_K
+                    || quantized_two_cycle);
+            // `trial` was solved at `guess`, so preserve that exact
+            // temperature with its speciation.  `next` is the enthalpy-map
+            // residual used only to decide convergence; storing it beside a
+            // solution computed at `guess` was the original feed-order bug.
+            settled = Some((trial, events, guess));
+            previous_guess = Some(guess);
             guess = next;
             volume_guess = next_volume;
             if converged {
