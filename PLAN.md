@@ -98,8 +98,10 @@ and typed potential frames. Quasi-steady local activities now couple any number
 of stoichiometric reactants and products through one reaction quotient. Continue
 in this order:
 
-1. Add transient diffusion profiles only with time-resolved evidence; the
-   current stagnant-film and rotating-disk models are quasi-steady.
+1. Integrate the exact constant-flux diffusion-layer advance into persisted
+   electrode state and the adaptive current solve. The reusable transient
+   primitive exists; the current runtime path still uses quasi-steady stagnant-
+   film and rotating-disk boundaries.
 2. Couple homogeneous buffer/speciation reactions inside the diffusion layer,
    then add migration and electroneutrality through a Nernst–Planck boundary
    model. Do not represent either effect by tuning an effective diffusivity.

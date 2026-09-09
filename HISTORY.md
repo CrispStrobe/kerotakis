@@ -16,6 +16,13 @@ it had while it was open, which is why a few numbers appear twice below.
 
 **Electrochemical kinetics**
 
+- **`feat/transient-diffusion-layer`** — added the exact constant-flux advance
+  for a lumped Nernst diffusion layer, including signed production/consumption,
+  relaxation to the quasi-steady limit, an exact depletion time and time-split
+  invariance. The equation and provenance are the CC BY 4.0 model of Hankins,
+  Yablonsky & Kiss (PLoS ONE 12 e0173786, 2017); no external code or data is
+  included. Persisting this state inside the adaptive electrode clock remains
+  separate open work.
 - **`feat/coupled-interfacial-transport`** — generalized the quasi-steady
   electrode boundary from one transported reactant per direction to any number
   of stoichiometric reactants and products. Signed Faradaic fluxes now update
