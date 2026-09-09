@@ -2347,6 +2347,12 @@ pub struct ElectrochemicalReactionDefinition<'a> {
     pub cathodic_transport: Option<CurrentLimitModel>,
     pub anodic_transported_species: Option<TransportedSpecies<'a>>,
     pub cathodic_transported_species: Option<TransportedSpecies<'a>>,
+    /// Species whose steady interfacial activities are coupled through their
+    /// stoichiometric fluxes. The coefficient uses the same anodic-direction
+    /// sign convention as `anodic_terms`: positive is produced and negative
+    /// is consumed. This supports any number of reactants and products; the
+    /// legacy directional pair above remains available for one-species data.
+    pub interfacial_transport: &'a [InterfacialTransportTerm<'a>],
     pub film_resistance: FilmResistanceModel,
     /// Atom-balanced matter bookkeeping in the anodic direction.
     pub anodic_terms: &'a [FaradaicTerm<'a>],
@@ -2358,6 +2364,18 @@ pub struct TransportedSpecies<'a> {
     pub species: &'a str,
     /// Positive reactant moles consumed per mole of reaction extent.
     pub moles_per_extent: f64,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct InterfacialTransportTerm<'a> {
+    pub species: &'a str,
+    /// Moles produced per mole of anodic reaction extent. Negative consumes.
+    pub coefficient: f64,
+    pub transport: CurrentLimitModel,
+    /// Optional molar activity coefficient for a species absent from the bulk.
+    /// For a nonzero bulk concentration the solver preserves the resolved
+    /// bulk activity-to-concentration ratio instead.
+    pub zero_bulk_activity_coefficient: Option<f64>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -2517,6 +2535,71 @@ impl CurrentLimitModel {
                 Err(crate::heterogeneous::SurfaceRateError::InvalidTransport)
             }
         }
+    }
+
+    fn surface_concentration_from_net_production(
+        self,
+        net_production_mol_per_m2_s: f64,
+    ) -> Result<(f64, f64), crate::heterogeneous::SurfaceRateError> {
+        use crate::heterogeneous::SurfaceRateError;
+
+        if !net_production_mol_per_m2_s.is_finite() {
+            return Err(SurfaceRateError::InvalidTransport);
+        }
+        let (bulk, coefficient_m_per_s) = match self {
+            Self::DiffusionLayer(model) => {
+                if !model.diffusivity_m2_per_s.is_finite()
+                    || model.diffusivity_m2_per_s <= 0.0
+                    || !model.bulk_concentration_mol_per_m3.is_finite()
+                    || model.bulk_concentration_mol_per_m3 < 0.0
+                    || !model.diffusion_layer_m.is_finite()
+                    || model.diffusion_layer_m <= 0.0
+                {
+                    return Err(SurfaceRateError::InvalidTransport);
+                }
+                (
+                    model.bulk_concentration_mol_per_m3,
+                    model.diffusivity_m2_per_s / model.diffusion_layer_m,
+                )
+            }
+            Self::RotatingDisk(model) => {
+                // Levich's current limit is n F k_m c_bulk. Computing k_m
+                // directly also remains defined for a zero bulk concentration.
+                if !model.diffusivity_m2_per_s.is_finite()
+                    || model.diffusivity_m2_per_s <= 0.0
+                    || !model.bulk_concentration_mol_per_m3.is_finite()
+                    || model.bulk_concentration_mol_per_m3 < 0.0
+                    || !model.kinematic_viscosity_m2_per_s.is_finite()
+                    || model.kinematic_viscosity_m2_per_s <= 0.0
+                    || !model.rotation_rate_rpm.is_finite()
+                    || model.rotation_rate_rpm < 0.0
+                {
+                    return Err(SurfaceRateError::InvalidTransport);
+                }
+                let omega = model.rotation_rate_rpm * std::f64::consts::TAU / 60.0;
+                (
+                    model.bulk_concentration_mol_per_m3,
+                    0.620
+                        * model.diffusivity_m2_per_s.powf(2.0 / 3.0)
+                        * model.kinematic_viscosity_m2_per_s.powf(-1.0 / 6.0)
+                        * omega.sqrt(),
+                )
+            }
+            Self::MeasuredCurrentDensity { .. } => {
+                return Err(SurfaceRateError::InvalidTransport);
+            }
+        };
+        if coefficient_m_per_s <= 0.0 {
+            return if net_production_mol_per_m2_s.abs() <= f64::EPSILON {
+                Ok((bulk, bulk))
+            } else {
+                Err(SurfaceRateError::InvalidTransport)
+            };
+        }
+        Ok((
+            bulk,
+            (bulk + net_production_mol_per_m2_s / coefficient_m_per_s).max(0.0),
+        ))
     }
 }
 
@@ -2691,6 +2774,30 @@ pub fn propose_electrochemical_step<'a>(
                 != definition.anodic_transported_species.is_some()
             || definition.cathodic_transport.is_some()
                 != definition.cathodic_transported_species.is_some()
+            || (!definition.interfacial_transport.is_empty()
+                && (definition.anodic_transport.is_some()
+                    || definition.cathodic_transport.is_some()))
+            || definition.interfacial_transport.iter().any(|term| {
+                term.species.trim().is_empty()
+                    || !term.coefficient.is_finite()
+                    || term.coefficient == 0.0
+                    || matches!(
+                        term.transport,
+                        CurrentLimitModel::MeasuredCurrentDensity { .. }
+                    )
+                    || term
+                        .zero_bulk_activity_coefficient
+                        .is_some_and(|coefficient| !coefficient.is_finite() || coefficient <= 0.0)
+            })
+            || definition
+                .interfacial_transport
+                .iter()
+                .enumerate()
+                .any(|(index, term)| {
+                    definition.interfacial_transport[index + 1..]
+                        .iter()
+                        .any(|other| other.species == term.species)
+                })
         {
             return Err(ElectrochemicalStepError::InvalidDefinition {
                 reaction: definition.id.to_owned(),
@@ -2711,6 +2818,19 @@ pub fn propose_electrochemical_step<'a>(
             .iter()
             .map(|term| (term.species.to_owned(), term.activity))
             .collect();
+        if let Some(term) = definition.interfacial_transport.iter().find(|term| {
+            !quotient
+                .iter()
+                .any(|requirement| requirement.species == term.species)
+        }) {
+            return Err(ElectrochemicalStepError::InvalidDefinition {
+                reaction: definition.id.to_owned(),
+                reason: format!(
+                    "transported species {} is absent from the equilibrium quotient",
+                    term.species
+                ),
+            });
+        }
         let available_fraction =
             definition
                 .surface_availability
@@ -2732,7 +2852,7 @@ pub fn propose_electrochemical_step<'a>(
                 reason: format!("{reason:?}"),
             }
         })?;
-        let anodic_limit = definition
+        let mut anodic_limit = definition
             .anodic_transport
             .zip(definition.anodic_transported_species)
             .map(|(model, transported)| {
@@ -2746,7 +2866,7 @@ pub fn propose_electrochemical_step<'a>(
                 reaction: definition.id.to_owned(),
                 reason: format!("invalid anodic transport model: {reason:?}"),
             })?;
-        let cathodic_limit = definition
+        let mut cathodic_limit = definition
             .cathodic_transport
             .zip(definition.cathodic_transported_species)
             .map(|(model, transported)| {
@@ -2760,6 +2880,21 @@ pub fn propose_electrochemical_step<'a>(
                 reaction: definition.id.to_owned(),
                 reason: format!("invalid cathodic transport model: {reason:?}"),
             })?;
+        for term in definition.interfacial_transport {
+            let limit = term
+                .transport
+                .current_density_limit(definition.electrons_produced, term.coefficient.abs())
+                .map_err(|reason| ElectrochemicalStepError::InvalidDefinition {
+                    reaction: definition.id.to_owned(),
+                    reason: format!("invalid interfacial transport model: {reason:?}"),
+                })?;
+            let directional = if term.coefficient < 0.0 {
+                &mut anodic_limit
+            } else {
+                &mut cathodic_limit
+            };
+            *directional = Some(directional.map_or(limit, |existing| existing.min(limit)));
+        }
         let film_resistance = definition
             .film_resistance
             .resolve(electrode)
@@ -2825,73 +2960,115 @@ pub fn propose_electrochemical_step<'a>(
         .double_layer_capacitance_f_per_m2
         .zip(electrode.interfacial_potential_v);
     let interfacial_conditions = |balance: &CurrentBalance, reactions: &[PartialReaction<'_>]| {
-        balance
+        let mut resolved = Vec::new();
+        for (index, ((current, partial), definition)) in balance
             .partial_currents
             .iter()
             .zip(reactions)
             .zip(definitions)
-            .zip(&resolved_quotients)
-            .filter_map(|(((current, partial), definition), quotient)| {
-                if partial.reactive_area_ratio <= 0.0 {
-                    return None;
-                }
-                let (model, transported) = if current.current_density_a_per_m2 >= 0.0 {
-                    (
-                        definition.anodic_transport,
-                        definition.anodic_transported_species,
-                    )
+            .enumerate()
+        {
+            if partial.reactive_area_ratio <= 0.0 {
+                continue;
+            }
+            let current_per_real_area =
+                current.current_density_a_per_m2 / partial.reactive_area_ratio;
+            let mut local_quotient = resolved_quotients[index].clone();
+            let mut species_conditions = Vec::new();
+
+            if definition.interfacial_transport.is_empty() {
+                let directional = if current.current_density_a_per_m2 >= 0.0 {
+                    definition
+                        .anodic_transport
+                        .zip(definition.anodic_transported_species)
                 } else {
-                    (
-                        definition.cathodic_transport,
-                        definition.cathodic_transported_species,
-                    )
+                    definition
+                        .cathodic_transport
+                        .zip(definition.cathodic_transported_species)
                 };
-                let model = model?;
-                let transported = transported?;
-                let bulk_activity = quotient
-                    .iter()
-                    .find(|term| term.species == transported.species)
-                    .map(|term| term.activity);
-                Some((current, partial, model, transported, bulk_activity))
-            })
-            .map(|(current, partial, model, transported, bulk_activity)| {
-                let bulk_activity =
-                    bulk_activity.ok_or_else(|| ElectrochemicalStepError::InvalidDefinition {
-                        reaction: partial.id.to_owned(),
-                        reason: format!(
-                            "transported species {} is absent from the equilibrium quotient",
-                            transported.species
-                        ),
-                    })?;
-                let (bulk_concentration, surface_concentration) = model
-                    .surface_concentration(
-                        current.current_density_a_per_m2 / partial.reactive_area_ratio,
-                        partial.kinetics.electrons_per_extent(),
-                        transported.moles_per_extent,
-                    )
-                    .map_err(|reason| ElectrochemicalStepError::InvalidDefinition {
-                        reaction: partial.id.to_owned(),
-                        reason: format!("cannot resolve interfacial transport: {reason:?}"),
-                    })?;
-                let surface_activity = if bulk_concentration > 0.0 {
-                    bulk_activity * surface_concentration / bulk_concentration
-                } else {
-                    0.0
-                };
-                let index = definitions
-                    .iter()
-                    .position(|definition| definition.id == partial.id)
-                    .expect("validated reaction ids remain aligned");
-                let mut local_quotient = resolved_quotients[index].clone();
-                if let Some(term) = local_quotient
-                    .iter_mut()
-                    .find(|term| term.species == transported.species)
-                {
-                    term.activity = surface_activity;
+                if let Some((model, transported)) = directional {
+                    let (bulk_concentration, surface_concentration) = model
+                        .surface_concentration(
+                            current_per_real_area,
+                            partial.kinetics.electrons_per_extent(),
+                            transported.moles_per_extent,
+                        )
+                        .map_err(|reason| ElectrochemicalStepError::InvalidDefinition {
+                            reaction: partial.id.to_owned(),
+                            reason: format!("cannot resolve interfacial transport: {reason:?}"),
+                        })?;
+                    let quotient_term = local_quotient
+                        .iter_mut()
+                        .find(|term| term.species == transported.species)
+                        .ok_or_else(|| ElectrochemicalStepError::InvalidDefinition {
+                            reaction: partial.id.to_owned(),
+                            reason: format!(
+                                "transported species {} is absent from the equilibrium quotient",
+                                transported.species
+                            ),
+                        })?;
+                    let bulk_activity = quotient_term.activity;
+                    let surface_activity = if bulk_concentration > 0.0 {
+                        bulk_activity * surface_concentration / bulk_concentration
+                    } else {
+                        0.0
+                    };
+                    quotient_term.activity = surface_activity;
+                    species_conditions.push((
+                        transported.species,
+                        bulk_concentration,
+                        surface_concentration,
+                        bulk_activity,
+                        surface_activity,
+                    ));
                 }
-                let surface_equilibrium_potential_v = if surface_activity > 0.0 {
+            } else {
+                let extent_flux =
+                    current_per_real_area / (partial.kinetics.electrons_per_extent() * FARADAY);
+                for transported in definition.interfacial_transport {
+                    let (bulk_concentration, surface_concentration) = transported
+                        .transport
+                        .surface_concentration_from_net_production(
+                            extent_flux * transported.coefficient,
+                        )
+                        .map_err(|reason| ElectrochemicalStepError::InvalidDefinition {
+                            reaction: partial.id.to_owned(),
+                            reason: format!("cannot resolve interfacial transport: {reason:?}"),
+                        })?;
+                    let quotient_term = local_quotient
+                        .iter_mut()
+                        .find(|term| term.species == transported.species)
+                        .expect("coupled transported species was validated against quotient");
+                    let bulk_activity = quotient_term.activity;
+                    let surface_activity = if bulk_concentration > 0.0 {
+                        bulk_activity * surface_concentration / bulk_concentration
+                    } else {
+                        transported
+                            .zero_bulk_activity_coefficient
+                            .map(|coefficient| coefficient * surface_concentration / 1000.0)
+                            .ok_or_else(|| ElectrochemicalStepError::InvalidDefinition {
+                                reaction: partial.id.to_owned(),
+                                reason: format!(
+                                    "transported species {} has zero bulk concentration and needs an explicit activity coefficient",
+                                    transported.species
+                                ),
+                            })?
+                    };
+                    quotient_term.activity = surface_activity;
+                    species_conditions.push((
+                        transported.species,
+                        bulk_concentration,
+                        surface_concentration,
+                        bulk_activity,
+                        surface_activity,
+                    ));
+                }
+            }
+
+            let surface_equilibrium_potential_v =
+                if species_conditions.iter().all(|condition| condition.4 > 0.0) {
                     equilibrium_potential_v(
-                        definitions[index].standard_reduction_potential_v,
+                        definition.standard_reduction_potential_v,
                         partial.kinetics.electrons_per_extent(),
                         temperature_k,
                         &local_quotient,
@@ -2900,21 +3077,31 @@ pub fn propose_electrochemical_step<'a>(
                 } else {
                     partial.equilibrium_potential_v
                 };
-                Ok(InterfacialCondition {
+            for (
+                species,
+                bulk_concentration,
+                surface_concentration,
+                bulk_activity,
+                surface_activity,
+            ) in species_conditions
+            {
+                resolved.push(InterfacialCondition {
                     reaction_id: partial.id.to_owned(),
-                    species: transported.species.to_owned(),
+                    species: species.to_owned(),
                     bulk_concentration_mol_per_m3: bulk_concentration,
                     surface_concentration_mol_per_m3: surface_concentration,
                     bulk_activity,
                     surface_activity,
                     bulk_equilibrium_potential_v: partial_reactions[index].equilibrium_potential_v,
                     surface_equilibrium_potential_v,
-                    depleted_at_surface: surface_concentration <= f64::EPSILON * bulk_concentration,
-                    surface_ph: (transported.species == "H+" && surface_activity > 0.0)
+                    depleted_at_surface: surface_concentration
+                        <= f64::EPSILON * bulk_concentration.max(1.0),
+                    surface_ph: (species == "H+" && surface_activity > 0.0)
                         .then(|| -surface_activity.log10()),
-                })
-            })
-            .collect::<Result<Vec<_>, _>>()
+                });
+            }
+        }
+        Ok(resolved)
     };
     let solve_balance_once = |duration: f64, reactions: &[PartialReaction<'_>]| {
         match transient {
@@ -2955,25 +3142,30 @@ pub fn propose_electrochemical_step<'a>(
             let conditions = interfacial_conditions(&balance, &reactions)?;
             let mut targets = reactions.clone();
             last_change = 0.0_f64;
-            for condition in &conditions {
-                if condition.surface_activity <= 0.0 {
-                    return Err(ElectrochemicalStepError::VanishedInterfacialActivity {
-                        reaction: condition.reaction_id.clone(),
-                        species: condition.species.clone(),
-                    });
-                }
-                let index = definitions
+            for (index, definition) in definitions.iter().enumerate() {
+                let reaction_conditions = conditions
                     .iter()
-                    .position(|definition| definition.id == condition.reaction_id)
-                    .expect("validated reaction ids remain aligned");
+                    .filter(|condition| condition.reaction_id == definition.id)
+                    .collect::<Vec<_>>();
+                if reaction_conditions.is_empty() {
+                    continue;
+                }
                 let mut local_quotient = resolved_quotients[index].clone();
-                let local_term = local_quotient
-                    .iter_mut()
-                    .find(|term| term.species == condition.species)
-                    .expect("transported species was validated against quotient");
-                local_term.activity = condition.surface_activity;
+                for condition in reaction_conditions {
+                    if condition.surface_activity <= 0.0 {
+                        return Err(ElectrochemicalStepError::VanishedInterfacialActivity {
+                            reaction: condition.reaction_id.clone(),
+                            species: condition.species.clone(),
+                        });
+                    }
+                    let local_term = local_quotient
+                        .iter_mut()
+                        .find(|term| term.species == condition.species)
+                        .expect("transported species was validated against quotient");
+                    local_term.activity = condition.surface_activity;
+                }
                 let target = equilibrium_potential_v(
-                    definitions[index].standard_reduction_potential_v,
+                    definition.standard_reduction_potential_v,
                     reactions[index].kinetics.electrons_per_extent(),
                     temperature_k,
                     &local_quotient,
@@ -3896,6 +4088,30 @@ mod tests {
     }
 
     #[test]
+    fn interfacial_transport_uses_signed_stoichiometric_fluxes() {
+        let transport =
+            CurrentLimitModel::DiffusionLayer(crate::heterogeneous::DiffusionLayerTransport {
+                diffusivity_m2_per_s: 1e-9,
+                bulk_concentration_mol_per_m3: 10.0,
+                diffusion_layer_m: 1e-4,
+            });
+        let (_, depleted) = transport
+            .surface_concentration_from_net_production(-5.0e-5)
+            .unwrap();
+        let (_, accumulated) = transport
+            .surface_concentration_from_net_production(5.0e-5)
+            .unwrap();
+        assert!((depleted - 5.0).abs() < 1e-12);
+        assert!((accumulated - 15.0).abs() < 1e-12);
+
+        // One current may consume several species with different
+        // stoichiometries; each independently supplies a physical ceiling.
+        let one_per_extent = transport.current_density_limit(2.0, 1.0).unwrap();
+        let two_per_extent = transport.current_density_limit(2.0, 2.0).unwrap();
+        assert!((one_per_extent / two_per_extent - 2.0).abs() < 1e-12);
+    }
+
+    #[test]
     fn resistive_film_is_solved_implicitly_and_reduces_current() {
         let bare = reaction("bare", 0.0);
         let mut filmed = bare;
@@ -4486,6 +4702,19 @@ mod tests {
                 coefficient: 2.0,
             },
         ];
+        const HYDROGEN_INTERFACE: &[InterfacialTransportTerm<'static>] =
+            &[InterfacialTransportTerm {
+                species: "H+",
+                coefficient: 2.0,
+                transport: CurrentLimitModel::DiffusionLayer(
+                    crate::heterogeneous::DiffusionLayerTransport {
+                        diffusivity_m2_per_s: 1e-9,
+                        bulk_concentration_mol_per_m3: 10.0,
+                        diffusion_layer_m: 1e-4,
+                    },
+                ),
+                zero_bulk_activity_coefficient: None,
+            }];
 
         let mut zinc_record = parameter_record("synthetic-zinc");
         zinc_record.reaction = "Zn+2/Zn".into();
@@ -4507,6 +4736,7 @@ mod tests {
                 cathodic_transport: None,
                 anodic_transported_species: None,
                 cathodic_transported_species: None,
+                interfacial_transport: &[],
                 film_resistance: FilmResistanceModel::None,
                 anodic_terms: ZINC_TERMS,
                 electrons_produced: 2.0,
@@ -4518,18 +4748,10 @@ mod tests {
                 kinetic_domain_requirements: &HYDROGEN_QUOTIENT[..1],
                 surface_availability: SurfaceAvailabilityModel::Explicit { fraction: 1.0 },
                 anodic_transport: None,
-                cathodic_transport: Some(CurrentLimitModel::DiffusionLayer(
-                    crate::heterogeneous::DiffusionLayerTransport {
-                        diffusivity_m2_per_s: 1e-9,
-                        bulk_concentration_mol_per_m3: 10.0,
-                        diffusion_layer_m: 1e-4,
-                    },
-                )),
+                cathodic_transport: None,
                 anodic_transported_species: None,
-                cathodic_transported_species: Some(TransportedSpecies {
-                    species: "H+",
-                    moles_per_extent: 2.0,
-                }),
+                cathodic_transported_species: None,
+                interfacial_transport: HYDROGEN_INTERFACE,
                 film_resistance: FilmResistanceModel::None,
                 anodic_terms: HYDROGEN_TERMS,
                 electrons_produced: 2.0,
@@ -4768,5 +4990,170 @@ mod tests {
             report.boundary,
             Some(ElectrochemicalStepError::Activity { .. })
         ));
+    }
+
+    #[test]
+    fn one_partial_reaction_couples_multiple_surface_activities() {
+        const QUOTIENT: &[ActivityRequirement<'static>] = &[
+            ActivityRequirement {
+                species: "O2",
+                coefficient: -1.0,
+                source: ActivitySource::ResolvedAqueous,
+            },
+            ActivityRequirement {
+                species: "H+",
+                coefficient: -4.0,
+                source: ActivitySource::ResolvedAqueous,
+            },
+        ];
+        const TERMS: &[FaradaicTerm<'static>] = &[
+            FaradaicTerm {
+                reservoir: FaradaicReservoir::Bulk {
+                    species: "H2O",
+                    phase: crate::Phase::Liquid,
+                },
+                coefficient: -2.0,
+            },
+            FaradaicTerm {
+                reservoir: FaradaicReservoir::Bulk {
+                    species: "O2",
+                    phase: crate::Phase::Aqueous,
+                },
+                coefficient: 1.0,
+            },
+            FaradaicTerm {
+                reservoir: FaradaicReservoir::Bulk {
+                    species: "H+",
+                    phase: crate::Phase::Aqueous,
+                },
+                coefficient: 4.0,
+            },
+        ];
+        const INTERFACE: &[InterfacialTransportTerm<'static>] = &[
+            InterfacialTransportTerm {
+                species: "O2",
+                coefficient: 1.0,
+                transport: CurrentLimitModel::DiffusionLayer(
+                    crate::heterogeneous::DiffusionLayerTransport {
+                        diffusivity_m2_per_s: 2.0e-9,
+                        bulk_concentration_mol_per_m3: 100.0,
+                        diffusion_layer_m: 1.0e-4,
+                    },
+                ),
+                zero_bulk_activity_coefficient: None,
+            },
+            InterfacialTransportTerm {
+                species: "H+",
+                coefficient: 4.0,
+                transport: CurrentLimitModel::DiffusionLayer(
+                    crate::heterogeneous::DiffusionLayerTransport {
+                        diffusivity_m2_per_s: 9.0e-9,
+                        bulk_concentration_mol_per_m3: 100.0,
+                        diffusion_layer_m: 1.0e-4,
+                    },
+                ),
+                zero_bulk_activity_coefficient: None,
+            },
+        ];
+
+        let mut record = parameter_record("synthetic-acid-oxygen-reduction");
+        record.reaction = "O2/H2O".into();
+        record.electrode_material = "Pt".into();
+        record.validity.activities[0].species = "H+".into();
+        record.kinetics = ElectrodeKineticModel::ButlerVolmer {
+            parameters: ButlerVolmerParams {
+                j0: 1.0,
+                alpha_a: 0.5,
+                alpha_c: 0.5,
+                n: 4.0,
+            },
+        };
+        let definition = ElectrochemicalReactionDefinition {
+            id: "O2/H2O",
+            standard_reduction_potential_v: 1.229,
+            quotient_requirements: QUOTIENT,
+            kinetic_domain_requirements: &QUOTIENT[1..],
+            surface_availability: SurfaceAvailabilityModel::Explicit { fraction: 1.0 },
+            anodic_transport: None,
+            cathodic_transport: None,
+            anodic_transported_species: None,
+            cathodic_transported_species: None,
+            interfacial_transport: INTERFACE,
+            film_resistance: FilmResistanceModel::None,
+            anodic_terms: TERMS,
+            electrons_produced: 4.0,
+        };
+        let mut vessel = crate::Vessel::new(crate::VesselId(7), "coupled interface");
+        vessel.electrodes.push(crate::ElectrodeState {
+            label: "working".into(),
+            material: "Pt".into(),
+            surface_preparation: Some("project-authored test surface".into()),
+            substrate_moles: None,
+            area_m2: 0.01,
+            roughness: 1.0,
+            double_layer_capacitance_f_per_m2: None,
+            interfacial_potential_v: None,
+            deposits: Vec::new(),
+        });
+        vessel.deposit(
+            crate::SpeciesId::new("H2O"),
+            crate::Moles(55.5),
+            crate::Phase::Liquid,
+        );
+        vessel.deposit(
+            crate::SpeciesId::new("H+"),
+            crate::Moles(0.1),
+            crate::Phase::Aqueous,
+        );
+        vessel.deposit(
+            crate::SpeciesId::new("O2"),
+            crate::Moles(0.1),
+            crate::Phase::Aqueous,
+        );
+        vessel.solution = Some(crate::SolutionInfo {
+            scope: crate::SolutionScope::Complete,
+            solvent_kg: Some(1.0),
+            redox: Vec::new(),
+            pe: None,
+            ph: 1.0,
+            ionic_strength: 0.1,
+            species: vec![crate::SpeciesDetail {
+                name: "O2".into(),
+                molality: 0.1,
+                activity: 0.1,
+            }],
+            provenance: None,
+        });
+
+        let proposal = propose_electrochemical_step(
+            &vessel,
+            "working",
+            &[record],
+            &[definition],
+            0.01,
+            HydrodynamicCondition::default(),
+            CellControl::Potentiostatic { voltage: 1.0 },
+            TransportLimits {
+                solution_resistance_ohm: 0.0,
+                limiting_current_cathodic: None,
+                limiting_current_anodic: None,
+            },
+            CurrentBalanceSolver::default(),
+        )
+        .unwrap();
+        assert_eq!(proposal.interfacial_conditions.len(), 2);
+        assert!(proposal
+            .interfacial_conditions
+            .iter()
+            .all(|condition| condition.surface_concentration_mol_per_m3
+                < condition.bulk_concentration_mol_per_m3));
+        assert_eq!(
+            proposal.interfacial_conditions[0].surface_equilibrium_potential_v,
+            proposal.interfacial_conditions[1].surface_equilibrium_potential_v
+        );
+        assert!(
+            proposal.interfacial_conditions[0].surface_equilibrium_potential_v
+                < proposal.interfacial_conditions[0].bulk_equilibrium_potential_v
+        );
     }
 }

@@ -93,21 +93,26 @@ CI-backed work described above and in
 
 ## Electrochemical kinetics — next ordered work
 
-#559 and #564 provide the shared computed engine and whole-curve validation
-surface. Continue in this order:
+#559, #564 and #565 provide the shared computed engine, whole-curve validation
+and typed potential frames. Quasi-steady local activities now couple any number
+of stoichiometric reactants and products through one reaction quotient. Continue
+in this order:
 
-1. Compare active/passive and additional-partial-current models across the
-   CC0 alkaline replicate set. Keep fitted decompositions diagnostic until an
-   independent permissive source identifies the partial branches.
-2. Add sweep-direction hysteresis, breakdown/repassivation state and evolving
+1. Add transient diffusion profiles only with time-resolved evidence; the
+   current stagnant-film and rotating-disk models are quasi-steady.
+2. Couple homogeneous buffer/speciation reactions inside the diffusion layer,
+   then add migration and electroneutrality through a Nernst–Planck boundary
+   model. Do not represent either effect by tuning an effective diffusivity.
+3. Add sweep-direction hysteresis, breakdown/repassivation state and evolving
    films only with forward/reverse or time-series evidence that identifies
    their parameters. A forward polarization curve cannot identify hysteresis.
-3. Couple local concentration and pH to current and diffusion before adding
-   dynamic bubble coverage. Explicit measured coverage may scale active area;
-   an unreviewed current-to-coverage correlation may not.
-4. Expose partial currents, potential frame, transport/film limitation,
-   parameter bounds and fit diagnostics through the GUI authority surface.
-5. Add quantitative learner experiments only after their parameter domain and
+4. Add dynamic bubble coverage only after a permissive primary source supplies
+   an identified evolution law. Explicit measured coverage may already scale
+   active area; current alone does not determine coverage.
+5. Expose partial currents, potential frame, per-species surface activities,
+   transport/film limitation, parameter bounds and fit diagnostics through the
+   GUI authority surface.
+6. Add quantitative learner experiments only after their parameter domain and
    matched controls pass the whole-curve and conservation gates.
 
 Open circuit remains zero net external current, not zero partial currents.
