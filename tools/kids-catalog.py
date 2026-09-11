@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate and export the stable seventy-two-experiment guided catalog."""
+"""Validate and export the stable seventy-three-experiment guided catalog."""
 
 import json
 import pathlib
@@ -11,7 +11,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 ALLOWED_STATUS = {"computed", "partial", "boundary", "declined", "unreachable"}
 ALLOWED_SAFETY = {"home", "school"}
 ALLOWED_PROGRESS = {"starter", "intermediate", "advanced"}
-SAFETY_DETAIL_REQUIRED = {"K03", "K19", "K35", "K41", "K54", "K61", "K63", "K64", "K65", "K66", "K67", "K68", "K69", "K70", "K71", "K72"}
+SAFETY_DETAIL_REQUIRED = {"K03", "K19", "K35", "K41", "K54", "K61", "K63", "K64", "K65", "K66", "K67", "K68", "K69", "K70", "K71", "K72", "K73"}
 STRUCTURED_PREVIEW_REQUIRED = {"K02", "K04", "K26", "K31", "K33"}
 KNOWN_KITS = {"balloon-kit", "candle-kit", "paper-chromatography-kit", "filter-funnel-kit", "magnet-kit"}
 REQUIRED_KIT_BY_EXPERIMENT = {
@@ -19,7 +19,7 @@ REQUIRED_KIT_BY_EXPERIMENT = {
     "K31": "magnet-kit", "K33": "filter-funnel-kit",
 }
 EXPECTED_STATUS_COUNTS = {
-    "computed": 64, "partial": 5, "boundary": 1, "declined": 2, "unreachable": 0,
+    "computed": 65, "partial": 5, "boundary": 1, "declined": 2, "unreachable": 0,
 }
 
 
@@ -29,10 +29,10 @@ def validate(document: dict, root: pathlib.Path = ROOT) -> list[dict]:
     rows = document.get("experiments")
     if not isinstance(rows, list):
         raise ValueError("experiments must be an array")
-    expected = [f"K{i:02d}" for i in range(1, 73)]
+    expected = [f"K{i:02d}" for i in range(1, 74)]
     ids = [row.get("id") for row in rows]
     if ids != expected:
-        raise ValueError("experiments must contain K01 through K72 exactly, in order")
+        raise ValueError("experiments must contain K01 through K73 exactly, in order")
     counts = {status: 0 for status in ALLOWED_STATUS}
     curiosity = root / "tests" / "coverage" / "curiosity-v1"
     manifest = tomllib.loads((curiosity / "manifest.toml").read_text())
@@ -114,7 +114,7 @@ def add_translation(document: dict, translation: dict) -> dict:
     translated = translation.get("experiments")
     expected = [row["id"] for row in source_rows]
     if not isinstance(translated, list) or [row.get("id") for row in translated] != expected:
-        raise ValueError("German catalog must contain the same K01 through K72 rows in order")
+        raise ValueError("German catalog must contain the same K01 through K73 rows in order")
     by_id = {row["id"]: row for row in translated}
     for source in source_rows:
         target = by_id[source["id"]]

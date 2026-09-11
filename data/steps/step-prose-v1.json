@@ -665,6 +665,14 @@
       "Deliver the remaining 0.0007 mol base.",
       "Read the fourth pH and compare equal final inventories."
     ],
+    "one-substance-two-phases-through-a-filter": [
+      "Set out the beaker that will hold the mixture.",
+      "Add twelve moles of water.",
+      "Add the small silica dose.",
+      "Add sodium chloride and let the aqueous equilibrium settle.",
+      "Filter the liquid phase into a clean receiver.",
+      "Inspect the retained solid and the aqueous filtrate separately."
+    ],
     "only-the-two-is-chemistry": [
       "100 mL of water.",
       "Copper sulfate dissolves: the blue is the store of copper the wire will draw on.",

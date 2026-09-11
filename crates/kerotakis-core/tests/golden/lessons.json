@@ -2615,6 +2615,57 @@
       }
     ]
   },
+  "filter-cannot-catch-dissolved": {
+    "event_count": 9,
+    "events_sample": [
+      "v1: +12.0000 mol water",
+      "v1: +400 µmol silicon dioxide (quartz)",
+      "v1: 43.3 µmol silicon dioxide (quartz) dissolved",
+      "v1: silicon dioxide (quartz) does not react — silicon dioxide (quartz) does not dissolve in water: its reviewed solubility is 0.0012 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v1: +800 µmol sodium chloride",
+      "v1: silicon dioxide (quartz) does not react — silicon dioxide (quartz) does not dissolve in water: its reviewed solubility is 0.0012 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: new vessel",
+      "v1 → v2: filtrate passed; residue retained"
+    ],
+    "lesson": "filter-cannot-catch-dissolved.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.0008,
+            "phase": "Solid",
+            "species": "NaCl"
+          },
+          {
+            "moles": 0.00035669,
+            "phase": "Solid",
+            "species": "SiO2"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.00004331,
+            "phase": "Aqueous",
+            "species": "SiO2"
+          },
+          {
+            "moles": 12.0,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "filter-then-concentrate-the-brine": {
     "event_count": 23,
     "events_sample": [
