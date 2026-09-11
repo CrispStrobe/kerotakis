@@ -4,6 +4,14 @@
 //! boundary. Potential is `phi_right - phi_left`. The constant-field
 //! Scharfetter--Gummel flux keeps diffusion and migration in one expression
 //! and approaches Fick's law continuously at zero potential difference.
+//!
+//! The bounded solver converges once its residual falls inside the authored
+//! residual tolerance. Reaching that costs a bracket of roughly
+//! `residual_tolerance / |d residual / d phi|` volts, and the slope of the
+//! ionic current grows with `(D / L) * c`, so the fastest ion, the thinnest
+//! layer and the strongest solution set the resolution a case needs. The
+//! bracket is therefore floored by the spacing of `f64` near the root and not
+//! by a constant, which keeps the working range attached to the physics.
 
 use std::collections::BTreeSet;
 
@@ -22,7 +30,15 @@ pub struct NernstPlanckDomain {
     pub layer_thickness_m: f64,
     pub minimum_potential_difference_v: f64,
     pub maximum_potential_difference_v: f64,
-    pub potential_tolerance_v: f64,
+    /// Optional bracket floor for the bisection, in volts. Convergence needs
+    /// a bracket of about `current_tolerance_a_per_m2 / |dI/dphi|`, and
+    /// `dI/dphi` grows with `(D / L) * c`, so a constant floor silently caps
+    /// the working range at whichever concentration, diffusivity and layer
+    /// thickness the constant was chosen for. `None` lets bisection run down
+    /// to the spacing of `f64` near the root, so the range follows the case.
+    /// `Some(volts)` pins a coarser floor for a caller who would rather be
+    /// refused early than iterate.
+    pub potential_tolerance_v: Option<f64>,
     pub current_tolerance_a_per_m2: f64,
     pub charge_tolerance_mol_per_m3: f64,
     pub maximum_iterations: usize,
@@ -35,7 +51,7 @@ impl Default for NernstPlanckDomain {
             layer_thickness_m: 1.0e-4,
             minimum_potential_difference_v: -1.0,
             maximum_potential_difference_v: 1.0,
-            potential_tolerance_v: 1.0e-12,
+            potential_tolerance_v: None,
             current_tolerance_a_per_m2: 1.0e-8,
             charge_tolerance_mol_per_m3: 1.0e-8,
             maximum_iterations: 192,
@@ -177,8 +193,9 @@ impl NernstPlanckDomain {
             || !self.minimum_potential_difference_v.is_finite()
             || !self.maximum_potential_difference_v.is_finite()
             || self.maximum_potential_difference_v <= self.minimum_potential_difference_v
-            || !self.potential_tolerance_v.is_finite()
-            || self.potential_tolerance_v <= 0.0
+            || self
+                .potential_tolerance_v
+                .is_some_and(|floor| !floor.is_finite() || floor <= 0.0)
             || !self.current_tolerance_a_per_m2.is_finite()
             || self.current_tolerance_a_per_m2 <= 0.0
             || !self.charge_tolerance_mol_per_m3.is_finite()
@@ -335,6 +352,12 @@ fn bounded_root(
                 let mut upper = potential;
                 for _ in 0..domain.maximum_iterations {
                     let middle = 0.5 * (lower + upper);
+                    if middle <= lower || middle >= upper {
+                        // The bracket is one `f64` wide: no further halving
+                        // can move the residual, so the caller has asked for a
+                        // residual finer than the root can be resolved to.
+                        return Err(ElectrodiffusionError::DidNotConverge);
+                    }
                     let Some(middle_value) = residual(middle) else {
                         upper = middle;
                         continue;
@@ -342,7 +365,10 @@ fn bounded_root(
                     if middle_value.abs() <= residual_tolerance {
                         return Ok(middle);
                     }
-                    if upper - lower <= domain.potential_tolerance_v {
+                    if domain
+                        .potential_tolerance_v
+                        .is_some_and(|floor| upper - lower <= floor)
+                    {
                         return Err(ElectrodiffusionError::DidNotConverge);
                     }
                     if middle_value.signum() == lower_value.signum() {
@@ -421,33 +447,310 @@ mod tests {
         assert!((state.potential_difference_v + mirror.potential_difference_v).abs() < 1e-9);
     }
 
+    /// Slope of the ionic current in the potential. The bisection stops when
+    /// the current is inside its tolerance, so the potential that tolerance
+    /// buys is `current_tolerance_a_per_m2 / |dI/dphi|` -- which is what makes
+    /// the solver's working range a property of the case rather than a
+    /// constant.
+    fn current_slope(
+        domain: NernstPlanckDomain,
+        ions: &[ElectrodiffusionSpecies<'_>],
+        left: &[f64],
+        right: &[f64],
+        potential: f64,
+    ) -> f64 {
+        let step = 1.0e-8;
+        let above = ionic_current_density(
+            ions,
+            &fluxes_at_potential(domain, ions, left, right, potential + step),
+        );
+        let below = ionic_current_density(
+            ions,
+            &fluxes_at_potential(domain, ions, left, right, potential - step),
+        );
+        (above - below) / (2.0 * step)
+    }
+
     #[test]
     fn binary_junction_grid_matches_the_constant_field_closed_form() {
-        for left in [1.0, 10.0, 100.0, 1_000.0] {
-            for right in [0.5, 5.0, 50.0, 500.0] {
-                for (cation_diffusivity, anion_diffusivity) in
-                    [(0.5e-9, 2.0e-9), (1.0e-9, 1.0e-9), (3.0e-9, 0.7e-9)]
-                {
-                    let ions = [
-                        ElectrodiffusionSpecies {
-                            diffusivity_m2_per_s: cation_diffusivity,
-                            ..EQUAL[0]
-                        },
-                        ElectrodiffusionSpecies {
-                            diffusivity_m2_per_s: anion_diffusivity,
-                            ..EQUAL[1]
-                        },
-                    ];
-                    let state = NernstPlanckDomain::default()
-                        .zero_current_junction(&ions, &[left, left], &[right, right])
-                        .unwrap();
-                    let ratio = (cation_diffusivity * left + anion_diffusivity * right)
-                        / (cation_diffusivity * right + anion_diffusivity * left);
-                    let expected = GAS_CONSTANT * 298.15 / FARADAY * ratio.ln();
-                    assert!((state.potential_difference_v - expected).abs() < 1e-9);
-                    assert!(state.ionic_current_density_a_per_m2.abs() < 1e-8);
+        // The grid deliberately runs past what a bench reaches, because a grid
+        // that stops where the solver stops is not evidence of a working
+        // range: two molar, the 9.31e-9 m^2/s of the hydrogen ion, and a ten
+        // micrometre diffusion layer are all inside it.
+        let mut worst_ratio: f64 = 0.0;
+        for layer_thickness_m in [1.0e-4, 1.0e-5] {
+            for left in [1.0, 10.0, 100.0, 1_000.0, 2_000.0] {
+                for right in [0.5, 5.0, 50.0, 500.0] {
+                    for (cation_diffusivity, anion_diffusivity) in [
+                        (0.5e-9, 2.0e-9),
+                        (1.0e-9, 1.0e-9),
+                        (3.0e-9, 0.7e-9),
+                        (5.0e-9, 0.7e-9),
+                        (9.31e-9, 2.03e-9),
+                    ] {
+                        let ions = [
+                            ElectrodiffusionSpecies {
+                                diffusivity_m2_per_s: cation_diffusivity,
+                                ..EQUAL[0]
+                            },
+                            ElectrodiffusionSpecies {
+                                diffusivity_m2_per_s: anion_diffusivity,
+                                ..EQUAL[1]
+                            },
+                        ];
+                        let domain = NernstPlanckDomain {
+                            layer_thickness_m,
+                            ..Default::default()
+                        };
+                        let state = domain
+                            .zero_current_junction(&ions, &[left, left], &[right, right])
+                            .unwrap_or_else(|error| {
+                                panic!(
+                                    "L={layer_thickness_m} {left}->{right} \
+                                     D={cation_diffusivity}/{anion_diffusivity}: {error}"
+                                )
+                            });
+                        let ratio = (cation_diffusivity * left + anion_diffusivity * right)
+                            / (cation_diffusivity * right + anion_diffusivity * left);
+                        let expected = GAS_CONSTANT * 298.15 / FARADAY * ratio.ln();
+                        let slope = current_slope(
+                            domain,
+                            &ions,
+                            &[left, left],
+                            &[right, right],
+                            state.potential_difference_v,
+                        );
+                        let allowed =
+                            2.0 * domain.current_tolerance_a_per_m2 / slope.abs() + 1.0e-14;
+                        let error = (state.potential_difference_v - expected).abs();
+                        worst_ratio = worst_ratio.max(error / allowed);
+                        assert!(
+                            error <= allowed,
+                            "L={layer_thickness_m} {left}->{right} \
+                             D={cation_diffusivity}/{anion_diffusivity}: \
+                             {} vs {expected}, error {error} > {allowed}",
+                            state.potential_difference_v
+                        );
+                        assert!(
+                            state.ionic_current_density_a_per_m2.abs()
+                                <= domain.current_tolerance_a_per_m2
+                        );
+                    }
                 }
             }
+        }
+        // The bound is the real one, not a loose one: something on the grid
+        // must come close to spending the whole budget.
+        assert!(worst_ratio > 0.1, "accuracy bound is slack: {worst_ratio}");
+    }
+
+    #[test]
+    fn the_fastest_aqueous_ions_and_bench_strengths_are_inside_the_working_range() {
+        // Each of these sat one step past the edge of the original grid and
+        // refused with `DidNotConverge` under the old constant 1e-12 bracket
+        // floor, because the floor sat above the
+        // `current_tolerance / |dI/dphi|` those cases need.
+        let cliff = [
+            ("two molar", 2_000.0, 500.0, 3.0e-9, 0.7e-9, 1.0e-4),
+            ("fast cation", 1_000.0, 500.0, 5.0e-9, 0.7e-9, 1.0e-4),
+            (
+                "ten micrometre layer",
+                1_000.0,
+                500.0,
+                3.0e-9,
+                0.7e-9,
+                1.0e-5,
+            ),
+            (
+                "hydrogen ion at one molar",
+                1_000.0,
+                500.0,
+                9.31e-9,
+                2.03e-9,
+                1.0e-4,
+            ),
+        ];
+        for (name, left, right, cation_diffusivity, anion_diffusivity, layer_thickness_m) in cliff {
+            let ions = [
+                ElectrodiffusionSpecies {
+                    diffusivity_m2_per_s: cation_diffusivity,
+                    ..EQUAL[0]
+                },
+                ElectrodiffusionSpecies {
+                    diffusivity_m2_per_s: anion_diffusivity,
+                    ..EQUAL[1]
+                },
+            ];
+            let domain = NernstPlanckDomain {
+                layer_thickness_m,
+                ..Default::default()
+            };
+            let state = domain
+                .zero_current_junction(&ions, &[left, left], &[right, right])
+                .unwrap_or_else(|error| panic!("{name}: {error}"));
+            let ratio = (cation_diffusivity * left + anion_diffusivity * right)
+                / (cation_diffusivity * right + anion_diffusivity * left);
+            let expected = GAS_CONSTANT * 298.15 / FARADAY * ratio.ln();
+            assert!(
+                (state.potential_difference_v - expected).abs() < 1e-11,
+                "{name}: {} vs {expected}",
+                state.potential_difference_v
+            );
+            // Pin the defect: the old constant floor refuses every one of them.
+            assert_eq!(
+                NernstPlanckDomain {
+                    potential_tolerance_v: Some(1.0e-12),
+                    ..domain
+                }
+                .zero_current_junction(&ions, &[left, left], &[right, right]),
+                Err(ElectrodiffusionError::DidNotConverge),
+                "{name} no longer needs a finer bracket than 1e-12 V"
+            );
+        }
+    }
+
+    #[test]
+    fn multi_ion_junction_matches_the_goldman_hodgkin_katz_voltage() {
+        // With every ion monovalent the zero-current constant-field condition
+        // has an exact closed form for any number of ions and any asymmetric
+        // pair of electroneutral endpoints, so this oracle tests far more than
+        // the binary symmetric case.
+        let ions = [
+            ElectrodiffusionSpecies {
+                id: "H+",
+                charge: 1,
+                diffusivity_m2_per_s: 9.31e-9,
+            },
+            ElectrodiffusionSpecies {
+                id: "Na+",
+                charge: 1,
+                diffusivity_m2_per_s: 1.33e-9,
+            },
+            ElectrodiffusionSpecies {
+                id: "K+",
+                charge: 1,
+                diffusivity_m2_per_s: 1.96e-9,
+            },
+            ElectrodiffusionSpecies {
+                id: "Cl-",
+                charge: -1,
+                diffusivity_m2_per_s: 2.03e-9,
+            },
+            ElectrodiffusionSpecies {
+                id: "NO3-",
+                charge: -1,
+                diffusivity_m2_per_s: 1.90e-9,
+            },
+        ];
+        let endpoints = [
+            (
+                [100.0, 400.0, 50.0, 300.0, 250.0],
+                [10.0, 20.0, 500.0, 400.0, 130.0],
+            ),
+            (
+                [1.0, 999.0, 0.0, 500.0, 500.0],
+                [500.0, 0.0, 500.0, 10.0, 990.0],
+            ),
+            (
+                [1_000.0, 500.0, 500.0, 1_800.0, 200.0],
+                [20.0, 60.0, 20.0, 25.0, 75.0],
+            ),
+        ];
+        for (left, right) in endpoints {
+            let state = NernstPlanckDomain::default()
+                .zero_current_junction(&ions, &left, &right)
+                .unwrap();
+            let mut numerator = 0.0;
+            let mut denominator = 0.0;
+            for (index, ion) in ions.iter().enumerate() {
+                if ion.charge > 0 {
+                    numerator += ion.diffusivity_m2_per_s * left[index];
+                    denominator += ion.diffusivity_m2_per_s * right[index];
+                } else {
+                    numerator += ion.diffusivity_m2_per_s * right[index];
+                    denominator += ion.diffusivity_m2_per_s * left[index];
+                }
+            }
+            let expected = GAS_CONSTANT * 298.15 / FARADAY * (numerator / denominator).ln();
+            assert!(
+                (state.potential_difference_v - expected).abs() < 1e-11,
+                "{left:?} -> {right:?}: {} vs {expected}",
+                state.potential_difference_v
+            );
+            assert!(state.ionic_current_density_a_per_m2.abs() < 1e-8);
+        }
+    }
+
+    #[test]
+    fn divalent_junction_matches_the_two_to_one_closed_form() {
+        // A 2:1 electrolyte has no Goldman form, but the zero-current
+        // condition is a quadratic in `exp(F phi / R T)`, which is an exact
+        // oracle for an asymmetric, multivalent case.
+        for (cation_diffusivity, anion_diffusivity, left_cation, right_cation) in [
+            (0.79e-9, 2.03e-9, 100.0, 10.0),
+            (1.30e-9, 2.03e-9, 500.0, 5.0),
+            (0.79e-9, 9.31e-9, 50.0, 700.0),
+        ] {
+            let ions = [
+                ElectrodiffusionSpecies {
+                    id: "M2+",
+                    charge: 2,
+                    diffusivity_m2_per_s: cation_diffusivity,
+                },
+                ElectrodiffusionSpecies {
+                    id: "X-",
+                    charge: -1,
+                    diffusivity_m2_per_s: anion_diffusivity,
+                },
+            ];
+            let (left_anion, right_anion) = (2.0 * left_cation, 2.0 * right_cation);
+            let state = NernstPlanckDomain::default()
+                .zero_current_junction(
+                    &ions,
+                    &[left_cation, left_anion],
+                    &[right_cation, right_anion],
+                )
+                .unwrap();
+            let quadratic =
+                -(4.0 * cation_diffusivity * right_cation + anion_diffusivity * left_anion);
+            let linear = -anion_diffusivity * (left_anion - right_anion);
+            let constant = 4.0 * cation_diffusivity * left_cation + anion_diffusivity * right_anion;
+            let discriminant = linear * linear - 4.0 * quadratic * constant;
+            let first = (-linear + discriminant.sqrt()) / (2.0 * quadratic);
+            let second = (-linear - discriminant.sqrt()) / (2.0 * quadratic);
+            // Exactly one root is positive; only that one is a real potential.
+            let exponential = first.max(second);
+            assert!(exponential > 0.0 && first.min(second) < 0.0);
+            let expected = GAS_CONSTANT * 298.15 / FARADAY * exponential.ln();
+            assert!(
+                (state.potential_difference_v - expected).abs() < 1e-11,
+                "{} vs {expected}",
+                state.potential_difference_v
+            );
+            assert!(state.ionic_current_density_a_per_m2.abs() < 1e-8);
+        }
+    }
+
+    #[test]
+    fn bernoulli_branches_meet_at_the_taylor_seam() {
+        const SEAM: f64 = 1.0e-5;
+        for seam in [SEAM, -SEAM] {
+            // `seam` itself takes the `exp_m1` branch; one ulp inside takes
+            // the Taylor branch. The grid straddles this argument, so probe it.
+            let taylor_side = seam * (1.0 - f64::EPSILON);
+            assert!(taylor_side.abs() < SEAM && seam.abs() >= SEAM);
+            assert!(
+                (bernoulli(taylor_side) - bernoulli(seam)).abs() < 1e-15,
+                "seam jump at {seam}"
+            );
+            assert!(
+                (bernoulli(taylor_side) - taylor_side / taylor_side.exp_m1()).abs() < 1e-15,
+                "Taylor branch disagrees with the exponential at {taylor_side}"
+            );
+        }
+        // The identity that makes the flux exact must hold on both branches.
+        for value in [-2.0e-5, -SEAM, -9.0e-6, 0.0, 9.0e-6, SEAM, 2.0e-5] {
+            assert!((bernoulli(-value) - value.exp() * bernoulli(value)).abs() < 1e-14);
         }
     }
 
@@ -494,9 +797,219 @@ mod tests {
             ),
             Err(ElectrodiffusionError::NonElectroneutralBoundary("left"))
         ));
+        assert!(matches!(
+            NernstPlanckDomain::default().zero_current_junction(
+                EQUAL,
+                &[100.0, 100.0],
+                &[10.0, 9.0],
+            ),
+            Err(ElectrodiffusionError::NonElectroneutralBoundary("right"))
+        ));
         assert_eq!(
             NernstPlanckDomain::default().zero_current_junction(&EQUAL[..1], &[100.0], &[10.0],),
             Err(ElectrodiffusionError::MissingCountercharge)
         );
+        // A root outside the authored potential window is not a root here.
+        assert_eq!(
+            NernstPlanckDomain {
+                minimum_potential_difference_v: 0.5,
+                maximum_potential_difference_v: 1.0,
+                ..Default::default()
+            }
+            .zero_current_junction(EQUAL, &[100.0, 100.0], &[10.0, 10.0]),
+            Err(ElectrodiffusionError::NotBracketed)
+        );
+    }
+
+    #[test]
+    fn unphysical_domains_refuse() {
+        let invalid = [
+            NernstPlanckDomain {
+                temperature_k: 0.0,
+                ..Default::default()
+            },
+            NernstPlanckDomain {
+                layer_thickness_m: -1.0e-4,
+                ..Default::default()
+            },
+            NernstPlanckDomain {
+                minimum_potential_difference_v: 1.0,
+                maximum_potential_difference_v: 1.0,
+                ..Default::default()
+            },
+            NernstPlanckDomain {
+                maximum_potential_difference_v: f64::INFINITY,
+                ..Default::default()
+            },
+            NernstPlanckDomain {
+                potential_tolerance_v: Some(0.0),
+                ..Default::default()
+            },
+            NernstPlanckDomain {
+                potential_tolerance_v: Some(f64::NAN),
+                ..Default::default()
+            },
+            NernstPlanckDomain {
+                current_tolerance_a_per_m2: 0.0,
+                ..Default::default()
+            },
+            NernstPlanckDomain {
+                charge_tolerance_mol_per_m3: f64::NAN,
+                ..Default::default()
+            },
+            NernstPlanckDomain {
+                maximum_iterations: 0,
+                ..Default::default()
+            },
+        ];
+        for domain in invalid {
+            assert_eq!(
+                domain.zero_current_junction(EQUAL, &[100.0, 100.0], &[10.0, 10.0]),
+                Err(ElectrodiffusionError::InvalidDomain),
+                "{domain:?}"
+            );
+        }
+        // An empty species list and mismatched concentration vectors are the
+        // same class of authoring mistake.
+        assert_eq!(
+            NernstPlanckDomain::default().zero_current_junction(&[], &[], &[]),
+            Err(ElectrodiffusionError::InvalidDomain)
+        );
+        assert_eq!(
+            NernstPlanckDomain::default().zero_current_junction(EQUAL, &[100.0], &[10.0, 10.0]),
+            Err(ElectrodiffusionError::InvalidDomain)
+        );
+        assert_eq!(
+            NernstPlanckDomain::default().zero_current_junction(EQUAL, &[100.0, 100.0], &[10.0]),
+            Err(ElectrodiffusionError::InvalidDomain)
+        );
+    }
+
+    #[test]
+    fn unnamed_duplicated_or_immobile_species_refuse() {
+        let blank = [
+            ElectrodiffusionSpecies {
+                id: "  ",
+                ..EQUAL[0]
+            },
+            EQUAL[1],
+        ];
+        assert_eq!(
+            NernstPlanckDomain::default().zero_current_junction(
+                &blank,
+                &[100.0, 100.0],
+                &[10.0, 10.0],
+            ),
+            Err(ElectrodiffusionError::InvalidSpecies("  ".into()))
+        );
+        let duplicated = [EQUAL[0], EQUAL[0], EQUAL[1]];
+        assert_eq!(
+            NernstPlanckDomain::default().zero_current_junction(
+                &duplicated,
+                &[100.0, 100.0, 200.0],
+                &[10.0, 10.0, 20.0],
+            ),
+            Err(ElectrodiffusionError::InvalidSpecies("C+".into()))
+        );
+        for diffusivity in [0.0, -1.0e-9, f64::NAN] {
+            let immobile = [
+                ElectrodiffusionSpecies {
+                    diffusivity_m2_per_s: diffusivity,
+                    ..EQUAL[0]
+                },
+                EQUAL[1],
+            ];
+            assert_eq!(
+                NernstPlanckDomain::default().zero_current_junction(
+                    &immobile,
+                    &[100.0, 100.0],
+                    &[10.0, 10.0],
+                ),
+                Err(ElectrodiffusionError::InvalidSpecies("C+".into()))
+            );
+        }
+    }
+
+    #[test]
+    fn negative_or_unfinite_concentrations_and_fluxes_refuse() {
+        assert_eq!(
+            NernstPlanckDomain::default().zero_current_junction(
+                EQUAL,
+                &[-100.0, 100.0],
+                &[10.0, 10.0],
+            ),
+            Err(ElectrodiffusionError::InvalidInput("C+".into()))
+        );
+        assert_eq!(
+            NernstPlanckDomain::default().zero_current_junction(
+                EQUAL,
+                &[100.0, 100.0],
+                &[10.0, f64::NAN],
+            ),
+            Err(ElectrodiffusionError::InvalidInput("A-".into()))
+        );
+        assert_eq!(
+            NernstPlanckDomain::default()
+                .electroneutral_surface(EQUAL, &[100.0, 100.0], &[5.0e-4],),
+            Err(ElectrodiffusionError::InvalidInput(
+                "wrong number of fluxes".into()
+            ))
+        );
+        assert_eq!(
+            NernstPlanckDomain::default().electroneutral_surface(
+                EQUAL,
+                &[100.0, 100.0],
+                &[f64::INFINITY, 0.0],
+            ),
+            Err(ElectrodiffusionError::InvalidInput("C+".into()))
+        );
+    }
+
+    #[test]
+    fn a_bracket_the_solver_cannot_close_refuses_with_did_not_converge() {
+        let ions = [
+            ElectrodiffusionSpecies {
+                diffusivity_m2_per_s: 3.0e-9,
+                ..EQUAL[0]
+            },
+            ElectrodiffusionSpecies {
+                diffusivity_m2_per_s: 0.7e-9,
+                ..EQUAL[1]
+            },
+        ];
+        // An authored floor coarser than the case needs: the caller has said
+        // it would rather be refused than iterate, and it is.
+        assert_eq!(
+            NernstPlanckDomain {
+                potential_tolerance_v: Some(1.0e-3),
+                ..Default::default()
+            }
+            .zero_current_junction(&ions, &[1_000.0, 1_000.0], &[500.0, 500.0]),
+            Err(ElectrodiffusionError::DidNotConverge)
+        );
+        // An iteration budget too small to halve the scan interval down to the
+        // root refuses rather than returning the last midpoint.
+        assert_eq!(
+            NernstPlanckDomain {
+                maximum_iterations: 4,
+                ..Default::default()
+            }
+            .zero_current_junction(&ions, &[1_000.0, 1_000.0], &[500.0, 500.0]),
+            Err(ElectrodiffusionError::DidNotConverge)
+        );
+        // The same refusal reaches the electroneutral-surface solver, whose
+        // residual is a charge concentration rather than a current.
+        assert_eq!(
+            NernstPlanckDomain {
+                maximum_iterations: 2,
+                ..Default::default()
+            }
+            .electroneutral_surface(EQUAL, &[100.0, 100.0], &[5.0e-4, 0.0]),
+            Err(ElectrodiffusionError::DidNotConverge)
+        );
+        // The default domain has no constant floor, so the same cases close.
+        assert!(NernstPlanckDomain::default()
+            .zero_current_junction(&ions, &[1_000.0, 1_000.0], &[500.0, 500.0])
+            .is_ok());
     }
 }

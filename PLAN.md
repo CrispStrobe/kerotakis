@@ -2350,9 +2350,9 @@ already own the rest.
 Recorded here so they survive the sessions that found them; each names the PR
 that raised it. Nothing below is a commitment to an order.
 
-- **Temperature-dependent Cp, the wiring half** — #507 landed 37 Cp(T) records
-  over 35 species that no ledger reads; #509 (in flight) moves the ~40
-  `Cp·ΔT` call sites onto `enthalpy_between` and takes the lesson goldens with
+- **Temperature-dependent Cp, the wiring half (landed #509)** — #507 landed 37
+  Cp(T) records over 35 species that no ledger read; #509 moved the ~40
+  `Cp·ΔT` call sites onto `enthalpy_between` and took the lesson goldens with
   it. A species with no curve keeps its 298 K constant, deliberately, so "we
   have a curve" and "we do not" stay different states of the data.
 
@@ -2391,9 +2391,9 @@ that raised it. Nothing below is a commitment to an order.
   wants its own change. Nothing observable depends on it — the worse of the two
   residues is 3e-9 K — but any future test that asks the ledger for an exact
   joule will meet this floor and should be told why.
-- **`Vessel::heat_capacity` room-temperature residual** — open until #509
-  merges: the burner is still charged room-temperature prices for a crucible
-  at kiln temperature. #509 also names the term the two-line ledger never
+- **`Vessel::heat_capacity` room-temperature residual (closed #509)** — the
+  burner no longer pays room-temperature prices for a crucible at kiln
+  temperature. #509 also named the term the two-line ledger never
   had — the sensible heat the CO₂ carries out — which is what takes the #488
   chalk case from 93.6 % to 99.5 %.
 - **The 28 codex models are exported and never rendered** (#505) —
@@ -2414,7 +2414,8 @@ that raised it. Nothing below is a commitment to an order.
 - **`DidNotIgnite` is done** (#501) — the last animation-audit row the client
   could not close; recorded here only because the audit's "what the engine
   still lacks" list is where a reader will look for it.
-- **Open-vessel CO₂ uptake as a rate** — #496, a peer session's PR, still open.
+- **Open-vessel CO₂ uptake as a rate (landed #531)** — #496 was the peer
+  session's PR and is closed; the same work landed as #531.
 - **Characterising a solvent-only vessel** (#529, from #504) — a beaker of
   plain water, or of water and a neutral molecular solute, gets no
   `SolutionInfo`: `PhreeqcEquilibrator::partition` declines when nothing with

@@ -15,9 +15,9 @@ class KidsCatalogTests(unittest.TestCase):
         self.document = json.loads((ROOT / "data/kids/experiments-v1.json").read_text())
         self.german = json.loads((ROOT / "data/kids/experiments-de-v1.json").read_text())
 
-    def test_catalog_is_the_exact_audited_seventy_three(self):
+    def test_catalog_is_the_exact_audited_seventy_seven(self):
         rows = MODULE.validate(self.document)
-        self.assertEqual([row["id"] for row in rows], [f"K{i:02d}" for i in range(1, 74)])
+        self.assertEqual([row["id"] for row in rows], [f"K{i:02d}" for i in range(1, 78)])
 
     def test_non_computed_rows_explain_the_boundary(self):
         rows = MODULE.validate(self.document)
@@ -91,7 +91,7 @@ class KidsCatalogTests(unittest.TestCase):
     def test_german_must_have_exactly_the_same_rows(self):
         broken = json.loads(json.dumps(self.german))
         broken["experiments"].pop()
-        with self.assertRaisesRegex(ValueError, "same K01 through K73"):
+        with self.assertRaisesRegex(ValueError, "same K01 through K77"):
             MODULE.add_translation(self.document, broken)
 
     def test_source_fleet_promotions_are_runnable_and_progress_ordered(self):
@@ -124,6 +124,45 @@ class KidsCatalogTests(unittest.TestCase):
         for kid in ("K71", "K72"):
             self.assertEqual(len(translated[kid]["procedure"]), len(rows[kid]["procedure"]))
             self.assertEqual(len(translated[kid]["observations"]), len(rows[kid]["observations"]))
+
+    def test_protein_and_enzyme_rows_match_the_lessons_they_open(self):
+        """K74-K77 expose four lessons that already shipped unlinked.
+
+        Each row is a card for one `.lab` file, so the two must not drift
+        apart: the ingredients are the ones the script adds, the quantities
+        are the ones it adds them in, and the boundary is the one the
+        lesson's own trailing comment states. A card that promises a
+        hydrolysis the script does not run is worse than no card.
+        """
+        rows = {row["id"]: row for row in MODULE.validate(self.document)}
+        translated = {row["id"]: row for row in self.german["experiments"]}
+        lessons = {
+            "K74": "heating-proteins.lab",
+            "K75": "protease-and-gelatin.lab",
+            "K76": "lactase-and-milk.lab",
+            "K77": "lipase-and-oil.lab",
+        }
+        for kid, lesson in lessons.items():
+            self.assertEqual(rows[kid]["lesson"], lesson)
+            self.assertEqual(rows[kid]["status"], "computed")
+            self.assertTrue((ROOT / "lessons" / lesson).is_file())
+            # An enzyme row without its controls is a demonstration, not a
+            # comparison; the wrong-enzyme vessel is why the claim is honest.
+            self.assertTrue(rows[kid]["recipe"])
+            self.assertTrue(rows[kid]["procedure"])
+            self.assertTrue(rows[kid]["observations"])
+            self.assertEqual(len(translated[kid]["procedure"]), len(rows[kid]["procedure"]))
+            self.assertEqual(len(translated[kid]["observations"]), len(rows[kid]["observations"]))
+            self.assertEqual(len(translated[kid]["recipe"]), len(rows[kid]["recipe"]))
+        self.assertEqual(rows["K74"]["ingredients"], ["egg_white", "albumin"])
+        self.assertEqual(rows["K75"]["ingredients"], ["water", "gelatin", "protease", "lactase"])
+        self.assertEqual(rows["K76"]["ingredients"], ["whole_milk", "lactase", "lipase"])
+        self.assertEqual(rows["K77"]["ingredients"], ["water", "vegetable_oil", "lipase", "protease"])
+        # The gelatine caveat is the point of K74 and is stated on the row.
+        self.assertIn("gelatine gelation", rows["K74"]["boundary"])
+        self.assertIn("named peptide", rows["K75"]["boundary"])
+        self.assertIn("does not claim sweetness", rows["K76"]["boundary"])
+        self.assertIn("does not invent a pH fall", rows["K77"]["boundary"])
 
     def test_newly_computed_filter_and_luminol_keep_their_honest_routes(self):
         rows = {row["id"]: row for row in MODULE.validate(self.document)}

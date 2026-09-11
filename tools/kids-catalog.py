@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate and export the stable seventy-three-experiment guided catalog."""
+"""Validate and export the stable seventy-seven-experiment guided catalog."""
 
 import json
 import pathlib
@@ -11,15 +11,19 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 ALLOWED_STATUS = {"computed", "partial", "boundary", "declined", "unreachable"}
 ALLOWED_SAFETY = {"home", "school"}
 ALLOWED_PROGRESS = {"starter", "intermediate", "advanced"}
-SAFETY_DETAIL_REQUIRED = {"K03", "K19", "K35", "K41", "K54", "K61", "K63", "K64", "K65", "K66", "K67", "K68", "K69", "K70", "K71", "K72", "K73"}
+SAFETY_DETAIL_REQUIRED = {"K03", "K19", "K35", "K41", "K54", "K61", "K63", "K64", "K65", "K66", "K67", "K68", "K69", "K70", "K71", "K72", "K73", "K74", "K75", "K76", "K77"}
 STRUCTURED_PREVIEW_REQUIRED = {"K02", "K04", "K26", "K31", "K33"}
+# Rows whose card must stand on authored detail rather than a bare field list.
+# The five above additionally name an exact familiar kit; these four are
+# mechanism lessons with no kit, so the kit check is asked separately.
+AUTHORED_PREVIEW_REQUIRED = STRUCTURED_PREVIEW_REQUIRED | {"K74", "K75", "K76", "K77"}
 KNOWN_KITS = {"balloon-kit", "candle-kit", "paper-chromatography-kit", "filter-funnel-kit", "magnet-kit"}
 REQUIRED_KIT_BY_EXPERIMENT = {
     "K02": "balloon-kit", "K04": "candle-kit", "K26": "paper-chromatography-kit",
     "K31": "magnet-kit", "K33": "filter-funnel-kit",
 }
 EXPECTED_STATUS_COUNTS = {
-    "computed": 65, "partial": 5, "boundary": 1, "declined": 2, "unreachable": 0,
+    "computed": 69, "partial": 5, "boundary": 1, "declined": 2, "unreachable": 0,
 }
 
 
@@ -29,10 +33,10 @@ def validate(document: dict, root: pathlib.Path = ROOT) -> list[dict]:
     rows = document.get("experiments")
     if not isinstance(rows, list):
         raise ValueError("experiments must be an array")
-    expected = [f"K{i:02d}" for i in range(1, 74)]
+    expected = [f"K{i:02d}" for i in range(1, 78)]
     ids = [row.get("id") for row in rows]
     if ids != expected:
-        raise ValueError("experiments must contain K01 through K73 exactly, in order")
+        raise ValueError("experiments must contain K01 through K77 exactly, in order")
     counts = {status: 0 for status in ALLOWED_STATUS}
     curiosity = root / "tests" / "coverage" / "curiosity-v1"
     manifest = tomllib.loads((curiosity / "manifest.toml").read_text())
@@ -82,8 +86,10 @@ def validate(document: dict, root: pathlib.Path = ROOT) -> list[dict]:
                     raise ValueError(f"{kid}: recipe preparation must be non-empty")
         if any(kit not in KNOWN_KITS for kit in row.get("kits", [])):
             raise ValueError(f"{kid}: kits must contain existing exact kit identifiers")
-        if kid in STRUCTURED_PREVIEW_REQUIRED and not all(row.get(field) for field in ("recipe", "procedure", "observations", "kits")):
-            raise ValueError(f"{kid}: structured recipe, procedure, observations and kit are required")
+        if kid in AUTHORED_PREVIEW_REQUIRED and not all(row.get(field) for field in ("recipe", "procedure", "observations")):
+            raise ValueError(f"{kid}: structured recipe, procedure and observations are required")
+        if kid in STRUCTURED_PREVIEW_REQUIRED and not row.get("kits"):
+            raise ValueError(f"{kid}: an exact familiar kit is required")
         if kid in REQUIRED_KIT_BY_EXPERIMENT and row.get("kits") != [REQUIRED_KIT_BY_EXPERIMENT[kid]]:
             raise ValueError(f"{kid}: expected exact familiar kit {REQUIRED_KIT_BY_EXPERIMENT[kid]}")
         if status in {"partial", "boundary", "declined", "unreachable"} and not row.get("boundary"):
@@ -114,7 +120,7 @@ def add_translation(document: dict, translation: dict) -> dict:
     translated = translation.get("experiments")
     expected = [row["id"] for row in source_rows]
     if not isinstance(translated, list) or [row.get("id") for row in translated] != expected:
-        raise ValueError("German catalog must contain the same K01 through K73 rows in order")
+        raise ValueError("German catalog must contain the same K01 through K77 rows in order")
     by_id = {row["id"]: row for row in translated}
     for source in source_rows:
         target = by_id[source["id"]]
