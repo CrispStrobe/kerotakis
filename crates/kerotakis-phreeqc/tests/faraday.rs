@@ -204,11 +204,14 @@ fn charge_beyond_the_supply_becomes_hydrogen_rather_than_metal() {
         (electrons - 7200.0 / 96_485.332_12).abs() < 1e-6,
         "the full charge still passed: {electrons}"
     );
-    // 0.001 mol of Cu at two electrons each is 0.002 mol of the 0.0746 mol
-    // the charge delivered: about 2.7%.
-    let expected = 0.002 / electrons;
+    // Efficiency is the electrons that reached the metal over the electrons
+    // delivered, and nothing else. Derived from what actually plated rather
+    // than from the 0.001 mol put in, because the speciation decides how
+    // much of that is free Cu2+ and this assertion is about the ratio, not
+    // about PHREEQC's complexation.
+    let expected = deposited * 2.0 / electrons;
     assert!(
-        (efficiency - expected).abs() < 2e-3,
+        (efficiency - expected).abs() < 1e-6,
         "current efficiency is computed, not assumed: {efficiency} against {expected}"
     );
     assert!(
@@ -222,7 +225,7 @@ fn charge_beyond_the_supply_becomes_hydrogen_rather_than_metal() {
         "the charge past the copper reduces water: {events:?}"
     );
     assert!(
-        (hydrogen - (electrons - 0.002) / 2.0).abs() < 1e-4,
+        (hydrogen - (electrons - deposited * 2.0) / 2.0).abs() < 1e-6,
         "two electrons per H2: {hydrogen}"
     );
     // Nothing anywhere may still claim the charge vanished.
@@ -245,15 +248,14 @@ fn charge_beyond_the_supply_becomes_hydrogen_rather_than_metal() {
 /// a beaker that runs out of ion used to evolve oxygen that nothing paid
 /// for. Charge in = electrons = Σ(product × z) at each end, separately.
 ///
-/// Three runs, chosen so the cathode does something different in each:
-/// copper all the way, copper then hydrogen, and hydrogen from the start.
+/// Four runs over BOTH electrolysis models — the half-cell path with a
+/// copper electrode standing in it, and the solvent path with carbon rods
+/// and no metal at all — and inside each the cathode is made to do
+/// something different: copper all the way, copper then hydrogen, and
+/// hydrogen from the start. The solvent path is where the bookkeeping was
+/// rewritten, so an exhausted run through it is the case this most needs.
 #[test]
 fn electrons_released_at_the_anode_equal_electrons_taken_at_the_cathode() {
-    // Both electrolysis models, and inside each the cathode is made to do
-    // something different: the half-cell path with a copper electrode
-    // standing in it, and the solvent path with carbon rods and no metal at
-    // all. The solvent path is where the bookkeeping was rewritten, so an
-    // exhausted run through it is the case this test most needs.
     for (label, steps, amps, seconds) in [
         (
             "half-cell, comfortably supplied",
@@ -310,9 +312,9 @@ fn electrons_released_at_the_anode_equal_electrons_taken_at_the_cathode() {
         // When the named product IS hydrogen the first term already counts
         // it and `gas_moles` would count it twice, so the split is on which
         // product the run reported rather than on the model that ran.
-        let named_is_hydrogen = events.iter().any(|e| {
-            matches!(e, Event::Electrolysed { species, .. } if species.0 == "H2")
-        });
+        let named_is_hydrogen = events
+            .iter()
+            .any(|e| matches!(e, Event::Electrolysed { species, .. } if species.0 == "H2"));
         let cathode = if named_is_hydrogen {
             gas_moles(&events, "H2") * 2.0
         } else {

@@ -1218,32 +1218,32 @@ pub fn electrolyse_solvent(
         .filter(|c| c.e0_volts > 0.0)
         .filter(|c| moles_in(vessel, c.oxidised, Phase::Aqueous) > crate::OBSERVABLE_MOLES)
         .max_by(|a, b| a.e0_volts.total_cmp(&b.e0_volts));
-    let (cathode, cathode_moles, cathode_plates, cathode_ion, electrons_to_cathode) =
-        match platable {
-            Some(c) => {
-                let want = electrons / c.electrons;
-                let have = moles_in(vessel, c.oxidised, Phase::Aqueous) / c.oxidised_per_reduced;
-                let moles = want.min(have).max(0.0);
-                (
-                    SpeciesId::new(c.reduced),
-                    moles,
-                    true,
-                    Some((SpeciesId::new(c.oxidised), moles * c.oxidised_per_reduced)),
-                    moles * c.electrons,
-                )
-            }
-            // 2 H₂O + 2 e⁻ → H₂ + 2 OH⁻. The hydroxide is not a detail: it is
-            // why the chloralkali cell makes caustic soda, and why the water
-            // around the cathode turns phenolphthalein pink in the school
-            // demonstration.
-            None => (
-                SpeciesId::new(HYDROGEN_GAS),
-                electrons / 2.0,
-                false,
-                None,
-                electrons,
-            ),
-        };
+    let (cathode, cathode_moles, cathode_plates, cathode_ion, electrons_to_cathode) = match platable
+    {
+        Some(c) => {
+            let want = electrons / c.electrons;
+            let have = moles_in(vessel, c.oxidised, Phase::Aqueous) / c.oxidised_per_reduced;
+            let moles = want.min(have).max(0.0);
+            (
+                SpeciesId::new(c.reduced),
+                moles,
+                true,
+                Some((SpeciesId::new(c.oxidised), moles * c.oxidised_per_reduced)),
+                moles * c.electrons,
+            )
+        }
+        // 2 H₂O + 2 e⁻ → H₂ + 2 OH⁻. The hydroxide is not a detail: it is
+        // why the chloralkali cell makes caustic soda, and why the water
+        // around the cathode turns phenolphthalein pink in the school
+        // demonstration.
+        None => (
+            SpeciesId::new(HYDROGEN_GAS),
+            electrons / 2.0,
+            false,
+            None,
+            electrons,
+        ),
+    };
 
     // The charge the named cathode product did not take. A plating ion that
     // runs out does not stop the current; it hands the rest of it to water,

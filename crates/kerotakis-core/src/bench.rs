@@ -5753,7 +5753,8 @@ fn electrolysed_run(
         // by the full charge would report copper as taking more than two
         // electrons an atom, which is arithmetic reporting a shortage as a
         // change in the chemistry.
-        per_ion: (run.electrons * run.current_efficiency) / run.cathode_moles.max(f64::MIN_POSITIVE),
+        per_ion: (run.electrons * run.current_efficiency)
+            / run.cathode_moles.max(f64::MIN_POSITIVE),
         anode_species: anode_evolves.then(|| run.anode.clone()),
         anode_moles: anode_evolves.then_some(Moles(run.anode_moles)),
         cathode_species: Some(run.cathode.clone()),

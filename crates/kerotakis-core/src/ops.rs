@@ -1456,7 +1456,10 @@ pub enum Event {
         ///
         /// Defaults to 1.0 and is omitted when it is 1.0, so a fully
         /// efficient run serialises exactly as it did before this existed.
-        #[serde(default = "unit_efficiency", skip_serializing_if = "is_unit_efficiency")]
+        #[serde(
+            default = "unit_efficiency",
+            skip_serializing_if = "is_unit_efficiency"
+        )]
         current_efficiency: f64,
     },
     CellVoltage {
