@@ -39,6 +39,7 @@ pub mod curdling;
 pub mod delta;
 pub mod displacement;
 pub mod electrochemistry;
+pub mod electrodiffusion;
 pub mod element_coverage;
 pub mod emulsion;
 pub mod enzyme;

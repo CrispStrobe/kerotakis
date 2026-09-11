@@ -16,6 +16,15 @@ it had while it was open, which is why a few numbers appear twice below.
 
 **Electrochemical kinetics**
 
+- **`feat/nernst-planck-boundary`** — added a reusable one-dimensional,
+  constant-field Nernst–Planck boundary with a stable Scharfetter–Gummel flux.
+  It computes zero-current liquid-junction potentials or an electroneutral
+  electrode-surface composition from arbitrary charged species, mobilities,
+  concentrations and signed fluxes. Authored potential and residual tolerances,
+  non-negative surface inventories, countercharge and electroneutral endpoint
+  checks fail closed. A 48-point binary-electrolyte grid agrees with the
+  constant-field closed form. The implementation follows published equations;
+  no external code or data is included.
 - **`feat/interfacial-local-equilibrium`** — added a generic extent-based local
   mass-action solver with authored conserved components, charge balance,
   caller-supplied activity coefficients, positivity-preserving Newton steps and

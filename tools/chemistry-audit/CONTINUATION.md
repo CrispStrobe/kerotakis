@@ -1,10 +1,13 @@
 # Chemistry audit continuation
 
-The next engine boundary is charged-species migration through a Nernst–Planck boundary. Potential,
-concentration and flux must share one sign convention; electroneutrality and
-zero-current controls must hold. This is required before a charged homogeneous
-network may exchange net charge with an electrode. Unsupported-electrolyte and
-missing-mobility cases must refuse rather than fall back to diffusion.
+Couple the typed local-equilibrium network in #570 to the reusable constant-field
+Nernst–Planck boundary. Solve homogeneous reaction-flux extents, every surface
+concentration, migration potential and electrochemical current together; a
+sequential equilibrium projection is not valid when species diffusivities
+differ. Acceptance requires mass action, conservation, electroneutrality,
+zero-current relaxation, time-partition invariance and refusal of incomplete
+stoichiometry, equilibrium data or mobilities. Do not approximate buffering with
+an effective diffusivity.
 
 Hysteresis, evolving films and dynamic bubble coverage remain evidence-gated.
 Require forward/reverse or time-series data that identify their state laws and
