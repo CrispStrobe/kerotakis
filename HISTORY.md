@@ -12,6 +12,29 @@ it had while it was open, which is why a few numbers appear twice below.
 
 ---
 
+## 2026-09-11
+
+**Route kinds**
+
+- **`task/boil-route-kind`** — decided the open PLAN question "is a boil a
+  curated route or a computed one?" by measuring it rather than by
+  argument alone. Twenty-six corpus rows have a succeeded `phase-routes`
+  route; twenty-three of them only melt, boil, freeze or condense, one
+  only sublimes, one does both, one changes no phase at all (it is graded
+  on `plastics::settle`), and **none hydrate** — so the sublimation-and-
+  hydrate population the bullet was protecting is a single row. Declaring
+  `Computed` would have moved twenty-four rows `curated -> computed`. It
+  stays `Curated` anyway: `kind` records which road the vessel took and
+  where that road's numbers came from, not whether the last step was a
+  lookup or a division, because on the second reading every curated solver
+  is computed and the label sorts nothing. The pass also found that the
+  asymmetry which raised the question is not a declaration —
+  `CombustionEquilibrator` has no `route_kind` and takes the trait
+  default, while being named `curated-combustion` and reading a curated
+  `FUELS` table — and left that as its own bullet with its eight affected
+  rows already counted. No engine change and no corpus row moved; the
+  decision is pinned in `direct_model_routes.rs`.
+
 ## 2026-09-09
 
 **Electrochemical kinetics**
