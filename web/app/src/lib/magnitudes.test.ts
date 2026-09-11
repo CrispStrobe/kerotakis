@@ -881,6 +881,27 @@ describe("the invisible ones (GUI-099 ANIM-3)", () => {
     expect(older!.electrolysis!.cathodeMoles).toBeUndefined();
   });
 
+  it("carries current efficiency, and reads a silent log as fully efficient", () => {
+    // The engine omits the field when it resolved no loss, so absence means
+    // 1 rather than 0 — a zero here would draw an electrode that plated
+    // nothing out of a run that plated the lot.
+    const full = effectFromEvent({
+      event: "electrolysed", vessel: 0, species: "Cu",
+      amps: 0.5, seconds: 1930, coulombs: 965, electrons: 0.01,
+      moles: 0.005, grams: 0.318, per_ion: 2,
+    });
+    expect(full!.electrolysis!.currentEfficiency).toBe(1);
+
+    // And a run that lost charge to hydrogen says so on the wire.
+    const partial = effectFromEvent({
+      event: "electrolysed", vessel: 0, species: "Cu",
+      amps: 2, seconds: 3600, coulombs: 7200, electrons: 0.0746,
+      moles: 0.001, grams: 0.0635, per_ion: 2,
+      current_efficiency: 0.0268,
+    });
+    expect(partial!.electrolysis!.currentEfficiency).toBeCloseTo(0.0268, 6);
+  });
+
   it("a sublimation is not a boil, and the engine's own name decides", () => {
     const fog = effectFromEvent({
       event: "state_changed", vessel: 0, species: "CO2",

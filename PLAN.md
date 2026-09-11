@@ -423,7 +423,7 @@ the ones below resolve.
 | **L2** | Aqueous equilibrium — **the workhorse** | IPhreeqc + phreeqc.dat, wateq4f.dat, minteq.v4.dat, **pitzer.dat** | USGS, public domain |
 | **L2g** | Gas + condensed-phase equilibrium — heat, ignite, decompose, burn | Gibbs minimiser over NASA CEA data (adopt/extend `cea-rs`, or write it) | Apache-2.0 data |
 | **L3** | Phase behaviour — boiling, miscibility, azeotropes | `feos` (SAFT family, flash) + own UNIFAC + `vle-thermo` (cubics, NRTL/Wilson) + `seuif97` (water) | MIT / Apache-2.0 |
-| **L3e** | Electrochemistry | Standard-potential ordering + Nernst over PHREEQC's activities, own module (`kerotakis-core/src/displacement.rs`, **built** for displacement and the activity series); Faraday's law for electrolysis still open | ours |
+| **L3e** | Electrochemistry | Standard-potential ordering + Nernst over PHREEQC's activities, own module (`kerotakis-core/src/displacement.rs`, **built** for displacement, the activity series and Faraday's law with a stated current efficiency) | ours |
 | **L4** | Reaction — propose → filter → rank → verify | curated + Indigo templates | Apache-2.0 |
 | **L4′** | QM enrichment — **build time only, never in the app** | xtb / CREST / PySCF | LGPL / Apache-2.0, never shipped |
 | **L5** | Kinetics & time evolution | diffsol + our rate evaluator over Cantera-format mechanisms | MIT / BSD-3 data |
@@ -1872,7 +1872,19 @@ So the build order is:
       activity series, displacement, the galvanic `cell` and the hydrogen
       overpotential (`displacement.rs`, 2026-08-20). Details and the
       boundaries each one established are in `HISTORY.md`.
-- [ ] Faraday's law for electrolysis: charge → moles → mass at an electrode.
+- [x] Faraday's law for electrolysis: charge → moles → mass at an electrode
+      (`displacement.rs`, `Operator::Electrolyse` → `Event::Electrolysed`).
+      `n = Q/(z·F)` with every term read rather than assumed: Q from the
+      ammeter and the clock, z from the couple the vessel actually holds.
+      **Current efficiency travels with the number**, because Faraday's law
+      is silent about it and a bench that prints only a mass has claimed
+      100% without saying so. One loss is computed exactly — when the
+      plating ion is exhausted the rest of the charge reduces water, so the
+      deposit stops and hydrogen starts — and the remaining losses, which
+      need electrode area and exchange current densities, are declared as a
+      one-sided bound: a real electrode weighs the reported mass or less,
+      never more. The electron ledger (charge in = Σ cathode product × z =
+      Σ anode product × z) is a test, not a paragraph.
 
 **Oxidation-state bookkeeping is the explanation layer, not the solver.**
 It does not find the products — the free-energy minimisation does — but it

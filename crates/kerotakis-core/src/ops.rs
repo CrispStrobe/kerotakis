@@ -674,6 +674,19 @@ fn one_pass() -> u32 {
     1
 }
 
+/// A run that lost none of its charge to a side reaction. Logs written
+/// before current efficiency was carried described exactly that case, so
+/// reading them as fully efficient is what they meant.
+fn unit_efficiency() -> f64 {
+    1.0
+}
+
+/// Omit the field when nothing was lost, so the common run serialises
+/// byte-for-byte as it did before the field existed.
+fn is_unit_efficiency(value: &f64) -> bool {
+    (*value - 1.0).abs() < 1e-12
+}
+
 /// Which of the six phase transitions a [`Event::StateChanged`] is.
 ///
 /// It is a function of `from` and `to`, and it is on the wire anyway. The
@@ -1426,6 +1439,25 @@ pub enum Event {
         cathode_species: Option<SpeciesId>,
         #[serde(default, skip_serializing_if = "Option::is_none")]
         cathode_moles: Option<Moles>,
+        /// Fraction of the delivered charge that reached `species`.
+        ///
+        /// Faraday's law converts charge into moles exactly. What it cannot
+        /// tell you on its own is how much of the charge went where, and a
+        /// bench that quietly answers "all of it" is claiming a hundred per
+        /// cent current efficiency it has no way to support.
+        ///
+        /// So the number travels. One loss is computed: when the plating
+        /// ion runs out the rest of the charge reduces water instead, and
+        /// this falls below 1 by exactly that much. The losses that remain
+        /// unmodelled — hydrogen co-evolution at a working electrode,
+        /// anything needing electrode area and exchange current densities —
+        /// all push the same way, so 1.0 reads as an upper bound on the
+        /// deposit rather than a prediction of it. The renderer says which.
+        ///
+        /// Defaults to 1.0 and is omitted when it is 1.0, so a fully
+        /// efficient run serialises exactly as it did before this existed.
+        #[serde(default = "unit_efficiency", skip_serializing_if = "is_unit_efficiency")]
+        current_efficiency: f64,
     },
     CellVoltage {
         anode: VesselId,
