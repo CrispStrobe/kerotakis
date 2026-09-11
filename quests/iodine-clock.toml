@@ -37,7 +37,7 @@ when = "reacted:iodide-peroxide-clock"
 [nudges.say]
 lv1 = "Something brown is forming — that is iodine."
 lv2 = "I₂ is appearing. In the real lab you would see the solution turn brown, or blue-black with starch. Now — can you make it happen faster?"
-lv3 = "The iodide–peroxide rate law is running: I₂ production at rate k·[H₂O₂]·[I⁻]·[H⁺]. To demonstrate the kinetics, run a second beaker with a different concentration or temperature and compare."
+lv3 = "The iodide–peroxide rate law is running: I₂ production at rate k·[H₂O₂]·[KI]·[H⁺]. The iodide order is keyed on KI, the bottle — that is what a solved vessel still holds here, and it is what the law matches on. To demonstrate the kinetics, run a second beaker with a different concentration or temperature and compare."
 
 [[nudges]]
 id = "landolt-fired"

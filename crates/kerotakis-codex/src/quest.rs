@@ -913,6 +913,39 @@ pub fn load_dir(dir: &std::path::Path) -> Result<Vec<QuestSpec>, String> {
     Ok(specs)
 }
 
+/// The reaction id a `reacted:` trigger names and the registry does not.
+///
+/// `None` for a trigger that is not a `reacted:` one, and for one whose id
+/// is real. Only the dangling case is a problem, and only that case is
+/// returned.
+fn dangling_reaction(trigger: &str) -> Option<&str> {
+    let id = trigger.strip_prefix("reacted:")?;
+    (!crate::mechanism::reaction_exists(id)).then_some(id)
+}
+
+/// Run the mechanism check over one set of registers.
+///
+/// Every register is checked, not only `lv3`: a lv1 sentence is the one a
+/// nine-year-old reads, and it is no less a claim about the engine for
+/// being short.
+fn mechanism_problems(
+    quest: &str,
+    at: &str,
+    bound: Option<&str>,
+    registers: &Registers,
+    problems: &mut Vec<String>,
+) {
+    for (level, text) in [
+        ("lv1", &registers.lv1),
+        ("lv2", &registers.lv2),
+        ("lv3", &registers.lv3),
+    ] {
+        for detail in crate::mechanism::problems(bound, text) {
+            problems.push(format!("{quest}: {at} {level} {detail}"));
+        }
+    }
+}
+
 /// The lint: a quest that could lie, block, or corridor fails here.
 pub fn lint(specs: &[QuestSpec]) -> Vec<String> {
     let mut problems = Vec::new();
@@ -1055,6 +1088,49 @@ pub fn lint(specs: &[QuestSpec]) -> Vec<String> {
                     nudge.id
                 ));
             }
+            // A `reacted:` trigger names a rate law by id, and until now
+            // nothing checked that the id exists. A renamed law leaves a
+            // nudge that can never fire, saying something about chemistry
+            // nothing is any longer bound to — which is the same failure
+            // as the stale sentence below, one layer down.
+            if let Some(stale) = dangling_reaction(&nudge.when) {
+                problems.push(format!(
+                    "{q}: nudge '{}' fires on `reacted:{stale}`, which names no \
+                     reaction in the kinetics registry — it can never fire, and \
+                     its text is anchored to nothing",
+                    nudge.id
+                ));
+            }
+            mechanism_problems(
+                q,
+                &format!("nudge '{}'", nudge.id),
+                crate::mechanism::bound_reaction(&nudge.when),
+                &nudge.say,
+                &mut problems,
+            );
+        }
+        // Prose with no reaction behind it is still checked for a written
+        // rate law, because writing one out is itself a claim that the
+        // engine runs it.
+        mechanism_problems(q, "title", None, &spec.title, &mut problems);
+        mechanism_problems(q, "goal", None, &spec.goal, &mut problems);
+        for claim in &spec.claims {
+            let bound = match &claim.kind {
+                ClaimKind::Event { matches } => crate::mechanism::bound_reaction(matches),
+                _ => None,
+            };
+            mechanism_problems(
+                q,
+                &format!("claim '{}'", claim.id),
+                bound,
+                &claim.title,
+                &mut problems,
+            );
+        }
+        for (topic, answer) in &spec.explanations {
+            for detail in crate::mechanism::problems(None, answer) {
+                problems.push(format!("{q}: explanation '{topic}' {detail}"));
+            }
         }
         for topic in spec.explanations.keys() {
             if !spec
@@ -1127,6 +1203,13 @@ pub fn lint(specs: &[QuestSpec]) -> Vec<String> {
             if !crate::KNOWN_EVENT_KINDS.contains(&kind) {
                 problems.push(format!(
                     "{q}: constraint '{}' forbids unknown event kind '{kind}'",
+                    constraint.id
+                ));
+            }
+            if let Some(stale) = dangling_reaction(&constraint.forbid) {
+                problems.push(format!(
+                    "{q}: constraint '{}' forbids `reacted:{stale}`, which names \
+                     no reaction — it forbids nothing",
                     constraint.id
                 ));
             }
