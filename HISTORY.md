@@ -16,6 +16,26 @@ it had while it was open, which is why a few numbers appear twice below.
 
 **Electrochemical kinetics**
 
+- **`fix/electrodiffusion-working-envelope`** — the Nernst–Planck bisection
+  floored its bracket at a constant 1e-12 V while testing the residual against
+  an absolute current, a scale mismatch: convergence needs
+  `current_tolerance / |dI/dphi|` volts of bracket and that slope grows with
+  `(D / L) · c`, so the floor capped the working range at whatever case the
+  constant was picked for. The old 48-point grid's steepest corner already
+  needed 9.9e-14 V and passed only because a midpoint landed lucky; one step
+  past the grid in any direction refused — two molar, a diffusivity of 5e-9, a
+  ten micrometre layer, and hydrogen ion at one molar, whose 9.31e-9 m²/s is
+  nearly the fastest in aqueous chemistry. The floor is now derived rather
+  than constant: bisection runs down to the spacing of `f64` near the root, so
+  the range follows the physics, and `potential_tolerance_v` became
+  `Option<f64>` so a caller can still pin a coarser floor. The grid runs past
+  the cliff (200 points over two layer thicknesses, to two molar and to the
+  hydrogen ion) and asserts the accuracy the current tolerance actually buys
+  instead of a flat constant. A Goldman–Hodgkin–Katz oracle covers asymmetric
+  multi-ion junctions and a quadratic oracle covers a 2:1 electrolyte, so the
+  closed form is no longer only the binary symmetric case; the `bernoulli`
+  Taylor/`exp_m1` seam is probed directly; and all seven refusal paths are now
+  exercised, `DidNotConverge` included.
 - **`feat/nernst-planck-boundary`** — added a reusable one-dimensional,
   constant-field Nernst–Planck boundary with a stable Scharfetter–Gummel flux.
   It computes zero-current liquid-junction potentials or an electroneutral
