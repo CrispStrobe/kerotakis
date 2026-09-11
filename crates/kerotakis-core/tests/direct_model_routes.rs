@@ -113,3 +113,42 @@ fn curated_reaction_routes_require_a_reaction_result() {
         .iter()
         .all(|route| !route.solver.starts_with("gas-test:")));
 }
+
+/// `SolverRouteKind` records PROVENANCE — where the numbers a road runs on
+/// came from — and not what the answer is made of. Decided and measured on
+/// 2026-09-11; the measurement and the argument are in `PLAN.md` under "Is
+/// a boil a curated route or a computed one?".
+///
+/// Both halves of the pair that raised the question are asserted together,
+/// because the question only exists as a comparison between them.
+///
+/// - `phase-routes` is `Curated` and stays `Curated`. It melts, boils,
+///   freezes, condenses, sublimes, deposits, dehydrates and softens
+///   polymers, and every number it uses for any of that is a curated
+///   table — `phase_route.rs`'s latent heats, or the registry's transition
+///   temperatures and hydrate pairs. The arithmetic over them does not
+///   make the road a computed one; if it did, `curated-reactions` (an
+///   extent over a curated stoichiometry) and `reaction-families` (a
+///   product set over a curated pattern) would be computed too, and
+///   `Curated` would have no members left.
+/// - `curated-combustion` is `Computed` NOT because anyone decided that:
+///   `CombustionEquilibrator` has no `route_kind` and takes the trait
+///   default. It is asserted here as a characterization, so the pair stays
+///   visible and so that giving it a declaration is a deliberate act that
+///   fails this test first. `PLAN.md` owns that open item, with the eight
+///   corpus rows it would move already counted.
+#[test]
+fn route_kinds_record_where_the_numbers_came_from() {
+    assert_eq!(
+        kerotakis_core::PhaseRouteEquilibrator.route_kind(),
+        SolverRouteKind::Curated,
+        "phase-routes reads curated tables for every transition it runs; \
+         see PLAN.md, 2026-09-11"
+    );
+    assert_eq!(
+        kerotakis_core::combustion::CombustionEquilibrator.route_kind(),
+        SolverRouteKind::Computed,
+        "curated-combustion has no route_kind of its own and takes the \
+         trait default; PLAN.md owns changing that"
+    );
+}
