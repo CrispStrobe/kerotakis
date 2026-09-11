@@ -9,6 +9,15 @@ zero-current relaxation, time-partition invariance and refusal of incomplete
 stoichiometry, equilibrium data or mobilities. Do not approximate buffering with
 an effective diffusivity.
 
+The boundary's bounded solver resolves a root to about
+`residual_tolerance / |d residual / d phi|` volts, and that slope grows with
+`(D / L) * c`. The bracket is floored by the spacing of `f64` near the root
+rather than by a constant, so the aqueous cases this coupling needs -- the
+hydrogen and hydroxide ions at bench strength across a micrometre-scale layer
+-- are inside the working range. A case outside it refuses with
+`DidNotConverge`; it must not be papered over by loosening
+`current_tolerance_a_per_m2`.
+
 Hysteresis, evolving films and dynamic bubble coverage remain evidence-gated.
 Require forward/reverse or time-series data that identify their state laws and
 validity ranges; current alone does not determine coverage.
