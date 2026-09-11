@@ -12,6 +12,21 @@ it had while it was open, which is why a few numbers appear twice below.
 
 ---
 
+## 2026-09-11
+
+**Guided catalogue**
+
+- **`extract/kids-protein-enzyme`** — added K74–K77, the catalogue cards for
+  the four protein and enzyme lessons that had shipped unlinked: thermal
+  denaturation of egg white and albumin, and protease, lactase and lipase each
+  against a no-enzyme and a wrong-enzyme control. The rows restate what their
+  scripts do — same ingredients, same quantities, same stated boundary — and a
+  test pins that pairing so a card cannot outgrow its lesson. Extracted from
+  the KIDS half of PR #540, renumbered twice: #562 had bound K61–K64 and #569
+  took K73 while this branch was open, and a catalogue number is never
+  re-bound. No engine behaviour changed, and the coverage and classifier half
+  of #540 was not carried.
+
 ## 2026-09-09
 
 **Electrochemical kinetics**
