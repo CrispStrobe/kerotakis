@@ -1153,6 +1153,25 @@ pub struct SolventElectrolysis {
     /// of reducing water. In a water-splitting cell cathodic hydroxide cancels
     /// these; in copper sulfate they remain and acidify the electrolyte.
     pub protons_made: f64,
+    /// Hydrogen co-evolved at the cathode because the plating ion ran out
+    /// before the charge did, and the moles of electrons that went into it.
+    ///
+    /// A galvanostat does not stop when the beaker runs out of copper. The
+    /// current is the boundary condition, so the charge has to go
+    /// somewhere, and in an aqueous cell where it goes is water. Booking it
+    /// is what keeps the electron ledger closed: without this the anode
+    /// releases electrons the cathode never takes, and oxygen appears with
+    /// nothing paying for it.
+    pub cathode_hydrogen_moles: f64,
+    pub electrons_to_hydrogen: f64,
+    /// Electrons that reached the product named by `cathode`, over the
+    /// electrons the charge delivered.
+    ///
+    /// This is the **current efficiency of the named cathode product**, and
+    /// it is computed rather than assumed — but only for the one loss this
+    /// model resolves, an exhausted ion. See [`Electrolysis::current_efficiency`]
+    /// for what the number still does not include.
+    pub current_efficiency: f64,
 }
 
 /// The current does something to the solution even with no metal cell.
@@ -1199,7 +1218,8 @@ pub fn electrolyse_solvent(
         .filter(|c| c.e0_volts > 0.0)
         .filter(|c| moles_in(vessel, c.oxidised, Phase::Aqueous) > crate::OBSERVABLE_MOLES)
         .max_by(|a, b| a.e0_volts.total_cmp(&b.e0_volts));
-    let (cathode, cathode_moles, cathode_plates, cathode_ion, hydroxide_made) = match platable {
+    let (cathode, cathode_moles, cathode_plates, cathode_ion, electrons_to_cathode) = match platable
+    {
         Some(c) => {
             let want = electrons / c.electrons;
             let have = moles_in(vessel, c.oxidised, Phase::Aqueous) / c.oxidised_per_reduced;
@@ -1209,7 +1229,7 @@ pub fn electrolyse_solvent(
                 moles,
                 true,
                 Some((SpeciesId::new(c.oxidised), moles * c.oxidised_per_reduced)),
-                0.0,
+                moles * c.electrons,
             )
         }
         // 2 H₂O + 2 e⁻ → H₂ + 2 OH⁻. The hydroxide is not a detail: it is
@@ -1225,6 +1245,18 @@ pub fn electrolyse_solvent(
         ),
     };
 
+    // The charge the named cathode product did not take. A plating ion that
+    // runs out does not stop the current; it hands the rest of it to water,
+    // which is the same half-reaction the no-metal branch above already
+    // uses. Reusing it rather than inventing a second one is deliberate.
+    let electrons_to_hydrogen = (electrons - electrons_to_cathode).max(0.0);
+    let cathode_hydrogen_moles = electrons_to_hydrogen / 2.0;
+    let current_efficiency = if electrons > 0.0 {
+        (electrons_to_cathode / electrons).clamp(0.0, 1.0)
+    } else {
+        1.0
+    };
+
     // ANODE. Chloride goes before water where there is chloride to go —
     // which is why brine gives chlorine and sodium sulfate gives oxygen,
     // the same cell and a different anion.
@@ -1238,21 +1270,29 @@ pub fn electrolyse_solvent(
         (SpeciesId::new("O2"), electrons / 4.0, 0.0)
     };
 
-    let water_spent = if anode.0 == "O2" {
-        electrons / 2.0
-    } else if !cathode_plates {
-        electrons
+    // Water, acid and alkali, written once for both cathode products
+    // rather than once per branch — a cell that plates for part of the
+    // charge and evolves hydrogen for the rest is neither of the old cases
+    // and the old two-branch form had no answer for it.
+    //
+    // Anode, oxygen: 2 H₂O → O₂ + 4 H⁺ + 4 e⁻ spends e/2 water and makes e
+    // protons. Cathode, hydrogen: 2 H₂O + 2 e⁻ → H₂ + 2 OH⁻ spends
+    // `electrons_to_hydrogen` water and makes that much hydroxide. The cell
+    // is undivided, so those protons and that hydroxide neutralise and give
+    // the water straight back: net water stays e/2 and the acid left over
+    // is what the plating half did not cancel.
+    //
+    // Anode, chlorine: 2 Cl⁻ → Cl₂ + 2 e⁻ touches neither water nor pH, so
+    // the cathode's hydroxide survives. That is the chloralkali cell.
+    let (water_spent, protons_made, hydroxide_made) = if anode.0 == "O2" {
+        (
+            electrons / 2.0,
+            (electrons - electrons_to_hydrogen).max(0.0),
+            0.0,
+        )
     } else {
-        0.0
+        (electrons_to_hydrogen, 0.0, electrons_to_hydrogen)
     };
-    let protons_made = if anode.0 == "O2" && cathode_plates {
-        electrons
-    } else {
-        0.0
-    };
-    // In an undivided oxygen-producing cell the H+ and OH- half-reaction
-    // products neutralise: only the net gases and water consumption remain.
-    let hydroxide_made = if anode.0 == "O2" { 0.0 } else { hydroxide_made };
 
     Some(SolventElectrolysis {
         coulombs,
@@ -1267,6 +1307,17 @@ pub fn electrolyse_solvent(
         hydroxide_made,
         water_spent,
         protons_made,
+        cathode_hydrogen_moles: if cathode_plates {
+            cathode_hydrogen_moles
+        } else {
+            0.0
+        },
+        electrons_to_hydrogen: if cathode_plates {
+            electrons_to_hydrogen
+        } else {
+            0.0
+        },
+        current_efficiency,
     })
 }
 
@@ -1338,6 +1389,30 @@ pub struct Electrolysis {
     /// Moles the charge *asked* for. Larger than `moles` when the solution
     /// ran out of ion before the charge ran out.
     pub demanded: f64,
+    /// Electrons that actually reached the metal: `moles × per_ion`.
+    pub electrons_to_metal: f64,
+    /// Electrons that did not, and the hydrogen they made instead.
+    ///
+    /// 2 H₂O + 2 e⁻ → H₂ + 2 OH⁻ — the same half-reaction the solvent
+    /// electrolyser already uses when there is no plating ion at all. A
+    /// galvanostat holds the current, so exhausting the ion does not end
+    /// the experiment; it changes what comes off the cathode.
+    pub electrons_to_hydrogen: f64,
+    pub hydrogen_moles: f64,
+    /// Current efficiency for the metal: `electrons_to_metal / electrons`.
+    ///
+    /// **What this number includes.** One loss, computed exactly: the ion
+    /// ran out, so the rest of the charge went to hydrogen.
+    ///
+    /// **What it does not.** While the ion is still there, this model gives
+    /// the cathode's whole current to the metal. Real deposition co-evolves
+    /// some hydrogen at every concentration, more of it as the ion is
+    /// depleted near the electrode; resolving that needs the exchange
+    /// current densities and electrode area that a galvanostatic bench with
+    /// no geometry does not have. So a reported efficiency of 1 is an upper
+    /// bound, not a measurement, and the error has a known sign: a real
+    /// electrode weighs this much or less, never more. The bench says so.
+    pub current_efficiency: f64,
 }
 
 /// Faraday's law over a vessel's own electrode.
@@ -1354,16 +1429,20 @@ pub fn electrolyse(vessel: &Vessel, amps: f64, seconds: f64) -> Option<Electroly
     let coulombs = amps * seconds;
     let electrons = coulombs / FARADAY;
     let demanded = electrons / e.couple.electrons;
-    // A current cannot deposit an ion that is not there. Past that point a
-    // real cell starts electrolysing the water instead, which this bench
-    // does not model — so it stops at the supply and says so rather than
-    // inventing metal.
+    // A current cannot deposit an ion that is not there — but it does not
+    // stop either, because the current is the boundary condition and not an
+    // outcome. So the metal stops at the supply and the remaining charge
+    // reduces water, which is both the real chemistry and the one thing
+    // that keeps the electron ledger closed: the anode is passing the whole
+    // current whatever the cathode is doing with it.
     let available =
         moles_in(vessel, e.couple.oxidised, Phase::Aqueous) / e.couple.oxidised_per_reduced;
     let moles = demanded.min(available).max(0.0);
     let grams = species::lookup_key(e.couple.reduced)
         .map(|d| moles * d.molar_mass)
         .unwrap_or(0.0);
+    let electrons_to_metal = moles * e.couple.electrons;
+    let electrons_to_hydrogen = (electrons - electrons_to_metal).max(0.0);
     Some(Electrolysis {
         species: SpeciesId::new(e.couple.reduced),
         ion: SpeciesId::new(e.couple.oxidised),
@@ -1374,6 +1453,14 @@ pub fn electrolyse(vessel: &Vessel, amps: f64, seconds: f64) -> Option<Electroly
         grams,
         per_ion: e.couple.electrons,
         demanded,
+        electrons_to_metal,
+        electrons_to_hydrogen,
+        hydrogen_moles: electrons_to_hydrogen / 2.0,
+        current_efficiency: if electrons > 0.0 {
+            (electrons_to_metal / electrons).clamp(0.0, 1.0)
+        } else {
+            1.0
+        },
     })
 }
 

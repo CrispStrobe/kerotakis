@@ -4250,19 +4250,30 @@ impl Bench {
                 let v = self.vessel(*vessel)?;
                 match crate::displacement::electrolyse(v, *amps, *seconds) {
                     Some(run) => {
+                        // The counter-electrode's half-reaction, named
+                        // before the event rather than only booked after
+                        // it: an inert anode splits water,
+                        // 2 H₂O → O₂ + 4 H⁺ + 4 e⁻, so a quarter of an
+                        // electron's worth of oxygen leaves for every
+                        // electron the cathode spends. Carried on the
+                        // event so a renderer can size each end of the
+                        // cell by what actually comes off it.
+                        //
+                        // Note which electron count this is: the WHOLE
+                        // current's, not the plated metal's. The anode does
+                        // not know the beaker ran out of copper, and the
+                        // hydrogen below is what makes those two agree.
+                        let oxygen = Moles(run.electrons / 4.0);
+                        let anode_evolves = oxygen.0 > crate::OBSERVABLE_MOLES;
+                        // What the metal did not take. 2 H₂O + 2 e⁻ → H₂ +
+                        // 2 OH⁻: in this undivided cell that hydroxide meets
+                        // the anode's acid and gives the water back, so the
+                        // only new thing leaving the beaker is the gas.
+                        let hydrogen = Moles(run.hydrogen_moles);
+                        let cathode_co_evolves = hydrogen.0 > crate::OBSERVABLE_MOLES;
                         if run.moles > crate::OBSERVABLE_MOLES {
                             let (species, moles) = (run.species.clone(), Moles(run.moles));
                             let taken = (run.ion.clone(), Moles(run.moles * run.ion_per_metal));
-                            // The counter-electrode's half-reaction, named
-                            // before the event rather than only booked after
-                            // it: an inert anode splits water,
-                            // 2 H₂O → O₂ + 4 H⁺ + 4 e⁻, so a quarter of an
-                            // electron's worth of oxygen leaves for every
-                            // electron the cathode spends. Carried on the
-                            // event so a renderer can size each end of the
-                            // cell by what actually comes off it.
-                            let oxygen = Moles(run.electrons / 4.0);
-                            let anode_evolves = oxygen.0 > crate::OBSERVABLE_MOLES;
                             let v = self.vessel_mut(*vessel)?;
                             v.deposit(species.clone(), moles, Phase::Solid);
                             v.withdraw(&taken.0, taken.1);
@@ -4280,6 +4291,7 @@ impl Bench {
                                 anode_moles: anode_evolves.then_some(oxygen),
                                 cathode_species: Some(species),
                                 cathode_moles: Some(moles),
+                                current_efficiency: run.current_efficiency,
                             });
                             // The other electrode has to be somewhere.
                             //
@@ -4317,20 +4329,33 @@ impl Bench {
                             }
                         }
                         // The charge asked for more than the beaker had.
-                        // A real cell answers that by electrolysing the
-                        // water instead; this one says it cannot.
-                        if run.demanded > run.moles * (1.0 + 1e-9) + crate::OBSERVABLE_MOLES {
-                            events.push(Event::NotYetModeled {
-                                cause: crate::ops::NotModelledCause::NothingToActOn,
-                                vessel: *vessel,
-                                what: format!(
-                                    "the charge would deposit {:.4} mol and the solution \
-                                     holds only {:.4} mol. Past that a real cell starts \
-                                     electrolysing the water itself, which this bench does \
-                                     not model, so the rest of the charge went nowhere",
-                                    run.demanded, run.moles
-                                ),
-                            });
+                        //
+                        // This used to be a refusal: the bench said the
+                        // rest of the charge "went nowhere". Nowhere is not
+                        // a place a coulomb can go. The supply of ion is
+                        // not what limits a galvanostat — the current is
+                        // held, so once the copper is gone the cathode
+                        // reduces the only other thing in reach, which is
+                        // water. Booking it is what closes the electron
+                        // ledger the anode above already opened at the full
+                        // current, and it is why the mass on the electrode
+                        // stops rising while the cell keeps running.
+                        if cathode_co_evolves {
+                            let v = self.vessel_mut(*vessel)?;
+                            let hydrogen_id = SpeciesId::new("H2");
+                            if v.retain_gas(hydrogen_id.clone(), hydrogen) {
+                                events.push(Event::GasContained {
+                                    vessel: *vessel,
+                                    species: hydrogen_id,
+                                    moles: hydrogen,
+                                });
+                            } else {
+                                events.push(Event::GasEvolved {
+                                    vessel: *vessel,
+                                    species: hydrogen_id,
+                                    moles: hydrogen,
+                                });
+                            }
                         }
                     }
                     // No metal half-cell is not the same as nothing to
@@ -4360,6 +4385,29 @@ impl Bench {
                                         v.withdraw(ion, Moles(*taken));
                                     }
                                     events.push(electrolysed_run(*vessel, *amps, *seconds, &run));
+                                    // The plating ion ran out part-way and
+                                    // the current did not. Same half-reaction
+                                    // the no-metal branch below uses, and
+                                    // booking it here is what makes the
+                                    // cathode's electrons add up to the
+                                    // anode's.
+                                    let co = Moles(run.cathode_hydrogen_moles);
+                                    if co.0 > crate::OBSERVABLE_MOLES {
+                                        let h2 = SpeciesId::new("H2");
+                                        if v.retain_gas(h2.clone(), co) {
+                                            events.push(Event::GasContained {
+                                                vessel: *vessel,
+                                                species: h2,
+                                                moles: co,
+                                            });
+                                        } else {
+                                            events.push(Event::GasEvolved {
+                                                vessel: *vessel,
+                                                species: h2,
+                                                moles: co,
+                                            });
+                                        }
+                                    }
                                 } else {
                                     let m = Moles(run.cathode_moles);
                                     // The cell that splits water reported
@@ -5699,11 +5747,19 @@ fn electrolysed_run(
         grams: crate::species::lookup(&run.cathode)
             .map(|d| run.cathode_moles * d.molar_mass)
             .unwrap_or(0.0),
-        per_ion: run.electrons / run.cathode_moles.max(f64::MIN_POSITIVE),
+        // Electrons per unit of THIS product, which is the electrons that
+        // reached it and not every electron the cell passed. Those are the
+        // same number until the plating ion runs out; after that, dividing
+        // by the full charge would report copper as taking more than two
+        // electrons an atom, which is arithmetic reporting a shortage as a
+        // change in the chemistry.
+        per_ion: (run.electrons * run.current_efficiency)
+            / run.cathode_moles.max(f64::MIN_POSITIVE),
         anode_species: anode_evolves.then(|| run.anode.clone()),
         anode_moles: anode_evolves.then_some(Moles(run.anode_moles)),
         cathode_species: Some(run.cathode.clone()),
         cathode_moles: Some(cathode_moles),
+        current_efficiency: run.current_efficiency,
     }
 }
 

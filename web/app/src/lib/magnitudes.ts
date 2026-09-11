@@ -172,6 +172,16 @@ export interface ElectrolysisRun {
   anodeMoles?: number;
   cathodeSpecies?: string;
   cathodeMoles?: number;
+  /**
+   * Fraction of the delivered charge that reached `species`.
+   *
+   * Faraday's law is exact from charge to moles and says nothing about how
+   * the charge was shared out, so a bench that shows only the mass has
+   * quietly claimed every electron did the one job. The engine omits this
+   * field when it resolved no loss, which is why it defaults to 1 here —
+   * and a 1 means "upper bound", not "measured".
+   */
+  currentEfficiency: number;
 }
 
 export interface ThermalRun {
@@ -2107,6 +2117,7 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
           anodeMoles: e.anode_moles === undefined ? undefined : Number(e.anode_moles),
           cathodeSpecies: e.cathode_species === undefined ? undefined : String(e.cathode_species),
           cathodeMoles: e.cathode_moles === undefined ? undefined : Number(e.cathode_moles),
+          currentEfficiency: Number(e.current_efficiency ?? 1),
         },
       };
     case "mixed":

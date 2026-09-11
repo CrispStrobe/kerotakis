@@ -1,11 +1,32 @@
-# Electrolysis of copper sulfate: Faraday's law
-register lv2
+# Electrolysis of copper sulfate: Faraday's law, checked on a balance
+#
+# The point of this one is that you can do it on paper first. Weigh the
+# electrode, run the cell, weigh it again, and the difference is a number you
+# already predicted:
+#
+#   I = 1.000 A, t = 965 s
+#   Q = I·t         = 965 C
+#   n(e-) = Q/F     = 965 / 96485.33 = 0.010002 mol of electrons
+#   n(Cu) = n(e-)/2 = 0.005001 mol            <- the 2 is the only chemistry
+#   m = n·M         = 0.005001 x 63.546 = 0.3178 g
+#
+# Everything but that 2 is arithmetic you could do for any element. The 2 is
+# copper(II): each ion needs two electrons to become an atom. Silver would be
+# 1 and aluminium 3, and the same charge would deposit quite different masses.
+#
+# Assumptions, because the predicted mass depends on them. Inert electrodes,
+# so the anode oxidises water and the beaker turns acid. And the cell is taken
+# to be fully efficient for copper: no hydrogen is co-evolved at the cathode.
+# That is an upper bound, not a measurement -- a real electrode weighs this
+# much or less, never more. The bench says so at lv3, and it reports a
+# computed efficiency below 1 if the copper runs out before the charge does.
+register lv3
 new
 add v1 water 200mL
 add v1 CuSO4 5g
 measure v1 balance
 measure v1 eyes
-electrolyze v1 0.5A 30 minutes
+electrolyze v1 1.0A 965s
 measure v1 balance
 measure v1 eyes
 inspect v1
