@@ -3,6 +3,35 @@
 > Finished work is not listed here. What landed, and what it taught us, is in
 > [HISTORY.md](HISTORY.md). Task numbers are never renumbered and never reused.
 
+## Protein and enzyme lessons reach the catalogue (2026-09-11)
+
+Four `.lab` lessons — `heating-proteins`, `protease-and-gelatin`,
+`lactase-and-milk` and `lipase-and-oil` — had shipped and replayed in CI for
+days with nothing in the catalogue pointing at them, so the only way to reach
+one was to already know its filename. K74–K77 are the four cards, and the
+guided catalogue now extends through K77.
+
+Each card describes what its script actually does, not the demonstration it
+resembles. The ingredients are the ones the lesson adds and the quantities are
+the ones it adds them in, so a card and its lesson cannot drift apart
+unnoticed; `tools/tests/test_kids_catalog.py` pins that pairing. The three
+enzyme rows each carry their two controls — no enzyme, and a deliberately
+wrong enzyme — because an enzyme acting alone is a demonstration and only the
+matched controls make it a comparison.
+
+What they do *not* claim is on each row's boundary, in both languages: K74
+records irreversible denaturation and visible aggregation and explicitly does
+not treat gelatine setting as the same transition; K75 reports hydrolysed
+protein mass and not gel texture or named peptides; K76 records bounded bond
+cleavage inside conserved milk solids and claims neither sweetness nor a
+glucose/galactose inventory; K77 keeps the oil a conserved unresolved mixture
+and invents neither a pH fall nor named glycerol and fatty-acid amounts.
+
+This is the first tranche against the protein and enzyme gaps recorded in
+"Where this leaves the kids' experiments" below. Still open there: casein
+gelation, `pepsin`, `catalase`, texture, named peptide products and general
+protein chemistry.
+
 ## Source-fleet catalog promotion (2026-09-08)
 
 The guided catalog now extends through K63. K61 varies the hot fraction in an
