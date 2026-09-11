@@ -1885,9 +1885,11 @@ Open, and small:
          provenance reading one constant is exactly right: every number
          the solver runs on is a curated table, in `phase_route.rs`
          (`FUSION_ENTHALPIES`, `VAPORISATION_ENTHALPIES`,
-         `SUBLIMATION_ENTHALPIES`) or in the registry (`melts_at`,
-         `boils_at`, `sublimes_at`, `hydrate_pairs`, the polymer
-         thresholds). Saying the melt and the sublimation differently
+         `SUBLIMATION_ENTHALPIES`), in the registry (`melts_at`,
+         `boils_at`, `sublimes_at`, `hydrate_pairs`) or in a curated
+         material recipe (`MaterialRole::PolymerHeatResponse`'s
+         `softens_above_k` and `chars_above_k`). Saying the melt and the
+         sublimation differently
          would need a per-ROUTE kind; that buys nothing now that the two
          are one grade, and it costs the stable per-solver identity the
          drift gate reads.
