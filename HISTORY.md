@@ -228,6 +228,64 @@ it had while it was open, which is why a few numbers appear twice below.
 
 ---
 
+**Electrolysis**
+
+- **`feat/faraday-electrolysis`** — charge to moles to mass at an electrode,
+  the arithmetic a learner can check against a balance: charge over the
+  Faraday constant, over the electron count, times the molar mass. The
+  bookkeeping mattered more than the sophistication, so the electron ledger
+  is closed and checked rather than asserted in prose. **Current efficiency
+  is stated rather than assumed**: a bench that reports a perfectly
+  efficient deposit is making a claim it cannot support, since hydrogen
+  evolution competes with metal deposition in any real cell, so the
+  assumption lives where the number is and the bench says so. Running the
+  ion out mid-electrolysis stops the deposit rather than continuing to mint
+  mass.
+
+**Coverage classification**
+
+- **`fix/inert-aside-outranks-computed`** — an `Inert` verdict standing
+  beside a corrosion answer now lifts the observation short-circuit, as a
+  curated route and an `Adsorbed` event already did. The two are answers to
+  different questions: `Inert` is the displacement solver saying this metal
+  will not displace that ion, while `Corroded` is the corrosion route saying
+  the metal is wasting, and a beaker can honestly get both. Letting the aside
+  outrank the answer demoted six corrosion prompts to `qualitative`. The
+  trigger was new and the fragility was not: once open vessels began taking
+  up the room's CO2, beaker water reached its true pH 5.6 instead of 7, which
+  is acid enough to wake the displacement solver. Anything that moved the pH
+  would have done it. One row moved, `mat-101`.
+
+**Backlog hygiene**
+
+- **`docs/plan-status-reconcile`** — three status clauses in PLAN.md
+  described merged work as open: the Cp(T) wiring half as "in flight", the
+  `Vessel::heat_capacity` residual as "open until #509 merges", and
+  open-vessel CO2 uptake as a peer's still-open PR. All three had landed. A
+  backlog that says a landed thing is open costs the next session either
+  duplicated work or the time spent proving it is done.
+
+### Lessons
+
+- a test envelope that stops exactly where the code stops working reads as
+  stronger evidence than it is. The Nernst-Planck grid's forty-eight points
+  ended at the solver's convergence cliff, so hydrogen ion at one molar, near
+  the fastest thing in aqueous chemistry, refused. Sampling, not the oracle,
+  was the weakness.
+- the fix for a scale mismatch is rarely a better constant. An absolute
+  potential floor against an absolute current tolerance only works over the
+  range someone happened to test; deriving the floor from what the arithmetic
+  can still resolve made the working range follow the physics.
+- prose can be born false rather than going stale. The rate law the
+  iodide-peroxide nudge quoted was the textbook's, written fifteen minutes
+  after the engine's own order term and wrong for nineteen days, so no rename
+  event existed for a reviewer to watch for.
+- a negation on a float is often load-bearing: `!(x > 0.0)` catches NaN and
+  `x <= 0.0` does not, so the obvious lint fix would have been a silent
+  behaviour change.
+- work stopped for two days with two pull requests fully green and unmerged.
+  Finished work that nobody lands is indistinguishable from unfinished work.
+
 ## 2026-09-09
 
 **Electrochemical kinetics**
