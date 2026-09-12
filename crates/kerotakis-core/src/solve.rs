@@ -1021,7 +1021,12 @@ fn self_consistent_freezing(
     activity: crate::states::SolventActivity,
     pressure_kpa: f64,
 ) -> f64 {
-    if !(allowed > 0.0) || particle_moles <= 0.0 || cp <= 0.0 {
+    // `is_nan()` first, deliberately: this guard was written as
+    // `!(allowed > 0.0)` so that a NaN allowance takes the early return
+    // rather than falling into the bisection below. `allowed <= 0.0`
+    // alone is false for NaN, so the two are not interchangeable, and
+    // `allowed.max(0.0)` then yields 0.0 for it.
+    if allowed.is_nan() || allowed <= 0.0 || particle_moles <= 0.0 || cp <= 0.0 {
         return allowed.max(0.0);
     }
     // Temperature the vessel reaches having spent `x` of the excess cooling
@@ -1069,7 +1074,12 @@ fn self_consistent_melting(
     activity: crate::states::SolventActivity,
     pressure_kpa: f64,
 ) -> f64 {
-    if !(allowed > 0.0) || particle_moles <= 0.0 || cp <= 0.0 {
+    // `is_nan()` first, deliberately: this guard was written as
+    // `!(allowed > 0.0)` so that a NaN allowance takes the early return
+    // rather than falling into the bisection below. `allowed <= 0.0`
+    // alone is false for NaN, so the two are not interchangeable, and
+    // `allowed.max(0.0)` then yields 0.0 for it.
+    if allowed.is_nan() || allowed <= 0.0 || particle_moles <= 0.0 || cp <= 0.0 {
         return allowed.max(0.0);
     }
     let temperature_after =
