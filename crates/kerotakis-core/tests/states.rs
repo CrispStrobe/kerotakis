@@ -476,16 +476,24 @@ fn a_solution_past_the_stated_range_is_refused_a_transition_rather_than_given_on
 /// about salt crystallisation it never got near.
 ///
 /// So the invariant, swept rather than pinned at one lucky temperature:
-/// every start between 215 K and 245 K either announces the boundary AND
-/// really is at it — the residual brine concentrated to the cap, the vessel
-/// on the cap's own liquidus — or announces nothing and sits on its own
-/// liquidus with ice beside it. There is no third state, and the bug was
-/// exactly the third state.
+/// every start in the sweep either announces the boundary AND really is at
+/// it — the residual brine concentrated to the cap, the vessel on the cap's
+/// own liquidus — or announces nothing and sits on its own liquidus with ice
+/// beside it. There is no third state, and the bug was exactly the third
+/// state.
+///
+/// **The grid's ends are the physics', not the solver's.** The warm end is
+/// this brine's own liquidus, 262.4 K: above it nothing freezes and there is
+/// no pass to check. The cold end is 205 K, well past where the cap bites
+/// from the first transfer — the existing boundary test starts at 200 and
+/// nothing new happens between them. A grid that stopped where a solver
+/// stopped agreeing with itself would read stronger than it is, so these two
+/// are named rather than tuned.
 #[test]
 fn the_boundary_is_announced_only_when_the_brine_actually_reached_it() {
     let mut announced = 0;
     let mut coexisting = 0;
-    for tenths in 2150..2450 {
+    for tenths in 2050..2620 {
         let start = f64::from(tenths) / 10.0;
         let mut coupled = PhaseEquilibrator::wrapping(Box::new(ParticleBalanceSolver {
             particle_moles: 0.6,
