@@ -531,7 +531,9 @@ fn partial_freezing(
     // the state layer makes. Re-deriving it from the molality through the
     // ideal route would hold the coupled solve to a model it is not using
     // and report the 0.17 K between them as a convergence failure.
-    let liquidus = kerotakis_core::solve::vessel_transitions(vessel).0.freezing_k;
+    let liquidus = kerotakis_core::solve::vessel_transitions(vessel)
+        .0
+        .freezing_k;
     let temperature_error = vessel.temperature.0 - liquidus;
     let sodium =
         vessel.moles_of(&SpeciesId::new("Na+")).0 + vessel.moles_of(&SpeciesId::new("NaCl")).0;

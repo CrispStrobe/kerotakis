@@ -111,7 +111,9 @@ fn cooling_salt_water_removes_pure_ice_and_resolves_the_residual_brine() {
     // The vessel's own liquidus — activity route and all — rather than the
     // molality put back through the ideal relation, which is a different
     // model and would read 0.17 K of model difference as non-convergence.
-    let liquidus = kerotakis_core::solve::vessel_transitions(frozen).0.freezing_k;
+    let liquidus = kerotakis_core::solve::vessel_transitions(frozen)
+        .0
+        .freezing_k;
     assert!(
         (frozen.temperature.0 - liquidus).abs() <= PHASE_COUPLED_TEMPERATURE_TOLERANCE_K,
         "temperature {} K and re-solved liquidus {liquidus} K disagree",
@@ -233,7 +235,9 @@ fn quantized_thermal_cycle_still_reaches_the_phase_coupled_state() {
     let settled = bench.vessel(VesselId(0)).unwrap();
     assert!(water_moles(settled, Phase::Solid) > 0.0);
     assert!(water_moles(settled, Phase::Liquid) > 0.0);
-    let liquidus = kerotakis_core::solve::vessel_transitions(settled).0.freezing_k;
+    let liquidus = kerotakis_core::solve::vessel_transitions(settled)
+        .0
+        .freezing_k;
     assert!(
         (settled.temperature.0 - liquidus).abs() <= PHASE_COUPLED_TEMPERATURE_TOLERANCE_K,
         "temperature {} K and re-solved liquidus {liquidus} K disagree",

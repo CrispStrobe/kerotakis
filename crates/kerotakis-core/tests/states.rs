@@ -211,16 +211,18 @@ impl Equilibrator for ParticleBalanceSolver {
                 }
                 species
             },
-            provenance: self.ion_interaction.then(|| kerotakis_core::vessel::Provenance {
-                engine: "particle-balance-test".to_string(),
-                dataset: "test".to_string(),
-                model: format!(
-                    "{} stand-in for a brine dataset",
-                    kerotakis_core::states::ION_INTERACTION_MODEL_PREFIX
-                ),
-                dataset_sources: Vec::new(),
-                routing: "fixture".to_string(),
-            }),
+            provenance: self
+                .ion_interaction
+                .then(|| kerotakis_core::vessel::Provenance {
+                    engine: "particle-balance-test".to_string(),
+                    dataset: "test".to_string(),
+                    model: format!(
+                        "{} stand-in for a brine dataset",
+                        kerotakis_core::states::ION_INTERACTION_MODEL_PREFIX
+                    ),
+                    dataset_sources: Vec::new(),
+                    routing: "fixture".to_string(),
+                }),
         });
         Ok(Vec::new())
     }
@@ -299,7 +301,9 @@ fn phase_coupling_respeciates_the_residual_brine_until_both_states_agree() {
     // put an ideal-solution answer beside an ion-interaction one and call
     // the difference non-convergence — the fixture reports a solvent
     // activity precisely so this path is the brine path.
-    let liquidus = kerotakis_core::solve::vessel_transitions(&vessel).0.freezing_k;
+    let liquidus = kerotakis_core::solve::vessel_transitions(&vessel)
+        .0
+        .freezing_k;
     assert!(
         (vessel.temperature.0 - liquidus).abs() < 1e-12,
         "phase state {} K and re-solved liquidus {liquidus} K disagree",
@@ -454,9 +458,9 @@ fn a_solution_past_the_stated_range_is_refused_a_transition_rather_than_given_on
     let mut standing = partially_frozen_test_vessel(298.15);
     let quiet = warm.equilibrate(&mut standing).unwrap();
     assert!(
-        !quiet
-            .iter()
-            .any(|event| matches!(event, Event::NotYetModeled { what, .. } if what.contains("Raoult"))),
+        !quiet.iter().any(
+            |event| matches!(event, Event::NotYetModeled { what, .. } if what.contains("Raoult"))
+        ),
         "{quiet:?}"
     );
 }
@@ -506,12 +510,14 @@ fn the_boundary_is_announced_only_when_the_brine_actually_reached_it() {
         let ice = water_phase_moles(&vessel, Phase::Solid);
         assert!(liquid > 0.0 && ice > 0.0, "{start} K: {liquid} / {ice}");
 
-        let boundary = events.iter().any(|event| {
-            matches!(event, Event::NotYetModeled { what, .. } if what.contains("eutectic"))
-        });
+        let boundary = events.iter().any(
+            |event| matches!(event, Event::NotYetModeled { what, .. } if what.contains("eutectic")),
+        );
         // Whatever happened, the vessel is on ITS OWN liquidus: the brine
         // that is actually there, through the route it actually took.
-        let liquidus = kerotakis_core::solve::vessel_transitions(&vessel).0.freezing_k;
+        let liquidus = kerotakis_core::solve::vessel_transitions(&vessel)
+            .0
+            .freezing_k;
         assert!(
             (vessel.temperature.0 - liquidus).abs() < 1e-6,
             "{start} K: settled at {} K, liquidus {liquidus} K",
@@ -539,5 +545,8 @@ fn the_boundary_is_announced_only_when_the_brine_actually_reached_it() {
     // Both halves of the sweep have to be populated or the invariant was
     // never tested: the cold end must reach the cap and the warm end must
     // stop short of it.
-    assert!(announced > 0 && coexisting > 0, "{announced} / {coexisting}");
+    assert!(
+        announced > 0 && coexisting > 0,
+        "{announced} / {coexisting}"
+    );
 }

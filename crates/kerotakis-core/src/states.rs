@@ -1019,9 +1019,7 @@ mod tests {
         let ideal = SolventActivity::ideal();
         assert!(ideal.covers(IDEAL_MAX_PARTICLE_MOLALITY));
         assert!(!ideal.covers(IDEAL_MAX_PARTICLE_MOLALITY + 1e-9));
-        assert!(ideal
-            .out_of_range_reason(9.0)
-            .contains("Raoult"));
+        assert!(ideal.out_of_range_reason(9.0).contains("Raoult"));
         // A saturated chloride brine is not near the ion-interaction
         // range's edge, and should not be: halite saturates at I = 6.11 and
         // `pitzer.dat` carries the evaporite sequence out to bischofite near

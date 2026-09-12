@@ -1173,12 +1173,8 @@ fn solvent_activity_of(
     // the speciated particles alone — a sucrose no database carries was
     // never in the solve that produced this activity and must not be
     // divided into it.
-    crate::states::SolventActivity::from_speciation(
-        water.activity,
-        speciated,
-        info.ionic_strength,
-    )
-    .with_unspeciated(speciated, unspeciated)
+    crate::states::SolventActivity::from_speciation(water.activity, speciated, info.ionic_strength)
+        .with_unspeciated(speciated, unspeciated)
 }
 
 /// Dissolved particles, split by whether an aqueous engine counted them:
