@@ -739,9 +739,11 @@ numbers are never re-bound.
   as one computed family: vapour-pressure lowering, boiling-point
   elevation, freezing-point depression (landed; joins the pack), osmotic
   pressure (van't Hoff) with a semipermeable membrane link between two
-  vessels as the one new mechanism. Acceptance: all four scale with
-  particle molality including the van't Hoff factor for electrolytes;
-  membrane flow equilibrates honestly. Fold-in (scenario-simulation
+  vessels as the one new mechanism. Acceptance: all four follow from ONE
+  solvent activity — since 2026-09-11 that is what the two landed members
+  are computed from (`states::SolventActivity`), so a pack whose members
+  scaled independently with particle molality would no longer be one
+  family; membrane flow equilibrates honestly. Fold-in (scenario-simulation
   corpus): tonicity/IV-drip framing joins here.
 - **EXP-48 — Interfacial properties** — surface tension and capillarity as
   curated per-liquid data with computed capillary rise. **First slice done
