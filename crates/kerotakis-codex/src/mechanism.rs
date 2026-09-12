@@ -439,6 +439,18 @@ pub fn problems(bound: Option<&str>, text: &str) -> Vec<String> {
     problems
 }
 
+/// Whether this sentence is about a RATE, as a word.
+///
+/// A substring test is not good enough and the test below is why: a
+/// sentence about a satu-RATE-d solution quoting `[Na⁺]` is a
+/// concentration, not a rate law, and matching inside a word turned the
+/// narrowest rule here into a false alarm.
+fn states_a_rate(sentence: &str) -> bool {
+    sentence
+        .split(|c: char| !c.is_alphanumeric())
+        .any(|word| word.eq_ignore_ascii_case("rate") || word.eq_ignore_ascii_case("rates"))
+}
+
 /// A written-out rate law must be a rate law the registry runs.
 ///
 /// The bracket is what makes this narrow enough to be worth having: `[X]`
@@ -449,7 +461,7 @@ pub fn problems(bound: Option<&str>, text: &str) -> Vec<String> {
 fn rate_expression_problems(bound: Option<&str>, text: &str) -> Vec<String> {
     let mut problems = Vec::new();
     for sentence in text.split(['.', ';']) {
-        if !sentence.to_lowercase().contains("rate") {
+        if !states_a_rate(sentence) {
             continue;
         }
         let written: Vec<String> = bracketed(sentence)
@@ -568,8 +580,15 @@ mod tests {
         // `[Na⁺]` in a saturation claim is a concentration, not a claim
         // about a rate law's inputs, and the first draft of this guard
         // failed three real quest lines by not making that distinction.
+        //
+        // The word `saturated` CONTAINS `rate`, which is how the second
+        // draft failed: the marker has to be the word, not the substring.
         let saturation = "the saturated solution reaches [Na⁺] of about 5.4 mol/L";
-        assert!(problems(None, saturation).is_empty());
+        assert!(
+            problems(None, saturation).is_empty(),
+            "{:?}",
+            problems(None, saturation)
+        );
     }
 
     #[test]
