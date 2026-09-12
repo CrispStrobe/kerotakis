@@ -186,7 +186,7 @@ it had while it was open, which is why a few numbers appear twice below.
     stepped would have been a bug waiting for the first vessel to arrive
     from above.
   - **The stage withholds the liquidus it will not reach, and only that.**
-    A saturated chloride's liquidus computes at −26 °C, past the 252 K
+    A saturated chloride's liquidus computes at −25.7 °C, past the 252 K
     boundary `StateEquilibrator` refuses to cross, so `scene.rs` stops
     drawing that plateau — while still drawing the BOIL of the same beaker,
     which is an ordinary answer from a model inside its range. The two
