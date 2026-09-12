@@ -448,7 +448,7 @@ pub fn problems(bound: Option<&str>, text: &str) -> Vec<String> {
 /// is the word `rate` and not the bracket.
 fn rate_expression_problems(bound: Option<&str>, text: &str) -> Vec<String> {
     let mut problems = Vec::new();
-    for sentence in text.split(|c: char| c == '.' || c == ';') {
+    for sentence in text.split(['.', ';']) {
         if !sentence.to_lowercase().contains("rate") {
             continue;
         }
