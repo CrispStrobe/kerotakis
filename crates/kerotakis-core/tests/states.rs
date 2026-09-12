@@ -460,3 +460,76 @@ fn a_solution_past_the_stated_range_is_refused_a_transition_rather_than_given_on
         "{quiet:?}"
     );
 }
+
+/// Announcing the boundary is a claim about where the brine ENDED UP, and
+/// it has to stay one now that the pass solves for coexistence.
+///
+/// Asking for more ice than the eutectic cap allows is not the same as
+/// hitting that cap. Under ΔT = K_f·m the two were near enough the same
+/// thing: the plateau barely moved, so a cooling that demanded the cap's
+/// worth of latent heat spent it. With the solvent's activity in it the
+/// liquidus runs away from the pass, and a brine cooled just past the cap's
+/// worth meets its own falling plateau well before the cap and freezes
+/// there — while `requested > maximum` still reads true. The first draft of
+/// this branch settled that vessel at the cap's temperature, which is
+/// COLDER than the coexistence it actually reached, and told the learner
+/// about salt crystallisation it never got near.
+///
+/// So the invariant, swept rather than pinned at one lucky temperature:
+/// every start between 215 K and 245 K either announces the boundary AND
+/// really is at it — the residual brine concentrated to the cap, the vessel
+/// on the cap's own liquidus — or announces nothing and sits on its own
+/// liquidus with ice beside it. There is no third state, and the bug was
+/// exactly the third state.
+#[test]
+fn the_boundary_is_announced_only_when_the_brine_actually_reached_it() {
+    let mut announced = 0;
+    let mut coexisting = 0;
+    for tenths in 2150..2450 {
+        let start = f64::from(tenths) / 10.0;
+        let mut coupled = PhaseEquilibrator::wrapping(Box::new(ParticleBalanceSolver {
+            particle_moles: 0.6,
+            calls: Rc::new(Cell::new(0)),
+            ion_interaction: true,
+        }));
+        let mut vessel = partially_frozen_test_vessel(start);
+        let events = coupled.equilibrate(&mut vessel).unwrap();
+        let liquid = water_phase_moles(&vessel, Phase::Liquid);
+        let ice = water_phase_moles(&vessel, Phase::Solid);
+        assert!(liquid > 0.0 && ice > 0.0, "{start} K: {liquid} / {ice}");
+
+        let boundary = events.iter().any(|event| {
+            matches!(event, Event::NotYetModeled { what, .. } if what.contains("eutectic"))
+        });
+        // Whatever happened, the vessel is on ITS OWN liquidus: the brine
+        // that is actually there, through the route it actually took.
+        let liquidus = kerotakis_core::solve::vessel_transitions(&vessel).0.freezing_k;
+        assert!(
+            (vessel.temperature.0 - liquidus).abs() < 1e-6,
+            "{start} K: settled at {} K, liquidus {liquidus} K",
+            vessel.temperature.0
+        );
+        if boundary {
+            // …and if the boundary was announced, that liquidus is the
+            // boundary's own. A refusal that fires anywhere warmer is a
+            // refusal invented out of arithmetic.
+            assert!(
+                (vessel.temperature.0 - kerotakis_core::states::BRINE_MODEL_MIN_K).abs() < 1e-6,
+                "{start} K: announced the boundary at {} K",
+                vessel.temperature.0
+            );
+            announced += 1;
+        } else {
+            assert!(
+                vessel.temperature.0 > kerotakis_core::states::BRINE_MODEL_MIN_K,
+                "{start} K: silent at {} K",
+                vessel.temperature.0
+            );
+            coexisting += 1;
+        }
+    }
+    // Both halves of the sweep have to be populated or the invariant was
+    // never tested: the cold end must reach the cap and the warm end must
+    // stop short of it.
+    assert!(announced > 0 && coexisting > 0, "{announced} / {coexisting}");
+}

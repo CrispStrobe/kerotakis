@@ -1382,7 +1382,7 @@ impl Equilibrator for StateEquilibrator {
                 0.0
             };
             let maximum_freezing = (liquid_moles - minimum_liquid_moles).max(0.0);
-            let reached_boundary = requested_freezing > maximum_freezing + 1e-12;
+            let over_the_cap = requested_freezing > maximum_freezing + 1e-12;
             let allowed = requested_freezing.min(maximum_freezing);
 
             // The liquidus this transfer is sized against is the one the
@@ -1423,6 +1423,16 @@ impl Equilibrator for StateEquilibrator {
                 activity,
                 pressure_kpa,
             );
+            // Asking for more ice than the cap allows is not the same as
+            // HITTING the cap, and it stopped being the same when the pass
+            // started solving for coexistence. A brine cooled just past its
+            // cap's worth of latent heat now meets its own falling liquidus
+            // well before the cap, and freezes there; announcing a boundary
+            // it never reached — and settling it at that boundary's
+            // temperature, which is colder than where it actually is — would
+            // be a refusal invented out of arithmetic. So the boundary is
+            // reached only when the solve itself ran into the cap.
+            let reached_boundary = over_the_cap && freezing >= maximum_freezing - 1e-12;
 
             if freezing <= crate::OBSERVABLE_MOLES {
                 if reached_boundary {
