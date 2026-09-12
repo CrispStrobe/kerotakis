@@ -274,7 +274,7 @@ pub struct SpeciesData {
     /// exists rather than a refusal.
     ///
     /// **A flag left set after an engine gains the species double-counts
-    /// it** — `solve::dissolved_particle_molality` adds every holder to
+    /// it** — `solve::dissolved_particles` adds every holder to
     /// the colligative particle count on the registry's own word that
     /// nothing else has, so the boiling point would move twice. That is a
     /// data fix rather than a guess in the solver, and it was made in the

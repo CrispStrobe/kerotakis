@@ -81,6 +81,153 @@ it had while it was open, which is why a few numbers appear twice below.
   have one. It is a tripwire on the path these four rate laws take, not a
   sweep of the prose.
 
+**Colligative properties, from the solvent's activity**
+
+- **`improve/colligative-water-activity`** — replaced the dilute-solution law
+  with the relation it is the limiting case of. `states.rs` now computes
+  `1/T_f = 1/T_f° − (R/ΔH_fus)·ln a_w` and `1/T_b = 1/T_b° + (R/ΔH_vap)·ln
+  a_w`, and takes a_w from the speciation that answered the beaker. One
+  molal brine reads −3.44 °C against a measured −3.4 where ΔT = K_f·m said
+  −3.72; a six molal brine boils at 108.0 °C against a measured 108.7 where
+  the law said 106.1. Both constants are kept and still derived from water's
+  two enthalpies — they are now named as the limiting slopes they are.
+  What it taught:
+  - **The particle count was never the problem, and was not touched.** The
+    speciation is still asked how many particles there are. The llnl NaCl
+    ion pair stays declined: borrowing it would have moved the count 2.00 →
+    1.93 and the answer to −3.59, closing most of the gap by the one
+    mechanism the diagnosis said was not it, and hiding the real correction
+    behind a partial cancellation. `pitzer.dat` — built for brine — carries
+    no such pair either and corrects the solvent instead, which was the
+    decisive evidence.
+  - **Only one loaded dataset computes a solvent activity.** `pitzer.dat`
+    solves an osmotic coefficient (`COSMOT`, `AW = exp(-OSUM * COSMOT /
+    55.50837)`) and gives φ = 0.937 at one molal NaCl against a measured
+    0.936. `wateq4f.dat` and `minteq.v4.dat` do not: with no `PITZER` block,
+    PHREEQC closes its water-activity unknown with a hard-coded `1 −
+    0.017·Σm` (`model.cpp`, `AH2O_FACTOR`), which is the dilute law with a
+    different constant. **That placeholder is declined**, and the argument
+    is worth keeping: 0.017/0.018015 = 0.944 sits near the osmotic
+    coefficient of a common electrolyte, so it gives GOOD answers for salts
+    (0.1 molal NaCl at −0.351 against a measured −0.346) and confidently
+    wrong ones for a non-electrolyte, whose φ is above one. A constant that
+    carries no information about what is dissolved is not a solvent model.
+    Where none applies the bench uses Raoult's law and says `IdealSolution`
+    rather than dressing an assumption as a measurement.
+  - **The number needed no new plumbing.** Water's activity has been on the
+    wire all along as the `H2O` row of the ordinary species distribution —
+    the same rows `particles` draws its census from — so the replay cache
+    and the wasm path read exactly what the native engine does, and the
+    2026-08 native/wasm one-value rule was never at risk.
+  - **It is carried as φ, not as a_w.** A speciation solves at one molality
+    and the freezing pass asks about a liquid compartment that has just
+    given water up to ice. φ re-applies at the new molality; a_w does not.
+    Particles no speciation saw — sucrose, which no loaded database carries
+    — are blended in at φ = 1, exactly, because both populations concentrate
+    by the same factor.
+  - **Both routes state where they stop, and refuse past it.** The
+    ion-interaction route is claimed to I = 20 mol/kgw, and the first
+    number was wrong: it was 6.5 for a day, taken from halite's saturation
+    at I = 6.11 in this dataset. Halite is one salt and ionic strength is
+    not — a 2:1 chloride reaches I = 6.5 at a third of the particle
+    molality a 1:1 one does — so a sodium-chloride figure refused `th-005`
+    ("why does calcium chloride help melt road ice?") four degrees short of
+    the eutectic boundary that should have stopped it. The evidence for the
+    wider range is in the shipped file rather than in a citation:
+    `pitzer.dat` carries the evaporite sequence to its end — `Bischofite`,
+    `MgCl2_4H2O`, `Carnallite` beside `Halite` and `Kieserite` — and
+    bischofite saturates near I = 17, so its virial coefficients are fitted
+    through there. After the correction the 252 K boundary bites first for
+    every salt on the freezing path, which leaves this ceiling doing the job
+    it should have had: an entry gate against a solution already past the
+    model before anything is asked of it. The ideal route stops at 6 mol/kgw
+    of particles, which is where
+    sucrose saturates — a boundary the solubility curve draws rather than one
+    this module picked. That second ceiling is a stopping point and NOT an
+    accuracy claim, and the review that landed this said so after checking:
+    against measured sucrose freezing points a sugar's osmotic coefficient at
+    the freezing point is 1.01 at one molal but near 1.4 at six, so Raoult's
+    law is 2 % short at one molal and about a THIRD short at the ceiling. The
+    first draft of the comment said 1.2 and a fifth, which are the figures for
+    3.5 mol/kgw; the corrected numbers are in `states.rs` beside the constant,
+    with the one promise that does hold all the way — the sign never reverses,
+    so a sugar's shift on this route is always under-stated, never over.
+    Beyond either ceiling,
+    `StateEquilibrator` declines the transition and names the boundary
+    instead of extrapolating a fit that reads as authoritatively as a real
+    one. The 252 K eutectic boundary is unchanged and still fires first for
+    brine; its freeze-concentration cap moved from 11.37 to 13.80 mol/kgw
+    because it is now inverted through the same relation rather than
+    through K_f·m.
+  - **A string test, pinned from the other side.** `kerotakis-core` sits
+    below the crate that knows which dataset is which, so it decides whether
+    to believe an activity by testing `Provenance::model` against
+    `ION_INTERACTION_MODEL_PREFIX`. Inverting the dependency to type one
+    boolean would be the larger mistake; leaving the string unpinned would
+    be a silent failure, so `dbindex.rs` asserts that the Pitzer description
+    starts with it and that neither Debye–Hückel description does.
+  - **The liquidus now runs away from the pass that chases it, so the pass
+    solves instead of stepping.** Under ΔT = K_f·m the plateau fell 1.86 K
+    per molal, linearly, and freezing the amount the cooling asked for left
+    the vessel close enough to the new plateau that the coupled loop closed
+    the rest. With the solvent's activity in it the liquidus falls faster
+    and faster — concentrating a brine raises its osmotic coefficient as
+    well as its molality — and for a 2:1 chloride the two together move it
+    several kelvin in one transfer. `th-005` rang between −11.6 and
+    −14.4 °C for all 32 passes and came out a solver failure. Both sides of
+    coexistence are closed-form in the amount frozen (the temperature rises
+    with it, the liquidus falls with it), so their difference is monotone
+    and one bisection lands on the crossing: `self_consistent_freezing`.
+    Where the liquidus really does stand still the crossing IS the amount
+    the cooling asked for and nothing changes. Melting got the same
+    treatment in the same pass, with the signs turned round — nothing in the
+    corpus rang that way, because the coupled loop reaches coexistence from
+    the freezing side, and leaving one direction solved and the other
+    stepped would have been a bug waiting for the first vessel to arrive
+    from above.
+  - **The stage withholds the liquidus it will not reach, and only that.**
+    A saturated chloride's liquidus computes at −25.7 °C, past the 252 K
+    boundary `StateEquilibrator` refuses to cross, so `scene.rs` stops
+    drawing that plateau — while still drawing the BOIL of the same beaker,
+    which is an ordinary answer from a model inside its range. The two
+    boundaries are different boundaries and the stage now treats them that
+    way. Past the activity model's own ceiling both are withheld, because
+    there the number itself is the thing that is not available.
+  - **Three goldens moved, and the arithmetic of each was checked from
+    outside.** `scene-five.json` moved four melting/boiling pairs at
+    unchanged molality: those vessels have no ion-interaction speciation, so
+    they take the ideal route, and each pair is exactly
+    `1/T = 1/T° ∓ (R/ΔH)·ln(1/(1 + M·Σm))` at the molality the old dilute
+    number implies — 1.9068, 1.9077, 1.9116 and 1.9449 mol/kgw, recovered
+    from the OLD values and reproduced independently rather than read back
+    out of the new implementation. The melting point rises about 0.10 K and
+    the boiling point falls about 0.014 K in every class, which is the
+    curvature of the logarithm against the straight line and nothing else.
+    `codex-export.json` moved only where `codex/states.toml` and its German
+    catalogue moved: the `salt-holds-the-water-liquid` summary, one predict
+    option, one diagnosis, three registers, the provenance sentence and the
+    acceptance window. `tools/golden/gui003-dom-five.json` moved seven
+    leaves, and a census of the changed keys is five `boiling-k`, one
+    `temperature-k` and one `volume-l` — no label, no appearance, no
+    structure.
+  - **The best evidence in the change is a beaker of washing soda.**
+    `cabbage-rainbow`'s v4 is 4 g of Na2CO3 in 100 mL, and its boiling point
+    moved 373.68 → 373.55 K: the printed value implies an osmotic
+    coefficient near 0.75 at Σm = 1.03, which is what a sodium carbonate
+    solution measures there (published φ runs 0.78 at 0.1 molal down to 0.71
+    at 0.5). The dilute law could not see that, because it counts particles
+    and a 2:1 salt's particles are as good as a 1:1 salt's to it. Its
+    neighbours in the same scene, at Σm = 0.80 and 0.31, did not move at two
+    decimal places at all — which is the other half of the same evidence.
+    The correction is large exactly where ideality fails and invisible where
+    it holds.
+  - **What is left, and named in PLAN.** A solution the router sends to a
+    Debye–Hückel dataset takes the ideal route even where an ion-interaction
+    model would do better, so a 0.1 molal brine is still a few per cent
+    optimistic. Fixing that means a second solve per step.
+
+---
+
 ## 2026-09-09
 
 **Electrochemical kinetics**

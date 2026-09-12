@@ -536,7 +536,20 @@
   // freezes at, which the engine computes with the colligative depression
   // its solutes bought. 272 K was a constant that made brine frost early and
   // every non-aqueous liquid frost at water's threshold.
-  const frosty = $derived(vessel.temperature_k < (vessel.melting_point_k ?? 272));
+  //
+  // …and `?? 272` put that constant back for the one case it was named
+  // after (2026-09-11). Since the engine derives the liquidus from the
+  // solvent's activity it also WITHHOLDS it where it will not claim one —
+  // a saturated brine's liquidus is past the eutectic boundary the solver
+  // refuses to cross, so `melting_point_k` arrives absent and this fell
+  // back on frosting it at 272 K, which is 20 K early. An absent melting
+  // point is the engine saying it does not know, and the honest picture of
+  // not knowing is no frost rather than water's. A vessel being cooled
+  // still shows the cooling: the frost layer below is drawn for the `cool`
+  // and `freeze` effects too.
+  const frosty = $derived(
+    vessel.melting_point_k !== undefined && vessel.temperature_k < vessel.melting_point_k,
+  );
   const hot = $derived(Math.min(1, Math.max(0, (vessel.temperature_k - 310) / 300)));
   const cold = $derived(Math.min(1, Math.max(0, (273.15 - vessel.temperature_k) / 60)));
   const motionMag = $derived(Math.max(mag("swirl", 2200), mag("burst", 1800), mag("heat", 2200), mag("cool", 2200)));

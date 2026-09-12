@@ -741,6 +741,44 @@ mod delta_h_tests {
         );
     }
 
+    /// The seam the colligative relation rests on, pinned from this side.
+    ///
+    /// `kerotakis-core` decides whether to believe a reported water
+    /// activity by testing `Provenance::model` against
+    /// `states::ION_INTERACTION_MODEL_PREFIX`, because it sits below this
+    /// crate and cannot ask which dataset answered. That is a string test,
+    /// and a string test that nobody pins is a silent failure waiting: a
+    /// reworded label would send every brine back to the ideal route and
+    /// put one molal salt water back at −3.61 °C with nothing failing.
+    ///
+    /// So: the Pitzer description must start with it, and neither
+    /// Debye–Hückel description may.
+    #[test]
+    fn only_the_ion_interaction_model_carries_the_prefix_core_matches_on() {
+        let prefix = kerotakis_core::states::ION_INTERACTION_MODEL_PREFIX;
+        assert!(
+            ActivityModel::Pitzer.describe().starts_with(prefix),
+            "{}",
+            ActivityModel::Pitzer.describe()
+        );
+        for other in [ActivityModel::WateqDebyeHuckel, ActivityModel::Davies] {
+            assert!(
+                !other.describe().starts_with(prefix),
+                "{} must not be read as a solvent-activity model",
+                other.describe()
+            );
+        }
+        // And the dataset the router reaches for brine really is the one
+        // with the model: `PITZER` is the block `parse` keys on.
+        assert_eq!(
+            DbIndex::parse(crate::databases::PITZER).activity_model,
+            ActivityModel::Pitzer
+        );
+        for plain in [crate::databases::WATEQ4F, crate::databases::PHREEQC] {
+            assert_ne!(DbIndex::parse(plain).activity_model, ActivityModel::Pitzer);
+        }
+    }
+
     #[test]
     fn redefining_species_drops_earlier_temperature_attributes() {
         for earlier in ["delta_h -72 kJ", "-analytical_expression 0 0 -1000 0 0"] {

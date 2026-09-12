@@ -210,7 +210,15 @@ pub fn check(case: &str, before: &Vessel, after: &Vessel, events: &[Event]) -> V
     } else {
         0.0
     };
-    let t = kerotakis_core::states::transitions(solutes);
+    // Counted off the inventory, but run through whatever solvent activity
+    // the vessel's own speciation established — ideal when there is none,
+    // which is the case this fallback exists for.
+    let t = kerotakis_core::states::transitions_with(
+        kerotakis_core::solve::vessel_solvent_activity(after),
+        solutes,
+        kerotakis_core::states::ATMOSPHERE_KPA,
+    )
+    .0;
     let liquid_water = after
         .contents
         .iter()

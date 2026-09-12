@@ -1778,29 +1778,29 @@ Open, and small:
       C20 to C40 softens across roughly 46–68 °C rather than melting at a
       point, and `PhaseTransitions` has five temperatures and no slot for
       a RANGE. Give it one, and the wax melts.
-- [ ] **The colligative relation is the DILUTE-solution law, used where it
-      is about nine per cent optimistic.** One molal brine comes out at
-      −3.72 °C against a real −3.4. The particle count is not the problem
-      and must not be blamed for it: the speciation is asked how many
-      particles there are, and for NaCl the answer really is two, because
-      no database this bench LOADS defines an aqueous NaCl ion pair. That
-      scope word was missing until 2026-09-07 and the sentence was false
-      without it: `vendor/iphreeqc/database/llnl.dat` line 5733 is
-      `Na+ + Cl- = NaCl`, `log_k -0.777`, vendored here and not routed.
-      **It is judged and declined, not overlooked.** Borrowing it would
-      pair about one formula unit in fourteen at one molal, take the count
-      from 2.00 to 1.93 and the answer from −3.72 to −3.59 — most of the
-      gap closed by the one mechanism this item says is not the problem.
-      pitzer.dat, built for brine, carries no NaCl pair either and
-      corrects the SOLVENT instead, with `-B0 Cl- Na+ 7.534e-2` and its
-      `-B1`/`-C0` siblings; llnl's pair is a range-extending fitting
-      device tied to llnl's own activity model. So what is missing is
-      still the solvent's activity — a textbook's i ≈ 1.85 is that
-      correction wearing the particle count's clothes. This item's
-      original text already named the fix: "PHREEQC gives us the osmotic
-      coefficient already." Pinned from both ends in
-      `colligative_numbers.rs` so it cannot be narrowed away quietly, and
-      the declined borrow is written out there too.
+- [x] **The colligative relation WAS the DILUTE-solution law, used where it
+      was about nine per cent optimistic** — it is now the relation that law
+      is the limit of, run on the solvent's activity
+      (`improve/colligative-water-activity`, 2026-09-11). One molal brine
+      reads −3.44 °C against a measured −3.4 where ΔT = K_f·m said −3.72,
+      and a saturated brine boils at 108.0 °C where the law said 106.1
+      against a measured 108.7 — the correction changes SIGN near three
+      molal, so the second end is not a rider on the first. The particle
+      count never moved: it was not the problem, and the llnl NaCl ion pair
+      stayed declined for the reasons written in `colligative_numbers.rs`.
+      What supplies a_w, what does not and where each stops is in
+      `states::SolventActivity`; `HISTORY.md` has the rest.
+- [ ] **A dilute brine still takes the ideal route, and is a few per cent
+      optimistic in the same direction the dilute law was.** The solvent
+      activity is believed only when an ion-interaction speciation computed
+      it, and the router sends a solution to `pitzer.dat` at 1 mol/kgw —
+      so 0.1 molal brine is answered by a Debye–Hückel dataset, whose
+      reported water activity is PHREEQC's hard-coded `1 − 0.017·Σm`
+      placeholder rather than a model, and Raoult's law stands in: −0.371 °C
+      against a measured −0.346. Closing it means asking `pitzer.dat` for a
+      solvent activity independently of which dataset answered the
+      speciation, which is a second solve per step and wants measuring
+      before it is spent.
 - [x] **Is a boil a curated route or a computed one? Measured and decided,
       2026-09-11: it stays `Curated`, and the asymmetry that prompted the
       question is on the other solver.**

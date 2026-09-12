@@ -527,7 +527,13 @@ fn partial_freezing(
     let liquid = water_moles(vessel, Phase::Liquid);
     let ice = water_moles(vessel, Phase::Solid);
     let molality = particle_molality(vessel).unwrap_or(f64::NAN);
-    let liquidus = kerotakis_core::states::transitions(molality).freezing_k;
+    // The vessel's own liquidus, solvent activity included — the same call
+    // the state layer makes. Re-deriving it from the molality through the
+    // ideal route would hold the coupled solve to a model it is not using
+    // and report the 0.17 K between them as a convergence failure.
+    let liquidus = kerotakis_core::solve::vessel_transitions(vessel)
+        .0
+        .freezing_k;
     let temperature_error = vessel.temperature.0 - liquidus;
     let sodium =
         vessel.moles_of(&SpeciesId::new("Na+")).0 + vessel.moles_of(&SpeciesId::new("NaCl")).0;

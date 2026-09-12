@@ -597,7 +597,30 @@ fn liquid_transitions(v: &Vessel) -> (Option<f64>, Option<f64>) {
     };
     if liquid(SOLVENT) > 0.0 {
         let (transitions, _) = crate::solve::vessel_transitions(v);
-        return (Some(transitions.boiling_k), Some(transitions.freezing_k));
+        // Past the stated range of the model that supplied the solvent's
+        // activity there is no plateau to draw. `StateEquilibrator` refuses
+        // the transition in that case and names the boundary; a stage that
+        // went on printing the extrapolated number beside the refusal would
+        // be the same claim made quietly, which is the one thing the
+        // boundary exists to prevent.
+        if !transitions.within_model_range() {
+            return (None, None);
+        }
+        // The eutectic boundary is one-sided, and so is this. Below 252 K
+        // the liquidus needs a phase diagram this bench does not have —
+        // `StateEquilibrator` will not freeze past it and says so — but the
+        // BOIL of the same brine is an ordinary answer from a model that is
+        // still inside its range, so only the melting point is withheld.
+        //
+        // A saturated chloride is the case: the relation puts its liquidus
+        // at −25.7 °C, four degrees past the boundary the solver refuses to
+        // cross, and a stage that drew that plateau would be promising a
+        // temperature the bench has already declined to reach. It printed
+        // −22.3 °C for the same beaker under the dilute law and was wrong
+        // in the same way, only by less (2026-09-11).
+        let freezing = (transitions.freezing_k >= crate::states::BRINE_MODEL_MIN_K)
+            .then_some(transitions.freezing_k);
+        return (Some(transitions.boiling_k), freezing);
     }
     let Some(principal) = v
         .contents
