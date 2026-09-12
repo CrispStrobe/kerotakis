@@ -968,6 +968,134 @@ fn settle_from(vessel: &Vessel, threshold: f64, joules: f64, before: f64) -> f64
     }
 }
 
+/// The liquidus a brine reaches once `freezing` moles of its solvent have
+/// left as pure ice: the same solvent activity, re-evaluated at the molality
+/// the smaller liquid compartment then has.
+///
+/// Pure ice is what leaves, so the particles all stay behind and their
+/// molality rises by exactly the ratio of the water. φ is what carries
+/// across that, which is why [`crate::states::SolventActivity`] is held as
+/// an osmotic coefficient rather than as a water activity.
+fn liquidus_after_freezing(
+    freezing: f64,
+    liquid_moles: f64,
+    particle_moles: f64,
+    activity: crate::states::SolventActivity,
+    pressure_kpa: f64,
+) -> f64 {
+    let liquid_kg = (liquid_moles - freezing) * 0.018_015;
+    if liquid_kg <= 0.0 {
+        return f64::NEG_INFINITY;
+    }
+    crate::states::transitions_with(activity, particle_moles / liquid_kg, pressure_kpa)
+        .0
+        .freezing_k
+}
+
+/// How much of a brine's water freezes in one pass, given that freezing it
+/// moves the plateau.
+///
+/// Two curves in the amount frozen, and they cross once. The vessel's
+/// temperature RISES with it, because the excess cooling is paid off by
+/// latent heat; the liquidus FALLS with it, because the residual brine is
+/// more concentrated and — through the solvent's activity — more than
+/// proportionally so. The answer is where they meet: freeze less and the
+/// vessel is still below its plateau, freeze more and it is above one it has
+/// itself created and would have to melt back.
+///
+/// Bisection rather than a formula because the liquidus side is a logarithm
+/// of an exponential of the molality, and fifty halvings of a bracket that
+/// starts at most a few moles wide is exact to far beyond the 0.05 K the
+/// coupled loop resolves. `allowed` is the bracket's top — whatever the
+/// cooling asked for, capped by any model boundary — so a case where the
+/// curves do not cross inside it simply freezes all of it, which is the old
+/// behaviour and the right one.
+#[allow(clippy::too_many_arguments)]
+fn self_consistent_freezing(
+    allowed: f64,
+    excess_j: f64,
+    cp: f64,
+    liquidus_now: f64,
+    liquid_moles: f64,
+    particle_moles: f64,
+    activity: crate::states::SolventActivity,
+    pressure_kpa: f64,
+) -> f64 {
+    if !(allowed > 0.0) || particle_moles <= 0.0 || cp <= 0.0 {
+        return allowed.max(0.0);
+    }
+    // Temperature the vessel reaches having spent `x` of the excess cooling
+    // on latent heat. Linear in `x` and that is enough: it is only used to
+    // locate the crossing, and the settle that follows takes the liquidus.
+    let temperature_after =
+        |x: f64| liquidus_now - (excess_j - x * crate::states::WATER_H_FUS) / cp;
+    let gap = |x: f64| {
+        temperature_after(x)
+            - liquidus_after_freezing(x, liquid_moles, particle_moles, activity, pressure_kpa)
+    };
+    if gap(allowed) <= 0.0 {
+        return allowed;
+    }
+    let (mut lo, mut hi) = (0.0, allowed);
+    if gap(lo) > 0.0 {
+        return 0.0;
+    }
+    for _ in 0..50 {
+        let mid = 0.5 * (lo + hi);
+        if gap(mid) < 0.0 {
+            lo = mid;
+        } else {
+            hi = mid;
+        }
+    }
+    0.5 * (lo + hi)
+}
+
+/// [`self_consistent_freezing`] with the sign turned round: how much ice
+/// melts in one pass, given that melting it moves the plateau up.
+///
+/// The two curves still cross once and still cross the other way. The vessel
+/// COOLS as latent heat is absorbed and the liquidus RISES as the brine is
+/// diluted, so the gap that was rising in the amount frozen is falling in
+/// the amount melted, and the bracket is walked the other direction.
+#[allow(clippy::too_many_arguments)]
+fn self_consistent_melting(
+    allowed: f64,
+    available_j: f64,
+    cp: f64,
+    liquidus_now: f64,
+    liquid_moles: f64,
+    particle_moles: f64,
+    activity: crate::states::SolventActivity,
+    pressure_kpa: f64,
+) -> f64 {
+    if !(allowed > 0.0) || particle_moles <= 0.0 || cp <= 0.0 {
+        return allowed.max(0.0);
+    }
+    let temperature_after =
+        |x: f64| liquidus_now + (available_j - x * crate::states::WATER_H_FUS) / cp;
+    let gap = |x: f64| {
+        temperature_after(x)
+            - liquidus_after_freezing(-x, liquid_moles, particle_moles, activity, pressure_kpa)
+    };
+    if gap(allowed) >= 0.0 {
+        return allowed;
+    }
+    if gap(0.0) < 0.0 {
+        return 0.0;
+    }
+    let (mut lo, mut hi) = (0.0, allowed);
+    for _ in 0..50 {
+        let mid = 0.5 * (lo + hi);
+        if gap(mid) > 0.0 {
+            lo = mid;
+        } else {
+            hi = mid;
+        }
+    }
+    0.5 * (lo + hi)
+}
+
 /// Where this vessel's water freezes and boils, and which model set the
 /// boiling point.
 ///
@@ -981,13 +1109,81 @@ fn settle_from(vessel: &Vessel, threshold: f64, joules: f64, before: f64) -> f64
 pub fn vessel_transitions(
     vessel: &Vessel,
 ) -> (crate::states::Transitions, crate::states::BoilingRoute) {
-    crate::states::transitions_at(
-        dissolved_particle_molality(vessel),
+    let (speciated, unspeciated) = dissolved_particles(vessel);
+    crate::states::transitions_with(
+        solvent_activity_of(vessel, speciated, unspeciated),
+        speciated + unspeciated,
         vessel.pressure.0 / 1000.0,
     )
 }
 
-fn dissolved_particle_molality(vessel: &Vessel) -> f64 {
+/// The solvent's activity as the speciation that answered reports it.
+///
+/// **P3s, 2026-09-11.** The colligative relation used to be ΔT = K·m, and
+/// the particle count was never the part that was wrong: at one molal the
+/// dilute law read −3.72 °C against a measured −3.4 while counting exactly
+/// the two particles a mole of sodium chloride really makes. What was
+/// missing is this — the solvent's own activity — and PLAN's P3s item said
+/// so from the beginning ("PHREEQC gives us the osmotic coefficient
+/// already").
+///
+/// It is taken **only from an ion-interaction speciation**, and the reason
+/// is written out in [`crate::states::SolventActivity`]: `pitzer.dat`
+/// computes a solvent activity from fitted virial coefficients, while the
+/// Debye–Hückel datasets report PHREEQC's hard-coded `1 − 0.017·Σm`
+/// placeholder, which contains no information about what is dissolved. So
+/// the activity is believed when the model that produced it is one, and
+/// Raoult's law stands in otherwise — declared as ideal rather than dressed
+/// up as measured.
+///
+/// The water activity arrives in the ordinary species distribution, as the
+/// `H2O` row's activity: it has been on the wire and in the replay cache
+/// all along, so native and wasm read one number and no new plumbing was
+/// needed to reach it.
+pub fn vessel_solvent_activity(vessel: &Vessel) -> crate::states::SolventActivity {
+    let (speciated, unspeciated) = dissolved_particles(vessel);
+    solvent_activity_of(vessel, speciated, unspeciated)
+}
+
+/// [`vessel_solvent_activity`] for a caller that has already counted the
+/// particles — the whole of the hot path has, and counting them twice per
+/// step to ask two questions about the same solution is the kind of waste
+/// `OPT-5` exists to keep out.
+fn solvent_activity_of(
+    vessel: &Vessel,
+    speciated: f64,
+    unspeciated: f64,
+) -> crate::states::SolventActivity {
+    let ideal = crate::states::SolventActivity::ideal();
+    let Some(info) = vessel.solution.as_ref() else {
+        return ideal;
+    };
+    let ion_interaction = info.provenance.as_ref().is_some_and(|provenance| {
+        provenance
+            .model
+            .starts_with(crate::states::ION_INTERACTION_MODEL_PREFIX)
+    });
+    if !ion_interaction {
+        return ideal;
+    }
+    let Some(water) = info.species.iter().find(|species| species.name == "H2O") else {
+        return ideal;
+    };
+    // φ belongs to the molality the speciation itself solved at, which is
+    // the speciated particles alone — a sucrose no database carries was
+    // never in the solve that produced this activity and must not be
+    // divided into it.
+    crate::states::SolventActivity::from_speciation(
+        water.activity,
+        speciated,
+        info.ionic_strength,
+    )
+    .with_unspeciated(speciated, unspeciated)
+}
+
+/// Dissolved particles, split by whether an aqueous engine counted them:
+/// `(speciated, unspeciated)`, both mol per kg of the vessel's liquid water.
+fn dissolved_particles(vessel: &Vessel) -> (f64, f64) {
     let speciated: f64 = vessel.solution.as_ref().map_or(0.0, |info| {
         info.species
             .iter()
@@ -1017,7 +1213,7 @@ fn dissolved_particle_molality(vessel: &Vessel) -> f64 {
         .map(|p| p.moles.0 * 0.018_015)
         .sum::<f64>();
     if water_kg <= 0.0 {
-        return speciated;
+        return (speciated, 0.0);
     }
     let water_ml = species::lookup(&solvent)
         .map(|water| water.liters_from_moles(Moles(water_kg / 0.018_015)).0 * 1000.0)
@@ -1041,7 +1237,7 @@ fn dissolved_particle_molality(vessel: &Vessel) -> f64 {
             Some(dissolved / water_kg)
         })
         .sum();
-    speciated + unspeciated
+    (speciated, unspeciated)
 }
 
 impl Equilibrator for StateEquilibrator {
@@ -1061,13 +1257,20 @@ impl Equilibrator for StateEquilibrator {
         // not care what is dissolved. Taken from the solved speciation
         // where there is one, so ion pairs are counted as the single
         // particles they are rather than as the ions they came from.
-        let solute_molality = dissolved_particle_molality(vessel);
+        let (speciated, unspeciated) = dissolved_particles(vessel);
+        let solute_molality = speciated + unspeciated;
+        // …and the count is no longer the whole of it. The relation the
+        // temperatures come out of runs on the SOLVENT's activity, which
+        // the same speciation reports (P3s, 2026-09-11); the count is what
+        // that activity is evaluated at.
+        let activity = solvent_activity_of(vessel, speciated, unspeciated);
         // BRD-032: the vessel's own pressure, routed through the BRD-031
         // pack by the solvent's InChIKey rather than by its name. An open
         // beaker reports exactly one atmosphere, takes the curated normal
         // boiling point, and is bit-for-bit what it was before this line.
         let pressure_kpa = vessel.pressure.0 / 1000.0;
-        let (t, boiling_route) = crate::states::transitions_at(solute_molality, pressure_kpa);
+        let (t, boiling_route) =
+            crate::states::transitions_with(activity, solute_molality, pressure_kpa);
         let now = vessel.temperature.0;
 
         let liquid_water = vessel
@@ -1104,6 +1307,33 @@ impl Equilibrator for StateEquilibrator {
             .sum();
         let cp = vessel.heat_capacity().max(1e-9);
 
+        // Past the stated range of the model that supplied the activity,
+        // no transition is claimed at all. A solution this concentrated
+        // still HAS a freezing point and a boiling point; what it does not
+        // have is one this bench can compute, and an extrapolated
+        // ion-interaction fit reads as authoritatively as a fitted one,
+        // which is what makes the silence worth more than the number.
+        //
+        // Only where a transition would otherwise fire, so a syrup standing
+        // at room temperature is not lectured about a boundary it is
+        // nowhere near.
+        //
+        // MELTING is deliberately not gated. Refusing to freeze leaves
+        // liquid water below an uncertain freezing point, which is a
+        // supercooled state and at least a physical one; refusing to melt
+        // would leave ice sitting at room temperature, which is not. The
+        // liquidus it melts at is the same uncertain number either way, so
+        // the asymmetry is about which wrong answer is recoverable.
+        let would_change_state = liquid_water && (now < t.freezing_k || now >= t.boiling_k);
+        if would_change_state && !t.within_model_range() {
+            events.push(Event::NotYetModeled {
+                cause: crate::ops::NotModelledCause::ModelBoundary,
+                vessel: vessel.id,
+                what: t.solvent.out_of_range_reason(solute_molality),
+            });
+            return Ok(events);
+        }
+
         if liquid_water && now < t.freezing_k {
             if solute_molality > 0.0
                 && t.freezing_k <= crate::states::BRINE_MODEL_MIN_K
@@ -1112,7 +1342,7 @@ impl Equilibrator for StateEquilibrator {
                 events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::ModelBoundary,
                     vessel: vessel.id,
                     what: format!(
-                        "the partial-freezing model boundary at {:.1} °C: below this point salt crystallisation and a solute-specific eutectic phase diagram are required, so the bench will not extrapolate the dilute colligative relation",
+                        "the partial-freezing model boundary at {:.1} °C: below this point salt crystallisation and a solute-specific eutectic phase diagram are required, so the bench will not extrapolate a colligative relation whose solvent activity it can no longer place",
                         Kelvin(crate::states::BRINE_MODEL_MIN_K).to_celsius()
                     ),
                 });
@@ -1121,30 +1351,85 @@ impl Equilibrator for StateEquilibrator {
             // Energy that would have to leave to get this cold, spent on
             // freezing instead.
             let excess_j = vessel.energy_between(now, t.freezing_k);
-            let latent_total = liquid_moles * crate::states::WATER_H_FUS;
             let requested_freezing = (excess_j / crate::states::WATER_H_FUS).min(liquid_moles);
             // Keep enough liquid water to stay inside the explicit brine
             // boundary. Solutes remain in the liquid compartment, so their
             // particle amount is current molality times current solvent kg.
             let liquid_kg = liquid_moles * 0.018_015;
             let particle_moles = solute_molality * liquid_kg;
+            // Two caps, and which one bites decides which sentence the
+            // refusal carries. The eutectic one is about the PHASE DIAGRAM
+            // below 252 K; the activity one is about the solvent model
+            // running out of fitted range. Telling a freeze-concentrated
+            // syrup about salt crystallisation would be the wrong reason
+            // confidently given.
+            let eutectic_cap = t
+                .solvent
+                .particle_molality_freezing_at(crate::states::BRINE_MODEL_MIN_K);
+            let activity_cap = t.solvent.ceiling_molality;
+            let ceiling = eutectic_cap.min(activity_cap);
+            let boundary_reason = if activity_cap < eutectic_cap {
+                t.solvent.out_of_range_reason(activity_cap)
+            } else {
+                format!(
+                    "the partial-freezing model boundary at {:.1} °C: further cooling needs salt crystallisation and a solute-specific eutectic phase diagram",
+                    Kelvin(crate::states::BRINE_MODEL_MIN_K).to_celsius()
+                )
+            };
             let minimum_liquid_moles = if particle_moles > 0.0 {
-                particle_moles / crate::states::brine_model_max_particle_molality() / 0.018_015
+                particle_moles / ceiling / 0.018_015
             } else {
                 0.0
             };
             let maximum_freezing = (liquid_moles - minimum_liquid_moles).max(0.0);
-            let freezing = requested_freezing.min(maximum_freezing);
             let reached_boundary = requested_freezing > maximum_freezing + 1e-12;
+            let allowed = requested_freezing.min(maximum_freezing);
+
+            // The liquidus this transfer is sized against is the one the
+            // transfer MOVES, and since 2026-09-11 it moves further than it
+            // used to.
+            //
+            // `requested_freezing` is `excess_j / ΔH_fus`: the ice the
+            // cooling would make if the plateau stood still. Under ΔT =
+            // K_f·m it very nearly did — the liquidus fell 1.86 K per molal,
+            // linearly, and freezing the requested amount left the vessel
+            // close enough to the new plateau that the coupled loop closed
+            // the rest in a pass or two. With the solvent's own activity in
+            // it the liquidus falls faster and faster: concentrating a brine
+            // raises its osmotic coefficient as well as its molality, and
+            // for a 2:1 chloride the two together move the liquidus several
+            // kelvin in one transfer. Freeze the requested amount there and
+            // the latent heat leaves the vessel WARMER than the plateau it
+            // has just created, so the next pass melts it back, and the one
+            // after re-freezes it: `th-005` ("why does calcium chloride help
+            // melt road ice?") rang between −11.6 and −14.4 °C for all 32
+            // passes and came out a solver failure.
+            //
+            // So solve the pass instead of stepping it. Both sides of
+            // coexistence are closed-form in the amount frozen — the
+            // temperature rises with it as latent heat is released, the
+            // liquidus falls with it as the brine concentrates — so their
+            // difference is monotone and one bisection lands on the crossing
+            // exactly. Where the liquidus really does stand still (pure
+            // water, or anything dilute) the crossing IS `requested_freezing`
+            // and nothing changes.
+            let freezing = self_consistent_freezing(
+                allowed,
+                excess_j,
+                cp,
+                t.freezing_k,
+                liquid_moles,
+                particle_moles,
+                activity,
+                pressure_kpa,
+            );
 
             if freezing <= crate::OBSERVABLE_MOLES {
                 if reached_boundary {
-                    events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::ModelBoundary,
+                    events.push(Event::NotYetModeled {
+                        cause: crate::ops::NotModelledCause::ModelBoundary,
                         vessel: vessel.id,
-                        what: format!(
-                            "the partial-freezing model boundary at {:.1} °C: further cooling needs salt crystallisation and a solute-specific eutectic phase diagram",
-                            Kelvin(crate::states::BRINE_MODEL_MIN_K).to_celsius()
-                        ),
+                        what: boundary_reason.clone(),
                     });
                 }
                 return Ok(events);
@@ -1159,9 +1444,31 @@ impl Equilibrator for StateEquilibrator {
             vessel.deposit(solvent.clone(), Moles(freezing), Phase::Solid);
 
             let settled = if reached_boundary {
-                Kelvin(crate::states::BRINE_MODEL_MIN_K)
-            } else if excess_j < latent_total {
-                Kelvin(t.freezing_k) // still freezing: the plateau
+                // The liquidus of the brine the cap stopped at, not the
+                // declared temperature itself: the two are the same number
+                // when the eutectic cap is what bit (it is defined by
+                // inverting this relation at 252 K), and they are not when
+                // the solvent model's own range ran out first, which is a
+                // warmer place to stop.
+                Kelvin(
+                    crate::states::transitions_with(activity, ceiling, pressure_kpa)
+                        .0
+                        .freezing_k,
+                )
+            } else if freezing < liquid_moles - 1e-12 {
+                // Coexistence defines the temperature, and the bisection
+                // above chose `freezing` so that this is also where the
+                // energy balance puts it. Under the dilute law this was
+                // `t.freezing_k`, the plateau the pass started from; it is
+                // now the plateau the pass arrives at, which is the same
+                // number whenever the liquidus did not move.
+                Kelvin(liquidus_after_freezing(
+                    freezing,
+                    liquid_moles,
+                    particle_moles,
+                    activity,
+                    pressure_kpa,
+                ))
             } else {
                 // All of it froze; what is left over chills the ICE, at
                 // ice's own heat capacity. The deposit above has already
@@ -1169,7 +1476,7 @@ impl Equilibrator for StateEquilibrator {
                 // phase: 37.7 J/(mol·K) rather than liquid water's 75.3,
                 // which is the difference between −39 °C and −78 °C for a
                 // beaker cooled with 60 kJ.
-                let leftover = excess_j - latent_total;
+                let leftover = excess_j - freezing * crate::states::WATER_H_FUS;
                 // Absolute zero is still the floor. `cool` clamps there and
                 // says how much it could not remove; re-deriving the deficit
                 // from the clamped temperature can ask for more than the
@@ -1191,19 +1498,41 @@ impl Equilibrator for StateEquilibrator {
             // leave a stale one beside a frozen vessel.
             vessel.solution = None;
             if reached_boundary {
-                events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::ModelBoundary,
+                events.push(Event::NotYetModeled {
+                    cause: crate::ops::NotModelledCause::ModelBoundary,
                     vessel: vessel.id,
                     what: format!(
-                        "the partial-freezing model boundary at {:.1} °C: pure ice was removed and the residual brine retained, but further cooling needs salt crystallisation and a solute-specific eutectic phase diagram",
-                        Kelvin(crate::states::BRINE_MODEL_MIN_K).to_celsius()
+                        "pure ice was removed and the residual brine retained, but further cooling meets {boundary_reason}"
                     ),
                 });
             }
         } else if frozen_water && now > t.freezing_k {
-            // Melting, with the same plateau in reverse.
+            // Melting, with the same plateau in reverse — and the same
+            // solve, for the same reason and with the same asymmetry if it
+            // is left out.
+            //
+            // Melting DILUTES: the liquidus rises as the ice returns, while
+            // the vessel cools as latent heat is absorbed. Sized against the
+            // plateau it started from, a melt overshoots past the plateau it
+            // creates, and the next pass freezes the water back — which is
+            // the freezing branch's failure wearing the other sign. Nothing
+            // in the corpus rang this way, because the coupled loop reaches
+            // coexistence from the freezing side; leaving one direction
+            // solved and the other stepped would be a bug waiting for the
+            // first vessel that arrives from above.
             let available_j = vessel.energy_between(t.freezing_k, now);
-            let melting = (available_j / crate::states::WATER_H_FUS).min(frozen_moles);
-            let latent_total = frozen_moles * crate::states::WATER_H_FUS;
+            let liquid_kg = liquid_moles * 0.018_015;
+            let particle_moles = solute_molality * liquid_kg;
+            let melting = self_consistent_melting(
+                (available_j / crate::states::WATER_H_FUS).min(frozen_moles),
+                available_j,
+                cp,
+                t.freezing_k,
+                liquid_moles,
+                particle_moles,
+                activity,
+                pressure_kpa,
+            );
 
             if melting <= crate::OBSERVABLE_MOLES {
                 return Ok(events);
@@ -1216,15 +1545,23 @@ impl Equilibrator for StateEquilibrator {
             vessel.contents.retain(|p| p.moles.0 > 1e-12);
             vessel.deposit(solvent.clone(), Moles(melting), Phase::Liquid);
 
-            let settled = if available_j < latent_total {
-                Kelvin(t.freezing_k)
+            let settled = if melting < frozen_moles - 1e-12 {
+                // Coexistence again, and again the solve above chose
+                // `melting` so that the energy balance agrees with it.
+                Kelvin(liquidus_after_freezing(
+                    -melting,
+                    liquid_moles,
+                    particle_moles,
+                    activity,
+                    pressure_kpa,
+                ))
             } else {
                 // The same correction as the freezing branch: what is left
                 // once the last of the ice has gone warms LIQUID water.
                 Kelvin(settle_from(
                     vessel,
                     t.freezing_k,
-                    available_j - latent_total,
+                    available_j - melting * crate::states::WATER_H_FUS,
                     cp,
                 ))
             };
@@ -1449,8 +1786,11 @@ pub fn equilibrate_phase_coupled(
             .iter()
             .any(|portion| portion.species.0 == SOLVENT && portion.phase == Phase::Solid);
         if has_liquid_water && has_ice {
-            let liquidus =
-                crate::states::transitions(dissolved_particle_molality(vessel)).freezing_k;
+            // The vessel's OWN liquidus, activity and all — the same call
+            // `StateEquilibrator` makes. Recomputing it from the molality
+            // alone would compare the coupled solve's answer against a
+            // different model's and call the difference numerical residue.
+            let liquidus = vessel_transitions(vessel).0.freezing_k;
             if (vessel.temperature.0 - liquidus).abs() <= PHASE_COUPLED_TEMPERATURE_TOLERANCE_K {
                 // The chemistry/enthalpy fixed point is only resolvable to
                 // the tolerance above.  Do not leak that numerical residue

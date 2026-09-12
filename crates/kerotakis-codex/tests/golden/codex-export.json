@@ -13376,8 +13376,8 @@
       "id": "salt-holds-the-water-liquid",
       "progress": "intermediate",
       "equation": null,
-      "summary": "Dissolved particles depress the freezing point: under the same cooling, salt water starts freezing near −4 °C and forms less ice than pure water",
-      "summary_de": "Gelöste Teilchen senken den Gefrierpunkt: Bei gleicher Abkühlung beginnt Salzwasser erst bei etwa −4 °C zu gefrieren und bildet weniger Eis als reines Wasser",
+      "summary": "Dissolved particles depress the freezing point: under the same cooling, salt water starts freezing near −3.5 °C and forms less ice than pure water",
+      "summary_de": "Gelöste Teilchen senken den Gefrierpunkt: Bei gleicher Abkühlung beginnt Salzwasser erst bei etwa −3,5 °C zu gefrieren und bildet weniger Eis als reines Wasser",
       "concepts": [
         "freezing-point-depression",
         "colligative-properties"
@@ -13440,12 +13440,12 @@
           "options": [
             "Both, at 0 °C — freezing at zero is what water does",
             "The salty one first — salty water is thicker, and thicker is closer to solid",
-            "The pure one starts at 0 °C; the brine starts near −4 °C and therefore makes less ice from the same cooling"
+            "The pure one starts at 0 °C; the brine starts near −3.5 °C and therefore makes less ice from the same cooling"
           ],
           "options_de": [
             "Beide, bei 0 °C — bei null zu gefrieren ist das, was Wasser tut",
             "Das salzige zuerst — Salzwasser ist dickflüssiger, und dickflüssiger ist näher am Festen",
-            "Das reine beginnt bei 0 °C; die Sole beginnt bei etwa −4 °C und bildet deshalb bei derselben Abkühlung weniger Eis"
+            "Das reine beginnt bei 0 °C; die Sole beginnt bei etwa −3,5 °C und bildet deshalb bei derselben Abkühlung weniger Eis"
           ],
           "answer": 2,
           "misconception": "The first answer makes the freezing point a fixed property of the solvent, with the dissolved salt as cargo that changes nothing. It is a property of the solution: the ions get in the way of water ordering itself into an ice lattice, so the brine must be colder before freezing pays. The same removed energy consequently makes less ice in the brine. The 'thicker' answer runs viscosity and solidity together — how a liquid flows and whether its molecules can lock into a crystal are different questions with opposite answers here.",
@@ -13455,8 +13455,8 @@
               "option": 0,
               "reveals": "The freezing point belongs to the solvent, full stop — what is dissolved is cargo, riding along without a vote.",
               "reveals_de": "Der Gefrierpunkt gehört allein dem Lösungsmittel — was darin gelöst ist, fährt nur als Ladung mit, ohne Stimme.",
-              "next": "Count the cargo's votes: about 1.86 °C of hold-out per mole of dissolved particles per kilogram of water, and salt splits largely into two ions — 0.1 mol of NaCl in 100 g of water is roughly 2 mol/kg of particles. The bench reads the actual particle count off the solved speciation and starts freezing the brine near −4 °C, which is why road grit is dosed in degrees.",
-              "next_de": "Man zählt die Stimmen der Ladung: etwa 1,86 °C Verzögerung pro Mol gelöster Teilchen pro Kilogramm Wasser, und Salz zerfällt größtenteils in zwei Ionen — 0,1 mol NaCl in 100 g Wasser ergeben also rund 2 mol/kg Teilchen. Die Labor liest die tatsächliche Teilchenzahl aus der gelösten Speziation ab und lässt die Sole erst bei etwa −4 °C zu gefrieren beginnen — deshalb wird Streusalz in Graden dosiert.",
+              "next": "Count the cargo's votes: roughly 1.86 °C of hold-out per mole of dissolved particles per kilogram of water in dilute solution, and salt splits largely into two ions — 0.1 mol of NaCl in 100 g of water is about 2 mol/kg of particles. The bench reads the actual particle count off the solved speciation, and the solvent's activity with it, so this brine starts freezing near −3.5 °C where the rule of thumb alone would say −3.7, and carries on down to about −3.7 as the ice that forms leaves the rest saltier. That is why road grit is dosed in degrees.",
+              "next_de": "Man zählt die Stimmen der Ladung: in verdünnter Lösung rund 1,86 °C Verzögerung pro Mol gelöster Teilchen pro Kilogramm Wasser, und Salz zerfällt größtenteils in zwei Ionen — 0,1 mol NaCl in 100 g Wasser ergeben also etwa 2 mol/kg Teilchen. Die Labor liest die tatsächliche Teilchenzahl aus der gelösten Speziation ab, und die Aktivität des Lösungsmittels dazu, sodass diese Sole bei etwa −3,5 °C zu gefrieren beginnt, wo die Faustformel allein −3,7 sagen würde, und beim Gefrieren bis etwa −3,7 weiter absinkt, weil das entstehende Eis den Rest salziger zurücklässt. Deshalb wird Streusalz in Graden dosiert.",
               "source": null
             },
             {
@@ -13471,20 +13471,20 @@
         },
         "ph": null,
         "temperature_c": {
-          "min": -4.3,
-          "max": -3.8
+          "min": -3.95,
+          "max": -3.55
         }
       },
       "registers": {
-        "lv1": "The plain water starts freezing at zero. The salty water holds out until about four degrees below zero, so the same cooling makes less ice there — the salt gets in the way of the ice forming. That is the secret of gritting icy roads.",
-        "lv1_de": "Das reine Wasser beginnt bei null Grad zu gefrieren. Das Salzwasser hält bis etwa vier Grad unter null durch, deshalb entsteht bei gleicher Abkühlung dort weniger Eis — das Salz steht der Eisbildung im Weg. Das ist das Geheimnis hinter dem Streuen von Salz auf vereisten Straßen.",
-        "lv2": "Freezing-point depression: ΔT ≈ 1.86 K·kg/mol × molality of dissolved particles. 0.1 mol of NaCl in 100 g of water is 1.0 mol/kg of salt but roughly 2.0 mol/kg of dissolved particles, so the brine starts freezing about 4 K below pure water. As pure ice forms, the salt stays in the residual liquid; the bench re-solves that more concentrated brine and its lower liquidus.",
-        "lv2_de": "Gefrierpunktserniedrigung: ΔT ≈ 1,86 K·kg/mol × Molalität der gelösten Teilchen. 0,1 mol NaCl in 100 g Wasser entsprechen 1,0 mol/kg Salz, aber rund 2,0 mol/kg gelösten Teilchen, sodass die Sole etwa 4 K unter reinem Wasser zu gefrieren beginnt. Während reines Eis entsteht, bleibt das Salz in der Restflüssigkeit; die Labor löst diese konzentriertere Sole und ihren niedrigeren Liquidus neu.",
-        "lv3": "The depression is computed from the solved speciation — the same particle census `particles` draws — rather than from an integer van 't Hoff factor. Only as much water freezes as the withdrawn 15 kJ can pay for, latent heat counted, and the inventory keeps liquid water and pure ice side by side. Each ice transfer invalidates the old molalities, so PHREEQC re-speciates the smaller liquid compartment and the phase pass iterates to a common temperature/liquidus. Below the declared 252 K model boundary, salt solids and a solute-specific eutectic phase diagram would be required; the bench stops rather than extrapolating the dilute colligative relation.",
-        "lv3_de": "Die Erniedrigung wird aus der gelösten Speziation berechnet — derselben Teilchenzählung, die auch `particles` zieht — statt aus einem ganzzahligen van-'t-Hoff-Faktor. Es gefriert nur so viel Wasser, wie die entzogenen 15 kJ decken können, wobei die latente Wärme mitgerechnet wird, und das Inventar führt flüssiges Wasser und reines Eis nebeneinander. Jeder Eistransfer macht die alten Molalitäten ungültig, sodass PHREEQC das kleiner gewordene flüssige Kompartiment neu speziiert und der Phasendurchlauf sich einer gemeinsamen Temperatur/einem gemeinsamen Liquidus annähert. Unterhalb der festgelegten Modellgrenze von 252 K wären Salzfeststoffe und ein stoffspezifisches eutektisches Phasendiagramm erforderlich; die Labor stoppt, statt die verdünnte kolligative Beziehung zu extrapolieren."
+        "lv1": "The plain water starts freezing at zero. The salty water holds out until about three and a half degrees below zero, and gets a little colder still as it freezes, so the same cooling makes less ice there — the salt gets in the way of the ice forming. That is the secret of gritting icy roads.",
+        "lv1_de": "Das reine Wasser beginnt bei null Grad zu gefrieren. Das Salzwasser hält bis etwa dreieinhalb Grad unter null durch und wird beim Gefrieren noch etwas kälter, deshalb entsteht bei gleicher Abkühlung dort weniger Eis — das Salz steht der Eisbildung im Weg. Das ist das Geheimnis hinter dem Streuen von Salz auf vereisten Straßen.",
+        "lv2": "Freezing-point depression. 0.1 mol of NaCl in 100 g of water is 1.0 mol/kg of salt but roughly 2.0 mol/kg of dissolved particles. The form a textbook prints, ΔT ≈ 1.86 K·kg/mol × molality, is the dilute limit and would say 3.7 K; what the bench computes is the relation that form is the limit OF, with the solvent's own activity in it, and a thermometer in real brine agrees with the smaller answer. As pure ice forms, the salt stays in the residual liquid; the bench re-solves that more concentrated brine and its lower liquidus.",
+        "lv2_de": "Gefrierpunktserniedrigung. 0,1 mol NaCl in 100 g Wasser entsprechen 1,0 mol/kg Salz, aber rund 2,0 mol/kg gelösten Teilchen. Die Form, die im Lehrbuch steht — ΔT ≈ 1,86 K·kg/mol × Molalität —, ist der Grenzfall stark verdünnter Lösungen und ergäbe 3,7 K; berechnet wird die Beziehung, deren Grenzfall diese Form ist, mit der Aktivität des Lösungsmittels darin, und ein Thermometer in echter Sole bestätigt den kleineren Wert. Während reines Eis entsteht, bleibt das Salz in der Restflüssigkeit; die Labor löst diese konzentriertere Sole und ihren niedrigeren Liquidus neu.",
+        "lv3": "Two things are computed rather than looked up, and they are different things. The particle count comes from the solved speciation — the same census `particles` draws — rather than from an integer van 't Hoff factor. The SOLVENT's activity comes from the same speciation's water species, and the freezing point is 1/T_f = 1/T_f° − (R/ΔH_fus)·ln a_w, which is the relation ΔT = K_f·m is the dilute limit of; the ion-interaction dataset this concentration routes to reports an osmotic coefficient near 0.94 for this brine, and that is the whole of the difference between the textbook 3.7 K and the measured 3.4. Only as much water freezes as the withdrawn 15 kJ can pay for, latent heat counted, and the inventory keeps liquid water and pure ice side by side. Each ice transfer invalidates the old molalities, so PHREEQC re-speciates the smaller liquid compartment and the phase pass iterates to a common temperature/liquidus. Below the declared 252 K model boundary, salt solids and a solute-specific eutectic phase diagram would be required; the bench stops rather than extrapolating.",
+        "lv3_de": "Zwei Größen werden berechnet statt nachgeschlagen, und es sind verschiedene Größen. Die Teilchenzahl stammt aus der gelösten Speziation — derselben Zählung, die auch `particles` zieht — statt aus einem ganzzahligen van-'t-Hoff-Faktor. Die Aktivität des LÖSUNGSMITTELS stammt aus der Wasserspezies derselben Speziation, und der Gefrierpunkt ist 1/T_f = 1/T_f° − (R/ΔH_fus)·ln a_w, also die Beziehung, deren verdünnter Grenzfall ΔT = K_f·m ist; der für diese Konzentration gewählte Ionenwechselwirkungsdatensatz gibt für diese Sole einen osmotischen Koeffizienten nahe 0,94 an, und genau darin liegt der Unterschied zwischen den 3,7 K des Lehrbuchs und den gemessenen 3,4 K. Es gefriert nur so viel Wasser, wie die entzogenen 15 kJ decken können, wobei die latente Wärme mitgerechnet wird, und das Inventar führt flüssiges Wasser und reines Eis nebeneinander. Jeder Eistransfer macht die alten Molalitäten ungültig, sodass PHREEQC das kleiner gewordene flüssige Kompartiment neu speziiert und der Phasendurchlauf sich einer gemeinsamen Temperatur/einem gemeinsamen Liquidus annähert. Unterhalb der festgelegten Modellgrenze von 252 K wären Salzfeststoffe und ein stoffspezifisches eutektisches Phasendiagramm erforderlich; die Labor stoppt, statt zu extrapolieren."
       },
       "provenance": {
-        "source": "Standard curriculum colligative properties; freezing-point depression computed from the solved speciation (PHREEQC via Kerotakis L2) by the Kerotakis state layer; cryoscopic constant of water 1.86 K·kg/mol is a standard reference value quoted for comparison. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)",
+        "source": "Standard curriculum colligative properties; freezing-point depression computed by the Kerotakis state layer from the solvent activity and particle count of the solved speciation (PHREEQC via Kerotakis L2), through the Gibbs equality of solvent and ice chemical potentials with water's CRC enthalpy of fusion; the cryoscopic constant 1.86 K·kg/mol is that relation's dilute limit and is quoted for comparison rather than used. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)",
         "licence": null,
         "computed_by": "Kerotakis state layer (P3s) over PHREEQC speciation; energy balance pays the latent heat"
       }

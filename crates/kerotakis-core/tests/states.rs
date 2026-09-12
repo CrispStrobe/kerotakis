@@ -157,6 +157,17 @@ fn a_frozen_vessel_has_no_ph() {
 struct ParticleBalanceSolver {
     particle_moles: f64,
     calls: Rc<Cell<usize>>,
+    /// Whether this stand-in reports an ion-interaction solvent activity,
+    /// the way `pitzer.dat` does for a real brine.
+    ///
+    /// It matters to what is being tested. The 252 K eutectic boundary is
+    /// about brine, and brine is routed to the one dataset that computes a
+    /// solvent activity — so a fixture that reported none would exercise
+    /// the IDEAL route's shallower ceiling and never reach 252 K at all.
+    /// The activity here is the one an osmotic coefficient of exactly 1
+    /// gives, which keeps the fixture's arithmetic readable while still
+    /// taking the route a brine takes.
+    ion_interaction: bool,
 }
 
 impl Equilibrator for ParticleBalanceSolver {
@@ -185,12 +196,31 @@ impl Equilibrator for ParticleBalanceSolver {
             redox: Vec::new(),
             ph: 7.0,
             ionic_strength: particle_molality / 2.0,
-            species: vec![SpeciesDetail {
-                name: "test particles".to_string(),
-                molality: particle_molality,
-                activity: particle_molality,
-            }],
-            provenance: None,
+            species: {
+                let mut species = vec![SpeciesDetail {
+                    name: "test particles".to_string(),
+                    molality: particle_molality,
+                    activity: particle_molality,
+                }];
+                if self.ion_interaction {
+                    species.push(SpeciesDetail {
+                        name: "H2O".to_string(),
+                        molality: 1.0 / 0.018_015,
+                        activity: (-0.018_015 * particle_molality).exp(),
+                    });
+                }
+                species
+            },
+            provenance: self.ion_interaction.then(|| kerotakis_core::vessel::Provenance {
+                engine: "particle-balance-test".to_string(),
+                dataset: "test".to_string(),
+                model: format!(
+                    "{} stand-in for a brine dataset",
+                    kerotakis_core::states::ION_INTERACTION_MODEL_PREFIX
+                ),
+                dataset_sources: Vec::new(),
+                routing: "fixture".to_string(),
+            }),
         });
         Ok(Vec::new())
     }
@@ -219,6 +249,7 @@ fn phase_coupling_respeciates_the_residual_brine_until_both_states_agree() {
     let chemistry = ParticleBalanceSolver {
         particle_moles: 0.1,
         calls: calls.clone(),
+        ion_interaction: true,
     };
     let mut coupled = PhaseEquilibrator::wrapping(Box::new(chemistry));
     let mut vessel = partially_frozen_test_vessel(260.0);
@@ -245,15 +276,30 @@ fn phase_coupling_respeciates_the_residual_brine_until_both_states_agree() {
     assert!(water_phase_moles(&vessel, Phase::Solid) > 0.0);
     assert!((vessel.moles_of(&SpeciesId::new("water")).0 - initial_water).abs() < 1e-12);
 
+    // The solvent is not a solute: the `H2O` row this fixture reports is
+    // where the water ACTIVITY comes from, and summing it into the particle
+    // count would make the residual brine 55 molal. `dissolved_particles`
+    // filters it for exactly that reason, and this assertion has to filter
+    // it the same way or it is measuring a different solution.
     let particle_molality: f64 = vessel
         .solution
         .as_ref()
         .expect("residual brine remains a solution")
         .species
         .iter()
+        .filter(|species| species.name != "H2O")
         .map(|species| species.molality)
         .sum();
-    let liquidus = kerotakis_core::states::transitions(particle_molality).freezing_k;
+    assert!(
+        particle_molality > 0.0 && particle_molality < 5.0,
+        "the residual brine is a brine, not the solvent counted as solute:          {particle_molality} mol/kgw"
+    );
+    // The vessel's OWN liquidus, on the route its own speciation earned.
+    // Re-deriving it from the molality through `states::transitions` would
+    // put an ideal-solution answer beside an ion-interaction one and call
+    // the difference non-convergence — the fixture reports a solvent
+    // activity precisely so this path is the brine path.
+    let liquidus = kerotakis_core::solve::vessel_transitions(&vessel).0.freezing_k;
     assert!(
         (vessel.temperature.0 - liquidus).abs() < 1e-12,
         "phase state {} K and re-solved liquidus {liquidus} K disagree",
@@ -283,6 +329,7 @@ fn partial_freezing_stops_with_liquid_at_the_declared_model_boundary() {
     let chemistry = ParticleBalanceSolver {
         particle_moles: 0.6,
         calls: Rc::new(Cell::new(0)),
+        ion_interaction: true,
     };
     let mut coupled = PhaseEquilibrator::wrapping(Box::new(chemistry));
     // Start far enough below the liquidus that the available sensible heat
@@ -298,4 +345,118 @@ fn partial_freezing_stops_with_liquid_at_the_declared_model_boundary() {
         event,
         Event::NotYetModeled { what, .. } if what.contains("partial-freezing model boundary")
     )));
+}
+
+/// The OTHER boundary, and it has to name itself differently.
+///
+/// The same fixture with no solvent activity to its name freeze-concentrates
+/// on Raoult's law, and Raoult's law is carried to six molal and no further.
+/// It stops warmer than 252 K, because that is where its own range runs out
+/// rather than where the phase diagram does — and the refusal must say so,
+/// because "salt crystallisation and a eutectic phase diagram" would be a
+/// confident wrong reason for a syrup.
+///
+/// `particle_moles` is 0.3 and not the 0.6 its brine sibling uses, and the
+/// difference is the test rather than a detail. 0.6 in this fixture's
+/// 0.1 kg of water is 6.0 mol/kgw — the ideal ceiling EXACTLY — so a first
+/// draft of this test froze nothing at all and asserted that it had: with
+/// no headroom left there is no ice to make, and `freezing` comes out zero
+/// before any of the boundary prose is reached. Starting at 3.0 mol/kgw
+/// leaves half the water free to leave, which is what makes the stop
+/// observable.
+#[test]
+fn the_ideal_route_stops_at_its_own_range_and_names_that_instead() {
+    let chemistry = ParticleBalanceSolver {
+        particle_moles: 0.3,
+        calls: Rc::new(Cell::new(0)),
+        ion_interaction: false,
+    };
+    let mut coupled = PhaseEquilibrator::wrapping(Box::new(chemistry));
+    let mut vessel = partially_frozen_test_vessel(200.0);
+    let events = coupled.equilibrate(&mut vessel).unwrap();
+
+    assert!(water_phase_moles(&vessel, Phase::Liquid) > 0.0);
+    assert!(water_phase_moles(&vessel, Phase::Solid) > 0.0);
+    // Warmer than the eutectic boundary, and exactly the liquidus of a
+    // six molal ideal solution.
+    assert!(
+        vessel.temperature.0 > kerotakis_core::states::BRINE_MODEL_MIN_K + 5.0,
+        "{} K",
+        vessel.temperature.0
+    );
+    let ideal = kerotakis_core::states::SolventActivity::ideal();
+    let expected = kerotakis_core::states::freezing_point_from_activity(
+        ideal.water_activity(kerotakis_core::states::IDEAL_MAX_PARTICLE_MOLALITY),
+    );
+    assert!(
+        (vessel.temperature.0 - expected).abs() < 1e-6,
+        "{} K against {expected} K",
+        vessel.temperature.0
+    );
+    assert!(
+        events.iter().any(|event| matches!(
+            event,
+            Event::NotYetModeled { what, .. }
+                if what.contains("Raoult") && !what.contains("eutectic")
+        )),
+        "{events:?}"
+    );
+}
+
+/// A solution that is ALREADY past the route's stated range gets no
+/// transition at all, warm or cold.
+///
+/// This is the other half of the boundary and it was the untested half.
+/// The test above watches a solution walk up to the ceiling and stop; this
+/// one starts beyond it, where there is nothing to walk. The relation would
+/// still return a number — it is a logarithm, it always returns a number —
+/// and the whole point is that the number is not offered. 8 mol/kgw of
+/// particles on Raoult's law is about a third out (see
+/// `states::IDEAL_MAX_PARTICLE_MOLALITY`), and a third out printed to one
+/// decimal place is the shape of an answer without the substance of one.
+///
+/// The refusal names the route and the range, and it fires because the
+/// vessel would otherwise have CHANGED STATE — a syrup standing at room
+/// temperature is not lectured about a ceiling it is nowhere near, which is
+/// the second assertion.
+#[test]
+fn a_solution_past_the_stated_range_is_refused_a_transition_rather_than_given_one() {
+    let mut coupled = PhaseEquilibrator::wrapping(Box::new(ParticleBalanceSolver {
+        // 0.8 mol of particles in this fixture's 0.1 kg of water: 8 mol/kgw,
+        // past the ideal route's stated 6.
+        particle_moles: 0.8,
+        calls: Rc::new(Cell::new(0)),
+        ion_interaction: false,
+    }));
+    let mut vessel = partially_frozen_test_vessel(200.0);
+    let events = coupled.equilibrate(&mut vessel).unwrap();
+
+    assert_eq!(water_phase_moles(&vessel, Phase::Solid), 0.0);
+    assert!(water_phase_moles(&vessel, Phase::Liquid) > 0.0);
+    assert!(
+        events.iter().any(|event| matches!(
+            event,
+            Event::NotYetModeled { what, .. }
+                if what.contains("Raoult") && what.contains("stated range")
+        )),
+        "{events:?}"
+    );
+
+    // …and the same solution, standing where nothing was going to happen
+    // anyway, is told nothing. A boundary that announces itself to every
+    // vessel that merely contains a syrup is noise, and noise is how a real
+    // refusal stops being read.
+    let mut warm = PhaseEquilibrator::wrapping(Box::new(ParticleBalanceSolver {
+        particle_moles: 0.8,
+        calls: Rc::new(Cell::new(0)),
+        ion_interaction: false,
+    }));
+    let mut standing = partially_frozen_test_vessel(298.15);
+    let quiet = warm.equilibrate(&mut standing).unwrap();
+    assert!(
+        !quiet
+            .iter()
+            .any(|event| matches!(event, Event::NotYetModeled { what, .. } if what.contains("Raoult"))),
+        "{quiet:?}"
+    );
 }
