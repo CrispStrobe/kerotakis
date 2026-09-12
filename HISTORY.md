@@ -193,7 +193,7 @@ it had while it was open, which is why a few numbers appear twice below.
     boundaries are different boundaries and the stage now treats them that
     way. Past the activity model's own ceiling both are withheld, because
     there the number itself is the thing that is not available.
-  - **Two goldens moved, and the arithmetic of each was checked from
+  - **Three goldens moved, and the arithmetic of each was checked from
     outside.** `scene-five.json` moved four melting/boiling pairs at
     unchanged molality: those vessels have no ion-interaction speciation, so
     they take the ideal route, and each pair is exactly
@@ -206,7 +206,21 @@ it had while it was open, which is why a few numbers appear twice below.
     `codex-export.json` moved only where `codex/states.toml` and its German
     catalogue moved: the `salt-holds-the-water-liquid` summary, one predict
     option, one diagnosis, three registers, the provenance sentence and the
-    acceptance window.
+    acceptance window. `tools/golden/gui003-dom-five.json` moved seven
+    leaves, and a census of the changed keys is five `boiling-k`, one
+    `temperature-k` and one `volume-l` — no label, no appearance, no
+    structure.
+  - **The best evidence in the change is a beaker of washing soda.**
+    `cabbage-rainbow`'s v4 is 4 g of Na2CO3 in 100 mL, and its boiling point
+    moved 373.68 → 373.55 K: the printed value implies an osmotic
+    coefficient near 0.75 at Σm = 1.03, which is what a sodium carbonate
+    solution measures there (published φ runs 0.78 at 0.1 molal down to 0.71
+    at 0.5). The dilute law could not see that, because it counts particles
+    and a 2:1 salt's particles are as good as a 1:1 salt's to it. Its
+    neighbours in the same scene, at Σm = 0.80 and 0.31, did not move at two
+    decimal places at all — which is the other half of the same evidence.
+    The correction is large exactly where ideality fails and invisible where
+    it holds.
   - **What is left, and named in PLAN.** A solution the router sends to a
     Debye–Hückel dataset takes the ideal route even where an ion-interaction
     model would do better, so a 0.1 molal brine is still a few per cent
