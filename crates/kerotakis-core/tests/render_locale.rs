@@ -247,11 +247,53 @@ fn electrolysis_operating_point_is_german_and_keeps_numeric_evidence() {
         anode_moles: Some(Moles(0.000_155)),
         cathode_species: Some(SpeciesId("copper".into())),
         cathode_moles: Some(Moles(0.000311)),
+        current_efficiency: 1.0,
     };
     let line = render_event_in(&event, Register::LV2, Locale::parse("de"));
     assert!(line.contains("0,500 A für 120 s"), "{line}");
     assert!(line.contains("Kupfer"), "{line}");
     assert!(!line.contains(" A for "), "{line}");
+}
+
+/// A run that lost charge says so in German too, with the number.
+///
+/// The efficiency clause is the one sentence in this event that is about
+/// what the bench does *not* know, so a German learner reading an English
+/// caveat inside a German line is exactly the failure the i18n gate exists
+/// for — and a fallback would be silent about it.
+#[test]
+fn partial_current_efficiency_is_german_and_carries_the_fraction() {
+    use kerotakis_core::ops::Event;
+    use kerotakis_core::render::render_event_in;
+    use kerotakis_core::species::SpeciesId;
+    use kerotakis_core::Moles;
+
+    let event = Event::Electrolysed {
+        vessel: VesselId(0),
+        species: SpeciesId("copper".into()),
+        amps: 0.5,
+        seconds: 120.0,
+        coulombs: 60.0,
+        electrons: Moles(0.000622),
+        moles: Moles(0.000_155_5),
+        grams: 0.0099,
+        per_ion: 2.0,
+        anode_species: Some(SpeciesId("O2".into())),
+        anode_moles: Some(Moles(0.000_155)),
+        cathode_species: Some(SpeciesId("copper".into())),
+        cathode_moles: Some(Moles(0.000_155_5)),
+        current_efficiency: 0.5,
+    };
+    for register in [Register::LV1, Register::LV2, Register::LV3] {
+        let line = render_event_in(&event, register, Locale::parse("de"));
+        assert!(line.contains("50"), "the fraction must survive: {line}");
+        assert!(
+            line.contains("Wasserstoff"),
+            "where the rest of the charge went: {line}"
+        );
+        assert!(!line.contains("hydrogen"), "{line}");
+        assert!(!line.contains("of the charge"), "{line}");
+    }
 }
 
 #[test]

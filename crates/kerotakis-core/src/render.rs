@@ -262,6 +262,62 @@ fn species_name(locale: Locale, id: &SpeciesId) -> &str {
         .unwrap_or(english)
 }
 
+/// What Faraday's law does not tell you, appended to the line that used it.
+///
+/// The law converts charge to moles exactly. It is silent on how the charge
+/// was divided between the reactions competing at the electrode, and a
+/// register that prints a mass and stops has silently answered "all of it
+/// went to the metal". That is a current-efficiency claim, and the bench is
+/// not entitled to it.
+///
+/// Two cases, and the difference between them is the point:
+///
+/// * **A computed loss.** The plating ion ran out and the rest of the
+///   charge reduced water. The fraction is exact, so it is reported as a
+///   fact and the hydrogen is named.
+/// * **No computed loss.** Every electron the model can follow reached the
+///   metal. That is a ceiling rather than a prediction — real deposition
+///   co-evolves hydrogen at any concentration, and resolving how much needs
+///   exchange current densities and an electrode area this bench does not
+///   have. Said at LV3, where a learner is being handed the arithmetic to
+///   check on a balance and needs to know which way it can disagree.
+///
+/// Empty at LV1 and LV2 when nothing was lost: a beginner does not need a
+/// caveat on a number that has none of the error it warns about.
+fn efficiency_clause(locale: Locale, register: Register, efficiency: f64, name: &str) -> String {
+    if !efficiency.is_finite() {
+        return String::new();
+    }
+    if efficiency >= 1.0 - 1e-9 {
+        if register.level() < 3 {
+            return String::new();
+        }
+        return locale.fill(
+            "event.electrolysed.efficiency.bound",
+            " Assumes every electron reached the {name}: no hydrogen is co-evolved at the cathode, which this bench cannot resolve without electrode area and exchange current densities. A real electrode weighs this or less, never more.",
+            &[("name", name)],
+        );
+    }
+    let percent = locale.number(format!("{:.1}", efficiency * 100.0));
+    match register.level() {
+        1 => locale.fill(
+            "event.electrolysed.efficiency.lv1",
+            " The dissolved supply ran out part-way, so only {percent}% of the current kept making {name} — after that the bubbles are hydrogen.",
+            &[("percent", &percent), ("name", name)],
+        ),
+        2 => locale.fill(
+            "event.electrolysed.efficiency.lv2",
+            " Current efficiency {percent}%: the ion ran out before the charge did, and the rest of it reduced water to hydrogen.",
+            &[("percent", &percent), ("name", name)],
+        ),
+        _ => locale.fill(
+            "event.electrolysed.efficiency.lv3",
+            " Current efficiency for {name} = {percent}%: the ion was exhausted, so the balance of the charge went to hydrogen evolution, 2 H₂O + 2 e⁻ → H₂ + 2 OH⁻. The mass above stopped rising at that point; the current did not.",
+            &[("percent", &percent), ("name", name)],
+        ),
+    }
+}
+
 /// Render a vessel for a person. CLI, Wasm, and future clients share this
 /// instead of teaching each interface how to turn the state contract back
 /// into laboratory prose.
@@ -3451,9 +3507,21 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             per_ion,
             anode_species,
             anode_moles,
+            current_efficiency,
             ..
         } => {
             let name = species_name(locale, species);
+            // What the charge did NOT do, said out loud.
+            //
+            // Faraday's law is exact about charge to moles and says nothing
+            // about how the charge was shared out. Printing only the mass
+            // asserts that every electron did the one job, which is a claim
+            // about current efficiency and not a result of the law. Where
+            // the bench computed a loss it reports the fraction; where it
+            // did not, it says the figure is a ceiling. Neither sentence is
+            // decoration: a learner putting this electrode on a balance
+            // needs to know which way the disagreement will go.
+            let efficiency = efficiency_clause(locale, register, *current_efficiency, name);
             // GUI-099: the water-splitting cell says something else. The
             // sentences below are written for a metal building up on an
             // electrode, and a hydrogen that "lagert sich ab" is simply
@@ -3464,7 +3532,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 .is_some_and(|data| data.standard_phase == Phase::Gas);
             if let (true, Some(anode), Some(anode_n)) = (gaseous, anode_species, anode_moles) {
                 let anode_name = species_name(locale, anode);
-                return match register.level() {
+                let line = match register.level() {
                     1 => locale.fill(
                         "event.electrolysed.gas.lv1",
                         "Gas bubbles off both electrodes in {vessel}: {name} at one and {anode_name} at the other.",
@@ -3502,8 +3570,9 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         ],
                     ),
                 };
+                return format!("{line}{efficiency}");
             }
-            match register.level() {
+            let line = match register.level() {
                 1 => locale.fill(
                     "event.electrolysed.lv1",
                     "{grams} g of {name} builds up on the electrode in {vessel}.",
@@ -3540,7 +3609,8 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         ("grams", &locale.number(format!("{grams:.4}"))),
                     ],
                 ),
-            }
+            };
+            format!("{line}{efficiency}")
         }
         Event::CellVoltage {
             anode,

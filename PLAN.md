@@ -423,7 +423,7 @@ the ones below resolve.
 | **L2** | Aqueous equilibrium — **the workhorse** | IPhreeqc + phreeqc.dat, wateq4f.dat, minteq.v4.dat, **pitzer.dat** | USGS, public domain |
 | **L2g** | Gas + condensed-phase equilibrium — heat, ignite, decompose, burn | Gibbs minimiser over NASA CEA data (adopt/extend `cea-rs`, or write it) | Apache-2.0 data |
 | **L3** | Phase behaviour — boiling, miscibility, azeotropes | `feos` (SAFT family, flash) + own UNIFAC + `vle-thermo` (cubics, NRTL/Wilson) + `seuif97` (water) | MIT / Apache-2.0 |
-| **L3e** | Electrochemistry | Standard-potential ordering + Nernst over PHREEQC's activities, own module (`kerotakis-core/src/displacement.rs`, **built** for displacement and the activity series); Faraday's law for electrolysis still open | ours |
+| **L3e** | Electrochemistry | Standard-potential ordering + Nernst over PHREEQC's activities, own module (`kerotakis-core/src/displacement.rs`, **built** for displacement, the activity series and Faraday's law with a stated current efficiency) | ours |
 | **L4** | Reaction — propose → filter → rank → verify | curated + Indigo templates | Apache-2.0 |
 | **L4′** | QM enrichment — **build time only, never in the app** | xtb / CREST / PySCF | LGPL / Apache-2.0, never shipped |
 | **L5** | Kinetics & time evolution | diffsol + our rate evaluator over Cantera-format mechanisms | MIT / BSD-3 data |
@@ -1801,20 +1801,130 @@ Open, and small:
       coefficient already." Pinned from both ends in
       `colligative_numbers.rs` so it cannot be narrowed away quietly, and
       the declined borrow is written out there too.
-- [ ] **Is a boil a curated route or a computed one?**
+- [x] **Is a boil a curated route or a computed one? Measured and decided,
+      2026-09-11: it stays `Curated`, and the asymmetry that prompted the
+      question is on the other solver.**
       `PhaseRouteEquilibrator` declares `SolverRouteKind::Curated`, which
       was right when sublimation and hydrates were its only customers —
       there the curated record IS the answer. Now that it melts and boils,
-      what it produces is arithmetic over a curated parameter, which is
-      exactly the shape `CombustionEquilibrator` has and that one declares
-      itself `Computed`. Twenty corpus rows moved `computed -> curated` on
-      this alone. That used to make `th-017` ("can ethanol boil before
-      water?") a finding for having been answered better; since the two are
-      one grade when a requirement is checked (2026-09-08) it is not, and
-      the question is decidable on its merits rather than on its effect on
-      a count. Changing the kind would move the sublimation and hydrate
-      rows the other way, so it wants its own measurement rather than a
-      rider on someone else's.
+      what it produces is arithmetic over a curated parameter, which looks
+      like the shape `CombustionEquilibrator` has while that one reports
+      `Computed`. Twenty corpus rows moved `computed -> curated` on this
+      alone. That used to make `th-017` ("can ethanol boil before water?")
+      a finding for having been answered better; since the two are one
+      grade when a requirement is checked (2026-09-08) it is not, so the
+      question was decided on its merits and measured on its own rather
+      than as a rider on someone else's count.
+
+      **The measurement.** Twenty-six of the corpus's five hundred rows
+      have a `phase-routes` route that succeeded with at least one event.
+      Those twenty-six are the whole population the declaration can move;
+      nothing else in the corpus reads it. Split by the transition the
+      route actually ran, from each row's `StateChanged.kind`:
+
+      - **23 rows melt, boil, freeze or condense and nothing else**:
+        `th-017 th-031 th-032 th-033 th-038 th-039 th-040 th-047 th-050
+        th-052 th-053 th-054 th-055 th-056 th-057 th-065 th-066 th-114
+        th-115 th-123 th-124 mat-004 mat-013`. Most are combustion rows
+        where the fuel boils off as the flame heats the beaker, not
+        thermal rows that set out to boil something.
+      - **1 row sublimes and nothing else**: `th-026`, dry ice into water.
+      - **1 row does both**: `th-097` boils water, condenses the sealed
+        headspace's nitrogen and deposits its carbon dioxide.
+      - **0 rows hydrate or dehydrate.** The hydrate half of this solver
+        has no corpus row at all.
+      - **1 row changes no phase**: `mat-025` is graded `curated` on a
+        `PolymerHeated` event, because `equilibrate` also calls
+        `plastics::settle`. That is a fifth customer nobody had listed.
+
+      The two other rows tagged `sublimation` — `th-027` (iodine) and
+      `th-028` (naphthalene) — are already `computed`: `phase-routes`
+      reports zero events for both, because `sublimes_at` needs the
+      registry to carry a sublimation point and no melting point.
+
+      **So the population the bullet was protecting is one row, and the
+      hydrate rows it named do not exist.** That was the stated reason to
+      hesitate, and the measurement mostly dissolves it.
+
+      **The counterfactual, exactly.** Declaring `Computed` would move
+      twenty-four rows `curated -> computed`: all twenty-six except
+      `th-057`, which keeps `curated` because `curated-reactions` also
+      succeeded there, and `th-065`, which is already `qualitative` on a
+      typed observation. `by_observed` would read `curated 32,
+      computed 352` against today's `curated 56, computed 328`. The
+      counterfactual is exact rather than estimated because no row in the
+      population emits an `Inert` or `InertInSolvent` event, so
+      `inert_beside_an_answer` — the one clause in `coverage.rs` where a
+      route kind feeds back into an earlier branch — is not engaged for
+      any of them.
+
+      **The argument, and why the count does not settle it.** Twenty-four
+      against one is not the reason to keep the label; the reason is what
+      `kind` is for. The bullet asks whether it records PROVENANCE (which
+      road the vessel took) or COMPOSITION (a looked-up record versus
+      arithmetic over a looked-up parameter). Three things decide it for
+      provenance:
+
+      1. **The composition reading does not terminate.**
+         `curated-reactions` computes an extent from a curated
+         stoichiometry; `reaction-families` computes products from a
+         curated pattern; a gas test compares a reading against a curated
+         threshold. Arithmetic over a curated record is what a curated
+         solver IS. Move `phase-routes` to `Computed` on that reading and
+         there is no principled place to stop, and `Curated` empties out.
+         A label that sorts everything into one bucket records nothing —
+         and `by_observed` and `baseline.toml` were deliberately kept
+         DESCRIPTIVE on 2026-09-08, when the two stopped being separate
+         grades, precisely so that a relabelling stays reviewable. The
+         composition reading would spend the property that change kept.
+      2. **`kind` is declared per SOLVER, not per route.**
+         `PhaseRouteEquilibrator` now has five customers — freezing and
+         melting, boiling and condensation, sublimation and deposition,
+         hydrates, and `plastics::settle`. No single constant
+         describes all five under the composition reading. Under the
+         provenance reading one constant is exactly right: every number
+         the solver runs on is a curated table, in `phase_route.rs`
+         (`FUSION_ENTHALPIES`, `VAPORISATION_ENTHALPIES`,
+         `SUBLIMATION_ENTHALPIES`), in the registry (`melts_at`,
+         `boils_at`, `sublimes_at`, `hydrate_pairs`) or in a curated
+         material recipe (`MaterialRole::PolymerHeatResponse`'s
+         `softens_above_k` and `chars_above_k`). Saying the melt and the
+         sublimation differently
+         would need a per-ROUTE kind; that buys nothing now that the two
+         are one grade, and it costs the stable per-solver identity the
+         drift gate reads.
+      3. **The asymmetry the bullet cites is not a declaration.**
+         `CombustionEquilibrator` does not declare `Computed`. It has no
+         `route_kind` at all and takes the trait default (`solve.rs`,
+         `fn route_kind` on `Equilibrator`). The solver is NAMED
+         `"curated-combustion"`, it reads a curated `FUELS` table, and
+         `phase_route.rs` says of its own latent heats that they are "a
+         curated table for the same reason `combustion::FUELS` is one".
+         The pair is therefore not one solver labelled strictly and one
+         labelled leniently; it is one solver labelled and one never
+         labelled. On the provenance rule the mislabelled member of the
+         pair is combustion.
+
+      Pinned in `direct_model_routes.rs`, by
+      `route_kinds_record_where_the_numbers_came_from`, which asserts both
+      halves of the pair together so neither can flip in silence and the
+      next reader finds the decision beside the assertion rather than only
+      here.
+- [ ] **`curated-combustion` reports `Computed` because nobody gave it a
+      `route_kind`.** Surfaced by the boil question above and measured in
+      the same pass so it does not arrive unmeasured: eight corpus rows
+      have a succeeded `curated-combustion` route — `th-030 th-048 th-051
+      th-058 th-059 bio-008 bio-009 bio-044` — all eight are `computed`
+      by `computed-route`, and not one has another succeeded curated
+      route, so declaring `SolverRouteKind::Curated` would move exactly
+      those eight `computed -> curated` and touch nothing else. The
+      provenance rule the bullet above settles on says it should be
+      `Curated`: the fuels, their stoichiometries, their autoignition
+      temperatures and their heats of combustion are a curated table in
+      `combustion.rs`. It is deliberately NOT done here, for the reason
+      this bullet's own predecessor gave: a relabelling moves corpus rows
+      and gets its own commit and its own measurement rather than riding
+      on someone else's. The measurement is done; the move is not.
 - [ ] No tin and no glycerol in the registry at all. Tin at 232 °C is the
       soldering-iron melting point a learner is most likely to have met.
 - [ ] The latent heats live in `phase_route.rs` as curated Rust tables
@@ -1872,7 +1982,19 @@ So the build order is:
       activity series, displacement, the galvanic `cell` and the hydrogen
       overpotential (`displacement.rs`, 2026-08-20). Details and the
       boundaries each one established are in `HISTORY.md`.
-- [ ] Faraday's law for electrolysis: charge → moles → mass at an electrode.
+- [x] Faraday's law for electrolysis: charge → moles → mass at an electrode
+      (`displacement.rs`, `Operator::Electrolyse` → `Event::Electrolysed`).
+      `n = Q/(z·F)` with every term read rather than assumed: Q from the
+      ammeter and the clock, z from the couple the vessel actually holds.
+      **Current efficiency travels with the number**, because Faraday's law
+      is silent about it and a bench that prints only a mass has claimed
+      100% without saying so. One loss is computed exactly — when the
+      plating ion is exhausted the rest of the charge reduces water, so the
+      deposit stops and hydrogen starts — and the remaining losses, which
+      need electrode area and exchange current densities, are declared as a
+      one-sided bound: a real electrode weighs the reported mass or less,
+      never more. The electron ledger (charge in = Σ cathode product × z =
+      Σ anode product × z) is a test, not a paragraph.
 
 **Oxidation-state bookkeeping is the explanation layer, not the solver.**
 It does not find the products — the free-energy minimisation does — but it
