@@ -64,8 +64,31 @@
 //!   has the same exposure by a different route and would need a
 //!   different rule.
 //!
+//! - **The registry's own strings.** `kinetics.rs` carries `provenance`
+//!   and `uncertainty` prose, and `iodide-peroxide-clock`'s reads "Orders
+//!   (1,1,1) in [H₂O₂], [I⁻], [H⁺]". That one is CORRECT — it cites
+//!   Liebhafsky & Mohammad, where the order really is in iodide — and is
+//!   deliberately left alone. It is named here because it is the same
+//!   spelling that was false one file away, and because a Rust string
+//!   literal is not a surface this lint reads.
+//!
 //! In short: a passing lint means no bound sentence names a formula the
 //! reaction lacks. It does not mean the prose is true.
+//!
+//! ## How much prose it actually reaches
+//!
+//! Stated in numbers, because the surface names above read wider than the
+//! guard is. Rule 1 (`reacted:<id>` resolves) and rule 3 (a written-out
+//! rate expression) run over every quest and every codex entry. Rule 2 —
+//! the mechanism-position rule, the one this module is for — needs a
+//! `reacted:<id>` binding, and at the time of writing ONE quest file of
+//! thirty-six has one, along with fourteen codex entries across two
+//! reaction ids. All four bound ids resolve, so rule 1 finds nothing
+//! today; it is a forward guard, not a finding.
+//!
+//! So this is a tripwire on the path four rate laws take, and it widens on
+//! its own as prose acquires bindings. It is not a sweep. Nothing here
+//! says the other thirty-five quests describe their chemistry correctly.
 //!
 //! ## Why this one fails and [`crate::prose`] only advises
 //!

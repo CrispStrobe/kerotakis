@@ -67,11 +67,19 @@ it had while it was open, which is why a few numbers appear twice below.
   never fire), and a written-out rate expression must have bracketed species
   that some registry law is actually keyed on. Turning it on found one false
   sentence already shipped — the iodide–peroxide nudge wrote
-  `k·[H₂O₂]·[I⁻]·[H⁺]` while the law is keyed on `KI`, the mirror image of
-  the bug that prompted the work — and it is fixed here. The reach is narrow
-  on purpose and the module says so: common names, translated prose,
-  coefficients, reaction order and step prose are all outside it, and a
-  passing lint is not a claim that the prose is true.
+  `k·[H₂O₂]·[I⁻]·[H⁺]` while the law is keyed on `KI` — and running that
+  down changed the story: this one was not stale, it was wrong from birth.
+  The law was keyed on `KI` in `26531ed4` at 20:49 on 2026-08-24 and the
+  nudge was written fifteen minutes later in `9fca7c80`, quoting the
+  textbook's rate law rather than the engine's. Nineteen days, and every
+  lint run in between silent. Fixed here. The reach is narrow on purpose
+  and the module says so: common names, translated prose, coefficients,
+  reaction order and step prose are all outside it, and a passing lint is
+  not a claim that the prose is true. Narrower than the word "quests"
+  suggests, too — the mechanism-position rule needs a `reacted:<id>`
+  binding, and one quest file of thirty-six and fourteen codex entries
+  have one. It is a tripwire on the path these four rate laws take, not a
+  sweep of the prose.
 
 ## 2026-09-09
 
