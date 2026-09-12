@@ -48,6 +48,39 @@ it had while it was open, which is why a few numbers appear twice below.
   rows already counted. No engine change and no corpus row moved; the
   decision is pinned in `direct_model_routes.rs`.
 
+**Quest and codex prose**
+
+- **`task/quest-lint-mechanism`** — `quest lint` proved a quest could not lie
+  about being ACHIEVABLE and said nothing about whether its prose described
+  the mechanism the engine runs. On 2026-09-08 the iodine-clock quest told a
+  learner the Landolt rate law was consuming `NaHSO3` after the law had been
+  re-keyed onto `HSO3-`, and the lint passed on the false sentence; it was
+  fixed by inspection, not by a gate. `kerotakis_codex::mechanism` is that
+  gate, and both `quest lint` and `codex lint` now run it. The distinction
+  that makes it tractable was already written down: only sentences about
+  what the engine DOES go stale, so a species is checked only where the
+  sentence puts it in a mechanism position — inside a concentration bracket,
+  as the object of a consuming or producing verb, or as what a law is "keyed
+  on". "The bottle is on the shelf" stays quiet, and is pinned quiet. Two
+  companion checks came with it: a `reacted:<id>` trigger must name a real
+  rate law (nothing checked that, so a renamed law left a nudge that could
+  never fire), and a written-out rate expression must have bracketed species
+  that some registry law is actually keyed on. Turning it on found one false
+  sentence already shipped — the iodide–peroxide nudge wrote
+  `k·[H₂O₂]·[I⁻]·[H⁺]` while the law is keyed on `KI` — and running that
+  down changed the story: this one was not stale, it was wrong from birth.
+  The law was keyed on `KI` in `26531ed4` at 20:49 on 2026-08-24 and the
+  nudge was written fifteen minutes later in `9fca7c80`, quoting the
+  textbook's rate law rather than the engine's. Nineteen days, and every
+  lint run in between silent. Fixed here. The reach is narrow on purpose
+  and the module says so: common names, translated prose, coefficients,
+  reaction order and step prose are all outside it, and a passing lint is
+  not a claim that the prose is true. Narrower than the word "quests"
+  suggests, too — the mechanism-position rule needs a `reacted:<id>`
+  binding, and one quest file of thirty-six and fourteen codex entries
+  have one. It is a tripwire on the path these four rate laws take, not a
+  sweep of the prose.
+
 ## 2026-09-09
 
 **Electrochemical kinetics**

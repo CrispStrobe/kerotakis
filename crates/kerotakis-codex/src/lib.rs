@@ -15,6 +15,7 @@
 //! project would catch a curation error; this does.
 
 pub mod curiosity;
+pub mod mechanism;
 pub mod prose;
 pub mod quest;
 pub mod semantic;
@@ -1082,6 +1083,37 @@ impl Codex {
                         "{}: register key '{key}' translates '{base}', which is not written",
                         r.id
                     ));
+                }
+            }
+            // A codex entry that declares `reacted:<id>` has bound its
+            // prose to a rate law by name, which is exactly the binding
+            // `mechanism` needs. The same staleness that hit the
+            // iodine-clock quest reaches here by the same road: re-key a
+            // law onto the ion and every register that named the bottle
+            // goes quietly wrong. Note the reach honestly — most codex
+            // prose is written in common names and `c(...)` notation, and
+            // this check cannot see any of that.
+            //
+            // Only an unambiguous binding is used. An entry expecting two
+            // reactions has prose about both, and blaming one of them for
+            // the other's species would be a false alarm.
+            let mut bound: Option<&str> = None;
+            let mut bindings = 0usize;
+            for event in &r.expect.events {
+                if let Some(id) = mechanism::bound_reaction(event) {
+                    bindings += 1;
+                    bound = Some(id);
+                }
+            }
+            let bound = if bindings == 1 { bound } else { None };
+            for (key, text) in &r.registers.0 {
+                for detail in mechanism::problems(bound, text) {
+                    problems.push(format!("{}: {key} {detail}", r.id));
+                }
+            }
+            if let Some(summary) = &r.summary {
+                for detail in mechanism::problems(bound, summary) {
+                    problems.push(format!("{}: summary {detail}", r.id));
                 }
             }
             if r.provenance.source.trim().is_empty() {

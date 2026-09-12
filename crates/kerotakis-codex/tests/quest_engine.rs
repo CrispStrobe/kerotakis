@@ -1088,3 +1088,64 @@ fn an_answered_unknown_also_names_its_claim() {
     let named = named.expect("naming the unknown satisfies a claim");
     assert!(spec.claims.iter().any(|c| c.id == named));
 }
+
+/// The gap this closes: `lint` proved a quest could not lie about being
+/// ACHIEVABLE, and said nothing about whether its prose described the
+/// mechanism the engine runs. On 2026-09-08 the Landolt nudge told a
+/// learner the rate law was consuming `NaHSO3` after the law had been
+/// re-keyed onto `HSO3-`, and the lint passed on the false sentence.
+#[test]
+fn the_lint_catches_prose_naming_what_the_reaction_does_not() {
+    let mut clock = shipped_iodine_clock();
+
+    say_at_lv3(
+        &mut clock,
+        "The iodate–bisulfite rate law is consuming NaHSO₃.",
+    );
+    let problems = quest::lint(std::slice::from_ref(&clock));
+    assert!(
+        problems.iter().any(|p| p.contains("NaHSO₃")),
+        "the false sentence should fail the lint: {problems:?}"
+    );
+
+    // And the sentence that replaced it passes, so the guard is not simply
+    // rejecting every mention of a species.
+    say_at_lv3(
+        &mut clock,
+        "The iodate–bisulfite rate law is consuming HSO₃⁻ — the bottle \
+         dissolves to the ion, and the law is keyed on the ion.",
+    );
+    let problems = quest::lint(std::slice::from_ref(&clock));
+    assert!(problems.is_empty(), "{problems:?}");
+}
+
+#[test]
+fn a_nudge_bound_to_a_reaction_that_does_not_exist_fails() {
+    let mut clock = shipped_iodine_clock();
+    landolt(&mut clock).when = "reacted:landolt".into();
+    let problems = quest::lint(std::slice::from_ref(&clock));
+    assert!(
+        problems.iter().any(|p| p.contains("names no")),
+        "a dangling reaction id should fail the lint: {problems:?}"
+    );
+}
+
+fn shipped_iodine_clock() -> quest::QuestSpec {
+    quest::load_dir(std::path::Path::new("../../quests"))
+        .expect("quests load")
+        .into_iter()
+        .find(|spec| spec.id == "iodine-clock")
+        .expect("the iodine-clock quest ships")
+}
+
+fn landolt(clock: &mut quest::QuestSpec) -> &mut quest::Nudge {
+    clock
+        .nudges
+        .iter_mut()
+        .find(|nudge| nudge.when.starts_with("reacted:iodate-bisulfite"))
+        .expect("the Landolt nudge")
+}
+
+fn say_at_lv3(clock: &mut quest::QuestSpec, text: &str) {
+    landolt(clock).say.lv3 = text.into();
+}
