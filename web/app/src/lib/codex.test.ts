@@ -112,16 +112,17 @@ describe("codex grouping for the browsers", () => {
   });
 
   it("parses the export document shape { reactions, models, concepts }", async () => {
-    const { parseCodexIndex } = await import("./codex");
+    const { parseCodexDocument, parseCodexIndex } = await import("./codex");
     const doc = {
       reactions: [
         { id: "a", progress: "starter", setup: { script: "new" }, expect: {}, registers: {} },
         { id: "broken", setup: {} },
       ],
-      models: [{ id: "m" }],
+      models: [{ id: "m", name: "Model", power: "Predicts", explains: ["x"], fails_at: ["y"], registers: {} }],
       concepts: [{ id: "c" }],
     };
     expect(parseCodexIndex(doc).map((e) => e.id)).toEqual(["a"]);
+    expect(parseCodexDocument(doc).models.map((model) => model.id)).toEqual(["m"]);
   });
 
   it("conceptGraph layers by longest prerequisite chain and survives cycles", async () => {

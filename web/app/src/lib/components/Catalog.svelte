@@ -39,6 +39,7 @@
     scriptKit,
     type CheckResult,
     type CodexEntry,
+    type CodexModel,
   } from "../codex";
   import type { Session } from "../session.svelte";
   import KitStrip from "./KitStrip.svelte";
@@ -90,6 +91,7 @@
 
   let {
     entries,
+    models = [],
     kidsEntries = [],
     stepProse = NO_STEP_PROSE,
     session,
@@ -105,6 +107,7 @@
     onclose,
   }: {
     entries: CodexEntry[];
+    models?: CodexModel[];
     kidsEntries?: KidsExperiment[];
     /** One sentence per script line, for the learner who paces a run. */
     stepProse?: StepProseIndex;
@@ -193,6 +196,16 @@
         : t("complete {count} more missions to unlock", { count: remaining });
     }
     return null;
+  }
+
+  function modelText(model: CodexModel, field: "name" | "power"): string {
+    const translated = model[`${field}_de` as "name_de" | "power_de"];
+    return i18n.locale === "de" && translated ? translated : model[field];
+  }
+
+  function modelList(model: CodexModel, field: "explains" | "fails_at"): string[] {
+    const translated = model[`${field}_de` as "explains_de" | "fails_at_de"];
+    return i18n.locale === "de" && translated?.length === model[field].length ? translated : model[field];
   }
 
   /**
@@ -595,6 +608,27 @@
         </p>
       {/if}
 
+      {#if models.length > 0}
+        <details class="model-library">
+          <summary>{t("models and their boundaries")} <small>{models.length}</small></summary>
+          <p class="meta">{t("Models explain within a domain. Their failure boundaries are part of the lesson, not fine print.")}</p>
+          <div class="model-cards">
+            {#each models as model (model.id)}
+              <article class="model-card" data-model={model.id}>
+                <h3>{modelText(model, "name")}</h3>
+                <p>{modelText(model, "power")}</p>
+                <h4>{t("explains")}</h4>
+                <ul>{#each modelList(model, "explains") as claim}<li>{claim}</li>{/each}</ul>
+                <h4>{t("fails at")}</h4>
+                <ul class="boundaries">{#each modelList(model, "fails_at") as boundary}<li>{boundary}</li>{/each}</ul>
+                {#if model.superseded_by}<p class="meta">{t("extended by")}: {tSlug(model.superseded_by)}</p>{/if}
+                {#if model.embodied_by}<details><summary>{t("how the bench embodies it")}</summary><p>{model.embodied_by}</p></details>{/if}
+              </article>
+            {/each}
+          </div>
+        </details>
+      {/if}
+
       <div class="cards">
         {#each shown as item (item.id)}
           {@const links = linksById.get(item.id) ?? null}
@@ -891,6 +925,24 @@
 </div>
 
 <style>
+  .model-library {
+    margin: .75rem 0 1rem;
+    border: 1px solid var(--edge);
+    border-radius: 12px;
+    padding: .65rem;
+    background: color-mix(in srgb, var(--surface) 92%, var(--instrument));
+  }
+  .model-library > summary { cursor: pointer; font-weight: 800; }
+  .model-library > summary small { color: var(--dim); }
+  .model-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+    gap: .65rem;
+  }
+  .model-card { border: 1px solid var(--edge); border-radius: 10px; padding: .75rem; }
+  .model-card h3, .model-card h4 { margin: .2rem 0; }
+  .model-card ul { padding-inline-start: 1.2rem; }
+  .model-card .boundaries { border-inline-start: 3px solid var(--warn); }
   .scrim {
     position: fixed;
     inset: 0;

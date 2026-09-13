@@ -94,15 +94,46 @@ export function scriptKit(script: string): string[] {
   return [...kit];
 }
 
-export function parseCodexIndex(raw: unknown): CodexEntry[] {
-  // The export's document shape: `{ reactions, models, concepts }`
-  // (kero codex export); older spellings tolerated.
-  const doc = raw as { reactions?: unknown[]; entries?: unknown[] } | unknown[];
+export interface CodexModel {
+  id: string;
+  name: string;
+  name_de?: string;
+  power: string;
+  power_de?: string;
+  explains: string[];
+  explains_de?: string[];
+  fails_at: string[];
+  fails_at_de?: string[];
+  superseded_by?: string | null;
+  requires?: string[];
+  embodied_by?: string | null;
+  registers: Record<string, string>;
+  provenance?: { source?: string | null; licence?: string | null; computed_by?: string | null } | null;
+}
+
+export interface CodexDocument {
+  reactions: CodexEntry[];
+  models: CodexModel[];
+}
+
+export function parseCodexDocument(raw: unknown): CodexDocument {
+  const doc = raw as { reactions?: unknown[]; entries?: unknown[]; models?: unknown[] } | unknown[];
   const list = Array.isArray(doc) ? doc : (doc?.reactions ?? doc?.entries ?? []);
-  return (list as CodexEntry[]).filter(
+  const reactions = (list as CodexEntry[]).filter(
     (e) => typeof e?.id === "string" && typeof e?.setup?.script === "string"
       && ["starter", "intermediate", "advanced"].includes(e.progress),
   );
+  const models = (Array.isArray(doc) ? [] : (doc?.models ?? []) as CodexModel[]).filter(
+    (model) => typeof model?.id === "string" && typeof model?.name === "string"
+      && typeof model?.power === "string" && Array.isArray(model?.fails_at),
+  );
+  return { reactions, models };
+}
+
+export function parseCodexIndex(raw: unknown): CodexEntry[] {
+  // The export's document shape: `{ reactions, models, concepts }`
+  // (kero codex export); older spellings tolerated.
+  return parseCodexDocument(raw).reactions;
 }
 
 export interface CheckResult {

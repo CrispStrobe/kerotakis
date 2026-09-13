@@ -2604,6 +2604,12 @@
   "Longer waits advance peroxide kinetics": "",
   "Give identical peroxide samples four different waits. Does elapsed time invent a reaction the model was never told to run?": "",
   "Electrode {label}: {material}, area {area} square metres, roughness {roughness}": "",
-  "potential unavailable": ""
+  "potential unavailable": "",
+  "models and their boundaries": "",
+  "Models explain within a domain. Their failure boundaries are part of the lesson, not fine print.": "",
+  "explains": "",
+  "fails at": "",
+  "extended by": "",
+  "how the bench embodies it": ""
   }
 }

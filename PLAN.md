@@ -120,7 +120,8 @@ time-evolving diffusion layer. Continue in this order:
 The 2026-09-13 integration programme follows that order and keeps every
 learner-facing addition on the existing Experiments, Codex or Missions
 surfaces: first audit and integrate reactive electrodiffusion; then expose the
-authority fields in the GUI; repair solvent-only aqueous characterization;
+authority fields in the GUI; verify the solvent-only aqueous characterization
+that landed in #543 and close its stale follow-up;
 render the already-exported Codex models and their `fails_at` boundaries;
 resume immutable CI-backed source fleets and promote only distinct supported
 concepts; finally produce an evidence-based worktree cleanup manifest. Heavy
@@ -2444,7 +2445,7 @@ that raised it. Nothing below is a commitment to an order.
   still lacks" list is where a reader will look for it.
 - **Open-vessel CO₂ uptake as a rate (landed #531)** — #496 was the peer
   session's PR and is closed; the same work landed as #531.
-- **Characterising a solvent-only vessel** (#529, from #504) — a beaker of
+- **Characterising a solvent-only vessel (closed #543)** (#529, from #504) — a beaker of
   plain water, or of water and a neutral molecular solute, gets no
   `SolutionInfo`: `PhreeqcEquilibrator::partition` declines when nothing with
   a derived role is dissolved. Sugar water has a pH, so this is a hole, and
@@ -2472,7 +2473,7 @@ that raised it. Nothing below is a commitment to an order.
   (2) run the phase transition before the aqueous attempt for an independent
   water inventory so freezing water never reaches a solver that cannot solve
   it, (3) then open the gate and review the remaining rows one at a time.
-  Until then the two tests that pin the wanted behaviour —
+  PR #543 completed that order. The tests that pin the boundary —
   `native_startup_tests::successful_native_startup_retains_aqueous_computation_and_provenance`
   and `unsupported_ionic::unknown_ionic_feed_is_distinct_from_a_neutral_molecular_solute`
   — assert the boundary the product actually has, and say so in a comment.
