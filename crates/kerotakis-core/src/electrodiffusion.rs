@@ -1564,4 +1564,179 @@ mod tests {
         assert!((flux[0] + flux[2] + flux[3]).abs() < 1e-10);
         assert!((2.0 * flux[0] + flux[1] + flux[2] - 5.0e-5).abs() < 1e-10);
     }
+
+    /// The acid network used by the electrode-surface envelope below and by
+    /// `weak_acid_surface_couples_mass_action_migration_and_component_fluxes`.
+    fn monoprotic_network() -> (
+        &'static [LocalEquilibriumSpecies<'static>],
+        &'static [LocalEquilibriumReaction<'static>],
+    ) {
+        const ACID_AND_PROTON: &[LocalEquilibriumComponent<'_>] = &[
+            LocalEquilibriumComponent {
+                id: "acid",
+                amount: 1.0,
+            },
+            LocalEquilibriumComponent {
+                id: "proton",
+                amount: 1.0,
+            },
+        ];
+        const PROTON: &[LocalEquilibriumComponent<'_>] = &[LocalEquilibriumComponent {
+            id: "proton",
+            amount: 1.0,
+        }];
+        const ACID: &[LocalEquilibriumComponent<'_>] = &[LocalEquilibriumComponent {
+            id: "acid",
+            amount: 1.0,
+        }];
+        const SPECIES: &[LocalEquilibriumSpecies<'_>] = &[
+            LocalEquilibriumSpecies {
+                id: "HA",
+                charge: 0,
+                activity_coefficient: 1.0,
+                components: ACID_AND_PROTON,
+            },
+            LocalEquilibriumSpecies {
+                id: "H+",
+                charge: 1,
+                activity_coefficient: 1.0,
+                components: PROTON,
+            },
+            LocalEquilibriumSpecies {
+                id: "A-",
+                charge: -1,
+                activity_coefficient: 1.0,
+                components: ACID,
+            },
+        ];
+        const TERMS: &[LocalEquilibriumTerm<'_>] = &[
+            LocalEquilibriumTerm {
+                species: "HA",
+                coefficient: -1.0,
+            },
+            LocalEquilibriumTerm {
+                species: "H+",
+                coefficient: 1.0,
+            },
+            LocalEquilibriumTerm {
+                species: "A-",
+                coefficient: 1.0,
+            },
+        ];
+        const REACTIONS: &[LocalEquilibriumReaction<'_>] = &[LocalEquilibriumReaction {
+            id: "acid",
+            terms: TERMS,
+            log10_equilibrium_constant: -4.76,
+        }];
+        (SPECIES, REACTIONS)
+    }
+
+    /// Every authored homogeneous reaction is charge-balanced, so the reaction
+    /// extents the coupled solve finds move no net charge. The ionic current
+    /// the layer carries must therefore equal the Faradaic current handed in,
+    /// exactly and for every case -- not to a tolerance chosen here.
+    #[test]
+    fn the_coupled_surface_carries_the_faradaic_charge_it_was_handed() {
+        let (species, reactions) = monoprotic_network();
+        let network = LocalEquilibriumNetwork { species, reactions };
+        let bulk = network
+            .equilibrate(&[100.0, 1.0e-6, 1.0e-6])
+            .unwrap()
+            .concentrations_mol_per_m3;
+        let transport_species = [
+            ElectrodiffusionSpecies {
+                id: "HA",
+                charge: 0,
+                diffusivity_m2_per_s: 0.8e-9,
+            },
+            ElectrodiffusionSpecies {
+                id: "H+",
+                charge: 1,
+                diffusivity_m2_per_s: 9.3e-9,
+            },
+            ElectrodiffusionSpecies {
+                id: "A-",
+                charge: -1,
+                diffusivity_m2_per_s: 1.1e-9,
+            },
+        ];
+        for faradaic in [
+            [0.0, 1.0e-4, 0.0],
+            [0.0, -1.0e-4, 0.0],
+            [0.0, 1.0e-5, -1.0e-5],
+            [1.0e-5, 1.0e-5, 0.0],
+        ] {
+            let state = NernstPlanckDomain::default()
+                .reactive_electroneutral_surface(
+                    &transport_species,
+                    &network,
+                    &bulk,
+                    &faradaic,
+                    ReactiveNernstPlanckOptions::default(),
+                )
+                .unwrap_or_else(|error| panic!("{faradaic:?}: {error}"));
+            let handed = ionic_current_density(&transport_species, &faradaic);
+            assert!(
+                (state.transport.ionic_current_density_a_per_m2 - handed).abs()
+                    <= 1e-12 * handed.abs().max(1.0),
+                "{faradaic:?}: {} vs {handed} A/m2",
+                state.transport.ionic_current_density_a_per_m2
+            );
+            assert!(
+                state.transport.charge_residual_mol_per_m3.abs()
+                    <= NernstPlanckDomain::default().charge_tolerance_mol_per_m3
+            );
+        }
+    }
+
+    /// The published working envelope was measured on `zero_current_junction`,
+    /// whose residual is a current and whose slope grows with `(D / L) * c`.
+    /// The electrode surface an electrochemical caller actually uses has a
+    /// different residual -- a charge concentration -- so its range is its own
+    /// question. It is pinned here over the bench cases a diffusion-layer
+    /// caller hands it: 10 mM to 12 M, and layers from 10 nm to 100 um.
+    #[test]
+    fn the_electrode_surface_range_covers_bench_electrolytes_and_thin_layers() {
+        let species = [
+            ElectrodiffusionSpecies {
+                id: "H+",
+                charge: 1,
+                diffusivity_m2_per_s: 9.31e-9,
+            },
+            ElectrodiffusionSpecies {
+                id: "Cl-",
+                charge: -1,
+                diffusivity_m2_per_s: 2.03e-9,
+            },
+        ];
+        for concentration in [10.0, 100.0, 1_000.0, 2_000.0, 12_000.0] {
+            for layer_thickness_m in [1.0e-8, 1.0e-7, 1.0e-6, 1.0e-5, 1.0e-4] {
+                let domain = NernstPlanckDomain {
+                    layer_thickness_m,
+                    ..Default::default()
+                };
+                // A tenth of the proton's own diffusion-limited flux, so the
+                // surface is depleted but never driven negative.
+                let flux = 0.1 * species[0].diffusivity_m2_per_s / layer_thickness_m
+                    * concentration;
+                let state = domain
+                    .electroneutral_surface(&species, &[concentration, concentration], &[flux, 0.0])
+                    .unwrap_or_else(|error| {
+                        panic!("{concentration} mol/m3 across {layer_thickness_m} m: {error}")
+                    });
+                assert!(
+                    state.charge_residual_mol_per_m3.abs() <= domain.charge_tolerance_mol_per_m3,
+                    "{concentration} mol/m3 across {layer_thickness_m} m"
+                );
+                // Migration, not diffusion alone, supplies the countercharge:
+                // the immobile-by-comparison anion is dragged toward the
+                // surface even though nothing consumes it.
+                assert!(
+                    state.right_concentrations_mol_per_m3[1] < concentration,
+                    "{concentration} mol/m3 across {layer_thickness_m} m"
+                );
+            }
+        }
+    }
+
 }
