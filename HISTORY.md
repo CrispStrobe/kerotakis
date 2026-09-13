@@ -244,11 +244,15 @@ it had while it was open, which is why a few numbers appear twice below.
     took a_w from "the speciation that answered the beaker", and for a
     solution under 1 mol/kgw that speciation is a Debye–Hückel one, so
     there was no a_w and Raoult's law stood in — 0.1 molal brine at
-    −0.371 °C against a measured −0.346. `pitzer.dat` is now asked for the
-    activity in a SECOND speciation of the same solution, posed lean
-    (element totals and the solvent mass; no phases, gas or interfaces)
-    and read for a_w alone, and the beaker lands at @@TENTH@@. What it
-    taught:
+    −0.371 °C, a dissolved salt's whole effect on its solvent taken as a
+    mole-fraction correction with nothing in it about the salt.
+    `pitzer.dat` is now asked for the activity in a SECOND speciation of
+    the same solution, posed lean (element totals and the solvent mass; no
+    phases, gas or interfaces) and read for a_w alone, and the beaker lands
+    at −0.347 °C — a 0.024 K correction, seven per cent of the quantity
+    being reported, on virial coefficients `pitzer.dat` attributes to
+    Appelo, 2015, Appl. Geochem. 55, 62-71,
+    doi:10.1016/j.apgeochem.2014.11.007. What it taught:
     - **The cost had to be measured, and it is not one solve per step.**
       @@COST@@
     - **It is conditional, and the conditions are a cost argument.** No
@@ -271,13 +275,27 @@ it had while it was open, which is why a few numbers appear twice below.
       widening by accident into "every aqueous step solves twice".
     - **Keeping Raoult and saying so was the real alternative, and it
       loses.** Nothing was hidden — the route already declared itself
-      `IdealSolution`. But the error is seven per cent, not a few; it is
-      the same defect, in the same direction, from the same cause as the
-      one-molal case this branch's predecessor fixed; a tenth molal is
-      nearer what anyone actually makes than a textbook mole in a
-      kilogram; and the limit was never the modelling. `pitzer.dat` is
-      vendored, loaded and routed to every day, and knew this answer all
-      along. It had simply never been asked.
+      `IdealSolution`. But the correction is seven per cent of the
+      reported quantity; it is the same defect, in the same direction,
+      from the same cause as the one-molal case this branch's predecessor
+      fixed; a tenth molal is nearer what anyone actually makes than a
+      textbook mole in a kilogram; and the limit was never the modelling.
+      `pitzer.dat` is vendored, loaded and routed to every day, and
+      describes this solution perfectly well. It had simply never been
+      asked.
+    - **No measured value is asserted, and that is an open item rather
+      than an oversight.** Neither new test compares against a measured
+      freezing point or osmotic coefficient. The figures usually printed
+      for this solution trace to Robinson and Stokes' tabulation, a book
+      with no resolvable identifier, and the critical re-evaluations of it
+      are `J. Phys. Chem. Ref. Data` — NIST Standard Reference Data, on
+      the avoid row of PLAN.md's provenance table. Every number the new
+      tests assert is one this repository ships or computes, pinned and
+      labelled as such, with the model side traced through `pitzer.dat`'s
+      own `# ref. 3` marker to a paper with a DOI. The world-facing anchor
+      is owed — and it is owed for the one-molal test beside it too, which
+      has carried −3.4 °C, φ = 0.936 and 108.7 °C with no source id since
+      2026-09-11.
   - **A string test, pinned from the other side.** `kerotakis-core` sits
     below the crate that knows which dataset is which, so it decides whether
     to believe an activity by testing `Provenance::model` against

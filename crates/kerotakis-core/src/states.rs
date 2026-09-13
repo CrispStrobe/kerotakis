@@ -429,16 +429,21 @@ pub const ION_INTERACTION_MAX_IONIC_STRENGTH: f64 = 20.0;
 /// That consequence used to be stated and left standing: a solution the
 /// router sent to a Debye–Hückel dataset took the ideal route even where
 /// an ion-interaction model would have done better, and between about 0.05
-/// molal and the router's 1 mol/kgw threshold the ideal route was a few per
-/// cent optimistic in the same direction the dilute law was — a tenth-molal
-/// brine at −0.371 °C against a measured −0.346.
+/// molal and the router's 1 mol/kgw threshold the ideal route was
+/// optimistic in the same direction the dilute law was — a tenth-molal
+/// brine at −0.371 °C, the whole of a dissolved salt's effect on its
+/// solvent taken as a mole-fraction correction with nothing in it about
+/// the salt.
 ///
 /// **Since 2026-09-13 the activity is asked for instead of given up on.**
 /// When the dataset that answered the chemistry is not an ion-interaction
 /// model, `pitzer.dat` is asked for the solvent's activity in a SECOND
 /// speciation of the same solution, posed with no phases, no gas and no
 /// interfaces — element totals and the solvent mass, and a_w is the only
-/// thing read back. A tenth-molal brine reads −0.347 °C on that activity.
+/// thing read back. A tenth-molal brine reads −0.347 °C on that activity,
+/// a correction of 0.024 K, on virial coefficients `pitzer.dat` attributes
+/// to Appelo (2015), Appl. Geochem. 55, 62-71,
+/// doi:10.1016/j.apgeochem.2014.11.007.
 /// `PhreeqcEquilibrator::solvent_activity_second_opinion` owns the band it
 /// is asked in and what it costs; the two facts that belong here are that
 /// the second opinion, when there is one, is believed on exactly the same

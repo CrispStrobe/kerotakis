@@ -181,7 +181,7 @@ fn a_textbook_spoonful_of_salt_freezes_the_water_near_minus_three_point_four() {
 /// closed, and it is the more likely beaker of the two: a tenth molal is
 /// roughly a level teaspoon of salt in half a litre, which is nearer what
 /// anybody actually makes than the textbook kilogram-and-a-mole is. The
-/// bench was accurate at one molal and seven per cent optimistic here,
+/// bench was on a modelled solvent at one molal and on Raoult's law here,
 /// which is the wrong way round.
 ///
 /// **Why it was wrong is not the same reason the one-molal case was.**
@@ -193,13 +193,37 @@ fn a_textbook_spoonful_of_salt_freezes_the_water_near_minus_three_point_four() {
 /// a_w on a Debye–Hückel database at all — it prints `1 − 0.017·Σm`, a
 /// hard-coded constant that carries no information about what is dissolved.
 /// `states::SolventActivity` declines it for that reason and Raoult's law
-/// stood in, which put this beaker at −0.371 °C against a measured −0.346.
+/// stood in, which put this beaker at −0.371 °C — the whole of the
+/// dissolved salt's effect on the solvent taken as a mole-fraction
+/// correction, with nothing in it about the salt.
 ///
 /// So the chemistry never needed re-solving; one number did. The fix asks
 /// `pitzer.dat` for the solvent activity in a second, deliberately lean
 /// speciation — element totals and the solvent mass, no phases, no gas, no
-/// interfaces — and reads a_w out of it. φ comes back at 0.932 against a
-/// measured 0.9324, and the beaker lands at −0.347.
+/// interfaces — and reads a_w out of it.
+///
+/// **Where the numbers below come from, and where they do not.** Every
+/// value asserted here is one this repository ships or computes, and the
+/// assertions are pins on those. φ is what `pitzer.dat`'s Na–Cl virial
+/// coefficients give at this molality, and that file records its own
+/// provenance for them: the `-B0` row `Cl-  Na+  7.534e-2 ...` is marked
+/// `# ref. 3`, and the file's reference list reads `ref. 3: Appelo, 2015,
+/// Appl. Geochem. 55, 6271` — C. A. J. Appelo, "Principles, caveats and
+/// improvements in databases for calculating hydrogeochemical reactions in
+/// saline waters from 0 to 200 °C and 1 to 1000 atm", Applied Geochemistry
+/// 55 (2015) 62-71, doi:10.1016/j.apgeochem.2014.11.007. PHREEQC's
+/// databases are on the approved row of PLAN.md's provenance table, so
+/// that is a chain this bench may stand on.
+///
+/// There is deliberately NO assertion here against a MEASURED freezing
+/// point or a measured osmotic coefficient. The figures usually quoted for
+/// this solution trace to Robinson and Stokes' tabulation, which is a book
+/// with no resolvable identifier, and the critical re-evaluations of it are
+/// NIST Standard Reference Data, which PLAN.md's provenance table puts on
+/// the avoid row. Writing a measured number into a comment with no source
+/// a gate could check is the pattern this repository is already carrying
+/// too much of, so the world-facing comparison is left out until a citable
+/// source exists rather than added to the pile.
 ///
 /// **The two solves are visible from the outside**, which is the whole of
 /// how a reader tells this vessel apart from a one-solve one:
@@ -258,29 +282,52 @@ fn a_tenth_molal_brine_is_answered_by_a_model_and_not_by_raoult() {
         transitions.solute_molality
     );
     let phi = transitions.osmotic_coefficient();
+    eprintln!("0.1 molal NaCl: phi = {phi:.4}");
+    // An osmotic coefficient a little under one is the whole content of the
+    // ion-interaction correction at this dilution. The band states the
+    // physics rather than four printed figures: `from_speciation` already
+    // rejects anything outside 0.6 to 2.5 as not having come from an
+    // osmotic model at all, and this narrows that to the range a 1:1
+    // chloride occupies a tenth molal on pitzer.dat's own coefficients.
     assert!(
-        (phi - 0.9324).abs() < 0.015,
-        "the osmotic coefficient of 0.1 molal NaCl is 0.9324 by          measurement: {phi:.4}"
+        (0.90..=0.96).contains(&phi),
+        "a tenth-molal 1:1 chloride's osmotic coefficient sits a little under one: {phi:.4}"
     );
 
     let freezing_c = transitions.freezing_k - 273.15;
-    // What the world says. This band is the one that matters, and it is
-    // tight on purpose: the ideal route's −0.371 is outside it, which is
-    // the regression this test exists to catch.
-    assert!(
-        (freezing_c + 0.346).abs() < 0.015,
-        "0.1 molal brine freezes at -0.346 C by measurement: got          {freezing_c:.4} C"
-    );
-    // And Raoult's law, named so the thing that was wrong stays visible.
-    // `SolventActivity::ideal` is what this beaker used to take.
+    eprintln!("0.1 molal NaCl: freezing point {freezing_c:.4} C");
+    // Raoult's law, named so the thing that was wrong stays visible, and
+    // computed here rather than quoted so it cannot go stale.
+    // `SolventActivity::ideal` is the route this beaker used to take.
     let ideal = states::SolventActivity::ideal();
     let ideal_c = states::transitions_with(ideal, transitions.solute_molality, 101.325)
         .0
         .freezing_k
         - 273.15;
+    eprintln!("0.1 molal NaCl: Raoult's law would say {ideal_c:.4} C");
+    // The correction is in the direction a real solvent moves a freezing
+    // point for this salt: phi under one means a_w is HIGHER than the
+    // exponential form at phi = 1, so the depression is smaller.
     assert!(
-        ideal_c < freezing_c - 0.015,
-        "Raoult's law says {ideal_c:.4} C here, which is the seven per cent          this closes"
+        freezing_c > ideal_c,
+        "an osmotic coefficient under one means less depression than Raoult's law: {freezing_c:.4} C against {ideal_c:.4} C"
+    );
+    // And it is worth having: at least fifteen millikelvin, which is about
+    // five per cent of the whole answer. A change that quietly put this
+    // beaker back on the ideal route fails here rather than passing by a
+    // rounding.
+    assert!(
+        freezing_c - ideal_c > 0.015,
+        "the correction is worth having: {:.4} K",
+        freezing_c - ideal_c
+    );
+    // The pin. This is what THIS bench, on the datasets it ships today,
+    // computes for this beaker — not a claim about the world. It moves when
+    // the engine, the dataset or the relation moves, and it is meant to:
+    // that is what makes it a pin rather than a measurement.
+    assert!(
+        (freezing_c + 0.347).abs() < 0.010,
+        "pin for the ion-interaction route at 0.1 molal: {freezing_c:.4} C"
     );
 }
 
@@ -321,10 +368,28 @@ fn a_hundredth_molal_brine_is_left_on_raoults_law_and_costs_one_solve() {
         "and the route says so rather than implying a model that was never          consulted"
     );
     let freezing_c = transitions.freezing_k - 273.15;
-    // Both models land here, which is the argument for not asking.
+    eprintln!("0.01 molal NaCl: freezing point {freezing_c:.4} C (ideal route)");
+    // The two routes agree here, which is the argument for not asking.
+    // Computed from the relation rather than quoted: at this particle
+    // molality an osmotic coefficient of 0.93 and Raoult's law differ by a
+    // few thousandths of a kelvin, which no thermometer this bench models
+    // would show and no engine call is worth.
+    let modelled = states::transitions_with(
+        states::SolventActivity::from_speciation(
+            (-0.93 * 0.018015 * transitions.solute_molality).exp(),
+            transitions.solute_molality,
+            transitions.solute_molality / 2.0,
+        ),
+        transitions.solute_molality,
+        101.325,
+    )
+    .0
+    .freezing_k
+        - 273.15;
+    eprintln!("0.01 molal NaCl: an ion-interaction route would say {modelled:.4} C");
     assert!(
-        (freezing_c + 0.0372).abs() < 0.004,
-        "0.01 molal NaCl freezes near -0.037 C on either model:          {freezing_c:.4} C"
+        (freezing_c - modelled).abs() < 0.005,
+        "below the floor the two routes agree to a few thousandths of a kelvin: ideal {freezing_c:.4} C against a modelled {modelled:.4} C"
     );
 }
 

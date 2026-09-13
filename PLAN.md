@@ -1876,59 +1876,77 @@ Open, and small:
       stayed declined for the reasons written in `colligative_numbers.rs`.
       What supplies a_w, what does not and where each stops is in
       `states::SolventActivity`; `HISTORY.md` has the rest.
-- [x] **A dilute brine took the ideal route and was seven per cent
-      optimistic in the same direction the dilute law was. Closed
-      2026-09-13 by asking `pitzer.dat` for the solvent activity in a
-      second, lean speciation. A tenth-molal brine reads @@TENTH@@ °C
-      against a measured −0.346, where Raoult's law said −0.371.** The
-      solvent activity is believed only when an ion-interaction speciation
-      computed it, and the router sends a solution to `pitzer.dat` at
-      1 mol/kgw — so 0.1 molal brine was answered by a Debye–Hückel
-      dataset, whose reported water activity is PHREEQC's hard-coded
-      `1 − 0.017·Σm` placeholder rather than a model, and Raoult's law
-      stood in.
+- [x] **A dilute brine took the ideal route, and now takes an
+      ion-interaction one. Closed 2026-09-13 by asking `pitzer.dat` for the
+      solvent activity in a second, lean speciation. A tenth-molal brine
+      reads −0.347 °C where Raoult's law said −0.371.** The solvent
+      activity is believed only when an ion-interaction speciation computed
+      it, and the router sends a solution to `pitzer.dat` at 1 mol/kgw — so
+      0.1 molal brine was answered by a Debye–Hückel dataset, whose
+      reported water activity is PHREEQC's hard-coded `1 − 0.017·Σm`
+      placeholder rather than a model, and Raoult's law stood in.
 
       **Why it was worth a second solve rather than a sentence.** Keeping
       Raoult and simply saying so was the real alternative, and the code
-      already declared the route `IdealSolution`, so nothing was being
-      hidden. It loses on two counts. The gap is 0.025 K on a 0.346 K
-      answer — seven per cent, not "a few" — and it is the SAME defect,
-      in the same direction, from the same cause as the one at one molal
-      that was judged worth fixing on 2026-09-11: Raoult's law standing in
-      for a solvent activity. Declining it here would have left the bench
-      accurate at a molality nobody makes and wrong at the one everybody
-      does; a tenth molal is a level teaspoon of salt in half a litre.
-      And the reason for the gap is not a modelling limit — `pitzer.dat`
-      is vendored, loaded, routed to daily and knows this solution
-      perfectly well. It was simply never asked.
+      already declared the route `IdealSolution`, so nothing was hidden. It
+      loses on three counts. The correction is 0.024 K on a 0.347 K answer,
+      which is seven per cent of the quantity being reported. It is the
+      SAME defect, in the same direction and from the same cause, as the
+      one at one molal that was judged worth fixing on 2026-09-11 — Raoult's
+      law standing in for a solvent activity — so declining it here would
+      have left the bench on a modelled solvent at a molality nobody makes
+      and on a mole-fraction guess at the one everybody does; a tenth molal
+      is a level teaspoon of salt in half a litre. And the reason for the
+      gap was never a modelling limit: `pitzer.dat` is vendored, loaded and
+      routed to daily, and its Na–Cl virial coefficients (which that file
+      attributes to Appelo, 2015, Appl. Geochem. 55, 62-71,
+      doi:10.1016/j.apgeochem.2014.11.007) describe this solution perfectly
+      well. It had simply never been asked.
 
       **What it costs, measured rather than estimated.** @@COST@@
 
       **It is conditional, and that is deliberate.** An unconditional
       second solve would pay for solutions already on `pitzer` (the same
-      solve twice), for solutions `pitzer` cannot express, and for
-      solutions too dilute for a four-significant-figure a_w to say
-      anything. So the second opinion is asked only when the chemistry
-      routed to a Debye–Hückel dataset, `pitzer.dat` carries every
-      element, there is no gas phase, surface, exchanger, solid solution
-      or surviving solid to make the posed totals not the solution's, the
-      lean problem is not redox-coupled, and dissolved particles are at or
-      above 0.05 mol/kgw. Below that floor a_w rounds to 1.000, φ computes
-      as zero, `SolventActivity::from_speciation` rejects it, and the two
-      models are within 0.003 K of each other anyway.
+      solve twice), for solutions `pitzer` cannot express, for
+      redox-coupled problems whose second solve would be a pe bisection,
+      and for solutions too dilute for a four-significant-figure a_w to say
+      anything. So it is asked only when the chemistry routed to a
+      Debye–Hückel dataset, `pitzer.dat` carries every element, there is no
+      gas phase, surface, exchanger, solid solution or surviving solid to
+      make the posed totals not the solution's, the lean problem is not
+      redox-coupled, and dissolved particles are at or above 0.05 mol/kgw.
+      Below that floor a_w rounds to 1.000, φ computes as zero,
+      `SolventActivity::from_speciation` rejects it, and the two routes
+      differ by a few thousandths of a kelvin in any case.
 
       **So a vessel sometimes solves twice, and a reader can always tell
       which.** `SolutionInfo::solvent_activity` is `Some` on exactly the
-      two-solve vessels and names the dataset the activity came from,
-      which is not the dataset in `provenance` the pH and speciation came
-      from; `Provenance::routing` says the same thing in prose, beside the
-      numbers, wherever provenance is rendered; `kero` prints it on its
-      own line; and `Transitions::activity_route()` reads `IonInteraction`
-      rather than `IdealSolution`. Both directions are pinned in
+      two-solve vessels and names the dataset the activity came from, which
+      is not the dataset in `provenance` the pH and speciation came from;
+      `Provenance::routing` says the same in prose wherever provenance is
+      rendered; `kero` prints it on its own line; and
+      `Transitions::activity_route()` reads `IonInteraction` rather than
+      `IdealSolution`. Both directions are pinned in
       `colligative_numbers.rs`, by a tenth-molal test that asserts the
-      second record is there and a hundredth-molal test that asserts it is
-      not — the second is what stops the trigger widening by accident into
-      "every aqueous step solves twice".
+      record is there and a hundredth-molal test that asserts it is not —
+      the second is what stops the trigger widening by accident into "every
+      aqueous step solves twice".
+
+      **What is deliberately NOT asserted, and why it is an open item.**
+      Neither new test compares against a MEASURED freezing point or
+      osmotic coefficient, and the prose above quotes none. The figures
+      usually printed for this solution trace to Robinson and Stokes'
+      tabulation — a book, no resolvable identifier — and the critical
+      re-evaluations of it are `J. Phys. Chem. Ref. Data`, which is NIST
+      Standard Reference Data and sits on the avoid row of the provenance
+      table above. Every number asserted is therefore one this repository
+      ships or computes, pinned as such and labelled as such. The
+      world-facing anchor is left open rather than written into a comment
+      with no source a gate could check. **That anchor is still owed**, and
+      it is owed for the one-molal case beside it too:
+      `a_textbook_spoonful_of_salt_freezes_the_water_near_minus_three_point_four`
+      and `states::SolventActivity`'s own doc already carry −3.4, φ = 0.936,
+      108.7 °C and −0.346 with no source id at all.
 - [x] **Is a boil a curated route or a computed one? Measured and decided,
       2026-09-11: it stays `Curated`, and the asymmetry that prompted the
       question is on the other solver.**
