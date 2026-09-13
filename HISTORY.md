@@ -31,7 +31,10 @@ it had while it was open, which is why a few numbers appear twice below.
   30 named relations, scheduled as at most four GitHub Actions shards in
   parallel. The first run executed every script cleanly; 18 relations exposed a
   missing operation boundary in the new manifests, repaired without changing a
-  tolerance or scientific expectation. Source traceability remains private.
+  tolerance or scientific expectation. The repaired fleet passed 150/150
+  checks. Promotion review retained every case as regression evidence: none
+  cleared the distinct-concept evidence bar. Source traceability remains
+  private.
 
 ## 2026-09-11
 

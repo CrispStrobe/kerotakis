@@ -78,13 +78,14 @@ than crystal formation; thermal, pressure, cell, transfer, filtration and
 evaporation-path overlaps stay regression-only. The complete 288-case corpus
 remains evidence even when a concept is not promoted.
 
-The third source-informed tranche is frozen at cases 777–896: five reviewed
+The third source-informed tranche is complete at cases 777–896: five reviewed
 but previously unexecuted private-research candidates become 120 original
 public scripts in five 24-case families, with 30 relations and 150
-execution-plus-relation checks. Its first run is intentionally diagnostic and
-GitHub-CI-only. No result is promoted and no expectation may be weakened until
-the revision-bound artifacts have been audited; source identities and mappings
-remain in the private research repository.
+execution-plus-relation checks, all passing on GitHub CI after one preserved
+input-contract failure. Review promoted none: thermal, conductivity and ideal
+ester relations duplicate existing teaching, while aqueous selectivity and
+metal-ligand relations prove conservation rather than their distinctive
+optical/chemical claim. Source identities and mappings remain private.
 
 The second tranche is fixed at 18 concepts: seven guided Experiments K64–K70,
 seven Codex comparisons, and four Missions. Its pressure, buffer, neutralisation,

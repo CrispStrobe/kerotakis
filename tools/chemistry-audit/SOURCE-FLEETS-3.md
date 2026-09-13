@@ -1,8 +1,9 @@
 # Source-informed fleets v3: cases 777–896
 
-Status: repaired input contract queued after the preserved first run on
-2026-09-13. GitHub CI owns every run; the deployment VPS does not build the
-release CLI or execute the fleet.
+Status: complete after the preserved first run and one input-contract repair
+on 2026-09-13. All 120 executions and 30 relations pass (150/150 checks).
+GitHub CI owns every run; the deployment VPS did not build the release CLI or
+execute the fleet.
 
 This tranche converts five reviewed, previously unexecuted candidate families
 from the private research inventory into 120 original Kerotakis scripts:
@@ -35,3 +36,21 @@ an input-contract defect, not chemistry evidence. The repaired manifests name
 the actual operation boundary (`filter`, `heat`, or `react`) and retain the
 first artifacts unchanged. No tolerance, direction or scientific expectation
 was widened.
+
+## Promotion review
+
+No v3 case is promoted to Experiments, Codex or Missions in this tranche.
+
+- Water-energy paths repeat existing thermal/phase and conservation teaching.
+- Dilute conductivity repeats the already promoted concentration and intensive
+  conductivity comparisons.
+- Aqueous selectivity closes elemental ledgers across filtration, but its
+  frozen relations do not prove the carbonate-versus-sulfate acid-response
+  distinction suggested by the private source review.
+- Metal-ligand cases prove execution and conservation, not a calibrated colour
+  response or temperature-dependent formation model.
+- Signed ideal ester cases repeat the existing there-and-back equilibrium
+  lesson and prove no alkaline-cleavage mechanism or empirical rate.
+
+All 120 remain regression evidence. The three unproven distinctive claims stay
+as model/instrumentation gaps in the private research inventory.
