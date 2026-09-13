@@ -404,8 +404,12 @@ pub const REACTIONS: &[CuratedReaction] = &[
         acid_protons: None,
     },
     // ── thermal decomposition (EXP-2: Backpulver) ───────────────
-    // Onset ~50 °C, classroom-observable above ~80 °C (CRC Handbook
-    // 97th ed.; Merck Index 15th ed.). Threshold set at 353 K.
+    // Onset ~50 °C, classroom-observable above ~80 °C. NO SOURCE IS
+    // CLAIMED: this named the CRC Handbook 97th ed. and the Merck Index
+    // 15th ed. until 2026-09-13, and both are commercial references of the
+    // class PLAN.md's audit puts on the avoid row. The threshold is set at
+    // 353 K, which is where a kitchen actually sees the fizz, and that
+    // choice is the row's own and was never the handbook's.
     CuratedReaction {
         equation: "2 NaHCO₃ →Δ Na₂CO₃ + H₂O + CO₂↑",
         reactants: &[("NaHCO3", 2.0)],
@@ -603,7 +607,7 @@ pub const ORG_REACTIONS: &[OrgReaction] = &[
         reactants: &[("glucose", 1.0), ("O2", 6.0)],
         products: &[("CO2", 6.0, Phase::Gas), ("water", 6.0, Phase::Liquid)],
         boundary: "asking for a named reaction is the LEARNER requesting an outcome, not the bench predicting it: nothing here decides that glucose and oxygen in a beaker will respire. No cell, no membrane, no enzyme, no electron transport chain and no ATP is modelled — glycolysis, the citric acid cycle and oxidative phosphorylation are collapsed into one equation, which is a summary of respiration and not a mechanism for it. The standard enthalpy of combustion of glucose is about −2803 kJ/mol, and THAT HEAT IS NOT APPLIED: no row in this table carries a curated reaction enthalpy, so the vessel's temperature does not move and the figure is quoted rather than used. The energy a cell actually captures is smaller again, and is not claimed at all.",
-        source: "Aerobic respiration of D-glucose, C6H12O6 + 6 O2 → 6 CO2 + 6 H2O, the standard overall equation; atom- and mass-balanced against the registry formulas for glucose, O2, CO2 and water. The enthalpy quoted in the boundary, about −2803 kJ/mol as the standard enthalpy of combustion of D-glucose at 298.15 K, is recorded AS COMMONLY TABULATED and ITS PROVENANCE LANE IS PENDING REVIEW: it is not a transcription from a positively identified copy of any single edition of the CODATA key values, the NIST/JANAF tables or the CRC Handbook of Chemistry and Physics, no edition-level provenance is claimed, and it is flagged for reviewer confirmation against a positively identified copy. Nothing in the engine consumes it.",
+        source: "Aerobic respiration of D-glucose, C6H12O6 + 6 O2 → 6 CO2 + 6 H2O, the standard overall equation; atom- and mass-balanced against the registry formulas for glucose, O2, CO2 and water. The enthalpy quoted in the boundary, about −2803 kJ/mol as the standard enthalpy of combustion of D-glucose at 298.15 K, is recorded AS COMMONLY TABULATED and ITS PROVENANCE LANE IS PENDING REVIEW: NO SOURCE IS CLAIMED. This sentence used to name the CODATA key values, the NIST/JANAF tables and the CRC Handbook of Chemistry and Physics as the class of reference it was not a transcription from, which named an avoid-row source while disclaiming it - a shape PLAN.md's audit does not allow even in the negative. The three names are withdrawn 2026-09-13 and what is left is the plain statement: this number is the commonly tabulated one and nothing citable stands behind it. (The 1971 NSRDS-NBS 37 JANAF tables would be usable, being public domain, but they carry no D-glucose.) Nothing in the engine consumes it.",
     },
 ];
 
