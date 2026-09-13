@@ -5919,10 +5919,403 @@ mod tests {
             }),
             ..definition
         };
+        // Every species here is on the lumped transient layer, which has no
+        // migration model of its own, so a charged flux still refuses. The
+        // steady boundary below is what carries this case.
         assert!(
             validate_local_equilibrium_coupling(&charged_flux, 298.15, 0.01)
                 .unwrap_err()
-                .contains("Nernst-Planck migration")
+                .contains("the transient diffusion layer carries no migration model")
         );
     }
+
+    /// A charged Faradaic flux across a buffered diffusion layer: the case
+    /// `validate_local_equilibrium_coupling` refused outright until the
+    /// Nernst--Planck boundary acquired a caller.
+    ///
+    /// The electrode reaction is the same synthetic four-electron oxygen
+    /// couple the neutral fixture above uses. The interfacial network is a
+    /// generic monoprotic weak acid `HA = H+ + A-`, whose equilibrium constant
+    /// is derived here from the authored bulk so that the bulk is at
+    /// equilibrium by construction rather than by a rounded literal.
+    #[test]
+    fn a_charged_interfacial_flux_solves_through_the_nernst_planck_boundary() {
+        use crate::local_equilibrium::{
+            LocalEquilibriumComponent, LocalEquilibriumNetwork, LocalEquilibriumReaction,
+            LocalEquilibriumSpecies, LocalEquilibriumTerm, LocalEquilibriumValidity,
+        };
+        const QUOTIENT: &[ActivityRequirement<'static>] = &[
+            ActivityRequirement {
+                species: "O2",
+                coefficient: -1.0,
+                source: ActivitySource::ResolvedAqueous,
+            },
+            ActivityRequirement {
+                species: "H+",
+                coefficient: -4.0,
+                source: ActivitySource::ResolvedAqueous,
+            },
+        ];
+        const TERMS: &[FaradaicTerm<'static>] = &[
+            FaradaicTerm {
+                reservoir: FaradaicReservoir::Bulk {
+                    species: "water",
+                    phase: crate::Phase::Liquid,
+                },
+                coefficient: -2.0,
+            },
+            FaradaicTerm {
+                reservoir: FaradaicReservoir::Bulk {
+                    species: "O2",
+                    phase: crate::Phase::Aqueous,
+                },
+                coefficient: 1.0,
+            },
+            FaradaicTerm {
+                reservoir: FaradaicReservoir::Bulk {
+                    species: "H+",
+                    phase: crate::Phase::Aqueous,
+                },
+                coefficient: 4.0,
+            },
+        ];
+        const ACID_POOL: &[LocalEquilibriumComponent<'static>] =
+            &[LocalEquilibriumComponent {
+                id: "acid-pool",
+                amount: 1.0,
+            }];
+        const PROTON_POOL: &[LocalEquilibriumComponent<'static>] =
+            &[LocalEquilibriumComponent {
+                id: "proton-pool",
+                amount: 1.0,
+            }];
+        const ACID_AND_PROTON: &[LocalEquilibriumComponent<'static>] = &[
+            LocalEquilibriumComponent {
+                id: "acid-pool",
+                amount: 1.0,
+            },
+            LocalEquilibriumComponent {
+                id: "proton-pool",
+                amount: 1.0,
+            },
+        ];
+        // Bulk, in mol/m^3: 0.1 M protons matching the vessel's pH 1, an equal
+        // amount of conjugate base, and 1 M undissociated acid. The network is
+        // electroneutral; the Faradaic stoichiometry across it is not.
+        const PROTON_BULK: f64 = 100.0;
+        const BASE_BULK: f64 = 100.0;
+        const ACID_BULK: f64 = 1_000.0;
+        const LAYER_M: f64 = 1.0e-4;
+        const PROTON_DIFFUSIVITY: f64 = 9.31e-9;
+        const BASE_DIFFUSIVITY: f64 = 1.09e-9;
+        const ACID_DIFFUSIVITY: f64 = 1.20e-9;
+        let log10_equilibrium_constant = ((PROTON_BULK / 1_000.0) * (BASE_BULK / 1_000.0)
+            / (ACID_BULK / 1_000.0))
+            .log10();
+        let local_species = [
+            LocalEquilibriumSpecies {
+                id: "HA",
+                charge: 0,
+                activity_coefficient: 1.0,
+                components: ACID_AND_PROTON,
+            },
+            LocalEquilibriumSpecies {
+                id: "H+",
+                charge: 1,
+                activity_coefficient: 1.0,
+                components: PROTON_POOL,
+            },
+            LocalEquilibriumSpecies {
+                id: "A-",
+                charge: -1,
+                activity_coefficient: 1.0,
+                components: ACID_POOL,
+            },
+        ];
+        const DISSOCIATION: &[LocalEquilibriumTerm<'static>] = &[
+            LocalEquilibriumTerm {
+                species: "HA",
+                coefficient: -1.0,
+            },
+            LocalEquilibriumTerm {
+                species: "H+",
+                coefficient: 1.0,
+            },
+            LocalEquilibriumTerm {
+                species: "A-",
+                coefficient: 1.0,
+            },
+        ];
+        let reactions = [LocalEquilibriumReaction {
+            id: "acid-dissociation",
+            terms: DISSOCIATION,
+            log10_equilibrium_constant,
+        }];
+        let steady = |diffusivity_m2_per_s, bulk_concentration_mol_per_m3| {
+            CurrentLimitModel::DiffusionLayer(crate::heterogeneous::DiffusionLayerTransport {
+                diffusivity_m2_per_s,
+                bulk_concentration_mol_per_m3,
+                diffusion_layer_m: LAYER_M,
+            })
+        };
+        // One physical layer, three different diffusivities. The diffusion-only
+        // adapter refuses exactly this, because it needs one common D/L.
+        let interface = [
+            InterfacialTransportTerm {
+                species: "O2",
+                coefficient: 1.0,
+                transport: steady(2.0e-9, 100.0),
+                zero_bulk_activity_coefficient: None,
+            },
+            InterfacialTransportTerm {
+                species: "H+",
+                coefficient: 4.0,
+                transport: steady(PROTON_DIFFUSIVITY, PROTON_BULK),
+                zero_bulk_activity_coefficient: None,
+            },
+            InterfacialTransportTerm {
+                species: "A-",
+                coefficient: 0.0,
+                transport: steady(BASE_DIFFUSIVITY, BASE_BULK),
+                zero_bulk_activity_coefficient: None,
+            },
+            InterfacialTransportTerm {
+                species: "HA",
+                coefficient: 0.0,
+                transport: steady(ACID_DIFFUSIVITY, ACID_BULK),
+                zero_bulk_activity_coefficient: None,
+            },
+        ];
+        let mut record = parameter_record("synthetic-buffered-oxygen-reduction");
+        record.reaction = "O2/H2O".into();
+        record.electrode_material = "Pt".into();
+        record.validity.activities[0].species = "H+".into();
+        record.validity.activities[0].minimum = 1.0e-6;
+        record.kinetics = ElectrodeKineticModel::ButlerVolmer {
+            parameters: ButlerVolmerParams {
+                j0: 1.0e-4,
+                alpha_a: 0.5,
+                alpha_c: 0.5,
+                n: 4.0,
+            },
+        };
+        record.parameter_envelope = None;
+        let definition = ElectrochemicalReactionDefinition {
+            id: "O2/H2O",
+            standard_reduction_potential_v: 1.229,
+            quotient_requirements: QUOTIENT,
+            kinetic_domain_requirements: &QUOTIENT[1..],
+            surface_availability: SurfaceAvailabilityModel::Explicit { fraction: 1.0 },
+            anodic_transport: None,
+            cathodic_transport: None,
+            anodic_transported_species: None,
+            cathodic_transported_species: None,
+            interfacial_transport: &interface,
+            local_equilibrium: Some(InterfacialLocalEquilibrium {
+                network: LocalEquilibriumNetwork {
+                    species: &local_species,
+                    reactions: &reactions,
+                },
+                validity: LocalEquilibriumValidity {
+                    minimum_temperature_k: 273.15,
+                    maximum_temperature_k: 323.15,
+                    maximum_relaxation_time_s: 1.0e-5,
+                    minimum_timescale_separation: 1.0,
+                },
+            }),
+            film_resistance: FilmResistanceModel::None,
+            anodic_terms: TERMS,
+            electrons_produced: 4.0,
+        };
+
+        // The validator now names the boundary it selected, and keeps the
+        // authored per-species diffusivities rather than one coefficient.
+        let validated = validate_local_equilibrium_coupling(&definition, 298.15, 0.01)
+            .expect("a charged Faradaic flux over one steady layer is admissible")
+            .expect("the definition carries a local-equilibrium network");
+        let migration = validated
+            .migration
+            .as_ref()
+            .expect("a charged Faradaic flux selects the Nernst-Planck boundary");
+        assert_eq!(migration.layer_thickness_m, LAYER_M);
+        assert_eq!(
+            migration.diffusivities_m2_per_s,
+            vec![ACID_DIFFUSIVITY, PROTON_DIFFUSIVITY, BASE_DIFFUSIVITY]
+        );
+        assert_eq!(
+            migration.bulk_mol_per_m3,
+            vec![ACID_BULK, PROTON_BULK, BASE_BULK]
+        );
+
+        let mut vessel = crate::Vessel::new(crate::VesselId(11), "buffered interface");
+        vessel.electrodes.push(crate::ElectrodeState {
+            label: "working".into(),
+            material: "Pt".into(),
+            surface_preparation: Some("project-authored test surface".into()),
+            substrate_moles: None,
+            area_m2: 0.01,
+            roughness: 1.0,
+            double_layer_capacitance_f_per_m2: None,
+            interfacial_potential_v: None,
+            interfacial_species: Vec::new(),
+            diagnostics: None,
+            deposits: Vec::new(),
+        });
+        vessel.deposit(
+            crate::SpeciesId::new("water"),
+            crate::Moles(55.5),
+            crate::Phase::Liquid,
+        );
+        vessel.deposit(
+            crate::SpeciesId::new("H+"),
+            crate::Moles(0.1),
+            crate::Phase::Aqueous,
+        );
+        vessel.deposit(
+            crate::SpeciesId::new("O2"),
+            crate::Moles(0.1),
+            crate::Phase::Aqueous,
+        );
+        vessel.solution = Some(crate::SolutionInfo {
+            scope: crate::SolutionScope::Complete,
+            solvent_kg: Some(1.0),
+            redox: Vec::new(),
+            pe: None,
+            ph: 1.0,
+            ionic_strength: 0.1,
+            species: vec![crate::SpeciesDetail {
+                name: "O2".into(),
+                molality: 0.1,
+                activity: 0.1,
+            }],
+            provenance: None,
+        });
+
+        let proposal = propose_electrochemical_step(
+            &vessel,
+            "working",
+            std::slice::from_ref(&record),
+            &[definition],
+            0.01,
+            HydrodynamicCondition::default(),
+            CellControl::Potentiostatic { voltage: 0.9 },
+            TransportLimits {
+                solution_resistance_ohm: 0.0,
+                limiting_current_cathodic: None,
+                limiting_current_anodic: None,
+            },
+            CurrentBalanceSolver::default(),
+        )
+        .unwrap();
+        let condition = |species: &str| {
+            proposal
+                .interfacial_conditions
+                .iter()
+                .find(|condition| condition.species == species)
+                .unwrap_or_else(|| panic!("{species} has an interfacial condition"))
+                .clone()
+        };
+
+        // 1. The boundary ran, and says so. A species outside the network went
+        //    through Fick's law and reports no migration potential rather than
+        //    a zero one.
+        let potential_v = condition("H+")
+            .migration_potential_v
+            .expect("the coupled boundary solved the proton's surface");
+        assert_eq!(condition("A-").migration_potential_v, Some(potential_v));
+        assert_eq!(condition("HA").migration_potential_v, Some(potential_v));
+        assert_eq!(condition("O2").migration_potential_v, None);
+
+        // 2. Conservation, computed: the surface the solver returned is
+        //    electroneutral to the authored charge tolerance, not merely
+        //    inspected for charge after the fact.
+        let surface_charge = condition("H+").surface_concentration_mol_per_m3
+            - condition("A-").surface_concentration_mol_per_m3;
+        assert!(
+            surface_charge.abs()
+                <= crate::electrodiffusion::NernstPlanckDomain::default()
+                    .charge_tolerance_mol_per_m3,
+            "surface charge {surface_charge} mol/m3"
+        );
+
+        // 3. Mass action still holds at the surface, at the same constant the
+        //    bulk was built from.
+        let surface_quotient = (condition("H+").surface_activity
+            * condition("A-").surface_activity
+            / condition("HA").surface_activity)
+            .log10();
+        assert!(
+            (surface_quotient - log10_equilibrium_constant).abs() < 1e-6,
+            "surface log10 quotient {surface_quotient} vs {log10_equilibrium_constant}"
+        );
+
+        // 4. The migration potential is not decorative: the coupled surface is
+        //    a different number from the Fick answer a second implementation
+        //    would have produced. Positive flux is consumption at the surface.
+        assert!(potential_v.abs() > 1e-6, "migration potential {potential_v}");
+        let extent_flux = proposal.balance.partial_currents[0].current_density_a_per_m2
+            / (4.0 * crate::constants::FARADAY);
+        let fick_proton = PROTON_BULK + extent_flux * 4.0 * LAYER_M / PROTON_DIFFUSIVITY;
+        assert!(
+            (fick_proton - condition("H+").surface_concentration_mol_per_m3).abs() > 1e-6,
+            "the coupled surface reproduced the diffusion-only answer exactly"
+        );
+
+        // 5. A charged flux on the lumped transient layer still refuses; so
+        //    does a network whose species do not share one physical layer.
+        let mut transient_terms = interface;
+        for term in &mut transient_terms[1..] {
+            if let CurrentLimitModel::DiffusionLayer(model) = term.transport {
+                term.transport = CurrentLimitModel::TransientDiffusionLayer(model);
+            }
+        }
+        assert!(validate_local_equilibrium_coupling(
+            &ElectrochemicalReactionDefinition {
+                interfacial_transport: &transient_terms,
+                ..definition
+            },
+            298.15,
+            0.01,
+        )
+        .unwrap_err()
+        .contains("the transient diffusion layer carries no migration model"));
+
+        let mut split_terms = interface;
+        split_terms[3].transport = CurrentLimitModel::DiffusionLayer(
+            crate::heterogeneous::DiffusionLayerTransport {
+                diffusivity_m2_per_s: ACID_DIFFUSIVITY,
+                bulk_concentration_mol_per_m3: ACID_BULK,
+                diffusion_layer_m: 2.0 * LAYER_M,
+            },
+        );
+        assert!(validate_local_equilibrium_coupling(
+            &ElectrochemicalReactionDefinition {
+                interfacial_transport: &split_terms,
+                ..definition
+            },
+            298.15,
+            0.01,
+        )
+        .unwrap_err()
+        .contains("one common diffusion-layer thickness"));
+
+        // 6. A bulk that is not electroneutral is refused by both boundaries,
+        //    and the message says so rather than naming a missing model.
+        let mut charged_bulk_terms = interface;
+        charged_bulk_terms[2].transport = steady(BASE_DIFFUSIVITY, BASE_BULK / 2.0);
+        let reason = validate_local_equilibrium_coupling(
+            &ElectrochemicalReactionDefinition {
+                interfacial_transport: &charged_bulk_terms,
+                ..definition
+            },
+            298.15,
+            0.01,
+        )
+        .unwrap_err();
+        assert!(
+            reason.contains("not mutually equilibrated") || reason.contains("missing a counterion"),
+            "{reason}"
+        );
+    }
+
 }
