@@ -130,37 +130,37 @@ the published value is X ± t, from source S.*
 
 ### What already exists
 
-More than the framing of the question assumes. The hard parts are mostly
-built.
+More than the framing of the question assumes. Every ingredient is built
+except one.
+
+| Ingredient | Exists? | Where |
+|---|---|---|
+| Row-per-claim corpus: manifest, shards, join-by-id, count pin | yes, twice | `tests/coverage/curiosity-v1/`, `tools/chemistry-audit/source-fleets*/` |
+| Row schema with value + per-observable tolerance + justification + provenance | **yes, in production** | `crates/kerotakis-phreeqc/tests/oracle/expected/*.json` |
+| Per-row source field in a shipped data file | yes | `data/thermo/uscg-chris-still.tsv` |
+| Source registry with licence, lane, checksum, reviewer, date | yes | `provenance/sources.toml` + `kero provenance lint` |
+| Every numeric value must name a resolvable source id | yes | `crates/kerotakis-data/src/validate.rs:1312` |
+| Licence-cleared reference sources, approved and in use | yes, three | `usbm-ic9429-complexes-25c`, `sander-2023-hbr-reference`, `uscg-chris-still-reference` |
+| Process-isolated frozen replay in CI | yes | `.github/workflows/chemistry-audit.yml`, 896 cases |
+| A worked DOI-level citation of a measured number | **once, of 1,917** | `literature/hartley-campbell-iodine-water` |
+| A tolerance argued rather than picked | **once, of ~870** | `crates/kerotakis-phreeqc/tests/colligative_numbers.rs` |
+| **Values whose provenance is a measurement, not a re-implementation** | **no** | — |
+
+Four of those rows deserve detail.
 
 **Licence-cleared reference data is a solved problem here, three times over.**
-`provenance/sources.toml` holds 14 reviewed `[[source]]` entries (plus 20
-checksums) under `policy = "store-permissive-v1"`, and three of them are
-*already* reference-value sources, approved, cited, and in use:
+Each of the three approved reference sources has a review note beside it
+(`provenance/*-review.md`, 49–97 lines) stating origin, terms, the exact fields
+cleared, the fields deliberately *not* taken, and download hashes.
+`provenance/uscg-chris-still-review.md` even records rejecting a wrong number
+a search engine returned in favour of what the original PDF prints. **The
+question "where can reference data honestly come from" has a worked answer and
+a routine**: a public-domain government publication or a CC-BY paper, a review
+note, a `sources.toml` entry, `decision = "approved"`. The cost is about one
+review note per source, not a new policy.
 
-| Source id | What it supplies | Licence |
-|---|---|---|
-| `usbm-ic9429-complexes-25c` | copper-ammine and ferric-thiocyanate reference constants | US Bureau of Mines public domain |
-| `sander-2023-hbr-reference` | HBr dissociative Henry constant and local slope | CC-BY-4.0 |
-| `uscg-chris-still-reference` | methanol and isopropanol boiling and latent reference fields | US Coast Guard public domain |
-
-Each has a review note beside it (`provenance/*-review.md`, 49–97 lines) that
-states origin, terms, the exact fields cleared, the fields deliberately *not*
-taken, and the download hashes. `provenance/uscg-chris-still-review.md` even
-records rejecting a wrong number a search engine returned in favour of what
-the original PDF prints. **The question "where can reference data honestly
-come from" already has a worked answer and a routine**: a public-domain
-government publication or a CC-BY paper, a per-source review note, a
-`sources.toml` entry, `decision = "approved"`. The cost is roughly one review
-note per source, not a new policy.
-
-The registry goes further. `crates/kerotakis-data/src/validate.rs:1312`
-already enforces that **every** `NumericRecord` names a `source_id` that
-resolves to a real source record, and `NumericRecord` itself already carries
-`{value, unit, conditions, uncertainty, source_id, method}` with
-`Uncertainty ∈ {Exact, NotReported, Absolute, Relative, Interval}`. The
-`literature/hartley-campbell-iodine-water` record is the worked legal template
-for a measured number, DOI and all:
+The doctrine for a single measured number is written out once, in
+`literature/hartley-campbell-iodine-water`:
 
 > "H. Hartley and N. P. Campbell, 'The solubility of iodine in water',
 > *J. Chem. Soc., Trans.* 93 (1908) 741-745, doi:10.1039/CT9089300741:
@@ -168,51 +168,17 @@ for a measured number, DOI and all:
 > measurement to 0.03393 g/100 mL and releases its transcription as CC0; no
 > source text or table is redistributed."
 
-**That is the doctrine:** individual factual measurements, individually
-transcribed, individually cited, released CC0 — never a table copied from a
-compilation. It exists once, in a registry of 1,917 numeric records.
+Individual factual measurements, individually transcribed, individually cited,
+released CC0 — never a table copied from a compilation. Bulk compilations stay
+out: `CONTRIBUTING.md` §3 makes NIST SRD/WebBook, CAS Common Chemistry, CAMEO
+exports, ECHA dumps, Burcat and UNIFAC Consortium tables "a legal constraint,
+not a style preference", and `PLAN.md` records dropping the Python `chemicals`
+package because "it launders the SRD and NC problems into our binary." The
+build-time principle clears the second supply route — `thermo` (MIT), Cantera,
+ChemPy (BSD-2), Reaktoro (LGPL, build-time only) — persisting "only approved
+facts or aggregate metrics, never an unreviewed fixture export."
 
-Bulk compilations remain out. `PLAN.md` line 338 already records the shape of
-that rule for ORD: "Validation oracle only, never ingestion: check curated
-conditions against literature without touching ORD's CC-BY-SA (the same oracle
-pattern as `thermo` and Cantera)." The **build-time principle** (`PLAN.md`,
-"No Python is a runtime constraint. The build machine runs anything") clears a
-second supply route: `thermo` (MIT), Cantera, ChemPy (BSD-2), and Reaktoro
-(LGPL, build-time only, never linked) are already listed as oracles, with
-Reaktoro explicitly described as a differential oracle that "loads our exact
-PHREEQC databases natively: same `pitzer.dat`, independent solver." Persisting
-"only approved facts or aggregate metrics, never an unreviewed fixture export"
-is already the stated rule.
-
-**Per-row tolerance has an anchor.** `crates/kerotakis-core/src/instrument.rs`
-already declares a precision per instrument — thermometer ±0.1 °C, balance
-±0.01 g, pH meter ±0.01, pressure gauge ±0.1, conductivity ±1.0, calorimeter
-±0.01, spectrophotometer ±0.001, melting-point apparatus ±0.5 — on a `Reading`
-struct that carries `precision: Option<f64>`. That is eight quantities with a
-declared numeric bar, which is the right axis to hang tolerances on.
-
-It is **not** the right *value*, and the proposal is explicit about this
-because it is where the option most easily goes wrong. Instrument precision is
-how finely the bench can read; model tolerance is how far the model may be
-from reality. The brine error was 0.32 °C against a thermometer that declares
-±0.1 °C. Set the tolerance at instrument precision and nearly every row fails
-on day one and the gate gets switched off. Set it loose enough that everything
-passes and it proves nothing. **Tolerance must be argued per quantity and per
-claimed model, in the row, next to the citation.** A pH from a Debye–Hückel
-dataset, a freezing point from an ion-interaction one, and an adiabatic flame
-temperature do not deserve the same bar, and a row that does not say why it
-has the bar it has is not evidence.
-
-**Execution and freezing machinery exists and runs in CI.**
-`tools/chemistry-audit/` already builds the CLI once, hashes the binary,
-records submodule state, and replays 856 frozen cases in process-isolated
-shards, retaining stdout, stderr, scripts, final benches, hashes and law-check
-reports. A case is `{id, question, script}` JSON under a declared schema
-(`kerotakis-source-fleet-v1`). **Adding `expected`, `unit`, `tolerance`,
-`tolerance_reason` and `source_id` to that record is the whole data-model
-change.** The runner, the freezing, the sharding and the CI workflow are done.
-
-**The row format already exists, in production, with the right fields.**
+**The row format is already in production.**
 `crates/kerotakis-phreeqc/tests/oracle/expected/simple_kinetics.json`:
 
 ```json
@@ -229,36 +195,59 @@ change.** The runner, the freezing, the sharding and the CI workflow are done.
 }
 ```
 
-That is a value, a per-observable tolerance, a justification and a provenance
-field, loaded by `crates/kerotakis-phreeqc/tests/differential_oracle.rs` and
-`kinetics_trajectory_oracle.rs`. **The schema this option needs is already
-written and already running.** `tools/oracle/README.md` (LIC-010) even
-specifies the promotion contract — *"approved oracle facts (numerical values,
-tolerances) are copied to `crates/*/tests/oracle/expected/` as reviewed test
-fixtures"* — and rules that oracle jobs run on demand in a licensed
-environment, never in CI.
+A value, a per-observable tolerance, a justification and a provenance field,
+loaded by two tests, with `tools/oracle/README.md` (LIC-010) specifying the
+promotion contract: *"approved oracle facts (numerical values, tolerances) are
+copied to `crates/*/tests/oracle/expected/` as reviewed test fixtures."*
+**The schema this option needs is written and running.** What its `oracle`
+field names is a program, not a publication — and that is the whole gap.
 
-What is missing is not machinery. **It is a supply of values whose provenance
-is a measurement rather than another implementation of the same model.**
+**Execution and freezing already run in CI.** `tools/chemistry-audit/` builds
+the CLI once, hashes the binary, records submodule state, and replays 896
+frozen cases in process-isolated shards, retaining stdout, stderr, scripts,
+final benches, hashes and law-check reports. A case is `{id, question, script}`
+under schema `kerotakis-source-fleet-v1`. **Adding `expected`, `unit`,
+`tolerance`, `tolerance_reason` and `source_id` to that record is the whole
+data-model change.**
 
-Two further pieces are already built and unused: 946 lines of external-oracle
-tooling (`tools/vle-oracle.py`, `kinetics-oracle.py`, `surface-oracle.py`,
-`check-properties-vs-chempy.py`, `check-relations-vs-chempy.py`) that compare
-against ChemPy and reference data, run by neither `tools/preflight.sh` nor CI;
-and `crates/kerotakis-phreeqc/tests/colligative_numbers.rs`, a hand-built
-instance of exactly this pattern for one quantity.
+Also built and unused: 946 lines of external-oracle tooling
+(`tools/vle-oracle.py`, `kinetics-oracle.py`, `surface-oracle.py`,
+`check-properties-vs-chempy.py`, `check-relations-vs-chempy.py`) whose
+comparator signature is already `check(label, kero_val, ref_val, tol,
+ref_source)`, run by neither `tools/preflight.sh` nor CI.
 
-`docs/SEMANTIC-ASSERTIONS.md` describes an assertion language that is one
-`kind` short — it has `equal`, `increasing`, `decreasing`, `conserved`,
-`unchanged`, `ratio`, and no kind that takes an external number.
+**Per-quantity tolerance has an anchor, and it is the wrong value.**
+`crates/kerotakis-core/src/instrument.rs` declares a precision per instrument
+on a `Reading` struct — thermometer ±0.1 °C, balance ±0.01 g, pH meter ±0.01,
+pressure gauge ±0.1, conductivity ±1.0, calorimeter ±0.01, spectrophotometer
+±0.001, melting-point apparatus ±0.5. Eight quantities with a declared numeric
+bar is the right *axis*. It is not the right *value*: instrument precision is
+how finely the bench reads, model tolerance is how far the model may sit from
+reality, and the brine error was 0.32 °C against a thermometer declaring
+±0.1 °C. Set tolerance at instrument precision and nearly every row fails on
+day one and the gate gets switched off; set it loose enough that everything
+passes and it proves nothing. **Tolerance must be argued per quantity and per
+claimed model, in the row, beside the citation.** A pH from a Debye–Hückel
+dataset, a freezing point from an ion-interaction one and an adiabatic flame
+temperature do not deserve the same bar.
 
-**And the policy already exists.** `CAPABILITIES.md` §2 requires, of every
+The repository has done this exactly once, and the argument generalises.
+`colligative_numbers.rs` pins one claim from both ends: a tight band on the
+model's own figure (`|freezing_c + 3.44| < 0.06`) and a loose band on the
+world's (`|freezing_c + 3.4| < 0.15`), with the rule stated in the file —
+narrowing the outer band "would fail on a change that made the answer better;
+widening it would let the dilute law back in — its −3.72 is outside this band,
+which is the point of keeping the band." The width is justified physically
+("published depressions for 1.000 molal NaCl sit between 3.37 and 3.44 K
+depending on the source"). Across ~870 numeric band assertions in the
+workspace, **this is the only tolerance that is argued rather than picked, and
+it carries no citation** — no DOI, no edition, no page, in 350 lines.
+
+**And the policy already exists.** `CAPABILITIES.md` §2 requires of every
 capability task: *"new solver paths get the conservation and metamorphic
-invariants (order-independence, dilution monotonicity, scale invariance) plus
-at least one golden test against a textbook value."* The last clause is Option
-A, already mandated. Nothing counts those golden tests, nothing gates on them,
-and the brine shipped without one. **This option is not a new measure. It is
-making an existing rule measurable.**
+invariants … plus at least one golden test against a textbook value."* The
+last clause is Option A, already mandated. Nothing counts those golden tests,
+nothing gates on them, and the brine shipped without one.
 
 ### What it would cost
 
