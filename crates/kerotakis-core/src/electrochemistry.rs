@@ -6190,6 +6190,7 @@ mod tests {
             crate::Phase::Aqueous,
         );
         vessel.solution = Some(crate::SolutionInfo {
+            solvent_activity: None,
             scope: crate::SolutionScope::Complete,
             solvent_kg: Some(1.0),
             redox: Vec::new(),
