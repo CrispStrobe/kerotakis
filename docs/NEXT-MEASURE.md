@@ -683,7 +683,12 @@ Noted, not fixed, as instructed.
    mass action, migration, electroneutrality and component-flux closure in one
    focused test envelope." The test envelope is real; the integration is not.
    `PLAN.md:112` still lists integrating it as open work item 1, so the
-   history and the plan disagree about the same module.
+   history and the plan disagree about the same module. The sharpest detail:
+   the only other mention of the word anywhere in the workspace is an error
+   string in a *neighbouring* module — `electrochemistry.rs:2732` returns
+   `"charged local-equilibrium bulk needs an explicit electrodiffusion
+   model"`. One module refuses for want of exactly what the orphan beside it
+   computes, and nothing connects them.
 2. **Avoid-list sources are cited as expected values.**
    `crates/kerotakis-cea/tests/heat_source_ceiling.rs:28-30` cites "NIST
    Chemistry WebBook SRD 69" and "NIST-JANAF table Ca-027", and 23 rows in
@@ -695,7 +700,10 @@ Noted, not fixed, as instructed.
    over declared licences only, and no avoid-list of source names exists in
    code. Worth an owner ruling on whether "agrees with" is a citation.
 3. **The one tool that asks whether a script can answer its own question is
-   not run.** `tools/curiosity-answer-invariance.py` (127 lines) catches the
+   not run.** `crates/kerotakis-codex/src/curiosity.rs:119-120` points at it
+   by name — *"whether a script can reach its own question is a different
+   check with a different tool"* — but
+   `tools/curiosity-answer-invariance.py` (127 lines) catches the
    `mat-012` class of defect — three vessels, three different contents, one
    identical answer, a row that matched its expectation for the corpus's whole
    life. It is referenced by nothing in `tools/preflight.sh` or
