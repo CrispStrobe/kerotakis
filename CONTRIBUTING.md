@@ -126,6 +126,16 @@ For data imports specifically:
   as predictions, and the stage of the L4 cascade that produced an answer is
   shown to the user. Contributions that hardcode "expected" results defeat the
   project's premise.
+- **That rule is about the engine, and it is the opposite of the rule for a
+  test.** An engine that carries the answer it is supposed to compute has
+  stopped computing. A test that carries a CITED EXTERNAL MEASUREMENT is
+  doing the one thing the engine cannot do for itself, which is to check the
+  answer against the world rather than against another path through the same
+  database. Those two look alike and are opposites, so the distinction is
+  written here rather than left to a reviewer: a number in a test needs a
+  resolvable source and a tolerance argued for that quantity, and with them it
+  is evidence, not a hardcoded expectation. Agreement between two paths that
+  share a database is not independent validation of that database.
 
 ## 5. Picking up breadth tasks
 

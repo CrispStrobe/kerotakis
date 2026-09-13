@@ -1569,6 +1569,41 @@ worked before `codex lint` existed — and the fix is the same fix:
   plus RustSec advisories.
 - **`cargo-about`** generates the attribution/about screen from crate
   metadata instead of a maintained page.
+**Decided 2026-09-13, by the owner, after an audit found the rule unenforced.**
+Recorded here because two of these were open questions that stalled work, and
+because the audit found roughly eighty-five shipped numeric claims resting on
+avoid-row sources while the lint that would have caught them was still unbuilt.
+
+- **"Agrees with NIST SRD 69" is a CLAIM, not a citation, and it has to stop.**
+  Prose mentioning such a source stays as commentary. This is what the rule
+  below already said; it is restated because twenty-three places relied on the
+  looser reading, and because an accuracy corpus cannot start citing anything
+  while the question is open.
+- **Where no openly-licensed source of equal quality exists, the capability
+  shrinks rather than the claim softening.** A value may keep its number with
+  the claim withdrawn, or a species may lose a curated parameter and the bench
+  refuse the transition. An honest refusal beats a quiet approximation, and
+  that is preferred here to inventing support.
+- **A candidate source that cites an avoid-row source is not a replacement.**
+  Checked on 2026-09-13: Wikidata carries no enthalpy of fusion or of
+  vaporisation for ethanol at all, and its standard enthalpy of formation cites
+  the CRC Handbook. The table above already says Wikidata "cannot carry the
+  load"; this is the sharper reason. Trace every candidate to its own primary
+  reference and record what that is. The same reasoning dropped a Python
+  package as a data source, for laundering.
+- **Reference values are individually cited measurements first, build-time
+  oracles as the fallback.** An oracle that shares the database it is checking
+  is not independent validation of that database.
+- **Tolerance is argued per quantity**, never a flat percentage: a pH, a
+  freezing point and a flame temperature do not deserve the same bar.
+- **The accuracy work starts as a backlog, not a CI gate**, and is promoted
+  only once its tolerances have survived argument. A premature gate would be
+  the third check this month that read stronger than it was.
+- **The number published is "quantities covered with a cited source and an
+  argued tolerance", never "rows passing"**, which can be gamed by adding easy
+  rows.
+- **`electrodiffusion.rs` gets wired up** rather than deleted or left orphaned.
+
 - **The provenance table above moves to machine-readable TOML**
   (per source: licence, terms URL, retrieval date, verdict, what it may
   touch) with a `kero provenance lint` that checks every entry in
