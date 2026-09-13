@@ -2405,6 +2405,12 @@ pub struct InterfacialCondition {
     pub transient: bool,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub surface_ph: Option<f64>,
+    /// The migration potential across the diffusion layer, surface minus bulk,
+    /// in volts. Present only where the coupled Nernst-Planck boundary solved
+    /// this species' surface composition. Absent means no migration model ran,
+    /// never that the potential drop was zero.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub migration_potential_v: Option<f64>,
 }
 
 fn is_false(value: &bool) -> bool {
@@ -2629,18 +2635,51 @@ fn nearly_equal(left: f64, right: f64, relative_tolerance: f64) -> bool {
     (left - right).abs() <= relative_tolerance * left.abs().max(right.abs()).max(1.0)
 }
 
+/// A charged interfacial local-equilibrium network, validated for the steady
+/// constant-field Nernst--Planck boundary in [`crate::electrodiffusion`].
+///
+/// The diffusion-only adapter transports every network species at its own
+/// mass-transfer coefficient and then corrects the composition by homogeneous
+/// equilibrium, which closes only when those coefficients agree. The boundary
+/// solve needs the opposite thing: one shared layer geometry, with the
+/// migration potential — not an equal coefficient — carrying the countercharge.
+#[derive(Debug, Clone, PartialEq)]
+struct MigrationCoupling {
+    /// The one physical diffusion layer, in metres, that every network species
+    /// crosses.
+    layer_thickness_m: f64,
+    /// Per-species diffusivity in m^2/s, in network order. These may differ.
+    diffusivities_m2_per_s: Vec<f64>,
+    /// Per-species bulk concentration in mol/m^3, in network order.
+    bulk_mol_per_m3: Vec<f64>,
+}
+
+#[derive(Debug, Clone)]
+struct ValidatedLocalEquilibrium {
+    bulk: crate::local_equilibrium::LocalEquilibriumState,
+    /// `Some` exactly when the authored Faradaic stoichiometry drives net
+    /// charge across the layer. No per-species Fick balance can hold such a
+    /// surface electroneutral, so migration is a member of the model rather
+    /// than a correction applied to its answer.
+    migration: Option<MigrationCoupling>,
+}
+
 fn validate_local_equilibrium_coupling(
     definition: &ElectrochemicalReactionDefinition<'_>,
     temperature_k: f64,
     seconds: f64,
-) -> Result<Option<crate::local_equilibrium::LocalEquilibriumState>, String> {
+) -> Result<Option<ValidatedLocalEquilibrium>, String> {
     let Some(coupling) = definition.local_equilibrium else {
         return Ok(None);
     };
-    let mut bulk = Vec::with_capacity(coupling.network.species.len());
+    let count = coupling.network.species.len();
+    let mut bulk = Vec::with_capacity(count);
+    let mut diffusivities_m2_per_s = Vec::with_capacity(count);
+    let mut layers_m = Vec::with_capacity(count);
+    let mut compatibility = Vec::with_capacity(count);
     let mut first_mode = None;
-    let mut common_rate_or_time = None;
     let mut slower_process_time_s = f64::INFINITY;
+    let mut faradaic_charge = 0.0;
     for species in coupling.network.species {
         let transported = definition
             .interfacial_transport
@@ -2652,27 +2691,21 @@ fn validate_local_equilibrium_coupling(
                     species.id
                 )
             })?;
-        let (mode, compatibility_value, relaxation_time_s, bulk_concentration) = match transported
-            .transport
-        {
+        faradaic_charge += f64::from(species.charge) * transported.coefficient;
+        let (mode, compatibility_value, relaxation_time_s, model) = match transported.transport {
             CurrentLimitModel::DiffusionLayer(model) => (
                 false,
                 model.diffusivity_m2_per_s / model.diffusion_layer_m,
                 model
                     .relaxation_time_seconds()
                     .map_err(|reason| format!("invalid local-equilibrium transport: {reason:?}"))?,
-                model.bulk_concentration_mol_per_m3,
+                model,
             ),
             CurrentLimitModel::TransientDiffusionLayer(model) => {
                 let relaxation = model
                     .relaxation_time_seconds()
                     .map_err(|reason| format!("invalid local-equilibrium transport: {reason:?}"))?;
-                (
-                    true,
-                    relaxation,
-                    relaxation,
-                    model.bulk_concentration_mol_per_m3,
-                )
+                (true, relaxation, relaxation, model)
             }
             _ => {
                 return Err(
@@ -2686,20 +2719,55 @@ fn validate_local_equilibrium_coupling(
                 "local-equilibrium species cannot mix steady and transient transport modes".into(),
             );
         }
-        if common_rate_or_time.is_some_and(|first| !nearly_equal(first, compatibility_value, 1e-9))
-        {
-            return Err(if mode {
-                "transient local-equilibrium species need one common diffusion relaxation time"
-                    .into()
-            } else {
-                "steady local-equilibrium species need one common mass-transfer coefficient".into()
-            });
-        }
         first_mode = Some(mode);
-        common_rate_or_time = Some(compatibility_value);
+        compatibility.push(compatibility_value);
         slower_process_time_s = slower_process_time_s.min(relaxation_time_s);
-        bulk.push(bulk_concentration);
+        bulk.push(model.bulk_concentration_mol_per_m3);
+        diffusivities_m2_per_s.push(model.diffusivity_m2_per_s);
+        layers_m.push(model.diffusion_layer_m);
     }
+
+    // Which model the network needs is decided by the charge its own authored
+    // stoichiometry drives across the layer, not by a caller's preference.
+    let migration = if faradaic_charge.abs() > 1e-10 {
+        if first_mode == Some(true) {
+            return Err(
+                "charged interfacial flux needs the steady Nernst-Planck boundary; the transient diffusion layer carries no migration model"
+                    .into(),
+            );
+        }
+        let layer_thickness_m = layers_m[0];
+        if layers_m
+            .iter()
+            .any(|layer| !nearly_equal(*layer, layer_thickness_m, 1e-9))
+        {
+            return Err(
+                "charged local-equilibrium species need one common diffusion-layer thickness in metres; the Nernst-Planck boundary is one layer, not one per species"
+                    .into(),
+            );
+        }
+        Some(MigrationCoupling {
+            layer_thickness_m,
+            diffusivities_m2_per_s,
+            bulk_mol_per_m3: bulk.clone(),
+        })
+    } else {
+        // Uncharged net flux: the diffusion-only adapter still applies, and it
+        // closes only on one common coefficient.
+        if let Some((first, rest)) = compatibility.split_first() {
+            if rest.iter().any(|value| !nearly_equal(*first, *value, 1e-9)) {
+                return Err(if first_mode == Some(true) {
+                    "transient local-equilibrium species need one common diffusion relaxation time"
+                        .into()
+                } else {
+                    "steady local-equilibrium species need one common mass-transfer coefficient"
+                        .into()
+                });
+            }
+        }
+        None
+    };
+
     if first_mode == Some(true) {
         slower_process_time_s = slower_process_time_s.min(seconds);
     }
@@ -2728,31 +2796,18 @@ fn validate_local_equilibrium_coupling(
         .map(|(species, concentration)| f64::from(species.charge) * concentration)
         .sum::<f64>();
     if bulk_charge.abs() > 1e-8 {
-        return Err(
-            "charged local-equilibrium bulk needs an explicit electrodiffusion model".into(),
-        );
+        // Migration does not rescue this one. The Nernst--Planck boundary
+        // requires electroneutral endpoints exactly as the diffusion-only
+        // adapter does, so a charged bulk is a network missing its counterion,
+        // not a network missing a model.
+        return Err(format!(
+            "local-equilibrium bulk carries {bulk_charge} mol/m3 of net charge; both the diffusion-only and Nernst-Planck boundaries need an electroneutral bulk, so the network is missing a counterion"
+        ));
     }
-    let faradaic_charge = coupling
-        .network
-        .species
-        .iter()
-        .map(|species| {
-            let coefficient = definition
-                .interfacial_transport
-                .iter()
-                .find(|term| term.species == species.id)
-                .expect("every local-equilibrium species has validated transport")
-                .coefficient;
-            f64::from(species.charge) * coefficient
-        })
-        .sum::<f64>();
-    if faradaic_charge.abs() > 1e-10 {
-        return Err(
-            "charged interfacial flux needs Nernst-Planck migration before local equilibrium can be coupled"
-                .into(),
-        );
-    }
-    Ok(Some(equilibrated))
+    Ok(Some(ValidatedLocalEquilibrium {
+        bulk: equilibrated,
+        migration,
+    }))
 }
 
 #[derive(Debug, Clone)]
@@ -2910,6 +2965,8 @@ pub fn propose_electrochemical_step<'a>(
     let mut partial_reactions = Vec::with_capacity(definitions.len());
     let mut half_reactions = Vec::with_capacity(definitions.len());
     let mut resolved_quotients = Vec::with_capacity(definitions.len());
+    let mut local_couplings: Vec<Option<ValidatedLocalEquilibrium>> =
+        Vec::with_capacity(definitions.len());
     let mut reaction_ids = std::collections::BTreeSet::new();
     for definition in definitions {
         if definition.id.trim().is_empty()
@@ -2988,7 +3045,7 @@ pub fn propose_electrochemical_step<'a>(
             .iter()
             .map(|term| (term.species.to_owned(), term.activity))
             .collect();
-        let local_bulk = validate_local_equilibrium_coupling(definition, temperature_k, seconds)
+        let local_coupling = validate_local_equilibrium_coupling(definition, temperature_k, seconds)
             .map_err(|reason| ElectrochemicalStepError::InvalidDefinition {
                 reaction: definition.id.to_owned(),
                 reason,
@@ -3013,10 +3070,15 @@ pub fn propose_electrochemical_step<'a>(
                 ),
             });
         }
-        if let (Some(coupling), Some(bulk_state)) =
-            (definition.local_equilibrium, local_bulk.as_ref())
+        if let (Some(coupling), Some(validated)) =
+            (definition.local_equilibrium, local_coupling.as_ref())
         {
-            for (species, activity) in coupling.network.species.iter().zip(&bulk_state.activities) {
+            for (species, activity) in coupling
+                .network
+                .species
+                .iter()
+                .zip(&validated.bulk.activities)
+            {
                 if let Some(term) = quotient.iter().find(|term| term.species == species.id) {
                     if !nearly_equal(term.activity, *activity, 1e-8) {
                         return Err(ElectrochemicalStepError::InvalidDefinition {
@@ -3125,6 +3187,7 @@ pub fn propose_electrochemical_step<'a>(
         partial.film_resistance_ohm_m2 = film_resistance;
         partial_reactions.push(partial);
         resolved_quotients.push(quotient);
+        local_couplings.push(local_coupling);
         half_reactions.push(FaradaicHalfReaction {
             id: definition.id,
             electrons_produced: definition.electrons_produced,
@@ -3179,6 +3242,8 @@ pub fn propose_electrochemical_step<'a>(
                 current.current_density_a_per_m2 / partial.reactive_area_ratio;
             let mut local_quotient = resolved_quotients[index].clone();
             let mut species_conditions = Vec::new();
+            // Set only when the coupled Nernst-Planck boundary actually ran.
+            let mut migration_potential_v: Option<f64> = None;
 
             if definition.interfacial_transport.is_empty() {
                 let directional = if current.current_density_a_per_m2 >= 0.0 {
@@ -3323,45 +3388,136 @@ pub fn propose_electrochemical_step<'a>(
                     ));
                 }
                 if let Some(coupling) = definition.local_equilibrium {
-                    let initial = coupling
-                        .network
-                        .species
-                        .iter()
-                        .map(|species| {
-                            species_conditions
+                    let migration = local_couplings[index]
+                        .as_ref()
+                        .and_then(|validated| validated.migration.as_ref());
+                    let (concentrations, activities) = match migration {
+                        // A charged Faradaic flux. Transport, migration and the
+                        // homogeneous network are one nonlinear problem, so
+                        // they are solved together: the surface composition
+                        // comes out electroneutral by construction rather than
+                        // being inspected for charge afterwards.
+                        Some(migration) => {
+                            let boundary_species = coupling
+                                .network
+                                .species
                                 .iter()
-                                .find(|condition| condition.0 == species.id)
-                                .expect("every local-equilibrium species has validated transport")
-                                .2
-                        })
-                        .collect::<Vec<_>>();
-                    let equilibrated = coupling.network.equilibrate(&initial).map_err(|error| {
-                        ElectrochemicalStepError::InvalidDefinition {
-                            reaction: partial.id.to_owned(),
-                            reason: format!(
-                                "cannot resolve local interfacial equilibrium: {error}"
-                            ),
+                                .zip(&migration.diffusivities_m2_per_s)
+                                .map(|(species, diffusivity)| {
+                                    crate::electrodiffusion::ElectrodiffusionSpecies {
+                                        id: species.id,
+                                        charge: species.charge,
+                                        diffusivity_m2_per_s: *diffusivity,
+                                    }
+                                })
+                                .collect::<Vec<_>>();
+                            // `interfacial_transport` counts production at the
+                            // surface positive; the boundary counts surface
+                            // consumption positive.
+                            let consumed_mol_per_m2_s = coupling
+                                .network
+                                .species
+                                .iter()
+                                .map(|species| {
+                                    -extent_flux
+                                        * definition
+                                            .interfacial_transport
+                                            .iter()
+                                            .find(|term| term.species == species.id)
+                                            .expect(
+                                                "every local-equilibrium species has validated transport",
+                                            )
+                                            .coefficient
+                                })
+                                .collect::<Vec<_>>();
+                            let domain = crate::electrodiffusion::NernstPlanckDomain {
+                                temperature_k,
+                                layer_thickness_m: migration.layer_thickness_m,
+                                ..Default::default()
+                            };
+                            let solved = domain
+                                .reactive_electroneutral_surface(
+                                    &boundary_species,
+                                    &coupling.network,
+                                    &migration.bulk_mol_per_m3,
+                                    &consumed_mol_per_m2_s,
+                                    crate::electrodiffusion::ReactiveNernstPlanckOptions::default(),
+                                )
+                                .map_err(|error| ElectrochemicalStepError::InvalidDefinition {
+                                    reaction: partial.id.to_owned(),
+                                    reason: format!(
+                                        "coupled Nernst-Planck interfacial solve refused: {error}"
+                                    ),
+                                })?;
+                            let activities = coupling
+                                .network
+                                .species
+                                .iter()
+                                .zip(&solved.transport.right_concentrations_mol_per_m3)
+                                .map(|(species, concentration)| {
+                                    species.activity_coefficient * concentration
+                                        / crate::local_equilibrium::STANDARD_CONCENTRATION_MOL_PER_M3
+                                })
+                                .collect::<Vec<_>>();
+                            migration_potential_v = Some(solved.transport.potential_difference_v);
+                            (solved.transport.right_concentrations_mol_per_m3, activities)
                         }
-                    })?;
-                    let charge = coupling
-                        .network
-                        .species
-                        .iter()
-                        .zip(&equilibrated.concentrations_mol_per_m3)
-                        .map(|(species, concentration)| f64::from(species.charge) * concentration)
-                        .sum::<f64>();
-                    if charge.abs() > 1e-8 {
-                        return Err(ElectrochemicalStepError::InvalidDefinition {
-                            reaction: partial.id.to_owned(),
-                            reason: "local interfacial equilibrium left the electroneutral diffusion-only domain; Nernst-Planck migration is required".into(),
-                        });
-                    }
+                        // No net charge crosses the layer, so each species'
+                        // own Fick balance already reaches the surface and the
+                        // homogeneous network only has to close there.
+                        None => {
+                            let initial = coupling
+                                .network
+                                .species
+                                .iter()
+                                .map(|species| {
+                                    species_conditions
+                                        .iter()
+                                        .find(|condition| condition.0 == species.id)
+                                        .expect(
+                                            "every local-equilibrium species has validated transport",
+                                        )
+                                        .2
+                                })
+                                .collect::<Vec<_>>();
+                            let equilibrated =
+                                coupling.network.equilibrate(&initial).map_err(|error| {
+                                    ElectrochemicalStepError::InvalidDefinition {
+                                        reaction: partial.id.to_owned(),
+                                        reason: format!(
+                                            "cannot resolve local interfacial equilibrium: {error}"
+                                        ),
+                                    }
+                                })?;
+                            let charge = coupling
+                                .network
+                                .species
+                                .iter()
+                                .zip(&equilibrated.concentrations_mol_per_m3)
+                                .map(|(species, concentration)| {
+                                    f64::from(species.charge) * concentration
+                                })
+                                .sum::<f64>();
+                            if charge.abs() > 1e-8 {
+                                return Err(ElectrochemicalStepError::InvalidDefinition {
+                                    reaction: partial.id.to_owned(),
+                                    reason: format!(
+                                        "uncharged Faradaic flux left {charge} mol/m3 of net charge at the surface; the diffusion-only boundary cannot carry it and the Nernst-Planck boundary is selected by a charged flux, not by a charged surface"
+                                    ),
+                                });
+                            }
+                            (
+                                equilibrated.concentrations_mol_per_m3,
+                                equilibrated.activities,
+                            )
+                        }
+                    };
                     for ((species, concentration), activity) in coupling
                         .network
                         .species
                         .iter()
-                        .zip(&equilibrated.concentrations_mol_per_m3)
-                        .zip(&equilibrated.activities)
+                        .zip(&concentrations)
+                        .zip(&activities)
                     {
                         let condition = species_conditions
                             .iter_mut()
@@ -3412,6 +3568,7 @@ pub fn propose_electrochemical_step<'a>(
                     depleted_at_surface: surface_concentration
                         <= f64::EPSILON * bulk_concentration.max(1.0),
                     transient,
+                    migration_potential_v,
                     surface_ph: (species == "H+" && surface_activity > 0.0)
                         .then(|| -surface_activity.log10()),
                 });

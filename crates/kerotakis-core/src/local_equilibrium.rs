@@ -7,7 +7,7 @@
 
 use std::collections::BTreeSet;
 
-const STANDARD_CONCENTRATION_MOL_PER_M3: f64 = 1_000.0;
+pub(crate) const STANDARD_CONCENTRATION_MOL_PER_M3: f64 = 1_000.0;
 const CONCENTRATION_FLOOR: f64 = 1e-18;
 const RESIDUAL_TOLERANCE: f64 = 1e-10;
 const MAX_NEWTON_PASSES: usize = 96;
