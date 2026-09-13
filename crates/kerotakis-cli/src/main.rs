@@ -396,6 +396,16 @@ fn main() {
                 files.len(),
                 bytes.len()
             );
+            // What the dilute-brine solvent activity costs, on the most
+            // representative script set this repo has: every shipped lesson,
+            // replayed through the real engine. Printed rather than asserted
+            // because it is a measurement, and a measurement that is only
+            // ever quoted in a commit message rots.
+            let (second_engine, second_cached) = engine.solvent_activity_solves();
+            let total = engine.engine_calls();
+            println!(
+                "  solvent-activity second opinions: {second_engine} engine calls and {second_cached} cache hits, against {total} engine calls in total"
+            );
         }
         Some("species") => {
             for s in species::REGISTRY {

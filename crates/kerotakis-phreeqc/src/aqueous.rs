@@ -365,6 +365,14 @@ pub struct PhreeqcEquilibrator {
     /// answer, and that is not a trade this codebase makes.
     trial_cache: std::collections::HashMap<(String, String), Rc<SolveOutput>>,
     trial_cache_hits: usize,
+    /// Second solves made for a solvent activity alone, split by whether
+    /// the engine ran. This is the COST of
+    /// [`Self::solvent_activity_second_opinion`], and it is counted rather
+    /// than estimated because it is the whole argument for that feature
+    /// being conditional: an unconditional one would be
+    /// `solvent_activity_asked == every aqueous step`.
+    solvent_activity_engine_calls: usize,
+    solvent_activity_cache_hits: usize,
     /// The electron activity the last successfully *bracketed* coupled solve
     /// converged to, carried across the temperature fixed point's
     /// iterations: the pe root barely moves between temperature guesses, so
@@ -818,6 +826,8 @@ impl PhreeqcEquilibrator {
             cache_hits: 0,
             trial_cache: std::collections::HashMap::new(),
             trial_cache_hits: 0,
+            solvent_activity_engine_calls: 0,
+            solvent_activity_cache_hits: 0,
             warm_pe: None,
             engine_calls: 0,
             hook: None,
@@ -836,6 +846,8 @@ impl PhreeqcEquilibrator {
             cache_hits: 0,
             trial_cache: std::collections::HashMap::new(),
             trial_cache_hits: 0,
+            solvent_activity_engine_calls: 0,
+            solvent_activity_cache_hits: 0,
             warm_pe: None,
             engine_calls: 0,
             hook: None,
@@ -861,6 +873,22 @@ impl PhreeqcEquilibrator {
     /// engine.
     pub fn trial_cache_hits(&self) -> usize {
         self.trial_cache_hits
+    }
+
+    /// Solvent-activity second opinions that reached the engine, and ones
+    /// answered from the content-addressed cache.
+    ///
+    /// The pair is the measurement, not the first number alone. The lean
+    /// problem this feature poses drops everything about a vessel that does
+    /// not change its solution's composition, so two steps that differ only
+    /// in how much undissolved solid is at the bottom ask the same solvent
+    /// question and the second is free — and the ratio here is how anyone
+    /// checks that claim instead of believing it.
+    pub fn solvent_activity_solves(&self) -> (usize, usize) {
+        (
+            self.solvent_activity_engine_calls,
+            self.solvent_activity_cache_hits,
+        )
     }
 
     /// One bisection trial, answered from the trial cache when the exact
@@ -3292,9 +3320,15 @@ impl PhreeqcEquilibrator {
         let input = build_input(vessel, &lean, SECOND);
         let database_hash = crate::native_namespace::fingerprint(SECOND).ok()?;
         let key = format!("#solvent-activity-v1:{SECOND}:{database_hash}\n{input}");
+        let engine_before = self.engine_calls;
         let (cached, _) = self
             .dispatch_solve(vessel, &lean, SECOND, &input, key)
             .ok()?;
+        if self.engine_calls > engine_before {
+            self.solvent_activity_engine_calls += 1;
+        } else {
+            self.solvent_activity_cache_hits += 1;
+        }
 
         let water = cached.speciation.iter().find(|sp| sp.name == "H2O")?;
         let particle_molality: f64 = cached
@@ -3316,16 +3350,12 @@ impl PhreeqcEquilibrator {
         // provenance. An activity that fails it would leave the vessel on
         // the ideal route regardless, and a `Some` that meant "ideal" would
         // be the most misleading thing this field could hold.
-        if kerotakis_core::states::SolventActivity::from_speciation(
+        kerotakis_core::states::SolventActivity::from_speciation(
             water.activity,
             particle_molality,
             ionic_strength,
         )
-        .osmotic_coefficient
-        .is_none()
-        {
-            return None;
-        }
+        .osmotic_coefficient?;
 
         Some(kerotakis_core::vessel::SolventActivityProvenance {
             dataset: dataset_name(SECOND),
