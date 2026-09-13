@@ -160,6 +160,12 @@ activities, gas boundary state and overlapping parameter domains must refuse.
   2026-09-08 `expected` is a floor rather than an equality, `computed` and
   `curated` are one grade when a requirement is checked, and the count is a
   backlog rather than a regression gate — baseline drift is the gate.
+- **`docs/NEXT-MEASURE.md`** — a proposal, awaiting an owner decision: what
+  should measure the engine now that the corpus reads 499 of 500 and no longer
+  discriminates. Costs three candidates (a numeric accuracy corpus, a harder
+  prompt set, a reachability measure), recommends the first as verification
+  level 5 of the ladder this file's companion already specifies, and lists
+  twelve defects found while investigating. Nothing in it is implemented.
 
 ## Localisation is modular by design
 
