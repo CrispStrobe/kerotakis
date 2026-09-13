@@ -130,7 +130,7 @@ pub struct Couple {
     pub source: &'static str,
 }
 
-const CRC: &str = "E°: CRC Handbook of Chemistry and Physics, 'Electrochemical Series' (Vanýsek), 25 °C vs SHE; ΔfH°(aq ion): NBS Tables of Chemical Thermodynamic Properties (Wagman et al., 1982)";
+const CRC: &str = "E°: NO SOURCE IS CLAIMED. This named the CRC Handbook of Chemistry and Physics 'Electrochemical Series' (Vanýsek), 25 °C vs SHE, until 2026-09-13; PLAN.md's audit puts that handbook on the commercial row and the claim stops. The OTHER half of this line is unaffected and is worth separating out rather than withdrawing with it: ΔfH°(aq ion) comes from the NBS Tables of Chemical Thermodynamic Properties (Wagman et al., 1982), which is a United States Government work with no avoid-row problem. That asymmetry also points at the repair. A standard electrode potential is nFE° = -ΔfG°, so the Wagman tables could support these potentials by derivation rather than by citation, and a reviewer who does that work would put this constant on the same footing as the enthalpies beside it. It is not done here because deriving twenty-odd potentials is a separate piece of work from withdrawing a citation. The vendored PHREEQC databases were considered and set aside for the reason recorded in conductivity::LAMBDA_SOURCE: a redox log_k IS a potential in other units, so reading E° back out of one is a round trip rather than a second source";
 
 /// The activity series this lab computes with, most noble first.
 ///
