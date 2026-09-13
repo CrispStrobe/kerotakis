@@ -1621,6 +1621,20 @@ avoid-row sources while the lint that would have caught them was still unbuilt.
   an avoid-row source. The prose stays as commentary; the claims stop
   being able to go stale silently — the `equation`/`summary` move,
   applied to licensing.
+
+  > **Built 2026-09-13** as `provenance/upstreams.toml` plus
+  > `kero provenance upstreams`. The verdict vocabulary is three-way, as the
+  > decisions above require: a source may support a shipped claim, may only
+  > CHECK one as a build-time oracle, or may only be mentioned. A claim and a
+  > comment are told apart by position, not by wording — a string on the right
+  > of a `provenance`/`source`/`citation` field is a claim, a `//` comment
+  > carrying the same words is commentary. Two rows this table never judged,
+  > the CRC Handbook and the Merck Index, are carried there as
+  > `in_plan_table = false`: between them they are cited by more values than
+  > every row above put together. It REPORTS and exits zero while the count
+  > comes down. `crates/kerotakis-cli/src/upstreams.rs` states, in numbers,
+  > what it catches, what it cannot, and what must be true before the gate is
+  > promoted to failing.
 - **SPDX headers** (REUSE) on data files; a CycloneDX SBOM then falls
   out for free.
 

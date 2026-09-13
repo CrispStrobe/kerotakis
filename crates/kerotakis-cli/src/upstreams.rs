@@ -20,7 +20,7 @@
 //! This asks a different question: "may a NUMBER here have come from there?"
 //! It is keyed by the name a provenance string uses, and it is about sourcing.
 //! A value can fail this and pass that — nothing is vendored when someone
-//! types a boiling point in by hand — which is exactly how eighty-eight CRC
+//! types a boiling point in by hand — which is exactly how seventy-nine CRC
 //! Handbook citations reached `main` under a green `provenance lint`.
 //!
 //! ## The hard part: a claim and a comment look the same
@@ -66,6 +66,9 @@
 //! sentence asserting knowledge of their number. The lint therefore reports
 //! those rows for `nist-webbook` as well as for `crc-handbook`, and it is not
 //! double-counting: one string can make two claims, and both have to go.
+//! Thirteen of the twenty-two were re-sourced to the vendored Apache-2.0 NASA
+//! CEA file while this was being written, and the count moved by exactly that
+//! much — which is the one property a figure like this has to have.
 //!
 //! The same sentence in a `//` comment, or in `PLAN.md`, or here, stays. That
 //! is the "prose stays as commentary" half, and it is not a loophole — it is
@@ -146,22 +149,87 @@
 //!   terms pages on a date. It is not legal advice and it goes stale; the
 //!   `retrieved` field is there so that staleness is visible rather than
 //!   assumed away.
+//! - **Whether an excuse is honest.** The lint checks that an excuse still
+//!   MATCHES a real string and reports it if it does not. It cannot check that
+//!   the reason is true. An excuse is a human judgement recorded in data, and
+//!   its whole advantage over the prose it replaces is that it is named,
+//!   counted, printed on every run, and expires loudly when the string it
+//!   covered changes. That is a smaller claim than "reviewed", and it is the
+//!   one being made.
+//! - **The difference between a withdrawal and a claim.** The nine excused
+//!   registry matches are the sharp case. A citation that says "the claim
+//!   resting on the CRC Handbook has been withdrawn" is commentary, and a
+//!   citation that says "from the CRC Handbook" is a claim, and both are the
+//!   value of the same `citation` field. The position test cannot separate
+//!   them; only the excuse list does, one reviewed row at a time. If
+//!   withdrawal notices become common this does not scale, and the fix is a
+//!   structured field — see below.
+//!
+//! ## The field that would make this exact, which does not exist
+//!
+//! Every limit above with real teeth comes from the same root: a registry
+//! source has ONE free-text `citation` and many numeric records hang off it,
+//! so the lint reasons about sentences where it should be reasoning about
+//! links. `legacy/HBr` reads "M from IUPAC/CIAAW 2021 atomic weights; Cp(g)
+//! NIST-JANAF; density at STP, CRC Handbook 97th ed." — the molar mass is
+//! clean, the heat capacity is not, and nothing in the data says which is
+//! which.
+//!
+//! The fix is a structured field on the source record, proposed here rather
+//! than added, because `data/registry/registry-source-v1.json` and its
+//! byte-exact golden mirror belong to another change in flight:
+//!
+//! ```text
+//! "upstreams": [
+//!   { "id": "ciawa-2021",   "role": "claims", "covers": ["molar_mass"] },
+//!   { "id": "nist-janaf",   "role": "mentioned" },
+//!   { "id": "crc-handbook", "role": "withdrawn", "on": "2026-09-13" }
+//! ]
+//! ```
+//!
+//! With `role` present the lint stops guessing: `claims` is a claim,
+//! `mentioned` and `withdrawn` are not, the excuse list disappears, and the
+//! finding moves from the citation to the individual quantity — which is also
+//! the unit the accuracy work wants to count. Until then the excuse list is
+//! the honest stand-in, and this paragraph is the record of what it stands in
+//! for.
+//!
+//! ## What must be true before this becomes a gate
+//!
+//! Four things, in order:
+//!
+//! 1. **The count reaches zero** on both surfaces, by re-sourcing or by
+//!    withdrawal, not by deleting citations — watch the denominators.
+//! 2. **The 105 unjudged registry citations shrink.** A gate over a surface
+//!    where more than half the rows name no audited source at all is a gate
+//!    with a hole bigger than itself.
+//! 3. **`names` lists are reviewed once more against the tree**, since a
+//!    forward guard that matches nothing is indistinguishable from one that
+//!    works. Seven of the eleven refused rows currently match nothing.
+//! 4. **`--fail` is added in `tools/preflight.sh`** and the CI job that runs
+//!    it, in a pull request that does nothing else, so that the promotion is
+//!    revertible on its own.
 //!
 //! ## How much it actually reaches, in numbers
 //!
-//! On `main` at d6e03d0, the day this landed:
+//! On `main` at 8c2d03f6, the day this landed:
 //!
 //! - **210** value-bound provenance strings exist in `crates/**/*.rs`. That is
-//!   the entire Rust surface — the denominator, not a sample. **116** of them
-//!   name a refused upstream: 88 the CRC Handbook, 27 the NIST WebBook, 1
-//!   JANAF. They sit in four files, and 65 of the 88 are one table in
+//!   the entire Rust surface — the denominator, not a sample. **98** of them
+//!   name a refused upstream: 79 the CRC Handbook, 18 the NIST WebBook, 1
+//!   JANAF. They sit in five files, and 65 of the 79 are one table in
 //!   `nonaqueous.rs`.
-//! - **185** source citations exist in the registry export. **62** name a
-//!   refused upstream: 49 CRC, 6 Merck, 4 WebBook, 3 JANAF.
-//! - The two are reported apart and never added into a claim about distinct
-//!   values, because `kerotakis-registry-export` generates part of the
-//!   registry from the same Rust constants: one sourcing error can appear on
-//!   both. 178 is the number of findings; it is not 178 different numbers.
+//! - **185** source citations exist in the registry export. **59** name a
+//!   refused upstream: 46 CRC, 6 Merck, 4 WebBook, 3 JANAF.
+//! - **10** further matches are excused by a reviewed `[[excuse]]` row and
+//!   printed separately: one NASA CEA lineage mention, and nine across the
+//!   three tranches whose claims were withdrawn on 2026-09-13, whose citations
+//!   name the refused sources in order to say the claim has stopped.
+//! - The two surfaces are reported apart and never added into a claim about
+//!   distinct values, because `kerotakis-registry-export` generates part of
+//!   the registry from the same Rust constants: one sourcing error can appear
+//!   on both. **157** is the number of findings; it is not 157 different
+//!   numbers.
 //! - **105** of the 185 registry citations name NO audited upstream at all,
 //!   refused or cleared. They are not clean; they are unjudged, most saying
 //!   "standard reference values" without saying whose. The lint prints that
@@ -250,7 +318,10 @@ struct Excuse {
     surface: Surface,
     /// A registry source id, or a repository-relative path for `rust`.
     subject: String,
-    upstream: String,
+    /// Every refused upstream this one string names as commentary. A
+    /// withdrawal notice typically names all of them at once, because it is
+    /// quoting the rule it is obeying.
+    upstreams: Vec<String>,
     reason: String,
 }
 
@@ -358,6 +429,9 @@ pub(crate) struct Report {
     pub open_questions: BTreeMap<String, usize>,
     /// Excuses that matched a real string, by index into `Audit::excuses`.
     used_excuses: BTreeSet<usize>,
+    /// How many findings each excuse silenced, so that a reader of the report
+    /// can see what was excused rather than only what was counted.
+    pub excused: BTreeMap<String, usize>,
 }
 
 // ---------------------------------------------------------------- matching --
@@ -663,18 +737,23 @@ impl Audit {
             }
         }
         for (index, excuse) in self.excuses.iter().enumerate() {
-            if !ids.contains(&excuse.upstream) {
+            if excuse.upstreams.is_empty() {
                 problems.push(format!(
-                    "excuse[{index}]: unknown upstream '{}'",
-                    excuse.upstream
+                    "excuse[{index}] for '{}': lists no upstream",
+                    excuse.subject
                 ));
-            } else if let Some(up) = self.upstreams.iter().find(|u| u.id == excuse.upstream) {
-                if !up.verdict.refuses_claims() {
-                    problems.push(format!(
-                        "excuse[{index}]: upstream '{}' is {}, which refuses nothing — the excuse excuses nothing",
-                        up.id,
-                        up.verdict.label()
-                    ));
+            }
+            for named in &excuse.upstreams {
+                if !ids.contains(named) {
+                    problems.push(format!("excuse[{index}]: unknown upstream '{named}'"));
+                } else if let Some(up) = self.upstreams.iter().find(|u| &u.id == named) {
+                    if !up.verdict.refuses_claims() {
+                        problems.push(format!(
+                            "excuse[{index}]: upstream '{}' is {}, which refuses nothing — the excuse excuses nothing",
+                            up.id,
+                            up.verdict.label()
+                        ));
+                    }
                 }
             }
             if excuse.reason.trim().len() < 40 {
@@ -688,9 +767,11 @@ impl Audit {
     }
 
     fn excuse_for(&self, surface: Surface, subject: &str, upstream: &str) -> Option<usize> {
-        self.excuses
-            .iter()
-            .position(|e| e.surface == surface && e.subject == subject && e.upstream == upstream)
+        self.excuses.iter().position(|e| {
+            e.surface == surface
+                && e.subject == subject
+                && e.upstreams.iter().any(|u| u == upstream)
+        })
     }
 
     /// Every upstream that `text` names, refused or not.
@@ -737,6 +818,10 @@ impl Audit {
                     }
                     if let Some(index) = self.excuse_for(Surface::Rust, &relative, &upstream.id) {
                         report.used_excuses.insert(index);
+                        *report
+                            .excused
+                            .entry(format!("{relative} / {}", upstream.id))
+                            .or_default() += 1;
                         continue;
                     }
                     report.findings.push(Finding {
@@ -788,6 +873,10 @@ impl Audit {
                                 self.excuse_for(Surface::Registry, id, &upstream.id)
                             {
                                 report.used_excuses.insert(index);
+                                *report
+                                    .excused
+                                    .entry(format!("{id} / {}", upstream.id))
+                                    .or_default() += 1;
                                 continue;
                             }
                             report.findings.push(Finding {
@@ -817,9 +906,9 @@ impl Audit {
             .filter(|(index, _)| !report.used_excuses.contains(index))
             .map(|(index, excuse)| {
                 format!(
-                    "excuse[{index}]: '{}' / '{}' on the {} surface matched nothing — delete it or fix its subject",
+                    "excuse[{index}]: '{}' / {:?} on the {} surface matched nothing — delete it or fix its subject",
                     excuse.subject,
-                    excuse.upstream,
+                    excuse.upstreams,
                     excuse.surface.label()
                 )
             })
@@ -936,6 +1025,16 @@ pub(crate) fn upstreams_command(audit_path: &str, root: &str, fail: bool) -> ! {
                  unjudged, not clean)",
                 report.unjudged
             );
+        }
+    }
+
+    if !report.excused.is_empty() {
+        let total: usize = report.excused.values().sum();
+        println!(
+            "\n  excused by a reviewed [[excuse]] row ({total}) — named as commentary, not claimed:"
+        );
+        for (what, count) in &report.excused {
+            println!("    {count:4}  {what}");
         }
     }
 
@@ -1151,7 +1250,7 @@ note = "Cleared."
         audit.excuses.push(Excuse {
             surface: Surface::Registry,
             subject: "us-federal/nasa-cea-thermo-inp-v1".to_string(),
-            upstream: "nist-webbook".to_string(),
+            upstreams: vec!["nist-webbook".to_string()],
             reason: "Lineage of Apache-2.0 bytes we are separately licensed to redistribute, not a transcription."
                 .to_string(),
         });
@@ -1193,7 +1292,7 @@ note = "Cleared."
         audit.excuses.push(Excuse {
             surface: Surface::Registry,
             subject: "a/source/that/does/not/exist".to_string(),
-            upstream: "nist-webbook".to_string(),
+            upstreams: vec!["nist-webbook".to_string()],
             reason: "A reason long enough to satisfy the minimum length rule for reasons."
                 .to_string(),
         });
@@ -1209,7 +1308,7 @@ note = "Cleared."
         audit.excuses.push(Excuse {
             surface: Surface::Registry,
             subject: "legacy/water".to_string(),
-            upstream: "pubchem".to_string(),
+            upstreams: vec!["pubchem".to_string()],
             reason: "A reason long enough to satisfy the minimum length rule for reasons."
                 .to_string(),
         });
@@ -1281,10 +1380,19 @@ note = "Cleared."
             "expected NIST WebBook findings on the Rust surface; if they are gone, \
              lower this assertion and raise the gate"
         );
-        // The excuse must still be earning its place.
+        // Every excuse must still be earning its place. A stale one is a
+        // claim of diligence with nothing behind it, and this is the assertion
+        // that stops one being left behind after a citation is rewritten.
+        assert_eq!(
+            audit.stale_excuses(&report),
+            Vec::<String>::new(),
+            "an excuse matched nothing"
+        );
         assert!(
-            !report.used_excuses.is_empty(),
-            "the NASA CEA / JANAF excuse matched nothing — it is stale"
+            report.excused.values().sum::<usize>() >= 4,
+            "expected the NASA CEA lineage excuse and the three 2026-09-13 \
+             withdrawals to be silencing real matches, found {:?}",
+            report.excused
         );
     }
 }

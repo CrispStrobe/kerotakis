@@ -345,5 +345,37 @@ note = "PROPOSED, not inherited. Copyrighted commercial reference work (Royal So
 [[excuse]]
 surface = "registry"
 subject = "us-federal/nasa-cea-thermo-inp-v1"
-upstream = "nist-janaf"
+upstreams = ["nist-janaf"]
 reason = "The citation describes vendored NASA CEA thermo.inp bytes, Apache-2.0, and notes that each CEA record carries its own literature reference verbatim - some of which are JANAF. The JANAF mention is the LINEAGE of a file we are licensed to redistribute, not a transcription we made from the SRD. Without this excuse the lint condemns 37 heat-capacity polynomials that are clean."
+
+# The three tranches withdrawn by PR #589 on 2026-09-13. Each citation now
+# names the CRC Handbook, the NIST WebBook and JANAF-online in order to say
+# that the claim resting on them HAS BEEN WITHDRAWN, quoting the rule it is
+# obeying: "the claim stops and the prose stays as commentary". That is the
+# commentary half, written out - and the position test cannot see the
+# difference, because the withdrawal lives in the same `citation` field the
+# claim lived in.
+#
+# Excusing them is a judgement, and it is the judgement the rule requires: a
+# lint that flagged a correct withdrawal would make the count unreachable
+# except by deleting honest prose, which is the opposite of what it is for.
+# The limit is stated plainly in the module docs - the lint checks that an
+# excuse still MATCHES something, never that its reason is true.
+
+[[excuse]]
+surface = "registry"
+subject = "kerotakis/phase-transitions-v1"
+upstreams = ["crc-handbook", "nist-webbook", "nist-janaf"]
+reason = "Withdrawn 2026-09-13 (PR #589). The citation names these three sources only to record that the claim resting on them has stopped, and says so in terms: 'Naming a reference the project may not ship from as the source behind a shipped number is a claim, not a citation, and so is saying the number agrees with it. Both are gone.' No value here is offered as coming from any of them."
+
+[[excuse]]
+surface = "registry"
+subject = "kerotakis/dissolution-enthalpies-v1"
+upstreams = ["crc-handbook", "nist-webbook", "nist-janaf"]
+reason = "Withdrawn 2026-09-13 (PR #589). Same withdrawal notice. The fourteen rows that survive rest on the NBS/Wagman 1982 tables, a United States Government work with no avoid-row problem; the three that rested on the Handbook alone (KOH, NH4Cl, Na2SO4) lose that support rather than keep it. The Handbook is named here to say which rows lost what."
+
+[[excuse]]
+surface = "registry"
+subject = "kerotakis/electrical-resistivity-v1"
+upstreams = ["crc-handbook", "nist-webbook", "nist-janaf"]
+reason = "Withdrawn 2026-09-13 (PR #589). The citation names the Handbook table it used to cite in order to say the citation is gone: 'that is exactly the form the rule forbids, and it is withdrawn rather than reworded'. It also says this tranche now has neither of the two acceptable supports and is the weakest in the registry, which is the honest state and is not something a lint should be able to silence - it is recorded in the value's own citation, where a reader meets it."
