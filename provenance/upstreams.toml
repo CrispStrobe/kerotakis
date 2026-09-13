@@ -1,0 +1,349 @@
+# The scientific-upstream audit, machine-readable.
+#
+# This is the `PLAN.md` "Data provenance, verified" table (around line 1545)
+# turned into data, as that section promised: "The provenance table above
+# moves to machine-readable TOML (per source: licence, terms URL, retrieval
+# date, verdict, what it may touch) with a `kero provenance lint` that checks
+# every entry". The prose table stays where it is, as commentary; this file is
+# what the lint reads.
+#
+# It is a DIFFERENT question from `provenance/sources.toml`. That manifest asks
+# "may these bytes enter a Kerotakis artifact, and what travels with them?" and
+# is keyed by vendored path. This file asks "may a NUMBER in this repository
+# have come from there?" and is keyed by the name a provenance string uses.
+#
+# ## Fields
+#
+# id            stable slug, referenced by `[[excuse]]` rows below
+# name          the source as the PLAN.md row names it
+# licence       SPDX id where one exists, else a LicenseRef- describing the bar
+# terms         URL of the terms actually read (NOT a homepage)
+# retrieved     ISO date the terms at `terms` were last checked
+# verdict       see below
+# may_touch     surfaces a value from here may reach; empty for a refused row
+# names         the spellings a provenance string uses for this source. Matched
+#               case-insensitively but only on WHOLE WORDS at both ends, which
+#               is load-bearing: an unanchored "ECHA" matches "mechanism", and
+#               that false positive was in the first draft of this lint.
+# note          the PLAN.md verdict cell, kept verbatim as commentary
+# in_plan_table whether PLAN.md's prose table actually carries this row. `false`
+#               marks a source the repository USES but never judged - see
+#               `crc-handbook` and `merck-index`, which between them are cited
+#               by more values than every audited row combined.
+#
+# ## Verdicts
+#
+# primary            cleared, and the preferred route for what `may_touch` lists
+# supplement         cleared, but too thin to carry a surface on its own
+# oracle-only        build-time test fixtures only; never shipped bytes
+# avoid              REFUSED. A value may not come from here. The claims stop;
+#                    the prose stays as commentary.
+# permission-required refused until a written grant exists; counted with `avoid`
+# decision-required  a question is open; reported separately, never in the
+#                    headline offence count, because a count that mixes
+#                    "refused" with "not yet asked" reads stronger than it is.
+
+schema = 1
+policy = "scientific-upstream-audit-v1"
+checked = "2026-08-18"
+
+# ---------------------------------------------------------------- cleared ---
+
+[[upstream]]
+id = "pubchem"
+name = "PubChem (NCBI bulk)"
+licence = "LicenseRef-US-Public-Domain"
+terms = "https://www.ncbi.nlm.nih.gov/home/about/policies/"
+retrieved = "2026-08-18"
+verdict = "primary"
+may_touch = ["identity", "property", "hazard", "codex"]
+names = ["PubChem", "NCBI"]
+in_plan_table = true
+note = "Primary property + GHS source. Keep attribution per record. No NCBI restrictions, commercial OK; per-annotation source attribution expected."
+
+[[upstream]]
+id = "wikidata"
+name = "Wikidata"
+licence = "CC0-1.0"
+terms = "https://www.wikidata.org/wiki/Wikidata:Licensing"
+retrieved = "2026-08-18"
+verdict = "supplement"
+may_touch = ["identity", "property", "codex"]
+names = ["Wikidata"]
+in_plan_table = true
+note = "Clean supplement; coverage is thin (about 2k boiling points, about 310 pKa) - cannot carry the load."
+
+[[upstream]]
+id = "nasa-cea"
+name = "NASA CEA (github.com/nasa/cea)"
+licence = "Apache-2.0"
+terms = "https://github.com/nasa/cea/blob/main/LICENSE"
+retrieved = "2026-08-18"
+verdict = "primary"
+may_touch = ["thermochemistry", "property", "runtime-data"]
+names = ["NASA CEA", "thermo.inp", "NASA Glenn", "NASA-9", "NASA9"]
+in_plan_table = true
+note = "Primary thermochemistry source for L2g and formation enthalpies. Apache-2.0 including data/thermo.inp."
+
+[[upstream]]
+id = "eur-lex-clp"
+name = "CLP Annex VI via EUR-Lex"
+licence = "LicenseRef-EU-Reuse-With-Acknowledgment"
+terms = "https://eur-lex.europa.eu/content/legal-notice/legal-notice.html"
+retrieved = "2026-08-18"
+verdict = "primary"
+may_touch = ["hazard"]
+names = ["EUR-Lex", "CLP Annex VI"]
+in_plan_table = true
+note = "Harmonised GHS/CLP hazard classes - take from EUR-Lex, not ECHA dumps."
+
+[[upstream]]
+id = "phreeqc-databases"
+name = "PHREEQC databases"
+licence = "LicenseRef-USGS-User-Rights-Notice"
+terms = "https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits"
+retrieved = "2026-08-18"
+verdict = "primary"
+may_touch = ["runtime-data", "property", "thermochemistry"]
+names = ["PHREEQC", "phreeqc.dat", "wateq4f.dat", "minteq.v4.dat", "llnl.dat", "USGS"]
+in_plan_table = true
+note = "USGS User Rights Notice (public-domain-like, attribution). Embed, EXCEPT sit.dat - ThermoChimie provenance, needs a terms check. See sit-dat below."
+
+[[upstream]]
+id = "usptolowe"
+name = "USPTO reaction data (Lowe extraction)"
+licence = "CC0-1.0"
+terms = "https://figshare.com/articles/dataset/Chemical_reactions_from_US_patents_1976-Sep2016_/5104873"
+retrieved = "2026-08-18"
+verdict = "supplement"
+may_touch = ["build-oracle", "template-mining"]
+names = ["Lowe extraction", "USPTO reaction"]
+in_plan_table = true
+note = "CC0 - verified via the figshare API; patent text USPTO-confirmed copyright-free, reaction facts Feist-uncopyrightable. The clean chain under every USPTO-derived corpus/model; relevant only to the deferred ML tier and template tooling."
+
+[[upstream]]
+id = "ord"
+name = "Open Reaction Database"
+licence = "CC-BY-SA-4.0"
+terms = "https://github.com/open-reaction-database/ord-data"
+retrieved = "2026-08-18"
+verdict = "supplement"
+may_touch = ["curated-dataset"]
+names = ["Open Reaction Database"]
+in_plan_table = true
+note = "Decided: BY-SA is acceptable. The curated dataset is published BY-SA (code stays AGPL - separate works, separate licences). What we do NOT accept is a licence being quietly dropped: where an upstream relabels BY-SA data as CC BY or MIT, we honour the ORIGINAL terms and say so."
+
+[[upstream]]
+id = "crd-reaction-database"
+name = "CRD - Chemical Reaction Database (van der Lingen)"
+licence = "CC-BY-4.0"
+terms = "https://figshare.com/articles/dataset/Chemical_Reaction_Database_CRD_/24921555"
+retrieved = "2026-08-18"
+verdict = "oracle-only"
+may_touch = ["build-oracle", "template-mining"]
+names = ["Chemical Reaction Database", "van der Lingen"]
+in_plan_table = true
+note = "The best-licensed bulk reaction corpus found - attribution only, no ShareAlike. But SMILES only (no conditions/observations), patent-chemistry distribution, semi-automated with author-acknowledged errors. Build-time template-mining corpus at most; NEVER codex content."
+
+[[upstream]]
+id = "thermo-python"
+name = "`thermo` (Python), sibling of `chemicals`"
+licence = "MIT"
+terms = "https://github.com/CalebBell/thermo/blob/master/LICENSE.txt"
+retrieved = "2026-08-18"
+verdict = "oracle-only"
+may_touch = ["build-oracle"]
+names = ["CalebBell/thermo"]
+in_plan_table = true
+note = "Remains a build-time ORACLE, generating test fixtures, not shipped data. Its data aggregation carries the same SRD and NC problems as `chemicals`; only the numbers it PREDICTS from our own inputs may be compared against."
+
+# ---------------------------------------------------------------- refused ---
+
+[[upstream]]
+id = "cantera-data"
+name = "Cantera data files (gri30.yaml etc.)"
+licence = "LicenseRef-No-Licence-Granted"
+terms = "https://cantera.org/stable/reference/index.html"
+retrieved = "2026-08-18"
+verdict = "avoid"
+may_touch = []
+names = ["Cantera", "GRI-Mech", "GRIMech", "gri30", "gri30.yaml"]
+in_plan_table = true
+note = "Not redistributable. BSD-3 covers Cantera's CODE only. Cantera states it 'is not claiming to grant a license to' the mechanisms it ships, and that its input files are 'for illustration purposes only'. GRI-Mech's own site carries a disclaimer, never a grant. Oracle-only by separate written record; see provenance/brd-040-cantera-audit.md (BRD-040)."
+
+[[upstream]]
+id = "cas-common-chemistry"
+name = "CAS Common Chemistry"
+licence = "CC-BY-NC-4.0"
+terms = "https://www.cas.org/services/commonchemistry"
+retrieved = "2026-08-18"
+verdict = "avoid"
+may_touch = []
+names = ["CAS Common Chemistry", "Common Chemistry"]
+in_plan_table = true
+note = "Unusable commercially. Never present CAS RNs as licensed-from-CAS data; identifiers come from PubChem/Wikidata."
+
+[[upstream]]
+id = "nist-webbook"
+name = "NIST Chemistry WebBook"
+licence = "LicenseRef-NIST-SRD-Permission-Required"
+terms = "https://webbook.nist.gov/chemistry/copyrght/"
+retrieved = "2026-08-18"
+verdict = "permission-required"
+may_touch = []
+names = [
+  "NIST Chemistry WebBook",
+  "NIST WebBook",
+  "WebBook",
+  "webbook.nist.gov",
+  "SRD 69",
+]
+in_plan_table = true
+note = "NIST SRD - copyrighted, permission required. Do not scrape or redistribute."
+
+[[upstream]]
+id = "nist-janaf"
+name = "JANAF-online (NIST-JANAF Thermochemical Tables)"
+licence = "LicenseRef-NIST-SRD-Permission-Required"
+terms = "https://janaf.nist.gov/"
+retrieved = "2026-08-18"
+verdict = "permission-required"
+may_touch = []
+names = ["JANAF", "NIST-JANAF", "JANAF-online", "janaf.nist.gov"]
+in_plan_table = true
+note = "NIST SRD - copyrighted, permission required. Do not scrape or redistribute. The 1971 NSRDS-NBS 37 JANAF tables ARE public domain but dated; a value taken from the 1971 print edition is a different source and needs its own row, not this one."
+
+[[upstream]]
+id = "cameo-crw4"
+name = "CAMEO Chemicals / CRW4 database"
+licence = "LicenseRef-Contributed-Fields-Non-Duplicable"
+terms = "https://cameochemicals.noaa.gov/help/reference/terms_and_conditions.htm"
+retrieved = "2026-08-18"
+verdict = "avoid"
+may_touch = []
+names = ["CAMEO", "CRW4", "cameochemicals"]
+in_plan_table = true
+note = "Contributed fields explicitly non-duplicable (CAS RNs, NFPA, AEGL, ERPG). Never ship the database; reimplement the published METHODOLOGY (L0 note). The reactivity-matrix method is ours to implement; its data tables are not ours to copy."
+
+[[upstream]]
+id = "echa-cl"
+name = "ECHA C&L exports"
+licence = "LicenseRef-IP-Encumbered"
+terms = "https://echa.europa.eu/legal-notice"
+retrieved = "2026-08-18"
+verdict = "avoid"
+may_touch = []
+names = ["ECHA", "echa.europa.eu", "C&L Inventory"]
+in_plan_table = true
+note = "IP-encumbered (CAS data named). Avoid; use EUR-Lex / PubChem routes."
+
+[[upstream]]
+id = "burcat"
+name = "Burcat (Third Millennium Thermodynamic Database)"
+licence = "LicenseRef-Non-Commercial-Only"
+terms = "http://garfield.chem.elte.hu/Burcat/burcat.html"
+retrieved = "2026-08-18"
+verdict = "avoid"
+may_touch = []
+names = ["Burcat", "Third Millennium"]
+in_plan_table = true
+note = "Free non-commercial only. Skip, or write for permission if CEA coverage falls short."
+
+[[upstream]]
+id = "chemicals-python"
+name = "`chemicals` (Python package)"
+licence = "MIT"
+terms = "https://github.com/CalebBell/chemicals/blob/master/LICENSE.txt"
+retrieved = "2026-08-18"
+verdict = "avoid"
+may_touch = []
+names = ["CalebBell/chemicals", "chemicals (Python"]
+in_plan_table = true
+note = "Dropped as a DATA source - MIT code aggregating CRC/NIST/Yaws/Common Chemistry data, so it launders the SRD and NC problems into our binary. The MIT licence on the code does not relicense the tables it carries. Its sibling `thermo` remains a build-time oracle."
+
+[[upstream]]
+id = "unifac-consortium"
+name = "UNIFAC consortium parameter tables"
+licence = "LicenseRef-Proprietary-Consortium"
+terms = "https://unifac.ddbst.de/"
+retrieved = "2026-08-18"
+verdict = "avoid"
+may_touch = []
+names = ["UNIFAC consortium", "DDBST", "Dortmund Data Bank"]
+in_plan_table = true
+note = "Consortium tables proprietary; the ORIGINAL JOURNAL tables are usable. Source from the original publications, provenance per parameter. A bare 'UNIFAC' in a provenance string is ambiguous between the two and is why this row lists only consortium spellings - see the module docs on what that misses."
+
+[[upstream]]
+id = "sit-dat"
+name = "sit.dat (ThermoChimie provenance)"
+licence = "LicenseRef-Unverified"
+terms = "https://www.thermochimie-tdb.com/"
+retrieved = "2026-08-18"
+verdict = "decision-required"
+may_touch = []
+names = ["sit.dat", "ThermoChimie"]
+in_plan_table = true
+note = "Carved out of the otherwise-cleared PHREEQC database row: ThermoChimie provenance, needs a terms check. Not embedded until that check happens."
+
+[[upstream]]
+id = "orderly"
+name = "ORDerly benchmarks (Figshare 23298467 / 23502372)"
+licence = "CC-BY-SA-4.0"
+terms = "https://figshare.com/articles/dataset/ORDerly_condition/23298467"
+retrieved = "2026-08-18"
+verdict = "decision-required"
+may_touch = []
+names = ["ORDerly"]
+in_plan_table = true
+note = "Decision required before any use. Deposits say CC BY 4.0 - but the data is extracted from ORD (CC-BY-SA-4.0), and neither the deposits nor the JCIM paper mention ShareAlike anywhere. If ever used: treat it as BY-SA REGARDLESS of the depositors' claim, attribute both ORDerly and ORD - or stay out. `procedure_details` is verbatim patent prose, not pedagogy. Do NOT run their toolchain (dormant, CI red since 2024-06)."
+
+# ------------------------------------------------ used but never judged ---
+#
+# The two rows below are NOT in PLAN.md's table. They were found by pointing
+# the lint at the repository rather than at the table, and between them they
+# are cited by more values than every audited row put together. Both are
+# commercial reference works that grant no reuse licence, which puts them in
+# the same class as the NIST SRD row - but that is an inference from their
+# front matter, not a terms page anybody read for this file, so `retrieved` is
+# deliberately empty and the PR proposes them rather than asserting them.
+
+[[upstream]]
+id = "crc-handbook"
+name = "CRC Handbook of Chemistry and Physics"
+licence = "LicenseRef-No-Licence-Granted"
+terms = "https://www.taylorfrancis.com/books/mono/10.1201/9781315380476"
+retrieved = ""
+verdict = "avoid"
+may_touch = []
+names = ["CRC Handbook", "CRC Handbook of Chemistry and Physics"]
+in_plan_table = false
+note = "PROPOSED, not inherited. A copyrighted commercial reference work (Taylor & Francis/CRC Press) granting no reuse licence. Individual physical constants are facts and uncopyrightable one at a time; a tabulation transcribed wholesale is the compilation the copyright is IN. The repository's own rows say so themselves - many carry 'PENDING REVIEW: the printed edition was not opened for this row', which is an admission that the value came from somewhere else and was attributed here."
+
+[[upstream]]
+id = "merck-index"
+name = "The Merck Index"
+licence = "LicenseRef-No-Licence-Granted"
+terms = "https://www.rsc.org/merck-index"
+retrieved = ""
+verdict = "avoid"
+may_touch = []
+names = ["Merck Index"]
+in_plan_table = false
+note = "PROPOSED, not inherited. Copyrighted commercial reference work (Royal Society of Chemistry), no reuse licence granted. Same class as `crc-handbook`."
+
+# ----------------------------------------------------------------- excuses ---
+#
+# A named, reviewed exception: this provenance string NAMES a refused upstream
+# but does not CLAIM a value from it. That is the "prose stays as commentary"
+# half of the rule, made explicit instead of implicit.
+#
+# Every excuse must be USED. An excuse that matches nothing is reported as a
+# problem, so a stale one cannot sit here looking like diligence after the
+# string it covered has gone. This list is exactly as strong as its review;
+# it is here because it is visible and counted, which prose was not.
+
+[[excuse]]
+surface = "registry"
+subject = "us-federal/nasa-cea-thermo-inp-v1"
+upstream = "nist-janaf"
+reason = "The citation describes vendored NASA CEA thermo.inp bytes, Apache-2.0, and notes that each CEA record carries its own literature reference verbatim - some of which are JANAF. The JANAF mention is the LINEAGE of a file we are licensed to redistribute, not a transcription we made from the SRD. Without this excuse the lint condemns 37 heat-capacity polynomials that are clean."
