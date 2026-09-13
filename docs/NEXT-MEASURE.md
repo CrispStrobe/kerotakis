@@ -458,6 +458,15 @@ For contrast, files referencing each sibling module in the same crate:
 `displacement` 18, `phase_route` 8, `relations` 8, `compartment` 7,
 `heterogeneous` 4, **`electrodiffusion` 0.** It is the unique orphan.
 
+> **Resolved 2026-09-13, `feat/couple-electrodiffusion` (#588).** The orphan
+> has a caller: `propose_electrochemical_step` now routes a charged
+> interfacial Faradaic flux through `reactive_electroneutral_surface`, and the
+> refusal quoted above is gone. The count is no longer 0. **This changes the
+> example, not the argument** — every gate in this repository still passed the
+> module for four days while it was unreachable, and nothing in CI noticed.
+> `polarization.rs` below is now the sharpest remaining case, and the next
+> orphan will not announce itself either.
+
 `crates/kerotakis-core/src/polarization.rs` is the weaker second case: 1,010
 lines, exactly one caller, a CLI fitting subcommand. It is not in the grammar
 `VERBS`, not in `affordances.json`, not tiered in `catalog.rs`, and not
@@ -735,6 +744,12 @@ Noted, not fixed, as instructed.
    `"charged local-equilibrium bulk needs an explicit electrodiffusion
    model"`. One module refuses for want of exactly what the orphan beside it
    computes, and nothing connects them.
+   *Fixed 2026-09-13 in #588: the two are connected, the charged-flux refusal
+   now calls the solver, `HISTORY.md` and `PLAN.md` agree again, and the
+   charged-bulk message above was corrected — an electroneutral bulk is
+   required by both boundaries, so it named a missing model when the network
+   was missing a counterion. The measurement problem this defect illustrates
+   is untouched.*
 2. **Avoid-list sources are cited as expected values.**
    `crates/kerotakis-cea/tests/heat_source_ceiling.rs:28-30` cites "NIST
    Chemistry WebBook SRD 69" and "NIST-JANAF table Ca-027", and 23 rows in

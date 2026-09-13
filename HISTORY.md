@@ -16,6 +16,34 @@ it had while it was open, which is why a few numbers appear twice below.
 
 **Post-579 integration and source audit continuation**
 
+- **`feat/couple-electrodiffusion`** — gave the Nernst-Planck boundary a caller.
+  `electrodiffusion.rs` had been verified, extended and merged three times
+  without one; the only mentions of it outside the module were its `pub mod`
+  line and three refusals inside `electrochemistry.rs` that named the missing
+  model instead. The live one is a charged interfacial Faradaic flux, which is
+  every real electrode reaction — which is why the module's one
+  local-equilibrium fixture was two neutral species. That case now reaches
+  `reactive_electroneutral_surface` inside the existing interfacial fixed
+  point, so transport, migration and homogeneous speciation are one solve
+  rather than Fick's law followed by a correction and a charge inspection. The
+  diffusion-only path is untouched and unchanged in value: it already *is* the
+  boundary's zero-potential limit, since `concentrations_for_fluxes` at zero
+  potential is exactly `bulk + net_production * L / D`. Only cases that
+  refused now compute, so no corpus row could move, and none did. The charged
+  path inverts the compatibility rule — one common layer thickness rather than
+  one common `D / L` — which is what lets a proton and its conjugate base
+  cross the same layer at their own diffusivities. The charged-*bulk* refusal
+  was misdescribed and is now honest: Nernst-Planck needs electroneutral
+  endpoints exactly as Fick does, so that message named a missing model when
+  the network was missing a counterion. Refusals that remain are the transient
+  layer under a charged flux, a per-species layer thickness, and every solver
+  boundary, each reaching the caller carrying the solver's own error and never
+  the diffusion-only answer. The published working envelope turned out to
+  belong to `zero_current_junction`, not to the surface solve a caller uses:
+  the surface residual is a charge concentration whose slope carries no
+  `D / L`, so it converges across 10 mM to 12 M for layers from 10 nm to
+  100 um, including the 10 nm / 2 M corner where the junction refuses. Nothing
+  was widened to fit.
 - Integrated the separately audited reactive-electrodiffusion solver, exposing
   homogeneous mass action, migration, electroneutrality and component-flux
   closure in one focused test envelope.
