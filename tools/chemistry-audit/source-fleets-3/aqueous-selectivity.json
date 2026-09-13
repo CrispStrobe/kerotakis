@@ -1,0 +1,272 @@
+{
+  "schema": "kerotakis-source-fleet-v3",
+  "family": "aqueous-selectivity",
+  "cases": [
+    {
+      "id": "801-barium-sulfate-1-1",
+      "question": "Do defined sulfate and carbonate controls conserve every introduced element across aqueous and solid phases?",
+      "script": "add v1 water 300mL\nadd v1 BaCl2 0.001mol\nadd v1 Na2SO4 0.00025mol\ninspect v1"
+    },
+    {
+      "id": "802-barium-sulfate-1-2",
+      "question": "Do defined sulfate and carbonate controls conserve every introduced element across aqueous and solid phases?",
+      "script": "add v1 water 300mL\nadd v1 BaCl2 0.001mol\nadd v1 Na2SO4 0.0005mol\ninspect v1"
+    },
+    {
+      "id": "803-barium-sulfate-1-3",
+      "question": "Do defined sulfate and carbonate controls conserve every introduced element across aqueous and solid phases?",
+      "script": "add v1 water 300mL\nadd v1 BaCl2 0.001mol\nadd v1 Na2SO4 0.001mol\ninspect v1"
+    },
+    {
+      "id": "804-barium-sulfate-1-4",
+      "question": "Do defined sulfate and carbonate controls conserve every introduced element across aqueous and solid phases?",
+      "script": "add v1 water 300mL\nadd v1 BaCl2 0.001mol\nadd v1 Na2SO4 0.002mol\ninspect v1"
+    },
+    {
+      "id": "805-barium-carbonate-2-1",
+      "question": "Do defined sulfate and carbonate controls conserve every introduced element across aqueous and solid phases?",
+      "script": "add v1 water 300mL\nadd v1 BaCl2 0.001mol\nadd v1 Na2CO3 0.00025mol\ninspect v1"
+    },
+    {
+      "id": "806-barium-carbonate-2-2",
+      "question": "Do defined sulfate and carbonate controls conserve every introduced element across aqueous and solid phases?",
+      "script": "add v1 water 300mL\nadd v1 BaCl2 0.001mol\nadd v1 Na2CO3 0.0005mol\ninspect v1"
+    },
+    {
+      "id": "807-barium-carbonate-2-3",
+      "question": "Do defined sulfate and carbonate controls conserve every introduced element across aqueous and solid phases?",
+      "script": "add v1 water 300mL\nadd v1 BaCl2 0.001mol\nadd v1 Na2CO3 0.001mol\ninspect v1"
+    },
+    {
+      "id": "808-barium-carbonate-2-4",
+      "question": "Do defined sulfate and carbonate controls conserve every introduced element across aqueous and solid phases?",
+      "script": "add v1 water 300mL\nadd v1 BaCl2 0.001mol\nadd v1 Na2CO3 0.002mol\ninspect v1"
+    },
+    {
+      "id": "809-barium-sulfate-3-1",
+      "question": "Do defined sulfate and carbonate controls conserve every introduced element across aqueous and solid phases?",
+      "script": "add v1 water 300mL\nadd v1 BaCl2 0.001mol\nadd v1 Na2SO4 0.00025mol\nadd v1 HCl 0.0002mol\ninspect v1"
+    },
+    {
+      "id": "810-barium-sulfate-3-2",
+      "question": "Do defined sulfate and carbonate controls conserve every introduced element across aqueous and solid phases?",
+      "script": "add v1 water 300mL\nadd v1 BaCl2 0.001mol\nadd v1 Na2SO4 0.0005mol\nadd v1 HCl 0.0002mol\ninspect v1"
+    },
+    {
+      "id": "811-barium-sulfate-3-3",
+      "question": "Do defined sulfate and carbonate controls conserve every introduced element across aqueous and solid phases?",
+      "script": "add v1 water 300mL\nadd v1 BaCl2 0.001mol\nadd v1 Na2SO4 0.001mol\nadd v1 HCl 0.0002mol\ninspect v1"
+    },
+    {
+      "id": "812-barium-sulfate-3-4",
+      "question": "Do defined sulfate and carbonate controls conserve every introduced element across aqueous and solid phases?",
+      "script": "add v1 water 300mL\nadd v1 BaCl2 0.001mol\nadd v1 Na2SO4 0.002mol\nadd v1 HCl 0.0002mol\ninspect v1"
+    },
+    {
+      "id": "813-barium-carbonate-4-1",
+      "question": "Do defined sulfate and carbonate controls conserve every introduced element across aqueous and solid phases?",
+      "script": "add v1 water 300mL\nadd v1 BaCl2 0.001mol\nadd v1 Na2CO3 0.00025mol\nadd v1 HCl 0.0004mol\ninspect v1"
+    },
+    {
+      "id": "814-barium-carbonate-4-2",
+      "question": "Do defined sulfate and carbonate controls conserve every introduced element across aqueous and solid phases?",
+      "script": "add v1 water 300mL\nadd v1 BaCl2 0.001mol\nadd v1 Na2CO3 0.0005mol\nadd v1 HCl 0.0004mol\ninspect v1"
+    },
+    {
+      "id": "815-barium-carbonate-4-3",
+      "question": "Do defined sulfate and carbonate controls conserve every introduced element across aqueous and solid phases?",
+      "script": "add v1 water 300mL\nadd v1 BaCl2 0.001mol\nadd v1 Na2CO3 0.001mol\nadd v1 HCl 0.0004mol\ninspect v1"
+    },
+    {
+      "id": "816-barium-carbonate-4-4",
+      "question": "Do defined sulfate and carbonate controls conserve every introduced element across aqueous and solid phases?",
+      "script": "add v1 water 300mL\nadd v1 BaCl2 0.001mol\nadd v1 Na2CO3 0.002mol\nadd v1 HCl 0.0004mol\ninspect v1"
+    },
+    {
+      "id": "817-barium-sulfate-5-1",
+      "question": "Do defined sulfate and carbonate controls conserve every introduced element across aqueous and solid phases?",
+      "script": "add v1 water 300mL\nadd v1 BaCl2 0.001mol\nadd v1 Na2SO4 0.00025mol\nadd v1 HCl 0.0006mol\ninspect v1"
+    },
+    {
+      "id": "818-barium-sulfate-5-2",
+      "question": "Do defined sulfate and carbonate controls conserve every introduced element across aqueous and solid phases?",
+      "script": "add v1 water 300mL\nadd v1 BaCl2 0.001mol\nadd v1 Na2SO4 0.0005mol\nadd v1 HCl 0.0006mol\ninspect v1"
+    },
+    {
+      "id": "819-barium-sulfate-5-3",
+      "question": "Do defined sulfate and carbonate controls conserve every introduced element across aqueous and solid phases?",
+      "script": "add v1 water 300mL\nadd v1 BaCl2 0.001mol\nadd v1 Na2SO4 0.001mol\nadd v1 HCl 0.0006mol\ninspect v1"
+    },
+    {
+      "id": "820-barium-sulfate-5-4",
+      "question": "Do defined sulfate and carbonate controls conserve every introduced element across aqueous and solid phases?",
+      "script": "add v1 water 300mL\nadd v1 BaCl2 0.001mol\nadd v1 Na2SO4 0.002mol\nadd v1 HCl 0.0006mol\ninspect v1"
+    },
+    {
+      "id": "821-barium-carbonate-6-1",
+      "question": "Do defined sulfate and carbonate controls conserve every introduced element across aqueous and solid phases?",
+      "script": "add v1 water 300mL\nadd v1 BaCl2 0.001mol\nadd v1 Na2CO3 0.00025mol\nadd v1 HCl 0.0008mol\ninspect v1"
+    },
+    {
+      "id": "822-barium-carbonate-6-2",
+      "question": "Do defined sulfate and carbonate controls conserve every introduced element across aqueous and solid phases?",
+      "script": "add v1 water 300mL\nadd v1 BaCl2 0.001mol\nadd v1 Na2CO3 0.0005mol\nadd v1 HCl 0.0008mol\ninspect v1"
+    },
+    {
+      "id": "823-barium-carbonate-6-3",
+      "question": "Do defined sulfate and carbonate controls conserve every introduced element across aqueous and solid phases?",
+      "script": "add v1 water 300mL\nadd v1 BaCl2 0.001mol\nadd v1 Na2CO3 0.001mol\nadd v1 HCl 0.0008mol\ninspect v1"
+    },
+    {
+      "id": "824-barium-carbonate-6-4",
+      "question": "Do defined sulfate and carbonate controls conserve every introduced element across aqueous and solid phases?",
+      "script": "add v1 water 300mL\nadd v1 BaCl2 0.001mol\nadd v1 Na2CO3 0.002mol\nadd v1 HCl 0.0008mol\ninspect v1"
+    }
+  ],
+  "relations": [
+    {
+      "id": "v3-aqueous-selectivity-1",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "801-barium-sulfate-1-1",
+        "802-barium-sulfate-1-2",
+        "803-barium-sulfate-1-3",
+        "804-barium-sulfate-1-4"
+      ],
+      "parameters": {
+        "elements": [
+          "Ba",
+          "Cl",
+          "Na",
+          "S",
+          "C",
+          "O",
+          "H"
+        ],
+        "atol": 1e-10,
+        "rtol": 1e-07
+      }
+    },
+    {
+      "id": "v3-aqueous-selectivity-2",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "805-barium-carbonate-2-1",
+        "806-barium-carbonate-2-2",
+        "807-barium-carbonate-2-3",
+        "808-barium-carbonate-2-4"
+      ],
+      "parameters": {
+        "elements": [
+          "Ba",
+          "Cl",
+          "Na",
+          "S",
+          "C",
+          "O",
+          "H"
+        ],
+        "atol": 1e-10,
+        "rtol": 1e-07
+      }
+    },
+    {
+      "id": "v3-aqueous-selectivity-3",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "809-barium-sulfate-3-1",
+        "810-barium-sulfate-3-2",
+        "811-barium-sulfate-3-3",
+        "812-barium-sulfate-3-4"
+      ],
+      "parameters": {
+        "elements": [
+          "Ba",
+          "Cl",
+          "Na",
+          "S",
+          "C",
+          "O",
+          "H"
+        ],
+        "atol": 1e-10,
+        "rtol": 1e-07
+      }
+    },
+    {
+      "id": "v3-aqueous-selectivity-4",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "813-barium-carbonate-4-1",
+        "814-barium-carbonate-4-2",
+        "815-barium-carbonate-4-3",
+        "816-barium-carbonate-4-4"
+      ],
+      "parameters": {
+        "elements": [
+          "Ba",
+          "Cl",
+          "Na",
+          "S",
+          "C",
+          "O",
+          "H"
+        ],
+        "atol": 1e-10,
+        "rtol": 1e-07
+      }
+    },
+    {
+      "id": "v3-aqueous-selectivity-5",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "817-barium-sulfate-5-1",
+        "818-barium-sulfate-5-2",
+        "819-barium-sulfate-5-3",
+        "820-barium-sulfate-5-4"
+      ],
+      "parameters": {
+        "elements": [
+          "Ba",
+          "Cl",
+          "Na",
+          "S",
+          "C",
+          "O",
+          "H"
+        ],
+        "atol": 1e-10,
+        "rtol": 1e-07
+      }
+    },
+    {
+      "id": "v3-aqueous-selectivity-6",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "821-barium-carbonate-6-1",
+        "822-barium-carbonate-6-2",
+        "823-barium-carbonate-6-3",
+        "824-barium-carbonate-6-4"
+      ],
+      "parameters": {
+        "elements": [
+          "Ba",
+          "Cl",
+          "Na",
+          "S",
+          "C",
+          "O",
+          "H"
+        ],
+        "atol": 1e-10,
+        "rtol": 1e-07
+      }
+    }
+  ]
+}

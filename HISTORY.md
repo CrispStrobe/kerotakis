@@ -12,6 +12,25 @@ it had while it was open, which is why a few numbers appear twice below.
 
 ---
 
+## 2026-09-13
+
+**Post-579 integration and source audit continuation**
+
+- Integrated the separately audited reactive-electrodiffusion solver, exposing
+  homogeneous mass action, migration, electroneutrality and component-flux
+  closure in one focused test envelope.
+- Added persistent electrode state to the additive scene contract and existing
+  vessel UI. Missing potential remains explicitly unavailable; the client does
+  not infer it from net current.
+- Retained all 28 exported Codex models in the browser and placed their power
+  and `fails_at` boundaries inside the existing catalogue, without creating a
+  fourth learner-facing surface.
+- Re-audited the 19 old cleanup candidates. All are inactive and clean, but
+  patch-unique commits remain, so none was deleted.
+- Froze source-fleet v3 before execution: 120 original cases, five families and
+  30 named relations, scheduled as at most four GitHub Actions shards in
+  parallel. Source traceability remains private.
+
 ## 2026-09-11
 
 **Guided catalogue**

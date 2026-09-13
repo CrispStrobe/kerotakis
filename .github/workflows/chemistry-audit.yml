@@ -272,3 +272,72 @@ jobs:
           pattern: chemistry-source-v2-*-${{ github.sha }}
           path: downloaded-evidence-v2
       - run: python3 tools/chemistry-audit/aggregate_source_fleets_2.py downloaded-evidence-v2
+
+  source-fleets-v3:
+    name: Source fleet v3 ${{ matrix.family }}
+    needs: build-cli
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        family:
+          - water-energy
+          - aqueous-selectivity
+          - ionic-conductivity
+          - metal-ligand
+          - organic-equilibrium
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v7
+        with:
+          name: chemistry-audit-cli-${{ github.sha }}
+      - run: chmod +x target/release/kero
+      - name: Validate frozen v3 manifests and analyzer mutations
+        run: |
+          python3 tools/chemistry-audit/source_fleets_3.py --validate
+          python3 tools/chemistry-audit/analyse_source_fleets_3.py --self-test
+          python3 tools/chemistry-audit/generate_source_fleets_3.py --check
+      - name: Record 24 process-isolated v3 experiments
+        run: >-
+          python3 tools/chemistry-audit/source_fleets_3.py
+          --family '${{ matrix.family }}'
+          --binary target/release/kero
+          --out 'audit-evidence-v3/${{ matrix.family }}'
+      - name: Bind the frozen v3 contract and harness to the evidence
+        run: |
+          sha256sum \
+            tools/chemistry-audit/source_fleets_3.py \
+            tools/chemistry-audit/analyse_source_fleets_3.py \
+            tools/chemistry-audit/generate_source_fleets_3.py \
+            tools/chemistry-audit/SOURCE-FLEETS-3.md \
+            tools/chemistry-audit/source-fleets-3/${{ matrix.family }}.json \
+            > 'audit-evidence-v3/${{ matrix.family }}/preflight-sha256.txt'
+      - name: Apply frozen v3 named relations
+        run: >-
+          python3 tools/chemistry-audit/analyse_source_fleets_3.py
+          'audit-evidence-v3/${{ matrix.family }}'
+          --family '${{ matrix.family }}'
+          --out 'audit-evidence-v3/${{ matrix.family }}/${{ matrix.family }}-law-checks.json'
+      - name: Preserve raw v3 successes and failures
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: chemistry-source-v3-${{ matrix.family }}-${{ github.sha }}
+          path: audit-evidence-v3
+          if-no-files-found: error
+          retention-days: 30
+
+  source-fleet-v3-aggregate:
+    name: All 120 source-informed v3 cases
+    if: always()
+    needs: source-fleets-v3
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v7
+        with:
+          pattern: chemistry-source-v3-*-${{ github.sha }}
+          path: downloaded-evidence-v3
+      - run: python3 tools/chemistry-audit/aggregate_source_fleets_3.py downloaded-evidence-v3

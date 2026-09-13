@@ -24,6 +24,7 @@ evidence harnesses, and they are never imported by a crate or the web app.
 | `CONTINUATION.md`, `INTEGRATOR-HANDOFF.md` | Superseded operating state of PR #504, kept as record |
 | `source_fleets.py`, `source-fleets/*.json`, `analyse_source_fleets.py`, `aggregate_source_fleets.py`, `SOURCE-FLEETS.md` | Validator, recorder, named-relation analyzer, aggregate gate and frozen contract for source-informed cases 219–458 |
 | `source_fleets_2.py`, `source-fleets-2/*.json`, `analyse_source_fleets_2.py`, `aggregate_source_fleets_2.py`, `SOURCE-FLEETS-2.md` | Separate privacy-checked contract and GitHub-CI harness for 288 source-informed cases 489–776; it does not mutate the first corpus |
+| `source_fleets_3.py`, `source-fleets-3/*.json`, `analyse_source_fleets_3.py`, `aggregate_source_fleets_3.py`, `SOURCE-FLEETS-3.md` | Frozen 120-case successor for five reviewed private-research candidates, cases 777–896; first execution is GitHub-CI-only |
 | `seventh_batch.py`, `analyse_seventh.py`, `SEVENTH-BATCH.md` | Frozen 30-case regression fleet for ammonia headspace, ester equilibrium, gas tests and pressure/venting (459–488) |
 
 Python standard library only; no new dependency, no external dataset.

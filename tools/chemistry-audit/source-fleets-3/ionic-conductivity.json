@@ -1,0 +1,236 @@
+{
+  "schema": "kerotakis-source-fleet-v3",
+  "family": "ionic-conductivity",
+  "cases": [
+    {
+      "id": "825-conductivity-nacl-150-1",
+      "question": "Within one dilute series, does computed conductivity rise with represented ion amount?",
+      "script": "add v1 water 150mL\nadd v1 NaCl 0.0001mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "826-conductivity-nacl-150-2",
+      "question": "Within one dilute series, does computed conductivity rise with represented ion amount?",
+      "script": "add v1 water 150mL\nadd v1 NaCl 0.00025mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "827-conductivity-nacl-150-3",
+      "question": "Within one dilute series, does computed conductivity rise with represented ion amount?",
+      "script": "add v1 water 150mL\nadd v1 NaCl 0.0005mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "828-conductivity-nacl-150-4",
+      "question": "Within one dilute series, does computed conductivity rise with represented ion amount?",
+      "script": "add v1 water 150mL\nadd v1 NaCl 0.001mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "829-conductivity-kcl-200-1",
+      "question": "Within one dilute series, does computed conductivity rise with represented ion amount?",
+      "script": "add v1 water 200mL\nadd v1 KCl 0.0001mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "830-conductivity-kcl-200-2",
+      "question": "Within one dilute series, does computed conductivity rise with represented ion amount?",
+      "script": "add v1 water 200mL\nadd v1 KCl 0.00025mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "831-conductivity-kcl-200-3",
+      "question": "Within one dilute series, does computed conductivity rise with represented ion amount?",
+      "script": "add v1 water 200mL\nadd v1 KCl 0.0005mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "832-conductivity-kcl-200-4",
+      "question": "Within one dilute series, does computed conductivity rise with represented ion amount?",
+      "script": "add v1 water 200mL\nadd v1 KCl 0.001mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "833-conductivity-cacl2-250-1",
+      "question": "Within one dilute series, does computed conductivity rise with represented ion amount?",
+      "script": "add v1 water 250mL\nadd v1 CaCl2 0.0001mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "834-conductivity-cacl2-250-2",
+      "question": "Within one dilute series, does computed conductivity rise with represented ion amount?",
+      "script": "add v1 water 250mL\nadd v1 CaCl2 0.00025mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "835-conductivity-cacl2-250-3",
+      "question": "Within one dilute series, does computed conductivity rise with represented ion amount?",
+      "script": "add v1 water 250mL\nadd v1 CaCl2 0.0005mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "836-conductivity-cacl2-250-4",
+      "question": "Within one dilute series, does computed conductivity rise with represented ion amount?",
+      "script": "add v1 water 250mL\nadd v1 CaCl2 0.001mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "837-conductivity-nacl-300-1",
+      "question": "Within one dilute series, does computed conductivity rise with represented ion amount?",
+      "script": "add v1 water 300mL\nadd v1 NaCl 0.0001mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "838-conductivity-nacl-300-2",
+      "question": "Within one dilute series, does computed conductivity rise with represented ion amount?",
+      "script": "add v1 water 300mL\nadd v1 NaCl 0.00025mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "839-conductivity-nacl-300-3",
+      "question": "Within one dilute series, does computed conductivity rise with represented ion amount?",
+      "script": "add v1 water 300mL\nadd v1 NaCl 0.0005mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "840-conductivity-nacl-300-4",
+      "question": "Within one dilute series, does computed conductivity rise with represented ion amount?",
+      "script": "add v1 water 300mL\nadd v1 NaCl 0.001mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "841-conductivity-kcl-350-1",
+      "question": "Within one dilute series, does computed conductivity rise with represented ion amount?",
+      "script": "add v1 water 350mL\nadd v1 KCl 0.0001mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "842-conductivity-kcl-350-2",
+      "question": "Within one dilute series, does computed conductivity rise with represented ion amount?",
+      "script": "add v1 water 350mL\nadd v1 KCl 0.00025mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "843-conductivity-kcl-350-3",
+      "question": "Within one dilute series, does computed conductivity rise with represented ion amount?",
+      "script": "add v1 water 350mL\nadd v1 KCl 0.0005mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "844-conductivity-kcl-350-4",
+      "question": "Within one dilute series, does computed conductivity rise with represented ion amount?",
+      "script": "add v1 water 350mL\nadd v1 KCl 0.001mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "845-conductivity-cacl2-400-1",
+      "question": "Within one dilute series, does computed conductivity rise with represented ion amount?",
+      "script": "add v1 water 400mL\nadd v1 CaCl2 0.0001mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "846-conductivity-cacl2-400-2",
+      "question": "Within one dilute series, does computed conductivity rise with represented ion amount?",
+      "script": "add v1 water 400mL\nadd v1 CaCl2 0.00025mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "847-conductivity-cacl2-400-3",
+      "question": "Within one dilute series, does computed conductivity rise with represented ion amount?",
+      "script": "add v1 water 400mL\nadd v1 CaCl2 0.0005mol\nmeasure v1 conductivity"
+    },
+    {
+      "id": "848-conductivity-cacl2-400-4",
+      "question": "Within one dilute series, does computed conductivity rise with represented ion amount?",
+      "script": "add v1 water 400mL\nadd v1 CaCl2 0.001mol\nmeasure v1 conductivity"
+    }
+  ],
+  "relations": [
+    {
+      "id": "v3-ionic-conductivity-1",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "825-conductivity-nacl-150-1",
+        "826-conductivity-nacl-150-2",
+        "827-conductivity-nacl-150-3",
+        "828-conductivity-nacl-150-4"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 1e-08
+      }
+    },
+    {
+      "id": "v3-ionic-conductivity-2",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "829-conductivity-kcl-200-1",
+        "830-conductivity-kcl-200-2",
+        "831-conductivity-kcl-200-3",
+        "832-conductivity-kcl-200-4"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 1e-08
+      }
+    },
+    {
+      "id": "v3-ionic-conductivity-3",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "833-conductivity-cacl2-250-1",
+        "834-conductivity-cacl2-250-2",
+        "835-conductivity-cacl2-250-3",
+        "836-conductivity-cacl2-250-4"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 1e-08
+      }
+    },
+    {
+      "id": "v3-ionic-conductivity-4",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "837-conductivity-nacl-300-1",
+        "838-conductivity-nacl-300-2",
+        "839-conductivity-nacl-300-3",
+        "840-conductivity-nacl-300-4"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 1e-08
+      }
+    },
+    {
+      "id": "v3-ionic-conductivity-5",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "841-conductivity-kcl-350-1",
+        "842-conductivity-kcl-350-2",
+        "843-conductivity-kcl-350-3",
+        "844-conductivity-kcl-350-4"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 1e-08
+      }
+    },
+    {
+      "id": "v3-ionic-conductivity-6",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "845-conductivity-cacl2-400-1",
+        "846-conductivity-cacl2-400-2",
+        "847-conductivity-cacl2-400-3",
+        "848-conductivity-cacl2-400-4"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 1e-08
+      }
+    }
+  ]
+}
