@@ -61,14 +61,14 @@ def aqueous_selectivity(start: int) -> dict:
                      f"add v1 {salt} {dose:g}mol"]
             if group >= 2:
                 lines.append(f"add v1 HCl {0.0002 * (group - 1):g}mol")
-            lines.append("inspect v1")
+            lines.extend(("new", "filter v1 v2"))
             row = case(number, f"barium-{label}-{group+1}-{offset+1}",
                        "Do defined sulfate and carbonate controls conserve every introduced element across aqueous and solid phases?",
                        *lines)
             rows.append(row); block.append(row)
         rels.append(relation(f"v3-aqueous-selectivity-{group+1}", block,
                              "case-elements-conserved", elements=["Ba", "Cl", "Na", "S", "C", "O", "H"],
-                             atol=1e-10, rtol=1e-7))
+                             before_op="filter", atol=1e-10, rtol=1e-7))
     return grouped("aqueous-selectivity", rows, rels)
 
 
@@ -101,8 +101,7 @@ def metal_ligand(start: int) -> dict:
             lines = [f"add v1 water {200 + group * 25}mL",
                      f"add v1 FeCl3 {0.0002 + group * 0.00005:g}mol",
                      f"add v1 KSCN {ligand:g}mol"]
-            if group >= 3:
-                lines.append(f"heat v1 {25 * (group - 2)}J")
+            lines.append(f"heat v1 {25 * (group + 1)}J")
             lines.append("inspect v1")
             row = case(number, f"metal-ligand-{group+1}-{offset+1}",
                        "Which parts of a metal-ligand perturbation are computed, and where does the model state a boundary?",
@@ -110,7 +109,7 @@ def metal_ligand(start: int) -> dict:
             rows.append(row); block.append(row)
         rels.append(relation(f"v3-metal-ligand-{group+1}", block,
                              "case-elements-conserved", elements=["Fe", "Cl", "K", "S", "C", "N", "O", "H"],
-                             atol=1e-10, rtol=1e-7))
+                             before_op="heat", atol=1e-10, rtol=1e-7))
     return grouped("metal-ligand", rows, rels)
 
 
@@ -132,7 +131,7 @@ def organic_equilibrium(start: int) -> dict:
             rows.append(row); block.append(row)
         rels.append(relation(f"v3-organic-equilibrium-{group+1}", block,
                              "case-elements-conserved", elements=["C", "H", "O"],
-                             atol=1e-10, rtol=1e-7))
+                             before_op="react", atol=1e-10, rtol=1e-7))
     return grouped("organic-equilibrium", rows, rels)
 
 

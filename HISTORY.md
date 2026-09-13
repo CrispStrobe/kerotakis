@@ -29,7 +29,9 @@ it had while it was open, which is why a few numbers appear twice below.
   patch-unique commits remain, so none was deleted.
 - Froze source-fleet v3 before execution: 120 original cases, five families and
   30 named relations, scheduled as at most four GitHub Actions shards in
-  parallel. Source traceability remains private.
+  parallel. The first run executed every script cleanly; 18 relations exposed a
+  missing operation boundary in the new manifests, repaired without changing a
+  tolerance or scientific expectation. Source traceability remains private.
 
 ## 2026-09-11
 

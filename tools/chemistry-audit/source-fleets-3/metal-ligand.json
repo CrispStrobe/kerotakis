@@ -5,122 +5,122 @@
     {
       "id": "849-metal-ligand-1-1",
       "question": "Which parts of a metal-ligand perturbation are computed, and where does the model state a boundary?",
-      "script": "add v1 water 200mL\nadd v1 FeCl3 0.0002mol\nadd v1 KSCN 5e-05mol\ninspect v1"
+      "script": "add v1 water 200mL\nadd v1 FeCl3 0.0002mol\nadd v1 KSCN 5e-05mol\nheat v1 25J\ninspect v1"
     },
     {
       "id": "850-metal-ligand-1-2",
       "question": "Which parts of a metal-ligand perturbation are computed, and where does the model state a boundary?",
-      "script": "add v1 water 200mL\nadd v1 FeCl3 0.0002mol\nadd v1 KSCN 0.0001mol\ninspect v1"
+      "script": "add v1 water 200mL\nadd v1 FeCl3 0.0002mol\nadd v1 KSCN 0.0001mol\nheat v1 25J\ninspect v1"
     },
     {
       "id": "851-metal-ligand-1-3",
       "question": "Which parts of a metal-ligand perturbation are computed, and where does the model state a boundary?",
-      "script": "add v1 water 200mL\nadd v1 FeCl3 0.0002mol\nadd v1 KSCN 0.00025mol\ninspect v1"
+      "script": "add v1 water 200mL\nadd v1 FeCl3 0.0002mol\nadd v1 KSCN 0.00025mol\nheat v1 25J\ninspect v1"
     },
     {
       "id": "852-metal-ligand-1-4",
       "question": "Which parts of a metal-ligand perturbation are computed, and where does the model state a boundary?",
-      "script": "add v1 water 200mL\nadd v1 FeCl3 0.0002mol\nadd v1 KSCN 0.0005mol\ninspect v1"
+      "script": "add v1 water 200mL\nadd v1 FeCl3 0.0002mol\nadd v1 KSCN 0.0005mol\nheat v1 25J\ninspect v1"
     },
     {
       "id": "853-metal-ligand-2-1",
       "question": "Which parts of a metal-ligand perturbation are computed, and where does the model state a boundary?",
-      "script": "add v1 water 225mL\nadd v1 FeCl3 0.00025mol\nadd v1 KSCN 5e-05mol\ninspect v1"
+      "script": "add v1 water 225mL\nadd v1 FeCl3 0.00025mol\nadd v1 KSCN 5e-05mol\nheat v1 50J\ninspect v1"
     },
     {
       "id": "854-metal-ligand-2-2",
       "question": "Which parts of a metal-ligand perturbation are computed, and where does the model state a boundary?",
-      "script": "add v1 water 225mL\nadd v1 FeCl3 0.00025mol\nadd v1 KSCN 0.0001mol\ninspect v1"
+      "script": "add v1 water 225mL\nadd v1 FeCl3 0.00025mol\nadd v1 KSCN 0.0001mol\nheat v1 50J\ninspect v1"
     },
     {
       "id": "855-metal-ligand-2-3",
       "question": "Which parts of a metal-ligand perturbation are computed, and where does the model state a boundary?",
-      "script": "add v1 water 225mL\nadd v1 FeCl3 0.00025mol\nadd v1 KSCN 0.00025mol\ninspect v1"
+      "script": "add v1 water 225mL\nadd v1 FeCl3 0.00025mol\nadd v1 KSCN 0.00025mol\nheat v1 50J\ninspect v1"
     },
     {
       "id": "856-metal-ligand-2-4",
       "question": "Which parts of a metal-ligand perturbation are computed, and where does the model state a boundary?",
-      "script": "add v1 water 225mL\nadd v1 FeCl3 0.00025mol\nadd v1 KSCN 0.0005mol\ninspect v1"
+      "script": "add v1 water 225mL\nadd v1 FeCl3 0.00025mol\nadd v1 KSCN 0.0005mol\nheat v1 50J\ninspect v1"
     },
     {
       "id": "857-metal-ligand-3-1",
       "question": "Which parts of a metal-ligand perturbation are computed, and where does the model state a boundary?",
-      "script": "add v1 water 250mL\nadd v1 FeCl3 0.0003mol\nadd v1 KSCN 5e-05mol\ninspect v1"
+      "script": "add v1 water 250mL\nadd v1 FeCl3 0.0003mol\nadd v1 KSCN 5e-05mol\nheat v1 75J\ninspect v1"
     },
     {
       "id": "858-metal-ligand-3-2",
       "question": "Which parts of a metal-ligand perturbation are computed, and where does the model state a boundary?",
-      "script": "add v1 water 250mL\nadd v1 FeCl3 0.0003mol\nadd v1 KSCN 0.0001mol\ninspect v1"
+      "script": "add v1 water 250mL\nadd v1 FeCl3 0.0003mol\nadd v1 KSCN 0.0001mol\nheat v1 75J\ninspect v1"
     },
     {
       "id": "859-metal-ligand-3-3",
       "question": "Which parts of a metal-ligand perturbation are computed, and where does the model state a boundary?",
-      "script": "add v1 water 250mL\nadd v1 FeCl3 0.0003mol\nadd v1 KSCN 0.00025mol\ninspect v1"
+      "script": "add v1 water 250mL\nadd v1 FeCl3 0.0003mol\nadd v1 KSCN 0.00025mol\nheat v1 75J\ninspect v1"
     },
     {
       "id": "860-metal-ligand-3-4",
       "question": "Which parts of a metal-ligand perturbation are computed, and where does the model state a boundary?",
-      "script": "add v1 water 250mL\nadd v1 FeCl3 0.0003mol\nadd v1 KSCN 0.0005mol\ninspect v1"
+      "script": "add v1 water 250mL\nadd v1 FeCl3 0.0003mol\nadd v1 KSCN 0.0005mol\nheat v1 75J\ninspect v1"
     },
     {
       "id": "861-metal-ligand-4-1",
       "question": "Which parts of a metal-ligand perturbation are computed, and where does the model state a boundary?",
-      "script": "add v1 water 275mL\nadd v1 FeCl3 0.00035mol\nadd v1 KSCN 5e-05mol\nheat v1 25J\ninspect v1"
+      "script": "add v1 water 275mL\nadd v1 FeCl3 0.00035mol\nadd v1 KSCN 5e-05mol\nheat v1 100J\ninspect v1"
     },
     {
       "id": "862-metal-ligand-4-2",
       "question": "Which parts of a metal-ligand perturbation are computed, and where does the model state a boundary?",
-      "script": "add v1 water 275mL\nadd v1 FeCl3 0.00035mol\nadd v1 KSCN 0.0001mol\nheat v1 25J\ninspect v1"
+      "script": "add v1 water 275mL\nadd v1 FeCl3 0.00035mol\nadd v1 KSCN 0.0001mol\nheat v1 100J\ninspect v1"
     },
     {
       "id": "863-metal-ligand-4-3",
       "question": "Which parts of a metal-ligand perturbation are computed, and where does the model state a boundary?",
-      "script": "add v1 water 275mL\nadd v1 FeCl3 0.00035mol\nadd v1 KSCN 0.00025mol\nheat v1 25J\ninspect v1"
+      "script": "add v1 water 275mL\nadd v1 FeCl3 0.00035mol\nadd v1 KSCN 0.00025mol\nheat v1 100J\ninspect v1"
     },
     {
       "id": "864-metal-ligand-4-4",
       "question": "Which parts of a metal-ligand perturbation are computed, and where does the model state a boundary?",
-      "script": "add v1 water 275mL\nadd v1 FeCl3 0.00035mol\nadd v1 KSCN 0.0005mol\nheat v1 25J\ninspect v1"
+      "script": "add v1 water 275mL\nadd v1 FeCl3 0.00035mol\nadd v1 KSCN 0.0005mol\nheat v1 100J\ninspect v1"
     },
     {
       "id": "865-metal-ligand-5-1",
       "question": "Which parts of a metal-ligand perturbation are computed, and where does the model state a boundary?",
-      "script": "add v1 water 300mL\nadd v1 FeCl3 0.0004mol\nadd v1 KSCN 5e-05mol\nheat v1 50J\ninspect v1"
+      "script": "add v1 water 300mL\nadd v1 FeCl3 0.0004mol\nadd v1 KSCN 5e-05mol\nheat v1 125J\ninspect v1"
     },
     {
       "id": "866-metal-ligand-5-2",
       "question": "Which parts of a metal-ligand perturbation are computed, and where does the model state a boundary?",
-      "script": "add v1 water 300mL\nadd v1 FeCl3 0.0004mol\nadd v1 KSCN 0.0001mol\nheat v1 50J\ninspect v1"
+      "script": "add v1 water 300mL\nadd v1 FeCl3 0.0004mol\nadd v1 KSCN 0.0001mol\nheat v1 125J\ninspect v1"
     },
     {
       "id": "867-metal-ligand-5-3",
       "question": "Which parts of a metal-ligand perturbation are computed, and where does the model state a boundary?",
-      "script": "add v1 water 300mL\nadd v1 FeCl3 0.0004mol\nadd v1 KSCN 0.00025mol\nheat v1 50J\ninspect v1"
+      "script": "add v1 water 300mL\nadd v1 FeCl3 0.0004mol\nadd v1 KSCN 0.00025mol\nheat v1 125J\ninspect v1"
     },
     {
       "id": "868-metal-ligand-5-4",
       "question": "Which parts of a metal-ligand perturbation are computed, and where does the model state a boundary?",
-      "script": "add v1 water 300mL\nadd v1 FeCl3 0.0004mol\nadd v1 KSCN 0.0005mol\nheat v1 50J\ninspect v1"
+      "script": "add v1 water 300mL\nadd v1 FeCl3 0.0004mol\nadd v1 KSCN 0.0005mol\nheat v1 125J\ninspect v1"
     },
     {
       "id": "869-metal-ligand-6-1",
       "question": "Which parts of a metal-ligand perturbation are computed, and where does the model state a boundary?",
-      "script": "add v1 water 325mL\nadd v1 FeCl3 0.00045mol\nadd v1 KSCN 5e-05mol\nheat v1 75J\ninspect v1"
+      "script": "add v1 water 325mL\nadd v1 FeCl3 0.00045mol\nadd v1 KSCN 5e-05mol\nheat v1 150J\ninspect v1"
     },
     {
       "id": "870-metal-ligand-6-2",
       "question": "Which parts of a metal-ligand perturbation are computed, and where does the model state a boundary?",
-      "script": "add v1 water 325mL\nadd v1 FeCl3 0.00045mol\nadd v1 KSCN 0.0001mol\nheat v1 75J\ninspect v1"
+      "script": "add v1 water 325mL\nadd v1 FeCl3 0.00045mol\nadd v1 KSCN 0.0001mol\nheat v1 150J\ninspect v1"
     },
     {
       "id": "871-metal-ligand-6-3",
       "question": "Which parts of a metal-ligand perturbation are computed, and where does the model state a boundary?",
-      "script": "add v1 water 325mL\nadd v1 FeCl3 0.00045mol\nadd v1 KSCN 0.00025mol\nheat v1 75J\ninspect v1"
+      "script": "add v1 water 325mL\nadd v1 FeCl3 0.00045mol\nadd v1 KSCN 0.00025mol\nheat v1 150J\ninspect v1"
     },
     {
       "id": "872-metal-ligand-6-4",
       "question": "Which parts of a metal-ligand perturbation are computed, and where does the model state a boundary?",
-      "script": "add v1 water 325mL\nadd v1 FeCl3 0.00045mol\nadd v1 KSCN 0.0005mol\nheat v1 75J\ninspect v1"
+      "script": "add v1 water 325mL\nadd v1 FeCl3 0.00045mol\nadd v1 KSCN 0.0005mol\nheat v1 150J\ninspect v1"
     }
   ],
   "relations": [
@@ -145,6 +145,7 @@
           "O",
           "H"
         ],
+        "before_op": "heat",
         "atol": 1e-10,
         "rtol": 1e-07
       }
@@ -170,6 +171,7 @@
           "O",
           "H"
         ],
+        "before_op": "heat",
         "atol": 1e-10,
         "rtol": 1e-07
       }
@@ -195,6 +197,7 @@
           "O",
           "H"
         ],
+        "before_op": "heat",
         "atol": 1e-10,
         "rtol": 1e-07
       }
@@ -220,6 +223,7 @@
           "O",
           "H"
         ],
+        "before_op": "heat",
         "atol": 1e-10,
         "rtol": 1e-07
       }
@@ -245,6 +249,7 @@
           "O",
           "H"
         ],
+        "before_op": "heat",
         "atol": 1e-10,
         "rtol": 1e-07
       }
@@ -270,6 +275,7 @@
           "O",
           "H"
         ],
+        "before_op": "heat",
         "atol": 1e-10,
         "rtol": 1e-07
       }
