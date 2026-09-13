@@ -255,15 +255,17 @@ it had while it was open, which is why a few numbers appear twice below.
     doi:10.1016/j.apgeochem.2014.11.007. What it taught:
     - **The cost had to be measured, and it is not one solve per step.**
       `kero prewarm lessons/*.lab` — 113 lessons,
-      1333 steps, plus five R1 scenarios — cost **17 extra engine calls
-      out of 715, or 2.4 %**, and grew the shipped cache by the same 17
-      entries (667 to 684, ~24 kB on 955 kB). The figure is exact rather
+      1333 steps, plus five R1 scenarios — cost **52 extra engine calls
+      out of 750, or 7.4 %**, and grew the shipped cache by the same 52
+      entries (667 to 719, ~33 kB on 955 kB). The figure is exact rather
       than differenced between builds, because a second solve does not
-      mutate the vessel and so cannot change which main solves happen.
-      **6 of the 23 solvent questions were answered from the cache for
-      nothing**, which is what the lean problem buys: it drops everything
-      about a vessel that does not change its solution's composition, so
-      two steps differing only in undissolved solid ask one question. The
+      mutate the vessel and so cannot change which main solves happen —
+      and an earlier run with the feature mostly declining measured the
+      same 698 underneath it. **10 of the 62 solvent questions were
+      answered from the cache for nothing**, which is what the lean
+      problem buys. Whether 7.4 % is worth 0.020 K turns on the engine not
+      being the bottleneck: the whole 113-lesson replay is eighteen
+      seconds of CPU, so this is a second of it, once, at build time. The
       counters are `PhreeqcEquilibrator::solvent_activity_solves()` and
       `kero prewarm` prints them, so the next person re-measures instead
       of trusting this paragraph.

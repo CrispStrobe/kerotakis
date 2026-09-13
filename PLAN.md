@@ -1919,22 +1919,32 @@ Open, and small:
       every shipped lesson through the real engine, which is the most
       representative script set this repository has: **113 lessons, 1333
       steps**, plus the five R1 acceptance scenarios. On that run the
-      second opinion cost **17 engine calls out of 715**, so the engine
-      work grew by **2.4 %** — 698 calls before, 715 after, and the
-      difference is exact rather than differenced between two builds
-      because the second solve is purely additive: it does not mutate the
-      vessel, so it cannot change which main solves happen. A further
-      **6 of the 23 solvent questions asked were free**, answered from the
-      content-addressed cache, which is the lean problem earning its keep:
-      it drops everything about a vessel that does not change its
-      solution's composition, so steps that differ only in undissolved
-      solid ask the same question twice and pay once. The shipped cache
-      grew by the same 17 entries, 667 to 684, about 24 kB on 955 kB. The
-      whole prewarm took 28.8 s wall and 18.2 s of user CPU on a loaded
-      four-core box, of which the second opinions are the same 2.4 %,
-      roughly four tenths of a second — but the call count is the figure
-      to quote, because a wall clock measured under contention is not
-      reproducible and a count is.
+      second opinion cost **52 engine calls out of 750**, so the engine
+      work grew by **7.4 %** — 698 calls before, 750 after. The difference
+      is exact rather than differenced between two builds, because a
+      second solve does not mutate the vessel and so cannot change which
+      main solves happen; an earlier run of the same script set, with the
+      feature mostly declining, measured the same 698 underneath it, which
+      is the cross-check. A further **10 of the 62 solvent questions asked
+      were free**, answered from the content-addressed cache — the lean
+      problem earning its keep, since it drops everything about a vessel
+      that does not change its solution's composition. The shipped cache
+      grew by the same 52 entries, 667 to 719, about 33 kB on 955 kB. The
+      whole prewarm took 40 s wall and 18.2 s of user CPU on a loaded
+      four-core box; the call count is the figure to quote, because a wall
+      clock measured under contention is not reproducible and a count is.
+
+      **Is 7.4 % worth 0.020 K? Yes, and the argument is that the engine
+      is not the bottleneck.** Replaying every lesson this bench ships
+      costs eighteen seconds of CPU in total, and this feature is 7 % of
+      that — a second and a third, once, at build time, for the whole
+      corpus. On a bench step it is one extra solve on a vessel that was
+      already doing one. What it buys is the dilute half of the
+      colligative answer, which is the half a learner is most likely to
+      meet. If the engine ever does become the bottleneck the counters are
+      already there to find this again:
+      `PhreeqcEquilibrator::solvent_activity_solves()`, printed by
+      `kero prewarm`.
 
       **It is conditional, and that is deliberate.** An unconditional
       second solve would pay for solutions already on `pitzer` (the same
