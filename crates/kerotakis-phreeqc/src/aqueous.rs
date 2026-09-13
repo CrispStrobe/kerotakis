@@ -3192,9 +3192,13 @@ impl PhreeqcEquilibrator {
     /// `1 - 0.017*Sum(m)` placeholder, which carries no information about
     /// what is dissolved. `states::SolventActivity` therefore declines it
     /// and Raoult's law stands in, which put a tenth-molal brine at
-    /// -0.371 °C against a measured -0.346 — seven per cent optimistic, in
-    /// the same direction and for the same reason the dilute law was at one
-    /// molal before 2026-09-11 fixed the concentrated end.
+    /// -0.371 °C: a dissolved salt's whole effect on its solvent taken as
+    /// a mole-fraction correction, with nothing in it about the salt. That
+    /// is the same defect, in the same direction and for the same reason,
+    /// as the one at one molal that 2026-09-11 fixed at the concentrated
+    /// end. No measured value is quoted here or asserted anywhere in this
+    /// feature's tests; `colligative_numbers.rs` says why, and PLAN.md
+    /// records the world-facing anchor as still owed.
     ///
     /// So the gap is not in the chemistry and does not want the chemistry
     /// re-solved. It is one number, and this asks one dataset for it.
@@ -3271,8 +3275,32 @@ impl PhreeqcEquilibrator {
             || !problem.exchanges.is_empty()
             || !problem.solid_solutions.is_empty()
             || !problem.gases.is_empty()
-            || !problem.external_gases.is_empty()
             || problem.solvent_only
+        {
+            return None;
+        }
+        // An external gas RESERVOIR is not a reason to decline, and reading
+        // it as one is what made the first version of this feature fire on
+        // almost nothing. `partition` gives every OPEN vessel an
+        // atmospheric reservoir — `O2(g)` unconditionally, because its
+        // element requirement outside H and O is empty and therefore
+        // vacuously met — so "no external gases" meant "not an open
+        // beaker", which is most of this bench. The reservoir is a phase
+        // offered holding ZERO moles: PHREEQC can precipitate into it and
+        // cannot dissolve from it, so it can only take matter OUT, and
+        // anything it took out shows up as a positive amount in the phase
+        // check below. Uptake from the room does not come through it at
+        // all — `GasExchangeClock` sizes that and `partition` has already
+        // put it in the element totals this lean problem is posed from.
+        //
+        // A DOSE is different and is still declined. A finite dose is
+        // carried in `phases` with its moles, not in `totals`, so stripping
+        // the phase list would silently delete matter that may have gone
+        // into solution.
+        if problem
+            .external_gases
+            .iter()
+            .any(|gas| !matches!(gas.kind, ExternalGasKind::Reservoir))
         {
             return None;
         }
@@ -3280,8 +3308,13 @@ impl PhreeqcEquilibrator {
         if !problem.elements.iter().all(|el| brine.has_element(el)) {
             return None;
         }
-        // A solid that survived the solve means the solution is saturated
-        // against it, and the lean problem has nowhere to put the excess.
+        // A phase that came out of the solve holding matter is a phase the
+        // lean problem has nowhere to put. For a mineral that means the
+        // solution is saturated against it and its dissolved totals are not
+        // its input totals; for an atmospheric reservoir it means gas left
+        // the liquid within the step. Either way the lean problem, which
+        // has no phases at all, would be posed from totals that are not the
+        // solution's — so it is not asked.
         if problem
             .phases
             .iter()
