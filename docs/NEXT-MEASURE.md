@@ -32,7 +32,9 @@ characterisation, it is a count.
 |---|---:|---|
 | Curiosity corpus (`tests/coverage/curiosity-v1`) | 500 | A route of at least the declared strength produced an answer |
 | Semantic catalog assertions (`docs/SEMANTIC-ASSERTIONS.md`) | per-reaction | A relation between two values **the engine itself produced** |
-| Source-informed fleets (`tools/chemistry-audit/source-fleets*`) | 856 | A relation between two **engine runs** |
+| Chemistry-audit fleets (`tools/chemistry-audit/`) | 896 | A relation between two **engine runs** |
+| Differential oracle (`crates/kerotakis-phreeqc/tests/oracle/expected/`) | 10 | Agreement with **stock PHREEQC** — a second implementation of the same model |
+| Metamorphic invariants (`crates/kerotakis-cli/tests/metamorphic.rs`) | — | A relation between two **engine runs** |
 
 The fleet analyser is the clearest case. `analyse_source_fleets.py` admits
 exactly four relation kinds — `conservation`, `independent-law`,
@@ -47,8 +49,36 @@ distance.
 is `equal`, `increasing`, `decreasing`, `conserved`, `unchanged`, or `ratio`.
 There is no kind that takes a number from outside the repository.
 
-**So: 856 frozen fleet cases, 500 corpus prompts, and a per-reaction assertion
-language, and not one of them compares a computed value to a published one.**
+The fleets do compare numbers, and carefully — `min_delta: 0.2` on an ordered
+pH series, `atol 0.03` on an intensive buffer pH, `atol 1e-9, rtol 1e-7` on an
+inventory. The numbers on both sides of every one of those comparisons come
+out of this engine.
+
+The differential oracle is the closest thing to an outside check, and it is
+worth being exact about what it is: `tests/oracle/expected/*.json` holds ten
+fixtures whose `oracle` field reads, for example, *"MY-BASIC adapter (values
+captured from legacy oracle during development)"*. It compares the engine to a
+different implementation of the same model. That catches adapter bugs. It
+cannot catch a model that is wrong, because the reference shares the error.
+
+**So: 896 frozen fleet cases, 500 corpus prompts, a per-reaction assertion
+language and ten oracle fixtures, and not one of them compares a computed
+value to a measured one.**
+
+The repository already says this, in the place it matters most. The
+disposition enum's own documentation
+(`crates/kerotakis-codex/src/curiosity.rs:105-120`):
+
+> **It is about the ROUTE, not about the ANSWER.** This is the load-bearing
+> sentence and the one most often forgotten. A disposition says which part of
+> the bench spoke. It says nothing whatever about whether the PROMPT's
+> question was answered.
+
+The corpus README states the same omission as a design decision: it
+*"deliberately excludes rendered prose, numerical solver details, and route
+timing."* Grepping `crates/kerotakis-cli/src/coverage.rs` — all 1,157 lines of
+the actual grader — for `f64`, `abs(`, `tolerance`, `atol` or `rtol` returns
+only comment prose. **There is no numeric comparison in the grader at all.**
 
 ### The brine defect, and why nothing caught it
 
@@ -164,11 +194,53 @@ reports. A case is `{id, question, script}` JSON under a declared schema
 `tolerance_reason` and `source_id` to that record is the whole data-model
 change.** The runner, the freezing, the sharding and the CI workflow are done.
 
-`crates/kerotakis-phreeqc/tests/colligative_numbers.rs` is a hand-built
-instance of exactly this pattern for one quantity, and `docs/SEMANTIC-
-ASSERTIONS.md` describes an assertion language that is one `kind` short — it
-has `equal`, `increasing`, `decreasing`, `conserved`, `unchanged`, `ratio`,
-and no kind that takes an external number.
+**The row format already exists, in production, with the right fields.**
+`crates/kerotakis-phreeqc/tests/oracle/expected/simple_kinetics.json`:
+
+```json
+{
+  "description": "Simple first-order decay: rate=0.5*M*TIME, 0.5s step",
+  "oracle": "MY-BASIC adapter (values captured from legacy oracle during development)",
+  "observables": {
+    "k_Decay": {
+      "value": 0.7788,
+      "absolute_tolerance": 0.00005,
+      "notes": "Runge-Kutta integration of rate=0.5*M*TIME over 0.5s"
+    }
+  }
+}
+```
+
+That is a value, a per-observable tolerance, a justification and a provenance
+field, loaded by `crates/kerotakis-phreeqc/tests/differential_oracle.rs` and
+`kinetics_trajectory_oracle.rs`. **The schema this option needs is already
+written and already running.** `tools/oracle/README.md` (LIC-010) even
+specifies the promotion contract — *"approved oracle facts (numerical values,
+tolerances) are copied to `crates/*/tests/oracle/expected/` as reviewed test
+fixtures"* — and rules that oracle jobs run on demand in a licensed
+environment, never in CI.
+
+What is missing is not machinery. **It is a supply of values whose provenance
+is a measurement rather than another implementation of the same model.**
+
+Two further pieces are already built and unused: 946 lines of external-oracle
+tooling (`tools/vle-oracle.py`, `kinetics-oracle.py`, `surface-oracle.py`,
+`check-properties-vs-chempy.py`, `check-relations-vs-chempy.py`) that compare
+against ChemPy and reference data, run by neither `tools/preflight.sh` nor CI;
+and `crates/kerotakis-phreeqc/tests/colligative_numbers.rs`, a hand-built
+instance of exactly this pattern for one quantity.
+
+`docs/SEMANTIC-ASSERTIONS.md` describes an assertion language that is one
+`kind` short — it has `equal`, `increasing`, `decreasing`, `conserved`,
+`unchanged`, `ratio`, and no kind that takes an external number.
+
+**And the policy already exists.** `CAPABILITIES.md` §2 requires, of every
+capability task: *"new solver paths get the conservation and metamorphic
+invariants (order-independence, dilution monotonicity, scale invariance) plus
+at least one golden test against a textbook value."* The last clause is Option
+A, already mandated. Nothing counts those golden tests, nothing gates on them,
+and the brine shipped without one. **This option is not a new measure. It is
+making an existing rule measurable.**
 
 ### What it would cost
 
