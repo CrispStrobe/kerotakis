@@ -155,6 +155,24 @@ pub fn advance_with_electrochemistry(
         }
     }
     let report = report.expect("the standard clock always contains curated kinetics");
+    if let Some(segment) = report.segments.last() {
+        let electrode = trial
+            .electrodes
+            .iter_mut()
+            .find(|electrode| electrode.label == config.electrode_label)
+            .expect("the electrochemical advance validated the named electrode");
+        electrode.diagnostics = Some(crate::compartment::ElectrodeDiagnostics {
+            seconds: segment.seconds,
+            balance: segment.balance.clone(),
+            interfacial_conditions: segment.interfacial_conditions.clone(),
+            applied_parameters: segment.applied_parameters.clone(),
+            inventory_limited: segment.inventory_limited,
+            boundary: report
+                .boundary
+                .as_ref()
+                .map(|boundary| format!("{boundary:?}")),
+        });
+    }
     *vessel = trial;
     events.extend(trial_events);
     Ok(report)

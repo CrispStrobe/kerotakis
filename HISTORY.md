@@ -36,6 +36,16 @@ it had while it was open, which is why a few numbers appear twice below.
   cleared the distinct-concept evidence bar. Source traceability remains
   private.
 
+**Electrode diagnostic authority follow-up**
+
+- Persisted the final committed electrochemical clock segment on its electrode
+  and projected its potentials, partial currents, parameter records, surface
+  activities, transport/inventory limits, parameter frames, envelopes and
+  uncertainty through the existing vessel readout. Rollback leaves no stale
+  diagnostic. Whole-curve fit and film diagnostics are explicitly unavailable
+  because the runtime report does not yet own those results; the browser does
+  not infer them.
+
 ## 2026-09-11
 
 **Guided catalogue**

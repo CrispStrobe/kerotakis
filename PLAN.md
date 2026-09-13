@@ -136,6 +136,17 @@ resume immutable CI-backed source fleets and promote only distinct supported
 concepts; finally produce an evidence-based worktree cleanup manifest. Heavy
 fleet and workspace validation runs on GitHub Actions, not the deployment VPS.
 
+The integration pass and its bounded diagnostic follow-up are complete. The
+last committed runtime electrochemical report is persisted on the electrode
+and projected through the existing vessel authority readout: terminal and
+interface potential, partial currents and record IDs, surface/bulk activities,
+transport depletion, parameter frame, bounds and uncertainty, inventory limit
+and solver boundary. Whole-curve fit diagnostics and resolved film resistance
+are not members of that runtime report, so the GUI says they are unavailable
+instead of reconstructing them. Supplying either requires a future typed
+engine-report extension backed by the corresponding solve, not a client-side
+estimate.
+
 Open circuit remains zero net external current, not zero partial currents.
 Never infer isolated branches from net current, digitize plots for runtime
 coefficients, tune discrepancies away, or borrow parameters across materials,

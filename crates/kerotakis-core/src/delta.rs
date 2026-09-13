@@ -855,6 +855,7 @@ mod tests {
             double_layer_capacitance_f_per_m2: None,
             interfacial_potential_v: None,
             interfacial_species: Vec::new(),
+            diagnostics: None,
             deposits: Vec::new(),
         }
     }

@@ -2921,6 +2921,26 @@
         {#each electrode.surface_species ?? [] as state (state.reaction_id + state.species)}
           <span>{t(state.species)} @ {t(state.reaction_id)}: {state.concentration_mol_per_m3.toPrecision(4)} mol/m³</span>
         {/each}
+        {#if electrode.diagnostics}
+          <span>{t("terminal / interface potential")}: {electrode.diagnostics.balance.terminal_potential_v.toFixed(4)} / {electrode.diagnostics.balance.electrode_potential_v.toFixed(4)} V</span>
+          {#each electrode.diagnostics.balance.partial_currents as partial (partial.reaction_id)}
+            <span data-partial-current={partial.reaction_id}>{t(partial.reaction_id)}: {partial.current_density_a_per_m2.toPrecision(4)} A/m²{partial.parameter_record_id ? ` · ${partial.parameter_record_id}` : ""}</span>
+          {/each}
+          {#each electrode.diagnostics.interfacial_conditions as condition (condition.reaction_id + condition.species)}
+            <span data-surface-activity={condition.species}>{t(condition.species)} a<sub>s</sub> {condition.surface_activity.toPrecision(4)} / a<sub>b</sub> {condition.bulk_activity.toPrecision(4)}{condition.depleted_at_surface ? ` · ${t("transport limited")}` : ""}</span>
+          {/each}
+          {#each electrode.diagnostics.applied_parameters as parameters (parameters.reaction_id)}
+            <em data-potential-frame={parameters.nominal.transition_potential_frame?.kind ?? "overpotential"}>
+              {t("potential frame")}: {t(parameters.nominal.transition_potential_frame?.kind ?? "overpotential")}
+              · {t("parameter bounds")}: {parameters.parameter_envelope || parameters.directional_tafel_envelope ? t("available") : t("not available")}
+              {parameters.relative_uncertainty != null ? ` · ±${(parameters.relative_uncertainty * 100).toFixed(1)}%` : ""}
+            </em>
+          {/each}
+          <em data-film-diagnostics="unavailable">{t("film diagnostics")}: {t("not available for this runtime solve")}</em>
+          <em data-fit-diagnostics="unavailable">{t("fit diagnostics")}: {t("not available for this runtime solve")}</em>
+          {#if electrode.diagnostics.inventory_limited}<strong>{t("inventory limited")}</strong>{/if}
+          {#if electrode.diagnostics.boundary}<em>{electrode.diagnostics.boundary}</em>{/if}
+        {/if}
       </span>
     {/each}
     {#if apparatusTitle}
