@@ -6,12 +6,12 @@ top grade, while boundary refusals compare only with boundary requirements.
 
 ## Current audited result
 
-Against the native solver stack on 2026-09-08:
+Against the native solver stack on 2026-09-13:
 
 | disposition | prompts |
 |---|---:|
-| computed | 328 |
-| curated | 56 |
+| computed | 320 |
+| curated | 64 |
 | qualitative | 55 |
 | boundary | 60 |
 | missing | 1 |
@@ -22,6 +22,17 @@ single missing row has no asserted capability requirement.
 The baseline is an audited observation record. Update only rows explained by a
 reviewed engine, provenance, corpus, or expectation change; never regenerate it
 blindly to make CI green.
+
+Eight rows moved `computed -> curated` on 2026-09-13 — `th-030 th-048 th-051
+th-058 th-059 bio-008 bio-009 bio-044` — and no chemistry changed for any of
+them. `curated-combustion` had never declared a `route_kind` and so took the
+trait default, `Computed`, while running entirely on the curated `FUELS` and
+`GAS_AUTOIGNITION` tables; it now declares `Curated`, which is what the
+provenance rule settled on 2026-09-11 always said it was. Those eight are the
+only rows in the five hundred with a succeeded `curated-combustion` route, and
+none of them had another succeeded curated route that was already counting
+them, so the move is exactly eight rows wide. The totals above are the only
+other thing it changed.
 
 ## Route attribution
 

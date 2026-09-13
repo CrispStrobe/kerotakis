@@ -797,14 +797,14 @@ reason_code = "typed-observation"
 [[observation]]
 id = "bio-008"
 owning_task = "BRD-023"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "bio-009"
 owning_task = "BRD-023"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "bio-010"
@@ -1013,8 +1013,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "bio-044"
 owning_task = "BRD-023"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "bio-045"
@@ -2429,8 +2429,8 @@ reason_code = "typed-engine-event"
 [[observation]]
 id = "th-030"
 owning_task = "BRD-014"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "th-031"
@@ -2537,8 +2537,8 @@ reason_code = "curated-route"
 [[observation]]
 id = "th-048"
 owning_task = "BRD-014"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "th-049"
@@ -2555,8 +2555,8 @@ reason_code = "curated-route"
 [[observation]]
 id = "th-051"
 owning_task = "BRD-014"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "th-052"
@@ -2597,14 +2597,14 @@ reason_code = "curated-route"
 [[observation]]
 id = "th-058"
 owning_task = "BRD-012"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "th-059"
 owning_task = "BRD-014"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "th-060"
