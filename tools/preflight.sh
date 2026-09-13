@@ -102,6 +102,10 @@ step "i18n surfaces";  python3 tools/i18n-surface-lint.py --check
 step "i18n slugs";     python3 tools/i18n-slug-lint.py --check
 step "codex lint";    cargo run --release -p kerotakis-cli -- codex lint
 step "provenance";    cargo run --release -p kerotakis-cli -- provenance lint
+# The scientific-upstream audit. REPORTING ONLY: it counts and names the
+# values sourced from a refused upstream and exits zero. Add --fail here to
+# promote it to a gate once the count is nil; see crates/kerotakis-cli/src/upstreams.rs.
+step "prov upstreams"; cargo run --release -p kerotakis-cli -- provenance upstreams
 step "sweep";         cargo run --release -p kerotakis-cli -- sweep
 # CAP-13: every curated structure's InChIKey recomputed by the official
 # IUPAC library must reproduce the registry key. The C build is cached,
