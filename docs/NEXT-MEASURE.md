@@ -319,3 +319,155 @@ it. And critically, the corpus's own success shows the ceiling: a set of this
 kind runs out of shadow. Option B buys a second finite instrument of the
 first's kind, and the day it reads 499/500 this document gets written again.
 
+## 5. Option C — a reachability measure over the product
+
+Can a learner actually reach each capability the engine has?
+
+### The evidence is real, and it is worse than stated
+
+`crates/kerotakis-core/src/electrodiffusion.rs` is **1,567 lines — 688 of
+implementation and 879 of tests — with zero callers anywhere in the
+repository.** Every one of its ten public symbols (`NernstPlanckDomain`,
+`ReactiveNernstPlanckState`, `zero_current_junction`,
+`electroneutral_surface`, `reactive_electroneutral_surface` and the rest)
+returns nothing on a repo-wide grep across `crates/`, `web/`, `tools/`, `docs/`
+and the root documents. The single reference to the module is its own
+declaration at `crates/kerotakis-core/src/lib.rs:42`. It is invisible to
+`dead_code` because it is `pub`.
+
+For contrast, files referencing each sibling module in the same crate:
+`displacement` 18, `phase_route` 8, `relations` 8, `compartment` 7,
+`heterogeneous` 4, **`electrodiffusion` 0.** It is the unique orphan.
+
+`crates/kerotakis-core/src/polarization.rs` is the weaker second case: 1,010
+lines, exactly one caller, a CLI fitting subcommand. It is not in the grammar
+`VERBS`, not in `affordances.json`, not tiered in `catalog.rs`, and not
+reachable from the web bench at all.
+
+**Every gate in this repository passes `electrodiffusion.rs`.** The curiosity
+corpus does not ask which modules answered. The fleets replay scripts, and no
+script can name it. The semantic assertions are per-reaction. It compiles, its
+879 lines of tests pass, and nothing observes that no learner and no script can
+ever reach it.
+
+### What already exists
+
+More than expected, and pointed the wrong way.
+
+**`crates/kerotakis-core/src/catalog.rs`** (601 lines) is the strongest
+foundation in the repository for this. Its header reads: *"WORLD-003 — the
+runtime catalog contract. One answer to 'what can this learner reach, and
+why'."* It holds `APPARATUS_MILESTONES` (22 `(verb, tier)` rows),
+`INSTRUMENT_MILESTONES` (14 `measure:<token>` rows) and `NOT_CABINET` (16
+verbs deliberately excluded **with a written rationale each**), and it joins
+them through `catalog()` out to wasm (`kerotakis-wasm/src/lib.rs:514`) and into
+the browser (`web/app/src/lib/catalogProgress.ts`). A `CatalogItem.id` is a
+verb, an instrument token, or a registry species key — **it is the one place
+where engine capability and learner reachability share an id space.**
+
+And it already carries the one true reverse check, at
+`crates/kerotakis-core/src/catalog.rs:531`:
+
+```rust
+fn every_parsed_verb_is_either_tiered_or_deliberately_not_cabinet() {
+```
+
+with the failure text *"verbs the parser knows but nothing tiered: {untiered}
+— give each a milestone, or list it in NOT_CABINET with a reason."* That is
+precisely the measure this option proposes, already written, at **verb**
+granularity.
+
+Three more precedents, all reusable:
+
+- `tools/test-protocol-conformance.mjs:585–614` — the GUI-029 sandbox-
+  completeness invariant, which runs **both** directions between
+  `Lab::grammar()`'s 35 verbs and `web/app/src/lib/affordances.json`'s 35
+  rows, and — the part worth copying — **prints a tracked metric for known
+  gaps** (`planned:GUI-033` rows are counted, not failed).
+- `crates/kerotakis-phreeqc/tests/curated_reachability_at_runtime.rs:133`,
+  `every_curated_reaction_is_reachable_in_every_order()` — a runtime
+  capability→reachable test for one capability class, whose header records
+  that it was falsified against a real bug. The methodological model.
+- `data/kids/experiments-v1.json` — 77 entries joining `capabilities` (corpus
+  prompt ids) → `lesson` → `codex` → `status`, and **`"unreachable"` is
+  already in its status vocabulary** (currently 0 rows).
+
+Also relevant: `crates/kerotakis-cli/tests/cabinet.rs:191`,
+`help_names_every_verb_the_grammar_accepts()`, exists because KID-17 found
+*"`magnet`, `smell`, `test`, `chromatograph` and `react` were all landed, all
+working, and absent from every surface a reader has."* **This exact failure
+mode has already been diagnosed once and fixed at one layer only.**
+
+### The blocker
+
+**There is no enumerable capability surface to measure against.** Capability is
+scattered over at least four disjoint lists with no authority among them:
+
+| List | Location | Count |
+|---|---|---:|
+| `pub const VERBS` | `crates/kerotakis-core/src/script.rs:24` | 35 |
+| `pub enum Operator` | `crates/kerotakis-core/src/ops.rs:115` | ~40 |
+| `pub enum Event` | `crates/kerotakis-core/src/ops.rs:788` | ~111 |
+| Catalog tiers | `crates/kerotakis-core/src/catalog.rs` | 22 + 14 + 16 |
+
+There is no `enum Capability` and no registry of solver modules. `VERBS` is
+the only list treated as authoritative, and it is a strict subset: whole
+modules — `electrodiffusion`, `polarization` — appear in none of the four.
+**Building that list is the prerequisite, and it is the expensive part**,
+because deciding what counts as one capability is a judgement call on every
+line of it, and a list built by reading the code will name what the code
+already names.
+
+### What it would cost
+
+The most of the three. The enumeration is a design task, not a mechanical one,
+and it must be maintained by hand forever after or it decays into a list of
+what existed when someone last wrote it down. Against that: `catalog.rs` shows
+the pattern works, and `NOT_CABINET`'s "excluded with a written reason" is the
+right escape hatch — an unreachable capability is allowed, but it must be
+declared and defended.
+
+### What it would catch that nothing catches today
+
+`electrodiffusion.rs`, on the day it merged. `polarization.rs`. The five
+grammar verbs (`smell`, `magnet`, `irradiate`, `centrifuge`, `discard`) that
+appear in zero of the 113 lessons, and the twelve with two or fewer — nothing
+reports this today. The 36-versus-34 mismatch between Rust's catalog ids and
+`EQUIPMENT_CATALOGUE`'s 34 gated ids, which no test crosses languages to
+check.
+
+### What it would miss
+
+**Whether anything reachable is correct.** This is the sharpest limitation and
+it should decide the recommendation. A reachability measure would have said
+nothing whatever about the brine, the permanganate, or the open 0.1-molal
+case: all three were reachable, prominent, exercised by lessons, and wrong.
+Reachability and accuracy are orthogonal, and this option measures the one the
+repository has *not* just been burned by.
+
+### How it could go wrong
+
+**It rewards a thin binding.** A verb becomes "reachable" the moment one
+lesson mentions it, whether or not the lesson exercises the capability or a
+learner would ever find it. `ROADMAP-Webapp.md` line 248 names this exactly:
+*"Curriculum coverage counts topics, not scientific capability — 'covered'
+does not distinguish one scripted example from a reusable model that spans a
+whole family."* A reachability count is that failure mode with a different
+subject.
+
+Second: the enumeration becomes the definition. Once `enum Capability` exists,
+a capability nobody enumerated is not merely unmeasured — it is invisible, and
+the measure will read 100 % while `electrodiffusion.rs`'s successor sits
+outside the list.
+
+### What a passing score would and would not prove
+
+**Would prove:** every enumerated capability has at least one declared path to
+a learner surface, or an explicit, written exclusion.
+
+**Would not prove:** that the path is discoverable, that a learner would ever
+take it, that the capability works, that its answers are right, or that the
+enumeration is complete — and the last of these is the one that matters, since
+the measure is exactly as good as the list it is measured against, and the
+list is hand-maintained.
+
