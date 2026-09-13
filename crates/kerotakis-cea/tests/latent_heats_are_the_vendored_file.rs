@@ -173,7 +173,7 @@ fn the_solvents_own_constants_come_from_the_vendored_file_too() {
     let cp = steam.cp(298.15).expect("H2O has a Cp at 298.15 K");
     assert!(
         (cp - STEAM_HEAT_CAPACITY).abs() < 0.05,
-        "thermo.inp gives Cp(H2O, g, 298.15 K) = {cp:.3f} J/(mol.K), states.rs ships \
+        "thermo.inp gives Cp(H2O, g, 298.15 K) = {cp:.3} J/(mol.K), states.rs ships \
          {STEAM_HEAT_CAPACITY}"
     );
 }
