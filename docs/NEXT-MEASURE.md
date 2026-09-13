@@ -238,3 +238,84 @@ reason — a fitted constant and a correct mechanism can hit the same number.
 A high score with three quantities covered says nothing about the fourth, so
 **the count that matters is quantities covered, not rows passing.**
 
+## 4. Option B — a harder prompt set
+
+Grow or replace the corpus with questions the bench currently answers badly.
+
+### What already exists
+
+The whole pipeline. `tests/coverage/curiosity-v1/` is four authored shards
+plus `manifest.toml` (`target_prompts = 500`, 16 named smoke prompts) and
+`baseline.toml`, which records the observed native route per prompt as id,
+owning task, outcome and stable reason code. `CuriosityPrompt` is
+`deny_unknown_fields`; the loader names its shards explicitly. `--check`
+accepts recorded known failures and fails on drift, `--emit-baseline`
+regenerates, and `tools/curiosity-prose.py`, `tools/curiosity-index.py` and
+`tools/curiosity-answer-invariance.py` already validate, index and translate
+it. A fifth shard is close to free: it is a file, a manifest line, an i18n
+file per language (`I18N.md`'s modularity rule), and a baseline refresh.
+
+Marginal cost is the lowest of the three options by a wide margin.
+
+### What it would catch that nothing catches today
+
+Missing *capability*, faster and more cheaply than anything else here — which
+is exactly what the first corpus was for, and it worked. If the goal is to
+rank the next tranche of chemistry breadth, this is the instrument that has
+already proved it can do that.
+
+### What it would miss
+
+**The same thing the first corpus missed: whether any answer is right.** The
+grading asks which route answered and how strong that route was. A harder
+shard graded the same way would have passed the brine defect for the same
+reason the existing 500 did. Adding 200 harder questions to a measure that
+cannot see a nine per cent error produces a harder measure of the same one
+thing.
+
+### How it could go wrong
+
+**The stated risk is real and is not fully solvable.** A set written by the
+process that writes the engine tests what the engine already conceives of.
+The existing corpus is described in its own README as "four authored prompt
+shards"; there is no independence claim anywhere, and none was needed when the
+goal was breadth.
+
+Three mitigations, honestly ranked:
+
+1. **Anchor the questions to an external syllabus.** `EXPERIMENTS.md` EXP-38
+   already plans public-curriculum labels (CBSE / ICSE / IGCSE / NGSS). A
+   required-practical list from a published syllabus is an outside index of
+   what a learner is supposed to be able to do, and it is not derived from
+   this engine. This is the strongest available option and it is already on
+   the roadmap. Note the topic *list* is factual; the syllabus document's
+   prose is not ours to copy.
+2. **Derive questions from reference data rather than from the bench.** Pick a
+   published measured value first, then write the question it answers. The
+   set's shape then comes from the literature. This is real independence — but
+   note what it is: **it is Option A wearing Option B's clothes.** The
+   defensible form of "a harder prompt set" turns out to be the numeric
+   accuracy corpus.
+3. **Author the set without the engine in context.** Cheap, and weak. It
+   removes recall of the implementation, not the shared conception of what
+   chemistry a bench does. Worth doing, never worth relying on.
+
+The second failure mode is subtler and this repository has already named it.
+`ROADMAP-Webapp.md` line 248: "Curriculum coverage counts topics, not
+scientific capability — 'covered' does not distinguish one scripted example
+from a reusable model that spans a whole family." A prompt set rewards a
+scripted example exactly as much as a general model, so it can be raised by
+authoring rather than by engineering.
+
+### What a passing score would and would not prove
+
+**Would prove:** the bench produces an answer of at least the declared
+evidence grade for each listed question, and did not regress.
+
+**Would not prove:** that any answer is numerically right; that the questions
+are hard in any sense other than that this project found them hard; that the
+capability generalises past the authored script; or that a learner can reach
+it. And critically, the corpus's own success shows the ceiling: a set of this
+kind runs out of shadow. Option B buys a second finite instrument of the
+first's kind, and the day it reads 499/500 this document gets written again.
+
