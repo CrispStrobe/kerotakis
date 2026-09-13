@@ -334,40 +334,48 @@ fn release_gas(vessel: &mut Vessel, species: SpeciesId, moles: Moles, events: &m
 /// and the two alkali halides whose molten state is a different substance
 /// from their solution.
 ///
-/// ## Where the numbers come from, and why two answers
+/// ## Where the numbers come from, and the mistake that is worth keeping
 ///
-/// The rows split by what an openly-licensed source can reach. The nine
-/// inorganic ones — the seven metals and the two alkali halides — are
-/// **derived from NASA CEA's `thermo.inp`**, which this repository already
-/// vendors under Apache-2.0 for the L2g heat-capacity curves. CEA carries a
-/// crystal record and a liquid record for each, so the enthalpy of fusion
-/// is `H(liquid, Tm) - H(crystal, Tm)` at CEA's own interval boundary, and
-/// `kerotakis-cea`'s `latent_heats_are_the_vendored_file` test re-derives
-/// every one of them from the shipped file. That is a stronger claim than
-/// the CRC Handbook citation it replaces: the source is on disk, the
-/// licence grant is NASA's own, and the number cannot drift away from it
-/// without CI noticing.
+/// Seven of the nine inorganic rows cite a public-domain United States
+/// Government document that PRINTS the enthalpy of fusion: US Bureau of
+/// Mines Bulletin 672 (Pankratz, 1982) for the metals, and NSRDS-NBS 37 —
+/// the 1971 JANAF second edition, the escape hatch PLAN.md's audit names —
+/// for the two alkali halides. Neither bears a copyright notice. Magnesium
+/// and copper cite nothing, because the documents that could source them
+/// disagree with the value; their rows say so.
 ///
-/// The distinction from a laundered citation is worth stating, because
-/// PLAN.md rejected the `chemicals` Python package for exactly the failure
-/// this could look like. That package is MIT-licensed *code* that embedded
-/// handbook data nobody had granted; NASA affirmatively licenses
-/// `thermo.inp` itself under Apache-2.0. CEA's per-record reference lines
-/// (Cox 1989 — the CODATA Key Values — for aluminium, silver, copper and
-/// zinc; Gurvich for lead and the halides; Chase for iron) are bibliographic
-/// attribution to the evaluations NASA's fitters used, not a sublicence
-/// being claimed on our behalf, and they are kept verbatim in each
-/// provenance string so a reader lands on the right table.
+/// They briefly cited something else, and the correction is the useful
+/// part. On 2026-09-13 all nine were re-sourced by differencing NASA CEA's
+/// vendored `thermo.inp`: `H(liquid, Tm) - H(crystal, Tm)`. CEA is
+/// Apache-2.0, already on disk, and already this repository's primary
+/// thermochemistry source, so it looked like the cheapest possible answer.
+/// Six values moved by a fraction of a per cent and the derived numbers
+/// landed on round figures — 4812, 7300, 8400, 10700, 28200 J/mol — which
+/// read as the derivation recovering the tables the fitters started from.
 ///
-/// Re-sourcing moved six of the nine values, by between 0.1 and 2.5 per
-/// cent. Silver is the largest: 11.28 kJ/mol became 11.00. Those are
-/// disagreements between thermochemical evaluations and they are recorded
-/// in the rows rather than rounded back to what was there before.
+/// Silver moved 11.28 to 11.00 and that was written up as a disagreement
+/// between evaluations. It was a mistake. Bulletin 672 prints 2.700
+/// kcal/mol, 11.297, and corroborates it from its own enthalpy-increment
+/// column; CEA's `Ag(cr)` agrees with Bulletin 672 to 0.2 per cent while
+/// its `Ag(L)` sits about 350 J/mol low.
 ///
-/// The organic rows are a different problem. CEA has no condensed
-/// methanol, acetone, propan-2-ol, hexane, ethyl acetate, acetic acid or
-/// naphthalene, so nothing on disk can carry them and they are re-sourced
-/// on their own evidence.
+/// **A difference of two independently fitted polynomials is not a
+/// tabulated transition enthalpy.** Both fits can be excellent over their
+/// own intervals and their difference at the shared boundary still carries
+/// both residuals, because nothing in the fitting makes them meet at the
+/// evaluated ΔH. `thermo.inp` exists to compute thermodynamic functions,
+/// not to tabulate phase changes. The tell was there to be read and was
+/// read the wrong way round: CEA's silver records cite Cox 1989, the CODATA
+/// Key Values, which does not publish enthalpies of fusion at all, so that
+/// citation could never have supported an 11.00.
+///
+/// CEA is still consulted. `kerotakis-cea`'s
+/// `latent_heats_are_the_vendored_file` differences it against every row as
+/// an INDEPENDENT cross-check — which it now genuinely is, the values
+/// coming from elsewhere — inside a three per cent band that catches a
+/// transposed digit while leaving room for the residuals. Silver's gap is
+/// pinned as a gap rather than tolerated.
+///
 pub const FUSION_ENTHALPIES: &[LatentHeat] = &[
     LatentHeat {
         species: "ethanol",
@@ -419,57 +427,57 @@ pub const FUSION_ENTHALPIES: &[LatentHeat] = &[
     },
     LatentHeat {
         species: "Pb",
-        // 4.81 kJ/mol, CEA's tables at Tm = 600.650 K.
-        kj_per_mol: 4.81,
-        provenance: "Lead enthalpy of fusion 4.81 kJ/mol at its 600.61 K melting point. Derived from NASA CEA's `thermo.inp` (vendor/nasa-cea/thermo.inp, Apache-2.0, NASA Glenn, retrieved 2026-08-22) as H(Pb(L), Tm) - H(Pb(cr), Tm) at the melting point CEA's own interval boundary gives, Tm = 600.650 K. The record's literature reference, kept verbatim by the parser, is \"Liquid. Ref-Elm. Gurvich,1991 pt1 p400 pt2 p337.\". `kerotakis-cea`'s `fusion_enthalpies_come_from_the_vendored_cea_tables` test re-derives this number from the shipped file on every run, so the citation cannot go stale without CI saying so.",
+        // 4.80 kJ/mol.
+        kj_per_mol: 4.80,
+        provenance: "Lead enthalpy of fusion 4.80 kJ/mol at its 600.65 K melting point. L. B. Pankratz, Thermodynamic Properties of Elements and Oxides, United States Department of the Interior, Bureau of Mines Bulletin 672 (1982), Superintendent of Documents no. I 28.23:672; retrieved 2026-09-13 from https://stacks.cdc.gov/view/cdc/219421. A United States Government work: the document bears no copyright notice anywhere in its 518 pages, and CDC Stacks, which holds the legacy Bureau of Mines collection, records its rights as Public Domain. Kerotakis transcribes one printed phase-change line per row and redistributes no table. Bulletin 672's Pb(c,l) table prints \"600.65 K, melting point of Pb; delta-H = 1.147 kcal/mol\", which is 4799 J/mol at 1 cal = 4.184 J.",
     },
     LatentHeat {
         species: "Zn",
-        // 7.30 kJ/mol, CEA's tables at Tm = 692.730 K.
-        kj_per_mol: 7.30,
-        provenance: "Zinc enthalpy of fusion 7.30 kJ/mol at its 692.68 K melting point. Derived from NASA CEA's `thermo.inp` (vendor/nasa-cea/thermo.inp, Apache-2.0, NASA Glenn, retrieved 2026-08-22) as H(Zn(L), Tm) - H(Zn(cr), Tm) at the melting point CEA's own interval boundary gives, Tm = 692.730 K. The record's literature reference, kept verbatim by the parser, is \"Liquid. Ref-Elm. Cox,1989 p221.\". `kerotakis-cea`'s `fusion_enthalpies_come_from_the_vendored_cea_tables` test re-derives this number from the shipped file on every run, so the citation cannot go stale without CI saying so. CEA's fitters took this element from CODATA's Key Values for Thermodynamics (Cox, Wagman and Medvedev 1989), which is the open evaluation the handbook tables are themselves downstream of.",
+        // 7.32 kJ/mol.
+        kj_per_mol: 7.32,
+        provenance: "Zinc enthalpy of fusion 7.32 kJ/mol at its 692.73 K melting point. L. B. Pankratz, Thermodynamic Properties of Elements and Oxides, United States Department of the Interior, Bureau of Mines Bulletin 672 (1982), Superintendent of Documents no. I 28.23:672; retrieved 2026-09-13 from https://stacks.cdc.gov/view/cdc/219421. A United States Government work: the document bears no copyright notice anywhere in its 518 pages, and CDC Stacks, which holds the legacy Bureau of Mines collection, records its rights as Public Domain. Kerotakis transcribes one printed phase-change line per row and redistributes no table. Bulletin 672's Zn(c,l,g) table prints \"692.73 K, melting point of Zn; delta-H = 1.750 kcal/mol\" = 7322 J/mol, and the same table's enthalpy-increment column corroborates it internally: H-H(298) is 2.580 kcal/mol for the crystal and 4.330 for the liquid at that temperature, and the difference is the 1.750 printed above it.",
     },
     LatentHeat {
         species: "Mg",
-        // 8.40 kJ/mol, CEA's tables at Tm = 923.000 K.
-        kj_per_mol: 8.40,
-        provenance: "Magnesium enthalpy of fusion 8.40 kJ/mol at its 923.15 K melting point. Derived from NASA CEA's `thermo.inp` (vendor/nasa-cea/thermo.inp, Apache-2.0, NASA Glenn, retrieved 2026-08-22) as H(Mg(L), Tm) - H(Mg(cr), Tm) at the melting point CEA's own interval boundary gives, Tm = 923.000 K. The record's literature reference, kept verbatim by the parser, is \"Liquid. Ref-Elm. Alcock,1993.\". `kerotakis-cea`'s `fusion_enthalpies_come_from_the_vendored_cea_tables` test re-derives this number from the shipped file on every run, so the citation cannot go stale without CI saying so.",
+        // 8.48 kJ/mol.
+        kj_per_mol: 8.48,
+        provenance: "Magnesium enthalpy of fusion 8.48 kJ/mol at its 923.15 K melting point. NO SOURCE IS CLAIMED FOR THIS NUMBER, and it is the row where three documents disagree. The handbook citation it carried was withdrawn 2026-09-13. NASA CEA's Mg(L) minus Mg(cr) gives 8.40, and Bureau of Mines Bulletin 672 prints 2.139 kcal/mol at 922 K, which is 8.95 - five and a half per cent above this value and outside any rounding. Bulletin 672 is a 1982 compilation resting on Hultgren 1973, so on this row it is the OLDER evaluation rather than the better one, and adopting 8.95 merely to have a citation would buy provenance with accuracy. The value stays where the modern consensus puts it and stands unsupported, with all three numbers named so a reviewer can settle it instead of rediscovering it.",
     },
     LatentHeat {
         species: "Al",
-        // 10.70 kJ/mol, CEA's tables at Tm = 933.610 K.
-        kj_per_mol: 10.70,
-        provenance: "Aluminium enthalpy of fusion 10.70 kJ/mol at its 933.47 K melting point. Derived from NASA CEA's `thermo.inp` (vendor/nasa-cea/thermo.inp, Apache-2.0, NASA Glenn, retrieved 2026-08-22) as H(AL(L), Tm) - H(AL(cr), Tm) at the melting point CEA's own interval boundary gives, Tm = 933.610 K. The record's literature reference, kept verbatim by the parser, is \"Liquid. Ref-Elm. Cox,1989 p217.\". `kerotakis-cea`'s `fusion_enthalpies_come_from_the_vendored_cea_tables` test re-derives this number from the shipped file on every run, so the citation cannot go stale without CI saying so. CODATA Key Values again, through CEA.",
+        // 10.80 kJ/mol.
+        kj_per_mol: 10.80,
+        provenance: "Aluminium enthalpy of fusion 10.80 kJ/mol at its 933.61 K melting point. L. B. Pankratz, Thermodynamic Properties of Elements and Oxides, United States Department of the Interior, Bureau of Mines Bulletin 672 (1982), Superintendent of Documents no. I 28.23:672; retrieved 2026-09-13 from https://stacks.cdc.gov/view/cdc/219421. A United States Government work: the document bears no copyright notice anywhere in its 518 pages, and CDC Stacks, which holds the legacy Bureau of Mines collection, records its rights as Public Domain. Kerotakis transcribes one printed phase-change line per row and redistributes no table. Bulletin 672 prints 2.580 kcal/mol at 933.61 K, which is 10795 J/mol.",
     },
     LatentHeat {
         species: "Ag",
-        // 11.00 kJ/mol, CEA's tables at Tm = 1235.080 K.
-        kj_per_mol: 11.00,
-        provenance: "Silver enthalpy of fusion 11.00 kJ/mol at its 1234.93 K melting point. Derived from NASA CEA's `thermo.inp` (vendor/nasa-cea/thermo.inp, Apache-2.0, NASA Glenn, retrieved 2026-08-22) as H(Ag(L), Tm) - H(Ag(cr), Tm) at the melting point CEA's own interval boundary gives, Tm = 1235.080 K. The record's literature reference, kept verbatim by the parser, is \"Liquid. Ref-Elm. Cox,1989 p228.\". `kerotakis-cea`'s `fusion_enthalpies_come_from_the_vendored_cea_tables` test re-derives this number from the shipped file on every run, so the citation cannot go stale without CI saying so. This row MOVED when it was re-sourced: the handbook figure it replaces was 11.28 kJ/mol, and CEA's CODATA-based tables give 11.00. The 2.5 per cent is a real disagreement between evaluations, not a transcription slip, and it is recorded here rather than smoothed away.",
+        // 11.30 kJ/mol.
+        kj_per_mol: 11.30,
+        provenance: "Silver enthalpy of fusion 11.30 kJ/mol at its 1235.08 K melting point. L. B. Pankratz, Thermodynamic Properties of Elements and Oxides, United States Department of the Interior, Bureau of Mines Bulletin 672 (1982), Superintendent of Documents no. I 28.23:672; retrieved 2026-09-13 from https://stacks.cdc.gov/view/cdc/219421. A United States Government work: the document bears no copyright notice anywhere in its 518 pages, and CDC Stacks, which holds the legacy Bureau of Mines collection, records its rights as Public Domain. Kerotakis transcribes one printed phase-change line per row and redistributes no table. Bulletin 672 p. 32, Ag(c,l), prints \"1235.08 K, melting point of Ag; delta-H = 2.700 kcal/mol\" = 11297 J/mol, and the table's own enthalpy increments corroborate it: H-H(298) is 6.315 kcal/mol for the crystal and 9.015 for the liquid at 1235.08 K, differing by exactly the 2.700 printed. Its data are from Hultgren's Selected Values of the Thermodynamic Properties of the Elements, corrected to IPTS-68. THIS ROW IS A CORRECTION. It shipped at 11.28 with a handbook citation, was moved to 11.00 on 2026-09-13 by differencing NASA CEA's Ag(L) and Ag(cr) polynomials, and is moved back here. The CEA number was wrong and the way it was wrong is the lesson: CEA's Ag(cr) record agrees with Bulletin 672 to 0.2 per cent, but its Ag(L) record sits about 350 J/mol low, so the DIFFERENCE carries both fits' residuals even where each fit is good. CEA's Ag records cite Cox 1989, the CODATA Key Values, which does not publish enthalpies of fusion at all - so that citation could never have been the provenance of an 11.00, and the 2.7 per cent was a fitting artefact rather than a rival evaluation.",
     },
     LatentHeat {
         species: "Cu",
-        // 13.14 kJ/mol, CEA's tables at Tm = 1358.000 K.
-        kj_per_mol: 13.14,
-        provenance: "Copper enthalpy of fusion 13.14 kJ/mol at its 1357.77 K melting point. Derived from NASA CEA's `thermo.inp` (vendor/nasa-cea/thermo.inp, Apache-2.0, NASA Glenn, retrieved 2026-08-22) as H(Cu(L), Tm) - H(Cu(cr), Tm) at the melting point CEA's own interval boundary gives, Tm = 1358.000 K. The record's literature reference, kept verbatim by the parser, is \"Liquid. Ref-Elm.Cox,1989 p226.\". `kerotakis-cea`'s `fusion_enthalpies_come_from_the_vendored_cea_tables` test re-derives this number from the shipped file on every run, so the citation cannot go stale without CI saying so.",
+        // 13.26 kJ/mol.
+        kj_per_mol: 13.26,
+        provenance: "Copper enthalpy of fusion 13.26 kJ/mol at its 1357.77 K melting point. NO SOURCE IS CLAIMED FOR THIS NUMBER, for the same reason as magnesium above. The handbook citation was withdrawn 2026-09-13; NASA CEA's Cu(L) minus Cu(cr) gives 13.14, and Bureau of Mines Bulletin 672 prints 3.120 kcal/mol at 1357.6 K, which is 13.05, one and a half per cent below. Three evaluations, three answers, and Bulletin 672 is the oldest of them. The value stays where the modern consensus puts it and stands unsupported.",
     },
     LatentHeat {
         species: "Fe",
-        // 13.81 kJ/mol, CEA's tables at Tm = 1809.000 K.
+        // 13.81 kJ/mol.
         kj_per_mol: 13.81,
-        provenance: "Iron enthalpy of fusion 13.81 kJ/mol at its 1811.15 K melting point. Derived from NASA CEA's `thermo.inp` (vendor/nasa-cea/thermo.inp, Apache-2.0, NASA Glenn, retrieved 2026-08-22) as H(Fe(L), Tm) - H(Fe(d), Tm) at the melting point CEA's own interval boundary gives, Tm = 1809.000 K. The record's literature reference, kept verbatim by the parser, is \"Liquid. Ref-Elm. Chase,1998 pp1221-5.\". `kerotakis-cea`'s `fusion_enthalpies_come_from_the_vendored_cea_tables` test re-derives this number from the shipped file on every run, so the citation cannot go stale without CI saying so. The solid CEA melts here is delta-iron, not the alpha the bench starts with, which is why the crystal record is Fe(d): iron passes through gamma and delta before it melts and CEA carries each. A laboratory Bunsen tops out at 1773.15 K (crate::apparatus::BUNSEN_CEILING_K), forty kelvin short of this, so the bench melts lead, zinc, aluminium, silver and copper over a flame and declines to melt iron. That is not a gap in the table; it is the reason a blacksmith needs a forge.",
+        provenance: "Iron enthalpy of fusion 13.81 kJ/mol at its 1811 K melting point. L. B. Pankratz, Thermodynamic Properties of Elements and Oxides, United States Department of the Interior, Bureau of Mines Bulletin 672 (1982), Superintendent of Documents no. I 28.23:672; retrieved 2026-09-13 from https://stacks.cdc.gov/view/cdc/219421. A United States Government work: the document bears no copyright notice anywhere in its 518 pages, and CDC Stacks, which holds the legacy Bureau of Mines collection, records its rights as Public Domain. Kerotakis transcribes one printed phase-change line per row and redistributes no table. Bulletin 672 prints 3.300 kcal/mol at 1811 K = 13807 J/mol. Iron melts out of delta-iron, not the alpha the bench starts from. A laboratory Bunsen tops out at 1773.15 K (crate::apparatus::BUNSEN_CEILING_K), forty kelvin short of this, so the bench melts lead, zinc, aluminium, silver and copper over a flame and declines to melt iron. That is not a gap in the table; it is the reason a blacksmith needs a forge.",
     },
     LatentHeat {
         species: "NaCl",
-        // 28.20 kJ/mol, CEA's tables at Tm = 1074.000 K.
-        kj_per_mol: 28.20,
-        provenance: "Sodium chloride enthalpy of fusion 28.20 kJ/mol at its 1073.85 K melting point. Derived from NASA CEA's `thermo.inp` (vendor/nasa-cea/thermo.inp, Apache-2.0, NASA Glenn, retrieved 2026-08-22) as H(NaCL(L), Tm) - H(NaCL(cr), Tm) at the melting point CEA's own interval boundary gives, Tm = 1074.000 K. The record's literature reference, kept verbatim by the parser, is \"Liquid. Gurvich,1982 pt1 p335 pt2 p374.\". `kerotakis-cea`'s `fusion_enthalpies_come_from_the_vendored_cea_tables` test re-derives this number from the shipped file on every run, so the citation cannot go stale without CI saying so. Molten salt, not brine: this is the state a Downs cell electrolyses, and it is a different substance from the solution every other salt row on this bench is about.",
+        // 28.16 kJ/mol.
+        kj_per_mol: 28.16,
+        provenance: "Sodium chloride enthalpy of fusion 28.16 kJ/mol at its 1073.8 K melting point. JANAF Thermochemical Tables, second edition, D. R. Stull and H. Prophet, NSRDS-NBS 37, National Bureau of Standards, June 1971, doi:10.6028/NBS.NSRDS.37; retrieved 2026-09-13 from https://nvlpubs.nist.gov/nistpubs/Legacy/NSRDS/nbsnsrds37.pdf. PLAN.md's provenance audit names this edition as the public-domain escape hatch from the NIST SRD row, and the document itself bears no copyright notice - its copyright page carries nothing but a Library of Congress card number. This is emphatically NOT the 1985 third or 1998 fourth edition, whose copyright is secured under 15 U.S.C. 290e and assigned to the American Institute of Physics and the American Chemical Society. The ClNa table, Sodium Chloride (NaCl) (Crystal), prints T(m) = 1073.8 +/- 1.0 K and delta-H(m) = 6.73 +/- 0.04 kcal/mol, which is 28158 J/mol. Its own note records the competing measurement rather than hiding it: Dworkin and Bredig, J. Phys. Chem. 64, 269 (1960), reported 1073 K and 6.69 +/- 0.06 kcal/mol. Molten salt, not brine: this is the state a Downs cell electrolyses, and it is a different substance from the solution every other salt row on this bench is about.",
     },
     LatentHeat {
         species: "KCl",
-        // 26.32 kJ/mol, CEA's tables at Tm = 1044.000 K.
-        kj_per_mol: 26.32,
-        provenance: "Potassium chloride enthalpy of fusion 26.32 kJ/mol at its 1044.15 K melting point. Derived from NASA CEA's `thermo.inp` (vendor/nasa-cea/thermo.inp, Apache-2.0, NASA Glenn, retrieved 2026-08-22) as H(KCL(L), Tm) - H(KCL(cr), Tm) at the melting point CEA's own interval boundary gives, Tm = 1044.000 K. The record's literature reference, kept verbatim by the parser, is \"Liquid. Gurvich,1982 pt1 p390 pt2 p419.\". `kerotakis-cea`'s `fusion_enthalpies_come_from_the_vendored_cea_tables` test re-derives this number from the shipped file on every run, so the citation cannot go stale without CI saying so.",
+        // 26.28 kJ/mol.
+        kj_per_mol: 26.28,
+        provenance: "Potassium chloride enthalpy of fusion 26.28 kJ/mol at its 1044 K melting point. JANAF Thermochemical Tables, second edition, D. R. Stull and H. Prophet, NSRDS-NBS 37, National Bureau of Standards, June 1971, doi:10.6028/NBS.NSRDS.37; retrieved 2026-09-13 from https://nvlpubs.nist.gov/nistpubs/Legacy/NSRDS/nbsnsrds37.pdf. PLAN.md's provenance audit names this edition as the public-domain escape hatch from the NIST SRD row, and the document itself bears no copyright notice - its copyright page carries nothing but a Library of Congress card number. This is emphatically NOT the 1985 third or 1998 fourth edition, whose copyright is secured under 15 U.S.C. 290e and assigned to the American Institute of Physics and the American Chemical Society. The ClK table, Potassium Chloride (KCl) (Crystal), prints T(m) = 1044 K and delta-H(m) = 6.282 kcal/mol, which is 26284 J/mol. Its note records alternatives of 6.34, 6.4 and 6.5 kcal/mol from other workers, so the spread on this row is about three per cent and the fourth figure here is the table's, not a measurement's.",
     },
 ];
 
