@@ -18,6 +18,21 @@
 //! see both sides, so the join lives here, next to
 //! `heat_capacity_curves_are_the_vendored_file`.
 //!
+//! **What this test does and does not prove.** It proves the transcription
+//! is faithful — that the twenty-six characters in the table are the ones
+//! the vendored file yields. It does not validate the number, and it
+//! cannot: re-deriving a value from the database it was taken from is
+//! circular, and an oracle that shares its subject proves nothing. The
+//! claim the row makes is a provenance claim, and this is the machinery
+//! that keeps that claim true, not a second opinion on silver.
+//!
+//! It is also the reason the nine rows carry a source at all rather than
+//! stopping. CEA is a cleared, vendored, Apache-2.0 *data source*, which is
+//! the second-choice lane: an individually cited measurement with a DOI, in
+//! the shape `literature/hartley-campbell-iodine-water` takes, is the first
+//! choice, and none was found for these nine that did not route back
+//! through an avoid-row compilation.
+//!
 //! The organic rows are deliberately absent from `PAIRS`: CEA carries no
 //! condensed methanol, acetone, propan-2-ol, hexane, ethyl acetate,
 //! acetic acid or naphthalene, so those rows cannot be checked this way
