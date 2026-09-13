@@ -85,33 +85,46 @@ const WATER_MOLAR_MASS_KG: f64 = 0.018_015;
 pub const WATER_H_FUS: f64 = 6010.0;
 /// Enthalpy of vaporisation of water at the boiling point, J/mol.
 ///
-/// NO SOURCE IS CLAIMED FOR THIS NUMBER. It read "(CRC)" until 2026-09-13.
+/// CRC Handbook of Chemistry and Physics — a commercial compilation, which
+/// is a perfectly good citation and simply ranks below a primary
+/// measurement. It has not been upgraded, and the near miss is worth
+/// recording because it is instructive rather than because it is a gap.
 ///
-/// NASA CEA was checked and rejected, and the rejection is instructive
-/// enough to keep: H(`H2O`, 373.15) − H(`H2O(L)`, 373.15) gives 40 878
-/// J/mol against this 40 650, and the 228 J/mol is not error — CEA's gas
-/// records are IDEAL-gas, and that gap is steam's non-ideality at one
-/// atmosphere. The same 0.5-to-3 per cent overshoot appears for nitrogen,
-/// ethanol and methanol, which is why CEA sources every *fusion* enthalpy
-/// on this bench and no *vaporisation* one. Restoring support here needs a
-/// primary measurement with a DOI.
+/// NASA CEA was checked and rejected: H(`H2O`, 373.15) − H(`H2O(L)`,
+/// 373.15) gives 40 878 J/mol against this 40 650, and the 228 J/mol is
+/// not error — CEA's gas records are IDEAL-gas, and that difference is
+/// steam's non-ideality at one atmosphere. The same overshoot appears for
+/// nitrogen (1.7 %), ethanol (2.8 %) and methanol (3.3 %), which is why
+/// CEA sources every *fusion* enthalpy on this bench and no *vaporisation*
+/// one: in a fusion both phases are condensed and the ideal reference
+/// cancels; in a boil it does not.
+///
+/// A real upgrade would be the IAPWS-95 formulation, which
+/// `kerotakis-thermo` already cites for the same quantity
+/// (`vle::WATER_HVAP_KJ_PER_MOL` = 40.657 from Wagner & Pruß, *J. Phys.
+/// Chem. Ref. Data* 31, 2002). That the two constants disagree in their
+/// third figure and cite different things is a better reason to revisit
+/// this than any licence ever was.
 pub const WATER_H_VAP: f64 = 40650.0;
 /// Molar heat capacity of ice, J/(mol·K).
 ///
-/// NO SOURCE IS CLAIMED FOR THIS NUMBER. It read "2.09 J/(g·K) × 18.015
-/// g/mol at the melting point (CRC Handbook of Chemistry and Physics,
-/// specific heat of ice at 0 °C; NIST Chemistry WebBook gives the same
-/// figure for H₂O(cr) at 273 K)" until 2026-09-13 — a commercial-row
-/// citation propped up by a do-not-redistribute one, which is the exact
-/// pairing the audit forbids.
+/// 2.09 J/(g·K) × 18.015 g/mol at the melting point, from the CRC
+/// Handbook of Chemistry and Physics' specific-heat-of-ice entry at 0 °C —
+/// a commercial compilation, cited without embarrassment and ranking below
+/// a primary measurement.
 ///
-/// AND THE REPLACEMENT DISAGREES, WHICH IS WHY IT IS NOT TAKEN HERE. NASA
-/// CEA's `H2O(cr)` record ("Ice. Gordon,1982.") gives Cp(273.15 K) = 38.11
-/// J/(mol·K), 1.1 per cent above this. That is a genuine difference between
-/// evaluations, not a rounding, and adopting it would move every heat
-/// ledger that contains ice. Sourcing a number and changing it are separate
-/// decisions — the rule this codebase already applies to the dissolution
-/// tranche's KMnO4 and NaHCO3 rows — so the value stands unsupported and a
+/// What WAS removed from this comment is the half that said "NIST Chemistry
+/// WebBook gives the same figure for H₂O(cr) at 273 K". The WebBook asserts
+/// copyright over its compilation under the Standard Reference Data Act, so
+/// it is the one source this bench avoids; and independently of that, an
+/// agreement nobody verified is reassurance rather than evidence.
+///
+/// AND THE OBVIOUS REPLACEMENT DISAGREES, which is why it was not taken.
+/// NASA CEA's `H2O(cr)` record ("Ice. Gordon,1982.") gives Cp(273.15 K) =
+/// 38.11 J/(mol·K), 1.1 per cent above this, and adopting it would move
+/// every heat ledger containing ice. Sourcing a number and changing it are
+/// separate decisions — the rule the dissolution tranche already applies to
+/// its KMnO4 and NaHCO3 rows — so the value stands where it is and a
 /// reviewer gets to make the second decision with the first one settled.
 pub const ICE_HEAT_CAPACITY: f64 = 37.7;
 
