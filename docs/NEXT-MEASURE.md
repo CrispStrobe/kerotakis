@@ -134,9 +134,9 @@ More than the framing of the question assumes. The hard parts are mostly
 built.
 
 **Licence-cleared reference data is a solved problem here, three times over.**
-`provenance/sources.toml` holds 34 reviewed sources under
-`policy = "store-permissive-v1"`, and three of them are *already* reference-
-value sources, approved, cited, and in use:
+`provenance/sources.toml` holds 14 reviewed `[[source]]` entries (plus 20
+checksums) under `policy = "store-permissive-v1"`, and three of them are
+*already* reference-value sources, approved, cited, and in use:
 
 | Source id | What it supplies | Licence |
 |---|---|---|
@@ -153,6 +153,24 @@ come from" already has a worked answer and a routine**: a public-domain
 government publication or a CC-BY paper, a per-source review note, a
 `sources.toml` entry, `decision = "approved"`. The cost is roughly one review
 note per source, not a new policy.
+
+The registry goes further. `crates/kerotakis-data/src/validate.rs:1312`
+already enforces that **every** `NumericRecord` names a `source_id` that
+resolves to a real source record, and `NumericRecord` itself already carries
+`{value, unit, conditions, uncertainty, source_id, method}` with
+`Uncertainty ∈ {Exact, NotReported, Absolute, Relative, Interval}`. The
+`literature/hartley-campbell-iodine-water` record is the worked legal template
+for a measured number, DOI and all:
+
+> "H. Hartley and N. P. Campbell, 'The solubility of iodine in water',
+> *J. Chem. Soc., Trans.* 93 (1908) 741-745, doi:10.1039/CT9089300741:
+> 0.3393 g I₂ per litre water at 25 °C. Kerotakis converts this factual
+> measurement to 0.03393 g/100 mL and releases its transcription as CC0; no
+> source text or table is redistributed."
+
+**That is the doctrine:** individual factual measurements, individually
+transcribed, individually cited, released CC0 — never a table copied from a
+compilation. It exists once, in a registry of 1,917 numeric records.
 
 Bulk compilations remain out. `PLAN.md` line 338 already records the shape of
 that rule for ORD: "Validation oracle only, never ingestion: check curated
@@ -543,3 +561,187 @@ enumeration is complete — and the last of these is the one that matters, since
 the measure is exactly as good as the list it is measured against, and the
 list is hand-maintained.
 
+## 6. Recommendation — Option A, the numeric accuracy corpus
+
+### The argument
+
+**It is not a new measure. It is the one rung of the repository's own
+validation ladder that was never built.**
+
+`ROADMAP-Webapp.md` lines 935–945 sets out five verification levels:
+
+1. local invariants — element, mass, charge, energy balance — **built**
+2. metamorphic tests — scaling, reordering, splitting, units — **built**
+3. analytic cases — closed forms, Nernst limits, lever rule — **built**
+4. differential oracles — Reaktoro, Cantera, build-time Python — **built**
+5. **experimental benchmarks — DOI-pinned, licence-audited measurements with
+   conditions and tolerances — not built**
+
+The engine climbed four rungs over a year. The curiosity corpus measured none
+of them: it measured whether a route fired. Levels 1–4 are exactly the gates
+that all passed the brine defect, and the ladder already explains why, three
+lines further down:
+
+> Agreement between two paths using the same database is useful but is not an
+> independent validation of that database.
+
+That sentence is the whole case. It is already written, in the roadmap, above
+a section headed **"Validation corpus"** that specifies `validation/cases/`
+field by field — initial ledger, model path expected to claim it, quantities
+and tolerances, conservation expectations, **source/oracle and licence**, known
+disagreement modes, and the domain over which the case may generalise.
+
+**The design is done. It was specified, and then the engine kept deepening and
+the corpus kept counting routes.**
+
+Five supporting reasons:
+
+1. **It is the only option that would have caught the defects this project
+   actually shipped.** Three known instances: brine at 9 %, permanganate
+   absorptivity at 1.8×, and the 0.1-molal case still open at 7 %. Option B
+   would have missed all three. Option C would have missed all three.
+2. **It fails on day one, which is what makes it a measure.** The 0.1-molal
+   case is documented in `PLAN.md` and wrong today. A gate that starts red
+   with a known, understood, argued failure is the opposite of this
+   repository's twice-hit failure mode.
+3. **The machinery is mostly built.** The row schema runs in production
+   (`tests/oracle/expected/*.json`); the source registry, its lint and its
+   referential integrity run in preflight; the licence doctrine has a worked
+   template and three approved reference sources; the fleet runner replays
+   896 cases in process-isolated CI shards.
+4. **It restores a shadow.** The corpus's power came from its `missing`
+   column. A quantity with no cited reference value is the new `missing`, and
+   there are many: of 1,917 registry numeric records, **1,093 report no
+   uncertainty at all, none carries an absolute, relative or interval
+   uncertainty, and not one is marked `measured`.**
+5. **It makes an existing rule enforceable.** `CAPABILITIES.md` §2 already
+   requires "at least one golden test against a textbook value" per new solver
+   path. Nothing counts them.
+
+### Why not the others
+
+**Option B** is cheapest and its pipeline is complete, and it should still
+happen — but as maintenance of a working instrument, not as the measure that
+drives the next stretch. Graded on route strength, a harder shard reproduces
+the blindness at higher difficulty. Its own best independence mechanism —
+sourcing questions from published values — is Option A.
+
+**Option C** identifies a real and embarrassing failure: 688 lines of solver
+that no learner can reach, which every gate passes. But it is the most
+expensive, its prerequisite (an enumerable capability surface) is a design
+problem with no obvious right answer, and it measures the axis the repository
+has *not* just been burned by. It is the right second move. `catalog.rs:531`
+already does it at verb granularity, so the gap is narrower than it looks, and
+the specific orphan is cheaper to fix directly than to build a measure for.
+
+### What a passing Option A score would and would not prove — restated plainly
+
+This document's own warning applies to its own recommendation. A green
+accuracy corpus would prove that **the covered quantities, on the covered
+scripts, agree with cited published values inside stated tolerances.** It
+would prove nothing about quantities not covered, about behaviour between the
+rows, about whether a tolerance was argued or chosen to fit, about
+reachability, or about the model being right for the right reason.
+
+**Therefore the number to publish is not "rows passing". It is "quantities
+covered, with a cited source and an argued tolerance", against the list of
+quantities the bench can compute.** A corpus reporting 40/40 rows green over
+three quantities has told the owner almost nothing, and a document reporting
+it as a score would be the third instance of a gate reading stronger than it
+is.
+
+### The first concrete step
+
+**Build `validation/cases/` with one family — colligative — and six rows, and
+do not wire it into CI.**
+
+Concretely:
+
+1. Create `validation/cases/colligative.toml` following the field list already
+   written at `ROADMAP-Webapp.md` §"Validation corpus", with the row shape
+   borrowed from `tests/oracle/expected/*.json`: per quantity a `value`,
+   `tolerance`, `tolerance_reason`, `source_id`, and the script that produces
+   it.
+2. Seed it from numbers already in the repository, which cost nothing to
+   source: the four in `HISTORY.md` lines 124–146 (1 molal freezing −3.4 °C,
+   6 molal boiling 108.7 °C, φ = 0.936 at 1 molal, 0.1 molal freezing
+   −0.346 °C), the sucrose depression and van 't Hoff factor already asserted
+   in `colligative_numbers.rs`, and the open `PLAN.md` case.
+3. **Give each a real citation.** `colligative_numbers.rs` asserts every one of
+   these against "measurement" and "textbooks print" with **no DOI, no edition,
+   no page, anywhere in its 350 lines**. Closing that is the actual work of
+   step one, and it is the step that proves the approach is affordable — or
+   proves it is not, which is equally worth knowing before committing.
+4. **Carry over that file's tolerance argument**, which is the only justified
+   tolerance in the repository: a tight band on the model's own figure plus a
+   loose band on the world's, the outer band "wide enough to survive an
+   improvement and narrow enough to exclude the known-wrong predecessor" —
+   `−3.72` sits outside `−3.4 ± 0.15`, deliberately. That rule generalises and
+   should be written down as policy in step one.
+5. Report it as **one quantity covered**, and let the owner see what six
+   honest rows cost before deciding whether the next fifty are worth it.
+
+One family, six rows, no gate, no engine change. If the citations turn out to
+be unaffordable, that is the finding, and it is cheap.
+
+## 7. Defects found while investigating
+
+Noted, not fixed, as instructed.
+
+1. **`crates/kerotakis-core/src/electrodiffusion.rs` has zero callers** — 688
+   implementation lines, 879 test lines, referenced only by `pub mod` in
+   `lib.rs:42`. `HISTORY.md:19` says it was "Integrated … exposing homogeneous
+   mass action, migration, electroneutrality and component-flux closure in one
+   focused test envelope." The test envelope is real; the integration is not.
+   `PLAN.md:112` still lists integrating it as open work item 1, so the
+   history and the plan disagree about the same module.
+2. **Avoid-list sources are cited as expected values.**
+   `crates/kerotakis-cea/tests/heat_source_ceiling.rs:28-30` cites "NIST
+   Chemistry WebBook SRD 69" and "NIST-JANAF table Ca-027", and 23 rows in
+   `crates/kerotakis-core/src/phase_route.rs` state they agree with NIST
+   Chemistry WebBook SRD 69. `CONTRIBUTING.md` §3 names NIST SRD/WebBook as a
+   legal constraint. `PLAN.md:1562` promises a `kero provenance lint` that
+   "checks … nothing ships from an avoid-row source"; **that check is not
+   implemented** — `provenance.rs`'s `direct_licence_allowed` is an allowlist
+   over declared licences only, and no avoid-list of source names exists in
+   code. Worth an owner ruling on whether "agrees with" is a citation.
+3. **The one tool that asks whether a script can answer its own question is
+   not run.** `tools/curiosity-answer-invariance.py` (127 lines) catches the
+   `mat-012` class of defect — three vessels, three different contents, one
+   identical answer, a row that matched its expectation for the corpus's whole
+   life. It is referenced by nothing in `tools/preflight.sh` or
+   `.github/workflows/`.
+4. **Stale assertions in `crates/kerotakis-cli/tests/curiosity.rs`.** Line 44
+   says two rows are missing, `aq-085` and `mat-054`; `aq-085` moved to
+   computed in #547. `assert_eq!(failed, 7)` at line 143 is stale against the
+   current baseline.
+5. **`mat-054` has no `expected` field at all**, so it asserts no requirement.
+   The "499 of 500" figure counts a row that, by the corpus's own rules,
+   requires nothing of the bench.
+6. **12 % of the corpus never executes.** The 60 `expected = "boundary"` rows
+   short-circuit at `coverage.rs:514` before the script runs, and always pass.
+   `curiosity.rs:178-190` records that `bio-075` declared `unknown_species`
+   while its real blocker had become an unsupported `wait 7d`.
+7. **193 of 500 rows carry no `expected`**, so `meets_requirement` is never
+   called for them; and the fourth fallback arm at `coverage.rs:856` files a
+   row as `Computed` on *any* typed event from *any* solver with no successful
+   route — 65 of the 500 baseline rows.
+8. **Five grammar verbs appear in zero of the 113 lessons** — `smell`,
+   `magnet`, `irradiate`, `centrifuge`, `discard` — and twelve appear in two
+   or fewer. Nothing reports this. `crates/kerotakis-cli/tests/cabinet.rs:191`
+   exists because KID-17 found the same class of gap at the help-text layer.
+9. **`web/app/src/lib/affordances.json` marks `stock` and `extract` as
+   `planned:GUI-033`**, while `ROADMAP-GUI.md:1589` lists GUI-033 among
+   completed tasks.
+10. **Rust catalog ids (22 apparatus + 14 instruments = 36) are never
+    cross-checked against `EQUIPMENT_CATALOGUE`'s 34 gated ids.**
+    `web/app/src/lib/equipmentCatalogue.test.ts:38` compares the TS list to
+    other TS lists only.
+11. **The three roadmap files are 6–7 days stale** relative to `PLAN.md` and
+    `HISTORY.md`, which move daily: `ROADMAP-GUI.md` 40 open items (last
+    touched 2026-09-07), `BREADTH.md` 27 (2026-09-07), `CAPABILITIES.md` 7
+    (2026-09-06). 74 open interface and breadth items in total.
+12. **Two shards use a different TOML style.** `materials-handling.toml`
+    writes `id="mat-001"`; the other three write `id = "aq-001"`. The corpus
+    README records that a grep against the spaced form once "silently missed
+    44 rows in that one shard."
