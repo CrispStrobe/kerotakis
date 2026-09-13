@@ -239,6 +239,77 @@ it had while it was open, which is why a few numbers appear twice below.
     brine; its freeze-concentration cap moved from 11.37 to 13.80 mol/kgw
     because it is now inverted through the same relation rather than
     through K_f·m.
+  - **The dilute end was left open and has since been closed
+    (`feat/dilute-brine-solvent-activity`, 2026-09-13).** The fix above
+    took a_w from "the speciation that answered the beaker", and for a
+    solution under 1 mol/kgw that speciation is a Debye–Hückel one, so
+    there was no a_w and Raoult's law stood in — 0.1 molal brine at
+    −0.371 °C, a dissolved salt's whole effect on its solvent taken as a
+    mole-fraction correction with nothing in it about the salt.
+    `pitzer.dat` is now asked for the activity in a SECOND speciation of
+    the same solution, posed lean (element totals and the solvent mass; no
+    phases, gas or interfaces) and read for a_w alone, and the beaker lands
+    at −0.3516 °C — a 0.020 K correction, six per cent of the quantity
+    being reported, on virial coefficients `pitzer.dat` attributes to
+    Appelo, 2015, Appl. Geochem. 55, 62-71,
+    doi:10.1016/j.apgeochem.2014.11.007. What it taught:
+    - **The cost had to be measured, and it is not one solve per step.**
+      `kero prewarm lessons/*.lab` — 113 lessons,
+      1333 steps, plus five R1 scenarios — cost **52 extra engine calls
+      out of 750, or 7.4 %**, and grew the shipped cache by the same 52
+      entries (667 to 719, ~33 kB on 955 kB). The figure is exact rather
+      than differenced between builds, because a second solve does not
+      mutate the vessel and so cannot change which main solves happen —
+      and an earlier run with the feature mostly declining measured the
+      same 698 underneath it. **10 of the 62 solvent questions were
+      answered from the cache for nothing**, which is what the lean
+      problem buys. Whether 7.4 % is worth 0.020 K turns on the engine not
+      being the bottleneck: the whole 113-lesson replay is eighteen
+      seconds of CPU, so this is a second of it, once, at build time. The
+      counters are `PhreeqcEquilibrator::solvent_activity_solves()` and
+      `kero prewarm` prints them, so the next person re-measures instead
+      of trusting this paragraph.
+    - **It is conditional, and the conditions are a cost argument.** No
+      second solve where the chemistry already routed to `pitzer` (it
+      would be the same solve twice), where `pitzer` lacks an element,
+      where a gas phase, surface, exchanger, solid solution or surviving
+      solid means the posed totals are not the solution's, where the lean
+      problem would be redox-coupled, or below 0.05 mol/kgw of dissolved
+      particles — there a_w rounds to 1.000 in PHREEQC's four-figure
+      table, φ computes as zero, `from_speciation` rejects it, and the two
+      models are within 0.003 K of each other in any case.
+    - **Two solves must be visible, or the bench is lying by omission.**
+      `SolutionInfo::solvent_activity` is `Some` on exactly the vessels
+      that cost two, and names `pitzer.dat` while `provenance.dataset`
+      beside it still names `wateq4f.dat` — which is the honest statement,
+      because the pH and the speciation really did come from wateq4f.
+      `routing` says it in prose, `kero` prints it on its own line, and
+      `activity_route()` reads `IonInteraction`. A hundredth-molal test
+      asserts the record is ABSENT, which is what stops the trigger
+      widening by accident into "every aqueous step solves twice".
+    - **Keeping Raoult and saying so was the real alternative, and it
+      loses.** Nothing was hidden — the route already declared itself
+      `IdealSolution`. But the correction is seven per cent of the
+      reported quantity; it is the same defect, in the same direction,
+      from the same cause as the one-molal case this branch's predecessor
+      fixed; a tenth molal is nearer what anyone actually makes than a
+      textbook mole in a kilogram; and the limit was never the modelling.
+      `pitzer.dat` is vendored, loaded and routed to every day, and
+      describes this solution perfectly well. It had simply never been
+      asked.
+    - **No measured value is asserted, and that is an open item rather
+      than an oversight.** Neither new test compares against a measured
+      freezing point or osmotic coefficient. The figures usually printed
+      for this solution trace to Robinson and Stokes' tabulation, a book
+      with no resolvable identifier, and the critical re-evaluations of it
+      are `J. Phys. Chem. Ref. Data` — NIST Standard Reference Data, on
+      the avoid row of PLAN.md's provenance table. Every number the new
+      tests assert is one this repository ships or computes, pinned and
+      labelled as such, with the model side traced through `pitzer.dat`'s
+      own `# ref. 3` marker to a paper with a DOI. The world-facing anchor
+      is owed — and it is owed for the one-molal test beside it too, which
+      has carried −3.4 °C, φ = 0.936 and 108.7 °C with no source id since
+      2026-09-11.
   - **A string test, pinned from the other side.** `kerotakis-core` sits
     below the crate that knows which dataset is which, so it decides whether
     to believe an activity by testing `Provenance::model` against

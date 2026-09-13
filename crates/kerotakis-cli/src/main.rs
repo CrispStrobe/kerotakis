@@ -411,6 +411,16 @@ fn main() {
                 files.len(),
                 bytes.len()
             );
+            // What the dilute-brine solvent activity costs, on the most
+            // representative script set this repo has: every shipped lesson,
+            // replayed through the real engine. Printed rather than asserted
+            // because it is a measurement, and a measurement that is only
+            // ever quoted in a commit message rots.
+            let (second_engine, second_cached) = engine.solvent_activity_solves();
+            let total = engine.engine_calls();
+            println!(
+                "  solvent-activity second opinions: {second_engine} engine calls and {second_cached} cache hits, against {total} engine calls in total"
+            );
         }
         Some("species") => {
             for s in species::REGISTRY {
@@ -1404,6 +1414,25 @@ fn explain_text(
             .unwrap();
             writeln!(out, "    model:   {}", p.model).unwrap();
             writeln!(out, "    routing: {}", p.routing).unwrap();
+            // A vessel that cost two solves says so here, on its own line,
+            // because "which dataset answered this?" has two answers for it
+            // and the one above is only the first.
+            if let Some(second) = vessel
+                .solution
+                .as_ref()
+                .and_then(|s| s.solvent_activity.as_ref())
+            {
+                writeln!(
+                    out,
+                    "    solvent activity: a_w = {:.5} from a second speciation on {} ({}), at {:.4} mol/kgw of particles and I = {:.4}",
+                    second.water_activity,
+                    second.dataset,
+                    second.model,
+                    second.particle_molality,
+                    second.ionic_strength
+                )
+                .unwrap();
+            }
             if !p.dataset_sources.is_empty() {
                 writeln!(out, "    the dataset records its own sources, e.g.:").unwrap();
                 for src in &p.dataset_sources {

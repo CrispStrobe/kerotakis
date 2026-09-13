@@ -218,6 +218,17 @@ fn redox_distribution(
 
 const WATER_MOLAR_MASS: f64 = 18.015;
 const TRACE: f64 = 1e-12;
+/// Dissolved particle molality below which asking a second dataset for the
+/// solvent's activity cannot buy anything.
+///
+/// PHREEQC's species table prints four significant figures, so a_w arrives
+/// quantised to about 1e-4. At 0.05 mol/kgw that is already most of the
+/// departure from unity; below it a_w rounds to 1.000, phi computes as
+/// zero, and `states::SolventActivity::from_speciation` rejects the answer
+/// as too coarse to carry information. It is also where the two models stop
+/// disagreeing about anything a thermometer could see: Raoult's law and an
+/// ion-interaction a_w are within about 0.003 K of each other here.
+const SECOND_OPINION_MIN_MOLALITY: f64 = 0.05;
 const UNTRACKED_EXCHANGE_ELEMENTS: &[&str] = &[
     "Al", "Ba", "Cd", "Cu", "Fe", "K", "Li", "Mn", "Pb", "Sr", "Zn",
 ];
@@ -354,6 +365,14 @@ pub struct PhreeqcEquilibrator {
     /// answer, and that is not a trade this codebase makes.
     trial_cache: std::collections::HashMap<(String, String), Rc<SolveOutput>>,
     trial_cache_hits: usize,
+    /// Second solves made for a solvent activity alone, split by whether
+    /// the engine ran. This is the COST of
+    /// [`Self::solvent_activity_second_opinion`], and it is counted rather
+    /// than estimated because it is the whole argument for that feature
+    /// being conditional: an unconditional one would be
+    /// `solvent_activity_asked == every aqueous step`.
+    solvent_activity_engine_calls: usize,
+    solvent_activity_cache_hits: usize,
     /// The electron activity the last successfully *bracketed* coupled solve
     /// converged to, carried across the temperature fixed point's
     /// iterations: the pe root barely moves between temperature guesses, so
@@ -807,6 +826,8 @@ impl PhreeqcEquilibrator {
             cache_hits: 0,
             trial_cache: std::collections::HashMap::new(),
             trial_cache_hits: 0,
+            solvent_activity_engine_calls: 0,
+            solvent_activity_cache_hits: 0,
             warm_pe: None,
             engine_calls: 0,
             hook: None,
@@ -825,6 +846,8 @@ impl PhreeqcEquilibrator {
             cache_hits: 0,
             trial_cache: std::collections::HashMap::new(),
             trial_cache_hits: 0,
+            solvent_activity_engine_calls: 0,
+            solvent_activity_cache_hits: 0,
             warm_pe: None,
             engine_calls: 0,
             hook: None,
@@ -850,6 +873,22 @@ impl PhreeqcEquilibrator {
     /// engine.
     pub fn trial_cache_hits(&self) -> usize {
         self.trial_cache_hits
+    }
+
+    /// Solvent-activity second opinions that reached the engine, and ones
+    /// answered from the content-addressed cache.
+    ///
+    /// The pair is the measurement, not the first number alone. The lean
+    /// problem this feature poses drops everything about a vessel that does
+    /// not change its solution's composition, so two steps that differ only
+    /// in how much undissolved solid is at the bottom ask the same solvent
+    /// question and the second is free — and the ratio here is how anyone
+    /// checks that claim instead of believing it.
+    pub fn solvent_activity_solves(&self) -> (usize, usize) {
+        (
+            self.solvent_activity_engine_calls,
+            self.solvent_activity_cache_hits,
+        )
     }
 
     /// One bisection trial, answered from the trial cache when the exact
@@ -1088,6 +1127,7 @@ fn characterize_solvent_only(vessel: &mut Vessel) -> Result<Vec<Event>, SolveErr
     vessel.free_proton = activity * solvent_kg.unwrap_or(0.0);
     vessel.free_hydroxide = activity * solvent_kg.unwrap_or(0.0);
     vessel.solution = Some(SolutionInfo {
+            solvent_activity: None,
         scope: SolutionScope::SolventOnly,
         solvent_kg,
         pe: None,
@@ -2376,6 +2416,7 @@ impl Equilibrator for PhreeqcEquilibrator {
 
         events.extend(reference_complex_boundary(vessel, &cached.speciation));
         vessel.solution = Some(SolutionInfo {
+            solvent_activity: None,
             scope: Default::default(),
             solvent_kg: value("mass_H2O"),
             // MIX itself does not solve the lab's electron-budget root.
@@ -2693,11 +2734,18 @@ impl PhreeqcEquilibrator {
         });
         let _ = cached.redox_adjusted;
 
+        // One number the dataset that answered the chemistry could not
+        // supply. See `solvent_activity_second_opinion` for the band it is
+        // asked in and what it costs.
+        let solvent_activity =
+            self.solvent_activity_second_opinion(vessel, &problem, db_tag, &value);
+
         Self::finalize_solution_info(
             vessel,
             &problem,
             db_tag,
             routing,
+            solvent_activity,
             cached.speciation.clone(),
             &cached.saturation,
             coupling_failed,
@@ -3131,6 +3179,291 @@ impl PhreeqcEquilibrator {
             input,
             key,
         }))
+    }
+
+    /// Ask `pitzer.dat` for the solvent's activity, and nothing else.
+    ///
+    /// **Why a second solve exists at all.** The router sends a solution to
+    /// the ion-interaction dataset only when it is CONCENTRATED — above
+    /// 1 mol/kgw, where the Debye-Hückel datasets are out of their validity
+    /// domain for the chemistry. Below that the chemistry is fine on
+    /// `wateq4f.dat` and the solvent's activity is not: PHREEQC does not
+    /// model a_w on a Debye-Hückel database, it prints the hard-coded
+    /// `1 - 0.017*Sum(m)` placeholder, which carries no information about
+    /// what is dissolved. `states::SolventActivity` therefore declines it
+    /// and Raoult's law stands in, which put a tenth-molal brine at
+    /// -0.371 °C: a dissolved salt's whole effect on its solvent taken as
+    /// a mole-fraction correction, with nothing in it about the salt. That
+    /// is the same defect, in the same direction and for the same reason,
+    /// as the one at one molal that 2026-09-11 fixed at the concentrated
+    /// end. No measured value is quoted here or asserted anywhere in this
+    /// feature's tests; `colligative_numbers.rs` says why, and PLAN.md
+    /// records the world-facing anchor as still owed.
+    ///
+    /// So the gap is not in the chemistry and does not want the chemistry
+    /// re-solved. It is one number, and this asks one dataset for it.
+    ///
+    /// **What is posed.** Element totals and the solvent mass, and nothing
+    /// else: no phases, no gas phase, no surfaces, no exchangers, no solid
+    /// solutions. That is deliberate in both directions. It is cheap — the
+    /// engine has no phase assemblage to iterate against — and it is
+    /// *cache-dense*, because the key is the input string and this input
+    /// drops everything about the vessel that does not change the solution's
+    /// composition. Two steps that differ only in how much undissolved
+    /// solid is sitting at the bottom pose the same solvent question and
+    /// the second is free.
+    ///
+    /// **When it is asked.** Only inside a band where the answer would both
+    /// differ from Raoult's law and be trustworthy, and only where posing
+    /// the lean problem cannot misrepresent the solution:
+    ///
+    /// 1. the chemistry did NOT route to `pitzer` — if it did, the `H2O`
+    ///    row of that solve is already the activity and a second one would
+    ///    be the same solve twice;
+    /// 2. `pitzer.dat` carries every element, or it cannot answer;
+    /// 3. no surfaces, exchangers or solid solutions, and no gas phase —
+    ///    each of those takes ions out of (or puts them into) the solution,
+    ///    so the totals handed to the lean problem would not be the
+    ///    solution's;
+    /// 4. no solid phase survived the main solve with a positive amount,
+    ///    for the same reason: a saturated solution's dissolved totals are
+    ///    not its input totals, and the lean problem has no phase to hold
+    ///    the excess;
+    /// 5. dissolved particles are at or above
+    ///    [`SECOND_OPINION_MIN_MOLALITY`]. Below that a_w rounds to 1.000
+    ///    in PHREEQC's four-significant-figure species table, phi computes
+    ///    as zero, and `SolventActivity::from_speciation` rejects it and
+    ///    returns the ideal route anyway — the solve would be paid for and
+    ///    thrown away.
+    ///
+    /// A failure is not an error: a dataset that cannot answer leaves
+    /// `None`, the vessel keeps the ideal route it had before this existed,
+    /// and nothing about the chemistry is disturbed.
+    ///
+    /// **That fallback is also the one thing to watch on the wasm side.** A
+    /// cache-only build has no engine, so this solve is a cache lookup and
+    /// nothing else; a key the shipped cache does not carry silently leaves
+    /// the vessel on the ideal route while the native bench takes the
+    /// ion-interaction one, and that is the 2026-08 native/wasm one-value
+    /// hazard wearing a new coat. It does not bite, because the cache is
+    /// generated by replaying the same lessons through this same code path
+    /// (`kero prewarm`), so a vessel whose main solve is in the cache has
+    /// its solvent question in there beside it — both keys are written by
+    /// the same run. The invariant to keep is that pairing: anything that
+    /// warms one key must warm the other, and "The two wasm halves,
+    /// together" is the gate that would notice if it stopped.
+    ///
+    /// **How a reader tells which happened.** Two ways, and they answer
+    /// different questions. `SolutionInfo::solvent_activity` is `Some` on
+    /// exactly the vessels that cost two solves, and names the dataset the
+    /// activity came from — which is not the dataset in `provenance` that
+    /// the pH and the speciation came from. And `Provenance::routing`,
+    /// which is rendered wherever provenance is, gains a sentence saying so
+    /// in prose. A vessel that took one solve has neither.
+    fn solvent_activity_second_opinion(
+        &mut self,
+        vessel: &Vessel,
+        problem: &Problem,
+        db_tag: &str,
+        value: &dyn Fn(&str) -> Option<f64>,
+    ) -> Option<kerotakis_core::vessel::SolventActivityProvenance> {
+        const SECOND: &str = "pitzer";
+        // `KERO_TRACE_SOLVENT_ACTIVITY=1` says which of the gates below
+        // turned a vessel away, in the same spirit as `KERO_DUMP_INPUT`.
+        // Every gate here is a silent `None`, and a silent `None` that is
+        // one gate too wide looks exactly like a feature that does not
+        // work: the first version of this declined every OPEN beaker on a
+        // condition that read as "no gas boundary", which is most of this
+        // bench, and nothing said so.
+        let decline = |reason: &str| -> Option<kerotakis_core::vessel::SolventActivityProvenance> {
+            if std::env::var("KERO_TRACE_SOLVENT_ACTIVITY").is_ok() {
+                eprintln!("solvent-activity second opinion declined: {reason}");
+            }
+            None
+        };
+        if db_tag == SECOND {
+            return decline(
+                "the chemistry already routed to pitzer, so its own H2O row is the activity",
+            );
+        }
+        if !problem.surfaces.is_empty()
+            || !problem.exchanges.is_empty()
+            || !problem.solid_solutions.is_empty()
+            || !problem.gases.is_empty()
+            || problem.solvent_only
+        {
+            return decline("a surface, exchanger, solid solution or finite gas headspace owns part of this composition");
+        }
+        // An external gas RESERVOIR is not a reason to decline, and reading
+        // it as one is what made the first version of this feature fire on
+        // almost nothing. `partition` gives every OPEN vessel an
+        // atmospheric reservoir — `O2(g)` unconditionally, because its
+        // element requirement outside H and O is empty and therefore
+        // vacuously met — so "no external gases" meant "not an open
+        // beaker", which is most of this bench. The reservoir is a phase
+        // offered holding ZERO moles: PHREEQC can precipitate into it and
+        // cannot dissolve from it, so it can only take matter OUT, and
+        // anything it took out shows up as a positive amount in the phase
+        // check below. Uptake from the room does not come through it at
+        // all — `GasExchangeClock` sizes that and `partition` has already
+        // put it in the element totals this lean problem is posed from.
+        //
+        // A DOSE is different and is still declined. A finite dose is
+        // carried in `phases` with its moles, not in `totals`, so stripping
+        // the phase list would silently delete matter that may have gone
+        // into solution.
+        if problem
+            .external_gases
+            .iter()
+            .any(|gas| !matches!(gas.kind, ExternalGasKind::Reservoir))
+        {
+            return decline("an external gas DOSE is carried as a phase, not as a total");
+        }
+        let brine = derived::index_for(SECOND);
+        if !problem.elements.iter().all(|el| brine.has_element(el)) {
+            return decline("pitzer.dat cannot express every element here");
+        }
+        // A phase that came out of the solve holding matter is a phase the
+        // lean problem has nowhere to put. For a mineral that means the
+        // solution is saturated against it and its dissolved totals are not
+        // its input totals; for an atmospheric reservoir it means gas left
+        // the liquid within the step. Either way the lean problem, which
+        // has no phases at all, would be posed from totals that are not the
+        // solution's — so it is not asked.
+        // The lean problem is posed from the solution AS SOLVED, not from
+        // the problem as posed, and that distinction is the whole of why
+        // the first three versions of this declined a plain beaker of
+        // brine. `partition` does not put a dissolving SOLID in `totals`:
+        // sodium chloride added to water arrives as a `Halite` phase
+        // carrying its moles, and `totals` for that beaker is empty. A
+        // lean problem built by clearing `phases` therefore threw the
+        // entire solute away and asked pitzer for the activity of pure
+        // water, which is below any floor and was declined as too dilute —
+        // a correct-looking refusal for a completely wrong reason.
+        //
+        // The selected output already carries the right numbers.
+        // `build_input` asks for `-totals` over every element, so
+        // `value(el)` is that element's DISSOLVED total in mol/kgw after
+        // the solve: the salt that went into solution is in it, the solid
+        // still sitting at the bottom is not, and the room's uptake is
+        // already folded in. Posing from those is both correct and more
+        // general than posing from the input — a saturated solution's
+        // dissolved totals are its solved totals, so no phase list is
+        // needed to hold the excess and none of this has to decline a
+        // solution merely for having a solid in the beaker.
+        let solved_kgw = value("mass_H2O").unwrap_or(problem.kgw);
+        if !(solved_kgw.is_finite() && solved_kgw > 0.0) {
+            return decline("no solvent mass");
+        }
+        // A valence-tagged element would need `build_input`'s own merge to
+        // be repeated here, and every such problem is a redox one that the
+        // gate below declines anyway. Declining early keeps one rule.
+        if problem.elements.iter().any(|el| el.contains('(')) {
+            return decline("a valence-tagged element belongs to a redox problem");
+        }
+        let mut dissolved: Vec<(String, f64)> = Vec::new();
+        for el in &problem.elements {
+            match value(el) {
+                Some(molality) if molality.is_finite() && molality > 0.0 => {
+                    dissolved.push((el.clone(), molality * solved_kgw));
+                }
+                Some(_) => {}
+                // An element with no readback column would be silently
+                // dropped from the lean problem, which is matter quietly
+                // disappearing — the one thing this engine keeps having to
+                // root out. Decline instead.
+                None => return decline(&format!("no dissolved total read back for {el}")),
+            }
+        }
+        let posed: f64 = dissolved.iter().map(|(_, n)| n).sum::<f64>() / solved_kgw;
+        if !posed.is_finite() || posed < SECOND_OPINION_MIN_MOLALITY {
+            return decline("dissolved element totals are below the molality floor");
+        }
+
+        let mut lean = problem.clone();
+        lean.totals = dissolved;
+        lean.kgw = solved_kgw;
+        lean.phases.clear();
+        lean.gases.clear();
+        lean.external_gases.clear();
+        lean.surfaces.clear();
+        lean.exchanges.clear();
+        lean.solid_solutions.clear();
+        // A coupled solve bisects for pe and is the most expensive shape this
+        // engine has. It is also not what is being asked for: the question is
+        // the solvent's activity, and a beaker whose electron budget needs
+        // solving can keep the route it had. Declining here is what keeps the
+        // worst case of this feature one ordinary solve rather than a search.
+        if redox_coupling(&lean, SECOND).is_some() {
+            return decline("the lean problem would be redox-coupled");
+        }
+
+        let input = build_input(vessel, &lean, SECOND);
+        let Ok(database_hash) = crate::native_namespace::fingerprint(SECOND) else {
+            return decline("pitzer.dat has no fingerprint");
+        };
+        let key = format!("#solvent-activity-v1:{SECOND}:{database_hash}\n{input}");
+        let engine_before = self.engine_calls;
+        let cached = match self.dispatch_solve(vessel, &lean, SECOND, &input, key) {
+            Ok((cached, _)) => cached,
+            Err(error) => return decline(&format!("the second solve refused: {error}")),
+        };
+        if self.engine_calls > engine_before {
+            self.solvent_activity_engine_calls += 1;
+        } else {
+            self.solvent_activity_cache_hits += 1;
+        }
+
+        let Some(water) = cached.speciation.iter().find(|sp| sp.name == "H2O") else {
+            return decline("the second speciation reported no H2O row");
+        };
+        let particle_molality: f64 = cached
+            .speciation
+            .iter()
+            .filter(|sp| sp.name != "H2O")
+            .map(|sp| sp.molality)
+            .sum();
+        if !particle_molality.is_finite() || particle_molality < SECOND_OPINION_MIN_MOLALITY {
+            return decline("the second speciation reported too few particles");
+        }
+        let ionic_strength = {
+            let rows = &cached.rows;
+            let parsed = rows
+                .first()
+                .and_then(|head| head.iter().position(|h| h == "mu"))
+                .and_then(|i| rows.last().and_then(|row| row.get(i)))
+                .and_then(|cell| cell.parse::<f64>().ok());
+            match parsed {
+                Some(mu) => mu,
+                None => return decline("the second solve reported no ionic strength"),
+            }
+        };
+        // The same plausibility gate `SolventActivity::from_speciation`
+        // applies, applied here too so a useless answer is not recorded as
+        // provenance. An activity that fails it would leave the vessel on
+        // the ideal route regardless, and a `Some` that meant "ideal" would
+        // be the most misleading thing this field could hold.
+        if kerotakis_core::states::SolventActivity::from_speciation(
+            water.activity,
+            particle_molality,
+            ionic_strength,
+        )
+        .osmotic_coefficient
+        .is_none()
+        {
+            return decline(&format!(
+                "the activity is not one an osmotic model produced: a_w = {} at {particle_molality} mol/kgw",
+                water.activity
+            ));
+        }
+
+        Some(kerotakis_core::vessel::SolventActivityProvenance {
+            dataset: dataset_name(SECOND),
+            model: brine.activity_model.describe().to_string(),
+            water_activity: water.activity,
+            particle_molality,
+            ionic_strength,
+        })
     }
 
     fn dispatch_solve(
@@ -4158,6 +4491,7 @@ impl PhreeqcEquilibrator {
         problem: &Problem,
         db_tag: &str,
         routing: String,
+        solvent_activity: Option<kerotakis_core::vessel::SolventActivityProvenance>,
         speciation: Vec<SpeciesDetail>,
         saturation: &[(String, f64)],
         coupling_failed: Option<String>,
@@ -4237,12 +4571,26 @@ impl PhreeqcEquilibrator {
                 dataset: dataset_name(db_tag),
                 model: idx.activity_model.describe().to_string(),
                 dataset_sources: dataset_sources(db_tag),
-                routing: if redox_note.is_empty() {
+                routing: {
+                    let mut routing = if redox_note.is_empty() {
+                        routing
+                    } else {
+                        format!("{routing}. {redox_note}")
+                    };
+                    // Said in prose as well as in the field, because
+                    // `routing` is what is rendered beside the numbers and
+                    // "two datasets answered this beaker" is exactly the
+                    // kind of thing a reader should not have to infer.
+                    if let Some(second) = solvent_activity.as_ref() {
+                        routing.push_str(&format!(
+                            "; the solvent's activity is NOT from this dataset — it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model — but from a second speciation of the same solution on {} ({}), posed with no phases, gas or interfaces and asked for a_w alone",
+                            second.dataset, second.model
+                        ));
+                    }
                     routing
-                } else {
-                    format!("{routing}. {redox_note}")
                 },
             }),
+            solvent_activity,
         };
         let changed = vessel
             .solution

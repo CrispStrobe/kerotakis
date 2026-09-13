@@ -426,15 +426,37 @@ pub const ION_INTERACTION_MAX_IONIC_STRENGTH: f64 = 20.0;
 ///   constant that carries no information about what is dissolved is not a
 ///   solvent model, so this bench declines it and says ideal instead.
 ///
-/// The consequence, stated rather than hidden: a solution the router sends
-/// to a Debye–Hückel dataset takes the ideal route even where an
-/// ion-interaction model would have done better. Below about 0.5 molal the
-/// two agree to a few hundredths of a kelvin; between there and the
-/// router's 1 mol/kgw threshold the ideal route is a few per cent
-/// optimistic in the same direction the dilute law was. Closing that needs
-/// a solvent activity asked of `pitzer.dat` independently of which dataset
-/// answered the speciation, which is a second solve per step and its own
-/// piece of work.
+/// That consequence used to be stated and left standing: a solution the
+/// router sent to a Debye–Hückel dataset took the ideal route even where
+/// an ion-interaction model would have done better, and between about 0.05
+/// molal and the router's 1 mol/kgw threshold the ideal route was
+/// optimistic in the same direction the dilute law was — a tenth-molal
+/// brine at −0.371 °C, the whole of a dissolved salt's effect on its
+/// solvent taken as a mole-fraction correction with nothing in it about
+/// the salt.
+///
+/// **Since 2026-09-13 the activity is asked for instead of given up on.**
+/// When the dataset that answered the chemistry is not an ion-interaction
+/// model, `pitzer.dat` is asked for the solvent's activity in a SECOND
+/// speciation of the same solution, posed with no phases, no gas and no
+/// interfaces — element totals and the solvent mass, and a_w is the only
+/// thing read back. A tenth-molal brine reads −0.3516 °C on that activity
+/// where Raoult's law said −0.3712, a correction of 0.020 K, on virial
+/// coefficients `pitzer.dat` attributes to Appelo (2015), Appl. Geochem.
+/// 55, 62-71, doi:10.1016/j.apgeochem.2014.11.007.
+/// `PhreeqcEquilibrator::solvent_activity_second_opinion` owns the band it
+/// is asked in and what it costs; the two facts that belong here are that
+/// the second opinion, when there is one, is believed on exactly the same
+/// terms as a first — the same φ band, the same precision floor — and that
+/// a reader can always tell which happened, because
+/// `SolutionInfo::solvent_activity` is `Some` on precisely the vessels that
+/// cost two solves and names the dataset the activity came from.
+///
+/// Below about 0.05 molal nothing is asked and nothing changes. There a_w
+/// rounds to 1.000 in PHREEQC's four-significant-figure species table, φ
+/// computes as zero, `from_speciation` rejects it, and the two models are
+/// within about 0.003 K of each other anyway: an engine call for a number
+/// that would be discarded and would not have moved a thermometer.
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
 pub struct SolventActivity {
     /// The osmotic coefficient an ion-interaction speciation computed for

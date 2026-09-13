@@ -1168,6 +1168,33 @@ fn solvent_activity_of(
     let Some(info) = vessel.solution.as_ref() else {
         return ideal;
     };
+    // A second speciation, made on an ion-interaction dataset for this one
+    // number because the dataset that answered the chemistry could not
+    // supply it, is believed on exactly the same terms as a first one — and
+    // it carries its OWN molality and ionic strength, because those are the
+    // state its a_w belongs to. Reading it first is what makes a tenth-molal
+    // brine a modelled solution rather than an ideal one; see
+    // `crate::states::SolventActivity` for when it is asked for.
+    //
+    // φ is then applied at the bench's OWN particle count, which is the
+    // census `dissolved_particles` takes from the dataset that answered the
+    // chemistry, not from the one that answered the activity. That is
+    // deliberate and it is the same thing `with_unspeciated` does for a
+    // sugar: φ is a ratio between a real solvent and an ideal one, and it
+    // is far less sensitive to which speciation counted the ions than a_w
+    // itself is. For the case this exists for the two counts agree anyway —
+    // neither dataset pairs Na+ with Cl-. A solution where they disagreed
+    // materially would be one with substantial complexation, and those are
+    // concentrated enough to route to `pitzer` for the chemistry in the
+    // first place, where no second solve happens at all.
+    if let Some(second) = info.solvent_activity.as_ref() {
+        return crate::states::SolventActivity::from_speciation(
+            second.water_activity,
+            second.particle_molality,
+            second.ionic_strength,
+        )
+        .with_unspeciated(speciated, unspeciated);
+    }
     let ion_interaction = info.provenance.as_ref().is_some_and(|provenance| {
         provenance
             .model
