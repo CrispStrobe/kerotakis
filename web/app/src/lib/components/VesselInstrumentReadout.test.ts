@@ -120,6 +120,41 @@ describe("the reading a phone can actually read", () => {
   });
 });
 
+describe("persistent electrode authority", () => {
+  it("shows only engine-owned potential and surface concentrations", () => {
+    const drawn = render(Vessel, { props: {
+      vessel: {
+        ...beaker,
+        electrodes: [{
+          label: "working",
+          material: "Pt",
+          surface_preparation: "polished",
+          geometric_area_m2: 2.5e-4,
+          roughness: 1.2,
+          interfacial_potential_v: 0.315,
+          surface_species: [{ reaction_id: "hydrogen", species: "H+", concentration_mol_per_m3: 12.5 }],
+        }],
+      },
+      register: "lv2",
+      effects: [],
+    } }).body;
+    expect(drawn).toContain('data-electrode="working"');
+    expect(drawn).toContain('data-potential-v="0.315000"');
+    expect(drawn).toContain('data-surface-species="1"');
+    expect(drawn).toContain("12.50 mol/m³");
+  });
+
+  it("states when potential is unavailable instead of inferring it", () => {
+    const drawn = render(Vessel, { props: {
+      vessel: { ...beaker, electrodes: [{ label: "working", material: "Pt", geometric_area_m2: 1e-4, roughness: 1 }] },
+      register: "lv2",
+      effects: [],
+    } }).body;
+    expect(drawn).toContain("potential unavailable");
+    expect(drawn).not.toContain("data-potential-v=");
+  });
+});
+
 function readSource(relative: string): string {
   return readFileSync(new URL(relative, import.meta.url), "utf8");
 }

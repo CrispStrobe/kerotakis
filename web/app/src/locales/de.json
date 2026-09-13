@@ -2602,6 +2602,8 @@
   "Two limits, one carbon-dioxide ledger": "Zwei Begrenzungen, eine Kohlenstoffdioxid-Bilanz",
   "Hold bicarbonate fixed while acid rises, then hold acid in excess while bicarbonate rises. Which reagent limits the computed carbon dioxide?": "Halte Hydrogencarbonat konstant und erhöhe die Säure; halte dann die Säure im Überschuss und erhöhe das Hydrogencarbonat. Welcher Stoff begrenzt das berechnete Kohlenstoffdioxid?",
   "Longer waits advance peroxide kinetics": "Längeres Warten treibt die Peroxidkinetik voran",
-  "Give identical peroxide samples four different waits. Does elapsed time invent a reaction the model was never told to run?": "Lass identische Peroxidproben vier unterschiedlich lange warten. Erfindet verstrichene Zeit eine Reaktion, deren Ablauf dem Modell nie vorgegeben wurde?"
+  "Give identical peroxide samples four different waits. Does elapsed time invent a reaction the model was never told to run?": "Lass identische Peroxidproben vier unterschiedlich lange warten. Erfindet verstrichene Zeit eine Reaktion, deren Ablauf dem Modell nie vorgegeben wurde?",
+  "Electrode {label}: {material}, area {area} square metres, roughness {roughness}": "Elektrode {label}: {material}, Fläche {area} Quadratmeter, Rauheit {roughness}",
+  "potential unavailable": "Potential nicht verfügbar"
  }
 }
