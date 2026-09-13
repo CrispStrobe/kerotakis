@@ -293,6 +293,17 @@ fn a_tenth_molal_brine_is_answered_by_a_model_and_not_by_raoult() {
         (0.90..=0.96).contains(&phi),
         "a tenth-molal 1:1 chloride's osmotic coefficient sits a little under one: {phi:.4}"
     );
+    // It reads 0.945, and the gap between that and the low 0.93s a reader
+    // may have in mind is PRECISION, not physics, so it is written down
+    // here rather than left to look like an error. PHREEQC's species table
+    // prints four significant figures, so a_w arrives as 0.9966 rather than
+    // 0.996647, and phi = -ln(a_w)/(M_w*Sum(m)) turns a 5e-5 rounding in
+    // a_w into 0.013 in phi at this dilution — 1.4 %, all of it upward,
+    // and worth about 0.005 K on the freezing point. That is the accuracy
+    // ceiling of this route at a tenth molal and it is why the pin below is
+    // a few thousandths of a kelvin wide rather than a few ten-thousandths.
+    // Closer would need a_w off the wire at full precision, which is a
+    // different piece of work in the readback.
 
     let freezing_c = transitions.freezing_k - 273.15;
     eprintln!("0.1 molal NaCl: freezing point {freezing_c:.4} C");
@@ -326,7 +337,7 @@ fn a_tenth_molal_brine_is_answered_by_a_model_and_not_by_raoult() {
     // the engine, the dataset or the relation moves, and it is meant to:
     // that is what makes it a pin rather than a measurement.
     assert!(
-        (freezing_c + 0.347).abs() < 0.010,
+        (freezing_c + 0.3516).abs() < 0.004,
         "pin for the ion-interaction route at 0.1 molal: {freezing_c:.4} C"
     );
 }

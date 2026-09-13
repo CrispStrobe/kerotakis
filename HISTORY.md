@@ -249,7 +249,7 @@ it had while it was open, which is why a few numbers appear twice below.
     `pitzer.dat` is now asked for the activity in a SECOND speciation of
     the same solution, posed lean (element totals and the solvent mass; no
     phases, gas or interfaces) and read for a_w alone, and the beaker lands
-    at −0.347 °C — a 0.024 K correction, seven per cent of the quantity
+    at −0.3516 °C — a 0.020 K correction, six per cent of the quantity
     being reported, on virial coefficients `pitzer.dat` attributes to
     Appelo, 2015, Appl. Geochem. 55, 62-71,
     doi:10.1016/j.apgeochem.2014.11.007. What it taught:

@@ -440,10 +440,10 @@ pub const ION_INTERACTION_MAX_IONIC_STRENGTH: f64 = 20.0;
 /// model, `pitzer.dat` is asked for the solvent's activity in a SECOND
 /// speciation of the same solution, posed with no phases, no gas and no
 /// interfaces — element totals and the solvent mass, and a_w is the only
-/// thing read back. A tenth-molal brine reads −0.347 °C on that activity,
-/// a correction of 0.024 K, on virial coefficients `pitzer.dat` attributes
-/// to Appelo (2015), Appl. Geochem. 55, 62-71,
-/// doi:10.1016/j.apgeochem.2014.11.007.
+/// thing read back. A tenth-molal brine reads −0.3516 °C on that activity
+/// where Raoult's law said −0.3712, a correction of 0.020 K, on virial
+/// coefficients `pitzer.dat` attributes to Appelo (2015), Appl. Geochem.
+/// 55, 62-71, doi:10.1016/j.apgeochem.2014.11.007.
 /// `PhreeqcEquilibrator::solvent_activity_second_opinion` owns the band it
 /// is asked in and what it costs; the two facts that belong here are that
 /// the second opinion, when there is one, is believed on exactly the same

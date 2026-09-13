@@ -1879,7 +1879,7 @@ Open, and small:
 - [x] **A dilute brine took the ideal route, and now takes an
       ion-interaction one. Closed 2026-09-13 by asking `pitzer.dat` for the
       solvent activity in a second, lean speciation. A tenth-molal brine
-      reads −0.347 °C where Raoult's law said −0.371.** The solvent
+      reads −0.3516 °C where Raoult's law said −0.3712.** The solvent
       activity is believed only when an ion-interaction speciation computed
       it, and the router sends a solution to `pitzer.dat` at 1 mol/kgw — so
       0.1 molal brine was answered by a Debye–Hückel dataset, whose
@@ -1889,8 +1889,8 @@ Open, and small:
       **Why it was worth a second solve rather than a sentence.** Keeping
       Raoult and simply saying so was the real alternative, and the code
       already declared the route `IdealSolution`, so nothing was hidden. It
-      loses on three counts. The correction is 0.024 K on a 0.347 K answer,
-      which is seven per cent of the quantity being reported. It is the
+      loses on three counts. The correction is 0.020 K on a 0.352 K answer,
+      which is six per cent of the quantity being reported. It is the
       SAME defect, in the same direction and from the same cause, as the
       one at one molal that was judged worth fixing on 2026-09-11 — Raoult's
       law standing in for a solvent activity — so declining it here would
@@ -1902,6 +1902,18 @@ Open, and small:
       attributes to Appelo, 2015, Appl. Geochem. 55, 62-71,
       doi:10.1016/j.apgeochem.2014.11.007) describe this solution perfectly
       well. It had simply never been asked.
+
+      **What it does NOT buy, stated because the figure invites the wrong
+      reading.** φ comes back at 0.945, and the route's accuracy at this
+      dilution is capped near ±0.005 K — not by the model but by the
+      readback. PHREEQC's species table prints four significant figures, so
+      a_w arrives as 0.9966 rather than 0.996647, and
+      φ = −ln(a_w)/(M_w·Σm) turns a 5 × 10⁻⁵ rounding in a_w into 0.013 in
+      φ at 0.2 mol/kgw of particles: 1.4 per cent, all of it upward. The
+      correction this buys is therefore real and is most of the gap, but it
+      is not exact, and getting closer needs a_w off the wire at full
+      precision, which is a change in the readback rather than in this
+      route.
 
       **What it costs, measured rather than estimated.** `kero prewarm lessons/*.lab` replays
       every shipped lesson through the real engine, which is the most
