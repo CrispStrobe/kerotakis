@@ -34,7 +34,7 @@ appearances or changes scientific behavior.
   renumbered and never reused**; a completed item keeps its number and date.
 - **HISTORY.md** — what landed and what was learned, newest first.
 
-## Current experiment-expansion checkpoint (2026-09-08)
+## Current experiment-expansion checkpoint (2026-09-13)
 
 The source-informed audit programme is complete on `main`: 24 frozen sixth-
 fleet cases plus 240 original source-informed scripts passed 404 execution and
@@ -93,13 +93,18 @@ CI-backed work described above and in
 
 ## Electrochemical kinetics — next ordered work
 
-#559 and #564–#567 provide the shared computed engine, whole-curve validation,
-typed potential frames, multispecies interfacial transport and persistent
-transient diffusion layers. Continue in this order:
+#559 and #564–#571 provide the shared computed engine, whole-curve validation,
+typed potential frames, multispecies interfacial transport, persistent
+transient diffusion layers, validated local equilibria at the interface and a
+Nernst–Planck boundary solver. The latter two are infrastructure, not yet a
+claim that homogeneous reaction and migration are coupled throughout a
+time-evolving diffusion layer. Continue in this order:
 
-1. Couple homogeneous buffer/speciation reactions inside the diffusion layer,
-   then add migration and electroneutrality through a Nernst–Planck boundary
-   model. Do not represent either effect by tuning an effective diffusivity.
+1. Integrate the already-developed reactive-electrodiffusion work against
+   current `main`, then prove homogeneous buffer/speciation reactions,
+   migration and electroneutrality together through the time-evolving
+   diffusion layer. Do not represent any effect by tuning an effective
+   diffusivity.
 2. Add sweep-direction hysteresis, breakdown/repassivation state and evolving
    films only with forward/reverse or time-series evidence that identifies
    their parameters. A forward polarization curve cannot identify hysteresis.
@@ -111,6 +116,15 @@ transient diffusion layers. Continue in this order:
    GUI authority surface.
 5. Add quantitative learner experiments only after their parameter domain and
    matched controls pass the whole-curve and conservation gates.
+
+The 2026-09-13 integration programme follows that order and keeps every
+learner-facing addition on the existing Experiments, Codex or Missions
+surfaces: first audit and integrate reactive electrodiffusion; then expose the
+authority fields in the GUI; repair solvent-only aqueous characterization;
+render the already-exported Codex models and their `fails_at` boundaries;
+resume immutable CI-backed source fleets and promote only distinct supported
+concepts; finally produce an evidence-based worktree cleanup manifest. Heavy
+fleet and workspace validation runs on GitHub Actions, not the deployment VPS.
 
 Open circuit remains zero net external current, not zero partial currents.
 Never infer isolated branches from net current, digitize plots for runtime
