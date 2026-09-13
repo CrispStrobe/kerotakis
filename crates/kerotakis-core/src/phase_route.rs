@@ -408,7 +408,6 @@ fn release_gas(vessel: &mut Vessel, species: SpeciesId, moles: Moles, events: &m
 /// the registry's transition temperature with it, so that `boils_at`
 /// returns `None` and the bench has no transition to be silently wrong
 /// about — a change to the phase-transition tranche, not to this table.
-
 pub const FUSION_ENTHALPIES: &[LatentHeat] = &[
     LatentHeat {
         species: "ethanol",
