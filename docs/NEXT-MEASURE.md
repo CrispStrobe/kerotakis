@@ -7,11 +7,26 @@ The decision is the owner's.
 
 ## 1. Why the corpus stopped discriminating
 
-`docs/CURIOSITY-COVERAGE.md` records 499 of 500 prompts answered — 328
-computed, 56 curated, 55 qualitative, 60 boundary, 1 missing. The one missing
+`docs/CURIOSITY-COVERAGE.md` records 499 of 500 prompts answered — 320
+computed, 64 curated, 55 qualitative, 60 boundary, 1 missing. The one missing
 row is `mat-054`, and it was judged unable to close honestly rather than left
 undone. A measure that reads 499/500 cannot rank work any more; it has no
 remaining shadow to point at.
+
+Those first two figures were 328 and 56 yesterday. **#582 moved eight rows
+from `computed` to `curated` this afternoon, and its own commit message is the
+cleanest statement of this document's thesis available:**
+
+> No chemistry changed. The same solver examines the same vessels, burns the
+> same fuel, releases the same heat and emits the same events; only the label
+> on the road changed.
+
+That change was correct and well argued — `CombustionEquilibrator` was taking
+the `Equilibrator` trait's default `route_kind` by omission while running
+entirely on curated tables. But note what moved and what did not. Eight of the
+corpus's five hundred rows changed disposition, and the bench's answers are
+byte-identical. A measure whose largest movement in a day is a relabelling is
+measuring labels.
 
 `CONTRIBUTING.md` §6 already says why that matters, in the repository's own
 words: "a defect can be latent for exactly as long as a corpus row is
@@ -112,11 +127,32 @@ absorptivity curated at 1.8× the literature value." That is 80 per cent wrong,
 in curated data, found by a human comparison that nothing in the repository
 performs systematically.
 
-And there is a third, still open. `PLAN.md` lines 1832–1838 record that a 0.1
-molal brine is still answered by a Debye–Hückel dataset and takes Raoult's
-law: **−0.371 °C against a measured −0.346** — about seven per cent
-optimistic, in the same direction the dilute law was. It is written down. It
-is understood. Nothing fails because of it.
+And there is a third, which was open until this afternoon. `PLAN.md` lines
+1832–1838 record that a 0.1 molal brine was still answered by a Debye–Hückel
+dataset and took Raoult's law: **−0.371 °C against a measured −0.346** — about
+seven per cent optimistic, in the same direction the dilute law was. It was
+written down, it was understood, and nothing failed because of it.
+
+**PR #584 is fixing it right now, and it is the best evidence in this
+document, because it is the pattern repeating in real time.** The fix is
+correct and carefully argued; it asks `pitzer.dat` for the solvent activity in
+a second lean speciation and lands the beaker at −0.347. Look at how the
+reference values travel:
+
+- the PR is a draft whose text carries `@@TENTH@@` placeholders "that will be
+  replaced with the measured numbers before this comes out of draft" — the
+  measurements are being sourced **by hand, now**;
+- the new test's doc comment reads "φ comes back at 0.932 against a measured
+  0.9324" and "−0.371 °C against a measured −0.346";
+- **neither measured value carries a citation.** No DOI, no edition, no page,
+  no `source_id` — consistent with the rest of `colligative_numbers.rs`, which
+  has none in 350 lines;
+- and the PR adds no gate that would catch the next defect of this kind.
+
+Four numeric defects, four hand discoveries, four hand fixes, and after each
+one the measured value that proved it is stored as English in a comment. That
+is not a criticism of any of the four changes. It is the argument that the
+repository is missing an instrument, not diligence.
 
 The measured reference values in all three cases live in commit messages and
 in prose — `HISTORY.md` lines 124, 125, 139, 146 — where no gate can read
@@ -593,10 +629,13 @@ Five supporting reasons:
    actually shipped.** Three known instances: brine at 9 %, permanganate
    absorptivity at 1.8×, and the 0.1-molal case still open at 7 %. Option B
    would have missed all three. Option C would have missed all three.
-2. **It fails on day one, which is what makes it a measure.** The 0.1-molal
-   case is documented in `PLAN.md` and wrong today. A gate that starts red
-   with a known, understood, argued failure is the opposite of this
-   repository's twice-hit failure mode.
+2. **It would have been red for months, and nothing said so.** The 0.1-molal
+   row would have failed from the day the dilute law landed until #584 merges.
+   That is the value of the instrument: not that it starts red today, but that
+   it would have been red the whole time the defect existed, visibly, instead
+   of waiting for someone to check a number by hand while doing something
+   else. A measure whose rows can be red for known, understood, argued reasons
+   is the opposite of this repository's twice-hit failure mode.
 3. **The machinery is mostly built.** The row schema runs in production
    (`tests/oracle/expected/*.json`); the source registry, its lint and its
    referential integrity run in preflight; the licence doctrine has a worked
@@ -659,7 +698,10 @@ Concretely:
    source: the four in `HISTORY.md` lines 124–146 (1 molal freezing −3.4 °C,
    6 molal boiling 108.7 °C, φ = 0.936 at 1 molal, 0.1 molal freezing
    −0.346 °C), the sucrose depression and van 't Hoff factor already asserted
-   in `colligative_numbers.rs`, and the open `PLAN.md` case.
+   in `colligative_numbers.rs`, and the two #584 is adding as this is written
+   (φ = 0.9324 at a tenth molal, and the −0.346 it lands against). **Do this
+   after #584 merges**, so the family is seeded from the corrected engine and
+   the rows start green except where the repository knows they should not.
 3. **Give each a real citation.** `colligative_numbers.rs` asserts every one of
    these against "measurement" and "textbooks print" with **no DOI, no edition,
    no page, anywhere in its 350 lines**. Closing that is the actual work of
