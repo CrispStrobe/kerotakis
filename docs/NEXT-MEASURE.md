@@ -93,3 +93,148 @@ in prose — `HISTORY.md` lines 124, 125, 139, 146 — where no gate can read
 them. `−3.4`, `108.7`, `0.936`, `−0.346` are the numbers that mattered most to
 a year of chemistry work, and they are stored as English.
 
+## 3. Option A — a numeric accuracy corpus
+
+Rows of the form: *this script, run on this bench, produces this quantity;
+the published value is X ± t, from source S.*
+
+### What already exists
+
+More than the framing of the question assumes. The hard parts are mostly
+built.
+
+**Licence-cleared reference data is a solved problem here, three times over.**
+`provenance/sources.toml` holds 34 reviewed sources under
+`policy = "store-permissive-v1"`, and three of them are *already* reference-
+value sources, approved, cited, and in use:
+
+| Source id | What it supplies | Licence |
+|---|---|---|
+| `usbm-ic9429-complexes-25c` | copper-ammine and ferric-thiocyanate reference constants | US Bureau of Mines public domain |
+| `sander-2023-hbr-reference` | HBr dissociative Henry constant and local slope | CC-BY-4.0 |
+| `uscg-chris-still-reference` | methanol and isopropanol boiling and latent reference fields | US Coast Guard public domain |
+
+Each has a review note beside it (`provenance/*-review.md`, 49–97 lines) that
+states origin, terms, the exact fields cleared, the fields deliberately *not*
+taken, and the download hashes. `provenance/uscg-chris-still-review.md` even
+records rejecting a wrong number a search engine returned in favour of what
+the original PDF prints. **The question "where can reference data honestly
+come from" already has a worked answer and a routine**: a public-domain
+government publication or a CC-BY paper, a per-source review note, a
+`sources.toml` entry, `decision = "approved"`. The cost is roughly one review
+note per source, not a new policy.
+
+Bulk compilations remain out. `PLAN.md` line 338 already records the shape of
+that rule for ORD: "Validation oracle only, never ingestion: check curated
+conditions against literature without touching ORD's CC-BY-SA (the same oracle
+pattern as `thermo` and Cantera)." The **build-time principle** (`PLAN.md`,
+"No Python is a runtime constraint. The build machine runs anything") clears a
+second supply route: `thermo` (MIT), Cantera, ChemPy (BSD-2), and Reaktoro
+(LGPL, build-time only, never linked) are already listed as oracles, with
+Reaktoro explicitly described as a differential oracle that "loads our exact
+PHREEQC databases natively: same `pitzer.dat`, independent solver." Persisting
+"only approved facts or aggregate metrics, never an unreviewed fixture export"
+is already the stated rule.
+
+**Per-row tolerance has an anchor.** `crates/kerotakis-core/src/instrument.rs`
+already declares a precision per instrument — thermometer ±0.1 °C, balance
+±0.01 g, pH meter ±0.01, pressure gauge ±0.1, conductivity ±1.0, calorimeter
+±0.01, spectrophotometer ±0.001, melting-point apparatus ±0.5 — on a `Reading`
+struct that carries `precision: Option<f64>`. That is eight quantities with a
+declared numeric bar, which is the right axis to hang tolerances on.
+
+It is **not** the right *value*, and the proposal is explicit about this
+because it is where the option most easily goes wrong. Instrument precision is
+how finely the bench can read; model tolerance is how far the model may be
+from reality. The brine error was 0.32 °C against a thermometer that declares
+±0.1 °C. Set the tolerance at instrument precision and nearly every row fails
+on day one and the gate gets switched off. Set it loose enough that everything
+passes and it proves nothing. **Tolerance must be argued per quantity and per
+claimed model, in the row, next to the citation.** A pH from a Debye–Hückel
+dataset, a freezing point from an ion-interaction one, and an adiabatic flame
+temperature do not deserve the same bar, and a row that does not say why it
+has the bar it has is not evidence.
+
+**Execution and freezing machinery exists and runs in CI.**
+`tools/chemistry-audit/` already builds the CLI once, hashes the binary,
+records submodule state, and replays 856 frozen cases in process-isolated
+shards, retaining stdout, stderr, scripts, final benches, hashes and law-check
+reports. A case is `{id, question, script}` JSON under a declared schema
+(`kerotakis-source-fleet-v1`). **Adding `expected`, `unit`, `tolerance`,
+`tolerance_reason` and `source_id` to that record is the whole data-model
+change.** The runner, the freezing, the sharding and the CI workflow are done.
+
+`crates/kerotakis-phreeqc/tests/colligative_numbers.rs` is a hand-built
+instance of exactly this pattern for one quantity, and `docs/SEMANTIC-
+ASSERTIONS.md` describes an assertion language that is one `kind` short — it
+has `equal`, `increasing`, `decreasing`, `conserved`, `unchanged`, `ratio`,
+and no kind that takes an external number.
+
+### What it would cost
+
+- **A tolerance policy, per quantity.** The genuinely hard part, and the part
+  that cannot be delegated to a generator. Perhaps a day of argument for the
+  first six quantities, then cheap per addition.
+- **A source review per new reference source**, at the rate the three existing
+  ones were done: ~70–100 lines each.
+- **One new assertion kind** and its analyser branch. Small against the 1,157
+  lines of `crates/kerotakis-cli/src/coverage.rs` that already exist.
+- **Seeding the rows.** Every measured value already written down in prose is
+  a free row: `HISTORY.md` lines 124, 125, 139, 146 alone supply four, and
+  `PLAN.md` 1832–1838 supplies a fifth that fails today.
+
+### What it would catch that nothing catches today
+
+The brine defect, on the day it landed. The permanganate absorptivity, at
+1.8×. The open 0.1-molal case, immediately. Any future change that keeps a
+quantity monotonic and conserved while moving it the wrong distance — which is
+the failure mode of every curated constant, every fitted parameter, and every
+limiting law used outside its limit.
+
+### What it would miss
+
+- **Anything with no published value**, which is a large part of a teaching
+  bench: qualitative observations, refusals, boundary behaviour, prose, and
+  the entire interface. It supplements the corpus's qualitative and boundary
+  rows; it does not replace them.
+- **Systematic error shared with the reference.** If the reference value and
+  the engine both come from the same upstream database, agreement proves
+  nothing. The row must record where the reference came from *and that it is
+  independent of the path under test* — this is the same trap `HISTORY.md`
+  1657 records for identity: "a registry key can pass an identity gate for the
+  wrong reason, as Al's stored InChIKey matched an independently-wrong hydride
+  computation."
+- **Reachability.** A perfectly accurate quantity no learner can obtain still
+  scores full marks.
+
+### How it could go wrong
+
+**The dominant risk is a tolerance chosen to make the row pass.** That is this
+repository's recurring failure mode — a gate that reads stronger than it is —
+in its purest form, and it is invisible in the count. Mitigation is structural
+rather than procedural: the tolerance and its *reason* are separate fields, a
+row whose tolerance was widened shows that in its diff, and
+`CONTRIBUTING.md` §4's existing rule — "contributions that hardcode 'expected'
+results defeat the project's premise" — must be read carefully here. A
+hardcoded expected result in the *engine* defeats the premise. A cited
+external value in a *test* is the opposite of hardcoding: it is the only thing
+that can tell the engine it is wrong. The proposal recommends saying that
+distinction out loud in `CONTRIBUTING.md`, because a reviewer will otherwise
+reasonably object.
+
+Second risk: reference values transcribed wrong. The existing review notes
+already handle this with download hashes and per-field selection.
+
+### What a passing score would and would not prove
+
+**Would prove:** for each covered quantity, on each covered script, the bench
+agrees with an independently sourced published number to a stated and argued
+tolerance.
+
+**Would not prove:** that the model is right anywhere between the rows; that
+the tolerances are appropriate; that the quantities not covered are accurate;
+that a learner can reach any of it; or that the engine is right for the right
+reason — a fitted constant and a correct mechanism can hit the same number.
+A high score with three quantities covered says nothing about the fourth, so
+**the count that matters is quantities covered, not rows passing.**
+
