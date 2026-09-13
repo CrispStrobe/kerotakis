@@ -666,6 +666,43 @@ pub struct SolutionInfo {
     /// Where this answer came from.
     #[serde(default)]
     pub provenance: Option<Provenance>,
+    /// A SECOND speciation, run on an ion-interaction dataset for one
+    /// number the first one could not supply: the solvent's activity.
+    ///
+    /// `None` is the ordinary case and means exactly one solve produced
+    /// this record — either the dataset in `provenance` was already an
+    /// ion-interaction model, in which case its own `H2O` row IS the
+    /// activity and nothing further was asked, or the solution was outside
+    /// the band where a second opinion is worth an engine call. `Some` is
+    /// the only way to tell from outside that this vessel cost two solves,
+    /// and it names the dataset the activity came from, which is not the
+    /// dataset the pH and the speciation came from.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub solvent_activity: Option<SolventActivityProvenance>,
+}
+
+/// The solvent activity a second, ion-interaction speciation reported, with
+/// enough of the state it solved at to turn it back into an osmotic
+/// coefficient.
+///
+/// φ is `−ln a_w / (M_w·Σm)` at the molality that speciation itself solved
+/// at, so the molality and the ionic strength travel WITH the activity
+/// rather than being re-derived from the other dataset's answer by whoever
+/// reads it — the two datasets do not agree about either, and pairing one's
+/// a_w with the other's Σm is the mistake this field exists to make
+/// impossible. See `states::SolventActivity::from_speciation`.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SolventActivityProvenance {
+    /// The dataset asked for the activity, e.g. "vendored USGS pitzer.dat".
+    pub dataset: String,
+    /// The model that dataset applies.
+    pub model: String,
+    /// a_w: the `H2O` row of that dataset's species distribution.
+    pub water_activity: f64,
+    /// Dissolved particle molality in THAT solve, mol/kgw.
+    pub particle_molality: f64,
+    /// Ionic strength in THAT solve, mol/kgw.
+    pub ionic_strength: f64,
 }
 
 /// One oxidation state of one element, and how much of it there is.

@@ -173,6 +173,161 @@ fn a_textbook_spoonful_of_salt_freezes_the_water_near_minus_three_point_four() {
     assert!((i - 1.85).abs() < 0.04, "i = {i:.3}");
 }
 
+/// A TENTH-molal brine, which is the case the router does not send to
+/// `pitzer.dat` and which was therefore still answered by Raoult's law
+/// until 2026-09-13.
+///
+/// This is the dilute end of the same defect the one-molal test above
+/// closed, and it is the more likely beaker of the two: a tenth molal is
+/// roughly a level teaspoon of salt in half a litre, which is nearer what
+/// anybody actually makes than the textbook kilogram-and-a-mole is. The
+/// bench was accurate at one molal and seven per cent optimistic here,
+/// which is the wrong way round.
+///
+/// **Why it was wrong is not the same reason the one-molal case was.**
+/// There the fix was to stop using the dilute LAW. Here the relation is
+/// already right and the ACTIVITY it runs on was not available: the router
+/// sends a solution to `pitzer.dat` only above 1 mol/kgw, because that is
+/// where the Debye–Hückel datasets leave their validity domain for the
+/// CHEMISTRY. Below it `wateq4f.dat` answers, and PHREEQC does not model
+/// a_w on a Debye–Hückel database at all — it prints `1 − 0.017·Σm`, a
+/// hard-coded constant that carries no information about what is dissolved.
+/// `states::SolventActivity` declines it for that reason and Raoult's law
+/// stood in, which put this beaker at −0.371 °C against a measured −0.346.
+///
+/// So the chemistry never needed re-solving; one number did. The fix asks
+/// `pitzer.dat` for the solvent activity in a second, deliberately lean
+/// speciation — element totals and the solvent mass, no phases, no gas, no
+/// interfaces — and reads a_w out of it. φ comes back at 0.932 against a
+/// measured 0.9324, and the beaker lands at −0.347.
+///
+/// **The two solves are visible from the outside**, which is the whole of
+/// how a reader tells this vessel apart from a one-solve one:
+/// `SolutionInfo::solvent_activity` is `Some` here and `None` on the one
+/// molal beaker above, and it names `pitzer.dat` while `provenance.dataset`
+/// beside it still names `wateq4f.dat` — because the pH and the speciation
+/// really did come from wateq4f and only the activity did not. Both are
+/// asserted below, in both directions, so neither the trigger nor the
+/// record can drift quietly.
+#[test]
+fn a_tenth_molal_brine_is_answered_by_a_model_and_not_by_raoult() {
+    let mut bench = Bench::new();
+    let mut solvers = stack();
+    add(&mut bench, &mut solvers, "water", 55.51);
+    add(&mut bench, &mut solvers, "NaCl", 0.1);
+
+    let vessel = bench.vessel(VesselId(0)).unwrap();
+    let info = vessel.solution.as_ref().expect("a solved solution");
+
+    // The chemistry did NOT route to pitzer — this is the whole premise.
+    let provenance = info.provenance.as_ref().expect("provenance");
+    assert!(
+        !provenance
+            .model
+            .starts_with(states::ION_INTERACTION_MODEL_PREFIX),
+        "a tenth molal solution is inside the Debye-Hückel datasets'          validity domain and the router leaves it there: {}",
+        provenance.model
+    );
+
+    // …and the activity did, in a second solve that says so.
+    let second = info
+        .solvent_activity
+        .as_ref()
+        .expect("a second speciation supplied the solvent activity");
+    assert!(
+        second.dataset.contains("pitzer"),
+        "the activity came from the ion-interaction dataset: {}",
+        second.dataset
+    );
+    assert!(
+        second.dataset != provenance.dataset,
+        "the point of the record is that these are two different datasets:          {} and {}",
+        second.dataset,
+        provenance.dataset
+    );
+
+    let (transitions, _) = solve::vessel_transitions(vessel);
+    assert_eq!(
+        transitions.activity_route(),
+        states::ActivityRoute::IonInteraction,
+        "the second opinion is believed on the same terms as a first one"
+    );
+    assert!(
+        (transitions.solute_molality - 0.2).abs() < 0.01,
+        "0.1 mol of NaCl in a kilogram of water is 0.2 mol/kgw of counted          particles: {:.4}",
+        transitions.solute_molality
+    );
+    let phi = transitions.osmotic_coefficient();
+    assert!(
+        (phi - 0.9324).abs() < 0.015,
+        "the osmotic coefficient of 0.1 molal NaCl is 0.9324 by          measurement: {phi:.4}"
+    );
+
+    let freezing_c = transitions.freezing_k - 273.15;
+    // What the world says. This band is the one that matters, and it is
+    // tight on purpose: the ideal route's −0.371 is outside it, which is
+    // the regression this test exists to catch.
+    assert!(
+        (freezing_c + 0.346).abs() < 0.015,
+        "0.1 molal brine freezes at -0.346 C by measurement: got          {freezing_c:.4} C"
+    );
+    // And Raoult's law, named so the thing that was wrong stays visible.
+    // `SolventActivity::ideal` is what this beaker used to take.
+    let ideal = states::SolventActivity::ideal();
+    let ideal_c = states::transitions_with(ideal, transitions.solute_molality, 101.325)
+        .0
+        .freezing_k
+        - 273.15;
+    assert!(
+        ideal_c < freezing_c - 0.015,
+        "Raoult's law says {ideal_c:.4} C here, which is the seven per cent          this closes"
+    );
+}
+
+/// A HUNDREDTH-molal brine is left alone, and that is a decision rather
+/// than an oversight.
+///
+/// The second solve is not free, so it is not unconditional. Below about
+/// 0.05 mol/kgw of dissolved particles PHREEQC's four-significant-figure
+/// species table rounds a_w to 1.000, φ computes as zero,
+/// `SolventActivity::from_speciation` rejects it as too coarse to carry
+/// information, and the vessel would end up on the ideal route having paid
+/// for a speciation to get there. The two models also agree here to about
+/// three thousandths of a kelvin, which no thermometer this bench models
+/// would show.
+///
+/// So this beaker takes ONE solve, reports no second activity, and stays
+/// on Raoult's law — and the assertion that it does is what stops the
+/// trigger widening by accident into "every aqueous step solves twice".
+#[test]
+fn a_hundredth_molal_brine_is_left_on_raoults_law_and_costs_one_solve() {
+    let mut bench = Bench::new();
+    let mut solvers = stack();
+    add(&mut bench, &mut solvers, "water", 55.51);
+    add(&mut bench, &mut solvers, "NaCl", 0.01);
+
+    let vessel = bench.vessel(VesselId(0)).unwrap();
+    let info = vessel.solution.as_ref().expect("a solved solution");
+    assert!(
+        info.solvent_activity.is_none(),
+        "no second speciation is worth an engine call at 0.02 mol/kgw of          particles: {:?}",
+        info.solvent_activity
+    );
+
+    let (transitions, _) = solve::vessel_transitions(vessel);
+    assert_eq!(
+        transitions.activity_route(),
+        states::ActivityRoute::IdealSolution,
+        "and the route says so rather than implying a model that was never          consulted"
+    );
+    let freezing_c = transitions.freezing_k - 273.15;
+    // Both models land here, which is the argument for not asking.
+    assert!(
+        (freezing_c + 0.0372).abs() < 0.004,
+        "0.01 molal NaCl freezes near -0.037 C on either model:          {freezing_c:.4} C"
+    );
+}
+
 /// A saturated chloride brine boils where a cook finds it, and that is the
 /// other half of the same correction.
 ///

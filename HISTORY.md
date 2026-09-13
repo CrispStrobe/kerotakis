@@ -239,6 +239,45 @@ it had while it was open, which is why a few numbers appear twice below.
     brine; its freeze-concentration cap moved from 11.37 to 13.80 mol/kgw
     because it is now inverted through the same relation rather than
     through K_f·m.
+  - **The dilute end was left open and has since been closed
+    (`feat/dilute-brine-solvent-activity`, 2026-09-13).** The fix above
+    took a_w from "the speciation that answered the beaker", and for a
+    solution under 1 mol/kgw that speciation is a Debye–Hückel one, so
+    there was no a_w and Raoult's law stood in — 0.1 molal brine at
+    −0.371 °C against a measured −0.346. `pitzer.dat` is now asked for the
+    activity in a SECOND speciation of the same solution, posed lean
+    (element totals and the solvent mass; no phases, gas or interfaces)
+    and read for a_w alone, and the beaker lands at @@TENTH@@. What it
+    taught:
+    - **The cost had to be measured, and it is not one solve per step.**
+      @@COST@@
+    - **It is conditional, and the conditions are a cost argument.** No
+      second solve where the chemistry already routed to `pitzer` (it
+      would be the same solve twice), where `pitzer` lacks an element,
+      where a gas phase, surface, exchanger, solid solution or surviving
+      solid means the posed totals are not the solution's, where the lean
+      problem would be redox-coupled, or below 0.05 mol/kgw of dissolved
+      particles — there a_w rounds to 1.000 in PHREEQC's four-figure
+      table, φ computes as zero, `from_speciation` rejects it, and the two
+      models are within 0.003 K of each other in any case.
+    - **Two solves must be visible, or the bench is lying by omission.**
+      `SolutionInfo::solvent_activity` is `Some` on exactly the vessels
+      that cost two, and names `pitzer.dat` while `provenance.dataset`
+      beside it still names `wateq4f.dat` — which is the honest statement,
+      because the pH and the speciation really did come from wateq4f.
+      `routing` says it in prose, `kero` prints it on its own line, and
+      `activity_route()` reads `IonInteraction`. A hundredth-molal test
+      asserts the record is ABSENT, which is what stops the trigger
+      widening by accident into "every aqueous step solves twice".
+    - **Keeping Raoult and saying so was the real alternative, and it
+      loses.** Nothing was hidden — the route already declared itself
+      `IdealSolution`. But the error is seven per cent, not a few; it is
+      the same defect, in the same direction, from the same cause as the
+      one-molal case this branch's predecessor fixed; a tenth molal is
+      nearer what anyone actually makes than a textbook mole in a
+      kilogram; and the limit was never the modelling. `pitzer.dat` is
+      vendored, loaded and routed to every day, and knew this answer all
+      along. It had simply never been asked.
   - **A string test, pinned from the other side.** `kerotakis-core` sits
     below the crate that knows which dataset is which, so it decides whether
     to believe an activity by testing `Provenance::model` against
