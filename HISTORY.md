@@ -254,7 +254,19 @@ it had while it was open, which is why a few numbers appear twice below.
     Appelo, 2015, Appl. Geochem. 55, 62-71,
     doi:10.1016/j.apgeochem.2014.11.007. What it taught:
     - **The cost had to be measured, and it is not one solve per step.**
-      @@COST@@
+      `kero prewarm lessons/*.lab` — 113 lessons,
+      1333 steps, plus five R1 scenarios — cost **17 extra engine calls
+      out of 715, or 2.4 %**, and grew the shipped cache by the same 17
+      entries (667 to 684, ~24 kB on 955 kB). The figure is exact rather
+      than differenced between builds, because a second solve does not
+      mutate the vessel and so cannot change which main solves happen.
+      **6 of the 23 solvent questions were answered from the cache for
+      nothing**, which is what the lean problem buys: it drops everything
+      about a vessel that does not change its solution's composition, so
+      two steps differing only in undissolved solid ask one question. The
+      counters are `PhreeqcEquilibrator::solvent_activity_solves()` and
+      `kero prewarm` prints them, so the next person re-measures instead
+      of trusting this paragraph.
     - **It is conditional, and the conditions are a cost argument.** No
       second solve where the chemistry already routed to `pitzer` (it
       would be the same solve twice), where `pitzer` lacks an element,

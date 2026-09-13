@@ -1903,7 +1903,26 @@ Open, and small:
       doi:10.1016/j.apgeochem.2014.11.007) describe this solution perfectly
       well. It had simply never been asked.
 
-      **What it costs, measured rather than estimated.** @@COST@@
+      **What it costs, measured rather than estimated.** `kero prewarm lessons/*.lab` replays
+      every shipped lesson through the real engine, which is the most
+      representative script set this repository has: **113 lessons, 1333
+      steps**, plus the five R1 acceptance scenarios. On that run the
+      second opinion cost **17 engine calls out of 715**, so the engine
+      work grew by **2.4 %** — 698 calls before, 715 after, and the
+      difference is exact rather than differenced between two builds
+      because the second solve is purely additive: it does not mutate the
+      vessel, so it cannot change which main solves happen. A further
+      **6 of the 23 solvent questions asked were free**, answered from the
+      content-addressed cache, which is the lean problem earning its keep:
+      it drops everything about a vessel that does not change its
+      solution's composition, so steps that differ only in undissolved
+      solid ask the same question twice and pay once. The shipped cache
+      grew by the same 17 entries, 667 to 684, about 24 kB on 955 kB. The
+      whole prewarm took 28.8 s wall and 18.2 s of user CPU on a loaded
+      four-core box, of which the second opinions are the same 2.4 %,
+      roughly four tenths of a second — but the call count is the figure
+      to quote, because a wall clock measured under contention is not
+      reproducible and a count is.
 
       **It is conditional, and that is deliberate.** An unconditional
       second solve would pay for solutions already on `pitzer` (the same
