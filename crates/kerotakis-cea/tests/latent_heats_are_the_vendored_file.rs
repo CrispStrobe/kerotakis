@@ -64,7 +64,19 @@ const PAIRS: &[(&str, &str, &str)] = &[
 
 /// A row is CEA-sourced when it says so. The provenance string is the
 /// claim; this constant is how the test finds the rows making it.
-const CEA_CLAIM: &str = "vendor/nasa-cea/thermo.inp";
+///
+/// It is the DERIVATION sentence, not the file path, and the difference
+/// matters. Fourteen rows that CEA cannot source mention
+/// `vendor/nasa-cea/thermo.inp` in their prose — they record that CEA was
+/// checked and why it was rejected, which is exactly the kind of negative
+/// result worth keeping next to the value. Matching on the path alone
+/// would make writing down a rejection indistinguishable from making a
+/// claim, and would have punished the more honest row.
+const CEA_CLAIM: &str = "Derived from NASA CEA's `thermo.inp`";
+
+/// The file the claim resolves to, asserted separately so a row cannot
+/// make the claim without naming the file it is claiming.
+const CEA_PATH: &str = "vendor/nasa-cea/thermo.inp";
 
 #[test]
 fn fusion_enthalpies_come_from_the_vendored_cea_tables() {
@@ -106,7 +118,7 @@ fn fusion_enthalpies_come_from_the_vendored_cea_tables() {
         );
 
         assert!(
-            row.provenance.contains(CEA_CLAIM),
+            row.provenance.contains(CEA_CLAIM) && row.provenance.contains(CEA_PATH),
             "{key} is checked against the vendored CEA file but its provenance does \
              not cite it",
         );
@@ -122,6 +134,10 @@ fn fusion_enthalpies_come_from_the_vendored_cea_tables() {
 /// test is actually checking it — otherwise "derived from thermo.inp"
 /// becomes a sentence anyone can type, which is the failure mode the
 /// whole exercise is about.
+///
+/// Note what it does NOT forbid: mentioning the file. A row that says CEA
+/// was checked and rejected is more useful than one that says nothing, and
+/// it is the claim that has to be earned, not the noun.
 #[test]
 fn every_cea_sourced_row_is_listed_here() {
     for row in FUSION_ENTHALPIES {
