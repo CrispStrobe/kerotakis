@@ -334,7 +334,24 @@ fn release_gas(vessel: &mut Vessel, species: SpeciesId, moles: Moles, events: &m
 /// and the two alkali halides whose molten state is a different substance
 /// from their solution.
 ///
-/// ## Where the numbers come from, and the mistake that is worth keeping
+/// ## Where the numbers come from
+///
+/// The rule is a **preference, not a prohibition**: a primary measurement
+/// is better than a compilation, and a compilation is a perfectly good
+/// citation where no primary can be had. A measured value is a fact;
+/// citing a book is not redistributing it. Twenty-three of these
+/// twenty-six rows now name a primary measurement or a public-domain
+/// government compilation; three name the CRC Handbook and say so.
+///
+/// The one source this table refuses is the **NIST Chemistry WebBook /
+/// JANAF-online**, which asserts copyright over its compilation under the
+/// Standard Reference Data Act — a different kind of objection from
+/// preferring a primary. Three rows cited it and no longer do. The
+/// sentence "agrees with NIST SRD 69" that thirteen rows carried is gone
+/// for a second reason that has nothing to do with licensing: nobody ever
+/// checked it, so it was reassurance rather than evidence.
+///
+/// ## The mistake that is worth keeping
 ///
 /// Seven of the nine inorganic rows cite a public-domain United States
 /// Government document that PRINTS the enthalpy of fusion: US Bureau of
@@ -376,38 +393,39 @@ fn release_gas(vessel: &mut Vessel, species: SpeciesId, moles: Moles, events: &m
 /// transposed digit while leaving room for the residuals. Silver's gap is
 /// pinned as a gap rather than tolerated.
 ///
-/// ## The organic rows, and the one that has no source
+/// ## The organic rows
 ///
 /// CEA carries no condensed methanol, acetone, propan-2-ol, hexane, ethyl
 /// acetate, acetic acid or naphthalene, so nothing on disk reaches them and
-/// they were re-sourced one at a time. Two public-domain NBS compilations
-/// carry some of them outright — **Circular 500** (Rossini, 1952) and
-/// **Circular 461** (the 1947 NBS/GPO edition of API Research Project 44,
-/// which is not the copyrighted TRC product of the same name) — and the
-/// rest cite the primary calorimetry by DOI. Several of those papers are
-/// from 1928–1929 and entered the United States public domain on 1 January
-/// 2026 under the 95-year term; the publishers' paywalls on them are a
-/// business decision, not a rights one.
+/// they were upgraded one at a time. Two public-domain NBS compilations
+/// carry some outright — **Circular 500** (Rossini, 1952) and **Circular
+/// 461** (the 1947 NBS/GPO edition of API Research Project 44, which is not
+/// the copyrighted TRC product of the same name) — and the rest cite the
+/// primary calorimetry by DOI. Several of those papers are from 1928–1929
+/// and entered the United States public domain on 1 January 2026 under the
+/// 95-year term; the publishers' paywalls on them are a business decision,
+/// not a rights one.
 ///
-/// **Acetone's boil is the one row nothing could place**, and it keeps its
-/// number with no source rather than losing it, for the reason below.
+/// **Acetone's boil is the one row that could not be upgraded.** It keeps
+/// the handbook citation it always had, and its provenance records what was
+/// tried so nobody repeats the search.
 ///
-/// ## Why an unsupported row keeps its number
-///
-/// "The claim stops" reads like "the row goes". Here it must not.
+/// ## Why a row is never deleted for having a weak source
 ///
 /// [`PhaseRoute::vaporising`] and [`PhaseRoute::condensing`] reach this
 /// table through a `filter_map` with `?`. A liquid whose boiling point is
 /// in the registry but whose latent heat is missing is therefore not
 /// refused — it is skipped, and the vessel goes on holding it above its
-/// boiling point and calling it liquid. That is precisely the P3s
-/// correctness bug quoted higher up this comment: returning the absence of
-/// a model as an observation.
+/// boiling point and calling it liquid. That is the P3s correctness bug
+/// quoted higher up this comment: returning the absence of a model as an
+/// observation.
 ///
-/// So a row cannot be withdrawn on its own. An honest shrink has to take
-/// the registry's transition temperature with it, so that `boils_at`
-/// returns `None` and the bench has no transition to be silently wrong
-/// about — a change to the phase-transition tranche, not to this table.
+/// So downgrading a citation and removing a row are very different acts,
+/// and only the first is ever the right answer to a provenance concern. An
+/// honest shrink would have to take the registry's transition temperature
+/// with it, so that `boils_at` returns `None` and the bench has no
+/// transition to be silently wrong about — a change to the phase-transition
+/// tranche, not to this table.
 pub const FUSION_ENTHALPIES: &[LatentHeat] = &[
     LatentHeat {
         species: "ethanol",
@@ -473,7 +491,7 @@ pub const FUSION_ENTHALPIES: &[LatentHeat] = &[
         species: "Mg",
         // 8.48 kJ/mol.
         kj_per_mol: 8.48,
-        provenance: "Magnesium enthalpy of fusion 8.48 kJ/mol at its 923.15 K melting point. NO SOURCE IS CLAIMED FOR THIS NUMBER, and it is the row where three documents disagree. The handbook citation it carried was withdrawn 2026-09-13. NASA CEA's Mg(L) minus Mg(cr) gives 8.40, and Bureau of Mines Bulletin 672 prints 2.139 kcal/mol at 922 K, which is 8.95 - five and a half per cent above this value and outside any rounding. Bulletin 672 is a 1982 compilation resting on Hultgren 1973, so on this row it is the OLDER evaluation rather than the better one, and adopting 8.95 merely to have a citation would buy provenance with accuracy. The value stays where the modern consensus puts it and stands unsupported, with all three numbers named so a reviewer can settle it instead of rediscovering it.",
+        provenance: "Magnesium enthalpy of fusion 8.48 kJ/mol at its 923.15 K melting point. CRC Handbook of Chemistry and Physics, 97th ed., \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables - a COMMERCIAL COMPILATION, which this project cites happily but ranks below a primary measurement. PENDING REVIEW: no positively identified copy was opened for this row, so no edition-level page provenance is claimed. THIS ROW IS WHERE THREE EVALUATIONS DISAGREE, which is why no primary source is cited even though several documents carry a number. US Bureau of Mines Bulletin 672 prints 2.139 kcal/mol at 922 K, which is 8.95 and five and a half per cent above this; differencing NASA CEA's Mg(L) against its Mg(cr) gives 8.40. Bulletin 672 would be the better-licensed citation and is NOT taken, because it rests on Hultgren 1973 and is here the OLDER evaluation rather than the better one - citing it would buy provenance with accuracy. The handbook's 8.48 is the modern consensus, and upgrading this row means finding the modern evaluation's own primary, not swapping compilations.",
     },
     LatentHeat {
         species: "Al",
@@ -491,7 +509,7 @@ pub const FUSION_ENTHALPIES: &[LatentHeat] = &[
         species: "Cu",
         // 13.26 kJ/mol.
         kj_per_mol: 13.26,
-        provenance: "Copper enthalpy of fusion 13.26 kJ/mol at its 1357.77 K melting point. NO SOURCE IS CLAIMED FOR THIS NUMBER, for the same reason as magnesium above. The handbook citation was withdrawn 2026-09-13; NASA CEA's Cu(L) minus Cu(cr) gives 13.14, and Bureau of Mines Bulletin 672 prints 3.120 kcal/mol at 1357.6 K, which is 13.05, one and a half per cent below. Three evaluations, three answers, and Bulletin 672 is the oldest of them. The value stays where the modern consensus puts it and stands unsupported.",
+        provenance: "Copper enthalpy of fusion 13.26 kJ/mol at its 1357.77 K melting point. CRC Handbook of Chemistry and Physics, 97th ed., \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables - a COMMERCIAL COMPILATION, which this project cites happily but ranks below a primary measurement. PENDING REVIEW: no positively identified copy was opened for this row, so no edition-level page provenance is claimed. Three evaluations again, as for magnesium above: Bureau of Mines Bulletin 672 prints 3.120 kcal/mol at 1357.6 K, which is 13.05, and NASA CEA's difference gives 13.14. Bulletin 672 is the oldest of the three. The handbook's 13.26 is the modern consensus and stays until someone finds the primary behind it.",
     },
     LatentHeat {
         species: "Fe",
@@ -560,7 +578,7 @@ pub const VAPORISATION_ENTHALPIES: &[LatentHeat] = &[
         species: "propanone",
         // 29.10 kJ/mol.
         kj_per_mol: 29.10,
-        provenance: "Propanone (acetone) enthalpy of vaporisation 29.10 kJ/mol at its normal boiling point. NO SOURCE IS CLAIMED FOR THIS NUMBER, and it is the ONLY row in this table that searching failed to place. It cited the CRC Handbook of Chemistry and Physics, 97th edition, until 2026-09-13, with the note that the printed edition had never been opened and the assurance that the value agreed with NIST Chemistry WebBook SRD 69; the handbook is on PLAN.md's commercial row, the WebBook on its do-not-redistribute row, and an agreement with an avoid-row source is a claim rather than a citation. Both are withdrawn. WHAT WAS TRIED. The primary publication is J. Pennington and K. A. Kobe, J. Am. Chem. Soc. 79 (1957) 300, whose DOI resolves - but the number could not be read, and the pointer to it is itself unreliable: the WebBook attributes that paper's value to 338 K, about nine kelvin above the boiling point, while quoting a figure identical to the 329 K compilation value, which is thermodynamically impossible. Mathews, J. Am. Chem. Soc. 48 (1926) 562, doi:10.1021/ja01414a002, measured enthalpies of vaporisation at boiling points and is public domain by age, but no copy is reachable online. This row needs an interlibrary scan of either paper, and that is the whole of what stands between it and a citation. NASA CEA cannot help: it carries no condensed acetone. The number is not removed. `vaporising` and `condensing` reach this table through a filter_map with `?`, so a row that disappears does not make the bench refuse the transition - it makes the bench hold a liquid above its boiling point and call it liquid, which is the P3s bug this table exists to fix",
+        provenance: "Propanone (acetone) enthalpy of vaporisation 29.10 kJ/mol at its normal boiling point. CRC Handbook of Chemistry and Physics, 97th ed., \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables - a COMMERCIAL COMPILATION, which this project cites happily but ranks below a primary measurement. PENDING REVIEW: no positively identified copy was opened for this row, so no edition-level page provenance is claimed. THIS IS THE ONE ROW IN THE TABLE THAT SEARCHING FAILED TO UPGRADE, and it is worth recording what was tried so nobody repeats it. The primary publication is J. Pennington and K. A. Kobe, J. Am. Chem. Soc. 79 (1957) 300, whose DOI resolves - but the value could not be read, and the pointer to it is itself inconsistent: the NIST WebBook attributes that paper's value to 338 K, about nine kelvin above the boiling point, while quoting a figure identical to the 329 K compilation value, which is thermodynamically impossible. J. H. Mathews, J. Am. Chem. Soc. 48 (1926) 562, doi:10.1021/ja01414a002, measured enthalpies of vaporisation at boiling points and is United States public domain by age, but no copy is reachable online. NBS Circular 500 cannot help: its own Preface limits it to compounds of one and two carbon atoms, and acetone has three. NASA CEA cannot help either - it carries no condensed acetone. An interlibrary scan of either paper is the whole of what stands between this row and a primary citation.",
     },
     LatentHeat {
         species: "isopropanol",
