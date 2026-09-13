@@ -116,8 +116,41 @@ export interface SceneElectrode {
   geometric_area_m2: number;
   roughness: number;
   interfacial_potential_v?: number;
+  diagnostics?: SceneElectrodeDiagnostics;
   surface_species?: SceneElectrodeSurfaceSpecies[];
   deposits?: SceneElectrodeDeposit[];
+}
+
+export interface SceneElectrodeDiagnostics {
+  seconds: number;
+  balance: {
+    electrode_potential_v: number;
+    terminal_potential_v: number;
+    partial_currents: { reaction_id: string; parameter_record_id?: string; current_density_a_per_m2: number }[];
+    net_current_density_a_per_m2: number;
+    capacitive_current_density_a_per_m2: number;
+    total_current_density_a_per_m2: number;
+  };
+  interfacial_conditions: {
+    reaction_id: string;
+    species: string;
+    bulk_activity: number;
+    surface_activity: number;
+    depleted_at_surface: boolean;
+    transient?: boolean;
+    surface_ph?: number;
+  }[];
+  applied_parameters: {
+    reaction_id: string;
+    record_id: string;
+    nominal: { model: string; transition_potential_frame?: { kind: string; volts_vs_she?: number } };
+    parameter_envelope?: unknown;
+    directional_tafel_envelope?: unknown;
+    relative_uncertainty?: number;
+    uncertainty_note: string;
+  }[];
+  inventory_limited: boolean;
+  boundary?: string;
 }
 
 export interface SceneElectrodeSurfaceSpecies {

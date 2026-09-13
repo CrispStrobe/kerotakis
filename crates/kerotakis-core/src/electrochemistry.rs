@@ -4996,6 +4996,7 @@ mod tests {
             double_layer_capacitance_f_per_m2: None,
             interfacial_potential_v: None,
             interfacial_species: Vec::new(),
+            diagnostics: None,
             deposits: Vec::new(),
         });
         vessel.deposit(
@@ -5132,6 +5133,7 @@ mod tests {
             double_layer_capacitance_f_per_m2: None,
             interfacial_potential_v: None,
             interfacial_species: Vec::new(),
+            diagnostics: None,
             deposits: Vec::new(),
         });
         vessel.deposit(
@@ -5270,6 +5272,21 @@ mod tests {
         .unwrap();
         assert_eq!(clock_report.segments.len(), 1);
         assert!(clock_report.segments[0].inventory_limited);
+        let persisted = clocked.electrodes[0]
+            .diagnostics
+            .as_ref()
+            .expect("the committed clock report remains available to scene clients");
+        assert_eq!(persisted.seconds, clock_report.segments[0].seconds);
+        assert_eq!(persisted.balance, clock_report.segments[0].balance);
+        assert_eq!(
+            persisted.interfacial_conditions,
+            clock_report.segments[0].interfacial_conditions
+        );
+        assert_eq!(
+            persisted.applied_parameters,
+            clock_report.segments[0].applied_parameters
+        );
+        assert!(persisted.inventory_limited);
 
         struct FailingEquilibrium;
         impl crate::solve::Equilibrator for FailingEquilibrium {
@@ -5323,6 +5340,7 @@ mod tests {
             original.moles_of(&crate::SpeciesId::new("H+")).0
         );
         assert!(rolled_back_events.is_empty());
+        assert!(rolled_back.electrodes[0].diagnostics.is_none());
 
         let mut advanced = vessel;
         let report = advance_electrochemical(
@@ -5520,6 +5538,7 @@ mod tests {
             double_layer_capacitance_f_per_m2: None,
             interfacial_potential_v: None,
             interfacial_species: Vec::new(),
+            diagnostics: None,
             deposits: Vec::new(),
         });
         vessel.deposit(

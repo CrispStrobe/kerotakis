@@ -212,6 +212,8 @@ pub struct SceneElectrode {
     pub roughness: f64,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub interfacial_potential_v: Option<f64>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub diagnostics: Option<crate::compartment::ElectrodeDiagnostics>,
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub surface_species: Vec<SceneElectrodeSurfaceSpecies>,
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
@@ -1268,6 +1270,7 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
                 geometric_area_m2: electrode.area_m2,
                 roughness: electrode.roughness,
                 interfacial_potential_v: electrode.interfacial_potential_v,
+                diagnostics: electrode.diagnostics.clone(),
                 surface_species: electrode
                     .interfacial_species
                     .iter()

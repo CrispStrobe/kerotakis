@@ -153,6 +153,50 @@ describe("persistent electrode authority", () => {
     expect(drawn).toContain("potential unavailable");
     expect(drawn).not.toContain("data-potential-v=");
   });
+
+  it("projects the committed runtime diagnostic without inventing fit or film results", () => {
+    const drawn = render(Vessel, { props: {
+      vessel: {
+        ...beaker,
+        electrodes: [{
+          label: "working",
+          material: "Pt",
+          geometric_area_m2: 1e-4,
+          roughness: 1,
+          diagnostics: {
+            seconds: 5,
+            balance: {
+              electrode_potential_v: 0.21,
+              terminal_potential_v: 0.24,
+              partial_currents: [{ reaction_id: "hydrogen", parameter_record_id: "her-1", current_density_a_per_m2: -2.5 }],
+              net_current_density_a_per_m2: -2.5,
+              capacitive_current_density_a_per_m2: 0,
+              total_current_density_a_per_m2: -2.5,
+            },
+            interfacial_conditions: [{
+              reaction_id: "hydrogen", species: "H+", bulk_activity: 0.1,
+              surface_activity: 0.02, depleted_at_surface: true,
+            }],
+            applied_parameters: [{
+              reaction_id: "hydrogen", record_id: "her-1",
+              nominal: { model: "butler_volmer" }, parameter_envelope: {},
+              relative_uncertainty: 0.05, uncertainty_note: "test",
+            }],
+            inventory_limited: true,
+          },
+        }],
+      },
+      register: "lv2",
+      effects: [],
+    } }).body;
+    expect(drawn).toContain('data-partial-current="hydrogen"');
+    expect(drawn).toContain('data-surface-activity="H+"');
+    expect(drawn).toContain('data-potential-frame="overpotential"');
+    expect(drawn).toContain("transport limited");
+    expect(drawn).toContain("parameter bounds");
+    expect(drawn).toContain('data-film-diagnostics="unavailable"');
+    expect(drawn).toContain('data-fit-diagnostics="unavailable"');
+  });
 });
 
 function readSource(relative: string): string {

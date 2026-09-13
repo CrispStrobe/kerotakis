@@ -193,6 +193,11 @@ pub struct ElectrodeState {
     /// electrode transport models, keyed by reaction and species.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub interfacial_species: Vec<ElectrodeInterfacialSpecies>,
+    /// Last committed runtime authority report. This is persisted because a
+    /// scene rendered after the clock returns must not reconstruct competing
+    /// partial currents from the net current.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub diagnostics: Option<ElectrodeDiagnostics>,
     /// Deposited material on the electrode surface (e.g. from electroplating).
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub deposits: Vec<ElectrodeDeposit>,
@@ -203,6 +208,17 @@ pub struct ElectrodeInterfacialSpecies {
     pub reaction_id: String,
     pub species: String,
     pub surface_concentration_mol_per_m3: f64,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct ElectrodeDiagnostics {
+    pub seconds: f64,
+    pub balance: crate::electrochemistry::CurrentBalance,
+    pub interfacial_conditions: Vec<crate::electrochemistry::InterfacialCondition>,
+    pub applied_parameters: Vec<crate::electrochemistry::AppliedKineticParameters>,
+    pub inventory_limited: bool,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub boundary: Option<String>,
 }
 
 fn default_roughness() -> f64 {
@@ -425,6 +441,7 @@ impl Default for ElectrodeState {
             double_layer_capacitance_f_per_m2: None,
             interfacial_potential_v: None,
             interfacial_species: Vec::new(),
+            diagnostics: None,
             deposits: Vec::new(),
         }
     }
@@ -460,6 +477,7 @@ mod tests {
                 species: "H+".into(),
                 surface_concentration_mol_per_m3: 1.0,
             }],
+            diagnostics: None,
             deposits: vec![ElectrodeDeposit {
                 species: "Cu".into(),
                 moles: 0.0001,
@@ -504,6 +522,7 @@ mod tests {
             double_layer_capacitance_f_per_m2: None,
             interfacial_potential_v: None,
             interfacial_species: Vec::new(),
+            diagnostics: None,
             deposits: vec![
                 ElectrodeDeposit {
                     species: "oxide-a".into(),
