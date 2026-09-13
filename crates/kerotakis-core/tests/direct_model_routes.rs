@@ -131,12 +131,21 @@ fn curated_reaction_routes_require_a_reaction_result() {
 ///   extent over a curated stoichiometry) and `reaction-families` (a
 ///   product set over a curated pattern) would be computed too, and
 ///   `Curated` would have no members left.
-/// - `curated-combustion` is `Computed` NOT because anyone decided that:
-///   `CombustionEquilibrator` has no `route_kind` and takes the trait
-///   default. It is asserted here as a characterization, so the pair stays
-///   visible and so that giving it a declaration is a deliberate act that
-///   fails this test first. `PLAN.md` owns that open item, with the eight
-///   corpus rows it would move already counted.
+/// - `curated-combustion` is `Curated` since 2026-09-13, and until then was
+///   `Computed` NOT because anyone decided that: `CombustionEquilibrator`
+///   had no `route_kind` and took the trait default. The declaration is now
+///   made on the same provenance reading — its fuels, their
+///   stoichiometries, their heats of combustion and their autoignition
+///   temperatures are the curated tables `FUELS` and `GAS_AUTOIGNITION`,
+///   each row carrying its own `provenance` string. Making it a
+///   declaration rather than an omission is the whole change: the two
+///   halves now agree, and this test fails if either drifts.
+///
+///   The move was measured before it was made and cost exactly eight
+///   corpus rows `computed -> curated` — `th-030 th-048 th-051 th-058
+///   th-059 bio-008 bio-009 bio-044`, the only rows in the five hundred
+///   with a succeeded `curated-combustion` route, none of which had
+///   another succeeded curated route to be already counted by.
 #[test]
 fn route_kinds_record_where_the_numbers_came_from() {
     assert_eq!(
@@ -147,8 +156,8 @@ fn route_kinds_record_where_the_numbers_came_from() {
     );
     assert_eq!(
         kerotakis_core::combustion::CombustionEquilibrator.route_kind(),
-        SolverRouteKind::Computed,
-        "curated-combustion has no route_kind of its own and takes the \
-         trait default; PLAN.md owns changing that"
+        SolverRouteKind::Curated,
+        "curated-combustion runs on the curated FUELS and GAS_AUTOIGNITION \
+         tables; see PLAN.md, 2026-09-13"
     );
 }

@@ -82,6 +82,24 @@ it had while it was open, which is why a few numbers appear twice below.
   rows already counted. No engine change and no corpus row moved; the
   decision is pinned in `direct_model_routes.rs`.
 
+- **`fix/combustion-route-kind`** — gave `CombustionEquilibrator` the
+  declaration it had never had. It was `Computed` by the trait default
+  while being named `curated-combustion` and running on the curated
+  `FUELS` and `GAS_AUTOIGNITION` tables, which is the asymmetry the
+  boil-route pass found and left standing with its measurement already
+  taken. On the provenance rule that pass settled — `kind` records which
+  road the vessel took and where that road's numbers came from — it is
+  `Curated`, and it now says so. **Exactly the eight rows the measurement
+  predicted moved `computed -> curated`: `th-030 th-048 th-051 th-058
+  th-059 bio-008 bio-009 bio-044`**, the only rows in the five hundred
+  with a succeeded `curated-combustion` route and none of them already
+  counted as curated by another. The corpus is 320 computed and 64 curated
+  where it was 328 and 56. No chemistry changed and no event moved: the
+  same solver burns the same fuel and releases the same heat. A relabelling
+  moves corpus rows, so it got its own commit and its own PR rather than
+  riding on the boil decision's — doing both at once would have made the
+  attribution of either impossible.
+
 **Quest and codex prose**
 
 - **`task/quest-lint-mechanism`** — `quest lint` proved a quest could not lie

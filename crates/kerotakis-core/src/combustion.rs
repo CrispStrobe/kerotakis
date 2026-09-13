@@ -63,7 +63,7 @@
 //! way — see the `fuel/diesel` recipe's own lot assumptions.
 
 use crate::ops::Event;
-use crate::solve::{Equilibrator, SolveError};
+use crate::solve::{Equilibrator, SolveError, SolverRouteKind};
 use crate::species::Phase;
 use crate::units::{Kelvin, Moles};
 use crate::vessel::{Headspace, Provenance, Vessel};
@@ -481,6 +481,27 @@ fn burnable(vessel: &Vessel) -> Vec<(&'static Fuel, f64)> {
 impl Equilibrator for CombustionEquilibrator {
     fn name(&self) -> &'static str {
         "curated-combustion"
+    }
+
+    /// Curated, because `SolverRouteKind` records PROVENANCE — where the
+    /// numbers this road runs on came from — and every one of them is a
+    /// curated table in this file. [`FUELS`] holds the fuels, their
+    /// stoichiometries, their heats of combustion and their autoignition
+    /// temperatures, each with a `provenance` string; [`GAS_AUTOIGNITION`]
+    /// holds the same for the gases. The arithmetic that shares the oxygen
+    /// out and turns moles into joules does not make the road a computed
+    /// one, any more than an extent over a curated stoichiometry makes
+    /// `curated-reactions` computed.
+    ///
+    /// Until 2026-09-13 this solver declared nothing and took the trait
+    /// default, `Computed` — not a decision, an omission, and the one that
+    /// made the pair with `PhaseRouteEquilibrator` look like an
+    /// inconsistency. `PLAN.md`'s boil-route question settled the rule on
+    /// 2026-09-11 and named this the mislabelled half;
+    /// `direct_model_routes.rs::route_kinds_record_where_the_numbers_came_from`
+    /// asserts both halves together so neither can flip in silence.
+    fn route_kind(&self) -> SolverRouteKind {
+        SolverRouteKind::Curated
     }
 
     fn applies(&self, vessel: &Vessel) -> bool {

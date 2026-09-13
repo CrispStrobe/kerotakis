@@ -1945,21 +1945,39 @@ Open, and small:
       halves of the pair together so neither can flip in silence and the
       next reader finds the decision beside the assertion rather than only
       here.
-- [ ] **`curated-combustion` reports `Computed` because nobody gave it a
-      `route_kind`.** Surfaced by the boil question above and measured in
-      the same pass so it does not arrive unmeasured: eight corpus rows
-      have a succeeded `curated-combustion` route — `th-030 th-048 th-051
-      th-058 th-059 bio-008 bio-009 bio-044` — all eight are `computed`
-      by `computed-route`, and not one has another succeeded curated
-      route, so declaring `SolverRouteKind::Curated` would move exactly
-      those eight `computed -> curated` and touch nothing else. The
-      provenance rule the bullet above settles on says it should be
-      `Curated`: the fuels, their stoichiometries, their autoignition
-      temperatures and their heats of combustion are a curated table in
-      `combustion.rs`. It is deliberately NOT done here, for the reason
-      this bullet's own predecessor gave: a relabelling moves corpus rows
-      and gets its own commit and its own measurement rather than riding
-      on someone else's. The measurement is done; the move is not.
+- [x] **`curated-combustion` reported `Computed` because nobody had given
+      it a `route_kind`. Declared `Curated`, 2026-09-13, and the eight rows
+      the measurement predicted are the eight that moved.** Surfaced by the
+      boil question above and measured in the same pass so it did not
+      arrive unmeasured: eight corpus rows have a succeeded
+      `curated-combustion` route — `th-030 th-048 th-051 th-058 th-059
+      bio-008 bio-009 bio-044` — all eight were `computed` by
+      `computed-route`, and not one had another succeeded curated route, so
+      declaring `SolverRouteKind::Curated` would move exactly those eight
+      `computed -> curated` and touch nothing else. It did. The corpus is
+      now 320 computed and 64 curated where it was 328 and 56, the drift
+      gate reports nothing else, and no chemistry changed for any row: the
+      same solver ran, released the same heat and emitted the same events,
+      under a label that now says where its numbers came from.
+
+      The provenance rule the bullet above settles on is the whole
+      argument: the fuels, their stoichiometries, their autoignition
+      temperatures and their heats of combustion are the curated `FUELS`
+      and `GAS_AUTOIGNITION` tables in `combustion.rs`, each row carrying
+      its own `provenance` string. The arithmetic that shares the oxygen
+      out and turns moles into joules no more makes the road computed than
+      an extent over a curated stoichiometry makes `curated-reactions`
+      computed. What changed is not the reading but the fact of a
+      declaration: `Computed` had been an omission wearing a decision's
+      clothes, which is why the pair looked inconsistent for as long as it
+      did.
+
+      Done as its own commit and its own PR, separately from the boil
+      decision, for the reason this bullet's own predecessor gave: a
+      relabelling moves corpus rows, and two relabellings in one commit
+      make attribution impossible. Pinned in `direct_model_routes.rs` by
+      `route_kinds_record_where_the_numbers_came_from`, which asserts both
+      halves of the pair together.
 - [ ] No tin and no glycerol in the registry at all. Tin at 232 °C is the
       soldering-iron melting point a learner is most likely to have met.
 - [ ] The latent heats live in `phase_route.rs` as curated Rust tables

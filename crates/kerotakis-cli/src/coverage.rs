@@ -876,11 +876,14 @@ fn execute_prompt(
 /// minimisation has over-met its requirement, not failed it.
 ///
 /// **`Computed` and `Curated` share the top rung.** They are ordered by
-/// PROVENANCE, not by quality, and the repo has documented that from both
-/// directions: `PhaseRouteEquilibrator` does arithmetic over a curated
-/// latent heat and declares itself `Curated`, while `CombustionEquilibrator`
-/// reads an equally curated table of heats of combustion and declares itself
-/// `Computed`. A corpus author cannot predict which of the two roads a
+/// PROVENANCE, not by quality. Both examples the repo used to cite here
+/// have since been settled the same way: `PhaseRouteEquilibrator` does
+/// arithmetic over a curated latent heat and declares itself `Curated`
+/// (2026-09-11), and `CombustionEquilibrator`, which reads an equally
+/// curated table of heats of combustion, declared nothing at all until it
+/// was given `Curated` too (2026-09-13). That the pair disagreed for as
+/// long as it did is itself the argument: a corpus author cannot predict
+/// which of the two roads a
 /// vessel takes and should not be scored on guessing. The distinction is
 /// not thereby discarded: `by_observed` still counts the two separately and
 /// `baseline.toml` still records which one each row took, so a row moving
