@@ -1579,6 +1579,58 @@ worked before `codex lint` existed — and the fix is the same fix:
   plus RustSec advisories.
 - **`cargo-about`** generates the attribution/about screen from crate
   metadata instead of a maintained page.
+**Ten defects in the prose table itself, found 2026-09-13 while converting it
+to `provenance/upstreams.toml` and while re-sourcing 218 values against it.**
+Recorded rather than fixed, because six of them need a verdict that is the
+owner's to give. A lint can only be as good as the table it reads, and four of
+these would make it silently wrong rather than merely incomplete.
+
+*Sources the repository uses and never judged.* These are listed in the
+machine-readable table with `in_plan_table = false`, which is the honest
+placeholder and not a verdict:
+
+- **The CRC Handbook has no row**, and is the most-cited refused source in the
+  codebase — 88 mentions in shipped Rust when the audit began. The policy on it
+  was inferred from the commercial row. A lint generated from the table as it
+  stands would not have caught a single one of them.
+- **The Merck Index has no row**, and is cited in shipped code.
+- **Majer & Svoboda, IUPAC Chemical Data Series No. 32 (1985)**, has no row, and
+  is cited in shipped code.
+
+*Rows whose shape defeats a machine reading.* Each of these survives in prose
+because a human reads around it:
+
+- **NSRDS-NBS 37 is an ALLOW source nested as a parenthesis inside an AVOID
+  row.** The NIST row says do not scrape or redistribute, and then grants the
+  public-domain 1971 tables inside the same cell. Any conversion either loses
+  the grant or inverts the refusal. It wants its own row.
+- **The NIST row bundles two sites with two different terms pages.**
+- **The UNIFAC row holds two sources with opposite verdicts.**
+- **`sit.dat`'s carve-out and `thermo`'s oracle permission each live only in a
+  parenthesis.**
+- **One retrieval date, 2026-08-18, covers twenty rows** carrying evidence from
+  other dates.
+
+*Two verdicts that are wrong rather than missing:*
+
+- **NASA CEA's verdict needs a boundary, and this one is settled by evidence
+  rather than opinion.** It is sound for gas heat capacities and formation
+  enthalpies, which is what the row claims. It is NOT sound for transition
+  enthalpies: `thermo.inp` fits each phase over its own interval and nothing
+  constrains two fits to meet at the evaluated transition, so their difference
+  at the boundary carries both residuals. That shipped a wrong enthalpy of
+  fusion for silver in #586 and was corrected in #595. It is also not sound for
+  vaporisation, where the ideal-gas records overshoot by 0.6–3.3 % measured
+  against water, nitrogen, ethanol and methanol. CEA is a cross-check for those
+  two quantities, not a source.
+- **The line is SRD status, not NIST authorship, and the table does not say
+  so.** NIST's own policy is that works authored by its employees are not
+  subject to copyright within the United States, while the WebBook carries a
+  notice governed by the Standard Reference Data Act. That distinction is what
+  makes NBS Circulars 461 and 500, the *Journal of Research of the NBS* and the
+  Technical Note series usable, and it unlocked five of the replacements this
+  week. Left implicit, a reader refuses sources that are in fact open.
+
 **Decided 2026-09-13, by the owner, after an audit found the rule unenforced.**
 Recorded here because two of these were open questions that stalled work, and
 because the audit found roughly eighty-five shipped numeric claims resting on
