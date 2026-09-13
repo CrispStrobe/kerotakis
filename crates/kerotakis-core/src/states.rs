@@ -69,21 +69,64 @@ pub const WATER_FREEZING_K: f64 = 273.15;
 pub const WATER_BOILING_K: f64 = 373.15;
 /// Molar mass of water, kg/mol.
 const WATER_MOLAR_MASS_KG: f64 = 0.018_015;
-/// Enthalpy of fusion of water, J/mol (CRC Handbook).
+/// Enthalpy of fusion of water, J/mol.
+///
+/// Derived from NASA CEA's `thermo.inp` (vendor/nasa-cea/thermo.inp,
+/// Apache-2.0) as H(`H2O(L)`, 273.15 K) − H(`H2O(cr)`, 273.15 K), which
+/// comes to 6009.9 J/mol — the shipped figure to every digit it carries.
+/// The records are "Ice. Gordon,1982." and "Liquid. Cox,1989. Haar,1984.
+/// Keenan,1984. Stimson,1969.", kept verbatim here so a reader lands on the
+/// evaluation rather than on this comment. This replaces a bare "(CRC
+/// Handbook)", which PLAN.md's audit puts on the commercial row.
+///
+/// It is the most-used latent heat on the bench and it now costs nothing to
+/// source: `kerotakis-cea`'s `latent_heats_are_the_vendored_file` re-derives
+/// it from the shipped file on every run.
 pub const WATER_H_FUS: f64 = 6010.0;
-/// Enthalpy of vaporisation of water at the boiling point, J/mol (CRC).
+/// Enthalpy of vaporisation of water at the boiling point, J/mol.
+///
+/// NO SOURCE IS CLAIMED FOR THIS NUMBER. It read "(CRC)" until 2026-09-13.
+///
+/// NASA CEA was checked and rejected, and the rejection is instructive
+/// enough to keep: H(`H2O`, 373.15) − H(`H2O(L)`, 373.15) gives 40 878
+/// J/mol against this 40 650, and the 228 J/mol is not error — CEA's gas
+/// records are IDEAL-gas, and that gap is steam's non-ideality at one
+/// atmosphere. The same 0.5-to-3 per cent overshoot appears for nitrogen,
+/// ethanol and methanol, which is why CEA sources every *fusion* enthalpy
+/// on this bench and no *vaporisation* one. Restoring support here needs a
+/// primary measurement with a DOI.
 pub const WATER_H_VAP: f64 = 40650.0;
 /// Molar heat capacity of ice, J/(mol·K).
 ///
-/// 2.09 J/(g·K) × 18.015 g/mol at the melting point (CRC Handbook of
-/// Chemistry and Physics, specific heat of ice at 0 °C; NIST Chemistry
-/// WebBook gives the same figure for H₂O(cr) at 273 K).
+/// NO SOURCE IS CLAIMED FOR THIS NUMBER. It read "2.09 J/(g·K) × 18.015
+/// g/mol at the melting point (CRC Handbook of Chemistry and Physics,
+/// specific heat of ice at 0 °C; NIST Chemistry WebBook gives the same
+/// figure for H₂O(cr) at 273 K)" until 2026-09-13 — a commercial-row
+/// citation propped up by a do-not-redistribute one, which is the exact
+/// pairing the audit forbids.
+///
+/// AND THE REPLACEMENT DISAGREES, WHICH IS WHY IT IS NOT TAKEN HERE. NASA
+/// CEA's `H2O(cr)` record ("Ice. Gordon,1982.") gives Cp(273.15 K) = 38.11
+/// J/(mol·K), 1.1 per cent above this. That is a genuine difference between
+/// evaluations, not a rounding, and adopting it would move every heat
+/// ledger that contains ice. Sourcing a number and changing it are separate
+/// decisions — the rule this codebase already applies to the dissolution
+/// tranche's KMnO4 and NaHCO3 rows — so the value stands unsupported and a
+/// reviewer gets to make the second decision with the first one settled.
 pub const ICE_HEAT_CAPACITY: f64 = 37.7;
 
 /// Molar heat capacity of steam, J/(mol·K).
 ///
-/// 33.6 J/(mol·K) — NIST Chemistry WebBook, Cp° of H₂O(g); the Shomate
-/// value at 298 K and at the normal boiling point agree to within 0.2.
+/// 33.6 J/(mol·K), from NASA CEA's `thermo.inp` (vendor/nasa-cea/thermo.inp,
+/// Apache-2.0): the `H2O` gas record gives Cp(298.15 K) = 33.588 and
+/// Cp(373.15 K) = 34.048 J/(mol·K), so the constant is the 298 K value to
+/// the precision it is quoted at, and the spread across the range this
+/// bench uses it over is the 0.5 the old comment described as 0.2.
+///
+/// This replaces a NIST Chemistry WebBook citation. Unlike the enthalpy of
+/// vaporisation two constants up, a gas heat capacity is exactly what an
+/// ideal-gas record IS, so CEA is the right source here rather than a
+/// convenient one.
 pub const STEAM_HEAT_CAPACITY: f64 = 33.6;
 
 /// Molar heat capacity of liquid water, J/(mol·K), for the phases table.

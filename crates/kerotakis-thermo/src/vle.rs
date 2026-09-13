@@ -254,7 +254,7 @@ const ISOPROPANOL_ANTOINE: Antoine = Antoine {
     b: 1357.427,
     c: 197.336,
     valid_c: (56.77, 89.26),
-    source: "NIST Chemistry WebBook, SRD 69, isopropyl alcohol Antoine equation: Stull, D.R., Ind. Eng. Chem. 39, 517-540 (1947), 329.92-362.41 K; converted from log10(P/bar) = 4.8610 - 1357.427/(T/K - 75.814) to kPa and Celsius",
+    source: "Stull, D. R., Ind. Eng. Chem. 39(4), 517-540 (1947), Table I, isopropyl alcohol, 329.92-362.41 K, doi:10.1021/ie50448a022. The coefficients were transcribed from the NIST Chemistry WebBook SRD 69 RENDERING of that fit, log10(P/bar) = 4.8610 - 1357.427/(T/K - 75.814), converted here to kPa and Celsius; the WebBook is a rejected source class in the BRD-031 audit, so the citation names the publication it renders and records the detour rather than naming the renderer. pack.rs ISOPROPANOL_PROVENANCE already carried it this way round; this line now agrees with it.",
 };
 pub const ISOPROPANOL: VapourPressure = VapourPressure::Antoine(ISOPROPANOL_ANTOINE);
 

@@ -148,3 +148,79 @@ fn no_fusion_row_claims_to_be_derived_from_the_cea_polynomials() {
         );
     }
 }
+
+/// Water is not in `FUSION_ENTHALPIES` — `states.rs` owns the solvent's
+/// transitions and the table's doc comment says so in capitals — but its
+/// enthalpy of fusion is the most-used latent heat on the bench and it
+/// cited the CRC Handbook until 2026-09-13. CEA carries `H2O(cr)` and
+/// `H2O(L)`, so the same derivation reaches it, and it agrees to 0.1 J/mol.
+///
+/// Steam's heat capacity rides along because it is the same file and the
+/// same kind of claim. The gas record IS an ideal-gas record, which is
+/// exactly what a gas heat capacity is, so unlike the enthalpy of
+/// vaporisation two constants below it in `states.rs`, this one is a
+/// correct use of the source rather than a convenient one.
+#[test]
+fn the_solvents_own_constants_come_from_the_vendored_file_too() {
+    use kerotakis_core::states::{STEAM_HEAT_CAPACITY, WATER_H_FUS};
+
+    let db = nasa9::db();
+    let ice = db.get("H2O(cr)").expect("H2O(cr) is in thermo.inp");
+    let water = db.get("H2O(L)").expect("H2O(L) is in thermo.inp");
+    let (melting_k, _) = water.t_range().expect("H2O(L) has a range");
+    assert!(
+        (melting_k - 273.15).abs() < 1e-9,
+        "CEA puts water's melting point at {melting_k} K, not 273.15"
+    );
+
+    let derived = water.h(melting_k).unwrap() - ice.h(melting_k).unwrap();
+    assert!(
+        (derived - WATER_H_FUS).abs() < 1.0,
+        "thermo.inp gives {derived:.1} J/mol of fusion for water, states.rs ships \
+         {WATER_H_FUS:.1}"
+    );
+
+    // Quoted to three figures, so the window is the rounding.
+    let steam = db.get("H2O").expect("H2O is in thermo.inp");
+    let cp = steam.cp(298.15).expect("H2O has a Cp at 298.15 K");
+    assert!(
+        (cp - STEAM_HEAT_CAPACITY).abs() < 0.05,
+        "thermo.inp gives Cp(H2O, g, 298.15 K) = {cp:.3} J/(mol.K), states.rs ships \
+         {STEAM_HEAT_CAPACITY}"
+    );
+}
+
+/// The negative result, pinned so nobody re-discovers it the expensive way.
+///
+/// CEA's gas records are ideal-gas, so differencing one against a liquid
+/// record overstates an enthalpy of vaporisation by the vapour's
+/// non-ideality. For water at its boiling point that is about 228 J/mol —
+/// small, consistent, and in the same direction as the 2.8 per cent seen
+/// for ethanol and the 3.3 per cent for methanol.
+///
+/// This test asserts the DISAGREEMENT. If a future CEA drop ever made
+/// these agree, that would mean the gas records had stopped being
+/// ideal-gas, and every rejection recorded in `phase_route`'s vaporisation
+/// rows would need re-examining. Either way, someone should look.
+#[test]
+fn cea_overstates_a_boil_and_that_is_why_no_vaporisation_row_cites_it() {
+    use kerotakis_core::states::WATER_H_VAP;
+
+    let db = nasa9::db();
+    let liquid = db.get("H2O(L)").expect("H2O(L) is in thermo.inp");
+    let gas = db.get("H2O").expect("H2O is in thermo.inp");
+    let ideal = gas.h(373.15).unwrap() - liquid.h(373.15).unwrap();
+
+    assert!(
+        ideal > WATER_H_VAP,
+        "CEA's ideal-gas difference {ideal:.0} J/mol should EXCEED the real \
+         {WATER_H_VAP:.0}; if it no longer does, the gas records have changed \
+         and the vaporisation rejections need re-reading"
+    );
+    let excess = ideal - WATER_H_VAP;
+    assert!(
+        (100.0..400.0).contains(&excess),
+        "steam's non-ideality at 373.15 K should be a couple of hundred J/mol; \
+         CEA - real = {excess:.0}"
+    );
+}
