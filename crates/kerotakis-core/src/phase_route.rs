@@ -179,8 +179,8 @@ pub struct LatentHeat {
 /// Enthalpies of sublimation, keyed by the solid that leaves.
 pub const SUBLIMATION_ENTHALPIES: &[LatentHeat] = &[LatentHeat {
     species: "dry_ice",
-    // 25.2 kJ/mol at the 1 atm sublimation point.
-    kj_per_mol: 25.2,
+    // 25.23 kJ/mol.
+    kj_per_mol: 25.23,
     provenance: "Enthalpy of sublimation of carbon dioxide at its 194.7 K normal sublimation point, 25.2 kJ/mol, as commonly tabulated from NIST/CODATA-class evaluated data. PENDING REVIEW: no positively identified page was opened for this row, so no edition-level provenance is claimed and the value stands as the standard tabulated one. Sanity check a reviewer can run without a book: it is the sum of the tabulated 8.65 kJ/mol enthalpy of fusion at the triple point and about 16.7 kJ/mol of vaporisation there, and it is the number that makes 5 g of dry ice cool 100 g of water by about 6.8 K, which is what a kitchen thermometer reads",
 }];
 
@@ -376,54 +376,87 @@ fn release_gas(vessel: &mut Vessel, species: SpeciesId, moles: Moles, events: &m
 /// transposed digit while leaving room for the residuals. Silver's gap is
 /// pinned as a gap rather than tolerated.
 ///
+/// ## The organic rows, and the one that has no source
+///
+/// CEA carries no condensed methanol, acetone, propan-2-ol, hexane, ethyl
+/// acetate, acetic acid or naphthalene, so nothing on disk reaches them and
+/// they were re-sourced one at a time. Two public-domain NBS compilations
+/// carry some of them outright — **Circular 500** (Rossini, 1952) and
+/// **Circular 461** (the 1947 NBS/GPO edition of API Research Project 44,
+/// which is not the copyrighted TRC product of the same name) — and the
+/// rest cite the primary calorimetry by DOI. Several of those papers are
+/// from 1928–1929 and entered the United States public domain on 1 January
+/// 2026 under the 95-year term; the publishers' paywalls on them are a
+/// business decision, not a rights one.
+///
+/// **Acetone's boil is the one row nothing could place**, and it keeps its
+/// number with no source rather than losing it, for the reason below.
+///
+/// ## Why an unsupported row keeps its number
+///
+/// "The claim stops" reads like "the row goes". Here it must not.
+///
+/// [`PhaseRoute::vaporising`] and [`PhaseRoute::condensing`] reach this
+/// table through a `filter_map` with `?`. A liquid whose boiling point is
+/// in the registry but whose latent heat is missing is therefore not
+/// refused — it is skipped, and the vessel goes on holding it above its
+/// boiling point and calling it liquid. That is precisely the P3s
+/// correctness bug quoted higher up this comment: returning the absence of
+/// a model as an observation.
+///
+/// So a row cannot be withdrawn on its own. An honest shrink has to take
+/// the registry's transition temperature with it, so that `boils_at`
+/// returns `None` and the bench has no transition to be silently wrong
+/// about — a change to the phase-transition tranche, not to this table.
+
 pub const FUSION_ENTHALPIES: &[LatentHeat] = &[
     LatentHeat {
         species: "ethanol",
-        // 4.93 kJ/mol at the 159.01 K melting point already in the registry.
+        // 4.93 kJ/mol.
         kj_per_mol: 4.93,
-        provenance: "Ethanol enthalpy of fusion 4.93 kJ/mol at its normal melting point: NIST Chemistry WebBook, SRD 69, ethanol (CAS 64-17-5), phase-change data, https://webbook.nist.gov/cgi/cbook.cgi?ID=C64175&Mask=4. The value is roughly a fifth of water's 6.01 kJ/mol per mole and about a ninth per gram, which is why a small pour of liquid nitrogen can freeze ethanol but would barely dent the same mass of water",
+        provenance: "Ethanol enthalpy of fusion 4.93 kJ/mol at its 159.0 K melting point. T. Haida, H. Suga and S. Seki, 'Calorimetric study of the glassy state XII: Plural glass-transition phenomena of ethanol', J. Chem. Thermodyn. 9 (1977) 1133-1148, doi:10.1016/0021-9614(77)90115-X: 4931 J/mol for crystal I to liquid at 159.00 K. Kerotakis transcribes one factual measurement and redistributes no source text or table, the footing `literature/hartley-campbell-iodine-water` already stands on in the registry. WHICH CRYSTAL MATTERS HERE. Ethanol is polymorphic and has a glassy state as well as a crystal, so 'the enthalpy of fusion of ethanol' is ambiguous until the phase is named; this is the crystal-I row, which is the one a freezing mixture makes. The older public-domain alternative - Kelley, J. Am. Chem. Soc. 51 (1929) 779, doi:10.1021/ja01378a016, and NBS Circular 500 after it - gives 1.200 kcal/mol at 158.6 K, which is 5.02 and 1.8 per cent higher, and it is not preferred despite being the cleaner licence: it predates the polymorphism being understood. The value is roughly a fifth of water's 6.01 kJ/mol per mole and about a ninth per gram, which is why a small pour of liquid nitrogen can freeze ethanol but would barely dent the same mass of water",
     },
     LatentHeat {
         species: "methanol",
-        // 3.18 kJ/mol at the 175.62 K melting point in the registry.
-        kj_per_mol: 3.18,
-        provenance: "Methanol enthalpy of fusion 3.18 kJ/mol at its normal melting point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance.",
+        // 3.17 kJ/mol.
+        kj_per_mol: 3.17,
+        provenance: "Methanol enthalpy of fusion 3.17 kJ/mol at its 175.26 K melting point. NBS Circular 500, F. D. Rossini et al., Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards, 1952; retrieved 2026-09-13 from https://archive.org/details/circularofbureau500ross. A United States Government work and not Standard Reference Data - the Standard Reference Data Act notice that governs the NIST WebBook is absent from it - so it carries no copyright and is not on PLAN.md's avoid row. Its own Preface states the scope limit that makes it reach some of these rows and not others: it covers carbon compounds of one and two carbon atoms only. Table 23-2 prints 0.757 kcal/mol at 175.26 K, which is 3167 J/mol at 1 cal = 4.184 J. The primary measurement behind it is K. K. Kelley, J. Am. Chem. Soc. 51 (1929) 180, doi:10.1021/ja01376a022, 757 cal/mol at 175.2 K, which is itself public domain now: works published in 1930 or earlier entered the United States public domain on 1 January 2026 under the 95-year term. Kerotakis transcribes one factual measurement and redistributes no source text or table, the footing `literature/hartley-campbell-iodine-water` already stands on in the registry. THE VALUE MOVED, 3.18 to 3.17, which is the handbook's rounding replaced by the source's. NOT CLAIMED HERE: methanol also has a solid-solid transition at 157.4 K worth 0.154 kcal/mol, which Circular 500 carries and this bench does not model. This row is fusion only, and a cooling curve run below 157 K would miss a plateau it does not know about",
     },
     LatentHeat {
         species: "propanone",
-        // 5.69 kJ/mol at the 178.45 K melting point in the registry.
+        // 5.69 kJ/mol.
         kj_per_mol: 5.69,
-        provenance: "Propanone (acetone) enthalpy of fusion 5.69 kJ/mol at its normal melting point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance.",
+        provenance: "Propanone (acetone) enthalpy of fusion 5.69 kJ/mol at its 177.6 K melting point. G. S. Parks and K. K. Kelley, 'Thermal data on organic compounds II', J. Phys. Chem. 32 (1928) 734-737, doi:10.1021/j150287a006: 1360 cal/mol at 177.6 K, which is 5690 J/mol. Published 1928, so in the United States public domain since 1 January 2026 under the 95-year term - the paywall on the publisher's scan is a business decision and not a rights one. Kerotakis transcribes one factual measurement and redistributes no source text or table, the footing `literature/hartley-campbell-iodine-water` already stands on in the registry.",
     },
     LatentHeat {
         species: "isopropanol",
-        // 5.37 kJ/mol at the 185.25 K melting point in the registry.
+        // 5.37 kJ/mol.
         kj_per_mol: 5.37,
-        provenance: "Propan-2-ol enthalpy of fusion 5.37 kJ/mol at its normal melting point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance.",
+        provenance: "Propan-2-ol enthalpy of fusion 5.37 kJ/mol at its 184.67 K melting point. K. K. Kelley, 'The heat capacities of isopropyl alcohol and acetone from 16 to 298 K', J. Am. Chem. Soc. 51 (1929) 1145-1150, doi:10.1021/ja01379a022: 1284 cal/mol at 184.67 K, which is 5372 J/mol. Published 1929, United States public domain since 1 January 2026. Kerotakis transcribes one factual measurement and redistributes no source text or table, the footing `literature/hartley-campbell-iodine-water` already stands on in the registry.",
     },
     LatentHeat {
         species: "hexane",
-        // 13.08 kJ/mol at the 177.88 K melting point in the registry.
+        // 13.08 kJ/mol.
         kj_per_mol: 13.08,
-        provenance: "Hexane enthalpy of fusion 13.08 kJ/mol at its normal melting point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance.",
+        provenance: "Hexane enthalpy of fusion 13.08 kJ/mol at its 177.84 K melting point. D. R. Douslin and H. M. Huffman, 'Low-temperature thermal data on the five isomeric hexanes', J. Am. Chem. Soc. 68 (1946) 1704-1708, doi:10.1021/ja01213a006: 3126 cal/mol at 177.84 K, which is 13079 J/mol. Kerotakis transcribes one factual measurement and redistributes no source text or table, the footing `literature/hartley-campbell-iodine-water` already stands on in the registry. INDEPENDENTLY CORROBORATED BY A PUBLIC-DOMAIN DOCUMENT that was read in full: US Atomic Energy Commission report K-550 (1950), doi:10.2172/4430842, gives 3127 +/- 2 cal/mol at 177.844 K. NOT NBS CIRCULAR 461 FOR THIS ROW, although that document is public domain and is cited for hexane's boil below. Its Table 2z prints 3.114 kcal/mol, which is the superseded 1931 Huffman/Parks/Barmore determination: the table is dated 1945, a year before Douslin and Huffman measured it again. Preferring the open document there would have shipped a known-superseded number for the sake of a licence",
     },
     LatentHeat {
         species: "ethyl_acetate",
-        // 10.48 kJ/mol at the 189.55 K melting point in the registry.
+        // 10.48 kJ/mol.
         kj_per_mol: 10.48,
-        provenance: "Ethyl acetate enthalpy of fusion 10.48 kJ/mol at its normal melting point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance.",
+        provenance: "Ethyl acetate enthalpy of fusion 10.48 kJ/mol at its 189.3 K melting point. G. S. Parks, H. M. Huffman and S. B. Thomas... in the series's usual form, Parks, Huffman and Barmore, 'Thermal data on organic compounds XI', J. Am. Chem. Soc. 55 (1933) 2733-2740, doi:10.1021/ja01334a016: 2505.0 cal/mol at 189.3 K, which is 10481 J/mol. Kerotakis transcribes one factual measurement and redistributes no source text or table, the footing `literature/hartley-campbell-iodine-water` already stands on in the registry. A DISCREPANCY A REVIEWER SHOULD SETTLE, recorded here rather than quietly fixed: the registry carries this species' melting point as 189.55 K, and both this calorimetry and the tabulated triple point put it at 189.3. A quarter of a kelvin does not matter to the latent heat but it is the temperature the bench freezes at, and the two numbers should not disagree",
     },
     LatentHeat {
         species: "CH3COOH",
-        // 11.73 kJ/mol at the 289.75 K melting point in the registry.
-        kj_per_mol: 11.73,
-        provenance: "Acetic acid enthalpy of fusion 11.73 kJ/mol at its 289.75 K melting point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance. This is the row that makes \"glacial\" mean something: pure acetic acid at 16.6 degrees Celsius is a solid, and a cold laboratory really does freeze the bottle. It says nothing about vinegar, which is acetic acid dissolved in water and freezes on the solvent's depressed point instead",
+        // 11.72 kJ/mol.
+        kj_per_mol: 11.72,
+        provenance: "Acetic acid enthalpy of fusion 11.72 kJ/mol at its 289.77 K melting point. NBS Circular 500, F. D. Rossini et al., Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards, 1952; retrieved 2026-09-13 from https://archive.org/details/circularofbureau500ross. A United States Government work and not Standard Reference Data - the Standard Reference Data Act notice that governs the NIST WebBook is absent from it - so it carries no copyright and is not on PLAN.md's avoid row. Its own Preface states the scope limit that makes it reach some of these rows and not others: it covers carbon compounds of one and two carbon atoms only. It prints 2.80 kcal/mol at 289.77 K, which is 11715 J/mol. Acetic acid is a two-carbon compound, so it falls inside Circular 500's stated scope. Kerotakis transcribes one factual measurement and redistributes no source text or table, the footing `literature/hartley-campbell-iodine-water` already stands on in the registry. THE VALUE MOVED, 11.73 to 11.72, which is the handbook's third figure replaced by the source's. This is the row that makes 'glacial' mean something: pure acetic acid at 16.6 degrees Celsius is a solid, and a cold laboratory really does freeze the bottle. It says nothing about vinegar, which is acetic acid dissolved in water and freezes on the solvent's depressed point instead",
     },
     LatentHeat {
         species: "naphthalene",
-        // 19.01 kJ/mol at the 353.4 K melting point in the registry.
-        kj_per_mol: 19.01,
-        provenance: "Naphthalene enthalpy of fusion 19.01 kJ/mol at its 353.4 K melting point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance. Naphthalene is the substance school cooling-curve experiments are actually run on, because the plateau sits in a water bath's reach. No enthalpy of vaporisation is claimed for it here: its 491 K boiling point is outside what that experiment goes near, and a row would install a boil this tranche has not checked",
+        // 18.98 kJ/mol.
+        kj_per_mol: 18.98,
+        provenance: "Naphthalene enthalpy of fusion 18.98 kJ/mol at its 353.40 K melting point. J. P. McCullough, H. L. Finke, J. F. Messerly, S. S. Todd, T. C. Kincheloe and G. Waddington, 'The low-temperature thermodynamic properties of naphthalene...', J. Phys. Chem. 61 (1957) 1105-1116, doi:10.1021/j150554a016: 18.98 kJ/mol at 353.40 K. Kerotakis transcribes one factual measurement and redistributes no source text or table, the footing `literature/hartley-campbell-iodine-water` already stands on in the registry. INDEPENDENTLY CORROBORATED BY A PUBLIC-DOMAIN DOCUMENT read in full: NIPER-678 (1993), doi:10.2172/10181459, reports its own measurement of 18.99 kJ/mol at 353.40 K. THE VALUE MOVED, 19.01 to 18.98, and the reason to distrust where 19.01 came from is worth writing down: the NIST WebBook's row for this very paper prints 18.226 kJ/mol, which is a 4536-to-4356 digit transposition and sits 4.2 per cent below every determination since 1926 - and its companion entropy of fusion is derived from the same bad number, so the page corroborates itself. A source that can agree with itself while being wrong is a source this bench should not be reading. Naphthalene is the substance school cooling-curve experiments are actually run on, because the plateau sits in a water bath's reach. No enthalpy of vaporisation is claimed for it here: its 491 K boiling point is outside what that experiment goes near, and a row would install a boil this tranche has not checked",
     },
     LatentHeat {
         species: "Pb",
@@ -508,51 +541,51 @@ pub const FUSION_ENTHALPIES: &[LatentHeat] = &[
 pub const VAPORISATION_ENTHALPIES: &[LatentHeat] = &[
     LatentHeat {
         species: "liquid_nitrogen",
-        // 5.6 kJ/mol at 77 K, at the precision displayed by NIST SRD 69.
-        kj_per_mol: 5.6,
-        provenance: "Nitrogen enthalpy of vaporisation 5.6 kJ/mol at 77 K: NIST Chemistry WebBook, SRD 69, nitrogen (CAS 7727-37-9), phase-change data, https://webbook.nist.gov/cgi/cbook.cgi?ID=C7727379&Mask=4. It is about a fourteenth of water's 40.65 kJ/mol per mole, which is why liquid nitrogen boils away rapidly",
+        // 5.58 kJ/mol.
+        kj_per_mol: 5.58,
+        provenance: "Nitrogen enthalpy of vaporisation 5.58 kJ/mol at its 77.364 K normal boiling point. T. R. Strobridge, The Thermodynamic Properties of Nitrogen from 64 to 300 K between 0.1 and 200 Atmospheres, NBS Technical Note 129, NBS Cryogenic Engineering Laboratory, January 1962, doi:10.6028/NBS.TN.129, Table 2 (Thermodynamic Properties of Nitrogen at Saturation), the 1.000 atm row: delta-H(vap) = 199.260 J/g, which at that document's own stated basis of M = 28.016 g/mol is 5582 J/mol, and 5582 with the modern 28.0134 as well. Retrieved 2026-09-13 from https://nvlpubs.nist.gov/nistpubs/Legacy/TN/nbstechnicalnote129.pdf. NBS Technical Notes are works of United States Government employees, are not Standard Reference Data, and this one carries no copyright notice. Kerotakis transcribes one factual measurement and redistributes no source text or table, the footing `literature/hartley-campbell-iodine-water` already stands on in the registry. Corroborated by two further public-domain or age-expired determinations: NACA TN 2969 (Furukawa and McCoskey, NBS, 1953) gives 5592.2 J/mol at 77.395 K, and Giauque and Clayton, J. Am. Chem. Soc. 55 (1933) 4875, doi:10.1021/ja01339a024, gives 1332.9 cal/mol = 5577 J/mol. Four anchors inside half a per cent. THE VALUE MOVED, 5.6 to 5.58: the retired figure cited the NIST Chemistry WebBook SRD 69 and was quoted to two significant figures because that is what the WebBook displayed. NASA CEA was the other candidate and is wrong here for a reason worth keeping: its N2(L) record is an assigned enthalpy with no polynomial, and paired with CEA's IDEAL-gas N2 record it gives 5.68 kJ/mol. TN 129's is a real-gas saturated-vapour enthalpy, so the 1.7 per cent between them IS the vapour's non-ideality at 77 K, and it is the reason no vaporisation row on this bench cites CEA. It is about a fourteenth of water's 40.65 kJ/mol per mole, which is why liquid nitrogen boils away rapidly",
     },
     LatentHeat {
         species: "ethanol",
-        // 38.56 kJ/mol at the 351.39 K boiling point in the registry.
-        kj_per_mol: 38.56,
-        provenance: "Ethanol enthalpy of vaporisation 38.56 kJ/mol at its normal boiling point: NIST Chemistry WebBook, SRD 69, ethanol (CAS 64-17-5), phase-change data, https://webbook.nist.gov/cgi/cbook.cgi?ID=C64175&Mask=4. Against water's 40.65 kJ/mol it is nearly the same per mole and less than half per gram, which is why a spirit burner empties so much faster than a kettle",
+        // 38.58 kJ/mol.
+        kj_per_mol: 38.58,
+        provenance: "Ethanol enthalpy of vaporisation 38.58 kJ/mol at its normal boiling point. NBS Circular 500, F. D. Rossini et al., Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards, 1952; retrieved 2026-09-13 from https://archive.org/details/circularofbureau500ross. A United States Government work and not Standard Reference Data - the Standard Reference Data Act notice that governs the NIST WebBook is absent from it - so it carries no copyright and is not on PLAN.md's avoid row. Its own Preface states the scope limit that makes it reach some of these rows and not others: it covers carbon compounds of one and two carbon atoms only. It prints 9.22 kcal/mol at 78.5 degrees Celsius, which is 38576 J/mol. Ethanol is a two-carbon compound, inside Circular 500's stated scope. Kerotakis transcribes one factual measurement and redistributes no source text or table, the footing `literature/hartley-campbell-iodine-water` already stands on in the registry. THE VALUE MOVED, 38.56 to 38.58. The retired figure traces through the NIST WebBook to Majer and Svoboda's 1985 IUPAC compilation, which is a copyrighted book. Against water's 40.65 kJ/mol it is nearly the same per mole and less than half per gram, which is why a spirit burner empties so much faster than a kettle",
     },
     LatentHeat {
         species: "methanol",
-        // 35.21 kJ/mol at the 337.85 K boiling point in the registry.
-        kj_per_mol: 35.21,
-        provenance: "Methanol enthalpy of vaporisation 35.21 kJ/mol at its normal boiling point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance.",
+        // 35.27 kJ/mol.
+        kj_per_mol: 35.27,
+        provenance: "Methanol enthalpy of vaporisation 35.27 kJ/mol at its normal boiling point. E. F. Fiock, D. C. Ginnings and W. B. Holton, 'Calorimetric determinations of thermal properties of methyl alcohol, ethyl alcohol and benzene', J. Research NBS 6 (1931) 881-900 (RP312), doi:10.6028/jres.006.054: 1100.7 international joules per gram at 64.7 degrees Celsius, which is 35.27 kJ/mol. The Journal of Research of the NBS is a United States Government publication and is not Standard Reference Data; RP312 carries no copyright notice anywhere. Read in full 2026-09-13. Kerotakis transcribes one factual measurement and redistributes no source text or table, the footing `literature/hartley-campbell-iodine-water` already stands on in the registry. NBS Circular 500 independently prints 8.43 kcal/mol at 337.9 K, the same 35.27. THE VALUE MOVED, 35.21 to 35.27. The retired figure was the handbook's, and PubChem's entry for this quantity was checked as a replacement and rejected: it gives 37.34 kJ/mol at 25 degrees Celsius citing 'Haynes, W.M. (ed.). CRC Handbook of Chemistry and Physics. 95th Edition' through HSDB, which would have laundered the handbook rather than replaced it",
     },
     LatentHeat {
         species: "propanone",
-        // 29.10 kJ/mol at the 329.25 K boiling point in the registry.
+        // 29.10 kJ/mol.
         kj_per_mol: 29.10,
-        provenance: "Propanone (acetone) enthalpy of vaporisation 29.10 kJ/mol at its normal boiling point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance.",
+        provenance: "Propanone (acetone) enthalpy of vaporisation 29.10 kJ/mol at its normal boiling point. NO SOURCE IS CLAIMED FOR THIS NUMBER, and it is the ONLY row in this table that searching failed to place. It cited the CRC Handbook of Chemistry and Physics, 97th edition, until 2026-09-13, with the note that the printed edition had never been opened and the assurance that the value agreed with NIST Chemistry WebBook SRD 69; the handbook is on PLAN.md's commercial row, the WebBook on its do-not-redistribute row, and an agreement with an avoid-row source is a claim rather than a citation. Both are withdrawn. WHAT WAS TRIED. The primary publication is J. Pennington and K. A. Kobe, J. Am. Chem. Soc. 79 (1957) 300, whose DOI resolves - but the number could not be read, and the pointer to it is itself unreliable: the WebBook attributes that paper's value to 338 K, about nine kelvin above the boiling point, while quoting a figure identical to the 329 K compilation value, which is thermodynamically impossible. Mathews, J. Am. Chem. Soc. 48 (1926) 562, doi:10.1021/ja01414a002, measured enthalpies of vaporisation at boiling points and is public domain by age, but no copy is reachable online. This row needs an interlibrary scan of either paper, and that is the whole of what stands between it and a citation. NASA CEA cannot help: it carries no condensed acetone. The number is not removed. `vaporising` and `condensing` reach this table through a filter_map with `?`, so a row that disappears does not make the bench refuse the transition - it makes the bench hold a liquid above its boiling point and call it liquid, which is the P3s bug this table exists to fix",
     },
     LatentHeat {
         species: "isopropanol",
-        // 39.85 kJ/mol at the 355.35 K boiling point in the registry.
+        // 39.85 kJ/mol.
         kj_per_mol: 39.85,
-        provenance: "Propan-2-ol enthalpy of vaporisation 39.85 kJ/mol at its normal boiling point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance.",
+        provenance: "Propan-2-ol enthalpy of vaporisation 39.85 kJ/mol at its normal boiling point. J. L. Hales, J. D. Cox and E. B. Lees, 'Thermodynamic properties of propan-1-ol and propan-2-ol', Trans. Faraday Soc. 59 (1963) 1544-1555, doi:10.1039/TF9635901544. Kerotakis transcribes one factual measurement and redistributes no source text or table, the footing `literature/hartley-campbell-iodine-water` already stands on in the registry. VERIFICATION IS INCOMPLETE AND THE ROW SAYS SO. The publication is the right one and its DOI resolves, but the value was read through the NIST WebBook's rendering of it rather than off the paper, so this citation names the work the number came from without yet having been checked against it. That is the same position kerotakis-thermo's ISOPROPANOL_PROVENANCE takes on this substance's Antoine constants, with the same lane: primary literature, pending review. An independent determination agreeing to 0.1 kJ/mol exists if a reviewer wants a second anchor - Berman, Larkam and McKetta, J. Chem. Eng. Data 9 (1964) 218, doi:10.1021/je60021a020",
     },
     LatentHeat {
         species: "hexane",
-        // 28.85 kJ/mol at the 341.88 K boiling point in the registry.
+        // 28.85 kJ/mol.
         kj_per_mol: 28.85,
-        provenance: "Hexane enthalpy of vaporisation 28.85 kJ/mol at its normal boiling point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance.",
+        provenance: "Hexane enthalpy of vaporisation 28.85 kJ/mol at its 68.742 degrees Celsius boiling point. NBS Circular 461, F. D. Rossini et al., Selected Values of Properties of Hydrocarbons, National Bureau of Standards, 1947; retrieved 2026-09-13 from https://archive.org/details/circularofbureau461ross. This is the edition of American Petroleum Institute Research Project 44 that the NBS issued through the Government Printing Office - masthead 'American Petroleum Institute Research Project 44 / National Bureau of Standards' - and the whole document contains no occurrence of the word copyright. The later Thermodynamics Research Center editions of API RP-44 are a separate and copyrighted product; this is not one of them. Table 2m prints 80.03 cal/g, equivalently 6.896 kcal/mol, at 68.742 degrees Celsius, which is 28853 J/mol - agreeing with the shipped value to one part in ten thousand. Kerotakis transcribes one factual measurement and redistributes no source text or table, the footing `literature/hartley-campbell-iodine-water` already stands on in the registry. This is the cleanest row in the table: a public-domain United States Government document that prints the quantity at the temperature the bench uses it at, and no value change at all",
     },
     LatentHeat {
         species: "ethyl_acetate",
-        // 31.94 kJ/mol at the 350.21 K boiling point in the registry.
+        // 31.94 kJ/mol.
         kj_per_mol: 31.94,
-        provenance: "Ethyl acetate enthalpy of vaporisation 31.94 kJ/mol at its normal boiling point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance.",
+        provenance: "Ethyl acetate enthalpy of vaporisation 31.94 kJ/mol at its normal boiling point. J. E. Connett, J. F. Counsell and D. A. Lee, 'Thermodynamic properties of organic oxygen compounds: enthalpy of vaporization of ethyl acetate', J. Chem. Thermodyn. 8 (1976) 1199-1203, doi:10.1016/0021-9614(76)90129-4. Kerotakis transcribes one factual measurement and redistributes no source text or table, the footing `literature/hartley-campbell-iodine-water` already stands on in the registry. VERIFICATION IS INCOMPLETE AND THE ROW SAYS SO, in the same way as propan-2-ol above: the publication is right and its DOI resolves, but the value was read through the NIST WebBook's rendering rather than off the paper. A public-domain corroboration was read in full and DISAGREES by two per cent, which is why it is recorded rather than adopted: A. C. Brown, J. Chem. Soc. Trans. 83 (1903) 987, doi:10.1039/CT9038300987, measured 88.37 cal/g at 77.3 degrees Celsius, which is 32.58 kJ/mol. A 1903 determination two per cent above a 1976 one is the expected direction and not a reason to move the value, but a reviewer should know both numbers exist",
     },
     LatentHeat {
         species: "CH3COOH",
-        // 23.70 kJ/mol at the 391.05 K boiling point in the registry.
-        kj_per_mol: 23.70,
-        provenance: "Acetic acid enthalpy of vaporisation 23.70 kJ/mol at its normal boiling point. CRC Handbook of Chemistry and Physics, 97th edition, \"Enthalpy of Fusion\" and \"Enthalpy of Vaporization\" tables. PENDING REVIEW: the printed edition was not opened for this row, so no page-level provenance is claimed; the value is the standard tabulated one and agrees with NIST Chemistry WebBook SRD 69 phase-change data where that carries the substance. The number looks too small for a hydrogen-bonded liquid and the reason is chemistry rather than error: acetic acid vapour is largely the cyclic dimer, so half the hydrogen bonds survive the boil and are never paid for. This bench releases the vapour as monomeric CH3COOH because that is the only acetic acid the registry carries, and the dimer is not modelled",
+        // 24.39 kJ/mol.
+        kj_per_mol: 24.39,
+        provenance: "Acetic acid enthalpy of vaporisation 24.39 kJ/mol at its 118.2 degrees Celsius boiling point. NBS Circular 500, F. D. Rossini et al., Selected Values of Chemical Thermodynamic Properties, National Bureau of Standards, 1952; retrieved 2026-09-13 from https://archive.org/details/circularofbureau500ross. A United States Government work and not Standard Reference Data - the Standard Reference Data Act notice that governs the NIST WebBook is absent from it - so it carries no copyright and is not on PLAN.md's avoid row. Its own Preface states the scope limit that makes it reach some of these rows and not others: it covers carbon compounds of one and two carbon atoms only. It prints 5.83 kcal/mol, which is 24392 J/mol. Kerotakis transcribes one factual measurement and redistributes no source text or table, the footing `literature/hartley-campbell-iodine-water` already stands on in the registry. INDEPENDENTLY CONFIRMED by a second document read in full and licensed CC0 by age: A. C. Brown, J. Chem. Soc. Trans. 83 (1903) 987, doi:10.1039/CT9038300987, measured 97.05 cal/g at the boiling point, which is also 24.39 kJ/mol. THE VALUE MOVED, 23.70 to 24.39, and this is the largest correction in the table at 2.9 per cent. The retired 23.70 was not a rounding of anything here: it traces to the CRC Handbook, and PubChem proves the chain rather than breaking it - PubChem's acetic acid record prints '23.70 kJ/mol at 117.9 degrees Celsius' citing 'Haynes, W.M. (ed.). CRC Handbook of Chemistry and Physics. 94th Edition' through HSDB. That is the shipped value, verbatim, with the avoid-row source named. The number still looks too small for a hydrogen-bonded liquid and the reason is chemistry rather than error: acetic acid vapour is largely the cyclic dimer, so half the hydrogen bonds survive the boil and are never paid for. Its Trouton entropy is about 62 J/(mol.K) against a normal 85, which is the tell. WHAT THIS NUMBER IS NOT: it is the enthalpy per mole of monomer to the REAL, largely dimeric vapour. Vaporisation to ideal MONOMER gas is about 51.6 kJ/mol (Konicek and Wadso, Acta Chem. Scand. 24 (1970) 2612, doi:10.3891/acta.chem.scand.24-2612, open access). This bench releases the vapour as monomeric CH3COOH because that is the only acetic acid the registry carries, and the dimer is not modelled - so the energy is right for the boil and the species is not, and any future path that treats the vapour as ideal monomer needs the larger number",
     },
 ];
 
