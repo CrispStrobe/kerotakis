@@ -109,11 +109,20 @@ Nernst–Planck boundary solver. The latter two are infrastructure, not yet a
 claim that homogeneous reaction and migration are coupled throughout a
 time-evolving diffusion layer. Continue in this order:
 
-1. Integrate the already-developed reactive-electrodiffusion work against
-   current `main`, then prove homogeneous buffer/speciation reactions,
-   migration and electroneutrality together through the time-evolving
-   diffusion layer. Do not represent any effect by tuning an effective
-   diffusivity.
+1. The steady half of this is done. A charged interfacial Faradaic flux now
+   reaches `electrodiffusion::reactive_electroneutral_surface` from
+   `propose_electrochemical_step`, inside the existing interfacial fixed
+   point, so homogeneous speciation, migration and electroneutrality are
+   solved together across a steady diffusion layer instead of being refused
+   by name. The charged path also inverts the compatibility rule: the
+   diffusion-only adapter needs one common `D / L` because it corrects a
+   per-species Fick answer afterwards, while the boundary needs one common
+   layer thickness `L` and lets diffusivities differ, because the migration
+   potential carries the countercharge. What remains is the *time-evolving*
+   layer: the lumped transient model has no migration term, so a charged flux
+   on it still refuses. Supplying one means a transient Nernst-Planck layer,
+   not a transient correction applied to a steady solve, and no effect may be
+   represented by tuning an effective diffusivity.
 2. Add sweep-direction hysteresis, breakdown/repassivation state and evolving
    films only with forward/reverse or time-series evidence that identifies
    their parameters. A forward polarization curve cannot identify hysteresis.
@@ -136,7 +145,8 @@ resume immutable CI-backed source fleets and promote only distinct supported
 concepts; finally produce an evidence-based worktree cleanup manifest. Heavy
 fleet and workspace validation runs on GitHub Actions, not the deployment VPS.
 
-The integration pass and its bounded diagnostic follow-up are complete. The
+The integration pass and its bounded diagnostic follow-up are complete, and
+the solver that pass landed now has a caller rather than only a test envelope. The
 last committed runtime electrochemical report is persisted on the electrode
 and projected through the existing vessel authority readout: terminal and
 interface potential, partial currents and record IDs, surface/bulk activities,
