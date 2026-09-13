@@ -1717,8 +1717,8 @@ mod tests {
                 };
                 // A tenth of the proton's own diffusion-limited flux, so the
                 // surface is depleted but never driven negative.
-                let flux = 0.1 * species[0].diffusivity_m2_per_s / layer_thickness_m
-                    * concentration;
+                let flux =
+                    0.1 * species[0].diffusivity_m2_per_s / layer_thickness_m * concentration;
                 let state = domain
                     .electroneutral_surface(&species, &[concentration, concentration], &[flux, 0.0])
                     .unwrap_or_else(|error| {
@@ -1738,5 +1738,4 @@ mod tests {
             }
         }
     }
-
 }

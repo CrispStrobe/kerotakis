@@ -3045,11 +3045,13 @@ pub fn propose_electrochemical_step<'a>(
             .iter()
             .map(|term| (term.species.to_owned(), term.activity))
             .collect();
-        let local_coupling = validate_local_equilibrium_coupling(definition, temperature_k, seconds)
-            .map_err(|reason| ElectrochemicalStepError::InvalidDefinition {
-                reaction: definition.id.to_owned(),
-                reason,
-            })?;
+        let local_coupling =
+            validate_local_equilibrium_coupling(definition, temperature_k, seconds).map_err(
+                |reason| ElectrochemicalStepError::InvalidDefinition {
+                    reaction: definition.id.to_owned(),
+                    reason,
+                },
+            )?;
         if let Some(term) = definition.interfacial_transport.iter().find(|term| {
             !quotient
                 .iter()
@@ -3568,7 +3570,18 @@ pub fn propose_electrochemical_step<'a>(
                     depleted_at_surface: surface_concentration
                         <= f64::EPSILON * bulk_concentration.max(1.0),
                     transient,
-                    migration_potential_v,
+                    // Only the network the boundary solved. A species outside
+                    // it crossed the layer by Fick's law and has no migration
+                    // potential to report.
+                    migration_potential_v: migration_potential_v.filter(|_| {
+                        definition.local_equilibrium.is_some_and(|coupling| {
+                            coupling
+                                .network
+                                .species
+                                .iter()
+                                .any(|entry| entry.id == species)
+                        })
+                    }),
                     surface_ph: (species == "H+" && surface_activity > 0.0)
                         .then(|| -surface_activity.log10()),
                 });
@@ -5979,16 +5992,14 @@ mod tests {
                 coefficient: 4.0,
             },
         ];
-        const ACID_POOL: &[LocalEquilibriumComponent<'static>] =
-            &[LocalEquilibriumComponent {
-                id: "acid-pool",
-                amount: 1.0,
-            }];
-        const PROTON_POOL: &[LocalEquilibriumComponent<'static>] =
-            &[LocalEquilibriumComponent {
-                id: "proton-pool",
-                amount: 1.0,
-            }];
+        const ACID_POOL: &[LocalEquilibriumComponent<'static>] = &[LocalEquilibriumComponent {
+            id: "acid-pool",
+            amount: 1.0,
+        }];
+        const PROTON_POOL: &[LocalEquilibriumComponent<'static>] = &[LocalEquilibriumComponent {
+            id: "proton-pool",
+            amount: 1.0,
+        }];
         const ACID_AND_PROTON: &[LocalEquilibriumComponent<'static>] = &[
             LocalEquilibriumComponent {
                 id: "acid-pool",
@@ -6009,9 +6020,8 @@ mod tests {
         const PROTON_DIFFUSIVITY: f64 = 9.31e-9;
         const BASE_DIFFUSIVITY: f64 = 1.09e-9;
         const ACID_DIFFUSIVITY: f64 = 1.20e-9;
-        let log10_equilibrium_constant = ((PROTON_BULK / 1_000.0) * (BASE_BULK / 1_000.0)
-            / (ACID_BULK / 1_000.0))
-            .log10();
+        let log10_equilibrium_constant =
+            ((PROTON_BULK / 1_000.0) * (BASE_BULK / 1_000.0) / (ACID_BULK / 1_000.0)).log10();
         let local_species = [
             LocalEquilibriumSpecies {
                 id: "HA",
@@ -6252,7 +6262,10 @@ mod tests {
         // 4. The migration potential is not decorative: the coupled surface is
         //    a different number from the Fick answer a second implementation
         //    would have produced. Positive flux is consumption at the surface.
-        assert!(potential_v.abs() > 1e-6, "migration potential {potential_v}");
+        assert!(
+            potential_v.abs() > 1e-6,
+            "migration potential {potential_v}"
+        );
         let extent_flux = proposal.balance.partial_currents[0].current_density_a_per_m2
             / (4.0 * crate::constants::FARADAY);
         let fick_proton = PROTON_BULK + extent_flux * 4.0 * LAYER_M / PROTON_DIFFUSIVITY;
@@ -6281,13 +6294,12 @@ mod tests {
         .contains("the transient diffusion layer carries no migration model"));
 
         let mut split_terms = interface;
-        split_terms[3].transport = CurrentLimitModel::DiffusionLayer(
-            crate::heterogeneous::DiffusionLayerTransport {
+        split_terms[3].transport =
+            CurrentLimitModel::DiffusionLayer(crate::heterogeneous::DiffusionLayerTransport {
                 diffusivity_m2_per_s: ACID_DIFFUSIVITY,
                 bulk_concentration_mol_per_m3: ACID_BULK,
                 diffusion_layer_m: 2.0 * LAYER_M,
-            },
-        );
+            });
         assert!(validate_local_equilibrium_coupling(
             &ElectrochemicalReactionDefinition {
                 interfacial_transport: &split_terms,
@@ -6317,5 +6329,4 @@ mod tests {
             "{reason}"
         );
     }
-
 }
