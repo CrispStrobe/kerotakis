@@ -412,7 +412,11 @@ repository.** Every one of its ten public symbols (`NernstPlanckDomain`,
 returns nothing on a repo-wide grep across `crates/`, `web/`, `tools/`, `docs/`
 and the root documents. The single reference to the module is its own
 declaration at `crates/kerotakis-core/src/lib.rs:42`. It is invisible to
-`dead_code` because it is `pub`.
+`dead_code` because it is `pub`. The word itself appears once more in the
+workspace, and it is the detail that makes the case: `electrochemistry.rs:2732`
+— a neighbour in the same crate — returns the error `"charged
+local-equilibrium bulk needs an explicit electrodiffusion model"`. One module
+refuses for want of exactly what the module beside it computes.
 
 For contrast, files referencing each sibling module in the same crate:
 `displacement` 18, `phase_route` 8, `relations` 8, `compartment` 7,
