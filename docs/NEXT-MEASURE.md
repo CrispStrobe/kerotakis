@@ -40,10 +40,10 @@ The fleet analyser is the clearest case. `analyse_source_fleets.py` admits
 exactly four relation kinds — `conservation`, `independent-law`,
 `metamorphic`, `boundary` — and ten assertions, every one of which is
 `…-equal` between two engine runs, `…-order` between two engine runs, or
-`…-present`. `independent-law` is a misleading name: at line 381 it resolves
-to `final-scalar-order`, an *ordering* between two of the bench's own results.
-It proves a quantity moves the right way. It cannot prove it moves the right
-distance.
+`…-present`. `independent-law` is a misleading name: **all 61 relations of
+that kind across the shipped manifests use `event-scalar-order`**, an
+*ordering* between two of the bench's own results. It proves a quantity moves
+the right way. It cannot prove it moves the right distance.
 
 `docs/SEMANTIC-ASSERTIONS.md` is the same shape at the catalog layer: `kind`
 is `equal`, `increasing`, `decreasing`, `conserved`, `unchanged`, or `ratio`.
