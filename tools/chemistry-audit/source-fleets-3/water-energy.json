@@ -1,0 +1,236 @@
+{
+  "schema": "kerotakis-source-fleet-v3",
+  "family": "water-energy",
+  "cases": [
+    {
+      "id": "777-water-energy-100-125",
+      "question": "Does a declared energy transfer preserve matter while moving the water state?",
+      "script": "add v1 water 100mL\nheat v1 125J\nmeasure v1 temp"
+    },
+    {
+      "id": "778-water-energy-100-250",
+      "question": "Does a declared energy transfer preserve matter while moving the water state?",
+      "script": "add v1 water 100mL\nheat v1 250J\nmeasure v1 temp"
+    },
+    {
+      "id": "779-water-energy-100-500",
+      "question": "Does a declared energy transfer preserve matter while moving the water state?",
+      "script": "add v1 water 100mL\nheat v1 500J\nmeasure v1 temp"
+    },
+    {
+      "id": "780-water-energy-100-1000",
+      "question": "Does a declared energy transfer preserve matter while moving the water state?",
+      "script": "add v1 water 100mL\nheat v1 1000J\nmeasure v1 temp"
+    },
+    {
+      "id": "781-water-energy-175-125",
+      "question": "Does a declared energy transfer preserve matter while moving the water state?",
+      "script": "add v1 water 175mL\ncool v1 125J\nmeasure v1 temp"
+    },
+    {
+      "id": "782-water-energy-175-250",
+      "question": "Does a declared energy transfer preserve matter while moving the water state?",
+      "script": "add v1 water 175mL\ncool v1 250J\nmeasure v1 temp"
+    },
+    {
+      "id": "783-water-energy-175-500",
+      "question": "Does a declared energy transfer preserve matter while moving the water state?",
+      "script": "add v1 water 175mL\ncool v1 500J\nmeasure v1 temp"
+    },
+    {
+      "id": "784-water-energy-175-1000",
+      "question": "Does a declared energy transfer preserve matter while moving the water state?",
+      "script": "add v1 water 175mL\ncool v1 1000J\nmeasure v1 temp"
+    },
+    {
+      "id": "785-water-energy-250-125",
+      "question": "Does a declared energy transfer preserve matter while moving the water state?",
+      "script": "add v1 water 250mL\nheat v1 125J\nmeasure v1 temp"
+    },
+    {
+      "id": "786-water-energy-250-250",
+      "question": "Does a declared energy transfer preserve matter while moving the water state?",
+      "script": "add v1 water 250mL\nheat v1 250J\nmeasure v1 temp"
+    },
+    {
+      "id": "787-water-energy-250-500",
+      "question": "Does a declared energy transfer preserve matter while moving the water state?",
+      "script": "add v1 water 250mL\nheat v1 500J\nmeasure v1 temp"
+    },
+    {
+      "id": "788-water-energy-250-1000",
+      "question": "Does a declared energy transfer preserve matter while moving the water state?",
+      "script": "add v1 water 250mL\nheat v1 1000J\nmeasure v1 temp"
+    },
+    {
+      "id": "789-water-energy-400-125",
+      "question": "Does a declared energy transfer preserve matter while moving the water state?",
+      "script": "add v1 water 400mL\ncool v1 125J\nmeasure v1 temp"
+    },
+    {
+      "id": "790-water-energy-400-250",
+      "question": "Does a declared energy transfer preserve matter while moving the water state?",
+      "script": "add v1 water 400mL\ncool v1 250J\nmeasure v1 temp"
+    },
+    {
+      "id": "791-water-energy-400-500",
+      "question": "Does a declared energy transfer preserve matter while moving the water state?",
+      "script": "add v1 water 400mL\ncool v1 500J\nmeasure v1 temp"
+    },
+    {
+      "id": "792-water-energy-400-1000",
+      "question": "Does a declared energy transfer preserve matter while moving the water state?",
+      "script": "add v1 water 400mL\ncool v1 1000J\nmeasure v1 temp"
+    },
+    {
+      "id": "793-water-energy-600-125",
+      "question": "Does a declared energy transfer preserve matter while moving the water state?",
+      "script": "add v1 water 600mL\nheat v1 125J\nmeasure v1 temp"
+    },
+    {
+      "id": "794-water-energy-600-250",
+      "question": "Does a declared energy transfer preserve matter while moving the water state?",
+      "script": "add v1 water 600mL\nheat v1 250J\nmeasure v1 temp"
+    },
+    {
+      "id": "795-water-energy-600-500",
+      "question": "Does a declared energy transfer preserve matter while moving the water state?",
+      "script": "add v1 water 600mL\nheat v1 500J\nmeasure v1 temp"
+    },
+    {
+      "id": "796-water-energy-600-1000",
+      "question": "Does a declared energy transfer preserve matter while moving the water state?",
+      "script": "add v1 water 600mL\nheat v1 1000J\nmeasure v1 temp"
+    },
+    {
+      "id": "797-water-energy-900-125",
+      "question": "Does a declared energy transfer preserve matter while moving the water state?",
+      "script": "add v1 water 900mL\ncool v1 125J\nmeasure v1 temp"
+    },
+    {
+      "id": "798-water-energy-900-250",
+      "question": "Does a declared energy transfer preserve matter while moving the water state?",
+      "script": "add v1 water 900mL\ncool v1 250J\nmeasure v1 temp"
+    },
+    {
+      "id": "799-water-energy-900-500",
+      "question": "Does a declared energy transfer preserve matter while moving the water state?",
+      "script": "add v1 water 900mL\ncool v1 500J\nmeasure v1 temp"
+    },
+    {
+      "id": "800-water-energy-900-1000",
+      "question": "Does a declared energy transfer preserve matter while moving the water state?",
+      "script": "add v1 water 900mL\ncool v1 1000J\nmeasure v1 temp"
+    }
+  ],
+  "relations": [
+    {
+      "id": "v3-water-energy-1",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "777-water-energy-100-125",
+        "778-water-energy-100-250",
+        "779-water-energy-100-500",
+        "780-water-energy-100-1000"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 1e-06
+      }
+    },
+    {
+      "id": "v3-water-energy-2",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "781-water-energy-175-125",
+        "782-water-energy-175-250",
+        "783-water-energy-175-500",
+        "784-water-energy-175-1000"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "decreasing",
+        "min_delta": 1e-06
+      }
+    },
+    {
+      "id": "v3-water-energy-3",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "785-water-energy-250-125",
+        "786-water-energy-250-250",
+        "787-water-energy-250-500",
+        "788-water-energy-250-1000"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 1e-06
+      }
+    },
+    {
+      "id": "v3-water-energy-4",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "789-water-energy-400-125",
+        "790-water-energy-400-250",
+        "791-water-energy-400-500",
+        "792-water-energy-400-1000"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "decreasing",
+        "min_delta": 1e-06
+      }
+    },
+    {
+      "id": "v3-water-energy-5",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "793-water-energy-600-125",
+        "794-water-energy-600-250",
+        "795-water-energy-600-500",
+        "796-water-energy-600-1000"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "increasing",
+        "min_delta": 1e-06
+      }
+    },
+    {
+      "id": "v3-water-energy-6",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "cases": [
+        "797-water-energy-900-125",
+        "798-water-energy-900-250",
+        "799-water-energy-900-500",
+        "800-water-energy-900-1000"
+      ],
+      "parameters": {
+        "event": "measured",
+        "field": "value",
+        "occurrence": "last",
+        "direction": "decreasing",
+        "min_delta": 1e-06
+      }
+    }
+  ]
+}

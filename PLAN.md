@@ -34,7 +34,7 @@ appearances or changes scientific behavior.
   renumbered and never reused**; a completed item keeps its number and date.
 - **HISTORY.md** — what landed and what was learned, newest first.
 
-## Current experiment-expansion checkpoint (2026-09-08)
+## Current experiment-expansion checkpoint (2026-09-13)
 
 The source-informed audit programme is complete on `main`: 24 frozen sixth-
 fleet cases plus 240 original source-informed scripts passed 404 execution and
@@ -78,6 +78,15 @@ than crystal formation; thermal, pressure, cell, transfer, filtration and
 evaporation-path overlaps stay regression-only. The complete 288-case corpus
 remains evidence even when a concept is not promoted.
 
+The third source-informed tranche is complete at cases 777–896: five reviewed
+but previously unexecuted private-research candidates become 120 original
+public scripts in five 24-case families, with 30 relations and 150
+execution-plus-relation checks, all passing on GitHub CI after one preserved
+input-contract failure. Review promoted none: thermal, conductivity and ideal
+ester relations duplicate existing teaching, while aqueous selectivity and
+metal-ligand relations prove conservation rather than their distinctive
+optical/chemical claim. Source identities and mappings remain private.
+
 The second tranche is fixed at 18 concepts: seven guided Experiments K64–K70,
 seven Codex comparisons, and four Missions. Its pressure, buffer, neutralisation,
 precipitation, thermal and process comparisons reuse exact scripts already
@@ -93,13 +102,18 @@ CI-backed work described above and in
 
 ## Electrochemical kinetics — next ordered work
 
-#559 and #564–#567 provide the shared computed engine, whole-curve validation,
-typed potential frames, multispecies interfacial transport and persistent
-transient diffusion layers. Continue in this order:
+#559 and #564–#571 provide the shared computed engine, whole-curve validation,
+typed potential frames, multispecies interfacial transport, persistent
+transient diffusion layers, validated local equilibria at the interface and a
+Nernst–Planck boundary solver. The latter two are infrastructure, not yet a
+claim that homogeneous reaction and migration are coupled throughout a
+time-evolving diffusion layer. Continue in this order:
 
-1. Couple homogeneous buffer/speciation reactions inside the diffusion layer,
-   then add migration and electroneutrality through a Nernst–Planck boundary
-   model. Do not represent either effect by tuning an effective diffusivity.
+1. Integrate the already-developed reactive-electrodiffusion work against
+   current `main`, then prove homogeneous buffer/speciation reactions,
+   migration and electroneutrality together through the time-evolving
+   diffusion layer. Do not represent any effect by tuning an effective
+   diffusivity.
 2. Add sweep-direction hysteresis, breakdown/repassivation state and evolving
    films only with forward/reverse or time-series evidence that identifies
    their parameters. A forward polarization curve cannot identify hysteresis.
@@ -111,6 +125,16 @@ transient diffusion layers. Continue in this order:
    GUI authority surface.
 5. Add quantitative learner experiments only after their parameter domain and
    matched controls pass the whole-curve and conservation gates.
+
+The 2026-09-13 integration programme follows that order and keeps every
+learner-facing addition on the existing Experiments, Codex or Missions
+surfaces: first audit and integrate reactive electrodiffusion; then expose the
+authority fields in the GUI; verify the solvent-only aqueous characterization
+that landed in #543 and close its stale follow-up;
+render the already-exported Codex models and their `fails_at` boundaries;
+resume immutable CI-backed source fleets and promote only distinct supported
+concepts; finally produce an evidence-based worktree cleanup manifest. Heavy
+fleet and workspace validation runs on GitHub Actions, not the deployment VPS.
 
 Open circuit remains zero net external current, not zero partial currents.
 Never infer isolated branches from net current, digitize plots for runtime
@@ -2430,7 +2454,7 @@ that raised it. Nothing below is a commitment to an order.
   still lacks" list is where a reader will look for it.
 - **Open-vessel CO₂ uptake as a rate (landed #531)** — #496 was the peer
   session's PR and is closed; the same work landed as #531.
-- **Characterising a solvent-only vessel** (#529, from #504) — a beaker of
+- **Characterising a solvent-only vessel (closed #543)** (#529, from #504) — a beaker of
   plain water, or of water and a neutral molecular solute, gets no
   `SolutionInfo`: `PhreeqcEquilibrator::partition` declines when nothing with
   a derived role is dissolved. Sugar water has a pH, so this is a hole, and
@@ -2458,16 +2482,18 @@ that raised it. Nothing below is a commitment to an order.
   (2) run the phase transition before the aqueous attempt for an independent
   water inventory so freezing water never reaches a solver that cannot solve
   it, (3) then open the gate and review the remaining rows one at a time.
-  Until then the two tests that pin the wanted behaviour —
+  PR #543 completed that order. The tests that pin the boundary —
   `native_startup_tests::successful_native_startup_retains_aqueous_computation_and_provenance`
   and `unsupported_ionic::unknown_ionic_feed_is_distinct_from_a_neutral_molecular_solute`
   — assert the boundary the product actually has, and say so in a comment.
-- **19 redundant worktrees** — the triage list is at
+- **19 redundant worktrees (re-audited 2026-09-13)** — the triage list is at
   `/mnt/volume1/tmp-overflow/triage-prune-list-20260907.txt`. None was deleted:
   main absorbed that work through re-authored PRs rather than cherry-picks, so
   no branch HEAD is an ancestor of `origin/main` and every branch still differs
-  on at least one touched file. Left for the owner; prove the work is on
-  `origin/main` and check for live processes before deleting any of them.
+  on at least one touched file. All 19 are now clean, inactive and without a
+  recent non-build write, but each still has a patch-unique commit, so none was
+  deleted. `docs/WORKTREE-AUDIT-20260913.md` records the gate and grouped
+  counts; semantic comparison with the named merged PR remains mandatory.
 
 ## Open decisions
 

@@ -46,7 +46,7 @@
   import { wasteStationAction } from "./lib/wasteStation";
   import { registerText } from "./lib/registerText";
   import { instrumentSurface } from "./lib/instrumentSurface.svelte";
-  import { parseCodexIndex, type CodexEntry } from "./lib/codex";
+  import { parseCodexDocument, type CodexEntry, type CodexModel } from "./lib/codex";
   import { parseCapabilityIndex, type CapabilityPrompt } from "./lib/capabilities";
   import { parseKidsCatalog, type KidsExperiment } from "./lib/kidsCatalog";
   import { NO_STEP_PROSE, parseStepProse, type StepProseIndex } from "./lib/stepProse";
@@ -569,7 +569,11 @@
     // lands; until then the catalog button simply stays hidden.
     void fetch(new URL("codex/index.json", resolvePayloadBase()).href)
       .then((r) => (r.ok ? r.json() : null))
-      .then((raw) => (codexEntries = parseCodexIndex(raw)))
+      .then((raw) => {
+        const codex = parseCodexDocument(raw);
+        codexEntries = codex.reactions;
+        codexModels = codex.models;
+      })
       .catch(() => {});
     void fetch(new URL("capabilities/index.json", resolvePayloadBase()).href)
       .then((r) => (r.ok ? r.json() : null))
@@ -717,6 +721,7 @@
   /** A tapped badge, magnified (the visual bar's reading inset). */
   let inset = $state<{ vessel: number; reading: { key: string; value: number; confidence: string } } | null>(null);
   let codexEntries = $state<CodexEntry[]>([]);
+  let codexModels = $state<CodexModel[]>([]);
   let capabilityPrompts = $state<CapabilityPrompt[]>([]);
   let kidsExperiments = $state<KidsExperiment[]>([]);
   let stepProse = $state<StepProseIndex>(NO_STEP_PROSE);
@@ -1722,6 +1727,7 @@
   <Catalog
     initialLevel={kidsOpen && kidsInitial === null ? "starter" : null}
     entries={codexEntries}
+    models={codexModels}
     kidsEntries={kidsExperiments}
     {stepProse}
     {session}

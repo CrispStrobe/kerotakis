@@ -12,6 +12,30 @@ it had while it was open, which is why a few numbers appear twice below.
 
 ---
 
+## 2026-09-13
+
+**Post-579 integration and source audit continuation**
+
+- Integrated the separately audited reactive-electrodiffusion solver, exposing
+  homogeneous mass action, migration, electroneutrality and component-flux
+  closure in one focused test envelope.
+- Added persistent electrode state to the additive scene contract and existing
+  vessel UI. Missing potential remains explicitly unavailable; the client does
+  not infer it from net current.
+- Retained all 28 exported Codex models in the browser and placed their power
+  and `fails_at` boundaries inside the existing catalogue, without creating a
+  fourth learner-facing surface.
+- Re-audited the 19 old cleanup candidates. All are inactive and clean, but
+  patch-unique commits remain, so none was deleted.
+- Froze source-fleet v3 before execution: 120 original cases, five families and
+  30 named relations, scheduled as at most four GitHub Actions shards in
+  parallel. The first run executed every script cleanly; 18 relations exposed a
+  missing operation boundary in the new manifests, repaired without changing a
+  tolerance or scientific expectation. The repaired fleet passed 150/150
+  checks. Promotion review retained every case as regression evidence: none
+  cleared the distinct-concept evidence bar. Source traceability remains
+  private.
+
 ## 2026-09-11
 
 **Guided catalogue**
@@ -310,6 +334,13 @@ it had while it was open, which is why a few numbers appear twice below.
   closed form is no longer only the binary symmetric case; the `bernoulli`
   Taylor/`exp_m1` seam is probed directly; and all seven refusal paths are now
   exercised, `DidNotConverge` included.
+- **`feat/reactive-electrodiffusion`** — coupled arbitrary validated homogeneous
+  reaction networks to the constant-field Nernst–Planck boundary. A continuation
+  solve now finds every homogeneous reaction-flux extent while enforcing surface
+  mass action, conserved-component fluxes, migration and electroneutrality; it
+  does not substitute an effective buffer diffusivity. Independent one- and
+  two-reaction acid systems with unequal species diffusivities close mass action,
+  charge and component-flux balances without reaction-specific code.
 - **`feat/nernst-planck-boundary`** — added a reusable one-dimensional,
   constant-field Nernst–Planck boundary with a stable Scharfetter–Gummel flux.
   It computes zero-current liquid-junction potentials or an electroneutral

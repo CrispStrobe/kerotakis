@@ -78,6 +78,8 @@ export interface SceneVessel {
   chemiluminescence?: SceneChemiluminescence | null;
   /** Additive scene-v1 projection of stored unresolved-substrate progress. */
   enzyme_hydrolysis?: SceneEnzymeHydrolysis[];
+  /** Engine-owned persistent electrode state; absent on older scene payloads. */
+  electrodes?: SceneElectrode[];
   /** Flattened Headspace tag: open | sealed | pressure_controlled | swept. */
   boundary: string;
   /**
@@ -105,6 +107,30 @@ export interface SceneVessel {
   /** The lv1 observation sentence — also the vessel's accessible name. */
   words: string;
   badges: SceneBadge[];
+}
+
+export interface SceneElectrode {
+  label: string;
+  material: string;
+  surface_preparation?: string;
+  geometric_area_m2: number;
+  roughness: number;
+  interfacial_potential_v?: number;
+  surface_species?: SceneElectrodeSurfaceSpecies[];
+  deposits?: SceneElectrodeDeposit[];
+}
+
+export interface SceneElectrodeSurfaceSpecies {
+  reaction_id: string;
+  species: string;
+  concentration_mol_per_m3: number;
+}
+
+export interface SceneElectrodeDeposit {
+  species: string;
+  moles: number;
+  thickness_m?: number;
+  coverage_fraction?: number;
 }
 
 export interface SceneCorrosion {

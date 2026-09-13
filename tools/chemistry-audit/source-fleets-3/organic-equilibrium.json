@@ -1,0 +1,254 @@
+{
+  "schema": "kerotakis-source-fleet-v3",
+  "family": "organic-equilibrium",
+  "cases": [
+    {
+      "id": "873-ester-quotient-1-1",
+      "question": "Does the signed ideal ester equilibrium preserve C, H and O for a new initial quotient?",
+      "script": "add v1 CH3COOH 0.002mol\nadd v1 ethanol 0.0045mol\nadd v1 ethyl_acetate 0.0005mol\nadd v1 water 0.0015mol\nreact v1 esterification"
+    },
+    {
+      "id": "874-ester-quotient-1-2",
+      "question": "Does the signed ideal ester equilibrium preserve C, H and O for a new initial quotient?",
+      "script": "add v1 CH3COOH 0.004mol\nadd v1 ethanol 0.009mol\nadd v1 ethyl_acetate 0.001mol\nadd v1 water 0.003mol\nreact v1 esterification"
+    },
+    {
+      "id": "875-ester-quotient-1-3",
+      "question": "Does the signed ideal ester equilibrium preserve C, H and O for a new initial quotient?",
+      "script": "add v1 CH3COOH 0.006mol\nadd v1 ethanol 0.0135mol\nadd v1 ethyl_acetate 0.0015mol\nadd v1 water 0.0045mol\nreact v1 esterification"
+    },
+    {
+      "id": "876-ester-quotient-1-4",
+      "question": "Does the signed ideal ester equilibrium preserve C, H and O for a new initial quotient?",
+      "script": "add v1 CH3COOH 0.008mol\nadd v1 ethanol 0.018mol\nadd v1 ethyl_acetate 0.002mol\nadd v1 water 0.006mol\nreact v1 esterification"
+    },
+    {
+      "id": "877-ester-quotient-2-1",
+      "question": "Does the signed ideal ester equilibrium preserve C, H and O for a new initial quotient?",
+      "script": "add v1 CH3COOH 0.0025mol\nadd v1 ethanol 0.00425mol\nadd v1 ethyl_acetate 0.0007mol\nadd v1 water 0.0018mol\nreact v1 esterification"
+    },
+    {
+      "id": "878-ester-quotient-2-2",
+      "question": "Does the signed ideal ester equilibrium preserve C, H and O for a new initial quotient?",
+      "script": "add v1 CH3COOH 0.005mol\nadd v1 ethanol 0.0085mol\nadd v1 ethyl_acetate 0.0014mol\nadd v1 water 0.0036mol\nreact v1 esterification"
+    },
+    {
+      "id": "879-ester-quotient-2-3",
+      "question": "Does the signed ideal ester equilibrium preserve C, H and O for a new initial quotient?",
+      "script": "add v1 CH3COOH 0.0075mol\nadd v1 ethanol 0.01275mol\nadd v1 ethyl_acetate 0.0021mol\nadd v1 water 0.0054mol\nreact v1 esterification"
+    },
+    {
+      "id": "880-ester-quotient-2-4",
+      "question": "Does the signed ideal ester equilibrium preserve C, H and O for a new initial quotient?",
+      "script": "add v1 CH3COOH 0.01mol\nadd v1 ethanol 0.017mol\nadd v1 ethyl_acetate 0.0028mol\nadd v1 water 0.0072mol\nreact v1 esterification"
+    },
+    {
+      "id": "881-ester-quotient-3-1",
+      "question": "Does the signed ideal ester equilibrium preserve C, H and O for a new initial quotient?",
+      "script": "add v1 CH3COOH 0.003mol\nadd v1 ethanol 0.004mol\nadd v1 ethyl_acetate 0.0009mol\nadd v1 water 0.0021mol\nreact v1 esterification"
+    },
+    {
+      "id": "882-ester-quotient-3-2",
+      "question": "Does the signed ideal ester equilibrium preserve C, H and O for a new initial quotient?",
+      "script": "add v1 CH3COOH 0.006mol\nadd v1 ethanol 0.008mol\nadd v1 ethyl_acetate 0.0018mol\nadd v1 water 0.0042mol\nreact v1 esterification"
+    },
+    {
+      "id": "883-ester-quotient-3-3",
+      "question": "Does the signed ideal ester equilibrium preserve C, H and O for a new initial quotient?",
+      "script": "add v1 CH3COOH 0.009mol\nadd v1 ethanol 0.012mol\nadd v1 ethyl_acetate 0.0027mol\nadd v1 water 0.0063mol\nreact v1 esterification"
+    },
+    {
+      "id": "884-ester-quotient-3-4",
+      "question": "Does the signed ideal ester equilibrium preserve C, H and O for a new initial quotient?",
+      "script": "add v1 CH3COOH 0.012mol\nadd v1 ethanol 0.016mol\nadd v1 ethyl_acetate 0.0036mol\nadd v1 water 0.0084mol\nreact v1 esterification"
+    },
+    {
+      "id": "885-ester-quotient-4-1",
+      "question": "Does the signed ideal ester equilibrium preserve C, H and O for a new initial quotient?",
+      "script": "add v1 CH3COOH 0.0035mol\nadd v1 ethanol 0.00375mol\nadd v1 ethyl_acetate 0.0011mol\nadd v1 water 0.0024mol\nreact v1 esterification"
+    },
+    {
+      "id": "886-ester-quotient-4-2",
+      "question": "Does the signed ideal ester equilibrium preserve C, H and O for a new initial quotient?",
+      "script": "add v1 CH3COOH 0.007mol\nadd v1 ethanol 0.0075mol\nadd v1 ethyl_acetate 0.0022mol\nadd v1 water 0.0048mol\nreact v1 esterification"
+    },
+    {
+      "id": "887-ester-quotient-4-3",
+      "question": "Does the signed ideal ester equilibrium preserve C, H and O for a new initial quotient?",
+      "script": "add v1 CH3COOH 0.0105mol\nadd v1 ethanol 0.01125mol\nadd v1 ethyl_acetate 0.0033mol\nadd v1 water 0.0072mol\nreact v1 esterification"
+    },
+    {
+      "id": "888-ester-quotient-4-4",
+      "question": "Does the signed ideal ester equilibrium preserve C, H and O for a new initial quotient?",
+      "script": "add v1 CH3COOH 0.014mol\nadd v1 ethanol 0.015mol\nadd v1 ethyl_acetate 0.0044mol\nadd v1 water 0.0096mol\nreact v1 esterification"
+    },
+    {
+      "id": "889-ester-quotient-5-1",
+      "question": "Does the signed ideal ester equilibrium preserve C, H and O for a new initial quotient?",
+      "script": "add v1 CH3COOH 0.004mol\nadd v1 ethanol 0.0035mol\nadd v1 ethyl_acetate 0.0013mol\nadd v1 water 0.0027mol\nreact v1 esterification"
+    },
+    {
+      "id": "890-ester-quotient-5-2",
+      "question": "Does the signed ideal ester equilibrium preserve C, H and O for a new initial quotient?",
+      "script": "add v1 CH3COOH 0.008mol\nadd v1 ethanol 0.007mol\nadd v1 ethyl_acetate 0.0026mol\nadd v1 water 0.0054mol\nreact v1 esterification"
+    },
+    {
+      "id": "891-ester-quotient-5-3",
+      "question": "Does the signed ideal ester equilibrium preserve C, H and O for a new initial quotient?",
+      "script": "add v1 CH3COOH 0.012mol\nadd v1 ethanol 0.0105mol\nadd v1 ethyl_acetate 0.0039mol\nadd v1 water 0.0081mol\nreact v1 esterification"
+    },
+    {
+      "id": "892-ester-quotient-5-4",
+      "question": "Does the signed ideal ester equilibrium preserve C, H and O for a new initial quotient?",
+      "script": "add v1 CH3COOH 0.016mol\nadd v1 ethanol 0.014mol\nadd v1 ethyl_acetate 0.0052mol\nadd v1 water 0.0108mol\nreact v1 esterification"
+    },
+    {
+      "id": "893-ester-quotient-6-1",
+      "question": "Does the signed ideal ester equilibrium preserve C, H and O for a new initial quotient?",
+      "script": "add v1 CH3COOH 0.0045mol\nadd v1 ethanol 0.00325mol\nadd v1 ethyl_acetate 0.0015mol\nadd v1 water 0.003mol\nreact v1 esterification"
+    },
+    {
+      "id": "894-ester-quotient-6-2",
+      "question": "Does the signed ideal ester equilibrium preserve C, H and O for a new initial quotient?",
+      "script": "add v1 CH3COOH 0.009mol\nadd v1 ethanol 0.0065mol\nadd v1 ethyl_acetate 0.003mol\nadd v1 water 0.006mol\nreact v1 esterification"
+    },
+    {
+      "id": "895-ester-quotient-6-3",
+      "question": "Does the signed ideal ester equilibrium preserve C, H and O for a new initial quotient?",
+      "script": "add v1 CH3COOH 0.0135mol\nadd v1 ethanol 0.00975mol\nadd v1 ethyl_acetate 0.0045mol\nadd v1 water 0.009mol\nreact v1 esterification"
+    },
+    {
+      "id": "896-ester-quotient-6-4",
+      "question": "Does the signed ideal ester equilibrium preserve C, H and O for a new initial quotient?",
+      "script": "add v1 CH3COOH 0.018mol\nadd v1 ethanol 0.013mol\nadd v1 ethyl_acetate 0.006mol\nadd v1 water 0.012mol\nreact v1 esterification"
+    }
+  ],
+  "relations": [
+    {
+      "id": "v3-organic-equilibrium-1",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "873-ester-quotient-1-1",
+        "874-ester-quotient-1-2",
+        "875-ester-quotient-1-3",
+        "876-ester-quotient-1-4"
+      ],
+      "parameters": {
+        "elements": [
+          "C",
+          "H",
+          "O"
+        ],
+        "before_op": "react",
+        "atol": 1e-10,
+        "rtol": 1e-07
+      }
+    },
+    {
+      "id": "v3-organic-equilibrium-2",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "877-ester-quotient-2-1",
+        "878-ester-quotient-2-2",
+        "879-ester-quotient-2-3",
+        "880-ester-quotient-2-4"
+      ],
+      "parameters": {
+        "elements": [
+          "C",
+          "H",
+          "O"
+        ],
+        "before_op": "react",
+        "atol": 1e-10,
+        "rtol": 1e-07
+      }
+    },
+    {
+      "id": "v3-organic-equilibrium-3",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "881-ester-quotient-3-1",
+        "882-ester-quotient-3-2",
+        "883-ester-quotient-3-3",
+        "884-ester-quotient-3-4"
+      ],
+      "parameters": {
+        "elements": [
+          "C",
+          "H",
+          "O"
+        ],
+        "before_op": "react",
+        "atol": 1e-10,
+        "rtol": 1e-07
+      }
+    },
+    {
+      "id": "v3-organic-equilibrium-4",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "885-ester-quotient-4-1",
+        "886-ester-quotient-4-2",
+        "887-ester-quotient-4-3",
+        "888-ester-quotient-4-4"
+      ],
+      "parameters": {
+        "elements": [
+          "C",
+          "H",
+          "O"
+        ],
+        "before_op": "react",
+        "atol": 1e-10,
+        "rtol": 1e-07
+      }
+    },
+    {
+      "id": "v3-organic-equilibrium-5",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "889-ester-quotient-5-1",
+        "890-ester-quotient-5-2",
+        "891-ester-quotient-5-3",
+        "892-ester-quotient-5-4"
+      ],
+      "parameters": {
+        "elements": [
+          "C",
+          "H",
+          "O"
+        ],
+        "before_op": "react",
+        "atol": 1e-10,
+        "rtol": 1e-07
+      }
+    },
+    {
+      "id": "v3-organic-equilibrium-6",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "cases": [
+        "893-ester-quotient-6-1",
+        "894-ester-quotient-6-2",
+        "895-ester-quotient-6-3",
+        "896-ester-quotient-6-4"
+      ],
+      "parameters": {
+        "elements": [
+          "C",
+          "H",
+          "O"
+        ],
+        "before_op": "react",
+        "atol": 1e-10,
+        "rtol": 1e-07
+      }
+    }
+  ]
+}

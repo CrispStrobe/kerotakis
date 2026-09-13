@@ -2897,6 +2897,32 @@
         <span>{t(split.lower_solvent)} / {t(split.upper_solvent)}</span>
       </span>
     {/each}
+    {#each vessel.electrodes ?? [] as electrode (electrode.label)}
+      <span
+        class="persistent-readout electrode-authority-readout"
+        data-electrode={electrode.label}
+        data-potential-v={electrode.interfacial_potential_v?.toFixed(6)}
+        data-surface-species={electrode.surface_species?.length ?? 0}
+        aria-label={t("Electrode {label}: {material}, area {area} square metres, roughness {roughness}", {
+          label: t(electrode.label),
+          material: t(electrode.material),
+          area: electrode.geometric_area_m2.toExponential(3),
+          roughness: electrode.roughness.toFixed(2),
+        })}
+      >
+        <small>{t(electrode.label)} · {t(electrode.material)}</small>
+        {#if electrode.interfacial_potential_v != null}
+          <strong>{electrode.interfacial_potential_v.toFixed(4)} V</strong>
+        {:else}
+          <strong>{t("potential unavailable")}</strong>
+        {/if}
+        <span>{electrode.geometric_area_m2.toExponential(2)} m² · R<sub>a</sub> {electrode.roughness.toFixed(2)}</span>
+        {#if electrode.surface_preparation}<em>{t(electrode.surface_preparation)}</em>{/if}
+        {#each electrode.surface_species ?? [] as state (state.reaction_id + state.species)}
+          <span>{t(state.species)} @ {t(state.reaction_id)}: {state.concentration_mol_per_m3.toPrecision(4)} mol/m³</span>
+        {/each}
+      </span>
+    {/each}
     {#if apparatusTitle}
       <span
         class="apparatus-status"
@@ -4031,6 +4057,13 @@
   }
   .partition-readout span {
     font-size: .72rem;
+  }
+  .electrode-authority-readout {
+    border-color: color-mix(in srgb, var(--instrument) 60%, var(--edge));
+  }
+  .electrode-authority-readout span,
+  .electrode-authority-readout em {
+    display: block;
   }
   /* Sized in px, not em: this is the one place on the bench where the
      number must survive a 64px-wide vessel on a 390px phone, and an em

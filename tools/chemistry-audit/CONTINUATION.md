@@ -1,13 +1,12 @@
 # Chemistry audit continuation
 
-Couple the typed local-equilibrium network in #570 to the reusable constant-field
-Nernst–Planck boundary. Solve homogeneous reaction-flux extents, every surface
-concentration, migration potential and electrochemical current together; a
-sequential equilibrium projection is not valid when species diffusivities
-differ. Acceptance requires mass action, conservation, electroneutrality,
-zero-current relaxation, time-partition invariance and refusal of incomplete
-stoichiometry, equilibrium data or mobilities. Do not approximate buffering with
-an effective diffusivity.
+Wire the coupled reactive Nernst–Planck solve into the electrode current balance.
+Derive species diffusivities and one common physical layer thickness from the
+reviewed transport records; feed the solved surface activities back into the
+shared Nernst and Butler–Volmer equations. Acceptance requires implicit current
+feedback, conserved Faradaic commits, zero-current relaxation, time-partition
+invariance and explicit refusal of incomplete mobility or incompatible transient
+transport data.
 
 The boundary's bounded solver resolves a root to about
 `residual_tolerance / |d residual / d phi|` volts, and that slope grows with

@@ -138,6 +138,11 @@ pub struct SceneVessel {
     /// history or a claim about visible texture.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub enzyme_hydrolysis: Vec<SceneEnzymeHydrolysis>,
+    /// Explicit, persistent electrode state. Values absent from this
+    /// projection must remain unavailable rather than inferred from a net
+    /// current or an animation.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub electrodes: Vec<SceneElectrode>,
     /// The gas boundary, serialized with its existing `boundary` tag:
     /// open, sealed, pressure_controlled, or swept.
     #[serde(flatten)]
@@ -195,6 +200,39 @@ pub struct SceneVessel {
     /// Numbers worth pinning to the vessel, each with the confidence class
     /// its visual encoding follows (GUI-023).
     pub badges: Vec<Badge>,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SceneElectrode {
+    pub label: String,
+    pub material: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub surface_preparation: Option<String>,
+    pub geometric_area_m2: f64,
+    pub roughness: f64,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub interfacial_potential_v: Option<f64>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub surface_species: Vec<SceneElectrodeSurfaceSpecies>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub deposits: Vec<SceneElectrodeDeposit>,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SceneElectrodeSurfaceSpecies {
+    pub reaction_id: String,
+    pub species: String,
+    pub concentration_mol_per_m3: f64,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SceneElectrodeDeposit {
+    pub species: String,
+    pub moles: f64,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub thickness_m: Option<f64>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub coverage_fraction: Option<f64>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -1220,6 +1258,37 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
                 converted_fraction: seen.converted_fraction,
             })
             .collect(),
+        electrodes: v
+            .electrodes
+            .iter()
+            .map(|electrode| SceneElectrode {
+                label: electrode.label.clone(),
+                material: electrode.material.clone(),
+                surface_preparation: electrode.surface_preparation.clone(),
+                geometric_area_m2: electrode.area_m2,
+                roughness: electrode.roughness,
+                interfacial_potential_v: electrode.interfacial_potential_v,
+                surface_species: electrode
+                    .interfacial_species
+                    .iter()
+                    .map(|state| SceneElectrodeSurfaceSpecies {
+                        reaction_id: state.reaction_id.clone(),
+                        species: state.species.clone(),
+                        concentration_mol_per_m3: state.surface_concentration_mol_per_m3,
+                    })
+                    .collect(),
+                deposits: electrode
+                    .deposits
+                    .iter()
+                    .map(|deposit| SceneElectrodeDeposit {
+                        species: deposit.species.clone(),
+                        moles: deposit.moles,
+                        thickness_m: deposit.thickness_m,
+                        coverage_fraction: deposit.coverage_fraction,
+                    })
+                    .collect(),
+            })
+            .collect(),
         headspace: v.headspace,
         headspace_volume_l: v.headspace_volume().map(|litres| litres.0),
         headspace_moles: v.headspace_volume().map(|_| v.gas_moles().0),
@@ -1602,11 +1671,39 @@ mod tests {
         json.as_object_mut().unwrap().remove("chemiluminescence");
         json.as_object_mut().unwrap().remove("gel");
         json.as_object_mut().unwrap().remove("enzyme_hydrolysis");
+        json.as_object_mut().unwrap().remove("electrodes");
         let old: SceneVessel = serde_json::from_value(json).unwrap();
         assert!(old.swelling.is_none());
         assert!(old.chemiluminescence.is_none());
         assert!(old.gel.is_none());
         assert!(old.enzyme_hydrolysis.is_empty());
+        assert!(old.electrodes.is_empty());
+    }
+
+    #[test]
+    fn electrode_authority_projects_only_persistent_engine_state() {
+        let mut vessel = vessel_with(&[]);
+        vessel.electrodes.push(crate::compartment::ElectrodeState {
+            label: "working".into(),
+            material: "Pt".into(),
+            surface_preparation: Some("polished".into()),
+            area_m2: 2.5e-4,
+            roughness: 1.2,
+            double_layer_capacitance_f_per_m2: Some(0.2),
+            interfacial_potential_v: Some(0.315),
+            interfacial_species: vec![crate::compartment::ElectrodeInterfacialSpecies {
+                reaction_id: "hydrogen".into(),
+                species: "H+".into(),
+                surface_concentration_mol_per_m3: 12.5,
+            }],
+            ..Default::default()
+        });
+        let scene = scene_vessel(&vessel);
+        let electrode = scene.electrodes.first().expect("electrode projection");
+        assert_eq!(electrode.label, "working");
+        assert_eq!(electrode.interfacial_potential_v, Some(0.315));
+        assert_eq!(electrode.surface_species[0].species, "H+");
+        assert_eq!(electrode.surface_species[0].concentration_mol_per_m3, 12.5);
     }
 
     #[test]
