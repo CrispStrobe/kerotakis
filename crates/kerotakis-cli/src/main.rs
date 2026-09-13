@@ -25,6 +25,7 @@ mod polarization;
 mod provenance;
 mod study;
 mod sweep;
+mod upstreams;
 
 use std::io::{BufRead, Write};
 
@@ -256,9 +257,29 @@ fn main() {
         }
         Some("provenance") => {
             let sub = args.get(1).map(String::as_str).unwrap_or("lint");
-            if sub != "lint" {
-                eprintln!("kero provenance: unknown subcommand '{sub}' (lint)");
+            if sub != "lint" && sub != "upstreams" {
+                eprintln!("kero provenance: unknown subcommand '{sub}' (lint, upstreams)");
                 std::process::exit(2);
+            }
+            let root = args
+                .iter()
+                .position(|a| a == "--root")
+                .and_then(|i| args.get(i + 1))
+                .cloned()
+                .unwrap_or_else(|| ".".to_string());
+            if sub == "upstreams" {
+                // The scientific-source audit: may a NUMBER here have come
+                // from a source the licence audit refused? A different
+                // question from `lint`, which asks whether vendored BYTES may
+                // ship. See `crate::upstreams`.
+                let audit = args
+                    .iter()
+                    .position(|a| a == "--audit")
+                    .and_then(|i| args.get(i + 1))
+                    .cloned()
+                    .unwrap_or_else(|| "provenance/upstreams.toml".to_string());
+                let fail = args.iter().any(|a| a == "--fail");
+                upstreams::upstreams_command(&audit, &root, fail);
             }
             let manifest = args
                 .iter()
@@ -266,12 +287,6 @@ fn main() {
                 .and_then(|i| args.get(i + 1))
                 .cloned()
                 .unwrap_or_else(|| "provenance/sources.toml".to_string());
-            let root = args
-                .iter()
-                .position(|a| a == "--root")
-                .and_then(|i| args.get(i + 1))
-                .cloned()
-                .unwrap_or_else(|| ".".to_string());
             provenance::lint_command(&manifest, &root);
         }
         Some("quest") => {
@@ -2091,6 +2106,7 @@ fn usage() -> ! {
          \x20 kero balance exercise check <id> <c1,c2,…>\n\
          \x20 kero balance exercise answer <id>\n\
          \x20 kero provenance lint       validate source/distribution policy\n\
+         \x20 kero provenance upstreams  report values sourced from refused upstreams\n\
          \x20 kero mechanism inspect FILE.yaml [--json]\n\
          \x20 kero mechanism rates FILE.yaml --volume-l L --temperature-k K\n\
          \x20        --feed SPECIES=MOLES [--feed ...] [--json]\n\
