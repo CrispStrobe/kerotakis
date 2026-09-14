@@ -130,7 +130,7 @@ pub struct Couple {
     pub source: &'static str,
 }
 
-const CRC: &str = "E°: CRC Handbook of Chemistry and Physics, 'Electrochemical Series' (Vanýsek), 25 °C vs SHE; ΔfH°(aq ion): NBS Tables of Chemical Thermodynamic Properties (Wagman et al., 1982)";
+const CRC: &str = "E°: CRC Handbook of Chemistry and Physics, 'Electrochemical Series' (Vanýsek), 25 °C vs SHE - a commercial compilation, ranking below a primary measurement but perfectly citable. ΔfH°(aq ion): NBS Tables of Chemical Thermodynamic Properties (Wagman et al., 1982), a United States Government work. THE ASYMMETRY POINTS AT AN UPGRADE. A standard electrode potential is nFE° = -ΔfG°, so the Wagman tables that already stand behind the enthalpies here could support the potentials by DERIVATION, which would put both halves of this line on one primary-adjacent footing instead of two. Deriving twenty-odd potentials is a separate piece of work and is not done here. The vendored PHREEQC databases were considered and set aside for the reason recorded in conductivity::LAMBDA_SOURCE: a redox log_k IS a potential in other units, so reading E° back out of one is a round trip rather than a second source";
 
 /// The activity series this lab computes with, most noble first.
 ///

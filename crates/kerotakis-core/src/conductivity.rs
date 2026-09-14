@@ -83,9 +83,25 @@
 use crate::vessel::{SolutionInfo, SpeciesDetail, Vessel};
 
 /// Where every λ° in [`LIMITING_CONDUCTIVITY`] comes from.
-pub const LAMBDA_SOURCE: &str = "λ°: CRC Handbook of Chemistry and Physics, \
-    'Ionic Conductivity and Diffusion at Infinite Dilution' (Vanýsek), \
-    25 °C, water";
+pub const LAMBDA_SOURCE: &str = "λ°: CRC Handbook of Chemistry and \
+    Physics, 'Ionic Conductivity and Diffusion at Infinite Dilution' \
+    (Vanýsek), 25 °C, water — a commercial compilation, cited without \
+    embarrassment and ranking below a primary measurement, which for these \
+    twenty-eight ions would be the classic conductance papers of \
+    Kohlrausch, Shedlovsky, MacInnes and Owen. \
+    THE OBVIOUS LOCAL UPGRADE IS A ROUND TRIP AND WAS REJECTED, and the \
+    reasoning is kept here because it is not obvious and someone will try \
+    it again: the vendored phreeqc.dat carries a -dw tracer diffusion \
+    coefficient for 21 of these ions, and Nernst-Einstein turns one into \
+    the other, λ° = z²F²D/RT. It reproduces this table to better than 0.05 \
+    per cent for H+, Li+, Ca+2, Fe+2, Pb+2 and Cl-, which looks like \
+    corroboration and is the opposite. At infinite dilution a tracer \
+    diffusion coefficient for an ion IS a conductivity measurement in other \
+    units — that is how D° is obtained — so the derivation does not find a \
+    second source, it relabels the first. Six ions agreeing to five \
+    significant figures is the signature of a round trip, not of two \
+    independent measurements, and phreeqc.dat's own header credits Appelo \
+    and Postma (2005), a compilation built from conductivity data in turn";
 
 /// Limiting molar ionic conductivities λ° at 25 °C in S·cm²·mol⁻¹, keyed
 /// by PHREEQC species name (charge written as trailing `+2` / `-2`).
@@ -133,10 +149,13 @@ pub const FIT_SOURCE: &str = "Concentration correction: a two-parameter \
     fitted by hand to the measured specific conductance of aqueous sodium \
     chloride and potassium chloride at 25 °C as tabulated in the CRC Handbook \
     of Chemistry and Physics, 'Concentrative Properties of Aqueous Solutions: \
-    Conversion Tables' and 'Electrical Conductivity of Aqueous Solutions' — \
-    1413 µS/cm for the 0.01 mol/kg KCl calibration standard (the IUPAC/OIML \
-    reference value), and roughly 8.5 S/m at 1 mol/L and 15.5 S/m at 2 mol/L \
-    for NaCl. The FORM is Kohlrausch's √c law with a linear term added \
+    Conversion Tables' and 'Electrical Conductivity of Aqueous Solutions'. One \
+    of the three fit targets does not need the handbook at all and is the \
+    important one: 1413 µS/cm for the 0.01 mol/kg KCl calibration standard is \
+    the IUPAC/OIML reference value, a metrological convention rather than \
+    anyone's compilation, and it is what a conductivity meter is calibrated \
+    against. The other two, roughly 8.5 S/m at 1 mol/L and 15.5 S/m at 2 mol/L \
+    for NaCl, are the handbook's. The FORM is Kohlrausch's √c law with a linear term added \
     because the √c law alone is valid only to about 0.1 mol/L; it is an \
     empirical fit in the spirit of the Casteel–Amis equation, not that \
     equation, and NO edition of any handbook was opened for a per-salt \

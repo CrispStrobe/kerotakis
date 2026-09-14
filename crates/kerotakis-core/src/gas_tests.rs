@@ -39,7 +39,9 @@ impl std::fmt::Display for GasTest {
     }
 }
 
-// LEL of hydrogen in air is 4% by volume (NFPA 2/CRC Handbook).
+// LEL of hydrogen in air is 4% by volume (NFPA 2, Hydrogen Technologies
+// Code; also the CRC Handbook 97th ed.). NFPA 2 is the reference a safety
+// case would actually cite, so it leads.
 pub const H2_IGNITION_FLOOR: f64 = 0.04;
 
 // A glowing splint relights in oxygen-enriched atmospheres. The

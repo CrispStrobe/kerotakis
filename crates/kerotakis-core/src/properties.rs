@@ -230,10 +230,24 @@ pub fn henry_lookup(formula: &str) -> Option<&'static HenryCoefficient> {
 // 21 data points (0–100 % w/w in 5 % steps), 5th-order polynomial.
 // Valid: 0 ≤ w ≤ 1 (mass fraction ethanol), T = 20 °C.
 // Max residual: 1.5 mg/mL against the tabulated values.
+// ETHANOL_WATER_DENSITY_PROV below names the public-domain primary this
+// could be refitted to.
+// 21 data points (0–100 % w/w in 5 % steps), 5th-order polynomial.
+// Valid: 0 ≤ w ≤ 1 (mass fraction ethanol), T = 20 °C.
+// Max residual: 1.5 mg/mL against the tabulated values.
 
 const ETHANOL_WATER_DENSITY_PROV: &str =
-    "CRC Handbook, 97th ed., density of ethanol-water at 20 °C; \
-     5th-order polynomial fit, max residual 1.5 mg/mL";
+    "CRC Handbook, 97th ed., 'density of aqueous ethanol solutions at 20 °C'; \
+     5th-order polynomial in mass fraction fitted to its twenty-one points, \
+     valid 0 ≤ w ≤ 1, max residual 1.5 mg/mL. The handbook is a commercial \
+     compilation and ranks below a primary measurement; the primary here is \
+     identified and simply has not been checked against. UNVERIFIED LEAD, \
+     recorded as a lead and not as a source: Osborne, McKelvy and Bearce, \
+     'Density and thermal expansion of ethyl alcohol and of its mixtures with \
+     water', Bulletin of the Bureau of Standards 9 (1913) 327-474, is the \
+     United States Government measurement every alcoholometric table descends \
+     from, and it is public domain. Refitting these coefficients to it would \
+     be a genuine upgrade and nobody has done it";
 
 const EW_COEFFS: [f64; 6] = [
     9.977_472_131_347e-01,
@@ -594,7 +608,9 @@ mod tests {
     use super::*;
 
     // ── Water density reference points ──────────────────────────────
-    // CRC Handbook / Tanaka 2001 Table 1
+    // Tanaka et al. (2001), Metrologia 38, Table 1 — the primary the
+    // correlation itself cites, which is what these points should be read
+    // against rather than the handbook that used to be named beside it.
 
     #[test]
     fn water_density_at_4c_is_maximum() {
@@ -636,7 +652,8 @@ mod tests {
     }
 
     // ── Water viscosity reference points ────────────────────────────
-    // CRC Handbook
+    // CRC Handbook. WATER_VISCOSITY_PROV carries the correlation's own
+    // citation, which is the one that matters.
 
     #[test]
     fn water_viscosity_at_20c() {
@@ -663,7 +680,8 @@ mod tests {
     }
 
     // ── Water permittivity reference points ─────────────────────────
-    // CRC Handbook / Bradley–Pitzer Table I
+    // Bradley & Pitzer (1979), J. Phys. Chem. 83, Table I — the primary the
+    // correlation itself cites.
 
     #[test]
     fn water_permittivity_at_25c() {
@@ -746,7 +764,8 @@ mod tests {
     // ── evaluate dispatcher ─────────────────────────────────────────
 
     // ── Ethanol-water density reference points ───────────────────────
-    // CRC Handbook 97th ed., density of aqueous ethanol at 20 °C
+    // CRC Handbook 97th ed., density of aqueous ethanol at 20 °C — the
+    // same points the curve was fitted to.
 
     #[test]
     fn ethanol_water_pure_water() {
