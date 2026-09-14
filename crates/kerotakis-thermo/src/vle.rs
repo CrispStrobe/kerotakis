@@ -1477,13 +1477,21 @@ mod tests {
 
 /// Molar enthalpy of vaporisation, kJ/mol, at each component's normal
 /// boiling point. Water from the IAPWS-95 formulation (Wagner & Pruß,
-/// J. Phys. Chem. Ref. Data 31, 2002): 40.657 kJ/mol at 100 °C. Ethanol
-/// from Majer & Svoboda, "Enthalpies of Vaporization of Organic
-/// Compounds" (IUPAC Chemical Data Series No. 32, 1985): 38.56 kJ/mol
-/// at 78.3 °C. Held constant over the still's narrow temperature range —
-/// a stated approximation worth ~1 % across 78–100 °C.
+/// J. Phys. Chem. Ref. Data 31, 2002): 40.657 kJ/mol at 100 °C.
+///
+/// Ethanol is 38.58 kJ/mol at 78.5 °C from **NBS Circular 500** (Rossini
+/// et al., 1952), which prints 9.22 kcal/mol. It read 38.56 from Majer &
+/// Svoboda's "Enthalpies of Vaporization of Organic Compounds" (IUPAC
+/// Chemical Data Series No. 32, 1985) until 2026-09-13; that is a
+/// copyrighted book, and the same value and the same chain stood behind
+/// `phase_route`'s ethanol row, which moved with this one so the two
+/// cannot drift apart. Circular 500 is a United States Government work and
+/// is not Standard Reference Data, so it carries no copyright.
+///
+/// Both are held constant over the still's narrow temperature range — a
+/// stated approximation worth ~1 % across 78–100 °C.
 pub const WATER_HVAP_KJ_PER_MOL: f64 = 40.657;
-pub const ETHANOL_HVAP_KJ_PER_MOL: f64 = 38.56;
+pub const ETHANOL_HVAP_KJ_PER_MOL: f64 = 38.58;
 
 /// How much a still is asked to take overhead.
 #[derive(Debug, Clone, Copy, PartialEq)]

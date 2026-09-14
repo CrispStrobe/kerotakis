@@ -115,7 +115,7 @@ fn pure_ethanol_boils_at_its_own_point_and_the_thermometer_holds_there() {
     assert!(
         left > 0.6 && left < 0.8,
         "20 kJ pays about 6.0 kJ of sensible heat and then buys ~0.36 mol of \
-         vapour at 38.56 kJ/mol; {left} mol of liquid ethanol left"
+         vapour at 38.58 kJ/mol; {left} mol of liquid ethanol left"
     );
     assert!(
         events.iter().any(|e| matches!(
@@ -155,7 +155,7 @@ fn naphthalene_melts_and_freezes_on_its_own_plateau() {
     let mut s = stack();
     add(&mut bench, &mut s, "naphthalene", 0.2);
     // 0.2 mol from 25 °C to 80.2 °C is about 0.2 × 165 × 55.2 = 1.8 kJ, and
-    // melting it all costs 0.2 × 19.01 = 3.8 kJ. 3 kJ lands on the plateau.
+    // melting it all costs 0.2 × 18.98 = 3.8 kJ. 3 kJ lands on the plateau.
     heat(&mut bench, &mut s, 3_000.0);
     let t_c = v(&bench).temperature.to_celsius();
     assert!(
@@ -225,7 +225,7 @@ fn acetic_acid_freezes_where_the_word_glacial_comes_from() {
     let mut s = stack();
     add(&mut bench, &mut s, "CH3COOH", 1.0);
     // 25 °C down to 16.6 °C costs 123.1 × 8.4 ≈ 1.0 kJ; freezing it all
-    // gives up 11.73 kJ.
+    // gives up 11.72 kJ.
     cool(&mut bench, &mut s, 6_000.0);
     let t_c = v(&bench).temperature.to_celsius();
     assert!(
@@ -235,7 +235,7 @@ fn acetic_acid_freezes_where_the_word_glacial_comes_from() {
     let solid = moles(&bench, "CH3COOH", Phase::Solid);
     assert!(
         solid > 0.3 && solid < 0.6,
-        "about 5 kJ past the plateau freezes ~0.43 mol at 11.73 kJ/mol; got {solid} mol"
+        "about 5 kJ past the plateau freezes ~0.43 mol at 11.72 kJ/mol; got {solid} mol"
     );
 }
 

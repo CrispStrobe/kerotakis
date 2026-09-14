@@ -98,10 +98,10 @@ fn wait(bench: &mut Bench, stack: &mut SolverStack, seconds: f64) -> Vec<Event> 
 ///
 /// ```text
 /// 10 g / 44.009 g/mol            = 0.22723 mol
-/// latent  = 0.22723 * 25 200 J/mol   = 5 726 J     (phase_route::SUBLIMATION_ENTHALPIES)
+/// latent  = 0.22723 * 25 230 J/mol   = 5 733 J     (phase_route::SUBLIMATION_ENTHALPIES)
 /// driving = 298.15 - 194.65 K        = 103.5 K     (its 1 atm sublimation point)
 /// Q       = 0.17318 W/K * 103.5 K    = 17.9 W
-/// t       = 5 726 J / 17.9 W         = 320 s
+/// t       = 5 733 J / 17.9 W         = 320 s
 /// ```
 ///
 /// Five and a half minutes, so half an hour is not a close-run thing —
@@ -189,7 +189,10 @@ fn the_thermometer_stays_at_the_sublimation_point_while_the_block_lasts() {
     );
     // 1800 s * 17.9 W = 32 kJ, which is 1.28 mol of sublimation out of 2.27.
     let gone = 100.0 / 44.009 - left;
-    let expected = BEAKER_UA * (ROOM_K - 194.65) * 1800.0 / 25_200.0;
+    // 25 230 J/mol, not the 25 200 this line carried until 2026-09-13: the dry-ice
+    // row was re-sourced to Giauque & Egan 1937 (doi:10.1063/1.1749929) and NBS
+    // Circular 500, which both print 6030 cal/mol.
+    let expected = BEAKER_UA * (ROOM_K - 194.65) * 1800.0 / 25_230.0;
     assert!(
         (gone - expected).abs() < 0.15 * expected,
         "{gone} mol went in half an hour; h·A·ΔT/ΔH_sub says {expected} mol"
