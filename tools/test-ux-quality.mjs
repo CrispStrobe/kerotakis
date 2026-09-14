@@ -265,6 +265,84 @@ const apparatusAudit = () => page.evaluate(`(() => {
   });
 })()`);
 
+/** GUI, owner: "Feststoff", "Flüssigkeit" and "Gas" drawn over the reagent
+ * rows, unreadable or cut off. The shelf's two chip groups share one
+ * horizontal scroller, and a horizontal scroller is a scroll container in
+ * BOTH axes — so its automatic minimum height is zero, and as a flex item
+ * of the shelf column it was shrunk in proportion with a list thousands of
+ * pixels tall. Measured at 390 px it stood 5 px tall around 23 px chips.
+ *
+ * Boxes rather than styles, and the same shape as `trayAudit` above: a
+ * chip that is clipped by its own rail, or that shares pixels with a
+ * bottle, is the bug whatever the CSS says. */
+const shelfFilterAudit = () => page.evaluate(`(() => {
+  const rail = document.querySelector('nav.shelf-pane .filter-rail');
+  if (!rail) return JSON.stringify({ present: false });
+  const chips = [...rail.querySelectorAll('button')].filter((chip) => chip.offsetParent);
+  const railBox = rail.getBoundingClientRect();
+  const rows = [...document.querySelectorAll('nav.shelf-pane ul li')]
+    .filter((row) => row.offsetParent).slice(0, 12);
+  const overlaps = [];
+  for (const chip of chips) {
+    const box = chip.getBoundingClientRect();
+    for (const row of rows) {
+      const other = row.getBoundingClientRect();
+      const shared = Math.min(box.right, other.right) - Math.max(box.left, other.left);
+      const stacked = Math.min(box.bottom, other.bottom) - Math.max(box.top, other.top);
+      if (shared > 1 && stacked > 1) {
+        overlaps.push(chip.textContent.trim() + ' over ' + (row.textContent || '').trim().slice(0, 24));
+      }
+    }
+  }
+  return JSON.stringify({
+    present: true,
+    chips: chips.length,
+    // One row: the rail scrolls sideways rather than growing downwards.
+    rows: new Set(chips.map((chip) => Math.round(chip.getBoundingClientRect().top))).size,
+    small: chips.filter((chip) => chip.getBoundingClientRect().height < 43.5).map((chip) => chip.textContent.trim()),
+    // Cut off: the rail is shorter than what it holds, in either axis.
+    clipped: chips.filter((chip) => {
+      const box = chip.getBoundingClientRect();
+      return box.top < railBox.top - 1 || box.bottom > railBox.bottom + 1;
+    }).map((chip) => chip.textContent.trim()),
+    railHeight: Math.round(railBox.height),
+    overlaps: overlaps.slice(0, 6),
+  });
+})()`);
+
+/** WORLD-003, owner: a Story gate firing in Sandbox, with a sentence
+ * offering the permanent stock "after 0 completed missions". Sandbox gates
+ * nothing — no bottle wears a lock there, and the sentence under an opened
+ * row never counts a milestone of zero.
+ *
+ * The row has to be OPENED and then left alone for a frame: the note only
+ * exists for an open row, and the shell re-renders on a later tick than
+ * the click. Reading it in the same breath reads the DOM before the
+ * component has answered, which passes whatever the component says. */
+const openFirstShelfRow = () => page.evaluate(`(() => {
+  const row = [...document.querySelectorAll('nav.shelf-pane ul li')].find((item) => item.offsetParent);
+  row?.querySelector('button.species')?.click();
+  return Boolean(row);
+})()`);
+
+const shelfGateAudit = () => page.evaluate(`(() => {
+  const pane = document.querySelector('nav.shelf-pane');
+  if (!pane) return JSON.stringify({ present: false });
+  return JSON.stringify({
+    present: true,
+    rows: [...pane.querySelectorAll('ul li')].filter((row) => row.offsetParent).length,
+    locked: pane.querySelectorAll('button.species.locked').length,
+    // The progression note only. An empty bottle wears the same class with
+    // depleted-note beside it, and that one is a fact about the ledger
+    // rather than a gate: it is allowed to be there in any mode.
+    notes: [...pane.querySelectorAll('.stock-lock:not(.depleted-note)')].map((note) => note.textContent.trim()),
+    // Proof the row actually expanded: every arm of that branch renders
+    // one of these, so zero means the click did nothing and the audit
+    // would have passed on an empty shelf.
+    opened: pane.querySelectorAll('form.amounts, .stock-lock').length,
+  });
+})()`);
+
 const layoutAudit = () => page.evaluate(`(() => {
   const visible = (element) => {
     const style = getComputedStyle(element);
@@ -751,6 +829,30 @@ try {
   await openBench();
   const german = JSON.parse(await layoutAudit());
   check("German desktop copy does not widen the page", german.bodyOverflow <= 1, `${german.bodyOverflow}px`);
+  await waitFor(page, `[...document.querySelectorAll('nav.shelf-pane .name')].some((item) => item.offsetParent)`, { timeout: 60000 });
+  await settle();
+  const germanFilters = JSON.parse(await shelfFilterAudit());
+  check("the German phase chips stand clear of the bottles",
+    germanFilters.present && germanFilters.overlaps.length === 0,
+    germanFilters.overlaps.join(", ") || `${germanFilters.chips} chips`);
+  check("the German phase chips are drawn whole, not clipped by their rail",
+    germanFilters.clipped?.length === 0, `${(germanFilters.clipped ?? []).join(", ")} in a ${germanFilters.railHeight}px rail`);
+  check("the German phase chips keep 44 px touch targets",
+    germanFilters.small?.length === 0, (germanFilters.small ?? []).join(", "));
+  // Sandbox is the laboratory this audit stands in, and it gates nothing —
+  // not the codex badge, not the concept map, and not the shelf.
+  check("a shelf row opens its amount form", await openFirstShelfRow());
+  await settle();
+  const germanGate = JSON.parse(await shelfGateAudit());
+  check("Sandbox locks no material on the shelf",
+    germanGate.present && germanGate.rows > 0 && germanGate.locked === 0,
+    `${germanGate.locked} of ${germanGate.rows} locked`);
+  // The opened form proves the audit looked at an expanded row rather than
+  // at a shelf that never answered the click — the note and the form are
+  // the two arms of the same branch, so one of them is always rendered.
+  check("Sandbox explains no material away with a milestone",
+    germanGate.opened === 1 && (germanGate.notes ?? []).length === 0,
+    (germanGate.notes ?? []).join(" | ") || `${germanGate.opened} open row(s)`);
 
   await viewport(390, 844);
   await page.goto(`${origin}/app/`);
@@ -760,6 +862,21 @@ try {
   const tabs = JSON.parse(await mobileTabs());
   check("phone navigation exposes three tabs", tabs.length === 3, `${tabs.length} tabs`);
   check("phone tabs meet the 44 px touch minimum", tabs.every((tab) => tab.width >= 44 && tab.height >= 44));
+  const phoneShelf = await chooseMobilePane(1);
+  await waitFor(page, `[...document.querySelectorAll('nav.shelf-pane .name')].some((item) => item.offsetParent)`, { timeout: 60000 });
+  await settle();
+  const phoneFilters = JSON.parse(await shelfFilterAudit());
+  // 390 px is where the owner read it: the narrower the pane, the more of
+  // the column the list claims and the less of it the rail was left.
+  check("the 390 px phase chips stand clear of the bottles",
+    phoneFilters.present && phoneFilters.overlaps.length === 0,
+    phoneFilters.overlaps.join(", ") || `${phoneFilters.chips} chips`);
+  check("the 390 px phase chips are drawn whole, not clipped by their rail",
+    phoneFilters.clipped?.length === 0, `${(phoneFilters.clipped ?? []).join(", ")} in a ${phoneFilters.railHeight}px rail`);
+  check("the 390 px phase chips keep 44 px touch targets",
+    phoneFilters.small?.length === 0, (phoneFilters.small ?? []).join(", "));
+  check("the 390 px cabinet stays inside the page", phoneShelf.bodyOverflow <= 1, `${phoneShelf.bodyOverflow}px`);
+  await chooseMobilePane(0);
   check("the periodic table opens on a phone", await openPeriodicTable());
   const phoneTable = JSON.parse(await periodicAudit());
   check("the phone periodic table stays inside the viewport", phoneTable.viewportOverflow <= 1, `${phoneTable.viewportOverflow}px`);
@@ -877,6 +994,14 @@ try {
         `${rail.chips} chips on ${rail.rows} row(s)`);
   check("320 px cabinet filters scroll rather than wrap", rail.scrolls);
   check("320 px cabinet filter chips keep 44 px touch targets", rail.touchable);
+  const narrowFilters = JSON.parse(await shelfFilterAudit());
+  check("320 px phase chips share one row and stand clear of the bottles",
+    narrowFilters.present && narrowFilters.rows === 1 && narrowFilters.overlaps.length === 0,
+    narrowFilters.overlaps.join(", ") || `${narrowFilters.chips} chips on ${narrowFilters.rows} row(s)`);
+  check("320 px phase chips are drawn whole, not clipped by their rail",
+    narrowFilters.clipped?.length === 0, `${(narrowFilters.clipped ?? []).join(", ")} in a ${narrowFilters.railHeight}px rail`);
+  check("320 px phase chips keep 44 px touch targets",
+    narrowFilters.small?.length === 0, (narrowFilters.small ?? []).join(", "));
   const narrowJournal = await chooseMobilePane(2);
   check("320 px workspace stays inside the page", narrowBench.bodyOverflow <= 1 && Boolean(narrowBench.bench), `${narrowBench.bodyOverflow}px`);
   check("320 px cabinet stays inside the page", narrowShelf.bodyOverflow <= 1 && Boolean(narrowShelf.cabinet), `${narrowShelf.bodyOverflow}px`);
