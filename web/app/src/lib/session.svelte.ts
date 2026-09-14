@@ -1807,6 +1807,13 @@ export class Session {
     }
   }
 
+  /** Which laboratory this session is, for the surfaces that must gate by
+   * it. Read-only: the mode is chosen at the door and never changes under
+   * a running session. */
+  get labMode(): LabMode {
+    return this.mode;
+  }
+
   /** What the engine said about one catalog id, or null before it answers. */
   catalogAccess(id: string) {
     return catalogAccess(this.catalog, id);

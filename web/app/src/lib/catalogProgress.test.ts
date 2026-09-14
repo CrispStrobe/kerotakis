@@ -16,6 +16,7 @@ import {
   equipmentRewardAt,
   instrumentId,
   requirement,
+  shelfAccess,
 } from "./catalogProgress";
 import type { CatalogItem } from "./host/EngineHost";
 
@@ -124,7 +125,7 @@ describe("a verb the engine does not tier is not a verb it refused", () => {
   // the engine derives EVERYTHING as reachable, and made the wall's tally
   // say 33 of 34 directly above a sentence promising all 34.
   it("treats an untiered id in a loaded catalog as ungated", () => {
-    const cool = equipmentAccess(CATALOG, "cool");
+    const cool = equipmentAccess(CATALOG, "cool", "story");
     expect(cool.available).toBe(true);
     expect(cool.minimumCompleted).toBe(0);
     // Ungated is not the same as given: nothing lent or awarded it, so no
@@ -134,10 +135,10 @@ describe("a verb the engine does not tier is not a verb it refused", () => {
   });
 
   it("still reports what the engine did answer, unchanged", () => {
-    expect(equipmentAccess(CATALOG, "distil").available).toBe(false);
-    expect(equipmentAccess(CATALOG, "distil").minimumCompleted).toBe(4);
-    expect(equipmentAccess(CATALOG, "drain").loaned).toBe(true);
-    expect(equipmentAccess(CATALOG, "measure:uvvis").granted).toBe(true);
+    expect(equipmentAccess(CATALOG, "distil", "story").available).toBe(false);
+    expect(equipmentAccess(CATALOG, "distil", "story").minimumCompleted).toBe(4);
+    expect(equipmentAccess(CATALOG, "drain", "story").loaned).toBe(true);
+    expect(equipmentAccess(CATALOG, "measure:uvvis", "story").granted).toBe(true);
   });
 
   it("does not invent a clearance while the catalog is still empty", () => {
@@ -145,8 +146,8 @@ describe("a verb the engine does not tier is not a verb it refused", () => {
     // not said "ungated", it has not said anything, and answering `true`
     // there would enable every card in the cabinet for the moment before
     // the engine loads.
-    expect(equipmentAccess(catalogMap([]), "cool").available).toBe(false);
-    expect(equipmentAccess(catalogMap([]), "filter").available).toBe(false);
+    expect(equipmentAccess(catalogMap([]), "cool", "story").available).toBe(false);
+    expect(equipmentAccess(catalogMap([]), "filter", "story").available).toBe(false);
   });
 });
 
@@ -157,5 +158,64 @@ describe("milestone rewards remain presentation", () => {
     expect(equipmentRewardAt(1)?.verb).toBe("evaporate");
     expect(equipmentRewardAt(4)?.verb).toBe("distil");
     expect(equipmentRewardAt(7)).toBeNull();
+  });
+});
+
+describe("Sandbox gates nothing, and silence refuses nothing", () => {
+  // The third instance of one defect. PR #517 gave `entryLocked` its mode
+  // after a Sandbox learner read "locked" on a codex badge; PR #528 caught
+  // a concept-map gate reading the district requirement unconditionally;
+  // this is the shelf, which asked the catalog and read its silence as a
+  // refusal — on every bottle, under a sentence promising the stock after
+  // zero completed missions.
+  const empty = catalogMap([]);
+
+  it("reaches everything in Sandbox, whatever the catalog says", () => {
+    // Even a row the engine locked outright: the Sandbox response derives
+    // the same answer, and a client that disagrees with it is the bug.
+    expect(shelfAccess(CATALOG, "HCl", "sandbox").available).toBe(true);
+    expect(shelfAccess(CATALOG, "liquid_nitrogen", "sandbox").available).toBe(true);
+    expect(shelfAccess(empty, "anything at all", "sandbox").available).toBe(true);
+    expect(equipmentAccess(CATALOG, "distil", "sandbox").available).toBe(true);
+    expect(equipmentAccess(empty, "distil", "sandbox").available).toBe(true);
+  });
+
+  it("claims no loan, no award and no milestone for what it did not gate", () => {
+    const open = shelfAccess(CATALOG, "HCl", "sandbox");
+    expect(open.loaned).toBe(false);
+    expect(open.granted).toBe(false);
+    expect(open.missionOnly).toBe(false);
+    expect(open.minimumCompleted).toBe(0);
+  });
+
+  it("reports the engine's own answer in Story", () => {
+    expect(shelfAccess(CATALOG, "HCl", "story").minimumCompleted).toBe(3);
+    expect(shelfAccess(CATALOG, "HCl", "story").available).toBe(false);
+    expect(shelfAccess(CATALOG, "liquid_nitrogen", "story").missionOnly).toBe(true);
+    expect(shelfAccess(CATALOG, "filter", "story").available).toBe(true);
+  });
+
+  it("never invents a milestone for a material the catalog has not answered for", () => {
+    // The zero the owner read. `minimum_completed: 0` cannot come from a
+    // locked engine row — `catalog::decide` only reaches `Locked` when
+    // `completed < minimum_completed`, and `completed` is never negative —
+    // so a zero here means "no count", and the label has to say something
+    // else. The row stays unavailable in Story: a hazard ladder is not a
+    // thing to open on a guess.
+    const unknown = shelfAccess(empty, "HCl", "story");
+    expect(unknown.available).toBe(false);
+    expect(unknown.minimumCompleted).toBe(0);
+    expect(unknown.missionOnly).toBe(false);
+    expect(shelfAccess(CATALOG, "no-such-material", "story").minimumCompleted).toBe(0);
+  });
+
+  it("cannot be written without answering which laboratory is asking", () => {
+    // Not a runtime property: `mode` is a required parameter of both
+    // lookups, so the next gate added here fails to compile rather than
+    // quietly defaulting to the laboratory that refuses.
+    // @ts-expect-error - mode is required
+    expect(() => shelfAccess(CATALOG, "HCl")).toBeTypeOf("function");
+    // @ts-expect-error - mode is required
+    expect(() => equipmentAccess(CATALOG, "distil")).toBeTypeOf("function");
   });
 });
