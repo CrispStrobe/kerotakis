@@ -469,16 +469,14 @@
     gap: 0.25rem;
     margin: 0;
   }
+  /* Both chip rows also carry the touch minimum the cabinet rail directly
+     above them already carries. They are the same kind of control — "what
+     is this cabinet showing" — and a 23 px chip beside a 44 px one was
+     both the harder target and the smaller word. */
   .filter-rail button {
     flex: none;
-    white-space: nowrap;
-  }
-  /* Both chip rows carry the touch minimum the cabinet rail above them
-     already carries. They are the same kind of control — "what is this
-     cabinet showing" — and a 23 px chip beside a 44 px one was both the
-     harder target and the smaller word. */
-  .filter-rail button {
     min-height: 2.75rem;
+    white-space: nowrap;
   }
   .phases button {
     --phase-color: var(--primary);
