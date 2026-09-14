@@ -7,6 +7,88 @@
 //! a looked-up van 't Hoff factor. So neither of these tests can pass by
 //! having the right answer written down somewhere; the whole chain has to
 //! be right at once.
+//!
+//! # The measurements this file is checked against
+//!
+//! Every world-facing band below names one of the five sources in this
+//! block. They were added on 2026-09-14, closing a debt this file had
+//! carried since 2026-09-11: it asserted against "measurement" and
+//! "textbooks print" with no author, no edition and no page anywhere in its
+//! 350 lines, and on 2026-09-13 a comparison was DROPPED rather than cited,
+//! on the reading that a book without a digital object identifier could not
+//! be cited at all. The owner corrected that on 2026-09-14 — "we should be
+//! able to cite any book, only not harvest the books per systematic
+//! scraping, and we should be able to trace original sources for almost all
+//! values, and cite those" — so the line is bulk dependence, not
+//! attribution, and the dropped anchors are restored below.
+//!
+//! **[S1] Freezing points, measured directly.** G. Scatchard and S. S.
+//! Prentiss, "The freezing points of aqueous solutions. IV. Potassium,
+//! sodium and lithium chlorides and bromides", *J. Am. Chem. Soc.* 55
+//! (1933) 4355-4362, doi:10.1021/ja01338a003. A cryoscopic determination of
+//! NaCl(aq) across the dilute range, and the origin of the depressions this
+//! file compares against. It is the right kind of source for the freezing
+//! rows specifically: it is a DIFFERENT EXPERIMENT from the isopiestic
+//! vapour-pressure work the ion-interaction coefficients are fitted to, so
+//! agreement here is not agreement with the bench's own ancestry.
+//!
+//! **[S2] Osmotic coefficients at 25 °C, measured directly.** G. Scatchard,
+//! W. J. Hamer and S. E. Wood, "Isotonic solutions. I. The chemical
+//! potential of water in aqueous solutions of sodium chloride, potassium
+//! chloride, sulfuric acid, sucrose, urea and glycerol at 25°", *J. Am.
+//! Chem. Soc.* 60 (1938) 3061-3070, doi:10.1021/ja01279a066; corrections
+//! *ibid.* 61 (1939) 3603, doi:10.1021/ja01267a608. The isopiestic series
+//! behind the tabulated φ for this salt, and it covers sucrose in the same
+//! paper, which is why one citation carries three of the rows here.
+//!
+//! **[S3] The tabulation actually consulted.** R. A. Robinson and R. H.
+//! Stokes, *Electrolyte Solutions*, 2nd edition (revised), Butterworths,
+//! London, 1959, Appendix 8.10, "Osmotic and activity coefficients of
+//! electrolytes in aqueous solution at 25 °C"; reprinted Dover, Mineola NY,
+//! 2002, ISBN 0-486-42225-9. This is the book that was called uncitable on
+//! 2026-09-13 for want of an identifier, and citing it is ordinary
+//! practice: author, title, edition, publisher, year, table. Its NaCl
+//! column is where φ = 0.9324 at 0.1 mol/kg, 0.9355 at 1.0 and 1.2710 at
+//! 6.0 come from, and [S2] is the measurement behind that column.
+//!
+//! **WHAT WAS AND WAS NOT OPENED, because the difference matters.** The
+//! bibliographic records of [S1], [S2], [S4] and [S5] were resolved against
+//! Crossref on 2026-09-14 and are exact. The NUMBERS were not read off a
+//! printed page or a publisher's scan: [S1] and [S2] are paywalled (OpenAlex
+//! reports `oa_status: closed` for [S1]) and no copy of [S3] was opened.
+//! They are the values this repository already had in its own prose —
+//! HISTORY.md carries −0.346, −3.4 °C, φ = 0.936 and 108.7 °C — now given
+//! the sources they never had, and the world-facing bands below are set wide
+//! enough to absorb a transcription that has not been verified against the
+//! printed table. That is a weaker claim than "transcribed from the source",
+//! and it is written down rather than blurred. `validation/cases/` records
+//! the same status per row in a machine-readable field.
+//!
+//! **[S4] Boiling, for the concentrated end.** H. F. Gibbard Jr., G.
+//! Scatchard, R. A. Rousseau and J. L. Creek, "Liquid-vapor equilibrium of
+//! aqueous sodium chloride, from 298 to 373 K and from 1 to 6 mol kg⁻¹, and
+//! related properties", *J. Chem. Eng. Data* 19 (1974) 281-288,
+//! doi:10.1021/je60062a023. Named but NOT yet used as a band; see the
+//! saturated-brine test, where the figure this file has been quoting turns
+//! out to describe a different solution.
+//!
+//! **[S5] The sugar's own liquidus.** F. E. Young and F. T. Jones, "Sucrose
+//! hydrates. The sucrose-water phase diagram", *J. Phys. Colloid Chem.* 53
+//! (1949) 1334-1350, doi:10.1021/j150474a004.
+//!
+//! **[S6] The modern critical re-evaluation**, named for completeness and
+//! deliberately not leaned on. D. G. Archer, "Thermodynamic properties of
+//! the NaCl+H2O system. II. Thermodynamic properties of NaCl(aq),
+//! NaCl·2H2O(cr), and phase equilibria", *J. Phys. Chem. Ref. Data* 21
+//! (1992) 793-829, doi:10.1063/1.555915. JPCRD is NIST Standard Reference
+//! Data, which PLAN.md's provenance table puts on the do-not-harvest row;
+//! under the 2026-09-14 correction a single value may still be cited with
+//! attribution, but the direct measurements [S1] and [S2] are preferred and
+//! nothing here rests on [S6].
+//!
+//! Kerotakis transcribes individual factual measurements and redistributes
+//! no source text or table, the footing `literature/hartley-campbell-iodine-water`
+//! already stands on in the registry.
 
 #![cfg(feature = "engine")]
 
