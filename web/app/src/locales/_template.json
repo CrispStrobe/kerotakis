@@ -740,6 +740,7 @@
   "Permanent stock unlocks after one completed mission. Mission kits loan required materials.": "",
   "Supervised mission kit only — this material never becomes permanent Story stock.": "",
   "Permanent stock unlocks after {count} completed missions. Mission kits loan required materials.": "",
+  "The supply cabinet has not said anything about this material yet. Mission kits still loan required materials.": "",
   "Permanent supplies are ready for the next investigation.": "",
   "Place the electrical apparatus, then connect the named vessels.": "",
   "Plan your own setup. The solver will assess the chemical result, not whether you followed one recipe.": "",

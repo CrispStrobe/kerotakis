@@ -5,9 +5,9 @@
   import SpeciesChip from "./SpeciesChip.svelte";
   import { i18n, t } from "../i18n.svelte";
   import { stepAmount } from "../stepAmount";
-  import { access, available, type CatalogMap } from "../catalogProgress";
+  import { available, shelfAccess, type CatalogMap } from "../catalogProgress";
   import { stockRemaining } from "../storyStock";
-  import { isExhausted, stockBadge, type StockLevels } from "../shelfStock";
+  import { isExhausted, lockNote, stockBadge, type StockLevels } from "../shelfStock";
   import type { LabMode } from "../worldState";
   import type { CatalogScope } from "../catalogScope";
   import { deriveShelfRoles, ROLE_LABELS, REAGENT_ROLES, type ReagentRole } from "../reagentRoles";
@@ -49,9 +49,17 @@
     focusRequest?: { key: string; nonce: number } | null;
   } = $props();
 
-  // Named apart from the markup's own `access` const, which shadows it.
-  const access_ = (key: string) =>
-    access(catalog, key) ?? { available: false, loaned: false, granted: false, missionOnly: false, minimumCompleted: 0 };
+  /**
+   * Named apart from the markup's own `access` const, which shadows it.
+   *
+   * It asks `shelfAccess` rather than `access` because the mode decides
+   * this before the catalog gets a say: Sandbox gates nothing, and a
+   * catalog that has not answered has not refused. Reading the raw lookup
+   * here and defaulting its null to "unavailable, minimum 0" is what put a
+   * lock on every bottle in Sandbox and printed "unlocks after 0 completed
+   * missions" underneath.
+   */
+  const access_ = (key: string) => shelfAccess(catalog, key, mode);
 
   let query = $state("");
   const visible = $derived(items.filter((item) => {
@@ -399,11 +407,7 @@
               {/if}
             </form>
           {:else if !access.available}
-            <p class="stock-lock">{access.missionOnly
-              ? t("Supervised mission kit only — this material never becomes permanent Story stock.")
-              : access.minimumCompleted === 1
-              ? t("Permanent stock unlocks after one completed mission. Mission kits loan required materials.")
-              : t("Permanent stock unlocks after {count} completed missions. Mission kits loan required materials.", { count: access.minimumCompleted })}</p>
+            <p class="stock-lock">{lockNote(access, t)}</p>
           {:else if emptyBottle}
             <p class="stock-lock depleted-note">{t("This bottle is empty — the lab would refuse the pour. Stock the shelf again to keep going.")}</p>
           {:else}
@@ -429,10 +433,23 @@
   }
   /* The rail scrolls; the groups inside it never wrap. `flex: none` on the
      chips matters as much as `nowrap` — without it they shrink to fit and
-     "Oxidationsmittel" becomes an ellipsis instead of scrolling. */
+     "Oxidationsmittel" becomes an ellipsis instead of scrolling.
+
+     `flex: none` on the RAIL is not cosmetic either, and it is the fix for
+     the owner's report that "Feststoff", "Flüssigkeit" and "Gas" were
+     drawn over the bottles. A horizontal scroller is a scroll container in
+     both axes, so its automatic minimum HEIGHT is zero; as a flex item of
+     this column it was then shrunk in proportion with everything else. The
+     list below it has thousands of pixels of content, so the negative free
+     space was thousands of pixels, and the rail's share of it was more
+     than the rail: measured at 390 px and 320 px wide it stood 5 px tall
+     with 23 px chips inside, which is exactly a row of phase words clipped
+     to a sliver and sharing pixels with the first reagent row. The list is
+     the only thing here that may absorb the shrink. */
   .filter-rail {
     display: flex;
     align-items: center;
+    flex: none;
     flex-wrap: nowrap;
     /* Without this the scroller reports its content's min-content width up
        to the pane and the 320px page gains a horizontal scrollbar — the
@@ -447,6 +464,7 @@
   }
   .phases {
     display: flex;
+    flex: none;
     flex-wrap: nowrap;
     gap: 0.25rem;
     margin: 0;
@@ -455,6 +473,13 @@
     flex: none;
     white-space: nowrap;
   }
+  /* Both chip rows carry the touch minimum the cabinet rail above them
+     already carries. They are the same kind of control — "what is this
+     cabinet showing" — and a 23 px chip beside a 44 px one was both the
+     harder target and the smaller word. */
+  .filter-rail button {
+    min-height: 2.75rem;
+  }
   .phases button {
     --phase-color: var(--primary);
     background: color-mix(in srgb, var(--phase-color) 7%, var(--surface));
@@ -462,7 +487,7 @@
     border-radius: 999px;
     color: color-mix(in srgb, var(--phase-color) 76%, var(--ink));
     font: inherit;
-    font-size: 0.72rem;
+    font-size: 0.74rem;
     padding: 0.15rem 0.6rem;
     cursor: pointer;
   }
@@ -480,6 +505,7 @@
      eye lands first, and two equally loud rows would compete. */
   .roles {
     display: flex;
+    flex: none;
     flex-wrap: nowrap;
     gap: 0.25rem;
     margin: 0;
@@ -497,7 +523,7 @@
     border-radius: 999px;
     color: color-mix(in srgb, var(--role-color) 80%, var(--ink));
     font: inherit;
-    font-size: 0.68rem;
+    font-size: 0.72rem;
     padding: 0.12rem 0.55rem;
     cursor: pointer;
   }

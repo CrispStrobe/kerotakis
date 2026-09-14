@@ -11,6 +11,7 @@
  * scene, and is restored by undo along with everything else.
  */
 import type { SceneStockBottle } from "./host/EngineHost";
+import type { CatalogAccess } from "./catalogProgress";
 
 export type StockLevels = Readonly<Record<string, SceneStockBottle>>;
 
@@ -57,4 +58,38 @@ export function stockBadge(
     amount: formatStockAmount(bottle.remaining),
     unit: bottle.unit,
   });
+}
+
+/**
+ * Why a material cannot be taken from the shelf, in the learner's language.
+ *
+ * Extracted from the markup because the branch is the defect: the count
+ * arm used to be the fallback, so an access with nothing to say about a
+ * count still rendered "Permanent stock unlocks after 0 completed
+ * missions" — a sentence no progression could ever produce and one the
+ * owner read in Sandbox, where nothing is gated at all. A count is
+ * printed only when there IS one; zero means the cabinet has not answered
+ * for this material, and the shelf says that instead of inventing a
+ * milestone.
+ *
+ * Null for an available material: a row that can be poured has no reason
+ * to explain.
+ */
+export function lockNote(
+  access: CatalogAccess,
+  translate: (key: string, values?: Record<string, string | number>) => string,
+): string | null {
+  if (access.available) return null;
+  if (access.missionOnly) {
+    return translate("Supervised mission kit only — this material never becomes permanent Story stock.");
+  }
+  if (access.minimumCompleted === 1) {
+    return translate("Permanent stock unlocks after one completed mission. Mission kits loan required materials.");
+  }
+  if (access.minimumCompleted > 1) {
+    return translate("Permanent stock unlocks after {count} completed missions. Mission kits loan required materials.", {
+      count: access.minimumCompleted,
+    });
+  }
+  return translate("The supply cabinet has not said anything about this material yet. Mission kits still loan required materials.");
 }

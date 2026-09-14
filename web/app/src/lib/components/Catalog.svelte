@@ -46,7 +46,7 @@
   import ComparisonResults from "./ComparisonResults.svelte";
   import { comparisonRows, type ComparisonRow } from "../comparisonResults";
   import { t, tSlug, tEngine, i18n } from "../i18n.svelte";
-  import { available } from "../catalogProgress";
+  import { shelfAccess } from "../catalogProgress";
   import { equipmentById } from "../equipmentCatalogue";
   import type { CatalogItem } from "../host/EngineHost";
   import {
@@ -129,9 +129,17 @@
     onclose: () => void;
   } = $props();
 
-  /** Materials the learner can actually reach right now. */
+  /** Materials the learner can actually reach right now.
+   *
+   * Through `shelfAccess`, because "reach" is a question about the mode
+   * before it is one about the catalog: in Sandbox every material is on
+   * the shelf, and asking availability alone answered that an unanswered
+   * catalog means an empty shelf — so every entry here read as needing
+   * materials the learner already had. */
   const shelfKeys = $derived(new Set(
-    session.shelf.filter((item) => available(session.catalog, item.key)).map((item) => item.key),
+    session.shelf
+      .filter((item) => shelfAccess(session.catalog, item.key, session.labMode).available)
+      .map((item) => item.key),
   ));
 
   /**

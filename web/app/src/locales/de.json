@@ -1192,6 +1192,7 @@
   "Permanent stock unlocks after one completed mission. Mission kits loan required materials.": "Der dauerhafte Vorrat wird nach einer abgeschlossenen Mission freigeschaltet. Missionssets leihen benötigte Stoffe aus.",
   "Supervised mission kit only — this material never becomes permanent Story stock.": "Nur im beaufsichtigten Missionsset — dieser Stoff wird nie zum dauerhaften Story-Vorrat.",
   "Permanent stock unlocks after {count} completed missions. Mission kits loan required materials.": "Der dauerhafte Vorrat wird nach {count} abgeschlossenen Missionen freigeschaltet. Missionssets leihen benötigte Stoffe aus.",
+  "The supply cabinet has not said anything about this material yet. Mission kits still loan required materials.": "Der Vorratsschrank hat zu diesem Stoff noch nichts gesagt. Missionssets leihen benötigte Stoffe weiterhin aus.",
   "new permanent equipment": "neues dauerhaftes Gerät",
   "place on bench": "auf den Labortisch stellen",
   "Concentrate solutions and recover dissolved solids.": "Konzentriere Lösungen und gewinne gelöste Feststoffe zurück.",

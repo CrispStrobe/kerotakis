@@ -131,13 +131,15 @@
    * And it is printed only while something is still locked: in Sandbox,
    * where everything is reachable, "34/34" is a fact rather than progress.
    */
-  const tally = $derived(cupboardTally((id) => equipmentAccess(catalog, id).available));
-  const accessOf = (entry: EquipmentEntry) => equipmentAccess(catalog, accessId(entry));
+  const tally = $derived(cupboardTally((id) => equipmentAccess(catalog, id, mode).available));
+  const accessOf = (entry: EquipmentEntry) => equipmentAccess(catalog, accessId(entry), mode);
   const inScope = (entry: EquipmentEntry) => {
     const id = accessId(entry);
     if (scope === "all") return true;
     if (scope === "mission") return missionVerbs.includes(id);
-    return mode === "sandbox" || equipmentAccess(catalog, id).available;
+    // The mode is inside the lookup now, so the guard that used to stand
+    // here is the same answer said twice.
+    return equipmentAccess(catalog, id, mode).available;
   };
   /**
    * One slot per tool, wearing the set's name when the chip is on.
