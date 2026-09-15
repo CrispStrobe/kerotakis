@@ -191,7 +191,10 @@ fn add(bench: &mut Bench, solvers: &mut SolverStack, key: &str, moles: f64) {
 /// the direction of the measurement. Published depressions for 1.000 molal
 /// NaCl sit between 3.37 and 3.44 K depending on the source, which is why
 /// the world-facing band below is a tenth and a half rather than a
-/// hundredth.
+/// hundredth. The low end of that spread comes from correlations fitted for
+/// concentrated brines and read back down here — the fluid-inclusion fits
+/// are the common case — whose dilute limit does not reproduce K_f, so they
+/// are not preferred; [S1] measured this solution directly and is.
 #[test]
 fn a_textbook_spoonful_of_salt_freezes_the_water_near_minus_three_point_four() {
     let mut bench = Bench::new();
@@ -220,10 +223,18 @@ fn a_textbook_spoonful_of_salt_freezes_the_water_near_minus_three_point_four() {
         "one molal brine routes to pitzer.dat, and its solvent activity is \
          the whole of this fix"
     );
+    // The measured osmotic coefficient of 1.000 mol/kg NaCl at 25 °C is
+    // 0.9355 [S3, NaCl column; measured isopiestically in S2]. This test has
+    // asserted against it since 2026-09-11 with no source at all, which is
+    // the debt the module header closes. The band stays 0.01, and the
+    // argument for it is that the bench's own 0.937 is 1.5 mK-worth of
+    // rounding away from the table's 0.9355 while the ideal solvent this
+    // replaced asserts 1.000 by construction, six times the band away.
     let phi = transitions.osmotic_coefficient();
     assert!(
         (phi - 0.937).abs() < 0.01,
-        "the osmotic coefficient of 1 molal NaCl is 0.936 by measurement: {phi:.4}"
+        "1 molal NaCl has a measured osmotic coefficient of 0.9355 at 25 °C \
+         [S2, S3]: {phi:.4}"
     );
     assert!(
         (transitions.water_activity() - 0.9668).abs() < 0.002,
@@ -236,12 +247,19 @@ fn a_textbook_spoonful_of_salt_freezes_the_water_near_minus_three_point_four() {
         (freezing_c + 3.44).abs() < 0.06,
         "the solvent-activity relation puts one molal brine at -3.44 C: got {freezing_c:.3} C"
     );
-    // What the world says. Narrowing this would fail on a change that made
-    // the answer better; widening it would let the dilute law back in — its
-    // -3.72 is outside this band, which is the point of keeping the band.
+    // What the world says: a 1.000 mol/kg brine freezes near −3.4 °C, by
+    // the direct cryoscopy of [S1]. Narrowing this would fail on a change
+    // that made the answer better; widening it would let the dilute law back
+    // in — its -3.72 is outside this band, which is the point of keeping the
+    // band. The width is 0.15 K and it is spent on three things: the spread
+    // between published depressions for this solution (3.37 to 3.44 K, which
+    // is 0.07 on its own), the osmotic coefficient's temperature dependence
+    // that the paragraph above says is still uncorrected here, and a
+    // transcription of [S1]'s table that nobody in this repository has
+    // checked against the printed page. It excludes the predecessor by 0.17.
     assert!(
         (freezing_c + 3.4).abs() < 0.15,
-        "real 1 molal brine freezes near -3.4 C: {freezing_c:.3} C"
+        "real 1 molal brine freezes near -3.4 C [S1]: {freezing_c:.3} C"
     );
     // And the dilute law, named so the regression is visible rather than
     // remembered: it is 8 % steeper than the relation that replaced it.
@@ -251,7 +269,10 @@ fn a_textbook_spoonful_of_salt_freezes_the_water_near_minus_three_point_four() {
         "the dilute law would have said {dilute_law:.3} C"
     );
     // The van 't Hoff factor a table prints for this solution, computed
-    // rather than looked up. Textbooks print 1.85.
+    // rather than looked up. Textbooks print 1.85, and it is worth saying
+    // that this is NOT a seventh independent anchor: i is ν·φ by definition,
+    // so this line and the φ line above are one measurement counted twice,
+    // and a corpus must not bank them separately.
     let i = transitions.effective_vant_hoff_factor(1.0).unwrap();
     assert!((i - 1.85).abs() < 0.04, "i = {i:.3}");
 }
@@ -558,9 +579,32 @@ fn a_hundredth_molal_brine_is_left_on_raoults_law_and_costs_one_solve() {
 /// can be pinned with.
 ///
 /// Six molal NaCl is the second case: pitzer.dat reports φ = 1.27, the bench
-/// says 108.0 °C, a measurement of a saturated brine says about 108.7, and
-/// the dilute law said 106.1. A correction worth nearly two degrees, in the
-/// opposite direction from the one the freezing test pins.
+/// says 108.0 °C, and the dilute law said 106.1. A correction worth nearly
+/// two degrees, in the opposite direction from the one the freezing test
+/// pins.
+///
+/// **This test deliberately has NO world-facing band, and the reason is a
+/// correction rather than a gap in the sources.** This file and HISTORY.md
+/// have both been quoting 108.7 °C as the measurement this beaker should be
+/// compared against, in this file's own words "a measurement of a saturated
+/// brine". But the beaker below is 6.000 mol/kg, and a saturated chloride
+/// brine at its BOILING point is more concentrated than that: the test
+/// itself records halite saturating near 6.11 mol/kgw at the vessel's
+/// temperature, and a chloride's solubility rises as it is heated. So 108.7
+/// and 108.0 are not two answers for one solution, they are answers for two
+/// solutions, and the 0.7 K between them is mostly composition. Adding that
+/// comparison as a band would have been the exact defect this bench has a
+/// name for — a quantity checked against a proxy that moves for a reason
+/// nobody controlled.
+///
+/// A real anchor for this row exists and has not been bought: [S4] measured
+/// the vapour pressure of NaCl(aq) from 298 to 373 K over 1 to 6 mol/kg,
+/// which is this beaker exactly, at this temperature, to this molality.
+/// Until someone reads its table, one further question stays open with it:
+/// the bench took φ from a speciation solved near the vessel's ambient
+/// temperature and used it at the boil, and whether φ for this salt rises or
+/// falls over that interval is precisely what [S4] settles. The accuracy
+/// corpus carries this as an open row rather than a passing one.
 #[test]
 fn a_saturated_brine_boils_hotter_than_the_dilute_law_allows() {
     let mut bench = Bench::new();
@@ -649,6 +693,17 @@ fn a_saturated_brine_boils_hotter_than_the_dilute_law_allows() {
 /// linearisation did. The bench does not know that number and does not
 /// pretend to: a two per cent shortfall, declared ideal, is the honest
 /// form of not knowing, and it is inside this test's band from both sides.
+///
+/// **The measured side now has a source.** One molal sucrose is 25.5 per
+/// cent by mass, and the ice liquidus of the sucrose-water system at that
+/// composition is [S5]; sucrose's osmotic coefficient at 25 °C is in [S2],
+/// the same isotonic series that carries this file's chloride numbers,
+/// which is why one paper covers three of the six rows here. The 0.05 K
+/// band below is the honest width for a row whose model and reference agree
+/// for DIFFERENT reasons: the bench is short by the 2 % it declares, the
+/// reference is above K_f by about the 2 % sucrose's own non-ideality adds,
+/// and the two nearly cancel. A tighter band would be reading precision
+/// into a coincidence.
 #[test]
 fn a_mole_of_sugar_raises_the_boiling_point_by_half_a_degree() {
     let mut bench = Bench::new();
