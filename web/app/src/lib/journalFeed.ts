@@ -37,6 +37,13 @@ export const STATUS_ICONS: Record<string, string> = {
   "bench-shipped": "◌",
   restored: "⟳",
   "restore-failed": "⚠",
+  // The supply cabinet: asked to exhaustion and silent, or answering
+  // again after having been. Bookkeeping in exactly the same sense as a
+  // save that would not come back — a fact about this session rather
+  // than about chemistry, and the only record of why a shelf reads
+  // "unknown" in a deployment nobody is standing in front of.
+  "cabinet-silent": "⚠",
+  "cabinet-answered": "⟳",
 };
 
 export const statusIcon = (entry: FeedEntry): string | undefined =>

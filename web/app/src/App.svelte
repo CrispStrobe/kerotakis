@@ -1306,6 +1306,7 @@
       {/if}
       <Shelf
         catalog={session.catalog}
+        cabinet={session.cabinet}
         items={session.shelf}
         register={session.register}
         target={session.selected}

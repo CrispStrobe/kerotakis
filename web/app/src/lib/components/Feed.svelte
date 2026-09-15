@@ -291,6 +291,8 @@
   .status-note[data-status="bench-shipped"] .status-mark { color: var(--warn); }
   .status-note[data-status="restored"] .status-mark { color: var(--instrument); }
   .status-note[data-status="restore-failed"] .status-mark { color: var(--bad); }
+  .status-note[data-status="cabinet-silent"] .status-mark { color: var(--bad); }
+  .status-note[data-status="cabinet-answered"] .status-mark { color: var(--good); }
   /* Anchored to the header and inset on both sides, so a long sentence can
      never widen the pane: it wraps inside the tooltip instead. */
   .tip {
