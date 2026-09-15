@@ -935,6 +935,90 @@ rather than add chemistry; the build order stands: EXP-0 unlocks
 everything, NOW-tier authoring and NEAR data tranches fan out behind it,
 HARDER models follow one per branch.
 
+## Where the harvest stands, and what a ninth corpus would and would not buy (2026-09-15)
+
+Written in answer to a direct question: should we go back to harvesting
+hundreds of real experiments out of chemistry books to find what Kerotakis
+cannot run at all? The registry above already answers most of it, and the
+answer is not the one the question expects.
+
+**The audit-on-paper harvest has saturated.** Eight corpora produced new task
+counts of 16 → 9 → 7 → 1 → 3 → 0 → 3. The last four together produced seven
+tasks; one produced none. A ninth corpus of titles would, on this curve, buy
+somewhere between zero and three EXP numbers, and would cost a full audit pass.
+That is the cheapest thing in this programme to keep doing and the least
+valuable, and it should not be mistaken for progress because it generates
+visible artefacts.
+
+**What has not saturated is the other half of the question.** "Can it run at
+all" was audited by reading. "Does it come out qualitatively right" has never
+been audited by running. Those are different failure classes and only the first
+one is closed:
+
+| Class | How it is found | State |
+|---|---|---|
+| Missing capability — no verb, no species, no mechanism | reading a book against the registry | saturated; EXP-0..53 is the backlog |
+| Wrong by a few per cent | oracles, `tools/oracle`, chempy/PHREEQC cross-checks | live, and acceptable ground |
+| **Qualitatively wrong while appearing to work** | running the experiment and checking the *kind* of answer | **not systematically audited** |
+
+The third row is the one the owner has said is unacceptable, and it is the one
+nothing currently sweeps for. Every instance found so far was found by accident,
+one at a time, and each had the same shape — a quantity that is *claimed* rather
+than *derived*, so it does not move when the thing it claims to measure moves:
+a buoyancy readout taking a species density where a recipe's bulk density was
+meant; an alkalinity treated as a portion rather than a charge balance; an
+element arriving mid-solve, speciated, and then dropped on readback; a
+catalogue whose failure was swallowed so 188 materials read as refused (#599,
+#602). None of these would appear in a corpus audit, because in every case the
+experiment *runs*. Several would not appear in a numeric oracle either, because
+the number is self-consistent — it is simply about something else.
+
+### EXP-54 — the execution harvest
+
+Not another reading pass. A corpus of experiments that are **run**, with the
+outcome classified.
+
+Scope:
+
+1. **A machine-readable experiment spec.** Title, reagents, apparatus, the
+   script, and — the part that does the work — the *qualitative claims* the
+   experiment is supposed to demonstrate: a precipitate appears, the gas
+   relights a splint, the layers invert, the indicator turns, the temperature
+   falls. Claims, not numbers.
+2. **A runner** that executes each spec against the engine and records what
+   actually happened, in the existing `kero run` / replay machinery rather than
+   a new harness.
+3. **A verdict per experiment,** in four buckets, which is the deliverable:
+   runs and the claims hold / runs and a claim is contradicted / refuses with a
+   named reason / cannot be expressed at all. Only the last bucket is the old
+   harvest's output. The second is the one this exists for.
+4. **A perturbation check on every claim.** The correlated-proxy rule: a value
+   claimed to be X must *change when X changes*. A claim that survives the
+   perturbation is evidence; one that does not is a proxy wearing a label, and
+   it is exactly what a static assertion cannot tell apart from the real thing.
+
+Sizing: start at 30–40 experiments drawn from the rows already in this file
+that are marked NOW or NEAR, because those are the ones we assert we support —
+an execution harvest of things we *do not* claim to run teaches nothing. Scale
+only if bucket two is non-empty, and let its size decide how much more is worth
+doing.
+
+Prerequisite, and the reason #602 is filed before this rather than after: a run
+of this corpus against a deployment is worthless if the deployment can serve a
+new app bundle against a cached older engine, because every experiment then
+fails for a reason that has nothing to do with chemistry and nothing says so.
+That pairing was live until #602 and is written up in
+[ROADMAP-Webapp.md](ROADMAP-Webapp.md) under *Release integrity*, together with
+the two release-integrity gaps that remain open.
+
+### What this does not change
+
+The EXP-0..53 backlog stands and its build order is unchanged. EXP-54 does not
+add chemistry; it decides **which** of the existing fifty-four is worth doing
+first, by replacing a judgement about what learners will miss with evidence
+about what currently comes out wrong. If bucket two turns out empty, that is a
+real and cheap result, and the backlog's existing order stands on its own.
+
 ## Cross-reference: the children's corpus
 
 A thirty-experiment audit run from the other end (a kitchen table rather
