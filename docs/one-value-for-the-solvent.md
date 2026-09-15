@@ -106,10 +106,13 @@ numbers**.
 
 | spelling | sites | where |
 |---|---|---|
-| `0.018_015` | 8 | `solve.rs` ×6, `particles.rs`, `states.rs` |
-| `0.018015` | 1 | `sweep.rs` |
-| `18.015` | 2 | `aqueous.rs`, `displacement.rs` |
-| `18.015_28` / `18.01528` | 3 | `constants.rs`, and as a **fallback** in `bench.rs` and `scene.rs` |
+| `0.018_015` | 9 | `solve.rs` ×6, `particles.rs`, `states.rs`, `sweep.rs` |
+| `0.018015` | 1 | `sweep.rs` — the *other* site in the same file |
+| `18.015` | 3 | `aqueous.rs`, `displacement.rs`, `clock.rs` |
+| `18.015_28` / `18.01528` | 5 | `constants.rs`; as a **fallback** in `bench.rs` and `scene.rs`; and in two test fixtures, `scene.rs` and `swelling.rs` |
+
+`sweep.rs` is the one file that disagreed with **itself** — the same quantity
+spelled two ways ninety lines apart, which is the whole defect in miniature.
 
 Sixteen of the eighteen never consulted the registry at all. Two consulted it
 and then fell back to a *different number* if the lookup missed. `states.rs`
@@ -226,7 +229,7 @@ where nobody was watching because nobody could tell the two apart.
 
 | constant | registry record | same value? | disposition |
 |---|---|---|---|
-| `constants::WATER_MOLAR_MASS = 18.015_28` | `molar-mass/water` = 18.015 | **no** | generated; the wrong number is gone |
+| `constants::WATER_MOLAR_MASS = 18.015_28` | `molar-mass/water` = 18.015 | **no — 1.6 ppm apart, both inside the interval** | generated; the second spelling is gone |
 | `states::LIQUID_WATER_HEAT_CAPACITY = 75.3` | `heat-capacity/water` = 75.3 | yes | generated |
 | `states::WATER_FREEZING_K = 273.15` | `melting-point/water` = 273.15 | yes | **left, with a follow-up** |
 | `states::WATER_BOILING_K = 373.15` | `boiling-point/water` = 373.15 | yes | **left, with a follow-up** |
@@ -234,7 +237,8 @@ where nobody was watching because nobody could tell the two apart.
 The heat capacity is the one that proves it is a pattern rather than an
 accident, because it carries **the same self-aware comment**: *"The registry's
 own figure, restated here so the three phases read as one set rather than two
-constants and a lookup."* Restating a record is how both defects started. It
+constants and a lookup."* Restating a record is how both defects started — a
+restatement is a copy that has been told it is not one. It
 also had, like the molar mass, **no callers**: `constant_heat_capacity_in`
 already returns the registry value for the liquid branch, so nothing would have
 noticed the two coming apart.
