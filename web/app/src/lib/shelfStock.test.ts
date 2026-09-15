@@ -77,14 +77,14 @@ describe("why a material cannot be taken", () => {
   });
 
   it("says nothing about a material that can be poured", () => {
-    expect(lockNote(access({ available: true }), t)).toBe(null);
+    expect(lockNote(access({ available: true }), t, "answered")).toBe(null);
   });
 
   it("prints a milestone only when there is one", () => {
-    expect(lockNote(access({ minimumCompleted: 1 }), t)).toBe(
+    expect(lockNote(access({ minimumCompleted: 1 }), t, "answered")).toBe(
       "Permanent stock unlocks after one completed mission. Mission kits loan required materials.",
     );
-    expect(lockNote(access({ minimumCompleted: 3 }), t)).toBe(
+    expect(lockNote(access({ minimumCompleted: 3 }), t, "answered")).toBe(
       "Permanent stock unlocks after 3 completed missions. Mission kits loan required materials.",
     );
   });
@@ -95,15 +95,43 @@ describe("why a material cannot be taken", () => {
     // it — a locked engine row always carries a minimum above the
     // learner's own completed count — so a zero here is the client saying
     // it does not know, and the label has to say that instead.
-    const note = lockNote(access(), t);
+    const note = lockNote(access(), t, "pending");
     expect(note).not.toContain("0");
     expect(note).toBe(
       "The supply cabinet has not said anything about this material yet. Mission kits still loan required materials.",
     );
   });
 
+  it("stops saying 'not yet' once the cabinet has stopped answering", () => {
+    // The follow-up #599 left. "Still checking" is true while the asks are
+    // in flight and a lie once they have all failed, and the difference is
+    // invisible from `access` alone — both are an empty catalog. A learner
+    // reading the second sentence has had the question put three times on
+    // their behalf, so the shelf can say the cabinet is silent rather than
+    // keep promising an answer that is never coming.
+    const silent = lockNote(access(), t, "unanswered");
+    expect(silent).not.toContain("0");
+    expect(silent).toBe(
+      "The supply cabinet did not answer, so this material's stock is unknown — the journal says what went wrong. Mission kits still loan required materials.",
+    );
+    expect(silent).not.toBe(lockNote(access(), t, "pending"));
+  });
+
+  it("lets an engine answer outrank the cabinet's silence", () => {
+    // A stale catalog standing while a later refresh fails is still an
+    // answer about THIS material: the milestone it carries is the engine's
+    // and outranks the fact that the last ask went unheard.
+    expect(lockNote(access({ minimumCompleted: 2 }), t, "unanswered")).toBe(
+      "Permanent stock unlocks after 2 completed missions. Mission kits loan required materials.",
+    );
+    expect(lockNote(access({ missionOnly: true }), t, "unanswered")).toBe(
+      "Supervised mission kit only — this material never becomes permanent Story stock.",
+    );
+    expect(lockNote(access({ available: true }), t, "unanswered")).toBe(null);
+  });
+
   it("keeps a supervised kit distinct from a milestone", () => {
-    expect(lockNote(access({ missionOnly: true, minimumCompleted: 4 }), t)).toBe(
+    expect(lockNote(access({ missionOnly: true, minimumCompleted: 4 }), t, "answered")).toBe(
       "Supervised mission kit only — this material never becomes permanent Story stock.",
     );
   });

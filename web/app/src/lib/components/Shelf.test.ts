@@ -50,6 +50,7 @@ function body(props: Record<string, unknown>): string {
       target: 0,
       onadd: () => {},
       catalog: catalogMap([]),
+      cabinet: "pending",
       ...props,
     },
   }).body;
