@@ -423,7 +423,17 @@
       </li>
     {/each}
     {#if filtered.length === 0}
-      <li class="none">{t("nothing on the shelf matches")}</li>
+      <!-- An empty shelf has two very different reasons, and only one of
+           them is about the filter. The "unlocked" scope asks `available`,
+           which answers no for everything while the catalogue is silent —
+           so a Story learner whose engine never answered was shown "nothing
+           on the shelf matches" over a cabinet of 188 bottles, with the
+           filter apparently to blame. Say which it is. -->
+      <li class="none">
+        {cabinet === "unanswered"
+          ? t("The supply cabinet did not answer, so nothing here is known to be unlocked — the journal says what went wrong.")
+          : t("nothing on the shelf matches")}
+      </li>
     {/if}
   </ul>
   <p class="tally">

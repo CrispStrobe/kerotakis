@@ -742,6 +742,7 @@
   "Permanent stock unlocks after {count} completed missions. Mission kits loan required materials.": "",
   "The supply cabinet has not said anything about this material yet. Mission kits still loan required materials.": "",
   "The supply cabinet did not answer, so this material's stock is unknown — the journal says what went wrong. Mission kits still loan required materials.": "",
+  "The supply cabinet did not answer, so nothing here is known to be unlocked — the journal says what went wrong.": "",
   "Permanent supplies are ready for the next investigation.": "",
   "Place the electrical apparatus, then connect the named vessels.": "",
   "Plan your own setup. The solver will assess the chemical result, not whether you followed one recipe.": "",

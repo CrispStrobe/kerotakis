@@ -1196,6 +1196,7 @@
   "Permanent stock unlocks after {count} completed missions. Mission kits loan required materials.": "Der dauerhafte Vorrat wird nach {count} abgeschlossenen Missionen freigeschaltet. Missionssets leihen benötigte Stoffe aus.",
   "The supply cabinet has not said anything about this material yet. Mission kits still loan required materials.": "Der Vorratsschrank hat zu diesem Stoff noch nichts gesagt. Missionssets leihen benötigte Stoffe weiterhin aus.",
   "The supply cabinet did not answer, so this material's stock is unknown — the journal says what went wrong. Mission kits still loan required materials.": "Der Vorratsschrank hat nicht geantwortet, deshalb ist der Bestand dieses Stoffs unbekannt — im Journal steht, was schiefgelaufen ist. Missionssets leihen benötigte Stoffe weiterhin aus.",
+  "The supply cabinet did not answer, so nothing here is known to be unlocked — the journal says what went wrong.": "Der Vorratsschrank hat nicht geantwortet, deshalb ist hier nichts als freigeschaltet bekannt — im Journal steht, was schiefgelaufen ist.",
   "new permanent equipment": "neues dauerhaftes Gerät",
   "place on bench": "auf den Labortisch stellen",
   "Concentrate solutions and recover dissolved solids.": "Konzentriere Lösungen und gewinne gelöste Feststoffe zurück.",

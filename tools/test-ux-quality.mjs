@@ -1,5 +1,7 @@
 /** Browser-level UX invariants: layout, accessible controls, touch size and reduced motion. */
 import { serve, browser, waitFor } from "./lib/headless.mjs";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 
 const PAYLOAD = process.argv[2];
 if (!PAYLOAD) {
@@ -1050,6 +1052,115 @@ try {
     check("reduced motion leaves no running bench animation", moving === 0, `${moving} animations`);
   } else {
     check("reduced-motion bench accepts a command", false);
+  }
+
+  /* -- the cabinet that never answers ---------------------------------- */
+  //
+  // #599's reproduction, made repeatable. It used a payload whose engine
+  // has no `catalog` method at all — a service worker pairing a new app
+  // bundle with a cached older engine, and equally what any dropped round
+  // trip looks like from the app's side. The shelf's half of that is
+  // fixed; the half left open was that `refreshCatalog` swallowed the
+  // failure, so a deployment in that state was broken in silence.
+  //
+  // The engine is doctored rather than replaced: the payload's own
+  // wasm-bindgen module, with one line appended that takes the method off
+  // the class. Version-independent — it neither knows nor cares how the
+  // method is declared — and a no-op against an engine that genuinely
+  // predates the endpoint, which is the same engine it is imitating.
+  //
+  // A second origin, because a service worker and its caches belong to
+  // one: the doctored engine cannot reach the registration the rest of
+  // this file has been driving, and that registration cannot answer for
+  // the doctored one.
+  console.log("");
+  let servedDoctored = 0;
+  const { server: engineless, origin: mismatched } = await serve(PAYLOAD, {
+    handleRequest: async (request, response) => {
+      if (!/\/kerotakis_wasm\.js$/.test(new URL(request.url, "http://x").pathname)) return false;
+      servedDoctored += 1;
+      const module = await readFile(join(PAYLOAD, "kerotakis_wasm.js"), "utf8");
+      response.writeHead(200, { "content-type": "text/javascript" });
+      response.end(`${module}\n// An engine from before the catalog endpoint existed.\ndelete Lab.prototype.catalog;\n`);
+      return true;
+    },
+  });
+  try {
+    await viewport(1440, 900);
+    await page.goto(`${mismatched}/app/`);
+    await page.evaluate(`localStorage.setItem("kerotakis.locale", "de");
+      localStorage.setItem("kerotakis.mode.v1", "story");
+      localStorage.setItem("kerotakis.console.v1", "hidden");`);
+    await page.goto(`${mismatched}/app/`);
+    await openBench();
+    check("the rig served its own copy of the engine module", servedDoctored > 0,
+      `${servedDoctored} intercepted`);
+
+    // Bounded, and this is where that is asserted: an app that retried
+    // forever would sit here until the timeout with nothing to show. The
+    // policy is three asks and at most 1.6 s of waiting, so 30 s is slack
+    // for a cold wasm boot rather than patience with a spinner.
+    const spoke = await waitFor(page,
+      `Boolean(document.querySelector('[data-status="cabinet-silent"]'))`, { timeout: 30000 });
+    check("the journal says the cabinet did not answer, rather than waiting forever", spoke === true);
+
+    const notice = JSON.parse(await page.evaluate(`(() => {
+      const notes = [...document.querySelectorAll('[data-status="cabinet-silent"]')];
+      return JSON.stringify({
+        count: notes.length,
+        text: notes[0]?.textContent.trim() ?? "",
+        icons: notes.filter((note) => note.querySelector('.status-mark')).length,
+      });
+    })()`));
+    // Once per episode. Five call sites reporting five identical notices
+    // down the journal is its own defect.
+    check("it says so once, not once per caller", notice.count === 1, `${notice.count} notices`);
+    check("it is marked as session bookkeeping, like a save that failed", notice.icons === 1);
+    // In the reader's language, through t(). An English sentence here is a
+    // missing German row, which is invisible to every coverage count.
+    check("it is in the reader's language", /Vorratsschrank/.test(notice.text), notice.text);
+    // The reason is the diagnostic: without it the journal says a
+    // deployment is broken without saying how.
+    check("it carries the engine's own reason", /catalog/i.test(notice.text), notice.text);
+
+    await settle();
+    // Story opens on the "unlocked" scope, whose filter asks `available` —
+    // which answers no for everything while the catalogue is silent. So
+    // the first thing a Story learner meets here is an EMPTY shelf, and
+    // before this it blamed the filter: "nothing on the shelf matches",
+    // over a cabinet of 188 bottles.
+    const empty = await page.evaluate(
+      `document.querySelector('nav.shelf-pane li.none')?.textContent.trim() ?? ""`);
+    check("an empty Story shelf blames the cabinet rather than the filter",
+      /Vorratsschrank/.test(empty) && /nicht geantwortet/.test(empty), empty || "no empty-state line");
+
+    // And with the whole cabinet showing, the bottles themselves. Story
+    // gates materials, so these rows ARE locked — correctly, because
+    // nothing has said they are reachable. What #599 left was the sentence
+    // underneath, which said "not yet" and meant "not ever".
+    await page.evaluate(`(() => {
+      const chips = [...document.querySelectorAll('nav.shelf-pane [role="radio"]')];
+      chips[chips.length - 1]?.click();
+    })()`);
+    await settle();
+    const stranded = JSON.parse(await page.evaluate(`(() => {
+      const rows = [...document.querySelectorAll('nav.shelf-pane ul li')]
+        .filter((item) => item.offsetParent && !item.classList.contains('none'));
+      rows[0]?.querySelector('button.species')?.click();
+      return JSON.stringify({ rows: rows.length });
+    })()`));
+    check("the whole cabinet is reachable through the scope chips", stranded.rows > 0,
+      `${stranded.rows} rows`);
+    await settle();
+    const note = JSON.parse(await page.evaluate(`(() => {
+      const notes = [...document.querySelectorAll('nav.shelf-pane .stock-lock:not(.depleted-note)')];
+      return JSON.stringify({ count: notes.length, text: notes[0]?.textContent.trim() ?? "" });
+    })()`));
+    check("the bottle says the cabinet did not answer, not that it is still checking",
+      note.count === 1 && /nicht geantwortet/.test(note.text), note.text || `${note.count} notes`);
+    check("and it still invents no milestone", !/\b0\b/.test(note.text), note.text);
+  } finally {
+    engineless.close();
   }
 } catch (error) {
   console.error(`UX quality: ${error.stack ?? error.message}`);
