@@ -560,3 +560,170 @@ Model and reference agree for different reasons that happen to cancel, so a
 pass here is close to uninformative about the physics, and a FAILURE here
 would be informative. Recorded so nobody counts it as a strong row later.
 """
+
+# ------------------------------------- what the bench's own inputs contribute ---
+#
+# ADDED 2026-09-15, and the reason it could not be added on 2026-09-14 is the
+# point of it. `tolerance_policy` above says three things are spent on a world
+# band and each row itemises which apply. A fourth thing is spent on the MODEL
+# band and no row could itemise it: the uncertainty the bench's own inputs
+# carry. Every registry numeric record reported `not_reported`, and a band
+# cannot be argued against a number nobody has established.
+#
+# The registry now carries a propagated interval on the molar masses this
+# family runs on, so the term can be quantified instead of waved at. The
+# answer is small, and SMALL IS THE USEFUL ANSWER: it says the model bands
+# below are dominated by the rounding and routing arguments each row already
+# makes, and not by the inputs, which is a thing those arguments assumed
+# without being able to say so.
+#
+# Each row here is checked against the shipped registry by
+# `kerotakis-core/tests/accuracy_corpus.rs`, so a value or a band that moves in
+# `data/registry/registry-source-v1.json` and not here fails rather than
+# drifting.
+
+[registry_inputs]
+statement = """
+THE LARGEST MODEL INPUT IN THIS FAMILY IS NOT A REGISTRY RECORD AT ALL, and
+that is the first thing to read here. Both cryoscopic rows reach their answer
+through water's enthalpy of fusion, and both boiling rows through its enthalpy
+of vaporisation; those are `WATER_H_FUS` and `WATER_H_VAP` in
+`crates/kerotakis-core/src/states.rs`, Rust constants with no record in the
+registry, so they cannot carry an uncertainty in the schema that has one and
+nothing below quantifies them. `WATER_H_VAP` is additionally the constant
+whose comment says NO SOURCE IS CLAIMED FOR THIS NUMBER. A term worth
+approximately 0.4 per cent of the depression per per-cent error in the
+enthalpy is therefore unbounded here, and saying so is worth more than the
+four numbers below that are bounded.
+
+What IS bounded: the molar mass of water enters every row in this family
+twice - once in the molality the ledger is converted to, and once more in the
+osmotic rows through phi = -ln(a_w)/(M_w * sum(m)) - and it now carries the
+interval CIAAW publishes for the isotopic variation of hydrogen and oxygen in
+normal terrestrial materials. That interval is 7.1e-5 of the value, which is
+6.7e-5 in an osmotic coefficient near 0.945 and about 0.025 mK in the
+tenth-molal depression: 0.2 per cent and 0.6 per cent of the two tightest
+model bands in the file. The bands do not move.
+
+The two solute molar masses reach NOTHING in this family, because every case
+ledger is written in MOLES rather than in grams, so the solute's mass never
+enters the arithmetic. They are recorded anyway: a reader checking whether a
+band should have been wider needs to see the input that was examined and
+found not to matter, not only the ones that did.
+"""
+
+[[registry_input]]
+record_id = "molar-mass/water"
+value = 18.015
+unit = "g/mol"
+uncertainty = "interval"
+lower = 18.01471
+upper = 18.01599
+relative_width = 7.1e-5
+basis = """
+Propagated from the IUPAC/CIAAW 2021 standard atomic weights of hydrogen
+([1.00784, 1.00811]) and oxygen ([15.99903, 15.99977]) over H2O, by interval
+arithmetic. NOT a measurement uncertainty: CIAAW publishes these two elements
+as intervals because their isotopic composition varies measurably between
+normal terrestrial materials, so this is a spread across real water rather
+than an error in anybody's determination, and it is exactly the right shape
+for a bench that does not know which water is in the beaker.
+"""
+reaches = ["freezing_point_depression", "osmotic_coefficient", "boiling_point_elevation"]
+contribution = """
+6.7e-5 in an osmotic coefficient near 0.945, which is 0.2 % of the 0.03 band
+on the tenth-molal row; about 0.025 mK in the 0.3516 K depression, which is
+0.6 % of that row's 4 mK band. Neither band changes.
+"""
+
+[[registry_input]]
+record_id = "molar-mass/NaCl"
+value = 58.443
+unit = "g/mol"
+uncertainty = "interval"
+lower = 58.435769
+upper = 58.44677
+relative_width = 1.9e-4
+basis = """
+Propagated as water's is, and dominated by chlorine: CIAAW's interval for
+chlorine ([35.446, 35.457]) is a hundred thousand times wider than its
+uncertainty on mononuclidic sodium (22.98976928(2)), so a brine's molar mass
+is uncertain almost entirely because of which chlorine it was made from.
+"""
+reaches = []
+contribution = """
+Nothing, in this family. Every case ledger counts MOLES of sodium chloride,
+so the salt's molar mass never enters the molality, the speciation or the
+activity. It would enter a case whose ledger weighed the salt out in grams,
+and there is no such case here.
+"""
+
+[[registry_input]]
+record_id = "molar-mass/sucrose"
+value = 342.2965
+unit = "g/mol"
+uncertainty = "interval"
+lower = 342.27701
+upper = 342.31509
+relative_width = 1.1e-4
+basis = """
+Propagated over C12H22O11 from the CIAAW intervals for carbon, hydrogen and
+oxygen. Carbon's interval ([12.0096, 12.0116]) carries most of it at twelve
+atoms per formula unit.
+"""
+reaches = []
+contribution = """
+Nothing, for the same reason as the salt: the sugar case's ledger is one MOLE
+of sucrose. The row's stated 25.5 % by mass is a description of the beaker
+for a reader, not an input the bench weighed.
+"""
+
+[[registry_input]]
+record_id = "heat-capacity/water"
+value = 75.3
+unit = "J/(mol.K)"
+uncertainty = "unestablished"
+relative_width = 0.0
+basis = """
+NO UNCERTAINTY IS ESTABLISHED, and this row is here to say so rather than to
+be skipped. `legacy/water` cites "Cp(l), density: CODATA/standard reference
+values", which names no document anybody can open, so nothing can be said
+about what a source reports - which is a different and more expensive problem
+than a source that reports nothing. Closing it is a re-sourcing, not a
+reading.
+"""
+reaches = ["freezing_point_depression", "osmotic_coefficient"]
+contribution = """
+Indirect and unquantified. The vessel temperature the speciation is solved at
+comes off the heat balance, and both one-molal rows already name the
+temperature at which phi was read as a known failure mode. How much of that
+is the heat capacity's own uncertainty cannot be stated while the record has
+none.
+"""
+
+[[registry_input]]
+record_id = "boiling-point/water"
+value = 373.15
+unit = "K"
+uncertainty = "unestablished"
+relative_width = 0.0
+basis = """
+NO UNCERTAINTY IS ESTABLISHED, and the reason is worth reading because it is
+not the same as the heat capacity's. `kerotakis/phase-transitions-v1` DID have
+a citation and it was WITHDRAWN on 2026-09-13, when the handbook it named
+turned out to sit on the provenance audit's commercial row. So this value is
+supported by a paragraph of editorial commentary and nothing else, and there
+is no source to read for a band because the source was deliberately given up.
+An uncertainty cannot be bought here until the value is re-sourced: this is
+the uncertainty programme blocked behind the sourcing programme, on the row
+where the dependency is clearest.
+"""
+reaches = ["boiling_point_elevation"]
+contribution = """
+Unquantified, and the open boiling row is where it would land. Worth noting
+for whoever closes that row: 373.15 K is 100 degrees Celsius exactly, which is
+a DEFINITION of the old temperature scale rather than a measurement of water,
+and the two stopped coinciding when ITS-90 replaced it. A row that compares a
+boiling point to a tenth of a kelvin should establish which of the two this
+number is before it sets a band.
+"""

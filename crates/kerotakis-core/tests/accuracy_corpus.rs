@@ -318,3 +318,91 @@ fn the_corpus_states_the_limits_of_its_own_score() {
         );
     }
 }
+
+/// A band argued against an input's uncertainty has to be arguing against the
+/// input the bench actually uses.
+///
+/// The `registry_input` rows added on 2026-09-15 are the first thing in this
+/// corpus that quotes a number out of
+/// `data/registry/registry-source-v1.json`, and a quoted number is a copy
+/// that can go stale. So every row is checked against the shipped registry:
+/// the record must exist, its value must match, and where the corpus claims
+/// an interval the registry must carry the same one. A row that says
+/// `unestablished` is checked just as hard in the other direction — if
+/// somebody gives that record a band and does not come back here, the corpus
+/// is understating what it can now argue, which is the quieter of the two
+/// failures and the one worth catching.
+#[test]
+fn every_declared_registry_input_still_matches_the_shipped_registry() {
+    let registry: serde_json::Value = serde_json::from_str(
+        &std::fs::read_to_string(
+            PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+                .join("../../data/registry/registry-source-v1.json"),
+        )
+        .expect("the shipped registry"),
+    )
+    .expect("the registry parses");
+    let records = registry["phase_thermodynamics"]
+        .as_array()
+        .expect("phase thermodynamics");
+
+    let root = corpus();
+    let inputs = root["registry_input"]
+        .as_array()
+        .expect("the declared registry inputs");
+    assert!(
+        !inputs.is_empty(),
+        "a family that declares no inputs has not looked at what its model \
+         bands rest on"
+    );
+
+    for input in inputs {
+        let id = input["record_id"].as_str().expect("a record_id");
+        let record = records
+            .iter()
+            .find(|record| record["id"].as_str() == Some(id))
+            .unwrap_or_else(|| panic!("`{id}` is not a record in the shipped registry"));
+        let value = input["value"].as_float().expect("a value");
+        let shipped = record["quantity"]["value"].as_f64().expect("a value");
+        assert!(
+            (value - shipped).abs() < 1e-9,
+            "`{id}` is {shipped} in the registry and {value} here"
+        );
+
+        let declared = input["uncertainty"].as_str().expect("an uncertainty");
+        let kind = record["quantity"]["uncertainty"]["kind"]
+            .as_str()
+            .expect("an uncertainty kind");
+        assert_eq!(
+            declared, kind,
+            "`{id}` carries `{kind}` in the registry and `{declared}` here"
+        );
+        assert!(
+            input
+                .get("basis")
+                .and_then(|v| v.as_str())
+                .is_some_and(|b| b.trim().len() > 120),
+            "`{id}` gives no account of where its band comes from, or of why \
+             it has none"
+        );
+        assert!(
+            input.get("contribution").and_then(|v| v.as_str()).is_some(),
+            "`{id}` does not say what it contributes to the bands below, and \
+             `nothing` is an answer worth writing down"
+        );
+
+        if kind == "interval" {
+            for bound in ["lower", "upper"] {
+                let declared = input[bound].as_float().expect("a bound");
+                let shipped = record["quantity"]["uncertainty"][bound]
+                    .as_f64()
+                    .expect("a bound");
+                assert!(
+                    (declared - shipped).abs() < 1e-9,
+                    "`{id}`'s {bound} bound is {shipped} in the registry and \
+                     {declared} here"
+                );
+            }
+        }
+    }
+}

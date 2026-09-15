@@ -58676,12 +58676,12 @@
           "notes": "single reviewed 25 °C point; no temperature dependence is inferred"
         },
         "uncertainty": {
-          "kind": "not_reported"
+          "kind": "unestablished"
         },
         "source_id": "literature/hartley-campbell-iodine-water",
         "method": {
-          "kind": "curated",
-          "detail": "0.3393 g/L converted exactly to 0.03393 g/100 mL"
+          "kind": "measured",
+          "detail": "THE CITED SOURCE IS THE MEASUREMENT. Hartley and Campbell (1908) determined the solubility of iodine in water and reported 0.3393 g per litre at 25 C; this registry carries that figure converted by an exact factor to 0.03393 g/100 mL. THE EXPERIMENT IS THEIRS AND NOT THIS PROJECT'S - this project operates no laboratory, and `measured` never claims otherwise; it says that `source_id` points at the experiment the number came out of rather than at a table the number was copied from. This record was `curated` until 2026-09-15, which described the conversion and said nothing about the origin, and it is the only record in the registry that can carry `measured` today. THE BAND IS A SEPARATE QUESTION AND STAYS OPEN: whether the printed paper quotes an uncertainty beside 0.3393 was never recorded and nobody has re-opened it, so the uncertainty is `unestablished` rather than `not_reported`. Identifying a source is cheap and reading what it says beside its number is a separate purchase - the distinction `validation/README.md` draws with its `transcription` field, and the same vocabulary is used here rather than a second one."
         }
       }
     },

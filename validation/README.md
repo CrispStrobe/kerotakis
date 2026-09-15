@@ -68,6 +68,40 @@ Six of the rows *are* asserted today, as ordinary tests in
 `kerotakis-phreeqc/tests/colligative_numbers.rs`, and CI runs those. What is
 not gated is the corpus **as a measure**.
 
+## What the model bands rest on (added 2026-09-15)
+
+`cases/colligative.toml` now carries `registry_input` rows: the registry
+records this family's model values are computed from, each with the
+uncertainty that record carries and what it contributes to the bands.
+
+The reason they could not be written on the day the corpus was is the reason
+they matter. A model band is a claim about how far the bench may sit from
+reality, and part of that distance is the uncertainty the bench's own inputs
+carry — but every numeric record in the registry reported no uncertainty at
+all, so that term could be named and never quantified. `PLAN.md`'s scoped
+task *Give numeric records an uncertainty* closed enough of that to write the
+term down, and the finding is reported in
+[`../docs/registry-uncertainty-and-measurement.md`](../docs/registry-uncertainty-and-measurement.md).
+
+Two things in those rows are worth reading before the numbers:
+
+- **The largest input in this family is not a registry record at all.** Both
+  cryoscopic rows run through water's enthalpy of fusion and both boiling
+  rows through its enthalpy of vaporisation, and those are Rust constants in
+  `states.rs` with no record in the registry — so they cannot carry an
+  uncertainty in the schema that has one, and the corpus does not pretend
+  they do. `WATER_H_VAP` is additionally the one whose own comment says no
+  source is claimed for it.
+- **The inputs that *are* bounded turn out not to move the bands**, by a
+  factor of roughly five hundred. That is the useful answer rather than a
+  disappointing one: it says each row's band is set by the rounding and
+  routing arguments it already makes, which those arguments had assumed
+  without being able to show it.
+
+`kerotakis-core/tests/accuracy_corpus.rs` checks every declared input against
+the shipped registry — value and band — so a number that moves there and not
+here fails rather than drifting.
+
 ## Two fields this repository has not had before
 
 **`transcription`** — whether anyone actually read the number off the

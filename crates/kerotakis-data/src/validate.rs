@@ -1270,7 +1270,7 @@ impl<'a> Validator<'a> {
 
     fn uncertainty(&mut self, path: &str, record: &NumericRecord) {
         match &record.uncertainty {
-            Uncertainty::Exact | Uncertainty::NotReported => {}
+            Uncertainty::Exact | Uncertainty::Unestablished | Uncertainty::NotReported => {}
             Uncertainty::Absolute { plus_minus } => {
                 if !plus_minus.is_finite() || *plus_minus < 0.0 {
                     self.issue(

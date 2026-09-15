@@ -24,6 +24,102 @@ use kerotakis_data::{
 };
 
 const IMPORT_METHOD: &str = "verbatim export from kerotakis_core::species::REGISTRY";
+
+/// IUPAC/CIAAW 2021 standard atomic weights, written as the interval each
+/// entry actually is.
+///
+/// Every species citation in this registry that carries a molar mass says
+/// the same thing — "M from IUPAC/CIAAW 2021 atomic weights" — and until
+/// 2026-09-15 not one of those records said what that implied about its own
+/// precision. It implies something specific and published. For an element
+/// whose isotopic composition varies measurably between normal terrestrial
+/// materials, CIAAW does not publish a value with an error bar at all: it
+/// publishes an INTERVAL, and the number everyone quotes is a conventional
+/// representative of it. Hydrogen, carbon, oxygen and chlorine are four such
+/// elements. Sodium is mononuclidic and gets a value with a stated
+/// uncertainty instead — 22.98976928(2) — written here as the interval that
+/// uncertainty describes, so one propagation rule covers both without
+/// pretending the two are the same kind of claim.
+///
+/// THIS TABLE IS THE UNIT OF PURCHASE. Five rows are here because they are
+/// the elements the colligative family needs: H, C and O for water and
+/// sucrose, Na and Cl for the brine. The reach of the pass is then whatever
+/// those five rows happen to cover, and that is MEASURED in
+/// `docs/registry-uncertainty-and-measurement.md` rather than estimated.
+/// Adding an element is one row, and the schema validator checks every molar
+/// mass the new row reaches, so extending this table cannot quietly attach a
+/// band that excludes the value it is attached to.
+///
+/// `(element, lower, upper)` in g/mol.
+const ATOMIC_WEIGHT_INTERVALS: &[(&str, f64, f64)] = &[
+    ("C", 12.0096, 12.0116),
+    ("Cl", 35.446, 35.457),
+    ("H", 1.00784, 1.00811),
+    ("Na", 22.989_769_26, 22.989_769_30),
+    ("O", 15.999_03, 15.999_77),
+];
+
+/// Molar mass of an electron, g/mol. CODATA knows it to a relative 1e-10,
+/// which is far below anything the table above resolves, so it enters as a
+/// constant rather than as a sixth interval.
+const ELECTRON_MOLAR_MASS: f64 = 0.000_548_579_909;
+
+/// What a molar mass with a propagated interval claims about itself.
+const MOLAR_MASS_METHOD: &str = "sum of the IUPAC/CIAAW 2021 standard atomic weights over the formula unit. The interval is CIAAW's own - the isotopic variation of normal terrestrial materials, which is a spread across real samples rather than an error in anybody's measurement - propagated through the same sum by interval arithmetic and not in quadrature, and widened by one electron mass per unit of charge because this registry stores the formula sum rather than the ion mass. NOTHING HERE IS MEASURED AND NOTHING MEASURED IS CLAIMED: the atomic weights are measured, by CIAAW's cited evaluations and not by this project, and the sum is arithmetic. The validator requires the value to lie inside the interval, so this record is checked by the claim it carries";
+
+/// Molar masses this pass deliberately does NOT give a propagated interval,
+/// and why.
+///
+/// A skip here is DECLARED rather than silent. `molar_mass_interval` refuses
+/// to attach an interval that excludes its own value and refuses just as
+/// firmly to widen one until it fits, so a value outside its own derivation
+/// fails the export unless it is named below. That is the point: the
+/// propagation is a check as well as a claim, and these five rows are what
+/// the check found on the day it was written.
+///
+/// None of them is repaired here. Sourcing a number and changing one are
+/// separate decisions — the rule this registry already applies to the
+/// dissolution tranche's KMnO4 and NaHCO3 rows — and rounding 34.01 up to
+/// 34.0147 would be the second decision taken quietly under cover of the
+/// first.
+const MOLAR_MASS_INTERVAL_DECLINED: &[(&str, &str)] = &[
+    (
+        "H2O2",
+        "34.01 against a propagated [34.013740, 34.015760]. Quoted to four \
+         significant figures where the derivation carries six, so the stored \
+         value sits 0.0037 g/mol BELOW the lowest molar mass hydrogen \
+         peroxide can have. Not a typo and not a different substance: a \
+         rounding coarser than the quantity it rounds, which is exactly what \
+         a propagated interval is good at finding and exactly what a record \
+         cannot claim a band for.",
+    ),
+    (
+        "O2",
+        "31.998 against [31.998060, 31.999540]. The same finding as H2O2 and \
+         six times smaller: 6e-5 g/mol below the interval, a fifth of the \
+         last digit quoted.",
+    ),
+    (
+        "Na+",
+        "22.99 against [22.989220, 22.989770]. The same finding again, in \
+         the other direction, and the sharpest case because sodium is \
+         mononuclidic: CIAAW knows its atomic weight to 2e-8, so the interval \
+         here is almost entirely the electron allowance, and 22.99 is two \
+         decimal places where the derivation supports seven.",
+    ),
+    (
+        "catalase",
+        "240000 g/mol against a formula of `C`. The formula is a placeholder \
+         for a protein this bench counts but does not build, so the molar \
+         mass is the protein's and the formula is not its derivation. No \
+         interval propagated from a single carbon says anything about it.",
+    ),
+    (
+        "amylase",
+        "55000 g/mol against a formula of `C`. As catalase: a placeholder \
+         formula, and a molar mass that does not come from it.",
+    ),
+];
 const LEGACY_LICENCE: &str = "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required";
 const ISOPROPANOL_SOURCE: &str = "us-federal/isopropanol-chris";
 const ISOPROPANOL_CITATION: &str = "PubChem CID 3776 identity crosswalk plus U.S. Coast Guard CHRIS isopropanol liquid density (0.785 at 68 F) and liquid heat capacity (0.605 BTU/lb-F at 70 F); molar heat capacity converted to SI; retrieved 2026-08-27";
@@ -459,8 +555,119 @@ pub fn export_current_registry() -> Result<RegistryDocument, String> {
         .extend(reviewed.sources.into_iter().filter(|source| {
             source.id == BASIS || REVIEWED_PARAMETER_SOURCES.contains(&source.id.as_str())
         }));
+    // LAST, deliberately: after the reviewed overlay rather than inside the
+    // per-species export. Nine molar masses arrive from the aqueous basis
+    // and would otherwise be rebuilt and thrown away, and a pass that runs
+    // over the finished document gives every molar mass the same treatment
+    // however it got here.
+    apply_molar_mass_intervals(&mut document)?;
     document.validate().map_err(|error| error.to_string())?;
     Ok(document)
+}
+
+/// Give every molar mass the interval its own derivation implies, where the
+/// atomic-weight table reaches it.
+///
+/// This is the first uncertainty in the registry that is neither `exact` nor
+/// absent, and it is the shape a registry uncertainty should be: computed
+/// from a published band by a stated rule, checked against the value it is
+/// attached to, and extended by adding a row to a table rather than by
+/// typing numbers into records.
+fn apply_molar_mass_intervals(document: &mut RegistryDocument) -> Result<(), String> {
+    let compositions: BTreeMap<String, (BTreeMap<String, f64>, f64)> = document
+        .compositions
+        .iter()
+        .map(|record| {
+            (
+                record.species_id.clone(),
+                (
+                    record
+                        .elements
+                        .iter()
+                        .map(|amount| (amount.element.clone(), amount.count.value))
+                        .collect(),
+                    record.net_charge.value,
+                ),
+            )
+        })
+        .collect();
+    for record in document
+        .phase_thermodynamics
+        .iter_mut()
+        .filter(|record| record.property == PhaseProperty::MolarMass)
+    {
+        let Some((counts, charge)) = compositions.get(&record.species_id) else {
+            continue;
+        };
+        let Some((lower, upper)) =
+            molar_mass_interval(&record.species_id, counts, *charge, record.quantity.value)?
+        else {
+            continue;
+        };
+        record.quantity.uncertainty = Uncertainty::Interval { lower, upper };
+        // Replace ONLY the blanket export stamp. A record that already
+        // carries a reviewed derivation - the nine aqueous-basis masses say
+        // which arithmetic produced them - knows something this pass does
+        // not, and trading a specific claim for a general one would be a
+        // loss even though the general one is true.
+        if record.quantity.method == Method::Imported(IMPORT_METHOD.to_string()) {
+            record.quantity.method = Method::Derived(MOLAR_MASS_METHOD.to_string());
+        }
+    }
+    Ok(())
+}
+
+/// The interval a formula unit's molar mass lies in, or `None` where nothing
+/// can be said.
+///
+/// `None` means the atomic-weight table does not reach this formula, or the
+/// species is named in [`MOLAR_MASS_INTERVAL_DECLINED`]. An `Err` means the
+/// value lies outside its own derivation and nobody has said so yet, which
+/// is a finding and must not be absorbed silently.
+fn molar_mass_interval(
+    key: &str,
+    counts: &BTreeMap<String, f64>,
+    charge: f64,
+    value: f64,
+) -> Result<Option<(f64, f64)>, String> {
+    if counts.is_empty() {
+        return Ok(None);
+    }
+    let mut lower = 0.0_f64;
+    let mut upper = 0.0_f64;
+    for (element, count) in counts {
+        let Some((_, element_lower, element_upper)) = ATOMIC_WEIGHT_INTERVALS
+            .iter()
+            .find(|(symbol, _, _)| symbol == element)
+        else {
+            return Ok(None);
+        };
+        lower += element_lower * count;
+        upper += element_upper * count;
+    }
+    // An ion's molar mass differs from the sum of its neutral atoms by the
+    // electrons it gained or lost, and this registry does not carry them: it
+    // stores the formula sum, so that a dissociation closes its mass balance
+    // exactly. H2O -> H+ + OH- is 1.008 + 17.007 = 18.015 on that convention
+    // and misses by 2e-4 on the physical one. Both readings are defensible
+    // and a molar mass record should not have to pick between them, so the
+    // band is widened to hold both rather than asserting either.
+    lower -= charge.max(0.0) * ELECTRON_MOLAR_MASS;
+    upper += (-charge).max(0.0) * ELECTRON_MOLAR_MASS;
+    // Quote no finer than the table is quoted, and round OUTWARD: flooring
+    // the lower bound and ceiling the upper one can only ever weaken the
+    // claim, which is the safe direction for a band to be wrong in.
+    let lower = (lower * 1e6).floor() / 1e6;
+    let upper = (upper * 1e6).ceil() / 1e6;
+    if value < lower || value > upper {
+        if MOLAR_MASS_INTERVAL_DECLINED.iter().any(|(k, _)| *k == key) {
+            return Ok(None);
+        }
+        return Err(format!(
+            "{key}: molar mass {value} lies outside [{lower}, {upper}], the              interval propagated from CIAAW 2021 atomic weights over its own              formula. Either the value is quoted more coarsely than its              derivation supports or it is wrong, and this pass will do              neither of the two things that would hide it: it will not widen              the band until the value fits, and it will not change the value.              Add a row to MOLAR_MASS_INTERVAL_DECLINED saying which it is."
+        ));
+    }
+    Ok(Some((lower, upper)))
 }
 
 fn export_material_recipes(document: &mut RegistryDocument) {
@@ -498,7 +705,7 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             dimension: Dimension::MassDensity,
         },
         conditions: Applicability::default(),
-        uncertainty: Uncertainty::NotReported,
+        uncertainty: Uncertainty::Unestablished,
         source_id: SOURCE.to_string(),
         method: Method::Editorial("room-temperature teaching-surrogate density".to_string()),
     };
@@ -5443,7 +5650,7 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
                             notes: t.boundary.map(str::to_string),
                             ..Applicability::default()
                         },
-                        uncertainty: Uncertainty::NotReported,
+                        uncertainty: Uncertainty::Unestablished,
                         source_id: PHASE_TRANSITION_SOURCE.to_string(),
                         method: Method::Curated(
                             "EXP-33 curated transition tranche; value corroborated against \
@@ -5476,7 +5683,7 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
                             .map(|(_, note)| (*note).to_string()),
                         ..Applicability::default()
                     },
-                    uncertainty: Uncertainty::NotReported,
+                    uncertainty: Uncertainty::Unestablished,
                     source_id: DISSOLUTION_SOURCE.to_string(),
                     method: Method::Curated(DISSOLUTION_METHOD.to_string()),
                 },
@@ -5513,7 +5720,7 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
                         notes: Some((*note).to_string()),
                         ..Applicability::default()
                     },
-                    uncertainty: Uncertainty::NotReported,
+                    uncertainty: Uncertainty::Unestablished,
                     source_id: RESISTIVITY_SOURCE.to_string(),
                     method: Method::Curated(RESISTIVITY_METHOD.to_string()),
                 },
@@ -5675,7 +5882,7 @@ fn imported_number(
             phase: Some(phase),
             ..Applicability::default()
         },
-        uncertainty: Uncertainty::NotReported,
+        uncertainty: Uncertainty::Unestablished,
         source_id: source_id.to_string(),
         method: Method::Imported(IMPORT_METHOD.to_string()),
     }

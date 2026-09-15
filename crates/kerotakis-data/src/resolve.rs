@@ -15,7 +15,9 @@ use crate::{
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, serde::Serialize)]
 #[serde(rename_all = "snake_case")]
 pub enum Rung {
-    /// Direct laboratory measurement.
+    /// THE CITED SOURCE IS THE MEASUREMENT. Never a measurement made by
+    /// this project, which operates no laboratory; see [`crate::Method`],
+    /// which this rung is read from and which carries the full wording.
     Measured = 0,
     /// Computed from first principles or calibrated model.
     Calculated = 1,

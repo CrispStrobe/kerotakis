@@ -22,6 +22,37 @@ const IMPORT_METHOD: &str = "verbatim export from kerotakis_core::species::REGIS
 /// doping this bench cannot make.
 const RESISTIVITY_KEYS: &[&str] = &["Ag", "Al", "Cu", "Fe", "Mg", "Zn", "graphite"];
 
+/// The elements the exporter's `ATOMIC_WEIGHT_INTERVALS` table covers,
+/// written out here rather than read from it, for the reason
+/// `RESISTIVITY_KEYS` gives: a test that derives its expectation from the
+/// code under test agrees with that code however wrong it is.
+const ATOMIC_WEIGHT_ELEMENTS: &[&str] = &["C", "Cl", "H", "Na", "O"];
+
+/// The five molar masses that lie outside the interval their own formula
+/// implies, so the exporter declines to give them one.
+///
+/// Each is a finding rather than a tidying job, and
+/// `docs/registry-uncertainty-and-measurement.md` says which kind: three are
+/// values quoted more coarsely than their derivation supports, and two are
+/// placeholder formulas standing in for proteins whose molar mass does not
+/// come from a formula at all.
+const MOLAR_MASS_OUTSIDE_ITS_OWN_DERIVATION: &[&str] =
+    &["H2O2", "Na+", "O2", "amylase", "catalase"];
+
+/// How many molar masses the five-element table actually reaches. Written
+/// down so that widening the table, or changing a formula, moves a number a
+/// reader can see rather than moving silently.
+const MOLAR_MASSES_WITH_A_BAND: usize = 66;
+
+fn reaches_the_atomic_weight_table(species: &SpeciesData) -> bool {
+    let formula = parse_formula(species.formula).expect("formula parses");
+    !formula.counts.is_empty()
+        && formula
+            .counts
+            .keys()
+            .all(|element| ATOMIC_WEIGHT_ELEMENTS.contains(&element.as_str()))
+}
+
 #[test]
 fn checked_in_source_document_is_current_byte_for_byte() {
     let mut generated =
@@ -463,7 +494,7 @@ fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
             assert_eq!(record.quantity.unit.symbol, "kJ/mol");
             assert_eq!(record.quantity.unit.dimension, Dimension::MolarEnergy);
             assert_eq!(record.quantity.conditions.phase, Some(phase));
-            assert_eq!(record.quantity.uncertainty, Uncertainty::NotReported);
+            assert_eq!(record.quantity.uncertainty, Uncertainty::Unestablished);
             assert_eq!(
                 record.quantity.source_id, "kerotakis/dissolution-enthalpies-v1",
                 "{} dissolution enthalpy must cite its own tranche",
@@ -521,7 +552,7 @@ fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
                 record.quantity.unit.dimension,
                 Dimension::Other("electrical_resistivity".to_string())
             );
-            assert_eq!(record.quantity.uncertainty, Uncertainty::NotReported);
+            assert_eq!(record.quantity.uncertainty, Uncertainty::Unestablished);
             assert_eq!(
                 record.quantity.source_id, "kerotakis/electrical-resistivity-v1",
                 "{} resistivity must cite its own tranche",
@@ -576,6 +607,45 @@ fn assert_property(
         .find(|record| record.species_id == species.key && record.property == property)
         .unwrap_or_else(|| panic!("missing {property:?} for {}", species.key));
     assert_eq!(record.phase, phase, "{} {property:?} phase", species.key);
+    if property == PhaseProperty::MolarMass {
+        // A molar mass no longer carries the blanket import stamp where the
+        // atomic-weight table reaches it, so the generic imported-quantity
+        // shape below does not describe it. What every molar mass must
+        // still satisfy is here; the reach itself is asserted separately,
+        // against a hand-written expectation.
+        assert_eq!(record.quantity.value, value, "{} molar mass", species.key);
+        match &record.quantity.uncertainty {
+            Uncertainty::Interval { lower, upper } => {
+                assert!(
+                    lower <= &value && &value <= upper,
+                    "{} molar mass {value} outside its own band [{lower}, {upper}]",
+                    species.key
+                );
+                assert!(
+                    matches!(record.quantity.method, Method::Derived(_)),
+                    "{} carries a propagated interval, so its method must say \
+                     what derived it",
+                    species.key
+                );
+                assert!(
+                    reaches_the_atomic_weight_table(species)
+                        && !MOLAR_MASS_OUTSIDE_ITS_OWN_DERIVATION.contains(&species.key),
+                    "{} carries a band the atomic-weight table cannot have \
+                     produced",
+                    species.key
+                );
+            }
+            Uncertainty::Unestablished => assert!(
+                !reaches_the_atomic_weight_table(species)
+                    || MOLAR_MASS_OUTSIDE_ITS_OWN_DERIVATION.contains(&species.key),
+                "{} is reachable by the atomic-weight table and is not a \
+                 declared finding, so it must carry a band",
+                species.key
+            ),
+            other => panic!("{} molar mass has uncertainty {other:?}", species.key),
+        }
+        return;
+    }
     if species.key == "OH-" && property == PhaseProperty::MolarMass {
         assert_eq!(record.quantity.value, 17.007);
         assert_eq!(record.quantity.value, value);
@@ -686,9 +756,15 @@ fn compare_model_parameters(
                     .as_ref()
                     .expect("reviewed iodine solubility states its temperature");
                 assert_eq!((temperature.lower, temperature.upper), (298.15, 298.15));
-                assert_eq!(solubility.quantity.uncertainty, Uncertainty::NotReported);
+                // The one record in 1917 whose source IS the experiment.
+                // `measured` is a claim about Hartley and Campbell, not
+                // about this project, and the band stays open because
+                // nobody has read their paper for one - which is why this
+                // assertion pairs `Measured` with `Unestablished` rather
+                // than with `NotReported`.
+                assert_eq!(solubility.quantity.uncertainty, Uncertainty::Unestablished);
                 assert_eq!(solubility.quantity.source_id, IODINE_WATER_SOURCE);
-                assert!(matches!(solubility.quantity.method, Method::Curated(_)));
+                assert!(matches!(solubility.quantity.method, Method::Measured(_)));
             } else {
                 assert_imported_quantity(
                     &solubility.quantity,
@@ -777,7 +853,7 @@ fn assert_imported_quantity(
     assert_eq!(quantity.unit.symbol, symbol);
     assert_eq!(quantity.unit.dimension, dimension);
     assert_eq!(quantity.conditions.phase, Some(phase));
-    assert_eq!(quantity.uncertainty, Uncertainty::NotReported);
+    assert_eq!(quantity.uncertainty, Uncertainty::Unestablished);
     assert_eq!(quantity.source_id, source_id);
     assert_eq!(quantity.method, Method::Imported(IMPORT_METHOD.to_string()));
 }
@@ -887,4 +963,118 @@ fn phase(value: LegacyPhase) -> Phase {
 
 fn rgb_hex(colour: Colour) -> String {
     format!("#{:02X}{:02X}{:02X}", colour.r, colour.g, colour.b)
+}
+
+/// The reach of the atomic-weight table, as a number rather than as a
+/// description.
+///
+/// The count is written down in `MOLAR_MASSES_WITH_A_BAND` and in
+/// `docs/registry-uncertainty-and-measurement.md`, and it is the honest
+/// answer to "how far does this pattern go": five element rows reach 66 of
+/// the registry's 186 molar masses, and the remaining 120 are waiting on
+/// twenty-one more rows and five decisions. A reader who widens the table
+/// moves this number deliberately.
+#[test]
+fn the_atomic_weight_table_reaches_the_molar_masses_it_is_said_to_reach() {
+    let document = export_current_registry().expect("export current registry");
+    let masses: Vec<_> = document
+        .phase_thermodynamics
+        .iter()
+        .filter(|record| record.property == PhaseProperty::MolarMass)
+        .collect();
+    assert_eq!(masses.len(), 186, "one molar mass per species");
+    let with_band = masses
+        .iter()
+        .filter(|record| matches!(record.quantity.uncertainty, Uncertainty::Interval { .. }))
+        .count();
+    assert_eq!(
+        with_band, MOLAR_MASSES_WITH_A_BAND,
+        "the five-element atomic-weight table reaches a different number of \
+         molar masses than the report says it does"
+    );
+
+    // The three the colligative family runs on, with the bands written out
+    // rather than recomputed here.
+    for (key, lower, upper) in [
+        ("water", 18.014_71, 18.015_99),
+        ("NaCl", 58.435_769, 58.446_77),
+        ("sucrose", 342.277_01, 342.315_09),
+    ] {
+        let record = masses
+            .iter()
+            .find(|record| record.species_id == key)
+            .unwrap_or_else(|| panic!("no molar mass for {key}"));
+        let Uncertainty::Interval {
+            lower: got_lower,
+            upper: got_upper,
+        } = record.quantity.uncertainty
+        else {
+            panic!("{key} molar mass carries no interval");
+        };
+        assert!(
+            (got_lower - lower).abs() < 1e-9 && (got_upper - upper).abs() < 1e-9,
+            "{key} band is [{got_lower}, {got_upper}], expected [{lower}, {upper}]"
+        );
+        assert!(got_lower <= record.quantity.value && record.quantity.value <= got_upper);
+    }
+}
+
+/// `measured` is no longer empty, and it is empty of everything else.
+///
+/// One record in the registry has a source that is itself the experiment.
+/// Asserting the count keeps two opposite mistakes visible: a second record
+/// quietly claiming a measurement it cannot support, and this one losing the
+/// claim in a regeneration.
+#[test]
+fn exactly_one_record_claims_its_source_is_the_measurement() {
+    let document = export_current_registry().expect("export current registry");
+    let measured: Vec<&str> = document
+        .model_parameters
+        .iter()
+        .map(|record| (&record.quantity, record.id.as_str()))
+        .chain(
+            document
+                .phase_thermodynamics
+                .iter()
+                .map(|record| (&record.quantity, record.id.as_str())),
+        )
+        .filter(|(quantity, _)| matches!(quantity.method, Method::Measured(_)))
+        .map(|(_, id)| id)
+        .collect();
+    assert_eq!(
+        measured,
+        vec!["aqueous-solubility/I2"],
+        "the registry's only measured record is the iodine solubility \
+         Hartley and Campbell determined in 1908"
+    );
+}
+
+/// No record claims a source said something about a band that nobody read.
+///
+/// `NotReported` is a finding — "the source was read and quotes none" — and
+/// as of 2026-09-15 the registry has not bought a single one. It held 1093
+/// before the distinction existed, which is the defect this pass closes. The
+/// day a source is read for a band, this assertion is the thing to change,
+/// deliberately and with the reading in hand.
+#[test]
+fn no_record_yet_claims_a_source_was_read_and_quoted_no_band() {
+    let document = export_current_registry().expect("export current registry");
+    let claimed: Vec<&str> = document
+        .phase_thermodynamics
+        .iter()
+        .map(|record| (&record.quantity, record.id.as_str()))
+        .chain(
+            document
+                .model_parameters
+                .iter()
+                .map(|record| (&record.quantity, record.id.as_str())),
+        )
+        .filter(|(quantity, _)| quantity.uncertainty == Uncertainty::NotReported)
+        .map(|(_, id)| id)
+        .collect();
+    assert!(
+        claimed.is_empty(),
+        "these records say their source was read and quotes no uncertainty, \
+         and no source in this registry has been read for one: {claimed:?}"
+    );
 }
