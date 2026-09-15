@@ -1024,20 +1024,88 @@ pub struct Interval {
     pub unit: Unit,
 }
 
-/// Explicit uncertainty, including the honest states "exact by definition"
-/// and "the source did not report one".
+/// Explicit uncertainty, including the honest states "exact by definition",
+/// "nobody has established one" and "the source was read and quotes none".
+///
+/// THE LAST TWO WERE ONE STATE UNTIL 2026-09-15, and collapsing them made
+/// the field unreadable. `NotReported` was documented as "the source did not
+/// report one" and was simultaneously the blanket default the registry
+/// export stamped on every legacy value, so 1093 records asserted something
+/// about sources nobody had opened. A reader could not tell a source that
+/// quotes a bare number from a number nobody had looked into, which are
+/// different claims with different costs to close: one is a reading, the
+/// other is a re-sourcing.
+///
+/// `Unestablished` now carries the absence and is the default.
+/// `NotReported` is a FINDING, reached only by reading a source.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "kind", rename_all = "snake_case")]
 pub enum Uncertainty {
+    /// Exact by definition or by construction: a stoichiometric count, a
+    /// net charge, a boolean model switch, an exact unit conversion.
     Exact,
+    /// NOBODY HAS ESTABLISHED AN UNCERTAINTY FOR THIS VALUE. Not a claim
+    /// about the source: the absence of one.
+    ///
+    /// It deliberately does not separate "the source has not been read for
+    /// a band" from "no source is identified that could be read", because
+    /// the citation already separates them and
+    /// `docs/registry-unattributed-census.md` has counted them. What it
+    /// does separate is both of those from [`Uncertainty::NotReported`],
+    /// which is a statement about a source somebody opened.
+    Unestablished,
+    /// THE SOURCE WAS READ AND QUOTES NO UNCERTAINTY. A statement about the
+    /// source, and the reason a record may honestly carry no band without
+    /// that being a gap.
+    ///
+    /// Much of the older literature this bench cites quotes a number and
+    /// nothing else. Turning the last quoted digit into a band would invent
+    /// a precision the source never claimed — the number of digits somebody
+    /// typed is a fact about the typist, not about the measurement — so the
+    /// record says the source is silent instead of guessing on its behalf.
     NotReported,
+    /// A symmetric band the source states, in the record's own unit.
     Absolute { plus_minus: f64 },
+    /// A band the source states as a fraction of the value.
     Relative { fraction: f64 },
+    /// A RANGE THE VALUE IS KNOWN TO LIE IN, which is not the same shape as
+    /// a plus-or-minus band and must not be collapsed into one.
+    ///
+    /// CIAAW publishes the standard atomic weight of several elements as
+    /// exactly this: an interval over the isotopic composition of normal
+    /// terrestrial materials. That is a spread across real samples rather
+    /// than an error in anyone's measurement, so it propagates through a
+    /// sum by interval arithmetic and NOT in quadrature; adding two such
+    /// intervals in quadrature would narrow a range that is not narrow.
+    ///
+    /// The validator requires the record's own value to lie inside, which
+    /// makes a propagated interval a check on the value as well as a claim
+    /// about it.
     Interval { lower: f64, upper: f64 },
 }
 
-/// How the value entered the registry. Free text is required inside every
-/// variant so "calculated" cannot hide which model or transformation was used.
+/// HOW THE VALUE CAME TO EXIST — not how it reached this file. Free text is
+/// required inside every variant so "calculated" cannot hide which model or
+/// transformation was used.
+///
+/// That distinction is the whole reason [`Method::Measured`] was empty until
+/// 2026-09-15. The registry export stamped
+/// `Imported("verbatim export from kerotakis_core::species::REGISTRY")` on
+/// 852 records, which answers a different question: it describes the export
+/// step. No export measures anything, so under that reading no record could
+/// ever be `Measured`, and the registry could not distinguish a number
+/// somebody measured from a number somebody assumed.
+///
+/// [`Method::Measured`] MEANS THE CITED SOURCE IS THE MEASUREMENT: the
+/// record's `source_id` points at the experiment the number came out of. It
+/// never means this project measured anything — this project operates no
+/// laboratory, and a reader will otherwise take the field as the stronger
+/// claim. Whether anybody here has checked the number against that source's
+/// own printed table is a SEPARATE question, and it is recorded in words in
+/// the detail, in the vocabulary the accuracy corpus already uses for it
+/// (`validation/README.md`, the `transcription` field): identifying a source
+/// is cheap, verifying a transcription is a separate purchase. There is no
+/// second vocabulary for that distinction.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(tag = "kind", content = "detail", rename_all = "snake_case")]
 pub enum Method {

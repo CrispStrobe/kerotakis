@@ -2778,13 +2778,129 @@ started. They are ordered by what they unblock, not by size.
       to count and report these and to bind the requirement to new records only,
       so a sweep would reverse a decision rather than serve it. This is the
       measurement that says whether a sweep is ever worth buying.
-- [ ] **Give numeric records an uncertainty, and mark which are measured.** Of
-      1917 registry numeric records, 1093 report no uncertainty at all, none
-      carries an absolute, relative or interval form, and **not one is marked
-      `measured`**. This ranks above tidying citations: a tolerance in the
-      accuracy corpus has to know what uncertainty a value carries, so the
-      corpus cannot argue a band without it. Start with the quantities the
-      colligative family already cites, since those have sources in hand.
+- [x] **Give numeric records an uncertainty, and mark which are measured.
+      DONE 2026-09-15**, on `feat/registry-uncertainty`, reported in
+      **[docs/registry-uncertainty-and-measurement.md](docs/registry-uncertainty-and-measurement.md)**.
+      66 molar masses gained a propagated CIAAW interval, 1 record is marked
+      `measured`, and NO VALUE WAS CHANGED.
+      **`measured` was empty because nobody filled it, and more precisely
+      because the field was filled with the answer to a different question**:
+      `method` was read as "how the value entered the registry", so 852 records
+      carry `Imported("verbatim export from ... REGISTRY")`, which describes
+      the export step. No export measures anything, so under that reading no
+      record could ever be `measured`. It now records how the value CAME TO
+      EXIST, and `measured` means the CITED SOURCE is the experiment — never
+      this project, which operates no laboratory.
+      **`not_reported` was doing two jobs and could do neither.** It was
+      documented as "the source did not report one" and was simultaneously the
+      blanket default on 1093 records whose sources nobody had opened. A new
+      `unestablished` carries the absence and is the default; `not_reported`
+      is now a finding, reached by reading a source, and the registry has
+      bought none — which a test asserts, so the first one is bought
+      deliberately.
+      **A derived quantity does inherit, but the propagation rule depends on
+      what the input band is.** CIAAW publishes several elements as an
+      INTERVAL over natural isotopic variation rather than a value with an
+      error bar, so a molar mass inherits an interval by interval arithmetic
+      and NOT in quadrature; the band is widened by one electron mass per unit
+      of charge because this registry stores the formula sum so a dissociation
+      closes its mass balance exactly.
+      **The propagation is a check as well as a claim** — the validator already
+      refuses an interval that excludes its own value — and it found five molar
+      masses that fail: `H2O2`, `O2` and `Na+` are quoted more coarsely than
+      their derivations support, and `catalase` and `amylase` carry placeholder
+      formulas. All five are left as they stand and named in a declined table.
+      **The pass found something the band itself did not: the bench does not
+      read the record the band is attached to.** The colligative path never
+      asks the registry for water's molar mass; it carries its own copy as a
+      Rust literal in thirteen places across seven files and in three
+      spellings, and `constants.rs`'s 18.01528 disagrees with `states.rs`'s
+      0.018015 at 1.6 ppm. Both lie INSIDE the propagated interval, which is
+      what makes the disagreement legible as two representatives of one
+      published range rather than as a typo. Written up as its own follow-up
+      below.
+      **Reach and cost:** five element rows reach 66 of 186 molar masses;
+      twenty-one more rows reach the rest, an afternoon plus however many more
+      coarsely-quoted values they turn up. Beyond molar mass there is no table:
+      roughly 228 records are declared non-claims that should stay non-claims,
+      and the ~120 with no checkable source cannot be given a band at all until
+      they are re-sourced. **The uncertainty programme is blocked behind the
+      sourcing programme there**, and `boiling-point/water` is the clearest
+      case — its citation was withdrawn on 2026-09-13, so there is no source to
+      read.
+- [ ] **The two water enthalpies have no registry record, and they are the only
+      colligative inputs big enough to move a band.** Found 2026-09-15 in the
+      same pass. `WATER_H_FUS` and `WATER_H_VAP` in `states.rs` are Rust
+      constants with NO record in `data/registry/registry-source-v1.json` at
+      all, so they cannot carry an uncertainty in the schema that has one, and
+      the accuracy corpus records them as unbounded rather than pretending.
+      The size is the argument: the bench computes
+      `1/T_f = 1/T_f - (R/dH_fus)*ln a_w`, so the depression goes as `1/dH`, and
+      a ONE PER CENT uncertainty in the enthalpy is 3.5 mK on the tenth-molal
+      row against its 4 mK model band (88 %) and 34 mK on the one-molal row
+      against its 60 mK band (57 %). The molar mass, which now HAS a band,
+      would contribute 0.2 % and 0.6 %. **So the priority the bounded numbers
+      suggest is inverted**: giving these two a record is worth more to the
+      corpus than the remaining twenty-one rows of the atomic-weight table.
+      `WATER_H_FUS` is the cheap half — it is already derived from the vendored
+      `vendor/nasa-cea/thermo.inp` and `kerotakis-cea` re-derives it on every
+      run, so it needs a record and a source, not a search. `WATER_H_VAP` is
+      the expensive half and its own comment says why: no source is claimed for
+      it, NASA CEA was checked and rejected because its gas records are
+      ideal-gas and the 228 J/mol gap is steam's non-ideality, and restoring
+      support needs a primary measurement with a DOI.
+- [ ] **Water's molar mass is eleven literals and no reader of the registry.**
+      Found 2026-09-15 while giving the registry uncertainties, and it is the
+      reason those bands are claims about the registry rather than about the
+      bench. `states.rs` has `WATER_MOLAR_MASS_KG = 0.018_015`, `aqueous.rs`
+      and `displacement.rs` have `18.015`, `solve.rs`, `particles.rs` and
+      `sweep.rs` inline `0.018_015` six times between them, `constants.rs` has
+      `WATER_MOLAR_MASS = 18.015_28` commented "IUPAC 2021 atomic weights", and
+      `bench.rs` falls back to 18.01528 where a registry lookup misses. None
+      reads `molar-mass/water`. `states.rs`'s own comment says "M_w is the
+      registry's own molar mass of water" beside its private copy of it.
+      THE TWO SPELLINGS ARE NOT A TYPO: 18.015 and 18.01528 both lie inside the
+      CIAAW interval [18.01471, 18.01599], so they are two conventional
+      representatives of one published range, and the interval is what makes
+      that readable. This is the shape the native-versus-wasm split already
+      cost this project once — one quantity, two derivations, nothing keeping
+      them equal. **The width is not the reason to fix it**: wiring the record
+      in moves no band in the accuracy corpus, by a factor of roughly two
+      hundred. The reason is that a value with a band nobody reads is a band
+      nobody can spend, and the corpus now has to carry a `wired = false` field
+      to say so.
+- [ ] **66 shipped uncertainty bands rest on `ciaaw`, whose verdict is
+      `decision-required` — and they narrow the argument that row stands on.**
+      Written 2026-09-15, revised the same day after #607 landed the row this
+      item was originally opened to ask for. THE ROW EXISTS NOW AND IS BETTER
+      THAN THIS ITEM WAS: it records a real grant for educational use that
+      stops short of commercial use, and three open questions nobody has
+      asked. Nothing here disputes it. What it needs is one correction of
+      fact, because the uncertainty pass landed the same day and changed the
+      thing the row's own reasoning leans on.
+      That reasoning says the question may not arise at all, "since a standard
+      atomic weight is an evaluated MEASUREMENT and this registry ships
+      compound molar masses COMPUTED by stoichiometry from about twenty
+      element values rather than a copy of any table". **That was exactly true
+      before 2026-09-15 and is slightly less true after it.** The uncertainty
+      pass ships two things that are not computations: five CIAAW element
+      intervals written verbatim into `ATOMIC_WEIGHT_INTERVALS` in
+      `crates/kerotakis-registry-export/src/lib.rs`, and four registry records
+      — `C`, `graphite`, `diamond`, `activated_charcoal` — whose band IS
+      carbon's published interval `[12.0096, 12.0116]` unchanged, because a
+      single-atom formula's propagation is the identity. The other 62 bands
+      are genuine propagations over multi-element formulas and sit exactly
+      where the row's argument puts them.
+      **So the Feist footing is narrower than the row records, by five element
+      values and four records, and that is the whole of the correction.** It
+      is not a reason to withhold the bands — the registry has cited these
+      atomic weights in over a hundred citations for as long as it has
+      existed, and the pass deepens a dependence rather than creating one —
+      but whoever asks CIAAW's Secretariat the question that row names should
+      ask it knowing the answer now covers five reproduced intervals and not
+      only derived arithmetic. The cheapest alternative, if the answer comes
+      back unfavourable, is small and known: drop the four single-atom bands
+      and keep the 62 propagated ones.
 - [ ] **Majer & Svoboda has no machine-readable row.** It is cited in shipped
       code and appears in the prose table, but `provenance/upstreams.toml` has
       no entry, so the lint cannot see it. Add one when someone reads its terms;
