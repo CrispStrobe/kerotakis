@@ -1622,6 +1622,15 @@
       "retrieved": "2026-09-05"
     },
     {
+      "id": "literature/osborne-stimson-ginnings-water-vaporisation",
+      "citation": "N. S. Osborne, H. F. Stimson and D. C. Ginnings, 'Measurements of heat capacity and heat of vaporization of water in the range 0 degrees to 100 degrees C', Journal of Research of the National Bureau of Standards 23 (1939) 197-260, RP1228, doi:10.6028/jres.023.008; retrieved 2026-09-15 from https://nvlpubs.nist.gov/nistpubs/jres/23/jresv23n2p197_A1b.pdf. IT IS PRIMARY JOURNAL LITERATURE WITH A DOI, which is the `primary-literature` route of provenance/upstreams.toml rather than a compilation row - the shape this registry's `literature/hartley-campbell-iodine-water` already uses, and the shape #608 said a row here would need. Kerotakis transcribes one printed number and redistributes no source text or table. IT IS ALSO PUBLIC DOMAIN TWICE OVER: the journal is the NBS Technical Series, works by NIST employees are not subject to copyright in the United States under 17 U.S.C. 105, and the `nbs-thermochemical` row records NIST's own statement to that effect for exactly this series - so neither the Feist argument nor the government-work argument has to carry it alone. WHAT THE PAPER PRINTS. Table 13, 'Formulation of data on heat of vaporization', row 100 degrees C, column 'Heat of vaporization, L': 2256.30 international joules per gram. The row is identified beyond doubt by its last column, the specific volume of the saturated vapour, 1673.0 cm3/g. The table is internally checkable and the check passes: the paper defines gamma = L + beta, prints gamma(calculated) = 2257.71 and beta = 1.408 on the same row, and 2257.71 - 1.408 = 2256.30. THE ARITHMETIC TO J/MOL, which is this bench's unit. The paper states its own electrical-unit conversion, 1 international joule = 1.00019 absolute joules, giving 2256.73 J/g; multiplied by the registry's own molar mass of water, 18.015 g/mol, that is 40655 J/mol. Rounded to the four significant figures this constant has always carried, 40650 J/mol - so the value does not move, and it is now the source's rather than nobody's. THE MEASUREMENT IS 152 VAPORIZATION EXPERIMENTS in a calorimeter built for this determination, formulated together with the 1930-32 and 1937 NBS series at one quarter and one half weight; this is the determination modern steam tables still rest on. WHAT IT IS NOT: it is not an evaluation, not a compilation, and not a value at any temperature other than the normal boiling point. Read 2026-09-15",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://nvlpubs.nist.gov/nistpubs/jres/23/jresv23n2p197_A1b.pdf",
+      "revision": "J. Res. NBS 23 (1939) 197-260, RP1228, doi:10.6028/jres.023.008, Table 13",
+      "retrieved": "2026-09-15"
+    },
+    {
       "id": "kerotakis/electrical-resistivity-v1",
       "citation": "Kerotakis curated electrical-resistivity tranche v1: bulk DC electrical resistivity of the pure solid at 293.15 K (20 C), in ohm.m. THE PROVENANCE LANE OF THIS TRANCHE IS PENDING REVIEW AND THE VALUES ARE RECORDED AS COMMONLY TABULATED. NO PRIMARY REFERENCE IS CLAIMED FOR THESE VALUES, AND THE ONE THIS LINE USED TO NAME HAS BEEN WITHDRAWN. PLAN.md's provenance audit puts the CRC Handbook of Chemistry and Physics on the commercial row and the NIST WebBook and JANAF-online on the do-not-redistribute row, and states the remedy for an avoid-row source: the claim stops and the prose stays as commentary. Naming a reference the project may not ship from as the source behind a shipped number is a claim, not a citation, and so is saying the number agrees with it. Both are gone. This line named the CRC Handbook table 'Electrical Resistivity of Pure Metals' as the intended primary reference and said these numbers agreed with it to the precision quoted; that is exactly the form the rule forbids, and it is withdrawn rather than reworded. What a row here needs and does not have is its own primary measurement with a DOI, in the shape `literature/hartley-campbell-iodine-water` already uses in this registry; a cleared vendored source such as vendor/nasa-cea/thermo.inp is the acceptable second choice. Until a row has one of those it is supported by this paragraph and nothing else. No vendored file on this disk carries a bulk DC resistivity, so this tranche has neither of the two acceptable supports and is the weakest in the registry. Withdrawn 2026-09-13. The values themselves are physical constants of the pure elements rather than anyone's compilation, and they are quoted only to the three or four figures that a room-temperature handbook column carries; no temperature coefficient, no purity dependence and no cold-worked or alloyed value is claimed, and each row's own `notes` field states what it does not cover. Graphite is the one row that is an order of magnitude rather than a measurement, and its note says so: graphite is strongly anisotropic and its resistivity depends on the grade, so the value here describes a polycrystalline bench rod and nothing finer. Compiled 2026-09-05",
       "licence": "AGPL-3.0-or-later",
@@ -1665,15 +1674,6 @@
       "origin": "Kerotakis original stoichiometric derivation",
       "revision": "1",
       "retrieved": "2026-09-06"
-    },
-    {
-      "id": "literature/osborne-stimson-ginnings-water-vaporisation",
-      "citation": "seed record, replaced by the exporter",
-      "licence": "LicenseRef-US-Government-Work",
-      "lane": "runtime",
-      "origin": "https://nvlpubs.nist.gov/nistpubs/jres/23/jresv23n2p197_A1b.pdf",
-      "revision": "J. Res. NBS 23 (1939) 197-260, RP1228, Table 13",
-      "retrieved": "2026-09-15"
     }
   ],
   "identities": [
@@ -24242,7 +24242,7 @@
           "ionic_strength": null,
           "medium": null,
           "phase": "liquid",
-          "notes": "seed record, replaced by the exporter"
+          "notes": "at the normal transition temperature and one atmosphere; no temperature dependence is claimed, and the relations in kerotakis_core::states that use it say in their own comments how far a constant latent heat carries"
         },
         "uncertainty": {
           "kind": "unestablished"
@@ -24250,7 +24250,7 @@
         "source_id": "us-federal/nasa-cea-thermo-inp-v1",
         "method": {
           "kind": "derived",
-          "detail": "seed record, replaced by the exporter"
+          "detail": "H(H2O(L), 273.15 K) - H(H2O(cr), 273.15 K) from the vendored NASA CEA thermo.inp, which comes to 6009.9 J/mol and is rounded to the four significant figures this constant carries. The two records are 'Ice. Gordon,1982.' and 'Liquid. Cox,1989. Haar,1984. Keenan,1984. Stimson,1969.', named here so a reader lands on the evaluation rather than on this sentence. The derivation is not a claim on trust: kerotakis-cea's `latent_heats_are_the_vendored_file` re-derives it from the shipped file on every run and fails if it moves by more than 1 J/mol. UNESTABLISHED AND NOT NOT_REPORTED, and the difference from the vaporisation record beside it is deliberate: thermo.inp does not PRINT an enthalpy of fusion at all - the value is a difference of two fitted polynomials - so there is no quantity in that file for it to have quoted a band on, and saying the source was read and reported none would be a finding about a claim the source never made. Nobody has established what band this difference carries"
         }
       }
     },
@@ -24286,7 +24286,7 @@
           "ionic_strength": null,
           "medium": null,
           "phase": "liquid",
-          "notes": "seed record, replaced by the exporter"
+          "notes": "at the normal transition temperature and one atmosphere; no temperature dependence is claimed, and the relations in kerotakis_core::states that use it say in their own comments how far a constant latent heat carries"
         },
         "uncertainty": {
           "kind": "not_reported"
@@ -24294,7 +24294,7 @@
         "source_id": "literature/osborne-stimson-ginnings-water-vaporisation",
         "method": {
           "kind": "measured",
-          "detail": "seed record, replaced by the exporter"
+          "detail": "the measured heat of vaporization at 100 degrees C printed in Table 13 of the cited determination, converted from international joules per gram to J/mol by the paper's own 1.00019 factor and this registry's molar mass of water, then rounded to the four significant figures the bench carries. `measured` names the cited experiment rather than anything this project did: the number came out of Osborne, Stimson and Ginnings's calorimeter, and the two multiplications are arithmetic on top of it. The paper was opened and read for a band and QUOTES NONE, which is why this record is `not_reported` and not `unestablished`: the authors decline explicitly, in the sentence 'this agreement must not be taken as an estimate of the accuracy of the results, since it takes no account of unknown systematic errors, which may well be larger than the accidental errors'. A band for this quantity therefore needs a modern evaluation, not a closer reading of this paper"
         }
       }
     },
@@ -29779,7 +29779,7 @@
         "other": "electrical_resistivity"
       },
       "quantity": {
-        "value": 4.39e-08,
+        "value": 4.39e-8,
         "unit": {
           "symbol": "Ohm.m",
           "dimension": {
@@ -29984,7 +29984,7 @@
         "other": "electrical_resistivity"
       },
       "quantity": {
-        "value": 1.678e-08,
+        "value": 1.678e-8,
         "unit": {
           "symbol": "Ohm.m",
           "dimension": {
@@ -30189,7 +30189,7 @@
         "other": "electrical_resistivity"
       },
       "quantity": {
-        "value": 5.9e-08,
+        "value": 5.9e-8,
         "unit": {
           "symbol": "Ohm.m",
           "dimension": {
@@ -30394,7 +30394,7 @@
         "other": "electrical_resistivity"
       },
       "quantity": {
-        "value": 1.587e-08,
+        "value": 1.587e-8,
         "unit": {
           "symbol": "Ohm.m",
           "dimension": {
@@ -30599,7 +30599,7 @@
         "other": "electrical_resistivity"
       },
       "quantity": {
-        "value": 9.71e-08,
+        "value": 9.71e-8,
         "unit": {
           "symbol": "Ohm.m",
           "dimension": {
@@ -36658,7 +36658,7 @@
         "other": "electrical_resistivity"
       },
       "quantity": {
-        "value": 2.65e-08,
+        "value": 2.65e-8,
         "unit": {
           "symbol": "Ohm.m",
           "dimension": {
@@ -41420,7 +41420,7 @@
         "other": "electrical_resistivity"
       },
       "quantity": {
-        "value": 1e-05,
+        "value": 0.00001,
         "unit": {
           "symbol": "Ohm.m",
           "dimension": {
@@ -44987,8 +44987,8 @@
             57.3833663,
             -0.826791524,
             0.00441308798,
-            -1.054251164e-05,
-            9.69449597e-09
+            -0.00001054251164,
+            9.69449597e-9
           ],
           "reference": "H2O(cr): Ice. Gordon,1982."
         }
@@ -45022,7 +45022,7 @@
             -767.899505,
             1.761556813,
             -0.002151167128,
-            1.092570813e-06
+            1.092570813e-6
           ],
           "reference": "H2O(L): Liquid. Cox,1989. Haar,1984. Keenan,1984. Stimson,1969."
         },
@@ -45036,7 +45036,7 @@
             -272.237395,
             0.447924376,
             -0.000391939743,
-            1.425743266e-07
+            1.425743266e-7
           ],
           "reference": "H2O(L): Liquid. Cox,1989. Haar,1984. Keenan,1984. Stimson,1969."
         }
@@ -45068,8 +45068,8 @@
             575.573102,
             0.931782653,
             0.00722271286,
-            -7.34255737e-06,
-            4.95504349e-09,
+            -7.34255737e-6,
+            4.95504349e-9,
             -1.336933246e-12
           ],
           "reference": "H2O: Hf:Cox,1989. Woolley,1987. TRC(10/88) tuv25."
@@ -45082,7 +45082,7 @@
             -2412.698562,
             4.64611078,
             0.002291998307,
-            -6.83683048e-07,
+            -6.83683048e-7,
             9.42646893e-11,
             -4.82238053e-15
           ],
@@ -45117,8 +45117,8 @@
             398.458231,
             -1.547496756,
             0.00335217231,
-            -3.78778159e-06,
-            1.751729541e-09
+            -3.78778159e-6,
+            1.751729541e-9
           ],
           "reference": "NaCL(cr): Cubic. Gurvich,1982 pt1 p335 pt2 p374."
         },
@@ -45130,7 +45130,7 @@
             0.0,
             5.66571869,
             0.000870890149,
-            1.34056003e-06,
+            1.34056003e-6,
             0.0,
             0.0
           ],
@@ -45164,7 +45164,7 @@
             0.0,
             1.866766938,
             0.00425614025,
-            -3.26525227e-06,
+            -3.26525227e-6,
             0.0,
             0.0
           ],
@@ -45212,8 +45212,8 @@
             909.031167,
             -2.356891244,
             0.02204449885,
-            -2.510781471e-05,
-            1.446300484e-08,
+            -0.00002510781471,
+            1.446300484e-8,
             -3.36907094e-12
           ],
           "reference": "SO2: Gurvich,1989 pt1 p288 pt2 p175."
@@ -45226,7 +45226,7 @@
             -825.226138,
             7.61617863,
             -0.000199932761,
-            5.65563143e-08,
+            5.65563143e-8,
             -5.45431661e-12,
             2.918294102e-16
           ],
@@ -45261,8 +45261,8 @@
             -74.9975099,
             0.50121824,
             -0.001423348682,
-            1.994984415e-06,
-            -1.095038067e-09
+            1.994984415e-6,
+            -1.095038067e-9
           ],
           "reference": "Ca(OH)2(cr): Hexagonal Gurvich,1996a pt1 p454 pt2 p357."
         },
@@ -45308,7 +45308,7 @@
             5470.07809,
             -21.9947439,
             0.0592981586,
-            -4.34615259e-05,
+            -0.0000434615259,
             0.0,
             0.0
           ],
@@ -45322,8 +45322,8 @@
             -7265.7876,
             20.78520457,
             -0.01455522591,
-            1.267438982e-05,
-            -1.010207859e-08,
+            0.00001267438982,
+            -1.010207859e-8,
             3.8180255e-12
           ],
           "reference": "CuO(cr): Crystal. King,1973 p56."
@@ -45356,7 +45356,7 @@
             -771.467716,
             8.69417109,
             0.00385088334,
-            -3.61049854e-06,
+            -3.61049854e-6,
             0.0,
             0.0
           ],
@@ -45371,7 +45371,7 @@
             -95.92892425,
             0.6189564989,
             -0.001367212259,
-            1.067453163e-06,
+            1.067453163e-6,
             0.0
           ],
           "reference": "NaOH(a): Alpha. Gurvich,1996b."
@@ -45432,8 +45432,8 @@
             -554.712652,
             6.20758937,
             -0.002989632078,
-            3.17302729e-06,
-            -1.793629562e-09,
+            3.17302729e-6,
+            -1.793629562e-9,
             4.26004359e-13
           ],
           "reference": "CL2: Ref-Elm. Gurvich,1989 pt1 p177 pt2 p88."
@@ -45446,7 +45446,7 @@
             -19496.27662,
             28.54535795,
             -0.01449968764,
-            4.46389077e-06,
+            4.46389077e-6,
             -6.35852586e-10,
             3.32736029e-14
           ],
@@ -45481,7 +45481,7 @@
             -206.152052,
             0.716872043,
             -0.001253560327,
-            1.178136083e-06,
+            1.178136083e-6,
             -4.52696241e-10
           ],
           "reference": "Na2CO3(a): Alpha,monoclinic. Gurvich,1982 pt1 p356 pt2 p390."
@@ -45542,7 +45542,7 @@
             -626.411601,
             5.30172524,
             0.002503813816,
-            -2.127308728e-07,
+            -2.127308728e-7,
             -7.68998878e-10,
             2.849677801e-13
           ],
@@ -45555,8 +45555,8 @@
             117696.2419,
             -1788.791477,
             8.29152319,
-            -9.22315678e-05,
-            4.86367688e-09,
+            -0.0000922315678,
+            4.86367688e-9,
             -1.891053312e-12,
             6.33003659e-16
           ],
@@ -45570,7 +45570,7 @@
             1016847.056,
             -256.140523,
             0.0336940108,
-            -2.181184337e-06,
+            -2.181184337e-6,
             6.99142084e-11,
             -8.8423515e-16
           ],
@@ -45605,7 +45605,7 @@
             173.093063,
             -0.654543415,
             0.001415897824,
-            -1.598259237e-06,
+            -1.598259237e-6,
             7.38753415e-10
           ],
           "reference": "KCL(cr): Cubic. Gurvich,1982 pt1 p390 pt2 p419."
@@ -45618,8 +45618,8 @@
             0.0,
             5.28708855,
             0.00400409216,
-            -4.34344901e-06,
-            2.753186288e-09,
+            -4.34344901e-6,
+            2.753186288e-9,
             0.0
           ],
           "reference": "KCL(cr): Cubic. Gurvich,1982 pt1 p390 pt2 p419."
@@ -45653,8 +45653,8 @@
             -1907.177167,
             7.61666627,
             -0.0165587086,
-            1.879382277e-05,
-            -8.72071327e-09
+            0.00001879382277,
+            -8.72071327e-9
           ],
           "reference": "CaCO3(cr): Hexagonal Gurvich,1996a pt1 p483 pt2 p376."
         },
@@ -45701,8 +45701,8 @@
             -694.432081,
             2.802477174,
             -0.00612940322,
-            6.9821678e-06,
-            -3.24754384e-09
+            6.9821678e-6,
+            -3.24754384e-9
           ],
           "reference": "CaO(cr): Cubic Gurvich,1996a pt1 p442 pt2 p348."
         },
@@ -45714,7 +45714,7 @@
             0.0,
             7.174205094,
             -0.001959947129,
-            1.291116374e-06,
+            1.291116374e-6,
             -2.077091735e-10,
             0.0
           ],
@@ -45748,8 +45748,8 @@
             0.0,
             1.458173723,
             0.01330204666,
-            -4.098858502e-05,
-            4.754339101e-08,
+            -0.00004098858502,
+            4.754339101e-8,
             0.0
           ],
           "reference": "Mg(cr): Hexagonal. Ref-Elm. Alcock,1993."
@@ -45762,7 +45762,7 @@
             0.0,
             3.398877384,
             -0.0007243962663,
-            1.405254188e-06,
+            1.405254188e-6,
             0.0,
             0.0
           ],
@@ -45796,8 +45796,8 @@
             164.8069205,
             2.080947143,
             0.002639078305,
-            -2.714101362e-06,
-            1.402864982e-09,
+            -2.714101362e-6,
+            1.402864982e-9,
             -9.72432164e-14
           ],
           "reference": "Cu(cr): Cubic. Ref-Elm.Cox,1989 p226."
@@ -45831,7 +45831,7 @@
             39.5950036,
             -0.1143735885,
             0.0001934363797,
-            -1.675385126e-07,
+            -1.675385126e-7,
             6.07818994e-11
           ],
           "reference": "Zn(cr): Crystal. Ref-Elm. Cox,1989 p221."
@@ -45864,8 +45864,8 @@
             725.478802,
             0.106651838,
             0.00552954155,
-            -4.42559085e-06,
-            2.09166812e-09,
+            -4.42559085e-6,
+            2.09166812e-9,
             -3.88892446e-13
           ],
           "reference": "Ag(cr): Cubic. Ref-Elm. Cox,1989 p228."
@@ -45898,8 +45898,8 @@
             -780.380625,
             9.44017147,
             -0.02521767704,
-            5.35017051e-05,
-            -5.09909473e-08,
+            0.0000535017051,
+            -5.09909473e-8,
             1.993862728e-11
           ],
           "reference": "Fe(a): Alpha. Ref-Elm.Below Lambda trans. Chase,1998 p1221."
@@ -45912,7 +45912,7 @@
             -24471.50531,
             65.6102093,
             -0.0704392968,
-            3.18105287e-05,
+            0.0000318105287,
             0.0,
             0.0
           ],
@@ -45927,8 +45927,8 @@
             -728.921228,
             26.13888297,
             -0.0349474214,
-            1.763752622e-05,
-            -2.907723254e-09
+            0.00001763752622,
+            -2.907723254e-9
           ],
           "reference": "Fe(a): Alpha. Ref-Elm.Below Lambda trans. Chase,1998 p1221."
         },
@@ -45955,7 +45955,7 @@
             8052.828,
             -6.30308963,
             0.002677273007,
-            -5.75004553e-07,
+            -5.75004553e-7,
             4.71861196e-11
           ],
           "reference": "Fe(c): Gamma. Ref-Elm. Chase,1998 pp1221-5."
@@ -46003,7 +46003,7 @@
             -144.9325747,
             0.63975911,
             -0.0014583468,
-            1.715467374e-06,
+            1.715467374e-6,
             -8.18348237e-10
           ],
           "reference": "MgO(cr): Cubic Gurvich,1996a pt1 p397 pt2 p317."
@@ -46016,7 +46016,7 @@
             0.0,
             5.510366817,
             0.001085932905,
-            -4.866191754e-07,
+            -4.866191754e-7,
             1.253230798e-10,
             0.0
           ],
@@ -46051,7 +46051,7 @@
             13.65384188,
             -0.0463609644,
             0.0001021333011,
-            -1.082893179e-07,
+            -1.082893179e-7,
             4.47225886e-11
           ],
           "reference": "C(gr): Graphite. Ref-Elm. TRC(4/83) vc,uc,tc1000-1002."
@@ -46064,7 +46064,7 @@
             -2596.528368,
             6.94884191,
             -0.00348483609,
-            1.844192445e-06,
+            1.844192445e-6,
             -5.05520596e-10,
             5.75063901e-14
           ],
@@ -46078,7 +46078,7 @@
             -1138.235908,
             3.7002795,
             -0.0001833807727,
-            6.34368325e-08,
+            6.34368325e-8,
             -7.06858948e-12,
             3.33543598e-16
           ],
@@ -46112,8 +46112,8 @@
             484.700097,
             1.119010961,
             0.00429388924,
-            -6.83630052e-07,
-            -2.0233727e-09,
+            -6.83630052e-7,
+            -2.0233727e-9,
             1.039040018e-12
           ],
           "reference": "O2: Ref-Elm. Gurvich,1989 pt1 p94 pt2 p9."
@@ -46126,7 +46126,7 @@
             2344.830282,
             1.819732036,
             0.001267847582,
-            -2.188067988e-07,
+            -2.188067988e-7,
             2.053719572e-11,
             -8.19346705e-16
           ],
@@ -46140,7 +46140,7 @@
             -286610.6874,
             66.9035225,
             -0.00616995902,
-            3.016396027e-07,
+            3.016396027e-7,
             -7.4214166e-12,
             7.27817577e-17
           ],
@@ -46174,8 +46174,8 @@
             -381.846182,
             6.08273836,
             -0.00853091441,
-            1.384646189e-05,
-            -9.62579362e-09,
+            0.00001384646189,
+            -9.62579362e-9,
             2.519705809e-12
           ],
           "reference": "N2: Ref-Elm. Gurvich,1978 pt1 p280 pt2 p207."
@@ -46188,7 +46188,7 @@
             -2239.249073,
             6.06694922,
             -0.00061396855,
-            1.491806679e-07,
+            1.491806679e-7,
             -1.923105485e-11,
             1.061954386e-15
           ],
@@ -46202,7 +46202,7 @@
             -642073.354,
             202.0264635,
             -0.03065092046,
-            2.486903333e-06,
+            2.486903333e-6,
             -9.70595411e-11,
             1.437538881e-15
           ],
@@ -46236,8 +46236,8 @@
             -800.918604,
             8.21470201,
             -0.01269714457,
-            1.753605076e-05,
-            -1.20286027e-08,
+            0.00001753605076,
+            -1.20286027e-8,
             3.36809349e-12
           ],
           "reference": "H2: Ref-Elm. Gurvich,1978 pt1 p103 pt2 p31."
@@ -46250,7 +46250,7 @@
             -837.150474,
             2.975364532,
             0.001252249124,
-            -3.74071619e-07,
+            -3.74071619e-7,
             5.9366252e-11,
             -3.6069941e-15
           ],
@@ -46264,7 +46264,7 @@
             -314754.7149,
             79.8412188,
             -0.00841478921,
-            4.75324835e-07,
+            4.75324835e-7,
             -1.371873492e-11,
             1.605461756e-16
           ],
@@ -46299,7 +46299,7 @@
             -71.2989894,
             0.2668406702,
             -0.000518201732,
-            5.23866509e-07,
+            5.23866509e-7,
             -2.151645616e-10
           ],
           "reference": "Pb(cr): Cubic. Ref-Elm. Gurvich,1991 pt1 p400 pt2 p337."
@@ -46332,8 +46332,8 @@
             634.393435,
             -0.713188382,
             0.0108872528,
-            -1.45874182e-05,
-            9.96116088e-09,
+            -0.0000145874182,
+            9.96116088e-9,
             -1.77492801e-12
           ],
           "reference": "AL(cr): Cubic. Ref-Elm. Cox,1989 p217."
@@ -46366,8 +46366,8 @@
             49.1536151,
             6.3516127,
             0.02730299149,
-            -2.006100982e-05,
-            7.51152641e-09,
+            -0.00002006100982,
+            7.51152641e-9,
             -1.262038044e-12
           ],
           "reference": "Fe(OH)3(cr): Crystal. Chase,1998 p1231."
@@ -46400,8 +46400,8 @@
             -5246.0135,
             35.6407814,
             -0.0577728535,
-            8.33416255e-05,
-            -5.35340428e-08,
+            0.0000833416255,
+            -5.35340428e-8,
             1.183994084e-11
           ],
           "reference": "Fe(OH)2(cr): Crystal. Chase,1998 p1229."
@@ -46414,8 +46414,8 @@
             -35848.4862,
             66.3148213,
             -0.02947893247,
-            4.57266967e-06,
-            1.317544528e-09,
+            4.57266967e-6,
+            1.317544528e-9,
             -2.977356578e-13
           ],
           "reference": "Fe(OH)2(cr): Crystal. Chase,1998 p1229."
@@ -46448,7 +46448,7 @@
             8358.13999,
             -39.711454,
             0.1231927219,
-            -9.64780065e-05,
+            -0.0000964780065,
             0.0,
             0.0
           ],
@@ -46462,8 +46462,8 @@
             37008.6861,
             -90.8862334,
             0.1431689186,
-            -9.51396524e-05,
-            2.532586546e-08,
+            -0.0000951396524,
+            2.532586546e-8,
             0.0
           ],
           "reference": "Mg(OH)2(cr): Hexagonal. Gurvich,1996a pt1 p405 pt2 p323."
@@ -46496,7 +46496,7 @@
             23230.47773,
             -67.6570177,
             0.1306052231,
-            -6.97068812e-05,
+            -0.0000697068812,
             0.0,
             0.0
           ],
@@ -46525,7 +46525,7 @@
             -211.9080355,
             0.2221481558,
             -0.0001206765164,
-            3.48073805e-08,
+            3.48073805e-8,
             -4.16529786e-12
           ],
           "reference": "Fe2O3(cr): Hematite above Curie pt. Pankratz,1983 p158."
@@ -46572,8 +46572,8 @@
             7214.66111,
             -31.45730294,
             0.0741217715,
-            -8.67007782e-06,
-            -1.080461312e-07,
+            -8.67007782e-6,
+            -1.080461312e-7,
             8.31632491e-11
           ],
           "reference": "SiO2(a-qz): Alpha-quartz,hexagonal. Gurvich,1991 pt1 p250 pt2 p228."
@@ -46600,7 +46600,7 @@
             0.0,
             9.331036946,
             -0.0007306503931,
-            3.339944266e-07,
+            3.339944266e-7,
             0.0,
             0.0
           ],
@@ -46635,7 +46635,7 @@
             -90.8757695,
             0.362191993,
             -0.000559287085,
-            3.46342113e-07,
+            3.46342113e-7,
             0.0
           ],
           "reference": "Na2SO4(V): Rhombic. Gurvich,1982 pt1 p346 pt2 p384."
@@ -46662,7 +46662,7 @@
             0.0,
             25.03069934,
             -0.01581223668,
-            1.591831629e-05,
+            0.00001591831629,
             0.0,
             0.0
           ],
@@ -46696,8 +46696,8 @@
             2786.18102,
             -12.0257785,
             0.0391761929,
-            -3.61905443e-05,
-            2.026853043e-08,
+            -0.0000361905443,
+            2.026853043e-8,
             -4.97670549e-12
           ],
           "reference": "CH4: Gurvich,1991 pt1 p44 pt2 p36."
@@ -46710,7 +46710,7 @@
             -13835.01485,
             20.49107091,
             -0.001961974759,
-            4.72731304e-07,
+            4.72731304e-7,
             -3.72881469e-11,
             1.623737207e-15
           ],
@@ -46745,7 +46745,7 @@
             -29.39466091,
             0.1188952745,
             -0.0001376308269,
-            8.81482391e-08,
+            8.81482391e-8,
             -2.342987994e-11
           ],
           "reference": "C3H8: Hf:TRC(10/85) w1350. Chao,1973."
@@ -46758,7 +46758,7 @@
             -26597.91134,
             45.3435684,
             -0.00502066392,
-            9.47121694e-07,
+            9.47121694e-7,
             -9.57540523e-11,
             4.00967288e-15
           ],
@@ -46793,7 +46793,7 @@
             -38.9156212,
             0.1584654284,
             -0.0001860050159,
-            1.199676349e-07,
+            1.199676349e-7,
             -3.20167055e-11
           ],
           "reference": "C4H10,n-butane: Hf:TRC(10/85) w1350. Chen,1975."
@@ -46806,7 +46806,7 @@
             -32560.5151,
             57.3673275,
             -0.00619791681,
-            1.180186048e-06,
+            1.180186048e-6,
             -1.221893698e-10,
             5.25063525e-15
           ],
@@ -46840,8 +46840,8 @@
             -292.2285939,
             5.72452717,
             -0.00817623503,
-            1.456903469e-05,
-            -1.087746302e-08,
+            0.00001456903469,
+            -1.087746302e-8,
             3.027941827e-12
           ],
           "reference": "CO: Gurvich,1979 pt1 p25 pt2 p29."
@@ -46854,7 +46854,7 @@
             -1944.704863,
             5.91671418,
             -0.000566428283,
-            1.39881454e-07,
+            1.39881454e-7,
             -1.787680361e-11,
             9.62093557e-16
           ],
@@ -46868,7 +46868,7 @@
             -750037.784,
             249.5474979,
             -0.039563511,
-            3.29777208e-06,
+            3.29777208e-6,
             -1.318409933e-10,
             1.998937948e-15
           ],
@@ -52003,7 +52003,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 1.2284972899117373e-05,
+            "value": 0.000012284972899117373,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -52053,7 +52053,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 1.155225e-07,
+            "value": 1.155225e-7,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -55484,7 +55484,7 @@
       "model": "bounded-room-temperature-dissolution",
       "parameter": "aqueous-solubility-g-per-100-ml",
       "quantity": {
-        "value": 1e-05,
+        "value": 0.00001,
         "unit": {
           "symbol": "g/100mL",
           "dimension": "mass_concentration"
@@ -65273,8 +65273,8 @@
         {
           "species_id": "catalase",
           "fraction": {
-            "lower": 1e-06,
-            "upper": 1e-06
+            "lower": 1e-6,
+            "upper": 1e-6
           },
           "evidence": {
             "source_id": "kerotakis/material-recipes-v1",
@@ -65355,8 +65355,8 @@
         {
           "species_id": "catalase",
           "fraction": {
-            "lower": 3e-07,
-            "upper": 3e-07
+            "lower": 3e-7,
+            "upper": 3e-7
           },
           "evidence": {
             "source_id": "kerotakis/material-recipes-v1",
@@ -66770,9 +66770,9 @@
             0.00481543997931,
             0.000855073675272,
             0.000124619078076,
-            1.49066126883e-05,
-            1.46348015158e-06,
-            1.17925612747e-07
+            0.0000149066126883,
+            1.46348015158e-6,
+            1.17925612747e-7
           ],
           "scattering": [
             1.0,
@@ -70516,7 +70516,7 @@
         {
           "kind": "bulk_electrical_resistivity",
           "ohm_m": 0.01,
-          "span_lower_ohm_m": 1e-05,
+          "span_lower_ohm_m": 0.00001,
           "span_upper_ohm_m": 0.1,
           "boundary": "An n-type phosphorus-doped silicon wafer of an ordinary 1 ohm.cm grade. THE VALUE IS ONE POINT IN A RANGE THIS RECIPE DOES NOT PIN DOWN: doped silicon as sold spans about 1e-5 to 1e-1 ohm.m, which end a wafer sits at is set by its dopant concentration - roughly 1e21 to 1e25 atoms per cubic metre - and neither the span nor the reading claims a particular wafer. What changed against the intrinsic-silicon row is the CARRIER DENSITY and nothing else: each dopant atom contributes one mobile electron (phosphorus) or one hole (boron), five to eight orders of magnitude more carriers than the thermal ones, while the lattice, the mobility and the band gap are all essentially as they were. No carrier-density model is computed here and none is claimed - these are two reviewed measurements of two objects, and the sentence between them is the mechanism, not a calculation.",
           "source": "Kerotakis curated material-resistivity tranche v1: room-temperature bulk DC volume resistivity of the named object, in ohm.m, with the span its class of material covers. THE PROVENANCE LANE OF THIS TRANCHE IS PENDING REVIEW AND THE VALUES ARE RECORDED AS COMMONLY TABULATED. General materials-science and electrical-engineering reference tables for insulators and semiconductors are the intended primary reference, this is NOT a transcription from a positively identified copy of any single edition, no edition-level provenance is claimed, and every row is flagged for reviewer confirmation against a positively identified copy before any stronger claim is made - exactly as the pure-solid electrical-resistivity tranche is. What separates these rows from that one is that an insulator's resistivity is not a constant of the substance the way a metal's is: it moves by orders of magnitude with composition, temperature and surface condition, and a semiconductor's is set by a dopant concentration no recipe here states. Every row therefore carries the span its class covers beside the single value the meter reads, and every row's own boundary states what the number does not cover. Compiled 2026-09-05"
@@ -76548,7 +76548,7 @@
       "roles": [
         {
           "kind": "fermentation_culture",
-          "reference_rate_per_second_per_gram": 1e-05,
+          "reference_rate_per_second_per_gram": 0.00001,
           "optimum_temperature_k": 316.15,
           "temperature_width_k": 15.0,
           "requires_hydration": false,
@@ -76607,7 +76607,7 @@
       "roles": [
         {
           "kind": "fermentation_culture",
-          "reference_rate_per_second_per_gram": 1e-05,
+          "reference_rate_per_second_per_gram": 0.00001,
           "optimum_temperature_k": 303.15,
           "temperature_width_k": 12.0,
           "requires_hydration": false,
@@ -76718,7 +76718,7 @@
       "roles": [
         {
           "kind": "fermentation_culture",
-          "reference_rate_per_second_per_gram": 1e-05,
+          "reference_rate_per_second_per_gram": 0.00001,
           "optimum_temperature_k": 300.15,
           "temperature_width_k": 15.0,
           "requires_hydration": false,
