@@ -2110,11 +2110,35 @@ Open, and small:
       table above. Every number asserted is therefore one this repository
       ships or computes, pinned as such and labelled as such. The
       world-facing anchor is left open rather than written into a comment
-      with no source a gate could check. **That anchor is still owed**, and
-      it is owed for the one-molal case beside it too:
-      `a_textbook_spoonful_of_salt_freezes_the_water_near_minus_three_point_four`
-      and `states::SolventActivity`'s own doc already carry −3.4, φ = 0.936,
-      108.7 °C and −0.346 with no source id at all.
+      with no source a gate could check. **PAID, 2026-09-15**, on the
+      owner's correction that the line is bulk dependence rather than
+      attribution. `colligative_numbers.rs` now carries a reference block
+      naming six sources, and the two dropped anchors are made: φ against
+      0.9324 and the freezing point against −0.346 °C, each with a band
+      argued from the four-figure a_w rounding the file already documents
+      rather than from a percentage. The one-molal case beside it is paid
+      the same way. **Four of the six sources are the original
+      measurements**, not the compilation — Scatchard and Prentiss 1933 for
+      the cryoscopy (doi:10.1021/ja01338a003), Scatchard, Hamer and Wood
+      1938 for the isopiestic osmotic coefficients and for sucrose
+      (doi:10.1021/ja01279a066), Gibbard et al. 1974 for the concentrated
+      boiling end (doi:10.1021/je60062a023), Young and Jones 1949 for the
+      sugar's liquidus (doi:10.1021/j150474a004) — and Robinson and Stokes
+      is cited as the book it is, with edition, publisher, year and table,
+      because it is the tabulation the numbers actually travelled through.
+      **Where the trail ended is stated in the file rather than implied**:
+      the bibliographic records were resolved against Crossref and are
+      exact, but the two primary papers are paywalled and no copy of the
+      book was opened, so the VALUES are this repository's own prose finally
+      given its sources rather than a verified transcription, and the bands
+      absorb that.
+      One comparison was WITHDRAWN rather than cited. The 108.7 °C this file
+      and `HISTORY.md` both quote is, in this file's own words, "a
+      measurement of a saturated brine", while the test it was being
+      compared against builds 6.000 mol/kg — and a saturated chloride at its
+      boiling point is more concentrated than that. Two solutions, not two
+      answers for one. The row stays open, with Gibbard et al. named as
+      where a real anchor would come from.
 - [x] **Is a boil a curated route or a computed one? Measured and decided,
       2026-09-11: it stays `Curated`, and the asymmetry that prompted the
       question is on the other solver.**
