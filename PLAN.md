@@ -2693,6 +2693,54 @@ already own the rest.
 
 ## Open follow-ups from the 2026-09-05…07 sessions
 
+### Scoped tasks, 2026-09-15
+
+Each is written to be picked up without re-deriving its context. None is
+started. They are ordered by what they unblock, not by size.
+
+- [ ] **Triage the records that name no audited source.** 105 of 185 registry
+      citations name nothing `kero provenance upstreams` recognises, which is a
+      larger population than the refused-source findings it does count. Nobody
+      knows which kind they are. Sort them into three: genuinely unattributable
+      because the engine derived the value, merely spelled in a way the `names`
+      lists do not match, and real gaps. **Deliverable: the three counts and the
+      method, as a report.** Do not fix anything. The decision of 2026-09-14 was
+      to count and report these and to bind the requirement to new records only,
+      so a sweep would reverse a decision rather than serve it. This is the
+      measurement that says whether a sweep is ever worth buying.
+- [ ] **Give numeric records an uncertainty, and mark which are measured.** Of
+      1917 registry numeric records, 1093 report no uncertainty at all, none
+      carries an absolute, relative or interval form, and **not one is marked
+      `measured`**. This ranks above tidying citations: a tolerance in the
+      accuracy corpus has to know what uncertainty a value carries, so the
+      corpus cannot argue a band without it. Start with the quantities the
+      colligative family already cites, since those have sources in hand.
+- [ ] **Majer & Svoboda has no machine-readable row.** It is cited in shipped
+      code and appears in the prose table, but `provenance/upstreams.toml` has
+      no entry, so the lint cannot see it. Add one when someone reads its terms;
+      do not invent terms for it.
+- [ ] **A comparison in the record is wrong, not merely stale.** The 108.7 °C
+      quoted for a boiling brine in `colligative_numbers.rs` and in `HISTORY.md`
+      is a measurement of a SATURATED brine, while the test builds 6.000 mol/kg
+      and a saturated chloride at its boiling point is more concentrated. Two
+      solutions, not two answers for one. Found 2026-09-15 and withdrawn from
+      the test rather than compared against. `HISTORY.md` keeps its dated entry
+      as written, so this wants a new entry recording the correction rather than
+      a rewrite.
+- [ ] **The Open Reaction Database, as an oracle: decided out for now, with the
+      condition for revisiting.** Owner's question, 2026-09-15. Its licence is
+      share-alike, which this project deliberately does not bundle, but used as
+      a BUILD-TIME ORACLE that conflict does not arise: share-alike binds
+      redistribution, not use, and the `oracle-only` verdict already exists for
+      exactly this, with two sources in it. **The blocker is fit, not licence.**
+      It is synthetic organic chemistry — reagents, solvents, catalysts,
+      conditions, yields — and this bench does aqueous speciation,
+      thermodynamics, phase change, combustion, school kinetics and
+      electrochemistry. An oracle with almost nothing to say about the questions
+      asked. Revisit if synthesis and yield enter scope; until then the oracles
+      worth widening are the ones already cleared, which speak the same
+      chemistry the engine does.
+
 Recorded here so they survive the sessions that found them; each names the PR
 that raised it. Nothing below is a commitment to an order.
 
