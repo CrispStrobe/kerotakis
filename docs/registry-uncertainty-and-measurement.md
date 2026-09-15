@@ -121,6 +121,17 @@ not an error in anybody's determination, and there is nothing random about it
 to average away. A measurement uncertainty would propagate the other way.
 Mixing the two rules is the mistake this judgement exists to avoid.
 
+**The table was cross-checked against something already on this disk.** The
+vendored PHREEQC database `wateq4f.dat` declares its own element masses, from
+an older IUPAC revision and quoted coarsely: C 12.0111, Cl 35.453, H 1.008, Na
+22.9898, O 16.00. Three of the five land inside the intervals here, which is
+the confirmation that was wanted. The other two land just outside — and for
+the reason the declined table records rather than because the intervals are
+wrong: 16.00 and 22.9898 are rounded to two and four decimals, and an interval
+narrower than a value's own rounding excludes it. The check is not a substitute
+for CIAAW's own publication, and it is not offered as the citation; it is the
+only independent numbers available offline, and they agree.
+
 One wrinkle had to be decided and is written into the propagation: **this
 registry stores an ion's molar mass as the sum of its neutral atoms.** That is
 a bookkeeping choice, and a defensible one — it makes `H2O → H+ + OH-` close
