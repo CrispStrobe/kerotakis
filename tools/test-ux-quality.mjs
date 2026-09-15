@@ -1081,7 +1081,11 @@ try {
       servedDoctored += 1;
       const module = await readFile(join(PAYLOAD, "kerotakis_wasm.js"), "utf8");
       response.writeHead(200, { "content-type": "text/javascript" });
-      response.end(`${module}\n// An engine from before the catalog endpoint existed.\ndelete Lab.prototype.catalog;\n`);
+      // Guarded: if a future wasm-bindgen stops exporting the class under
+      // this name the rig must fail the checks below rather than fail to
+      // PARSE, which would take the whole engine down and produce a
+      // different bug than the one being reproduced.
+      response.end(`${module}\n// An engine from before the catalog endpoint existed.\ntry { delete Lab.prototype.catalog; } catch { /* not this shape any more */ }\n`);
       return true;
     },
   });
