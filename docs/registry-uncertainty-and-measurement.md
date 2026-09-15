@@ -343,13 +343,24 @@ recorded as follow-ups in `PLAN.md`.
 - **No band was invented.** Nothing got a `± half the last digit`.
 - **No sweep.** 1027 records still say nobody has established their
   uncertainty, which is what is true of them.
-- **`provenance/upstreams.toml` was not touched** — another session owns it,
-  and one thing this pass found belongs there rather than here. **CIAAW has no
-  machine-readable row in the audit table**, and it has not had one for as long
-  as the registry has been citing "M from IUPAC/CIAAW 2021 atomic weights" in
-  over a hundred species citations. This pass does not introduce that
-  dependency, it deepens one the census already counted — the 100 records it
-  classified as "named, but by an unrecognised spelling" are overwhelmingly
-  those same molar masses. It is the same shape as the open *Majer & Svoboda
-  has no machine-readable row* item, and it is recorded as a follow-up in
-  `PLAN.md` for whoever owns that file next rather than edited around.
+- **`provenance/upstreams.toml` was not touched** — another session owned it
+  while this was written, and it landed the `ciaaw` row on the same day
+  (#607). **That row's verdict is `decision-required`, and these 66 bands rest
+  on it.** The row is the better account and nothing here disputes it: CIAAW
+  grants free use for educational purposes, stops short of commercial use, and
+  three questions are open that nobody has asked.
+
+  One correction of fact belongs to this pass, because the two landed
+  together. That row argues the question may not arise at all, *"since a
+  standard atomic weight is an evaluated MEASUREMENT and this registry ships
+  compound molar masses COMPUTED by stoichiometry from about twenty element
+  values rather than a copy of any table"*. **That was exactly true before this
+  change and is slightly less true after it.** Two things here are not
+  computations: five CIAAW element intervals written verbatim into
+  `ATOMIC_WEIGHT_INTERVALS`, and four records — `C`, `graphite`, `diamond`,
+  `activated_charcoal` — whose band *is* carbon's published
+  `[12.0096, 12.0116]` unchanged, because propagating a single-atom formula is
+  the identity. The other 62 are genuine propagations and sit where that
+  argument puts them. Recorded as a follow-up in `PLAN.md`; if the answer ever
+  comes back unfavourable, the remedy is small and known — drop the four
+  single-atom bands, keep the 62.

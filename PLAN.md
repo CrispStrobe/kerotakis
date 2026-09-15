@@ -2869,17 +2869,38 @@ started. They are ordered by what they unblock, not by size.
       hundred. The reason is that a value with a band nobody reads is a band
       nobody can spend, and the corpus now has to carry a `wired = false` field
       to say so.
-- [ ] **CIAAW has no machine-readable row either, and 66 shipped bands now rest
-      on it.** Found 2026-09-15. Over a hundred species citations have said "M
-      from IUPAC/CIAAW 2021 atomic weights" for as long as the registry has
-      existed, and `docs/registry-unattributed-census.md` counted exactly that
-      population as its 100 "named, but by an unrecognised spelling" records.
-      The uncertainty pass did not introduce the dependency, but it deepened
-      it: the intervals on 66 molar masses are CIAAW's own published ranges.
-      Same shape as the Majer & Svoboda item below and the same remedy — a row
-      when someone reads the terms, and no invented terms before that.
-      `provenance/upstreams.toml` was owned by another session on the day this
-      was found, which is why it is written here rather than added.
+- [ ] **66 shipped uncertainty bands rest on `ciaaw`, whose verdict is
+      `decision-required` — and they narrow the argument that row stands on.**
+      Written 2026-09-15, revised the same day after #607 landed the row this
+      item was originally opened to ask for. THE ROW EXISTS NOW AND IS BETTER
+      THAN THIS ITEM WAS: it records a real grant for educational use that
+      stops short of commercial use, and three open questions nobody has
+      asked. Nothing here disputes it. What it needs is one correction of
+      fact, because the uncertainty pass landed the same day and changed the
+      thing the row's own reasoning leans on.
+      That reasoning says the question may not arise at all, "since a standard
+      atomic weight is an evaluated MEASUREMENT and this registry ships
+      compound molar masses COMPUTED by stoichiometry from about twenty
+      element values rather than a copy of any table". **That was exactly true
+      before 2026-09-15 and is slightly less true after it.** The uncertainty
+      pass ships two things that are not computations: five CIAAW element
+      intervals written verbatim into `ATOMIC_WEIGHT_INTERVALS` in
+      `crates/kerotakis-registry-export/src/lib.rs`, and four registry records
+      — `C`, `graphite`, `diamond`, `activated_charcoal` — whose band IS
+      carbon's published interval `[12.0096, 12.0116]` unchanged, because a
+      single-atom formula's propagation is the identity. The other 62 bands
+      are genuine propagations over multi-element formulas and sit exactly
+      where the row's argument puts them.
+      **So the Feist footing is narrower than the row records, by five element
+      values and four records, and that is the whole of the correction.** It
+      is not a reason to withhold the bands — the registry has cited these
+      atomic weights in over a hundred citations for as long as it has
+      existed, and the pass deepens a dependence rather than creating one —
+      but whoever asks CIAAW's Secretariat the question that row names should
+      ask it knowing the answer now covers five reproduced intervals and not
+      only derived arithmetic. The cheapest alternative, if the answer comes
+      back unfavourable, is small and known: drop the four single-atom bands
+      and keep the 62 propagated ones.
 - [ ] **Majer & Svoboda has no machine-readable row.** It is cited in shipped
       code and appears in the prose table, but `provenance/upstreams.toml` has
       no entry, so the lint cannot see it. Add one when someone reads its terms;
