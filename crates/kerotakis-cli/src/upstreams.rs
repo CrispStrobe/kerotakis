@@ -261,11 +261,13 @@
 //!   surface reads 20 of 210 today and this repair moved neither number - the
 //!   98 above is from before the Rust re-sourcing sweep landed, not a
 //!   disagreement with it.
-//! - **Open questions 0 -> 152** on the registry and 2 on Rust, the first
-//!   non-zero this column has ever printed. 152 citations name the atomic-weight
-//!   body, whose terms grant educational reuse and reserve commercial use, and
-//!   nobody has asked the question that settles it. Nothing got worse; a
-//!   dependence became visible.
+//! - **Open questions 0 -> 154** on the registry and 2 on Rust, the first
+//!   non-zero this column has ever printed: `ciaaw` 152, `acs-education` 1 and
+//!   `fao` 1 on the registry, the last two on Rust as well. The 152 is the one
+//!   that matters - that many citations name the atomic-weight body, whose
+//!   terms grant educational reuse and reserve commercial use, and nobody has
+//!   asked the question that settles it. Nothing got worse; a dependence
+//!   became visible.
 //! - **22 -> 30 audited sources**, 12 refused, 5 carrying an open question.
 //!
 //! Two defects this file still has, both found while measuring and neither
