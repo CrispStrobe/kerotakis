@@ -2940,8 +2940,10 @@ started. They are ordered by what they unblock, not by size.
       verdict at least rests on the absence of a grant on a page that loaded.
       The one citation that matters is `phase_route.rs`'s ethanol row, and it
       names the book only to say that the RETIRED figure traced through it — so
-      when a row is added it will want an `[[excuse]]` on the Rust surface
-      alongside it, or the lint will condemn a withdrawal notice. **Next step:
+      when a row is added it will want a `[[citation]]` row on the Rust surface
+      alongside it, `role = "mentioned"`, or the lint will condemn a withdrawal
+      notice. That row already exists for the WebBook in the same string and is
+      the model: `matching = "Ethanol enthalpy of vaporisation"`. **Next step:
       a human opening the Wiley permissions page in a browser.**
 - [ ] **A comparison in the record is wrong, not merely stale.** The 108.7 °C
       quoted for a boiling brine in `colligative_numbers.rs` and in `HISTORY.md`
