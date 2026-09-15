@@ -202,7 +202,15 @@ mod tests {
                 conditions: Applicability::default(),
                 uncertainty: Uncertainty::Exact,
                 source_id: "test-src".into(),
-                method: Method::Measured("IUPAC atomic weights".into()),
+                // Deliberately NOT "IUPAC atomic weights", which is what
+                // this fixture said until 2026-09-15: a molar mass summed
+                // from atomic weights is arithmetic, and labelling it
+                // `Measured` modelled the exact confusion the schema's
+                // `Method` doc now warns about. The rung ladder is what this
+                // fixture exercises, so it needs a method that really is one.
+                method: Method::Measured(
+                    "the cited source is a primary determination of this value".into(),
+                ),
             },
         });
         doc.phase_thermodynamics.push(PhaseThermodynamicRecord {

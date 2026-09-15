@@ -644,13 +644,22 @@ fn assert_property(
             ),
             other => panic!("{} molar mass has uncertainty {other:?}", species.key),
         }
-        return;
-    }
-    if species.key == "OH-" && property == PhaseProperty::MolarMass {
-        assert_eq!(record.quantity.value, 17.007);
-        assert_eq!(record.quantity.value, value);
-        assert_eq!(record.quantity.source_id, "kerotakis/aqueous-basis-v1");
-        assert!(matches!(record.quantity.method, Method::Derived(_)));
+        // The hydroxide mass is the one molar mass with a reviewed
+        // derivation of its own - "registry water mass minus hydrogen mass"
+        // - and the interval pass must add a band to it WITHOUT trading that
+        // specific account for its own general one.
+        if species.key == "OH-" {
+            assert_eq!(record.quantity.value, 17.007);
+            assert_eq!(record.quantity.source_id, "kerotakis/aqueous-basis-v1");
+            let Method::Derived(detail) = &record.quantity.method else {
+                panic!("the hydroxide mass must stay derived");
+            };
+            assert!(
+                detail.contains("hydroxide"),
+                "the hydroxide mass lost its own derivation to the general \
+                 atomic-weight one: {detail}"
+            );
+        }
         return;
     }
     assert_imported_quantity(&record.quantity, value, symbol, dimension, phase, source_id);

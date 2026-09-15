@@ -293,14 +293,37 @@ census covered:
 | declared non-claims — a value of 0.0 meaning "not modelled" or "colourless", or the documented 1.0 g/mL density placeholder | **191** | **nothing.** These do not want a band; they want to keep saying they are not claims. The schema has no better home for them than `unestablished`, which is a real finding and the census's territory rather than this pass's |
 | curated or editorial tranches — teaching values the project chose | **202** | **nothing readable.** A declared editorial constant has no source to open. A band here would have to be argued, not read, and that is a different kind of work |
 | imported legacy values naming a source | **628** | **one reading each**, where the citation names something openable. This is where `not_reported` gets its first occupant, and the cheapest candidate is `literature/hartley-campbell-iodine-water`: already identified, identifier resolvable, published 1908 |
-| of those 628, the census found roughly **120** whose citation names nothing checkable at all | | a re-sourcing, not a reading. **The uncertainty programme is blocked behind the sourcing programme here**, and no amount of this kind of work unblocks it |
 
-That last line is the one to take seriously. `boiling-point/water` is its
-clearest instance: the phase-transition tranche *had* a citation and it was
-withdrawn on 2026-09-13 when the handbook it named turned out to sit on the
-provenance audit's commercial row. There is no source to read for a band
-because the source was deliberately given up. No table and no propagation
+Cutting across those three, the census counted separately: **roughly 120
+numbers whose citation names nothing a reader could check at all.** Those need
+a re-sourcing, not a reading. **The uncertainty programme is blocked behind
+the sourcing programme there**, and no amount of this kind of work unblocks
+it.
+
+`boiling-point/water` is the clearest instance, and it sits in the curated row
+rather than the legacy one. The phase-transition tranche *had* a citation and
+it was withdrawn on 2026-09-13, when the handbook it named turned out to sit
+on the provenance audit's commercial row. There is no source to read for a
+band because the source was deliberately given up. No table and no propagation
 reaches it.
+
+### And the cheapest useful purchase is none of the above
+
+The reach numbers above rank the work by how many records it touches, and that
+ranking is wrong for the corpus that asked for this. **Two numbers with no
+record at all are worth more than the twenty-one remaining table rows**:
+`WATER_H_FUS` and `WATER_H_VAP`, because the depression goes as 1/ΔH and a one
+per cent uncertainty there consumes 88 % of the tightest model band in the
+colligative family, against the 0.2 % a molar mass contributes.
+
+`WATER_H_FUS` is the cheap half: it is already derived from the vendored
+`vendor/nasa-cea/thermo.inp`, and `kerotakis-cea` re-derives it from the
+shipped file on every run — so it needs a registry record and its existing
+source written down, not a search. `WATER_H_VAP` is the expensive half, and
+its own comment already says why: NASA CEA was checked and rejected because
+its gas records are ideal-gas and the 228 J/mol gap is steam's non-ideality,
+so restoring support needs a primary measurement with an identifier. Both are
+recorded as follow-ups in `PLAN.md`.
 
 ## What was deliberately not done
 
