@@ -610,7 +610,7 @@ fn apply_molar_mass_intervals(document: &mut RegistryDocument) -> Result<(), Str
         // which arithmetic produced them - knows something this pass does
         // not, and trading a specific claim for a general one would be a
         // loss even though the general one is true.
-        if record.quantity.method == Method::Imported(IMPORT_METHOD.to_string()) {
+        if matches!(&record.quantity.method, Method::Imported(detail) if detail == IMPORT_METHOD) {
             record.quantity.method = Method::Derived(MOLAR_MASS_METHOD.to_string());
         }
     }
