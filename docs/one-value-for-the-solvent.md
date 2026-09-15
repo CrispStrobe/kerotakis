@@ -156,9 +156,9 @@ range.
 
 ## What now reads the registry, and what legitimately does not
 
-### Reads it — 19 sites
+### Reads it — 22 sites
 
-`crates/kerotakis-core/build.rs` generates four constants out of
+`crates/kerotakis-core/build.rs` generates five constants out of
 `data/registry/registry-source-v1.json`:
 
 | constant | record |
@@ -169,10 +169,11 @@ range.
 | `WATER_ENTHALPY_OF_VAPORISATION_J_PER_MOL` | `enthalpy-of-vaporisation/water` |
 | `WATER_LIQUID_HEAT_CAPACITY_J_PER_MOL_K` | `heat-capacity/water` |
 
-All eighteen molar-mass sites now read the first two, plus the three
-latent-heat and heat-capacity constants in `states.rs`, plus one site in
-`kerotakis-phreeqc`'s tests where a fixture's grams-to-moles conversion used
-the other spelling.
+All eighteen molar-mass sites read the first two. `states.rs`'s
+`WATER_H_FUS`, `WATER_H_VAP` and `LIQUID_WATER_HEAT_CAPACITY` are the next
+three. The twenty-second is one fixture in `kerotakis-phreeqc`'s tests whose
+grams-to-moles conversion used the other spelling — an input rather than an
+expectation, which is the line drawn below.
 
 ### Why a generated constant and not a runtime lookup
 
