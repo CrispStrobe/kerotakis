@@ -390,6 +390,22 @@ fn every_declared_registry_input_still_matches_the_shipped_registry() {
             "`{id}` does not say what it contributes to the bands below, and \
              `nothing` is an answer worth writing down"
         );
+        // A record the bench does not read cannot contribute to a band
+        // however good its band is, and the three molar masses here are in
+        // exactly that position: the engine carries water's molar mass as a
+        // Rust literal in eleven places rather than reading this record. A
+        // row that claims to reach a quantity while declaring itself unwired
+        // is claiming an influence it does not have.
+        let wired = input
+            .get("wired")
+            .and_then(|v| v.as_bool())
+            .unwrap_or_else(|| panic!("`{id}` does not say whether the bench reads it"));
+        let reaches = input["reaches"].as_array().expect("a reaches list");
+        assert!(
+            wired || reaches.is_empty(),
+            "`{id}` says the bench does not read it and also says it reaches \
+             {reaches:?}"
+        );
 
         if kind == "interval" {
             for bound in ["lower", "upper"] {

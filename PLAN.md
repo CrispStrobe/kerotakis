@@ -2797,6 +2797,15 @@ started. They are ordered by what they unblock, not by size.
       masses that fail: `H2O2`, `O2` and `Na+` are quoted more coarsely than
       their derivations support, and `catalase` and `amylase` carry placeholder
       formulas. All five are left as they stand and named in a declined table.
+      **The pass found something the band itself did not: the bench does not
+      read the record the band is attached to.** The colligative path never
+      asks the registry for water's molar mass; it carries its own copy as a
+      Rust literal in at least eleven places across seven files and in three
+      spellings, and `constants.rs`'s 18.01528 disagrees with `states.rs`'s
+      0.018015 at 1.6 ppm. Both lie INSIDE the propagated interval, which is
+      what makes the disagreement legible as two representatives of one
+      published range rather than as a typo. Written up as its own follow-up
+      below.
       **Reach and cost:** five element rows reach 66 of 186 molar masses;
       twenty-one more rows reach the rest, an afternoon plus however many more
       coarsely-quoted values they turn up. Beyond molar mass there is no table:
@@ -2806,6 +2815,26 @@ started. They are ordered by what they unblock, not by size.
       sourcing programme there**, and `boiling-point/water` is the clearest
       case — its citation was withdrawn on 2026-09-13, so there is no source to
       read.
+- [ ] **Water's molar mass is eleven literals and no reader of the registry.**
+      Found 2026-09-15 while giving the registry uncertainties, and it is the
+      reason those bands are claims about the registry rather than about the
+      bench. `states.rs` has `WATER_MOLAR_MASS_KG = 0.018_015`, `aqueous.rs`
+      and `displacement.rs` have `18.015`, `solve.rs`, `particles.rs` and
+      `sweep.rs` inline `0.018_015` six times between them, `constants.rs` has
+      `WATER_MOLAR_MASS = 18.015_28` commented "IUPAC 2021 atomic weights", and
+      `bench.rs` falls back to 18.01528 where a registry lookup misses. None
+      reads `molar-mass/water`. `states.rs`'s own comment says "M_w is the
+      registry's own molar mass of water" beside its private copy of it.
+      THE TWO SPELLINGS ARE NOT A TYPO: 18.015 and 18.01528 both lie inside the
+      CIAAW interval [18.01471, 18.01599], so they are two conventional
+      representatives of one published range, and the interval is what makes
+      that readable. This is the shape the native-versus-wasm split already
+      cost this project once — one quantity, two derivations, nothing keeping
+      them equal. **The width is not the reason to fix it**: wiring the record
+      in moves no band in the accuracy corpus, by a factor of roughly two
+      hundred. The reason is that a value with a band nobody reads is a band
+      nobody can spend, and the corpus now has to carry a `wired = false` field
+      to say so.
 - [ ] **Majer & Svoboda has no machine-readable row.** It is cited in shipped
       code and appears in the prose table, but `provenance/upstreams.toml` has
       no entry, so the lint cannot see it. Add one when someone reads its terms;

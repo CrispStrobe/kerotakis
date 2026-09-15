@@ -190,24 +190,65 @@ computed from, with their bands and what they contribute — cross-checked
 against the shipped registry by `accuracy_corpus.rs`, so a value or band that
 moves in the registry and not in the corpus fails rather than drifts.
 
-**Two things came out of writing them, and the second is the more useful.**
+**Three things came out of writing them, and the second is not what the rows
+were written to carry.**
 
-- **The bounded inputs do not move the bands.** Water's molar mass is the only
-  registry record whose uncertainty reaches any colligative model value, and it
-  reaches it at 7.1e-5 relative — 6.7e-5 in an osmotic coefficient near 0.945,
-  about 0.025 mK in the tenth-molal depression. That is 0.2 % and 0.6 % of the
-  two tightest model bands in the file. Small is the useful answer: it says
-  those bands are set by the rounding and routing arguments each row already
-  makes, which is what those arguments assumed without being able to show it.
-- **The largest model input in this family is not a registry record at all.**
-  Both cryoscopic rows reach their answer through water's enthalpy of fusion
-  and both boiling rows through its enthalpy of vaporisation, and those are
-  `WATER_H_FUS` and `WATER_H_VAP` in `crates/kerotakis-core/src/states.rs` —
-  Rust constants with no registry record, so they cannot carry an uncertainty
-  in the schema that has one. `WATER_H_VAP` is additionally the constant whose
-  own comment says NO SOURCE IS CLAIMED FOR THIS NUMBER. **A term worth about
-  0.4 % of the depression per per-cent error in the enthalpy is unbounded, and
-  saying so is worth more than the four terms that are bounded.**
+### 1. The term can be quantified
+
+Water's molar mass is the input every row in this family runs on — in the
+kilograms of solvent the ledger converts to, and again in the osmotic rows
+through φ = −ln(a_w)/(M_w·Σm). Its band is 7.1e-5 of the value, which is
+6.7e-5 in an osmotic coefficient near 0.945 and about 0.025 mK in the
+tenth-molal depression: **0.2 % and 0.6 % of the two tightest model bands in
+the file.** Small is the useful answer. It says those bands are set by the
+rounding and routing arguments each row already makes, which is what those
+arguments assumed without being able to show it.
+
+### 2. THE BENCH DOES NOT READ THE RECORD THE BAND IS ATTACHED TO
+
+Attaching the band and then trying to spend it found this. The colligative
+path never asks the registry for water's molar mass. It carries its own copy,
+as a Rust literal, in **at least eleven places across seven files and in three
+spellings**:
+
+| | |
+|---|---|
+| `states.rs` | `WATER_MOLAR_MASS_KG = 0.018_015` |
+| `aqueous.rs`, `displacement.rs` | `18.015` |
+| `solve.rs`, `particles.rs`, `sweep.rs` | `0.018_015` inline, six times |
+| `constants.rs` | `WATER_MOLAR_MASS = 18.015_28`, commented *"IUPAC 2021 atomic weights"* |
+| `bench.rs` | falls back to `18.01528` where a registry lookup misses |
+
+`states.rs`'s own comment reads *"M_w is the registry's own molar mass of
+water, 0.018015 kg/mol"* — beside its private copy of it.
+
+So the 66 bands are **claims about the registry and not yet about the bench**,
+and a tolerance argued against one would have been arguing against a number
+the bench never sees. The corpus records that per row in a new `wired` field
+rather than leaving a reader to assume, and the structural test refuses a row
+that declares itself unwired while claiming to reach a quantity.
+
+The interval is what makes the disagreement *legible*, which is worth saying
+for itself: 18.015 and 18.01528 differ by 1.6 ppm and **both lie inside
+[18.01471, 18.01599]**. They are two conventional representatives of one
+published range, not one right number and one wrong one. Without the interval
+the only available readings were "identical enough" and "somebody made a
+typo"; neither is what is going on. This is the shape of a defect this project
+has already paid for once — one quantity, two derivations, nothing keeping
+them equal — and wiring the record in is worth doing for that reason rather
+than for the width.
+
+### 3. The largest model input in the family is not a registry record at all
+
+Both cryoscopic rows reach their answer through water's enthalpy of fusion and
+both boiling rows through its enthalpy of vaporisation. Those are
+`WATER_H_FUS` and `WATER_H_VAP` in `crates/kerotakis-core/src/states.rs` —
+constants with **no registry record**, so they cannot carry an uncertainty in
+the schema that has one, and nothing in the corpus quantifies them.
+`WATER_H_VAP` is additionally the constant whose own comment says NO SOURCE IS
+CLAIMED FOR THIS NUMBER. **A term worth roughly 0.4 % of the depression per
+per-cent error in the enthalpy is unbounded, and saying so is worth more than
+the three bounded terms put together.**
 
 ## How far the pattern reaches, and what the rest costs
 

@@ -72,35 +72,45 @@ not gated is the corpus **as a measure**.
 
 `cases/colligative.toml` now carries `registry_input` rows: the registry
 records this family's model values are computed from, each with the
-uncertainty that record carries and what it contributes to the bands.
+uncertainty that record carries, whether the bench actually reads it, and what
+it contributes to the bands.
 
 The reason they could not be written on the day the corpus was is the reason
 they matter. A model band is a claim about how far the bench may sit from
 reality, and part of that distance is the uncertainty the bench's own inputs
 carry — but every numeric record in the registry reported no uncertainty at
-all, so that term could be named and never quantified. `PLAN.md`'s scoped
-task *Give numeric records an uncertainty* closed enough of that to write the
-term down, and the finding is reported in
+all, so that term could be named and never quantified. `PLAN.md`'s scoped task
+*Give numeric records an uncertainty* closed enough of that to write the term
+down, and the finding is reported in
 [`../docs/registry-uncertainty-and-measurement.md`](../docs/registry-uncertainty-and-measurement.md).
 
-Two things in those rows are worth reading before the numbers:
+Three things in those rows are worth reading before the numbers:
 
-- **The largest input in this family is not a registry record at all.** Both
-  cryoscopic rows run through water's enthalpy of fusion and both boiling
-  rows through its enthalpy of vaporisation, and those are Rust constants in
-  `states.rs` with no record in the registry — so they cannot carry an
-  uncertainty in the schema that has one, and the corpus does not pretend
-  they do. `WATER_H_VAP` is additionally the one whose own comment says no
-  source is claimed for it.
-- **The inputs that *are* bounded turn out not to move the bands**, by a
-  factor of roughly five hundred. That is the useful answer rather than a
+- **The bench does not read the records the bands are attached to.** Water's
+  molar mass is the input every row here runs on, and the colligative path
+  never asks the registry for it: it carries its own copy as a Rust literal in
+  at least eleven places across seven files, in three spellings, two of which
+  disagree at 1.6 ppm. So `wired = false` on all three molar masses, and a
+  tolerance argued against one of those bands would be arguing against a
+  number the bench never sees. The interval is what makes that legible rather
+  than invisible — both spellings lie inside it, so they are two
+  representatives of one published range rather than one of them being wrong.
+- **The bounded inputs would not move the bands even if they were wired**, by
+  a factor of roughly two hundred. That is the useful answer rather than a
   disappointing one: it says each row's band is set by the rounding and
   routing arguments it already makes, which those arguments had assumed
   without being able to show it.
+- **The largest input in this family is not a registry record at all.** Both
+  cryoscopic rows run through water's enthalpy of fusion and both boiling rows
+  through its enthalpy of vaporisation, and those are Rust constants in
+  `states.rs` with no record — so they cannot carry an uncertainty in the
+  schema that has one, and the corpus does not pretend they do. `WATER_H_VAP`
+  is additionally the one whose own comment says no source is claimed for it.
 
 `kerotakis-core/tests/accuracy_corpus.rs` checks every declared input against
 the shipped registry — value and band — so a number that moves there and not
-here fails rather than drifting.
+here fails rather than drifting, and refuses a row that declares itself unwired
+while claiming to reach a quantity.
 
 ## Two fields this repository has not had before
 
