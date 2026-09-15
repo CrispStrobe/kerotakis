@@ -1569,7 +1569,10 @@ pub(crate) fn upstreams_command(audit_path: &str, root: &str, fail: bool) -> ! {
                 .split_once(" / ")
                 .and_then(|(_, id)| audit.upstreams.iter().find(|u| u.id == id))
                 .map_or(0, |u| u.cite_at_most);
-            println!("    {key}: {} of a declared cite_at_most = {ceiling}", rows.len());
+            println!(
+                "    {key}: {} of a declared cite_at_most = {ceiling}",
+                rows.len()
+            );
             for row in rows {
                 println!("      - {row}");
             }
@@ -1597,7 +1600,10 @@ pub(crate) fn upstreams_command(audit_path: &str, root: &str, fail: bool) -> ! {
             .iter()
             .map(|(kind, count)| format!("{count} {kind}"))
             .collect();
-        println!("provenance upstreams: findings by kind — {}", parts.join(", "));
+        println!(
+            "provenance upstreams: findings by kind — {}",
+            parts.join(", ")
+        );
     }
     if total == 0 && stale.is_empty() {
         println!(
@@ -2026,7 +2032,9 @@ note = "Refused for bulk dependence, citable once with a page."
         ));
         let problems = audit.problems();
         assert!(
-            problems.iter().any(|p| p.contains("cannot cure a permission")),
+            problems
+                .iter()
+                .any(|p| p.contains("cannot cure a permission")),
             "a locator on a permission-required row must be refused outright: {problems:?}"
         );
         // And even if the file were somehow accepted, the match is a finding.
