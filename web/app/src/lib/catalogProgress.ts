@@ -25,6 +25,25 @@ export type CatalogAccess = {
   minimumCompleted: number;
 };
 
+/**
+ * Whether the cabinet has answered at all, which is a different question
+ * from what it answered.
+ *
+ * `shelfAccess` collapses "no answer" into an unavailable row, because an
+ * unanswered row is the only one it can safely paint. What it cannot carry
+ * is WHY there is no answer, and the two whys read very differently: a
+ * catalog still in flight becomes a shelf a moment later, and a catalog
+ * that was asked to exhaustion and never replied never will. PR #599 made
+ * the first honest; this is the second.
+ */
+export type CabinetStatus =
+  /** Asked, still waiting. Every session starts here. */
+  | "pending"
+  /** The engine replied, and `catalog` is what it said. */
+  | "answered"
+  /** Asked to exhaustion and never answered. The shelf says so. */
+  | "unanswered";
+
 /** The engine's answer, indexed by stable id. */
 export type CatalogMap = ReadonlyMap<string, CatalogItem>;
 

@@ -50,6 +50,7 @@ function body(props: Record<string, unknown>): string {
       target: 0,
       onadd: () => {},
       catalog: catalogMap([]),
+      cabinet: "pending",
       ...props,
     },
   }).body;
@@ -75,6 +76,31 @@ describe("the shelf in Sandbox", () => {
   // The sentence itself is only rendered for an OPENED row, which a server
   // render never has; `lockNote` in shelfStock.test.ts is where the words
   // are pinned, and tools/test-ux-quality.mjs reads them off a real screen.
+});
+
+describe("a shelf with nothing on it says which nothing it is", () => {
+  it("blames the filter when the filter is to blame", () => {
+    // The catalogue answered and a filter is what emptied the list, so
+    // the filter is what the sentence is allowed to blame.
+    const html = body({ mode: "story", scope: "mission", kit: [], catalog: catalogue("story"), cabinet: "answered" });
+    expect(html).toContain("nothing on the shelf matches");
+  });
+
+  it("blames the cabinet when the cabinet is to blame", () => {
+    // Story opens on the "unlocked" scope, whose filter asks `available`,
+    // which answers no for everything while the catalogue is silent. The
+    // shelf then reads "nothing on the shelf matches" over a cabinet of
+    // 188 bottles, with the filter apparently at fault.
+    const html = body({ mode: "story", scope: "unlocked", catalog: catalogMap([]), cabinet: "unanswered" });
+    expect(html).toContain("did not answer");
+    expect(html).not.toContain("nothing on the shelf matches");
+  });
+
+  it("keeps saying 'not yet' while the asks are still in flight", () => {
+    const html = body({ mode: "story", scope: "unlocked", catalog: catalogMap([]), cabinet: "pending" });
+    expect(html).toContain("nothing on the shelf matches");
+    expect(html).not.toContain("did not answer");
+  });
 });
 
 describe("the shelf in Story", () => {

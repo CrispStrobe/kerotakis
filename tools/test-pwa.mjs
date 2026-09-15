@@ -16,12 +16,28 @@
  */
 
 import { serve, browser, waitFor, PREFIX } from "./lib/headless.mjs";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 
 const PAYLOAD = process.argv[2];
 if (!PAYLOAD) {
   console.error("usage: node tools/test-pwa.mjs <payload-dir>");
   process.exit(2);
 }
+
+/**
+ * Which "deployment" the server is serving, and the one thing that differs
+ * between them.
+ *
+ * A release is not a file diff: it is a moment when the origin starts
+ * answering with different bytes while browsers are still holding the
+ * previous ones. Nothing static can be asked whether the worker pairs a
+ * document with the engine it was built against — only a server that
+ * changes underneath a live registration can.
+ */
+let deployment = 1;
+const deployMarker = (html) =>
+  html.replace("<head>", `<head><meta name="kero-deploy" content="${deployment}">`);
 
 const failures = [];
 const check = (cond, label, detail = "") => {
@@ -181,6 +197,72 @@ try {
   }
   check(cached.urls.some((u) => new RegExp(`^${PREFIX}/app/assets/index-.*\\.js$`).test(u)),
         "precached the app's content-hashed bundle");
+
+  /* -- a deploy lands while this worker is still in charge -------------- */
+  //
+  // The defect: `/app/` is the URL the README advertises and the manifest
+  // starts at, and NOTHING precaches it — only `app/index.html` is. The
+  // fetch handler therefore missed the cache on it and went to the
+  // network, while `kerotakis_wasm.js` and the databases, whose names
+  // never change between builds, came cache-first out of the deploy the
+  // worker was installed from. A new app bundle against an older engine:
+  // the pairing that produced #599's shelf of 188 locked bottles, where
+  // the bundle asked an engine that has no `catalog` method for a catalog.
+  //
+  // Reproduced rather than reasoned about: a second worker registration in
+  // a second origin, installed from the console page so that `/app/` has
+  // never been fetched, and then the server starts answering as a later
+  // deployment would.
+  console.log("\n== a deploy lands under a live worker");
+  const { server: rollout, origin: rolling } = await serve(PAYLOAD, {
+    handleRequest: async (request, response) => {
+      if (deployment === 1) return false;
+      const path = new URL(request.url, "http://x").pathname;
+      if (!/\/app\/(index\.html)?$/.test(path)) return false;
+      response.writeHead(200, { "content-type": "text/html" });
+      response.end(deployMarker(await readFile(join(PAYLOAD, "app/index.html"), "utf8")));
+      return true;
+    },
+  });
+  try {
+    // The console page installs the payload-root worker, and the bench URL
+    // is never visited: this is a learner who lands where the repository
+    // points them and clicks through to the bench later.
+    await page.goto(`${rolling}/`);
+    await waitFor(page, `navigator.serviceWorker.controller !== null`, { timeout: 30000 })
+      .catch(() => {});
+    await page.goto(`${rolling}/`);
+    const controlled = await page.evaluate(`navigator.serviceWorker.controller !== null`);
+    check(controlled, "the console page installs a worker that controls it");
+    const before = await page.evaluate(`(async () => {
+      const cache = await caches.open((await caches.keys())[0]);
+      return (await cache.keys()).map((r) => new URL(r.url).pathname);
+    })()`);
+    // Non-vacuity: if `/app/` were already cached here the rest would pass
+    // whatever the fetch handler does, and the engine has to be cached or
+    // there is no older half to pair anything with.
+    check(!before.includes(`${PREFIX}/app/`),
+          "nothing has cached the bench's directory URL yet");
+    check(before.includes(`${PREFIX}/kerotakis_wasm.js`),
+          "the engine is in this generation's cache");
+
+    deployment = 2;
+    await page.goto(`${rolling}/app/`);
+    const served = await page.evaluate(
+      `document.querySelector('meta[name="kero-deploy"]')?.getAttribute('content') ?? "1"`);
+    check(served === "1",
+          "the bench document comes from the same deploy as the engine beside it",
+          `document from deployment ${served}, engine from deployment 1`);
+    check(await benchBooted(), "and it boots");
+    const generations = await page.evaluate(`caches.keys()`);
+    check(generations.length === 1,
+          "still one cache generation, not a blend of two", generations.join(", "));
+  } finally {
+    deployment = 1;
+    rollout.close();
+  }
+  await page.goto(`${origin}/app/`);
+  await benchBooted();
 
   /* -- offline --------------------------------------------------------- */
   console.log("\n== offline");

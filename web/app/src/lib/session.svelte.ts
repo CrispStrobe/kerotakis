@@ -33,7 +33,7 @@ import { i18n, t } from "./i18n.svelte";
 import { registerText } from "./registerText";
 import { missionTitle } from "./storyProgress";
 import { caseAwardedTools, contaminatedSampleComplete } from "./storyChapter";
-import { access as catalogAccess, catalogMap, type CatalogMap } from "./catalogProgress";
+import { access as catalogAccess, catalogMap, type CabinetStatus, type CatalogMap } from "./catalogProgress";
 import { persistStockUsed, restoreStockUsed, stockRemaining, suppliedSpecies, STORY_STOCK_KEY } from "./storyStock";
 import type { LabMode } from "./worldState";
 import { parseElementCoverage, type ElementCoverageReport } from "./elements";
@@ -61,7 +61,7 @@ export type FeedEntry = {
    * two paragraphs above every log; the notebook export still writes them
    * out as the notes they are.
    */
-  status?: "bench-live" | "bench-shipped" | "restored" | "restore-failed";
+  status?: "bench-live" | "bench-shipped" | "restored" | "restore-failed" | "cabinet-silent" | "cabinet-answered";
   /** Hazard entries: the engine's severity, for the card's chip. */
   severity?: string;
   hazardText?: string;
@@ -196,6 +196,47 @@ const DONE_KEY = "kero.codex.done.v1";
 /** Stable lesson ids completed in Story. ModeStorage keeps this out of Sandbox. */
 const MISSION_DONE_KEY = "kero.missions.done.v1";
 
+/**
+ * How many times the catalog is asked before the shelf says nobody answered.
+ *
+ * **Why it retries at all.** The round trip is a message to a worker that
+ * is still starting a multi-megabyte wasm engine. A first ask can lose to
+ * that boot, and losing to a boot is the textbook transient failure: the
+ * same question asked a second later gets an answer. Before this, the one
+ * `catch {}` turned every such loss into a permanently blank cabinet.
+ *
+ * **Why it stops, and stops HERE.** Three asks and two waits is at most
+ * 1.6 s of patience. That is enough to outlast a worker boot and a dropped
+ * message, and short enough that a learner who will never get an answer —
+ * a deployment pairing a new app bundle with an older engine that has no
+ * `catalog` method at all, which is exactly how this was reproduced — is
+ * told so inside two seconds rather than watching a shelf that says "still
+ * checking" forever. A retry with no last attempt is a worse failure than
+ * the silence it replaces: it never has to say anything true, because it
+ * can always claim to be about to succeed. So the loop has a last attempt,
+ * and the last attempt's job is to speak.
+ *
+ * **Why nothing retries after that.** `refreshCatalog` is already re-run
+ * whenever an input to the answer changes — the mode, the completed count,
+ * a closed case's award, a mission kit. A cabinet that recovers is
+ * therefore re-asked by the next thing the learner does, and says so when
+ * it answers. A background poller would add a second, invisible retry
+ * policy on top of this one and would keep a broken deployment quiet.
+ */
+const CATALOG_ATTEMPTS = 3;
+
+/**
+ * The waits between those asks, in milliseconds: geometric, ×3.
+ *
+ * 400 ms is longer than a healthy round trip by an order of magnitude, so
+ * the second ask is a genuine second chance rather than a duplicate of the
+ * first; 1200 ms then covers a slow boot without pushing the verdict past
+ * two seconds. Deliberately a literal list rather than a formula — the
+ * number of waits is `CATALOG_ATTEMPTS - 1`, and a list cannot disagree
+ * with itself about when to stop.
+ */
+const CATALOG_BACKOFF_MS = [400, 1200];
+
 export class Session {
   register = $state<string>("lv1");
   scene = $state<Scene | null>(null);
@@ -234,6 +275,35 @@ export class Session {
    * callers must treat as "not yet known" rather than as a refusal.
    */
   catalog = $state<CatalogMap>(new Map());
+
+  /**
+   * Whether that answer ever arrived — asked separately from what it said,
+   * because an empty map is both "still loading" and "never replied".
+   *
+   * PR #599 stopped the shelf turning the silence into a refusal with a
+   * fabricated milestone of zero. It did not touch the reason there was
+   * nothing to know: `refreshCatalog` swallowed the failure whole, so a
+   * deployment whose engine cannot answer read as permanently "still
+   * checking", with nothing in the feed and nothing in any log to say why.
+   */
+  cabinet = $state<CabinetStatus>("pending");
+
+  /**
+   * The ask this answer belongs to.
+   *
+   * `refreshCatalog` is fired from five places and now sleeps between its
+   * attempts, so two asks can be in flight at once — and the older one
+   * carries the older completed count and the older mission kit. A late
+   * reply from a superseded ask must not overwrite a newer answer, and a
+   * superseded ask must not keep retrying or report a failure the current
+   * one has already recovered from.
+   */
+  private catalogAsk = 0;
+
+  /** Whether this failure episode has already been written to the feed, so
+   * five callers do not stack five identical notices. Cleared when the
+   * cabinet answers again. */
+  private cabinetReported = false;
 
   /** GUI-066: the running quest, engine-evaluated. Claims progress for
    * the panel; nudges arrive as feed cards. */
@@ -1780,7 +1850,7 @@ export class Session {
   }
 
   /**
-   * Ask the engine what this learner can reach.
+   * Ask the engine what this learner can reach — patiently, and out loud.
    *
    * Everything the answer depends on is in the request — mode, completed
    * count, the awards a closed case derived, and the active mission's kit —
@@ -1789,22 +1859,64 @@ export class Session {
    *
    * A failure leaves the previous answer standing rather than emptying the
    * cabinet: a dropped round trip is not the same as losing your equipment.
+   * But it is no longer swallowed. Two things happen instead:
+   *
+   * **It is retried, a bounded number of times.** See CATALOG_ATTEMPTS.
+   * **Then it is said.** A failure in this app is a first-class message —
+   * the same shape `connect` already uses for an aqueous engine that would
+   * not attach: an `error` entry in the feed, naming the reason, which is
+   * the log a diagnostician reads and the notebook export writes out.
+   * Silence here is what made a broken deployment indistinguishable from a
+   * slow one.
    */
   async refreshCatalog(): Promise<void> {
-    try {
-      const response = await this.host.catalog({
-        mode: this.mode,
-        completed: this.completedMissions.size,
-        awarded: caseAwardedTools(this.completedMissions),
-        mission_kit: [
-          ...(this.lesson?.kit ?? []),
-          ...(this.missionOutcome?.contract.extraTools ?? []),
-        ],
-      });
-      this.catalog = catalogMap(response.items);
-    } catch {
-      // Keep whatever the engine last told us.
+    const ask = ++this.catalogAsk;
+    const request = {
+      mode: this.mode,
+      completed: this.completedMissions.size,
+      awarded: caseAwardedTools(this.completedMissions),
+      mission_kit: [
+        ...(this.lesson?.kit ?? []),
+        ...(this.missionOutcome?.contract.extraTools ?? []),
+      ],
+    };
+    let reason = "";
+    for (let attempt = 1; attempt <= CATALOG_ATTEMPTS; attempt += 1) {
+      try {
+        const response = await this.host.catalog(request);
+        // A superseded ask answers with a stale mode and a stale count.
+        if (ask !== this.catalogAsk) return;
+        this.catalog = catalogMap(response.items);
+        this.cabinet = "answered";
+        if (this.cabinetReported) {
+          this.cabinetReported = false;
+          this.feed.push({
+            kind: "note",
+            status: "cabinet-answered",
+            text: t("the supply cabinet answered after all — the shelf is up to date again"),
+          });
+        }
+        return;
+      } catch (e) {
+        if (ask !== this.catalogAsk) return;
+        reason = e instanceof Error ? e.message : String(e);
+        if (attempt < CATALOG_ATTEMPTS) {
+          await new Promise((resolve) => setTimeout(resolve, CATALOG_BACKOFF_MS[attempt - 1]));
+          if (ask !== this.catalogAsk) return;
+        }
+      }
     }
+    this.cabinet = "unanswered";
+    if (this.cabinetReported) return;
+    this.cabinetReported = true;
+    this.feed.push({
+      kind: "error",
+      status: "cabinet-silent",
+      text: t("the supply cabinet did not answer after {attempts} tries: {reason}", {
+        attempts: CATALOG_ATTEMPTS,
+        reason,
+      }),
+    });
   }
 
   /** Which laboratory this session is, for the surfaces that must gate by

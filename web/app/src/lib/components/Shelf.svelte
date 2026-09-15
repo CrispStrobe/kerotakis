@@ -5,7 +5,7 @@
   import SpeciesChip from "./SpeciesChip.svelte";
   import { i18n, t } from "../i18n.svelte";
   import { stepAmount } from "../stepAmount";
-  import { available, shelfAccess, type CatalogMap } from "../catalogProgress";
+  import { available, shelfAccess, type CabinetStatus, type CatalogMap } from "../catalogProgress";
   import { stockRemaining } from "../storyStock";
   import { isExhausted, lockNote, stockBadge, type StockLevels } from "../shelfStock";
   import type { LabMode } from "../worldState";
@@ -23,6 +23,7 @@
     onadd,
     kit = null,
     catalog,
+    cabinet,
     scope = "all",
     mode = "sandbox",
     completed = 0,
@@ -39,6 +40,11 @@
     kit?: string[] | null;
     /** WORLD-003: the engine's answer about what is reachable, by id. */
     catalog: CatalogMap;
+    /** Whether that answer ever arrived. Required, not defaulted: an
+     * unanswered cabinet and one still in flight look identical from
+     * `catalog` alone, and guessing wrong is what the note under a locked
+     * bottle would be lying about. */
+    cabinet: CabinetStatus;
     scope?: CatalogScope;
     mode?: LabMode;
     completed?: number;
@@ -407,7 +413,7 @@
               {/if}
             </form>
           {:else if !access.available}
-            <p class="stock-lock">{lockNote(access, t)}</p>
+            <p class="stock-lock">{lockNote(access, t, cabinet)}</p>
           {:else if emptyBottle}
             <p class="stock-lock depleted-note">{t("This bottle is empty — the lab would refuse the pour. Stock the shelf again to keep going.")}</p>
           {:else}
@@ -417,7 +423,17 @@
       </li>
     {/each}
     {#if filtered.length === 0}
-      <li class="none">{t("nothing on the shelf matches")}</li>
+      <!-- An empty shelf has two very different reasons, and only one of
+           them is about the filter. The "unlocked" scope asks `available`,
+           which answers no for everything while the catalogue is silent —
+           so a Story learner whose engine never answered was shown "nothing
+           on the shelf matches" over a cabinet of 188 bottles, with the
+           filter apparently to blame. Say which it is. -->
+      <li class="none">
+        {cabinet === "unanswered"
+          ? t("The supply cabinet did not answer, so nothing here is known to be unlocked — the journal says what went wrong.")
+          : t("nothing on the shelf matches")}
+      </li>
     {/if}
   </ul>
   <p class="tally">

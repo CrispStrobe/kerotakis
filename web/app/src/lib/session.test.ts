@@ -1564,6 +1564,9 @@ describe("the catalog is asked, not computed (WORLD-003 client migration)", () =
   class CountingHost extends FakeHost {
     catalogCalls = 0;
     failCatalog = false;
+    /** Fail this many asks and then answer: a transient failure, which is
+     * the one a retry is for. */
+    failFirst = 0;
     async catalog(request: {
       mode?: string;
       completed?: number;
@@ -1571,6 +1574,10 @@ describe("the catalog is asked, not computed (WORLD-003 client migration)", () =
       mission_kit?: string[];
     }) {
       this.catalogCalls += 1;
+      if (this.failFirst > 0) {
+        this.failFirst -= 1;
+        throw new Error("the engine worker is still booting");
+      }
       if (this.failCatalog) throw new Error("engine busy");
       return super.catalog(request);
     }
@@ -1622,6 +1629,102 @@ describe("the catalog is asked, not computed (WORLD-003 client migration)", () =
     // A dropped round trip is not the same as losing your equipment.
     expect(s.catalog.size).toBe(known);
     expect(s.catalogAccess("water")?.available).toBe(true);
+  });
+
+  /**
+   * The follow-up #599 named and did not fix: the round trip failed, the
+   * `catch {}` ate it, and a deployment in that state was broken in
+   * silence. Both halves of the answer are pinned here — that it is asked
+   * again, and that the asking STOPS and says something true.
+   */
+  it("asks again before it gives up, and stops at three", async () => {
+    const host = new CountingHost();
+    const s = new Session(host, new FakeStorage(), "story");
+    await s.connect();
+    host.catalogCalls = 0;
+    host.failCatalog = true;
+
+    await s.refreshCatalog();
+
+    // Three, not two and not forever. A retry with no last attempt never
+    // has to say anything true: it can always claim to be about to work.
+    expect(host.catalogCalls).toBe(3);
+    expect(s.cabinet).toBe("unanswered");
+  });
+
+  it("heals a transient failure without telling the learner about it", async () => {
+    const host = new CountingHost();
+    const s = new Session(host, new FakeStorage(), "story");
+    await s.connect();
+    const quiet = s.feed.length;
+    host.failFirst = 2;
+
+    await s.refreshCatalog();
+
+    // A worker still booting its wasm is the transient failure this
+    // actually has. It resolves on the third ask, and a learner who was
+    // never shown a problem is not shown a recovery from one either.
+    expect(s.cabinet).toBe("answered");
+    expect(s.catalog.size).toBeGreaterThan(0);
+    expect(s.feed.length).toBe(quiet);
+  });
+
+  it("writes the failure to the journal, once, with the reason", async () => {
+    const host = new CountingHost();
+    const s = new Session(host, new FakeStorage(), "story");
+    await s.connect();
+    host.failCatalog = true;
+
+    await s.refreshCatalog();
+    await s.refreshCatalog();
+
+    const said = s.feed.filter((entry) => entry.status === "cabinet-silent");
+    // Once per episode, not once per caller: five call sites would
+    // otherwise stack five identical notices down the journal.
+    expect(said).toHaveLength(1);
+    // The reason is the diagnostic. Without it the entry says a
+    // deployment is broken without saying how, which is a prettier
+    // version of the silence it replaces.
+    expect(said[0]?.text).toContain("engine busy");
+    expect(said[0]?.kind).toBe("error");
+  });
+
+  it("says so when the cabinet comes back", async () => {
+    const host = new CountingHost();
+    const s = new Session(host, new FakeStorage(), "story");
+    await s.connect();
+    host.failCatalog = true;
+    await s.refreshCatalog();
+    expect(s.cabinet).toBe("unanswered");
+
+    host.failCatalog = false;
+    await s.refreshCatalog();
+
+    expect(s.cabinet).toBe("answered");
+    expect(s.feed.filter((entry) => entry.status === "cabinet-answered")).toHaveLength(1);
+    // And the next failure is a new episode, so it is reported again.
+    host.failCatalog = true;
+    await s.refreshCatalog();
+    expect(s.feed.filter((entry) => entry.status === "cabinet-silent")).toHaveLength(2);
+  });
+
+  it("lets a newer ask abandon an older one mid-retry", async () => {
+    const host = new CountingHost();
+    const s = new Session(host, new FakeStorage(), "story");
+    await s.connect();
+    host.failCatalog = true;
+
+    // Two asks in flight at once, which the sleeps between attempts make
+    // possible for the first time. The older one carries the older mode
+    // and the older completed count; its answer must not land on top of
+    // the newer one, and its failure must not be announced either.
+    const stale = s.refreshCatalog();
+    host.failCatalog = false;
+    await s.refreshCatalog();
+    await stale;
+
+    expect(s.cabinet).toBe("answered");
+    expect(s.feed.filter((entry) => entry.status === "cabinet-silent")).toHaveLength(0);
   });
 
   it("returns null for an id the engine has not spoken about", async () => {
