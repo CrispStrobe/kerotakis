@@ -347,6 +347,162 @@ names = ["Merck Index"]
 in_plan_table = true
 note = "Read 2026-09-15: a subscription product, footer 'copyright Royal Society of Chemistry 2026', trademark licensed from Merck & Co.; no Creative Commons or open-data licence anywhere on it. The old rsc.org/merck-index URL 301s here. PROPOSED, not inherited. Copyrighted commercial reference work (Royal Society of Chemistry), no reuse licence granted. Same class as `crc-handbook`."
 
+
+# ------------------------------------ added 2026-09-15, from the census ---
+#
+# Eight rows the repository has been leaning on with no entry here at all.
+# `docs/registry-unattributed-census.md` separated the lint's 105-citation
+# blind spot into three populations and found that the instrument was at
+# fault more than the data: of 487 numeric records under those citations,
+# 228 declare that no claim is being made, 39 are computed or declared
+# editorial, ONE HUNDRED NAME A REAL SOURCE THIS TABLE COULD NOT SPELL, and
+# 120 name nothing. These rows are that hundred.
+#
+# Each carries the date its terms were actually read. Two of them could not
+# be read - acs.org answers an automated request with a filter page and
+# wiley.com with a 403 - and say so in the row instead of carrying a date
+# that claims a reading. Three are `decision-required`: a real grant exists,
+# it covers teaching, and it stops at commercial use, and nobody has asked
+# the question that would settle it. That verdict is reported apart from the
+# headline offence count on purpose, because "a count that mixes refused
+# with not yet asked reads stronger than it is".
+
+[[upstream]]
+id = "ciaaw"
+name = "IUPAC/CIAAW standard atomic weights"
+licence = "LicenseRef-IUPAC-CIAAW-Educational-Use-Commercial-On-Request"
+terms = "https://ciaaw.org/impressum.htm"
+retrieved = "2026-09-15"
+verdict = "decision-required"
+may_touch = []
+# NOT a bare "IUPAC", which is ambiguous: eight registry citations use it for
+# nomenclature ("IUPAC name hypochlorite") or for the InChI library ("the
+# official IUPAC library computes"), and neither names this body. Today that
+# costs nothing - every one of those citations ALSO says "IUPAC/CIAAW", so the
+# narrow and the wide list both match 152 - so this is a forward guard, not a
+# repair. "IUPAC standard atomic weights" is here for `legacy/NaNO3` and
+# `legacy/KNO3`, the only two that name the weights without naming CIAAW.
+names = ["CIAAW", "IUPAC standard atomic weights", "IUPAC Commission on Isotopic Abundances and Atomic Weights"]
+in_plan_table = true
+note = "Read 2026-09-15. ciaaw.org's front page carries only 'CIAAW, 2007-2024'; the impressum is the only terms text the Commission publishes, and it says three things in order. A grant: 'The contents of the website are jointly copyrighted by CIAAW and IUPAC and can be freely used for educational purposes.' Its condition: republication or reproduction 'is permitted without the need for formal IUPAC or CIAAW permission on condition that an acknowledgement, with full reference to the source, along with use of the copyright symbol, the name IUPAC or CIAAW, and the year of publication, are prominently visible'. Its limit: 'For commercial use of this content please contact CIAAW Secretariat.' A GRANT EXISTS, which is why this is not the CRC row, AND IT STOPS SHORT OF COMMERCIAL USE, which is why it is not a clearance. DECIDED ON THE MERITS, NOT ON THE COUNT. Three things are open and not one of them has been asked: whether an AGPL bench anyone may redistribute commercially is inside 'educational purposes'; whether the question arises at all, since a standard atomic weight is an evaluated MEASUREMENT and this registry ships compound molar masses COMPUTED by stoichiometry from about twenty element values rather than a copy of any table - the same Feist footing the `usptolowe` row and `literature/hartley-campbell-iodine-water` already stand on; and whether writing to the Secretariat, which is what that last sentence asks for, would settle it in a paragraph. `decision-required` is the verdict for a question not yet asked. SAID IN ADVANCE, BECAUSE IT WILL LOOK LIKE A REGRESSION AND IS NOT: the headline finding count does not move, and the open-question column, which has read zero on every run since this lint landed, now reads 152 on the registry and 0 on Rust. No number got worse. That is the size of a dependence that was previously invisible, and closing it means asking one question or recording the Feist position as the project's own - not re-sourcing 152 citations."
+
+[[upstream]]
+id = "codata-constants"
+name = "CODATA recommended values of the fundamental physical constants"
+licence = "LicenseRef-US-Government-Work"
+terms = "https://www.nist.gov/open/copyright-fair-use-and-licensing-statements-srd-data-software-and-technical-series-publications"
+retrieved = "2026-09-15"
+verdict = "primary"
+may_touch = ["property", "thermochemistry", "runtime-data"]
+names = ["CODATA"]
+in_plan_table = true
+note = "Read 2026-09-15, twice, because the constants have two homes and only one of them is safe. THE WEBSITE IS SRD. physics.nist.gov/cuu/Constants is NIST STANDARD REFERENCE DATABASE 121, and NIST's own licensing statement says what that means: 'Copyright protection on this compilation of data has been secured by the Secretary of the U.S. Department of Commerce on behalf of the United States ... pursuant to Section 290(e) of Title 15 of the United States Code', with licensing to be obtained at nist.gov/srd. The compilation is therefore in the same class as the NIST WebBook and must not be harvested. THE VALUES THIS REPOSITORY SHIPS ARE NOT IN IT. `kerotakis-core/src/constants.rs` carries N_A, k, h, c and e - every one EXACT BY DEFINITION of the SI since 20 May 2019 - plus R = N_A k and F = N_A e, exact because their factors are, plus the defined standard atmosphere and a chosen 298.15 K reference. Their authority is the BIPM SI Brochure, read the same day at bipm.org/en/publications/si-brochure and published under CC BY 4.0, not a CODATA adjustment of a measured quantity. The crate's own tests assert R = N_A k and F = N_A e, so a reader can check this row rather than take it. CLEARED FOR THAT REASON AND ONLY THAT REASON: a genuinely measured CODATA value - G, the fine-structure constant, an electron mass - would be a transcription out of SRD 121 and wants its own reading before it ships. One consequence worth knowing: `phase_route.rs` hedges with 'as commonly tabulated from NIST/CODATA-class evaluated data. PENDING REVIEW: no positively identified page was opened', and this row makes that string name a cleared source. The lint reports what a string SAYS, never where a number came from; that row still has no origin. ONE NAME, TWO PRODUCTS, AND THE SECOND IS NOT CLEARED HERE. This tree also uses 'CODATA' for the CODATA KEY VALUES FOR THERMODYNAMICS (Cox, Wagman and Medvedev, 1989), which is a different publication with different terms, and those terms have NOT been read. No shipped value rests on it today and both strings that name it say so themselves: `phase_route.rs` names Cox 1989 to explain that it 'does not publish enthalpies of fusion at all', so it could never have been the provenance of the number being corrected, and `curated.rs` names it inside a denial that any single edition was opened. A value that DID rest on the Key Values would need its own row and its own reading, and this clearance must not be read as covering it."
+
+[[upstream]]
+id = "nbs-thermochemical"
+name = "NBS thermochemical tables (Wagman et al. 1982; Circulars 461 and 500; Technical Note 270)"
+licence = "LicenseRef-US-Government-Work"
+terms = "https://www.nist.gov/open/copyright-fair-use-and-licensing-statements-srd-data-software-and-technical-series-publications"
+retrieved = "2026-09-15"
+verdict = "primary"
+may_touch = ["thermochemistry", "property"]
+names = [
+  "NBS/Wagman",
+  "Wagman",
+  "NBS Tables of Chemical Thermodynamic Properties",
+  "NBS Technical Note 270",
+  "Technical Note 270",
+  "NBS Circular 461",
+  "NBS Circular 500",
+  "Selected Values of Chemical Thermodynamic Properties",
+]
+in_plan_table = true
+note = "Read 2026-09-15 at NIST's copyright, fair use and licensing statement. For the Technical Series - which is what NBS Technical Note 270 and the NBS Circulars are - 'works by NIST employees are not subject to copyright protection in the United States' under 17 U.S.C. 105, distributed with a 'non-exclusive, perpetual, paid-up, royalty-free, worldwide right to reprint'. THE LINE IS SRD STATUS, NOT AUTHORSHIP - the distinction PLAN.md drew on 2026-09-13, which unlocked five replacements - and this row sits on the clear side of it. ONE CAVEAT THE CITATIONS DO NOT CARRY. The same tables were reprinted as J. Phys. Chem. Ref. Data 11 (1982) Supplement 2, and JPCRD is the journal of the National Standard Reference Data System, so the Supplement is the SRD presentation of numbers that are public domain in the Technical Note. CITE THE TECHNICAL NOTE, NOT THE SUPPLEMENT. `kerotakis/dissolution-enthalpies-v1` names both in one parenthesis, 'NBS Technical Note 270 / J. Phys. Chem. Ref. Data 11 Suppl. 2', as though they were interchangeable; they are one set of numbers under two covers with two sets of terms. That reading of the Supplement is an inference from the journal's role and NIST's SRD statement, NOT from a terms page for the Supplement itself, and is recorded as an inference. This row also closes a gap in PLAN.md's prose table, whose 'NBS Circulars 461 and 500, J. Res. NBS, NBS Technical Notes' row has been cleared in prose since 2026-09-13 with no machine-readable entry to enforce it."
+
+[[upstream]]
+id = "usda-fdc"
+name = "USDA FoodData Central"
+licence = "CC0-1.0"
+terms = "https://fdc.nal.usda.gov/api-guide/"
+retrieved = "2026-09-15"
+verdict = "primary"
+may_touch = ["property", "runtime-data"]
+names = ["USDA FoodData Central", "FoodData Central", "FDC", "fdc.nal.usda.gov"]
+in_plan_table = true
+note = "Read 2026-09-15: 'USDA FoodData Central data are in the public domain and they are not copyrighted. They are published under CC0 1.0 Universal (CC0 1.0)', and 'No permission is needed for their use, but we request that users list FoodData Central as the source of the data'. The cleanest row in this batch and the only one with an SPDX id. The same terms were read on 2026-08-30 for `provenance/sources.toml`'s `usda-fdc-foundation` record, which asks the OTHER question about the same source - may these bytes ship - so the two files now agree about one source for the first time. `kerotakis/material-recipes-v1` quotes FDC 746782 with the entry's publication date and a retrieval date, which is the shape every citation in this registry should have. NOT COVERED HERE: the same citation's 'USDA ERS reports cow's milk as approximately 87% water' names the Economic Research Service, a different USDA product with its own terms, and it is deliberately not in `names` - a bare 'USDA' would let one department stand in for every agency in it."
+
+[[upstream]]
+id = "primary-literature"
+name = "Primary journal literature (the paper that made the measurement)"
+licence = "LicenseRef-Fact-Not-Copyrightable"
+terms = "https://www.law.cornell.edu/supremecourt/text/499/340"
+retrieved = "2026-09-15"
+verdict = "primary"
+may_touch = ["property", "thermochemistry", "codex"]
+# Per-paper and therefore incomplete by construction: `doi` plus the journal
+# spellings actually cited today. A new paper needs a new spelling here.
+names = [
+  "doi",
+  "J. Chem. Soc.",
+  "Trends in Food Science & Technology",
+  "Z Lebensm Unters Forsch",
+  "J Phys Chem B",
+  "Reproduction Nutrition Development",
+]
+in_plan_table = true
+note = "A ROUTE, NOT A BODY - the only row in this file that is not an organisation, and the one the owner's 2026-09-14 ruling prefers to both of the others: citing a book for one value is ordinary practice, leaning on a compilation is not, and tracing to the paper that made the measurement beats both. Read 2026-09-15: Feist Publications v. Rural Telephone Service, 499 U.S. 340 (1991) holds that 'no author may copyright his ideas or the facts he narrates', that copyright in a compilation 'extends only to the material contributed by the author of such work, as distinguished from the preexisting material employed in the work', and that it does not reach 'the facts themselves'. That is the entire licence basis, and it is the footing the repository already stands on twice over: `usptolowe` calls reaction facts Feist-uncopyrightable, and `literature/hartley-campbell-iodine-water` says in its own citation that it converts one factual measurement and redistributes no source text or table. WHAT THIS ROW DOES NOT LICENCE: a figure, a table, a paragraph or a fitted correlation lifted whole from a paper. One number, with author, title, journal, volume, year, pages and preferably a DOI beside it. THE NAMES LIST IS THE WEAKNESS AND IT IS STRUCTURAL. An organisation has a canonical spelling to anchor on; a paper has as many as there are journals, so this list carries `doi` and the four journal titles cited today and will be one paper behind from the moment a fifth is added. The structured `upstreams[]` field the lint's module docs propose is what retires it."
+
+[[upstream]]
+id = "acs-education"
+name = "American Chemical Society educational material (Middle School Chemistry, J. Chem. Educ.)"
+licence = "LicenseRef-Unread-Terms-Automated-Request-Refused"
+terms = "https://www.acs.org/about/terms-of-use.html"
+retrieved = "2026-09-15"
+verdict = "decision-required"
+may_touch = []
+# NOT a bare "ACS", and this one was measured rather than guessed: "ACS"
+# matches "ACS Omega" in `kerotakis-thermo/src/{pack,vle}.rs`, which is a CC
+# BY 4.0 journal paper and belongs to `primary-literature`, not here. Nor
+# "American Chemical Society", which matches `phase_route.rs` explaining that
+# the 1985 and 1998 JANAF editions are "assigned to the American Institute of
+# Physics and the American Chemical Society" - the Society as a copyright
+# assignee, not as a publisher of classroom material. Nor
+# "Journal of Chemical Education": a JCE research study is a measurement in a
+# peer-reviewed journal and is covered by the primary-literature route, which
+# is also how `kinetics.rs` already cites one, by DOI.
+names = [
+  "ACS middle-school chemistry",
+  "ACS Middle School Chemistry",
+  "ACS Making Glue",
+  "middleschoolchemistry.com",
+]
+in_plan_table = true
+note = "CHECKED 2026-09-15 AND NOT READ. acs.org answers an automated request with an Incapsula filter page - 'Request unsuccessful. Incapsula incident ID' and no body - at the terms URL and at the target middleschoolchemistry.com redirects to. NO TERMS TEXT WAS OBTAINED, so none is quoted and none is inferred, and the date above is the date of the attempt. Recorded that way deliberately: a date claiming a reading that did not happen is the defect this file exists to catch. WHY decision-required AND NOT avoid. The `crc-handbook` verdict rests on the absence of a grant on a page that loaded; nothing loaded here, so there is not even an absence to rest on, and 'we could not read it' is an open question rather than a refusal. And the dependence is not bulk: `kerotakis/material-recipes-v1` names ACS classroom material once, for qualitative teaching facts - that 3% peroxide is the strength used for yeast catalysis, that vegetable oil floats on water and does not dissolve in it, that detergent drives food colouring across whole milk - The owner's 2026-09-14 rule puts the line at bulk dependence, and one qualitative citation is not over it. WHAT WOULD SETTLE IT: a human opening either page in a browser and replacing this note. THE ACS JOURNALS ARE NOT THIS ROW. A Journal of Chemical Education study and an ACS Omega paper are measurements in peer-reviewed journals; they are covered by `primary-literature`, cited by DOI, and bundling them here would have put a CC BY 4.0 paper under an unread terms page - which is what a bare 'ACS' in this list did before it was measured."
+
+[[upstream]]
+id = "fao"
+name = "FAO (Food and Agriculture Organization of the United Nations)"
+licence = "LicenseRef-FAO-Teaching-And-Non-Commercial-Use"
+terms = "https://www.fao.org/contact-us/terms/en/"
+retrieved = "2026-09-15"
+verdict = "decision-required"
+may_touch = []
+names = ["FAO", "Food and Agriculture Organization"]
+in_plan_table = true
+note = "Read 2026-09-15: content on the FAO website 'is protected by copyright' but most of it 'may be copied, printed and downloaded for private study, research and teaching purposes, and for use in non-commercial products or services' with attribution, while 'translation and adaptation rights, and for resale and other commercial use rights' require a licence request to licensing@fao.org. Statistical databases are governed separately by FAO's Open Data Licensing Policy, which is not what is cited here. THE SAME SHAPE AS THE ciaaw ROW and judged the same way: a real grant, covering teaching, stopping at commercial use, with the commercial question unasked. It is cited once, in `kerotakis/material-recipes-v1`, for the balanced hexose-to-ethanol-and-carbon-dioxide equation - which is Gay-Lussac's from 1815 and is a fact rather than FAO's expression of one, so the Feist argument that no grant is needed at all is stronger here than anywhere else in this batch. That argument is precisely why the verdict is `decision-required` and not `avoid`: the question is open, not answered against us. The anchoring earns its keep on this row - an unanchored 'FAO' matches the InChIKey suffix UHFFFAOYSA, which appears in dozens of identity citations, and would have cleared them all."
+
+[[upstream]]
+id = "voet-biochemistry"
+name = "Voet & Voet, Biochemistry, 4th ed. (Wiley)"
+licence = "LicenseRef-No-Licence-Granted"
+terms = "https://www.wiley.com/en-us/Biochemistry%2C+4th+Edition-p-9780470570951"
+retrieved = "2026-09-15"
+verdict = "avoid"
+may_touch = []
+names = ["Voet"]
+in_plan_table = true
+note = "CHECKED 2026-09-15 AND NOT READ: wiley.com returns HTTP 403 to an automated request for the title page and for /en-us/permissions alike, exactly as the CRC publisher page does. No terms were read; this verdict rests on the absence of any granted licence and on the work being a paid commercial textbook (D. Voet and J. G. Voet, Biochemistry, 4th ed., John Wiley and Sons), not on a reading. SAME CLASS AS crc-handbook AND merck-index and judged the same way, because a verdict is a property of the source's terms: making it a property of how often we happen to cite the book would mean this table said different things about one work on different days. THIS ROW ADDS EXACTLY ONE FINDING AND THE CENSUS PREDICTED IT, 59 to 60. It is a true positive rather than the count getting worse because the data got more legible. The `avoid` text carves out 'naming one of these for one value, with author, title, edition and page' as ordinary practice; `legacy/amylase` reads 'Alpha-amylase MW ~55 kDa (typical); Voet & Voet Biochemistry 4th ed.' - no page, and 'typical' by its own word, which is a rounded generality rather than a cited measurement. It is the same shape as the CRC rows that admitted 'the printed edition was not opened for this row'. THE VOCABULARY IS MISSING A VERDICT AND THIS IS WHERE IT SHOWS. The owner's rule permits citing a book once with full attribution and refuses bulk dependence, but `avoid` is a source-level flag and the lint counts every match under it, so this file cannot say 'citable once, refused in bulk'. The structured `upstreams[]` field with a per-quantity `role` would say it. Until then the honest reading of this one finding is that the number wants a page or a paper, which it does."
+
 # ----------------------------------------------------------------- excuses ---
 #
 # A named, reviewed exception: this provenance string NAMES a refused upstream
