@@ -11,7 +11,7 @@
  * scene, and is restored by undo along with everything else.
  */
 import type { SceneStockBottle } from "./host/EngineHost";
-import type { CatalogAccess } from "./catalogProgress";
+import type { CabinetStatus, CatalogAccess } from "./catalogProgress";
 
 export type StockLevels = Readonly<Record<string, SceneStockBottle>>;
 
@@ -72,12 +72,20 @@ export function stockBadge(
  * for this material, and the shelf says that instead of inventing a
  * milestone.
  *
+ * `cabinet` splits that last arm in two, which is the whole of PR #599's
+ * follow-up. "Not yet" and "not at all" are the same empty catalog to
+ * `shelfAccess`, and a shelf that says "not yet" forever is a spinner
+ * with words on it. The session asks three times before it says the
+ * second sentence, so by the time a learner reads it the question really
+ * has been put and really has gone unanswered.
+ *
  * Null for an available material: a row that can be poured has no reason
  * to explain.
  */
 export function lockNote(
   access: CatalogAccess,
   translate: (key: string, values?: Record<string, string | number>) => string,
+  cabinet: CabinetStatus,
 ): string | null {
   if (access.available) return null;
   if (access.missionOnly) {
@@ -90,6 +98,9 @@ export function lockNote(
     return translate("Permanent stock unlocks after {count} completed missions. Mission kits loan required materials.", {
       count: access.minimumCompleted,
     });
+  }
+  if (cabinet === "unanswered") {
+    return translate("The supply cabinet did not answer, so this material's stock is unknown — the journal says what went wrong. Mission kits still loan required materials.");
   }
   return translate("The supply cabinet has not said anything about this material yet. Mission kits still loan required materials.");
 }
