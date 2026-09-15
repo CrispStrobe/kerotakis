@@ -52,10 +52,11 @@
 //! 6.0 come from, and [S2] is the measurement behind that column.
 //!
 //! **WHAT WAS AND WAS NOT OPENED, because the difference matters.** The
-//! bibliographic records of [S1], [S2], [S4] and [S5] were resolved against
-//! Crossref on 2026-09-14 and are exact. The NUMBERS were not read off a
-//! printed page or a publisher's scan: [S1] and [S2] are paywalled (OpenAlex
-//! reports `oa_status: closed` for [S1]) and no copy of [S3] was opened.
+//! bibliographic records of [S1], [S2], [S4], [S5] and [S6] were resolved
+//! against Crossref on 2026-09-14 and are exact. The NUMBERS were not read
+//! off a printed page or a publisher's scan: every one of those five papers
+//! is paywalled — OpenAlex reports `oa_status: closed` for all five, checked
+//! 2026-09-15 — and no copy of [S3] was opened.
 //! They are the values this repository already had in its own prose —
 //! HISTORY.md carries −0.346, −3.4 °C, φ = 0.936 and 108.7 °C — now given
 //! the sources they never had, and the world-facing bands below are set wide
