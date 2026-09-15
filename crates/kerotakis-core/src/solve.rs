@@ -983,7 +983,7 @@ fn liquidus_after_freezing(
     activity: crate::states::SolventActivity,
     pressure_kpa: f64,
 ) -> f64 {
-    let liquid_kg = (liquid_moles - freezing) * 0.018_015;
+    let liquid_kg = (liquid_moles - freezing) * crate::constants::WATER_MOLAR_MASS_KG_PER_MOL;
     if liquid_kg <= 0.0 {
         return f64::NEG_INFINITY;
     }
@@ -1243,13 +1243,13 @@ fn dissolved_particles(vessel: &Vessel) -> (f64, f64) {
         .contents
         .iter()
         .filter(|p| p.species == solvent && p.phase == Phase::Liquid)
-        .map(|p| p.moles.0 * 0.018_015)
+        .map(|p| p.moles.0 * crate::constants::WATER_MOLAR_MASS_KG_PER_MOL)
         .sum::<f64>();
     if water_kg <= 0.0 {
         return (speciated, 0.0);
     }
     let water_ml = species::lookup(&solvent)
-        .map(|water| water.liters_from_moles(Moles(water_kg / 0.018_015)).0 * 1000.0)
+        .map(|water| water.liters_from_moles(Moles(water_kg / crate::constants::WATER_MOLAR_MASS_KG_PER_MOL)).0 * 1000.0)
         .unwrap_or(0.0);
     let unspeciated: f64 = vessel
         .contents
@@ -1388,7 +1388,7 @@ impl Equilibrator for StateEquilibrator {
             // Keep enough liquid water to stay inside the explicit brine
             // boundary. Solutes remain in the liquid compartment, so their
             // particle amount is current molality times current solvent kg.
-            let liquid_kg = liquid_moles * 0.018_015;
+            let liquid_kg = liquid_moles * crate::constants::WATER_MOLAR_MASS_KG_PER_MOL;
             let particle_moles = solute_molality * liquid_kg;
             // Two caps, and which one bites decides which sentence the
             // refusal carries. The eutectic one is about the PHASE DIAGRAM
@@ -1410,7 +1410,7 @@ impl Equilibrator for StateEquilibrator {
                 )
             };
             let minimum_liquid_moles = if particle_moles > 0.0 {
-                particle_moles / ceiling / 0.018_015
+                particle_moles / ceiling / crate::constants::WATER_MOLAR_MASS_KG_PER_MOL
             } else {
                 0.0
             };
@@ -1564,7 +1564,7 @@ impl Equilibrator for StateEquilibrator {
             // solved and the other stepped would be a bug waiting for the
             // first vessel that arrives from above.
             let available_j = vessel.energy_between(t.freezing_k, now);
-            let liquid_kg = liquid_moles * 0.018_015;
+            let liquid_kg = liquid_moles * crate::constants::WATER_MOLAR_MASS_KG_PER_MOL;
             let particle_moles = solute_molality * liquid_kg;
             let melting = self_consistent_melting(
                 (available_j / crate::states::WATER_H_FUS).min(frozen_moles),

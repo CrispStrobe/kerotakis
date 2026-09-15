@@ -1030,12 +1030,17 @@ fn the_atomic_weight_table_reaches_the_molar_masses_it_is_said_to_reach() {
 
 /// `measured` is no longer empty, and it is empty of everything else.
 ///
-/// One record in the registry has a source that is itself the experiment.
-/// Asserting the count keeps two opposite mistakes visible: a second record
-/// quietly claiming a measurement it cannot support, and this one losing the
-/// claim in a regeneration.
+/// Two records in the registry have a source that is itself the experiment.
+/// Asserting the exact set keeps two opposite mistakes visible: a record
+/// quietly claiming a measurement it cannot support, and one of these losing
+/// the claim in a regeneration.
+///
+/// The second arrived on 2026-09-15 with water's enthalpy of vaporisation,
+/// which had no source of any kind until then. Its source is Osborne,
+/// Stimson and Ginnings's 1939 calorimetry rather than a table repeating it,
+/// which is the line this field draws.
 #[test]
-fn exactly_one_record_claims_its_source_is_the_measurement() {
+fn exactly_two_records_claim_their_source_is_the_measurement() {
     let document = export_current_registry().expect("export current registry");
     let measured: Vec<&str> = document
         .model_parameters
@@ -1052,21 +1057,37 @@ fn exactly_one_record_claims_its_source_is_the_measurement() {
         .collect();
     assert_eq!(
         measured,
-        vec!["aqueous-solubility/I2"],
-        "the registry's only measured record is the iodine solubility \
-         Hartley and Campbell determined in 1908"
+        vec![
+            "aqueous-solubility/I2",
+            "enthalpy-of-vaporisation/water"
+        ],
+        "the registry's measured records are the iodine solubility Hartley \
+         and Campbell determined in 1908 and the heat of vaporization Osborne, \
+         Stimson and Ginnings determined in 1939"
     );
 }
 
 /// No record claims a source said something about a band that nobody read.
 ///
 /// `NotReported` is a finding — "the source was read and quotes none" — and
-/// as of 2026-09-15 the registry has not bought a single one. It held 1093
-/// before the distinction existed, which is the defect this pass closes. The
-/// day a source is read for a band, this assertion is the thing to change,
-/// deliberately and with the reading in hand.
+/// the registry held none of them until 2026-09-15. It held 1093 records
+/// claiming it before the distinction existed, which is the defect #608
+/// closed by emptying the kind entirely.
+///
+/// **The first one is bought here, and it is the only one.** Osborne,
+/// Stimson and Ginnings (1939) was opened for a band and declines to give
+/// one in its own words: "this agreement must not be taken as an estimate of
+/// the accuracy of the results, since it takes no account of unknown
+/// systematic errors, which may well be larger than the accidental errors."
+/// That is what this kind is for, and it is the reading that #608 said would
+/// have to be in hand before this assertion changed.
+///
+/// The fusion record beside it is deliberately NOT here. `thermo.inp` does
+/// not print an enthalpy of fusion at all - the value is a difference of two
+/// fitted polynomials - so there is no quantity in that file for it to have
+/// quoted a band on, and `unestablished` is the honest kind.
 #[test]
-fn no_record_yet_claims_a_source_was_read_and_quoted_no_band() {
+fn the_only_source_read_for_a_band_and_quoting_none_is_the_1939_calorimetry() {
     let document = export_current_registry().expect("export current registry");
     let claimed: Vec<&str> = document
         .phase_thermodynamics
@@ -1081,9 +1102,11 @@ fn no_record_yet_claims_a_source_was_read_and_quoted_no_band() {
         .filter(|(quantity, _)| quantity.uncertainty == Uncertainty::NotReported)
         .map(|(_, id)| id)
         .collect();
-    assert!(
-        claimed.is_empty(),
-        "these records say their source was read and quotes no uncertainty, \
-         and no source in this registry has been read for one: {claimed:?}"
+    assert_eq!(
+        claimed,
+        vec!["enthalpy-of-vaporisation/water"],
+        "a record here says its source was read and quotes no uncertainty; \
+         exactly one source in this registry has been read for one, and it \
+         is the 1939 NBS calorimetry behind water's heat of vaporization"
     );
 }

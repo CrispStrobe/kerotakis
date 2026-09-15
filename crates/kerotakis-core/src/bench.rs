@@ -5442,9 +5442,16 @@ fn advance_prepared_objects(vessel: &mut Vessel, seconds: f64, events: &mut Vec<
                     };
                     water.moles.0 += signed;
                     water_delta += signed;
-                    let grams = signed
-                        * species::lookup(&SpeciesId::new("water"))
-                            .map_or(18.01528, |d| d.molar_mass);
+                    // No fallback. This used to read
+                    // `.map_or(18.01528, |d| d.molar_mass)`, which is a
+                    // silent disagreement waiting to happen: the registry
+                    // record says 18.015, so the two branches of that
+                    // expression returned different numbers, and the branch
+                    // that could not be reached was the one that would have
+                    // been wrong. The constant IS the record, generated from
+                    // the pack at build time, so there is nothing left to
+                    // miss.
+                    let grams = signed * crate::constants::WATER_MOLAR_MASS_G_PER_MOL;
                     object.mass_g += grams;
                     object.state.exchanged_water_moles += signed;
                     if signed.abs() > 1e-15 {

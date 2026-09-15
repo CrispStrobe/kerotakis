@@ -175,6 +175,54 @@ const DISSOLUTION_NOTES: &[(&str, &str)] = &[
 const RESISTIVITY_SOURCE: &str = "kerotakis/electrical-resistivity-v1";
 const RESISTIVITY_CITATION: &str = "Kerotakis curated electrical-resistivity tranche v1: bulk DC electrical resistivity of the pure solid at 293.15 K (20 C), in ohm.m. THE PROVENANCE LANE OF THIS TRANCHE IS PENDING REVIEW AND THE VALUES ARE RECORDED AS COMMONLY TABULATED. NO PRIMARY REFERENCE IS CLAIMED FOR THESE VALUES, AND THE ONE THIS LINE USED TO NAME HAS BEEN WITHDRAWN. PLAN.md's provenance audit puts the CRC Handbook of Chemistry and Physics on the commercial row and the NIST WebBook and JANAF-online on the do-not-redistribute row, and states the remedy for an avoid-row source: the claim stops and the prose stays as commentary. Naming a reference the project may not ship from as the source behind a shipped number is a claim, not a citation, and so is saying the number agrees with it. Both are gone. This line named the CRC Handbook table 'Electrical Resistivity of Pure Metals' as the intended primary reference and said these numbers agreed with it to the precision quoted; that is exactly the form the rule forbids, and it is withdrawn rather than reworded. What a row here needs and does not have is its own primary measurement with a DOI, in the shape `literature/hartley-campbell-iodine-water` already uses in this registry; a cleared vendored source such as vendor/nasa-cea/thermo.inp is the acceptable second choice. Until a row has one of those it is supported by this paragraph and nothing else. No vendored file on this disk carries a bulk DC resistivity, so this tranche has neither of the two acceptable supports and is the weakest in the registry. Withdrawn 2026-09-13. The values themselves are physical constants of the pure elements rather than anyone's compilation, and they are quoted only to the three or four figures that a room-temperature handbook column carries; no temperature coefficient, no purity dependence and no cold-worked or alloyed value is claimed, and each row's own `notes` field states what it does not cover. Graphite is the one row that is an order of magnitude rather than a measurement, and its note says so: graphite is strongly anisotropic and its resistivity depends on the grade, so the value here describes a polycrystalline bench rod and nothing finer. Compiled 2026-09-05";
 const RESISTIVITY_METHOD: &str = "curated electrical-resistivity tranche, provenance lane pending review; the row's own note states what the value does not cover";
+
+/// The two latent heats the solvent's own transitions run on.
+///
+/// These are the largest colligative inputs on the bench and until today
+/// neither was a registry record at all. `states.rs` carried them as bare
+/// Rust constants, so neither could hold an uncertainty in a schema that
+/// has one, and the term that dominates every band in
+/// `validation/cases/colligative.toml` was the one term the registry could
+/// say nothing about: the freezing depression goes as 1/dH_fus, so one per
+/// cent there is one per cent on the answer, against the 0.007 per cent a
+/// molar mass contributes.
+///
+/// THE TWO HALVES HAVE DIFFERENT SOURCES AND THAT IS THE POINT. Fusion was
+/// already sourced in prose to the vendored NASA CEA file and needed only a
+/// record. Vaporisation had NO SOURCE AT ALL - its own comment in
+/// `states.rs` said so in capitals - and it has one here for the first
+/// time, a public-domain NBS determination read on 2026-09-15.
+///
+/// Water is deliberately absent from `phase_route::FUSION_ENTHALPIES` and
+/// has to stay absent, because `solve::StateEquilibrator` owns the
+/// solvent's transitions. This tranche is where the solvent's own numbers
+/// live instead, and `crates/kerotakis-core/build.rs` generates the
+/// constants `states.rs` uses straight out of these records.
+const LATENT_HEAT_VAPORISATION_SOURCE: &str =
+    "literature/osborne-stimson-ginnings-water-vaporisation";
+const LATENT_HEAT_VAPORISATION_CITATION: &str = "N. S. Osborne, H. F. Stimson and D. C. Ginnings, 'Measurements of heat capacity and heat of vaporization of water in the range 0 degrees to 100 degrees C', Journal of Research of the National Bureau of Standards 23 (1939) 197-260, RP1228; retrieved 2026-09-15 from https://nvlpubs.nist.gov/nistpubs/jres/23/jresv23n2p197_A1b.pdf. A United States Government work published in the NBS Technical Series and not Standard Reference Data, so it carries no copyright and sits on the `nbs-thermochemical` row of provenance/upstreams.toml, whose verdict is `primary` and whose `may_touch` includes thermochemistry. Kerotakis transcribes one printed number and redistributes no table, the footing `literature/hartley-campbell-iodine-water` already stands on in this registry. WHAT THE PAPER PRINTS. Table 13, 'Formulation of data on heat of vaporization', row 100 degrees C, column 'Heat of vaporization, L': 2256.30 international joules per gram. The row is identified beyond doubt by its last column, the specific volume of the saturated vapour, 1673.0 cm3/g. The table is internally checkable and the check passes: the paper defines gamma = L + beta, prints gamma(calculated) = 2257.71 and beta = 1.408 on the same row, and 2257.71 - 1.408 = 2256.30. THE ARITHMETIC TO J/MOL, which is this bench's unit. The paper states its own electrical-unit conversion, 1 international joule = 1.00019 absolute joules, giving 2256.73 J/g; multiplied by the registry's own molar mass of water, 18.015 g/mol, that is 40655 J/mol. Rounded to the four significant figures this constant has always carried, 40650 J/mol - so the value does not move, and it is now the source's rather than nobody's. THE MEASUREMENT IS 152 VAPORIZATION EXPERIMENTS in a calorimeter built for this determination, formulated together with the 1930-32 and 1937 NBS series at one quarter and one half weight; this is the determination modern steam tables still rest on. WHAT IT IS NOT: it is not an evaluation, not a compilation, and not a value at any temperature other than the normal boiling point. Read 2026-09-15";
+const LATENT_HEAT_VAPORISATION_METHOD: &str = "the measured heat of vaporization at 100 degrees C printed in Table 13 of the cited determination, converted from international joules per gram to J/mol by the paper's own 1.00019 factor and this registry's molar mass of water, then rounded to the four significant figures the bench carries. `measured` names the cited experiment rather than anything this project did: the number came out of Osborne, Stimson and Ginnings's calorimeter, and the two multiplications are arithmetic on top of it. The paper was opened and read for a band and QUOTES NONE, which is why this record is `not_reported` and not `unestablished`: the authors decline explicitly, in the sentence 'this agreement must not be taken as an estimate of the accuracy of the results, since it takes no account of unknown systematic errors, which may well be larger than the accidental errors'. A band for this quantity therefore needs a modern evaluation, not a closer reading of this paper";
+const LATENT_HEAT_FUSION_METHOD: &str = "H(H2O(L), 273.15 K) - H(H2O(cr), 273.15 K) from the vendored NASA CEA thermo.inp, which comes to 6009.9 J/mol and is rounded to the four significant figures this constant carries. The two records are 'Ice. Gordon,1982.' and 'Liquid. Cox,1989. Haar,1984. Keenan,1984. Stimson,1969.', named here so a reader lands on the evaluation rather than on this sentence. The derivation is not a claim on trust: kerotakis-cea's `latent_heats_are_the_vendored_file` re-derives it from the shipped file on every run and fails if it moves by more than 1 J/mol. UNESTABLISHED AND NOT NOT_REPORTED, and the difference from the vaporisation record beside it is deliberate: thermo.inp does not PRINT an enthalpy of fusion at all - the value is a difference of two fitted polynomials - so there is no quantity in that file for it to have quoted a band on, and saying the source was read and reported none would be a finding about a claim the source never made. Nobody has established what band this difference carries";
+/// `(species key, record id prefix, property, J/mol, phase the value belongs to)`.
+///
+/// One row per latent heat, keyed by species so the tranche can grow; today
+/// it is water twice, because water is the only substance whose transitions
+/// `states.rs` owns.
+const LATENT_HEATS: &[(&str, &str, LatentHeatKind, f64)] = &[
+    ("water", "enthalpy-of-fusion", LatentHeatKind::Fusion, 6010.0),
+    (
+        "water",
+        "enthalpy-of-vaporisation",
+        LatentHeatKind::Vaporisation,
+        40650.0,
+    ),
+];
+
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum LatentHeatKind {
+    Fusion,
+    Vaporisation,
+}
 /// The heat capacities that stop being constants.
 ///
 /// This tranche gets its own source for the same reason the transition and
@@ -449,6 +497,26 @@ pub fn export_current_registry() -> Result<RegistryDocument, String> {
             retrieved: Some("2026-09-05".to_string()),
         });
     }
+    // The vaporisation half of the latent-heat tranche, and the same guard.
+    // The fusion half cites the NASA CEA source pushed below, which already
+    // exists for the heat-capacity curves; this row is the one new reading.
+    if document
+        .phase_thermodynamics
+        .iter()
+        .any(|record| record.quantity.source_id == LATENT_HEAT_VAPORISATION_SOURCE)
+    {
+        document.sources.push(SourceRecord {
+            id: LATENT_HEAT_VAPORISATION_SOURCE.to_string(),
+            citation: LATENT_HEAT_VAPORISATION_CITATION.to_string(),
+            licence: "LicenseRef-US-Government-Work".to_string(),
+            lane: SourceLane::Runtime,
+            origin: Some(
+                "https://nvlpubs.nist.gov/nistpubs/jres/23/jresv23n2p197_A1b.pdf".to_string(),
+            ),
+            revision: Some("J. Res. NBS 23 (1939) 197-260, RP1228, Table 13".to_string()),
+            retrieved: Some("2026-09-15".to_string()),
+        });
+    }
     // Same guard again. This tranche's lane is pending review, and the
     // citation says so in prose rather than in a lane the schema does not
     // have: `SourceLane` has no pending-review variant, so the caveat that
@@ -471,7 +539,12 @@ pub fn export_current_registry() -> Result<RegistryDocument, String> {
     }
     // Same guard again. This one is not ours: it is NASA's file, Apache-2.0,
     // already vendored for the equilibrium solver and read a second time.
-    if !document.heat_capacity_polynomials.is_empty() {
+    if !document.heat_capacity_polynomials.is_empty()
+        || document
+            .phase_thermodynamics
+            .iter()
+            .any(|record| record.quantity.source_id == HEAT_CAPACITY_CURVE_SOURCE)
+    {
         document.sources.push(SourceRecord {
             id: HEAT_CAPACITY_CURVE_SOURCE.to_string(),
             citation: HEAT_CAPACITY_CURVE_CITATION.to_string(),
@@ -5693,6 +5766,76 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
                     uncertainty: Uncertainty::Unestablished,
                     source_id: DISSOLUTION_SOURCE.to_string(),
                     method: Method::Curated(DISSOLUTION_METHOD.to_string()),
+                },
+            });
+    }
+
+    // The solvent's two latent heats. See `LATENT_HEATS` for why they are a
+    // tranche of their own and why the two rows do not share a source.
+    for (_, prefix, kind, value) in LATENT_HEATS
+        .iter()
+        .filter(|(key, _, _, _)| *key == species.key)
+    {
+        let (property, transition_k, source_id, method) = match kind {
+            LatentHeatKind::Fusion => (
+                PhaseProperty::EnthalpyOfFusion,
+                273.15,
+                HEAT_CAPACITY_CURVE_SOURCE,
+                Method::Derived(LATENT_HEAT_FUSION_METHOD.to_string()),
+            ),
+            LatentHeatKind::Vaporisation => (
+                PhaseProperty::EnthalpyOfVaporisation,
+                373.15,
+                LATENT_HEAT_VAPORISATION_SOURCE,
+                Method::Measured(LATENT_HEAT_VAPORISATION_METHOD.to_string()),
+            ),
+        };
+        document
+            .phase_thermodynamics
+            .push(PhaseThermodynamicRecord {
+                id: format!("{prefix}/{}", species.key),
+                species_id: species.key.to_string(),
+                phase,
+                property,
+                quantity: NumericRecord {
+                    value: *value,
+                    unit: Unit {
+                        symbol: "J/mol".to_string(),
+                        dimension: Dimension::MolarEnergy,
+                    },
+                    conditions: Applicability {
+                        phase: Some(phase),
+                        temperature: Some(Interval {
+                            lower: transition_k,
+                            upper: transition_k,
+                            unit: Unit {
+                                symbol: "K".to_string(),
+                                dimension: Dimension::Temperature,
+                            },
+                        }),
+                        pressure: Some(Interval {
+                            lower: 101_325.0,
+                            upper: 101_325.0,
+                            unit: Unit {
+                                symbol: "Pa".to_string(),
+                                dimension: Dimension::Pressure,
+                            },
+                        }),
+                        notes: Some(
+                            "at the normal transition temperature and one atmosphere; no \
+                             temperature dependence is claimed, and the relations in \
+                             kerotakis_core::states that use it say in their own comments \
+                             how far a constant latent heat carries"
+                                .to_string(),
+                        ),
+                        ..Applicability::default()
+                    },
+                    uncertainty: match kind {
+                        LatentHeatKind::Fusion => Uncertainty::Unestablished,
+                        LatentHeatKind::Vaporisation => Uncertainty::NotReported,
+                    },
+                    source_id: source_id.to_string(),
+                    method,
                 },
             });
     }

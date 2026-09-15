@@ -215,7 +215,7 @@ pub fn census(vessel: &Vessel, glyphs: usize) -> Census {
             .contents
             .iter()
             .filter(|p| matches!(kind_of(&p.species.0, p.phase), Kind::Solvent))
-            .map(|p| p.moles.0 * 0.018_015)
+            .map(|p| p.moles.0 * crate::constants::WATER_MOLAR_MASS_KG_PER_MOL)
             .sum::<f64>()
             .max(1e-9);
         for p in &vessel.contents {

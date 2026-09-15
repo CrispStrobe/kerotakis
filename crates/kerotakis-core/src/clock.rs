@@ -1721,7 +1721,7 @@ mod tests {
         // liquid at all rather than as an error.
         v.deposit(
             SpeciesId::new("water"),
-            Moles(200.0 / 18.015),
+            Moles(200.0 / crate::constants::WATER_MOLAR_MASS_G_PER_MOL),
             Phase::Liquid,
         );
         v

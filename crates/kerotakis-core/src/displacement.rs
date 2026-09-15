@@ -327,8 +327,7 @@ fn moles_in(vessel: &Vessel, key: &str, phase: Phase) -> f64 {
 }
 
 fn kgw(vessel: &Vessel) -> f64 {
-    const WATER_MOLAR_MASS: f64 = 18.015;
-    moles_in(vessel, "water", Phase::Liquid) * WATER_MOLAR_MASS / 1000.0
+    moles_in(vessel, "water", Phase::Liquid) * crate::constants::WATER_MOLAR_MASS_KG_PER_MOL
 }
 
 /// How much acid this vessel is still holding, in moles of proton.

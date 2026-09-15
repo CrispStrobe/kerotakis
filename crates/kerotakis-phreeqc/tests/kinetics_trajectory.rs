@@ -105,7 +105,7 @@ fn kerotakis_trajectory() -> Vec<TrajectoryPoint> {
     // solvent keeps the locality and dimensional contract real.
     vessel.deposit(
         SpeciesId::new("water"),
-        Moles(1_000.0 / 18.015_28),
+        Moles(1_000.0 / kerotakis_core::constants::WATER_MOLAR_MASS_G_PER_MOL),
         Phase::Liquid,
     );
     vessel.deposit(SpeciesId::new("CaCO3"), Moles(INITIAL_MOLES), Phase::Solid);
