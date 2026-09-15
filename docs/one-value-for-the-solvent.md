@@ -145,11 +145,13 @@ after a CRC citation was withdrawn on 2026-09-13.
 
 It now cites **N. S. Osborne, H. F. Stimson and D. C. Ginnings,
 *Measurements of heat capacity and heat of vaporization of water in the range
-0° to 100° C*, J. Res. NBS 23 (1939) 197–260, RP1228** — a United States
-Government work in the NBS Technical Series, public domain, on the
-`nbs-thermochemical` row of `provenance/upstreams.toml` whose verdict is
-`primary` and whose `may_touch` includes thermochemistry. Read 2026-09-15 from
-`nvlpubs.nist.gov`.
+0° to 100° C*, J. Res. NBS 23 (1939) 197–260, RP1228,
+doi:10.6028/jres.023.008** — primary journal literature with a DOI, which is
+the `primary-literature` route of `provenance/upstreams.toml` rather than a
+compilation row, and separately a United States Government work in the NBS
+Technical Series and so public domain. Read 2026-09-15 from `nvlpubs.nist.gov`;
+the DOI was confirmed against Crossref, which returns volume 23, page 197,
+August 1939 for that title.
 
 **What it prints.** Table 13, *Formulation of data on heat of vaporization*,
 row 100 °C, column *Heat of vaporization, L*: **2256.30 international joules

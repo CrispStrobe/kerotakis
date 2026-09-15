@@ -2845,8 +2845,9 @@ started. They are ordered by what they unblock, not by size.
       SOURCE AT ALL. It now cites N. S. Osborne, H. F. Stimson and D. C.
       Ginnings, *Measurements of heat capacity and heat of vaporization of
       water in the range 0° to 100° C*, J. Res. NBS **23** (1939) 197–260,
-      RP1228 — a public-domain NBS Technical Series work on the
-      `nbs-thermochemical` row, read on 2026-09-15 from nvlpubs. Table 13 prints
+      RP1228, doi:10.6028/jres.023.008 — primary journal
+      literature with a DOI, and a public-domain NBS Technical Series work,
+      read on 2026-09-15 from nvlpubs. Table 13 prints
       L(100 °C) = 2256.30 int. J/g; the paper's own 1 int. J = 1.00019 abs. J
       and the registry's own 18.015 g/mol give 40 655 J/mol, which is **40 650
       to the four figures the constant has always carried, so the value did not

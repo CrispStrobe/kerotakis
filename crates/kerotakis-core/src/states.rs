@@ -107,7 +107,8 @@ pub const WATER_H_FUS: f64 = crate::constants::WATER_ENTHALPY_OF_FUSION_J_PER_MO
 ///
 /// The source is N. S. Osborne, H. F. Stimson and D. C. Ginnings,
 /// *Measurements of heat capacity and heat of vaporization of water in the
-/// range 0° to 100° C*, J. Res. NBS **23** (1939) 197–260, RP1228: a United
+/// range 0° to 100° C*, J. Res. NBS **23** (1939) 197–260, RP1228,
+/// doi:10.6028/jres.023.008: a United
 /// States Government work in the NBS Technical Series, public domain, on the
 /// `nbs-thermochemical` row of `provenance/upstreams.toml` whose verdict is
 /// `primary`. Its Table 13 prints L(100 °C) = 2256.30 international joules
