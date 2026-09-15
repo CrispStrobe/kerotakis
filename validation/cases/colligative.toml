@@ -1,0 +1,562 @@
+# Accuracy corpus — the colligative family.
+#
+# Rows of the form: this script, run on this bench, produces this quantity;
+# the published value is X ± t, from source S, and the tolerance t is argued
+# for THAT quantity rather than taken off a flat percentage.
+#
+# This is level five of the verification ladder in ROADMAP-Webapp.md,
+# specified there in 2026-08 and never built. It is deliberately the smallest
+# thing that could answer the question the owner asked of it: are citations
+# affordable at all? One family, six rows, no gate. If the answer had been no,
+# it would have cost a day.
+#
+# THE HEADLINE NUMBER IS `quantities_covered`, NOT ROWS PASSING. A corpus
+# reporting forty green rows over two quantities has said almost nothing, and
+# rows passing can be gamed by adding easy ones. This family covers TWO
+# quantities. That is the number to publish.
+
+schema_version = 1
+corpus = "accuracy-v1"
+family = "colligative"
+created = "2026-09-15"
+
+# The published number, declared so it cannot drift from the rows. The
+# structural test in `kerotakis-core/tests/accuracy_corpus.rs` recomputes all
+# three from the rows below and fails if a declaration moves without them.
+# Adding five easy rows to a quantity already covered moves `anchored_rows`
+# and must leave `quantities_covered` exactly where it is. That is the whole
+# anti-gaming mechanism, and it is mechanical rather than procedural.
+headline_metric = "quantities_covered"
+quantities_covered = 2
+anchored_rows = 6
+open_rows = 1
+
+# --------------------------------------------------------------- the gate ---
+# There is none, on purpose.
+gate = false
+gate_reason = """
+Promotion to a continuous-integration gate comes only after the tolerances
+below have survived argument by someone other than their author. A gate added
+on the day the tolerances were invented would be the third check this month
+that read stronger than it was, and the failure mode is specific and known:
+the dominant risk in an accuracy corpus is a tolerance chosen to make its own
+row pass, which is invisible in the count. `tolerance` and `tolerance_reason`
+are separate fields precisely so that widening one shows up in a diff without
+the reason moving with it.
+
+Six of these rows are asserted TODAY by
+`crates/kerotakis-phreeqc/tests/colligative_numbers.rs`, so they are already
+under CI as ordinary tests. What is not gated is the corpus as a measure.
+"""
+
+# ------------------------------------------------- what a pass would prove ---
+proves = """
+For each covered quantity, on each covered script, the bench agrees with an
+independently sourced published number to a stated and argued tolerance.
+"""
+
+does_not_prove = """
+That the model is right anywhere BETWEEN the rows — two quantities at four
+molalities is four points on a curve.
+
+That the tolerances are appropriate. They are argued, which is not the same as
+correct, and none has yet been argued by anyone but its author.
+
+That the quantities NOT covered are accurate. This family covers two. A high
+score here says nothing about pH, about a flame temperature, about a rate
+constant, or about the other eight quantities the instrument layer declares a
+precision for.
+
+That a learner can reach any of it. Every row here is driven by a test
+harness, not by anything a child can do in the app.
+
+That the engine is right for the RIGHT REASON. A fitted constant and a correct
+mechanism hit the same number. Three of the six rows say so in
+`independent_of_path` below and must not be read as physics checks.
+
+And in particular it does not prove the reference values were transcribed
+correctly. See `transcription` on every source: the bibliographic records were
+verified, the numbers were not.
+"""
+
+# ------------------------------------------------------------- the sources ---
+
+[[source]]
+id = "scatchard-prentiss-1933-chloride-freezing"
+kind = "primary-measurement"
+citation = """
+G. Scatchard and S. S. Prentiss, "The freezing points of aqueous solutions. IV.
+Potassium, sodium and lithium chlorides and bromides", Journal of the American
+Chemical Society 55 (1933) 4355-4362.
+"""
+doi = "10.1021/ja01338a003"
+record_verified = "crossref, 2026-09-14"
+access = "paywalled"
+open_access_status = "closed (OpenAlex, 2026-09-14)"
+transcription = "not-verified-against-original"
+transcription_note = """
+The values carried here are the ones this repository already had in its own
+prose (HISTORY.md: -0.346 and -3.4 C). They have not been read off this
+paper's table by anyone in this project. The bands are set wide enough to
+absorb that, and this field exists so nobody has to infer it.
+"""
+licence = "no text or table redistributed; individual factual measurements cited with attribution"
+why_this_one = """
+A freezing point measured DIRECTLY. That matters for independence: the
+ion-interaction coefficients this bench runs on are fitted to isopiestic
+vapour-pressure data, so a cryoscopic measurement is a different experiment
+and not part of the bench's own ancestry.
+"""
+
+[[source]]
+id = "scatchard-hamer-wood-1938-isotonic"
+kind = "primary-measurement"
+citation = """
+G. Scatchard, W. J. Hamer and S. E. Wood, "Isotonic solutions. I. The chemical
+potential of water in aqueous solutions of sodium chloride, potassium chloride,
+sulfuric acid, sucrose, urea and glycerol at 25 deg", Journal of the American
+Chemical Society 60 (1938) 3061-3070. Corrections: ibid. 61 (1939) 3603,
+doi:10.1021/ja01267a608.
+"""
+doi = "10.1021/ja01279a066"
+record_verified = "crossref, 2026-09-14"
+access = "paywalled"
+transcription = "not-verified-against-original"
+licence = "no text or table redistributed; individual factual measurements cited with attribution"
+why_this_one = """
+The isopiestic series behind the tabulated osmotic coefficients for this salt,
+and it covers sucrose in the same paper, which is why one citation carries
+three of the six rows.
+"""
+
+[[source]]
+id = "robinson-stokes-1959-electrolyte-solutions"
+kind = "compilation"
+citation = """
+R. A. Robinson and R. H. Stokes, Electrolyte Solutions, 2nd edition (revised),
+Butterworths, London, 1959, Appendix 8.10, "Osmotic and activity coefficients
+of electrolytes in aqueous solution at 25 deg C". Reprinted Dover, Mineola NY,
+2002, ISBN 0-486-42225-9.
+"""
+doi = ""
+no_doi_is_not_a_defect = """
+This book has no digital object identifier, and on 2026-09-13 that was taken
+to mean it could not be cited, which is why two of the rows below were
+DROPPED rather than written. The owner corrected that on 2026-09-14: the line
+is bulk dependence, not attribution. A reference work without an identifier is
+cited by author, title, edition, publisher, year and table, like any other
+book. An identifier is a convenience for the reader, never what makes a
+citation legitimate. This field is kept as a marker so the mistake is not
+repeated by the next reader of this file.
+"""
+access = "print"
+transcription = "not-verified-against-original"
+transcription_note = "No copy was opened. See the same field on the two primary sources."
+licence = """
+Copyrighted commercial compilation, no reuse licence. PLAN.md's provenance
+table permits citing it for a value with attribution and refuses depending on
+it in bulk. Three values are cited from it here, each traced to the primary
+measurement beside it, and no table is transcribed or redistributed.
+"""
+why_this_one = """
+Honesty about the route. These numbers travelled through this book on their
+way into this repository, and saying so is more useful than naming only the
+1938 paper and implying a page was read there.
+"""
+
+[[source]]
+id = "gibbard-1974-nacl-vapour-liquid"
+kind = "primary-measurement"
+citation = """
+H. F. Gibbard Jr., G. Scatchard, R. A. Rousseau and J. L. Creek, "Liquid-vapor
+equilibrium of aqueous sodium chloride, from 298 to 373 K and from 1 to 6 mol
+kg-1, and related properties", Journal of Chemical and Engineering Data 19
+(1974) 281-288.
+"""
+doi = "10.1021/je60062a023"
+record_verified = "crossref, 2026-09-14"
+access = "paywalled"
+transcription = "not-read"
+licence = "no text or table redistributed"
+why_this_one = """
+It measured this beaker exactly: this salt, this molality range, this
+temperature range. It is cited by the one OPEN row below and carries no value
+yet, because nobody has read its table.
+"""
+
+[[source]]
+id = "young-jones-1949-sucrose-water"
+kind = "primary-measurement"
+citation = """
+F. E. Young and F. T. Jones, "Sucrose hydrates. The sucrose-water phase
+diagram", The Journal of Physical and Colloid Chemistry 53 (1949) 1334-1350.
+"""
+doi = "10.1021/j150474a004"
+record_verified = "crossref, 2026-09-14"
+access = "paywalled"
+transcription = "not-verified-against-original"
+licence = "no text or table redistributed"
+why_this_one = "The ice liquidus of the sucrose-water system, which is the sugar row's reference curve."
+
+[[source]]
+id = "appelo-2015-saline-databases"
+kind = "primary-parameterisation"
+citation = """
+C. A. J. Appelo, "Principles, caveats and improvements in databases for
+calculating hydrogeochemical reactions in saline waters from 0 to 200 deg C and
+1 to 1000 atm", Applied Geochemistry 55 (2015) 62-71.
+"""
+doi = "10.1016/j.apgeochem.2014.11.007"
+access = "paywalled"
+transcription = "n/a — cited as the provenance of a shipped parameter, not as a value"
+licence = "PHREEQC databases ship under the USGS User Rights Notice; this is the reference their own comment lines give"
+why_this_one = """
+NOT a reference value. This is the source of the Na-Cl virial coefficients the
+bench RUNS ON — `pitzer.dat`'s `-B0  Cl-  Na+  7.534e-2` is marked `# ref. 3`
+and the file's own list resolves ref. 3 to this paper. It is recorded here so
+`independent_of_path` on the osmotic-coefficient rows can be checked rather
+than taken on trust: those coefficients are fitted to osmotic-coefficient
+measurements, so comparing the bench's osmotic coefficient against a tabulated
+one is not an independent test of the physics.
+"""
+
+# ----------------------------------------------------- the tolerance policy ---
+
+[tolerance_policy]
+rule = "argued per quantity and per claimed model, never a flat percentage"
+statement = """
+A pH, a freezing point and an adiabatic flame temperature do not deserve the
+same bar, so no percentage is applied across rows. Each quantity below carries
+two bands, generalising the only argued tolerance this repository had before
+this file existed (`colligative_numbers.rs`, 2026-09-11):
+
+  `model_tolerance`  — tight, on the bench's OWN figure. A pin. It moves when
+                       the engine, the dataset or the relation moves, and it
+                       is meant to. It is not a claim about the world.
+
+  `world_tolerance`  — loose, on the published measurement. Set by the rule
+                       "wide enough to survive an improvement, narrow enough
+                       to exclude the known-wrong predecessor", and every row
+                       below names both the improvement and the predecessor so
+                       the width can be checked rather than believed.
+
+Three things are spent on a world band and each row itemises which of them
+apply: the spread between published values for the same solution, a residual
+the repository has already diagnosed and not yet fixed, and — new in this
+family — an allowance for a transcription nobody has verified against the
+printed source.
+
+INSTRUMENT PRECISION IS NOT THE RIGHT VALUE, although it is the right axis.
+`crates/kerotakis-core/src/instrument.rs` declares a thermometer at +/-0.1 C.
+Model tolerance is how far the model may sit from reality; instrument
+precision is how finely the bench reads. The 2026-09-11 brine error was 0.32 C
+against a thermometer declaring 0.1. Setting tolerance at instrument precision
+fails nearly every row on day one and the gate gets switched off; setting it
+loose enough that everything passes proves nothing.
+"""
+
+# ------------------------------------------------------------- the cases ---
+
+[[case]]
+id = "nacl-0.1m"
+title = "A tenth-molal brine — a level teaspoon of salt in half a litre"
+ledger = [
+  { species = "water", moles = 55.51 },
+  { species = "NaCl", moles = 0.1 },
+]
+apparatus = "single vessel, no phases, no gas, no interfaces"
+boundary = "vessel temperature (near 25 C after the dissolution enthalpy), 101.325 kPa"
+expected_model_path = """
+Speciation on `wateq4f.dat` (the router leaves a tenth molal inside the
+Debye-Hueckel validity domain); solvent activity from a SECOND, lean
+speciation on `pitzer.dat`, because PHREEQC does not model a_w on a
+Debye-Hueckel database at all — it prints `1 - 0.017*sum(m)`, a hard-coded
+constant carrying no information about what is dissolved.
+"""
+conservation = "sodium, chlorine, hydrogen, oxygen and charge closed by the ordinary bench invariants"
+produced_by = "kerotakis-phreeqc::colligative_numbers::a_tenth_molal_brine_is_answered_by_a_model_and_not_by_raoult"
+generalises_over = """
+1:1 chlorides between roughly 0.05 and 1 mol/kg of counted particles, at
+ordinary bench temperature. NOT below 0.05: PHREEQC's four-figure species
+table rounds a_w to 1.000 there and the osmotic coefficient computes as zero.
+NOT above 1 mol/kg: a different route answers.
+"""
+known_failure_modes = """
+The four-significant-figure species table is the accuracy ceiling of this
+route. a_w arrives as 0.9966 rather than 0.996647, and phi = -ln(a_w)/(M_w
+sum(m)) turns a 5e-5 rounding in a_w into 0.013 in phi at this dilution —
+1.4 %, all of it upward here, worth about 5 mK on the freezing point.
+"""
+
+[[case.quantity]]
+name = "osmotic_coefficient"
+unit = "1"
+model_value = 0.945
+model_tolerance = 0.03
+world_value = 0.9324
+world_tolerance = 0.025
+condition = "1:1 NaCl(aq), 0.100 mol/kg, 25 C"
+source_id = "robinson-stokes-1959-electrolyte-solutions"
+source_locator = "Appendix 8.10, NaCl column, m = 0.1"
+primary_source_id = "scatchard-hamer-wood-1938-isotonic"
+tolerance_reason = """
+0.025 is the documented four-figure a_w rounding (0.013 in phi at this
+dilution) doubled. It is doubled rather than taken as-is because the rounding
+happens to push upward on this engine build and nothing guarantees the
+direction on another. SURVIVES THE IMPROVEMENT: taking a_w off the wire at
+full precision moves phi to about 0.932, essentially onto the reference.
+EXCLUDES THE PREDECESSOR: Raoult's law does not compute an osmotic coefficient
+at all, it asserts phi = 1 by construction, and 1.000 is 0.068 away — 2.7
+times this band.
+"""
+independent_of_path = false
+independence_note = """
+NOT INDEPENDENT, and this row must not be read as a physics check.
+`pitzer.dat`'s Na-Cl virial coefficients are fitted to osmotic-coefficient
+data (see `appelo-2015-saline-databases`), which is the same class of
+measurement as the reference. This row checks that the fit was loaded, routed
+and read correctly. That is worth checking — it is exactly what was broken
+before 2026-09-13 — but it is not evidence about the physics.
+"""
+asserted_today = true
+
+[[case.quantity]]
+name = "freezing_point_depression"
+unit = "K"
+model_value = 0.3516
+model_tolerance = 0.004
+world_value = 0.346
+world_tolerance = 0.010
+condition = "1:1 NaCl(aq), 0.100 mol/kg, 101.325 kPa"
+source_id = "scatchard-prentiss-1933-chloride-freezing"
+source_locator = "NaCl series, m = 0.1"
+tolerance_reason = """
+10 mK, spent three ways and none of them a percentage: the 5.6 mK residual the
+case's `known_failure_modes` already diagnoses, the remainder of the four-figure
+rounding, and an allowance for a transcription not checked against the printed
+table. SURVIVES THE IMPROVEMENT: a_w at full precision moves this beaker to
+about 0.3468 K, which lands almost exactly on the measurement. EXCLUDES THE
+PREDECESSOR: Raoult's law gave 0.371 K, outside by 2.5 times the band.
+Narrower would start testing the readback's print precision rather than the
+physics; wider would let the ideal solvent back in.
+"""
+independent_of_path = true
+independence_note = """
+The stronger of this case's two rows. A freezing point measured cryoscopically
+is a different experiment from the isopiestic work the virial coefficients are
+fitted to, and the bench reaches the answer through its own enthalpy-of-fusion
+relation rather than through the fit.
+"""
+asserted_today = true
+
+[[case]]
+id = "nacl-1m"
+title = "One mole of salt in one kilogram of water — the textbook spoonful"
+ledger = [
+  { species = "water", moles = 55.51 },
+  { species = "NaCl", moles = 1.0 },
+]
+apparatus = "single vessel"
+boundary = "vessel temperature (near 24 C after the dissolution endotherm), 101.325 kPa"
+expected_model_path = "ion-interaction route; `pitzer.dat` answers both the speciation and the solvent activity"
+conservation = "closed by the ordinary bench invariants"
+produced_by = "kerotakis-phreeqc::colligative_numbers::a_textbook_spoonful_of_salt_freezes_the_water_near_minus_three_point_four"
+generalises_over = "1:1 chlorides from about 1 to 6 mol/kg at ordinary bench temperature"
+known_failure_modes = """
+The osmotic coefficient's own temperature dependence is uncorrected. PHREEQC
+solved this vessel near 24 C; phi for this salt falls about a per cent between
+there and the freezing point, worth a few hundredths of a kelvin in the
+direction of the measurement.
+"""
+
+[[case.quantity]]
+name = "osmotic_coefficient"
+unit = "1"
+model_value = 0.937
+model_tolerance = 0.01
+world_value = 0.9355
+world_tolerance = 0.01
+condition = "1:1 NaCl(aq), 1.000 mol/kg, 25 C"
+source_id = "robinson-stokes-1959-electrolyte-solutions"
+source_locator = "Appendix 8.10, NaCl column, m = 1.0"
+primary_source_id = "scatchard-hamer-wood-1938-isotonic"
+tolerance_reason = """
+0.01. The bench's 0.937 sits 1.5e-3 from the table, so the band is nearly
+seven times the residual — deliberately, because the rounding argument that
+sets the tenth-molal band is weaker at this molality and has not been worked
+out here. EXCLUDES THE PREDECESSOR: the ideal solvent asserts 1.000, six bands
+away.
+"""
+independent_of_path = false
+independence_note = "As the tenth-molal osmotic row: the coefficients are fitted to this class of measurement."
+asserted_today = true
+
+[[case.quantity]]
+name = "freezing_point_depression"
+unit = "K"
+model_value = 3.44
+model_tolerance = 0.06
+world_value = 3.40
+world_tolerance = 0.15
+condition = "1:1 NaCl(aq), 1.000 mol/kg, 101.325 kPa"
+source_id = "scatchard-prentiss-1933-chloride-freezing"
+source_locator = "NaCl series, m = 1.0"
+tolerance_reason = """
+0.15 K, itemised: the spread between published depressions for this solution
+is 3.37 to 3.44 K, which is 0.07 on its own; the uncorrected temperature
+dependence of phi named in `known_failure_modes` is worth a few hundredths;
+and the rest is the unverified transcription. SURVIVES THE IMPROVEMENT:
+correcting phi(T) moves the answer TOWARDS the measurement, further inside.
+EXCLUDES THE PREDECESSOR: the dilute law gave 3.72 K, outside by 0.17.
+On the low end of the published spread — correlations fitted for concentrated
+brines and read back down to one molal are the common source of 3.37, and
+their dilute limit does not reproduce K_f, so they are not preferred here.
+"""
+independent_of_path = true
+asserted_today = true
+
+[[case]]
+id = "nacl-6m"
+title = "A six-molal brine — the concentrated end, where the correction changes sign"
+ledger = [
+  { species = "water", moles = 55.51 },
+  { species = "NaCl", moles = 6.0 },
+]
+apparatus = "single vessel"
+boundary = "vessel temperature, 101.325 kPa"
+expected_model_path = "ion-interaction route on `pitzer.dat`; ionic strength about 6.2 mol/kgw against the model's stated ceiling of 20"
+conservation = "closed by the ordinary bench invariants"
+produced_by = "kerotakis-phreeqc::colligative_numbers::a_saturated_brine_boils_hotter_than_the_dilute_law_allows"
+generalises_over = "concentrated 1:1 chlorides up to halite saturation"
+known_failure_modes = """
+The bench takes phi from a speciation solved near the vessel's ambient
+temperature and uses it at the BOIL. Whether phi for this salt rises or falls
+over that interval is exactly what `gibbard-1974-nacl-vapour-liquid` settles,
+and nobody has read it, so the size and even the sign of this error is
+currently unknown to the project.
+"""
+
+[[case.quantity]]
+name = "osmotic_coefficient"
+unit = "1"
+model_value = 1.27
+model_tolerance = 0.03
+world_value = 1.2710
+world_tolerance = 0.05
+condition = "1:1 NaCl(aq), 6.000 mol/kg, 25 C"
+source_id = "robinson-stokes-1959-electrolyte-solutions"
+source_locator = "Appendix 8.10, NaCl column, m = 6.0"
+primary_source_id = "scatchard-hamer-wood-1938-isotonic"
+tolerance_reason = """
+0.05. Wider than the tenth-molal band because the four-figure rounding
+argument does not transfer — at this molality the rounding in a_w is worth far
+less in phi, but the virial fit's own residuals at the top of its range are
+worth more, and neither has been quantified here. EXCLUDES THE PREDECESSOR
+decisively: the ideal solvent asserts 1.000, which is 0.27 away, 5.4 times the
+band, and the whole point of this case is that phi passes ONE near 2.3 mol/kg
+and keeps rising.
+"""
+independent_of_path = false
+independence_note = """
+As the other two osmotic rows: `pitzer.dat`'s Na-Cl virial coefficients are
+fitted to osmotic-coefficient measurements, so this compares a fit against the
+class of data it was fitted to. At six molal the shared ancestry is if anything
+TIGHTER than at a tenth molal, because the concentrated end is where the virial
+form has the most freedom and the most need of that data.
+"""
+asserted_today = false
+not_asserted_note = """
+The test asserts only `phi > 1.0` today. This row is ahead of the test, which
+a backlog is allowed to be; promoting it means adding a band to the test.
+"""
+
+[[case.quantity]]
+name = "boiling_point_elevation"
+unit = "K"
+status = "open"
+model_value = 8.0
+world_value = 0.0
+world_tolerance = 0.0
+condition = "1:1 NaCl(aq), 6.000 mol/kg, 101.325 kPa"
+source_id = "gibbard-1974-nacl-vapour-liquid"
+source_locator = "not read"
+tolerance_reason = "none — this row carries no world value and no band, deliberately"
+open_reason = """
+THE ONLY ROW IN THIS FAMILY WITH NO REFERENCE VALUE, and it is open because a
+comparison was WITHDRAWN rather than because none was ever written.
+`colligative_numbers.rs` and HISTORY.md have both been quoting 108.7 C as the
+measurement for this beaker, in the test file's own words "a measurement of a
+saturated brine". But this case builds 6.000 mol/kg, and a saturated chloride
+at its BOILING point is more concentrated than that — the test itself records
+halite saturating near 6.11 mol/kgw at the vessel's temperature, and a
+chloride's solubility rises as it is heated. So 108.7 and the bench's 108.0
+are answers for two different solutions, not two answers for one, and most of
+the 0.7 K between them is composition. Writing it in as a band would have been
+the defect this bench has a name for: a quantity checked against a proxy that
+moves for a reason nobody controlled.
+`gibbard-1974-nacl-vapour-liquid` measured this beaker exactly. Closing this
+row means reading its table, and doing so answers the open question in
+`known_failure_modes` at the same time.
+"""
+independent_of_path = true
+asserted_today = false
+
+[[case]]
+id = "sucrose-1m"
+title = "One mole of sugar in one kilogram of water — the non-electrolyte control"
+ledger = [
+  { species = "water", moles = 55.51 },
+  { species = "sucrose", moles = 1.0 },
+]
+apparatus = "single vessel"
+boundary = "vessel temperature, 101.325 kPa"
+expected_model_path = """
+IDEAL SOLUTION, declared. No shipped database carries sucrose, so no
+speciation computed a solvent activity for this beaker and Raoult's law stands
+in — and the bench says `IdealSolution` rather than pretending otherwise.
+This is the control that shows what the ion-interaction route does NOT do.
+"""
+conservation = "closed; the particle count comes from counting, not from speciating"
+produced_by = "kerotakis-phreeqc::colligative_numbers::a_mole_of_sugar_raises_the_boiling_point_by_half_a_degree"
+generalises_over = "non-electrolytes the registry knows and no database carries, up to about 1 mol/kg"
+known_failure_modes = """
+A declared 2 % shortfall. Sucrose's own osmotic coefficient is a little above
+one and the bench does not know it; a two per cent shortfall labelled ideal is
+the honest form of not knowing.
+"""
+
+[[case.quantity]]
+name = "freezing_point_depression"
+unit = "K"
+model_value = 1.831
+model_tolerance = 0.01
+world_value = 1.86
+world_tolerance = 0.05
+condition = "sucrose(aq), 1.000 mol/kg (25.5 % by mass), 101.325 kPa"
+source_id = "young-jones-1949-sucrose-water"
+source_locator = "ice liquidus, 25.5 % sucrose by mass"
+primary_source_id = "scatchard-hamer-wood-1938-isotonic"
+tolerance_reason = """
+0.05 K, and the reason it is not tighter is a coincidence rather than an
+uncertainty. The bench is BELOW the reference by the 2 % it declares as ideal;
+the reference is ABOVE the ideal law by about the 2 % sucrose's own
+non-ideality adds; the two nearly cancel, so the residual is 0.03 K and looks
+like precision the bench does not have. A tighter band would be reading that
+coincidence as agreement. EXCLUDES THE PREDECESSOR: the pre-2026-09-11 route
+read sugar solutions as containing nothing dissolved and printed a depression
+of exactly 0, which is 37 bands away.
+"""
+independent_of_path = true
+independence_note = """
+Independent in the strong sense, and for an unusual reason: no database
+carries sucrose at all, so there is no fitted parameter for the reference to
+share ancestry with. The bench reaches this number by counting particles and
+applying its own derived constant.
+"""
+asserted_today = true
+weakest_row_note = """
+The weakest row in the family as EVIDENCE, despite being the most independent.
+Model and reference agree for different reasons that happen to cancel, so a
+pass here is close to uninformative about the physics, and a FAILURE here
+would be informative. Recorded so nobody counts it as a strong row later.
+"""

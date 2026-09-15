@@ -175,7 +175,40 @@ activities, gas boundary state and overlapping parameter domains must refuse.
   discriminates. Costs three candidates (a numeric accuracy corpus, a harder
   prompt set, a reachability measure), recommends the first as verification
   level 5 of the ladder this file's companion already specifies, and lists
-  twelve defects found while investigating. Nothing in it is implemented.
+  twelve defects found while investigating.
+- **`validation/` — the accuracy corpus, STARTED 2026-09-15**, on the owner's
+  decision of 2026-09-14 to begin with one family, six rows, real citations
+  and no gate. `validation/cases/colligative.toml` is that family: four cases,
+  six anchored rows, one row deliberately left open, and **two quantities
+  covered**, which is the number to publish. Rows passing is not, because it
+  can be inflated by adding easy rows to a quantity already covered — so
+  `quantities_covered`, `anchored_rows` and `open_rows` are declared fields
+  and `kerotakis-core/tests/accuracy_corpus.rs` recomputes all three, which
+  makes the anti-gaming rule mechanical rather than procedural.
+  Tolerance is argued per quantity, never a flat percentage, generalising the
+  only argued tolerance this repository had: a tight band on the model's own
+  figure and a loose one on the world's, the outer band wide enough to survive
+  an improvement and narrow enough to exclude the known-wrong predecessor,
+  with every row naming both so the width can be checked rather than believed.
+  Two fields are new and both earned their place on the first family.
+  `transcription` says whether anyone read the number off the original — the
+  answer is no on all six sources, the bibliographic records being exact while
+  the values are this repository's own prose finally given its sources.
+  `independent_of_path` says whether the reference shares ancestry with the
+  code under test, and **three of the six rows are not independent**: they are
+  osmotic coefficients compared against the class of measurement `pitzer.dat`'s
+  virial coefficients are FITTED to, so they check that the fit was loaded and
+  read rather than that the physics is right. The sucrose row is the most
+  independent and the weakest as evidence, because its model and its reference
+  agree for reasons that cancel. None of that is visible in a count.
+  **The corpus is a backlog, not a gate.** Promotion waits until the
+  tolerances have survived argument by someone other than their author.
+  The affordability finding the step existed to produce: identifying the
+  primary measurement is cheap — minutes per row against Crossref, and four of
+  six sources are the original papers rather than the compilation — while
+  VERIFYING the transcribed number is expensive and was not bought, because
+  the primary papers are paywalled. So citations are affordable; verified
+  transcriptions are a separate purchase, and the corpus records which it has.
 
 ## Localisation is modular by design
 
