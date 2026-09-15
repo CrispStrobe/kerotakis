@@ -114,7 +114,14 @@ terms = "https://www.usgs.gov/information-policies-and-instructions/copyrights-a
 retrieved = "2026-08-18"
 verdict = "primary"
 may_touch = ["runtime-data", "property", "thermochemistry"]
-names = ["PHREEQC", "phreeqc.dat", "wateq4f.dat", "minteq.v4.dat", "llnl.dat", "USGS"]
+# The bare stems, not the file names. `names_source` anchors on whole words at
+# BOTH ends and treats `.` as a boundary, so "wateq4f" matches both `wateq4f`
+# and `wateq4f.dat`, while "wateq4f.dat" matches only the second. Five registry
+# citations (`legacy/atacamite`, `brochantite`, `antlerite`, `langite`,
+# `C6H5O7-3`) write "wateq4f and minteq.v4" without the suffix and were
+# therefore invisible to a CLEARED row - a false negative, which hides rather
+# than shouts. Found by the 2026-09-15 census, docs/registry-unattributed-census.md.
+names = ["PHREEQC", "wateq4f", "minteq.v4", "llnl", "USGS"]
 in_plan_table = true
 note = "USGS User Rights Notice (public-domain-like, attribution). Embed, EXCEPT sit.dat - ThermoChimie provenance, needs a terms check. See sit-dat below."
 
