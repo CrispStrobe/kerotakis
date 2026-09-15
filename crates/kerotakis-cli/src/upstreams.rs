@@ -83,18 +83,22 @@
 //! their literature references verbatim — several of which are JANAF. Those
 //! thirty-seven heat-capacity polynomials are clean.
 //!
-//! Rather than weaken the rule, `upstreams.toml` carries an `[[excuse]]` list:
-//! subject, upstream, and a written reason. Every excuse must MATCH something;
-//! an excuse that covers nothing is reported as a problem, so a stale one
-//! cannot sit there looking like diligence after the string it covered is
-//! gone. The excuse list is exactly as strong as its review — it is here
+//! Rather than weaken the rule, `upstreams.toml` carries a `[[citation]]`
+//! list: subject, upstream, a `role` and a written reason. (It was an
+//! `[[excuse]]` list until 2026-09-15, which could say only one of the three
+//! roles; see "Citing a book is not leaning on one" below.) Every row must
+//! MATCH something; one that covers nothing is reported as a problem, so a
+//! stale one cannot sit there looking like diligence after the string it
+//! covered is gone. The list is exactly as strong as its review — it is here
 //! because it is visible, counted and expiring, which prose was not.
 //!
 //! ## What it catches
 //!
 //! A value-bound provenance string, anywhere in `crates/**/*.rs` or in the
 //! registry export's source citations, that names an upstream whose verdict is
-//! `avoid` or `permission-required`, and that no excuse covers.
+//! `avoid` or `permission-required`, and that no reviewed `[[citation]]` row
+//! clears — by judging it `mentioned`, or by judging it an attributed
+//! `claims` within the ceiling the upstream declares.
 //!
 //! ## What it does NOT catch
 //!
@@ -149,23 +153,135 @@
 //!   terms pages on a date. It is not legal advice and it goes stale; the
 //!   `retrieved` field is there so that staleness is visible rather than
 //!   assumed away.
-//! - **Whether an excuse is honest.** The lint checks that an excuse still
-//!   MATCHES a real string and reports it if it does not. It cannot check that
-//!   the reason is true. An excuse is a human judgement recorded in data, and
+//! - **Whether a judgement is honest.** The lint checks that a `[[citation]]`
+//!   row still MATCHES a real string and reports it if it does not. It cannot
+//!   check that the reason is true, or that the role is the right one. A role
+//!   is a human judgement recorded in data, and
 //!   its whole advantage over the prose it replaces is that it is named,
 //!   counted, printed on every run, and expires loudly when the string it
 //!   covered changes. That is a smaller claim than "reviewed", and it is the
 //!   one being made.
-//! - **The difference between a withdrawal and a claim.** The nine excused
-//!   registry matches are the sharp case. A citation that says "the claim
-//!   resting on the CRC Handbook has been withdrawn" is commentary, and a
-//!   citation that says "from the CRC Handbook" is a claim, and both are the
-//!   value of the same `citation` field. The position test cannot separate
-//!   them; only the excuse list does, one reviewed row at a time. If
-//!   withdrawal notices become common this does not scale, and the fix is a
-//!   structured field — see below.
+//! - **The difference between a withdrawal and a claim.** A citation that
+//!   says "the claim resting on the CRC Handbook has been withdrawn" is
+//!   commentary, and a citation that says "from the CRC Handbook" is a claim,
+//!   and both are the value of the same `citation` field. The position test
+//!   cannot separate them. *Partly answered on 2026-09-15* by the `role`
+//!   vocabulary below: the separation is still one reviewed row at a time,
+//!   but the row can now say which of three things it is, and `matching` can
+//!   key it to a string rather than a file. What has NOT changed is the thing
+//!   that matters — the lint checks that a role still matches a real string
+//!   and never that it is true.
+//! - **Whether a page number is real.** A `locator` is checked for presence
+//!   and never for truth. It establishes that the citation names a place a
+//!   reader could go; it cannot establish that the value is on that page,
+//!   that anyone opened the book, or that the number did not come from
+//!   somewhere else entirely. This tree proves the gap rather than supposing
+//!   it: three rows in `phase_route.rs` name a CRC table and admit in the
+//!   same sentence that "no positively identified copy was opened for this
+//!   row". A fabricated locator would read exactly like a diligent one.
 //!
-//! ## The field that would make this exact, which does not exist
+//! ## Citing a book is not leaning on one
+//!
+//! `avoid` is a property of a SOURCE. The rule the owner gave on 2026-09-14
+//! is a property of a CITATION:
+//!
+//! > We should be able to cite any book. Only not harvest the books by
+//! > systematic scraping. And we should be able to trace original sources for
+//! > almost all values, and cite those.
+//!
+//! Until 2026-09-15 this file could not say that. `avoid` was source-level
+//! and every match under it was counted, so one properly attributed citation
+//! produced a finding for exactly the practice the rule calls ordinary.
+//! `upstreams.toml`'s own `voet-biochemistry` note says so in terms: "THE
+//! VOCABULARY IS MISSING A VERDICT AND THIS IS WHERE IT SHOWS."
+//!
+//! ### What a citation is DOING: `role`
+//!
+//! `[[excuse]]` became `[[citation]]` with a `role`, because an excuse could
+//! say only one of the three things a citation can be doing with a refused
+//! work, and the tree exhibits all three:
+//!
+//! - **`mentioned`** — names it and claims nothing from it. Four shapes occur
+//!   here: saying the cited source is NOT that one (`phase_route.rs` cites
+//!   NBS Circular 500 and names the WebBook only to say the Standard
+//!   Reference Data Act notice is absent from Circular 500), saying that
+//!   source is WRONG (the naphthalene row: the WebBook prints a digit
+//!   transposition), saying a RETIRED value used to rest on it, and recording
+//!   a WITHDRAWAL. Not a claim, so not a finding.
+//! - **`via`** — the value is a cleared primary's, read through this source's
+//!   RENDERING rather than off the publication. Always a finding. Naming the
+//!   right paper is good practice and does not undo having read the number
+//!   off Standard Reference Data. What the role buys is that the debt is a
+//!   *verification*, not a re-sourcing, which is a much cheaper repair.
+//! - **`claims`** — the value IS this source's. Ordinary practice when it
+//!   carries a `locator` and the work is refused for bulk; a finding
+//!   otherwise. Its ABSENCE is meaningful too: three rows declare `claims`
+//!   with no locator because their own text admits no copy was opened.
+//!
+//! ### Two clauses, two counters, and the unit each one wants
+//!
+//! The rule has two halves and they do not share a unit. Collapsing them is
+//! what broke the instrument, so they are counted apart:
+//!
+//! - **Attribution is per CITATION**, because attribution is a property of a
+//!   string. `locator` is the test.
+//! - **Dependence is per SOURCE**, because harvesting is a property of a
+//!   relationship to a work. `cite_at_most` is the ceiling, and going over it
+//!   is ONE finding for the work rather than one per citation — the offence
+//!   is the leaning, not each lean. Forty properly cited values out of one
+//!   book is not forty offences; it is one decision, and a count that read
+//!   forty would make the decision unreviewable.
+//!
+//! **Neither is the honest unit, and the honest unit is the QUANTITY.** A
+//! citation is not a number: `legacy/HBr` is one string over fifteen numeric
+//! records, and `kerotakis/material-recipes-v1` is one string over 493
+//! evidence links. Counting citations therefore UNDER-counts dependence, in
+//! one direction, always. Both figures are lower bounds and neither should
+//! ever be quoted as a number of values.
+//!
+//! **No default ceiling is invented.** `cite_at_most` is zero on every row
+//! until somebody declares otherwise with a written reason, because the rule
+//! names no number and a lint picking one would be a lint deciding a policy
+//! question. Deciding to depend on a copyrighted compilation should cost a
+//! reviewed line.
+//!
+//! ### Where the carve-out stops: `avoid`, never `permission-required`
+//!
+//! The two refused verdicts refuse for different reasons and only one of them
+//! is answerable by attribution. `avoid` carries the 2026-09-14 rule and its
+//! objection is compilation copyright — one value out of a book is a fact and
+//! not the compilation, which is the *Feist* argument PLAN.md already makes.
+//! `permission-required` says something else: refused until a written grant
+//! exists. A perfect citation does not create a grant.
+//!
+//! The repository settles it better than the argument does.
+//! `legacy/liquid_nitrogen` cites "NIST Chemistry WebBook SRD 69 nitrogen
+//! (CAS 7727-37-9)" with a deep link carrying the record id and the mask — a
+//! better locator than any CRC citation in this tree — and it is still a
+//! transcription out of Standard Reference Data. If attribution cleared
+//! `permission-required`, that row would clear. Setting a `locator` on such a
+//! row is therefore a problem in the audit file, not a silent no-op.
+//!
+//! ### What stops this being an amnesty
+//!
+//! A vocabulary that can clear findings can clear the wrong ones. Four things
+//! hold it, and the first is the one that matters:
+//!
+//! 1. **It clears nothing by itself.** The default for every match is
+//!    `undeclared`, which is a finding. A match changes side only when
+//!    somebody writes a row, and every row in the shipped file quotes the
+//!    sentence in the citation that establishes its role, so the judgement
+//!    can be checked against the text rather than against an assertion.
+//! 2. **A row that matches nothing is reported**, exactly as a stale excuse
+//!    was.
+//! 3. **A ceiling is legal only on `avoid`**, and only with a reason — the
+//!    `may_touch` invariant wearing a number.
+//! 4. **The registry denominator is asserted in a test.** The 46 CRC
+//!    citations that name an edition and no page are where the bulk
+//!    dependence actually lives, and a change that made them fall would have
+//!    to lower that assertion and say why.
+//!
+//! ## The field that would STILL make this exact, which does not exist
 //!
 //! Every limit above with real teeth comes from the same root: a registry
 //! source has ONE free-text `citation` and many numeric records hang off it,
@@ -187,12 +303,16 @@
 //! ]
 //! ```
 //!
-//! With `role` present the lint stops guessing: `claims` is a claim,
-//! `mentioned` and `withdrawn` are not, the excuse list disappears, and the
-//! finding moves from the citation to the individual quantity — which is also
-//! the unit the accuracy work wants to count. Until then the excuse list is
-//! the honest stand-in, and this paragraph is the record of what it stands in
-//! for.
+//! **Half of this was built on 2026-09-15 and half was not.** `role` exists,
+//! and it lives in `provenance/upstreams.toml` as `[[citation]]` rather than
+//! on the registry source record, because the export and its byte-exact
+//! golden mirror still belong to another change in flight. What that costs is
+//! `covers`: the role is declared per (citation, upstream) and NOT per
+//! QUANTITY, so `legacy/HBr` can be judged only as a whole and cannot yet say
+//! that its molar mass is clean while its heat capacity is not. The finding
+//! therefore still sits on the citation, and the sentence about it moving to
+//! the individual quantity remains the thing to build. When the registry
+//! field lands, these rows are what it should be seeded from.
 //!
 //! ## What must be true before this becomes a gate
 //!
@@ -200,6 +320,12 @@
 //!
 //! 1. **The count reaches zero** on both surfaces, by re-sourcing or by
 //!    withdrawal, not by deleting citations — watch the denominators.
+//!    *Made satisfiable on 2026-09-15, and no closer to satisfied.* Before
+//!    the `role` vocabulary this item could not be met honestly at all: a
+//!    correctly attributed citation of a book was a permanent finding, so
+//!    zero was reachable only by deleting the citation, which is the one
+//!    route this item forbids in its own sentence. That contradiction is
+//!    gone. The count is 67 and the work to move it is unchanged.
 //! 2. **The 105 unjudged registry citations shrink.** A gate over a surface
 //!    where more than half the rows name no audited source at all is a gate
 //!    with a hole bigger than itself.
@@ -221,7 +347,8 @@
 //!   `nonaqueous.rs`.
 //! - **185** source citations exist in the registry export. **59** name a
 //!   refused upstream: 46 CRC, 6 Merck, 4 WebBook, 3 JANAF.
-//! - **10** further matches are excused by a reviewed `[[excuse]]` row and
+//! - **10** further matches are cleared by a reviewed row (an `[[excuse]]`
+//!   then, a `[[citation]]` with `role = "mentioned"` now) and
 //!   printed separately: one NASA CEA lineage mention, and nine across the
 //!   three tranches whose claims were withdrawn on 2026-09-13, whose citations
 //!   name the refused sources in order to say the claim has stopped.
@@ -282,6 +409,96 @@
 //! - **Majer & Svoboda still has no row**, and `phase_route.rs`'s ethanol
 //!   citation names it. See `PLAN.md`'s scoped task: its terms cannot be read.
 //!
+//! ### Addendum, 2026-09-15 (second): the vocabulary, and what moved
+//!
+//! Measured with the scanner reimplemented against the same two surfaces, no
+//! citation edited and nothing re-sourced. This is a change to the
+//! instrument, like the table repair before it.
+//!
+//! | | before | after |
+//! |---|---|---|
+//! | Rust findings | 18 of 210 | **7 of 210** |
+//! | registry findings | 60 of 185 | **60 of 185** |
+//! | blind spot | 6 of 185 | 6 of 185 |
+//! | open questions | 152 / 2 / 2 | unchanged |
+//!
+//! The 18 is measured at `33c34631`, after #609 landed the `nsrds-nbs-37`
+//! row and the `phase_route.rs` JANAF excuse. The "20 on Rust" quoted in
+//! the brief for this change is the figure from before that excuse existed,
+//! and the two rows are the whole difference.
+//!
+//! **Eleven Rust findings changed side, all to `mentioned`, and every one of
+//! them was the lint reporting a source the string names in order to REJECT
+//! it.** Named, because a count that moves without names is not reviewable:
+//! `curated.rs` glucose (CRC and JANAF, "it is not a transcription ... no
+//! edition-level provenance is claimed"); `phase_route.rs` methanol fusion,
+//! acetic acid fusion, ethanol vaporisation and acetic acid vaporisation
+//! (WebBook, named only in the clause distinguishing a Government work from
+//! Standard Reference Data); naphthalene fusion (WebBook, named to report its
+//! digit transposition); nitrogen vaporisation (WebBook, named for the
+//! RETIRED figure); methanol vaporisation and acetic acid vaporisation (CRC,
+//! named to trace a retired value and to refuse a PubChem route that would
+//! have laundered it); acetone vaporisation (WebBook, named to report that
+//! its pointer is self-inconsistent).
+//!
+//! **Seven stayed, and they are the ones that should.** Three `claims` with
+//! no locator — `phase_route.rs` magnesium, copper and acetone on the CRC
+//! Handbook, each of which says in its own words that no positively
+//! identified copy was opened. Four `via` — propan-2-ol, ethyl acetate,
+//! `pack.rs` and `vle.rs`, all four on the WebBook, all four already saying
+//! that the value was read through its rendering of a correctly named paper.
+//!
+//! **The registry did not move at all, and that is the result, not a
+//! shortfall.** The 46 CRC citations there read "CRC Handbook, 97th ed."
+//! beside a quantity and nothing else; 58 of the 60 carry no locator of any
+//! kind. This is what bulk dependence looks like and none of it clears.
+//! `legacy/amylase`, the row this change was pointed at, stays a finding for
+//! the reason the rule itself gives: no page, and "typical" by its own word.
+//! What has changed is that a citation carrying author, title, edition and
+//! page would no longer fail identically to it, which was the defect.
+//!
+//! **Nothing cleared through the attribution carve-out.** No row declares a
+//! `cite_at_most`, so `attributed` is empty and a test asserts it stays that
+//! way. Declaring a ceiling is a judgement about how much of a book this
+//! project accepts leaning on, and it is the owner's to give.
+//!
+//! **Every excuse became a `[[citation]]` and none became unnecessary.** All
+//! five were `role = "mentioned"` wearing a different name; converting them
+//! is a rename, not a repair. One got strictly better: the `phase_route.rs`
+//! JANAF row was keyed to the FILE and said so against itself — "this excuse
+//! is keyed to the file, not to the two strings ... Narrow it if that becomes
+//! likely" — and `matching = "NSRDS-NBS 37"` now keys it to the two strings,
+//! so a genuine JANAF-online citation added to that file is reported.
+//!
+//! ### Two citations found while measuring, recorded and not touched
+//!
+//! Both are judgements somebody should make deliberately, and neither is
+//! made here.
+//!
+//! - **`legacy/Fe+2` would be defensible as `mentioned` and is left
+//!   undeclared.** The CRC is named inside a parenthesis supporting a
+//!   QUALITATIVE fact — that iron(II) sulfate and its solutions are pale
+//!   green — alongside Greenwood and Earnshaw, and the citation states that
+//!   "no edition of any handbook was opened for a per-wavelength epsilon and
+//!   none is claimed", the sixteen band values being a declared curated
+//!   teaching spectrum. So no shipped NUMBER rests on the Handbook. A
+//!   reviewer could equally say the colour claim does rest on it. That is a
+//!   judgement about a citation, not about an instrument.
+//! - **`legacy/amylase` is the live instance the vocabulary was built for and
+//!   it does not move.** Worth stating plainly, because "the rule says this
+//!   should be allowed" is not the same as "this particular row qualifies".
+//!   It does not: no page, and "typical".
+//!
+//! And one thing that got WORSE in a way worth writing down rather than
+//! celebrating: clearing the `curated.rs` glucose row removes a finding from
+//! this lint and gives it to nothing. That value is "recorded AS COMMONLY
+//! TABULATED and ITS PROVENANCE LANE IS PENDING REVIEW" — it has no source at
+//! all. It was never a refused-source offence and is now correctly not
+//! counted as one; it is an unattributed value, which is the older and larger
+//! problem this file's own limits say it cannot see. The row adds that
+//! "Nothing in the engine consumes it", which is the only reason this is
+//! small.
+//!
 //! ### Why the figure is a count and not a rate
 //!
 //! The headline is an absolute number of findings, never "N% clean". A rate
@@ -293,9 +510,9 @@
 //!
 //! ## Reporting, not failing
 //!
-//! It exits zero. There are ninety-four findings on the Rust surface and
-//! another agent is removing them; a gate that failed today would block every
-//! unrelated change and land on that agent's head. `--fail` (or
+//! It exits zero. There are 67 findings across the two surfaces and other
+//! agents are working them down; a gate that failed today would block every
+//! unrelated change and land on their heads. `--fail` (or
 //! `KERO_PROVENANCE_UPSTREAMS_FAIL=1`) makes it exit non-zero, and that is the
 //! switch the promotion PR flips once the count is zero. Problems with
 //! `upstreams.toml` ITSELF always fail — that file is not in anyone's way.
