@@ -2765,13 +2765,47 @@ started. They are ordered by what they unblock, not by size.
       to count and report these and to bind the requirement to new records only,
       so a sweep would reverse a decision rather than serve it. This is the
       measurement that says whether a sweep is ever worth buying.
-- [ ] **Give numeric records an uncertainty, and mark which are measured.** Of
-      1917 registry numeric records, 1093 report no uncertainty at all, none
-      carries an absolute, relative or interval form, and **not one is marked
-      `measured`**. This ranks above tidying citations: a tolerance in the
-      accuracy corpus has to know what uncertainty a value carries, so the
-      corpus cannot argue a band without it. Start with the quantities the
-      colligative family already cites, since those have sources in hand.
+- [x] **Give numeric records an uncertainty, and mark which are measured.
+      DONE 2026-09-15**, on `feat/registry-uncertainty`, reported in
+      **[docs/registry-uncertainty-and-measurement.md](docs/registry-uncertainty-and-measurement.md)**.
+      66 molar masses gained a propagated CIAAW interval, 1 record is marked
+      `measured`, and NO VALUE WAS CHANGED.
+      **`measured` was empty because nobody filled it, and more precisely
+      because the field was filled with the answer to a different question**:
+      `method` was read as "how the value entered the registry", so 852 records
+      carry `Imported("verbatim export from ... REGISTRY")`, which describes
+      the export step. No export measures anything, so under that reading no
+      record could ever be `measured`. It now records how the value CAME TO
+      EXIST, and `measured` means the CITED SOURCE is the experiment — never
+      this project, which operates no laboratory.
+      **`not_reported` was doing two jobs and could do neither.** It was
+      documented as "the source did not report one" and was simultaneously the
+      blanket default on 1093 records whose sources nobody had opened. A new
+      `unestablished` carries the absence and is the default; `not_reported`
+      is now a finding, reached by reading a source, and the registry has
+      bought none — which a test asserts, so the first one is bought
+      deliberately.
+      **A derived quantity does inherit, but the propagation rule depends on
+      what the input band is.** CIAAW publishes several elements as an
+      INTERVAL over natural isotopic variation rather than a value with an
+      error bar, so a molar mass inherits an interval by interval arithmetic
+      and NOT in quadrature; the band is widened by one electron mass per unit
+      of charge because this registry stores the formula sum so a dissociation
+      closes its mass balance exactly.
+      **The propagation is a check as well as a claim** — the validator already
+      refuses an interval that excludes its own value — and it found five molar
+      masses that fail: `H2O2`, `O2` and `Na+` are quoted more coarsely than
+      their derivations support, and `catalase` and `amylase` carry placeholder
+      formulas. All five are left as they stand and named in a declined table.
+      **Reach and cost:** five element rows reach 66 of 186 molar masses;
+      twenty-one more rows reach the rest, an afternoon plus however many more
+      coarsely-quoted values they turn up. Beyond molar mass there is no table:
+      roughly 228 records are declared non-claims that should stay non-claims,
+      and the ~120 with no checkable source cannot be given a band at all until
+      they are re-sourced. **The uncertainty programme is blocked behind the
+      sourcing programme there**, and `boiling-point/water` is the clearest
+      case — its citation was withdrawn on 2026-09-13, so there is no source to
+      read.
 - [ ] **Majer & Svoboda has no machine-readable row.** It is cited in shipped
       code and appears in the prose table, but `provenance/upstreams.toml` has
       no entry, so the lint cannot see it. Add one when someone reads its terms;
