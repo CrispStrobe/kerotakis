@@ -973,6 +973,49 @@ catalogue whose failure was swallowed so 188 materials read as refused (#599,
 experiment *runs*. Several would not appear in a numeric oracle either, because
 the number is self-consistent — it is simply about something else.
 
+### What the 500-prompt corpus actually asserts
+
+Checked rather than assumed, because the natural belief is that the corpus
+already does this. It does not, and the gap is one field wide.
+
+`tests/coverage/curiosity-v1/*.toml` carries 500 prompts. Each has a
+`question`, a `script`, and an `expected`. The vocabulary of `expected` is
+`computed | curated | qualitative | boundary` — **four routes, not four
+outcomes**. `baseline.toml` records, per prompt, an `outcome` and a
+`reason_code` from the same vocabulary. So the assertion the corpus makes is:
+*the engine answered this by the route we expected it to*.
+
+The clearest illustration is `aq-003`:
+
+```toml
+question = "Will potassium chloride dissolve in water and cool the beaker?"
+script   = ["add v1 water 100mL", "add v1 KCl 10g", "measure v1 thermometer"]
+expected = "computed"
+```
+
+and the baseline it is graded against:
+
+```toml
+id = "aq-003"
+outcome = "computed"
+reason_code = "computed-route"
+```
+
+The prompt asks whether the beaker **cools**. Nothing anywhere records that it
+should. The engine could report the beaker warming by 40 °C and this row would
+stay green, in every run, forever.
+
+That is not a corpus that was built wrongly. It is a corpus that was built to
+answer "does this run, by the route we intended" — which was the right question
+at the time and is now answered. The scientific expectation was never in the
+schema to be got wrong.
+
+`tools/curiosity-answer-invariance.py` is the one place the sharper question
+already appears, and it is worth reading before designing anything: it catches a
+*passing* row whose script cannot reach its own question (three metals weighed,
+three identical readings, "How can density distinguish them?"). The idea below
+is that tool's idea, generalised.
+
 ### EXP-54 — the execution harvest
 
 Not another reading pass. A corpus of experiments that are **run**, with the
@@ -1002,6 +1045,85 @@ that are marked NOW or NEAR, because those are the ones we assert we support —
 an execution harvest of things we *do not* claim to run teaches nothing. Scale
 only if bucket two is non-empty, and let its size decide how much more is worth
 doing.
+
+### How the expectations get checked: three tiers, and only one of them is new work
+
+The instinct to reach for a model as the judge is understandable and should be
+resisted for the grading step specifically. The reasons are not squeamishness:
+
+- **A language model is not an oracle for chemistry.** It will state wrong
+  products, wrong signs and wrong magnitudes with the same fluency as right
+  ones. Grading against it means converging the engine on its errors, which is
+  the precise opposite of the standard this file exists to hold.
+- **A disagreement is uninterpretable.** Engine says A, model says B: which is
+  wrong? You need a third thing, and the third thing is a human or a book. So a
+  judge buys a queue, not an answer — and a queue can be got far more cheaply.
+- **It cannot be pinned.** This repository's discipline is an assertion rather
+  than an eye. A judge is an eye, over a network, behind a rate limit, inside
+  CI: green today and red tomorrow with no code change, which destroys the
+  signal it was bought for.
+- **The arithmetic does not work.** Ten requests per sixty seconds is roughly
+  an hour for one pass over 500 prompts, per model, per run.
+
+So: **tier A needs no oracle at all, tier C already has real ones, and a model
+belongs only in tier B, offline, once, as a scribe rather than a judge.**
+
+**Tier A — perturbation. Fully automatic, no ground truth, no corpus authoring.**
+Do not ask "is 4.2 the right number". Ask "does this number move, in the right
+direction, when its cause moves". A quantity claimed to be X must change when X
+changes; a claim that survives its own perturbation is a proxy wearing a label.
+This needs nothing but the engine and a rule per quantity, it is deterministic
+and free, and it is where the highest yield is, because it catches *every*
+defect of this class found so far by accident:
+
+| Known defect | The perturbation that finds it |
+|---|---|
+| float/sink reads species density, not the recipe's bulk density | change a recipe's bulk density; the verdict must move |
+| alkalinity treated as a portion rather than a charge balance | add acid; alkalinity must fall by the charge equivalent |
+| an element arriving mid-solve is speciated then dropped on readback | transfer an element in; the totals must change |
+| a catalogue gate that never asked which laboratory it was in | switch mode; availability must move (#599) |
+| a catalogue failure swallowed whole | fail the round trip; something must say so (#602) |
+
+Generalise `tools/curiosity-answer-invariance.py` rather than starting again:
+it already encodes "N distinguishable subjects must produce N distinct
+answers", which is the same rule with the perturbation across vessels instead
+of across time.
+
+**Tier B — authored expectations. One-time, reviewed, then deterministic
+forever.** Extend the corpus schema with the field it never had: what the
+answer should *be*, in qualitative terms — sign of a temperature change, which
+species appears, which phase separates, which way a mass moves, and a tolerance
+band where a number is genuinely known. `aq-003` gains something like
+`expect_temperature = "falls"`.
+
+This is where a model earns its keep, and only here. Turning book prose into
+structured expectations is a **translation** task, which models are good at,
+and the output is *data that a person reviews and commits*. After that the test
+runs offline, free, fast, and identically every time; the model never runs in
+CI and never appears in a gate. Two cheap tricks make the review affordable:
+
+1. **Extract twice, with two different models, independently.** Agreement is
+   not truth, but disagreement is an excellent queue. Hand a human only the
+   rows where the two differ or either abstains.
+2. **Make abstention free and cheap to express.** A model that says "the source
+   does not state this" is doing the job correctly; a schema that forces a
+   value manufactures one.
+
+The free tiers named (Hetzner's experimental inference, OpenRouter, Groq) are
+entirely adequate for this, because the work is offline, batched, un-urgent and
+reviewed. A 35B-class model is fine for extraction. None of it goes near CI, no
+key goes near the repository, and the committed artefact is the reviewed TOML —
+not the transcript that produced it.
+
+**Tier C — external oracles, where a number is checkable.** Already live and
+unchanged: `tools/check-properties-vs-chempy.py`, the PHREEQC comparisons, the
+thermo fixtures, `tools/oracle`. These are the real ground truth and they should
+absorb every claim they can reach, precisely so tier B stays small.
+
+The sequencing follows from the costs: **A first** — it is free, deterministic,
+needs no authoring and covers the known failure shape; **C next**, widened to
+whatever it can reach; **B last and smallest**, covering only what neither of
+the others can, because it is the only tier with an ongoing human price.
 
 Prerequisite, and the reason #602 is filed before this rather than after: a run
 of this corpus against a deployment is worthless if the deployment can serve a
