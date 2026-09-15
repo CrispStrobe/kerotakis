@@ -61,8 +61,9 @@
 //! the sources they never had, and the world-facing bands below are set wide
 //! enough to absorb a transcription that has not been verified against the
 //! printed table. That is a weaker claim than "transcribed from the source",
-//! and it is written down rather than blurred. `validation/cases/` records
-//! the same status per row in a machine-readable field.
+//! and it is written down rather than blurred. The accuracy corpus that
+//! follows this change records the same status per row in a
+//! machine-readable field, so a reader never has to infer it.
 //!
 //! **[S4] Boiling, for the concentrated end.** H. F. Gibbard Jr., G.
 //! Scatchard, R. A. Rousseau and J. L. Creek, "Liquid-vapor equilibrium of
@@ -297,15 +298,35 @@ fn a_textbook_spoonful_of_salt_freezes_the_water_near_minus_three_point_four() {
 /// databases are on the approved row of PLAN.md's provenance table, so
 /// that is a chain this bench may stand on.
 ///
-/// There is deliberately NO assertion here against a MEASURED freezing
-/// point or a measured osmotic coefficient. The figures usually quoted for
-/// this solution trace to Robinson and Stokes' tabulation, which is a book
-/// with no resolvable identifier, and the critical re-evaluations of it are
-/// NIST Standard Reference Data, which PLAN.md's provenance table puts on
-/// the avoid row. Writing a measured number into a comment with no source
-/// a gate could check is the pattern this repository is already carrying
-/// too much of, so the world-facing comparison is left out until a citable
-/// source exists rather than added to the pile.
+/// **The world-facing comparison is back, restored 2026-09-14.** It was
+/// dropped when this test was written, on the reading that the figures for
+/// this solution trace to Robinson and Stokes' tabulation and that a book
+/// with no resolvable identifier could not be cited. That reading was
+/// wrong, and the owner has said so: a reference work without an identifier
+/// is cited by author, title, edition and page like any other book, and the
+/// better answer is to name the measurement behind it. Both are done in the
+/// module header — [S3] for the tabulation, [S1] and [S2] for the two
+/// experiments it compiles — so the two anchors this test declined to make
+/// are made below.
+///
+/// They are worth having, because the model figure and the measured one are
+/// NOT the same number and the gap is already explained. φ reads 0.945
+/// against a measured 0.9324, and the freezing point −0.3516 against a
+/// measured −0.346. Both gaps are the four-significant-figure rounding
+/// documented below, in the direction that rounding pushes, and neither is
+/// physics. An anchor whose residual is understood is more useful than one
+/// that happens to sit on top of the reference.
+///
+/// **What these two anchors are not.** φ is not an independent check of
+/// this path. `pitzer.dat`'s Na-Cl virial coefficients are FITTED to
+/// osmotic-coefficient data, which is [S2] and its successors, so comparing
+/// the bench's φ against [S3]'s column asks whether the fit was loaded and
+/// read correctly, not whether the physics is right. The freezing point is
+/// the better anchor of the two: [S1] measured a freezing point directly,
+/// which is a different experiment from an isopiestic vapour-pressure one,
+/// and the bench reaches it through its own ΔH_fus-derived relation rather
+/// than through the fit. Recorded here because a corpus that scored these
+/// two rows the same would be overstating one of them.
 ///
 /// **The two solves are visible from the outside**, which is the whole of
 /// how a reader tells this vessel apart from a one-solve one:
@@ -386,6 +407,21 @@ fn a_tenth_molal_brine_is_answered_by_a_model_and_not_by_raoult() {
     // a few thousandths of a kelvin wide rather than a few ten-thousandths.
     // Closer would need a_w off the wire at full precision, which is a
     // different piece of work in the readback.
+    //
+    // And the world. φ = 0.9324 for 0.1 mol/kg NaCl at 25 °C, from [S3]'s
+    // NaCl column, measured isopiestically in [S2]. The band is argued from
+    // the paragraph above rather than picked: the four-figure rounding is
+    // worth 0.013 in φ at this dilution, and although it happens to push
+    // upward here nothing guarantees the direction on another engine build,
+    // so the band is that figure doubled. It still excludes the predecessor
+    // decisively — Raoult's law does not compute an osmotic coefficient at
+    // all, it asserts φ = 1 by construction, and 1.000 is 0.068 away, which
+    // is 2.7 times this band.
+    assert!(
+        (phi - 0.9324).abs() < 0.025,
+        "0.1 molal NaCl has a measured osmotic coefficient of 0.9324 at 25 °C \
+         [S2, S3]; this bench says {phi:.4}"
+    );
 
     let freezing_c = transitions.freezing_k - 273.15;
     eprintln!("0.1 molal NaCl: freezing point {freezing_c:.4} C");
@@ -421,6 +457,21 @@ fn a_tenth_molal_brine_is_answered_by_a_model_and_not_by_raoult() {
     assert!(
         (freezing_c + 0.3516).abs() < 0.004,
         "pin for the ion-interaction route at 0.1 molal: {freezing_c:.4} C"
+    );
+    // And what the world says, which is the anchor 2026-09-13 dropped.
+    // A tenth-molal NaCl solution freezes at −0.346 °C by direct cryoscopy
+    // [S1]. Ten millikelvin, argued three ways and none of them a
+    // percentage. It HOLDS the bench's −0.3516, whose 5.6 mK residual is
+    // the documented rounding. It SURVIVES the improvement that would close
+    // that residual: a_w off the wire at full precision moves this beaker
+    // to about −0.3468, which lands almost exactly on the measurement. And
+    // it EXCLUDES the predecessor, Raoult's law at −0.371, by 2.5 times the
+    // band. Narrower would start testing the readback's print precision
+    // instead of the physics; wider would let the ideal solvent back in.
+    assert!(
+        (freezing_c + 0.346).abs() < 0.010,
+        "a tenth-molal brine freezes at −0.346 °C by measurement [S1]: \
+         {freezing_c:.4} C"
     );
 }
 
