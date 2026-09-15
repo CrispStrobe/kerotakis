@@ -221,7 +221,7 @@ fn redox_distribution(
 ///
 /// This file carried its own `18.015` until 2026-09-15. It happened to agree
 /// with the record, which is precisely what made it invisible: nothing kept
-/// the two equal, and two of the fourteen sites that carried a copy had
+/// the two equal, and two of the eighteen sites that carried a copy had
 /// drifted onto a different number.
 ///
 /// The two conversions this constant drives are inverses of each other -

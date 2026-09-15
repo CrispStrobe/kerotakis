@@ -178,8 +178,13 @@ const RESISTIVITY_METHOD: &str = "curated electrical-resistivity tranche, proven
 
 /// The two latent heats the solvent's own transitions run on.
 ///
-/// These are the largest colligative inputs on the bench and until today
-/// neither was a registry record at all. `states.rs` carried them as bare
+/// THESE ARE THE HALF THAT MATTERS, by two and a half orders of magnitude.
+/// The freezing depression goes as 1/dH_fus, so one per cent here is one per
+/// cent on the answer - 88 per cent of the tightest model band in
+/// `validation/cases/colligative.toml` - against the 0.007 per cent water's
+/// molar mass contributes through its published interval. They are the
+/// largest colligative inputs on the bench and until today neither was a
+/// registry record at all. `states.rs` carried them as bare
 /// Rust constants, so neither could hold an uncertainty in a schema that
 /// has one, and the term that dominates every band in
 /// `validation/cases/colligative.toml` was the one term the registry could
@@ -508,7 +513,7 @@ pub fn export_current_registry() -> Result<RegistryDocument, String> {
         document.sources.push(SourceRecord {
             id: LATENT_HEAT_VAPORISATION_SOURCE.to_string(),
             citation: LATENT_HEAT_VAPORISATION_CITATION.to_string(),
-            licence: "LicenseRef-US-Government-Work".to_string(),
+            licence: "LicenseRef-US-Public-Domain".to_string(),
             lane: SourceLane::Runtime,
             origin: Some(
                 "https://nvlpubs.nist.gov/nistpubs/jres/23/jresv23n2p197_A1b.pdf".to_string(),

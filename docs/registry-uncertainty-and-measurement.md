@@ -4,7 +4,7 @@
 > Section 2 below — *the bench does not read the record the band is attached
 > to* — is closed. The engine's constants are generated from the registry
 > records, both latent heats have records for the first time, and the count in
-> that section was understated: it was fourteen sites, not thirteen. This
+> that section was understated: it was eighteen sites, not thirteen. This
 > document is left as it was written, because what it found is the reason the
 > other one exists.
 

@@ -3,119 +3,33 @@
 Status: 2026-09-15. The follow-up to
 [`registry-uncertainty-and-measurement.md`](registry-uncertainty-and-measurement.md),
 whose section 2 found that the bench does not read the records whose bands it
-had just written. This closes that, gives the two constants that had no record
-one each, and answers the question the finding raises: is this a case or a
-pattern?
+had just written, and whose section 3 found that the biggest input of all had
+no record to read.
 
-## The defect
+## Read the second half first
 
-Water's molar mass was a Rust literal in **fourteen sites across seven files**,
-in three spellings. The three spellings hid **two different numbers**.
+Two defects were found together and they are **not** the same size. The
+arithmetic says so, and it is not close:
 
-| spelling | sites | where |
+| | if it carried 1 % uncertainty | share of the tightest model band in `colligative.toml` |
 |---|---|---|
-| `0.018_015` | 8 | `solve.rs` ×6, `particles.rs`, `states.rs` |
-| `0.018015` | 1 | `sweep.rs` |
-| `18.015` | 2 | `aqueous.rs`, `displacement.rs` |
-| `18.015_28` / `18.01528` | 3 | `constants.rs`, and as a **fallback** in `bench.rs` and `scene.rs` |
+| **enthalpy of fusion** | 3.5 mK on the tenth-molal depression | **88 %** |
+| molar mass | 0.025 mK | 0.6 % |
 
-Nine of the fourteen never consulted the registry at all. Two consulted it and
-then fell back to a *different number* if the lookup missed. `states.rs`
-carried a comment reading *"M_w is the registry's own molar mass of water,
-0.018015 kg/mol"* directly beside its private copy of it.
+The freezing depression goes as 1/ΔH_fus, so a relative uncertainty in the
+enthalpy is the *same* relative uncertainty in the answer. A molar mass enters
+linearly and its published interval is 7.1e-5 wide. **Two and a half orders of
+magnitude separate them.**
 
-## Which of the two numbers was right, and how that was decided
+So the governing half of this change is that **water's two latent heats are
+registry records for the first time, and the enthalpy of vaporisation has a
+primary source for the first time at all**. That is what decides what an
+accuracy tolerance in this family can claim.
 
-**18.015. Not because it is more accurate — the two differ by 1.6 ppm and both
-lie inside CIAAW's published interval — but because one of them was a
-superseded table wearing the current table's label.**
-
-The arithmetic decides it:
-
-```
-2 × 1.00794 + 15.9994  = 18.01528   ← pre-2009 IUPAC standard atomic weights
-2 × 1.008   + 15.999   = 18.015     ← IUPAC/CIAAW 2021 conventional values
-```
-
-`constants.rs` read `pub const WATER_MOLAR_MASS: f64 = 18.015_28;` under the
-comment *"IUPAC 2021 atomic weights"*. That comment was false about its own
-number. CIAAW moved hydrogen and oxygen to intervals in 2009 and the
-conventional representatives of those intervals are 1.008 and 15.999, which is
-what the registry record says and what every site that actually computed with
-the value already used.
-
-The registry's 18.015 has a second property worth keeping: it closes the
-bench's own mass balance exactly. `H2O → H⁺ + OH⁻` is 1.008 + 17.007 = 18.015
-on the convention this registry stores ion masses under.
-
-**This is the reading the interval made possible.** Without it the available
-readings were "identical enough" and "somebody made a typo"; with it the
-question becomes *which table did each come from*, which has an answer.
-
-## What now reads the registry, and what legitimately does not
-
-### Reads it — 19 sites
-
-`crates/kerotakis-core/build.rs` generates four constants out of
-`data/registry/registry-source-v1.json`:
-
-| constant | record |
-|---|---|
-| `WATER_MOLAR_MASS_G_PER_MOL` | `molar-mass/water` |
-| `WATER_MOLAR_MASS_KG_PER_MOL` | the same value ÷ 1000, not re-entered |
-| `WATER_ENTHALPY_OF_FUSION_J_PER_MOL` | `enthalpy-of-fusion/water` |
-| `WATER_ENTHALPY_OF_VAPORISATION_J_PER_MOL` | `enthalpy-of-vaporisation/water` |
-| `WATER_LIQUID_HEAT_CAPACITY_J_PER_MOL_K` | `heat-capacity/water` |
-
-All fourteen molar-mass sites now read the first two, plus the three latent-heat
-and heat-capacity constants in `states.rs`, plus the two sites where the value
-appeared as a test fixture's grams-to-moles conversion.
-
-### Why a generated constant and not a runtime lookup
-
-The two `.map_or(18.01528, |d| d.molar_mass)` fallbacks are the interesting
-case, and the honest answers to *"what if the lookup misses?"* were **refuse**
-or **say why the fallback is acceptable**. Neither is needed, because the
-question is answerable at build time: `REGISTRY` is generated from the pack,
-built-in keys always win a pack collision, and `build.rs` already panics by
-name if a species has no molar mass. So a lookup for `water` cannot miss.
-
-A generated constant buys three things a runtime lookup does not:
-
-1. **It cannot miss**, so no site needs a fallback and the silent
-   disagreement has nowhere to live.
-2. **It stays usable in a `const` context**, which a lookup is not.
-3. **The build fails by name** if the record is dropped from the pack,
-   instead of a solver quietly substituting a different number.
-
-`crates/kerotakis-core/tests/one_value.rs` pins the generator against a runtime
-`species::lookup`, so the two cannot come apart.
-
-### Legitimately does not read it
-
-| site | why |
-|---|---|
-| `kerotakis-phreeqc/tests/basic_dialect_oracle.rs`, `my_basic_preview.rs` | they assert **IPhreeqc's own** GFW of H₂O. That number is the vendored engine's, from its database's element masses, and replacing it with ours would stop the test checking anything. |
-| `kerotakis-org/src/lib.rs` | asserts the vendored `chematic` descriptor recomputes 18.015 from a formula. A **third party's** arithmetic; reading our constant makes it tautological. Allowlisted by name in `one_value.rs`. |
-| `kerotakis-core/tests/states.rs`, `ambient_heat.rs`; `kerotakis-phreeqc/tests/{surface_transport, milk_buffer, titration_refinement, colligative_numbers}.rs` | they recompute an **expected** value by hand. A test that derives its expectation from the constant under test is not a test. |
-| `kerotakis-thermo/tests/vle.rs` | a fixture passing ethanol's and water's molar masses to a pure mass-fraction helper. `kerotakis-thermo` does not depend on the registry, and this argument is an input to the helper rather than a claim about water. |
-| `kerotakis-data/tests/{chebi_adapter, pubchem_adapter, registry_parity, phase_properties}.rs` | pinned expectations that an adapter or the pack **produces** 18.015. The literal is the assertion. |
-| `kerotakis-registry-export/src/lib.rs` | the file that **authors** the records. Its citation prose quotes the number — including the arithmetic that converts 2256.30 int. J/g into a molar enthalpy — and writing it down is this file's job. Allowlisted by name. |
-| `data/cea/reachable-subset.json`, `vendor/nasa-cea/thermo.inp` | NASA's file declares `18.0152800` in every H₂O record. It is **their** number in **their** file and must stay. |
-
-## What moved
-
-**Nothing.** No golden, no lesson transcript, no corpus row, no shipped value.
-
-That is the strong result the finding predicted, and the reason is worth
-stating rather than assuming: **every site that actually computed with the
-number already used 18.015.** The only two occurrences of 18.01528 that could
-have reached an answer were fallbacks behind a lookup that cannot miss, and
-`constants::WATER_MOLAR_MASS` — the one place the wrong number was stated
-outright — had **no callers at all**.
-
-So the wrong number never reached an answer. It was a loaded gun rather than a
-wound, and the interval is what made it visible before it went off.
+The molar-mass half is a real defect and worth closing — one quantity written
+four ways across eighteen sites, with a fallback that could have substituted a
+different number — but **nothing it touched moved, and nothing was ever going
+to.** That is the honest weight to give it, and it is why it is second here.
 
 ## The two latent heats
 
@@ -181,6 +95,131 @@ So the corpus still cannot spend a band on the term that dominates it. **What
 the sourcing bought is traceability, not a width**, and the remaining purchase
 is now precisely nameable: a modern evaluation of the steam properties.
 
+## The smaller half: the defect in the molar mass
+
+
+`git grep` over `crates/*/src/` on the tip this branched from finds **24
+occurrences**. Five are prose and one asserts a third party's arithmetic,
+leaving **18 sites across seven files** carrying the bench's own copy of water's
+molar mass, in **four spellings** that between them hid **two different
+numbers**.
+
+| spelling | sites | where |
+|---|---|---|
+| `0.018_015` | 8 | `solve.rs` ×6, `particles.rs`, `states.rs` |
+| `0.018015` | 1 | `sweep.rs` |
+| `18.015` | 2 | `aqueous.rs`, `displacement.rs` |
+| `18.015_28` / `18.01528` | 3 | `constants.rs`, and as a **fallback** in `bench.rs` and `scene.rs` |
+
+Sixteen of the eighteen never consulted the registry at all. Two consulted it
+and then fell back to a *different number* if the lookup missed. `states.rs`
+carried a comment reading *"M_w is the registry's own molar mass of water,
+0.018015 kg/mol"* directly beside its private copy of it.
+
+## The two spellings, and what "deciding" between them does and does not mean
+
+**They are indistinguishable at any precision this bench resolves.** 18.015 and
+18.01528 differ by 1.6 ppm, and **both lie inside** the interval CIAAW publishes
+for water's molar mass, [18.01471, 18.01599]. Neither is measurably wrong;
+neither could be shown wrong by any measurement this project could make. **No
+verdict on accuracy is offered here, and none is available.** This is one
+quantity written four ways, and the reason to unify it is that nothing kept the
+four equal — the same shape as the native-versus-wasm split this project has
+already paid for once — not that a wrong number was reaching an answer.
+
+**What *is* decidable is which table each came from**, and that settles which
+one the engine should carry without settling which is truer:
+
+```
+2 × 1.00794 + 15.9994 = 18.01528   ← pre-2009 IUPAC standard atomic weights
+2 × 1.008   + 15.999  = 18.015     ← IUPAC/CIAAW 2021 conventional values
+```
+
+`constants.rs` read `WATER_MOLAR_MASS = 18.015_28` under the comment *"IUPAC
+2021 atomic weights"*. The number is not those weights; it is the values they
+superseded. **The label was wrong even though the number is not.** 18.015 is
+what the registry record holds, what 2021 actually gives, and what every site
+that computed with the value already used, so the engine reads the registry's —
+a statement about single-sourcing rather than about accuracy.
+
+It also closes the bench's own mass balance exactly: `H2O → H⁺ + OH⁻` is
+1.008 + 17.007 = 18.015 on the convention this registry stores ion masses under.
+
+**The interval is what made any of this readable.** Without it the available
+readings were "identical enough" and "somebody made a typo"; with it the
+question becomes *which table did each come from*, which has an answer, while
+the accuracy question is visibly closed — two representatives of one published
+range.
+
+## What now reads the registry, and what legitimately does not
+
+### Reads it — 19 sites
+
+`crates/kerotakis-core/build.rs` generates four constants out of
+`data/registry/registry-source-v1.json`:
+
+| constant | record |
+|---|---|
+| `WATER_MOLAR_MASS_G_PER_MOL` | `molar-mass/water` |
+| `WATER_MOLAR_MASS_KG_PER_MOL` | the same value ÷ 1000, not re-entered |
+| `WATER_ENTHALPY_OF_FUSION_J_PER_MOL` | `enthalpy-of-fusion/water` |
+| `WATER_ENTHALPY_OF_VAPORISATION_J_PER_MOL` | `enthalpy-of-vaporisation/water` |
+| `WATER_LIQUID_HEAT_CAPACITY_J_PER_MOL_K` | `heat-capacity/water` |
+
+All eighteen molar-mass sites now read the first two, plus the three
+latent-heat and heat-capacity constants in `states.rs`, plus one site in
+`kerotakis-phreeqc`'s tests where a fixture's grams-to-moles conversion used
+the other spelling.
+
+### Why a generated constant and not a runtime lookup
+
+The two `.map_or(18.01528, |d| d.molar_mass)` fallbacks are the interesting
+case, and the honest answers to *"what if the lookup misses?"* were **refuse**
+or **say why the fallback is acceptable**. Neither is needed, because the
+question is answerable at build time: `REGISTRY` is generated from the pack,
+built-in keys always win a pack collision, and `build.rs` already panics by
+name if a species has no molar mass. So a lookup for `water` cannot miss.
+
+A generated constant buys three things a runtime lookup does not:
+
+1. **It cannot miss**, so no site needs a fallback and the silent
+   disagreement has nowhere to live.
+2. **It stays usable in a `const` context**, which a lookup is not.
+3. **The build fails by name** if the record is dropped from the pack,
+   instead of a solver quietly substituting a different number.
+
+`crates/kerotakis-core/tests/one_value.rs` pins the generator against a runtime
+`species::lookup`, so the two cannot come apart.
+
+### Legitimately does not read it
+
+| site | why |
+|---|---|
+| `kerotakis-phreeqc/tests/basic_dialect_oracle.rs`, `my_basic_preview.rs` | they assert **IPhreeqc's own** GFW of H₂O. That number is the vendored engine's, from its database's element masses, and replacing it with ours would stop the test checking anything. |
+| `kerotakis-org/src/lib.rs` | asserts the vendored `chematic` descriptor recomputes 18.015 from a formula. A **third party's** arithmetic; reading our constant makes it tautological. Allowlisted by name in `one_value.rs`. |
+| `kerotakis-core/tests/states.rs`, `ambient_heat.rs`; `kerotakis-phreeqc/tests/{surface_transport, milk_buffer, titration_refinement, colligative_numbers}.rs` | they recompute an **expected** value by hand. A test that derives its expectation from the constant under test is not a test. |
+| `kerotakis-thermo/tests/vle.rs` | a fixture passing ethanol's and water's molar masses to a pure mass-fraction helper. `kerotakis-thermo` does not depend on the registry, and this argument is an input to the helper rather than a claim about water. |
+| `kerotakis-data/tests/{chebi_adapter, pubchem_adapter, registry_parity, phase_properties}.rs` | pinned expectations that an adapter or the pack **produces** 18.015. The literal is the assertion. |
+| `kerotakis-registry-export/src/lib.rs` | the file that **authors** the records. Its citation prose quotes the number — including the arithmetic that converts 2256.30 int. J/g into a molar enthalpy — and writing it down is this file's job. Allowlisted by name. |
+| `data/cea/reachable-subset.json`, `vendor/nasa-cea/thermo.inp` | NASA's file declares `18.0152800` in every H₂O record. It is **their** number in **their** file and must stay. |
+
+## What moved
+
+**Nothing.** No golden, no lesson transcript, no corpus row, no shipped value.
+
+That is the result the arithmetic predicted, and the reason is worth stating
+rather than assuming: **every site that actually computed with the number
+already used 18.015.** The only two occurrences of 18.01528 that could have
+reached an answer were fallbacks behind a lookup that cannot miss, and
+`constants::WATER_MOLAR_MASS` — the one place the mislabelled number was stated
+outright — had **no callers at all**.
+
+So the second spelling never reached an answer, and even if it had, the two are
+1.6 ppm apart and the goldens do not carry that digit. **A change that moves
+nothing is the evidence here, not the disappointment.** What was closed is a
+mechanism that could have let two numbers drift apart unnoticed, on a quantity
+where nobody was watching because nobody could tell the two apart.
+
 ## Is this a case or a pattern?
 
 **A pattern. Four instances, three closed here.**
@@ -210,6 +249,30 @@ literals with a comment saying so — or they are the substance's transition
 temperatures, in which case the registry owns them and `melting-point/water`'s
 withdrawn citation has to be replaced before anything is wired to it. Recorded
 in `PLAN.md` as a follow-up with both halves of the question stated.
+
+## Does this touch the open atomic-weight question?
+
+`provenance/upstreams.toml`'s `ciaaw` row is `decision-required`, and #608
+recorded a correction to the argument it rests on: that argument says the
+question may not arise because this registry ships **computed** compound masses
+rather than a copy of any table, and #608 made that slightly less true by
+writing five element intervals into source verbatim and giving four
+single-atom records a published interval unchanged.
+
+**This change does not make that worse, and it is not this pass's to resolve.**
+Nothing here adds a verbatim element value, an interval, or a table row. It
+copies no atomic weight. What it does is put the *existing* computed mass behind
+one name instead of eighteen, which moves the dependence in the direction that
+argument prefers rather than against it.
+
+One interaction is worth naming rather than leaving for a reader to find: the
+new `enthalpy-of-vaporisation/water` record's derivation **uses** the molar
+mass, because the 1939 measurement is per gram and the bench's unit is per
+mole. That is a computation on a computed mass, which is the side of the line
+the `ciaaw` row's own reasoning already puts such things on — but it is a new
+dependant, and if that row's answer ever comes back unfavourable this record's
+arithmetic is one of the things that would have to be re-read. Recorded, not
+resolved.
 
 ## What was deliberately not done
 

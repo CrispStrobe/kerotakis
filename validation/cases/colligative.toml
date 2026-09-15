@@ -594,7 +594,7 @@ kilograms of solvent the ledger is converted to, and once more in the osmotic
 rows through phi = -ln(a_w)/(M_w * sum(m)). The registry record
 `molar-mass/water` carries the interval CIAAW publishes for the isotopic
 variation of hydrogen and oxygen. THE BENCH DID NOT READ THAT RECORD. It
-carried its own copy, as a Rust literal, in fourteen sites across seven files
+carried its own copy, as a Rust literal, in eighteen sites across seven files
 and in three spellings, and the spellings hid two different numbers: 18.015 in
 `aqueous.rs` and `displacement.rs`, `0.018_015` inline in `solve.rs`,
 `particles.rs`, `states.rs` and `sweep.rs`, and `18.015_28` in `constants.rs`

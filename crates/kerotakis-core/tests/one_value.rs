@@ -2,7 +2,7 @@
 //!
 //! PR #608 attached a propagated CIAAW interval to `molar-mass/water` and
 //! then found that the bench never read the record the band was attached to:
-//! water's molar mass lived as a Rust literal in fourteen sites across seven
+//! water's molar mass lived as a Rust literal in eighteen sites across seven
 //! files, in three spellings that hid **two different numbers**. 18.015 is
 //! the registry's own record and the sum of the IUPAC/CIAAW 2021 conventional
 //! atomic weights (2 × 1.008 + 15.999); 18.01528 is 2 × 1.00794 + 15.9994,

@@ -2866,9 +2866,11 @@ started. They are ordered by what they unblock, not by size.
       in the file.
 - [x] **Water's molar mass is eleven literals and no reader of the registry.**
       Found 2026-09-15 while giving the registry uncertainties, closed the same
-      day in #610. The count was understated: it was **fourteen sites across
-      seven files**, and three of them were in engine test fixtures rather than
-      solvers.
+      day in #610. The count was understated: `git grep` over `crates/*/src/`
+      finds **24 occurrences**, of which 5 are prose and 1 asserts a third
+      party's arithmetic, leaving **18 sites across seven files** that carried
+      the bench's own copy. Three of the 18 were engine test fixtures rather
+      than solvers.
       **The two spellings were not a typo AND they were not equivalent, which
       the original item got half right.** Both lie inside the CIAAW interval
       [18.01471, 18.01599], so neither is a typo. But 18.01528 is

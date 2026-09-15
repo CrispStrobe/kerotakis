@@ -368,7 +368,7 @@ fn main() {
     // ── The solvent's own constants, read from the registry rather than
     // retyped beside it ────────────────────────────────────────────────
     //
-    // Water's molar mass used to live as a Rust literal in fourteen places
+    // Water's molar mass used to live as a Rust literal in eighteen places
     // across the engine, in three spellings that hid TWO DIFFERENT NUMBERS:
     // 18.015, which is the registry's own record, and 18.01528, which is the
     // pre-2009 IUPAC sum (2 x 1.00794 + 15.9994) carrying a comment that
