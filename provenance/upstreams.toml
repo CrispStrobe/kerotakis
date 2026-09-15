@@ -36,8 +36,17 @@
 # primary            cleared, and the preferred route for what `may_touch` lists
 # supplement         cleared, but too thin to carry a surface on its own
 # oracle-only        build-time test fixtures only; never shipped bytes
-# avoid              REFUSED. A value may not come from here. The claims stop;
-#                    the prose stays as commentary.
+# avoid              REFUSED AS A SYSTEMATIC SOURCE. Owner, 2026-09-14: "we
+#                    should be able to cite any book, only not harvest the
+#                    books per systematic scraping, and we should be able to
+#                    trace original sources for almost all values, and cite
+#                    those." So the line is BULK DEPENDENCE, not attribution.
+#                    Naming one of these for one value, with author, title,
+#                    edition and page, is ordinary practice. Leaning on it for
+#                    many values is not, and tracing to the paper that made the
+#                    measurement is better than either. What still stops is a
+#                    row that says only that its value "agrees with" such a
+#                    source, which offers agreement in place of an origin.
 # permission-required refused until a written grant exists; counted with `avoid`
 # decision-required  a question is open; reported separately, never in the
 #                    headline offence count, because a count that mixes
@@ -312,24 +321,24 @@ id = "crc-handbook"
 name = "CRC Handbook of Chemistry and Physics"
 licence = "LicenseRef-No-Licence-Granted"
 terms = "https://www.taylorfrancis.com/books/mono/10.1201/9781315380476"
-retrieved = ""
+retrieved = "2026-09-15"
 verdict = "avoid"
 may_touch = []
 names = ["CRC Handbook", "CRC Handbook of Chemistry and Physics"]
-in_plan_table = false
-note = "PROPOSED, not inherited. A copyrighted commercial reference work (Taylor & Francis/CRC Press) granting no reuse licence. Individual physical constants are facts and uncopyrightable one at a time; a tabulation transcribed wholesale is the compilation the copyright is IN. The repository's own rows say so themselves - many carry 'PENDING REVIEW: the printed edition was not opened for this row', which is an admission that the value came from somewhere else and was attributed here."
+in_plan_table = true
+note = "CHECKED 2026-09-15 and NOT READ: the publisher page returns HTTP 403 to an automated request, so this verdict rests on the absence of any granted licence and on the work being a paid commercial reference, not on a terms page anyone here has opened. Recorded that way deliberately - a date claiming a reading that did not happen would be the defect this file exists to catch. PROPOSED, not inherited. A copyrighted commercial reference work (Taylor & Francis/CRC Press) granting no reuse licence. Individual physical constants are facts and uncopyrightable one at a time; a tabulation transcribed wholesale is the compilation the copyright is IN. The repository's own rows say so themselves - many carry 'PENDING REVIEW: the printed edition was not opened for this row', which is an admission that the value came from somewhere else and was attributed here."
 
 [[upstream]]
 id = "merck-index"
 name = "The Merck Index"
 licence = "LicenseRef-No-Licence-Granted"
-terms = "https://www.rsc.org/merck-index"
-retrieved = ""
+terms = "https://merckindex.rsc.org/"
+retrieved = "2026-09-15"
 verdict = "avoid"
 may_touch = []
 names = ["Merck Index"]
-in_plan_table = false
-note = "PROPOSED, not inherited. Copyrighted commercial reference work (Royal Society of Chemistry), no reuse licence granted. Same class as `crc-handbook`."
+in_plan_table = true
+note = "Read 2026-09-15: a subscription product, footer 'copyright Royal Society of Chemistry 2026', trademark licensed from Merck & Co.; no Creative Commons or open-data licence anywhere on it. The old rsc.org/merck-index URL 301s here. PROPOSED, not inherited. Copyrighted commercial reference work (Royal Society of Chemistry), no reuse licence granted. Same class as `crc-handbook`."
 
 # ----------------------------------------------------------------- excuses ---
 #

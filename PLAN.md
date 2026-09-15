@@ -1558,7 +1558,12 @@ The traps are all about data, not code. Checked against primary sources
 | CLP Annex VI via EUR-Lex | EU legislation, reuse with acknowledgment | Harmonised GHS/CLP hazard classes — take from EUR-Lex, not ECHA dumps |
 | PHREEQC databases | USGS User Rights Notice (public-domain-like, attribution) | Embed (except `sit.dat` — ThermoChimie provenance, needs a terms check) |
 | CAS Common Chemistry | **CC BY-NC 4.0** | Unusable commercially. Never present CAS RNs as licensed-from-CAS data; identifiers come from PubChem/Wikidata |
-| NIST WebBook / JANAF-online | **NIST SRD — copyrighted**, permission required | Do not scrape or redistribute. (The 1971 NSRDS-NBS 37 JANAF tables are public domain but dated) |
+| NIST WebBook / JANAF-online | **NIST SRD — copyrighted**, permission required | Do not harvest. Cite a single value with attribution if it is genuinely the source; prefer tracing to the original measurement. |
+| NSRDS-NBS 37 (JANAF, 1971) | **Public domain**; no copyright notice, no SRD notice | Own row deliberately: it was a parenthesis inside the row above, which a machine reading loses or inverts. Dated, and usable. |
+| NBS Circulars 461 and 500, *J. Res. NBS*, NBS Technical Notes | **US Government work, not SRD** | Cleared. The line is SRD status, not authorship — that distinction unlocked five replacements on 2026-09-13. |
+| CRC Handbook of Chemistry and Physics | Copyrighted commercial compilation, no reuse licence (publisher page returns 403 to an automated request; verdict rests on the absence of a grant, not on a reading) | Citable for a value with attribution. **Not** a systematic source: do not depend on it in bulk, and trace to the original measurement where one exists. |
+| Merck Index | Copyrighted commercial compilation | As the CRC row. |
+| Majer & Svoboda, IUPAC Chemical Data Series No. 32 (1985) | Copyrighted | As the CRC row. **No row in `provenance/upstreams.toml` yet**, so the lint cannot see it; add one when someone reads its terms. |
 | CAMEO / CRW4 database | Contributed fields explicitly non-duplicable (CAS RNs, NFPA, AEGL, ERPG) | Never ship the database; reimplement the published methodology (L0 note) |
 | ECHA C&L exports | IP-encumbered (CAS data named) | Avoid; use EUR-Lex / PubChem routes |
 | Burcat (Third Millennium) | Free non-commercial only | Skip, or write for permission if CEA coverage falls short |
@@ -1630,6 +1635,62 @@ because a human reads around it:
   makes NBS Circulars 461 and 500, the *Journal of Research of the NBS* and the
   Technical Note series usable, and it unlocked five of the replacements this
   week. Left implicit, a reader refuses sources that are in fact open.
+
+**The governing principle, stated by the owner 2026-09-14, correcting how the
+2026-09-13 ruling had been applied.**
+
+> We should be able to cite any book. Only not harvest the books by systematic
+> scraping. And we should be able to trace original sources for almost all
+> values, and cite those.
+
+So the line is **bulk dependence, not attribution**. Naming a book as the
+source of one value, with author, title, edition and page, is ordinary practice
+and is always allowed. What is refused is leaning on a copyrighted compilation
+as the systematic source of many values, which is what scraping looks like in
+effect whether or not a scraper was involved. And the preferred answer is
+neither: trace the measurement to the paper that made it and cite that.
+
+**A correction, because the stricter reading did damage.** During the
+2026-09-13 work "a book with no digital object identifier" was treated as
+uncitable, and a world-facing comparison in the dilute-brine test was dropped
+for that reason. That was wrong. A reference work without a DOI is cited by
+author, title, edition and page like any other book. The dropped anchors should
+be restored on that basis, and the same debt on the one-molal test beside it
+closed the same way. An identifier is a convenience for the reader, never the
+thing that makes a citation legitimate.
+
+This does not weaken the 2026-09-13 ruling, which was about a different
+failure: a row that said only that its value "agrees with" a refused
+compilation was offering agreement in place of a source, and never named where
+the number came from. That still stops.
+
+**Decided 2026-09-14, by the owner.** Six, with the reasoning kept short
+because each was argued at the time.
+
+1. **The silent catalogue failure is surfaced and retried.** It is why the
+   shelf had nothing to know, and a deployment in that state was broken with no
+   diagnostic. Check with it whether the service worker can pair a new app
+   bundle with a cached older engine, since that pairing is what reproduced it
+   and would make it recur after every release.
+2. **The three unjudged sources are citable as commentary, not as claims**,
+   which is what the codebase already does after the withdrawal work, so the
+   table now describes reality rather than aspiration. Rows added above, with
+   the nested public-domain source given its own row, the vendored
+   thermochemistry file recorded as a cross-check rather than a source for
+   transition and vaporisation enthalpies, and the SRD-versus-authorship line
+   made explicit.
+3. **The provenance lint is promoted to failing only when its count reaches
+   zero without the denominator falling with it**, in a change that does
+   nothing else.
+4. **Records that name no audited source at all are counted and reported, and
+   the requirement binds new records only.** More than half the registry is in
+   that state; stopping the bleeding beats a sweep that would take months.
+5. **The accuracy corpus starts with one family, the colligative one**, six
+   rows, real citations, no gate. The first obstacle is the one already met and
+   now resolved above: its reference values are citable.
+6. **Every corpus row gets an expectation and boundary rows execute their
+   scripts.** The headline count will fall, which is the point: a measure being
+   retired should stop misreporting on its way out.
 
 **Decided 2026-09-13, by the owner, after an audit found the rule unenforced.**
 Recorded here because two of these were open questions that stalled work, and
