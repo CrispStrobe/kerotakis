@@ -300,3 +300,58 @@ The six that stay unjudged even after category 2 is closed —
 irreducible floor: one is category 1 by construction, three are bleaching
 products defined by stoichiometry from a parent, and two are category 3
 awaiting a source that does not exist yet.
+
+## Addendum, 2026-09-15 — the field this page asked for, half built
+
+The measurements above are left exactly as they were taken. What follows is
+what happened next, so a reader arriving at the recommendation does not go and
+build something that now exists.
+
+This page argued twice that the unit was wrong — "A citation is not a number"
+— and recommended building `upstreams: [{id, role, covers}]` before any
+category-3 sweep, "or the sweep is work that has to be redone". The `role`
+half landed the same day.
+
+**Where it landed, and why not where this page put it.** Not on the registry
+source record: `data/registry/registry-source-v1.json` and its byte-exact
+golden mirror belong to another change in flight. It landed in
+`provenance/upstreams.toml` instead, as `[[citation]]` rows replacing
+`[[excuse]]`, keyed by (surface, subject, upstream) with an optional
+`matching` to narrow a Rust judgement from a file to a string.
+
+**What that costs is `covers`, and it is the half this page cared most about.**
+The role is declared per citation, not per quantity, so `legacy/HBr` — one
+string over fifteen numeric records, which this census used as its own worked
+example — can still only be judged as a whole. The finding still sits on the
+citation. Defect 2 above, `kerotakis/material-recipes-v1` with its 493
+evidence links under one string, is untouched for the same reason. **The
+argument against a category-3 sweep therefore still stands in full**: build
+`covers` first.
+
+**The prediction held and the numbers behaved.** This page predicted the
+textbook row would take the registry 59 → 60 and that the blind spot would go
+105 → 6, and both did. The role vocabulary then moved the *Rust* surface 18 →
+7 and left the registry at **60, unchanged**. That is the shape to expect: the
+eleven that moved were all strings naming a refused source in order to reject
+it, and the registry's 46 CRC citations read "CRC Handbook, 97th ed." beside a
+quantity with no page, which is what bulk dependence looks like and does not
+clear.
+
+**On the question this page left open.** It said of `legacy/amylase` that "one
+molar mass with author, title and edition is citing a book" and that "whoever
+adds that row decides that". The row was added, judged `avoid`, and the
+citation **stays a finding** — because it carries no page and calls its own
+value "typical", so it fails the carve-out the rule itself states. The
+vocabulary now distinguishes that case from a citation carrying author, title,
+edition and page, which was the defect; it does not clear this one.
+
+**One row this page's method would have caught and did not.** `legacy/Fe+2`
+is classified category 2 above on the strength of its molar mass. Its CRC
+mention is doing something the census had no column for: supporting a
+*qualitative* fact — that iron(II) sulfate solutions are pale green — beside
+Greenwood and Earnshaw, while the citation states that "no edition of any
+handbook was opened for a per-wavelength epsilon and none is claimed". No
+shipped number rests on the Handbook there. It is left undeclared rather than
+judged `mentioned`, because a reviewer could defensibly say the colour claim
+does rest on it, and that is a judgement about a citation rather than about an
+instrument.
