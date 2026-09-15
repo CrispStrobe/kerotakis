@@ -2856,6 +2856,17 @@ started. They are ordered by what they unblock, not by size.
       hundred. The reason is that a value with a band nobody reads is a band
       nobody can spend, and the corpus now has to carry a `wired = false` field
       to say so.
+- [ ] **CIAAW has no machine-readable row either, and 66 shipped bands now rest
+      on it.** Found 2026-09-15. Over a hundred species citations have said "M
+      from IUPAC/CIAAW 2021 atomic weights" for as long as the registry has
+      existed, and `docs/registry-unattributed-census.md` counted exactly that
+      population as its 100 "named, but by an unrecognised spelling" records.
+      The uncertainty pass did not introduce the dependency, but it deepened
+      it: the intervals on 66 molar masses are CIAAW's own published ranges.
+      Same shape as the Majer & Svoboda item below and the same remedy — a row
+      when someone reads the terms, and no invented terms before that.
+      `provenance/upstreams.toml` was owned by another session on the day this
+      was found, which is why it is written here rather than added.
 - [ ] **Majer & Svoboda has no machine-readable row.** It is cited in shipped
       code and appears in the prose table, but `provenance/upstreams.toml` has
       no entry, so the lint cannot see it. Add one when someone reads its terms;

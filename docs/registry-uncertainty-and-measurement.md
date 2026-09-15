@@ -343,4 +343,13 @@ recorded as follow-ups in `PLAN.md`.
 - **No band was invented.** Nothing got a `± half the last digit`.
 - **No sweep.** 1027 records still say nobody has established their
   uncertainty, which is what is true of them.
-- **`provenance/upstreams.toml` was not touched** — another session owns it.
+- **`provenance/upstreams.toml` was not touched** — another session owns it,
+  and one thing this pass found belongs there rather than here. **CIAAW has no
+  machine-readable row in the audit table**, and it has not had one for as long
+  as the registry has been citing "M from IUPAC/CIAAW 2021 atomic weights" in
+  over a hundred species citations. This pass does not introduce that
+  dependency, it deepens one the census already counted — the 100 records it
+  classified as "named, but by an unrecognised spelling" are overwhelmingly
+  those same molar masses. It is the same shape as the open *Majer & Svoboda
+  has no machine-readable row* item, and it is recorded as a follow-up in
+  `PLAN.md` for whoever owns that file next rather than edited around.
