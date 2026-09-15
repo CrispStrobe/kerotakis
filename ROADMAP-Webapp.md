@@ -1002,6 +1002,56 @@ Still, several delivery changes directly support broader models:
 - make the service-worker installation atomic for required assets and optional
   for advanced model packs.
 
+### Release integrity: one deploy, served whole (2026-09-15)
+
+The bullet above asks for the service-worker *installation* to be atomic. That
+is necessary and it is not sufficient: **serving** has to be atomic too, per
+cache generation, or a browser will assemble one session out of two releases.
+Found while closing #599, reproduced in Chrome, and fixed in #602.
+
+The mechanism, because it generalises past this instance. `build-web.sh` stamps
+a precache list of *files*. `/app/` is a directory, and it is the URL the README
+advertises and the manifest starts at, so nothing precached it — only
+`app/index.html`. The fetch handler therefore missed the cache on `/app/` and
+went to the network, while `kerotakis_wasm.js`, `iphreeqc.mjs` and the databases
+came cache-first out of whichever deploy the worker had been installed from.
+Those engine filenames are **not** content-hashed; the app's are. So a learner
+whose first visit to the bench URL fell after a release got a *new app bundle
+against an older engine* — and the network answer was then written into the old
+generation, so the mismatch outlived the deploy that caused it.
+
+That pairing is not hypothetical: it is how #599's shelf defect was reproduced
+(a bundle asking for a catalog from an engine with no `catalog` method), and it
+would have recurred after every release.
+
+The rule this leaves behind:
+
+> Any URL a browser can navigate to must resolve inside one cache generation.
+> A stable filename beside a content-hashed one is a version-pairing hazard:
+> the hashed half changes with the deploy and the stable half does not, so the
+> only thing keeping them in step is that they are served from the same
+> generation.
+
+Two things follow that are **not** done, and are worth a task each when release
+integrity is next touched:
+
+- **Precaching is `Promise.allSettled`.** A failed `cache.add` for a
+  multi-megabyte engine file leaves the generation short, install still
+  succeeds, activate still deletes the previous generation, and the payload is
+  silently no longer offline-complete. Tolerating absent engine files is
+  deliberate (an engineless build is a real build); tolerating a *failed
+  download* of a file that exists is not, and the two are indistinguishable
+  today. Wanted: install fails, or at least says so, when a required entry
+  could not be fetched.
+- **There is no version handshake between the app and the engine.** `hello`
+  returns `engine_version` and `git_rev`, and the app stamps its own commit
+  (`BUILD.commit` in `web/app/src/lib/about.ts`), but nothing compares them. A
+  paired check at connect would turn any future split into one named sentence
+  instead of a cascade of missing-method errors — and, unlike the cache fix,
+  it covers splits the service worker is not responsible for (a CDN, an
+  intermediate proxy, a hand-assembled payload). The diagnostic surface it
+  would print into already exists after #602.
+
 Model packs should be independently downloadable: aqueous core, advanced
 organics, combustion, spectra, and so on. Offline-first does not require every
 learner to download every domain before the first experiment. A download is
