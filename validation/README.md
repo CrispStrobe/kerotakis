@@ -89,7 +89,7 @@ Three things in those rows are worth reading before the numbers:
 - **The bench does not read the records the bands are attached to.** Water's
   molar mass is the input every row here runs on, and the colligative path
   never asks the registry for it: it carries its own copy as a Rust literal in
-  at least eleven places across seven files, in three spellings, two of which
+  thirteen places across seven files, in three spellings, two of which
   disagree at 1.6 ppm. So `wired = false` on all three molar masses, and a
   tolerance argued against one of those bands would be arguing against a
   number the bench never sees. The interval is what makes that legible rather

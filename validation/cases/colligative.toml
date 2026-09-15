@@ -591,8 +591,8 @@ kilograms of solvent the ledger is converted to, and once more in the osmotic
 rows through phi = -ln(a_w)/(M_w * sum(m)). The registry record
 `molar-mass/water` now carries the interval CIAAW publishes for the isotopic
 variation of hydrogen and oxygen. THE BENCH DOES NOT READ THAT RECORD. It
-carries its own copy, as a Rust literal, in at least eleven places across
-seven files and in three spellings: `states.rs` has `WATER_MOLAR_MASS_KG =
+carries its own copy, as a Rust literal, in thirteen places across seven
+files and in three spellings: `states.rs` has `WATER_MOLAR_MASS_KG =
 0.018_015` and `aqueous.rs` and `displacement.rs` have `18.015`, while
 `constants.rs` has `WATER_MOLAR_MASS = 18.015_28` and `bench.rs` falls back to
 18.01528 where a registry lookup misses. `states.rs`'s own comment says "M_w
@@ -660,7 +660,7 @@ bench that does not know which water is in the beaker.
 reaches = []
 contribution = """
 NOTHING TODAY, because the bench does not read this record: see `statement`
-above for the eleven places it carries its own copy instead. If it were read,
+above for the thirteen places it carries its own copy instead. If it were read,
 7.1e-5 of the value is 6.7e-5 in an osmotic coefficient near 0.945 - 0.2 % of
 the tenth-molal row's 0.03 band - and about 0.025 mK in the 0.3516 K
 depression, 0.6 % of that row's 4 mK band. No band in this file would move.

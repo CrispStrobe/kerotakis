@@ -219,14 +219,14 @@ arguments assumed without being able to show it.
 
 Attaching the band and then trying to spend it found this. The colligative
 path never asks the registry for water's molar mass. It carries its own copy,
-as a Rust literal, in **at least eleven places across seven files and in three
+as a Rust literal, in **thirteen places across seven files and in three
 spellings**:
 
 | | |
 |---|---|
 | `states.rs` | `WATER_MOLAR_MASS_KG = 0.018_015` |
 | `aqueous.rs`, `displacement.rs` | `18.015` |
-| `solve.rs`, `particles.rs`, `sweep.rs` | `0.018_015` inline, six times |
+| `solve.rs`, `particles.rs`, `sweep.rs` | `0.018_015` inline, nine times — six of them in `solve.rs` |
 | `constants.rs` | `WATER_MOLAR_MASS = 18.015_28`, commented *"IUPAC 2021 atomic weights"* |
 | `bench.rs` | falls back to `18.01528` where a registry lookup misses |
 

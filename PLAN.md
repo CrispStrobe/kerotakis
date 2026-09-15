@@ -2800,7 +2800,7 @@ started. They are ordered by what they unblock, not by size.
       **The pass found something the band itself did not: the bench does not
       read the record the band is attached to.** The colligative path never
       asks the registry for water's molar mass; it carries its own copy as a
-      Rust literal in at least eleven places across seven files and in three
+      Rust literal in thirteen places across seven files and in three
       spellings, and `constants.rs`'s 18.01528 disagrees with `states.rs`'s
       0.018015 at 1.6 ppm. Both lie INSIDE the propagated interval, which is
       what makes the disagreement legible as two representatives of one
