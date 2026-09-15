@@ -329,8 +329,8 @@ pub(crate) struct Audit {
     checked: String,
     #[serde(default, rename = "upstream")]
     upstreams: Vec<Upstream>,
-    #[serde(default, rename = "excuse")]
-    excuses: Vec<Excuse>,
+    #[serde(default, rename = "citation")]
+    citations: Vec<Citation>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -348,20 +348,84 @@ struct Upstream {
     names: Vec<String>,
     #[serde(default)]
     in_plan_table: bool,
+    /// How many attributed claims this project has decided it will rest on
+    /// this work. Zero by default and on every row, including refused ones:
+    /// no number is invented here, because the rule names none. Raising it is
+    /// a reviewed edit that must say why, and it is legal only on `avoid` —
+    /// see `Role::Claims` and `Verdict::refuses_for_bulk`.
+    #[serde(default)]
+    cite_at_most: usize,
+    #[serde(default)]
+    cite_at_most_reason: String,
     #[serde(default)]
     note: String,
 }
 
+/// What a named refused source is DOING in one value-bound string.
+///
+/// This is the vocabulary the file did not have. `avoid` is a property of a
+/// SOURCE; the owner's 2026-09-14 rule is about a property of a CITATION, and
+/// until there was a word for the second the lint could only report the first.
+#[derive(Clone, Copy, Debug, Deserialize, Eq, PartialEq)]
+#[serde(rename_all = "kebab-case")]
+enum Role {
+    /// The string NAMES the source and claims no value from it — to say the
+    /// cited source is not that one, to say that source is wrong, to say a
+    /// retired value used to rest on it, or to record a withdrawal. Not a
+    /// claim, so not a finding. This is the old `[[excuse]]`, renamed to sit
+    /// beside its siblings.
+    Mentioned,
+    /// The value is a CLEARED primary's, and was read through this refused
+    /// source's rendering of it rather than off the publication. A finding,
+    /// always: the citation names the right work, and the bytes still came
+    /// through the refused one. What it buys is naming the debt correctly —
+    /// this wants a verification, not a re-sourcing.
+    Via,
+    /// The value IS this source's. Ordinary practice under the 2026-09-14
+    /// rule when it carries a `locator` and the work is refused for bulk
+    /// dependence; a finding otherwise. See `Verdict::refuses_for_bulk` for
+    /// why `permission-required` is excluded.
+    Claims,
+}
+
+impl Role {
+    fn label(self) -> &'static str {
+        match self {
+            Role::Mentioned => "mentioned",
+            Role::Via => "via",
+            Role::Claims => "claims",
+        }
+    }
+}
+
+/// A reviewed judgement about ONE citation's relationship to ONE refused
+/// source. The unit is deliberately the citation and not the source: a
+/// verdict is a property of a work's terms and must read the same on every
+/// day, which is the argument `voet-biochemistry`'s own note makes.
 #[derive(Debug, Deserialize)]
 #[serde(deny_unknown_fields)]
-struct Excuse {
+struct Citation {
     surface: Surface,
     /// A registry source id, or a repository-relative path for `rust`.
     subject: String,
-    /// Every refused upstream this one string names as commentary. A
+    /// Optional: narrow this row to value-bound strings CONTAINING this text.
+    /// A Rust subject is a whole file, so without it one judgement covers
+    /// every string in that file — a limit the `phase_route.rs` excuse stated
+    /// against itself and asked to have closed.
+    #[serde(default)]
+    matching: String,
+    /// Every refused upstream this one string names in this role. A
     /// withdrawal notice typically names all of them at once, because it is
     /// quoting the rule it is obeying.
     upstreams: Vec<String>,
+    role: Role,
+    /// Where in the work the value is: the page, table or entry. Only
+    /// meaningful on `claims`, and only on an `avoid` upstream. Its ABSENCE
+    /// is meaningful too, and three rows in this tree use it that way: they
+    /// declare `claims` with no locator, because their own text admits no
+    /// copy was opened.
+    #[serde(default)]
+    locator: String,
     reason: String,
 }
 
@@ -398,6 +462,28 @@ impl Verdict {
     /// yes", and the value is in the binary either way.
     fn refuses_claims(self) -> bool {
         matches!(self, Verdict::Avoid | Verdict::PermissionRequired)
+    }
+
+    /// Is this row refused because depending on it IN BULK is the offence,
+    /// rather than because nobody granted permission at all?
+    ///
+    /// This is the line the whole carve-out turns on, and the two verdicts
+    /// define it themselves. `avoid` carries the owner's 2026-09-14 rule
+    /// verbatim: the objection is compilation copyright, one value out of a
+    /// book is a fact and not the compilation, and the cure is attribution.
+    /// `permission-required` says something different — "refused until a
+    /// written grant exists" — and a perfect citation does not create a
+    /// grant. So an attributed claim can be ordinary practice under the first
+    /// and never under the second.
+    ///
+    /// The repository makes the case better than the argument does.
+    /// `legacy/liquid_nitrogen` cites "NIST Chemistry WebBook SRD 69 nitrogen
+    /// (CAS 7727-37-9)" with a deep link carrying the record id and the mask
+    /// — a BETTER locator than any CRC citation in the tree — and it is still
+    /// a transcription out of Standard Reference Data. If attribution cleared
+    /// `permission-required`, that row would clear, and it must not.
+    fn refuses_for_bulk(self) -> bool {
+        matches!(self, Verdict::Avoid)
     }
 
     /// May a SHIPPED number cite this source?
@@ -437,9 +523,41 @@ impl Verdict {
     }
 }
 
+/// Why a match is being reported. The headline is the sum of all four, but
+/// they are different offences wanting different repairs, and a single number
+/// that mixed them is what this change exists to stop.
+#[derive(Clone, Copy, Debug, Eq, Ord, PartialEq, PartialOrd)]
+pub(crate) enum Kind {
+    /// No `[[citation]]` row judges this string. The default, and the state
+    /// every match in the tree was in before this vocabulary existed.
+    Undeclared,
+    /// Declared `claims`, and it does not clear: no locator, or the upstream
+    /// is refused for permission rather than for bulk.
+    Claimed,
+    /// Declared `via` — the primary is cited, the bytes came through the
+    /// refused rendering.
+    Via,
+    /// Attributed dependence past the ceiling the upstream row declares. One
+    /// per (surface, source), not one per citation: the offence is the
+    /// leaning, not each lean.
+    Bulk,
+}
+
+impl Kind {
+    fn label(self) -> &'static str {
+        match self {
+            Kind::Undeclared => "undeclared",
+            Kind::Claimed => "claimed",
+            Kind::Via => "via",
+            Kind::Bulk => "bulk dependence",
+        }
+    }
+}
+
 /// One value-bound provenance string that names a refused upstream.
 #[derive(Debug, Eq, Ord, PartialEq, PartialOrd)]
 pub(crate) struct Finding {
+    kind: Kind,
     surface: Surface,
     /// File path for `rust`, source id for `registry`.
     subject: String,
@@ -467,11 +585,17 @@ pub(crate) struct Report {
     /// Reported apart from the headline: a count that mixed "refused" with
     /// "not yet asked" would read stronger than it is.
     pub open_questions: BTreeMap<String, usize>,
-    /// Excuses that matched a real string, by index into `Audit::excuses`.
-    used_excuses: BTreeSet<usize>,
-    /// How many findings each excuse silenced, so that a reader of the report
-    /// can see what was excused rather than only what was counted.
-    pub excused: BTreeMap<String, usize>,
+    /// Citation rows that matched a real string, by index into
+    /// `Audit::citations`.
+    used_citations: BTreeSet<usize>,
+    /// Matches cleared as `mentioned`, so that a reader of the report can see
+    /// what was set aside rather than only what was counted.
+    pub mentioned: BTreeMap<String, usize>,
+    /// Attributed claims that cleared, keyed "surface / upstream", each entry
+    /// naming the subject and the locator it rests on. Not an offence, and
+    /// printed in full anyway: this IS the dependence, and a dependence that
+    /// is not itemised cannot be judged.
+    pub attributed: BTreeMap<String, Vec<String>>,
 }
 
 // ---------------------------------------------------------------- matching --
@@ -768,6 +892,32 @@ impl Audit {
                     upstream.may_touch
                 ));
             }
+            // A declared ceiling is legal ONLY where the refusal is about
+            // bulk dependence. Otherwise a row could be cleared by deciding
+            // to accept N claims on a source nobody has permission to use at
+            // all, which is the `may_touch` failure mode wearing a number.
+            if upstream.cite_at_most > 0 && !upstream.verdict.refuses_for_bulk() {
+                problems.push(format!(
+                    "upstream '{id}': cite_at_most is {} but the verdict is {} — a ceiling is \
+                     only meaningful where the refusal is bulk dependence, and attribution \
+                     cannot create a permission",
+                    upstream.cite_at_most,
+                    upstream.verdict.label()
+                ));
+            }
+            if upstream.cite_at_most > 0 && upstream.cite_at_most_reason.trim().len() < 40 {
+                problems.push(format!(
+                    "upstream '{id}': cite_at_most is {} and must say, in a sentence, how many \
+                     claims this project accepts on this work and why",
+                    upstream.cite_at_most
+                ));
+            }
+            if upstream.cite_at_most == 0 && !upstream.cite_at_most_reason.trim().is_empty() {
+                problems.push(format!(
+                    "upstream '{id}': cite_at_most_reason is set but cite_at_most is 0 — a \
+                     reason for a ceiling nobody declared"
+                ));
+            }
             // A row inherited from PLAN.md's table asserts a date the terms
             // were read. A row proposed HERE deliberately has none, and says so.
             if upstream.in_plan_table && upstream.retrieved.trim().is_empty() {
@@ -776,41 +926,74 @@ impl Audit {
                 ));
             }
         }
-        for (index, excuse) in self.excuses.iter().enumerate() {
-            if excuse.upstreams.is_empty() {
+        for (index, citation) in self.citations.iter().enumerate() {
+            if citation.upstreams.is_empty() {
                 problems.push(format!(
-                    "excuse[{index}] for '{}': lists no upstream",
-                    excuse.subject
+                    "citation[{index}] for '{}': lists no upstream",
+                    citation.subject
                 ));
             }
-            for named in &excuse.upstreams {
+            for named in &citation.upstreams {
                 if !ids.contains(named) {
-                    problems.push(format!("excuse[{index}]: unknown upstream '{named}'"));
+                    problems.push(format!("citation[{index}]: unknown upstream '{named}'"));
                 } else if let Some(up) = self.upstreams.iter().find(|u| &u.id == named) {
                     if !up.verdict.refuses_claims() {
                         problems.push(format!(
-                            "excuse[{index}]: upstream '{}' is {}, which refuses nothing — the excuse excuses nothing",
+                            "citation[{index}]: upstream '{}' is {}, which refuses nothing — the judgement judges nothing",
+                            up.id,
+                            up.verdict.label()
+                        ));
+                    }
+                    // A locator is the instrument that makes an attributed
+                    // claim ordinary practice, and it only does that where
+                    // the refusal is about bulk. Set anywhere else it is
+                    // inert, and inert-looking-like-diligence is the thing
+                    // this file refuses everywhere else.
+                    if !citation.locator.trim().is_empty() && !up.verdict.refuses_for_bulk() {
+                        problems.push(format!(
+                            "citation[{index}] for '{}': locator is set for '{}', which is {} — \
+                             a page cannot cure a permission, so the locator would do nothing",
+                            citation.subject,
                             up.id,
                             up.verdict.label()
                         ));
                     }
                 }
             }
-            if excuse.reason.trim().len() < 40 {
+            if citation.role != Role::Claims && !citation.locator.trim().is_empty() {
                 problems.push(format!(
-                    "excuse[{index}] for '{}': reason must say WHY the mention is commentary, in a sentence",
-                    excuse.subject
+                    "citation[{index}] for '{}': locator is only meaningful on role = \"claims\", \
+                     not on \"{}\"",
+                    citation.subject,
+                    citation.role.label()
+                ));
+            }
+            if citation.reason.trim().len() < 40 {
+                problems.push(format!(
+                    "citation[{index}] for '{}': reason must say WHY this role is the right one, \
+                     in a sentence",
+                    citation.subject
                 ));
             }
         }
         problems
     }
 
-    fn excuse_for(&self, surface: Surface, subject: &str, upstream: &str) -> Option<usize> {
-        self.excuses.iter().position(|e| {
-            e.surface == surface
-                && e.subject == subject
-                && e.upstreams.iter().any(|u| u == upstream)
+    /// The reviewed judgement covering this (surface, subject, upstream), if
+    /// one exists. `matching`, when set, narrows the row to strings that
+    /// contain it — which is how a Rust judgement stops covering a whole file.
+    fn judgement_for(
+        &self,
+        surface: Surface,
+        subject: &str,
+        upstream: &str,
+        text: &str,
+    ) -> Option<usize> {
+        self.citations.iter().position(|c| {
+            c.surface == surface
+                && c.subject == subject
+                && c.upstreams.iter().any(|u| u == upstream)
+                && (c.matching.trim().is_empty() || text.contains(c.matching.trim()))
         })
     }
 
@@ -820,6 +1003,53 @@ impl Audit {
             .iter()
             .filter(|u| u.names.iter().any(|n| names_source(text, n)))
             .collect()
+    }
+
+    /// Apply the reviewed judgement, if any, to one match. `None` means the
+    /// match is cleared and is not a finding.
+    ///
+    /// Everything the 2026-09-14 rule added to this lint is in these fifteen
+    /// lines, and it is worth saying what they do NOT do: nothing here reads
+    /// the citation. A role is a human judgement recorded in data, exactly as
+    /// an excuse was, and the lint can check that it still matches a real
+    /// string and never that it is true.
+    fn judge(
+        &self,
+        report: &mut Report,
+        surface: Surface,
+        subject: &str,
+        upstream: &Upstream,
+        text: &str,
+    ) -> Option<Kind> {
+        let Some(index) = self.judgement_for(surface, subject, &upstream.id, text) else {
+            return Some(Kind::Undeclared);
+        };
+        report.used_citations.insert(index);
+        let citation = &self.citations[index];
+        match citation.role {
+            Role::Mentioned => {
+                *report
+                    .mentioned
+                    .entry(format!("{subject} / {}", upstream.id))
+                    .or_default() += 1;
+                None
+            }
+            Role::Via => Some(Kind::Via),
+            Role::Claims => {
+                // Two ways an attributed claim fails to be ordinary practice:
+                // the refusal is not about bulk, so no page can cure it; or
+                // there is no page, so it is not attribution.
+                if !upstream.verdict.refuses_for_bulk() || citation.locator.trim().is_empty() {
+                    return Some(Kind::Claimed);
+                }
+                report
+                    .attributed
+                    .entry(format!("{} / {}", surface.label(), upstream.id))
+                    .or_default()
+                    .push(format!("{subject} — {}", citation.locator.trim()));
+                None
+            }
+        }
     }
 
     /// Scan the Rust surface and the registry export.
@@ -856,15 +1086,13 @@ impl Audit {
                         }
                         continue;
                     }
-                    if let Some(index) = self.excuse_for(Surface::Rust, &relative, &upstream.id) {
-                        report.used_excuses.insert(index);
-                        *report
-                            .excused
-                            .entry(format!("{relative} / {}", upstream.id))
-                            .or_default() += 1;
+                    let Some(kind) =
+                        self.judge(&mut report, Surface::Rust, &relative, upstream, &flat)
+                    else {
                         continue;
-                    }
+                    };
                     report.findings.push(Finding {
+                        kind,
                         surface: Surface::Rust,
                         subject: relative.clone(),
                         line: bound.line,
@@ -909,17 +1137,13 @@ impl Audit {
                                 }
                                 continue;
                             }
-                            if let Some(index) =
-                                self.excuse_for(Surface::Registry, id, &upstream.id)
-                            {
-                                report.used_excuses.insert(index);
-                                *report
-                                    .excused
-                                    .entry(format!("{id} / {}", upstream.id))
-                                    .or_default() += 1;
+                            let Some(kind) =
+                                self.judge(&mut report, Surface::Registry, id, upstream, &flat)
+                            else {
                                 continue;
-                            }
+                            };
                             report.findings.push(Finding {
+                                kind,
                                 surface: Surface::Registry,
                                 subject: id.to_string(),
                                 line: 0,
@@ -933,23 +1157,58 @@ impl Audit {
             }
         }
         report.scanned.insert("registry", registry_scanned);
+
+        // Bulk dependence, computed last because it is a property of the
+        // whole surface rather than of any one string. ONE finding per
+        // (surface, source) that is over its declared ceiling, not one per
+        // citation: the offence is the leaning, and counting each lean would
+        // make a single decision read as twenty.
+        for surface in [Surface::Rust, Surface::Registry] {
+            for upstream in &self.upstreams {
+                let key = format!("{} / {}", surface.label(), upstream.id);
+                // Take the count, not the Vec: the push below needs `report`
+                // mutably and a live borrow of `attributed` would forbid it.
+                let Some(count) = report.attributed.get(&key).map(Vec::len) else {
+                    continue;
+                };
+                if count <= upstream.cite_at_most {
+                    continue;
+                }
+                report.findings.push(Finding {
+                    kind: Kind::Bulk,
+                    surface,
+                    subject: format!("({count} attributed claims on this work)"),
+                    line: 0,
+                    upstream: upstream.id.clone(),
+                    verdict: upstream.verdict.label(),
+                    excerpt: format!(
+                        "{count} attributed claims rest on this work; the row declares \
+                         cite_at_most = {}",
+                        upstream.cite_at_most
+                    ),
+                });
+            }
+        }
+
         report.findings.sort();
         report
     }
 
-    /// An excuse that covers nothing is a claim of diligence with nothing
+    /// A judgement that covers nothing is a claim of diligence with nothing
     /// behind it, so it expires loudly rather than quietly.
-    fn stale_excuses(&self, report: &Report) -> Vec<String> {
-        self.excuses
+    fn stale_judgements(&self, report: &Report) -> Vec<String> {
+        self.citations
             .iter()
             .enumerate()
-            .filter(|(index, _)| !report.used_excuses.contains(index))
-            .map(|(index, excuse)| {
+            .filter(|(index, _)| !report.used_citations.contains(index))
+            .map(|(index, citation)| {
                 format!(
-                    "excuse[{index}]: '{}' / {:?} on the {} surface matched nothing — delete it or fix its subject",
-                    excuse.subject,
-                    excuse.upstreams,
-                    excuse.surface.label()
+                    "citation[{index}]: '{}' / {:?} as {} on the {} surface matched nothing — \
+                     delete it or fix its subject",
+                    citation.subject,
+                    citation.upstreams,
+                    citation.role.label(),
+                    citation.surface.label()
                 )
             })
             .collect()
@@ -999,7 +1258,7 @@ pub(crate) fn upstreams_command(audit_path: &str, root: &str, fail: bool) -> ! {
     }
 
     let report = audit.scan(Path::new(root));
-    let stale = audit.stale_excuses(&report);
+    let stale = audit.stale_judgements(&report);
     for problem in &stale {
         eprintln!("kero provenance upstreams: {audit_path}: {problem}");
     }
@@ -1051,12 +1310,14 @@ pub(crate) fn upstreams_command(audit_path: &str, root: &str, fail: bool) -> ! {
                 findings[0].verdict,
                 findings.len()
             );
-            let mut by_subject: BTreeMap<&str, usize> = BTreeMap::new();
+            let mut by_subject: BTreeMap<(&str, &str), usize> = BTreeMap::new();
             for finding in findings {
-                *by_subject.entry(finding.subject.as_str()).or_default() += 1;
+                *by_subject
+                    .entry((finding.kind.label(), finding.subject.as_str()))
+                    .or_default() += 1;
             }
-            for (subject, count) in &by_subject {
-                println!("      {count:4}  {subject}");
+            for ((kind, subject), count) in &by_subject {
+                println!("      {count:4}  [{kind}] {subject}");
             }
         }
         if surface == Surface::Registry && report.unjudged > 0 {
@@ -1068,13 +1329,33 @@ pub(crate) fn upstreams_command(audit_path: &str, root: &str, fail: bool) -> ! {
         }
     }
 
-    if !report.excused.is_empty() {
-        let total: usize = report.excused.values().sum();
+    if !report.mentioned.is_empty() {
+        let total: usize = report.mentioned.values().sum();
         println!(
-            "\n  excused by a reviewed [[excuse]] row ({total}) — named as commentary, not claimed:"
+            "\n  cleared as role = \"mentioned\" by a reviewed [[citation]] row ({total}) — \
+             named as commentary, not claimed:"
         );
-        for (what, count) in &report.excused {
+        for (what, count) in &report.mentioned {
             println!("    {count:4}  {what}");
+        }
+    }
+
+    if !report.attributed.is_empty() {
+        let total: usize = report.attributed.values().map(Vec::len).sum();
+        println!(
+            "\n  attributed dependence ({total}) — role = \"claims\" with a locator, on a work \
+             refused for BULK. Not an offence under the 2026-09-14 rule; itemised anyway, \
+             because this is what the project leans on:"
+        );
+        for (key, rows) in &report.attributed {
+            let ceiling = key
+                .split_once(" / ")
+                .and_then(|(_, id)| audit.upstreams.iter().find(|u| u.id == id))
+                .map_or(0, |u| u.cite_at_most);
+            println!("    {key}: {} of a declared cite_at_most = {ceiling}", rows.len());
+            for row in rows {
+                println!("      - {row}");
+            }
         }
     }
 
@@ -1090,6 +1371,17 @@ pub(crate) fn upstreams_command(audit_path: &str, root: &str, fail: bool) -> ! {
 
     let total = report.findings.len();
     println!();
+    if total > 0 {
+        let mut by_kind: BTreeMap<&str, usize> = BTreeMap::new();
+        for finding in &report.findings {
+            *by_kind.entry(finding.kind.label()).or_default() += 1;
+        }
+        let parts: Vec<String> = by_kind
+            .iter()
+            .map(|(kind, count)| format!("{count} {kind}"))
+            .collect();
+        println!("provenance upstreams: findings by kind — {}", parts.join(", "));
+    }
     if total == 0 && stale.is_empty() {
         println!(
             "provenance upstreams ok: no value-bound provenance string names a refused source"
@@ -1174,6 +1466,20 @@ may_touch = ["identity"]
 names = ["PubChem"]
 in_plan_table = true
 note = "Cleared."
+
+[[upstream]]
+id = "a-textbook"
+name = "A copyrighted textbook"
+licence = "LicenseRef-No-Licence-Granted"
+terms = "https://example.invalid/book"
+retrieved = "2026-09-15"
+verdict = "avoid"
+may_touch = []
+cite_at_most = 1
+cite_at_most_reason = "One value with a page is citing a book; a second would be the start of leaning on it."
+names = ["A Textbook"]
+in_plan_table = true
+note = "Refused for bulk dependence, citable once with a page."
 "#,
         )
         .expect("fixture parses")
@@ -1195,6 +1501,20 @@ note = "Cleared."
                 .unwrap_or_else(|| panic!("{id} is audited"));
             assert!(row.verdict.refuses_claims(), "{id} must refuse claims");
             assert!(row.may_touch.is_empty(), "{id} may touch nothing");
+        }
+        // The two NIST SRD rows are refused for PERMISSION, not for bulk, so
+        // no amount of attribution may clear them and no ceiling is legal.
+        for id in ["nist-webbook", "nist-janaf"] {
+            let row = audit
+                .upstreams
+                .iter()
+                .find(|u| u.id == id)
+                .unwrap_or_else(|| panic!("{id} is audited"));
+            assert!(
+                !row.verdict.refuses_for_bulk(),
+                "{id} is refused until a written grant exists; a page cannot cure that"
+            );
+            assert_eq!(row.cite_at_most, 0, "{id} may declare no ceiling");
         }
     }
 
@@ -1284,77 +1604,330 @@ note = "Cleared."
         assert!(names_source(&flatten(&bounds[0].text), "CRC Handbook"));
     }
 
-    #[test]
-    fn an_excuse_silences_exactly_one_subject_and_upstream() {
-        let mut audit = audit();
-        audit.excuses.push(Excuse {
-            surface: Surface::Registry,
-            subject: "us-federal/nasa-cea-thermo-inp-v1".to_string(),
-            upstreams: vec!["nist-webbook".to_string()],
-            reason: "Lineage of Apache-2.0 bytes we are separately licensed to redistribute, not a transcription."
+    fn judgement(
+        surface: Surface,
+        subject: &str,
+        upstream: &str,
+        role: Role,
+        locator: &str,
+    ) -> Citation {
+        Citation {
+            surface,
+            subject: subject.to_string(),
+            matching: String::new(),
+            upstreams: vec![upstream.to_string()],
+            role,
+            locator: locator.to_string(),
+            reason: "A reason long enough to satisfy the minimum length rule for reasons."
                 .to_string(),
-        });
+        }
+    }
+
+    #[test]
+    fn a_judgement_covers_exactly_one_subject_and_upstream() {
+        let mut audit = audit();
+        audit.citations.push(judgement(
+            Surface::Registry,
+            "us-federal/nasa-cea-thermo-inp-v1",
+            "nist-webbook",
+            Role::Mentioned,
+            "",
+        ));
         assert_eq!(audit.problems(), Vec::<String>::new());
         assert_eq!(
-            audit.excuse_for(
+            audit.judgement_for(
                 Surface::Registry,
                 "us-federal/nasa-cea-thermo-inp-v1",
-                "nist-webbook"
+                "nist-webbook",
+                "any text at all"
             ),
             Some(0)
         );
         // Different subject, different upstream, different surface: no cover.
         assert_eq!(
-            audit.excuse_for(Surface::Registry, "legacy/I2", "nist-webbook"),
+            audit.judgement_for(Surface::Registry, "legacy/I2", "nist-webbook", ""),
             None
         );
         assert_eq!(
-            audit.excuse_for(
+            audit.judgement_for(
                 Surface::Registry,
                 "us-federal/nasa-cea-thermo-inp-v1",
-                "echa-cl"
+                "echa-cl",
+                ""
             ),
             None
         );
         assert_eq!(
-            audit.excuse_for(
+            audit.judgement_for(
                 Surface::Rust,
                 "us-federal/nasa-cea-thermo-inp-v1",
-                "nist-webbook"
+                "nist-webbook",
+                ""
             ),
             None
         );
     }
 
     #[test]
-    fn an_excuse_that_covers_nothing_is_reported() {
+    fn matching_narrows_a_judgement_from_a_file_to_a_string() {
+        // The limit `phase_route.rs`'s own excuse stated against itself: a
+        // Rust subject is a whole FILE, so one judgement covered every string
+        // in it. `matching` is how that is closed.
         let mut audit = audit();
-        audit.excuses.push(Excuse {
-            surface: Surface::Registry,
-            subject: "a/source/that/does/not/exist".to_string(),
-            upstreams: vec!["nist-webbook".to_string()],
-            reason: "A reason long enough to satisfy the minimum length rule for reasons."
-                .to_string(),
-        });
+        let mut row = judgement(
+            Surface::Rust,
+            "crates/kerotakis-core/src/phase_route.rs",
+            "nist-webbook",
+            Role::Mentioned,
+            "",
+        );
+        row.matching = "NSRDS-NBS 37".to_string();
+        audit.citations.push(row);
+        assert_eq!(
+            audit.judgement_for(
+                Surface::Rust,
+                "crates/kerotakis-core/src/phase_route.rs",
+                "nist-webbook",
+                "JANAF Thermochemical Tables, second edition, NSRDS-NBS 37"
+            ),
+            Some(0)
+        );
+        // A genuinely different citation in the SAME file is not covered.
+        assert_eq!(
+            audit.judgement_for(
+                Surface::Rust,
+                "crates/kerotakis-core/src/phase_route.rs",
+                "nist-webbook",
+                "Benzene enthalpy of fusion from the NIST Chemistry WebBook"
+            ),
+            None
+        );
+    }
+
+    #[test]
+    fn a_judgement_that_covers_nothing_is_reported() {
+        let mut audit = audit();
+        audit.citations.push(judgement(
+            Surface::Registry,
+            "a/source/that/does/not/exist",
+            "nist-webbook",
+            Role::Mentioned,
+            "",
+        ));
         let report = Report::default();
-        let stale = audit.stale_excuses(&report);
+        let stale = audit.stale_judgements(&report);
         assert_eq!(stale.len(), 1);
         assert!(stale[0].contains("matched nothing"), "{stale:?}");
     }
 
     #[test]
-    fn an_excuse_for_a_cleared_upstream_excuses_nothing() {
+    fn a_judgement_for_a_cleared_upstream_judges_nothing() {
         let mut audit = audit();
-        audit.excuses.push(Excuse {
-            surface: Surface::Registry,
-            subject: "legacy/water".to_string(),
-            upstreams: vec!["pubchem".to_string()],
-            reason: "A reason long enough to satisfy the minimum length rule for reasons."
-                .to_string(),
-        });
+        audit.citations.push(judgement(
+            Surface::Registry,
+            "legacy/water",
+            "pubchem",
+            Role::Mentioned,
+            "",
+        ));
         let problems = audit.problems();
         assert!(
-            problems.iter().any(|p| p.contains("excuses nothing")),
+            problems.iter().any(|p| p.contains("judges nothing")),
+            "{problems:?}"
+        );
+    }
+
+    // ------------------------------------------------ the 2026-09-14 rule --
+
+    #[test]
+    fn an_attributed_claim_on_a_book_is_ordinary_practice() {
+        // The whole point. One value, one page, a work refused for BULK
+        // dependence: the owner's rule calls this ordinary and the lint now
+        // agrees. Before this vocabulary existed it was a finding.
+        let mut audit = audit();
+        audit.citations.push(judgement(
+            Surface::Registry,
+            "legacy/thing",
+            "a-textbook",
+            Role::Claims,
+            "4th ed., Table 3-2, p. 118",
+        ));
+        assert_eq!(audit.problems(), Vec::<String>::new());
+        let mut report = Report::default();
+        let book = audit
+            .upstreams
+            .iter()
+            .find(|u| u.id == "a-textbook")
+            .expect("fixture row");
+        assert_eq!(
+            audit.judge(&mut report, Surface::Registry, "legacy/thing", book, ""),
+            None,
+            "an attributed claim within the ceiling is not a finding"
+        );
+        assert_eq!(report.attributed["registry / a-textbook"].len(), 1);
+    }
+
+    #[test]
+    fn the_same_claim_without_a_page_is_still_a_finding() {
+        // "Citing a book" means author, title, edition and page. A bare
+        // "CRC Handbook, 97th ed." names a work and no place in it, which is
+        // the state 58 of the 60 registry findings are in.
+        let mut audit = audit();
+        audit.citations.push(judgement(
+            Surface::Registry,
+            "legacy/thing",
+            "a-textbook",
+            Role::Claims,
+            "",
+        ));
+        let mut report = Report::default();
+        let book = audit
+            .upstreams
+            .iter()
+            .find(|u| u.id == "a-textbook")
+            .expect("fixture row");
+        assert_eq!(
+            audit.judge(&mut report, Surface::Registry, "legacy/thing", book, ""),
+            Some(Kind::Claimed)
+        );
+    }
+
+    #[test]
+    fn a_page_cannot_cure_a_permission() {
+        // `legacy/liquid_nitrogen` cites the WebBook with a CAS number and a
+        // deep link carrying the record id — a better locator than any CRC
+        // citation in the tree — and it is still a transcription out of
+        // Standard Reference Data. Attribution is the answer to compilation
+        // copyright, never to "nobody granted permission".
+        let mut audit = audit();
+        audit.citations.push(judgement(
+            Surface::Registry,
+            "legacy/liquid_nitrogen",
+            "nist-webbook",
+            Role::Claims,
+            "SRD 69 nitrogen (CAS 7727-37-9)",
+        ));
+        let problems = audit.problems();
+        assert!(
+            problems.iter().any(|p| p.contains("cannot cure a permission")),
+            "a locator on a permission-required row must be refused outright: {problems:?}"
+        );
+        // And even if the file were somehow accepted, the match is a finding.
+        let mut report = Report::default();
+        let webbook = audit
+            .upstreams
+            .iter()
+            .find(|u| u.id == "nist-webbook")
+            .expect("fixture row");
+        assert_eq!(
+            audit.judge(
+                &mut report,
+                Surface::Registry,
+                "legacy/liquid_nitrogen",
+                webbook,
+                ""
+            ),
+            Some(Kind::Claimed)
+        );
+    }
+
+    #[test]
+    fn via_names_the_right_work_and_is_still_a_finding() {
+        // Four strings in the tree say the value was read through the
+        // WebBook's RENDERING of a clean primary. The citation names the
+        // right publication; the bytes still came through the refused source.
+        let mut audit = audit();
+        audit.citations.push(judgement(
+            Surface::Rust,
+            "crates/kerotakis-thermo/src/vle.rs",
+            "nist-webbook",
+            Role::Via,
+            "",
+        ));
+        let mut report = Report::default();
+        let webbook = audit
+            .upstreams
+            .iter()
+            .find(|u| u.id == "nist-webbook")
+            .expect("fixture row");
+        assert_eq!(
+            audit.judge(
+                &mut report,
+                Surface::Rust,
+                "crates/kerotakis-thermo/src/vle.rs",
+                webbook,
+                ""
+            ),
+            Some(Kind::Via)
+        );
+    }
+
+    #[test]
+    fn attributed_claims_past_the_ceiling_are_one_finding_not_many() {
+        // Forty properly cited values out of one book is not forty offences;
+        // it is one decision to depend on a book, and the count should say so.
+        let mut audit = audit();
+        for subject in ["legacy/a", "legacy/b", "legacy/c"] {
+            audit.citations.push(judgement(
+                Surface::Registry,
+                subject,
+                "a-textbook",
+                Role::Claims,
+                "4th ed., p. 118",
+            ));
+        }
+        let mut report = Report::default();
+        let book = audit
+            .upstreams
+            .iter()
+            .find(|u| u.id == "a-textbook")
+            .expect("fixture row");
+        for subject in ["legacy/a", "legacy/b", "legacy/c"] {
+            assert_eq!(
+                audit.judge(&mut report, Surface::Registry, subject, book, ""),
+                None
+            );
+        }
+        assert_eq!(report.attributed["registry / a-textbook"].len(), 3);
+        // The fixture declares cite_at_most = 1, so three is over it. The
+        // bulk pass in `scan` turns that into exactly one finding; here the
+        // shape of the decision is what is asserted.
+        assert!(3 > book.cite_at_most);
+    }
+
+    #[test]
+    fn a_ceiling_is_only_legal_where_the_refusal_is_about_bulk() {
+        // The `may_touch` failure mode wearing a number: a future edit must
+        // not be able to clear a permission-required source by deciding to
+        // accept N claims on it.
+        let mut audit = audit();
+        let index = audit
+            .upstreams
+            .iter()
+            .position(|u| u.id == "nist-webbook")
+            .expect("fixture row");
+        audit.upstreams[index].cite_at_most = 5;
+        audit.upstreams[index].cite_at_most_reason =
+            "A reason long enough to satisfy the minimum length rule for reasons.".to_string();
+        let problems = audit.problems();
+        assert!(
+            problems.iter().any(|p| p.contains("only meaningful where")),
+            "{problems:?}"
+        );
+    }
+
+    #[test]
+    fn a_ceiling_must_say_why_it_is_that_number() {
+        let mut audit = audit();
+        let index = audit
+            .upstreams
+            .iter()
+            .position(|u| u.id == "a-textbook")
+            .expect("fixture row");
+        audit.upstreams[index].cite_at_most_reason = String::new();
+        let problems = audit.problems();
+        assert!(
+            problems.iter().any(|p| p.contains("how many")),
             "{problems:?}"
         );
     }
@@ -1420,19 +1993,45 @@ note = "Cleared."
             "expected NIST WebBook findings on the Rust surface; if they are gone, \
              lower this assertion and raise the gate"
         );
-        // Every excuse must still be earning its place. A stale one is a
+        // Every judgement must still be earning its place. A stale one is a
         // claim of diligence with nothing behind it, and this is the assertion
         // that stops one being left behind after a citation is rewritten.
         assert_eq!(
-            audit.stale_excuses(&report),
+            audit.stale_judgements(&report),
             Vec::<String>::new(),
-            "an excuse matched nothing"
+            "a [[citation]] judgement matched nothing"
         );
         assert!(
-            report.excused.values().sum::<usize>() >= 4,
-            "expected the NASA CEA lineage excuse and the three 2026-09-13 \
-             withdrawals to be silencing real matches, found {:?}",
-            report.excused
+            report.mentioned.values().sum::<usize>() >= 4,
+            "expected the NASA CEA lineage row and the three 2026-09-13 \
+             withdrawals to be clearing real matches, found {:?}",
+            report.mentioned
+        );
+        // The registry surface is where the bulk dependence lives and this
+        // change deliberately does not touch it: 46 CRC citations naming an
+        // edition and no page stay exactly as they were. If this number
+        // falls, either somebody re-sourced them — in which case lower it and
+        // say so — or a role was declared that should not have been.
+        let registry: Vec<&Finding> = report
+            .findings
+            .iter()
+            .filter(|f| f.surface == Surface::Registry)
+            .collect();
+        assert!(
+            registry.len() >= 60,
+            "the registry surface carried 60 findings when the role vocabulary \
+             landed and this change was not supposed to move it, found {}",
+            registry.len()
+        );
+        // Nothing in the shipped tree has been declared an attributed claim
+        // that CLEARS, because no refused row declares a ceiling. Populating
+        // that is a judgement, not an instrument change; if this fires, read
+        // the `cite_at_most` rows before lowering it.
+        assert!(
+            report.attributed.is_empty(),
+            "no work has a declared ceiling yet, so nothing should clear as \
+             attributed dependence, found {:?}",
+            report.attributed
         );
     }
 }
