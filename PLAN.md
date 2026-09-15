@@ -1561,9 +1561,9 @@ The traps are all about data, not code. Checked against primary sources
 | NIST WebBook / JANAF-online | **NIST SRD — copyrighted**, permission required | Do not harvest. Cite a single value with attribution if it is genuinely the source; prefer tracing to the original measurement. |
 | NSRDS-NBS 37 (JANAF, 1971) | **Public domain**; no copyright notice, no SRD notice | Own row deliberately: it was a parenthesis inside the row above, which a machine reading loses or inverts. Dated, and usable. |
 | NBS Circulars 461 and 500, *J. Res. NBS*, NBS Technical Notes | **US Government work, not SRD** | Cleared. The line is SRD status, not authorship — that distinction unlocked five replacements on 2026-09-13. |
-| CRC Handbook of Chemistry and Physics | Copyrighted commercial compilation, no reuse licence | Citable for a value with attribution. **Not** a systematic source: do not depend on it in bulk, and trace to the original measurement where one exists. |
+| CRC Handbook of Chemistry and Physics | Copyrighted commercial compilation, no reuse licence (publisher page returns 403 to an automated request; verdict rests on the absence of a grant, not on a reading) | Citable for a value with attribution. **Not** a systematic source: do not depend on it in bulk, and trace to the original measurement where one exists. |
 | Merck Index | Copyrighted commercial compilation | As the CRC row. |
-| Majer & Svoboda, IUPAC Chemical Data Series No. 32 (1985) | Copyrighted | As the CRC row. |
+| Majer & Svoboda, IUPAC Chemical Data Series No. 32 (1985) | Copyrighted | As the CRC row. **No row in `provenance/upstreams.toml` yet**, so the lint cannot see it; add one when someone reads its terms. |
 | CAMEO / CRW4 database | Contributed fields explicitly non-duplicable (CAS RNs, NFPA, AEGL, ERPG) | Never ship the database; reimplement the published methodology (L0 note) |
 | ECHA C&L exports | IP-encumbered (CAS data named) | Avoid; use EUR-Lex / PubChem routes |
 | Burcat (Third Millennium) | Free non-commercial only | Skip, or write for permission if CEA coverage falls short |
