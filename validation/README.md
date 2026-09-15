@@ -100,12 +100,15 @@ Three things in those rows are worth reading before the numbers:
   disappointing one: it says each row's band is set by the rounding and
   routing arguments it already makes, which those arguments had assumed
   without being able to show it.
-- **The largest input in this family is not a registry record at all.** Both
-  cryoscopic rows run through water's enthalpy of fusion and both boiling rows
-  through its enthalpy of vaporisation, and those are Rust constants in
-  `states.rs` with no record — so they cannot carry an uncertainty in the
-  schema that has one, and the corpus does not pretend they do. `WATER_H_VAP`
-  is additionally the one whose own comment says no source is claimed for it.
+- **The largest input in this family is not a registry record at all, and it
+  is the only one big enough to move a band.** Both cryoscopic rows run
+  through water's enthalpy of fusion and both boiling rows through its
+  enthalpy of vaporisation, and those are Rust constants in `states.rs` with
+  no record — so they cannot carry an uncertainty in the schema that has one,
+  and the corpus does not pretend they do. The depression goes as 1/ΔH, so a
+  one per cent uncertainty there would consume 88 % of the tenth-molal model
+  band and 57 % of the one-molal one. `WATER_H_VAP` is additionally the one
+  whose own comment says no source is claimed for it.
 
 `kerotakis-core/tests/accuracy_corpus.rs` checks every declared input against
 the shipped registry — value and band — so a number that moves there and not

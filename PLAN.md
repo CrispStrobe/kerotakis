@@ -2815,6 +2815,27 @@ started. They are ordered by what they unblock, not by size.
       sourcing programme there**, and `boiling-point/water` is the clearest
       case — its citation was withdrawn on 2026-09-13, so there is no source to
       read.
+- [ ] **The two water enthalpies have no registry record, and they are the only
+      colligative inputs big enough to move a band.** Found 2026-09-15 in the
+      same pass. `WATER_H_FUS` and `WATER_H_VAP` in `states.rs` are Rust
+      constants with NO record in `data/registry/registry-source-v1.json` at
+      all, so they cannot carry an uncertainty in the schema that has one, and
+      the accuracy corpus records them as unbounded rather than pretending.
+      The size is the argument: the bench computes
+      `1/T_f = 1/T_f - (R/dH_fus)*ln a_w`, so the depression goes as `1/dH`, and
+      a ONE PER CENT uncertainty in the enthalpy is 3.5 mK on the tenth-molal
+      row against its 4 mK model band (88 %) and 34 mK on the one-molal row
+      against its 60 mK band (57 %). The molar mass, which now HAS a band,
+      would contribute 0.2 % and 0.6 %. **So the priority the bounded numbers
+      suggest is inverted**: giving these two a record is worth more to the
+      corpus than the remaining twenty-one rows of the atomic-weight table.
+      `WATER_H_FUS` is the cheap half — it is already derived from the vendored
+      `vendor/nasa-cea/thermo.inp` and `kerotakis-cea` re-derives it on every
+      run, so it needs a record and a source, not a search. `WATER_H_VAP` is
+      the expensive half and its own comment says why: no source is claimed for
+      it, NASA CEA was checked and rejected because its gas records are
+      ideal-gas and the 228 J/mol gap is steam's non-ideality, and restoring
+      support needs a primary measurement with a DOI.
 - [ ] **Water's molar mass is eleven literals and no reader of the registry.**
       Found 2026-09-15 while giving the registry uncertainties, and it is the
       reason those bands are claims about the registry rather than about the

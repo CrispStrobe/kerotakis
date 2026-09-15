@@ -246,9 +246,22 @@ both boiling rows through its enthalpy of vaporisation. Those are
 constants with **no registry record**, so they cannot carry an uncertainty in
 the schema that has one, and nothing in the corpus quantifies them.
 `WATER_H_VAP` is additionally the constant whose own comment says NO SOURCE IS
-CLAIMED FOR THIS NUMBER. **A term worth roughly 0.4 % of the depression per
-per-cent error in the enthalpy is unbounded, and saying so is worth more than
-the three bounded terms put together.**
+CLAIMED FOR THIS NUMBER.
+
+**And this is the term that would actually matter.** The relation the bench
+computes with is 1/T_f = 1/T_f° − (R/ΔH_fus)·ln a_w, so the depression goes as
+1/ΔH_fus: a one per cent uncertainty in the enthalpy is a one per cent
+uncertainty in the answer. That is 3.5 mK on the tenth-molal row against its
+4 mK model band — **88 % of it** — and 34 mK on the one-molal row against its
+60 mK band, **57 %**. Compare the 0.2 % and 0.6 % the molar mass would
+contribute. The one input in this family big enough to move a band is the one
+with no record, no band, and in the boiling case no source, and nobody can say
+whether one per cent is pessimistic or optimistic because nothing has been
+established either way.
+
+That inverts the priority the bounded numbers suggest. Giving `WATER_H_FUS`
+and `WATER_H_VAP` registry records is worth more to this corpus than the
+remaining twenty-one rows of the atomic-weight table.
 
 ## How far the pattern reaches, and what the rest costs
 
