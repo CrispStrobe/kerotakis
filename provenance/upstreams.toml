@@ -361,11 +361,14 @@ note = "Read 2026-09-15: a subscription product, footer 'copyright Royal Society
 # Each carries the date its terms were actually read. Two of them could not
 # be read - acs.org answers an automated request with a filter page and
 # wiley.com with a 403 - and say so in the row instead of carrying a date
-# that claims a reading. Three are `decision-required`: a real grant exists,
-# it covers teaching, and it stops at commercial use, and nobody has asked
-# the question that would settle it. That verdict is reported apart from the
-# headline offence count on purpose, because "a count that mixes refused
-# with not yet asked reads stronger than it is".
+# that claims a reading. Three are `decision-required`, for two different
+# reasons: `ciaaw` and `fao` because a real grant exists, covers teaching and
+# stops at commercial use, with nobody having asked the question that would
+# settle it; `acs-education` because its terms could not be read at all, and
+# "we could not read it" is an open question rather than a refusal. That
+# verdict is reported apart from the headline offence count on purpose,
+# because "a count that mixes refused with not yet asked reads stronger than
+# it is".
 
 [[upstream]]
 id = "ciaaw"
