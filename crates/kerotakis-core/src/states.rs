@@ -171,8 +171,20 @@ pub const STEAM_HEAT_CAPACITY: f64 = 33.6;
 /// Molar heat capacity of liquid water, J/(mol·K), for the phases table.
 ///
 /// The registry's own figure, restated here so the three phases read as one
-/// set rather than two constants and a lookup.
-pub const LIQUID_WATER_HEAT_CAPACITY: f64 = 75.3;
+/// set rather than two constants and a lookup — and **generated from
+/// `heat-capacity/water` rather than retyped beside it**, which is the
+/// second instance of the defect #610 was opened to close.
+///
+/// It read `75.3` under that same "the registry's own figure" comment, with
+/// no mechanism keeping the two equal and no caller to notice if they came
+/// apart: `constant_heat_capacity_in` already returns the registry value for
+/// the liquid and aqueous branches, so this constant restated a record
+/// nobody compared it against. That is exactly what
+/// `constants::WATER_MOLAR_MASS = 18.015_28` was — an unread public constant
+/// asserting a number the registry disagreed with — and it is why the
+/// molar-mass finding is a pattern rather than a case.
+pub const LIQUID_WATER_HEAT_CAPACITY: f64 =
+    crate::constants::WATER_LIQUID_HEAT_CAPACITY_J_PER_MOL_K;
 
 /// Heat capacity of a species in the phase it is actually in, J/(mol·K).
 ///

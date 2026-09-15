@@ -2892,6 +2892,28 @@ started. They are ordered by what they unblock, not by size.
       corpus's `wired` field now reads `true` on all three molar masses, and
       `crates/kerotakis-core/tests/one_value.rs` refuses a new literal under
       any crate's `src/`.
+- [ ] **Two more constants restate a registry record, and one of them raises a
+      question this pass declined to answer quietly.** Found 2026-09-15 while
+      closing the molar mass, which is what makes that finding a PATTERN rather
+      than a case. A third instance, `LIQUID_WATER_HEAT_CAPACITY = 75.3` under
+      the comment "the registry's own figure, restated here", was closed in
+      #610 because it was unambiguous: a substance property, an existing record
+      at the same value, and no caller at all. These two are not.
+      `states::WATER_FREEZING_K = 273.15` and `WATER_BOILING_K = 373.15` are
+      Rust literals beside `melting-point/water` and `boiling-point/water`,
+      which carry the same two numbers. **Wiring them is NOT obviously right,
+      and `validation/cases/colligative.toml` says why in its own
+      `boiling-point/water` row**: 373.15 K is 100 °C *exactly*, which is a
+      definition of the pre-ITS-90 temperature scale rather than a measurement
+      of water, and the two stopped coinciding when ITS-90 replaced it. So the
+      question is whether these constants are the model's reference points —
+      in which case they are definitions and should stay literals, with a
+      comment saying so — or the substance's transition temperatures, in which
+      case they are the registry's and the registry's record is the one that
+      needs re-sourcing first. **Whoever answers it should answer the same
+      question for `melting-point/water`'s own record**, whose citation was
+      withdrawn on 2026-09-13 and which therefore has no source to check the
+      value against either way.
 - [ ] **66 shipped uncertainty bands rest on `ciaaw`, whose verdict is
       `decision-required` — and they narrow the argument that row stands on.**
       Written 2026-09-15, revised the same day after #607 landed the row this

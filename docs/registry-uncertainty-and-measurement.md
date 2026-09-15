@@ -1,5 +1,13 @@
 # Giving numeric records an uncertainty, and marking which are measured
 
+> **Followed up the same day by [`docs/one-value-for-the-solvent.md`](one-value-for-the-solvent.md).**
+> Section 2 below — *the bench does not read the record the band is attached
+> to* — is closed. The engine's constants are generated from the registry
+> records, both latent heats have records for the first time, and the count in
+> that section was understated: it was fourteen sites, not thirteen. This
+> document is left as it was written, because what it found is the reason the
+> other one exists.
+
 Status: 2026-09-15. A scoped task from `PLAN.md`. The deliverable is a pattern
 proven on a handful of records, three judgements stated in the open, and an
 honest count of how far the pattern reaches — not a sweep of 1917 records.

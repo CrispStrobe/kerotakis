@@ -410,10 +410,16 @@ fn main() {
          pub const WATER_ENTHALPY_OF_FUSION_J_PER_MOL: f64 = {};\n\
          /// Enthalpy of vaporisation of water at 373.15 K and one\n\
          /// atmosphere, J/mol — `enthalpy-of-vaporisation/water`.\n\
-         pub const WATER_ENTHALPY_OF_VAPORISATION_J_PER_MOL: f64 = {};",
+         pub const WATER_ENTHALPY_OF_VAPORISATION_J_PER_MOL: f64 = {};\n\
+         /// Molar heat capacity of liquid water, J/(mol.K) —\n\
+         /// `heat-capacity/water`. Restated as a named constant so the\n\
+         /// three phases read as one set; generated so restating it cannot\n\
+         /// become disagreeing with it.\n\
+         pub const WATER_LIQUID_HEAT_CAPACITY_J_PER_MOL_K: f64 = {};",
         f64_lit(solvent("molar_mass", "g/mol")),
         f64_lit(solvent("enthalpy_of_fusion", "J/mol")),
         f64_lit(solvent("enthalpy_of_vaporisation", "J/mol")),
+        f64_lit(solvent("molar_heat_capacity", "J/(mol.K)")),
     )
     .unwrap();
     std::fs::write(
