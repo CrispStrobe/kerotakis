@@ -1594,9 +1594,17 @@ The traps are all about data, not code. Checked against primary sources
 | NIST WebBook / JANAF-online | **NIST SRD — copyrighted**, permission required | Do not harvest. Cite a single value with attribution if it is genuinely the source; prefer tracing to the original measurement. |
 | NSRDS-NBS 37 (JANAF, 1971) | **Public domain**; no copyright notice, no SRD notice | Own row deliberately: it was a parenthesis inside the row above, which a machine reading loses or inverts. Dated, and usable. |
 | NBS Circulars 461 and 500, *J. Res. NBS*, NBS Technical Notes | **US Government work, not SRD** | Cleared. The line is SRD status, not authorship — that distinction unlocked five replacements on 2026-09-13. |
+| NBS thermochemical tables (Wagman et al. 1982; TN 270; Circulars 461/500) | **US Government work** — NIST Technical Series, 17 U.S.C. 105, "not subject to copyright protection in the United States" (read 2026-09-15) | **Cleared.** Cite the **Technical Note**, not *J. Phys. Chem. Ref. Data* 11 Suppl. 2: the Supplement is the same numbers in an SRD journal. `kerotakis/dissolution-enthalpies-v1` names both in one parenthesis as if they were interchangeable. |
+| CODATA fundamental constants | NIST's presentation is **SRD 121**, §290e compilation copyright; but the SI defining constants are **exact by definition** and the BIPM SI Brochure is **CC BY 4.0** (both read 2026-09-15) | **Cleared for what we actually ship.** Every constant in `constants.rs` is exact by SI definition or derived from ones that are, and the crate's tests check it. A *measured* CODATA value would be a transcription out of SRD 121 and needs its own reading. Not the same product as the CODATA Key Values for Thermodynamics (Cox 1989), whose terms are unread. |
+| USDA FoodData Central | **CC0 1.0** — "in the public domain and they are not copyrighted" (read 2026-09-15) | **Cleared.** Attribution requested, not required. Agrees with `provenance/sources.toml`'s vendored-bytes record for the same source. USDA **ERS** is a different product and is not covered. |
+| Primary journal literature (the paper that made the measurement) | *Feist* 499 U.S. 340 (1991): facts are not copyrightable; compilation copyright reaches only selection and arrangement (read 2026-09-15) | **Cleared, and preferred to both of the others.** One number with author, title, journal, volume, year, pages and a DOI. It does **not** licence a table, figure or fitted correlation lifted whole. A route, not a body, so its `names` list is per-paper and always one paper behind. |
 | CRC Handbook of Chemistry and Physics | Copyrighted commercial compilation, no reuse licence (publisher page returns 403 to an automated request; verdict rests on the absence of a grant, not on a reading) | Citable for a value with attribution. **Not** a systematic source: do not depend on it in bulk, and trace to the original measurement where one exists. |
 | Merck Index | Copyrighted commercial compilation | As the CRC row. |
 | Majer & Svoboda, IUPAC Chemical Data Series No. 32 (1985) | Copyrighted | As the CRC row. **No row in `provenance/upstreams.toml` yet**, so the lint cannot see it; add one when someone reads its terms. |
+| IUPAC/CIAAW standard atomic weights | Free educational use and republication with attribution "without the need for formal IUPAC or CIAAW permission"; then **"For commercial use of this content please contact CIAAW Secretariat"** (read 2026-09-15) | ⚠️ **Decision required.** A grant exists, so this is not the CRC row; it stops at commercial use, so it is not a clearance. Nobody has asked the Secretariat, and *Feist* may mean nobody has to — the registry ships molar masses **computed** from ~20 element values, not a copy of the table. **152 registry citations name it**, so the open-question column reads 152 where it has always read zero. That is a dependence becoming visible, not a regression. |
+| ACS educational material (Middle School Chemistry) | **Not read** — acs.org answers an automated request with a filter page and no body (checked 2026-09-15) | ⚠️ **Decision required**, not *avoid*: the CRC verdict rests on the absence of a grant on a page that loaded, and here nothing loaded. Cited once, qualitatively. ACS **journals** (J. Chem. Educ., ACS Omega) are primary literature and are not this row. |
+| FAO | Copying "for private study, research and teaching purposes, and for use in non-commercial products or services" with attribution; commercial rights on request (read 2026-09-15) | ⚠️ **Decision required.** Same shape as the CIAAW row and judged the same way. What is cited is Gay-Lussac's 1815 fermentation equation — a fact rather than FAO's expression of one, which is why the question is open rather than answered against us. |
+| Voet & Voet, *Biochemistry*, 4th ed. (Wiley) | **Not read** — wiley.com returns HTTP 403 for the title page and for /en-us/permissions (checked 2026-09-15) | **As the CRC row.** Adds exactly one finding, `legacy/amylase`, whose citation carries no page and calls its own value "typical". The vocabulary has no verdict for "citable once, refused in bulk", which is what the 2026-09-14 rule actually says. |
 | CAMEO / CRW4 database | Contributed fields explicitly non-duplicable (CAS RNs, NFPA, AEGL, ERPG) | Never ship the database; reimplement the published methodology (L0 note) |
 | ECHA C&L exports | IP-encumbered (CAS data named) | Avoid; use EUR-Lex / PubChem routes |
 | Burcat (Third Millennium) | Free non-commercial only | Skip, or write for permission if CEA coverage falls short |
@@ -1623,17 +1631,22 @@ Recorded rather than fixed, because six of them need a verdict that is the
 owner's to give. A lint can only be as good as the table it reads, and four of
 these would make it silently wrong rather than merely incomplete.
 
-*Sources the repository uses and never judged.* These are listed in the
-machine-readable table with `in_plan_table = false`, which is the honest
-placeholder and not a verdict:
+*Sources the repository uses and never judged.* Two of the three below were
+closed on 2026-09-15 and one is still open; the list is kept as written because
+it is the record of how the gap was found.
 
-- **The CRC Handbook has no row**, and is the most-cited refused source in the
+- **The CRC Handbook had no row**, and is the most-cited refused source in the
   codebase — 88 mentions in shipped Rust when the audit began. The policy on it
   was inferred from the commercial row. A lint generated from the table as it
-  stands would not have caught a single one of them.
-- **The Merck Index has no row**, and is cited in shipped code.
+  stood would not have caught a single one of them. *Row added; `avoid`.*
+- **The Merck Index had no row**, and is cited in shipped code. *Row added;
+  `avoid`.*
 - **Majer & Svoboda, IUPAC Chemical Data Series No. 32 (1985)**, has no row, and
-  is cited in shipped code.
+  is cited in shipped code. **Still open.** Attempted 2026-09-15 and not added:
+  the 1985 volume has no terms page of its own, and its publisher's successor
+  returns HTTP 403 to an automated request, so unlike the CRC row there is not
+  even an absence-of-a-grant on a page that loaded to rest a verdict on.
+  Inventing terms for it is what this bullet exists to prevent.
 
 *Rows whose shape defeats a machine reading.* Each of these survives in prose
 because a human reads around it:
@@ -2775,7 +2788,17 @@ started. They are ordered by what they unblock, not by size.
 - [ ] **Majer & Svoboda has no machine-readable row.** It is cited in shipped
       code and appears in the prose table, but `provenance/upstreams.toml` has
       no entry, so the lint cannot see it. Add one when someone reads its terms;
-      do not invent terms for it.
+      do not invent terms for it. **Attempted 2026-09-15 and deliberately not
+      added.** There is nothing to read: the 1985 volume is a print book with no
+      terms page, Blackwell Scientific no longer exists, and its successor
+      returns HTTP 403 to an automated request for both the title page and the
+      permissions page. That is a weaker footing than `crc-handbook`, whose
+      verdict at least rests on the absence of a grant on a page that loaded.
+      The one citation that matters is `phase_route.rs`'s ethanol row, and it
+      names the book only to say that the RETIRED figure traced through it — so
+      when a row is added it will want an `[[excuse]]` on the Rust surface
+      alongside it, or the lint will condemn a withdrawal notice. **Next step:
+      a human opening the Wiley permissions page in a browser.**
 - [ ] **A comparison in the record is wrong, not merely stale.** The 108.7 °C
       quoted for a boiling brine in `colligative_numbers.rs` and in `HISTORY.md`
       is a measurement of a SATURATED brine, while the test builds 6.000 mol/kg

@@ -242,6 +242,44 @@
 //!   match nothing. Those rows are a forward guard, not a finding, and a
 //!   forward guard is only as good as its `names` list.
 //!
+//! ### Addendum, 2026-09-15: the audit table was repaired, and what moved
+//!
+//! The figures above are left as they were measured, because they are dated.
+//! What changed is the TABLE, not the tree: `docs/registry-unattributed-census.md`
+//! separated the 105 and found that 100 of the 487 numeric records under them
+//! name a real source this file could not spell. Eight rows were added and one
+//! `names` list widened. Measured on the same two surfaces afterwards:
+//!
+//! - **Blind spot 105 -> 6** of 185 registry citations. Item 2 of the
+//!   preconditions below is met. The six are the floor the census predicted:
+//!   one citation that is derived by construction, three bleaching products
+//!   defined by stoichiometry from a parent, and two awaiting a source that
+//!   does not exist yet.
+//! - **Findings 59 -> 60** on the registry. The one new finding is
+//!   `legacy/amylase` under a textbook row; that is the count getting more
+//!   honest rather than worse, and the census predicted it exactly. The Rust
+//!   surface reads 20 of 210 today and this repair moved neither number - the
+//!   98 above is from before the Rust re-sourcing sweep landed, not a
+//!   disagreement with it.
+//! - **Open questions 0 -> 152** on the registry and 2 on Rust, the first
+//!   non-zero this column has ever printed. 152 citations name the atomic-weight
+//!   body, whose terms grant educational reuse and reserve commercial use, and
+//!   nobody has asked the question that settles it. Nothing got worse; a
+//!   dependence became visible.
+//! - **22 -> 30 audited sources**, 12 refused, 5 carrying an open question.
+//!
+//! Two defects this file still has, both found while measuring and neither
+//! fixed here, because each is a row somebody has to judge:
+//!
+//! - **`nist-janaf` condemns the public-domain 1971 edition.** Two Rust
+//!   findings, `phase_route.rs` NaCl and KCl, cite NSRDS-NBS 37 (1971), read
+//!   from nvlpubs.nist.gov, bearing no copyright notice. The `nist-janaf` note
+//!   says in terms that this edition "ARE public domain but dated" and "needs
+//!   its own row, not this one" - and until it gets one, the lint reports two
+//!   clean values as offences.
+//! - **Majer & Svoboda still has no row**, and `phase_route.rs`'s ethanol
+//!   citation names it. See `PLAN.md`'s scoped task: its terms cannot be read.
+//!
 //! ### Why the figure is a count and not a rate
 //!
 //! The headline is an absolute number of findings, never "N% clean". A rate
