@@ -230,6 +230,18 @@ in_plan_table = true
 note = "NIST SRD - copyrighted, permission required. Do not scrape or redistribute. The 1971 NSRDS-NBS 37 JANAF tables ARE public domain but dated; a value taken from the 1971 print edition is a different source and needs its own row, not this one."
 
 [[upstream]]
+id = "nsrds-nbs-37"
+name = "NSRDS-NBS 37 (JANAF Thermochemical Tables, 2nd edn, 1971 print)"
+licence = "LicenseRef-US-Government-Work"
+terms = "https://www.nist.gov/open/copyright-fair-use-and-licensing-statements-srd-data-software-and-technical-series-publications"
+retrieved = "2026-09-15"
+verdict = "primary"
+may_touch = ["thermochemistry", "property"]
+names = ["NSRDS-NBS 37", "NSRDS.37", "nbsnsrds37"]
+in_plan_table = true
+note = "The row this file most needed and did not have. The 1971 print edition is NBS Technical Series, carries no copyright notice and no Standard Reference Data notice, and is a DIFFERENT SOURCE from the JANAF-online row above - which says so itself, in those words, and asks for this row. Until it existed the lint condemned two correctly cited public-domain values, the NaCl and KCl fusion enthalpies in phase_route.rs, which name this edition with a retrieval date and the nvlpubs URL they were read from. PLAN.md's prose table has cleared it since 2026-09-13 and the owner's decision of 2026-09-14 asked for it explicitly; only the machine-readable half was missing, so the two halves disagreed and the machine half was the one that counted. Terms read 2026-09-15 by the agent that repaired this table in #607, against NIST's own statement that Technical Series publications are not subject to copyright protection in the United States; the same statement clears the nbs-thermochemical row above."
+
+[[upstream]]
 id = "cameo-crw4"
 name = "CAMEO Chemicals / CRW4 database"
 licence = "LicenseRef-Contributed-Fields-Non-Duplicable"
@@ -518,6 +530,12 @@ note = "CHECKED 2026-09-15 AND NOT READ: wiley.com returns HTTP 403 to an automa
 # problem, so a stale one cannot sit here looking like diligence after the
 # string it covered has gone. This list is exactly as strong as its review;
 # it is here because it is visible and counted, which prose was not.
+
+[[excuse]]
+surface = "rust"
+subject = "crates/kerotakis-core/src/phase_route.rs"
+upstreams = ["nist-janaf"]
+reason = "A naming collision, not a transcription. The NaCl and KCl fusion enthalpies here cite NSRDS-NBS 37, the 1971 print edition, which now has its own cleared row above and which the JANAF-online row itself says is a different source needing one. They still match the JANAF-online row because the 1971 edition IS the JANAF tables' second edition, so its correct title contains the family name. Every JANAF mention in this file is that edition or a doc comment explaining the distinction; there is no JANAF-online value here. THE LIMIT: this excuse is keyed to the file, not to the two strings, so a genuine JANAF-online citation added to this file later would pass unnoticed. Narrow it if that becomes likely."
 
 [[excuse]]
 surface = "registry"
