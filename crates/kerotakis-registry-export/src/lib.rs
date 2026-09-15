@@ -664,7 +664,14 @@ fn molar_mass_interval(
             return Ok(None);
         }
         return Err(format!(
-            "{key}: molar mass {value} lies outside [{lower}, {upper}], the              interval propagated from CIAAW 2021 atomic weights over its own              formula. Either the value is quoted more coarsely than its              derivation supports or it is wrong, and this pass will do              neither of the two things that would hide it: it will not widen              the band until the value fits, and it will not change the value.              Add a row to MOLAR_MASS_INTERVAL_DECLINED saying which it is."
+            "{key}: molar mass {value} lies outside [{lower}, {upper}], the \
+             interval propagated from CIAAW 2021 atomic weights over its \
+             own formula. Either the value is quoted more coarsely than \
+             its derivation supports or it is wrong, and this pass will do \
+             neither of the two things that would hide it: it will not \
+             widen the band until the value fits, and it will not change \
+             the value. Add a row to MOLAR_MASS_INTERVAL_DECLINED saying \
+             which it is."
         ));
     }
     Ok(Some((lower, upper)))
