@@ -20,6 +20,17 @@ corpus = "accuracy-v1"
 family = "colligative"
 created = "2026-09-15"
 
+# The published number, declared so it cannot drift from the rows. The
+# structural test in `kerotakis-core/tests/accuracy_corpus.rs` recomputes all
+# three from the rows below and fails if a declaration moves without them.
+# Adding five easy rows to a quantity already covered moves `anchored_rows`
+# and must leave `quantities_covered` exactly where it is. That is the whole
+# anti-gaming mechanism, and it is mechanical rather than procedural.
+headline_metric = "quantities_covered"
+quantities_covered = 2
+anchored_rows = 6
+open_rows = 1
+
 # --------------------------------------------------------------- the gate ---
 # There is none, on purpose.
 gate = false
@@ -446,7 +457,13 @@ band, and the whole point of this case is that phi passes ONE near 2.3 mol/kg
 and keeps rising.
 """
 independent_of_path = false
-independence_note = "As the other osmotic rows."
+independence_note = """
+As the other two osmotic rows: `pitzer.dat`'s Na-Cl virial coefficients are
+fitted to osmotic-coefficient measurements, so this compares a fit against the
+class of data it was fitted to. At six molal the shared ancestry is if anything
+TIGHTER than at a tenth molal, because the concentrated end is where the virial
+form has the most freedom and the most need of that data.
+"""
 asserted_today = false
 not_asserted_note = """
 The test asserts only `phi > 1.0` today. This row is ahead of the test, which
