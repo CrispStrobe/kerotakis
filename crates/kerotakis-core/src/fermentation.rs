@@ -12,11 +12,11 @@
 //! substrate, culture CONCENTRATION, hydration and a smooth temperature
 //! envelope matter, but cell growth, oxygen switching, inhibition, pH
 //! inhibition, strain variation and secondary metabolites are not claimed.
-//! Neither is
-//! anything a fermented food is actually judged by — no flavour, no aroma,
-//! no texture, no coagulation into a curd, and NO food safety: nothing here
-//! models a pathogen, a spoilage organism or a competing culture, so a
-//! finished run says an acid was made and never that the food is safe.
+//! Neither is anything a fermented food is actually judged by — no flavour,
+//! no aroma, no texture, no coagulation into a curd, and NO food safety:
+//! nothing here models a pathogen, a spoilage organism or a competing
+//! culture, so a finished run says an acid was made and never that the food
+//! is safe.
 
 use crate::material::{self, CultureMetabolism, MaterialRole};
 use crate::species::{Phase, SpeciesId};
