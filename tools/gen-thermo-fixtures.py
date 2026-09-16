@@ -13,9 +13,10 @@ CASRN=...)`, which is backed by the `chemicals` package the same table
 marks `avoid`); it is not wired to anything, and it must not be wired
 until that is resolved.
 
-Five fixture families, all replayed by tests/thermo_oracle.rs. Every one
-states what it is independent OF, because an oracle sharing a database
-with the path it checks proves only that the code reads the database:
+Four fixture families, all replayed by tests/thermo_oracle.rs, and a fifth
+that is deliberately NOT emitted. Every one states what it is independent
+OF, because an oracle sharing a database with the path it checks proves
+only that the code reads the database:
 
   gamma  pair x_a t_kelvin gamma_a gamma_b
       thermo's own UNIFAC (original published interaction parameters) on
