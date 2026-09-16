@@ -1591,10 +1591,27 @@ aarch64-apple-darwin from one source.
   tests — case 3 is labelled the weak one in the file itself, because
   given a per-reaction Ea inside an exponential, "the steeper barrier is
   the more sensitive one" is arithmetic, and it earns its place on
-  plumbing rather than physics. Mutation-checked at the point of writing:
-  inverting or over-tightening one assertion in each of the six makes all
-  six fail, so none is vacuous. Cost: ~26 s of wall clock, 24 binary
-  invocations, no data and no network.
+  plumbing rather than physics. **Non-vacuity demonstrated, not argued**, at two
+  levels. Mutating the TEST — inverting or over-tightening one assertion in
+  each of the six — makes all six fail, so no assertion is decorative.
+  Mutating the ENGINE is the stronger check and the one that paid: giving
+  peroxide the thiosulfate clock's activation energy (75 → 51 kJ/mol, the
+  shape of a rate law that lost its own Ea) fails case 3, and hard-coding
+  the rendered float comparison against water rather than the liquid
+  present fails case 4 — but only after case 4 was widened. The first draft
+  read the scene's `position` and **passed that mutation**, because the
+  buoyancy comparison is made TWICE, once for the scene and once for the
+  sentence a person reads, and the mutation left the scene saying
+  `floating` beside the words "is at the bottom". Reading both surfaces is
+  now part of the case. The lesson generalises past this file: a mutation
+  applied to the test can only show an assertion is live, while a mutation
+  applied to the engine shows whether the assertion is pointed at the code
+  that could actually break. Note what this suite is deliberately NOT
+  sensitive to: a fourth-significant-figure error in a datum passes every
+  case here by construction, because no case has a reference value to
+  disagree with. It catches wiring, not calibration; the oracles catch
+  calibration. Cost: ~26 s of wall clock, 24 binary invocations, no data
+  and no network.
   **It found one defect on its first outing**, and the seventh case is that
   defect, `#[ignore]`d and asserting what is wanted rather than what ships:
   the `contents` entry named `OH-` — the lv3 machine contract every `--json`

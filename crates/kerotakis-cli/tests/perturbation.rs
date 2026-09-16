@@ -434,8 +434,13 @@ fn a_steeper_barrier_is_the_more_temperature_sensitive_one() {
 ///
 /// **What this establishes:** whole-object bulk density is what the float
 /// comparison uses; the liquid side of it is computed rather than assumed
-/// to be water; the flip happens where the two densities cross; and the
-/// densitometer and the rendered scene are reading one state.
+/// to be water; the flip happens where the two densities cross; and all
+/// THREE surfaces agree about it — the densitometer, the scene's
+/// `position`, and the sentence a person reads. The third was added after
+/// mutating the engine: the comparison is made twice, and hard-coding only
+/// the rendered one against water left the scene saying `floating` beside
+/// the words "is at the bottom", which the first draft of this test — which
+/// read only the scene — passed.
 ///
 /// **What it cannot establish:** that 1.08 g/mL is the right density for a
 /// potato, or that a sucrose solution really reaches 1.16 g/mL at this
@@ -450,7 +455,7 @@ fn a_steeper_barrier_is_the_more_temperature_sensitive_one() {
 /// not take it as evidence that the liquid density is right in general.
 #[test]
 fn the_float_verdict_tracks_the_liquid_it_is_compared_against() {
-    let sweep: Vec<(f64, f64, String)> = [0u32, 100, 150, 300]
+    let sweep: Vec<(f64, f64, String, String)> = [0u32, 100, 150, 300]
         .iter()
         .map(|grams| {
             let mut script = String::from("add v1 water 500mL\n");
@@ -470,16 +475,21 @@ fn the_float_verdict_tracks_the_liquid_it_is_compared_against() {
                 .as_array()
                 .and_then(|list| list.first())
                 .unwrap_or_else(|| panic!("no bulk object: the potato is not on the bench"));
+            let words = steps.last().unwrap()["scene"]["vessels"][0]["words"]
+                .as_str()
+                .unwrap()
+                .to_string();
             (
                 liquid,
                 object["bulk_density_g_per_ml"].as_f64().unwrap(),
                 object["position"].as_str().unwrap().to_string(),
+                words,
             )
         })
         .collect();
 
     let declared = sweep[0].1;
-    for (liquid, object, position) in &sweep {
+    for (liquid, object, position, words) in &sweep {
         assert!(
             (object - declared).abs() < 1e-12,
             "the potato's own density cannot depend on the syrup around it: \
@@ -490,13 +500,31 @@ fn the_float_verdict_tracks_the_liquid_it_is_compared_against() {
             position, expected,
             "in a liquid of {liquid} g/mL an object of {object} g/mL is {expected}"
         );
+        // The SAME comparison is made twice in the engine — once for the
+        // scene's `position` and once for the sentence a person reads — and
+        // a defect in either alone leaves the other one consistent. Found by
+        // mutating the engine rather than the test: hard-coding the rendered
+        // comparison against water instead of the liquid actually present
+        // left `position: floating` beside the words "is at the bottom", and
+        // an earlier draft of this test, which read only the scene, passed.
+        let said = if *expected == *"floating" {
+            "floats on top"
+        } else {
+            "is at the bottom"
+        };
+        assert!(
+            words.contains(said),
+            "the scene says {position} and the sentence says something else, \
+             in a liquid of {liquid} g/mL against an object of {object} g/mL: \
+             {words:?}"
+        );
     }
 
     // The sweep must actually straddle the crossing, or every assertion
     // above is vacuously satisfied by one verdict repeated four times —
     // which is precisely the shape `curiosity-answer-invariance.py` exists
     // to catch, and it would be embarrassing to reintroduce it here.
-    let densities: Vec<f64> = sweep.iter().map(|(liquid, _, _)| *liquid).collect();
+    let densities: Vec<f64> = sweep.iter().map(|(liquid, ..)| *liquid).collect();
     assert!(
         densities.windows(2).all(|pair| pair[1] > pair[0]),
         "more sugar must mean a denser liquid: {densities:?}"
