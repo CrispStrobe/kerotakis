@@ -80,6 +80,13 @@ satisfied by a coordinate moving. `Order`, whose claim is that a number came
 back the same, keeps it: an invariance over a coordinate is still a true
 statement about path independence.
 
+The exclusion is a substring match, so under the old name one entry also
+reached every other key spelling `[OH-]` — the reported molality, the
+particle census label. `OH-` is therefore still listed beside the new name:
+narrowing the filter would widen what a generated case may rest on and move
+the pinned `ABLATION_INERT` set, which is a measured change rather than part
+of a rename.
+
 ## What the corpus admits, and what it does not
 
 Computed by `the_corpus_census_is_what_is_recorded` over all five hundred

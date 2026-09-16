@@ -458,20 +458,31 @@ fn run(script: &str) -> Result<Vec<serde_json::Value>, String> {
         .collect()
 }
 
-/// The `contents` slot that is a bookkeeping coordinate rather than an
-/// amount of a substance. The aqueous tail closes its analytical H/O
-/// balance with a pair of acid/base equivalents, and the base half is the
-/// solution's residual cation charge; it was published under hydroxide's
-/// name until 2026-09-16 and measured 1.1e6 above the hydroxide the pH
-/// could hold (`perturbation.rs`, 7/7). Renaming it does not make it an
-/// observation. A generated case must never be *satisfied* by it moving, so
-/// the rules whose claim is "something moved" refuse to look at it.
+/// Slot names a claim of the form "something moved" may not be satisfied
+/// by. Matched as a substring of an observation key, so one entry reaches
+/// the inventory slot `n.vN[name|phase]`, the molality `m.vN[name]` and the
+/// particle label `r.particles#[name]` alike.
+///
+/// `base_equivalents` is the reason the list exists. The aqueous tail closes
+/// its analytical H/O balance with a pair of acid/base equivalents, and the
+/// base half is the solution's residual cation charge: a bookkeeping
+/// coordinate, not an amount of a substance. It was published under
+/// hydroxide's name until 2026-09-16 and measured 1.1e6 above the hydroxide
+/// the pH could hold (`perturbation.rs`, 7/7). The rename fixed the name,
+/// not the fact that it is a coordinate.
+///
+/// `OH-` stays listed because of the substring match, not because the
+/// solver's hydroxide is suspect. Under the old name one entry covered the
+/// inventory slot AND every other key spelling `[OH-]` — the reported
+/// molality, the particle census label. Dropping it now would widen what
+/// generated cases may rest on and move the `ABLATION_INERT` set, which is
+/// pinned by name. That is a measured change and not part of a rename.
 ///
 /// The acid half is published as `H+` and is the same kind of coordinate.
-/// It is deliberately NOT listed: excluding a key can only turn generated
-/// cases from passing to departing, and `ABLATION_INERT` pins that set by
-/// name. Widening this list is a separate change with its own measurement.
-const NOT_AN_OBSERVATION: &[&str] = &["base_equivalents"];
+/// It is deliberately NOT listed, for the same reason in the other
+/// direction: adding a key can only turn generated cases from passing to
+/// departing.
+const NOT_AN_OBSERVATION: &[&str] = &["base_equivalents", "OH-"];
 
 /// A flattened, comparable picture of a run. Keys are stable strings so two
 /// runs that disagree about which species EXIST are still comparable — an
@@ -995,7 +1006,8 @@ fn is_readout(key: &str) -> bool {
 /// satisfied by. `contents[base_equivalents]` is not: it is one half of the
 /// analytical acid/base coordinate the aqueous tail books to close its H/O
 /// balance, and a generated case that counted it would be resting on
-/// bookkeeping.
+/// bookkeeping. See [`NOT_AN_OBSERVATION`] for what else the match reaches
+/// and why that is kept as it was.
 fn trustworthy(key: &str) -> bool {
     !NOT_AN_OBSERVATION
         .iter()
