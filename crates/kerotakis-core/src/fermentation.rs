@@ -60,7 +60,7 @@ const OXYGEN: &str = "O2";
 /// activity behind them (see each recipe's `lot_assumptions`), and they are
 /// carried over unchanged, so what they now say is "this was the rate for a
 /// litre" — which is a claim nobody has checked. `bio-069`'s eight-hour
-/// counter-top yoghurt now reads pH 2.4 against a real 4.4-4.6, where
+/// counter-top yoghurt now reads pH 2.83 against a real 4.4-4.6, where
 /// before it read 3.9. Recalibrating the constants is a separate decision
 /// and is deliberately not taken here.
 const REFERENCE_VOLUME_LITRES: f64 = 1.0;
