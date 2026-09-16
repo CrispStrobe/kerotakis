@@ -1620,6 +1620,98 @@ So the truthful inventory is 131 + 77 + 44 = **252**, and the shortfall is
   invariant directly: every `.lab` on disk is reachable from the catalogue,
   so the next lesson to land cannot go missing the same way.
 
+## German stops where the engine starts talking (I18N-5 … I18N-9)
+
+The shell is fully German. The *lesson* is not, and a single playback shows
+exactly where the boundary falls — owner report, 2026-09-16:
+
+> Du gibst Citronensäure in v1. / Du gibst baking_soda in v1. / Du siehst dir
+> v1 genau an. **There is white baking soda (sodium bicarbonate) and white
+> citric acid in the beaker.**
+
+Every gap below is a *missing mechanism*, not a missing string, which is why
+none of them was caught by a translation count. The requirement for all five
+is the standing one: **adding French must stay one core `.toml` plus one web
+`.json`, and no code.** Any fix that puts a German word in a match arm, or a
+display name in the registry, is the wrong fix.
+
+- [x] **I18N-5 — Material names are never localised.** `Event::Added` renders
+  through `species_name`, which is why *Citronensäure* and *Wasser* arrive in
+  German; every event naming a **material** printed the key the script typed,
+  so the next line read `baking_soda` and a vinegar bottle announced itself as
+  "white vinegar 5 percent". Fixed by `material_name` in `render.rs` across all
+  15 sites, against a new `[material]` section carrying all 132 recipes. **No
+  translation was authored**: each value is the recipe's own first German
+  alias, which the *parser* has accepted since BRD-002 — the renderer simply
+  never asked. Display belongs to the catalogue so that French stays one file.
+- [x] **I18N-6 — `Detailstufe lv1`.** `lv1` is a protocol token, not a word,
+  and reached the notebook verbatim. It now goes through `t()` like everything
+  else, with a fallback to itself for a register a locale has not named.
+- [ ] **I18N-7 — `appearance.rs` has no locale at all.** Not a missing key: the
+  file never takes a `Locale`. It *concatenates* English — `"there is {list} in
+  the beaker"`, `"a piece of {} is in the beaker"`, the joining `"and"`, the
+  colour words — so every `look` sentence is English inside an otherwise German
+  lesson, including the one the owner quoted and *"The liquid is colourless and
+  clear, there is grey zinc and orange copper at the bottom."* This is the
+  structural one. Sentences are assembled from parts, and a language that
+  orders or inflects those parts differently cannot be served by translating
+  the fragments, so the unit of translation has to become the whole sentence
+  with slots. Deliverable: `appearance` takes a locale, its sentences are
+  catalogue templates, and a test asserts no English reaches a German `look`.
+- [ ] **I18N-8 — Inert-reason prose is English.** `v1 Zink reagiert nicht —
+  zinc should dissolve in this acid by the series (driving force +0.62 V), but
+  hydrogen has to form on zinc…` The refusal's *name* is translated and its
+  *reason* is not. These are the most valuable sentences in the lesson —
+  they are where the engine explains itself — and they are exactly the ones a
+  German learner cannot read.
+- [ ] **I18N-9 — Lesson prose has no translation mechanism.** The title,
+  description, section comments and boundary note are the `.lab` file's own
+  comments, rendered verbatim; only the *slug* is translated, which is why
+  "Trocken, dann nass: Brausen" sits above six lines of English. 113 lessons.
+  Needs a decision on shape before work: a parallel `lessons/i18n/<code>.toml`
+  keyed by lesson id and comment index, or prose lifted out of `.lab` into a
+  catalogue the player composes. The second is more work and is the one that
+  survives a third language.
+
+### Two defects found in the same playback, neither of them i18n
+
+- [ ] **The bench is not reset between lessons.** "Lektion begonnen: Elektrode"
+  is followed by water going into `v1` and the *previous* lesson's Natron and
+  Citronensäure dissolving in it. The electrode lesson then computes its pH and
+  its driving force from a vessel that is holding another lesson's reagents.
+  Every number it reports after that point is wrong, and it will reproduce
+  whenever two lessons are played in sequence.
+- [ ] **`de.json` has 59 duplicate keys.** 2625 parse down to 2566; JSON keeps
+  the last silently. `"dry then wet fizz"` is at both line 46 and line 1503.
+  Nothing lints for it, and a duplicate is how one translation quietly
+  overwrites another. A lint belongs in `preflight.sh` beside the other two.
+
+## Two doors onto one question (GUI-105)
+
+The app has two catalogues and the reader has to know which is which. The
+**Forschungsbibliothek** holds 131 codex routes and 77 guided experiments;
+the **Fähigkeiten-Explorer** holds the 500 reviewed corpus questions, all 500
+of them already translated. A third shelf, the 113 lessons, is reachable only
+from the picker (GUI-104).
+
+The split is real — a lesson is something you *run*, a corpus row is a
+question with a *reviewed answer*, and flattening them would claim the engine
+can run 500 experiments it cannot. But the split is an author's distinction,
+not a reader's. Nobody arrives asking "is my question a runnable experiment or
+a reviewed capability claim?" They arrive asking **"can it do this?"**, and
+today that question has to be asked twice, in two places, or it gets a wrong
+"no".
+
+- [ ] **GUI-105 — One index, typed facets.** A single search across all four
+  populations, each row carrying what it *is*: runnable lesson, guided
+  experiment, codex route, or answered question. One query, one result list,
+  the type as a filter and a badge rather than as a separate door. The counts
+  stay honest because each type is counted and labelled separately — the
+  headline becomes "252 experiments and 500 answered questions", which is both
+  larger and truer than "208". Prerequisite: GUI-104, or the new index ships
+  with the same 44 lessons missing.
+
+
 ## Completed GUI tasks
 
 Numbers are never renumbered and never reused. Each of these landed; the detail
