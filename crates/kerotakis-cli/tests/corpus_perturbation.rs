@@ -1310,6 +1310,35 @@ const SCALE_DEPARTURES: &[(&str, &str)] = &[
         "m[H+] differs by 1.28e-3, which is two units in the last printed \
          place of a four-figure molality",
     ),
+    // Water at 100 C, starch and amylase. Same phase boundary as `aq-102`:
+    // the solvent is at its boiling point in both the original and the
+    // doubled vessel, and free_proton lands 7.9% apart.
+    (
+        "bio-030",
+        "boiling: the solvent is on its phase boundary, where free_proton \
+         differs by 7.89e-2",
+    ),
+    // Milk at 100 C for an hour. Dissolved oxygen falls to a seventh of
+    // itself when the experiment is doubled (4.880e-5 to 7.213e-6 mol/kg),
+    // which is not homogeneity of any degree. Boiling again, and the
+    // headspace above a doubled vessel is not doubled by anything in the
+    // script.
+    (
+        "bio-055",
+        "boiling milk: m[O2] falls to a seventh when the experiment is \
+         doubled, which is neither intensive nor extensive",
+    ),
+    // Yoghurt culture in milk at 5 C for eight hours. The lactic acid
+    // QUADRUPLES when the experiment is doubled: 4.536e-8 mol becomes
+    // 1.933e-7 where 9.072e-8 was wanted. A fermentation extent that goes
+    // as the square of the batch size is the signature of a rate that
+    // reads an AMOUNT where it should read a concentration, and it is the
+    // most defect-shaped thing in this list after th-100.
+    (
+        "bio-070",
+        "the fermentation extent goes as the SQUARE of the batch: 4.536e-8 \
+         mol of lactic acid becomes 1.933e-7 when the experiment is doubled",
+    ),
 ];
 
 const SOLVENT_DEPARTURES: &[(&str, &str)] = &[
@@ -1356,6 +1385,45 @@ const ABLATION_INERT: &[(&str, &str)] = &[
 ];
 
 const DOSE_INERT: &[(&str, &str)] = &[
+    // LIVE DEFECT, and the best thing this file found. "Will a sealed
+    // vinegar-and-baking-soda bottle build pressure?" Twice the vinegar
+    // moves the pressure gauge not at all, because it reads exactly
+    // 101.325 kPa — atmospheric, to the last digit — and it does so
+    // because THE BOTTLE IS NOT SEALED. `aq-061` seals the vessel and then
+    // adds its reagents, and the vessel's own headspace comes back
+    // `{"boundary": "open"}` with no gas phase in it at all. Move the
+    // `seal` after the adds and the same script returns
+    // `{"boundary": "sealed", "volume": 0.1}` with nitrogen, oxygen and
+    // carbon dioxide in the headspace.
+    //
+    // The row is green. It took a `computed` route and a pressure gauge
+    // answered it; what the corpus records is the route. That the answer
+    // is one atmosphere from an unsealed bottle is what it could not see.
+    // `a_seal_survives_the_next_pour` is the regression test.
+    (
+        "aq-061",
+        "the bottle is not sealed: an add after a seal reopens the vessel, \
+         so the gauge reads exactly atmospheric whatever goes in",
+    ),
+    // Correct physics, and the dose rule does not apply. A block warming
+    // itself by decay has a power proportional to its mass and a heat
+    // capacity proportional to its mass, so the temperature rise is
+    // independent of how much uranium there is. Twice the block must read
+    // the same 25.006326 C, and does.
+    (
+        "th-122",
+        "self-heating raises the temperature by an amount independent of \
+         mass, because the power and the heat capacity both scale with it",
+    ),
+    // Starch, amylase and iodine. The same substance gap as `aq-018`: twice
+    // the iodine changes nothing on any surface, so "will the iodine colour
+    // fade after amylase digests starch?" cannot be answered by this
+    // script whatever the engine does.
+    (
+        "bio-033",
+        "starch, amylase and iodine are not characterised, so twice the \
+         iodine is still nothing the bench can see",
+    ),
     // The same gap as above, seen from the other side: twice the sucrose is
     // also indistinguishable. Worth keeping separately, because a substance
     // the bench cannot see at all and a substance whose dose it cannot
@@ -1622,6 +1690,104 @@ fn twice_the_reagent_moves_the_corpus_answer() {
     let (ran, departed) = gate(Rule::Dose);
     assert!(ran >= 5, "the dose subset shrank to {ran} cases");
     assert_eq!(departed.len(), DOSE_INERT.len());
+}
+
+/// **A seal must survive the next pour.** Found by the generated `Dose`
+/// rule on `aq-061` — "will a sealed vinegar-and-baking-soda bottle build
+/// pressure?" — on 2026-09-16, which is why it is here rather than in a
+/// report: `#[ignore]`d, asserting the behaviour that is wanted rather than
+/// the behaviour that is shipped, so the day the boundary is fixed this
+/// test says so.
+///
+/// The corpus script seals the vessel and THEN adds its reagents:
+///
+/// ```text
+/// add v1 water 100mL
+/// seal v1 100mL
+/// add v1 NaHCO3 0.05mol
+/// add v1 CH3COOH 0.05mol
+/// measure v1 pressure
+/// ```
+///
+/// The vessel comes back `{"boundary": "open"}` with no gas phase in it at
+/// all, and the gauge reads 101.325 kPa — atmospheric, to the last digit —
+/// while 0.0214 mol of carbon dioxide sits dissolved in 100 mL. Move the
+/// `seal` after the adds and nothing else changes, and the same script
+/// returns `{"boundary": "sealed", "volume": 0.1}` with nitrogen, oxygen
+/// and carbon dioxide in the headspace and a gauge that is no longer
+/// exactly one atmosphere.
+///
+/// **How a single run hid it.** 101.325 kPa is a perfectly plausible answer
+/// to "does it build pressure?" — it is the answer "no". The row is green
+/// in the corpus: it took a `computed` route and a pressure gauge answered
+/// it, and the route is what `expected` records. What made it visible was
+/// doubling the vinegar and watching the gauge not move by so much as a
+/// pascal, which is not something a bottle does.
+///
+/// **What this establishes, when it passes:** that the boundary a script
+/// sets stays set until the script changes it, so a `seal` means the same
+/// thing wherever in the script it appears.
+///
+/// **What it cannot establish:** that the pressure a sealed bottle reaches
+/// is right. It compares two orderings of the same five lines; both could
+/// be wrong about the number and this would still pass.
+#[test]
+#[ignore = "found 2026-09-16 by the generated Dose rule on aq-061: an add \
+            after a seal reopens the vessel, so a sealed bottle reads \
+            exactly atmospheric whatever goes into it"]
+fn a_seal_survives_the_next_pour() {
+    let bottle = |seal_first: bool| {
+        let reagents = "add v1 NaHCO3 0.05mol\nadd v1 CH3COOH 0.05mol\n";
+        let script = if seal_first {
+            format!("add v1 water 100mL\nseal v1 100mL\n{reagents}measure v1 pressure\n")
+        } else {
+            format!("add v1 water 100mL\n{reagents}seal v1 100mL\nmeasure v1 pressure\n")
+        };
+        let steps = run(&script).unwrap_or_else(|error| panic!("{script}\n{error}"));
+        let vessel = steps
+            .iter()
+            .rev()
+            .find(|step| !step["bench"].is_null())
+            .map(|step| step["bench"]["vessels"][0].clone())
+            .expect("a bench state");
+        (
+            vessel["headspace"]["boundary"]
+                .as_str()
+                .unwrap_or("missing")
+                .to_string(),
+            vessel["contents"]
+                .as_array()
+                .map(|list| list.iter().filter(|p| p["phase"] == "gas").count())
+                .unwrap_or(0),
+            observe(&steps)
+                .get("r.pressure_gauge#0")
+                .copied()
+                .expect("the gauge reported"),
+        )
+    };
+
+    let (late_boundary, late_gases, late_pressure) = bottle(false);
+    assert_eq!(
+        late_boundary, "sealed",
+        "sealing last has to seal it, or the comparison is meaningless"
+    );
+    assert!(late_gases > 0, "a sealed headspace holds gas");
+
+    let (early_boundary, early_gases, early_pressure) = bottle(true);
+    assert_eq!(
+        early_boundary, "sealed",
+        "a seal must survive the next pour: the vessel reopened itself"
+    );
+    assert!(
+        early_gases > 0,
+        "the reopened vessel has no gas phase at all, so the carbon dioxide \
+         it generated is nowhere"
+    );
+    assert!(
+        (early_pressure - late_pressure).abs() < 1e-3 * late_pressure,
+        "the same five lines in either order must reach the same pressure: \
+         {early_pressure} against {late_pressure} kPa"
+    );
 }
 
 /// **Closing the lid restores order-independence, and that is the proof
