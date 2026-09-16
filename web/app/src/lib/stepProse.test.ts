@@ -145,7 +145,7 @@ class WalkBench implements RunnerBench {
  * `catalogEntries`, run by `runCatalogEntry`, with the prose handed in
  * exactly as the panel hands it in.
  */
-describe("all seventy-seven guided experiments still run, prose or no prose", () => {
+describe("every guided experiment still runs, prose or no prose", () => {
   const prose = parseStepProse(shipped);
   const entries = catalogEntries(codex, guided, {
     locale: "en",
@@ -154,7 +154,11 @@ describe("all seventy-seven guided experiments still run, prose or no prose", ()
   }).filter((entry) => entry.source === "guided");
 
   it("is the whole guided catalogue, and every card has an action", () => {
-    expect(entries).toHaveLength(77);
+    // 121 since GUI-104: K78-K121 gave every shipped lesson a row. They run
+    // through `run.kind === "lesson"` rather than a codex script, which is why
+    // the prose walk below is unchanged in size — a card whose content is a
+    // guided lesson opens that lesson.
+    expect(entries).toHaveLength(121);
     expect(entries.filter((entry) => entry.run.kind === "boundary" && entry.status === "computed")).toEqual([]);
   });
 
