@@ -978,30 +978,39 @@ fn relative(a: f64, b: f64) -> f64 {
     (a - b).abs() / scale
 }
 
-/// The precision the wire actually carries. A reported molality is four
-/// significant figures — `"molality": 55.51` — so two runs that agree to
-/// eight digits can still print values a part in a thousand apart, and a
-/// tolerance below that is measuring the formatter. `metamorphic.rs`
-/// excluded print precision by hand ("so nobody re-litigates them"); a
-/// generator has to exclude it by rule, because it compares hundreds of
-/// speciation entries it never chose. Found on `aq-023`: 1.516e-3 against
-/// 1.517e-3, which is one unit in the last printed place.
-fn tolerance_for(key: &str, base: f64) -> f64 {
-    if key.starts_with("m.") {
-        base.max(1e-3)
+/// Whether two readings of the same slot are distinguishable at all, or
+/// whether the difference between them is the wire, the solver's
+/// convergence, or arithmetic residue. Three floors, each set from a
+/// measured departure rather than from an argument:
+///
+/// * **Print precision.** A reported molality is four significant figures —
+///   `"molality": 55.51` — so two runs agreeing to eight digits can still
+///   print a part in a thousand apart. Found on `aq-023`: 1.516e-3 against
+///   1.517e-3, one unit in the last printed place. `metamorphic.rs`
+///   excluded print precision by hand and said so, "so nobody re-litigates
+///   them"; a generator has to exclude it by rule, because it compares
+///   hundreds of speciation entries it never chose.
+/// * **The solver's own floor on an amount.** `metamorphic.rs` derives
+///   1e-9 mol absolute for element totals from a measured 6e-11 post-fix
+///   residual, and that is the right tier here too: `aq-023` again, with
+///   7.736798e-7 against 7.735965e-7 mol of calcium — 1.1e-4 relative, and
+///   8.3e-11 mol absolute, an order of magnitude under the repo's own
+///   derived tolerance.
+/// * **Dust.** Below 1e-9 mol a quantity is residue rather than an amount
+///   of anything. `aq-055` carried 1e-11 mol of hydrogen peroxide after its
+///   catalase had eaten the rest, and that dust failed a scale case at
+///   exactly 0.5 relative, because dust does not double.
+fn indistinguishable(key: &str, a: f64, b: f64, tolerance: f64) -> bool {
+    let (floor, absolute) = if key.starts_with("m.") {
+        (tolerance.max(1e-3), 1e-12)
+    } else if key.starts_with("n.") {
+        (tolerance, 1e-9)
     } else {
-        base
-    }
-}
-
-/// Below this, a quantity is the solver's rounding residue rather than an
-/// amount of anything, and comparing two runs on it measures arithmetic.
-/// Set from the sweep: `aq-055` carried 1e-11 mol of hydrogen peroxide
-/// after its catalase had eaten the rest, and that dust failed a scale
-/// case at exactly 0.5 relative because dust does not double.
-fn is_dust(key: &str, a: f64, b: f64) -> bool {
-    let floor = if key.starts_with("m.") { 1e-12 } else { 1e-9 };
-    a.abs() < floor && b.abs() < floor
+        (tolerance, 0.0)
+    };
+    (a.abs() < absolute && b.abs() < absolute)
+        || (a - b).abs() < absolute
+        || relative(a, b) <= floor
 }
 
 /// The worst offender against a per-key expectation, as prose, or `None`
@@ -1019,18 +1028,16 @@ fn worst_against(
             continue;
         };
         let Some(b) = after.get(key) else {
-            if is_dust(key, *a, 0.0) {
+            if indistinguishable(key, *a, 0.0, tolerance) {
                 continue;
             }
             return Some(format!("{key} exists in one run and not the other"));
         };
-        if is_dust(key, wanted, *b) {
+        if indistinguishable(key, wanted, *b, tolerance) {
             continue;
         }
         let deviation = relative(wanted, *b);
-        if deviation > tolerance_for(key, tolerance)
-            && worst.as_ref().is_none_or(|(w, _)| deviation > *w)
-        {
+        if worst.as_ref().is_none_or(|(w, _)| deviation > *w) {
             worst = Some((
                 deviation,
                 format!("{key}: expected {wanted:.6e}, got {b:.6e} ({deviation:.2e} relative)"),
@@ -1047,10 +1054,8 @@ fn moved(before: &BTreeMap<String, f64>, after: &BTreeMap<String, f64>, toleranc
     keys.into_iter()
         .filter(|key| trustworthy(key))
         .filter(|key| match (before.get(*key), after.get(*key)) {
-            (Some(a), Some(b)) => {
-                !is_dust(key, *a, *b) && relative(*a, *b) > tolerance_for(key, tolerance)
-            }
-            (Some(a), None) | (None, Some(a)) => !is_dust(key, *a, 0.0),
+            (Some(a), Some(b)) => !indistinguishable(key, *a, *b, tolerance),
+            (Some(a), None) | (None, Some(a)) => !indistinguishable(key, *a, 0.0, tolerance),
             (None, None) => false,
         })
         .cloned()
