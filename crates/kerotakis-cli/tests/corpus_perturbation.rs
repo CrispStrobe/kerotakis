@@ -411,3 +411,411 @@ fn double_last_quantity(line: &str) -> Option<String> {
     *last = format!("{}{unit}", trim(doubled));
     Some(words.join(" "))
 }
+
+// ===================================================================
+// The observation surface: what a perturbed run is compared on.
+// ===================================================================
+
+/// Run a script through `kero run --json`. `Err` carries stderr, because a
+/// script the generator mangled and a script the engine cannot run are
+/// different findings and the census has to tell them apart.
+fn run(script: &str) -> Result<Vec<serde_json::Value>, String> {
+    let dir = std::env::temp_dir().join(format!(
+        "kero-corpus-perturb-{}-{}",
+        std::process::id(),
+        CASE.fetch_add(1, Ordering::Relaxed)
+    ));
+    std::fs::create_dir_all(&dir).unwrap();
+    let lab = dir.join("case.lab");
+    std::fs::write(&lab, script).unwrap();
+    let out = Command::new(env!("CARGO_BIN_EXE_kero"))
+        .args(["run", lab.to_str().unwrap(), "--json"])
+        .output()
+        .expect("kero runs");
+    std::fs::remove_dir_all(&dir).ok();
+    if !out.status.success() {
+        return Err(String::from_utf8_lossy(&out.stderr).trim().to_string());
+    }
+    String::from_utf8_lossy(&out.stdout)
+        .lines()
+        .map(|line| serde_json::from_str(line).map_err(|error| error.to_string()))
+        .collect()
+}
+
+/// The `contents` slot the aqueous tail fills with the solution's residual
+/// cation charge under hydroxide's name. Measured 1.1e6 high in an acetate
+/// buffer (`perturbation.rs`, 7/7); recorded and unfixed. A generated case
+/// must never be *satisfied* by this number moving, so the rules whose
+/// claim is "something moved" refuse to look at it.
+const NOT_WHAT_IT_SAYS: &[&str] = &["OH-"];
+
+/// A flattened, comparable picture of the whole bench after the last step:
+/// every vessel's intensive properties, every species' amount, and the
+/// words the scene shows a person. Keys are stable strings so two runs
+/// that disagree about which species EXIST are comparable — an appearing
+/// or vanishing species is a difference, not a panic.
+fn observe(steps: &[serde_json::Value]) -> BTreeMap<String, f64> {
+    let mut out = BTreeMap::new();
+    let Some(last) = steps.last() else {
+        return out;
+    };
+    let vessels = last["bench"]["vessels"].as_array().cloned().unwrap_or_default();
+    for (index, vessel) in vessels.iter().enumerate() {
+        let mut put = |field: &str, value: Option<f64>| {
+            if let Some(value) = value {
+                out.insert(format!("v{index}.{field}"), value);
+            }
+        };
+        put("ph", vessel["solution"]["ph"].as_f64());
+        put("ionic_strength", vessel["solution"]["ionic_strength"].as_f64());
+        put("pe", vessel["solution"]["pe"].as_f64());
+        put("temperature_k", vessel["temperature_k"].as_f64());
+        put("volume_l", vessel["volume_l"].as_f64());
+        put("free_hydroxide", vessel["free_hydroxide"].as_f64());
+        put(
+            "co2_partial_pressure_atm",
+            vessel["co2_partial_pressure_atm"].as_f64(),
+        );
+        for portion in vessel["contents"].as_array().cloned().unwrap_or_default() {
+            let (Some(species), Some(moles)) =
+                (portion["species"].as_str(), portion["moles"].as_f64())
+            else {
+                continue;
+            };
+            let phase = portion["phase"].as_str().unwrap_or("");
+            *out.entry(format!("v{index}.n[{species}|{phase}]"))
+                .or_insert(0.0) += moles;
+        }
+        for reported in vessel["solution"]["species"]
+            .as_array()
+            .cloned()
+            .unwrap_or_default()
+        {
+            let (Some(name), Some(molality)) =
+                (reported["name"].as_str(), reported["molality"].as_f64())
+            else {
+                continue;
+            };
+            *out.entry(format!("v{index}.m[{name}]")).or_insert(0.0) += molality;
+        }
+    }
+    // The scene is a surface of its own, and the hand-written suite found a
+    // defect that lived only there: a buoyancy verdict hard-coded against
+    // water left `position: floating` beside the words "is at the bottom".
+    // Words are not numbers, so they enter the picture as a hash — enough
+    // to see that they MOVED, which is all a causal claim needs.
+    for (index, vessel) in last["scene"]["vessels"]
+        .as_array()
+        .cloned()
+        .unwrap_or_default()
+        .iter()
+        .enumerate()
+    {
+        if let Some(words) = vessel["words"].as_str() {
+            out.insert(format!("s{index}.words"), stable_hash(words));
+        }
+        for (object, bulk) in vessel["bulk_objects"]
+            .as_array()
+            .cloned()
+            .unwrap_or_default()
+            .iter()
+            .enumerate()
+        {
+            if let Some(position) = bulk["position"].as_str() {
+                out.insert(format!("s{index}.o{object}.position"), stable_hash(position));
+            }
+        }
+    }
+    out
+}
+
+fn stable_hash(text: &str) -> f64 {
+    let mut hash: u64 = 0xcbf2_9ce4_8422_2325;
+    for byte in text.bytes() {
+        hash ^= u64::from(byte);
+        hash = hash.wrapping_mul(0x0000_0100_0000_01b3);
+    }
+    // Small enough to compare exactly in an f64, large enough not to collide.
+    (hash % 1_000_000_007) as f64
+}
+
+/// Keys present in both pictures whose values differ by more than
+/// `tolerance` relative, plus every key present in only one of them.
+fn differences(
+    before: &BTreeMap<String, f64>,
+    after: &BTreeMap<String, f64>,
+    tolerance: f64,
+) -> Vec<String> {
+    let keys: BTreeSet<&String> = before.keys().chain(after.keys()).collect();
+    keys.into_iter()
+        .filter(|key| match (before.get(*key), after.get(*key)) {
+            (Some(a), Some(b)) => {
+                let scale = a.abs().max(b.abs()).max(1e-12);
+                (a - b).abs() / scale > tolerance
+            }
+            _ => true,
+        })
+        .cloned()
+        .collect()
+}
+
+/// The subset of the picture a causal claim is allowed to be satisfied by:
+/// no slot whose meaning is known to be wrong, and nothing that is
+/// identically zero in both runs.
+fn honest_differences(
+    before: &BTreeMap<String, f64>,
+    after: &BTreeMap<String, f64>,
+    tolerance: f64,
+) -> Vec<String> {
+    differences(before, after, tolerance)
+        .into_iter()
+        .filter(|key| {
+            !NOT_WHAT_IT_SAYS
+                .iter()
+                .any(|slot| key.contains(&format!("[{slot}|")) || key.contains(&format!("[{slot}]")))
+        })
+        .collect()
+}
+
+// ===================================================================
+// The census: what the corpus admits, over all five hundred.
+// ===================================================================
+
+#[derive(Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq)]
+struct Census {
+    prompts: usize,
+    admitting: usize,
+    admitting_none: usize,
+    by_rule: BTreeMap<String, usize>,
+    by_reason: BTreeMap<String, usize>,
+    dose_sibling_groups: usize,
+    dose_sibling_prompts: usize,
+}
+
+fn census() -> (Census, BTreeMap<String, Vec<Rule>>) {
+    let prompts = corpus();
+    let mut by_rule: BTreeMap<String, usize> = BTreeMap::new();
+    let mut by_reason: BTreeMap<String, usize> = BTreeMap::new();
+    let mut per_prompt = BTreeMap::new();
+    let (mut admitting, mut none) = (0, 0);
+    for prompt in &prompts {
+        let rules = if prompt.script.is_empty() {
+            *by_reason
+                .entry("no script: an explicit product boundary, nothing to run".into())
+                .or_default() += 1;
+            Vec::new()
+        } else {
+            let steps = parse(&prompt.script).unwrap_or_else(|| {
+                panic!(
+                    "{}: the generator cannot parse its own corpus: {:?}",
+                    prompt.id, prompt.script
+                )
+            });
+            let (rules, reason) = admits(&steps);
+            if let Some(reason) = reason {
+                *by_reason.entry(reason.to_string()).or_default() += 1;
+            }
+            // A rule is only admitted if it actually produces a different
+            // script. `Order` over two identical adds does not.
+            rules
+                .into_iter()
+                .filter(|rule| perturb(*rule, &steps).is_some())
+                .collect()
+        };
+        if rules.is_empty() {
+            none += 1;
+        } else {
+            admitting += 1;
+        }
+        for rule in &rules {
+            *by_rule.entry(rule.name().to_string()).or_default() += 1;
+        }
+        per_prompt.insert(prompt.id.clone(), rules);
+    }
+    let siblings = dose_siblings();
+    (
+        Census {
+            prompts: prompts.len(),
+            admitting,
+            admitting_none: none,
+            by_rule,
+            by_reason,
+            dose_sibling_groups: siblings.len(),
+            dose_sibling_prompts: siblings.iter().map(Vec::len).sum(),
+        },
+        per_prompt,
+    )
+}
+
+/// Groups of prompts whose scripts are identical but for one or more
+/// quantities: authored dose pairs, written independently by whoever wrote
+/// the corpus, and the raw material of the only DIFFERENTIAL shape a
+/// generator can reach without inventing chemistry. `aq-003` (10 g of KCl)
+/// and `aq-107` (50 g) are one of them — the very row whose deadness is the
+/// reason this file exists.
+fn dose_siblings() -> Vec<Vec<CuriosityPrompt>> {
+    let mut groups: BTreeMap<String, Vec<CuriosityPrompt>> = BTreeMap::new();
+    for prompt in corpus() {
+        if prompt.script.is_empty() {
+            continue;
+        }
+        let Some(steps) = parse(&prompt.script) else {
+            continue;
+        };
+        // The shape with every quantity erased. Observations are kept,
+        // because `look` and `measure` do not change the state and two
+        // scripts that differ only in how they are watched are still the
+        // same experiment at two loadings.
+        let shape = steps
+            .iter()
+            .map(|step| match step {
+                Step::Add(add) => format!(
+                    "add {} {} #{} @{:?}",
+                    add.vessel, add.species, add.unit, add.temperature
+                ),
+                Step::Other { verb, line } => match verb.as_str() {
+                    "look" | "measure" | "smell" | "inspect" | "test" => verb.clone(),
+                    _ => line.clone(),
+                },
+            })
+            .collect::<Vec<_>>()
+            .join(";");
+        groups.entry(shape).or_default().push(prompt);
+    }
+    groups
+        .into_values()
+        .filter(|group| {
+            let loadings: BTreeSet<String> = group
+                .iter()
+                .map(|prompt| {
+                    parse(&prompt.script)
+                        .unwrap()
+                        .iter()
+                        .filter_map(Step::as_add)
+                        .map(|add| trim(add.quantity))
+                        .collect::<Vec<_>>()
+                        .join(",")
+                })
+                .collect();
+            loadings.len() > 1
+        })
+        .collect()
+}
+
+/// The census is checked in, so that a corpus edit which puts a script
+/// beyond the generator's reach shows up as a diff with a number on it
+/// rather than as silence.
+#[test]
+fn the_corpus_census_is_what_is_recorded() {
+    let (measured, _) = census();
+    let path = repo_root().join("tests/coverage/curiosity-v1/perturbation-census.json");
+    let rendered = format!("{}\n", serde_json::to_string_pretty(&measured).unwrap());
+    if std::env::var_os("KERO_BLESS_PERTURBATION_CENSUS").is_some() {
+        std::fs::write(&path, &rendered).unwrap();
+        return;
+    }
+    let recorded = std::fs::read_to_string(&path).expect("the census is checked in");
+    assert_eq!(
+        recorded.trim(),
+        rendered.trim(),
+        "the corpus moved under the generator. Re-run with \
+         KERO_BLESS_PERTURBATION_CENSUS=1 and explain the diff in the commit."
+    );
+}
+
+// ===================================================================
+// The sweep: measure first, then assert. Every threshold in this file
+// is derived from a number this harness printed, in the manner of
+// `metamorphic.rs`, rather than guessed.
+// ===================================================================
+
+#[derive(Debug, serde::Serialize)]
+struct Measurement {
+    id: String,
+    rule: String,
+    baseline_error: Option<String>,
+    perturbed_error: Option<String>,
+    /// Largest relative disagreement between the two pictures, and where.
+    worst: f64,
+    worst_key: String,
+    /// How many slots moved at all, ignoring the ones known to lie.
+    moved: usize,
+    /// Slots that exist in one run and not the other.
+    appeared: usize,
+    keys: usize,
+}
+
+fn measure(id: &str, rule: Rule, steps: &[Step]) -> Option<Measurement> {
+    let perturbed_script = perturb(rule, steps)?;
+    let baseline = run(&render(steps));
+    let perturbed = run(&perturbed_script);
+    let mut measurement = Measurement {
+        id: id.to_string(),
+        rule: rule.name().to_string(),
+        baseline_error: baseline.as_ref().err().cloned(),
+        perturbed_error: perturbed.as_ref().err().cloned(),
+        worst: 0.0,
+        worst_key: String::new(),
+        moved: 0,
+        appeared: 0,
+        keys: 0,
+    };
+    let (Ok(baseline), Ok(perturbed)) = (baseline, perturbed) else {
+        return Some(measurement);
+    };
+    let (before, after) = (observe(&baseline), observe(&perturbed));
+    measurement.keys = before.len();
+    measurement.moved = honest_differences(&before, &after, 1e-9).len();
+    let keys: BTreeSet<&String> = before.keys().chain(after.keys()).collect();
+    for key in keys {
+        match (before.get(key), after.get(key)) {
+            (Some(a), Some(b)) => {
+                let scale = a.abs().max(b.abs()).max(1e-12);
+                let relative = (a - b).abs() / scale;
+                if relative > measurement.worst {
+                    measurement.worst = relative;
+                    measurement.worst_key.clone_from(key);
+                }
+            }
+            _ => measurement.appeared += 1,
+        }
+    }
+    Some(measurement)
+}
+
+/// Not part of the gate. `KERO_PERTURBATION_SWEEP=<path> cargo test -p
+/// kerotakis-cli --test corpus_perturbation -- --ignored sweep` writes one
+/// JSON line per generated case, which is how every threshold below was
+/// chosen and how the reach was counted.
+#[test]
+#[ignore = "measurement harness: writes a report, asserts nothing"]
+fn sweep() {
+    let Some(path) = std::env::var_os("KERO_PERTURBATION_SWEEP") else {
+        panic!("set KERO_PERTURBATION_SWEEP to the report path");
+    };
+    let only: Option<String> = std::env::var("KERO_PERTURBATION_ONLY").ok();
+    let mut report = Vec::new();
+    for prompt in corpus() {
+        if prompt.script.is_empty() {
+            continue;
+        }
+        let Some(steps) = parse(&prompt.script) else {
+            continue;
+        };
+        let (rules, _) = admits(&steps);
+        for rule in rules {
+            if only.as_deref().is_some_and(|name| name != rule.name()) {
+                continue;
+            }
+            if let Some(measurement) = measure(&prompt.id, rule, &steps) {
+                println!("{}", serde_json::to_string(&measurement).unwrap());
+                report.push(measurement);
+            }
+        }
+    }
+    let lines: Vec<String> = report
+        .iter()
+        .map(|m| serde_json::to_string(m).unwrap())
+        .collect();
+    std::fs::write(path, lines.join("\n") + "\n").unwrap();
+}
