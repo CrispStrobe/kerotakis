@@ -861,7 +861,7 @@ fn the_corpus_census_is_what_is_recorded() {
 /// `sweep` harness ignores the subset entirely.
 fn density(rule: Rule) -> u64 {
     match rule {
-        Rule::Order => 23,
+        Rule::Order => 13,
         Rule::Scale => 29,
         Rule::Solvent => 23,
         Rule::Ablation => 17,
