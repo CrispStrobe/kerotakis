@@ -1,0 +1,19 @@
+{
+  "prompts": 500,
+  "admitting": 431,
+  "admitting_none": 69,
+  "by_rule": {
+    "ablation": 332,
+    "dose": 398,
+    "order": 316,
+    "scale": 365,
+    "solvent": 259
+  },
+  "by_reason": {
+    "a single reagent with no solvent and a size-bound verb: nothing can be held fixed against the perturbation": 5,
+    "no reagent: the script only observes or manipulates": 4,
+    "no script: an explicit product boundary, nothing to run": 60
+  },
+  "dose_sibling_groups": 13,
+  "dose_sibling_prompts": 28
+}

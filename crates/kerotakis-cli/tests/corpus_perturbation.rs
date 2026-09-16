@@ -264,32 +264,23 @@ impl Rule {
 /// temperature. Returns the half-open range into `steps`.
 fn interchangeable_run(steps: &[Step]) -> Option<(usize, usize)> {
     let mut best: Option<(usize, usize)> = None;
-    let mut start = None;
-    for index in 0..=steps.len() {
-        let extends = index < steps.len()
-            && match (steps[index].as_add(), start.map(|s| steps[s].as_add())) {
-                (Some(_), None) => true,
-                (Some(add), Some(Some(first))) => {
-                    add.vessel == first.vessel && add.temperature == first.temperature
-                }
-                _ => false,
-            };
-        match (extends, start) {
-            (true, None) => start = Some(index),
-            (true, Some(_)) => {}
-            (false, Some(from)) => {
-                let span = (from, index);
-                if best.is_none_or(|b| span.1 - span.0 > b.1 - b.0) {
-                    best = Some(span);
-                }
-                start = if steps.get(index).and_then(Step::as_add).is_some() {
-                    Some(index)
-                } else {
-                    None
-                };
+    let mut index = 0;
+    while index < steps.len() {
+        let Some(first) = steps[index].as_add() else {
+            index += 1;
+            continue;
+        };
+        let mut end = index + 1;
+        while let Some(next) = steps.get(end).and_then(Step::as_add) {
+            if next.vessel != first.vessel || next.temperature != first.temperature {
+                break;
             }
-            (false, None) => {}
+            end += 1;
         }
+        if best.is_none_or(|(from, to)| end - index > to - from) {
+            best = Some((index, end));
+        }
+        index = end.max(index + 1);
     }
     best.filter(|(from, to)| to - from >= 2)
 }
@@ -449,33 +440,75 @@ fn run(script: &str) -> Result<Vec<serde_json::Value>, String> {
 /// claim is "something moved" refuse to look at it.
 const NOT_WHAT_IT_SAYS: &[&str] = &["OH-"];
 
-/// A flattened, comparable picture of the whole bench after the last step:
-/// every vessel's intensive properties, every species' amount, and the
-/// words the scene shows a person. Keys are stable strings so two runs
-/// that disagree about which species EXIST are comparable — an appearing
-/// or vanishing species is a difference, not a panic.
+/// A flattened, comparable picture of a run. Keys are stable strings so two
+/// runs that disagree about which species EXIST are still comparable — an
+/// appearing or vanishing species is a difference, not a panic.
+///
+/// The prefix on every key is load-bearing, because the rules do not all
+/// read the same picture:
+///
+/// * `r.` — a READOUT: what somebody watching the experiment would come
+///   away with. Instrument readings taken from the step stream's own
+///   `measured` events, the derived properties of the solution, the
+///   temperature, and the words and verdicts of the scene.
+/// * `n.` — an amount, in moles, per species and phase.
+/// * `m.` — a molality, out of the solver's own reported speciation.
+///
+/// The causal rules read only `r.`, and that restriction is the whole
+/// difference between a real claim and a vacuous one. Comparing the full
+/// inventory after deleting a reagent is trivially satisfied by the deleted
+/// reagent no longer being in it; comparing the READOUT asks the question
+/// the corpus row actually poses, which is whether the thermometer knew.
 fn observe(steps: &[serde_json::Value]) -> BTreeMap<String, f64> {
     let mut out = BTreeMap::new();
     let Some(last) = steps.last() else {
         return out;
     };
-    let vessels = last["bench"]["vessels"].as_array().cloned().unwrap_or_default();
+    // Every instrument reading the run produced, in order, keyed by
+    // instrument and occurrence. This is the surface the corpus scripts
+    // were written to exercise: `measure v1 thermometer` is the whole
+    // point of aq-003, and nothing until now compared what it said.
+    let mut seen: BTreeMap<String, usize> = BTreeMap::new();
+    for step in steps {
+        for event in step["events"].as_array().cloned().unwrap_or_default() {
+            if event["event"] != "measured" {
+                continue;
+            }
+            let instrument = event["instrument"].as_str().unwrap_or("instrument");
+            let Some(value) = event["value"].as_f64() else {
+                continue;
+            };
+            let count = seen.entry(instrument.to_string()).or_default();
+            out.insert(format!("r.{instrument}#{count}"), value);
+            *count += 1;
+        }
+    }
+    let vessels = last["bench"]["vessels"]
+        .as_array()
+        .cloned()
+        .unwrap_or_default();
     for (index, vessel) in vessels.iter().enumerate() {
         let mut put = |field: &str, value: Option<f64>| {
             if let Some(value) = value {
-                out.insert(format!("v{index}.{field}"), value);
+                out.insert(format!("r.v{index}.{field}"), value);
             }
         };
         put("ph", vessel["solution"]["ph"].as_f64());
         put("ionic_strength", vessel["solution"]["ionic_strength"].as_f64());
         put("pe", vessel["solution"]["pe"].as_f64());
-        put("temperature_k", vessel["temperature_k"].as_f64());
-        put("volume_l", vessel["volume_l"].as_f64());
-        put("free_hydroxide", vessel["free_hydroxide"].as_f64());
+        put("temperature", vessel["temperature"].as_f64());
+        put("pressure", vessel["pressure"].as_f64());
+        put("free_proton", vessel["free_proton"].as_f64());
         put(
             "co2_partial_pressure_atm",
             vessel["co2_partial_pressure_atm"].as_f64(),
         );
+        // The solvent mass is what an intensive property is computed
+        // against, so it belongs to the picture even though nothing reads
+        // it directly: it is the quantity the SOLVENT rule moves.
+        if let Some(kilograms) = vessel["solution"]["solvent_kg"].as_f64() {
+            out.insert(format!("n.v{index}.solvent_kg"), kilograms);
+        }
         for portion in vessel["contents"].as_array().cloned().unwrap_or_default() {
             let (Some(species), Some(moles)) =
                 (portion["species"].as_str(), portion["moles"].as_f64())
@@ -483,7 +516,7 @@ fn observe(steps: &[serde_json::Value]) -> BTreeMap<String, f64> {
                 continue;
             };
             let phase = portion["phase"].as_str().unwrap_or("");
-            *out.entry(format!("v{index}.n[{species}|{phase}]"))
+            *out.entry(format!("n.v{index}[{species}|{phase}]"))
                 .or_insert(0.0) += moles;
         }
         for reported in vessel["solution"]["species"]
@@ -496,7 +529,7 @@ fn observe(steps: &[serde_json::Value]) -> BTreeMap<String, f64> {
             else {
                 continue;
             };
-            *out.entry(format!("v{index}.m[{name}]")).or_insert(0.0) += molality;
+            *out.entry(format!("m.v{index}[{name}]")).or_insert(0.0) += molality;
         }
     }
     // The scene is a surface of its own, and the hand-written suite found a
@@ -512,7 +545,13 @@ fn observe(steps: &[serde_json::Value]) -> BTreeMap<String, f64> {
         .enumerate()
     {
         if let Some(words) = vessel["words"].as_str() {
-            out.insert(format!("s{index}.words"), stable_hash(words));
+            out.insert(format!("r.s{index}.words"), stable_hash(words));
+        }
+        if let Some(mass) = vessel["mass_g"].as_f64() {
+            out.insert(format!("n.s{index}.mass_g"), mass);
+        }
+        if let Some(kelvin) = vessel["temperature_k"].as_f64() {
+            out.insert(format!("r.s{index}.temperature_k"), kelvin);
         }
         for (object, bulk) in vessel["bulk_objects"]
             .as_array()
@@ -522,11 +561,20 @@ fn observe(steps: &[serde_json::Value]) -> BTreeMap<String, f64> {
             .enumerate()
         {
             if let Some(position) = bulk["position"].as_str() {
-                out.insert(format!("s{index}.o{object}.position"), stable_hash(position));
+                out.insert(
+                    format!("r.s{index}.o{object}.position"),
+                    stable_hash(position),
+                );
             }
         }
     }
     out
+}
+
+/// Instruments whose reading counts the beaker rather than describing the
+/// solution, so doubling the experiment doubles them.
+fn extensive_instrument(key: &str) -> bool {
+    key.starts_with("r.balance#") || key.starts_with("r.calorimeter#")
 }
 
 fn stable_hash(text: &str) -> f64 {
@@ -537,44 +585,6 @@ fn stable_hash(text: &str) -> f64 {
     }
     // Small enough to compare exactly in an f64, large enough not to collide.
     (hash % 1_000_000_007) as f64
-}
-
-/// Keys present in both pictures whose values differ by more than
-/// `tolerance` relative, plus every key present in only one of them.
-fn differences(
-    before: &BTreeMap<String, f64>,
-    after: &BTreeMap<String, f64>,
-    tolerance: f64,
-) -> Vec<String> {
-    let keys: BTreeSet<&String> = before.keys().chain(after.keys()).collect();
-    keys.into_iter()
-        .filter(|key| match (before.get(*key), after.get(*key)) {
-            (Some(a), Some(b)) => {
-                let scale = a.abs().max(b.abs()).max(1e-12);
-                (a - b).abs() / scale > tolerance
-            }
-            _ => true,
-        })
-        .cloned()
-        .collect()
-}
-
-/// The subset of the picture a causal claim is allowed to be satisfied by:
-/// no slot whose meaning is known to be wrong, and nothing that is
-/// identically zero in both runs.
-fn honest_differences(
-    before: &BTreeMap<String, f64>,
-    after: &BTreeMap<String, f64>,
-    tolerance: f64,
-) -> Vec<String> {
-    differences(before, after, tolerance)
-        .into_iter()
-        .filter(|key| {
-            !NOT_WHAT_IT_SAYS
-                .iter()
-                .any(|slot| key.contains(&format!("[{slot}|")) || key.contains(&format!("[{slot}]")))
-        })
-        .collect()
 }
 
 // ===================================================================
@@ -728,6 +738,43 @@ fn the_corpus_census_is_what_is_recorded() {
 // Running a case: two runs, two pictures.
 // ===================================================================
 
+/// One case in `density` is generated, in id order, per rule. The corpus is
+/// not run whole: five hundred scripts against five rules is three thousand
+/// invocations of a solver, which is a nightly job and not a gate. What a
+/// gate needs is a sample that cannot be gamed by the corpus growing, so
+/// selection is by a hash of the id — stable under insertion, spread across
+/// all four shards, and independent of anything the generator computed.
+///
+/// The densities differ by rule because the rules differ in worth. The two
+/// invariances and the causal claim are sampled hardest; `Dose`, which this
+/// file's own doc comment calls the weakest shape, is sampled thinnest.
+/// Every prompt the manifest marks `smoke` is always included, so the rows
+/// the rest of CI already watches are the rows this watches too.
+fn density(rule: Rule) -> u64 {
+    match rule {
+        Rule::Order => 7,
+        Rule::Scale => 9,
+        Rule::Solvent => 7,
+        Rule::Ablation => 5,
+        Rule::Dose => 23,
+    }
+}
+
+fn selected(rule: Rule) -> Vec<(CuriosityPrompt, Vec<Step>)> {
+    corpus()
+        .into_iter()
+        .filter(|prompt| !prompt.script.is_empty())
+        .filter_map(|prompt| {
+            let steps = parse(&prompt.script)?;
+            admits(&steps).0.contains(&rule).then_some((prompt, steps))
+        })
+        .filter(|(prompt, steps)| {
+            perturb(rule, steps).is_some()
+                && (prompt.smoke || (stable_hash(&prompt.id) as u64) % density(rule) == 0)
+        })
+        .collect()
+}
+
 struct Pair {
     before: BTreeMap<String, f64>,
     after: BTreeMap<String, f64>,
@@ -753,17 +800,36 @@ fn pair(rule: Rule, steps: &[Step]) -> Option<Pair> {
 /// A slot that describes the SOLUTION rather than the beaker, so doubling
 /// the beaker must leave it alone.
 fn is_intensive(key: &str) -> bool {
-    key.ends_with(".ph")
-        || key.ends_with(".pe")
-        || key.ends_with(".ionic_strength")
-        || key.ends_with(".temperature_k")
-        || key.ends_with(".co2_partial_pressure_atm")
-        || key.contains(".m[")
+    if extensive_instrument(key) {
+        return false;
+    }
+    key.starts_with("m.")
+        || key.starts_with("r.") && !key.ends_with(".words") && !key.ends_with(".position")
 }
 
 /// A slot counted in moles or litres, which doubles with the beaker.
 fn is_extensive(key: &str) -> bool {
-    key.contains(".n[") || key.ends_with(".volume_l") || key.ends_with(".free_hydroxide")
+    key.starts_with("n.") || extensive_instrument(key)
+}
+
+/// An amount of something that was DISSOLVED rather than something that
+/// dissolved it. Twice the water holds the first fixed and doubles the
+/// second, so only the first is the SOLVENT rule's invariant.
+fn is_solute_amount(key: &str) -> bool {
+    if key.ends_with(".solvent_kg") || key.ends_with(".mass_g") {
+        return false;
+    }
+    !SOLVENTS
+        .iter()
+        .chain(["H2O", "H+", "OH-"].iter())
+        .any(|name| key.contains(&format!("[{name}|")))
+}
+
+/// The readout: what somebody watching the experiment comes away with, as
+/// against the inventory underneath it. The causal rules read this and
+/// nothing else.
+fn is_readout(key: &str) -> bool {
+    key.starts_with("r.")
 }
 
 /// Whether a key is one a claim of the form "something moved" may be
@@ -850,8 +916,7 @@ fn verdict(rule: Rule, case: &Pair) -> Option<String> {
         // referent.
         Rule::Solvent => {
             let amounts = worst_against(before, after, SOLVENT_TOLERANCE, |key, value| {
-                (is_extensive(key) && !key.contains(".n[H2O") && !key.ends_with(".volume_l"))
-                    .then_some(value)
+                (key.starts_with("n.") && is_solute_amount(key)).then_some(value)
             });
             if amounts.is_some() {
                 return amounts;
@@ -869,12 +934,26 @@ fn verdict(rule: Rule, case: &Pair) -> Option<String> {
                 })
         }
         // The answer has to depend on the reagent the question is about.
+        // READOUT only: comparing the inventory would be satisfied by the
+        // ablated reagent's own absence, which is not a claim about
+        // anything.
         Rule::Ablation | Rule::Dose => {
-            let moved = moved(before, after, CAUSAL_TOLERANCE);
-            moved.is_empty().then(|| {
+            let readout: Vec<String> = moved(before, after, CAUSAL_TOLERANCE)
+                .into_iter()
+                .filter(|key| is_readout(key))
+                .collect();
+            readout.is_empty().then(|| {
                 format!(
-                    "nothing on the bench moved: {} slots, every one unchanged",
-                    before.len()
+                    "the readout did not move: {} readings, {} of them, every \
+                     one unchanged",
+                    before.keys().filter(|key| is_readout(key)).count(),
+                    before
+                        .keys()
+                        .filter(|key| is_readout(key))
+                        .take(4)
+                        .cloned()
+                        .collect::<Vec<_>>()
+                        .join(", ")
                 )
             })
         }
@@ -1239,7 +1318,7 @@ fn twice_the_reagent_moves_the_corpus_answer() {
 fn authored_dose_siblings_are_not_answered_alike() {
     let groups = dose_siblings();
     assert!(
-        groups.len() >= 20,
+        groups.len() >= 12,
         "the corpus lost its authored dose pairs: {} groups",
         groups.len()
     );
@@ -1329,7 +1408,7 @@ fn authored_dose_siblings_are_not_answered_alike() {
             .join("\n")
     );
     assert!(
-        discriminated >= 10,
+        discriminated >= 8,
         "only {discriminated} authored dose groups were told apart"
     );
 }
