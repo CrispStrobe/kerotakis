@@ -700,11 +700,24 @@ fn census() -> (Census, BTreeMap<String, Vec<Rule>>) {
                 *by_reason.entry(reason.to_string()).or_default() += 1;
             }
             // A rule is only admitted if it actually produces a different
-            // script. `Order` over two identical adds does not.
-            rules
-                .into_iter()
+            // script. `Order` over two identical adds does not, and if that
+            // leaves nothing at all the prompt needs its own reason, or the
+            // reasons stop adding up to the count.
+            let kept: Vec<Rule> = rules
+                .iter()
+                .copied()
                 .filter(|rule| perturb(*rule, &steps).is_some())
-                .collect()
+                .collect();
+            if kept.is_empty() && !rules.is_empty() {
+                *by_reason
+                    .entry(
+                        "the script's shape admits a rule but applying it changes \
+                         nothing: the same reagent twice, or one add"
+                            .into(),
+                    )
+                    .or_default() += 1;
+            }
+            kept
         };
         if rules.is_empty() {
             none += 1;
