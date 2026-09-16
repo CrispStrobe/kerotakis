@@ -197,7 +197,7 @@ pub fn check(case: &str, before: &Vessel, after: &Vessel, events: &[Event]) -> V
         .contents
         .iter()
         .filter(|p| p.species == solvent() && p.phase == Phase::Liquid)
-        .map(|p| p.moles.0 * 0.018_015)
+        .map(|p| p.moles.0 * kerotakis_core::constants::WATER_MOLAR_MASS_KG_PER_MOL)
         .sum();
     let solutes: f64 = if kgw_now > 0.0 {
         after
@@ -290,7 +290,7 @@ pub fn check(case: &str, before: &Vessel, after: &Vessel, events: &[Event]) -> V
                 .contents
                 .iter()
                 .filter(|p| p.species == SpeciesId::new("water") && p.phase == Phase::Liquid)
-                .map(|p| p.moles.0 * 0.018015)
+                .map(|p| p.moles.0 * kerotakis_core::constants::WATER_MOLAR_MASS_KG_PER_MOL)
                 .sum::<f64>();
             if kgw <= 0.0 || inventory <= 0.0 {
                 continue;

@@ -73,7 +73,7 @@ mod tests {
         });
         vessel.deposit(
             SpeciesId::new("water"),
-            crate::Moles(50.0 / 18.01528),
+            crate::Moles(50.0 / crate::constants::WATER_MOLAR_MASS_G_PER_MOL),
             Phase::Liquid,
         );
         let water_before: f64 = vessel.contents.iter().map(|p| p.moles.0).sum();

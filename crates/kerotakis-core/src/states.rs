@@ -67,8 +67,15 @@ const R: f64 = crate::constants::GAS_CONSTANT;
 pub const WATER_FREEZING_K: f64 = 273.15;
 /// Water's normal boiling point at 1 atm, K.
 pub const WATER_BOILING_K: f64 = 373.15;
-/// Molar mass of water, kg/mol.
-const WATER_MOLAR_MASS_KG: f64 = 0.018_015;
+/// Molar mass of water, kg/mol — the registry's own record, not a copy.
+///
+/// `crate::constants` generates this from `molar-mass/water` in the pack, so
+/// the value the colligative relations below run on is the value the
+/// registry publishes an uncertainty interval for. This module carried its
+/// own `0.018_015` until 2026-09-15, beside a comment that called it "the
+/// registry's own molar mass of water" — which it was, by coincidence rather
+/// than by construction.
+const WATER_MOLAR_MASS_KG: f64 = crate::constants::WATER_MOLAR_MASS_KG_PER_MOL;
 /// Enthalpy of fusion of water, J/mol.
 ///
 /// Derived from NASA CEA's `thermo.inp` (vendor/nasa-cea/thermo.inp,
@@ -82,10 +89,34 @@ const WATER_MOLAR_MASS_KG: f64 = 0.018_015;
 /// It is the most-used latent heat on the bench and it now costs nothing to
 /// source: `kerotakis-cea`'s `latent_heats_are_the_vendored_file` re-derives
 /// it from the shipped file on every run.
-pub const WATER_H_FUS: f64 = 6010.0;
+///
+/// **It is a registry record as of 2026-09-15**, `enthalpy-of-fusion/water`,
+/// and this constant is generated from it rather than typed here. The record
+/// carries the derivation above as its method and `unestablished` as its
+/// uncertainty, because `thermo.inp` does not print an enthalpy of fusion at
+/// all — the value is a difference of two fitted polynomials, so there is no
+/// quantity in that file for it to have quoted a band on.
+pub const WATER_H_FUS: f64 = crate::constants::WATER_ENTHALPY_OF_FUSION_J_PER_MOL;
 /// Enthalpy of vaporisation of water at the boiling point, J/mol.
 ///
-/// NO SOURCE IS CLAIMED FOR THIS NUMBER. It read "(CRC)" until 2026-09-13.
+/// **THIS NUMBER HAS A SOURCE AGAIN, AND FOR THE FIRST TIME A PRIMARY ONE.**
+/// It read "(CRC)" until 2026-09-13 and then nothing at all until
+/// 2026-09-15, when it became the registry record
+/// `enthalpy-of-vaporisation/water` — which this constant is now generated
+/// from rather than typed here.
+///
+/// The source is N. S. Osborne, H. F. Stimson and D. C. Ginnings,
+/// *Measurements of heat capacity and heat of vaporization of water in the
+/// range 0° to 100° C*, J. Res. NBS **23** (1939) 197–260, RP1228,
+/// doi:10.6028/jres.023.008: a United
+/// States Government work in the NBS Technical Series, public domain, on the
+/// `nbs-thermochemical` row of `provenance/upstreams.toml` whose verdict is
+/// `primary`. Its Table 13 prints L(100 °C) = 2256.30 international joules
+/// per gram; the paper's own 1 int. J = 1.00019 abs. J and the registry's own
+/// 18.015 g/mol make that 40 655 J/mol, which is 40 650 to the four figures
+/// this constant has always carried. **The value did not move.** The
+/// citation on the record says where every step of that arithmetic came
+/// from.
 ///
 /// NASA CEA was checked and rejected, and the rejection is instructive
 /// enough to keep: H(`H2O`, 373.15) − H(`H2O(L)`, 373.15) gives 40 878
@@ -93,9 +124,18 @@ pub const WATER_H_FUS: f64 = 6010.0;
 /// records are IDEAL-gas, and that gap is steam's non-ideality at one
 /// atmosphere. The same 0.5-to-3 per cent overshoot appears for nitrogen,
 /// ethanol and methanol, which is why CEA sources every *fusion* enthalpy
-/// on this bench and no *vaporisation* one. Restoring support here needs a
-/// primary measurement with a DOI.
-pub const WATER_H_VAP: f64 = 40650.0;
+/// on this bench and no *vaporisation* one. The 1939 calorimetry is the
+/// primary measurement that rejection said was needed.
+///
+/// What it still does not have is a band. The record is the registry's only
+/// `not_reported` uncertainty, because the paper was opened for one and
+/// declines to give it: *"this agreement must not be taken as an estimate of
+/// the accuracy of the results, since it takes no account of unknown
+/// systematic errors, which may well be larger than the accidental errors."*
+/// Since the freezing depression goes as 1/ΔH, that is still the largest
+/// unquantified term in `validation/cases/colligative.toml`, and closing it
+/// needs a modern evaluation rather than a closer reading of this paper.
+pub const WATER_H_VAP: f64 = crate::constants::WATER_ENTHALPY_OF_VAPORISATION_J_PER_MOL;
 /// Molar heat capacity of ice, J/(mol·K).
 ///
 /// NO SOURCE IS CLAIMED FOR THIS NUMBER. It read "2.09 J/(g·K) × 18.015
@@ -132,8 +172,20 @@ pub const STEAM_HEAT_CAPACITY: f64 = 33.6;
 /// Molar heat capacity of liquid water, J/(mol·K), for the phases table.
 ///
 /// The registry's own figure, restated here so the three phases read as one
-/// set rather than two constants and a lookup.
-pub const LIQUID_WATER_HEAT_CAPACITY: f64 = 75.3;
+/// set rather than two constants and a lookup — and **generated from
+/// `heat-capacity/water` rather than retyped beside it**, which is the
+/// second instance of the defect #610 was opened to close.
+///
+/// It read `75.3` under that same "the registry's own figure" comment, with
+/// no mechanism keeping the two equal and no caller to notice if they came
+/// apart: `constant_heat_capacity_in` already returns the registry value for
+/// the liquid and aqueous branches, so this constant restated a record
+/// nobody compared it against. That is exactly what
+/// `constants::WATER_MOLAR_MASS = 18.015_28` was — an unread public constant
+/// asserting a number the registry disagreed with — and it is why the
+/// molar-mass finding is a pattern rather than a case.
+pub const LIQUID_WATER_HEAT_CAPACITY: f64 =
+    crate::constants::WATER_LIQUID_HEAT_CAPACITY_J_PER_MOL_K;
 
 /// Heat capacity of a species in the phase it is actually in, J/(mol·K).
 ///
@@ -443,7 +495,8 @@ pub const ION_INTERACTION_MAX_IONIC_STRENGTH: f64 = 20.0;
 /// ln a_w = −φ · M_w · Σm
 /// ```
 ///
-/// M_w is the registry's own molar mass of water, 0.018015 kg/mol. PHREEQC
+/// M_w is the registry's own molar mass of water, read from the record
+/// rather than copied beside it. PHREEQC
 /// writes the same relation with its reciprocal — `pitzer.cpp`: `AW =
 /// exp(-OSUM * COSMOT / 55.50837)` — and 55.50837 is 1/0.0180153, so the
 /// two differ by 1.7 ppm, which is 1e-4 K on a freezing point. One molar

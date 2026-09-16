@@ -2856,47 +2856,95 @@ started. They are ordered by what they unblock, not by size.
       sourcing programme there**, and `boiling-point/water` is the clearest
       case — its citation was withdrawn on 2026-09-13, so there is no source to
       read.
-- [ ] **The two water enthalpies have no registry record, and they are the only
+- [x] **The two water enthalpies have no registry record, and they are the only
       colligative inputs big enough to move a band.** Found 2026-09-15 in the
-      same pass. `WATER_H_FUS` and `WATER_H_VAP` in `states.rs` are Rust
-      constants with NO record in `data/registry/registry-source-v1.json` at
-      all, so they cannot carry an uncertainty in the schema that has one, and
-      the accuracy corpus records them as unbounded rather than pretending.
-      The size is the argument: the bench computes
-      `1/T_f = 1/T_f - (R/dH_fus)*ln a_w`, so the depression goes as `1/dH`, and
-      a ONE PER CENT uncertainty in the enthalpy is 3.5 mK on the tenth-molal
-      row against its 4 mK model band (88 %) and 34 mK on the one-molal row
-      against its 60 mK band (57 %). The molar mass, which now HAS a band,
-      would contribute 0.2 % and 0.6 %. **So the priority the bounded numbers
-      suggest is inverted**: giving these two a record is worth more to the
-      corpus than the remaining twenty-one rows of the atomic-weight table.
-      `WATER_H_FUS` is the cheap half — it is already derived from the vendored
-      `vendor/nasa-cea/thermo.inp` and `kerotakis-cea` re-derives it on every
-      run, so it needs a record and a source, not a search. `WATER_H_VAP` is
-      the expensive half and its own comment says why: no source is claimed for
-      it, NASA CEA was checked and rejected because its gas records are
-      ideal-gas and the 228 J/mol gap is steam's non-ideality, and restoring
-      support needs a primary measurement with a DOI.
-- [ ] **Water's molar mass is eleven literals and no reader of the registry.**
-      Found 2026-09-15 while giving the registry uncertainties, and it is the
-      reason those bands are claims about the registry rather than about the
-      bench. `states.rs` has `WATER_MOLAR_MASS_KG = 0.018_015`, `aqueous.rs`
-      and `displacement.rs` have `18.015`, `solve.rs`, `particles.rs` and
-      `sweep.rs` inline `0.018_015` six times between them, `constants.rs` has
-      `WATER_MOLAR_MASS = 18.015_28` commented "IUPAC 2021 atomic weights", and
-      `bench.rs` falls back to 18.01528 where a registry lookup misses. None
-      reads `molar-mass/water`. `states.rs`'s own comment says "M_w is the
-      registry's own molar mass of water" beside its private copy of it.
-      THE TWO SPELLINGS ARE NOT A TYPO: 18.015 and 18.01528 both lie inside the
-      CIAAW interval [18.01471, 18.01599], so they are two conventional
-      representatives of one published range, and the interval is what makes
-      that readable. This is the shape the native-versus-wasm split already
-      cost this project once — one quantity, two derivations, nothing keeping
-      them equal. **The width is not the reason to fix it**: wiring the record
-      in moves no band in the accuracy corpus, by a factor of roughly two
-      hundred. The reason is that a value with a band nobody reads is a band
-      nobody can spend, and the corpus now has to carry a `wired = false` field
-      to say so.
+      uncertainty pass, closed the same day in #610. Both now have records:
+      `enthalpy-of-fusion/water` and `enthalpy-of-vaporisation/water`, and
+      `build.rs` generates `WATER_H_FUS` and `WATER_H_VAP` out of them, so the
+      constants in `states.rs` ARE the records rather than copies beside them.
+      **Fusion was the cheap half and stayed cheap**: it cites the already
+      vendored `vendor/nasa-cea/thermo.inp` and carries the derivation
+      `H(H2O(L), 273.15) - H(H2O(cr), 273.15)` as its method, which
+      `kerotakis-cea` re-checks on every run. Its uncertainty is
+      `unestablished` and NOT `not_reported`, deliberately: thermo.inp does not
+      print an enthalpy of fusion at all, so there is no quantity in it that
+      could have quoted a band.
+      **Vaporisation was the expensive half and it was bought.** It had NO
+      SOURCE AT ALL. It now cites N. S. Osborne, H. F. Stimson and D. C.
+      Ginnings, *Measurements of heat capacity and heat of vaporization of
+      water in the range 0° to 100° C*, J. Res. NBS **23** (1939) 197–260,
+      RP1228, doi:10.6028/jres.023.008 — primary journal
+      literature with a DOI, and a public-domain NBS Technical Series work,
+      read on 2026-09-15 from nvlpubs. Table 13 prints
+      L(100 °C) = 2256.30 int. J/g; the paper's own 1 int. J = 1.00019 abs. J
+      and the registry's own 18.015 g/mol give 40 655 J/mol, which is **40 650
+      to the four figures the constant has always carried, so the value did not
+      move**. The table is self-checking and the check passes: γ = L + β, and
+      the same row prints γ = 2257.71 and β = 1.408.
+      **It is also the registry's first `not_reported` record**, which #608 said
+      would only be bought with the reading in hand. The authors decline to
+      quote an accuracy in terms — "this agreement must not be taken as an
+      estimate of the accuracy of the results, since it takes no account of
+      unknown systematic errors, which may well be larger than the accidental
+      errors" — so the band is still missing and the corpus still cannot spend
+      it. **What remains** is the one purchase now worth most to
+      `validation/cases/colligative.toml`: a modern evaluation of the steam
+      properties that bounds ΔH_vap, since the depression and the elevation
+      both go as 1/ΔH and one per cent there is 88 % of the tightest model band
+      in the file.
+- [x] **Water's molar mass is eleven literals and no reader of the registry.**
+      Found 2026-09-15 while giving the registry uncertainties, closed the same
+      day in #610. The count was understated: `git grep` over `crates/*/src/`
+      finds **24 occurrences**, of which 5 are prose and 1 asserts a third
+      party's arithmetic, leaving **18 sites across seven files** that carried
+      the bench's own copy. Three of the 18 were engine test fixtures rather
+      than solvers.
+      **The two spellings were not a typo AND they were not equivalent, which
+      the original item got half right.** Both lie inside the CIAAW interval
+      [18.01471, 18.01599], so neither is a typo. But 18.01528 is
+      2 × 1.00794 + 15.9994 — the **pre-2009** IUPAC standard atomic weights —
+      under a comment in `constants.rs` claiming the 2021 ones; the 2021 CIAAW
+      conventional values are 1.008 and 15.999, which sum to the registry's
+      18.015. So one of them was the current table and one was a superseded one
+      wearing the current table's label, and that is decidable rather than a
+      matter of taste.
+      **The fix is a generated constant, not a runtime lookup.**
+      `crates/kerotakis-core/build.rs` emits `WATER_MOLAR_MASS_G_PER_MOL` and
+      `WATER_MOLAR_MASS_KG_PER_MOL` from `molar-mass/water` in the pack. That
+      buys what a lookup does not: it cannot miss, so the two
+      `.map_or(18.01528, |d| d.molar_mass)` fallbacks in `bench.rs` and
+      `scene.rs` are deleted rather than repaired; it stays usable in a `const`
+      context; and the build fails by name if the record is ever dropped
+      instead of a solver quietly substituting a different number.
+      **Nothing moved, and the width predicted that.** No golden, no lesson
+      transcript and no corpus row changed: every site that computed with the
+      number already used 18.015, and the only two occurrences of 18.01528 that
+      could have reached an answer were behind a lookup that cannot miss. The
+      corpus's `wired` field now reads `true` on all three molar masses, and
+      `crates/kerotakis-core/tests/one_value.rs` refuses a new literal under
+      any crate's `src/`.
+- [ ] **Two more constants restate a registry record, and one of them raises a
+      question this pass declined to answer quietly.** Found 2026-09-15 while
+      closing the molar mass, which is what makes that finding a PATTERN rather
+      than a case. A third instance, `LIQUID_WATER_HEAT_CAPACITY = 75.3` under
+      the comment "the registry's own figure, restated here", was closed in
+      #610 because it was unambiguous: a substance property, an existing record
+      at the same value, and no caller at all. These two are not.
+      `states::WATER_FREEZING_K = 273.15` and `WATER_BOILING_K = 373.15` are
+      Rust literals beside `melting-point/water` and `boiling-point/water`,
+      which carry the same two numbers. **Wiring them is NOT obviously right,
+      and `validation/cases/colligative.toml` says why in its own
+      `boiling-point/water` row**: 373.15 K is 100 °C *exactly*, which is a
+      definition of the pre-ITS-90 temperature scale rather than a measurement
+      of water, and the two stopped coinciding when ITS-90 replaced it. So the
+      question is whether these constants are the model's reference points —
+      in which case they are definitions and should stay literals, with a
+      comment saying so — or the substance's transition temperatures, in which
+      case they are the registry's and the registry's record is the one that
+      needs re-sourcing first. **Whoever answers it should answer the same
+      question for `melting-point/water`'s own record**, whose citation was
+      withdrawn on 2026-09-13 and which therefore has no source to check the
+      value against either way.
 - [ ] **66 shipped uncertainty bands rest on `ciaaw`, whose verdict is
       `decision-required` — and they narrow the argument that row stands on.**
       Written 2026-09-15, revised the same day after #607 landed the row this

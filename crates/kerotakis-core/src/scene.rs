@@ -1023,9 +1023,12 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
             let water_moles = object.state.exchanged_water_moles;
             let osmosis = is_osmotic.then(|| SceneOsmosis {
                 water_moles,
-                mass_change_g: water_moles
-                    * species::lookup(&crate::SpeciesId::new("water"))
-                        .map_or(18.01528, |data| data.molar_mass),
+                // The second of the two fallbacks; see `bench.rs` for why
+                // neither survives. This is the readout side of the same
+                // exchange that computes the mass there, so the two must
+                // agree by construction rather than by both happening to
+                // find the registry.
+                mass_change_g: water_moles * crate::constants::WATER_MOLAR_MASS_G_PER_MOL,
                 direction: if water_moles > 1e-15 {
                     "into_object"
                 } else if water_moles < -1e-15 {
@@ -1596,7 +1599,11 @@ mod tests {
 
     #[test]
     fn swelling_is_persistent_scene_state_with_accessible_words() {
-        let mut v = vessel_with(&[("water", 50.0 / 18.01528, Phase::Liquid)]);
+        let mut v = vessel_with(&[(
+            "water",
+            50.0 / crate::constants::WATER_MOLAR_MASS_G_PER_MOL,
+            Phase::Liquid,
+        )]);
         v.unresolved_materials.push(UnresolvedMaterialPortion {
             material: "instant snow".into(),
             recipe_id: crate::swelling::RECIPE_ID.into(),

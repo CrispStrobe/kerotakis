@@ -216,7 +216,19 @@ fn redox_distribution(
     redox
 }
 
-const WATER_MOLAR_MASS: f64 = 18.015;
+/// Molar mass of water, g/mol — `molar-mass/water` in the registry pack,
+/// reached through the constant `kerotakis-core` generates from it.
+///
+/// This file carried its own `18.015` until 2026-09-15. It happened to agree
+/// with the record, which is precisely what made it invisible: nothing kept
+/// the two equal, and two of the eighteen sites that carried a copy had
+/// drifted onto a different number.
+///
+/// The two conversions this constant drives are inverses of each other -
+/// moles of solvent to kilograms on the way into PHREEQC, kilograms back to
+/// moles on the way out - so a single value is not a tidiness argument here.
+/// It is what makes the round trip exact.
+const WATER_MOLAR_MASS: f64 = kerotakis_core::constants::WATER_MOLAR_MASS_G_PER_MOL;
 const TRACE: f64 = 1e-12;
 /// Dissolved particle molality below which asking a second dataset for the
 /// solvent's activity cannot buy anything.
