@@ -472,20 +472,28 @@ def run_tier(tier: dict, mutant: int | None, env_extra: dict | None = None) -> d
         env["KERO_MUTANT"] = str(mutant)
     env.update(env_extra or {})
     t0 = time.time()
+    # A mutant can stop a loop converging, so every run is a process GROUP that
+    # can be killed whole: `cargo test` spawns the test binary, which spawns
+    # `kero`, and killing only the first would leave the last one running.
+    proc = subprocess.Popen(
+        tier["cmd"], cwd=REPO, env=env, stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT, text=True, start_new_session=True,
+    )
     try:
-        p = subprocess.run(
-            tier["cmd"], cwd=REPO, env=env, capture_output=True, text=True,
-            timeout=tier["timeout"],
-        )
-        out = p.stdout + p.stderr
+        out, _ = proc.communicate(timeout=tier["timeout"])
         return {
             "tier": tier["name"],
-            "ok": p.returncode == 0,
+            "ok": proc.returncode == 0,
             "timeout": False,
             "seconds": round(time.time() - t0, 1),
-            "failing": failing_tests(out),
+            "failing": failing_tests(out or ""),
         }
     except subprocess.TimeoutExpired:
+        try:
+            os.killpg(os.getpgid(proc.pid), 9)
+        except ProcessLookupError:
+            pass
+        proc.communicate()
         return {
             "tier": tier["name"], "ok": False, "timeout": True,
             "seconds": round(time.time() - t0, 1), "failing": [],
@@ -506,13 +514,19 @@ def do_run(ceiling: float, only: str | None, ids: list[int] | None) -> None:
     if "baseline" not in results:
         base = [run_tier(t, None) for t in TIERS]
         results["baseline"] = base
-        RESULTS.write_text(json.dumps(results, indent=1))
-        for b in base:
-            print(f"baseline {b['tier']}: ok={b['ok']} {b['seconds']}s")
-        if not all(b["ok"] for b in base):
-            print("BASELINE IS RED — the instrumented tree must pass before any "
-                  "mutant means anything. Stopping.")
-            return
+    # A mutant that stops a solver converging must not cost twenty minutes.
+    # The ceiling for each rung is eight times what that rung takes clean,
+    # never less than a minute, which is generous enough that a slow machine
+    # is not mistaken for a hang.
+    for tier, b in zip(TIERS, results["baseline"]):
+        tier["timeout"] = max(60.0, 8.0 * b["seconds"])
+    RESULTS.write_text(json.dumps(results, indent=1))
+    for b in results["baseline"]:
+        print(f"baseline {b['tier']}: ok={b['ok']} {b['seconds']}s")
+    if not all(b["ok"] for b in results["baseline"]):
+        print("BASELINE IS RED — the instrumented tree must pass before any "
+              "mutant means anything. Stopping.")
+        return
 
     for s in live:
         key = str(s["id"])
