@@ -162,7 +162,11 @@ composition, not to the database.
 **What actually blocks it is numbers, not code.** Both halves need cited
 values this session does not have: the phosphoserine phosphorus per litre of
 whole milk and its pK, and the colloidal share of calcium and phosphate with
-its own source. Salaün 2005 is very likely where they are, and Salaün 2005 is
+its own source. The closest thing already in the tree is `whole_milk`'s own
+statement that the casein micelle carries "of the order of 10 mmol/kg of
+negative charge at pH 6.7" — which fixes roughly how many sites there are but
+says nothing about where they titrate, and a buffer is the second of those
+rather than the first. Salaün 2005 is very likely where they are, and Salaün 2005 is
 behind a 403. Adding the extension with *assumed* constants would put an
 editorial number where an editorial number was just removed, and would move
 every computed milk and yoghurt pH in the repository behind it.
