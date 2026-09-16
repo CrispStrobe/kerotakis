@@ -49,9 +49,12 @@ checks any chemistry.
 | `tools/vle-oracle.py` (183 lines) | no | ethanol–water VLE **via thermo's compound database** — see §5 |
 | `tools/fixtures/properties-chempy.txt`, `relations-chempy.txt`, `vle-ethanol-water.json` | no | committed oracle *output* that nothing reads |
 
-`tools/oracle/` is a README and two gitignored directories: it is the
-*policy* for oracle jobs (LIC-010) rather than an oracle, and `approved/` has
-never held a file.
+`tools/oracle/` is a README and nothing else. It states the *policy* for
+oracle jobs (LIC-010) — where they may write, what may be promoted to a
+fixture, that they do not run in CI — and the `cache/`, `output/` and
+`approved/` directories it describes are gitignored and do not exist in a
+checkout. It is a rule, not an oracle, and the rule is a good one; this
+work follows it.
 
 So the honest before-picture: **one wired oracle, covering two quantities on
 one binary mixture**, plus a second fixture set that checks an interpreter.
@@ -111,7 +114,8 @@ checks: no vendored database writes chlorine's dissolution as `Cl2 = Cl2`,
 only as a hydrolysis-plus-redox reaction whose log K is a different quantity.
 Chlorine's 9.2e-2 mol/(L·atm) and its 2500 K rest on Sander alone.
 
-Two rows **disagree materially and are pinned rather than banded away**:
+Two gases **disagree materially, across three of the twelve database rows,
+and are pinned rather than banded away**:
 
 - **H₂'s temperature coefficient.** `phreeqc.dat` implies 397 K, `wateq4f.dat`
   implies 885 K, we ship Sander's 500 K. The two USGS files disagree with
