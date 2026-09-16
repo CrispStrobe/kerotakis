@@ -271,3 +271,113 @@ between two runs (`aq-107`, saturated) and a small investigation
 cases — the full corpus would produce something like 120 rows to explain.
 That, not machine time, is the real cost of going to five hundred.
 
+## Proving the cases are not vacuous: mutate the ENGINE
+
+Mutating a test shows that an assertion is live. Mutating the engine shows
+whether it is aimed at code that could break. Only the second caught the gap
+in the hand-written suite — a deliberately broken engine left the scene
+saying an object floats beside a sentence saying it sank, and the first draft
+of that test, which read only the scene, passed.
+
+Each mutation below is a plausible bug, not a syntactic one: something a
+person could write and a reviewer could miss.
+
+### 1. The solvent mass becomes a constant kilogram
+
+`crates/kerotakis-phreeqc/src/aqueous.rs`, in the partition: replace the
+accumulated `kgw` with `1.0`. Every molality is then computed against a
+kilogram that is not the beaker's. A single run still looks entirely
+plausible — a 0.1 molal solution reads 0.1 molal, because the script happened
+to use 100 mL.
+
+**Caught, loudly.** 10 of 19 generated `Scale` cases and the whole `Solvent`
+case go red:
+
+```text
+aq-032: n.v0.solvent_kg: expected 1.999998e0, got 9.999989e-1 (5.00e-1)
+aq-021: n.v0.free_proton: expected 2.012122e-7, got 1.006061e-7 (5.00e-1)
+bio-110: m.v0[Ca+2]: expected 1.000000e-2, got 2.000000e-2 (5.00e-1)
+th-099: r.v0.pe: expected 1.278721e1, got -2.305407e-1 (1.02e0)
+bio-005: m.v0[NaCO3-]: expected 2.617000e-3, got 7.996000e-3 (6.73e-1)
+...
+```
+
+The signature is the giveaway and is worth reading: the departures sit at
+exactly 0.500 relative where a quantity failed to double or halve, and
+scatter above that where speciation then re-solved against the wrong mass.
+
+### 2. The thermometer reports the room instead of the beaker
+
+`crates/kerotakis-core/src/bench.rs`, in `Operator::Measure`: replace
+`value: v.temperature.to_celsius()` with `value: 25.0`. Every other surface
+stays right — the vessel's temperature is still computed and still correct in
+`bench.vessels[].temperature`; only the instrument the script picked up lies.
+
+This is the mutation the first draft of the ablation rule would have
+survived, and it is why that rule was changed. Comparing the whole bench,
+deleting a reagent still moves the inventory and the pH, so "something moved"
+is satisfied and the thermometer's lie goes unnoticed. That is precisely the
+shape the hand-written suite's buoyancy case was caught by: two surfaces that
+could disagree, and a test that read only one of them.
+
+**Caught — and caught by `aq-003`.** The row this whole exercise is named
+after; the row whose question is whether a beaker *cools* and whose script
+measures a thermometer; the row that has been green for the life of the
+corpus while nothing anywhere recorded what the temperature should do:
+
+```text
+1 of 30 generated ablation cases departed with no recorded reason:
+  aq-003: the instrument the script picked up did not move:
+          r.thermometer#0=25.000000
+```
+
+Delete the potassium chloride and the thermometer reads 25.000000 °C.
+Leave it in and the thermometer reads 25.000000 °C. On the unmutated engine
+it reads 19.47 °C with the salt and 25.01 °C without it, and the case
+passes.
+
+The corpus row is still green under the mutation: it still takes a
+`computed` route and a thermometer still answers it. `expected` cannot see
+the difference, which is the entire argument for this file.
+
+`twice_the_reagent_moves_the_corpus_answer` and
+`authored_dose_siblings_are_not_answered_alike` both still pass under this
+mutation, and that is worth saying rather than hiding: the dose subset's
+only thermometer row is `th-122`, already recorded as inert for correct
+physical reasons, and the sibling comparison reads the whole bench rather
+than the instrument. A mutation caught by one case and missed by two is the
+normal result, and it is why there is more than one case.
+
+### What is NOT proven by mutation, and why
+
+`Order` has no mutation here. It did not need one: it found two real
+departures on the *unmutated* engine — `th-100`'s 12.84 units of pe and
+`aq-023`'s solvent mass — which is stronger evidence that it is aimed at
+live code than any injected bug would be. `closing_the_vessel_restores_order_independence`
+is in the same position: it exists because the generated `Order` rule failed
+on two open-vessel carbonate rows, and it asserts the explanation.
+
+A third mutation was written and not run, for machine time: each
+`kerotakis-core` mutation costs a thirteen-minute rebuild. It is recorded
+here so the next person does not have to invent it. In
+`Vessel::heat_capacity_at`, replace the sum over portions with a
+representative portion scaled by the total:
+
+```rust
+let total: f64 = self.contents.iter().map(|portion| portion.moles.0).sum();
+let representative = self
+    .contents
+    .first()
+    .and_then(|portion| species::lookup(&portion.species).map(|d| (portion, d)))
+    .map(|(portion, data)| crate::states::heat_capacity_at(data, portion.phase, t_k))
+    .unwrap_or(0.0);
+representative * total + crate::plastics::unresolved_heat_capacity(self)
+```
+
+Which portion is "first" depends on the order things were added, so the
+vessel acquires a memory of its own assembly — plausible in any single run,
+and exactly what `Order` is pointed at. Reproducing the other two is a
+one-line edit each: `kgw += …` becomes `kgw = 1.0` in
+`kerotakis-phreeqc/src/aqueous.rs`, and `value: v.temperature.to_celsius()`
+becomes `value: 25.0` in `kerotakis-core/src/bench.rs`.
+
