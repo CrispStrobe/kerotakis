@@ -12,6 +12,106 @@ it had while it was open, which is why a few numbers appear twice below.
 
 ---
 
+## 2026-09-16
+
+**Provenance: the audit that found its own instrument broken**
+
+An audit on 2026-09-13 found roughly eighty-five shipped numeric claims resting
+on sources the project's own table marks as refused, and the lint promised to
+catch exactly that still unbuilt. What followed is recorded as one arc because
+each step changed what the next one was for.
+
+- **#600 — citing is not harvesting.** The 2026-09-13 ruling had been applied
+  too strictly: a book without a digital object identifier was treated as
+  uncitable and a world-facing comparison was dropped for it. The owner
+  corrected the principle — "we should be able to cite any book, only not
+  harvest the books per systematic scraping, and we should be able to trace
+  original sources for almost all values, and cite those" — so the line is
+  **bulk dependence, not attribution**. `CONTRIBUTING.md` gained the
+  distinction that would otherwise have blocked the first accuracy PR: an
+  engine carrying the answer it should compute has stopped computing, while a
+  test carrying a CITED EXTERNAL MEASUREMENT does the one thing the engine
+  cannot do for itself.
+- **#601 — the dropped anchors restored**, four of six traced to the original
+  measurements with identifiers, the book cited as a book. The distinction
+  between identifying a source and verifying a transcription is a FIELD, not an
+  implication: every paper was closed access and no copy of the book was opened,
+  so the values are the repository's own prose finally given its sources.
+- **#602 — the supply cabinet says when it did not answer**, and the cause
+  beneath the cause. The app's own address was never precached, because the
+  build stamps files and that address is a directory, so the document came from
+  the network while the engine and databases — whose names never change between
+  builds — came cache-first from whichever deployment installed the worker.
+  Anyone whose first visit fell after a release ran a new app against an older
+  engine, which is exactly the payload #599 was reproduced with, and the network
+  answer was then written into the old generation so it outlived the deploy.
+- **#603 — the accuracy corpus starts**, one family, six rows. Its most
+  valuable output is a disclaimer: **three of the six rows are not independent
+  of the path they test**, because the virial coefficients being checked were
+  fitted to the very measurements used as the reference. The most independent
+  row is the weakest as evidence, since two separate two-per-cent errors nearly
+  cancel. The lint refuses a family in which every row claims independence.
+- **#606 — the blind spot separated.** 105 citations naming no audited source
+  split 3 / 32 / 70, and under them 487 numeric records split further: **228 are
+  declarations that no claim is being made**, 39 computed or editorial, 100
+  named by a spelling the table cannot match, 120 named by nothing. Fewer than a
+  quarter of the numbers behind the blind spot were actually unattributed.
+- **#607, #609 — the instrument repaired.** Blind spot **105 → 6**, findings
+  59 → 60, open questions **0 → 154**. The table could not see a correctly cited
+  1908 paper with a DOI, nor the atomic-weight table behind nearly every molar
+  mass. One row it lacked entirely was condemning two correct public-domain
+  values, and adding it was not sufficient: the 1971 edition IS the JANAF
+  tables' second edition, so its correct title carries the refused family's
+  name. A naming collision, not a transcription.
+- **#608 — uncertainty, and what it exposed.** 1093 records asserting a source
+  reported no band now say instead that nobody established one; 66 molar masses
+  carry a propagated interval; exactly one record is `measured`. The field was
+  empty not because nothing is measured but because `method` was being answered
+  as "how the value entered the registry", and no export measures anything.
+- **#610 — one value for the solvent.** Eighteen literal copies of water's
+  molar mass across seven files collapsed into generated constants, both silent
+  fallbacks deleted. **Nothing moved**: no golden, transcript, corpus row or
+  shipped value, and the registry diff is purely additive. The two spellings
+  differ by 1.6 ppm and both lie inside the published interval, so no accuracy
+  verdict was available — but the longer one is the sum of the PRE-2009 atomic
+  weights, under a comment claiming the 2021 ones. The label was wrong though
+  the number was not. Water's enthalpy of vaporisation, which had no source at
+  all, now cites Osborne, Stimson & Ginnings 1939, read and cross-checked three
+  ways, arriving at the figure already carried.
+- **#611 — the vocabulary learns the difference.** An excuse could say only one
+  thing; a citation of a refused work does three. **Eleven of eighteen findings
+  on the code surface cleared, and every one was a citation naming a refused
+  source in order to REJECT it** — to say a circular is not the restricted kind,
+  to report a transposed digit, to record a retired figure, to refuse a route
+  that would have laundered the handbook. The seven that stayed claim a value
+  with no locator, each admitting no copy was opened.
+
+### Lessons
+
+- **A measure that reads complete has stopped measuring.** The curiosity corpus
+  reached 499 of 500 and could no longer say where the engine was weak. Worse,
+  its `expected` field takes ROUTE names, not outcomes: one row asks whether a
+  beaker cools and nothing records that it should, so the engine could report it
+  warming by forty degrees and the row stays green.
+- **An instrument that cannot see a correct citation makes its own count
+  meaningless**, and the fix is the instrument, not the data. The expensive half
+  — 120 numbers over 65 species — stays with the accuracy corpus one number at a
+  time.
+- **Provenance can be decorative.** The bench did not read the records whose
+  bands were being argued over. Attaching an uncertainty to a record nothing
+  consumes changes nothing at all.
+- **The term you cannot see may dominate.** One per cent on the enthalpy of
+  fusion consumes 88 % of the tightest model band; the molar mass, which had
+  just been given intervals, contributes 0.2 %. The reach numbers pointed the
+  opposite way.
+- **A finding that clears may hand the problem to nothing.** Clearing the
+  glucose row moved it out of this lint and into the unattributed population the
+  lint openly cannot see.
+- **Nine agents were killed mid-task by session limits this week.** Every one
+  that had pushed a draft pull request lost nothing; every one holding a working
+  diff lost everything unless it was caught. Push the draft first and work
+  inside it.
+
 ## 2026-09-13
 
 **Post-579 integration and source audit continuation**
