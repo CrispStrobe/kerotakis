@@ -812,6 +812,13 @@ fn is_extensive(key: &str) -> bool {
     key.starts_with("n.") || extensive_instrument(key)
 }
 
+/// A reading the script itself took, as against a property the bench
+/// happens to expose. `measure v1 thermometer` produces one of these and
+/// `look v1` does not.
+fn is_instrument_reading(key: &str) -> bool {
+    key.starts_with("r.") && key.contains('#')
+}
+
 /// An amount of something that was DISSOLVED rather than something that
 /// dissolved it. Twice the water holds the first fixed and doubles the
 /// second, so only the first is the SOLVENT rule's invariant.
@@ -942,18 +949,32 @@ fn verdict(rule: Rule, case: &Pair) -> Option<String> {
                 .into_iter()
                 .filter(|key| is_readout(key))
                 .collect();
+            // When the script picked up an instrument, THAT is the number
+            // the question was asked about, and it is the one that has to
+            // answer. `aq-003` measures a thermometer; a bench that reports
+            // the room's temperature whatever is in the beaker passes
+            // "something moved" on the pH alone, and must not.
+            let instruments: Vec<&String> = before
+                .keys()
+                .filter(|key| is_instrument_reading(key))
+                .collect();
+            if !instruments.is_empty() {
+                let moved_instrument = readout.iter().any(|key| is_instrument_reading(key));
+                return (!moved_instrument).then(|| {
+                    format!(
+                        "the instrument the script picked up did not move: {}",
+                        instruments
+                            .iter()
+                            .map(|key| format!("{key}={:.6}", before[*key]))
+                            .collect::<Vec<_>>()
+                            .join(", ")
+                    )
+                });
+            }
             readout.is_empty().then(|| {
                 format!(
-                    "the readout did not move: {} readings, {} of them, every \
-                     one unchanged",
+                    "the readout did not move: {} readings, every one unchanged",
                     before.keys().filter(|key| is_readout(key)).count(),
-                    before
-                        .keys()
-                        .filter(|key| is_readout(key))
-                        .take(4)
-                        .cloned()
-                        .collect::<Vec<_>>()
-                        .join(", ")
                 )
             })
         }
@@ -1222,7 +1243,12 @@ fn twice_the_solvent_dilutes_the_corpus_without_moving_the_amounts() {
 /// failure the corpus could not see.
 ///
 /// **What this establishes:** that the observation is causally downstream
-/// of the reagent. Nothing more.
+/// of the reagent. Where the script picked up an instrument, that
+/// instrument's own reading is what must move — not merely something on the
+/// bench. Without that restriction the rule would be nearly vacuous, twice
+/// over: deleting a reagent removes it from the inventory, and pH moves
+/// when almost anything moves. The claim as written is the one `aq-003`
+/// poses and could not check.
 ///
 /// **What it cannot establish:** direction, magnitude, or correctness. A
 /// beaker that warmed when it should have cooled passes this happily. It is
