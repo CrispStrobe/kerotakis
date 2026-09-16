@@ -651,8 +651,20 @@ impl<'a> Validator<'a> {
                         reference_rate_per_second_per_gram_per_litre,
                         optimum_temperature_k,
                         temperature_width_k,
+                        rate_evidence,
                         ..
                     } => {
+                        // The rate's own evidence, checked exactly as a
+                        // component's is. A culture rate is the one number
+                        // in this role a reader could mistake for a
+                        // measurement, so the field that says what it rests
+                        // on must name a source this document actually
+                        // carries rather than a slug somebody typed.
+                        self.evidence(
+                            &format!("{role_path}.rate_evidence"),
+                            &rate_evidence.source_id,
+                            &rate_evidence.method,
+                        );
                         if !reference_rate_per_second_per_gram_per_litre.is_finite()
                             || *reference_rate_per_second_per_gram_per_litre <= 0.0
                         {

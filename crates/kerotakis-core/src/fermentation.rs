@@ -198,6 +198,7 @@ fn active_cultures(vessel: &Vessel) -> Vec<ActiveCulture> {
                     temperature_width_k,
                     requires_hydration,
                     metabolism,
+                    ..
                 } => Some((
                     *reference_rate_per_second_per_gram_per_litre,
                     *optimum_temperature_k,
