@@ -58,7 +58,10 @@ fn prepared_kids_mechanism_lessons_replay_the_computed_events() {
             "hard-water-soap-scum.lab",
             &["soap-scum aggregate formed", "mol Ca/Mg"],
         ),
-        ("apple-browning.lab", &["freshly cut apple surface is", "% browned"]),
+        (
+            "apple-browning.lab",
+            &["freshly cut apple surface is", "% browned"],
+        ),
         (
             "instant-snow.lab",
             &["powder retains", "times its dry mass"],
