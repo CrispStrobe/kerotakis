@@ -443,10 +443,9 @@ fn the_lactic_rate_reproduces_the_fermentation_it_was_fitted_to() {
     // portion shrinks, so it believes slightly more lactose is left than
     // really is. It is a fraction of a per cent at these extents and it is
     // not what this test is about.)
-    let share = kerotakis_core::enzyme_activity::unresolved_lactose_share(
-        "household/whole-milk-surrogate",
-    )
-    .expect("the milk recipe declares a lactose share");
+    let share =
+        kerotakis_core::enzyme_activity::unresolved_lactose_share("household/whole-milk-surrogate")
+            .expect("the milk recipe declares a lactose share");
     assert!(solids_before > 0.0 && share > 0.0);
     let converted = (solids_before - solids_after) / (solids_before * share);
 
@@ -511,8 +510,7 @@ fn the_alcoholic_rate_reproduces_the_specific_rate_it_was_fitted_to() {
     // ... and back into the shipped constant, per gram per litre at the
     // declared optimum.
     let envelope = |t: f64| (-((t - OPTIMUM_K) / WIDTH_K).powi(2)).exp();
-    let cited_constant =
-        -(1.0 - anchor_extent).ln() / SECONDS / envelope(ANCHOR_TEMPERATURE_K);
+    let cited_constant = -(1.0 - anchor_extent).ln() / SECONDS / envelope(ANCHOR_TEMPERATURE_K);
 
     // The lesson's own beaker, at room temperature so the hour is
     // isothermal. Fresh yeast rather than dry: it needs no hydration, so
