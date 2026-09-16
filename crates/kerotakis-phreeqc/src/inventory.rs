@@ -5,6 +5,18 @@
 //! H2O and acid/base equivalents, not a correction to the scale. These
 //! equivalents are not free-ion measurements: SolutionInfo remains authoritative
 //! for activities, pH, and free_proton/free_hydroxide.
+//!
+//! The base half of those equivalents is published as
+//! [`species::BASE_EQUIVALENTS`] and not as `OH-`. It was `OH-` until
+//! 2026-09-16, and under that name it was read — reasonably — as an amount
+//! of hydroxide, which it is not: it is `2·O − H` left over after every
+//! other portion is booked, the same number as the solution's residual
+//! cation charge, and it equals the measured hydroxide only where the
+//! charge really is carried by free base. An equimolar acetate buffer
+//! published 5.17e-4 mol of it at a pH that can hold 4.6e-10, and moved it
+//! 1.30x under a perturbation that must move hydroxide 2.33x. The
+//! measurement was never missing — `Vessel::free_hydroxide` had it, and
+//! moved by exactly 2.33x — so the fix is the name.
 use kerotakis_core::{
     ledger::ConservedLedger, species, Event, Moles, Phase, Portion, SolveError, SpeciesId, Vessel,
 };
@@ -35,7 +47,7 @@ pub(crate) fn complete_basis(
         }
     }
     after.contents.retain(|p| {
-        !(p.phase == Phase::Aqueous && matches!(p.species.0.as_str(), "H+" | "OH-")
+        !(p.phase == Phase::Aqueous && species::is_acid_base_basis(&p.species.0)
             || p.phase == Phase::Liquid && p.species.0 == "water")
     });
     let booked = ConservedLedger::from_vessel(after).elements;
@@ -60,7 +72,7 @@ pub(crate) fn complete_basis(
     for (key, amount, phase) in [
         ("water", water.max(0.0), Phase::Liquid),
         ("H+", acid, Phase::Aqueous),
-        ("OH-", base, Phase::Aqueous),
+        (species::BASE_EQUIVALENTS, base, Phase::Aqueous),
     ] {
         if amount > 1e-12 {
             after.contents.push(Portion {
