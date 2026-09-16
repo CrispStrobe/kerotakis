@@ -423,25 +423,34 @@ def do_restore() -> None:
 # is worth. `strength` is the deliberate part of the score: see docs.
 TIERS = [
     {
+        # Cheapest, and first, so that most mutants never pay for a CLI build.
         "name": "core-unit",
         "strength": "unit",
         "cmd": ["cargo", "test", "-p", "kerotakis-core", "--lib", "--", "-q"],
-        "timeout": 900,
+        "timeout": 1200,
     },
     {
+        # The newest instruments in the tree (#613, and its older sibling).
+        # These assert relations — a quantity must MOVE when its stated cause
+        # moves — rather than values, which is the strongest evidence a test
+        # can give that it is aimed at code that could break.
         "name": "cli-property",
         "strength": "property",
         "cmd": [
             "cargo", "test", "-p", "kerotakis-cli",
             "--test", "perturbation", "--test", "metamorphic",
         ],
-        "timeout": 1800,
+        "timeout": 2400,
     },
     {
-        "name": "cli-golden",
+        # Last on purpose. The curiosity corpus grades answers against blessed
+        # values, so it notices ANY digit that moves, including a correction.
+        # Being last means a mutant labelled `golden` is one that NOTHING but a
+        # blessed value noticed — which is the fact worth reporting.
+        "name": "cli-corpus",
         "strength": "golden",
-        "cmd": ["cargo", "test", "-p", "kerotakis-cli", "--test", "lessons_replay"],
-        "timeout": 1800,
+        "cmd": ["cargo", "test", "-p", "kerotakis-cli", "--test", "curiosity"],
+        "timeout": 2400,
     },
 ]
 
