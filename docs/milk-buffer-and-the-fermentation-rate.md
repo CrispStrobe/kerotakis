@@ -29,8 +29,9 @@ directions:
 
 Defect 1 pushes the pH down; defect 2 pushes the computed pH down further.
 **A rate chosen to make pH 4.5 come out would have cancelled one against the
-other and left both in place**, and the next person to fix the buffer would
-have found the bench suddenly reading pH 6 for yoghurt. So the rate is fitted
+other and left both in place**, and whoever fixed the buffer afterwards would
+have watched the bench climb back out of the window with nothing to tell them
+why. So the rate is fitted
 against a quantity that is itself a rate — lactose conversion against time —
 and the pH is reported as an output.
 
@@ -49,10 +50,10 @@ out loud below.
 > PMC5960825, CC BY-NC. Read in full 2026-09-16 via the Europe PMC REST
 > `fullTextXML` service.
 
-Kim et al. attribute that split to **Salaün, Mietton and Gaucheron,
-*Buffering capacity of dairy products*, International Dairy Journal
-**15**(2) (2005) 95–109, doi:10.1016/j.idairyj.2004.06.007**, which is the
-original measurement. **That paper was not read.** Elsevier answers an
+Kim et al. attribute that split to Salaün, Mietton and Gaucheron,
+*Buffering capacity of dairy products*, International Dairy Journal **15**(2)
+(2005) 95–109, doi:10.1016/j.idairyj.2004.06.007, which is the original
+measurement. **That paper was not read.** Elsevier answers an
 automated request for it with HTTP 403, as does `journalofdairyscience.org`
 for its own archive, and `pmc.ncbi.nlm.nih.gov` answers with a reCAPTCHA
 page. What was read is Kim's rendering of it, and the registry citation says
@@ -62,13 +63,21 @@ directly.
 So: **the engine models about 40% of milk's buffer capacity and is missing
 about 60%** — caseins 35%, colloidal calcium phosphate 20%, whey proteins 5%.
 
-That 60% is a **lower bound on the error in the region that matters**. Kim
-et al. also report that "casein micelles display a maximum BC at pH 5.2 due
-to CCP and phosphoserine residues". Milk starts at 6.7 and a fermentation
-walks it down through 5.2, so between 6.6 and 5.0 the missing constituents
-carry *more* than their global share and the soluble minerals carry less.
-`crates/kerotakis-phreeqc/tests/milk_buffer.rs` has said this in prose since
+Kim et al. also report that "casein micelles display a maximum BC at pH 5.2
+due to CCP and phosphoserine residues". Milk starts at 6.7 and a fermentation
+walks it down through 5.2, so **between 6.6 and 5.0 the missing constituents
+carry more than their global share** and the soluble minerals carry less.
+`crates/kerotakis-phreeqc/tests/milk_buffer.rs` has said that in prose since
 the minerals were resolved; the 60% is the first number attached to it.
+
+**Do not turn that 60% into a correction factor.** The section below measures
+what it is actually worth on this bench and gets an answer *smaller* than a
+flat reading of it predicts, and the two are not in conflict: 60% is a share
+of milk's buffer capacity, and what a reader wants is a shift in pH. Those
+differ because capacity is not flat in pH, because the split is a
+whole-titration ranking, and because the acid the fermentation makes buffers
+too. **The percentage says which constituents are missing. The measurement
+says what their absence costs.**
 
 ## How far it moves the pH — measured, not estimated
 
