@@ -310,7 +310,6 @@ fn admits(steps: &[Step]) -> (Vec<Rule>, Option<&'static str>) {
         );
     }
     let reagents = adds.iter().filter(|add| !is_solvent(&add.species)).count();
-    let solvents = adds.len() - reagents;
 
     let mut rules = Vec::new();
     if interchangeable_run(steps).is_some() {
@@ -319,7 +318,7 @@ fn admits(steps: &[Step]) -> (Vec<Rule>, Option<&'static str>) {
     if !steps.iter().any(|step| SIZE_BOUND.contains(&step.verb())) {
         rules.push(Rule::Scale);
     }
-    if solvents > 0 && reagents > 0 {
+    if adds.iter().any(|add| add.species == "water") && reagents > 0 {
         rules.push(Rule::Solvent);
     }
     if reagents > 0 && adds.len() >= 2 {
@@ -344,8 +343,29 @@ fn perturb(rule: Rule, steps: &[Step]) -> Option<String> {
     let mut perturbed = steps.to_vec();
     match rule {
         Rule::Order => {
+            // Reverse the REAGENTS inside the run and leave every solvent
+            // line where it is. Reversing the whole run would move the
+            // water to the end, and a reagent poured into an empty vessel
+            // is a different experiment rather than the same one in a
+            // different sequence — the version that put the water last
+            // agreed with the original to 1.3% on a limewater script whose
+            // two reagent orders differ by 2.55 pH units.
             let (from, to) = interchangeable_run(steps)?;
-            perturbed[from..to].reverse();
+            let mut reagents: Vec<usize> = (from..to)
+                .filter(|index| {
+                    steps[*index]
+                        .as_add()
+                        .is_some_and(|add| !is_solvent(&add.species))
+                })
+                .collect();
+            if reagents.len() < 2 {
+                return None;
+            }
+            let originals: Vec<Step> = reagents.iter().map(|index| steps[*index].clone()).collect();
+            reagents.reverse();
+            for (slot, step) in reagents.into_iter().zip(originals) {
+                perturbed[slot] = step;
+            }
         }
         Rule::Scale => {
             for step in &mut perturbed {
@@ -362,10 +382,16 @@ fn perturb(rule: Rule, steps: &[Step]) -> Option<String> {
             }
         }
         Rule::Solvent => {
+            // WATER only. Doubling any solvent looked like the general
+            // rule until `bio-017` — oil, vinegar and mustard — doubled its
+            // vegetable oil and left the vinegar's ionic strength exactly
+            // where it was, correctly. Ionic strength is computed against
+            // the mass of WATER, so that is the quantity whose doubling is
+            // a claim about anything.
             let mut touched = false;
             for step in &mut perturbed {
                 if let Step::Add(add) = step {
-                    if is_solvent(&add.species) {
+                    if add.species == "water" {
                         add.quantity *= 2.0;
                         touched = true;
                     }
@@ -461,9 +487,25 @@ const NOT_WHAT_IT_SAYS: &[&str] = &["OH-"];
 /// the corpus row actually poses, which is whether the thermometer knew.
 fn observe(steps: &[serde_json::Value]) -> BTreeMap<String, f64> {
     let mut out = BTreeMap::new();
-    let Some(last) = steps.last() else {
+    if steps.is_empty() {
         return out;
+    }
+    // NOT simply the last step. `particles v1` emits a step carrying its own
+    // populations and NO `bench`, so reading `steps.last()` for the bench
+    // found nothing and `aq-049` — "what dissolved ions are present in a
+    // sodium chloride solution?" — came back with zero readouts and an
+    // ablation case that could not fail. Each surface is taken from the
+    // last step that actually carries it.
+    let latest = |field: &str| -> serde_json::Value {
+        steps
+            .iter()
+            .rev()
+            .find(|step| !step[field].is_null())
+            .map(|step| step[field].clone())
+            .unwrap_or(serde_json::Value::Null)
     };
+    let bench = latest("bench");
+    let last = latest("scene");
     // Every instrument reading the run produced, in order, keyed by
     // instrument and occurrence. This is the surface the corpus scripts
     // were written to exercise: `measure v1 thermometer` is the whole
@@ -483,10 +525,7 @@ fn observe(steps: &[serde_json::Value]) -> BTreeMap<String, f64> {
             *count += 1;
         }
     }
-    let vessels = last["bench"]["vessels"]
-        .as_array()
-        .cloned()
-        .unwrap_or_default();
+    let vessels = bench["vessels"].as_array().cloned().unwrap_or_default();
     for (index, vessel) in vessels.iter().enumerate() {
         let mut put = |field: &str, value: Option<f64>| {
             if let Some(value) = value {
@@ -544,7 +583,7 @@ fn observe(steps: &[serde_json::Value]) -> BTreeMap<String, f64> {
     // water left `position: floating` beside the words "is at the bottom".
     // Words are not numbers, so they enter the picture as a hash — enough
     // to see that they MOVED, which is all a causal claim needs.
-    for (index, vessel) in last["scene"]["vessels"]
+    for (index, vessel) in last["vessels"]
         .as_array()
         .cloned()
         .unwrap_or_default()
@@ -573,6 +612,34 @@ fn observe(steps: &[serde_json::Value]) -> BTreeMap<String, f64> {
                     stable_hash(position),
                 );
             }
+        }
+    }
+    // `particles v1` is an observation like any other, and it is the only
+    // thing some corpus scripts do. Its populations are what the script
+    // asked to see, so they are a readout.
+    for step in steps {
+        let particles = &step["particles"];
+        if particles.is_null() {
+            continue;
+        }
+        for population in particles["populations"]
+            .as_array()
+            .cloned()
+            .unwrap_or_default()
+        {
+            let (Some(label), Some(amount)) = (
+                population["label"].as_str(),
+                population["amount"].as_f64(),
+            ) else {
+                continue;
+            };
+            out.insert(format!("r.particles#[{label}]"), amount);
+        }
+        for rare in particles["too_rare"].as_array().cloned().unwrap_or_default() {
+            let (Some(label), Some(amount)) = (rare[0].as_str(), rare[1].as_f64()) else {
+                continue;
+            };
+            out.insert(format!("r.particles#[{label}]"), amount);
         }
     }
     out
@@ -889,20 +956,6 @@ fn is_instrument_reading(key: &str) -> bool {
     key.starts_with("r.") && key.contains('#')
 }
 
-/// An amount of something that was DISSOLVED rather than something that
-/// dissolved it. Twice the water holds the first fixed and doubles the
-/// second, so only the first is the SOLVENT rule's invariant.
-fn is_solute_amount(key: &str) -> bool {
-    if key.ends_with(".solvent_kg") || key.ends_with(".mass_g") || key.ends_with(".free_proton")
-    {
-        return false;
-    }
-    !SOLVENTS
-        .iter()
-        .chain(["H2O", "H+", "OH-"].iter())
-        .any(|name| key.contains(&format!("[{name}|")))
-}
-
 /// The readout: what somebody watching the experiment comes away with, as
 /// against the inventory underneath it. The causal rules read this and
 /// nothing else.
@@ -925,6 +978,16 @@ fn relative(a: f64, b: f64) -> f64 {
     (a - b).abs() / scale
 }
 
+/// Below this, a quantity is the solver's rounding residue rather than an
+/// amount of anything, and comparing two runs on it measures arithmetic.
+/// Set from the sweep: `aq-055` carried 1e-11 mol of hydrogen peroxide
+/// after its catalase had eaten the rest, and that dust failed a scale
+/// case at exactly 0.5 relative because dust does not double.
+fn is_dust(key: &str, a: f64, b: f64) -> bool {
+    let floor = if key.starts_with("m.") { 1e-12 } else { 1e-9 };
+    a.abs() < floor && b.abs() < floor
+}
+
 /// The worst offender against a per-key expectation, as prose, or `None`
 /// when every key met it. `expect` returns the value the perturbed run
 /// should show, or `None` for a key this claim says nothing about.
@@ -940,8 +1003,14 @@ fn worst_against(
             continue;
         };
         let Some(b) = after.get(key) else {
+            if is_dust(key, *a, 0.0) {
+                continue;
+            }
             return Some(format!("{key} exists in one run and not the other"));
         };
+        if is_dust(key, wanted, *b) {
+            continue;
+        }
         let deviation = relative(wanted, *b);
         if deviation > tolerance && worst.as_ref().is_none_or(|(w, _)| deviation > *w) {
             worst = Some((
@@ -960,8 +1029,9 @@ fn moved(before: &BTreeMap<String, f64>, after: &BTreeMap<String, f64>, toleranc
     keys.into_iter()
         .filter(|key| trustworthy(key))
         .filter(|key| match (before.get(*key), after.get(*key)) {
-            (Some(a), Some(b)) => relative(*a, *b) > tolerance,
-            _ => true,
+            (Some(a), Some(b)) => !is_dust(key, *a, *b) && relative(*a, *b) > tolerance,
+            (Some(a), None) | (None, Some(a)) => !is_dust(key, *a, 0.0),
+            (None, None) => false,
         })
         .cloned()
         .collect()
@@ -987,28 +1057,57 @@ fn verdict(rule: Rule, case: &Pair) -> Option<String> {
                 None
             }
         }),
-        // Twice the solvent: every amount of every SOLUTE is untouched,
-        // and the solution is more dilute than it was. The second half is
-        // the one a stored-concentration bug fails, and it is skipped for
-        // a vessel with no ions in it at all, where "more dilute" has no
-        // referent.
+        // Twice the solvent must DO something, and there are exactly two
+        // things it can do: dilute what is dissolved, or dissolve more of
+        // what is not. A beaker that answers "nothing changed" to twice
+        // the water fails, whichever branch it was entitled to take.
+        //
+        // The first draft of this rule also held every solute amount
+        // fixed, and the corpus refuted it in three rows: `aq-006` moved
+        // 2% of its antlerite, `aq-057` reshuffled hypochlorous acid
+        // against hypochlorite, and `aq-107` — 50 g of potassium chloride
+        // in 100 mL — stopped having any solid at all. All three are
+        // right. Dilution shifts speciation and dissolves solid, so the
+        // conserved quantity is the ELEMENT total, which the `--json`
+        // contract does not expose for a named material like `antlerite`
+        // or `milk`. Asserting a species amount instead would have been a
+        // false claim mechanically generated 259 times.
         Rule::Solvent => {
-            let amounts = worst_against(before, after, SOLVENT_TOLERANCE, |key, value| {
-                (key.starts_with("n.") && is_solute_amount(key)).then_some(value)
-            });
-            if amounts.is_some() {
-                return amounts;
-            }
-            let strength: Vec<(&String, f64, f64)> = before
+            let strengths: Vec<(&String, f64, f64)> = before
                 .iter()
                 .filter(|(key, value)| key.ends_with(".ionic_strength") && **value > 1e-6)
                 .filter_map(|(key, value)| after.get(key).map(|now| (key, *value, *now)))
                 .collect();
-            strength
+            let solid = |picture: &BTreeMap<String, f64>| -> f64 {
+                picture
+                    .iter()
+                    .filter(|(key, _)| key.starts_with("n.") && key.ends_with("|solid]"))
+                    .map(|(_, moles)| *moles)
+                    .sum()
+            };
+            let (solid_before, solid_after) = (solid(before), solid(after));
+            let dissolved_more = solid_before > 1e-9
+                && solid_after < solid_before * (1.0 - SOLVENT_TOLERANCE);
+            if dissolved_more {
+                return None;
+            }
+            if strengths.is_empty() {
+                // Nothing dissolved and nothing to dissolve: the vessel has
+                // no characterised solution, so twice the water is not a
+                // claim about anything.
+                return Some(
+                    "no solution and no solid: the vessel cannot be diluted".to_string(),
+                );
+            }
+            strengths
                 .iter()
                 .find(|(_, was, now)| *now >= *was * (1.0 - SOLVENT_TOLERANCE))
                 .map(|(key, was, now)| {
-                    format!("{key}: twice the solvent left it at {now:.6e}, was {was:.6e}")
+                    format!(
+                        "{key}: twice the solvent left it at {now:.6e}, was {was:.6e}, \
+                         and no solid dissolved either ({solid_before:.3e} -> \
+                         {solid_after:.3e} mol)"
+                    )
                 })
         }
         // The answer has to depend on the reagent the question is about.
@@ -1057,8 +1156,16 @@ fn verdict(rule: Rule, case: &Pair) -> Option<String> {
 /// absolute tolerances in `metamorphic.rs` — which sets pH at 1e-5
 /// absolute against a measured 1.9e-6 floor. Each was set from the sweep
 /// report; see `tests/coverage/curiosity-v1/perturbation-report.md`.
+/// Measured: every generated order case that is not an open vessel losing a
+/// gas agreed to better than 1e-9 relative, so this has three orders of
+/// headroom.
 const ORDER_TOLERANCE: f64 = 1e-6;
-const SCALE_TOLERANCE: f64 = 1e-6;
+/// Looser, because `pe` is the worst-conditioned number in the picture:
+/// `aq-032` and `th-099`, both sealed carbonate systems, reproduce it to
+/// 9.2e-6 and 8.1e-5 relative across a doubling that leaves every amount
+/// exact. The substantive scale departures are all above 1e-2, so nothing
+/// interesting hides under this.
+const SCALE_TOLERANCE: f64 = 3e-4;
 const SOLVENT_TOLERANCE: f64 = 1e-6;
 /// Deliberately blunt: a causal claim asks whether a number moved AT ALL,
 /// and a threshold near the solver's noise floor would let a rounding
@@ -1260,38 +1367,44 @@ fn doubling_the_corpus_leaves_every_intensive_property_alone() {
     assert_eq!(departed.len(), SCALE_DEPARTURES.len());
 }
 
-/// **Twice the water, the same amount of everything else.** The count you
-/// weighed is not negotiable by the solvent, and the solution it is in must
-/// get more dilute.
+/// **Twice the water has to DO something.** There are exactly two things it
+/// can do — dilute what is dissolved, or dissolve more of what is not — and
+/// a beaker that answers "nothing changed" fails whichever branch it was
+/// entitled to take.
 ///
-/// The pairing is the whole test, exactly as in `perturbation.rs` 6/7. A
-/// quantity asserted only to be constant is satisfied by a constant; a
-/// quantity asserted only to move is satisfied by anything that moves. The
-/// two together pin down which of them the engine believes depends on the
-/// beaker, and the classic bug they catch is `n = c · V` recovered on
-/// readback, which makes the count follow the water.
+/// **This rule is the one the corpus corrected.** Its first draft also held
+/// every solute amount fixed, on the reasoning of `perturbation.rs` 6/7:
+/// the count you weighed is not negotiable by water. Generated over 259
+/// real recipes, that claim was refuted in three of the first seven rows it
+/// reached. `aq-006` moved 2% of its antlerite; `aq-057` reshuffled
+/// hypochlorous acid against hypochlorite; `aq-107` — 50 g of potassium
+/// chloride in 100 mL of water — stopped having any solid at all, because
+/// the second 100 mL dissolved it.
 ///
-/// **What this establishes:** amounts of substance are stored rather than
-/// recomputed from a concentration, and the ionic strength is computed from
-/// a solvent mass that the script can actually move.
+/// All three are right, and the hand-written case is right too: they are
+/// different claims. A *species* amount is not conserved under dilution,
+/// because dilution shifts speciation and dissolves solid. What is
+/// conserved is the ELEMENT total, and the `--json` contract does not
+/// expose it for a named material — there is no formula for `antlerite`,
+/// `milk` or `starch` on the wire. Asserting the species amount instead
+/// would have been a false claim, mechanically generated 259 times, and
+/// finding that out cost three runs.
 ///
-/// **What it cannot establish:** that either number is right, or that the
-/// dilution has the right functional form. Only that one is held and the
-/// other is not.
+/// **What this establishes:** that the solvent is a real quantity the
+/// engine computes intensive properties against, and that the solubility
+/// limit is live — a saturated beaker takes the second branch and an
+/// undersaturated one takes the first, which is `aq-002`'s question
+/// ("does a larger spoonful leave crystals at the bottom?") asked as a
+/// perturbation rather than as a route.
 ///
-/// **Weakness: moderate on the invariance half, low on the direction
-/// half.** Where the engine stores moles, "the moles did not change" is
-/// close to the path it tests — the same criticism `perturbation.rs` makes
-/// of its own case 5. The falling ionic strength is not: it is recomputed
-/// from a solvent mass, through speciation, on every run.
+/// **What it cannot establish:** any value, any functional form, or which
+/// branch was the right one for a given beaker. Only that one of them
+/// happened.
 ///
-/// **The interesting exception, which is chemistry rather than noise:** a
-/// SATURATED solution does not dilute. Adding water to a beaker with
-/// undissolved salt at the bottom dissolves more salt and the ionic
-/// strength comes back where it was. Any corpus row that departs here for
-/// that reason is a row where the generator has accidentally found the
-/// solubility limit, and it is recorded with that reason rather than
-/// excused.
+/// **Weakness: low.** There is no path by which an engine satisfies this
+/// without recomputing something from the solvent mass. The disjunction is
+/// not a loophole: failing both branches means the water went in and
+/// nothing about the solution changed.
 #[test]
 fn twice_the_solvent_dilutes_the_corpus_without_moving_the_amounts() {
     let (ran, departed) = gate(Rule::Solvent);
@@ -1367,6 +1480,109 @@ fn twice_the_reagent_moves_the_corpus_answer() {
     let (ran, departed) = gate(Rule::Dose);
     assert!(ran >= 5, "the dose subset shrank to {ran} cases");
     assert_eq!(departed.len(), DOSE_INERT.len());
+}
+
+/// **Closing the lid restores order-independence, and that is the proof
+/// that the open one losing it is chemistry rather than a bug.**
+///
+/// The generated `Order` claim fails on exactly two of the thirteen rows it
+/// reaches, and both are carbonate systems in an open beaker: `mat-086`
+/// (limewater and carbon dioxide) and `mat-124` (bicarbonate and vinegar).
+/// Measured on `mat-086` — the same three lines, the two reagents swapped:
+///
+/// ```text
+///                        pH      CaCO3 (mol)   Ca(OH)2 left
+///   lime, then CO2     9.898      0.009988        none
+///   CO2, then lime    12.452      0.003394       0.004605
+/// ```
+///
+/// Two and a half pH units and a factor of three in the precipitate, from
+/// nothing but the order of two bottles. That is not a small residual to be
+/// absorbed by a tolerance; it is a different answer to "can carbon dioxide
+/// turn limewater cloudy?".
+///
+/// It is also correct. An open beaker is not a closed system: the carbon
+/// dioxide that goes in first has somewhere to go before the lime arrives,
+/// and the engine lets it. Seal the same vessel and the two orders agree —
+/// pH 9.109228 against 9.108648, and the precipitate to one part in 1e9.
+///
+/// This test asserts that, and it is a DIFFERENTIAL: the same perturbation
+/// (swap the reagents) into two systems (open, sealed), with responses that
+/// must differ by a large factor in a stated direction. A global error
+/// cannot fake it, because a global error moves both.
+///
+/// **What this establishes:** that path dependence on this bench is
+/// attributable to the boundary rather than to memory in the solver — the
+/// question `metamorphic.rs`'s order-independence case cannot ask, because
+/// it uses one closed recipe. If the engine ever grows a genuine path
+/// memory, this test separates it from the open-vessel effect instead of
+/// blaming the atmosphere for it.
+///
+/// **What it cannot establish:** that the open-vessel answer is right, or
+/// that the amount lost to the room is right. It establishes where the
+/// dependence comes FROM.
+///
+/// **Weakness: low.** Nothing here is multiplied through, and the assertion
+/// is a ratio between two responses rather than either response.
+#[test]
+fn closing_the_vessel_restores_order_independence() {
+    let orders = |lid: &str, first: &str, second: &str| {
+        let script = format!("add v1 water 100mL\n{lid}add v1 {first}\nadd v1 {second}\n");
+        let steps = run(&script).unwrap_or_else(|error| panic!("{script}\n{error}"));
+        observe(&steps)
+    };
+    let spread = |lid: &str| {
+        let (a, b) = (
+            orders(lid, "Ca(OH)2 0.01mol", "CO2 0.01mol"),
+            orders(lid, "CO2 0.01mol", "Ca(OH)2 0.01mol"),
+        );
+        let ph = |picture: &BTreeMap<String, f64>| picture["r.v0.ph"];
+        let calcite = |picture: &BTreeMap<String, f64>| {
+            picture
+                .get("n.v0[CaCO3|solid]")
+                .copied()
+                .unwrap_or_default()
+        };
+        (
+            (ph(&a) - ph(&b)).abs(),
+            relative(calcite(&a), calcite(&b)),
+            calcite(&a).max(calcite(&b)),
+        )
+    };
+
+    let (open_ph, open_calcite, open_most) = spread("");
+    let (sealed_ph, sealed_calcite, sealed_most) = spread("seal v1 1L\n");
+
+    assert!(
+        open_most > 1e-3 && sealed_most > 1e-3,
+        "both vessels have to precipitate something, or there is nothing to \
+         compare: {open_most} and {sealed_most} mol"
+    );
+    assert!(
+        open_ph > 1.0,
+        "an open beaker loses the CO2 poured in before the lime arrives, so \
+         the two orders must land far apart: {open_ph} pH units"
+    );
+    assert!(
+        sealed_ph < 0.01,
+        "a sealed vessel has nowhere to lose it, so the two orders must \
+         agree: {sealed_ph} pH units"
+    );
+    assert!(
+        open_ph > 100.0 * sealed_ph,
+        "the open beaker's path dependence must be orders of magnitude \
+         larger than the sealed one's, or it is not the boundary doing it: \
+         {open_ph} against {sealed_ph} pH units"
+    );
+    assert!(
+        open_calcite > 0.1,
+        "the precipitate must depend on the order too, in the open vessel: \
+         {open_calcite} relative"
+    );
+    assert!(
+        sealed_calcite < 1e-6,
+        "and must not, in the sealed one: {sealed_calcite} relative"
+    );
 }
 
 // ===================================================================

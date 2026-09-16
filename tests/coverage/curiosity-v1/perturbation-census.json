@@ -1,13 +1,13 @@
 {
   "prompts": 500,
-  "admitting": 431,
-  "admitting_none": 69,
+  "admitting": 430,
+  "admitting_none": 70,
   "by_rule": {
     "ablation": 332,
     "dose": 398,
-    "order": 316,
+    "order": 174,
     "scale": 365,
-    "solvent": 259
+    "solvent": 233
   },
   "by_reason": {
     "a single reagent with no solvent and a size-bound verb: nothing can be held fixed against the perturbation": 5,
