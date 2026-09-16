@@ -71,6 +71,11 @@ fn vessel(steps: &[serde_json::Value], index: usize) -> serde_json::Value {
     steps.last().expect("at least one step")["bench"]["vessels"][index].clone()
 }
 
+/// The `contents` key the aqueous tail books its analytical BASE
+/// equivalents under. Named here rather than imported so this file reads
+/// the wire, like any other `--json` client, and would notice a rename.
+const BASE_EQUIVALENTS: &str = "base_equivalents";
+
 /// Total moles of one species in a vessel, across phases.
 fn moles_of(vessel: &serde_json::Value, species: &str) -> f64 {
     vessel["contents"]
@@ -112,7 +117,12 @@ fn molality_of(vessel: &serde_json::Value, name: &str) -> f64 {
 /// the readback rather than from what was poured in — that is the whole
 /// point of the test below.
 fn carbonate_alkalinity(vessel: &serde_json::Value) -> f64 {
-    moles_of(vessel, "HCO3-") + 2.0 * moles_of(vessel, "CO3-2") + moles_of(vessel, "OH-")
+    // `base_equivalents` and `H+` are the two nonnegative halves of one
+    // signed quantity — the analytical acid/base coordinate the tail books
+    // to close its H/O balance — so the `OH⁻ − H⁺` term of the
+    // electroneutrality identity is their difference. The base half was
+    // published as `OH-` until 2026-09-16; see case 7/7 for why it is not.
+    moles_of(vessel, "HCO3-") + 2.0 * moles_of(vessel, "CO3-2") + moles_of(vessel, BASE_EQUIVALENTS)
         - moles_of(vessel, "H+")
 }
 
@@ -721,18 +731,20 @@ fn water_changes_the_concentration_and_not_the_count() {
 
 // ===================================================================== 7/7
 // Mechanism: a quantity that carries a species' NAME must behave like that
-// species. This is the one case here that currently fails.
+// species.
 
-/// **A slot called `OH-` that does not move like hydroxide.** Found by this
+/// **A slot called `OH-` that did not move like hydroxide.** Found by this
 /// suite, on 2026-09-16, while writing case 2 — which is why it is here
-/// rather than in a report: `#[ignore]`d, asserting the behaviour that is
-/// wanted rather than the behaviour that is shipped, so the day the tail
-/// changes this test says so.
+/// rather than in a report. It was `#[ignore]`d for one day, asserting the
+/// behaviour that was wanted rather than the behaviour that shipped; the
+/// name changed on 2026-09-16 and the assertions below are now the ones
+/// that hold.
 ///
-/// The vessel's `contents` — the lv3 machine contract, and what every
-/// `--json` client reads — carries an entry whose `species` is `OH-`. In a
-/// strong base it is hydroxide. In an acetate buffer it is not: it is the
-/// solution's residual cation charge wearing hydroxide's name.
+/// **What was found.** The vessel's `contents` — the lv3 machine contract,
+/// and what every `--json` client reads — carried an entry whose `species`
+/// was `OH-`. In a strong base it was hydroxide. In an acetate buffer it
+/// was not: it was the solution's residual cation charge wearing
+/// hydroxide's name.
 ///
 /// Measured, across an acid sweep of an equimolar acetate buffer:
 ///
@@ -744,49 +756,73 @@ fn water_changes_the_concentration_and_not_the_count() {
 ///
 /// `free_hydroxide` — the field the aqueous solver writes on its way out —
 /// is right, and moves by 2.33x for the 0.3675 pH units it fell, which is
-/// 10^0.3675 to three figures. The entry named `OH-` on the wire moves by
-/// 1.30x, and sits 1.1e6 above the hydroxide a pH of 4.66 can hold.
+/// 10^0.3675 to three figures. The entry named `OH-` on the wire moved by
+/// 1.30x, and sat 1.1e6 above the hydroxide a pH of 4.66 can hold.
 ///
-/// It is not a buffer-only artefact. The same slot reads 7x high for
+/// It was not a buffer-only artefact. The same slot read 7x high for
 /// bicarbonate (the carbonate alkalinity booked as hydroxide), 1.28x for
-/// sodium acetate, 1.12x for sodium hydroxide — the ratio is 1 only when
+/// sodium acetate, 1.12x for sodium hydroxide — the ratio was 1 only when
 /// the solution's charge really is carried by free base. **The engine
-/// already knows this rule and states it**, in the doc comment on
+/// already knew this rule and stated it**, in the doc comment on
 /// `Vessel::free_hydroxide`: "Net charge is free base only in a vessel of
 /// strong electrolytes: a bicarbonate solution carries its charge excess as
 /// carbonate alkalinity... Reading either as hydroxide invents a
 /// neutralisation that never happened, at 55.81 kJ for every mole of it."
-/// That is the rule this slot breaks, under hydroxide's own name.
+/// That is the rule the slot broke, under hydroxide's own name.
 ///
 /// This is the defect shape the suite was built for, and it is the same one
 /// as the alkalinity defect in case 1 seen from the other side: there, a
-/// charge was mistaken for a portion; here, a charge is published as a
+/// charge was mistaken for a portion; here, a charge was published as a
 /// species. It is exactly what a single-run check cannot see — 5.17e-4 mol
 /// is a perfectly plausible number — and what one perturbation makes
 /// obvious, because a quantity that carries a name must move the way the
 /// thing it is named after moves.
 ///
-/// **What a fix has to decide, which is why this is not fixed here:**
-/// whether the charge carrier should stop being called `OH-` on the wire,
-/// or whether the inventory should carry the measured hydroxide and account
-/// for the residual charge separately. That is a contract change for every
-/// `--json` client and belongs to whoever owns the aqueous tail; the
-/// measurement above is the argument for making it, and this test is the
-/// gate that will notice.
+/// **What shipped.** The carrier was renamed, not re-split: it is
+/// `base_equivalents` on the wire, and `species::BASE_EQUIVALENTS` in the
+/// engine. Nothing about the arithmetic changed — it is still the base half
+/// of the analytical acid/base equivalents that close a solved vessel's H/O
+/// balance, still `2·O − H` over everything else booked, still the residual
+/// cation charge. What changed is that it no longer claims to be a
+/// measurement of hydroxide. `OH-` is left free to mean hydroxide, which it
+/// genuinely does elsewhere in `contents` — the chloralkali cell deposits
+/// the caustic soda it is for under exactly that key — and the measured
+/// hydroxide is where it always was, in `free_hydroxide` and in the
+/// reported speciation.
 ///
-/// **What this establishes, when it passes:** that a species named in the
-/// machine contract means that species, at every pH, and not merely where
-/// the two definitions happen to coincide.
+/// The acid half is still published as `H+` and has the same shape of
+/// defect: it is titratable acid, not free protons, and a beaker of vinegar
+/// holds two hundred times fewer of the second than the first. It is
+/// recorded here and not fixed here; `kerotakis-safety` already declines to
+/// read it as a strong-acid bottle, which is what makes it the less urgent
+/// half.
 ///
-/// **What it cannot establish:** that the pH is right. It compares two of
-/// the engine's own surfaces against each other; if both were wrong
-/// together it would still pass. That is the price of needing no reference
-/// value, and it is the right price here, because the failure is a
-/// disagreement rather than an error.
+/// **What this establishes, in two claims that are not the same claim.**
+///
+/// * **A name means the thing.** Across the same acid sweep of the same
+///   buffer, no `contents` entry named `OH-` holds more hydroxide than the
+///   pH can hold. It is the assertion that failed by six orders of
+///   magnitude the day before this shipped, and it is checked at both pHs
+///   rather than at one, so a slot that merely happened to coincide at one
+///   of them would not pass. It passes today because nothing is published
+///   under that name in a buffer — and that is the point: the key is now
+///   free for hydroxide to use, and anything that puts a number there will
+///   be held to it.
+/// * **The renamed key answers to charge.** Take a strong base and remove
+///   its charge imbalance a known amount at a time: `base_equivalents`
+///   falls one mole per mole of strong acid, over a fourfold range of acid.
+///   That is the definition it now carries, tested as a definition — a
+///   constant offset fails it, and so does a proportionality with the wrong
+///   constant.
+///
+/// **What it cannot establish:** that the pH is right. The first claim
+/// compares two of the engine's own surfaces against each other; if both
+/// were wrong together it would still pass. That is the price of needing no
+/// reference value, and it is the right price here, because the failure was
+/// a disagreement rather than an error. Nor does it establish that
+/// `base_equivalents` is the right quantity for the tail to book — only
+/// that it is honestly named and moves the way its name says.
 #[test]
-#[ignore = "found 2026-09-16: contents[OH-] is residual charge, not hydroxide \
-            (1.1e6 high in an acetate buffer); fixing it changes the --json \
-            contract, so it is owned by the aqueous tail"]
 fn a_slot_named_hydroxide_moves_like_hydroxide() {
     let buffer = |acid: f64| {
         let mut script =
@@ -803,26 +839,63 @@ fn a_slot_named_hydroxide_moves_like_hydroxide() {
     };
 
     let (before, after) = (buffer(0.0), buffer(0.02));
-    // The measured field passes this; the published one is what is asked.
-    for (surface, what) in [
-        (moles_of(&before, "OH-"), "contents[OH-]"),
-        (before["free_hydroxide"].as_f64().unwrap(), "free_hydroxide"),
-    ] {
-        let implied = implied_hydroxide(&before);
+    for v in [&before, &after] {
+        let implied = implied_hydroxide(v);
+        for (surface, what) in [
+            (moles_of(v, "OH-"), "contents[OH-]"),
+            (v["free_hydroxide"].as_f64().unwrap(), "free_hydroxide"),
+        ] {
+            assert!(
+                surface < 10.0 * implied,
+                "{what} claims {surface} mol of hydroxide at pH {:.4}, which can \
+                 hold {implied} mol",
+                ph(v)
+            );
+        }
+    }
+    // The carrier did not vanish with its old name: the buffer still needs
+    // it, and it is still the number that used to be published as `OH-`.
+    // Without this the claim above could be satisfied by dropping the slot.
+    assert!(
+        moles_of(&before, BASE_EQUIVALENTS) > 100.0 * implied_hydroxide(&before),
+        "the analytical basis carrier is still published, and is still not \
+         hydroxide: {} mol against {} mol of hydroxide at pH {:.4}",
+        moles_of(&before, BASE_EQUIVALENTS),
+        implied_hydroxide(&before),
+        ph(&before)
+    );
+
+    // And it must move like what it is now called: a charge coordinate.
+    // A mole of strong acid is a mole of anion the cations no longer
+    // outnumber, so the residual falls by one mole for each.
+    let lye = |acid: f64| {
+        let mut script = String::from("add v1 water 1000mL\nadd v1 NaOH 0.05mol\n");
+        if acid > 0.0 {
+            script.push_str(&format!("add v1 HCl {acid}mol\n"));
+        }
+        vessel(&run(&script), 0)
+    };
+    let base0 = moles_of(&lye(0.0), BASE_EQUIVALENTS);
+    // A sanity bound, not the claim: 0.05 mol of a fully dissociated strong
+    // base leaves its sodium with nothing but the solvent to balance it, so
+    // the residual is that sodium and nothing else. Loose because the
+    // readback is free to book some of that sodium in another form; the
+    // claim below survives it either way.
+    assert!(
+        (base0 - 0.05).abs() < 0.2 * 0.05,
+        "0.05 mol of sodium hydroxide leaves about 0.05 equivalents of \
+         residual cation charge, not {base0}"
+    );
+    // This is the claim. Every mole of strong acid brings a mole of
+    // chloride, which carries neither hydrogen nor oxygen into the basis,
+    // so the residual falls by exactly one mole for each — over a fourfold
+    // range, which is what rules out a constant offset and a wrong constant.
+    for acid in [0.005, 0.010, 0.020] {
+        let fell = base0 - moles_of(&lye(acid), BASE_EQUIVALENTS);
         assert!(
-            surface < 10.0 * implied,
-            "{what} claims {surface} mol of hydroxide at pH {:.4}, which can \
-             hold {implied} mol",
-            ph(&before)
+            (fell - acid).abs() < 1e-5 + 0.02 * acid,
+            "{acid} mol of strong acid must take {acid} equivalents of \
+             residual cation charge, not {fell}"
         );
     }
-    // And it must move like hydroxide: a fall of dpH is a fall of 10^dpH.
-    let expected = 10f64.powf(ph(&before) - ph(&after));
-    let moved = moles_of(&before, "OH-") / moles_of(&after, "OH-");
-    assert!(
-        (moved / expected - 1.0).abs() < 0.05,
-        "pH fell {:.4} units, so hydroxide must fall by {expected:.3}x; \
-         contents[OH-] fell by {moved:.3}x",
-        ph(&before) - ph(&after)
-    );
 }

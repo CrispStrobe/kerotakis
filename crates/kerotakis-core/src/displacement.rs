@@ -448,7 +448,7 @@ pub fn solute_charge(vessel: &Vessel) -> f64 {
     vessel
         .contents
         .iter()
-        .filter(|p| p.phase == Phase::Aqueous && !matches!(p.species.0.as_str(), "H+" | "OH-"))
+        .filter(|p| p.phase == Phase::Aqueous && !species::is_acid_base_basis(&p.species.0))
         .filter_map(|p| {
             let d = species::lookup(&p.species)?;
             let f = crate::stoich::parse_formula(d.formula).ok()?;

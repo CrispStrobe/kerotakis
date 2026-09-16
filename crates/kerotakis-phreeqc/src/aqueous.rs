@@ -1512,7 +1512,7 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
                 kgw += p.moles.0 * WATER_MOLAR_MASS / 1000.0
             }
             DerivedRole::Solvent => {}
-            DerivedRole::Dissolves(_) if matches!(p.species.0.as_str(), "H+" | "OH-") => {}
+            DerivedRole::Dissolves(_) if species::is_acid_base_basis(&p.species.0) => {}
             DerivedRole::Dissolves(els) => {
                 solutes += 1;
                 for (el, coeff) in els {
@@ -2579,7 +2579,7 @@ impl PhreeqcEquilibrator {
         let a_before = vessel.solute_charge;
         let a_after: f64 = contents
             .iter()
-            .filter(|p| p.phase == Phase::Aqueous && !matches!(p.species.0.as_str(), "H+" | "OH-"))
+            .filter(|p| p.phase == Phase::Aqueous && !species::is_acid_base_basis(&p.species.0))
             .filter_map(|p| {
                 let d = species::lookup(&p.species)?;
                 let f = kerotakis_core::stoich::parse_formula(d.formula).ok()?;
@@ -4703,7 +4703,7 @@ fn unmapped_ionic_solutes(vessel: &Vessel) -> Vec<&str> {
             // H/O analytical coordinates are handled by the aqueous balance,
             // not by element contributions. They are not unsupported solutes.
             if portion.moles.0 <= TRACE
-                || matches!(portion.species.0.as_str(), "H+" | "OH-")
+                || species::is_acid_base_basis(&portion.species.0)
                 || derived::role(&portion.species.0).is_some()
             {
                 return None;

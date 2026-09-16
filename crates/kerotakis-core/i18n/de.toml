@@ -116,6 +116,11 @@ amylase = "Amylase"
 "barium hydroxide" = "Bariumhydroxid"
 "barium ion" = "Barium-Ion"
 "barium sulfate" = "Bariumsulfat"
+# Not a substance: the analytical base equivalents that close a solved
+# vessel's H/O balance (species::BASE_EQUIVALENTS). "Äquivalent" is the
+# analytical-chemistry word and carries the same "titratable, not weighed"
+# sense in German that "equivalents" does in English.
+"base equivalents" = "Basenäquivalente"
 "betanin (beetroot red)" = "Betanin (Rote-Bete-Rot)"
 "bicarbonate ion" = "Hydrogencarbonat-Ion"
 "bleach (sodium hypochlorite)" = "Bleichmittel (Natriumhypochlorit)"

@@ -498,12 +498,109 @@ pub fn loaded_count() -> usize {
     loaded_index().read().expect("loaded-species lock").len()
 }
 
+// ── The analytical aqueous basis carrier ────────────────────────────
+// A solved vessel's `contents` are ANALYTICAL component totals, and a
+// component basis needs its own H/O balance: PHREEQC's solvent belongs to
+// its full species distribution, not to the inventory the bench publishes.
+// `kerotakis_phreeqc::inventory::complete_basis` closes that balance with
+// water plus one acid/base equivalent term — see the module doc there.
+//
+// That term used to be published under hydroxide's own name, and it is not
+// hydroxide. It is the leftover of `2·O − H` over everything else booked,
+// which is the same number as the solution's residual cation charge, and
+// it agrees with the measured hydroxide only where the charge really is
+// carried by free base. In an equimolar acetate buffer it read 5.17e-4 mol
+// where a pH of 4.66 can hold 4.6e-10, and under a perturbation it moved
+// 1.30x where hydroxide must move 2.33x (`kerotakis-cli`,
+// `tests/perturbation.rs`, case 7/7). The measured hydroxide has always
+// been kept separately, in `Vessel::free_hydroxide` and in the reported
+// speciation; only the wire was lying.
+//
+// So the carrier is named for what it is. `OH-` stays a real species and
+// keeps meaning real hydroxide — a chloralkali cell deposits caustic soda
+// as an `OH-` portion and a curated reaction can make one — and the basis
+// term is `base_equivalents`, in the vocabulary
+// `inventory.rs`/`family.rs`/`enthalpy.rs` already use for it
+// ("analytical acid/base equivalents", "inventory coordinates, not
+// additional free ions").
+
+/// The analytical BASE equivalents that close a solved vessel's H/O basis:
+/// an inventory coordinate, not an amount of hydroxide.
+///
+/// One equivalent carries one O, one H and one negative charge, which is
+/// why it is priced and conserved exactly as `OH-` is — the stoichiometry
+/// is honest, the name it used to wear was not. Anything asking "how much
+/// free base is there" wants [`crate::vessel::Vessel::free_hydroxide`] or
+/// the reported speciation instead; anything asking "does this inventory
+/// balance" wants this.
+pub const BASE_EQUIVALENTS: &str = "base_equivalents";
+
+/// Whether a `contents` key is an acid/base coordinate of the analytical
+/// basis rather than an amount of a substance — the one predicate every
+/// site that used to write `matches!(key, "H+" | "OH-")` now asks.
+///
+/// Three keys, for two different reasons:
+///
+/// * [`BASE_EQUIVALENTS`] is the basis term this rename introduced.
+/// * `H+` is its acid half, and is published under the proton's name for
+///   the same bad reason the base half used to be. It is the same defect
+///   and it is NOT fixed here: `kerotakis-safety` already refuses to read
+///   it as a strong-acid bottle ("analytical proton equivalents are not a
+///   strong-acid bottle"), which blunts it, and widening a contract change
+///   past what was decided is its own kind of surprise. Recorded, not
+///   fixed.
+/// * `OH-` stays in the set because a genuine hydroxide portion — the
+///   caustic soda a chloralkali cell makes, a curated reaction's product —
+///   is folded into this same basis by the aqueous tail, and every one of
+///   these sites excluded it before the rename. Excluding it is what keeps
+///   the rename a rename.
+pub fn is_acid_base_basis(key: &str) -> bool {
+    matches!(key, "H+" | "OH-" | BASE_EQUIVALENTS)
+}
+
+/// The basis carrier's species data: the registry's `OH-` row with the key,
+/// the name, the identity and the provenance replaced. Derived rather than
+/// retyped so the mass, the formula and the (zero) heat capacity cannot
+/// drift from the ion whose stoichiometry it borrows, and deliberately NOT
+/// in [`all_species`]: it is not on the shelf, nothing can be weighed out
+/// of it, and no hazard row, translation gate or codex entry is owed for it.
+fn basis_species_data(key: &str) -> Option<&'static SpeciesData> {
+    if key != BASE_EQUIVALENTS {
+        return None;
+    }
+    use std::sync::OnceLock;
+    static BASIS: OnceLock<&'static SpeciesData> = OnceLock::new();
+    Some(*BASIS.get_or_init(|| {
+        let mut data = lookup_index()
+            .get("OH-")
+            .copied()
+            .expect("the registry defines the hydroxide ion")
+            .clone();
+        data.key = BASE_EQUIVALENTS;
+        data.name = "base equivalents";
+        // Not a substance, so it has no substance identity. An InChIKey
+        // here would claim this slot IS hydroxide, which is the claim the
+        // rename exists to withdraw.
+        data.inchikey = "";
+        data.provenance = "Analytical aqueous basis coordinate: the base half of the \
+                           acid/base equivalents that close a solved vessel's H/O \
+                           balance. Stoichiometry and mass are the registry's OH- row \
+                           because one equivalent is one OH by construction; this is \
+                           not a measurement of hydroxide, which is carried by \
+                           Vessel::free_hydroxide and the reported speciation.";
+        &*Box::leak(Box::new(data))
+    }))
+}
+
 pub fn lookup(id: &SpeciesId) -> Option<&'static SpeciesData> {
     lookup_key(id.0.as_str())
 }
 
 pub fn lookup_key(key: &str) -> Option<&'static SpeciesData> {
     if let Some(s) = lookup_index().get(key).copied() {
+        return Some(s);
+    }
+    if let Some(s) = basis_species_data(key) {
         return Some(s);
     }
     if let Some(s) = crate::enzyme::species_data(key) {

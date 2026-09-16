@@ -169,6 +169,21 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         "NaOH" => &[BaseStrong],
         "KOH" => &[BaseStrong],
         "OH-" => &[BaseStrong],
+        // The analytical base equivalents the aqueous tail books to close
+        // a solved vessel's H/O balance. They were published as `OH-` until
+        // 2026-09-16, and this screen read them as a strong base; the
+        // rename would have taken the lye warning off every beaker of
+        // dissolved sodium hydroxide, because a solved lye vessel holds
+        // `Na+` and this coordinate and no `NaOH` key at all.
+        //
+        // So the row moves with the name, unchanged. It over-warns — an
+        // acetate buffer carries a few hundred micromoles of these and is
+        // not caustic — exactly as it did before, and the fix for that is
+        // the one the acid half already has a few dozen lines below: a
+        // contextual screen that reads the vessel's pH and its measured
+        // base rather than a key. That is a behaviour change, and this
+        // commit is a rename.
+        kerotakis_core::species::BASE_EQUIVALENTS => &[BaseStrong],
         "Ca(OH)2" => &[BaseStrong],
         // Barium hydroxide is both: a strong base and a soluble barium
         // salt. Both rows fire.

@@ -1613,22 +1613,33 @@ aarch64-apple-darwin from one source.
   calibration. Cost: ~26 s of wall clock, 24 binary invocations, no data
   and no network.
   **It found one defect on its first outing**, and the seventh case is that
-  defect, `#[ignore]`d and asserting what is wanted rather than what ships:
-  the `contents` entry named `OH-` — the lv3 machine contract every `--json`
-  client reads — is the solution's residual cation charge, not hydroxide.
-  In an equimolar acetate buffer it reads 5.17e-4 mol where a pH of 4.66 can
-  hold 4.6e-10, and under a perturbation it moves 1.30x where hydroxide must
-  move 2.33x; the separately-kept `free_hydroxide`, which the solver writes
-  on its way out, moves by exactly 2.33x and is right. The ratio is 7x for
-  bicarbonate, 1.28x for sodium acetate and 1.12x for sodium hydroxide — it
-  is 1 only where the charge really is carried by free base, which is the
-  case `Vessel::free_hydroxide`'s own doc comment warns must not be
-  generalised ("Reading either as hydroxide invents a neutralisation that
-  never happened, at 55.81 kJ for every mole of it"). It is the alkalinity
-  defect from the other side: there a charge was mistaken for a portion,
-  here a charge is published as a species. Unfixed on purpose — the choice
-  between renaming the carrier and re-splitting the inventory is a `--json`
-  contract change owned by the aqueous tail.
+  defect: the `contents` entry named `OH-` — the lv3 machine contract every
+  `--json` client reads — was the solution's residual cation charge, not
+  hydroxide. In an equimolar acetate buffer it read 5.17e-4 mol where a pH
+  of 4.66 can hold 4.6e-10, and under a perturbation it moved 1.30x where
+  hydroxide must move 2.33x; the separately-kept `free_hydroxide`, which the
+  solver writes on its way out, moves by exactly 2.33x and is right. The
+  ratio was 7x for bicarbonate, 1.28x for sodium acetate and 1.12x for
+  sodium hydroxide — 1 only where the charge really is carried by free base,
+  which is the case `Vessel::free_hydroxide`'s own doc comment warns must
+  not be generalised ("Reading either as hydroxide invents a neutralisation
+  that never happened, at 55.81 kJ for every mole of it"). It is the
+  alkalinity defect from the other side: there a charge was mistaken for a
+  portion, here a charge was published as a species.
+  **Fixed 2026-09-16 by renaming the carrier**, which was the `--json`
+  contract change the case was waiting on an owner to decide: the slot is
+  `base_equivalents` (`species::BASE_EQUIVALENTS`), the base half of the
+  analytical acid/base equivalents that close a solved vessel's H/O balance,
+  and the arithmetic behind it is untouched. `OH-` is left to mean hydroxide
+  — the chloralkali cell deposits caustic soda under exactly that key — and
+  case 7 now asserts both halves: that nothing named for hydroxide holds
+  more of it than the pH can hold, at either end of an acid sweep, and that
+  the renamed key falls one mole per mole of strong acid over a fourfold
+  range, which is the definition it now carries. The acid half is still
+  published as `H+`, is titratable acid rather than free protons, and is the
+  same shape of defect; it is recorded in the case's doc comment and in
+  `species::is_acid_base_basis`, not fixed, and `kerotakis-safety` already
+  declines to read it as a strong-acid bottle.
 - **Mutation testing** (`cargo-mutants`) — distinguishes load-bearing
   invariants from decorative ones, which is this project's epistemics
   applied to its own test suite.
