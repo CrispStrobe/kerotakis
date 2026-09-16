@@ -15,9 +15,10 @@ class KidsCatalogTests(unittest.TestCase):
         self.document = json.loads((ROOT / "data/kids/experiments-v1.json").read_text())
         self.german = json.loads((ROOT / "data/kids/experiments-de-v1.json").read_text())
 
-    def test_catalog_is_the_exact_audited_seventy_seven(self):
+    def test_catalog_is_the_exact_audited_run(self):
         rows = MODULE.validate(self.document)
-        self.assertEqual([row["id"] for row in rows], [f"K{i:02d}" for i in range(1, 78)])
+        expected = [f"K{i:02d}" for i in range(1, MODULE.CATALOG_LAST_ID + 1)]
+        self.assertEqual([row["id"] for row in rows], expected)
 
     def test_non_computed_rows_explain_the_boundary(self):
         rows = MODULE.validate(self.document)
@@ -91,7 +92,7 @@ class KidsCatalogTests(unittest.TestCase):
     def test_german_must_have_exactly_the_same_rows(self):
         broken = json.loads(json.dumps(self.german))
         broken["experiments"].pop()
-        with self.assertRaisesRegex(ValueError, "same K01 through K77"):
+        with self.assertRaisesRegex(ValueError, "same K01 through K121"):
             MODULE.add_translation(self.document, broken)
 
     def test_source_fleet_promotions_are_runnable_and_progress_ordered(self):
@@ -163,6 +164,28 @@ class KidsCatalogTests(unittest.TestCase):
         self.assertIn("named peptide", rows["K75"]["boundary"])
         self.assertIn("does not claim sweetness", rows["K76"]["boundary"])
         self.assertIn("does not invent a pH fall", rows["K77"]["boundary"])
+
+    def test_every_shipped_lesson_is_reachable_from_the_catalogue(self):
+        """No `.lab` file may ship without a catalogue row pointing at it.
+
+        This is the invariant GUI-104 exists to install. Before it, 44 of the
+        113 shipped lessons were reachable only from the picker's `"more"`
+        bucket, so the Research Library undercounted the product by 17% and
+        nobody browsing it could find them. A lesson that lands without a row
+        is not "undocumented", it is invisible, and the failure message below
+        names the exact files so the next author knows what to write.
+        """
+        rows = MODULE.validate(self.document)
+        linked = {row["lesson"] for row in rows if row.get("lesson")}
+        shipped = {path.name for path in (ROOT / "lessons").glob("*.lab")}
+        unreferenced = sorted(shipped - linked)
+        self.assertEqual(
+            unreferenced,
+            [],
+            "these lessons ship but no catalogue entry in "
+            "data/kids/experiments-v1.json points at them, so they are "
+            "invisible in the Research Library: " + ", ".join(unreferenced),
+        )
 
     def test_newly_computed_filter_and_luminol_keep_their_honest_routes(self):
         rows = {row["id"]: row for row in MODULE.validate(self.document)}
