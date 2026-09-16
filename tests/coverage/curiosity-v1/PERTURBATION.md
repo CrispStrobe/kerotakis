@@ -413,3 +413,35 @@ that answer `not_yet_modeled` at both loadings); **1 correct physics the rule
 does not apply to** (`th-122`: self-heating raises temperature by an amount
 independent of mass); and **1 that is defect-shaped and unexplained**
 (`bio-070`'s fermentation extent going as the square of the batch size).
+
+## Where the generator was wrong, and how it found out
+
+Worth recording, because three of the five rules as first written made false
+claims, and in every case the corpus refuted them faster than review would
+have:
+
+* `Solvent` held every solute amount fixed under dilution. Refuted in three
+  of its first seven rows: species amounts are not conserved under dilution,
+  element totals are, and the wire does not expose element totals for a
+  named material. Replaced by a disjunction.
+* `Solvent` then doubled whichever liquid it found, and `bio-017` doubled
+  its vegetable oil and correctly left the vinegar's ionic strength alone.
+  Now it doubles water.
+* `Order` reversed whole runs of additions, which put the water last — a
+  reagent poured into an empty vessel is a different experiment. The
+  whole-run version agreed to 1.3% on a limewater script whose two REAGENT
+  orders differ by 2.55 pH units.
+* `Ablation` compared the whole bench, which deleting a reagent satisfies by
+  the reagent no longer being in it.
+* `free_proton` was filed as a readout when it is moles. Every scale case
+  failed at exactly 0.5 relative, which is what an extensive quantity looks
+  like when asked to hold still — a classifier's mistake has a signature a
+  chemistry bug does not.
+* The observer read `steps.last()` for the bench, and `particles v1` emits a
+  step with no bench in it. `aq-049` came back with zero readouts and an
+  ablation case that could not fail.
+
+A generator's own classification is as capable of being wrong as the engine
+it tests. What makes it tractable is that the two fail differently: a
+classifier error fails every case of its kind by the same exact factor, and
+a chemistry defect fails one row by an amount nobody predicted.
