@@ -1586,6 +1586,40 @@ in a German classroom — which is the audience the curriculum mapping in
   listings, German "what to test", and the German privacy policy already at
   `privacy.de.html` wired into both manifests.
 
+## The library understates the product by 44 lessons (GUI-104)
+
+The owner asked, 2026-09-16, why the app shows only 208 experiments. The
+number is honest arithmetic and it is `App.svelte:1577`:
+
+```
+experiments={codexEntries.length + kidsExperiments.length}
+```
+
+131 runnable codex reaction routes plus 77 guided experiments. What it omits
+is the lesson shelf. **113 `.lab` lessons ship. Only 69 are referenced by a
+catalogue entry.** The other 44 — among them `electrolysis`, `calorimetry`,
+`fire`, `buffer`, `conductivity`, `density`, `boiling-curve`,
+`current-time-and-electrolysis-yield` — exist only in the lesson picker,
+because `tools/lessons-index.py` files anything absent from its `TOPICS`
+grouping into a `"more"` bucket. They run. They are correct. The Research
+Library does not know they exist, and neither does anyone browsing it.
+
+So the truthful inventory is 131 + 77 + 44 = **252**, and the shortfall is
+17% of the product, invisible.
+
+- [ ] **GUI-104 — Give every shipped lesson a catalogue entry.** Author the
+  44 missing entries in `data/kids/experiments-v1.json` and its German
+  sibling, each with the title, phenomenon, topics, ingredients, apparatus
+  and safety band the existing 77 carry, and each pointing at its `.lab`
+  file. No new chemistry: every one of these already runs. Two things to get
+  right rather than fast. **The German must be authored, not machine-filled**
+  — `experiments-de-v1.json` is a peer file, not a fallback, and I18N-1's
+  lint counts it. **And the grouping in `lessons-index.py` should absorb the
+  same 44**, or the picker keeps a `"more"` bucket that the catalogue has
+  since organised, which is two curricula again. A test should assert the
+  invariant directly: every `.lab` on disk is reachable from the catalogue,
+  so the next lesson to land cannot go missing the same way.
+
 ## Completed GUI tasks
 
 Numbers are never renumbered and never reused. Each of these landed; the detail
