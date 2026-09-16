@@ -498,7 +498,6 @@ fn observe(steps: &[serde_json::Value]) -> BTreeMap<String, f64> {
         put("pe", vessel["solution"]["pe"].as_f64());
         put("temperature", vessel["temperature"].as_f64());
         put("pressure", vessel["pressure"].as_f64());
-        put("free_proton", vessel["free_proton"].as_f64());
         put(
             "co2_partial_pressure_atm",
             vessel["co2_partial_pressure_atm"].as_f64(),
@@ -508,6 +507,14 @@ fn observe(steps: &[serde_json::Value]) -> BTreeMap<String, f64> {
         // it directly: it is the quantity the SOLVENT rule moves.
         if let Some(kilograms) = vessel["solution"]["solvent_kg"].as_f64() {
             out.insert(format!("n.v{index}.solvent_kg"), kilograms);
+        }
+        // Moles, not a concentration: `free_proton` is the proton activity
+        // already multiplied by the solvent mass, so it is extensive and
+        // belongs with the amounts. Filing it as a readout made every
+        // generated scale case fail at exactly 0.5 relative, which is what
+        // an extensive quantity looks like when it is asked to hold still.
+        if let Some(protons) = vessel["free_proton"].as_f64() {
+            out.insert(format!("n.v{index}.free_proton"), protons);
         }
         for portion in vessel["contents"].as_array().cloned().unwrap_or_default() {
             let (Some(species), Some(moles)) =
@@ -886,7 +893,8 @@ fn is_instrument_reading(key: &str) -> bool {
 /// dissolved it. Twice the water holds the first fixed and doubles the
 /// second, so only the first is the SOLVENT rule's invariant.
 fn is_solute_amount(key: &str) -> bool {
-    if key.ends_with(".solvent_kg") || key.ends_with(".mass_g") {
+    if key.ends_with(".solvent_kg") || key.ends_with(".mass_g") || key.ends_with(".free_proton")
+    {
         return false;
     }
     !SOLVENTS
