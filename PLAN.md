@@ -1556,6 +1556,79 @@ aarch64-apple-darwin from one source.
   phase split 1e-8, pH and ionic strength 1e-5 — the pH tier deliberately
   below the smallest historical bug signal (7.9e-5), so a recurrence of
   any bug in this chronicle fails the suite.
+- **Perturbation tests** — the same question metamorphic relations ask,
+  asked across a change to an INPUT rather than across two runs of the
+  same one: does a number move, in the right direction, when its stated
+  cause moves — and does a quantity the bench claims is independent stay
+  put? **Built 2026-09-16** (`kerotakis-cli/tests/perturbation.rs`, six
+  passing cases over five mechanisms plus one failing case it found, through the real binary and the `--json`
+  contract). It is the generalisation *across time* of
+  `tools/curiosity-answer-invariance.py`, which asks it across *vessels*
+  — a prompt that distinguishes three metals must give three answers, and
+  `mat-012` gave one for as long as the corpus existed. Neither half needs
+  a reference value, so nothing is sourced, cited or licensed, and nothing
+  is re-blessed when a solver improves. The cases were chosen from what
+  the engine *claims* — the codex entry `moles-from-mass` states outright
+  that the count you weighed is not negotiable by water, and that is case
+  6 — rather than from what is easy to vary. Each covers a defect shape
+  this repository has already paid for by hand (the figures below are
+  the measurements that motivated each threshold, not pins — every
+  assertion is deliberately looser than its measurement, so a solver
+  improvement moves the figure and not the test): alkalinity as a charge and
+  not a portion (falls 1:1 with added acid, sodium untouched, carbon
+  leaving at fixed pCO₂); buffering computed from the pair actually
+  present (the same 2 mmol of acid moves plain water 122× more than an
+  acetate buffer, total acetate conserved); a rate law that still reads
+  its own activation energy (peroxide at 75 kJ/mol is 2.64× per ten
+  degrees against the thiosulfate clock's 1.90× at 51); buoyancy as a
+  comparison against whole-object bulk density (the float verdict follows
+  a sugar sweep across the object's own declared 1.08 g/mL, the threshold
+  read out of the scene rather than pinned); and an element arriving
+  mid-solve surviving readback (magnesium poured into an already-solved
+  beaker is speciated, scales with the pour, and is debited from the
+  source). **Every case's doc comment states what it establishes and what
+  it cannot**, and says how close its perturbation sits to the path it
+  tests — case 3 is labelled the weak one in the file itself, because
+  given a per-reaction Ea inside an exponential, "the steeper barrier is
+  the more sensitive one" is arithmetic, and it earns its place on
+  plumbing rather than physics. **Non-vacuity demonstrated, not argued**, at two
+  levels. Mutating the TEST — inverting or over-tightening one assertion in
+  each of the six — makes all six fail, so no assertion is decorative.
+  Mutating the ENGINE is the stronger check and the one that paid: giving
+  peroxide the thiosulfate clock's activation energy (75 → 51 kJ/mol, the
+  shape of a rate law that lost its own Ea) fails case 3, and hard-coding
+  the rendered float comparison against water rather than the liquid
+  present fails case 4 — but only after case 4 was widened. The first draft
+  read the scene's `position` and **passed that mutation**, because the
+  buoyancy comparison is made TWICE, once for the scene and once for the
+  sentence a person reads, and the mutation left the scene saying
+  `floating` beside the words "is at the bottom". Reading both surfaces is
+  now part of the case. The lesson generalises past this file: a mutation
+  applied to the test can only show an assertion is live, while a mutation
+  applied to the engine shows whether the assertion is pointed at the code
+  that could actually break. Note what this suite is deliberately NOT
+  sensitive to: a fourth-significant-figure error in a datum passes every
+  case here by construction, because no case has a reference value to
+  disagree with. It catches wiring, not calibration; the oracles catch
+  calibration. Cost: ~26 s of wall clock, 24 binary invocations, no data
+  and no network.
+  **It found one defect on its first outing**, and the seventh case is that
+  defect, `#[ignore]`d and asserting what is wanted rather than what ships:
+  the `contents` entry named `OH-` — the lv3 machine contract every `--json`
+  client reads — is the solution's residual cation charge, not hydroxide.
+  In an equimolar acetate buffer it reads 5.17e-4 mol where a pH of 4.66 can
+  hold 4.6e-10, and under a perturbation it moves 1.30x where hydroxide must
+  move 2.33x; the separately-kept `free_hydroxide`, which the solver writes
+  on its way out, moves by exactly 2.33x and is right. The ratio is 7x for
+  bicarbonate, 1.28x for sodium acetate and 1.12x for sodium hydroxide — it
+  is 1 only where the charge really is carried by free base, which is the
+  case `Vessel::free_hydroxide`'s own doc comment warns must not be
+  generalised ("Reading either as hydroxide invents a neutralisation that
+  never happened, at 55.81 kJ for every mole of it"). It is the alkalinity
+  defect from the other side: there a charge was mistaken for a portion,
+  here a charge is published as a species. Unfixed on purpose — the choice
+  between renaming the carrier and re-splitting the inventory is a `--json`
+  contract change owned by the aqueous tail.
 - **Mutation testing** (`cargo-mutants`) — distinguishes load-bearing
   invariants from decorative ones, which is this project's epistemics
   applied to its own test suite.
