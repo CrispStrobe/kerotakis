@@ -978,6 +978,22 @@ fn relative(a: f64, b: f64) -> f64 {
     (a - b).abs() / scale
 }
 
+/// The precision the wire actually carries. A reported molality is four
+/// significant figures — `"molality": 55.51` — so two runs that agree to
+/// eight digits can still print values a part in a thousand apart, and a
+/// tolerance below that is measuring the formatter. `metamorphic.rs`
+/// excluded print precision by hand ("so nobody re-litigates them"); a
+/// generator has to exclude it by rule, because it compares hundreds of
+/// speciation entries it never chose. Found on `aq-023`: 1.516e-3 against
+/// 1.517e-3, which is one unit in the last printed place.
+fn tolerance_for(key: &str, base: f64) -> f64 {
+    if key.starts_with("m.") {
+        base.max(1e-3)
+    } else {
+        base
+    }
+}
+
 /// Below this, a quantity is the solver's rounding residue rather than an
 /// amount of anything, and comparing two runs on it measures arithmetic.
 /// Set from the sweep: `aq-055` carried 1e-11 mol of hydrogen peroxide
@@ -1012,7 +1028,9 @@ fn worst_against(
             continue;
         }
         let deviation = relative(wanted, *b);
-        if deviation > tolerance && worst.as_ref().is_none_or(|(w, _)| deviation > *w) {
+        if deviation > tolerance_for(key, tolerance)
+            && worst.as_ref().is_none_or(|(w, _)| deviation > *w)
+        {
             worst = Some((
                 deviation,
                 format!("{key}: expected {wanted:.6e}, got {b:.6e} ({deviation:.2e} relative)"),
@@ -1029,7 +1047,9 @@ fn moved(before: &BTreeMap<String, f64>, after: &BTreeMap<String, f64>, toleranc
     keys.into_iter()
         .filter(|key| trustworthy(key))
         .filter(|key| match (before.get(*key), after.get(*key)) {
-            (Some(a), Some(b)) => !is_dust(key, *a, *b) && relative(*a, *b) > tolerance,
+            (Some(a), Some(b)) => {
+                !is_dust(key, *a, *b) && relative(*a, *b) > tolerance_for(key, tolerance)
+            }
             (Some(a), None) | (None, Some(a)) => !is_dust(key, *a, 0.0),
             (None, None) => false,
         })
