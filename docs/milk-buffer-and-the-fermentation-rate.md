@@ -195,3 +195,9 @@ work already has one.
   lower bound, by about 0.66 of a unit at yoghurt-like acidity, measured.
 - **Not claimed:** that `bio-069` is a yoghurt at all. It is eight hours of
   souring at 25 °C with a 43 °C culture.
+- **Not claimed at all, for two of the four:** the acetic and heterolactic
+  constants are the lactic fit carried across. No measurement of an
+  acetification rate per gram of vinegar mother, or of a sourdough rate per
+  gram of starter, was found. Their `rate_evidence.method` reads `editorial`
+  where the other two read `derived`, which is the whole reason that field was
+  added.
