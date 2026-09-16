@@ -588,7 +588,8 @@ fn basis_species_data(key: &str) -> Option<&'static SpeciesData> {
                            because one equivalent is one OH by construction; this is \
                            not a measurement of hydroxide, which is carried by \
                            Vessel::free_hydroxide and the reported speciation.";
-        Box::leak(Box::new(data))
+        let leaked: &'static SpeciesData = Box::leak(Box::new(data));
+        leaked
     }))
 }
 
