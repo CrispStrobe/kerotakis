@@ -201,3 +201,73 @@ been green for as long as the corpus has existed. The route it was answered
 by is the thing the corpus checks. Whether the answer depends on the sugar is
 the thing it could not.
 
+## What each generated case establishes, and what it cannot
+
+Every case carries this in its own doc comment; the summary is here so the
+weak ones cannot be quietly counted as coverage.
+
+| case | establishes | cannot establish | weakness |
+|---|---|---|---|
+| `addition_order_does_not_change_where_the_corpus_ends_up` | the state a recipe reaches does not depend on the sequence it was assembled in, across the span of chemistry the corpus covers rather than one precipitation | that the state is right — both orders could be equally wrong | **low.** The two runs are the same arithmetic in a different sequence; a solver cannot pass by construction |
+| `doubling_the_corpus_leaves_every_intensive_property_alone` | no absolute size leaks into a quantity that describes the solution rather than the beaker | any value; it is homogeneity of degree zero and one and nothing else | **low**, at the cost of excluding scripts with a verb whose size the script does not state |
+| `twice_the_solvent_dilutes_the_corpus_without_moving_the_amounts` | the solvent is a real quantity intensive properties are computed against, and the solubility limit is live | any value, any functional form, or which branch a given beaker should have taken | **low.** No path satisfies it without recomputing from the solvent mass |
+| `the_corpus_answer_depends_on_the_reagent_the_question_is_about` | the observation is causally downstream of the reagent — and where the script picked up an instrument, *that* reading is what must move | direction, magnitude, correctness. A beaker that warmed when it should have cooled passes | **the perturbation is not weak; the claim is.** `≠` is the least you can ask. The rows that FAIL are the valuable output |
+| `twice_the_reagent_moves_the_corpus_answer` | a dose response exists | anything else | **high, and declared.** Doubling a solute doubles its moles, doubles its molality, moves the ionic strength: that chain is arithmetic and this rides it. Kept only for the rows where the chain breaks — saturation, excess, a limiting reagent — and sampled at a fifth the density of the rest |
+| `authored_dose_siblings_are_not_answered_alike` | the engine distinguishes two loadings of the same recipe, on the surface the script's own instrument reads | which answer is right, or that the difference has the right size or sign | **low as a shape, moderate as a claim.** Differential, so a constant or an input-ignoring engine cannot pass; still only `≠`, except where a group has three loadings and the responses must be ordered |
+| `closing_the_vessel_restores_order_independence` | path dependence here is attributable to the boundary rather than to memory in the solver | that the open-vessel answer is right, or that the amount lost to the room is right | **low.** A ratio between two responses; a global error moves both |
+
+### The one that is close to the path it tests
+
+`twice_the_reagent_moves_the_corpus_answer` is the weak one and says so in
+its own doc comment, for the reason the brief warns about: a perturbation
+that varies a quantity the code multiplies through always passes. It is
+generated because the rows it *cannot* move are informative — a saturated
+beaker, a reagent already in excess, a limiting-reagent situation where the
+second half does nothing — and those are precisely the rows an `expected`
+field recording a route could never distinguish.
+
+`the_corpus_answer_depends_on_the_reagent_the_question_is_about` was nearly
+in the same position and was fixed rather than excused. Its first draft
+compared the whole bench, which deleting a reagent satisfies trivially by the
+reagent no longer being in the inventory. Restricting it to the readout, and
+then to the script's own instrument where there is one, is what makes it a
+claim about the chemistry rather than about bookkeeping.
+
+## Reach and cost, if this were continued to all five hundred
+
+The measurement harness already reaches the whole corpus:
+
+```sh
+KERO_PERTURBATION_SWEEP=/tmp/sweep.jsonl KERO_PERTURBATION_ALL=1 \
+  cargo test -p kerotakis-cli --test corpus_perturbation -- --ignored --nocapture sweep
+```
+
+What it costs is one `kero run --json` per side of each case. Measured on
+this machine, with two other agents building, a single run takes 2.1 s at
+rest and 3.5–5 s under contention; the corpus's slowest scripts (an hour of
+simulated waiting, a combustion) reach 19 s for the pair.
+
+| | cases | runs | serial time at 4 s/run |
+|---|---|---|---|
+| the gate (the subset below) | ~75 | ~150 | ~10 min |
+| every rule on every script it admits | 1502 | 3004 | ~3.3 h |
+
+So the full corpus is a nightly job, not a gate, and the generator is built
+for both: `density()` picks the gate's sample by a hash of the prompt id —
+stable under corpus insertion, spread across all four shards, and
+independent of anything the generator computed — while
+`KERO_PERTURBATION_ALL=1` ignores it.
+
+**The marginal cost of extending the reach is zero engineering and linear
+machine time.** Nothing in the generator is per-prompt: there is no list of
+handled ids, no per-script annotation, and no reference value anywhere. The
+1502 cases already exist; only the CI budget decides how many of them run on
+a pull request.
+
+What would NOT scale for free is the departure lists. Each recorded row
+needs a human sentence saying why it departs, and the ones found so far took
+between two runs (`aq-107`, saturated) and a small investigation
+(`th-100`'s pe). At the rate observed on the subset — 6 departures in ~75
+cases — the full corpus would produce something like 120 rows to explain.
+That, not machine time, is the real cost of going to five hundred.
+
