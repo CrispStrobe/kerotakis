@@ -1,0 +1,1824 @@
+{
+ "baseline": [
+  {
+   "failing": [],
+   "ok": true,
+   "seconds": 4.4,
+   "tier": "core-unit",
+   "timeout": false
+  },
+  {
+   "failing": [],
+   "ok": true,
+   "seconds": 1.6,
+   "tier": "core-integration",
+   "timeout": false
+  },
+  {
+   "failing": [],
+   "ok": true,
+   "seconds": 47.6,
+   "tier": "cli-property",
+   "timeout": false
+  },
+  {
+   "failing": [],
+   "ok": true,
+   "seconds": 11.8,
+   "tier": "cli-corpus",
+   "timeout": false
+  }
+ ],
+ "mutants": {
+  "0": {
+   "build_seconds": null,
+   "caught_by": "core-integration",
+   "failing": [
+    "a_raisin_in_water_needs_a_third_of_its_volume_in_attached_gas",
+    "a_sugar_syrup_reads_the_density_a_hydrometer_would",
+    "the_float_verdict_tracks_the_liquid_it_is_compared_against"
+   ],
+   "file": "crates/kerotakis-core/src/buoyancy.rs",
+   "kind": "constant",
+   "line": 84,
+   "rung": "integration",
+   "seconds": 54.6,
+   "source": "let mut volume_ml = vessel.liquid_volume().0 * 1000.0;",
+   "verdict": "caught"
+  },
+  "1": {
+   "build_seconds": null,
+   "caught_by": "core-integration",
+   "failing": [
+    "a_raisin_in_water_needs_a_third_of_its_volume_in_attached_gas",
+    "a_sugar_syrup_reads_the_density_a_hydrometer_would",
+    "dilution_moves_ph_toward_seven",
+    "order_independence_of_equilibrium",
+    "scale_invariance_of_intensive_properties"
+   ],
+   "file": "crates/kerotakis-core/src/buoyancy.rs",
+   "kind": "branch",
+   "line": 85,
+   "rung": "integration",
+   "seconds": 7.2,
+   "source": "volume_ml <= 0.0",
+   "verdict": "caught"
+  },
+  "10": {
+   "build_seconds": null,
+   "caught_by": "core-integration",
+   "failing": [
+    "a_raisin_in_water_needs_a_third_of_its_volume_in_attached_gas",
+    "a_sugar_syrup_reads_the_density_a_hydrometer_would"
+   ],
+   "file": "crates/kerotakis-core/src/buoyancy.rs",
+   "kind": "branch",
+   "line": 157,
+   "rung": "integration",
+   "seconds": 64.8,
+   "source": "!liquid_density.is_finite() || liquid_density <= 0.0",
+   "verdict": "caught"
+  },
+  "100": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::evaluate_dispatches_sucrose_water_density",
+    "properties::tests::sucrose_water_matches_an_independent_table"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "constant",
+   "line": 57,
+   "rung": "unit",
+   "seconds": 4.0,
+   "source": "water_density_kg_m3(t_kelvin).map(|r| r.value / 1000.0)",
+   "verdict": "caught"
+  },
+  "105": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::water_viscosity_at_0c",
+    "properties::tests::water_viscosity_at_20c",
+    "properties::tests::water_viscosity_at_25c",
+    "properties::tests::water_viscosity_refuses_outside_range"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "constant",
+   "line": 79,
+   "rung": "unit",
+   "seconds": 4.0,
+   "source": "let t_c = t_kelvin - 273.15;",
+   "verdict": "caught"
+  },
+  "106": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::water_viscosity_at_0c",
+    "properties::tests::water_viscosity_at_20c",
+    "properties::tests::water_viscosity_at_25c",
+    "properties::tests::water_viscosity_refuses_outside_range"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "branch",
+   "line": 80,
+   "rung": "unit",
+   "seconds": 4.0,
+   "source": "!(0.0..=100.0).contains(&t_c)",
+   "verdict": "caught"
+  },
+  "107": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::water_viscosity_refuses_outside_range"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "constant",
+   "line": 80,
+   "rung": "unit",
+   "seconds": 4.5,
+   "source": "if !(0.0..=100.0).contains(&t_c) {",
+   "verdict": "caught"
+  },
+  "108": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::water_viscosity_at_0c",
+    "properties::tests::water_viscosity_at_20c",
+    "properties::tests::water_viscosity_at_25c"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "constant",
+   "line": 88,
+   "rung": "unit",
+   "seconds": 6.4,
+   "source": ".powf((KORSON_A * (20.0 - t_c) - KORSON_B * (t_c - 20.0).powi(2)) / (t_c + KORSON_C));",
+   "verdict": "caught"
+  },
+  "109": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::water_viscosity_at_0c"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "constant",
+   "line": 88,
+   "rung": "unit",
+   "seconds": 6.1,
+   "source": ".powf((KORSON_A * (20.0 - t_c) - KORSON_B * (t_c - 20.0).powi(2)) / (t_c + KORSON_C));",
+   "verdict": "caught"
+  },
+  "11": {
+   "build_seconds": null,
+   "caught_by": "core-integration",
+   "failing": [
+    "a_raisin_in_water_needs_a_third_of_its_volume_in_attached_gas"
+   ],
+   "file": "crates/kerotakis-core/src/buoyancy.rs",
+   "kind": "constant",
+   "line": 157,
+   "rung": "integration",
+   "seconds": 67.5,
+   "source": "if !liquid_density.is_finite() || liquid_density <= 0.0 {",
+   "verdict": "caught"
+  },
+  "119": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::water_permittivity_at_0c",
+    "properties::tests::water_permittivity_at_25c",
+    "properties::tests::water_permittivity_refuses_outside_range"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "constant",
+   "line": 117,
+   "rung": "unit",
+   "seconds": 6.3,
+   "source": "let t_c = t_kelvin - 273.15;",
+   "verdict": "caught"
+  },
+  "12": {
+   "build_seconds": null,
+   "caught_by": "core-integration",
+   "failing": [
+    "a_raisin_in_water_needs_a_third_of_its_volume_in_attached_gas",
+    "a_sugar_syrup_reads_the_density_a_hydrometer_would"
+   ],
+   "file": "crates/kerotakis-core/src/buoyancy.rs",
+   "kind": "branch",
+   "line": 161,
+   "rung": "integration",
+   "seconds": 93.7,
+   "source": "!RIDERS .iter() .any(|rider| portion.recipe_id.ends_with(rider.material))",
+   "verdict": "caught"
+  },
+  "120": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::water_permittivity_at_0c",
+    "properties::tests::water_permittivity_at_25c",
+    "properties::tests::water_permittivity_refuses_outside_range"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "branch",
+   "line": 118,
+   "rung": "unit",
+   "seconds": 6.2,
+   "source": "!(0.0..=350.0).contains(&t_c)",
+   "verdict": "caught"
+  },
+  "121": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::water_permittivity_refuses_outside_range"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "constant",
+   "line": 118,
+   "rung": "unit",
+   "seconds": 5.6,
+   "source": "if !(0.0..=350.0).contains(&t_c) {",
+   "verdict": "caught"
+  },
+  "122": {
+   "build_seconds": null,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "constant",
+   "line": 124,
+   "rung": null,
+   "seconds": 74.3,
+   "source": "let p_bar = 1.0;",
+   "verdict": "survived"
+  },
+  "123": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::water_permittivity_at_0c",
+    "properties::tests::water_permittivity_at_25c"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "constant",
+   "line": 129,
+   "rung": "unit",
+   "seconds": 6.3,
+   "source": "let eps = eps1000 + c * ((b + p_bar) / (b + 1000.0)).ln();",
+   "verdict": "caught"
+  },
+  "125": {
+   "build_seconds": 168.6,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 167,
+   "rung": null,
+   "seconds": 47.9,
+   "source": "c_kelvin: 2400.0,",
+   "verdict": "survived"
+  },
+  "13": {
+   "build_seconds": null,
+   "caught_by": "core-integration",
+   "failing": [
+    "a_raisin_in_water_needs_a_third_of_its_volume_in_attached_gas",
+    "a_sugar_syrup_reads_the_density_a_hydrometer_would"
+   ],
+   "file": "crates/kerotakis-core/src/buoyancy.rs",
+   "kind": "constant",
+   "line": 179,
+   "rung": "integration",
+   "seconds": 94.8,
+   "source": "lift_gas_fraction: ((object_density - liquid_density) / liquid_density).max(0.0),",
+   "verdict": "caught"
+  },
+  "136": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::evaluate_dispatches_henry",
+    "properties::tests::henry_co2_at_25c",
+    "properties::tests::henry_nh3_at_25c",
+    "properties::tests::henry_o2_at_25c",
+    "volatility::tests::ammonia_in_a_sealed_jar_reaches_the_headspace",
+    "volatility::tests::water_holds_ammonia_back"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "constant",
+   "line": 210,
+   "rung": "unit",
+   "seconds": 5.4,
+   "source": "let t0 = 298.15;",
+   "verdict": "caught"
+  },
+  "137": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::evaluate_dispatches_henry",
+    "properties::tests::henry_co2_at_25c",
+    "properties::tests::henry_nh3_at_25c",
+    "properties::tests::henry_o2_at_25c",
+    "volatility::tests::ammonia_in_a_sealed_jar_reaches_the_headspace",
+    "volatility::tests::water_holds_ammonia_back"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "constant",
+   "line": 211,
+   "rung": "unit",
+   "seconds": 5.8,
+   "source": "let h = coeff.hcp_298 * (coeff.c_kelvin * (1.0 / t_kelvin - 1.0 / t0)).exp();",
+   "verdict": "caught"
+  },
+  "138": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::evaluate_dispatches_henry",
+    "properties::tests::henry_co2_at_25c",
+    "properties::tests::henry_nh3_at_25c",
+    "properties::tests::henry_o2_at_25c",
+    "volatility::tests::a_cooled_jar_takes_its_ammonia_back",
+    "volatility::tests::water_holds_ammonia_back"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "constant",
+   "line": 211,
+   "rung": "unit",
+   "seconds": 5.4,
+   "source": "let h = coeff.hcp_298 * (coeff.c_kelvin * (1.0 / t_kelvin - 1.0 / t0)).exp();",
+   "verdict": "caught"
+  },
+  "14": {
+   "build_seconds": 157.9,
+   "caught_by": "core-integration",
+   "failing": [
+    "pure_water_and_nonionic_solute_have_an_explicit_limiting_law_blank"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "table",
+   "line": 111,
+   "rung": "integration",
+   "seconds": 5.1,
+   "source": "(\"H+\", 349.65),",
+   "verdict": "caught"
+  },
+  "145": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::ethanol_water_density_decreases_with_ethanol",
+    "properties::tests::ethanol_water_density_refuses_outside_range",
+    "properties::tests::ethanol_water_fifty_percent",
+    "properties::tests::ethanol_water_pure_ethanol",
+    "properties::tests::ethanol_water_pure_water",
+    "properties::tests::evaluate_dispatches_ethanol_water_density"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "branch",
+   "line": 264,
+   "rung": "unit",
+   "seconds": 5.1,
+   "source": "!(0.0..=1.0).contains(&w_ethanol)",
+   "verdict": "caught"
+  },
+  "146": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::ethanol_water_density_refuses_outside_range"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "constant",
+   "line": 264,
+   "rung": "unit",
+   "seconds": 6.0,
+   "source": "if !(0.0..=1.0).contains(&w_ethanol) {",
+   "verdict": "caught"
+  },
+  "151": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::evaluate_dispatches_sucrose_water_density",
+    "properties::tests::sucrose_water_density_increases_with_sugar",
+    "properties::tests::sucrose_water_matches_an_independent_table",
+    "properties::tests::sucrose_water_pure_water_is_the_water_correlation",
+    "properties::tests::sucrose_water_refuses_beyond_the_published_table",
+    "properties::tests::sucrose_water_reports_the_specific_gravity_it_solved"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "branch",
+   "line": 334,
+   "rung": "unit",
+   "seconds": 5.1,
+   "source": "!(0.0..=0.40).contains(&w_sucrose)",
+   "verdict": "caught"
+  },
+  "152": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::sucrose_water_refuses_beyond_the_published_table"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "constant",
+   "line": 334,
+   "rung": "unit",
+   "seconds": 5.3,
+   "source": "if !(0.0..=0.40).contains(&w_sucrose) {",
+   "verdict": "caught"
+  },
+  "153": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::evaluate_dispatches_sucrose_water_density",
+    "properties::tests::sucrose_water_density_increases_with_sugar",
+    "properties::tests::sucrose_water_matches_an_independent_table"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "constant",
+   "line": 341,
+   "rung": "unit",
+   "seconds": 5.9,
+   "source": "let target_brix = 100.0 * w_sucrose;",
+   "verdict": "caught"
+  },
+  "154": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::evaluate_dispatches_sucrose_water_density",
+    "properties::tests::sucrose_water_density_increases_with_sugar",
+    "properties::tests::sucrose_water_matches_an_independent_table",
+    "properties::tests::sucrose_water_pure_water_is_the_water_correlation"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "constant",
+   "line": 345,
+   "rung": "unit",
+   "seconds": 5.8,
+   "source": "let mid = 0.5 * (lo + hi);",
+   "verdict": "caught"
+  },
+  "155": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::evaluate_dispatches_sucrose_water_density",
+    "properties::tests::sucrose_water_density_increases_with_sugar",
+    "properties::tests::sucrose_water_matches_an_independent_table",
+    "properties::tests::sucrose_water_pure_water_is_the_water_correlation"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "branch",
+   "line": 346,
+   "rung": "unit",
+   "seconds": 5.5,
+   "source": "nbs114_brix(mid) < target_brix",
+   "verdict": "caught"
+  },
+  "156": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::evaluate_dispatches_sucrose_water_density",
+    "properties::tests::sucrose_water_density_increases_with_sugar",
+    "properties::tests::sucrose_water_matches_an_independent_table",
+    "properties::tests::sucrose_water_pure_water_is_the_water_correlation"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "branch",
+   "line": 351,
+   "rung": "unit",
+   "seconds": 5.0,
+   "source": "hi - lo < 1e-15",
+   "verdict": "caught"
+  },
+  "157": {
+   "build_seconds": null,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "constant",
+   "line": 351,
+   "rung": null,
+   "seconds": 59.3,
+   "source": "if hi - lo < 1e-15 {",
+   "verdict": "survived"
+  },
+  "158": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::evaluate_dispatches_sucrose_water_density",
+    "properties::tests::sucrose_water_matches_an_independent_table",
+    "properties::tests::sucrose_water_pure_water_is_the_water_correlation"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "constant",
+   "line": 355,
+   "rung": "unit",
+   "seconds": 4.1,
+   "source": "let d = 0.5 * (lo + hi);",
+   "verdict": "caught"
+  },
+  "159": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::evaluate_dispatches_sucrose_water_density",
+    "properties::tests::sucrose_water_density_increases_with_sugar",
+    "properties::tests::sucrose_water_matches_an_independent_table",
+    "properties::tests::sucrose_water_pure_water_is_the_water_correlation",
+    "properties::tests::sucrose_water_refuses_beyond_the_published_table",
+    "properties::tests::sucrose_water_reports_the_specific_gravity_it_solved"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "constant",
+   "line": 356,
+   "rung": "unit",
+   "seconds": 4.5,
+   "source": "let rho_water = water_density_g_ml(293.15)?;",
+   "verdict": "caught"
+  },
+  "160": {
+   "build_seconds": 163.5,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::capillary_rise_in_a_half_millimetre_tube",
+    "properties::tests::evaluate_dispatches_the_new_interfacial_properties",
+    "properties::tests::water_surface_tension_at_0c",
+    "properties::tests::water_surface_tension_at_100c",
+    "properties::tests::water_surface_tension_at_20c",
+    "properties::tests::water_surface_tension_at_25c"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 389,
+   "rung": "unit",
+   "seconds": 4.2,
+   "source": "const IAPWS_ST_B: f64 = 235.8; // mN/m",
+   "verdict": "caught"
+  },
+  "164": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::capillary_rise_falls_as_the_water_warms",
+    "properties::tests::capillary_rise_in_a_half_millimetre_tube",
+    "properties::tests::capillary_rise_is_inverse_in_the_radius",
+    "properties::tests::capillary_rise_is_negative_when_the_liquid_is_pushed_down",
+    "properties::tests::capillary_rise_refuses_beyond_the_density_correlation",
+    "properties::tests::capillary_rise_vanishes_at_ninety_degrees",
+    "properties::tests::evaluate_dispatches_the_new_interfacial_properties",
+    "properties::tests::water_surface_tension_at_0c",
+    "properties::tests::water_surface_tension_at_20c",
+    "properties::tests::water_surface_tension_at_25c",
+    "properties::tests::water_surface_tension_falls_with_temperature",
+    "properties::tests::water_surface_tension_refuses_outside_range"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "constant",
+   "line": 397,
+   "rung": "unit",
+   "seconds": 4.2,
+   "source": "let t_c = t_kelvin - 273.15;",
+   "verdict": "caught"
+  },
+  "165": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::capillary_rise_falls_as_the_water_warms",
+    "properties::tests::capillary_rise_in_a_half_millimetre_tube",
+    "properties::tests::capillary_rise_is_inverse_in_the_radius",
+    "properties::tests::capillary_rise_is_negative_when_the_liquid_is_pushed_down",
+    "properties::tests::capillary_rise_refuses_beyond_the_density_correlation",
+    "properties::tests::capillary_rise_vanishes_at_ninety_degrees",
+    "properties::tests::evaluate_dispatches_the_new_interfacial_properties",
+    "properties::tests::water_surface_tension_at_0c",
+    "properties::tests::water_surface_tension_at_100c",
+    "properties::tests::water_surface_tension_at_20c",
+    "properties::tests::water_surface_tension_at_25c",
+    "properties::tests::water_surface_tension_falls_with_temperature",
+    "properties::tests::water_surface_tension_refuses_outside_range"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "branch",
+   "line": 398,
+   "rung": "unit",
+   "seconds": 3.9,
+   "source": "!(0.0..=100.0).contains(&t_c)",
+   "verdict": "caught"
+  },
+  "166": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::water_surface_tension_refuses_outside_range"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "constant",
+   "line": 398,
+   "rung": "unit",
+   "seconds": 4.1,
+   "source": "if !(0.0..=100.0).contains(&t_c) {",
+   "verdict": "caught"
+  },
+  "167": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::capillary_rise_in_a_half_millimetre_tube",
+    "properties::tests::evaluate_dispatches_the_new_interfacial_properties",
+    "properties::tests::water_surface_tension_at_0c",
+    "properties::tests::water_surface_tension_at_100c",
+    "properties::tests::water_surface_tension_at_20c",
+    "properties::tests::water_surface_tension_at_25c"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "constant",
+   "line": 404,
+   "rung": "unit",
+   "seconds": 4.0,
+   "source": "let tau = 1.0 - t_kelvin / WATER_CRITICAL_K;",
+   "verdict": "caught"
+  },
+  "168": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::capillary_rise_in_a_half_millimetre_tube",
+    "properties::tests::evaluate_dispatches_the_new_interfacial_properties",
+    "properties::tests::water_surface_tension_at_0c",
+    "properties::tests::water_surface_tension_at_100c",
+    "properties::tests::water_surface_tension_at_20c",
+    "properties::tests::water_surface_tension_at_25c"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "constant",
+   "line": 405,
+   "rung": "unit",
+   "seconds": 4.2,
+   "source": "let sigma = IAPWS_ST_B * tau.powf(IAPWS_ST_MU) * (1.0 + IAPWS_ST_LITTLE_B * tau);",
+   "verdict": "caught"
+  },
+  "169": {
+   "build_seconds": 163.9,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::capillary_rise_in_a_half_millimetre_tube",
+    "properties::tests::evaluate_dispatches_the_new_interfacial_properties"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 437,
+   "rung": "unit",
+   "seconds": 3.7,
+   "source": "const STANDARD_GRAVITY: f64 = 9.806_65;",
+   "verdict": "caught"
+  },
+  "170": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::capillary_rise_falls_as_the_water_warms",
+    "properties::tests::capillary_rise_in_a_half_millimetre_tube",
+    "properties::tests::capillary_rise_is_inverse_in_the_radius",
+    "properties::tests::capillary_rise_is_negative_when_the_liquid_is_pushed_down",
+    "properties::tests::capillary_rise_refuses_nonsense_geometry",
+    "properties::tests::capillary_rise_vanishes_at_ninety_degrees",
+    "properties::tests::evaluate_dispatches_the_new_interfacial_properties"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "branch",
+   "line": 447,
+   "rung": "unit",
+   "seconds": 3.9,
+   "source": "radius_mm.is_nan() || radius_mm <= 0.0",
+   "verdict": "caught"
+  },
+  "171": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::capillary_rise_falls_as_the_water_warms",
+    "properties::tests::capillary_rise_in_a_half_millimetre_tube",
+    "properties::tests::capillary_rise_is_inverse_in_the_radius",
+    "properties::tests::capillary_rise_is_negative_when_the_liquid_is_pushed_down",
+    "properties::tests::capillary_rise_vanishes_at_ninety_degrees",
+    "properties::tests::evaluate_dispatches_the_new_interfacial_properties"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "constant",
+   "line": 447,
+   "rung": "unit",
+   "seconds": 4.1,
+   "source": "if radius_mm.is_nan() || radius_mm <= 0.0 {",
+   "verdict": "caught"
+  },
+  "172": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::capillary_rise_falls_as_the_water_warms",
+    "properties::tests::capillary_rise_in_a_half_millimetre_tube",
+    "properties::tests::capillary_rise_is_inverse_in_the_radius",
+    "properties::tests::capillary_rise_is_negative_when_the_liquid_is_pushed_down",
+    "properties::tests::capillary_rise_refuses_nonsense_geometry",
+    "properties::tests::capillary_rise_vanishes_at_ninety_degrees",
+    "properties::tests::evaluate_dispatches_the_new_interfacial_properties"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "branch",
+   "line": 452,
+   "rung": "unit",
+   "seconds": 4.0,
+   "source": "!(0.0..=180.0).contains(&theta_deg)",
+   "verdict": "caught"
+  },
+  "173": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::capillary_rise_refuses_nonsense_geometry"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "constant",
+   "line": 452,
+   "rung": "unit",
+   "seconds": 3.9,
+   "source": "if !(0.0..=180.0).contains(&theta_deg) {",
+   "verdict": "caught"
+  },
+  "174": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::capillary_rise_in_a_half_millimetre_tube",
+    "properties::tests::evaluate_dispatches_the_new_interfacial_properties"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "constant",
+   "line": 461,
+   "rung": "unit",
+   "seconds": 4.2,
+   "source": "let sigma_n_m = water_surface_tension_mn_m(t_kelvin)?.value * 1e-3;",
+   "verdict": "caught"
+  },
+  "175": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::capillary_rise_in_a_half_millimetre_tube",
+    "properties::tests::evaluate_dispatches_the_new_interfacial_properties"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "constant",
+   "line": 462,
+   "rung": "unit",
+   "seconds": 3.8,
+   "source": "let r_m = radius_mm * 1e-3;",
+   "verdict": "caught"
+  },
+  "176": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::capillary_rise_in_a_half_millimetre_tube",
+    "properties::tests::evaluate_dispatches_the_new_interfacial_properties"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "constant",
+   "line": 463,
+   "rung": "unit",
+   "seconds": 3.6,
+   "source": "let h_m = 2.0 * sigma_n_m * theta_deg.to_radians().cos() / (rho * STANDARD_GRAVITY * r_m);",
+   "verdict": "caught"
+  },
+  "177": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::capillary_rise_in_a_half_millimetre_tube",
+    "properties::tests::evaluate_dispatches_the_new_interfacial_properties"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "constant",
+   "line": 465,
+   "rung": "unit",
+   "seconds": 3.4,
+   "source": "value: h_m * 1e3,",
+   "verdict": "caught"
+  },
+  "178": {
+   "build_seconds": null,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "constant",
+   "line": 470,
+   "rung": null,
+   "seconds": 43.3,
+   "source": "sigma_n_m * 1e3,",
+   "verdict": "survived"
+  },
+  "179": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::evaluate_dispatches_ethanol_water_density",
+    "properties::tests::evaluate_dispatches_henry",
+    "properties::tests::evaluate_dispatches_sucrose_water_density",
+    "properties::tests::evaluate_dispatches_the_new_interfacial_properties",
+    "properties::tests::evaluate_dispatches_water_density"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "branch",
+   "line": 526,
+   "rung": "unit",
+   "seconds": 3.6,
+   "source": "k == key",
+   "verdict": "caught"
+  },
+  "180": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::evaluate_dispatches_henry"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "branch",
+   "line": 540,
+   "rung": "unit",
+   "seconds": 4.1,
+   "source": "k == key",
+   "verdict": "caught"
+  },
+  "181": {
+   "build_seconds": null,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "constant",
+   "line": 588,
+   "rung": null,
+   "seconds": 44.2,
+   "source": "let theta = get(\"theta\").unwrap_or(0.0);",
+   "verdict": "survived"
+  },
+  "2": {
+   "build_seconds": null,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/buoyancy.rs",
+   "kind": "constant",
+   "line": 85,
+   "rung": null,
+   "seconds": 65.5,
+   "source": "if volume_ml <= 0.0 {",
+   "verdict": "survived"
+  },
+  "23": {
+   "build_seconds": 156.5,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "table",
+   "line": 120,
+   "rung": null,
+   "seconds": 46.7,
+   "source": "(\"Ba+2\", 127.2),",
+   "verdict": "survived"
+  },
+  "3": {
+   "build_seconds": null,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/buoyancy.rs",
+   "kind": "constant",
+   "line": 88,
+   "rung": null,
+   "seconds": 84.5,
+   "source": "let mut mass_g = 0.0;",
+   "verdict": "survived"
+  },
+  "4": {
+   "build_seconds": null,
+   "caught_by": "core-integration",
+   "failing": [
+    "a_raisin_in_water_needs_a_third_of_its_volume_in_attached_gas",
+    "a_sugar_syrup_reads_the_density_a_hydrometer_would",
+    "the_float_verdict_tracks_the_liquid_it_is_compared_against"
+   ],
+   "file": "crates/kerotakis-core/src/buoyancy.rs",
+   "kind": "branch",
+   "line": 91,
+   "rung": "integration",
+   "seconds": 58.0,
+   "source": "!dissolved && portion.phase != crate::species::Phase::Liquid",
+   "verdict": "caught"
+  },
+  "41": {
+   "build_seconds": 169.0,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "table",
+   "line": 138,
+   "rung": null,
+   "seconds": 50.5,
+   "source": "(\"MnO4-\", 61.3),",
+   "verdict": "survived"
+  },
+  "43": {
+   "build_seconds": 171.9,
+   "caught_by": "core-unit",
+   "failing": [
+    "conductivity::tests::kcl_calibration_standard_within_model_error",
+    "conductivity::tests::kitchen_brine_matches_the_measured_conductivity",
+    "conductivity::tests::the_concentration_correction_is_monotone_over_the_bench_range"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "table",
+   "line": 169,
+   "rung": "unit",
+   "seconds": 4.3,
+   "source": "const FIT_SQRT: f64 = 0.5324;",
+   "verdict": "caught"
+  },
+  "46": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "conductivity::tests::kcl_calibration_standard_within_model_error",
+    "conductivity::tests::the_concentration_correction_is_monotone_over_the_bench_range"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "constant",
+   "line": 192,
+   "rung": "unit",
+   "seconds": 5.6,
+   "source": "let i = ionic_strength.max(0.0);",
+   "verdict": "caught"
+  },
+  "47": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "conductivity::tests::kitchen_brine_matches_the_measured_conductivity",
+    "conductivity::tests::the_concentration_correction_is_monotone_over_the_bench_range"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "constant",
+   "line": 193,
+   "rung": "unit",
+   "seconds": 5.3,
+   "source": "(1.0 / (1.0 + FIT_SQRT * i.sqrt() + FIT_LINEAR * i)).clamp(0.0, 1.0)",
+   "verdict": "caught"
+  },
+  "48": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "conductivity::tests::kcl_calibration_standard_within_model_error",
+    "conductivity::tests::kitchen_brine_matches_the_measured_conductivity",
+    "conductivity::tests::the_concentration_correction_is_monotone_over_the_bench_range"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "constant",
+   "line": 193,
+   "rung": "unit",
+   "seconds": 6.9,
+   "source": "(1.0 / (1.0 + FIT_SQRT * i.sqrt() + FIT_LINEAR * i)).clamp(0.0, 1.0)",
+   "verdict": "caught"
+  },
+  "49": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "conductivity::tests::kitchen_brine_matches_the_measured_conductivity",
+    "conductivity::tests::the_concentration_correction_is_monotone_over_the_bench_range"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "constant",
+   "line": 193,
+   "rung": "unit",
+   "seconds": 5.1,
+   "source": "(1.0 / (1.0 + FIT_SQRT * i.sqrt() + FIT_LINEAR * i)).clamp(0.0, 1.0)",
+   "verdict": "caught"
+  },
+  "5": {
+   "build_seconds": null,
+   "caught_by": "core-integration",
+   "failing": [
+    "a_raisin_in_water_needs_a_third_of_its_volume_in_attached_gas",
+    "a_sugar_syrup_reads_the_density_a_hydrometer_would",
+    "the_float_verdict_tracks_the_liquid_it_is_compared_against"
+   ],
+   "file": "crates/kerotakis-core/src/buoyancy.rs",
+   "kind": "branch",
+   "line": 99,
+   "rung": "integration",
+   "seconds": 58.1,
+   "source": "dissolved && data.density > 0.0",
+   "verdict": "caught"
+  },
+  "50": {
+   "build_seconds": null,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "constant",
+   "line": 193,
+   "rung": null,
+   "seconds": 85.0,
+   "source": "(1.0 / (1.0 + FIT_SQRT * i.sqrt() + FIT_LINEAR * i)).clamp(0.0, 1.0)",
+   "verdict": "survived"
+  },
+  "51": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "conductivity::tests::kcl_calibration_standard_within_model_error",
+    "conductivity::tests::neutral_complexes_carry_no_current"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "constant",
+   "line": 239,
+   "rung": "unit",
+   "seconds": 7.3,
+   "source": "} => *covered_charge_fraction >= 0.9,",
+   "verdict": "caught"
+  },
+  "52": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "conductivity::tests::phreeqc_charge_suffixes_parse"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "branch",
+   "line": 256,
+   "rung": "unit",
+   "seconds": 7.3,
+   "source": "suffix.starts_with('+')",
+   "verdict": "caught"
+  },
+  "53": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "conductivity::tests::kcl_calibration_standard_within_model_error",
+    "conductivity::tests::kitchen_brine_matches_the_measured_conductivity",
+    "conductivity::tests::mobility_ordering_is_visible",
+    "conductivity::tests::neutral_complexes_carry_no_current",
+    "conductivity::tests::no_speciation_falls_back_to_labelled_mean_mobility",
+    "conductivity::tests::untabulated_ions_are_confessed_not_ignored"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "branch",
+   "line": 276,
+   "rung": "unit",
+   "seconds": 7.3,
+   "source": "info.species.is_empty()",
+   "verdict": "caught"
+  },
+  "54": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "conductivity::tests::no_speciation_falls_back_to_labelled_mean_mobility"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "constant",
+   "line": 278,
+   "rung": "unit",
+   "seconds": 8.0,
+   "source": "microsiemens_per_cm: info.ionic_strength * 100_000.0,",
+   "verdict": "caught"
+  },
+  "55": {
+   "build_seconds": null,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "constant",
+   "line": 281,
+   "rung": null,
+   "seconds": 65.6,
+   "source": "concentration_factor: 1.0,",
+   "verdict": "survived"
+  },
+  "56": {
+   "build_seconds": null,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "constant",
+   "line": 292,
+   "rung": null,
+   "seconds": 50.2,
+   "source": "let mut kappa_us_cm = 0.0;",
+   "verdict": "survived"
+  },
+  "57": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "conductivity::tests::kcl_calibration_standard_within_model_error",
+    "conductivity::tests::untabulated_ions_are_confessed_not_ignored"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "constant",
+   "line": 293,
+   "rung": "unit",
+   "seconds": 4.2,
+   "source": "let mut charge_covered = 0.0;",
+   "verdict": "caught"
+  },
+  "58": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "conductivity::tests::kcl_calibration_standard_within_model_error",
+    "conductivity::tests::neutral_complexes_carry_no_current"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "constant",
+   "line": 294,
+   "rung": "unit",
+   "seconds": 4.0,
+   "source": "let mut charge_total = 0.0;",
+   "verdict": "caught"
+  },
+  "59": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "conductivity::tests::kcl_calibration_standard_within_model_error",
+    "conductivity::tests::kitchen_brine_matches_the_measured_conductivity",
+    "conductivity::tests::mobility_ordering_is_visible",
+    "conductivity::tests::untabulated_ions_are_confessed_not_ignored"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "branch",
+   "line": 298,
+   "rung": "unit",
+   "seconds": 4.2,
+   "source": "z == 0",
+   "verdict": "caught"
+  },
+  "6": {
+   "build_seconds": null,
+   "caught_by": "core-integration",
+   "failing": [
+    "a_salt_solution_says_what_its_density_reading_omits"
+   ],
+   "file": "crates/kerotakis-core/src/buoyancy.rs",
+   "kind": "constant",
+   "line": 99,
+   "rung": "integration",
+   "seconds": 54.3,
+   "source": "if dissolved && data.density > 0.0 {",
+   "verdict": "caught"
+  },
+  "60": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "conductivity::tests::kcl_calibration_standard_within_model_error",
+    "conductivity::tests::kitchen_brine_matches_the_measured_conductivity"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "constant",
+   "line": 307,
+   "rung": "unit",
+   "seconds": 3.7,
+   "source": "kappa_us_cm += l * c_mol_l * 1000.0;",
+   "verdict": "caught"
+  },
+  "61": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "conductivity::tests::untabulated_ions_are_confessed_not_ignored"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "branch",
+   "line": 313,
+   "rung": "unit",
+   "seconds": 4.0,
+   "source": "charge_total > 0.0",
+   "verdict": "caught"
+  },
+  "62": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "conductivity::tests::untabulated_ions_are_confessed_not_ignored"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "constant",
+   "line": 313,
+   "rung": "unit",
+   "seconds": 4.1,
+   "source": "let covered_charge_fraction = if charge_total > 0.0 {",
+   "verdict": "caught"
+  },
+  "63": {
+   "build_seconds": null,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "constant",
+   "line": 316,
+   "rung": null,
+   "seconds": 48.4,
+   "source": "1.0 // nothing charged in solution: \u03ba = 0 covers everything there is",
+   "verdict": "survived"
+  },
+  "64": {
+   "build_seconds": null,
+   "caught_by": "core-integration",
+   "failing": [
+    "pure_water_and_nonionic_solute_have_an_explicit_limiting_law_blank"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "branch",
+   "line": 336,
+   "rung": "integration",
+   "seconds": 52.0,
+   "source": "vessel.solution.is_some() || vessel.liquid_volume().0 <= 0.0 || !vessel.unresolved_materia",
+   "verdict": "caught"
+  },
+  "65": {
+   "build_seconds": null,
+   "caught_by": "core-integration",
+   "failing": [
+    "pure_water_and_nonionic_solute_have_an_explicit_limiting_law_blank"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "constant",
+   "line": 337,
+   "rung": "integration",
+   "seconds": 46.1,
+   "source": "|| vessel.liquid_volume().0 <= 0.0",
+   "verdict": "caught"
+  },
+  "66": {
+   "build_seconds": null,
+   "caught_by": "core-integration",
+   "failing": [
+    "pure_water_and_nonionic_solute_have_an_explicit_limiting_law_blank"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "constant",
+   "line": 339,
+   "rung": "integration",
+   "seconds": 48.0,
+   "source": "|| (vessel.temperature.0 - 298.15).abs() > 0.01",
+   "verdict": "caught"
+  },
+  "67": {
+   "build_seconds": null,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "constant",
+   "line": 339,
+   "rung": null,
+   "seconds": 47.8,
+   "source": "|| (vessel.temperature.0 - 298.15).abs() > 0.01",
+   "verdict": "survived"
+  },
+  "68": {
+   "build_seconds": null,
+   "caught_by": "core-integration",
+   "failing": [
+    "pure_water_and_nonionic_solute_have_an_explicit_limiting_law_blank"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "constant",
+   "line": 351,
+   "rung": "integration",
+   "seconds": 48.7,
+   "source": "(lambda(\"H+\") + lambda(\"OH-\")) * 1e-7 * 1000.0",
+   "verdict": "caught"
+  },
+  "69": {
+   "build_seconds": null,
+   "caught_by": "core-integration",
+   "failing": [
+    "pure_water_and_nonionic_solute_have_an_explicit_limiting_law_blank"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "constant",
+   "line": 351,
+   "rung": "integration",
+   "seconds": 52.7,
+   "source": "(lambda(\"H+\") + lambda(\"OH-\")) * 1e-7 * 1000.0",
+   "verdict": "caught"
+  },
+  "7": {
+   "build_seconds": null,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/buoyancy.rs",
+   "kind": "constant",
+   "line": 103,
+   "rung": null,
+   "seconds": 73.4,
+   "source": "(volume_ml > 0.0).then(|| mass_g / volume_ml)",
+   "verdict": "survived"
+  },
+  "70": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "instrument::tests::ph_meter_requires_solution"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "branch",
+   "line": 360,
+   "rung": "unit",
+   "seconds": 6.1,
+   "source": "vessel.solution.is_some() || vessel.liquid_volume().0 <= 0.0 || !vessel.unresolved_materia",
+   "verdict": "caught"
+  },
+  "71": {
+   "build_seconds": null,
+   "caught_by": "core-integration",
+   "failing": [
+    "a_nonionic_aqueous_blank_has_an_explicit_neutral_ph_reading"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "constant",
+   "line": 361,
+   "rung": "integration",
+   "seconds": 69.7,
+   "source": "|| vessel.liquid_volume().0 <= 0.0",
+   "verdict": "caught"
+  },
+  "72": {
+   "build_seconds": null,
+   "caught_by": "core-integration",
+   "failing": [
+    "a_nonionic_aqueous_blank_has_an_explicit_neutral_ph_reading"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "constant",
+   "line": 363,
+   "rung": "integration",
+   "seconds": 66.6,
+   "source": "|| (vessel.temperature.0 - 298.15).abs() > 0.01",
+   "verdict": "caught"
+  },
+  "73": {
+   "build_seconds": null,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "constant",
+   "line": 363,
+   "rung": null,
+   "seconds": 62.4,
+   "source": "|| (vessel.temperature.0 - 298.15).abs() > 0.01",
+   "verdict": "survived"
+  },
+  "74": {
+   "build_seconds": null,
+   "caught_by": "core-integration",
+   "failing": [
+    "a_nonionic_aqueous_blank_has_an_explicit_neutral_ph_reading"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "constant",
+   "line": 367,
+   "rung": "integration",
+   "seconds": 63.2,
+   "source": "neutral_water_contents(vessel).then_some(7.0)",
+   "verdict": "caught"
+  },
+  "75": {
+   "build_seconds": null,
+   "caught_by": "core-integration",
+   "failing": [
+    "a_named_object_reading_carries_its_span_its_source_and_its_caveat"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "constant",
+   "line": 418,
+   "rung": "integration",
+   "seconds": 46.9,
+   "source": ".map(|(lower, upper)| (1.0 / upper, 1.0 / lower))",
+   "verdict": "caught"
+  },
+  "76": {
+   "build_seconds": null,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "constant",
+   "line": 418,
+   "rung": null,
+   "seconds": 47.7,
+   "source": ".map(|(lower, upper)| (1.0 / upper, 1.0 / lower))",
+   "verdict": "survived"
+  },
+  "77": {
+   "build_seconds": null,
+   "caught_by": "core-integration",
+   "failing": [
+    "a_fully_resolved_object_is_still_the_object_it_came_from",
+    "a_named_object_reading_carries_its_span_its_source_and_its_caveat",
+    "doping_moves_silicon_five_orders_of_magnitude",
+    "every_reading_carries_its_citation_and_its_caveat",
+    "graphite_is_a_conductor_and_a_poor_one",
+    "iron_is_almost_six_times_as_resistive_as_copper",
+    "porcelain_reads_as_an_insulator_and_copper_as_a_conductor",
+    "the_glasses_order_by_how_much_alkali_they_carry",
+    "the_meter_on_the_bench_reads_a_dry_wire_in_siemens_per_metre",
+    "the_meter_on_the_bench_reads_porcelain_in_siemens_per_metre",
+    "the_shelf_orders_the_way_the_handbook_does"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "branch",
+   "line": 451,
+   "rung": "integration",
+   "seconds": 49.6,
+   "source": "vessel.solution.is_some()",
+   "verdict": "caught"
+  },
+  "78": {
+   "build_seconds": null,
+   "caught_by": "core-integration",
+   "failing": [
+    "a_fully_resolved_object_is_still_the_object_it_came_from",
+    "a_named_object_reading_carries_its_span_its_source_and_its_caveat",
+    "doping_moves_silicon_five_orders_of_magnitude",
+    "every_reading_carries_its_citation_and_its_caveat",
+    "graphite_is_a_conductor_and_a_poor_one",
+    "iron_is_almost_six_times_as_resistive_as_copper",
+    "porcelain_reads_as_an_insulator_and_copper_as_a_conductor",
+    "the_glasses_order_by_how_much_alkali_they_carry",
+    "the_meter_on_the_bench_reads_a_dry_wire_in_siemens_per_metre",
+    "the_meter_on_the_bench_reads_porcelain_in_siemens_per_metre",
+    "the_shelf_orders_the_way_the_handbook_does"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "branch",
+   "line": 454,
+   "rung": "integration",
+   "seconds": 52.4,
+   "source": "vessel.liquid_volume().0 > 0.0",
+   "verdict": "caught"
+  },
+  "79": {
+   "build_seconds": null,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "constant",
+   "line": 454,
+   "rung": null,
+   "seconds": 59.0,
+   "source": "if vessel.liquid_volume().0 > 0.0 {",
+   "verdict": "survived"
+  },
+  "8": {
+   "build_seconds": null,
+   "caught_by": "core-integration",
+   "failing": [
+    "a_floating_solid_does_not_cloud_the_water",
+    "polypropylene_floats_and_the_denser_plastics_do_not"
+   ],
+   "file": "crates/kerotakis-core/src/buoyancy.rs",
+   "kind": "constant",
+   "line": 150,
+   "rung": "integration",
+   "seconds": 85.0,
+   "source": "(density > 0.0 && liquid_density_g_per_ml > 0.0).then_some(density < liquid_density_g_per_",
+   "verdict": "caught"
+  },
+  "80": {
+   "build_seconds": null,
+   "caught_by": "core-integration",
+   "failing": [
+    "a_fully_resolved_object_is_still_the_object_it_came_from",
+    "a_named_object_reading_carries_its_span_its_source_and_its_caveat",
+    "doping_moves_silicon_five_orders_of_magnitude",
+    "every_reading_carries_its_citation_and_its_caveat",
+    "graphite_is_a_conductor_and_a_poor_one",
+    "iron_is_almost_six_times_as_resistive_as_copper",
+    "porcelain_reads_as_an_insulator_and_copper_as_a_conductor",
+    "the_glasses_order_by_how_much_alkali_they_carry",
+    "the_meter_on_the_bench_reads_a_dry_wire_in_siemens_per_metre",
+    "the_meter_on_the_bench_reads_porcelain_in_siemens_per_metre",
+    "the_shelf_orders_the_way_the_handbook_does"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "branch",
+   "line": 460,
+   "rung": "integration",
+   "seconds": 48.9,
+   "source": "vessel.contents.iter().any(|other| { other.phase != crate::species::Phase::Solid && other.",
+   "verdict": "caught"
+  },
+  "81": {
+   "build_seconds": null,
+   "caught_by": "core-integration",
+   "failing": [
+    "doping_moves_silicon_five_orders_of_magnitude",
+    "every_reading_carries_its_citation_and_its_caveat",
+    "graphite_is_a_conductor_and_a_poor_one",
+    "iron_is_almost_six_times_as_resistive_as_copper",
+    "porcelain_reads_as_an_insulator_and_copper_as_a_conductor",
+    "the_meter_on_the_bench_reads_a_dry_wire_in_siemens_per_metre",
+    "the_shelf_orders_the_way_the_handbook_does"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "branch",
+   "line": 494,
+   "rung": "integration",
+   "seconds": 50.8,
+   "source": "vessel .unresolved_materials .iter() .any(|portion| portion.amount > 0.0)",
+   "verdict": "caught"
+  },
+  "82": {
+   "build_seconds": null,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "constant",
+   "line": 497,
+   "rung": null,
+   "seconds": 51.0,
+   "source": ".any(|portion| portion.amount > 0.0)",
+   "verdict": "survived"
+  },
+  "83": {
+   "build_seconds": null,
+   "caught_by": "core-integration",
+   "failing": [
+    "doping_moves_silicon_five_orders_of_magnitude",
+    "every_reading_carries_its_citation_and_its_caveat",
+    "graphite_is_a_conductor_and_a_poor_one",
+    "iron_is_almost_six_times_as_resistive_as_copper",
+    "porcelain_reads_as_an_insulator_and_copper_as_a_conductor",
+    "the_meter_on_the_bench_reads_a_dry_wire_in_siemens_per_metre",
+    "the_meter_refuses_what_it_cannot_read",
+    "the_shelf_orders_the_way_the_handbook_does"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "branch",
+   "line": 505,
+   "rung": "integration",
+   "seconds": 86.0,
+   "source": "solids.next().is_some()",
+   "verdict": "caught"
+  },
+  "84": {
+   "build_seconds": null,
+   "caught_by": "core-integration",
+   "failing": [
+    "the_meter_refuses_two_objects_and_a_foreign_wire"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "constant",
+   "line": 543,
+   "rung": "integration",
+   "seconds": 56.7,
+   "source": ".filter(|portion| portion.amount > 0.0)",
+   "verdict": "caught"
+  },
+  "85": {
+   "build_seconds": null,
+   "caught_by": "core-integration",
+   "failing": [
+    "a_named_object_reading_carries_its_span_its_source_and_its_caveat",
+    "doping_moves_silicon_five_orders_of_magnitude",
+    "porcelain_reads_as_an_insulator_and_copper_as_a_conductor",
+    "the_glasses_order_by_how_much_alkali_they_carry",
+    "the_meter_on_the_bench_reads_porcelain_in_siemens_per_metre"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "branch",
+   "line": 545,
+   "rung": "integration",
+   "seconds": 51.0,
+   "source": "!agrees(&mut id, &portion.recipe_id)",
+   "verdict": "caught"
+  },
+  "86": {
+   "build_seconds": null,
+   "caught_by": "core-integration",
+   "failing": [
+    "a_fully_resolved_object_is_still_the_object_it_came_from",
+    "a_named_object_reading_carries_its_span_its_source_and_its_caveat",
+    "doping_moves_silicon_five_orders_of_magnitude",
+    "porcelain_reads_as_an_insulator_and_copper_as_a_conductor",
+    "the_glasses_order_by_how_much_alkali_they_carry",
+    "the_meter_on_the_bench_reads_porcelain_in_siemens_per_metre"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "branch",
+   "line": 553,
+   "rung": "integration",
+   "seconds": 45.4,
+   "source": "lot.species.0 != portion.species.0 || lot.phase != crate::species::Phase::Solid",
+   "verdict": "caught"
+  },
+  "87": {
+   "build_seconds": null,
+   "caught_by": "core-integration",
+   "failing": [
+    "a_fully_resolved_object_is_still_the_object_it_came_from",
+    "a_named_object_reading_carries_its_span_its_source_and_its_caveat",
+    "doping_moves_silicon_five_orders_of_magnitude",
+    "porcelain_reads_as_an_insulator_and_copper_as_a_conductor",
+    "the_glasses_order_by_how_much_alkali_they_carry",
+    "the_meter_on_the_bench_reads_porcelain_in_siemens_per_metre"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "branch",
+   "line": 558,
+   "rung": "integration",
+   "seconds": 52.2,
+   "source": "!agrees(&mut id, from)",
+   "verdict": "caught"
+  },
+  "88": {
+   "build_seconds": null,
+   "caught_by": "core-integration",
+   "failing": [
+    "a_fully_resolved_object_is_still_the_object_it_came_from",
+    "a_named_object_reading_carries_its_span_its_source_and_its_caveat",
+    "doping_moves_silicon_five_orders_of_magnitude",
+    "porcelain_reads_as_an_insulator_and_copper_as_a_conductor",
+    "the_glasses_order_by_how_much_alkali_they_carry",
+    "the_meter_on_the_bench_reads_porcelain_in_siemens_per_metre"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "branch",
+   "line": 583,
+   "rung": "integration",
+   "seconds": 52.3,
+   "source": "!ohm_m.is_finite() || ohm_m <= 0.0",
+   "verdict": "caught"
+  },
+  "89": {
+   "build_seconds": null,
+   "caught_by": "core-integration",
+   "failing": [
+    "doping_moves_silicon_five_orders_of_magnitude"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "constant",
+   "line": 583,
+   "rung": "integration",
+   "seconds": 70.5,
+   "source": "if !ohm_m.is_finite() || ohm_m <= 0.0 {",
+   "verdict": "caught"
+  },
+  "9": {
+   "build_seconds": null,
+   "caught_by": "core-integration",
+   "failing": [
+    "a_floating_solid_does_not_cloud_the_water",
+    "polypropylene_floats_and_the_denser_plastics_do_not",
+    "the_same_solid_floats_in_a_liquid_dense_enough"
+   ],
+   "file": "crates/kerotakis-core/src/buoyancy.rs",
+   "kind": "constant",
+   "line": 150,
+   "rung": "integration",
+   "seconds": 80.8,
+   "source": "(density > 0.0 && liquid_density_g_per_ml > 0.0).then_some(density < liquid_density_g_per_",
+   "verdict": "caught"
+  },
+  "90": {
+   "build_seconds": null,
+   "caught_by": "core-integration",
+   "failing": [
+    "porcelain_reads_as_an_insulator_and_copper_as_a_conductor",
+    "the_meter_on_the_bench_reads_porcelain_in_siemens_per_metre"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "constant",
+   "line": 590,
+   "rung": "integration",
+   "seconds": 76.2,
+   "source": "conductivity_s_per_m: 1.0 / ohm_m,",
+   "verdict": "caught"
+  },
+  "96": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::capillary_rise_falls_as_the_water_warms",
+    "properties::tests::capillary_rise_in_a_half_millimetre_tube",
+    "properties::tests::capillary_rise_is_inverse_in_the_radius",
+    "properties::tests::capillary_rise_is_negative_when_the_liquid_is_pushed_down",
+    "properties::tests::capillary_rise_vanishes_at_ninety_degrees",
+    "properties::tests::evaluate_dispatches_sucrose_water_density",
+    "properties::tests::evaluate_dispatches_the_new_interfacial_properties",
+    "properties::tests::evaluate_dispatches_water_density",
+    "properties::tests::sucrose_water_density_increases_with_sugar",
+    "properties::tests::sucrose_water_matches_an_independent_table",
+    "properties::tests::sucrose_water_pure_water_is_the_water_correlation",
+    "properties::tests::sucrose_water_refuses_beyond_the_published_table",
+    "properties::tests::sucrose_water_reports_the_specific_gravity_it_solved",
+    "properties::tests::water_density_at_0c",
+    "properties::tests::water_density_at_25c",
+    "properties::tests::water_density_at_40c",
+    "properties::tests::water_density_at_4c_is_maximum",
+    "properties::tests::water_density_refuses_outside_range"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "constant",
+   "line": 38,
+   "rung": "unit",
+   "seconds": 6.4,
+   "source": "let t_c = t_kelvin - 273.15;",
+   "verdict": "caught"
+  },
+  "97": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::capillary_rise_falls_as_the_water_warms",
+    "properties::tests::capillary_rise_in_a_half_millimetre_tube",
+    "properties::tests::capillary_rise_is_inverse_in_the_radius",
+    "properties::tests::capillary_rise_is_negative_when_the_liquid_is_pushed_down",
+    "properties::tests::capillary_rise_refuses_beyond_the_density_correlation",
+    "properties::tests::capillary_rise_vanishes_at_ninety_degrees",
+    "properties::tests::evaluate_dispatches_sucrose_water_density",
+    "properties::tests::evaluate_dispatches_the_new_interfacial_properties",
+    "properties::tests::evaluate_dispatches_water_density",
+    "properties::tests::sucrose_water_density_increases_with_sugar",
+    "properties::tests::sucrose_water_matches_an_independent_table",
+    "properties::tests::sucrose_water_pure_water_is_the_water_correlation",
+    "properties::tests::sucrose_water_refuses_beyond_the_published_table",
+    "properties::tests::sucrose_water_reports_the_specific_gravity_it_solved",
+    "properties::tests::water_density_at_0c",
+    "properties::tests::water_density_at_25c",
+    "properties::tests::water_density_at_40c",
+    "properties::tests::water_density_at_4c_is_maximum",
+    "properties::tests::water_density_refuses_outside_range"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "branch",
+   "line": 39,
+   "rung": "unit",
+   "seconds": 4.9,
+   "source": "!(0.0..=40.0).contains(&t_c)",
+   "verdict": "caught"
+  },
+  "98": {
+   "build_seconds": null,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "constant",
+   "line": 39,
+   "rung": null,
+   "seconds": 57.3,
+   "source": "if !(0.0..=40.0).contains(&t_c) {",
+   "verdict": "survived"
+  },
+  "99": {
+   "build_seconds": null,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::capillary_rise_in_a_half_millimetre_tube",
+    "properties::tests::evaluate_dispatches_sucrose_water_density",
+    "properties::tests::evaluate_dispatches_the_new_interfacial_properties",
+    "properties::tests::evaluate_dispatches_water_density",
+    "properties::tests::sucrose_water_matches_an_independent_table",
+    "properties::tests::water_density_at_0c",
+    "properties::tests::water_density_at_25c",
+    "properties::tests::water_density_at_40c",
+    "properties::tests::water_density_at_4c_is_maximum"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "constant",
+   "line": 46,
+   "rung": "unit",
+   "seconds": 4.4,
+   "source": "let rho = a[4] * (1.0 - ((t_c + a[0]).powi(2) * (t_c + a[1])) / (a[2] * (t_c + a[3])));",
+   "verdict": "caught"
+  }
+ }
+}
