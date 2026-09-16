@@ -262,6 +262,34 @@ fn species_name(locale: Locale, id: &SpeciesId) -> &str {
         .unwrap_or(english)
 }
 
+/// A material is named by its recipe, and the recipe already ships the
+/// German.
+///
+/// `Event::Added` has gone through [`species_name`] since it existed, which
+/// is why a German lesson reads "Du gibst Citronensäure in v1." Every event
+/// that names a *material* printed the key the script typed instead, so the
+/// next line of the same lesson read "Du gibst baking_soda in v1." and a
+/// bottle of vinegar announced itself as "white vinegar 5 percent".
+///
+/// No translation is authored here. The registry's 132 recipes each carry
+/// `aliases.de`, because the parser has always accepted German input; the
+/// renderer simply never asked. The display name is looked up in the
+/// catalogue under `material.<english name>` exactly as species are, so
+/// adding French stays one data file and no code — the aliases remain the
+/// parser's business and the catalogue remains the display's.
+///
+/// The typed string is resolved to its recipe first, so `baking_soda`,
+/// `baking soda` and `Natron` all reach the same line.
+fn material_name(locale: Locale, typed: &str) -> String {
+    let english = crate::material::lookup(typed, None)
+        .or_else(|| crate::material::lookup(typed, Some(locale.code())))
+        .map(|recipe| recipe.name)
+        .unwrap_or_else(|| typed.to_string());
+    locale
+        .lookup(&format!("material.{english}"))
+        .map_or(english, str::to_string)
+}
+
 /// What Faraday's law does not tell you, appended to the line that used it.
 ///
 /// The law converts charge to moles exactly. It is silent on how the charge
@@ -709,7 +737,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         locale.fill(
                             "event.discarded.line-material",
                             "  {vessel} → waste: {material} (unresolved)",
-                            &[("vessel", &vessel.to_string()), ("material", material)],
+                            &[("vessel", &vessel.to_string()), ("material", &material_name(locale, material))],
                         )
                     }))
                     .collect::<Vec<_>>()
@@ -835,17 +863,17 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 1 => locale.fill(
                     "event.material-added.lv1",
                     "You add {material} to {vessel}.",
-                    &[("material", &material.to_string()), ("vessel", &vessel.to_string())],
+                    &[("material", &material_name(locale, material)), ("vessel", &vessel.to_string())],
                 ),
                 2 => locale.fill(
                     "event.material-added.lv2",
                     "{vessel}: +{total_amount} {unit} {material} ({components} known ingredients)",
-                    &[("vessel", &vessel.to_string()), ("total_amount", &locale.number(format!("{total_amount:.3}"))), ("unit", unit), ("material", &material.to_string()), ("components", &format!("{}", components.len()))],
+                    &[("vessel", &vessel.to_string()), ("total_amount", &locale.number(format!("{total_amount:.3}"))), ("unit", unit), ("material", &material_name(locale, material)), ("components", &format!("{}", components.len()))],
                 ),
                 _ => locale.fill(
                     "event.material-added.lv3",
                     "{vessel}: +{total_amount} {unit} {material}; {components} canonical components, {unresolved_amount} {unit} unresolved",
-                    &[("vessel", &vessel.to_string()), ("total_amount", &locale.number(format!("{total_amount:.6}"))), ("unit", unit), ("material", &material.to_string()), ("components", &format!("{}", components.len())), ("unresolved_amount", &locale.number(format!("{unresolved_amount:.6}")))],
+                    &[("vessel", &vessel.to_string()), ("total_amount", &locale.number(format!("{total_amount:.6}"))), ("unit", unit), ("material", &material_name(locale, material)), ("components", &format!("{}", components.len())), ("unresolved_amount", &locale.number(format!("{unresolved_amount:.6}")))],
                 ),
             }
         }
@@ -857,12 +885,12 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
         Event::OsmosisChanged { vessel, material, water_moles, mass_change_g } => locale.fill(
             "event.osmosis-changed.lv1",
             "{vessel}: {material} exchanged {water} mol water ({mass} g)",
-            &[("vessel", &vessel.to_string()), ("material", material), ("water", &locale.number(format!("{water_moles:.6}"))), ("mass", &locale.number(format!("{mass_change_g:+.3}")))],
+            &[("vessel", &vessel.to_string()), ("material", &material_name(locale, material)), ("water", &locale.number(format!("{water_moles:.6}"))), ("mass", &locale.number(format!("{mass_change_g:+.3}")))],
         ),
         Event::BrowningChanged { vessel, material, browned_fraction } => locale.fill(
             "event.browning-changed.lv1",
             "{vessel}: {material} surface is {percent}% browned",
-            &[("vessel", &vessel.to_string()), ("material", material), ("percent", &locale.number(format!("{:.0}", browned_fraction * 100.0)))],
+            &[("vessel", &vessel.to_string()), ("material", &material_name(locale, material)), ("percent", &locale.number(format!("{:.0}", browned_fraction * 100.0)))],
         ),
         Event::SoapScumFormed { vessel, aggregate_mass_g, divalent_ion_moles } => locale.fill(
             "event.soap-scum-formed.lv1",
@@ -932,7 +960,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     ("family", &format!("{family:?}").to_lowercase()),
                     ("vessel", &vessel.to_string()),
                     ("substrate", substrate),
-                    ("material", material),
+                    ("material", &material_name(locale, material)),
                 ],
             ),
             2 => locale.fill(
@@ -1001,7 +1029,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             1 => locale.fill(
                 "event.surface-spread.lv1",
                 "The {material} darts away from the soap in {vessel}!",
-                &[("material", material), ("vessel", &vessel.to_string())],
+                &[("material", &material_name(locale, material)), ("vessel", &vessel.to_string())],
             ),
             _ => format!(
                 "{vessel}: {material} central clearing increased from {:.0}% to {:.0}%",
@@ -1281,19 +1309,19 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             1 if to_dispersed_fraction > from_dispersed_fraction => locale.fill(
                 "event.emulsion-changed.lv1-dispersing",
                 "Tiny {material} droplets spread through the water in {vessel}, making it cloudy.",
-                &[("material", material), ("vessel", &vessel.to_string())],
+                &[("material", &material_name(locale, material)), ("vessel", &vessel.to_string())],
             ),
             1 => locale.fill(
                 "event.emulsion-changed.lv1-coalescing",
                 "The droplets in {vessel} join back together, and the {material} layer starts returning.",
-                &[("material", material), ("vessel", &vessel.to_string())],
+                &[("material", &material_name(locale, material)), ("vessel", &vessel.to_string())],
             ),
             2 => locale.fill(
                 "event.emulsion-changed.lv2",
                 "{vessel}: {material} dispersed {from}% → {to}% ({volume} mL; {half_life} s coalescence half-life)",
                 &[
                     ("vessel", &vessel.to_string()),
-                    ("material", material),
+                    ("material", &material_name(locale, material)),
                     ("from", &locale.number(format!("{:.0}", from_dispersed_fraction * 100.0))),
                     ("to", &locale.number(format!("{:.0}", to_dispersed_fraction * 100.0))),
                     ("volume", &locale.number(format!("{:.1}", dispersed_volume_l * 1000.0))),
@@ -1397,14 +1425,14 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             1 => locale.fill(
                 "event.curdling-changed.lv1",
                 "The {material} in {vessel} separates into soft white curds and cloudy whey.",
-                &[("material", material), ("vessel", &vessel.to_string())],
+                &[("material", &material_name(locale, material)), ("vessel", &vessel.to_string())],
             ),
             2 => locale.fill(
                 "event.curdling-changed.lv2",
                 "{vessel}: {material} curd solids {from}% → {to}% ({mass} g aggregate solids in visible curds)",
                 &[
                     ("vessel", &vessel.to_string()),
-                    ("material", material),
+                    ("material", &material_name(locale, material)),
                     ("from", &locale.number(format!("{:.0}", from_formed_fraction * 100.0))),
                     ("to", &locale.number(format!("{:.0}", to_formed_fraction * 100.0))),
                     ("mass", &locale.number(format!("{curd_solids_mass_g:.2}"))),
@@ -2674,12 +2702,12 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 1 => locale.fill(
                     "event.sealed-cell.lv1",
                     "The {material} in {vessel} is a sealed cell: {why} It pushes about {volts} V, and because nothing gets out through the case it weighs exactly what it weighed before.",
-                    &[("material", material), ("vessel", &vessel.to_string()), ("why", why), ("volts", &volts)],
+                    &[("material", &material_name(locale, material)), ("vessel", &vessel.to_string()), ("why", why), ("volts", &volts)],
                 ),
                 2 => locale.fill(
                     "event.sealed-cell.lv2",
                     "{vessel}: {material} — {reaction}, about {volts} V open-circuit; sealed, so the mass is conserved",
-                    &[("vessel", &vessel.to_string()), ("material", material), ("reaction", reaction), ("volts", &volts)],
+                    &[("vessel", &vessel.to_string()), ("material", &material_name(locale, material)), ("reaction", reaction), ("volts", &volts)],
                 ),
                 _ => format!(
                     "{vessel}: {material}, curated discharge {reaction} at {open_circuit_volts:.2} V open-circuit. The reaction is NAMED and not run — its products have no species in this registry and no charge is tracked — so the ledger is untouched and the object's mass is conserved by construction rather than by arithmetic over products"
