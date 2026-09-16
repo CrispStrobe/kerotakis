@@ -316,9 +316,7 @@ fn tally(contents: &[Portion]) -> BTreeMap<(String, u8), f64> {
     for p in contents {
         // Analytical H/O equivalents are not free-ion activities. Hydroxide
         // enthalpy is supplied separately from the measured species state.
-        if p.phase == Phase::Aqueous
-            && kerotakis_core::species::is_acid_base_basis(&p.species.0)
-        {
+        if p.phase == Phase::Aqueous && species::is_acid_base_basis(&p.species.0) {
             continue;
         }
         *t.entry((p.species.0.clone(), phase_key(p.phase)))

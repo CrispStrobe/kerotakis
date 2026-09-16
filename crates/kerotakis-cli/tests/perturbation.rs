@@ -122,8 +122,7 @@ fn carbonate_alkalinity(vessel: &serde_json::Value) -> f64 {
     // to close its H/O balance — so the `OH⁻ − H⁺` term of the
     // electroneutrality identity is their difference. The base half was
     // published as `OH-` until 2026-09-16; see case 7/7 for why it is not.
-    moles_of(vessel, "HCO3-") + 2.0 * moles_of(vessel, "CO3-2")
-        + moles_of(vessel, BASE_EQUIVALENTS)
+    moles_of(vessel, "HCO3-") + 2.0 * moles_of(vessel, "CO3-2") + moles_of(vessel, BASE_EQUIVALENTS)
         - moles_of(vessel, "H+")
 }
 
