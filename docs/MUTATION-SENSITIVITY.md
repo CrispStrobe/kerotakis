@@ -69,8 +69,8 @@ environment. Three consequences, two of them advantages:
   what makes any measurement possible on this box at all.
 * **Only expressions can be schema'd.** A number inside a `const` table is
   evaluated at compile time and cannot read an environment variable. Those
-  sites are catalogued as `table` mutants and are honest gaps in this run —
-  see §7.
+  sites are catalogued as `table` mutants, and a sample of them was run the
+  slow way instead — see §8a.
 
 The harness is `tools/mutation/mutate.py`. It instruments, runs, restores, and
 reports; the instrumentation is transient and is never committed.
@@ -143,9 +143,117 @@ tier noticed — not that the property tier would not have.
 
 ## 5. The first score
 
-*Filled in from `results.json`; see §8 for the cost of producing it.*
+**105 mutants on 2 033 lines. 88 noticed, 17 survived.** Measured 2026-09-16;
+the per-mutant record is `tools/mutation/results/2026-09-16.json`.
 
-## 6. What the number cannot tell you
+| rung a mutant died on | mutants | share |
+|---|---:|---:|
+| `unit` — `kerotakis-core --lib` | 56 | 53 % |
+| `integration` — nine targeted `kerotakis-core/tests/` binaries | 32 | 30 % |
+| `property` — `perturbation.rs`, `metamorphic.rs` | **0** | 0 % |
+| `golden` — the curiosity corpus | **0** | 0 % |
+| `hang` — killed by timeout | 0 | 0 % |
+| **survived** | **17** | **16 %** |
+
+| by module | noticed | |
+|---|---|---:|
+| `properties.rs` | 41 / 46 | 89 % |
+| `conductivity.rs` | 36 / 45 | 80 % |
+| `buoyancy.rs` | 11 / 14 | 79 % |
+
+| by operator | noticed | |
+|---|---|---:|
+| `branch` — negate an `if` | **32 / 32** | 100 % |
+| `constant` — move an f64 by +25 % | 56 / 73 | 77 % |
+
+### The three things this run says that a single number would have hidden
+
+**(a) Every branch mutant was caught; every survivor is a number.** The suite
+covers this surface's control flow completely and its arithmetic unevenly.
+That is precisely the profile of the three incidents that commissioned this
+instrument: all three were numbers, none was a branch.
+
+**(b) The blessed-answer corpus killed nothing.** Not one mutant reached the
+corpus rung and died there. Every mutant the corpus would have caught was
+already caught by a cheaper rung. On this surface the corpus adds no
+sensitivity at all — which is not an argument for deleting it, since it exists
+to pin answers rather than to find faults, but it is an argument against ever
+quoting corpus coverage as evidence that the engine is checked.
+
+**(c) The property oracles killed nothing either.** `perturbation.rs` and
+`metamorphic.rs` are six days old and are the strongest instruments in the
+tree, and on this surface they caught nothing that the crate's own integration
+tests had not already caught — at 47.6 s a run against 1.6 s. Read carefully:
+this does **not** say those tests are weak. They ran third by cost, and four
+mutants (#0, #1, #4, #5) were killed by them in the first pass, before the
+integration rung existed. What it says is that on *this* surface their reach is
+already covered, and that pointing the next audit at the surfaces those oracles
+were actually written for is the way to find out whether they bite.
+
+### The correction, recorded rather than quietly fixed
+
+**The first pass of this harness scored 43 % survival, and it was wrong.**
+`cargo test -p kerotakis-core --lib` runs only the tests inside `src/`.
+`kerotakis-core` also has **116 integration binaries** under `tests/` — one of
+them `tests/buoyancy.rs`, the dedicated suite for a module in this very
+surface — and the first ladder silently excluded every one. Adding that rung
+moved 32 of 45 survivors into "caught".
+
+This is the fourth instance this month of an instrument reading differently
+from what it measured, and the first one in the instrument built to find the
+other three. It is left in the record because the failure mode is the lesson:
+`--lib` is a silent filter, and a mutation score is only ever a score of *the
+tests you actually ran*.
+
+## 6. The survivors, classified
+
+The raw count is 17. **The count that means anything is 8**, because a
+survivor is not automatically a weak test (§7.1) and telling the cases apart
+needs a human. Every one is classified below.
+
+### Real blind spots worth acting on (8)
+
+| # | site | what the mutant does that nothing notices |
+|---|---|---|
+| 178 | `properties.rs:470` | The provenance note reports `σ = {sigma_n_m * 1e3} mN/m`. Move that conversion and the **note disagrees with the value the function returns**, silently. This is the third incident's exact shape — the picture saying one thing and the sentence another — reproduced in a module that is otherwise 89 % covered. |
+| 63 | `conductivity.rs:316` | `covered_charge_fraction` falls back to `1.0` when nothing is charged. Make it `1.25` and the engine reports **125 % of the charge covered**. Nothing asserts that a fraction is a fraction. |
+| 76 | `conductivity.rs:418` | `span_s_per_m` returns `(1.0/upper, 1.0/lower)`. Mutant #75 — the *first* of those two — is caught; #76 is not. **One end of the reported conductance span is asserted and the other is not.** |
+| 98 | `properties.rs:39` | The upper edge of a stated validity range. The module's headline claim is "outside the range the function returns `Err` — a refusal, not a guess". The refusal's boundary is where that claim lives, and moving it changes nothing any test can see. |
+| 3 | `buoyancy.rs:88` | `mass_g` starts at one gram instead of zero: every liquid density reading gains a gram. For a 100 mL beaker that is a 1 % error in a number a hydrometer is supposed to agree with, and the density assertions are looser than that. |
+| 56 | `conductivity.rs:292` | `kappa_us_cm` starts at 1 µS/cm: a constant offset on every Kohlrausch reading. |
+| 50 | `conductivity.rs:193` | The numerator of `concentration_factor`. `.clamp(0.0, 1.0)` absorbs the change in dilute solution, so this survivor says the attenuation fit **is never asserted at a concentration where it does anything** — and its own docs cite 0.63 at 1.7 mol/kgw. |
+| 55 | `conductivity.rs:281` | The `concentration_factor` reported alongside a mean-mobility estimate. A metadata field on the fallback path that no test reads. |
+
+### Genuine, but guard thresholds at extremes nothing exercises (4)
+
+`#2` and `#7` (`buoyancy.rs`, a sub-millilitre vessel), `#79` (a vessel holding
+more than a litre), `#82` (a portion of more than one unit). In each case the
+*branch* is covered — the paired branch mutant was caught — and only the
+threshold is not.
+
+### Semantically null: the mutation changes no behaviour (3)
+
+`#67` and `#73` widen a 0.01 K tolerance on "is this at 25 °C" to 0.0125 K.
+`#157` moves a bisection convergence epsilon from 1e-15 to 1.25e-15. No test
+could distinguish these, and no test should have to. **They are the reason a
+raw survivor count must never be quoted as a blind-spot count.**
+
+### Cannot be told apart by this instrument (1)
+
+`#181`: the default contact angle for `capillary-rise` when `theta` is not
+supplied, 0° becoming 1°. That is a 0.015 % change in a cosine — too small to
+detect — *and* it may be that no caller ever omits `theta`, in which case the
+line is dead. A +25 % operator cannot separate "untested" from "dead" here,
+and saying which would take reading the callers, not running the harness.
+
+### Nothing here was fixed
+
+Per the brief these are recorded, not repaired: each fix is a new test, not a
+line, and a test written by the agent that chose the mutant is a test written
+to pass.
+
+
+## 7. What the number cannot tell you
 
 This repository has three incidents of a gate reading stronger than it was, so
 the limits are part of the deliverable rather than a later discovery.
@@ -154,7 +262,7 @@ the limits are part of the deliverable rather than a later discovery.
    and telling them apart needs a human: the tests are blind here; the line is
    dead; or the mutation was semantically null (a `+25 %` on a value that is
    subsequently normalised away, a branch both sides of which do the same
-   thing). Every survivor reported in §5 is classified by hand into one of the
+   thing). Every survivor is classified by hand in §6 into one of the
    three, and the count of *genuine* blind spots is smaller than the count of
    survivors. **Quote the classified number, never the raw survivor count.**
 2. **The score is bounded by the surface, and the surface was chosen.** It says
@@ -167,12 +275,12 @@ the limits are part of the deliverable rather than a later discovery.
    found the buoyancy bug it was commissioned by.** It finds a different and
    larger class — assertions aimed at code that cannot break — and that is the
    claim it is allowed to make.
-4. **`table` mutants are not in the score.** The λ° table and the property
+4. **`table` mutants are not in the §5 score.** The λ° table and the property
    correlations' coefficients are `const` data, which schemata cannot reach.
-   They are catalogued and counted, and a subset was run the slow way; the
-   rest are an unmeasured part of the very surface this run chose. That is the
-   most uncomfortable limit here, because a curated table is exactly the kind
-   of value the incidents were about.
+   Seven of the 77 were run the slow way (§8a) and three survived, so the 84 %
+   in §5 is a figure for the code around the curated numbers and not for the
+   curated numbers themselves. **The two scores must never be added together
+   or quoted as one.**
 5. **The rung is the cheapest that noticed, not the strongest.** See §4.
 6. **The instrumented tree is not the shipped tree.** Every site becomes a
    function call. The baseline run — the whole ladder, instrumented, with no
@@ -183,10 +291,113 @@ the limits are part of the deliverable rather than a later discovery.
 7. **It measures noticing, not correctness.** A suite that catches every
    mutant can still be asserting the wrong thing, in unison, everywhere.
 
-## 7. Cost, and whether this belongs in the gate
+## 8. Cost, and whether this belongs in the gate
 
-*Filled in from the measured run.*
+Measured on the box this ran on: four cores, shared with another agent's build
+for most of the run.
 
-## 8. What to point it at next
+| | measured |
+|---|---|
+| build `kerotakis-core --lib` cold | ~30 min (heavily contended) |
+| build the CLI test binaries | 4 m 43 s |
+| build nine targeted `kerotakis-core` integration binaries | 48 s |
+| **rebuild after instrumenting** (core + CLI) | **1 m 27 s** — paid once |
+| clean run of each rung | 4.4 s / 1.6 s / 47.6 s / 11.8 s |
+| **105 mutants, test execution** | **53 min** |
+| per mutant: caught at the first rung | 5.0 s |
+| per mutant: survives to the bottom | 59.6 s |
+| per mutant: mean | 29.9 s |
 
-*Filled in.*
+**What the schema saved, measured rather than asserted.** A recompile-per-mutant
+tool must rebuild `kerotakis-core` and relink every test binary in the ladder
+for each mutant — fourteen binaries here. That cycle did not have to be
+estimated: the seven `table` mutants in §8a have to be run exactly that way,
+and their builds averaged **164 s** (157.9–171.9 s, tightly clustered). With a
+mean 30 s of testing on top, a recompile-per-mutant pass over the same 105
+mutants is **≈ 5 h 40 m**, against **one 1 m 27 s build plus 53 minutes of
+running ≈ 55 minutes**. A **6.2× saving**, and the difference between a
+measurement that happened today and one that did not. This is why
+`cargo-mutants` was evaluated and not adopted: the tool is fine, the
+arithmetic is not.
+
+### Gate or audit
+
+**A periodic audit.** Not a gate. A 53-minute pass on 2 033 lines of a 71 000
+line crate cannot sit in front of a pull request, and making it faster by
+shrinking the surface would produce a number too small to mean anything.
+
+Three shapes that *are* affordable, in increasing ambition:
+
+1. **A regression gate on the recorded survivors, not on the score.** The eight
+   blind spots in §6 are a fixed list of eight mutant ids. Re-running them is
+   eight ids against the two cheap rungs — **under a minute**, once the tree is
+   built. When somebody writes the test that closes one, that mutant must flip
+   from `survived` to `caught` and stay there. This is the only part of this
+   work that belongs anywhere near CI.
+2. **An audit when a module gains an oracle.** §5(c) is the argument: a new
+   oracle suite claims a surface, and this is the instrument that says whether
+   the claim bites. Run it against the surface the oracle was written for, on
+   the day the oracle merges, when somebody still remembers what it was for.
+3. **A quarterly pass on a rotating surface**, one crate-module family at a
+   time, recorded the way this one is.
+
+## 8a. The `const` tables: a sample, run the slow way
+
+77 of the 182 catalogued sites are numbers inside `const` items — the λ° table
+of measured limiting molar conductivities, the Bradley–Pitzer and Korson
+coefficients, the IAPWS surface-tension constants. A `const` is evaluated by
+the compiler and cannot read an environment variable, so **schemata cannot
+reach them and they are not in the §5 score.** This is the most uncomfortable
+gap in this run, because a curated sourced constant feeding a shipped answer is
+exactly the kind of value the three incidents were about.
+
+They can only be run by rebuilding, at 164 s of build a cycle. Seven were run
+that way — about 27 minutes — rather than leaving the question blank. **Three
+of the seven survived**, and which three is the point:
+
+| # | constant | outcome |
+|---|---|---|
+| 14 | λ°(H⁺) = 349.65 | caught (integration) |
+| 43 | `FIT_SQRT = 0.5324` | caught (unit) |
+| 160 | `IAPWS_ST_B = 235.8` mN/m | caught (unit) |
+| 169 | `STANDARD_GRAVITY = 9.806_65` | caught (unit) |
+| **23** | **λ°(Ba²⁺) = 127.2** | **survived** |
+| **41** | **λ°(MnO₄⁻) = 61.3** | **survived** |
+| **125** | **Henry `c_kelvin = 2400.0`** | **survived** |
+
+**The λ° table is verified for the ion that appears in every test and not for
+the ions that do not.** Hydrogen is pinned; barium and permanganate can each be
+a quarter wrong and the conductivity meter will report it without a murmur.
+The table's own doc comment says "the λ° table is measured data, not theory" —
+and a measured value that no test can distinguish from a wrong one is, for the
+suite's purposes, not distinguishable from a placeholder. That is the same
+shape as the finding recorded in `buoyancy.rs`'s own comments about ion
+densities: *a placeholder that produces a believable number is the hardest kind
+to see.*
+
+This is a 7-of-77 sample chosen to contrast a common ion with rare ones, so it
+is an illustration, not a rate. The rate is what §9.1 proposes measuring.
+
+## 9. What to point it at next
+
+1. **The rest of this surface's `const` tables**, on a machine with build
+   capacity to spare. 70 remaining mutants at ~230 s each is **about 4½
+   hours** — an overnight job on an idle box, not an impossible one — and §8a
+   says what the answer is likely to look like. This is the highest-value next
+   run, because §8a already found two unverified measured constants in a
+   sample of three rare ones.
+2. **The surfaces the new oracles were written for** — adsorption,
+   electrochemistry, polarization. §5(c) found that `perturbation.rs` and
+   `metamorphic.rs` killed nothing here that was not already dead. That is a
+   statement about this surface, and the only way to turn it into a statement
+   about those instruments is to point the harness where they aim.
+3. **The readback path in `vessel.rs` and `solve.rs`**, where the
+   element-dropped-on-readback defect lived. It is a bigger surface and
+   mutants there are far likelier to hang than to fail, which is why the
+   timeout rung exists and why it should not be first.
+4. **A fourth operator: swap a variable for another of the same type.** All
+   three incidents were data-flow errors — a comparison made against the wrong
+   *object*, not the wrong *number* — and §7.3 admits no operator here can
+   express one. That operator needs a real parser, and it is the single change
+   that would make this instrument able to find the bug it was commissioned by.
+

@@ -576,10 +576,11 @@ def do_run(ceiling: float, only: str | None, ids: list[int] | None) -> None:
 # table mutants: the slow way, because a const cannot read an environment
 # --------------------------------------------------------------------------
 
+# The same selections as the rungs, compiled but not run: a table mutant has
+# to be BUILT before it can be judged, and that build is what makes it slow.
 BUILD = [
-    ["cargo", "test", "-p", "kerotakis-core", "--lib", "--no-run"],
-    ["cargo", "test", "-p", "kerotakis-cli", "--test", "perturbation",
-     "--test", "metamorphic", "--test", "curiosity", "--no-run"],
+    [a for a in tier["cmd"] if a not in ("--", "-q")] + ["--no-run"]
+    for tier in TIERS
 ]
 
 
