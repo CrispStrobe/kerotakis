@@ -191,6 +191,30 @@ names = ["CalebBell/thermo"]
 in_plan_table = true
 note = "Remains a build-time ORACLE, generating test fixtures, not shipped data. Its data aggregation carries the same SRD and NC problems as `chemicals`; only the numbers it PREDICTS from our own inputs may be compared against."
 
+[[upstream]]
+id = "chempy-python"
+name = "`chempy` (Python), Bjorn Dahlgren"
+licence = "BSD-2-Clause"
+terms = "https://raw.githubusercontent.com/bjodah/chempy/master/LICENSE"
+retrieved = "2026-09-16"
+verdict = "oracle-only"
+may_touch = ["build-oracle"]
+names = ["ChemPy", "bjodah/chempy"]
+in_plan_table = false
+note = "PROPOSED HERE, not inherited from PLAN.md's table, and added because the repository was already USING it without a row: `tools/check-properties-vs-chempy.py` and `tools/check-relations-vs-chempy.py` have been checked in since August and import it, and neither this file nor PLAN.md said anything about it. TERMS READ 2026-09-16 at the URL above, which resolved and returned the licence text: BSD 2-Clause, copyright Bjorn Dahlgren 2015-2025, conditions are retention of the notice in source and binary redistribution and nothing else. SAME VERDICT AND SAME RESTRICTION AS `thermo-python`, for the same reason: what may be compared against is what it PREDICTS from our own inputs, never what it looks up. IT IS NOT THE `chemicals-python` ROW and the distinction is the whole judgement. `chemicals` is refused for its bulk data aggregation, which launders the SRD and non-commercial problems; ChemPy's property modules are named for the single publication each one implements - `water_density_tanaka_2001`, `water_viscosity_korson_1969`, `water_permittivity_bradley_pitzer_1979` - and are code computing a published correlation rather than a compilation of tabulated values. That is the difference between an implementation and a table, and it is why this is oracle-only rather than avoid. WHAT IT IS NOT INDEPENDENT OF: our own implementations of those same three correlations. Agreement proves both transcriptions of one published formula match; it says nothing about the formula. Recorded here so a future row cannot claim more. Neither script is wired to a test today; see docs/ORACLE-COVERAGE.md for what wiring them would cost and reach."
+
+[[upstream]]
+id = "scipy"
+name = "SciPy"
+licence = "BSD-3-Clause"
+terms = "https://raw.githubusercontent.com/scipy/scipy/main/LICENSE.txt"
+retrieved = "2026-09-16"
+verdict = "oracle-only"
+may_touch = ["build-oracle"]
+names = ["SciPy"]
+in_plan_table = false
+note = "PROPOSED HERE. `tools/kinetics-oracle.py` has imported `scipy.integrate.solve_ivp` since it was written and had no row. TERMS READ 2026-09-16 at the URL above, which resolved: BSD 3-Clause, copyright Enthought Inc. 2001-2002 and SciPy Developers 2003, with the usual notice-retention conditions plus a no-endorsement clause. THIS ROW IS DIFFERENT IN KIND FROM EVERY OTHER ONE HERE, and saying so is the point of writing it. This file asks 'may a NUMBER in this repository have come from there?', and SciPy carries no chemical data at all - no constant, no coefficient, no table. The only numbers it can produce are ones it computed from inputs we supplied, which is exactly what `build-oracle` means, so the row exists to make a build-time dependency visible rather than to constrain a data lane. A value claiming SciPy as its SOURCE would be a category error and the lint would be right to flag it."
+
 # ---------------------------------------------------------------- refused ---
 
 [[upstream]]
