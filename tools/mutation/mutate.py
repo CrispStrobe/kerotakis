@@ -1,0 +1,593 @@
+#!/usr/bin/env python3
+"""Mutation sensitivity: perturb the engine, ask which tests notice.
+
+The instrument this repository did not have. `tools/curiosity-answer-invariance.py`
+asks whether a corpus row's answer moves across vessels; `tests/perturbation.rs`
+asks whether a quantity moves when its stated cause moves. Both mutate *inputs*.
+This mutates the *engine* and asks whether anything downstream complains — which
+is the only one of the three that can tell you an assertion is aimed at code that
+cannot break.
+
+## Why a schema, and not a recompile per mutant
+
+The textbook harness edits one line, rebuilds, runs the suite, and repeats. In
+this workspace `kerotakis-core` is 71 000 lines and a cold rebuild of it plus the
+CLI test binaries is minutes, so a few hundred mutants is a day of compute on a
+four-core box that is shared. `cargo-mutants` is the obvious off-the-shelf tool
+and it works exactly that way.
+
+So this harness uses *mutant schemata* instead: every mutation site is rewritten
+once into a call that consults `KERO_MUTANT` at run time and returns either the
+original value or the perturbed one. One build, N runs. A mutant is then selected
+by an environment variable, which the CLI integration tests inherit for free when
+they spawn `kero`.
+
+Three consequences worth stating, because two of them are advantages and the
+third is a limit:
+
+* **No mutant can be "killed" by a compile error.** Every mutant in the
+  catalogue compiles by construction, so the score cannot be inflated by the
+  type checker doing the test suite's job.
+* **Cost collapses** from N builds to one build plus N test runs.
+* **Only expressions can be schema'd.** A number inside a `const` table is
+  evaluated at compile time and cannot consult an environment variable, so
+  those sites are catalogued separately as `table` mutants and must be run the
+  slow way, one rebuild each.
+
+## Operators
+
+`branch`   negate the condition of an `if`.
+`constant` move an in-code f64 literal by +25 % (0.0 becomes 1.0, since
+           0.0 x 1.25 is the same number and a mutant that changes nothing is
+           not evidence about anything).
+`table`    the same perturbation applied to a literal inside a `const`/`static`
+           item — catalogued here, executed by rebuild rather than by schema.
+
+Usage:
+    mutate.py catalogue FILE...        list the sites, write catalogue.json
+    mutate.py instrument               rewrite the surface, back up the originals
+    mutate.py restore                  put the originals back
+    mutate.py run [--ceiling SECONDS]  execute the catalogue, write results.json
+    mutate.py report                   render results.json as markdown
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import re
+import shutil
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+REPO = Path(__file__).resolve().parents[2]
+STATE = Path(os.environ.get("KERO_MUTATION_STATE", REPO / ".mutation-state"))
+CATALOGUE = STATE / "catalogue.json"
+RESULTS = STATE / "results.json"
+
+RUNTIME_MODULE = """
+// --- injected by tools/mutation/mutate.py; `mutate.py restore` removes it ---
+#[doc(hidden)]
+#[allow(dead_code)]
+pub mod __mutation {
+    use std::sync::OnceLock;
+    static ACTIVE: OnceLock<u32> = OnceLock::new();
+    #[inline]
+    fn selected() -> u32 {
+        *ACTIVE.get_or_init(|| {
+            std::env::var("KERO_MUTANT")
+                .ok()
+                .and_then(|v| v.parse::<u32>().ok())
+                .unwrap_or(u32::MAX)
+        })
+    }
+    /// Branch operator: the condition reads backwards when this mutant is live.
+    #[inline]
+    pub fn cond(id: u32, value: bool) -> bool {
+        if selected() == id {
+            !value
+        } else {
+            value
+        }
+    }
+    /// Constant operator: the number is a quarter larger when this mutant is
+    /// live. Zero becomes one, because zero times anything is still zero and a
+    /// mutant that changes no value proves nothing about the tests.
+    #[inline]
+    pub fn num(id: u32, value: f64) -> f64 {
+        if selected() == id {
+            if value == 0.0 {
+                1.0
+            } else {
+                value * 1.25
+            }
+        } else {
+            value
+        }
+    }
+}
+"""
+
+# --------------------------------------------------------------------------
+# A Rust-aware-enough scanner.
+#
+# Not a parser. It masks comments, strings and char literals to spaces so that
+# offsets are preserved, then works on the mask. Everything it cannot be sure
+# about, it skips: the cost of a missed site is a smaller catalogue, and the
+# cost of a wrong site is a build that does not compile.
+# --------------------------------------------------------------------------
+
+
+def mask(text: str) -> str:
+    """Blank out comments, string and char literals, preserving offsets."""
+    out = list(text)
+    i, n = 0, len(text)
+
+    def blank(a: int, b: int) -> None:
+        for k in range(a, b):
+            if out[k] != "\n":
+                out[k] = " "
+
+    while i < n:
+        c = text[i]
+        if c == "/" and i + 1 < n and text[i + 1] == "/":
+            j = text.find("\n", i)
+            j = n if j < 0 else j
+            blank(i, j)
+            i = j
+        elif c == "/" and i + 1 < n and text[i + 1] == "*":
+            depth, j = 1, i + 2
+            while j < n and depth:
+                if text.startswith("/*", j):
+                    depth += 1
+                    j += 2
+                elif text.startswith("*/", j):
+                    depth -= 1
+                    j += 2
+                else:
+                    j += 1
+            blank(i, j)
+            i = j
+        elif c == "r" and (m := re.match(r'r(#*)"', text[i:])):
+            hashes = m.group(1)
+            close = '"' + hashes
+            j = text.find(close, i + m.end() - m.start())
+            j = n if j < 0 else j + len(close)
+            blank(i, j)
+            i = j
+        elif c == '"':
+            j = i + 1
+            while j < n:
+                if text[j] == "\\":
+                    j += 2
+                    continue
+                if text[j] == '"':
+                    j += 1
+                    break
+                j += 1
+            blank(i, j)
+            i = j
+        elif c == "'":
+            # A char literal, or a lifetime. Only the former is masked.
+            m = re.match(r"'(\\.|[^\\'])'", text[i:])
+            if m:
+                blank(i, i + m.end())
+                i += m.end()
+            else:
+                i += 1
+        else:
+            i += 1
+    return "".join(out)
+
+
+def match_brace(masked: str, open_at: int) -> int:
+    """Index just past the `}` matching the `{` at open_at."""
+    depth, i, n = 0, open_at, len(masked)
+    while i < n:
+        if masked[i] == "{":
+            depth += 1
+        elif masked[i] == "}":
+            depth -= 1
+            if depth == 0:
+                return i + 1
+        i += 1
+    return n
+
+
+def excluded_spans(masked: str) -> list[tuple[int, int]]:
+    """Regions no mutation may touch: test modules, const fns, attributes."""
+    spans: list[tuple[int, int]] = []
+    for m in re.finditer(r"#\[cfg\(test\)\]", masked):
+        brace = masked.find("{", m.end())
+        if brace >= 0:
+            spans.append((m.start(), match_brace(masked, brace)))
+    for m in re.finditer(r"\bconst\s+fn\b", masked):
+        brace = masked.find("{", m.end())
+        if brace >= 0:
+            spans.append((m.start(), match_brace(masked, brace)))
+    for m in re.finditer(r"#!?\[", masked):
+        depth, i, n = 0, m.end() - 1, len(masked)
+        while i < n:
+            if masked[i] == "[":
+                depth += 1
+            elif masked[i] == "]":
+                depth -= 1
+                if depth == 0:
+                    spans.append((m.start(), i + 1))
+                    break
+            i += 1
+    for m in re.finditer(r"\bmacro_rules!", masked):
+        brace = masked.find("{", m.end())
+        if brace >= 0:
+            spans.append((m.start(), match_brace(masked, brace)))
+    return spans
+
+
+def const_spans(masked: str) -> list[tuple[int, int]]:
+    """Regions evaluated at compile time: schemata cannot reach them."""
+    spans = []
+    for m in re.finditer(r"\b(?:const|static)\s+(?:mut\s+)?[A-Z_][A-Za-z0-9_]*\s*:", masked):
+        depth, i, n = 0, m.end(), len(masked)
+        while i < n:
+            ch = masked[i]
+            if ch in "([{":
+                depth += 1
+            elif ch in ")]}":
+                depth -= 1
+            elif ch == ";" and depth == 0:
+                spans.append((m.start(), i + 1))
+                break
+            i += 1
+    return spans
+
+
+def inside(spans: list[tuple[int, int]], a: int, b: int) -> bool:
+    return any(s <= a and b <= e for s, e in spans)
+
+
+FLOAT = re.compile(
+    r"(?<![A-Za-z0-9_.])"
+    r"(\d[\d_]*\.\d[\d_]*(?:[eE][-+]?\d+)?|\d[\d_]*[eE][-+]?\d+)"
+    r"(?![A-Za-z0-9_.])"
+)
+
+
+def line_of(text: str, pos: int) -> int:
+    return text.count("\n", 0, pos) + 1
+
+
+def source_line(text: str, pos: int) -> str:
+    a = text.rfind("\n", 0, pos) + 1
+    b = text.find("\n", pos)
+    return " ".join(text[a : b if b > 0 else len(text)].split())[:90]
+
+
+def collect(path: Path) -> list[dict]:
+    text = path.read_text()
+    m = mask(text)
+    excl = excluded_spans(m)
+    consts = const_spans(m)
+    sites: list[dict] = []
+
+    # --- branch operator: negate an `if` condition -------------------------
+    for hit in re.finditer(r"\bif\b", m):
+        start = hit.end()
+        if re.match(r"\s+let\b", m[start:]):
+            continue  # `if let` binds a pattern; there is no bool to flip
+        if inside(excl, hit.start(), hit.end()) or inside(consts, hit.start(), hit.end()):
+            continue
+        depth, i, n, brace = 0, start, len(m), -1
+        guard = False
+        while i < n:
+            ch = m[i]
+            if ch in "([":
+                depth += 1
+            elif ch in ")]":
+                depth -= 1
+            elif depth == 0 and m.startswith("=>", i):
+                guard = True  # a match guard: the next `{` is an arm body
+                break
+            elif ch == "{" and depth == 0:
+                brace = i
+                break
+            elif ch == ";" and depth == 0:
+                break
+            i += 1
+        if guard or brace < 0 or brace - start > 400:
+            continue
+        cond = text[start:brace].strip()
+        if not cond:
+            continue
+        sites.append(
+            {
+                "kind": "branch",
+                "file": str(path.relative_to(REPO)),
+                "line": line_of(text, start),
+                "start": start,
+                "end": brace,
+                "original": cond,
+                "describes": " ".join(cond.split())[:90],
+            }
+        )
+
+    # --- constant operator: move an f64 literal ----------------------------
+    for hit in FLOAT.finditer(m):
+        a, b = hit.start(), hit.end()
+        if inside(excl, a, b):
+            continue
+        if m[max(0, a - 2) : a] == ".." or m[b : b + 2] == "..":
+            continue  # a range bound may be a pattern, and patterns are const
+        in_const = inside(consts, a, b)
+        sites.append(
+            {
+                "kind": "table" if in_const else "constant",
+                "file": str(path.relative_to(REPO)),
+                "line": line_of(text, a),
+                "start": a,
+                "end": b,
+                "original": text[a:b],
+                "describes": source_line(text, a),
+            }
+        )
+
+    sites.sort(key=lambda s: s["start"])
+    return sites
+
+
+# --------------------------------------------------------------------------
+# instrument / restore
+# --------------------------------------------------------------------------
+
+
+def do_catalogue(files: list[str]) -> list[dict]:
+    STATE.mkdir(parents=True, exist_ok=True)
+    sites: list[dict] = []
+    for f in files:
+        sites.extend(collect(Path(f).resolve()))
+    for n, s in enumerate(sites):
+        s["id"] = n
+    CATALOGUE.write_text(json.dumps(sites, indent=1))
+    by_kind: dict[str, int] = {}
+    for s in sites:
+        by_kind[s["kind"]] = by_kind.get(s["kind"], 0) + 1
+    print(f"{len(sites)} sites: " + ", ".join(f"{k}={v}" for k, v in sorted(by_kind.items())))
+    return sites
+
+
+def do_instrument(skip: set[int]) -> None:
+    sites = json.loads(CATALOGUE.read_text())
+    backups = STATE / "orig"
+    backups.mkdir(parents=True, exist_ok=True)
+    by_file: dict[str, list[dict]] = {}
+    for s in sites:
+        if s["kind"] == "table" or s["id"] in skip:
+            continue
+        by_file.setdefault(s["file"], []).append(s)
+
+    for rel, group in by_file.items():
+        path = REPO / rel
+        bak = backups / rel.replace("/", "__")
+        if not bak.exists():
+            shutil.copy2(path, bak)
+        text = bak.read_text()
+        # Every edit is expressed as a pair of INSERTIONS rather than a
+        # replacement, because the sites nest: a literal often sits inside the
+        # `if` condition that is itself a site, and a replacement of the outer
+        # span would be computed against offsets the inner edit had moved.
+        inserts: list[tuple[int, int, str]] = []
+        for s in group:
+            if s["kind"] == "branch":
+                inserts.append((s["start"], 0, f" crate::__mutation::cond({s['id']}, ("))
+                inserts.append((s["end"], 1, ")) "))
+            else:
+                inserts.append((s["start"], 0, f"crate::__mutation::num({s['id']}, "))
+                inserts.append((s["end"], 1, ")"))
+        # Descending position; at equal positions an opening insert must come
+        # before any other opening, and a closing insert after any other close.
+        inserts.sort(key=lambda t: (t[0], t[1]), reverse=True)
+        for pos, _, frag in inserts:
+            text = text[:pos] + frag + text[pos:]
+        path.write_text(text)
+
+    lib = REPO / "crates/kerotakis-core/src/lib.rs"
+    libbak = backups / "lib_rs_root"
+    if not libbak.exists():
+        shutil.copy2(lib, libbak)
+    if "__mutation" not in lib.read_text():
+        lib.write_text(libbak.read_text() + RUNTIME_MODULE)
+    print(f"instrumented {len(by_file)} file(s), {sum(len(g) for g in by_file.values())} sites")
+
+
+def do_restore() -> None:
+    backups = STATE / "orig"
+    if not backups.exists():
+        print("nothing to restore")
+        return
+    for bak in backups.iterdir():
+        if bak.name == "lib_rs_root":
+            shutil.copy2(bak, REPO / "crates/kerotakis-core/src/lib.rs")
+        else:
+            shutil.copy2(bak, REPO / bak.name.replace("__", "/"))
+    shutil.rmtree(backups)
+    print("restored")
+
+
+# --------------------------------------------------------------------------
+# run
+# --------------------------------------------------------------------------
+
+# A tier is a test selection plus a judgement about what killing a mutant here
+# is worth. `strength` is the deliberate part of the score: see docs.
+TIERS = [
+    {
+        "name": "core-unit",
+        "strength": "unit",
+        "cmd": ["cargo", "test", "-p", "kerotakis-core", "--lib", "--", "-q"],
+        "timeout": 900,
+    },
+    {
+        "name": "cli-property",
+        "strength": "property",
+        "cmd": [
+            "cargo", "test", "-p", "kerotakis-cli",
+            "--test", "perturbation", "--test", "metamorphic",
+        ],
+        "timeout": 1800,
+    },
+    {
+        "name": "cli-golden",
+        "strength": "golden",
+        "cmd": ["cargo", "test", "-p", "kerotakis-cli", "--test", "lessons_replay"],
+        "timeout": 1800,
+    },
+]
+
+FAILED_LINE = re.compile(r"^\s{4}(\S+)\s*$", re.M)
+
+
+def failing_tests(output: str) -> list[str]:
+    names = []
+    for block in re.findall(r"\nfailures:\n(.*?)\n\n", output, re.S):
+        names.extend(n for n in FAILED_LINE.findall(block) if not n.startswith("-"))
+    return sorted(set(names))
+
+
+def run_tier(tier: dict, mutant: int | None, env_extra: dict | None = None) -> dict:
+    env = dict(os.environ)
+    env["RUSTC_WRAPPER"] = ""
+    env["TMPDIR"] = os.environ.get("TMPDIR", "/mnt/volume1/tmp-overflow/kero-build")
+    if mutant is not None:
+        env["KERO_MUTANT"] = str(mutant)
+    env.update(env_extra or {})
+    t0 = time.time()
+    try:
+        p = subprocess.run(
+            tier["cmd"], cwd=REPO, env=env, capture_output=True, text=True,
+            timeout=tier["timeout"],
+        )
+        out = p.stdout + p.stderr
+        return {
+            "tier": tier["name"],
+            "ok": p.returncode == 0,
+            "timeout": False,
+            "seconds": round(time.time() - t0, 1),
+            "failing": failing_tests(out),
+        }
+    except subprocess.TimeoutExpired:
+        return {
+            "tier": tier["name"], "ok": False, "timeout": True,
+            "seconds": round(time.time() - t0, 1), "failing": [],
+        }
+
+
+def do_run(ceiling: float, only: str | None, ids: list[int] | None) -> None:
+    sites = json.loads(CATALOGUE.read_text())
+    live = [s for s in sites if s["kind"] != "table"]
+    if only:
+        live = [s for s in live if s["kind"] == only]
+    if ids:
+        live = [s for s in live if s["id"] in ids]
+
+    results = json.loads(RESULTS.read_text()) if RESULTS.exists() else {}
+    started = time.time()
+
+    if "baseline" not in results:
+        base = [run_tier(t, None) for t in TIERS]
+        results["baseline"] = base
+        RESULTS.write_text(json.dumps(results, indent=1))
+        for b in base:
+            print(f"baseline {b['tier']}: ok={b['ok']} {b['seconds']}s")
+        if not all(b["ok"] for b in base):
+            print("BASELINE IS RED — the instrumented tree must pass before any "
+                  "mutant means anything. Stopping.")
+            return
+
+    for s in live:
+        key = str(s["id"])
+        if key in results:
+            continue
+        if time.time() - started > ceiling:
+            print(f"wall-clock ceiling {ceiling}s reached; {len(live)} planned, stopping")
+            break
+        record = {"site": s, "tiers": []}
+        for tier in TIERS:
+            r = run_tier(tier, s["id"])
+            record["tiers"].append(r)
+            if not r["ok"]:
+                record["verdict"] = "timeout" if r["timeout"] else "caught"
+                record["caught_by"] = tier["name"]
+                record["strength"] = "hang" if r["timeout"] else tier["strength"]
+                break
+        else:
+            record["verdict"] = "survived"
+            record["strength"] = None
+        results[key] = record
+        RESULTS.write_text(json.dumps(results, indent=1))
+        print(f"#{s['id']:>3} {s['kind']:<8} {s['file'].split('/')[-1]}:{s['line']:<5} "
+              f"{record['verdict']:<9} {record.get('caught_by', '')}")
+
+
+# --------------------------------------------------------------------------
+# report
+# --------------------------------------------------------------------------
+
+
+def do_report() -> None:
+    results = json.loads(RESULTS.read_text())
+    rows = [(int(k), v) for k, v in results.items() if k != "baseline"]
+    rows.sort()
+    counts: dict[str, int] = {}
+    for _, r in rows:
+        key = r["strength"] or "survived"
+        counts[key] = counts.get(key, 0) + 1
+    total = len(rows)
+    print(f"| outcome | mutants | share |")
+    print(f"|---|---:|---:|")
+    for k in ("property", "unit", "golden", "hang", "survived"):
+        if k in counts:
+            print(f"| {k} | {counts[k]} | {100 * counts[k] / total:.0f} % |")
+    print(f"| **total** | **{total}** | |")
+    print()
+    print("## Survivors")
+    print()
+    print("| id | kind | site | what the mutant does |")
+    print("|---|---|---|---|")
+    for i, r in rows:
+        if r["verdict"] == "survived":
+            s = r["site"]
+            print(f"| {i} | {s['kind']} | `{s['file'].split('/')[-1]}:{s['line']}` | "
+                  f"`{s['describes'][:70]}` |")
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser(description=__doc__)
+    sub = ap.add_subparsers(dest="cmd", required=True)
+    c = sub.add_parser("catalogue")
+    c.add_argument("files", nargs="+")
+    i = sub.add_parser("instrument")
+    i.add_argument("--skip", default="", help="comma-separated ids to leave alone")
+    sub.add_parser("restore")
+    r = sub.add_parser("run")
+    r.add_argument("--ceiling", type=float, default=3600.0)
+    r.add_argument("--only", default=None)
+    r.add_argument("--ids", default=None)
+    sub.add_parser("report")
+    a = ap.parse_args()
+
+    if a.cmd == "catalogue":
+        do_catalogue(a.files)
+    elif a.cmd == "instrument":
+        do_instrument({int(x) for x in a.skip.split(",") if x.strip()})
+    elif a.cmd == "restore":
+        do_restore()
+    elif a.cmd == "run":
+        do_run(a.ceiling, a.only, [int(x) for x in a.ids.split(",")] if a.ids else None)
+    elif a.cmd == "report":
+        do_report()
+
+
+if __name__ == "__main__":
+    main()
