@@ -1,0 +1,137 @@
+{
+ "baseline": [
+  {
+   "failing": [],
+   "ok": true,
+   "seconds": 3.7,
+   "tier": "core-unit",
+   "timeout": false
+  },
+  {
+   "failing": [],
+   "ok": true,
+   "seconds": 1.7,
+   "tier": "core-integration",
+   "timeout": false
+  },
+  {
+   "failing": [],
+   "ok": true,
+   "seconds": 34.0,
+   "tier": "cli-property",
+   "timeout": false
+  },
+  {
+   "failing": [],
+   "ok": true,
+   "seconds": 8.3,
+   "tier": "cli-corpus",
+   "timeout": false
+  }
+ ],
+ "mutants": {
+  "15": {
+   "build_seconds": 163.2,
+   "caught_by": "core-integration",
+   "failing": [
+    "pure_water_and_nonionic_solute_have_an_explicit_limiting_law_blank"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "table",
+   "line": 112,
+   "rung": "integration",
+   "seconds": 5.0,
+   "source": "(\"OH-\", 198.0),",
+   "verdict": "caught"
+  },
+  "16": {
+   "build_seconds": 163.0,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "table",
+   "line": 113,
+   "rung": null,
+   "seconds": 42.5,
+   "source": "(\"Li+\", 38.66),",
+   "verdict": "survived"
+  },
+  "17": {
+   "build_seconds": 155.6,
+   "caught_by": "core-unit",
+   "failing": [
+    "conductivity::tests::kitchen_brine_matches_the_measured_conductivity"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "table",
+   "line": 114,
+   "rung": "unit",
+   "seconds": 4.0,
+   "source": "(\"Na+\", 50.08),",
+   "verdict": "caught"
+  },
+  "18": {
+   "build_seconds": 163.3,
+   "caught_by": "core-unit",
+   "failing": [
+    "conductivity::tests::kcl_calibration_standard_within_model_error"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "table",
+   "line": 115,
+   "rung": "unit",
+   "seconds": 3.5,
+   "source": "(\"K+\", 73.48),",
+   "verdict": "caught"
+  },
+  "19": {
+   "build_seconds": 158.4,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "table",
+   "line": 116,
+   "rung": null,
+   "seconds": 41.4,
+   "source": "(\"NH4+\", 73.5),",
+   "verdict": "survived"
+  }
+ },
+ "previously": {
+  "125": {
+   "rung": null,
+   "source": "c_kelvin: 2400.0,",
+   "verdict": "survived"
+  },
+  "14": {
+   "rung": "integration",
+   "source": "(\"H+\", 349.65),",
+   "verdict": "caught"
+  },
+  "160": {
+   "rung": "unit",
+   "source": "const IAPWS_ST_B: f64 = 235.8; // mN/m",
+   "verdict": "caught"
+  },
+  "169": {
+   "rung": "unit",
+   "source": "const STANDARD_GRAVITY: f64 = 9.806_65;",
+   "verdict": "caught"
+  },
+  "23": {
+   "rung": null,
+   "source": "(\"Ba+2\", 127.2),",
+   "verdict": "survived"
+  },
+  "41": {
+   "rung": null,
+   "source": "(\"MnO4-\", 61.3),",
+   "verdict": "survived"
+  },
+  "43": {
+   "rung": "unit",
+   "source": "const FIT_SQRT: f64 = 0.5324;",
+   "verdict": "caught"
+  }
+ }
+}
