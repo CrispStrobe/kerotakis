@@ -204,8 +204,16 @@ reached pH 4.5 in a 42 °C bath in that time. The 6.106% is measured —
 Jankowska *et al.* 2026, *Foods* **15**(2):314, doi:10.3390/foods15020314,
 Table 1, cow milk 6.06% lactose against 5.69% in the yogurt made from it.
 `bio-069` therefore converts **1.48%** of the lactose in its eight
-counter-top hours, not 53.2% and not 6.6%, and it makes about a fifth as
-much acid as the pre-#618 bench did rather than eight times as much.
+counter-top hours, not 53.2% and not 6.6%; it deposits 8.53e-4 mol of acid
+where the pre-#618 bench made 3.81e-3 and the post-#618 bench made 3.07e-2,
+and it reads **pH 5.436** where those read 3.889 and 2.835.
+
+**The bench has crossed the real yoghurt window from below to above without
+ever aiming at it, and that is the evidence that the pH was not fitted.**
+5.44 is not a yoghurt's pH either — it is higher than one, because this
+beaker holds a fifth of the acid the fermentation it was fitted to makes.
+What it is is a souring milk part-way through, at a temperature eighteen
+degrees below the culture's optimum.
 
 **WHAT `bio-069` CLAIMS AND WHAT IT DOES NOT, said in one place so that
 nobody has to reconstruct it.** It claims that a lactic culture converts
@@ -215,13 +223,16 @@ does **not** claim a yoghurt. Three separate things stand between this row
 and the pot in a fridge, and each of them is a boundary rather than a
 tolerance:
 
-1. **The pH is a lower bound, not a prediction.** Casein and colloidal
-   calcium phosphate are about 60% of milk's buffer capacity (soluble
-   minerals 40%, caseins 35%, CCP 20%, whey proteins 5% — Salaün, Mietton
-   and Gaucheron 2005, *as reported by* Kim *et al.* 2018; the original is
-   behind a publisher 403 and was not read here), and this recipe models
-   none of them. The bench needs less acid than a real beaker to reach any
-   given pH. **A learner must not read a computed yoghurt pH as the number a
+1. **The pH is a lower bound, not a prediction, and the gap is measured.**
+   Casein and colloidal calcium phosphate are about 60% of milk's buffer
+   capacity (soluble minerals 40%, caseins 35%, CCP 20%, whey proteins 5% —
+   Salaün, Mietton and Gaucheron 2005, *as reported by* Kim *et al.* 2018;
+   the original is behind a publisher 403 and was not read here), and this
+   recipe models none of them. Put the acid a real yoghurt at pH 4.6 carries
+   into this milk and it reads **3.944** — the missing buffer is worth about
+   **0.66 of a pH unit** at that acidity, and
+   `lactate_speciation.rs::the_cited_yoghurts_own_acid_reads_below_the_cited_yoghurts_ph`
+   holds it. **A learner must not read a computed yoghurt pH as the number a
    pH meter would show.** See `docs/milk-buffer-and-the-fermentation-rate.md`.
 2. **This is a partial fermentation, not a finished one.** Eight hours at
    25 °C is a long way below a yoghurt culture's 43 °C optimum, and the

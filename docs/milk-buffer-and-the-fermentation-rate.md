@@ -70,23 +70,63 @@ carry *more* than their global share and the soluble minerals carry less.
 `crates/kerotakis-phreeqc/tests/milk_buffer.rs` has said this in prose since
 the minerals were resolved; the 60% is the first number attached to it.
 
-## How far it would move the pH
+## How far it moves the pH — measured, not estimated
 
-If buffer capacity were flat in pH, a model carrying 0.4 of the real β would
-overshoot every pH excursion by 1/0.4 = 2.5×; equivalently, the real pH drop
-at a given acid dose would be about **40% of the modelled drop**. It is not
-flat, and it is *least* flat exactly where this matters, so treat the
-following as an order of magnitude and a direction rather than a correction
-to apply:
+This is answerable without any new modelling, and the answer is an
+**out-of-sample check** on the whole exercise: nothing in the fermentation was
+fitted to a pH, so asking what this bench reads at the acid dose the *cited*
+yoghurt carries is a fair test of the milk recipe alone.
 
-| | modelled | with the missing 60%, flat-β estimate |
-|---|---|---|
-| fresh milk | pH 6.6–6.8 | unchanged (it is the mineral buffer that sets it — `milk_buffer.rs` pins this) |
-| `bio-069`, 8 h at 25 °C, at the **calibrated** rate | see the numbers table in PR #621 | roughly 0.6 × (6.7 − modelled pH) higher |
+Jankowska *et al.* fermented milk at 43 °C **to pH 4.6**, converting 6.106% of
+its lactose. On the balanced homolactic route that is **3.5275e-3 mol of lactic
+acid in 100 mL of this recipe's milk**. Added as acid, so the rate model plays
+no part:
 
-The honest summary is: **the computed pH of any acidified milk on this bench
-is a lower bound, and the gap is of order one pH unit at yoghurt-like acid
-doses, not of order a tenth.** It is not a tolerance; it is a missing model.
+| | pH |
+|---|---|
+| fresh milk, this recipe | **6.564** (`milk_buffer.rs` pins 6.4–7.0; fresh cow's milk is 6.6–6.8) |
+| the same milk carrying the cited yoghurt's acid | **3.944** |
+| what Jankowska *et al.* measured with that acid in it | **4.6** |
+
+**The missing buffer is worth about 0.66 of a pH unit at a real yoghurt's
+acidity.** That is the number, measured, and
+`crates/kerotakis-phreeqc/tests/lactate_speciation.rs::the_cited_yoghurts_own_acid_reads_below_the_cited_yoghurts_ph`
+holds it.
+
+**It is smaller than the 60% figure would suggest, and that is worth saying
+rather than smoothing over.** Read as a flat coefficient, "the model carries
+40% of the buffer" predicts it needing 2.5× less acid for the same drop; over
+this interval it behaves more like 80%. Three things are tangled in that
+difference and none of them is resolved here:
+
+- buffer capacity is not flat in pH;
+- the 40/35/20/5 split is a ranking over a whole titration, not the local
+  share between 6.6 and 4.6;
+- **the lactic acid itself buffers near its own pKa of 3.86**, which is exactly
+  where this beaker lands — so part of what looks like milk's buffer in the
+  model is the product's.
+
+So the **direction and the order of magnitude are established** — the computed
+pH of an acidified milk is low by a few tenths of a unit at yoghurt-like doses
+— and the coefficient is not. It is not a tolerance; it is a missing model.
+
+### And the number a learner actually meets
+
+`bio-069` pours milk on a counter at 25 °C, far below the culture's 43 °C
+optimum, so eight hours converts **1.48%** of the lactose and the beaker reads
+**pH 5.44** — *above* real yoghurt, not below it, because it holds about a
+fifth of the acid the fermentation it was fitted to makes. Both statements are
+true at once and they must be read together:
+
+- **the bench under-ferments** relative to a finished yoghurt, because this is
+  a partial fermentation at the wrong temperature, and
+- **the bench under-reads** the pH of whatever acid it does make, because most
+  of the buffer is absent.
+
+The two errors point in opposite directions. That is precisely why the rate was
+fitted against a conversion extent and not against pH: a constant chosen to put
+`bio-069` at 4.5 would have bought one right-looking number by setting these
+two defects against each other.
 
 ## Could the engine model it, and what would it cost
 
@@ -139,4 +179,6 @@ work already has one.
   modelled extent goes to one and a long enough wait converts all of the
   lactose at a pH no yoghurt has ever had.
 - **Not claimed, and the reason this file exists:** a yoghurt pH. It is a
-  lower bound, by the 60% above.
+  lower bound, by about 0.66 of a unit at yoghurt-like acidity, measured.
+- **Not claimed:** that `bio-069` is a yoghurt at all. It is eight hours of
+  souring at 25 °C with a 43 °C culture.
