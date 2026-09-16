@@ -690,3 +690,111 @@ fn water_changes_the_concentration_and_not_the_count() {
         );
     }
 }
+
+// ===================================================================== 7/7
+// Mechanism: a quantity that carries a species' NAME must behave like that
+// species. This is the one case here that currently fails.
+
+/// **A slot called `OH-` that does not move like hydroxide.** Found by this
+/// suite, on 2026-09-16, while writing case 2 — which is why it is here
+/// rather than in a report: `#[ignore]`d, asserting the behaviour that is
+/// wanted rather than the behaviour that is shipped, so the day the tail
+/// changes this test says so.
+///
+/// The vessel's `contents` — the lv3 machine contract, and what every
+/// `--json` client reads — carries an entry whose `species` is `OH-`. In a
+/// strong base it is hydroxide. In an acetate buffer it is not: it is the
+/// solution's residual cation charge wearing hydroxide's name.
+///
+/// Measured, across an acid sweep of an equimolar acetate buffer:
+///
+/// ```text
+/// acid    pH      contents OH-   free_hydroxide   10^(pH-14)·kgw
+/// 0.000   4.6630   5.174e-04       5.761e-10        4.589e-10
+/// 0.020   4.2955   3.972e-04       2.472e-10        1.969e-10
+/// ```
+///
+/// `free_hydroxide` — the field the aqueous solver writes on its way out —
+/// is right, and moves by 2.33x for the 0.3675 pH units it fell, which is
+/// 10^0.3675 to three figures. The entry named `OH-` on the wire moves by
+/// 1.30x, and sits 1.1e6 above the hydroxide a pH of 4.66 can hold.
+///
+/// It is not a buffer-only artefact. The same slot reads 7x high for
+/// bicarbonate (the carbonate alkalinity booked as hydroxide), 1.28x for
+/// sodium acetate, 1.12x for sodium hydroxide — the ratio is 1 only when
+/// the solution's charge really is carried by free base. **The engine
+/// already knows this rule and states it**, in the doc comment on
+/// `Vessel::free_hydroxide`: "Net charge is free base only in a vessel of
+/// strong electrolytes: a bicarbonate solution carries its charge excess as
+/// carbonate alkalinity... Reading either as hydroxide invents a
+/// neutralisation that never happened, at 55.81 kJ for every mole of it."
+/// That is the rule this slot breaks, under hydroxide's own name.
+///
+/// This is the defect shape the suite was built for, and it is the same one
+/// as the alkalinity defect in case 1 seen from the other side: there, a
+/// charge was mistaken for a portion; here, a charge is published as a
+/// species. It is exactly what a single-run check cannot see — 5.17e-4 mol
+/// is a perfectly plausible number — and what one perturbation makes
+/// obvious, because a quantity that carries a name must move the way the
+/// thing it is named after moves.
+///
+/// **What a fix has to decide, which is why this is not fixed here:**
+/// whether the charge carrier should stop being called `OH-` on the wire,
+/// or whether the inventory should carry the measured hydroxide and account
+/// for the residual charge separately. That is a contract change for every
+/// `--json` client and belongs to whoever owns the aqueous tail; the
+/// measurement above is the argument for making it, and this test is the
+/// gate that will notice.
+///
+/// **What this establishes, when it passes:** that a species named in the
+/// machine contract means that species, at every pH, and not merely where
+/// the two definitions happen to coincide.
+///
+/// **What it cannot establish:** that the pH is right. It compares two of
+/// the engine's own surfaces against each other; if both were wrong
+/// together it would still pass. That is the price of needing no reference
+/// value, and it is the right price here, because the failure is a
+/// disagreement rather than an error.
+#[test]
+#[ignore = "found 2026-09-16: contents[OH-] is residual charge, not hydroxide \
+            (1.1e6 high in an acetate buffer); fixing it changes the --json \
+            contract, so it is owned by the aqueous tail"]
+fn a_slot_named_hydroxide_moves_like_hydroxide() {
+    let buffer = |acid: f64| {
+        let mut script =
+            String::from("add v1 water 1000mL\nadd v1 CH3COOH 0.05mol\nadd v1 NaOAc 0.05mol\n");
+        if acid > 0.0 {
+            script.push_str(&format!("add v1 HCl {acid}mol\n"));
+        }
+        vessel(&run(&script), 0)
+    };
+    // What a pH of this value can hold, in moles, over the solver's own
+    // solvent mass. No reference value: the engine supplies both sides.
+    let implied_hydroxide = |v: &serde_json::Value| {
+        10f64.powf(ph(v) - 14.0) * v["solution"]["solvent_kg"].as_f64().unwrap()
+    };
+
+    let (before, after) = (buffer(0.0), buffer(0.02));
+    // The measured field passes this; the published one is what is asked.
+    for (surface, what) in [
+        (moles_of(&before, "OH-"), "contents[OH-]"),
+        (before["free_hydroxide"].as_f64().unwrap(), "free_hydroxide"),
+    ] {
+        let implied = implied_hydroxide(&before);
+        assert!(
+            surface < 10.0 * implied,
+            "{what} claims {surface} mol of hydroxide at pH {:.4}, which can \
+             hold {implied} mol",
+            ph(&before)
+        );
+    }
+    // And it must move like hydroxide: a fall of dpH is a fall of 10^dpH.
+    let expected = 10f64.powf(ph(&before) - ph(&after));
+    let moved = moles_of(&before, "OH-") / moles_of(&after, "OH-");
+    assert!(
+        (moved / expected - 1.0).abs() < 0.05,
+        "pH fell {:.4} units, so hydroxide must fall by {expected:.3}x; \
+         contents[OH-] fell by {moved:.3}x",
+        ph(&before) - ph(&after)
+    );
+}
