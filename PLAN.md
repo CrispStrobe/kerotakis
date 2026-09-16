@@ -1613,22 +1613,33 @@ aarch64-apple-darwin from one source.
   calibration. Cost: ~26 s of wall clock, 24 binary invocations, no data
   and no network.
   **It found one defect on its first outing**, and the seventh case is that
-  defect, `#[ignore]`d and asserting what is wanted rather than what ships:
-  the `contents` entry named `OH-` — the lv3 machine contract every `--json`
-  client reads — is the solution's residual cation charge, not hydroxide.
-  In an equimolar acetate buffer it reads 5.17e-4 mol where a pH of 4.66 can
-  hold 4.6e-10, and under a perturbation it moves 1.30x where hydroxide must
-  move 2.33x; the separately-kept `free_hydroxide`, which the solver writes
-  on its way out, moves by exactly 2.33x and is right. The ratio is 7x for
-  bicarbonate, 1.28x for sodium acetate and 1.12x for sodium hydroxide — it
-  is 1 only where the charge really is carried by free base, which is the
-  case `Vessel::free_hydroxide`'s own doc comment warns must not be
-  generalised ("Reading either as hydroxide invents a neutralisation that
-  never happened, at 55.81 kJ for every mole of it"). It is the alkalinity
-  defect from the other side: there a charge was mistaken for a portion,
-  here a charge is published as a species. Unfixed on purpose — the choice
-  between renaming the carrier and re-splitting the inventory is a `--json`
-  contract change owned by the aqueous tail.
+  defect: the `contents` entry named `OH-` — the lv3 machine contract every
+  `--json` client reads — was the solution's residual cation charge, not
+  hydroxide. In an equimolar acetate buffer it read 5.17e-4 mol where a pH
+  of 4.66 can hold 4.6e-10, and under a perturbation it moved 1.30x where
+  hydroxide must move 2.33x; the separately-kept `free_hydroxide`, which the
+  solver writes on its way out, moves by exactly 2.33x and is right. The
+  ratio was 7x for bicarbonate, 1.28x for sodium acetate and 1.12x for
+  sodium hydroxide — 1 only where the charge really is carried by free base,
+  which is the case `Vessel::free_hydroxide`'s own doc comment warns must
+  not be generalised ("Reading either as hydroxide invents a neutralisation
+  that never happened, at 55.81 kJ for every mole of it"). It is the
+  alkalinity defect from the other side: there a charge was mistaken for a
+  portion, here a charge was published as a species.
+  **Fixed 2026-09-16 by renaming the carrier**, which was the `--json`
+  contract change the case was waiting on an owner to decide: the slot is
+  `base_equivalents` (`species::BASE_EQUIVALENTS`), the base half of the
+  analytical acid/base equivalents that close a solved vessel's H/O balance,
+  and the arithmetic behind it is untouched. `OH-` is left to mean hydroxide
+  — the chloralkali cell deposits caustic soda under exactly that key — and
+  case 7 now asserts both halves: that nothing named for hydroxide holds
+  more of it than the pH can hold, at either end of an acid sweep, and that
+  the renamed key falls one mole per mole of strong acid over a fourfold
+  range, which is the definition it now carries. The acid half is still
+  published as `H+`, is titratable acid rather than free protons, and is the
+  same shape of defect; it is recorded in the case's doc comment and in
+  `species::is_acid_base_basis`, not fixed, and `kerotakis-safety` already
+  declines to read it as a strong-acid bottle.
 - **Mutation testing** (`cargo-mutants`) — distinguishes load-bearing
   invariants from decorative ones, which is this project's epistemics
   applied to its own test suite.
@@ -3197,6 +3208,54 @@ that raised it. Nothing below is a commitment to an order.
   recent non-build write, but each still has a patch-unique commit, so none was
   deleted. `docs/WORKTREE-AUDIT-20260913.md` records the gate and grouped
   counts; semantic comparison with the named merged PR remains mandatory.
+
+### Scoped tasks, 2026-09-16
+
+Written the same way as the 2026-09-15 block: each is pickupable without
+re-deriving its context. Two of the six decisions of this morning are already
+out with agents (the `OH-` carrier rename, the fermentation rate scaling) and
+are not repeated here. These four are not started.
+
+- [ ] **Teach the perturbation generator that a terminal event ends the
+      experiment.** `crates/kerotakis-cli/tests/corpus_perturbation.rs` holds
+      an `#[ignore]`d test, `a_seal_survives_the_next_pour`, whose stated
+      diagnosis is **wrong**: it blames `add` for reopening a sealed vessel.
+      The `Operator::Add` handler never touches the boundary. The only thing
+      in the engine that sets a sealed vessel back to `Headspace::Open` is
+      `Bench::vent_if_burst`, and `aq-061` puts 0.05 mol of each reagent into
+      a 100 mL headspace — roughly twelve bar of carbon dioxide against a
+      `GLASS_BURST_PA` of 405.3 kPa. **The bottle bursts.** The seal is gone
+      because the glass broke, the gas left as `GasEvolved` events, a Danger
+      `HazardWarning` was raised, and the gauge afterwards correctly reads
+      atmospheric. Two corroborations: the row's `owning_task` is CAP-25, the
+      burst capability itself, and the row immediately after it asks *"can a
+      sealed vessel burst if too much gas is generated inside?"* with a tenth
+      of the headspace and twice the reagent. The corpus author was writing a
+      burst pair; the generated `Dose` rule read only the gauge and saw a dose
+      that failed to move it. **The defect is in the measure, not the engine.**
+      Deliverable: the generator treats `Burst` (and any other terminal event)
+      as legitimately decoupling dose from reading, and the test is rewritten
+      to assert the burst it actually provokes. **Confirm by running before
+      rewriting** — the account above is read from source, not executed.
+- [ ] **Run the remaining 70 const-table mutants.** The mutation harness
+      (`tools/mutation/mutate.py`, landed in #616) names this as its own
+      highest-value next target: two of the three rare ions it sampled were
+      already unverified. About 4.5 h of machine time, cheap in attention.
+      Must wait for a quiet box — it competes with every other session's
+      builds. Deliverable: the survivors, appended to
+      `tools/mutation/results/`.
+- [ ] **Establish whether fermentation happens at all.** Independent of the
+      scaling fix now in flight: `bio-070` yields 4.5e-8 mol of lactic acid
+      from 100 mL of milk over eight hours at 5 °C, which is not a small
+      amount of fermentation, it is none. The scaling bug explains the wrong
+      *slope*; it does not explain the magnitude. Deliverable: either a cited
+      basis for the shipped `reference_rate_per_second_per_gram` values or an
+      `Uncertainty::Unestablished` on each, with the reason stated.
+- [ ] **Wire the 44 orphan lessons into the catalogue.** Tracked in
+      **[ROADMAP-GUI.md](ROADMAP-GUI.md)** under GUI-104; recorded here
+      because the gap is a catalogue-authoring job with no chemistry in it,
+      and because it is the largest single understatement of what the engine
+      can already do.
 
 ## Open decisions
 

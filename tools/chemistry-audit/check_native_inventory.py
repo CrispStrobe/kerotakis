@@ -50,6 +50,15 @@ def check(directories, registry, absolute_tolerance, relative_tolerance):
         }
         for record in document["compositions"]
     }
+    # `base_equivalents` is not a substance and deliberately has no registry
+    # identity: it is the analytical BASE coordinate the aqueous tail books to
+    # close a solved vessel's H/O balance (`species::BASE_EQUIVALENTS`), and it
+    # was published under hydroxide's own name until 2026-09-16. One equivalent
+    # is one OH with charge -1 by construction, so it borrows the registry's own
+    # `OH-` row rather than having a formula typed here. The "every published
+    # species is registered" guard keeps its teeth: this is the one exception,
+    # and it is named.
+    atoms["base_equivalents"] = atoms["OH-"]
     comparisons, failures, invalid, aliases, inputs = [], [], [], [], []
     rows_checked = 0
     states = set()

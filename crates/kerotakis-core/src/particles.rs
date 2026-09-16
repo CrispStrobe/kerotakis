@@ -139,10 +139,24 @@ fn kind_of(name: &str, phase: Phase) -> Kind {
         //
         // The sign is still right there at the end of the name, which is
         // what the comment above already claims the rule is. Read it.
-        Err(_) => match trailing_charge(name) {
-            Some(q) if q > 0 => Kind::Cation,
-            Some(q) if q < 0 => Kind::Anion,
-            _ => Kind::NeutralSolute,
+        //
+        // A registry key is tried before that, because a key is not obliged
+        // to be its own formula: `base_equivalents` — the analytical base
+        // coordinate the aqueous tail books, which this census labels by
+        // its formula `OH-` — would otherwise be drawn as an uncharged
+        // molecule under an anion's label. It carried its charge in its
+        // name until 2026-09-16 and must not lose it to a rename.
+        Err(_) => match species::lookup_key(name)
+            .and_then(|data| crate::stoich::parse_formula(data.formula).ok())
+        {
+            Some(f) if f.charge > 0.0 => Kind::Cation,
+            Some(f) if f.charge < 0.0 => Kind::Anion,
+            Some(_) => Kind::NeutralSolute,
+            None => match trailing_charge(name) {
+                Some(q) if q > 0 => Kind::Cation,
+                Some(q) if q < 0 => Kind::Anion,
+                _ => Kind::NeutralSolute,
+            },
         },
     }
 }

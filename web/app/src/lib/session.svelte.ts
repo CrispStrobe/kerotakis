@@ -1488,7 +1488,12 @@ export class Session {
       await this.host.setRegister(level);
       this.register = level;
       this.persist();
-      this.feed.push({ kind: "note", text: t("speaking at {level}", { level }) });
+      // `lv1` is a protocol token, not a word. It reached the notebook
+      // verbatim, so a German lesson announced "Detailstufe lv1"; the
+      // token is translated through the same catalogue as everything
+      // else, and falls back to itself for a register a locale has not
+      // named yet.
+      this.feed.push({ kind: "note", text: t("speaking at {level}", { level: t(level) }) });
       if (this.inspector) await this.inspect(this.inspector.vessel);
       return true;
     } catch (e) {

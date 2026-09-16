@@ -61,14 +61,18 @@
 //!
 //! # What this file deliberately does not touch
 //!
-//! `contents["OH-"]` is the solution's residual cation charge rather than
-//! hydroxide — recorded, unfixed, and wrong by six orders of magnitude in a
-//! buffered solution (`perturbation.rs`, case 7/7). Two generated rules
-//! would otherwise have read it: `Ablation`'s observation vector and
-//! `Order`'s per-species comparison both walk `contents`. `Order` keeps it,
-//! because an invariance over a wrong number is still a true statement
-//! about path independence; `Ablation` and `Dose` exclude it by name, so
-//! that no generated case can ever be *satisfied* by that defect moving.
+//! `contents["base_equivalents"]` is an inventory COORDINATE — the base
+//! half of the analytical acid/base equivalents that close a solved
+//! vessel's H/O balance, which is the solution's residual cation charge. It
+//! was published as `contents["OH-"]` until 2026-09-16, where it read six
+//! orders of magnitude above the hydroxide a buffer's pH can hold
+//! (`perturbation.rs`, case 7/7); the name was fixed, the quantity is the
+//! same quantity. Two generated rules would otherwise read it: `Ablation`'s
+//! observation vector and `Order`'s per-species comparison both walk
+//! `contents`. `Order` keeps it, because an invariance over a coordinate is
+//! still a true statement about path independence; `Ablation` and `Dose`
+//! exclude it by name, because a case satisfied only by a bookkeeping
+//! coordinate moving has not shown that the chemistry moved.
 
 use std::collections::{BTreeMap, BTreeSet};
 use std::path::PathBuf;
@@ -454,12 +458,31 @@ fn run(script: &str) -> Result<Vec<serde_json::Value>, String> {
         .collect()
 }
 
-/// The `contents` slot the aqueous tail fills with the solution's residual
-/// cation charge under hydroxide's name. Measured 1.1e6 high in an acetate
-/// buffer (`perturbation.rs`, 7/7); recorded and unfixed. A generated case
-/// must never be *satisfied* by this number moving, so the rules whose
-/// claim is "something moved" refuse to look at it.
-const NOT_WHAT_IT_SAYS: &[&str] = &["OH-"];
+/// Slot names a claim of the form "something moved" may not be satisfied
+/// by. Matched as a substring of an observation key, so one entry reaches
+/// the inventory slot `n.vN[name|phase]`, the molality `m.vN[name]` and the
+/// particle label `r.particles#[name]` alike.
+///
+/// `base_equivalents` is the reason the list exists. The aqueous tail closes
+/// its analytical H/O balance with a pair of acid/base equivalents, and the
+/// base half is the solution's residual cation charge: a bookkeeping
+/// coordinate, not an amount of a substance. It was published under
+/// hydroxide's name until 2026-09-16 and measured 1.1e6 above the hydroxide
+/// the pH could hold (`perturbation.rs`, 7/7). The rename fixed the name,
+/// not the fact that it is a coordinate.
+///
+/// `OH-` stays listed because of the substring match, not because the
+/// solver's hydroxide is suspect. Under the old name one entry covered the
+/// inventory slot AND every other key spelling `[OH-]` — the reported
+/// molality, the particle census label. Dropping it now would widen what
+/// generated cases may rest on and move the `ABLATION_INERT` set, which is
+/// pinned by name. That is a measured change and not part of a rename.
+///
+/// The acid half is published as `H+` and is the same kind of coordinate.
+/// It is deliberately NOT listed, for the same reason in the other
+/// direction: adding a key can only turn generated cases from passing to
+/// departing.
+const NOT_AN_OBSERVATION: &[&str] = &["base_equivalents", "OH-"];
 
 /// A flattened, comparable picture of a run. Keys are stable strings so two
 /// runs that disagree about which species EXIST are still comparable — an
@@ -980,11 +1003,13 @@ fn is_readout(key: &str) -> bool {
 }
 
 /// Whether a key is one a claim of the form "something moved" may be
-/// satisfied by. `contents[OH-]` is not: it is the solution's residual
-/// cation charge under hydroxide's name, recorded and unfixed, and a
-/// generated case that counted it would be resting on a defect.
+/// satisfied by. `contents[base_equivalents]` is not: it is one half of the
+/// analytical acid/base coordinate the aqueous tail books to close its H/O
+/// balance, and a generated case that counted it would be resting on
+/// bookkeeping. See [`NOT_AN_OBSERVATION`] for what else the match reaches
+/// and why that is kept as it was.
 fn trustworthy(key: &str) -> bool {
-    !NOT_WHAT_IT_SAYS
+    !NOT_AN_OBSERVATION
         .iter()
         .any(|slot| key.contains(&format!("[{slot}|")) || key.contains(&format!("[{slot}]")))
 }
@@ -1271,8 +1296,8 @@ const ORDER_DEPARTURES: &[(&str, &str)] = &[
     // couple: `solution.redox` is `[]` in both. The number is
     // unconstrained, the solver returns whatever its path left behind, and
     // the `--json` contract publishes it as the vessel's pe with nothing
-    // to say it means nothing. Same shape as the recorded
-    // `contents["OH-"]` defect, found the same way.
+    // to say it means nothing. Same shape as the `contents["OH-"]` defect
+    // fixed on 2026-09-16, found the same way.
     (
         "th-100",
         "solution.pe is path-dependent by 12.84 where no redox couple \
@@ -1685,12 +1710,12 @@ fn twice_the_solvent_dilutes_the_corpus_without_moving_the_amounts() {
 /// least you can ask. The rows that FAIL it are the valuable output, and
 /// they are recorded by name in `ABLATION_INERT`.
 ///
-/// `contents["OH-"]` cannot satisfy this test. That slot carries the
-/// solution's residual cation charge under hydroxide's name — recorded,
-/// unfixed, wrong by six orders of magnitude in a buffer — so a case that
-/// passed only because that number moved would be resting on a defect. It
-/// is excluded by name in `trustworthy`, and without that exclusion this
-/// rule would have counted it.
+/// `contents[base_equivalents]` cannot satisfy this test. That slot —
+/// `contents["OH-"]` until 2026-09-16, when it stopped claiming to be
+/// hydroxide — carries the residual the tail books to close its H/O
+/// balance, so a case that passed only because that number moved would be
+/// resting on bookkeeping. It is excluded by name in `trustworthy`, and
+/// without that exclusion this rule would have counted it.
 #[test]
 fn the_corpus_answer_depends_on_the_reagent_the_question_is_about() {
     let (ran, departed) = gate(Rule::Ablation);
