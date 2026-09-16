@@ -384,9 +384,10 @@ becomes `value: 25.0` in `kerotakis-core/src/bench.rs`.
 ## The measured gate
 
 Seventy-seven generated cases in the sweep, 561 s of solver; the gate as
-checked in runs ~75 of them and takes **291 s wall at three test threads**.
-Seven of the ten tests pass, two are recorded `#[ignore]`d defects, and one
-is the census.
+checked in runs ~75 of them and takes **277 s wall at three test threads**,
+on a machine with two other agents working. Final run: **9 passed, 0 failed,
+2 ignored** — the two `#[ignore]`s being the recorded `aq-061` seal defect
+and the `sweep` harness.
 
 | rule | cases | held | recorded departures |
 |---|---|---|---|
