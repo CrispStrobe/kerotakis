@@ -95,6 +95,54 @@
    "seconds": 41.4,
    "source": "(\"NH4+\", 73.5),",
    "verdict": "survived"
+  },
+  "20": {
+   "build_seconds": 158.4,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "table",
+   "line": 117,
+   "rung": null,
+   "seconds": 41.5,
+   "source": "(\"Ag+\", 61.9),",
+   "verdict": "survived"
+  },
+  "21": {
+   "build_seconds": 162.2,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "table",
+   "line": 118,
+   "rung": null,
+   "seconds": 42.3,
+   "source": "(\"Ca+2\", 118.94),",
+   "verdict": "survived"
+  },
+  "22": {
+   "build_seconds": 155.6,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "table",
+   "line": 119,
+   "rung": null,
+   "seconds": 41.3,
+   "source": "(\"Mg+2\", 106.0),",
+   "verdict": "survived"
+  },
+  "24": {
+   "build_seconds": 155.5,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "table",
+   "line": 121,
+   "rung": null,
+   "seconds": 42.8,
+   "source": "(\"Sr+2\", 118.9),",
+   "verdict": "survived"
   }
  },
  "previously": {
