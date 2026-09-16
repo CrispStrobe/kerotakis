@@ -648,16 +648,16 @@ impl<'a> Validator<'a> {
                     }
                     MaterialRole::SurfaceColourant { .. } => {}
                     MaterialRole::FermentationCulture {
-                        reference_rate_per_second_per_gram,
+                        reference_rate_per_second_per_gram_per_litre,
                         optimum_temperature_k,
                         temperature_width_k,
                         ..
                     } => {
-                        if !reference_rate_per_second_per_gram.is_finite()
-                            || *reference_rate_per_second_per_gram <= 0.0
+                        if !reference_rate_per_second_per_gram_per_litre.is_finite()
+                            || *reference_rate_per_second_per_gram_per_litre <= 0.0
                         {
                             self.issue(
-                                format!("{role_path}.reference_rate_per_second_per_gram"),
+                                format!("{role_path}.reference_rate_per_second_per_gram_per_litre"),
                                 "must be finite and positive",
                             );
                         }

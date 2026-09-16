@@ -9,9 +9,10 @@
 //! * acetic       C2H5OH + O2 -> CH3COOH + H2O
 //!
 //! The rate is deliberately a recipe-level classroom response: finite
-//! substrate, culture dose, hydration and a smooth temperature envelope
-//! matter, but cell growth, oxygen switching, inhibition, pH inhibition,
-//! strain variation and secondary metabolites are not claimed. Neither is
+//! substrate, culture CONCENTRATION, hydration and a smooth temperature
+//! envelope matter, but cell growth, oxygen switching, inhibition, pH
+//! inhibition, strain variation and secondary metabolites are not claimed.
+//! Neither is
 //! anything a fermented food is actually judged by — no flavour, no aroma,
 //! no texture, no coagulation into a curd, and NO food safety: nothing here
 //! models a pathogen, a spoilage organism or a competing culture, so a
@@ -29,6 +30,40 @@ const CARBON_DIOXIDE: &str = "CO2";
 const LACTIC_ACID: &str = "lactic_acid";
 const ACETIC_ACID: &str = "CH3COOH";
 const OXYGEN: &str = "O2";
+
+/// The liquid volume a culture's declared rate is quoted at: **one litre**.
+///
+/// A fermentation is first order in the culture's CONCENTRATION, not in the
+/// grams of culture somebody weighed out. Until 2026-09-16 this file
+/// multiplied `reference_rate * grams` with nothing in the denominator, so
+/// doubling the milk AND the culture doubled both the rate and the
+/// substrate and the product came out four times larger — measured on
+/// `bio-070`, where 2.716e-5 mol of total lactic acid became 1.086e-4 when
+/// the experiment was doubled. Dividing by the vessel's liquid volume is
+/// what makes "twice the batch" mean twice the yoghurt.
+///
+/// A concentration needs a volume to be quoted against, and this is it,
+/// stated rather than implied. A recipe's
+/// `reference_rate_per_second_per_gram_per_litre` is the first-order rate
+/// constant of ONE GRAM of that culture in ONE LITRE of liquid at its
+/// declared optimum temperature; the same dose in half the liquid runs
+/// twice as fast.
+///
+/// ONE LITRE IS A DECLARED BASIS AND NOT A FIT. The owner's decision of
+/// 2026-09-16 was for a stated, citable calibration volume rather than one
+/// back-solved to keep today's outputs where they were, and the difference
+/// is visible: every bench script here pours 50-200 mL, so every
+/// fermentation number in the repository moved up by the ratio of one litre
+/// to the liquid actually in the beaker — about eleven-fold for 100 mL of
+/// milk. THAT IS A MAGNITUDE QUESTION THIS CONSTANT DOES NOT ANSWER. The
+/// rates themselves are editorial classroom timescales with no measured
+/// activity behind them (see each recipe's `lot_assumptions`), and they are
+/// carried over unchanged, so what they now say is "this was the rate for a
+/// litre" — which is a claim nobody has checked. `bio-069`'s eight-hour
+/// counter-top yoghurt now reads pH 2.4 against a real 4.4-4.6, where
+/// before it read 3.9. Recalibrating the constants is a separate decision
+/// and is deliberately not taken here.
+const REFERENCE_VOLUME_LITRES: f64 = 1.0;
 
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct FermentationStep {
@@ -142,6 +177,14 @@ pub fn advance(vessel: &mut Vessel, seconds: f64) -> Option<FermentationStep> {
 
 fn active_cultures(vessel: &Vessel) -> Vec<ActiveCulture> {
     let mut cultures: Vec<ActiveCulture> = Vec::new();
+    // No liquid, no concentration, and nothing to divide by. `advance`
+    // already refuses a dry vessel; this repeats the guard because the
+    // division below is the only place it would show up as a nonsense
+    // rather than as a refusal.
+    let litres = vessel.liquid_volume().0;
+    if litres <= 1e-9 {
+        return cultures;
+    }
     for portion in &vessel.unresolved_materials {
         let Some(recipe) = material::lookup_versioned(&portion.recipe_id, portion.recipe_version)
         else {
@@ -150,13 +193,13 @@ fn active_cultures(vessel: &Vessel) -> Vec<ActiveCulture> {
         let Some((reference_rate, optimum, width, requires_hydration, metabolism)) =
             recipe.roles.iter().find_map(|role| match role {
                 MaterialRole::FermentationCulture {
-                    reference_rate_per_second_per_gram,
+                    reference_rate_per_second_per_gram_per_litre,
                     optimum_temperature_k,
                     temperature_width_k,
                     requires_hydration,
                     metabolism,
                 } => Some((
-                    *reference_rate_per_second_per_gram,
+                    *reference_rate_per_second_per_gram_per_litre,
                     *optimum_temperature_k,
                     *temperature_width_k,
                     *requires_hydration,
@@ -180,17 +223,26 @@ fn active_cultures(vessel: &Vessel) -> Vec<ActiveCulture> {
         if active <= 0.0 {
             continue;
         }
+        // THE RATE READS A CONCENTRATION. `reference_rate` belongs to
+        // `active` grams dissolved in `REFERENCE_VOLUME_LITRES`, so the
+        // dose that drives this vessel is the one that would give this
+        // vessel's concentration in that reference volume. Multiplying by
+        // the grams alone — which is what this line did until 2026-09-16 —
+        // made the extent grow with the batch, and since the extent is
+        // spent on a substrate that also grows with the batch, the product
+        // went as the SQUARE of the experiment.
+        let dose_at_reference_volume = active * REFERENCE_VOLUME_LITRES / litres;
         match cultures
             .iter_mut()
             .find(|existing| existing.metabolism == metabolism)
         {
             Some(existing) => {
-                existing.rate_per_second += reference_rate * active;
+                existing.rate_per_second += reference_rate * dose_at_reference_volume;
                 existing.active_grams += active;
             }
             None => cultures.push(ActiveCulture {
                 metabolism,
-                rate_per_second: reference_rate * active,
+                rate_per_second: reference_rate * dose_at_reference_volume,
                 active_grams: active,
             }),
         }
