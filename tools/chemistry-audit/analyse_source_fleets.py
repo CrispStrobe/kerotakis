@@ -265,6 +265,15 @@ def analyse(evidence_dir: Path, manifest_dir: Path = source_fleets.MANIFEST_DIR,
     composition = {row["species_id"]: {e["element"]: e["count"]["value"]
                                           for e in row["elements"]}
                    for row in registry["compositions"]}
+    # `base_equivalents` is not a substance and deliberately has no registry
+    # identity: it is the analytical BASE coordinate the aqueous tail books to
+    # close a solved vessel's H/O balance (`species::BASE_EQUIVALENTS`), and it
+    # was published under hydroxide's own name until 2026-09-16. One equivalent
+    # is one OH with charge -1 by construction, so it borrows the registry's own
+    # `OH-` row rather than having a formula typed here. The "every published
+    # species is registered" guard keeps its teeth: this is the one exception,
+    # and it is named.
+    composition["base_equivalents"] = composition["OH-"]
     records, checks = {}, []
     for item in listed:
         case_id = item["id"]
