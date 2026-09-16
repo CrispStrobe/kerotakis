@@ -1257,11 +1257,115 @@ fn gate(rule: Rule) -> (usize, Vec<(String, String)>) {
 
 // Recorded departures. Each entry is a row and the reason it departs, both
 // filled from the sweep rather than from an argument.
-const ORDER_DEPARTURES: &[(&str, &str)] = &[];
-const SCALE_DEPARTURES: &[(&str, &str)] = &[];
-const SOLVENT_DEPARTURES: &[(&str, &str)] = &[];
-const ABLATION_INERT: &[(&str, &str)] = &[];
-const DOSE_INERT: &[(&str, &str)] = &[];
+const ORDER_DEPARTURES: &[(&str, &str)] = &[
+    // LIVE DEFECT. Bicarbonate, acid, a sealed 200 mL headspace and a
+    // pressure gauge. Swapping the two reagents leaves pH agreeing to four
+    // decimals (5.555778 / 5.555338), ionic strength to six (0.497017 both
+    // ways) and the gauge to a part in a million — and moves `pe` from
+    // 12.780243 to -0.055944, about 760 mV. Neither vessel holds a redox
+    // couple: `solution.redox` is `[]` in both. The number is
+    // unconstrained, the solver returns whatever its path left behind, and
+    // the `--json` contract publishes it as the vessel's pe with nothing
+    // to say it means nothing. Same shape as the recorded
+    // `contents["OH-"]` defect, found the same way.
+    (
+        "th-100",
+        "solution.pe is path-dependent by 12.84 where no redox couple \
+         constrains it, while every other surface agrees",
+    ),
+    // LIVE DEFECT, small. Calcium chloride and powdered detergent. The
+    // inventory's water agrees between the two orders to one part in 4e8
+    // (5.5339424445 against 5.5339424570 mol); `solution.solvent_kg`
+    // disagrees by one part in 1e4 (0.0997010580 against 0.0996909590 kg),
+    // about 10 mg in 100 g. Every molality is divided by that number, and
+    // the wire's four significant figures hide the result.
+    (
+        "aq-023",
+        "solution.solvent_kg carries an order-dependent residue that \
+         contents[water] does not",
+    ),
+];
+
+const SCALE_DEPARTURES: &[(&str, &str)] = &[
+    // Water, 40 kJ, one minute: the beaker is AT its boiling point, and
+    // the doubled one is too. A vessel sitting on a phase boundary
+    // amplifies any difference in where exactly it landed, and 1.8% in
+    // m[H+] is 0.008 in pH. Not excused — recorded, because a scale
+    // departure at a phase boundary is a different claim from one in a
+    // homogeneous solution, and the next person should know which they are
+    // looking at.
+    (
+        "aq-102",
+        "boiling: both vessels sit on the liquid/vapour boundary, where \
+         m[H+] differs by 1.77e-2",
+    ),
+    // Peroxide eaten by catalase, thirty seconds. 1.245025e-7 against
+    // 1.246619e-7 is two units in the last printed place of a
+    // four-significant-figure molality, i.e. at the edge of what the wire
+    // can express. Recorded rather than absorbed by widening the floor,
+    // because widening a floor to make a row green is how a suite stops
+    // measuring anything.
+    (
+        "aq-055",
+        "m[H+] differs by 1.28e-3, which is two units in the last printed \
+         place of a four-figure molality",
+    ),
+];
+
+const SOLVENT_DEPARTURES: &[(&str, &str)] = &[
+    // "Why do old copper contacts turn green?" — copper, 20 mL of water,
+    // oxygen, an hour. Nothing corrodes: the copper is 0.03147326 mol of
+    // solid before and after, the oxygen is 0.01 mol of gas before and
+    // after, and the ionic strength is 1.006e-7, which is water's own
+    // autoprotolysis. Twice the water therefore changes nothing, correctly
+    // — and the row cannot answer its own question, which is the same
+    // disease as `aq-018` in a different organ.
+    (
+        "mat-069",
+        "the copper never corrodes, so there is nothing dissolved to dilute \
+         and nothing undissolved to dissolve",
+    ),
+    // Starch and amylase at 37 C. Named biological materials with no
+    // characterised solution behind them: the ionic strength never rises
+    // above the 1e-6 that separates a solution from wet nothing, and no
+    // solid phase is reported either.
+    (
+        "bio-029",
+        "starch and amylase are not characterised as a solution, so neither \
+         branch of the claim has a referent",
+    ),
+];
+
+const ABLATION_INERT: &[(&str, &str)] = &[
+    // THE FINDING THIS RULE EXISTS FOR. "Can a spoonful of sugar disappear
+    // into water?" — water, 10 g of sucrose, stir. Delete the sucrose and
+    // NOT ONE readout moves: not pH, not ionic strength, not pe, not the
+    // temperature, not the words the scene shows. The bench cannot tell
+    // sugar-water from water on any surface it exposes.
+    //
+    // The row is tagged `substance-gap`, so the gap is known. What was not
+    // known is that the row is green anyway: it is a SMOKE prompt with
+    // `expected = "computed"`, and it has passed for as long as the corpus
+    // has existed, because what the corpus checks is the route the answer
+    // came by and not whether the answer depends on the sugar.
+    (
+        "aq-018",
+        "10 g of sucrose in 100 mL of water is indistinguishable from the \
+         water on every surface the bench exposes (tagged substance-gap)",
+    ),
+];
+
+const DOSE_INERT: &[(&str, &str)] = &[
+    // The same gap as above, seen from the other side: twice the sucrose is
+    // also indistinguishable. Worth keeping separately, because a substance
+    // the bench cannot see at all and a substance whose dose it cannot
+    // resolve are different failures, and this row happens to be both.
+    (
+        "aq-018",
+        "twice a sucrose the bench cannot see at all is still a sucrose it \
+         cannot see",
+    ),
+];
 
 fn recorded_departures(rule: Rule) -> BTreeMap<&'static str, &'static str> {
     match rule {
