@@ -425,6 +425,35 @@ does not apply to** (`th-122`: self-heating raises temperature by an amount
 independent of mass); and **1 that is defect-shaped and unexplained**
 (`bio-070`'s fermentation extent going as the square of the batch size).
 
+### `bio-070` — resolved 2026-09-16, and what was underneath it
+
+The square-of-the-batch departure was a real defect and is fixed.
+`kerotakis-core/src/fermentation.rs` multiplied a culture's declared rate by
+the GRAMS of culture with nothing in the denominator, so doubling a batch
+doubled the first-order rate as well as the substrate it was spent on. The
+total acid went 2.716e-5 → 1.086e-4 mol, a factor of **3.999060**, against
+`2(1−e^−2x)/(1−e^−x)` = **3.999060** at this script's `x = kt = 4.6989e-4`.
+
+The measured departure was 4.2607 rather than 3.9991, and the extra 6.5% was
+the **observable**, not a second defect. `n.v0[lactic_acid|aqueous]` is the
+undissociated acid alone — 1.67e-3 of the total at milk's pH — and four
+times the acid in twice the water drops the pH by 0.0275, raising the
+undissociated share by `10^0.0275 = 1.0653`. `3.999060 × 1.0653 = 4.2601`.
+Under an extensive rate the two runs share a pH and the readout doubles
+exactly, which it now does.
+
+The rate now reads a concentration against a declared one-litre reference
+volume, and the acid is extensive to the last bit: 3.014833e-4 → 6.029666e-4.
+
+**The row still departs**, at 2.9e-2, on the vessel's reported CO2 partial
+pressure and the bicarbonate species with it — and that departure predates
+this fix and was simply two hundred times smaller than the one on top of it.
+Milk poured at 5 °C and left eight hours in an OPEN vessel warms to the room
+while trading carbon dioxide with the atmospheric reservoir, and
+`add v1 milk 100mL @ 5C; wait 8h` **with no culture in it at all** departs by
+2.89e-2 on exactly those keys. It belongs with `bio-055`: what an open vessel
+exchanges with the room does not double when the beaker does.
+
 ## Where the generator was wrong, and how it found out
 
 Worth recording, because three of the five rules as first written made false

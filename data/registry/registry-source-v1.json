@@ -65295,7 +65295,7 @@
       "roles": [
         {
           "kind": "fermentation_culture",
-          "reference_rate_per_second_per_gram": 0.0002,
+          "reference_rate_per_second_per_gram_per_litre": 0.0002,
           "optimum_temperature_k": 308.15,
           "temperature_width_k": 18.0,
           "requires_hydration": true,
@@ -65305,7 +65305,7 @@
       "preparation": "dry baker's yeast represented as a catalase activity proxy; hydrate with warm water in the experiment",
       "lot_assumptions": [
         "enzyme activity varies strongly by brand and age; the bounded hydration ramp is a teaching surrogate, not a universal activity per gram",
-        "the sucrose-fermentation rate is an editorial classroom timescale; strain growth, oxygen switching, inhibition and secondary metabolites remain unresolved"
+        "the sucrose-fermentation rate is an editorial classroom timescale, quoted PER GRAM OF YEAST PER LITRE of liquid against a declared one-litre reference volume; strain growth, oxygen switching, inhibition and secondary metabolites remain unresolved. The per-litre denominator arrived on 2026-09-16 with the fix that made a fermentation first order in concentration instead of in amount, and 0.0002 was carried over unchanged rather than re-fitted, so its magnitude at a litre is unestablished"
       ],
       "substitutions": [],
       "confidence": "surrogate",
@@ -65378,7 +65378,7 @@
       "roles": [
         {
           "kind": "fermentation_culture",
-          "reference_rate_per_second_per_gram": 0.0002,
+          "reference_rate_per_second_per_gram_per_litre": 0.0002,
           "optimum_temperature_k": 308.15,
           "temperature_width_k": 18.0,
           "requires_hydration": false,
@@ -65389,7 +65389,7 @@
       "lot_assumptions": [
         "70% water and 30% solids follow compressed-yeast technical guidance",
         "catalase activity is scaled from the dry-yeast teaching surrogate by dry solids; strain, age, storage and brand variation remain unresolved",
-        "the sucrose-fermentation rate is an editorial classroom timescale shared by equal dry solids; strain growth, oxygen switching, inhibition and secondary metabolites remain unresolved"
+        "the sucrose-fermentation rate is an editorial classroom timescale shared by equal dry solids and quoted PER GRAM PER LITRE against a declared one-litre reference volume; strain growth, oxygen switching, inhibition and secondary metabolites remain unresolved. The per-litre denominator arrived on 2026-09-16 with the fix that made a fermentation first order in concentration instead of in amount, and 0.0002 was carried over unchanged rather than re-fitted, so its magnitude at a litre is unestablished"
       ],
       "substitutions": [],
       "confidence": "surrogate",
@@ -76548,7 +76548,7 @@
       "roles": [
         {
           "kind": "fermentation_culture",
-          "reference_rate_per_second_per_gram": 0.00001,
+          "reference_rate_per_second_per_gram_per_litre": 0.00001,
           "optimum_temperature_k": 316.15,
           "temperature_width_k": 15.0,
           "requires_hydration": false,
@@ -76559,7 +76559,7 @@
       "lot_assumptions": [
         "the metabolism is the homolactic route, one balanced equation: lactose or sucrose plus water gives four lactic acids and NO gas. That is why a yoghurt pot does not rise and a sourdough does, and it is the whole of what this recipe claims",
         "43 degC as the optimum is the incubation temperature yoghurt cultures are described as working at; the Gaussian around it is what makes a refrigerator roughly two orders of magnitude slower, which is the food-preservation fact rather than a measured rate",
-        "0.00001 per second per gram of culture at the declared optimum is one editorial classroom timescale shared by the three cultures added with it; what differs between them is the temperature envelope and the dose, not a measured activity. Cell growth, a lag phase, inhibition by the acid the culture itself makes, nutrient depletion and strain variation are all absent",
+        "0.00001 PER SECOND PER GRAM OF CULTURE PER LITRE OF LIQUID at the declared optimum is one editorial classroom timescale shared by the three cultures added with it; what differs between them is the temperature envelope and the dose, not a measured activity. Cell growth, a lag phase, inhibition by the acid the culture itself makes, nutrient depletion and strain variation are all absent. THE PER-LITRE IS NEW AND THE NUMBER IS NOT. Until 2026-09-16 the engine multiplied this by the grams of culture with no volume in the denominator, so a fermentation was first order in an AMOUNT rather than in a concentration and doubling a batch quadrupled its product. The fix divides by the vessel liquid volume against a declared one-litre reference; the value was carried over unchanged rather than re-fitted, so it is now a rate for a litre that nobody has checked, and every bench script here pours a tenth of one. The magnitude is therefore UNESTABLISHED in a way it was not before, and saying so is the honest alternative to inventing the conversion that would have kept the old outputs",
         "NO SPECIES AND NO STRAIN IS NAMED. Real yoghurt is two organisms in symbiosis and which of them dominates decides whether the acid is the L-(+) or the D-(-) form; this recipe names neither and the acid it makes carries no stereochemistry",
         "the acid is made and the yoghurt is not: coagulation of casein into a gel is what turns milk into yoghurt, and this bench has no protein gelation. Texture, thickness, flavour and aroma are all outside it",
         "NOTHING HERE IS A FOOD-SAFETY MODEL. There is no pathogen, no spoilage organism and no competing culture on this bench, so a finished run says an acid was made and never that the result is safe to eat"
@@ -76607,7 +76607,7 @@
       "roles": [
         {
           "kind": "fermentation_culture",
-          "reference_rate_per_second_per_gram": 0.00001,
+          "reference_rate_per_second_per_gram_per_litre": 0.00001,
           "optimum_temperature_k": 303.15,
           "temperature_width_k": 12.0,
           "requires_hydration": false,
@@ -76619,7 +76619,7 @@
         "the metabolism is one balanced oxidation: ethanol plus oxygen gives acetic acid and water. It is an OXIDATION, which is why a vinegar jar is covered with cloth rather than a lid, and here it stops the moment the vessel's oxygen runs out",
         "the oxygen is the oxygen IN THE VESSEL. This bench does not feed room air into a reaction, so an uncovered jar with no oxygen added ferments nothing here — which is a boundary of the wiring, not of the chemistry",
         "30 degC as the optimum follows the range acetification is described as running fastest over",
-        "0.00001 per second per gram of culture at the declared optimum is one editorial classroom timescale shared by the three cultures added with it; what differs between them is the temperature envelope and the dose, not a measured activity. Cell growth, a lag phase, inhibition by the acid the culture itself makes, nutrient depletion and strain variation are all absent",
+        "0.00001 PER SECOND PER GRAM OF CULTURE PER LITRE OF LIQUID at the declared optimum is one editorial classroom timescale shared by the three cultures added with it; what differs between them is the temperature envelope and the dose, not a measured activity. Cell growth, a lag phase, inhibition by the acid the culture itself makes, nutrient depletion and strain variation are all absent. THE PER-LITRE IS NEW AND THE NUMBER IS NOT. Until 2026-09-16 the engine multiplied this by the grams of culture with no volume in the denominator, so a fermentation was first order in an AMOUNT rather than in a concentration and doubling a batch quadrupled its product. The fix divides by the vessel liquid volume against a declared one-litre reference; the value was carried over unchanged rather than re-fitted, so it is now a rate for a litre that nobody has checked, and every bench script here pours a tenth of one. The magnitude is therefore UNESTABLISHED in a way it was not before, and saying so is the honest alternative to inventing the conversion that would have kept the old outputs",
         "the acetaldehyde the oxidation really goes through is not modelled: this is the aggregate equation, not the pathway, and no intermediate is claimed",
         "vinegar is more than its acid — the aroma esters, the residual sugars and the colour of a wine or cider vinegar are all absent, and what this makes is acetic acid in water",
         "NOTHING HERE IS A FOOD-SAFETY MODEL. There is no pathogen, no spoilage organism and no competing culture on this bench, so a finished run says an acid was made and never that the result is safe to eat"
@@ -76718,7 +76718,7 @@
       "roles": [
         {
           "kind": "fermentation_culture",
-          "reference_rate_per_second_per_gram": 0.00001,
+          "reference_rate_per_second_per_gram_per_litre": 0.00001,
           "optimum_temperature_k": 300.15,
           "temperature_width_k": 15.0,
           "requires_hydration": false,
@@ -76730,7 +76730,7 @@
         "the metabolism is the heterolactic route, one balanced equation: sucrose plus water gives two lactic acids, two ethanols and two carbon dioxides. Acid AND gas out of the same sugar is exactly what makes a sourdough sour and risen, and it is what separates this culture from the yoghurt one",
         "THE FREE SUGAR IS ENTERED AS SUCROSE AND A REAL STARTER'S IS MOSTLY MALTOSE. The substitution is recorded rather than hidden: the fermentation model consumes disaccharides, sucrose is the disaccharide it books gas against, and entering maltose would make carbon dioxide that no event reports. The mass is right and the identity is wrong",
         "2% free sugar is an editorial figure for a mature starter, not a measured one, and it is the ONLY fermentable substrate here: this bench does not saccharify starch, so the flour beside the starter contributes none and the fermentation stops when the starter's own sugar is gone. A real starter keeps making maltose from flour amylases for as long as it is fed",
-        "0.00001 per second per gram of culture at the declared optimum is one editorial classroom timescale shared by the three cultures added with it; what differs between them is the temperature envelope and the dose, not a measured activity. Cell growth, a lag phase, inhibition by the acid the culture itself makes, nutrient depletion and strain variation are all absent",
+        "0.00001 PER SECOND PER GRAM OF CULTURE PER LITRE OF LIQUID at the declared optimum is one editorial classroom timescale shared by the three cultures added with it; what differs between them is the temperature envelope and the dose, not a measured activity. Cell growth, a lag phase, inhibition by the acid the culture itself makes, nutrient depletion and strain variation are all absent. THE PER-LITRE IS NEW AND THE NUMBER IS NOT. Until 2026-09-16 the engine multiplied this by the grams of culture with no volume in the denominator, so a fermentation was first order in an AMOUNT rather than in a concentration and doubling a batch quadrupled its product. The fix divides by the vessel liquid volume against a declared one-litre reference; the value was carried over unchanged rather than re-fitted, so it is now a rate for a litre that nobody has checked, and every bench script here pours a tenth of one. The magnitude is therefore UNESTABLISHED in a way it was not before, and saying so is the honest alternative to inventing the conversion that would have kept the old outputs",
         "27 degC as the optimum is the room-temperature range a starter is kept at",
         "a sourdough starter is a community of wild yeasts and lactic bacteria and no organism is named; what is claimed is one aggregate equation, not who runs which half of it",
         "no gluten, no dough, no rise and no crumb: the gas is booked as carbon dioxide in the vessel, and whether a loaf holds it is a mechanical question this bench does not ask",

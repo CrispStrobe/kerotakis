@@ -234,7 +234,19 @@ pub enum MaterialRole {
     /// fermentation response. Parameters describe a classroom gas-evolution
     /// timescale, not strain growth or a universal product specification.
     FermentationCulture {
-        reference_rate_per_second_per_gram: f64,
+        /// First-order rate constant of ONE GRAM of this culture in ONE
+        /// LITRE of liquid, at `optimum_temperature_k`.
+        ///
+        /// The per-litre half of the unit is load-bearing and was added on
+        /// 2026-09-16: a fermentation is first order in the culture's
+        /// concentration, and the engine divides this number by the
+        /// vessel's liquid volume. The field used to be named
+        /// `reference_rate_per_second_per_gram` and the engine used to
+        /// multiply it by the grams with nothing in the denominator, which
+        /// made the product of a fermentation go as the square of the
+        /// batch size. The one-litre reference volume is declared in
+        /// `kerotakis_core::fermentation`.
+        reference_rate_per_second_per_gram_per_litre: f64,
         optimum_temperature_k: f64,
         temperature_width_k: f64,
         requires_hydration: bool,

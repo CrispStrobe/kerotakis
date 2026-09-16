@@ -253,3 +253,108 @@ fn baker_s_yeast_still_runs_the_route_it_always_did() {
         Moles(0.0)
     );
 }
+
+// ── Extensivity: twice the experiment is twice the yoghurt ───────────
+
+/// THE PROPERTY THAT WAS BROKEN, and the reason `fermentation.rs` divides
+/// by a liquid volume.
+///
+/// Doubling every quantity in a script is not a new experiment: it is the
+/// same experiment in a bigger beaker, so every amount must double and
+/// nothing else may move. Until 2026-09-16 this file's rate multiplied the
+/// declared constant by the GRAMS of culture, so doubling a batch doubled
+/// the rate as well as the substrate and the product came out four times
+/// larger. The corpus perturbation suite measured it on `bio-070`: 2.716e-5
+/// mol of total lactic acid became 1.086e-4, a factor of 3.999, where the
+/// suite wanted 2.0.
+///
+/// The tolerance is 1e-12 relative and that is not optimism. The rate is
+/// `reference * grams * 1 L / litres`, the grams and the litres both double
+/// exactly, and the extent that comes out is bit-for-bit the same number —
+/// so the only thing left to differ is the substrate, which doubles. A
+/// loose tolerance here would pass a rate that was first order in the
+/// square root of the batch.
+#[test]
+fn doubling_every_quantity_doubles_the_alcoholic_product() {
+    let brew = |scale: f64| {
+        let mut bench = Bench::new();
+        run(&mut bench, &format!("add v1 water {}mL", 100.0 * scale));
+        run(&mut bench, &format!("add v1 table_sugar {}g", 10.0 * scale));
+        run(&mut bench, &format!("add v1 dry_yeast {}g", 1.0 * scale));
+        run(&mut bench, "wait 600s");
+        (
+            bench.vessels[0].moles_of(&SpeciesId::new("ethanol")).0,
+            bench.vessels[0].moles_of(&SpeciesId::new("CO2")).0,
+        )
+    };
+    let (ethanol, gas) = brew(1.0);
+    let (ethanol_doubled, gas_doubled) = brew(2.0);
+    assert!(ethanol > 0.0 && gas > 0.0, "nothing fermented at all");
+    for (single, doubled, what) in [
+        (ethanol, ethanol_doubled, "ethanol"),
+        (gas, gas_doubled, "carbon dioxide"),
+    ] {
+        let ratio = doubled / single;
+        assert!(
+            (ratio - 2.0).abs() < 1e-12,
+            "{what} went {single} -> {doubled}, a factor of {ratio} where a \
+             doubled experiment must give exactly 2"
+        );
+    }
+}
+
+/// The same property on the lactic route, which is where the defect was
+/// found. `bio-070` is this script at 5 C.
+#[test]
+fn doubling_every_quantity_doubles_the_lactic_product() {
+    let ferment = |scale: f64| {
+        let mut bench = Bench::new();
+        run(&mut bench, &format!("add v1 milk {}mL @ 5C", 100.0 * scale));
+        run(
+            &mut bench,
+            &format!("add v1 yoghurt_culture {}g", 1.0 * scale),
+        );
+        run(&mut bench, "wait 8h");
+        lactic(&bench)
+    };
+    let single = ferment(1.0);
+    let doubled = ferment(2.0);
+    assert!(single > 0.0, "the refrigerated culture made no acid at all");
+    let ratio = doubled / single;
+    assert!(
+        (ratio - 2.0).abs() < 1e-12,
+        "lactic acid went {single} -> {doubled}, a factor of {ratio}"
+    );
+}
+
+/// The other half of the same claim: a fixed dose in HALF the liquid is
+/// twice as concentrated and must run twice as fast. Without this, a rate
+/// that ignored the volume entirely — the defect's predecessor — would
+/// still pass the two extensivity tests above, because a constant rate is
+/// extensive too.
+#[test]
+fn halving_the_liquid_at_a_fixed_dose_doubles_the_rate() {
+    let extent = |millilitres: f64| {
+        let mut bench = Bench::new();
+        run(&mut bench, &format!("add v1 water {millilitres}mL"));
+        run(&mut bench, "add v1 table_sugar 10g");
+        run(&mut bench, "add v1 dry_yeast 1g");
+        let before = bench.vessels[0].moles_of(&SpeciesId::new("sucrose")).0;
+        run(&mut bench, "wait 60s");
+        let after = bench.vessels[0].moles_of(&SpeciesId::new("sucrose")).0;
+        // The first-order extent, read back out of what it consumed.
+        1.0 - after / before
+    };
+    let wide = extent(200.0);
+    let narrow = extent(100.0);
+    assert!(wide > 0.0, "nothing fermented in the larger beaker");
+    // Sixty seconds is short enough that 1 - exp(-kt) is still nearly kt,
+    // so the ratio of extents is close to the ratio of rates. It is NOT
+    // exactly 2, and the bound says by how much rather than hiding it.
+    let ratio = narrow / wide;
+    assert!(
+        (1.9..=2.0).contains(&ratio),
+        "half the water should roughly double the extent: {wide} -> {narrow} \
+         is a factor of {ratio}"
+    );
+}
