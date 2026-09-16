@@ -32,10 +32,11 @@ use kerotakis_core::properties::{henry_lookup, HENRY_COEFFICIENTS};
 
 const R: f64 = 8.314_462_618;
 
-/// Every gap in this file is `|ours - reference| / reference`. Stated once,
-/// because the first draft of the pinned disagreements below was written
-/// against `/ ours` and the two conventions differ by a quarter on the very
-/// rows the pin exists for.
+// Every gap in this file is `|ours - reference| / reference`. Stated once,
+// because the first draft of the pinned disagreements below was written
+// against `/ ours` and the two conventions differ by a quarter on the very
+// rows the pin exists for — the H2/phreeqc.dat row read 20.6% under one and
+// 26.0% under the other, and the pin caught it.
 
 struct Row {
     gas: String,
