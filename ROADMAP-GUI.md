@@ -1681,10 +1681,21 @@ display name in the registry, is the wrong fix.
   its driving force from a vessel that is holding another lesson's reagents.
   Every number it reports after that point is wrong, and it will reproduce
   whenever two lessons are played in sequence.
-- [ ] **`de.json` has 59 duplicate keys.** 2625 parse down to 2566; JSON keeps
-  the last silently. `"dry then wet fizz"` is at both line 46 and line 1503.
-  Nothing lints for it, and a duplicate is how one translation quietly
-  overwrites another. A lint belongs in `preflight.sh` beside the other two.
+- [ ] **Two locale keys disagree across `terms` and `messages`.**
+  *This entry corrects an earlier claim of mine, made 2026-09-16 and wrong:
+  I reported "59 duplicate keys" in `de.json` by counting key/value pairs
+  across the whole file. Neither section contains a duplicate key. The 59 are
+  keys carried in BOTH `terms` and `messages`, and the merge in
+  `i18n.svelte.ts` lets `messages` win on purpose.* What is real is smaller
+  and more specific: of those 59, **two carry different German**, so one
+  translation does silently replace another —
+  `limewater` is *Kalkwasser* as a term and *Kalkwasserprobe* as a message,
+  the substance against the test for it, and `invisible ink boundary` is
+  *Grenze der unsichtbaren Tinte* against *Unsichtbare Tinte*, which drops
+  the boundary the lesson is about. Decide which each should be, then keep
+  one. The merge comment says "six keys actually collide" and is stale at
+  59 — a lint that counts the real collisions, and fails when one carries
+  two different translations, belongs in `preflight.sh`.
 
 ## Two doors onto one question (GUI-105)
 
