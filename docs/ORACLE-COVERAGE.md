@@ -35,7 +35,8 @@ counts below are stated separately per quantity rather than summed.
 ## 1. What was wired before this document
 
 Surveyed rather than assumed. Of the eight oracle tools and fixture sets in
-the repository, **one** was consulted by a test.
+the repository, **two** were consulted by a test, and only one of those two
+checks any chemistry.
 
 | Oracle | Wired? | Reaches |
 |---|---|---|
@@ -47,6 +48,10 @@ the repository, **one** was consulted by a test.
 | `tools/surface-oracle.py` (299 lines) | no | the HFO zinc pH edge, second implementation from `wateq4f.dat` |
 | `tools/vle-oracle.py` (183 lines) | no | ethanol–water VLE **via thermo's compound database** — see §5 |
 | `tools/fixtures/properties-chempy.txt`, `relations-chempy.txt`, `vle-ethanol-water.json` | no | committed oracle *output* that nothing reads |
+
+`tools/oracle/` is a README and two gitignored directories: it is the
+*policy* for oracle jobs (LIC-010) rather than an oracle, and `approved/` has
+never held a file.
 
 So the honest before-picture: **one wired oracle, covering two quantities on
 one binary mixture**, plus a second fixture set that checks an interpreter.
@@ -112,16 +117,29 @@ Two rows **disagree materially and are pinned rather than banded away**:
   implies 885 K, we ship Sander's 500 K. The two USGS files disagree with
   *each other* by a factor of 2.2.
 - **N₂'s temperature coefficient.** `wateq4f.dat` implies 683 K against our
-  1300 K; `phreeqc.dat` states no enthalpy for nitrogen at all.
+  1300 K — 90% out, the largest disagreement anywhere in this document;
+  `phreeqc.dat` states no enthalpy for nitrogen at all.
 
 Neither is load-bearing today — the gas the bench watches dissolve and escape
 is carbon dioxide — but a lesson that warmed a bottle of soda water and asked
 about dissolved nitrogen would be resting on an uncorroborated number.
 
-A band that admits a 77% disagreement is not a check, so those three rows
+A band that admits a 90% disagreement is not a check, so those three rows
 carry a recorded figure instead, asserted to 1 percentage point. Both sides
 are static tables; the gap is exactly reproducible, and a silent improvement
 should be as noticeable as a silent regression.
+
+**The fixture cannot go stale silently.** A generated snapshot of a vendored
+submodule stops meaning anything the day the submodule is bumped, and the
+test would keep passing against numbers the shipped database no longer
+states — which is the decorative-provenance failure in miniature. So when
+`vendor/iphreeqc` is checked out (it is in CI, because `kerotakis-phreeqc`
+builds against it) every one of the twelve rows is re-derived from the
+database file by a second parser written in Rust. Re-derived rather than
+hashed, deliberately: a whole-file hash fails on any unrelated edit in a
+six-thousand-line database, and a check that cries wolf gets switched off.
+Where the submodule is absent the test prints that it did **not** re-derive
+anything, because a silent skip is the same defect one level up.
 
 ## 4. Tolerances, and why these widths
 
@@ -159,15 +177,25 @@ Stated because a coverage claim without its complement is half a claim.
   family checks the *solver*, not the constants: the generator duplicates
   them deliberately so drift shows up. Checking the constants themselves
   needs a vapour-pressure source, and the obvious one is barred — see below.
-- **`tools/vle-oracle.py` is out of policy and must not be wired.** It calls
-  `thermo.VaporPressure(CASRN=...)`, which is a lookup in thermo's compound
-  database, backed by the `chemicals` package. `provenance/upstreams.toml`
-  marks `chemicals-python` **`avoid`**, and the `thermo-python` row that
-  clears thermo at all says exactly what it clears: *"only the numbers it
-  PREDICTS from our own inputs may be compared against."* The generator is
-  bound by that sentence and says so in its docstring. The unwired script has
-  never produced a committed fixture, so nothing rests on it — but it is a
-  loaded foot-gun and this is the note.
+- **`tools/vle-oracle.py` is unresolved, and must not be wired until it is
+  resolved.** It calls `thermo.VaporPressure(CASRN=...)`, which selects a
+  method and its coefficients from thermo's own compound database rather than
+  from anything we supplied. The `thermo-python` row in
+  `provenance/upstreams.toml` clears thermo with one sentence and that
+  sentence is the whole clearance: *"only the numbers it PREDICTS from our
+  own inputs may be compared against."* A database lookup is not that.
+
+  **The honest version is more nuanced than "refused", and the nuance is in
+  the committed file.** `tools/fixtures/vle-ethanol-water.json` — which
+  nothing reads — records the methods it used: `IAPWS_PSAT` for water and
+  `HEOS_FIT` for ethanol. Those are a public international standard and a
+  Helmholtz equation-of-state fit, both computed correlations rather than
+  transcribed table rows, which is a different thing from the bulk
+  aggregation the `chemicals-python` row is `avoid` for. So this is a
+  question for whoever owns the provenance table, not a finding this document
+  is entitled to close. What is NOT in doubt: nothing in the repository reads
+  that fixture, the widened generator does not use that API, and it says so
+  in its docstring so the next person does not reach for it.
 - **Chlorine's Henry constants**, as above.
 - **The water–hexane binodal.** `lle::water_hexane_lle` is consumed by
   `solve.rs`, and its only test asserts `x < 0.15` on one side and `x > 0.85`
@@ -229,11 +257,21 @@ answer, and the decision belongs with whoever owns the partition path.
   today.
 - **The water–hexane binodal:** perhaps half a day, and the value is real
   because the current test is a bound rather than a number.
-- **Wiring `tools/check-properties-vs-chempy.py`:** needs ChemPy in the
-  upstream audit table, which it is not in today despite two checked-in tools
-  importing it (see `provenance/upstreams.toml`). Its water correlations are
-  genuinely independent implementations of Tanaka 2001, Korson 1969 and
-  Bradley–Pitzer 1979; of those three, only viscosity is read by the solver.
+- **Wiring `tools/check-properties-vs-chempy.py`:** the licence blocker is
+  now gone — ChemPy and SciPy were added to `provenance/upstreams.toml` as
+  part of this change, `oracle-only`, terms read 2026-09-16, because two
+  checked-in tools had been importing them since August with no row at all.
+  What remains is engineering: the script shells out to a built `kero`
+  binary, which a test cannot do, so it wants the generator-plus-fixture
+  shape the two oracles above use. Its water correlations are genuinely
+  independent implementations of Tanaka 2001, Korson 1969 and Bradley–Pitzer
+  1979 — but read the independence claim carefully before spending the day:
+  our side implements the same three published formulas, so agreement proves
+  two transcriptions match and nothing about the formulas. Of the three, only
+  viscosity is read by the solver (`bench.rs`, `clock.rs`); density and
+  permittivity are reachable only through the `kero properties` readout.
+  Half a day, and the honest description of what it buys is "three
+  transcription checks, one of them on a consumed number".
 - **Wiring `tools/surface-oracle.py`:** the most valuable unwired oracle in
   the repository — a second implementation of HFO surface complexation from
   the same approved USGS constants, so it is independent of IPhreeqc's

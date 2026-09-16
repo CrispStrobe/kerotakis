@@ -1121,9 +1121,9 @@ thermo fixtures, `tools/oracle`. These are the real ground truth and they should
 absorb every claim they can reach, precisely so tier B stays small.
 
 > **Widened 2026-09-16; the ledger is [`docs/ORACLE-COVERAGE.md`](docs/ORACLE-COVERAGE.md).**
-> The survey found that of the eight oracle tools and fixture sets here, ONE
-> was consulted by a test, and it covered two quantities on one binary
-> mixture. It now covers four quantities on seventeen, and a second oracle
+> The survey found that of the eight oracle tools and fixture sets here, two
+> were consulted by a test and only one of those checked any chemistry — it
+> covered two quantities on one binary mixture. It now covers four quantities on seventeen, and a second oracle
 > checks the Henry's-law table against the PHREEQC databases the solver runs
 > on. That document states, per quantity, what the oracle is INDEPENDENT OF —
 > which is the part that decides what a passing row is worth, and the part a
