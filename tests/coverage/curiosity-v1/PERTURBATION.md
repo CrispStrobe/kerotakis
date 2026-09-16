@@ -68,14 +68,17 @@ beaker fails, which is exactly what `expected = "computed"` could not say.
 
 ### What the generator refuses to read
 
-`contents["OH-"]` is the solution's residual cation charge wearing
-hydroxide's name — recorded in `perturbation.rs` 7/7, measured 1.1e6 high in
-an acetate buffer, unfixed. Two rules would otherwise have rested on it.
-`trustworthy()` excludes it by name from any claim of the form "something
-moved", so no generated case can be satisfied by that defect moving.
-`Order`, whose claim is that a number came back the same, keeps it: an
-invariance over a wrong number is still a true statement about path
-independence.
+`contents["base_equivalents"]` is the solution's residual cation charge: the
+base half of the analytical acid/base equivalents the aqueous tail books to
+close a solved vessel's H/O balance. It was published as `contents["OH-"]`
+until 2026-09-16 — recorded in `perturbation.rs` 7/7, measured 1.1e6 above
+the hydroxide an acetate buffer's pH can hold — and the rename is all that
+changed; the quantity is the same bookkeeping coordinate it always was. Two
+rules would otherwise rest on it. `trustworthy()` excludes it by name from
+any claim of the form "something moved", so no generated case can be
+satisfied by a coordinate moving. `Order`, whose claim is that a number came
+back the same, keeps it: an invariance over a coordinate is still a true
+statement about path independence.
 
 ## What the corpus admits, and what it does not
 
@@ -139,8 +142,8 @@ redox potential. Neither vessel contains a redox couple: `solution.redox` is
 path left behind, and the `--json` contract publishes it as the vessel's pe
 with nothing to say it means nothing.
 
-This is the same shape as the recorded `contents["OH-"]` defect and it was
-found the same way: a published quantity that does not mean what its name
+This is the same shape as the `contents["OH-"]` defect fixed on 2026-09-16
+and it was found the same way: a published quantity that does not mean what its name
 says, invisible to any single run because −0.06 and 12.78 are both perfectly
 plausible numbers, and obvious the moment its cause is perturbed.
 
