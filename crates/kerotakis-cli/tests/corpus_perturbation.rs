@@ -723,99 +723,617 @@ fn the_corpus_census_is_what_is_recorded() {
     );
 }
 
+
 // ===================================================================
-// The sweep: measure first, then assert. Every threshold in this file
-// is derived from a number this harness printed, in the manner of
-// `metamorphic.rs`, rather than guessed.
+// Running a case: two runs, two pictures.
 // ===================================================================
 
-#[derive(Debug, serde::Serialize)]
-struct Measurement {
-    id: String,
-    rule: String,
-    baseline_error: Option<String>,
-    perturbed_error: Option<String>,
-    /// Largest relative disagreement between the two pictures, and where.
-    worst: f64,
-    worst_key: String,
-    /// How many slots moved at all, ignoring the ones known to lie.
-    moved: usize,
-    /// Slots that exist in one run and not the other.
-    appeared: usize,
-    keys: usize,
+struct Pair {
+    before: BTreeMap<String, f64>,
+    after: BTreeMap<String, f64>,
+    error: Option<String>,
 }
 
-fn measure(id: &str, rule: Rule, steps: &[Step]) -> Option<Measurement> {
+fn pair(rule: Rule, steps: &[Step]) -> Option<Pair> {
     let perturbed_script = perturb(rule, steps)?;
     let baseline = run(&render(steps));
     let perturbed = run(&perturbed_script);
-    let mut measurement = Measurement {
-        id: id.to_string(),
-        rule: rule.name().to_string(),
-        baseline_error: baseline.as_ref().err().cloned(),
-        perturbed_error: perturbed.as_ref().err().cloned(),
-        worst: 0.0,
-        worst_key: String::new(),
-        moved: 0,
-        appeared: 0,
-        keys: 0,
+    let error = match (&baseline, &perturbed) {
+        (Err(error), _) => Some(format!("the corpus script itself failed: {error}")),
+        (_, Err(error)) => Some(format!("the perturbed script failed: {error}")),
+        _ => None,
     };
-    let (Ok(baseline), Ok(perturbed)) = (baseline, perturbed) else {
-        return Some(measurement);
-    };
-    let (before, after) = (observe(&baseline), observe(&perturbed));
-    measurement.keys = before.len();
-    measurement.moved = honest_differences(&before, &after, 1e-9).len();
-    let keys: BTreeSet<&String> = before.keys().chain(after.keys()).collect();
-    for key in keys {
-        match (before.get(key), after.get(key)) {
-            (Some(a), Some(b)) => {
-                let scale = a.abs().max(b.abs()).max(1e-12);
-                let relative = (a - b).abs() / scale;
-                if relative > measurement.worst {
-                    measurement.worst = relative;
-                    measurement.worst_key.clone_from(key);
-                }
-            }
-            _ => measurement.appeared += 1,
-        }
-    }
-    Some(measurement)
+    Some(Pair {
+        before: baseline.map(|steps| observe(&steps)).unwrap_or_default(),
+        after: perturbed.map(|steps| observe(&steps)).unwrap_or_default(),
+        error,
+    })
 }
 
-/// Not part of the gate. `KERO_PERTURBATION_SWEEP=<path> cargo test -p
-/// kerotakis-cli --test corpus_perturbation -- --ignored sweep` writes one
-/// JSON line per generated case, which is how every threshold below was
-/// chosen and how the reach was counted.
+/// A slot that describes the SOLUTION rather than the beaker, so doubling
+/// the beaker must leave it alone.
+fn is_intensive(key: &str) -> bool {
+    key.ends_with(".ph")
+        || key.ends_with(".pe")
+        || key.ends_with(".ionic_strength")
+        || key.ends_with(".temperature_k")
+        || key.ends_with(".co2_partial_pressure_atm")
+        || key.contains(".m[")
+}
+
+/// A slot counted in moles or litres, which doubles with the beaker.
+fn is_extensive(key: &str) -> bool {
+    key.contains(".n[") || key.ends_with(".volume_l") || key.ends_with(".free_hydroxide")
+}
+
+/// Whether a key is one a claim of the form "something moved" may be
+/// satisfied by. `contents[OH-]` is not: it is the solution's residual
+/// cation charge under hydroxide's name, recorded and unfixed, and a
+/// generated case that counted it would be resting on a defect.
+fn trustworthy(key: &str) -> bool {
+    !NOT_WHAT_IT_SAYS
+        .iter()
+        .any(|slot| key.contains(&format!("[{slot}|")) || key.contains(&format!("[{slot}]")))
+}
+
+fn relative(a: f64, b: f64) -> f64 {
+    let scale = a.abs().max(b.abs()).max(1e-12);
+    (a - b).abs() / scale
+}
+
+/// The worst offender against a per-key expectation, as prose, or `None`
+/// when every key met it. `expect` returns the value the perturbed run
+/// should show, or `None` for a key this claim says nothing about.
+fn worst_against(
+    before: &BTreeMap<String, f64>,
+    after: &BTreeMap<String, f64>,
+    tolerance: f64,
+    expect: impl Fn(&str, f64) -> Option<f64>,
+) -> Option<String> {
+    let mut worst: Option<(f64, String)> = None;
+    for (key, a) in before {
+        let Some(wanted) = expect(key, *a) else {
+            continue;
+        };
+        let Some(b) = after.get(key) else {
+            return Some(format!("{key} exists in one run and not the other"));
+        };
+        let deviation = relative(wanted, *b);
+        if deviation > tolerance && worst.as_ref().is_none_or(|(w, _)| deviation > *w) {
+            worst = Some((
+                deviation,
+                format!("{key}: expected {wanted:.6e}, got {b:.6e} ({deviation:.2e} relative)"),
+            ));
+        }
+    }
+    worst.map(|(_, prose)| prose)
+}
+
+/// Keys that moved, ignoring the ones known to lie and the ones that are
+/// zero in both runs.
+fn moved(before: &BTreeMap<String, f64>, after: &BTreeMap<String, f64>, tolerance: f64) -> Vec<String> {
+    let keys: BTreeSet<&String> = before.keys().chain(after.keys()).collect();
+    keys.into_iter()
+        .filter(|key| trustworthy(key))
+        .filter(|key| match (before.get(*key), after.get(*key)) {
+            (Some(a), Some(b)) => relative(*a, *b) > tolerance,
+            _ => true,
+        })
+        .cloned()
+        .collect()
+}
+
+/// What the rule claims of one case, as a verdict: `None` when the claim
+/// held, `Some(prose)` when it did not.
+fn verdict(rule: Rule, case: &Pair) -> Option<String> {
+    if let Some(error) = &case.error {
+        return Some(error.clone());
+    }
+    let (before, after) = (&case.before, &case.after);
+    match rule {
+        // Everything comes back the same.
+        Rule::Order => worst_against(before, after, ORDER_TOLERANCE, |_, value| Some(value)),
+        // Intensive alone; extensive doubled.
+        Rule::Scale => worst_against(before, after, SCALE_TOLERANCE, |key, value| {
+            if is_intensive(key) {
+                Some(value)
+            } else if is_extensive(key) {
+                Some(value * 2.0)
+            } else {
+                None
+            }
+        }),
+        // Twice the solvent: every amount of every SOLUTE is untouched,
+        // and the solution is more dilute than it was. The second half is
+        // the one a stored-concentration bug fails, and it is skipped for
+        // a vessel with no ions in it at all, where "more dilute" has no
+        // referent.
+        Rule::Solvent => {
+            let amounts = worst_against(before, after, SOLVENT_TOLERANCE, |key, value| {
+                (is_extensive(key) && !key.contains(".n[H2O") && !key.ends_with(".volume_l"))
+                    .then_some(value)
+            });
+            if amounts.is_some() {
+                return amounts;
+            }
+            let strength: Vec<(&String, f64, f64)> = before
+                .iter()
+                .filter(|(key, value)| key.ends_with(".ionic_strength") && **value > 1e-6)
+                .filter_map(|(key, value)| after.get(key).map(|now| (key, *value, *now)))
+                .collect();
+            strength
+                .iter()
+                .find(|(_, was, now)| *now >= *was * (1.0 - SOLVENT_TOLERANCE))
+                .map(|(key, was, now)| {
+                    format!("{key}: twice the solvent left it at {now:.6e}, was {was:.6e}")
+                })
+        }
+        // The answer has to depend on the reagent the question is about.
+        Rule::Ablation | Rule::Dose => {
+            let moved = moved(before, after, CAUSAL_TOLERANCE);
+            moved.is_empty().then(|| {
+                format!(
+                    "nothing on the bench moved: {} slots, every one unchanged",
+                    before.len()
+                )
+            })
+        }
+    }
+}
+
+/// Relative. These compare hundreds of unrelated quantities across
+/// hundreds of unrelated recipes, so they are looser than the hand-tuned
+/// absolute tolerances in `metamorphic.rs` — which sets pH at 1e-5
+/// absolute against a measured 1.9e-6 floor. Each was set from the sweep
+/// report; see `tests/coverage/curiosity-v1/perturbation-report.md`.
+const ORDER_TOLERANCE: f64 = 1e-6;
+const SCALE_TOLERANCE: f64 = 1e-6;
+const SOLVENT_TOLERANCE: f64 = 1e-6;
+/// Deliberately blunt: a causal claim asks whether a number moved AT ALL,
+/// and a threshold near the solver's noise floor would let a rounding
+/// difference pass as a dependency.
+const CAUSAL_TOLERANCE: f64 = 1e-6;
+
+/// Run a rule over its subset, and compare the rows that departed from its
+/// claim against the rows recorded as departing. A gate that merely skipped
+/// them would be the corpus's own disease over again, so the comparison is
+/// an equality: a new departure fails, and a departure that heals fails too
+/// until somebody deletes it and says what fixed it.
+fn gate(rule: Rule) -> (usize, Vec<(String, String)>) {
+    let subset = selected(rule);
+    let mut departed = Vec::new();
+    for (prompt, steps) in &subset {
+        let Some(case) = pair(rule, steps) else {
+            continue;
+        };
+        if let Some(why) = verdict(rule, &case) {
+            departed.push((prompt.id.clone(), why));
+        }
+    }
+    let recorded = recorded_departures(rule);
+    let unexplained: Vec<String> = departed
+        .iter()
+        .filter(|(id, _)| !recorded.contains_key(id.as_str()))
+        .map(|(id, why)| format!("  {id}: {why}"))
+        .collect();
+    assert!(
+        unexplained.is_empty(),
+        "{} of {} generated {} cases departed with no recorded reason:\n{}",
+        unexplained.len(),
+        subset.len(),
+        rule.name(),
+        unexplained.join("\n")
+    );
+    let healed: Vec<&str> = recorded
+        .keys()
+        .copied()
+        .filter(|id| subset.iter().any(|(prompt, _)| prompt.id == *id))
+        .filter(|id| !departed.iter().any(|(found, _)| found == id))
+        .collect();
+    assert!(
+        healed.is_empty(),
+        "{healed:?} no longer depart from the {} claim; delete them from the \
+         recorded list and say what fixed them",
+        rule.name()
+    );
+    (subset.len(), departed)
+}
+
+// Recorded departures. Each entry is a row and the reason it departs, both
+// filled from the sweep rather than from an argument.
+const ORDER_DEPARTURES: &[(&str, &str)] = &[];
+const SCALE_DEPARTURES: &[(&str, &str)] = &[];
+const SOLVENT_DEPARTURES: &[(&str, &str)] = &[];
+const ABLATION_INERT: &[(&str, &str)] = &[];
+const DOSE_INERT: &[(&str, &str)] = &[];
+
+fn recorded_departures(rule: Rule) -> BTreeMap<&'static str, &'static str> {
+    match rule {
+        Rule::Order => ORDER_DEPARTURES,
+        Rule::Scale => SCALE_DEPARTURES,
+        Rule::Solvent => SOLVENT_DEPARTURES,
+        Rule::Ablation => ABLATION_INERT,
+        Rule::Dose => DOSE_INERT,
+    }
+    .iter()
+    .copied()
+    .collect()
+}
+
+// ===================================================================
+// The measurement harness. Not a gate: it writes a report, and every
+// threshold and every recorded departure above came out of it.
+// ===================================================================
+
+/// `KERO_PERTURBATION_SWEEP=<path> cargo test -p kerotakis-cli --test
+/// corpus_perturbation -- --ignored --nocapture sweep`, optionally with
+/// `KERO_PERTURBATION_ONLY=<rule>` and `KERO_PERTURBATION_ALL=1` to leave
+/// the subset behind and run the whole corpus.
 #[test]
 #[ignore = "measurement harness: writes a report, asserts nothing"]
 fn sweep() {
-    let Some(path) = std::env::var_os("KERO_PERTURBATION_SWEEP") else {
-        panic!("set KERO_PERTURBATION_SWEEP to the report path");
-    };
-    let only: Option<String> = std::env::var("KERO_PERTURBATION_ONLY").ok();
-    let mut report = Vec::new();
-    for prompt in corpus() {
-        if prompt.script.is_empty() {
+    let path = std::env::var_os("KERO_PERTURBATION_SWEEP")
+        .expect("set KERO_PERTURBATION_SWEEP to the report path");
+    let only = std::env::var("KERO_PERTURBATION_ONLY").ok();
+    let whole = std::env::var_os("KERO_PERTURBATION_ALL").is_some();
+    let mut lines = Vec::new();
+    for rule in [
+        Rule::Order,
+        Rule::Scale,
+        Rule::Solvent,
+        Rule::Ablation,
+        Rule::Dose,
+    ] {
+        if only.as_deref().is_some_and(|name| name != rule.name()) {
             continue;
         }
-        let Some(steps) = parse(&prompt.script) else {
-            continue;
+        let subset = if whole {
+            corpus()
+                .into_iter()
+                .filter(|prompt| !prompt.script.is_empty())
+                .filter_map(|prompt| {
+                    let steps = parse(&prompt.script)?;
+                    admits(&steps).0.contains(&rule).then_some((prompt, steps))
+                })
+                .collect()
+        } else {
+            selected(rule)
         };
-        let (rules, _) = admits(&steps);
-        for rule in rules {
-            if only.as_deref().is_some_and(|name| name != rule.name()) {
+        for (prompt, steps) in subset {
+            let Some(case) = pair(rule, &steps) else {
                 continue;
-            }
-            if let Some(measurement) = measure(&prompt.id, rule, &steps) {
-                println!("{}", serde_json::to_string(&measurement).unwrap());
-                report.push(measurement);
-            }
+            };
+            let moved = moved(&case.before, &case.after, CAUSAL_TOLERANCE);
+            let line = serde_json::json!({
+                "id": prompt.id,
+                "rule": rule.name(),
+                "verdict": verdict(rule, &case),
+                "moved": moved.len(),
+                "moved_keys": moved.iter().take(6).collect::<Vec<_>>(),
+                "keys": case.before.len(),
+                "question": prompt.question,
+                "script": prompt.script,
+            });
+            println!("{line}");
+            lines.push(line.to_string());
         }
     }
-    let lines: Vec<String> = report
-        .iter()
-        .map(|m| serde_json::to_string(m).unwrap())
-        .collect();
     std::fs::write(path, lines.join("\n") + "\n").unwrap();
 }
+
+// ===================================================================
+// The generated cases.
+// ===================================================================
+
+/// **Equilibrium has no memory, over recipes nobody wrote for this test.**
+/// Reverse a contiguous run of additions to one vessel; every number on the
+/// bench must come back the same.
+///
+/// `metamorphic.rs` makes this claim once, for silver chloride, and its own
+/// doc comment records what it cost: six rounds of diagnosis across two
+/// sessions, ending in two real engine bugs — dissolution enthalpy
+/// unrecorded for phases the routed database cannot name, and sensible heat
+/// destroyed by `t0 + q/cp` whenever speciation shrank the vessel's heat
+/// capacity. One pair of scripts found both. This generates the same pair
+/// from every corpus script whose shape admits it.
+///
+/// **What this establishes:** that the state a recipe reaches does not
+/// depend on the sequence it was assembled in, across the span of chemistry
+/// the corpus actually covers rather than one precipitation. Path
+/// dependence is the signature of state carried forward instead of
+/// re-solved, and no single run can see it.
+///
+/// **What it cannot establish:** that the state is right. Both orders could
+/// be equally wrong, and this would pass.
+///
+/// **Weakness: low.** Nothing here is a quantity the engine multiplies
+/// through — the two runs are the same arithmetic in a different sequence,
+/// which a solver cannot satisfy by construction. It is also the generated
+/// rule least likely to be vacuous, because the comparison covers every
+/// slot: a script with nothing interesting in it still has its temperature,
+/// its volume and its scene compared.
+#[test]
+fn addition_order_does_not_change_where_the_corpus_ends_up() {
+    let (ran, departed) = gate(Rule::Order);
+    assert!(ran >= 20, "the order subset shrank to {ran} cases");
+    assert_eq!(departed.len(), ORDER_DEPARTURES.len());
+}
+
+/// **The same experiment twice as big is the same experiment.** Double
+/// every quantity the script states — amounts, the joules of a `heat`, the
+/// headspace of a `seal` — and no intensive property may move, while every
+/// amount must double.
+///
+/// **What this establishes:** that no absolute size leaks into a quantity
+/// which describes the solution rather than the beaker. A concentration
+/// computed against a hard-coded litre, a rate law that lost its per-volume
+/// normalisation, an enthalpy divided by the wrong mass — each of them
+/// produces a pH or a temperature that moves when only the beaker did, and
+/// each is invisible in a single run.
+///
+/// **What it cannot establish:** any value at all. It is a statement about
+/// homogeneity, degree zero and degree one, and nothing else.
+///
+/// **Weakness: low, with one caveat the rule takes seriously.** A script
+/// containing a verb whose size the script does not state is EXCLUDED by
+/// `SIZE_BOUND` rather than asserted loosely: a flame, a flux over an
+/// unstated area, a discrete titration step and an electrode current are
+/// not quantities the script controls, so doubling around them is a
+/// different experiment and a failure there would mean nothing. That
+/// exclusion is why this rule reaches fewer scripts than `Dose` does.
+#[test]
+fn doubling_the_corpus_leaves_every_intensive_property_alone() {
+    let (ran, departed) = gate(Rule::Scale);
+    assert!(ran >= 20, "the scale subset shrank to {ran} cases");
+    assert_eq!(departed.len(), SCALE_DEPARTURES.len());
+}
+
+/// **Twice the water, the same amount of everything else.** The count you
+/// weighed is not negotiable by the solvent, and the solution it is in must
+/// get more dilute.
+///
+/// The pairing is the whole test, exactly as in `perturbation.rs` 6/7. A
+/// quantity asserted only to be constant is satisfied by a constant; a
+/// quantity asserted only to move is satisfied by anything that moves. The
+/// two together pin down which of them the engine believes depends on the
+/// beaker, and the classic bug they catch is `n = c · V` recovered on
+/// readback, which makes the count follow the water.
+///
+/// **What this establishes:** amounts of substance are stored rather than
+/// recomputed from a concentration, and the ionic strength is computed from
+/// a solvent mass that the script can actually move.
+///
+/// **What it cannot establish:** that either number is right, or that the
+/// dilution has the right functional form. Only that one is held and the
+/// other is not.
+///
+/// **Weakness: moderate on the invariance half, low on the direction
+/// half.** Where the engine stores moles, "the moles did not change" is
+/// close to the path it tests — the same criticism `perturbation.rs` makes
+/// of its own case 5. The falling ionic strength is not: it is recomputed
+/// from a solvent mass, through speciation, on every run.
+///
+/// **The interesting exception, which is chemistry rather than noise:** a
+/// SATURATED solution does not dilute. Adding water to a beaker with
+/// undissolved salt at the bottom dissolves more salt and the ionic
+/// strength comes back where it was. Any corpus row that departs here for
+/// that reason is a row where the generator has accidentally found the
+/// solubility limit, and it is recorded with that reason rather than
+/// excused.
+#[test]
+fn twice_the_solvent_dilutes_the_corpus_without_moving_the_amounts() {
+    let (ran, departed) = gate(Rule::Solvent);
+    assert!(ran >= 20, "the solvent subset shrank to {ran} cases");
+    assert_eq!(departed.len(), SOLVENT_DEPARTURES.len());
+}
+
+/// **The answer must depend on the reagent the question is about.** This is
+/// the rule that exists because of `aq-003`: delete the last non-solvent
+/// reagent from the script and something on the bench must move.
+///
+/// It is the cheapest claim in the file and the one most directly aimed at
+/// what is wrong with the corpus it is generated from. A row whose
+/// `expected` records only a route is green whatever number comes back; a
+/// row that survives this one has at least established that the number is
+/// downstream of the chemistry the question names. `aq-003` asks whether
+/// potassium chloride cools a beaker. This does not know that it should
+/// cool. It knows that if the potassium chloride is not there, the
+/// thermometer must read something else — and an engine that answers that
+/// question without consulting the salt fails, which is precisely the
+/// failure the corpus could not see.
+///
+/// **What this establishes:** that the observation is causally downstream
+/// of the reagent. Nothing more.
+///
+/// **What it cannot establish:** direction, magnitude, or correctness. A
+/// beaker that warmed when it should have cooled passes this happily. It is
+/// a floor, and it is worth having only because the floor was previously at
+/// zero.
+///
+/// **Weakness: the claim is weak; the perturbation is not.** Deleting an
+/// input is as far from "a quantity the engine multiplies through" as a
+/// perturbation gets — there is no path by which an engine passes this
+/// without reading the reagent. What is weak is the conclusion: `≠` is the
+/// least you can ask. The rows that FAIL it are the valuable output, and
+/// they are recorded by name in `ABLATION_INERT`.
+///
+/// `contents["OH-"]` cannot satisfy this test. That slot carries the
+/// solution's residual cation charge under hydroxide's name — recorded,
+/// unfixed, wrong by six orders of magnitude in a buffer — so a case that
+/// passed only because that number moved would be resting on a defect. It
+/// is excluded by name in `trustworthy`, and without that exclusion this
+/// rule would have counted it.
+#[test]
+fn the_corpus_answer_depends_on_the_reagent_the_question_is_about() {
+    let (ran, departed) = gate(Rule::Ablation);
+    assert!(ran >= 30, "the ablation subset shrank to {ran} cases");
+    assert_eq!(departed.len(), ABLATION_INERT.len());
+}
+
+/// **Twice the reagent, a different answer.** The weakest generated shape,
+/// and generated anyway because the rows it cannot reach are informative.
+///
+/// **Weakness: high, and for exactly the reason the brief warns about.** A
+/// perturbation that varies a quantity the code multiplies through always
+/// passes. Doubling a solute doubles its moles, which doubles its molality,
+/// which moves the ionic strength: that chain is arithmetic and this test
+/// will ride it every time. It is kept for the rows where the chain BREAKS
+/// — a saturated solution, a reagent already in excess, a limiting-reagent
+/// situation where the second half does nothing — because those are the
+/// rows where a dose response genuinely tells you something, and they are
+/// exactly the rows the corpus's `expected` field could never distinguish.
+///
+/// It is sampled at a quarter the density of the others and must not be
+/// counted as evidence about dose response.
+#[test]
+fn twice_the_reagent_moves_the_corpus_answer() {
+    let (ran, departed) = gate(Rule::Dose);
+    assert!(ran >= 10, "the dose subset shrank to {ran} cases");
+    assert_eq!(departed.len(), DOSE_INERT.len());
+}
+
+// ===================================================================
+// The differential case, built out of the corpus's own authored pairs.
+// ===================================================================
+
+/// **The same recipe at two loadings, authored independently, must not be
+/// answered alike — and the corpus already contains twenty-four groups of
+/// them.**
+///
+/// This is the strongest shape a generator can reach without inventing
+/// chemistry, and it costs nothing, because both halves of the pair were
+/// written by hand by whoever wrote the corpus. `aq-003` puts 10 g of
+/// potassium chloride into 100 mL of water and reads a thermometer;
+/// `aq-107` puts in 50 g and reads the same thermometer. Neither row can
+/// say anything about the chemistry on its own — that is the whole
+/// complaint against the corpus — but the PAIR can, and nobody had to
+/// decide what the right temperature is to make it say it.
+///
+/// The claim is a ratio between two responses rather than either response's
+/// value, which is the property `perturbation.rs` 2/7 argues for: a global
+/// error cannot fake it, because a global error moves both members equally
+/// and this asserts they move differently.
+///
+/// **What this establishes:** that the engine distinguishes two loadings of
+/// the same recipe, on the surface the script's own instrument reads. It is
+/// the perturbation-in-time twin of `tools/curiosity-answer-invariance.py`,
+/// which asks the same question across vessels and caught `mat-012` — a row
+/// that passed for as long as the corpus existed while weighing five grams
+/// of three different metals and reading the same number three times.
+///
+/// **What it cannot establish:** which of the two answers is right, or that
+/// the difference has the right size or even the right sign.
+///
+/// **Weakness: low as a shape, moderate as a claim.** The shape is
+/// differential and cannot be satisfied by a constant or by an engine that
+/// ignores the input. The claim is still only `≠`. Where a group has three
+/// or more loadings the test also asserts that the responses are ORDERED by
+/// the loading, which two points cannot check and which a merely
+/// discriminating engine can still fail.
+///
+/// **The rows it cannot reach are the interesting ones.** A group whose
+/// members differ only in a quantity the engine has already saturated —
+/// 50 g of salt in 100 mL of water is past solubility and so is 30 g — is
+/// entitled to answer both alike, and does. Those are recorded by name.
+#[test]
+fn authored_dose_siblings_are_not_answered_alike() {
+    let groups = dose_siblings();
+    assert!(
+        groups.len() >= 20,
+        "the corpus lost its authored dose pairs: {} groups",
+        groups.len()
+    );
+    let recorded: BTreeMap<&str, &str> = SIBLING_ALIKE.iter().copied().collect();
+    let mut alike = Vec::new();
+    let mut discriminated = 0usize;
+    for group in &groups {
+        let mut members: Vec<(String, f64, BTreeMap<String, f64>)> = Vec::new();
+        for prompt in group {
+            let steps = parse(&prompt.script).expect("a sibling parses");
+            let loading = steps
+                .iter()
+                .filter_map(Step::as_add)
+                .filter(|add| !is_solvent(&add.species))
+                .map(|add| add.quantity)
+                .next_back()
+                .unwrap_or_default();
+            match run(&render(&steps)) {
+                Ok(steps) => members.push((prompt.id.clone(), loading, observe(&steps))),
+                Err(error) => members.push((
+                    prompt.id.clone(),
+                    loading,
+                    BTreeMap::from([(format!("failed: {error}"), 0.0)]),
+                )),
+            }
+        }
+        members.sort_by(|a, b| a.1.total_cmp(&b.1));
+        let name = members
+            .iter()
+            .map(|(id, ..)| id.as_str())
+            .collect::<Vec<_>>()
+            .join("+");
+        let (first, last) = (members.first().unwrap(), members.last().unwrap());
+        if first.1 == last.1 {
+            continue; // the varying quantity was the solvent's, not a reagent's
+        }
+        let separated = moved(&first.2, &last.2, CAUSAL_TOLERANCE);
+        if separated.is_empty() {
+            alike.push((name.clone(), first.1, last.1));
+            continue;
+        }
+        discriminated += 1;
+        // Three loadings or more: the responses must be ORDERED, not merely
+        // different. Checked on the key that separates the extremes most,
+        // which is the engine's own choice of what this pair is about.
+        if members.len() >= 3 {
+            let key = separated
+                .iter()
+                .max_by(|a, b| {
+                    relative(
+                        first.2.get(*a).copied().unwrap_or(0.0),
+                        last.2.get(*a).copied().unwrap_or(0.0),
+                    )
+                    .total_cmp(&relative(
+                        first.2.get(*b).copied().unwrap_or(0.0),
+                        last.2.get(*b).copied().unwrap_or(0.0),
+                    ))
+                })
+                .expect("a separating key");
+            let track: Vec<f64> = members
+                .iter()
+                .map(|(_, _, picture)| picture.get(key).copied().unwrap_or(0.0))
+                .collect();
+            let rising = track.windows(2).all(|pair| pair[1] >= pair[0]);
+            let falling = track.windows(2).all(|pair| pair[1] <= pair[0]);
+            assert!(
+                rising || falling,
+                "{name}: {key} is not ordered by the loading: {track:?} at \
+                 loadings {:?}",
+                members.iter().map(|(_, q, _)| *q).collect::<Vec<_>>()
+            );
+        }
+    }
+    let unexplained: Vec<&(String, f64, f64)> = alike
+        .iter()
+        .filter(|(name, ..)| !recorded.contains_key(name.as_str()))
+        .collect();
+    assert!(
+        unexplained.is_empty(),
+        "{} authored dose groups were answered identically with no recorded \
+         reason:\n{}",
+        unexplained.len(),
+        unexplained
+            .iter()
+            .map(|(name, low, high)| format!("  {name}: {low} and {high} agree everywhere"))
+            .collect::<Vec<_>>()
+            .join("\n")
+    );
+    assert!(
+        discriminated >= 10,
+        "only {discriminated} authored dose groups were told apart"
+    );
+}
+
+/// Sibling groups the engine answers identically, and why each is entitled
+/// to. Filled from the sweep.
+const SIBLING_ALIKE: &[(&str, &str)] = &[];
