@@ -255,6 +255,33 @@ pub enum MaterialRole {
         /// other three read unchanged.
         #[serde(default)]
         metabolism: CultureMetabolism,
+        /// WHERE THE RATE ABOVE COMES FROM, as data rather than as prose.
+        ///
+        /// Added 2026-09-16. Until then a culture's rate was a bare `f64`
+        /// with no evidence of its own, and the only place its basis could
+        /// be written was the recipe's `lot_assumptions` — free text, which
+        /// no consumer reads and no lint can count. That mattered the
+        /// moment the four rates stopped sharing one basis: the alcoholic
+        /// and homolactic constants are now fitted to cited measurements
+        /// ([`Method::Derived`]) and the acetic and heterolactic ones are
+        /// inherited from the homolactic fit with no measurement of their
+        /// own ([`Method::Editorial`]), and a reader who cannot see that
+        /// difference will take all four for the same kind of number. The
+        /// recipe-level `evidence` cannot carry it either, because it
+        /// describes the whole surrogate and every one of these recipes is
+        /// `confidence = surrogate` whatever its rate rests on.
+        ///
+        /// [`Method::Derived`] HERE MEANS FITTED, NOT MEASURED, and the
+        /// distinction is the whole reason the field is an `Evidence` and
+        /// not a `Measured` flag: nobody measured a rate per gram of these
+        /// materials, because none of them names a strain, a product form
+        /// or a cell count that a rate per gram could belong to. What the
+        /// cited sources measure is a fermentation — a dose, a temperature,
+        /// a time and an extent — and the constant is what makes this
+        /// engine's rate law reproduce that. The `detail` string must say
+        /// which measurement, and the source's citation must say what the
+        /// fit could not capture.
+        rate_evidence: Evidence,
     },
     /// A named food that BRINGS its own enzyme rather than having one
     /// weighed into the beaker beside it.

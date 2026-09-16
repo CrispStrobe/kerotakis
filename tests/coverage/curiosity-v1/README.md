@@ -191,6 +191,69 @@ the magnitude are separate questions: the first is fixed, the second is
 open, and the rate constants were carried across unchanged rather than
 re-fitted so that nothing hid the size of the move.
 
+**Amended again the same day — the rate is now FITTED, and the pH is
+reported rather than targeted.** The magnitude question the paragraph above
+leaves open was taken up in the same week and closed for the lactic route.
+The constant is no longer an editorial classroom timescale: `1.96e-7` per
+second per gram of culture per litre is what makes this engine convert
+**6.106%** of a milk's lactose in eight hours at the culture's declared
+43 °C optimum, for the dose these scripts pour. The eight hours are
+measured — Kim, Oh and Imm 2018, *Korean J Food Sci Anim Resour*
+**38**:273–281, doi:10.5851/kosfa.2018.38.2.273, whose control yoghurt
+reached pH 4.5 in a 42 °C bath in that time. The 6.106% is measured —
+Jankowska *et al.* 2026, *Foods* **15**(2):314, doi:10.3390/foods15020314,
+Table 1, cow milk 6.06% lactose against 5.69% in the yogurt made from it.
+`bio-069` therefore converts **1.48%** of the lactose in its eight
+counter-top hours, not 53.2% and not 6.6%; it deposits 8.53e-4 mol of acid
+where the pre-#618 bench made 3.81e-3 and the post-#618 bench made 3.07e-2,
+and it reads **pH 5.436** where those read 3.889 and 2.835.
+
+**The bench has crossed the real yoghurt window from below to above without
+ever aiming at it, and that is the evidence that the pH was not fitted.**
+5.44 is not a yoghurt's pH either — it is higher than one, because this
+beaker holds a fifth of the acid the fermentation it was fitted to makes.
+What it is is a souring milk part-way through, at a temperature eighteen
+degrees below the culture's optimum.
+
+**WHAT `bio-069` CLAIMS AND WHAT IT DOES NOT, said in one place so that
+nobody has to reconstruct it.** It claims that a lactic culture converts
+milk sugar into lactic acid, that the amount depends on time, temperature
+and the culture's concentration, and that the acid acidifies the milk. It
+does **not** claim a yoghurt. Three separate things stand between this row
+and the pot in a fridge, and each of them is a boundary rather than a
+tolerance:
+
+1. **The pH is a lower bound, not a prediction, and the gap is measured.**
+   Casein and colloidal calcium phosphate are about 60% of milk's buffer
+   capacity (soluble minerals 40%, caseins 35%, CCP 20%, whey proteins 5% —
+   Salaün, Mietton and Gaucheron 2005, *as reported by* Kim *et al.* 2018;
+   the original is behind a publisher 403 and was not read here), and this
+   recipe models none of them. Put the acid a real yoghurt at pH 4.6 carries
+   into this milk and it reads **3.944** — the missing buffer is worth about
+   **0.66 of a pH unit** at that acidity, and
+   `lactate_speciation.rs::the_cited_yoghurts_own_acid_reads_below_the_cited_yoghurts_ph`
+   holds it. **A learner must not read a computed yoghurt pH as the number a
+   pH meter would show.** See `docs/milk-buffer-and-the-fermentation-rate.md`.
+2. **This is a partial fermentation, not a finished one.** Eight hours at
+   25 °C is a long way below a yoghurt culture's 43 °C optimum, and the
+   Gaussian envelope says so: the bench converts about a quarter of what it
+   would convert at the optimum. It is not modelling a set yoghurt and never
+   was.
+3. **Nothing stops it.** There is no inhibition by the acid the culture
+   makes, so the modelled extent goes to one. Real yoghurt halts near
+   pH 4.4–4.6 because the organisms poison themselves. Wait long enough on
+   this bench and every last gram of lactose is converted at a pH no yoghurt
+   has ever had — which is the clearest single statement of what this model
+   is not.
+
+**And the thing the calibration deliberately did not do.** The rate was
+fitted against a *conversion extent against time*, which is what a rate is
+measured by, and **not** against pH. Points 1 and 3 above pull the computed
+pH in opposite directions; a constant chosen to make 4.5 appear would have
+cancelled a rate error against a buffer error and left both defects in
+place, hidden, for the next person to fix one of them to uncover. The pH is
+an output of this bench and is reported as one.
+
 **What has NOT changed, and must not be read as changed.** The fourteenth
 refresh's headline — that these rows being `computed` does not mean they
 are ANSWERED — stands, and this correction does not touch it. Only its

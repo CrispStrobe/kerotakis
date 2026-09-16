@@ -37,3 +37,23 @@ inspect v3
 # dose. This is a bounded classroom model, not proof that a real mixture is
 # safe to drink, bake, bottle or seal; growth, oxygen switching, inhibition,
 # flavour compounds and flexible balloons remain explicit future work.
+
+# HOW FAST, AND HOW MUCH OF THAT IS CLAIMED. On 2026-09-16 the yeast rate
+# was fitted for the first time: the constant is the one that makes a gram
+# of yeast in a litre of this same sugar strength give up 1.5 g of ethanol
+# in the first hour at 30 degC, which is the fastest specific rate published
+# for anaerobic brewer's and baker's yeast (Pagliardini et al. 2013,
+# Microbial Cell Factories 12:29). Before it, ten minutes here took 58.6% of
+# the sugar and made about 1.7 litres of carbon dioxide out of a 100 mL
+# beaker - more gas than the beaker holds. It now takes about 3.7% and makes
+# roughly 105 mL, which is a balloon a class can see.
+#
+# THAT IS AN UPPER BOUND AND NOT A PREDICTION. The cited rate belongs to a
+# laboratory strain growing in a fermenter, not to supermarket yeast in cold
+# sugar water; a gram of dry yeast is counted here as a gram of living
+# cells, which it is not; and this model's yeast never multiplies, never
+# pauses to wake up and is never slowed by the alcohol it makes. One
+# published point is matched. The shape of the curve through it is not
+# claimed, so a longer wait on this bench runs faster than a real one would,
+# and the hydration ramp in front of it is a matter of seconds where a real
+# packet of dried yeast wants ten to fifteen minutes in warm water.
