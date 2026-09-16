@@ -1333,16 +1333,39 @@ const SCALE_DEPARTURES: &[(&str, &str)] = &[
         "boiling milk: m[O2] falls to a seventh when the experiment is \
          doubled, which is neither intensive nor extensive",
     ),
-    // Yoghurt culture in milk at 5 C for eight hours. The lactic acid
-    // QUADRUPLES when the experiment is doubled: 4.536e-8 mol becomes
-    // 1.933e-7 where 9.072e-8 was wanted. A fermentation extent that goes
-    // as the square of the batch size is the signature of a rate that
-    // reads an AMOUNT where it should read a concentration, and it is the
-    // most defect-shaped thing in this list after th-100.
+    // Yoghurt culture in milk at 5 C for eight hours.
+    //
+    // THE DEFECT THIS ROW FOUND IS FIXED, AND THE ROW STILL DEPARTS FOR A
+    // DIFFERENT REASON. What it found: the lactic acid QUADRUPLED when the
+    // experiment was doubled, 4.536e-8 mol to 1.933e-7 where 9.072e-8 was
+    // wanted, because `fermentation.rs` multiplied its declared rate by the
+    // GRAMS of culture with no volume under them — so the extent grew with
+    // the batch and was then spent on a substrate that grew with the batch
+    // too. The total acid went 2.716e-5 -> 1.086e-4, a factor of 3.999060,
+    // and `2(1-e^-2x)/(1-e^-x)` at this script's x = 4.6989e-4 is 3.999060.
+    // The remaining 6% to the measured 4.2607 was the readout, not the
+    // chemistry: this key is the UNDISSOCIATED acid, 1.67e-3 of the total
+    // at milk's pH, and four times the acid in twice the water drops the pH
+    // by 0.0275 and raises the undissociated share by 10^0.0275 = 1.0653.
+    // The rate now divides by the vessel's liquid volume against a declared
+    // one-litre reference, and the total acid is extensive to the last bit:
+    // 3.014833e-4 -> 6.029666e-4, exactly 2.
+    //
+    // What departs now is the carbonate system, at 2.9e-2 on the vessel's
+    // reported CO2 partial pressure and on every bicarbonate species with
+    // it. It is NOT the fermentation and it was there all along, hidden
+    // under a departure two hundred times larger: milk poured at 5 C and
+    // left for eight hours in an OPEN vessel warms to room temperature
+    // while exchanging carbon dioxide with the atmospheric reservoir, and
+    // `add v1 milk 100mL @ 5C; wait 8h` with NO CULTURE IN IT departs by
+    // 2.89e-2 on the same keys. Same family as `bio-055`: what an open
+    // vessel trades with the room outside it does not double when the
+    // beaker does.
     (
         "bio-070",
-        "the fermentation extent goes as the SQUARE of the batch: 4.536e-8 \
-         mol of lactic acid becomes 1.933e-7 when the experiment is doubled",
+        "milk warming from 5 C in an open vessel: the reported CO2 partial \
+         pressure and the bicarbonate species with it depart by 2.9e-2, \
+         with no culture needed to produce it",
     ),
 ];
 
