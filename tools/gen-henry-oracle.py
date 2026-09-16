@@ -115,6 +115,18 @@ def parse(path):
                     elif low.startswith(("-delta_h", "delta_h", "-delta_H".lower())):
                         bits = part.split()
                         value = float(bits[1])
+                        # AN ASSUMPTION, AND IT IS LOAD-BEARING ON ONE ROW.
+                        # PHREEQC's `-delta_h` takes an optional unit and
+                        # defaults to kJ/mol when it is omitted. Every row
+                        # here states its unit EXCEPT phreeqc.dat's H2(g)
+                        # (`-delta_h -3.3`), and that one row is the pinned
+                        # hydrogen disagreement: read as kJ it implies 397 K,
+                        # read as kcal it implies 1661 K, against the 500 K
+                        # this repository ships. So the disagreement's SIZE
+                        # depends on a default nobody here has checked
+                        # against the PHREEQC manual. Recorded rather than
+                        # asserted; it is the first thing to verify if that
+                        # row is ever acted on.
                         unit = bits[2].lower() if len(bits) > 2 else "kj"
                         if unit.startswith("kcal"):
                             delta_h = value * KCAL_J

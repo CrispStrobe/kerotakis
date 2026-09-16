@@ -169,6 +169,14 @@ const TEMPERATURE_BANDS: &[(&str, f64, &str)] = &[
 /// The finding itself: hydrogen's and nitrogen's temperature coefficients
 /// are the two numbers in this table with no corroboration at all, and the
 /// USGS files disagree with each other about hydrogen by a factor of 2.2.
+/// What would settle each, so the pin is a queue and not a shrug. HYDROGEN:
+/// check PHREEQC's default unit for a bare `-delta_h` (the whole size of
+/// the gap turns on it), then read Sander 2015's own H2 entry against a
+/// primary enthalpy-of-solution measurement. NITROGEN: phreeqc.dat states
+/// no enthalpy but DOES carry an `-analytic` expression, which this oracle
+/// refuses to differentiate because the file states no validity range for
+/// it; establishing that range would give a third, independent value for
+/// about an hour's work, and is the cheapest next step in this whole file.
 /// Neither is load-bearing today — the gas the bench actually watches
 /// dissolve and escape is carbon dioxide — but a lesson that warmed a bottle
 /// of soda water and asked about dissolved nitrogen would be resting on an
@@ -178,7 +186,11 @@ const TEMPERATURE_DISAGREEMENTS: &[(&str, &str, f64, &str)] = &[
         "H2",
         "phreeqc.dat",
         0.2598,
-        "phreeqc.dat's -3.3 kJ gives 397 K against Sander's 500 K",
+        "phreeqc.dat's -3.3 gives 397 K against Sander's 500 K — but that \
+         row is the ONE in the fixture whose delta_h states no unit, so the \
+         size of this disagreement rests on PHREEQC's documented kJ default. \
+         Read as kcal it would be 1661 K. Verify the default before acting \
+         on this row; see tools/gen-henry-oracle.py",
     ),
     (
         "H2",

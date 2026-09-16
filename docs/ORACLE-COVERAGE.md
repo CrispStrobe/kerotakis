@@ -126,7 +126,22 @@ and are pinned rather than banded away**:
 
 Neither is load-bearing today — the gas the bench watches dissolve and escape
 is carbon dioxide — but a lesson that warmed a bottle of soda water and asked
-about dissolved nitrogen would be resting on an uncorroborated number.
+about dissolved nitrogen would be resting on an uncorroborated number. **These
+are shipped numbers that may be wrong**, not noise to be tolerated.
+
+**What would settle each**, so the pin is a queue rather than a shrug:
+
+- **Hydrogen.** Check PHREEQC's default unit for a bare `-delta_h` first,
+  because the size of the gap turns on it: `phreeqc.dat`'s H2 row is the one
+  entry in the fixture that states no unit, and the generator assumes the
+  documented kJ default. Read as kJ it implies 397 K; read as kcal it implies
+  1661 K, against the 500 K we ship. Then read Sander 2015's own H2 entry
+  against a primary enthalpy-of-solution measurement.
+- **Nitrogen.** `phreeqc.dat` states no enthalpy but *does* carry an
+  `-analytic` expression, which this oracle refuses to differentiate because
+  the file states no validity range for it. Establishing that range would
+  give a third, independent value for about an hour's work, and it is the
+  cheapest next step anywhere in this document.
 
 A band that admits a 90% disagreement is not a check, so those three rows
 carry a recorded figure instead, asserted to 1 percentage point. Both sides
