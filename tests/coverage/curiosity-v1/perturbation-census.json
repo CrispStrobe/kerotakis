@@ -12,7 +12,8 @@
   "by_reason": {
     "a single reagent with no solvent and a size-bound verb: nothing can be held fixed against the perturbation": 5,
     "no reagent: the script only observes or manipulates": 4,
-    "no script: an explicit product boundary, nothing to run": 60
+    "no script: an explicit product boundary, nothing to run": 60,
+    "the script's shape admits a rule but applying it changes nothing: the same reagent twice, or one add": 1
   },
   "dose_sibling_groups": 13,
   "dose_sibling_prompts": 28

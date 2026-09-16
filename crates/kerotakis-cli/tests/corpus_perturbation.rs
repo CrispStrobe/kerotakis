@@ -1932,10 +1932,17 @@ fn closing_the_vessel_restores_order_independence() {
 /// the loading, which two points cannot check and which a merely
 /// discriminating engine can still fail.
 ///
-/// **The rows it cannot reach are the interesting ones.** A group whose
-/// members differ only in a quantity the engine has already saturated —
-/// 50 g of salt in 100 mL of water is past solubility and so is 30 g — is
-/// entitled to answer both alike, and does. Those are recorded by name.
+/// **The rows it cannot reach are the interesting ones, and both of them
+/// are refusals.** `th-033`/`th-038` burn hexane in 0.01 mol and 0.5 mol of
+/// oxygen — starved and in excess — and answer alike because the hexane
+/// evaporates and the ignition comes back `not_yet_modeled`; the beaker is
+/// empty at 298.15 K either way. `th-052`/`th-114` are the same refusal
+/// with ethanol. A refusal repeated is an engine gap, not a script that
+/// misses its question, and
+/// `tools/curiosity-answer-invariance.py` draws exactly that distinction
+/// for exactly this reason. They are recorded by name in `SIBLING_ALIKE`,
+/// so the day combustion is modelled these rows fail until somebody looks
+/// at them.
 #[test]
 fn authored_dose_siblings_are_not_answered_alike() {
     let groups = dose_siblings();
@@ -2037,4 +2044,22 @@ fn authored_dose_siblings_are_not_answered_alike() {
 
 /// Sibling groups the engine answers identically, and why each is entitled
 /// to. Filled from the sweep.
-const SIBLING_ALIKE: &[(&str, &str)] = &[];
+const SIBLING_ALIKE: &[(&str, &str)] = &[
+    // Hexane and oxygen, ignited, at 0.01 mol and 0.5 mol of oxygen —
+    // starved and in excess. Both answer "the beaker is empty" at 298.15 K,
+    // because the hexane evaporates (`state_changed`, `gas_evolved`) and
+    // the ignition comes back `not_yet_modeled`. The two loadings are the
+    // same REFUSAL, which is an engine gap and not a script that misses its
+    // question — the distinction `tools/curiosity-answer-invariance.py`
+    // draws and this test inherits.
+    (
+        "th-038+th-033",
+        "the hexane evaporates and the ignition is not_yet_modeled, so both \
+         loadings are the same refusal",
+    ),
+    // Ethanol and oxygen, ignited, with a thermometer. The same refusal.
+    (
+        "th-114+th-052",
+        "the same not_yet_modeled ignition: two loadings, one refusal",
+    ),
+];
