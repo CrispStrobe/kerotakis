@@ -1249,7 +1249,14 @@ fn dissolved_particles(vessel: &Vessel) -> (f64, f64) {
         return (speciated, 0.0);
     }
     let water_ml = species::lookup(&solvent)
-        .map(|water| water.liters_from_moles(Moles(water_kg / crate::constants::WATER_MOLAR_MASS_KG_PER_MOL)).0 * 1000.0)
+        .map(|water| {
+            water
+                .liters_from_moles(Moles(
+                    water_kg / crate::constants::WATER_MOLAR_MASS_KG_PER_MOL,
+                ))
+                .0
+                * 1000.0
+        })
         .unwrap_or(0.0);
     let unspeciated: f64 = vessel
         .contents

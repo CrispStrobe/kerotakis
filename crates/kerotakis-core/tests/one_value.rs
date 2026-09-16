@@ -63,8 +63,8 @@ fn the_solvents_latent_heats_are_registry_records() {
             .expect("phase thermodynamics")
             .iter()
             .find(|record| record["id"].as_str() == Some(id))
-            .unwrap_or_else(|| panic!("`{id}` is not a record in the shipped registry"))
-            ["quantity"]["value"]
+            .unwrap_or_else(|| panic!("`{id}` is not a record in the shipped registry"))["quantity"]
+            ["value"]
             .as_f64()
             .expect("a value")
     };

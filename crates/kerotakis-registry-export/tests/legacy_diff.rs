@@ -161,6 +161,13 @@ fn every_legacy_field_is_present_and_unchanged() {
         transition_records > 0,
         "the transition tranche must survive the round trip"
     );
+    // ...plus the solvent's two latent heats, which became registry records
+    // on 2026-09-15. They are counted by name rather than by a field on
+    // `SpeciesData`, because there is no such field: `states.rs` used to own
+    // both as Rust constants and now generates them from these records
+    // instead. If the tranche ever grows past water, this literal is the
+    // thing that has to be argued rather than bumped.
+    const LATENT_HEAT_RECORDS: usize = 2;
     assert_eq!(
         document.phase_thermodynamics.len(),
         REGISTRY.len() * 3
@@ -170,6 +177,26 @@ fn every_legacy_field_is_present_and_unchanged() {
                 .count()
             + transition_records
             + RESISTIVITY_KEYS.len()
+            + LATENT_HEAT_RECORDS
+    );
+    let latent: Vec<&str> = document
+        .phase_thermodynamics
+        .iter()
+        .filter(|record| {
+            matches!(
+                record.property,
+                PhaseProperty::EnthalpyOfFusion | PhaseProperty::EnthalpyOfVaporisation
+            )
+        })
+        .map(|record| record.id.as_str())
+        .collect();
+    assert_eq!(
+        latent,
+        vec!["enthalpy-of-fusion/water", "enthalpy-of-vaporisation/water"],
+        "the latent-heat tranche is water and only water: `phase_route`'s \
+         FUSION_ENTHALPIES owns every other substance's fusion, and two \
+         solvers moving the same ice would be the bug its doc comment warns \
+         about"
     );
     // The resistivity tranche is one source record, cited by every
     // resistivity value and by nothing else, and it reaches exactly the
@@ -1057,10 +1084,7 @@ fn exactly_two_records_claim_their_source_is_the_measurement() {
         .collect();
     assert_eq!(
         measured,
-        vec![
-            "aqueous-solubility/I2",
-            "enthalpy-of-vaporisation/water"
-        ],
+        vec!["aqueous-solubility/I2", "enthalpy-of-vaporisation/water"],
         "the registry's measured records are the iodine solubility Hartley \
          and Campbell determined in 1908 and the heat of vaporization Osborne, \
          Stimson and Ginnings determined in 1939"

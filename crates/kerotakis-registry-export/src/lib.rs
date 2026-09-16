@@ -214,7 +214,12 @@ const LATENT_HEAT_FUSION_METHOD: &str = "H(H2O(L), 273.15 K) - H(H2O(cr), 273.15
 /// it is water twice, because water is the only substance whose transitions
 /// `states.rs` owns.
 const LATENT_HEATS: &[(&str, &str, LatentHeatKind, f64)] = &[
-    ("water", "enthalpy-of-fusion", LatentHeatKind::Fusion, 6010.0),
+    (
+        "water",
+        "enthalpy-of-fusion",
+        LatentHeatKind::Fusion,
+        6010.0,
+    ),
     (
         "water",
         "enthalpy-of-vaporisation",
@@ -518,7 +523,10 @@ pub fn export_current_registry() -> Result<RegistryDocument, String> {
             origin: Some(
                 "https://nvlpubs.nist.gov/nistpubs/jres/23/jresv23n2p197_A1b.pdf".to_string(),
             ),
-            revision: Some("J. Res. NBS 23 (1939) 197-260, RP1228, doi:10.6028/jres.023.008, Table 13".to_string()),
+            revision: Some(
+                "J. Res. NBS 23 (1939) 197-260, RP1228, doi:10.6028/jres.023.008, Table 13"
+                    .to_string(),
+            ),
             retrieved: Some("2026-09-15".to_string()),
         });
     }

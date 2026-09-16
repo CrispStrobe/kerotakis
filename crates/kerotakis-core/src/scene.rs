@@ -1599,7 +1599,11 @@ mod tests {
 
     #[test]
     fn swelling_is_persistent_scene_state_with_accessible_words() {
-        let mut v = vessel_with(&[("water", 50.0 / crate::constants::WATER_MOLAR_MASS_G_PER_MOL, Phase::Liquid)]);
+        let mut v = vessel_with(&[(
+            "water",
+            50.0 / crate::constants::WATER_MOLAR_MASS_G_PER_MOL,
+            Phase::Liquid,
+        )]);
         v.unresolved_materials.push(UnresolvedMaterialPortion {
             material: "instant snow".into(),
             recipe_id: crate::swelling::RECIPE_ID.into(),
