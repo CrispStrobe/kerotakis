@@ -166,14 +166,30 @@ the two extensions now sit beside each other in `minteq_v4()`.
 `computed`/`computed-route` in `baseline.toml`, and the pH meter at the end
 of each script reads an acidified milk rather than nothing.
 `crates/kerotakis-phreeqc/tests/lactate_speciation.rs` holds it from three
-sides: the fermentation's 0.0038 mol comes back SPLIT between `lactic_acid`
-and `lactate` with both forms non-zero, which is what pKa 3.86 requires at
-that pH; the fermented beaker lands strictly between the unbuffered acid's
-2.6 and real yoghurt's 4.4; and fresh milk reads 6.4–7.0 with the culture
-dropping it by more than two units. The refrigerated row is the same
-chemistry two orders of magnitude slower
+sides: the fermentation's acid comes back SPLIT between `lactic_acid` and
+`lactate` with both forms non-zero, which is what pKa 3.86 requires at that
+pH; the fermented beaker is acidic to a number; and fresh milk reads
+6.4–7.0 with the culture dropping it by more than three units. The
+refrigerated row is the same chemistry two orders of magnitude slower
 (`crates/kerotakis-core/tests/fermentation.rs`), which is the comparison
 `bio-070` asks for.
+
+**Amended 2026-09-16 — the amount of acid, and the pH, both moved.** The
+figures this paragraph used to quote — 0.0038 mol, and a beaker landing
+between the unbuffered 2.6 and the real 4.4 — belonged to a fermentation
+rate that read the GRAMS of culture with no volume under them. The corpus's
+own `Scale` rule caught it on `bio-070`: doubling the experiment quadrupled
+the acid, because the extent and the substrate both grew with the batch.
+The rate now reads a CONCENTRATION against a declared one-litre reference
+volume (`kerotakis_core::fermentation::REFERENCE_VOLUME_LITRES`), so a
+100 mL script runs about eleven times faster: 0.0038 mol of acid became
+0.0307, 6.6% of the milk's lactose became 53.2%, and the eight-hour beaker
+reads pH 2.83 instead of 3.89. THAT IS FURTHER FROM REAL YOGHURT, NOT
+CLOSER — 4.4–4.6 is the target and the bench now overshoots it by a unit
+and a half rather than undershooting by half of one. The scaling defect and
+the magnitude are separate questions: the first is fixed, the second is
+open, and the rate constants were carried across unchanged rather than
+re-fitted so that nothing hid the size of the move.
 
 **What has NOT changed, and must not be read as changed.** The fourteenth
 refresh's headline — that these rows being `computed` does not mean they
