@@ -367,12 +367,7 @@ fn halving_the_liquid_at_a_fixed_dose_doubles_the_rate() {
 /// The rate constant is not a measurement and cannot be checked against
 /// one: nothing measures an activity per gram of a culture that names no
 /// strain. What CAN be checked, and is checked here, is the published
-/// fermentation the constant was fitted to reproduce. Move the constant,
-/// move the optimum, move the envelope width, change how `active` is
-/// reduced to a concentration, or change what fraction of milk is lactose,
-/// and this fails — which is the whole point, because every one of those
-/// would move the shipped answer while leaving the citation in place and
-/// still reading true.
+/// fermentation the constant was fitted to reproduce.
 ///
 /// THE FIT. Kim, Oh and Imm 2018 (Korean J Food Sci Anim Resour 38:273-281,
 /// doi:10.5851/kosfa.2018.38.2.273) held milk carrying a commercial starter
@@ -380,14 +375,31 @@ fn halving_the_liquid_at_a_fixed_dose_doubles_the_rate() {
 /// EIGHT HOURS. Jankowska et al. 2026 (Foods 15(2):314,
 /// doi:10.3390/foods15020314) fermented milk at 43 degC to pH 4.6, and
 /// their Table 1 gives cow milk 6.06% lactose against 5.69% in the yogurt
-/// made from it — 6.106% of the lactose converted. 43 degC is this
-/// culture's declared optimum, where the temperature envelope is exactly 1.
+/// made from it - 6.106% of the lactose converted. 43 degC is this
+/// culture's declared optimum, where the shipped temperature envelope is
+/// exactly 1, and Kim's 42 degC sits 0.4% below it on that envelope.
 ///
-/// THE DOSE IS DECLARED AND NOT CITED, and the tolerance below is not a
-/// licence to re-fit against it: 1 g of culture in 100 mL is what the bench
-/// scripts pour, and the constant is what makes that dose land on the cited
-/// pair. `kerotakis/fermentation-rate-calibration-v1` says why a rate per
-/// gram could not be cited instead.
+/// WHY THE SCRIPT BELOW IS AT ROOM TEMPERATURE AND NOT AT 43 degC, which
+/// is the interesting part. Both cited experiments were THERMOSTATTED - a
+/// water bath and an incubator - and this bench has no thermostat. Pour
+/// milk at 43 degC into a beaker and `wait 8h` and the room takes it back
+/// down; the eight hours are spent on a falling temperature, and an
+/// isothermal constant cannot be read off a non-isothermal run. So the
+/// anchor is checked where the bench IS isothermal, which is at ambient,
+/// and the cited extent is carried there through the model's own envelope.
+/// That carry is exact and needs no volume, no molar mass and no rounding:
+/// `1 - extent = exp(-k*t)`, and the envelope multiplies `k`, so
+/// `(1 - extent_ambient) = (1 - extent_optimum)^envelope`. THE GEOMETRY IS
+/// OTHERWISE IDENTICAL, because the fit's declared dose is this script's -
+/// one gram of culture in 100 mL of milk.
+///
+/// WHAT FAILS THIS. The rate constant, the declared optimum, the envelope
+/// width, the way `active` grams are reduced to a concentration, and the
+/// liquid volume 100 mL of milk expands to. Every one of those would move
+/// the shipped answer while leaving the citation in place and still reading
+/// true, which is why this exists. The milk's lactose SHARE is deliberately
+/// not one of them: it sets how much acid comes out, not how fast, and an
+/// extent is blind to it.
 ///
 /// NOT A pH TEST, DELIBERATELY. Milk's casein and colloidal calcium
 /// phosphate are about 60% of its buffer capacity and are modelled by
@@ -397,83 +409,143 @@ fn halving_the_liquid_at_a_fixed_dose_doubles_the_rate() {
 /// is measured by. See `docs/milk-buffer-and-the-fermentation-rate.md`.
 #[test]
 fn the_lactic_rate_reproduces_the_fermentation_it_was_fitted_to() {
-    const CITED_EXTENT: f64 = 1.0 - 5.69 / 6.06;
+    // Jankowska et al. 2026, Table 1, cow milk: 6.06% lactose in, 5.69% in
+    // the yogurt. Kim, Oh and Imm 2018: eight hours. Both at the declared
+    // optimum, to within the 0.4% of envelope that separates 42 from 43 C.
+    const CITED_EXTENT_AT_OPTIMUM: f64 = 1.0 - 5.69 / 6.06;
+    // The envelope, written out rather than read from the registry: a test
+    // that takes its expectation from the thing it is testing agrees with
+    // that thing however wrong it is.
+    const OPTIMUM_K: f64 = 316.15;
+    const WIDTH_K: f64 = 15.0;
+    const AMBIENT_K: f64 = 298.15;
 
+    let envelope = (-((AMBIENT_K - OPTIMUM_K) / WIDTH_K).powi(2)).exp();
+    let expected = 1.0 - (1.0 - CITED_EXTENT_AT_OPTIMUM).powf(envelope);
+
+    // `bio-069` exactly. No `@`, so the milk is poured at room temperature
+    // and the eight hours are genuinely isothermal.
     let mut bench = Bench::new();
-    run(&mut bench, "add v1 milk 100mL @ 43C");
-    let lactose_before = milk_lactose_grams(&bench);
-    assert!(
-        lactose_before > 0.0,
-        "the milk recipe must carry lactose for this anchor to mean anything"
-    );
+    run(&mut bench, "add v1 milk 100mL");
+    let solids_before = milk_solids(&bench);
     run(&mut bench, "add v1 yoghurt_culture 1g");
     run(&mut bench, "wait 8h");
+    let solids_after = milk_solids(&bench);
 
-    let converted = (lactose_before - milk_lactose_grams(&bench)) / lactose_before;
+    // THE EXTENT IS THE LACTOSE'S, NOT THE SOLIDS'. What leaves the vessel
+    // is a mass of lactose, and it is withdrawn from the milk's conserved
+    // solids AS A WHOLE — fat, casein and lactose together — because those
+    // solids are one undifferentiated portion. So the fraction of the
+    // PORTION that left is the fraction of the LACTOSE that fermented times
+    // the lactose's share of the portion, and dividing that share back out
+    // is what turns a mass loss into an extent. (A consequence worth
+    // noticing while it is in view: the model keeps the share fixed as the
+    // portion shrinks, so it believes slightly more lactose is left than
+    // really is. It is a fraction of a per cent at these extents and it is
+    // not what this test is about.)
+    let share = kerotakis_core::enzyme_activity::unresolved_lactose_share(
+        "household/whole-milk-surrogate",
+    )
+    .expect("the milk recipe declares a lactose share");
+    assert!(solids_before > 0.0 && share > 0.0);
+    let converted = (solids_before - solids_after) / (solids_before * share);
+
+    // HALF A PER CENT, AND WHAT LIVES INSIDE IT. The shipped constant is
+    // quoted to three figures, which the cited inputs do not beat, and it
+    // was solved against 0.08961 L — the water 100 mL of milk carries, by
+    // mass — where the bench's own liquid volume is a little larger because
+    // the serum ions occupy space too. Those two together are about 0.2%.
+    // Anything that actually moved the model would move this by far more:
+    // the constant this replaced was fifty-one times out.
     assert!(
-        (converted - CITED_EXTENT).abs() < 1e-3,
-        "eight hours at the declared optimum should convert {:.4}% of the milk's \
-         lactose, which is Jankowska et al. 2026 Table 1 for cow milk; it converted \
-         {:.4}%. The constant, the optimum, the envelope or the lactose share moved.",
-        CITED_EXTENT * 100.0,
+        (converted / expected - 1.0).abs() < 5e-3,
+        "eight counter-top hours should convert {:.4}% of the milk's lactose - \
+         which is Jankowska et al. 2026's 6.106% at the optimum, carried to \
+         25 C through the shipped envelope - and it converted {:.4}%. The \
+         constant, the declared optimum, the envelope width, the reduction of \
+         a dose to a concentration, or the liquid volume 100 mL of milk \
+         expands to has moved.",
+        expected * 100.0,
         converted * 100.0
     );
 }
 
-/// THE ALCOHOLIC ANCHOR, on the same footing and with the same caveat.
+/// THE ALCOHOLIC ANCHOR, on the same footing and with the same caveats.
 ///
 /// Pagliardini et al. 2013 (Microb Cell Fact 12:29,
 /// doi:10.1186/1475-2859-12-29) give the wild-type CEN.PK113-7D maximum
 /// specific ethanol production rate as 1.5 g ethanol per gram of dry cell
 /// weight per hour, anaerobic, 30 degC. One gram of dry yeast is taken as
-/// one gram of dry cell weight — an upper bound, and so is the cited rate
+/// one gram of dry cell weight - an upper bound, as is the cited rate
 /// itself, so this bench still ferments faster than a kitchen does.
 ///
-/// The scenario is one litre of the lesson's own 100 g/L sucrose at 30 degC
-/// with the yeast already hydrated, so the hydration ramp is out of the
-/// comparison and only the rate is in it.
+/// The declared anchor scenario is one gram of yeast in ONE LITRE of the
+/// classroom lesson's own 100 g/L sucrose at 30 degC. This test runs the
+/// lesson's own beaker instead, at ambient, and compares RATE CONSTANTS
+/// rather than extents, because the two differ in volume as well as in
+/// temperature and a constant is what was fitted. The vessel's own liquid
+/// volume and the grams of culture actually conserved are read off the
+/// bench: they are INPUTS to the rate, not the thing under test, and the
+/// extensivity tests above are what hold them.
 #[test]
 fn the_alcoholic_rate_reproduces_the_specific_rate_it_was_fitted_to() {
-    // 1.5 g of ethanol, in moles, from the registry's own molar mass.
-    let ethanol_molar_mass = kerotakis_core::species::lookup_key("ethanol")
-        .expect("ethanol is a registry species")
-        .molar_mass;
-    let cited_ethanol_moles = 1.5 / ethanol_molar_mass;
+    const CITED_ETHANOL_G_PER_G_DCW_HOUR: f64 = 1.5;
+    const ANCHOR_SUCROSE_G_PER_LITRE: f64 = 100.0;
+    const ANCHOR_TEMPERATURE_K: f64 = 303.15;
+    const OPTIMUM_K: f64 = 308.15;
+    const WIDTH_K: f64 = 18.0;
+    const SECONDS: f64 = 3600.0;
 
+    let molar_mass = |key: &str| {
+        kerotakis_core::species::lookup_key(key)
+            .expect("registry species")
+            .molar_mass
+    };
+
+    // The cited rate, turned into the anchor scenario's extent: 1.5 g of
+    // ethanol is four sucroses' worth on the balanced route, out of the
+    // sucrose one litre of 100 g/L holds.
+    let sucrose_consumed = (CITED_ETHANOL_G_PER_G_DCW_HOUR / molar_mass("ethanol")) / 4.0;
+    let sucrose_present = ANCHOR_SUCROSE_G_PER_LITRE / molar_mass("sucrose");
+    let anchor_extent = sucrose_consumed / sucrose_present;
+    // ... and back into the shipped constant, per gram per litre at the
+    // declared optimum.
+    let envelope = |t: f64| (-((t - OPTIMUM_K) / WIDTH_K).powi(2)).exp();
+    let cited_constant =
+        -(1.0 - anchor_extent).ln() / SECONDS / envelope(ANCHOR_TEMPERATURE_K);
+
+    // The lesson's own beaker, at room temperature so the hour is
+    // isothermal. Fresh yeast rather than dry: it needs no hydration, so
+    // this measures a rate and not a wetting.
     let mut bench = Bench::new();
-    run(&mut bench, "add v1 water 1000mL @ 30C");
-    run(&mut bench, "add v1 table_sugar 100g");
-    // Fresh compressed yeast carries the same fitted constant and needs no
-    // hydration ramp, so a one-hour window measures the rate and not the
-    // wetting. One gram of dry solids is 3.333 g of a 30%-solids block —
-    // except that this recipe shares the constant PER GRAM AS DISPENSED,
-    // which its own lot assumptions record as an overstatement, so one gram
-    // is one gram here too.
+    run(&mut bench, "add v1 water 100mL");
+    run(&mut bench, "add v1 table_sugar 10g");
+    let sucrose_before = bench.vessels[0].moles_of(&SpeciesId::new("sucrose")).0;
     run(&mut bench, "add v1 fresh_yeast 1g");
-    run(&mut bench, "wait 3600s");
-
-    let ethanol = bench.vessels[0].moles_of(&SpeciesId::new("ethanol")).0;
-    let ratio = ethanol / cited_ethanol_moles;
-    assert!(
-        (0.97..=1.03).contains(&ratio),
-        "one gram of yeast in one litre of 100 g/L sucrose at 30 degC was fitted to \
-         give up 1.5 g of ethanol in the first hour ({cited_ethanol_moles} mol); it \
-         gave {ethanol} mol, a factor of {ratio}"
-    );
-}
-
-/// Grams of lactose still conserved inside the milk this vessel holds.
-///
-/// Read off the recipe's own declared share rather than from the
-/// fermentation's report, so that a test of the fermentation does not take
-/// its expectation from the thing it is testing.
-fn milk_lactose_grams(bench: &Bench) -> f64 {
-    bench.vessels[0]
+    // The grams the engine will actually charge the rate with. A gram of
+    // fresh yeast is 70% water and 30% conserved solids, and only the
+    // solids stay unresolved, so this reads 0.3 and the rate is scaled by
+    // dry solids without the recipe having to say so.
+    let culture_grams: f64 = bench.vessels[0]
         .unresolved_materials
         .iter()
-        .filter_map(|portion| {
-            kerotakis_core::enzyme_activity::unresolved_lactose_share(&portion.recipe_id)
-                .map(|share| portion.amount * share)
-        })
-        .sum()
+        .filter(|portion| portion.recipe_id == "household/fresh-compressed-yeast-surrogate")
+        .map(|portion| portion.amount)
+        .sum();
+    let litres = bench.vessels[0].liquid_volume().0;
+    assert!(culture_grams > 0.0 && litres > 0.0);
+
+    run(&mut bench, "wait 3600s");
+    let sucrose_after = bench.vessels[0].moles_of(&SpeciesId::new("sucrose")).0;
+    let measured_constant = -(sucrose_after / sucrose_before).ln() / SECONDS / culture_grams
+        * litres
+        / envelope(298.15);
+
+    assert!(
+        (measured_constant / cited_constant - 1.0).abs() < 5e-3,
+        "the shipped rate constant should be {cited_constant} per second per gram \
+         per litre - one gram of yeast in one litre of 100 g/L sucrose giving up \
+         1.5 g of ethanol in the first hour at 30 degC, Pagliardini et al. 2013 - \
+         and the bench ran at {measured_constant}"
+    );
 }
