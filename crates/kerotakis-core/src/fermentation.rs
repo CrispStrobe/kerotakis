@@ -55,14 +55,24 @@ const OXYGEN: &str = "O2";
 /// is visible: every bench script here pours 50-200 mL, so every
 /// fermentation number in the repository moved up by the ratio of one litre
 /// to the liquid actually in the beaker — about eleven-fold for 100 mL of
-/// milk. THAT IS A MAGNITUDE QUESTION THIS CONSTANT DOES NOT ANSWER. The
-/// rates themselves are editorial classroom timescales with no measured
-/// activity behind them (see each recipe's `lot_assumptions`), and they are
-/// carried over unchanged, so what they now say is "this was the rate for a
-/// litre" — which is a claim nobody has checked. `bio-069`'s eight-hour
-/// counter-top yoghurt now reads pH 2.83 against a real 4.4-4.6, where
-/// before it read 3.9. Recalibrating the constants is a separate decision
-/// and is deliberately not taken here.
+/// milk.
+///
+/// THE MAGNITUDE QUESTION THIS CONSTANT DOES NOT ANSWER WAS ANSWERED THE
+/// SAME DAY, separately, and this constant is not what answers it. The four
+/// rates were editorial classroom timescales with no measured activity
+/// behind them; two are now FITTED to published fermentations and two are
+/// carried across from the lactic fit, and each role says in its own
+/// `rate_evidence` which it is. The lactic constant fell 51-fold and the
+/// alcoholic one 23.6-fold, so `bio-069`'s eight-hour counter-top yoghurt
+/// converts 1.48% of the milk's lactose where it briefly converted 53.2%.
+/// `kerotakis/fermentation-rate-calibration-v1` in the registry carries the
+/// sources, the arithmetic and the five things the fit does not buy.
+///
+/// THE pH WAS NOT FITTED, and that is the load-bearing one. Milk's casein
+/// and colloidal calcium phosphate are about 60% of its buffer capacity and
+/// are modelled by nothing, so a computed yoghurt pH is a LOWER BOUND at any
+/// acid dose. A rate chosen to make 4.5 appear would have cancelled a rate
+/// error against a buffer error and left both defects in place.
 const REFERENCE_VOLUME_LITRES: f64 = 1.0;
 
 #[derive(Debug, Clone, Copy, PartialEq)]

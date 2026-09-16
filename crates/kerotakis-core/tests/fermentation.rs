@@ -358,3 +358,122 @@ fn halving_the_liquid_at_a_fixed_dose_doubles_the_rate() {
          is a factor of {ratio}"
     );
 }
+
+// ── The calibration anchors: the two points the rates were fitted to ──
+
+/// THE LACTIC ANCHOR, and one of only two tests in this file that pin a
+/// magnitude rather than an ordering.
+///
+/// The rate constant is not a measurement and cannot be checked against
+/// one: nothing measures an activity per gram of a culture that names no
+/// strain. What CAN be checked, and is checked here, is the published
+/// fermentation the constant was fitted to reproduce. Move the constant,
+/// move the optimum, move the envelope width, change how `active` is
+/// reduced to a concentration, or change what fraction of milk is lactose,
+/// and this fails — which is the whole point, because every one of those
+/// would move the shipped answer while leaving the citation in place and
+/// still reading true.
+///
+/// THE FIT. Kim, Oh and Imm 2018 (Korean J Food Sci Anim Resour 38:273-281,
+/// doi:10.5851/kosfa.2018.38.2.273) held milk carrying a commercial starter
+/// in a 42 degC water bath and their control yoghurt reached pH 4.5 in
+/// EIGHT HOURS. Jankowska et al. 2026 (Foods 15(2):314,
+/// doi:10.3390/foods15020314) fermented milk at 43 degC to pH 4.6, and
+/// their Table 1 gives cow milk 6.06% lactose against 5.69% in the yogurt
+/// made from it — 6.106% of the lactose converted. 43 degC is this
+/// culture's declared optimum, where the temperature envelope is exactly 1.
+///
+/// THE DOSE IS DECLARED AND NOT CITED, and the tolerance below is not a
+/// licence to re-fit against it: 1 g of culture in 100 mL is what the bench
+/// scripts pour, and the constant is what makes that dose land on the cited
+/// pair. `kerotakis/fermentation-rate-calibration-v1` says why a rate per
+/// gram could not be cited instead.
+///
+/// NOT A pH TEST, DELIBERATELY. Milk's casein and colloidal calcium
+/// phosphate are about 60% of its buffer capacity and are modelled by
+/// nothing, so a computed yoghurt pH is a lower bound at any acid dose. A
+/// rate fitted to make a pH come out would have cancelled a rate error
+/// against a buffer error. This test reads an EXTENT, which is what a rate
+/// is measured by. See `docs/milk-buffer-and-the-fermentation-rate.md`.
+#[test]
+fn the_lactic_rate_reproduces_the_fermentation_it_was_fitted_to() {
+    const CITED_EXTENT: f64 = 1.0 - 5.69 / 6.06;
+
+    let mut bench = Bench::new();
+    run(&mut bench, "add v1 milk 100mL @ 43C");
+    let lactose_before = milk_lactose_grams(&bench);
+    assert!(
+        lactose_before > 0.0,
+        "the milk recipe must carry lactose for this anchor to mean anything"
+    );
+    run(&mut bench, "add v1 yoghurt_culture 1g");
+    run(&mut bench, "wait 8h");
+
+    let converted = (lactose_before - milk_lactose_grams(&bench)) / lactose_before;
+    assert!(
+        (converted - CITED_EXTENT).abs() < 1e-3,
+        "eight hours at the declared optimum should convert {:.4}% of the milk's \
+         lactose, which is Jankowska et al. 2026 Table 1 for cow milk; it converted \
+         {:.4}%. The constant, the optimum, the envelope or the lactose share moved.",
+        CITED_EXTENT * 100.0,
+        converted * 100.0
+    );
+}
+
+/// THE ALCOHOLIC ANCHOR, on the same footing and with the same caveat.
+///
+/// Pagliardini et al. 2013 (Microb Cell Fact 12:29,
+/// doi:10.1186/1475-2859-12-29) give the wild-type CEN.PK113-7D maximum
+/// specific ethanol production rate as 1.5 g ethanol per gram of dry cell
+/// weight per hour, anaerobic, 30 degC. One gram of dry yeast is taken as
+/// one gram of dry cell weight — an upper bound, and so is the cited rate
+/// itself, so this bench still ferments faster than a kitchen does.
+///
+/// The scenario is one litre of the lesson's own 100 g/L sucrose at 30 degC
+/// with the yeast already hydrated, so the hydration ramp is out of the
+/// comparison and only the rate is in it.
+#[test]
+fn the_alcoholic_rate_reproduces_the_specific_rate_it_was_fitted_to() {
+    // 1.5 g of ethanol, in moles, from the registry's own molar mass.
+    let ethanol_molar_mass = kerotakis_core::species::lookup_key("ethanol")
+        .expect("ethanol is a registry species")
+        .molar_mass;
+    let cited_ethanol_moles = 1.5 / ethanol_molar_mass;
+
+    let mut bench = Bench::new();
+    run(&mut bench, "add v1 water 1000mL @ 30C");
+    run(&mut bench, "add v1 table_sugar 100g");
+    // Fresh compressed yeast carries the same fitted constant and needs no
+    // hydration ramp, so a one-hour window measures the rate and not the
+    // wetting. One gram of dry solids is 3.333 g of a 30%-solids block —
+    // except that this recipe shares the constant PER GRAM AS DISPENSED,
+    // which its own lot assumptions record as an overstatement, so one gram
+    // is one gram here too.
+    run(&mut bench, "add v1 fresh_yeast 1g");
+    run(&mut bench, "wait 3600s");
+
+    let ethanol = bench.vessels[0].moles_of(&SpeciesId::new("ethanol")).0;
+    let ratio = ethanol / cited_ethanol_moles;
+    assert!(
+        (0.97..=1.03).contains(&ratio),
+        "one gram of yeast in one litre of 100 g/L sucrose at 30 degC was fitted to \
+         give up 1.5 g of ethanol in the first hour ({cited_ethanol_moles} mol); it \
+         gave {ethanol} mol, a factor of {ratio}"
+    );
+}
+
+/// Grams of lactose still conserved inside the milk this vessel holds.
+///
+/// Read off the recipe's own declared share rather than from the
+/// fermentation's report, so that a test of the fermentation does not take
+/// its expectation from the thing it is testing.
+fn milk_lactose_grams(bench: &Bench) -> f64 {
+    bench.vessels[0]
+        .unresolved_materials
+        .iter()
+        .filter_map(|portion| {
+            kerotakis_core::enzyme_activity::unresolved_lactose_share(&portion.recipe_id)
+                .map(|share| portion.amount * share)
+        })
+        .sum()
+}
