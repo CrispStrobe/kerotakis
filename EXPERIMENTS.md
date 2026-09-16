@@ -1120,6 +1120,18 @@ unchanged: `tools/check-properties-vs-chempy.py`, the PHREEQC comparisons, the
 thermo fixtures, `tools/oracle`. These are the real ground truth and they should
 absorb every claim they can reach, precisely so tier B stays small.
 
+> **Widened 2026-09-16; the ledger is [`docs/ORACLE-COVERAGE.md`](docs/ORACLE-COVERAGE.md).**
+> The survey found that of the eight oracle tools and fixture sets here, two
+> were consulted by a test and only one of those checked any chemistry — it
+> covered two quantities on one binary mixture. It now covers four quantities on seventeen, and a second oracle
+> checks the Henry's-law table against the PHREEQC databases the solver runs
+> on. That document states, per quantity, what the oracle is INDEPENDENT OF —
+> which is the part that decides what a passing row is worth, and the part a
+> count of passing checks hides. Note the first sentence above is not quite
+> true as written: `tools/check-properties-vs-chempy.py` was never wired to
+> anything, and `tools/vle-oracle.py` must not be, because it reads a
+> database `provenance/upstreams.toml` refuses.
+
 The sequencing follows from the costs: **A first** — it is free, deterministic,
 needs no authoring and covers the known failure shape; **C next**, widened to
 whatever it can reach; **B last and smallest**, covering only what neither of
