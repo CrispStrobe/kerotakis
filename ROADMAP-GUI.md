@@ -1604,21 +1604,42 @@ because `tools/lessons-index.py` files anything absent from its `TOPICS`
 grouping into a `"more"` bucket. They run. They are correct. The Research
 Library does not know they exist, and neither does anyone browsing it.
 
-So the truthful inventory is 131 + 77 + 44 = **252**, and the shortfall is
-17% of the product, invisible.
+So the truthful inventory is 131 + 77 + 44 = **252**, and the shortfall was
+17% of the product, invisible. Closed 2026-09-16.
 
-- [ ] **GUI-104 — Give every shipped lesson a catalogue entry.** Author the
-  44 missing entries in `data/kids/experiments-v1.json` and its German
-  sibling, each with the title, phenomenon, topics, ingredients, apparatus
-  and safety band the existing 77 carry, and each pointing at its `.lab`
-  file. No new chemistry: every one of these already runs. Two things to get
-  right rather than fast. **The German must be authored, not machine-filled**
-  — `experiments-de-v1.json` is a peer file, not a fallback, and I18N-1's
-  lint counts it. **And the grouping in `lessons-index.py` should absorb the
-  same 44**, or the picker keeps a `"more"` bucket that the catalogue has
-  since organised, which is two curricula again. A test should assert the
-  invariant directly: every `.lab` on disk is reachable from the catalogue,
-  so the next lesson to land cannot go missing the same way.
+- [x] **GUI-104 — Give every shipped lesson a catalogue entry.** Landed as
+  K78–K121, one row per unlisted `.lab`. The headline the app computes moves
+  from 208 to **252** without touching `App.svelte`, because it was always
+  derived. Every row was written from *running* the lesson, which is how four
+  of them came back `partial` instead of `computed`: `hard-water-soap-boundary`
+  (no fatty-acid soap species, so the hard and soft vessels look identical),
+  `there-and-back` (the hydroxide is spent neutralising free acetic acid, so
+  the requested saponification reports no conversion), and
+  `track-precipitate-and-filtrate-through-drying` (a dried filtrate still
+  reported as dissolved ions, which the bench refuses to resolve into a solid
+  rather than guessing one). German is authored for all 44. The grouping in
+  `lessons-index.py` absorbed the 13 of them that were in the `"more"` bucket.
+  The invariant is now a test — every `.lab` on disk is reachable from the
+  catalogue, with the unreferenced files named in the failure message — so the
+  next lesson to land cannot go missing the same way.
+
+  Two things the work turned up and deliberately did not fix:
+
+  - [ ] **GUI-104a — `starch-iodine-test.lab` never shows its own colour.**
+    The blue-black is computed: the starch helices contribute the absorption
+    band, and a `look` at the test vessel reports blue-black against the
+    control's brown. The shipped script asks `inspect`, so the run prints an
+    inventory and the phenomenon the lesson is named for never appears. Two
+    `look` lines fix it, but the lesson has a frozen golden transcript in
+    `crates/kerotakis-core/tests/golden/lessons.json`, so the change belongs
+    with whoever owns that snapshot. The catalogue row (K111) is `partial` and
+    says so until then.
+  - [ ] **GUI-104b — 47 lessons are still in the picker's `"more"` bucket.**
+    All 47 now carry a catalogue row, so this is no longer a visibility gap —
+    it is the picker and the catalogue disagreeing about how the same shelf is
+    organised. The catalogue's `topics` field is the grouping that already
+    exists; `TOPICS` in `lessons-index.py` should be derived from it rather
+    than maintained beside it.
 
 ## German stops where the engine starts talking (I18N-5 … I18N-9)
 
@@ -1708,8 +1729,9 @@ today that question has to be asked twice, in two places, or it gets a wrong
   the type as a filter and a badge rather than as a separate door. The counts
   stay honest because each type is counted and labelled separately — the
   headline becomes "252 experiments and 500 answered questions", which is both
-  larger and truer than "208". Prerequisite: GUI-104, or the new index ships
-  with the same 44 lessons missing.
+  larger and truer than "208". Prerequisite: GUI-104, which landed — the
+  headline already reads 252, so what is left here is the typing and the
+  single door, not the missing population.
 
 
 ## Completed GUI tasks
