@@ -381,3 +381,35 @@ one-line edit each: `kgw += …` becomes `kgw = 1.0` in
 `kerotakis-phreeqc/src/aqueous.rs`, and `value: v.temperature.to_celsius()`
 becomes `value: 25.0` in `kerotakis-core/src/bench.rs`.
 
+## The measured gate
+
+Seventy-seven generated cases in the sweep, 561 s of solver; the gate as
+checked in runs ~75 of them and takes **291 s wall at three test threads**.
+Seven of the ten tests pass, two are recorded `#[ignore]`d defects, and one
+is the census.
+
+| rule | cases | held | recorded departures |
+|---|---|---|---|
+| order | 11 | 9 | 2 |
+| scale | 19 | 15 | 4 |
+| solvent | 9 | 7 | 2 |
+| ablation | 30 | 29 | 1 |
+| dose | 8 | 5 | 3 |
+| sibling groups | 13 | 11 | 2 |
+
+**29 of 30 ablation cases hold.** That is the headline number: for all but
+one of the corpus scripts the rule reached, the instrument the script picked
+up does depend on the reagent the question is about. Before this branch,
+nothing anywhere asserted that for any of them.
+
+The 14 recorded departures break down as: **2 live defects** (`th-100`'s pe,
+`aq-023`'s solvent mass) plus **1 more found by `Dose`** (`aq-061`'s seal,
+which has its own `#[ignore]`d regression test); **4 solver or wire floors**
+(two phase boundaries, one last-printed-place, one convergence residue);
+**5 corpus rows whose scripts cannot reach their own questions** (`aq-018`
+and `bio-033`'s substance gaps, `mat-069`'s copper that never corrodes,
+`bio-029`'s uncharacterised enzymes, and the two combustion sibling groups
+that answer `not_yet_modeled` at both loadings); **1 correct physics the rule
+does not apply to** (`th-122`: self-heating raises temperature by an amount
+independent of mass); and **1 that is defect-shaped and unexplained**
+(`bio-070`'s fermentation extent going as the square of the batch size).

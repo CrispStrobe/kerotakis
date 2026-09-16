@@ -166,9 +166,7 @@ fn parse(script: &[String]) -> Option<Vec<Step>> {
     let mut steps = Vec::new();
     for line in script {
         let words: Vec<&str> = line.split_whitespace().collect();
-        let Some(verb) = words.first() else {
-            return None;
-        };
+        let verb = words.first()?;
         if *verb != "add" {
             steps.push(Step::Other {
                 verb: (*verb).to_string(),
@@ -292,10 +290,7 @@ fn ablation_target(steps: &[Step]) -> Option<usize> {
     steps
         .iter()
         .enumerate()
-        .filter(|(_, step)| {
-            step.as_add()
-                .is_some_and(|add| !is_solvent(&add.species))
-        })
+        .filter(|(_, step)| step.as_add().is_some_and(|add| !is_solvent(&add.species)))
         .map(|(index, _)| index)
         .next_back()
 }
@@ -330,8 +325,10 @@ fn admits(steps: &[Step]) -> (Vec<Rule>, Option<&'static str>) {
     if rules.is_empty() {
         return (
             rules,
-            Some("a single reagent with no solvent and a size-bound verb: \
-                  nothing can be held fixed against the perturbation"),
+            Some(
+                "a single reagent with no solvent and a size-bound verb: \
+                  nothing can be held fixed against the perturbation",
+            ),
         );
     }
     (rules, None)
@@ -420,9 +417,7 @@ fn perturb(rule: Rule, steps: &[Step]) -> Option<String> {
 fn double_last_quantity(line: &str) -> Option<String> {
     let mut words: Vec<String> = line.split_whitespace().map(str::to_string).collect();
     let last = words.last_mut()?;
-    let split = last
-        .find(|c: char| c.is_alphabetic())
-        .unwrap_or(last.len());
+    let split = last.find(|c: char| c.is_alphabetic()).unwrap_or(last.len());
     let (quantity, unit) = last.split_at(split);
     let doubled: f64 = quantity.parse::<f64>().ok()? * 2.0;
     *last = format!("{}{unit}", trim(doubled));
@@ -533,7 +528,10 @@ fn observe(steps: &[serde_json::Value]) -> BTreeMap<String, f64> {
             }
         };
         put("ph", vessel["solution"]["ph"].as_f64());
-        put("ionic_strength", vessel["solution"]["ionic_strength"].as_f64());
+        put(
+            "ionic_strength",
+            vessel["solution"]["ionic_strength"].as_f64(),
+        );
         put("pe", vessel["solution"]["pe"].as_f64());
         put("temperature", vessel["temperature"].as_f64());
         put("pressure", vessel["pressure"].as_f64());
@@ -627,15 +625,18 @@ fn observe(steps: &[serde_json::Value]) -> BTreeMap<String, f64> {
             .cloned()
             .unwrap_or_default()
         {
-            let (Some(label), Some(amount)) = (
-                population["label"].as_str(),
-                population["amount"].as_f64(),
-            ) else {
+            let (Some(label), Some(amount)) =
+                (population["label"].as_str(), population["amount"].as_f64())
+            else {
                 continue;
             };
             out.insert(format!("r.particles#[{label}]"), amount);
         }
-        for rare in particles["too_rare"].as_array().cloned().unwrap_or_default() {
+        for rare in particles["too_rare"]
+            .as_array()
+            .cloned()
+            .unwrap_or_default()
+        {
             let (Some(label), Some(amount)) = (rare[0].as_str(), rare[1].as_f64()) else {
                 continue;
             };
@@ -816,7 +817,10 @@ fn the_generator_renders_the_corpus_back_exactly_as_written() {
         let rendered = render(&steps);
         let original = format!("{}\n", prompt.script.join("\n"));
         if rendered != original {
-            mangled.push(format!("{}\n  wrote: {original:?}\n  read:  {rendered:?}", prompt.id));
+            mangled.push(format!(
+                "{}\n  wrote: {original:?}\n  read:  {rendered:?}",
+                prompt.id
+            ));
         }
     }
     assert!(
@@ -848,7 +852,6 @@ fn the_corpus_census_is_what_is_recorded() {
          KERO_BLESS_PERTURBATION_CENSUS=1 and explain the diff in the commit."
     );
 }
-
 
 // ===================================================================
 // Running a case: two runs, two pictures.
@@ -916,7 +919,7 @@ fn selected(rule: Rule) -> Vec<(CuriosityPrompt, Vec<Step>)> {
         .filter(|(prompt, steps)| {
             perturb(rule, steps).is_some()
                 && ((rule == Rule::Ablation && smoke.contains(&prompt.id))
-                    || selection_hash(&prompt.id) % density(rule) == 0)
+                    || selection_hash(&prompt.id).is_multiple_of(density(rule)))
         })
         .collect()
 }
@@ -1062,7 +1065,11 @@ fn worst_against(
 
 /// Keys that moved, ignoring the ones known to lie and the ones that are
 /// zero in both runs.
-fn moved(before: &BTreeMap<String, f64>, after: &BTreeMap<String, f64>, tolerance: f64) -> Vec<String> {
+fn moved(
+    before: &BTreeMap<String, f64>,
+    after: &BTreeMap<String, f64>,
+    tolerance: f64,
+) -> Vec<String> {
     let keys: BTreeSet<&String> = before.keys().chain(after.keys()).collect();
     keys.into_iter()
         .filter(|key| trustworthy(key))
@@ -1124,8 +1131,8 @@ fn verdict(rule: Rule, case: &Pair) -> Option<String> {
                     .sum()
             };
             let (solid_before, solid_after) = (solid(before), solid(after));
-            let dissolved_more = solid_before > 1e-9
-                && solid_after < solid_before * (1.0 - SOLVENT_TOLERANCE);
+            let dissolved_more =
+                solid_before > 1e-9 && solid_after < solid_before * (1.0 - SOLVENT_TOLERANCE);
             if dissolved_more {
                 return None;
             }
@@ -1133,9 +1140,7 @@ fn verdict(rule: Rule, case: &Pair) -> Option<String> {
                 // Nothing dissolved and nothing to dissolve: the vessel has
                 // no characterised solution, so twice the water is not a
                 // claim about anything.
-                return Some(
-                    "no solution and no solid: the vessel cannot be diluted".to_string(),
-                );
+                return Some("no solution and no solid: the vessel cannot be diluted".to_string());
             }
             strengths
                 .iter()
