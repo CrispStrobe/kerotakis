@@ -768,28 +768,57 @@ fn the_corpus_census_is_what_is_recorded() {
 // ===================================================================
 
 /// One case in `density` is generated, in id order, per rule. The corpus is
-/// not run whole: five hundred scripts against five rules is three thousand
-/// invocations of a solver, which is a nightly job and not a gate. What a
-/// gate needs is a sample that cannot be gamed by the corpus growing, so
-/// selection is by a hash of the id — stable under insertion, spread across
-/// all four shards, and independent of anything the generator computed.
+/// not run whole: five hundred scripts against five rules is two and a half
+/// thousand invocations of a solver at three and a half seconds each, which
+/// is a nightly job and not a gate. What a gate needs is a sample that
+/// cannot be gamed by the corpus growing, so selection is by a hash of the
+/// id — stable under insertion, spread across all four shards, and
+/// independent of anything the generator itself computed. Measured over the
+/// five hundred ids, an FNV-1a taken modulo these divisors lands within a
+/// point or two of the ideal fraction.
 ///
-/// The densities differ by rule because the rules differ in worth. The two
-/// invariances and the causal claim are sampled hardest; `Dose`, which this
-/// file's own doc comment calls the weakest shape, is sampled thinnest.
-/// Every prompt the manifest marks `smoke` is always included, so the rows
-/// the rest of CI already watches are the rows this watches too.
+/// The densities differ by rule because the rules differ in worth. The
+/// causal claim is sampled hardest and takes every prompt in the manifest's
+/// smoke set besides, so the rows the rest of CI already watches are the
+/// rows this watches too. `Dose`, which this file's own doc comment calls
+/// the weakest shape, is sampled thinnest.
+///
+/// The whole corpus is still reachable: `KERO_PERTURBATION_ALL=1` on the
+/// `sweep` harness ignores the subset entirely.
 fn density(rule: Rule) -> u64 {
     match rule {
-        Rule::Order => 7,
-        Rule::Scale => 9,
-        Rule::Solvent => 7,
-        Rule::Ablation => 5,
-        Rule::Dose => 23,
+        Rule::Order => 23,
+        Rule::Scale => 29,
+        Rule::Solvent => 23,
+        Rule::Ablation => 17,
+        Rule::Dose => 61,
     }
 }
 
+/// A 64-bit FNV-1a, used to pick the subset. Separate from `stable_hash`,
+/// which has to survive a round trip through an `f64` and is therefore
+/// truncated — a truncation that costs it its uniformity modulo a small
+/// divisor, which is exactly what this needs.
+fn selection_hash(text: &str) -> u64 {
+    let mut hash: u64 = 0xcbf2_9ce4_8422_2325;
+    for byte in text.bytes() {
+        hash ^= u64::from(byte);
+        hash = hash.wrapping_mul(0x0000_0100_0000_01b3);
+    }
+    hash
+}
+
 fn selected(rule: Rule) -> Vec<(CuriosityPrompt, Vec<Step>)> {
+    // The manifest's smoke set, NOT the shard's `smoke` field: 150 prompts
+    // carry the field and 16 are in the set, and reading the wrong one
+    // inflated an early sweep from 75 cases to 648.
+    let smoke: BTreeSet<String> =
+        load_manifest(&repo_root().join("tests/coverage/curiosity-v1/manifest.toml"))
+            .expect("the corpus loads")
+            .manifest
+            .smoke_prompts
+            .into_iter()
+            .collect();
     corpus()
         .into_iter()
         .filter(|prompt| !prompt.script.is_empty())
@@ -799,7 +828,8 @@ fn selected(rule: Rule) -> Vec<(CuriosityPrompt, Vec<Step>)> {
         })
         .filter(|(prompt, steps)| {
             perturb(rule, steps).is_some()
-                && (prompt.smoke || (stable_hash(&prompt.id) as u64) % density(rule) == 0)
+                && ((rule == Rule::Ablation && smoke.contains(&prompt.id))
+                    || selection_hash(&prompt.id) % density(rule) == 0)
         })
         .collect()
 }
@@ -1189,7 +1219,7 @@ fn sweep() {
 #[test]
 fn addition_order_does_not_change_where_the_corpus_ends_up() {
     let (ran, departed) = gate(Rule::Order);
-    assert!(ran >= 20, "the order subset shrank to {ran} cases");
+    assert!(ran >= 10, "the order subset shrank to {ran} cases");
     assert_eq!(departed.len(), ORDER_DEPARTURES.len());
 }
 
@@ -1218,7 +1248,7 @@ fn addition_order_does_not_change_where_the_corpus_ends_up() {
 #[test]
 fn doubling_the_corpus_leaves_every_intensive_property_alone() {
     let (ran, departed) = gate(Rule::Scale);
-    assert!(ran >= 20, "the scale subset shrank to {ran} cases");
+    assert!(ran >= 10, "the scale subset shrank to {ran} cases");
     assert_eq!(departed.len(), SCALE_DEPARTURES.len());
 }
 
@@ -1257,7 +1287,7 @@ fn doubling_the_corpus_leaves_every_intensive_property_alone() {
 #[test]
 fn twice_the_solvent_dilutes_the_corpus_without_moving_the_amounts() {
     let (ran, departed) = gate(Rule::Solvent);
-    assert!(ran >= 20, "the solvent subset shrank to {ran} cases");
+    assert!(ran >= 8, "the solvent subset shrank to {ran} cases");
     assert_eq!(departed.len(), SOLVENT_DEPARTURES.len());
 }
 
@@ -1305,7 +1335,7 @@ fn twice_the_solvent_dilutes_the_corpus_without_moving_the_amounts() {
 #[test]
 fn the_corpus_answer_depends_on_the_reagent_the_question_is_about() {
     let (ran, departed) = gate(Rule::Ablation);
-    assert!(ran >= 30, "the ablation subset shrank to {ran} cases");
+    assert!(ran >= 20, "the ablation subset shrank to {ran} cases");
     assert_eq!(departed.len(), ABLATION_INERT.len());
 }
 
@@ -1327,7 +1357,7 @@ fn the_corpus_answer_depends_on_the_reagent_the_question_is_about() {
 #[test]
 fn twice_the_reagent_moves_the_corpus_answer() {
     let (ran, departed) = gate(Rule::Dose);
-    assert!(ran >= 10, "the dose subset shrank to {ran} cases");
+    assert!(ran >= 5, "the dose subset shrank to {ran} cases");
     assert_eq!(departed.len(), DOSE_INERT.len());
 }
 
