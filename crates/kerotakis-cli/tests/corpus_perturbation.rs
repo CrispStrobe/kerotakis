@@ -712,6 +712,35 @@ fn dose_siblings() -> Vec<Vec<CuriosityPrompt>> {
         .collect()
 }
 
+/// **The baseline run IS the corpus script.** Every generated case compares
+/// a perturbed script against a baseline the generator re-rendered from its
+/// own parse, so if that render were not byte-identical to the authored
+/// line, the whole file would be measuring something nobody wrote. All 943
+/// `add` lines in the corpus round-trip exactly; this is the assertion that
+/// keeps it that way.
+#[test]
+fn the_generator_renders_the_corpus_back_exactly_as_written() {
+    let mut mangled = Vec::new();
+    for prompt in corpus() {
+        if prompt.script.is_empty() {
+            continue;
+        }
+        let steps = parse(&prompt.script).expect("every corpus script parses");
+        let rendered = render(&steps);
+        let original = format!("{}\n", prompt.script.join("\n"));
+        if rendered != original {
+            mangled.push(format!("{}\n  wrote: {original:?}\n  read:  {rendered:?}", prompt.id));
+        }
+    }
+    assert!(
+        mangled.is_empty(),
+        "the generator does not render {} scripts back as they were \
+         written, so their baselines are not the corpus:\n{}",
+        mangled.len(),
+        mangled.join("\n")
+    );
+}
+
 /// The census is checked in, so that a corpus edit which puts a script
 /// beyond the generator's reach shows up as a diff with a number on it
 /// rather than as silence.
@@ -779,12 +808,15 @@ struct Pair {
     before: BTreeMap<String, f64>,
     after: BTreeMap<String, f64>,
     error: Option<String>,
+    seconds: f64,
 }
 
 fn pair(rule: Rule, steps: &[Step]) -> Option<Pair> {
     let perturbed_script = perturb(rule, steps)?;
+    let started = std::time::Instant::now();
     let baseline = run(&render(steps));
     let perturbed = run(&perturbed_script);
+    let seconds = started.elapsed().as_secs_f64();
     let error = match (&baseline, &perturbed) {
         (Err(error), _) => Some(format!("the corpus script itself failed: {error}")),
         (_, Err(error)) => Some(format!("the perturbed script failed: {error}")),
@@ -794,6 +826,7 @@ fn pair(rule: Rule, steps: &[Step]) -> Option<Pair> {
         before: baseline.map(|steps| observe(&steps)).unwrap_or_default(),
         after: perturbed.map(|steps| observe(&steps)).unwrap_or_default(),
         error,
+        seconds,
     })
 }
 
@@ -1111,6 +1144,7 @@ fn sweep() {
                 "moved": moved.len(),
                 "moved_keys": moved.iter().take(6).collect::<Vec<_>>(),
                 "keys": case.before.len(),
+                "seconds": case.seconds,
                 "question": prompt.question,
                 "script": prompt.script,
             });
