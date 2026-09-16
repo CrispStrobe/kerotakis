@@ -430,6 +430,25 @@ TIERS = [
         "timeout": 1200,
     },
     {
+        # `--lib` runs ONLY the tests inside src/. kerotakis-core also has 116
+        # integration binaries under tests/, and the first run of this harness
+        # silently excluded every one of them — including tests/buoyancy.rs,
+        # which is the dedicated suite for a module this surface contains. The
+        # selection below is by name against the surface, which is deliberately
+        # GENEROUS: it gives the suite its best shot before anything is called
+        # a survivor.
+        "name": "core-integration",
+        "strength": "integration",
+        "cmd": [
+            "cargo", "test", "-p", "kerotakis-core",
+            "--test", "buoyancy", "--test", "float_or_sink", "--test", "density",
+            "--test", "resistivity", "--test", "plastics", "--test", "surface",
+            "--test", "instrument_oracle", "--test", "one_value",
+            "--test", "heat_capacity_curves",
+        ],
+        "timeout": 120,
+    },
+    {
         # The newest instruments in the tree (#613, and its older sibling).
         # These assert relations — a quantity must MOVE when its stated cause
         # moves — rather than values, which is the strongest evidence a test
@@ -554,6 +573,96 @@ def do_run(ceiling: float, only: str | None, ids: list[int] | None) -> None:
 
 
 # --------------------------------------------------------------------------
+# table mutants: the slow way, because a const cannot read an environment
+# --------------------------------------------------------------------------
+
+BUILD = [
+    ["cargo", "test", "-p", "kerotakis-core", "--lib", "--no-run"],
+    ["cargo", "test", "-p", "kerotakis-cli", "--test", "perturbation",
+     "--test", "metamorphic", "--test", "curiosity", "--no-run"],
+]
+
+
+def perturbed(literal: str) -> str:
+    v = float(literal.replace("_", ""))
+    return "1.0" if v == 0.0 else repr(v * 1.25)
+
+
+def table_site_column(site: dict) -> tuple[Path, int, int, str]:
+    """Where the literal sits, in line/column terms.
+
+    Instrumentation only ever INSERTS text within a line, so line numbers are
+    identical between the original and the instrumented file, and a `const`
+    item is never instrumented at all — so its columns are unchanged too.
+    """
+    orig = STATE / "orig" / site["file"].replace("/", "__")
+    text = orig.read_text()
+    line_start = text.rfind("\n", 0, site["start"]) + 1
+    return REPO / site["file"], site["line"], site["start"] - line_start, site["original"]
+
+
+def do_run_table(ids: list[int], ceiling: float) -> None:
+    sites = {s["id"]: s for s in json.loads(CATALOGUE.read_text())}
+    results = json.loads(RESULTS.read_text()) if RESULTS.exists() else {}
+    for tier, b in zip(TIERS, results.get("baseline", [])):
+        tier["timeout"] = max(60.0, 8.0 * b["seconds"])
+    started = time.time()
+    for mid in ids:
+        site = sites[mid]
+        if site["kind"] != "table" or str(mid) in results:
+            continue
+        if time.time() - started > ceiling:
+            print("ceiling reached")
+            break
+        path, line_no, col, literal = table_site_column(site)
+        lines = path.read_text().splitlines(keepends=True)
+        line = lines[line_no - 1]
+        assert line[col : col + len(literal)] == literal, (
+            f"#{mid}: expected {literal!r} at {path}:{line_no}:{col}, found "
+            f"{line[col : col + len(literal)]!r}"
+        )
+        original_line = line
+        lines[line_no - 1] = line[:col] + perturbed(literal) + line[col + len(literal) :]
+        path.write_text("".join(lines))
+        try:
+            t0 = time.time()
+            env = dict(os.environ)
+            env["RUSTC_WRAPPER"] = ""
+            built = all(
+                subprocess.run(cmd, cwd=REPO, env=env, capture_output=True).returncode == 0
+                for cmd in BUILD
+            )
+            build_s = round(time.time() - t0, 1)
+            if not built:
+                print(f"#{mid} build failed after {build_s}s — excluded")
+                results[str(mid)] = {"site": site, "verdict": "uncompilable",
+                                     "build_seconds": build_s}
+                RESULTS.write_text(json.dumps(results, indent=1))
+                continue
+            record = {"site": site, "tiers": [], "build_seconds": build_s}
+            for tier in TIERS:
+                r = run_tier(tier, None)
+                record["tiers"].append(r)
+                if not r["ok"]:
+                    record["verdict"] = "timeout" if r["timeout"] else "caught"
+                    record["caught_by"] = tier["name"]
+                    record["strength"] = "hang" if r["timeout"] else tier["strength"]
+                    break
+            else:
+                record["verdict"] = "survived"
+                record["strength"] = None
+            results[str(mid)] = record
+            RESULTS.write_text(json.dumps(results, indent=1))
+            print(f"#{mid:>3} table    {site['file'].split('/')[-1]}:{site['line']:<5} "
+                  f"{record['verdict']:<9} {record.get('caught_by', '')} "
+                  f"(build {build_s}s)")
+        finally:
+            lines = path.read_text().splitlines(keepends=True)
+            lines[line_no - 1] = original_line
+            path.write_text("".join(lines))
+
+
+# --------------------------------------------------------------------------
 # report
 # --------------------------------------------------------------------------
 
@@ -569,7 +678,7 @@ def do_report() -> None:
     total = len(rows)
     print(f"| outcome | mutants | share |")
     print(f"|---|---:|---:|")
-    for k in ("property", "unit", "golden", "hang", "survived"):
+    for k in ("property", "integration", "unit", "golden", "hang", "survived"):
         if k in counts:
             print(f"| {k} | {counts[k]} | {100 * counts[k] / total:.0f} % |")
     print(f"| **total** | **{total}** | |")
@@ -597,6 +706,9 @@ def main() -> None:
     r.add_argument("--ceiling", type=float, default=3600.0)
     r.add_argument("--only", default=None)
     r.add_argument("--ids", default=None)
+    rt = sub.add_parser("run-table")
+    rt.add_argument("--ids", required=True)
+    rt.add_argument("--ceiling", type=float, default=3600.0)
     sub.add_parser("report")
     a = ap.parse_args()
 
@@ -608,6 +720,8 @@ def main() -> None:
         do_restore()
     elif a.cmd == "run":
         do_run(a.ceiling, a.only, [int(x) for x in a.ids.split(",")] if a.ids else None)
+    elif a.cmd == "run-table":
+        do_run_table([int(x) for x in a.ids.split(",")], a.ceiling)
     elif a.cmd == "report":
         do_report()
 
