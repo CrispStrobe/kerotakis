@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate and export the stable seventy-seven-experiment guided catalog."""
+"""Validate and export the guided catalog: one row for every shipped lesson."""
 
 import json
 import pathlib
@@ -11,7 +11,8 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 ALLOWED_STATUS = {"computed", "partial", "boundary", "declined", "unreachable"}
 ALLOWED_SAFETY = {"home", "school"}
 ALLOWED_PROGRESS = {"starter", "intermediate", "advanced"}
-SAFETY_DETAIL_REQUIRED = {"K03", "K19", "K35", "K41", "K54", "K61", "K63", "K64", "K65", "K66", "K67", "K68", "K69", "K70", "K71", "K72", "K73", "K74", "K75", "K76", "K77"}
+SAFETY_DETAIL_REQUIRED = {"K03", "K19", "K35", "K41", "K54", "K61", "K63", "K64", "K65", "K66", "K67", "K68", "K69", "K70", "K71", "K72", "K73", "K74", "K75", "K76", "K77",
+                          "K78", "K79", "K80", "K82", "K83", "K84", "K86", "K87", "K88", "K89", "K90", "K91", "K92", "K93", "K96", "K97", "K98", "K99", "K100", "K101", "K102", "K103", "K104", "K105", "K106", "K107", "K108", "K109", "K110", "K112", "K113", "K114", "K115", "K116", "K118", "K119", "K120"}
 STRUCTURED_PREVIEW_REQUIRED = {"K02", "K04", "K26", "K31", "K33"}
 # Rows whose card must stand on authored detail rather than a bare field list.
 # The five above additionally name an exact familiar kit; these four are
@@ -23,8 +24,13 @@ REQUIRED_KIT_BY_EXPERIMENT = {
     "K31": "magnet-kit", "K33": "filter-funnel-kit",
 }
 EXPECTED_STATUS_COUNTS = {
-    "computed": 69, "partial": 5, "boundary": 1, "declined": 2, "unreachable": 0,
+    "computed": 109, "partial": 9, "boundary": 1, "declined": 2, "unreachable": 0,
 }
+# K78-K121 gave the 44 lessons that shipped unlisted a catalogue row (GUI-104).
+# Every one of them is school-band unless the lesson is a kitchen-table
+# activity, and every school-band row among them states its hazard and what to
+# do about it, rather than leaving "school" to carry the whole message.
+CATALOG_LAST_ID = 121
 
 
 def validate(document: dict, root: pathlib.Path = ROOT) -> list[dict]:
@@ -33,10 +39,10 @@ def validate(document: dict, root: pathlib.Path = ROOT) -> list[dict]:
     rows = document.get("experiments")
     if not isinstance(rows, list):
         raise ValueError("experiments must be an array")
-    expected = [f"K{i:02d}" for i in range(1, 78)]
+    expected = [f"K{i:02d}" for i in range(1, CATALOG_LAST_ID + 1)]
     ids = [row.get("id") for row in rows]
     if ids != expected:
-        raise ValueError("experiments must contain K01 through K77 exactly, in order")
+        raise ValueError(f"experiments must contain K01 through K{CATALOG_LAST_ID} exactly, in order")
     counts = {status: 0 for status in ALLOWED_STATUS}
     curiosity = root / "tests" / "coverage" / "curiosity-v1"
     manifest = tomllib.loads((curiosity / "manifest.toml").read_text())
@@ -120,7 +126,7 @@ def add_translation(document: dict, translation: dict) -> dict:
     translated = translation.get("experiments")
     expected = [row["id"] for row in source_rows]
     if not isinstance(translated, list) or [row.get("id") for row in translated] != expected:
-        raise ValueError("German catalog must contain the same K01 through K77 rows in order")
+        raise ValueError(f"German catalog must contain the same K01 through K{CATALOG_LAST_ID} rows in order")
     by_id = {row["id"]: row for row in translated}
     for source in source_rows:
         target = by_id[source["id"]]

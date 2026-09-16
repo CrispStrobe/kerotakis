@@ -274,10 +274,14 @@ describe("the shipped library", () => {
   const guided = (JSON.parse(kidsCatalogJson) as { experiments: KidsExperiment[] }).experiments;
   const entries = catalogEntries(codex, guided, context());
 
+  // 252, not 208: GUI-104 gave the 44 lessons that shipped reachable only
+  // from the picker's "more" bucket a catalogue row each, so the library now
+  // counts every runnable thing it ships rather than the subset someone had
+  // got round to listing.
   it("is one list of both corpora", () => {
     expect(codex).toHaveLength(131);
-    expect(guided).toHaveLength(77);
-    expect(entries).toHaveLength(208);
+    expect(guided).toHaveLength(121);
+    expect(entries).toHaveLength(252);
     expect(entries).toHaveLength(codex.length + guided.length);
     expect(new Set(entries.map((entry) => entry.id)).size).toBe(entries.length);
   });
