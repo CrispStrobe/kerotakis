@@ -1604,7 +1604,7 @@ The traps are all about data, not code. Checked against primary sources
 | IUPAC/CIAAW standard atomic weights | Free educational use and republication with attribution "without the need for formal IUPAC or CIAAW permission"; then **"For commercial use of this content please contact CIAAW Secretariat"** (read 2026-09-15) | ⚠️ **Decision required.** A grant exists, so this is not the CRC row; it stops at commercial use, so it is not a clearance. Nobody has asked the Secretariat, and *Feist* may mean nobody has to — the registry ships molar masses **computed** from ~20 element values, not a copy of the table. **152 registry citations name it**, so the open-question column reads 152 where it has always read zero. That is a dependence becoming visible, not a regression. |
 | ACS classroom material (Middle School Chemistry) | **Not read** — acs.org answers an automated request with a filter page and no body (checked 2026-09-15) | ⚠️ **Decision required**, not *avoid*: the CRC verdict rests on the absence of a grant on a page that loaded, and here nothing loaded. Cited once, qualitatively. ACS **journals** (J. Chem. Educ., ACS Omega) are primary literature and are not this row. |
 | FAO | Copying "for private study, research and teaching purposes, and for use in non-commercial products or services" with attribution; commercial rights on request (read 2026-09-15) | ⚠️ **Decision required.** Same shape as the CIAAW row and judged the same way. What is cited is Gay-Lussac's 1815 fermentation equation — a fact rather than FAO's expression of one, which is why the question is open rather than answered against us. |
-| Voet & Voet, *Biochemistry*, 4th ed. (Wiley) | **Not read** — wiley.com returns HTTP 403 for the title page and for /en-us/permissions (checked 2026-09-15) | **As the CRC row.** Adds exactly one finding, `legacy/amylase`, whose citation carries no page and calls its own value "typical". The vocabulary has no verdict for "citable once, refused in bulk", which is what the 2026-09-14 rule actually says. |
+| Voet & Voet, *Biochemistry*, 4th ed. (Wiley) | **Not read** — wiley.com returns HTTP 403 for the title page and for /en-us/permissions (checked 2026-09-15) | **As the CRC row.** Adds exactly one finding, `legacy/amylase`, whose citation carries no page and calls its own value "typical". The vocabulary had no way to say "citable once, refused in bulk", which is what the 2026-09-14 rule actually says; it gained one on 2026-09-15 (`[[citation]]` `role`, below) and this row does not move, because no page means it is not attribution. |
 | CAMEO / CRW4 database | Contributed fields explicitly non-duplicable (CAS RNs, NFPA, AEGL, ERPG) | Never ship the database; reimplement the published methodology (L0 note) |
 | ECHA C&L exports | IP-encumbered (CAS data named) | Avoid; use EUR-Lex / PubChem routes |
 | Burcat (Third Millennium) | Free non-commercial only | Skip, or write for permission if CEA coverage falls short |
@@ -1709,6 +1709,34 @@ This does not weaken the 2026-09-13 ruling, which was about a different
 failure: a row that said only that its value "agrees with" a refused
 compilation was offering agreement in place of a source, and never named where
 the number came from. That still stops.
+
+**The instrument learned to say it on 2026-09-15.** Until then `kero provenance
+upstreams` could not: `avoid` is a property of a *source*, and this rule is a
+property of a *citation*, so one properly attributed citation produced a
+finding for exactly the practice the rule calls ordinary. `[[excuse]]` in
+`provenance/upstreams.toml` became `[[citation]]` with a **`role`** —
+`mentioned` (names it, claims nothing from it), `via` (the value is a cleared
+primary's, read through this source's rendering) and `claims` (the value is
+this source's). An attributed `claims` — one carrying a **`locator`**, the
+page or table — on a work refused for *bulk* is not a finding. Two things are
+counted apart, because the rule has two clauses with two different units:
+attribution is per **citation**, and dependence is per **source**, capped by a
+declared `cite_at_most` that is zero everywhere until somebody writes a reason
+for a number. Going over it is *one* finding for the work, not one per
+citation. The honest unit for both is the **quantity**, which neither surface
+can see, so both figures are lower bounds.
+
+Two limits worth knowing before quoting any of it. The carve-out stops at
+`avoid` and never reaches `permission-required`: attribution answers
+compilation copyright and cannot answer "nobody granted permission", and
+`legacy/liquid_nitrogen` proves it by citing the NIST WebBook with a CAS
+number and a deep link — a better locator than any CRC citation in the tree —
+while still being a transcription out of Standard Reference Data. And a
+`locator` is checked for presence, never for truth: three rows in
+`phase_route.rs` name a CRC table and admit in the same sentence that no copy
+was opened. The change moved the Rust surface from 18 findings to 7 and left
+the registry's 60 exactly where they were, which is the point — the 46 CRC
+citations there name an edition and no page.
 
 **Decided 2026-09-14, by the owner.** Six, with the reasoning kept short
 because each was argued at the time.
@@ -2912,8 +2940,10 @@ started. They are ordered by what they unblock, not by size.
       verdict at least rests on the absence of a grant on a page that loaded.
       The one citation that matters is `phase_route.rs`'s ethanol row, and it
       names the book only to say that the RETIRED figure traced through it — so
-      when a row is added it will want an `[[excuse]]` on the Rust surface
-      alongside it, or the lint will condemn a withdrawal notice. **Next step:
+      when a row is added it will want a `[[citation]]` row on the Rust surface
+      alongside it, `role = "mentioned"`, or the lint will condemn a withdrawal
+      notice. That row already exists for the WebBook in the same string and is
+      the model: `matching = "Ethanol enthalpy of vaporisation"`. **Next step:
       a human opening the Wiley permissions page in a browser.**
 - [ ] **A comparison in the record is wrong, not merely stale.** The 108.7 °C
       quoted for a boiling brine in `colligative_numbers.rs` and in `HISTORY.md`

@@ -14,7 +14,7 @@
 #
 # ## Fields
 #
-# id            stable slug, referenced by `[[excuse]]` rows below
+# id            stable slug, referenced by `[[citation]]` rows below
 # name          the source as the PLAN.md row names it
 # licence       SPDX id where one exists, else a LicenseRef- describing the bar
 # terms         URL of the terms actually read (NOT a homepage)
@@ -25,6 +25,14 @@
 #               case-insensitively but only on WHOLE WORDS at both ends, which
 #               is load-bearing: an unanchored "ECHA" matches "mechanism", and
 #               that false positive was in the first draft of this lint.
+# cite_at_most  how many ATTRIBUTED claims this project has decided it will
+#               rest on this work. Zero on every row unless declared, because
+#               the rule names no number and inventing one in a lint would be
+#               the lint deciding a policy question. Legal only on `avoid` -
+#               attribution answers compilation copyright and cannot answer
+#               "nobody granted permission". Raising it is a reviewed edit
+#               that must say why in `cite_at_most_reason`.
+# cite_at_most_reason  required whenever cite_at_most is above zero
 # note          the PLAN.md verdict cell, kept verbatim as commentary
 # in_plan_table whether PLAN.md's prose table actually carries this row. `false`
 #               marks a source the repository USES but never judged - see
@@ -47,7 +55,17 @@
 #                    measurement is better than either. What still stops is a
 #                    row that says only that its value "agrees with" such a
 #                    source, which offers agreement in place of an origin.
+#                    HOW THE LINT COUNTS THIS, since 2026-09-15: a match
+#                    under an `avoid` row is read together with its
+#                    `[[citation]]` role below. One value, one page, is not a
+#                    finding; a claim with no page is; and dependence past
+#                    `cite_at_most` is one finding for the whole work, because
+#                    the offence is the leaning rather than each lean.
 # permission-required refused until a written grant exists; counted with `avoid`
+#                    in the headline, but NOT eligible for the attribution
+#                    carve-out above: a page cannot cure a permission. See the
+#                    `[[citation]]` role documentation for the worked example,
+#                    `legacy/liquid_nitrogen`.
 # decision-required  a question is open; reported separately, never in the
 #                    headline offence count, because a count that mixes
 #                    "refused" with "not yet asked" reads stronger than it is.
@@ -518,59 +536,278 @@ verdict = "avoid"
 may_touch = []
 names = ["Voet"]
 in_plan_table = true
-note = "CHECKED 2026-09-15 AND NOT READ: wiley.com returns HTTP 403 to an automated request for the title page and for /en-us/permissions alike, exactly as the CRC publisher page does. No terms were read; this verdict rests on the absence of any granted licence and on the work being a paid commercial textbook (D. Voet and J. G. Voet, Biochemistry, 4th ed., John Wiley and Sons), not on a reading. SAME CLASS AS crc-handbook AND merck-index and judged the same way, because a verdict is a property of the source's terms: making it a property of how often we happen to cite the book would mean this table said different things about one work on different days. THIS ROW ADDS EXACTLY ONE FINDING AND THE CENSUS PREDICTED IT, 59 to 60. It is a true positive rather than the count getting worse because the data got more legible. The `avoid` text carves out 'naming one of these for one value, with author, title, edition and page' as ordinary practice; `legacy/amylase` reads 'Alpha-amylase MW ~55 kDa (typical); Voet & Voet Biochemistry 4th ed.' - no page, and 'typical' by its own word, which is a rounded generality rather than a cited measurement. It is the same shape as the CRC rows that admitted 'the printed edition was not opened for this row'. THE VOCABULARY IS MISSING A VERDICT AND THIS IS WHERE IT SHOWS. The owner's rule permits citing a book once with full attribution and refuses bulk dependence, but `avoid` is a source-level flag and the lint counts every match under it, so this file cannot say 'citable once, refused in bulk'. The structured `upstreams[]` field with a per-quantity `role` would say it. Until then the honest reading of this one finding is that the number wants a page or a paper, which it does."
+note = "CHECKED 2026-09-15 AND NOT READ: wiley.com returns HTTP 403 to an automated request for the title page and for /en-us/permissions alike, exactly as the CRC publisher page does. No terms were read; this verdict rests on the absence of any granted licence and on the work being a paid commercial textbook (D. Voet and J. G. Voet, Biochemistry, 4th ed., John Wiley and Sons), not on a reading. SAME CLASS AS crc-handbook AND merck-index and judged the same way, because a verdict is a property of the source's terms: making it a property of how often we happen to cite the book would mean this table said different things about one work on different days. THIS ROW ADDS EXACTLY ONE FINDING AND THE CENSUS PREDICTED IT, 59 to 60. It is a true positive rather than the count getting worse because the data got more legible. The `avoid` text carves out 'naming one of these for one value, with author, title, edition and page' as ordinary practice; `legacy/amylase` reads 'Alpha-amylase MW ~55 kDa (typical); Voet & Voet Biochemistry 4th ed.' - no page, and 'typical' by its own word, which is a rounded generality rather than a cited measurement. It is the same shape as the CRC rows that admitted 'the printed edition was not opened for this row'. THE VOCABULARY WAS MISSING A VERDICT AND THIS IS WHERE IT SHOWED; it was added on 2026-09-15 and this row does not move. `avoid` is still a source-level flag, but a `[[citation]]` row can now say what one citation is DOING with the work - `mentioned`, `via` or `claims` - and an attributed `claims` with a `locator` on a work refused for BULK is not a finding. This citation qualifies for none of it: it carries no page, so it is not attribution, and `avoid` plus no locator is a finding under the new rule exactly as under the old one. That is the instrument agreeing with the row's own words rather than the instrument being unable to tell. What HAS changed is that a citation carrying author, title, edition and page would no longer fail identically to this one, which was the defect. The honest reading of this finding is unchanged: the number wants a page or a paper, which it does."
 
-# ----------------------------------------------------------------- excuses ---
+# -------------------------------------------------------------- citations ---
 #
-# A named, reviewed exception: this provenance string NAMES a refused upstream
-# but does not CLAIM a value from it. That is the "prose stays as commentary"
-# half of the rule, made explicit instead of implicit.
+# A reviewed judgement about what one refused source is DOING in one citation.
 #
-# Every excuse must be USED. An excuse that matches nothing is reported as a
-# problem, so a stale one cannot sit here looking like diligence after the
-# string it covered has gone. This list is exactly as strong as its review;
-# it is here because it is visible and counted, which prose was not.
+# This replaces the `[[excuse]]` list, which could say only one thing: "this
+# string names a refused source and claims nothing from it". That is one of
+# three relationships a citation can have with a refused work, and having no
+# word for the other two is why this file could not state the owner's rule.
+#
+# ## Fields
+#
+# surface    `rust` or `registry`
+# subject    a registry source id, or a repository-relative path for `rust`
+# matching   optional. Narrows the row to value-bound strings CONTAINING this
+#            text. A Rust subject is a whole FILE, so without it one judgement
+#            covers every string in that file - the limit the phase_route.rs
+#            excuse stated against itself and asked to have closed.
+# upstreams  every refused upstream this one string names in this role
+# role       mentioned | via | claims, below
+# locator    where in the work the value is: page, table or entry. Only
+#            meaningful on `claims`, and only on a source refused for BULK.
+# reason     why this role is the right one, in a sentence
+#
+# ## Roles
+#
+# mentioned  The string NAMES the source and claims no value from it - to say
+#            the cited source is NOT that one, to say that source is wrong, to
+#            say a retired value used to rest on it, or to record a
+#            withdrawal. Not a claim, so not a finding. This is the old
+#            `[[excuse]]`, renamed to sit beside its siblings.
+#
+# via        The value is a CLEARED primary's and was read through this
+#            refused source's RENDERING of it rather than off the publication.
+#            Always a finding. The citation names the right work and the bytes
+#            still came through the refused one; what the role buys is naming
+#            the debt correctly, because this wants a verification and not a
+#            re-sourcing.
+#
+# claims     The value IS this source's. Ordinary practice under the owner's
+#            2026-09-14 rule when it carries a `locator` AND the work is
+#            refused for bulk dependence - that is "we should be able to cite
+#            any book", and citing a book means author, title, edition and
+#            page. A finding otherwise, and there are two otherwises:
+#
+#            - NO LOCATOR. A work named without a place in it is not a
+#              citation; it is a gesture at a library. Three rows below use
+#              that deliberately: they declare `claims` with no locator
+#              because their own text admits no copy was opened.
+#            - THE REFUSAL IS NOT ABOUT BULK. `avoid` carries the 2026-09-14
+#              rule and its objection is compilation copyright, which
+#              attribution answers. `permission-required` says something else
+#              - "refused until a written grant exists" - and a perfect
+#              citation does not create a grant. `legacy/liquid_nitrogen`
+#              proves it: it cites "NIST Chemistry WebBook SRD 69 nitrogen
+#              (CAS 7727-37-9)" with a deep link carrying the record id, a
+#              better locator than any CRC citation in this tree, and it is
+#              still a transcription out of Standard Reference Data. Setting a
+#              locator on such a row is refused by the lint outright.
+#
+# ## What a role is, and is not
+#
+# A role is a human judgement recorded in data. The lint checks that it still
+# MATCHES a real string and reports it when it does not; it cannot check that
+# it is true, exactly as it could not for an excuse. Its whole advantage over
+# the prose it replaces is that it is named, counted, printed on every run and
+# expires loudly. Every reason below therefore QUOTES the sentence in the
+# citation that establishes the role, so a reviewer can check the judgement
+# against the text rather than against an assertion about it.
 
-[[excuse]]
+
+# --- converted from [[excuse]], 2026-09-15, role unchanged ----------------
+
+[[citation]]
 surface = "rust"
 subject = "crates/kerotakis-core/src/phase_route.rs"
+matching = "NSRDS-NBS 37"
 upstreams = ["nist-janaf"]
-reason = "A naming collision, not a transcription. The NaCl and KCl fusion enthalpies here cite NSRDS-NBS 37, the 1971 print edition, which now has its own cleared row above and which the JANAF-online row itself says is a different source needing one. They still match the JANAF-online row because the 1971 edition IS the JANAF tables' second edition, so its correct title contains the family name. Every JANAF mention in this file is that edition or a doc comment explaining the distinction; there is no JANAF-online value here. THE LIMIT: this excuse is keyed to the file, not to the two strings, so a genuine JANAF-online citation added to this file later would pass unnoticed. Narrow it if that becomes likely."
+role = "mentioned"
+reason = "A naming collision, not a transcription. The NaCl and KCl fusion enthalpies here cite NSRDS-NBS 37, the 1971 print edition, which has its own cleared row above and which the JANAF-online row itself says is a different source needing one. They match the JANAF-online row because the 1971 edition IS the JANAF tables' second edition, so its correct title contains the family name. THE LIMIT THIS ROW USED TO CARRY IS NOW CLOSED: as an `[[excuse]]` it was keyed to the file and covered every string in it, and said so against itself - 'Narrow it if that becomes likely'. `matching = \"NSRDS-NBS 37\"` narrows it to the two strings that name that edition, so a genuine JANAF-online citation added to this file later is reported."
 
-[[excuse]]
+[[citation]]
 surface = "registry"
 subject = "us-federal/nasa-cea-thermo-inp-v1"
 upstreams = ["nist-janaf"]
-reason = "The citation describes vendored NASA CEA thermo.inp bytes, Apache-2.0, and notes that each CEA record carries its own literature reference verbatim - some of which are JANAF. The JANAF mention is the LINEAGE of a file we are licensed to redistribute, not a transcription we made from the SRD. Without this excuse the lint condemns 37 heat-capacity polynomials that are clean."
+role = "mentioned"
+reason = "The citation describes vendored NASA CEA thermo.inp bytes, Apache-2.0, and notes that each CEA record carries its own literature reference verbatim - some of which are JANAF. The JANAF mention is the LINEAGE of a file we are licensed to redistribute, not a transcription we made from the SRD. Without this judgement the lint condemns 37 heat-capacity polynomials that are clean."
 
-# The three tranches withdrawn by PR #589 on 2026-09-13. Each citation now
-# names the CRC Handbook, the NIST WebBook and JANAF-online in order to say
-# that the claim resting on them HAS BEEN WITHDRAWN, quoting the rule it is
-# obeying: "the claim stops and the prose stays as commentary". That is the
-# commentary half, written out - and the position test cannot see the
-# difference, because the withdrawal lives in the same `citation` field the
-# claim lived in.
+# The three tranches withdrawn by PR #589 on 2026-09-13. Each citation names
+# the CRC Handbook, the NIST WebBook and JANAF-online in order to say that the
+# claim resting on them HAS BEEN WITHDRAWN, quoting the rule it is obeying:
+# "the claim stops and the prose stays as commentary". That is the commentary
+# half, written out - and the position test cannot see the difference, because
+# the withdrawal lives in the same `citation` field the claim lived in.
 #
-# Excusing them is a judgement, and it is the judgement the rule requires: a
-# lint that flagged a correct withdrawal would make the count unreachable
-# except by deleting honest prose, which is the opposite of what it is for.
-# The limit is stated plainly in the module docs - the lint checks that an
-# excuse still MATCHES something, never that its reason is true.
+# `mentioned` is the role the module docs predicted these wanted. Judging them
+# is the judgement the rule requires: a lint that flagged a correct withdrawal
+# would make the count unreachable except by deleting honest prose, which is
+# the opposite of what it is for.
 
-[[excuse]]
+[[citation]]
 surface = "registry"
 subject = "kerotakis/phase-transitions-v1"
 upstreams = ["crc-handbook", "nist-webbook", "nist-janaf"]
+role = "mentioned"
 reason = "Withdrawn 2026-09-13 (PR #589). The citation names these three sources only to record that the claim resting on them has stopped, and says so in terms: 'Naming a reference the project may not ship from as the source behind a shipped number is a claim, not a citation, and so is saying the number agrees with it. Both are gone.' No value here is offered as coming from any of them."
 
-[[excuse]]
+[[citation]]
 surface = "registry"
 subject = "kerotakis/dissolution-enthalpies-v1"
 upstreams = ["crc-handbook", "nist-webbook", "nist-janaf"]
+role = "mentioned"
 reason = "Withdrawn 2026-09-13 (PR #589). Same withdrawal notice. The fourteen rows that survive rest on the NBS/Wagman 1982 tables, a United States Government work with no avoid-row problem; the three that rested on the Handbook alone (KOH, NH4Cl, Na2SO4) lose that support rather than keep it. The Handbook is named here to say which rows lost what."
 
-[[excuse]]
+[[citation]]
 surface = "registry"
 subject = "kerotakis/electrical-resistivity-v1"
 upstreams = ["crc-handbook", "nist-webbook", "nist-janaf"]
+role = "mentioned"
 reason = "Withdrawn 2026-09-13 (PR #589). The citation names the Handbook table it used to cite in order to say the citation is gone: 'that is exactly the form the rule forbids, and it is withdrawn rather than reworded'. It also says this tranche now has neither of the two acceptable supports and is the weakest in the registry, which is the honest state and is not something a lint should be able to silence - it is recorded in the value's own citation, where a reader meets it."
+
+
+# --- judged 2026-09-15, the Rust surface ----------------------------------
+#
+# Eleven of the eighteen Rust findings were the lint reporting a source the
+# string names in order to REJECT it. The module docs predicted this shape and
+# predicted it would not scale: "If withdrawal notices become common this does
+# not scale, and the fix is a structured field". Eleven is that arriving.
+#
+# Nothing here re-sources a value or edits a citation. Each row records which
+# of three things the named source is doing in a string that already exists,
+# and quotes the sentence that settles it.
+
+[[citation]]
+surface = "rust"
+subject = "crates/kerotakis-core/src/curated.rs"
+matching = "Aerobic respiration of D-glucose"
+upstreams = ["crc-handbook", "nist-janaf"]
+role = "mentioned"
+reason = "Both sources are named to say the value is NOT theirs. Verbatim: 'it is not a transcription from a positively identified copy of any single edition of the CODATA key values or the CRC Handbook of Chemistry and Physics, no edition-level provenance is claimed', and 'The reference to the NIST/JANAF tables that used to sit in that list is dropped'. WHAT CLEARING THIS DOES NOT DO, recorded because it matters: the -2803 kJ/mol is 'recorded AS COMMONLY TABULATED and ITS PROVENANCE LANE IS PENDING REVIEW', so it has no source at all. This row stops it being counted as a refused-source offence, which it never was, and it becomes an unattributed value instead - the older and larger problem this lint says in its own limits it cannot see. The string adds that 'Nothing in the engine consumes it.'"
+
+[[citation]]
+surface = "rust"
+subject = "crates/kerotakis-core/src/phase_route.rs"
+matching = "Methanol enthalpy of fusion"
+upstreams = ["nist-webbook"]
+role = "mentioned"
+reason = "The value is NBS Circular 500's, printed there as 0.757 kcal/mol at 175.26 K and converted in the string itself. The WebBook is named once, in the clause that DISTINGUISHES the two: 'A United States Government work and not Standard Reference Data - the Standard Reference Data Act notice that governs the NIST WebBook is absent from it'. Naming a refused source to say the cited source is not it is the clearest `mentioned` there is."
+
+[[citation]]
+surface = "rust"
+subject = "crates/kerotakis-core/src/phase_route.rs"
+matching = "Acetic acid enthalpy of fusion"
+upstreams = ["nist-webbook"]
+role = "mentioned"
+reason = "The same Circular 500 sentence as the methanol fusion row above, with the same single WebBook mention in the clause that distinguishes a United States Government work from Standard Reference Data. The value is Circular 500's 2.80 kcal/mol at 289.77 K."
+
+[[citation]]
+surface = "rust"
+subject = "crates/kerotakis-core/src/phase_route.rs"
+matching = "Naphthalene enthalpy of fusion"
+upstreams = ["nist-webbook"]
+role = "mentioned"
+reason = "The value is McCullough et al., J. Phys. Chem. 61 (1957) 1105-1116, doi:10.1021/j150554a016, with a public-domain corroboration read in full. The WebBook is named to say it is WRONG: 'the NIST WebBook's row for this very paper prints 18.226 kJ/mol, which is a 4536-to-4356 digit transposition and sits 4.2 per cent below every determination since 1926'. A source named in order to be rejected is not a source."
+
+[[citation]]
+surface = "rust"
+subject = "crates/kerotakis-core/src/phase_route.rs"
+matching = "Nitrogen enthalpy of vaporisation"
+upstreams = ["nist-webbook"]
+role = "mentioned"
+reason = "The value is NBS Technical Note 129, doi:10.6028/NBS.TN.129, Table 2, the 1.000 atm row, with three further corroborations. The WebBook is named only for the RETIRED figure: 'the retired figure cited the NIST Chemistry WebBook SRD 69 and was quoted to two significant figures because that is what the WebBook displayed'. A sentence about a number that is no longer shipped is commentary about the repair, not a claim."
+
+[[citation]]
+surface = "rust"
+subject = "crates/kerotakis-core/src/phase_route.rs"
+matching = "Ethanol enthalpy of vaporisation"
+upstreams = ["nist-webbook"]
+role = "mentioned"
+reason = "The value is NBS Circular 500's 9.22 kcal/mol at 78.5 degrees Celsius. The WebBook appears twice and claims nothing either time: once in the clause distinguishing a Government work from Standard Reference Data, and once to trace where the RETIRED 38.56 came from - 'The retired figure traces through the NIST WebBook to Majer and Svoboda's 1985 IUPAC compilation, which is a copyrighted book.'"
+
+[[citation]]
+surface = "rust"
+subject = "crates/kerotakis-core/src/phase_route.rs"
+matching = "Methanol enthalpy of vaporisation"
+upstreams = ["crc-handbook"]
+role = "mentioned"
+reason = "The value is Fiock, Ginnings and Holton, J. Research NBS 6 (1931) 881-900 (RP312), doi:10.6028/jres.006.054, read in full, and independently confirmed by Circular 500. The Handbook is named to record a candidate that was CHECKED AND REJECTED: PubChem's entry 'gives 37.34 kJ/mol at 25 degrees Celsius citing Haynes, W.M. (ed.). CRC Handbook of Chemistry and Physics. 95th Edition through HSDB, which would have laundered the handbook rather than replaced it'. Naming the laundering in order to refuse it is the opposite of doing it."
+
+[[citation]]
+surface = "rust"
+subject = "crates/kerotakis-core/src/phase_route.rs"
+matching = "Propanone (acetone) enthalpy of vaporisation"
+upstreams = ["nist-webbook"]
+role = "mentioned"
+reason = "This string's VALUE is the CRC Handbook's and is declared as such in the sibling row below; the WebBook is a separate mention, naming it to report that its pointer is self-inconsistent: 'the NIST WebBook attributes that paper's value to 338 K, about nine kelvin above the boiling point, while quoting a figure identical to the 329 K compilation value, which is thermodynamically impossible'. Nothing is taken from the WebBook here."
+
+[[citation]]
+surface = "rust"
+subject = "crates/kerotakis-core/src/phase_route.rs"
+matching = "Acetic acid enthalpy of vaporisation"
+upstreams = ["nist-webbook", "crc-handbook"]
+role = "mentioned"
+reason = "The value is NBS Circular 500's 5.83 kcal/mol, independently confirmed to the digit by A. C. Brown, J. Chem. Soc. Trans. 83 (1903) 987, read in full and CC0 by age. The WebBook appears only in the Government-work-versus-SRD clause. The Handbook appears only to trace the RETIRED 23.70: 'it traces to the CRC Handbook, and PubChem proves the chain rather than breaking it'. Both are named about a number that is no longer shipped."
+
+# The three rows below are the opposite judgement, and they are here to show
+# that the vocabulary can say the uncomfortable thing as well as the
+# comfortable one. Each DOES take its value from the Handbook, each says so,
+# and each declares `claims` with NO LOCATOR - because each admits, in its own
+# words, that 'no positively identified copy was opened for this row, so no
+# edition-level page provenance is claimed'. They remain findings. Under the
+# 2026-09-14 rule the fix is a page or a paper, and the Mg and Cu rows already
+# say which paper they would want.
+
+[[citation]]
+surface = "rust"
+subject = "crates/kerotakis-core/src/phase_route.rs"
+matching = "Magnesium enthalpy of fusion"
+upstreams = ["crc-handbook"]
+role = "claims"
+reason = "The Handbook IS the source: 'CRC Handbook of Chemistry and Physics, 97th ed., Enthalpy of Fusion and Enthalpy of Vaporization tables'. No locator, deliberately, because the row itself says 'PENDING REVIEW: no positively identified copy was opened for this row, so no edition-level page provenance is claimed'. It stays a finding. The row already records what upgrading it needs: the modern evaluation's own primary, not Bulletin 672, which 'would be the better-licensed citation and is NOT taken' because it is the older evaluation and 'citing it would buy provenance with accuracy'."
+
+[[citation]]
+surface = "rust"
+subject = "crates/kerotakis-core/src/phase_route.rs"
+matching = "Copper enthalpy of fusion"
+upstreams = ["crc-handbook"]
+role = "claims"
+reason = "The same Handbook tables, the same self-declared absence of page provenance, and the same three-way disagreement between the Handbook's 13.26, Bureau of Mines Bulletin 672's 13.05 and NASA CEA's 13.14. A claim with no locator, so it stays a finding; the row says the Handbook value 'stays until someone finds the primary behind it'."
+
+[[citation]]
+surface = "rust"
+subject = "crates/kerotakis-core/src/phase_route.rs"
+matching = "Propanone (acetone) enthalpy of vaporisation"
+upstreams = ["crc-handbook"]
+role = "claims"
+reason = "The same Handbook tables and the same absent page provenance. This is the row that says it is stuck and why: 'THIS IS THE ONE ROW IN THE TABLE THAT SEARCHING FAILED TO UPGRADE'. Pennington and Kobe 1957 is the primary and its value could not be read; Mathews 1926 is public domain by age and no copy is reachable; Circular 500 stops at two carbons and CEA carries no condensed acetone. 'An interlibrary scan of either paper is the whole of what stands between this row and a primary citation.' A finding, correctly."
+
+# `via` - the primary is cited and the bytes came through the refused
+# rendering. Four strings, all of which already say so about themselves. They
+# stay findings: naming the right publication is good practice and does not
+# undo having read the number off Standard Reference Data. What the role adds
+# is that the debt is a VERIFICATION - somebody reading the paper - and not a
+# re-sourcing, which is a different and much cheaper repair.
+
+[[citation]]
+surface = "rust"
+subject = "crates/kerotakis-core/src/phase_route.rs"
+matching = "Propan-2-ol enthalpy of vaporisation"
+upstreams = ["nist-webbook"]
+role = "via"
+reason = "Hales, Cox and Lees, Trans. Faraday Soc. 59 (1963) 1544-1555, doi:10.1039/TF9635901544, is named as the source and the row says the rest itself: 'VERIFICATION IS INCOMPLETE AND THE ROW SAYS SO. The publication is the right one and its DOI resolves, but the value was read through the NIST WebBook's rendering of it rather than off the paper.' An independent determination agreeing to 0.1 kJ/mol is named for a reviewer who wants a second anchor."
+
+[[citation]]
+surface = "rust"
+subject = "crates/kerotakis-core/src/phase_route.rs"
+matching = "Ethyl acetate enthalpy of vaporisation"
+upstreams = ["nist-webbook"]
+role = "via"
+reason = "Connett, Counsell and Lee, J. Chem. Thermodyn. 8 (1976) 1199-1203, doi:10.1016/0021-9614(76)90129-4, with the same self-declared detour: 'the publication is right and its DOI resolves, but the value was read through the NIST WebBook's rendering rather than off the paper'. A public-domain 1903 corroboration disagreeing by two per cent is recorded rather than adopted."
+
+[[citation]]
+surface = "rust"
+subject = "crates/kerotakis-thermo/src/pack.rs"
+upstreams = ["nist-webbook"]
+role = "via"
+reason = "Stull, Ind. Eng. Chem. 39(4), 517-540 (1947), Table I, is the publication; the string says plainly that 'the shipped coefficients were transcribed from the NIST Chemistry WebBook (SRD 69) rendering of that fit'. That is a transcription out of Standard Reference Data with the underlying paper correctly named, which is exactly what `via` is for and exactly why it stays a finding."
+
+[[citation]]
+surface = "rust"
+subject = "crates/kerotakis-thermo/src/vle.rs"
+upstreams = ["nist-webbook"]
+role = "via"
+reason = "The same Stull 1947 Antoine constants as pack.rs, carrying the DOI and the same disclosure: 'The coefficients were transcribed from the NIST Chemistry WebBook SRD 69 RENDERING of that fit ... so the citation names the publication it renders and records the detour rather than naming the renderer.' Recording the detour is what makes it auditable; it does not make the bytes clean."
