@@ -378,12 +378,23 @@ impl Clock for CuratedKineticsClock {
                 });
             if other_reactants_present {
                 if let Some(detail) = reaction.proton_consumption_boundary(vessel) {
-                    events.push(Event::NotYetModeled {
-                        cause: crate::ops::NotModelledCause::ModelBoundary,
-                        vessel: vessel.id,
-                        what: format!("{}: {detail}", reaction.id),
-                        reason: None,
-                    });
+                    // One boundary, one key: the helper has exactly one
+                    // sentence to give, so the reaction's id is the hole
+                    // and the sentence is the template. The id itself is
+                    // notation — `peroxide-decomposition` is traced back
+                    // to a registry row, not read as words.
+                    events.push(Event::not_modeled(
+                        vessel.id,
+                        crate::ops::NotModelledCause::ModelBoundary,
+                        Phrase::new(
+                            "not-modeled.proton-consuming-kinetics",
+                            &format!("{{reaction}}: {detail}"),
+                            vec![(
+                                "reaction".to_string(),
+                                Slot::text(reaction.id),
+                            )],
+                        ),
+                    ));
                 }
             }
         }

@@ -51,6 +51,7 @@
 //!   reservoir exchange is the aqueous tail's.
 
 use crate::ops::Event;
+use crate::phrase::{Phrase, Slot};
 use crate::properties::{henry_at_t, henry_lookup, HenryCoefficient};
 use crate::solve::{Equilibrator, SolveError, SolverRouteKind};
 use crate::species::{self, Phase, SpeciesId};
@@ -68,7 +69,7 @@ pub fn additional_solvent_cut(
     vessel: &Vessel,
     take: kerotakis_thermo::vle::StillTake,
     stages: u32,
-) -> Result<Option<(Vec<SpeciesId>, kerotakis_thermo::batch::BatchCut)>, String> {
+) -> Result<Option<(Vec<SpeciesId>, kerotakis_thermo::batch::BatchCut)>, Phrase> {
     use kerotakis_thermo::batch::{ideal_still, ConstantLatent};
     let mut inventory = std::collections::BTreeMap::<String, f64>::new();
     for p in &vessel.contents {
@@ -76,7 +77,13 @@ pub fn additional_solvent_cut(
             continue;
         }
         let data = species::lookup(&p.species)
-            .ok_or_else(|| format!("unregistered condensed species {}", p.species.0))?;
+            .ok_or_else(|| {
+                Phrase::new(
+                    "not-modeled.unregistered-condensed-species",
+                    "unregistered condensed species {key}",
+                    vec![("key".to_string(), Slot::text(p.species.0.clone()))],
+                )
+            })?;
         if p.phase == Phase::Liquid
             || matches!(data.standard_phase, Phase::Liquid | Phase::Gas)
             || coefficient_for(&p.species.0).is_some()
@@ -112,7 +119,13 @@ pub fn additional_solvent_cut(
                     let mass: f64 = fields[3].parse().ok()?;
                     Some((boiling, latent * mass / 1_000_000.0))
                 })
-        }).ok_or_else(|| format!("distillation needs reviewed vapour-pressure/latent-heat properties for {key}; no component was transferred"))?;
+        }).ok_or_else(|| Phrase::new(
+            "not-modeled.no-reviewed-still-properties",
+            "distillation needs reviewed vapour-pressure/latent-heat properties for {key}; no component was transferred",
+            // A registry KEY, not a display name: it is what a reader
+            // types back at the bench.
+            vec![("key".to_string(), Slot::text(key.clone()))],
+        ))?;
         ids.push(SpeciesId::new(&key));
         amounts.push(amount);
         models.push(ConstantLatent {
@@ -124,7 +137,10 @@ pub fn additional_solvent_cut(
         });
     }
     let cut = ideal_still(&amounts, &models, take, stages, vessel.pressure.0 / 1000.0)
-        .ok_or_else(|| "multicomponent distillation is outside the bounded constant-latent Clausius-Clapeyron domain (within 40 K of each normal boiling point, 1-128 ideal stages); no component was transferred".to_string())?;
+        .ok_or_else(|| Phrase::bare(
+            "not-modeled.outside-constant-latent-domain",
+            "multicomponent distillation is outside the bounded constant-latent Clausius-Clapeyron domain (within 40 K of each normal boiling point, 1-128 ideal stages); no component was transferred",
+        ))?;
     Ok(Some((ids, cut)))
 }
 

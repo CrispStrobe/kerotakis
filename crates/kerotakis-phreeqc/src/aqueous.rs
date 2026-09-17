@@ -13,6 +13,7 @@
 //! Known limitation, stated: dissolution/precipitation enthalpy is not yet
 //! fed into the vessel's energy balance (curated ΔH arrives with the codex).
 
+use kerotakis_core::phrase::{sentence_pair, Phrase, Slot};
 use kerotakis_core::{
     species, Equilibrator, Event, ExchangeIon, ExchangeOccupancy, ExchangeSites, Headspace, Kelvin,
     Moles, Phase, Portion, Provenance, SolidSolution, SolidSolutionComponent, SolidSolutionModel,
@@ -136,25 +137,47 @@ fn reference_complex_boundary(vessel: &Vessel, distribution: &[SpeciesDetail]) -
     if !complexes && !thiocyanate {
         return None;
     }
+    // Each caveat is a WHOLE sentence with its own key, and the space
+    // between two of them is `look.sentence-join` rather than a
+    // `push_str` — which is what the `.trim()` below used to be
+    // apologising for. Three shapes fall out of two booleans, and a
+    // language that joins sentences differently gets all three right from
+    // one catalogue row.
     let temperature_note = if crate::complexation::temperature_covered(vessel.temperature.0) {
-        "The solution is at the tabulated reference temperature."
+        Phrase::bare(
+            "not-modeled.at-the-reference-temperature",
+            "The solution is at the tabulated reference temperature.",
+        )
     } else {
-        "At this vessel temperature these are reference-temperature approximations, not validated temperature-dependent constants."
+        Phrase::bare(
+            "not-modeled.away-from-the-reference-temperature",
+            "At this vessel temperature these are reference-temperature approximations, not validated temperature-dependent constants.",
+        )
     };
-    let mut what = if complexes {
-        format!("Copper–ammine / iron–thiocyanate speciation uses public-domain USBM IC 9429 cumulative constants at 25 °C and zero ionic strength, with the selected database's activity corrections. {temperature_note} Complex-formation enthalpies, rate laws, and complex spectra are not supplied by this data slice; reaction heat and colour are incomplete where those contributions matter.")
-    } else {
-        String::new()
+    let complex_note = complexes.then(|| {
+        Phrase::new(
+            "not-modeled.usbm-reference-complexes",
+            "Copper–ammine / iron–thiocyanate speciation uses public-domain USBM IC 9429 cumulative constants at 25 °C and zero ionic strength, with the selected database's activity corrections. {temperature} Complex-formation enthalpies, rate laws, and complex spectra are not supplied by this data slice; reaction heat and colour are incomplete where those contributions matter.",
+            vec![("temperature".to_string(), Slot::phrase(temperature_note))],
+        )
+    });
+    let thiocyanate_note = thiocyanate.then(|| {
+        Phrase::bare(
+            "not-modeled.thiocyanate-slice",
+            "Thiocyanate is treated as a conserved SCN- ligand. HNCS protonation, ligand redox, and binding to metals other than Fe(III) are not covered by this slice; in particular it is not an exhaustive strong-acid thiocyanate model. KSCN is an aqueous analytical equivalent, not a solid dissolution model.",
+        )
+    });
+    let reason = match (complex_note, thiocyanate_note) {
+        (Some(complex), Some(scn)) => sentence_pair(complex, scn),
+        (Some(only), None) | (None, Some(only)) => only,
+        // Unreachable: the guard above returned on neither.
+        (None, None) => return None,
     };
-    if thiocyanate {
-        what.push_str(" Thiocyanate is treated as a conserved SCN- ligand. HNCS protonation, ligand redox, and binding to metals other than Fe(III) are not covered by this slice; in particular it is not an exhaustive strong-acid thiocyanate model. KSCN is an aqueous analytical equivalent, not a solid dissolution model.");
-    }
-    Some(Event::NotYetModeled {
-        cause: kerotakis_core::ops::NotModelledCause::ModelBoundary,
-        vessel: vessel.id,
-        what: what.trim().into(),
-        reason: None,
-    })
+    Some(Event::not_modeled(
+        vessel.id,
+        kerotakis_core::ops::NotModelledCause::ModelBoundary,
+        reason,
+    ))
 }
 
 fn reactive_gas_boundary(vessel: &Vessel, problem: &Problem) -> Option<Event> {
@@ -167,16 +190,25 @@ fn reactive_gas_boundary(vessel: &Vessel, problem: &Problem) -> Option<Event> {
         return None;
     }
     let temperature = if crate::aqueous_gases::temperature_covered(vessel.temperature.0) {
-        "This state is at the 25 °C reference temperature."
+        Phrase::bare(
+            "not-modeled.hbr-at-the-reference-temperature",
+            "This state is at the 25 °C reference temperature.",
+        )
     } else {
-        "Away from 25 °C this uses a local constant-enthalpy van't Hoff approximation, not a validated broad-temperature correlation."
+        Phrase::bare(
+            "not-modeled.hbr-away-from-the-reference-temperature",
+            "Away from 25 °C this uses a local constant-enthalpy van't Hoff approximation, not a validated broad-temperature correlation.",
+        )
     };
-    Some(Event::NotYetModeled {
-        cause: kerotakis_core::ops::NotModelledCause::ModelBoundary,
-        vessel: vessel.id,
-        what: format!("HBr gas uptake uses the dissociative Henry constant from the CC-BY Sander compilation, converted from concentration to the dilute molal standard state. The reaction enthalpy is derived from its local temperature slope and solvent-density correction, not an independent calorimetric measurement. {temperature} Gas transfer is an equilibrium boundary, not a time-dependent absorption model."),
-        reason: None,
-    })
+    Some(Event::not_modeled(
+        vessel.id,
+        kerotakis_core::ops::NotModelledCause::ModelBoundary,
+        Phrase::new(
+            "not-modeled.hbr-gas-uptake",
+            "HBr gas uptake uses the dissociative Henry constant from the CC-BY Sander compilation, converted from concentration to the dilute molal standard state. The reaction enthalpy is derived from its local temperature slope and solvent-density correction, not an independent calorimetric measurement. {temperature} Gas transfer is an equilibrium boundary, not a time-dependent absorption model.",
+            vec![("temperature".to_string(), Slot::phrase(temperature))],
+        ),
+    ))
 }
 
 fn redox_distribution(
@@ -4401,12 +4433,18 @@ impl PhreeqcEquilibrator {
                         }
                     }
                     ExternalGasKind::Dose => {
-                        events.push(Event::NotYetModeled {
-                            cause: kerotakis_core::ops::NotModelledCause::RateNotModelled,
-                            vessel: vessel.id,
-                            what: format!("{} finite gas dose: uptake is an instantaneous equilibrium calculation, not a mass-transfer rate. After the dose, only explicitly configured atmospheric species exchange with an external reservoir; no new reservoir is inferred from the dose. Waiting time does not parameterise degassing", exchange.species),
-                            reason: None,
-                        });
+                        events.push(Event::not_modeled(
+                            vessel.id,
+                            kerotakis_core::ops::NotModelledCause::RateNotModelled,
+                            Phrase::new(
+                                "not-modeled.finite-gas-dose",
+                                "{species} finite gas dose: uptake is an instantaneous equilibrium calculation, not a mass-transfer rate. After the dose, only explicitly configured atmospheric species exchange with an external reservoir; no new reservoir is inferred from the dose. Waiting time does not parameterise degassing",
+                                vec![(
+                                    "species".to_string(),
+                                    Slot::term("species", exchange.species.clone()),
+                                )],
+                            ),
+                        ));
                         let absorbed = exchange.initial_moles - moles;
                         if absorbed > TRACE {
                             events.push(Event::GasAbsorbed {
@@ -4552,16 +4590,20 @@ impl PhreeqcEquilibrator {
         // that no solver looked, rather than reporting that nothing
         // happened.
         if let Some(why) = &coupling_failed {
-            events.push(Event::NotYetModeled {
-                cause: kerotakis_core::ops::NotModelledCause::NoSolver,
-                vessel: vessel.id,
-                what: format!(
+            events.push(Event::not_modeled(
+                vessel.id,
+                kerotakis_core::ops::NotModelledCause::NoSolver,
+                Phrase::new(
+                    "not-modeled.redox-coupling-stood-down",
                     "these elements have not reacted with each other — they are shown in \
                      the oxidation states they were added in, which is not what the beaker \
-                     would do: {why}"
+                     would do: {why}",
+                    // The solver's own diagnostic, not a sentence written
+                    // for a learner: it travels in a text slot and the
+                    // frame around it is what a catalogue translates.
+                    vec![("why".to_string(), Slot::text(why.clone()))],
                 ),
-                reason: None,
-            });
+            ));
         }
 
         redox.sort_by(|a, b| {
@@ -4644,13 +4686,21 @@ impl PhreeqcEquilibrator {
         // minor oxidation state, and losing it silently is exactly the kind
         // of quiet subtraction this engine keeps having to root out.
         for (column, moles) in unnameable {
-            events.push(Event::NotYetModeled { cause: kerotakis_core::ops::NotModelledCause::PhaseNotInRegistry,
-                vessel: vessel.id,
-                what: format!(
-                    "{moles:.3e} mol settled as {column}, an oxidation state this lab has no name for — it is not in the vessel's inventory, so there is slightly less of that element in the glass than went in"
+            events.push(Event::not_modeled(
+                vessel.id,
+                kerotakis_core::ops::NotModelledCause::PhaseNotInRegistry,
+                Phrase::new(
+                    "not-modeled.unnameable-oxidation-state",
+                    "{moles} mol settled as {column}, an oxidation state this lab has no name for — it is not in the vessel's inventory, so there is slightly less of that element in the glass than went in",
+                    vec![
+                        ("moles".to_string(), Slot::number(format!("{moles:.3e}"))),
+                        // A PHREEQC valence column — `Mn(7)` — is
+                        // notation, and the reader traces it back to a
+                        // database rather than reading it as a word.
+                        ("column".to_string(), Slot::text(column.clone())),
+                    ],
                 ),
-                reason: None,
-            });
+            ));
         }
 
         let offered: Vec<&str> = problem.phases.iter().map(|(p, ..)| p.as_str()).collect();
@@ -4792,14 +4842,31 @@ fn unspeciated_solute_notes(vessel: &Vessel) -> Vec<Event> {
             let name = kerotakis_core::species::lookup_key(key)
                 .map(|d| d.name)
                 .unwrap_or(key);
-            Event::NotYetModeled {
+            Event::not_modeled(
+                vessel.id,
                 // Not in our gift, and not in anybody's — which is the
                 // distinction this cause exists to carry.
-                cause: kerotakis_core::ops::NotModelledCause::NotInAnyDatabase,
-                vessel: vessel.id,
-                what: format!("{name} is dissolved and unspeciated: {why}"),
-                reason: None,
-            }
+                kerotakis_core::ops::NotModelledCause::NotInAnyDatabase,
+                Phrase::new(
+                    "not-modeled.dissolved-and-unspeciated",
+                    "{name} is dissolved and unspeciated: {why}",
+                    vec![
+                        ("name".to_string(), Slot::term("species", name)),
+                        (
+                            // Keyed by the ROW of `UNSPECIATED_SOLUTES`,
+                            // not by its English: the reason is curated
+                            // prose with no holes, and a key built out of
+                            // its text orphans every translation of it the
+                            // moment somebody rewords the row.
+                            "why".to_string(),
+                            Slot::phrase(Phrase::bare(
+                                &format!("unspeciated-solute.{key}"),
+                                why,
+                            )),
+                        ),
+                    ],
+                ),
+            )
         })
         .collect();
     let mut unknown = unmapped_ionic_solutes(vessel);
@@ -4812,12 +4879,15 @@ fn unspeciated_solute_notes(vessel: &Vessel) -> Vec<Event> {
         {
             continue;
         }
-        events.push(Event::NotYetModeled {
-            cause: kerotakis_core::ops::NotModelledCause::NotSpeciated,
-            vessel: vessel.id,
-            what: format!("{key} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."),
-            reason: None,
-        });
+        events.push(Event::not_modeled(
+            vessel.id,
+            kerotakis_core::ops::NotModelledCause::NotSpeciated,
+            Phrase::new(
+                "not-modeled.no-component-mapping",
+                "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+                vec![("name".to_string(), Slot::term("species", key))],
+            ),
+        ));
     }
     events
 }
@@ -4826,7 +4896,10 @@ fn unspeciated_acid_notes(vessel: &Vessel) -> Vec<Event> {
     if !holds_unspeciated_acid(vessel) {
         return Vec::new();
     }
-    let mut notes: Vec<&str> = derived::UNSPECIATED_ACIDS
+    // The KEY is carried through now, not dropped: the curated half of
+    // the sentence is keyed by the ROW of `UNSPECIATED_ACIDS` it came
+    // from, and the row is the only thing that names it.
+    let mut notes: Vec<(&str, &str)> = derived::UNSPECIATED_ACIDS
         .iter()
         .filter(|(key, _)| {
             vessel
@@ -4834,21 +4907,27 @@ fn unspeciated_acid_notes(vessel: &Vessel) -> Vec<Event> {
                 .iter()
                 .any(|portion| portion.species.0 == *key && portion.moles.0 > TRACE)
         })
-        .map(|(_, why)| *why)
+        .map(|(key, why)| (*key, *why))
         .collect();
     notes.sort_unstable();
     notes.dedup();
     notes
         .into_iter()
-        .map(|why| Event::NotYetModeled {
-            cause: kerotakis_core::ops::NotModelledCause::NotSpeciated,
-            vessel: vessel.id,
-            what: format!(
-                "this solution holds an acid whose acidity is not modelled: {why}. \
-                 Whatever pH is shown is the pH of everything else in the glass, and \
-                 the real solution is more acidic than it says"
-            ),
-            reason: None,
+        .map(|(key, why)| {
+            Event::not_modeled(
+                vessel.id,
+                kerotakis_core::ops::NotModelledCause::NotSpeciated,
+                Phrase::new(
+                    "not-modeled.unspeciated-acidity",
+                    "this solution holds an acid whose acidity is not modelled: {why}. \
+                     Whatever pH is shown is the pH of everything else in the glass, and \
+                     the real solution is more acidic than it says",
+                    vec![(
+                        "why".to_string(),
+                        Slot::phrase(Phrase::bare(&format!("unspeciated-acid.{key}"), why)),
+                    )],
+                ),
+            )
         })
         .collect()
 }
@@ -4900,16 +4979,32 @@ fn milk_buffer_notes(vessel: &Vessel, ph: Option<f64>) -> Vec<Event> {
     else {
         return Vec::new();
     };
-    vec![Event::NotYetModeled {
-        cause: kerotakis_core::ops::NotModelledCause::NoReviewedDatum,
-        vessel: vessel.id,
-        what: format!(
-            "this milk has been acidified to pH {ph:.2} and the number is a \
-             LOWER BOUND — the real beaker is milder. {sentence} \
-             (the recipe's full assumption is in `explain material whole_milk`)"
+    vec![Event::not_modeled(
+        vessel.id,
+        kerotakis_core::ops::NotModelledCause::NoReviewedDatum,
+        Phrase::new(
+            "not-modeled.milk-buffer-lower-bound",
+            "this milk has been acidified to pH {ph} and the number is a \
+             LOWER BOUND — the real beaker is milder. {assumption} \
+             (the recipe's full assumption is in `explain material whole_milk`)",
+            vec![
+                ("ph".to_string(), Slot::number(format!("{ph:.2}"))),
+                (
+                    // The recipe's own words, keyed by the PLACE they are
+                    // quoted from. The sentence lives in the material
+                    // registry rather than in this source, so a catalogue
+                    // has to be able to reach it by a name that survives
+                    // the recipe being reworded — which is what a key
+                    // built out of its English would not do.
+                    "assumption".to_string(),
+                    Slot::phrase(Phrase::bare(
+                        "material-assumption.whole_milk-casein",
+                        &sentence,
+                    )),
+                ),
+            ],
         ),
-        reason: None,
-    }]
+    )]
 }
 
 fn missing(column: &str) -> SolveError {

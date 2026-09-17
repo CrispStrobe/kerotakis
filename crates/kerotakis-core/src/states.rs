@@ -58,6 +58,7 @@
 //! wearing a different constant, and this module declines it.
 
 use crate::heat_capacity::CpPolynomial;
+use crate::phrase::{Phrase, Slot};
 use crate::species::{Phase, SpeciesData, SpeciesId};
 use serde::{Deserialize, Serialize};
 
@@ -712,17 +713,48 @@ impl SolventActivity {
         particle_molality <= self.ceiling_molality
     }
 
-    /// The sentence a refusal should carry.
-    pub fn out_of_range_reason(&self, particle_molality: f64) -> String {
+    /// The sentence a refusal should carry, as a RECIPE (I18N-10).
+    ///
+    /// Two keys rather than one with a `{route}` hole, because the two
+    /// sentences differ in more than the route's name: one says which
+    /// ionic strength the virial coefficients were fitted to, the other
+    /// says that no activity model ran at all. A language that wants to
+    /// order those clauses differently can, and the route's own name
+    /// stays notation — `ion-interaction` is an identifier a reader
+    /// traces back to a dataset, not a word.
+    pub fn out_of_range_reason(&self, particle_molality: f64) -> Phrase {
+        let at = |value: f64| Slot::number(format!("{value:.1}"));
         match self.route() {
-            ActivityRoute::IonInteraction => format!(
-                "the stated range of the solvent-activity model this transition rests on ({}): the ion-interaction dataset is fitted to about I = {ION_INTERACTION_MAX_IONIC_STRENGTH} mol/kgw, which this solution reaches at {:.1} mol/kgw of dissolved particles, and it is at {particle_molality:.1}",
-                ActivityRoute::IonInteraction.as_str(),
-                self.ceiling_molality
+            ActivityRoute::IonInteraction => Phrase::new(
+                "not-modeled.activity-range-ion-interaction",
+                "the stated range of the solvent-activity model this transition rests on ({route}): the ion-interaction dataset is fitted to about I = {fitted} mol/kgw, which this solution reaches at {ceiling} mol/kgw of dissolved particles, and it is at {molality}",
+                vec![
+                    (
+                        "route".to_string(),
+                        Slot::text(ActivityRoute::IonInteraction.as_str()),
+                    ),
+                    (
+                        "fitted".to_string(),
+                        Slot::number(format!("{ION_INTERACTION_MAX_IONIC_STRENGTH}")),
+                    ),
+                    ("ceiling".to_string(), at(self.ceiling_molality)),
+                    ("molality".to_string(), at(particle_molality)),
+                ],
             ),
-            ActivityRoute::IdealSolution => format!(
-                "the stated range of the solvent-activity model this transition rests on ({}): with no activity model covering this solution the bench is using Raoult's law, which it does not carry past {IDEAL_MAX_PARTICLE_MOLALITY} mol/kgw of dissolved particles, and this one is at {particle_molality:.1}",
-                ActivityRoute::IdealSolution.as_str()
+            ActivityRoute::IdealSolution => Phrase::new(
+                "not-modeled.activity-range-ideal",
+                "the stated range of the solvent-activity model this transition rests on ({route}): with no activity model covering this solution the bench is using Raoult's law, which it does not carry past {ceiling} mol/kgw of dissolved particles, and this one is at {molality}",
+                vec![
+                    (
+                        "route".to_string(),
+                        Slot::text(ActivityRoute::IdealSolution.as_str()),
+                    ),
+                    (
+                        "ceiling".to_string(),
+                        Slot::number(format!("{IDEAL_MAX_PARTICLE_MOLALITY}")),
+                    ),
+                    ("molality".to_string(), at(particle_molality)),
+                ],
             ),
         }
     }
@@ -1137,7 +1169,10 @@ mod tests {
         let ideal = SolventActivity::ideal();
         assert!(ideal.covers(IDEAL_MAX_PARTICLE_MOLALITY));
         assert!(!ideal.covers(IDEAL_MAX_PARTICLE_MOLALITY + 1e-9));
-        assert!(ideal.out_of_range_reason(9.0).contains("Raoult"));
+        assert!(ideal
+            .out_of_range_reason(9.0)
+            .render(crate::i18n::Locale::EN)
+            .contains("Raoult"));
         // A saturated chloride brine is not near the ion-interaction
         // range's edge, and should not be: halite saturates at I = 6.11 and
         // `pitzer.dat` carries the evaporite sequence out to bischofite near

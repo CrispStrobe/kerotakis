@@ -2909,12 +2909,11 @@ impl Bench {
                         .filter_map(|p| species::lookup(&p.species).map(|d| d.name))
                         .collect();
                     if dry && !stranded.is_empty() {
-                        events.push(Event::NotYetModeled {
-                            cause: crate::ops::NotModelledCause::NoSolver,
-                            vessel: *vessel,
-                            what: crate::solve::stranded_solutes(&stranded),
-                            reason: None,
-                        });
+                        events.push(Event::not_modeled(
+                            *vessel,
+                            crate::ops::NotModelledCause::NoSolver,
+                            crate::solve::stranded_solutes(&stranded),
+                        ));
                     }
                     // No energy is charged for the vaporisation, and that
                     // is decided rather than forgotten: `evaporate` means
@@ -2979,14 +2978,13 @@ impl Bench {
                 let ethanol = SpeciesId::new("ethanol");
                 let src = self.vessel_mut(*from)?;
                 match crate::volatility::additional_solvent_cut(src, take, *stages) {
-                    Err(what) => {
+                    Err(reason) => {
                         *disposition = ApplyDisposition::Unchanged;
-                        events.push(Event::NotYetModeled {
-                            cause: crate::ops::NotModelledCause::ModelBoundary,
-                            vessel: *from,
-                            what,
-                            reason: None,
-                        });
+                        events.push(Event::not_modeled(
+                            *from,
+                            crate::ops::NotModelledCause::ModelBoundary,
+                            reason,
+                        ));
                         return Ok(events);
                     }
                     Ok(Some((ids, cut))) => {
@@ -5430,38 +5428,67 @@ impl Bench {
         // potential, and reporting that as "pe never got high enough"
         // would invent a measurement to explain a missing one.
         if !reached && !curve.is_empty() {
-            let what = match endpoint {
+            // `{steps}` is a COUNT, `{target}` is the comparison as the
+            // reader typed it (`>=`, a number) — notation, not words —
+            // and the liquid's colour is an appearance word, which is
+            // exactly the distinction a flat `format!` could not carry.
+            let steps = || ("steps".to_string(), Slot::number(max_steps.to_string()));
+            let target = |compare: &crate::ops::Compare, value: &f64| {
+                (
+                    "target".to_string(),
+                    Slot::text(format!("{} {value}", compare.symbol())),
+                )
+            };
+            let reason = match endpoint {
                 Endpoint::Ph => None,
-                Endpoint::Pe { compare, value } if !pe_ever_pinned => Some(format!(
-                    "the burette ran to its {max_steps}-step limit without reaching \
-                     pe {} {value}: no potential was pinned at any point in this \
+                Endpoint::Pe { compare, value } if !pe_ever_pinned => Some(Phrase::new(
+                    "not-modeled.titration-pe-never-pinned",
+                    "the burette ran to its {steps}-step limit without reaching \
+                     pe {target}: no potential was pinned at any point in this \
                      titration. With only one oxidation state of a couple in the \
                      flask the electron balance has no root, so pe is undefined \
                      rather than low — add the other half of a redox couple, or \
                      titrate to a colour instead",
-                    compare.symbol()
+                    vec![steps(), target(compare, value)],
                 )),
-                Endpoint::Pe { compare, value } => Some(format!(
-                    "the burette ran to its {max_steps}-step limit without reaching \
-                     pe {} {value}; the last potential this flask pinned was {:.2}",
-                    compare.symbol(),
-                    pe_curve.last().map(|&(_, pe)| pe).unwrap_or(f64::NAN),
+                Endpoint::Pe { compare, value } => Some(Phrase::new(
+                    "not-modeled.titration-pe-out-of-reach",
+                    "the burette ran to its {steps}-step limit without reaching \
+                     pe {target}; the last potential this flask pinned was {last}",
+                    vec![
+                        steps(),
+                        target(compare, value),
+                        (
+                            "last".to_string(),
+                            Slot::number(format!(
+                                "{:.2}",
+                                pe_curve.last().map(|&(_, pe)| pe).unwrap_or(f64::NAN)
+                            )),
+                        ),
+                    ],
                 )),
-                Endpoint::ColourPersists => Some(format!(
-                    "the burette ran to its {max_steps}-step limit and the liquid is \
-                     still {baseline_colour}: either the endpoint is further away \
-                     than {max_steps} increments, or nothing here carries a curated \
+                Endpoint::ColourPersists => Some(Phrase::new(
+                    "not-modeled.titration-colour-persists",
+                    "the burette ran to its {steps}-step limit and the liquid is \
+                     still {colour}: either the endpoint is further away \
+                     than {steps} increments, or nothing here carries a curated \
                      absorption spectrum for the eye to read. Raise `max`, or \
-                     titrate to a pH or a pe instead"
+                     titrate to a pH or a pe instead",
+                    vec![
+                        steps(),
+                        (
+                            "colour".to_string(),
+                            Slot::term("appearance", baseline_colour.clone()),
+                        ),
+                    ],
                 )),
             };
-            if let Some(what) = what {
-                events.push(Event::NotYetModeled {
+            if let Some(reason) = reason {
+                events.push(Event::not_modeled(
                     vessel,
-                    what,
-                    cause: crate::ops::NotModelledCause::ModelBoundary,
-                    reason: None,
-                });
+                    crate::ops::NotModelledCause::ModelBoundary,
+                    reason,
+                ));
             }
         }
 
@@ -5900,7 +5927,7 @@ fn electrolysed_run(
 /// Preserve the existing numerical no-conversion threshold, while keeping a
 /// computed equilibrium root distinct from unavailable reactants or a refusal.
 fn curated_reaction_extent(
-    result: Result<f64, String>,
+    result: Result<f64, Phrase>,
     model: &crate::family::OutcomeModel,
     reaction: &crate::curated::OrgReaction,
     vessel: VesselId,
@@ -5909,12 +5936,11 @@ fn curated_reaction_extent(
 ) -> Option<f64> {
     let extent = match result {
         Err(detail) => {
-            events.push(Event::NotYetModeled {
-                cause: crate::ops::NotModelledCause::ModelBoundary,
+            events.push(Event::not_modeled(
                 vessel,
-                what: detail,
-                reason: None,
-            });
+                crate::ops::NotModelledCause::ModelBoundary,
+                detail,
+            ));
             return None;
         }
         Ok(extent) if !extent.is_finite() => {
@@ -6343,7 +6369,7 @@ mod react_diagnostic_tests {
             source: "test".into(),
         };
         for result in [
-            Err("unavailable model".into()),
+            Err(Phrase::bare("not-modeled.test-only", "unavailable model")),
             Ok(f64::NAN),
             Ok(f64::INFINITY),
             Ok(f64::NEG_INFINITY),
