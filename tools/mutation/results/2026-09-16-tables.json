@@ -30,6 +30,151 @@
   }
  ],
  "mutants": {
+  "101": {
+   "build_seconds": 153.8,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::water_viscosity_at_0c",
+    "properties::tests::water_viscosity_at_25c"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 71,
+   "rung": "unit",
+   "seconds": 3.2,
+   "source": "const KORSON_A: f64 = 1.1709;",
+   "verdict": "caught"
+  },
+  "102": {
+   "build_seconds": 164.8,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 72,
+   "rung": null,
+   "seconds": 43.6,
+   "source": "const KORSON_B: f64 = 0.001_827;",
+   "verdict": "survived"
+  },
+  "103": {
+   "build_seconds": 155.0,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::water_viscosity_at_0c",
+    "properties::tests::water_viscosity_at_25c"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 73,
+   "rung": "unit",
+   "seconds": 3.3,
+   "source": "const KORSON_C: f64 = 89.93;",
+   "verdict": "caught"
+  },
+  "104": {
+   "build_seconds": 183.6,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::water_viscosity_at_0c",
+    "properties::tests::water_viscosity_at_20c",
+    "properties::tests::water_viscosity_at_25c"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 74,
+   "rung": "unit",
+   "seconds": 3.9,
+   "source": "const KORSON_ETA20: f64 = 1.002; // cP at 20 \u00b0C",
+   "verdict": "caught"
+  },
+  "110": {
+   "build_seconds": 152.6,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::water_permittivity_at_0c",
+    "properties::tests::water_permittivity_at_25c"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 111,
+   "rung": "unit",
+   "seconds": 3.2,
+   "source": "3.4279e2, -5.0866e-3, 9.4690e-7, -2.0525, 3.1159e3, -1.8289e2, -8.0325e3, 4.2142e6, 2.1417",
+   "verdict": "caught"
+  },
+  "111": {
+   "build_seconds": 152.1,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::water_permittivity_at_0c",
+    "properties::tests::water_permittivity_at_25c"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 111,
+   "rung": "unit",
+   "seconds": 3.1,
+   "source": "3.4279e2, -5.0866e-3, 9.4690e-7, -2.0525, 3.1159e3, -1.8289e2, -8.0325e3, 4.2142e6, 2.1417",
+   "verdict": "caught"
+  },
+  "112": {
+   "build_seconds": 152.7,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::water_permittivity_at_0c",
+    "properties::tests::water_permittivity_at_25c"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 111,
+   "rung": "unit",
+   "seconds": 3.3,
+   "source": "3.4279e2, -5.0866e-3, 9.4690e-7, -2.0525, 3.1159e3, -1.8289e2, -8.0325e3, 4.2142e6, 2.1417",
+   "verdict": "caught"
+  },
+  "113": {
+   "build_seconds": 152.4,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 111,
+   "rung": null,
+   "seconds": 41.6,
+   "source": "3.4279e2, -5.0866e-3, 9.4690e-7, -2.0525, 3.1159e3, -1.8289e2, -8.0325e3, 4.2142e6, 2.1417",
+   "verdict": "survived"
+  },
+  "114": {
+   "build_seconds": 153.0,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::water_permittivity_at_0c",
+    "properties::tests::water_permittivity_at_25c"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 111,
+   "rung": "unit",
+   "seconds": 3.3,
+   "source": "3.4279e2, -5.0866e-3, 9.4690e-7, -2.0525, 3.1159e3, -1.8289e2, -8.0325e3, 4.2142e6, 2.1417",
+   "verdict": "caught"
+  },
+  "115": {
+   "build_seconds": 155.5,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::water_permittivity_at_0c",
+    "properties::tests::water_permittivity_at_25c"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 111,
+   "rung": "unit",
+   "seconds": 3.5,
+   "source": "3.4279e2, -5.0866e-3, 9.4690e-7, -2.0525, 3.1159e3, -1.8289e2, -8.0325e3, 4.2142e6, 2.1417",
+   "verdict": "caught"
+  },
   "15": {
    "build_seconds": 163.2,
    "caught_by": "core-integration",
@@ -440,6 +585,28 @@
    "rung": "unit",
    "seconds": 3.1,
    "source": "69.348_81, // \u00b0C",
+   "verdict": "caught"
+  },
+  "95": {
+   "build_seconds": 155.8,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::capillary_rise_in_a_half_millimetre_tube",
+    "properties::tests::evaluate_dispatches_sucrose_water_density",
+    "properties::tests::evaluate_dispatches_the_new_interfacial_properties",
+    "properties::tests::evaluate_dispatches_water_density",
+    "properties::tests::sucrose_water_matches_an_independent_table",
+    "properties::tests::water_density_at_0c",
+    "properties::tests::water_density_at_25c",
+    "properties::tests::water_density_at_40c",
+    "properties::tests::water_density_at_4c_is_maximum"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 32,
+   "rung": "unit",
+   "seconds": 3.2,
+   "source": "999.974_950, // kg/m\u00b3",
    "verdict": "caught"
   }
  },
