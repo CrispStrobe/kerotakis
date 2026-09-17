@@ -21,15 +21,71 @@ intro = "Browning belongs only to the prepared cut_apple identity: an intact gen
 part.1 = "Air control: a fresh surface browns as the shared clock advances."
 part.2 = "Vitamin-C comparison: the same mass, air and time with ascorbate nearby. The model computes inhibition of the visible response; it does not claim permanent preservation."
 
+["baking-powder-or-soda"]
+title = "Baking powder or baking soda: water, acid and heat are different triggers"
+intro = "The two white powders are not interchangeable. This simulation compares equal portions while changing one condition at a time. Real baking powder contains a mixture of acids whose staged action varies by brand; the named material here is a reviewed teaching surrogate, not a recipe for food."
+part.1 = "Baking soda in cold water dissolves. The aqueous equilibrium can release a small amount of CO2 even without a bottle of acid; that is not the same route as heat-driven decomposition."
+part.2 = "The named baking-powder surrogate carries bicarbonate and starch. Warming it drives another modeled release of CO2. It does not reproduce the staged acid systems used by particular commercial double-acting powders."
+part.3 = "Acid is a different route to the same visible gas. This control uses ordinary 5% vinegar. The bench does not model cake crumb, dough elasticity, oven moisture or whether a baked food has risen."
+
 ["balloon-pressure"]
 title = "Balloon on a bottle: gas needs somewhere to go"
 intro = "A piston lid represents a flexible balloon: it computes pressure and expanding volume, not rubber elasticity, balloon shape or latex failure."
 
+["blue-crystals"]
+title = "Growing blue crystals from copper sulfate"
+intro = "Blue vitriol is the crystal every school grows: dissolve as much copper sulfate as hot water will take, let it cool, and the water hands most of it back as big blue crystals. The blue is not the copper alone — it is the five waters locked into the crystal with it, which is why the solid has its own name."
+part.1 = "Thirty grams into a hundred millilitres is more than cold water can hold, so some of it comes straight back out as chalcanthite. Look at the liquid it leaves: so concentrated that the bench calls it BLACK rather than blue, which is what a strong copper sulfate solution really looks like in a beaker — the colour saturates and you cannot see through it."
+part.2 = "Heat it and the water takes the lot."
+part.3 = "Then cool it right down. This is the crystal-growing step, and the bench writes the equation for it: the copper, the sulfate and five waters going into one solid. And now the liquid reads BLUE rather than black — not because anything changed colour, but because so much of the copper has left it that you can see through what remains."
+boundary.1 = "What this does not model: the crystal. No shape, no faces, no single large specimen grown on a thread over a week — the bench says how much solid comes back and what colour it is, and a crystal-growing competition is judged on everything else."
+boundary.2 = "You will also see the bench decline three other copper solids that the database says the liquid is supersaturated against — Langite, Antlerite, Brochantite, the greens of weathered copper. They are named and refused rather than silently skipped, because a solution that would really throw them is not a solution this beaker is describing honestly."
+
+["boiling-curve"]
+title = "The heating curve: why a boiling pan stays at 100 °C"
+intro = "Heat is not temperature. A vessel on a burner climbs steadily until the water starts to boil, and then it stops climbing — every further joule buys steam instead of degrees. That flat stretch is the latent heat, and it is the reason a pan of boiling water cannot be made hotter by turning the ring up, only emptier."
+part.1 = "Below the plateau: 30 kJ into 100 mL is pure sensible heat."
+part.2 = "Past it. The next 30 kJ do not move the thermometer; they take water away."
+part.3 = "And more of the same energy, same temperature, less water still."
+part.4 = "Salt raises the plateau: the same colligative effect that lowers the freezing point of a salted road raises the boiling point of a salted pan."
+boundary = "What this does not model: the plateau's leftover heat is spread over the heat capacity the vessel had *before* it boiled dry, so the final temperature of a vessel taken past dryness is under-reported; and the steam leaves an open vessel rather than being followed."
+
+["borax-snowflake"]
+title = "A borax snowflake: why some things crystallise on cooling and some do not"
+intro = "Borax is the reason this experiment is done with borax. Cold water holds almost none of it; boiling water holds eleven times as much. Dissolve all you can in hot water, let it cool, and the water has to give most of it back — as crystals."
+part.1 = "1. Cold water first, so you can see how little it takes. Twenty-five grams goes in and most of it just sits there."
+part.2 = "2. Heat it. Now the same water swallows almost all of it."
+part.3 = "3. And cool it right down. What the water can no longer hold comes back out — 0.096 mol of it, which is most of what dissolved."
+part.4 = "4. The contrast that makes the point, and the bench draws it sharper than the numbers alone do. Sugar's solubility also rises with temperature — 200 to 487 g per 100 mL, a bit over double, against borax's 2.5 to 27.4, eleven times. But watch what the two do on the way down: the borax comes OUT, and the sugar syrup goes SUPERSATURATED and stays dissolved at 1.25 times what the water should hold. That is the same difference a kitchen sees. A borax snowflake grows overnight on its own; rock candy sits there refusing to start until you give it a string to grow on."
+boundary.1 = "What this does not model: the crystal. There is no pipe cleaner to grow on, no habit, no six-fold symmetry — the bench says how much solid comes back, not what shape it takes, and a snowflake is entirely about shape."
+boundary.2 = "And a stated substitution: handbook solubilities for borax are for the decahydrate, Na2B4O7·10H2O, which is also what really crystallises out of a cooling solution. This registry has only the anhydrous salt, so it stands in for the decahydrate at the decahydrate's solubility, scaled by the mass ratio. The amounts are right; the solid that carries them is a stand-in."
+
 ["buffer"]
 title = "Buffers: why your blood does not change pH when you drink lemonade"
 
+["cabbage-rainbow"]
+title = "The red-cabbage rainbow: one pigment, five colours"
+intro = "Cabbage water is not five dyes. It is one pigment that loses protons in steps, and each step absorbs light differently — so its colour is a reading of the pH. The bench computes it the way it computes every other colour: ε(λ) through Beer–Lambert over the CIE observer, not a table of \"turns blue in alkali\"."
+part.1 = "Vinegar: the flavylium form, red."
+part.2 = "Fizzy water, mildly acidic: the middle form, purple. This is the colour the jar of juice is before anything is done to it."
+part.3 = "Baking soda: the first alkaline step."
+part.4 = "Washing soda, stronger — and here is the one worth stopping on."
+part.5 = "Strong alkali, at the top of the ladder."
+part.6 = "No form of this pigment is green. The green appears where a blue form and a yellow form are both present: together they absorb at each end of the visible range and leave a window between them. It is a colour that is in no table in this engine, computed from two that are — which is the whole argument for computing colour instead of storing it."
+boundary = "What this does not model: real cabbage juice is mildly acidic and carries its own buffering, so a few drops in unbuffered water would move the pH as well as report it; here the juice only reports. The pigment is a mixture of acylated cyanidin glycosides rather than one compound, and no cultivar, extraction or copigmentation shift is claimed."
+
 ["calorimetry"]
 title = "Neutralisation enthalpy: how much heat does an acid-base reaction produce?"
+
+["candle-jar"]
+title = "The candle and the jar: a flame does not use up ALL the oxygen"
+intro = "Everyone is taught that a candle under a jar \"uses up the oxygen\" and goes out. Watch the numbers here: it goes out with roughly three quarters of the oxygen still in the jar. A flame does not need SOME oxygen — it needs air that is RICH in it, about one part in six, and below that it quits with plenty left over."
+part.1 = "1. A candle in the open air. Nothing limits it, so it burns away completely — 5 g of wax is about 210 kJ, which is a lot of energy for something you can hold in one hand."
+part.2 = "2. The same candle under a jar. `regulate` is the honest boundary for a jar sitting on a bench: the gas cannot leave, but it can push, so nothing bursts. Watch the oxygen line before and after."
+part.3 = "Read what just happened. Barely any wax burned, the flame went out, and there is still oxygen in the jar — it fell from 21% of the gas to 16%, and that was enough to stop it. Carbon dioxide and water took the place of the oxygen that went."
+part.4 = "3. A fire extinguisher, which is a bottle of carbon dioxide. Nothing is taken away from the candle: the wax is all still there, and so is the oxygen. The carbon dioxide only takes up room, and now the flame cannot start at all."
+part.5 = "4. Paper burns too, and it is the same chemistry with a different fuel: cellulose instead of wax. Paper catches at 506 K — which is 451 degrees Fahrenheit, and the novel's title is a real measurement. Note how much less heat the same mass gives than wax does."
+boundary = "What this does not model: the wick, the melt pool, the light. A real candle burns wax VAPOUR drawn up a wick, slowly; this bench burns what the air allows all at once and does not model the clock. There is no soot, no smoke, no char and no carbon monoxide — burning here is always complete, straight to carbon dioxide and water. And the 16% limit is one teaching number standing in for something that really depends on the fuel, the wick and the shape of the jar."
 
 ["chalk-vinegar"]
 title = "Does chalk fizz in vinegar? A two-vessel acid control"
@@ -55,6 +111,15 @@ boundary = "Computed aqueous activities omit probe and preparation uncertainty."
 title = "Copper ions lift Daniell-cell voltage"
 boundary = "These are equilibrium open-circuit voltages, not delivered-current tests."
 
+["copper-patina"]
+title = "Cleaning a copper coin, and the green that comes back"
+intro = "A tarnished coin goes bright in vinegar. Does the salt matter to the green that appears afterwards? Two matched beakers change one thing, so the colour is evidence rather than a story we told after seeing it."
+part.1 = "1. Control: copper oxide and vinegar, but no chloride."
+part.2 = "2. Test: the same amounts in a fresh beaker, with salt as the only change."
+part.3 = "Compare the ledgers side by side. Chloride is what turns dissolved copper back into a green solid: atacamite, Cu2Cl(OH)3, the mineral that grows on copper fittings near the sea. The control keeps the chloride claim honest."
+boundary.1 = "What this shows and what it does not. The blue in the liquid is dissolved copper(II) and it is computed; the green solid is computed too, by the aqueous engine, from a phase the shipped database has always defined. What was missing until now was a species for it in this lab's registry — so the bench could see that the solution was supersaturated and could say so, and could not put anything at the bottom of the beaker."
+boundary.2 = "There is still no coin. This is the chemistry of a copper surface without the surface: no tarnish layer to remove, no shine to come back, and no distinction between a coin that has been dipped for a second and one left in overnight. What the bench has is what the liquid does."
+
 ["counting-in-fives"]
 title = "Permanganate counts in fives: a redox titration, stopped at the endpoint"
 
@@ -62,9 +127,27 @@ title = "Permanganate counts in fives: a redox titration, stopped at the endpoin
 title = "Current, time and electrolysis yield"
 intro = "Hold time at 75 s and order the product inventories made by 0.05 A, 0.1 A, 0.2 A and 0.4 A. Connect the order to charge Q = I t; current alone is not a yield law when time is allowed to change."
 
+["dancing-raisins"]
+title = "Dancing raisins: how much gas does it take to lift one?"
+intro = "A raisin is heavier than water, so it sinks. Bubbles stick to its wrinkled skin, and when enough of them have gathered the raisin and its bubbles TOGETHER are lighter than the water — up it goes. At the top the bubbles pop and it comes back down. Nothing reacts in this experiment: the raisin is the same raisin all the way through. What changes is only where it is."
+part.1 = "1. The control. A raisin in plain water, with no gas anywhere. It sinks, and it stays there, and the bench says nothing about dancing because there is nothing to dance on."
+part.2 = "2. The experiment. Put the raisin in first and pour the fizzy water over it — which is also how you do it in a kitchen. Read the number: the bubbles have to be worth about a third of the raisin's own size."
+part.3 = "3. Now make the liquid heavier. Sugar syrup is denser than water, so the raisin is much closer to floating already — and the gas has far less work to do. Same raisin, same bubbles, a third of the lift needed."
+boundary = "What this does not model: how long the dancing lasts, how many trips the raisin makes, how big the bubbles are or how many stick. This bench lets a glass of fizzy water go flat in a single step, so there is no clock to put a period on. What it computes is the density of the object, the density of the liquid it is in, and how much attached gas would lift it — and that last number is what the experiment is actually about."
+
 ["density-tower-boundary"]
 title = "Density tower: what the meter proves, and what mixing removes"
 part.1 = "Each source liquid has a computed density. Putting mutually miscible liquids in one cylinder uses the ordinary add operation and therefore mixes them; without a slow-pour operation and vertical diffusion state, a persistent layered tower would be a false visual claim."
+
+["density"]
+title = "Density: the measurement that tells things apart when weighing cannot"
+intro = "Put five grams of copper, five grams of zinc and five grams of aluminium on a balance and you learn nothing: they all weigh five grams. What separates them is how much ROOM those five grams take up, and that is density — mass divided by volume, a property of the substance itself rather than of the piece you happen to be holding."
+part.1 = "1. Three metals, the same mass, three different answers."
+part.2 = "The balance says 5 g three times. The density meter says 8.96, 7.14 and 2.70 g/mL — and the aluminium piece is more than three times the size of the copper one. That is why a dealer weighs scrap metal AND checks how big it is."
+part.3 = "2. Liquids have densities too, and dissolving something changes them. This is what a density tower is built on: each layer has to be heavier than the one above it or the tower will not stack."
+part.4 = "Three liquids, three densities, and they climb with the sugar. Poured very gently, heaviest first, they would sit in layers — but this bench has no slow pour: pour them together here and they mix, which is what would really happen if you poured them quickly. The numbers are the part the tower depends on, and they are right."
+part.5 = "3. A density belongs to ONE substance. Two powders in a heap have a mass and a volume, and no density anyone should be told."
+boundary = "What this does not model: the volume of a piece is computed from the substance's reviewed density, not measured by displacing water, so this is the density of the material and not of the object — a hollow or bubbled piece would read the same here and float in a real bucket. The solute volumes in the sugar solutions use the additive-volume approximation the rest of the bench uses; a real syrup contracts very slightly on mixing."
 
 ["dilute-the-current-carriers"]
 title = "Conductivity follows ion concentration after mixing"
@@ -89,12 +172,31 @@ title = "The electrochemical series: zinc displaces copper"
 title = "Electrolysis products follow time"
 boundary = "Ideal Faraday-law production omits efficiency, overpotential and gas capture."
 
+["electrolysis"]
+title = "Electrolysis of copper sulfate: Faraday's law, checked on a balance"
+intro = "The point of this one is that you can do it on paper first. Weigh the electrode, run the cell, weigh it again, and the difference is a number you already predicted:"
+calc.given = "I = 1.000 A, t = 965 s"
+calc.charge = "Q = I·t         = 965 C"
+calc.electrons = "n(e-) = Q/F     = 965 / 96485.33 = 0.010002 mol of electrons"
+calc.copper = "n(Cu) = n(e-)/2 = 0.005001 mol            <- the 2 is the only chemistry"
+calc.mass = "m = n·M         = 0.005001 x 63.546 = 0.3178 g"
+aside.element = "Everything but that 2 is arithmetic you could do for any element. The 2 is copper(II): each ion needs two electrons to become an atom. Silver would be 1 and aluminium 3, and the same charge would deposit quite different masses."
+aside.assumptions = "Assumptions, because the predicted mass depends on them. Inert electrodes, so the anode oxidises water and the beaker turns acid. And the cell is taken to be fully efficient for copper: no hydrogen is co-evolved at the cathode. That is an upper bound, not a measurement -- a real electrode weighs this much or less, never more. The bench says so at lv3, and it reports a computed efficiency below 1 if the copper runs out before the charge does."
+
 ["elephant-toothpaste-catalyst-dose"]
 title = "Elephant toothpaste: catalyst dose changes how fast the foam arrives"
 intro = "Simulation activity. A real child-facing activity uses only household 3% hydrogen peroxide, adult supervision, fitted goggles and gloves. Potassium iodide demonstrations belong on a supervised school bench; stronger peroxide is virtual exploration here, not a home instruction."
 part.1 = "A fair comparison: equal peroxide, soap, vessels and elapsed time. Only the potassium iodide dose changes. The catalyst is retained in both vessels."
 part.2 = "One shared clock lets the first-order iodide dependence reach the visible gas/foam model without giving either vessel extra reaction time."
 boundary = "Prediction: v2 should make more oxygen, build a taller foam column and spill farther in the same ten seconds. Neither vessel consumes its KI inventory."
+
+["elephant-toothpaste"]
+title = "Elephant toothpaste: the soap catches oxygen; it does not make it"
+intro = "Simulation activity. For a real child-facing activity, use only household 3% hydrogen peroxide with an adult, fitted goggles and gloves. Stronger peroxide is for virtual exploration here, not a home instruction."
+part.1 = "Two equal peroxide portions make this a fair test. The first gets dish soap; the second is the no-soap control."
+part.2 = "Dry yeast is a catalase-activity surrogate. The ten-second stir after warm water now advances its bounded hydration ramp before the final shared wait. Very hot water suppresses the enzyme envelope; brand and age still vary, so Kerotakis does not claim one universal yeast rate."
+part.3 = "One clock advances both beakers. Oxygen yield and reaction heat come from the same peroxide rate law. Only v1 has a declared foam stabilizer."
+part.4 = "Prediction to discuss: both vessels should make the same amount of oxygen from equal peroxide. v1 holds much of it temporarily as foam; v2 bubbles but cannot build persistent foam. Wait again to watch the modeled foam drain."
 
 ["endpoint-is-not-a-full-drop"]
 title = "Virtual comparison: the numerical endpoint is not a whole burette step."
@@ -129,6 +231,16 @@ title = "The fizz: vinegar meets baking soda"
 title = "Six salts, six flame observations"
 intro = "Each dry salt carries a reviewed flame colour. This is a virtual flame test: never taste salts or put household substances into a real flame. Lithium is absent from the current registry and is not silently substituted."
 
+["float-or-sink"]
+title = "Which plastics float?"
+intro = "Recycling sorts plastics by density, and you can do it in a glass. Every one of these is a solid, all of them look much the same, and the water tells them apart without weighing anything: what is lighter than the liquid comes to the top, and what is heavier goes to the bottom."
+part.1 = "1. Polypropylene, 0.90 g/mL — lighter than water."
+part.2 = "2. Polystyrene, 1.05 g/mL. Barely heavier — but heavier is heavier. Give it a couple of minutes: a solid that has just been dropped in is still swirling, and the bench says so before it says where it ended up."
+part.3 = "3. PET, 1.38 g/mL, the drinks-bottle plastic. Heavier again."
+part.4 = "The sorting worked: one floats, two sink, and nothing was weighed. That is the whole of the industrial method — a float-sink tank with the liquid set to a chosen density."
+part.5 = "What this does not model: the density belongs to the MATERIAL, not to the piece. A hollow bottle of PET floats in a real sink and this bench would still call PET heavier than water, because it has no shape to reason about — the same boundary the density meter states. Surface tension, which really does hold small light objects up, is not modelled either."
+part.6 = "And a caution the bench prints for itself: raising the water's density with salt is how you would separate the two sinkers, and this model cannot do it. Every ion in the registry carries water's density as a placeholder, so salt water reads exactly 1.00 g/mL. The meter says so rather than letting you believe the brine."
+
 ["follow-the-salt-through-staged-transfers"]
 title = "Follow the salt through staged transfers"
 intro.1 = "One beaker is poured all at once. The other takes two stages. Does either route lose salt?"
@@ -147,6 +259,16 @@ title = "Grit for the road: salt holds water liquid below zero"
 ["grouping-does-not-change-water-heat"]
 title = "Same six moles and net 200 J per branch, grouped differently."
 intro = "Keep v1 empty until it receives the left branch's final mixture."
+
+["hand-warmer"]
+title = "The hand warmer that will not click"
+intro.1 = "A reusable hand warmer is a pouch of sodium acetate solution holding far more salt than it should be able to. You bend a little metal disc inside it, crystals race out from the click, and the pouch gets hot — that heat is the solid forming, given back."
+intro.2 = "This lesson is here because the bench CANNOT do the click, and the reason is worth more than a demonstration would be."
+part.1 = "Make the solution the way the pouch is made: a lot of salt into hot water."
+part.2 = "Now cool it right down, past where it should have crystallised. In a real pouch this is the state you carry around in your coat all winter: liquid, cold, and loaded."
+part.3 = "And here is the honest part. The bench knows the solution is past its limit — it says how far past — and it tells you it cannot make the solid appear. Not \"nothing happened\": *why* nothing happened."
+part.4 = "The reason is not a missing number and not the wrong database. The solid a hand warmer makes is sodium acetate trihydrate, and no PHREEQC database shipped with this project defines any acetate solid at all — not wateq4f, not minteq.v4, not pitzer, not llnl. There is nothing for the aqueous engine to precipitate."
+part.5 = "Compare that with borax, one lesson over: same idea, a solution past its limit on cooling, and there the solid exists and comes straight out. The difference between the two rows is not the chemistry a child sees. It is whether anybody has written the phase down."
 
 ["hard-water-soap-boundary"]
 title = "Hard water and soap: scale is not soap scum"
@@ -176,6 +298,13 @@ title = "Hot fraction sets the resting temperature"
 intro = "Four equal source portions isolate one variable: how much hot water enters the final mixture. The thermometer should rise monotonically with that share."
 boundary = "These vessels are adiabatic constant-heat-capacity models. Real containers lose heat, and the bench does not predict pouring or cooling rates."
 
+["ink-chromatography"]
+title = "Splitting a black felt-tip: the spot that is really three"
+intro = "A black ink looks like one colour. Put a dot of it near the bottom of a strip of paper, stand the paper in water, and the water climbing past the dot carries each dye a different distance — because each one divides differently between the water that moves and the water the paper holds. The number that says how far is Rf, and it is the same partition coefficient that decides how long each dye takes on a column."
+part.1 = "The dyes on their own, for comparison. Each runs to its own height, and the heights are the same ones the mixture just produced — which is how a strip identifies what is in an unknown ink."
+part.2 = "The same numbers, read as a column instead of a strip. One separation, two instruments, one partition coefficient: the dye the column holds longest is the one nearest the pencil line."
+boundary = "What this does not model: the Rf values are reviewed teaching numbers rather than measurements, chosen to reproduce which dye runs furthest and roughly how far apart the spots land — a real strip's Rf depends on the solvent, the paper and the temperature, and none of those are claimed here. Dissolved ions travel with the water and are named as outside the method rather than quietly dropped."
+
 ["instant-snow"]
 title = "Instant snow: where did the water go?"
 part.1 = "A matched water-only control stays ordinary liquid."
@@ -196,6 +325,13 @@ part.2 = "Ammonium chloride dissolution is endothermic under the same starting c
 part.3 = "Ordinary salt provides a household-scale comparison rather than another universal rule."
 boundary = "The vessels are adiabatic approximations. A real cup, packet and room absorb heat, and dissolution rate and packet construction are outside this result."
 
+["kitchen-ph"]
+title = "A pH map of the kitchen — and what a pH meter cannot always say"
+intro = "Five things from a kitchen, one meter. Four of them answer. The fifth is the interesting one, and it is not the bench being lazy."
+part.1 = "Lemon juice. Sour, and the sourness is citric acid — which the loaded database defines a citrate for, so the meter can price it."
+part.2 = "Apple juice. Also sour, also a fruit acid, also resolved as itself — and the meter cannot price it. Malic acid is in the registry and in the glass; a malate is in no shipped database, so its two protons are not in anybody's speciation. The bench says exactly that instead of returning a number that would look like the others."
+boundary = "That is the whole lesson. The difference between v4 and v5 is not the chemistry, the fruit, or how carefully the recipe was written. It is whether somebody, somewhere, has published a thermodynamic model for that particular anion — and when they have not, the honest answer is a sentence rather than a number."
+
 ["kitchen-starch-hunt"]
 title = "Kitchen starch hunt: flour and dough are not just white powders"
 intro = "Lugol solution is brown without starch and blue-black when its iodine meets sufficiently long starch helices. Use separate cups so that each sample sees the same water and indicator dose. Iodine stains: protect eyes, clothes and the work surface, and do not taste any laboratory mixture."
@@ -208,6 +344,12 @@ boundary = "The colour identifies starch; it does not measure how much is presen
 title = "Lactase and milk: one enzyme fits one substrate"
 intro = "Three equal milk samples share one clock. Only the sample with lactase hydrolyses milk sugar; no enzyme and the wrong enzyme are fair controls."
 boundary = "The bench records bounded bond cleavage inside the conserved milk solids. It does not claim sweetness or named glucose and galactose inventories."
+
+["lemon-cell"]
+title = "Open-circuit lemon-juice voltage: a voltmeter reading is not useful power"
+intro = "Zinc supplies electrons. Copper is an inert surface where hydrogen ions can accept them. The lemon juice carries charge between the two, but its pH alone cannot tell us the current, power or lifetime of a real fruit battery."
+part.1 = "The voltmeter draws no current. Because this setup has no measured zinc-ion activity, the bench labels its voltage as a unit-activity teaching estimate."
+boundary = "This completes the no-load question: the same state always gives the same bounded voltage estimate. It deliberately does not answer a loaded-battery question. Fruit geometry, electrode area and spacing, polarisation and internal resistance decide the loaded voltage and power. None is inferred from the open-circuit estimate, and the copper is not treated as Cu/Cu2+."
 
 ["lemonade-indicator"]
 title = "Lemonade that changes colour: an indicator measures the liquid"
@@ -237,6 +379,14 @@ title = "Luminol light: warm is brighter, cold lasts longer"
 intro = "Two matched prepared systems differ only in temperature. This is a luminol classroom demonstration, not commercial glow-stick chemistry."
 boundary = "Relative intensity and half-life are an explicitly calibrated, Arrhenius-shaped comparison. Products and photon yield are not computed."
 
+["magic-milk"]
+title = "Magic milk: soap sends the colours racing"
+intro = "A child-friendly surface-motion activity with whole milk, food colouring and a small amount of dish soap. Food colouring can stain: wear goggles, protect clothes and the table, ask an adult before using food, and never taste anything from a lab vessel."
+part.1 = "Place three small colour drops on still milk. Their resolved dye inventory is conserved, but it stays localized at the surface instead of instantly tinting the whole beaker."
+part.2 = "Now add dish soap without stirring. The recipe-declared surfactant dose computes the outward spread, emits SurfaceColourSpread and drives the coloured streak animation. The paths are an educational surface observable, not a CFD prediction of one exact real-life pattern."
+part.3 = "Make a fair control with equal milk and equal colour doses, but stir the dye into the bulk before adding soap. Stirring emits SurfaceColourMixed and hands the same conserved chromophores to the normal Beer-Lambert mixture model. With no localized drops left, later soap must not invent a rainbow event."
+boundary = "Try changing one dye amount or the detergent dose in a fresh vessel. The model conserves colour intensity and order, but does not claim molecular milk composition, universal surface tension or literal streak trajectories."
+
 ["measure-twice"]
 title = "Measure twice, change nothing"
 intro = "Each instrument reads the same unchanged vessel twice. The paired values are a control for the bench's deterministic, non-invasive measurement contract."
@@ -245,6 +395,12 @@ boundary = "Calibration error, drift, random noise, sample consumption and probe
 ["metal-acid-race"]
 title = "Which metal reacts first? Same acid, equal metal amounts"
 intro = "Magnesium reacts vigorously, zinc more slowly, and copper refuses for an electrochemical reason. The engine computes reaction and heat but not literal wall-clock race times or differences in piece surface area."
+
+["milk-curds"]
+title = "Milk, vinegar, curds and whey: how much acid is enough?"
+intro = "A child-friendly comparison using ordinary milk and 5% household vinegar. Do not taste anything from a lab vessel; clean the vessels after the activity, and ask an adult before using food for an experiment."
+part.1 = "Begin with a deliberately tiny vinegar dose. The milk stays a dispersed white colloid because the installed acid dose has not reached its declared curdling onset."
+part.2 = "Make a fair second vessel with the same milk volume and ten times the vinegar. The actual acetic-acid inventory now reaches the bounded response: milk solids join visible soft clumps while the surrounding whey becomes less opaque. This is an educational aggregate model, not a recipe, food-safety check, cheese-yield prediction or claim about every kind of milk."
 
 ["naked-egg-osmosis"]
 title = "Naked egg: a membrane water-transfer comparison"
@@ -266,10 +422,36 @@ part.2 = "2. Strong oxidizer + flammable liquid → fire risk"
 part.3 = "3. Strong acid + active metal → hydrogen gas"
 part.4 = "4. Strong acid + carbonate → CO₂ spattering"
 
+["oil-water-colour"]
+title = "Oil, water and colour: which liquid gets the dye?"
+intro = "A safe density-and-mixing activity with water, vegetable oil and food colouring. Do not taste lab materials; protect clothes and surfaces because food colouring stains, and work with an adult."
+part.1 = "Colour the water first, then add oil. Predict whether the yellow oil will change colour or form its own layer."
+part.2 = "Now reverse the order in a narrow cylinder. Food colouring is an aqueous dropper solution: it does not dye the oil, and its tiny coloured water phase settles below the oil instead."
+part.3 = "Return to the first vessel. Dish soap alone does not erase the layer: use the stirrer to supply mechanical mixing and watch tiny oil droplets make the water cloudy while a little undispersed oil remains above it."
+part.4 = "Let the vessel rest for one declared coalescence half-life. About half of the dispersed oil joins the upper layer again. This model conserves the generic unresolved oil; it does not yet model falling drops, hand-shaking, individual droplet sizes, viscosity or a lava-lamp tablet."
+
 ["one-thing-at-a-time"]
 title = "One thing at a time: the column tells a mixture apart."
 intro = "Three colourless liquids dissolved in water look like one liquid. The column disagrees: each solute spends its own share of time in the stationary phase, set by the same partition coefficient that runs the separating funnel, and so each arrives alone."
 part.detail = "The same injection read closer: retention times, widths, areas — and K itself, the number doing all the work."
+
+["oobleck"]
+title = "Oobleck: a liquid you can run across"
+intro = "Cornstarch and water is the one experiment on this shelf that is not chemistry. Nothing reacts. What changes is how the mixture answers being pushed: stir it slowly and it pours, stir it fast and the particles cannot get out of each other's way in time, so it resists like a solid. Stop, and it is a liquid again."
+part.1 = "The classic mixture: about two parts cornstarch to one part water."
+part.2 = "Gently. It flows."
+part.3 = "Now fast. The same mixture, the same instant, a different answer."
+part.4 = "A thin mixture does neither, however hard it is stirred — the effect needs the particles packed close enough to jam."
+part.5 = "Read the ledger in v1: the starch and the water are exactly what went in. Nothing was made and nothing was used up; only the answer to the question \"how hard are you pushing?\" changed."
+boundary = "What this does not model: there is no viscosity here, no yield stress and no critical shear rate — only the bounded statement that this mixture is one of the ones that does this, and that this stir was fast enough to notice. Particle size, starch source and how long it has stood all matter in a real bowl and none of them are represented."
+
+["pepper-and-soap"]
+title = "Pepper runs from soap: order matters at the water surface"
+intro = "A safe observation activity with water, ground pepper and a tiny amount of dish soap. Do not taste lab materials, and wash the dishes afterwards."
+part.1 = "First make the familiar pepper-covered water surface."
+part.2 = "Set up a control with the same materials in the opposite order. Once soap is already spread across the water there is no new local gradient when pepper arrives, so the model must not invent the sudden darting event."
+part.3 = "Now touch the pepper-first surface with dish soap. The recipe-declared dose computes the central clearing; the resulting SurfaceSpread event, retained scene state and animation all come from that one engine transition."
+boundary = "Try less soap in a fresh vessel and predict how wide the clearing will be. This is a bounded classroom model, not a molecular surface-tension or CFD calculation, and repeating the effect needs fresh water and pepper."
 
 ["permanganate-standardisation"]
 title = "Standardising permanganate: the burette tells you its own strength"
@@ -297,10 +479,31 @@ title = "One solvent budget, several extractions"
 intro = "A separatory funnel does not reward one large shake as much as several smaller shakes with fresh solvent. This run gives four equal portions the same TOTAL hexane allowance as the one-stage comparison printed beside it. The engine computes both from phase volumes and K = [I2]hexane/[I2]water; neither percentage is scripted into the lesson."
 part.1 = "At lv3 the result also names the coefficient direction, mass balance, saturation guard and provenance. This reviewed iodine model is restricted to 25 °C; other solutes with molecular group decompositions use the shared UNIFAC route, while unsupported pairs are refused explicitly."
 
+["rock-candy"]
+title = "Rock candy: why the sugar comes back, and why it waits to be asked"
+intro = "Hot water holds far more sugar than cold water does. Dissolve as much as hot water will take, let it cool, and the water is now holding more than it can — but it does not let go until something gives the first crystal somewhere to start. That is why the experiment needs a string, and why the jar can sit clear on a shelf for a day and then turn solid in a minute."
+part.1 = "1. Cold water first, so the difference has something to be measured against."
+part.2 = "2. The same sugar into hot water. Far more of it goes in."
+part.3 = "3. Cool the hot one. Nothing comes out — and the bench says why rather than quietly crystallising it, because a syrup that crystallises on its own is not the experiment."
+part.4 = "4. Now give it a seed: one crystal of the same sugar is all it takes."
+boundary.1 = "The solution ends at exactly the limit for its temperature, and everything above that is now crystal. That is the yield of the experiment, and nobody had to be told it — it is the difference between two solubilities."
+boundary.2 = "What this does not model: the limit is a straight line between reviewed values at 20 °C and 100 °C, so the middle of the range is a few percent low; crystals grow instantly rather than over days, with no size, habit or purity; and nothing here nucleates spontaneously, so a real syrup's unpredictability — the reason one jar sets overnight and the next does not — is outside this model."
+
 ["rubbery-bone-boundary"]
 title = "Chalk in vinegar: why this is not a rubbery-bone model"
 intro = "Acid removes carbonate from chalk. Real bone is a composite: calcium-phosphate mineral reinforces collagen. Acid can leave that collagen scaffold flexible; chalk contains no collagen, so dissolving it cannot predict bone bending."
 boundary = "The matched control honestly computes acid–carbonate dissolution and carbon dioxide. It is evidence about chalk only. No bone species, collagen scaffold, mechanical stiffness or bending observable exists in this model."
+
+["rusting"]
+title = "Rusting: iron needs air AND water, and salt makes it faster"
+intro = "Four nails, four conditions, one clock. Everything here is safe, but the vessels are sealed on purpose: the oxygen a nail can reach is the oxygen trapped over it, and running out of it is half the lesson."
+part.1 = "1. Dry. Iron and air, no water at all. Predict before you wait."
+part.2 = "2. Water with the air swept out. A nitrogen purge is the bench's version of the boiled water the classroom experiment uses."
+part.3 = "3. Plain water, sealed over ordinary room air."
+part.4 = "4. The same, in salt water. Chloride is not used up by the reaction and does not appear in its equation — it makes the same reaction faster."
+part.5 = "One day passes for all four."
+part.6 = "Vessels 1 and 2 are the controls, and each is missing one thing. Read the oxygen line in vessels 3 and 4: the salt one has used almost all of it, and when the oxygen is gone the rusting stops with iron still in the vessel. That is why a sealed tin can does not rust from the inside."
+boundary = "What this does not model: iron amount stands in for iron area, so filings and a nail of the same mass rust at the same speed here; the product is the registry's anhydrous iron(III) oxide rather than the hydrated rust of a real nail; and an open vessel does not draw oxygen from the room, which is why every vessel above is sealed over a measured amount of it."
 
 ["saline-scaling-preserves-conductivity"]
 title = "Same concentration, larger portion: conductivity is intensive"
@@ -323,6 +526,15 @@ intro = "Gas stays in the sealed system and leaves the open one. Atoms are conse
 ["silver-and-salt"]
 title = "Case file: identify chloride with silver nitrate"
 
+["slime"]
+title = "Slime: how much borax is enough?"
+intro = "White glue is long chains of poly(vinyl alcohol) drifting past each other, which is why it pours. Borax puts borate bridges between the chains. The bridges keep breaking and re-forming, so the result is neither liquid nor solid: it flows if you wait and tears if you pull. Nothing is used up — the borate is a linker, not a reagent — so the question is not \"does it react\" but \"how much is enough\"."
+part.1 = "Too little. The chains are barely joined and it still runs."
+part.2 = "The classroom amount. Most of the polymer is now in the network."
+part.3 = "And well past it. Beyond saturation more borax buys nothing: every chain that can be bridged already is, which is why over-boraxed slime goes rubbery rather than more slimy."
+boundary.1 = "Read the ledger in any of them: the borax is still there, all of it. A crosslinker is not consumed, and that is the difference between this and every other reaction in this lab."
+boundary.2 = "What this does not model: the dose response is a bounded teaching curve calibrated to the familiar 50 mL-glue ratio, not measured rheology — no modulus, no relaxation time, no stringiness. Whether a particular glue gels at all depends on its degree of hydrolysis, and poly(vinyl acetate) glues do not gel this way at all. Household borax is the decahydrate, so a little over half of what the box weighs is the salt doing the work."
+
 ["spannungsreihe"]
 title = "Die Spannungsreihe: who takes the electrons, and what a battery is worth"
 part.displacement = "Part 1 — displacement: a more reactive metal pushes a less reactive one out of solution"
@@ -338,6 +550,13 @@ intro = "Wine is a few percent ethanol. One pass through a still enriches it, a 
 ["split-heat-same-temperature"]
 title = "Split heat pulses reach the same temperature"
 boundary = "Adiabatic constant-heat-capacity vessels omit heat loss and container heat."
+
+["starch-iodine-test"]
+title = "Which cup contains starch? The Lugol colour test"
+intro = "Compare the same dilute iodine/iodide test solution with and without ordinary cornstarch. In a real activity ask an adult first, protect clothes and the table from iodine stains, wear eye protection, and do not taste lab mixtures."
+part.1 = "Control: dilute Lugol solution is brown in water. This vessel has the same water and indicator dose as the test vessel but no starch."
+part.2 = "Test: first make an identical brown control, then change just one thing by adding cornstarch. Iodide keeps iodine in the aqueous inventory; sufficiently long starch helices contribute the computed broad absorption band, so the visible state becomes blue-black without consuming the starch or KI."
+boundary = "Try flour, potato or a sugar control only after their named material recipes exist. Different starch sources and heating can alter the real colour; this lesson deliberately models the reviewed cornstarch surrogate at room temperature rather than treating every white powder as starch."
 
 ["sugar-water-density-tower"]
 title = "Sugar-water tower: measure the ordering before trying to stack it"
@@ -384,6 +603,21 @@ intro.2 = "Model boundary: these are equilibrium inventory calculations, not a f
 ["two-roads"]
 title = "Two roads, one temperature: Hess's law with a thermometer"
 
+["vitamin-c-detective"]
+title = "Vitamin-C detective: the reaction ledger behind a disappearing colour"
+intro = "Iodine held in dilute Lugol solution makes starch blue-black. Ascorbic acid reduces iodine and is oxidised to dehydroascorbic acid, so the colour clears. Protect clothes and the table, wear eye protection, and never taste a mixture that has been used as a laboratory sample."
+part.1 = "The positive colour control: starch plus the same Lugol dose."
+part.2 = "Change one thing: add a known amount of vitamin C before the iodine. The iodine is consumed while vitamin C remains, so the blue-black positive does not appear. At this dose the current broad oxidizer/reducer safety screen may print a warning written for concentrated reagents; it is deliberately conservative and is not a quantitative risk assessment of this dilute cup."
+boundary = "The ledger names dehydroascorbic acid even though the current appearance renderer answers the colourless cup with a generic \"nothing visible\" line. That is a presentation boundary, not permission to invent a colour event. This is also not a calibrated food assay: a real juice has an uncertain vitamin concentration and other reducing compounds, so colour alone does not justify a nutrition-label result."
+
+["volcano-foam"]
+title = "The volcano: why the soap matters"
+intro = "A baking-soda volcano without washing-up liquid is a fizz. With it, the gas is caught in a film as it comes out and the whole thing climbs over the rim. Nothing about the chemistry changes — the same carbon dioxide, the same amount of it. What changes is whether the gas can get away."
+part.1 = "1. The control. Soda and vinegar, no soap: it fizzes, the gas leaves, and there is nothing to see afterwards but a flat liquid."
+part.2 = "2. The same reaction with washing-up liquid already in the glass. Put the soap in FIRST — it has to be there when the gas arrives, because gas that has already left cannot be caught."
+part.3 = "3. And it does not last. Foam drains and the bubbles join up: two minutes against this soap's 180-second half-life takes 1.375 L down to 0.866 L, a bit over a third of it gone. Not \"most of the way back to a liquid\" — that was the guess before the run, and the number is slower than the guess."
+boundary = "What this does not model: bubble size, how the film drains, or the difference between a detergent film and a protein one. The half-life is the recipe's own reviewed number and the trapped fraction is a bounded teaching value — this says THAT it foams and roughly how fast it goes, not what the foam is made of."
+
 ["warm-the-gas-stop-before-burst"]
 title = "Warm the gas, stop before burst"
 intro = "Predict the pressure order for equal sealed gas samples given 0 J, 100 J, 200 J and 400 J. The first three remain measurable; the last crosses the vessel boundary. Stop there: a burst is evidence, not an invitation to retry."
@@ -404,3 +638,14 @@ boundary = "The visible contrast and conserved quartz are computed. Paper pore s
 title = "Whole objects: why an apple floats and a potato sinks"
 intro = "Density belongs to the whole object. Pumice contains dense silica but its air-filled pores lower the stone's bulk density; an apple also carries air spaces. A potato is slightly denser than water. The picture and the words below both use those reviewed whole-object densities."
 boundary = "Prediction to discuss: changing only an ingredient density would be the wrong calculation. Shape, pores and trapped air are part of a bulk object. This bounded model does not yet simulate water entering pumice pores, so the pumice does not slowly waterlog and sink."
+
+["yeast-fermentation"]
+title = "What wakes yeast up? A sugar-and-yeast fair test"
+intro = "Compare three ordinary mixtures on one shared clock. Use comfortably warm, not hot, water in a real experiment; ask an adult before using food, do not taste lab mixtures, and never tightly seal an active fermentation vessel."
+part.1 = "Control 1 has water and sugar but no living culture."
+part.2 = "Control 2 has water and yeast but no sugar food."
+part.3 = "Test 3 changes only the missing ingredient: it has the same water, sugar and yeast doses. The sugar dissolves before the shared clock starts."
+part.4 = "Ten minutes pass for every vessel at once. Only v3 has dissolved sugar and a hydrated yeast culture, so only it may emit the computed GasProduced and Fermented events. The CO2 bubbles are matter made by the installed balanced pathway, not an animation timer."
+boundary.1 = "Try equal dry-solids fresh yeast, a different temperature or a smaller sugar dose. This is a bounded classroom model, not proof that a real mixture is safe to drink, bake, bottle or seal; growth, oxygen switching, inhibition, flavour compounds and flexible balloons remain explicit future work."
+boundary.2 = "HOW FAST, AND HOW MUCH OF THAT IS CLAIMED. On 2026-09-16 the yeast rate was fitted for the first time: the constant is the one that makes a gram of yeast in a litre of this same sugar strength give up 1.5 g of ethanol in the first hour at 30 degC, which is the fastest specific rate published for anaerobic brewer's and baker's yeast (Pagliardini et al. 2013, Microbial Cell Factories 12:29). Before it, ten minutes here took 58.6% of the sugar and made about 1.7 litres of carbon dioxide out of a 100 mL beaker - more gas than the beaker holds. It now takes about 3.7% and makes roughly 105 mL, which is a balloon a class can see."
+boundary.3 = "THAT IS AN UPPER BOUND AND NOT A PREDICTION. The cited rate belongs to a laboratory strain growing in a fermenter, not to supermarket yeast in cold sugar water; a gram of dry yeast is counted here as a gram of living cells, which it is not; and this model's yeast never multiplies, never pauses to wake up and is never slowed by the alcohol it makes. One published point is matched. The shape of the curve through it is not claimed, so a longer wait on this bench runs faster than a real one would, and the hydration ramp in front of it is a matter of seconds where a real packet of dried yeast wants ten to fifteen minutes in warm water."

@@ -1,36 +1,36 @@
-# Cleaning a copper coin, and the green that comes back
+#@title Cleaning a copper coin, and the green that comes back
 #
-# A tarnished coin goes bright in vinegar. Does the salt matter to the green
+#@intro A tarnished coin goes bright in vinegar. Does the salt matter to the green
 # that appears afterwards? Two matched beakers change one thing, so the colour
 # is evidence rather than a story we told after seeing it.
 register lv2
 
-# 1. Control: copper oxide and vinegar, but no chloride.
+#@part.1 1. Control: copper oxide and vinegar, but no chloride.
 add v1 CuO 1g
 add v1 white_vinegar_5_percent 30mL
 look v1
 
-# 2. Test: the same amounts in a fresh beaker, with salt as the only change.
+#@part.2 2. Test: the same amounts in a fresh beaker, with salt as the only change.
 new beaker
 add v2 CuO 1g
 add v2 white_vinegar_5_percent 30mL
 add v2 NaCl 2g
 look v2
 
-# Compare the ledgers side by side. Chloride is what turns dissolved copper
+#@part.3 Compare the ledgers side by side. Chloride is what turns dissolved copper
 # back into a green solid: atacamite, Cu2Cl(OH)3, the mineral that grows on
 # copper fittings near the sea. The control keeps the chloride claim honest.
 inspect v1
 inspect v2
 
-# What this shows and what it does not. The blue in the liquid is dissolved
+#@boundary.1 What this shows and what it does not. The blue in the liquid is dissolved
 # copper(II) and it is computed; the green solid is computed too, by the
 # aqueous engine, from a phase the shipped database has always defined.
 # What was missing until now was a species for it in this lab's registry —
 # so the bench could see that the solution was supersaturated and could say
 # so, and could not put anything at the bottom of the beaker.
 #
-# There is still no coin. This is the chemistry of a copper surface without
+#@boundary.2 There is still no coin. This is the chemistry of a copper surface without
 # the surface: no tarnish layer to remove, no shine to come back, and no
 # distinction between a coin that has been dipped for a second and one left
 # in overnight. What the bench has is what the liquid does.

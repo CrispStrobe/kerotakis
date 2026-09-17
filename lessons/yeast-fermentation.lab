@@ -1,20 +1,20 @@
-# What wakes yeast up? A sugar-and-yeast fair test
+#@title What wakes yeast up? A sugar-and-yeast fair test
 #
-# Compare three ordinary mixtures on one shared clock. Use comfortably warm,
+#@intro Compare three ordinary mixtures on one shared clock. Use comfortably warm,
 # not hot, water in a real experiment; ask an adult before using food, do not
 # taste lab mixtures, and never tightly seal an active fermentation vessel.
 register lv1
 
-# Control 1 has water and sugar but no living culture.
+#@part.1 Control 1 has water and sugar but no living culture.
 add v1 water 100mL
 add v1 table_sugar 10g
 
-# Control 2 has water and yeast but no sugar food.
+#@part.2 Control 2 has water and yeast but no sugar food.
 new beaker
 add v2 water 100mL
 add v2 dry_yeast 1g
 
-# Test 3 changes only the missing ingredient: it has the same water, sugar and
+#@part.3 Test 3 changes only the missing ingredient: it has the same water, sugar and
 # yeast doses. The sugar dissolves before the shared clock starts.
 new beaker
 add v3 water 100mL
@@ -24,7 +24,7 @@ inspect v1
 inspect v2
 inspect v3
 
-# Ten minutes pass for every vessel at once. Only v3 has dissolved sugar and a
+#@part.4 Ten minutes pass for every vessel at once. Only v3 has dissolved sugar and a
 # hydrated yeast culture, so only it may emit the computed GasProduced and
 # Fermented events. The CO2 bubbles are matter made by the installed balanced
 # pathway, not an animation timer.
@@ -33,12 +33,12 @@ inspect v1
 inspect v2
 inspect v3
 
-# Try equal dry-solids fresh yeast, a different temperature or a smaller sugar
+#@boundary.1 Try equal dry-solids fresh yeast, a different temperature or a smaller sugar
 # dose. This is a bounded classroom model, not proof that a real mixture is
 # safe to drink, bake, bottle or seal; growth, oxygen switching, inhibition,
 # flavour compounds and flexible balloons remain explicit future work.
 
-# HOW FAST, AND HOW MUCH OF THAT IS CLAIMED. On 2026-09-16 the yeast rate
+#@boundary.2 HOW FAST, AND HOW MUCH OF THAT IS CLAIMED. On 2026-09-16 the yeast rate
 # was fitted for the first time: the constant is the one that makes a gram
 # of yeast in a litre of this same sugar strength give up 1.5 g of ethanol
 # in the first hour at 30 degC, which is the fastest specific rate published
@@ -48,7 +48,7 @@ inspect v3
 # beaker - more gas than the beaker holds. It now takes about 3.7% and makes
 # roughly 105 mL, which is a balloon a class can see.
 #
-# THAT IS AN UPPER BOUND AND NOT A PREDICTION. The cited rate belongs to a
+#@boundary.3 THAT IS AN UPPER BOUND AND NOT A PREDICTION. The cited rate belongs to a
 # laboratory strain growing in a fermenter, not to supermarket yeast in cold
 # sugar water; a gram of dry yeast is counted here as a gram of living
 # cells, which it is not; and this model's yeast never multiplies, never

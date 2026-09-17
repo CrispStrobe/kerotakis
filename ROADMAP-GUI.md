@@ -1706,38 +1706,66 @@ display name in the registry, is the wrong fix.
   `INERT_IN_SOLVENT`, not by their English, so rewording one does not orphan
   its translation. Numbers go through `Slot::Number`, which is why a German
   reader sees +0,62 V.
-- [ ] **I18N-9 — Lesson prose has no translation mechanism.** The title,
-  description, section comments and boundary note are the `.lab` file's own
-  comments, rendered verbatim; only the *slug* is translated, which is why
-  "Trocken, dann nass: Brausen" sits above six lines of English. 113 lessons.
-  **Scoped, not built** — it is a 113-file migration and belongs in its own
-  PR; a half-migrated catalogue is worse than none. The shape, decided:
+- [x] **I18N-9 — Lesson prose had no translation mechanism.** The title,
+  description, section comments and boundary note were the `.lab` file's own
+  comments, rendered verbatim; only the *slug* was translated, which is why
+  "Trocken, dann nass: Brausen" sat above six lines of English. **All 113
+  lessons are migrated**, 413 labels, every one of them with authored German.
+  Built as scoped, with four differences worth naming:
 
-  * **A labelled comment.** `#@part.displacement Part 1 — displacement: a
-    more reactive metal pushes a less reactive one out of solution` replaces
-    the bare `#` comment. It is still a comment, so `kero run lessons/x.lab`
-    keeps working with no parser change and a `.lab` stays runnable on its
-    own — the label names the PLACE the prose is said, the same discipline
-    `i18n/de.toml` already uses, so rewording the English does not orphan it.
-  * **`lessons/prose/en.toml` is the source**, keyed `<lesson-stem>.<label>`,
-    and `lessons/prose/<code>.toml` beside it. The `.lab` keeps the English
-    inline as the fallback, exactly as `locale.t` keeps it at the call site:
-    a payload built without the prose directory renders English rather than
-    nothing. **Adding French is `lessons/prose/fr.toml` and no code.**
-  * **One curriculum.** `tools/lessons-index.py` — already the single source
-    for the web build and the shell payload, after the "more" bucket taught
-    us why — emits the label as `blurb_key` beside today's `blurb`, and both
-    payloads ship the same prose files. There is no peer file to drift, which
-    is the mistake `experiments-de-v1.json` made by being a peer rather than
-    a fallback.
-  * **`tools/lesson-prose-lint.py`**, whose denominator is **every label
-    referenced by a `.lab` file**, read from the lessons — never the key count
-    of `en.toml`, which is the denominator that let `models.toml` report 100%
-    German over 325 English strings in #505. It reports missing translations,
-    orphaned rows no `.lab` asks for, and a label used by two different
-    English sentences.
-  * Once it lands, `web/app/src/locales/de.json`'s lesson slugs are the same
-    data said twice and should be folded into `lessons/prose/de.toml`.
+  * **A labelled comment**, as designed: `#@part.displacement Part 1 —
+    displacement: …`, and `spannungsreihe.lab` carries exactly that label. It
+    is still a `#` comment, so `kero run lessons/x.lab` is unchanged — proven
+    by replaying every one of the 113 migrated files against its pre-migration
+    self, output identical in all 113.
+  * **The unit is the PARAGRAPH, not the line.** A labelled comment owns the
+    plain comment lines under it. A `.lab` wraps at 78 columns for the
+    terminal and that wrap is typography, not grammar — I18N-7 already paid
+    for the alternative once. The one place where the line break IS the
+    meaning, `electrolysis.lab`'s Faraday arithmetic, is labelled per line
+    (`calc.charge`, `calc.electrons`, …) rather than run together.
+  * **`lessons/prose/en.toml` is GENERATED** from the `.lab` files rather
+    than maintained beside them. The roadmap called it the source; the `.lab`
+    is the one source of truth for a lesson (GUI-020), and two hand-kept
+    copies of the same English is a drift the lint would then have to police
+    anyway. `--write` regenerates it, `--check` fails when it no longer
+    matches the words the lesson says — which is how a reworded sentence
+    forces its translations to be looked at again.
+  * **A dotted label nests in TOML**, so `intro` and `intro.2` cannot both be
+    keys of one lesson: the catalogue simply stops parsing.
+    `lesson_prose.clashes` names the two labels and the file instead.
+
+  `tools/lessons-index.py` stays the single source both payloads read: it
+  emits `blurb_key` beside today's `blurb` and compiles the catalogue into
+  `lessons/prose.json` (91 KB of German) beside `lessons/index.json`. English
+  is deliberately absent from that file — the `.lab` carries it inline and the
+  player falls back to it, so shipping it twice would be one more copy to
+  drift. **Adding French is `lessons/prose/fr.toml` and no code**, discovered
+  by filename the way `src/locales/*.json` already is.
+
+  Two gates, because the lint and the screen can disagree:
+
+  * `tools/lesson-prose-lint.py` — denominator is every label a `.lab`
+    **references**, read from the lessons. It fails on a missing German row,
+    an orphan no lesson asks for, one label holding two sentences, a
+    malformed `#@` line, and a stale `en.toml`; it reports, without failing,
+    how many lessons are migrated and how many comment lines still render
+    verbatim (now 113 and 0), and which rows are identical to their English
+    (one: a formula line with no words in it).
+  * `web/app/src/lib/lessonProseParity.test.ts` — the PLAYER's parser walked
+    over all 113 real lessons and held against the same catalogue. A payload
+    keyed by one parser and read by another is green on both sides while the
+    reader meets English, which is #505's shape one layer along. The lint
+    also pins the player's two regexes, so a change there fails loudly
+    rather than silently making every key a guess.
+
+  One thing scoped and *not* done: folding `web/app/src/locales/de.json`'s
+  lesson slugs into `lessons/prose/de.toml`. They turn out not to be the same
+  data said twice — the slug is the lesson's short NAME ("Trocken, dann nass:
+  Brausen"), the `title` label is its opening sentence ("Trocken, dann nass:
+  warum Brausepulver und Badebomben auf Wasser warten"), and the picker shows
+  both. Folding them would need a key no `.lab` references, which the lint
+  would rightly call an orphan.
 - [ ] **I18N-10 — `NotYetModeled.what` is the same defect one event along.**
   Found while landing I18N-8, and deliberately not fixed with it: `what` is
   a finished English sentence for exactly the reason `Inert.why` was, and
