@@ -302,6 +302,23 @@ struct Corroboration {
     /// rather than absorbed into the tolerance, because a correction a source
     /// hands you and you decline to apply is a silent 0.05 % of disagreement.
     international_ohm: bool,
+    source: Cited,
+}
+
+/// A citation, wrapped in a struct with one field for a reason worth writing
+/// down: `kero provenance upstreams` finds a value-bound citation by looking
+/// for a FIELD named `source` (or `provenance`, `citation`, ...) followed by a
+/// string literal. A `const NAME: &str = "..."` is invisible to it, because
+/// what follows the colon there is a type and not a quote.
+///
+/// That is not a hypothetical. It is why `conductivity.rs`'s own
+/// `LAMBDA_SOURCE` — the string that says the whole λ° table came from the
+/// CRC Handbook, which `provenance/upstreams.toml` refuses as a systematic
+/// source — does not appear in that lint's output at all. The finding is
+/// recorded in docs/MUTATION-SENSITIVITY.md §8b rather than repaired here,
+/// because making it visible changes a reviewed offence count and that is the
+/// owner's call. This file at least declines to add a second invisible one.
+struct Cited {
     source: &'static str,
 }
 
@@ -313,10 +330,12 @@ const INTERNATIONAL_TO_ABSOLUTE_OHM: f64 = 0.999_505;
 /// of selected ions". A work of the United States Government, in the public
 /// domain, and it names its own upstream: Harned and Owen (1964) page 231,
 /// with the fluoride row from Franks (1973) page 178.
-const USGS: &str = "USGS Water-Supply Paper 2311 (Miller, Bradford and Peters, \
-    1988) table 5 p. 10, per equivalent on the international ohm; the paper \
-    attributes the values to Harned and Owen (1964) p. 231, fluoride to Franks \
-    (1973) p. 178";
+const USGS: Cited = Cited {
+    source: "USGS Water-Supply Paper 2311 (Miller, Bradford and Peters, 1988) \
+             table 5 p. 10, per equivalent on the international ohm; the paper \
+             attributes the values to Harned and Owen (1964) p. 231, fluoride \
+             to Franks (1973) p. 178",
+};
 
 /// Sartorius, "Handbuch der Elektroanalytik, Teil 3: Die elektrische
 /// Leitfähigkeit", as reproduced in the German Wikipedia article "Molare
@@ -324,9 +343,13 @@ const USGS: &str = "USGS Water-Supply Paper 2311 (Miller, Bradford and Peters, \
 /// recorded that way: the handbook itself was not opened. It earns its place
 /// because it is the only reachable source for five ions the USGS table does
 /// not carry, and because where the two overlap they agree to 0.2 %.
-const SARTORIUS: &str = "Sartorius, Handbuch der Elektroanalytik Teil 3: Die \
-    elektrische Leitfähigkeit, as reproduced in de.wikipedia.org/wiki/\
-    Molare_Leitfähigkeit and read there 2026-09-17 — read at one remove";
+const SARTORIUS: Cited = Cited {
+    source: "Sartorius, Handbuch der Elektroanalytik Teil 3: Die elektrische \
+             Leitfähigkeit, as reproduced in \
+             de.wikipedia.org/wiki/Molare_Leitfähigkeit and read there \
+             2026-09-17 — READ AT ONE REMOVE: the handbook itself was not \
+             opened, and the value is the handbook's, not Wikipedia's",
+};
 
 const CORROBORATED: &[Corroboration] = &[
     // --- USGS WSP 2311 table 5, per equivalent, international ohm ---------
@@ -362,7 +385,7 @@ const fn c(
     published: f64,
     per_equivalent: bool,
     international_ohm: bool,
-    source: &'static str,
+    source: Cited,
 ) -> Corroboration {
     Corroboration {
         species,
@@ -415,7 +438,7 @@ fn the_lambda_table_agrees_with_independent_compilations() {
             row.species,
             100.0 * error,
             100.0 * TOLERANCE,
-            row.source,
+            row.source.source,
         );
         if error.abs() > worst.0 {
             worst = (error.abs(), row.species);
