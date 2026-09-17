@@ -160,7 +160,7 @@ impl Locale {
         }
         catalogue(self.0)
             .and_then(|c| c.get(key))
-            .map(String::clone)
+            .cloned()
             .unwrap_or_else(|| en.to_string())
     }
 

@@ -212,7 +212,24 @@ pub fn observe(vessel: &Vessel) -> Appearance {
             })
         };
         let name = data.map(|d| d.name).unwrap_or(p.species.0.as_str());
-        let settled_moles = p.moles.0 * tracked_suspension.map(|f| 1.0 - f).unwrap_or(1.0);
+        // Nothing is SUSPENDED in a beaker with no liquid in it.
+        //
+        // Surfaced by I18N-7, which turned the composed sentence into a
+        // clause list and made an empty one visible: `filter v1 v2` leaves
+        // 0.079 mol of quartz and no water behind, the suspended fraction
+        // stays at the value it had while there was water, and the sand
+        // was therefore neither settled nor floating nor named. The
+        // description of that beaker was the single character ".".
+        //
+        // The picture had it right all along — `solids` carries the
+        // quartz, and `settled_fraction` reads 0.0 — so this is the words
+        // disagreeing with the scene about a beaker the reader is looking
+        // at. With no liquid, all of it is simply there.
+        let settled_moles = if has_liquid {
+            p.moles.0 * tracked_suspension.map(|f| 1.0 - f).unwrap_or(1.0)
+        } else {
+            p.moles.0
+        };
         // A floating solid is not settled, so `settled_moles` is the wrong
         // measure of it — a tracked suspension makes that term zero and the
         // plastic would be named nowhere at all, which is the silent miss
@@ -576,6 +593,24 @@ fn describe(
             has_liquid,
             position,
             Slot::term("material", object.material),
+        ));
+    }
+    // A vessel that is not empty and has nothing to look at.
+    //
+    // A sealed flask of warm gas is the case: no liquid, no solid, nothing
+    // drawn — and the description was the single character ".", because
+    // `parts` was empty and the old code appended a full stop to the join
+    // regardless. `tools/…` conformance requires `words` to be non-empty
+    // and was satisfied by that full stop for as long as it existed, which
+    // is a gate passing on a string with no content in it.
+    //
+    // "Nothing to see" is the true sentence, not a placeholder: this bench
+    // does not colour a gas, so a flask of it looks like an empty flask
+    // and saying so is the honest answer rather than the absent one.
+    if parts.is_empty() {
+        parts.push(Phrase::bare(
+            "look.nothing-visible",
+            "there is nothing to see in the beaker",
         ));
     }
     parts

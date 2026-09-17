@@ -1191,6 +1191,7 @@ white = "weiß"
 # a translator changes the construction without changing a line of Rust.
 [look]
 empty = "der Becher ist leer"
+nothing-visible = "im Becher ist nichts zu sehen"
 liquid = "die Flüssigkeit ist {colour} {clarity}"
 clarity-opaque = "und so trüb, dass du nicht hindurchsehen kannst"
 clarity-cloudy = "und trüb"
