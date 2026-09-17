@@ -153,6 +153,7 @@ fn reference_complex_boundary(vessel: &Vessel, distribution: &[SpeciesDetail]) -
         cause: kerotakis_core::ops::NotModelledCause::ModelBoundary,
         vessel: vessel.id,
         what: what.trim().into(),
+        reason: None,
     })
 }
 
@@ -174,6 +175,7 @@ fn reactive_gas_boundary(vessel: &Vessel, problem: &Problem) -> Option<Event> {
         cause: kerotakis_core::ops::NotModelledCause::ModelBoundary,
         vessel: vessel.id,
         what: format!("HBr gas uptake uses the dissociative Henry constant from the CC-BY Sander compilation, converted from concentration to the dilute molal standard state. The reaction enthalpy is derived from its local temperature slope and solvent-density correction, not an independent calorimetric measurement. {temperature} Gas transfer is an equilibrium boundary, not a time-dependent absorption model."),
+        reason: None,
     })
 }
 
@@ -4403,6 +4405,7 @@ impl PhreeqcEquilibrator {
                             cause: kerotakis_core::ops::NotModelledCause::RateNotModelled,
                             vessel: vessel.id,
                             what: format!("{} finite gas dose: uptake is an instantaneous equilibrium calculation, not a mass-transfer rate. After the dose, only explicitly configured atmospheric species exchange with an external reservoir; no new reservoir is inferred from the dose. Waiting time does not parameterise degassing", exchange.species),
+                            reason: None,
                         });
                         let absorbed = exchange.initial_moles - moles;
                         if absorbed > TRACE {
@@ -4557,6 +4560,7 @@ impl PhreeqcEquilibrator {
                      the oxidation states they were added in, which is not what the beaker \
                      would do: {why}"
                 ),
+                reason: None,
             });
         }
 
@@ -4627,6 +4631,7 @@ impl PhreeqcEquilibrator {
                 what: format!(
                     "{moles:.3e} mol settled as {column}, an oxidation state this lab has no name for — it is not in the vessel's inventory, so there is slightly less of that element in the glass than went in"
                 ),
+                reason: None,
             });
         }
 
@@ -4775,6 +4780,7 @@ fn unspeciated_solute_notes(vessel: &Vessel) -> Vec<Event> {
                 cause: kerotakis_core::ops::NotModelledCause::NotInAnyDatabase,
                 vessel: vessel.id,
                 what: format!("{name} is dissolved and unspeciated: {why}"),
+                reason: None,
             }
         })
         .collect();
@@ -4792,6 +4798,7 @@ fn unspeciated_solute_notes(vessel: &Vessel) -> Vec<Event> {
             cause: kerotakis_core::ops::NotModelledCause::NotSpeciated,
             vessel: vessel.id,
             what: format!("{key} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."),
+            reason: None,
         });
     }
     events
@@ -4823,6 +4830,7 @@ fn unspeciated_acid_notes(vessel: &Vessel) -> Vec<Event> {
                  Whatever pH is shown is the pH of everything else in the glass, and \
                  the real solution is more acidic than it says"
             ),
+            reason: None,
         })
         .collect()
 }
@@ -4882,6 +4890,7 @@ fn milk_buffer_notes(vessel: &Vessel, ph: Option<f64>) -> Vec<Event> {
              LOWER BOUND — the real beaker is milder. {sentence} \
              (the recipe's full assumption is in `explain material whole_milk`)"
         ),
+        reason: None,
     }]
 }
 

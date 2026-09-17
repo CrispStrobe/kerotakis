@@ -7,6 +7,7 @@
 //! Provenance: March's Advanced Organic Chemistry, 5th ed., Chapter 10.
 
 use crate::ops::Event;
+use crate::phrase::{Phrase, Slot};
 use crate::species::Phase;
 use crate::units::{Kelvin, Moles};
 use crate::vessel::Vessel;
@@ -270,27 +271,33 @@ pub fn dispatch(vessel: &mut Vessel) -> Vec<Event> {
     let substrate = match find_substrate(vessel) {
         Some(s) => s,
         None => {
-            return vec![Event::NotYetModeled {
-                cause: crate::ops::NotModelledCause::NothingToActOn,
-                vessel: vessel.id,
-                what: "no haloalkane substrate in the vessel — the selectivity \
-                       table covers bromoethane (primary) and tert-butyl \
-                       bromide (tertiary)"
-                    .to_string(),
-            }];
+            let reason = Phrase::bare(
+                "not-modeled.no-haloalkane",
+                "no haloalkane substrate in the vessel — the selectivity \
+                 table covers bromoethane (primary) and tert-butyl \
+                 bromide (tertiary)",
+            );
+            return vec![Event::not_modeled(
+                vessel.id,
+                crate::ops::NotModelledCause::NothingToActOn,
+                reason,
+            )];
         }
     };
 
     let nucleophile = match find_nucleophile(vessel) {
         Some(n) => n,
         None => {
-            return vec![Event::NotYetModeled {
-                cause: crate::ops::NotModelledCause::NothingToActOn,
-                vessel: vessel.id,
-                what: "no recognised nucleophile in the vessel — the selectivity \
-                       table covers NaOH (strong) and water (weak)"
-                    .to_string(),
-            }];
+            let reason = Phrase::bare(
+                "not-modeled.no-nucleophile",
+                "no recognised nucleophile in the vessel — the selectivity \
+                 table covers NaOH (strong) and water (weak)",
+            );
+            return vec![Event::not_modeled(
+                vessel.id,
+                crate::ops::NotModelledCause::NothingToActOn,
+                reason,
+            )];
         }
     };
 
@@ -299,32 +306,59 @@ pub fn dispatch(vessel: &mut Vessel) -> Vec<Event> {
     let rule = match find_rule(substrate.class, nucleophile.class, hot) {
         Some(r) => r,
         None => {
-            return vec![Event::NotYetModeled {
-                cause: crate::ops::NotModelledCause::NotParameterised,
-                vessel: vessel.id,
-                what: format!(
-                    "no selectivity rule for {} substrate + {} nucleophile \
-                     at {:.0}°C — outside the curated table",
-                    substrate.class,
-                    nucleophile.class,
-                    vessel.temperature.0 - 273.15
-                ),
-            }];
+            // The two classes are WORDS — primary, strong — so they are
+            // terms and not text: German declines them to the noun, which
+            // is why its template puts them in brackets beside it.
+            let reason = Phrase::new(
+                "not-modeled.no-selectivity-rule",
+                "no selectivity rule for {substrate} substrate + {nucleophile} nucleophile \
+                 at {temperature}°C — outside the curated table",
+                vec![
+                    (
+                        "substrate".to_string(),
+                        Slot::term("substrate-class", substrate.class.to_string()),
+                    ),
+                    (
+                        "nucleophile".to_string(),
+                        Slot::term("nucleophile-class", nucleophile.class.to_string()),
+                    ),
+                    (
+                        "temperature".to_string(),
+                        Slot::number(format!("{:.0}", vessel.temperature.0 - 273.15)),
+                    ),
+                ],
+            );
+            return vec![Event::not_modeled(
+                vessel.id,
+                crate::ops::NotModelledCause::NotParameterised,
+                reason,
+            )];
         }
     };
 
     let entry = match find_products(substrate.key, nucleophile.key, rule.mechanism) {
         Some(e) => e,
         None => {
-            return vec![Event::NotYetModeled {
-                cause: crate::ops::NotModelledCause::NotParameterised,
-                vessel: vessel.id,
-                what: format!(
-                    "selectivity predicts {} for {} + {} but no product table \
-                     entry exists — this is an implementation gap",
-                    rule.mechanism, substrate.key, nucleophile.key
-                ),
-            }];
+            // SN2 is notation and a registry key is a name: neither is a
+            // word any language translates.
+            let reason = Phrase::new(
+                "not-modeled.no-product-table",
+                "selectivity predicts {mechanism} for {substrate} + {nucleophile} but no product table \
+                 entry exists — this is an implementation gap",
+                vec![
+                    (
+                        "mechanism".to_string(),
+                        Slot::text(rule.mechanism.to_string()),
+                    ),
+                    ("substrate".to_string(), Slot::text(substrate.key)),
+                    ("nucleophile".to_string(), Slot::text(nucleophile.key)),
+                ],
+            );
+            return vec![Event::not_modeled(
+                vessel.id,
+                crate::ops::NotModelledCause::NotParameterised,
+                reason,
+            )];
         }
     };
 
@@ -336,15 +370,29 @@ pub fn dispatch(vessel: &mut Vessel) -> Vec<Event> {
 
     if !(extent.is_finite() && extent > 1e-12) {
         let needs: Vec<&str> = entry.reactants.iter().map(|(k, _)| *k).collect();
-        return vec![Event::NotYetModeled {
-            cause: crate::ops::NotModelledCause::NothingToActOn,
-            vessel: vessel.id,
-            what: format!(
-                "nothing for {} to work on — it needs {} together in the vessel",
-                VERB_NAME,
-                needs.join(" and ")
-            ),
-        }];
+        // `needs.join(" and ")` was a list GRAMMAR written as a string.
+        // `Slot::List` joins it with the reader's, which is the whole
+        // reason the slot type exists.
+        let reason = Phrase::new(
+            "not-modeled.nothing-for-verb",
+            "nothing for {verb} to work on — it needs {needs} together in the vessel",
+            vec![
+                // `haloalkane` is the command word itself, which is a name
+                // the learner types and not a word to translate.
+                ("verb".to_string(), Slot::text(VERB_NAME)),
+                (
+                    "needs".to_string(),
+                    Slot::List {
+                        items: needs.iter().map(|key| Slot::text(*key)).collect(),
+                    },
+                ),
+            ],
+        );
+        return vec![Event::not_modeled(
+            vessel.id,
+            crate::ops::NotModelledCause::NothingToActOn,
+            reason,
+        )];
     }
 
     for (key, coeff) in entry.reactants {

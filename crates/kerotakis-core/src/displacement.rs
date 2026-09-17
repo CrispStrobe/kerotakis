@@ -732,13 +732,27 @@ pub fn displace(vessel: &mut Vessel) -> (Vec<Event>, Vec<Displacement>) {
                 continue;
             }
             if driving - eta < MARGINAL_VOLTS {
-                events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::RateNotModelled,
-                    vessel: vessel.id,
-                    what: format!(
-                        "how fast {name} fizzes: the driving force clears the hydrogen overpotential on {name} by only {:.2} V, and a rate that close to its barrier is not something this lab computes — it reacts, slowly",
-                        driving - eta
-                    ),
-                });
+                // I18N-10. This sentence and the one in `bystanders` below
+                // are the two the roadmap named: they stand in the
+                // zinc-in-vinegar lesson beside the verdicts I18N-8 taught
+                // to speak German, so a German transcript still had one
+                // English paragraph in the middle of it.
+                let reason = Phrase::new(
+                    "not-modeled.fizz-rate-near-barrier",
+                    "how fast {name} fizzes: the driving force clears the hydrogen overpotential on {name} by only {margin} V, and a rate that close to its barrier is not something this lab computes — it reacts, slowly",
+                    vec![
+                        ("name".to_string(), Slot::term("species", name)),
+                        (
+                            "margin".to_string(),
+                            Slot::number(format!("{:.2}", driving - eta)),
+                        ),
+                    ],
+                );
+                events.push(Event::not_modeled(
+                    vessel.id,
+                    crate::ops::NotModelledCause::RateNotModelled,
+                    reason,
+                ));
             }
         }
         // Complete if the potential is still positive with the last
@@ -1103,12 +1117,16 @@ pub fn bystanders(vessel: &Vessel, just_plated: &[&str]) -> Vec<Event> {
             // being eaten", not "does some route have an opinion", so a
             // stack without the corrosion solver cannot lose the apology
             // and gain nothing in its place.
-            events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::RateNotModelled,
-                vessel: vessel.id,
-                what: format!(
-                    "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model"
-                ),
-            });
+            let reason = Phrase::new(
+                "not-modeled.stays-as-the-metal",
+                "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model",
+                vec![("name".to_string(), Slot::term("species", name))],
+            );
+            events.push(Event::not_modeled(
+                vessel.id,
+                crate::ops::NotModelledCause::RateNotModelled,
+                reason,
+            ));
         }
     }
     events

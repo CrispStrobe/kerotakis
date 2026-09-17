@@ -51,6 +51,13 @@ const COMPOSERS: &[(&str, &str)] = &[
     // passing through `render.rs`: the web bench paints its caption and
     // its accessibility text from the scene object.
     ("scene.rs", include_str!("../src/scene.rs")),
+    // I18N-10, tranche by tranche: a file joins this list on the commit
+    // that gives its first `Event::NotYetModeled` a `reason`.
+    ("selectivity.rs", include_str!("../src/selectivity.rs")),
+    ("gas_tests.rs", include_str!("../src/gas_tests.rs")),
+    ("clock.rs", include_str!("../src/clock.rs")),
+    ("family.rs", include_str!("../src/family.rs")),
+    ("bench.rs", include_str!("../src/bench.rs")),
 ];
 
 /// `Phrase::new("key", "english …"` and the `bare` form, as (key, en).
@@ -525,4 +532,80 @@ fn a_scene_vessel_without_clauses_falls_back_to_its_english() {
     v.clauses.clear();
     v.notes.clear();
     assert_eq!(v.say(Locale::parse("de")), english);
+}
+
+/// The gap event explains itself in German (I18N-10).
+///
+/// The companion of `the_inert_verdict_explains_itself_in_german` above,
+/// one event along. `Event::not_modeled` generates the English `what` from
+/// the recipe rather than taking it as a second argument, which is the
+/// invariant #626 wrote by hand at six call sites and this migration has
+/// eighty-two of: written by hand, the two copies drift, and the codex
+/// entries that quote a refusal verbatim then fail one at a time.
+#[test]
+fn a_gap_explains_itself_in_german() {
+    use kerotakis_core::ops::{Event, NotModelledCause};
+    use kerotakis_core::{render_events_in, Register};
+
+    let fixed = Event::not_modeled(
+        VesselId(0),
+        NotModelledCause::NothingToActOn,
+        Phrase::bare(
+            "not-modeled.nothing-to-evaporate",
+            "nothing to evaporate — no water in the vessel",
+        ),
+    );
+    let Event::NotYetModeled { what, .. } = &fixed else {
+        panic!("not_modeled builds a NotYetModeled");
+    };
+    assert_eq!(
+        what, "nothing to evaporate — no water in the vessel",
+        "the English must be the recipe's own, not a second copy of it"
+    );
+
+    let de = Locale::parse("de");
+    let line = render_events_in(&[fixed], Register::LV2, de).join(" ");
+    assert!(line.contains("nichts zu verdampfen"), "{line}");
+    assert!(!line.contains("nothing to evaporate"), "{line}");
+
+    // And the half `[refusal]` could never reach: a gap with a HOLE in it.
+    // The number arrives with the reader's separator, which is the whole
+    // difference between a recipe and a finished sentence.
+    let held = Event::not_modeled(
+        VesselId(0),
+        NotModelledCause::RateNotModelled,
+        Phrase::new(
+            "not-modeled.fizz-rate-near-barrier",
+            "how fast {name} fizzes: the driving force clears the hydrogen overpotential on {name} by only {margin} V, and a rate that close to its barrier is not something this lab computes — it reacts, slowly",
+            vec![
+                ("name".to_string(), Slot::term("species", "zinc")),
+                ("margin".to_string(), Slot::number("0.03".to_string())),
+            ],
+        ),
+    );
+    let line = render_events_in(&[held], Register::LV2, de).join(" ");
+    assert!(line.contains("Überspannung"), "{line}");
+    assert!(
+        line.contains("0,03"),
+        "the German decimal separator: {line}"
+    );
+    assert!(!line.contains("how fast"), "English survived: {line}");
+}
+
+/// A gap written before the recipe existed still says something.
+#[test]
+fn a_gap_without_a_recipe_falls_back_to_its_english() {
+    use kerotakis_core::ops::{Event, NotModelledCause};
+    use kerotakis_core::{render_events_in, Register};
+
+    // `[refusal]` is keyed by the English, and remains the fallback for
+    // every site this migration has not reached yet.
+    let event = Event::NotYetModeled {
+        vessel: VesselId(0),
+        what: "nothing here at all".to_string(),
+        cause: NotModelledCause::NothingToActOn,
+        reason: None,
+    };
+    let line = render_events_in(&[event], Register::LV2, Locale::parse("de")).join(" ");
+    assert!(line.contains("nothing here at all"), "{line}");
 }

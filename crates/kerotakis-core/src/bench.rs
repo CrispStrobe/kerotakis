@@ -11,6 +11,7 @@ use crate::ops::{
     CentrifugeSeparation, DiscardedPortion, ElutedPeak, Endpoint, Event, ExtractionSplit,
     Instrument, LogEntry, MaterialComponentAdded, Operator,
 };
+use crate::phrase::Phrase;
 use crate::refusal::{Refusal, Refuses};
 use crate::solve::{
     adiabatic_mix_into, portions_enthalpy, Equilibrator, HonestyEquilibrator, MixingEquilibrator,
@@ -1139,10 +1140,14 @@ impl Bench {
                     // the thermal solver never engages — and reporting that
                     // silence as "it does not burn" would be a false
                     // observation dressed as a result.
-                    None if !examined => events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::NoSolver,
-                        vessel: *vessel,
-                        what: "whether these contents burn: no wired solver models combustion for them, so the lab cannot say either way".to_string(),
-                    }),
+                    None if !examined => events.push(Event::not_modeled(
+                                                         *vessel,
+                                                         crate::ops::NotModelledCause::NoSolver,
+                                                         Phrase::bare(
+                                                             "not-modeled.combustion-no-solver",
+                                                             "whether these contents burn: no wired solver models combustion for them, so the lab cannot say either way",
+                                                         ),
+                                                     )),
                     // KID-12: "nothing happens, not everything burns" is
                     // the wrong sentence when the bench has just said
                     // WHY nothing happened. A smothered candle is not an
@@ -1856,12 +1861,14 @@ impl Bench {
                     });
                     brown_dry_lemon_mark(v, &mut events);
                 } else {
-                    events.push(Event::NotYetModeled {
-                        cause: crate::ops::NotModelledCause::NoSolver,
-                        vessel: *vessel,
-                        what: "heating an empty vessel (container heat capacity not modelled)"
-                            .to_string(),
-                    });
+                    events.push(Event::not_modeled(
+                        *vessel,
+                        crate::ops::NotModelledCause::NoSolver,
+                        Phrase::bare(
+                            "not-modeled.heating-an-empty-vessel",
+                            "heating an empty vessel (container heat capacity not modelled)",
+                        ),
+                    ));
                 }
             }
             Operator::Cool { vessel, energy } => {
@@ -1946,15 +1953,18 @@ impl Bench {
                                  model boundary rather than a measurement",
                                 energy.0 / 1000.0,
                             ),
+                            reason: None,
                         });
                     }
                 } else {
-                    events.push(Event::NotYetModeled {
-                        cause: crate::ops::NotModelledCause::NoSolver,
-                        vessel: *vessel,
-                        what: "cooling an empty vessel (container heat capacity not modelled)"
-                            .to_string(),
-                    });
+                    events.push(Event::not_modeled(
+                        *vessel,
+                        crate::ops::NotModelledCause::NoSolver,
+                        Phrase::bare(
+                            "not-modeled.cooling-an-empty-vessel",
+                            "cooling an empty vessel (container heat capacity not modelled)",
+                        ),
+                    ));
                 }
             }
             Operator::Stir {
@@ -2831,11 +2841,14 @@ impl Bench {
                 let water = SpeciesId::new("water");
                 let present = v.moles_of(&water);
                 if present.0 <= 0.0 {
-                    events.push(Event::NotYetModeled {
-                        cause: crate::ops::NotModelledCause::NothingToActOn,
-                        vessel: *vessel,
-                        what: "nothing to evaporate — no water in the vessel".to_string(),
-                    });
+                    events.push(Event::not_modeled(
+                        *vessel,
+                        crate::ops::NotModelledCause::NothingToActOn,
+                        Phrase::bare(
+                            "not-modeled.nothing-to-evaporate",
+                            "nothing to evaporate — no water in the vessel",
+                        ),
+                    ));
                 } else {
                     let removed = v.withdraw(&water, Moles(present.0 * fraction));
                     events.push(Event::Evaporated {
@@ -2891,6 +2904,7 @@ impl Bench {
                             cause: crate::ops::NotModelledCause::NoSolver,
                             vessel: *vessel,
                             what: crate::solve::stranded_solutes(&stranded),
+                            reason: None,
                         });
                     }
                     // No energy is charged for the vaporisation, and that
@@ -2918,6 +2932,7 @@ impl Bench {
                                 "co-evaporation of {} needs vapour-liquid equilibrium — that is `distil`'s job; only the water was removed",
                                 other_liquids.join(", ")
                             ),
+                            reason: None,
                         });
                     }
                 }
@@ -2960,6 +2975,7 @@ impl Bench {
                             cause: crate::ops::NotModelledCause::ModelBoundary,
                             vessel: *from,
                             what,
+                            reason: None,
                         });
                         return Ok(events);
                     }
@@ -3042,14 +3058,16 @@ impl Bench {
                     .sum();
                 let volatile = w + e;
                 if volatile <= 0.0 {
-                    events.push(Event::NotYetModeled {
-                        cause: crate::ops::NotModelledCause::NotParameterised,
-                        vessel: *from,
-                        what: "distillation of a vessel with no liquid water or ethanol — \
+                    events.push(Event::not_modeled(
+                        *from,
+                        crate::ops::NotModelledCause::NotParameterised,
+                        Phrase::bare(
+                            "not-modeled.distil-without-water-or-ethanol",
+                            "distillation of a vessel with no liquid water or ethanol — \
                                other volatile liquids need their Antoine constants curated \
-                               first"
-                            .to_string(),
-                    });
+                               first",
+                        ),
+                    ));
                 } else {
                     let pressure_kpa = src.pressure.0 / 1000.0;
                     match kerotakis_thermo::vle::ethanol_water_still(
@@ -3066,6 +3084,7 @@ impl Bench {
                                 "a bubble point for this mixture at {pressure_kpa:.1} kPa — \
                                  outside the fitted Antoine ranges"
                             ),
+                            reason: None,
                         }),
                         Some(cut) => {
                             // The Rayleigh cut: vapour composition follows
@@ -3148,13 +3167,15 @@ impl Bench {
                 self.ensure_destination(*to, &mut events);
                 self.vessel(*to)?;
                 let Some((_upper, lower)) = crate::solve::layered_pair(&source) else {
-                    events.push(Event::NotYetModeled {
-                        cause: crate::ops::NotModelledCause::NothingToActOn,
-                        vessel: *from,
-                        what: "draining a single-phase liquid — the funnel only separates \
-                               what the thermodynamics has already split into layers"
-                            .to_string(),
-                    });
+                    events.push(Event::not_modeled(
+                        *from,
+                        crate::ops::NotModelledCause::NothingToActOn,
+                        Phrase::bare(
+                            "not-modeled.drain-a-single-phase-liquid",
+                            "draining a single-phase liquid — the funnel only separates \
+                               what the thermodynamics has already split into layers",
+                        ),
+                    ));
                     return Ok(events);
                 };
                 let lower_id = SpeciesId::new(lower);
@@ -3218,6 +3239,7 @@ impl Bench {
                                         row.temperature_tolerance_k,
                                         t_k
                                     ),
+                                    reason: None,
                                 });
                                 *disposition = ApplyDisposition::Unchanged;
                                 return Ok(events);
@@ -3307,6 +3329,7 @@ impl Bench {
                             "{} is not a liquid extracting solvent at room conditions",
                             solvent_data.name
                         ),
+                        reason: None,
                     });
                     return Ok(events);
                 }
@@ -3315,12 +3338,14 @@ impl Bench {
                 let source = self.vessel(*from)?.clone();
                 if crate::solve::layered_pair(&source).is_some() {
                     *disposition = ApplyDisposition::Unchanged;
-                    events.push(Event::NotYetModeled {
-                        cause: crate::ops::NotModelledCause::ModelBoundary,
-                        vessel: *from,
-                        what: "fresh staged extraction requires one aqueous liquid phase at the start; drain an existing organic layer first"
-                            .to_string(),
-                    });
+                    events.push(Event::not_modeled(
+                                    *from,
+                                    crate::ops::NotModelledCause::ModelBoundary,
+                                    Phrase::bare(
+                                        "not-modeled.staged-extraction-needs-fresh-aqueous",
+                                        "fresh staged extraction requires one aqueous liquid phase at the start; drain an existing organic layer first",
+                                    ),
+                                ));
                     return Ok(events);
                 }
                 let water_moles: f64 = source
@@ -3339,12 +3364,14 @@ impl Bench {
                     .unwrap_or(0.0);
                 if water_volume_l <= 0.0 || organic_volume_l <= 0.0 {
                     *disposition = ApplyDisposition::Unchanged;
-                    events.push(Event::NotYetModeled {
-                        cause: crate::ops::NotModelledCause::NoSolution,
-                        vessel: *from,
-                        what: "liquid-liquid extraction needs a water phase and a liquid extracting solvent with a known molar volume"
-                            .to_string(),
-                    });
+                    events.push(Event::not_modeled(
+                                    *from,
+                                    crate::ops::NotModelledCause::NoSolution,
+                                    Phrase::bare(
+                                        "not-modeled.extraction-needs-water-and-solvent",
+                                        "liquid-liquid extraction needs a water phase and a liquid extracting solvent with a known molar volume",
+                                    ),
+                                ));
                     return Ok(events);
                 }
 
@@ -3391,6 +3418,7 @@ impl Bench {
                                     row.temperature_tolerance_k,
                                     source.temperature.0
                                 ),
+                                reason: None,
                             });
                             continue;
                         }
@@ -3448,6 +3476,7 @@ impl Bench {
                                     limit,
                                     source.temperature.0,
                                 ),
+                                reason: None,
                             });
                             continue;
                         };
@@ -3506,6 +3535,7 @@ impl Bench {
                                         .join(", ")
                                 }
                             ),
+                            reason: None,
                         });
                     }
                     *disposition = ApplyDisposition::Unchanged;
@@ -3524,6 +3554,7 @@ impl Bench {
                                 .collect::<Vec<_>>()
                                 .join(", ")
                         ),
+                        reason: None,
                     });
                 }
 
@@ -3726,11 +3757,14 @@ impl Bench {
                                 ),
                             })
                         }
-                        None => events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::NoSolution,
-                            vessel: *vessel,
-                            what: "the pH meter reads nothing — no aqueous solution has been characterised in this vessel"
-                                .to_string(),
-                        }),
+                        None => events.push(Event::not_modeled(
+                                                *vessel,
+                                                crate::ops::NotModelledCause::NoSolution,
+                                                Phrase::bare(
+                                                    "not-modeled.ph-meter-has-no-solution",
+                                                    "the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+                                                ),
+                                            )),
                     },
                     Instrument::PressureGauge => events.push(Event::Measured {
                         vessel: *vessel,
@@ -3761,13 +3795,16 @@ impl Bench {
                                 note: None,
                             })
                         }
-                        _ => events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::BoundaryMismatch,
-                            vessel: *vessel,
-                            what: "the volume meter reads a sealed vessel's headspace, and \
+                        _ => events.push(Event::not_modeled(
+                                             *vessel,
+                                             crate::ops::NotModelledCause::BoundaryMismatch,
+                                             Phrase::bare(
+                                                 "not-modeled.volume-meter-on-an-open-vessel",
+                                                 "the volume meter reads a sealed vessel's headspace, and \
                                    this one is open — seal it to give the gas a measured \
-                                   volume. The liquid's own volume is on the vessel line."
-                                .to_string(),
-                        }),
+                                   volume. The liquid's own volume is on the vessel line.",
+                                             ),
+                                         )),
                     },
                     Instrument::ConductivityMeter => match &v.solution {
                         Some(info) => {
@@ -3850,17 +3887,23 @@ impl Bench {
                                         .count()
                                         == 1;
                                 if lone_dry_solid {
-                                    events.push(Event::NotYetModeled {
-                                        cause: crate::ops::NotModelledCause::NoReviewedDatum,
-                                        vessel: *vessel,
-                                        what: "the conductivity meter is on a dry solid the registry carries no electrical resistivity for — the reading needs a reviewed value, not a guess".to_string(),
-                                    });
+                                    events.push(Event::not_modeled(
+                                                    *vessel,
+                                                    crate::ops::NotModelledCause::NoReviewedDatum,
+                                                    Phrase::bare(
+                                                        "not-modeled.conductivity-on-a-dry-solid",
+                                                        "the conductivity meter is on a dry solid the registry carries no electrical resistivity for — the reading needs a reviewed value, not a guess",
+                                                    ),
+                                                ));
                                 } else {
-                                    events.push(Event::NotYetModeled {
-                                        cause: crate::ops::NotModelledCause::NoSolution,
-                                        vessel: *vessel,
-                                        what: "the conductivity meter reads nothing — no aqueous solution has been characterised".to_string(),
-                                    });
+                                    events.push(Event::not_modeled(
+                                                    *vessel,
+                                                    crate::ops::NotModelledCause::NoSolution,
+                                                    Phrase::bare(
+                                                        "not-modeled.conductivity-has-no-solution",
+                                                        "the conductivity meter reads nothing — no aqueous solution has been characterised",
+                                                    ),
+                                                ));
                                 }
                             }
                             }
@@ -3884,14 +3927,14 @@ impl Bench {
                             });
                             // KID-19b: and say what the number leaves out.
                             if crate::buoyancy::ionic_volume_unaccounted(v) {
-                                events.push(Event::NotYetModeled {
-                                    vessel: *vessel,
-                                    // The ions have a density field; it is a
-                                    // structural default rather than a measured
-                                    // value, which is a datum nobody reviewed.
-                                    cause: crate::ops::NotModelledCause::NoReviewedDatum,
-                                    what: "the dissolved ions' share of this density: every ion in the registry carries water's density as a structural default rather than a measured one, so a salt solution reads as the water it was made from. The solvent's figure is right and the solutes' is missing".to_string(),
-                                });
+                                events.push(Event::not_modeled(
+                                                *vessel,
+                                                crate::ops::NotModelledCause::NoReviewedDatum,
+                                                Phrase::bare(
+                                                    "not-modeled.density-of-the-dissolved-ions",
+                                                    "the dissolved ions' share of this density: every ion in the registry carries water's density as a structural default rather than a measured one, so a salt solution reads as the water it was made from. The solvent's figure is right and the solutes' is missing",
+                                                ),
+                                            ));
                             }
                         } else {
                             // Dry: then the instrument is a balance and a
@@ -3930,6 +3973,7 @@ impl Bench {
                                                 "the density of {} — the registry carries no reviewed density for it, so the piece has a mass here and no size",
                                                 portion.species.0
                                             ),
+                                            reason: None,
                                         }),
                                     }
                                 }
@@ -3951,13 +3995,18 @@ impl Bench {
                                                 "the density of {} — the recipe carries no reviewed bulk density",
                                                 portion.material
                                             ),
+                                            reason: None,
                                         }),
                                     }
                                 }
-                                ([], []) => events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::NothingToActOn,
-                                    vessel: *vessel,
-                                    what: "a density — the vessel is empty, and there is nothing to float the hydrometer in and nothing to weigh".to_string(),
-                                }),
+                                ([], []) => events.push(Event::not_modeled(
+                                                            *vessel,
+                                                            crate::ops::NotModelledCause::NothingToActOn,
+                                                            Phrase::bare(
+                                                                "not-modeled.density-of-an-empty-vessel",
+                                                                "a density — the vessel is empty, and there is nothing to float the hydrometer in and nothing to weigh",
+                                                            ),
+                                                        )),
                                 _ => {
                                     let mut named: Vec<String> = solids
                                         .iter()
@@ -3976,6 +4025,7 @@ impl Bench {
                                             "a single density for this vessel: it holds {}, and a density belongs to one substance rather than to a mixture of them. Weigh them separately",
                                             named.join(" and ")
                                         ),
+                                        reason: None,
                                     });
                                 }
                             }
@@ -3997,11 +4047,14 @@ impl Bench {
                             // two conditionals: `every_fixed_gap_reason_has_german`
                             // only sees a reason whose literal follows `what:`
                             // directly, and this one has a German row to keep.
-                            events.push(Event::NotYetModeled {
-                                cause: crate::ops::NotModelledCause::NoSolution,
-                                vessel: *vessel,
-                                what: "no aqueous solution for spectrophotometer".to_string(),
-                            });
+                            events.push(Event::not_modeled(
+                                            *vessel,
+                                            crate::ops::NotModelledCause::NoSolution,
+                                            Phrase::bare(
+                                                "not-modeled.spectrophotometer-has-no-solution",
+                                                "no aqueous solution for spectrophotometer",
+                                            ),
+                                        ));
                         } else {
                             events.push(Event::NotYetModeled {
                                 cause: crate::ops::NotModelledCause::ModelBoundary,
@@ -4010,6 +4063,7 @@ impl Bench {
                                     "complete absorbance is unavailable: no absorption spectrum for {}",
                                     gaps.join(", ")
                                 ),
+                                reason: None,
                             });
                         }
                     }
@@ -4071,12 +4125,15 @@ impl Bench {
                             .map(|p| p.moles.0)
                             .sum();
                         if mobile_moles <= 0.0 {
-                            events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::NoSolution,
-                                vessel: *vessel,
-                                what: "chromatography needs an aqueous sample — \
-                                       the column's mobile phase is water"
-                                    .to_string(),
-                            });
+                            events.push(Event::not_modeled(
+                                            *vessel,
+                                            crate::ops::NotModelledCause::NoSolution,
+                                            Phrase::bare(
+                                                "not-modeled.chromatography-needs-an-aqueous-sample",
+                                                "chromatography needs an aqueous sample — \
+                                       the column's mobile phase is water",
+                                            ),
+                                        ));
                         } else {
                             let column =
                                 crate::instrument::ChromatographyColumn::school();
@@ -4150,18 +4207,22 @@ impl Bench {
                                          is a gap in the model rather than a result",
                                         names.join(", ")
                                     ),
+                                    reason: None,
                                 });
                             } else if injectable.is_empty() && outside.is_empty() {
                                 // Nothing dissolved at all: there is no sample,
                                 // which is a different thing from a sample the
                                 // method cannot see.
-                                events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::NothingToActOn,
-                                    vessel: *vessel,
-                                    what: "chromatography needs something dissolved to \
+                                events.push(Event::not_modeled(
+                                                *vessel,
+                                                crate::ops::NotModelledCause::NothingToActOn,
+                                                Phrase::bare(
+                                                    "not-modeled.chromatography-needs-a-solute",
+                                                    "chromatography needs something dissolved to \
                                            inject — this vessel holds only its mobile \
-                                           phase"
-                                        .to_string(),
-                                });
+                                           phase",
+                                                ),
+                                            ));
                             } else if injectable.is_empty() {
                                 // A sample the method cannot see is an ANSWER, not a
                                 // gap, and the answer was already computed: `outside`
@@ -4491,6 +4552,7 @@ impl Bench {
                                 },
                                 vessel: *vessel,
                                 what: format!("nothing here can be electrolysed: {why}"),
+                                reason: None,
                             });
                         }
                     },
@@ -4805,6 +4867,7 @@ impl Bench {
                             "no curated nuclide '{nuclide}' — the teaching set: {}",
                             known.join(", ")
                         ),
+                        reason: None,
                     });
                     return Ok(events);
                 };
@@ -4859,6 +4922,7 @@ impl Bench {
                                         .collect::<Vec<_>>()
                                         .join(", ")
                                 ),
+                                reason: None,
                             });
                         }
                         Some(r) => {
@@ -5234,11 +5298,14 @@ impl Bench {
                     }
                     refined = error <= 1e-4;
                     if !refined {
-                        events.push(Event::NotYetModeled {
-                            cause: crate::ops::NotModelledCause::ModelBoundary,
-                            vessel,
-                            what: "pH crossing bracketed, but endpoint refinement did not converge to 0.0001 pH; the closest computed state is retained".into(),
-                        });
+                        events.push(Event::not_modeled(
+                                        vessel,
+                                        crate::ops::NotModelledCause::ModelBoundary,
+                                        Phrase::bare(
+                                            "not-modeled.titration-endpoint-not-refined",
+                                            "pH crossing bracketed, but endpoint refinement did not converge to 0.0001 pH; the closest computed state is retained",
+                                        ),
+                                    ));
                     }
                 }
             }
@@ -5281,13 +5348,15 @@ impl Bench {
                     // naming: it is read off the vessel, not the solve —
                     // but an unsolved vessel holds the titrant as the
                     // solid it was added as, and a solid has no ε(λ).
-                    events.push(Event::NotYetModeled {
-                        cause: crate::ops::NotModelledCause::NoSolver,
+                    events.push(Event::not_modeled(
                         vessel,
-                        what: "titration needs an aqueous solver to compute pH \
-                               after each addition — none is wired"
-                            .to_string(),
-                    });
+                        crate::ops::NotModelledCause::NoSolver,
+                        Phrase::bare(
+                            "not-modeled.titration-needs-an-aqueous-solver",
+                            "titration needs an aqueous solver to compute pH \
+                               after each addition — none is wired",
+                        ),
+                    ));
                     break;
                 }
             }
@@ -5334,6 +5403,7 @@ impl Bench {
                     vessel,
                     what,
                     cause: crate::ops::NotModelledCause::ModelBoundary,
+                    reason: None,
                 });
             }
         }
@@ -5786,6 +5856,7 @@ fn curated_reaction_extent(
                 cause: crate::ops::NotModelledCause::ModelBoundary,
                 vessel,
                 what: detail,
+                reason: None,
             });
             return None;
         }
@@ -5797,6 +5868,7 @@ fn curated_reaction_extent(
                     "{} returned a non-finite reaction extent; no conversion applied",
                     reaction.name
                 ),
+                reason: None,
             });
             return None;
         }
@@ -5813,6 +5885,7 @@ fn curated_reaction_extent(
                 "No conversion for {}: neither forward nor reverse reactants provide capacity above the 1e-12 mol no-conversion tolerance",
                 reaction.name
             ),
+            reason: None,
         }),
         crate::family::OutcomeModel::Equilibrium { .. } => events.push(Event::OrgReacted {
             vessel,
@@ -5831,12 +5904,16 @@ fn curated_reaction_extent(
                 "No to-completion conversion for {}: a limiting reactant is absent, depleted, or its capacity is within the 1e-12 mol no-conversion tolerance",
                 reaction.name
             ),
+            reason: None,
         }),
-        crate::family::OutcomeModel::KineticLaw { .. } => events.push(Event::NotYetModeled {
-            cause: crate::ops::NotModelledCause::ModelBoundary,
-            vessel,
-            what: "A kinetic outcome requires a routed time model; zero extent does not establish equilibrium".into(),
-        }),
+        crate::family::OutcomeModel::KineticLaw { .. } => events.push(Event::not_modeled(
+                                                                          vessel,
+                                                                          crate::ops::NotModelledCause::ModelBoundary,
+                                                                          Phrase::bare(
+                                                                              "not-modeled.kinetic-outcome-needs-a-time-model",
+                                                                              "A kinetic outcome requires a routed time model; zero extent does not establish equilibrium",
+                                                                          ),
+                                                                      )),
     }
     None
 }

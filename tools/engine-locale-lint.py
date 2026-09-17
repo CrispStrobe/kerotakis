@@ -65,6 +65,13 @@ COMPOSERS = [
     # bare `format!` after I18N-7 had made the clause they were glued to
     # translatable, which is exactly the shape this lint exists to count.
     ROOT / "crates/kerotakis-core/src/scene.rs",
+    # I18N-10, tranche by tranche. A file joins this list on the commit
+    # that gives its first `Event::NotYetModeled` a `reason`.
+    ROOT / "crates/kerotakis-core/src/selectivity.rs",
+    ROOT / "crates/kerotakis-core/src/gas_tests.rs",
+    ROOT / "crates/kerotakis-core/src/clock.rs",
+    ROOT / "crates/kerotakis-core/src/family.rs",
+    ROOT / "crates/kerotakis-core/src/bench.rs",
 ]
 # `phrase.rs` asks the catalogue for the list grammar and the punctuation
 # by name, the ordinary `locale.t` way.
@@ -130,10 +137,21 @@ def notmodeled_sites() -> tuple[int, int, list[str]]:
     done = todo = 0
     remaining: collections.Counter[str] = collections.Counter()
     for path in sorted(ROOT.glob("crates/*/src/**/*.rs")):
+        # `ops.rs` DEFINES the event and its constructor. The struct
+        # literal inside `Event::not_modeled` is the one place that is not
+        # a site, and counting it would have the helper report itself as a
+        # migrated call site.
+        if path.name == "ops.rs":
+            continue
         text = path.read_text()
         cut = text.find("\n#[cfg(test)]")
         if cut != -1:
             text = text[:cut]
+        # A CONVERTED site is a call to `Event::not_modeled`, which
+        # generates `what` from the recipe. It is no longer a struct
+        # literal, so it would otherwise leave the denominator entirely
+        # and make the percentage go up by deleting its own numerator.
+        done += text.count("Event::not_modeled(")
         i = 0
         while True:
             at = text.find(REFUSAL_EVENT, i)
@@ -167,7 +185,8 @@ def notmodeled_sites() -> tuple[int, int, list[str]]:
             # event, `phase_diagnostics` re-emitting one — carries the
             # reason on rather than composing one, and is done when it
             # stops dropping it. `reason: None` is the unconverted state.
-            if "reason" in block and "reason: None" not in block:
+            has_field = re.search(r"(?<![A-Za-z0-9_])reason:", block) is not None
+            if has_field and "reason: None" not in block:
                 done += 1
             else:
                 todo += 1

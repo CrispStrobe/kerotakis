@@ -128,6 +128,7 @@ fn dynamic_refusals_translate_the_species_and_the_reason() {
     let event = Event::NotYetModeled { cause: kerotakis_core::ops::NotModelledCause::NoSolver,
         vessel: kerotakis_core::vessel::VesselId(0),
         what: "sodium chloride in contact with liquid: no wired solver models this dissolution/reaction".to_string(),
+        reason: None,
     };
     let localized = localize_event(&event, Locale::parse("de"));
     let Event::NotYetModeled { what, .. } = localized else {
@@ -145,13 +146,14 @@ fn dynamic_refusals_translate_the_species_and_the_reason() {
 
 #[test]
 fn meter_refusals_are_translated_as_whole_sentences() {
-    let event = Event::NotYetModeled {
-        cause: kerotakis_core::ops::NotModelledCause::NoSolution,
-        vessel: kerotakis_core::vessel::VesselId(0),
-        what:
-            "the pH meter reads nothing — no aqueous solution has been characterised in this vessel"
-                .to_string(),
-    };
+    let event = Event::not_modeled(
+        kerotakis_core::vessel::VesselId(0),
+        kerotakis_core::ops::NotModelledCause::NoSolution,
+        kerotakis_core::phrase::Phrase::bare(
+            "not-modeled.ph-meter-has-no-solution",
+            "the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+        ),
+    );
     let localized = localize_event(&event, Locale::parse("de"));
     let Event::NotYetModeled { what, .. } = localized else {
         panic!("expected a refusal");

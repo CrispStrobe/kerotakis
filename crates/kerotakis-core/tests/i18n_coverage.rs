@@ -525,22 +525,19 @@ fn no_german_refusal_translates_something_the_bench_cannot_say() {
     );
 }
 
-/// Every FIXED gap reason, read out of the sources that write it.
+/// Gap reasons still written as a finished English sentence.
 ///
-/// `Event::NotYetModeled` carries its reason as a finished sentence, so
-/// `[refusal]` is keyed by the English rather than by a place. That works
-/// for exactly the reasons which interpolate nothing — and there are
+/// `Event::NotYetModeled` used to carry its reason that way everywhere, so
+/// `[refusal]` was keyed by the English rather than by a place. That works
+/// for exactly the reasons which interpolate nothing — and there were
 /// eighteen of them, of which THIRTEEN reached a German learner in English
 /// while the table reported itself complete. It was complete: over the rows
 /// it had. This is the same denominator failure `codex-locale-lint.py`'s
 /// `models.toml` had, in a different table.
 ///
-/// The inventory is scraped rather than listed, for the reason every other
-/// inventory in this file is: a hand-written list of gap reasons is a list
-/// somebody will forget to extend on the commit where it mattered. The
-/// shape `what: "…".to_string()` is what a fixed reason looks like; a
-/// reason built with `format!` cannot be keyed by its text at all and is
-/// deliberately not counted here (see the header).
+/// All of them are `Phrase`s now (I18N-10), so this returns nothing and the
+/// test below fails if it stops doing so. The inventory is scraped rather
+/// than listed, for the reason every other inventory in this file is.
 fn fixed_gap_reasons() -> Vec<(&'static str, String)> {
     const SOURCES: &[(&str, &str)] = &[
         ("bench.rs", include_str!("../src/bench.rs")),
@@ -574,12 +571,6 @@ fn fixed_gap_reasons() -> Vec<(&'static str, String)> {
             out.push((file, unescape(literal)));
         }
     }
-    assert!(
-        out.len() > 10,
-        "only {} fixed gap reason(s) found — the shape they are written in \
-         must have changed, and this gate is now checking almost nothing",
-        out.len()
-    );
     out
 }
 
@@ -628,17 +619,33 @@ fn unescape(literal: &str) -> String {
 }
 
 /// A gap explained in English inside an otherwise German sentence.
+///
+/// I18N-10 turned this gate around. It used to scrape `what: "…"` out of
+/// the solvers and demand a `[refusal]` row for each, and there is nothing
+/// left to scrape: every gap in these files whose sentence has no hole is
+/// a `Phrase` keyed by its PLACE, and `tests/composed_locale.rs` checks
+/// those against a denominator read out of the same source. Coverage has
+/// moved there; what is left here is the other direction.
+///
+/// A finished sentence written here again is the shape no catalogue can
+/// reach the moment somebody adds a value to it — which is how fifty of
+/// these came to be unreachable in the first place — so the old shape is
+/// now the failure.
 #[test]
-fn every_fixed_gap_reason_has_german() {
-    let de = de();
-    let mut missing: Vec<String> = fixed_gap_reasons()
+fn no_gap_reason_is_written_as_a_finished_sentence_again() {
+    let strays: Vec<String> = fixed_gap_reasons()
         .into_iter()
-        .filter(|(_, what)| de.lookup(&format!("refusal.{what}")).is_none())
         .map(|(file, what)| format!("{file}: \"{what}\""))
         .collect();
-    missing.sort_unstable();
-    missing.dedup();
-    report("fixed gap reasons", "refusal", missing);
+    assert!(
+        strays.is_empty(),
+        "{} gap reason(s) are written as a finished English sentence rather \n\
+         than as a `Phrase` passed to `Event::not_modeled`. Only the ones \n\
+         with no hole can be translated that way, and only until one grows \n\
+         a hole — see I18N-10:\n  {}",
+        strays.len(),
+        strays.join("\n  "),
+    );
 }
 
 // ── The relations ───────────────────────────────────────────────────
