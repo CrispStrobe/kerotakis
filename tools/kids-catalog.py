@@ -24,7 +24,12 @@ REQUIRED_KIT_BY_EXPERIMENT = {
     "K31": "magnet-kit", "K33": "filter-funnel-kit",
 }
 EXPECTED_STATUS_COUNTS = {
-    "computed": 109, "partial": 9, "boundary": 1, "declined": 2, "unreachable": 0,
+    # K111 (the Lugol starch test) moved partial -> computed on 2026-09-17:
+    # its blue-black was always computed, but the script asked `inspect` and
+    # printed an inventory, so the colour never reached the reader. Three
+    # `look` lines later it does, and the row is no longer partial. This
+    # matrix is a gate on exactly that kind of change being deliberate.
+    "computed": 110, "partial": 8, "boundary": 1, "declined": 2, "unreachable": 0,
 }
 # K78-K121 gave the 44 lessons that shipped unlisted a catalogue row (GUI-104).
 # Every one of them is school-band unless the lesson is a kitchen-table
