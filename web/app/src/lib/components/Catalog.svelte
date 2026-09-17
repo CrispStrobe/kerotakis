@@ -96,6 +96,7 @@
     runGate,
     runnableLines,
     saveRunMode,
+    scriptForDecision,
     type BenchDecision,
     type RunMode,
     type RunStep,
@@ -345,27 +346,61 @@
   let questionRunning = $state<string | null>(null);
 
   /**
-   * A reviewed question, run as itself.
+   * A reviewed question, run as itself — but gated like everything else.
    *
-   * NOT through `runCatalogEntry`. That walks a `CodexEntry` — a
-   * prediction to commit, expectations to compare against, step prose to
-   * pace — and a corpus question has none of those. Synthesising one
-   * would have put an empty "predict & run" tab and an empty comparison
-   * table in front of the reader, which is a claim that something was
-   * checked for them. So the reviewed script runs as a script, and the
-   * page says plainly that nothing is graded.
+   * NOT through `runCatalogEntry`, for a reason that only shows up at its
+   * last two lines: with no `expect` to check, `result.allOk` is true and
+   * the runner MARKS THE ENTRY DONE. A corpus id would land in the
+   * progress record as a completed experiment, which is the one claim
+   * this whole task exists to refuse. (It would also have offered an
+   * empty "predict & run" tab and an empty comparison table — a claim
+   * that something was checked for the reader.)
+   *
+   * What the retired explorer did skip, and this does not, is the consent
+   * gate. `session.runExperiment` writes line by line into the bench the
+   * reader can SEE, so `add v1 water 100mL` landed in a vessel already
+   * holding their work, silently. The gate's own pieces — `runGate`,
+   * `canUseFreshVessels`, `scriptForDecision`, `session.clear()` — are
+   * all plain functions over a script string, so a question asks the
+   * same question an experiment does, with the same three answers.
    */
-  async function runQuestion(entry: CatalogEntry) {
-    const prompt = entry.prompt;
-    if (!prompt || questionRunning !== null || session.busy) return;
+  function requestQuestionRun(entry: CatalogEntry) {
+    if (!entry.prompt || questionRunning !== null || session.busy) return;
     if (entry.run.kind !== "question") return;
+    if (runGate(session.scene, decision) === "ask") {
+      asking = true;
+      return;
+    }
+    void runQuestion(entry, decision);
+  }
+
+  async function runQuestion(entry: CatalogEntry, chosen: BenchDecision | null) {
+    const prompt = entry.prompt;
+    if (!prompt || questionRunning !== null) return;
+    asking = false;
+    decision = chosen;
     questionRunning = entry.id;
     try {
-      await session.runExperiment(prompt.script.join("\n"));
+      if (chosen === "clear") await session.clear();
+      await session.runExperiment(
+        scriptForDecision(prompt.script.join("\n"), chosen, session.scene),
+      );
       onclose();
     } finally {
       questionRunning = null;
+      // Consent is per run, not per row: a replay of a question the
+      // reader cleared the bench for has to ask again.
+      decision = null;
     }
+  }
+
+  /** One press, routed to whichever runner the open row actually needs. */
+  function proceed(chosen: BenchDecision | null) {
+    if (open?.prompt) {
+      void runQuestion(open, chosen);
+      return;
+    }
+    void go(chosen);
   }
 
   function openEntry(entry: CatalogEntry, at: typeof tab = "theory") {
@@ -488,7 +523,13 @@
   const prediction = $derived(open?.script?.expect?.predict ?? null);
   const mustPredict = $derived(prediction !== null && predicted === null);
   const stepCount = $derived(open?.script ? runnableLines(open.script.setup.script).length : 0);
-  const canFresh = $derived(open?.script ? canUseFreshVessels(open.script.setup.script) : false);
+  const canFresh = $derived(
+    open?.script
+      ? canUseFreshVessels(open.script.setup.script)
+      : open?.prompt
+        ? canUseFreshVessels(open.prompt.script.join("\n"))
+        : false,
+  );
 
   /**
    * What to watch for, line by line, in the language being read.
@@ -583,6 +624,23 @@
   const words = (values: readonly string[]) =>
     values.map((value) => t(slugWords(value))).join(" · ");
 </script>
+
+<!-- The consent gate, asked once and rendered wherever a run is pressed.
+     A snippet rather than a copy: a question's page and an experiment's
+     run tab must not be able to drift into asking two different things
+     about the same bench. -->
+{#snippet benchNotEmpty()}
+  <div class="ask" role="group" aria-label={t("the bench is not empty")}>
+    <strong>{t("your bench is not empty")}</strong>
+    <p>{t("This script writes into the bench you can see. Clear it first, or keep your work and run the experiment in fresh glassware beside it.")}</p>
+    <div class="ask-actions">
+      <button class="go" onclick={() => proceed("clear")}>{t("clear the bench, then run")}</button>
+      {#if canFresh}<button class="go" onclick={() => proceed("fresh")}>{t("keep my work, run in new vessels")}</button>{/if}
+      <button class="go" onclick={() => proceed("keep")}>{t("run on this bench as it is")}</button>
+      <button class="link" onclick={() => (asking = false)}>{t("cancel")}</button>
+    </div>
+  </div>
+{/snippet}
 
 <!-- While a script runs the scrim goes transparent and stops swallowing
      pointer events: the whole point is that the learner watches the bench
@@ -988,9 +1046,13 @@
         {/if}
         {#if open.run.kind === "question"}
           <p class="meta">{t("The bench runs this reviewed script and you read the answer off it. A question carries no authored prediction, so nothing is checked for you the way an experiment's expectations are.")}</p>
-          <button class="go" disabled={questionRunning !== null || session.busy} onclick={() => void runQuestion(open)}>
-            {questionRunning === open.id ? t("running…") : t(runTargetLabel(open.run, open.done))}
-          </button>
+          {#if asking}
+            {@render benchNotEmpty()}
+          {:else}
+            <button class="go" disabled={questionRunning !== null || session.busy} onclick={() => requestQuestionRun(open)}>
+              {questionRunning === open.id ? t("running…") : t(runTargetLabel(open.run, open.done))}
+            </button>
+          {/if}
         {:else}
           <p class="boundary" data-reason={open.prompt.reason_code}>
             {open.support === "missing"
@@ -1061,16 +1123,7 @@
         {/if}
 
         {#if asking}
-          <div class="ask" role="group" aria-label={t("the bench is not empty")}>
-            <strong>{t("your bench is not empty")}</strong>
-            <p>{t("This script writes into the bench you can see. Clear it first, or keep your work and run the experiment in fresh glassware beside it.")}</p>
-            <div class="ask-actions">
-              <button class="go" onclick={() => void go("clear")}>{t("clear the bench, then run")}</button>
-              {#if canFresh}<button class="go" onclick={() => void go("fresh")}>{t("keep my work, run in new vessels")}</button>{/if}
-              <button class="go" onclick={() => void go("keep")}>{t("run on this bench as it is")}</button>
-              <button class="link" onclick={() => (asking = false)}>{t("cancel")}</button>
-            </div>
-          </div>
+          {@render benchNotEmpty()}
         {:else}
           <!-- The pace is chosen BEFORE the run, because during it there is
                nothing left to decide: a script already halfway through at
