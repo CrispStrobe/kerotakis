@@ -34,6 +34,14 @@
  * it builds are the ones the reader will see (and therefore search), and
  * is otherwise pure.
  */
+import {
+  capabilityReasonText,
+  capabilityRunnable,
+  capabilitySearchText,
+  localiseCapability,
+  type CapabilityPrompt,
+  type CapabilitySupport,
+} from "./capabilities";
 import { runnableLines } from "./catalogRunner";
 import { normalizeCatalogText, type ExperimentProgressFilter } from "./catalogSearch";
 import { scriptKit, type CodexEntry } from "./codex";
@@ -43,8 +51,37 @@ import { KIDS_EQUIPMENT, type KidsEquipment } from "./kidsEquipment";
 import type { CatalogItem } from "./host/EngineHost";
 import { catalogIdForApparatus } from "./equipmentCatalogue";
 
-/** Which corpus an entry came from. An INTERNAL identifier: never displayed. */
-export type CatalogSourceKind = "codex" | "guided";
+/**
+ * WHAT a row is, which is now the reader's question and not the author's.
+ *
+ * This was "an INTERNAL identifier: never displayed", because the only two
+ * values were two files the same kind of thing shipped in. A third
+ * population is not that: a reviewed corpus question is genuinely a
+ * different kind of row from a runnable experiment, and pretending
+ * otherwise would claim the bench can run five hundred experiments when
+ * sixty of those questions are refusals with no script at all.
+ *
+ * So the discriminant became the FACET — one badge, one filter, one
+ * separately-labelled count per kind — rather than a second door. It stays
+ * one vocabulary because the alternative (a parallel result type beside
+ * `CatalogEntry`) means a second search predicate over a second shape,
+ * and a second predicate is precisely how the two doors happened.
+ */
+export type CatalogSourceKind = "codex" | "guided" | "capability";
+
+export const CATALOG_SOURCES: readonly CatalogSourceKind[] = ["codex", "guided", "capability"];
+
+/**
+ * What to CALL a kind on a badge.
+ *
+ * The two experiment kinds read as siblings and the question does not,
+ * because the difference a reader needs is "will this run" and not "which
+ * corpus authored it".
+ */
+export function sourceLabel(source: CatalogSourceKind): string {
+  if (source === "codex") return "bench experiment";
+  return source === "guided" ? "guided experiment" : "answered question";
+}
 
 /** How far in a learner is, as a band rather than a tier. */
 export type CatalogLevel = "starter" | "intermediate" | "advanced";
@@ -70,6 +107,18 @@ export type CatalogRunTarget =
   | { kind: "lesson"; file: string }
   | { kind: "quest"; id: string }
   | { kind: "sandbox" }
+  /** A corpus question whose reviewed script the bench will run. */
+  | { kind: "question" }
+  /**
+   * A corpus question with NO run behind it — the answer is the reason.
+   *
+   * Separate from `boundary` because the two say different things: a
+   * boundary is where a working model stops, while this is a question the
+   * corpus reviewed and answered with a refusal (sixty of them, every one
+   * shipping an empty script) or with "not modelled yet, owned by BRD-060"
+   * (one). Both are answers. Neither is a button.
+   */
+  | { kind: "unanswered" }
   /** Documented model boundary: the honest answer is to read it. */
   | { kind: "boundary" };
 
@@ -109,6 +158,22 @@ export interface CatalogEntry {
   boundary: string | null;
   equation: string | null;
   status: KidsStatus;
+  /** The corpus's own verdict on a question row; null for an experiment. */
+  support: CapabilitySupport | null;
+  /** The corpus prompt behind a question row, for the script and the run. */
+  prompt: CapabilityPrompt | null;
+  /**
+   * Authored as suitable at EVERY level, so no level chip may hide it.
+   *
+   * Twenty-four corpus questions are banded `all` rather than to a school
+   * age. `level` still holds a value (the floor, so the row sorts and the
+   * chip has something to say), but a row with this set passes the level
+   * filter whatever it is asking — placing an all-levels question under
+   * one band would be a claim the corpus did not make.
+   */
+  anyLevel: boolean;
+  /** Why a question is answered the way it is, as words for the dictionary. */
+  reason: string | null;
   /** Guided safety classification; Codex entries make no invented claim. */
   safety: KidsSafety | null;
   /** Localized safety explanation and action, independent of progress. */
@@ -322,6 +387,80 @@ function codexTopics(entry: Pick<CodexEntry, "concepts" | "setup" | "expect">): 
   return [...found].sort();
 }
 
+/**
+ * The corpus's eight topics, folded into the same shared vocabulary.
+ *
+ * Authored, one line per corpus topic, because the corpus words are
+ * coarser than the chips: `burn_and_oxidise` is honestly about heat AND
+ * about metals-and-electricity, and `handle_and_inspect` is about
+ * materials AND about measuring. A rule that picked one of those would
+ * make the chip lie about what it selects, so both are recorded.
+ *
+ * Nothing is inferred from the topic string itself: the eight are a
+ * closed set the exporter writes, and a ninth arriving unmapped falls
+ * through to the tags, which run through the SAME `CONCEPT_TOPICS` the
+ * codex does — so one topic chip means one thing across all three
+ * populations.
+ */
+const CORPUS_TOPICS: Record<string, CatalogTopic[]> = {
+  acids_bases_and_gases: ["acids", "gases"],
+  burn_and_oxidise: ["heat", "redox"],
+  food_and_life: ["food"],
+  handle_and_inspect: ["materials", "measurement"],
+  heat_and_cool: ["heat"],
+  materials: ["materials"],
+  mix_and_dissolve: ["solutions"],
+  separate: ["separations"],
+};
+
+function capabilityTopics(prompt: CapabilityPrompt): string[] {
+  const found = new Set<string>(CORPUS_TOPICS[prompt.topic] ?? []);
+  const vocabulary = [prompt.topic, prompt.material_class, ...prompt.tags].join(" ");
+  for (const rule of CONCEPT_TOPICS) {
+    if (rule.match.test(vocabulary)) found.add(rule.topic);
+  }
+  // A refusal and a not-yet-modelled question are both statements about
+  // where this bench stops, which is a topic the catalogue already has.
+  if (prompt.support === "boundary" || prompt.support === "missing") found.add("boundaries");
+  if (found.size === 0) found.add("solutions");
+  return [...found].sort();
+}
+
+/**
+ * The corpus's school-age band, read as the catalogue's learning band.
+ *
+ * The corpus bands by school age and the catalogue never shows an age —
+ * every person is addressed here, and an age beside a question reads as a
+ * permission slip. The three bands already stand for the three learning
+ * levels, which is the mapping the explorer's own `BAND_LABELS` table made
+ * by hand; it lives here now so ONE vocabulary answers the level chip for
+ * all three populations. `all` is not a band and gets `anyLevel` instead.
+ */
+const CORPUS_BANDS: Record<string, CatalogLevel> = {
+  age9_to12: "starter",
+  age13_to15: "intermediate",
+  age16_to18: "advanced",
+};
+
+/**
+ * The corpus's support verdict, in the catalogue's coarser status words.
+ *
+ * `status` is the catalogue's own five-word vocabulary and a question row
+ * still has to answer it. The corpus's word is kept VERBATIM in `support`
+ * and is what the badge shows, so nothing here is what the reader is
+ * told — this only feeds the `data-status` attribute and keeps the field
+ * from being a hole. `curated` and `qualitative` become `partial` because
+ * a reviewed route is not a computed one, and saying `computed` for them
+ * would be the overclaim.
+ */
+const SUPPORT_STATUS: Record<CapabilitySupport, KidsStatus> = {
+  computed: "computed",
+  curated: "partial",
+  qualitative: "partial",
+  boundary: "boundary",
+  missing: "unreachable",
+};
+
 function guidedTopics(entry: Pick<KidsExperiment, "topics" | "boundary">): string[] {
   const found = new Set<string>();
   for (const topic of entry.topics) {
@@ -420,6 +559,10 @@ function fromCodex(entry: CodexEntry, context: CatalogViewContext): CatalogEntry
     boundary: null,
     equation: entry.equation ?? null,
     status: "computed",
+    support: null,
+    prompt: null,
+    anyLevel: false,
+    reason: null,
     safety: null,
     safetyRationale: null,
     safetyGuidance: null,
@@ -495,6 +638,10 @@ function fromGuided(
     boundary,
     equation: script?.equation ?? null,
     status: entry.status,
+    support: null,
+    prompt: null,
+    anyLevel: false,
+    reason: null,
     safety: entry.safety,
     safetyRationale: entry.safety_rationale ? kidsText(entry, "safety_rationale", context.locale) : null,
     safetyGuidance: entry.safety_guidance ? kidsText(entry, "safety_guidance", context.locale) : null,
@@ -538,6 +685,89 @@ function runTargetFor(entry: KidsExperiment, script: CodexEntry | null): Catalog
   return { kind: "boundary" };
 }
 
+/**
+ * One reviewed corpus question as a row of the one index.
+ *
+ * Only what the prompt ACTUALLY says. Where the codex and guided mappers
+ * derive a missing field from the entry's own content, a question has no
+ * content to derive several of them from, and the honest answer is to
+ * leave those empty and let the card omit the row rather than to invent a
+ * claim:
+ *
+ *   - `needs` and `apparatus` stay EMPTY even though the script names
+ *     materials, because the script writes formulae (`add v1 NaCl 5g`)
+ *     and the shelf is keyed by registry id (`sodium_chloride`). Running
+ *     `scriptKit` over it would have reported "missing now: NaCl" for a
+ *     salt that is on the shelf. `availabilityKnown` is therefore false
+ *     and the readiness line is not drawn for a question at all.
+ *   - `done` is false for every question, and the card draws no
+ *     completion chip: progress is a record of successful codex runs, and
+ *     a question id is not a codex id, so "not tried" would be a claim
+ *     about a record that cannot exist.
+ *   - `minutes` is the script's own length, and zero where there is no
+ *     script; the card omits the chip at zero rather than rounding a
+ *     refusal up to "about 2 min".
+ */
+function fromCapability(prompt: CapabilityPrompt, context: CatalogViewContext): CatalogEntry {
+  const said = localiseCapability(prompt, context.locale, context.translate);
+  const steps = prompt.script.length;
+  const minutes = steps > 0 ? minutesForSteps(steps) : 0;
+  const runnable = capabilityRunnable(prompt);
+  const reason = capabilityReasonText(prompt);
+  return {
+    id: prompt.id,
+    source: "capability",
+    title: said.question,
+    // The corpus's own classification of the material the question is
+    // about, which is the shortest true sentence available about it.
+    hook: said.materialClass,
+    level: CORPUS_BANDS[prompt.age_band] ?? "starter",
+    anyLevel: CORPUS_BANDS[prompt.age_band] === undefined,
+    steps,
+    minutes,
+    duration: durationBand(minutes),
+    needs: [],
+    apparatus: [],
+    topics: capabilityTopics(prompt),
+    concepts: [],
+    placements: [],
+    expectations: [],
+    run: runnable ? { kind: "question" } : { kind: "unanswered" },
+    script: null,
+    lesson: null,
+    quest: null,
+    capabilities: [prompt.id],
+    codexLinks: [],
+    boundary: null,
+    equation: null,
+    status: SUPPORT_STATUS[prompt.support],
+    support: prompt.support,
+    prompt,
+    reason,
+    safety: null,
+    safetyRationale: null,
+    safetyGuidance: null,
+    recipe: [],
+    procedure: [],
+    observations: [],
+    kits: [],
+    guided: null,
+    done: false,
+    onShelf: false,
+    missingNeeds: [],
+    access: [],
+    readyNow: false,
+    availabilityKnown: false,
+    search: [
+      ...capabilitySearchText(prompt, context.locale),
+      said.question,
+      said.materialClass,
+      ...said.tags,
+      reason,
+    ],
+  };
+}
+
 /** What the primary button on a card says, for each kind of action. */
 export function runTargetLabel(target: CatalogRunTarget, done: boolean): string {
   switch (target.kind) {
@@ -551,6 +781,15 @@ export function runTargetLabel(target: CatalogRunTarget, done: boolean): string 
       return "start quest";
     case "sandbox":
       return "explore in Sandbox";
+    case "question":
+      // Says what the reader GETS, which is not what an experiment gives
+      // them: the reviewed script runs on the bench and they read the
+      // answer off it. There is no authored expectation behind a corpus
+      // question, so nothing is checked against a prediction — and a
+      // button promising "run the experiment" would imply there were.
+      return "run this question on the bench";
+    case "unanswered":
+      return "read why this one has no answer";
     default:
       return "read the documented boundary";
   }
@@ -580,12 +819,68 @@ export function catalogEntries(
   );
 }
 
+/**
+ * All three populations as one list, which is the whole point.
+ *
+ * Ordered by KIND first, then by level and title. Kind first because the
+ * default list is what someone sees before they have asked anything, and
+ * five hundred questions interleaved ahead of the experiments would bury
+ * the runnable half of the library; a search still returns every matching
+ * row, and the facet chip goes straight to the questions. Within a kind
+ * the existing order stands: level, then the title the reader actually
+ * sees, so a German list is alphabetical in German.
+ *
+ * `catalogEntries` above is deliberately left alone. It means "the
+ * experiments", it is what the 252 is counted from, and a function whose
+ * total silently grew by five hundred would be the false headline this
+ * task exists to remove.
+ */
+export function oneIndex(
+  codex: readonly CodexEntry[],
+  guided: readonly KidsExperiment[],
+  prompts: readonly CapabilityPrompt[],
+  context: CatalogViewContext,
+): CatalogEntry[] {
+  const kind = (source: CatalogSourceKind) => CATALOG_SOURCES.indexOf(source);
+  const rank = (level: CatalogLevel) => CATALOG_LEVELS.indexOf(level);
+  return [
+    ...catalogEntries(codex, guided, context),
+    ...prompts.map((prompt) => fromCapability(prompt, context)),
+  ].sort((a, b) =>
+    kind(a.source) - kind(b.source)
+    || rank(a.level) - rank(b.level)
+    || a.title.localeCompare(b.title, context.locale)
+    || a.id.localeCompare(b.id, context.locale),
+  );
+}
+
+/**
+ * How many rows of each kind, DERIVED from the rows themselves.
+ *
+ * The headline is built from this rather than from three constants,
+ * because a count typed into a sentence is a count that stops being true
+ * (#505: `models.toml` reported 100% German over 325 English strings).
+ */
+export function sourceCounts(entries: readonly CatalogEntry[]): Record<CatalogSourceKind, number> {
+  const counts: Record<CatalogSourceKind, number> = { codex: 0, guided: 0, capability: 0 };
+  for (const entry of entries) counts[entry.source] += 1;
+  return counts;
+}
+
+/** The two experiment kinds, which are the only rows the bench can run. */
+export function experimentCount(entries: readonly CatalogEntry[]): number {
+  const counts = sourceCounts(entries);
+  return counts.codex + counts.guided;
+}
+
 // ── Filters ───────────────────────────────────────────────────────────
 
 /** The rail asks the same question the per-record predicate answers. */
 export type CatalogProgressFilter = ExperimentProgressFilter;
 
 export interface CatalogFilters {
+  /** Which kind of row, as a facet rather than as a separate door. */
+  source: CatalogSourceKind | null;
   level: CatalogLevel | null;
   topic: string | null;
   duration: CatalogDurationBand | null;
@@ -600,6 +895,7 @@ export interface CatalogFilters {
 }
 
 export const NO_CATALOG_FILTERS: CatalogFilters = {
+  source: null,
   level: null,
   topic: null,
   duration: null,
@@ -619,7 +915,8 @@ export function placementKey(placement: { system: string; stage: string }): stri
 
 /** Does this entry answer everything the rail is currently asking? */
 export function catalogEntryPasses(entry: CatalogEntry, filters: CatalogFilters): boolean {
-  if (filters.level && entry.level !== filters.level) return false;
+  if (filters.source && entry.source !== filters.source) return false;
+  if (filters.level && entry.level !== filters.level && !entry.anyLevel) return false;
   // i18n-ok: topic, level and duration are wire keys chosen from a chip,
   // never text a reader typed.
   if (filters.topic && !entry.topics.includes(filters.topic)) return false;
@@ -671,10 +968,20 @@ export function authoredRelatedEntries(
   });
 }
 
-/** How many entries sit at each level, for the chip counts. */
+/**
+ * How many entries sit at each level, for the chip counts.
+ *
+ * A chip's number has to be the number of rows that chip will show, so an
+ * all-levels row — which passes every level filter — counts once under
+ * each of them rather than once under its floor. A count that disagreed
+ * with the list it labels is the defect, not a rounding.
+ */
 export function levelCounts(entries: readonly CatalogEntry[]): Record<CatalogLevel, number> {
   const counts: Record<CatalogLevel, number> = { starter: 0, intermediate: 0, advanced: 0 };
-  for (const entry of entries) counts[entry.level] += 1;
+  for (const entry of entries) {
+    if (entry.anyLevel) for (const level of CATALOG_LEVELS) counts[level] += 1;
+    else counts[entry.level] += 1;
+  }
   return counts;
 }
 
