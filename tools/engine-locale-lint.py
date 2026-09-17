@@ -339,9 +339,15 @@ def main() -> int:
             key = const_keys.get(m.group(1))
             if key:
                 composed[key] = unwrap(m.group(2))
-    phrase_src = PHRASE.read_text()
+    # `phrase.rs` asks for the list grammar and the punctuation the
+    # ordinary `locale.t` way — and composes one clause of its own,
+    # `look.sentence-join`, which a CALL-only read of this file could not
+    # see. A key the lint cannot see is a key outside the denominator.
+    phrase_src = uncommented(without_test_modules(PHRASE.read_text()))
     for m in CALL.finditer(phrase_src):
         composed[m.group(1)] = m.group(2)
+    for m in PHRASE_CALL.finditer(phrase_src):
+        composed[m.group(1)] = unwrap(m.group(2))
     used.update(composed)
     grammar = SCRIPT.read_text()
     dynamic = {m.group(1) for m in DYNAMIC.finditer(src)}

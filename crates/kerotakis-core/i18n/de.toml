@@ -1179,6 +1179,12 @@ white = "weiß"
 # decline. That choice lives HERE, in the data, which is the whole point:
 # a translator changes the construction without changing a line of Rust.
 [look]
+# The space between two whole sentences. It looks like typography rather
+# than language right up until the language is one that does not use it —
+# Japanese runs its sentences together after 。 — so it is a row here for
+# the reason `look.full-stop` is. German uses the space, and says so
+# explicitly rather than by falling back.
+sentence-join = "{first} {second}"
 empty = "der Becher ist leer"
 nothing-visible = "im Becher ist nichts zu sehen"
 liquid = "die Flüssigkeit ist {colour} {clarity}"
