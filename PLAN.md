@@ -3263,6 +3263,42 @@ are not repeated here. These four are not started.
 
 ## Open decisions
 
+### Waiting on the owner, 2026-09-17
+
+Three rulings, each blocking nothing else but each answerable only by
+whoever owns the product. All three came out of work that is otherwise
+finished and merged.
+
+- **The KCl conductivity standard is cited to an organisation that prints a
+  different number.** `FIT_SOURCE` in `conductivity.rs` calls **1413 µS/cm**
+  "the IUPAC/OIML reference value" for the 0.01 mol/kg standard. **OIML R 56
+  prints 1408.3 µS/cm** for its 0.01 D primary standard, and 1413 appears
+  nowhere in it; USGS/Jones–Bradshaw give 1408.07 (0.01 D) and 1410.75
+  (0.01 N). 1413 is close to the 0.0100 **mol/L** value — a real standard on
+  a *volumetric* basis, attributed here to a *molality* basis and to a body
+  that publishes neither. Nothing was changed: the existing 7% window covers
+  both, and a value corrected in the wrong direction is how the silver
+  ΔH_fus mistake happened. **The decision: restate the basis, adopt 1408.3,
+  or leave it and say why.** (#625)
+- **Six conductivity constants remain unwatched, and they are unwatched
+  because they are unsourced.** Zn²⁺, Fe²⁺, Fe³⁺, Al³⁺, Mn²⁺, Pb²⁺ — the six
+  for which no second compilation could be reached. After the sourcing work
+  the survivor list stopped being "code no test aims at" and became "data
+  nobody has corroborated", which is a different problem and a better one.
+  **The decision: buy a second source for the six, mark them
+  `Unestablished`, or accept them as they are.** (#625)
+- **`solution.solvent_kg` has two legitimate values and no ruling between
+  them.** It is the input water when the last operation is a material add
+  and PHREEQC's equilibrated `mass_H2O` when the last is a salt add — one
+  final state, two numbers, 1e-4 apart, and `ionic_strength` carries the
+  same residue into every activity coefficient. **This is a contract
+  question of the same kind as the `OH-` rename**, because the solver
+  reports molalities per kg of *its own* `mass_H2O`: substituting the
+  inventory figure would leave `n = m × kg` false by exactly the discrepancy
+  it repaired. **The decision: which number the contract publishes, and what
+  is done to the molalities to keep them consistent with it.** (#635)
+
+
 ### UI framework
 
 `kerotakis-core` is the invariant either way; the CLI defers the choice
