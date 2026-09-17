@@ -17,6 +17,7 @@
 //!   solver's species pool.
 
 use kerotakis_core::family::{FamilyRecord, FamilyRouter, StructureOracle};
+use kerotakis_core::phrase::{Phrase, Slot};
 
 use crate::inchi_validate::CURATED_STRUCTURES;
 use crate::{groups, templates};
@@ -103,7 +104,7 @@ impl StructureOracle for ChematicOracle {
         &self,
         record: &FamilyRecord,
         substrate_keys: &[&str],
-    ) -> Result<Option<Vec<String>>, String> {
+    ) -> Result<Option<Vec<String>>, Phrase> {
         // Every substrate needs a curated structure; a family asked about
         // a structureless species has not matched — it was never asked.
         let mut substrate_smiles = Vec::with_capacity(substrate_keys.len());
@@ -164,18 +165,29 @@ impl StructureOracle for ChematicOracle {
 fn run(
     template: &templates::ReactionTemplate,
     smiles: &[&str],
-) -> Result<Option<Vec<String>>, String> {
+) -> Result<Option<Vec<String>>, Phrase> {
     match templates::apply_template(template, smiles) {
         Ok(p) if p.is_empty() => Ok(None),
         Ok(p) => Ok(Some(p)),
         Err(e) if e.contains("failed") => Ok(None),
-        Err(e) => Err(e),
+        // The toolkit's own diagnostic. It is an ENGINEERING message
+        // about a malformed record, not a sentence anyone wrote for a
+        // learner, so it travels in a text slot and the frame around it
+        // is what a catalogue translates.
+        Err(e) => Err(Phrase::new(
+            "not-modeled.template-refused",
+            "the reaction template for family {family} could not be applied: {detail}",
+            vec![
+                ("family".to_string(), Slot::text(template.family.clone())),
+                ("detail".to_string(), Slot::text(e)),
+            ],
+        )),
     }
 }
 
 /// Registry keys for every product and every spectator fragment, or the
 /// refusal that names the structure nobody curated.
-fn name_all(family: &str, products: &[String], spectators: &[&str]) -> Result<Vec<String>, String> {
+fn name_all(family: &str, products: &[String], spectators: &[&str]) -> Result<Vec<String>, Phrase> {
     let mut keys = Vec::new();
     for smiles in products
         .iter()
@@ -190,7 +202,7 @@ fn name_all(family: &str, products: &[String], spectators: &[&str]) -> Result<Ve
 /// A product is named whole where the registry knows it whole, and
 /// fragment by fragment where the toolkit wrote a salt as `[Na+].CC(=O)[O-]`
 /// and the registry knows the ions. Anything else is the boundary.
-fn keys_of_product(family: &str, smiles: &str) -> Result<Vec<String>, String> {
+fn keys_of_product(family: &str, smiles: &str) -> Result<Vec<String>, Phrase> {
     if let Some(key) = key_of_product(smiles) {
         return Ok(vec![key.to_string()]);
     }
@@ -207,10 +219,18 @@ fn keys_of_product(family: &str, smiles: &str) -> Result<Vec<String>, String> {
     Err(unnameable(family, smiles))
 }
 
-fn unnameable(family: &str, smiles: &str) -> String {
-    format!(
+fn unnameable(family: &str, smiles: &str) -> Phrase {
+    Phrase::new(
+        // The key the ROUTER switches the refusal's cause on, named in
+        // `kerotakis-core` so the two crates cannot drift apart.
+        kerotakis_core::family::UNNAMEABLE_PRODUCT,
         "family {family} produced a structure the registry cannot name ({smiles}); the pool of \
-         the nameable is the boundary, and widening it is a registry task, not a silent drop"
+         the nameable is the boundary, and widening it is a registry task, not a silent drop",
+        vec![
+            ("family".to_string(), Slot::text(family)),
+            // A SMILES string is notation, never a word.
+            ("smiles".to_string(), Slot::text(smiles)),
+        ],
     )
 }
 

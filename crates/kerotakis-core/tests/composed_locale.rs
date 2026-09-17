@@ -58,7 +58,55 @@ const COMPOSERS: &[(&str, &str)] = &[
     ("clock.rs", include_str!("../src/clock.rs")),
     ("family.rs", include_str!("../src/family.rs")),
     ("bench.rs", include_str!("../src/bench.rs")),
+    // I18N-10's tail. Each one composes a refusal a SOLVER passes
+    // through: the solvent-activity range, the still's missing
+    // properties, the proton-consuming rate step.
+    ("states.rs", include_str!("../src/states.rs")),
+    ("volatility.rs", include_str!("../src/volatility.rs")),
+    ("kinetics.rs", include_str!("../src/kinetics.rs")),
 ];
+
+/// Every `#[cfg(test)] mod … { … }` removed, braces matched.
+///
+/// A fixture is not a sentence the engine says, and scanning one costs
+/// this gate in both directions. `family.rs`'s fake oracle builds a
+/// `Phrase` whose key is a `const` rather than a literal, so the scanner
+/// below reads the ENGLISH as the key and demands a translation for a
+/// sentence; `bench.rs`'s react-diagnostic fixture raises a gap under a
+/// deliberately made-up key. Neither is prose anybody reads, and neither
+/// belongs in the denominator.
+///
+/// Cut by braces rather than at the first `#[cfg(test)]`, because a test
+/// module is not always the last thing in a file — `kinetics.rs` has one
+/// at line 1294 and a thousand lines of engine after it.
+fn without_test_modules(text: &str) -> String {
+    let mut out = String::with_capacity(text.len());
+    let mut i = 0;
+    loop {
+        let Some(at) = text[i..].find("#[cfg(test)]").map(|n| i + n) else {
+            out.push_str(&text[i..]);
+            return out;
+        };
+        out.push_str(&text[i..at]);
+        let Some(open) = text[at..].find('{').map(|n| at + n) else {
+            return out;
+        };
+        let mut j = open + 1;
+        let mut depth = 1usize;
+        for (offset, c) in text[j..].char_indices() {
+            match c {
+                '{' => depth += 1,
+                '}' => depth -= 1,
+                _ => {}
+            }
+            if depth == 0 {
+                j += offset + c.len_utf8();
+                break;
+            }
+        }
+        i = j;
+    }
+}
 
 /// `Phrase::new("key", "english …"` and the `bare` form, as (key, en).
 ///
@@ -66,10 +114,29 @@ const COMPOSERS: &[(&str, &str)] = &[
 fn phrase_literals() -> Vec<(&'static str, String, String)> {
     let mut out = Vec::new();
     for (file, src) in COMPOSERS {
+        let src = without_test_modules(src);
         for opener in ["Phrase::new(", "Phrase::bare("] {
-            let mut rest: &str = src;
+            let mut rest: &str = &src;
             while let Some(at) = rest.find(opener) {
                 rest = &rest[at + opener.len()..];
+                // A key BUILT from a table row — `&format!("inert-in-
+                // solvent.{}-{}", …)`, `&format!("unavailable-solid.{}",
+                // …)` — is not a literal key, and what sits between the
+                // paren and the first quote is how you tell. Scanning one
+                // demands a translation for a key no catalogue can ever
+                // carry. Those tables are gated separately, each over the
+                // `const` the engine itself reads, which is the only
+                // denominator that can be right for them.
+                //
+                // This was true by accident before it was true on
+                // purpose: the scanner happened not to reach
+                // `inert-in-solvent`'s pair, and nothing said why.
+                let is_literal_key = rest
+                    .find('"')
+                    .is_some_and(|quote| !rest[..quote].contains('('));
+                if !is_literal_key {
+                    continue;
+                }
                 let Some((key, after_key)) = next_literal(rest) else {
                     continue;
                 };
@@ -203,12 +270,16 @@ fn unknown_composers_are_declared() {
                 continue;
             }
             let name = p.file_name().and_then(|n| n.to_str()).unwrap_or_default();
-            // `phrase.rs` defines the constructors; its own doc examples
-            // are not sentences the engine says.
+            // `phrase.rs` defines the constructors, and the `Phrase::new`
+            // inside `Phrase::bare` is the constructor calling itself
+            // rather than a sentence with a key. The one clause that file
+            // DOES compose — `look.sentence-join`, the space between two
+            // statements — is counted by `tools/engine-locale-lint.py`,
+            // which reads it out of the same source.
             if name == "phrase.rs" || declared.contains(name) {
                 continue;
             }
-            let text = std::fs::read_to_string(&p).expect("a source file");
+            let text = without_test_modules(&std::fs::read_to_string(&p).expect("a source file"));
             if text.contains("Phrase::new(") || text.contains("Phrase::bare(") {
                 undeclared.push(name.to_string());
             }
@@ -219,6 +290,39 @@ fn unknown_composers_are_declared() {
         "these files compose sentences but are not in COMPOSERS, so nothing \
          checks that their keys are translated: {undeclared:?}"
     );
+}
+
+/// The salts held past saturation whose solid no shipped database
+/// defines, keyed by the row of `UNAVAILABLE_SOLID_PHASES` they came
+/// from — the `INERT_IN_SOLVENT` shape, and the same argument: the
+/// verdict is curated prose with no holes, so a key built out of its own
+/// English orphans the German the moment somebody rewords the row.
+///
+/// The table is the denominator, read from the engine's own `const`. A
+/// salt added without German fails here on the commit that adds it.
+#[test]
+fn every_unavailable_solid_verdict_is_translated() {
+    let salts = kerotakis_core::solve::unavailable_solid_phase_salts();
+    assert!(
+        !salts.is_empty(),
+        "the curated table is empty — this gate is checking nothing"
+    );
+    for locale in Locale::available().into_iter().filter(|l| !l.is_english()) {
+        let missing: Vec<&str> = salts
+            .iter()
+            .copied()
+            .filter(|salt| {
+                locale
+                    .lookup(&format!("unavailable-solid.{salt}"))
+                    .is_none()
+            })
+            .collect();
+        assert!(
+            missing.is_empty(),
+            "{}: no `[unavailable-solid]` row for {missing:?}",
+            locale.code(),
+        );
+    }
 }
 
 /// The curated organic-solvent verdicts, whose key is built from the table
@@ -605,6 +709,7 @@ fn a_gap_without_a_recipe_falls_back_to_its_english() {
         what: "nothing here at all".to_string(),
         cause: NotModelledCause::NothingToActOn,
         reason: None,
+        beside_a_visible_change: false,
     };
     let line = render_events_in(&[event], Register::LV2, Locale::parse("de")).join(" ");
     assert!(line.contains("nothing here at all"), "{line}");
