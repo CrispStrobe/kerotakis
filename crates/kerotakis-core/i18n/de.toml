@@ -597,6 +597,10 @@ hydroxylapatite = "Hydroxylapatit"
 "state-changed.lv1-boiling-look-steam" = "Das {name} in {vessel} kocht — sieh dir den Dampf an!"
 "state-changed.lv1-x" = "{vessel}: {name} {verb} bei {c} °C"
 "not-yet-modeled.lv1" = "Hmm — in {vessel} passiert nichts Sichtbares (dieser Teil des Labors ist noch nicht wach)."
+# GUI-106: the same note, said where the vessel DID visibly change. The
+# line above claims the beaker did nothing, which is the one thing this
+# event does not know and, in the starch test, the opposite of the truth.
+"not-yet-modeled.lv1-beside-change" = "In {vessel} hat sich etwas verändert — aber ein Teil davon ist noch nicht modelliert."
 "not-yet-modeled.lv2" = "{vessel}: noch nicht modelliert — {what}"
 "diluted.lv1" = "Du gibst Wasser in {vessel} — die Lösung wird schwächer."
 

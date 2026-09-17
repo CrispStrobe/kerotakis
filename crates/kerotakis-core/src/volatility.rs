@@ -76,14 +76,13 @@ pub fn additional_solvent_cut(
         if p.moles.0 <= 0.0 || !matches!(p.phase, Phase::Liquid | Phase::Aqueous) {
             continue;
         }
-        let data = species::lookup(&p.species)
-            .ok_or_else(|| {
-                Phrase::new(
-                    "not-modeled.unregistered-condensed-species",
-                    "unregistered condensed species {key}",
-                    vec![("key".to_string(), Slot::text(p.species.0.clone()))],
-                )
-            })?;
+        let data = species::lookup(&p.species).ok_or_else(|| {
+            Phrase::new(
+                "not-modeled.unregistered-condensed-species",
+                "unregistered condensed species {key}",
+                vec![("key".to_string(), Slot::text(p.species.0.clone()))],
+            )
+        })?;
         if p.phase == Phase::Liquid
             || matches!(data.standard_phase, Phase::Liquid | Phase::Gas)
             || coefficient_for(&p.species.0).is_some()

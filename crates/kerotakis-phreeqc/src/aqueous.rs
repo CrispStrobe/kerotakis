@@ -4859,10 +4859,7 @@ fn unspeciated_solute_notes(vessel: &Vessel) -> Vec<Event> {
                             // its text orphans every translation of it the
                             // moment somebody rewords the row.
                             "why".to_string(),
-                            Slot::phrase(Phrase::bare(
-                                &format!("unspeciated-solute.{key}"),
-                                why,
-                            )),
+                            Slot::phrase(Phrase::bare(&format!("unspeciated-solute.{key}"), why)),
                         ),
                     ],
                 ),

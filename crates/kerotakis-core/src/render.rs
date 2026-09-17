@@ -4147,7 +4147,11 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             }
         },
         Event::NotYetModeled {
-            vessel, what, reason, ..
+            vessel,
+            what,
+            reason,
+            beside_a_visible_change,
+            ..
         } => {
             // `what` is English composed in bench.rs and carried in the
             // event, so a German frame was wrapping an English reason:
@@ -4172,6 +4176,22 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     .unwrap_or_else(|| what.clone()),
             };
             match register.level() {
+            // GUI-106. The lv1 sentence makes TWO claims — that part of
+            // the lab is not awake, and that the vessel did nothing — and
+            // only the first is this event's to make. Where the step
+            // moved the vessel's appearance the second is false, and in
+            // `starch-iodine-test.lab` it stood one line above "the
+            // liquid is blue-black", in the lesson the colour change IS.
+            //
+            // The note is not dropped, here or at any register: a gap
+            // that goes unsaid at lv1 is a gap the youngest reader is the
+            // only one not told about. It is said in a sentence that does
+            // not contradict the beaker in front of them.
+            1 if *beside_a_visible_change => locale.fill(
+                "event.not-yet-modeled.lv1-beside-change",
+                "Something did change in {vessel} — but part of what happened isn't modelled yet.",
+                &[("vessel", &vessel.to_string())],
+            ),
             1 => locale.fill(
                 "event.not-yet-modeled.lv1",
                 "Hmm — nothing visible happens in {vessel} (this part of the lab isn't awake yet).",
@@ -4437,6 +4457,7 @@ pub fn localize_event(event: &Event, locale: Locale) -> Event {
             what,
             cause,
             reason,
+            beside_a_visible_change,
         } => Event::NotYetModeled {
             vessel: *vessel,
             what: match reason {
@@ -4444,6 +4465,7 @@ pub fn localize_event(event: &Event, locale: Locale) -> Event {
                 None => localize_refusal(what, locale),
             },
             cause: *cause,
+            beside_a_visible_change: *beside_a_visible_change,
             // The recipe is the source and stays in it: a host that reads
             // the event rather than the rendered line composes it itself,
             // and a recipe translated on the way past would be translated

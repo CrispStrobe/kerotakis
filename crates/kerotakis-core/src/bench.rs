@@ -697,6 +697,43 @@ impl Bench {
                 })
             })
             .collect::<Vec<_>>();
+        // GUI-106: the word for the liquid in each touched vessel, before
+        // the operator.
+        //
+        // The same before/after shape the three observers below already
+        // use, asked of the one thing the lv1 gap sentence claims:
+        // "nothing visible happens in {vessel}".
+        //
+        // The COLOUR WORD and not the whole observation, and the
+        // difference decides two cases that look alike. Dropping a lump
+        // of iron into water changes the observation — there is now iron
+        // in the beaker — and changes nothing about how the water looks;
+        // that vessel's gap note is K17's, the one the lv1 sentence was
+        // written for, and it must keep it. Stirring cornstarch into
+        // Lugol takes the liquid from brown to blue-black, and a note
+        // saying nothing visible happened stands one line above the
+        // lesson's whole point.
+        //
+        // `liquid_colour_word_of` is the bench's own existing answer to
+        // "the one word a person would use for the liquid in this
+        // vessel" — EXP-39's self-indicating endpoint reads it and
+        // nothing else — so this asks the same question the titration
+        // already asks, rather than inventing a second notion of visible.
+        let seen_before = match &op {
+            // A `wait` advances the whole bench, so every vessel is a
+            // vessel this step may have changed the look of — the same
+            // widening `touched` makes below, made here because the
+            // "before" has to be read before `apply` runs.
+            Operator::Wait { .. } => self.vessels.iter().map(|v| v.id).collect::<Vec<_>>(),
+            _ => op_touches(&op),
+        }
+        .into_iter()
+        .filter_map(|id| {
+            self.vessel(id)
+                .ok()
+                .map(|vessel| (id, liquid_colour_word_of(vessel)))
+        })
+        .collect::<Vec<_>>();
         let swelling_before = op_touches(&op)
             .into_iter()
             .filter_map(|id| {
@@ -1159,6 +1196,50 @@ impl Bench {
                     None => {
                         let absence = self.ignition_absence(*vessel, &events);
                         events.push(absence);
+                    }
+                }
+            }
+        }
+
+        // GUI-106: a gap note beside a vessel that visibly changed.
+        //
+        // Asked LAST, after every solver and every correction above, so
+        // the "after" is the vessel as the step leaves it — and asked
+        // only of the vessels a note was actually raised about, because
+        // the answer costs an `observe` and changes nothing anywhere
+        // else.
+        let noted: Vec<VesselId> = events
+            .iter()
+            .filter_map(|event| match event {
+                Event::NotYetModeled { vessel, .. } => Some(*vessel),
+                _ => None,
+            })
+            .collect();
+        for id in noted {
+            let before = seen_before
+                .iter()
+                .find(|(candidate, _)| *candidate == id)
+                .map(|(_, word)| *word);
+            // No "before" means this vessel did not exist when the step
+            // began, and a vessel that has just been created has not
+            // CHANGED how it looks. Claiming it had would be the same
+            // overclaim in the other direction.
+            let Some(before) = before else { continue };
+            let Ok(vessel) = self.vessel(id) else {
+                continue;
+            };
+            if liquid_colour_word_of(vessel) == before {
+                continue;
+            }
+            for event in events.iter_mut() {
+                if let Event::NotYetModeled {
+                    vessel,
+                    beside_a_visible_change,
+                    ..
+                } = event
+                {
+                    if *vessel == id {
+                        *beside_a_visible_change = true;
                     }
                 }
             }
