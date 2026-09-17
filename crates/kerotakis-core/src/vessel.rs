@@ -632,11 +632,11 @@ pub struct Provenance {
 impl Provenance {
     /// A provenance whose routing is a recipe.
     ///
-    /// `routing` is filled by rendering `routing` in the source language,
-    /// which is the property that makes this change invisible to every
-    /// consumer that reads the string: the English is generated from the
-    /// same template it used to be written as, so there is one sentence
-    /// and not two.
+    /// The `routing` field is filled by rendering the recipe in the
+    /// SOURCE language, which is the property that makes this change
+    /// invisible to every consumer that reads the string: the English is
+    /// generated from the same template it used to be written as, so
+    /// there is one sentence and not two.
     #[must_use]
     pub fn new(
         engine: impl Into<String>,

@@ -1,8 +1,11 @@
 //! A list of names is a GRAMMAR, not a string with commas in it.
 //!
-//! Nine sites composed one with `Slot::text(names.join(", "))`, which puts
-//! the separator in the Rust where no catalogue can reach it and leaves
-//! out the final conjunction entirely. `Slot::List` renders *a, b and c*
+//! Eight sites composed one with `Slot::text(names.join(", "))`, which
+//! puts the separator in the Rust where no catalogue can reach it and
+//! leaves out the final conjunction entirely. (Eight, settled from the
+//! source: I18N-10 counted nine and was right about the ninth, which is
+//! `particles.rs`' `", and {n} more"` — and that one is not a `Slot` at
+//! all, so it is not here. See ROADMAP-GUI.md.) `Slot::List` renders *a, b and c*
 //! from two catalogue rows — `look.list-separator` and `look.list-final`
 //! — so a language that uses no final conjunction writes `"{head}{last}"`
 //! and gets what it wants without a line of Rust.
