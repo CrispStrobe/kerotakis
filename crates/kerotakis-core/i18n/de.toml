@@ -1091,6 +1091,13 @@ Danger = "Gefahr"
 # every site. `every_appearance_word_has_german` walks the registry.
 [appearance]
 black = "schwarz"
+orange = "orange"
+yellow = "gelb"
+pink = "rosa"
+brown = "braun"
+"dark brown" = "dunkelbraun"
+"blue-black" = "blauschwarz"
+"deep purple" = "tiefviolett"
 purple = "violett"
 blue = "blau"
 "deep blue crystals" = "tiefblaue Kristalle"
@@ -1148,6 +1155,59 @@ white = "weiß"
 "white to yellowish powder" = "weißes bis gelbliches Pulver"
 "white when dry" = "weiß im trockenen Zustand"
 "yellow-green, toxic" = "gelbgrün, giftig"
+
+
+# The `look` sentence (I18N-7).
+#
+# `appearance.rs` used to CONCATENATE this sentence in English — "there is
+# {list} in the beaker", a `" and "` between the names, the colour word
+# glued in front of each one — so no catalogue could reach it and every
+# `look` line in every language was English. The clauses below are whole
+# sentences with named holes, which is the only shape that survives a
+# language that orders or inflects the parts differently.
+#
+# Note the three clauses that take a LIST. English is indifferent to how
+# many things are in it; German is not — "am Boden liegt Zink" but "am
+# Boden liegen Zink und Kupfer", and the composer cannot know which it
+# will be. The German here sidesteps the agreement with "du siehst", which
+# is right for one thing and for three. That is not a workaround, it is
+# the freedom the template is for: English keeps its verb, German picks
+# another construction, and neither had to change a line of Rust.
+#
+# Note `coloured`. English writes "white silver chloride"; French writes
+# "chlorure d'argent blanc"; and German would have to inflect the colour
+# to the noun's gender — *weißes Natron* but *weiße Citronensäure* — which
+# no single translation of "white" can do. So the German construction puts
+# the colour beside the name instead of in front of it, where it does not
+# decline. That choice lives HERE, in the data, which is the whole point:
+# a translator changes the construction without changing a line of Rust.
+[look]
+empty = "der Becher ist leer"
+liquid = "die Flüssigkeit ist {colour} {clarity}"
+clarity-opaque = "und so trüb, dass du nicht hindurchsehen kannst"
+clarity-cloudy = "und trüb"
+clarity-hazy = "und ganz leicht milchig"
+clarity-clear = "und klar"
+bubbling = "Gasbläschen steigen darin auf"
+protein-coagulated = "das Eiweiß in {material} ist denaturiert und zu einem undurchsichtigen weißen Feststoff geronnen"
+deposit-in-liquid = "am Boden siehst du {what}"
+deposit-dry = "im Becher siehst du {what}"
+surface-skin = "eine Haut aus {material} bedeckt die Oberfläche"
+surface-grains = "Körner aus {material} schwimmen auf der Oberfläche"
+floats-on-top = "an der Oberfläche siehst du {what}"
+coloured = "{name} ({colour})"
+piece-floats = "ein Stück {what} schwimmt obenauf"
+piece-bottom = "ein Stück {what} liegt am Boden"
+piece-here = "ein Stück {what} liegt im Becher"
+spectral-gap = "Die Farbe ist unvollständig: für {species} liegt kein Absorptionsspektrum vor."
+# The list grammar, as two entries rather than a hardcoded " and ": a
+# language that uses no final conjunction writes "{head}{last}" here and
+# gets what it wants.
+list-separator = ", "
+list-final = "{head} und {last}"
+clause-separator = ", "
+full-stop = "."
+
 
 [flame]
 "a blinding white" = "blendend weiß"

@@ -1677,17 +1677,23 @@ display name in the registry, is the wrong fix.
 - [x] **I18N-6 — `Detailstufe lv1`.** `lv1` is a protocol token, not a word,
   and reached the notebook verbatim. It now goes through `t()` like everything
   else, with a fallback to itself for a register a locale has not named.
-- [ ] **I18N-7 — `appearance.rs` has no locale at all.** Not a missing key: the
-  file never takes a `Locale`. It *concatenates* English — `"there is {list} in
-  the beaker"`, `"a piece of {} is in the beaker"`, the joining `"and"`, the
-  colour words — so every `look` sentence is English inside an otherwise German
-  lesson, including the one the owner quoted and *"The liquid is colourless and
-  clear, there is grey zinc and orange copper at the bottom."* This is the
-  structural one. Sentences are assembled from parts, and a language that
-  orders or inflects those parts differently cannot be served by translating
-  the fragments, so the unit of translation has to become the whole sentence
-  with slots. Deliverable: `appearance` takes a locale, its sentences are
-  catalogue templates, and a test asserts no English reaches a German `look`.
+- [x] **I18N-7 — `appearance.rs` has no locale at all.** Not a missing key: the
+  file never took a `Locale` and could not have used one — it reached the
+  reader through an EVENT, and by the time anything knew who was reading, the
+  words had been chosen and the values baked in. Fixed by making the engine
+  emit the RECIPE and the host cook it: `crate::phrase::Phrase` is a key, its
+  English source, and typed slots, and `Appearance` now carries the clause
+  list beside the English `words` that every existing consumer still reads.
+  `Slot::Term` is what a flat `fill` could not express — the composer knows
+  that *silver chloride* is a species and *white* is an appearance word, and
+  by the time a sentence is a string that knowledge is gone. The list grammar
+  (`", "` and `" and "`) and even the full stop are catalogue rows, because
+  they are grammar rather than punctuation the moment the language is not
+  English. 22 new German rows under `[look]`. Note `look.coloured`: English
+  writes "white silver chloride", French writes it the other way round, and
+  German would have to inflect the colour to the noun's gender — so the
+  German construction puts the colour beside the name, a decision that lives
+  in the data and not in the Rust.
 - [ ] **I18N-8 — Inert-reason prose is English.** `v1 Zink reagiert nicht —
   zinc should dissolve in this acid by the series (driving force +0.62 V), but
   hydrogen has to form on zinc…` The refusal's *name* is translated and its

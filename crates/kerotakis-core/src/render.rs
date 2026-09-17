@@ -3280,13 +3280,22 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 )
             }
         },
+        // I18N-7: the summary is recomposed here rather than read off the
+        // event. `Appearance.words` is the ENGLISH source text — every
+        // existing consumer still gets it — and `say` rebuilds the same
+        // sentence from the clause list in the reader's language. Doing it
+        // at render time is what keeps the bench monolingual: it reports
+        // what it saw, and only this layer knows who is reading.
         Event::Observed { vessel, appearance } => match register.level() {
             1 => locale.fill(
                 "event.observed.lv1",
                 "You look closely at {vessel}. {appearance}",
-                &[("vessel", &vessel.to_string()), ("appearance", &appearance.words.to_string())],
+                &[
+                    ("vessel", &vessel.to_string()),
+                    ("appearance", &appearance.say(locale)),
+                ],
             ),
-            2 => format!("{vessel}: {}", appearance.words),
+            2 => format!("{vessel}: {}", appearance.say(locale)),
             _ => {
                 let colour = appearance
                     .liquid
@@ -3294,7 +3303,8 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     .unwrap_or_else(|| "—".to_string());
                 format!(
                     "{vessel}: {} (liquid {colour}, turbidity {:.2})",
-                    appearance.words, appearance.cloudiness
+                    appearance.say(locale),
+                    appearance.cloudiness
                 )
             }
         },
@@ -4406,6 +4416,18 @@ pub fn localize_event(event: &Event, locale: Locale) -> Event {
             vessel: *vessel,
             what: localize_refusal(what, locale),
             cause: *cause,
+        },
+        // A host that reads the EVENT rather than the rendered line — the
+        // web bench paints from the appearance object — must see the same
+        // German the notebook shows. The clause list is left alone: it is
+        // the recipe, it stays in the source language, and translating it
+        // twice would be the bug this shape exists to prevent.
+        Event::Observed { vessel, appearance } => Event::Observed {
+            vessel: *vessel,
+            appearance: crate::appearance::Appearance {
+                words: appearance.say(locale),
+                ..appearance.clone()
+            },
         },
         other => other.clone(),
     }

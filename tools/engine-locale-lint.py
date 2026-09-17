@@ -46,6 +46,20 @@ SCRIPT = ROOT / "crates/kerotakis-core/src/script.rs"
 # file — so this lint has to read two sources or it reports every refusal
 # key as an orphan.
 BENCH = ROOT / "crates/kerotakis-core/src/bench.rs"
+# I18N-7/8. The sentences the engine BUILDS reach no call site in
+# `render.rs` either: `appearance.rs` composes what a vessel looks like and
+# the solvers compose why a metal did not react, each as a `Phrase` — a
+# key, its English, and the slots — emitted in the EVENT and rendered by
+# whichever host is reading. Before this list existed, every `look` line
+# and every inert verdict was invisible to this lint in both directions:
+# unreachable prose it did not count, and catalogue keys it would have
+# called orphans.
+COMPOSERS = [
+    ROOT / "crates/kerotakis-core/src/appearance.rs",
+]
+# `phrase.rs` asks the catalogue for the list grammar and the punctuation
+# by name, the ordinary `locale.t` way.
+PHRASE = ROOT / "crates/kerotakis-core/src/phrase.rs"
 CATALOGUES = ROOT / "crates/kerotakis-core/i18n"
 
 # `locale.t("vessel.open", ", open to atmosphere")` and the fill() form.
@@ -77,6 +91,13 @@ SECTION_LITERAL = re.compile(r'"(script-[\w-]+)"')
 # the refusal is made rather than at the point it is rendered.
 REFUSAL = re.compile(
     r'Refusal::new\(\s*"([^"]+)"\s*,\s*"((?:[^"\\]|\\.)*)"', re.S
+)
+
+# `Phrase::new("look.deposit-dry", "there is {what} in the beaker", …)` and
+# the no-slot `Phrase::bare` form — the same (key, English) pair, written
+# where the sentence is composed rather than where it is rendered.
+PHRASE_CALL = re.compile(
+    r'Phrase::(?:new|bare)\(\s*"([^"]+)"\s*,\s*"((?:[^"\\]|\\.)*)"', re.S
 )
 
 
@@ -125,8 +146,30 @@ def main() -> int:
         bench = bench[:bench_cut]
     refusals = {m.group(1): unwrap(m.group(2)) for m in REFUSAL.finditer(bench)}
     used.update(refusals)
+    composed: dict[str, str] = {}
+    for path in COMPOSERS:
+        text = path.read_text()
+        cut = text.find("\n#[cfg(test)]")
+        if cut != -1:
+            text = text[:cut]
+        for m in PHRASE_CALL.finditer(text):
+            composed[m.group(1)] = unwrap(m.group(2))
+    phrase_src = PHRASE.read_text()
+    for m in CALL.finditer(phrase_src):
+        composed[m.group(1)] = m.group(2)
+    used.update(composed)
     grammar = SCRIPT.read_text()
     dynamic = {m.group(1) for m in DYNAMIC.finditer(src)}
+    # `Slot::Term { section, en }` looks a term up by VALUE under a section
+    # chosen at runtime, and the curated solvent verdicts build their key
+    # out of the table row they came from. Neither can be named at a call
+    # site, which is the same legitimate pattern the glassware and species
+    # tables use.
+    for path in COMPOSERS:
+        dynamic |= {
+            m.group(1)
+            for m in re.finditer(r'Slot::term\(\s*"([\w.-]+)"', path.read_text())
+        }
     dynamic |= {m.group(1) for m in DYNAMIC.finditer(grammar)}
     dynamic |= {m.group(1) for m in SECTION.finditer(grammar)}
     dynamic |= {m.group(1) for m in SECTION_LITERAL.finditer(grammar)}
@@ -190,6 +233,9 @@ def main() -> int:
         per_key[m.group(1)].add(m.group(2))
     for m in REFUSAL.finditer(bench):
         per_key[m.group(1)].add(unwrap(m.group(2)))
+    for path in COMPOSERS:
+        for m in PHRASE_CALL.finditer(path.read_text()):
+            per_key[m.group(1)].add(unwrap(m.group(2)))
     shared = {k: v for k, v in per_key.items() if len(v) > 1}
     if shared:
         print("KEY USED BY TWO DIFFERENT SENTENCES:")
@@ -203,6 +249,9 @@ def main() -> int:
     print(f"   still inside a bare format!: {len(bare):>4} literals")
     print(f"{'bench refusals in bench.rs':<34}")
     print(f"   reachable by a catalogue : {len(refusals):>4} keys")
+    print(f"{'sentences the engine composes':<34}")
+    print(f"   reachable by a catalogue : {len(composed):>4} keys")
+    print(f"   ({', '.join(p.name for p in COMPOSERS)}, phrase.rs)")
 
     problems = len(shared)
     print()

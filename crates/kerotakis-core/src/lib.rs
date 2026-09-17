@@ -74,6 +74,7 @@ pub mod parallel;
 pub mod particles;
 pub mod phase_route;
 pub mod photochem;
+pub mod phrase;
 pub mod pigment;
 pub mod plastics;
 pub mod polarization;
@@ -136,6 +137,7 @@ pub use ledger::{audit_conservation, ConservedLedger};
 pub use ops::{DiscardedPortion, Event, Instrument, LogEntry, Operator, PolymerState};
 pub use orchestrator::Orchestrator;
 pub use phase_route::PhaseRouteEquilibrator;
+pub use phrase::{Phrase, Slot};
 pub use pigment::{opaque_mixture_colour, PigmentAmount, PigmentMixError, PigmentOptics};
 pub use refusal::{Refusal, Refuses};
 pub use render::{
