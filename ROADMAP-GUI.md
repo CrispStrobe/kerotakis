@@ -1677,10 +1677,18 @@ So the truthful inventory is 131 + 77 + 44 = **252**, and the shortfall was
     Four tests, two of them the "both ways" pair: the contradiction is
     gone and the reason still prints at lv2; a gap over an unchanged
     liquid keeps "nothing visible happens"; the flag belongs to the VESSEL
-    and not to the step; and the real lesson on the shipped binary asserts
-    the colour line ALONGSIDE the absence, because a test that only checks
-    a sentence is gone passes just as happily when the lesson has stopped
-    computing anything at all.
+    and not to the step; and the real lesson on the shipped binary reads
+    what a learner reads.
+
+    That last one asserts three things and needs all three. The absence of
+    the wrong sentence is worth almost nothing alone: it is satisfied just
+    as well by a lesson that has stopped computing, and by a gap that
+    stopped being reported — the same defect wearing silence instead of a
+    wrong sentence. So it pins the colour line (**blue-black** in the test
+    vessel, **brown** in the control, which is the comparison the lesson
+    IS) and the replacement note beside it. Together they say: the gap
+    still fires for that step, the defect was real, and what stands there
+    now is true.
 
     *The limit, written down rather than glossed:* a liquid that goes
     cloudy without changing colour word does not trip this, and neither
