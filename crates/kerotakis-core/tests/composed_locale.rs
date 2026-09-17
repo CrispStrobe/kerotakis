@@ -66,16 +66,77 @@ const COMPOSERS: &[(&str, &str)] = &[
     ("kinetics.rs", include_str!("../src/kinetics.rs")),
 ];
 
+/// Every `#[cfg(test)] mod … { … }` removed, braces matched.
+///
+/// A fixture is not a sentence the engine says, and scanning one costs
+/// this gate in both directions. `family.rs`'s fake oracle builds a
+/// `Phrase` whose key is a `const` rather than a literal, so the scanner
+/// below reads the ENGLISH as the key and demands a translation for a
+/// sentence; `bench.rs`'s react-diagnostic fixture raises a gap under a
+/// deliberately made-up key. Neither is prose anybody reads, and neither
+/// belongs in the denominator.
+///
+/// Cut by braces rather than at the first `#[cfg(test)]`, because a test
+/// module is not always the last thing in a file — `kinetics.rs` has one
+/// at line 1294 and a thousand lines of engine after it.
+fn without_test_modules(text: &str) -> String {
+    let mut out = String::with_capacity(text.len());
+    let mut i = 0;
+    loop {
+        let Some(at) = text[i..].find("#[cfg(test)]").map(|n| i + n) else {
+            out.push_str(&text[i..]);
+            return out;
+        };
+        out.push_str(&text[i..at]);
+        let Some(open) = text[at..].find('{').map(|n| at + n) else {
+            return out;
+        };
+        let mut j = open + 1;
+        let mut depth = 1usize;
+        for (offset, c) in text[j..].char_indices() {
+            match c {
+                '{' => depth += 1,
+                '}' => depth -= 1,
+                _ => {}
+            }
+            if depth == 0 {
+                j += offset + c.len_utf8();
+                break;
+            }
+        }
+        i = j;
+    }
+}
+
 /// `Phrase::new("key", "english …"` and the `bare` form, as (key, en).
 ///
 /// A regex would need a crate; the shape is fixed enough to scan for.
 fn phrase_literals() -> Vec<(&'static str, String, String)> {
     let mut out = Vec::new();
     for (file, src) in COMPOSERS {
+        let src = without_test_modules(src);
         for opener in ["Phrase::new(", "Phrase::bare("] {
-            let mut rest: &str = src;
+            let mut rest: &str = &src;
             while let Some(at) = rest.find(opener) {
                 rest = &rest[at + opener.len()..];
+                // A key BUILT from a table row — `&format!("inert-in-
+                // solvent.{}-{}", …)`, `&format!("unavailable-solid.{}",
+                // …)` — is not a literal key, and what sits between the
+                // paren and the first quote is how you tell. Scanning one
+                // demands a translation for a key no catalogue can ever
+                // carry. Those tables are gated separately, each over the
+                // `const` the engine itself reads, which is the only
+                // denominator that can be right for them.
+                //
+                // This was true by accident before it was true on
+                // purpose: the scanner happened not to reach
+                // `inert-in-solvent`'s pair, and nothing said why.
+                let is_literal_key = rest
+                    .find('"')
+                    .is_some_and(|quote| !rest[..quote].contains('('));
+                if !is_literal_key {
+                    continue;
+                }
                 let Some((key, after_key)) = next_literal(rest) else {
                     continue;
                 };
@@ -218,7 +279,7 @@ fn unknown_composers_are_declared() {
             if name == "phrase.rs" || declared.contains(name) {
                 continue;
             }
-            let text = std::fs::read_to_string(&p).expect("a source file");
+            let text = without_test_modules(&std::fs::read_to_string(&p).expect("a source file"));
             if text.contains("Phrase::new(") || text.contains("Phrase::bare(") {
                 undeclared.push(name.to_string());
             }
