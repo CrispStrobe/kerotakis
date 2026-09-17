@@ -12,6 +12,94 @@ it had while it was open, which is why a few numbers appear twice below.
 
 ---
 
+## 2026-09-17
+
+**German reached the engine's own voice, and four green suites were wrong**
+
+The shell had been German for weeks; the *engine* was not, and one pasted
+lesson transcript showed exactly where the boundary fell — "Du gibst
+Citronensäure in v1" followed by "Du gibst baking_soda in v1", then "Du
+siehst dir v1 genau an. **There is white baking soda in the beaker.**"
+
+Four PRs closed that, and the diagnosis in each was a missing *mechanism*
+rather than a missing string, which is why no translation count had ever
+caught them.
+
+**#617 — material names, and the German that already shipped.** `Event::Added`
+rendered through `species_name`; forty lines below, every event naming a
+MATERIAL printed the key the script typed. No translation was authored: all
+132 registry recipes already carried `aliases.de`, because the *parser* has
+accepted German input since BRD-002. The renderer had simply never asked. The
+same change exposed the identical defect in English — the engine was printing
+`naked_egg` and `cut_apple` into learner prose and `frozen_behavior` had
+frozen it as correct. 162 golden lines changed and every number on them
+stayed byte-identical.
+
+**#626 — `appearance.rs` took no locale at all.** Not a missing key: the file
+never received one, and could not have used one, because its words reached
+the reader through an *event* with the sentence already assembled. Fragment
+translation was never available either — French orders colour and noun the
+other way, German inflects the colour to the noun's gender, and `", "`
+against `" and "` is a list *grammar*. So the engine emits a recipe and the
+host cooks it: `Phrase`, with typed slots, where `Term` carries what a flat
+substitution cannot — only the composer knows *silver chloride* is a species
+and *white* is an appearance word.
+
+**#628 — the scene, where the web reader actually looks.** The roadmap said
+eleven sentences; it was twenty, and composing clauses in `observe` had
+bought a browser reader nothing, because the canvas paints its caption from
+the *scene*. `SceneVessel` now generates its `words` from clauses. The scene
+golden: **11777 insertions, zero deletions.** It also corrected the migration
+count it inherited — 93 sites was `matches!` patterns counted as
+constructions; the lint reads 82 from the source.
+
+**#629 — all 113 lessons.** 413 labels, authored German for every one, and
+the migration proved rather than asserted: each lesson replayed against its
+pre-migration self for byte-identical `kero run` output. A `#@label` is still
+a `#` comment. French is `lessons/prose/fr.toml` and nothing else.
+
+**What the day really taught: four suites were green and the product was
+wrong.**
+
+A lesson named "The Lugol colour test" printed an inventory and never showed
+a colour (#630). A sealed gas flask and a filtered beaker of sand each
+described themselves as `"."`, and **241 conformance checks asserting the
+words are non-empty were satisfied by that full stop** (#626). A mutation
+verdict came back "caught" from a test rung that ran in 0.1 s where it takes
+34, because the harness hardcoded one box's `TMPDIR` (#625). And a defect
+report where every observation was correct — the gauge did read atmospheric,
+the boundary *was* open, doubling the dose changed nothing — reached the
+wrong conclusion, because the bottle had burst and a burst leaves no trace in
+a pressure reading taken afterwards (#627).
+
+Each was found by looking at output rather than at an assertion about it. The
+common shape: **a single plausible scalar is not evidence.**
+
+**Measurement.** The const-table mutation run finished at 70 of 70 — 36
+caught, 34 survived — and found that five conductivity constants are watched
+and that is the whole list: H+, OH-, Na+, K+, Cl-. The ions in table salt and
+in the acid and base every lesson pours. **The λ° table was verified exactly
+where the lessons happen to go** (#623). The owner chose to source the values
+and cover the class rather than pin each constant; 23 unwatched became 6, and
+the six that survive are exactly the six for which no second source could be
+reached — the survivor list is now a list of unsourced *data* rather than of
+untested code (#625).
+
+**Chemistry.** Fermentation extent went as the *square* of the batch, because
+a rate in grams of culture was never divided by volume (#618); the magnitude
+was then calibrated against published fermentations and never against pH,
+and bio-069 crossed real yoghurt's 4.4–4.6 band from below to above with
+nothing aiming at it (#621). `solution.pe` was published for beakers holding
+no couple, because the guard asked whether any element *could* be redox-active
+and carbon can — 760 mV of path residue on the wire (#631). And the published
+contract stopped calling residual cation charge "hydroxide" (#619).
+
+**Two records were withdrawn rather than quietly edited**: the seal defect
+that was a burst (#627), and a duplicate-key count of mine that came from
+counting pairs across two sections of one file (#620).
+
+---
+
 ## 2026-09-16
 
 **Provenance: the audit that found its own instrument broken**
