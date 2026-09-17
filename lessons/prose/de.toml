@@ -14,6 +14,10 @@
 title = "Eine Antazida-Suspension: Die Neutralisation endet, wenn die Säure verbraucht ist"
 intro = "Überschüssiges, schwer lösliches Magnesiumhydroxid bleibt zurück. Das ist Chemie und weder ein medizinischer Rat noch eine Dosierungsempfehlung."
 
+["balloon-pressure"]
+title = "Luftballon auf der Flasche: Gas braucht einen Platz"
+intro = "Ein Kolbendeckel steht hier für einen dehnbaren Luftballon: Er berechnet Druck und wachsendes Volumen, nicht die Elastizität des Gummis, die Form des Ballons oder das Reißen des Latex."
+
 ["buffer"]
 title = "Puffer: warum dein Blut den pH-Wert nicht ändert, wenn du Limonade trinkst"
 
@@ -26,6 +30,10 @@ intro = "Nimm für einen echten Versuch nur gewöhnlichen 5-prozentigen Speisees
 part.control = "Kontrolle: Ein Kreidestift löst sich in derselben Menge reinem Wasser kaum und hat keine begrenzte Säurequelle, aus der ein sichtbarer Stoß Kohlendioxid entstehen könnte."
 part.test = "Test: Ersetze das Wasser durch das benannte Rezept für 5-prozentigen Essig und lass die Kreidemenge gleich. Die ausgeglichene Reaktion verbraucht begrenztes CaCO3 und begrenzte Essigsäure. Ihr wirklicher CO2-Bestand treibt den gewohnten Blaseneffekt und entweicht aus diesem offenen Becherglas; er ist keine abgespielte Animation."
 boundary = "Versuche es in einem frischen Gefäß mit weniger Kreide oder weniger Essig. Das begrenzende Reagenz bestimmt die Gasmenge. Mahlen würde die tatsächliche Geschwindigkeit ändern, doch eine Kinetik über die Teilchenoberfläche bleibt für diese Reaktion ausdrücklich ein künftiges Modell."
+
+["cola-shell-surrogate"]
+title = "Eine Eierschale in Cola: Prüfe die Säure, die tatsächlich abgebildet ist"
+intro = "Die Phosphorsäure der Cola trifft auf carbonathaltige Kreide. Membran, Zahnschmelz, Osmose, Oberflächenstruktur und ein ganzes Ei sind nicht abgebildet."
 
 ["conductivity"]
 title = "Ionische Leitfähigkeit: starke und schwache Elektrolyte im Vergleich"
@@ -42,6 +50,19 @@ boundary = "Das sind Leerlaufspannungen im Gleichgewicht, keine Messungen unter 
 
 ["counting-in-fives"]
 title = "Permanganat zählt in Fünferschritten: eine Redoxtitration, am Endpunkt gestoppt"
+
+["current-time-and-electrolysis-yield"]
+title = "Stromstärke, Zeit und Ausbeute der Elektrolyse"
+intro = "Halte die Zeit bei 75 s fest und ordne die Produktmengen, die 0,05 A, 0,1 A, 0,2 A und 0,4 A erzeugen. Verbinde diese Reihenfolge mit der Ladung Q = I · t; die Stromstärke allein ist kein Ausbeutegesetz, sobald sich auch die Zeit ändern darf."
+
+["density-tower-boundary"]
+title = "Dichteturm: was das Messgerät beweist und was das Mischen zunichtemacht"
+part.1 = "Jede Ausgangsflüssigkeit hat eine berechnete Dichte. Mischbare Flüssigkeiten in einen Zylinder zu geben benutzt den gewöhnlichen Zugabebefehl und mischt sie deshalb; ohne einen Befehl zum langsamen Überschichten und ohne einen Zustand für die senkrechte Diffusion wäre ein dauerhaft geschichteter Turm eine falsche Behauptung im Bild."
+
+["dilute-the-current-carriers"]
+title = "Die Leitfähigkeit folgt der Ionenkonzentration nach dem Mischen"
+intro = "Gleiche Endvolumina Wasser bekommen steigende Mengen Natriumchlorid. Das trennt die Ionenkonzentration vom Volumen, bevor die Leitfähigkeit gemessen wird."
+boundary = "Die Leitfähigkeit wird aus den berechneten Ionen geschätzt; Zellkonstante, Elektrodenpolarisation, Kalibrierdrift und Temperaturkompensation fehlen."
 
 ["distillation-cut-controls-collection"]
 title = "Ein größerer Destillationsschnitt sammelt mehr"
@@ -61,9 +82,25 @@ title = "Die elektrochemische Spannungsreihe: Zink verdrängt Kupfer"
 title = "Die Produkte der Elektrolyse folgen der Zeit"
 boundary = "Ideale Ausbeute nach dem Faraday-Gesetz, ohne Wirkungsgrad, Überspannung und Gasauffang."
 
+["endpoint-is-not-a-full-drop"]
+title = "Virtueller Vergleich: Der rechnerische Endpunkt ist kein ganzer Büretten-Schritt."
+intro = "Beide Gefäße enthalten 0,0023 mol HCl. Bei 0,1 mol/L liegt der Äquivalenzpunkt bei etwa 23 mL. Der Versuchsschritt von 7 mL verfehlt ihn absichtlich. Der automatische Löser verfeinert seinen letzten Schritt; eine echte Bürette und ein echter Indikator haben ihre eigene Unsicherheit, die diese Rechnung nicht abbildet."
+
 ["equal-charge-different-clocks"]
 title = "Vergleiche die insgesamt erzeugte Menge bei gleicher Ladung, nicht das Gas, das in offenen Gefäßen übrig bleibt."
 intro = "Ideale Elektrodenstöchiometrie; die tatsächliche Stromausbeute wird nicht modelliert."
+
+["equilibrium-can-run-backward"]
+title = "Virtuelle Gleichgewichtsrechnung, kein Syntheserezept und keine Zeitvorhersage."
+intro = "Dieselbe Reaktion, zwei Ausgangslagen. Aus den Edukten kann ein Ester entstehen; beginnt man stattdessen mit Ester und Wasser, läuft die Hydrolyse in die Gegenrichtung. Der ausdrückliche Befehl nutzt das vorhandene Modell der idealen Mischung mit K = 4, keine gemessene Geschwindigkeit, kein Katalysatormodell und keine reale Aktivität in der Flüssigkeit."
+
+["filter-cannot-catch-dissolved"]
+title = "Ein Stoff, zwei Phasen: Der Filter hält nur den Feststoff zurück"
+boundary = "Das Gleichgewicht in der Lösung entscheidet, wie viel Kieselsäure gelöst ist. Der Filter überführt dann die flüssige Phase und behält die feste; er entscheidet nicht nach der chemischen Identität."
+
+["filter-then-concentrate-the-brine"]
+title = "Erst filtrieren, dann die Sole einengen"
+intro = "Verfolge Kieselsäure, Salz und Wasser durch Filtration und halbes Eindampfen und wiederhole das Ganze im doppelten Maßstab. Der Filter hält die Kieselsäure zurück, während das salzhaltige Filtrat eingeengt wird; doppelte Einwaage bedeutet doppelte Bestände."
 
 ["fire"]
 title = "Feuer: was brennt, was nicht, und was übrig bleibt"
@@ -74,6 +111,22 @@ title = "Erste Wärme: Misch heißes und kaltes Wasser und sieh dir die Mitte an
 ["fizz"]
 title = "Das Sprudeln: Essig trifft Natron"
 
+["flame-colour-series"]
+title = "Sechs Salze, sechs Beobachtungen in der Flamme"
+intro = "Jedes trockene Salz trägt eine geprüfte Flammenfarbe. Das ist eine virtuelle Flammenprobe: Koste niemals Salze und halte niemals Haushaltsstoffe in eine echte Flamme. Lithium fehlt in der derzeitigen Datenbank und wird nicht stillschweigend ersetzt."
+
+["follow-the-salt-through-staged-transfers"]
+title = "Verfolge das Salz durch mehrstufiges Umfüllen"
+intro.1 = "Ein Becherglas wird in einem Zug ausgegossen. Das andere in zwei Schritten. Verliert einer der beiden Wege Salz?"
+intro.2 = "Bereite zwei gleiche Portionen Salzwasser vor."
+part.1 = "Gib jeder Portion ein leeres Auffanggefäß."
+part.2 = "Füll die erste Portion in einem Zug um und die zweite in zwei aufeinanderfolgenden Güssen."
+part.3 = "Sieh dir jedes Gefäß an. Der Weg ändert, wo die Lösung wartet, nicht die Gesamtmenge an H, O, Na oder Cl in jedem Paar aus Quelle und Auffanggefäß."
+
+["grinding-rate-boundary"]
+title = "Pulver oder Brocken: Die Oberfläche wird berechnet, die Geschwindigkeit nicht"
+intro = "Das Mahlen berechnet die freiliegende Oberfläche. Dieser Carbonatweg hat keine von der Oberfläche abhängige Geschwindigkeit, gleiche Ergebnisse in einem Schritt sind hier also eine Grenze des Modells und keine echte Vorhersage."
+
 ["grit"]
 title = "Streusalz für die Straße: Salz hält Wasser unter null flüssig"
 
@@ -81,13 +134,68 @@ title = "Streusalz für die Straße: Salz hält Wasser unter null flüssig"
 title = "Dieselben sechs Mol und netto 200 J je Zweig, nur anders gruppiert."
 intro = "Lass v1 leer, bis es das fertige Gemisch des linken Zweigs aufnimmt."
 
+["hard-water-soap-boundary"]
+title = "Hartes Wasser und Seife: Kesselstein ist nicht Kalkseife"
+intro = "Die Ionen des harten Wassers und der Carbonatstein sind modelliert. Spülmittel ist ein ausgewiesenes Tensid, doch eine Seifenspezies aus Fettsäuren gibt es nicht, also kann die Werkbank die flockige Kalkseife nicht bilden, die für schlechten Schaum sorgt. Genau dieses Fehlen ist die Grenze, die dieser Vergleich sichtbar macht."
+part.1 = "Eine eigene Kontrolle zur Steinbildung zeigt die Calciumchemie, die die Maschine wirklich beherrscht."
+
 ["hard-water"]
 title = "Der Wasserkocher und die Statue: hartes Wasser und Kesselstein"
 part.1 = "Enthärten durch Mischen: hartes Wasser trifft Sodalösung"
 
+["hot-share-temperature"]
+title = "Der heiße Anteil bestimmt die Endtemperatur"
+intro = "Vier gleiche Ausgangsportionen isolieren eine einzige Größe: wie viel heißes Wasser in die Endmischung gelangt. Das Thermometer sollte mit diesem Anteil stetig steigen."
+boundary = "Diese Gefäße sind adiabatische Modelle mit konstanter Wärmekapazität. Echte Behälter verlieren Wärme, und die Werkbank sagt weder das Gießen noch die Abkühlgeschwindigkeit voraus."
+
+["instant-snow"]
+title = "Zauberschnee: Wo ist das Wasser geblieben?"
+part.1 = "Eine gleich angesetzte Kontrolle nur mit Wasser bleibt ganz gewöhnlich flüssig."
+boundary = "Nichts verschwindet: Das Wasser bleibt in der Bilanz erhalten. Die Grenze von 100 g/g ist ein Lehrwert, keine Produktangabe. Vernetzungsgrad, Korngröße, Salz, pH-Wert, Quellzeit, Volumen und Beschaffenheit liegen außerhalb dieses Gleichgewichtsmodells der Wasseraufnahme."
+
+["invisible-ink-boundary"]
+title = "Geheimtinte: Trocknen, Bräunen und Verbrennen sind verschiedene Vorgänge"
+intro = "Diese Lektion berechnet nur den geprüften Zitronensaftstrich auf Papier. Sein begrenztes Braunwerden ist kein allgemeiner Mechanismus für Karamellisierung oder Maillard-Reaktion."
+part.1 = "Nasse Kontrolle: Wärme allein kann einen Strich nicht sichtbar machen, solange noch Wasser da ist."
+part.2 = "Trockne denselben Strich erst und erwärme ihn dann. Das Bräunen entzündet das Papier nicht."
+part.3 = "Getrennte virtuelle Brennkontrolle. Zünde für diesen Versuch niemals echtes Papier an."
+
+["lactase-and-milk"]
+title = "Lactase und Milch: Ein Enzym passt zu einem Substrat"
+intro = "Drei gleiche Milchproben teilen sich eine Uhr. Nur die Probe mit Lactase spaltet den Milchzucker; kein Enzym und das falsche Enzym sind faire Kontrollen."
+boundary = "Die Werkbank verbucht eine begrenzte Bindungsspaltung innerhalb der erhaltenen Milchtrockenmasse. Sie behauptet weder Süße noch benannte Mengen an Glucose und Galactose."
+
+["lemonade-indicator"]
+title = "Limonade, die die Farbe wechselt: Ein Indikator misst die Flüssigkeit"
+intro = "Bromthymolblau nutzt ein berechnetes Spektrum in einer basischen Kontrolle und in Zitronensäure. Der genannte Saft ist ein Ersatzstoff; Laborgemische werden nicht gekostet."
+
 ["limewater"]
 title = "Kohlendioxid gelangt in ein offenes Gefäß hinein und ebenso wieder heraus."
 intro = "Die erste Dosis trübt das Kalkwasser; ein echter Überschuss klärt es wieder."
+
+["lipase-and-oil"]
+title = "Lipase und Öl: ein Triglyceridgemisch hydrolysieren"
+intro = "Gleiche Proben aus Öl und Wasser vergleichen Lipase, kein Enzym und Protease."
+boundary = "Das Öl bleibt ein erhaltenes, nicht weiter aufgelöstes Gemisch. Die Werkbank erfindet weder einen pH-Abfall noch benannte Mengen an Glycerin und Fettsäuren, die sie noch nicht bilanzieren kann."
+
+["liquid-nitrogen-freezes-ethanol"]
+title = "Flüssiger Stickstoff: Ein Phasenübergang bezahlt den anderen (nur virtuelle Untersuchung)"
+intro = "Echter flüssiger Stickstoff kann schwere Kälteverbrennungen verursachen und die Atemluft verdrängen. Nur unter geschulter Aufsicht verwenden, mit Augen- und Gesichtsschutz, Kryohandschuhen, starker Belüftung und offenem Druckausgleich. Verschließe ein Kryogen niemals."
+part.1 = "0,1713 mol und 2,8807 mol entsprechen 10 mL Ethanol und 100 mL flüssigem Stickstoff bei den angegebenen Dichten der Flüssigkeiten. Die Zugabe in Mol nutzt den geprüften Phasenweg."
+
+["luminol-temperature"]
+title = "Luminol-Licht: warm leuchtet heller, kalt hält länger"
+intro = "Zwei gleich angesetzte Systeme unterscheiden sich nur in der Temperatur. Das ist eine Luminol-Demonstration für den Unterricht, nicht die Chemie handelsüblicher Knicklichter."
+boundary = "Die relative Helligkeit und die Halbwertszeit sind ein ausdrücklich kalibrierter Vergleich in Arrhenius-Form. Produkte und Photonenausbeute werden nicht berechnet."
+
+["measure-twice"]
+title = "Zweimal messen, nichts verändern"
+intro = "Jedes Messgerät liest dasselbe unveränderte Gefäß zweimal ab. Die Wertepaare sind eine Kontrolle für die Zusage der Werkbank, deterministisch und ohne Eingriff zu messen."
+boundary = "Kalibrierfehler, Drift, zufälliges Rauschen, Probenverbrauch und die Störung durch die Sonde liegen bewusst außerhalb dieses deterministischen Messmodells."
+
+["metal-acid-race"]
+title = "Welches Metall reagiert zuerst? Dieselbe Säure, gleiche Metallmengen"
+intro = "Magnesium reagiert heftig, Zink langsamer, und Kupfer verweigert sich aus einem elektrochemischen Grund. Die Maschine berechnet Reaktion und Wärme, aber weder echte Zeiten für ein Wettrennen noch Unterschiede in der Oberfläche der Stücke."
 
 ["neutral-moves"]
 title = "Neutral ist ein bewegliches Ziel: warmes Wasser ist immer noch nur Wasser"
@@ -95,6 +203,13 @@ title = "Neutral ist ein bewegliches Ziel: warmes Wasser ist immer noch nur Wass
 ["neutral-sugars-are-conductivity-controls"]
 title = "Neutrale Zucker sind Kontrollen für die Leitfähigkeit"
 boundary = "Die Zucker bleiben in diesem Modell neutrale Moleküle. Verunreinigungen, die Autoprotolyse des Wassers, der Untergrund der Messsonde, die Kalibrierung und die Temperatur bleiben unberücksichtigt."
+
+["never-mix"]
+title = "Die Sicherheitsschicht: genau bei der Gefahr, ehrlich beim Ergebnis"
+part.1 = "1. Chlorbleiche + Ammoniak → Chloramingas (bestehende Regel)"
+part.2 = "2. Starkes Oxidationsmittel + brennbare Flüssigkeit → Brandgefahr"
+part.3 = "3. Starke Säure + unedles Metall → Wasserstoffgas"
+part.4 = "4. Starke Säure + Carbonat → Spritzer durch CO₂"
 
 ["one-thing-at-a-time"]
 title = "Eins nach dem anderen: Die Säule hält ein Gemisch auseinander."
@@ -112,6 +227,21 @@ boundary = "Nur ideale, starre Gasräume; Undichtigkeiten und die Unsicherheit d
 title = "Der Druck steigt, wenn der Gasraum kleiner wird"
 boundary = "Nur ideale, starre Gasräume; echtes Arbeiten unter Druck verlangt dafür zugelassene Apparaturen."
 
+["protease-and-gelatin"]
+title = "Protease und Gelatine: ein Enzym, das Proteine zerschneidet"
+intro = "Gleiche Proben aus gequollener Gelatine vergleichen Protease, kein Enzym und Lactase."
+boundary = "Berechnet wird eine begrenzte Proteinhydrolyse. Die Beschaffenheit des Gels und benannte Peptide oder Aminosäuren liegen außerhalb des Modells, ein Wackelpudding wird also nicht vorgetäuscht."
+
+["rates"]
+title = "Geschwindigkeit: zwei Bechergläser, eine veränderte Größe, eine Uhr."
+intro = "Das verschwindende Kreuz. Thiosulfat und Säure bilden Schwefel, der Schwefel trübt die Flüssigkeit, und die Zeit, bis eine Markierung unter dem Becherglas nicht mehr zu sehen ist, ist die Messung. Nichts daran ist vorgegeben: In beiden Bechergläsern läuft dasselbe Geschwindigkeitsgesetz, und der einzige Unterschied ist die Temperatur."
+part.1 = "Die Zeit ist gemeinsam. `wait` bewegt die ganze Werkbank weiter, und nur so bedeutet ein fairer Vergleich überhaupt etwas."
+
+["rubbery-bone-boundary"]
+title = "Kreide in Essig: warum das kein Modell für einen biegsamen Knochen ist"
+intro = "Säure entzieht der Kreide das Carbonat. Echter Knochen ist ein Verbundstoff: Calciumphosphat verstärkt Kollagen. Säure kann dieses Kollagengerüst biegsam zurücklassen; Kreide enthält kein Kollagen, aus ihrem Auflösen lässt sich also keine Biegung eines Knochens vorhersagen."
+boundary = "Die zugehörige Kontrolle berechnet ehrlich das Auflösen von Carbonat in Säure und das entstehende Kohlendioxid. Sie ist nur ein Beleg über Kreide. Es gibt in diesem Modell weder eine Knochenspezies noch ein Kollagengerüst, weder mechanische Steifigkeit noch eine beobachtbare Biegung."
+
 ["saline-scaling-preserves-conductivity"]
 title = "Gleiche Konzentration, größere Portion: Leitfähigkeit ist eine intensive Größe"
 boundary = "Wasser und Salz werden zusammen skaliert, die Konzentration bleibt also gleich. Echte Messwerte hängen außerdem von der Zellkonstante, der Kalibrierung, der Polarisation und der Temperatur ab."
@@ -119,8 +249,16 @@ boundary = "Wasser und Salz werden zusammen skaliert, die Konzentration bleibt a
 ["salt-from-brine"]
 title = "Salz aus Sole: die älteste Chemie der Welt"
 
+["salt-or-sugar-ice"]
+title = "Salz oder Zucker auf Eis: gleiche Massen sind nicht gleich viele Teilchen"
+intro = "Salz dissoziiert, Zucker bleibt molekular. Dieser Gleichgewichtsvergleich bildet weder Korngröße noch Rührgeschwindigkeit ab, und auch nicht, wie schnell ein echtes Eisbad schmilzt."
+
 ["sealed-gas"]
 title = "Gasgesetze im geschlossenen Gefäß"
+
+["sealed-mass-conservation"]
+title = "Nichts geht verloren, wenn nichts entweicht: Wähle das System, bevor du wiegst"
+intro = "Im geschlossenen System bleibt das Gas, aus dem offenen entweicht es. Die Atome bleiben in beiden erhalten; die Waage zeigt Unterschiedliches, weil die gewogene Grenze eine andere ist."
 
 ["silver-and-salt"]
 title = "Fallakte: Chlorid mit Silbernitrat nachweisen"
@@ -128,6 +266,15 @@ title = "Fallakte: Chlorid mit Silbernitrat nachweisen"
 ["split-heat-same-temperature"]
 title = "Aufgeteilte Wärmestöße führen zur selben Temperatur"
 boundary = "Adiabatische Gefäße mit konstanter Wärmekapazität; Wärmeverluste und die Wärmekapazität des Gefäßes bleiben unberücksichtigt."
+
+["sugar-water-density-tower"]
+title = "Zuckerwasserturm: Miss die Reihenfolge, bevor du zu stapeln versuchst"
+part.1 = "Gleich viel Wasser am Anfang, steigende Zuckermenge. Die Dichtewerte sind der berechnete Beleg dafür, welche Lösung nach unten gehört."
+boundary = "Die Reihenfolge ist berechnet. Ein echter Turm braucht außerdem ein behutsames Überschichten, das ein senkrechtes Konzentrationsgefälle erhält. Diese Werkbank hat weder einen Befehl zum langsamen Gießen noch einen Diffusionszustand und zeichnet deshalb keine Schichten, die sie nicht halten kann."
+
+["there-and-back"]
+title = "Hin und zurück: Ein Ester entsteht und wird wieder aufgelöst."
+intro = "Säure und Alkohol verbinden sich unter Wasserabspaltung zu einem Ester; derselbe Ester wird mit Hydroxid wieder zum Alkohol und zum Salz der Säure hydrolysiert. Zwei kuratierte Umwandlungen, jede gegen eine atomgenau zugeordnete Vorlage geprüft — und jede läuft nur, wenn man sie anfordert, denn ein Becherglas mit Essig und Spiritus tut das nicht von allein."
 
 ["three-components-one-cut"]
 title = "Rechnung für eine ideale Mischung, keine Apparatur und keine Synthesevorschrift."
@@ -142,5 +289,14 @@ title = "Titration: starke Säure trifft starke Base"
 ["titration"]
 title = "Titration: starke Säure trifft starke Base"
 
+["track-precipitate-and-filtrate-through-drying"]
+title = "Verfolge Niederschlag und Filtrat durch das Trocknen"
+intro = "Bilde zweimal Bariumsulfat. Filtriere beide Ansätze und trockne dann nur das zweite Filtrat. Bilanziere den BaSO4-Rückstand und die gelösten Zuschauerionen in jedem System aus Quelle und Auffanggefäß, bevor du entscheidest, ob Materie verloren ging."
+boundary = "Nur Simulation: lösliche Bariumsalze sind giftig. Eine echte Durchführung verlangt geschulte Aufsicht, Augenschutz, Handschuhe und die Sammlung als Sondermüll."
+
 ["two-roads"]
 title = "Zwei Wege, eine Temperatur: der Satz von Hess mit dem Thermometer"
+
+["warm-the-gas-stop-before-burst"]
+title = "Erwärme das Gas und hör vor dem Bersten auf"
+intro = "Sag die Reihenfolge der Drücke für gleiche eingeschlossene Gasproben bei 0 J, 100 J, 200 J und 400 J voraus. Die ersten drei bleiben messbar, die letzte überschreitet die Belastbarkeit des Gefäßes. Hör dort auf: Ein Bersten ist ein Befund und keine Einladung, es noch einmal zu versuchen."

@@ -1,5 +1,5 @@
-# Current, time and electrolysis yield
-# Hold time at 75 s and order the product inventories made by 0.05 A, 0.1 A,
+#@title Current, time and electrolysis yield
+#@intro Hold time at 75 s and order the product inventories made by 0.05 A, 0.1 A,
 # 0.2 A and 0.4 A. Connect the order to charge Q = I t; current alone is not
 # a yield law when time is allowed to change.
 register lv3

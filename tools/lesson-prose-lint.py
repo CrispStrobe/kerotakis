@@ -128,6 +128,12 @@ def referenced(directory: pathlib.Path = LESSONS) -> tuple[dict[str, str], list[
                 continue
             seen[unit.label] = unit.text
             keys[key] = unit.text
+        for outer, inner in lesson_prose.clashes(list(seen)):
+            problems.append(
+                f"{path.name}: labels `{outer}` and `{inner}` cannot share a "
+                f"catalogue table — a dotted label makes `{outer}` a table, so "
+                f"one of them has to be renamed (`{outer}.1`, say)"
+            )
     return keys, problems
 
 

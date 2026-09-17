@@ -15,6 +15,10 @@
 title = "An antacid suspension: neutralisation stops when the acid runs out"
 intro = "Excess sparingly soluble magnesium hydroxide remains. This is chemistry, not medical advice or a dose recommendation."
 
+["balloon-pressure"]
+title = "Balloon on a bottle: gas needs somewhere to go"
+intro = "A piston lid represents a flexible balloon: it computes pressure and expanding volume, not rubber elasticity, balloon shape or latex failure."
+
 ["buffer"]
 title = "Buffers: why your blood does not change pH when you drink lemonade"
 
@@ -27,6 +31,10 @@ intro = "Use only ordinary 5% food vinegar and calcium-carbonate classroom chalk
 part.control = "Control: a chalk stick in the same volume of plain water barely dissolves and has no finite acid source with which to make a visible burst of carbon dioxide."
 part.test = "Test: change water to the named 5% vinegar recipe and keep the chalk dose the same. The balanced reaction consumes finite CaCO3 and acetic acid. Its real CO2 inventory drives the normal bubble effect and leaves through this open beaker; it is not a canned animation."
 boundary = "Try a smaller chalk dose or less vinegar in a fresh vessel. The limiting reagent changes the gas amount. Powdering would change the real-world rate, but particle-area kinetics for this reaction remain an explicit future model."
+
+["cola-shell-surrogate"]
+title = "An eggshell in cola: test the acid that is actually represented"
+intro = "Cola's phosphoric acid meets carbonate chalk. Membrane, enamel, osmosis, surface texture and a whole egg are not represented."
 
 ["conductivity"]
 title = "Ionic conductivity: strong vs weak electrolytes"
@@ -43,6 +51,19 @@ boundary = "These are equilibrium open-circuit voltages, not delivered-current t
 
 ["counting-in-fives"]
 title = "Permanganate counts in fives: a redox titration, stopped at the endpoint"
+
+["current-time-and-electrolysis-yield"]
+title = "Current, time and electrolysis yield"
+intro = "Hold time at 75 s and order the product inventories made by 0.05 A, 0.1 A, 0.2 A and 0.4 A. Connect the order to charge Q = I t; current alone is not a yield law when time is allowed to change."
+
+["density-tower-boundary"]
+title = "Density tower: what the meter proves, and what mixing removes"
+part.1 = "Each source liquid has a computed density. Putting mutually miscible liquids in one cylinder uses the ordinary add operation and therefore mixes them; without a slow-pour operation and vertical diffusion state, a persistent layered tower would be a false visual claim."
+
+["dilute-the-current-carriers"]
+title = "Conductivity follows ion concentration after mixing"
+intro = "Equal final water volumes receive increasing sodium-chloride amounts. This isolates ion concentration from volume before the conductivity readings."
+boundary = "Conductivity is estimated from the computed ions; cell constant, electrode polarisation, calibration drift and temperature compensation are absent."
 
 ["distillation-cut-controls-collection"]
 title = "A larger distillation cut collects more"
@@ -62,9 +83,25 @@ title = "The electrochemical series: zinc displaces copper"
 title = "Electrolysis products follow time"
 boundary = "Ideal Faraday-law production omits efficiency, overpotential and gas capture."
 
+["endpoint-is-not-a-full-drop"]
+title = "Virtual comparison: the numerical endpoint is not a whole burette step."
+intro = "Both vessels contain 0.0023 mol HCl. At 0.1 mol/L, equivalence requires approximately 23 mL. The 7 mL trial increment deliberately misses it. The automatic solver refines its last increment; a physical burette and indicator have their own uncertainty, which this calculation does not model."
+
 ["equal-charge-different-clocks"]
 title = "Compare cumulative production for equal charge, not gas left in open vessels."
 intro = "Ideal electrode stoichiometry; real current efficiency is not modeled."
+
+["equilibrium-can-run-backward"]
+title = "Virtual equilibrium request, not a synthesis recipe or a time prediction."
+intro = "Same reaction, two initial conditions. Reactants can form ester; starting with ester and water instead drives hydrolysis in the reverse direction. The explicit command uses the existing ideal-mixture K=4 model, not a measured rate, catalyst model, or nonideal liquid activity calculation."
+
+["filter-cannot-catch-dissolved"]
+title = "One substance, two phases: filter only the solid"
+boundary = "The aqueous equilibrium decides how much silica is dissolved. The filter then transfers the liquid phase and retains the solid phase; it does not decide by chemical identity."
+
+["filter-then-concentrate-the-brine"]
+title = "Filter, then concentrate the brine"
+intro = "Trace silica, salt and water through filtration and half evaporation, then repeat at twice the extensive scale. The filter retains silica while the salt-bearing filtrate is concentrated; doubling inputs doubles inventories."
 
 ["fire"]
 title = "Fire: what burns, what does not, and what it leaves behind"
@@ -75,6 +112,22 @@ title = "First warmth: mix hot and cold water, watch the middle"
 ["fizz"]
 title = "The fizz: vinegar meets baking soda"
 
+["flame-colour-series"]
+title = "Six salts, six flame observations"
+intro = "Each dry salt carries a reviewed flame colour. This is a virtual flame test: never taste salts or put household substances into a real flame. Lithium is absent from the current registry and is not silently substituted."
+
+["follow-the-salt-through-staged-transfers"]
+title = "Follow the salt through staged transfers"
+intro.1 = "One beaker is poured all at once. The other takes two stages. Does either route lose salt?"
+intro.2 = "Prepare two equal portions of salt water."
+part.1 = "Give each portion an empty receiver."
+part.2 = "Move the first portion in one pour, and the second in two successive pours."
+part.3 = "Inspect every vessel. The route changes where the solution waits, not the total H, O, Na or Cl in each source-receiver pair."
+
+["grinding-rate-boundary"]
+title = "Powder or lump: surface area is computed before rate is"
+intro = "Grinding computes exposed area. This carbonate route has no area-dependent rate, so equal one-step outcomes are a model boundary, not a real prediction."
+
 ["grit"]
 title = "Grit for the road: salt holds water liquid below zero"
 
@@ -82,13 +135,68 @@ title = "Grit for the road: salt holds water liquid below zero"
 title = "Same six moles and net 200 J per branch, grouped differently."
 intro = "Keep v1 empty until it receives the left branch's final mixture."
 
+["hard-water-soap-boundary"]
+title = "Hard water and soap: scale is not soap scum"
+intro = "The hard-water ions and carbonate scale are modeled. Dish soap is a declared surfactant material, but no fatty-acid soap species exists, so the bench cannot form the curd-like soap scum responsible for poor lather. That absence is the boundary this comparison exposes."
+part.1 = "A separate scale-forming control shows the calcium chemistry the engine does own."
+
 ["hard-water"]
 title = "The kettle and the statue: hard water and limescale"
 part.1 = "Softening by mixing: hard water meets soda-ash solution"
 
+["hot-share-temperature"]
+title = "Hot fraction sets the resting temperature"
+intro = "Four equal source portions isolate one variable: how much hot water enters the final mixture. The thermometer should rise monotonically with that share."
+boundary = "These vessels are adiabatic constant-heat-capacity models. Real containers lose heat, and the bench does not predict pouring or cooling rates."
+
+["instant-snow"]
+title = "Instant snow: where did the water go?"
+part.1 = "A matched water-only control stays ordinary liquid."
+boundary = "Nothing vanishes: water remains in the conserved ledger. The 100 g/g ceiling is a teaching capacity, not a product specification. Cross-link density, grain size, salt, pH, swelling time, volume and texture are outside this equilibrium mass-uptake model."
+
+["invisible-ink-boundary"]
+title = "Invisible ink: drying, browning and burning are different changes"
+intro = "This lesson computes only the reviewed lemon-juice mark on paper. Its bounded brown appearance is not a general caramelisation or Maillard mechanism."
+part.1 = "Wet control: heat alone cannot reveal a mark while water remains."
+part.2 = "Dry the same mark first, then warm it. Browning does not ignite the paper."
+part.3 = "Separate virtual burn control. Never ignite real paper for this activity."
+
+["lactase-and-milk"]
+title = "Lactase and milk: one enzyme fits one substrate"
+intro = "Three equal milk samples share one clock. Only the sample with lactase hydrolyses milk sugar; no enzyme and the wrong enzyme are fair controls."
+boundary = "The bench records bounded bond cleavage inside the conserved milk solids. It does not claim sweetness or named glucose and galactose inventories."
+
+["lemonade-indicator"]
+title = "Lemonade that changes colour: an indicator measures the liquid"
+intro = "Bromothymol blue uses one computed spectrum in a basic control and lemon acid. The named juice is a surrogate; do not taste laboratory mixtures."
+
 ["limewater"]
 title = "Carbon dioxide enters as well as leaves an open vessel."
 intro = "The first dose turns limewater milky; genuine excess clears it again."
+
+["lipase-and-oil"]
+title = "Lipase and oil: hydrolysing a triglyceride mixture"
+intro = "Equal oil-and-water samples compare lipase, no enzyme, and protease."
+boundary = "The oil remains a conserved unresolved mixture. The bench does not invent a pH fall or named glycerol and fatty-acid amounts it cannot yet ledger."
+
+["liquid-nitrogen-freezes-ethanol"]
+title = "Liquid nitrogen: one phase change pays for another (virtual investigation only)"
+intro = "Real liquid nitrogen can cause severe cold burns and displace breathable air. Use only with trained supervision, eye/face protection, cryogenic gloves, strong ventilation, and an open pressure-relief path. Never seal a cryogen."
+part.1 = "0.1713 mol and 2.8807 mol correspond to 10 mL ethanol and 100 mL LN2 at the cited liquid densities. Molar additions use the audited phase route."
+
+["luminol-temperature"]
+title = "Luminol light: warm is brighter, cold lasts longer"
+intro = "Two matched prepared systems differ only in temperature. This is a luminol classroom demonstration, not commercial glow-stick chemistry."
+boundary = "Relative intensity and half-life are an explicitly calibrated, Arrhenius-shaped comparison. Products and photon yield are not computed."
+
+["measure-twice"]
+title = "Measure twice, change nothing"
+intro = "Each instrument reads the same unchanged vessel twice. The paired values are a control for the bench's deterministic, non-invasive measurement contract."
+boundary = "Calibration error, drift, random noise, sample consumption and probe disturbance are deliberately outside this deterministic instrument model."
+
+["metal-acid-race"]
+title = "Which metal reacts first? Same acid, equal metal amounts"
+intro = "Magnesium reacts vigorously, zinc more slowly, and copper refuses for an electrochemical reason. The engine computes reaction and heat but not literal wall-clock race times or differences in piece surface area."
 
 ["neutral-moves"]
 title = "Neutral is a moving target: warm water is still just water"
@@ -96,6 +204,13 @@ title = "Neutral is a moving target: warm water is still just water"
 ["neutral-sugars-are-conductivity-controls"]
 title = "Neutral sugars are conductivity controls"
 boundary = "The sugars remain neutral molecules in this model. Impurities, water autoionisation, probe background, calibration and temperature are omitted."
+
+["never-mix"]
+title = "The safety layer: precise about danger, honest about outcomes"
+part.1 = "1. Bleach + ammonia → chloramine gas (existing rule)"
+part.2 = "2. Strong oxidizer + flammable liquid → fire risk"
+part.3 = "3. Strong acid + active metal → hydrogen gas"
+part.4 = "4. Strong acid + carbonate → CO₂ spattering"
 
 ["one-thing-at-a-time"]
 title = "One thing at a time: the column tells a mixture apart."
@@ -113,6 +228,21 @@ boundary = "Ideal rigid headspaces only; leakage and gauge uncertainty are omitt
 title = "Pressure rises when headspace shrinks"
 boundary = "Ideal rigid headspaces only; real pressure work requires rated apparatus."
 
+["protease-and-gelatin"]
+title = "Protease and gelatine: a protein-cutting enzyme"
+intro = "Equal hydrated gelatine samples compare protease, no enzyme, and lactase."
+boundary = "This computes bounded protein hydrolysis. Gel texture and named peptide or amino-acid products remain outside the model, so it does not fake a jelly."
+
+["rates"]
+title = "Rates: two beakers, one variable, one clock."
+intro = "The disappearing cross. Thiosulfate and acid make sulfur, the sulfur clouds the liquid, and the time it takes to hide a mark under the beaker is the measurement. Nothing here is scripted: both beakers run the same rate law, and the only difference between them is temperature."
+part.1 = "Time is shared. `wait` advances the whole bench, which is the only way a fair test means anything."
+
+["rubbery-bone-boundary"]
+title = "Chalk in vinegar: why this is not a rubbery-bone model"
+intro = "Acid removes carbonate from chalk. Real bone is a composite: calcium-phosphate mineral reinforces collagen. Acid can leave that collagen scaffold flexible; chalk contains no collagen, so dissolving it cannot predict bone bending."
+boundary = "The matched control honestly computes acid–carbonate dissolution and carbon dioxide. It is evidence about chalk only. No bone species, collagen scaffold, mechanical stiffness or bending observable exists in this model."
+
 ["saline-scaling-preserves-conductivity"]
 title = "Same concentration, larger portion: conductivity is intensive"
 boundary = "Water and salt scale together, so concentration stays fixed. Real readings also depend on cell constant, calibration, polarisation and temperature."
@@ -120,8 +250,16 @@ boundary = "Water and salt scale together, so concentration stays fixed. Real re
 ["salt-from-brine"]
 title = "Salt from brine: the oldest chemistry in the world"
 
+["salt-or-sugar-ice"]
+title = "Salt or sugar on ice: equal masses are not equal particle counts"
+intro = "Salt dissociates; sugar stays molecular. This equilibrium comparison does not model grain size, mixing speed or how quickly a real ice bath melts."
+
 ["sealed-gas"]
 title = "Gas laws in a sealed vessel"
+
+["sealed-mass-conservation"]
+title = "Nothing is lost if nothing escapes: choose the system before weighing"
+intro = "Gas stays in the sealed system and leaves the open one. Atoms are conserved in both; the balance differs because the weighed boundary differs."
 
 ["silver-and-salt"]
 title = "Case file: identify chloride with silver nitrate"
@@ -129,6 +267,15 @@ title = "Case file: identify chloride with silver nitrate"
 ["split-heat-same-temperature"]
 title = "Split heat pulses reach the same temperature"
 boundary = "Adiabatic constant-heat-capacity vessels omit heat loss and container heat."
+
+["sugar-water-density-tower"]
+title = "Sugar-water tower: measure the ordering before trying to stack it"
+part.1 = "Equal starting water, increasing sugar. The density readings are the computed evidence for which solution belongs at the bottom."
+boundary = "The ordering is computed. A real tower also needs a gentle delivery that preserves a vertical concentration gradient. This bench has no slow-pour operation or diffusion state, so it does not draw layers it cannot retain."
+
+["there-and-back"]
+title = "There and back again: an ester is made, then unmade."
+intro = "Acid and alcohol condense to an ester and water; the same ester, met with hydroxide, hydrolyses back to the alcohol and the acid's salt. Two curated transformations, each proven against an atom-mapped template — and each one runs only when asked, because a beaker of vinegar and spirit does not do this by itself."
 
 ["three-components-one-cut"]
 title = "Virtual ideal-mixture calculation, not an apparatus or synthesis procedure."
@@ -143,5 +290,14 @@ title = "Titration: strong acid meets strong base"
 ["titration"]
 title = "Titration: strong acid meets strong base"
 
+["track-precipitate-and-filtrate-through-drying"]
+title = "Track precipitate and filtrate through drying"
+intro = "Form barium sulfate twice. Filter both preparations, then dry only the second filtrate. Account for BaSO4 residue and the soluble spectator ions across each source-receiver system before deciding whether matter was lost."
+boundary = "Simulation only: soluble barium salts are toxic. A physical version requires trained supervision, eye protection, gloves, and hazardous-waste collection."
+
 ["two-roads"]
 title = "Two roads, one temperature: Hess's law with a thermometer"
+
+["warm-the-gas-stop-before-burst"]
+title = "Warm the gas, stop before burst"
+intro = "Predict the pressure order for equal sealed gas samples given 0 J, 100 J, 200 J and 400 J. The first three remain measurable; the last crosses the vessel boundary. Stop there: a burst is evidence, not an invitation to retry."

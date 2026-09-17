@@ -1,5 +1,5 @@
-# Warm the gas, stop before burst
-# Predict the pressure order for equal sealed gas samples given 0 J, 100 J,
+#@title Warm the gas, stop before burst
+#@intro Predict the pressure order for equal sealed gas samples given 0 J, 100 J,
 # 200 J and 400 J. The first three remain measurable; the last crosses the
 # vessel boundary. Stop there: a burst is evidence, not an invitation to retry.
 register lv2

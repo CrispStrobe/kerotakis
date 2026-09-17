@@ -168,8 +168,27 @@ def catalogue(directory: pathlib.Path) -> dict[str, dict[str, str]]:
         if path.stem.startswith("_"):
             continue
         with path.open("rb") as handle:
-            out[path.stem] = flatten(tomllib.load(handle))
+            try:
+                out[path.stem] = flatten(tomllib.load(handle))
+            except tomllib.TOMLDecodeError as error:
+                raise ValueError(f"{path}: {error}") from error
     return out
+
+
+def clashes(labels: list[str]) -> list[tuple[str, str]]:
+    """Labels that cannot both be keys of the same TOML table.
+
+    A dotted label nests: `part.1` makes `part` a table, so a plain `part`
+    beside it has nowhere to live and the file stops parsing. Caught here,
+    against the LABELS, so the lint can name the two lessons' lines rather
+    than reporting a decoder error about a line number in a generated file.
+    """
+    found = []
+    for outer in labels:
+        for inner in labels:
+            if inner != outer and inner.startswith(f"{outer}."):
+                found.append((outer, inner))
+    return found
 
 
 def render(rows: dict[str, str], header: str) -> str:

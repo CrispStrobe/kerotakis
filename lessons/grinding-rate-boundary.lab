@@ -1,5 +1,5 @@
-# Powder or lump: surface area is computed before rate is
-# Grinding computes exposed area. This carbonate route has no area-dependent
+#@title Powder or lump: surface area is computed before rate is
+#@intro Grinding computes exposed area. This carbonate route has no area-dependent
 # rate, so equal one-step outcomes are a model boundary, not a real prediction.
 register lv2
 add v1 chalk_stick 2g

@@ -1,5 +1,5 @@
-# Hot fraction sets the resting temperature
-# Four equal source portions isolate one variable: how much hot water enters
+#@title Hot fraction sets the resting temperature
+#@intro Four equal source portions isolate one variable: how much hot water enters
 # the final mixture. The thermometer should rise monotonically with that share.
 register lv2
 add v1 water 200mL @ 80C
@@ -29,5 +29,5 @@ add v11 water 200mL @ 20C
 new
 mix v10 0.8 v11 0.2 into v12
 measure v12 thermometer
-# These vessels are adiabatic constant-heat-capacity models. Real containers
+#@boundary These vessels are adiabatic constant-heat-capacity models. Real containers
 # lose heat, and the bench does not predict pouring or cooling rates.

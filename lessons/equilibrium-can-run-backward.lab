@@ -1,5 +1,5 @@
-# Virtual equilibrium request, not a synthesis recipe or a time prediction.
-# Same reaction, two initial conditions. Reactants can form ester; starting
+#@title Virtual equilibrium request, not a synthesis recipe or a time prediction.
+#@intro Same reaction, two initial conditions. Reactants can form ester; starting
 # with ester and water instead drives hydrolysis in the reverse direction.
 # The explicit command uses the existing ideal-mixture K=4 model, not a
 # measured rate, catalyst model, or nonideal liquid activity calculation.

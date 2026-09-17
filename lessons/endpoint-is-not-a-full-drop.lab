@@ -1,5 +1,5 @@
-# Virtual comparison: the numerical endpoint is not a whole burette step.
-# Both vessels contain 0.0023 mol HCl. At 0.1 mol/L, equivalence requires
+#@title Virtual comparison: the numerical endpoint is not a whole burette step.
+#@intro Both vessels contain 0.0023 mol HCl. At 0.1 mol/L, equivalence requires
 # approximately 23 mL. The 7 mL trial increment deliberately misses it.
 # The automatic solver refines its last increment; a physical burette and
 # indicator have their own uncertainty, which this calculation does not model.
