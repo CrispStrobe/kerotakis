@@ -4466,33 +4466,22 @@ pub fn localize_event(event: &Event, locale: Locale) -> Event {
     }
 }
 
+/// A gap reason that arrived as a finished English sentence, looked up by
+/// VALUE in `[refusal]`.
+///
+/// I18N-10 emptied this of everything but the fallback. Two sentences
+/// used to be rescued here by STRIPPING the species name off the end of
+/// the English and filling a template with it — the only way to reach a
+/// refusal with a hole in it while the event carried prose. Both of those
+/// sites emit a `Phrase` now, so the parse is unreachable, and its German
+/// moved to `not-modeled.no-dissolution-solver` and
+/// `not-modeled.dissolves-unspeciated` unchanged. Parsing a sentence to
+/// find the noun in it was never going to survive a language whose noun
+/// is not at the end.
 fn localize_refusal(what: &str, locale: Locale) -> String {
-    if let Some(translated) = locale.lookup(&format!("refusal.{what}")) {
-        return translated.to_string();
-    }
-
-    const CONTACT: &str =
-        " in contact with liquid: no wired solver models this dissolution/reaction";
-    if let Some(name) = what.strip_suffix(CONTACT) {
-        let translated_name = locale.lookup(&format!("species.{name}")).unwrap_or(name);
-        return locale.fill(
-            "refusal.solid-in-liquid",
-            "{name} in contact with liquid: no wired solver models this dissolution/reaction",
-            &[("name", translated_name)],
-        );
-    }
-
-    const UNSPECIATED: &str = " dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker";
-    if let Some(name) = what.strip_suffix(UNSPECIATED) {
-        let translated_name = locale.lookup(&format!("species.{name}")).unwrap_or(name);
-        return locale.fill(
-            "refusal.dissolves-without-speciation",
-            "{name} dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
-            &[("name", translated_name)],
-        );
-    }
-
-    what.to_string()
+    locale
+        .lookup(&format!("refusal.{what}"))
+        .map_or_else(|| what.to_string(), str::to_string)
 }
 
 /// As `localize_event`, over a slice.

@@ -217,7 +217,14 @@ pub struct Declined {
     pub family: String,
     pub version: u32,
     pub gate: String,
+    /// The gate's own reason, looked up by VALUE under `[family-gate]`.
     pub reason: String,
+    /// …unless it has a hole in it, in which case the recipe is here and
+    /// a by-value lookup could never have reached it (I18N-10). The same
+    /// `Option<Phrase>` beside a finished sentence that `Inert.why` and
+    /// `NotYetModeled.what` carry, for the same reason and with the same
+    /// meaning: `None` is the honest by-value state.
+    pub detail: Option<Phrase>,
 }
 
 /// Deterministic conflict order over candidate families whose structure
@@ -583,6 +590,7 @@ impl<O: StructureOracle> FamilyRouter<O> {
     ) -> Result<Vec<String>, Declined> {
         let g = &record.gates;
         let declined = |gate: &str, reason: String| Declined {
+            detail: None,
             family: record.id.clone(),
             version: record.version,
             gate: gate.to_string(),
@@ -744,7 +752,8 @@ impl<O: StructureOracle> FamilyRouter<O> {
                     family: record.id.clone(),
                     version: record.version,
                     gate: "outcome".to_string(),
-                    reason: why,
+                    reason: why.render(crate::i18n::Locale::EN),
+                    detail: Some(why),
                 }),
             }
         }
@@ -1163,7 +1172,13 @@ impl<O: StructureOracle> Equilibrator for FamilyRouter<O> {
                     ("family".to_string(), Slot::text(d.family.clone())),
                     ("version".to_string(), Slot::text(d.version.to_string())),
                     ("gate".to_string(), Slot::text(d.gate.clone())),
-                    ("why".to_string(), Slot::term("family-gate", d.reason.clone())),
+                    (
+                        "why".to_string(),
+                        match &d.detail {
+                            Some(recipe) => Slot::phrase(recipe.clone()),
+                            None => Slot::term("family-gate", d.reason.clone()),
+                        },
+                    ),
                 ],
             );
             Event::not_modeled(vessel.id, NotModelledCause::ModelBoundary, reason)

@@ -40,6 +40,7 @@ use std::collections::BTreeMap;
 
 use serde::{Deserialize, Serialize};
 
+use crate::phrase::{Phrase, Slot};
 use crate::species::{self, Phase, SpeciesId};
 use crate::units::Moles;
 use crate::vessel::Vessel;
@@ -1739,7 +1740,13 @@ impl<'a> KineticReaction<'a> {
     /// A proton-consuming kinetic step cannot use an uncoupled strong-acid
     /// depletion approximation for a weak-acid reservoir. Catalytic proton
     /// dependencies, which consume no H+, are unaffected.
-    pub fn proton_consumption_boundary(&self, vessel: &Vessel) -> Option<&'static str> {
+    /// The refusal this reaction owes, as a RECIPE (I18N-10).
+    ///
+    /// The sentence lives HERE, beside the test that decides it, rather
+    /// than at the one call site that speaks it — `clock.rs` used to
+    /// wrap it in a `format!` and the two halves of one sentence sat in
+    /// two files, which is exactly the shape a catalogue cannot key.
+    pub fn proton_consumption_boundary(&self, vessel: &Vessel) -> Option<Phrase> {
         if !self
             .stoichiometry
             .iter()
@@ -1754,7 +1761,13 @@ impl<'a> KineticReaction<'a> {
             || registered_proton_donor_amount(vessel) > significant_donor
             || (represented <= DEPLETED && vessel.free_proton > 1e-10)
         {
-            Some("Proton-consuming kinetics requires a coupled weak-acid/buffer equilibrium: measured free proton activity is not the titratable acid inventory. This uncoupled rate step is withheld rather than treating the buffer as a fixed acid reservoir")
+            Some(Phrase::new(
+                "not-modeled.proton-consuming-kinetics",
+                // The reaction's id is notation: a reader traces it back
+                // to a registry row rather than reading it as words.
+                "{reaction}: Proton-consuming kinetics requires a coupled weak-acid/buffer equilibrium: measured free proton activity is not the titratable acid inventory. This uncoupled rate step is withheld rather than treating the buffer as a fixed acid reservoir",
+                vec![("reaction".to_string(), Slot::text(self.id))],
+            ))
         } else {
             None
         }

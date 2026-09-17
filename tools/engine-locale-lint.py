@@ -72,6 +72,20 @@ COMPOSERS = [
     ROOT / "crates/kerotakis-core/src/clock.rs",
     ROOT / "crates/kerotakis-core/src/family.rs",
     ROOT / "crates/kerotakis-core/src/bench.rs",
+    # I18N-10's tail. `states.rs` and `volatility.rs` compose a refusal a
+    # solver passes through; `aqueous.rs` and `phase_diagnostics.rs` are
+    # the aqueous crate's own nine and one; `family_oracle.rs` is where
+    # the structural oracle's refusal is written, one crate away from the
+    # router that speaks it. A file joins this list on the commit that
+    # gives its first refusal a `Phrase` — leave one off and its keys are
+    # reported as orphans in one direction and vanish from the
+    # denominator in the other, which is #505's scar exactly.
+    ROOT / "crates/kerotakis-core/src/states.rs",
+    ROOT / "crates/kerotakis-core/src/volatility.rs",
+    ROOT / "crates/kerotakis-phreeqc/src/aqueous.rs",
+    ROOT / "crates/kerotakis-phreeqc/src/phase_diagnostics.rs",
+    ROOT / "crates/kerotakis-org/src/family_oracle.rs",
+    ROOT / "crates/kerotakis-core/src/kinetics.rs",
 ]
 # `phrase.rs` asks the catalogue for the list grammar and the punctuation
 # by name, the ordinary `locale.t` way.
@@ -124,6 +138,31 @@ REFUSAL = re.compile(
 PHRASE_CALL = re.compile(
     r'Phrase::(?:new|bare)\(\s*"([^"]+)"\s*,\s*"((?:[^"\\]|\\.)*)"', re.S
 )
+# `Phrase::new(kerotakis_core::family::UNNAMEABLE_PRODUCT, "…", …)`. A key
+# two crates share is named by a `const` so the two cannot drift apart,
+# and a lint that only reads literals would then drop it out of the
+# DENOMINATOR — which is #505's failure in the other direction: the number
+# goes green because the work left it. The const's value is resolved from
+# the source, never assumed.
+PHRASE_CONST = re.compile(
+    r'Phrase::(?:new|bare)\(\s*(?:[A-Za-z_][\w]*::)*([A-Z][A-Z0-9_]+)\s*,\s*"((?:[^"\\]|\\.)*)"',
+    re.S,
+)
+CONST_KEY = re.compile(r'const\s+([A-Z][A-Z0-9_]+)\s*:\s*&\s*str\s*=\s*"([^"]+)"')
+# `Phrase::bare("material-assumption.whole_milk-casein", &sentence)` — a
+# key named at the call site whose ENGLISH is data, quoted from a material
+# recipe. The source text cannot be read out of the Rust, but the key can,
+# and a key this lint cannot see is a key it reports as an orphan while
+# leaving the row out of the denominator.
+PHRASE_KEY_ONLY = re.compile(r'Phrase::(?:new|bare)\(\s*"([^"]+)"\s*,\s*[^"\s]')
+# `Phrase::bare(&format!("unspeciated-acid.{key}"), why)` — a CURATED row
+# keyed by its place in a table, the shape `inert-in-solvent` introduced.
+# The prefix is a dynamic section like any other, and reading it out of
+# the source rather than listing prefixes by hand is what keeps the next
+# one from being silently orphaned.
+PHRASE_DYNAMIC = re.compile(
+    r'Phrase::(?:new|bare)\(\s*&?\s*format!\s*\(\s*"([\w.-]+)\.\{'
+)
 
 
 def notmodeled_sites() -> tuple[int, int, list[str]]:
@@ -143,10 +182,7 @@ def notmodeled_sites() -> tuple[int, int, list[str]]:
         # migrated call site.
         if path.name == "ops.rs":
             continue
-        text = path.read_text()
-        cut = text.find("\n#[cfg(test)]")
-        if cut != -1:
-            text = text[:cut]
+        text = without_test_modules(path.read_text())
         # A CONVERTED site is a call to `Event::not_modeled`, which
         # generates `what` from the recipe. It is no longer a struct
         # literal, so it would otherwise leave the denominator entirely
@@ -198,6 +234,53 @@ def unwrap(text: str) -> str:
     """A Rust string literal's `\\`-at-end-of-line continuation, undone."""
     return re.sub(r"\\\n\s*", "", text)
 
+
+def without_test_modules(text: str) -> str:
+    """Every `#[cfg(test)] mod … { … }` removed, braces matched.
+
+    Cutting at the FIRST `#[cfg(test)]` is what this file used to do, and
+    it is right only for a file whose tests are all at the bottom.
+    `kinetics.rs` has a test module at line 1294 and a thousand lines of
+    engine after it, so the cut hid `proton_consumption_boundary`
+    entirely: its key was reported as an orphan while its row sat outside
+    the denominator. A lint that cannot see part of the source is one
+    whose percentage means nothing, which is #505's lesson in its
+    sharpest form.
+    """
+    out, i = [], 0
+    while True:
+        at = text.find("#[cfg(test)]", i)
+        if at == -1:
+            out.append(text[i:])
+            return "".join(out)
+        out.append(text[i:at])
+        brace = text.find("{", at)
+        if brace == -1:
+            return "".join(out)
+        j, depth = brace + 1, 1
+        while j < len(text) and depth:
+            if text[j] == "{":
+                depth += 1
+            elif text[j] == "}":
+                depth -= 1
+            j += 1
+        i = j
+
+
+def uncommented(text: str) -> str:
+    """Whole-line `//` comments dropped.
+
+    A comment sits between `Phrase::new(` and its key often enough —
+    saying WHY that key and not another — that a pattern which cannot
+    step over one silently loses the call, and a lost call is a row this
+    lint then reports as an orphan while dropping it from the
+    denominator. Whole lines only: a `//` inside a string literal is not
+    at the start of its line, and a comment that is would be.
+    """
+    return "\n".join(
+        line for line in text.splitlines() if not line.lstrip().startswith("//")
+    )
+
 # A dotted key named anywhere in the file, which covers the case where the
 # key is chosen by a match arm rather than passed literally:
 #
@@ -239,14 +322,23 @@ def main() -> int:
         bench = bench[:bench_cut]
     refusals = {m.group(1): unwrap(m.group(2)) for m in REFUSAL.finditer(bench)}
     used.update(refusals)
+    # Every `const … : &str = "…"` the workspace declares, so a key named
+    # by a constant is still counted where it is used.
+    const_keys: dict[str, str] = {}
+    for path in sorted(ROOT.glob("crates/*/src/**/*.rs")):
+        for m in CONST_KEY.finditer(path.read_text()):
+            const_keys[m.group(1)] = m.group(2)
     composed: dict[str, str] = {}
     for path in COMPOSERS:
-        text = path.read_text()
-        cut = text.find("\n#[cfg(test)]")
-        if cut != -1:
-            text = text[:cut]
+        text = uncommented(without_test_modules(path.read_text()))
         for m in PHRASE_CALL.finditer(text):
             composed[m.group(1)] = unwrap(m.group(2))
+        for m in PHRASE_KEY_ONLY.finditer(text):
+            composed.setdefault(m.group(1), "")
+        for m in PHRASE_CONST.finditer(text):
+            key = const_keys.get(m.group(1))
+            if key:
+                composed[key] = unwrap(m.group(2))
     phrase_src = PHRASE.read_text()
     for m in CALL.finditer(phrase_src):
         composed[m.group(1)] = m.group(2)
@@ -258,12 +350,13 @@ def main() -> int:
     # out of the table row they came from. Neither can be named at a call
     # site, which is the same legitimate pattern the glassware and species
     # tables use.
-    dynamic |= {"inert-in-solvent"}
-    for path in COMPOSERS:
+    for path in COMPOSERS + [BENCH, RENDER]:
+        text = path.read_text()
         dynamic |= {
-            m.group(1)
-            for m in re.finditer(r'Slot::term\(\s*"([\w.-]+)"', path.read_text())
+            m.group(1) for m in re.finditer(r'Slot::term\(\s*"([\w.-]+)"', text)
         }
+        dynamic |= {m.group(1) for m in PHRASE_DYNAMIC.finditer(text)}
+        dynamic |= {m.group(1) for m in DYNAMIC.finditer(text)}
     dynamic |= {m.group(1) for m in DYNAMIC.finditer(grammar)}
     dynamic |= {m.group(1) for m in SECTION.finditer(grammar)}
     dynamic |= {m.group(1) for m in SECTION_LITERAL.finditer(grammar)}

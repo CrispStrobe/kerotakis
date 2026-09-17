@@ -5433,7 +5433,7 @@ impl Bench {
             // and the liquid's colour is an appearance word, which is
             // exactly the distinction a flat `format!` could not carry.
             let steps = || ("steps".to_string(), Slot::number(max_steps.to_string()));
-            let target = |compare: &crate::ops::Compare, value: &f64| {
+            let target = |compare: crate::ops::Compare, value: f64| {
                 (
                     "target".to_string(),
                     Slot::text(format!("{} {value}", compare.symbol())),
