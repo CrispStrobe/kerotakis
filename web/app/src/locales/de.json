@@ -2703,6 +2703,8 @@
   "unsupported surface forces": "Oberflächenkräfte nicht unterstützt",
   "violates matter conservation": "verstößt gegen die Massenerhaltung",
   "weaponization": "Verwendung als Waffe",
-  "whole organism out of scope": "ganzer Organismus außerhalb des Umfangs"
+  "whole organism out of scope": "ganzer Organismus außerhalb des Umfangs",
+  "{count} answered questions describe no materials, no concept and no curriculum stage, so this filter shows none of them.": "{count} beantwortete Fragen beschreiben keine Materialien, kein Konzept und keine Lehrplanstufe, deshalb zeigt dieser Filter keine davon.",
+  "show the questions instead": "stattdessen die Fragen zeigen"
  }
 }

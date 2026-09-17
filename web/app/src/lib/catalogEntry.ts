@@ -960,6 +960,28 @@ export function catalogEntryMatches(entry: Pick<CatalogEntry, "search">, query: 
     normalizeCatalogText(slugWords(value)).includes(needle));
 }
 
+/**
+ * Do these filters ask about something only an experiment has?
+ *
+ * A concept, a curriculum stage, a shelf of materials and a completion
+ * record are properties of an experiment. A reviewed corpus question
+ * carries none of them, so any of these axes drops all five hundred
+ * question rows BY CONSTRUCTION rather than by failing to match — and a
+ * reader watching the answers vanish from one box gets the same wrong
+ * "no" the two doors used to give, only from inside one of them.
+ *
+ * So the rail says which filter is doing it. Pure, and here rather than in
+ * the component, because "which filters a question cannot answer" is a
+ * fact about the model and the tests have to be able to ask it.
+ */
+export function experimentOnlyFilters(filters: CatalogFilters): boolean {
+  return filters.concept !== null
+    || filters.curriculum !== null
+    || filters.shelfOnly
+    || filters.readiness !== "all"
+    || filters.progress === "completed";
+}
+
 export function filterCatalogEntries(
   entries: readonly CatalogEntry[],
   filters: CatalogFilters,

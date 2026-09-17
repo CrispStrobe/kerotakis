@@ -30,6 +30,7 @@ import {
   placementKey,
   presentPlacements,
   presentTopics,
+  experimentOnlyFilters,
   oneIndex,
   runTargetLabel,
   sourceCounts,
@@ -577,7 +578,8 @@ describe("the one index over three populations", () => {
   it("makes no claim a question never made", () => {
     const row = oneIndex([], [], [question()], context({
       shelfKeys: new Set(["water"]),
-      catalog: new Map([["water", { id: "water", available: true, reason: { reason: "open" } }]]),
+      catalog: new Map([["water", { id: "water", kind: "reagent" as const, minimum_completed: 0,
+        available: true, reason: { reason: "sandbox" as const } }]]),
     }) as Parameters<typeof oneIndex>[3])[0]!;
     // The corpus script writes formulae (`add v1 NaCl 5g`) where the shelf
     // is keyed by registry id, so a derived shopping list reported salt
@@ -668,6 +670,34 @@ describe("the one index over three populations", () => {
     const asked = entries.find((entry) => entry.id === "aq-001")!;
     expect(authoredRelatedEntries(guided, entries).map((entry) => entry.id)).toContain("aq-001");
     expect(authoredRelatedEntries(asked, entries).map((entry) => entry.id)).toContain("K99");
+  });
+
+  it("names the filters a question cannot answer, rather than looking broken", () => {
+    // A concept, a curriculum stage, a shelf and a completion record are
+    // properties of an experiment. Each of these drops all five hundred
+    // questions by construction, and the rail has to say so.
+    for (const over of [
+      { concept: "precipitation" },
+      { curriculum: placementKey({ system: "england-national-curriculum", stage: "KS3" }) },
+      { shelfOnly: true },
+      { readiness: "ready" as const },
+      { readiness: "missing" as const },
+      { progress: "completed" as const },
+    ]) {
+      expect(experimentOnlyFilters({ ...NO_CATALOG_FILTERS, ...over })).toBe(true);
+    }
+    // What a question CAN answer is left alone: free text, level, topic,
+    // duration and the facet itself all select across all three kinds.
+    for (const over of [
+      { query: "salt" },
+      { level: "starter" as const },
+      { topic: "solutions" },
+      { duration: "short" as const },
+      { source: "capability" as const },
+      { progress: "not-tried" as const },
+    ]) {
+      expect(experimentOnlyFilters({ ...NO_CATALOG_FILTERS, ...over })).toBe(false);
+    }
   });
 
   it("searches a question in the language it is read in", () => {

@@ -69,6 +69,7 @@
     CATALOG_SOURCES,
     authoredRelatedEntries,
     durationLabel,
+    experimentOnlyFilters,
     filterCatalogEntries,
     levelCounts,
     levelLabel,
@@ -407,6 +408,36 @@
     filters = { ...NO_CATALOG_FILTERS };
   }
 
+  /**
+   * Filters no question can answer, named rather than left to look broken.
+   *
+   * A concept, a curriculum stage, a shelf and a readiness are properties
+   * of an EXPERIMENT. A corpus question carries none of them, so any of
+   * those filters drops all five hundred rows by construction — and a
+   * reader who typed a question into one box and watched the answers
+   * vanish gets the same wrong "no" the two doors used to give, only from
+   * inside one of them. So the rail says which filter is doing it.
+   */
+  const questionsExcluded = $derived(
+    kinds.capability > 0
+    && filters.source !== "capability"
+    && experimentOnlyFilters(filters)
+    && shown.every((entry) => entry.source !== "capability"),
+  );
+
+  /** Keep the free text; drop only the axes a question cannot answer. */
+  function showQuestionsInstead() {
+    filters = {
+      ...filters,
+      source: "capability",
+      concept: null,
+      curriculum: null,
+      shelfOnly: false,
+      readiness: "all",
+      progress: filters.progress === "completed" ? "all" : filters.progress,
+    };
+  }
+
   const filtering = $derived(
     filters.source !== null
     || filters.level !== null || filters.topic !== null || filters.duration !== null
@@ -699,6 +730,13 @@
           {/if}
         </div>
       </div>
+
+      {#if questionsExcluded}
+        <p class="meta excluded-note">
+          {t("{count} answered questions describe no materials, no concept and no curriculum stage, so this filter shows none of them.", { count: kinds.capability })}
+          <button class="link" onclick={showQuestionsInstead}>{t("show the questions instead")}</button>
+        </p>
+      {/if}
 
       {#if filters.concept && related.length > 0}
         <p class="meta">

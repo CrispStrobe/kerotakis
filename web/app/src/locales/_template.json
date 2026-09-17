@@ -2703,6 +2703,8 @@
   "unsupported surface forces": "",
   "violates matter conservation": "",
   "weaponization": "",
-  "whole organism out of scope": ""
+  "whole organism out of scope": "",
+  "{count} answered questions describe no materials, no concept and no curriculum stage, so this filter shows none of them.": "",
+  "show the questions instead": ""
   }
 }
