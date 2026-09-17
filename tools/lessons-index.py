@@ -50,7 +50,75 @@ TOPICS = {
                     "filter-then-concentrate-the-brine",
                     "track-precipitate-and-filtrate-through-drying"],
     "safety": ["never-mix"],
+    # Two topics with no curated members. They exist because the catalogue
+    # sends lessons here (see CATALOGUE_TOPIC below) and a topic has to have
+    # a position in the picker's order before anything can land in it.
+    "food & life": [],
+    "everyday materials": [],
 }
+
+# A lesson absent from TOPICS used to fall into "more", and 47 of 113 did.
+# That bucket was the picker disagreeing with the catalogue about the same
+# curriculum: every one of those 47 carries authored `topics` in
+# `data/kids/experiments-v1.json`, so the grouping was already written down
+# somewhere — just not here.
+#
+# This maps the catalogue's learner topics onto the picker's shelves, and it
+# is ORDERED: the first catalogue topic a lesson carries that appears in this
+# list decides its shelf. The order is the editorial judgement. `proteins`
+# outranks `heat` so that heating egg white is food rather than thermochemistry;
+# `heat` outranks `food` so that invisible ink is heat rather than cooking;
+# `acids` outranks `food` so that kitchen pH is acid-base chemistry. Change
+# the order and lessons move, which is the point — it is one list to argue
+# about rather than 113 filenames to maintain.
+CATALOGUE_TOPIC = [
+    ("safety", "safety"),
+    ("fire", "heat & fire"),
+    ("crystals", "crystals & solubility"),
+    ("electrochemistry", "redox & electricity"),
+    ("enzymes", "food & life"),
+    ("proteins", "food & life"),
+    ("rates", "rates"),
+    ("heat", "heat & fire"),
+    ("acids", "acids & bases"),
+    ("indicators", "tests & indicators"),
+    ("tests", "tests & indicators"),
+    ("density", "density & buoyancy"),
+    ("pressure", "gases & pressure"),
+    ("food", "food & life"),
+    ("gases", "gases & pressure"),
+    ("separations", "separations"),
+    ("redox", "redox & electricity"),
+    ("water", "water chemistry"),
+    ("metals", "redox & electricity"),
+    ("polymers", "everyday materials"),
+    ("mixtures", "everyday materials"),
+    ("materials", "corrosion & materials"),
+    ("solutions", "water chemistry"),
+    ("colour", "tests & indicators"),
+    ("equilibrium", "acids & bases"),
+    ("measurement", "start here"),
+]
+
+CATALOGUE = pathlib.Path(__file__).resolve().parents[1] / "data/kids/experiments-v1.json"
+
+
+def catalogue_topics() -> dict[str, list[str]]:
+    """Lesson stem to the authored topics of the catalogue row that runs it.
+
+    Missing or unreadable is not fatal: the payload builds have to keep
+    working from a lessons directory alone, and a lesson with no row simply
+    keeps the "more" shelf it had.
+    """
+    try:
+        rows = json.loads(CATALOGUE.read_text())["experiments"]
+    except (OSError, ValueError, KeyError):
+        return {}
+    return {
+        row["lesson"][: -len(".lab")]: row.get("topics", [])
+        for row in rows
+        if row.get("lesson", "").endswith(".lab")
+    }
 
 # Learning progress is authored independently of district unlocking.  Most of
 # the older missions predate this metadata; new promotions state it explicitly
@@ -101,9 +169,21 @@ def lesson_kit(text: str) -> list[str]:
                    if (match := REAGENT.match(line.strip()))})
 
 
+def topic_for(stem: str, topic_of: dict[str, str], authored: dict[str, list[str]]) -> str:
+    """The curated shelf if there is one, else the catalogue's own answer."""
+    if stem in topic_of:
+        return topic_of[stem]
+    carried = authored.get(stem, [])
+    for name, shelf in CATALOGUE_TOPIC:
+        if name in carried:
+            return shelf
+    return "more"
+
+
 def index(directory: pathlib.Path) -> list[dict]:
     topic_of = {stem: topic for topic, stems in TOPICS.items() for stem in stems}
     order = {stem: i for stems in TOPICS.values() for i, stem in enumerate(stems)}
+    authored = catalogue_topics()
 
     out = []
     for p in sorted(directory.glob("*.lab")):
@@ -117,7 +197,7 @@ def index(directory: pathlib.Path) -> list[dict]:
             "file": p.name,
             "name": p.stem.replace("-", " "),
             "blurb": blurb,
-            "topic": topic_of.get(p.stem, "more"),
+            "topic": topic_for(p.stem, topic_of, authored),
             # Enables generated element-to-lesson links without downloading
             # and reparsing every lesson in the browser. The .lab file stays
             # authoritative; this field is rebuilt for every payload.

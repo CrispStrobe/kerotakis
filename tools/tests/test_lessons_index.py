@@ -37,6 +37,42 @@ measure v1 ph
             self.assertEqual(indexed["rusting.lab"]["topic"], "corrosion & materials")
             self.assertEqual(indexed["copper-patina.lab"]["topic"], "corrosion & materials")
 
+    def test_every_shipped_lesson_has_a_shelf(self):
+        """No lesson falls into "more".
+
+        The bucket held 47 of 113 lessons, which was the picker and the
+        catalogue disagreeing about one curriculum. The shelves are derived
+        from the catalogue's own authored topics now, so a lesson landing in
+        "more" means its catalogue row carries no topic this list knows —
+        a real gap, and this says which lesson.
+        """
+        indexed = MODULE.index(ROOT / "lessons")
+        homeless = sorted(e["file"] for e in indexed if e["topic"] == "more")
+        self.assertEqual(homeless, [], f"unshelved lessons: {homeless}")
+
+    def test_a_lesson_with_no_catalogue_row_keeps_the_more_shelf(self):
+        """The fallback still exists, and payload builds still work alone."""
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            (root / "not-a-shipped-lesson.lab").write_text("# Demo\nadd v1 water 1mL\n")
+            self.assertEqual(MODULE.index(root)[0]["topic"], "more")
+
+    def test_the_catalogue_decides_where_a_lesson_without_a_curated_slot_goes(self):
+        """Ordered, and the order is the editorial judgement.
+
+        `heating-proteins` carries food, proteins and heat. `proteins`
+        outranks `heat`, so it is food rather than thermochemistry; and
+        `invisible-ink-boundary` carries heat and food with no protein, so
+        the same list sends it the other way.
+        """
+        authored = MODULE.catalogue_topics()
+        self.assertEqual(
+            MODULE.topic_for("heating-proteins", {}, authored), "food & life"
+        )
+        self.assertEqual(
+            MODULE.topic_for("invisible-ink-boundary", {}, authored), "heat & fire"
+        )
+
     def test_crystal_collection_separates_outcome_from_boundary(self):
         with tempfile.TemporaryDirectory() as directory:
             path = pathlib.Path(directory) / "rock-candy.lab"
