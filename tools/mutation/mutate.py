@@ -500,7 +500,16 @@ def failing_tests(output: str) -> list[str]:
 def run_tier(tier: dict, mutant: int | None, env_extra: dict | None = None) -> dict:
     env = dict(os.environ)
     env["RUSTC_WRAPPER"] = ""
-    env["TMPDIR"] = os.environ.get("TMPDIR", "/mnt/volume1/tmp-overflow/kero-build")
+    # ONLY pass a TMPDIR that the caller actually set. The default used to be
+    # this project's development box's overflow directory, hardcoded, and on
+    # 2026-09-17 that turned a whole rung into a false positive on a GitHub
+    # runner: the path does not exist there, `std::env::temp_dir()` inside
+    # `metamorphic.rs` returned it anyway, `create_dir_all` failed with
+    # PermissionDenied, and SIX mutants were recorded as "caught" by three
+    # tests that had panicked in their first statement. A verdict earned by a
+    # suite that could not start is worse than no verdict.
+    if "TMPDIR" in os.environ:
+        env["TMPDIR"] = os.environ["TMPDIR"]
     if mutant is not None:
         env["KERO_MUTANT"] = str(mutant)
     env.update(env_extra or {})

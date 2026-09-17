@@ -55,6 +55,10 @@ env:
     crates/kerotakis-core/src/conductivity.rs
     crates/kerotakis-core/src/properties.rs' }}
   MUTANT_CEILING: ${{ inputs.ceiling || '18000' }}
+  # The suites spawn `kero` and write a scratch .lab file under
+  # `std::env::temp_dir()`. Named explicitly so the runner's own temp is used
+  # and nothing inherits a path from somebody's workstation.
+  TMPDIR: ${{ runner.temp }}
 
 jobs:
   tables:
