@@ -1780,15 +1780,16 @@ display name in the registry, is the wrong fix.
     one each — every one of them passes a sentence through from somewhere
     else, so each is a cascade into the function that built it.
 
-  **One follow-up that is not a tranche.** Five converted sites still hold
-  a `", "`-joined list inside a `Slot::Text` — the spectral gaps, the
-  co-evaporating liquids, the solutes with no coefficient, the uncurated
-  column groups, the teaching set of nuclides. `Slot::List` would join
-  them in the reader's grammar, which is the whole reason the slot type
-  exists, and it renders *a, b and c* where the `join` renders *a, b, c* —
-  so converting them CHANGES the English and needs a golden pass of its
-  own. `named.join(" and ")` in the density refusal did convert, because
-  the catalogue's `look.list-final` renders exactly the English it had.
+  **One follow-up that is not a tranche.** Seven converted sites still hold
+  a `", "`-joined list inside a `Slot::Text` — the co-evaporating liquids,
+  the solutes with no coefficient (twice), the spectral gaps, the uncurated
+  column groups, the teaching set of nuclides and the curated reactions.
+  `Slot::List` would join them in the reader's grammar, which is the whole
+  reason the slot type exists, and it renders *a, b and c* where the `join`
+  renders *a, b, c* — so converting them CHANGES the English and needs a
+  golden pass of its own. The two `join(" and ")` lists — `selectivity.rs`'s
+  reactants and the density refusal's contents — did convert, because the
+  catalogue's `look.list-final` renders exactly the English they had.
 - [x] **I18N-11 — `scene_vessel` appended English sentences to the
   observation.** Not eleven: **twenty**. `appearance::observe` composes
   translatable clauses, and `scene.rs` then took the finished English
