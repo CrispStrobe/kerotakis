@@ -65,7 +65,15 @@ explorer:
   chose, and `levelCounts` counts it under each — a chip's number has to be
   the number of rows the chip will show.
 
-1355 → 1374 web tests, `svelte-check` clean, no engine change.
+A fifth finding came from CI rather than from the code: the theme-contrast
+gate reads `#[0-9a-f]{3,8}` over a whole `.svelte` file, so `#505` written
+in a doc comment — explaining why a count is derived — failed
+`Catalog.svelte` on a *sentence*. Comments are stripped before the colour
+scan now, proved by appending a real `color: #ff00aa` and watching the gate
+still bite.
+
+1355 → 1376 web tests, `svelte-check` clean, `vite build` clean, no engine
+change.
 
 
 **German reached the engine's own voice, and four green suites were wrong**
