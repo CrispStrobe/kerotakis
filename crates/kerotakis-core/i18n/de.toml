@@ -1415,3 +1415,63 @@ with = "mit"
 # (`web/app/src/locales/de.json`, "the bench"); two German words for
 # one object is how a translation starts reading like two products.
 unknown-verb = "unbekannter Befehl '{word}' — das Labor kennt diese Verben: {verbs}"
+
+
+# What the SCENE says after the observation (I18N-11).
+#
+# `appearance.rs` has composed translatable clauses since I18N-7, and
+# `scene.rs` then appended its own finished English sentences to them with
+# a bare `format!` each. That was not a cosmetic leftover: the web bench
+# paints its caption and its accessibility text from the SCENE, not from
+# the rendered notebook, so every one of these reached a German reader in
+# English while the sentence they were glued to was German.
+#
+# Each is its own sentence rather than a clause, which is why they live
+# beside `[look]` rather than in it — see `SceneVessel::notes`.
+[scene]
+# Three templates for one fact, because German takes a different case for
+# water going in and water coming out, and "into" is not a word that can be
+# swapped in place. The direction is a property of the sentence.
+osmosis-in = "Osmose hat im Unterrichtsmodell insgesamt {water} mol ({mass} g) Wasser in {material} hinein transportiert; Objektgröße, Membranmechanik und Endgleichgewicht sind nicht modelliert."
+osmosis-out = "Osmose hat im Unterrichtsmodell insgesamt {water} mol ({mass} g) Wasser aus {material} heraus transportiert; Objektgröße, Membranmechanik und Endgleichgewicht sind nicht modelliert."
+osmosis-either = "Osmose hat im Unterrichtsmodell insgesamt {water} mol ({mass} g) Wasser in {material} hinein oder aus ihm heraus transportiert; Objektgröße, Membranmechanik und Endgleichgewicht sind nicht modelliert."
+gel = "Ein durchscheinendes, zusammenhängendes Gel enthält {percent} % des {polymer}-Polymers."
+# The two coating sentences take the German `web/app/src/locales/de.json`
+# already carries for them, word for word. The web looked them up whole —
+# they have no holes, so that worked — and a second, different German for
+# the same sentence is how one product starts reading like two.
+coating-paint = "Das lackierte Eisen hat einen vollständigen schützenden Lackfilm; Kratzer werden nicht modelliert."
+coating-passive-film = "Der Edelstahl hat eine transparente schützende Passivschicht; ihre Dicke ist nicht maßstabsgetreu dargestellt."
+corrosion = "{percent} % des erfassten {metal} sind derzeit in seinem modellierten Oxid gebunden. Direkt zugegebenes Oxid ist von hier entstandenem Oxid nicht zu unterscheiden; das ist keine Korrosionsrate, keine Vorgeschichte, keine Schichtdicke und kein Bedeckungsgrad."
+swelling = "Das superabsorbierende Netzwerk hält {water} g Wasser fest ({ratio}-mal seine Trockenmasse)."
+chemiluminescence = "Das Luminol-System leuchtet blau mit der relativen Intensität {intensity}; die geschätzte Halbwertszeit beträgt hier {half_life} Sekunden."
+enzyme-conversion = "Das begrenzte Enzymmodell meldet {percent} % Umsatz von {substrate} in {material}."
+food-colour-spread = "Lebensmittelfarbe hat sich in Schlieren über die Milchoberfläche ausgebreitet."
+food-colour-resting = "Tropfen Lebensmittelfarbe liegen auf der Milchoberfläche."
+adsorption = "{percent} % des erfassten {sorbate} sind an {sorbent} gebunden; {dissolved} mg bleiben gelöst. Das ist eine Gleichgewichtsverteilung, keine Entfernungsrate."
+partition = "Im Gleichgewicht sind {lower_percent} % des modellierten {species} in der unteren {lower}-Phase und {upper_percent} % in der oberen {upper}-Phase."
+emulsion = "Durch das Rühren sind {percent} % von {material} als trübe Tröpfchen verteilt; der Rest steht weiterhin über dem Wasser."
+# The colour goes BESIDE the noun, not in front of it, for the reason
+# `look.coloured` gives: a German attributive adjective takes the noun's
+# gender and ending, so "{colour}e Schicht" is right for gelb and wrong for
+# orange and rosa. That decision belongs in this file, never in the Rust.
+material-layer = "{material} bildet eine eigene Schicht ({colour}) über dem Wasser."
+vessel-contains = "Im Gefäß ist {material}."
+curdling = "Weiche Flocken mit {mass} g modelliertem Feststoff haben sich aus {material} abgeschieden; zurück bleibt trübe Molke."
+foam-overflow = "Schaum läuft über den Rand."
+foam-standing = "Schaum steht über der Flüssigkeit."
+
+# Looked up by VALUE, the way `[species]` and `[material]` are: the scene
+# names the polymer a gel was made from, and the substrate an enzyme acted
+# on, and both are short labels from a reviewed table rather than prose.
+[polymer]
+# PVA is PVA in German. It is here so that a language where it is not can
+# say so without a line of Rust.
+PVA = "PVA"
+
+[substrate]
+"lactose in milk" = "Lactose in Milch"
+"gelatine protein" = "Gelatineprotein"
+"albumin protein" = "Albuminprotein"
+"triglycerides in vegetable oil" = "Triglyceride in Pflanzenöl"
+"muscle protein" = "Muskelprotein"

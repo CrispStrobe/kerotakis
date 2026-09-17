@@ -33,7 +33,7 @@ use std::collections::BTreeSet;
 
 use kerotakis_core::phrase::{Phrase, Slot};
 use kerotakis_core::species::Phase;
-use kerotakis_core::{appearance, Locale, Moles, SpeciesId, Vessel, VesselId};
+use kerotakis_core::{appearance, scene, Locale, Moles, SpeciesId, Vessel, VesselId};
 
 /// Every file that composes a sentence out of `Phrase`.
 ///
@@ -47,6 +47,10 @@ const COMPOSERS: &[(&str, &str)] = &[
     ("displacement.rs", include_str!("../src/displacement.rs")),
     ("solve.rs", include_str!("../src/solve.rs")),
     ("nonaqueous.rs", include_str!("../src/nonaqueous.rs")),
+    // I18N-11. The scene's own sentences, which reach the reader without
+    // passing through `render.rs`: the web bench paints its caption and
+    // its accessibility text from the scene object.
+    ("scene.rs", include_str!("../src/scene.rs")),
 ];
 
 /// `Phrase::new("key", "english …"` and the `bare` form, as (key, en).
@@ -414,4 +418,111 @@ fn an_appearance_without_clauses_falls_back_to_its_english() {
         notes: Vec::new(),
     };
     assert_eq!(seen.say(Locale::parse("de")), "The beaker is empty.");
+}
+
+/// The short labels the scene looks up by VALUE, checked against the
+/// tables the engine actually uses.
+///
+/// `Slot::term("polymer", gel.polymer)` names no key a scanner can see, so
+/// the static half above is blind to it — the same hole
+/// `every_curated_solvent_verdict_is_translated` fills for the solvent
+/// table. The denominator is the `const` and the source, never the
+/// catalogue: a polymer or a substrate added without German fails here on
+/// the commit that adds it.
+#[test]
+fn every_scene_term_table_is_translated() {
+    let mut wanted: Vec<(String, String)> = kerotakis_core::gel::GEL_PAIRS
+        .iter()
+        .map(|pair| ("polymer".to_string(), pair.polymer.to_string()))
+        .collect();
+    // `enzyme_activity::PROFILES` is private, so the substrate names are
+    // read out of the source the way the phrase keys above are. Reading
+    // them from `de.toml` instead would be the #505 mistake exactly: a
+    // denominator that grows only when someone remembers to grow it.
+    let src = include_str!("../src/enzyme_activity.rs");
+    let mut rest = src;
+    while let Some(at) = rest.find("substrate: \"") {
+        rest = &rest[at + "substrate: ".len()..];
+        if let Some((value, after)) = next_literal(rest) {
+            wanted.push(("substrate".to_string(), value));
+            rest = after;
+        }
+    }
+    assert!(
+        wanted.len() >= 6,
+        "found only {} scene terms — a table moved and this gate is now \
+         checking almost nothing",
+        wanted.len()
+    );
+    for locale in Locale::available().into_iter().filter(|l| !l.is_english()) {
+        let missing: Vec<String> = wanted
+            .iter()
+            .filter(|(section, en)| locale.lookup(&format!("{section}.{en}")).is_none())
+            .map(|(section, en)| format!("  {section}.{en}"))
+            .collect();
+        assert!(
+            missing.is_empty(),
+            "{} of {} scene terms have no {} translation:\n{}",
+            missing.len(),
+            wanted.len(),
+            locale.code(),
+            missing.join("\n"),
+        );
+    }
+}
+
+/// The half of the observation the WEB reader actually meets.
+///
+/// `no_english_reaches_a_german_look` walks what `appearance::observe`
+/// composes. The scene appends its own sentences after those, and until
+/// I18N-11 every one of them was a finished English `format!` — so the
+/// look line in the notebook was German and the caption under the drawn
+/// vessel, which is the same observation, was half English. This walks the
+/// scene's own notes.
+#[test]
+fn no_english_reaches_a_german_scene_caption() {
+    let de = Locale::parse("de");
+    // Poly(vinyl alcohol) and borax: the gel note, plus the polymer term
+    // that only a value lookup can reach.
+    let mut gel = Vessel::new(VesselId(0), "beaker");
+    gel.deposit(SpeciesId::new("PVA"), Moles(0.25), Phase::Solid);
+    gel.deposit(SpeciesId::new("Na2B4O7"), Moles(0.001), Phase::Liquid);
+
+    let painted = scene::scene_vessel(&gel);
+    assert!(
+        !painted.notes.is_empty(),
+        "the gel beaker produced no scene notes, so this gate checks nothing"
+    );
+    let mut faults = Vec::new();
+    for clause in painted.clauses.iter().chain(painted.notes.iter()) {
+        unresolved(clause, de, &mut faults);
+    }
+    assert!(
+        faults.is_empty(),
+        "German is missing {} of the parts the scene caption is made of:\n{}",
+        faults.len(),
+        faults.join("\n"),
+    );
+    let german = painted.say(de);
+    assert_ne!(
+        german, painted.words,
+        "the German caption is identical to the English one"
+    );
+    assert!(
+        !german.contains("translucent cohesive gel"),
+        "English survived into the German caption: {german}"
+    );
+    // And the whole scene, the way a host gets it.
+    let localized = scene::localize(&scene::scene_of(&[gel]), de);
+    assert_eq!(localized.vessels[0].words, german);
+}
+
+/// A scene from before the clause list existed still says something.
+#[test]
+fn a_scene_vessel_without_clauses_falls_back_to_its_english() {
+    let mut v = scene::scene_vessel(&Vessel::new(VesselId(0), "beaker"));
+    let english = v.words.clone();
+    v.clauses.clear();
+    v.notes.clear();
+    assert_eq!(v.say(Locale::parse("de")), english);
 }

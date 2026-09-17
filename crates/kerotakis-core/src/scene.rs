@@ -22,7 +22,9 @@
 use serde::{Deserialize, Serialize};
 
 use crate::appearance::{self, colour_word};
+use crate::i18n::Locale;
 use crate::ops::Confidence;
+use crate::phrase::{compose, Phrase, Slot};
 use crate::species::{self, Colour, Phase};
 use crate::vessel::{Headspace, Vessel, VesselId};
 use crate::Bench;
@@ -196,10 +198,119 @@ pub struct SceneVessel {
     pub mass_g: f64,
     /// The plain-words observation from `appearance::observe` — the lv1
     /// sentence, and the accessibility text for the drawn vessel.
+    ///
+    /// English, always, and GENERATED from `clauses` and `notes` below
+    /// rather than written beside them, so there is one sentence and not
+    /// two to drift. [`SceneVessel::say`] recomposes it in the reader's
+    /// language; `crate::scene::localize` does that for a whole scene on
+    /// the way out.
     pub words: String,
+    /// I18N-11: `words` as a recipe rather than a string — the clauses
+    /// `appearance::observe` composed, carried through unchanged.
+    ///
+    /// `appearance.rs` has spoken German since I18N-7, and the scene then
+    /// threw that away: it took the finished English `words` and appended
+    /// its own `format!`s to it. The web bench paints from the scene, so a
+    /// German reader met the whole tail in English — osmosis, the gel, the
+    /// glow, the enzyme, every one of them.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub clauses: Vec<Phrase>,
+    /// The sentences the SCENE adds after the observation: standing
+    /// bookkeeping that is a whole statement rather than a clause of the
+    /// description — how much water osmosis has moved, what fraction of
+    /// the polymer has gelled, where a solute has partitioned.
+    ///
+    /// Separate from `clauses` because they join differently: a clause is
+    /// comma-joined inside one sentence and ends at the full stop, and
+    /// each of these is its own sentence after it. That is the same split
+    /// `Appearance` makes between `clauses` and `notes`, for the same
+    /// reason.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub notes: Vec<Phrase>,
     /// Numbers worth pinning to the vessel, each with the confidence class
     /// its visual encoding follows (GUI-023).
     pub badges: Vec<Badge>,
+}
+
+impl SceneVessel {
+    /// Everything this vessel says, in `locale`.
+    ///
+    /// A scene deserialised from before the clause list existed — a saved
+    /// frame, a golden fixture, a host on an older engine — has none, and
+    /// gets its English `words` back rather than an empty caption. That is
+    /// the same fallback `Appearance::say` makes, and for the same reason:
+    /// a missing translation must degrade to English, never to nothing.
+    pub fn say(&self, locale: Locale) -> String {
+        if self.clauses.is_empty() && self.notes.is_empty() {
+            return self.words.clone();
+        }
+        say(&self.clauses, &self.notes, locale)
+    }
+}
+
+/// The observation and the standing notes as one caption, in `locale`.
+///
+/// Shared by `scene_vessel`, which uses it to GENERATE the English, and by
+/// [`SceneVessel::say`], which uses it to say the same thing in the
+/// reader's language. One function, so the two cannot diverge.
+fn say(clauses: &[Phrase], notes: &[Phrase], locale: Locale) -> String {
+    let mut text = compose(clauses, locale);
+    for note in notes {
+        if !text.is_empty() {
+            text.push(' ');
+        }
+        text.push_str(&note.render(locale));
+    }
+    text
+}
+
+/// The whole scene in `locale` — every sentence it carries, recomposed.
+///
+/// The counterpart of `render::localize_events`, and needed for the same
+/// reason: the web bench paints from the SCENE rather than from the
+/// rendered notebook lines, so a caption that is only translated on its
+/// way through `render.rs` never reaches the canvas at all. The recipes
+/// are left exactly as they are — they are the source, translating them
+/// twice is the bug this shape exists to prevent — and only the English
+/// `words` fields are replaced.
+#[must_use]
+pub fn localize(scene: &Scene, locale: Locale) -> Scene {
+    if locale.is_english() {
+        return scene.clone();
+    }
+    Scene {
+        vessels: scene
+            .vessels
+            .iter()
+            .map(|v| SceneVessel {
+                words: v.say(locale),
+                coatings: v
+                    .coatings
+                    .iter()
+                    .map(|c| SceneCoating {
+                        words: c
+                            .phrase
+                            .as_ref()
+                            .map_or_else(|| c.words.clone(), |p| p.render(locale)),
+                        ..c.clone()
+                    })
+                    .collect(),
+                corrosion: v
+                    .corrosion
+                    .iter()
+                    .map(|c| SceneCorrosion {
+                        words: c
+                            .phrase
+                            .as_ref()
+                            .map_or_else(|| c.words.clone(), |p| p.render(locale)),
+                        ..c.clone()
+                    })
+                    .collect(),
+                ..v.clone()
+            })
+            .collect(),
+        ..scene.clone()
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -446,7 +557,14 @@ pub struct SceneCoating {
     /// Registry key of the protected metal.
     pub host_species: String,
     /// Short accessible description of what the projection claims.
+    ///
+    /// English, and generated from `phrase` below. The web draws it as the
+    /// SVG `<title>` of the film, separately from the vessel's own words,
+    /// so it needs its own recipe rather than only a place in `notes`.
     pub words: String,
+    /// `words` as a recipe (I18N-11).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub phrase: Option<Phrase>,
 }
 
 /// Standing corrosion bookkeeping for one metal whose route the engine knows.
@@ -458,7 +576,13 @@ pub struct SceneCorrosion {
     pub metal_in_oxide_fraction: f64,
     /// Accessible boundary statement. Oxide added directly is intentionally
     /// indistinguishable from oxide made in this vessel.
+    ///
+    /// English, generated from `phrase` below.
     pub words: String,
+    /// `words` as a recipe (I18N-11). Carries a percentage, so no
+    /// whole-sentence lookup could ever have reached it.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub phrase: Option<Phrase>,
 }
 
 /// Standing adsorption bookkeeping for one supported sorbent/sorbate pair.
@@ -821,22 +945,29 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
                 .strip_prefix("material recipe ")
                 .unwrap_or(barrier.lot_source)
                 .to_string();
-            let (kind, words) = if recipe_id == "metal/painted-iron" {
+            let (kind, phrase) = if recipe_id == "metal/painted-iron" {
                 (
                     "paint",
-                    "The painted iron has a complete protective paint film; scratches are not modeled.",
+                    Phrase::bare(
+                        "scene.coating-paint",
+                        "The painted iron has a complete protective paint film; scratches are not modeled.",
+                    ),
                 )
             } else {
                 (
                     "passive_film",
-                    "The stainless steel has a transparent protective passive film; its thickness is not drawn to scale.",
+                    Phrase::bare(
+                        "scene.coating-passive-film",
+                        "The stainless steel has a transparent protective passive film; its thickness is not drawn to scale.",
+                    ),
                 )
             };
             SceneCoating {
                 kind: kind.to_string(),
                 recipe_id,
                 host_species: barrier.metal.to_string(),
-                words: words.to_string(),
+                words: phrase.render(Locale::EN),
+                phrase: Some(phrase),
             }
         })
         .collect();
@@ -849,18 +980,32 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
                 .iter()
                 .find(|verdict| verdict.metal == *metal)
                 .is_some_and(|verdict| verdict.corroding);
+            let phrase = Phrase::new(
+                "scene.corrosion",
+                "{percent}% of the tracked {metal} is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage.",
+                vec![
+                    (
+                        "percent".to_string(),
+                        Slot::number(format!("{:.0}", fraction * 100.0)),
+                    ),
+                    (
+                        "metal".to_string(),
+                        Slot::term(
+                            "species",
+                            species::lookup(&crate::SpeciesId::new(metal))
+                                .map(|data| data.name)
+                                .unwrap_or(*metal),
+                        ),
+                    ),
+                ],
+            );
             Some(SceneCorrosion {
                 metal: (*metal).to_string(),
                 corroding,
                 metal_in_oxide_moles: locked.0,
                 metal_in_oxide_fraction: fraction,
-                words: format!(
-                    "{:.0}% of the tracked {} is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage.",
-                    fraction * 100.0,
-                    species::lookup(&crate::SpeciesId::new(metal))
-                        .map(|data| data.name)
-                        .unwrap_or(*metal),
-                ),
+                words: phrase.render(Locale::EN),
+                phrase: Some(phrase),
             })
         })
         .collect();
@@ -1051,56 +1196,121 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
         })
         .collect();
 
-    let mut words = seen.words;
+    // I18N-11: every sentence below used to be a bare `format!` pushed onto
+    // the finished English `words`, and the web bench paints from the scene
+    // — so `appearance.rs` speaking German since I18N-7 bought a German
+    // reader nothing here. They are clauses with named holes now, exactly
+    // as #626 established, and the English is GENERATED from them rather
+    // than written beside them: one sentence, not two to drift.
+    let clauses = seen.clauses;
+    let mut notes = seen.notes;
     for object in &material_objects {
         if let Some(osmosis) = &object.osmosis {
             if osmosis.water_moles.abs() <= 1e-15 {
                 continue;
             }
-            let direction = match osmosis.direction.as_str() {
-                "into_object" => "into",
-                "out_of_object" => "out of",
-                _ => "into or out of",
-            };
-            words.push_str(&format!(
-                " Osmosis has moved {:.4} mol ({:.3} g) of water {} the {} cumulatively in the teaching model; object size, membrane mechanics, and final equilibrium are not modeled.",
-                osmosis.water_moles.abs(), osmosis.mass_change_g.abs(), direction, object.material
-            ));
+            let slots = vec![
+                (
+                    "water".to_string(),
+                    Slot::number(format!("{:.4}", osmosis.water_moles.abs())),
+                ),
+                (
+                    "mass".to_string(),
+                    Slot::number(format!("{:.3}", osmosis.mass_change_g.abs())),
+                ),
+                (
+                    "material".to_string(),
+                    Slot::term("material", object.material.clone()),
+                ),
+            ];
+            // Three templates rather than one with a translated preposition:
+            // German takes a different case for water going IN and water
+            // coming OUT, and "into" is not a word that can be swapped in
+            // place. The direction is a property of the sentence.
+            notes.push(match osmosis.direction.as_str() {
+                "into_object" => Phrase::new(
+                    "scene.osmosis-in",
+                    "Osmosis has moved {water} mol ({mass} g) of water into the {material} cumulatively in the teaching model; object size, membrane mechanics, and final equilibrium are not modeled.",
+                    slots,
+                ),
+                "out_of_object" => Phrase::new(
+                    "scene.osmosis-out",
+                    "Osmosis has moved {water} mol ({mass} g) of water out of the {material} cumulatively in the teaching model; object size, membrane mechanics, and final equilibrium are not modeled.",
+                    slots,
+                ),
+                _ => Phrase::new(
+                    "scene.osmosis-either",
+                    "Osmosis has moved {water} mol ({mass} g) of water into or out of the {material} cumulatively in the teaching model; object size, membrane mechanics, and final equilibrium are not modeled.",
+                    slots,
+                ),
+            });
         }
     }
     if let Some(gel) = &gel_observation {
-        words.push_str(&format!(
-            " A translucent cohesive gel contains {:.0}% of the {} polymer.",
-            gel.gelled_fraction * 100.0,
-            gel.polymer,
+        notes.push(Phrase::new(
+            "scene.gel",
+            "A translucent cohesive gel contains {percent}% of the {polymer} polymer.",
+            vec![
+                (
+                    "percent".to_string(),
+                    Slot::number(format!("{:.0}", gel.gelled_fraction * 100.0)),
+                ),
+                ("polymer".to_string(), Slot::term("polymer", gel.polymer)),
+            ],
         ));
     }
-    for coating in &coatings {
-        words.push(' ');
-        words.push_str(&coating.words);
-    }
-    for progress in &corrosion {
-        words.push(' ');
-        words.push_str(&progress.words);
-    }
+    notes.extend(coatings.iter().filter_map(|c| c.phrase.clone()));
+    notes.extend(corrosion.iter().filter_map(|c| c.phrase.clone()));
     if let Some(swelling) = &swelling_observation {
-        words.push_str(&format!(
-            " The superabsorbent network retains {:.1} g of water ({:.1} times its dry mass).",
-            swelling.retained_water_g, swelling.swelling_ratio_g_per_g,
+        notes.push(Phrase::new(
+            "scene.swelling",
+            "The superabsorbent network retains {water} g of water ({ratio} times its dry mass).",
+            vec![
+                (
+                    "water".to_string(),
+                    Slot::number(format!("{:.1}", swelling.retained_water_g)),
+                ),
+                (
+                    "ratio".to_string(),
+                    Slot::number(format!("{:.1}", swelling.swelling_ratio_g_per_g)),
+                ),
+            ],
         ));
     }
     if let Some(glow) = &chemiluminescence_observation {
-        words.push_str(&format!(
-            " The luminol system is glowing blue at relative intensity {:.2}; its estimated half-life here is {:.1} seconds.",
-            glow.relative_intensity, glow.half_life_s,
+        notes.push(Phrase::new(
+            "scene.chemiluminescence",
+            "The luminol system is glowing blue at relative intensity {intensity}; its estimated half-life here is {half_life} seconds.",
+            vec![
+                (
+                    "intensity".to_string(),
+                    Slot::number(format!("{:.2}", glow.relative_intensity)),
+                ),
+                (
+                    "half_life".to_string(),
+                    Slot::number(format!("{:.1}", glow.half_life_s)),
+                ),
+            ],
         ));
     }
     for progress in &enzyme_hydrolysis {
-        words.push_str(&format!(
-            " The bounded enzyme model reports {:.0}% conversion of {} in {}.",
-            progress.converted_fraction * 100.0,
-            progress.substrate,
-            progress.material,
+        notes.push(Phrase::new(
+            "scene.enzyme-conversion",
+            "The bounded enzyme model reports {percent}% conversion of {substrate} in {material}.",
+            vec![
+                (
+                    "percent".to_string(),
+                    Slot::number(format!("{:.0}", progress.converted_fraction * 100.0)),
+                ),
+                (
+                    "substrate".to_string(),
+                    Slot::term("substrate", progress.substrate),
+                ),
+                (
+                    "material".to_string(),
+                    Slot::term("material", progress.material.clone()),
+                ),
+            ],
         ));
     }
     if !v.surface_colours.is_empty() {
@@ -1109,70 +1319,161 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
             .iter()
             .map(|spot| spot.spread_fraction)
             .fold(0.0, f64::max);
-        if spread > 0.01 {
-            words.push_str(" Food-colour streaks have spread across the milk surface.");
+        notes.push(if spread > 0.01 {
+            Phrase::bare(
+                "scene.food-colour-spread",
+                "Food-colour streaks have spread across the milk surface.",
+            )
         } else {
-            words.push_str(" Food-colour drops are resting on the milk surface.");
-        }
+            Phrase::bare(
+                "scene.food-colour-resting",
+                "Food-colour drops are resting on the milk surface.",
+            )
+        });
     }
     for row in &adsorption {
-        words.push_str(&format!(
-            " {:.0}% of the tracked {} is held on {}; {:.2} mg remains dissolved. This is an equilibrium split, not a removal rate.",
-            row.held_fraction * 100.0,
-            species::lookup(&crate::SpeciesId::new(&row.sorbate))
-                .map(|data| data.name)
-                .unwrap_or(&row.sorbate),
-            species::lookup(&crate::SpeciesId::new(&row.sorbent))
-                .map(|data| data.name)
-                .unwrap_or(&row.sorbent),
-            row.still_dissolved_mg,
+        notes.push(Phrase::new(
+            "scene.adsorption",
+            "{percent}% of the tracked {sorbate} is held on {sorbent}; {dissolved} mg remains dissolved. This is an equilibrium split, not a removal rate.",
+            vec![
+                (
+                    "percent".to_string(),
+                    Slot::number(format!("{:.0}", row.held_fraction * 100.0)),
+                ),
+                (
+                    "sorbate".to_string(),
+                    Slot::term(
+                        "species",
+                        species::lookup(&crate::SpeciesId::new(&row.sorbate))
+                            .map(|data| data.name)
+                            .unwrap_or(&row.sorbate),
+                    ),
+                ),
+                (
+                    "sorbent".to_string(),
+                    Slot::term(
+                        "species",
+                        species::lookup(&crate::SpeciesId::new(&row.sorbent))
+                            .map(|data| data.name)
+                            .unwrap_or(&row.sorbent),
+                    ),
+                ),
+                (
+                    "dissolved".to_string(),
+                    Slot::number(format!("{:.2}", row.still_dissolved_mg)),
+                ),
+            ],
         ));
     }
     for split in &partition {
-        words.push_str(&format!(
-            " At equilibrium, {:.0}% of the modeled {} is in the lower {} layer and {:.0}% is in the upper {} layer.",
-            split.fraction_lower * 100.0,
-            species::lookup(&crate::SpeciesId::new(&split.species))
-                .map(|data| data.name)
-                .unwrap_or(&split.species),
-            species::lookup(&crate::SpeciesId::new(&split.lower_solvent))
-                .map(|data| data.name)
-                .unwrap_or(&split.lower_solvent),
-            (1.0 - split.fraction_lower) * 100.0,
-            species::lookup(&crate::SpeciesId::new(&split.upper_solvent))
-                .map(|data| data.name)
-                .unwrap_or(&split.upper_solvent),
+        notes.push(Phrase::new(
+            "scene.partition",
+            "At equilibrium, {lower_percent}% of the modeled {species} is in the lower {lower} layer and {upper_percent}% is in the upper {upper} layer.",
+            vec![
+                (
+                    "lower_percent".to_string(),
+                    Slot::number(format!("{:.0}", split.fraction_lower * 100.0)),
+                ),
+                (
+                    "species".to_string(),
+                    Slot::term(
+                        "species",
+                        species::lookup(&crate::SpeciesId::new(&split.species))
+                            .map(|data| data.name)
+                            .unwrap_or(&split.species),
+                    ),
+                ),
+                (
+                    "lower".to_string(),
+                    Slot::term(
+                        "species",
+                        species::lookup(&crate::SpeciesId::new(&split.lower_solvent))
+                            .map(|data| data.name)
+                            .unwrap_or(&split.lower_solvent),
+                    ),
+                ),
+                (
+                    "upper_percent".to_string(),
+                    Slot::number(format!("{:.0}", (1.0 - split.fraction_lower) * 100.0)),
+                ),
+                (
+                    "upper".to_string(),
+                    Slot::term(
+                        "species",
+                        species::lookup(&crate::SpeciesId::new(&split.upper_solvent))
+                            .map(|data| data.name)
+                            .unwrap_or(&split.upper_solvent),
+                    ),
+                ),
+            ],
         ));
     }
     if let Some(emulsion) = &emulsion_observation {
-        words.push_str(&format!(
-            " Stirring has dispersed {:.0}% of the {} as cloudy droplets; the rest remains above the water.",
-            emulsion.dispersed_fraction * 100.0,
-            emulsion.material,
+        notes.push(Phrase::new(
+            "scene.emulsion",
+            "Stirring has dispersed {percent}% of the {material} as cloudy droplets; the rest remains above the water.",
+            vec![
+                (
+                    "percent".to_string(),
+                    Slot::number(format!("{:.0}", emulsion.dispersed_fraction * 100.0)),
+                ),
+                (
+                    "material".to_string(),
+                    Slot::term("material", emulsion.material.clone()),
+                ),
+            ],
         ));
     } else if let Some(layer) = material_layers.first() {
         if resolved_volume_l > 0.0 {
-            words.push_str(&format!(
-                " {} forms a separate {} layer above the water.",
-                layer.material, layer.colour_word
+            notes.push(Phrase::new(
+                "scene.material-layer",
+                "{material} forms a separate {colour} layer above the water.",
+                vec![
+                    (
+                        "material".to_string(),
+                        Slot::term("material", layer.material.clone()),
+                    ),
+                    (
+                        "colour".to_string(),
+                        Slot::term("appearance", layer.colour_word.clone()),
+                    ),
+                ],
             ));
         } else {
-            words.push_str(&format!(" The vessel contains {}.", layer.material));
+            notes.push(Phrase::new(
+                "scene.vessel-contains",
+                "The vessel contains {material}.",
+                vec![(
+                    "material".to_string(),
+                    Slot::term("material", layer.material.clone()),
+                )],
+            ));
         }
     }
     if let Some(curds) = &curdling_observation {
-        words.push_str(&format!(
-            " Soft curds containing {:.2} g of modeled aggregate solids have separated from the {} into cloudy whey.",
-            curds.curd_solids_mass_g, curds.material
+        notes.push(Phrase::new(
+            "scene.curdling",
+            "Soft curds containing {mass} g of modeled aggregate solids have separated from the {material} into cloudy whey.",
+            vec![
+                (
+                    "mass".to_string(),
+                    Slot::number(format!("{:.2}", curds.curd_solids_mass_g)),
+                ),
+                (
+                    "material".to_string(),
+                    Slot::term("material", curds.material.clone()),
+                ),
+            ],
         ));
     }
     if let Some(foam) = &foam {
-        if foam.overflow_liters > 0.0 {
-            words.push_str(" Foam is spilling over the rim.");
+        notes.push(if foam.overflow_liters > 0.0 {
+            Phrase::bare("scene.foam-overflow", "Foam is spilling over the rim.")
         } else {
-            words.push_str(" Foam is standing above the liquid.");
-        }
+            Phrase::bare("scene.foam-standing", "Foam is standing above the liquid.")
+        });
     }
+    let words = say(&clauses, &notes, Locale::EN);
 
     SceneVessel {
         id: v.id,
@@ -1305,6 +1606,8 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
         elapsed_s: v.elapsed_seconds,
         mass_g: v.mass().0,
         words,
+        clauses,
+        notes,
         badges,
     }
 }
