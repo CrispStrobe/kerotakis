@@ -38,3 +38,4 @@ web/app/node_modules
 # disk right now. Never committed — a mutated source in a commit is the exact
 # accident tools/mutation/mutate.py's recovery guard exists to prevent.
 .mutation-state/
+.mutation-tmp/

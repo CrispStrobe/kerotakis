@@ -57,8 +57,11 @@ env:
   MUTANT_CEILING: ${{ inputs.ceiling || '18000' }}
   # The suites spawn `kero` and write a scratch .lab file under
   # `std::env::temp_dir()`. Named explicitly so the runner's own temp is used
-  # and nothing inherits a path from somebody's workstation.
-  TMPDIR: ${{ runner.temp }}
+  # and nothing inherits a path from somebody's workstation. RUNNER_TEMP and
+  # not `${{ runner.temp }}`: the `runner` context does not exist at workflow
+  # level, and a workflow that references it there does not fail a step - it
+  # fails to start at all, with no job to read a log from.
+  TMPDIR: ${{ github.workspace }}/.mutation-tmp
 
 jobs:
   tables:
@@ -81,6 +84,9 @@ jobs:
       # only reason an id recorded on one machine means anything on another.
       # It is rebuilt rather than checked in so that a drift shows up here
       # rather than silently renumbering somebody's survivor list.
+      - name: A scratch directory the spawned `kero` can write to
+        run: mkdir -p "$TMPDIR"
+
       - name: Catalogue the surface
         run: python3 tools/mutation/mutate.py catalogue $MUTANT_FILES
 
