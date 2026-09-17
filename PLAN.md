@@ -3216,27 +3216,31 @@ re-deriving its context. Two of the six decisions of this morning are already
 out with agents (the `OH-` carrier rename, the fermentation rate scaling) and
 are not repeated here. These four are not started.
 
-- [ ] **Teach the perturbation generator that a terminal event ends the
-      experiment.** `crates/kerotakis-cli/tests/corpus_perturbation.rs` holds
-      an `#[ignore]`d test, `a_seal_survives_the_next_pour`, whose stated
-      diagnosis is **wrong**: it blames `add` for reopening a sealed vessel.
-      The `Operator::Add` handler never touches the boundary. The only thing
-      in the engine that sets a sealed vessel back to `Headspace::Open` is
-      `Bench::vent_if_burst`, and `aq-061` puts 0.05 mol of each reagent into
-      a 100 mL headspace — roughly twelve bar of carbon dioxide against a
-      `GLASS_BURST_PA` of 405.3 kPa. **The bottle bursts.** The seal is gone
-      because the glass broke, the gas left as `GasEvolved` events, a Danger
-      `HazardWarning` was raised, and the gauge afterwards correctly reads
-      atmospheric. Two corroborations: the row's `owning_task` is CAP-25, the
-      burst capability itself, and the row immediately after it asks *"can a
-      sealed vessel burst if too much gas is generated inside?"* with a tenth
-      of the headspace and twice the reagent. The corpus author was writing a
-      burst pair; the generated `Dose` rule read only the gauge and saw a dose
-      that failed to move it. **The defect is in the measure, not the engine.**
-      Deliverable: the generator treats `Burst` (and any other terminal event)
-      as legitimately decoupling dose from reading, and the test is rewritten
-      to assert the burst it actually provokes. **Confirm by running before
-      rewriting** — the account above is read from source, not executed.
+- [x] **Teach the perturbation generator that a terminal event ends the
+      experiment. DONE 2026-09-17.** The prediction written here on
+      2026-09-16 was read from source and marked "confirm by running before
+      rewriting". It was confirmed by running:
+
+          v1: headspace settled at 6.959 bar with 0.0283 mol gas
+          v1: BURST at 696 kPa (glass rating ~405 kPa) — seal gone, gases vented
+          ⚠ HAZARD (Danger): sealed vessel over-pressurised and burst
+          v1 pressure gauge: 101.33 kPa
+
+      Seven bar against a four-bar rating, not the twelve estimated here —
+      because most of the carbon dioxide stays dissolved — but the
+      conclusion holds and the engine is innocent. `Pair` now carries
+      whether either run ENDED, and the causal rules decline to claim
+      anything when one did. `aq-061` is withdrawn from `DOSE_INERT` with
+      the run output in its place, and the `#[ignore]`d test is replaced by
+      `a_bottle_that_cannot_hold_the_gas_bursts`, which asserts the burst,
+      the Danger line, that the vented gas is accounted for, and the
+      atmospheric reading afterwards.
+
+      **What the episode is for.** Every observation in the original report
+      was correct — the gauge did read atmospheric, the boundary was open,
+      doubling the dose changed nothing — and the diagnosis was still
+      wrong. An instrument that watches a single scalar will eventually
+      mistake a terminal event for an unresponsive one.
 - [ ] **Run the remaining 70 const-table mutants.** The mutation harness
       (`tools/mutation/mutate.py`, landed in #616) names this as its own
       highest-value next target: two of the three rare ions it sampled were

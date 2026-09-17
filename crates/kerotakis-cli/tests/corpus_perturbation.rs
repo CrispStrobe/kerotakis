@@ -950,8 +950,48 @@ fn selected(rule: Rule) -> Vec<(CuriosityPrompt, Vec<Step>)> {
 struct Pair {
     before: BTreeMap<String, f64>,
     after: BTreeMap<String, f64>,
+    /// A run that ENDED rather than continued — the vessel burst, or the
+    /// safety screen vetoed the operation. Carried because the causal
+    /// rules are otherwise entitled to conclude the wrong thing from a
+    /// reading that is correct; see [`terminal_event`].
+    ended: (Option<String>, Option<String>),
     error: Option<String>,
     seconds: f64,
+}
+
+/// Did this run stop being the experiment the script described?
+///
+/// `aq-061` seals 0.05 mol of each reagent into a 100 mL bottle. The
+/// headspace settles at **6.959 bar against a glass rating of 405 kPa**,
+/// so the bottle bursts, vents its gas as events, raises a Danger warning,
+/// and the gauge afterwards reads 101.33 kPa — because the vessel is open,
+/// having broken. That is CAP-25 working exactly as designed.
+///
+/// The generated `Dose` rule doubled the reagent, watched the gauge not
+/// move, and filed a defect. It was reading the engine's most dramatic
+/// correct behaviour as a dose that failed to land, because a pressure
+/// reading is all it looked at and a burst is invisible in one. The
+/// diagnosis that followed — that an `add` after a `seal` reopens the
+/// vessel — was wrong, and `Operator::Add` never touches the boundary.
+///
+/// So a terminal event is not an excuse for the engine, it is a fact about
+/// what the comparison is entitled to claim: once a vessel has burst, the
+/// dose and the gauge are no longer connected, and "the reading did not
+/// move" says nothing about whether the dose mattered.
+fn terminal_event(steps: &[serde_json::Value]) -> Option<String> {
+    for step in steps {
+        for event in step["events"].as_array().cloned().unwrap_or_default() {
+            match event["event"].as_str() {
+                Some("burst") => {
+                    let at = event["at_pa"].as_f64().unwrap_or_default() / 1000.0;
+                    return Some(format!("the vessel burst at {at:.0} kPa"));
+                }
+                Some("safety_veto") => return Some("the safety screen vetoed it".to_string()),
+                _ => {}
+            }
+        }
+    }
+    None
 }
 
 fn pair(rule: Rule, steps: &[Step]) -> Option<Pair> {
@@ -965,9 +1005,20 @@ fn pair(rule: Rule, steps: &[Step]) -> Option<Pair> {
         (_, Err(error)) => Some(format!("the perturbed script failed: {error}")),
         _ => None,
     };
+    let ended = (
+        baseline
+            .as_ref()
+            .ok()
+            .and_then(|steps| terminal_event(steps)),
+        perturbed
+            .as_ref()
+            .ok()
+            .and_then(|steps| terminal_event(steps)),
+    );
     Some(Pair {
         before: baseline.map(|steps| observe(&steps)).unwrap_or_default(),
         after: perturbed.map(|steps| observe(&steps)).unwrap_or_default(),
+        ended,
         error,
         seconds,
     })
@@ -1183,6 +1234,14 @@ fn verdict(rule: Rule, case: &Pair) -> Option<String> {
         // ablated reagent's own absence, which is not a claim about
         // anything.
         Rule::Ablation | Rule::Dose => {
+            // A run that ended is not a run that ignored its reagent. Once
+            // the bottle has burst the gauge reads the room, and no amount
+            // of extra vinegar will move it — correctly. Claiming a defect
+            // there is claiming the engine should keep pressurising broken
+            // glass.
+            if case.ended.1.is_some() || case.ended.0.is_some() {
+                return None;
+            }
             let readout: Vec<String> = moved(before, after, CAUSAL_TOLERANCE)
                 .into_iter()
                 .filter(|key| is_readout(key))
@@ -1438,26 +1497,34 @@ const ABLATION_INERT: &[(&str, &str)] = &[
 ];
 
 const DOSE_INERT: &[(&str, &str)] = &[
-    // LIVE DEFECT, and the best thing this file found. "Will a sealed
-    // vinegar-and-baking-soda bottle build pressure?" Twice the vinegar
-    // moves the pressure gauge not at all, because it reads exactly
-    // 101.325 kPa — atmospheric, to the last digit — and it does so
-    // because THE BOTTLE IS NOT SEALED. `aq-061` seals the vessel and then
-    // adds its reagents, and the vessel's own headspace comes back
-    // `{"boundary": "open"}` with no gas phase in it at all. Move the
-    // `seal` after the adds and the same script returns
-    // `{"boundary": "sealed", "volume": 0.1}` with nitrogen, oxygen and
-    // carbon dioxide in the headspace.
+    // WITHDRAWN 2026-09-17, and worth reading as a warning about this
+    // instrument rather than about the engine.
     //
-    // The row is green. It took a `computed` route and a pressure gauge
-    // answered it; what the corpus records is the route. That the answer
-    // is one atmosphere from an unsealed bottle is what it could not see.
-    // `a_seal_survives_the_next_pour` is the regression test.
-    (
-        "aq-061",
-        "the bottle is not sealed: an add after a seal reopens the vessel, \
-         so the gauge reads exactly atmospheric whatever goes in",
-    ),
+    // This row was recorded as "the best thing this file found": twice the
+    // vinegar moved the pressure gauge not at all, it read exactly
+    // 101.325 kPa, and the vessel's headspace came back
+    // `{"boundary": "open"}` — so the conclusion was that an `add` after a
+    // `seal` reopens the vessel.
+    //
+    // It does not. `Operator::Add` never touches the boundary, and the one
+    // thing in the engine that reopens a sealed vessel is
+    // `Bench::vent_if_burst`. Running it says so in one line:
+    //
+    //     v1: headspace settled at 6.959 bar with 0.0283 mol gas
+    //     v1: BURST at 696 kPa (glass rating ~405 kPa) — seal gone, gases vented
+    //     ⚠ HAZARD (Danger): sealed vessel over-pressurised and burst
+    //     v1 pressure gauge: 101.33 kPa
+    //
+    // 0.05 mol of carbon dioxide in a 100 mL headspace is seven bar against
+    // a four-bar rating. The bottle bursts, which is CAP-25 working — the
+    // row's own `owning_task` — and the gauge then reads the room because
+    // the vessel is open, having broken. Doubling the vinegar bursts it
+    // harder and the gauge still reads the room.
+    //
+    // Every symptom was real and the diagnosis was still wrong, because
+    // the rule looked at one number and a burst is invisible in a pressure
+    // reading taken afterwards. `terminal_event` is the fix: the rule now
+    // declines to claim anything about a run that ended.
     // Correct physics, and the dose rule does not apply. A block warming
     // itself by decay has a power proportional to its mass and a heat
     // capacity proportional to its mass, so the temperature rise is
@@ -1745,14 +1812,10 @@ fn twice_the_reagent_moves_the_corpus_answer() {
     assert_eq!(departed.len(), DOSE_INERT.len());
 }
 
-/// **A seal must survive the next pour.** Found by the generated `Dose`
-/// rule on `aq-061` — "will a sealed vinegar-and-baking-soda bottle build
-/// pressure?" — on 2026-09-16, which is why it is here rather than in a
-/// report: `#[ignore]`d, asserting the behaviour that is wanted rather than
-/// the behaviour that is shipped, so the day the boundary is fixed this
-/// test says so.
+/// **`aq-061` bursts, and the measure could not see it.**
 ///
-/// The corpus script seals the vessel and THEN adds its reagents:
+/// This test replaces one that asserted the opposite. The generated `Dose`
+/// rule reported on 2026-09-16 that doubling the vinegar in
 ///
 /// ```text
 /// add v1 water 100mL
@@ -1762,84 +1825,100 @@ fn twice_the_reagent_moves_the_corpus_answer() {
 /// measure v1 pressure
 /// ```
 ///
-/// The vessel comes back `{"boundary": "open"}` with no gas phase in it at
-/// all, and the gauge reads 101.325 kPa — atmospheric, to the last digit —
-/// while 0.0214 mol of carbon dioxide sits dissolved in 100 mL. Move the
-/// `seal` after the adds and nothing else changes, and the same script
-/// returns `{"boundary": "sealed", "volume": 0.1}` with nitrogen, oxygen
-/// and carbon dioxide in the headspace and a gauge that is no longer
-/// exactly one atmosphere.
+/// moved the pressure gauge by not one pascal — it read 101.325 kPa either
+/// way — and that the vessel came back `{"boundary": "open"}`. The
+/// conclusion drawn was that an `add` after a `seal` reopens the vessel,
+/// and a test was written here asserting that a seal must survive the next
+/// pour.
 ///
-/// **How a single run hid it.** 101.325 kPa is a perfectly plausible answer
-/// to "does it build pressure?" — it is the answer "no". The row is green
-/// in the corpus: it took a `computed` route and a pressure gauge answered
-/// it, and the route is what `expected` records. What made it visible was
-/// doubling the vinegar and watching the gauge not move by so much as a
-/// pascal, which is not something a bottle does.
+/// **The conclusion was wrong.** `Operator::Add` never touches the
+/// boundary. The only code in the engine that returns a sealed vessel to
+/// `Headspace::Open` is `Bench::vent_if_burst`, and running the script
+/// says so:
 ///
-/// **What this establishes, when it passes:** that the boundary a script
-/// sets stays set until the script changes it, so a `seal` means the same
-/// thing wherever in the script it appears.
+/// ```text
+/// v1: headspace settled at 6.959 bar with 0.0283 mol gas
+/// v1: BURST at 696 kPa (glass rating ~405 kPa) — seal gone, gases vented
+/// ⚠ HAZARD (Danger): sealed vessel over-pressurised and burst
+/// v1 pressure gauge: 101.33 kPa
+/// ```
 ///
-/// **What it cannot establish:** that the pressure a sealed bottle reaches
-/// is right. It compares two orderings of the same five lines; both could
-/// be wrong about the number and this would still pass.
+/// 0.05 mol of each reagent makes about 1.2 L of carbon dioxide at room
+/// conditions, forced into a 100 mL headspace: seven bar against a
+/// `GLASS_BURST_PA` of 405.3 kPa. The bottle bursts, vents through
+/// `GasEvolved`, raises a Danger hazard, and the gauge afterwards reads
+/// the room — because the vessel is open, having broken.
+///
+/// Two things corroborate that this is the corpus author's intent rather
+/// than an accident: the row's `owning_task` is **CAP-25**, the burst
+/// capability itself, and the row immediately after it asks *"can a sealed
+/// vessel burst if too much gas is generated inside?"* with a tenth of the
+/// headspace and twice the reagent.
+///
+/// **What the episode is really about.** Every observation was correct.
+/// The gauge did read atmospheric, the boundary was open, and doubling the
+/// dose changed nothing — and the diagnosis was still wrong, because the
+/// rule looked at one number and a burst leaves no trace in a pressure
+/// reading taken after it. An instrument that watches a single scalar will
+/// eventually mistake a terminal event for an unresponsive one. That is
+/// what `terminal_event` now prevents, and this test pins the behaviour
+/// that misled it.
+///
+/// **What this establishes:** that the vessel bursts, says so as an event,
+/// and reports the room afterwards.
+///
+/// **What it cannot establish:** that 6.959 bar is the right pressure for
+/// this chemistry, or that 405.3 kPa is the right rating for glass. It
+/// pins the shape of the answer, not its magnitude.
 #[test]
-#[ignore = "found 2026-09-16 by the generated Dose rule on aq-061: an add \
-            after a seal reopens the vessel, so a sealed bottle reads \
-            exactly atmospheric whatever goes into it"]
-fn a_seal_survives_the_next_pour() {
-    let bottle = |seal_first: bool| {
-        let reagents = "add v1 NaHCO3 0.05mol\nadd v1 CH3COOH 0.05mol\n";
-        let script = if seal_first {
-            format!("add v1 water 100mL\nseal v1 100mL\n{reagents}measure v1 pressure\n")
-        } else {
-            format!("add v1 water 100mL\n{reagents}seal v1 100mL\nmeasure v1 pressure\n")
-        };
-        let steps = run(&script).unwrap_or_else(|error| panic!("{script}\n{error}"));
-        let vessel = steps
-            .iter()
-            .rev()
-            .find(|step| !step["bench"].is_null())
-            .map(|step| step["bench"]["vessels"][0].clone())
-            .expect("a bench state");
-        (
-            vessel["headspace"]["boundary"]
-                .as_str()
-                .unwrap_or("missing")
-                .to_string(),
-            vessel["contents"]
-                .as_array()
-                .map(|list| list.iter().filter(|p| p["phase"] == "gas").count())
-                .unwrap_or(0),
-            observe(&steps)
-                .get("r.pressure_gauge#0")
-                .copied()
-                .expect("the gauge reported"),
-        )
-    };
+fn a_bottle_that_cannot_hold_the_gas_bursts() {
+    let script = "add v1 water 100mL\nseal v1 100mL\nadd v1 NaHCO3 0.05mol\n\
+                  add v1 CH3COOH 0.05mol\nmeasure v1 pressure\n";
+    let steps = run(script).unwrap_or_else(|error| panic!("{script}\n{error}"));
 
-    let (late_boundary, late_gases, late_pressure) = bottle(false);
-    assert_eq!(
-        late_boundary, "sealed",
-        "sealing last has to seal it, or the comparison is meaningless"
+    let ended = terminal_event(&steps)
+        .expect("a sealed 100 mL headspace holding 0.05 mol of CO2 has to burst");
+    assert!(
+        ended.contains("burst"),
+        "the run ended, but not by bursting: {ended}"
     );
-    assert!(late_gases > 0, "a sealed headspace holds gas");
 
-    let (early_boundary, early_gases, early_pressure) = bottle(true);
-    assert_eq!(
-        early_boundary, "sealed",
-        "a seal must survive the next pour: the vessel reopened itself"
-    );
+    let danger = steps.iter().any(|step| {
+        step["events"]
+            .as_array()
+            .map(|events| {
+                events.iter().any(|event| {
+                    event["event"] == "hazard_warning" && event["severity"] == "danger"
+                })
+            })
+            .unwrap_or(false)
+    });
+    assert!(danger, "a bursting bottle is a Danger line, not a footnote");
+
+    // The gas has to be accounted for on the way out. A burst that loses
+    // the carbon dioxide silently would be a conservation defect wearing a
+    // hazard warning.
+    let vented: f64 = steps
+        .iter()
+        .filter_map(|step| step["events"].as_array())
+        .flatten()
+        .filter(|event| event["event"] == "gas_evolved")
+        .filter_map(|event| event["moles"].as_f64())
+        .sum();
     assert!(
-        early_gases > 0,
-        "the reopened vessel has no gas phase at all, so the carbon dioxide \
-         it generated is nowhere"
+        vented > 0.01,
+        "only {vented:.4} mol left a bottle that had just burst"
     );
+
+    // And afterwards it is a beaker: open, at the room's pressure.
+    let gauge = observe(&steps)
+        .get("r.pressure_gauge#0")
+        .copied()
+        .expect("the gauge reported");
     assert!(
-        (early_pressure - late_pressure).abs() < 1e-3 * late_pressure,
-        "the same five lines in either order must reach the same pressure: \
-         {early_pressure} against {late_pressure} kPa"
+        (gauge - 101.325).abs() < 0.5,
+        "a burst vessel is open to the room, so the gauge should read one \
+         atmosphere, not {gauge} kPa"
     );
 }
 

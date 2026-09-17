@@ -397,7 +397,10 @@ Seventy-seven generated cases in the sweep, 561 s of solver; the gate as
 checked in runs ~75 of them and takes **277 s wall at three test threads**,
 on a machine with two other agents working. Final run: **9 passed, 0 failed,
 2 ignored** — the two `#[ignore]`s being the recorded `aq-061` seal defect
-and the `sweep` harness.
+and the `sweep` harness. **The `aq-061` half was withdrawn on 2026-09-17:
+the bottle bursts (6.959 bar against a 405.3 kPa rating) and the engine was
+right; see `terminal_event` and
+`a_bottle_that_cannot_hold_the_gas_bursts`.**
 
 | rule | cases | held | recorded departures |
 |---|---|---|---|
@@ -414,8 +417,8 @@ up does depend on the reagent the question is about. Before this branch,
 nothing anywhere asserted that for any of them.
 
 The 14 recorded departures break down as: **2 live defects** (`th-100`'s pe,
-`aq-023`'s solvent mass) plus **1 more found by `Dose`** (`aq-061`'s seal,
-which has its own `#[ignore]`d regression test); **4 solver or wire floors**
+`aq-023`'s solvent mass) plus **1 more found by `Dose`** (`aq-061`'s seal —
+**withdrawn 2026-09-17, it was a burst and the engine was right**); **4 solver or wire floors**
 (two phase boundaries, one last-printed-place, one convergence residue);
 **5 corpus rows whose scripts cannot reach their own questions** (`aq-018`
 and `bio-033`'s substance gaps, `mat-069`'s copper that never corrodes,
