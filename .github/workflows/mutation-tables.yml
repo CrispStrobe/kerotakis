@@ -1,0 +1,104 @@
+name: Mutation — const tables
+
+# NOT a gate, and deliberately not on `pull_request`. `docs/MUTATION-SENSITIVITY.md`
+# §8 argues the case: a `table` mutant costs a full rebuild, the measured mean
+# is 164 s of build plus 30 s of running, and a pass that cannot fit in front
+# of a pull request should not pretend to. This is the audit shape — run it
+# when somebody has a question, name the mutants, read the answer.
+#
+# It exists because the machine this project is developed on has about a
+# gigabyte of free memory and killed the 2026-09-16 pass twice. A run that
+# keeps dying locally belongs on a runner with headroom, and the owner said so.
+on:
+  workflow_dispatch:
+    inputs:
+      ids:
+        description: >-
+          Comma-separated mutant ids from the catalogue, e.g. the 23
+          conductivity survivors of 2026-09-16.
+        required: true
+        default: "16,19,20,21,22,24,25,26,27,28,29,30,31,33,34,35,36,37,38,39,40,42,45"
+      files:
+        description: The catalogue surface. Must match the run the ids came from.
+        required: true
+        default: >-
+          crates/kerotakis-core/src/conductivity.rs
+          crates/kerotakis-core/src/properties.rs
+      ceiling:
+        description: Seconds after which the run stops and reports what it has.
+        required: true
+        default: "18000"
+
+concurrency:
+  group: mutation-tables-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  tables:
+    name: Rebuild-per-mutant over the const tables
+    runs-on: ubuntu-latest
+    # A table mutant is a rebuild. Twenty-three of them at the measured 164 s
+    # of build plus a ladder run is a couple of hours; the ceiling input stops
+    # the script cleanly before the runner stops it rudely.
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: recursive
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Fetch SUNDIALS (not vendored; pinned by checksum)
+        run: bash tools/fetch-sundials.sh
+
+      # The catalogue is deterministic — same files, same ids — which is the
+      # only reason an id recorded on one machine means anything on another.
+      # It is rebuilt rather than checked in so that a drift shows up here
+      # rather than silently renumbering somebody's survivor list.
+      - name: Catalogue the surface
+        run: python3 tools/mutation/mutate.py catalogue ${{ inputs.files }}
+
+      # The whole ladder, unmutated. A mutant verdict means nothing if the
+      # baseline is not green, and this is where an unrelated red is cheap to
+      # discover instead of being read as 23 mutants "caught".
+      - name: Baseline — every rung green before anything is called caught
+        run: |
+          set -euo pipefail
+          cargo test -p kerotakis-core --lib
+          cargo test -p kerotakis-core \
+            --test buoyancy --test float_or_sink --test density \
+            --test resistivity --test plastics --test surface \
+            --test instrument_oracle --test one_value \
+            --test heat_capacity_curves --test conductivity_sources
+          cargo test -p kerotakis-cli --test perturbation --test metamorphic
+          cargo test -p kerotakis-cli --test curiosity
+
+      # `trap ... EXIT` is the belt; the marker file mutate.py writes before it
+      # falsifies a literal is the braces. Both exist because a killed run left
+      # a 25 %-wrong coefficient on disk twice on 2026-09-16.
+      - name: Run the mutants
+        run: |
+          set -uo pipefail
+          trap 'python3 tools/mutation/mutate.py recover || true; git checkout -- crates/ || true' EXIT HUP INT TERM
+          python3 tools/mutation/mutate.py run-table \
+            --ids '${{ inputs.ids }}' --ceiling '${{ inputs.ceiling }}'
+
+      - name: The sources are exactly as they were
+        if: always()
+        run: |
+          python3 tools/mutation/mutate.py recover || true
+          git status --porcelain -- crates/
+          git diff --quiet -- crates/ || {
+            echo "::error::a mutant was left in the working tree"; exit 1; }
+
+      - name: Report
+        if: always()
+        run: python3 tools/mutation/mutate.py report || true
+
+      - name: Keep the verdicts
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: mutation-table-verdicts-${{ github.run_id }}
+          path: .mutation-state/results.json
+          if-no-files-found: error
+          retention-days: 90

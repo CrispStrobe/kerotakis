@@ -455,6 +455,10 @@ TIERS = [
             "--test", "resistivity", "--test", "plastics", "--test", "surface",
             "--test", "instrument_oracle", "--test", "one_value",
             "--test", "heat_capacity_curves",
+            # Added 2026-09-17 with the file itself: the λ° table's external
+            # corroboration lives here, and a tier that does not run it cannot
+            # see the 23 const-table survivors it was written for.
+            "--test", "conductivity_sources",
         ],
         "timeout": 120,
     },
@@ -607,6 +611,31 @@ def table_site_column(site: dict) -> tuple[Path, int, int, str]:
     item is never instrumented at all — so its columns are unchanged too.
     """
     orig = STATE / "orig" / site["file"].replace("/", "__")
+    if not orig.exists():
+        # `run-table` needs a PRISTINE copy of the file only to turn a recorded
+        # byte offset into a line and a column; it never reads it for content.
+        # `instrument` is what normally writes one, and a table-only run never
+        # instruments — so on a fresh checkout (CI, or a worktree where the
+        # state directory was cleaned) there is nothing there. Recreate it from
+        # the working tree, but ONLY when git agrees the file is unmodified:
+        # seeding the reference from an already-falsified file would silently
+        # rebase every offset on the mutation.
+        dirty = subprocess.run(
+            ["git", "status", "--porcelain", "--", site["file"]],
+            cwd=REPO,
+            capture_output=True,
+            text=True,
+        )
+        if dirty.stdout.strip():
+            raise SystemExit(
+                f"{site['file']} has uncommitted changes and "
+                f"{orig} does not exist. The pristine copy cannot be recreated "
+                "from a modified file — commit or stash first, or restore "
+                f"{STATE / 'orig'} from a clean tree."
+            )
+        orig.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(REPO / site["file"], orig)
+        print(f"seeded {orig.name} from the clean working tree")
     text = orig.read_text()
     line_start = text.rfind("\n", 0, site["start"]) + 1
     return REPO / site["file"], site["line"], site["start"] - line_start, site["original"]
