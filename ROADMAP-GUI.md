@@ -1694,20 +1694,50 @@ display name in the registry, is the wrong fix.
   German would have to inflect the colour to the noun's gender — so the
   German construction puts the colour beside the name, a decision that lives
   in the data and not in the Rust.
-- [ ] **I18N-8 — Inert-reason prose is English.** `v1 Zink reagiert nicht —
+- [x] **I18N-8 — Inert-reason prose is English.** `v1 Zink reagiert nicht —
   zinc should dissolve in this acid by the series (driving force +0.62 V), but
-  hydrogen has to form on zinc…` The refusal's *name* is translated and its
-  *reason* is not. These are the most valuable sentences in the lesson —
-  they are where the engine explains itself — and they are exactly the ones a
-  German learner cannot read.
+  hydrogen has to form on zinc…` The refusal's *name* was translated and its
+  *reason* was not. Six composed verdicts in `displacement.rs`, `solve.rs` and
+  `nonaqueous.rs` now carry a `Phrase` in the event beside the English, and
+  the English is **generated from that phrase** rather than written next to
+  it, so there is one sentence and not two to drift — the codex entry that
+  quotes `inert.hydrogen-overpotential` verbatim still matches. The 25
+  curated organic-solvent verdicts are keyed by their row of
+  `INERT_IN_SOLVENT`, not by their English, so rewording one does not orphan
+  its translation. Numbers go through `Slot::Number`, which is why a German
+  reader sees +0,62 V.
 - [ ] **I18N-9 — Lesson prose has no translation mechanism.** The title,
   description, section comments and boundary note are the `.lab` file's own
   comments, rendered verbatim; only the *slug* is translated, which is why
   "Trocken, dann nass: Brausen" sits above six lines of English. 113 lessons.
-  Needs a decision on shape before work: a parallel `lessons/i18n/<code>.toml`
-  keyed by lesson id and comment index, or prose lifted out of `.lab` into a
-  catalogue the player composes. The second is more work and is the one that
-  survives a third language.
+  **Scoped, not built** — it is a 113-file migration and belongs in its own
+  PR; a half-migrated catalogue is worse than none. The shape, decided:
+
+  * **A labelled comment.** `#@part.displacement Part 1 — displacement: a
+    more reactive metal pushes a less reactive one out of solution` replaces
+    the bare `#` comment. It is still a comment, so `kero run lessons/x.lab`
+    keeps working with no parser change and a `.lab` stays runnable on its
+    own — the label names the PLACE the prose is said, the same discipline
+    `i18n/de.toml` already uses, so rewording the English does not orphan it.
+  * **`lessons/prose/en.toml` is the source**, keyed `<lesson-stem>.<label>`,
+    and `lessons/prose/<code>.toml` beside it. The `.lab` keeps the English
+    inline as the fallback, exactly as `locale.t` keeps it at the call site:
+    a payload built without the prose directory renders English rather than
+    nothing. **Adding French is `lessons/prose/fr.toml` and no code.**
+  * **One curriculum.** `tools/lessons-index.py` — already the single source
+    for the web build and the shell payload, after the "more" bucket taught
+    us why — emits the label as `blurb_key` beside today's `blurb`, and both
+    payloads ship the same prose files. There is no peer file to drift, which
+    is the mistake `experiments-de-v1.json` made by being a peer rather than
+    a fallback.
+  * **`tools/lesson-prose-lint.py`**, whose denominator is **every label
+    referenced by a `.lab` file**, read from the lessons — never the key count
+    of `en.toml`, which is the denominator that let `models.toml` report 100%
+    German over 325 English strings in #505. It reports missing translations,
+    orphaned rows no `.lab` asks for, and a label used by two different
+    English sentences.
+  * Once it lands, `web/app/src/locales/de.json`'s lesson slugs are the same
+    data said twice and should be folded into `lessons/prose/de.toml`.
 
 ### Two defects found in the same playback, neither of them i18n
 

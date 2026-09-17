@@ -56,6 +56,9 @@ BENCH = ROOT / "crates/kerotakis-core/src/bench.rs"
 # called orphans.
 COMPOSERS = [
     ROOT / "crates/kerotakis-core/src/appearance.rs",
+    ROOT / "crates/kerotakis-core/src/displacement.rs",
+    ROOT / "crates/kerotakis-core/src/solve.rs",
+    ROOT / "crates/kerotakis-core/src/nonaqueous.rs",
 ]
 # `phrase.rs` asks the catalogue for the list grammar and the punctuation
 # by name, the ordinary `locale.t` way.
@@ -165,6 +168,7 @@ def main() -> int:
     # out of the table row they came from. Neither can be named at a call
     # site, which is the same legitimate pattern the glassware and species
     # tables use.
+    dynamic |= {"inert-in-solvent"}
     for path in COMPOSERS:
         dynamic |= {
             m.group(1)

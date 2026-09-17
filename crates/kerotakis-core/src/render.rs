@@ -1870,9 +1870,12 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 ),
             }
         }
-        Event::InertInSolvent { vessel, species, solvent, why } => {
+        Event::InertInSolvent { vessel, species, solvent, why, reason } => {
             let name = species_name(locale, species);
             let solv = species_name(locale, solvent);
+            // I18N-8: the reason in the reader's language, falling back to
+            // the English the event carries.
+            let why = &reason.as_ref().map_or_else(|| why.clone(), |r| r.render(locale));
             match register.level() {
                 1 => locale.fill(
                     "event.inert-in-solvent.lv1",
@@ -2622,9 +2625,19 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             species: sid,
             why,
             spent,
+            reason,
             ..
         } => {
             let name = species_name(locale, sid);
+            // I18N-8. `Zink reagiert nicht — zinc should dissolve in this
+            // acid by the series…`: the refusal's NAME went through
+            // `species_name` and its REASON did not, because the reason
+            // was a finished English sentence by the time it reached an
+            // event. It now arrives as a phrase and is composed here, in
+            // the reader's language, exactly like every other line.
+            let why = &reason
+                .as_ref()
+                .map_or_else(|| why.clone(), |r| r.render(locale));
             // The exhausted-couple case gets its own lv1 sentence, because
             // the generic one says the opposite of what happened. See
             // `Event::Inert::spent`.

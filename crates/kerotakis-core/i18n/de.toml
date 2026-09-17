@@ -1174,6 +1174,14 @@ white = "weiß"
 # the freedom the template is for: English keeps its verb, German picks
 # another construction, and neither had to change a line of Rust.
 #
+# Note the three clauses that take a LIST. English is indifferent to how
+# many things are in it; German is not — "am Boden liegt Zink" but "am
+# Boden liegen Zink und Kupfer", and the composer cannot know which it
+# will be. The German here sidesteps the agreement with "du siehst", which
+# is right for one thing and for three. That is not a workaround, it is
+# the freedom the template is for: English keeps its verb, German picks
+# another construction, and neither had to change a line of Rust.
+#
 # Note `coloured`. English writes "white silver chloride"; French writes
 # "chlorure d'argent blanc"; and German would have to inflect the colour
 # to the noun's gender — *weißes Natron* but *weiße Citronensäure* — which
@@ -1208,6 +1216,55 @@ list-final = "{head} und {last}"
 clause-separator = ", "
 full-stop = "."
 
+
+# Why nothing happened (I18N-8).
+#
+# The refusal's NAME has been translated since there was a catalogue —
+# "Zink reagiert nicht" — and its REASON was English, because the reason
+# was a finished `format!` by the time it reached an event. These are the
+# sentences where the engine explains itself, so they are exactly the ones
+# a learner must be able to read.
+#
+# The English is still generated from the same template, from the same
+# pre-formatted numbers, so there is one sentence and not two.
+[inert]
+hydrogen-overpotential = "{name} müsste sich nach der Spannungsreihe in dieser Säure lösen (Triebkraft {driving} V), aber der Wasserstoff muss sich auf {name} bilden, und auf dieser Oberfläche kostet das eine Überspannung von etwa {eta} V. Kinetisch gehemmt auf der Zeitskala einer Unterrichtsstunde, nicht thermodynamisch inert — das ist der Unterschied zwischen einem Labortisch und einer Batterie"
+couple-spent = "das gesamte {other} ist abgeschieden; das übrige {name} hat nichts mehr zu verdrängen. Das Redoxpaar läuft weiterhin bergab (E° {e_self} V für {name} gegen {e_other} V für {other}) — es sind schlicht keine {other}-Ionen mehr da"
+couple-spent-trace = "bis auf eine Spur ist das gesamte {other} abgeschieden ({left} mol Ion übrig, dort hat die Nernst-Wurzel das Gleichgewicht gelegt); das übrige {name} hat nichts mehr zu verdrängen. Das Redoxpaar läuft weiterhin bergab (E° {e_self} V für {name} gegen {e_other} V für {other})"
+uphill-in-series = "{name} steht in der Spannungsreihe über {other} (E° {e_self} V gegen {e_other} V), die Elektronen müssten also bergauf fließen: das weniger reaktive Metall verdrängt das reaktivere nicht"
+above-hydrogen = "{name} steht in der Spannungsreihe über Wasserstoff (E° {e_self} V gegen 0,000 V für 2H⁺/H₂), verdünnte Säure kann ihm seine Elektronen also nicht abnehmen. Eine oxidierende Säure wie Salpetersäure könnte es über ein anderes Redoxpaar, und das ist nicht modelliert"
+insoluble-in-water = "{name} löst sich nicht in Wasser: die geprüfte Löslichkeit beträgt {limit} g pro 100 mL, das liegt unter allem, was in einem Becherglas zu sehen wäre. Es ist noch vollständig vorhanden"
+
+# The curated organic-solvent verdicts, keyed by the ROW of
+# `nonaqueous::INERT_IN_SOLVENT` — metal and solvent — rather than by the
+# English in it: the verdicts carry no holes, so a key naming the phrase
+# would orphan every translation the moment someone reworded one.
+[inert-in-solvent]
+Zn-ethanol = "die Spannungsreihe braucht eine Protonenquelle oder ein wässriges Redoxpaar; trockenes Ethanol bietet bei Zimmertemperatur beides nicht in beobachtbarer Geschwindigkeit"
+Fe-ethanol = "kein wässriges Redoxpaar und keine Säure: Eisen steht unverändert in trockenem Ethanol"
+Cu-ethanol = "Kupfer steht in der Reihe unter Wasserstoff, und trockenes Ethanol bietet nichts, was es oxidieren könnte"
+Mg-ethanol = "Magnesiumethanolat bildet sich erst unter Rückfluss mit Katalysator; bei Zimmertemperatur bleibt das Band unverändert"
+Pb-ethanol = "kein wässriges Redoxpaar und keine Säure: Blei steht unverändert in trockenem Ethanol"
+Ag-ethanol = "Silber ist edel gegenüber allem, was dieses Lösungsmittel zu bieten hat"
+MnO2-ethanol = "Braunstein ist ein unlösliches Oxid; er liegt unverändert als braunschwarzer Niederschlag im Ethanol"
+Zn-hexane = "Hexan ist unpolar und aprotisch; es gibt bei Zimmertemperatur keinen Redox- oder Säure-Base-Weg, der Zink angreift"
+Fe-hexane = "Eisen ist in trockenen Kohlenwasserstoffen inert — kein Wasser, keine Säure, kein Oxidationsmittel"
+Cu-hexane = "Kupfer ist in trockenen Kohlenwasserstoffen inert — kein Oxidationsmittel vorhanden"
+Mg-hexane = "Magnesium ist in trockenen Kohlenwasserstoffen inert — kein protischer und kein Lewis-saurer Weg"
+Pb-hexane = "Blei ist in trockenen Kohlenwasserstoffen bei Zimmertemperatur inert"
+Ag-hexane = "Silber ist edel, und Hexan bietet nichts, was es oxidieren könnte"
+Zn-propanone = "trockenes Aceton ist aprotisch; bei Zimmertemperatur greift kein Säure-Base- oder Redox-Weg das Zink an"
+Fe-propanone = "Eisen steht unverändert in trockenem Aceton — kein wässriges Redoxpaar, keine Säure"
+Cu-propanone = "Kupfer steht unter Wasserstoff, und trockenes Aceton bietet nichts, was es oxidieren könnte"
+Mg-propanone = "Magnesium ist in trockenem Aceton bei Zimmertemperatur inert"
+Pb-propanone = "Blei ist in trockenem Aceton inert — kein wässriges Redoxpaar, keine Säure"
+Ag-propanone = "Silber ist edel gegenüber allem, was Aceton zu bieten hat"
+Zn-ethyl_acetate = "trockener Essigsäureethylester ist aprotisch; bei Zimmertemperatur greift kein Weg das Zink an"
+Fe-ethyl_acetate = "Eisen steht unverändert in trockenem Essigsäureethylester — kein wässriges Redoxpaar, keine Säure"
+Cu-ethyl_acetate = "Kupfer ist in trockenem Essigsäureethylester inert — kein Oxidationsmittel vorhanden"
+Mg-ethyl_acetate = "Magnesium ist in trockenem Essigsäureethylester bei Zimmertemperatur inert"
+Pb-ethyl_acetate = "Blei ist in trockenem Essigsäureethylester inert — kein wässriges Redoxpaar, keine Säure"
+Ag-ethyl_acetate = "Silber ist edel gegenüber allem, was Essigsäureethylester zu bieten hat"
 
 [flame]
 "a blinding white" = "blendend weiß"

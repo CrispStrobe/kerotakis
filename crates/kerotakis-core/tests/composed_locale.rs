@@ -42,7 +42,12 @@ use kerotakis_core::{appearance, Locale, Moles, SpeciesId, Vessel, VesselId};
 /// piece of bookkeeping this gate needs; forgetting to costs coverage,
 /// never correctness, and `unknown_composers_are_declared` below fails if
 /// a new file starts composing without being listed.
-const COMPOSERS: &[(&str, &str)] = &[("appearance.rs", include_str!("../src/appearance.rs"))];
+const COMPOSERS: &[(&str, &str)] = &[
+    ("appearance.rs", include_str!("../src/appearance.rs")),
+    ("displacement.rs", include_str!("../src/displacement.rs")),
+    ("solve.rs", include_str!("../src/solve.rs")),
+    ("nonaqueous.rs", include_str!("../src/nonaqueous.rs")),
+];
 
 /// `Phrase::new("key", "english …"` and the `bare` form, as (key, en).
 ///
@@ -205,6 +210,37 @@ fn unknown_composers_are_declared() {
     );
 }
 
+/// The curated organic-solvent verdicts, whose key is built from the table
+/// row rather than written as a literal.
+///
+/// The static scanner above cannot see these — there is no key literal to
+/// find — so the table itself is the denominator, read from the `const`
+/// the engine actually uses. A metal added to `INERT_IN_SOLVENT` without
+/// German fails here on the commit that added it.
+#[test]
+fn every_curated_solvent_verdict_is_translated() {
+    use kerotakis_core::nonaqueous::INERT_IN_SOLVENT;
+    for locale in Locale::available().into_iter().filter(|l| !l.is_english()) {
+        let missing: Vec<String> = INERT_IN_SOLVENT
+            .iter()
+            .filter(|(metal, solvent, _)| {
+                locale
+                    .lookup(&format!("inert-in-solvent.{metal}-{solvent}"))
+                    .is_none()
+            })
+            .map(|(metal, solvent, why)| format!("  {metal}-{solvent} = \"{why}\""))
+            .collect();
+        assert!(
+            missing.is_empty(),
+            "{} of {} curated solvent verdicts have no {} translation:\n{}",
+            missing.len(),
+            INERT_IN_SOLVENT.len(),
+            locale.code(),
+            missing.join("\n"),
+        );
+    }
+}
+
 // --- The dynamic half: a real beaker, walked.
 
 fn unresolved(clause: &Phrase, locale: Locale, out: &mut Vec<String>) {
@@ -310,6 +346,57 @@ fn no_english_reaches_a_german_look() {
         faults.len(),
         faults.join("\n"),
     );
+}
+
+/// The owner's line, end to end: *v1 Zink reagiert nicht — zinc should
+/// dissolve in this acid by the series…*
+///
+/// The refusal's NAME was German and its REASON was not, in the same
+/// sentence, which is what made it worth a task of its own.
+#[test]
+fn the_inert_verdict_explains_itself_in_german() {
+    use kerotakis_core::ops::Event;
+    use kerotakis_core::{render_events_in, Register};
+
+    let reason = Phrase::new(
+        "inert.hydrogen-overpotential",
+        "{name} should dissolve in this acid by the series (driving force {driving} V), but hydrogen has to form on {name}, and on that surface it costs an overpotential of about {eta} V. Kinetically blocked on the timescale of a lesson, not thermodynamically inert — the difference between a bench and a battery",
+        vec![
+            ("name".to_string(), Slot::term("species", "zinc")),
+            ("driving".to_string(), Slot::number("+0.62".to_string())),
+            ("eta".to_string(), Slot::number("0.72".to_string())),
+        ],
+    );
+    let english = reason.render(Locale::EN);
+    let event = Event::Inert {
+        vessel: VesselId(0),
+        species: SpeciesId::new("Zn"),
+        why: english.clone(),
+        computed: true,
+        spent: None,
+        reason: Some(reason),
+    };
+    // The English is generated from the very template a translation
+    // replaces, so the codex entry that quotes it verbatim still matches.
+    assert!(
+        english
+            .starts_with("zinc should dissolve in this acid by the series (driving force +0.62 V)"),
+        "{english}"
+    );
+
+    let de = Locale::parse("de");
+    let line = render_events_in(&[event], Register::LV2, de).join(" ");
+    assert!(
+        line.contains("Überspannung") && line.contains("Triebkraft"),
+        "the reason should be German: {line}"
+    );
+    assert!(
+        !line.contains("should dissolve") && !line.contains("overpotential"),
+        "English survived into the German verdict: {line}"
+    );
+    // German writes +0,62 V. The precision is the engine's decision and
+    // the separator is the reader's, and this is where they meet.
+    assert!(line.contains("+0,62"), "{line}");
 }
 
 /// An `Appearance` that predates the clause list — replayed from an old

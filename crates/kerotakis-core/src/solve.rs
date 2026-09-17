@@ -5,7 +5,9 @@
 //! The real L2/L2g/L3 engines plug in behind `Equilibrator`; the real
 //! reactive-group matrix plugs in behind `SafetyScreen` (PLAN.md, P1/P2).
 
+use crate::i18n::Locale;
 use crate::ops::Event;
+use crate::phrase::{Phrase, Slot};
 use crate::species::{self, Phase, SpeciesId};
 use crate::units::{Kelvin, Moles};
 use crate::vessel::{ThermalMode, Vessel};
@@ -2367,15 +2369,22 @@ impl Equilibrator for HonestyEquilibrator {
                         .and_then(|d| d.aqueous_solubility_at(vessel.temperature.0))
                         .filter(|limit| *limit < 0.01)
                     {
+                        let reason = Phrase::new(
+                            "inert.insoluble-in-water",
+                            "{name} does not dissolve in water: its reviewed solubility is {limit} g per 100 mL, which is below anything a beaker would show. It is still all there",
+                            vec![
+                                ("name".to_string(), Slot::term("species", name)),
+                                ("limit".to_string(), Slot::number(format!("{limit:.4}"))),
+                            ],
+                        );
                         events.push(Event::Inert {
-                        vessel: vessel.id,
-                        species: p.species.clone(),
-                        why: format!(
-                            "{name} does not dissolve in water: its reviewed solubility is {limit:.4} g per 100 mL, which is below anything a beaker would show. It is still all there"
-                        ),
-                        computed: false,
-                        spent: None,
-                    });
+                            vessel: vessel.id,
+                            species: p.species.clone(),
+                            why: reason.render(Locale::EN),
+                            computed: false,
+                            spent: None,
+                            reason: Some(reason),
+                        });
                         continue;
                     }
                 }
@@ -2500,15 +2509,22 @@ impl Equilibrator for HonestyEquilibrator {
                         .and_then(|d| d.aqueous_solubility_at(vessel.temperature.0))
                         .filter(|limit| *limit < 0.01)
                     {
+                        let reason = Phrase::new(
+                            "inert.insoluble-in-water",
+                            "{name} does not dissolve in water: its reviewed solubility is {limit} g per 100 mL, which is below anything a beaker would show. It is still all there",
+                            vec![
+                                ("name".to_string(), Slot::term("species", name)),
+                                ("limit".to_string(), Slot::number(format!("{limit:.4}"))),
+                            ],
+                        );
                         events.push(Event::Inert {
-                        vessel: vessel.id,
-                        species: p.species.clone(),
-                        why: format!(
-                            "{name} does not dissolve in water: its reviewed solubility is {limit:.4} g per 100 mL, which is below anything a beaker would show. It is still all there"
-                        ),
-                        computed: false,
-                        spent: None,
-                    });
+                            vessel: vessel.id,
+                            species: p.species.clone(),
+                            why: reason.render(Locale::EN),
+                            computed: false,
+                            spent: None,
+                            reason: Some(reason),
+                        });
                         continue;
                     }
                 }
