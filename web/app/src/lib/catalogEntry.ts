@@ -83,6 +83,18 @@ export function sourceLabel(source: CatalogSourceKind): string {
   return source === "guided" ? "guided experiment" : "answered question";
 }
 
+/**
+ * The same three kinds as a chip that carries a count.
+ *
+ * A separate string rather than a suffix, because German does not pluralise
+ * by appending an "s" and a chip reading "answered question 500" is a chip
+ * that has to be read twice.
+ */
+export function sourceLabelPlural(source: CatalogSourceKind): string {
+  if (source === "codex") return "bench experiments";
+  return source === "guided" ? "guided experiments" : "answered questions";
+}
+
 /** How far in a learner is, as a band rather than a tier. */
 export type CatalogLevel = "starter" | "intermediate" | "advanced";
 
@@ -402,7 +414,7 @@ function codexTopics(entry: Pick<CodexEntry, "concepts" | "setup" | "expect">): 
  * codex does — so one topic chip means one thing across all three
  * populations.
  */
-const CORPUS_TOPICS: Record<string, CatalogTopic[]> = {
+export const CORPUS_TOPICS: Record<string, CatalogTopic[]> = {
   acids_bases_and_gases: ["acids", "gases"],
   burn_and_oxidise: ["heat", "redox"],
   food_and_life: ["food"],
@@ -436,7 +448,7 @@ function capabilityTopics(prompt: CapabilityPrompt): string[] {
  * by hand; it lives here now so ONE vocabulary answers the level chip for
  * all three populations. `all` is not a band and gets `anyLevel` instead.
  */
-const CORPUS_BANDS: Record<string, CatalogLevel> = {
+export const CORPUS_BANDS: Record<string, CatalogLevel> = {
   age9_to12: "starter",
   age13_to15: "intermediate",
   age16_to18: "advanced",
