@@ -140,7 +140,39 @@ impl Locale {
     /// visible, reportable, and obviously a bug — instead of a hole the
     /// reader silently mis-reads as intended.
     pub fn fill(self, key: &str, en: &'static str, vars: &[(&str, &str)]) -> String {
-        let template = self.t(key, en);
+        Self::interpolate(self.t(key, en), vars)
+    }
+
+    /// As [`Locale::t`], for a source string the compiler cannot promise is
+    /// `'static`.
+    ///
+    /// The `&'static str` in `t` is not a translation requirement, it is a
+    /// borrow-checker convenience: the catalogue lives in a `OnceLock` for
+    /// the life of the process, so both sides can be returned as one
+    /// `&'static str`. A sentence held in a VALUE — an observation's own
+    /// clause list, replayed out of a serialised event — has no such
+    /// lifetime, and refusing it would have forced the composed sentence
+    /// back into a `format!`. Same catalogue, same per-key fallback; only
+    /// the lifetime differs, so it hands back an owned `String`.
+    pub fn t_owned(self, key: &str, en: &str) -> String {
+        if self.is_english() {
+            return en.to_string();
+        }
+        catalogue(self.0)
+            .and_then(|c| c.get(key))
+            .map(String::clone)
+            .unwrap_or_else(|| en.to_string())
+    }
+
+    /// As [`Locale::fill`], for a non-`'static` source string. See
+    /// [`Locale::t_owned`] for why the second form exists.
+    pub fn fill_owned(self, key: &str, en: &str, vars: &[(&str, &str)]) -> String {
+        Self::interpolate(&self.t_owned(key, en), vars)
+    }
+
+    /// Substitute `{name}` holes. The one implementation both fills share,
+    /// so a fix to the scanner cannot reach one form and miss the other.
+    fn interpolate(template: &str, vars: &[(&str, &str)]) -> String {
         if vars.is_empty() || !template.contains('{') {
             return template.to_string();
         }
