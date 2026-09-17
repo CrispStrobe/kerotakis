@@ -1890,32 +1890,22 @@ display name in the registry, is the wrong fix.
   59 — a lint that counts the real collisions, and fails when one carries
   two different translations, belongs in `preflight.sh`.
 
-## Two doors onto one question (GUI-105)
+## Two doors onto one question (GUI-105) — landed 2026-09-17
 
-The app has two catalogues and the reader has to know which is which. The
-**Forschungsbibliothek** holds 131 codex routes and 77 guided experiments;
-the **Fähigkeiten-Explorer** holds the 500 reviewed corpus questions, all 500
-of them already translated. A third shelf, the 113 lessons, is reachable only
-from the picker (GUI-104).
+The app had two catalogues and the reader had to know which was which. The
+split is real — an experiment is something you *run*, a corpus row is a
+question with a *reviewed answer*, and flattening them would claim the
+engine can run 500 experiments it cannot — but it was an author's
+distinction, not a reader's. Nobody arrives asking which kind their
+question is; they ask **"can it do this?"**, and that had to be asked in two
+places or it got a wrong "no".
 
-The split is real — a lesson is something you *run*, a corpus row is a
-question with a *reviewed answer*, and flattening them would claim the engine
-can run 500 experiments it cannot. But the split is an author's distinction,
-not a reader's. Nobody arrives asking "is my question a runnable experiment or
-a reviewed capability claim?" They arrive asking **"can it do this?"**, and
-today that question has to be asked twice, in two places, or it gets a wrong
-"no".
-
-- [x] **GUI-105 — One index, typed facets.** A single search across all four
-  populations, each row carrying what it *is*: runnable lesson, guided
-  experiment, codex route, or answered question. One query, one result list,
-  the type as a filter and a badge rather than as a separate door. The counts
-  stay honest because each type is counted and labelled separately — the
-  headline becomes "252 experiments and 500 answered questions", which is both
-  larger and truer than "208". Prerequisite: GUI-104, which landed — the
-  headline already reads 252, so what is left here is the typing and the
-  single door, not the missing population.
-
+One index, typed facets: 131 codex routes, 121 guided experiments and the
+500 reviewed corpus questions in one list, one query, one matcher, with the
+kind as a badge and a facet chip. The counts stay separate and are derived
+from the rows, so the headline reads **"252 experiments and 500 answered
+questions"** rather than a false "752 experiments" or the old "208". The
+detail, and the three defects the move exposed, are in `HISTORY.md`.
 
 ## Completed GUI tasks
 
@@ -1927,7 +1917,7 @@ GUI-028, GUI-029, GUI-033, GUI-053, GUI-055 · GUI-076, GUI-079, GUI-080
 (Phase G2.5 numbering) · GUI-058, GUI-061, GUI-062, GUI-063, GUI-064, GUI-065,
 GUI-066, GUI-067, GUI-074, GUI-075, GUI-077, GUI-078, GUI-079, GUI-080,
 GUI-083a, GUI-083b (realism-bar numbering) · GUI-087, GUI-091, GUI-095,
-GUI-096, GUI-097 · GPU-1 … GPU-5a, GPU-6a … GPU-6d · ANIM-1, ANIM-2,
+GUI-096, GUI-097, GUI-105 · GPU-1 … GPU-5a, GPU-6a … GPU-6d · ANIM-1, ANIM-2,
 ANIM-3 · I18N-2, I18N-3 · DATA-010, WEB-003. GUI-060 was superseded by
 GUI-065 rather than built; its number stays retired.
 

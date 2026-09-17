@@ -14,6 +14,60 @@ it had while it was open, which is why a few numbers appear twice below.
 
 ## 2026-09-17
 
+**GUI-105 — two doors onto one question, closed (#638)**
+
+The app showed "only 208 experiments" and the owner asked the sharper
+question: does it make sense to *not* bundle the experiments and the
+capabilities together? The answer built here is that the split between them
+is an **author's** distinction, not a reader's. Nobody arrives asking
+whether their question is a runnable experiment or a reviewed capability
+claim; they ask "can it do this?", and that had to be asked in two places
+or it got a wrong "no".
+
+**One index, typed facets** — not a flattening. `CatalogSourceKind` gained
+a third value and stopped being internal: what a row IS became the reader's
+question, so it is now a badge and a facet chip with its own count. One
+matcher for all three populations (`capabilityMatches` is gone — a second
+predicate over a second shape is precisely how the two doors happened), and
+the headline is derived from the rows: **"252 experiments and 500 answered
+questions"**, rather than a false "752 experiments" or the old "208". The
+`Fähigkeiten-Explorer` is retired; its three flags survive as three doors
+onto the same surface, closing through one `closeCatalog()`.
+
+What a question row deliberately does NOT carry is the point. No derived
+materials list — the corpus script writes `add v1 NaCl 5g` where the shelf
+is keyed `sodium_chloride`, so `scriptKit` would have reported salt that is
+on the shelf as missing. No readiness line, no completion chip (progress is
+a record of successful codex runs and a question id is not a codex id), and
+no duration where there is no script.
+
+Three defects the move exposed, every one of them live in the retired
+explorer:
+
+- **Sixty rows offered a button that produced nothing.** All 500 prompts
+  carry a `script`, but all sixty `boundary` rows ship it EMPTY — the
+  refusal is the answer. The explorer gated its run button on
+  `support !== "missing"` alone, so pressing it handed the runner an empty
+  string. The affordance now follows *script presence*, and #630's lesson
+  (`inspect` where the reader needed `look`) is the same lesson in a new
+  costume: a control whose press cannot do what its label says.
+- **A machine code reached the reader, in English.** `prompt.boundary` is
+  null on all 500 rows, so `boundary ?? reason_code` always rendered
+  `unsupported-fracture-mechanics`. All 57 codes the corpus ships now have
+  authored German, and the coverage is read out of the corpus rather than
+  typed — `capabilityFacets.test.ts`, whose vacuity guard immediately
+  earned its place: the shards author the field as `action` and the
+  exporter renames it to `topic`, so the topic-mapping check had been
+  passing over an empty list (the #505 shape again).
+- **24 questions had no level.** The corpus bands them `all` rather than to
+  a school age, which `BAND_LABELS` had no entry for. Such a row now passes
+  every level chip rather than being filed under one the corpus never
+  chose, and `levelCounts` counts it under each — a chip's number has to be
+  the number of rows the chip will show.
+
+1355 → 1374 web tests, `svelte-check` clean, no engine change.
+
+
 **German reached the engine's own voice, and four green suites were wrong**
 
 The shell had been German for weeks; the *engine* was not, and one pasted
