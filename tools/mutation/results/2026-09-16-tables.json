@@ -294,6 +294,150 @@
    "source": "hcp_298: 7.8e-4,",
    "verdict": "survived"
   },
+  "131": {
+   "build_seconds": 156.4,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 188,
+   "rung": null,
+   "seconds": 41.3,
+   "source": "c_kelvin: 500.0,",
+   "verdict": "survived"
+  },
+  "132": {
+   "build_seconds": 157.7,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 194,
+   "rung": null,
+   "seconds": 40.4,
+   "source": "hcp_298: 9.2e-2,",
+   "verdict": "survived"
+  },
+  "133": {
+   "build_seconds": 170.3,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 195,
+   "rung": null,
+   "seconds": 44.6,
+   "source": "c_kelvin: 2500.0,",
+   "verdict": "survived"
+  },
+  "134": {
+   "build_seconds": 164.4,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::henry_nh3_at_25c"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 201,
+   "rung": "unit",
+   "seconds": 3.8,
+   "source": "hcp_298: 5.7e1,",
+   "verdict": "caught"
+  },
+  "135": {
+   "build_seconds": 157.4,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 202,
+   "rung": null,
+   "seconds": 47.1,
+   "source": "c_kelvin: 4200.0,",
+   "verdict": "survived"
+  },
+  "139": {
+   "build_seconds": 164.8,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::ethanol_water_fifty_percent",
+    "properties::tests::ethanol_water_pure_ethanol",
+    "properties::tests::ethanol_water_pure_water",
+    "properties::tests::evaluate_dispatches_ethanol_water_density"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 253,
+   "rung": "unit",
+   "seconds": 3.4,
+   "source": "9.977_472_131_347e-01,",
+   "verdict": "caught"
+  },
+  "140": {
+   "build_seconds": 170.1,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::ethanol_water_fifty_percent",
+    "properties::tests::ethanol_water_pure_ethanol",
+    "properties::tests::evaluate_dispatches_ethanol_water_density"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 254,
+   "rung": "unit",
+   "seconds": 3.3,
+   "source": "-1.873_665_046_600e-01,",
+   "verdict": "caught"
+  },
+  "141": {
+   "build_seconds": 159.4,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::ethanol_water_fifty_percent",
+    "properties::tests::ethanol_water_pure_ethanol",
+    "properties::tests::evaluate_dispatches_ethanol_water_density"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 255,
+   "rung": "unit",
+   "seconds": 3.5,
+   "source": "4.305_337_838_453e-01,",
+   "verdict": "caught"
+  },
+  "142": {
+   "build_seconds": 158.1,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::ethanol_water_fifty_percent",
+    "properties::tests::ethanol_water_pure_ethanol",
+    "properties::tests::evaluate_dispatches_ethanol_water_density"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 256,
+   "rung": "unit",
+   "seconds": 4.4,
+   "source": "-1.410_997_305_338,",
+   "verdict": "caught"
+  },
+  "143": {
+   "build_seconds": 162.8,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::ethanol_water_density_decreases_with_ethanol",
+    "properties::tests::ethanol_water_fifty_percent",
+    "properties::tests::ethanol_water_pure_ethanol",
+    "properties::tests::evaluate_dispatches_ethanol_water_density"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 257,
+   "rung": "unit",
+   "seconds": 3.4,
+   "source": "1.565_239_129_337,",
+   "verdict": "caught"
+  },
   "15": {
    "build_seconds": 163.2,
    "caught_by": "core-integration",
