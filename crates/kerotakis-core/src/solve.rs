@@ -811,6 +811,19 @@ const UNAVAILABLE_SOLID_PHASES: &[(&str, &str, &str, f64, f64, &str)] = &[(
     "the solid it would crystallise as is sodium acetate trihydrate, and no PHREEQC database vendored with this project defines any acetate solid phase at all — so the aqueous engine has nothing to precipitate and the crystallisation a hand warmer is built on cannot be computed here",
 )];
 
+/// The salt named by each row of [`UNAVAILABLE_SOLID_PHASES`].
+///
+/// The table is private and its rows are the KEYS a catalogue translates
+/// the verdicts by, so the denominator a locale gate counts against has
+/// to come from here rather than from the catalogue — #505's scar.
+#[must_use]
+pub fn unavailable_solid_phase_salts() -> Vec<&'static str> {
+    UNAVAILABLE_SOLID_PHASES
+        .iter()
+        .map(|(_, _, salt, ..)| *salt)
+        .collect()
+}
+
 /// Salts held past saturation whose solid the bench cannot form.
 pub fn unavailable_crystallisations(vessel: &Vessel) -> Vec<UnavailableCrystallisation> {
     let water_moles = vessel

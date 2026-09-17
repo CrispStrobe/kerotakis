@@ -58,6 +58,12 @@ const COMPOSERS: &[(&str, &str)] = &[
     ("clock.rs", include_str!("../src/clock.rs")),
     ("family.rs", include_str!("../src/family.rs")),
     ("bench.rs", include_str!("../src/bench.rs")),
+    // I18N-10's tail. Each one composes a refusal a SOLVER passes
+    // through: the solvent-activity range, the still's missing
+    // properties, the proton-consuming rate step.
+    ("states.rs", include_str!("../src/states.rs")),
+    ("volatility.rs", include_str!("../src/volatility.rs")),
+    ("kinetics.rs", include_str!("../src/kinetics.rs")),
 ];
 
 /// `Phrase::new("key", "english …"` and the `bare` form, as (key, en).
@@ -203,8 +209,12 @@ fn unknown_composers_are_declared() {
                 continue;
             }
             let name = p.file_name().and_then(|n| n.to_str()).unwrap_or_default();
-            // `phrase.rs` defines the constructors; its own doc examples
-            // are not sentences the engine says.
+            // `phrase.rs` defines the constructors, and the `Phrase::new`
+            // inside `Phrase::bare` is the constructor calling itself
+            // rather than a sentence with a key. The one clause that file
+            // DOES compose — `look.sentence-join`, the space between two
+            // statements — is counted by `tools/engine-locale-lint.py`,
+            // which reads it out of the same source.
             if name == "phrase.rs" || declared.contains(name) {
                 continue;
             }
@@ -219,6 +229,39 @@ fn unknown_composers_are_declared() {
         "these files compose sentences but are not in COMPOSERS, so nothing \
          checks that their keys are translated: {undeclared:?}"
     );
+}
+
+/// The salts held past saturation whose solid no shipped database
+/// defines, keyed by the row of `UNAVAILABLE_SOLID_PHASES` they came
+/// from — the `INERT_IN_SOLVENT` shape, and the same argument: the
+/// verdict is curated prose with no holes, so a key built out of its own
+/// English orphans the German the moment somebody rewords the row.
+///
+/// The table is the denominator, read from the engine's own `const`. A
+/// salt added without German fails here on the commit that adds it.
+#[test]
+fn every_unavailable_solid_verdict_is_translated() {
+    let salts = kerotakis_core::solve::unavailable_solid_phase_salts();
+    assert!(
+        !salts.is_empty(),
+        "the curated table is empty — this gate is checking nothing"
+    );
+    for locale in Locale::available().into_iter().filter(|l| !l.is_english()) {
+        let missing: Vec<&str> = salts
+            .iter()
+            .copied()
+            .filter(|salt| {
+                locale
+                    .lookup(&format!("unavailable-solid.{salt}"))
+                    .is_none()
+            })
+            .collect();
+        assert!(
+            missing.is_empty(),
+            "{}: no `[unavailable-solid]` row for {missing:?}",
+            locale.code(),
+        );
+    }
 }
 
 /// The curated organic-solvent verdicts, whose key is built from the table
