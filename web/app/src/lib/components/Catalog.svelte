@@ -641,7 +641,13 @@
              keep the claim they earned; the questions get their own,
              which says out loud that some of them are refusals. -->
         <span class="hint">{t("{count} experiments — each one computed, checked, and yours to break", { count: experimentTotal })}</span>
-        <span class="hint">{t("and {count} answered questions, including the ones this bench refuses", { count: kinds.capability })}</span>
+        <!-- Only once the payload has actually arrived. The corpus index
+             is fetched, so a line printed eagerly would read "and 0
+             answered questions" for as long as the request took — a
+             claim about the library, made before it was known. -->
+        {#if kinds.capability > 0}
+          <span class="hint">{t("and {count} answered questions, including the ones this bench refuses", { count: kinds.capability })}</span>
+        {/if}
         <span class="hint">{t("{count} shown", { count: shown.length })}</span>
         <button class="icon-close" aria-label={t("close")} title={t("close")} onclick={onclose}>×</button>
       </header>
@@ -662,7 +668,9 @@
                card says the same word, so the chip and the row agree. -->
           <div class="chips kinds" role="group" aria-label={t("what it is")}>
             <button class:on={filters.source === null} aria-pressed={filters.source === null} onclick={() => (filters.source = null)}>{t("everything")} <small>{all.length}</small></button>
-            {#each CATALOG_SOURCES as source (source)}
+            <!-- Never an empty chip: the shelf's own rule. A kind with no
+                 rows offers a filter that selects nothing. -->
+            {#each CATALOG_SOURCES.filter((source) => kinds[source] > 0) as source (source)}
               <button
                 data-source={source}
                 class:on={filters.source === source}
