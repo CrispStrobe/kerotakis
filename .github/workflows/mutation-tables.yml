@@ -10,6 +10,13 @@ name: Mutation — const tables
 # gigabyte of free memory and killed the 2026-09-16 pass twice. A run that
 # keeps dying locally belongs on a runner with headroom, and the owner said so.
 on:
+  # TEMPORARY, AND REMOVED BEFORE THIS BRANCH MERGES. `workflow_dispatch` is
+  # only offered for workflows that already exist on the default branch, so a
+  # workflow added by a pull request cannot be dispatched until after it is
+  # merged — and the number this pull request exists to report needs the run
+  # to happen first. Scoped to the one branch so it cannot fire anywhere else.
+  push:
+    branches: [test/conductivity-sources]
   workflow_dispatch:
     inputs:
       ids:
@@ -22,6 +29,7 @@ on:
         description: The catalogue surface. Must match the run the ids came from.
         required: true
         default: >-
+          crates/kerotakis-core/src/buoyancy.rs
           crates/kerotakis-core/src/conductivity.rs
           crates/kerotakis-core/src/properties.rs
       ceiling:
@@ -32,6 +40,21 @@ on:
 concurrency:
   group: mutation-tables-${{ github.ref }}
   cancel-in-progress: false
+
+# A `push` event carries no inputs, so the defaults have to live somewhere the
+# two triggers share. These are the 23 conductivity survivors of the
+# 2026-09-16 const-table pass, and the three-file surface their ids were
+# catalogued over — the catalogue numbers sites in the order the files are
+# given, so the surface is part of the identity of an id.
+env:
+  MUTANT_IDS: >-
+    ${{ inputs.ids ||
+    '16,19,20,21,22,24,25,26,27,28,29,30,31,33,34,35,36,37,38,39,40,42,45' }}
+  MUTANT_FILES: >-
+    ${{ inputs.files || 'crates/kerotakis-core/src/buoyancy.rs
+    crates/kerotakis-core/src/conductivity.rs
+    crates/kerotakis-core/src/properties.rs' }}
+  MUTANT_CEILING: ${{ inputs.ceiling || '18000' }}
 
 jobs:
   tables:
@@ -55,7 +78,7 @@ jobs:
       # It is rebuilt rather than checked in so that a drift shows up here
       # rather than silently renumbering somebody's survivor list.
       - name: Catalogue the surface
-        run: python3 tools/mutation/mutate.py catalogue ${{ inputs.files }}
+        run: python3 tools/mutation/mutate.py catalogue $MUTANT_FILES
 
       # The whole ladder, unmutated. A mutant verdict means nothing if the
       # baseline is not green, and this is where an unrelated red is cheap to
@@ -80,7 +103,7 @@ jobs:
           set -uo pipefail
           trap 'python3 tools/mutation/mutate.py recover || true; git checkout -- crates/ || true' EXIT HUP INT TERM
           python3 tools/mutation/mutate.py run-table \
-            --ids '${{ inputs.ids }}' --ceiling '${{ inputs.ceiling }}'
+            --ids "$MUTANT_IDS" --ceiling "$MUTANT_CEILING"
 
       - name: The sources are exactly as they were
         if: always()
