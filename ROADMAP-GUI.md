@@ -1739,7 +1739,7 @@ display name in the registry, is the wrong fix.
   * Once it lands, `web/app/src/locales/de.json`'s lesson slugs are the same
     data said twice and should be folded into `lessons/prose/de.toml`.
 - [ ] **I18N-10 — `NotYetModeled.what` is the same defect one event along.**
-  *Mechanism landed and 36 of 82 sites converted; 46 remain, and the lint
+  *Mechanism landed and 56 of 82 sites converted; 26 remain, and the lint
   counts them.* `what` was a finished English sentence for exactly the
   reason `Inert.why` was, and two of them sat in `displacement.rs` beside
   the verdicts that now speak German, so a reader of the zinc-in-vinegar
@@ -1767,9 +1767,6 @@ display name in the registry, is the wrong fix.
 
   What is left, in the order to take it:
 
-  * **`bench.rs`, 24.** All `format!` — an extraction coefficient's
-    reviewed temperature, a distillation bubble point, a nuclide that is
-    not curated. Self-contained; this is the next tranche.
   * **`solve.rs`, 10.** Four are pass-throughs whose sentence is built in
     a helper (`out_of_range_reason`, `stranded_solutes`, `boundary_reason`)
     — the helper has to return a `Phrase` first, so they cascade. Two are
@@ -1779,8 +1776,19 @@ display name in the registry, is the wrong fix.
   * **`aqueous.rs`, 9,** in `kerotakis-phreeqc`. Long boundary statements
     about Henry constants and unspeciated solutes; the hardest German in
     the set and the least often seen.
-  * **`clock.rs`, `family.rs`, `phase_diagnostics.rs`, one each** —
-    all three pass a sentence through from somewhere else.
+  * **`bench.rs`, 4,** `clock.rs`, `family.rs` and `phase_diagnostics.rs`
+    one each — every one of them passes a sentence through from somewhere
+    else, so each is a cascade into the function that built it.
+
+  **One follow-up that is not a tranche.** Five converted sites still hold
+  a `", "`-joined list inside a `Slot::Text` — the spectral gaps, the
+  co-evaporating liquids, the solutes with no coefficient, the uncurated
+  column groups, the teaching set of nuclides. `Slot::List` would join
+  them in the reader's grammar, which is the whole reason the slot type
+  exists, and it renders *a, b and c* where the `join` renders *a, b, c* —
+  so converting them CHANGES the English and needs a golden pass of its
+  own. `named.join(" and ")` in the density refusal did convert, because
+  the catalogue's `look.list-final` renders exactly the English it had.
 - [x] **I18N-11 — `scene_vessel` appended English sentences to the
   observation.** Not eleven: **twenty**. `appearance::observe` composes
   translatable clauses, and `scene.rs` then took the finished English

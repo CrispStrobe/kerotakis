@@ -11,7 +11,7 @@ use crate::ops::{
     CentrifugeSeparation, DiscardedPortion, ElutedPeak, Endpoint, Event, ExtractionSplit,
     Instrument, LogEntry, MaterialComponentAdded, Operator,
 };
-use crate::phrase::Phrase;
+use crate::phrase::{Phrase, Slot};
 use crate::refusal::{Refusal, Refuses};
 use crate::solve::{
     adiabatic_mix_into, portions_enthalpy, Equilibrator, HonestyEquilibrator, MixingEquilibrator,
@@ -1937,24 +1937,33 @@ impl Bench {
                     brown_dry_lemon_mark(v, &mut events);
                     if wanted < 0.0 {
                         let could_pay = holds / 1000.0;
-                        events.push(Event::NotYetModeled {
-                            cause: crate::ops::NotModelledCause::ModelBoundary,
-                            vessel: *vessel,
-                            what: format!(
-                                "this vessel had only {could_pay:.2} kJ to give up before absolute \
-                                 zero, and {:.2} kJ were asked of it. No coolant \
-                                 is modelled here — nothing sets how cold the \
-                                 surroundings are — so the rest simply could not \
-                                 be removed. The heat a substance holds is \
-                                 integrated over its own heat capacity where \
-                                 the registry carries one, but below about \
-                                 200 K even a tabulated curve has run out of \
-                                 table and is held flat, so this floor is a \
-                                 model boundary rather than a measurement",
-                                energy.0 / 1000.0,
+                        events.push(Event::not_modeled(
+                            *vessel,
+                            crate::ops::NotModelledCause::ModelBoundary,
+                            Phrase::new(
+                                "not-modeled.cooling-below-absolute-zero",
+                                "this vessel had only {available} kJ to give up before absolute \
+             zero, and {asked} kJ were asked of it. No coolant \
+             is modelled here — nothing sets how cold the \
+             surroundings are — so the rest simply could not \
+             be removed. The heat a substance holds is \
+             integrated over its own heat capacity where \
+             the registry carries one, but below about \
+             200 K even a tabulated curve has run out of \
+             table and is held flat, so this floor is a \
+             model boundary rather than a measurement",
+                                vec![
+                                    (
+                                        "available".to_string(),
+                                        Slot::number(format!("{:.2}", could_pay)),
+                                    ),
+                                    (
+                                        "asked".to_string(),
+                                        Slot::number(format!("{:.2}", energy.0 / 1000.0)),
+                                    ),
+                                ],
                             ),
-                            reason: None,
-                        });
+                        ));
                     }
                 } else {
                     events.push(Event::not_modeled(
@@ -2926,14 +2935,15 @@ impl Bench {
                         .filter_map(|p| species::lookup(&p.species).map(|d| d.name))
                         .collect();
                     if !other_liquids.is_empty() {
-                        events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::NoSolver,
-                            vessel: *vessel,
-                            what: format!(
-                                "co-evaporation of {} needs vapour-liquid equilibrium — that is `distil`'s job; only the water was removed",
-                                other_liquids.join(", ")
-                            ),
-                            reason: None,
-                        });
+                        events.push(Event::not_modeled(
+                                        *vessel,
+                                        crate::ops::NotModelledCause::NoSolver,
+                                        Phrase::new(
+                                            "not-modeled.co-evaporation",
+                                            "co-evaporation of {liquids} needs vapour-liquid equilibrium — that is `distil`'s job; only the water was removed",
+                                            vec![("liquids".to_string(), Slot::text(other_liquids.join(", ")))],
+                                        ),
+                                    ));
                     }
                 }
             }
@@ -3077,15 +3087,19 @@ impl Bench {
                         *stages,
                         pressure_kpa,
                     ) {
-                        None => events.push(Event::NotYetModeled {
-                            cause: crate::ops::NotModelledCause::ModelBoundary,
-                            vessel: *from,
-                            what: format!(
-                                "a bubble point for this mixture at {pressure_kpa:.1} kPa — \
-                                 outside the fitted Antoine ranges"
+                        None => events.push(Event::not_modeled(
+                            *from,
+                            crate::ops::NotModelledCause::ModelBoundary,
+                            Phrase::new(
+                                "not-modeled.no-bubble-point",
+                                "a bubble point for this mixture at {pressure} kPa — \
+             outside the fitted Antoine ranges",
+                                vec![(
+                                    "pressure".to_string(),
+                                    Slot::number(format!("{:.1}", pressure_kpa)),
+                                )],
                             ),
-                            reason: None,
-                        }),
+                        )),
                         Some(cut) => {
                             // The Rayleigh cut: vapour composition follows
                             // the pot as it drifts, through `stages` ideal
@@ -3227,20 +3241,15 @@ impl Bench {
                             )
                             .is_none()
                             {
-                                events.push(Event::NotYetModeled {
-                                    cause: crate::ops::NotModelledCause::ModelBoundary,
-                                    vessel: *from,
-                                    what: format!(
-                                        "the {} {}/{} distribution coefficient is only reviewed at {:.2} K (tolerance +/- {:.2} K); this vessel is at {:.2} K",
-                                        p.species.0,
-                                        upper_id.0,
-                                        lower_id.0,
-                                        row.reference_temperature_k,
-                                        row.temperature_tolerance_k,
-                                        t_k
-                                    ),
-                                    reason: None,
-                                });
+                                events.push(Event::not_modeled(
+                                                *from,
+                                                crate::ops::NotModelledCause::ModelBoundary,
+                                                Phrase::new(
+                                                    "not-modeled.distribution-coefficient-temperature",
+                                                    "the {species} {upper}/{lower} distribution coefficient is only reviewed at {reviewed} K (tolerance +/- {tolerance} K); this vessel is at {actual} K",
+                                                    vec![("species".to_string(), Slot::text(p.species.0.clone())), ("upper".to_string(), Slot::text(upper_id.0.clone())), ("lower".to_string(), Slot::text(lower_id.0.clone())), ("reviewed".to_string(), Slot::number(format!("{:.2}", row.reference_temperature_k))), ("tolerance".to_string(), Slot::number(format!("{:.2}", row.temperature_tolerance_k))), ("actual".to_string(), Slot::number(format!("{:.2}", t_k)))],
+                                                ),
+                                            ));
                                 *disposition = ApplyDisposition::Unchanged;
                                 return Ok(events);
                             }
@@ -3322,15 +3331,18 @@ impl Bench {
                     .ok_or_else(|| BenchError::UnknownSpecies(solvent.clone()))?;
                 if solvent_data.standard_phase != Phase::Liquid {
                     *disposition = ApplyDisposition::Unchanged;
-                    events.push(Event::NotYetModeled {
-                        cause: crate::ops::NotModelledCause::ModelBoundary,
-                        vessel: *from,
-                        what: format!(
-                            "{} is not a liquid extracting solvent at room conditions",
-                            solvent_data.name
+                    events.push(Event::not_modeled(
+                        *from,
+                        crate::ops::NotModelledCause::ModelBoundary,
+                        Phrase::new(
+                            "not-modeled.not-an-extracting-solvent",
+                            "{solvent} is not a liquid extracting solvent at room conditions",
+                            vec![(
+                                "solvent".to_string(),
+                                Slot::term("species", solvent_data.name),
+                            )],
                         ),
-                        reason: None,
-                    });
+                    ));
                     return Ok(events);
                 }
 
@@ -3407,19 +3419,15 @@ impl Bench {
                         )
                         .is_none()
                         {
-                            events.push(Event::NotYetModeled {
-                                cause: crate::ops::NotModelledCause::ModelBoundary,
-                                vessel: *from,
-                                what: format!(
-                                    "the {} {}/water distribution coefficient is only reviewed at {:.2} K (tolerance +/- {:.2} K); this vessel is at {:.2} K",
-                                    solute.0,
-                                    solvent.0,
-                                    row.reference_temperature_k,
-                                    row.temperature_tolerance_k,
-                                    source.temperature.0
-                                ),
-                                reason: None,
-                            });
+                            events.push(Event::not_modeled(
+                                            *from,
+                                            crate::ops::NotModelledCause::ModelBoundary,
+                                            Phrase::new(
+                                                "not-modeled.water-distribution-coefficient-temperature",
+                                                "the {solute} {solvent}/water distribution coefficient is only reviewed at {reviewed} K (tolerance +/- {tolerance} K); this vessel is at {actual} K",
+                                                vec![("solute".to_string(), Slot::text(solute.0.clone())), ("solvent".to_string(), Slot::text(solvent.0.clone())), ("reviewed".to_string(), Slot::number(format!("{:.2}", row.reference_temperature_k))), ("tolerance".to_string(), Slot::number(format!("{:.2}", row.temperature_tolerance_k))), ("actual".to_string(), Slot::number(format!("{:.2}", source.temperature.0)))],
+                                            ),
+                                        ));
                             continue;
                         }
                     }
@@ -3466,18 +3474,15 @@ impl Bench {
                             *stages as usize,
                         );
                         let (Some(single), Some(repeated)) = (single, repeated) else {
-                            events.push(Event::NotYetModeled {
-                                cause: crate::ops::NotModelledCause::ModelBoundary,
-                                vessel: *from,
-                                what: format!(
-                                    "the {} loading exceeds the reviewed water/{} capacity implied by its {:.6} mol/L aqueous solubility at {:.2} K; a persistent solid/liquid/organic three-phase equilibrium is not yet modelled",
-                                    solute.0,
-                                    solvent.0,
-                                    limit,
-                                    source.temperature.0,
-                                ),
-                                reason: None,
-                            });
+                            events.push(Event::not_modeled(
+                                            *from,
+                                            crate::ops::NotModelledCause::ModelBoundary,
+                                            Phrase::new(
+                                                "not-modeled.loading-exceeds-capacity",
+                                                "the {solute} loading exceeds the reviewed water/{solvent} capacity implied by its {solubility} mol/L aqueous solubility at {temperature} K; a persistent solid/liquid/organic three-phase equilibrium is not yet modelled",
+                                                vec![("solute".to_string(), Slot::text(solute.0.clone())), ("solvent".to_string(), Slot::text(solvent.0.clone())), ("solubility".to_string(), Slot::number(format!("{:.6}", limit))), ("temperature".to_string(), Slot::number(format!("{:.2}", source.temperature.0)))],
+                                            ),
+                                        ));
                             continue;
                         };
                         (single, repeated)
@@ -3519,43 +3524,55 @@ impl Bench {
                 }
                 if splits.is_empty() {
                     if events.is_empty() || !outside.is_empty() {
-                        events.push(Event::NotYetModeled {
-                            cause: crate::ops::NotModelledCause::NotParameterised,
-                            vessel: *from,
-                            what: format!(
-                                "no reviewed {}/water distribution coefficient for {}",
-                                solvent.0,
-                                if outside.is_empty() {
-                                    "any solute in this vessel".to_string()
-                                } else {
-                                    outside
-                                        .iter()
-                                        .map(|species| species.0.as_str())
-                                        .collect::<Vec<_>>()
-                                        .join(", ")
-                                }
-                            ),
-                            reason: None,
-                        });
+                        // Named rather than inlined: which of the two it is depends
+                        // on the vessel, and only one of them is a sentence.
+                        let solutes = if outside.is_empty() {
+                            Slot::phrase(Phrase::bare(
+                                "not-modeled.any-solute-here",
+                                "any solute in this vessel",
+                            ))
+                        } else {
+                            Slot::text(
+                                outside
+                                    .iter()
+                                    .map(|species| species.0.as_str())
+                                    .collect::<Vec<_>>()
+                                    .join(", "),
+                            )
+                        };
+                        events.push(Event::not_modeled(
+                                        *from,
+                                        crate::ops::NotModelledCause::NotParameterised,
+                                        Phrase::new(
+                                            "not-modeled.no-distribution-coefficient",
+                                            "no reviewed {solvent}/water distribution coefficient for {solutes}",
+                                            vec![
+                                                (
+                                                    "solvent".to_string(),
+                                                    Slot::text(solvent.0.clone()),
+                                                ),
+                                                ("solutes".to_string(), solutes),
+                                            ],
+                                        ),
+                                    ));
                     }
                     *disposition = ApplyDisposition::Unchanged;
                     return Ok(events);
                 }
                 if !outside.is_empty() {
-                    events.push(Event::NotYetModeled {
-                        cause: crate::ops::NotModelledCause::NotParameterised,
-                        vessel: *from,
-                        what: format!(
-                            "the extraction moved the supported solutes, but has no reviewed {}/water distribution coefficient for {}",
-                            solvent.0,
-                            outside
-                                .iter()
-                                .map(|species| species.0.as_str())
-                                .collect::<Vec<_>>()
-                                .join(", ")
-                        ),
-                        reason: None,
-                    });
+                    events.push(Event::not_modeled(
+                                    *from,
+                                    crate::ops::NotModelledCause::NotParameterised,
+                                    Phrase::new(
+                                        "not-modeled.extraction-without-coefficient",
+                                        "the extraction moved the supported solutes, but has no reviewed {solvent}/water distribution coefficient for {solutes}",
+                                        vec![("solvent".to_string(), Slot::text(solvent.0.clone())), ("solutes".to_string(), Slot::text(outside
+            .iter()
+            .map(|species| species.0.as_str())
+            .collect::<Vec<_>>()
+            .join(", ")))],
+                                    ),
+                                ));
                 }
 
                 let mut probe = source.clone();
@@ -3967,14 +3984,15 @@ impl Bench {
                                             unit: "g/mL".to_string(),
                                             note: None,
                                         }),
-                                        None => events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::NoReviewedDatum,
-                                            vessel: *vessel,
-                                            what: format!(
-                                                "the density of {} — the registry carries no reviewed density for it, so the piece has a mass here and no size",
-                                                portion.species.0
-                                            ),
-                                            reason: None,
-                                        }),
+                                        None => events.push(Event::not_modeled(
+                                                                *vessel,
+                                                                crate::ops::NotModelledCause::NoReviewedDatum,
+                                                                Phrase::new(
+                                                                    "not-modeled.no-reviewed-density",
+                                                                    "the density of {species} — the registry carries no reviewed density for it, so the piece has a mass here and no size",
+                                                                    vec![("species".to_string(), Slot::text(portion.species.0.clone()))],
+                                                                ),
+                                                            )),
                                     }
                                 }
                                 ([], [portion]) => {
@@ -3989,14 +4007,15 @@ impl Bench {
                                             unit: "g/mL".to_string(),
                                             note: None,
                                         }),
-                                        None => events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::NoReviewedDatum,
-                                            vessel: *vessel,
-                                            what: format!(
-                                                "the density of {} — the recipe carries no reviewed bulk density",
-                                                portion.material
-                                            ),
-                                            reason: None,
-                                        }),
+                                        None => events.push(Event::not_modeled(
+                                                                *vessel,
+                                                                crate::ops::NotModelledCause::NoReviewedDatum,
+                                                                Phrase::new(
+                                                                    "not-modeled.no-reviewed-bulk-density",
+                                                                    "the density of {material} — the recipe carries no reviewed bulk density",
+                                                                    vec![("material".to_string(), Slot::term("material", portion.material.clone()))],
+                                                                ),
+                                                            )),
                                     }
                                 }
                                 ([], []) => events.push(Event::not_modeled(
@@ -4008,25 +4027,37 @@ impl Bench {
                                                             ),
                                                         )),
                                 _ => {
-                                    let mut named: Vec<String> = solids
+                                    // A species and a material are looked up
+                                    // in different tables, and the merged
+                                    // `Vec<String>` this used to build threw
+                                    // that away before anything could ask.
+                                    let mut named: Vec<Slot> = solids
                                         .iter()
                                         .map(|portion| {
-                                            species::lookup(&portion.species)
-                                                .map(|data| data.name.to_string())
-                                                .unwrap_or_else(|| portion.species.0.clone())
+                                            Slot::term(
+                                                "species",
+                                                species::lookup(&portion.species)
+                                                    .map(|data| data.name.to_string())
+                                                    .unwrap_or_else(|| portion.species.0.clone()),
+                                            )
                                         })
                                         .collect();
                                     named.extend(
-                                        objects.iter().map(|portion| portion.material.clone()),
+                                        objects
+                                            .iter()
+                                            .map(|portion| {
+                                                Slot::term("material", portion.material.clone())
+                                            }),
                                     );
-                                    events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::NoSolver,
-                                        vessel: *vessel,
-                                        what: format!(
-                                            "a single density for this vessel: it holds {}, and a density belongs to one substance rather than to a mixture of them. Weigh them separately",
-                                            named.join(" and ")
-                                        ),
-                                        reason: None,
-                                    });
+                                    events.push(Event::not_modeled(
+                                                    *vessel,
+                                                    crate::ops::NotModelledCause::NoSolver,
+                                                    Phrase::new(
+                                                        "not-modeled.density-of-a-mixture",
+                                                        "a single density for this vessel: it holds {contents}, and a density belongs to one substance rather than to a mixture of them. Weigh them separately",
+                                                        vec![("contents".to_string(), Slot::List { items: named })],
+                                                    ),
+                                                ));
                                 }
                             }
                         }
@@ -4056,15 +4087,15 @@ impl Bench {
                                             ),
                                         ));
                         } else {
-                            events.push(Event::NotYetModeled {
-                                cause: crate::ops::NotModelledCause::ModelBoundary,
-                                vessel: *vessel,
-                                what: format!(
-                                    "complete absorbance is unavailable: no absorption spectrum for {}",
-                                    gaps.join(", ")
-                                ),
-                                reason: None,
-                            });
+                            events.push(Event::not_modeled(
+                                            *vessel,
+                                            crate::ops::NotModelledCause::ModelBoundary,
+                                            Phrase::new(
+                                                "not-modeled.incomplete-absorbance",
+                                                "complete absorbance is unavailable: no absorption spectrum for {species}",
+                                                vec![("species".to_string(), Slot::text(gaps.join(", ")))],
+                                            ),
+                                        ));
                         }
                     }
                     Instrument::Calorimeter => {
@@ -4199,16 +4230,17 @@ impl Bench {
                                     .iter()
                                     .map(|s| s.0.as_str())
                                     .collect();
-                                events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::NotParameterised,
-                                    vessel: *vessel,
-                                    what: format!(
-                                        "the column has no curated group decomposition for \
-                                         {} — a real column would separate these, so this \
-                                         is a gap in the model rather than a result",
-                                        names.join(", ")
-                                    ),
-                                    reason: None,
-                                });
+                                events.push(Event::not_modeled(
+                                                *vessel,
+                                                crate::ops::NotModelledCause::NotParameterised,
+                                                Phrase::new(
+                                                    "not-modeled.no-group-decomposition",
+                                                    "the column has no curated group decomposition for \
+             {species} — a real column would separate these, so this \
+             is a gap in the model rather than a result",
+                                                    vec![("species".to_string(), Slot::text(names.join(", ")))],
+                                                ),
+                                            ));
                             } else if injectable.is_empty() && outside.is_empty() {
                                 // Nothing dissolved at all: there is no sample,
                                 // which is a different thing from a sample the
@@ -4539,21 +4571,35 @@ impl Bench {
                                     && p.phase == Phase::Liquid
                                     && p.moles.0 > crate::OBSERVABLE_MOLES
                             });
+                            // One half of this is a sentence this file
+                            // writes, so it is keyed by its place. The
+                            // other is built elsewhere and arrives as
+                            // data, so it is a term looked up by value —
+                            // which at least lets a catalogue reach it.
                             let why = if has_water {
-                                "the solvent-electrolysis model requires a dissolved supporting electrolyte; pure water has finite but very low conductivity, and the voltage, electrode spacing and overpotentials needed to sustain the requested current are not modelled".to_string()
+                                Slot::phrase(Phrase::bare(
+                                    "not-modeled.electrolysis-needs-an-electrolyte",
+                                    "the solvent-electrolysis model requires a dissolved supporting electrolyte; pure water has finite but very low conductivity, and the voltage, electrode spacing and overpotentials needed to sustain the requested current are not modelled",
+                                ))
                             } else {
-                                crate::displacement::why_no_electrode(v)
+                                Slot::term(
+                                    "electrolysis-gap",
+                                    crate::displacement::why_no_electrode(v),
+                                )
                             };
-                            events.push(Event::NotYetModeled {
-                                cause: if has_water {
+                            events.push(Event::not_modeled(
+                                *vessel,
+                                if has_water {
                                     crate::ops::NotModelledCause::ModelBoundary
                                 } else {
                                     crate::ops::NotModelledCause::NothingToActOn
                                 },
-                                vessel: *vessel,
-                                what: format!("nothing here can be electrolysed: {why}"),
-                                reason: None,
-                            });
+                                Phrase::new(
+                                    "not-modeled.nothing-to-electrolyse",
+                                    "nothing here can be electrolysed: {why}",
+                                    vec![("why".to_string(), why)],
+                                ),
+                            ));
                         }
                     },
                 }
@@ -4860,15 +4906,18 @@ impl Bench {
                         .iter()
                         .map(|n| n.nuclide)
                         .collect();
-                    events.push(Event::NotYetModeled {
-                        cause: crate::ops::NotModelledCause::NotParameterised,
-                        vessel: *vessel,
-                        what: format!(
-                            "no curated nuclide '{nuclide}' — the teaching set: {}",
-                            known.join(", ")
+                    events.push(Event::not_modeled(
+                        *vessel,
+                        crate::ops::NotModelledCause::NotParameterised,
+                        Phrase::new(
+                            "not-modeled.no-curated-nuclide",
+                            "no curated nuclide '{nuclide}' — the teaching set: {known}",
+                            vec![
+                                ("nuclide".to_string(), Slot::text(nuclide.clone())),
+                                ("known".to_string(), Slot::text(known.join(", "))),
+                            ],
                         ),
-                        reason: None,
-                    });
+                    ));
                     return Ok(events);
                 };
                 let v = self.vessel_mut(*vessel)?;
@@ -4911,19 +4960,27 @@ impl Bench {
                         None => {
                             // The parser vets names, but an operator can arrive
                             // by JSON; refuse out loud rather than panic.
-                            events.push(Event::NotYetModeled {
-                                cause: crate::ops::NotModelledCause::NotParameterised,
-                                vessel: *vessel,
-                                what: format!(
-                                    "no curated reaction named '{reaction}' — curated: {}",
-                                    crate::curated::ORG_REACTIONS
-                                        .iter()
-                                        .map(|r| r.name)
-                                        .collect::<Vec<_>>()
-                                        .join(", ")
+                            events.push(Event::not_modeled(
+                                *vessel,
+                                crate::ops::NotModelledCause::NotParameterised,
+                                Phrase::new(
+                                    "not-modeled.no-curated-reaction",
+                                    "no curated reaction named '{reaction}' — curated: {known}",
+                                    vec![
+                                        ("reaction".to_string(), Slot::text(reaction.clone())),
+                                        (
+                                            "known".to_string(),
+                                            Slot::text(
+                                                crate::curated::ORG_REACTIONS
+                                                    .iter()
+                                                    .map(|r| r.name)
+                                                    .collect::<Vec<_>>()
+                                                    .join(", "),
+                                            ),
+                                        ),
+                                    ],
                                 ),
-                                reason: None,
-                            });
+                            ));
                         }
                         Some(r) => {
                             let v = self.vessel_mut(*vessel)?;
@@ -5861,15 +5918,15 @@ fn curated_reaction_extent(
             return None;
         }
         Ok(extent) if !extent.is_finite() => {
-            events.push(Event::NotYetModeled {
-                cause: crate::ops::NotModelledCause::ModelBoundary,
+            events.push(Event::not_modeled(
                 vessel,
-                what: format!(
-                    "{} returned a non-finite reaction extent; no conversion applied",
-                    reaction.name
+                crate::ops::NotModelledCause::ModelBoundary,
+                Phrase::new(
+                    "not-modeled.non-finite-extent",
+                    "{reaction} returned a non-finite reaction extent; no conversion applied",
+                    vec![("reaction".to_string(), Slot::text(reaction.name))],
                 ),
-                reason: None,
-            });
+            ));
             return None;
         }
         Ok(extent) => extent,
@@ -5878,15 +5935,15 @@ fn curated_reaction_extent(
         return Some(extent);
     }
     match model {
-        crate::family::OutcomeModel::Equilibrium { .. } if !direction_available => events.push(Event::NotYetModeled {
-            cause: crate::ops::NotModelledCause::NothingToActOn,
-            vessel,
-            what: format!(
-                "No conversion for {}: neither forward nor reverse reactants provide capacity above the 1e-12 mol no-conversion tolerance",
-                reaction.name
-            ),
-            reason: None,
-        }),
+        crate::family::OutcomeModel::Equilibrium { .. } if !direction_available => events.push(Event::not_modeled(
+                                                                                                   vessel,
+                                                                                                   crate::ops::NotModelledCause::NothingToActOn,
+                                                                                                   Phrase::new(
+                                                                                                       "not-modeled.no-capacity-either-direction",
+                                                                                                       "No conversion for {reaction}: neither forward nor reverse reactants provide capacity above the 1e-12 mol no-conversion tolerance",
+                                                                                                       vec![("reaction".to_string(), Slot::text(reaction.name))],
+                                                                                                   ),
+                                                                                               )),
         crate::family::OutcomeModel::Equilibrium { .. } => events.push(Event::OrgReacted {
             vessel,
             name: reaction.name.into(),
@@ -5897,15 +5954,15 @@ fn curated_reaction_extent(
                 reaction.boundary
             ),
         }),
-        crate::family::OutcomeModel::ToCompletion => events.push(Event::NotYetModeled {
-            cause: crate::ops::NotModelledCause::NothingToActOn,
-            vessel,
-            what: format!(
-                "No to-completion conversion for {}: a limiting reactant is absent, depleted, or its capacity is within the 1e-12 mol no-conversion tolerance",
-                reaction.name
-            ),
-            reason: None,
-        }),
+        crate::family::OutcomeModel::ToCompletion => events.push(Event::not_modeled(
+                                                                     vessel,
+                                                                     crate::ops::NotModelledCause::NothingToActOn,
+                                                                     Phrase::new(
+                                                                         "not-modeled.no-limiting-reactant",
+                                                                         "No to-completion conversion for {reaction}: a limiting reactant is absent, depleted, or its capacity is within the 1e-12 mol no-conversion tolerance",
+                                                                         vec![("reaction".to_string(), Slot::text(reaction.name))],
+                                                                     ),
+                                                                 )),
         crate::family::OutcomeModel::KineticLaw { .. } => events.push(Event::not_modeled(
                                                                           vessel,
                                                                           crate::ops::NotModelledCause::ModelBoundary,
