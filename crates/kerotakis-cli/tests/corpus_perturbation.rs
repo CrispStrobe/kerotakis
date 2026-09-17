@@ -1391,12 +1391,38 @@ const ORDER_DEPARTURES: &[(&str, &str)] = &[
         "an open vessel vents CO2 while the reagents meet, so the trace \
          sealed in afterwards depends on the order by 2.3e-3 relative",
     ),
-    // LIVE DEFECT, small. Calcium chloride and powdered detergent. The
-    // inventory's water agrees between the two orders to one part in 4e8
-    // (5.5339424445 against 5.5339424570 mol); `solution.solvent_kg`
-    // disagrees by one part in 1e4 (0.0997010580 against 0.0996909590 kg),
-    // about 10 mg in 100 g. Every molality is divided by that number, and
-    // the wire's four significant figures hide the result.
+    // LIVE DEFECT, small, and LOCALISED 2026-09-17. Calcium chloride and
+    // powdered detergent. The inventory's water agrees between the two
+    // orders to one part in 4e8 (5.5339424445 against 5.5339424570 mol);
+    // `solution.solvent_kg` disagrees by one part in 1e4 (0.0997010580
+    // against 0.0996909590 kg), about 10 mg in 100 g. Every molality is
+    // divided by that number, and the wire's four significant figures hide
+    // the result — but `ionic_strength` carries it too, 0.2759516 against
+    // 0.2759782, which is the same 1e-4 and feeds every activity
+    // coefficient.
+    //
+    // It is not the salt and it is not convergence. Two ordinary salts in
+    // either order give `solvent_kg` 0.0997000000 EXACTLY both ways — a
+    // round number derived from the 100 mL that went in, not an echo of the
+    // solver. The residue needs the unresolved material, and which way
+    // round it goes is decided by the LAST operation:
+    //
+    //     water + detergent                -> 0.0997000000  (exact)
+    //     water + detergent + NaCl         -> 0.0996903242
+    //     water + NaCl      + detergent    -> 0.0997000000  (exact)
+    //
+    // So `solvent_kg` is the input water when the last step is the material
+    // add, and PHREEQC's equilibrated `mass_H2O` when the last step is a
+    // salt add. One final state, two numbers, chosen by operation order.
+    // `aqueous.rs` already records this shape for surface complexation —
+    // "mass_H2O is not representation-invariant here" — and this is the
+    // same fault seen from the ordinary bench.
+    //
+    // The fix is a DECISION, not a substitution: whichever of the two
+    // `solvent_kg` should be, the molalities have to be consistent with it,
+    // because the solver reports them per kg of its own mass_H2O. Swapping
+    // in the inventory figure would leave `n = m x kg` false by the same
+    // 1e-4 it repaired.
     (
         "aq-023",
         "solution.solvent_kg carries an order-dependent residue that \
