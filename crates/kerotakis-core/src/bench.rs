@@ -1208,13 +1208,15 @@ impl Bench {
         // only of the vessels a note was actually raised about, because
         // the answer costs an `observe` and changes nothing anywhere
         // else.
-        let noted: Vec<VesselId> = events
+        let mut noted: Vec<VesselId> = events
             .iter()
             .filter_map(|event| match event {
                 Event::NotYetModeled { vessel, .. } => Some(*vessel),
                 _ => None,
             })
             .collect();
+        noted.sort_unstable();
+        noted.dedup();
         for id in noted {
             let before = seen_before
                 .iter()
