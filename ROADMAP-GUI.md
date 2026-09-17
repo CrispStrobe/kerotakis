@@ -1896,6 +1896,9 @@ display name in the registry, is the wrong fix.
   * A comment between `Phrase::new(` and its key lost the call.
   * A key named by a `const`, or one whose English is DATA rather than a
     literal, was not read at all.
+  * `phrase.rs` was read for `locale.t` calls only, so `look.sentence-join`
+    — the one clause that file composes itself — sat outside the
+    denominator and its German was never asked for.
 
   `states.rs`, `volatility.rs`, `kinetics.rs`, `aqueous.rs`,
   `phase_diagnostics.rs` and `family_oracle.rs` joined the composer list,
@@ -1940,6 +1943,24 @@ display name in the registry, is the wrong fix.
   the noun, in the data. The scene golden was re-blessed and the diff is
   **11777 insertions, zero deletions**: every `words` string and every
   number in it is byte-for-byte what it was.
+
+### Found while finishing I18N-10, not fixed there
+
+- [ ] **`Provenance.routing` is a finished English paragraph, and it is
+  rendered beside the numbers.** `kerotakis-phreeqc`'s
+  `finalize_solution_info` builds it with `format!` and pushes two more
+  sentences onto it — the redox note, and "the solvent's activity is NOT
+  from this dataset … but from a second speciation of the same solution
+  on {dataset} ({model})". A German reader meets all of it in English.
+  This is `Inert.why` and `NotYetModeled.what` a third time: prose welded
+  shut in a solver, on a surface that reaches a reader. It is a `Phrase`
+  job of exactly the shape #626 and #628 did, and it is deliberately not
+  done here — the routing line has its own consumers (the provenance
+  audit, `explain`) and wants its own pass.
+- [ ] **Nine converted refusals still hold a `", "`-joined list inside a
+  `Slot::Text`,** and `phase_diagnostics`' also carries an English
+  `", and {n} more"` tail. See I18N-10 above: converting them changes the
+  English and wants a golden pass of its own.
 
 ### Two defects found in the same playback, neither of them i18n
 
