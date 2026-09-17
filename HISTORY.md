@@ -14,6 +14,59 @@ it had while it was open, which is why a few numbers appear twice below.
 
 ## 2026-09-17
 
+**I18N-10's two follow-ups — the routing line and the joined lists (#642)**
+
+`Provenance.routing` was the third instance of prose welded shut inside a
+solver, after `Inert.why` (#626) and `NotYetModeled.what` (#632), and the
+first one said BESIDE the numbers rather than instead of them. Five
+writers had been appending to one string: the aqueous router's dataset
+choice, its activity-model caveat, the redox note, the second-speciation
+note, and a whole paragraph about the electrode pushed on by
+`displacement.rs`. All of it is `Phrase` now, composed by NESTING —
+`{routing}` is a hole in the clause that qualifies it, so a language that
+puts the qualification first writes its row the other way round.
+
+What made this one different from the two before it is that `routing` has
+consumers that are not readers: `tools/chemistry-audit/analyse.py` files
+it verbatim as a `routing_claim`, `kero explain` prints it, and three
+tests assert on what it says. So the field stays and is now **the recipe
+rendered at `Locale::EN`, byte for byte what it was**, with
+`routing_phrase` beside it. Nothing branches on the sentence — the one
+structural read of a provenance uses `model`, a dataset's name, which is
+the shape to keep; #632's `why.contains("cannot name")` is what it looks
+like when that goes wrong.
+
+Two surface facts the roadmap entry had wrong, and they are the reason
+this was scoped rather than declared finished. The provenance drawer reads
+`event.provenance`, and the only event carrying one is
+`ThermalEquilibrium` — the combustion route. `localize_event` translates
+that, so the routing line a reader actually sees is German. The **aqueous**
+routing lives on `vessel.solution.provenance`, which reaches `kero explain`
+(English end to end, with `self.locale` one frame up) and the `inspect`
+machine contract and nothing a German reader reads. Translatable now;
+wiring it to the drawer is a GUI task with a shape decision in it.
+
+The lists: eight sites held a `", "`-joined list inside a `Slot::Text`,
+where the separator is in the Rust and the final conjunction is absent.
+**The count was disputed — five, six, eight and nine were all on record —
+and the answer is eight**, settled with a paren-matching scan because the
+line-window scans that disagreed all missed a `.join(", ")` sitting
+several lines below the `Slot::text(` containing it. I18N-10's nine was
+honest: it is these eight plus `particles.rs`' `", and {n} more"`, which
+is not a `Slot` at all — `Census::render` has no `Locale` and every
+caption in it is a literal, so a German session draws its particles under
+English captions. Written down as its own item rather than half-converted.
+
+One golden line moved and no number did: `lessons.json`'s stranded-solute
+sentence gained the word *and*. The lint went 555/555 → 570/570 with
+`combustion.rs` and `kerotakis-cea/src/thermal.rs` added to its composer
+list — leave a file off and its keys are orphans in one direction and
+missing from the denominator in the other, which is #505's scar. German
+is authored, not moved: no catalogue row said any of these fifteen
+sentences, because the web's `engineText` never translated `routing` and
+the engine catalogue had no `[routing]` section at all.
+
+
 **GUI-105 — two doors onto one question, closed (#638)**
 
 The app showed "only 208 experiments" and the owner asked the sharper
