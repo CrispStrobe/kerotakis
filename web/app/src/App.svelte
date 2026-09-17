@@ -26,7 +26,6 @@
   import AboutDialog from "./lib/components/AboutDialog.svelte";
   import PeriodicTable from "./lib/components/PeriodicTable.svelte";
   import Catalog from "./lib/components/Catalog.svelte";
-  import CapabilityExplorer from "./lib/components/CapabilityExplorer.svelte";
   import ReadingInset from "./lib/components/ReadingInset.svelte";
   import Toolbox from "./lib/components/Toolbox.svelte";
   import BalanceDrill from "./lib/components/BalanceDrill.svelte";
@@ -735,6 +734,23 @@
   let kidsOpen = $state(false);
   /** A kids task handed over from the concept map, opened on its own card. */
   let kidsInitial = $state<string | null>(null);
+
+  /**
+   * The three flags are three doors onto ONE surface, so they close as one.
+   *
+   * They used to close in three places each, and the capability explorer
+   * was a fourth overlay with its own Escape rung. Leaving one flag set
+   * while another closed left the catalogue open on a hand-over it had
+   * already made — so every exit goes through here.
+   */
+  function closeCatalog() {
+    kidsOpen = false;
+    catalogOpen = false;
+    capabilityOpen = false;
+    catalogInitial = null;
+    kidsInitial = null;
+    capabilityInitial = null;
+  }
   /** A tapped badge, magnified (the visual bar's reading inset). */
   let inset = $state<{ vessel: number; reading: { key: string; value: number; confidence: string } } | null>(null);
   let codexEntries = $state<CodexEntry[]>([]);
@@ -1019,13 +1035,7 @@
       else if (removeRequest !== null) removeRequest = null;
       else if (homeOpen) homeOpen = false;
       else if (missionOpen) missionOpen = false;
-      else if (capabilityOpen) capabilityOpen = false;
-      else if (kidsOpen || catalogOpen) {
-        kidsOpen = false;
-        catalogOpen = false;
-        catalogInitial = null;
-        kidsInitial = null;
-      }
+      else if (kidsOpen || catalogOpen || capabilityOpen) closeCatalog();
       else if (mapOpen) mapOpen = false;
       else if (roomOpen) roomOpen = false;
       else if (utilityStationOpen) utilityStationOpen = false;
@@ -1163,7 +1173,7 @@
         <button class="tool" onclick={() => (mapOpen = true)}>{t("map")}</button>
       {/if}
       {#if capabilityPrompts.length > 0}
-        <button class="tool" onclick={() => { toolsOpen = false; capabilityOpen = true; }}>{t("capabilities")}</button>
+        <button class="tool" onclick={() => { toolsOpen = false; capabilityOpen = true; }}>{t("answered questions")}</button>
       {/if}
       {#if quests.length > 0 && !session.quest}
         <label class="quest-picker" data-keeps-drawer>
@@ -1597,6 +1607,7 @@
     profile={labProfile}
     missions={lessons.length}
     experiments={codexEntries.length + kidsExperiments.length}
+    questions={capabilityPrompts.length}
     kidsExperiments={kidsExperiments.length}
     {persistenceNotice}
     canclone={labMode === "story" && appSaveRepository !== null}
@@ -1734,24 +1745,22 @@
   <BalanceDrill {session} entries={codexEntries} onclose={() => (drillOpen = false)} />
 {/if}
 
-{#if capabilityOpen}
-  <CapabilityExplorer prompts={capabilityPrompts} {session} initial={capabilityInitial} onclose={() => {
-    capabilityOpen = false;
-    capabilityInitial = null;
-  }} />
-{/if}
-
-<!-- ONE catalogue, one surface. `kidsOpen` and `catalogOpen` survive only
-     as two doors into the SAME list: one opens it whole, the other opens it
-     pre-filtered to the first level, so every existing entry point — the
-     home screen, the story map, the periodic table, the concept map — lands
-     on the same cards. -->
-{#if kidsOpen || catalogOpen}
+<!-- ONE index, one surface (GUI-105). `kidsOpen`, `catalogOpen` and
+     `capabilityOpen` survive only as three doors into the SAME list: one
+     opens it whole, one pre-filtered to the first level, one pre-filtered
+     to the reviewed questions. Every existing entry point — the home
+     screen, the story map, the periodic table, the concept map, the tools
+     menu — lands on the same cards, so "can this bench do X?" is asked
+     once and answered over all three populations. -->
+{#if kidsOpen || catalogOpen || capabilityOpen}
   <Catalog
     initialLevel={kidsOpen && kidsInitial === null ? "starter" : null}
+    initialSource={capabilityOpen && !kidsOpen && !catalogOpen ? "capability" : null}
+    initialQuestion={capabilityInitial}
     entries={codexEntries}
     models={codexModels}
     kidsEntries={kidsExperiments}
+    prompts={capabilityPrompts}
     {stepProse}
     {session}
     kidsInitial={kidsInitial}
@@ -1759,27 +1768,18 @@
     {codexIds}
     initial={catalogInitial}
     onlesson={(file) => {
-      kidsOpen = false;
-      catalogOpen = false;
+      closeCatalog();
       void startLesson(file);
     }}
     onquest={(id) => {
       const quest = quests.find((item) => item.id === id);
       if (!quest) return;
-      kidsOpen = false;
-      catalogOpen = false;
+      closeCatalog();
       void session.startQuest(quest as Parameters<typeof session.startQuest>[0]);
-    }}
-    oncapability={(id) => {
-      kidsOpen = false;
-      catalogOpen = false;
-      capabilityInitial = id;
-      capabilityOpen = true;
     }}
     onsandbox={(entry) => {
       const brief = briefFor(entry);
-      kidsOpen = false;
-      catalogOpen = false;
+      closeCatalog();
       if (labMode === "sandbox") {
         kidsSandboxBrief = brief;
         catalogScope = "mission";
@@ -1790,12 +1790,7 @@
         enterLab("sandbox");
       }
     }}
-    onclose={() => {
-      kidsOpen = false;
-      catalogOpen = false;
-      catalogInitial = null;
-      kidsInitial = null;
-    }}
+    onclose={closeCatalog}
   />
 {/if}
 

@@ -18,7 +18,8 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { capabilityMatches, localiseCapability, type CapabilityPrompt } from "./capabilities";
+import { capabilitySearchText, localiseCapability, type CapabilityPrompt } from "./capabilities";
+import { catalogEntryMatches } from "./catalogEntry";
 
 const corpus = join(import.meta.dirname, "../../../../tests/coverage/curiosity-v1");
 
@@ -146,14 +147,22 @@ describe("the capability explorer in German", () => {
   });
 
   it("finds a German question from a German search box", () => {
+    // Through the catalogue's ONE matcher now. `capabilityMatches` was a
+    // second predicate beside it, and two matchers over two populations
+    // is how the app came to have two doors onto one question.
     const prompt = shipped("aq-001", "salt-water", ["dissolution"]);
-    expect(capabilityMatches(prompt, "Kochsalz", "de")).toBe(true);
-    expect(capabilityMatches(prompt, "Salzwasser", "de")).toBe(true);
-    expect(capabilityMatches(prompt, "Auflösung", "de")).toBe(true);
+    const matches = (query: string, locale: string) =>
+      catalogEntryMatches({ search: capabilitySearchText(prompt, locale) }, query);
+    expect(matches("Kochsalz", "de")).toBe(true);
+    expect(matches("Salzwasser", "de")).toBe(true);
+    expect(matches("Auflösung", "de")).toBe(true);
+    // The shared matcher folds accents, which the old one did not: a
+    // German reader without an umlaut key still finds the row.
+    expect(matches("Auflosung", "de")).toBe(true);
     // The English still matches: an id or a formula is what people paste.
-    expect(capabilityMatches(prompt, "table salt", "de")).toBe(true);
-    expect(capabilityMatches(prompt, "Elektrolyse", "de")).toBe(false);
+    expect(matches("table salt", "de")).toBe(true);
+    expect(matches("Elektrolyse", "de")).toBe(false);
     // English readers are not given a German haystack to match against.
-    expect(capabilityMatches(prompt, "Kochsalz", "en")).toBe(false);
+    expect(matches("Kochsalz", "en")).toBe(false);
   });
 });

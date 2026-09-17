@@ -8,6 +8,7 @@
     profile,
     missions,
     experiments,
+    questions,
     kidsExperiments,
     canclose = true,
     onenter,
@@ -25,6 +26,17 @@
     profile: LabProfile;
     missions: number;
     experiments: number;
+    /**
+     * The reviewed corpus questions, counted and labelled SEPARATELY.
+     *
+     * The door said "all 208 experiments in one place" while five hundred
+     * answered questions sat behind a second door nobody found. Adding
+     * them to the experiment count would have been a bigger number and a
+     * false one — sixty of them are refusals the bench cannot run — so
+     * the label names both populations and claims nothing about either
+     * that is not true of it.
+     */
+    questions: number;
     kidsExperiments: number;
     canclose?: boolean;
     onenter: (mode: LabMode) => void;
@@ -108,7 +120,11 @@
         </button>
 
         <button class="map-node research-node" onclick={onresearch}>
-          <span aria-hidden="true">⌬</span><strong>{t("Research Library")}</strong><small>{experiments > 0 ? t("all {count} experiments in one place", { count: experiments }) : t("archive syncing…")}</small>
+          <span aria-hidden="true">⌬</span><strong>{t("Research Library")}</strong><small>{experiments > 0
+            ? (questions > 0
+              ? t("{experiments} experiments and {questions} answered questions", { experiments, questions })
+              : t("all {count} experiments in one place", { count: experiments }))
+            : t("archive syncing…")}</small>
         </button>
 
         <button class="map-node kids-node" onclick={onkids}>

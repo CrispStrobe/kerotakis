@@ -15,6 +15,7 @@ import { join } from "node:path";
 import {
   CATALOG_DURATIONS,
   CATALOG_LEVELS,
+  CATALOG_SOURCES,
   CATALOG_TOPICS,
   authoredRelatedEntries,
   catalogEntries,
@@ -29,10 +30,16 @@ import {
   placementKey,
   presentPlacements,
   presentTopics,
+  experimentOnlyFilters,
+  oneIndex,
   runTargetLabel,
+  sourceCounts,
+  sourceLabel,
+  sourceLabelPlural,
   topicLabel,
   type CatalogFilters,
 } from "./catalogEntry";
+import type { CapabilityPrompt } from "./capabilities";
 import { entryLocked, metConcepts, parseCodexIndex, type CodexEntry } from "./codex";
 import { type KidsExperiment } from "./kidsCatalog";
 import codexExportJson from "../../../../crates/kerotakis-codex/tests/golden/codex-export.json?raw";
@@ -64,6 +71,14 @@ const guidedEntry = (over: Partial<KidsExperiment> = {}): KidsExperiment => ({
   status: "computed", progress: "starter", topics: ["gases", "acids"],
   ingredients: ["baking_soda", "white_vinegar_5_percent"], apparatus: ["beaker"],
   safety: "home", ...over,
+});
+
+const question = (over: Partial<CapabilityPrompt> = {}): CapabilityPrompt => ({
+  id: "aq-001", question: "What happens when salt is stirred into water?",
+  age_band: "age9_to12", topic: "mix_and_dissolve", material_class: "salt-water",
+  tags: ["dissolution"], script: ["add v1 water 100mL", "add v1 NaCl 5g", "stir v1"],
+  owning_task: "CAP-23", support: "computed", reason_code: "computed-route",
+  ...over,
 });
 
 describe("one entry model", () => {
@@ -438,7 +453,13 @@ describe("the catalogue's own vocabulary", () => {
       keys.add(runTargetLabel({ kind: "lesson", file: "x.lab" }, done));
       keys.add(runTargetLabel({ kind: "quest", id: "x" }, done));
       keys.add(runTargetLabel({ kind: "sandbox" }, done));
+      keys.add(runTargetLabel({ kind: "question" }, done));
+      keys.add(runTargetLabel({ kind: "unanswered" }, done));
       keys.add(runTargetLabel({ kind: "boundary" }, done));
+    }
+    for (const source of CATALOG_SOURCES) {
+      keys.add(sourceLabel(source));
+      keys.add(sourceLabelPlural(source));
     }
     return [...keys];
   })();
@@ -446,6 +467,8 @@ describe("the catalogue's own vocabulary", () => {
   it("finds the strings, so the sweep is not vacuous", () => {
     expect(rendered.length).toBeGreaterThan(40);
     expect(rendered).toContain("run it on the bench");
+    expect(rendered).toContain("answered questions");
+    expect(rendered).toContain("run this question on the bench");
   });
 
   it("names no reader by age, in either language", () => {
@@ -473,5 +496,219 @@ describe("the catalogue's own vocabulary", () => {
     const missing = rendered.filter((key) =>
       de.messages[key] !== undefined && !Object.hasOwn(template.messages, key));
     expect(missing).toEqual([]);
+  });
+});
+
+/**
+ * The third population, and the line this index must not cross.
+ *
+ * GUI-105 put the five hundred reviewed corpus questions into the same
+ * list as the experiments, because nobody arrives asking whether their
+ * question is a runnable experiment or a reviewed capability claim — they
+ * ask "can it do this?", and that used to have to be asked in two places
+ * or it got a wrong "no".
+ *
+ * What is NOT allowed is the flattening. A question is not an experiment:
+ * sixty of them are refusals that ship no script at all. So every test
+ * below is about the same thing from a different side — the row says what
+ * it IS, the counts stay separate, and nothing offers a button that
+ * produces nothing.
+ */
+describe("the one index over three populations", () => {
+  it("keeps the kind on the row, as the facet it now is", () => {
+    const entries = oneIndex([codexEntry()], [guidedEntry()], [question()], context());
+    expect(entries.map((entry) => entry.source).sort())
+      .toEqual(["capability", "codex", "guided"]);
+    expect(CATALOG_SOURCES).toEqual(["codex", "guided", "capability"]);
+  });
+
+  it("counts each kind separately, derived from the rows", () => {
+    const entries = oneIndex(
+      [codexEntry()],
+      [guidedEntry(), guidedEntry({ id: "K98" })],
+      [question(), question({ id: "aq-002" }), question({ id: "aq-003" })],
+      context(),
+    );
+    expect(sourceCounts(entries)).toEqual({ codex: 1, guided: 2, capability: 3 });
+    // The experiments' own total is unchanged by the questions arriving,
+    // which is the whole reason the headline can be honest.
+    expect(catalogEntries([codexEntry()], [guidedEntry()], context())).toHaveLength(2);
+  });
+
+  it("orders the runnable half first, so the default list is not five hundred questions", () => {
+    const entries = oneIndex([codexEntry()], [guidedEntry()], [question()], context());
+    expect(entries.map((entry) => entry.source)).toEqual(["codex", "guided", "capability"]);
+  });
+
+  it("offers the run only where there is a script to run", () => {
+    const runnable = oneIndex([], [], [question()], context())[0]!;
+    expect(runnable.run.kind).toBe("question");
+    expect(runTargetLabel(runnable.run, false)).toBe("run this question on the bench");
+  });
+
+  /**
+   * The defect this task was warned about, in its exact costume.
+   *
+   * Every one of the sixty `boundary` rows the corpus ships carries an
+   * EMPTY script — the refusal is the answer — and the retired explorer
+   * gated its run button on `support !== "missing"` alone. Sixty rows
+   * therefore offered a button that handed the runner an empty string.
+   */
+  it("offers no run for a refusal, which ships no script", () => {
+    const refusal = oneIndex([], [], [
+      question({ id: "aq-025", support: "boundary", reason_code: "fictional-material", script: [] }),
+    ], context())[0]!;
+    expect(refusal.run.kind).toBe("unanswered");
+    expect(refusal.support).toBe("boundary");
+    expect(refusal.reason).toBe("fictional material");
+    // Not the run label, and not the model-boundary label either: a
+    // refusal is an answer this corpus reviewed, not a model that stops.
+    expect(runTargetLabel(refusal.run, false)).toBe("read why this one has no answer");
+  });
+
+  it("offers no run for a question the science has not reached, script or not", () => {
+    const missing = oneIndex([], [], [
+      question({ id: "mat-054", support: "missing", reason_code: "not-yet-modeled" }),
+    ], context())[0]!;
+    expect(missing.prompt?.script.length).toBeGreaterThan(0);
+    expect(missing.run.kind).toBe("unanswered");
+    expect(missing.reason).toBe("not yet modeled");
+  });
+
+  it("makes no claim a question never made", () => {
+    const row = oneIndex([], [], [question()], context({
+      shelfKeys: new Set(["water"]),
+      catalog: new Map([["water", { id: "water", kind: "reagent" as const, minimum_completed: 0,
+        available: true, reason: { reason: "sandbox" as const } }]]),
+    }) as Parameters<typeof oneIndex>[3])[0]!;
+    // The corpus script writes formulae (`add v1 NaCl 5g`) where the shelf
+    // is keyed by registry id, so a derived shopping list reported salt
+    // that IS on the shelf as missing. It asks for nothing instead.
+    expect(row.needs).toEqual([]);
+    expect(row.apparatus).toEqual([]);
+    expect(row.missingNeeds).toEqual([]);
+    expect(row.availabilityKnown).toBe(false);
+    expect(row.readyNow).toBe(false);
+    // Progress is a record of successful codex runs; a question id is not
+    // a codex id, so "completed" cannot be true and "not tried" is not a
+    // claim this row is entitled to make.
+    expect(row.done).toBe(false);
+    expect(row.script).toBeNull();
+    expect(row.safety).toBeNull();
+  });
+
+  it("gives a refusal no duration to round up", () => {
+    const refusal = oneIndex([], [], [question({ support: "boundary", script: [] })], context())[0]!;
+    expect(refusal.steps).toBe(0);
+    expect(refusal.minutes).toBe(0);
+  });
+
+  it("reads the corpus band as a learning level, never as an age", () => {
+    const rows = oneIndex([], [], [
+      question({ id: "a", age_band: "age9_to12" }),
+      question({ id: "b", age_band: "age13_to15" }),
+      question({ id: "c", age_band: "age16_to18" }),
+    ], context());
+    expect(rows.map((row) => row.level)).toEqual(["starter", "intermediate", "advanced"]);
+    expect(rows.every((row) => !row.anyLevel)).toBe(true);
+  });
+
+  it("hides an all-levels question behind no level chip", () => {
+    const rows = oneIndex([], [], [question({ age_band: "all" })], context());
+    expect(rows[0]!.anyLevel).toBe(true);
+    for (const level of CATALOG_LEVELS) {
+      expect(filterCatalogEntries(rows, { ...NO_CATALOG_FILTERS, level })).toHaveLength(1);
+    }
+    // And the chip's number is the number of rows the chip will show.
+    expect(levelCounts(rows)).toEqual({ starter: 1, intermediate: 1, advanced: 1 });
+  });
+
+  it("selects one kind with the facet, and the query across all three", () => {
+    const entries = oneIndex([codexEntry()], [guidedEntry()], [question()], context());
+    const only = (source: Parameters<typeof sourceLabel>[0]) =>
+      filterCatalogEntries(entries, { ...NO_CATALOG_FILTERS, source }).map((entry) => entry.id);
+    expect(only("capability")).toEqual(["aq-001"]);
+    expect(only("codex")).toEqual(["silver-chloride-precipitation"]);
+    expect(only("guided")).toEqual(["K99"]);
+    // ONE query, over every population. `water` is a reagent the codex
+    // script adds and a word the question asks about, and BOTH come back
+    // from one box — which is the wrong "no" this task existed to remove.
+    const found = filterCatalogEntries(entries, { ...NO_CATALOG_FILTERS, query: "water" });
+    expect(found.map((entry) => entry.source)).toEqual(["codex", "capability"]);
+    // And the facet still narrows that same query rather than replacing it.
+    expect(filterCatalogEntries(entries, { ...NO_CATALOG_FILTERS, query: "water", source: "capability" }))
+      .toHaveLength(1);
+  });
+
+  it("folds a question into the shared topic vocabulary, so one chip means one thing", () => {
+    const rows = oneIndex([], [], [
+      question({ id: "a", topic: "mix_and_dissolve" }),
+      question({ id: "b", topic: "burn_and_oxidise", tags: ["combustion"] }),
+      question({ id: "c", support: "boundary", script: [], topic: "materials", tags: [] }),
+    ], context());
+    expect(rows.find((row) => row.id === "a")!.topics).toContain("solutions");
+    expect(rows.find((row) => row.id === "b")!.topics).toEqual(expect.arrayContaining(["heat", "redox"]));
+    // A refusal is a statement about where this bench stops, which is a
+    // topic the catalogue already had a chip for.
+    expect(rows.find((row) => row.id === "c")!.topics).toContain("boundaries");
+    for (const row of rows) {
+      expect(row.topics.every((topic) => CATALOG_TOPICS.includes(topic as never))).toBe(true);
+    }
+  });
+
+  it("links a question to the experiment that cites it, with no second door", () => {
+    // `capabilities` on a guided row is a list of corpus ids. Both sides
+    // of that authored relation are rows of this one index now, so the
+    // link opens a page here instead of handing over to another dialog.
+    const entries = oneIndex(
+      [],
+      [guidedEntry({ capabilities: ["aq-001"] })],
+      [question()],
+      context(),
+    );
+    const guided = entries.find((entry) => entry.id === "K99")!;
+    const asked = entries.find((entry) => entry.id === "aq-001")!;
+    expect(authoredRelatedEntries(guided, entries).map((entry) => entry.id)).toContain("aq-001");
+    expect(authoredRelatedEntries(asked, entries).map((entry) => entry.id)).toContain("K99");
+  });
+
+  it("names the filters a question cannot answer, rather than looking broken", () => {
+    // A concept, a curriculum stage, a shelf and a completion record are
+    // properties of an experiment. Each of these drops all five hundred
+    // questions by construction, and the rail has to say so.
+    for (const over of [
+      { concept: "precipitation" },
+      { curriculum: placementKey({ system: "england-national-curriculum", stage: "KS3" }) },
+      { shelfOnly: true },
+      { readiness: "ready" as const },
+      { readiness: "missing" as const },
+      { progress: "completed" as const },
+    ]) {
+      expect(experimentOnlyFilters({ ...NO_CATALOG_FILTERS, ...over })).toBe(true);
+    }
+    // What a question CAN answer is left alone: free text, level, topic,
+    // duration and the facet itself all select across all three kinds.
+    for (const over of [
+      { query: "salt" },
+      { level: "starter" as const },
+      { topic: "solutions" },
+      { duration: "short" as const },
+      { source: "capability" as const },
+      { progress: "not-tried" as const },
+    ]) {
+      expect(experimentOnlyFilters({ ...NO_CATALOG_FILTERS, ...over })).toBe(false);
+    }
+  });
+
+  it("searches a question in the language it is read in", () => {
+    const rows = oneIndex([], [], [
+      { ...question(), question_de: "Was passiert, wenn Kochsalz in Wasser gerührt wird?" } as CapabilityPrompt,
+    ], context({ locale: "de" }) as Parameters<typeof oneIndex>[3]);
+    expect(rows[0]!.title).toBe("Was passiert, wenn Kochsalz in Wasser gerührt wird?");
+    expect(catalogEntryMatches(rows[0]!, "Kochsalz")).toBe(true);
+    // Accent-folded, which the retired predicate was not.
+    expect(catalogEntryMatches(rows[0]!, "geruhrt")).toBe(true);
+    // And still findable by the English an author or a link would paste.
+    expect(catalogEntryMatches(rows[0]!, "stirred into water")).toBe(true);
   });
 });
