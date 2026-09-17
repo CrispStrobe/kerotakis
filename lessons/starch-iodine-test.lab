@@ -9,7 +9,7 @@ register lv1
 # water and indicator dose as the test vessel but no starch.
 add v1 water 100mL
 add v1 Lugol-Lösung_1% 2mL
-inspect v1
+look v1
 
 #@part.2 Test: first make an identical brown control, then change just one thing by
 # adding cornstarch. Iodide keeps iodine in the aqueous inventory; sufficiently
@@ -18,9 +18,9 @@ inspect v1
 new beaker
 add v2 water 100mL
 add v2 Lugol-Lösung_1% 2mL
-inspect v2
+look v2
 add v2 Speisestärke 1g
-inspect v2
+look v2
 
 #@boundary Try flour, potato or a sugar control only after their named material recipes
 # exist. Different starch sources and heating can alter the real colour; this

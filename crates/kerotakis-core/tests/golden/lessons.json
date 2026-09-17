@@ -7604,18 +7604,21 @@
     ]
   },
   "starch-iodine-test": {
-    "event_count": 10,
+    "event_count": 13,
     "events_sample": [
       "v1: +5.5343 mol water",
       "v1: +2.040 g 1% Lugol iodine solution (3 known ingredients)",
       "v1: 246 µmol potassium iodide dissolved",
       "v1: 80.4 µmol iodine dissolved",
+      "v1: The liquid is brown and clear.",
       "v2: new vessel",
       "v2: +5.5343 mol water",
       "v2: +2.040 g 1% Lugol iodine solution (3 known ingredients)",
       "v2: 246 µmol potassium iodide dissolved",
       "v2: 80.4 µmol iodine dissolved",
-      "v2: +1.000 g cornstarch (1 known ingredients)"
+      "v2: The liquid is brown and clear.",
+      "v2: +1.000 g cornstarch (1 known ingredients)",
+      "v2: The liquid is blue-black and so cloudy you cannot see through it."
     ],
     "lesson": "starch-iodine-test.lab",
     "vessels": [

@@ -1625,15 +1625,33 @@ So the truthful inventory is 131 + 77 + 44 = **252**, and the shortfall was
 
   Two things the work turned up and deliberately did not fix:
 
-  - [ ] **GUI-104a — `starch-iodine-test.lab` never shows its own colour.**
-    The blue-black is computed: the starch helices contribute the absorption
-    band, and a `look` at the test vessel reports blue-black against the
-    control's brown. The shipped script asks `inspect`, so the run prints an
-    inventory and the phenomenon the lesson is named for never appears. Two
-    `look` lines fix it, but the lesson has a frozen golden transcript in
-    `crates/kerotakis-core/tests/golden/lessons.json`, so the change belongs
-    with whoever owns that snapshot. The catalogue row (K111) is `partial` and
-    says so until then.
+  - [x] **GUI-104a — `starch-iodine-test.lab` shows its colour. DONE 2026-09-17.**
+    The blue-black was computed all along; the script asked `inspect`, so the
+    run printed an inventory and the phenomenon the lesson is named for never
+    appeared. Three `inspect` lines became `look`, and the transcript now
+    reads control **brown**, test **brown**, then test **blue-black** after
+    the one thing that changed — which is the comparison the lesson is built
+    on. The golden was re-blessed: three lines added, no number moved. K111
+    is promoted `partial` → `computed`, and its boundary note now states the
+    limit that actually remains — the colour is a **visible state, not a
+    measured absorbance**, so the lesson cannot say how much starch is
+    present from how dark it went.
+  - [ ] **GUI-106 — the engine says nothing happened, then describes what
+    happened.** Running the fixed lesson:
+
+        You add cornstarch to v2.
+        Hmm — nothing visible happens in v2 (this part of the lab isn't awake yet).
+        You look closely at v2. The liquid is blue-black and so cloudy you cannot see through it.
+
+    The `NotYetModeled` line is emitted for the step that *did* change the
+    vessel's appearance, and it tells a learner the opposite of what the next
+    line tells them. Same family as the two defects #626 found — a filtered
+    beaker of sand and a sealed gas flask that both described themselves as
+    `"."` — where the words contradict the scene the reader is looking at.
+    The fix is presumably to suppress the line when the step moved the
+    appearance, but `NotYetModeled` is mid-migration under I18N-10 (93
+    construction sites), so this is recorded rather than patched underneath
+    that work.
   - [x] **GUI-104b — the picker's `"more"` bucket is empty. DONE 2026-09-17.**
     47 of 113 lessons sat in it. Every one carried authored `topics` in the
     catalogue, so the grouping already existed and was simply written down
