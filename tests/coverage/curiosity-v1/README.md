@@ -444,10 +444,37 @@ had, and says so.
 So the row is `missing`/`not-yet-modeled`, and what is missing is named:
 this bench models no heat source hot enough to melt quartz, and no
 crystallisation on cooling either. That is a smaller claim than the one it
-replaces and a true one. A hotter source is a `HeatSource` away
-(`apparatus::HeatSource`, which already carries candle, burner and
-hotplate) and would move this row back by adding equipment rather than by
-removing a bound.
+replaces and a true one.
+
+**Corrected 2026-09-17 — "a hotter source is a `HeatSource` away" was
+itself an overstatement, and it is the third thing missing rather than the
+only one.** A torch is necessary and not sufficient. Three things stand
+between this row and an answer:
+
+1. **A source above 1713 °C.** True as written, and the cheapest of the
+   three: `apparatus::HeatSource` carries candle, burner and hotplate, each
+   with a cited ceiling, and an oxy-hydrogen torch would be a fourth row of
+   the same shape.
+2. **Fusion data for silica, which does not exist anywhere in this
+   repository.** `phase_route`'s enthalpy-of-fusion table holds ethanol,
+   methanol, propanone, isopropanol and hexane — bench solvents, and
+   nothing that melts above about 180 °C. The registry carries no melt
+   field on any record, and `data/thermo` has no silica row. With a torch
+   and no fusion row the glass would reach 2800 °C and still not melt, so
+   the row would stay `missing` with a different reason.
+3. **The answer would be right for the wrong reason.** Cooling molten
+   silica gives glass back, not a crystal — that is the true answer to the
+   question, and it is why fused quartz exists at all. But this bench would
+   return glass because it models no crystallisation whatsoever, not
+   because it weighed nucleation against a cooling rate. It would return
+   glass just as confidently for a melt that genuinely should crystallise.
+   A row that passes because the model is silent is the shape this
+   repository has a name for.
+
+None of that argues for deleting or rewriting the prompt. It is the last
+`missing` row in the corpus and it earns the place: it names a real bound
+in true words, and the bound got **more** honest under examination rather
+than less.
 
 ## Refresh 2026-09-06, fourteenth — milk stops being water
 

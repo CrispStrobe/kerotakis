@@ -179,9 +179,58 @@ access = "paywalled"
 transcription = "not-read"
 licence = "no text or table redistributed"
 why_this_one = """
-It measured this beaker exactly: this salt, this molality range, this
-temperature range. It is cited by the one OPEN row below and carries no value
-yet, because nobody has read its table.
+It measures the vapour pressure of this salt over this molality range, which
+is genuinely useful here — but NOT for the boiling row that cites it, and the
+disproof is in the citation printed directly above.
+
+ITS CEILING IS 373 K. Pure water boils at 373.15 K, and a solution with a
+positive boiling point elevation boils ABOVE that by definition. So no 1 atm
+boiling point of ANY salt solution lies inside this paper's range, and this
+beaker's is near 381 K — eight kelvin past the end of the table. Reading that
+table will not close the open row below.
+
+Recorded on 2026-09-14 as measuring "this beaker exactly: this salt, this
+molality range, this temperature range". The first two are right. The third is
+wrong, and it was wrong in a way that needed no library access to catch: the
+range is in the title.
+
+What it does settle is the OTHER thing this family wants from it — how phi
+moves with temperature from 298 K to 373 K, which is most, though not all, of
+the interval the bench ignores when it takes phi at ambient and spends it at
+the boil.
+"""
+
+[[source]]
+id = "richmond-1893-boiling-points-of-salt-solutions"
+kind = "primary-measurement"
+citation = """
+H. Droop Richmond, "The boiling points of salt solutions", The Analyst 18
+(1893) 142.
+"""
+doi = "10.1039/AN8931800142"
+record_verified = "crossref and the RSC article landing page, 2026-09-17"
+access = "publisher returns HTTP 403 to this host; a scanned copy is indexed but its text would not retrieve"
+transcription = "not-read"
+licence = """
+Published 1893. Copyright expired by age, which is the same footing as the
+1908 iodine solubility measurement this repository already cites and
+transcribes. No text or table is redistributed here.
+"""
+why_this_one = """
+A CANDIDATE. It supplies no number to this file and must not be cited as
+though it did.
+
+It is here because it is the only lane found so far that reaches the
+concentration this family's open row needs. Its table runs from about 7.6 to
+28.7 per cent sodium chloride, and 6.000 mol/kg is 25.96 per cent — inside the
+range with room on both sides, unlike every other candidate checked.
+
+WHAT IS NOT KNOWN, and must be before a value is taken from it: the barometric
+pressure the measurements were made at, whether the concentrations are per cent
+of solution or grams per 100 g of water (which differ by 35 per cent at this
+strength and would silently move the row a long way), the accuracy claimed, and
+whether an 1893 thermometry has a band this corpus can honestly state. Those
+questions are the reason it is `not-read` rather than pending transcription.
 """
 
 [[source]]
@@ -431,9 +480,12 @@ generalises_over = "concentrated 1:1 chlorides up to halite saturation"
 known_failure_modes = """
 The bench takes phi from a speciation solved near the vessel's ambient
 temperature and uses it at the BOIL. Whether phi for this salt rises or falls
-over that interval is exactly what `gibbard-1974-nacl-vapour-liquid` settles,
+over that interval is most of what `gibbard-1974-nacl-vapour-liquid` settles,
 and nobody has read it, so the size and even the sign of this error is
-currently unknown to the project.
+currently unknown to the project. It is MOST and not all: that paper stops at
+373 K and this beaker boils near 381 K, so it covers the climb to the boil
+except for the last eight kelvin of it — which is the part where the solution
+is hottest and phi is furthest from the value the bench actually used.
 """
 
 [[case.quantity]]
@@ -494,9 +546,25 @@ are answers for two different solutions, not two answers for one, and most of
 the 0.7 K between them is composition. Writing it in as a band would have been
 the defect this bench has a name for: a quantity checked against a proxy that
 moves for a reason nobody controlled.
-`gibbard-1974-nacl-vapour-liquid` measured this beaker exactly. Closing this
-row means reading its table, and doing so answers the open question in
-`known_failure_modes` at the same time.
+CORRECTED 2026-09-17: `gibbard-1974-nacl-vapour-liquid` does NOT measure this
+beaker, and reading its table will not close this row. Its range stops at
+373 K; pure water boils at 373.15 K and this solution boils near 381 K, so the
+quantity this row wants lies outside that paper entirely. See its
+`why_this_one`. Reading it remains worth doing for the phi-with-temperature
+question in `known_failure_modes`, which is a different question.
+
+What a closing source would have to be: an ebullioscopic measurement at about
+26 per cent NaCl by mass, which is what 6.000 mol/kg is. Two lanes were checked
+on 2026-09-17 and neither reaches it. The standard direct series — "The Boiling
+Point Elevation" II and III in J. Am. Chem. Soc. — stops at 4.0 M and 100 C.
+The high-concentration work that does exist above those bounds is correlation
+fitted to vapour-pressure data rather than a boiling measurement, which is the
+wrong kind of number for this corpus: it would be checking a model against a
+model.
+
+`richmond-1893-boiling-points-of-salt-solutions` is the candidate, and it is
+declared below WITHOUT a value because its table has not been read. It spans
+7.6 to 28.7 per cent, so 25.96 per cent sits inside it with room either side.
 """
 independent_of_path = true
 asserted_today = false
