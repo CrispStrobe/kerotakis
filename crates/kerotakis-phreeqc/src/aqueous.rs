@@ -4572,13 +4572,31 @@ impl PhreeqcEquilibrator {
 
         events.extend(reference_complex_boundary(vessel, &speciation));
         events.extend(reactive_gas_boundary(vessel, problem));
+        // A pe nothing constrains is not a small pe, it is a number the
+        // solver happened to leave behind.
+        //
+        // `redox_constrained` asks whether any element in the problem COULD
+        // carry more than one oxidation state in this dataset, and carbon
+        // can — so bicarbonate and hydrochloric acid satisfied it, and the
+        // contract published a pe for a beaker that holds no couple at all.
+        // Measured on `th-100` (water, NaHCO3, HCl, sealed): swapping the
+        // two reagents leaves pH agreeing to four decimals, ionic strength
+        // to six and the gauge to a part in a million, and moves pe from
+        // 12.780243 to -0.055944 — about 760 mV of nothing.
+        //
+        // `redox` is the observable that says a couple is actually there:
+        // how each element is split between its states, empty when no
+        // element presents a split. Requiring it is the difference between
+        // "this dataset knows carbon can be reduced" and "this beaker has
+        // an oxidising power". The control says the same: FeCl3 in water
+        // reports one redox row and a pe that agrees to four significant
+        // figures across the same reordering (18.65875 / 18.65716).
+        let pe_constrained = redox_constrained && pe_determined && !redox.is_empty();
         let info = SolutionInfo {
             scope: Default::default(),
             solvent_kg: value("mass_H2O"),
             redox,
-            pe: (redox_constrained && pe_determined)
-                .then(|| value("pe"))
-                .flatten(),
+            pe: pe_constrained.then(|| value("pe")).flatten(),
             ph,
             ionic_strength: mu,
             species: speciation,
