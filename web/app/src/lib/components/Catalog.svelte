@@ -652,7 +652,7 @@
   onclick={() => !running && onclose()}
   onkeydown={(e) => e.key === "Escape" && !running && onclose()}
 >
-  <dialog open class="panel" class:running aria-modal={!running} aria-label={t("experiments")} onclick={(e) => e.stopPropagation()}>
+  <dialog open class="panel" class:running aria-modal={!running} aria-label={t("experiments and answered questions")} onclick={(e) => e.stopPropagation()}>
     {#if running}
       <div class="dock" class:waiting={awaiting} role="status" aria-live="polite">
         <div>
