@@ -302,6 +302,145 @@
    "seconds": 40.3,
    "source": "(\"ClO4-\", 67.3),",
    "verdict": "survived"
+  },
+  "38": {
+   "build_seconds": 155.0,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "table",
+   "line": 135,
+   "rung": null,
+   "seconds": 40.8,
+   "source": "(\"HCO3-\", 44.5),",
+   "verdict": "survived"
+  },
+  "39": {
+   "build_seconds": 155.7,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "table",
+   "line": 136,
+   "rung": null,
+   "seconds": 41.8,
+   "source": "(\"CO3-2\", 138.6),",
+   "verdict": "survived"
+  },
+  "40": {
+   "build_seconds": 162.6,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "table",
+   "line": 137,
+   "rung": null,
+   "seconds": 46.6,
+   "source": "(\"SO4-2\", 160.0),",
+   "verdict": "survived"
+  },
+  "42": {
+   "build_seconds": 159.4,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "table",
+   "line": 144,
+   "rung": null,
+   "seconds": 46.7,
+   "source": "pub const DILUTE_LIMIT_MOLAL: f64 = 0.1;",
+   "verdict": "survived"
+  },
+  "44": {
+   "build_seconds": 163.3,
+   "caught_by": "core-unit",
+   "failing": [
+    "conductivity::tests::the_concentration_correction_is_monotone_over_the_bench_range"
+   ],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "table",
+   "line": 176,
+   "rung": "unit",
+   "seconds": 3.6,
+   "source": "const FIT_LINEAR: f64 = -0.0608;",
+   "verdict": "caught"
+  },
+  "45": {
+   "build_seconds": 159.7,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "kind": "table",
+   "line": 182,
+   "rung": null,
+   "seconds": 46.1,
+   "source": "pub const FITTED_LIMIT_MOLAL: f64 = 2.0;",
+   "verdict": "survived"
+  },
+  "91": {
+   "build_seconds": 160.1,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::evaluate_dispatches_water_density",
+    "properties::tests::water_density_at_0c",
+    "properties::tests::water_density_at_25c",
+    "properties::tests::water_density_at_40c"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 28,
+   "rung": "unit",
+   "seconds": 3.4,
+   "source": "-3.983_035, // \u00b0C",
+   "verdict": "caught"
+  },
+  "92": {
+   "build_seconds": 159.3,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::evaluate_dispatches_water_density",
+    "properties::tests::water_density_at_25c",
+    "properties::tests::water_density_at_40c"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 29,
+   "rung": "unit",
+   "seconds": 3.9,
+   "source": "301.797, // \u00b0C",
+   "verdict": "caught"
+  },
+  "93": {
+   "build_seconds": 157.1,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::evaluate_dispatches_water_density",
+    "properties::tests::water_density_at_25c",
+    "properties::tests::water_density_at_40c"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 30,
+   "rung": "unit",
+   "seconds": 3.6,
+   "source": "522_528.9, // \u00b0C\u00b2",
+   "verdict": "caught"
+  },
+  "94": {
+   "build_seconds": 156.2,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::evaluate_dispatches_water_density",
+    "properties::tests::water_density_at_25c",
+    "properties::tests::water_density_at_40c"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 31,
+   "rung": "unit",
+   "seconds": 3.1,
+   "source": "69.348_81, // \u00b0C",
+   "verdict": "caught"
   }
  },
  "previously": {
