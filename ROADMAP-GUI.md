@@ -1906,7 +1906,7 @@ a reviewed capability claim?" They arrive asking **"can it do this?"**, and
 today that question has to be asked twice, in two places, or it gets a wrong
 "no".
 
-- [ ] **GUI-105 — One index, typed facets.** A single search across all four
+- [x] **GUI-105 — One index, typed facets.** A single search across all four
   populations, each row carrying what it *is*: runnable lesson, guided
   experiment, codex route, or answered question. One query, one result list,
   the type as a filter and a badge rather than as a separate door. The counts
