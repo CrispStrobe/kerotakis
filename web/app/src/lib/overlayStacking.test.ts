@@ -114,10 +114,12 @@ describe("overlay stacking", () => {
   it("what Escape calls topmost is what the reader sees on top", () => {
     const depth = scrimDepth();
     const disagreements: string[] = [];
-    for (let i = 0; i < DISMISS_ORDER.length; i += 1) {
-      for (let j = i + 1; j < DISMISS_ORDER.length; j += 1) {
-        const [aboveFlag, aboveFile] = DISMISS_ORDER[i];
-        const [belowFlag, belowFile] = DISMISS_ORDER[j];
+    // Pair every surface with every surface below it in the dismiss order.
+    // `entries()` rather than an index, because `noUncheckedIndexedAccess`
+    // makes `DISMISS_ORDER[i]` possibly-undefined and a `!` here would be
+    // asserting away the one thing a reader of this loop wants guaranteed.
+    for (const [i, [aboveFlag, aboveFile]] of DISMISS_ORDER.entries()) {
+      for (const [belowFlag, belowFile] of DISMISS_ORDER.slice(i + 1)) {
         const above = depth.get(aboveFile);
         const below = depth.get(belowFile);
         if (above === undefined || below === undefined) continue;
