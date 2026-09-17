@@ -1409,3 +1409,45 @@ fn balloon_lesson_obeys_the_gas_law_at_both_boundaries() {
     }
     assert!(sealed && controlled);
 }
+
+/// GUI-106: the lesson that said nothing happened, then said what did.
+///
+/// The transcript the roadmap recorded, in order:
+///
+/// ```text
+/// You add cornstarch to v2.
+/// Hmm — nothing visible happens in v2 (this part of the lab isn't awake yet).
+/// You look closely at v2. The liquid is blue-black and so cloudy you cannot see through it.
+/// ```
+///
+/// Two of those three lines are about the same vessel one step apart and
+/// they say opposite things, in the lesson whose entire point is the
+/// colour change. This is the end of the fix `gap_beside_a_colour_change`
+/// pins the rule of: run the real lesson on the shipped binary through
+/// the full stack, and read what a learner reads.
+///
+/// The colour line is asserted alongside the absence, deliberately. An
+/// assertion that only a sentence is GONE passes just as happily when the
+/// lesson has stopped computing anything at all, and a test that cannot
+/// tell a fix from a regression is worse than no test.
+#[test]
+fn the_starch_test_never_says_nothing_happened_to_the_vessel_that_changed() {
+    let lesson = lessons_dir().join("starch-iodine-test.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+
+    // The phenomenon the lesson is named for is still computed.
+    assert!(
+        out.contains("blue-black"),
+        "the test vessel goes blue-black:\n{out}"
+    );
+    // ...and the control does not, which is the comparison the lesson is.
+    assert!(out.contains("brown"), "the control stays brown:\n{out}");
+
+    // Nothing anywhere in the run tells the learner the vessel that just
+    // changed colour did nothing.
+    assert!(
+        !out.contains("nothing visible happens in v2"),
+        "v2 went blue-black; no line may say it did nothing:\n{out}"
+    );
+}
