@@ -2,6 +2,15 @@ import { readdirSync, readFileSync } from "node:fs";
 import { extname, join } from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
 import { hasGermanTranslation, i18n, t } from "./i18n.svelte";
+import {
+  CATALOG_LEVELS,
+  CATALOG_SOURCES,
+  levelLabel,
+  runTargetLabel,
+  sourceLabel,
+  sourceLabelPlural,
+  type CatalogRunTarget,
+} from "./catalogEntry";
 
 function sourceFiles(directory: string): string[] {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -153,14 +162,31 @@ describe("i18n", () => {
       expect(source).not.toContain("t(vessel.boundary)");
     });
 
-    it("every capability support level and corpus band has German", () => {
-      const source = read("components/CapabilityExplorer.svelte");
-      const bands = /const BAND_LABELS[^=]*=\s*\{([^}]*)\}/.exec(source);
-      expect(bands).not.toBeNull();
-      const labels = [...bands![1]!.matchAll(/:\s*"([^"]+)"/g)].map((m) => m[1]!);
-      expect(labels.length).toBe(4);
-      expect(untranslated(labels)).toEqual([]);
+    it("every capability support level and row kind has German", () => {
+      // The explorer's own `BAND_LABELS` table is gone: GUI-105 folded the
+      // corpus questions into the one catalogue index, so a question's
+      // band is read as a LEARNING LEVEL through `CORPUS_BANDS` and shown
+      // with the same three words every other row uses. One vocabulary,
+      // therefore one place to translate — `capabilityFacets.test.ts`
+      // pins that the corpus's own bands and reason codes are covered.
       expect(untranslated(["computed", "curated", "qualitative", "boundary", "missing"])).toEqual([]);
+      expect(untranslated(CATALOG_LEVELS.map(levelLabel))).toEqual([]);
+      expect(untranslated([...CATALOG_SOURCES.map(sourceLabel), ...CATALOG_SOURCES.map(sourceLabelPlural)])).toEqual([]);
+      expect(untranslated(["at any level"])).toEqual([]);
+      // Every primary action a row can offer, including the two that are
+      // not buttons — a label with no German is a German card in English.
+      const targets: CatalogRunTarget[] = [
+        { kind: "lesson", file: "x.lab" },
+        { kind: "quest", id: "q" },
+        { kind: "sandbox" },
+        { kind: "question" },
+        { kind: "unanswered" },
+        { kind: "boundary" },
+      ];
+      expect(untranslated(targets.flatMap((target) => [
+        runTargetLabel(target, false),
+        runTargetLabel(target, true),
+      ]))).toEqual([]);
     });
   });
 

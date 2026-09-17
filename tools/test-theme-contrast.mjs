@@ -96,10 +96,25 @@ const physicalColourRenderers = new Set([
   "SpeciesChip.svelte",
   "Vessel.svelte",
 ]);
+/**
+ * Prose is not CSS.
+ *
+ * The colour scan below reads `#505` — a PR number in a doc comment
+ * explaining why a count is derived — as a three-digit hex colour, and
+ * failed the gate on a sentence. Every comment form a Svelte file can
+ * carry is stripped first: HTML in the markup, block and line comments in
+ * the script and the style. Nothing is lost by it, because a colour
+ * written inside a comment paints nothing.
+ */
+const withoutComments = (source) => source
+  .replace(/<!--[\s\S]*?-->/g, "")
+  .replace(/\/\*[\s\S]*?\*\//g, "")
+  .replace(/(^|[^:\\])\/\/.*$/gm, "$1");
+
 for (const entry of fs.readdirSync(componentRoot, { recursive: true, withFileTypes: true })) {
   if (!entry.isFile() || !entry.name.endsWith(".svelte")) continue;
   const file = path.join(entry.parentPath, entry.name);
-  const source = fs.readFileSync(file, "utf8");
+  const source = withoutComments(fs.readFileSync(file, "utf8"));
   if (/color\s*:\s*(?:white|#fff(?:fff)?)(?:\s*;)/i.test(source)) {
     failures.push(`${path.relative(root, file)} bypasses --on-accent with fixed white text`);
   }
