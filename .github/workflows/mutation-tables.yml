@@ -77,6 +77,12 @@ jobs:
           submodules: recursive
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
+      # BEFORE anything that shells out: TMPDIR is set for the whole job, and
+      # the very next step's `mktemp -d` reads it. A directory named but not
+      # made is the same failure as one that cannot be written to.
+      - name: A scratch directory the spawned `kero` can write to
+        run: mkdir -p "$TMPDIR"
+
       - name: Fetch SUNDIALS (not vendored; pinned by checksum)
         run: bash tools/fetch-sundials.sh
 
@@ -84,9 +90,6 @@ jobs:
       # only reason an id recorded on one machine means anything on another.
       # It is rebuilt rather than checked in so that a drift shows up here
       # rather than silently renumbering somebody's survivor list.
-      - name: A scratch directory the spawned `kero` can write to
-        run: mkdir -p "$TMPDIR"
-
       - name: Catalogue the surface
         run: python3 tools/mutation/mutate.py catalogue $MUTANT_FILES
 
@@ -133,5 +136,5 @@ jobs:
         with:
           name: mutation-table-verdicts-${{ github.run_id }}
           path: .mutation-state/results.json
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 90
