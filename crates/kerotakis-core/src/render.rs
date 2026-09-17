@@ -4484,6 +4484,19 @@ pub fn localize_event(event: &Event, locale: Locale) -> Event {
                 ..appearance.clone()
             },
         },
+        // The one PROVENANCE a host reads off an event rather than out of
+        // a rendered line: the provenance drawer prints
+        // `provenance.routing` verbatim beside the numbers, so a German
+        // session met the routing sentence in English. Same shape as the
+        // refusal above — the recipe is the source and stays on the
+        // event, and only the rendered field is translated.
+        Event::ThermalEquilibrium { .. } => {
+            let mut translated = event.clone();
+            if let Event::ThermalEquilibrium { provenance, .. } = &mut translated {
+                provenance.routing = provenance.routing_in(locale);
+            }
+            translated
+        }
         other => other.clone(),
     }
 }

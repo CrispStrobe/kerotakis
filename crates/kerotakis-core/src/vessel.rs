@@ -3,7 +3,9 @@
 use serde::{Deserialize, Serialize};
 
 use crate::enzyme::EnzymeFamily;
+use crate::i18n::Locale;
 use crate::material::MaterialBasis;
+use crate::phrase::Phrase;
 use crate::species::{self, Phase, SpeciesId};
 use crate::units::{Grams, Joules, Kelvin, Liters, Moles, Pascal};
 
@@ -599,8 +601,93 @@ pub struct Provenance {
     /// literature citations carried in the data file).
     #[serde(default)]
     pub dataset_sources: Vec<String>,
-    /// Why this path was chosen over the alternatives.
+    /// Why this path was chosen over the alternatives, in English.
+    ///
+    /// Kept as a finished string because it has consumers that are not
+    /// readers: `tools/chemistry-audit/analyse.py` files it verbatim as a
+    /// `routing_claim` beside the numbers it checked, `kero explain`
+    /// prints it, and three tests assert on what it says. All of those
+    /// want the SOURCE language and would be wrong to get German. When
+    /// `routing_phrase` is present this is that recipe rendered in
+    /// English, so every one of them sees exactly what it saw before.
     pub routing: String,
+    /// The same sentence as a RECIPE — key, English source, typed slots —
+    /// for the reader who does not read English.
+    ///
+    /// The routing line was the third instance of the defect #626 and
+    /// #632 fixed one event along: prose welded shut inside a solver with
+    /// `format!`, on a field that reaches a reader. A finished sentence on
+    /// the wire is not an untranslated string, it is an untranslatable
+    /// one, and no catalogue can get back the fact that "concentrated
+    /// (~16.0 mol/kgw)" had a NUMBER in it.
+    ///
+    /// Optional and omitted on the wire when absent: a session saved
+    /// before this field existed carries only the English, and
+    /// [`Provenance::routing_in`] answers with it rather than with
+    /// nothing.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub routing_phrase: Option<Phrase>,
+}
+
+impl Provenance {
+    /// A provenance whose routing is a recipe.
+    ///
+    /// `routing` is filled by rendering `routing` in the source language,
+    /// which is the property that makes this change invisible to every
+    /// consumer that reads the string: the English is generated from the
+    /// same template it used to be written as, so there is one sentence
+    /// and not two.
+    #[must_use]
+    pub fn new(
+        engine: impl Into<String>,
+        dataset: impl Into<String>,
+        model: impl Into<String>,
+        dataset_sources: Vec<String>,
+        routing: Phrase,
+    ) -> Provenance {
+        Provenance {
+            engine: engine.into(),
+            dataset: dataset.into(),
+            model: model.into(),
+            dataset_sources,
+            routing: routing.render(Locale::EN),
+            routing_phrase: Some(routing),
+        }
+    }
+
+    /// Replace the routing with a recipe, keeping the English in step.
+    ///
+    /// For the solvers that ADD to a routing another solver wrote — the
+    /// electrode pass in `displacement.rs` nests the aqueous one inside
+    /// its own clause rather than pushing a string onto it.
+    pub fn say_routing(&mut self, routing: Phrase) {
+        self.routing = routing.render(Locale::EN);
+        self.routing_phrase = Some(routing);
+    }
+
+    /// The routing this provenance carries, ready to nest inside another
+    /// solver's clause.
+    ///
+    /// A provenance built before the recipe existed, or read back from an
+    /// older save, has only the English, and it travels in a TEXT slot —
+    /// which is honest: the engine cannot translate a sentence it did not
+    /// compose, and a made-up key over a string it cannot parse would be
+    /// a row no translator could ever fill.
+    #[must_use]
+    pub fn routing_slot(&self) -> crate::phrase::Slot {
+        self.routing_phrase.clone().map_or_else(
+            || crate::phrase::Slot::text(self.routing.clone()),
+            crate::phrase::Slot::phrase,
+        )
+    }
+
+    /// Why this path was chosen, in the reader's language.
+    #[must_use]
+    pub fn routing_in(&self, locale: Locale) -> String {
+        self.routing_phrase
+            .as_ref()
+            .map_or_else(|| self.routing.clone(), |phrase| phrase.render(locale))
+    }
 }
 
 /// How much of a vessel's liquid composition a [`SolutionInfo`] describes.

@@ -223,6 +223,7 @@ impl Equilibrator for ParticleBalanceSolver {
                     ),
                     dataset_sources: Vec::new(),
                     routing: "fixture".to_string(),
+                    routing_phrase: None,
                 }),
         });
         Ok(Vec::new())

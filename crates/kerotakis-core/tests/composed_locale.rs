@@ -64,6 +64,11 @@ const COMPOSERS: &[(&str, &str)] = &[
     ("states.rs", include_str!("../src/states.rs")),
     ("volatility.rs", include_str!("../src/volatility.rs")),
     ("kinetics.rs", include_str!("../src/kinetics.rs")),
+    // `Provenance.routing` — why one engine answered and not another.
+    // Not a refusal: this one is said BESIDE the numbers rather than
+    // instead of them, and it was the third place a solver welded a
+    // finished English paragraph shut with `format!`.
+    ("combustion.rs", include_str!("../src/combustion.rs")),
 ];
 
 /// Every `#[cfg(test)] mod … { … }` removed, braces matched.

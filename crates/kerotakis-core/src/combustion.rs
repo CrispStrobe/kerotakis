@@ -673,16 +673,19 @@ impl Equilibrator for CombustionEquilibrator {
             temperature: vessel.temperature,
             reaction_energy_j: Some(released_j),
             holds_nothing: vessel.contents.is_empty(),
-            provenance: Provenance {
-                engine: "curated combustion (Kerotakis)".to_string(),
-                dataset: "kerotakis:combustion:curated-fuels-v1".to_string(),
-                model: "complete combustion to CO2 and H2O at a tabulated heat of combustion, with a limiting oxygen fraction of 0.16 for a closed boundary".to_string(),
-                dataset_sources: FUELS
+            provenance: Provenance::new(
+                "curated combustion (Kerotakis)",
+                "kerotakis:combustion:curated-fuels-v1",
+                "complete combustion to CO2 and H2O at a tabulated heat of combustion, with a limiting oxygen fraction of 0.16 for a closed boundary",
+                FUELS
                     .iter()
                     .map(|fuel| format!("{}: {}", fuel.species, fuel.equation))
                     .collect(),
-                routing: "NASA CEA carries no thermochemistry for this fuel, so the curated table answered instead of the vessel reaching the model boundary".to_string(),
-            },
+                crate::phrase::Phrase::bare(
+                    "routing.curated-fuel-table",
+                    "NASA CEA carries no thermochemistry for this fuel, so the curated table answered instead of the vessel reaching the model boundary",
+                ),
+            ),
         });
         Ok(events)
     }

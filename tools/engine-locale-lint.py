@@ -86,6 +86,15 @@ COMPOSERS = [
     ROOT / "crates/kerotakis-phreeqc/src/phase_diagnostics.rs",
     ROOT / "crates/kerotakis-org/src/family_oracle.rs",
     ROOT / "crates/kerotakis-core/src/kinetics.rs",
+    # `Provenance.routing` — why one dataset answered and not another —
+    # was the third instance of the same defect, and it is composed in
+    # four files rather than one: the aqueous router chooses the dataset,
+    # the electrode pass nests that choice inside its own sentence, and
+    # the two combustion routes each say why they answered. A file that
+    # composes a routing clause belongs here for the same reason a file
+    # that composes a refusal does.
+    ROOT / "crates/kerotakis-core/src/combustion.rs",
+    ROOT / "crates/kerotakis-cea/src/thermal.rs",
 ]
 # `phrase.rs` asks the catalogue for the list grammar and the punctuation
 # by name, the ordinary `locale.t` way.

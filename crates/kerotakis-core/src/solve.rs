@@ -2237,13 +2237,12 @@ pub fn stranded_solutes(names: &[&str]) -> Phrase {
          is not decidable from the ions alone, so the bench will not guess at \
          the solids",
         vec![(
-            // Still a `", "` join inside a `Slot::Text` rather than a
-            // `Slot::List`, which is the follow-up I18N-10 wrote down and
-            // deliberately did not take: the list grammar renders
-            // "a, b and c" where this renders "a, b, c", so converting it
-            // CHANGES the English and wants a golden pass of its own.
+            // The reader's list grammar, not an English comma: these are
+            // registry display names, so each one is a TERM the catalogue
+            // can answer and the join between them is two catalogue rows
+            // rather than a `", "` in the Rust.
             "names".to_string(),
-            Slot::text(names.join(", ")),
+            Slot::terms("species", names.iter().copied()),
         )],
     )
 }
