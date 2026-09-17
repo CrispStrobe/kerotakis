@@ -1871,12 +1871,18 @@ display name in the registry, is the wrong fix.
   * **`unspeciated_acid_notes` carried the reason out of
     `UNSPECIATED_ACIDS` and threw the key away** — and the key is the only
     thing a curated row can be translated BY.
-  * **`localize_refusal` used to rescue two gap reasons by STRIPPING the
-    species name off the end of the English** and refilling a template
-    with what was left. Both sites emit a recipe now, so the parse is
-    unreachable and is deleted. Its German moved unchanged. Finding the
-    noun by looking at the end of the sentence was never going to survive
-    a language that does not put it there.
+  * **`localize_refusal` rescues two gap reasons by STRIPPING the species
+    name off the end of the English** and refilling a template with what
+    is left. Both sites emit a recipe now, so nothing the engine emits
+    reaches it — it is a REPLAY shim, for a session saved before today
+    whose events hold `reason: None` and the English, and a reader
+    opening that save is owed the German it had. It was deleted first and
+    put back, because deleting it silently un-translates an old save.
+    What DID change is the key it fills: the row it used to own was
+    moved, so it now fills the key the live site composes and one German
+    row serves both paths. Finding the noun by looking at the end of the
+    sentence works only because English puts it first, which is the whole
+    reason the event carries a recipe now.
 
   `phrase::sentence_pair` is new: the space between two whole sentences is
   `look.sentence-join` in the catalogue, for the reason `look.full-stop`

@@ -709,6 +709,7 @@ fn a_gap_without_a_recipe_falls_back_to_its_english() {
         what: "nothing here at all".to_string(),
         cause: NotModelledCause::NothingToActOn,
         reason: None,
+        beside_a_visible_change: false,
     };
     let line = render_events_in(&[event], Register::LV2, Locale::parse("de")).join(" ");
     assert!(line.contains("nothing here at all"), "{line}");

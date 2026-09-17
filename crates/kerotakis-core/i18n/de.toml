@@ -961,15 +961,13 @@ boiled = "siedete"
 # English no longer orphans the German; this section keeps the German they
 # already had, moved rather than rewritten.
 #
-# Four more left on the commit that finished I18N-10. Two of them were
-# reached by STRIPPING the species name off the end of the English and
-# filling a template with what was left, which is the most an
-# English-keyed table can do with a sentence that has a hole in it and is
-# not something any language whose noun is not at the end would survive.
-# Their German moved to `not-modeled.no-dissolution-solver` and
-# `not-modeled.dissolves-unspeciated` unchanged; the ice and boiling
-# verdicts moved to `not-modeled.ice-is-not-a-solution` and
-# `not-modeled.boiling-is-not-settled`.
+# Four more left on the commit that finished I18N-10: the ice and boiling
+# verdicts, and the two reached by STRIPPING the species name off the end
+# of the English. They are `[not-modeled]` rows now —
+# `ice-is-not-a-solution`, `boiling-is-not-settled`,
+# `no-dissolution-solver`, `dissolves-unspeciated` — and the suffix parse
+# in `localize_refusal`, which survives as a shim for sessions saved
+# before I18N-10, fills those same keys. One German row, two paths to it.
 
 # What the bench REFUSED to do, keyed by the place the refusal is written.
 #
