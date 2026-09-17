@@ -469,6 +469,64 @@ against an independent compilation or written down as resting on one. A new
 ion cannot be added in silence, and finding a source for one of these seven is
 a one-line deletion.
 
+### The re-run: 17 of 23
+
+The same 23 ids, the same catalogue, run again on 2026-09-17 —
+`tools/mutation/results/2026-09-17-conductivity-rerun.json`, and on a GitHub
+runner rather than here, for reasons §8b's last section gives.
+
+| | mutants | |
+|---|---:|---|
+| caught by `the_lambda_table_agrees_with_independent_compilations` | 15 | the corroborated ions |
+| caught by `the_dilute_limit_is_the_last_primary_standard` | 1 | `DILUTE_LIMIT_MOLAL` |
+| caught by `past_the_last_fitted_measurement_the_estimate_admits_extrapolating` | 1 | `FITTED_LIMIT_MOLAL` |
+| **survived** | **6** | Zn²⁺, Fe²⁺, Fe³⁺, Al³⁺, Mn²⁺, Pb²⁺ |
+
+**17 of 23, and the six that survive are exactly the six the test file names as
+uncorroborated.** That correspondence is the useful part of the number: the
+instrument and the provenance record agree about which values are unchecked,
+so the survivor list is not a list of untested code but a list of *unsourced
+data*, and it will shrink only when somebody finds a second source — not when
+somebody writes another assertion.
+
+Two of the caught ones are worth separating from the other fifteen. λ°(SO₄²⁻)
+is caught twice, by the table comparison and independently by the Grotthuss
+relation, because a quarter more sulfate mobility would put an ordinary ion
+within a factor of two of the hydroxide. And the two range boundaries are
+caught by tests that do not mention their values at all: each is bracketed
+against the measurement that justifies it — the 0.1 D primary standard, and
+the most concentrated solution the correction was fitted to.
+
+### The run that reported 23 of 23, and why that number is not in this document
+
+The first CI pass said **23 caught, 0 survived**. It was wrong, and it was
+wrong in this instrument's own characteristic way.
+
+Six mutants — the six above — were recorded as caught by the `cli-property`
+rung, with three real test names under them, parsed out of a real `failures:`
+block. The rung had taken **0.1 seconds**. It takes 34 at baseline.
+
+`run_tier` set `TMPDIR` to `/mnt/volume1/tmp-overflow/kero-build` when the
+caller had not set one: this project's development box's overflow directory,
+hardcoded into the tool. On a GitHub runner that path does not exist,
+`std::env::temp_dir()` inside `metamorphic.rs` returned it anyway,
+`create_dir_all` failed with `PermissionDenied`, and all three metamorphic
+tests panicked in their first statement — which looks, in a results file that
+records only names, exactly like three assertions firing.
+
+**That is the fifth instance in this document of a check reading stronger than
+it was, and the first that would have been published as a result.** What found
+it was arithmetic, not an assertion: 0.1 s is not a suite noticing something.
+What proved it was a change made in response — a failing tier now keeps its
+exit code and the tail of its output, so a verdict carries the evidence under
+it and "an assertion fired" can be told from "the rung could not start".
+
+The lesson generalises past this bug, and it is the same one §4 makes about
+the corpus rung: **a mutation harness cannot distinguish a test that noticed
+from a test that could not run, unless it is built to.** A false NEGATIVE in
+this instrument — a mutant wrongly called survived — costs an investigation. A
+false POSITIVE costs a claim, and claims are what this document is for.
+
 ### A value that disagrees with its source, reported and not changed
 
 `FIT_SOURCE` says: *"1413 µS/cm for the 0.01 mol/kg KCl calibration standard is

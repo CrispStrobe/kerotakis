@@ -10,19 +10,14 @@ name: Mutation — const tables
 # gigabyte of free memory and killed the 2026-09-16 pass twice. A run that
 # keeps dying locally belongs on a runner with headroom, and the owner said so.
 on:
-  # TEMPORARY, AND REMOVED BEFORE THIS BRANCH MERGES. `workflow_dispatch` is
-  # only offered for workflows that already exist on the default branch, so a
-  # workflow added by a pull request cannot be dispatched until after it is
-  # merged — and the number this pull request exists to report needs the run
-  # to happen first. Scoped to the one branch so it cannot fire anywhere else.
-  push:
-    branches: [test/conductivity-sources]
   workflow_dispatch:
     inputs:
       ids:
         description: >-
-          Comma-separated mutant ids from the catalogue, e.g. the 23
-          conductivity survivors of 2026-09-16.
+          Comma-separated mutant ids from the catalogue. The default is the 23
+          conductivity survivors of the 2026-09-16 const-table pass, which is
+          what the 2026-09-17 re-run used — 17 caught, 6 survived.
+          docs/MUTATION-SENSITIVITY.md §8b.
         required: true
         default: "16,19,20,21,22,24,25,26,27,28,29,30,31,33,34,35,36,37,38,39,40,42,45"
       files:
@@ -41,8 +36,9 @@ concurrency:
   group: mutation-tables-${{ github.ref }}
   cancel-in-progress: false
 
-# A `push` event carries no inputs, so the defaults have to live somewhere the
-# two triggers share. These are the 23 conductivity survivors of the
+# The fallbacks stay after the temporary `push` trigger was removed, because a
+# dispatch through the API can omit an input and then `inputs.ids` is empty
+# rather than defaulted. These are the 23 conductivity survivors of the
 # 2026-09-16 const-table pass, and the three-file surface their ids were
 # catalogued over — the catalogue numbers sites in the order the files are
 # given, so the surface is part of the identity of an id.
