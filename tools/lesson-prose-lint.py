@@ -78,7 +78,20 @@ EN_HEADER = """# Lesson prose, English — GENERATED from the `.lab` files.
 # and the source text without grepping 113 lessons, and the lint, which
 # uses it to notice that a sentence was reworded after its German was
 # written. A translation lives in `<code>.toml` beside this file — adding
-# French is `fr.toml` and no code anywhere."""
+# French is `fr.toml` and no code anywhere.
+#
+# The labels in use, so a new lesson reads like the 113 already here:
+#
+#   title      the first comment line — also the picker's blurb
+#   intro      the paragraph under it, before the first command
+#   part.<x>   a section comment between commands; name the THING it does
+#              (`part.displacement`) where there is one to name, and fall
+#              back to `part.1`, `part.2` on position where there is not
+#   boundary   the closing note about what the model does not claim
+#
+# Where a zone holds more than one paragraph they are numbered — `intro.1`,
+# `intro.2` — never `intro` plus `intro.2`, because a dotted label makes its
+# stem a TOML table and the two cannot share one."""
 
 
 def check_player() -> list[str]:
