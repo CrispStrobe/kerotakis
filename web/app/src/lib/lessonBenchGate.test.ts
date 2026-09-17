@@ -315,6 +315,35 @@ describe("the bench a lesson starts on", () => {
     expect(session.lessonGate?.occupied).toBe(false);
   });
 
+  it("keeps the question open when the clear did not happen", async () => {
+    // `clear()` declines outright while the bench is busy and returns
+    // nothing to say so. A lesson started on the bench it just refused to
+    // empty would be the original defect with a press of consent in front
+    // of it — so the gate verifies the result rather than the intent.
+    const host = new BenchHost();
+    const session = new Session(host);
+    await session.connect();
+    await play(session, "dry-then-wet-fizz.lab");
+    session.exitLesson();
+
+    session.requestLesson("electrode", lesson("electrode.lab"));
+    expect(session.lessonGate).not.toBeNull();
+    // Drive the refusal the way it actually happens: something else holds
+    // the bench when the learner presses "clear the bench, then start".
+    (session as unknown as { busy: boolean }).busy = true;
+    await session.resolveLessonGate("clear");
+    (session as unknown as { busy: boolean }).busy = false;
+
+    expect(session.lesson).toBeNull();
+    expect(session.lessonGate).not.toBeNull();
+    expect(host.contents(1)).toEqual(["baking_soda", "citric_acid"]);
+
+    // Asked again on an idle bench, it goes through.
+    await session.resolveLessonGate("clear");
+    await playLesson(session);
+    expect(host.contents(1)).toEqual(["CuSO4", "Zn", "water"]);
+  });
+
   it("every lesson the app ships numbers its glassware from v1 with no gaps", () => {
     // The guard is only correct while the CONTENT agrees with it, and the
     // agreement is not "every lesson opens on v1" — `grouping-does-not-

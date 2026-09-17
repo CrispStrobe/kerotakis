@@ -1644,6 +1644,14 @@ export class Session {
     if (!pending || decision === null) return;
     if (decision === "clear") {
       await this.clear();
+      if (benchDiffersFromFresh(this.scene)) {
+        // `clear()` declines outright while the bench is busy, and it
+        // returns nothing to say so. Starting the lesson anyway would be
+        // the original defect with a press of consent in front of it, so
+        // the question stays open instead and the learner can ask again.
+        this.lessonGate = pending;
+        return;
+      }
     } else {
       this.noteBenchWasNotEmpty();
     }
