@@ -379,36 +379,68 @@ This is a 7-of-77 sample chosen to contrast a common ion with rare ones, so it
 is an illustration, not a rate. The rate is what §9.1 proposes measuring.
 
 **One of those three survivors was closed on 2026-09-17 and the other two were
-not**, and the split is the same split §8b's is. λ°(Ba²⁺) is now checked
+not**, and the split is the one §8c ends on. λ°(Ba²⁺) is now checked
 against an independent compilation; **λ°(MnO₄⁻) is not, because permanganate is
 one of the seven ions no second source could be reached for**, and the Henry
 coefficient is in `properties.rs` and was not part of that work at all. Nothing
 has been written that could distinguish #41 or #125 from a value a quarter
 wrong.
 
-## 8b. The rest of the `const` tables, and what closing them took
+## 8b. The `const` tables, all of them: the sample was right
 
-§9.1 proposed running the remaining 70 and estimated 4½ hours. It was run on
-2026-09-16 and the estimate held: **70 mutants, 36 caught, 34 survived**, the
-per-mutant record in `tools/mutation/results/2026-09-16-tables.json`. The
-result is lopsided in a way the 7-of-77 sample did not predict:
+§8a ran seven of the 77 and called itself an illustration rather than a rate.
+The rate is now measured. **70 mutants, 36 caught, 34 survived**, about four
+and a half hours of rebuilds. The split is the finding:
 
-| file | run | survived | |
-|---|---:|---:|---:|
-| `conductivity.rs` | 28 | **23** | **82 %** |
-| `properties.rs` | 42 | 11 | 26 % |
+| file | run | caught | survived |
+|---|---|---|---|
+| `conductivity.rs` | 28 | 5 | **23 (82%)** |
+| `properties.rs` | 42 | 31 | 11 (26%) |
 
-**The 23 are nearly the whole λ° table.** Every ion in
-`LIMITING_CONDUCTIVITY` except H⁺, OH⁻, Na⁺, K⁺, Cl⁻ — the five that appear in
-a test written about something else — plus the two range boundaries
-`DILUTE_LIMIT_MOLAL` and `FITTED_LIMIT_MOLAL`. §8a guessed from three rare
-ions that this would be the shape, and the full run says it is the shape.
+**Five of the 28 conductivity constants are watched, and here is the whole
+list of them:** λ°(H⁺), λ°(OH⁻), λ°(Na⁺), λ°(K⁺), λ°(Cl⁻) — and `FIT_LINEAR`.
+The first five are the ions in table salt and in the acid and base every
+lesson pours. Everything else in the table can be a quarter wrong and the
+conductivity meter reports it without a murmur: lithium, ammonium, silver,
+calcium, magnesium, strontium, copper, zinc, iron(II), iron(III), aluminium,
+manganese, lead, bromide, iodide, fluoride, nitrate, perchlorate,
+bicarbonate, carbonate, sulfate, and both concentration limits.
 
-`properties.rs` at 26 % is the contrast that makes the number mean something:
-the correlations there have unit tests carrying textbook values at stated
-temperatures, so moving a Korson coefficient breaks a test written to check
-the correlation against a measurement. A λ° is not in a correlation. It is
-added to a sum, and nothing checked the sum against anything but itself.
+§8a guessed this from three rare ions. At full size it is not a tendency but
+the structure of the table: **the λ° table is verified exactly where the
+lessons happen to go.** A learner who dissolves Epsom salt is reading a
+number with no test behind it, and the reading looks precisely as confident
+as the one for sodium chloride.
+
+`properties.rs` inverts it — 74% caught, because Henry's-law constants and
+the Korson and Bradley–Pitzer coefficients feed relations the suite already
+checks. The eleven survivors there are mostly `c_kelvin` temperature
+coefficients for gases no lesson dissolves, which is the same shape again.
+
+### What this run cost that the sample did not
+
+Two SIGKILLs under memory pressure, and each one **left a falsified constant
+live in the worktree**. A table mutant edits a `const` literal, rebuilds,
+runs the tiers, and restores the line in a `finally`; a kill skips the
+`finally`. Both times it was a Bradley–Pitzer coefficient sitting 25% wrong
+on disk, caught in `git status` and reverted. The finishing run wrapped the
+harness in `trap 'git checkout -- <files>' EXIT HUP INT TERM`, which is the
+guard this operator has always needed and should carry itself: a mutation
+harness is the one tool here whose normal operation makes the engine wrong,
+and "wrong until I choose to fix it" is not safe on a shared machine.
+
+The run was also interrupted mid-way and finished in two halves. The halves
+were joined **only after checking that the catalogue reproduces its ids** —
+all 62 verdicts from the first half match their catalogue entry's file and
+line exactly. Without that check, appending under regenerated numbering could
+have filed a verdict against the wrong constant, which is a worse outcome
+than an unfinished measurement.
+
+## 8c. What closing the conductivity survivors took
+
+§8b measured the gap. This section is what was done about the 23 in
+`conductivity.rs`, what it closed, and — at equal length — what it could
+not.
 
 ### What was done about it, and why not the obvious thing
 
@@ -473,7 +505,7 @@ a one-line deletion.
 
 The same 23 ids, the same catalogue, run again on 2026-09-17 —
 `tools/mutation/results/2026-09-17-conductivity-rerun.json`, and on a GitHub
-runner rather than here, for reasons §8b's last section gives.
+runner rather than here, for the reason this section's last part gives.
 
 | | mutants | |
 |---|---:|---|
@@ -582,13 +614,14 @@ visible would add findings to a reviewed count, which is the owner's call and
 not a test file's; the new test file declines to add a second invisible one and
 says why in the code.
 
-### Two things that cost time, and are now fixed in the harness
+### The two operator hazards §8b named, closed in the tool
 
-**A table mutant lives in the working tree.** It falsifies a literal on disk
-and relies on a `finally` to put it back, and a SIGKILL — which on the
-development box arrives from the kernel's memory-pressure sweep — skips
-`finally`. Twice on 2026-09-16 a polynomial coefficient was left 25 % wrong on
-disk, where the next `git add` would have taken it. `mutate.py` now writes
+**A table mutant lives in the working tree**, and §8b records what that cost:
+two SIGKILLs under memory pressure, two Bradley–Pitzer coefficients left 25 %
+wrong on disk, and a `trap 'git checkout -- <files>' EXIT HUP INT TERM` around
+the finishing run. §8b also says where that guard belongs — *"the guard this
+operator has always needed and should carry itself"* — so it now does.
+`mutate.py` writes
 `.mutation-state/table-live.json` *before* the edit and clears it after the
 restore; every later invocation begins by putting back whatever that marker
 still describes, loudly, and `mutate.py recover` does only that. SIGTERM,
@@ -597,7 +630,7 @@ existing `finally` simply runs.
 
 **`run-table` needs a pristine copy** of each file in
 `.mutation-state/orig/`, used only to turn a recorded byte offset into a line
-and column. A fresh checkout has none, which is what made this run awkward to
+and column. A fresh checkout has none, which is what made §8b's run awkward to
 move anywhere else. It now seeds that copy from the working tree when git
 agrees the file is unmodified, and refuses — rather than guessing — when it
 does not.
@@ -615,12 +648,16 @@ finishes.
 
 ## 9. What to point it at next
 
-1. **The rest of this surface's `const` tables**, on a machine with build
-   capacity to spare. 70 remaining mutants at ~230 s each is **about 4½
-   hours** — an overnight job on an idle box, not an impossible one — and §8a
-   says what the answer is likely to look like. This is the highest-value next
-   run, because §8a already found two unverified measured constants in a
-   sample of three rare ones.
+1. ~~**The rest of this surface's `const` tables.**~~ **DONE 2026-09-17, §8b.**
+   70 mutants, 36 caught, 34 survived. §8a's guess was right and then some:
+   23 of the 28 conductivity constants are unwatched. The owner's decision on
+   what to do about them was **not** to pin each one — a test written to kill
+   a mutant asserts only that a number is the number it is — but to trace the
+   values to their sources and cover the class with a cited external
+   measurement, which is what `CONTRIBUTING.md` §4 says a test is for. **That
+   was done the same day and §8c is the account of it: 17 of the 23 are now
+   caught, and the six that are not are the six ions this repository has one
+   source for and no way to check.**
 2. **The surfaces the new oracles were written for** — adsorption,
    electrochemistry, polarization. §5(c) found that `perturbation.rs` and
    `metamorphic.rs` killed nothing here that was not already dead. That is a

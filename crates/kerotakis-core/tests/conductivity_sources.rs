@@ -315,7 +315,7 @@ struct Corroboration {
 /// `LAMBDA_SOURCE` — the string that says the whole λ° table came from the
 /// CRC Handbook, which `provenance/upstreams.toml` refuses as a systematic
 /// source — does not appear in that lint's output at all. The finding is
-/// recorded in docs/MUTATION-SENSITIVITY.md §8b rather than repaired here,
+/// recorded in docs/MUTATION-SENSITIVITY.md §8c rather than repaired here,
 /// because making it visible changes a reviewed offence count and that is the
 /// owner's call. This file at least declines to add a second invisible one.
 struct Cited {
