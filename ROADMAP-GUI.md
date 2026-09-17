@@ -1738,6 +1738,28 @@ display name in the registry, is the wrong fix.
     English sentences.
   * Once it lands, `web/app/src/locales/de.json`'s lesson slugs are the same
     data said twice and should be folded into `lessons/prose/de.toml`.
+- [ ] **I18N-10 — `NotYetModeled.what` is the same defect one event along.**
+  Found while landing I18N-8, and deliberately not fixed with it: `what` is
+  a finished English sentence for exactly the reason `Inert.why` was, and
+  two of them sit in `displacement.rs` beside the verdicts that now speak
+  German — *"how fast {name} fizzes: the driving force clears the hydrogen
+  overpotential on {name} by only 0.03 V…"* and *"{name} stays as the
+  metal: nothing dissolved here sits below it in the activity series…"*
+  A reader of the zinc-in-vinegar lesson therefore still meets one English
+  paragraph. The mechanism to fix it exists — a `reason: Option<Phrase>`
+  beside `what`, exactly as `Inert` now carries — but the event has **93
+  construction sites**, so it is a migration and not a patch. Do it in
+  tranches, highest-traffic file first, with `localize_refusal`'s existing
+  suffix-matching as the fallback for the ones not yet converted.
+- [ ] **I18N-11 — `scene_vessel` appends eleven English sentences to the
+  observation.** `appearance::observe` now composes translatable clauses,
+  and then `scene.rs` pushes osmosis, gel, swelling, chemiluminescence,
+  enzyme conversion, adsorption, partition, emulsion, layering and curdling
+  onto the end of `words` with a bare `format!` each. The `look` line does
+  not go through `scene_vessel`, so the owner's quoted defect is fixed; the
+  WEB bench paints from the scene, so a German web reader still sees those
+  sentences in English. Each is a `Phrase` away, and `Appearance` already
+  has the `clauses` vector to push them onto.
 
 ### Two defects found in the same playback, neither of them i18n
 
