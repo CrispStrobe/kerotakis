@@ -1,5 +1,5 @@
-# Same six moles and net 200 J per branch, grouped differently.
-# Keep v1 empty until it receives the left branch's final mixture.
+#@title Same six moles and net 200 J per branch, grouped differently.
+#@intro Keep v1 empty until it receives the left branch's final mixture.
 register lv3
 new
 add v2 water 1mol

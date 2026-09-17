@@ -1,4 +1,4 @@
-# Standardising permanganate: the burette tells you its own strength
+#@title Standardising permanganate: the burette tells you its own strength
 register lv2
 add v1 water 100mL
 add v1 H2SO4 0.002mol

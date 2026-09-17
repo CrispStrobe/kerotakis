@@ -1,6 +1,6 @@
-# Lactase and milk: one enzyme fits one substrate
+#@title Lactase and milk: one enzyme fits one substrate
 #
-# Three equal milk samples share one clock. Only the sample with lactase
+#@intro Three equal milk samples share one clock. Only the sample with lactase
 # hydrolyses milk sugar; no enzyme and the wrong enzyme are fair controls.
 register lv1
 
@@ -19,5 +19,5 @@ look v1
 look v2
 look v3
 
-# The bench records bounded bond cleavage inside the conserved milk solids.
+#@boundary The bench records bounded bond cleavage inside the conserved milk solids.
 # It does not claim sweetness or named glucose and galactose inventories.

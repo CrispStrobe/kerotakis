@@ -1,4 +1,4 @@
-# Two roads, one temperature: Hess's law with a thermometer
+#@title Two roads, one temperature: Hess's law with a thermometer
 register lv2
 add v1 water 100mL
 add v1 HCl 0.1mol

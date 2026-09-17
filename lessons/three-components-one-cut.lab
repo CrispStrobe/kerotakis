@@ -1,5 +1,5 @@
-# Virtual ideal-mixture calculation, not an apparatus or synthesis procedure.
-# Source plus receiver must conserve every component; no azeotrope prediction.
+#@title Virtual ideal-mixture calculation, not an apparatus or synthesis procedure.
+#@intro Source plus receiver must conserve every component; no azeotrope prediction.
 register lv3
 add v1 water 3mol
 add v1 methanol 0.3mol

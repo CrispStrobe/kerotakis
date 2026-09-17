@@ -14,6 +14,13 @@ import pathlib
 import re
 import sys
 
+# `lesson_prose` lives beside this file. Adding tools/ to the path rather
+# than relying on it makes the import work both ways this script is loaded:
+# as `python3 tools/lessons-index.py` and by file path from its self-test.
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+
+import lesson_prose  # noqa: E402
+
 # Topic grouping for the picker — the curated order the console page's
 # example buttons had, which a flat alphabetical list lost.
 TOPICS = {
@@ -101,6 +108,7 @@ CATALOGUE_TOPIC = [
 ]
 
 CATALOGUE = pathlib.Path(__file__).resolve().parents[1] / "data/kids/experiments-v1.json"
+PROSE = pathlib.Path(__file__).resolve().parents[1] / "lessons/prose"
 
 
 def catalogue_topics() -> dict[str, list[str]]:
@@ -169,6 +177,26 @@ def lesson_kit(text: str) -> list[str]:
                    if (match := REAGENT.match(line.strip()))})
 
 
+def lesson_blurb(text: str, stem: str) -> tuple[str, str | None]:
+    """The lesson's own one-line description, and its translation key.
+
+    The first comment line is the description, as it has always been. When
+    that line is LABELLED the label travels with it, so the picker can ask
+    the prose catalogue for it instead of rendering English under a German
+    lesson name.
+    """
+    first = next((l.strip() for l in text.splitlines() if l.strip().startswith("#")), None)
+    if first is None:
+        return "", None
+    match = lesson_prose.LABELLED.match(first)
+    if match is None:
+        return first.lstrip("#").strip(), None
+    label = match.group(1)
+    # The paragraph, not the line: a title that wraps is still one sentence.
+    unit = next((u for u in lesson_prose.units(text) if u.label == label), None)
+    return (unit.text if unit else match.group(2)), f"{stem}.{label}"
+
+
 def topic_for(stem: str, topic_of: dict[str, str], authored: dict[str, list[str]]) -> str:
     """The curated shelf if there is one, else the catalogue's own answer."""
     if stem in topic_of:
@@ -188,11 +216,7 @@ def index(directory: pathlib.Path) -> list[dict]:
     out = []
     for p in sorted(directory.glob("*.lab")):
         text = p.read_text()
-        # The first comment line is the lesson's own description.
-        blurb = next(
-            (l.lstrip("#").strip() for l in text.splitlines() if l.startswith("#")),
-            "",
-        )
+        blurb, blurb_key = lesson_blurb(text, p.stem)
         entry = {
             "file": p.name,
             "name": p.stem.replace("-", " "),
@@ -203,6 +227,12 @@ def index(directory: pathlib.Path) -> list[dict]:
             # authoritative; this field is rebuilt for every payload.
             "kit": lesson_kit(text),
         }
+        # The picker renders the blurb, so the blurb needs a translation
+        # key like every other piece of lesson prose. Emitted beside the
+        # English rather than instead of it: a payload built without the
+        # prose directory still shows the sentence the `.lab` carries.
+        if blurb_key:
+            entry["blurb_key"] = blurb_key
         if p.stem in PROGRESS:
             entry["progress"] = PROGRESS[p.stem]
         entry.update(COLLECTIONS.get(p.stem, {}))
@@ -212,7 +242,29 @@ def index(directory: pathlib.Path) -> list[dict]:
     return out
 
 
+def prose(directory: pathlib.Path) -> dict[str, dict[str, str]]:
+    """Every translated lesson prose table, keyed by locale.
+
+    English is deliberately absent: the `.lab` carries it inline and the
+    player falls back to it, so shipping it twice would be one more copy
+    to drift. `lessons/prose/en.toml` exists for the translator and for
+    the lint, not for the payload.
+
+    A staged lessons directory may carry its own `prose/`; otherwise the
+    repository's is used, the same way the kids catalogue is resolved.
+    """
+    staged = directory / "prose"
+    tables = lesson_prose.catalogue(staged if staged.is_dir() else PROSE)
+    return {code: rows for code, rows in tables.items() if code != "en" and rows}
+
+
 if __name__ == "__main__":
     directory = pathlib.Path(sys.argv[1])
     (directory / "index.json").write_text(json.dumps(index(directory)))
+    translated = prose(directory)
+    # Written unconditionally, so a payload never serves a stale prose file
+    # from a previous build, and an empty object is a valid answer.
+    (directory / "prose.json").write_text(json.dumps(translated))
     print(f"   {len(list(directory.glob('*.lab')))} lessons indexed")
+    for code, rows in sorted(translated.items()):
+        print(f"   {len(rows)} prose rows in {code}")

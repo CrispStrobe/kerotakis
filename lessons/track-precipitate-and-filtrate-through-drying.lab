@@ -1,5 +1,5 @@
-# Track precipitate and filtrate through drying
-# Form barium sulfate twice. Filter both preparations, then dry only the
+#@title Track precipitate and filtrate through drying
+#@intro Form barium sulfate twice. Filter both preparations, then dry only the
 # second filtrate. Account for BaSO4 residue and the soluble spectator ions
 # across each source-receiver system before deciding whether matter was lost.
 register lv3
@@ -19,5 +19,5 @@ filter v3 v4
 evaporate v4 1.0
 inspect v3
 inspect v4
-# Simulation only: soluble barium salts are toxic. A physical version requires
+#@boundary Simulation only: soluble barium salts are toxic. A physical version requires
 # trained supervision, eye protection, gloves, and hazardous-waste collection.

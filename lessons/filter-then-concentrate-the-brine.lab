@@ -1,5 +1,5 @@
-# Filter, then concentrate the brine
-# Trace silica, salt and water through filtration and half evaporation, then
+#@title Filter, then concentrate the brine
+#@intro Trace silica, salt and water through filtration and half evaporation, then
 # repeat at twice the extensive scale. The filter retains silica while the
 # salt-bearing filtrate is concentrated; doubling inputs doubles inventories.
 register lv2

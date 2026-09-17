@@ -1,5 +1,5 @@
-# Balloon on a bottle: gas needs somewhere to go
-# A piston lid represents a flexible balloon: it computes pressure and expanding
+#@title Balloon on a bottle: gas needs somewhere to go
+#@intro A piston lid represents a flexible balloon: it computes pressure and expanding
 # volume, not rubber elasticity, balloon shape or latex failure.
 register lv2
 add v1 white_vinegar_5_percent 50mL

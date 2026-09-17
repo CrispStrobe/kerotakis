@@ -1,5 +1,5 @@
-# Luminol light: warm is brighter, cold lasts longer
-# Two matched prepared systems differ only in temperature. This is a luminol
+#@title Luminol light: warm is brighter, cold lasts longer
+#@intro Two matched prepared systems differ only in temperature. This is a luminol
 # classroom demonstration, not commercial glow-stick chemistry.
 register lv2
 
@@ -18,5 +18,5 @@ wait 30s
 look v1
 look v2
 
-# Relative intensity and half-life are an explicitly calibrated,
+#@boundary Relative intensity and half-life are an explicitly calibrated,
 # Arrhenius-shaped comparison. Products and photon yield are not computed.

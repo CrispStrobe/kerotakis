@@ -1,5 +1,5 @@
-# Lemonade that changes colour: an indicator measures the liquid
-# Bromothymol blue uses one computed spectrum in a basic control and lemon acid.
+#@title Lemonade that changes colour: an indicator measures the liquid
+#@intro Bromothymol blue uses one computed spectrum in a basic control and lemon acid.
 # The named juice is a surrogate; do not taste laboratory mixtures.
 register lv1
 add v1 water 100mL

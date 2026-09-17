@@ -1,5 +1,5 @@
-# An antacid suspension: neutralisation stops when the acid runs out
-# Excess sparingly soluble magnesium hydroxide remains. This is chemistry, not
+#@title An antacid suspension: neutralisation stops when the acid runs out
+#@intro Excess sparingly soluble magnesium hydroxide remains. This is chemistry, not
 # medical advice or a dose recommendation.
 register lv2
 add v1 water 100mL

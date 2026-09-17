@@ -52,6 +52,7 @@
   import { NO_STEP_PROSE, parseStepProse, type StepProseIndex } from "./lib/stepProse";
   import { briefFor, kidsEquipmentVerbs, kidsShelfKeys, storePendingKidsSandbox, takePendingKidsSandbox, type KidsSandboxBrief } from "./lib/kidsSandbox";
   import { commandCount, completedCommandCount } from "./lib/lesson";
+  import { loadLessonProse } from "./lib/lessonProse";
   import { missionTitle, type MissionSummary } from "./lib/storyProgress";
   import { pwa } from "./lib/pwa.svelte";
   import { mixLine, twoVesselLine, type TwoVesselAction } from "./lib/directActions";
@@ -592,6 +593,13 @@
     void fetch(new URL("quests/index.json", resolvePayloadBase()).href)
       .then((r) => (r.ok ? r.json() : null))
       .then((raw) => (quests = ((raw as { quests?: Record<string, unknown>[] })?.quests) ?? []))
+      .catch(() => {});
+    // Lesson prose, keyed by the labels the `.lab` files carry (I18N-9).
+    // Fetched like the rest of the payload and absent without complaint:
+    // a build without it renders the English each lesson carries inline.
+    void fetch(new URL("lessons/prose.json", resolvePayloadBase()).href)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((raw) => loadLessonProse(raw))
       .catch(() => {});
     void fetch(new URL("lessons/index.json", resolvePayloadBase()).href)
       .then((r) => (r.ok ? r.json() : []))

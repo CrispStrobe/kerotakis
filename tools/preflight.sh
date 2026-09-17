@@ -72,6 +72,11 @@ step "curiosity prose"; gated python3 tools/curiosity-prose.py --check
 step "curiosity prose self-test"; gated python3 -m unittest tools.tests.test_curiosity_prose
 step "kids experiment catalog self-test"; gated python3 -m unittest tools.tests.test_kids_catalog
 step "per-step prose self-test"; gated python3 -m unittest tools.tests.test_step_prose
+# I18N-9. In the --light block with the curiosity prose gate and for the
+# same reason: a lesson whose German is missing is a content hole a reader
+# meets, not a build failure a compiler finds — and it costs milliseconds.
+step "lesson prose"; gated python3 tools/lesson-prose-lint.py --check
+step "lesson prose self-test"; gated python3 -m unittest tools.tests.test_lesson_prose_lint
 step "GPU release tools self-test"; gated bash tools/test-gpu-release-tools.sh
 
 if $LIGHT; then
