@@ -53,7 +53,8 @@
     </header>
 
     <section>
-      <p class="what">{t("{title} begins in v1 and numbers the rest of its glassware itself.", { title })}</p>
+      <p class="what">{title}</p>
+      <p>{t("It begins in v1 and numbers the rest of its glassware itself.")}</p>
       <p>
         {occupied
           ? t("Your bench still holds material from earlier work, so its readings would be your work and this one mixed together.")

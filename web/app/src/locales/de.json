@@ -2342,7 +2342,7 @@
   "the bench stopped at {line} — the rest of the script did not run": "Das Labor hat bei {line} gestoppt – der Rest des Skripts wurde nicht ausgeführt.",
   "your bench is not empty": "Dein Labor ist nicht leer",
   "before it starts": "bevor es losgeht",
-  "{title} begins in v1 and numbers the rest of its glassware itself.": "„{title}“ beginnt in v1 und nummeriert die weiteren Gefäße selbst.",
+  "It begins in v1 and numbers the rest of its glassware itself.": "Es beginnt in v1 und nummeriert die weiteren Gefäße selbst.",
   "Your bench still holds material from earlier work, so its readings would be your work and this one mixed together.": "In deinem Labor liegt noch Material aus früherer Arbeit – die Messwerte wären eine Mischung aus deiner Arbeit und dieser hier.",
   "Your bench carries more glassware than this expects, so the vessels it asks for would not be the ones it gets.": "In deinem Labor stehen mehr Gefäße als erwartet – die angeforderten Gefäße wären nicht die, die es bekommt.",
   "Nothing is emptied unless you say so": "Nichts wird geleert, außer du sagst es",

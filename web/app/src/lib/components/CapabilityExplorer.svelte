@@ -1,6 +1,8 @@
 <script lang="ts">
   import { untrack } from "svelte";
   import { capabilityMatches, localiseCapability, type CapabilityPrompt, type CapabilitySupport } from "../capabilities";
+  import { benchDiffersFromFresh, benchOccupied } from "../catalogRunner";
+  import BenchGateDialog from "./BenchGateDialog.svelte";
   import type { Session } from "../session.svelte";
   import { i18n, t } from "../i18n.svelte";
 
@@ -11,6 +13,15 @@
   let band = $state("all");
   let open = $state<string | null>(untrack(() => initial));
   let running = $state<string | null>(null);
+  /**
+   * A prompt held at the door, for the same reason a lesson is.
+   *
+   * All 500 corpus scripts open `add v1 …` against an assumed empty
+   * beaker, so firing one at a bench that already holds work answered the
+   * question with somebody else's chemistry. Asked, never taken — see
+   * `BenchGateDialog`.
+   */
+  let gated = $state<{ prompt: CapabilityPrompt; occupied: boolean } | null>(null);
 
   // Ordered by what the reader SEES, not by the identifier underneath: a
   // German list sorted on English topic slugs is alphabetised against a
@@ -47,15 +58,26 @@
     ),
   ));
 
-  async function run(prompt: CapabilityPrompt) {
+  async function run(prompt: CapabilityPrompt, decision: "clear" | "keep" | null = null) {
     if (running || prompt.support === "missing") return;
+    if (decision === null && benchDiffersFromFresh(session.scene)) {
+      gated = { prompt, occupied: benchOccupied(session.scene) };
+      return;
+    }
     running = prompt.id;
     try {
+      if (decision === "clear") await session.clear();
       await session.runExperiment(prompt.script.join("\n"));
       onclose();
     } finally {
       running = null;
     }
+  }
+
+  function answerGate(decision: "clear" | "keep" | null) {
+    const pending = gated;
+    gated = null;
+    if (pending && decision !== null) void run(pending.prompt, decision);
   }
 </script>
 
@@ -125,6 +147,17 @@
     </ul>
   </dialog>
 </div>
+
+{#if gated}
+  {@const pending = gated}
+  <BenchGateDialog
+    title={localiseCapability(pending.prompt, i18n.locale, t).question}
+    occupied={pending.occupied}
+    onclear={() => answerGate("clear")}
+    onkeep={() => answerGate("keep")}
+    oncancel={() => answerGate(null)}
+  />
+{/if}
 
 <style>
   .scrim { position: fixed; inset: 0; z-index: 55; display: grid; place-items: center; padding: 1rem; background: var(--scrim); }
