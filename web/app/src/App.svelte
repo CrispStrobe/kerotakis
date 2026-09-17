@@ -1011,6 +1011,11 @@
     } else if (e.key === "Escape") {
       if (clearArmed) disarmClear();
       else if (inset) inset = null;
+      // Escape answers the bench question the safe way: cancel touches
+      // nothing and starts nothing. Adjacent to the remove-vessel dialog
+      // because they paint at the same depth (86), so the keyboard's
+      // order and the reader's agree (see `overlayStacking.test.ts`).
+      else if (session.lessonGate) void session.resolveLessonGate(null);
       else if (removeRequest !== null) removeRequest = null;
       else if (homeOpen) homeOpen = false;
       else if (missionOpen) missionOpen = false;
