@@ -753,7 +753,7 @@ impl<O: StructureOracle> FamilyRouter<O> {
                     version: record.version,
                     gate: "outcome".to_string(),
                     reason: why.render(crate::i18n::Locale::EN),
-                    detail: Some(why),
+                    detail: Some(Box::new(why)),
                 }),
             }
         }
@@ -1175,7 +1175,7 @@ impl<O: StructureOracle> Equilibrator for FamilyRouter<O> {
                     (
                         "why".to_string(),
                         match &d.detail {
-                            Some(recipe) => Slot::phrase(recipe.clone()),
+                            Some(recipe) => Slot::phrase((**recipe).clone()),
                             None => Slot::term("family-gate", d.reason.clone()),
                         },
                     ),

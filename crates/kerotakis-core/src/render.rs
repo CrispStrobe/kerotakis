@@ -4535,12 +4535,14 @@ mod dedupe_tests {
                 vessel: VesselId(0),
                 what: "one thing".to_string(),
                 reason: None,
+                beside_a_visible_change: false,
             },
             Event::NotYetModeled {
                 cause: crate::ops::NotModelledCause::NoSolver,
                 vessel: VesselId(0),
                 what: "another thing".to_string(),
                 reason: None,
+                beside_a_visible_change: false,
             },
         ]
     }

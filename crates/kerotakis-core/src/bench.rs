@@ -5559,7 +5559,7 @@ impl Bench {
                         steps(),
                         (
                             "colour".to_string(),
-                            Slot::term("appearance", baseline_colour.clone()),
+                            Slot::term("appearance", baseline_colour),
                         ),
                     ],
                 )),
