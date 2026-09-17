@@ -19,6 +19,7 @@ import { isChartSpec, type ChartSpec } from "./chart";
 import { equationFromRenderedLine } from "./benchEquation";
 import { latestNetIonic, spectatorPhrase, type NetIonic } from "./ionic";
 import { type Lesson, parseLesson } from "./lesson";
+import { lessonProse } from "./lessonProse";
 import { scriptKit } from "./codex";
 import { schedule, type Playback } from "./replay";
 import type { AnswerRefusal, QuestOutput } from "./host/EngineHost";
@@ -1618,7 +1619,9 @@ export class Session {
     while (this.lesson.cursor < lesson.steps.length) {
       const step = lesson.steps[this.lesson.cursor]!;
       if (step.kind !== "note") break;
-      this.feed.push({ kind: "note", text: t(step.text) });
+      // Labelled prose answers from `lessons/prose/<code>.toml`; an
+      // unlabelled comment takes the path it always took (I18N-9).
+      this.feed.push({ kind: "note", text: lessonProse(step.key, step.text) });
       this.lesson.cursor += 1;
     }
     if (this.lesson.cursor >= lesson.steps.length) {

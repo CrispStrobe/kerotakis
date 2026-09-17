@@ -1,0 +1,34 @@
+# Lesson prose, English — GENERATED from the `.lab` files.
+#
+# Do not edit by hand: `python3 tools/lesson-prose-lint.py --write`
+# regenerates it, and `--check` fails if it drifts. The `.lab` file is the
+# one source of truth for a lesson (GUI-020) and carries this English
+# inline, where `kero run` and an untranslated payload both read it.
+#
+# This file exists for two readers: a translator, who needs the key list
+# and the source text without grepping 113 lessons, and the lint, which
+# uses it to notice that a sentence was reworded after its German was
+# written. A translation lives in `<code>.toml` beside this file — adding
+# French is `fr.toml` and no code anywhere.
+
+["chalk-vinegar"]
+title = "Does chalk fizz in vinegar? A two-vessel acid control"
+intro = "Use only ordinary 5% food vinegar and calcium-carbonate classroom chalk in a real activity. Wear goggles, protect the table, ask an adult first, and never taste anything that has been placed in lab glassware."
+part.control = "Control: a chalk stick in the same volume of plain water barely dissolves and has no finite acid source with which to make a visible burst of carbon dioxide."
+part.test = "Test: change water to the named 5% vinegar recipe and keep the chalk dose the same. The balanced reaction consumes finite CaCO3 and acetic acid. Its real CO2 inventory drives the normal bubble effect and leaves through this open beaker; it is not a canned animation."
+boundary = "Try a smaller chalk dose or less vinegar in a fresh vessel. The limiting reagent changes the gas amount. Powdering would change the real-world rate, but particle-area kinetics for this reaction remain an explicit future model."
+
+["dry-then-wet-fizz"]
+title = "Dry, then wet: why sherbet and bath-bomb powders wait for water"
+intro = "Citric acid and baking soda can sit beside each other while dry. Water lets ions move and starts the acid-carbonate reaction. This is a chemistry comparison, not a recipe: do not taste laboratory mixtures."
+part.dry = "Dry control: both ingredients are present, but no liquid connects them."
+part.wet = "Wet comparison: same ingredients, with water supplied first."
+boundary = "A real sherbet involves taste and a bath bomb involves binders, fragrance, tablet shape and dissolution rate. None of those are inferred here. Foam is not claimed either: gas makes foam only when a modeled surfactant is present."
+
+["one-thing-at-a-time"]
+title = "One thing at a time: the column tells a mixture apart."
+intro = "Three colourless liquids dissolved in water look like one liquid. The column disagrees: each solute spends its own share of time in the stationary phase, set by the same partition coefficient that runs the separating funnel, and so each arrives alone."
+part.detail = "The same injection read closer: retention times, widths, areas — and K itself, the number doing all the work."
+
+["silver-and-salt"]
+title = "Case file: identify chloride with silver nitrate"

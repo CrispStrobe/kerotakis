@@ -117,3 +117,48 @@ measure v1 ph
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class LessonProseTests(unittest.TestCase):
+    """The picker's blurb is lesson prose too (I18N-9)."""
+
+    def test_a_labelled_first_comment_carries_its_key_beside_the_english(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = pathlib.Path(directory) / "demo.lab"
+            path.write_text("#@title A demo\nadd v1 water 1mL\n")
+            entry = MODULE.index(path.parent)[0]
+            self.assertEqual(entry["blurb"], "A demo")
+            self.assertEqual(entry["blurb_key"], "demo.title")
+
+    def test_an_unlabelled_lesson_ships_the_blurb_it_always_shipped(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = pathlib.Path(directory) / "demo.lab"
+            path.write_text("# A demo\nadd v1 water 1mL\n")
+            entry = MODULE.index(path.parent)[0]
+            self.assertEqual(entry["blurb"], "A demo")
+            self.assertNotIn("blurb_key", entry)
+
+    def test_a_wrapped_title_is_one_blurb_rather_than_its_first_line(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = pathlib.Path(directory) / "demo.lab"
+            path.write_text("#@title A demo that\n# wraps\nadd v1 water 1mL\n")
+            self.assertEqual(MODULE.index(path.parent)[0]["blurb"], "A demo that wraps")
+
+    def test_english_is_not_shipped_twice(self):
+        """The `.lab` carries the English inline and the player falls back
+        to it, so `en.toml` in the payload would be one more copy to drift."""
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            (root / "prose").mkdir()
+            (root / "prose/en.toml").write_text('["demo"]\ntitle = "A demo"\n')
+            (root / "prose/de.toml").write_text('["demo"]\ntitle = "Eine Demo"\n')
+            self.assertEqual(MODULE.prose(root), {"de": {"demo.title": "Eine Demo"}})
+
+    def test_every_shipped_translation_names_a_label_a_lesson_asks_for(self):
+        """The payload and the lint agree about the key set, or a German
+        row is shipped that nothing can look up."""
+        shipped = MODULE.prose(ROOT / "lessons")
+        referenced = set(MODULE.lesson_prose.lesson_units(ROOT / "lessons"))
+        for code, rows in shipped.items():
+            self.assertEqual(set(rows) - referenced, set(), code)
+

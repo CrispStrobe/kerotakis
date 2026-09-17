@@ -1,5 +1,6 @@
 <script lang="ts">
   import { t } from "../i18n.svelte";
+  import { lessonProse } from "../lessonProse";
   import { missionId, type MissionSummary } from "../storyProgress";
   import { contaminatedSampleLeads, contaminatedSampleProgress, missionsBeyondTheCase } from "../storyChapter";
 
@@ -104,7 +105,7 @@
             <div>
               <span class="rest-topic">{done ? t("mission complete") : running ? t("mission in progress") : t(mission.topic ?? "more")}</span>
               <h4>{t(mission.name)}</h4>
-              {#if mission.blurb}<p>{t(mission.blurb)}</p>{/if}
+              {#if mission.blurb}<p>{lessonProse(mission.blurb_key, mission.blurb)}</p>{/if}
             </div>
             <button onclick={() => onstart(mission.file)}>
               {running ? t("continue investigation") : done ? t("review investigation") : t("investigate")}

@@ -75,7 +75,10 @@ def units(text: str) -> list[Unit]:
         label, parts = None, []
 
     for number, raw in enumerate(text.splitlines(), start=1):
-        line = raw.rstrip()
+        # Trimmed at both ends, because the player trims: the two parsers
+        # have to agree about which lines a label owns, or the payload's
+        # keys describe a paragraph the screen never shows.
+        line = raw.strip()
         if (match := LABELLED.match(line)) is not None:
             close()
             label, parts, start = match.group(1), [match.group(2)], number
@@ -91,9 +94,9 @@ def units(text: str) -> list[Unit]:
 def malformed(text: str) -> list[tuple[int, str]]:
     """Lines that tried to be a label and are not one."""
     return [
-        (number, line.rstrip())
+        (number, line.strip())
         for number, line in enumerate(text.splitlines(), start=1)
-        if MALFORMED.match(line.rstrip())
+        if MALFORMED.match(line.strip())
     ]
 
 
@@ -107,7 +110,7 @@ def unlabelled_comment_lines(text: str) -> int:
     remaining = 0
     inside = False
     for raw in text.splitlines():
-        line = raw.rstrip()
+        line = raw.strip()
         if LABELLED.match(line):
             inside = True
             continue

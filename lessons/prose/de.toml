@@ -1,0 +1,33 @@
+# Lektionstexte auf Deutsch.
+#
+# Gegenstück zu `en.toml`: derselbe Schlüssel, dieselbe Stelle in der
+# Lektion. Der Schlüssel benennt den ORT, an dem der Text gesagt wird, nicht
+# den englischen Satz — eine Umformulierung des Englischen macht die
+# Übersetzung also nicht zur Waise.
+#
+# Von Hand geschrieben, nicht maschinell gefüllt. Eine Lektion, für die noch
+# kein gutes Deutsch vorliegt, trägt noch keine Marken im `.lab` und wird von
+# `tools/lesson-prose-lint.py` als "noch nicht migriert" gezählt. Ein
+# fehlender Schlüssel hier ist ein Fehler, keine Lücke.
+
+["chalk-vinegar"]
+title = "Schäumt Kreide in Essig? Eine Säurekontrolle mit zwei Gefäßen"
+intro = "Nimm für einen echten Versuch nur gewöhnlichen 5-prozentigen Speiseessig und Schulkreide aus Calciumcarbonat. Trage eine Schutzbrille, schütze den Tisch, frage vorher eine erwachsene Person, und koste niemals etwas, das in Laborglas gestanden hat."
+part.control = "Kontrolle: Ein Kreidestift löst sich in derselben Menge reinem Wasser kaum und hat keine begrenzte Säurequelle, aus der ein sichtbarer Stoß Kohlendioxid entstehen könnte."
+part.test = "Test: Ersetze das Wasser durch das benannte Rezept für 5-prozentigen Essig und lass die Kreidemenge gleich. Die ausgeglichene Reaktion verbraucht begrenztes CaCO3 und begrenzte Essigsäure. Ihr wirklicher CO2-Bestand treibt den gewohnten Blaseneffekt und entweicht aus diesem offenen Becherglas; er ist keine abgespielte Animation."
+boundary = "Versuche es in einem frischen Gefäß mit weniger Kreide oder weniger Essig. Das begrenzende Reagenz bestimmt die Gasmenge. Mahlen würde die tatsächliche Geschwindigkeit ändern, doch eine Kinetik über die Teilchenoberfläche bleibt für diese Reaktion ausdrücklich ein künftiges Modell."
+
+["dry-then-wet-fizz"]
+title = "Trocken, dann nass: warum Brausepulver und Badebomben auf Wasser warten"
+intro = "Citronensäure und Natron können trocken nebeneinanderliegen. Erst Wasser lässt Ionen wandern und startet die Reaktion zwischen Säure und Carbonat. Das ist ein chemischer Vergleich und kein Rezept: Laborgemische werden nicht gekostet."
+part.dry = "Trockene Kontrolle: Beide Zutaten sind vorhanden, aber keine Flüssigkeit verbindet sie."
+part.wet = "Nasser Vergleich: dieselben Zutaten, diesmal mit Wasser zuerst."
+boundary = "Zu echtem Brausepulver gehört der Geschmack, zu einer Badebombe gehören Bindemittel, Duftstoffe, Pressform und Auflösegeschwindigkeit. Nichts davon wird hier abgeleitet. Auch Schaum wird nicht behauptet: Gas schäumt nur, wenn ein modelliertes Tensid vorhanden ist."
+
+["one-thing-at-a-time"]
+title = "Eins nach dem anderen: Die Säule hält ein Gemisch auseinander."
+intro = "Drei farblose Flüssigkeiten, in Wasser gelöst, sehen aus wie eine einzige. Die Säule sieht das anders: Jeder gelöste Stoff verbringt seinen eigenen Anteil der Zeit in der stationären Phase, bestimmt von demselben Verteilungskoeffizienten, der auch den Scheidetrichter antreibt, und trifft deshalb allein ein."
+part.detail = "Dieselbe Einspritzung, genauer gelesen: Retentionszeiten, Breiten, Flächen — und K selbst, die Zahl, die die ganze Arbeit macht."
+
+["silver-and-salt"]
+title = "Fallakte: Chlorid mit Silbernitrat nachweisen"

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { untrack } from "svelte";
   import { t } from "../i18n.svelte";
+  import { lessonProse } from "../lessonProse";
   import { levelLabel } from "../catalogEntry";
   import { continuationLabel, missionDistrictId, missionId, nextUnlockedMission, remainingMissions, storyDistricts, type MissionSummary } from "../storyProgress";
   import CaseBoard from "./CaseBoard.svelte";
@@ -147,7 +148,7 @@
                       <span class="topic">{done ? t("mission complete") : running ? t("mission in progress") : t(mission.topic ?? "more")}</span>
                       <h3>{t(mission.name)}</h3>
                       {#if mission.progress}<span class="mission-progress">{t(levelLabel(mission.progress))}</span>{/if}
-                      {#if mission.blurb}<p>{t(mission.blurb)}</p>{/if}
+                      {#if mission.blurb}<p>{lessonProse(mission.blurb_key, mission.blurb)}</p>{/if}
                     </div>
                     <button onclick={() => onstart(mission.file)}>
                       {running ? t("continue mission") : done ? t("replay mission") : t("launch mission")}
