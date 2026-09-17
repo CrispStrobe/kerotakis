@@ -49,6 +49,8 @@ Usage:
     mutate.py restore                  put the originals back
     mutate.py run [--ceiling SECONDS]  execute the catalogue, write results.json
     mutate.py report                   render results.json as markdown
+    mutate.py recover                  undo a falsified table literal a
+                                       killed run left in the working tree
 """
 
 from __future__ import annotations
@@ -67,6 +69,14 @@ REPO = Path(__file__).resolve().parents[2]
 STATE = Path(os.environ.get("KERO_MUTATION_STATE", REPO / ".mutation-state"))
 CATALOGUE = STATE / "catalogue.json"
 RESULTS = STATE / "results.json"
+# The crash-safety marker. A `table` mutant falsifies a literal IN THE WORKING
+# TREE and relies on a `finally` to put it back; a SIGKILL — which on this box
+# arrives from the kernel's memory-pressure sweep, twice on 2026-09-16 — skips
+# `finally` and leaves a polynomial coefficient 25 % wrong on disk, where the
+# next commit picks it up. So the intent is written down BEFORE the edit and
+# removed after the restore, and every later invocation of this script puts
+# back anything the marker still describes. See `recover_live`.
+LIVE = STATE / "table-live.json"
 
 RUNTIME_MODULE = """
 // --- injected by tools/mutation/mutate.py; `mutate.py restore` removes it ---
@@ -602,6 +612,74 @@ def table_site_column(site: dict) -> tuple[Path, int, int, str]:
     return REPO / site["file"], site["line"], site["start"] - line_start, site["original"]
 
 
+def mark_live(path: Path, line_no: int, original_line: str, mutant: int) -> None:
+    """Record the falsified line before writing it, so a kill is recoverable."""
+    LIVE.parent.mkdir(parents=True, exist_ok=True)
+    LIVE.write_text(
+        json.dumps(
+            {
+                "file": str(path.relative_to(REPO)),
+                "line": line_no,
+                "original": original_line,
+                "mutant": mutant,
+            }
+        )
+    )
+
+
+def clear_live() -> None:
+    LIVE.unlink(missing_ok=True)
+
+
+def recover_live() -> bool:
+    """Put back a table literal a killed run left falsified. Returns whether it did.
+
+    Called at the top of EVERY subcommand, because the run that needs this is by
+    definition the run that is no longer executing. Restores the one recorded
+    line rather than the whole file from `orig`, so that edits made to the file
+    since — a test added next to the constant, say — are not silently reverted
+    along with the mutation.
+    """
+    if not LIVE.exists():
+        return False
+    mark = json.loads(LIVE.read_text())
+    path = REPO / mark["file"]
+    lines = path.read_text().splitlines(keepends=True)
+    current = lines[mark["line"] - 1]
+    if current == mark["original"]:
+        print(f"note: {mark['file']}:{mark['line']} was already clean "
+              f"(mutant #{mark['mutant']}); marker cleared")
+    else:
+        lines[mark["line"] - 1] = mark["original"]
+        path.write_text("".join(lines))
+        print(
+            "RECOVERED a falsified constant a killed run left on disk:\n"
+            f"  {mark['file']}:{mark['line']} (mutant #{mark['mutant']})\n"
+            f"  was: {current.strip()}\n"
+            f"  now: {mark['original'].strip()}\n"
+            "  Run `git status` and `git diff` before committing anything."
+        )
+    clear_live()
+    return True
+
+
+def install_restore_signals() -> None:
+    """Turn the catchable kill signals into a normal unwind.
+
+    SIGTERM and SIGHUP otherwise bypass `finally` exactly as SIGKILL does, and
+    those two ARE catchable: raising SystemExit from the handler runs the
+    `finally` that restores the line. SIGKILL still cannot be caught, which is
+    what `recover_live` is for.
+    """
+    import signal
+
+    def bail(signum: int, _frame: object) -> None:
+        raise SystemExit(f"killed by signal {signum}; restoring sources")
+
+    for sig in (signal.SIGTERM, signal.SIGHUP, signal.SIGINT):
+        signal.signal(sig, bail)
+
+
 def do_run_table(ids: list[int], ceiling: float) -> None:
     sites = {s["id"]: s for s in json.loads(CATALOGUE.read_text())}
     results = json.loads(RESULTS.read_text()) if RESULTS.exists() else {}
@@ -624,6 +702,7 @@ def do_run_table(ids: list[int], ceiling: float) -> None:
         )
         original_line = line
         lines[line_no - 1] = line[:col] + perturbed(literal) + line[col + len(literal) :]
+        mark_live(path, line_no, original_line, mid)
         path.write_text("".join(lines))
         try:
             t0 = time.time()
@@ -661,6 +740,7 @@ def do_run_table(ids: list[int], ceiling: float) -> None:
             lines = path.read_text().splitlines(keepends=True)
             lines[line_no - 1] = original_line
             path.write_text("".join(lines))
+            clear_live()
 
 
 # --------------------------------------------------------------------------
@@ -711,9 +791,18 @@ def main() -> None:
     rt.add_argument("--ids", required=True)
     rt.add_argument("--ceiling", type=float, default=3600.0)
     sub.add_parser("report")
+    sub.add_parser("recover")
     a = ap.parse_args()
 
-    if a.cmd == "catalogue":
+    # Before anything else, and for every subcommand: a previous run may have
+    # been killed with a constant falsified on disk.
+    recovered = recover_live()
+    install_restore_signals()
+
+    if a.cmd == "recover":
+        if not recovered:
+            print("nothing to recover")
+    elif a.cmd == "catalogue":
         do_catalogue(a.files)
     elif a.cmd == "instrument":
         do_instrument({int(x) for x in a.skip.split(",") if x.strip()})
