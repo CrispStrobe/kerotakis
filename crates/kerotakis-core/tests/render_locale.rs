@@ -225,6 +225,7 @@ fn an_untranslated_refusal_keeps_its_english() {
         vessel: VesselId(0),
         what: "nothing here can be electrolysed: no ions".into(),
         reason: None,
+        beside_a_visible_change: false,
     };
     let line = render_event_in(&event, Register::LV2, Locale::parse("de"));
     assert!(

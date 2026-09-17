@@ -597,6 +597,10 @@ hydroxylapatite = "Hydroxylapatit"
 "state-changed.lv1-boiling-look-steam" = "Das {name} in {vessel} kocht — sieh dir den Dampf an!"
 "state-changed.lv1-x" = "{vessel}: {name} {verb} bei {c} °C"
 "not-yet-modeled.lv1" = "Hmm — in {vessel} passiert nichts Sichtbares (dieser Teil des Labors ist noch nicht wach)."
+# GUI-106: the same note, said where the vessel DID visibly change. The
+# line above claims the beaker did nothing, which is the one thing this
+# event does not know and, in the starch test, the opposite of the truth.
+"not-yet-modeled.lv1-beside-change" = "In {vessel} hat sich etwas verändert — aber ein Teil davon ist noch nicht modelliert."
 "not-yet-modeled.lv2" = "{vessel}: noch nicht modelliert — {what}"
 "diluted.lv1" = "Du gibst Wasser in {vessel} — die Lösung wird schwächer."
 
@@ -949,11 +953,6 @@ boiled = "siedete"
 "liquid nitrogen is a cryogen and its boil-off displaces breathable air" = "Flüssiger Stickstoff ist ein Kryogen; sein verdampfendes Gas verdrängt Atemluft"
 "a liquid medium is required" = "ein flüssiges Medium ist erforderlich"
 "no solid particles are present" = "es sind keine festen Teilchen vorhanden"
-"the water in this vessel is ice, and ice is not a solution: pH, ionic strength and speciation all describe particles dissolved in a liquid, so none of them is reported while the solvent is frozen" = "das Wasser in diesem Gefäß ist Eis, und Eis ist keine Lösung: pH-Wert, Ionenstärke und Speziesverteilung beschreiben allesamt Teilchen, die in einer Flüssigkeit gelöst sind — solange das Lösungsmittel gefroren ist, wird keine dieser Größen angegeben"
-"the water is at the boil and leaving as steam, so what is dissolved in the rest is concentrating while you look at it: this bench reports the transition rather than a settled pH for a composition that is still changing" = "das Wasser siedet und entweicht als Dampf, sodass sich das Gelöste im Rest vor Ihren Augen aufkonzentriert: Diese Werkbank meldet den Phasenübergang statt eines festen pH-Werts für eine Zusammensetzung, die sich noch ändert"
-# The two gap reasons matched by SUFFIX, which is the most an
-# English-keyed table can do with a sentence that has a name in it.
-#
 # The fixed gap reasons used to live here too. Eighteen of them, of which
 # THIRTEEN reached a German learner in English while the table reported
 # itself complete — it was complete, over the rows it had, which is the
@@ -961,8 +960,14 @@ boiled = "siedete"
 # rows now, keyed by the PLACE they are said (I18N-10), so rewording the
 # English no longer orphans the German; this section keeps the German they
 # already had, moved rather than rewritten.
-solid-in-liquid = "{name} ist mit einer Flüssigkeit in Kontakt; kein angebundener Löser modelliert diese Auflösung oder Reaktion"
-dissolves-without-speciation = "{name} löst sich, aber kein angebundener Löser berechnet die Speziesverteilung: Der Stoff trägt hier weder zum pH-Wert noch zur Ionenstärke bei; diese Werte gelten nur für die übrigen Stoffe im Becherglas"
+#
+# Four more left on the commit that finished I18N-10: the ice and boiling
+# verdicts, and the two reached by STRIPPING the species name off the end
+# of the English. They are `[not-modeled]` rows now —
+# `ice-is-not-a-solution`, `boiling-is-not-settled`,
+# `no-dissolution-solver`, `dissolves-unspeciated` — and the suffix parse
+# in `localize_refusal`, which survives as a shim for sessions saved
+# before I18N-10, fills those same keys. One German row, two paths to it.
 
 # What the bench REFUSED to do, keyed by the place the refusal is written.
 #
@@ -1172,6 +1177,12 @@ white = "weiß"
 # decline. That choice lives HERE, in the data, which is the whole point:
 # a translator changes the construction without changing a line of Rust.
 [look]
+# The space between two whole sentences. It looks like typography rather
+# than language right up until the language is one that does not use it —
+# Japanese runs its sentences together after 。 — so it is a row here for
+# the reason `look.full-stop` is. German uses the space, and says so
+# explicitly rather than by falling back.
+sentence-join = "{first} {second}"
 empty = "der Becher ist leer"
 nothing-visible = "im Becher ist nichts zu sehen"
 liquid = "die Flüssigkeit ist {colour} {clarity}"
@@ -1536,6 +1547,64 @@ no-henry-path-to-headspace = "{test} liest den Gasraum, und dieses Labor kennt k
 finite-acid-inventory = "{reaction} verbraucht einen endlichen Säurevorrat. Innerhalb dieses Integrationsintervalls wird der Aktivitätskoeffizient auf seinem Anfangswert festgehalten, während die Protonenkonzentration abnimmt; das Säure-Base-Gleichgewicht wird zwischen den Intervallen neu gelöst und nicht fortlaufend an dieses Geschwindigkeitsgesetz gekoppelt."
 family-declined-at-gate = "{family} v{version} passte, wurde aber an {gate} abgelehnt: {why}. Warten liefert keine fehlende Reaktionsgeschwindigkeit und erfüllt auch kein Bedingungstor"
 
+# ── I18N-10, tranche three: the last twenty-six ────────────────────────
+#
+# Four of these are MOVED, not written: the ice verdict, the boiling
+# verdict and the two the `[refusal]` table used to reach by stripping the
+# species name off the end of the English. A second German for a sentence
+# that already had one is how one product starts reading like two.
+
+# The solvent-activity range, one key per ROUTE. The two sentences differ
+# in what they say, not only in which route they name, so they are two
+# rows rather than one with a `{route}` hole doing the work.
+activity-range-ion-interaction = "der angegebene Gültigkeitsbereich des Lösungsmittel-Aktivitätsmodells, auf dem dieser Übergang beruht ({route}): der Ionenwechselwirkungs-Datensatz ist bis etwa I = {fitted} mol/kgw angepasst, was diese Lösung bei {ceiling} mol/kgw gelöster Teilchen erreicht — sie liegt bei {molality}"
+activity-range-ideal = "der angegebene Gültigkeitsbereich des Lösungsmittel-Aktivitätsmodells, auf dem dieser Übergang beruht ({route}): da kein Aktivitätsmodell diese Lösung abdeckt, rechnet das Labor nach dem Raoultschen Gesetz, und das trägt es nicht über {ceiling} mol/kgw gelöster Teilchen hinaus — diese Lösung liegt bei {molality}"
+partial-freezing-cap = "die Modellgrenze für teilweises Gefrieren bei {temperature} °C: weiteres Abkühlen erfordert Salzkristallisation und ein stoffspezifisches eutektisches Phasendiagramm"
+# `{boundary}` is one of the three rows above, whole. A subordinate
+# clause, not an interpolated fragment: a language that wants it first can
+# put it first.
+brine-retained-at-boundary = "reines Eis wurde entfernt und die verbleibende Sole behalten, doch weiteres Abkühlen stößt auf {boundary}"
+ice-is-not-a-solution = "das Wasser in diesem Gefäß ist Eis, und Eis ist keine Lösung: pH-Wert, Ionenstärke und Speziesverteilung beschreiben allesamt Teilchen, die in einer Flüssigkeit gelöst sind — solange das Lösungsmittel gefroren ist, wird keine dieser Größen angegeben"
+boiling-is-not-settled = "das Wasser siedet und entweicht als Dampf, sodass sich das Gelöste im Rest vor Ihren Augen aufkonzentriert: Diese Werkbank meldet den Phasenübergang statt eines festen pH-Werts für eine Zusammensetzung, die sich noch ändert"
+stranded-solutes = "das letzte Wasser ist fort, und {names} werden weiterhin als gelöst geführt — ein Zustand, in dem ein Becherglas nicht sein kann. Woraus sie auskristallisieren, lässt sich aus den Ionen allein nicht entscheiden, deshalb rät das Labor die Feststoffe nicht"
+unavailable-crystallisation = "die Kristallisation von {salt}: {dissolved} mol sind gelöst, gegen eine Grenze von {capacity} mol bei dieser Temperatur, und {why}"
+no-dissolution-solver = "{name} ist mit einer Flüssigkeit in Kontakt; kein angebundener Löser modelliert diese Auflösung oder Reaktion"
+dissolves-unspeciated = "{name} löst sich, aber kein angebundener Löser berechnet die Speziesverteilung: Der Stoff trägt hier weder zum pH-Wert noch zur Ionenstärke bei; diese Werte gelten nur für die übrigen Stoffe im Becherglas"
+proton-consuming-kinetics = "{reaction}: Protonenverbrauchende Kinetik erfordert ein gekoppeltes Gleichgewicht aus schwacher Säure und Puffer: die gemessene freie Protonenaktivität ist nicht der titrierbare Säurevorrat. Dieser ungekoppelte Geschwindigkeitsschritt wird zurückgehalten, statt den Puffer als festen Säurevorrat zu behandeln"
+template-refused = "die Reaktionsvorlage der Familie {family} ließ sich nicht anwenden: {detail}"
+unregistered-condensed-species = "nicht verzeichnete kondensierte Spezies {key}"
+no-reviewed-still-properties = "die Destillation braucht geprüfte Dampfdruck- und Verdampfungswärme-Werte für {key}; es wurde keine Komponente übertragen"
+outside-constant-latent-domain = "die Mehrkomponentendestillation liegt außerhalb des begrenzten Clausius-Clapeyron-Bereichs mit konstanter Verdampfungswärme (innerhalb von 40 K um jeden Normalsiedepunkt, 1–128 ideale Stufen); es wurde keine Komponente übertragen"
+titration-pe-never-pinned = "die Bürette lief bis zu ihrer Grenze von {steps} Schritten, ohne pe {target} zu erreichen: an keiner Stelle dieser Titration wurde ein Potential festgelegt. Liegt nur eine Oxidationsstufe eines Redoxpaars im Kolben, hat die Elektronenbilanz keine Wurzel — pe ist dann unbestimmt und nicht etwa niedrig. Gib die andere Hälfte eines Redoxpaars zu oder titriere stattdessen auf eine Farbe"
+titration-pe-out-of-reach = "die Bürette lief bis zu ihrer Grenze von {steps} Schritten, ohne pe {target} zu erreichen; das zuletzt in diesem Kolben festgelegte Potential war {last}"
+# `{colour}` stands predicatively after "ist noch immer", where a German
+# adjective does NOT decline — so the colour word goes in plain here, and
+# `look.coloured`'s bracket trick is not needed.
+titration-colour-persists = "die Bürette lief bis zu ihrer Grenze von {steps} Schritten, und die Flüssigkeit ist noch immer {colour}: entweder liegt der Endpunkt weiter als {steps} Zugaben entfernt, oder nichts hier führt ein kuratiertes Absorptionsspektrum, das ein Auge lesen könnte. Erhöhe `max` oder titriere stattdessen auf einen pH- oder pe-Wert"
+kinetic-law-not-routed = "das Ergebnismodell kinetic_law ({kinetics}) ist noch nicht angebunden — BRD-050 verantwortet die Zulassung eines Geschwindigkeitsgesetzes aus einer Familie"
+unequal-stoichiometric-sums = "das Gleichgewichtsmodell braucht gleiche stöchiometrische Summen, damit sich das Volumen herauskürzt; dieser Eintrag hat {in_sum} hinein und {out_sum} heraus"
+supersaturated-no-registry-solid = "die Lösung ist gegenüber {phases} übersättigt. Diese Festphasen stehen in {database}.dat, haben aber keinen passenden Feststoff im Verzeichnis dieses Labors; ihre Fällung ist deshalb nicht enthalten. Übersättigung allein entscheidet weder, ob sich ein Niederschlag bildet, noch wie schnell"
+supersaturated-below-formation-temperature = "die Lösung ist gegenüber {phases} übersättigt; unterhalb der Bildungstemperatur-Schwelle des Verzeichnisses bei {temperature} °C wird sie bewusst zurückgehalten. Das ist eine kuratierte Metastabilitätsgrenze, keine berechnete Keimbildungs- oder Wachstumsgeschwindigkeit"
+supersaturated-solid-not-offered = "die Lösung ist gegenüber {phases} übersättigt. Passende Feststoffe gibt es im Verzeichnis dieses Labors, sie wurden in dieser wässrigen Gleichgewichtsaufgabe aber nicht angeboten; Phasenauswahl, Beschränkungen der Oxidationsstufe oder die Zuständigkeit eines anderen Modells können sie ausschließen. Ihre Bildung und deren Zeitverlauf sagen diese Sättigungsindizes nicht voraus"
+saturation-index-is-a-gas = "{phases} sind Sättigungsindizes der Gasphase, bezogen auf die Referenzfugazität der thermodynamischen Datenbank, und keine fehlenden Niederschläge. Lies sie zusammen mit der Gasgrenze und dem Druck dieses Gefäßes; für sich allein sagen diese Indizes weder Blasenbildung noch Gasübergangszeiten voraus"
+saturation-index-unclassified = "für {phases} werden Sättigungsindizes gemeldet, es gibt aber keine Phasendefinition im gewählten Diagnoseindex {database}; ihr Phasentyp und der Grund ihres Ausschlusses lassen sich nicht einordnen"
+# Two whole sentences, each its own row, joined by `look.sentence-join`.
+at-the-reference-temperature = "Die Lösung liegt bei der tabellierten Referenztemperatur."
+away-from-the-reference-temperature = "Bei dieser Gefäßtemperatur sind das Näherungen für die Referenztemperatur, keine geprüften temperaturabhängigen Konstanten."
+usbm-reference-complexes = "Die Speziesverteilung der Kupfer-Ammin- und Eisen-Thiocyanat-Komplexe verwendet die gemeinfreien kumulativen Konstanten aus USBM IC 9429 bei 25 °C und Ionenstärke null, mit den Aktivitätskorrekturen der gewählten Datenbank. {temperature} Bildungsenthalpien der Komplexe, Geschwindigkeitsgesetze und Komplexspektren liefert dieser Datenausschnitt nicht; Reaktionswärme und Farbe sind daher unvollständig, wo diese Beiträge ins Gewicht fallen."
+thiocyanate-slice = "Thiocyanat wird als erhaltener SCN−-Ligand behandelt. Die Protonierung zu HNCS, Ligandenredoxvorgänge und die Bindung an andere Metalle als Fe(III) deckt dieser Ausschnitt nicht ab; insbesondere ist er kein vollständiges Thiocyanat-Modell für starke Säuren. KSCN ist ein wässriges analytisches Äquivalent, kein Modell für die Auflösung des Feststoffs."
+hbr-at-the-reference-temperature = "Dieser Zustand liegt bei der Referenztemperatur von 25 °C."
+hbr-away-from-the-reference-temperature = "Abseits von 25 °C wird hier eine lokale van-'t-Hoff-Näherung mit konstanter Enthalpie verwendet, keine geprüfte Korrelation über einen weiten Temperaturbereich."
+hbr-gas-uptake = "Die HBr-Gasaufnahme verwendet die dissoziative Henry-Konstante aus der CC-BY-Sammlung von Sander, umgerechnet von der Konzentration auf den verdünnt-molalen Standardzustand. Die Reaktionsenthalpie stammt aus deren lokaler Temperatursteigung und einer Korrektur für die Lösungsmitteldichte, nicht aus einer eigenständigen kalorimetrischen Messung. {temperature} Der Gasübergang ist eine Gleichgewichtsgrenze, kein zeitabhängiges Absorptionsmodell."
+finite-gas-dose = "{species}, endliche Gasdosis: die Aufnahme ist eine augenblickliche Gleichgewichtsrechnung, keine Stoffübergangsgeschwindigkeit. Nach der Dosis tauscht nur ausdrücklich eingerichtete Atmosphärenspezies mit einem äußeren Reservoir aus; aus der Dosis wird kein neues Reservoir abgeleitet. Wartezeit parametrisiert das Ausgasen nicht"
+redox-coupling-stood-down = "diese Elemente haben nicht miteinander reagiert — sie werden in den Oxidationsstufen gezeigt, in denen sie zugegeben wurden, und das ist nicht, was das Becherglas täte: {why}"
+unnameable-oxidation-state = "{moles} mol haben sich als {column} eingestellt, eine Oxidationsstufe, für die dieses Labor keinen Namen hat — sie steht nicht im Bestand des Gefäßes, es ist also etwas weniger von diesem Element im Glas, als hineingegeben wurde"
+unnameable-product = "die Familie {family} hat eine Struktur erzeugt, die das Verzeichnis nicht benennen kann ({smiles}); die Menge des Benennbaren ist die Grenze, und sie zu erweitern ist eine Aufgabe für das Verzeichnis und kein stilles Weglassen"
+dissolved-and-unspeciated = "{name} ist gelöst und ohne Speziesverteilung: {why}"
+no-component-mapping = "{name} ist ein ionischer gelöster Stoff ohne Zuordnung zu einer wässrigen Komponente in diesem Labor. Seine Ionenverteilung, Acidität, Leitfähigkeit und Reaktionen sind nicht enthalten; jeder Lösungswert beschreibt nur die abgebildeten Komponenten, nicht die vollständige Mischung."
+unspeciated-acidity = "diese Lösung enthält eine Säure, deren Acidität nicht modelliert ist: {why}. Der angezeigte pH-Wert ist der pH-Wert alles Übrigen im Glas, und die wirkliche Lösung ist saurer, als er angibt"
+milk-buffer-lower-bound = "diese Milch wurde auf pH {ph} angesäuert, und der Wert ist eine UNTERE SCHRANKE — das wirkliche Becherglas ist milder. {assumption} (die vollständige Annahme des Rezepts steht in `explain material whole_milk`)"
+
 # Looked up by VALUE. Substrate and nucleophile classes are WORDS, which
 # is why they are not baked into the sentence: German declines them.
 [substrate-class]
@@ -1555,3 +1624,26 @@ weak = "schwach"
 "glowing splint" = "Glimmspanprobe"
 "limewater" = "Kalkwasserprobe"
 "damp red litmus" = "feuchtes rotes Lackmuspapier"
+
+# Curated rows keyed by their PLACE in the table they came from, the shape
+# `[inert-in-solvent]` introduced: the sentence has no holes, so a key
+# built out of its English orphans the German the moment somebody rewords
+# the row.
+
+# `solve::UNAVAILABLE_SOLID_PHASES`, by the salt it is about.
+[unavailable-solid]
+"sodium acetate" = "der Feststoff, als der es auskristallisieren würde, ist Natriumacetat-Trihydrat, und keine mit diesem Projekt ausgelieferte PHREEQC-Datenbank definiert überhaupt eine Acetat-Festphase — die wässrige Rechenmaschine hat also nichts zu fällen, und die Kristallisation, auf der ein Taschenwärmer beruht, lässt sich hier nicht berechnen"
+
+# `derived::UNSPECIATED_ACIDS`, by the registry key of the acid.
+[unspeciated-acid]
+malic_acid = "keine mitgelieferte Datenbank definiert eine Malat-Spezies, deshalb stecken seine beiden Carboxyl-Protonen nicht in diesem pH-Wert"
+
+# `derived::UNSPECIATED_SOLUTES`, by the registry key. The table is empty
+# and the section is here so the next row has somewhere to land.
+[unspeciated-solute]
+
+# A sentence QUOTED from a material recipe's own `lot_assumptions`, keyed
+# by the recipe and the assumption rather than by its text — the recipe is
+# data, and the quote has to survive it being reworded.
+[material-assumption]
+whole_milk-casein = "KASEIN IST NICHT MODELLIERT, SEINE PUFFERWIRKUNG FEHLT DAHER"

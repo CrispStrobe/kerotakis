@@ -593,17 +593,13 @@ impl Equilibrator for MixingEquilibrator {
         // K51: and the salts that are past saturation and cannot be made
         // to come out. Silence here is the answer a learner cannot use.
         for gap in unavailable_crystallisations(vessel) {
-            events.push(Event::NotYetModeled {
-                vessel: vessel.id,
+            events.push(Event::not_modeled(
+                vessel.id,
                 // Not a gap in our gift: no PHREEQC database vendored with
                 // this project defines an acetate solid phase at all.
-                cause: crate::ops::NotModelledCause::NotInAnyDatabase,
-                what: format!(
-                    "the crystallisation of {}: {:.3} mol is dissolved against a limit of {:.3} mol at this temperature, and {}",
-                    gap.salt, gap.dissolved.0, gap.capacity.0, gap.reason
-                ),
-                reason: None,
-            });
+                crate::ops::NotModelledCause::NotInAnyDatabase,
+                gap.phrase(),
+            ));
         }
 
         Ok(events)
@@ -699,17 +695,13 @@ impl Equilibrator for MixingEquilibrator {
         // one that does not. K51's refusal is exactly the kind of line
         // that would go missing.
         for gap in unavailable_crystallisations(vessel) {
-            events.push(Event::NotYetModeled {
-                vessel: vessel.id,
+            events.push(Event::not_modeled(
+                vessel.id,
                 // Not a gap in our gift: no PHREEQC database vendored with
                 // this project defines an acetate solid phase at all.
-                cause: crate::ops::NotModelledCause::NotInAnyDatabase,
-                what: format!(
-                    "the crystallisation of {}: {:.3} mol is dissolved against a limit of {:.3} mol at this temperature, and {}",
-                    gap.salt, gap.dissolved.0, gap.capacity.0, gap.reason
-                ),
-                reason: None,
-            });
+                crate::ops::NotModelledCause::NotInAnyDatabase,
+                gap.phrase(),
+            ));
         }
 
         Ok((delta, events))
@@ -775,6 +767,36 @@ pub struct UnavailableCrystallisation {
     pub reason: &'static str,
 }
 
+impl UnavailableCrystallisation {
+    /// The refusal as a RECIPE (I18N-10).
+    ///
+    /// The curated half — `reason` — is keyed by the ROW of
+    /// [`UNAVAILABLE_SOLID_PHASES`] it came from rather than by its own
+    /// English, the same decision `INERT_IN_SOLVENT` took in #626 and for
+    /// the same reason: a curated verdict has no holes, so a key built
+    /// out of its text orphans every translation the moment somebody
+    /// rewords it. The place a curated verdict lives is the row.
+    pub fn phrase(&self) -> Phrase {
+        let curated = Phrase::bare(&format!("unavailable-solid.{}", self.salt), self.reason);
+        Phrase::new(
+            "not-modeled.unavailable-crystallisation",
+            "the crystallisation of {salt}: {dissolved} mol is dissolved against a limit of {capacity} mol at this temperature, and {why}",
+            vec![
+                ("salt".to_string(), Slot::term("species", self.salt)),
+                (
+                    "dissolved".to_string(),
+                    Slot::number(format!("{:.3}", self.dissolved.0)),
+                ),
+                (
+                    "capacity".to_string(),
+                    Slot::number(format!("{:.3}", self.capacity.0)),
+                ),
+                ("why".to_string(), Slot::phrase(curated)),
+            ],
+        )
+    }
+}
+
 /// (cation key, anion key, salt name, g per 100 mL at 20 °C, g/mol, why).
 ///
 /// Deliberately a short curated list rather than anything derived: a row
@@ -788,6 +810,19 @@ const UNAVAILABLE_SOLID_PHASES: &[(&str, &str, &str, f64, f64, &str)] = &[(
     82.034,
     "the solid it would crystallise as is sodium acetate trihydrate, and no PHREEQC database vendored with this project defines any acetate solid phase at all — so the aqueous engine has nothing to precipitate and the crystallisation a hand warmer is built on cannot be computed here",
 )];
+
+/// The salt named by each row of [`UNAVAILABLE_SOLID_PHASES`].
+///
+/// The table is private and its rows are the KEYS a catalogue translates
+/// the verdicts by, so the denominator a locale gate counts against has
+/// to come from here rather than from the catalogue — #505's scar.
+#[must_use]
+pub fn unavailable_solid_phase_salts() -> Vec<&'static str> {
+    UNAVAILABLE_SOLID_PHASES
+        .iter()
+        .map(|(_, _, salt, ..)| *salt)
+        .collect()
+}
 
 /// Salts held past saturation whose solid the bench cannot form.
 pub fn unavailable_crystallisations(vessel: &Vessel) -> Vec<UnavailableCrystallisation> {
@@ -1370,12 +1405,11 @@ impl Equilibrator for StateEquilibrator {
         // the asymmetry is about which wrong answer is recoverable.
         let would_change_state = liquid_water && (now < t.freezing_k || now >= t.boiling_k);
         if would_change_state && !t.within_model_range() {
-            events.push(Event::NotYetModeled {
-                cause: crate::ops::NotModelledCause::ModelBoundary,
-                vessel: vessel.id,
-                what: t.solvent.out_of_range_reason(solute_molality),
-                reason: None,
-            });
+            events.push(Event::not_modeled(
+                vessel.id,
+                crate::ops::NotModelledCause::ModelBoundary,
+                t.solvent.out_of_range_reason(solute_molality),
+            ));
             return Ok(events);
         }
 
@@ -1425,9 +1459,16 @@ impl Equilibrator for StateEquilibrator {
             let boundary_reason = if activity_cap < eutectic_cap {
                 t.solvent.out_of_range_reason(activity_cap)
             } else {
-                format!(
-                    "the partial-freezing model boundary at {:.1} °C: further cooling needs salt crystallisation and a solute-specific eutectic phase diagram",
-                    Kelvin(crate::states::BRINE_MODEL_MIN_K).to_celsius()
+                Phrase::new(
+                    "not-modeled.partial-freezing-cap",
+                    "the partial-freezing model boundary at {temperature} °C: further cooling needs salt crystallisation and a solute-specific eutectic phase diagram",
+                    vec![(
+                        "temperature".to_string(),
+                        Slot::number(format!(
+                            "{:.1}",
+                            Kelvin(crate::states::BRINE_MODEL_MIN_K).to_celsius()
+                        )),
+                    )],
                 )
             };
             let minimum_liquid_moles = if particle_moles > 0.0 {
@@ -1490,12 +1531,11 @@ impl Equilibrator for StateEquilibrator {
 
             if freezing <= crate::OBSERVABLE_MOLES {
                 if reached_boundary {
-                    events.push(Event::NotYetModeled {
-                        cause: crate::ops::NotModelledCause::ModelBoundary,
-                        vessel: vessel.id,
-                        what: boundary_reason.clone(),
-                        reason: None,
-                    });
+                    events.push(Event::not_modeled(
+                        vessel.id,
+                        crate::ops::NotModelledCause::ModelBoundary,
+                        boundary_reason.clone(),
+                    ));
                 }
                 return Ok(events);
             }
@@ -1563,14 +1603,21 @@ impl Equilibrator for StateEquilibrator {
             // leave a stale one beside a frozen vessel.
             vessel.solution = None;
             if reached_boundary {
-                events.push(Event::NotYetModeled {
-                    cause: crate::ops::NotModelledCause::ModelBoundary,
-                    vessel: vessel.id,
-                    what: format!(
-                        "pure ice was removed and the residual brine retained, but further cooling meets {boundary_reason}"
+                // The boundary sentence is NESTED, not interpolated: it is
+                // a clause of its own with its own holes, and a language
+                // that puts the subordinate clause first needs it whole.
+                events.push(Event::not_modeled(
+                    vessel.id,
+                    crate::ops::NotModelledCause::ModelBoundary,
+                    Phrase::new(
+                        "not-modeled.brine-retained-at-boundary",
+                        "pure ice was removed and the residual brine retained, but further cooling meets {boundary}",
+                        vec![(
+                            "boundary".to_string(),
+                            Slot::phrase(boundary_reason.clone()),
+                        )],
                     ),
-                    reason: None,
-                });
+                ));
             }
         } else if frozen_water && now > t.freezing_k {
             // Melting, with the same plateau in reverse — and the same
@@ -1759,12 +1806,11 @@ impl Equilibrator for StateEquilibrator {
                     .filter_map(|p| species::lookup(&p.species).map(|d| d.name))
                     .collect();
                 if !stranded.is_empty() {
-                    events.push(Event::NotYetModeled {
-                        cause: crate::ops::NotModelledCause::NoSolver,
-                        vessel: vessel.id,
-                        what: stranded_solutes(&stranded),
-                        reason: None,
-                    });
+                    events.push(Event::not_modeled(
+                        vessel.id,
+                        crate::ops::NotModelledCause::NoSolver,
+                        stranded_solutes(&stranded),
+                    ));
                 }
             }
         }
@@ -2094,15 +2140,21 @@ impl SolventState {
     /// The sentence the bench owes a reader, and the cause to file it
     /// under. `None` where there is nothing to apologise for.
     ///
-    pub fn boundary(self) -> Option<(String, crate::ops::NotModelledCause)> {
+    pub fn boundary(self) -> Option<(Phrase, crate::ops::NotModelledCause)> {
         match self {
             Self::Settled | Self::Pure | Self::Absent => None,
             Self::Frozen => Some((
-                "the water in this vessel is ice, and ice is not a solution: pH, ionic strength and speciation all describe particles dissolved in a liquid, so none of them is reported while the solvent is frozen".to_string(),
+                Phrase::bare(
+                    "not-modeled.ice-is-not-a-solution",
+                    "the water in this vessel is ice, and ice is not a solution: pH, ionic strength and speciation all describe particles dissolved in a liquid, so none of them is reported while the solvent is frozen",
+                ),
                 crate::ops::NotModelledCause::NoSolution,
             )),
             Self::Boiling => Some((
-                "the water is at the boil and leaving as steam, so what is dissolved in the rest is concentrating while you look at it: this bench reports the transition rather than a settled pH for a composition that is still changing".to_string(),
+                Phrase::bare(
+                    "not-modeled.boiling-is-not-settled",
+                    "the water is at the boil and leaving as steam, so what is dissolved in the rest is concentrating while you look at it: this bench reports the transition rather than a settled pH for a composition that is still changing",
+                ),
                 crate::ops::NotModelledCause::ModelBoundary,
             )),
         }
@@ -2177,13 +2229,22 @@ pub fn solvent_state(vessel: &Vessel) -> SolventState {
 /// dryness by a burner gets the same words as one dried on a hotplate.
 /// Which verb reached the state is not the reader's problem; that it is a
 /// state no beaker can be in is.
-pub fn stranded_solutes(names: &[&str]) -> String {
-    format!(
-        "the last of the water is gone and {} are still shown as dissolved, \
+pub fn stranded_solutes(names: &[&str]) -> Phrase {
+    Phrase::new(
+        "not-modeled.stranded-solutes",
+        "the last of the water is gone and {names} are still shown as dissolved, \
          which is not a state a beaker can be in. What they crystallise into \
          is not decidable from the ions alone, so the bench will not guess at \
          the solids",
-        names.join(", ")
+        vec![(
+            // Still a `", "` join inside a `Slot::Text` rather than a
+            // `Slot::List`, which is the follow-up I18N-10 wrote down and
+            // deliberately did not take: the list grammar renders
+            // "a, b and c" where this renders "a, b, c", so converting it
+            // CHANGES the English and wants a golden pass of its own.
+            "names".to_string(),
+            Slot::text(names.join(", ")),
+        )],
     )
 }
 
@@ -2228,13 +2289,8 @@ impl Equilibrator for HonestyEquilibrator {
         // decided this vessel is not a settled solution; this is where
         // that decision reaches the reader and the meter.
         let state = solvent_state(vessel);
-        if let Some((what, cause)) = state.boundary() {
-            events.push(Event::NotYetModeled {
-                cause,
-                vessel: vessel.id,
-                what,
-                reason: None,
-            });
+        if let Some((reason, cause)) = state.boundary() {
+            events.push(Event::not_modeled(vessel.id, cause, reason));
             // And withdraw the reading itself, so `PhMeter::applies` is
             // false and the conductivity meter and the pH badge go with
             // it. Reporting the boundary in prose while the instrument
@@ -2419,29 +2475,29 @@ impl Equilibrator for HonestyEquilibrator {
                         continue;
                     }
                 }
-                let (what, cause) = if species::lookup(&p.species)
+                let named = vec![("name".to_string(), Slot::term("species", name))];
+                let (reason, cause) = if species::lookup(&p.species)
                     .is_some_and(|d| d.dissolves_without_speciation)
                 {
                     (
-                        format!(
-                            "{name} dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+                        Phrase::new(
+                            "not-modeled.dissolves-unspeciated",
+                            "{name} dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+                            named,
                         ),
                         crate::ops::NotModelledCause::NotSpeciated,
                     )
                 } else {
                     (
-                        format!(
-                            "{name} in contact with liquid: no wired solver models this dissolution/reaction"
+                        Phrase::new(
+                            "not-modeled.no-dissolution-solver",
+                            "{name} in contact with liquid: no wired solver models this dissolution/reaction",
+                            named,
                         ),
                         crate::ops::NotModelledCause::NoSolver,
                     )
                 };
-                events.push(Event::NotYetModeled {
-                    vessel: vessel.id,
-                    what,
-                    cause,
-                    reason: None,
-                });
+                events.push(Event::not_modeled(vessel.id, cause, reason));
             }
         }
         Ok(events)
@@ -2460,13 +2516,8 @@ impl Equilibrator for HonestyEquilibrator {
         // The preview cannot withdraw the reading (it holds the vessel by
         // reference), so it says the sentence and leaves the withdrawal to
         // the pass that owns the mutation.
-        if let Some((what, cause)) = solvent_state(vessel).boundary() {
-            events.push(Event::NotYetModeled {
-                cause,
-                vessel: vessel.id,
-                what,
-                reason: None,
-            });
+        if let Some((reason, cause)) = solvent_state(vessel).boundary() {
+            events.push(Event::not_modeled(vessel.id, cause, reason));
             return Ok((delta, events));
         }
         if vessel
@@ -2561,29 +2612,29 @@ impl Equilibrator for HonestyEquilibrator {
                         continue;
                     }
                 }
-                let (what, cause) = if species::lookup(&p.species)
+                let named = vec![("name".to_string(), Slot::term("species", name))];
+                let (reason, cause) = if species::lookup(&p.species)
                     .is_some_and(|d| d.dissolves_without_speciation)
                 {
                     (
-                        format!(
-                            "{name} dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+                        Phrase::new(
+                            "not-modeled.dissolves-unspeciated",
+                            "{name} dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+                            named,
                         ),
                         crate::ops::NotModelledCause::NotSpeciated,
                     )
                 } else {
                     (
-                        format!(
-                            "{name} in contact with liquid: no wired solver models this dissolution/reaction"
+                        Phrase::new(
+                            "not-modeled.no-dissolution-solver",
+                            "{name} in contact with liquid: no wired solver models this dissolution/reaction",
+                            named,
                         ),
                         crate::ops::NotModelledCause::NoSolver,
                     )
                 };
-                events.push(Event::NotYetModeled {
-                    vessel: vessel.id,
-                    what,
-                    cause,
-                    reason: None,
-                });
+                events.push(Event::not_modeled(vessel.id, cause, reason));
             }
         }
 

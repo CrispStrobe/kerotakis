@@ -1,5 +1,6 @@
 //! Explain unoffered thermodynamic phases without inventing precipitation kinetics.
 use crate::derived;
+use kerotakis_core::phrase::{Phrase, Slot};
 use kerotakis_core::{ops::NotModelledCause, species, Event, VesselId};
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -80,35 +81,63 @@ pub(crate) fn events(
             continue;
         }
         phases.sort_by(|a, b| b.1.total_cmp(&a.1).then(a.0.cmp(b.0)));
-        let named = describe(&phases);
-        let (cause, what) = match category {
+        // The phase list stays ONE text slot rather than a `Slot::List`
+        // of terms. A PHREEQC phase name is notation — `Ca-Montmor`,
+        // `Fe(OH)3(a)` — and each carries its index in brackets after it,
+        // so nothing in it is a word; and the list grammar renders
+        // "a, b and c" where this renders "a, b, c", which would change
+        // the English. I18N-10's follow-up owns that pass.
+        let named = Slot::text(describe(&phases));
+        let db = || ("database".to_string(), Slot::text(db_tag));
+        let (cause, reason) = match category {
             Exclusion::MissingSolid => (
                 NotModelledCause::PhaseNotInRegistry,
-                format!("the solution is supersaturated against {named}. These solid phases are in {db_tag}.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms"),
+                Phrase::new(
+                    "not-modeled.supersaturated-no-registry-solid",
+                    "the solution is supersaturated against {phases}. These solid phases are in {database}.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms",
+                    vec![("phases".to_string(), named), db()],
+                ),
             ),
             Exclusion::TemperatureWithheld => (
                 NotModelledCause::ModelBoundary,
-                format!("the solution is supersaturated against {named}, deliberately withheld below the registry's formation-temperature threshold at {:.0} °C. This is a curated metastability boundary, not a computed nucleation or growth rate", temperature_k - 273.15),
+                Phrase::new(
+                    "not-modeled.supersaturated-below-formation-temperature",
+                    "the solution is supersaturated against {phases}, deliberately withheld below the registry's formation-temperature threshold at {temperature} °C. This is a curated metastability boundary, not a computed nucleation or growth rate",
+                    vec![
+                        ("phases".to_string(), named),
+                        (
+                            "temperature".to_string(),
+                            Slot::number(format!("{:.0}", temperature_k - 273.15)),
+                        ),
+                    ],
+                ),
             ),
             Exclusion::RegisteredExcluded => (
                 NotModelledCause::ModelBoundary,
-                format!("the solution is supersaturated against {named}. Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices"),
+                Phrase::new(
+                    "not-modeled.supersaturated-solid-not-offered",
+                    "the solution is supersaturated against {phases}. Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices",
+                    vec![("phases".to_string(), named)],
+                ),
             ),
             Exclusion::GasBoundary => (
                 NotModelledCause::ModelBoundary,
-                format!("{named} are gas-phase saturation indices relative to the thermodynamic database's reference fugacity, not missing precipitates. Interpret them with this vessel's gas boundary and pressure; these indices alone predict neither bubble formation nor gas-transfer times"),
+                Phrase::new(
+                    "not-modeled.saturation-index-is-a-gas",
+                    "{phases} are gas-phase saturation indices relative to the thermodynamic database's reference fugacity, not missing precipitates. Interpret them with this vessel's gas boundary and pressure; these indices alone predict neither bubble formation nor gas-transfer times",
+                    vec![("phases".to_string(), named)],
+                ),
             ),
             Exclusion::UnknownPhase => (
                 NotModelledCause::ModelBoundary,
-                format!("{named} have reported saturation indices but no phase definition in the selected {db_tag} diagnostic index; their phase type and exclusion reason cannot be classified"),
+                Phrase::new(
+                    "not-modeled.saturation-index-unclassified",
+                    "{phases} have reported saturation indices but no phase definition in the selected {database} diagnostic index; their phase type and exclusion reason cannot be classified",
+                    vec![("phases".to_string(), named), db()],
+                ),
             ),
         };
-        result.push(Event::NotYetModeled {
-            cause,
-            vessel,
-            what,
-            reason: None,
-        });
+        result.push(Event::not_modeled(vessel, cause, reason));
     }
     result
 }

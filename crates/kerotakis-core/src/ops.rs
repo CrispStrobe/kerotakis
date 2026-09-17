@@ -1962,10 +1962,34 @@ pub enum Event {
         /// it, with the denominator read out of the SOURCE. Where it is
         /// `Some`, `what` is GENERATED from it — one sentence rather than
         /// two to drift — and `render.rs` prefers it over the
-        /// suffix-matching fallback `localize_refusal` still provides for
+        /// English-keyed fallback `localize_refusal` still provides for
         /// the rest.
         #[serde(default, skip_serializing_if = "Option::is_none")]
         reason: Option<crate::phrase::Phrase>,
+        /// GUI-106: the step that produced this note ALSO changed how the
+        /// vessel looks.
+        ///
+        /// A gap in the model and a claim about the beaker are two
+        /// different things, and the lv1 register said both with one
+        /// sentence: *nothing visible happens in v2*. Running
+        /// `starch-iodine-test.lab`, that sentence stood one line above
+        /// *the liquid is blue-black and so cloudy you cannot see through
+        /// it* — in the lesson whose entire point is the colour change.
+        /// The note was true (no wired solver speciates starch); the
+        /// sentence carrying it was false.
+        ///
+        /// So the bench measures the thing the sentence claims. It reads
+        /// `appearance::observe` before the operator and again after the
+        /// solvers — exactly as it already does for swelling, curdling
+        /// and the luminol glow — and sets this where the observation
+        /// moved. The note is never dropped: at every register it still
+        /// says what is not modelled, and lv1 says it in a sentence that
+        /// no longer contradicts the next line.
+        ///
+        /// Defaulted and omitted when false, so no saved log changes
+        /// shape and no golden fixture stops loading.
+        #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+        beside_a_visible_change: bool,
     },
     /// The solvent changed state: froze, melted or boiled.
     ///
@@ -2232,6 +2256,9 @@ impl Event {
             what: reason.render(crate::i18n::Locale::EN),
             cause,
             reason: Some(reason),
+            // Only the bench can see the vessel on both sides of a step,
+            // so only the bench can set this.
+            beside_a_visible_change: false,
         }
     }
 
