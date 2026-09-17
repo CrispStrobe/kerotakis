@@ -74,11 +74,11 @@ fn add_to(prepare: impl FnOnce(&mut Vessel), key: &str, moles: f64) -> Vec<Event
 }
 
 fn lv1(events: &[Event]) -> Vec<String> {
-    kerotakis_core::render::render_events(events, kerotakis_core::render::Register::LV1)
+    render_events(events, Register::LV1)
 }
 
 fn lv2(events: &[Event]) -> Vec<String> {
-    kerotakis_core::render::render_events(events, kerotakis_core::render::Register::LV2)
+    render_events(events, Register::LV2)
 }
 
 /// The lesson's own step: cornstarch into dilute Lugol solution.
@@ -94,19 +94,16 @@ fn a_gap_beside_a_colour_change_stops_saying_nothing_happened() {
         0.006_1,
     );
 
-    // The liquid really did move: brown before, blue-black after.
-    assert_eq!(
-        kerotakis_core::appearance::observe(&{
-            let mut v = Vessel::new(VesselId(0), "beaker");
-            v.deposit(SpeciesId::new("water"), Moles(5.55), Phase::Liquid);
-            v.deposit(SpeciesId::new("KI"), Moles(0.000_245), Phase::Aqueous);
-            v.deposit(SpeciesId::new("I2"), Moles(0.000_080), Phase::Aqueous);
-            v
-        })
-        .liquid
-        .is_some(),
-        true,
-        "the control is a coloured liquid"
+    // The flag is set, and set for the right reason: the liquid moved.
+    assert!(
+        events.iter().any(|event| matches!(
+            event,
+            Event::NotYetModeled {
+                beside_a_visible_change: true,
+                ..
+            }
+        )),
+        "the bench saw the colour move: {events:#?}"
     );
 
     let lines = lv1(&events);
