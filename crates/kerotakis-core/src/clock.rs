@@ -16,6 +16,7 @@
 
 use crate::kinetics::{IntegrationError, KineticContext};
 use crate::ops::{CentrifugeSeparation, Event};
+use crate::phrase::{Phrase, Slot};
 use crate::solve::Equilibrator;
 use crate::species::{self, Phase, SpeciesId};
 use crate::units::{Kelvin, Moles};
@@ -381,6 +382,7 @@ impl Clock for CuratedKineticsClock {
                         cause: crate::ops::NotModelledCause::ModelBoundary,
                         vessel: vessel.id,
                         what: format!("{}: {detail}", reaction.id),
+                        reason: None,
                     });
                 }
             }
@@ -434,11 +436,16 @@ impl Clock for CuratedKineticsClock {
                 .reactants()
                 .any(|term| term.species == crate::kinetics::PROTON)
             {
-                events.push(Event::NotYetModeled {
-                    cause: crate::ops::NotModelledCause::ModelBoundary,
-                    vessel: vessel.id,
-                    what: format!("{} consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law.", reaction.id),
-                });
+                let reason = Phrase::new(
+                    "not-modeled.finite-acid-inventory",
+                    "{reaction} consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law.",
+                    vec![("reaction".to_string(), Slot::text(reaction.id))],
+                );
+                events.push(Event::not_modeled(
+                    vessel.id,
+                    crate::ops::NotModelledCause::ModelBoundary,
+                    reason,
+                ));
             }
             let (ea, catalyst) =
                 reaction.effective_activation_energy_with_context(vessel, ctx.kinetic);

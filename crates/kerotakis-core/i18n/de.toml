@@ -945,40 +945,22 @@ boiled = "siedete"
 # change to the wire format, and a separate decision.
 [refusal]
 "sealed vessel over-pressurised and burst" = "verschlossenes Gefäß überdruckt und geborsten"
-"heating an empty vessel (container heat capacity not modelled)" = "Erwärmen eines leeren Gefäßes (Wärmekapazität des Gefäßes nicht modelliert)"
-"nothing to evaporate — no water in the vessel" = "nichts zu verdampfen — kein Wasser im Gefäß"
-"no aqueous solution for spectrophotometer" = "keine wässrige Lösung für das Spektralphotometer"
 "radioactive source: ionising radiation" = "radioaktive Quelle: ionisierende Strahlung"
 "liquid nitrogen is a cryogen and its boil-off displaces breathable air" = "Flüssiger Stickstoff ist ein Kryogen; sein verdampfendes Gas verdrängt Atemluft"
 "a liquid medium is required" = "ein flüssiges Medium ist erforderlich"
 "no solid particles are present" = "es sind keine festen Teilchen vorhanden"
 "the water in this vessel is ice, and ice is not a solution: pH, ionic strength and speciation all describe particles dissolved in a liquid, so none of them is reported while the solvent is frozen" = "das Wasser in diesem Gefäß ist Eis, und Eis ist keine Lösung: pH-Wert, Ionenstärke und Speziesverteilung beschreiben allesamt Teilchen, die in einer Flüssigkeit gelöst sind — solange das Lösungsmittel gefroren ist, wird keine dieser Größen angegeben"
 "the water is at the boil and leaving as steam, so what is dissolved in the rest is concentrating while you look at it: this bench reports the transition rather than a settled pH for a composition that is still changing" = "das Wasser siedet und entweicht als Dampf, sodass sich das Gelöste im Rest vor Ihren Augen aufkonzentriert: Diese Werkbank meldet den Phasenübergang statt eines festen pH-Werts für eine Zusammensetzung, die sich noch ändert"
-"the pH meter reads nothing — no aqueous solution has been characterised in this vessel" = "das pH-Meter zeigt nichts an — in diesem Gefäß wurde keine wässrige Lösung charakterisiert"
-"the conductivity meter reads nothing — no aqueous solution has been characterised" = "das Leitfähigkeitsmessgerät zeigt nichts an — es wurde keine wässrige Lösung charakterisiert"
-"A kinetic outcome requires a routed time model; zero extent does not establish equilibrium" = "Ein kinetisches Ergebnis erfordert ein zugeordnetes Zeitmodell; ein Umsatz von null weist kein Gleichgewicht nach"
-"pH crossing bracketed, but endpoint refinement did not converge to 0.0001 pH; the closest computed state is retained" = "Die pH-Überschreitung wurde eingegrenzt, aber die Endpunktverfeinerung konvergierte nicht auf 0,0001 pH-Einheiten; der nächstgelegene berechnete Zustand wird beibehalten"
-# The fixed reasons a gap gives, keyed by their English. Thirteen of these
-# reached a German learner in English until `every_fixed_gap_reason_has_german`
-# started reading them out of the source: the table was 100% translated over
-# the rows it had, which is the failure mode every gate in this repo exists
-# for. A reason that interpolates a value cannot be keyed this way at all —
-# see I18N.md, "What the English-keyed table cannot reach".
-"whether these contents burn: no wired solver models combustion for them, so the lab cannot say either way" = "ob dieser Inhalt brennt: kein angebundener Löser modelliert die Verbrennung dafür, das Labor kann es also weder bejahen noch verneinen"
-"cooling an empty vessel (container heat capacity not modelled)" = "Abkühlen eines leeren Gefäßes (Wärmekapazität des Gefäßes nicht modelliert)"
-"distillation of a vessel with no liquid water or ethanol — other volatile liquids need their Antoine constants curated first" = "Destillation eines Gefäßes ohne flüssiges Wasser oder Ethanol — für andere flüchtige Flüssigkeiten müssen erst die Antoine-Konstanten kuratiert werden"
-"draining a single-phase liquid — the funnel only separates what the thermodynamics has already split into layers" = "Ablassen einer einphasigen Flüssigkeit — der Trichter trennt nur, was die Thermodynamik bereits in Schichten aufgeteilt hat"
-"the volume meter reads a sealed vessel's headspace, and this one is open — seal it to give the gas a measured volume. The liquid's own volume is on the vessel line." = "das Volumenmessgerät liest den Gasraum eines verschlossenen Gefäßes, und dieses hier ist offen — verschließe es, damit das Gas ein gemessenes Volumen bekommt. Das Volumen der Flüssigkeit selbst steht in der Gefäßzeile."
-"the conductivity meter is on a dry solid the registry carries no electrical resistivity for — the reading needs a reviewed value, not a guess" = "das Leitfähigkeitsmessgerät liegt an einem trockenen Feststoff, für den das Verzeichnis keinen elektrischen Widerstand führt — die Messung braucht einen geprüften Wert, keine Schätzung"
-"the dissolved ions' share of this density: every ion in the registry carries water's density as a structural default rather than a measured one, so a salt solution reads as the water it was made from. The solvent's figure is right and the solutes' is missing" = "den Anteil der gelösten Ionen an dieser Dichte: jedes Ion im Verzeichnis trägt die Dichte von Wasser als strukturellen Vorgabewert statt eines gemessenen, deshalb liest sich eine Salzlösung wie das Wasser, aus dem sie gemacht wurde. Der Wert des Lösungsmittels stimmt, der der gelösten Stoffe fehlt"
-"a density — the vessel is empty, and there is nothing to float the hydrometer in and nothing to weigh" = "eine Dichte — das Gefäß ist leer, es gibt nichts, worin das Aräometer schwimmen könnte, und nichts zu wiegen"
-"chromatography needs an aqueous sample — the column's mobile phase is water" = "die Chromatographie braucht eine wässrige Probe — die mobile Phase der Säule ist Wasser"
-"chromatography needs something dissolved to inject — this vessel holds only its mobile phase" = "die Chromatographie braucht etwas Gelöstes zum Aufgeben — dieses Gefäß enthält nur seine mobile Phase"
-"titration needs an aqueous solver to compute pH after each addition — none is wired" = "die Titration braucht einen wässrigen Löser, um nach jeder Zugabe den pH-Wert zu berechnen — es ist keiner angebunden"
-"no haloalkane substrate in the vessel — the selectivity table covers bromoethane (primary) and tert-butyl bromide (tertiary)" = "kein Halogenalkan-Substrat im Gefäß — die Selektivitätstabelle deckt Bromethan (primär) und tert-Butylbromid (tertiär) ab"
-"no recognised nucleophile in the vessel — the selectivity table covers NaOH (strong) and water (weak)" = "kein erkanntes Nucleophil im Gefäß — die Selektivitätstabelle deckt NaOH (stark) und Wasser (schwach) ab"
-"liquid-liquid extraction needs a water phase and a liquid extracting solvent with a known molar volume" = "Eine Flüssig-Flüssig-Extraktion braucht eine Wasserphase und ein flüssiges Extraktionsmittel mit bekanntem Molvolumen"
-"fresh staged extraction requires one aqueous liquid phase at the start; drain an existing organic layer first" = "Eine frische stufenweise Extraktion braucht zu Beginn genau eine wässrige Flüssigphase; eine vorhandene organische Schicht muss zuerst abgelassen werden"
+# The two gap reasons matched by SUFFIX, which is the most an
+# English-keyed table can do with a sentence that has a name in it.
+#
+# The fixed gap reasons used to live here too. Eighteen of them, of which
+# THIRTEEN reached a German learner in English while the table reported
+# itself complete — it was complete, over the rows it had, which is the
+# failure mode every gate in this repo exists for. They are `[not-modeled]`
+# rows now, keyed by the PLACE they are said (I18N-10), so rewording the
+# English no longer orphans the German; this section keeps the German they
+# already had, moved rather than rewritten.
 solid-in-liquid = "{name} ist mit einer Flüssigkeit in Kontakt; kein angebundener Löser modelliert diese Auflösung oder Reaktion"
 dissolves-without-speciation = "{name} löst sich, aber kein angebundener Löser berechnet die Speziesverteilung: Der Stoff trägt hier weder zum pH-Wert noch zur Ionenstärke bei; diese Werte gelten nur für die übrigen Stoffe im Becherglas"
 
@@ -1415,3 +1397,161 @@ with = "mit"
 # (`web/app/src/locales/de.json`, "the bench"); two German words for
 # one object is how a translation starts reading like two products.
 unknown-verb = "unbekannter Befehl '{word}' — das Labor kennt diese Verben: {verbs}"
+
+
+# What the SCENE says after the observation (I18N-11).
+#
+# `appearance.rs` has composed translatable clauses since I18N-7, and
+# `scene.rs` then appended its own finished English sentences to them with
+# a bare `format!` each. That was not a cosmetic leftover: the web bench
+# paints its caption and its accessibility text from the SCENE, not from
+# the rendered notebook, so every one of these reached a German reader in
+# English while the sentence they were glued to was German.
+#
+# Each is its own sentence rather than a clause, which is why they live
+# beside `[look]` rather than in it — see `SceneVessel::notes`.
+[scene]
+# Three templates for one fact, because German takes a different case for
+# water going in and water coming out, and "into" is not a word that can be
+# swapped in place. The direction is a property of the sentence.
+osmosis-in = "Osmose hat im Unterrichtsmodell insgesamt {water} mol ({mass} g) Wasser in {material} hinein transportiert; Objektgröße, Membranmechanik und Endgleichgewicht sind nicht modelliert."
+osmosis-out = "Osmose hat im Unterrichtsmodell insgesamt {water} mol ({mass} g) Wasser aus {material} heraus transportiert; Objektgröße, Membranmechanik und Endgleichgewicht sind nicht modelliert."
+osmosis-either = "Osmose hat im Unterrichtsmodell insgesamt {water} mol ({mass} g) Wasser in {material} hinein oder aus ihm heraus transportiert; Objektgröße, Membranmechanik und Endgleichgewicht sind nicht modelliert."
+gel = "Ein durchscheinendes, zusammenhängendes Gel enthält {percent} % des {polymer}-Polymers."
+# The two coating sentences take the German `web/app/src/locales/de.json`
+# already carries for them, word for word. The web looked them up whole —
+# they have no holes, so that worked — and a second, different German for
+# the same sentence is how one product starts reading like two.
+coating-paint = "Das lackierte Eisen hat einen vollständigen schützenden Lackfilm; Kratzer werden nicht modelliert."
+coating-passive-film = "Der Edelstahl hat eine transparente schützende Passivschicht; ihre Dicke ist nicht maßstabsgetreu dargestellt."
+corrosion = "{percent} % des erfassten {metal} sind derzeit in seinem modellierten Oxid gebunden. Direkt zugegebenes Oxid ist von hier entstandenem Oxid nicht zu unterscheiden; das ist keine Korrosionsrate, keine Vorgeschichte, keine Schichtdicke und kein Bedeckungsgrad."
+swelling = "Das superabsorbierende Netzwerk hält {water} g Wasser fest ({ratio}-mal seine Trockenmasse)."
+chemiluminescence = "Das Luminol-System leuchtet blau mit der relativen Intensität {intensity}; die geschätzte Halbwertszeit beträgt hier {half_life} Sekunden."
+enzyme-conversion = "Das begrenzte Enzymmodell meldet {percent} % Umsatz von {substrate} in {material}."
+food-colour-spread = "Lebensmittelfarbe hat sich in Schlieren über die Milchoberfläche ausgebreitet."
+food-colour-resting = "Tropfen Lebensmittelfarbe liegen auf der Milchoberfläche."
+adsorption = "{percent} % des erfassten {sorbate} sind an {sorbent} gebunden; {dissolved} mg bleiben gelöst. Das ist eine Gleichgewichtsverteilung, keine Entfernungsrate."
+partition = "Im Gleichgewicht sind {lower_percent} % des modellierten {species} in der unteren {lower}-Phase und {upper_percent} % in der oberen {upper}-Phase."
+emulsion = "Durch das Rühren sind {percent} % von {material} als trübe Tröpfchen verteilt; der Rest steht weiterhin über dem Wasser."
+# The colour goes BESIDE the noun, not in front of it, for the reason
+# `look.coloured` gives: a German attributive adjective takes the noun's
+# gender and ending, so "{colour}e Schicht" is right for gelb and wrong for
+# orange and rosa. That decision belongs in this file, never in the Rust.
+material-layer = "{material} bildet eine eigene Schicht ({colour}) über dem Wasser."
+vessel-contains = "Im Gefäß ist {material}."
+curdling = "Weiche Flocken mit {mass} g modelliertem Feststoff haben sich aus {material} abgeschieden; zurück bleibt trübe Molke."
+foam-overflow = "Schaum läuft über den Rand."
+foam-standing = "Schaum steht über der Flüssigkeit."
+
+# Looked up by VALUE, the way `[species]` and `[material]` are: the scene
+# names the polymer a gel was made from, and the substrate an enzyme acted
+# on, and both are short labels from a reviewed table rather than prose.
+[polymer]
+# PVA is PVA in German. It is here so that a language where it is not can
+# say so without a line of Rust.
+PVA = "PVA"
+
+[substrate]
+"lactose in milk" = "Lactose in Milch"
+"gelatine protein" = "Gelatineprotein"
+"albumin protein" = "Albuminprotein"
+"triglycerides in vegetable oil" = "Triglyceride in Pflanzenöl"
+"muscle protein" = "Muskelprotein"
+
+
+# What the bench has NOT modelled, keyed by the place the refusal is
+# written (I18N-10).
+#
+# Distinct from `[refusal]` above, and for the reason that section's own
+# comment gives: `[refusal]` is keyed by an English SENTENCE, so it can
+# only ever reach the gaps that interpolate nothing — and most of them
+# interpolate a species, a temperature or a list. These are keyed by the
+# PLACE, the holes are filled after the sentence is chosen, and the number
+# in them arrives with the reader's decimal separator.
+#
+# A site that has not been converted yet carries `reason: None` and still
+# falls back to `[refusal]`; `tools/engine-locale-lint.py` counts how many
+# of each there are, with the denominator read out of the Rust.
+[not-modeled]
+# Tranche two: the gaps with a HOLE in them, which is why `[refusal]`
+# could never reach any of these. New German, authored.
+cooling-below-absolute-zero = "dieses Gefäß konnte bis zum absoluten Nullpunkt nur {available} kJ abgeben, verlangt wurden {asked} kJ. Hier ist kein Kühlmittel modelliert — nichts legt fest, wie kalt die Umgebung ist — der Rest konnte also schlicht nicht entzogen werden. Die Wärme, die ein Stoff hält, wird über seine eigene Wärmekapazität integriert, wo das Verzeichnis eine führt; unterhalb von etwa 200 K ist aber selbst eine tabellierte Kurve am Ende der Tabelle und wird flach gehalten, diese Untergrenze ist also eine Modellgrenze und keine Messung"
+co-evaporation = "die gemeinsame Verdampfung von {liquids} braucht ein Dampf-Flüssigkeits-Gleichgewicht — das ist die Aufgabe von `distil`; entfernt wurde nur das Wasser"
+no-bubble-point = "einen Siedebeginn für dieses Gemisch bei {pressure} kPa — außerhalb der angepassten Antoine-Bereiche"
+distribution-coefficient-temperature = "der Verteilungskoeffizient von {species} für {upper}/{lower} ist nur bei {reviewed} K geprüft (Toleranz +/- {tolerance} K); dieses Gefäß ist bei {actual} K"
+not-an-extracting-solvent = "{solvent} ist bei Raumbedingungen kein flüssiges Extraktionsmittel"
+water-distribution-coefficient-temperature = "der Verteilungskoeffizient von {solute} für {solvent}/Wasser ist nur bei {reviewed} K geprüft (Toleranz +/- {tolerance} K); dieses Gefäß ist bei {actual} K"
+loading-exceeds-capacity = "die Beladung mit {solute} übersteigt die geprüfte Kapazität von Wasser/{solvent}, die sich aus seiner wässrigen Löslichkeit von {solubility} mol/L bei {temperature} K ergibt; ein dauerhaftes Fest-Flüssig-Organisch-Dreiphasengleichgewicht ist noch nicht modelliert"
+no-distribution-coefficient = "kein geprüfter Verteilungskoeffizient {solvent}/Wasser für {solutes}"
+any-solute-here = "irgendeinen gelösten Stoff in diesem Gefäß"
+extraction-without-coefficient = "die Extraktion hat die unterstützten gelösten Stoffe bewegt, aber es gibt keinen geprüften Verteilungskoeffizienten {solvent}/Wasser für {solutes}"
+no-reviewed-density = "die Dichte von {species} — das Verzeichnis führt keine geprüfte Dichte dafür, das Stück hat hier also eine Masse und keine Größe"
+no-reviewed-bulk-density = "die Dichte von {material} — das Rezept führt keine geprüfte Schüttdichte"
+density-of-a-mixture = "eine einzelne Dichte für dieses Gefäß: es enthält {contents}, und eine Dichte gehört zu einem Stoff und nicht zu einem Gemisch daraus. Wiege sie einzeln"
+incomplete-absorbance = "die vollständige Absorption ist nicht verfügbar: für {species} liegt kein Absorptionsspektrum vor"
+no-group-decomposition = "die Säule hat keine kuratierte Gruppenzerlegung für {species} — eine echte Säule würde diese trennen, das ist also eine Lücke im Modell und kein Ergebnis"
+nothing-to-electrolyse = "hier lässt sich nichts elektrolysieren: {why}"
+electrolysis-needs-an-electrolyte = "das Modell der Lösungsmittelelektrolyse braucht einen gelösten Leitelektrolyten; reines Wasser hat eine endliche, aber sehr geringe Leitfähigkeit, und die Spannung, der Elektrodenabstand und die Überspannungen, die für den geforderten Strom nötig wären, sind nicht modelliert"
+no-curated-nuclide = "kein kuratiertes Nuklid '{nuclide}' — die Auswahl für den Unterricht: {known}"
+no-curated-reaction = "keine kuratierte Reaktion mit dem Namen '{reaction}' — kuratiert: {known}"
+non-finite-extent = "{reaction} lieferte eine nicht endliche Reaktionslaufzahl; es wurde kein Umsatz angewendet"
+no-capacity-either-direction = "Kein Umsatz für {reaction}: weder die Hin- noch die Rückreaktion stellt Kapazität oberhalb der Nullumsatz-Toleranz von 1e-12 mol bereit"
+no-limiting-reactant = "Kein vollständiger Umsatz für {reaction}: ein limitierender Reaktant fehlt, ist verbraucht, oder seine Kapazität liegt innerhalb der Nullumsatz-Toleranz von 1e-12 mol"
+partial-freezing-boundary = "die Modellgrenze für teilweises Gefrieren bei {temperature} °C: unterhalb dieses Punktes sind Salzkristallisation und ein stoffspezifisches eutektisches Phasendiagramm nötig, deshalb extrapoliert das Labor keine kolligative Beziehung, deren Lösungsmittelaktivität es nicht mehr einordnen kann"
+aqueous-temperature-ceiling = "die Temperaturobergrenze des wässrigen Modells bei {temperature} °C: die Temperaturausdrücke der mitgelieferten thermodynamischen Datenbanken enden dort, deshalb wird diese Lösung als nicht charakterisiert gemeldet statt extrapoliert"
+mostly-organic-solvent = "ein Mischlösungsmittel, das überwiegend organisch ist (Wasser macht {percent} % der Flüssigkeit aus): die mitgelieferten Aktivitätsmodelle setzen Wasser als Lösungsmittel voraus, und in dieser dielektrischen Umgebung gelten ihre Gleichgewichtskonstanten nicht, deshalb wird die Ionenspeziation hier als nicht charakterisiert gemeldet"
+combustion-no-solver = "ob dieser Inhalt brennt: kein angebundener Löser modelliert die Verbrennung dafür, das Labor kann es also weder bejahen noch verneinen"
+heating-an-empty-vessel = "Erwärmen eines leeren Gefäßes (Wärmekapazität des Gefäßes nicht modelliert)"
+cooling-an-empty-vessel = "Abkühlen eines leeren Gefäßes (Wärmekapazität des Gefäßes nicht modelliert)"
+nothing-to-evaporate = "nichts zu verdampfen — kein Wasser im Gefäß"
+distil-without-water-or-ethanol = "Destillation eines Gefäßes ohne flüssiges Wasser oder Ethanol — für andere flüchtige Flüssigkeiten müssen erst die Antoine-Konstanten kuratiert werden"
+drain-a-single-phase-liquid = "Ablassen einer einphasigen Flüssigkeit — der Trichter trennt nur, was die Thermodynamik bereits in Schichten aufgeteilt hat"
+staged-extraction-needs-fresh-aqueous = "Eine frische stufenweise Extraktion braucht zu Beginn genau eine wässrige Flüssigphase; eine vorhandene organische Schicht muss zuerst abgelassen werden"
+extraction-needs-water-and-solvent = "Eine Flüssig-Flüssig-Extraktion braucht eine Wasserphase und ein flüssiges Extraktionsmittel mit bekanntem Molvolumen"
+ph-meter-has-no-solution = "das pH-Meter zeigt nichts an — in diesem Gefäß wurde keine wässrige Lösung charakterisiert"
+volume-meter-on-an-open-vessel = "das Volumenmessgerät liest den Gasraum eines verschlossenen Gefäßes, und dieses hier ist offen — verschließe es, damit das Gas ein gemessenes Volumen bekommt. Das Volumen der Flüssigkeit selbst steht in der Gefäßzeile."
+conductivity-on-a-dry-solid = "das Leitfähigkeitsmessgerät liegt an einem trockenen Feststoff, für den das Verzeichnis keinen elektrischen Widerstand führt — die Messung braucht einen geprüften Wert, keine Schätzung"
+conductivity-has-no-solution = "das Leitfähigkeitsmessgerät zeigt nichts an — es wurde keine wässrige Lösung charakterisiert"
+density-of-the-dissolved-ions = "den Anteil der gelösten Ionen an dieser Dichte: jedes Ion im Verzeichnis trägt die Dichte von Wasser als strukturellen Vorgabewert statt eines gemessenen, deshalb liest sich eine Salzlösung wie das Wasser, aus dem sie gemacht wurde. Der Wert des Lösungsmittels stimmt, der der gelösten Stoffe fehlt"
+density-of-an-empty-vessel = "eine Dichte — das Gefäß ist leer, es gibt nichts, worin das Aräometer schwimmen könnte, und nichts zu wiegen"
+spectrophotometer-has-no-solution = "keine wässrige Lösung für das Spektralphotometer"
+chromatography-needs-an-aqueous-sample = "die Chromatographie braucht eine wässrige Probe — die mobile Phase der Säule ist Wasser"
+chromatography-needs-a-solute = "die Chromatographie braucht etwas Gelöstes zum Aufgeben — dieses Gefäß enthält nur seine mobile Phase"
+titration-endpoint-not-refined = "Die pH-Überschreitung wurde eingegrenzt, aber die Endpunktverfeinerung konvergierte nicht auf 0,0001 pH-Einheiten; der nächstgelegene berechnete Zustand wird beibehalten"
+titration-needs-an-aqueous-solver = "die Titration braucht einen wässrigen Löser, um nach jeder Zugabe den pH-Wert zu berechnen — es ist keiner angebunden"
+kinetic-outcome-needs-a-time-model = "Ein kinetisches Ergebnis erfordert ein zugeordnetes Zeitmodell; ein Umsatz von null weist kein Gleichgewicht nach"
+fizz-rate-near-barrier = "wie schnell {name} sprudelt: die Triebkraft übersteigt die Wasserstoff-Überspannung an {name} nur um {margin} V, und eine Geschwindigkeit so dicht an ihrer Barriere berechnet dieses Labor nicht — es reagiert, langsam"
+stays-as-the-metal = "{name} bleibt als Metall liegen: nichts Gelöstes steht hier in der Spannungsreihe unter ihm. Seine langsame Reaktion mit dem Wasser selbst — Wasserstoff über Stunden, eine passivierende Hydroxidhaut — ist eine Geschwindigkeit, die dieses Labor nicht modelliert"
+no-haloalkane = "kein Halogenalkan-Substrat im Gefäß — die Selektivitätstabelle deckt Bromethan (primär) und tert-Butylbromid (tertiär) ab"
+no-nucleophile = "kein erkanntes Nucleophil im Gefäß — die Selektivitätstabelle deckt NaOH (stark) und Wasser (schwach) ab"
+# The two classes go in brackets beside the noun rather than in front of
+# it: a German adjective declines to the noun it qualifies, and "Methyl"
+# does not decline at all. Same decision as `look.coloured`, same reason.
+no-selectivity-rule = "keine Selektivitätsregel für Substrat ({substrate}) + Nucleophil ({nucleophile}) bei {temperature} °C — außerhalb der geprüften Tabelle"
+no-product-table = "die Selektivität sagt {mechanism} für {substrate} + {nucleophile} voraus, aber es gibt keinen Eintrag in der Produkttabelle — das ist eine Lücke in der Implementierung"
+nothing-for-verb = "für {verb} ist nichts da — es braucht {needs} zusammen im Gefäß"
+gas-already-gone = "nichts zu prüfen — das Gas ist entwichen, während es entstand; fange es zuerst in einem verschlossenen Gefäß auf und führe dann {test} durch"
+boundary-does-not-retain-gas = "die Gefäßgrenze hält kein Gas zurück — verschließe es zuerst und führe dann {test} durch"
+no-henry-path-to-headspace = "{test} liest den Gasraum, und dieses Labor kennt keinen Weg aus gelöstem {target} dorthin (kein geprüfter Henry-Koeffizient) — {dissolved} mol liegen in der Flüssigkeit vor, und `smell` meldet sie von dort, aber der Gasraum, den der Test liest, bleibt leer"
+finite-acid-inventory = "{reaction} verbraucht einen endlichen Säurevorrat. Innerhalb dieses Integrationsintervalls wird der Aktivitätskoeffizient auf seinem Anfangswert festgehalten, während die Protonenkonzentration abnimmt; das Säure-Base-Gleichgewicht wird zwischen den Intervallen neu gelöst und nicht fortlaufend an dieses Geschwindigkeitsgesetz gekoppelt."
+family-declined-at-gate = "{family} v{version} passte, wurde aber an {gate} abgelehnt: {why}. Warten liefert keine fehlende Reaktionsgeschwindigkeit und erfüllt auch kein Bedingungstor"
+
+# Looked up by VALUE. Substrate and nucleophile classes are WORDS, which
+# is why they are not baked into the sentence: German declines them.
+[substrate-class]
+methyl = "Methyl"
+primary = "primär"
+secondary = "sekundär"
+tertiary = "tertiär"
+
+[nucleophile-class]
+strong = "stark"
+weak = "schwach"
+
+# The classical gas tests, as a reader SEES them named. `[script-test]`
+# above is the other direction: the words a learner may type.
+[gas-test]
+"pop test" = "Knallgasprobe"
+"glowing splint" = "Glimmspanprobe"
+"limewater" = "Kalkwasserprobe"
+"damp red litmus" = "feuchtes rotes Lackmuspapier"

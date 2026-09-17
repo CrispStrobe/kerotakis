@@ -602,6 +602,7 @@ impl Equilibrator for MixingEquilibrator {
                     "the crystallisation of {}: {:.3} mol is dissolved against a limit of {:.3} mol at this temperature, and {}",
                     gap.salt, gap.dissolved.0, gap.capacity.0, gap.reason
                 ),
+                reason: None,
             });
         }
 
@@ -707,6 +708,7 @@ impl Equilibrator for MixingEquilibrator {
                     "the crystallisation of {}: {:.3} mol is dissolved against a limit of {:.3} mol at this temperature, and {}",
                     gap.salt, gap.dissolved.0, gap.capacity.0, gap.reason
                 ),
+                reason: None,
             });
         }
 
@@ -1372,6 +1374,7 @@ impl Equilibrator for StateEquilibrator {
                 cause: crate::ops::NotModelledCause::ModelBoundary,
                 vessel: vessel.id,
                 what: t.solvent.out_of_range_reason(solute_molality),
+                reason: None,
             });
             return Ok(events);
         }
@@ -1381,13 +1384,22 @@ impl Equilibrator for StateEquilibrator {
                 && t.freezing_k <= crate::states::BRINE_MODEL_MIN_K
                 && now <= crate::states::BRINE_MODEL_MIN_K
             {
-                events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::ModelBoundary,
-                    vessel: vessel.id,
-                    what: format!(
-                        "the partial-freezing model boundary at {:.1} °C: below this point salt crystallisation and a solute-specific eutectic phase diagram are required, so the bench will not extrapolate a colligative relation whose solvent activity it can no longer place",
-                        Kelvin(crate::states::BRINE_MODEL_MIN_K).to_celsius()
-                    ),
-                });
+                let reason = Phrase::new(
+                    "not-modeled.partial-freezing-boundary",
+                    "the partial-freezing model boundary at {temperature} °C: below this point salt crystallisation and a solute-specific eutectic phase diagram are required, so the bench will not extrapolate a colligative relation whose solvent activity it can no longer place",
+                    vec![(
+                        "temperature".to_string(),
+                        Slot::number(format!(
+                            "{:.1}",
+                            Kelvin(crate::states::BRINE_MODEL_MIN_K).to_celsius()
+                        )),
+                    )],
+                );
+                events.push(Event::not_modeled(
+                    vessel.id,
+                    crate::ops::NotModelledCause::ModelBoundary,
+                    reason,
+                ));
                 return Ok(events);
             }
             // Energy that would have to leave to get this cold, spent on
@@ -1482,6 +1494,7 @@ impl Equilibrator for StateEquilibrator {
                         cause: crate::ops::NotModelledCause::ModelBoundary,
                         vessel: vessel.id,
                         what: boundary_reason.clone(),
+                        reason: None,
                     });
                 }
                 return Ok(events);
@@ -1556,6 +1569,7 @@ impl Equilibrator for StateEquilibrator {
                     what: format!(
                         "pure ice was removed and the residual brine retained, but further cooling meets {boundary_reason}"
                     ),
+                    reason: None,
                 });
             }
         } else if frozen_water && now > t.freezing_k {
@@ -1749,6 +1763,7 @@ impl Equilibrator for StateEquilibrator {
                         cause: crate::ops::NotModelledCause::NoSolver,
                         vessel: vessel.id,
                         what: stranded_solutes(&stranded),
+                        reason: None,
                     });
                 }
             }
@@ -2218,6 +2233,7 @@ impl Equilibrator for HonestyEquilibrator {
                 cause,
                 vessel: vessel.id,
                 what,
+                reason: None,
             });
             // And withdraw the reading itself, so `PhMeter::applies` is
             // false and the conductivity meter and the pH badge go with
@@ -2247,13 +2263,22 @@ impl Equilibrator for HonestyEquilibrator {
                 .iter()
                 .any(|p| p.species == SpeciesId::new(SOLVENT) && p.phase != Phase::Solid)
         {
-            events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::ModelBoundary,
-                vessel: vessel.id,
-                what: format!(
-                    "the aqueous model's temperature ceiling at {:.0} °C: the shipped thermodynamic databases' temperature expressions end there, so this solution is reported uncharacterised rather than extrapolated",
-                    Kelvin(AQUEOUS_MODEL_CEILING_K).to_celsius()
-                ),
-            });
+            let reason = Phrase::new(
+                "not-modeled.aqueous-temperature-ceiling",
+                "the aqueous model's temperature ceiling at {temperature} °C: the shipped thermodynamic databases' temperature expressions end there, so this solution is reported uncharacterised rather than extrapolated",
+                vec![(
+                    "temperature".to_string(),
+                    Slot::number(format!(
+                        "{:.0}",
+                        Kelvin(AQUEOUS_MODEL_CEILING_K).to_celsius()
+                    )),
+                )],
+            );
+            events.push(Event::not_modeled(
+                vessel.id,
+                crate::ops::NotModelledCause::ModelBoundary,
+                reason,
+            ));
             return Ok(events);
         }
         // Water in the minority beside an organic solvent: the aqueous
@@ -2283,13 +2308,19 @@ impl Equilibrator for HonestyEquilibrator {
                 && !curated_answered
                 && x < crate::nonaqueous::AQUEOUS_WATER_FRACTION_FLOOR
             {
-                events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::ModelBoundary,
-                    vessel: vessel.id,
-                    what: format!(
-                        "a mixed solvent that is mostly organic (water is {:.0}% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
-                        x * 100.0
-                    ),
-                });
+                let reason = Phrase::new(
+                    "not-modeled.mostly-organic-solvent",
+                    "a mixed solvent that is mostly organic (water is {percent}% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
+                    vec![(
+                        "percent".to_string(),
+                        Slot::number(format!("{:.0}", x * 100.0)),
+                    )],
+                );
+                events.push(Event::not_modeled(
+                    vessel.id,
+                    crate::ops::NotModelledCause::ModelBoundary,
+                    reason,
+                ));
                 return Ok(events);
             }
         }
@@ -2409,6 +2440,7 @@ impl Equilibrator for HonestyEquilibrator {
                     vessel: vessel.id,
                     what,
                     cause,
+                    reason: None,
                 });
             }
         }
@@ -2433,6 +2465,7 @@ impl Equilibrator for HonestyEquilibrator {
                 cause,
                 vessel: vessel.id,
                 what,
+                reason: None,
             });
             return Ok((delta, events));
         }
@@ -2549,6 +2582,7 @@ impl Equilibrator for HonestyEquilibrator {
                     vessel: vessel.id,
                     what,
                     cause,
+                    reason: None,
                 });
             }
         }

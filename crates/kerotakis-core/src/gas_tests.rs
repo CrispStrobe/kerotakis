@@ -2,6 +2,7 @@
 //! damp litmus — as observation verbs over a vessel's headspace.
 
 use crate::ops::Event;
+use crate::phrase::{Phrase, Slot};
 use crate::species::{self, Phase, SpeciesId};
 use crate::units::Moles;
 use crate::vessel::{Headspace, Vessel, VesselId};
@@ -93,26 +94,34 @@ pub fn dispatch(vessel: &mut Vessel, vessel_id: VesselId, test: GasTest) -> Vec<
     let mut events = Vec::new();
 
     if matches!(vessel.headspace, Headspace::Open) {
-        events.push(Event::NotYetModeled {
-            cause: crate::ops::NotModelledCause::NothingToActOn,
-            vessel: vessel_id,
-            what: format!(
-                "nothing to test — gas left as it formed; \
-                 collect over a sealed vessel first, then run the {test}"
-            ),
-        });
+        // The test's NAME is a word — Knallgasprobe — so it is a term
+        // and the sentence is a clause, which is the whole of I18N-10.
+        let reason = Phrase::new(
+            "not-modeled.gas-already-gone",
+            "nothing to test — gas left as it formed; \
+             collect over a sealed vessel first, then run the {test}",
+            vec![("test".to_string(), Slot::term("gas-test", test.to_string()))],
+        );
+        events.push(Event::not_modeled(
+            vessel_id,
+            crate::ops::NotModelledCause::NothingToActOn,
+            reason,
+        ));
         return events;
     }
 
     if !vessel.owns_headspace_gas() {
-        events.push(Event::NotYetModeled {
-            cause: crate::ops::NotModelledCause::BoundaryMismatch,
-            vessel: vessel_id,
-            what: format!(
-                "the vessel's boundary does not retain gas — \
-                 seal it first, then run the {test}"
-            ),
-        });
+        let reason = Phrase::new(
+            "not-modeled.boundary-does-not-retain-gas",
+            "the vessel's boundary does not retain gas — \
+             seal it first, then run the {test}",
+            vec![("test".to_string(), Slot::term("gas-test", test.to_string()))],
+        );
+        events.push(Event::not_modeled(
+            vessel_id,
+            crate::ops::NotModelledCause::BoundaryMismatch,
+            reason,
+        ));
         return events;
     }
 
@@ -157,16 +166,27 @@ pub fn dispatch(vessel: &mut Vessel, vessel_id: VesselId, test: GasTest) -> Vec<
             .map(|p| p.moles.0)
             .sum();
         if dissolved > 0.0 {
-            events.push(Event::NotYetModeled {
-                cause: crate::ops::NotModelledCause::NoTransportPath,
-                vessel: vessel_id,
-                what: format!(
-                    "the {test} reads the headspace, and this bench has no path from \
-                     dissolved {target} into it (no reviewed Henry's-law coefficient) — \
-                     {dissolved:.4} mol is present in the liquid, and `smell` reports it \
-                     from there, but the headspace the test reads stays empty"
-                ),
-            });
+            let reason = Phrase::new(
+                "not-modeled.no-henry-path-to-headspace",
+                "the {test} reads the headspace, and this bench has no path from \
+                 dissolved {target} into it (no reviewed Henry's-law coefficient) — \
+                 {dissolved} mol is present in the liquid, and `smell` reports it \
+                 from there, but the headspace the test reads stays empty",
+                vec![
+                    ("test".to_string(), Slot::term("gas-test", test.to_string())),
+                    // A registry key, which is a name and not a word.
+                    ("target".to_string(), Slot::text(target)),
+                    (
+                        "dissolved".to_string(),
+                        Slot::number(format!("{dissolved:.4}")),
+                    ),
+                ],
+            );
+            events.push(Event::not_modeled(
+                vessel_id,
+                crate::ops::NotModelledCause::NoTransportPath,
+                reason,
+            ));
             return events;
         }
     }

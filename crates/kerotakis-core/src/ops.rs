@@ -1947,6 +1947,25 @@ pub enum Event {
         /// "written before there was a cause" and nothing else.
         #[serde(default)]
         cause: NotModelledCause,
+        /// I18N-10: `what` as a recipe rather than a finished sentence,
+        /// exactly as `Inert::reason` above.
+        ///
+        /// The same defect one event along, found while landing I18N-8 and
+        /// deliberately not fixed with it: `what` is a `format!` welded
+        /// shut inside a solver, so a German reader met an English
+        /// paragraph in the middle of a German transcript — two of them
+        /// beside the displacement verdicts that had just learned German.
+        ///
+        /// `None` means this site has not been converted yet, and it is an
+        /// honest state rather than a hidden one:
+        /// `tools/engine-locale-lint.py` counts the sites that still carry
+        /// it, with the denominator read out of the SOURCE. Where it is
+        /// `Some`, `what` is GENERATED from it — one sentence rather than
+        /// two to drift — and `render.rs` prefers it over the
+        /// suffix-matching fallback `localize_refusal` still provides for
+        /// the rest.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        reason: Option<crate::phrase::Phrase>,
     },
     /// The solvent changed state: froze, melted or boiled.
     ///
@@ -2190,6 +2209,32 @@ pub struct LogEntry {
 }
 
 impl Event {
+    /// A gap the bench will not guess at, said as a RECIPE (I18N-10).
+    ///
+    /// Every converted emitter of [`Event::NotYetModeled`] goes through
+    /// here, for the reason `state_changed` below exists: `what` is
+    /// GENERATED from `reason` in one place rather than written beside it
+    /// at eighty-two call sites, so the English and the translation are
+    /// one sentence and cannot drift apart. #626 made the same choice for
+    /// `Inert.why` and said so in the same words.
+    ///
+    /// A site still writing the struct literal with `reason: None` has not
+    /// been converted yet; that is the honest state, and
+    /// `tools/engine-locale-lint.py` counts both kinds.
+    #[must_use]
+    pub fn not_modeled(
+        vessel: VesselId,
+        cause: NotModelledCause,
+        reason: crate::phrase::Phrase,
+    ) -> Self {
+        Event::NotYetModeled {
+            vessel,
+            what: reason.render(crate::i18n::Locale::EN),
+            cause,
+            reason: Some(reason),
+        }
+    }
+
     /// A phase transition, with the route named and the extent carried.
     ///
     /// Every emitter of [`Event::StateChanged`] goes through here so that

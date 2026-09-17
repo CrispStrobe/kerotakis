@@ -4146,7 +4146,9 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 )
             }
         },
-        Event::NotYetModeled { vessel, what, .. } => {
+        Event::NotYetModeled {
+            vessel, what, reason, ..
+        } => {
             // `what` is English composed in bench.rs and carried in the
             // event, so a German frame was wrapping an English reason:
             // "v1: noch nicht modelliert — nothing to evaporate". Looked
@@ -4156,10 +4158,19 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             // way. The rest need the EVENT to carry a key and its
             // arguments rather than a finished sentence, which is a change
             // to the wire format and a separate decision.
-            let what = &locale
-                .lookup(&format!("refusal.{what}"))
-                .map(str::to_string)
-                .unwrap_or_else(|| what.clone());
+            //
+            // I18N-10 gives a converted site the other half: the event
+            // carries the recipe, and the recipe wins. It fills its holes
+            // in the reader's language and writes its numbers with the
+            // reader's separator, neither of which a whole-sentence lookup
+            // could ever have reached.
+            let what = &match reason {
+                Some(recipe) => recipe.render(locale),
+                None => locale
+                    .lookup(&format!("refusal.{what}"))
+                    .map(str::to_string)
+                    .unwrap_or_else(|| what.clone()),
+            };
             match register.level() {
             1 => locale.fill(
                 "event.not-yet-modeled.lv1",
@@ -4425,10 +4436,19 @@ pub fn localize_event(event: &Event, locale: Locale) -> Event {
             vessel,
             what,
             cause,
+            reason,
         } => Event::NotYetModeled {
             vessel: *vessel,
-            what: localize_refusal(what, locale),
+            what: match reason {
+                Some(recipe) => recipe.render(locale),
+                None => localize_refusal(what, locale),
+            },
             cause: *cause,
+            // The recipe is the source and stays in it: a host that reads
+            // the event rather than the rendered line composes it itself,
+            // and a recipe translated on the way past would be translated
+            // twice.
+            reason: reason.clone(),
         },
         // A host that reads the EVENT rather than the rendered line — the
         // web bench paints from the appearance object — must see the same
@@ -4503,11 +4523,13 @@ mod dedupe_tests {
                 cause: crate::ops::NotModelledCause::NoSolver,
                 vessel: VesselId(0),
                 what: "one thing".to_string(),
+                reason: None,
             },
             Event::NotYetModeled {
                 cause: crate::ops::NotModelledCause::NoSolver,
                 vessel: VesselId(0),
                 what: "another thing".to_string(),
+                reason: None,
             },
         ]
     }

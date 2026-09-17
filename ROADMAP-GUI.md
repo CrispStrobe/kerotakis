@@ -1757,27 +1757,86 @@ display name in the registry, is the wrong fix.
   * Once it lands, `web/app/src/locales/de.json`'s lesson slugs are the same
     data said twice and should be folded into `lessons/prose/de.toml`.
 - [ ] **I18N-10 — `NotYetModeled.what` is the same defect one event along.**
-  Found while landing I18N-8, and deliberately not fixed with it: `what` is
-  a finished English sentence for exactly the reason `Inert.why` was, and
-  two of them sit in `displacement.rs` beside the verdicts that now speak
-  German — *"how fast {name} fizzes: the driving force clears the hydrogen
-  overpotential on {name} by only 0.03 V…"* and *"{name} stays as the
-  metal: nothing dissolved here sits below it in the activity series…"*
-  A reader of the zinc-in-vinegar lesson therefore still meets one English
-  paragraph. The mechanism to fix it exists — a `reason: Option<Phrase>`
-  beside `what`, exactly as `Inert` now carries — but the event has **93
-  construction sites**, so it is a migration and not a patch. Do it in
-  tranches, highest-traffic file first, with `localize_refusal`'s existing
-  suffix-matching as the fallback for the ones not yet converted.
-- [ ] **I18N-11 — `scene_vessel` appends eleven English sentences to the
-  observation.** `appearance::observe` now composes translatable clauses,
-  and then `scene.rs` pushes osmosis, gel, swelling, chemiluminescence,
-  enzyme conversion, adsorption, partition, emulsion, layering and curdling
-  onto the end of `words` with a bare `format!` each. The `look` line does
-  not go through `scene_vessel`, so the owner's quoted defect is fixed; the
-  WEB bench paints from the scene, so a German web reader still sees those
-  sentences in English. Each is a `Phrase` away, and `Appearance` already
-  has the `clauses` vector to push them onto.
+  *Mechanism landed and 56 of 82 sites converted; 26 remain, and the lint
+  counts them.* `what` was a finished English sentence for exactly the
+  reason `Inert.why` was, and two of them sat in `displacement.rs` beside
+  the verdicts that now speak German, so a reader of the zinc-in-vinegar
+  lesson met one English paragraph in a German transcript. Both of those
+  are done.
+
+  The count in the earlier note, 93, was wrong — it counted patterns as
+  well as constructions. `tools/engine-locale-lint.py` reads it out of the
+  source now and reports **82**, of which a `matches!` arm is none.
+
+  * `Event::NotYetModeled` carries `reason: Option<Phrase>` beside `what`,
+    exactly as `Inert` does.
+  * **`Event::not_modeled(vessel, cause, reason)` generates `what` from
+    the recipe**, for the reason `Event::state_changed` exists: written by
+    hand at eighty-two call sites, the English and the translation are two
+    copies that drift. Converting a site is now one call, which is what
+    makes the remaining tranches cheap.
+  * `reason: None` is the honest unconverted state and still falls back to
+    `localize_refusal`'s English-keyed `[refusal]` table.
+  * The eighteen FIXED gap reasons that `[refusal]` could reach are
+    `[not-modeled]` rows now, keyed by their place. **The German was moved,
+    not rewritten.** `i18n_coverage.rs`'s scraper has nothing left to
+    scrape and has been turned around: writing a gap reason as a finished
+    English sentence again is now the failure.
+
+  What is left, in the order to take it:
+
+  * **`solve.rs`, 10.** Four are pass-throughs whose sentence is built in
+    a helper (`out_of_range_reason`, `stranded_solutes`, `boundary_reason`)
+    — the helper has to return a `Phrase` first, so they cascade. Two are
+    the curated `UNAVAILABLE_SOLID_PHASES` verdict, which wants the
+    keyed-by-the-row treatment `INERT_IN_SOLVENT` got in #626 rather than
+    a key built out of its own English.
+  * **`aqueous.rs`, 9,** in `kerotakis-phreeqc`. Long boundary statements
+    about Henry constants and unspeciated solutes; the hardest German in
+    the set and the least often seen.
+  * **`bench.rs`, 4,** `clock.rs`, `family.rs` and `phase_diagnostics.rs`
+    one each — every one of them passes a sentence through from somewhere
+    else, so each is a cascade into the function that built it.
+
+  **One follow-up that is not a tranche.** Seven converted sites still hold
+  a `", "`-joined list inside a `Slot::Text` — the co-evaporating liquids,
+  the solutes with no coefficient (twice), the spectral gaps, the uncurated
+  column groups, the teaching set of nuclides and the curated reactions.
+  `Slot::List` would join them in the reader's grammar, which is the whole
+  reason the slot type exists, and it renders *a, b and c* where the `join`
+  renders *a, b, c* — so converting them CHANGES the English and needs a
+  golden pass of its own. The two `join(" and ")` lists — `selectivity.rs`'s
+  reactants and the density refusal's contents — did convert, because the
+  catalogue's `look.list-final` renders exactly the English they had.
+- [x] **I18N-11 — `scene_vessel` appended English sentences to the
+  observation.** Not eleven: **twenty**. `appearance::observe` composes
+  translatable clauses, and `scene.rs` then took the finished English
+  `words` off it and pushed its own `format!`s on — osmosis (three
+  directions), the gel, both coating films, corrosion, swelling, the
+  luminol glow, enzyme conversion, both food-colour states, adsorption,
+  partition, emulsion, the material layer, "the vessel contains", the
+  curds, and both foam states. The `look` line does not go through
+  `scene_vessel`, so the owner's quoted defect was already fixed; the WEB
+  bench paints its caption and its accessibility text from the SCENE
+  (`t(vessel.words)` in `Vessel.svelte`), so a German web reader met every
+  one of those twenty in English.
+  `SceneVessel` now carries `clauses` (the observation's, passed through)
+  and `notes` (its own); `SceneVessel::say(locale)` recomposes both, and
+  `words` is **generated** from them rather than written beside them.
+  `scene::localize(&scene, locale)` is to the scene what
+  `render::localize_events` is to the events, and the wasm boundary calls
+  it — the only place that knows who is reading. `SceneCoating` and
+  `SceneCorrosion` carry their own `phrase` because the web draws each as
+  a separate SVG `<title>`.
+  Two of the twenty already had German in `web/app/src/locales/de.json`
+  (the coating films have no holes, so a whole-sentence lookup could reach
+  them); the engine's rows take that German word for word rather than
+  inventing a second one. `scene.material-layer` is the `look.coloured`
+  decision again — *gelb* declines to *Schicht* and *orange* does not
+  decline at all — so the German row puts the colour in brackets beside
+  the noun, in the data. The scene golden was re-blessed and the diff is
+  **11777 insertions, zero deletions**: every `words` string and every
+  number in it is byte-for-byte what it was.
 
 ### Two defects found in the same playback, neither of them i18n
 

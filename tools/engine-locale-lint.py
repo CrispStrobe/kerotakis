@@ -59,11 +59,33 @@ COMPOSERS = [
     ROOT / "crates/kerotakis-core/src/displacement.rs",
     ROOT / "crates/kerotakis-core/src/solve.rs",
     ROOT / "crates/kerotakis-core/src/nonaqueous.rs",
+    # I18N-11. `scene.rs` composes the sentences the WEB bench paints from
+    # — the caption under a drawn vessel and its accessibility text — and
+    # those never pass through `render.rs` at all. Ten of them were still a
+    # bare `format!` after I18N-7 had made the clause they were glued to
+    # translatable, which is exactly the shape this lint exists to count.
+    ROOT / "crates/kerotakis-core/src/scene.rs",
+    # I18N-10, tranche by tranche. A file joins this list on the commit
+    # that gives its first `Event::NotYetModeled` a `reason`.
+    ROOT / "crates/kerotakis-core/src/selectivity.rs",
+    ROOT / "crates/kerotakis-core/src/gas_tests.rs",
+    ROOT / "crates/kerotakis-core/src/clock.rs",
+    ROOT / "crates/kerotakis-core/src/family.rs",
+    ROOT / "crates/kerotakis-core/src/bench.rs",
 ]
 # `phrase.rs` asks the catalogue for the list grammar and the punctuation
 # by name, the ordinary `locale.t` way.
 PHRASE = ROOT / "crates/kerotakis-core/src/phrase.rs"
 CATALOGUES = ROOT / "crates/kerotakis-core/i18n"
+
+# I18N-10. `Event::NotYetModeled.what` is a finished English sentence, the
+# same defect `Inert.why` was one event along, and it is built at sites
+# scattered across four crates. The denominator is therefore the SOURCE —
+# every construction of the variant outside a test module — and never the
+# number of `refusal.*` rows a catalogue happens to carry, which is the
+# denominator that let #505 report `models.toml` at 100% German over 325
+# English strings. A site counts as done when it carries `reason: Some(…)`.
+REFUSAL_EVENT = "Event::NotYetModeled {"
 
 # `locale.t("vessel.open", ", open to atmosphere")` and the fill() form.
 CALL = re.compile(r'locale\s*\.\s*(?:t|fill)\s*\(\s*"([^"]+)"\s*,\s*"((?:[^"\\]|\\.)*)"')
@@ -102,6 +124,74 @@ REFUSAL = re.compile(
 PHRASE_CALL = re.compile(
     r'Phrase::(?:new|bare)\(\s*"([^"]+)"\s*,\s*"((?:[^"\\]|\\.)*)"', re.S
 )
+
+
+def notmodeled_sites() -> tuple[int, int, list[str]]:
+    """(carrying a Phrase, still a finished sentence, where the rest are).
+
+    Braces are matched rather than regexed: the variant is constructed
+    across as many as ten lines and a line-based count would miss most of
+    them. Test modules are cut the same way the rest of this lint cuts
+    them — nobody reads a fixture on a screen.
+    """
+    done = todo = 0
+    remaining: collections.Counter[str] = collections.Counter()
+    for path in sorted(ROOT.glob("crates/*/src/**/*.rs")):
+        # `ops.rs` DEFINES the event and its constructor. The struct
+        # literal inside `Event::not_modeled` is the one place that is not
+        # a site, and counting it would have the helper report itself as a
+        # migrated call site.
+        if path.name == "ops.rs":
+            continue
+        text = path.read_text()
+        cut = text.find("\n#[cfg(test)]")
+        if cut != -1:
+            text = text[:cut]
+        # A CONVERTED site is a call to `Event::not_modeled`, which
+        # generates `what` from the recipe. It is no longer a struct
+        # literal, so it would otherwise leave the denominator entirely
+        # and make the percentage go up by deleting its own numerator.
+        done += text.count("Event::not_modeled(")
+        i = 0
+        while True:
+            at = text.find(REFUSAL_EVENT, i)
+            if at == -1:
+                break
+            j, depth = at + len(REFUSAL_EVENT), 1
+            while j < len(text) and depth:
+                if text[j] == "{":
+                    depth += 1
+                elif text[j] == "}":
+                    depth -= 1
+                j += 1
+            block, i = text[at:j], j
+            # A pattern, not a construction. `Event::NotYetModeled { .. }`
+            # in a `matches!` binds fields rather than filling them, and
+            # `{ vessel, .. }` in a `retain` looks exactly like a shorthand
+            # construction until you notice the rest-pattern.
+            if ".." in block:
+                continue
+            if "vessel:" not in block and "vessel," not in block:
+                continue
+            if "what:" not in block and "what," not in block:
+                continue
+            # The last shape a pattern can wear: `Event::NotYetModeled {
+            # vessel, what, cause } => …` in `localize_event` names every
+            # field and takes no rest-pattern, so it reads as a shorthand
+            # construction right up to the fat arrow after it.
+            if text[j:].lstrip().startswith("=>"):
+                continue
+            # A pass-through site — `localize_event` rebuilding the
+            # event, `phase_diagnostics` re-emitting one — carries the
+            # reason on rather than composing one, and is done when it
+            # stops dropping it. `reason: None` is the unconverted state.
+            has_field = re.search(r"(?<![A-Za-z0-9_])reason:", block) is not None
+            if has_field and "reason: None" not in block:
+                done += 1
+            else:
+                todo += 1
+                remaining[str(path.relative_to(ROOT))] += 1
+    return done, todo, [f"{n:>4}  {f}" for f, n in remaining.most_common()]
 
 
 def unwrap(text: str) -> str:
@@ -256,6 +346,12 @@ def main() -> int:
     print(f"{'sentences the engine composes':<34}")
     print(f"   reachable by a catalogue : {len(composed):>4} keys")
     print(f"   ({', '.join(p.name for p in COMPOSERS)}, phrase.rs)")
+    done, todo, where = notmodeled_sites()
+    print(f"{'refusals in NotYetModeled.what':<34}")
+    print(f"   carrying a Phrase        : {done:>4} sites")
+    print(f"   still a finished sentence: {todo:>4} sites")
+    for line in where:
+        print(f"   {line}")
 
     problems = len(shared)
     print()

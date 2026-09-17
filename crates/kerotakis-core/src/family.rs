@@ -30,6 +30,7 @@ use std::collections::BTreeMap;
 use serde::{Deserialize, Serialize};
 
 use crate::ops::{Event, NotModelledCause};
+use crate::phrase::{Phrase, Slot};
 use crate::solve::{Applicability, CapabilityReport, Equilibrator, SolveError, SolverRouteKind};
 use crate::species::{self, Phase, SpeciesId};
 use crate::units::Moles;
@@ -1094,6 +1095,7 @@ impl<O: StructureOracle> Equilibrator for FamilyRouter<O> {
                     cause,
                     vessel: vessel.id,
                     what: why.clone(),
+                    reason: None,
                 });
                 spoken.push(why);
             }
@@ -1128,10 +1130,21 @@ impl<O: StructureOracle> Equilibrator for FamilyRouter<O> {
     }
 
     fn time_boundaries(&self, vessel: &Vessel) -> Vec<Event> {
-        self.evaluate(vessel).declined.into_iter().map(|d| Event::NotYetModeled {
-            cause: NotModelledCause::ModelBoundary,
-            vessel: vessel.id,
-            what: format!("{} v{} matched, but declined at {}: {}. Waiting does not supply a missing reaction rate or satisfy the condition gate", d.family, d.version, d.gate, d.reason),
+        self.evaluate(vessel).declined.into_iter().map(|d| {
+            // The gate's own reason is data, and a `Term` lets a catalogue
+            // translate it by value the day one is written — which a
+            // finished sentence could never have allowed.
+            let reason = Phrase::new(
+                "not-modeled.family-declined-at-gate",
+                "{family} v{version} matched, but declined at {gate}: {why}. Waiting does not supply a missing reaction rate or satisfy the condition gate",
+                vec![
+                    ("family".to_string(), Slot::text(d.family.clone())),
+                    ("version".to_string(), Slot::text(d.version.to_string())),
+                    ("gate".to_string(), Slot::text(d.gate.clone())),
+                    ("why".to_string(), Slot::term("family-gate", d.reason.clone())),
+                ],
+            );
+            Event::not_modeled(vessel.id, NotModelledCause::ModelBoundary, reason)
         }).collect()
     }
 }

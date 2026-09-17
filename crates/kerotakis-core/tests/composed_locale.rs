@@ -33,7 +33,7 @@ use std::collections::BTreeSet;
 
 use kerotakis_core::phrase::{Phrase, Slot};
 use kerotakis_core::species::Phase;
-use kerotakis_core::{appearance, Locale, Moles, SpeciesId, Vessel, VesselId};
+use kerotakis_core::{appearance, scene, Locale, Moles, SpeciesId, Vessel, VesselId};
 
 /// Every file that composes a sentence out of `Phrase`.
 ///
@@ -47,6 +47,17 @@ const COMPOSERS: &[(&str, &str)] = &[
     ("displacement.rs", include_str!("../src/displacement.rs")),
     ("solve.rs", include_str!("../src/solve.rs")),
     ("nonaqueous.rs", include_str!("../src/nonaqueous.rs")),
+    // I18N-11. The scene's own sentences, which reach the reader without
+    // passing through `render.rs`: the web bench paints its caption and
+    // its accessibility text from the scene object.
+    ("scene.rs", include_str!("../src/scene.rs")),
+    // I18N-10, tranche by tranche: a file joins this list on the commit
+    // that gives its first `Event::NotYetModeled` a `reason`.
+    ("selectivity.rs", include_str!("../src/selectivity.rs")),
+    ("gas_tests.rs", include_str!("../src/gas_tests.rs")),
+    ("clock.rs", include_str!("../src/clock.rs")),
+    ("family.rs", include_str!("../src/family.rs")),
+    ("bench.rs", include_str!("../src/bench.rs")),
 ];
 
 /// `Phrase::new("key", "english …"` and the `bare` form, as (key, en).
@@ -414,4 +425,187 @@ fn an_appearance_without_clauses_falls_back_to_its_english() {
         notes: Vec::new(),
     };
     assert_eq!(seen.say(Locale::parse("de")), "The beaker is empty.");
+}
+
+/// The short labels the scene looks up by VALUE, checked against the
+/// tables the engine actually uses.
+///
+/// `Slot::term("polymer", gel.polymer)` names no key a scanner can see, so
+/// the static half above is blind to it — the same hole
+/// `every_curated_solvent_verdict_is_translated` fills for the solvent
+/// table. The denominator is the `const` and the source, never the
+/// catalogue: a polymer or a substrate added without German fails here on
+/// the commit that adds it.
+#[test]
+fn every_scene_term_table_is_translated() {
+    let mut wanted: Vec<(String, String)> = kerotakis_core::gel::GEL_PAIRS
+        .iter()
+        .map(|pair| ("polymer".to_string(), pair.polymer.to_string()))
+        .collect();
+    // `enzyme_activity::PROFILES` is private, so the substrate names are
+    // read out of the source the way the phrase keys above are. Reading
+    // them from `de.toml` instead would be the #505 mistake exactly: a
+    // denominator that grows only when someone remembers to grow it.
+    let src = include_str!("../src/enzyme_activity.rs");
+    let mut rest = src;
+    while let Some(at) = rest.find("substrate: \"") {
+        rest = &rest[at + "substrate: ".len()..];
+        if let Some((value, after)) = next_literal(rest) {
+            wanted.push(("substrate".to_string(), value));
+            rest = after;
+        }
+    }
+    assert!(
+        wanted.len() >= 6,
+        "found only {} scene terms — a table moved and this gate is now \
+         checking almost nothing",
+        wanted.len()
+    );
+    for locale in Locale::available().into_iter().filter(|l| !l.is_english()) {
+        let missing: Vec<String> = wanted
+            .iter()
+            .filter(|(section, en)| locale.lookup(&format!("{section}.{en}")).is_none())
+            .map(|(section, en)| format!("  {section}.{en}"))
+            .collect();
+        assert!(
+            missing.is_empty(),
+            "{} of {} scene terms have no {} translation:\n{}",
+            missing.len(),
+            wanted.len(),
+            locale.code(),
+            missing.join("\n"),
+        );
+    }
+}
+
+/// The half of the observation the WEB reader actually meets.
+///
+/// `no_english_reaches_a_german_look` walks what `appearance::observe`
+/// composes. The scene appends its own sentences after those, and until
+/// I18N-11 every one of them was a finished English `format!` — so the
+/// look line in the notebook was German and the caption under the drawn
+/// vessel, which is the same observation, was half English. This walks the
+/// scene's own notes.
+#[test]
+fn no_english_reaches_a_german_scene_caption() {
+    let de = Locale::parse("de");
+    // Poly(vinyl alcohol) and borax: the gel note, plus the polymer term
+    // that only a value lookup can reach.
+    let mut gel = Vessel::new(VesselId(0), "beaker");
+    gel.deposit(SpeciesId::new("PVA"), Moles(0.25), Phase::Solid);
+    gel.deposit(SpeciesId::new("Na2B4O7"), Moles(0.001), Phase::Liquid);
+
+    let painted = scene::scene_vessel(&gel);
+    assert!(
+        !painted.notes.is_empty(),
+        "the gel beaker produced no scene notes, so this gate checks nothing"
+    );
+    let mut faults = Vec::new();
+    for clause in painted.clauses.iter().chain(painted.notes.iter()) {
+        unresolved(clause, de, &mut faults);
+    }
+    assert!(
+        faults.is_empty(),
+        "German is missing {} of the parts the scene caption is made of:\n{}",
+        faults.len(),
+        faults.join("\n"),
+    );
+    let german = painted.say(de);
+    assert_ne!(
+        german, painted.words,
+        "the German caption is identical to the English one"
+    );
+    assert!(
+        !german.contains("translucent cohesive gel"),
+        "English survived into the German caption: {german}"
+    );
+    // And the whole scene, the way a host gets it.
+    let localized = scene::localize(&scene::scene_of(&[gel]), de);
+    assert_eq!(localized.vessels[0].words, german);
+}
+
+/// A scene from before the clause list existed still says something.
+#[test]
+fn a_scene_vessel_without_clauses_falls_back_to_its_english() {
+    let mut v = scene::scene_vessel(&Vessel::new(VesselId(0), "beaker"));
+    let english = v.words.clone();
+    v.clauses.clear();
+    v.notes.clear();
+    assert_eq!(v.say(Locale::parse("de")), english);
+}
+
+/// The gap event explains itself in German (I18N-10).
+///
+/// The companion of `the_inert_verdict_explains_itself_in_german` above,
+/// one event along. `Event::not_modeled` generates the English `what` from
+/// the recipe rather than taking it as a second argument, which is the
+/// invariant #626 wrote by hand at six call sites and this migration has
+/// eighty-two of: written by hand, the two copies drift, and the codex
+/// entries that quote a refusal verbatim then fail one at a time.
+#[test]
+fn a_gap_explains_itself_in_german() {
+    use kerotakis_core::ops::{Event, NotModelledCause};
+    use kerotakis_core::{render_events_in, Register};
+
+    let fixed = Event::not_modeled(
+        VesselId(0),
+        NotModelledCause::NothingToActOn,
+        Phrase::bare(
+            "not-modeled.nothing-to-evaporate",
+            "nothing to evaporate — no water in the vessel",
+        ),
+    );
+    let Event::NotYetModeled { what, .. } = &fixed else {
+        panic!("not_modeled builds a NotYetModeled");
+    };
+    assert_eq!(
+        what, "nothing to evaporate — no water in the vessel",
+        "the English must be the recipe's own, not a second copy of it"
+    );
+
+    let de = Locale::parse("de");
+    let line = render_events_in(&[fixed], Register::LV2, de).join(" ");
+    assert!(line.contains("nichts zu verdampfen"), "{line}");
+    assert!(!line.contains("nothing to evaporate"), "{line}");
+
+    // And the half `[refusal]` could never reach: a gap with a HOLE in it.
+    // The number arrives with the reader's separator, which is the whole
+    // difference between a recipe and a finished sentence.
+    let held = Event::not_modeled(
+        VesselId(0),
+        NotModelledCause::RateNotModelled,
+        Phrase::new(
+            "not-modeled.fizz-rate-near-barrier",
+            "how fast {name} fizzes: the driving force clears the hydrogen overpotential on {name} by only {margin} V, and a rate that close to its barrier is not something this lab computes — it reacts, slowly",
+            vec![
+                ("name".to_string(), Slot::term("species", "zinc")),
+                ("margin".to_string(), Slot::number("0.03".to_string())),
+            ],
+        ),
+    );
+    let line = render_events_in(&[held], Register::LV2, de).join(" ");
+    assert!(line.contains("Überspannung"), "{line}");
+    assert!(
+        line.contains("0,03"),
+        "the German decimal separator: {line}"
+    );
+    assert!(!line.contains("how fast"), "English survived: {line}");
+}
+
+/// A gap written before the recipe existed still says something.
+#[test]
+fn a_gap_without_a_recipe_falls_back_to_its_english() {
+    use kerotakis_core::ops::{Event, NotModelledCause};
+    use kerotakis_core::{render_events_in, Register};
+
+    // `[refusal]` is keyed by the English, and remains the fallback for
+    // every site this migration has not reached yet.
+    let event = Event::NotYetModeled {
+        vessel: VesselId(0),
+        what: "nothing here at all".to_string(),
+        cause: NotModelledCause::NothingToActOn,
+        reason: None,
+    };
+    let line = render_events_in(&[event], Register::LV2, Locale::parse("de")).join(" ");
+    assert!(line.contains("nothing here at all"), "{line}");
 }

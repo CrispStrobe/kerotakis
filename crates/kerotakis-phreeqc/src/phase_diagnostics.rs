@@ -107,6 +107,7 @@ pub(crate) fn events(
             cause,
             vessel,
             what,
+            reason: None,
         });
     }
     result
