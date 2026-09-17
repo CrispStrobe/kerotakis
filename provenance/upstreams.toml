@@ -510,6 +510,16 @@ names = [
   "Korean Journal for Food Science of Animal Resources",
   "Microbial Cell Factories",
   "International Dairy Journal",
+  # Added 2026-09-17 for the two KCl-standard papers OIML R 56 names as the
+  # origin of its tables: G. Jones and B. C. Bradshaw, J. Am. Chem. Soc. 55
+  # (1933) 1780, and T. Shedlovsky, J. Am. Chem. Soc. 54 (1932) 1411. NEITHER
+  # WAS OPENED - acs.org is unreachable from here, as `acs-education` already
+  # records - and the citations say the recommendation is what was read. The
+  # spelling is here so that naming the paper that made the measurement is
+  # legible to the lint rather than invisible to it, which is the whole point
+  # of this row. Note it does not collide with "J. Chem. Soc." above: whole-word
+  # matching at both ends keeps the two apart.
+  "J. Am. Chem. Soc.",
 ]
 in_plan_table = true
 note = "A ROUTE, NOT A BODY - the only row in this file that is not an organisation, and the one the owner's 2026-09-14 ruling prefers to both of the others: citing a book for one value is ordinary practice, leaning on a compilation is not, and tracing to the paper that made the measurement beats both. Read 2026-09-15: Feist Publications v. Rural Telephone Service, 499 U.S. 340 (1991) holds that 'no author may copyright his ideas or the facts he narrates', that copyright in a compilation 'extends only to the material contributed by the author of such work, as distinguished from the preexisting material employed in the work', and that it does not reach 'the facts themselves'. That is the entire licence basis, and it is the footing the repository already stands on twice over: `usptolowe` calls reaction facts Feist-uncopyrightable, and `literature/hartley-campbell-iodine-water` says in its own citation that it converts one factual measurement and redistributes no source text or table. WHAT THIS ROW DOES NOT LICENCE: a figure, a table, a paragraph or a fitted correlation lifted whole from a paper. One number, with author, title, journal, volume, year, pages and preferably a DOI beside it. THE NAMES LIST IS THE WEAKNESS AND IT IS STRUCTURAL. An organisation has a canonical spelling to anchor on; a paper has as many as there are journals, so this list carries `doi` and the six journal titles cited today and will be one paper behind from the moment a seventh is added. `ACS Omega` earns its place without a DOI beside it: `kerotakis-thermo/src/pack.rs` cites the same CC BY 4.0 paper `vle.rs` cites by DOI, and without the journal spelling that one string would have been invisible while its twin was legible. The structured `upstreams[]` field the lint's module docs propose is what retires it. AMENDED 2026-09-16 BY THE FERMENTATION-RATE CALIBRATION, which added three papers and a fourth read at one remove. `kerotakis/fermentation-rate-calibration-v1` cites, all by DOI: Kim, Oh and Imm 2018 (Korean Journal for Food Science of Animal Resources 38:273-281, doi:10.5851/kosfa.2018.38.2.273, CC BY-NC); Jankowska et al. 2026 (Foods 15(2):314, doi:10.3390/foods15020314, CC BY 4.0); and Pagliardini et al. 2013 (Microbial Cell Factories 12:29, doi:10.1186/1475-2859-12-29, CC BY 2.0). Three spellings were added above and ONE WAS DELIBERATELY NOT: a bare `Foods` matched on whole words hits `USDA FoodData Central`s `Foundation Foods` and would clear a dozen citations that have nothing to do with this paper - the exact false positive the anchoring note at the top of this file warns about, arriving from the other direction. That paper is legible through `doi`, which is enough, and a journal title short enough to be a common noun is not safe in this list. WHAT WAS READ AND WHAT WAS NOT, recorded because a citation that does not say so invites the reader to assume the first. All three were read in full on 2026-09-16 through the Europe PMC REST `fullTextXML` service, which is the machine-readable route to the same open-access text; the publishers' own sites were tried first and refused - sciencedirect.com and journalofdairyscience.org both answer an automated request with HTTP 403, and pmc.ncbi.nlm.nih.gov answers with a reCAPTCHA page. A FOURTH WORK WAS NOT READ AT ALL AND IS CITED AT ONE REMOVE: Salaun, Mietton and Gaucheron, 'Buffering capacity of dairy products', International Dairy Journal 15(2) (2005) 95-109, doi:10.1016/j.idairyj.2004.06.007, is where milk's buffer split of 40% soluble minerals / 35% caseins / 20% colloidal calcium phosphate / 5% whey proteins comes from, and it is behind Elsevier's 403. What was read is Kim et al. 2018 reporting it and naming it as the source. The calibration's citation says 'as reported by Kim et al. 2018' in those words rather than citing Salaun directly, because citing a paper nobody here opened is the thing this file exists to catch. It is used only for the BOUNDARY statement - that most of milk's buffer is missing from the model - and no shipped number is derived from it."
@@ -564,6 +574,88 @@ may_touch = []
 names = ["Voet"]
 in_plan_table = true
 note = "CHECKED 2026-09-15 AND NOT READ: wiley.com returns HTTP 403 to an automated request for the title page and for /en-us/permissions alike, exactly as the CRC publisher page does. No terms were read; this verdict rests on the absence of any granted licence and on the work being a paid commercial textbook (D. Voet and J. G. Voet, Biochemistry, 4th ed., John Wiley and Sons), not on a reading. SAME CLASS AS crc-handbook AND merck-index and judged the same way, because a verdict is a property of the source's terms: making it a property of how often we happen to cite the book would mean this table said different things about one work on different days. THIS ROW ADDS EXACTLY ONE FINDING AND THE CENSUS PREDICTED IT, 59 to 60. It is a true positive rather than the count getting worse because the data got more legible. The `avoid` text carves out 'naming one of these for one value, with author, title, edition and page' as ordinary practice; `legacy/amylase` reads 'Alpha-amylase MW ~55 kDa (typical); Voet & Voet Biochemistry 4th ed.' - no page, and 'typical' by its own word, which is a rounded generality rather than a cited measurement. It is the same shape as the CRC rows that admitted 'the printed edition was not opened for this row'. THE VOCABULARY WAS MISSING A VERDICT AND THIS IS WHERE IT SHOWED; it was added on 2026-09-15 and this row does not move. `avoid` is still a source-level flag, but a `[[citation]]` row can now say what one citation is DOING with the work - `mentioned`, `via` or `claims` - and an attributed `claims` with a `locator` on a work refused for BULK is not a finding. This citation qualifies for none of it: it carries no page, so it is not attribution, and `avoid` plus no locator is a finding under the new rule exactly as under the old one. That is the instrument agreeing with the row's own words rather than the instrument being unable to tell. What HAS changed is that a citation carrying author, title, edition and page would no longer fail identically to this one, which was the defect. The honest reading of this finding is unchanged: the number wants a page or a paper, which it does."
+
+
+# ------------------- added 2026-09-17, the conductivity source trace ---------
+#
+# Four rows and one journal spelling, added because the const-table mutation
+# pass of 2026-09-16 found that 23 of the 28 λ° values in
+# `crates/kerotakis-core/src/conductivity.rs` could each be moved 25 % without
+# a single assertion in the tree noticing. The repair the owner asked for was
+# not 23 pins but "check the values against sources, and add one test that
+# covers the class", so the values were traced and the sources are here.
+#
+# WHAT WAS READ, ON 2026-09-17, AND WHAT WAS NOT. Read in full: OIML R 56
+# (1981), five pages, as the PDF oiml.org serves; USGS Water-Supply Paper 2311
+# (1988), whose scanned text extracts cleanly. Read at one remove: the
+# Sartorius handbook, through the German Wikipedia article that reproduces its
+# table — the handbook itself was not opened, and the citation says so with a
+# `via` role below. NOT REACHED AT ALL, and recorded so the gap is a fact
+# rather than a silence: Vanýsek's table in the CRC Handbook, which is the
+# source the shipped table names and which `crc-handbook` refuses as a
+# systematic source; Robinson and Stokes' Electrolyte Solutions; and the
+# Jones-Bradshaw and Shedlovsky papers themselves, which are behind the ACS
+# paywall that `acs-education` already records as unreachable from here. Seven
+# ions — Zn(2+), Fe(2+), Fe(3+), Al(3+), Mn(2+), Pb(2+), MnO4(-) — therefore
+# have NO second source in this repository at all, and
+# `crates/kerotakis-core/tests/conductivity_sources.rs` lists them by name so
+# that resting on one compilation is a maintained fact.
+
+[[upstream]]
+id = "usgs-water-supply-papers"
+name = "USGS Water-Supply Papers (numbered reports, not the PHREEQC databases)"
+licence = "LicenseRef-US-Public-Domain"
+terms = "https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits"
+retrieved = "2026-09-17"
+verdict = "primary"
+may_touch = ["property", "build-oracle"]
+# NOT a bare "USGS": that spelling already belongs to `phreeqc-databases`,
+# which is about the shipped .dat files and nothing else. A Water-Supply Paper
+# is a different artifact of the same agency and wants its own row, so the
+# spellings anchor on the series name.
+names = ["Water-Supply Paper", "USGS Water-Supply Paper"]
+in_plan_table = false
+note = "Read 2026-09-17: the USGS copyright page states that 'USGS-authored or produced data and information are considered to be in the U.S. Public Domain' and asks for credit rather than permission, with a carve-out for third-party photographs that does not reach a numeric table. WHAT IS USED. Water-Supply Paper 2311, Miller, Bradford and Peters, 'Specific Conductance: Theoretical Considerations and Application to Analytical Quality Control' (1988): table 5 on p. 10, limiting equivalent conductances of sixteen ions, and table 1 on p. 3, the Jones and Bradshaw KCl standards. Both are used ONLY in a build-time test, never as shipped bytes - the shipped λ° table is unchanged by this work and still cites what it always cited. THE PAPER NAMES ITS OWN UPSTREAM and the citation carries it forward: table 5 is 'Data from Harned and Owen (1964, p. 231), except fluoride ion data from Franks (1973, p. 178)', and the header prints the international-to-absolute-ohm factor 0.999505, which the test applies rather than absorbing into its tolerance. That chain is the whole reason this row is `primary` and the CRC row is not: a public-domain report that says which book each number came from is a route to the measurement, not a compilation standing in for one."
+
+[[upstream]]
+id = "oiml"
+name = "OIML International Recommendations (Organisation Internationale de Metrologie Legale)"
+licence = "LicenseRef-No-Licence-Granted"
+terms = "https://www.oiml.org/en/publications"
+retrieved = "2026-09-17"
+verdict = "decision-required"
+may_touch = []
+names = ["OIML", "OIML R 56"]
+in_plan_table = false
+note = "READ 2026-09-17, BOTH THE PUBLICATION AND ITS TERMS PAGE, and they say different amounts. The recommendation itself - OIML R 56, 'Standard solutions reproducing the conductivity of electrolytes', Edition 1981 (E), five pages - is served as a free PDF from oiml.org and was read in full. The publications page carries no licence, no reuse statement and no permissions text: the only relevant sentence on it is the footer, 'Copyright OIML 2021'. So a grant was looked for and not found, which is a different thing from a grant being refused, and the verdict says so. WHAT IS USED AND WHERE. Six numbers: the three primary standards of table 1 (Jones and Bradshaw's 1933 measurements corrected to the absolute ohm per the IUPAC recommendation) and the three secondary standards of table 2 (Shedlovsky, 1932). They appear ONLY in `crates/kerotakis-core/tests/conductivity_sources.rs`, as the external measurements a conductivity model is checked against, and nothing in the shipped engine or registry carries them. THE OPEN QUESTION, stated so the owner can close it: whether an intergovernmental recommendation's reference values - which are metrological conventions, and which every conductivity meter in the world is calibrated to - are ours to print in a test. The owner's 2026-09-14 rule puts the line at bulk dependence and this is two tables of a five-page document, cited with organisation, number, edition and table, which is the shape the rule calls ordinary practice. It is recorded as a question rather than answered here because the verdict is a property of the terms, and the terms were silent. A FINDING THIS ROW SURFACES AND DOES NOT FIX: `conductivity.rs`'s FIT_SOURCE says '1413 microsiemens/cm for the 0.01 mol/kg KCl calibration standard is the IUPAC/OIML reference value'. OIML R 56 prints 0.14083 S/m - 1408.3 microsiemens/cm - for its 0.01 D primary standard, and 1413 appears nowhere in it. See docs/MUTATION-SENSITIVITY.md section 8c; the number is not changed here."
+
+[[upstream]]
+id = "sartorius-elektroanalytik"
+name = "Sartorius, Handbuch der Elektroanalytik, Teil 3: Die elektrische Leitfaehigkeit"
+licence = "LicenseRef-No-Licence-Granted"
+terms = "https://www.sartorius.com/"
+retrieved = "2026-09-17"
+verdict = "avoid"
+may_touch = []
+names = ["Handbuch der Elektroanalytik", "Sartorius"]
+in_plan_table = false
+note = "NOT OPENED. This row exists because five λ° values in `crates/kerotakis-core/tests/conductivity_sources.rs` - silver, barium, copper(II), perchlorate and carbonate - are the handbook's, and no copy of it was read: they were read through the German Wikipedia article 'Molare Leitfaehigkeit', which reproduces its table and names it as the source. The `[[citation]]` row below records that at one remove with role `via`, which is what that role is for. No terms page was read either: sartorius.com is a corporate site and the handbook is an instrument-maker's manual with no online edition found on 2026-09-17, so the date above is the date of the attempt and the licence field records the absence of a grant rather than a reading. `avoid`, AND THE VERDICT WAS CHANGED ONCE BEFORE IT SHIPPED, which is worth recording because the first attempt was wrong for an instructive reason. It was written as `decision-required` - there is no evidence of a refusal here, only of five values with a thin route to them - and the lint refused the `[[citation]]` row beside it in terms: \"upstream 'sartorius-elektroanalytik' is decision-required, which refuses nothing - the judgement judges nothing\". That is the instrument being right. A role is a judgement about what a citation is DOING with a work the project has decided against, and a work nobody has decided against cannot have one. So the verdict states the thing that is actually true of the terms: a company's copyrighted manual with no licence granted anywhere, which is the same footing `voet-biochemistry` rests on and is judged the same way. The dependence is five values, which is nowhere near bulk, and the `avoid` text's own carve-out would make an attributed citation ordinary practice - if it carried a page. It cannot: no copy was opened. So the citation below declares `claims` with no locator and is one finding, deliberately, exactly like the three rows above that do the same because their own text admits no copy was opened. WHAT WOULD SETTLE IT: a copy of the handbook, or - better, because it would replace rather than confirm the route - any compilation that carries these five ions and is not the CRC Handbook. The two that were tried and do not carry them are USGS Water-Supply Paper 2311 and the English Wikipedia's Adamson-sourced table."
+
+[[upstream]]
+id = "de-wikipedia"
+name = "Wikipedia (German-language articles, as a ROUTE to a cited work)"
+licence = "CC-BY-SA-4.0"
+terms = "https://foundation.wikimedia.org/wiki/Policy:Terms_of_Use"
+retrieved = "2026-09-17"
+verdict = "oracle-only"
+may_touch = ["build-oracle"]
+# Deliberately NOT a bare "Wikipedia". The exact host spelling is what the one
+# citation that uses this route writes, and a bare word would match strings
+# elsewhere in the tree that this judgement has not looked at.
+names = ["de.wikipedia.org"]
+in_plan_table = false
+note = "Read 2026-09-17: the Wikimedia Terms of Use state that submitted text is licensed under 'Creative Commons Attribution-ShareAlike 4.0 International License (\"CC BY-SA 4.0\"), and GNU Free Documentation License', so the licence is not the problem here and never was. A ROUTE, NOT A SOURCE - the same shape as `primary-literature` and the opposite end of it. An encyclopaedia article is not where a measurement lives; it is where a reader finds out which book it lives in, and a value read there is a value read at one remove from a work nobody here opened. So `oracle-only`: it may back a number in a build-time test and may never be the provenance of a shipped one, and every citation that uses it must also name the work behind it and carry role `via`. One does, below."
+
 
 # -------------------------------------------------------------- citations ---
 #
@@ -838,3 +930,13 @@ subject = "crates/kerotakis-thermo/src/vle.rs"
 upstreams = ["nist-webbook"]
 role = "via"
 reason = "The same Stull 1947 Antoine constants as pack.rs, carrying the DOI and the same disclosure: 'The coefficients were transcribed from the NIST Chemistry WebBook SRD 69 RENDERING of that fit ... so the citation names the publication it renders and records the detour rather than naming the renderer.' Recording the detour is what makes it auditable; it does not make the bytes clean."
+
+# --- judged 2026-09-17, the conductivity source trace ----------------------
+
+[[citation]]
+surface = "rust"
+subject = "crates/kerotakis-core/tests/conductivity_sources.rs"
+matching = "Handbuch der Elektroanalytik"
+upstreams = ["sartorius-elektroanalytik"]
+role = "claims"
+reason = "A value read at one remove, and this row says through what. THE ROLE IS `claims` AND NOT `via`, AND THAT IS A LIMIT OF THE VOCABULARY RATHER THAN A JUDGEMENT ABOUT THIS CITATION. `via` is defined as a value read through a REFUSED source's rendering of a cleared one, and here it is the other way round: the work behind the value (the handbook) is what has no licence, and the route (a CC BY-SA encyclopaedia article) is clear. The file has no word for that, so the role says the true and smaller thing - the value IS the handbook's - and the route is named in the citation string and in the `de-wikipedia` row instead. Worth fixing in the vocabulary rather than in this row. Five limiting molar conductivities - silver, barium, copper(II), perchlorate and carbonate - are the Sartorius handbook's; what was actually read is the German Wikipedia article that reproduces its table. The citation string says so in its own words rather than leaving it to be inferred: 'as reproduced in de.wikipedia.org/wiki/Molare_Leitfaehigkeit and read there 2026-09-17 - read at one remove'. IT IS A FINDING AND IT SHOULD BE. `claims` with no locator is one by construction - 'a work named without a place in it is not a citation; it is a gesture at a library' - and that is the honest description: the work behind these five values was never opened, so what this wants is a verification rather than a re-sourcing. It is nevertheless the strongest thing available for these five ions, which is why they are corroborated here at all instead of sitting in the same UNCORROBORATED list as Zn(2+), Fe(2+), Fe(3+), Al(3+), Mn(2+), Pb(2+) and MnO4(-). WHAT IT IS NOT: a shipped value. Nothing in the engine or the registry rests on this row - the five numbers appear only as the external side of a test comparison, and the shipped λ° table they are compared against is untouched by this work."

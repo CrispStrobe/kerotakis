@@ -378,6 +378,14 @@ to see.*
 This is a 7-of-77 sample chosen to contrast a common ion with rare ones, so it
 is an illustration, not a rate. The rate is what §9.1 proposes measuring.
 
+**One of those three survivors was closed on 2026-09-17 and the other two were
+not**, and the split is the one §8c ends on. λ°(Ba²⁺) is now checked
+against an independent compilation; **λ°(MnO₄⁻) is not, because permanganate is
+one of the seven ions no second source could be reached for**, and the Henry
+coefficient is in `properties.rs` and was not part of that work at all. Nothing
+has been written that could distinguish #41 or #125 from a value a quarter
+wrong.
+
 ## 8b. The `const` tables, all of them: the sample was right
 
 §8a ran seven of the 77 and called itself an illustration rather than a rate.
@@ -428,6 +436,216 @@ line exactly. Without that check, appending under regenerated numbering could
 have filed a verdict against the wrong constant, which is a worse outcome
 than an unfinished measurement.
 
+## 8c. What closing the conductivity survivors took
+
+§8b measured the gap. This section is what was done about the 23 in
+`conductivity.rs`, what it closed, and — at equal length — what it could
+not.
+
+### What was done about it, and why not the obvious thing
+
+The obvious repair is 23 assertions. The owner refused it in one sentence — *a
+test written to kill a mutant asserts only that a number is the number it is* —
+and asked instead for the values to be traced to sources and for **one test
+that covers the class**. `CONTRIBUTING.md` §4 already says why, and says it as
+the deliberate opposite of the engine's own rule: an engine carrying the answer
+it should compute has stopped computing, while a test carrying a *cited
+external measurement* is doing the one thing the engine cannot do for itself.
+
+`crates/kerotakis-core/tests/conductivity_sources.rs` is that test file. Three
+instruments, strongest first:
+
+1. **The OIML calibration ladder.** Six potassium chloride reference
+   solutions, spanning 0.001 to 1 mol/kgw, from OIML R 56 (1981) — Jones and
+   Bradshaw's 1933 primaries as corrected to the absolute ohm, and
+   Shedlovsky's 1932 secondaries. This is not anyone's compilation; it is what
+   a conductivity meter is calibrated against, and it exercises the λ° table,
+   the fitted attenuation and the mol/L ≈ mol/kgw approximation in one number.
+   The model reads +0.44 %, +0.52 %, +0.71 %, +1.09 % and +0.52 % high across
+   the five dilute rungs, and **−6.4 % at the 1 D standard** — where two of the
+   module's admitted approximations have stopped holding at once. The test
+   allows ten times more error at that rung and flips the direction it
+   requires, which is the cost of those two admissions, measured.
+2. **The table against two independent compilations.** 21 of the 28 ions
+   against USGS Water-Supply Paper 2311 (a public-domain United States
+   Government report, itself naming Harned and Owen p. 231 and Franks p. 178,
+   and printing its own international-to-absolute-ohm conversion) and a
+   Sartorius handbook read at one remove. Neither is the compilation the
+   shipped table was transcribed from, so agreement is corroboration and not a
+   round trip — the same distinction `LAMBDA_SOURCE` already makes at length
+   about Nernst-Einstein and `phreeqc.dat`.
+3. **Relations that are physics** — Grotthuss hopping puts H⁺ and OH⁻ beyond
+   twice the fastest ordinary ion per unit charge, and hydration reverses the
+   alkali ordering so that Li⁺ < Na⁺ < K⁺.
+
+Plus the two boundaries, each tied to the last measurement that supports it
+rather than to itself: the dilute limit is bracketed at ±1 % around the 0.1 D
+primary standard it coincides with, and the fitted range is asserted to end
+above the most concentrated solution `FIT_SOURCE` says the two coefficients
+were fitted to.
+
+### What it did not close, which is the finding
+
+**Seven ions have no second source that could be reached at all**: Zn²⁺, Fe²⁺,
+Fe³⁺, Al³⁺, Mn²⁺, Pb²⁺ and MnO₄⁻. The USGS table does not carry them; the
+Sartorius table does not carry them; Wikipedia's Adamson-sourced table does not
+carry them. What does carry them is Vanýsek's table in the CRC Handbook, which
+is the source the shipped values name and which `provenance/upstreams.toml`
+refuses as a systematic source. So six of the 23 survivors survive **because
+this repository has one source for those numbers and no way to check it**, and
+that is a more useful thing to know than a mutation score.
+
+They are listed by name in `UNCORROBORATED` in the test file, and the class
+test asserts the list is exactly right: every shipped λ° is either checked
+against an independent compilation or written down as resting on one. A new
+ion cannot be added in silence, and finding a source for one of these seven is
+a one-line deletion.
+
+### The re-run: 17 of 23
+
+The same 23 ids, the same catalogue, run again on 2026-09-17 —
+`tools/mutation/results/2026-09-17-conductivity-rerun.json`, and on a GitHub
+runner rather than here, for the reason this section's last part gives.
+
+| | mutants | |
+|---|---:|---|
+| caught by `the_lambda_table_agrees_with_independent_compilations` | 15 | the corroborated ions |
+| caught by `the_dilute_limit_is_the_last_primary_standard` | 1 | `DILUTE_LIMIT_MOLAL` |
+| caught by `past_the_last_fitted_measurement_the_estimate_admits_extrapolating` | 1 | `FITTED_LIMIT_MOLAL` |
+| **survived** | **6** | Zn²⁺, Fe²⁺, Fe³⁺, Al³⁺, Mn²⁺, Pb²⁺ |
+
+**17 of 23, and the six that survive are exactly the six the test file names as
+uncorroborated.** That correspondence is the useful part of the number: the
+instrument and the provenance record agree about which values are unchecked,
+so the survivor list is not a list of untested code but a list of *unsourced
+data*, and it will shrink only when somebody finds a second source — not when
+somebody writes another assertion.
+
+Two of the caught ones are worth separating from the other fifteen. λ°(SO₄²⁻)
+is caught twice, by the table comparison and independently by the Grotthuss
+relation, because a quarter more sulfate mobility would put an ordinary ion
+within a factor of two of the hydroxide. And the two range boundaries are
+caught by tests that do not mention their values at all: each is bracketed
+against the measurement that justifies it — the 0.1 D primary standard, and
+the most concentrated solution the correction was fitted to.
+
+### The run that reported 23 of 23, and why that number is not in this document
+
+The first CI pass said **23 caught, 0 survived**. It was wrong, and it was
+wrong in this instrument's own characteristic way.
+
+Six mutants — the six above — were recorded as caught by the `cli-property`
+rung, with three real test names under them, parsed out of a real `failures:`
+block. The rung had taken **0.1 seconds**. It takes 34 at baseline.
+
+`run_tier` set `TMPDIR` to `/mnt/volume1/tmp-overflow/kero-build` when the
+caller had not set one: this project's development box's overflow directory,
+hardcoded into the tool. On a GitHub runner that path does not exist,
+`std::env::temp_dir()` inside `metamorphic.rs` returned it anyway,
+`create_dir_all` failed with `PermissionDenied`, and all three metamorphic
+tests panicked in their first statement — which looks, in a results file that
+records only names, exactly like three assertions firing.
+
+**That is the fifth instance in this document of a check reading stronger than
+it was, and the first that would have been published as a result.** What found
+it was arithmetic, not an assertion: 0.1 s is not a suite noticing something.
+What proved it was a change made in response — a failing tier now keeps its
+exit code and the tail of its output, so a verdict carries the evidence under
+it and "an assertion fired" can be told from "the rung could not start".
+
+The lesson generalises past this bug, and it is the same one §4 makes about
+the corpus rung: **a mutation harness cannot distinguish a test that noticed
+from a test that could not run, unless it is built to.** A false NEGATIVE in
+this instrument — a mutant wrongly called survived — costs an investigation. A
+false POSITIVE costs a claim, and claims are what this document is for.
+
+### A value that disagrees with its source, reported and not changed
+
+`FIT_SOURCE` says: *"1413 µS/cm for the 0.01 mol/kg KCl calibration standard is
+the IUPAC/OIML reference value, a metrological convention rather than anyone's
+compilation"*. OIML R 56 was read in full on 2026-09-17. **It prints 0.14083
+S/m — 1408.3 µS/cm — for its 0.01 D primary standard, and 1413 appears nowhere
+in it.** USGS WSP 2311's table 1, reporting the same Jones and Bradshaw data,
+gives 1408.07 µS/cm for 0.01 D and 1410.75 for 0.01 N.
+
+1413 is not invented: it is very close to the conductivity of a 0.0100 **mol/L**
+KCl solution, which contains about 0.3 % more salt per kilogram of solution
+than the 0.01 D standard does, and which is what a bottle of calibration fluid
+sold as "1413 µS/cm" contains. So the number is a real standard value on a
+volumetric basis, attributed here to a molality basis and to an organisation
+whose published value is a different number.
+
+**It is not changed.** The rule is that a value disagreeing with its source is
+a finding to report, not a line to edit — this project has been burned by a
+value corrected in the wrong direction — and the existing unit test
+`kcl_calibration_standard_within_model_error` asserts against 1413 with a 7 %
+window that the OIML figure also sits inside. Whoever fixes it should decide
+whether the citation or the basis is what moves.
+
+### What the provenance audit says about all this
+
+`kero provenance upstreams` moves from **67 findings over 397 value-bound
+strings to 68 over 405** — eight new citations and exactly one new finding,
+which is the Sartorius handbook declared `claims` with no locator because no
+copy of it was opened. That is the honest cost of corroborating five ions
+through a reproduction of a book, and it is recorded as a finding rather than
+argued away. The OIML rows (six) and the Wikipedia route (one) are reported
+apart from the headline, as `decision-required` and `oracle-only` respectively.
+
+**The vocabulary was missing a word and this is where it showed.** The role
+that fits "read at one remove" is `via`, and `via` is defined as a value read
+through a *refused* source's rendering of a *cleared* one. Here it is the other
+way round: the work behind the value has no licence and the route — a CC BY-SA
+encyclopaedia article — is clear. The lint said so itself, refusing the first
+draft of the row with *"upstream 'sartorius-elektroanalytik' is
+decision-required, which refuses nothing — the judgement judges nothing"*. The
+citation therefore says the true, smaller thing (`claims`, the value IS the
+handbook's) and names the route in prose. Worth a word in the vocabulary, not
+a fudge in the row.
+
+**A blind spot found on the way, reported and not repaired.**
+`conductivity.rs`'s `LAMBDA_SOURCE` — the string that says the entire λ° table
+came from the CRC Handbook, which this repository refuses as a systematic
+source — **does not appear in that lint's output at all.** The scanner finds a
+citation by looking for a FIELD named `source` (or `provenance`, `citation`, …)
+followed by a string literal, and `const LAMBDA_SOURCE: &str = "…"` puts a type
+where the quote should be. The same is true of `FIT_SOURCE`. Making them
+visible would add findings to a reviewed count, which is the owner's call and
+not a test file's; the new test file declines to add a second invisible one and
+says why in the code.
+
+### The two operator hazards §8b named, closed in the tool
+
+**A table mutant lives in the working tree**, and §8b records what that cost:
+two SIGKILLs under memory pressure, two Bradley–Pitzer coefficients left 25 %
+wrong on disk, and a `trap 'git checkout -- <files>' EXIT HUP INT TERM` around
+the finishing run. §8b also says where that guard belongs — *"the guard this
+operator has always needed and should carry itself"* — so it now does.
+`mutate.py` writes
+`.mutation-state/table-live.json` *before* the edit and clears it after the
+restore; every later invocation begins by putting back whatever that marker
+still describes, loudly, and `mutate.py recover` does only that. SIGTERM,
+SIGHUP and SIGINT are also caught now, so for every kill but SIGKILL the
+existing `finally` simply runs.
+
+**`run-table` needs a pristine copy** of each file in
+`.mutation-state/orig/`, used only to turn a recorded byte offset into a line
+and column. A fresh checkout has none, which is what made §8b's run awkward to
+move anywhere else. It now seeds that copy from the working tree when git
+agrees the file is unmodified, and refuses — rather than guessing — when it
+does not.
+
+### And the run moved off the box
+
+`.github/workflows/mutation-tables.yml` runs the rebuild-per-mutant path on a
+runner: catalogue, a green baseline on every rung before any verdict counts,
+the ids as an input, and a step that fails the job if a falsified constant is
+still on disk when it ends. `workflow_dispatch`, never `pull_request` — §8's
+argument against putting this in front of a pull request has not changed, and
+the reason it exists at all is that a 4½-hour rebuild loop on a box with a
+gigabyte of free memory is a run that gets killed rather than a run that
+finishes.
+
 ## 9. What to point it at next
 
 1. ~~**The rest of this surface's `const` tables.**~~ **DONE 2026-09-17, §8b.**
@@ -436,7 +654,10 @@ than an unfinished measurement.
    what to do about them was **not** to pin each one — a test written to kill
    a mutant asserts only that a number is the number it is — but to trace the
    values to their sources and cover the class with a cited external
-   measurement, which is what `CONTRIBUTING.md` §4 says a test is for.
+   measurement, which is what `CONTRIBUTING.md` §4 says a test is for. **That
+   was done the same day and §8c is the account of it: 17 of the 23 are now
+   caught, and the six that are not are the six ions this repository has one
+   source for and no way to check.**
 2. **The surfaces the new oracles were written for** — adsorption,
    electrochemistry, polarization. §5(c) found that `perturbation.rs` and
    `metamorphic.rs` killed nothing here that was not already dead. That is a

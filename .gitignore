@@ -32,3 +32,10 @@ web/app/node_modules
 # Snapshot suites write the regenerated file beside the golden so a failure
 # can be judged rather than guessed. It is an artefact, never a commit.
 *.actual.json
+
+# The mutation harness's scratch: pristine copies of the files it perturbs, a
+# catalogue, verdicts, and the marker that says a falsified constant is live on
+# disk right now. Never committed — a mutated source in a commit is the exact
+# accident tools/mutation/mutate.py's recovery guard exists to prevent.
+.mutation-state/
+.mutation-tmp/

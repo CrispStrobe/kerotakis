@@ -1,0 +1,868 @@
+{
+ "16": {
+  "build_seconds": 55.4,
+  "caught_by": "core-integration",
+  "site": {
+   "describes": "(\"Li+\", 38.66),",
+   "end": 6369,
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "id": 16,
+   "kind": "table",
+   "line": 113,
+   "original": "38.66",
+   "start": 6364
+  },
+  "strength": "integration",
+  "tiers": [
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 1.5,
+    "tier": "core-unit",
+    "timeout": false
+   },
+   {
+    "exit_code": 101,
+    "failing": [
+     "the_lambda_table_agrees_with_independent_compilations"
+    ],
+    "ok": false,
+    "seconds": 0.2,
+    "tier": "core-integration",
+    "timeout": false
+   }
+  ],
+  "verdict": "caught"
+ },
+ "19": {
+  "build_seconds": 57.0,
+  "caught_by": "core-integration",
+  "site": {
+   "describes": "(\"NH4+\", 73.5),",
+   "end": 6428,
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "id": 19,
+   "kind": "table",
+   "line": 116,
+   "original": "73.5",
+   "start": 6424
+  },
+  "strength": "integration",
+  "tiers": [
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 1.4,
+    "tier": "core-unit",
+    "timeout": false
+   },
+   {
+    "exit_code": 101,
+    "failing": [
+     "the_lambda_table_agrees_with_independent_compilations"
+    ],
+    "ok": false,
+    "seconds": 0.2,
+    "tier": "core-integration",
+    "timeout": false
+   }
+  ],
+  "verdict": "caught"
+ },
+ "20": {
+  "build_seconds": 54.9,
+  "caught_by": "core-integration",
+  "site": {
+   "describes": "(\"Ag+\", 61.9),",
+   "end": 6447,
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "id": 20,
+   "kind": "table",
+   "line": 117,
+   "original": "61.9",
+   "start": 6443
+  },
+  "strength": "integration",
+  "tiers": [
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 1.5,
+    "tier": "core-unit",
+    "timeout": false
+   },
+   {
+    "exit_code": 101,
+    "failing": [
+     "the_lambda_table_agrees_with_independent_compilations"
+    ],
+    "ok": false,
+    "seconds": 0.2,
+    "tier": "core-integration",
+    "timeout": false
+   }
+  ],
+  "verdict": "caught"
+ },
+ "21": {
+  "build_seconds": 54.5,
+  "caught_by": "core-integration",
+  "site": {
+   "describes": "(\"Ca+2\", 118.94),",
+   "end": 6469,
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "id": 21,
+   "kind": "table",
+   "line": 118,
+   "original": "118.94",
+   "start": 6463
+  },
+  "strength": "integration",
+  "tiers": [
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 1.5,
+    "tier": "core-unit",
+    "timeout": false
+   },
+   {
+    "exit_code": 101,
+    "failing": [
+     "the_lambda_table_agrees_with_independent_compilations"
+    ],
+    "ok": false,
+    "seconds": 0.2,
+    "tier": "core-integration",
+    "timeout": false
+   }
+  ],
+  "verdict": "caught"
+ },
+ "22": {
+  "build_seconds": 54.4,
+  "caught_by": "core-integration",
+  "site": {
+   "describes": "(\"Mg+2\", 106.0),",
+   "end": 6490,
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "id": 22,
+   "kind": "table",
+   "line": 119,
+   "original": "106.0",
+   "start": 6485
+  },
+  "strength": "integration",
+  "tiers": [
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 1.6,
+    "tier": "core-unit",
+    "timeout": false
+   },
+   {
+    "exit_code": 101,
+    "failing": [
+     "the_lambda_table_agrees_with_independent_compilations"
+    ],
+    "ok": false,
+    "seconds": 0.2,
+    "tier": "core-integration",
+    "timeout": false
+   }
+  ],
+  "verdict": "caught"
+ },
+ "24": {
+  "build_seconds": 54.6,
+  "caught_by": "core-integration",
+  "site": {
+   "describes": "(\"Sr+2\", 118.9),",
+   "end": 6532,
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "id": 24,
+   "kind": "table",
+   "line": 121,
+   "original": "118.9",
+   "start": 6527
+  },
+  "strength": "integration",
+  "tiers": [
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 1.5,
+    "tier": "core-unit",
+    "timeout": false
+   },
+   {
+    "exit_code": 101,
+    "failing": [
+     "the_lambda_table_agrees_with_independent_compilations"
+    ],
+    "ok": false,
+    "seconds": 0.2,
+    "tier": "core-integration",
+    "timeout": false
+   }
+  ],
+  "verdict": "caught"
+ },
+ "25": {
+  "build_seconds": 54.3,
+  "caught_by": "core-integration",
+  "site": {
+   "describes": "(\"Cu+2\", 107.2),",
+   "end": 6553,
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "id": 25,
+   "kind": "table",
+   "line": 122,
+   "original": "107.2",
+   "start": 6548
+  },
+  "strength": "integration",
+  "tiers": [
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 1.4,
+    "tier": "core-unit",
+    "timeout": false
+   },
+   {
+    "exit_code": 101,
+    "failing": [
+     "the_lambda_table_agrees_with_independent_compilations"
+    ],
+    "ok": false,
+    "seconds": 0.2,
+    "tier": "core-integration",
+    "timeout": false
+   }
+  ],
+  "verdict": "caught"
+ },
+ "26": {
+  "build_seconds": 54.5,
+  "site": {
+   "describes": "(\"Zn+2\", 105.6),",
+   "end": 6574,
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "id": 26,
+   "kind": "table",
+   "line": 123,
+   "original": "105.6",
+   "start": 6569
+  },
+  "strength": null,
+  "tiers": [
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 1.5,
+    "tier": "core-unit",
+    "timeout": false
+   },
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 0.5,
+    "tier": "core-integration",
+    "timeout": false
+   },
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 13.8,
+    "tier": "cli-property",
+    "timeout": false
+   },
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 2.7,
+    "tier": "cli-corpus",
+    "timeout": false
+   }
+  ],
+  "verdict": "survived"
+ },
+ "27": {
+  "build_seconds": 54.5,
+  "site": {
+   "describes": "(\"Fe+2\", 108.0),",
+   "end": 6595,
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "id": 27,
+   "kind": "table",
+   "line": 124,
+   "original": "108.0",
+   "start": 6590
+  },
+  "strength": null,
+  "tiers": [
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 1.4,
+    "tier": "core-unit",
+    "timeout": false
+   },
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 0.6,
+    "tier": "core-integration",
+    "timeout": false
+   },
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 14.1,
+    "tier": "cli-property",
+    "timeout": false
+   },
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 2.7,
+    "tier": "cli-corpus",
+    "timeout": false
+   }
+  ],
+  "verdict": "survived"
+ },
+ "28": {
+  "build_seconds": 54.6,
+  "site": {
+   "describes": "(\"Fe+3\", 204.0),",
+   "end": 6616,
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "id": 28,
+   "kind": "table",
+   "line": 125,
+   "original": "204.0",
+   "start": 6611
+  },
+  "strength": null,
+  "tiers": [
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 1.6,
+    "tier": "core-unit",
+    "timeout": false
+   },
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 0.6,
+    "tier": "core-integration",
+    "timeout": false
+   },
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 14.1,
+    "tier": "cli-property",
+    "timeout": false
+   },
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 2.7,
+    "tier": "cli-corpus",
+    "timeout": false
+   }
+  ],
+  "verdict": "survived"
+ },
+ "29": {
+  "build_seconds": 54.3,
+  "site": {
+   "describes": "(\"Al+3\", 183.0),",
+   "end": 6637,
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "id": 29,
+   "kind": "table",
+   "line": 126,
+   "original": "183.0",
+   "start": 6632
+  },
+  "strength": null,
+  "tiers": [
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 1.5,
+    "tier": "core-unit",
+    "timeout": false
+   },
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 0.5,
+    "tier": "core-integration",
+    "timeout": false
+   },
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 13.7,
+    "tier": "cli-property",
+    "timeout": false
+   },
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 2.7,
+    "tier": "cli-corpus",
+    "timeout": false
+   }
+  ],
+  "verdict": "survived"
+ },
+ "30": {
+  "build_seconds": 54.4,
+  "site": {
+   "describes": "(\"Mn+2\", 107.0),",
+   "end": 6658,
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "id": 30,
+   "kind": "table",
+   "line": 127,
+   "original": "107.0",
+   "start": 6653
+  },
+  "strength": null,
+  "tiers": [
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 1.4,
+    "tier": "core-unit",
+    "timeout": false
+   },
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 0.5,
+    "tier": "core-integration",
+    "timeout": false
+   },
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 14.0,
+    "tier": "cli-property",
+    "timeout": false
+   },
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 2.7,
+    "tier": "cli-corpus",
+    "timeout": false
+   }
+  ],
+  "verdict": "survived"
+ },
+ "31": {
+  "build_seconds": 53.9,
+  "site": {
+   "describes": "(\"Pb+2\", 142.0),",
+   "end": 6679,
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "id": 31,
+   "kind": "table",
+   "line": 128,
+   "original": "142.0",
+   "start": 6674
+  },
+  "strength": null,
+  "tiers": [
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 1.5,
+    "tier": "core-unit",
+    "timeout": false
+   },
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 0.5,
+    "tier": "core-integration",
+    "timeout": false
+   },
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 13.6,
+    "tier": "cli-property",
+    "timeout": false
+   },
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 3.1,
+    "tier": "cli-corpus",
+    "timeout": false
+   }
+  ],
+  "verdict": "survived"
+ },
+ "33": {
+  "build_seconds": 54.0,
+  "caught_by": "core-integration",
+  "site": {
+   "describes": "(\"Br-\", 78.1),",
+   "end": 6718,
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "id": 33,
+   "kind": "table",
+   "line": 130,
+   "original": "78.1",
+   "start": 6714
+  },
+  "strength": "integration",
+  "tiers": [
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 1.5,
+    "tier": "core-unit",
+    "timeout": false
+   },
+   {
+    "exit_code": 101,
+    "failing": [
+     "the_lambda_table_agrees_with_independent_compilations"
+    ],
+    "ok": false,
+    "seconds": 0.2,
+    "tier": "core-integration",
+    "timeout": false
+   }
+  ],
+  "verdict": "caught"
+ },
+ "34": {
+  "build_seconds": 54.0,
+  "caught_by": "core-integration",
+  "site": {
+   "describes": "(\"I-\", 76.8),",
+   "end": 6736,
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "id": 34,
+   "kind": "table",
+   "line": 131,
+   "original": "76.8",
+   "start": 6732
+  },
+  "strength": "integration",
+  "tiers": [
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 1.5,
+    "tier": "core-unit",
+    "timeout": false
+   },
+   {
+    "exit_code": 101,
+    "failing": [
+     "the_lambda_table_agrees_with_independent_compilations"
+    ],
+    "ok": false,
+    "seconds": 0.2,
+    "tier": "core-integration",
+    "timeout": false
+   }
+  ],
+  "verdict": "caught"
+ },
+ "35": {
+  "build_seconds": 53.8,
+  "caught_by": "core-integration",
+  "site": {
+   "describes": "(\"F-\", 55.4),",
+   "end": 6754,
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "id": 35,
+   "kind": "table",
+   "line": 132,
+   "original": "55.4",
+   "start": 6750
+  },
+  "strength": "integration",
+  "tiers": [
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 1.5,
+    "tier": "core-unit",
+    "timeout": false
+   },
+   {
+    "exit_code": 101,
+    "failing": [
+     "the_lambda_table_agrees_with_independent_compilations"
+    ],
+    "ok": false,
+    "seconds": 0.2,
+    "tier": "core-integration",
+    "timeout": false
+   }
+  ],
+  "verdict": "caught"
+ },
+ "36": {
+  "build_seconds": 54.0,
+  "caught_by": "core-integration",
+  "site": {
+   "describes": "(\"NO3-\", 71.42),",
+   "end": 6775,
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "id": 36,
+   "kind": "table",
+   "line": 133,
+   "original": "71.42",
+   "start": 6770
+  },
+  "strength": "integration",
+  "tiers": [
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 1.5,
+    "tier": "core-unit",
+    "timeout": false
+   },
+   {
+    "exit_code": 101,
+    "failing": [
+     "the_lambda_table_agrees_with_independent_compilations"
+    ],
+    "ok": false,
+    "seconds": 0.2,
+    "tier": "core-integration",
+    "timeout": false
+   }
+  ],
+  "verdict": "caught"
+ },
+ "37": {
+  "build_seconds": 53.9,
+  "caught_by": "core-integration",
+  "site": {
+   "describes": "(\"ClO4-\", 67.3),",
+   "end": 6796,
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "id": 37,
+   "kind": "table",
+   "line": 134,
+   "original": "67.3",
+   "start": 6792
+  },
+  "strength": "integration",
+  "tiers": [
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 1.4,
+    "tier": "core-unit",
+    "timeout": false
+   },
+   {
+    "exit_code": 101,
+    "failing": [
+     "the_lambda_table_agrees_with_independent_compilations"
+    ],
+    "ok": false,
+    "seconds": 0.2,
+    "tier": "core-integration",
+    "timeout": false
+   }
+  ],
+  "verdict": "caught"
+ },
+ "38": {
+  "build_seconds": 54.0,
+  "caught_by": "core-integration",
+  "site": {
+   "describes": "(\"HCO3-\", 44.5),",
+   "end": 6817,
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "id": 38,
+   "kind": "table",
+   "line": 135,
+   "original": "44.5",
+   "start": 6813
+  },
+  "strength": "integration",
+  "tiers": [
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 1.5,
+    "tier": "core-unit",
+    "timeout": false
+   },
+   {
+    "exit_code": 101,
+    "failing": [
+     "the_lambda_table_agrees_with_independent_compilations"
+    ],
+    "ok": false,
+    "seconds": 0.2,
+    "tier": "core-integration",
+    "timeout": false
+   }
+  ],
+  "verdict": "caught"
+ },
+ "39": {
+  "build_seconds": 53.9,
+  "caught_by": "core-integration",
+  "site": {
+   "describes": "(\"CO3-2\", 138.6),",
+   "end": 6839,
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "id": 39,
+   "kind": "table",
+   "line": 136,
+   "original": "138.6",
+   "start": 6834
+  },
+  "strength": "integration",
+  "tiers": [
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 1.6,
+    "tier": "core-unit",
+    "timeout": false
+   },
+   {
+    "exit_code": 101,
+    "failing": [
+     "the_lambda_table_agrees_with_independent_compilations"
+    ],
+    "ok": false,
+    "seconds": 0.2,
+    "tier": "core-integration",
+    "timeout": false
+   }
+  ],
+  "verdict": "caught"
+ },
+ "40": {
+  "build_seconds": 54.2,
+  "caught_by": "core-integration",
+  "site": {
+   "describes": "(\"SO4-2\", 160.0),",
+   "end": 6861,
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "id": 40,
+   "kind": "table",
+   "line": 137,
+   "original": "160.0",
+   "start": 6856
+  },
+  "strength": "integration",
+  "tiers": [
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 1.5,
+    "tier": "core-unit",
+    "timeout": false
+   },
+   {
+    "exit_code": 101,
+    "failing": [
+     "the_grotthuss_ions_stand_apart_from_every_ordinary_ion",
+     "the_lambda_table_agrees_with_independent_compilations"
+    ],
+    "ok": false,
+    "seconds": 0.2,
+    "tier": "core-integration",
+    "timeout": false
+   }
+  ],
+  "verdict": "caught"
+ },
+ "42": {
+  "build_seconds": 54.0,
+  "caught_by": "core-integration",
+  "site": {
+   "describes": "pub const DILUTE_LIMIT_MOLAL: f64 = 0.1;",
+   "end": 7114,
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "id": 42,
+   "kind": "table",
+   "line": 144,
+   "original": "0.1",
+   "start": 7111
+  },
+  "strength": "integration",
+  "tiers": [
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 1.5,
+    "tier": "core-unit",
+    "timeout": false
+   },
+   {
+    "exit_code": 101,
+    "failing": [
+     "the_dilute_limit_is_the_last_primary_standard"
+    ],
+    "ok": false,
+    "seconds": 0.2,
+    "tier": "core-integration",
+    "timeout": false
+   }
+  ],
+  "verdict": "caught"
+ },
+ "45": {
+  "build_seconds": 54.1,
+  "caught_by": "core-integration",
+  "site": {
+   "describes": "pub const FITTED_LIMIT_MOLAL: f64 = 2.0;",
+   "end": 9507,
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "id": 45,
+   "kind": "table",
+   "line": 182,
+   "original": "2.0",
+   "start": 9504
+  },
+  "strength": "integration",
+  "tiers": [
+   {
+    "failing": [],
+    "ok": true,
+    "seconds": 1.4,
+    "tier": "core-unit",
+    "timeout": false
+   },
+   {
+    "exit_code": 101,
+    "failing": [
+     "past_the_last_fitted_measurement_the_estimate_admits_extrapolating"
+    ],
+    "ok": false,
+    "seconds": 0.2,
+    "tier": "core-integration",
+    "timeout": false
+   }
+  ],
+  "verdict": "caught"
+ }
+}
