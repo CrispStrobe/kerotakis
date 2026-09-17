@@ -2066,19 +2066,26 @@ display name in the registry, is the wrong fix.
 
 ### Found while resolving the bench gate against GUI-105
 
-- [ ] **The corpus-question path gates on the weaker predicate.** Two pieces
-  of work converged on the same answer for a dirty bench — the lesson gate
-  (#641) and GUI-105's replacement for the capability explorer (#638) — and
-  they did not converge on the same *test*. The lesson path asks
-  `benchDiffersFromFresh` (occupied **or** more than one vessel); the
-  question path asks `runGate`, which is `benchOccupied` alone.
-  That difference is not cosmetic: **a leftover EMPTY beaker is unoccupied
-  and still wrong** for any script that numbers its own glassware, because
-  `new beaker` then returns `v3` where the script says `v2`. All 500 corpus
-  prompts open `add v1 …` against an assumed empty bench, so the case is
-  reachable there. GUI-105 deleted `CapabilityExplorer.svelte` and #641 was
-  rebased onto that deletion, which is why the stricter predicate did not
-  travel with it — recorded here rather than silently lost in a merge.
+- [x] **Curated scripts ask for a fresh bench. DONE 2026-09-17.** Two
+  pieces of work converged on the same answer for a dirty bench — the
+  lesson gate (#641) and GUI-105's replacement for the capability explorer
+  (#638) — and did not converge on the same *test*: the lesson path asked
+  `benchDiffersFromFresh`, the catalogue path `runGate`, which was
+  `benchOccupied` alone.
+
+  Measured before changing it. The engine **refuses** `add v2` on a bench
+  with no `v2` (*"no vessel v2 — make it first with `new`"*), so no script
+  can reach past what it allocated. What it can do is land in the wrong
+  vessel: **117 codex routes allocate with a bare `new` and then name the
+  result absolutely as `v2`**, so with a leftover EMPTY `v2` present, `new`
+  hands back `v3` and `add v2 water` fills the previous run's glassware —
+  right number, wrong vessel, of whatever type that run left behind. All
+  500 corpus prompts open `add v1 …` and have the same exposure.
+
+  `runGate` asks `benchDiffersFromFresh` now, because **both of its callers
+  run curated scripts**. `benchOccupied` stays, and its doc says what it is
+  still the right question for — a script that only writes into glassware
+  it can see, of which this app currently has none.
 
 ### Two defects found in the same playback, neither of them i18n
 

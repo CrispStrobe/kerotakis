@@ -222,15 +222,31 @@ export function benchDiffersFromFresh(
 /**
  * Whether the panel must ask before running.
  *
- * A decision already taken is honoured; an empty bench never asks. Nothing
+ * A decision already taken is honoured; a fresh bench never asks. Nothing
  * here wipes anything — the decision is the learner's, and `runCatalogEntry`
  * only clears when it is handed `"clear"`.
+ *
+ * This asks `benchDiffersFromFresh`, not `benchOccupied`, and the reason is
+ * that **both of its callers run curated scripts**. Codex routes allocate
+ * with a bare `new` — 117 of them do — and then name the result absolutely
+ * as `v2`; all 500 corpus prompts open `add v1 …`. The engine refuses
+ * `add v2` on a bench that has no `v2` ("no vessel v2 — make it first with
+ * `new`"), so a script cannot reach past what it allocated; what it CAN do
+ * is land in the wrong vessel. With a leftover EMPTY `v2` on the bench,
+ * `new` hands back `v3` and the script's `add v2 water` fills the previous
+ * run's glassware instead — the right number, the wrong vessel, of whatever
+ * type that run happened to leave.
+ *
+ * `benchOccupied` cannot see that, because an empty beaker holds no
+ * chemistry. It is still the right question for a script that only writes
+ * into glassware it can see; nothing in this app is such a script today,
+ * and a caller that is should ask for it by name.
  */
 export function runGate(
   scene: { vessels?: readonly BenchVesselLike[] } | null | undefined,
   decision: BenchDecision | null,
 ): RunGate {
-  return decision === null && benchOccupied(scene) ? "ask" : "ready";
+  return decision === null && benchDiffersFromFresh(scene) ? "ask" : "ready";
 }
 
 /** The highest vessel NUMBER as the grammar spells it (`v3` → 3). */
