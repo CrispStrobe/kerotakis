@@ -40,6 +40,7 @@
   import RoomPicker, { type RoomStyle } from "./lib/components/RoomPicker.svelte";
   import UtilityStation from "./lib/components/UtilityStation.svelte";
   import RemoveVesselDialog from "./lib/components/RemoveVesselDialog.svelte";
+  import BenchGateDialog from "./lib/components/BenchGateDialog.svelte";
   import QuestBar from "./lib/components/QuestBar.svelte";
   import { i18n, t } from "./lib/i18n.svelte";
   import { wasteStationAction } from "./lib/wasteStation";
@@ -558,7 +559,12 @@
     } catch {
       // Bright mode is the intentional first-run default.
     }
-    void session.connect();
+    // Held, not fired and forgotten: the pending-mission start below has to
+    // wait for it. `connect()` RESTORES the saved bench, and a mission that
+    // started while that was still in flight would be handed its vessels
+    // full a moment later — the same contamination as playing two lessons
+    // in sequence, reached through the mode switch instead.
+    const connected = session.connect();
     // Offline-first and installable: the bench registers the payload-root
     // service worker itself rather than inheriting one from a visit to the
     // console page, which is the only reason /app/ ever worked offline.
@@ -616,7 +622,7 @@
           } catch {
             // Starting the fetched mission matters more than clearing the hint.
           }
-          void startLesson(pending);
+          void connected.then(() => startLesson(pending));
         }
       })
       .catch(() => {});
@@ -635,7 +641,10 @@
     }
     const res = await fetch(new URL(`lessons/${file}`, resolvePayloadBase()).href);
     if (res.ok) {
-      session.startLesson(file.replace(/\.lab$/, ""), await res.text());
+      // `requestLesson`, not `startLesson`: a lesson names its glassware
+      // absolutely and needs the bench the engine hands over. On a bench
+      // that is not that, it asks instead of taking (BenchGateDialog).
+      session.requestLesson(file.replace(/\.lab$/, ""), await res.text());
       missionOpen = false;
     }
   }
@@ -1018,6 +1027,11 @@
     } else if (e.key === "Escape") {
       if (clearArmed) disarmClear();
       else if (inset) inset = null;
+      // Escape answers the bench question the safe way: cancel touches
+      // nothing and starts nothing. Adjacent to the remove-vessel dialog
+      // because they paint at the same depth (86), so the keyboard's
+      // order and the reader's agree (see `overlayStacking.test.ts`).
+      else if (session.lessonGate) void session.resolveLessonGate(null);
       else if (removeRequest !== null) removeRequest = null;
       else if (homeOpen) homeOpen = false;
       else if (missionOpen) missionOpen = false;
@@ -1892,6 +1906,17 @@
       clearBench();
     }}
     onclose={() => (utilityStationOpen = false)}
+  />
+{/if}
+
+{#if session.lessonGate}
+  {@const gated = session.lessonGate}
+  <BenchGateDialog
+    title={t(missionTitle(gated.name))}
+    occupied={gated.occupied}
+    onclear={() => void session.resolveLessonGate("clear")}
+    onkeep={() => void session.resolveLessonGate("keep")}
+    oncancel={() => void session.resolveLessonGate(null)}
   />
 {/if}
 

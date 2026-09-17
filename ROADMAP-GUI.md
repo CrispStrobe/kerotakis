@@ -1994,14 +1994,51 @@ display name in the registry, is the wrong fix.
   recorded because a count nobody can reproduce is how #505 happened, and
   the honest move is to say the two disagree rather than to pick one.
 
+### Found while resolving the bench gate against GUI-105
+
+- [ ] **The corpus-question path gates on the weaker predicate.** Two pieces
+  of work converged on the same answer for a dirty bench — the lesson gate
+  (#641) and GUI-105's replacement for the capability explorer (#638) — and
+  they did not converge on the same *test*. The lesson path asks
+  `benchDiffersFromFresh` (occupied **or** more than one vessel); the
+  question path asks `runGate`, which is `benchOccupied` alone.
+  That difference is not cosmetic: **a leftover EMPTY beaker is unoccupied
+  and still wrong** for any script that numbers its own glassware, because
+  `new beaker` then returns `v3` where the script says `v2`. All 500 corpus
+  prompts open `add v1 …` against an assumed empty bench, so the case is
+  reachable there. GUI-105 deleted `CapabilityExplorer.svelte` and #641 was
+  rebased onto that deletion, which is why the stricter predicate did not
+  travel with it — recorded here rather than silently lost in a merge.
+
 ### Two defects found in the same playback, neither of them i18n
 
-- [ ] **The bench is not reset between lessons.** "Lektion begonnen: Elektrode"
+- [x] **The bench is not reset between lessons.** "Lektion begonnen: Elektrode"
   is followed by water going into `v1` and the *previous* lesson's Natron and
   Citronensäure dissolving in it. The electrode lesson then computes its pH and
   its driving force from a vessel that is holding another lesson's reagents.
   Every number it reports after that point is wrong, and it will reproduce
   whenever two lessons are played in sequence.
+  *Closed. Every `.lab` in `lessons/` numbers its glassware from `v1` with no
+  gaps — there is a test for that now — so all 113 are written for the bench
+  the engine hands over, one empty vessel, and `startLesson` never checked.
+  The bench is a precondition now, and an unmet precondition is a QUESTION:
+  `requestLesson` holds the lesson at the door and asks, in the same shape the
+  catalogue's own run gate has always used. Clearing goes through the confirmed
+  `clear()` and leaves its note in the feed; keeping starts anyway and records
+  that the readings are not the lesson's alone; cancelling touches nothing.
+  Nothing is discarded silently, which is the principle the disposal station
+  and the remove-vessel dialog exist for. The condition is* not *`benchOccupied`
+  — a leftover EMPTY beaker is unoccupied and still wrong, because `new` then
+  returns `v3` where the lesson says `v2`. "Fresh glassware beside it", the
+  catalogue's third option, is scoped out rather than forgotten:
+  `canUseFreshVessels` already refuses any script that allocates its own
+  vessels, which is 94 of the 113, and the renumbering prelude would shift the
+  `#@part.*` prose labels off the steps they annotate. The same gap was open in
+  `CapabilityExplorer.run()`, where all 500 corpus scripts open `add v1 …`
+  against an assumed empty beaker and were fired at the bench with no gate at
+  all; it uses the same dialog now. `importLab` is left alone deliberately —
+  its contract is that an import COMPOSES onto the bench you can see, and the
+  file is one the learner chose themselves.*
 - [ ] **Two locale keys disagree across `terms` and `messages`.**
   *This entry corrects an earlier claim of mine, made 2026-09-16 and wrong:
   I reported "59 duplicate keys" in `de.json` by counting key/value pairs
