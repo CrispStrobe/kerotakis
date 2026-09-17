@@ -64,13 +64,13 @@ title = "Puffer: warum dein Blut den pH-Wert nicht ändert, wenn du Limonade tri
 
 ["cabbage-rainbow"]
 title = "Der Rotkohl-Regenbogen: ein Farbstoff, fünf Farben"
-intro = "Rotkohlwasser sind nicht fünf Farbstoffe. Es ist ein einziger Farbstoff, der in Stufen Protonen abgibt, und jede Stufe verschluckt Licht anders — seine Farbe ist also eine Ablesung des pH-Werts. Die Werkbank berechnet sie so wie jede andere Farbe: ε(λ) über Beer-Lambert und den CIE-Normalbeobachter, nicht über eine Tabelle mit „wird im Alkalischen blau“."
+intro = "Rotkohlwasser besteht nicht aus fünf Farbstoffen. Es ist ein einziger Farbstoff, der in Stufen Protonen abgibt, und jede Stufe verschluckt Licht anders — seine Farbe ist also eine Ablesung des pH-Werts. Die Werkbank berechnet sie so wie jede andere Farbe: ε(λ) über Beer-Lambert und den CIE-Normalbeobachter, nicht über eine Tabelle mit „wird im Alkalischen blau“."
 part.1 = "Essig: die Flavylium-Form, rot."
 part.2 = "Sprudelwasser, leicht sauer: die mittlere Form, violett. Das ist die Farbe, die das Glas Saft hat, bevor irgendetwas mit ihm geschieht."
 part.3 = "Natron: die erste alkalische Stufe."
 part.4 = "Soda, stärker — und hier lohnt sich das Innehalten."
 part.5 = "Starkes Alkali, ganz oben auf der Leiter."
-part.6 = "Keine Form dieses Farbstoffs ist grün. Das Grün erscheint dort, wo eine blaue und eine gelbe Form gleichzeitig vorliegen: Zusammen verschlucken sie an beiden Enden des sichtbaren Bereichs Licht und lassen dazwischen ein Fenster offen. Das ist eine Farbe, die in keiner Tabelle dieser Maschine steht, berechnet aus zweien, die darin stehen — und genau das ist das ganze Argument dafür, Farbe zu berechnen statt sie zu speichern."
+part.6 = "Keine Form dieses Farbstoffs ist grün. Das Grün erscheint dort, wo eine blaue und eine gelbe Form gleichzeitig vorliegen: Zusammen verschlucken sie an beiden Enden des sichtbaren Bereichs Licht und lassen dazwischen ein Fenster offen. Das ist eine Farbe, die in keiner Tabelle dieser Engine steht, berechnet aus zweien, die darin stehen — und genau das ist das ganze Argument dafür, Farbe zu berechnen statt sie zu speichern."
 boundary = "Was hier nicht abgebildet wird: Echter Rotkohlsaft ist leicht sauer und puffert selbst, ein paar Tropfen in ungepuffertes Wasser würden den pH-Wert also verschieben und nicht nur anzeigen; hier zeigt der Saft nur an. Der Farbstoff ist ein Gemisch acylierter Cyanidin-Glykoside und keine einzelne Verbindung, und weder Sorte noch Extraktion noch eine Verschiebung durch Copigmentierung werden behauptet."
 
 ["calorimetry"]
@@ -116,7 +116,7 @@ intro = "Eine angelaufene Münze wird in Essig wieder blank. Kommt es für das G
 part.1 = "1. Kontrolle: Kupferoxid und Essig, aber kein Chlorid."
 part.2 = "2. Versuch: dieselben Mengen in einem frischen Becherglas, mit Salz als einziger Änderung."
 part.3 = "Vergleiche die Bilanzen nebeneinander. Chlorid ist das, was gelöstes Kupfer wieder in einen grünen Feststoff verwandelt: Atacamit, Cu2Cl(OH)3, das Mineral, das an Kupferbeschlägen in Meeresnähe wächst. Die Kontrolle hält die Aussage über das Chlorid ehrlich."
-boundary.1 = "Was das zeigt und was nicht. Das Blau in der Flüssigkeit ist gelöstes Kupfer(II) und wird berechnet; auch der grüne Feststoff wird berechnet, von der Maschine für wässrige Lösungen, aus einer Phase, die die mitgelieferte Datenbank seit jeher kennt. Was bis jetzt fehlte, war eine Spezies dafür im Verzeichnis dieses Labors — damit die Werkbank sehen konnte, dass die Lösung übersättigt war, das auch sagen konnte und nichts auf den Boden des Becherglases legen durfte."
+boundary.1 = "Was das zeigt und was nicht. Das Blau in der Flüssigkeit ist gelöstes Kupfer(II) und wird berechnet; auch der grüne Feststoff wird berechnet, von der wässrigen Engine, aus einer Phase, die die mitgelieferte Datenbank seit jeher kennt. Was bis jetzt fehlte, war eine Spezies dafür im Verzeichnis dieses Labors — damit die Werkbank sehen konnte, dass die Lösung übersättigt war, das auch sagen konnte und nichts auf den Boden des Becherglases legen durfte."
 boundary.2 = "Eine Münze gibt es weiterhin nicht. Das ist die Chemie einer Kupferoberfläche ohne die Oberfläche: keine Anlaufschicht zum Entfernen, kein Glanz, der zurückkehrt, und kein Unterschied zwischen einer Münze, die eine Sekunde eingetaucht wurde, und einer, die über Nacht darin lag. Was die Werkbank hat, ist das, was die Flüssigkeit tut."
 
 ["counting-in-fives"]
@@ -266,13 +266,13 @@ intro.2 = "Diese Lektion steht hier, weil die Werkbank den Klick NICHT kann, und
 part.1 = "Setz die Lösung so an, wie der Beutel angesetzt wird: viel Salz in heißes Wasser."
 part.2 = "Kühle sie nun richtig ab, über den Punkt hinaus, an dem sie hätte kristallisieren müssen. In einem echten Beutel ist das der Zustand, den man den ganzen Winter in der Jacke mit sich herumträgt: flüssig, kalt und geladen."
 part.3 = "Und hier kommt der ehrliche Teil. Die Werkbank weiß, dass die Lösung über ihrer Grenze liegt — sie sagt auch, wie weit — und sie sagt dir, dass sie den Feststoff nicht erscheinen lassen kann. Nicht „es ist nichts passiert“, sondern *warum* nichts passiert ist."
-part.4 = "Der Grund ist weder eine fehlende Zahl noch die falsche Datenbank. Der Feststoff, den ein Handwärmer bildet, ist Natriumacetat-Trihydrat, und keine mit diesem Projekt mitgelieferte PHREEQC-Datenbank kennt überhaupt einen Acetat-Feststoff — weder wateq4f noch minteq.v4, weder pitzer noch llnl. Es gibt nichts, was die Maschine für wässrige Lösungen ausfällen könnte."
+part.4 = "Der Grund ist weder eine fehlende Zahl noch die falsche Datenbank. Der Feststoff, den ein Handwärmer bildet, ist Natriumacetat-Trihydrat, und keine mit diesem Projekt mitgelieferte PHREEQC-Datenbank kennt überhaupt einen Acetat-Feststoff — weder wateq4f noch minteq.v4, weder pitzer noch llnl. Es gibt nichts, was die wässrige Engine ausfällen könnte."
 part.5 = "Vergleiche das mit Borax, eine Lektion weiter: dieselbe Idee, eine Lösung, die beim Abkühlen über ihre Grenze gerät, und dort gibt es den Feststoff, und er kommt sofort heraus. Der Unterschied zwischen den beiden Fällen ist nicht die Chemie, die ein Kind sieht. Er liegt darin, ob irgendjemand die Phase aufgeschrieben hat."
 
 ["hard-water-soap-boundary"]
 title = "Hartes Wasser und Seife: Kesselstein ist nicht Kalkseife"
 intro = "Die Ionen des harten Wassers und der Carbonatstein sind modelliert. Spülmittel ist ein ausgewiesenes Tensid, doch eine Seifenspezies aus Fettsäuren gibt es nicht, also kann die Werkbank die flockige Kalkseife nicht bilden, die für schlechten Schaum sorgt. Genau dieses Fehlen ist die Grenze, die dieser Vergleich sichtbar macht."
-part.1 = "Eine eigene Kontrolle zur Steinbildung zeigt die Calciumchemie, die die Maschine wirklich beherrscht."
+part.1 = "Eine eigene Kontrolle zur Steinbildung zeigt die Calciumchemie, die die Engine wirklich beherrscht."
 
 ["hard-water-soap-scum"]
 title = "Warum Fettseife in hartem Wasser Kalkseife bildet"
@@ -298,8 +298,8 @@ intro = "Vier gleiche Ausgangsportionen isolieren eine einzige Größe: wie viel
 boundary = "Diese Gefäße sind adiabatische Modelle mit konstanter Wärmekapazität. Echte Behälter verlieren Wärme, und die Werkbank sagt weder das Gießen noch die Abkühlgeschwindigkeit voraus."
 
 ["ink-chromatography"]
-title = "Einen schwarzen Filzstift zerlegen: der Punkt, der in Wirklichkeit drei sind"
-intro = "Eine schwarze Tinte sieht aus wie eine einzige Farbe. Setz einen Punkt davon unten auf einen Papierstreifen, stell das Papier in Wasser, und das Wasser, das am Punkt vorbei nach oben steigt, trägt jeden Farbstoff unterschiedlich weit — weil sich jeder anders zwischen dem Wasser, das wandert, und dem Wasser, das das Papier festhält, verteilt. Die Zahl, die sagt wie weit, ist der Rf-Wert, und es ist derselbe Verteilungskoeffizient, der entscheidet, wie lange jeder Farbstoff in einer Säule bleibt."
+title = "Einen schwarzen Filzstift zerlegen: aus einem Fleck werden drei"
+intro = "Eine schwarze Tinte sieht aus wie eine einzige Farbe. Setz einen Tupfen davon unten auf einen Papierstreifen, stell das Papier in Wasser, und das Wasser, das an dem Tupfen vorbei nach oben steigt, trägt jeden Farbstoff unterschiedlich weit — weil sich jeder anders zwischen dem Wasser, das wandert, und dem Wasser, das das Papier festhält, verteilt. Die Zahl, die sagt wie weit, ist der Rf-Wert, und es ist derselbe Verteilungskoeffizient, der entscheidet, wie lange jeder Farbstoff in einer Säule bleibt."
 part.1 = "Die Farbstoffe einzeln, zum Vergleich. Jeder läuft auf seine eigene Höhe, und es sind dieselben Höhen, die das Gemisch eben geliefert hat — so weist ein Streifen nach, was in einer unbekannten Tinte steckt."
 part.2 = "Dieselben Zahlen, als Säule gelesen statt als Streifen. Eine Trennung, zwei Geräte, ein Verteilungskoeffizient: Der Farbstoff, den die Säule am längsten hält, ist der, der dem Bleistiftstrich am nächsten bleibt."
 boundary = "Was hier nicht abgebildet wird: Die Rf-Werte sind geprüfte Lehrzahlen und keine Messwerte, ausgewählt, damit die Reihenfolge der Farbstoffe und die ungefähren Abstände der Flecken stimmen — der Rf-Wert eines echten Streifens hängt vom Laufmittel, vom Papier und von der Temperatur ab, und nichts davon wird hier behauptet. Gelöste Ionen wandern mit dem Wasser und werden ausdrücklich als außerhalb des Verfahrens benannt, statt stillschweigend wegzufallen."
@@ -393,7 +393,7 @@ boundary = "Kalibrierfehler, Drift, zufälliges Rauschen, Probenverbrauch und di
 
 ["metal-acid-race"]
 title = "Welches Metall reagiert zuerst? Dieselbe Säure, gleiche Metallmengen"
-intro = "Magnesium reagiert heftig, Zink langsamer, und Kupfer verweigert sich aus einem elektrochemischen Grund. Die Maschine berechnet Reaktion und Wärme, aber weder echte Zeiten für ein Wettrennen noch Unterschiede in der Oberfläche der Stücke."
+intro = "Magnesium reagiert heftig, Zink langsamer, und Kupfer verweigert sich aus einem elektrochemischen Grund. Die Engine berechnet Reaktion und Wärme, aber weder echte Zeiten für ein Wettrennen noch Unterschiede in der Oberfläche der Stücke."
 
 ["milk-curds"]
 title = "Milch, Essig, Quark und Molke: Wie viel Säure ist genug?"
@@ -436,8 +436,8 @@ part.detail = "Dieselbe Einspritzung, genauer gelesen: Retentionszeiten, Breiten
 
 ["oobleck"]
 title = "Oobleck: eine Flüssigkeit, über die man laufen kann"
-intro = "Speisestärke und Wasser ist der eine Versuch in diesem Regal, der keine Chemie ist. Nichts reagiert. Was sich ändert, ist die Antwort des Gemischs auf Druck: Rührt man langsam, fließt es; rührt man schnell, können die Teilchen einander nicht rechtzeitig ausweichen, und es hält dagegen wie ein Feststoff. Hör auf zu rühren, und es ist wieder eine Flüssigkeit."
-part.1 = "Die klassische Mischung: etwa zwei Teile Speisestärke auf einen Teil Wasser."
+intro = "Maisstärke und Wasser ist der eine Versuch in diesem Regal, der keine Chemie ist. Nichts reagiert. Was sich ändert, ist die Antwort des Gemischs auf Druck: Rührt man langsam, fließt es; rührt man schnell, können die Teilchen einander nicht rechtzeitig ausweichen, und es hält dagegen wie ein Feststoff. Hör auf zu rühren, und es ist wieder eine Flüssigkeit."
+part.1 = "Die klassische Mischung: etwa zwei Teile Maisstärke auf einen Teil Wasser."
 part.2 = "Sanft. Es fließt."
 part.3 = "Und nun schnell. Dasselbe Gemisch, derselbe Augenblick, eine andere Antwort."
 part.4 = "Eine dünne Mischung tut weder das eine noch das andere, so kräftig man auch rührt — der Effekt braucht Teilchen, die dicht genug gepackt sind, um sich zu verhaken."
@@ -449,7 +449,7 @@ title = "Pfeffer flieht vor der Seife: An der Wasseroberfläche kommt es auf die
 intro = "Ein sicherer Beobachtungsversuch mit Wasser, gemahlenem Pfeffer und einer winzigen Menge Spülmittel. Koste keine Labormaterialien und spüle hinterher ab."
 part.1 = "Stell zuerst die bekannte, mit Pfeffer bedeckte Wasseroberfläche her."
 part.2 = "Bau eine Kontrolle mit denselben Stoffen in umgekehrter Reihenfolge auf. Ist die Seife bereits über das Wasser verteilt, entsteht beim Aufstreuen des Pfeffers kein neues örtliches Gefälle, das Modell darf das plötzliche Auseinanderstieben also nicht erfinden."
-part.3 = "Berühr nun die Oberfläche mit dem Pfeffer zuerst mit Spülmittel. Die im Rezept ausgewiesene Dosis berechnet die freie Fläche in der Mitte; das ausgelöste Ereignis SurfaceSpread, der gespeicherte Zustand der Szene und die Animation stammen alle aus diesem einen Übergang in der Maschine."
+part.3 = "Berühr nun die Oberfläche mit dem Pfeffer zuerst mit Spülmittel. Die im Rezept ausgewiesene Dosis berechnet die freie Fläche in der Mitte; das ausgelöste Ereignis SurfaceSpread, der gespeicherte Zustand der Szene und die Animation stammen alle aus diesem einen Übergang in der Engine."
 boundary = "Nimm in einem frischen Gefäß weniger Seife und sag voraus, wie groß die freie Fläche wird. Das ist ein begrenztes Modell für den Unterricht und keine molekulare Rechnung zur Oberflächenspannung oder Strömung, und für eine Wiederholung braucht es frisches Wasser und frischen Pfeffer."
 
 ["permanganate-standardisation"]
@@ -475,7 +475,7 @@ part.1 = "Die Zeit ist gemeinsam. `wait` bewegt die ganze Werkbank weiter, und n
 
 ["repeated-liquid-extraction"]
 title = "Ein Lösungsmittelbudget, mehrere Extraktionen"
-intro = "Ein Scheidetrichter belohnt ein einziges großes Schütteln weniger als mehrere kleinere mit frischem Lösungsmittel. Dieser Durchlauf gibt vier gleichen Portionen insgesamt dieselbe Menge Hexan wie der einstufige Vergleich daneben. Die Maschine berechnet beides aus den Phasenvolumina und K = [I2]Hexan/[I2]Wasser; keiner der beiden Prozentwerte steht in der Lektion geschrieben."
+intro = "Ein Scheidetrichter belohnt ein einziges großes Schütteln weniger als mehrere kleinere mit frischem Lösungsmittel. Dieser Durchlauf gibt vier gleichen Portionen insgesamt dieselbe Menge Hexan wie der einstufige Vergleich daneben. Die Engine berechnet beides aus den Phasenvolumina und K = [I2]Hexan/[I2]Wasser; keiner der beiden Prozentwerte steht in der Lektion geschrieben."
 part.1 = "Auf Stufe lv3 nennt das Ergebnis außerdem die Richtung des Koeffizienten, die Massenbilanz, die Sättigungsprüfung und die Herkunft der Daten. Dieses geprüfte Iodmodell gilt nur bei 25 °C; andere gelöste Stoffe mit Gruppenzerlegung nutzen den gemeinsamen UNIFAC-Weg, und nicht abgedeckte Paare werden ausdrücklich abgelehnt."
 
 ["rock-candy"]
@@ -552,10 +552,10 @@ boundary = "Adiabatische Gefäße mit konstanter Wärmekapazität; Wärmeverlust
 
 ["starch-iodine-test"]
 title = "In welchem Becher ist Stärke? Die Farbprobe mit Lugolscher Lösung"
-intro = "Vergleiche dieselbe verdünnte Iod-Iodid-Lösung mit und ohne gewöhnliche Speisestärke. Frag für einen echten Versuch vorher eine erwachsene Person, schütze Kleidung und Tisch vor Iodflecken, trage Augenschutz und koste keine Laborgemische."
+intro = "Vergleiche dieselbe verdünnte Iod-Iodid-Lösung mit und ohne gewöhnliche Maisstärke. Frag für einen echten Versuch vorher eine erwachsene Person, schütze Kleidung und Tisch vor Iodflecken, trage Augenschutz und koste keine Laborgemische."
 part.1 = "Kontrolle: Verdünnte Lugolsche Lösung ist in Wasser braun. Dieses Gefäß enthält dieselbe Menge Wasser und Indikator wie das Versuchsgefäß, aber keine Stärke."
-part.2 = "Versuch: Setz zuerst eine gleiche braune Kontrolle an und ändere dann genau eine Sache, indem du Speisestärke zugibst. Iodid hält das Iod in der Lösung; ausreichend lange Stärkehelices steuern die berechnete breite Absorptionsbande bei, der sichtbare Zustand wird also blauschwarz, ohne dass Stärke oder KI verbraucht werden."
-boundary = "Probiere Mehl, Kartoffel oder eine Zuckerkontrolle erst, wenn es für diese Stoffe benannte Rezepte gibt. Verschiedene Stärkequellen und Erhitzen können die echte Farbe verändern; diese Lektion bildet bewusst den geprüften Ersatzstoff Speisestärke bei Raumtemperatur ab, statt jedes weiße Pulver als Stärke zu behandeln."
+part.2 = "Versuch: Setz zuerst eine gleiche braune Kontrolle an und ändere dann genau eine Sache, indem du Maisstärke zugibst. Iodid hält das Iod in der Lösung; ausreichend lange Stärkehelices steuern die berechnete breite Absorptionsbande bei, der sichtbare Zustand wird also blauschwarz, ohne dass Stärke oder KI verbraucht werden."
+boundary = "Probiere Mehl, Kartoffel oder eine Zuckerkontrolle erst, wenn es für diese Stoffe benannte Rezepte gibt. Verschiedene Stärkequellen und Erhitzen können die echte Farbe verändern; diese Lektion bildet bewusst den geprüften Ersatzstoff Maisstärke bei Raumtemperatur ab, statt jedes weiße Pulver als Stärke zu behandeln."
 
 ["sugar-water-density-tower"]
 title = "Zuckerwasserturm: Miss die Reihenfolge, bevor du zu stapeln versuchst"
@@ -563,7 +563,7 @@ part.1 = "Gleich viel Wasser am Anfang, steigende Zuckermenge. Die Dichtewerte s
 boundary = "Die Reihenfolge ist berechnet. Ein echter Turm braucht außerdem ein behutsames Überschichten, das ein senkrechtes Konzentrationsgefälle erhält. Diese Werkbank hat weder einen Befehl zum langsamen Gießen noch einen Diffusionszustand und zeichnet deshalb keine Schichten, die sie nicht halten kann."
 
 ["there-and-back"]
-title = "Hin und zurück: Ein Ester entsteht und wird wieder aufgelöst."
+title = "Hin und zurück: Ein Ester entsteht und wird wieder zerlegt."
 intro = "Säure und Alkohol verbinden sich unter Wasserabspaltung zu einem Ester; derselbe Ester wird mit Hydroxid wieder zum Alkohol und zum Salz der Säure hydrolysiert. Zwei kuratierte Umwandlungen, jede gegen eine atomgenau zugeordnete Vorlage geprüft — und jede läuft nur, wenn man sie anfordert, denn ein Becherglas mit Essig und Spiritus tut das nicht von allein."
 
 ["three-components-one-cut"]
