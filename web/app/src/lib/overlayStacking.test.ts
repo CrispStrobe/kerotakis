@@ -51,7 +51,9 @@ function scrimDepth(): Map<string, number> {
 const DISMISS_ORDER: ReadonlyArray<readonly [flag: string, component: string]> = [
   ["removeRequest", "RemoveVesselDialog.svelte"],
   ["homeOpen", "WorldHome.svelte"],
-  ["capabilityOpen", "CapabilityExplorer.svelte"],
+  // GUI-105 (#638) retired `CapabilityExplorer.svelte`; `capabilityOpen`
+  // is now a third door onto `Catalog.svelte`, which paints at 50.
+  ["capabilityOpen", "Catalog.svelte"],
   ["mapOpen", "StoryMap.svelte"],
   ["roomOpen", "RoomPicker.svelte"],
   ["utilityStationOpen", "UtilityStation.svelte"],
@@ -71,15 +73,15 @@ const RECORDED: ReadonlyMap<string, string> = new Map([
   ],
   [
     "capabilityOpen>mapOpen",
-    "the explorer is dismissed before the map and paints below it (55 < 80).",
+    "the catalogue surface is dismissed before the map and paints below it (50 < 80).",
   ],
   [
     "capabilityOpen>roomOpen",
-    "the explorer is dismissed before the room picker and paints below it (55 < 82).",
+    "the catalogue surface is dismissed before the room picker and paints below it (50 < 82).",
   ],
   [
     "capabilityOpen>utilityStationOpen",
-    "the explorer is dismissed before the station and paints below it (55 < 82).",
+    "the catalogue surface is dismissed before the station and paints below it (50 < 82).",
   ],
   [
     "mapOpen>roomOpen",
@@ -102,13 +104,23 @@ describe("overlay stacking", () => {
     // The pairing is only meaningful while App.svelte's chain matches it.
     const app = readFileSync(join(import.meta.dirname, "..", "App.svelte"), "utf8");
     const chain = [...app.matchAll(/else if \((?:e\.key === "Escape".*?)?([A-Za-z.]+?)(?: !== null| \|\||\))/g)]
-      .map((m) => m[1]);
-    const seen = DISMISS_ORDER.map(([flag]) => flag).filter((flag) => chain.includes(flag));
+      // A capture group is `string | undefined` to the type checker, and
+      // this tsconfig says so; narrowing beats asserting.
+      .map((m) => m[1])
+      .filter((flag): flag is string => flag !== undefined);
+    const declared = DISMISS_ORDER.map(([flag]) => flag);
+    // Two orderings, compared. The first version of this compared one
+    // expression against an identical copy of itself — it could not fail,
+    // and it stayed silent while GUI-105 rerouted `capabilityOpen` from
+    // its own Escape arm onto `closeCatalog()`. A vacuous assertion, in a
+    // file written to stop checks from reading wider than they are.
+    const orderInApp = chain.filter((flag) => declared.includes(flag));
+    const orderHere = declared.filter((flag) => chain.includes(flag));
     expect(
-      seen,
+      orderInApp,
       "the dismiss order below drifted from App.svelte's Escape chain",
-    ).toEqual(DISMISS_ORDER.map(([flag]) => flag).filter((flag) => chain.includes(flag)));
-    expect(seen.length, "no Escape arm matched; the parser needs updating").toBeGreaterThan(3);
+    ).toEqual(orderHere);
+    expect(orderHere.length, "no Escape arm matched; the parser needs updating").toBeGreaterThan(3);
   });
 
   it("what Escape calls topmost is what the reader sees on top", () => {
