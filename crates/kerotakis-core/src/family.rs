@@ -224,7 +224,12 @@ pub struct Declined {
     /// `Option<Phrase>` beside a finished sentence that `Inert.why` and
     /// `NotYetModeled.what` carry, for the same reason and with the same
     /// meaning: `None` is the honest by-value state.
-    pub detail: Option<Phrase>,
+    ///
+    /// Boxed because `Declined` travels as the `Err` of `check_gates`,
+    /// and a `Phrase` inline takes that variant past clippy's 128-byte
+    /// `result_large_err` floor — every gate that ADMITS would pay for
+    /// the one that does not.
+    pub detail: Option<Box<Phrase>>,
 }
 
 /// Deterministic conflict order over candidate families whose structure

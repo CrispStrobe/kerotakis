@@ -1215,7 +1215,8 @@ impl Bench {
                 _ => None,
             })
             .collect();
-        noted.sort_unstable();
+        // By the id inside, because `VesselId` is deliberately not `Ord`.
+        noted.sort_unstable_by_key(|vessel| vessel.0);
         noted.dedup();
         for id in noted {
             let before = seen_before
