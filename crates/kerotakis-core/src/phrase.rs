@@ -101,6 +101,7 @@ impl Phrase {
 /// chloride* is a species and *white* is an appearance word, and only it
 /// can know. By the time a sentence is a string that information is gone
 /// and no catalogue can get it back.
+///
 /// Externally tagged, the serde default: an internally-tagged enum needs
 /// `deserialize_any` and would rule out every non-self-describing format
 /// the transports may reach for.
