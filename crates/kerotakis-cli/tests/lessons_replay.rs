@@ -1450,4 +1450,14 @@ fn the_starch_test_never_says_nothing_happened_to_the_vessel_that_changed() {
         !out.contains("nothing visible happens in v2"),
         "v2 went blue-black; no line may say it did nothing:\n{out}"
     );
+
+    // And the note is still SAID. This is the assertion that makes the
+    // one above mean something: an absence is satisfied just as well by a
+    // gap that stopped being reported, which would be the same defect
+    // wearing silence instead of a wrong sentence. The gap here is real —
+    // no wired solver speciates starch — and a learner is owed it.
+    assert!(
+        out.contains("Something did change in v2"),
+        "the gap is still reported, in a sentence that is true:\n{out}"
+    );
 }
