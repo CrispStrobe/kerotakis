@@ -2349,7 +2349,7 @@
   "Clearing empties this laboratory and closes its journal; the note stays in the feed. Keeping your bench starts anyway, and the feed records that the readings are not this experiment's alone.": "Abräumen leert dieses Labor und schließt sein Journal; der Hinweis bleibt im Protokoll. Behalten startet trotzdem, und das Protokoll hält fest, dass die Messwerte nicht allein zu diesem Versuch gehören.",
   "start on this bench as it is": "in diesem Labor starten, so wie es ist",
   "clear the bench, then start": "Labor abräumen, dann starten",
-  "this lesson is starting on a bench that was not empty — its readings include whatever was already here.": "Diese Lektion startet in einem Labor, das nicht leer war – ihre Messwerte enthalten alles, was schon da war.",
+  "running on a bench that was not empty \u2014 these readings include whatever was already here.": "läuft in einem Labor, das nicht leer war – diese Messwerte enthalten alles, was schon da war.",
   "{count} steps, run one at a time on the bench you can see": "{count} Schritte, einer nach dem anderen im sichtbaren Labor",
   "This script writes into the bench you can see. Clear it first, or keep your work and run the experiment in fresh glassware beside it.": "Dieses Skript arbeitet in dem Labor, das du siehst. Räume es zuerst ab – oder behalte deine Arbeit und führe das Experiment daneben in neuen Gefäßen aus.",
   "what the bench can compute": "was das Labor berechnen kann",

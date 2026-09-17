@@ -67,6 +67,7 @@
     running = prompt.id;
     try {
       if (decision === "clear") await session.clear();
+      else if (decision === "keep") session.noteBenchWasNotEmpty();
       await session.runExperiment(prompt.script.join("\n"));
       onclose();
     } finally {

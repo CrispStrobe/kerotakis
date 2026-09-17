@@ -1579,6 +1579,21 @@ export class Session {
   }
 
   /**
+   * Record that what follows is being read off a bench that was not empty.
+   *
+   * The learner is allowed to say "start on this bench as it is" — but a
+   * reading taken from a vessel that already held something is not that
+   * experiment's reading alone, and the feed is where the numbers are
+   * read back. Unsaid, every number after this point is unattributable.
+   */
+  noteBenchWasNotEmpty(): void {
+    this.feed.push({
+      kind: "note",
+      text: t("running on a bench that was not empty — these readings include whatever was already here."),
+    });
+  }
+
+  /**
    * Ask for a lesson, and let the bench say whether it can start now.
    *
    * THE DEFECT THIS CLOSES. A lesson is an overlay on the real bench —
@@ -1630,10 +1645,7 @@ export class Session {
     if (decision === "clear") {
       await this.clear();
     } else {
-      this.feed.push({
-        kind: "note",
-        text: t("this lesson is starting on a bench that was not empty — its readings include whatever was already here."),
-      });
+      this.noteBenchWasNotEmpty();
     }
     this.startLesson(pending.name, pending.text);
   }
