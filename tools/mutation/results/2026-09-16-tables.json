@@ -438,73 +438,6 @@
    "source": "1.565_239_129_337,",
    "verdict": "caught"
   },
-  "144": {
-   "build_seconds": 163.0,
-   "caught_by": "core-unit",
-   "failing": [
-    "properties::tests::ethanol_water_fifty_percent",
-    "properties::tests::ethanol_water_pure_ethanol",
-    "properties::tests::evaluate_dispatches_ethanol_water_density"
-   ],
-   "file": "crates/kerotakis-core/src/properties.rs",
-   "kind": "table",
-   "line": 258,
-   "rung": "unit",
-   "seconds": 3.6,
-   "source": "-6.066_534_820_230e-01,",
-   "verdict": "caught"
-  },
-  "147": {
-   "build_seconds": 154.1,
-   "caught_by": "core-unit",
-   "failing": [
-    "properties::tests::evaluate_dispatches_sucrose_water_density",
-    "properties::tests::sucrose_water_density_increases_with_sugar",
-    "properties::tests::sucrose_water_matches_an_independent_table",
-    "properties::tests::sucrose_water_pure_water_is_the_water_correlation"
-   ],
-   "file": "crates/kerotakis-core/src/properties.rs",
-   "kind": "table",
-   "line": 325,
-   "rung": "unit",
-   "seconds": 3.3,
-   "source": "const NBS114: [f64; 4] = [-669.562_18, 1_262.779_4, -775.682_12, 182.460_07];",
-   "verdict": "caught"
-  },
-  "148": {
-   "build_seconds": 160.9,
-   "caught_by": "core-unit",
-   "failing": [
-    "properties::tests::evaluate_dispatches_sucrose_water_density",
-    "properties::tests::sucrose_water_density_increases_with_sugar",
-    "properties::tests::sucrose_water_matches_an_independent_table",
-    "properties::tests::sucrose_water_pure_water_is_the_water_correlation"
-   ],
-   "file": "crates/kerotakis-core/src/properties.rs",
-   "kind": "table",
-   "line": 325,
-   "rung": "unit",
-   "seconds": 3.4,
-   "source": "const NBS114: [f64; 4] = [-669.562_18, 1_262.779_4, -775.682_12, 182.460_07];",
-   "verdict": "caught"
-  },
-  "149": {
-   "build_seconds": 160.9,
-   "caught_by": "core-unit",
-   "failing": [
-    "properties::tests::evaluate_dispatches_sucrose_water_density",
-    "properties::tests::sucrose_water_density_increases_with_sugar",
-    "properties::tests::sucrose_water_matches_an_independent_table",
-    "properties::tests::sucrose_water_pure_water_is_the_water_correlation"
-   ],
-   "file": "crates/kerotakis-core/src/properties.rs",
-   "kind": "table",
-   "line": 325,
-   "rung": "unit",
-   "seconds": 3.2,
-   "source": "const NBS114: [f64; 4] = [-669.562_18, 1_262.779_4, -775.682_12, 182.460_07];",
-   "verdict": "caught"
-  },
   "15": {
    "build_seconds": 163.2,
    "caught_by": "core-integration",
@@ -519,23 +452,6 @@
    "source": "(\"OH-\", 198.0),",
    "verdict": "caught"
   },
-  "150": {
-   "build_seconds": 166.9,
-   "caught_by": "core-unit",
-   "failing": [
-    "properties::tests::evaluate_dispatches_sucrose_water_density",
-    "properties::tests::sucrose_water_density_increases_with_sugar",
-    "properties::tests::sucrose_water_matches_an_independent_table",
-    "properties::tests::sucrose_water_pure_water_is_the_water_correlation"
-   ],
-   "file": "crates/kerotakis-core/src/properties.rs",
-   "kind": "table",
-   "line": 325,
-   "rung": "unit",
-   "seconds": 3.7,
-   "source": "const NBS114: [f64; 4] = [-669.562_18, 1_262.779_4, -775.682_12, 182.460_07];",
-   "verdict": "caught"
-  },
   "16": {
    "build_seconds": 163.0,
    "caught_by": null,
@@ -547,63 +463,6 @@
    "seconds": 42.5,
    "source": "(\"Li+\", 38.66),",
    "verdict": "survived"
-  },
-  "161": {
-   "build_seconds": 162.7,
-   "caught_by": "core-unit",
-   "failing": [
-    "properties::tests::capillary_rise_in_a_half_millimetre_tube",
-    "properties::tests::evaluate_dispatches_the_new_interfacial_properties",
-    "properties::tests::water_surface_tension_at_0c",
-    "properties::tests::water_surface_tension_at_100c",
-    "properties::tests::water_surface_tension_at_20c",
-    "properties::tests::water_surface_tension_at_25c"
-   ],
-   "file": "crates/kerotakis-core/src/properties.rs",
-   "kind": "table",
-   "line": 390,
-   "rung": "unit",
-   "seconds": 3.4,
-   "source": "const IAPWS_ST_LITTLE_B: f64 = -0.625;",
-   "verdict": "caught"
-  },
-  "162": {
-   "build_seconds": 156.3,
-   "caught_by": "core-unit",
-   "failing": [
-    "properties::tests::capillary_rise_in_a_half_millimetre_tube",
-    "properties::tests::evaluate_dispatches_the_new_interfacial_properties",
-    "properties::tests::water_surface_tension_at_0c",
-    "properties::tests::water_surface_tension_at_100c",
-    "properties::tests::water_surface_tension_at_20c",
-    "properties::tests::water_surface_tension_at_25c"
-   ],
-   "file": "crates/kerotakis-core/src/properties.rs",
-   "kind": "table",
-   "line": 391,
-   "rung": "unit",
-   "seconds": 3.3,
-   "source": "const IAPWS_ST_MU: f64 = 1.256;",
-   "verdict": "caught"
-  },
-  "163": {
-   "build_seconds": 159.8,
-   "caught_by": "core-unit",
-   "failing": [
-    "properties::tests::capillary_rise_in_a_half_millimetre_tube",
-    "properties::tests::evaluate_dispatches_the_new_interfacial_properties",
-    "properties::tests::water_surface_tension_at_0c",
-    "properties::tests::water_surface_tension_at_100c",
-    "properties::tests::water_surface_tension_at_20c",
-    "properties::tests::water_surface_tension_at_25c"
-   ],
-   "file": "crates/kerotakis-core/src/properties.rs",
-   "kind": "table",
-   "line": 392,
-   "rung": "unit",
-   "seconds": 3.8,
-   "source": "const WATER_CRITICAL_K: f64 = 647.096;",
-   "verdict": "caught"
   },
   "17": {
    "build_seconds": 155.6,
@@ -1012,6 +871,251 @@
    "seconds": 3.2,
    "source": "999.974_950, // kg/m\u00b3",
    "verdict": "caught"
+  },
+  "144": {
+   "site": {
+    "kind": "table",
+    "file": "crates/kerotakis-core/src/properties.rs",
+    "line": 258,
+    "start": 8764,
+    "end": 8785,
+    "original": "6.066_534_820_230e-01",
+    "describes": "-6.066_534_820_230e-01,",
+    "id": 144
+   },
+   "tiers": [
+    {
+     "tier": "core-unit",
+     "ok": false,
+     "timeout": false,
+     "seconds": 3.3,
+     "failing": [
+      "properties::tests::ethanol_water_fifty_percent",
+      "properties::tests::ethanol_water_pure_ethanol",
+      "properties::tests::evaluate_dispatches_ethanol_water_density"
+     ]
+    }
+   ],
+   "build_seconds": 202.4,
+   "verdict": "caught",
+   "caught_by": "core-unit",
+   "strength": "unit"
+  },
+  "147": {
+   "site": {
+    "kind": "table",
+    "file": "crates/kerotakis-core/src/properties.rs",
+    "line": 325,
+    "start": 11607,
+    "end": 11617,
+    "original": "669.562_18",
+    "describes": "const NBS114: [f64; 4] = [-669.562_18, 1_262.779_4, -775.682_12, 182.460_07];",
+    "id": 147
+   },
+   "tiers": [
+    {
+     "tier": "core-unit",
+     "ok": false,
+     "timeout": false,
+     "seconds": 3.4,
+     "failing": [
+      "properties::tests::evaluate_dispatches_sucrose_water_density",
+      "properties::tests::sucrose_water_density_increases_with_sugar",
+      "properties::tests::sucrose_water_matches_an_independent_table",
+      "properties::tests::sucrose_water_pure_water_is_the_water_correlation"
+     ]
+    }
+   ],
+   "build_seconds": 206.9,
+   "verdict": "caught",
+   "caught_by": "core-unit",
+   "strength": "unit"
+  },
+  "148": {
+   "site": {
+    "kind": "table",
+    "file": "crates/kerotakis-core/src/properties.rs",
+    "line": 325,
+    "start": 11619,
+    "end": 11630,
+    "original": "1_262.779_4",
+    "describes": "const NBS114: [f64; 4] = [-669.562_18, 1_262.779_4, -775.682_12, 182.460_07];",
+    "id": 148
+   },
+   "tiers": [
+    {
+     "tier": "core-unit",
+     "ok": false,
+     "timeout": false,
+     "seconds": 3.3,
+     "failing": [
+      "properties::tests::evaluate_dispatches_sucrose_water_density",
+      "properties::tests::sucrose_water_density_increases_with_sugar",
+      "properties::tests::sucrose_water_matches_an_independent_table",
+      "properties::tests::sucrose_water_pure_water_is_the_water_correlation"
+     ]
+    }
+   ],
+   "build_seconds": 205.1,
+   "verdict": "caught",
+   "caught_by": "core-unit",
+   "strength": "unit"
+  },
+  "149": {
+   "site": {
+    "kind": "table",
+    "file": "crates/kerotakis-core/src/properties.rs",
+    "line": 325,
+    "start": 11633,
+    "end": 11643,
+    "original": "775.682_12",
+    "describes": "const NBS114: [f64; 4] = [-669.562_18, 1_262.779_4, -775.682_12, 182.460_07];",
+    "id": 149
+   },
+   "tiers": [
+    {
+     "tier": "core-unit",
+     "ok": false,
+     "timeout": false,
+     "seconds": 3.1,
+     "failing": [
+      "properties::tests::evaluate_dispatches_sucrose_water_density",
+      "properties::tests::sucrose_water_density_increases_with_sugar",
+      "properties::tests::sucrose_water_matches_an_independent_table",
+      "properties::tests::sucrose_water_pure_water_is_the_water_correlation"
+     ]
+    }
+   ],
+   "build_seconds": 213.2,
+   "verdict": "caught",
+   "caught_by": "core-unit",
+   "strength": "unit"
+  },
+  "150": {
+   "site": {
+    "kind": "table",
+    "file": "crates/kerotakis-core/src/properties.rs",
+    "line": 325,
+    "start": 11645,
+    "end": 11655,
+    "original": "182.460_07",
+    "describes": "const NBS114: [f64; 4] = [-669.562_18, 1_262.779_4, -775.682_12, 182.460_07];",
+    "id": 150
+   },
+   "tiers": [
+    {
+     "tier": "core-unit",
+     "ok": false,
+     "timeout": false,
+     "seconds": 3.2,
+     "failing": [
+      "properties::tests::evaluate_dispatches_sucrose_water_density",
+      "properties::tests::sucrose_water_density_increases_with_sugar",
+      "properties::tests::sucrose_water_matches_an_independent_table",
+      "properties::tests::sucrose_water_pure_water_is_the_water_correlation"
+     ]
+    }
+   ],
+   "build_seconds": 201.4,
+   "verdict": "caught",
+   "caught_by": "core-unit",
+   "strength": "unit"
+  },
+  "161": {
+   "site": {
+    "kind": "table",
+    "file": "crates/kerotakis-core/src/properties.rs",
+    "line": 390,
+    "start": 14041,
+    "end": 14046,
+    "original": "0.625",
+    "describes": "const IAPWS_ST_LITTLE_B: f64 = -0.625;",
+    "id": 161
+   },
+   "tiers": [
+    {
+     "tier": "core-unit",
+     "ok": false,
+     "timeout": false,
+     "seconds": 3.5,
+     "failing": [
+      "properties::tests::capillary_rise_in_a_half_millimetre_tube",
+      "properties::tests::evaluate_dispatches_the_new_interfacial_properties",
+      "properties::tests::water_surface_tension_at_0c",
+      "properties::tests::water_surface_tension_at_100c",
+      "properties::tests::water_surface_tension_at_20c",
+      "properties::tests::water_surface_tension_at_25c"
+     ]
+    }
+   ],
+   "build_seconds": 205.0,
+   "verdict": "caught",
+   "caught_by": "core-unit",
+   "strength": "unit"
+  },
+  "162": {
+   "site": {
+    "kind": "table",
+    "file": "crates/kerotakis-core/src/properties.rs",
+    "line": 391,
+    "start": 14073,
+    "end": 14078,
+    "original": "1.256",
+    "describes": "const IAPWS_ST_MU: f64 = 1.256;",
+    "id": 162
+   },
+   "tiers": [
+    {
+     "tier": "core-unit",
+     "ok": false,
+     "timeout": false,
+     "seconds": 3.3,
+     "failing": [
+      "properties::tests::capillary_rise_in_a_half_millimetre_tube",
+      "properties::tests::evaluate_dispatches_the_new_interfacial_properties",
+      "properties::tests::water_surface_tension_at_0c",
+      "properties::tests::water_surface_tension_at_100c",
+      "properties::tests::water_surface_tension_at_20c",
+      "properties::tests::water_surface_tension_at_25c"
+     ]
+    }
+   ],
+   "build_seconds": 203.3,
+   "verdict": "caught",
+   "caught_by": "core-unit",
+   "strength": "unit"
+  },
+  "163": {
+   "site": {
+    "kind": "table",
+    "file": "crates/kerotakis-core/src/properties.rs",
+    "line": 392,
+    "start": 14110,
+    "end": 14117,
+    "original": "647.096",
+    "describes": "const WATER_CRITICAL_K: f64 = 647.096;",
+    "id": 163
+   },
+   "tiers": [
+    {
+     "tier": "core-unit",
+     "ok": false,
+     "timeout": false,
+     "seconds": 3.5,
+     "failing": [
+      "properties::tests::capillary_rise_in_a_half_millimetre_tube",
+      "properties::tests::evaluate_dispatches_the_new_interfacial_properties",
+      "properties::tests::water_surface_tension_at_0c",
+      "properties::tests::water_surface_tension_at_100c",
+      "properties::tests::water_surface_tension_at_20c",
+      "properties::tests::water_surface_tension_at_25c"
+     ]
+    }
+   ],
+   "build_seconds": 202.4,
+   "verdict": "caught",
+   "caught_by": "core-unit",
+   "strength": "unit"
   }
  },
  "previously": {
