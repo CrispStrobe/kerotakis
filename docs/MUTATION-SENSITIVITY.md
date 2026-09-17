@@ -378,14 +378,65 @@ to see.*
 This is a 7-of-77 sample chosen to contrast a common ion with rare ones, so it
 is an illustration, not a rate. The rate is what §9.1 proposes measuring.
 
+## 8b. The `const` tables, all of them: the sample was right
+
+§8a ran seven of the 77 and called itself an illustration rather than a rate.
+The rate is now measured. **70 mutants, 36 caught, 34 survived**, about four
+and a half hours of rebuilds. The split is the finding:
+
+| file | run | caught | survived |
+|---|---|---|---|
+| `conductivity.rs` | 28 | 5 | **23 (82%)** |
+| `properties.rs` | 42 | 31 | 11 (26%) |
+
+**Five of the 28 conductivity constants are watched, and here is the whole
+list of them:** λ°(H⁺), λ°(OH⁻), λ°(Na⁺), λ°(K⁺), λ°(Cl⁻) — and `FIT_LINEAR`.
+The first five are the ions in table salt and in the acid and base every
+lesson pours. Everything else in the table can be a quarter wrong and the
+conductivity meter reports it without a murmur: lithium, ammonium, silver,
+calcium, magnesium, strontium, copper, zinc, iron(II), iron(III), aluminium,
+manganese, lead, bromide, iodide, fluoride, nitrate, perchlorate,
+bicarbonate, carbonate, sulfate, and both concentration limits.
+
+§8a guessed this from three rare ions. At full size it is not a tendency but
+the structure of the table: **the λ° table is verified exactly where the
+lessons happen to go.** A learner who dissolves Epsom salt is reading a
+number with no test behind it, and the reading looks precisely as confident
+as the one for sodium chloride.
+
+`properties.rs` inverts it — 74% caught, because Henry's-law constants and
+the Korson and Bradley–Pitzer coefficients feed relations the suite already
+checks. The eleven survivors there are mostly `c_kelvin` temperature
+coefficients for gases no lesson dissolves, which is the same shape again.
+
+### What this run cost that the sample did not
+
+Two SIGKILLs under memory pressure, and each one **left a falsified constant
+live in the worktree**. A table mutant edits a `const` literal, rebuilds,
+runs the tiers, and restores the line in a `finally`; a kill skips the
+`finally`. Both times it was a Bradley–Pitzer coefficient sitting 25% wrong
+on disk, caught in `git status` and reverted. The finishing run wrapped the
+harness in `trap 'git checkout -- <files>' EXIT HUP INT TERM`, which is the
+guard this operator has always needed and should carry itself: a mutation
+harness is the one tool here whose normal operation makes the engine wrong,
+and "wrong until I choose to fix it" is not safe on a shared machine.
+
+The run was also interrupted mid-way and finished in two halves. The halves
+were joined **only after checking that the catalogue reproduces its ids** —
+all 62 verdicts from the first half match their catalogue entry's file and
+line exactly. Without that check, appending under regenerated numbering could
+have filed a verdict against the wrong constant, which is a worse outcome
+than an unfinished measurement.
+
 ## 9. What to point it at next
 
-1. **The rest of this surface's `const` tables**, on a machine with build
-   capacity to spare. 70 remaining mutants at ~230 s each is **about 4½
-   hours** — an overnight job on an idle box, not an impossible one — and §8a
-   says what the answer is likely to look like. This is the highest-value next
-   run, because §8a already found two unverified measured constants in a
-   sample of three rare ones.
+1. ~~**The rest of this surface's `const` tables.**~~ **DONE 2026-09-17, §8b.**
+   70 mutants, 36 caught, 34 survived. §8a's guess was right and then some:
+   23 of the 28 conductivity constants are unwatched. The owner's decision on
+   what to do about them was **not** to pin each one — a test written to kill
+   a mutant asserts only that a number is the number it is — but to trace the
+   values to their sources and cover the class with a cited external
+   measurement, which is what `CONTRIBUTING.md` §4 says a test is for.
 2. **The surfaces the new oracles were written for** — adsorption,
    electrochemistry, polarization. §5(c) found that `perturbation.rs` and
    `metamorphic.rs` killed nothing here that was not already dead. That is a
