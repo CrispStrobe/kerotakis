@@ -193,6 +193,30 @@ fn join_list(parts: &[String], locale: Locale) -> String {
     }
 }
 
+/// Two finished statements standing side by side.
+///
+/// The space between two sentences looks like typography rather than
+/// language right up until the language is one that does not use it —
+/// Japanese runs its sentences together after `。` — so the join is a
+/// catalogue entry, exactly as `look.full-stop` is. A language that wants
+/// the second statement first writes `"{second} {first}"` and gets it,
+/// without a line of Rust.
+///
+/// Used where a refusal is built from an optional caveat plus a fixed
+/// body: the two halves are each whole sentences with their own holes, so
+/// neither is a slot INSIDE the other.
+#[must_use]
+pub fn sentence_pair(first: Phrase, second: Phrase) -> Phrase {
+    Phrase::new(
+        "look.sentence-join",
+        "{first} {second}",
+        vec![
+            ("first".to_string(), Slot::phrase(first)),
+            ("second".to_string(), Slot::phrase(second)),
+        ],
+    )
+}
+
 /// The clauses as one sentence, in `locale`.
 ///
 /// The clause separator and the full stop are catalogue entries too. They

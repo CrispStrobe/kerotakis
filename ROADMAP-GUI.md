@@ -1636,22 +1636,65 @@ So the truthful inventory is 131 + 77 + 44 = **252**, and the shortfall was
     limit that actually remains — the colour is a **visible state, not a
     measured absorbance**, so the lesson cannot say how much starch is
     present from how dark it went.
-  - [ ] **GUI-106 — the engine says nothing happened, then describes what
-    happened.** Running the fixed lesson:
+  - [x] **GUI-106 — the engine says nothing happened, then describes what
+    happened. DONE 2026-09-17.** Running the fixed lesson:
 
         You add cornstarch to v2.
         Hmm — nothing visible happens in v2 (this part of the lab isn't awake yet).
         You look closely at v2. The liquid is blue-black and so cloudy you cannot see through it.
 
-    The `NotYetModeled` line is emitted for the step that *did* change the
-    vessel's appearance, and it tells a learner the opposite of what the next
-    line tells them. Same family as the two defects #626 found — a filtered
-    beaker of sand and a sealed gas flask that both described themselves as
-    `"."` — where the words contradict the scene the reader is looking at.
-    The fix is presumably to suppress the line when the step moved the
-    appearance, but `NotYetModeled` is mid-migration under I18N-10 (93
-    construction sites), so this is recorded rather than patched underneath
-    that work.
+    Same family as the two defects #626 found — a filtered beaker of sand
+    and a sealed gas flask that both described themselves as `"."` — where
+    the words contradict the scene the reader is looking at.
+
+    **The gap is real and the sentence carrying it is not.** No wired
+    solver speciates starch, so the note is true; the lv1 register says it
+    in a sentence that makes a SECOND claim, about the beaker, which is
+    not this event's to make and which the next line refutes.
+
+    So the bench measures the thing the sentence claims. It reads
+    `liquid_colour_word_of` before the operator and again after every
+    solver — the same before/after shape it already uses for swelling,
+    curdling and the luminol glow, and its own existing answer to "the one
+    word a person would use for the liquid in this vessel", which EXP-39's
+    self-indicating endpoint reads and nothing else — and sets
+    `NotYetModeled.beside_a_visible_change` where the word moved. lv1 then
+    says *"Something did change in v2 — but part of what happened isn't
+    modelled yet."*
+
+    **Nothing is suppressed, which is what makes it safe.** At lv2 and lv3
+    the reason is word for word what it was, and at lv1 the note is still
+    said. There is no path by which a genuine gap goes unreported, so the
+    guard is not a judgement call about which gaps matter.
+
+    The colour WORD and not the whole observation, and that difference
+    decides two cases that look alike. Dropping iron into water changes
+    what is IN the beaker and changes nothing about how the water looks —
+    that is K17, the experiment the lv1 sentence was written for, and it
+    keeps its sentence unchanged. Stirring cornstarch into Lugol takes the
+    liquid from brown to blue-black.
+
+    Four tests, two of them the "both ways" pair: the contradiction is
+    gone and the reason still prints at lv2; a gap over an unchanged
+    liquid keeps "nothing visible happens"; the flag belongs to the VESSEL
+    and not to the step; and the real lesson on the shipped binary reads
+    what a learner reads.
+
+    That last one asserts three things and needs all three. The absence of
+    the wrong sentence is worth almost nothing alone: it is satisfied just
+    as well by a lesson that has stopped computing, and by a gap that
+    stopped being reported — the same defect wearing silence instead of a
+    wrong sentence. So it pins the colour line (**blue-black** in the test
+    vessel, **brown** in the control, which is the comparison the lesson
+    IS) and the replacement note beside it. Together they say: the gap
+    still fires for that step, the defect was real, and what stands there
+    now is true.
+
+    *The limit, written down rather than glossed:* a liquid that goes
+    cloudy without changing colour word does not trip this, and neither
+    does a change that is only a new solid at the bottom. Both are
+    reachable from the same measurement if a later reader wants them; the
+    colour word is where the evidence was.
   - [x] **GUI-104b — the picker's `"more"` bucket is empty. DONE 2026-09-17.**
     47 of 113 lessons sat in it. Every one carried authored `topics` in the
     catalogue, so the grouping already existed and was simply written down
@@ -1784,9 +1827,10 @@ display name in the registry, is the wrong fix.
   warum Brausepulver und Badebomben auf Wasser warten"), and the picker shows
   both. Folding them would need a key no `.lab` references, which the lint
   would rightly call an orphan.
-- [ ] **I18N-10 — `NotYetModeled.what` is the same defect one event along.**
-  *Mechanism landed and 56 of 82 sites converted; 26 remain, and the lint
-  counts them.* `what` was a finished English sentence for exactly the
+- [x] **I18N-10 — `NotYetModeled.what` is the same defect one event along.
+  DONE 2026-09-17.** *82 of 82 sites carry a recipe; the lint reports zero
+  still holding a finished English sentence, and 553 of 553 reachable keys
+  carry German.* `what` was a finished English sentence for exactly the
   reason `Inert.why` was, and two of them sat in `displacement.rs` beside
   the verdicts that now speak German, so a reader of the zinc-in-vinegar
   lesson met one English paragraph in a German transcript. Both of those
@@ -1811,31 +1855,79 @@ display name in the registry, is the wrong fix.
     scrape and has been turned around: writing a gap reason as a finished
     English sentence again is now the failure.
 
-  What is left, in the order to take it:
+  **Tranche three, the last twenty-six.** Every one outside `aqueous.rs`
+  passed a sentence through from a helper, so the work was in the helper
+  and the call sites followed: `SolventActivity::out_of_range_reason`
+  (two keys, because the two routes say different things and not the same
+  thing about a different route), `solve::stranded_solutes`,
+  `SolventState::boundary`, `volatility::additional_solvent_cut`,
+  `family::outcome_extent` and `KineticReaction::proton_consumption_
+  boundary` all return a `Phrase` now. The curated
+  `UNAVAILABLE_SOLID_PHASES` verdict is keyed by its ROW, the
+  `INERT_IN_SOLVENT` treatment #626 chose, and so are
+  `derived::UNSPECIATED_ACIDS` and the sentence quoted out of the whole
+  milk recipe's `lot_assumptions`.
 
-  * **`solve.rs`, 10.** Four are pass-throughs whose sentence is built in
-    a helper (`out_of_range_reason`, `stranded_solutes`, `boundary_reason`)
-    — the helper has to return a `Phrase` first, so they cascade. Two are
-    the curated `UNAVAILABLE_SOLID_PHASES` verdict, which wants the
-    keyed-by-the-row treatment `INERT_IN_SOLVENT` got in #626 rather than
-    a key built out of its own English.
-  * **`aqueous.rs`, 9,** in `kerotakis-phreeqc`. Long boundary statements
-    about Henry constants and unspeciated solutes; the hardest German in
-    the set and the least often seen.
-  * **`bench.rs`, 4,** `clock.rs`, `family.rs` and `phase_diagnostics.rs`
-    one each — every one of them passes a sentence through from somewhere
-    else, so each is a cascade into the function that built it.
+  Three things fell out that were not translation:
 
-  **One follow-up that is not a tranche.** Seven converted sites still hold
-  a `", "`-joined list inside a `Slot::Text` — the co-evaporating liquids,
-  the solutes with no coefficient (twice), the spectral gaps, the uncurated
-  column groups, the teaching set of nuclides and the curated reactions.
+  * **`StructureOracle::apply` errs with a `Phrase`, and its KEY is what
+    the router files the refusal's cause on.** It read
+    `why.contains("cannot name")` — an English sentence doing structural
+    work, so rewording the refusal would have silently refiled a registry
+    gap as a model boundary. The key is a `pub const` in
+    `kerotakis-core::family` because two crates share it.
+  * **`unspeciated_acid_notes` carried the reason out of
+    `UNSPECIATED_ACIDS` and threw the key away** — and the key is the only
+    thing a curated row can be translated BY.
+  * **`localize_refusal` rescues two gap reasons by STRIPPING the species
+    name off the end of the English** and refilling a template with what
+    is left. Both sites emit a recipe now, so nothing the engine emits
+    reaches it — it is a REPLAY shim, for a session saved before today
+    whose events hold `reason: None` and the English, and a reader
+    opening that save is owed the German it had. It was deleted first and
+    put back, because deleting it silently un-translates an old save.
+    What DID change is the key it fills: the row it used to own was
+    moved, so it now fills the key the live site composes and one German
+    row serves both paths. Finding the noun by looking at the end of the
+    sentence works only because English puts it first, which is the whole
+    reason the event carries a recipe now.
+
+  `phrase::sentence_pair` is new: the space between two whole sentences is
+  `look.sentence-join` in the catalogue, for the reason `look.full-stop`
+  already is. It replaced a `push_str` and a `.trim()` in the aqueous
+  crate's reference-complex boundary, where two optional caveats made
+  three shapes out of two booleans.
+
+  **Three holes in the lint's own denominator,** each of which would have
+  let a number go green by leaving work outside it. #505's scar again, and
+  worth writing down because none of them looked like a denominator bug:
+
+  * It cut a file at its FIRST `#[cfg(test)]`. `kinetics.rs` has a test
+    module at line 1294 and a thousand lines of engine after it, so
+    `proton_consumption_boundary` was invisible in both directions at
+    once — its key reported as an orphan, its row outside the total. Test
+    modules are brace-matched and removed now, wherever they sit.
+  * A comment between `Phrase::new(` and its key lost the call.
+  * A key named by a `const`, or one whose English is DATA rather than a
+    literal, was not read at all.
+  * `phrase.rs` was read for `locale.t` calls only, so `look.sentence-join`
+    — the one clause that file composes itself — sat outside the
+    denominator and its German was never asked for.
+
+  `states.rs`, `volatility.rs`, `kinetics.rs`, `aqueous.rs`,
+  `phase_diagnostics.rs` and `family_oracle.rs` joined the composer list,
+  and `Phrase::bare(&format!("prefix.{…}"))` registers its prefix as a
+  dynamic section the way `locale.lookup` already did, so the next curated
+  table keyed by its row is not silently orphaned.
+
+  **The follow-up that is still not a tranche.** NINE converted sites hold
+  a `", "`-joined list inside a `Slot::Text` — the seven already named,
+  plus `stranded_solutes`' solute names and `phase_diagnostics`' phase
+  list (which also carries an English `", and {n} more"` tail).
   `Slot::List` would join them in the reader's grammar, which is the whole
-  reason the slot type exists, and it renders *a, b and c* where the `join`
-  renders *a, b, c* — so converting them CHANGES the English and needs a
-  golden pass of its own. The two `join(" and ")` lists — `selectivity.rs`'s
-  reactants and the density refusal's contents — did convert, because the
-  catalogue's `look.list-final` renders exactly the English they had.
+  reason the slot type exists, and it renders *a, b and c* where the
+  `join` renders *a, b, c* — so converting them CHANGES the English and
+  needs a golden pass of its own.
 - [x] **I18N-11 — `scene_vessel` appended English sentences to the
   observation.** Not eleven: **twenty**. `appearance::observe` composes
   translatable clauses, and `scene.rs` then took the finished English
@@ -1865,6 +1957,42 @@ display name in the registry, is the wrong fix.
   the noun, in the data. The scene golden was re-blessed and the diff is
   **11777 insertions, zero deletions**: every `words` string and every
   number in it is byte-for-byte what it was.
+
+### Found while finishing I18N-10, not fixed there
+
+- [ ] **`Provenance.routing` is a finished English paragraph, and it is
+  rendered beside the numbers.** `kerotakis-phreeqc`'s
+  `finalize_solution_info` builds it with `format!` and pushes two more
+  sentences onto it — the redox note, and "the solvent's activity is NOT
+  from this dataset … but from a second speciation of the same solution
+  on {dataset} ({model})". A German reader meets all of it in English.
+  This is `Inert.why` and `NotYetModeled.what` a third time: prose welded
+  shut in a solver, on a surface that reaches a reader. It is a `Phrase`
+  job of exactly the shape #626 and #628 did, and it is deliberately not
+  done here — the routing line has its own consumers (the provenance
+  audit, `explain`) and wants its own pass.
+- [ ] **Converted refusals that still hold a `", "`-joined list inside a
+  `Slot::Text`.** `Slot::List` renders *a, b and c* where `join(", ")`
+  renders *a, b, c*, so converting them **changes the English** and wants a
+  golden pass of its own. Enumerated 2026-09-17 so the next person does not
+  rescan — a scan for `Slot::text` with a `join` finds:
+
+  | site | list |
+  |---|---|
+  | `bench.rs:3027` | `other_liquids` |
+  | `bench.rs:4178` | `gaps` |
+  | `bench.rs:4323` | `names` |
+  | `bench.rs:4999` | `known` |
+  | `solve.rs:2246` | `names` (`stranded_solutes`) |
+  | `particles.rs:345` | the English tail `", and {n} more"` |
+
+  Two further lines (`bench.rs:3651`, `bench.rs:4998`) put a `join` near a
+  `Slot::text` on a multi-slot call and need reading individually before
+  being counted. **The I18N-10 report says nine; this scan finds five
+  joined lists plus the tail.** Whoever does the pass should settle the
+  count from the code rather than from either number — the discrepancy is
+  recorded because a count nobody can reproduce is how #505 happened, and
+  the honest move is to say the two disagree rather than to pick one.
 
 ### Two defects found in the same playback, neither of them i18n
 

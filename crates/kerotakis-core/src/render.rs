@@ -4147,7 +4147,11 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             }
         },
         Event::NotYetModeled {
-            vessel, what, reason, ..
+            vessel,
+            what,
+            reason,
+            beside_a_visible_change,
+            ..
         } => {
             // `what` is English composed in bench.rs and carried in the
             // event, so a German frame was wrapping an English reason:
@@ -4172,6 +4176,22 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     .unwrap_or_else(|| what.clone()),
             };
             match register.level() {
+            // GUI-106. The lv1 sentence makes TWO claims — that part of
+            // the lab is not awake, and that the vessel did nothing — and
+            // only the first is this event's to make. Where the step
+            // moved the vessel's appearance the second is false, and in
+            // `starch-iodine-test.lab` it stood one line above "the
+            // liquid is blue-black", in the lesson the colour change IS.
+            //
+            // The note is not dropped, here or at any register: a gap
+            // that goes unsaid at lv1 is a gap the youngest reader is the
+            // only one not told about. It is said in a sentence that does
+            // not contradict the beaker in front of them.
+            1 if *beside_a_visible_change => locale.fill(
+                "event.not-yet-modeled.lv1-beside-change",
+                "Something did change in {vessel} — but part of what happened isn't modelled yet.",
+                &[("vessel", &vessel.to_string())],
+            ),
             1 => locale.fill(
                 "event.not-yet-modeled.lv1",
                 "Hmm — nothing visible happens in {vessel} (this part of the lab isn't awake yet).",
@@ -4437,6 +4457,7 @@ pub fn localize_event(event: &Event, locale: Locale) -> Event {
             what,
             cause,
             reason,
+            beside_a_visible_change,
         } => Event::NotYetModeled {
             vessel: *vessel,
             what: match reason {
@@ -4444,6 +4465,7 @@ pub fn localize_event(event: &Event, locale: Locale) -> Event {
                 None => localize_refusal(what, locale),
             },
             cause: *cause,
+            beside_a_visible_change: *beside_a_visible_change,
             // The recipe is the source and stays in it: a host that reads
             // the event rather than the rendered line composes it itself,
             // and a recipe translated on the way past would be translated
@@ -4466,6 +4488,26 @@ pub fn localize_event(event: &Event, locale: Locale) -> Event {
     }
 }
 
+/// A gap reason that arrived as a finished English sentence, looked up by
+/// VALUE in `[refusal]`.
+///
+/// **Nothing the engine emits reaches this any more.** I18N-10 converted
+/// the last of the eighty-two sites, so every `NotYetModeled` on the wire
+/// carries a `Phrase` and `localize_event` above prefers it. What is left
+/// here is a REPLAY shim: a session saved before today holds events with
+/// `reason: None` and the English in `what`, and a reader opening that
+/// save is owed the German it had.
+///
+/// The two suffix branches are the shape that shim is, and they are worth
+/// looking at squarely. They find the species by STRIPPING a known
+/// sentence off the end of the English and filling a template with what
+/// is left — which was the only way to reach a refusal with a hole in it
+/// while the event carried prose, works only because English puts the
+/// noun first, and is exactly why the event carries a recipe now. They
+/// stay because deleting them would silently un-translate old saves, and
+/// they take no new work: a site added today cannot reach them, because
+/// `Event::not_modeled` is the only constructor and it always sets
+/// `reason`.
 fn localize_refusal(what: &str, locale: Locale) -> String {
     if let Some(translated) = locale.lookup(&format!("refusal.{what}")) {
         return translated.to_string();
@@ -4476,7 +4518,11 @@ fn localize_refusal(what: &str, locale: Locale) -> String {
     if let Some(name) = what.strip_suffix(CONTACT) {
         let translated_name = locale.lookup(&format!("species.{name}")).unwrap_or(name);
         return locale.fill(
-            "refusal.solid-in-liquid",
+            // The key the LIVE site composes, so one German row serves
+            // both paths. Two rows for one sentence is how a product
+            // starts reading like two, and #628 found two of those
+            // already in flight.
+            "not-modeled.no-dissolution-solver",
             "{name} in contact with liquid: no wired solver models this dissolution/reaction",
             &[("name", translated_name)],
         );
@@ -4486,7 +4532,7 @@ fn localize_refusal(what: &str, locale: Locale) -> String {
     if let Some(name) = what.strip_suffix(UNSPECIATED) {
         let translated_name = locale.lookup(&format!("species.{name}")).unwrap_or(name);
         return locale.fill(
-            "refusal.dissolves-without-speciation",
+            "not-modeled.dissolves-unspeciated",
             "{name} dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
             &[("name", translated_name)],
         );
@@ -4524,12 +4570,14 @@ mod dedupe_tests {
                 vessel: VesselId(0),
                 what: "one thing".to_string(),
                 reason: None,
+                beside_a_visible_change: false,
             },
             Event::NotYetModeled {
                 cause: crate::ops::NotModelledCause::NoSolver,
                 vessel: VesselId(0),
                 what: "another thing".to_string(),
                 reason: None,
+                beside_a_visible_change: false,
             },
         ]
     }

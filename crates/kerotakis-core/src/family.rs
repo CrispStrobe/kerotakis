@@ -217,7 +217,19 @@ pub struct Declined {
     pub family: String,
     pub version: u32,
     pub gate: String,
+    /// The gate's own reason, looked up by VALUE under `[family-gate]`.
     pub reason: String,
+    /// …unless it has a hole in it, in which case the recipe is here and
+    /// a by-value lookup could never have reached it (I18N-10). The same
+    /// `Option<Phrase>` beside a finished sentence that `Inert.why` and
+    /// `NotYetModeled.what` carry, for the same reason and with the same
+    /// meaning: `None` is the honest by-value state.
+    ///
+    /// Boxed because `Declined` travels as the `Err` of `check_gates`,
+    /// and a `Phrase` inline takes that variant past clippy's 128-byte
+    /// `result_large_err` floor — every gate that ADMITS would pay for
+    /// the one that does not.
+    pub detail: Option<Box<Phrase>>,
 }
 
 /// Deterministic conflict order over candidate families whose structure
@@ -255,11 +267,19 @@ pub trait StructureOracle {
     /// and if so, the product species (by registry key where nameable).
     /// An unnameable product is an error by the honesty rule: the pool
     /// of the nameable is the boundary, exactly as in the thermal pool.
+    ///
+    /// The error is a [`Phrase`], not a `String` (I18N-10): it reaches a
+    /// reader as a `NotYetModeled` refusal, and a finished English
+    /// sentence crossing this trait boundary is one no catalogue can
+    /// ever translate. Its KEY is also what the router switches the
+    /// refusal's cause on, so a reworded sentence no longer silently
+    /// reclassifies the event — which is what `why.contains("cannot
+    /// name")` did here until this signature changed.
     fn apply(
         &self,
         record: &FamilyRecord,
         substrate_keys: &[&str],
-    ) -> Result<Option<Vec<String>>, String>;
+    ) -> Result<Option<Vec<String>>, Phrase>;
 }
 
 /// The record lint (BRD-020 acceptance): every family must conserve
@@ -415,9 +435,15 @@ enum MatchOutcome {
     /// the family would actually fire.
     Refused {
         substrates: Vec<String>,
-        why: String,
+        why: Phrase,
     },
 }
+
+/// The key an oracle uses when the structure it made has no registry
+/// name — the one refusal the router files as a REGISTRY gap rather than
+/// a model boundary. Named here, beside the switch that reads it, so the
+/// two cannot drift: an oracle lives in another crate.
+pub const UNNAMEABLE_PRODUCT: &str = "not-modeled.unnameable-product";
 
 /// A family whose structure matched and whose gates all admitted, with
 /// the extent its outcome model allows.
@@ -447,7 +473,7 @@ pub struct Evaluation {
     /// template that failed its own conservation check. Spoken as typed
     /// refusals, never dropped; the same match behind a refusing gate is
     /// a quiet decline instead.
-    pub refused: Vec<String>,
+    pub refused: Vec<Phrase>,
 }
 
 /// The reaction-family equilibrator: audited records, matched through a
@@ -569,6 +595,7 @@ impl<O: StructureOracle> FamilyRouter<O> {
     ) -> Result<Vec<String>, Declined> {
         let g = &record.gates;
         let declined = |gate: &str, reason: String| Declined {
+            detail: None,
             family: record.id.clone(),
             version: record.version,
             gate: gate.to_string(),
@@ -730,7 +757,8 @@ impl<O: StructureOracle> FamilyRouter<O> {
                     family: record.id.clone(),
                     version: record.version,
                     gate: "outcome".to_string(),
-                    reason: why,
+                    reason: why.render(crate::i18n::Locale::EN),
+                    detail: Some(Box::new(why)),
                 }),
             }
         }
@@ -824,7 +852,7 @@ fn solve_extent(
     vessel: &Vessel,
     reactants: &[(String, f64)],
     products: &[(String, f64)],
-) -> Result<f64, String> {
+) -> Result<f64, Phrase> {
     outcome_extent(&record.outcome, vessel, reactants, products)
 }
 
@@ -835,7 +863,7 @@ pub(crate) fn outcome_extent(
     vessel: &Vessel,
     reactants: &[(String, f64)],
     products: &[(String, f64)],
-) -> Result<f64, String> {
+) -> Result<f64, Phrase> {
     let amount = |k: &str| amount_of(vessel, k);
     let forward_max = reactants
         .iter()
@@ -846,17 +874,24 @@ pub(crate) fn outcome_extent(
     }
     match outcome {
         OutcomeModel::ToCompletion => Ok(forward_max.max(0.0)),
-        OutcomeModel::KineticLaw { kinetics_id } => Err(format!(
-            "outcome model kinetic_law ({kinetics_id}) is not yet routed — BRD-050 owns admitting \
-             a rate law from a family"
+        OutcomeModel::KineticLaw { kinetics_id } => Err(Phrase::new(
+            "not-modeled.kinetic-law-not-routed",
+            "outcome model kinetic_law ({kinetics}) is not yet routed — BRD-050 owns admitting \
+             a rate law from a family",
+            vec![("kinetics".to_string(), Slot::text(kinetics_id.clone()))],
         )),
         OutcomeModel::Equilibrium { log_k, .. } => {
             let sum_r: f64 = reactants.iter().map(|(_, c)| c).sum();
             let sum_p: f64 = products.iter().map(|(_, c)| c).sum();
             if (sum_r - sum_p).abs() > 1e-9 {
-                return Err(format!(
+                return Err(Phrase::new(
+                    "not-modeled.unequal-stoichiometric-sums",
                     "the equilibrium model needs equal stoichiometric sums so the volume cancels; \
-                     this record has {sum_r} in and {sum_p} out"
+                     this record has {in_sum} in and {out_sum} out",
+                    vec![
+                        ("in_sum".to_string(), Slot::number(sum_r.to_string())),
+                        ("out_sum".to_string(), Slot::number(sum_p.to_string())),
+                    ],
                 ));
             }
             let reverse_max = products
@@ -1076,7 +1111,7 @@ impl<O: StructureOracle> Equilibrator for FamilyRouter<O> {
 
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
         let mut events = Vec::new();
-        let mut spoken: Vec<String> = Vec::new();
+        let mut spoken: Vec<Phrase> = Vec::new();
         // One family per pass, then look again: what the first one made
         // may be what the next one needs, and an equilibrium record
         // re-evaluates to nothing once it stands at K.
@@ -1086,17 +1121,18 @@ impl<O: StructureOracle> Equilibrator for FamilyRouter<O> {
                 if spoken.contains(&why) {
                     continue;
                 }
-                let cause = if why.contains("cannot name") {
+                // On the KEY, not on the English. This test read
+                // `why.contains("cannot name")` until I18N-10, so a
+                // reworded refusal would have quietly refiled itself as a
+                // model boundary — an English sentence doing structural
+                // work, which is the whole defect this pass exists to
+                // remove.
+                let cause = if why.key == UNNAMEABLE_PRODUCT {
                     NotModelledCause::PhaseNotInRegistry
                 } else {
                     NotModelledCause::ModelBoundary
                 };
-                events.push(Event::NotYetModeled {
-                    cause,
-                    vessel: vessel.id,
-                    what: why.clone(),
-                    reason: None,
-                });
+                events.push(Event::not_modeled(vessel.id, cause, why.clone()));
                 spoken.push(why);
             }
             let Some(ready) = evaluation.ready.into_iter().next() else {
@@ -1141,7 +1177,13 @@ impl<O: StructureOracle> Equilibrator for FamilyRouter<O> {
                     ("family".to_string(), Slot::text(d.family.clone())),
                     ("version".to_string(), Slot::text(d.version.to_string())),
                     ("gate".to_string(), Slot::text(d.gate.clone())),
-                    ("why".to_string(), Slot::term("family-gate", d.reason.clone())),
+                    (
+                        "why".to_string(),
+                        match &d.detail {
+                            Some(recipe) => Slot::phrase((**recipe).clone()),
+                            None => Slot::term("family-gate", d.reason.clone()),
+                        },
+                    ),
                 ],
             );
             Event::not_modeled(vessel.id, NotModelledCause::ModelBoundary, reason)
@@ -1198,7 +1240,7 @@ mod router_tests {
             &self,
             record: &FamilyRecord,
             keys: &[&str],
-        ) -> Result<Option<Vec<String>>, String> {
+        ) -> Result<Option<Vec<String>>, Phrase> {
             if record.id == "fake-saponification" {
                 return Ok(match keys {
                     ["ethyl_acetate", "OH-"] => {
@@ -1214,9 +1256,13 @@ mod router_tests {
                 ["CH3COOH", "ethanol"] => {
                     Ok(Some(vec!["ethyl_acetate".to_string(), "water".to_string()]))
                 }
-                ["CH3COOH", "methanol"] => Err(format!(
-                    "family {} produced a structure the registry cannot name (COC(C)=O)",
-                    record.id
+                ["CH3COOH", "methanol"] => Err(Phrase::new(
+                    UNNAMEABLE_PRODUCT,
+                    "family {family} produced a structure the registry cannot name ({smiles})",
+                    vec![
+                        ("family".to_string(), Slot::text(record.id.clone())),
+                        ("smiles".to_string(), Slot::text("COC(C)=O")),
+                    ],
                 )),
                 _ => Ok(None),
             }
