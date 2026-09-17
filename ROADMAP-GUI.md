@@ -1636,22 +1636,57 @@ So the truthful inventory is 131 + 77 + 44 = **252**, and the shortfall was
     limit that actually remains — the colour is a **visible state, not a
     measured absorbance**, so the lesson cannot say how much starch is
     present from how dark it went.
-  - [ ] **GUI-106 — the engine says nothing happened, then describes what
-    happened.** Running the fixed lesson:
+  - [x] **GUI-106 — the engine says nothing happened, then describes what
+    happened. DONE 2026-09-17.** Running the fixed lesson:
 
         You add cornstarch to v2.
         Hmm — nothing visible happens in v2 (this part of the lab isn't awake yet).
         You look closely at v2. The liquid is blue-black and so cloudy you cannot see through it.
 
-    The `NotYetModeled` line is emitted for the step that *did* change the
-    vessel's appearance, and it tells a learner the opposite of what the next
-    line tells them. Same family as the two defects #626 found — a filtered
-    beaker of sand and a sealed gas flask that both described themselves as
-    `"."` — where the words contradict the scene the reader is looking at.
-    The fix is presumably to suppress the line when the step moved the
-    appearance, but `NotYetModeled` is mid-migration under I18N-10 (93
-    construction sites), so this is recorded rather than patched underneath
-    that work.
+    Same family as the two defects #626 found — a filtered beaker of sand
+    and a sealed gas flask that both described themselves as `"."` — where
+    the words contradict the scene the reader is looking at.
+
+    **The gap is real and the sentence carrying it is not.** No wired
+    solver speciates starch, so the note is true; the lv1 register says it
+    in a sentence that makes a SECOND claim, about the beaker, which is
+    not this event's to make and which the next line refutes.
+
+    So the bench measures the thing the sentence claims. It reads
+    `liquid_colour_word_of` before the operator and again after every
+    solver — the same before/after shape it already uses for swelling,
+    curdling and the luminol glow, and its own existing answer to "the one
+    word a person would use for the liquid in this vessel", which EXP-39's
+    self-indicating endpoint reads and nothing else — and sets
+    `NotYetModeled.beside_a_visible_change` where the word moved. lv1 then
+    says *"Something did change in v2 — but part of what happened isn't
+    modelled yet."*
+
+    **Nothing is suppressed, which is what makes it safe.** At lv2 and lv3
+    the reason is word for word what it was, and at lv1 the note is still
+    said. There is no path by which a genuine gap goes unreported, so the
+    guard is not a judgement call about which gaps matter.
+
+    The colour WORD and not the whole observation, and that difference
+    decides two cases that look alike. Dropping iron into water changes
+    what is IN the beaker and changes nothing about how the water looks —
+    that is K17, the experiment the lv1 sentence was written for, and it
+    keeps its sentence unchanged. Stirring cornstarch into Lugol takes the
+    liquid from brown to blue-black.
+
+    Four tests, two of them the "both ways" pair: the contradiction is
+    gone and the reason still prints at lv2; a gap over an unchanged
+    liquid keeps "nothing visible happens"; the flag belongs to the VESSEL
+    and not to the step; and the real lesson on the shipped binary asserts
+    the colour line ALONGSIDE the absence, because a test that only checks
+    a sentence is gone passes just as happily when the lesson has stopped
+    computing anything at all.
+
+    *The limit, written down rather than glossed:* a liquid that goes
+    cloudy without changing colour word does not trip this, and neither
+    does a change that is only a new solid at the bottom. Both are
+    reachable from the same measurement if a later reader wants them; the
+    colour word is where the evidence was.
   - [x] **GUI-104b — the picker's `"more"` bucket is empty. DONE 2026-09-17.**
     47 of 113 lessons sat in it. Every one carried authored `topics` in the
     catalogue, so the grouping already existed and was simply written down
