@@ -85,6 +85,13 @@ describe("the corpus vocabulary the one index has to place", () => {
     expect(Object.hasOwn(CORPUS_BANDS, "all")).toBe(false);
   });
 
+  it("has German for every corpus topic, which a question's page prints", () => {
+    // The detail page renders `t(slugWords(prompt.topic))`, a variable
+    // call: a ninth topic would ship as English beside German chrome.
+    const untranslated = topics.filter((topic) => !hasGermanTranslation(words(topic)));
+    expect(untranslated).toEqual([]);
+  });
+
   it("has German for every reason code the corpus actually ships", () => {
     const untranslated = reasonCodes.filter((code) => !hasGermanTranslation(words(code)));
     expect(untranslated).toEqual([]);
