@@ -514,13 +514,24 @@ def run_tier(tier: dict, mutant: int | None, env_extra: dict | None = None) -> d
     )
     try:
         out, _ = proc.communicate(timeout=tier["timeout"])
-        return {
+        record = {
             "tier": tier["name"],
             "ok": proc.returncode == 0,
             "timeout": False,
             "seconds": round(time.time() - t0, 1),
             "failing": failing_tests(out or ""),
         }
+        if not record["ok"]:
+            # WHAT A CAUGHT MUTANT ACTUALLY LOOKED LIKE. Without this the
+            # record cannot distinguish an assertion that fired from a tier
+            # that could not run — and on 2026-09-17 a CI pass reported six
+            # mutants "caught" by a rung that failed in a tenth of a second,
+            # which is a third of the time its cheapest test takes. A verdict
+            # with no evidence under it is the failure mode this whole
+            # instrument exists to find, so the evidence is kept.
+            record["exit_code"] = proc.returncode
+            record["output_tail"] = (out or "")[-4000:]
+        return record
     except subprocess.TimeoutExpired:
         try:
             os.killpg(os.getpgid(proc.pid), 9)
