@@ -15,6 +15,12 @@
 title = "An antacid suspension: neutralisation stops when the acid runs out"
 intro = "Excess sparingly soluble magnesium hydroxide remains. This is chemistry, not medical advice or a dose recommendation."
 
+["apple-browning"]
+title = "Stop a cut apple going brown"
+intro = "Browning belongs only to the prepared cut_apple identity: an intact generic apple has no declared fresh surface. The response is a bounded oxygen/time observable, not enzyme turnover, taste, texture or food-safety advice."
+part.1 = "Air control: a fresh surface browns as the shared clock advances."
+part.2 = "Vitamin-C comparison: the same mass, air and time with ascorbate nearby. The model computes inhibition of the visible response; it does not claim permanent preservation."
+
 ["balloon-pressure"]
 title = "Balloon on a bottle: gas needs somewhere to go"
 intro = "A piston lid represents a flexible balloon: it computes pressure and expanding volume, not rubber elasticity, balloon shape or latex failure."
@@ -83,6 +89,13 @@ title = "The electrochemical series: zinc displaces copper"
 title = "Electrolysis products follow time"
 boundary = "Ideal Faraday-law production omits efficiency, overpotential and gas capture."
 
+["elephant-toothpaste-catalyst-dose"]
+title = "Elephant toothpaste: catalyst dose changes how fast the foam arrives"
+intro = "Simulation activity. A real child-facing activity uses only household 3% hydrogen peroxide, adult supervision, fitted goggles and gloves. Potassium iodide demonstrations belong on a supervised school bench; stronger peroxide is virtual exploration here, not a home instruction."
+part.1 = "A fair comparison: equal peroxide, soap, vessels and elapsed time. Only the potassium iodide dose changes. The catalyst is retained in both vessels."
+part.2 = "One shared clock lets the first-order iodide dependence reach the visible gas/foam model without giving either vessel extra reaction time."
+boundary = "Prediction: v2 should make more oxygen, build a taller foam column and spill farther in the same ten seconds. Neither vessel consumes its KI inventory."
+
 ["endpoint-is-not-a-full-drop"]
 title = "Virtual comparison: the numerical endpoint is not a whole burette step."
 intro = "Both vessels contain 0.0023 mol HCl. At 0.1 mol/L, equivalence requires approximately 23 mL. The 7 mL trial increment deliberately misses it. The automatic solver refines its last increment; a physical burette and indicator have their own uncertainty, which this calculation does not model."
@@ -140,9 +153,23 @@ title = "Hard water and soap: scale is not soap scum"
 intro = "The hard-water ions and carbonate scale are modeled. Dish soap is a declared surfactant material, but no fatty-acid soap species exists, so the bench cannot form the curd-like soap scum responsible for poor lather. That absence is the boundary this comparison exposes."
 part.1 = "A separate scale-forming control shows the calcium chemistry the engine does own."
 
+["hard-water-soap-scum"]
+title = "Why fatty soap makes scum in hard water"
+intro = "This uses a declared sodium-stearate-equivalent teaching reagent, not dish detergent and not a claim about any branded soap. Two fatty-carboxylate equivalents bind each calcium or magnesium ion; aggregate mass follows the actually consumed sodium soap and Ca/Mg, with released sodium returned to solution."
+part.1 = "Soft-water control: no Ca2+ or Mg2+, so no aggregate is available."
+part.2 = "Hard-water test: calcium is the limiting reagent and produces conserved soap-scum aggregate plus released sodium ions."
+part.3 = "Magnesium follows the same two-equivalents-per-ion rule."
+boundary = "Foam/lather, micelles, chain-length mixtures, builders and carbonate scale are not inferred from this bounded precipitation calculation."
+
 ["hard-water"]
 title = "The kettle and the statue: hard water and limescale"
 part.1 = "Softening by mixing: hard water meets soda-ash solution"
+
+["heating-proteins"]
+title = "Heating proteins: clear egg white becomes opaque"
+intro = "Compare equal portions at room temperature and at the upper edge of the model's reviewed egg-white denaturation interval. The material remains conserved; heating changes the protein structure and visible aggregation."
+part.1 = "Albumin is the isolated-protein comparison. It follows its own bounded denaturation interval instead of borrowing the whole egg-white recipe."
+boundary = "Gelatine is already denatured collagen before it reaches the shelf; cooling gelation is a different structural transition and is not claimed here."
 
 ["hot-share-temperature"]
 title = "Hot fraction sets the resting temperature"
@@ -160,6 +187,22 @@ intro = "This lesson computes only the reviewed lemon-juice mark on paper. Its b
 part.1 = "Wet control: heat alone cannot reveal a mark while water remains."
 part.2 = "Dry the same mark first, then warm it. Browning does not ignite the paper."
 part.3 = "Separate virtual burn control. Never ignite real paper for this activity."
+
+["kitchen-hot-and-cold-packs"]
+title = "Kitchen hot and cold packs: dissolving can warm or cool"
+intro = "Equal water portions receive equal salt masses. The thermometer decides; \"dissolving releases heat\" is not a general rule. These are simulation samples, not food or medical-pack instructions."
+part.1 = "Calcium chloride dissolution is exothermic."
+part.2 = "Ammonium chloride dissolution is endothermic under the same starting conditions. Do not ingest laboratory ammonium salts."
+part.3 = "Ordinary salt provides a household-scale comparison rather than another universal rule."
+boundary = "The vessels are adiabatic approximations. A real cup, packet and room absorb heat, and dissolution rate and packet construction are outside this result."
+
+["kitchen-starch-hunt"]
+title = "Kitchen starch hunt: flour and dough are not just white powders"
+intro = "Lugol solution is brown without starch and blue-black when its iodine meets sufficiently long starch helices. Use separate cups so that each sample sees the same water and indicator dose. Iodine stains: protect eyes, clothes and the work surface, and do not taste any laboratory mixture."
+part.1 = "A sugar control. White does not mean starch."
+part.2 = "Flour resolves a reviewed starch fraction, so the same computed absorption band appears without a special-case claim about flour."
+part.3 = "Plain flour-and-water dough carries the same starch identity."
+boundary = "The colour identifies starch; it does not measure how much is present. This bench also does not model cooking, starch gelatinisation or food safety."
 
 ["lactase-and-milk"]
 title = "Lactase and milk: one enzyme fits one substrate"
@@ -184,6 +227,11 @@ title = "Liquid nitrogen: one phase change pays for another (virtual investigati
 intro = "Real liquid nitrogen can cause severe cold burns and displace breathable air. Use only with trained supervision, eye/face protection, cryogenic gloves, strong ventilation, and an open pressure-relief path. Never seal a cryogen."
 part.1 = "0.1713 mol and 2.8807 mol correspond to 10 mL ethanol and 100 mL LN2 at the cited liquid densities. Molar additions use the audited phase route."
 
+["longer-waits-advance-peroxide-kinetics"]
+title = "Longer waits advance peroxide kinetics"
+intro.1 = "Give identical peroxide samples four different waits. What does the registered kinetic network do as modeled time advances? Intermediate mission. Inspect the complete inventory after 30, 60, 120 and 240 seconds: peroxide decomposition advances while hydrogen and oxygen remain accounted for."
+intro.2 = "Model boundary: this is a test of the bench's registered peroxide network, not a new empirical rate law. Real decomposition also depends on concentration, temperature, light, impurities, surfaces and catalysts. Use only teacher-prepared dilute peroxide, eye protection and clean compatible apparatus for any physical comparison. Do not ingest it or return used material to its stock container."
+
 ["luminol-temperature"]
 title = "Luminol light: warm is brighter, cold lasts longer"
 intro = "Two matched prepared systems differ only in temperature. This is a luminol classroom demonstration, not commercial glow-stick chemistry."
@@ -197,6 +245,12 @@ boundary = "Calibration error, drift, random noise, sample consumption and probe
 ["metal-acid-race"]
 title = "Which metal reacts first? Same acid, equal metal amounts"
 intro = "Magnesium reacts vigorously, zinc more slowly, and copper refuses for an electrochemical reason. The engine computes reaction and heat but not literal wall-clock race times or differences in piece surface area."
+
+["naked-egg-osmosis"]
+title = "Naked egg: a membrane water-transfer comparison"
+intro = "The prepared naked_egg is explicitly an egg-white-composition surrogate behind a semipermeable membrane. It is not a simulated whole egg: shell removal is the separate chalk-and-vinegar route, and yolk, elasticity and final equilibrium size are outside this model."
+part.1 = "In plain water the bath has fewer dissolved particles than the declared interior, so water moves into the coherent object."
+part.2 = "Sugar raises the bath osmolarity. With the same object and clock, water now moves out. Ordinary decant/filter commands deliberately leave the coherent object behind; there is no invented whole-object pickup command."
 
 ["neutral-moves"]
 title = "Neutral is a moving target: warm water is still just water"
@@ -238,6 +292,11 @@ title = "Rates: two beakers, one variable, one clock."
 intro = "The disappearing cross. Thiosulfate and acid make sulfur, the sulfur clouds the liquid, and the time it takes to hide a mark under the beaker is the measurement. Nothing here is scripted: both beakers run the same rate law, and the only difference between them is temperature."
 part.1 = "Time is shared. `wait` advances the whole bench, which is the only way a fair test means anything."
 
+["repeated-liquid-extraction"]
+title = "One solvent budget, several extractions"
+intro = "A separatory funnel does not reward one large shake as much as several smaller shakes with fresh solvent. This run gives four equal portions the same TOTAL hexane allowance as the one-stage comparison printed beside it. The engine computes both from phase volumes and K = [I2]hexane/[I2]water; neither percentage is scripted into the lesson."
+part.1 = "At lv3 the result also names the coefficient direction, mass balance, saturation guard and provenance. This reviewed iodine model is restricted to 25 °C; other solutes with molecular group decompositions use the shared UNIFAC route, while unsupported pairs are refused explicitly."
+
 ["rubbery-bone-boundary"]
 title = "Chalk in vinegar: why this is not a rubbery-bone model"
 intro = "Acid removes carbonate from chalk. Real bone is a composite: calcium-phosphate mineral reinforces collagen. Acid can leave that collagen scaffold flexible; chalk contains no collagen, so dissolving it cannot predict bone bending."
@@ -263,6 +322,18 @@ intro = "Gas stays in the sealed system and leaves the open one. Atoms are conse
 
 ["silver-and-salt"]
 title = "Case file: identify chloride with silver nitrate"
+
+["spannungsreihe"]
+title = "Die Spannungsreihe: who takes the electrons, and what a battery is worth"
+part.displacement = "Part 1 — displacement: a more reactive metal pushes a less reactive one out of solution"
+part.refusal = "Part 2 — the other way round does nothing, and the lab says why"
+part.acid = "Part 3 — metals and acid: below hydrogen fizzes, above hydrogen sits"
+part.cell = "Part 4 — the series as a voltmeter reading: the Daniell cell"
+part.nernst = "Part 5 — the same cell, ten times less copper: Nernst, over activities"
+
+["spirit-still"]
+title = "The spirit still — and the wall at 96 percent"
+intro = "Wine is a few percent ethanol. One pass through a still enriches it, a second pass more — and then the climb stops. Near 89 mol percent the vapour has the same composition as the liquid, and boiling harder enriches nothing. That wall is the azeotrope, and here it is computed from activity coefficients, not looked up. The last pass runs through a four-stage column — the fastest legal route to the wall."
 
 ["split-heat-same-temperature"]
 title = "Split heat pulses reach the same temperature"
@@ -295,9 +366,41 @@ title = "Track precipitate and filtrate through drying"
 intro = "Form barium sulfate twice. Filter both preparations, then dry only the second filtrate. Account for BaSO4 residue and the soluble spectator ions across each source-receiver system before deciding whether matter was lost."
 boundary = "Simulation only: soluble barium salts are toxic. A physical version requires trained supervision, eye protection, gloves, and hazardous-waste collection."
 
+["transport-column"]
+title = "A salt pulse through a water column"
+intro.1 = "Three cells of pure water. A fourth vessel holds salt water — the feed. Push the feed through the column and collect what comes out. After three steps at Courant 0.5, the salt has spread through the column by the binomial coefficients: the front disperses exactly as the theory says."
+intro.2 = "v1 is the default beaker — use it as cell 1"
+part.1 = "cells 2 and 3"
+part.2 = "the inlet: salt water at the same volume"
+part.3 = "an empty receiver for the effluent"
+part.4 = "push the salt through three steps"
+part.5 = "look at what ended up where"
+
+["two-limits-one-carbon-dioxide-ledger"]
+title = "Two limits, one carbon-dioxide ledger"
+intro.1 = "Hold bicarbonate fixed while acid rises, then hold acid in excess while bicarbonate rises. Which reagent limits the computed carbon dioxide? Intermediate mission. Compare both four-vessel series: a larger dose raises the carbon ledger only until the other reactant becomes limiting."
+intro.2 = "Model boundary: these are equilibrium inventory calculations, not a fizz-rate or bubble-volume prediction. The open virtual vessels can release carbon dioxide; foam height, nucleation, gas capture, heat exchange, mixing time and real preparation error are absent. A physical analogue should use small, teacher-prepared dilute portions, eye protection and an open vessel—never seal an acid/carbonate mixture."
+
 ["two-roads"]
 title = "Two roads, one temperature: Hess's law with a thermometer"
 
 ["warm-the-gas-stop-before-burst"]
 title = "Warm the gas, stop before burst"
 intro = "Predict the pressure order for equal sealed gas samples given 0 J, 100 J, 200 J and 400 J. The first three remain measurable; the last crosses the vessel boundary. Stop there: a burst is evidence, not an invitation to retry."
+
+["water-electrolysis"]
+title = "Splitting conductive water: two gases, in a two-to-one ratio"
+intro = "Pure water conducts too poorly for this apparatus and is still refused. A little sodium sulfate carries current without being preferentially discharged: water becomes hydrogen at the cathode and oxygen at the anode."
+part.1 = "Keep the cell open: collecting hydrogen and oxygen together would make an ignitable mixture, and gas collection is not needed to compare their amounts."
+boundary = "Faraday's law owns the amounts: two electrons per H2 and four per O2, hence twice as much hydrogen. This is an undivided teaching cell with inert electrodes. It does not model electrode overpotential, gas crossover, a membrane, ignition, efficiency or the voltage needed to drive the current."
+
+["water-filter"]
+title = "Build a water filter: cloudy is not the same as dissolved"
+intro = "This is a reviewed quartz-rich play-sand teaching suspension. Natural dirty water can also contain clay, microbes, dissolved salts and pollutants; clear filtrate is not automatically safe or pure, and this simulation makes no drinking-water claim."
+part.1 = "Filter paper retains the solid grains while water enters the receiver."
+boundary = "The visible contrast and conserved quartz are computed. Paper pore size, natural grain-size distributions and purification beyond solids are not."
+
+["whole-object-buoyancy"]
+title = "Whole objects: why an apple floats and a potato sinks"
+intro = "Density belongs to the whole object. Pumice contains dense silica but its air-filled pores lower the stone's bulk density; an apple also carries air spaces. A potato is slightly denser than water. The picture and the words below both use those reviewed whole-object densities."
+boundary = "Prediction to discuss: changing only an ingredient density would be the wrong calculation. Shape, pores and trapped air are part of a bulk object. This bounded model does not yet simulate water entering pumice pores, so the pumice does not slowly waterlog and sink."

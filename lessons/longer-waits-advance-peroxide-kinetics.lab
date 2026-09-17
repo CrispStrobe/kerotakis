@@ -1,10 +1,10 @@
-# Longer waits advance peroxide kinetics
-# Give identical peroxide samples four different waits. What does the registered kinetic network do as modeled time advances?
+#@title Longer waits advance peroxide kinetics
+#@intro.1 Give identical peroxide samples four different waits. What does the registered kinetic network do as modeled time advances?
 # Intermediate mission. Inspect the complete inventory after 30, 60, 120 and
 # 240 seconds: peroxide decomposition advances while hydrogen and oxygen remain
 # accounted for.
 #
-# Model boundary: this is a test of the bench's registered peroxide network,
+#@intro.2 Model boundary: this is a test of the bench's registered peroxide network,
 # not a new empirical rate law. Real decomposition also depends on concentration,
 # temperature, light, impurities, surfaces and catalysts. Use only
 # teacher-prepared dilute peroxide, eye protection

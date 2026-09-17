@@ -14,6 +14,12 @@
 title = "Eine Antazida-Suspension: Die Neutralisation endet, wenn die Säure verbraucht ist"
 intro = "Überschüssiges, schwer lösliches Magnesiumhydroxid bleibt zurück. Das ist Chemie und weder ein medizinischer Rat noch eine Dosierungsempfehlung."
 
+["apple-browning"]
+title = "Einen angeschnittenen Apfel am Braunwerden hindern"
+intro = "Das Braunwerden gehört allein zur vorbereiteten Identität cut_apple: Ein unversehrter, allgemeiner Apfel hat keine ausgewiesene frische Schnittfläche. Die Antwort ist eine begrenzte Beobachtungsgröße aus Sauerstoff und Zeit, kein Enzymumsatz, keine Aussage über Geschmack, Beschaffenheit oder Lebensmittelsicherheit."
+part.1 = "Luftkontrolle: Eine frische Schnittfläche bräunt, während die gemeinsame Uhr weiterläuft."
+part.2 = "Vergleich mit Vitamin C: dieselbe Masse, dieselbe Luft, dieselbe Zeit, nur mit Ascorbat daneben. Das Modell berechnet die Hemmung der sichtbaren Reaktion; es behauptet keine dauerhafte Konservierung."
+
 ["balloon-pressure"]
 title = "Luftballon auf der Flasche: Gas braucht einen Platz"
 intro = "Ein Kolbendeckel steht hier für einen dehnbaren Luftballon: Er berechnet Druck und wachsendes Volumen, nicht die Elastizität des Gummis, die Form des Ballons oder das Reißen des Latex."
@@ -82,6 +88,13 @@ title = "Die elektrochemische Spannungsreihe: Zink verdrängt Kupfer"
 title = "Die Produkte der Elektrolyse folgen der Zeit"
 boundary = "Ideale Ausbeute nach dem Faraday-Gesetz, ohne Wirkungsgrad, Überspannung und Gasauffang."
 
+["elephant-toothpaste-catalyst-dose"]
+title = "Elefantenzahnpasta: Die Katalysatormenge bestimmt, wie schnell der Schaum kommt"
+intro = "Simulierter Versuch. Ein echter Versuch mit Kindern nutzt nur 3-prozentiges Wasserstoffperoxid aus dem Haushalt, Aufsicht durch Erwachsene, eine passende Schutzbrille und Handschuhe. Vorführungen mit Kaliumiodid gehören auf eine beaufsichtigte Schulbank; stärkeres Peroxid ist hier virtuelle Erkundung und keine Anleitung für zu Hause."
+part.1 = "Ein fairer Vergleich: gleich viel Peroxid, gleich viel Spülmittel, gleiche Gefäße, gleiche Zeit. Nur die Menge Kaliumiodid ändert sich. Der Katalysator bleibt in beiden Gefäßen erhalten."
+part.2 = "Eine gemeinsame Uhr lässt die Abhängigkeit erster Ordnung vom Iodid bis ins sichtbare Gas- und Schaummodell durchschlagen, ohne einem der Gefäße zusätzliche Reaktionszeit zu schenken."
+boundary = "Vorhersage: v2 sollte in denselben zehn Sekunden mehr Sauerstoff bilden, eine höhere Schaumsäule aufbauen und weiter überlaufen. Keines der beiden Gefäße verbraucht dabei sein Kaliumiodid."
+
 ["endpoint-is-not-a-full-drop"]
 title = "Virtueller Vergleich: Der rechnerische Endpunkt ist kein ganzer Büretten-Schritt."
 intro = "Beide Gefäße enthalten 0,0023 mol HCl. Bei 0,1 mol/L liegt der Äquivalenzpunkt bei etwa 23 mL. Der Versuchsschritt von 7 mL verfehlt ihn absichtlich. Der automatische Löser verfeinert seinen letzten Schritt; eine echte Bürette und ein echter Indikator haben ihre eigene Unsicherheit, die diese Rechnung nicht abbildet."
@@ -139,9 +152,23 @@ title = "Hartes Wasser und Seife: Kesselstein ist nicht Kalkseife"
 intro = "Die Ionen des harten Wassers und der Carbonatstein sind modelliert. Spülmittel ist ein ausgewiesenes Tensid, doch eine Seifenspezies aus Fettsäuren gibt es nicht, also kann die Werkbank die flockige Kalkseife nicht bilden, die für schlechten Schaum sorgt. Genau dieses Fehlen ist die Grenze, die dieser Vergleich sichtbar macht."
 part.1 = "Eine eigene Kontrolle zur Steinbildung zeigt die Calciumchemie, die die Maschine wirklich beherrscht."
 
+["hard-water-soap-scum"]
+title = "Warum Fettseife in hartem Wasser Kalkseife bildet"
+intro = "Hier wird ein ausgewiesenes Lehrreagenz verwendet, das Natriumstearat entspricht — kein Spülmittel und keine Aussage über eine Markenseife. Je Calcium- oder Magnesiumion binden zwei Fettsäure-Äquivalente; die Masse des Niederschlags folgt der tatsächlich verbrauchten Natriumseife und dem verbrauchten Ca bzw. Mg, das freigesetzte Natrium geht zurück in Lösung."
+part.1 = "Kontrolle in weichem Wasser: kein Ca2+ und kein Mg2+, also kann sich nichts abscheiden."
+part.2 = "Versuch in hartem Wasser: Calcium ist das begrenzende Reagenz und liefert die erhaltene Kalkseife sowie freigesetzte Natriumionen."
+part.3 = "Magnesium folgt derselben Regel von zwei Äquivalenten je Ion."
+boundary = "Schaum, Mizellen, Gemische verschiedener Kettenlängen, Waschmittelzusätze und Kesselstein werden aus dieser begrenzten Fällungsrechnung nicht abgeleitet."
+
 ["hard-water"]
 title = "Der Wasserkocher und die Statue: hartes Wasser und Kesselstein"
 part.1 = "Enthärten durch Mischen: hartes Wasser trifft Sodalösung"
+
+["heating-proteins"]
+title = "Proteine erhitzen: klares Eiklar wird undurchsichtig"
+intro = "Vergleiche gleiche Portionen bei Raumtemperatur und am oberen Rand des geprüften Bereichs, in dem das Modell Eiklar denaturieren lässt. Das Material bleibt erhalten; das Erhitzen ändert die Struktur des Proteins und die sichtbare Verklumpung."
+part.1 = "Albumin ist der Vergleich mit dem reinen Protein. Es folgt seinem eigenen begrenzten Denaturierungsbereich, statt sich das Rezept für ganzes Eiklar zu borgen."
+boundary = "Gelatine ist schon denaturiertes Kollagen, bevor sie ins Regal kommt; das Gelieren beim Abkühlen ist ein anderer Strukturübergang und wird hier nicht behauptet."
 
 ["hot-share-temperature"]
 title = "Der heiße Anteil bestimmt die Endtemperatur"
@@ -159,6 +186,22 @@ intro = "Diese Lektion berechnet nur den geprüften Zitronensaftstrich auf Papie
 part.1 = "Nasse Kontrolle: Wärme allein kann einen Strich nicht sichtbar machen, solange noch Wasser da ist."
 part.2 = "Trockne denselben Strich erst und erwärme ihn dann. Das Bräunen entzündet das Papier nicht."
 part.3 = "Getrennte virtuelle Brennkontrolle. Zünde für diesen Versuch niemals echtes Papier an."
+
+["kitchen-hot-and-cold-packs"]
+title = "Wärme- und Kältekissen aus der Küche: Lösen kann wärmen oder kühlen"
+intro = "Gleiche Wasserportionen bekommen gleiche Salzmassen. Das Thermometer entscheidet; „Lösen setzt Wärme frei“ ist keine allgemeine Regel. Das sind Proben in der Simulation, keine Anleitung für Lebensmittel oder medizinische Kissen."
+part.1 = "Calciumchlorid löst sich exotherm."
+part.2 = "Ammoniumchlorid löst sich unter denselben Bedingungen endotherm. Ammoniumsalze aus dem Labor werden nicht eingenommen."
+part.3 = "Gewöhnliches Kochsalz liefert einen Vergleich aus dem Haushalt statt einer weiteren allgemeingültigen Regel."
+boundary = "Die Gefäße sind adiabatische Näherungen. Eine echte Tasse, ein echtes Beutelchen und der Raum nehmen Wärme auf, und weder die Lösegeschwindigkeit noch der Aufbau des Beutels stecken in diesem Ergebnis."
+
+["kitchen-starch-hunt"]
+title = "Stärkesuche in der Küche: Mehl und Teig sind nicht einfach weiße Pulver"
+intro = "Lugolsche Lösung ist ohne Stärke braun und wird blauschwarz, sobald ihr Iod auf ausreichend lange Stärkehelices trifft. Nimm getrennte Becher, damit jede Probe dieselbe Menge Wasser und Indikator sieht. Iod färbt ab: Schütze Augen, Kleidung und Arbeitsfläche, und koste kein Laborgemisch."
+part.1 = "Eine Kontrolle mit Zucker. Weiß bedeutet nicht Stärke."
+part.2 = "Mehl löst einen geprüften Stärkeanteil auf, deshalb erscheint dieselbe berechnete Absorptionsbande, ohne dass über Mehl eine Sonderregel nötig wäre."
+part.3 = "Einfacher Teig aus Mehl und Wasser trägt dieselbe Stärkeidentität."
+boundary = "Die Farbe weist Stärke nach; sie misst nicht, wie viel davon da ist. Diese Werkbank bildet außerdem weder das Kochen noch das Verkleistern der Stärke noch die Lebensmittelsicherheit ab."
 
 ["lactase-and-milk"]
 title = "Lactase und Milch: Ein Enzym passt zu einem Substrat"
@@ -183,6 +226,11 @@ title = "Flüssiger Stickstoff: Ein Phasenübergang bezahlt den anderen (nur vir
 intro = "Echter flüssiger Stickstoff kann schwere Kälteverbrennungen verursachen und die Atemluft verdrängen. Nur unter geschulter Aufsicht verwenden, mit Augen- und Gesichtsschutz, Kryohandschuhen, starker Belüftung und offenem Druckausgleich. Verschließe ein Kryogen niemals."
 part.1 = "0,1713 mol und 2,8807 mol entsprechen 10 mL Ethanol und 100 mL flüssigem Stickstoff bei den angegebenen Dichten der Flüssigkeiten. Die Zugabe in Mol nutzt den geprüften Phasenweg."
 
+["longer-waits-advance-peroxide-kinetics"]
+title = "Längeres Warten treibt die Peroxid-Kinetik voran"
+intro.1 = "Gib gleichen Peroxidproben vier verschiedene Wartezeiten. Was macht das hinterlegte kinetische Netz, während die modellierte Zeit voranschreitet? Aufgabe für Fortgeschrittene. Sieh dir den vollständigen Bestand nach 30, 60, 120 und 240 Sekunden an: Der Zerfall des Peroxids schreitet voran, während Wasserstoff und Sauerstoff lückenlos verbucht bleiben."
+intro.2 = "Grenze des Modells: Das prüft das hinterlegte Peroxidnetz der Werkbank und ist kein neues, empirisch gewonnenes Geschwindigkeitsgesetz. Der echte Zerfall hängt außerdem von Konzentration, Temperatur, Licht, Verunreinigungen, Oberflächen und Katalysatoren ab. Für einen echten Vergleich nur von einer Lehrkraft angesetztes, verdünntes Peroxid, Augenschutz und saubere, geeignete Geräte verwenden. Nicht einnehmen und benutztes Material nicht in die Vorratsflasche zurückgeben."
+
 ["luminol-temperature"]
 title = "Luminol-Licht: warm leuchtet heller, kalt hält länger"
 intro = "Zwei gleich angesetzte Systeme unterscheiden sich nur in der Temperatur. Das ist eine Luminol-Demonstration für den Unterricht, nicht die Chemie handelsüblicher Knicklichter."
@@ -196,6 +244,12 @@ boundary = "Kalibrierfehler, Drift, zufälliges Rauschen, Probenverbrauch und di
 ["metal-acid-race"]
 title = "Welches Metall reagiert zuerst? Dieselbe Säure, gleiche Metallmengen"
 intro = "Magnesium reagiert heftig, Zink langsamer, und Kupfer verweigert sich aus einem elektrochemischen Grund. Die Maschine berechnet Reaktion und Wärme, aber weder echte Zeiten für ein Wettrennen noch Unterschiede in der Oberfläche der Stücke."
+
+["naked-egg-osmosis"]
+title = "Nacktes Ei: ein Vergleich des Wassertransports durch eine Membran"
+intro = "Das vorbereitete naked_egg ist ausdrücklich ein Ersatzstoff mit der Zusammensetzung von Eiklar hinter einer halbdurchlässigen Membran. Es ist kein simuliertes ganzes Ei: Das Entfernen der Schale ist der eigene Weg mit Kreide und Essig, und Dotter, Elastizität und die Endgröße im Gleichgewicht liegen außerhalb dieses Modells."
+part.1 = "In reinem Wasser hat das Bad weniger gelöste Teilchen als das ausgewiesene Innere, deshalb wandert Wasser in den zusammenhängenden Körper hinein."
+part.2 = "Zucker erhöht die Osmolarität des Bades. Bei gleichem Körper und gleicher Uhr wandert das Wasser nun hinaus. Die gewöhnlichen Befehle zum Abgießen und Filtrieren lassen den zusammenhängenden Körper absichtlich zurück; einen erfundenen Befehl, ein ganzes Objekt aufzunehmen, gibt es nicht."
 
 ["neutral-moves"]
 title = "Neutral ist ein bewegliches Ziel: warmes Wasser ist immer noch nur Wasser"
@@ -237,6 +291,11 @@ title = "Geschwindigkeit: zwei Bechergläser, eine veränderte Größe, eine Uhr
 intro = "Das verschwindende Kreuz. Thiosulfat und Säure bilden Schwefel, der Schwefel trübt die Flüssigkeit, und die Zeit, bis eine Markierung unter dem Becherglas nicht mehr zu sehen ist, ist die Messung. Nichts daran ist vorgegeben: In beiden Bechergläsern läuft dasselbe Geschwindigkeitsgesetz, und der einzige Unterschied ist die Temperatur."
 part.1 = "Die Zeit ist gemeinsam. `wait` bewegt die ganze Werkbank weiter, und nur so bedeutet ein fairer Vergleich überhaupt etwas."
 
+["repeated-liquid-extraction"]
+title = "Ein Lösungsmittelbudget, mehrere Extraktionen"
+intro = "Ein Scheidetrichter belohnt ein einziges großes Schütteln weniger als mehrere kleinere mit frischem Lösungsmittel. Dieser Durchlauf gibt vier gleichen Portionen insgesamt dieselbe Menge Hexan wie der einstufige Vergleich daneben. Die Maschine berechnet beides aus den Phasenvolumina und K = [I2]Hexan/[I2]Wasser; keiner der beiden Prozentwerte steht in der Lektion geschrieben."
+part.1 = "Auf Stufe lv3 nennt das Ergebnis außerdem die Richtung des Koeffizienten, die Massenbilanz, die Sättigungsprüfung und die Herkunft der Daten. Dieses geprüfte Iodmodell gilt nur bei 25 °C; andere gelöste Stoffe mit Gruppenzerlegung nutzen den gemeinsamen UNIFAC-Weg, und nicht abgedeckte Paare werden ausdrücklich abgelehnt."
+
 ["rubbery-bone-boundary"]
 title = "Kreide in Essig: warum das kein Modell für einen biegsamen Knochen ist"
 intro = "Säure entzieht der Kreide das Carbonat. Echter Knochen ist ein Verbundstoff: Calciumphosphat verstärkt Kollagen. Säure kann dieses Kollagengerüst biegsam zurücklassen; Kreide enthält kein Kollagen, aus ihrem Auflösen lässt sich also keine Biegung eines Knochens vorhersagen."
@@ -262,6 +321,18 @@ intro = "Im geschlossenen System bleibt das Gas, aus dem offenen entweicht es. D
 
 ["silver-and-salt"]
 title = "Fallakte: Chlorid mit Silbernitrat nachweisen"
+
+["spannungsreihe"]
+title = "Die Spannungsreihe: Wer nimmt die Elektronen, und was ist eine Batterie wert?"
+part.displacement = "Teil 1 — Verdrängung: Ein unedleres Metall drängt ein edleres aus seiner Lösung"
+part.refusal = "Teil 2 — umgekehrt passiert nichts, und das Labor sagt auch, warum"
+part.acid = "Teil 3 — Metalle und Säure: unterhalb des Wasserstoffs sprudelt es, oberhalb bleibt es ruhig"
+part.cell = "Teil 4 — die Reihe als Spannungsmessung: die Daniell-Zelle"
+part.nernst = "Teil 5 — dieselbe Zelle mit zehnmal weniger Kupfer: Nernst, über Aktivitäten"
+
+["spirit-still"]
+title = "Die Destille — und die Mauer bei 96 Prozent"
+intro = "Wein enthält ein paar Prozent Ethanol. Ein Durchgang durch die Destille reichert ihn an, ein zweiter noch mehr — und dann hört der Anstieg auf. Nahe 89 Molprozent hat der Dampf dieselbe Zusammensetzung wie die Flüssigkeit, und stärkeres Kochen reichert nichts mehr an. Diese Mauer ist das Azeotrop, und es wird hier aus Aktivitätskoeffizienten berechnet und nicht nachgeschlagen. Der letzte Durchgang läuft durch eine vierstufige Kolonne — der schnellste erlaubte Weg bis an die Mauer."
 
 ["split-heat-same-temperature"]
 title = "Aufgeteilte Wärmestöße führen zur selben Temperatur"
@@ -294,9 +365,41 @@ title = "Verfolge Niederschlag und Filtrat durch das Trocknen"
 intro = "Bilde zweimal Bariumsulfat. Filtriere beide Ansätze und trockne dann nur das zweite Filtrat. Bilanziere den BaSO4-Rückstand und die gelösten Zuschauerionen in jedem System aus Quelle und Auffanggefäß, bevor du entscheidest, ob Materie verloren ging."
 boundary = "Nur Simulation: lösliche Bariumsalze sind giftig. Eine echte Durchführung verlangt geschulte Aufsicht, Augenschutz, Handschuhe und die Sammlung als Sondermüll."
 
+["transport-column"]
+title = "Ein Salzstoß durch eine Wassersäule"
+intro.1 = "Drei Zellen mit reinem Wasser. Ein viertes Gefäß enthält Salzwasser — den Zulauf. Drücke den Zulauf durch die Säule und fang auf, was herauskommt. Nach drei Schritten bei einer Courant-Zahl von 0,5 hat sich das Salz gemäß den Binomialkoeffizienten in der Säule verteilt: Die Front zerfließt genau so, wie es die Theorie sagt."
+intro.2 = "v1 ist das voreingestellte Becherglas — nimm es als Zelle 1"
+part.1 = "Zellen 2 und 3"
+part.2 = "der Zulauf: Salzwasser im gleichen Volumen"
+part.3 = "ein leeres Auffanggefäß für den Ablauf"
+part.4 = "drücke das Salz in drei Schritten hindurch"
+part.5 = "sieh nach, was wo gelandet ist"
+
+["two-limits-one-carbon-dioxide-ledger"]
+title = "Zwei Grenzen, eine Kohlendioxid-Bilanz"
+intro.1 = "Halte das Hydrogencarbonat fest, während die Säure steigt, und halte dann die Säure im Überschuss, während das Hydrogencarbonat steigt. Welches Reagenz begrenzt das berechnete Kohlendioxid? Aufgabe für Fortgeschrittene. Vergleiche beide Vierergruppen: Eine größere Dosis hebt die Kohlenstoffbilanz nur so lange, bis der andere Reaktionspartner zum begrenzenden wird."
+intro.2 = "Grenze des Modells: Das sind Bestandsrechnungen im Gleichgewicht und keine Vorhersage über Sprudelgeschwindigkeit oder Blasenvolumen. Die offenen virtuellen Gefäße können Kohlendioxid abgeben; Schaumhöhe, Keimbildung, Gasauffang, Wärmeaustausch, Mischzeit und echte Fehler beim Ansetzen fehlen. Ein Versuch in echt sollte kleine, von einer Lehrkraft angesetzte verdünnte Portionen, Augenschutz und ein offenes Gefäß verwenden — verschließe ein Gemisch aus Säure und Carbonat niemals."
+
 ["two-roads"]
 title = "Zwei Wege, eine Temperatur: der Satz von Hess mit dem Thermometer"
 
 ["warm-the-gas-stop-before-burst"]
 title = "Erwärme das Gas und hör vor dem Bersten auf"
 intro = "Sag die Reihenfolge der Drücke für gleiche eingeschlossene Gasproben bei 0 J, 100 J, 200 J und 400 J voraus. Die ersten drei bleiben messbar, die letzte überschreitet die Belastbarkeit des Gefäßes. Hör dort auf: Ein Bersten ist ein Befund und keine Einladung, es noch einmal zu versuchen."
+
+["water-electrolysis"]
+title = "Leitfähiges Wasser zerlegen: zwei Gase im Verhältnis zwei zu eins"
+intro = "Reines Wasser leitet für diese Apparatur zu schlecht und wird weiterhin abgelehnt. Etwas Natriumsulfat trägt den Strom, ohne selbst bevorzugt entladen zu werden: Aus Wasser wird an der Kathode Wasserstoff und an der Anode Sauerstoff."
+part.1 = "Lass die Zelle offen: Wasserstoff und Sauerstoff gemeinsam aufzufangen ergäbe ein zündfähiges Gemisch, und zum Vergleich der Mengen muss man gar kein Gas auffangen."
+boundary = "Die Mengen gehören dem Faraday-Gesetz: zwei Elektronen je H2 und vier je O2, also doppelt so viel Wasserstoff. Das ist eine ungeteilte Lehrzelle mit inerten Elektroden. Sie bildet weder Überspannung an den Elektroden noch Gasübertritt, Membran, Zündung, Wirkungsgrad oder die zum Stromfluss nötige Spannung ab."
+
+["water-filter"]
+title = "Bau einen Wasserfilter: trüb ist nicht dasselbe wie gelöst"
+intro = "Das ist eine geprüfte Lehrsuspension aus quarzreichem Spielsand. Echtes Schmutzwasser kann außerdem Ton, Mikroben, gelöste Salze und Schadstoffe enthalten; ein klares Filtrat ist nicht automatisch sauber oder rein, und diese Simulation behauptet nichts über Trinkwasser."
+part.1 = "Das Filterpapier hält die festen Körner zurück, während das Wasser in das Auffanggefäß läuft."
+boundary = "Der sichtbare Unterschied und der erhaltene Quarz sind berechnet. Die Porengröße des Papiers, die Korngrößenverteilung in der Natur und eine Reinigung über Feststoffe hinaus sind es nicht."
+
+["whole-object-buoyancy"]
+title = "Ganze Körper: warum ein Apfel schwimmt und eine Kartoffel sinkt"
+intro = "Die Dichte gehört dem ganzen Körper. Bimsstein enthält dichtes Siliciumdioxid, doch seine luftgefüllten Poren senken die Rohdichte des Steins; auch ein Apfel trägt Lufträume. Eine Kartoffel ist etwas dichter als Wasser. Das Bild und die Zeilen darunter benutzen beide diese geprüften Dichten ganzer Körper."
+boundary = "Vorhersage zum Besprechen: Nur die Dichte einer Zutat zu ändern wäre die falsche Rechnung. Form, Poren und eingeschlossene Luft gehören zu einem massiven Körper dazu. Dieses begrenzte Modell simuliert noch nicht, wie Wasser in die Poren des Bimssteins eindringt, deshalb saugt sich der Bimsstein nicht langsam voll und sinkt nicht."
