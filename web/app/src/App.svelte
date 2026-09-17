@@ -560,7 +560,12 @@
     } catch {
       // Bright mode is the intentional first-run default.
     }
-    void session.connect();
+    // Held, not fired and forgotten: the pending-mission start below has to
+    // wait for it. `connect()` RESTORES the saved bench, and a mission that
+    // started while that was still in flight would be handed its vessels
+    // full a moment later — the same contamination as playing two lessons
+    // in sequence, reached through the mode switch instead.
+    const connected = session.connect();
     // Offline-first and installable: the bench registers the payload-root
     // service worker itself rather than inheriting one from a visit to the
     // console page, which is the only reason /app/ ever worked offline.
@@ -618,7 +623,7 @@
           } catch {
             // Starting the fetched mission matters more than clearing the hint.
           }
-          void startLesson(pending);
+          void connected.then(() => startLesson(pending));
         }
       })
       .catch(() => {});
