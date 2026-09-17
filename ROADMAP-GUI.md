@@ -1784,9 +1784,10 @@ display name in the registry, is the wrong fix.
   warum Brausepulver und Badebomben auf Wasser warten"), and the picker shows
   both. Folding them would need a key no `.lab` references, which the lint
   would rightly call an orphan.
-- [ ] **I18N-10 — `NotYetModeled.what` is the same defect one event along.**
-  *Mechanism landed and 56 of 82 sites converted; 26 remain, and the lint
-  counts them.* `what` was a finished English sentence for exactly the
+- [x] **I18N-10 — `NotYetModeled.what` is the same defect one event along.
+  DONE 2026-09-17.** *82 of 82 sites carry a recipe; the lint reports zero
+  still holding a finished English sentence, and 553 of 553 reachable keys
+  carry German.* `what` was a finished English sentence for exactly the
   reason `Inert.why` was, and two of them sat in `displacement.rs` beside
   the verdicts that now speak German, so a reader of the zinc-in-vinegar
   lesson met one English paragraph in a German transcript. Both of those
@@ -1811,31 +1812,70 @@ display name in the registry, is the wrong fix.
     scrape and has been turned around: writing a gap reason as a finished
     English sentence again is now the failure.
 
-  What is left, in the order to take it:
+  **Tranche three, the last twenty-six.** Every one outside `aqueous.rs`
+  passed a sentence through from a helper, so the work was in the helper
+  and the call sites followed: `SolventActivity::out_of_range_reason`
+  (two keys, because the two routes say different things and not the same
+  thing about a different route), `solve::stranded_solutes`,
+  `SolventState::boundary`, `volatility::additional_solvent_cut`,
+  `family::outcome_extent` and `KineticReaction::proton_consumption_
+  boundary` all return a `Phrase` now. The curated
+  `UNAVAILABLE_SOLID_PHASES` verdict is keyed by its ROW, the
+  `INERT_IN_SOLVENT` treatment #626 chose, and so are
+  `derived::UNSPECIATED_ACIDS` and the sentence quoted out of the whole
+  milk recipe's `lot_assumptions`.
 
-  * **`solve.rs`, 10.** Four are pass-throughs whose sentence is built in
-    a helper (`out_of_range_reason`, `stranded_solutes`, `boundary_reason`)
-    — the helper has to return a `Phrase` first, so they cascade. Two are
-    the curated `UNAVAILABLE_SOLID_PHASES` verdict, which wants the
-    keyed-by-the-row treatment `INERT_IN_SOLVENT` got in #626 rather than
-    a key built out of its own English.
-  * **`aqueous.rs`, 9,** in `kerotakis-phreeqc`. Long boundary statements
-    about Henry constants and unspeciated solutes; the hardest German in
-    the set and the least often seen.
-  * **`bench.rs`, 4,** `clock.rs`, `family.rs` and `phase_diagnostics.rs`
-    one each — every one of them passes a sentence through from somewhere
-    else, so each is a cascade into the function that built it.
+  Three things fell out that were not translation:
 
-  **One follow-up that is not a tranche.** Seven converted sites still hold
-  a `", "`-joined list inside a `Slot::Text` — the co-evaporating liquids,
-  the solutes with no coefficient (twice), the spectral gaps, the uncurated
-  column groups, the teaching set of nuclides and the curated reactions.
+  * **`StructureOracle::apply` errs with a `Phrase`, and its KEY is what
+    the router files the refusal's cause on.** It read
+    `why.contains("cannot name")` — an English sentence doing structural
+    work, so rewording the refusal would have silently refiled a registry
+    gap as a model boundary. The key is a `pub const` in
+    `kerotakis-core::family` because two crates share it.
+  * **`unspeciated_acid_notes` carried the reason out of
+    `UNSPECIATED_ACIDS` and threw the key away** — and the key is the only
+    thing a curated row can be translated BY.
+  * **`localize_refusal` used to rescue two gap reasons by STRIPPING the
+    species name off the end of the English** and refilling a template
+    with what was left. Both sites emit a recipe now, so the parse is
+    unreachable and is deleted. Its German moved unchanged. Finding the
+    noun by looking at the end of the sentence was never going to survive
+    a language that does not put it there.
+
+  `phrase::sentence_pair` is new: the space between two whole sentences is
+  `look.sentence-join` in the catalogue, for the reason `look.full-stop`
+  already is. It replaced a `push_str` and a `.trim()` in the aqueous
+  crate's reference-complex boundary, where two optional caveats made
+  three shapes out of two booleans.
+
+  **Three holes in the lint's own denominator,** each of which would have
+  let a number go green by leaving work outside it. #505's scar again, and
+  worth writing down because none of them looked like a denominator bug:
+
+  * It cut a file at its FIRST `#[cfg(test)]`. `kinetics.rs` has a test
+    module at line 1294 and a thousand lines of engine after it, so
+    `proton_consumption_boundary` was invisible in both directions at
+    once — its key reported as an orphan, its row outside the total. Test
+    modules are brace-matched and removed now, wherever they sit.
+  * A comment between `Phrase::new(` and its key lost the call.
+  * A key named by a `const`, or one whose English is DATA rather than a
+    literal, was not read at all.
+
+  `states.rs`, `volatility.rs`, `kinetics.rs`, `aqueous.rs`,
+  `phase_diagnostics.rs` and `family_oracle.rs` joined the composer list,
+  and `Phrase::bare(&format!("prefix.{…}"))` registers its prefix as a
+  dynamic section the way `locale.lookup` already did, so the next curated
+  table keyed by its row is not silently orphaned.
+
+  **The follow-up that is still not a tranche.** NINE converted sites hold
+  a `", "`-joined list inside a `Slot::Text` — the seven already named,
+  plus `stranded_solutes`' solute names and `phase_diagnostics`' phase
+  list (which also carries an English `", and {n} more"` tail).
   `Slot::List` would join them in the reader's grammar, which is the whole
-  reason the slot type exists, and it renders *a, b and c* where the `join`
-  renders *a, b, c* — so converting them CHANGES the English and needs a
-  golden pass of its own. The two `join(" and ")` lists — `selectivity.rs`'s
-  reactants and the density refusal's contents — did convert, because the
-  catalogue's `look.list-final` renders exactly the English they had.
+  reason the slot type exists, and it renders *a, b and c* where the
+  `join` renders *a, b, c* — so converting them CHANGES the English and
+  needs a golden pass of its own.
 - [x] **I18N-11 — `scene_vessel` appended English sentences to the
   observation.** Not eleven: **twenty**. `appearance::observe` composes
   translatable clauses, and `scene.rs` then took the finished English
