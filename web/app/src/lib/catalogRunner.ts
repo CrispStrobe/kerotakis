@@ -199,6 +199,27 @@ export function benchOccupied(scene: { vessels?: readonly BenchVesselLike[] } | 
 }
 
 /**
+ * Whether the bench still looks the way the engine hands it over.
+ *
+ * `benchOccupied` answers "is there chemistry in it", which is the right
+ * question for a script that only writes into glassware it can see. A
+ * CURATED script — a lesson, a corpus prompt — asks a second question,
+ * because it names its vessels absolutely (`v1`, `v2`) and allocates the
+ * rest with `new`. A bench carrying a leftover EMPTY beaker is unoccupied
+ * and still wrong for it: `new` then hands back `v3` where the script
+ * expects `v2`, so the script's own second vessel is some earlier run's
+ * glassware, of whatever type that happened to be.
+ *
+ * A fresh bench is exactly one empty vessel (`Bench::new()`), so that is
+ * the shape this compares against.
+ */
+export function benchDiffersFromFresh(
+  scene: { vessels?: readonly BenchVesselLike[] } | null | undefined,
+): boolean {
+  return benchOccupied(scene) || (scene?.vessels?.length ?? 0) > 1;
+}
+
+/**
  * Whether the panel must ask before running.
  *
  * A decision already taken is honoured; an empty bench never asks. Nothing

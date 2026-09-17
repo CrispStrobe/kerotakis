@@ -41,6 +41,7 @@
   import RoomPicker, { type RoomStyle } from "./lib/components/RoomPicker.svelte";
   import UtilityStation from "./lib/components/UtilityStation.svelte";
   import RemoveVesselDialog from "./lib/components/RemoveVesselDialog.svelte";
+  import BenchGateDialog from "./lib/components/BenchGateDialog.svelte";
   import QuestBar from "./lib/components/QuestBar.svelte";
   import { i18n, t } from "./lib/i18n.svelte";
   import { wasteStationAction } from "./lib/wasteStation";
@@ -636,7 +637,10 @@
     }
     const res = await fetch(new URL(`lessons/${file}`, resolvePayloadBase()).href);
     if (res.ok) {
-      session.startLesson(file.replace(/\.lab$/, ""), await res.text());
+      // `requestLesson`, not `startLesson`: a lesson names its glassware
+      // absolutely and needs the bench the engine hands over. On a bench
+      // that is not that, it asks instead of taking (BenchGateDialog).
+      session.requestLesson(file.replace(/\.lab$/, ""), await res.text());
       missionOpen = false;
     }
   }
@@ -1897,6 +1901,17 @@
       clearBench();
     }}
     onclose={() => (utilityStationOpen = false)}
+  />
+{/if}
+
+{#if session.lessonGate}
+  {@const gated = session.lessonGate}
+  <BenchGateDialog
+    title={t(missionTitle(gated.name))}
+    occupied={gated.occupied}
+    onclear={() => void session.resolveLessonGate("clear")}
+    onkeep={() => void session.resolveLessonGate("keep")}
+    oncancel={() => void session.resolveLessonGate(null)}
   />
 {/if}
 
