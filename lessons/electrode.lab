@@ -1,4 +1,4 @@
-# The electrochemical series: zinc displaces copper
+#@title The electrochemical series: zinc displaces copper
 register lv2
 new
 add v1 water 200mL

@@ -1,4 +1,4 @@
-# Fire: what burns, what does not, and what it leaves behind
+#@title Fire: what burns, what does not, and what it leaves behind
 register lv1
 add v1 Mg 1.2g
 measure v1 balance

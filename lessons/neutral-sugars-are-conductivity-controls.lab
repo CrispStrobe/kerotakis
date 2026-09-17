@@ -1,4 +1,4 @@
-# Neutral sugars are conductivity controls
+#@title Neutral sugars are conductivity controls
 register lv2
 add v1 water 250mL
 add v1 glucose 0.001mol
@@ -15,5 +15,5 @@ new
 add v4 water 250mL
 add v4 sucrose 0.002mol
 measure v4 conductivity
-# The sugars remain neutral molecules in this model. Impurities, water
+#@boundary The sugars remain neutral molecules in this model. Impurities, water
 # autoionisation, probe background, calibration and temperature are omitted.

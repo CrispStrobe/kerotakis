@@ -1,4 +1,4 @@
-# The kettle and the statue: hard water and limescale
+#@title The kettle and the statue: hard water and limescale
 register lv1
 add v1 water 500mL
 add v1 NaHCO3 1.7g
@@ -9,7 +9,7 @@ add v2 water 200mL
 add v2 CaCO3 1g
 add v2 HCl 0.03mol
 measure v2 balance
-# Softening by mixing: hard water meets soda-ash solution
+#@part.1 Softening by mixing: hard water meets soda-ash solution
 new
 add v3 water 500mL
 add v3 CaCl2 0.005mol

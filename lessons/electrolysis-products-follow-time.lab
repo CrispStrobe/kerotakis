@@ -1,4 +1,4 @@
-# Electrolysis products follow time
+#@title Electrolysis products follow time
 register lv2
 add v1 water 250mL
 add v1 Na2SO4 0.001mol
@@ -19,4 +19,4 @@ add v4 water 250mL
 add v4 Na2SO4 0.001mol
 electrolyse v4 0.2A 120s
 inspect v4
-# Ideal Faraday-law production omits efficiency, overpotential and gas capture.
+#@boundary Ideal Faraday-law production omits efficiency, overpotential and gas capture.

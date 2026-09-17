@@ -11,12 +11,42 @@
 # written. A translation lives in `<code>.toml` beside this file — adding
 # French is `fr.toml` and no code anywhere.
 
+["antacid-suspension"]
+title = "An antacid suspension: neutralisation stops when the acid runs out"
+intro = "Excess sparingly soluble magnesium hydroxide remains. This is chemistry, not medical advice or a dose recommendation."
+
+["buffer"]
+title = "Buffers: why your blood does not change pH when you drink lemonade"
+
+["calorimetry"]
+title = "Neutralisation enthalpy: how much heat does an acid-base reaction produce?"
+
 ["chalk-vinegar"]
 title = "Does chalk fizz in vinegar? A two-vessel acid control"
 intro = "Use only ordinary 5% food vinegar and calcium-carbonate classroom chalk in a real activity. Wear goggles, protect the table, ask an adult first, and never taste anything that has been placed in lab glassware."
 part.control = "Control: a chalk stick in the same volume of plain water barely dissolves and has no finite acid source with which to make a visible burst of carbon dioxide."
 part.test = "Test: change water to the named 5% vinegar recipe and keep the chalk dose the same. The balanced reaction consumes finite CaCO3 and acetic acid. Its real CO2 inventory drives the normal bubble effect and leaves through this open beaker; it is not a canned animation."
 boundary = "Try a smaller chalk dose or less vinegar in a fresh vessel. The limiting reagent changes the gas amount. Powdering would change the real-world rate, but particle-area kinetics for this reaction remain an explicit future model."
+
+["conductivity"]
+title = "Ionic conductivity: strong vs weak electrolytes"
+part.1 = "Strong electrolyte: NaCl fully dissociates"
+part.2 = "Weak electrolyte: acetic acid partially dissociates"
+
+["conjugate-base-shifts-buffer-ph"]
+title = "Conjugate base shifts a buffer's pH"
+boundary = "Computed aqueous activities omit probe and preparation uncertainty."
+
+["copper-concentration-lifts-cell-voltage"]
+title = "Copper ions lift Daniell-cell voltage"
+boundary = "These are equilibrium open-circuit voltages, not delivered-current tests."
+
+["counting-in-fives"]
+title = "Permanganate counts in fives: a redox titration, stopped at the endpoint"
+
+["distillation-cut-controls-collection"]
+title = "A larger distillation cut collects more"
+boundary = "The equilibrium cut is not a prediction of real column performance or purity."
 
 ["dry-then-wet-fizz"]
 title = "Dry, then wet: why sherbet and bath-bomb powders wait for water"
@@ -25,10 +55,93 @@ part.dry = "Dry control: both ingredients are present, but no liquid connects th
 part.wet = "Wet comparison: same ingredients, with water supplied first."
 boundary = "A real sherbet involves taste and a bath bomb involves binders, fragrance, tablet shape and dissolution rate. None of those are inferred here. Foam is not claimed either: gas makes foam only when a modeled surfactant is present."
 
+["electrode"]
+title = "The electrochemical series: zinc displaces copper"
+
+["electrolysis-products-follow-time"]
+title = "Electrolysis products follow time"
+boundary = "Ideal Faraday-law production omits efficiency, overpotential and gas capture."
+
+["equal-charge-different-clocks"]
+title = "Compare cumulative production for equal charge, not gas left in open vessels."
+intro = "Ideal electrode stoichiometry; real current efficiency is not modeled."
+
+["fire"]
+title = "Fire: what burns, what does not, and what it leaves behind"
+
+["first-warmth"]
+title = "First warmth: mix hot and cold water, watch the middle"
+
+["fizz"]
+title = "The fizz: vinegar meets baking soda"
+
+["grit"]
+title = "Grit for the road: salt holds water liquid below zero"
+
+["grouping-does-not-change-water-heat"]
+title = "Same six moles and net 200 J per branch, grouped differently."
+intro = "Keep v1 empty until it receives the left branch's final mixture."
+
+["hard-water"]
+title = "The kettle and the statue: hard water and limescale"
+part.1 = "Softening by mixing: hard water meets soda-ash solution"
+
+["limewater"]
+title = "Carbon dioxide enters as well as leaves an open vessel."
+intro = "The first dose turns limewater milky; genuine excess clears it again."
+
+["neutral-moves"]
+title = "Neutral is a moving target: warm water is still just water"
+
+["neutral-sugars-are-conductivity-controls"]
+title = "Neutral sugars are conductivity controls"
+boundary = "The sugars remain neutral molecules in this model. Impurities, water autoionisation, probe background, calibration and temperature are omitted."
+
 ["one-thing-at-a-time"]
 title = "One thing at a time: the column tells a mixture apart."
 intro = "Three colourless liquids dissolved in water look like one liquid. The column disagrees: each solute spends its own share of time in the stationary phase, set by the same partition coefficient that runs the separating funnel, and so each arrives alone."
 part.detail = "The same injection read closer: retention times, widths, areas — and K itself, the number doing all the work."
 
+["permanganate-standardisation"]
+title = "Standardising permanganate: the burette tells you its own strength"
+
+["pressure-follows-gas-amount"]
+title = "More gas, more pressure"
+boundary = "Ideal rigid headspaces only; leakage and gauge uncertainty are omitted."
+
+["pressure-follows-headspace"]
+title = "Pressure rises when headspace shrinks"
+boundary = "Ideal rigid headspaces only; real pressure work requires rated apparatus."
+
+["saline-scaling-preserves-conductivity"]
+title = "Same concentration, larger portion: conductivity is intensive"
+boundary = "Water and salt scale together, so concentration stays fixed. Real readings also depend on cell constant, calibration, polarisation and temperature."
+
+["salt-from-brine"]
+title = "Salt from brine: the oldest chemistry in the world"
+
+["sealed-gas"]
+title = "Gas laws in a sealed vessel"
+
 ["silver-and-salt"]
 title = "Case file: identify chloride with silver nitrate"
+
+["split-heat-same-temperature"]
+title = "Split heat pulses reach the same temperature"
+boundary = "Adiabatic constant-heat-capacity vessels omit heat loss and container heat."
+
+["three-components-one-cut"]
+title = "Virtual ideal-mixture calculation, not an apparatus or synthesis procedure."
+intro = "Source plus receiver must conserve every component; no azeotrope prediction."
+
+["three-protons"]
+title = "Three protons: phosphoric acid meets the burette"
+
+["titration-manual"]
+title = "Titration: strong acid meets strong base"
+
+["titration"]
+title = "Titration: strong acid meets strong base"
+
+["two-roads"]
+title = "Two roads, one temperature: Hess's law with a thermometer"

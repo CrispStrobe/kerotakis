@@ -10,12 +10,42 @@
 # `tools/lesson-prose-lint.py` als "noch nicht migriert" gezählt. Ein
 # fehlender Schlüssel hier ist ein Fehler, keine Lücke.
 
+["antacid-suspension"]
+title = "Eine Antazida-Suspension: Die Neutralisation endet, wenn die Säure verbraucht ist"
+intro = "Überschüssiges, schwer lösliches Magnesiumhydroxid bleibt zurück. Das ist Chemie und weder ein medizinischer Rat noch eine Dosierungsempfehlung."
+
+["buffer"]
+title = "Puffer: warum dein Blut den pH-Wert nicht ändert, wenn du Limonade trinkst"
+
+["calorimetry"]
+title = "Neutralisationsenthalpie: Wie viel Wärme liefert eine Säure-Base-Reaktion?"
+
 ["chalk-vinegar"]
 title = "Schäumt Kreide in Essig? Eine Säurekontrolle mit zwei Gefäßen"
 intro = "Nimm für einen echten Versuch nur gewöhnlichen 5-prozentigen Speiseessig und Schulkreide aus Calciumcarbonat. Trage eine Schutzbrille, schütze den Tisch, frage vorher eine erwachsene Person, und koste niemals etwas, das in Laborglas gestanden hat."
 part.control = "Kontrolle: Ein Kreidestift löst sich in derselben Menge reinem Wasser kaum und hat keine begrenzte Säurequelle, aus der ein sichtbarer Stoß Kohlendioxid entstehen könnte."
 part.test = "Test: Ersetze das Wasser durch das benannte Rezept für 5-prozentigen Essig und lass die Kreidemenge gleich. Die ausgeglichene Reaktion verbraucht begrenztes CaCO3 und begrenzte Essigsäure. Ihr wirklicher CO2-Bestand treibt den gewohnten Blaseneffekt und entweicht aus diesem offenen Becherglas; er ist keine abgespielte Animation."
 boundary = "Versuche es in einem frischen Gefäß mit weniger Kreide oder weniger Essig. Das begrenzende Reagenz bestimmt die Gasmenge. Mahlen würde die tatsächliche Geschwindigkeit ändern, doch eine Kinetik über die Teilchenoberfläche bleibt für diese Reaktion ausdrücklich ein künftiges Modell."
+
+["conductivity"]
+title = "Ionische Leitfähigkeit: starke und schwache Elektrolyte im Vergleich"
+part.1 = "Starker Elektrolyt: NaCl dissoziiert vollständig"
+part.2 = "Schwacher Elektrolyt: Essigsäure dissoziiert nur teilweise"
+
+["conjugate-base-shifts-buffer-ph"]
+title = "Die konjugierte Base verschiebt den pH-Wert eines Puffers"
+boundary = "Die berechneten Aktivitäten in Lösung enthalten keine Unsicherheit von Messsonde und Probenvorbereitung."
+
+["copper-concentration-lifts-cell-voltage"]
+title = "Kupferionen heben die Spannung der Daniell-Zelle"
+boundary = "Das sind Leerlaufspannungen im Gleichgewicht, keine Messungen unter Stromfluss."
+
+["counting-in-fives"]
+title = "Permanganat zählt in Fünferschritten: eine Redoxtitration, am Endpunkt gestoppt"
+
+["distillation-cut-controls-collection"]
+title = "Ein größerer Destillationsschnitt sammelt mehr"
+boundary = "Der Gleichgewichtsschnitt sagt weder die Leistung einer echten Kolonne noch die Reinheit voraus."
 
 ["dry-then-wet-fizz"]
 title = "Trocken, dann nass: warum Brausepulver und Badebomben auf Wasser warten"
@@ -24,10 +54,93 @@ part.dry = "Trockene Kontrolle: Beide Zutaten sind vorhanden, aber keine Flüssi
 part.wet = "Nasser Vergleich: dieselben Zutaten, diesmal mit Wasser zuerst."
 boundary = "Zu echtem Brausepulver gehört der Geschmack, zu einer Badebombe gehören Bindemittel, Duftstoffe, Pressform und Auflösegeschwindigkeit. Nichts davon wird hier abgeleitet. Auch Schaum wird nicht behauptet: Gas schäumt nur, wenn ein modelliertes Tensid vorhanden ist."
 
+["electrode"]
+title = "Die elektrochemische Spannungsreihe: Zink verdrängt Kupfer"
+
+["electrolysis-products-follow-time"]
+title = "Die Produkte der Elektrolyse folgen der Zeit"
+boundary = "Ideale Ausbeute nach dem Faraday-Gesetz, ohne Wirkungsgrad, Überspannung und Gasauffang."
+
+["equal-charge-different-clocks"]
+title = "Vergleiche die insgesamt erzeugte Menge bei gleicher Ladung, nicht das Gas, das in offenen Gefäßen übrig bleibt."
+intro = "Ideale Elektrodenstöchiometrie; die tatsächliche Stromausbeute wird nicht modelliert."
+
+["fire"]
+title = "Feuer: was brennt, was nicht, und was übrig bleibt"
+
+["first-warmth"]
+title = "Erste Wärme: Misch heißes und kaltes Wasser und sieh dir die Mitte an"
+
+["fizz"]
+title = "Das Sprudeln: Essig trifft Natron"
+
+["grit"]
+title = "Streusalz für die Straße: Salz hält Wasser unter null flüssig"
+
+["grouping-does-not-change-water-heat"]
+title = "Dieselben sechs Mol und netto 200 J je Zweig, nur anders gruppiert."
+intro = "Lass v1 leer, bis es das fertige Gemisch des linken Zweigs aufnimmt."
+
+["hard-water"]
+title = "Der Wasserkocher und die Statue: hartes Wasser und Kesselstein"
+part.1 = "Enthärten durch Mischen: hartes Wasser trifft Sodalösung"
+
+["limewater"]
+title = "Kohlendioxid gelangt in ein offenes Gefäß hinein und ebenso wieder heraus."
+intro = "Die erste Dosis trübt das Kalkwasser; ein echter Überschuss klärt es wieder."
+
+["neutral-moves"]
+title = "Neutral ist ein bewegliches Ziel: warmes Wasser ist immer noch nur Wasser"
+
+["neutral-sugars-are-conductivity-controls"]
+title = "Neutrale Zucker sind Kontrollen für die Leitfähigkeit"
+boundary = "Die Zucker bleiben in diesem Modell neutrale Moleküle. Verunreinigungen, die Autoprotolyse des Wassers, der Untergrund der Messsonde, die Kalibrierung und die Temperatur bleiben unberücksichtigt."
+
 ["one-thing-at-a-time"]
 title = "Eins nach dem anderen: Die Säule hält ein Gemisch auseinander."
 intro = "Drei farblose Flüssigkeiten, in Wasser gelöst, sehen aus wie eine einzige. Die Säule sieht das anders: Jeder gelöste Stoff verbringt seinen eigenen Anteil der Zeit in der stationären Phase, bestimmt von demselben Verteilungskoeffizienten, der auch den Scheidetrichter antreibt, und trifft deshalb allein ein."
 part.detail = "Dieselbe Einspritzung, genauer gelesen: Retentionszeiten, Breiten, Flächen — und K selbst, die Zahl, die die ganze Arbeit macht."
 
+["permanganate-standardisation"]
+title = "Permanganat einstellen: Die Bürette verrät ihren eigenen Gehalt"
+
+["pressure-follows-gas-amount"]
+title = "Mehr Gas, mehr Druck"
+boundary = "Nur ideale, starre Gasräume; Undichtigkeiten und die Unsicherheit des Manometers bleiben unberücksichtigt."
+
+["pressure-follows-headspace"]
+title = "Der Druck steigt, wenn der Gasraum kleiner wird"
+boundary = "Nur ideale, starre Gasräume; echtes Arbeiten unter Druck verlangt dafür zugelassene Apparaturen."
+
+["saline-scaling-preserves-conductivity"]
+title = "Gleiche Konzentration, größere Portion: Leitfähigkeit ist eine intensive Größe"
+boundary = "Wasser und Salz werden zusammen skaliert, die Konzentration bleibt also gleich. Echte Messwerte hängen außerdem von der Zellkonstante, der Kalibrierung, der Polarisation und der Temperatur ab."
+
+["salt-from-brine"]
+title = "Salz aus Sole: die älteste Chemie der Welt"
+
+["sealed-gas"]
+title = "Gasgesetze im geschlossenen Gefäß"
+
 ["silver-and-salt"]
 title = "Fallakte: Chlorid mit Silbernitrat nachweisen"
+
+["split-heat-same-temperature"]
+title = "Aufgeteilte Wärmestöße führen zur selben Temperatur"
+boundary = "Adiabatische Gefäße mit konstanter Wärmekapazität; Wärmeverluste und die Wärmekapazität des Gefäßes bleiben unberücksichtigt."
+
+["three-components-one-cut"]
+title = "Rechnung für eine ideale Mischung, keine Apparatur und keine Synthesevorschrift."
+intro = "Quelle und Vorlage müssen jede Komponente erhalten; eine Azeotropvorhersage gibt es nicht."
+
+["three-protons"]
+title = "Drei Protonen: Phosphorsäure trifft die Bürette"
+
+["titration-manual"]
+title = "Titration: starke Säure trifft starke Base"
+
+["titration"]
+title = "Titration: starke Säure trifft starke Base"
+
+["two-roads"]
+title = "Zwei Wege, eine Temperatur: der Satz von Hess mit dem Thermometer"
