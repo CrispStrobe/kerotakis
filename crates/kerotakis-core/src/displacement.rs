@@ -52,7 +52,9 @@
 //! zero. Zinc into copper sulfate then releases the textbook −217 kJ/mol
 //! as a computed difference, not a number written next to the reaction.
 
+use crate::i18n::Locale;
 use crate::ops::Event;
+use crate::phrase::{Phrase, Slot};
 use crate::solve::{Equilibrator, SolveError};
 use crate::species::{self, Phase, SpeciesId};
 use crate::units::{Kelvin, Moles};
@@ -704,14 +706,27 @@ pub fn displace(vessel: &mut Vessel) -> (Vec<Event>, Vec<Displacement>) {
                 // codex entry `charging-fights-the-series` quotes the
                 // sentence below verbatim as its thesis: reword it and the
                 // entry's prose moves with it (its lint will say so).
+                // I18N-8: the reason is the phrase and the English is
+                // generated from it, so the sentence exists once. The
+                // codex entry quotes it verbatim and still finds it
+                // unchanged — `render(Locale::EN)` over pre-formatted
+                // numbers is the same string the `format!` produced.
+                let reason = Phrase::new(
+                    "inert.hydrogen-overpotential",
+                    "{name} should dissolve in this acid by the series (driving force {driving} V), but hydrogen has to form on {name}, and on that surface it costs an overpotential of about {eta} V. Kinetically blocked on the timescale of a lesson, not thermodynamically inert — the difference between a bench and a battery",
+                    vec![
+                        ("name".to_string(), Slot::term("species", name)),
+                        ("driving".to_string(), Slot::number(format!("{driving:+.2}"))),
+                        ("eta".to_string(), Slot::number(format!("{eta:.2}"))),
+                    ],
+                );
                 events.push(Event::Inert {
                     vessel: vessel.id,
                     species: SpeciesId::new(red.reduced),
-                    why: format!(
-                        "{name} should dissolve in this acid by the series (driving force {driving:+.2} V), but hydrogen has to form on {name}, and on that surface it costs an overpotential of about {eta:.2} V. Kinetically blocked on the timescale of a lesson, not thermodynamically inert — the difference between a bench and a battery"
-                    ),
+                    why: reason.render(Locale::EN),
                     computed: true,
                     spent: None,
+                    reason: Some(reason),
                 });
                 settled.push((red.reduced, ox.oxidised));
                 continue;
@@ -987,23 +1002,39 @@ pub fn bystanders(vessel: &Vessel, just_plated: &[&str]) -> Vec<Event> {
                 .map(|d| d.name)
                 .unwrap_or(o.reduced);
             let ion_left = oxidant_available(vessel, o);
-            let why = if ion_left <= crate::OBSERVABLE_MOLES {
-                format!(
-                    "all the {other} has plated out; the remaining {name} has nothing left to displace. The couple still runs downhill (E° {:+.3} V for {name} against {:+.3} V for {other}) — it has simply run out of {other} ions",
-                    c.e0_volts, o.e0_volts
+            let mut slots = vec![
+                ("name".to_string(), Slot::term("species", name)),
+                ("other".to_string(), Slot::term("species", other)),
+                (
+                    "e_self".to_string(),
+                    Slot::number(format!("{:+.3}", c.e0_volts)),
+                ),
+                (
+                    "e_other".to_string(),
+                    Slot::number(format!("{:+.3}", o.e0_volts)),
+                ),
+            ];
+            let reason = if ion_left <= crate::OBSERVABLE_MOLES {
+                Phrase::new(
+                    "inert.couple-spent",
+                    "all the {other} has plated out; the remaining {name} has nothing left to displace. The couple still runs downhill (E° {e_self} V for {name} against {e_other} V for {other}) — it has simply run out of {other} ions",
+                    slots,
                 )
             } else {
-                format!(
-                    "all but a trace of the {other} has plated out ({ion_left:.3e} mol of ion left, which is where the Nernst root put the equilibrium); the remaining {name} has nothing left to displace. The couple still runs downhill (E° {:+.3} V for {name} against {:+.3} V for {other})",
-                    c.e0_volts, o.e0_volts
+                slots.push(("left".to_string(), Slot::number(format!("{ion_left:.3e}"))));
+                Phrase::new(
+                    "inert.couple-spent-trace",
+                    "all but a trace of the {other} has plated out ({left} mol of ion left, which is where the Nernst root put the equilibrium); the remaining {name} has nothing left to displace. The couple still runs downhill (E° {e_self} V for {name} against {e_other} V for {other})",
+                    slots,
                 )
             };
             events.push(Event::Inert {
                 vessel: vessel.id,
                 species: SpeciesId::new(c.reduced),
-                why,
+                why: reason.render(Locale::EN),
                 computed: true,
                 spent: Some(SpeciesId::new(o.oxidised)),
+                reason: Some(reason),
             });
         } else if let Some(o) = idle_against {
             // The series grid: which metal displaces which. The negative
@@ -1011,28 +1042,51 @@ pub fn bystanders(vessel: &Vessel, just_plated: &[&str]) -> Vec<Event> {
             let other = species::lookup_key(o.reduced)
                 .map(|d| d.name)
                 .unwrap_or(o.reduced);
+            let reason = Phrase::new(
+                "inert.uphill-in-series",
+                "{name} sits above {other} in the activity series (E° {e_self} V against {e_other} V), so the electrons would have to flow uphill: the less reactive metal does not displace the more reactive one",
+                vec![
+                    ("name".to_string(), Slot::term("species", name)),
+                    ("other".to_string(), Slot::term("species", other)),
+                    (
+                        "e_self".to_string(),
+                        Slot::number(format!("{:+.3}", c.e0_volts)),
+                    ),
+                    (
+                        "e_other".to_string(),
+                        Slot::number(format!("{:+.3}", o.e0_volts)),
+                    ),
+                ],
+            );
             events.push(Event::Inert {
                 vessel: vessel.id,
                 species: SpeciesId::new(c.reduced),
-                why: format!(
-                    "{name} sits above {other} in the activity series (E° {:+.3} V against {:+.3} V), so the electrons would have to flow uphill: the less reactive metal does not displace the more reactive one",
-                    c.e0_volts, o.e0_volts
-                ),
+                why: reason.render(Locale::EN),
                 computed: true,
                 spent: None,
+                reason: Some(reason),
             });
         } else if acid && c.e0_volts > 0.0 {
             // No other metal's ion to compare against, so the acid is the
             // whole question.
+            let reason = Phrase::new(
+                "inert.above-hydrogen",
+                "{name} sits above hydrogen in the activity series (E° {e_self} V against 0.000 V for 2H⁺/H₂), so dilute acid cannot take its electrons. An oxidising acid such as nitric would, by a different couple, and that is not modelled",
+                vec![
+                    ("name".to_string(), Slot::term("species", name)),
+                    (
+                        "e_self".to_string(),
+                        Slot::number(format!("{:+.3}", c.e0_volts)),
+                    ),
+                ],
+            );
             events.push(Event::Inert {
                 vessel: vessel.id,
                 species: SpeciesId::new(c.reduced),
-                why: format!(
-                    "{name} sits above hydrogen in the activity series (E° {:+.3} V against 0.000 V for 2H⁺/H₂), so dilute acid cannot take its electrons. An oxidising acid such as nitric would, by a different couple, and that is not modelled",
-                    c.e0_volts
-                ),
+                why: reason.render(Locale::EN),
                 computed: true,
                 spent: None,
+                reason: Some(reason),
             });
         } else if !acid
             && c.e0_volts < 0.0

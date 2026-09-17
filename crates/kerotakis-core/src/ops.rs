@@ -1128,6 +1128,12 @@ pub enum Event {
         species: SpeciesId,
         solvent: SpeciesId,
         why: String,
+        /// As `Inert::reason` — the same sentence, translatable. Keyed by
+        /// the ROW of `nonaqueous::INERT_IN_SOLVENT` it came from rather
+        /// than by its English, so rewording the verdict does not orphan
+        /// the translation of it.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        reason: Option<crate::phrase::Phrase>,
     },
     /// A solid went into solution (computed by an aqueous solver).
     Dissolved {
@@ -1193,6 +1199,19 @@ pub enum Event {
         /// when absent so the uphill case serialises exactly as before.
         #[serde(default, skip_serializing_if = "Option::is_none")]
         spent: Option<SpeciesId>,
+        /// I18N-8: `why` as a recipe rather than a finished sentence, so a
+        /// reader who is not reading English can have it too.
+        ///
+        /// These are the most valuable sentences in the product — they are
+        /// where the engine explains itself — and they were the ones a
+        /// German learner could not read: the refusal's NAME went through
+        /// `species_name` and arrived as *Zink reagiert nicht*, and its
+        /// REASON was an English `format!` welded shut before anything
+        /// knew who was reading. `why` is still that English and is still
+        /// the fallback; it is now GENERATED from the phrase below rather
+        /// than written beside it, so there is no second copy to drift.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        reason: Option<crate::phrase::Phrase>,
     },
     /// BRD-023: the corrosion route's verdict on one metal in one vessel.
     ///

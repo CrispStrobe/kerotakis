@@ -14,7 +14,9 @@
 //! organic solvents, and water present in any amount, are outside
 //! this rung: the honesty pass keeps those.
 
+use crate::i18n::Locale;
 use crate::ops::Event;
+use crate::phrase::Phrase;
 use crate::solve::{Equilibrator, SolveError};
 use crate::species::{self, Phase, SpeciesId};
 use crate::units::Moles;
@@ -829,11 +831,22 @@ impl Equilibrator for NonAqueousEquilibrator {
         }
 
         for (species_id, why) in inerts {
+            // I18N-8: keyed by the ROW of INERT_IN_SOLVENT rather than by
+            // the English sentence in it. The verdict is curated prose
+            // with no holes, so the key has to name a place or a reword
+            // orphans every translation of it — and the place a curated
+            // verdict lives is the pair it was written about.
+            let reason = Phrase::new(
+                &format!("inert-in-solvent.{}-{}", species_id.0, solvent),
+                why,
+                Vec::new(),
+            );
             events.push(Event::InertInSolvent {
                 vessel: vessel.id,
                 species: species_id,
                 solvent: solvent_id.clone(),
-                why: why.to_string(),
+                why: reason.render(Locale::EN),
+                reason: Some(reason),
             });
         }
         Ok(events)

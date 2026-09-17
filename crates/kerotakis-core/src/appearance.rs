@@ -22,6 +22,8 @@
 
 use serde::{Deserialize, Serialize};
 
+use crate::i18n::Locale;
+use crate::phrase::{compose, Phrase, Slot};
 use crate::species::{self, Colour, Phase};
 use crate::vessel::Vessel;
 
@@ -40,7 +42,42 @@ pub struct Appearance {
     /// Whether anything is visibly not-liquid-not-settled: bubbles.
     pub bubbling: bool,
     /// A plain-words summary, which is what a young reader actually wants.
+    ///
+    /// English, always: this is the source text, the value every existing
+    /// consumer reads, and the fallback when a language has not translated
+    /// a clause. The reader's own language comes from [`Appearance::say`],
+    /// which recomposes it from [`Appearance::clauses`].
     pub words: String,
+    /// The same summary as a recipe rather than a string, so a host can
+    /// say it in the reader's language. See [`Phrase`].
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub clauses: Vec<Phrase>,
+    /// Sentences that stand outside the summary — the spectral-gap
+    /// admission, which is a caveat about the description rather than a
+    /// clause of it.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub notes: Vec<Phrase>,
+}
+
+impl Appearance {
+    /// The whole observation as prose, in `locale`.
+    ///
+    /// An `Appearance` from before this field existed — a replayed event,
+    /// a hand-built fixture — has no clauses, and gets its English
+    /// `words` back rather than an empty string.
+    pub fn say(&self, locale: Locale) -> String {
+        if self.clauses.is_empty() && self.notes.is_empty() {
+            return self.words.clone();
+        }
+        let mut text = compose(&self.clauses, locale);
+        for note in &self.notes {
+            if !text.is_empty() {
+                text.push(' ');
+            }
+            text.push_str(&note.render(locale));
+        }
+        text
+    }
 }
 
 /// How much suspended solid counts as fully opaque, in moles per litre of
@@ -175,7 +212,24 @@ pub fn observe(vessel: &Vessel) -> Appearance {
             })
         };
         let name = data.map(|d| d.name).unwrap_or(p.species.0.as_str());
-        let settled_moles = p.moles.0 * tracked_suspension.map(|f| 1.0 - f).unwrap_or(1.0);
+        // Nothing is SUSPENDED in a beaker with no liquid in it.
+        //
+        // Surfaced by I18N-7, which turned the composed sentence into a
+        // clause list and made an empty one visible: `filter v1 v2` leaves
+        // 0.079 mol of quartz and no water behind, the suspended fraction
+        // stays at the value it had while there was water, and the sand
+        // was therefore neither settled nor floating nor named. The
+        // description of that beaker was the single character ".".
+        //
+        // The picture had it right all along — `solids` carries the
+        // quartz, and `settled_fraction` reads 0.0 — so this is the words
+        // disagreeing with the scene about a beaker the reader is looking
+        // at. With no liquid, all of it is simply there.
+        let settled_moles = if has_liquid {
+            p.moles.0 * tracked_suspension.map(|f| 1.0 - f).unwrap_or(1.0)
+        } else {
+            p.moles.0
+        };
         // A floating solid is not settled, so `settled_moles` is the wrong
         // measure of it — a tracked suspension makes that term zero and the
         // plastic would be named nowhere at all, which is the silent miss
@@ -246,7 +300,7 @@ pub fn observe(vessel: &Vessel) -> Appearance {
             .iter()
             .any(|p| p.phase == Phase::Gas && p.moles.0 >= crate::OBSERVABLE_MOLES);
 
-    let mut words = describe(
+    let clauses = describe(
         LiquidState {
             colour: &liquid,
             cloudiness,
@@ -259,11 +313,27 @@ pub fn observe(vessel: &Vessel) -> Appearance {
         vessel,
     );
     let spectral_gaps = crate::solution_optics::spectral_gaps(vessel);
-    if !spectral_gaps.is_empty() {
-        words.push_str(&format!(
-            " Colour is incomplete: no absorption spectrum for {}.",
-            spectral_gaps.join(", ")
-        ));
+    let notes: Vec<Phrase> = if spectral_gaps.is_empty() {
+        Vec::new()
+    } else {
+        vec![Phrase::new(
+            "look.spectral-gap",
+            "Colour is incomplete: no absorption spectrum for {species}.",
+            vec![(
+                "species".to_string(),
+                Slot::List {
+                    items: spectral_gaps
+                        .iter()
+                        .map(|name| Slot::term("species", name.clone()))
+                        .collect(),
+                },
+            )],
+        )]
+    };
+    let mut words = compose(&clauses, Locale::EN);
+    for note in &notes {
+        words.push(' ');
+        words.push_str(&note.render(Locale::EN));
     }
     Appearance {
         spectral_gaps,
@@ -272,6 +342,8 @@ pub fn observe(vessel: &Vessel) -> Appearance {
         deposit,
         bubbling,
         words,
+        clauses,
+        notes,
     }
 }
 
@@ -373,13 +445,18 @@ struct LiquidState<'a> {
     density: Option<f64>,
 }
 
+/// The observation as clauses, in the order a person would say them.
+///
+/// Returns the recipe, not the sentence: nothing here knows or needs to
+/// know what language it will be read in. `observe` composes the English
+/// for `words`; a host composes the reader's language from the same list.
 fn describe(
     liquid: LiquidState<'_>,
     deposits: &[(String, Colour)],
     floats: &[(String, Colour)],
     bubbling: bool,
     vessel: &Vessel,
-) -> String {
+) -> Vec<Phrase> {
     let LiquidState {
         colour,
         cloudiness,
@@ -387,9 +464,9 @@ fn describe(
         density: liquid_density,
     } = liquid;
     if vessel.is_empty() {
-        return "The beaker is empty.".to_string();
+        return vec![Phrase::bare("look.empty", "the beaker is empty")];
     }
-    let mut parts: Vec<String> = Vec::new();
+    let mut parts: Vec<Phrase> = Vec::new();
     if has_liquid {
         let word = if crate::starch_iodine::complex_moles(vessel) > 0.0 {
             "blue-black"
@@ -401,47 +478,64 @@ fn describe(
                 .map(|c| liquid_colour_word(c, cloudiness))
                 .unwrap_or("colourless")
         };
+        // Four clarities, each its own key rather than one key with a
+        // "clear"/"cloudy" word slotted in: German says *und klar* but
+        // *und so trüb, dass du nicht hindurchsehen kannst*, which is a
+        // clause and not an adjective.
         let clarity = if cloudiness > 0.6 {
-            "and so cloudy you cannot see through it"
+            Phrase::bare(
+                "look.clarity-opaque",
+                "and so cloudy you cannot see through it",
+            )
         } else if cloudiness > 0.15 {
-            "and cloudy"
+            Phrase::bare("look.clarity-cloudy", "and cloudy")
         } else if cloudiness > 0.01 {
-            "and very slightly hazy"
+            Phrase::bare("look.clarity-hazy", "and very slightly hazy")
         } else {
-            "and clear"
+            Phrase::bare("look.clarity-clear", "and clear")
         };
-        parts.push(if word == "colourless" {
-            format!("The liquid is colourless {clarity}")
-        } else {
-            format!("The liquid is {word} {clarity}")
-        });
+        parts.push(Phrase::new(
+            "look.liquid",
+            "the liquid is {colour} {clarity}",
+            vec![
+                ("colour".to_string(), Slot::term("appearance", word)),
+                ("clarity".to_string(), Slot::phrase(clarity)),
+            ],
+        ));
     }
     if bubbling {
-        parts.push("bubbles of gas are rising through it".to_string());
+        parts.push(Phrase::bare(
+            "look.bubbling",
+            "bubbles of gas are rising through it",
+        ));
     }
     for protein in crate::protein::observe(vessel)
         .into_iter()
         .filter(|protein| protein.coagulated)
     {
-        parts.push(format!(
-            "the protein in {} has denatured and coagulated into an opaque white solid",
-            protein.material
+        parts.push(Phrase::new(
+            "look.protein-coagulated",
+            "the protein in {material} has denatured and coagulated into an opaque white solid",
+            vec![(
+                "material".to_string(),
+                Slot::term("material", protein.material),
+            )],
         ));
     }
     if !deposits.is_empty() {
-        let named: Vec<String> = deposits
-            .iter()
-            .map(|(name, colour)| format!("{} {name}", colour_word(colour, true)))
-            .collect();
-        let list = match named.split_last() {
-            Some((last, [])) => last.clone(),
-            Some((last, rest)) => format!("{} and {last}", rest.join(", ")),
-            None => String::new(),
-        };
+        let list = coloured_list(deposits);
         parts.push(if has_liquid {
-            format!("there is {list} at the bottom")
+            Phrase::new(
+                "look.deposit-in-liquid",
+                "there is {what} at the bottom",
+                vec![("what".to_string(), list)],
+            )
         } else {
-            format!("there is {list} in the beaker")
+            Phrase::new(
+                "look.deposit-dry",
+                "there is {what} in the beaker",
+                vec![("what".to_string(), list)],
+            )
         });
     }
     // A powder that sits ON the water is at the top of it too, and it is
@@ -449,24 +543,28 @@ fn describe(
     // conserved unresolved matter, which is exactly why nothing was
     // saying they were there.
     for float in crate::material::surface_floaters(vessel) {
+        let material = Slot::term("material", float.material);
         parts.push(if float.coverage >= 0.999 {
-            format!("a skin of {} covers the surface", float.material)
+            Phrase::new(
+                "look.surface-skin",
+                "a skin of {material} covers the surface",
+                vec![("material".to_string(), material)],
+            )
         } else {
-            format!("grains of {} float on the surface", float.material)
+            Phrase::new(
+                "look.surface-grains",
+                "grains of {material} float on the surface",
+                vec![("material".to_string(), material)],
+            )
         });
     }
     // KID-19b: and what is lighter than the liquid is at the top of it.
     if !floats.is_empty() && has_liquid {
-        let named: Vec<String> = floats
-            .iter()
-            .map(|(name, colour)| format!("{} {name}", colour_word(colour, true)))
-            .collect();
-        let list = match named.split_last() {
-            Some((last, [])) => last.clone(),
-            Some((last, rest)) => format!("{} and {last}", rest.join(", ")),
-            None => String::new(),
-        };
-        parts.push(format!("{list} floats on top"));
+        parts.push(Phrase::new(
+            "look.floats-on-top",
+            "{what} floats on top",
+            vec![("what".to_string(), coloured_list(floats))],
+        ));
     }
     // A named object is governed by its whole-object bulk density. Comparing
     // only its resolved ingredients gets porous pumice, foam and fruit wrong:
@@ -475,20 +573,11 @@ fn describe(
         let position = liquid_density
             .zip(solid.bulk_density_g_per_ml)
             .map(|(liquid, object)| object < liquid);
-        parts.push(match (has_liquid, position) {
-            (true, Some(true)) => format!(
-                "a piece of {} {} floats on top",
-                solid.colour_word, solid.material
-            ),
-            (true, Some(false)) => format!(
-                "a piece of {} {} is at the bottom",
-                solid.colour_word, solid.material
-            ),
-            _ => format!(
-                "a piece of {} {} is in the beaker",
-                solid.colour_word, solid.material
-            ),
-        });
+        let what = Slot::phrase(coloured(
+            &solid.colour_word,
+            Slot::term("material", solid.material.clone()),
+        ));
+        parts.push(piece_clause(has_liquid, position, what));
     }
     for object in crate::material::bulk_solid_objects(vessel) {
         // Role-backed conserved solids were already described above with
@@ -499,23 +588,85 @@ fn describe(
         {
             continue;
         }
-        parts.push(if has_liquid {
-            if liquid_density.is_some_and(|liquid| object.bulk_density_g_per_ml < liquid) {
-                format!("a piece of {} floats on top", object.material)
-            } else {
-                format!("a piece of {} is at the bottom", object.material)
-            }
-        } else {
-            format!("a piece of {} is in the beaker", object.material)
-        });
+        let position = liquid_density.map(|liquid| object.bulk_density_g_per_ml < liquid);
+        parts.push(piece_clause(
+            has_liquid,
+            position,
+            Slot::term("material", object.material),
+        ));
     }
-    let mut text = parts.join(", ");
-    text.push('.');
-    // Sentence case.
-    let mut chars = text.chars();
-    match chars.next() {
-        Some(first) => first.to_uppercase().collect::<String>() + chars.as_str(),
-        None => text,
+    // A vessel that is not empty and has nothing to look at.
+    //
+    // A sealed flask of warm gas is the case: no liquid, no solid, nothing
+    // drawn — and the description was the single character ".", because
+    // `parts` was empty and the old code appended a full stop to the join
+    // regardless. `tools/…` conformance requires `words` to be non-empty
+    // and was satisfied by that full stop for as long as it existed, which
+    // is a gate passing on a string with no content in it.
+    //
+    // "Nothing to see" is the true sentence, not a placeholder: this bench
+    // does not colour a gas, so a flask of it looks like an empty flask
+    // and saying so is the honest answer rather than the absent one.
+    if parts.is_empty() {
+        parts.push(Phrase::bare(
+            "look.nothing-visible",
+            "there is nothing to see in the beaker",
+        ));
+    }
+    parts
+}
+
+/// `{colour} {name}` — one clause, because the two words are not
+/// independent.
+///
+/// French orders them the other way and German inflects the colour to the
+/// noun's gender. Both are expressible as a template and neither is
+/// expressible by translating the colour on its own, which is why this is
+/// a key rather than a `format!`.
+fn coloured(colour: &str, name: Slot) -> Phrase {
+    Phrase::new(
+        "look.coloured",
+        "{colour} {name}",
+        vec![
+            ("colour".to_string(), Slot::term("appearance", colour)),
+            ("name".to_string(), name),
+        ],
+    )
+}
+
+fn coloured_list(items: &[(String, Colour)]) -> Slot {
+    Slot::List {
+        items: items
+            .iter()
+            .map(|(name, colour)| {
+                Slot::phrase(coloured(
+                    colour_word(colour, true),
+                    Slot::term("species", name.clone()),
+                ))
+            })
+            .collect(),
+    }
+}
+
+/// Where a named object sits, if anywhere: floating, sunk, or simply here.
+fn piece_clause(has_liquid: bool, floats: Option<bool>, what: Slot) -> Phrase {
+    let slots = vec![("what".to_string(), what)];
+    match (has_liquid, floats) {
+        (true, Some(true)) => Phrase::new(
+            "look.piece-floats",
+            "a piece of {what} floats on top",
+            slots,
+        ),
+        (true, Some(false)) => Phrase::new(
+            "look.piece-bottom",
+            "a piece of {what} is at the bottom",
+            slots,
+        ),
+        _ => Phrase::new(
+            "look.piece-here",
+            "a piece of {what} is in the beaker",
+            slots,
+        ),
     }
 }
 

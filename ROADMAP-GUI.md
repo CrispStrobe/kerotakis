@@ -1677,31 +1677,89 @@ display name in the registry, is the wrong fix.
 - [x] **I18N-6 — `Detailstufe lv1`.** `lv1` is a protocol token, not a word,
   and reached the notebook verbatim. It now goes through `t()` like everything
   else, with a fallback to itself for a register a locale has not named.
-- [ ] **I18N-7 — `appearance.rs` has no locale at all.** Not a missing key: the
-  file never takes a `Locale`. It *concatenates* English — `"there is {list} in
-  the beaker"`, `"a piece of {} is in the beaker"`, the joining `"and"`, the
-  colour words — so every `look` sentence is English inside an otherwise German
-  lesson, including the one the owner quoted and *"The liquid is colourless and
-  clear, there is grey zinc and orange copper at the bottom."* This is the
-  structural one. Sentences are assembled from parts, and a language that
-  orders or inflects those parts differently cannot be served by translating
-  the fragments, so the unit of translation has to become the whole sentence
-  with slots. Deliverable: `appearance` takes a locale, its sentences are
-  catalogue templates, and a test asserts no English reaches a German `look`.
-- [ ] **I18N-8 — Inert-reason prose is English.** `v1 Zink reagiert nicht —
+- [x] **I18N-7 — `appearance.rs` has no locale at all.** Not a missing key: the
+  file never took a `Locale` and could not have used one — it reached the
+  reader through an EVENT, and by the time anything knew who was reading, the
+  words had been chosen and the values baked in. Fixed by making the engine
+  emit the RECIPE and the host cook it: `crate::phrase::Phrase` is a key, its
+  English source, and typed slots, and `Appearance` now carries the clause
+  list beside the English `words` that every existing consumer still reads.
+  `Slot::Term` is what a flat `fill` could not express — the composer knows
+  that *silver chloride* is a species and *white* is an appearance word, and
+  by the time a sentence is a string that knowledge is gone. The list grammar
+  (`", "` and `" and "`) and even the full stop are catalogue rows, because
+  they are grammar rather than punctuation the moment the language is not
+  English. 22 new German rows under `[look]`. Note `look.coloured`: English
+  writes "white silver chloride", French writes it the other way round, and
+  German would have to inflect the colour to the noun's gender — so the
+  German construction puts the colour beside the name, a decision that lives
+  in the data and not in the Rust.
+- [x] **I18N-8 — Inert-reason prose is English.** `v1 Zink reagiert nicht —
   zinc should dissolve in this acid by the series (driving force +0.62 V), but
-  hydrogen has to form on zinc…` The refusal's *name* is translated and its
-  *reason* is not. These are the most valuable sentences in the lesson —
-  they are where the engine explains itself — and they are exactly the ones a
-  German learner cannot read.
+  hydrogen has to form on zinc…` The refusal's *name* was translated and its
+  *reason* was not. Six composed verdicts in `displacement.rs`, `solve.rs` and
+  `nonaqueous.rs` now carry a `Phrase` in the event beside the English, and
+  the English is **generated from that phrase** rather than written next to
+  it, so there is one sentence and not two to drift — the codex entry that
+  quotes `inert.hydrogen-overpotential` verbatim still matches. The 25
+  curated organic-solvent verdicts are keyed by their row of
+  `INERT_IN_SOLVENT`, not by their English, so rewording one does not orphan
+  its translation. Numbers go through `Slot::Number`, which is why a German
+  reader sees +0,62 V.
 - [ ] **I18N-9 — Lesson prose has no translation mechanism.** The title,
   description, section comments and boundary note are the `.lab` file's own
   comments, rendered verbatim; only the *slug* is translated, which is why
   "Trocken, dann nass: Brausen" sits above six lines of English. 113 lessons.
-  Needs a decision on shape before work: a parallel `lessons/i18n/<code>.toml`
-  keyed by lesson id and comment index, or prose lifted out of `.lab` into a
-  catalogue the player composes. The second is more work and is the one that
-  survives a third language.
+  **Scoped, not built** — it is a 113-file migration and belongs in its own
+  PR; a half-migrated catalogue is worse than none. The shape, decided:
+
+  * **A labelled comment.** `#@part.displacement Part 1 — displacement: a
+    more reactive metal pushes a less reactive one out of solution` replaces
+    the bare `#` comment. It is still a comment, so `kero run lessons/x.lab`
+    keeps working with no parser change and a `.lab` stays runnable on its
+    own — the label names the PLACE the prose is said, the same discipline
+    `i18n/de.toml` already uses, so rewording the English does not orphan it.
+  * **`lessons/prose/en.toml` is the source**, keyed `<lesson-stem>.<label>`,
+    and `lessons/prose/<code>.toml` beside it. The `.lab` keeps the English
+    inline as the fallback, exactly as `locale.t` keeps it at the call site:
+    a payload built without the prose directory renders English rather than
+    nothing. **Adding French is `lessons/prose/fr.toml` and no code.**
+  * **One curriculum.** `tools/lessons-index.py` — already the single source
+    for the web build and the shell payload, after the "more" bucket taught
+    us why — emits the label as `blurb_key` beside today's `blurb`, and both
+    payloads ship the same prose files. There is no peer file to drift, which
+    is the mistake `experiments-de-v1.json` made by being a peer rather than
+    a fallback.
+  * **`tools/lesson-prose-lint.py`**, whose denominator is **every label
+    referenced by a `.lab` file**, read from the lessons — never the key count
+    of `en.toml`, which is the denominator that let `models.toml` report 100%
+    German over 325 English strings in #505. It reports missing translations,
+    orphaned rows no `.lab` asks for, and a label used by two different
+    English sentences.
+  * Once it lands, `web/app/src/locales/de.json`'s lesson slugs are the same
+    data said twice and should be folded into `lessons/prose/de.toml`.
+- [ ] **I18N-10 — `NotYetModeled.what` is the same defect one event along.**
+  Found while landing I18N-8, and deliberately not fixed with it: `what` is
+  a finished English sentence for exactly the reason `Inert.why` was, and
+  two of them sit in `displacement.rs` beside the verdicts that now speak
+  German — *"how fast {name} fizzes: the driving force clears the hydrogen
+  overpotential on {name} by only 0.03 V…"* and *"{name} stays as the
+  metal: nothing dissolved here sits below it in the activity series…"*
+  A reader of the zinc-in-vinegar lesson therefore still meets one English
+  paragraph. The mechanism to fix it exists — a `reason: Option<Phrase>`
+  beside `what`, exactly as `Inert` now carries — but the event has **93
+  construction sites**, so it is a migration and not a patch. Do it in
+  tranches, highest-traffic file first, with `localize_refusal`'s existing
+  suffix-matching as the fallback for the ones not yet converted.
+- [ ] **I18N-11 — `scene_vessel` appends eleven English sentences to the
+  observation.** `appearance::observe` now composes translatable clauses,
+  and then `scene.rs` pushes osmosis, gel, swelling, chemiluminescence,
+  enzyme conversion, adsorption, partition, emulsion, layering and curdling
+  onto the end of `words` with a bare `format!` each. The `look` line does
+  not go through `scene_vessel`, so the owner's quoted defect is fixed; the
+  WEB bench paints from the scene, so a German web reader still sees those
+  sentences in English. Each is a `Phrase` away, and `Appearance` already
+  has the `clauses` vector to push them onto.
 
 ### Two defects found in the same playback, neither of them i18n
 
