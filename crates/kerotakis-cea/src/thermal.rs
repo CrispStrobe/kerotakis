@@ -22,6 +22,7 @@
 use std::collections::BTreeMap;
 use std::sync::OnceLock;
 
+use kerotakis_core::phrase::Phrase;
 use kerotakis_core::species::{self, Phase};
 use kerotakis_core::{
     Equilibrator, Event, Kelvin, Moles, Portion, Provenance, SolveError, SpeciesId, ThermalMode,
@@ -819,21 +820,27 @@ impl Equilibrator for ThermalEquilibrator {
                 temperature: Kelvin(t_final),
                 reaction_energy_j: (reaction_energy_j > 1.0).then_some(reaction_energy_j),
                 holds_nothing,
-                provenance: Provenance {
-                    engine: "Gibbs minimisation (Kerotakis)".to_string(),
-                    dataset: "NASA CEA thermo.inp".to_string(),
-                    model: if feed_tp_fallback {
-                        "NASA-9 polynomials, ideal gas + pure condensed phases; TP liquid-feed fallback at the explicit ignition-zone temperature".to_string()
+                provenance: Provenance::new(
+                    "Gibbs minimisation (Kerotakis)",
+                    "NASA CEA thermo.inp",
+                    if feed_tp_fallback {
+                        "NASA-9 polynomials, ideal gas + pure condensed phases; TP liquid-feed fallback at the explicit ignition-zone temperature"
                     } else {
-                        "NASA-9 polynomials, ideal gas + pure condensed phases".to_string()
+                        "NASA-9 polynomials, ideal gas + pure condensed phases"
                     },
                     dataset_sources,
-                    routing: if feed_tp_fallback {
-                        "liquid fuel used CEA's separate feed thermochemistry; HP did not bracket, so composition was solved at the explicit ignition-zone temperature and the reaction energy remains reported separately".to_string()
+                    if feed_tp_fallback {
+                        Phrase::bare(
+                            "routing.cea-feed-tp-fallback",
+                            "liquid fuel used CEA's separate feed thermochemistry; HP did not bracket, so composition was solved at the explicit ignition-zone temperature and the reaction energy remains reported separately",
+                        )
                     } else {
-                        "chosen because this vessel is dry solids and gases, which the aqueous engine does not model".to_string()
+                        Phrase::bare(
+                            "routing.dry-solids-and-gases",
+                            "chosen because this vessel is dry solids and gases, which the aqueous engine does not model",
+                        )
                     },
-                },
+                ),
             });
         }
         Ok(events)

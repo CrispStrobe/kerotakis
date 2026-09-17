@@ -1193,15 +1193,16 @@ fn characterize_solvent_only(vessel: &mut Vessel) -> Result<Vec<Event>, SolveErr
                 activity,
             },
         ],
-        provenance: Some(Provenance {
-            engine: "Kerotakis analytic equilibrium evaluator".to_string(),
-            dataset: "vendored USGS phreeqc.dat".to_string(),
-            model: "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)"
-                .to_string(),
-            dataset_sources: vec!["USGS PHREEQC thermodynamic database".to_string()],
-            routing: "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory"
-                .to_string(),
-        }),
+        provenance: Some(Provenance::new(
+            "Kerotakis analytic equilibrium evaluator",
+            "vendored USGS phreeqc.dat",
+            "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+            vec!["USGS PHREEQC thermodynamic database".to_string()],
+            Phrase::bare(
+                "routing.solvent-relation-only",
+                "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+            ),
+        )),
     });
     vessel.refresh_pressure();
     // This is support state, not a reaction result. The ordinary honesty
@@ -2471,16 +2472,16 @@ impl Equilibrator for PhreeqcEquilibrator {
             ph,
             ionic_strength: mu,
             species: cached.speciation.clone(),
-            provenance: Some(Provenance {
-                engine: "PHREEQC (IPhreeqc, USGS)".to_string(),
-                dataset: dataset_name(db_tag),
-                model: derived::index_for(db_tag)
-                    .activity_model
-                    .describe()
-                    .to_string(),
-                dataset_sources: dataset_sources(db_tag),
-                routing: "MIX: two solved solutions combined by fraction".to_string(),
-            }),
+            provenance: Some(Provenance::new(
+                "PHREEQC (IPhreeqc, USGS)",
+                dataset_name(db_tag),
+                derived::index_for(db_tag).activity_model.describe(),
+                dataset_sources(db_tag),
+                Phrase::bare(
+                    "routing.mix-by-fraction",
+                    "MIX: two solved solutions combined by fraction",
+                ),
+            )),
         });
 
         events.push(Event::SolutionCharacterized {
@@ -2496,7 +2497,14 @@ impl Equilibrator for PhreeqcEquilibrator {
 struct SolveSetup {
     problem: Problem,
     db_tag: &'static str,
-    routing: String,
+    /// Why this dataset, as a RECIPE rather than a finished sentence.
+    ///
+    /// It is composed here in three pieces — the base choice, an optional
+    /// activity-model caveat, and two more clauses added in
+    /// `finalize_solution_info` — and every one of them used to be welded
+    /// on with `format!`/`push_str`. A reader who does not read English
+    /// met all of it in English.
+    routing: Phrase,
     freed_phases: Vec<(String, f64)>,
     input: String,
     key: String,
@@ -3007,7 +3015,10 @@ impl PhreeqcEquilibrator {
         let (db_tag, mut routing) = if needs_extended {
             (
                 "minteq.v4",
-                "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)".to_string(),
+                Phrase::bare(
+                    "routing.extended-chemistry",
+                    "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+                ),
             )
         } else if potential_molality > 1.0
             && pitzer_capable
@@ -3017,20 +3028,41 @@ impl PhreeqcEquilibrator {
         {
             (
                 "pitzer",
-                format!(
-                    "chosen because the solution is concentrated (~{potential_molality:.1} mol/kgw), where the ion-interaction model is the valid one"
+                Phrase::new(
+                    "routing.concentrated-ion-interaction",
+                    "chosen because the solution is concentrated (~{molality} mol/kgw), where the ion-interaction model is the valid one",
+                    // A measured quantity, not a word: German writes
+                    // ~16,0 mol/kgw and the separator is the reader's.
+                    vec![(
+                        "molality".to_string(),
+                        Slot::number(format!("{potential_molality:.1}")),
+                    )],
                 ),
             )
         } else {
             (
                 "wateq4f",
-                "the default inorganic aqueous dataset".to_string(),
+                Phrase::bare(
+                    "routing.default-inorganic",
+                    "the default inorganic aqueous dataset",
+                ),
             )
         };
         if potential_molality > 1.0 && db_tag != "pitzer" {
-            routing.push_str(&format!(
-                "; the input has a potentially concentrated solute load (~{potential_molality:.1} mol/kgw, not a measured ionic strength), but the Pitzer route cannot represent all requested chemistry. This activity-model fallback is not a validated concentrated-mixture prediction"
-            ));
+            // The caveat is a clause AROUND the choice, not a string glued
+            // after it: a language that puts the qualification first can
+            // write "{routing}" wherever it wants in its own template.
+            routing = Phrase::new(
+                "routing.activity-model-fallback",
+                "{routing}; the input has a potentially concentrated solute load (~{molality} mol/kgw, not a measured ionic strength), but the Pitzer route cannot represent all requested chemistry. This activity-model fallback is not a validated concentrated-mixture prediction",
+                vec![
+                    ("routing".to_string(), Slot::phrase(routing)),
+                    (
+                        "molality".to_string(),
+                        Slot::number(format!("{potential_molality:.1}")),
+                    ),
+                ],
+            );
         }
         if !problem.surfaces.is_empty() {
             if potential_molality > 1.0 && db_tag != "minteq.v4" {
@@ -4543,7 +4575,7 @@ impl PhreeqcEquilibrator {
         vessel: &mut Vessel,
         problem: &Problem,
         db_tag: &str,
-        routing: String,
+        routing: Phrase,
         solvent_activity: Option<kerotakis_core::vessel::SolventActivityProvenance>,
         speciation: Vec<SpeciesDetail>,
         saturation: &[(String, f64)],
@@ -4566,15 +4598,23 @@ impl PhreeqcEquilibrator {
         // that cannot exist. Each state is right; their coexistence is not,
         // and the difference has to be visible rather than inferred.
         let redox_note = match (&coupling_failed, redox.len()) {
-            (Some(why), _) => format!(
-                "the redox elements here could not be coupled, so each is shown in the oxidation state it was added in and they have not reacted with each other — {why}"
-            ),
+            (Some(why), _) => Some(Phrase::new(
+                "routing.redox-not-coupled",
+                "the redox elements here could not be coupled, so each is shown in the oxidation state it was added in and they have not reacted with each other — {why}",
+                // The solver's own diagnostic travels in a text slot, as
+                // it does in the event one screen above: the frame around
+                // it is what a catalogue translates.
+                vec![("why".to_string(), Slot::text(why.clone()))],
+            )),
             (None, n) if n > 1 && redox_coupling(problem, db_tag).is_none() => {
                 // Coupled elements are settled by the electron balance;
                 // this note is for the ones deliberately left pinned.
-                "some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones — sulfate, nitrate, carbonate — are held as added".to_string()
+                Some(Phrase::bare(
+                    "routing.slow-couples-held-as-added",
+                    "some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones — sulfate, nitrate, carbonate — are held as added",
+                ))
             }
-            _ => String::new(),
+            _ => None,
         };
         // Say it in the stream, not only in `explain`.
         //
@@ -4634,6 +4674,42 @@ impl PhreeqcEquilibrator {
         // reports one redox row and a pe that agrees to four significant
         // figures across the same reordering (18.65875 / 18.65716).
         let pe_constrained = redox_constrained && pe_determined && !redox.is_empty();
+        // The whole routing line, composed before the record is built.
+        //
+        // Three clauses, each of them optional, each of them a sentence in
+        // its own right: why this dataset, what redox did, and whether a
+        // second dataset was asked for the solvent's activity. They used
+        // to be a `format!` and two `push_str`s, which is a finished
+        // English paragraph on a field a reader reads.
+        let routing = match redox_note {
+            None => routing,
+            Some(note) => Phrase::new(
+                "routing.with-redox-note",
+                "{routing}. {note}",
+                vec![
+                    ("routing".to_string(), Slot::phrase(routing)),
+                    ("note".to_string(), Slot::phrase(note)),
+                ],
+            ),
+        };
+        // Said in prose as well as in the field, because `routing` is what
+        // is rendered beside the numbers and "two datasets answered this
+        // beaker" is exactly the kind of thing a reader should not have to
+        // infer.
+        let routing = match solvent_activity.as_ref() {
+            None => routing,
+            Some(second) => Phrase::new(
+                "routing.second-speciation-for-solvent",
+                "{routing}; the solvent's activity is NOT from this dataset — it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model — but from a second speciation of the same solution on {dataset} ({model}), posed with no phases, gas or interfaces and asked for a_w alone",
+                vec![
+                    ("routing".to_string(), Slot::phrase(routing)),
+                    // A dataset FILE and the model it applies: both are
+                    // names this lab prints, not words it translates.
+                    ("dataset".to_string(), Slot::text(second.dataset.clone())),
+                    ("model".to_string(), Slot::text(second.model.clone())),
+                ],
+            ),
+        };
         let info = SolutionInfo {
             scope: Default::default(),
             solvent_kg: value("mass_H2O"),
@@ -4642,30 +4718,13 @@ impl PhreeqcEquilibrator {
             ph,
             ionic_strength: mu,
             species: speciation,
-            provenance: Some(Provenance {
-                engine: "PHREEQC (IPhreeqc, USGS)".to_string(),
-                dataset: dataset_name(db_tag),
-                model: idx.activity_model.describe().to_string(),
-                dataset_sources: dataset_sources(db_tag),
-                routing: {
-                    let mut routing = if redox_note.is_empty() {
-                        routing
-                    } else {
-                        format!("{routing}. {redox_note}")
-                    };
-                    // Said in prose as well as in the field, because
-                    // `routing` is what is rendered beside the numbers and
-                    // "two datasets answered this beaker" is exactly the
-                    // kind of thing a reader should not have to infer.
-                    if let Some(second) = solvent_activity.as_ref() {
-                        routing.push_str(&format!(
-                            "; the solvent's activity is NOT from this dataset — it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model — but from a second speciation of the same solution on {} ({}), posed with no phases, gas or interfaces and asked for a_w alone",
-                            second.dataset, second.model
-                        ));
-                    }
-                    routing
-                },
-            }),
+            provenance: Some(Provenance::new(
+                "PHREEQC (IPhreeqc, USGS)",
+                dataset_name(db_tag),
+                idx.activity_model.describe(),
+                dataset_sources(db_tag),
+                routing,
+            )),
             solvent_activity,
         };
         let changed = vessel

@@ -1,0 +1,173 @@
+//! `Provenance.routing` — why one dataset answered and not another — in
+//! the reader's language.
+//!
+//! The routing line is the third place a solver welded a finished English
+//! paragraph shut with `format!`, after `Inert.why` (#626) and
+//! `NotYetModeled.what` (#632), and it is the one that is said BESIDE the
+//! numbers rather than instead of them. It is also the one with consumers
+//! that are not readers: `tools/chemistry-audit/analyse.py` files it as a
+//! `routing_claim`, `kero explain` prints it, and three tests in
+//! `kerotakis-phreeqc` assert on what it says. So the field keeps the
+//! English and gains a recipe beside it, and this is the gate over both
+//! halves of that bargain:
+//!
+//! 1. the English is the recipe rendered in the SOURCE language, so
+//!    nothing that reads the string can tell the change happened;
+//! 2. a reader who does not read English gets the catalogue's sentence,
+//!    holes and all, wherever a host renders the event.
+
+use kerotakis_core::phrase::{Phrase, Slot};
+use kerotakis_core::vessel::Provenance;
+use kerotakis_core::{Kelvin, Locale, VesselId};
+
+fn de() -> Locale {
+    Locale::parse("de")
+}
+
+/// `Provenance::new` fills the English from the recipe rather than from a
+/// second copy of the sentence. Two copies is how a product starts
+/// reading like two.
+#[test]
+fn the_english_is_the_recipe_rendered_in_english() {
+    let routing = Phrase::new(
+        "routing.concentrated-ion-interaction",
+        "chosen because the solution is concentrated (~{molality} mol/kgw), where the ion-interaction model is the valid one",
+        vec![("molality".to_string(), Slot::number("16.0"))],
+    );
+    let provenance = Provenance::new("engine", "dataset", "model", Vec::new(), routing);
+    assert_eq!(
+        provenance.routing,
+        "chosen because the solution is concentrated (~16.0 mol/kgw), where the ion-interaction model is the valid one"
+    );
+    assert_eq!(provenance.routing_in(Locale::EN), provenance.routing);
+}
+
+/// …and the German is the catalogue's, with the measurement given the
+/// reader's decimal separator on the way through. `16,0` is the point of
+/// the typed slot: a `format!` had already baked the point in.
+#[test]
+fn german_reads_the_catalogue_and_the_readers_separator() {
+    let provenance = Provenance::new(
+        "engine",
+        "dataset",
+        "model",
+        Vec::new(),
+        Phrase::new(
+            "routing.concentrated-ion-interaction",
+            "chosen because the solution is concentrated (~{molality} mol/kgw), where the ion-interaction model is the valid one",
+            vec![("molality".to_string(), Slot::number("16.0"))],
+        ),
+    );
+    let german = provenance.routing_in(de());
+    assert!(
+        german.contains("konzentriert") && german.contains("16,0 mol/kgw"),
+        "{german}"
+    );
+    assert!(
+        !german.contains("chosen because"),
+        "no English left in it: {german}"
+    );
+}
+
+/// The nesting the electrode pass needs: one solver's routing inside
+/// another's clause, translated as one sentence rather than two glued
+/// together. A `push_str` could not have been translated at all.
+#[test]
+fn a_nested_routing_is_one_translated_sentence() {
+    let mut provenance = Provenance::new(
+        "engine",
+        "dataset",
+        "model",
+        Vec::new(),
+        Phrase::bare(
+            "routing.default-inorganic",
+            "the default inorganic aqueous dataset",
+        ),
+    );
+    let outer = Phrase::new(
+        "routing.with-redox-note",
+        "{routing}. {note}",
+        vec![
+            ("routing".to_string(), provenance.routing_slot()),
+            (
+                "note".to_string(),
+                Slot::phrase(Phrase::bare(
+                    "routing.slow-couples-held-as-added",
+                    "some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones — sulfate, nitrate, carbonate — are held as added",
+                )),
+            ),
+        ],
+    );
+    provenance.say_routing(outer);
+    assert_eq!(
+        provenance.routing,
+        "the default inorganic aqueous dataset. some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones — sulfate, nitrate, carbonate — are held as added"
+    );
+    let german = provenance.routing_in(de());
+    assert!(
+        german.starts_with("der voreingestellte anorganische wässrige Datensatz. manche Elemente"),
+        "both halves German, and joined by the catalogue: {german}"
+    );
+}
+
+/// A provenance read back from a session saved before the recipe existed
+/// carries only the English, and is handed on rather than mangled: the
+/// engine cannot translate a sentence it did not compose.
+#[test]
+fn a_provenance_without_a_recipe_keeps_its_english() {
+    let provenance = Provenance {
+        engine: "engine".to_string(),
+        dataset: "dataset".to_string(),
+        model: "model".to_string(),
+        dataset_sources: Vec::new(),
+        routing: "written before there was a recipe".to_string(),
+        routing_phrase: None,
+    };
+    assert_eq!(
+        provenance.routing_in(de()),
+        "written before there was a recipe"
+    );
+}
+
+/// The surface this actually reaches: `ThermalEquilibrium` is the one
+/// event that carries a `Provenance`, the provenance drawer prints
+/// `provenance.routing` verbatim, and `localize_events` is where the
+/// engine learns who is reading.
+#[test]
+fn the_event_a_host_reads_carries_the_translated_routing() {
+    let event = kerotakis_core::Event::ThermalEquilibrium {
+        vessel: VesselId(0),
+        temperature: Kelvin(2769.0),
+        reaction_energy_j: None,
+        holds_nothing: false,
+        provenance: Provenance::new(
+            "curated combustion (Kerotakis)",
+            "kerotakis:combustion:curated-fuels-v1",
+            "model",
+            Vec::new(),
+            Phrase::bare(
+                "routing.curated-fuel-table",
+                "NASA CEA carries no thermochemistry for this fuel, so the curated table answered instead of the vessel reaching the model boundary",
+            ),
+        ),
+    };
+    let localized = kerotakis_core::localize_events(std::slice::from_ref(&event), de());
+    let kerotakis_core::Event::ThermalEquilibrium { provenance, .. } = &localized[0] else {
+        panic!("the event survives localization as itself");
+    };
+    assert!(
+        provenance.routing.starts_with("NASA CEA führt"),
+        "{}",
+        provenance.routing
+    );
+    // The recipe is the source and stays in the source language: a host
+    // that composes the sentence itself must not be handed one that has
+    // already been translated once.
+    assert_eq!(
+        provenance.routing_phrase.as_ref().map(|p| p.key.as_str()),
+        Some("routing.curated-fuel-table")
+    );
+    // English is the no-op it has always been.
+    let untouched = kerotakis_core::localize_events(std::slice::from_ref(&event), Locale::EN);
+    assert_eq!(untouched[0], event);
+}

@@ -3024,7 +3024,10 @@ impl Bench {
                                         Phrase::new(
                                             "not-modeled.co-evaporation",
                                             "co-evaporation of {liquids} needs vapour-liquid equilibrium — that is `distil`'s job; only the water was removed",
-                                            vec![("liquids".to_string(), Slot::text(other_liquids.join(", ")))],
+                                            vec![(
+                                                "liquids".to_string(),
+                                                Slot::terms("species", other_liquids),
+                                            )],
                                         ),
                                     ));
                     }
@@ -3614,13 +3617,7 @@ impl Bench {
                                 "any solute in this vessel",
                             ))
                         } else {
-                            Slot::text(
-                                outside
-                                    .iter()
-                                    .map(|species| species.0.as_str())
-                                    .collect::<Vec<_>>()
-                                    .join(", "),
-                            )
+                            Slot::texts(outside.iter().map(|species| species.0.as_str()))
                         };
                         events.push(Event::not_modeled(
                                         *from,
@@ -3648,11 +3645,12 @@ impl Bench {
                                     Phrase::new(
                                         "not-modeled.extraction-without-coefficient",
                                         "the extraction moved the supported solutes, but has no reviewed {solvent}/water distribution coefficient for {solutes}",
-                                        vec![("solvent".to_string(), Slot::text(solvent.0.clone())), ("solutes".to_string(), Slot::text(outside
-            .iter()
-            .map(|species| species.0.as_str())
-            .collect::<Vec<_>>()
-            .join(", ")))],
+                                        vec![("solvent".to_string(), Slot::text(solvent.0.clone())), (
+                                                "solutes".to_string(),
+                                                Slot::texts(
+                                                    outside.iter().map(|species| species.0.as_str()),
+                                                ),
+                                            )],
                                     ),
                                 ));
                 }
@@ -4175,7 +4173,12 @@ impl Bench {
                                             Phrase::new(
                                                 "not-modeled.incomplete-absorbance",
                                                 "complete absorbance is unavailable: no absorption spectrum for {species}",
-                                                vec![("species".to_string(), Slot::text(gaps.join(", ")))],
+                                                // The same list `appearance.rs` renders for the same
+                                                // gap, and rendered the same way: a term per
+                                                // species, joined by the reader's list grammar.
+                                                // Two sites saying one thing differently is how
+                                                // one product starts reading like two.
+                                                vec![("species".to_string(), Slot::terms("species", gaps))],
                                             ),
                                         ));
                         }
@@ -4320,7 +4323,7 @@ impl Bench {
                                                     "the column has no curated group decomposition for \
              {species} — a real column would separate these, so this \
              is a gap in the model rather than a result",
-                                                    vec![("species".to_string(), Slot::text(names.join(", ")))],
+                                                    vec![("species".to_string(), Slot::texts(names))],
                                                 ),
                                             ));
                             } else if injectable.is_empty() && outside.is_empty() {
@@ -4996,7 +4999,7 @@ impl Bench {
                             "no curated nuclide '{nuclide}' — the teaching set: {known}",
                             vec![
                                 ("nuclide".to_string(), Slot::text(nuclide.clone())),
-                                ("known".to_string(), Slot::text(known.join(", "))),
+                                ("known".to_string(), Slot::texts(known)),
                             ],
                         ),
                     ));
@@ -5052,12 +5055,10 @@ impl Bench {
                                         ("reaction".to_string(), Slot::text(reaction.clone())),
                                         (
                                             "known".to_string(),
-                                            Slot::text(
+                                            Slot::texts(
                                                 crate::curated::ORG_REACTIONS
                                                     .iter()
-                                                    .map(|r| r.name)
-                                                    .collect::<Vec<_>>()
-                                                    .join(", "),
+                                                    .map(|r| r.name),
                                             ),
                                         ),
                                     ],

@@ -641,6 +641,7 @@ mod tests {
                 model: "Debye–Hückel".into(),
                 dataset_sources: Vec::new(),
                 routing: "the only aqueous engine wired in this test".into(),
+                routing_phrase: None,
             }),
         });
         v

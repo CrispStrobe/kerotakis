@@ -1647,3 +1647,33 @@ malic_acid = "keine mitgelieferte Datenbank definiert eine Malat-Spezies, deshal
 # data, and the quote has to survive it being reworded.
 [material-assumption]
 whole_milk-casein = "KASEIN IST NICHT MODELLIERT, SEINE PUFFERWIRKUNG FEHLT DAHER"
+
+# Warum dieser Weg und nicht ein anderer: `vessel::Provenance.routing`.
+#
+# Diese Zeile steht neben den Zahlen und sagt, welcher Datensatz geantwortet
+# hat und warum. Sie war eine fertige englische Passage, mit `format!` in
+# den Solvern zusammengeschweißt — derselbe Defekt, den `[inert]` und
+# `[not-modeled]` eine Ereignisreihe weiter hatten. Vier Dateien setzen sie
+# zusammen: der wässrige Router wählt den Datensatz, der Elektrodendurchgang
+# schachtelt diese Wahl in seinen eigenen Satz, und die beiden
+# Verbrennungswege sagen je, warum sie geantwortet haben.
+#
+# Die Klauseln, die eine andere umschließen, führen `{routing}` als Loch:
+# eine Sprache, die die Einschränkung voranstellt, schreibt ihre Vorlage
+# einfach anders herum und braucht dafür keine Zeile Rust.
+[routing]
+solvent-relation-only = "keine dargestellte Säure, Base, kein Salz, keine Oberfläche, kein Austauscher, kein Gasübergang und kein reaktiver wässriger Gelöststoff; die Lösungsmittelbeziehung wurde ohne Aufruf von IPhreeqc ausgewertet, das gesamte Zuschauer-Inventar blieb dabei erhalten"
+mix-by-fraction = "MIX: zwei gelöste Lösungen anteilig gemischt"
+extended-chemistry = "gewählt, weil das Problem Chemie braucht, die dem voreingestellten Datensatz fehlt (organische Liganden, das entliehene Hypochlorit-Paar oder freie Phosphorsäure)"
+concentrated-ion-interaction = "gewählt, weil die Lösung konzentriert ist (~{molality} mol/kgw); dort ist das Ionenwechselwirkungsmodell das gültige"
+default-inorganic = "der voreingestellte anorganische wässrige Datensatz"
+activity-model-fallback = "{routing}; die Eingabe trägt eine möglicherweise konzentrierte Gelöststofffracht (~{molality} mol/kgw, keine gemessene Ionenstärke), aber die Pitzer-Route kann nicht die gesamte angeforderte Chemie darstellen. Dieser Rückgriff auf ein anderes Aktivitätsmodell ist keine validierte Vorhersage für konzentrierte Mischungen"
+redox-not-coupled = "die Redox-Elemente hier ließen sich nicht koppeln; jedes wird deshalb in der Oxidationsstufe gezeigt, in der es zugegeben wurde, und sie haben nicht miteinander reagiert — {why}"
+slow-couples-held-as-added = "manche Elemente behalten hier die Oxidationsstufe, in der sie zugegeben wurden: nur die Paare, die sich auf der Zeitskala eines Labortischs einstellen, tauschen Elektronen aus, und die langsamen — Sulfat, Nitrat, Carbonat — werden so gehalten, wie sie zugegeben wurden"
+with-redox-note = "{routing}. {note}"
+second-speciation-for-solvent = "{routing}; die Aktivität des Lösungsmittels stammt NICHT aus diesem Datensatz — er meldet PHREEQCs fest verdrahteten Platzhalter 1 - 0.017*Sum(m) statt eines Modells —, sondern aus einer zweiten Speziation derselben Lösung auf {dataset} ({model}), gestellt ohne Phasen, Gase oder Grenzflächen und allein nach a_w gefragt"
+electrode-potential = "{routing}. Das angegebene Potential ist das der Elektrode {reduced}/{oxidised}, nach Nernst über der berechneten Aktivität ({activity}; E° {e0} V, CRC) — ein Metall in Kontakt mit seinem eigenen Ion setzt das Potential, nicht die Luft über dem Becherglas. Die Speziation selbst wurde beim pe der offenen Luft gelöst."
+below-the-hydrogen-line = "Das liegt unterhalb der Wasserstofflinie des Wassers selbst ({line} V bei pH {ph}): {name} steht nicht im Gleichgewicht mit dem Wasser, in dem es steht, und ein echtes Voltmeter läse ein Mischpotential ab, das von Raten gesetzt wird, die dieses Labor nicht modelliert"
+curated-fuel-table = "NASA CEA führt für diesen Brennstoff keine Thermochemie, deshalb hat die kuratierte Tabelle geantwortet, statt dass das Gefäß an die Modellgrenze stößt"
+cea-feed-tp-fallback = "flüssiger Brennstoff nutzte CEAs eigene Thermochemie für die Zuführung; HP hat nicht eingeschlossen, deshalb wurde die Zusammensetzung bei der ausdrücklich angegebenen Zündzonentemperatur gelöst, und die Reaktionsenergie wird weiterhin gesondert angegeben"
+dry-solids-and-gases = "gewählt, weil dieses Gefäß trockene Feststoffe und Gase enthält, die die wässrige Rechenmaschine nicht modelliert"
