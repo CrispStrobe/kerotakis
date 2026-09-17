@@ -1634,12 +1634,21 @@ So the truthful inventory is 131 + 77 + 44 = **252**, and the shortfall was
     `crates/kerotakis-core/tests/golden/lessons.json`, so the change belongs
     with whoever owns that snapshot. The catalogue row (K111) is `partial` and
     says so until then.
-  - [ ] **GUI-104b — 47 lessons are still in the picker's `"more"` bucket.**
-    All 47 now carry a catalogue row, so this is no longer a visibility gap —
-    it is the picker and the catalogue disagreeing about how the same shelf is
-    organised. The catalogue's `topics` field is the grouping that already
-    exists; `TOPICS` in `lessons-index.py` should be derived from it rather
-    than maintained beside it.
+  - [x] **GUI-104b — the picker's `"more"` bucket is empty. DONE 2026-09-17.**
+    47 of 113 lessons sat in it. Every one carried authored `topics` in the
+    catalogue, so the grouping already existed and was simply written down
+    somewhere the picker could not see. `lessons-index.py` now derives a
+    shelf from those topics through one ORDERED list, `CATALOGUE_TOPIC`, and
+    the order is the editorial judgement: `proteins` outranks `heat`, so
+    heating egg white is food rather than thermochemistry, while
+    `invisible-ink-boundary` carries heat and food with no protein and the
+    same list sends it the other way. Two shelves were added because the
+    catalogue sends lessons to them — **food & life** (8) and **everyday
+    materials** (2, both non-Newtonian). `TOPICS` keeps its curated members
+    and its order, and still wins where it has an opinion. Three tests: no
+    shipped lesson lands in `"more"`, a lesson with no catalogue row still
+    does (the payload builds must work from a lessons directory alone), and
+    the ordering itself is pinned by the two lessons that demonstrate it.
 
 ## German stops where the engine starts talking (I18N-5 … I18N-9)
 
