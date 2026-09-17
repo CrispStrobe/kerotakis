@@ -226,3 +226,72 @@ fn a_stood_down_coupling_is_announced_where_it_happens() {
         "the stand-down must appear in the event stream, not only in explain: {events:?}"
     );
 }
+
+/// **A pe nothing constrains is withheld, and one a couple fixes is not.**
+///
+/// `th-100` — water, `NaHCO3`, `HCl`, sealed — used to publish a pe, and
+/// which pe depended on the order the two reagents went in:
+///
+/// | | pH | ionic strength | gauge | **pe** |
+/// |---|---|---|---|---|
+/// | bicarbonate first | 5.555778 | 0.497017 | agrees to 1e-6 | **12.780243** |
+/// | acid first | 5.555338 | 0.497017 | agrees to 1e-6 | **-0.055944** |
+///
+/// Every other surface agreed and pe moved 12.84, about 760 mV. The beaker
+/// holds no couple — `solution.redox` is empty both ways — so the number
+/// was whatever the solver's path left behind, published under the
+/// vessel's own name with nothing to say it meant nothing. The generated
+/// `Order` rule in `corpus_perturbation.rs` found it.
+///
+/// The guard that was supposed to prevent this asked whether any element
+/// COULD carry more than one oxidation state in the dataset. Carbon can,
+/// so a fizzing bicarbonate solution satisfied it. It now additionally
+/// requires that some element actually IS split — which is the difference
+/// between "this dataset knows carbon can be reduced" and "this beaker has
+/// an oxidising power".
+///
+/// The second half of this test is the one that matters: the fix must not
+/// withhold a pe that a real couple fixes.
+#[test]
+fn a_pe_no_couple_constrains_is_not_published() {
+    let mut eq = PhreeqcEquilibrator::new().expect("engine");
+    let mut bench = Bench::new();
+    let v = VesselId(0);
+    add(&mut bench, &mut eq, v, "water", 5.551);
+    add(&mut bench, &mut eq, v, "NaHCO3", 0.05);
+    add(&mut bench, &mut eq, v, "HCl", 0.05);
+    let solution = bench.vessel(v).expect("vessel").solution.clone();
+    let fizzy = solution.expect("the carbonate solution is characterised");
+    assert!(
+        fizzy.redox.is_empty(),
+        "no element in a bicarbonate/HCl beaker presents a split: {:?}",
+        fizzy.redox
+    );
+    assert_eq!(
+        fizzy.pe, None,
+        "pe was published for a beaker with no couple to fix it — it is a \
+         path residue, not an oxidising power"
+    );
+
+    // The control. Iron(III) in water reports its split, so its pe is a
+    // fact about the beaker and must survive.
+    let mut bench = Bench::new();
+    add(&mut bench, &mut eq, v, "water", 5.551);
+    add(&mut bench, &mut eq, v, "FeCl3", 0.01);
+    let ferric = bench
+        .vessel(v)
+        .expect("vessel")
+        .solution
+        .clone()
+        .expect("the iron solution is characterised");
+    assert!(
+        !ferric.redox.is_empty(),
+        "iron(III) has to report its oxidation state"
+    );
+    assert!(
+        ferric.pe.is_some_and(|pe| pe > 10.0),
+        "a ferric solution is strongly oxidising and its pe must still be \
+         published: {:?}",
+        ferric.pe
+    );
+}
