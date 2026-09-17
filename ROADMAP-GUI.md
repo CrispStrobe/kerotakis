@@ -1958,41 +1958,111 @@ display name in the registry, is the wrong fix.
   **11777 insertions, zero deletions**: every `words` string and every
   number in it is byte-for-byte what it was.
 
-### Found while finishing I18N-10, not fixed there
+### Found while finishing I18N-10, and fixed in #642
 
-- [ ] **`Provenance.routing` is a finished English paragraph, and it is
-  rendered beside the numbers.** `kerotakis-phreeqc`'s
-  `finalize_solution_info` builds it with `format!` and pushes two more
-  sentences onto it — the redox note, and "the solvent's activity is NOT
-  from this dataset … but from a second speciation of the same solution
-  on {dataset} ({model})". A German reader meets all of it in English.
-  This is `Inert.why` and `NotYetModeled.what` a third time: prose welded
-  shut in a solver, on a surface that reaches a reader. It is a `Phrase`
-  job of exactly the shape #626 and #628 did, and it is deliberately not
-  done here — the routing line has its own consumers (the provenance
-  audit, `explain`) and wants its own pass.
-- [ ] **Converted refusals that still hold a `", "`-joined list inside a
-  `Slot::Text`.** `Slot::List` renders *a, b and c* where `join(", ")`
-  renders *a, b, c*, so converting them **changes the English** and wants a
-  golden pass of its own. Enumerated 2026-09-17 so the next person does not
-  rescan — a scan for `Slot::text` with a `join` finds:
+- [x] **`Provenance.routing` was a finished English paragraph.** Done in
+  #642. It is a `Phrase` now, in all four files that compose one: the
+  aqueous router's three dataset choices and its activity-model caveat,
+  the redox note and the second-speciation note in
+  `finalize_solution_info`, the electrode pass in `displacement.rs`
+  (which NESTS the aqueous routing inside its own clause instead of
+  pushing a string onto it), and the two combustion routes. The field
+  keeps its English — `routing` is the recipe rendered in the source
+  language, byte for byte what it was — because it has consumers that are
+  not readers, which is what made this one different from `Inert.why` and
+  `NotYetModeled.what`:
 
-  | site | list |
-  |---|---|
-  | `bench.rs:3027` | `other_liquids` |
-  | `bench.rs:4178` | `gaps` |
-  | `bench.rs:4323` | `names` |
-  | `bench.rs:4999` | `known` |
-  | `solve.rs:2246` | `names` (`stranded_solutes`) |
-  | `particles.rs:345` | the English tail `", and {n} more"` |
+  | consumer | what it needs | matches on English? |
+  |---|---|---|
+  | `tools/chemistry-audit/analyse.py` | files the string verbatim as a `routing_claim` beside the numbers it checked | no — it records, it does not branch |
+  | `kero explain` (`kerotakis-cli`) | prints it under `routing:` | no; and see below |
+  | the provenance drawer (`ProvenanceDrawer.svelte`) | prints `source.routing` verbatim | no |
+  | `phreeqc/tests/provenance.rs`, `displacement.rs`, `ligand_reference.rs` | `contains("concentrated")`, `contains("Nernst")`, `contains("not a validated concentrated-mixture prediction")` | **yes, three of them** |
+  | `solve.rs`'s ion-interaction check | `provenance.model.starts_with(ION_INTERACTION_MODEL_PREFIX)` | no — and this is the healthy shape: the structural decision reads `model`, never the prose |
 
-  Two further lines (`bench.rs:3651`, `bench.rs:4998`) put a `join` near a
-  `Slot::text` on a multi-slot call and need reading individually before
-  being counted. **The I18N-10 report says nine; this scan finds five
-  joined lists plus the tail.** Whoever does the pass should settle the
-  count from the code rather than from either number — the discrepancy is
-  recorded because a count nobody can reproduce is how #505 happened, and
-  the honest move is to say the two disagree rather than to pick one.
+  So nothing ROUTES on the sentence the way `StructureOracle::apply` did
+  in #632 — the one place in the engine that decides something from a
+  provenance reads `model`, which is a dataset's name and not prose. The
+  three tests do, and they are why `routing` still carries English: a
+  German `routing` would have broken them, and they are right to want the
+  source language.
+
+  **Two surface facts that are worth writing down, because the entry
+  above was wrong about one of them.** The aqueous routing paragraph is
+  *not* on the drawer today: the drawer reads `event.provenance`, and the
+  only event that carries a `vessel::Provenance` is
+  `ThermalEquilibrium` — the combustion/CEA one. The aqueous routing
+  lives on `vessel.solution.provenance`, which reaches `kero explain`
+  and the `inspect` machine contract and nothing a reader reads in
+  German. So #642 translates what is reachable (`localize_event` now
+  renders `ThermalEquilibrium`'s routing, which IS beside the numbers in
+  the drawer) and makes the rest translatable the moment somebody wires
+  it.
+
+- [ ] **`kero explain` is English end to end, and the CLI has a locale.**
+  `explain_text` writes `"  {target}: answered by {} using {}"`,
+  `"model:"`, `"routing:"` and a dozen more labels as literals while
+  `self.locale` sits one frame up; `:lang de` changes every other line
+  the CLI prints. Not a translation gap in the engine — the sentences are
+  all in the CLI — so it is its own small pass, and `Provenance::routing_in`
+  is waiting for it.
+- [ ] **Wire the vessel's own provenance to the drawer.** The aqueous
+  routing — which dataset answered this beaker and why — is the one a
+  learner would most want and the one the drawer cannot see. It needs a
+  decision about shape (an event at characterisation time, or the drawer
+  reading the inspected vessel), so it is left as a GUI task rather than
+  guessed at here.
+
+- [x] **The `", "`-joined lists are `Slot::List` now.** Done in #642.
+  **The count, settled from the source: eight sites**, and the two
+  numbers on record were each half right. A paren-matching scan over
+  every `crates/*/src/**/*.rs` with test modules removed — the shape
+  `tools/engine-locale-lint.py` uses, because a line-window scan is what
+  produced the disagreement — finds exactly eight `Slot::text(…join…)`:
+
+  | site | list | items |
+  |---|---|---|
+  | `bench.rs` co-evaporation | `other_liquids` | display names → `Slot::terms("species", …)` |
+  | `bench.rs` no distribution coefficient | `outside` | `SpeciesId` → `Slot::texts` |
+  | `bench.rs` extraction without a coefficient | `outside` | `SpeciesId` → `Slot::texts` |
+  | `bench.rs` incomplete absorbance | `gaps` | `Slot::terms("species", …)`, matching `appearance.rs`'s `look.spectral-gap`, which already rendered the same list that way |
+  | `bench.rs` no group decomposition | `names` | `SpeciesId` → `Slot::texts` |
+  | `bench.rs` no curated nuclide | `known` | notation → `Slot::texts` |
+  | `bench.rs` no curated reaction | `ORG_REACTIONS` | row names → `Slot::texts` |
+  | `solve.rs` `stranded_solutes` | `names` | display names → `Slot::terms("species", …)` |
+
+  The roadmap's earlier scan named five and flagged two more as needing
+  individual reading; both of those were real, and it missed two others
+  outright (`outside` in the no-distribution-coefficient branch, and the
+  curated organic reactions) because in both the `.join(", ")` sits
+  several lines below the `Slot::text(` that contains it. **The I18N-10
+  report's nine was the honest number** — it is these eight plus the
+  `particles.rs` tail, which is the one item on the old list that is not
+  a `Slot` at all. So: nine things named, eight of them `Slot::text`
+  sites, and the disagreement was entirely about whether the tail counts.
+
+  Three constructors carry the pattern now — `Slot::list`, `Slot::texts`,
+  `Slot::terms` — so the next call site is one line and cannot reach for
+  a `join` by accident. Only one golden line moved:
+  `lessons.json`'s stranded-solute sentence gained the word *and*.
+
+- [ ] **`particles.rs` has no `Locale` at all, which is why its
+  `", and {n} more"` could not be converted with the rest.** The tail was
+  on I18N-10's list as if it were a ninth joined list. It is not: it is
+  one line of `Census::render`, which takes a `Register` and no locale and
+  is hardcoded English end to end — `"one {glyph} ≈ {n} mol/kgw"`,
+  `"; the water is drawn sparsely, not to scale"`, `"also in there, too
+  few to draw:"`, `"present below one glyph, so not drawn:"`, `"drawn from
+  the inventory: no solution was characterised…"`, plus `Kind::describe`
+  and the `plain_name` species names. A German session draws its
+  particles under English captions. Converting the tail alone would put
+  *und 3 weitere* inside an English sentence, so the honest unit of work
+  is the whole function: give it `render_in(register, locale)` the way
+  `render_vessel_in` has, and add it to the lint's `locale.t` sources —
+  `engine-locale-lint.py` reads those out of `render.rs` alone, so keys
+  added anywhere else are reported as orphans while their rows sit
+  outside the denominator, which is #505's scar in both directions at
+  once.
 
 ### Two defects found in the same playback, neither of them i18n
 
