@@ -1971,10 +1971,28 @@ display name in the registry, is the wrong fix.
   job of exactly the shape #626 and #628 did, and it is deliberately not
   done here — the routing line has its own consumers (the provenance
   audit, `explain`) and wants its own pass.
-- [ ] **Nine converted refusals still hold a `", "`-joined list inside a
-  `Slot::Text`,** and `phase_diagnostics`' also carries an English
-  `", and {n} more"` tail. See I18N-10 above: converting them changes the
-  English and wants a golden pass of its own.
+- [ ] **Converted refusals that still hold a `", "`-joined list inside a
+  `Slot::Text`.** `Slot::List` renders *a, b and c* where `join(", ")`
+  renders *a, b, c*, so converting them **changes the English** and wants a
+  golden pass of its own. Enumerated 2026-09-17 so the next person does not
+  rescan — a scan for `Slot::text` with a `join` finds:
+
+  | site | list |
+  |---|---|
+  | `bench.rs:3027` | `other_liquids` |
+  | `bench.rs:4178` | `gaps` |
+  | `bench.rs:4323` | `names` |
+  | `bench.rs:4999` | `known` |
+  | `solve.rs:2246` | `names` (`stranded_solutes`) |
+  | `particles.rs:345` | the English tail `", and {n} more"` |
+
+  Two further lines (`bench.rs:3651`, `bench.rs:4998`) put a `join` near a
+  `Slot::text` on a multi-slot call and need reading individually before
+  being counted. **The I18N-10 report says nine; this scan finds five
+  joined lists plus the tail.** Whoever does the pass should settle the
+  count from the code rather than from either number — the discrepancy is
+  recorded because a count nobody can reproduce is how #505 happened, and
+  the honest move is to say the two disagree rather than to pick one.
 
 ### Two defects found in the same playback, neither of them i18n
 
