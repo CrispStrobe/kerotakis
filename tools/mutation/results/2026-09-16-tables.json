@@ -175,6 +175,125 @@
    "source": "3.4279e2, -5.0866e-3, 9.4690e-7, -2.0525, 3.1159e3, -1.8289e2, -8.0325e3, 4.2142e6, 2.1417",
    "verdict": "caught"
   },
+  "116": {
+   "build_seconds": 154.0,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::water_permittivity_at_0c",
+    "properties::tests::water_permittivity_at_25c"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 111,
+   "rung": "unit",
+   "seconds": 3.4,
+   "source": "3.4279e2, -5.0866e-3, 9.4690e-7, -2.0525, 3.1159e3, -1.8289e2, -8.0325e3, 4.2142e6, 2.1417",
+   "verdict": "caught"
+  },
+  "117": {
+   "build_seconds": 157.2,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::water_permittivity_at_0c",
+    "properties::tests::water_permittivity_at_25c"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 111,
+   "rung": "unit",
+   "seconds": 3.8,
+   "source": "3.4279e2, -5.0866e-3, 9.4690e-7, -2.0525, 3.1159e3, -1.8289e2, -8.0325e3, 4.2142e6, 2.1417",
+   "verdict": "caught"
+  },
+  "118": {
+   "build_seconds": 167.3,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 111,
+   "rung": null,
+   "seconds": 46.1,
+   "source": "3.4279e2, -5.0866e-3, 9.4690e-7, -2.0525, 3.1159e3, -1.8289e2, -8.0325e3, 4.2142e6, 2.1417",
+   "verdict": "survived"
+  },
+  "124": {
+   "build_seconds": 216.0,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::evaluate_dispatches_henry",
+    "properties::tests::henry_co2_at_25c"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 166,
+   "rung": "unit",
+   "seconds": 4.4,
+   "source": "hcp_298: 3.4e-2,",
+   "verdict": "caught"
+  },
+  "126": {
+   "build_seconds": 176.3,
+   "caught_by": "core-unit",
+   "failing": [
+    "properties::tests::henry_o2_at_25c"
+   ],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 173,
+   "rung": "unit",
+   "seconds": 3.6,
+   "source": "hcp_298: 1.3e-3,",
+   "verdict": "caught"
+  },
+  "127": {
+   "build_seconds": 166.7,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 174,
+   "rung": null,
+   "seconds": 52.7,
+   "source": "c_kelvin: 1500.0,",
+   "verdict": "survived"
+  },
+  "128": {
+   "build_seconds": 177.9,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 180,
+   "rung": null,
+   "seconds": 53.3,
+   "source": "hcp_298: 6.1e-4,",
+   "verdict": "survived"
+  },
+  "129": {
+   "build_seconds": 163.1,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 181,
+   "rung": null,
+   "seconds": 43.6,
+   "source": "c_kelvin: 1300.0,",
+   "verdict": "survived"
+  },
+  "130": {
+   "build_seconds": 155.8,
+   "caught_by": null,
+   "failing": [],
+   "file": "crates/kerotakis-core/src/properties.rs",
+   "kind": "table",
+   "line": 187,
+   "rung": null,
+   "seconds": 41.8,
+   "source": "hcp_298: 7.8e-4,",
+   "verdict": "survived"
+  },
   "15": {
    "build_seconds": 163.2,
    "caught_by": "core-integration",
