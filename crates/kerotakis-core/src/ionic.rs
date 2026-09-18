@@ -51,6 +51,7 @@
 
 use serde::{Deserialize, Serialize};
 
+use crate::i18n::Locale;
 use crate::ops::Event;
 use crate::species::{self, Phase, SpeciesId};
 use crate::stoich::{self, Formula, FormulaDialect};
@@ -193,7 +194,17 @@ impl NetIonic {
 ///
 /// Empty is the common case and an honest one: most operators are not a
 /// reaction between ions.
-pub fn net_ionic_for(events: &[Event], vessels: &[Vessel]) -> Vec<NetIonic> {
+///
+/// `locale` is here for one field: [`NetIonic::provenance`], which names
+/// the dataset and the model that answered, and both of those are
+/// sentences with a name inside them. The equation itself is chemistry —
+/// `Ag⁺(aq) + Cl⁻(aq) → AgCl(s)` is the same line in every language,
+/// because every symbol in it is an IUPAC name and an arrow. So this is
+/// not a rendering function that grew a language; it is a producer whose
+/// one prose field could not be translated by anyone downstream, because
+/// the recipe that could have been was flattened to English before it
+/// left.
+pub fn net_ionic_for(events: &[Event], vessels: &[Vessel], locale: Locale) -> Vec<NetIonic> {
     let mut out: Vec<NetIonic> = Vec::new();
     for event in events.iter().filter(|e| e.is_observable()) {
         let Some(vessel_id) = subject_vessel(event) else {
@@ -202,7 +213,7 @@ pub fn net_ionic_for(events: &[Event], vessels: &[Vessel]) -> Vec<NetIonic> {
         let Some(vessel) = vessels.iter().find(|v| v.id == vessel_id) else {
             continue;
         };
-        if let Some(net) = net_ionic(event, vessel) {
+        if let Some(net) = net_ionic(event, vessel, locale) {
             if !out.iter().any(|prior| prior.equation == net.equation) {
                 out.push(net);
             }
@@ -213,10 +224,13 @@ pub fn net_ionic_for(events: &[Event], vessels: &[Vessel]) -> Vec<NetIonic> {
 
 /// The net ionic equation one event implies in one vessel, or `None` where
 /// the engine does not know enough to write one.
-pub fn net_ionic(event: &Event, vessel: &Vessel) -> Option<NetIonic> {
+///
+/// `locale` reaches only [`NetIonic::provenance`] — see
+/// [`net_ionic_for`].
+pub fn net_ionic(event: &Event, vessel: &Vessel, locale: Locale) -> Option<NetIonic> {
     match event {
-        Event::Precipitated { species, .. } => from_precipitate(vessel, species),
-        Event::Neutralised { .. } => from_neutralisation(vessel),
+        Event::Precipitated { species, .. } => from_precipitate(vessel, species, locale),
+        Event::Neutralised { .. } => from_neutralisation(vessel, locale),
         _ => None,
     }
 }
@@ -230,7 +244,7 @@ fn subject_vessel(event: &Event) -> Option<VesselId> {
 
 // ── precipitation ───────────────────────────────────────────────────
 
-fn from_precipitate(vessel: &Vessel, solid_id: &SpeciesId) -> Option<NetIonic> {
+fn from_precipitate(vessel: &Vessel, solid_id: &SpeciesId, locale: Locale) -> Option<NetIonic> {
     let solid_formula = species::lookup(solid_id)
         .and_then(|d| stoich::parse_formula(d.formula).ok())
         .or_else(|| stoich::parse_formula(&solid_id.0).ok())?;
@@ -341,13 +355,13 @@ fn from_precipitate(vessel: &Vessel, solid_id: &SpeciesId) -> Option<NetIonic> {
         reactants,
         products,
         spectators(&dissolved, &participant_names),
-        provenance_of(vessel),
+        provenance_of(vessel, locale),
     ))
 }
 
 // ── neutralisation ──────────────────────────────────────────────────
 
-fn from_neutralisation(vessel: &Vessel) -> Option<NetIonic> {
+fn from_neutralisation(vessel: &Vessel, locale: Locale) -> Option<NetIonic> {
     let dissolved = dissolved_species(vessel)?;
     // Both halves have to be species the solver actually reports. Written
     // out of a table instead, this would be the one equation in the module
@@ -364,7 +378,7 @@ fn from_neutralisation(vessel: &Vessel) -> Option<NetIonic> {
         ],
         vec![IonTerm::new("H2O", 1, 0, Phase::Liquid)],
         spectators(&dissolved, &participants),
-        provenance_of(vessel),
+        provenance_of(vessel, locale),
     ))
 }
 
@@ -389,9 +403,38 @@ fn dissolved_species(vessel: &Vessel) -> Option<Vec<(&SpeciesDetail, Formula)>> 
     (!parsed.is_empty()).then_some(parsed)
 }
 
-fn provenance_of(vessel: &Vessel) -> Option<String> {
+/// Which engine, which dataset and which model answered this beaker, in
+/// the reader's language.
+///
+/// **The sixth and last member of the welded-prose family** (`Inert.why`
+/// #626, `NotYetModeled.what` #632, `scene_vessel` #628,
+/// `Provenance.routing` #642, `Provenance.dataset`/`.model` #655). This
+/// line used to read `p.dataset` and `p.model` — the ENGLISH fields —
+/// and hand a German drawer *wateq4f.dat plus USBM IC 9429
+/// reference-temperature complexes* and *ion interaction (Pitzer)* in the
+/// middle of its own sentence. The two recipes have been on the
+/// provenance since #655; nothing here could reach them, because there was
+/// no `Locale` in scope to render them with. That is what
+/// `net_ionic_for`'s new argument is for.
+///
+/// The three names are joined with `·` and nothing else. A separator is
+/// not a sentence: there is no word here for a catalogue to hold, and a
+/// row over a middle dot would be a row inviting a translator to change
+/// punctuation. The translated halves are `dataset_in` and `model_in`,
+/// each of which is a recipe with the FILE NAME and the MODEL NAME in
+/// text slots no catalogue looks up — so `llnl.dat` stays `llnl.dat` and
+/// `Pitzer` stays `Pitzer` in every language.
+///
+/// `engine` is not translated and is not a defect: `PHREEQC (IPhreeqc,
+/// USGS)` is a program and an institution, and both are names.
+fn provenance_of(vessel: &Vessel, locale: Locale) -> Option<String> {
     let p = vessel.solution.as_ref()?.provenance.as_ref()?;
-    Some(format!("{} · {} · {}", p.engine, p.dataset, p.model))
+    Some(format!(
+        "{} · {} · {}",
+        p.engine,
+        p.dataset_in(locale),
+        p.model_in(locale)
+    ))
 }
 
 /// The ions left over: charged, present in quantity, and not taking part.
@@ -678,7 +721,8 @@ mod tests {
             moles: Moles(0.0058),
             dry: false,
         };
-        let net = net_ionic(&event, &v).expect("a precipitate with speciation is derivable");
+        let net =
+            net_ionic(&event, &v, Locale::EN).expect("a precipitate with speciation is derivable");
 
         assert_eq!(net.basis, IonicBasis::Precipitation);
         assert_eq!(net.equation, "Ag⁺(aq) + Cl⁻(aq) → AgCl(s)");
@@ -714,7 +758,7 @@ mod tests {
             moles: Moles(0.01),
             dry: false,
         };
-        let net = net_ionic(&event, &v).expect("hydroxide precipitation is derivable");
+        let net = net_ionic(&event, &v, Locale::EN).expect("hydroxide precipitation is derivable");
         assert_eq!(net.equation, "Mg²⁺(aq) + 2 OH⁻(aq) → Mg(OH)₂(s)");
         assert_eq!(
             net.spectators
@@ -740,7 +784,7 @@ mod tests {
             vessel: VesselId(0),
             moles: Moles(0.01),
         };
-        let net = net_ionic(&event, &v).expect("a characterised solution can say this");
+        let net = net_ionic(&event, &v, Locale::EN).expect("a characterised solution can say this");
         assert_eq!(net.basis, IonicBasis::Neutralisation);
         assert_eq!(net.equation, "H⁺(aq) + OH⁻(aq) → H₂O(l)");
         assert_eq!(
@@ -766,12 +810,12 @@ mod tests {
             moles: Moles(0.0058),
             dry: false,
         };
-        assert_eq!(net_ionic(&event, &v), None);
+        assert_eq!(net_ionic(&event, &v, Locale::EN), None);
 
         // Characterised, but with nothing in it that could have made the
         // solid: still nothing to say rather than an invented partner.
         let barren = beaker(vec![detail("Na+", 0.1), detail("NO3-", 0.1)]);
-        assert_eq!(net_ionic(&event, &barren), None);
+        assert_eq!(net_ionic(&event, &barren, Locale::EN), None);
     }
 
     /// An event that is not a reaction between ions earns no equation.
@@ -783,7 +827,7 @@ mod tests {
             species: SpeciesId::new("NaCl"),
             moles: Moles(0.01),
         };
-        assert_eq!(net_ionic(&event, &v), None);
+        assert_eq!(net_ionic(&event, &v, Locale::EN), None);
     }
 
     /// Below the observability floor nothing is told, so nothing is
@@ -802,7 +846,7 @@ mod tests {
             moles: Moles(1e-12),
             dry: false,
         }];
-        assert!(net_ionic_for(&events, std::slice::from_ref(&v)).is_empty());
+        assert!(net_ionic_for(&events, std::slice::from_ref(&v), Locale::EN).is_empty());
     }
 
     #[test]

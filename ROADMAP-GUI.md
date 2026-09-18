@@ -2019,8 +2019,10 @@ display name in the registry, is the wrong fix.
   so its language must not change under it.
 
 - [x] **`Provenance.dataset` and `.model` carry English PROSE, not names.
-  DONE 2026-09-18, in #655.** The fifth and last instance of the family
-  after `Inert.why`, `NotYetModeled.what`, `scene_vessel` and `routing`.
+  DONE 2026-09-18, in #655.** The fifth instance of the family
+  after `Inert.why`, `NotYetModeled.what`, `scene_vessel` and `routing`
+  — and it was called the last one at the time, which the bullet below
+  corrects: `ionic.rs` was still reading both of these fields in English.
   Visible the moment `explain` spoke German:
 
       Modell:  WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)
@@ -2070,6 +2072,54 @@ display name in the registry, is the wrong fix.
   `ActivityModel::phrase` is the only place the three activity-model
   descriptions exist, and a composer the lint cannot see is a blind spot of
   exactly the shape three were found in yesterday.
+
+- [x] **`ionic.rs::provenance_of` builds the ionic drawer's source line in
+  English. DONE 2026-09-18, ruled by the owner.** The SIXTH and last
+  member of the family, and the one the five before it kept out of sight:
+  `NetIonic.provenance` is `"{engine} · {dataset} · {model}"`, and the two
+  halves that are sentences were read off the ENGLISH fields. A German
+  drawer said
+
+      Herkunft: PHREEQC (IPhreeqc, USGS) · llnl.dat · Pitzer
+                specific-ion-interaction model (valid at high ionic strength)
+
+  where it now says *… · Pitzer-Modell der spezifischen Ionenwechselwirkung
+  (gültig bei hoher Ionenstärke)*.
+
+  **The recipes were already there; the locale was not.** #655 put
+  `dataset_phrase` and `model_phrase` on the provenance and gave it
+  `dataset_in`/`model_in` to render them — and this function could reach
+  neither, because nothing in `ionic.rs` knew who was reading.
+  `net_ionic_for` and `net_ionic` now take a `Locale`. Emitting a `Phrase`
+  and letting each host compose the line was the alternative, and was
+  offered and not chosen: the line is a producer's, every host prints it
+  verbatim, and a second composition surface is a second place to drift.
+
+  **The separator is not translated and gets no catalogue row.** ` · `
+  holds no word for a translator to change, and a row over punctuation is
+  a row inviting one. The three parts are names or recipes; the join is
+  neither. So this fix adds ZERO catalogue rows, which is also why the
+  engine locale lint is unmoved by it.
+
+  **The callers, named because #645 broke `main` by missing one.**
+  `kerotakis-wasm/src/lib.rs` calls it twice (`step` and `runScript`) and
+  passes `self.locale`, which is the session's; `render_ionic_for` in
+  `render.rs` already had a locale and passes it through;
+  `kerotakis-phreeqc/tests/equilibrator.rs` asserts on English and says so
+  by passing `Locale::EN`. Clippy was run `--workspace --all-targets`, not
+  `-p kerotakis-core`, which is the check #645 skipped.
+
+  **`ION_INTERACTION_MODEL_PREFIX` is deliberately left alone**, and this
+  is not the "second English-shaped boolean" the family hunts. It is a
+  DECISION read off `Provenance.model`, never prose shown to a reader, and
+  `states.rs` documents at length why it stays a prefix test: `kerotakis-
+  core` sits below the crate that knows which dataset is which, and
+  inverting that dependency to type one boolean is the larger mistake. The
+  seam is pinned from the other side instead —
+  `only_the_ion_interaction_model_carries_the_prefix_core_matches_on` in
+  `kerotakis-phreeqc` fails if the Pitzer description is reworded. A typed
+  activity basis on the wire would be an additive protocol field and a
+  ruling of its own, not a rider on a locale thread.
 
 - [x] **Wire the vessel's own provenance to the drawer. DONE 2026-09-18,
   in #653.** The aqueous routing — which dataset answered this beaker and

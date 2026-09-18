@@ -2,10 +2,20 @@
 //! right language (GUI-092).
 //!
 //! The equation itself is chemical notation and stays identical in every
-//! language; only the label around it is translated. A test rather than a
-//! comment, because "translate the equation too" is a plausible-looking
-//! thing for a future contributor to do.
+//! language; only the label around it — and the provenance line under it
+//! — is translated. A test rather than a comment, because "translate the
+//! equation too" is a plausible-looking thing for a future contributor to
+//! do.
+//!
+//! `NetIonic.provenance` was the SIXTH and last member of the welded-prose
+//! family (`Inert.why` #626, `NotYetModeled.what` #632, `scene_vessel`
+//! #628, `Provenance.routing` #642, `Provenance.dataset`/`.model` #655).
+//! It read the English `dataset` and `model` fields because `net_ionic_for`
+//! had no `Locale` to render their recipes with, and the German drawer
+//! therefore said *… · ion interaction (Pitzer)*. Threading the locale is
+//! what these tests hold in place.
 
+use kerotakis_core::phrase::{Phrase, Slot};
 use kerotakis_core::species::{Phase, SpeciesId};
 use kerotakis_core::units::{Kelvin, Moles};
 use kerotakis_core::vessel::{Provenance, SolutionInfo, SpeciesDetail, Vessel, VesselId};
@@ -65,7 +75,7 @@ fn precipitation() -> Event {
 
 #[test]
 fn lv1_is_told_nothing_and_lv2_gets_the_equation() {
-    let net = kerotakis_core::net_ionic(&precipitation(), &brine_with_silver())
+    let net = kerotakis_core::net_ionic(&precipitation(), &brine_with_silver(), Locale::EN)
         .expect("a solved precipitation is derivable");
 
     assert_eq!(render_ionic(&net, Register::LV1), None);
@@ -77,7 +87,8 @@ fn lv1_is_told_nothing_and_lv2_gets_the_equation() {
 
 #[test]
 fn lv3_names_the_ions_that_stayed_out_of_it() {
-    let net = kerotakis_core::net_ionic(&precipitation(), &brine_with_silver()).unwrap();
+    let net =
+        kerotakis_core::net_ionic(&precipitation(), &brine_with_silver(), Locale::EN).unwrap();
     let line = render_ionic(&net, Register::LV3).expect("lv3 renders");
     assert!(line.contains("Ag⁺(aq) + Cl⁻(aq) → AgCl(s)"), "{line}");
     assert!(line.contains("spectator ions: Na⁺, NO₃⁻"), "{line}");
@@ -85,7 +96,9 @@ fn lv3_names_the_ions_that_stayed_out_of_it() {
 
 #[test]
 fn german_translates_the_label_and_leaves_the_chemistry_alone() {
-    let net = kerotakis_core::net_ionic(&precipitation(), &brine_with_silver()).unwrap();
+    let net =
+        kerotakis_core::net_ionic(&precipitation(), &brine_with_silver(), Locale::parse("de"))
+            .unwrap();
     let line = render_ionic_in(&net, Register::LV3, Locale::parse("de")).expect("lv3 renders");
     assert!(line.contains("Netto-Ionengleichung"), "{line}");
     assert!(line.contains("Zuschauerionen"), "{line}");
@@ -113,7 +126,8 @@ fn a_step_that_derives_nothing_renders_nothing() {
 
 #[test]
 fn the_terms_carry_their_charge_and_phase_for_a_client_that_lays_them_out() {
-    let net = kerotakis_core::net_ionic(&precipitation(), &brine_with_silver()).unwrap();
+    let net =
+        kerotakis_core::net_ionic(&precipitation(), &brine_with_silver(), Locale::EN).unwrap();
     let silver = net
         .reactants
         .iter()
@@ -124,4 +138,77 @@ fn the_terms_carry_their_charge_and_phase_for_a_client_that_lays_them_out() {
     assert_eq!(silver.label, "Ag⁺");
     assert_eq!(net.products[0].phase, Phase::Solid);
     assert_eq!(net.products[0].species, "AgCl");
+}
+
+/// The same beaker, answered by a dataset that carries RECIPES rather than
+/// finished English — which is what the aqueous router actually composes.
+///
+/// `llnl.dat` is a bare NAME and carries no recipe by design: there is no
+/// sentence welded to it to translate. The model is the ion-interaction
+/// claim, and its German row is the half that used to reach a German
+/// reader in English.
+fn routed_by_pitzer() -> Vessel {
+    let mut v = brine_with_silver();
+    v.solution.as_mut().expect("characterised").provenance = Some(Provenance::new(
+        "PHREEQC (IPhreeqc, USGS)",
+        "llnl.dat",
+        Phrase::new(
+            "provenance.model.ion-interaction",
+            "{name} specific-ion-interaction model (valid at high ionic strength)",
+            vec![("name".to_string(), Slot::text("Pitzer"))],
+        ),
+        Vec::new(),
+        Phrase::bare(
+            "routing.default-inorganic",
+            "the default inorganic aqueous dataset",
+        ),
+    ));
+    v
+}
+
+/// The line a German drawer now reads.
+///
+/// The model is the reader's language and the two NAMES in it — the
+/// program and the person — are untouched, because names travel in text
+/// slots the catalogue never looks up.
+#[test]
+fn the_provenance_line_is_german_and_keeps_its_names() {
+    let net = kerotakis_core::net_ionic(&precipitation(), &routed_by_pitzer(), Locale::parse("de"))
+        .expect("a solved precipitation is derivable");
+    let provenance = net.provenance.expect("the vessel records one");
+    assert_eq!(
+        provenance,
+        "PHREEQC (IPhreeqc, USGS) · llnl.dat · Pitzer-Modell der spezifischen \
+         Ionenwechselwirkung (gültig bei hoher Ionenstärke)"
+    );
+    assert!(
+        !provenance.contains("specific-ion-interaction"),
+        "no English left in it: {provenance}"
+    );
+}
+
+/// English is unchanged, byte for byte — the property every consumer that
+/// is not a reader rests on.
+#[test]
+fn english_says_exactly_what_it_said_before() {
+    let net = kerotakis_core::net_ionic(&precipitation(), &routed_by_pitzer(), Locale::EN).unwrap();
+    assert_eq!(
+        net.provenance.as_deref(),
+        Some(
+            "PHREEQC (IPhreeqc, USGS) · llnl.dat · Pitzer specific-ion-interaction model (valid at high ionic strength)"
+        )
+    );
+}
+
+/// A provenance saved before the recipes existed has only its English, and
+/// gets it back in every language rather than nothing.
+#[test]
+fn a_provenance_without_recipes_still_answers_in_german() {
+    let net =
+        kerotakis_core::net_ionic(&precipitation(), &brine_with_silver(), Locale::parse("de"))
+            .unwrap();
+    assert_eq!(
+        net.provenance.as_deref(),
+        Some("PHREEQC (IPhreeqc) · wateq4f.dat · Debye–Hückel")
+    );
 }

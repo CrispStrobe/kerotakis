@@ -284,7 +284,7 @@ impl Lab {
         let charts = kerotakis_core::chart::charts_for_events(&events);
         // GUI-092: the net ionic equation, where the solved speciation
         // supports one. Empty is the common and honest case.
-        let ionic = kerotakis_core::ionic::net_ionic_for(&events, &self.bench.vessels);
+        let ionic = kerotakis_core::ionic::net_ionic_for(&events, &self.bench.vessels, self.locale);
         let quest = self.quest_observe(&events);
         let doc = serde_json::json!({
             "events": events,
@@ -331,7 +331,11 @@ impl Lab {
                     let events = localize_events(&self.run(op.clone())?, self.locale);
                     let rendered = render_events_in(&events, self.register, self.locale);
                     let charts = kerotakis_core::chart::charts_for_events(&events);
-                    let ionic = kerotakis_core::ionic::net_ionic_for(&events, &self.bench.vessels);
+                    let ionic = kerotakis_core::ionic::net_ionic_for(
+                        &events,
+                        &self.bench.vessels,
+                        self.locale,
+                    );
                     let quest = self.quest_observe(&events);
                     steps.push(serde_json::json!({
                         "canonical": canonical,
