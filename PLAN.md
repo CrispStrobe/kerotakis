@@ -3376,6 +3376,14 @@ finished and merged.
   are per kg of the solver's own `mass_H2O`, so it would leave `n = m x kg`
   false by exactly the discrepancy it repaired.
 
+  **RULED AND DONE 2026-09-18** — pose it canonically; see the ticked item
+  in the section below for the numbers. The reading above is right about the
+  non-invariance and still short of the cause: `mass_H2O` follows the water
+  the INPUT declared, and the input to the last operation is the
+  *intermediate* vessel plus one reagent. The two orders have different
+  intermediate vessels, so the same final contents reach the solver as two
+  different questions. The vessel's own water inventory never departed.
+
 
 ### Ruled by the owner, 2026-09-18
 
@@ -3431,20 +3439,40 @@ question was asked.
       offered and not chosen, and narrowing it risks failing CI on a genuine
       model limitation at the dilute end.
 
-- [ ] **`solution.solvent_kg`: pose the final state canonically before the
-      last solve. RULED 2026-09-18.** Same contents must give the same
-      answer regardless of the order they arrived in. Today a CaCl₂ addition
-      yields 0.0997010580 with the detergent already dissolved and
-      0.0996909357 without, and `ionic_strength` carries that 1e-4 into every
-      activity coefficient. Accepting the non-invariance and declaring it on
-      the wire was offered and not chosen.
-      **What reaches the user:** both orders read `solvent_kg 0.0996909590`
-      and `ionic_strength 0.2759782269`; the `aq-023` corpus row stops
-      departing.
-      **The cost, which is real:** one extra solver call per
-      characterisation, on a box where a lesson already takes seconds. If the
-      measured cost turns out to be worse than "one more solve", stop and
-      report it rather than shipping a slower engine quietly.
+- [x] **`solution.solvent_kg`: pose the final state canonically before the
+      last solve. RULED 2026-09-18; DONE 2026-09-18.** Both orders of
+      `aq-023` now read `solvent_kg 0.0996939730` and `ionic_strength`
+      0.2759702852 against 0.2759702847, where they read 0.0997010580 /
+      0.0996909590 and 0.2759516202 / 0.2759782269 before. **1.0129e-4 apart
+      became 1.0023e-13, and 9.6418e-5 became 1.8361e-9.** The row stops
+      departing and is struck from `ORDER_DEPARTURES`.
+      **The answer landed on neither of the two old numbers**, which is the
+      point: it is the answer to the state rather than to either route
+      through it, and the value the ruling predicted was simply the
+      powder-first one quoted forward.
+      **What the work found, and what two earlier readings got wrong.**
+      `mass_H2O` tracks the water the INPUT declared, and the input to the
+      last operation is the *intermediate* vessel plus one reagent — a
+      calcium chloride solution in one order and a carbonate one in the
+      other, holding different shares of their hydrogen and oxygen inside
+      species rather than inside water. The vessel's own inventory never
+      departed at all, because `complete_basis` rebuilds the water portion
+      from conserved H and O. So the fix is one extra pose of the SETTLED
+      contents (`PhreeqcEquilibrator::recharacterise_canonically`), which
+      replaces the four reported numbers and rebuilds nothing.
+      **Why the residue is not zero, stated rather than rounded away:** the
+      input writes the solvent mass to nine decimals, coarser than the
+      inventory's own 4e-9 disagreement, so both orders produce the same
+      input text and `solvent_kg` is exact; the element totals are written
+      to twelve significant figures, finer than that residue, which is the
+      whole of the remaining 1.8e-9 in the ionic strength — noise in a
+      conserved sum, not a representation.
+      **The cost, measured:** 8 engine calls became 9 on one ordering and 6
+      became 8 on the other — at most one more per equilibration, sometimes
+      none when the content-addressed cache answers the re-pose. Exactly the
+      "one more solve" the ruling accepted, so there was nothing to stop
+      and report. `crates/kerotakis-phreeqc/tests/order_invariance.rs` holds
+      the invariance and the ceiling.
 
 - [ ] **`ionic.rs::provenance_of`: thread a `Locale` through
       `net_ionic_for`. RULED 2026-09-18.** The sixth and last member of the

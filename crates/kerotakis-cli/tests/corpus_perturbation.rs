@@ -1391,62 +1391,47 @@ const ORDER_DEPARTURES: &[(&str, &str)] = &[
         "an open vessel vents CO2 while the reagents meet, so the trace \
          sealed in afterwards depends on the order by 2.3e-3 relative",
     ),
-    // LIVE DEFECT, small, and LOCALISED 2026-09-17. Calcium chloride and
-    // powdered detergent. The inventory's water agrees between the two
-    // orders to one part in 4e8 (5.5339424445 against 5.5339424570 mol);
-    // `solution.solvent_kg` disagrees by one part in 1e4 (0.0997010580
-    // against 0.0996909590 kg), about 10 mg in 100 g. Every molality is
-    // divided by that number, and the wire's four significant figures hide
-    // the result — but `ionic_strength` carries it too, 0.2759516 against
-    // 0.2759782, which is the same 1e-4 and feeds every activity
-    // coefficient.
+    // FIXED 2026-09-18, and the row is kept as a comment because the
+    // investigation is the useful part. `aq-023` — calcium chloride and a
+    // powdered detergent in 100 mL of water — departed here from the day
+    // this rule was written: the inventory's water agreed between the two
+    // orders to one part in 4e8 (5.5339424445 against 5.5339424570 mol) while
+    // `solution.solvent_kg` disagreed by one part in 1e4 (0.0997010580
+    // against 0.0996909590 kg), about 10 mg in 100 g, and `ionic_strength`
+    // carried the same residue (0.2759516202 against 0.2759782269) into
+    // every activity coefficient.
     //
-    // It is not the salt and it is not convergence. Two ordinary salts in
-    // either order give `solvent_kg` 0.0997000000 EXACTLY both ways — a
-    // round number derived from the 100 mL that went in, not an echo of the
-    // solver. The residue needs the unresolved material, and which way
-    // round it goes is decided by the LAST operation:
+    // TWO WRONG READINGS PRECEDED THE RIGHT ONE, and both are written down
+    // because each looked conclusive. The first was "the input water when a
+    // material add is last, the solver's `mass_H2O` when a salt add is
+    // last" — two sources where there is one. Instrumenting all three sites
+    // that set `solvent_kg` showed both values coming out of
+    // `finalize_solution_info`, so an owner decision taken on that reading
+    // ("publish the solver's `mass_H2O` always") was already what happened
+    // and fixed nothing. The second was that PHREEQC's `mass_H2O` is simply
+    // not representation-invariant and the two orders hand it the same
+    // state in two representations — true, and still not the whole of it.
     //
-    //     water + detergent                -> 0.0997000000  (exact)
-    //     water + detergent + NaCl         -> 0.0996903242
-    //     water + NaCl      + detergent    -> 0.0997000000  (exact)
+    // WHAT IT WAS: `mass_H2O` tracks the water the INPUT declared, and the
+    // input to the last operation is the INTERMEDIATE vessel plus one
+    // reagent. The two orderings have different intermediate vessels —
+    // a calcium chloride solution and a carbonate one — holding different
+    // shares of their hydrogen and oxygen inside species rather than inside
+    // water. The vessel's own inventory never departed, because
+    // `complete_basis` rebuilds the water portion from conserved H and O
+    // and conservation cannot care about order; only the question put to
+    // the solver did.
     //
-    // **CORRECTED 2026-09-18.** The reading above — "the input water when
-    // the material add is last, the solver's `mass_H2O` when a salt add is
-    // last" — was WRONG, and wrong in the way that matters: it named two
-    // sources where there is one. Instrumenting all three sites that set
-    // `solvent_kg` and running both orders says so plainly:
-    //
-    //     material last:  solvent_only 0.0997 -> finalize 0.0997
-    //                     -> finalize 0.0997 -> finalize 0.0997010580
-    //     salt last:      solvent_only 0.0997 -> finalize 0.0997
-    //                     -> finalize 0.0996909357 -> finalize 0.0996909590
-    //
-    // **Both final values come from `finalize_solution_info`.** There is no
-    // input-water path in either run; `characterize_solvent_only` fires only
-    // on the opening water and is overwritten. So the difference is not
-    // between two code paths at all.
-    //
-    // What it is: the SAME CaCl2 addition yields 0.0997010580 when the
-    // detergent is already dissolved and 0.0996909357 when it is not.
-    // PHREEQC's `mass_H2O` is not representation-invariant — `aqueous.rs`
-    // says exactly that of surface complexation, "a first solve fed by an
-    // amount-limited ZnSO4 phase includes this water, while the identical
-    // state rebuilt from aqueous totals does not" — and the two orders hand
-    // the solver the same final state in two different representations.
-    //
-    // The fix is therefore NOT choosing between two numbers, which is what
-    // the earlier reading implied and what an owner decision was taken on.
-    // It is either posing the final state canonically before the last solve,
-    // or accepting a solver-level non-invariance and saying so on the wire.
-    // Molalities are per kg of the solver's own `mass_H2O`, so substituting
-    // the inventory figure would leave `n = m x kg` false by the same
-    // 1e-4 it repaired.
-    (
-        "aq-023",
-        "solution.solvent_kg carries an order-dependent residue that \
-         contents[water] does not",
-    ),
+    // WHAT FIXED IT: `PhreeqcEquilibrator::recharacterise_canonically` poses
+    // the SETTLED contents again before reporting them, so the
+    // characterisation is a function of what the vessel holds rather than of
+    // what last happened to it. Both orders now read `solvent_kg`
+    // 0.0996939730 and `ionic_strength` 0.2759702852/47 — 1.0129e-4 apart
+    // became 1.0023e-13, and 9.6418e-5 became 1.8361e-9. Substituting the
+    // inventory figure was never available: molalities are per kg of the
+    // solver's own `mass_H2O`, so it would have left `n = m x kg` false by
+    // the same 1e-4 it repaired. See
+    // `crates/kerotakis-phreeqc/tests/order_invariance.rs`.
 ];
 
 const SCALE_DEPARTURES: &[(&str, &str)] = &[
