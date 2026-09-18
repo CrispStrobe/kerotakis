@@ -51,12 +51,12 @@ const PROFILES: &[SubstrateProfile] = &[
         // resolved out of the unresolved balance, again to 0.1238494 when
         // the recipe's calcium rose to 40.0 mg per 100 g so that the
         // aqueous tail could precipitate a calcium phosphate out of it,
-        // and again to 0.1212591 when the colloidal calcium phosphate
+        // and again to 0.1220149 when the colloidal calcium phosphate
         // itself was booked as a solid on 2026-09-18; the lactose per gram
         // of milk is unchanged every time, which is the point of writing
         // the ratio out rather than the quotient. 100 mL of milk still
         // carries 4.944 g of lactose.
-        substrate_share: 0.048 / 0.121_259_1,
+        substrate_share: 0.048 / 0.122_014_9,
     },
     SubstrateProfile {
         recipe_id: "food/gelatin",

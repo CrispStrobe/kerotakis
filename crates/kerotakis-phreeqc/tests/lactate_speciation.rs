@@ -222,7 +222,7 @@ fn the_fermentation_is_what_acidifies_the_milk() {
 /// made visible rather than argued from a percentage.
 #[test]
 fn the_cited_yoghurts_own_acid_and_the_casein_that_is_still_missing() {
-    // 100 mL of the recipe is 103 g; its unresolved solids are 12.49 g
+    // 100 mL of the recipe is 103 g; its unresolved solids are 12.5675 g
     // and 4.944 g of those are lactose. Four lactic acids per lactose.
     let lactic_molar_mass = kerotakis_core::species::lookup_key("lactic_acid")
         .expect("lactic acid is a registry species")
