@@ -1999,13 +1999,43 @@ display name in the registry, is the wrong fix.
   the drawer) and makes the rest translatable the moment somebody wires
   it.
 
-- [ ] **`kero explain` is English end to end, and the CLI has a locale.**
-  `explain_text` writes `"  {target}: answered by {} using {}"`,
-  `"model:"`, `"routing:"` and a dozen more labels as literals while
-  `self.locale` sits one frame up; `:lang de` changes every other line
-  the CLI prints. Not a translation gap in the engine — the sentences are
-  all in the CLI — so it is its own small pass, and `Provenance::routing_in`
-  is waiting for it.
+- [x] **`kero explain` answers in the reader's language. DONE 2026-09-18.**
+  Seven labels through the catalogue under `[explain]`, in the ENGINE's
+  `i18n/<lang>.toml` rather than a CLI one — a third file per language would
+  break the rule that adding French is one core `.toml` and one web `.json`.
+
+  **It also settled a contradiction between two records here.** `vessel.rs`
+  listed `kero explain` among the consumers that "want the SOURCE language
+  and would be wrong to get German"; this entry said `routing_in` was
+  waiting for it. The owner ruled that `explain` is user-facing and answers
+  in the reader's language, so it calls `routing_in(locale)` and the
+  `vessel.rs` comment is corrected at its source. The machine consumers are
+  untouched and do not read this function: the audit files the `routing`
+  FIELD from JSON and the three tests assert on that field, while
+  `routing_in(Locale::EN)` is byte-identical to `routing` by construction.
+
+  `mcp.rs` passes `Locale::EN` explicitly, with the reason in the code: MCP
+  is a machine protocol whose consumer is a tool that may parse the output,
+  so its language must not change under it.
+
+- [ ] **`Provenance.dataset` and `.model` carry English PROSE, not names.**
+  The fifth instance of the family after `Inert.why`, `NotYetModeled.what`,
+  `scene_vessel` and `routing`. Visible the moment `explain` spoke German:
+
+      Modell:  WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)
+      ... mit wateq4f.dat plus USBM IC 9429 reference-temperature complexes,
+          with the reviewed Sander HBr gas-uptake slice
+
+  `wateq4f.dat` and `pitzer.dat` are NAMES and must not be translated. What
+  is welded to them is a sentence — the reliability range in a parenthesis,
+  the "plus …" and "with the reviewed …" clauses that say what was added to
+  the dataset and why. Those reach a reader in `explain`, and the audit
+  script and three tests read the same fields, so this needs the same split
+  `routing` got: the name stays, the sentence becomes a `Phrase`, and
+  `dataset_in`/`model_in` answer in the reader's language while the field
+  keeps its English for the machines. Not done here — it is a solver-side
+  change with machine consumers, and this was a CLI pass.
+
 - [ ] **Wire the vessel's own provenance to the drawer.** The aqueous
   routing — which dataset answered this beaker and why — is the one a
   learner would most want and the one the drawer cannot see. It needs a

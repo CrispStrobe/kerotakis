@@ -65,6 +65,32 @@ pub fn is_protein_recipe(recipe_id: &str) -> bool {
         .any(|profile| profile.recipe_id == recipe_id)
 }
 
+/// Record the irreversible envelope of the existing temperature thresholds.
+/// This is a qualitative history model, not a measured time-dependent rate law.
+/// Call after physical state changes; observing a sample never mutates it.
+pub fn record_heat_history(vessel: &mut Vessel) {
+    let celsius = vessel.temperature.to_celsius();
+    if !celsius.is_finite() {
+        return;
+    }
+    for portion in &mut vessel.unresolved_materials {
+        if let Some(profile) = PROFILES.iter().find(|p| p.recipe_id == portion.recipe_id) {
+            portion.protein_denatured_fraction = portion
+                .protein_denatured_fraction
+                .max(temperature_fraction(profile, celsius))
+                .clamp(0.0, 1.0);
+        }
+    }
+}
+
+fn temperature_fraction(profile: &ProteinProfile, celsius: f64) -> f64 {
+    match (profile.denaturation_onset_c, profile.denaturation_full_c) {
+        (Some(onset), Some(full)) => ((celsius - onset) / (full - onset)).clamp(0.0, 1.0),
+        // Manufactured gelatine begins in the denatured state.
+        _ => 1.0,
+    }
+}
+
 pub fn observe(vessel: &Vessel) -> Vec<ProteinObservation> {
     let celsius = vessel.temperature.to_celsius();
     vessel
@@ -80,14 +106,10 @@ pub fn observe(vessel: &Vessel) -> Vec<ProteinObservation> {
                 MaterialBasis::VolumeFraction => portion.amount * recipe.bulk_density?.value,
                 MaterialBasis::MoleFraction => return None,
             };
-            let denatured_fraction =
-                match (profile.denaturation_onset_c, profile.denaturation_full_c) {
-                    (Some(onset), Some(full)) => {
-                        ((celsius - onset) / (full - onset)).clamp(0.0, 1.0)
-                    }
-                    // Manufactured gelatine begins in the denatured state.
-                    _ => 1.0,
-                };
+            let denatured_fraction = portion
+                .protein_denatured_fraction
+                .max(temperature_fraction(profile, celsius))
+                .clamp(0.0, 1.0);
             Some(ProteinObservation {
                 material: recipe.name,
                 recipe_id: recipe.id,

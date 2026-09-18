@@ -843,6 +843,7 @@ impl Bench {
             if heat_start.is_some_and(|(heated, _, _)| heated == id) {
                 self.deliver_remaining_heat(id, solver, &mut events);
             }
+            crate::protein::record_heat_history(self.vessel_mut(id)?);
             self.vent_if_burst(id, &mut events);
         }
 
@@ -1844,6 +1845,7 @@ impl Bench {
                         recipe_version: *recipe_version,
                         basis: *basis,
                         amount: expansion.unresolved_amount,
+                        protein_denatured_fraction: 0.0,
                         enzyme_hydrolysis: None,
                     });
                 }

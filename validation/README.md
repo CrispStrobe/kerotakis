@@ -84,31 +84,25 @@ all, so that term could be named and never quantified. `PLAN.md`'s scoped task
 down, and the finding is reported in
 [`../docs/registry-uncertainty-and-measurement.md`](../docs/registry-uncertainty-and-measurement.md).
 
-Three things in those rows are worth reading before the numbers:
+The original input audit found unwired solvent constants. That finding is
+historical: the follow-up [One value for the solvent](../docs/one-value-for-the-solvent.md)
+wired water's molar mass and latent heats through build-time registry constants.
+The current `registry_input` rows, not the earlier audit snapshot, describe
+what the running path consumes.
 
-- **The bench does not read the records the bands are attached to.** Water's
-  molar mass is the input every row here runs on, and the colligative path
-  never asks the registry for it: it carries its own copy as a Rust literal in
-  thirteen places across seven files, in three spellings, two of which
-  disagree at 1.6 ppm. So `wired = false` on all three molar masses, and a
-  tolerance argued against one of those bands would be arguing against a
-  number the bench never sees. The interval is what makes that legible rather
-  than invisible — both spellings lie inside it, so they are two
-  representatives of one published range rather than one of them being wrong.
-- **The bounded inputs would not move the bands even if they were wired**, by
-  a factor of roughly two hundred. That is the useful answer rather than a
-  disappointing one: it says each row's band is set by the rounding and
-  routing arguments it already makes, which those arguments had assumed
-  without being able to show it.
-- **The largest input in this family is not a registry record at all, and it
-  is the only one big enough to move a band.** Both cryoscopic rows run
-  through water's enthalpy of fusion and both boiling rows through its
-  enthalpy of vaporisation, and those are Rust constants in `states.rs` with
-  no record — so they cannot carry an uncertainty in the schema that has one,
-  and the corpus does not pretend they do. The depression goes as 1/ΔH, so a
-  one per cent uncertainty there would consume 88 % of the tenth-molal model
-  band and 57 % of the one-molal one. `WATER_H_VAP` is additionally the one
-  whose own comment says no source is claimed for it.
+- **The three molar-mass records are now `wired = true`.** Water's molar
+  mass reaches the colligative quantities. NaCl and sucrose have empty
+  `reaches` lists because these case ledgers specify solute moles, not grams;
+  their molar masses do not enter these particular calculations.
+- **The bounded molar-mass inputs do not control the bands.** Their
+  contributions remain small compared with the documented rounding and
+  routing terms. Wiring the solvent record changed no expected value or band.
+- **The dominant latent heats now have registry records and sources, but
+  still lack usable uncertainty widths.** Fusion is derived from vendored
+  NASA polynomials (`unestablished` uncertainty). Vaporisation is traced to
+  Osborne, Stimson and Ginnings (1939), whose source declines to estimate
+  accuracy (`not_reported`). Traceability does not supply an uncertainty
+  band or independent holdout validation; the corpus cannot spend one.
 
 `kerotakis-core/tests/accuracy_corpus.rs` checks every declared input against
 the shipped registry — value and band — so a number that moves there and not

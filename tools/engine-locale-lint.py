@@ -102,6 +102,13 @@ COMPOSERS = [
     # the instrument that counts surfaces is the #505 shape once more, and
     # it is why the tail `", and {n} more"` outlived the I18N-10 sweep.
     ROOT / "crates/kerotakis-core/src/particles.rs",
+    # `kero explain` is a CLI command whose labels live in the ENGINE
+    # catalogue under `[explain]`, because a CLI catalogue of its own would
+    # make adding French three files per language instead of two. It is
+    # here so those keys are COUNTED — the unreachable-literal report reads
+    # `render.rs` alone, so the CLI's remaining English (every other command
+    # it prints) is not reported from here and remains its own question.
+    ROOT / "crates/kerotakis-cli/src/main.rs",
 ]
 # `phrase.rs` asks the catalogue for the list grammar and the punctuation
 # by name, the ordinary `locale.t` way.
