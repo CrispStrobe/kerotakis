@@ -650,86 +650,107 @@ finishes.
 
 §8c ended on six survivors that survive because **this repository has one
 compilation for those numbers and no way to check it**. The owner's ruling was
-to buy a second source for them. This section is what a day of looking bought,
-which is less than corroboration and more than nothing, and it is written at
-the length it is because **the negative half is the reusable half**.
+to buy a second source for them. This section is what a day of looking bought:
+**one ion corroborated, two disagreements to put in front of a human, and one
+pair of ions where the two second sources contradict each other.**
 
 ### The result, per ion, because they differ
 
-| ion | shipped | second source | reads | outcome |
+Per equivalent, as all three tables print them.
+
+| ion | shipped | Kreshkov 1970 p. 74 | Hübschmann & Links 1991 p. 62 | outcome |
 |---|---:|---:|---:|---|
-| **Zn²⁺** | 105.6 | — | — | **not reachable** |
-| Fe²⁺ | 108.0 | Kreshkov (1970) p. 74 | 107.0 | bounded, not corroborated |
-| Fe³⁺ | 204.0 | Kreshkov (1970) p. 74 | 204.0 | bounded, not corroborated |
-| **Al³⁺** | 183.0 | Kreshkov (1970) p. 74 | **189.0** | **disagrees — reported, not changed** |
-| Mn²⁺ | 107.0 | Kreshkov (1970) p. 74 | 107.0 | bounded, not corroborated |
-| Pb²⁺ | 142.0 | Kreshkov (1970) p. 74 | 140.0 | bounded, not corroborated |
+| **Fe³⁺** | 68.0 | **68** | **68** | **(1) CORROBORATED — left the list** |
+| **Al³⁺** | 61.0 | **63** | **63** | **(2) both disagree, +3.3 %** |
+| **Fe²⁺** | 54.0 | **53.5** | **53.5** | **(2) both disagree, −0.9 %** |
+| Mn²⁺ | 53.5 | 53.5 | **50** | the two sources differ by 7.0 % |
+| Pb²⁺ | 71.0 | **70** | **65** | the two sources differ by 7.7 % |
+| Zn²⁺ | 52.8 | absent | **53** | reached at last; 2 s.f., cannot settle |
+| MnO₄⁻ | 61.3 | absent | 61 | −0.5 %, just outside tolerance |
 
-**No ion left `UNCORROBORATED`, and the list in the test file is unchanged at
-seven.** The reason is in the next section and it is a measurement, not a
-scruple.
+`UNCORROBORATED` goes from **seven to six**. λ°(Fe³⁺) leaves it.
 
-### Why five ions with a second source are still uncorroborated
+### The one that left, and the caveat that rides with it
 
-A. P. Kreshkov, *Osnovy analiticheskoi khimii*, Moscow: Khimiya, 1970, p. 74,
-is the only compilation reached that carries any of the six. It carries five —
-not zinc — and it is the only thing found outside the transference-number
-family that §8c had already exhausted.
+Two compilations, reached by two unrelated routes, neither of them the CRC
+Handbook, both print **⅓Fe³⁺ = 68** — exactly the shipped 204.0/3. That is
+what corroboration is, and iron(III) now has it.
 
-It also carries **twenty-one ions this repository has already corroborated
-twice over**, against USGS Water-Supply Paper 2311 and a Sartorius handbook.
-That overlap is not decoration; it is the instrument. **Calibrate the source
-before trusting it.**
+**The caveat is in the `CORROBORATED` row itself and is not hidden:** both
+print two significant figures, so "68" is anything in [67.5, 68.5] and this
+cannot distinguish 204.0 from 203. What it establishes is the thing
+`UNCORROBORATED` exists to deny — that the value rests on one compilation. It
+no longer does.
 
-* eighteen of the twenty-one land inside 0.2 % — so it is a real λ° table of
-  the same lineage, not a list of numbers
-* **three do not, by several per cent**: Cu²⁺ 113.2 against 107.2 (+5.6 %),
-  I⁻ 78.8 against 76.8 (+2.6 %), ClO₄⁻ 64.5 against 67.3 (−4.2 %)
+### Why the other six are still uncorroborated, measured not asserted
 
-A source whose error on ions we *can* check runs to 5.6 % cannot settle an ion
-we cannot check to 0.5 %, which is what
-`the_lambda_table_agrees_with_independent_compilations` requires. So the five
-get a **bound** rather than a confirmation, and that is exactly what §2b of
-`conductivity_sources.rs` now asserts — with the bound *measured from the
-calibration* rather than chosen, so it cannot be tuned to pass.
+Both new sources carry ions this repository has **already corroborated twice
+over**, against USGS WSP 2311 and a Sartorius handbook. That overlap is not
+decoration — it is the instrument. **Calibrate the source before trusting it.**
 
-The three outliers are **the book's**, not the route's. The source prints
-cations and anions in two columns each sorted descending by value, and the
-reproduction preserves that order exactly, including for all three outliers
-(56.6 between 59.5 and 54; 78.8 above 78.1; 64.5 between 65 and 55.4). A
-slipped digit would break the sort.
+| source | overlap | inside 0.5 % | worst |
+|---|---:|---:|---|
+| Kreshkov 1970 | 21 | 18 | Cu²⁺ 113.2 vs 107.2, **+5.6 %** |
+| Hübschmann & Links 1991 | 21 | 17 | CO₃²⁻ 148.0 vs 138.6, **+6.8 %** |
 
-### A value that disagrees, reported and not changed
+A source whose error on ions we *can* check runs to 6 % cannot settle an ion
+we cannot check to 0.5 %. So the six get a **bound** rather than a
+confirmation, and §2b of `conductivity_sources.rs` asserts exactly that — with
+each bound *measured from its own calibration*, so it cannot be tuned to pass.
 
-Kreshkov prints **⅓Al³⁺ = 63** where the shipped table has 61 — molar **189
-against 183, +3.3 %**. It is recorded and **not applied**, for a reason this
-document already has a name for: #586 corrected a silver ΔH_fus in the wrong
-direction and #595 had to undo it. Here the case against acting is stronger
-than a general caution — **+3.3 % is smaller than this same source's own worst
-error on an ion two other compilations agree about.** Under its own measured
-fidelity the aluminium row is not evidence that 183 is wrong; it is evidence
-that two lineages print different numbers and neither has been traced to a
-measurement. That trace is what would settle it.
+### Two values that disagree, reported and not changed
+
+Both are stronger than a lone disagreement because **both coarse sources print
+the same number independently**:
+
+* **⅓Al³⁺ = 63** against the shipped 61 — molar **189 against 183, +3.3 %**
+* **½Fe²⁺ = 53.5** against the shipped 54.0 — molar **107 against 108, −0.9 %**
+
+**Neither is applied.** #586 corrected a silver ΔH_fus in the wrong direction
+and #595 had to undo it. Here the case against acting is more specific than
+that general caution: **both gaps are smaller than the same sources' own worst
+error on ions two other compilations agree about.** Under their measured
+fidelity these are not evidence that 183 and 108 are wrong; they are evidence
+that two lineages print different numbers and none of the three has been traced
+to a measurement. That trace is what would settle it.
+
+### And two where the second sources contradict each other
+
+* **½Mn²⁺**: Kreshkov 53.5 (equal to the shipped value to the digit),
+  Hübschmann & Links **50** — 7.0 % apart
+* **½Pb²⁺**: Kreshkov **70**, Hübschmann & Links **65**, shipped 71.0 — 7.7 %
+  apart
+
+Where two independent compilations cannot agree with each other, **neither
+adjudicates a third value.** Both are recorded in `CONTRADICTED` in the test
+file, which is asserted to be exactly right so a third cannot appear in
+silence — the same guarantee `UNCORROBORATED` gives.
+
+This also lands on §8c's own open question about Sartorius. Hübschmann & Links
+carries all five ions the Sartorius row was the only route to, agrees on
+silver and barium, and puts **carbonate at 148.0 against 138.6 — 6.8 %**. So
+two of the twenty-two "corroborated" ions are corroborated by one source and
+contradicted by another, which was not true when §8c was written.
 
 ### What the survivor count does, and the honest caveat about it
 
-The bound is far too loose to corroborate and nowhere near too loose to notice
-a quarter. `a_quarter_wrong_would_fall_outside_the_measured_bound` asserts
-exactly that, for each of the five and in both directions, so the claim is
-checked **without a falsified constant ever touching the disk** — the hazard
-§8b's two SIGKILLs left in the worktree.
+The bounds are far too loose to corroborate and nowhere near too loose to
+notice a quarter. `a_quarter_wrong_would_fall_outside_the_measured_bound`
+asserts exactly that, for **every** ion still in `UNCORROBORATED`, in both
+directions — so the claim is checked **without a falsified constant ever
+touching the disk**, the hazard §8b's two SIGKILLs left in the worktree.
 
-**Predicted: 6 survivors → 1 (zinc alone).** It is written as a prediction and
-not as a result, because this operator did not re-run the harness: §8c moved
-that run to a GitHub runner behind `workflow_dispatch`, and the box was under
-load 33 with 1 GB free. The arithmetic is not subtle — a ±25 % move is four to
-five times the measured bound for every one of the five — but **the number in
-this table is the one the re-run prints, not the one predicted here**, and it
-should be confirmed by dispatching `mutation-tables.yml` at the same six ids.
+**Predicted: 6 survivors → 0.** Fe³⁺ is now killed by the corroboration test
+outright; the other five are killed by the coarse bound. It is written as a
+prediction and not a result, because this operator did not re-run the harness:
+§8c moved that run to a GitHub runner behind `workflow_dispatch`, and the box
+was under load 33 with 1 GB free. **The number that belongs in this table is
+the one the re-run prints**, and it should be confirmed by dispatching
+`mutation-tables.yml` at the same six ids.
 
 ### What was read, and what refused
 
-Read in full on 2026-09-18, and none of these carries any of the six:
+Read in full on 2026-09-18, and **none of these carries any of the six**:
 
 * **International Critical Tables VI (1929)** p. 230 table 3, "Ion
   conductances at 18 °C" — public domain, read from the Internet Archive. Of
@@ -762,6 +783,12 @@ Read in full on 2026-09-18, and none of these carries any of the six:
   403**. CHECKED AND NOT READ, in the words #600 had to be corrected into.
 * **Johnston (1909)** itself — acs.org unreachable, as `acs-education`
   already records.
+* The two books behind the one table that did reach all seven — **Hübschmann
+  and Links (1991)** and **Milazzo (1952)**. Read at one remove through the
+  German Wikipedia article that reproduces the table and names them, on the
+  CC BY-SA route #625 already cleared for Sartorius. **No copy of either was
+  opened**, which is why both citations declare `claims` with no locator and
+  are findings by construction.
 
 ### The structural finding, which is the part worth keeping
 
@@ -772,10 +799,11 @@ magnesium. Transference numbers of that precision were never measured for
 salts that hydrolyse, and Zn²⁺, Fe²⁺, Fe³⁺, Al³⁺, Mn²⁺ and Pb²⁺ all hydrolyse.
 
 **The six are not absent from the good tables by accident. They are excluded
-by the method the good tables use**, and they appear only in coarse handbook
-tables that round to two or three figures. So looking harder in that family
-will not find them, and the thing that would actually settle these six is the
-conductance literature for the individual salts — which is where "trace
+by the method the good tables use**, and they survive only in coarse handbook
+tables that round to two or three figures — which is exactly why the two found
+here disagree with each other by seven per cent about manganese and lead. So
+looking harder in that family will not find them. What would settle these six
+is the conductance literature for the individual salts, which is where "trace
 original sources for almost all values, and cite those" points, and which is
 behind the same publisher wall that stopped §8c.
 
