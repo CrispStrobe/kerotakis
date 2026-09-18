@@ -3300,16 +3300,28 @@ finished and merged.
   nobody has corroborated", which is a different problem and a better one.
   **The decision: buy a second source for the six, mark them
   `Unestablished`, or accept them as they are.** (#625)
-- **`solution.solvent_kg` has two legitimate values and no ruling between
-  them.** It is the input water when the last operation is a material add
-  and PHREEQC's equilibrated `mass_H2O` when the last is a salt add — one
-  final state, two numbers, 1e-4 apart, and `ionic_strength` carries the
-  same residue into every activity coefficient. **This is a contract
-  question of the same kind as the `OH-` rename**, because the solver
-  reports molalities per kg of *its own* `mass_H2O`: substituting the
-  inventory figure would leave `n = m × kg` false by exactly the discrepancy
-  it repaired. **The decision: which number the contract publishes, and what
-  is done to the molalities to keep them consistent with it.** (#635)
+- **`solution.solvent_kg` is path-dependent because the SOLVER is not
+  representation-invariant.** *This replaces an earlier framing of mine that
+  was wrong, and that an owner decision was taken on: I reported two sources
+  — "the input water when a material add is last, the solver's `mass_H2O`
+  when a salt add is last" — and the owner chose "publish the solver's
+  `mass_H2O` always". Instrumenting all three sites shows **both values
+  already come from `finalize_solution_info`**, so that choice is already
+  what happens and does not fix anything.*
+
+  What the probe shows: the same CaCl2 addition yields 0.0997010580 when the
+  detergent is already dissolved and 0.0996909357 when it is not. PHREEQC's
+  `mass_H2O` is not representation-invariant — `aqueous.rs` says precisely
+  that of surface complexation — and the two orders hand the solver the same
+  final state in two different representations. `ionic_strength` carries the
+  1e-4 into every activity coefficient.
+
+  **The real decision, which has not been made:** pose the final state
+  canonically before the last solve (costs a solve, removes the
+  path-dependence), or accept a solver-level non-invariance and say so on
+  the wire. Substituting the inventory figure is not available: molalities
+  are per kg of the solver's own `mass_H2O`, so it would leave `n = m x kg`
+  false by exactly the discrepancy it repaired.
 
 
 ### UI framework
