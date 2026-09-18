@@ -40,7 +40,8 @@ name: it was *Pitzer specific-ion-interaction model (valid at high ionic
 strength)*, prose with a name on the front, matched by
 `starts_with("Pitzer")`. To that caller the field is a **boolean spelled in
 English**, and it picks the ion-interaction route over the ideal one — one
-molal salt water at −3.4 °C rather than −3.61 °C. A reword, or a
+molal salt water at −3.61 °C rather than the −3.44 °C the
+ion-interaction route gives — against a thermometer's −3.4. A reword, or a
 translation, returns every brine to Raoult with nothing failing. It is
 `#632`'s `why.contains("cannot name")` again, one field along and with a
 number on the end of it. The seam is pinned from both sides now:

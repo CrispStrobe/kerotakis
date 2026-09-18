@@ -114,7 +114,8 @@ fn the_english_is_the_recipe_rendered_in_english() {
 /// `solve.rs::solvent_activity_of` asks whether `Provenance.model` starts
 /// with `states::ION_INTERACTION_MODEL_PREFIX` to choose between the
 /// ion-interaction and the ideal colligative route, and one molal salt
-/// water freezes at −3.4 °C on one and −3.61 °C on the other. The prefix
+/// water freezes at −3.44 °C on one and −3.61 °C on the other, against a
+/// measured −3.4. The prefix
 /// is a NAME in a text slot, so it is in the English AND in the German —
 /// and the English is the half that decides.
 #[test]

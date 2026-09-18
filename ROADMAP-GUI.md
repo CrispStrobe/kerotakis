@@ -2046,7 +2046,8 @@ display name in the registry, is the wrong fix.
   the literal string `"Pitzer"`. It is not prose to that caller; it is a
   boolean spelled in English. A reworded model label sends every brine back
   to the ideal route and puts one molal salt water at −3.61 °C instead of
-  −3.4 °C, with nothing failing. The seam is pinned from both sides now:
+  the −3.44 °C the ion-interaction route gives, with nothing failing. The
+  seam is pinned from both sides now:
   `ActivityModel::phrase` renders back to `describe()` exactly, and
   `describe()` still starts with the prefix.
 
