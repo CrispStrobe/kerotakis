@@ -2290,6 +2290,68 @@ display name in the registry, is the wrong fix.
   would move coverage rows for a reason that has nothing to do with
   provenance. Neither disturbs the memory, so a later ordinary solve is
   still compared against the last thing a reader was actually told.
+  **Ruled back in by the owner on 2026-09-18; see the bullet below for
+  what the coverage objection turned out to be.**
+
+- [x] **MIX and solvent-only characterisation announce their provenance
+  too. DONE 2026-09-18, ruled by the owner.** Both paths wrote a
+  `Provenance` into `vessel.solution` that no event carried, so a beaker
+  filled by combining two others — or one holding only solvent — held
+  provenance no reader could reach. Announcing on MIX only was offered and
+  not chosen.
+
+  **What reaches the user.** A pour of two solutions narrates, after the
+  line saying they were combined:
+
+      v3: berechnet mit wateq4f.dat, ergänzt um Referenztemperatur-Komplexe
+          aus USBM IC 9429, … — MIX: zwei gelöste Lösungen anteilig gemischt
+
+  and a beaker of plain water, once:
+
+      v1: berechnet mit phreeqc.dat, wie vom USGS mitgeliefert — keine
+          dargestellte Säure, Base, kein Salz, … die Lösungsmittelbeziehung
+          wurde ohne Aufruf von IPhreeqc ausgewertet
+
+  Neither is a repeat of anything: the MIX routing is a sentence no other
+  path composes, and the water relation is answered by a different ENGINE,
+  a different dataset and a different model from any solve — it never
+  invokes IPhreeqc at all.
+
+  **One rule, one implementation.** `aqueous.rs::announce_routing` is the
+  fire-on-change test above, lifted out of `finalize_solution_info` and
+  shared by all three paths. Because they share
+  `Vessel::aqueous_routing_said`, a beaker that leaves one path for another
+  is told about the MOVE rather than told the same thing twice.
+
+  **Solvent-only is most characterisations, which is what made the rule
+  load-bearing rather than tidy.** The water relation answers a beaker
+  every time the stack runs over it, with the same engine, the same file
+  and the same reason every time. It is news exactly once — at the step the
+  water is first characterised — and silent for the rest of the lesson.
+
+  **The coverage objection was real, and it was about a PROXY.** The bullet
+  above is right that an event here would have moved curiosity rows, and
+  right about why: a route's `event_count` was the raw length of the
+  solver's event list, and `kero coverage curiosity` reads a Computed route
+  with events as *this solver produced an answer*. A beaker of plain water
+  has `chemistry_applies == false`, so it would have been filed as a
+  computed result **for saying which relation answered it** — a claim that
+  is simply false, and the baseline gate would have failed on it.
+
+  What was wrong was not the line; it was the proxy.
+  `solve::answer_event_count` counts events that are an ANSWER, and a
+  routing announcement says WHERE an answer came from rather than being
+  one. It is a no-op on everything that shipped before it: the only
+  producer of `SolutionRouted` is the aqueous solver, which until now
+  emitted one only on the path where `chemistry_applies` is already true,
+  and coverage's chemistry branch does not look at the count at all.
+
+  **The goldens cannot see this, and that is the same fact as above.** All
+  three checked-in engine goldens replay on `Bench::default()`, the
+  engine-free core bench, where the aqueous solver — the only producer of
+  the event — is not wired. `lessons.json` contains zero routing lines
+  today despite #653 announcing on the direct path for every salted beaker,
+  which is the measurement, not a hope.
 
 - [x] **The `", "`-joined lists are `Slot::List` now.** Done in #642.
   **The count, settled from the source: eight sites**, and the two

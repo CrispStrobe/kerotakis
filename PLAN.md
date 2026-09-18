@@ -3292,17 +3292,6 @@ Three rulings, each blocking nothing else but each answerable only by
 whoever owns the product. All three came out of work that is otherwise
 finished and merged.
 
-- **The KCl conductivity standard is cited to an organisation that prints a
-  different number.** `FIT_SOURCE` in `conductivity.rs` calls **1413 µS/cm**
-  "the IUPAC/OIML reference value" for the 0.01 mol/kg standard. **OIML R 56
-  prints 1408.3 µS/cm** for its 0.01 D primary standard, and 1413 appears
-  nowhere in it; USGS/Jones–Bradshaw give 1408.07 (0.01 D) and 1410.75
-  (0.01 N). 1413 is close to the 0.0100 **mol/L** value — a real standard on
-  a *volumetric* basis, attributed here to a *molality* basis and to a body
-  that publishes neither. Nothing was changed: the existing 7% window covers
-  both, and a value corrected in the wrong direction is how the silver
-  ΔH_fus mistake happened. **The decision: restate the basis, adopt 1408.3,
-  or leave it and say why.** (#625)
 - **The KCl fit target: basis restated, value left alone.** `FIT_SOURCE`
   called 1413 µS/cm "the IUPAC/OIML reference value" for the 0.01 **mol/kg**
   standard. OIML R 56 prints **1408.3** for its 0.01 D primary standard and
@@ -3338,8 +3327,10 @@ finished and merged.
   **ANSWERED IN TWO STEPS.** *Buy a second source* was chosen and the search
   ran on 2026-09-18 (#654): two compilations were reached outside the
   transference-number family that stops at magnesium, both too coarse to
-  corroborate at the half a per cent this file works to, and **λ°(Fe³⁺) left
-  `UNCORROBORATED`** because both print the number already shipped. The
+  corroborate at the half a per cent this file works to, and **λ°(Fe³⁺) was
+  taken OFF the `UNCORROBORATED` list** because both print the number
+  already shipped. (Written "left `UNCORROBORATED`" until 2026-09-18,
+  which reads as its own opposite.) The
   search found exactly **one outright contradiction of a shipped value**:
   both print ⅓Al³⁺ = 63 where the table shipped 61. **Ruled 2026-09-18 and
   now done: adopt 63 — λ°(Al³⁺) 183.0 → 189.0**, because the shipped 61
@@ -3369,12 +3360,17 @@ finished and merged.
   final state in two different representations. `ionic_strength` carries the
   1e-4 into every activity coefficient.
 
-  **The real decision, which has not been made:** pose the final state
-  canonically before the last solve (costs a solve, removes the
-  path-dependence), or accept a solver-level non-invariance and say so on
-  the wire. Substituting the inventory figure is not available: molalities
-  are per kg of the solver's own `mass_H2O`, so it would leave `n = m x kg`
-  false by exactly the discrepancy it repaired.
+  **RULED 2026-09-18: pose the final state canonically before the last
+  solve.** Same contents, same answer, whatever order they arrived in —
+  at the cost of one extra solver call per characterisation. Accepting the
+  non-invariance and declaring it on the wire was offered and not chosen,
+  and so was leaving it recorded. Substituting the inventory figure was
+  never available: molalities are per kg of the solver's own `mass_H2O`, so
+  it would leave `n = m × kg` false by exactly the discrepancy it repaired.
+  The work is scoped under *Ruled by the owner, 2026-09-18* below, including
+  the instruction that if the measured cost turns out worse than "one more
+  solve" the answer is to stop and report it, not to ship a slower engine
+  quietly.
 
   **RULED AND DONE 2026-09-18** — pose it canonically; see the ticked item
   in the section below for the numbers. The reading above is right about the
@@ -3558,7 +3554,7 @@ assign to the prop its `{@const}` derives from — but that argument is the
 reason, not an assumption, and it stops holding the moment a component owns
 state a sibling `{@const}` reads.
 
-- [ ] **The routing caveat prints "~71046,6 mol/kgw" one line above
+- [x] **The routing caveat prints "~71046,6 mol/kgw" one line above
       "I = 0,0004 mol/kgw".** `aqueous.rs:3089` estimates a "potential
       molality" as *(dissolved totals + 2 × equilibrium-phase moles + 2 ×
       solid-solution moles) / `problem.kgw`*, and `> 1.0` both **selects
@@ -3589,7 +3585,31 @@ state a sibling `{@const}` reads.
       model, and told it is, on the strength of a number the solver
       disagrees with by eight orders of magnitude.
 
-- [ ] **Identical lines repeat on every solve step.** The same
+      **Done in #665, and what it found.** Both faults are real and the
+      arithmetic checks out: a numerator of 0.048 mol over a `kgw` of
+      6.76e-7 kg — 0.68 mg of water — is 71 048 mol/kgw. The estimate is
+      now bounded twice, on the value that ROUTES rather than on a printed
+      copy of it: the solvent mass is floored at one millilitre (the
+      largest floor that leaves `condense_supersaturated`'s documented
+      1 mL probe untouched), and a phase contributes at most what the
+      water present could hold, read from the same reviewed solubility
+      that composes its own `Event::Inert` sentence. The transcript's
+      beaker goes from **71 048 to 0.00026 mol/kgw**, beside the solver's
+      measured 0.0004 — the first time the two halves of that answer
+      agree. Brine is untouched: 8 mol of NaCl in a kilogram still reads
+      16.0, and the 1 mL probe still hands the router 200.
+
+      **What it does NOT close, deliberately.** The cap only bites where
+      the registry has reviewed a solubility — 22 species, of which
+      chalk, quartz and sulfur are the only ones that are also database
+      phases. A solid it has not reviewed is still counted in full,
+      because that is what keeps halite and sylvite routing a real brine
+      to pitzer. So manganese dioxide and silver chloride, both in that
+      vessel, still contribute their whole inventory. Closing that is
+      registry data with a source behind it, not arithmetic in
+      `aqueous.rs`, and it is the next thing to do here.
+
+- [x] **Identical lines repeat on every solve step.** The same
       `Event::Inert` for chalk is emitted unconditionally at
       `solve.rs:2466` and `solve.rs:2603` — once per step, forever. The
       transcript carries the same forty-word German sentence about chalk's
@@ -3599,6 +3619,34 @@ state a sibling `{@const}` reads.
       change, comparing `Phrase::shape()`, not on every tick. Whatever is
       done here should reuse that mechanism rather than invent a second
       one.
+
+      **Done in #667, and what it found.** `Vessel::honesty_said` is the
+      sibling of `aqueous_routing_said` — `#[serde(skip)]`, compared as a
+      shape, holding what STANDS rather than everything ever said, so a
+      solid that stops being inert and is inert again is announced again.
+      Across the 113 lesson goldens, **49 changed and all 49 changed the
+      same way**: 133 lines removed, no vessel state moved, no line added
+      that was not a first occurrence, and not one count went up. The
+      largest single reduction was `rusting`, 40 events to 30.
+
+      **`NotYetModeled` had half a mechanism, and it was not this one.**
+      `render_events_in` drops a line identical to one already in the
+      batch — but only inside ONE batch and only at lv1, so thirty steps
+      are thirty batches and it never saw them, and lv2/lv3 readers were
+      not covered at all. It gets the same treatment at the same two
+      sites.
+
+      **No suppressed line carried a quantity that moves.** Only
+      `inert.insoluble-in-water` has a measurement in it at all — the
+      reviewed solubility — and of the species that can reach that branch
+      (below 0.01 g/100 mL) none has a second, 100 °C entry to
+      interpolate towards, so it cannot move while the sentence stands.
+
+      **What the repetition was costing, found by eye.** `hard-water`'s
+      third vessel printed the calcium-chloride apology twice and pushed
+      magnesium sulfate's own first sentence out of view; with the repeat
+      gone, the magnesium sulfate line appears. The noise was not only
+      noise — it was crowding out news.
 
 - [ ] **The engine says chalk dissolved and, on the next line, that it
       does not dissolve and is "still all there".** Verbatim, in order:

@@ -172,6 +172,31 @@ pub enum SolverRouteOutcome {
     Failed,
 }
 
+/// How many of a solver's events are an ANSWER, which is what
+/// [`SolverRouteOutcome::Succeeded`] counts.
+///
+/// **Not every event a solver emits is a result.** `Event::SolutionRouted`
+/// says WHERE the numbers came from — which dataset answers this beaker
+/// and why — and it is narration about the answer rather than the answer.
+/// The distinction is not decorative: `kero coverage curiosity` reads this
+/// count as "the computed route produced something"
+/// (`succeeded(SolverRouteKind::Computed)`), and the aqueous pass
+/// announces its routing on vessels it computes no chemistry for at all. A
+/// beaker of plain water would otherwise be filed as a computed answer
+/// because the lab told the reader which water relation it used.
+///
+/// This is a no-op on everything that shipped before it: the only producer
+/// of `SolutionRouted` is the aqueous solver, which until now emitted one
+/// only on the path where `chemistry_applies` is already true, and
+/// coverage's chemistry branch does not look at the count.
+#[must_use]
+pub fn answer_event_count(events: &[Event]) -> usize {
+    events
+        .iter()
+        .filter(|event| !matches!(event, Event::SolutionRouted { .. }))
+        .count()
+}
+
 /// Machine-readable evidence for the most recent stack equilibrium pass.
 /// This deliberately sits beside the stack rather than in rendered events:
 /// observing routing must not alter a simulation's event stream.
@@ -269,7 +294,7 @@ impl Equilibrator for SolverStack {
                         kind,
                         chemistry,
                         outcome: SolverRouteOutcome::Succeeded {
-                            event_count: more.len(),
+                            event_count: answer_event_count(&more),
                         },
                         vessel: Some(vessel.id),
                         reason: None,
@@ -2276,6 +2301,17 @@ impl Equilibrator for HonestyEquilibrator {
 
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
         let mut events = Vec::new();
+        // What the reader was last told about each solid here, and what
+        // will be standing when this pass ends. See `Vessel::honesty_said`:
+        // these sentences answer the same question every step and used to
+        // answer it out loud every step.
+        //
+        // Taking it leaves the field EMPTY, which is what every early
+        // return below wants: a pass that stopped at the solvent's own
+        // boundary is not standing over any solid, so the next pass that
+        // does reach the loop says its sentences again.
+        let previously_said = std::mem::take(&mut vessel.honesty_said);
+        let mut standing: Vec<String> = Vec::new();
         // The solvent's own state is asked FIRST, before the "a solution
         // was characterised, so there is no gap" early return below.
         //
@@ -2463,14 +2499,22 @@ impl Equilibrator for HonestyEquilibrator {
                                 ("limit".to_string(), Slot::number(format!("{limit:.4}"))),
                             ],
                         );
-                        events.push(Event::Inert {
-                            vessel: vessel.id,
-                            species: p.species.clone(),
-                            why: reason.render(Locale::EN),
-                            computed: false,
-                            spent: None,
-                            reason: Some(reason),
-                        });
+                        // Once, not once per step. The only measurement
+                        // in it is a reviewed solubility read out of the
+                        // registry, so it cannot move while the sentence
+                        // stands — see `Vessel::honesty_said`.
+                        let shape = reason.shape();
+                        if !previously_said.contains(&shape) {
+                            events.push(Event::Inert {
+                                vessel: vessel.id,
+                                species: p.species.clone(),
+                                why: reason.render(Locale::EN),
+                                computed: false,
+                                spent: None,
+                                reason: Some(reason),
+                            });
+                        }
+                        standing.push(shape);
                         continue;
                     }
                 }
@@ -2496,9 +2540,20 @@ impl Equilibrator for HonestyEquilibrator {
                         crate::ops::NotModelledCause::NoSolver,
                     )
                 };
-                events.push(Event::not_modeled(vessel.id, cause, reason));
+                // Same treatment, and it needs it for the same reason:
+                // neither of these two recipes carries a measurement at
+                // all, so a repeat of one is a repeat of the whole
+                // sentence. "Silver nitrate in contact with liquid" was
+                // said ten times in one transcript.
+                let shape = reason.shape();
+                if !previously_said.contains(&shape) {
+                    events.push(Event::not_modeled(vessel.id, cause, reason));
+                }
+                standing.push(shape);
             }
         }
+        // What stands now, so the next step can tell news from an echo.
+        vessel.honesty_said = standing;
         Ok(events)
     }
 
@@ -2600,14 +2655,24 @@ impl Equilibrator for HonestyEquilibrator {
                                 ("limit".to_string(), Slot::number(format!("{limit:.4}"))),
                             ],
                         );
-                        events.push(Event::Inert {
-                            vessel: vessel.id,
-                            species: p.species.clone(),
-                            why: reason.render(Locale::EN),
-                            computed: false,
-                            spent: None,
-                            reason: Some(reason),
-                        });
+                        // The preview holds the vessel by reference, so
+                        // it reads what has been said and cannot record
+                        // anything: it shows what the pass that owns the
+                        // mutation would say, which is the point of a
+                        // preview. A caller that ONLY ever previews —
+                        // `Orchestrator`, the ARCH-012 path — therefore
+                        // still repeats; the live `SolverStack` calls
+                        // `equilibrate`, which records.
+                        if !vessel.honesty_said.contains(&reason.shape()) {
+                            events.push(Event::Inert {
+                                vessel: vessel.id,
+                                species: p.species.clone(),
+                                why: reason.render(Locale::EN),
+                                computed: false,
+                                spent: None,
+                                reason: Some(reason),
+                            });
+                        }
                         continue;
                     }
                 }
@@ -2633,7 +2698,9 @@ impl Equilibrator for HonestyEquilibrator {
                         crate::ops::NotModelledCause::NoSolver,
                     )
                 };
-                events.push(Event::not_modeled(vessel.id, cause, reason));
+                if !vessel.honesty_said.contains(&reason.shape()) {
+                    events.push(Event::not_modeled(vessel.id, cause, reason));
+                }
             }
         }
 
@@ -2827,6 +2894,51 @@ mod route_trace_tests {
         fn equilibrate(&mut self, _vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
             Ok(Vec::new())
         }
+    }
+
+    /// A routing announcement is narration, and the route record says so.
+    ///
+    /// `kero coverage curiosity` reads a Computed route with events as
+    /// "this solver produced an answer". The aqueous pass announces its
+    /// routing on vessels it computes no chemistry for — a beaker of plain
+    /// water — so counting the announcement would file routine water setup
+    /// as a computed result and move rows that have nothing to do with
+    /// provenance.
+    #[test]
+    fn a_routing_announcement_is_not_counted_as_an_answer() {
+        let vessel = crate::vessel::VesselId(0);
+        let provenance = crate::vessel::Provenance::new(
+            "test engine",
+            "test.dat",
+            "test model",
+            Vec::new(),
+            // The REAL sentence for this key, not a placeholder. The
+            // engine locale lint scans this file as a composer and does
+            // not know a `#[cfg(test)]` block from the rest of it, so a
+            // fixture that reuses a live key with stand-in prose reads to
+            // the lint as one key meaning two different things — which is
+            // precisely the defect the lint exists to catch, and it was
+            // right to say so. The test does not care what the sentence
+            // is; the catalogue does.
+            Phrase::bare(
+                "routing.default-inorganic",
+                "the default inorganic aqueous dataset",
+            ),
+        );
+        let announcement = Event::SolutionRouted { vessel, provenance };
+        let characterised = Event::SolutionCharacterized {
+            vessel,
+            ph: 7.0,
+            ionic_strength: 0.0,
+        };
+        assert_eq!(answer_event_count(&[]), 0);
+        assert_eq!(answer_event_count(std::slice::from_ref(&announcement)), 0);
+        assert_eq!(answer_event_count(std::slice::from_ref(&characterised)), 1);
+        assert_eq!(
+            answer_event_count(&[announcement, characterised]),
+            1,
+            "the answer counts and the sentence about it does not"
+        );
     }
 
     #[test]

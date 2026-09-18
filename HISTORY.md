@@ -46,6 +46,40 @@ Zero catalogue rows added: the three parts are a name (`PHREEQC
 (IPhreeqc, USGS)`), a name-or-recipe, and a recipe, and ` · ` is
 punctuation. English output is byte-identical.
 
+**Two beakers that held provenance nobody could see (owner's ruling,
+2026-09-18)**
+
+`Event::SolutionRouted` (#653) put the aqueous routing on the wire from the
+direct solve. Two other paths write a `Provenance` into `vessel.solution`
+and announced nothing: MIX, and the solvent-only analytic path. The drawer
+reads `event.provenance`, so a beaker filled by pouring two others — or one
+holding only water — carried a claim about where its numbers came from that
+no reader could ever reach. Both now announce, under the same
+fire-on-change rule, through one shared `announce_routing`.
+
+**The finding is about a proxy, and it is the one worth keeping.** #653
+declined the solvent-only path for a stated reason: that function returns
+an empty event list ON PURPOSE, because `kero coverage curiosity` reads a
+computed route with events as *this solver produced an answer*, and a
+beaker of plain water has `chemistry_applies == false`. Giving it an event
+would have filed routine water setup as a computed result — and the
+baseline gate, which pins the exact outcome and reason code for all 500
+rows, would have failed on it.
+
+That reasoning was correct about the consequence and wrong about the
+cause. The defect was never in the line; it was in reading "the solver
+emitted something" as "the solver answered something". A routing
+announcement says WHERE an answer came from. It is narration about a
+result, not a result, and `solve::answer_event_count` now says so — a
+change that is a no-op on everything that shipped before it, because the
+only producer of the event emitted one only where the chemistry flag was
+already true.
+
+**Which is the shape of defect this repo keeps finding: a quantity used as
+a proxy for something it only correlates with.** A count of events tracked
+"did work" for as long as every event was a result. The moment one was not,
+the count went on being right and the inference went wrong.
+
 **The last of the welded prose: a dataset and a model are names again (#655)**
 
 `Provenance.dataset` and `.model` were the fifth and final instance of the

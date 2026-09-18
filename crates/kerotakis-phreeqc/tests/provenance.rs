@@ -182,19 +182,23 @@ fn routed(events: &[Event], v: VesselId) -> Vec<&vessel::Provenance> {
         .collect()
 }
 
-/// Adding water alone announces nothing, and that is the scope of this
-/// change rather than an oversight.
+/// Adding water alone announces its routing, once.
 ///
-/// A beaker with no represented solute is answered by the analytic
-/// solvent-relation path, which returns an EMPTY event list on purpose —
-/// so that routine water setup is not filed by `kero coverage` as a
-/// computed answer. Giving it a routing event would move coverage rows for
-/// a reason that has nothing to do with provenance. It also leaves
-/// `Vessel::aqueous_routing_said` alone, so the first real solve is still
-/// compared against the last thing a reader was actually told, which is
-/// nothing.
+/// **This is the reversal of #653's scope, ruled by the owner on
+/// 2026-09-18.** That PR left this path silent on the grounds that an
+/// empty event list is what keeps routine water setup from being filed by
+/// `kero coverage` as a computed answer — but the consequence was a beaker
+/// that held a `Provenance` in its state saying which relation answered it
+/// and no reader who could ever reach it. The count is
+/// `solve::answer_event_count` now, so a routing announcement is not a
+/// result and coverage is unmoved; the reader is told.
+///
+/// **Solvent-only is MOST characterisations, so the fire-on-change rule is
+/// doing the real work here.** The water relation answers this beaker
+/// every time the stack runs over it, with the same engine, the same file
+/// and the same reason every time — so it is news exactly once.
 #[test]
-fn plain_water_is_answered_without_phreeqc_and_says_nothing() {
+fn plain_water_says_which_relation_answered_it_exactly_once() {
     let mut eq = PhreeqcEquilibrator::new().expect("engine");
     let mut bench = Bench::new();
     let v = VesselId(0);
@@ -210,9 +214,49 @@ fn plain_water_is_answered_without_phreeqc_and_says_nothing() {
             &PermissiveScreen,
         )
         .expect("step");
-    assert!(routed(&poured, v).is_empty(), "{poured:#?}");
-    // The vessel has a provenance all the same — it is reachable through
-    // `kero explain`, and it is the path this scope leaves for later.
+    let opening = routed(&poured, v);
+    assert_eq!(
+        opening.len(),
+        1,
+        "the water says where its own numbers come from: {poured:#?}"
+    );
+    assert!(
+        opening[0].routing.contains("without invoking IPhreeqc"),
+        "{}",
+        opening[0].routing
+    );
+    assert_eq!(opening[0].dataset_file(), "phreeqc.dat");
+
+    // More of the same water. The relation has not moved, so there is
+    // nothing to say — this is the half that keeps the line off every
+    // step of every lesson that starts with a beaker of water.
+    let more = bench
+        .step_with(
+            Operator::Add {
+                vessel: v,
+                species: SpeciesId::new("water"),
+                moles: Moles(10.0),
+                at: None,
+            },
+            &mut eq,
+            &PermissiveScreen,
+        )
+        .expect("step");
+    assert!(
+        routed(&more, v).is_empty(),
+        "the routing had not changed: {:#?}",
+        routed(&more, v)
+    );
+}
+
+/// And the beaker still carries the provenance in its state, which is what
+/// `kero explain` reads.
+#[test]
+fn the_water_relation_is_still_recorded_on_the_vessel() {
+    let mut eq = PhreeqcEquilibrator::new().expect("engine");
+    let mut bench = Bench::new();
+    let v = VesselId(0);
+    add(&mut bench, &mut eq, v, "water", 55.51);
     let p = bench
         .vessel(v)
         .unwrap()
