@@ -233,9 +233,11 @@ nothing else blocks continued use of the already-landed 0D route.
       real curation bug: permanganate ε(525) was 1.8× the literature
       value, 4363 → 2400); chromatography vs plate-theory + √N-scaling;
       calorimeter vs closed-form energy ledger; conductivity graduated
-      2026-08-30 (Kohlrausch sum over solved speciation, KCl 1413 µS/cm
-      calibration pinned, declares itself out-of-calibration above
-      I≈0.1 mol/kgw); dry-solid conductance 2026-09-05
+      2026-08-30 (Kohlrausch sum over solved speciation, the OIML R 56
+      KCl ladder pinned — 1408.3 µS/cm at the 0.01 D primary standard,
+      which read 1413 until the basis was corrected on 2026-09-18 —
+      declares itself out-of-calibration above I≈0.1 mol/kgw);
+      dry-solid conductance 2026-09-05
       (`electrical_resistivity` registry column, six pinned tests).
 - [ ] **Remaining:** nuclide/photochem oracles wait until those
       subsystems are wired to anything; the `measure` verb's dispatch

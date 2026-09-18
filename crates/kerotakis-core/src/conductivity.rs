@@ -170,7 +170,7 @@ pub const FIT_SOURCE: &str = "Concentration correction: a two-parameter \
     of Chemistry and Physics, 'Concentrative Properties of Aqueous Solutions: \
     Conversion Tables' and 'Electrical Conductivity of Aqueous Solutions'. One \
     of the three fit targets does not need the handbook at all and is the \
-    important one: 1413 µS/cm is a KCl calibration-standard conductivity, a \
+    important one: a KCl calibration standard's conductivity is a \
     metrological convention rather than anyone's compilation, and it is what \
     a conductivity meter is calibrated against. THE BASIS MATTERS AND WAS \
     STATED WRONG HERE UNTIL 2026-09-18: this read '1413 µS/cm for the 0.01 \
@@ -179,11 +179,23 @@ pub const FIT_SOURCE: &str = "Concentration correction: a two-parameter \
     0.01 D primary standard; 1413 appears nowhere in it, and USGS WSP 2311 \
     via Jones & Bradshaw gives 1408.07 (0.01 D) and 1410.75 (0.01 N). 1413 \
     is the figure carried for the 0.0100 mol/L standard — a VOLUMETRIC basis, \
-    not the molality basis this sentence claimed, and not OIML's number. The \
-    value is unchanged because it is a real standard correctly used as a fit \
-    target; what was wrong was the body credited with it and the basis \
-    named. Whether to re-target the fit on 1408.3 is the owner's call and is \
-    recorded in PLAN.md. The other two, roughly 8.5 S/m at 1 mol/L and 15.5 S/m at 2 mol/L \
+    not the molality basis that sentence claimed, and not OIML's number. \
+    SO THE TARGET IS NAMED ON THE BASIS THE MODEL ACTUALLY WORKS IN, WHICH \
+    IS MOLALITY: it is OIML R 56 table 1's 1408.3 µS/cm for the 0.01 D \
+    primary standard, 0.745263 g KCl per kg of solution, 0.010004 mol/kgw. \
+    1413 remains a real standard and is still true of the 0.0100 mol/L \
+    solution a bottle of calibration fluid holds; what it is not is a \
+    statement about the solution this model is handed, and it is no longer \
+    the reference number any test here compares against — \
+    `kcl_calibration_standard_within_model_error` builds 0.01 mol/kgw and \
+    now checks it against 1408.3. NEITHER NUMBER MOVED THE COEFFICIENTS. \
+    FIT_SQRT and FIT_LINEAR are exactly what they were: the two figures are \
+    0.33 % apart, which is an order of magnitude inside the window either \
+    would be judged by, so this is a basis correction to what the fit is \
+    SAID to aim at and to what one test asserts, and not a re-fit. The \
+    calibration ladder in conductivity_sources.rs has validated the fit \
+    against this very row, on the correct grams-per-kg-of-solution basis, \
+    since 2026-09-17. The other two, roughly 8.5 S/m at 1 mol/L and 15.5 S/m at 2 mol/L \
     for NaCl, are the handbook's. The FORM is Kohlrausch's √c law with a linear term added \
     because the √c law alone is valid only to about 0.1 mol/L; it is an \
     empirical fit in the spirit of the Casteel–Amis equation, not that \
@@ -662,27 +674,42 @@ mod tests {
         assert_eq!(ion_charge("S--"), -2);
     }
 
-    /// A KCl calibration standard reads 1413 µS/cm — on the 0.0100 mol/L
-    /// VOLUMETRIC basis, not the 0.01 mol/kg molality basis this comment
-    /// claimed until 2026-09-18. OIML R 56 prints 1408.3 µS/cm for its
-    /// 0.01 D standard and 1413 appears nowhere in it; see `FIT_SOURCE`.
-    /// The number here is unchanged, and the 7% window below covers the
-    /// 0.33% between the two, which is also why nobody noticed. The
-    /// model must land close — and must land HIGH, because the
+    /// A 0.01 mol/kgw KCl standard reads 1408.3 µS/cm: OIML R 56 (1981)
+    /// table 1's 0.01 D primary standard, which is 0.745263 g KCl per kg
+    /// of solution, 0.010004 mol/kgw. THIS TEST NAMED 1413 UNTIL
+    /// 2026-09-18 AND THAT WAS A BASIS ERROR INSIDE THE TEST, not a
+    /// wrong fit: 1413 is the 0.0100 mol/L VOLUMETRIC standard — a real
+    /// number, and what a bottle of calibration fluid holds — while the
+    /// solution built below is a MOLALITY. The two are 0.33 % apart, well
+    /// inside the window here, which is exactly why nothing caught it.
+    /// The coefficients did not move; see `FIT_SOURCE`, and see
+    /// `the_meter_tracks_the_oiml_potassium_chloride_standards` in
+    /// `tests/conductivity_sources.rs`, which has checked the fit against
+    /// this same OIML row on the correct grams-per-kg basis since
+    /// 2026-09-17.
+    ///
+    /// The model must land close — and must land HIGH, because the
     /// concentration correction is fitted to hold across two decades and
     /// is deliberately gentler than the truth at the dilute end. A result
     /// below the standard would mean the correction had started
     /// over-correcting where the drag is still percent-level, which is
-    /// the failure mode a fitted factor has and the bare sum did not.
+    /// the failure mode a fitted factor has and the bare sum did not. The
+    /// model reads 1423.0 here, which is 1.04 % high against 1408.3 where
+    /// it was 0.71 % high against 1413 — the direction this test cares
+    /// about is unchanged and the margin on it is larger.
+    ///
+    /// THE 7 % WINDOW IS DELIBERATELY NOT NARROWED. It would still pass
+    /// at 2 %, and tightening it would put CI at the mercy of a genuine
+    /// model limitation at the dilute end rather than of a regression.
     #[test]
     fn kcl_calibration_standard_within_model_error() {
         let info = solved(0.01, vec![ion("K+", 0.01), ion("Cl-", 0.01)]);
         let est = specific_conductance(&info);
         let kappa = est.microsiemens_per_cm;
-        assert!(kappa > 1413.0, "must overestimate the standard: {kappa}");
+        assert!(kappa > 1408.3, "must overestimate the standard: {kappa}");
         assert!(
-            (kappa - 1413.0) / 1413.0 < 0.07,
-            "within 7% of the 1413 µS/cm standard: {kappa}"
+            (kappa - 1408.3) / 1408.3 < 0.07,
+            "within 7% of the 1408.3 µS/cm OIML standard: {kappa}"
         );
         assert!(est.trustworthy());
         match est.basis {

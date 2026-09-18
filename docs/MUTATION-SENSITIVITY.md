@@ -559,14 +559,15 @@ from a test that could not run, unless it is built to.** A false NEGATIVE in
 this instrument — a mutant wrongly called survived — costs an investigation. A
 false POSITIVE costs a claim, and claims are what this document is for.
 
-### A value that disagrees with its source, reported and not changed
+### A value that disagreed with its source: reported, then the basis moved
 
-`FIT_SOURCE` says: *"1413 µS/cm for the 0.01 mol/kg KCl calibration standard is
-the IUPAC/OIML reference value, a metrological convention rather than anyone's
-compilation"*. OIML R 56 was read in full on 2026-09-17. **It prints 0.14083
-S/m — 1408.3 µS/cm — for its 0.01 D primary standard, and 1413 appears nowhere
-in it.** USGS WSP 2311's table 1, reporting the same Jones and Bradshaw data,
-gives 1408.07 µS/cm for 0.01 D and 1410.75 for 0.01 N.
+`FIT_SOURCE` said, until 2026-09-18: *"1413 µS/cm for the 0.01 mol/kg KCl
+calibration standard is the IUPAC/OIML reference value, a metrological
+convention rather than anyone's compilation"*. OIML R 56 was read in full on
+2026-09-17. **It prints 0.14083 S/m — 1408.3 µS/cm — for its 0.01 D primary
+standard, and 1413 appears nowhere in it.** USGS WSP 2311's table 1, reporting
+the same Jones and Bradshaw data, gives 1408.07 µS/cm for 0.01 D and 1410.75
+for 0.01 N.
 
 1413 is not invented: it is very close to the conductivity of a 0.0100 **mol/L**
 KCl solution, which contains about 0.3 % more salt per kilogram of solution
@@ -575,12 +576,38 @@ sold as "1413 µS/cm" contains. So the number is a real standard value on a
 volumetric basis, attributed here to a molality basis and to an organisation
 whose published value is a different number.
 
-**It is not changed.** The rule is that a value disagreeing with its source is
-a finding to report, not a line to edit — this project has been burned by a
-value corrected in the wrong direction — and the existing unit test
-`kcl_calibration_standard_within_model_error` asserts against 1413 with a 7 %
-window that the OIML figure also sits inside. Whoever fixes it should decide
-whether the citation or the basis is what moves.
+**Nothing was changed when this was found.** The rule is that a value
+disagreeing with its source is a finding to report, not a line to edit — this
+project has been burned by a value corrected in the wrong direction — and the
+unit test `kcl_calibration_standard_within_model_error` asserted against 1413
+with a 7 % window that the OIML figure also sits inside, which is why nothing
+caught it. The finding was put to the owner as: restate the basis, adopt
+1408.3, or leave it and say why.
+
+**Both halves have now been answered, and neither was a re-fit.** The citation
+moved first: `FIT_SOURCE` stopped crediting OIML with 1413 and said which basis
+each number belongs to. Then, on 2026-09-18, the owner ruled that the test
+should name the standard for **the solution it actually builds**. It builds
+`solved(0.01, K⁺ 0.01, Cl⁻ 0.01)` — a molality — so it now asserts against
+**1408.3 µS/cm**, OIML's 0.01 D primary standard (0.745263 g/kg of solution,
+0.010004 mol/kgw), and not against the volumetric 1413.
+
+**This is a basis correction inside one test, and it is worth being precise
+about what did not happen.** `FIT_SQRT` and `FIT_LINEAR` are untouched; the
+two reference numbers are 0.33 % apart and the fit was never sensitive to the
+difference. §2's calibration ladder in `conductivity_sources.rs` has validated
+the same fit against this same OIML row, on the correct
+grams-per-kg-of-solution basis and at 2 %, since 2026-09-17 — so the fit was
+already checked against 1408.3 while one unit test was still naming 1413.
+The model reads **1423.0 µS/cm**: 1.04 % high against 1408.3 where it was
+0.71 % high against 1413.
+
+**The 7 % window was deliberately not narrowed.** Narrowing it was offered and
+declined: the assertion would pass at 2 %, and a tighter window would make CI
+hostage to a real model limitation at the dilute end rather than to a
+regression. The direction assertion — the model must read HIGH — is the part
+of this test that carries information, and it is unchanged and now has more
+margin.
 
 ### What the provenance audit says about all this
 
