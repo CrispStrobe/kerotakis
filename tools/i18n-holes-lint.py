@@ -17,6 +17,14 @@ Also catches the reverse — a value supplied under a name no template asks
 for — which is dead weight rather than a bug, and usually the other half
 of the same rename.
 
+**The tuple list has to be written at the call site.** This reads the
+literal `&[("name", …), …]` that follows the template, so a list bound to
+a variable and passed by name — `&slots`, or two of them spliced with
+`.concat()` — is a call this cannot see, and an unseen call is an
+unchecked one. Sharing one list between two arms that supply the same
+values is the tempting shape and it is the one to avoid; I18N-13 wrote it
+that way first and this gate is what said no. Write the tuples twice.
+
     python3 tools/i18n-holes-lint.py
     python3 tools/i18n-holes-lint.py --check   # non-zero if a hole is unfilled
 """

@@ -1786,22 +1786,20 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             let name = species_name(locale, sid);
             let percent = locale.number(format!("{:.1}", gas_fraction * 100.0));
             let kpa = locale.number(format!("{:.3}", partial_pressure_pa / 1000.0));
-            // lv3's slots, bound once: the two directions differ only in
-            // their key, so building the list twice would be the one place
-            // a later edit could make them disagree.
+            // lv3's values. The TUPLES are written out at each call site
+            // rather than shared, even though the two directions supply
+            // the same six: `tools/i18n-holes-lint.py` reads the literal
+            // `&[("name", …), …]` after a template to check that every
+            // hole has something to fill it, and a list bound to a
+            // variable is invisible to it. The first shape of this commit
+            // used one array for both arms and the preflight gate caught
+            // it — correctly, because a call it cannot read is a call it
+            // cannot check.
             let vessel_s = vessel.to_string();
             let moles_s6 = locale.number(format!("{:.6}", moles.0));
             let fraction_s = locale.number(format!("{gas_fraction:.4}"));
             let pa_s = locale.number(format!("{partial_pressure_pa:.1}"));
             let henry_s = locale.number(format!("{henry_mol_per_l_atm:.3}"));
-            let lv3_slots: [(&str, &str); 6] = [
-                ("vessel", &vessel_s),
-                ("name", name),
-                ("moles", &moles_s6),
-                ("fraction", &fraction_s),
-                ("pa", &pa_s),
-                ("henry", &henry_s),
-            ];
             let moles_s = moles_amount(locale, moles.0);
             match (register.level(), *to_gas) {
                 (1, true) => locale.fill(
@@ -1832,12 +1830,28 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 (_, true) => locale.fill(
                     "event.headspace-partitioned.lv3",
                     "{vessel}: {name} liquid → headspace, {moles} mol; gas fraction {fraction}, p = {pa} Pa, H = {henry} mol/(L·atm) — {source}",
-                    &[lv3_slots.as_slice(), &[("source", source)]].concat(),
+                    &[
+                        ("vessel", vessel_s.as_str()),
+                        ("name", name),
+                        ("moles", &moles_s6),
+                        ("fraction", &fraction_s),
+                        ("pa", &pa_s),
+                        ("henry", &henry_s),
+                        ("source", source),
+                    ],
                 ),
                 _ => locale.fill(
                     "event.headspace-partitioned.lv3-back",
                     "{vessel}: {name} headspace → liquid, {moles} mol; gas fraction {fraction}, p = {pa} Pa, H = {henry} mol/(L·atm) — {source}",
-                    &[lv3_slots.as_slice(), &[("source", source)]].concat(),
+                    &[
+                        ("vessel", vessel_s.as_str()),
+                        ("name", name),
+                        ("moles", &moles_s6),
+                        ("fraction", &fraction_s),
+                        ("pa", &pa_s),
+                        ("henry", &henry_s),
+                        ("source", source),
+                    ],
                 ),
             }
         }
@@ -3029,17 +3043,14 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             let name = material.as_str();
             let at = locale.number(format!("{:.0}", temperature.to_celsius()));
             let limit = locale.number(format!("{:.0}", threshold.to_celsius()));
-            // lv3 reports kelvin rather than celsius, and all four of its
-            // lines carry the same four values — only the sentence differs.
+            // lv3 reports kelvin rather than celsius. All four of its
+            // lines carry the same four values and only the sentence
+            // differs, but the tuples are still written at each call site:
+            // see the note in `HeadspacePartitioned` — a bound list is one
+            // `tools/i18n-holes-lint.py` cannot read.
             let vessel_s = vessel.to_string();
             let kelvin_s = locale.number(format!("{:.1}", temperature.0));
             let limit_k_s = locale.number(format!("{:.1}", threshold.0));
-            let polymer_lv3_slots: [(&str, &str); 4] = [
-                ("vessel", &vessel_s),
-                ("name", name),
-                ("kelvin", &kelvin_s),
-                ("limit", &limit_k_s),
-            ];
             match (register.level(), state, cross_linked) {
                 (1, crate::ops::PolymerState::Softened, _) => locale.fill(
                     "event.polymer-heated.lv1-softened",
@@ -3084,22 +3095,42 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 (_, crate::ops::PolymerState::Softened, _) => locale.fill(
                     "event.polymer-heated.lv3-softened",
                     "{vessel}: {name} at {kelvin} K, above the reviewed softening point {limit} K — chain slip, reversible; no viscosity or rate of flow is claimed",
-                    &polymer_lv3_slots,
+                    &[
+                        ("vessel", vessel_s.as_str()),
+                        ("name", name),
+                        ("kelvin", &kelvin_s),
+                        ("limit", &limit_k_s),
+                    ],
                 ),
                 (_, crate::ops::PolymerState::Charred, _) => locale.fill(
                     "event.polymer-heated.lv3-charred",
                     "{vessel}: {name} at {kelvin} K, past the reviewed decomposition temperature {limit} K — irreversible; the products of the pyrolysis are not modelled and the ledger is untouched",
-                    &polymer_lv3_slots,
+                    &[
+                        ("vessel", vessel_s.as_str()),
+                        ("name", name),
+                        ("kelvin", &kelvin_s),
+                        ("limit", &limit_k_s),
+                    ],
                 ),
                 (_, crate::ops::PolymerState::Rigid, true) => locale.fill(
                     "event.polymer-heated.lv3-network",
                     "{vessel}: {name} at {kelvin} K, cross-linked — no softening point exists at any temperature; the nearest threshold is decomposition at {limit} K",
-                    &polymer_lv3_slots,
+                    &[
+                        ("vessel", vessel_s.as_str()),
+                        ("name", name),
+                        ("kelvin", &kelvin_s),
+                        ("limit", &limit_k_s),
+                    ],
                 ),
                 (_, crate::ops::PolymerState::Rigid, false) => locale.fill(
                     "event.polymer-heated.lv3-rigid",
                     "{vessel}: {name} at {kelvin} K, below the reviewed softening point {limit} K",
-                    &polymer_lv3_slots,
+                    &[
+                        ("vessel", vessel_s.as_str()),
+                        ("name", name),
+                        ("kelvin", &kelvin_s),
+                        ("limit", &limit_k_s),
+                    ],
                 ),
             }
         }
