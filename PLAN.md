@@ -3312,9 +3312,20 @@ finished and merged.
   molality basis and to a body that publishes neither. **Fixed 2026-09-18**
   (owner's decision): the basis is stated correctly and the body is no
   longer credited; the VALUE is unchanged, because it is a real standard
-  correctly used as a fit target. **Still open:** whether to re-target the
-  fit on 1408.3, which would move a KCl calibration readout by 0.33% —
-  inside the existing 7% window, which is why nothing caught it.
+  correctly used as a fit target. **CLOSED 2026-09-18** (owner's ruling):
+  re-target on 1408.3. The word "re-target" overstates what it turned out
+  to be — **no coefficient moved and none needed to.** `FIT_SQRT` and
+  `FIT_LINEAR` are untouched, and the calibration ladder in
+  `conductivity_sources.rs` has validated the fit against OIML's 1408.3 row
+  on the correct grams-per-kg-of-solution basis since 2026-09-17. What was
+  actually wrong was a **basis mismatch inside one unit test**:
+  `kcl_calibration_standard_within_model_error` builds a 0.01 **mol/kgw**
+  solution and asserted against the 0.0100 **mol/L** figure. It now names
+  OIML's 1408.3, the model reads 1423.0 (1.04% high, where it was 0.71%
+  high against 1413), and the `must_overestimate` direction is unchanged
+  with more margin. **The 7% window is deliberately not narrowed** — it
+  would pass at 2%, and tightening it would hand CI a genuine dilute-end
+  model limitation to fail on.
 
 - **Six conductivity constants remain unwatched, and they are unwatched
   because they are unsourced.** Zn²⁺, Fe²⁺, Fe³⁺, Al³⁺, Mn²⁺, Pb²⁺ — the six
