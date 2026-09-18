@@ -131,6 +131,47 @@
     }),
   );
 
+  /**
+   * GUI-093, second half: the shelf is LAID OUT by role, not merely
+   * filterable by one. The chips answer "show me only the acids"; the
+   * headings answer the question a learner asks before they know what to
+   * ask for, which is "what kinds of thing are on this shelf".
+   *
+   * One heading per bottle, not several. A species can hold more than one
+   * role — citric acid is an acid and an organic — and filing it under
+   * both would make the shelf longer than the cabinet and the tally below
+   * it a lie. The first role in `REAGENT_ROLES` order is the primary one,
+   * and that order is pedagogical rather than alphabetical (see
+   * `reagentRoles.ts`), so a substance lands under the most useful thing
+   * it is. The other roles are not lost: the chips still find it, and the
+   * (i) panel names every one of them under "chemical family".
+   */
+  const primaryRole = (key: string): ReagentRole => rolesOf(key)[0] ?? "unsorted";
+  const grouped = $derived.by(() => {
+    const byRole = new Map<ReagentRole, ShelfItem[]>();
+    for (const item of filtered) {
+      const key = primaryRole(item.key);
+      const bucket = byRole.get(key);
+      if (bucket) bucket.push(item);
+      else byRole.set(key, [item]);
+    }
+    // i18n-ok: `REAGENT_ROLES` is a layout rank, not a rendered string. The
+    // headings are translated where they are drawn; the ORDER is the same
+    // in every language on purpose, so the acids do not migrate down a
+    // French shelf because "acides" sorts differently from "Säuren".
+    return REAGENT_ROLES.filter((r) => byRole.has(r)).map((r) => ({
+      role: r,
+      items: byRole.get(r) ?? [],
+    }));
+  });
+  /**
+   * Headings only while they are telling the reader something. A shelf
+   * narrowed to one role already carries its heading in the pressed chip,
+   * and a shelf with a single group would spend a whole row saying what
+   * every bottle underneath it already says.
+   */
+  const grouping = $derived(role === null && grouped.length > 1);
+
   const stockLabel = (count: number) => count === 1 ? t("one use left") : t("{count} uses left", { count });
   const capabilityLabel = (capability: ShelfItem["capability"]) => capability === "modeled_reaction"
     ? t("modeled reaction")
@@ -311,117 +352,161 @@
       {/if}
     </div>
   {/if}
-  <ul>
-    {#each filtered as item (item.key)}
-      {@const access = access_(item.key)}
-      {@const remaining = mode === "story" ? stockRemaining(item, stockUsed) : Number.POSITIVE_INFINITY}
-      {@const bottle = bottles[item.key]}
-      {@const emptyBottle = isExhausted(bottle)}
-      <!-- An engine-empty bottle is depleted whatever the mode says: a
-           mission kit cannot loan what the ledger no longer holds. -->
-      {@const depleted = emptyBottle || (access.available && !access.loaned && remaining === 0)}
-      {@const usable = access.available && !depleted}
-      <li data-phase={item.phase}>
-        <!-- The row carries identity and nothing else: chip, name, formula,
-             and the two states that change what a tap will DO (a mission
-             loan, an empty bottle). Everything descriptive moved behind the
-             (i) — with all of it inline the row wrapped to three lines per
-             substance, and a shelf of ~90 of them was mostly badge. -->
-        <div class="row">
-          <button
-            class="species"
-            class:locked={!access.available}
-            class:depleted
-            aria-expanded={open === item.key}
-            aria-disabled={!usable}
-            draggable={usable}
-            ondragstart={(e) => {
-              if (!usable) return;
-              e.dataTransfer?.setData(
-                "application/x-kero-species",
-                JSON.stringify({ key: item.key, phase: item.phase }),
-              );
-            }}
-            onclick={() => toggle(item)}
-          >
-            <SpeciesChip {item} />
-            <span class="name">{t(item.name)}</span>
-            <span class="formula">{item.formula}</span>
-            {#if access.loaned}<span class="loan">{t("mission kit")}</span>{/if}
-            {#if emptyBottle}<span class="bottle out">{t("empty")}</span>{/if}
-            {#if !access.available}<span class="lock" aria-hidden="true">⌁</span>{/if}
-          </button>
-          <InfoToggle
-            expanded={info === item.key}
-            controls={infoPanelId(item.key)}
-            label={t("about {name}", { name: t(item.name) })}
-            onclick={() => (info = info === item.key ? null : item.key)}
-          />
-        </div>
-        {#if info === item.key}
-          <InfoPanel id={infoPanelId(item.key)} rows={speciesRows(item)} />
-        {/if}
-        {#if open === item.key}
-          {#if usable}
-            <form
-              class="amounts"
-              aria-label={t("amount of {name}", { name: t(item.name) })}
-              onsubmit={(e) => {
-                e.preventDefault();
-                add(item, `${amountValue}${amountUnit}`);
-              }}
-            >
-              <!-- The captions are gone, not the names: "Stoffmenge" and
-                   "Einheit" each cost a whole row above a control that a
-                   screen reader still hears through `aria-label`, and that
-                   a sighted reader can already tell apart by shape. Tab
-                   order is unchanged: −, value, +, unit, add. -->
-              <div class="stepper">
-                <button
-                  type="button"
-                  class="step"
-                  aria-label={t("less")}
-                  onclick={() => (amountValue = stepAmount(amountValue, -1))}
-                >−</button>
-                <input
-                  type="number"
-                  min="0.000001"
-                  step="any"
-                  required
-                  aria-label={t("amount")}
-                  bind:value={amountValue}
-                />
-                <button
-                  type="button"
-                  class="step"
-                  aria-label={t("more")}
-                  onclick={() => (amountValue = stepAmount(amountValue, 1))}
-                >+</button>
-              </div>
-              <select aria-label={t("unit")} bind:value={amountUnit}>
-                {#each amountUnits(register, item.phase) as unit (unit)}
-                  <option value={unit}>{unit}</option>
-                {/each}
-              </select>
-              <button class="add-amount" type="submit">{t("add")}</button>
-              {#if item.phase === "liquid"}
-                <!-- Short enough to share a line. The sentence it was is
-                     still here, as the tooltip. -->
-                <small title={t("selected vessel capacity: {capacity} mL", { capacity: targetCapacityMl })}>
-                  {t("vessel: {capacity} mL", { capacity: targetCapacityMl })}
-                </small>
-              {/if}
-            </form>
-          {:else if !access.available}
-            <p class="stock-lock">{lockNote(access, t, cabinet)}</p>
-          {:else if emptyBottle}
-            <p class="stock-lock depleted-note">{t("This bottle is empty — the lab would refuse the pour. Stock the shelf again to keep going.")}</p>
-          {:else}
-            <p class="stock-lock depleted-note">{t("This bottle is empty. Mission kits still supply required materials, and permanent stock refills after a new discovery.")}</p>
+  <!-- One bottle. Rendered from two places — under a role heading and
+       in the flat list — so the row itself can have exactly one
+       definition. Duplicating ninety lines of markup to add headings is
+       how the two copies drift. -->
+  {#snippet shelfRow(item: ShelfItem)}
+  {@const access = access_(item.key)}
+  {@const assessed = item.hazard_assessed !== false}
+  {@const hazards = hazardLine(item)}
+  {@const remaining = mode === "story" ? stockRemaining(item, stockUsed) : Number.POSITIVE_INFINITY}
+  {@const bottle = bottles[item.key]}
+  {@const emptyBottle = isExhausted(bottle)}
+  <!-- An engine-empty bottle is depleted whatever the mode says: a
+       mission kit cannot loan what the ledger no longer holds. -->
+  {@const depleted = emptyBottle || (access.available && !access.loaned && remaining === 0)}
+  {@const usable = access.available && !depleted}
+  <li data-phase={item.phase} data-role={primaryRole(item.key)}>
+    <!-- The row carries identity and nothing else: chip, name, formula,
+         and the two states that change what a tap will DO (a mission
+         loan, an empty bottle). Everything descriptive moved behind the
+         (i) — with all of it inline the row wrapped to three lines per
+         substance, and a shelf of ~90 of them was mostly badge. -->
+    <div class="row">
+      <button
+        class="species"
+        class:locked={!access.available}
+        class:depleted
+        aria-expanded={open === item.key}
+        aria-disabled={!usable}
+        draggable={usable}
+        ondragstart={(e) => {
+          if (!usable) return;
+          e.dataTransfer?.setData(
+            "application/x-kero-species",
+            JSON.stringify({ key: item.key, phase: item.phase }),
+          );
+        }}
+        onclick={() => toggle(item)}
+      >
+        <SpeciesChip {item} />
+        <span class="name">{t(item.name)}</span>
+        <span class="formula">{item.formula}</span>
+      <!-- GUI-093: the warning arrives at CHOOSING time rather than at
+           pouring time. It is a glyph and not a word because this row is
+           ninety rows long and was already "mostly badge" once; the
+           sentence it stands for is the label a screen reader hears and
+           the tooltip a pointer finds, and it is in full under the (i).
+
+           Three states, and the middle one is the whole point. An
+           assessed hazard wears the triangle. A species nobody has
+           assessed wears a question mark, in dim ink rather than
+           alarming ink, because "we have not looked" is not a warning.
+           A species assessed as carrying no hazard wears NOTHING —
+           silence has to mean "checked, clean" for either mark to mean
+           anything, which is exactly why unassessed may not be allowed
+           to look like it. -->
+      {#if hazards}
+        <span
+          class="hazard"
+          class:unassessed={!assessed}
+          aria-label={hazards}
+          title={hazards}
+        >{assessed ? "\u26a0" : "?"}</span>
+      {/if}
+        {#if access.loaned}<span class="loan">{t("mission kit")}</span>{/if}
+        {#if emptyBottle}<span class="bottle out">{t("empty")}</span>{/if}
+        {#if !access.available}<span class="lock" aria-hidden="true">⌁</span>{/if}
+      </button>
+      <InfoToggle
+        expanded={info === item.key}
+        controls={infoPanelId(item.key)}
+        label={t("about {name}", { name: t(item.name) })}
+        onclick={() => (info = info === item.key ? null : item.key)}
+      />
+    </div>
+    {#if info === item.key}
+      <InfoPanel id={infoPanelId(item.key)} rows={speciesRows(item)} />
+    {/if}
+    {#if open === item.key}
+      {#if usable}
+        <form
+          class="amounts"
+          aria-label={t("amount of {name}", { name: t(item.name) })}
+          onsubmit={(e) => {
+            e.preventDefault();
+            add(item, `${amountValue}${amountUnit}`);
+          }}
+        >
+          <!-- The captions are gone, not the names: "Stoffmenge" and
+               "Einheit" each cost a whole row above a control that a
+               screen reader still hears through `aria-label`, and that
+               a sighted reader can already tell apart by shape. Tab
+               order is unchanged: −, value, +, unit, add. -->
+          <div class="stepper">
+            <button
+              type="button"
+              class="step"
+              aria-label={t("less")}
+              onclick={() => (amountValue = stepAmount(amountValue, -1))}
+            >−</button>
+            <input
+              type="number"
+              min="0.000001"
+              step="any"
+              required
+              aria-label={t("amount")}
+              bind:value={amountValue}
+            />
+            <button
+              type="button"
+              class="step"
+              aria-label={t("more")}
+              onclick={() => (amountValue = stepAmount(amountValue, 1))}
+            >+</button>
+          </div>
+          <select aria-label={t("unit")} bind:value={amountUnit}>
+            {#each amountUnits(register, item.phase) as unit (unit)}
+              <option value={unit}>{unit}</option>
+            {/each}
+          </select>
+          <button class="add-amount" type="submit">{t("add")}</button>
+          {#if item.phase === "liquid"}
+            <!-- Short enough to share a line. The sentence it was is
+                 still here, as the tooltip. -->
+            <small title={t("selected vessel capacity: {capacity} mL", { capacity: targetCapacityMl })}>
+              {t("vessel: {capacity} mL", { capacity: targetCapacityMl })}
+            </small>
           {/if}
-        {/if}
-      </li>
-    {/each}
+        </form>
+      {:else if !access.available}
+        <p class="stock-lock">{lockNote(access, t, cabinet)}</p>
+      {:else if emptyBottle}
+        <p class="stock-lock depleted-note">{t("This bottle is empty — the lab would refuse the pour. Stock the shelf again to keep going.")}</p>
+      {:else}
+        <p class="stock-lock depleted-note">{t("This bottle is empty. Mission kits still supply required materials, and permanent stock refills after a new discovery.")}</p>
+      {/if}
+    {/if}
+  </li>
+  {/snippet}
+  {#if grouping}
+    <div class="groups">
+      {#each grouped as group (group.role)}
+        <section class="group" aria-labelledby={`shelf-group-${group.role}`}>
+          <h4 id={`shelf-group-${group.role}`} class="group-head">
+            <span class="group-name">{t(ROLE_LABELS[group.role])}</span>
+            <span class="group-count">{group.items.length}</span>
+          </h4>
+          <ul>
+            {#each group.items as item (item.key)}{@render shelfRow(item)}{/each}
+          </ul>
+        </section>
+      {/each}
+    </div>
+  {:else}
+    <ul>
+      {#each filtered as item (item.key)}{@render shelfRow(item)}{/each}
     {#if filtered.length === 0}
       <!-- An empty shelf has two very different reasons, and only one of
            them is about the filter. The "unlocked" scope asks `available`,
@@ -435,7 +520,8 @@
           : t("nothing on the shelf matches")}
       </li>
     {/if}
-  </ul>
+    </ul>
+  {/if}
   <p class="tally">
     {t("{shown} of {total} substances", { shown: filtered.length, total: items.length })}
   </p>
@@ -591,6 +677,72 @@
     margin: 0;
     padding: 0 0.65rem 0.8rem;
     overflow-y: auto;
+  }
+  /* GUI-093. When the headings are drawn the SCROLLER moves out here, to
+     the one element that owns every group: the comment on `.filter-rail`
+     explains why the list must stay the only flex item that absorbs the
+     shrink, and with a `<ul>` per group that is no longer a `<ul>`. The
+     inner lists give their overflow back so a group cannot grow a scrollbar
+     of its own inside the one that already exists. */
+  .groups {
+    min-height: 0;
+    padding-bottom: 0.4rem;
+    overflow-y: auto;
+  }
+  .groups ul {
+    padding-bottom: 0.1rem;
+    overflow: visible;
+  }
+  /* Sticky, because a shelf of ninety bottles scrolls past its own heading
+     in two flicks and "which of these am I looking at" is the question the
+     heading exists to answer. */
+  .group-head {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    align-items: baseline;
+    gap: 0.35rem;
+    margin: 0;
+    padding: 0.42rem 0.65rem 0.24rem;
+    background: linear-gradient(var(--surface) 78%, transparent);
+    color: var(--dim);
+    font-size: 0.56rem;
+    font-weight: 850;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .group-count {
+    padding: 0 0.26rem;
+    border-radius: 5px;
+    background: color-mix(in srgb, var(--dim) 14%, transparent);
+    font-size: 0.52rem;
+    font-weight: 800;
+    letter-spacing: 0;
+  }
+  .group:first-child .group-head { padding-top: 0.2rem; }
+  /* The honest gap reads as one: same italic the `unsorted` chip wears. */
+  .group[aria-labelledby$="unsorted"] .group-head { font-style: italic; }
+  /* The hazard mark. Two glyphs, three states — the third is no glyph at
+     all, and it is the reason the unassessed one may not borrow this
+     colour. `flex: none` so a long substance name cannot squeeze it away,
+     which would turn a warning into an ellipsis. */
+  .hazard {
+    flex: none;
+    min-width: 0.85rem;
+    padding: 0.04rem 0.16rem;
+    border-radius: 5px;
+    color: var(--warning);
+    background: color-mix(in srgb, var(--warning) 13%, transparent);
+    font-size: 0.6rem;
+    font-weight: 900;
+    line-height: 1.2;
+    text-align: center;
+  }
+  .hazard.unassessed {
+    color: var(--dim);
+    background: color-mix(in srgb, var(--dim) 12%, transparent);
+    font-weight: 800;
   }
   .row {
     display: flex;

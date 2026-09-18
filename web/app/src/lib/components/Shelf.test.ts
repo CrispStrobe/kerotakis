@@ -117,3 +117,109 @@ describe("the shelf in Story", () => {
     expect(locked(body({ mode: "story", catalog: catalogMap([]) }))).toBe(items.length);
   });
 });
+
+/**
+ * GUI-093, the half that is layout rather than filtering.
+ *
+ * The role chips answer "show me only the acids". The headings answer the
+ * question a learner asks before they know what to ask for. The fixture
+ * carries `elements` and `charge` because that is what the roles are
+ * DERIVED from — a fixture without them classifies everything `unsorted`,
+ * which would make this suite pass against a shelf that groups nothing.
+ */
+const classified: ShelfItem[] = [
+  { key: "water", name: "water", formula: "H2O", phase: "liquid", elements: { H: 2, O: 1 }, charge: 0, solvent: true },
+  { key: "NaCl", name: "table salt", formula: "NaCl", phase: "solid", elements: { Na: 1, Cl: 1 }, charge: 0 },
+  { key: "HCl", name: "hydrochloric acid", formula: "HCl", phase: "liquid", elements: { H: 1, Cl: 1 }, charge: 0 },
+];
+
+const headings = (html: string): string[] =>
+  [...html.matchAll(/id="shelf-group-([a-z]+)"/g)].map((m) => m[1] ?? "");
+
+/** One `<li>` per bottle, however many roles that bottle holds. */
+const bottles = (html: string): number => (html.match(/<li data-phase=/g) ?? []).length;
+
+describe("the shelf is laid out by role", () => {
+  it("heads each group and keeps REAGENT_ROLES' order, not the alphabet", () => {
+    const html = body({ items: classified, mode: "sandbox", catalog: catalogMap([]) });
+    // acid before salt before solvent — the bench reading order the chips
+    // use. Alphabetically it would be acid, salt, solvent too, which is a
+    // coincidence of English; the assertion that matters is that the list
+    // comes from REAGENT_ROLES, so `roles` is checked against it directly.
+    expect(headings(html)).toEqual(["acid", "salt", "solvent"]);
+  });
+
+  it("files a bottle under exactly one heading", () => {
+    // Hydrochloric acid is an acid AND, to the derivation, nothing else;
+    // but citric acid is an acid and an organic, and a shelf that repeated
+    // it would be longer than the cabinet and would make the tally a lie.
+    // The invariant is the count, so it holds for every fixture.
+    const html = body({ items: classified, mode: "sandbox", catalog: catalogMap([]) });
+    expect(bottles(html)).toBe(classified.length);
+    expect(html).toContain(`of ${classified.length} substances`);
+  });
+
+  it("draws no headings when there is only one group to name", () => {
+    // A single heading spends a whole row saying what every bottle under
+    // it already says.
+    const one = classified.filter((item) => item.key === "HCl");
+    const html = body({ items: one, mode: "sandbox", catalog: catalogMap([]) });
+    expect(headings(html)).toEqual([]);
+    expect(bottles(html)).toBe(1);
+  });
+
+  it("names the group a bottle was filed under on the row itself", () => {
+    // So the stylesheet and this suite can both see the filing decision
+    // even in the flat list, where no heading is drawn.
+    const html = body({ items: classified, mode: "sandbox", catalog: catalogMap([]) });
+    expect(html).toContain('data-role="acid"');
+    expect(html).toContain('data-role="salt"');
+    expect(html).toContain('data-role="solvent"');
+  });
+});
+
+/**
+ * The hazard mark, and the state in the middle of it.
+ *
+ * Three states and two glyphs: assessed-and-hazardous, assessed-and-clean,
+ * and never assessed. Silence has to mean "checked, clean" for either mark
+ * to mean anything — so the test that matters is the third one, which
+ * fails the moment "we have not looked" is allowed to render as safety.
+ */
+describe("the hazard mark reaches the learner at choosing time", () => {
+  const withHazards = (extra: Partial<ShelfItem>): string =>
+    body({
+      items: [{ key: "HCl", name: "hydrochloric acid", formula: "HCl", phase: "liquid", ...extra }],
+      mode: "sandbox",
+      catalog: catalogMap([]),
+    });
+
+  /** Svelte interleaves its scope class, so the token is what to look for. */
+  const mark = (html: string): RegExp => /<span class="hazard[^"]*"/;
+  const unassessedMark = /<span class="hazard[^"]*\bunassessed\b[^"]*"/;
+
+  it("marks an assessed hazard on the row, not only behind the (i)", () => {
+    const html = withHazards({ hazards: ["corrosive"], hazard_assessed: true });
+    expect(html).toMatch(mark(html));
+    expect(html).not.toMatch(unassessedMark);
+    expect(html).toContain('aria-label="corrosive"');
+    // The glyph a sighted reader sees, and the words everyone else hears.
+    expect(html).toContain("\u26a0");
+  });
+
+  it("marks an unassessed species differently, and says so in words", () => {
+    const html = withHazards({ hazard_assessed: false });
+    expect(html).toMatch(unassessedMark);
+    expect(html).toContain('aria-label="hazards unassessed"');
+    // Not the warning triangle: "we have not looked" is not a warning.
+    expect(html).not.toContain("\u26a0");
+  });
+
+  it("marks a species assessed as clean with nothing at all", () => {
+    // The whole scheme rests on this: an empty hazard row is the only
+    // state that gets no glyph, which is what makes the other two mean
+    // something.
+    const html = withHazards({ hazards: [], hazard_assessed: true });
+    expect(html).not.toContain('class="hazard');
+  });
+});

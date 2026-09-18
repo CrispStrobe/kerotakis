@@ -1328,15 +1328,45 @@ and presents them well.
   complexes beside the free ions, and any basis beyond these two — redox
   and organic steps carry no participant list yet and are not guessed at.*
 
-- [ ] **GUI-093 — Shelf by chemical role.** Acid, base, salt, metal, oxide,
-  indicator, gas. We filter by phase — aqueous/liquid/gas/solid — which is a
-  physics axis while the learner is thinking on a chemistry one. Phase stays
-  as a secondary filter. The role comes from the registry, not a hand list,
-  and a species with no assigned role appears under "other" rather than being
-  hidden. Pairs with putting the **hazard chip on the reagent tile itself**,
-  so the warning arrives at choosing time rather than at pouring time —
-  including the honest "unassessed" state, which must remain visually
-  distinct from "safe".
+- [x] **GUI-093 — Shelf by chemical role. DONE 2026-09-18.** Acid, base,
+  salt, metal, oxide, indicator, gas. We filtered by phase —
+  aqueous/liquid/gas/solid — which is a physics axis while the learner is
+  thinking on a chemistry one. Phase stays as a secondary filter.
+
+  *The role axis arrived first as a chip rail (`reagentRoles.ts`): every
+  role is DERIVED — from the NOAA-style reactive-group rows CI already
+  forces to be total over the registry, from the engine's own formula
+  parser, from the indicator and solvent tables that actually compute the
+  behaviour — so nothing here names a species and a species added to the
+  data pack cannot arrive silently unclassified. Where the inputs decide
+  nothing the species is `unsorted` and the shelf says so in as many words,
+  which is the honest answer for elemental oxygen and for the enzymes'
+  stand-in bare "C".*
+
+  **What 2026-09-18 added, and it is the half that reaches a learner who
+  does not yet know what to ask for:** the shelf is now LAID OUT by role,
+  not merely filterable by one. Sticky headings per group, in
+  `REAGENT_ROLES`' pedagogical order rather than the alphabet — so the
+  acids do not migrate down a French shelf because *acides* sorts
+  differently from *Säuren*. One heading per bottle, never several: a
+  species holding two roles (citric acid is an acid and an organic) is
+  filed under the first in that order, because filing it under both would
+  make the shelf longer than the cabinet and the tally beneath it a lie.
+  The other roles are not lost — the chips still find it and the (i) panel
+  names every one under "chemical family". Headings appear only when there
+  is more than one group and no role chip is pressed.
+
+  **And the hazard mark on the tile itself**, so the warning arrives at
+  choosing time rather than at pouring time. Three states and two glyphs:
+  an assessed hazard wears ⚠, a species nobody has assessed wears **?** in
+  dim ink rather than alarming ink, and a species assessed as carrying no
+  hazard wears **nothing**. Silence has to mean "checked, clean" for either
+  mark to mean anything, which is exactly why "unassessed" may not be
+  allowed to look like "safe" — there is a test whose only job is to fail
+  the moment it does. A glyph and not a word because this row is ninety
+  rows long and was already "mostly badge" once; the sentence it stands for
+  is the label a screen reader hears, the tooltip a pointer finds, and the
+  full row under the (i).
 
 - [ ] **GUI-094 — The vessel deserves the room.** One vessel, large, central,
   when only one is on the bench; the wide empty expanse around a small beaker
