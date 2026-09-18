@@ -2156,6 +2156,16 @@ display name in the registry, is the wrong fix.
   existed only in that file. It is a `solution_routed` fixture now, which
   is a shape the engine emits.
 
+  **No golden moved, and that is a fact rather than luck.** The three
+  checked-in engine goldens — `lessons.json` (ARCH-001), `scene-five.json`
+  (GUI-003) and the codex export — all replay on `Bench::default()`, the
+  deliberately engine-free core bench, where `finalize_solution_info` never
+  runs and so no routing is ever announced. `kero coverage curiosity
+  --check` over all 500 corpus rows reports **baseline drift: 0**: the new
+  event moved no disposition and no reason code, which is the gate that
+  would have caught it if the extra event had tipped a row from `missing`
+  to `computed` by giving an otherwise silent solve something to count.
+
   Not done here, and deliberately: the MIX path
   (`routing.mix-by-fraction`) and the solvent-only analytic path
   (`routing.solvent-relation-only`) still write a provenance without
