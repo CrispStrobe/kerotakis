@@ -2830,8 +2830,7 @@
       "outcome": {
         "events": [
           "temperature_changed",
-          "energy_transferred",
-          "not_yet_modeled"
+          "energy_transferred"
         ]
       },
       "scene": {
@@ -5120,8 +5119,7 @@
       "line": 28,
       "outcome": {
         "events": [
-          "material_added",
-          "not_yet_modeled"
+          "material_added"
         ]
       },
       "scene": {
@@ -8828,8 +8826,7 @@
       "line": 44,
       "outcome": {
         "events": [
-          "material_added",
-          "not_yet_modeled"
+          "material_added"
         ]
       },
       "scene": {
@@ -11220,8 +11217,7 @@
       "line": 18,
       "outcome": {
         "events": [
-          "vessel_swept",
-          "not_yet_modeled"
+          "vessel_swept"
         ]
       },
       "scene": {
@@ -11556,8 +11552,7 @@
       "line": 19,
       "outcome": {
         "events": [
-          "vessel_sealed",
-          "not_yet_modeled"
+          "vessel_sealed"
         ]
       },
       "scene": {
@@ -13195,8 +13190,7 @@
       "line": 25,
       "outcome": {
         "events": [
-          "vessel_sealed",
-          "not_yet_modeled"
+          "vessel_sealed"
         ]
       },
       "scene": {
@@ -15499,7 +15493,6 @@
       "outcome": {
         "events": [
           "added",
-          "not_yet_modeled",
           "not_yet_modeled"
         ]
       },
@@ -16231,9 +16224,7 @@
       "line": 33,
       "outcome": {
         "events": [
-          "vessel_sealed",
-          "not_yet_modeled",
-          "not_yet_modeled"
+          "vessel_sealed"
         ]
       },
       "scene": {
@@ -16974,10 +16965,6 @@
           "reacted",
           "gravity_settled",
           "reacted",
-          "not_yet_modeled",
-          "not_yet_modeled",
-          "not_yet_modeled",
-          "not_yet_modeled",
           "not_yet_modeled",
           "not_yet_modeled"
         ]
@@ -21283,8 +21270,7 @@
       "outcome": {
         "events": [
           "material_added",
-          "dissolved",
-          "not_yet_modeled"
+          "dissolved"
         ]
       },
       "scene": {
@@ -21382,8 +21368,7 @@
       "line": 15,
       "outcome": {
         "events": [
-          "stirred",
-          "not_yet_modeled"
+          "stirred"
         ]
       },
       "scene": {
@@ -21951,7 +21936,6 @@
         "events": [
           "material_added",
           "dissolved",
-          "not_yet_modeled",
           "gel_formed"
         ]
       },
@@ -22166,8 +22150,7 @@
       "line": 23,
       "outcome": {
         "events": [
-          "stirred",
-          "not_yet_modeled"
+          "stirred"
         ]
       },
       "scene": {
@@ -23199,7 +23182,6 @@
         "events": [
           "material_added",
           "dissolved",
-          "not_yet_modeled",
           "gel_formed"
         ]
       },
@@ -23530,8 +23512,7 @@
       "line": 33,
       "outcome": {
         "events": [
-          "stirred",
-          "not_yet_modeled"
+          "stirred"
         ]
       },
       "scene": {
