@@ -2343,6 +2343,33 @@ display name in the registry, is the wrong fix.
   `limewater` is, and whether `invisible ink boundary` keeps the boundary in
   its name.
 
+## Re-measuring the catalogue window (#650)
+
+The virtualisation (#650) was justified by numbers, and the harness that
+produced them is left on disk so the next person can reproduce rather than
+trust them:
+
+    /mnt/volume1/tmp-overflow/kero-build/catwin-site   (13 MB)
+
+    CHROME_PATH=~/.cache/ms-playwright/chromium-1234/chrome-linux64/chrome \
+      node --experimental-websocket tools/test-ux-quality.mjs <payload>
+
+**It needs no cargo** — it is the checked-in golden codex export plus the
+python index tools (`curiosity-index.py`, `kids-catalog.py`,
+`lessons-index.py`, `step-prose.py`) and a prebuilt `kerotakis_wasm`. That
+matters because the box it was built on takes ~40 minutes for a cold Rust
+build and the measurement takes seconds.
+
+What it measured, for comparison if anything regresses: 730 cards in the
+payload (230 experiments + 500 questions; production ~752), **730 → 12**
+`<article>` elements in the DOM, 12,191 → 1,125 elements in the dialog, and
+open-to-visible **3,921 ms → 911 ms** at a 4× CPU throttle. The trade, also
+measured: a synthetic fling at 646 px/frame is *worse* windowed on a
+throttled CPU, 52.7 against 39.4 ms.
+
+`/mnt/volume1/tmp-overflow` is scratch and may be swept; if it is gone, the
+recipe above rebuilds it.
+
 ## Two doors onto one question (GUI-105) — landed 2026-09-17
 
 The app had two catalogues and the reader had to know which was which. The
