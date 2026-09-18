@@ -164,10 +164,10 @@ pub use transport::{
 };
 pub use units::{Grams, Joules, Kelvin, Liters, Moles, Pascal};
 pub use vessel::{
-    ExchangeIon, ExchangeOccupancy, ExchangeSites, Headspace, Portion, Provenance, RedoxState,
-    SolidSolution, SolidSolutionAmount, SolidSolutionComponent, SolidSolutionModel, SolutionInfo,
-    SolutionScope, SpeciesDetail, SurfaceModel, SurfaceOccupancy, SurfaceSiteKind, SurfaceSites,
-    SurfaceSorbate, ThermalMode, Vessel, VesselId,
+    Claim, ExchangeIon, ExchangeOccupancy, ExchangeSites, Headspace, Portion, Provenance,
+    RedoxState, SolidSolution, SolidSolutionAmount, SolidSolutionComponent, SolidSolutionModel,
+    SolutionInfo, SolutionScope, SpeciesDetail, SurfaceModel, SurfaceOccupancy, SurfaceSiteKind,
+    SurfaceSites, SurfaceSorbate, ThermalMode, Vessel, VesselId,
 };
 
 #[cfg(test)]
