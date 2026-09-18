@@ -1107,6 +1107,10 @@ try {
    */
   console.log("");
   const errors = await page.evaluate(`(() => {
+    // Whatever the checks above left open, close it: this one drives a
+    // gesture that starts on the bench, and a scrim over it would swallow
+    // the first click and fail for the wrong reason.
+    document.querySelectorAll('.scrim, .world-scrim').forEach((scrim) => scrim.click());
     window.__uxErrors = [];
     window.addEventListener("error", (event) => window.__uxErrors.push(String(event.message)));
     window.addEventListener("unhandledrejection", (event) => window.__uxErrors.push(String(event.reason)));

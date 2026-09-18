@@ -3479,6 +3479,17 @@ while catalase and manganese dioxide were decomposing peroxide. Four
 defects in it, each verified against the source rather than inferred from
 the prose.
 
+**One thing the same day settled, so nobody redoes it:** `App.svelte` was
+audited for the read-after-invalidate shape that produced #664 — a handler
+that assigns to a `$state` and then reads a `$derived` (or an `{@const}`,
+which is one) computed from it. 53 states, 14 deriveds, every arrow-function
+handler in the markup: two candidates, both spurious on inspection. The
+remove-vessel dialog was the only instance. The COMPONENTS were not audited
+the same way and do not need to be for this shape — a component cannot
+assign to the prop its `{@const}` derives from — but that argument is the
+reason, not an assumption, and it stops holding the moment a component owns
+state a sibling `{@const}` reads.
+
 - [ ] **The routing caveat prints "~71046,6 mol/kgw" one line above
       "I = 0,0004 mol/kgw".** `aqueous.rs:3089` estimates a "potential
       molality" as *(dissolved totals + 2 × equilibrium-phase moles + 2 ×
