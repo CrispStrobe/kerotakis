@@ -2284,6 +2284,72 @@ fn frozen_liquid(vessel: &Vessel, species: &SpeciesId) -> bool {
     })
 }
 
+/// How much of `species` is standing in this vessel in any phase but solid.
+///
+/// The evidence behind the words *it is still all there*, which until
+/// 2026-09-18 were not evidence-based at all: they were the tail of a
+/// sentence read out of the solubility table, and a table cannot know what
+/// the solve that just ran did with the lump. The transcript that found it
+/// printed *0.000001 mol chalk dissolved* and *chalk … is still all there*
+/// one line apart, about the same chalk, because [`saturation_moves`] had
+/// moved a micromole of it into the aqueous compartment on the reviewed
+/// limit — the very limit the sentence beside it was quoting.
+///
+/// Any phase but solid, rather than the aqueous one alone: what the clause
+/// claims is that the SOLID is undiminished, and a portion that has melted
+/// or sublimed is as absent from it as one that has dissolved.
+fn outside_the_solid(vessel: &Vessel, species: &SpeciesId) -> f64 {
+    vessel
+        .contents
+        .iter()
+        .filter(|p| &p.species == species && p.phase != Phase::Solid)
+        .map(|p| p.moles.0)
+        .sum()
+}
+
+/// The verdict on a solid whose reviewed solubility is below what a beaker
+/// could show — in the words the vessel supports, not the table's.
+///
+/// Both facts in the transcript were true and both are worth saying: chalk
+/// really is practically insoluble, AND a measurable trace of it really did
+/// go into solution. Only the clause claiming the lump was untouched was
+/// false, and it was false because it was asserted rather than checked. So
+/// the check is made here and it picks the sentence.
+///
+/// **Two keys and not one interpolated clause**, which matters to #667's
+/// repetition suppression rather than to the reader: that mechanism holds
+/// what STANDS and compares [`Phrase::shape`], and a shape carries the key
+/// and the slot kinds. Two keys are two shapes, so the step on which a
+/// trace first goes into solution is a change in what is standing and is
+/// announced, and the steps after it are an echo and are not.
+///
+/// **And no amount in the sentence**, deliberately, for the other half of
+/// the same mechanism: `Slot::Number` is `#` in a shape, so a sentence
+/// carrying a moving measurement would stand while its number went stale.
+/// How MUCH went is `Event::Dissolved`'s sentence, which fires on the step
+/// it happens; this one is about the standing state of the solid.
+fn insoluble_verdict(vessel: &Vessel, species: &SpeciesId, name: &str, limit: f64) -> Phrase {
+    let slots = || {
+        vec![
+            ("name".to_string(), Slot::term("species", name)),
+            ("limit".to_string(), Slot::number(format!("{limit:.4}"))),
+        ]
+    };
+    if outside_the_solid(vessel, species) > 0.0 {
+        Phrase::new(
+            "inert.insoluble-in-water-trace-in-solution",
+            "{name} hardly dissolves in water: its reviewed solubility is {limit} g per 100 mL, which is below anything a beaker would show. A trace of it is in solution; the rest is still there",
+            slots(),
+        )
+    } else {
+        Phrase::new(
+            "inert.insoluble-in-water",
+            "{name} does not dissolve in water: its reviewed solubility is {limit} g per 100 mL, which is below anything a beaker would show. It is still all there",
+            slots(),
+        )
+    }
+}
+
 pub struct HonestyEquilibrator;
 
 impl Equilibrator for HonestyEquilibrator {
@@ -2491,14 +2557,7 @@ impl Equilibrator for HonestyEquilibrator {
                         .and_then(|d| d.aqueous_solubility_at(vessel.temperature.0))
                         .filter(|limit| *limit < 0.01)
                     {
-                        let reason = Phrase::new(
-                            "inert.insoluble-in-water",
-                            "{name} does not dissolve in water: its reviewed solubility is {limit} g per 100 mL, which is below anything a beaker would show. It is still all there",
-                            vec![
-                                ("name".to_string(), Slot::term("species", name)),
-                                ("limit".to_string(), Slot::number(format!("{limit:.4}"))),
-                            ],
-                        );
+                        let reason = insoluble_verdict(vessel, &p.species, name, limit);
                         // Once, not once per step. The only measurement
                         // in it is a reviewed solubility read out of the
                         // registry, so it cannot move while the sentence
@@ -2647,14 +2706,7 @@ impl Equilibrator for HonestyEquilibrator {
                         .and_then(|d| d.aqueous_solubility_at(vessel.temperature.0))
                         .filter(|limit| *limit < 0.01)
                     {
-                        let reason = Phrase::new(
-                            "inert.insoluble-in-water",
-                            "{name} does not dissolve in water: its reviewed solubility is {limit} g per 100 mL, which is below anything a beaker would show. It is still all there",
-                            vec![
-                                ("name".to_string(), Slot::term("species", name)),
-                                ("limit".to_string(), Slot::number(format!("{limit:.4}"))),
-                            ],
-                        );
+                        let reason = insoluble_verdict(vessel, &p.species, name, limit);
                         // The preview holds the vessel by reference, so
                         // it reads what has been said and cannot record
                         // anything: it shows what the pass that owns the
