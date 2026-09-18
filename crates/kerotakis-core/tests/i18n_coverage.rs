@@ -31,6 +31,8 @@
 //! | phases | `Phase` variants → `render::phase_key` | `phase.*` |
 //! | phase-change verbs | `Phase`×`Phase` → `render::phase_change_verb` | `verb.*` |
 //! | hazard severities | `Severity` variants | `severity.*` |
+//! | enzyme families | `EnzymeFamily` variants | `enzyme-family.*` |
+//! | spill sites | `SpillDestination` variants → `render::spill_site_name` | `spill-site.*` |
 //! | appearance words | `SpeciesData.appearance` | `appearance.*` |
 //! | flame colours | `SpeciesData.flame_colour` | `flame.*` |
 //! | events | `Event` serde variant names | `event.*` |
@@ -62,18 +64,21 @@
 //!   The `BenchError` half of that paragraph is no longer true — those
 //!   carry a key and are gated below — and the rest is the same exercise
 //!   one layer along. See I18N.md, "The bench's refusals".
-//! - **LV2 and LV3 evidence lines.** Twelve of these are still inside a
-//!   bare `format!`. They are numeric evidence for a reader who has asked
-//!   for the working, not the sentence a learner reads, and converting
-//!   them is a separate job that `tools/engine-locale-lint.py` already
-//!   counts and reports. This gate requires LV1 — the learner-facing
-//!   sentence — of every event.
+//! - ~~**LV2 and LV3 evidence lines.**~~ No longer an exemption, as of
+//!   I18N-13. It read: *"Twelve of these are still inside a bare
+//!   `format!`. They are numeric evidence for a reader who has asked for
+//!   the working, not the sentence a learner reads."* LV3 is a register a
+//!   reader SELECTS, so it is a sentence a reader reads; every one of
+//!   them goes through the catalogue now and
+//!   `tools/engine-locale-lint.py` reports zero. This gate still requires
+//!   LV1 of every event, because LV1 is the one an event cannot omit.
 //! - **`appearance::observe`'s composed sentence.** `Appearance.words` is
 //!   prose assembled in `appearance.rs`, not a term drawn from a table.
 //!   It needs call-site keys before any catalogue can reach it.
 //! - **The codex and the interface bundles.** Different surfaces with
 //!   their own gates (`tools/codex-locale-lint.py`, `localeBundles.test.ts`).
 
+use kerotakis_core::enzyme::EnzymeFamily;
 use kerotakis_core::ops::{Event, Instrument};
 use kerotakis_core::render::{instrument_name, phase_change_verb, phase_key};
 use kerotakis_core::solve::Severity;
@@ -375,6 +380,52 @@ fn every_phase_and_phase_change_verb_has_german() {
     verbs.sort_unstable();
     verbs.dedup();
     report("phase-change verbs", "verb", verbs);
+}
+
+/// Every enzyme the bench can name as the one that did the work.
+///
+/// A value-keyed lookup with a fallback, so a family added tomorrow does
+/// not fail — it reads in English inside a German sentence, silently,
+/// which is the failure mode this whole file exists to make loud. The
+/// words are near-identical across the two languages (`Lipase`,
+/// `Katalase`) and that is exactly why nobody spotted the English ones.
+#[test]
+fn every_enzyme_family_has_german() {
+    let de = de();
+    let missing: Vec<String> = serde_variants(
+        serde_json::Value::String(PROBE.to_string()),
+        err_of::<EnzymeFamily>,
+    )
+    .into_iter()
+    .map(|tag| {
+        let family: EnzymeFamily = serde_json::from_value(serde_json::Value::String(tag.clone()))
+            .unwrap_or_else(|e| panic!("serde named a family it cannot parse: {tag}: {e}"));
+        // Keyed by the Debug spelling, which is what `render.rs` holds at
+        // the call site — the same convention `[severity]` uses.
+        format!("{family:?}")
+    })
+    .filter(|name| de.lookup(&format!("enzyme-family.{name}")).is_none())
+    .collect();
+    report("enzyme families", "enzyme-family", missing);
+}
+
+/// The four places a spill can be, by the name a reader sees.
+///
+/// `SpillDestination` is matched exhaustively in `render::spill_site_name`,
+/// so a new variant cannot reach a reader without a key — the compiler
+/// stops it. What the compiler cannot check is that the key has German,
+/// and a missing one would put `the bench (zone react)` mid-sentence in a
+/// German transcript. These are named here rather than enumerated,
+/// because the keys are readable words rather than variant spellings.
+#[test]
+fn every_spill_site_has_german() {
+    let de = de();
+    let missing: Vec<String> = ["bench", "tray", "floor", "waste"]
+        .into_iter()
+        .filter(|name| de.lookup(&format!("spill-site.{name}")).is_none())
+        .map(str::to_string)
+        .collect();
+    report("spill sites", "spill-site", missing);
 }
 
 /// Both words the hazard banner can use for how bad this is.
