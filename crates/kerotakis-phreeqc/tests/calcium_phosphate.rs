@@ -126,18 +126,22 @@ fn milk_precipitates_a_calcium_phosphate_instead_of_apologising() {
     let mass_mg = ocp * 500.27 * 1000.0;
     assert!(
         ocp > 1e-7,
-        "100 mL of milk must lay down a calcium phosphate; it holds {ocp:.4e} mol \
+        "100 mL of milk must hold a calcium phosphate; it holds {ocp:.4e} mol \
          ({mass_mg:.3} mg) of octacalcium phosphate. Full output:\n{text}"
     );
-    // Tens of milligrams, not a curd, and not a trace either. The band is
-    // wide on purpose: what is pinned is that a real colloid of the right
-    // ORDER comes out — about an eighth of the 280 mg of calcium phosphate
-    // real milk holds in its micelle, which is what a recipe carrying no
-    // casein can honestly produce — rather than a digit a database
-    // revision could move.
+    // A couple of hundred milligrams, and since 2026-09-18 most of it is
+    // BOOKED rather than precipitated: the recipe carries 189 mg of
+    // colloidal calcium phosphate as a solid — milk's own colloid, entered
+    // from the colloidal inorganic phosphorus FDC's total leaves — and the
+    // solver lays down about 37 mg more out of the serum it was handed.
+    // The band is wide on purpose: what is pinned is that a colloid of the
+    // right ORDER is here, against the ~280 mg of calcium phosphate real
+    // milk holds in its micelle, rather than a digit a database revision
+    // could move.
     assert!(
-        (15.0..=70.0).contains(&mass_mg),
-        "the colloid should be a few tens of milligrams per 100 mL, got {mass_mg:.3} mg"
+        (150.0..=320.0).contains(&mass_mg),
+        "the colloid should be a couple of hundred milligrams per 100 mL, \
+         got {mass_mg:.3} mg"
     );
     assert!(
         text.to_lowercase().contains("octacalcium phosphate"),

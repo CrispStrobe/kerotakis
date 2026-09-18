@@ -5255,19 +5255,38 @@ fn milk_buffer_notes(vessel: &Vessel, ph: Option<f64>) -> Vec<Event> {
     let Some(sentence) = recipe
         .lot_assumptions
         .iter()
-        .find(|a| a.contains("CASEIN IS NOT MODELLED"))
+        .find(|a| a.contains("CASEIN IS STILL NOT MODELLED"))
         .and_then(|a| a.split_once(", which").map(|(head, _)| head.to_string()))
     else {
         return Vec::new();
     };
+    // HALF a buffer, said as half.
+    //
+    // The colloidal calcium phosphate landed on 2026-09-18 and casein did
+    // not, and this note is the owner's condition on shipping one without
+    // the other: a half-corrected buffer that reads as a fully-corrected
+    // one is worse than the uncorrected one, because nobody re-checks a
+    // number that looks right. It looks right now — with the acid a cited
+    // yoghurt carries this beaker reads 4.60 against that yoghurt's
+    // measured 4.6, where it read 3.94 before — and the agreement is a
+    // coincidence of where the modelled colloid runs out rather than
+    // evidence that the buffer is complete. So the sentence says which
+    // half is here, which half is not, what the missing half is worth, and
+    // where the two swap over.
     vec![Event::not_modeled(
         vessel.id,
         kerotakis_core::ops::NotModelledCause::NoReviewedDatum,
         Phrase::new(
-            "not-modeled.milk-buffer-lower-bound",
-            "this milk has been acidified to pH {ph} and the number is a \
-             LOWER BOUND — the real beaker is milder. {assumption} \
-             (the recipe's full assumption is in `explain material whole_milk`)",
+            "not-modeled.milk-casein-buffer-residual",
+            "this milk has been acidified to pH {ph}, and only half of its \
+             buffer is modelled. Its colloidal calcium phosphate is here and \
+             dissolves as the acid arrives; casein's own buffering is not here \
+             at all, and that is about a third of milk's buffer capacity. \
+             Above pH 5 what is missing costs little; below it the colloid is \
+             spent and this beaker has nothing left to resist with, where a \
+             real one still has casein — so the number is a lower bound again, \
+             and by more than it was. {assumption} (the recipe's full \
+             assumption is in `explain material whole_milk`)",
             vec![
                 ("ph".to_string(), Slot::number(format!("{ph:.2}"))),
                 (
