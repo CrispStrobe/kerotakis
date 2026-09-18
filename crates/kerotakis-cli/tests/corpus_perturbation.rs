@@ -1432,6 +1432,27 @@ const ORDER_DEPARTURES: &[(&str, &str)] = &[
     // solver's own `mass_H2O`, so it would have left `n = m x kg` false by
     // the same 1e-4 it repaired. See
     // `crates/kerotakis-phreeqc/tests/order_invariance.rs`.
+    //
+    // AND THE ROW STILL DEPARTS, on something else, which is the part worth
+    // reading. `verdict` reports the FIRST slot that moves, so closing the
+    // big one uncovered what was underneath it: `base_equivalents`, at
+    // 3.76e-5 relative instead of 1e-4 — 2.7 orders of magnitude smaller,
+    // and not the same claim. `base_equivalents` is `2·O − H` left over
+    // after every other portion is booked, and the two orders disagree
+    // about it by **1.26e-8 mol** — which is, to the digit, the same
+    // 1.25e-8 mol that `contents[water]` has always disagreed by and that
+    // this file records as agreeing to one part in 4e8. One absolute
+    // wobble in a conserved sum, read through 5.53 mol of water at 2e-9
+    // and through 3.35e-4 mol of base equivalents at 3.8e-5. It is
+    // floating-point accumulation and not a representation, and the way to
+    // close it is a stabler sum rather than another solve.
+    (
+        "aq-023",
+        "base_equivalents departs by 1.26e-8 mol, the same absolute residue \
+         contents[water] carries at 2e-9 relative — arithmetic in a \
+         conserved sum, uncovered when the 1e-4 solvent-mass departure it \
+         sat under was fixed on 2026-09-18",
+    ),
 ];
 
 const SCALE_DEPARTURES: &[(&str, &str)] = &[

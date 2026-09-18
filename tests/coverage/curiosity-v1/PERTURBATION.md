@@ -220,6 +220,20 @@ equilibration (8 engine calls became 9 on one ordering, 6 became 8 on the
 other), which is what the ruling accepted.
 `crates/kerotakis-phreeqc/tests/order_invariance.rs` holds both.
 
+**And the row still departs, on something else.** `verdict` reports the first
+slot that moves, so closing the big departure uncovered what was sitting
+under it: `base_equivalents`, at **3.76e-5** relative rather than 1e-4 —
+2.7 orders of magnitude smaller, and a different claim. `base_equivalents` is
+`2·O − H` left over once every other portion is booked, and the two orders
+disagree about it by **1.26e-8 mol**, which is to the digit the same
+1.25e-8 mol that `contents[water]` above disagrees by and that this section
+calls agreement to one part in 4e8. One absolute wobble in a conserved sum,
+read through 5.53 mol of water at 2e-9 and through 3.35e-4 mol of base
+equivalents at 3.8e-5. It is floating-point accumulation rather than a
+representation, and closing it wants a stabler sum, not another solve. The
+recorded departure for `aq-023` says so in its own words rather than being
+deleted.
+
 ### Order dependence in an open beaker is chemistry, and the test now proves it
 
 The first two order departures were `mat-086` (limewater and carbon dioxide)
@@ -415,7 +429,10 @@ stronger evidence that it is aimed at live code than any injected bug would
 be. **Both have now been through the whole cycle**: found by the rule,
 explained, fixed, and pinned by a test — `th-100`'s by one that also asserts
 the number it must NOT withhold, `aq-023`'s by
-`crates/kerotakis-phreeqc/tests/order_invariance.rs`. `closing_the_vessel_restores_order_independence`
+`crates/kerotakis-phreeqc/tests/order_invariance.rs`. `aq-023` stays on the
+recorded list, because the fix uncovered a second departure 2.7 orders of
+magnitude smaller that the first had been masking, which is exactly what a
+rule that reports the first moving slot is expected to do. `closing_the_vessel_restores_order_independence`
 is in the same position: it exists because the generated `Order` rule failed
 on two open-vessel carbonate rows, and it asserts the explanation.
 
@@ -469,8 +486,10 @@ up does depend on the reagent the question is about. Before this branch,
 nothing anywhere asserted that for any of them.
 
 The 14 recorded departures break down as: **2 live defects** (`th-100`'s pe,
-`aq-023`'s solvent mass — **both fixed, 2026-09-17 and 2026-09-18, and both
-struck from the recorded list**) plus **1 more found by `Dose`** (`aq-061`'s seal —
+`aq-023`'s solvent mass — **both fixed, 2026-09-17 and 2026-09-18; `th-100`
+is struck from the recorded list and `aq-023` is rewritten, because closing
+its 1e-4 departure uncovered a 3.8e-5 one underneath**) plus **1 more found
+by `Dose`** (`aq-061`'s seal —
 **withdrawn 2026-09-17, it was a burst and the engine was right**); **4 solver or wire floors**
 (two phase boundaries, one last-printed-place, one convergence residue);
 **5 corpus rows whose scripts cannot reach their own questions** (`aq-018`

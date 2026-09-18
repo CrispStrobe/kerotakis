@@ -3444,8 +3444,18 @@ question was asked.
       `aq-023` now read `solvent_kg 0.0996939730` and `ionic_strength`
       0.2759702852 against 0.2759702847, where they read 0.0997010580 /
       0.0996909590 and 0.2759516202 / 0.2759782269 before. **1.0129e-4 apart
-      became 1.0023e-13, and 9.6418e-5 became 1.8361e-9.** The row stops
-      departing and is struck from `ORDER_DEPARTURES`.
+      became 1.0023e-13, and 9.6418e-5 became 1.8361e-9.**
+      **The row does NOT stop departing, and that is a finding rather than a
+      shortfall.** The perturbation rule reports the first slot that moves,
+      so closing the 1e-4 uncovered a 3.76e-5 one underneath it:
+      `base_equivalents` — `2·O − H` left over once every portion is booked —
+      differs between the orders by 1.26e-8 mol, which is to the digit the
+      same 1.25e-8 mol `contents[water]` has always differed by and that the
+      same file calls agreement to one part in 4e8. One wobble in a conserved
+      sum, read through 5.53 mol at 2e-9 and through 3.35e-4 mol at 3.8e-5.
+      It is floating-point accumulation, not a representation, and it wants a
+      stabler sum rather than another solve. `ORDER_DEPARTURES` keeps
+      `aq-023` with that as its reason.
       **The answer landed on neither of the two old numbers**, which is the
       point: it is the answer to the state rather than to either route
       through it, and the value the ruling predicted was simply the
