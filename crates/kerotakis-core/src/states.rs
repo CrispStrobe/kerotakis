@@ -411,6 +411,17 @@ impl ActivityRoute {
 /// asserts that the Pitzer description starts with this and that neither
 /// Debye–Hückel description does, so a reworded label fails a test rather
 /// than silently returning every solution to the ideal route.
+///
+/// **What this matches is the ENGLISH field, and it goes on doing so in a
+/// German session.** The description became a `Phrase` when the dataset
+/// and model claims were split from the prose welded to them, but
+/// `Provenance.model` is still filled by rendering that recipe in the
+/// SOURCE language, and a translated one only ever reaches a reader. The
+/// name in it travels in a slot no catalogue looks up, so *Pitzer* is
+/// *Pitzer* in every language — but it is the English field this reads,
+/// and `ActivityModel::phrase`'s
+/// `the_recipe_renders_the_english_description_exactly` is what holds the
+/// two together.
 pub const ION_INTERACTION_MODEL_PREFIX: &str = "Pitzer";
 
 /// Particle molality past which the ideal route stops claiming a transition.

@@ -2018,9 +2018,10 @@ display name in the registry, is the wrong fix.
   is a machine protocol whose consumer is a tool that may parse the output,
   so its language must not change under it.
 
-- [ ] **`Provenance.dataset` and `.model` carry English PROSE, not names.**
-  The fifth instance of the family after `Inert.why`, `NotYetModeled.what`,
-  `scene_vessel` and `routing`. Visible the moment `explain` spoke German:
+- [x] **`Provenance.dataset` and `.model` carry English PROSE, not names.
+  DONE 2026-09-18, in #655.** The fifth and last instance of the family
+  after `Inert.why`, `NotYetModeled.what`, `scene_vessel` and `routing`.
+  Visible the moment `explain` spoke German:
 
       Modell:  WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)
       ... mit wateq4f.dat plus USBM IC 9429 reference-temperature complexes,
@@ -2029,12 +2030,45 @@ display name in the registry, is the wrong fix.
   `wateq4f.dat` and `pitzer.dat` are NAMES and must not be translated. What
   is welded to them is a sentence — the reliability range in a parenthesis,
   the "plus …" and "with the reviewed …" clauses that say what was added to
-  the dataset and why. Those reach a reader in `explain`, and the audit
-  script and three tests read the same fields, so this needs the same split
-  `routing` got: the name stays, the sentence becomes a `Phrase`, and
-  `dataset_in`/`model_in` answer in the reader's language while the field
-  keeps its English for the machines. Not done here — it is a solver-side
-  change with machine consumers, and this was a CLI pass.
+  the dataset and why.
+
+  **The same split `routing` got, for the same reason.** Both fields keep
+  their English, because both have consumers that are not readers;
+  `dataset_phrase` and `model_phrase` carry the sentence as a recipe, and
+  `dataset_in`/`model_in` answer in the reader's language.
+  `dataset_in(Locale::EN)` is byte-identical to `dataset` by construction:
+  the field is FILLED by rendering the recipe in the source language, so
+  there is one sentence and not two.
+
+  **The consumer that made the byte-identity load-bearing rather than
+  tidy.** `solve.rs::solvent_activity_of` routes the colligative answer on
+  `provenance.model.starts_with(states::ION_INTERACTION_MODEL_PREFIX)` —
+  the literal string `"Pitzer"`. It is not prose to that caller; it is a
+  boolean spelled in English. A reworded model label sends every brine back
+  to the ideal route and puts one molal salt water at −3.61 °C instead of
+  −3.4 °C, with nothing failing. The seam is pinned from both sides now:
+  `ActivityModel::phrase` renders back to `describe()` exactly, and
+  `describe()` still starts with the prefix.
+
+  **A `Claim` rather than a `String`.** `Provenance::new` takes
+  `impl Into<Claim>` for both fields, where `Claim::Name` is a name nothing
+  translates (`NASA CEA thermo.inp`,
+  `kerotakis:combustion:curated-fuels-v1`) and `Claim::Said` is a sentence.
+  The old signature could not tell the two apart, which is how the defect
+  lasted; a `&str` call site still compiles unchanged.
+
+  **`dataset_file()` asks the recipe now.** It was a whitespace scan
+  (#653), a guess that worked only because English puts the noun first. The
+  file travels in a named slot, so the name comes back because it was put
+  there — and the water route can say *vendored USGS phreeqc.dat* without
+  LV1 announcing "vendored". The scan stays as the fallback for a bare name
+  and for a session saved before the recipes existed.
+
+  Eleven new catalogue rows, German authored; the engine lint stays at
+  100% with no orphans, with `dbindex.rs` added to its composer list —
+  `ActivityModel::phrase` is the only place the three activity-model
+  descriptions exist, and a composer the lint cannot see is a blind spot of
+  exactly the shape three were found in yesterday.
 
 - [x] **Wire the vessel's own provenance to the drawer. DONE 2026-09-18,
   in #653.** The aqueous routing — which dataset answered this beaker and

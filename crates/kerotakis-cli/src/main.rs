@@ -1437,7 +1437,7 @@ fn explain_text(
                     &[
                         ("vessel", &target.to_string()),
                         ("engine", &p.engine),
-                        ("dataset", &p.dataset),
+                        ("dataset", &p.dataset_in(locale)),
                     ],
                 )
             )
@@ -1446,7 +1446,7 @@ fn explain_text(
                 out,
                 "    {} {}",
                 locale.t("explain.model", "model:  "),
-                p.model
+                p.model_in(locale)
             )
             .unwrap();
             writeln!(
@@ -1474,8 +1474,8 @@ fn explain_text(
                          I = {ionic_strength}",
                         &[
                             ("activity", &format!("{:.5}", second.water_activity)),
-                            ("dataset", &second.dataset),
-                            ("model", &second.model),
+                            ("dataset", &second.dataset_in(locale)),
+                            ("model", &second.model_in(locale)),
                             ("molality", &format!("{:.4}", second.particle_molality)),
                             ("ionic_strength", &format!("{:.4}", second.ionic_strength)),
                         ],
@@ -1566,24 +1566,28 @@ fn explain_text(
                             writeln!(
                                 out,
                                 "    {:<14} pH {ph:.3} · I = {ionic_strength:.4} m{solids}",
-                                path.dataset
+                                path.dataset_in(locale)
                             )
                             .unwrap();
-                            writeln!(out, "      {}", path.model).unwrap();
+                            writeln!(out, "      {}", path.model_in(locale)).unwrap();
                         }
                         kerotakis_phreeqc::PathOutcome::CannotExpress { missing_elements } => {
                             writeln!(
                                 out,
                                 "    {:<14} cannot express this problem (no {})",
-                                path.dataset,
+                                path.dataset_in(locale),
                                 missing_elements.join(", ")
                             )
                             .unwrap()
                         }
                         kerotakis_phreeqc::PathOutcome::Failed { detail } => {
                             let short: String = detail.lines().next().unwrap_or("").into();
-                            writeln!(out, "    {:<14} could not solve it: {short}", path.dataset)
-                                .unwrap()
+                            writeln!(
+                                out,
+                                "    {:<14} could not solve it: {short}",
+                                path.dataset_in(locale)
+                            )
+                            .unwrap()
                         }
                     }
                 }

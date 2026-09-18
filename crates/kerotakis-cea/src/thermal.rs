@@ -822,11 +822,35 @@ impl Equilibrator for ThermalEquilibrator {
                 holds_nothing,
                 provenance: Provenance::new(
                     "Gibbs minimisation (Kerotakis)",
+                    // A name, and nothing but a name.
                     "NASA CEA thermo.inp",
-                    if feed_tp_fallback {
-                        "NASA-9 polynomials, ideal gas + pure condensed phases; TP liquid-feed fallback at the explicit ignition-zone temperature"
-                    } else {
-                        "NASA-9 polynomials, ideal gas + pure condensed phases"
+                    // `NASA-9` is the polynomial set's name and stays put;
+                    // the rest is a sentence, and the fallback adds a
+                    // second one. Nested rather than flattened so the
+                    // German for "NASA-9 polynomials, ideal gas + pure
+                    // condensed phases" is written once and the fallback
+                    // clause wraps it.
+                    {
+                        let base = Phrase::new(
+                            "provenance.model.nasa9-polynomials",
+                            "{name} polynomials, ideal gas + pure condensed phases",
+                            vec![(
+                                "name".to_string(),
+                                kerotakis_core::phrase::Slot::text("NASA-9"),
+                            )],
+                        );
+                        if feed_tp_fallback {
+                            Phrase::new(
+                                "provenance.model.with-feed-tp-fallback",
+                                "{model}; TP liquid-feed fallback at the explicit ignition-zone temperature",
+                                vec![(
+                                    "model".to_string(),
+                                    kerotakis_core::phrase::Slot::phrase(base),
+                                )],
+                            )
+                        } else {
+                            base
+                        }
                     },
                     dataset_sources,
                     if feed_tp_fallback {

@@ -5,6 +5,7 @@
 //! No hand-maintained tables of what the databases already state
 //! ("derived, not hardcoded" applies to our own glue too).
 
+use kerotakis_core::phrase::{Phrase, Slot};
 use std::collections::BTreeMap;
 
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
@@ -73,6 +74,15 @@ pub enum ActivityModel {
 }
 
 impl ActivityModel {
+    /// The description in ENGLISH, which is where it stays.
+    ///
+    /// Two consumers that are not readers depend on the exact bytes:
+    /// `kerotakis_core::solve` asks whether `Provenance.model` starts with
+    /// `states::ION_INTERACTION_MODEL_PREFIX` to choose between the
+    /// ion-interaction and the ideal colligative route — a freezing point
+    /// moves by degrees on the answer — and the provenance tests assert
+    /// the strings. [`ActivityModel::phrase`] renders back to exactly
+    /// this, which is what keeps them still.
     pub fn describe(self) -> &'static str {
         match self {
             ActivityModel::Pitzer => {
@@ -82,6 +92,49 @@ impl ActivityModel {
                 "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)"
             }
             ActivityModel::Davies => "Davies equation (reliable to about I = 0.5 mol/kgw)",
+        }
+    }
+
+    /// The same description as a RECIPE: the model's NAME in a text slot,
+    /// its reliability bound as a NUMBER, and the sentence between them as
+    /// the part a catalogue translates.
+    ///
+    /// *Pitzer*, *WATEQ Debye-Hückel* and *Davies* are people and a
+    /// program, and none of them is translated in any language — so each
+    /// travels in a [`Slot::Text`], the slot that is never looked up.
+    ///
+    /// The bound is a `Slot::number` and that is the half that could not
+    /// have survived as prose: German writes *I = 0,5 mol/kgw*, and no
+    /// catalogue over a finished English string can know there was a
+    /// decimal point in it to move.
+    ///
+    /// `render(Locale::EN)` is byte-identical to [`ActivityModel::describe`]
+    /// — asserted by
+    /// `the_recipe_renders_the_english_description_exactly` below.
+    #[must_use]
+    pub fn phrase(self) -> Phrase {
+        match self {
+            ActivityModel::Pitzer => Phrase::new(
+                "provenance.model.ion-interaction",
+                "{name} specific-ion-interaction model (valid at high ionic strength)",
+                vec![("name".to_string(), Slot::text("Pitzer"))],
+            ),
+            ActivityModel::WateqDebyeHuckel => Phrase::new(
+                "provenance.model.wateq-debye-huckel",
+                "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                vec![
+                    ("name".to_string(), Slot::text("WATEQ Debye-Hückel")),
+                    ("ionic_strength".to_string(), Slot::number("1")),
+                ],
+            ),
+            ActivityModel::Davies => Phrase::new(
+                "provenance.model.davies",
+                "{name} equation (reliable to about I = {ionic_strength} mol/kgw)",
+                vec![
+                    ("name".to_string(), Slot::text("Davies")),
+                    ("ionic_strength".to_string(), Slot::number("0.5")),
+                ],
+            ),
         }
     }
 }
@@ -753,6 +806,46 @@ mod delta_h_tests {
     ///
     /// So: the Pitzer description must start with it, and neither
     /// Debye–Hückel description may.
+    /// The recipe and the English string are ONE sentence, not two.
+    ///
+    /// This is the property the whole split rests on, and here it is not a
+    /// tidiness argument: `kerotakis_core::solve` routes the colligative
+    /// answer on `Provenance.model.starts_with("Pitzer")`, so a recipe
+    /// that rendered even one byte differently in English would silently
+    /// send every brine back to the ideal route — the same failure the
+    /// test below guards from the other side.
+    #[test]
+    fn the_recipe_renders_the_english_description_exactly() {
+        for model in [
+            ActivityModel::Pitzer,
+            ActivityModel::WateqDebyeHuckel,
+            ActivityModel::Davies,
+        ] {
+            assert_eq!(
+                model.phrase().render(kerotakis_core::i18n::Locale::EN),
+                model.describe(),
+                "{model:?}"
+            );
+        }
+    }
+
+    /// The model NAMES are never translated, and the bound is.
+    ///
+    /// German gets the sentence and the decimal comma; *Davies* stays
+    /// *Davies*, because it is a person.
+    #[test]
+    fn german_keeps_the_name_and_moves_the_decimal_point() {
+        let de = kerotakis_core::i18n::Locale::parse("de");
+        let davies = ActivityModel::Davies.phrase().render(de);
+        assert!(davies.contains("Davies"), "{davies}");
+        assert!(davies.contains("0,5"), "{davies}");
+        assert!(!davies.contains("0.5"), "{davies}");
+        assert!(!davies.contains("reliable to about"), "{davies}");
+        let pitzer = ActivityModel::Pitzer.phrase().render(de);
+        assert!(pitzer.contains("Pitzer"), "{pitzer}");
+        assert!(!pitzer.contains("ionic strength"), "{pitzer}");
+    }
+
     #[test]
     fn only_the_ion_interaction_model_carries_the_prefix_core_matches_on() {
         let prefix = kerotakis_core::states::ION_INTERACTION_MODEL_PREFIX;

@@ -1784,6 +1784,46 @@ whole_milk-casein = "KASEIN IST NICHT MODELLIERT, SEINE PUFFERWIRKUNG FEHLT DAHE
 # Die Klauseln, die eine andere umschließen, führen `{routing}` als Loch:
 # eine Sprache, die die Einschränkung voranstellt, schreibt ihre Vorlage
 # einfach anders herum und braucht dafür keine Zeile Rust.
+# WHICH dataset answered, and WHICH model it applies.
+#
+# The fifth and last instance of the family `[inert]`, `[not-modeled]`,
+# `[scene]` and `[routing]` are the other four of: a NAME with an English
+# sentence welded to it, on a field a reader sees. `kero explain` made it
+# plain — "Modell: WATEQ Debye-Hückel extension (reliable to about
+# I = 1 mol/kgw)", an English parenthesis inside a German line.
+#
+# **Every `{name}`, `{file}` and `{engine}` here is a NAME and stays as it
+# is in every language.** `wateq4f.dat` is a file, `Pitzer` and `Davies`
+# are people, `NASA-9` is a polynomial set and `PHREEQC` is a program.
+# They travel in text slots the catalogue never looks up, which is exactly
+# why they can be named in these templates without risk.
+#
+# The `{ionic_strength}` and `{fraction}` holes are NUMBERS and arrive with
+# the German decimal comma already in them — I = 0,5 mol/kgw. That is the
+# half of this defect a translation of the finished string could never
+# have reached.
+[provenance]
+# The dataset half. Two levels: a base clause naming what this lab added
+# to the vendored file, wrapped in the clause that is true of all of them.
+# The wrapper is written ONCE here for the same reason it is composed once
+# in `aqueous.rs` — three flat rows would be three chances to drift.
+"dataset.plus-reference-complexes" = "{file} plus Referenztemperatur-Komplexe aus USBM IC 9429"
+"dataset.plus-lactate-and-reference-complexes" = "{file} plus geprüftem Lactat und Referenztemperatur-Komplexen aus USBM IC 9429"
+"dataset.with-gas-uptake-slice" = "{file}, mit dem geprüften Datenausschnitt zur HBr-Gasaufnahme nach Sander"
+"dataset.vendored-usgs" = "{file}, wie vom USGS mitgeliefert"
+
+# The model half. The three activity models are composed in
+# `kerotakis-phreeqc/src/dbindex.rs`, which is the only place their
+# descriptions exist; the other three are composed where the solver that
+# applies them is.
+"model.ion-interaction" = "{name}-Modell der spezifischen Ionenwechselwirkung (gültig bei hoher Ionenstärke)"
+"model.wateq-debye-huckel" = "{name}-Erweiterung (verlässlich bis etwa I = {ionic_strength} mol/kgw)"
+"model.davies" = "{name}-Gleichung (verlässlich bis etwa I = {ionic_strength} mol/kgw)"
+"model.water-autoionisation" = "ideal verdünnte Autoprotolyse des Wassers ({engine}-Beziehung für log K mit sechs Koeffizienten)"
+"model.curated-complete-combustion" = "vollständige Verbrennung zu CO2 und H2O bei tabellierter Verbrennungswärme, mit einem begrenzenden Sauerstoffanteil von {fraction} für eine geschlossene Grenze"
+"model.nasa9-polynomials" = "{name}-Polynome, ideales Gas + reine kondensierte Phasen"
+"model.with-feed-tp-fallback" = "{model}; TP-Rückgriff auf die Zuführung bei der ausdrücklich angegebenen Zündzonentemperatur"
+
 [routing]
 solvent-relation-only = "keine dargestellte Säure, Base, kein Salz, keine Oberfläche, kein Austauscher, kein Gasübergang und kein reaktiver wässriger Gelöststoff; die Lösungsmittelbeziehung wurde ohne Aufruf von IPhreeqc ausgewertet, das gesamte Zuschauer-Inventar blieb dabei erhalten"
 mix-by-fraction = "MIX: zwei gelöste Lösungen anteilig gemischt"

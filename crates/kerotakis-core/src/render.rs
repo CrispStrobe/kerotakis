@@ -3598,12 +3598,12 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             (_, false) => locale.fill(
                 "event.thermal-equilibrium.lv3",
                 "{vessel}: Gibbs minimum at {temperature} K · {provenance} · {provenance2}",
-                &[("vessel", &vessel.to_string()), ("temperature", &locale.number(format!("{:.2}", temperature.0))), ("provenance", &provenance.dataset.to_string()), ("provenance2", &provenance.model.to_string())],
+                &[("vessel", &vessel.to_string()), ("temperature", &locale.number(format!("{:.2}", temperature.0))), ("provenance", &provenance.dataset_in(locale)), ("provenance2", &provenance.model_in(locale))],
             ),
             (_, true) => locale.fill(
                 "event.thermal-equilibrium.lv3-empty",
                 "{vessel}: Gibbs minimum at {temperature} K, adiabatic flame over an empty vessel · {provenance} · {provenance2}",
-                &[("vessel", &vessel.to_string()), ("temperature", &locale.number(format!("{:.2}", temperature.0))), ("provenance", &provenance.dataset.to_string()), ("provenance2", &provenance.model.to_string())],
+                &[("vessel", &vessel.to_string()), ("temperature", &locale.number(format!("{:.2}", temperature.0))), ("provenance", &provenance.dataset_in(locale)), ("provenance2", &provenance.model_in(locale))],
             ),
         },
         Event::SolutionCharacterized {
@@ -3675,7 +3675,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 "{vessel}: answered by {dataset} — {routing}",
                 &[
                     ("vessel", &vessel.to_string()),
-                    ("dataset", &provenance.dataset),
+                    ("dataset", &provenance.dataset_in(locale)),
                     ("routing", &provenance.routing_in(locale)),
                 ],
             ),
@@ -3685,8 +3685,8 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 &[
                     ("vessel", &vessel.to_string()),
                     ("engine", &provenance.engine),
-                    ("dataset", &provenance.dataset),
-                    ("model", &provenance.model),
+                    ("dataset", &provenance.dataset_in(locale)),
+                    ("model", &provenance.model_in(locale)),
                     ("routing", &provenance.routing_in(locale)),
                 ],
             ),
@@ -4928,7 +4928,7 @@ pub fn localize_event(event: &Event, locale: Locale) -> Event {
         Event::ThermalEquilibrium { .. } => {
             let mut translated = event.clone();
             if let Event::ThermalEquilibrium { provenance, .. } = &mut translated {
-                provenance.routing = provenance.routing_in(locale);
+                localize_provenance(provenance, locale);
             }
             translated
         }
@@ -4942,12 +4942,34 @@ pub fn localize_event(event: &Event, locale: Locale) -> Event {
         Event::SolutionRouted { .. } => {
             let mut translated = event.clone();
             if let Event::SolutionRouted { provenance, .. } = &mut translated {
-                provenance.routing = provenance.routing_in(locale);
+                localize_provenance(provenance, locale);
             }
             translated
         }
         other => other.clone(),
     }
+}
+
+/// Put a provenance a HOST reads off the event into the reader's language.
+///
+/// Three fields, one rule, and the rule is the point: each rendered field
+/// is replaced by its recipe in `locale`, and each RECIPE is left exactly
+/// where it is. A host that reads the event rather than the rendered line
+/// — `provenance.ts` lifts `event.provenance` off any event and
+/// `ProvenanceDrawer.svelte` prints `dataset`, `model` and `routing`
+/// verbatim — must see the same German the notebook shows; a host that
+/// composes its own sentence from the recipe must not find it already
+/// translated, because it would then be translated twice.
+///
+/// **This does not change what the ENGINE holds.** It mutates a clone on
+/// its way out. `solve.rs` routes the colligative answer on
+/// `Provenance.model.starts_with("Pitzer")` against the vessel's own
+/// provenance, which never passes through here — and could not, because
+/// nothing reads an event back into a vessel.
+fn localize_provenance(provenance: &mut crate::vessel::Provenance, locale: Locale) {
+    provenance.dataset = provenance.dataset_in(locale);
+    provenance.model = provenance.model_in(locale);
+    provenance.routing = provenance.routing_in(locale);
 }
 
 /// A gap reason that arrived as a finished English sentence, looked up by

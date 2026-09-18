@@ -589,6 +589,58 @@ pub struct SpeciesDetail {
     pub activity: f64,
 }
 
+/// What a provenance was told about its dataset or its model: a NAME, or
+/// a SENTENCE with a name inside it.
+///
+/// The two are genuinely different things and the old signature could not
+/// tell them apart, which is how this defect lasted. `NASA CEA thermo.inp`
+/// and `kerotakis:combustion:curated-fuels-v1` are names: nothing in them
+/// is translated, and a catalogue row over one would be a row inviting a
+/// translator to change it. *wateq4f.dat plus USBM IC 9429
+/// reference-temperature complexes, with the reviewed Sander HBr
+/// gas-uptake slice* is a name with two English clauses welded to it, and
+/// a German reader met both in English.
+///
+/// So a composer passes whichever it has, and this decides what that
+/// means. A `Phrase` fills the English field by rendering ITSELF in the
+/// source language — the property the whole split rests on, because it
+/// makes one sentence where there would otherwise be two, and
+/// `dataset_in(Locale::EN)` byte-identical to `dataset` by construction.
+#[derive(Debug, Clone, PartialEq)]
+pub enum Claim {
+    /// A name. Printed in every language exactly as written.
+    Name(String),
+    /// A sentence, with its names in slots the catalogue never touches.
+    Said(Phrase),
+}
+
+impl Claim {
+    fn split(self) -> (String, Option<Phrase>) {
+        match self {
+            Claim::Name(name) => (name, None),
+            Claim::Said(phrase) => (phrase.render(Locale::EN), Some(phrase)),
+        }
+    }
+}
+
+impl From<&str> for Claim {
+    fn from(name: &str) -> Claim {
+        Claim::Name(name.to_string())
+    }
+}
+
+impl From<String> for Claim {
+    fn from(name: String) -> Claim {
+        Claim::Name(name)
+    }
+}
+
+impl From<Phrase> for Claim {
+    fn from(said: Phrase) -> Claim {
+        Claim::Said(said)
+    }
+}
+
 /// Where an answer came from, so any number can be traced: which engine,
 /// which dataset, which model — and, where the dataset records it, the
 /// literature its numbers came from (PLAN.md: offer different paths and be
@@ -701,47 +753,23 @@ impl Provenance {
     #[must_use]
     pub fn new(
         engine: impl Into<String>,
-        dataset: impl Into<String>,
-        model: impl Into<String>,
+        dataset: impl Into<Claim>,
+        model: impl Into<Claim>,
         dataset_sources: Vec<String>,
         routing: Phrase,
     ) -> Provenance {
+        let (dataset, dataset_phrase) = dataset.into().split();
+        let (model, model_phrase) = model.into().split();
         Provenance {
             engine: engine.into(),
-            dataset: dataset.into(),
-            model: model.into(),
+            dataset,
+            model,
             dataset_sources,
             routing: routing.render(Locale::EN),
             routing_phrase: Some(routing),
-            dataset_phrase: None,
-            model_phrase: None,
+            dataset_phrase,
+            model_phrase,
         }
-    }
-
-    /// Say the dataset as a recipe, keeping the English field in step.
-    ///
-    /// The English is REPLACED by the recipe rendered in the source
-    /// language rather than left as whatever the caller passed, which is
-    /// the property the whole split rests on: there is one sentence, not
-    /// two, so `dataset_in(Locale::EN)` is byte-identical to `dataset` by
-    /// construction and nothing that reads the field moves.
-    #[must_use]
-    pub fn with_dataset(mut self, dataset: Phrase) -> Provenance {
-        self.dataset = dataset.render(Locale::EN);
-        self.dataset_phrase = Some(dataset);
-        self
-    }
-
-    /// Say the model as a recipe, keeping the English field in step.
-    ///
-    /// Same construction as [`Provenance::with_dataset`], and here the
-    /// byte-identity is not a nicety: `solve.rs` routes the colligative
-    /// answer on `model.starts_with("Pitzer")`.
-    #[must_use]
-    pub fn with_model(mut self, model: Phrase) -> Provenance {
-        self.model = model.render(Locale::EN);
-        self.model_phrase = Some(model);
-        self
     }
 
     /// Which dataset answered, in the reader's language.

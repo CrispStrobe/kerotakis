@@ -13,6 +13,7 @@
 //! Known limitation, stated: dissolution/precipitation enthalpy is not yet
 //! fed into the vessel's energy balance (curated ΔH arrives with the codex).
 
+use kerotakis_core::i18n::Locale;
 use kerotakis_core::phrase::{sentence_pair, Phrase, Slot};
 use kerotakis_core::{
     species, Equilibrator, Event, ExchangeIon, ExchangeOccupancy, ExchangeSites, Headspace, Kelvin,
@@ -101,16 +102,50 @@ fn measured_species_moles(species: Option<&[SpeciesDetail]>, name: &str, water_k
 /// `databases::minteq_v4`). Reporting the bare filename would name a
 /// database we are not running, in the field whose entire job is to let a
 /// reader trace where a number came from.
-fn dataset_name(db_tag: &str) -> String {
+/// The same claim as a RECIPE: the file NAME in a slot, the clauses that
+/// say what this lab added to it as the part a catalogue translates.
+///
+/// This is the composer the whole change is about. What it used to build
+/// was one string — *wateq4f.dat plus USBM IC 9429 reference-temperature
+/// complexes, with the reviewed Sander HBr gas-uptake slice* — in which
+/// the first token is a FILE NAME that no language translates and
+/// everything after it is an English sentence that every language must.
+///
+/// Two levels, and the nesting is what keeps the German honest: the
+/// Sander clause is said ONCE, in one catalogue row, and wraps whatever
+/// the base was. A flat row per dataset would have asked a translator for
+/// the same clause three times and let the three drift.
+///
+/// `{file}` carries the file through both levels, which is how
+/// [`Provenance::dataset_file`] gets the name back out of the sentence
+/// without cutting the sentence up.
+fn dataset_phrase(db_tag: &str) -> Phrase {
     let base = match db_tag {
-        "minteq.v4" => {
-            "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes"
-                .to_string()
-        }
-        "wateq4f" => "wateq4f.dat plus USBM IC 9429 reference-temperature complexes".to_string(),
-        other => format!("{other}.dat"),
+        "minteq.v4" => Slot::phrase(Phrase::new(
+            "provenance.dataset.plus-lactate-and-reference-complexes",
+            "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+            vec![(
+                Provenance::DATASET_FILE_SLOT.to_string(),
+                Slot::text("minteq.v4.dat"),
+            )],
+        )),
+        "wateq4f" => Slot::phrase(Phrase::new(
+            "provenance.dataset.plus-reference-complexes",
+            "{file} plus USBM IC 9429 reference-temperature complexes",
+            vec![(
+                Provenance::DATASET_FILE_SLOT.to_string(),
+                Slot::text("wateq4f.dat"),
+            )],
+        )),
+        // A dataset run exactly as vendored is a NAME and nothing else, so
+        // it goes straight into the wrapper's slot as text.
+        other => Slot::text(format!("{other}.dat")),
     };
-    format!("{base}, with the reviewed Sander HBr gas-uptake slice")
+    Phrase::new(
+        "provenance.dataset.with-gas-uptake-slice",
+        "{file}, with the reviewed Sander HBr gas-uptake slice",
+        vec![(Provenance::DATASET_FILE_SLOT.to_string(), base)],
+    )
 }
 
 fn dataset_sources(db_tag: &str) -> Vec<String> {
@@ -282,9 +317,48 @@ const UNTRACKED_EXCHANGE_ELEMENTS: &[&str] = &[
 /// What one dataset says about the same vessel.
 #[derive(Debug, Clone)]
 pub struct PathResult {
+    /// The dataset claim in English — see [`kerotakis_core::Provenance::dataset`].
     pub dataset: String,
+    /// The model claim in English.
     pub model: String,
+    /// The dataset claim as a recipe. `kero explain --compare` prints this
+    /// beside three answers, and it carried the same welded English the
+    /// provenance field did.
+    pub dataset_phrase: Option<Phrase>,
+    /// The model claim as a recipe.
+    pub model_phrase: Option<Phrase>,
     pub outcome: PathOutcome,
+}
+
+impl PathResult {
+    /// The dataset that answered, in the reader's language.
+    #[must_use]
+    pub fn dataset_in(&self, locale: Locale) -> String {
+        self.dataset_phrase
+            .as_ref()
+            .map_or_else(|| self.dataset.clone(), |phrase| phrase.render(locale))
+    }
+
+    /// The model it applies, in the reader's language.
+    #[must_use]
+    pub fn model_in(&self, locale: Locale) -> String {
+        self.model_phrase
+            .as_ref()
+            .map_or_else(|| self.model.clone(), |phrase| phrase.render(locale))
+    }
+
+    /// One dataset's answer, with both claims said as recipes.
+    fn new(db_tag: &str, model: crate::dbindex::ActivityModel, outcome: PathOutcome) -> PathResult {
+        let dataset = dataset_phrase(db_tag);
+        let model = model.phrase();
+        PathResult {
+            dataset: dataset.render(Locale::EN),
+            model: model.render(Locale::EN),
+            dataset_phrase: Some(dataset),
+            model_phrase: Some(model),
+            outcome,
+        }
+    }
 }
 
 #[derive(Debug, Clone)]
@@ -1030,13 +1104,13 @@ impl PhreeqcEquilibrator {
                 .cloned()
                 .collect();
             if !missing.is_empty() {
-                out.push(PathResult {
-                    dataset: dataset_name(db_tag),
-                    model: idx.activity_model.describe().to_string(),
-                    outcome: PathOutcome::CannotExpress {
+                out.push(PathResult::new(
+                    db_tag,
+                    idx.activity_model,
+                    PathOutcome::CannotExpress {
                         missing_elements: missing,
                     },
-                });
+                ));
                 continue;
             }
             let mut scoped = problem.clone();
@@ -1045,13 +1119,13 @@ impl PhreeqcEquilibrator {
             let engine = match self.engine_for(db_tag, &input) {
                 Ok(engine) => engine,
                 Err(e) => {
-                    out.push(PathResult {
-                        dataset: dataset_name(db_tag),
-                        model: idx.activity_model.describe().to_string(),
-                        outcome: PathOutcome::Failed {
+                    out.push(PathResult::new(
+                        db_tag,
+                        idx.activity_model,
+                        PathOutcome::Failed {
                             detail: e.to_string(),
                         },
-                    });
+                    ));
                     continue;
                 }
             };
@@ -1084,11 +1158,7 @@ impl PhreeqcEquilibrator {
                     }
                 }
             };
-            out.push(PathResult {
-                dataset: dataset_name(db_tag),
-                model: idx.activity_model.describe().to_string(),
-                outcome,
-            });
+            out.push(PathResult::new(db_tag, idx.activity_model, outcome));
         }
         out
     }
@@ -1195,8 +1265,25 @@ fn characterize_solvent_only(vessel: &mut Vessel) -> Result<Vec<Event>, SolveErr
         ],
         provenance: Some(Provenance::new(
             "Kerotakis analytic equilibrium evaluator",
-            "vendored USGS phreeqc.dat",
-            "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+            // "vendored USGS" is two English words in front of a file
+            // name, and LV1 used to announce them AS the dataset, because
+            // `dataset_file` could only take the first token. The name is
+            // in the slot now, so the register that wants the file gets
+            // `phreeqc.dat` and the register that wants the sentence gets
+            // it in German.
+            Phrase::new(
+                "provenance.dataset.vendored-usgs",
+                "vendored USGS {file}",
+                vec![(
+                    Provenance::DATASET_FILE_SLOT.to_string(),
+                    Slot::text("phreeqc.dat"),
+                )],
+            ),
+            Phrase::new(
+                "provenance.model.water-autoionisation",
+                "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                vec![("engine".to_string(), Slot::text("PHREEQC"))],
+            ),
             vec!["USGS PHREEQC thermodynamic database".to_string()],
             Phrase::bare(
                 "routing.solvent-relation-only",
@@ -2474,8 +2561,8 @@ impl Equilibrator for PhreeqcEquilibrator {
             species: cached.speciation.clone(),
             provenance: Some(Provenance::new(
                 "PHREEQC (IPhreeqc, USGS)",
-                dataset_name(db_tag),
-                derived::index_for(db_tag).activity_model.describe(),
+                dataset_phrase(db_tag),
+                derived::index_for(db_tag).activity_model.phrase(),
                 dataset_sources(db_tag),
                 Phrase::bare(
                     "routing.mix-by-fraction",
@@ -3535,9 +3622,13 @@ impl PhreeqcEquilibrator {
             ));
         }
 
+        let dataset = dataset_phrase(SECOND);
+        let model = brine.activity_model.phrase();
         Some(kerotakis_core::vessel::SolventActivityProvenance {
-            dataset: dataset_name(SECOND),
-            model: brine.activity_model.describe().to_string(),
+            dataset: dataset.render(Locale::EN),
+            model: model.render(Locale::EN),
+            dataset_phrase: Some(dataset),
+            model_phrase: Some(model),
             water_activity: water.activity,
             particle_molality,
             ionic_strength,
@@ -4703,17 +4794,23 @@ impl PhreeqcEquilibrator {
                 "{routing}; the solvent's activity is NOT from this dataset — it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model — but from a second speciation of the same solution on {dataset} ({model}), posed with no phases, gas or interfaces and asked for a_w alone",
                 vec![
                     ("routing".to_string(), Slot::phrase(routing)),
-                    // A dataset FILE and the model it applies: both are
-                    // names this lab prints, not words it translates.
-                    ("dataset".to_string(), Slot::text(second.dataset.clone())),
-                    ("model".to_string(), Slot::text(second.model.clone())),
+                    // Neither of these is a bare name. A dataset is a FILE
+                    // NAME with clauses welded to it and a model is a
+                    // PERSON'S NAME with a reliability range welded to it,
+                    // so each travels as its RECIPE — the names inside it
+                    // still in text slots, which are the ones no catalogue
+                    // touches. They were `Slot::text` of the finished
+                    // English, which put two English clauses in the middle
+                    // of a German routing paragraph.
+                    ("dataset".to_string(), second.dataset_slot()),
+                    ("model".to_string(), second.model_slot()),
                 ],
             ),
         };
         let provenance = Provenance::new(
             "PHREEQC (IPhreeqc, USGS)",
-            dataset_name(db_tag),
-            idx.activity_model.describe(),
+            dataset_phrase(db_tag),
+            idx.activity_model.phrase(),
             dataset_sources(db_tag),
             routing,
         );
@@ -6102,5 +6199,67 @@ mod oxidation_sum_tests {
             build_input(&forward, &forward_problem, "minteq.v4"),
             build_input(&reverse, &reverse_problem, "minteq.v4")
         );
+    }
+}
+
+#[cfg(test)]
+mod dataset_claim_tests {
+    use super::{dataset_phrase, Locale};
+    use kerotakis_core::Provenance;
+
+    /// The recipe renders the sentence that used to be written out.
+    ///
+    /// `Provenance.dataset` is asserted verbatim by the dataset tests and
+    /// filed verbatim by `tools/chemistry-audit`, so the English is a
+    /// contract. These are the exact strings `dataset_name` built before
+    /// it became a recipe.
+    #[test]
+    fn the_recipe_renders_the_english_it_replaced() {
+        assert_eq!(
+            dataset_phrase("wateq4f").render(Locale::EN),
+            "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice"
+        );
+        assert_eq!(
+            dataset_phrase("minteq.v4").render(Locale::EN),
+            "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice"
+        );
+        assert_eq!(
+            dataset_phrase("pitzer").render(Locale::EN),
+            "pitzer.dat, with the reviewed Sander HBr gas-uptake slice"
+        );
+    }
+
+    /// The FILE comes back out of the sentence because it was put in a
+    /// slot, not because the sentence begins with it.
+    ///
+    /// Both nestings, and the flat one: `dataset_file` descends into the
+    /// nested clause for the two datasets this lab adds to, and reads the
+    /// wrapper's own slot for the one it runs as vendored.
+    #[test]
+    fn the_file_name_survives_the_sentence_around_it() {
+        for (tag, file) in [
+            ("wateq4f", "wateq4f.dat"),
+            ("minteq.v4", "minteq.v4.dat"),
+            ("pitzer", "pitzer.dat"),
+        ] {
+            let provenance = Provenance::new(
+                "PHREEQC (IPhreeqc, USGS)",
+                dataset_phrase(tag),
+                "model",
+                Vec::new(),
+                kerotakis_core::phrase::Phrase::bare("routing.test", "because"),
+            );
+            assert_eq!(provenance.dataset_file(), file, "{tag}");
+        }
+    }
+
+    /// German gets the clauses and keeps the file name.
+    #[test]
+    fn german_translates_the_clauses_and_not_the_file() {
+        let de = Locale::parse("de");
+        let said = dataset_phrase("wateq4f").render(de);
+        assert!(said.contains("wateq4f.dat"), "{said}");
+        assert!(!said.contains("plus USBM"), "{said}");
+        assert!(!said.contains("with the reviewed"), "{said}");
     }
 }
