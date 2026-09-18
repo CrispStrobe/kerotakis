@@ -6401,8 +6401,8 @@ mod routing_molality_tests {
     #[test]
     fn a_beaker_boiled_dry_over_chalk_is_not_a_concentrated_solution() {
         let mut vessel = Vessel::new(VesselId(0), "boiled dry over chalk");
-        // 0.675 g of water per thousand — 0.68 mg, the transcript's own
-        // denominator, reached by evaporation rather than by pouring.
+        // 0.68 mg of water — the transcript's own denominator, reached by
+        // evaporation rather than by pouring.
         vessel.deposit(SpeciesId::new("water"), Moles(3.7502e-5), Phase::Liquid);
         vessel.deposit(SpeciesId::new("CaCO3"), Moles(0.024), Phase::Solid);
 

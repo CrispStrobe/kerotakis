@@ -3520,7 +3520,7 @@ assign to the prop its `{@const}` derives from — but that argument is the
 reason, not an assumption, and it stops holding the moment a component owns
 state a sibling `{@const}` reads.
 
-- [ ] **The routing caveat prints "~71046,6 mol/kgw" one line above
+- [x] **The routing caveat prints "~71046,6 mol/kgw" one line above
       "I = 0,0004 mol/kgw".** `aqueous.rs:3089` estimates a "potential
       molality" as *(dissolved totals + 2 × equilibrium-phase moles + 2 ×
       solid-solution moles) / `problem.kgw`*, and `> 1.0` both **selects
@@ -3551,7 +3551,31 @@ state a sibling `{@const}` reads.
       model, and told it is, on the strength of a number the solver
       disagrees with by eight orders of magnitude.
 
-- [ ] **Identical lines repeat on every solve step.** The same
+      **Done in #665, and what it found.** Both faults are real and the
+      arithmetic checks out: a numerator of 0.048 mol over a `kgw` of
+      6.76e-7 kg — 0.68 mg of water — is 71 048 mol/kgw. The estimate is
+      now bounded twice, on the value that ROUTES rather than on a printed
+      copy of it: the solvent mass is floored at one millilitre (the
+      largest floor that leaves `condense_supersaturated`'s documented
+      1 mL probe untouched), and a phase contributes at most what the
+      water present could hold, read from the same reviewed solubility
+      that composes its own `Event::Inert` sentence. The transcript's
+      beaker goes from **71 048 to 0.00026 mol/kgw**, beside the solver's
+      measured 0.0004 — the first time the two halves of that answer
+      agree. Brine is untouched: 8 mol of NaCl in a kilogram still reads
+      16.0, and the 1 mL probe still hands the router 200.
+
+      **What it does NOT close, deliberately.** The cap only bites where
+      the registry has reviewed a solubility — 22 species, of which
+      chalk, quartz and sulfur are the only ones that are also database
+      phases. A solid it has not reviewed is still counted in full,
+      because that is what keeps halite and sylvite routing a real brine
+      to pitzer. So manganese dioxide and silver chloride, both in that
+      vessel, still contribute their whole inventory. Closing that is
+      registry data with a source behind it, not arithmetic in
+      `aqueous.rs`, and it is the next thing to do here.
+
+- [x] **Identical lines repeat on every solve step.** The same
       `Event::Inert` for chalk is emitted unconditionally at
       `solve.rs:2466` and `solve.rs:2603` — once per step, forever. The
       transcript carries the same forty-word German sentence about chalk's
@@ -3561,6 +3585,34 @@ state a sibling `{@const}` reads.
       change, comparing `Phrase::shape()`, not on every tick. Whatever is
       done here should reuse that mechanism rather than invent a second
       one.
+
+      **Done in #667, and what it found.** `Vessel::honesty_said` is the
+      sibling of `aqueous_routing_said` — `#[serde(skip)]`, compared as a
+      shape, holding what STANDS rather than everything ever said, so a
+      solid that stops being inert and is inert again is announced again.
+      Across the 113 lesson goldens, **49 changed and all 49 changed the
+      same way**: 133 lines removed, no vessel state moved, no line added
+      that was not a first occurrence, and not one count went up. The
+      largest single reduction was `rusting`, 40 events to 30.
+
+      **`NotYetModeled` had half a mechanism, and it was not this one.**
+      `render_events_in` drops a line identical to one already in the
+      batch — but only inside ONE batch and only at lv1, so thirty steps
+      are thirty batches and it never saw them, and lv2/lv3 readers were
+      not covered at all. It gets the same treatment at the same two
+      sites.
+
+      **No suppressed line carried a quantity that moves.** Only
+      `inert.insoluble-in-water` has a measurement in it at all — the
+      reviewed solubility — and of the species that can reach that branch
+      (below 0.01 g/100 mL) none has a second, 100 °C entry to
+      interpolate towards, so it cannot move while the sentence stands.
+
+      **What the repetition was costing, found by eye.** `hard-water`'s
+      third vessel printed the calcium-chloride apology twice and pushed
+      magnesium sulfate's own first sentence out of view; with the repeat
+      gone, the magnesium sulfate line appears. The noise was not only
+      noise — it was crowding out news.
 
 - [ ] **The engine says chalk dissolved and, on the next line, that it
       does not dissolve and is "still all there".** Verbatim, in order:
