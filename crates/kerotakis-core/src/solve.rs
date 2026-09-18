@@ -2276,6 +2276,17 @@ impl Equilibrator for HonestyEquilibrator {
 
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
         let mut events = Vec::new();
+        // What the reader was last told about each solid here, and what
+        // will be standing when this pass ends. See `Vessel::honesty_said`:
+        // these sentences answer the same question every step and used to
+        // answer it out loud every step.
+        //
+        // Taking it leaves the field EMPTY, which is what every early
+        // return below wants: a pass that stopped at the solvent's own
+        // boundary is not standing over any solid, so the next pass that
+        // does reach the loop says its sentences again.
+        let previously_said = std::mem::take(&mut vessel.honesty_said);
+        let mut standing: Vec<String> = Vec::new();
         // The solvent's own state is asked FIRST, before the "a solution
         // was characterised, so there is no gap" early return below.
         //
@@ -2463,14 +2474,22 @@ impl Equilibrator for HonestyEquilibrator {
                                 ("limit".to_string(), Slot::number(format!("{limit:.4}"))),
                             ],
                         );
-                        events.push(Event::Inert {
-                            vessel: vessel.id,
-                            species: p.species.clone(),
-                            why: reason.render(Locale::EN),
-                            computed: false,
-                            spent: None,
-                            reason: Some(reason),
-                        });
+                        // Once, not once per step. The only measurement
+                        // in it is a reviewed solubility read out of the
+                        // registry, so it cannot move while the sentence
+                        // stands — see `Vessel::honesty_said`.
+                        let shape = reason.shape();
+                        if !previously_said.contains(&shape) {
+                            events.push(Event::Inert {
+                                vessel: vessel.id,
+                                species: p.species.clone(),
+                                why: reason.render(Locale::EN),
+                                computed: false,
+                                spent: None,
+                                reason: Some(reason),
+                            });
+                        }
+                        standing.push(shape);
                         continue;
                     }
                 }
@@ -2496,9 +2515,20 @@ impl Equilibrator for HonestyEquilibrator {
                         crate::ops::NotModelledCause::NoSolver,
                     )
                 };
-                events.push(Event::not_modeled(vessel.id, cause, reason));
+                // Same treatment, and it needs it for the same reason:
+                // neither of these two recipes carries a measurement at
+                // all, so a repeat of one is a repeat of the whole
+                // sentence. "Silver nitrate in contact with liquid" was
+                // said ten times in one transcript.
+                let shape = reason.shape();
+                if !previously_said.contains(&shape) {
+                    events.push(Event::not_modeled(vessel.id, cause, reason));
+                }
+                standing.push(shape);
             }
         }
+        // What stands now, so the next step can tell news from an echo.
+        vessel.honesty_said = standing;
         Ok(events)
     }
 
@@ -2600,14 +2630,24 @@ impl Equilibrator for HonestyEquilibrator {
                                 ("limit".to_string(), Slot::number(format!("{limit:.4}"))),
                             ],
                         );
-                        events.push(Event::Inert {
-                            vessel: vessel.id,
-                            species: p.species.clone(),
-                            why: reason.render(Locale::EN),
-                            computed: false,
-                            spent: None,
-                            reason: Some(reason),
-                        });
+                        // The preview holds the vessel by reference, so
+                        // it reads what has been said and cannot record
+                        // anything: it shows what the pass that owns the
+                        // mutation would say, which is the point of a
+                        // preview. A caller that ONLY ever previews —
+                        // `Orchestrator`, the ARCH-012 path — therefore
+                        // still repeats; the live `SolverStack` calls
+                        // `equilibrate`, which records.
+                        if !vessel.honesty_said.contains(&reason.shape()) {
+                            events.push(Event::Inert {
+                                vessel: vessel.id,
+                                species: p.species.clone(),
+                                why: reason.render(Locale::EN),
+                                computed: false,
+                                spent: None,
+                                reason: Some(reason),
+                            });
+                        }
                         continue;
                     }
                 }
@@ -2633,7 +2673,9 @@ impl Equilibrator for HonestyEquilibrator {
                         crate::ops::NotModelledCause::NoSolver,
                     )
                 };
-                events.push(Event::not_modeled(vessel.id, cause, reason));
+                if !vessel.honesty_said.contains(&reason.shape()) {
+                    events.push(Event::not_modeled(vessel.id, cause, reason));
+                }
             }
         }
 
