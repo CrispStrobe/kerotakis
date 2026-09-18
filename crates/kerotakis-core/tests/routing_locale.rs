@@ -259,6 +259,56 @@ fn the_rendered_line_is_german_at_every_register() {
     }
 }
 
+/// LV1 gets the dataset's FILE, not the English clause welded to it.
+///
+/// `dataset` is a name with a sentence on the end of it — *wateq4f.dat
+/// plus USBM IC 9429 reference-temperature complexes, with the reviewed
+/// Sander HBr gas-uptake slice* — and LV1 is the register a nine-year-old
+/// reads. An English clause in the middle of a German line is the defect
+/// this whole family of changes exists to remove, and putting a new one
+/// there would be adding to it.
+#[test]
+fn lv1_names_the_file_and_not_the_clause_welded_to_it() {
+    let provenance = Provenance::new(
+        "PHREEQC (IPhreeqc, USGS)",
+        "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+        "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+        Vec::new(),
+        Phrase::bare(
+            "routing.default-inorganic",
+            "the default inorganic aqueous dataset",
+        ),
+    );
+    assert_eq!(provenance.dataset_file(), "wateq4f.dat");
+    // A dataset id with no space in it comes back whole.
+    let combustion = Provenance::new(
+        "curated combustion (Kerotakis)",
+        "kerotakis:combustion:curated-fuels-v1",
+        "model",
+        Vec::new(),
+        Phrase::bare("routing.default-inorganic", "x"),
+    );
+    assert_eq!(
+        combustion.dataset_file(),
+        "kerotakis:combustion:curated-fuels-v1"
+    );
+
+    let event = kerotakis_core::Event::SolutionRouted {
+        vessel: VesselId(0),
+        provenance,
+    };
+    let lv1 = render_event_in(&event, Register::LV1, de());
+    assert!(lv1.contains("wateq4f.dat"), "{lv1}");
+    assert!(
+        !lv1.contains("USBM") && !lv1.contains("with the reviewed"),
+        "no English clause in a German lv1 line: {lv1}"
+    );
+    // LV2 keeps the whole field, which is what `explain` and the drawer
+    // already print, and is where the reader asking for it is.
+    let lv2 = render_event_in(&event, Register::LV2, de());
+    assert!(lv2.contains("USBM IC 9429"), "{lv2}");
+}
+
 /// `Phrase::shape` is what `Event::SolutionRouted` compares, so it has to
 /// hold two properties that a rendered comparison does not: a measurement
 /// moving is the same shape, and a different NAME is not.

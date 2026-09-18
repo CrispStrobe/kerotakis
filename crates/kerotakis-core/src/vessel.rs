@@ -697,6 +697,37 @@ impl Provenance {
             .map_or_else(|| self.routing.clone(), |phrase| phrase.render(locale))
     }
 
+    /// The dataset's FILE, without the prose welded to it.
+    ///
+    /// `dataset` is the fifth instance of the family `Inert.why` and
+    /// `NotYetModeled.what` were: a NAME with an English sentence welded
+    /// on. The aqueous solver composes
+    /// *`wateq4f.dat` plus USBM IC 9429 reference-temperature complexes,
+    /// with the reviewed Sander HBr gas-uptake slice* — a file name, then
+    /// two clauses saying what was added to it and why. Splitting that
+    /// properly is its own job (ROADMAP-GUI.md, "`Provenance.dataset` and
+    /// `.model` carry English PROSE, not names"): it is a solver-side
+    /// change with machine consumers, and the field has to keep its
+    /// English for them.
+    ///
+    /// This is the half of it a reader needs NOW, and it is a token scan
+    /// rather than a guess: every dataset this engine composes begins with
+    /// its file, because the two places that build one —
+    /// `aqueous::dataset_name` and the combustion routes — build it that
+    /// way, and a dataset id with no space in it is returned whole. It is
+    /// used where the rest of the sentence would be actively wrong: the
+    /// LV1 register, which is the one a nine-year-old reads, and which
+    /// would otherwise meet an English clause in the middle of a German
+    /// line.
+    #[must_use]
+    pub fn dataset_file(&self) -> &str {
+        self.dataset
+            .split_whitespace()
+            .next()
+            .unwrap_or(self.dataset.as_str())
+            .trim_end_matches(',')
+    }
+
     /// What makes this the SAME answer as another provenance, for a caller
     /// that has to decide whether the source of a vessel's numbers has
     /// moved.

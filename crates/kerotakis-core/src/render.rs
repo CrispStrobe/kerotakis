@@ -3657,10 +3657,18 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
         // act on, and the reason it answered is a paragraph. lv2 and lv3
         // get the reason, because that is where a reader asks for it.
         Event::SolutionRouted { vessel, provenance } => match register.level() {
+            // LV1 names the FILE and not the whole `dataset` field. That
+            // field is a name with an English sentence welded on — *plus
+            // USBM IC 9429 reference-temperature complexes, with the
+            // reviewed Sander HBr gas-uptake slice* — and a German lv1
+            // line is the one place that clause would be actively wrong.
+            // It is also the half that CHANGES: two announcements that
+            // differed only in the prose would read as the same sentence
+            // twice. See `Provenance::dataset_file`.
             1 => locale.fill(
                 "event.solution-routed.lv1",
                 "The chemistry in {vessel} is being worked out from {dataset}.",
-                &[("vessel", &vessel.to_string()), ("dataset", &provenance.dataset)],
+                &[("vessel", &vessel.to_string()), ("dataset", provenance.dataset_file())],
             ),
             2 => locale.fill(
                 "event.solution-routed.lv2",
