@@ -57,10 +57,6 @@ impl Kind {
         }
     }
 
-    pub fn describe(self) -> &'static str {
-        self.describe_in(crate::Locale::EN)
-    }
-
     /// What kind of particle this is, in the reader's language.
     ///
     /// Six words the census prints in parentheses beside every row it
@@ -410,10 +406,6 @@ impl Census {
 }
 
 /// A formula a nine-year-old can read out loud.
-fn plain_name(formula: &str) -> &str {
-    plain_name_in(formula, crate::Locale::EN)
-}
-
 /// A formula a nine-year-old can read out loud, in their language.
 ///
 /// The species catalogue is keyed by the ENGLISH name (`species.<name>`),
