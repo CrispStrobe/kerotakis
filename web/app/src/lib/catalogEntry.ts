@@ -535,6 +535,34 @@ function availability(
   };
 }
 
+/**
+ * Every string a card DRAWS, in the language it is drawn in.
+ *
+ * The haystack is what makes windowing the list safe. Find-in-page can
+ * only see the cards the browser has painted, so once the catalogue draws
+ * a window rather than all seven hundred rows, `catalogEntryMatches` is
+ * the ONLY way to reach a card by words that are on it. That turns a
+ * missing haystack entry from a nuisance into a card a reader cannot
+ * reach at all — so the rule is: if the card renders it, it is in here,
+ * localised the way the card localises it, AND in its canonical form so a
+ * pasted English phrase still lands in a German session.
+ *
+ * `catalogEntryMatches` folds accents and spaces slugs, so a registry key
+ * is already searchable as itself. What it cannot do is translate, which
+ * is why the localised twin has to be built here where the dictionary is.
+ */
+function asDrawn(
+  values: readonly string[],
+  translate: (value: string) => string,
+): string[] {
+  return values.map((value) => translate(slugWords(value)));
+}
+
+/** A recipe line as the preview prints it: the material, the amount, the prep. */
+function recipeWords(lines: readonly KidsRecipeLine[]): string[] {
+  return lines.flatMap((line) => [line.ingredient, line.quantity, line.preparation ?? ""]);
+}
+
 function fromCodex(entry: CodexEntry, context: CatalogViewContext): CatalogEntry {
   const words = slugWords(entry.id);
   const title = context.translate(words);
@@ -542,6 +570,7 @@ function fromCodex(entry: CodexEntry, context: CatalogViewContext): CatalogEntry
   const minutes = minutesForSteps(steps);
   const needs = scriptKit(entry.setup.script);
   const apparatus = entry.apparatus ?? [];
+  const topics = codexTopics(entry);
   const summary = context.locale === "de" ? (entry.summary_de ?? entry.summary) : entry.summary;
   // Order matters: the equation is the shortest true sentence about the
   // entry, and a card with no hook at all is the hole this model exists to
@@ -558,7 +587,7 @@ function fromCodex(entry: CodexEntry, context: CatalogViewContext): CatalogEntry
     duration: durationBand(minutes),
     needs,
     apparatus,
-    topics: codexTopics(entry),
+    topics,
     concepts: entry.concepts ?? [],
     placements: (entry.curriculum ?? []).map((p) => ({ system: p.system, stage: p.stage })),
     expectations: expectations(entry),
@@ -592,11 +621,22 @@ function fromCodex(entry: CodexEntry, context: CatalogViewContext): CatalogEntry
       title,
       hook,
       entry.equation ?? "",
+      // Both summaries: `hook` is whichever one this locale draws, and the
+      // English stays reachable so a phrase pasted from a link or an issue
+      // still finds the card in a German session.
       entry.summary ?? "",
+      entry.summary_de ?? "",
       ...(entry.concepts ?? []),
       ...(entry.models ?? []),
       ...apparatus,
       ...needs,
+      // The materials and the topic chips are drawn through the
+      // dictionary (`t(slugWords(key))`), so the key alone left a German
+      // reader unable to find a card by the words printed on it.
+      ...asDrawn(apparatus, context.translate),
+      ...asDrawn(needs, context.translate),
+      ...topics,
+      ...topics.map((topic) => context.translate(topicLabel(topic))),
       ...Object.values(entry.registers ?? {}),
     ],
   };
@@ -619,6 +659,15 @@ function fromGuided(
     : Math.max(2, entry.ingredients.length + entry.apparatus.length);
   const minutes = minutesForSteps(steps);
   const codexLinks = (entry.codex ?? []).filter((id) => byId.has(id));
+  const topics = guidedTopics(entry);
+  const safetyRationale = entry.safety_rationale ? kidsText(entry, "safety_rationale", context.locale) : null;
+  const safetyGuidance = entry.safety_guidance ? kidsText(entry, "safety_guidance", context.locale) : null;
+  const procedure = kidsList(entry, "procedure", context.locale);
+  const observations = kidsList(entry, "observations", context.locale);
+  const kits = (entry.kits ?? []).flatMap((id) => {
+    const kit = KIDS_EQUIPMENT.find((candidate) => candidate.id === id);
+    return kit ? [kit] : [];
+  });
   const lessonId = entry.lesson?.replace(/\.lab$/, "") ?? null;
   const lessonDone = lessonId !== null && (context.completedMissions?.has(lessonId) ?? false);
   const primaryCodexDone = script !== null && context.completed.has(script.id);
@@ -637,7 +686,7 @@ function fromGuided(
     duration: durationBand(minutes),
     needs,
     apparatus: entry.apparatus,
-    topics: guidedTopics(entry),
+    topics,
     concepts: script?.concepts ?? [],
     placements: (script?.curriculum ?? []).map((p) => ({ system: p.system, stage: p.stage })),
     expectations: script ? expectations(script) : [],
@@ -655,15 +704,12 @@ function fromGuided(
     anyLevel: false,
     reason: null,
     safety: entry.safety,
-    safetyRationale: entry.safety_rationale ? kidsText(entry, "safety_rationale", context.locale) : null,
-    safetyGuidance: entry.safety_guidance ? kidsText(entry, "safety_guidance", context.locale) : null,
+    safetyRationale,
+    safetyGuidance,
     recipe: kidsRecipe(entry, context.locale),
-    procedure: kidsList(entry, "procedure", context.locale),
-    observations: kidsList(entry, "observations", context.locale),
-    kits: (entry.kits ?? []).flatMap((id) => {
-      const kit = KIDS_EQUIPMENT.find((candidate) => candidate.id === id);
-      return kit ? [kit] : [];
-    }),
+    procedure,
+    observations,
+    kits,
     guided: entry,
     done,
     onShelf: onShelf(needs, context.shelfKeys),
@@ -680,9 +726,29 @@ function fromGuided(
       ...entry.ingredients,
       ...needs,
       ...entry.apparatus,
+      // The localised lists as well as the canonical ones. `kidsList`
+      // PREFERS a `_de` twin, so the day German procedures ship, an
+      // English-only haystack would silently stop matching the words the
+      // card is printing — the haystack narrowing itself with no edit.
       ...(entry.procedure ?? []),
       ...(entry.observations ?? []),
+      ...procedure,
+      ...observations,
+      // Drawn on 58 cards as the safety line, and reachable from nowhere
+      // else: `safety_rationale` was the one visible paragraph of a guided
+      // card that the search could not see.
+      entry.safety_rationale ?? "",
+      entry.safety_guidance ?? "",
+      safetyRationale ?? "",
+      safetyGuidance ?? "",
+      ...recipeWords(entry.recipe ?? []),
+      ...recipeWords(kidsRecipe(entry, context.locale)),
       ...(entry.kits ?? []),
+      ...kits.map((kit) => context.translate(kit.title)),
+      ...asDrawn(entry.apparatus, context.translate),
+      ...asDrawn(needs, context.translate),
+      ...topics,
+      ...topics.map((topic) => context.translate(topicLabel(topic))),
       ...(entry.capabilities ?? []),
       ...(entry.codex ?? []),
     ],
@@ -726,6 +792,7 @@ function fromCapability(prompt: CapabilityPrompt, context: CatalogViewContext): 
   const minutes = steps > 0 ? minutesForSteps(steps) : 0;
   const runnable = capabilityRunnable(prompt);
   const reason = capabilityReasonText(prompt);
+  const topics = capabilityTopics(prompt);
   return {
     id: prompt.id,
     source: "capability",
@@ -740,7 +807,7 @@ function fromCapability(prompt: CapabilityPrompt, context: CatalogViewContext): 
     duration: durationBand(minutes),
     needs: [],
     apparatus: [],
-    topics: capabilityTopics(prompt),
+    topics,
     concepts: [],
     placements: [],
     expectations: [],
@@ -775,7 +842,14 @@ function fromCapability(prompt: CapabilityPrompt, context: CatalogViewContext): 
       said.question,
       said.materialClass,
       ...said.tags,
+      // The card draws `t(reason)`; the corpus ships only the machine
+      // code. Holding the untranslated form alone meant a German reader
+      // could read a refusal on a card and then find nothing by typing
+      // the words they had just read.
       reason,
+      context.translate(reason),
+      ...topics,
+      ...topics.map((topic) => context.translate(topicLabel(topic))),
     ],
   };
 }
