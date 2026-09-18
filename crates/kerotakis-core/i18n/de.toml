@@ -414,6 +414,24 @@ hydroxylapatite = "Hydroxylapatit"
 "yoghurt starter culture" = "Joghurtkulturen"
 "zinc strip" = "Zinkstreifen"
 
+[census]
+# The particle drawing's captions. The list of species is a SLOT, not a
+# fragment: German puts "und" before the last item and the count phrase
+# inflects, so the sentence is the unit of translation (same reason as
+# `[look]`). The unit (mol/kgw) and the glyph are not words.
+"and-more" = "{listed} und {count} weitere"
+"too-few-to-draw.lv1" = "  auch drin, zu wenig zum Zeichnen: {species}\n"
+"too-few-to-draw.lv2" = "  unter einem Zeichen vorhanden, daher nicht gezeichnet: {species}\n"
+"one-glyph-is" = "  ein {glyph} ≈ {amount} {unit}"
+"water-sparse" = "; das Wasser ist licht gezeichnet, nicht maßstabsgetreu"
+"kind.cation" = "positives Ion"
+"kind.anion" = "negatives Ion"
+"kind.neutral" = "ungeladen, gelöst"
+"kind.solvent" = "Lösungsmittel"
+"kind.solid" = "Feststoff"
+"kind.gas" = "Gas"
+"from-inventory" = "  aus der Bilanz gezeichnet: es wurde keine Lösung charakterisiert, daher werden Ionenpaare und Komplexe hier nicht aufgelöst\n"
+
 [event]
 "vessel-created.lv1" = "Ein frisches Becherglas erscheint auf dem Labortisch: {vessel}."
 "vessel-created.lv2" = "{vessel}: neues Gefäß"

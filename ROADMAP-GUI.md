@@ -2046,23 +2046,29 @@ display name in the registry, is the wrong fix.
   a `join` by accident. Only one golden line moved:
   `lessons.json`'s stranded-solute sentence gained the word *and*.
 
-- [ ] **`particles.rs` has no `Locale` at all, which is why its
-  `", and {n} more"` could not be converted with the rest.** The tail was
-  on I18N-10's list as if it were a ninth joined list. It is not: it is
-  one line of `Census::render`, which takes a `Register` and no locale and
-  is hardcoded English end to end — `"one {glyph} ≈ {n} mol/kgw"`,
-  `"; the water is drawn sparsely, not to scale"`, `"also in there, too
-  few to draw:"`, `"present below one glyph, so not drawn:"`, `"drawn from
-  the inventory: no solution was characterised…"`, plus `Kind::describe`
-  and the `plain_name` species names. A German session draws its
-  particles under English captions. Converting the tail alone would put
-  *und 3 weitere* inside an English sentence, so the honest unit of work
-  is the whole function: give it `render_in(register, locale)` the way
-  `render_vessel_in` has, and add it to the lint's `locale.t` sources —
-  `engine-locale-lint.py` reads those out of `render.rs` alone, so keys
-  added anywhere else are reported as orphans while their rows sit
-  outside the denominator, which is #505's scar in both directions at
-  once.
+- [x] **`particles.rs` speaks the reader's language. DONE 2026-09-18.**
+  The entry below was right that the tail could not be converted alone, and
+  right about what it would cost. `Census::render` takes a `Locale` now, and
+  the whole drawing moved with it: the two elision captions, the scale line,
+  the water aside, the inventory footnote, `Kind::describe`'s six words in
+  parentheses beside every row, and the species names — those reuse the
+  `species.*` rows the engine already ships rather than a second copy of
+  them. The tail renders through `census.and-more`, so its separator and its
+  count phrase are the language's business.
+
+  **It also predicted the lint failure, and it happened twice.** Adding
+  `particles.rs` to the composer list was not enough: the composer scan
+  looked only for `Phrase::new(…)`, so six `locale.t` keys came back as
+  ORPHANS; and once those were seen, the six `census.kind.*` chosen by a
+  match arm came back as orphans too, because `MENTIONED` — the mechanism
+  for exactly that shape — was applied to `render.rs` alone. Both widened.
+  Reachable keys 570 → 576, de 100.0%, match-arm keys 12 → 18.
+
+  The test is in `kerotakis-phreeqc`, not core, and that is the other
+  finding: a `Bench` with no equilibrator never speciates, so trace salts
+  stay solid, never enter the census, and **nothing is elided** — a
+  core-only test would have asserted the captions of a picture the product
+  never draws.
 
 ### Found while resolving the bench gate against GUI-105
 

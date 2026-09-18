@@ -95,6 +95,13 @@ COMPOSERS = [
     # that composes a refusal does.
     ROOT / "crates/kerotakis-core/src/combustion.rs",
     ROOT / "crates/kerotakis-cea/src/thermal.rs",
+    # The particle drawing's captions. `Census::render` took a `Register`
+    # and no `Locale` at all until 2026-09-18, so a German session drew its
+    # particles under English captions — and because this file was not in
+    # this list, the lint could not see that either. A surface invisible to
+    # the instrument that counts surfaces is the #505 shape once more, and
+    # it is why the tail `", and {n} more"` outlived the I18N-10 sweep.
+    ROOT / "crates/kerotakis-core/src/particles.rs",
 ]
 # `phrase.rs` asks the catalogue for the list grammar and the punctuation
 # by name, the ordinary `locale.t` way.
@@ -340,6 +347,15 @@ def main() -> int:
     composed: dict[str, str] = {}
     for path in COMPOSERS:
         text = uncommented(without_test_modules(path.read_text()))
+        # A composer file may also ask the catalogue DIRECTLY, the ordinary
+        # `locale.t` / `locale.fill` way, when what it builds is a string
+        # rather than an event — `particles.rs` draws the census and hands
+        # back text. Scanning these files for `Phrase` alone reported six
+        # real keys as orphans on 2026-09-18, which is this lint's own
+        # denominator failing in the direction #505 failed: a surface
+        # invisible to the instrument that counts surfaces.
+        for m in CALL.finditer(text):
+            composed[m.group(1)] = unwrap(m.group(2))
         for m in PHRASE_CALL.finditer(text):
             composed[m.group(1)] = unwrap(m.group(2))
         for m in PHRASE_KEY_ONLY.finditer(text):
@@ -377,6 +393,16 @@ def main() -> int:
     dynamic |= {m.group(1) for m in SECTION_LITERAL.finditer(grammar)}
     mentioned = {m.group(1) for m in MENTIONED.finditer(src)}
     mentioned |= {m.group(1) for m in MENTIONED.finditer(grammar)}
+    # A composer file may choose its key by a match arm too — `particles.rs`
+    # picks one of six `census.kind.*` for the word beside each drawn row.
+    # Scanning only `render.rs` for that shape reported all six as orphans
+    # on 2026-09-18, the same direction this lint's own denominator failed
+    # in an hour earlier with `locale.t` in a composer.
+    for path in COMPOSERS:
+        mentioned |= {
+            m.group(1)
+            for m in MENTIONED.finditer(uncommented(without_test_modules(path.read_text())))
+        }
 
     # Everything that looks like prose, minus what already goes through a
     # call. Rough by design: it over-reports rather than under-reports,

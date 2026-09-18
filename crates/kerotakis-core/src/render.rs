@@ -1920,7 +1920,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             // sentence introducing it changes. lv2 keeps the CLI's existing
             // wording verbatim, because that is the line the REPL prints
             // and `quest.rs` splits its output on.
-            let drawing = census.render(register).to_string();
+            let drawing = census.render(register, locale).to_string();
             let id = vessel.to_string();
             let args = [("vessel", id.as_str()), ("drawing", drawing.as_str())];
             match register.level() {
