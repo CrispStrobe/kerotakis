@@ -510,6 +510,18 @@ const learningProgressJourney = async () => {
   check("the catalogue opens from the second home door", await page.evaluate(`(() => { const button = document.querySelector('button.kids-node'); button?.click(); return Boolean(button); })()`)
     && await waitFor(page, `document.querySelector('dialog #catalog-title')`, { timeout: 5000 }));
   await page.evaluate(`document.querySelector('dialog .chips.levels button')?.click()`);
+  // The list is a WINDOW: only the rows near the viewport are in the DOM,
+  // so a card partway down the library is not there to be found by title
+  // until something brings it there. Ask for it the way a reader does —
+  // the box greps titles and descriptions alike — rather than widening the
+  // assertion to whichever card happens to be drawn.
+  await page.evaluate(`(() => {
+    const box = document.querySelector('dialog input.filter');
+    if (!box) return;
+    Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")
+      .set.call(box, "Hot pack and cold pack");
+    box.dispatchEvent(new Event("input", { bubbles: true }));
+  })()`);
   await waitFor(page, `[...document.querySelectorAll('dialog article h2')].some((item) => /Hot pack and cold pack/i.test(item.textContent || ""))`, { timeout: 5000 });
   const kids = JSON.parse(await page.evaluate(`(() => {
     const cards = [...document.querySelectorAll('dialog article')];

@@ -44,6 +44,7 @@ import { entryLocked, metConcepts, parseCodexIndex, type CodexEntry } from "./co
 import { type KidsExperiment } from "./kidsCatalog";
 import codexExportJson from "../../../../crates/kerotakis-codex/tests/golden/codex-export.json?raw";
 import kidsCatalogJson from "../../../../data/kids/experiments-v1.json?raw";
+import kidsGermanJson from "../../../../data/kids/experiments-de-v1.json?raw";
 
 const identity = (value: string) => value;
 const context = (over: Partial<Parameters<typeof catalogEntries>[2]> = {}) => ({
@@ -710,5 +711,213 @@ describe("the one index over three populations", () => {
     expect(catalogEntryMatches(rows[0]!, "geruhrt")).toBe(true);
     // And still findable by the English an author or a link would paste.
     expect(catalogEntryMatches(rows[0]!, "stirred into water")).toBe(true);
+  });
+});
+
+/**
+ * The haystack, pinned — because the list is now a WINDOW.
+ *
+ * Only the cards near the viewport are in the DOM, so find-in-page can no
+ * longer be the fallback for anything the in-app box fails to match. That
+ * makes `entry.search` the whole of a reader's reach into seven hundred
+ * rows, and a field quietly left out of it is a card that cannot be found
+ * by words printed on its own face.
+ *
+ * So the contract is narrow and loud: for all three row kinds, in both
+ * languages, the PROSE is findable — not only the title. If a later edit
+ * narrows a haystack back to titles and keys, these fail.
+ *
+ * They were written because three of them did not pass. In the built
+ * payload a guided card draws its safety rationale (58 rows do) and
+ * ships German procedure and observation lists (22 rows do), and none of
+ * that prose was in the haystack; a corpus question drew a German refusal
+ * that only existed after `t()`, which the haystack never called.
+ */
+describe("the search reaches the prose, not only the title", () => {
+  /** A dictionary with just the words a case needs, English passing through. */
+  const dictionary = (words: Record<string, string>) => (value: string) => words[value] ?? value;
+
+  const german = (words: Record<string, string> = {}) =>
+    context({ locale: "de", translate: dictionary(words) }) as Parameters<typeof oneIndex>[3];
+  const english = () => context() as Parameters<typeof oneIndex>[3];
+
+  describe("a codex experiment", () => {
+    const script = codexEntry({
+      id: "silver-chloride-precipitation",
+      summary: "A cloudy curd settles out the instant the two clear liquids meet.",
+      summary_de: "Ein trüber Quark fällt aus, sobald die beiden klaren Flüssigkeiten sich treffen.",
+    });
+
+    it("is found by its summary, which is nowhere in its title", () => {
+      const [row] = oneIndex([script], [], [], english());
+      expect(row!.title).toBe("silver chloride precipitation");
+      expect(catalogEntryMatches(row!, "cloudy curd settles")).toBe(true);
+      // The equation is the card's hook when there is no summary.
+      expect(catalogEntryMatches(row!, "AgNO3")).toBe(true);
+    });
+
+    it("is found by the German summary it draws, and by the English underneath", () => {
+      const [row] = oneIndex([script], [], [], german());
+      expect(row!.hook).toBe("Ein trüber Quark fällt aus, sobald die beiden klaren Flüssigkeiten sich treffen.");
+      expect(catalogEntryMatches(row!, "truber Quark")).toBe(true);
+      expect(catalogEntryMatches(row!, "cloudy curd")).toBe(true);
+    });
+
+    it("is found by the material names and topic chips as the card prints them", () => {
+      const [row] = oneIndex([script], [], [], german({
+        NaCl: "Kochsalz",
+        "crystals and precipitates": "Kristalle und Niederschläge",
+      }));
+      expect(row!.needs).toContain("NaCl");
+      expect(catalogEntryMatches(row!, "Kochsalz")).toBe(true);
+      // The registry key the script writes is still the fastest way in.
+      expect(catalogEntryMatches(row!, "NaCl")).toBe(true);
+      expect(row!.topics).toContain("crystals");
+      expect(catalogEntryMatches(row!, "Kristalle")).toBe(true);
+    });
+  });
+
+  describe("a guided experiment", () => {
+    const guided = guidedEntry({
+      id: "K42",
+      title: "Volcano", title_de: "Vulkan",
+      phenomenon: "Soap traps the gas as a climbing foam",
+      phenomenon_de: "Seife fängt das Gas als kletternden Schaum",
+      boundary: "The bench models the gas, not the smell",
+      boundary_de: "Die Bank modelliert das Gas, nicht den Geruch",
+      safety_rationale: "Vinegar at five percent stings a cut but will not burn",
+      safety_rationale_de: "Essig mit fünf Prozent brennt in einer Wunde, verätzt aber nicht",
+      safety_guidance: "Keep it out of eyes and rinse a splash away",
+      safety_guidance_de: "Von den Augen fernhalten und Spritzer abspülen",
+      procedure: ["Pour the vinegar into the bottle", "Drop the powder in and step back"],
+      procedure_de: ["Gieße den Essig in die Flasche", "Wirf das Pulver hinein und tritt zurück"],
+      observations: ["Foam climbs the neck and overflows"],
+      observations_de: ["Schaum steigt den Hals hinauf und läuft über"],
+    });
+
+    it("is found by its procedure, observations and boundary in English", () => {
+      const [row] = oneIndex([], [guided], [], english());
+      expect(row!.title).toBe("Volcano");
+      expect(catalogEntryMatches(row!, "drop the powder in")).toBe(true);
+      expect(catalogEntryMatches(row!, "climbs the neck")).toBe(true);
+      expect(catalogEntryMatches(row!, "not the smell")).toBe(true);
+    });
+
+    it("is found by the German procedure and observations the card draws", () => {
+      const [row] = oneIndex([], [guided], [], german());
+      expect(row!.procedure[1]).toBe("Wirf das Pulver hinein und tritt zurück");
+      expect(catalogEntryMatches(row!, "Wirf das Pulver")).toBe(true);
+      expect(catalogEntryMatches(row!, "steigt den Hals hinauf")).toBe(true);
+      expect(catalogEntryMatches(row!, "nicht den Geruch")).toBe(true);
+      // Still reachable by the canonical English in a German session.
+      expect(catalogEntryMatches(row!, "drop the powder in")).toBe(true);
+    });
+
+    it("is found by the safety line it prints, in both languages", () => {
+      const [en] = oneIndex([], [guided], [], english());
+      expect(catalogEntryMatches(en!, "stings a cut")).toBe(true);
+      expect(catalogEntryMatches(en!, "rinse a splash")).toBe(true);
+      const [de] = oneIndex([], [guided], [], german());
+      expect(de!.safetyRationale).toBe("Essig mit fünf Prozent brennt in einer Wunde, verätzt aber nicht");
+      expect(catalogEntryMatches(de!, "brennt in einer Wunde")).toBe(true);
+      expect(catalogEntryMatches(de!, "Spritzer abspulen")).toBe(true);
+      expect(catalogEntryMatches(de!, "stings a cut")).toBe(true);
+    });
+  });
+
+  describe("a reviewed corpus question", () => {
+    const refusal = question({
+      id: "aq-500",
+      question: "Does the glaze on this mug crack when it cools too fast?",
+      script: [],
+      support: "boundary",
+      reason_code: "unsupported-fracture-mechanics",
+      material_class: "fired-ceramic",
+      tags: ["thermal_shock"],
+    });
+
+    it("is found by the reason it is refused, in English", () => {
+      const [row] = oneIndex([], [], [refusal], english());
+      expect(row!.title).toBe("Does the glaze on this mug crack when it cools too fast?");
+      expect(catalogEntryMatches(row!, "fracture mechanics")).toBe(true);
+      expect(catalogEntryMatches(row!, "fired ceramic")).toBe(true);
+      expect(catalogEntryMatches(row!, "thermal shock")).toBe(true);
+    });
+
+    it("is found by the German refusal the card actually draws", () => {
+      const [row] = oneIndex([], [], [{
+        ...refusal,
+        question_de: "Springt die Glasur an dieser Tasse, wenn sie zu schnell abkühlt?",
+      } as CapabilityPrompt], german({
+        "unsupported fracture mechanics": "Bruchmechanik wird nicht unterstützt",
+      }));
+      expect(row!.reason).toBe("unsupported fracture mechanics");
+      expect(catalogEntryMatches(row!, "Bruchmechanik")).toBe(true);
+      expect(catalogEntryMatches(row!, "Glasur")).toBe(true);
+      // The machine code and the English words stay reachable.
+      expect(catalogEntryMatches(row!, "fracture mechanics")).toBe(true);
+      expect(catalogEntryMatches(row!, "aq-500")).toBe(true);
+    });
+  });
+
+  /**
+   * The same contract over the payload the browser is actually served.
+   *
+   * The checked-in guided file is English only; `tools/kids-catalog.py`
+   * merges `experiments-de-v1.json` into it at build time, which is where
+   * the German procedure, observation and safety prose comes from. A
+   * fixture cannot see the hole that merge opens, so this walks it.
+   */
+  describe("over the built payload", () => {
+    const englishRows = (JSON.parse(kidsCatalogJson) as { experiments: KidsExperiment[] }).experiments;
+    const germanRows = (JSON.parse(kidsGermanJson) as { experiments: Record<string, unknown>[] }).experiments;
+    const germanById = new Map(germanRows.map((row) => [row.id as string, row]));
+    // The merge the build tool performs, in the same shape.
+    const merged: KidsExperiment[] = englishRows.map((row) => {
+      const twin = germanById.get(row.id) ?? {};
+      const withGerman: Record<string, unknown> = { ...row };
+      for (const field of [
+        "title", "phenomenon", "boundary", "safety_rationale", "safety_guidance",
+        "procedure", "observations", "recipe",
+      ]) {
+        if (row[field as keyof KidsExperiment] !== undefined && twin[field] !== undefined) {
+          withGerman[`${field}_de`] = twin[field];
+        }
+      }
+      return withGerman as unknown as KidsExperiment;
+    });
+
+    const rows = oneIndex([], merged, [], context({ locale: "de" }) as Parameters<typeof oneIndex>[3]);
+    const byId = new Map(rows.map((row) => [row.id, row]));
+
+    /** The longest word of a sentence: distinctive, and never a stop word. */
+    const longestWord = (text: string) =>
+      text.split(/[^\p{L}\p{N}]+/u).sort((a, b) => b.length - a.length)[0] ?? "";
+
+    it("finds every German safety rationale a card prints", () => {
+      const withRationale = merged.filter((row) => row.safety_rationale_de);
+      expect(withRationale.length).toBeGreaterThan(50);
+      for (const row of withRationale) {
+        const needle = longestWord(row.safety_rationale_de!);
+        expect(catalogEntryMatches(byId.get(row.id)!, needle), `${row.id}: ${needle}`).toBe(true);
+      }
+    });
+
+    it("finds every German procedure and observation line a card ships", () => {
+      const withProcedure = merged.filter((row) => row.procedure_de?.length);
+      expect(withProcedure.length).toBeGreaterThan(20);
+      for (const row of withProcedure) {
+        for (const line of row.procedure_de!) {
+          const needle = longestWord(line);
+          expect(catalogEntryMatches(byId.get(row.id)!, needle), `${row.id}: ${needle}`).toBe(true);
+        }
+      }
+      for (const row of merged.filter((candidate) => candidate.observations_de?.length)) {
+        for (const line of row.observations_de!) {
+          const needle = longestWord(line);
+          expect(catalogEntryMatches(byId.get(row.id)!, needle), `${row.id}: ${needle}`).toBe(true);
+        }
+      }
+    });
   });
 });
