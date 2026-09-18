@@ -755,20 +755,20 @@ reason_code = "computed-route"
 [[observation]]
 id = "bio-001"
 owning_task = "BRD-052"
-outcome = "qualitative"
-reason_code = "typed-observation"
+outcome = "computed"
+reason_code = "typed-engine-event"
 
 [[observation]]
 id = "bio-002"
 owning_task = "BRD-052"
-outcome = "qualitative"
-reason_code = "typed-observation"
+outcome = "computed"
+reason_code = "typed-engine-event"
 
 [[observation]]
 id = "bio-003"
 owning_task = "BRD-052"
-outcome = "qualitative"
-reason_code = "typed-observation"
+outcome = "computed"
+reason_code = "typed-engine-event"
 
 [[observation]]
 id = "bio-004"

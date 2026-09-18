@@ -3721,7 +3721,7 @@ state a sibling `{@const}` reads.
       the reader is still left to notice that *a trace dissolved* and
       *hardly dissolves* are the same fact measured twice.
 
-- [ ] **"Silbernitrat ist mit einer Flüssigkeit in Kontakt" in a vessel
+- [x] **"Silbernitrat ist mit einer Flüssigkeit in Kontakt" in a vessel
       with no liquid.** Emitted repeatedly *after* the engine has already
       reported that the last water has gone. Whatever decides "is in
       contact with a liquid" is not reading the same state as the
@@ -3729,6 +3729,72 @@ state a sibling `{@const}` reads.
       predicate, but it is the third place in one transcript where two
       parts of the answer contradict each other, which is the pattern
       worth naming.
+
+      **Done in #672, and it is a one-line predicate.** The honesty pass
+      asked `any(|p| matches!(p.phase, Phase::Liquid | Phase::Aqueous))`.
+      It was not reading a stale field and not a pre-evaporation snapshot:
+      it was reading the AQUEOUS COMPARTMENT, which outlives the solvent.
+      Taking a beaker to dryness removes the water portion and leaves the
+      solutes filed aqueous — `stranded_solutes`, *"das letzte Wasser ist
+      fort, und X wird weiterhin als gelöst geführt"*, is the sentence the
+      bench says about precisely that state — so `any(…)` went on
+      answering *there is a liquid here* off matter dissolved in a solvent
+      that had gone. The two halves of one file disagreed: `solvent_state`,
+      three hundred lines above it, has always measured the solvent against
+      `OBSERVABLE_MOLES`, so a vessel it called `Absent` was one this
+      predicate called wet.
+
+      `solve::liquid_medium_present` now measures a LIQUID — portions filed
+      `Phase::Liquid`, plus the solvent where a route has filed it aqueous
+      — against `OBSERVABLE_MOLES`, so the two readings agree by
+      construction.
+
+      **It fed three more sentences than the one in the transcript**, all
+      at both of the pass's two sites (`equilibrate` and
+      `equilibrate_delta`): the same `has_liquid` gates
+      `not-modeled.no-dissolution-solver`,
+      `not-modeled.dissolves-unspeciated` and the whole insoluble-verdict
+      branch (`inert.insoluble-in-water*`). All four are claims about a
+      solid meeting a liquid and none of them is true without one — so a
+      dried-out beaker was also being told that chalk "does not dissolve in
+      water", which is not the news when there is no water. They are fixed
+      together, which is why the reading is a named function and not a
+      second inline `any`.
+
+      **What it moved, measured by CI.** One lesson,
+      `invisible-ink-boundary`, whose script is `evaporate v1 1` and then
+      `heat`: two lines go, `event_count` 26 → 24. Both are the
+      transcript's own sentence about a different solid — *cellulose … in
+      contact with liquid* and *citric acid … in contact with liquid* —
+      printed two steps after the water was driven off. Three curiosity
+      rows moved, all of them the same beaker of dough — `bio-001`,
+      `bio-002`, `bio-003` — from `qualitative`/`typed-observation` to
+      `computed`/`typed-engine-event`, because the honesty route now
+      returns no events for that vessel and the fermentation underneath it
+      answers instead. A kneaded dough is precisely the vessel
+      `SolventState::Absent` names in its own doc comment: it holds its
+      water in the flour matrix and pours none into the beaker. The
+      apology was being filed about a liquid that was not there, and the
+      classifier was typing the row on that remark. Only `bio-001` is in
+      the smoke set; the other two were found by the full 500-prompt
+      `coverage curiosity --check`, which is why that gate runs beside the
+      smoke test rather than instead of it.
+
+      **What it does NOT close: `appearance.rs:104` carries the same
+      expression**, character for character, and drives the drawn scene
+      rather than the narration — the liquid's transmitted colour, whether
+      a liquid surface is `present`, whether it is bubbling. A vessel
+      holding a stranded aqueous portion and no solvent is still DRAWN with
+      a liquid in it. That is the same defect one subsystem over, and it is
+      named here so it is not found cold a third time; it is left out of
+      this change because its output is pinned by `scene-five.json` and the
+      lesson goldens, and this box could not be used to regenerate them.
+      The golden for `invisible-ink-boundary` now shows the two defects
+      side by side, which is the clearest statement of what is left: the
+      two false apologies are gone, and the line after them still reads
+      *"The liquid is white and so cloudy you cannot see through it"* —
+      about the same dried-out vessel, off the same `any(Liquid |
+      Aqueous)`, one subsystem over.
 
 ### UI framework
 
