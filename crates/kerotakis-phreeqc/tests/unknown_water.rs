@@ -66,7 +66,7 @@ fn forward_observables(
         .map(|s| s.ph)
         .expect("forward model characterised");
     let reading = kerotakis_core::instrument::ConductivityMeter
-        .measure(&vessel)
+        .measure(vessel)
         .expect("forward model reads conductivity");
     vec![("pH", ph), ("conductivity_uS_per_cm", reading.value)]
 }
@@ -140,7 +140,7 @@ fn learner_observations(bench: &Bench, v: VesselId) -> Vec<Observation> {
     if let Some(solution) = &vessel.solution {
         observations.push(Observation::new("pH", solution.ph, 0.05).expect("finite pH"));
     }
-    if let Some(reading) = kerotakis_core::instrument::ConductivityMeter.measure(&vessel) {
+    if let Some(reading) = kerotakis_core::instrument::ConductivityMeter.measure(vessel) {
         observations.push(
             Observation::new(
                 "conductivity_uS_per_cm",
