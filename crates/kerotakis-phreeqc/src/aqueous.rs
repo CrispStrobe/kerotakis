@@ -1400,6 +1400,109 @@ fn condense_supersaturated(problem: &Problem) -> Option<Problem> {
     Some(out)
 }
 
+/// Below this much solvent, "mol per kilogram of water" is a ratio against
+/// a residue rather than a statement about a solution.
+///
+/// One millilitre. It is the smallest volume the bench's own glassware
+/// graduates, and it is deliberately the largest floor that disturbs
+/// nothing already written down here: `condense_supersaturated`'s
+/// documented probe is 0.1 mol of NaCl in exactly 1 mL, and that case has
+/// to keep handing the router the same 100 mol/kgw it always did.
+const MIN_SOLVENT_KG: f64 = 1e-3;
+
+/// What one solid phase could put into solution, in moles, capped by what
+/// `kgw` of water could actually hold.
+///
+/// `None` where the registry has reviewed no aqueous solubility for the
+/// solid this phase is booked as — the caller then keeps the old
+/// pessimism for it. See [`potential_molality`] for why that asymmetry is
+/// deliberate.
+fn saturation_moles(phase: &str, kgw: f64, temperature_k: f64) -> Option<f64> {
+    let derived_phase = derived::phase_by_name(phase)?;
+    let data = species::lookup_key(derived_phase.species)?;
+    let g_per_100_ml = data.aqueous_solubility_at(temperature_k)?;
+    if !(data.molar_mass.is_finite() && data.molar_mass > 0.0) {
+        return None;
+    }
+    // g/100 mL → g/L → mol/L, read as mol/kgw. The two differ by the
+    // solution's density, and a routing estimate that is already rounded
+    // to "is this above 1 molal" does not need that correction.
+    let saturation_molal = g_per_100_ml * 10.0 / data.molar_mass;
+    Some(saturation_molal * kgw)
+}
+
+/// A rough ceiling on the molality of the solution PHREEQC is about to be
+/// handed: what is dissolved, plus what the solid phases could dissolve
+/// (each formula unit taken as about two ions).
+///
+/// One number with two jobs. It SELECTS the dataset — above 1 mol/kgw the
+/// Debye-Hückel datasets are out of their validity domain, so the router
+/// reaches for pitzer, or, when pitzer cannot hold the chemistry, for the
+/// `routing.activity-model-fallback` caveat — and it is also READ ALOUD to
+/// the reader inside that caveat. Which is why it is computed once, here:
+/// a bound applied to the printed copy alone would leave the sentence
+/// agreeing with the reader and disagreeing with the engine, which is the
+/// same defect one level down.
+///
+/// Two bounds, and each one is here because of a live transcript
+/// (2026-09-18) in which a vessel that had boiled dry printed
+/// *~71046.6 mol/kgw* one line above the solver's own *I = 0.0004
+/// mol/kgw*. Two faults compounded to produce those eight orders of
+/// magnitude:
+///
+/// * **The denominator was an evaporating solvent.** A beaker boiling dry
+///   keeps its solid inventory and loses its water, so a fixed numerator
+///   was divided by a residue — about a milligram of it. The solvent mass
+///   is floored at [`MIN_SOLVENT_KG`].
+///
+///   *What that gives up:* below a millilitre of water this estimate now
+///   UNDER-states concentration, so a genuinely two-molal microlitre
+///   droplet would be routed to the default dataset rather than to
+///   pitzer. That is the safer direction of the two — the fallback caveat
+///   says of itself that it is not a validated concentrated-mixture
+///   prediction — and a millilitre is small enough that the brines the
+///   pitzer route exists for, which carry moles of salt rather than
+///   millimoles, still clear 1.0 by orders of magnitude.
+///
+/// * **The numerator counted solids that will never dissolve.** Every
+///   equilibrium phase contributed two ions per formula unit. That vessel
+///   held chalk, whose own `Event::Inert` sentence three lines earlier
+///   said it dissolves to 0.0013 g per 100 mL, "below anything a beaker
+///   would show". Pessimism is defensible; two halves of one answer
+///   contradicting each other is not. A phase now contributes at most
+///   what the water present could hold, read from the SAME reviewed
+///   solubility that composes that sentence, so the two cannot disagree
+///   about the same solid again.
+///
+///   *What that gives up:* a solid for which the registry has reviewed NO
+///   solubility is still counted in full, deliberately. That is what
+///   keeps halite and sylvite routing a real brine to pitzer, which is
+///   the case that route exists for, and it is the conservative reading
+///   of "could dissolve". The price is that an insoluble solid the
+///   registry has not reviewed — manganese dioxide and silver chloride
+///   are both in that transcript — still inflates the estimate. Closing
+///   that is registry data with a source behind it, not arithmetic here.
+fn potential_molality(problem: &Problem, temperature_k: f64) -> f64 {
+    let kgw = problem.kgw.max(MIN_SOLVENT_KG);
+    let dissolved: f64 = problem.totals.iter().map(|(_, n)| n).sum();
+    let from_phases: f64 = problem
+        .phases
+        .iter()
+        .map(|(name, moles, _)| {
+            2.0 * saturation_moles(name, kgw, temperature_k).map_or(*moles, |cap| moles.min(cap))
+        })
+        .sum();
+    // A mixed crystal is a reviewed assemblage of end members rather than
+    // one registry solid, so there is no single solubility to cap it with
+    // and it keeps the pessimistic reading.
+    let from_solid_solutions: f64 = problem
+        .solid_solutions
+        .iter()
+        .map(|solid_solution| 2.0 * solid_solution.total_moles().0)
+        .sum();
+    (dissolved + from_phases + from_solid_solutions) / kgw
+}
+
 /// Every derived candidate phase whose elements can reach solution, for a
 /// beaker holding `elements`.
 ///
@@ -3084,17 +3187,7 @@ impl PhreeqcEquilibrator {
             .elements
             .iter()
             .any(|e| !derived::index_for("wateq4f").has_element(e) || e == "P");
-        // Rough concentration estimate: dissolved totals plus what the
-        // solid phases could dissolve (each formula unit ~2 ions).
-        let potential_molality = (problem.totals.iter().map(|(_, n)| n).sum::<f64>()
-            + 2.0 * problem.phases.iter().map(|(_, n, _)| n).sum::<f64>()
-            + 2.0
-                * problem
-                    .solid_solutions
-                    .iter()
-                    .map(|solid_solution| solid_solution.total_moles().0)
-                    .sum::<f64>())
-            / problem.kgw;
+        let potential_molality = potential_molality(&problem, vessel.temperature.0);
         let pitzer_capable = problem
             .elements
             .iter()
@@ -6261,5 +6354,157 @@ mod dataset_claim_tests {
         assert!(said.contains("wateq4f.dat"), "{said}");
         assert!(!said.contains("plus USBM"), "{said}");
         assert!(!said.contains("with the reviewed"), "{said}");
+    }
+}
+
+#[cfg(test)]
+mod routing_molality_tests {
+    use super::{partition, potential_molality, Problem, MIN_SOLVENT_KG, WATER_MOLAR_MASS};
+    use kerotakis_core::{Moles, Phase, SpeciesId, Vessel, VesselId};
+
+    /// The estimate exactly as it stood before 2026-09-18: a fixed solute
+    /// inventory over whatever solvent is left, with every solid counted
+    /// as two ions per formula unit whatever the bench knows about it.
+    ///
+    /// Kept in the tests, not in the engine, so the two numbers can be put
+    /// beside each other in the assertions below.
+    fn unbounded_estimate(problem: &Problem) -> f64 {
+        (problem.totals.iter().map(|(_, n)| n).sum::<f64>()
+            + 2.0 * problem.phases.iter().map(|(_, n, _)| n).sum::<f64>()
+            + 2.0
+                * problem
+                    .solid_solutions
+                    .iter()
+                    .map(|solid_solution| solid_solution.total_moles().0)
+                    .sum::<f64>())
+            / problem.kgw
+    }
+
+    fn estimate(vessel: &Vessel) -> (f64, f64, f64) {
+        let problem = partition(vessel).expect("an aqueous problem");
+        (
+            problem.kgw,
+            unbounded_estimate(&problem),
+            potential_molality(&problem, vessel.temperature.0),
+        )
+    }
+
+    /// The 2026-09-18 transcript, reduced to the two quantities the
+    /// estimate actually reads: a lump of chalk, and the milligram of
+    /// water a vessel has left after boiling dry.
+    ///
+    /// It printed *~71046.6 mol/kgw* one line above the solver's own
+    /// *I = 0.0004 mol/kgw*, and three lines below chalk's own sentence
+    /// saying it dissolves to 0.0013 g per 100 mL, "below anything a
+    /// beaker would show". Those are two halves of one answer disagreeing
+    /// by eight orders of magnitude about the same solid.
+    #[test]
+    fn a_beaker_boiled_dry_over_chalk_is_not_a_concentrated_solution() {
+        let mut vessel = Vessel::new(VesselId(0), "boiled dry over chalk");
+        // 0.675 g of water per thousand — 0.68 mg, the transcript's own
+        // denominator, reached by evaporation rather than by pouring.
+        vessel.deposit(SpeciesId::new("water"), Moles(3.7502e-5), Phase::Liquid);
+        vessel.deposit(SpeciesId::new("CaCO3"), Moles(0.024), Phase::Solid);
+
+        let (kgw, before, after) = estimate(&vessel);
+        eprintln!("boiled-dry chalk: kgw={kgw:.6e} before={before:.4} after={after:.6}");
+        assert!(
+            before > 50_000.0,
+            "the defect reproduces: {before} mol/kgw over {kgw} kg of water"
+        );
+        assert!(
+            after < 0.01,
+            "and the estimate is now the same order as the solver's own ionic strength: {after}"
+        );
+        // Chalk contributes what a millilitre of water could hold and no
+        // more: 0.0013 g/100 mL is about 1.3e-4 mol/kgw, doubled for two
+        // ions per formula unit.
+        assert!(
+            (1e-4..1e-3).contains(&after),
+            "the whole estimate is now chalk's saturation, not chalk's inventory: {after}"
+        );
+    }
+
+    /// The case the pitzer route exists for is untouched.
+    ///
+    /// Eight moles of salt in a kilogram of water is the vessel
+    /// `Provenance::source_key`'s doc quotes at ~16.0 mol/kgw, and the
+    /// registry has reviewed no solubility for halite, so it keeps the
+    /// pessimistic reading on purpose.
+    #[test]
+    fn a_real_brine_still_reads_as_concentrated() {
+        let mut vessel = Vessel::new(VesselId(0), "brine");
+        vessel.deposit(SpeciesId::new("water"), Moles(55.51), Phase::Liquid);
+        vessel.deposit(SpeciesId::new("NaCl"), Moles(8.0), Phase::Solid);
+
+        let (kgw, before, after) = estimate(&vessel);
+        eprintln!("brine: kgw={kgw:.6e} before={before:.4} after={after:.4}");
+        assert!(
+            (before - after).abs() < 1e-9,
+            "neither bound binds here: {before} vs {after}"
+        );
+        assert!(
+            (15.0..17.0).contains(&after),
+            "still the ~16.0 mol/kgw the provenance doc quotes: {after}"
+        );
+    }
+
+    /// And so is the millilitre probe `condense_supersaturated` documents
+    /// — 0.1 mol of NaCl in exactly 1 mL — which is why the floor is one
+    /// millilitre and not more.
+    #[test]
+    fn the_documented_millilitre_probe_is_unchanged() {
+        let mut vessel = Vessel::new(VesselId(0), "one millilitre");
+        // 1 mL of water, to the mole.
+        vessel.deposit(
+            SpeciesId::new("water"),
+            Moles(1000.0 * MIN_SOLVENT_KG / WATER_MOLAR_MASS),
+            Phase::Liquid,
+        );
+        vessel.deposit(SpeciesId::new("NaCl"), Moles(0.1), Phase::Solid);
+
+        let (kgw, before, after) = estimate(&vessel);
+        eprintln!("1 mL probe: kgw={kgw:.6e} before={before:.4} after={after:.4}");
+        assert!(
+            (kgw - MIN_SOLVENT_KG).abs() < 1e-6,
+            "the probe really does sit on the floor: {kgw}"
+        );
+        assert!(
+            (before - after).abs() < 1e-6,
+            "so the floor may not move it: {before} vs {after}"
+        );
+        assert!(
+            after > 1.0,
+            "and it is still routed as concentrated: {after}"
+        );
+    }
+
+    /// The floor is what stops a vanishing solvent from turning a dilute
+    /// beaker into a brine on paper. A millimole of dissolved salt is a
+    /// millimole whether the water is a litre or a droplet; what changes
+    /// is whether "per kilogram of water" is a statement about anything.
+    #[test]
+    fn the_solvent_floor_binds_only_below_a_millilitre() {
+        let mut litre = Vessel::new(VesselId(0), "a litre");
+        litre.deposit(SpeciesId::new("water"), Moles(55.51), Phase::Liquid);
+        litre.deposit(SpeciesId::new("NaCl"), Moles(0.001), Phase::Solid);
+        let (_, before, after) = estimate(&litre);
+        assert!(
+            (before - after).abs() < 1e-9,
+            "a litre is far above the floor: {before} vs {after}"
+        );
+
+        let mut droplet = Vessel::new(VesselId(0), "a droplet");
+        // A tenth of a millilitre, holding a fifth of a millimole of salt.
+        droplet.deposit(SpeciesId::new("water"), Moles(0.005551), Phase::Liquid);
+        droplet.deposit(SpeciesId::new("NaCl"), Moles(0.0002), Phase::Solid);
+        let (kgw, before, after) = estimate(&droplet);
+        eprintln!("droplet: kgw={kgw:.6e} before={before:.4} after={after:.4}");
+        assert!(before > after, "the floor binds: {before} vs {after}");
+        assert!(
+            after < 1.0 && before > 1.0,
+            "and this is the price: a genuinely concentrated droplet of a \
+             tenth of a millilitre is routed as dilute — {before} becomes {after}"
+        );
     }
 }
