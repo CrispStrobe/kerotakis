@@ -64,12 +64,14 @@
 //!   The `BenchError` half of that paragraph is no longer true — those
 //!   carry a key and are gated below — and the rest is the same exercise
 //!   one layer along. See I18N.md, "The bench's refusals".
-//! - **LV2 and LV3 evidence lines.** Twelve of these are still inside a
-//!   bare `format!`. They are numeric evidence for a reader who has asked
-//!   for the working, not the sentence a learner reads, and converting
-//!   them is a separate job that `tools/engine-locale-lint.py` already
-//!   counts and reports. This gate requires LV1 — the learner-facing
-//!   sentence — of every event.
+//! - ~~**LV2 and LV3 evidence lines.**~~ No longer an exemption, as of
+//!   I18N-13. It read: *"Twelve of these are still inside a bare
+//!   `format!`. They are numeric evidence for a reader who has asked for
+//!   the working, not the sentence a learner reads."* LV3 is a register a
+//!   reader SELECTS, so it is a sentence a reader reads; every one of
+//!   them goes through the catalogue now and
+//!   `tools/engine-locale-lint.py` reports zero. This gate still requires
+//!   LV1 of every event, because LV1 is the one an event cannot omit.
 //! - **`appearance::observe`'s composed sentence.** `Appearance.words` is
 //!   prose assembled in `appearance.rs`, not a term drawn from a table.
 //!   It needs call-site keys before any catalogue can reach it.

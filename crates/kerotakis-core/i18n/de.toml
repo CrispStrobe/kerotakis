@@ -21,6 +21,9 @@ swept-before = ", stickstoffgespült bei "
 liquid = "Flüssigkeit"
 empty = "    (leer)"
 redox = "Redox"
+# "all iron as Fe(II)" — the one redox line that was still a bare
+# `format!`, and the only one outside `[event]` in this tranche.
+"redox-all-as" = "{element} vollständig als {state}"
 speciation = "    Speziation (mol/kgw · Aktivität · γ):"
 mixed-crystal = "Mischkristall"
 ph = "pH-Wert"
@@ -912,6 +915,31 @@ hydroxylapatite = "Hydroxylapatit"
 "corroded.lv3" = "{vessel}: {name} korrodiert: {why}"
 "corroded.lv3-spared" = "{vessel}: {name} korrodiert nicht: {why}"
 "adsorbed.lv3" = "{vessel}: {dye} an {solid}, {held} mol bei {loading} mg/g gebunden, {left} mol noch gelöst. Grenze: {boundary}"
+
+# I18N-13, second tranche: the lines the LINT could not see either.
+#
+# `engine-locale-lint.py` found prose by looking for two adjacent English
+# words, which is blind to a sentence whose words are all separated by
+# holes — "{vessel}: {reaction} released {energy} J" has exactly one
+# English word in it and reads as prose to a person. Fifteen more lines
+# hid in that gap, one of them at lv2 and one at lv1. The lint now reads
+# a `format!`'s TEMPLATE on its own terms, so they are counted; these are
+# their German.
+"gas-produced.lv3" = "{vessel}: {moles} mol {species} entstanden ({rate} mol/s)"
+"reaction-heat-released.lv3" = "{vessel}: {reaction} setzte {energy} J frei"
+"foam-changed.lv3" = "{vessel}: Schaum {volume} L, {height} cm hoch, Überlauf {overflow} L"
+"uv-attenuated.lv3" = "{vessel}: {name} lässt {fraction} von {nm} nm durch ({band}); {mechanism}"
+"magnet-separated.lv3-separated" = "{from} → {to}: magnetisch {attracted} angezogen; nicht magnetisch {remained} zurückgeblieben"
+"magnet-separated.lv3-nothing-remained" = "keine"
+"org-reacted.lv3" = "{vessel}: {name}, {equation}, Umsatz {extent} mol. Grenze: {boundary}"
+"smelled.lv2-wafted" = "{vessel}: gefächelt — {list}"
+"dissolved.lv3" = "{vessel}: {moles} mol {name} gelöst"
+"inert.lv3" = "{vessel}: {name} inert: {why}"
+"observed.lv3" = "{vessel}: {appearance} (Flüssigkeit {colour}, Trübung {turbidity})"
+"no-cell.lv3" = "{a}–{b}: keine Zelle: {why}"
+"state-changed.lv1-generic" = "Das {name} in {vessel} {verb}."
+"reacted.lv3-catalyst" = " (Katalysator: {c})"
+"solver-failed.lv3" = "{vessel}: Löser '{solver}' fehlgeschlagen: {detail}"
 
 # Moved, not invented. `chromatographed.lv3` above carried this clause
 # written into its own template, so the `{method}` hole the English grew —
