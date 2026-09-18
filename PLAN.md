@@ -3241,25 +3241,48 @@ are not repeated here. These four are not started.
       doubling the dose changed nothing — and the diagnosis was still
       wrong. An instrument that watches a single scalar will eventually
       mistake a terminal event for an unresponsive one.
-- [ ] **Run the remaining 70 const-table mutants.** The mutation harness
-      (`tools/mutation/mutate.py`, landed in #616) names this as its own
-      highest-value next target: two of the three rare ions it sampled were
-      already unverified. About 4.5 h of machine time, cheap in attention.
-      Must wait for a quiet box — it competes with every other session's
-      builds. Deliverable: the survivors, appended to
-      `tools/mutation/results/`.
-- [ ] **Establish whether fermentation happens at all.** Independent of the
-      scaling fix now in flight: `bio-070` yields 4.5e-8 mol of lactic acid
-      from 100 mL of milk over eight hours at 5 °C, which is not a small
-      amount of fermentation, it is none. The scaling bug explains the wrong
-      *slope*; it does not explain the magnitude. Deliverable: either a cited
-      basis for the shipped `reference_rate_per_second_per_gram` values or an
-      `Uncertainty::Unestablished` on each, with the reason stated.
-- [ ] **Wire the 44 orphan lessons into the catalogue.** Tracked in
-      **[ROADMAP-GUI.md](ROADMAP-GUI.md)** under GUI-104; recorded here
-      because the gap is a catalogue-authoring job with no chemistry in it,
-      and because it is the largest single understatement of what the engine
-      can already do.
+- [x] **Run the remaining 70 const-table mutants. DONE 2026-09-17 (#623),
+      and the survivors are now zero (#625, #654).** 70 of 70: 36 caught,
+      34 survived. The split was the finding — `conductivity.rs` 23 of 28
+      survived against `properties.rs` 11 of 42 — and **five conductivity
+      constants were watched, which was the whole list**: H⁺, OH⁻, Na⁺, K⁺,
+      Cl⁻, the ions in table salt and in the acid and base every lesson
+      pours. The λ° table was verified exactly where the lessons happen to
+      go. Sourcing the values rather than pinning them took the 23 to 6
+      (#625) and then to **0** (#654). Recorded in
+      `docs/MUTATION-SENSITIVITY.md` §8b/§8c.
+- [x] **Establish whether fermentation happens at all. ANSWERED 2026-09-17
+      (#621), and the answer is "for two routes, against a cited
+      timescale".** The rates were editorial classroom numbers with no
+      source. Two are now fitted: yeast to a wild-type maximum specific
+      ethanol rate, **declared an upper bound and not a best estimate**
+      because a laboratory strain in a fermenter is not a gram of active
+      dry yeast; the yoghurt culture to a cited eight-hours-to-6.1%-lactose
+      timescale from two papers read in full. Acetobacter and sourdough
+      found no measurement at all and **inherit** the lactic constant,
+      marked `editorial` rather than `derived` so a consumer can tell
+      fitted from inherited without reading prose.
+
+      **The evidence it was not fitted to pH:** `bio-069` crossed real
+      yoghurt's 4.4–4.6 band from below to above (3.889 → 2.835 → 5.436)
+      with nothing aiming at it. 5.44 is not a yoghurt's pH either — eight
+      counter-top hours sit 18 K below the culture's optimum, which is the
+      honest answer to "will this work on the kitchen counter".
+
+      **Still open, and measured rather than estimated:** milk's missing
+      casein and phosphate buffering is worth **0.66 of a pH unit**, found
+      by feeding one paper's own acid into this milk and reading 3.944
+      where they measured 4.6. Half of that fix is a thirty-line change;
+      the other half needs numbers behind a publisher's 403.
+- [x] **Wire the 44 orphan lessons into the catalogue. DONE 2026-09-17
+      (#622).** All 113 `.lab` lessons are now reachable from the catalogue
+      — 0 orphans — and a test asserts the invariant so the next lesson
+      cannot go missing the same way. The entries were written from each
+      lesson's actual transcript rather than its filename, which is what
+      caught four that are genuinely `partial`, including
+      `starch-iodine-test` printing an inventory where its blue-black
+      belonged (#630). The headline went 208 → 252, and GUI-105 (#638) then
+      put the 500 answered questions in the same index.
 
 ## Open decisions
 
