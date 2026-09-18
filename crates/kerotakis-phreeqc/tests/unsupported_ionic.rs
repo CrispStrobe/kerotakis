@@ -130,7 +130,16 @@ fn solvent_autoionisation_tracks_temperature_without_native_calls() {
         vessel.temperature = Kelvin(temperature);
         vessel.deposit(SpeciesId::new("water"), Moles(5.55), Phase::Liquid);
         let events = eq.equilibrate(&mut vessel).unwrap();
-        assert!(events.is_empty(), "plain water needs no narrated reaction");
+        // Plain water still needs no narrated REACTION. The one event it
+        // earns is the routing announcement ruled in on 2026-09-18 —
+        // which relation answered this beaker — and it is narration about
+        // the answer rather than an answer.
+        assert!(
+            events
+                .iter()
+                .all(|e| matches!(e, Event::SolutionRouted { .. })),
+            "plain water needs no narrated reaction: {events:?}"
+        );
         let solution = vessel.solution.expect("liquid water is characterized");
         assert_eq!(solution.species.len(), 2);
         assert!((solution.species[0].molality - solution.species[1].molality).abs() < 1e-15);
@@ -167,8 +176,10 @@ fn solvent_characterization_preserves_honesty_for_unmodelled_spectators() {
 
     let support_events = eq.equilibrate(&mut vessel).unwrap();
     assert!(
-        support_events.is_empty(),
-        "solvent support state is not a narrated reaction"
+        support_events
+            .iter()
+            .all(|e| matches!(e, Event::SolutionRouted { .. })),
+        "solvent support state is not a narrated reaction: {support_events:?}"
     );
     let events = HonestyEquilibrator.equilibrate(&mut vessel).unwrap();
 
