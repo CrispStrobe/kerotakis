@@ -3347,6 +3347,131 @@ finished and merged.
   false by exactly the discrepancy it repaired.
 
 
+### Ruled by the owner, 2026-09-18
+
+Eight decisions taken in one sitting, each put as an interview question with
+the rendered output it would change. Every ruling below supersedes whatever
+the block above it says is "still open"; where the two disagree, this section
+wins, and the older bullet stays only because deleting it would erase why the
+question was asked.
+
+- [x] **λ°(Fe³⁺) stays out of `UNCORROBORATED`, caveat in the row. RULED
+      2026-09-18; already the shipped state, so nothing changes.** Two
+      compilations reached by unrelated routes — Hübschmann & Links (1991)
+      p. 62 and Kreshkov (1970) p. 74 — both print 68 per equivalent. Both
+      print it to *two* significant figures where #625's standard for the
+      other 22 ions was three, so the row cannot distinguish 204.0 from 203.
+      The owner's ruling: two independent tables agreeing to the precision
+      they print is real corroboration *of that precision*, and the row
+      already says which precision that is. `UNCORROBORATED` is six, not
+      seven, and the caveat comment in `conductivity_sources.rs` is the
+      thing that makes the claim honest rather than the list length.
+
+- [ ] **λ°(Al³⁺): adopt 189 (63 per equivalent). RULED 2026-09-18.** The
+      engine ships 183.0 (61 per equivalent) and **both** new independent
+      compilations contradict it at 63 — a 3.3% disagreement, the only
+      outright contradiction the 2026-09-17 sourcing sweep found. Nothing was
+      changed at the time, per the standing instruction to report rather than
+      correct. The owner's ruling is to change it: the shipped 61 traces to
+      Vanýsek/CRC, which `provenance/upstreams.toml` refuses as a systematic
+      source, and two reachable compilations agreeing beats one refused one.
+      **What reaches the user:** an aluminium sulfate solution reads
+      2.41 → 2.46 mS/cm, +2%.
+      **Scope:** `LIMITING_CONDUCTIVITY` 183.0 → 189.0; add the `Al+3`
+      corroboration row to `conductivity_sources.rs`; remove `Al+3` from
+      `UNCORROBORATED` (six → five); write the *risk* into the row rather
+      than hide it — Kreshkov is 5.6% out on Cu²⁺ and Hübschmann 6.8% out on
+      CO₃²⁻ against values this repo has already corroborated, so these are
+      coarse tables and the reader is owed that.
+
+- [ ] **The KCl fit target: re-target on OIML's 1408.3. RULED 2026-09-18.**
+      The `kcl_calibration_standard_within_model_error` test builds a
+      **0.01 mol/kgw** solution and compares it against **1413**, which is
+      the *volumetric* (0.0100 mol/L) standard's figure. The basis-consistent
+      number for the solution the test actually constructs is OIML R 56's
+      **1408.3 µS/cm** for its 0.01 D primary standard — the same row
+      `conductivity_sources.rs` already validates the fit against at 2%
+      tolerance. So this is not a re-fit of `FIT_SQRT`/`FIT_LINEAR`: it is
+      removing a basis mismatch from a test and from the prose that explains
+      it. The 0.33% between the two is invisible inside the 7% window, which
+      is exactly why the mismatch survived.
+      **Scope:** the test's two assertions and doc comment; `FIT_SOURCE`'s
+      long paragraph; `docs/MUTATION-SENSITIVITY.md` §on this constant;
+      `CAPABILITIES.md:236`. The 7% window is **not** narrowed — that was
+      offered and not chosen, and narrowing it risks failing CI on a genuine
+      model limitation at the dilute end.
+
+- [ ] **`solution.solvent_kg`: pose the final state canonically before the
+      last solve. RULED 2026-09-18.** Same contents must give the same
+      answer regardless of the order they arrived in. Today a CaCl₂ addition
+      yields 0.0997010580 with the detergent already dissolved and
+      0.0996909357 without, and `ionic_strength` carries that 1e-4 into every
+      activity coefficient. Accepting the non-invariance and declaring it on
+      the wire was offered and not chosen.
+      **What reaches the user:** both orders read `solvent_kg 0.0996909590`
+      and `ionic_strength 0.2759782269`; the `aq-023` corpus row stops
+      departing.
+      **The cost, which is real:** one extra solver call per
+      characterisation, on a box where a lesson already takes seconds. If the
+      measured cost turns out to be worse than "one more solve", stop and
+      report it rather than shipping a slower engine quietly.
+
+- [ ] **`ionic.rs::provenance_of`: thread a `Locale` through
+      `net_ionic_for`. RULED 2026-09-18.** The sixth and last member of the
+      welded-prose family — the one place still building
+      `"{engine} · {dataset} · {model}"` as one English string with no
+      `Locale` in scope. Emitting a `Phrase` instead was offered and not
+      chosen; the owner chose the direct thread.
+      **What reaches the user:** the German ionic-equation drawer reads
+      `Herkunft: PHREEQC 3.7.3 · llnl.dat · Pitzer-Ionenwechselwirkung`
+      instead of `... · ion interaction (Pitzer)`.
+      **The hazard, named because it has bitten before:** `net_ionic_for` is
+      a public signature `kerotakis-wasm` calls. #645 broke the build by
+      running `cargo clippy -p kerotakis-core` instead of `--workspace`, and
+      this is the same shape of change.
+
+- [ ] **MIX and solvent-only characterisation must announce their
+      provenance. RULED 2026-09-18.** Both paths write a `Provenance` record
+      that no `SolutionRouted` event ever carries, so a vessel filled that
+      way holds provenance in its state that never reaches a reader.
+      Announcing on MIX only was offered and not chosen; both get it, under
+      the same fire-on-change rule `#653` built and tested.
+      **What reaches the user:** mixing two beakers narrates
+      `> Gelöst mit PHREEQC 3.7.3, Datensatz llnl.dat,
+      Pitzer-Ionenwechselwirkung.` after `> Die Lösungen wurden vereinigt.`
+      **Watch:** solvent-only is most characterisations, so fire-on-change is
+      doing the real work here — if it fires on every plain-water vessel the
+      goldens will say so loudly, and that is the signal to look again at
+      `Vessel::aqueous_routing_said`, not to suppress the line.
+
+- [ ] **Milk: do the phosphate half of the buffer now, leave casein
+      recorded. RULED 2026-09-18.** The measured error is 0.66 of a pH unit
+      and roughly half of it is a ~30-line phosphate addition using data
+      already in the repo; the other half needs a casein titration curve
+      behind a publisher's 403. Waiting for both halves was offered and not
+      chosen, and so was declaring milk out of scope.
+      **What reaches the user:** vinegar into milk reads pH 6.7 → 5.9 where
+      the measurement is 6.7 → 6.1 and today's model says 5.4 — an error of
+      1.3 units becoming 0.2.
+      **Non-negotiable:** the residual is *named on the wire*, not merely in
+      a limits file. A half-corrected buffer that reads as a fully-corrected
+      one is worse than the uncorrected one, because nobody checks a number
+      that looks right.
+
+- [ ] **GUI-093 — organise the materials shelf by chemical role — is the
+      next GUI session. RULED 2026-09-18.** Chosen over GUI-092 (show the
+      ionic equation derived), GUI-094 (give the vessel the room) and I18N-4
+      (store the locale across reloads), which stay open and unranked.
+      **What reaches the user:** the Materialschrank groups as SÄUREN /
+      LAUGEN / SALZE / INDIKATOREN / LÖSUNGSMITTEL instead of one
+      alphabetical run, which is also what makes the 500-capability corpus
+      findable.
+      **Constraint carried from the last round:** the in-app search must keep
+      grepping description text — `safety_rationale`, `safety_guidance`,
+      `procedure_de`, `observations_de` — not just titles, and grouping must
+      not reintroduce the virtualisation's `aria-setsize`/`aria-posinset`
+      bookkeeping bugs.
+
 ### UI framework
 
 `kerotakis-core` is the invariant either way; the CLI defers the choice
