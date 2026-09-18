@@ -3692,7 +3692,7 @@ state a sibling `{@const}` reads.
       parts of the answer contradict each other, which is the pattern
       worth naming.
 
-      **Done in #670, and it is a one-line predicate.** The honesty pass
+      **Done in #672, and it is a one-line predicate.** The honesty pass
       asked `any(|p| matches!(p.phase, Phase::Liquid | Phase::Aqueous))`.
       It was not reading a stale field and not a pre-evaporation snapshot:
       it was reading the AQUEOUS COMPARTMENT, which outlives the solvent.
