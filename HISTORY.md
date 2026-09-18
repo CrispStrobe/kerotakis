@@ -14,6 +14,38 @@ it had while it was open, which is why a few numbers appear twice below.
 
 ## 2026-09-18
 
+**The welded prose really ends: the ionic drawer's source line (owner's
+ruling, 2026-09-18)**
+
+The entry below calls `Provenance.dataset`/`.model` "the fifth and final
+instance". It was the fifth. It was not the final one, and the reason is
+worth keeping: #655 gave the provenance two recipes and two readers for
+them (`dataset_in`, `model_in`), and then a function that could not reach
+either went on printing the English fields. `ionic.rs::provenance_of`
+builds `"{engine} · {dataset} · {model}"` for the net-ionic drawer, and
+there was no `Locale` anywhere in `ionic.rs` to render a recipe with. A
+German reader met *Pitzer specific-ion-interaction model (valid at high
+ionic strength)* under a German equation.
+
+**The fix is an argument, not a mechanism.** `net_ionic_for` and
+`net_ionic` take a `Locale`; `provenance_of` calls `dataset_in`/`model_in`
+with it. Emitting a `Phrase` and letting every host compose the line was
+offered and not chosen — the line is a producer's and every host prints
+it verbatim, so a second composition surface would be a second place to
+drift.
+
+**What this one teaches, and it is not "translate the string".** A
+recipe on a record does not translate anything by existing. It translates
+where a caller has a locale to render it with, and a caller that never
+had one is invisible to every test that checks the record. The lint over
+catalogue coverage was green through all of this, correctly: no key was
+missing, because this line never asked for one. What found it was reading
+the CALL SITES of the fields rather than the fields.
+
+Zero catalogue rows added: the three parts are a name (`PHREEQC
+(IPhreeqc, USGS)`), a name-or-recipe, and a recipe, and ` · ` is
+punctuation. English output is byte-identical.
+
 **The last of the welded prose: a dataset and a model are names again (#655)**
 
 `Provenance.dataset` and `.model` were the fifth and final instance of the

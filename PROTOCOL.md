@@ -320,7 +320,19 @@ stored per reaction. Empty is the common and honest case.
   to print one needs no term logic.
 - `spectators` are the charged species the solver left in solution taking
   no part, most abundant first. Empty is a real answer.
-- `provenance` is absent where the vessel records no solver.
+- `provenance` is absent where the vessel records no solver. Changed
+  2026-09-18: it is composed **in the session's language**, not in
+  English. The three parts are the engine, the dataset and the model, and
+  the last two are sentences with a name inside them — a German session
+  read *… · ion interaction (Pitzer)* in the middle of its own drawer.
+  The recipes to translate them have been on the provenance since #655;
+  what was missing was a locale at the point the line is built, and
+  `net_ionic_for` now takes one. Every NAME in it is untouched, because
+  names travel in text slots no catalogue looks up: `llnl.dat` is
+  `llnl.dat` and `Pitzer` is `Pitzer` in every language. An English
+  session is byte-identical to what it was, so a host that reads this
+  string is unaffected unless it reads it in another language — which is
+  the point.
 - Register: hosts show this at lv2 and above. At lv1 an equation is not
   the register's business.
 

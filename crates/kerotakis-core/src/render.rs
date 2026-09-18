@@ -671,7 +671,7 @@ pub fn render_ionic_for(
     register: Register,
     locale: Locale,
 ) -> Vec<String> {
-    crate::ionic::net_ionic_for(events, vessels)
+    crate::ionic::net_ionic_for(events, vessels, locale)
         .iter()
         .filter_map(|net| render_ionic_in(net, register, locale))
         .collect()

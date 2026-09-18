@@ -182,7 +182,8 @@ fn silver_nitrate_plus_salt_precipitates_silver_chloride() {
                 .join(" "),
         }
     };
-    let derived = kerotakis_core::net_ionic_for(&events, &bench.vessels);
+    let derived =
+        kerotakis_core::net_ionic_for(&events, &bench.vessels, kerotakis_core::Locale::EN);
     let net = derived
         .first()
         .unwrap_or_else(|| panic!("no net ionic equation from: {}", speciation()));
