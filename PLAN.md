@@ -3798,6 +3798,20 @@ state a sibling `{@const}` reads.
       together, which is why the reading is a named function and not a
       second inline `any`.
 
+      **What it moved, measured by CI.** No lesson golden at all: the
+      repeat #667 already suppresses is the only place the sentence
+      reached a dried-out vessel, so removing it removed nothing that was
+      still being printed. One curiosity row moved — `bio-001`, *why does
+      bread dough rise when yeast is added?* — from
+      `qualitative`/`typed-observation` to
+      `computed`/`typed-engine-event`, because the honesty route now
+      returns no events for that vessel and the fermentation underneath it
+      answers instead. A kneaded dough is precisely the vessel
+      `SolventState::Absent` names in its own doc comment: it holds its
+      water in the flour matrix and pours none into the beaker. The
+      apology was being filed about a liquid that was not there, and the
+      classifier was typing the row on that remark.
+
       **What it does NOT close: `appearance.rs:104` carries the same
       expression**, character for character, and drives the drawn scene
       rather than the narration — the liquid's transmitted colour, whether
