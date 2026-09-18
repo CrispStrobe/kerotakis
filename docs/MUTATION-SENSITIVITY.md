@@ -646,6 +646,192 @@ the reason it exists at all is that a 4½-hour rebuild loop on a box with a
 gigabyte of free memory is a run that gets killed rather than a run that
 finishes.
 
+## 8d. Buying a second source for the six, 2026-09-18
+
+§8c ended on six survivors that survive because **this repository has one
+compilation for those numbers and no way to check it**. The owner's ruling was
+to buy a second source for them. This section is what a day of looking bought:
+**one ion corroborated, two disagreements to put in front of a human, one pair
+of ions where the two second sources contradict each other — and the last six
+conductivity survivors closed, 6 of 6 caught on a re-run.**
+
+### The result, per ion, because they differ
+
+Per equivalent, as all three tables print them.
+
+| ion | shipped | Kreshkov 1970 p. 74 | Hübschmann & Links 1991 p. 62 | outcome |
+|---|---:|---:|---:|---|
+| **Fe³⁺** | 68.0 | **68** | **68** | **(1) CORROBORATED — left the list** |
+| **Al³⁺** | 61.0 | **63** | **63** | **(2) both disagree, +3.3 %** |
+| **Fe²⁺** | 54.0 | **53.5** | **53.5** | **(2) both disagree, −0.9 %** |
+| Mn²⁺ | 53.5 | 53.5 | **50** | the two sources differ by 7.0 % |
+| Pb²⁺ | 71.0 | **70** | **65** | the two sources differ by 7.7 % |
+| Zn²⁺ | 52.8 | absent | **53** | reached at last; 2 s.f., cannot settle |
+| MnO₄⁻ | 61.3 | absent | 61 | −0.5 %, just outside tolerance |
+
+`UNCORROBORATED` goes from **seven to six**. λ°(Fe³⁺) leaves it.
+
+### The one that left, and the caveat that rides with it
+
+Two compilations, reached by two unrelated routes, neither of them the CRC
+Handbook, both print **⅓Fe³⁺ = 68** — exactly the shipped 204.0/3. That is
+what corroboration is, and iron(III) now has it.
+
+**The caveat is in the `CORROBORATED` row itself and is not hidden:** both
+print two significant figures, so "68" is anything in [67.5, 68.5] and this
+cannot distinguish 204.0 from 203. What it establishes is the thing
+`UNCORROBORATED` exists to deny — that the value rests on one compilation. It
+no longer does.
+
+### Why the other six are still uncorroborated, measured not asserted
+
+Both new sources carry ions this repository has **already corroborated twice
+over**, against USGS WSP 2311 and a Sartorius handbook. That overlap is not
+decoration — it is the instrument. **Calibrate the source before trusting it.**
+
+| source | overlap | inside 0.5 % | worst |
+|---|---:|---:|---|
+| Kreshkov 1970 | 21 | 18 | Cu²⁺ 113.2 vs 107.2, **+5.6 %** |
+| Hübschmann & Links 1991 | 21 | 17 | CO₃²⁻ 148.0 vs 138.6, **+6.8 %** |
+
+A source whose error on ions we *can* check runs to 6 % cannot settle an ion
+we cannot check to 0.5 %. So the six get a **bound** rather than a
+confirmation, and §2b of `conductivity_sources.rs` asserts exactly that — with
+each bound *measured from its own calibration*, so it cannot be tuned to pass.
+
+### Two values that disagree, reported and not changed
+
+Both are stronger than a lone disagreement because **both coarse sources print
+the same number independently**:
+
+* **⅓Al³⁺ = 63** against the shipped 61 — molar **189 against 183, +3.3 %**
+* **½Fe²⁺ = 53.5** against the shipped 54.0 — molar **107 against 108, −0.9 %**
+
+**Neither is applied.** #586 corrected a silver ΔH_fus in the wrong direction
+and #595 had to undo it. Here the case against acting is more specific than
+that general caution: **both gaps are smaller than the same sources' own worst
+error on ions two other compilations agree about.** Under their measured
+fidelity these are not evidence that 183 and 108 are wrong; they are evidence
+that two lineages print different numbers and none of the three has been traced
+to a measurement. That trace is what would settle it.
+
+### And two where the second sources contradict each other
+
+* **½Mn²⁺**: Kreshkov 53.5 (equal to the shipped value to the digit),
+  Hübschmann & Links **50** — 7.0 % apart
+* **½Pb²⁺**: Kreshkov **70**, Hübschmann & Links **65**, shipped 71.0 — 7.7 %
+  apart
+
+Where two independent compilations cannot agree with each other, **neither
+adjudicates a third value.** Both are recorded in `CONTRADICTED` in the test
+file, which is asserted to be exactly right so a third cannot appear in
+silence — the same guarantee `UNCORROBORATED` gives.
+
+This also lands on §8c's own open question about Sartorius. Hübschmann & Links
+carries all five ions the Sartorius row was the only route to, agrees on
+silver and barium, and puts **carbonate at 148.0 against 138.6 — 6.8 %**. So
+two of the twenty-two "corroborated" ions are corroborated by one source and
+contradicted by another, which was not true when §8c was written.
+
+### The survivor count: 6 of 6 caught, 0 survived
+
+The bounds are far too loose to corroborate and nowhere near too loose to
+notice a quarter. `a_quarter_wrong_would_fall_outside_the_measured_bound`
+asserts exactly that, for **every** ion still in `UNCORROBORATED`, in both
+directions — so the claim is checked **without a falsified constant ever
+touching the disk**, the hazard §8b's two SIGKILLs left in the worktree.
+
+It was written here as a prediction and then run. Same six ids, same
+catalogue, on a runner — `tools/mutation/results/2026-09-18-conductivity-rerun.json`:
+
+| | mutants | |
+|---|---:|---|
+| caught by `a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted` | 6 | all of them |
+| *also* caught by `a_quarter_wrong_would_fall_outside_the_measured_bound` | 5 | every one but Al³⁺ |
+| *also* caught by `the_lambda_table_agrees_with_independent_compilations` | 1 | Fe³⁺, the ion that left the list |
+| **survived** | **0** | |
+
+**§8b's 23 conductivity survivors are now 0.** The path was 23 → 6 (#625,
+by sourcing 22 values) → 0 (here, by sourcing the last six). Not one of the
+forty-odd assertions that closed them says that a number is the number it is;
+every one compares the table against something measured outside this
+repository.
+
+**AND THE REASON THIS NUMBER IS BELIEVED, given §8c's own false 23-of-23.**
+That failure looked like a rung taking 0.1 s when it takes 34. These rungs
+take 0.2 s, which is the same shape — so the verdicts were read rather than
+counted. Each carries `exit_code: 101`, a real `failing:` list naming real
+tests, and an `output_tail` showing the neighbouring `buoyancy.rs` binary
+running its five tests green and `conductivity_sources.rs` running its twelve
+before one failed. The builds took 55 s each. It is a fast rung because these
+tests are arithmetic over two `const` tables, not a rung that never ran.
+
+**What it does NOT say** is that the six values are right. Five of them are
+still in `UNCORROBORATED`, two of them are contradicted by one of the two
+sources that reach them, and two more disagree with both. A mutation score of
+100 % on this file now means the tree would notice a quarter — nothing more,
+and §8d exists so that the difference stays legible.
+
+### What was read, and what refused
+
+Read in full on 2026-09-18, and **none of these carries any of the six**:
+
+* **International Critical Tables VI (1929)** p. 230 table 3, "Ion
+  conductances at 18 °C" — public domain, read from the Internet Archive. Of
+  the six it has only ½Pb²⁺ = 61, **at 18 °C**; its own temperature
+  coefficient would carry that to ≈71 at 25 °C, a 15 % extrapolation that
+  settles nothing at 0.5 %.
+* **Glasstone, *An Introduction to Electrochemistry* (1942)** table XIII p.
+  56 — twenty-two ions, ends at ½Mg²⁺ = 53.06. Cites MacInnes (1939) p. 342.
+* **Lange's *Handbook of Chemistry*, 7th ed. (1949)** p. 1417, attributing its
+  table to Johnston, *J. Am. Chem. Soc.* 31 (1909) 1010 — fifteen rows; nine
+  ion labels survive the scan and none is one of the six.
+* **MacInnes, *The Principles of Electrochemistry* (1939)** ch. 18 — the
+  scan's OCR could not resolve the table; read through Glasstone's
+  reproduction of it rather than off the page, and recorded that way.
+* **USGS WSP 2254** (Hem, 1985) — a chapter on conductance and no λ° table.
+* **hydrochemistry.eu** (Appelo) — confirms in the author's own words that
+  PHREEQC's specific conductance is computed from diffusion coefficients and
+  checked against the Handbook. That is the round trip `LAMBDA_SOURCE` already
+  refuses, now confirmed from the other end.
+* **French Wikipedia's list of ionic molar conductivities** — prints all six
+  to the digit, and its bibliography is Vanýsek, CRC Handbook 87th ed. **p.
+  5-78**. Two printings of one table are one source, so this corroborates
+  nothing; what it does do is pin the shipped table's provenance to a page.
+
+**Not reached**, and recorded so the next attempt starts further on:
+
+* **Robinson and Stokes, *Electrolyte Solutions*; Harned and Owen; Conway,
+  *Electrochemical Data*** — all three are on the Internet Archive as
+  lending-restricted items whose full-text search endpoint answers **HTTP
+  403**. CHECKED AND NOT READ, in the words #600 had to be corrected into.
+* **Johnston (1909)** itself — acs.org unreachable, as `acs-education`
+  already records.
+* The two books behind the one table that did reach all seven — **Hübschmann
+  and Links (1991)** and **Milazzo (1952)**. Read at one remove through the
+  German Wikipedia article that reproduces the table and names them, on the
+  CC BY-SA route #625 already cleared for Sartorius. **No copy of either was
+  opened**, which is why both citations declare `claims` with no locator and
+  are findings by construction.
+
+### The structural finding, which is the part worth keeping
+
+Every precise λ° compilation in this family — USGS/Harned & Owen, Sartorius,
+Glasstone, MacInnes, Lange's/Johnston — obtains an ion's λ° by splitting a
+measured Λ° with a **transference number**, and every one of them stops around
+magnesium. Transference numbers of that precision were never measured for
+salts that hydrolyse, and Zn²⁺, Fe²⁺, Fe³⁺, Al³⁺, Mn²⁺ and Pb²⁺ all hydrolyse.
+
+**The six are not absent from the good tables by accident. They are excluded
+by the method the good tables use**, and they survive only in coarse handbook
+tables that round to two or three figures — which is exactly why the two found
+here disagree with each other by seven per cent about manganese and lead. So
+looking harder in that family will not find them. What would settle these six
+is the conductance literature for the individual salts, which is where "trace
+original sources for almost all values, and cite those" points, and which is
+behind the same publisher wall that stopped §8c.
+
+
 ## 9. What to point it at next
 
 1. ~~**The rest of this surface's `const` tables.**~~ **DONE 2026-09-17, §8b.**
@@ -655,9 +841,11 @@ finishes.
    a mutant asserts only that a number is the number it is — but to trace the
    values to their sources and cover the class with a cited external
    measurement, which is what `CONTRIBUTING.md` §4 says a test is for. **That
-   was done the same day and §8c is the account of it: 17 of the 23 are now
-   caught, and the six that are not are the six ions this repository has one
-   source for and no way to check.**
+   was done the same day and §8c is the account of it: 17 of the 23 were then
+   caught, and the six that were not were the six ions this repository had one
+   source for and no way to check. §8d closed those six on 2026-09-18 — 23 of
+   23 — though five of them are still `UNCORROBORATED`, which is the
+   distinction §8d exists to keep legible.**
 2. **The surfaces the new oracles were written for** — adsorption,
    electrochemistry, polarization. §5(c) found that `perturbation.rs` and
    `metamorphic.rs` killed nothing here that was not already dead. That is a

@@ -48,12 +48,76 @@
 //!
 //! # What this file does NOT establish, stated because the gap is the finding
 //!
-//! Seven of the twenty-eight tabulated ions — Zn²⁺, Fe²⁺, Fe³⁺, Al³⁺, Mn²⁺,
-//! Pb²⁺ and MnO₄⁻ — are in [`UNCORROBORATED`] because **no second source for
-//! them could be reached**. They are not wrong; they are unverified here, and
-//! they rest on the single compilation the shipped table names. The list is
-//! asserted to be exactly right, so an eighth cannot be added in silence, and
-//! so that finding a source for one of them is a one-line deletion.
+//! **Six** of the twenty-eight tabulated ions — Zn²⁺, Fe²⁺, Al³⁺, Mn²⁺, Pb²⁺
+//! and MnO₄⁻ — are in [`UNCORROBORATED`]. They are not wrong; they are
+//! unverified here, and they rest on the single compilation the shipped table
+//! names. The list is asserted to be exactly right, so a seventh cannot be
+//! added in silence, and so that finding a source for one of them is a
+//! one-line deletion.
+//!
+//! ## The second search, 2026-09-18: one ion out, two disagreements in
+//!
+//! It was seven. **λ°(Fe³⁺) has left the list**, because two compilations
+//! reached by two unrelated routes, neither of them the CRC Handbook, both
+//! print ⅓Fe³⁺ = 68 — see the row in [`CORROBORATED`] and the caveat on it.
+//! The rest of the search is recorded here rather than in a commit message
+//! because **its negative half is the more useful half**.
+//!
+//! Nine sources were read and four could not be reached. What most of the nine
+//! have in common is the reason these ions are hard:
+//!
+//! * **Glasstone's *Introduction to Electrochemistry* (1942) table XIII**, p.
+//!   56, "Ion conductances at infinite dilution at 25° " — read in full, and
+//!   it is twenty-two ions ending at ½Mg²⁺ = 53.06. It cites **MacInnes'
+//!   *Principles of Electrochemistry* (1939) p. 342**, whose own table the
+//!   scan's OCR could not resolve; Glasstone's reproduction of it is what was
+//!   read. **Lange's *Handbook of Chemistry* 7th ed. (1949) p. 1417**,
+//!   "Equivalent conductance of the separate ions", attributed by Lange's to
+//!   Johnston, *J. Am. Chem. Soc.* 31 (1909) 1010 — fifteen rows, of which
+//!   nine ion labels survive the scan (Ag⁺, ½Ba²⁺, acetate, ⅓citrate,
+//!   ½C₂O₄²⁻, ½Ca²⁺, Cl⁻, ¼Fe(CN)₆⁴⁻, H⁺) and none is one of the six; the
+//!   remaining six labels were not legible, so this one is recorded as *not
+//!   carrying them as far as could be read* rather than as settled.
+//!
+//!   Those, with **USGS WSP 2311** and the **Sartorius** table from #625, are
+//!   one family: all of them get λ° by splitting a measured Λ° with a
+//!   **transference number**, and all of them stop around magnesium.
+//!   Transference numbers of that precision were never measured for salts
+//!   that hydrolyse, which is what Zn²⁺, Fe²⁺, Fe³⁺, Al³⁺, Mn²⁺ and Pb²⁺ all
+//!   do. **They are not missing from the precise tables by accident; they are
+//!   excluded by the method those tables use** — which is also why looking
+//!   harder in that family will not find them.
+//! * **International Critical Tables VI (1929) p. 230, table 3** carries ion
+//!   conductances **at 18 °C**, and of the six it has only ½Pb²⁺ = 61. Its
+//!   own temperature coefficient would carry that to about 71 at 25 °C, which
+//!   is a fifteen per cent extrapolation and settles nothing at the half a
+//!   per cent this file works to.
+//! * **USGS WSP 2254** (Hem, 1985) has a chapter on conductance and no λ°
+//!   table at all.
+//! * The **French Wikipedia** list of ionic molar conductivities prints all
+//!   six to the digit — because its bibliography is Vanýsek in the CRC
+//!   Handbook 87th ed. p. 5-78, which is the shipped table's own source. Two
+//!   printings of one table are one source, so this is not corroboration; it
+//!   is a confirmation of where the shipped numbers come from, down to a page.
+//! * **hydrochemistry.eu** has the author of `phreeqc.dat`'s own account of
+//!   how PHREEQC computes specific conductance: from diffusion coefficients,
+//!   checked against the Handbook. That is the round trip `LAMBDA_SOURCE`
+//!   already refuses, now confirmed from the other end.
+//!
+//! **Two compilations reached outside that family**, and section 2b is what
+//! measuring them showed. [`KRESHKOV`] carries five of the seven and not zinc;
+//! [`HUEBSCHMANN`] carries **all seven, zinc included**, and is the only thing
+//! found anywhere that does. Both are far too coarse to corroborate — and the
+//! two of them **disagree with each other about manganese and lead by seven
+//! and eight per cent**, which is why those two ions are not merely unsettled
+//! but actively contested. See [`CONTRADICTED`].
+//!
+//! Not reached, and recorded so the next attempt starts further on: Robinson
+//! and Stokes' *Electrolyte Solutions*, Harned and Owen, and Conway's
+//! *Electrochemical Data* — all three are on archive.org as lending-restricted
+//! items whose search-inside endpoint answers **HTTP 403**; and Johnston's
+//! 1909 paper itself, acs.org being unreachable from here as
+//! `acs-education` already records.
 
 use kerotakis_core::conductivity::{
     concentration_factor, specific_conductance, Basis, Estimate, DILUTE_LIMIT_MOLAL,
@@ -375,6 +439,21 @@ const CORROBORATED: &[Corroboration] = &[
     c("Cu+2", 2.0, 53.6, true, false, SARTORIUS),
     c("ClO4-", 1.0, 67.4, false, false, SARTORIUS),
     c("CO3-2", 2.0, 69.3, true, false, SARTORIUS),
+    // --- the one ion the 2026-09-18 search moved out of UNCORROBORATED ----
+    //
+    // ⅓Fe³⁺ = 68, printed identically by TWO compilations reached by two
+    // different routes and neither of them the CRC Handbook: Hübschmann and
+    // Links (1991) p. 62 via de.wikipedia, and Kreshkov (1970) p. 74 via a
+    // Russian reference collection. Both are coarse sources — §2b measures
+    // exactly how coarse — and the source named here is the one on the route
+    // this repository has already cleared.
+    //
+    // THE CAVEAT, BECAUSE IT IS REAL: both print two significant figures, so
+    // "68" is anything in [67.5, 68.5] and this row cannot distinguish 204.0
+    // from 203. What it does establish is the thing UNCORROBORATED exists to
+    // deny — that the value rests on one compilation. It no longer does, and
+    // two that have nothing to do with each other write down the same number.
+    c("Fe+3", 3.0, 68.0, true, false, HUEBSCHMANN),
 ];
 
 /// `const fn` only so the table above reads as data rather than as twenty-one
@@ -405,7 +484,17 @@ const fn c(
 /// in the CRC Handbook, Robinson and Stokes' appendix, the transference-number
 /// papers that split each salt's Λ° into two ions — are either refused as a
 /// systematic source by `provenance/upstreams.toml` or were not reachable.
-const UNCORROBORATED: &[&str] = &["Zn+2", "Fe+2", "Fe+3", "Al+3", "Mn+2", "Pb+2", "MnO4-"];
+///
+/// SEARCHED AGAIN ON 2026-09-18: SEVEN BECAME SIX. λ°(Fe³⁺) left, on two
+/// compilations from unrelated routes printing the same number. Every one of
+/// the six that remain now has at least one coarse source and a measured
+/// bound (section 2b) — zinc included, which had nothing at all before — and
+/// none of them has corroboration, because those bounds are an order of
+/// magnitude wider than the half a per cent this file's corroboration test
+/// demands. The distinction is the point of keeping this list: "not
+/// contradicted by a loose table" and "confirmed by an independent one" are
+/// different claims, and only the second one gets an ion out of here.
+const UNCORROBORATED: &[&str] = &["Zn+2", "Fe+2", "Al+3", "Mn+2", "Pb+2", "MnO4-"];
 
 /// Every λ° this engine ships that an independent compilation also prints
 /// must agree with it.
@@ -494,6 +583,434 @@ fn every_shipped_lambda_is_either_corroborated_or_declared_unverified() {
     }
 }
 
+// ---------------------------------------------------------------------------
+// 2b. The two coarse sources, and what measuring them says they can settle
+// ---------------------------------------------------------------------------
+
+/// One ion's λ° as one of the coarse compilations prints it.
+///
+/// Deliberately NOT [`Corroboration`], and the two must not become one struct:
+/// a row here has been measured and found too coarse to corroborate, and the
+/// distinction is the entire content of this section. What these rows are, is
+/// the only reachable evidence of any kind about ions the precise tables do
+/// not carry.
+struct Coarse {
+    species: &'static str,
+    /// |z|, as in [`Corroboration`].
+    charge: f64,
+    /// The number as the source prints it, per EQUIVALENT throughout — both
+    /// tables write their multivalent rows as ½Pb²⁺, ⅓Fe³⁺ and so on.
+    published: f64,
+    source: Cited,
+}
+
+/// A. P. Kreshkov, *Osnovy analiticheskoi khimii* (Fundamentals of Analytical
+/// Chemistry), Moscow: Khimiya, 1970, p. 74.
+///
+/// READ AT ONE REMOVE, and through a route thinner than the Sartorius one:
+/// the book was not opened, and what was read is the entry reproducing its
+/// table in the "Khimicheskii spravochnik" collection at
+/// chemical_reference.academic.ru, on 2026-09-18. `de-wikipedia` at least
+/// carries a licence anyone can read; that host publishes no terms that could
+/// be found, and `provenance/upstreams.toml` says so rather than implying one.
+///
+/// ONE REASON TO BELIEVE THE TRANSCRIPTION ANYWAY, worth writing down because
+/// it is checkable and because three of its values disagree with the rest of
+/// this file by enough to look like typing errors made on the way. The source
+/// prints two columns, cations and anions, each sorted DESCENDING by Λ°, and
+/// the reproduction preserves that order exactly — including for all three
+/// outliers: ½Cu²⁺ 56.6 between ½Sr²⁺ 59.5 and ½Cd²⁺ 54, I⁻ 78.8 above Br⁻
+/// 78.1, ClO₄⁻ 64.5 between HS⁻ 65 and F⁻ 55.4. A slipped digit would break
+/// the sort. So those three are the book's numbers, not the route's damage.
+const KRESHKOV: Cited = Cited {
+    source: "A. P. Kreshkov, Osnovy analiticheskoi khimii (Fundamentals of \
+             Analytical Chemistry), Moscow: Khimiya, 1970, p. 74, limiting \
+             equivalent conductivities of ions in water at 25 °C — as \
+             reproduced in the Khimicheskii spravochnik entry at \
+             chemical_reference.academic.ru and read there 2026-09-18. READ \
+             AT ONE REMOVE: no copy of the book was opened, and the value is \
+             the book's, not the website's",
+};
+
+/// U. Hübschmann and E. Links, *Tabellen zur Chemie*, Hamburg: Verlag
+/// Handwerk und Technik, 1991, p. 62, with some values from G. Milazzo,
+/// *Elektrochemie*, Vienna: Springer, 1952.
+///
+/// READ AT ONE REMOVE ON THE SAME ROUTE #625 ALREADY CLEARED — the German
+/// Wikipedia, whose terms are CC BY-SA 4.0 and are recorded in the
+/// `de-wikipedia` row. The article is "Ionenbeweglichkeit", read 2026-09-18,
+/// and it states its own basis in one sentence: *"Grundlage der Tabelle sind
+/// Werte der Grenzleitfähigkeiten für 25 °C aus dem Buch Tabellen zur Chemie
+/// (Hübschmann, 1991) und einige Werte aus Elektrochemie (Milazzo, 1952)"*.
+/// Which of the rows below are Milazzo's and which Hübschmann's it does not
+/// say, so both works are named and neither was opened.
+///
+/// WHY THIS TABLE MATTERS MORE THAN ITS PRECISION SUGGESTS: it is the only
+/// thing reached anywhere that carries **λ°(Zn²⁺)**, and the only one that
+/// carries all seven of the ions [`UNCORROBORATED`] used to name.
+///
+/// A CAUTION THE ARTICLE EARNS, and the reason nothing here is read off its
+/// other columns. It also prints an ion-mobility column *v*, and says that
+/// column was computed from the conductivities rather than the reverse. For
+/// most rows the two are consistent under λ = *v*·F. For **three of the ones
+/// this section needs** they are not: ½Mn²⁺ prints 50 against a *v* implying
+/// 53.5, ½Fe²⁺ prints 53.5 against a *v* implying 68.0 (which is ⅓Fe³⁺'s own
+/// mobility, so that cell is simply wrong), and ½Pb²⁺ prints 65 against a *v*
+/// implying 70.0. **Only the conductivity column is used here**, because the
+/// article says that is the column that came from the books.
+const HUEBSCHMANN: Cited = Cited {
+    source: "U. Hübschmann and E. Links, Tabellen zur Chemie, Hamburg: Verlag \
+             Handwerk und Technik, 1991, p. 62, with some values from \
+             G. Milazzo, Elektrochemie, Vienna: Springer, 1952 — as reproduced \
+             in the table of de.wikipedia.org/wiki/Ionenbeweglichkeit, which \
+             names those two works as its basis, and read there 2026-09-18. \
+             READ AT ONE REMOVE: neither book was opened, and the values are \
+             the books', not the encyclopaedia's",
+};
+
+/// Every row of either table which this engine also ships.
+///
+/// Twenty-one rows of each overlap ions [`CORROBORATED`] already settles
+/// against USGS and Sartorius, and that overlap is not decoration — **it is
+/// the instrument**. A compilation nobody here has calibrated cannot settle
+/// anything; a compilation measured against twenty-one values two other
+/// sources already agree on can settle exactly as much as that measurement
+/// allows, and no more.
+const COARSE: &[Coarse] = &[
+    // --- Kreshkov 1970 p. 74: the calibration rows ------------------------
+    k("H+", 1.0, 349.8),
+    k("OH-", 1.0, 198.3),
+    k("NH4+", 1.0, 73.6),
+    k("K+", 1.0, 73.5),
+    k("Ba+2", 2.0, 63.6),
+    k("Ag+", 1.0, 61.9),
+    k("Ca+2", 2.0, 59.5),
+    k("Sr+2", 2.0, 59.5),
+    k("Cu+2", 2.0, 56.6),
+    k("Mg+2", 2.0, 53.1),
+    k("Na+", 1.0, 50.1),
+    k("Li+", 1.0, 38.7),
+    k("SO4-2", 2.0, 80.0),
+    k("I-", 1.0, 78.8),
+    k("Br-", 1.0, 78.1),
+    k("Cl-", 1.0, 76.4),
+    k("NO3-", 1.0, 71.5),
+    k("CO3-2", 2.0, 69.3),
+    k("ClO4-", 1.0, 64.5),
+    k("F-", 1.0, 55.4),
+    k("HCO3-", 1.0, 44.5),
+    // --- Kreshkov 1970 p. 74: the ions nothing precise carries. NO ZINC:
+    //     this table is sorted descending and zinc's place, between ½Mg²⁺
+    //     53.1 and Na⁺ 50.1, is simply empty. Fe³⁺ has left UNCORROBORATED
+    //     on the strength of this row agreeing with the next source's, and
+    //     stays here as one of the two halves of that agreement.
+    k("Pb+2", 2.0, 70.0),
+    k("Fe+3", 3.0, 68.0),
+    k("Al+3", 3.0, 63.0),
+    k("Fe+2", 2.0, 53.5),
+    k("Mn+2", 2.0, 53.5),
+    // --- Hübschmann and Links 1991 p. 62: the calibration rows ------------
+    h("H+", 1.0, 349.8),
+    h("OH-", 1.0, 197.6),
+    h("NH4+", 1.0, 73.4),
+    h("K+", 1.0, 73.52),
+    h("Ba+2", 2.0, 63.64),
+    h("Ag+", 1.0, 61.92),
+    h("Ca+2", 2.0, 59.5),
+    h("Sr+2", 2.0, 59.46),
+    h("Cu+2", 2.0, 54.0),
+    h("Mg+2", 2.0, 53.06),
+    h("Na+", 1.0, 50.11),
+    h("Li+", 1.0, 38.69),
+    h("SO4-2", 2.0, 80.0),
+    h("I-", 1.0, 76.8),
+    h("Br-", 1.0, 78.3),
+    h("Cl-", 1.0, 76.34),
+    h("NO3-", 1.0, 71.44),
+    h("CO3-2", 2.0, 74.0),
+    h("ClO4-", 1.0, 68.0),
+    h("F-", 1.0, 55.0),
+    h("HCO3-", 1.0, 44.5),
+    // --- Hübschmann and Links 1991 p. 62: all seven, zinc included --------
+    h("Zn+2", 2.0, 53.0),
+    h("Fe+2", 2.0, 53.5),
+    h("Fe+3", 3.0, 68.0),
+    h("Al+3", 3.0, 63.0),
+    h("Mn+2", 2.0, 50.0),
+    h("Pb+2", 2.0, 65.0),
+    h("MnO4-", 1.0, 61.0),
+];
+
+const fn k(species: &'static str, charge: f64, published: f64) -> Coarse {
+    Coarse {
+        species,
+        charge,
+        published,
+        source: KRESHKOV,
+    }
+}
+
+const fn h(species: &'static str, charge: f64, published: f64) -> Coarse {
+    Coarse {
+        species,
+        charge,
+        published,
+        source: HUEBSCHMANN,
+    }
+}
+
+/// The two coarse sources, by the string that identifies each.
+const COARSE_SOURCES: &[&str] = &[KRESHKOV.source, HUEBSCHMANN.source];
+
+/// The molar value a coarse row prints.
+fn coarse_molar(row: &Coarse) -> f64 {
+    row.published * row.charge
+}
+
+/// The molar value [`CORROBORATED`] independently settles for an ion, with
+/// the per-equivalent and international-ohm corrections its own rows carry.
+///
+/// A ROW WHOSE CORROBORATION IS ITSELF ONE OF THESE COARSE SOURCES IS NOT AN
+/// INDEPENDENT VALUE and returns `None`. That is not bookkeeping: λ°(Fe³⁺) is
+/// corroborated by [`HUEBSCHMANN`], so calibrating Hübschmann against it would
+/// be the source measuring itself and would read a flawless 0 %. The one ion
+/// this search moved is therefore the one ion it may not be judged by.
+fn independent(species: &str) -> Option<f64> {
+    CORROBORATED
+        .iter()
+        .find(|c| c.species == species)
+        .filter(|c| !COARSE_SOURCES.contains(&c.source.source))
+        .map(|c| {
+            let mut v = c.published;
+            if c.per_equivalent {
+                v *= c.charge;
+            }
+            if c.international_ohm {
+                v *= INTERNATIONAL_TO_ABSOLUTE_OHM;
+            }
+            v
+        })
+}
+
+/// How far one coarse source is from an INDEPENDENT value, over every ion
+/// where both it and [`CORROBORATED`] have one.
+///
+/// External against external: the shipped table is never consulted, so this
+/// measures the source and not the engine.
+fn calibration(source: &str) -> Vec<(f64, &'static str)> {
+    COARSE
+        .iter()
+        .filter(|row| row.source.source == source)
+        .filter_map(|row| {
+            independent(row.species)
+                .map(|known| (((coarse_molar(row) - known) / known).abs(), row.species))
+        })
+        .collect()
+}
+
+/// The worst that source got an independently settled ion wrong. The bound
+/// every claim below is allowed to make, and it is MEASURED rather than
+/// chosen — picking a number here would make the next test a pin.
+fn measured_bound(source: &str) -> f64 {
+    calibration(source)
+        .into_iter()
+        .fold(0.0f64, |a, (d, _)| a.max(d))
+}
+
+/// Both coarse sources are real λ° tables, and both are too coarse to
+/// corroborate.
+///
+/// Both halves are measured, because both are load bearing and they pull in
+/// opposite directions.
+///
+/// MOST OF EACH AGREES CLOSELY. A table that did not reproduce the values two
+/// independent compilations already agree on would be a list of numbers, not
+/// a compilation, and nothing could be built on it.
+///
+/// AND SOME OF EACH DOES NOT, BY SEVERAL PER CENT — on ions USGS and a
+/// Sartorius handbook have already settled. That is not noise to average
+/// away: it is the measured probability that any single row is from a looser
+/// lineage, and it applies to the rows nobody can check as much as to the
+/// ones where it was caught.
+///
+/// SO THIS ASSERTS THAT EACH SOURCE'S WORST CALIBRATION ERROR EXCEEDS THE
+/// CORROBORATION TOLERANCE. Read it the right way round: it is not a test
+/// that wants the sources to be bad. It is the reason the remaining ions do
+/// not leave [`UNCORROBORATED`], written where it will expire loudly. If a
+/// better printing ever puts all twenty-one rows inside half a per cent, this
+/// fails and the next person decides the question again with better evidence.
+#[test]
+fn both_coarse_sources_are_real_tables_and_too_coarse_to_corroborate() {
+    const TOLERANCE: f64 = 0.005;
+    for source in COARSE_SOURCES {
+        let rows = calibration(source);
+        assert_eq!(
+            rows.len(),
+            21,
+            "the calibration is the whole instrument here: {} of this source's \
+             rows overlap CORROBORATED, not 21. If an ion moved between the \
+             lists, this number moves with it and the bound is no longer the \
+             one that was measured.\n  source: {source}",
+            rows.len(),
+        );
+        let inside = rows.iter().filter(|(d, _)| *d < TOLERANCE).count();
+        assert!(
+            inside >= 17,
+            "only {inside} of 21 calibration rows agree with an independent \
+             compilation to {:.1} %. Below that this is not a λ° table of the \
+             same lineage at all, and its rows for the unchecked ions mean \
+             nothing.\n  source: {source}",
+            100.0 * TOLERANCE,
+        );
+        let worst = rows
+            .iter()
+            .copied()
+            .fold((0.0f64, ""), |a, b| if b.0 > a.0 { b } else { a });
+        assert!(
+            worst.0 > TOLERANCE,
+            "this source now agrees with every independently corroborated ion \
+             to better than {:.1} % (worst: {} at {:.2} %). It was admitted \
+             here as a source too loose to corroborate, and that is why ions \
+             it reaches are still in UNCORROBORATED. If this fails the premise \
+             has changed — re-decide the question, do not relax the \
+             test.\n  source: {source}",
+            100.0 * TOLERANCE,
+            worst.1,
+            100.0 * worst.0,
+        );
+    }
+}
+
+/// The (source, ion) pairs where a coarse source puts the shipped value
+/// OUTSIDE its own measured error — a contradiction rather than a caution.
+///
+/// Two, and both are Hübschmann and Links against a metal the other coarse
+/// source reads differently:
+///
+/// * **½Mn²⁺**: 50 against Kreshkov's 53.5 and the shipped 53.5 — the shipped
+///   value is 7.0 % high on this source, and exactly equal to the other one.
+/// * **½Pb²⁺**: 65 against Kreshkov's 70 and the shipped 71.0 — 9.2 % high on
+///   this source and 1.4 % high on the other.
+///
+/// **THE TWO SECOND SOURCES DISAGREE WITH EACH OTHER ABOUT MANGANESE AND LEAD
+/// BY SEVEN AND EIGHT PER CENT.** Where two independent compilations cannot
+/// agree with each other, neither can settle the ion, and the shipped value
+/// is not adjudicated by either. That is the finding, and it is recorded
+/// rather than acted on.
+///
+/// The list is asserted to be exactly right, so a third contradiction cannot
+/// appear in silence — the same guarantee [`UNCORROBORATED`] gives.
+const CONTRADICTED: &[(&str, &str)] = &[("Mn+2", "Hübschmann"), ("Pb+2", "Hübschmann")];
+
+/// Which ions each coarse source contradicts, checked against the list above.
+///
+/// This is the weaker claim that IS available for the ions no precise
+/// compilation reaches, and it is worth having because nothing else in this
+/// repository says anything at all about them. It does not say a shipped
+/// value is right. It says that a compilation which reaches the ion, and
+/// whose error on ions we *can* check is bounded, does or does not put it
+/// outside that bound.
+#[test]
+fn a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted() {
+    let mut found: Vec<(&str, &str)> = Vec::new();
+    for row in COARSE {
+        let bound = measured_bound(row.source.source);
+        let published = coarse_molar(row);
+        let error = (shipped(row.species) - published) / published;
+        if error.abs() > bound {
+            let tag = if row.source.source == KRESHKOV.source {
+                "Kreshkov"
+            } else {
+                "Hübschmann"
+            };
+            found.push((row.species, tag));
+            assert!(
+                CONTRADICTED.contains(&(row.species, tag)),
+                "λ°({}) ships as {} S·cm²·mol⁻¹ against {tag}'s {published} \
+                 ({:+.2} %), OUTSIDE the {:.2} % that source's own worst error \
+                 on an independently corroborated ion. That is a NEW \
+                 contradiction, and it wants reporting to a human — with both \
+                 numbers and both sources — rather than a change to the \
+                 shipped value. docs/MUTATION-SENSITIVITY.md §8d is where the \
+                 two known ones are written down.\n  source: {}",
+                row.species,
+                shipped(row.species),
+                100.0 * error,
+                100.0 * bound,
+                row.source.source,
+            );
+        }
+    }
+    for pair in CONTRADICTED {
+        assert!(
+            found.contains(pair),
+            "{} is recorded as contradicted by {} and is not — the \
+             disagreement has gone away, which is a thing to look at rather \
+             than to delete.",
+            pair.0,
+            pair.1,
+        );
+    }
+}
+
+/// What this instrument can detect, stated as a test instead of as a claim.
+///
+/// The const-table mutation pass moves a literal by ±25 %. Six mutants in
+/// `conductivity.rs` survived the 2026-09-17 re-run, and they were exactly the
+/// ions no second source reached. Every one of them now has a source — too
+/// coarse to corroborate it, and nowhere near too coarse to notice a quarter.
+///
+/// So this asserts the sensitivity directly: for every ion still in
+/// [`UNCORROBORATED`], a value a quarter high AND a quarter low both fall
+/// outside the measured bound of at least one source that carries it, which
+/// is what [`a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted`]
+/// would then report. **It is the survivor count without running the harness
+/// and without a falsified constant ever touching the disk** — the hazard
+/// §8b's two SIGKILLs left in a worktree.
+///
+/// THEN THE HARNESS WAS RUN AND AGREED: same six ids, on a runner,
+/// `tools/mutation/results/2026-09-18-conductivity-rerun.json` — **6 caught,
+/// 0 survived**, five of them by this test and all six by the one above.
+/// §8b's twenty-three conductivity survivors are closed.
+///
+/// THAT IS NOT THE SAME AS THE VALUES BEING RIGHT, and the distinction is
+/// the reason this file is long. A hundred per cent here means the tree would
+/// notice a quarter. Five of the six are still uncorroborated, two of them are
+/// contradicted outright by one of the sources that reach them, and two more
+/// disagree with both.
+#[test]
+fn a_quarter_wrong_would_fall_outside_the_measured_bound() {
+    for species in UNCORROBORATED {
+        let mut seen = false;
+        for row in COARSE.iter().filter(|r| r.species == *species) {
+            seen = true;
+            let bound = measured_bound(row.source.source);
+            let published = coarse_molar(row);
+            for factor in [1.25, 0.75] {
+                let mutated = shipped(species) * factor;
+                let error = ((mutated - published) / published).abs();
+                assert!(
+                    error > bound,
+                    "a λ°({species}) moved to {mutated} — {factor}× the \
+                     shipped value — would still sit inside this source's own \
+                     {:.2} % error, so a quarter-wrong value here is invisible \
+                     to §2b and this ion's mutant survives for a second \
+                     reason.\n  source: {}",
+                    100.0 * bound,
+                    row.source.source,
+                );
+            }
+        }
+        assert!(
+            seen,
+            "λ°({species}) is uncorroborated AND no coarse source carries it, \
+             so nothing in this repository can distinguish it from a value a \
+             quarter wrong. That was true of all seven before 2026-09-18 and \
+             is true of none of them now; if it becomes true again, \
+             docs/MUTATION-SENSITIVITY.md §8d's survivor count is wrong."
+        );
+    }
+}
 // ---------------------------------------------------------------------------
 // 3. Relations that are physics
 // ---------------------------------------------------------------------------

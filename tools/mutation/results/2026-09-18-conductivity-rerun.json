@@ -1,0 +1,223 @@
+{
+ "26": {
+  "site": {
+   "kind": "table",
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "line": 123,
+   "start": 6569,
+   "end": 6574,
+   "original": "105.6",
+   "describes": "(\"Zn+2\", 105.6),",
+   "id": 26
+  },
+  "tiers": [
+   {
+    "tier": "core-unit",
+    "ok": true,
+    "timeout": false,
+    "seconds": 1.5,
+    "failing": []
+   },
+   {
+    "tier": "core-integration",
+    "ok": false,
+    "timeout": false,
+    "seconds": 0.2,
+    "failing": [
+     "a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted",
+     "a_quarter_wrong_would_fall_outside_the_measured_bound"
+    ],
+    "exit_code": 101,
+    "output_tail": "\u001b[1m\u001b[92m    Finished\u001b[0m `test` profile [unoptimized + debuginfo] target(s) in 0.16s\n\u001b[1m\u001b[92m     Running\u001b[0m tests/buoyancy.rs (target/debug/deps/buoyancy-977193c2e0fd01cf)\n\nrunning 5 tests\ntest a_sugar_syrup_reads_the_density_a_hydrometer_would ... ok\ntest an_ordinary_dense_solid_is_not_a_bubble_rider ... ok\ntest a_raisin_in_water_needs_a_third_of_its_volume_in_attached_gas ... ok\ntest a_raisin_is_conserved_whole_and_is_still_a_visible_object ... ok\ntest still_water_says_nothing_about_riding_bubbles ... ok\n\ntest result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s\n\n\u001b[1m\u001b[92m     Running\u001b[0m tests/conductivity_sources.rs (target/debug/deps/conductivity_sources-4798dea5f95b485b)\n\nrunning 12 tests\ntest both_coarse_sources_are_real_tables_and_too_coarse_to_corroborate ... ok\ntest a_quarter_wrong_would_fall_outside_the_measured_bound ... FAILED\ntest every_shipped_lambda_is_either_corroborated_or_declared_unverified ... ok\ntest past_the_last_fitted_measurement_the_estimate_admits_extrapolating ... ok\ntest hydration_reverses_the_alkali_ordering ... ok\ntest the_concentration_correction_is_an_improvement_at_every_standard ... ok\ntest the_dilute_limit_is_the_last_primary_standard ... ok\ntest the_covered_charge_fraction_is_never_more_than_all_of_it ... ok\ntest a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted ... FAILED\ntest the_grotthuss_ions_stand_apart_from_every_ordinary_ion ... ok\ntest the_lambda_table_agrees_with_independent_compilations ... ok\ntest the_meter_tracks_the_oiml_potassium_chloride_standards ... ok\n\nfailures:\n\n---- a_quarter_wrong_would_fall_outside_the_measured_bound stdout ----\n\nthread 'a_quarter_wrong_would_fall_outside_the_measured_bound' (9242) panicked at crates/kerotakis-core/tests/conductivity_sources.rs:981:17:\na \u03bb\u00b0(Zn+2) moved to 99 \u2014 0.75\u00d7 the shipped value \u2014 would still sit inside this source's own 6.78 % error, so a quarter-wrong value here is invisible to \u00a72b and this ion's mutant survives for a second reason.\n  source: U. H\u00fcbschmann and E. Links, Tabellen zur Chemie, Hamburg: Verlag Handwerk und Technik, 1991, p. 62, with some values from G. Milazzo, Elektrochemie, Vienna: Springer, 1952 \u2014 as reproduced in the table of de.wikipedia.org/wiki/Ionenbeweglichkeit, which names those two works as its basis, and read there 2026-09-18. READ AT ONE REMOVE: neither book was opened, and the values are the books', not the encyclopaedia's\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n\n---- a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted stdout ----\n\nthread 'a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted' (9241) panicked at crates/kerotakis-core/tests/conductivity_sources.rs:927:13:\n\u03bb\u00b0(Zn+2) ships as 132 S\u00b7cm\u00b2\u00b7mol\u207b\u00b9 against H\u00fcbschmann's 106 (+24.53 %), OUTSIDE the 6.78 % that source's own worst error on an independently corroborated ion. That is a NEW contradiction, and it wants reporting to a human \u2014 with both numbers and both sources \u2014 rather than a change to the shipped value. docs/MUTATION-SENSITIVITY.md \u00a78d is where the two known ones are written down.\n  source: U. H\u00fcbschmann and E. Links, Tabellen zur Chemie, Hamburg: Verlag Handwerk und Technik, 1991, p. 62, with some values from G. Milazzo, Elektrochemie, Vienna: Springer, 1952 \u2014 as reproduced in the table of de.wikipedia.org/wiki/Ionenbeweglichkeit, which names those two works as its basis, and read there 2026-09-18. READ AT ONE REMOVE: neither book was opened, and the values are the books', not the encyclopaedia's\n\n\nfailures:\n    a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted\n    a_quarter_wrong_would_fall_outside_the_measured_bound\n\ntest result: FAILED. 10 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\u001b[1m\u001b[91merror\u001b[0m: test failed, to rerun pass `-p kerotakis-core --test conductivity_sources`\n"
+   }
+  ],
+  "build_seconds": 55.3,
+  "verdict": "caught",
+  "caught_by": "core-integration",
+  "strength": "integration"
+ },
+ "27": {
+  "site": {
+   "kind": "table",
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "line": 124,
+   "start": 6590,
+   "end": 6595,
+   "original": "108.0",
+   "describes": "(\"Fe+2\", 108.0),",
+   "id": 27
+  },
+  "tiers": [
+   {
+    "tier": "core-unit",
+    "ok": true,
+    "timeout": false,
+    "seconds": 1.5,
+    "failing": []
+   },
+   {
+    "tier": "core-integration",
+    "ok": false,
+    "timeout": false,
+    "seconds": 0.2,
+    "failing": [
+     "a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted",
+     "a_quarter_wrong_would_fall_outside_the_measured_bound"
+    ],
+    "exit_code": 101,
+    "output_tail": "\u001b[1m\u001b[92m    Finished\u001b[0m `test` profile [unoptimized + debuginfo] target(s) in 0.16s\n\u001b[1m\u001b[92m     Running\u001b[0m tests/buoyancy.rs (target/debug/deps/buoyancy-977193c2e0fd01cf)\n\nrunning 5 tests\ntest a_sugar_syrup_reads_the_density_a_hydrometer_would ... ok\ntest an_ordinary_dense_solid_is_not_a_bubble_rider ... ok\ntest a_raisin_is_conserved_whole_and_is_still_a_visible_object ... ok\ntest a_raisin_in_water_needs_a_third_of_its_volume_in_attached_gas ... ok\ntest still_water_says_nothing_about_riding_bubbles ... ok\n\ntest result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s\n\n\u001b[1m\u001b[92m     Running\u001b[0m tests/conductivity_sources.rs (target/debug/deps/conductivity_sources-4798dea5f95b485b)\n\nrunning 12 tests\ntest both_coarse_sources_are_real_tables_and_too_coarse_to_corroborate ... ok\ntest a_quarter_wrong_would_fall_outside_the_measured_bound ... FAILED\ntest every_shipped_lambda_is_either_corroborated_or_declared_unverified ... ok\ntest a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted ... FAILED\ntest past_the_last_fitted_measurement_the_estimate_admits_extrapolating ... ok\ntest hydration_reverses_the_alkali_ordering ... ok\ntest the_concentration_correction_is_an_improvement_at_every_standard ... ok\ntest the_covered_charge_fraction_is_never_more_than_all_of_it ... ok\ntest the_dilute_limit_is_the_last_primary_standard ... ok\ntest the_grotthuss_ions_stand_apart_from_every_ordinary_ion ... ok\ntest the_meter_tracks_the_oiml_potassium_chloride_standards ... ok\ntest the_lambda_table_agrees_with_independent_compilations ... ok\n\nfailures:\n\n---- a_quarter_wrong_would_fall_outside_the_measured_bound stdout ----\n\nthread 'a_quarter_wrong_would_fall_outside_the_measured_bound' (10364) panicked at crates/kerotakis-core/tests/conductivity_sources.rs:981:17:\na \u03bb\u00b0(Fe+2) moved to 101.25 \u2014 0.75\u00d7 the shipped value \u2014 would still sit inside this source's own 5.60 % error, so a quarter-wrong value here is invisible to \u00a72b and this ion's mutant survives for a second reason.\n  source: A. P. Kreshkov, Osnovy analiticheskoi khimii (Fundamentals of Analytical Chemistry), Moscow: Khimiya, 1970, p. 74, limiting equivalent conductivities of ions in water at 25 \u00b0C \u2014 as reproduced in the Khimicheskii spravochnik entry at chemical_reference.academic.ru and read there 2026-09-18. READ AT ONE REMOVE: no copy of the book was opened, and the value is the book's, not the website's\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n\n---- a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted stdout ----\n\nthread 'a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted' (10363) panicked at crates/kerotakis-core/tests/conductivity_sources.rs:927:13:\n\u03bb\u00b0(Fe+2) ships as 135 S\u00b7cm\u00b2\u00b7mol\u207b\u00b9 against Kreshkov's 107 (+26.17 %), OUTSIDE the 5.60 % that source's own worst error on an independently corroborated ion. That is a NEW contradiction, and it wants reporting to a human \u2014 with both numbers and both sources \u2014 rather than a change to the shipped value. docs/MUTATION-SENSITIVITY.md \u00a78d is where the two known ones are written down.\n  source: A. P. Kreshkov, Osnovy analiticheskoi khimii (Fundamentals of Analytical Chemistry), Moscow: Khimiya, 1970, p. 74, limiting equivalent conductivities of ions in water at 25 \u00b0C \u2014 as reproduced in the Khimicheskii spravochnik entry at chemical_reference.academic.ru and read there 2026-09-18. READ AT ONE REMOVE: no copy of the book was opened, and the value is the book's, not the website's\n\n\nfailures:\n    a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted\n    a_quarter_wrong_would_fall_outside_the_measured_bound\n\ntest result: FAILED. 10 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\u001b[1m\u001b[91merror\u001b[0m: test failed, to rerun pass `-p kerotakis-core --test conductivity_sources`\n"
+   }
+  ],
+  "build_seconds": 55.5,
+  "verdict": "caught",
+  "caught_by": "core-integration",
+  "strength": "integration"
+ },
+ "28": {
+  "site": {
+   "kind": "table",
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "line": 125,
+   "start": 6611,
+   "end": 6616,
+   "original": "204.0",
+   "describes": "(\"Fe+3\", 204.0),",
+   "id": 28
+  },
+  "tiers": [
+   {
+    "tier": "core-unit",
+    "ok": true,
+    "timeout": false,
+    "seconds": 1.6,
+    "failing": []
+   },
+   {
+    "tier": "core-integration",
+    "ok": false,
+    "timeout": false,
+    "seconds": 0.2,
+    "failing": [
+     "a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted",
+     "the_lambda_table_agrees_with_independent_compilations"
+    ],
+    "exit_code": 101,
+    "output_tail": "\u001b[1m\u001b[92m    Finished\u001b[0m `test` profile [unoptimized + debuginfo] target(s) in 0.15s\n\u001b[1m\u001b[92m     Running\u001b[0m tests/buoyancy.rs (target/debug/deps/buoyancy-977193c2e0fd01cf)\n\nrunning 5 tests\ntest a_sugar_syrup_reads_the_density_a_hydrometer_would ... ok\ntest an_ordinary_dense_solid_is_not_a_bubble_rider ... ok\ntest a_raisin_is_conserved_whole_and_is_still_a_visible_object ... ok\ntest a_raisin_in_water_needs_a_third_of_its_volume_in_attached_gas ... ok\ntest still_water_says_nothing_about_riding_bubbles ... ok\n\ntest result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s\n\n\u001b[1m\u001b[92m     Running\u001b[0m tests/conductivity_sources.rs (target/debug/deps/conductivity_sources-4798dea5f95b485b)\n\nrunning 12 tests\ntest both_coarse_sources_are_real_tables_and_too_coarse_to_corroborate ... ok\ntest every_shipped_lambda_is_either_corroborated_or_declared_unverified ... ok\ntest a_quarter_wrong_would_fall_outside_the_measured_bound ... ok\ntest hydration_reverses_the_alkali_ordering ... ok\ntest a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted ... FAILED\ntest past_the_last_fitted_measurement_the_estimate_admits_extrapolating ... ok\ntest the_concentration_correction_is_an_improvement_at_every_standard ... ok\ntest the_covered_charge_fraction_is_never_more_than_all_of_it ... ok\ntest the_dilute_limit_is_the_last_primary_standard ... ok\ntest the_grotthuss_ions_stand_apart_from_every_ordinary_ion ... ok\ntest the_lambda_table_agrees_with_independent_compilations ... FAILED\ntest the_meter_tracks_the_oiml_potassium_chloride_standards ... ok\n\nfailures:\n\n---- a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted stdout ----\n\nthread 'a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted' (11484) panicked at crates/kerotakis-core/tests/conductivity_sources.rs:927:13:\n\u03bb\u00b0(Fe+3) ships as 255 S\u00b7cm\u00b2\u00b7mol\u207b\u00b9 against Kreshkov's 204 (+25.00 %), OUTSIDE the 5.60 % that source's own worst error on an independently corroborated ion. That is a NEW contradiction, and it wants reporting to a human \u2014 with both numbers and both sources \u2014 rather than a change to the shipped value. docs/MUTATION-SENSITIVITY.md \u00a78d is where the two known ones are written down.\n  source: A. P. Kreshkov, Osnovy analiticheskoi khimii (Fundamentals of Analytical Chemistry), Moscow: Khimiya, 1970, p. 74, limiting equivalent conductivities of ions in water at 25 \u00b0C \u2014 as reproduced in the Khimicheskii spravochnik entry at chemical_reference.academic.ru and read there 2026-09-18. READ AT ONE REMOVE: no copy of the book was opened, and the value is the book's, not the website's\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n\n---- the_lambda_table_agrees_with_independent_compilations stdout ----\n\nthread 'the_lambda_table_agrees_with_independent_compilations' (11494) panicked at crates/kerotakis-core/tests/conductivity_sources.rs:522:9:\n\u03bb\u00b0(Fe+3) ships as 255 S\u00b7cm\u00b2\u00b7mol\u207b\u00b9 but the independent value is 204.000 (+25.00 %), outside the 0.5 % two compilations of this kind may differ by.\n  source: U. H\u00fcbschmann and E. Links, Tabellen zur Chemie, Hamburg: Verlag Handwerk und Technik, 1991, p. 62, with some values from G. Milazzo, Elektrochemie, Vienna: Springer, 1952 \u2014 as reproduced in the table of de.wikipedia.org/wiki/Ionenbeweglichkeit, which names those two works as its basis, and read there 2026-09-18. READ AT ONE REMOVE: neither book was opened, and the values are the books', not the encyclopaedia's\n\n\nfailures:\n    a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted\n    the_lambda_table_agrees_with_independent_compilations\n\ntest result: FAILED. 10 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\u001b[1m\u001b[91merror\u001b[0m: test failed, to rerun pass `-p kerotakis-core --test conductivity_sources`\n"
+   }
+  ],
+  "build_seconds": 55.5,
+  "verdict": "caught",
+  "caught_by": "core-integration",
+  "strength": "integration"
+ },
+ "29": {
+  "site": {
+   "kind": "table",
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "line": 126,
+   "start": 6632,
+   "end": 6637,
+   "original": "183.0",
+   "describes": "(\"Al+3\", 183.0),",
+   "id": 29
+  },
+  "tiers": [
+   {
+    "tier": "core-unit",
+    "ok": true,
+    "timeout": false,
+    "seconds": 1.5,
+    "failing": []
+   },
+   {
+    "tier": "core-integration",
+    "ok": false,
+    "timeout": false,
+    "seconds": 0.2,
+    "failing": [
+     "a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted"
+    ],
+    "exit_code": 101,
+    "output_tail": "\u001b[1m\u001b[92m    Finished\u001b[0m `test` profile [unoptimized + debuginfo] target(s) in 0.15s\n\u001b[1m\u001b[92m     Running\u001b[0m tests/buoyancy.rs (target/debug/deps/buoyancy-977193c2e0fd01cf)\n\nrunning 5 tests\ntest a_sugar_syrup_reads_the_density_a_hydrometer_would ... ok\ntest an_ordinary_dense_solid_is_not_a_bubble_rider ... ok\ntest a_raisin_in_water_needs_a_third_of_its_volume_in_attached_gas ... ok\ntest a_raisin_is_conserved_whole_and_is_still_a_visible_object ... ok\ntest still_water_says_nothing_about_riding_bubbles ... ok\n\ntest result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s\n\n\u001b[1m\u001b[92m     Running\u001b[0m tests/conductivity_sources.rs (target/debug/deps/conductivity_sources-4798dea5f95b485b)\n\nrunning 12 tests\ntest both_coarse_sources_are_real_tables_and_too_coarse_to_corroborate ... ok\ntest a_quarter_wrong_would_fall_outside_the_measured_bound ... ok\ntest every_shipped_lambda_is_either_corroborated_or_declared_unverified ... ok\ntest hydration_reverses_the_alkali_ordering ... ok\ntest a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted ... FAILED\ntest past_the_last_fitted_measurement_the_estimate_admits_extrapolating ... ok\ntest the_concentration_correction_is_an_improvement_at_every_standard ... ok\ntest the_covered_charge_fraction_is_never_more_than_all_of_it ... ok\ntest the_dilute_limit_is_the_last_primary_standard ... ok\ntest the_grotthuss_ions_stand_apart_from_every_ordinary_ion ... ok\ntest the_lambda_table_agrees_with_independent_compilations ... ok\ntest the_meter_tracks_the_oiml_potassium_chloride_standards ... ok\n\nfailures:\n\n---- a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted stdout ----\n\nthread 'a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted' (12603) panicked at crates/kerotakis-core/tests/conductivity_sources.rs:927:13:\n\u03bb\u00b0(Al+3) ships as 228.75 S\u00b7cm\u00b2\u00b7mol\u207b\u00b9 against Kreshkov's 189 (+21.03 %), OUTSIDE the 5.60 % that source's own worst error on an independently corroborated ion. That is a NEW contradiction, and it wants reporting to a human \u2014 with both numbers and both sources \u2014 rather than a change to the shipped value. docs/MUTATION-SENSITIVITY.md \u00a78d is where the two known ones are written down.\n  source: A. P. Kreshkov, Osnovy analiticheskoi khimii (Fundamentals of Analytical Chemistry), Moscow: Khimiya, 1970, p. 74, limiting equivalent conductivities of ions in water at 25 \u00b0C \u2014 as reproduced in the Khimicheskii spravochnik entry at chemical_reference.academic.ru and read there 2026-09-18. READ AT ONE REMOVE: no copy of the book was opened, and the value is the book's, not the website's\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n\n\nfailures:\n    a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted\n\ntest result: FAILED. 11 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\u001b[1m\u001b[91merror\u001b[0m: test failed, to rerun pass `-p kerotakis-core --test conductivity_sources`\n"
+   }
+  ],
+  "build_seconds": 55.3,
+  "verdict": "caught",
+  "caught_by": "core-integration",
+  "strength": "integration"
+ },
+ "30": {
+  "site": {
+   "kind": "table",
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "line": 127,
+   "start": 6653,
+   "end": 6658,
+   "original": "107.0",
+   "describes": "(\"Mn+2\", 107.0),",
+   "id": 30
+  },
+  "tiers": [
+   {
+    "tier": "core-unit",
+    "ok": true,
+    "timeout": false,
+    "seconds": 1.5,
+    "failing": []
+   },
+   {
+    "tier": "core-integration",
+    "ok": false,
+    "timeout": false,
+    "seconds": 0.2,
+    "failing": [
+     "a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted",
+     "a_quarter_wrong_would_fall_outside_the_measured_bound"
+    ],
+    "exit_code": 101,
+    "output_tail": "\u001b[1m\u001b[92m    Finished\u001b[0m `test` profile [unoptimized + debuginfo] target(s) in 0.16s\n\u001b[1m\u001b[92m     Running\u001b[0m tests/buoyancy.rs (target/debug/deps/buoyancy-977193c2e0fd01cf)\n\nrunning 5 tests\ntest an_ordinary_dense_solid_is_not_a_bubble_rider ... ok\ntest a_sugar_syrup_reads_the_density_a_hydrometer_would ... ok\ntest a_raisin_in_water_needs_a_third_of_its_volume_in_attached_gas ... ok\ntest a_raisin_is_conserved_whole_and_is_still_a_visible_object ... ok\ntest still_water_says_nothing_about_riding_bubbles ... ok\n\ntest result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s\n\n\u001b[1m\u001b[92m     Running\u001b[0m tests/conductivity_sources.rs (target/debug/deps/conductivity_sources-4798dea5f95b485b)\n\nrunning 12 tests\ntest both_coarse_sources_are_real_tables_and_too_coarse_to_corroborate ... ok\ntest a_quarter_wrong_would_fall_outside_the_measured_bound ... FAILED\ntest every_shipped_lambda_is_either_corroborated_or_declared_unverified ... ok\ntest a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted ... FAILED\ntest hydration_reverses_the_alkali_ordering ... ok\ntest past_the_last_fitted_measurement_the_estimate_admits_extrapolating ... ok\ntest the_concentration_correction_is_an_improvement_at_every_standard ... ok\ntest the_dilute_limit_is_the_last_primary_standard ... ok\ntest the_lambda_table_agrees_with_independent_compilations ... ok\ntest the_covered_charge_fraction_is_never_more_than_all_of_it ... ok\ntest the_grotthuss_ions_stand_apart_from_every_ordinary_ion ... ok\ntest the_meter_tracks_the_oiml_potassium_chloride_standards ... ok\n\nfailures:\n\n---- a_quarter_wrong_would_fall_outside_the_measured_bound stdout ----\n\nthread 'a_quarter_wrong_would_fall_outside_the_measured_bound' (13726) panicked at crates/kerotakis-core/tests/conductivity_sources.rs:981:17:\na \u03bb\u00b0(Mn+2) moved to 100.3125 \u2014 0.75\u00d7 the shipped value \u2014 would still sit inside this source's own 6.78 % error, so a quarter-wrong value here is invisible to \u00a72b and this ion's mutant survives for a second reason.\n  source: U. H\u00fcbschmann and E. Links, Tabellen zur Chemie, Hamburg: Verlag Handwerk und Technik, 1991, p. 62, with some values from G. Milazzo, Elektrochemie, Vienna: Springer, 1952 \u2014 as reproduced in the table of de.wikipedia.org/wiki/Ionenbeweglichkeit, which names those two works as its basis, and read there 2026-09-18. READ AT ONE REMOVE: neither book was opened, and the values are the books', not the encyclopaedia's\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n\n---- a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted stdout ----\n\nthread 'a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted' (13725) panicked at crates/kerotakis-core/tests/conductivity_sources.rs:927:13:\n\u03bb\u00b0(Mn+2) ships as 133.75 S\u00b7cm\u00b2\u00b7mol\u207b\u00b9 against Kreshkov's 107 (+25.00 %), OUTSIDE the 5.60 % that source's own worst error on an independently corroborated ion. That is a NEW contradiction, and it wants reporting to a human \u2014 with both numbers and both sources \u2014 rather than a change to the shipped value. docs/MUTATION-SENSITIVITY.md \u00a78d is where the two known ones are written down.\n  source: A. P. Kreshkov, Osnovy analiticheskoi khimii (Fundamentals of Analytical Chemistry), Moscow: Khimiya, 1970, p. 74, limiting equivalent conductivities of ions in water at 25 \u00b0C \u2014 as reproduced in the Khimicheskii spravochnik entry at chemical_reference.academic.ru and read there 2026-09-18. READ AT ONE REMOVE: no copy of the book was opened, and the value is the book's, not the website's\n\n\nfailures:\n    a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted\n    a_quarter_wrong_would_fall_outside_the_measured_bound\n\ntest result: FAILED. 10 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\u001b[1m\u001b[91merror\u001b[0m: test failed, to rerun pass `-p kerotakis-core --test conductivity_sources`\n"
+   }
+  ],
+  "build_seconds": 55.4,
+  "verdict": "caught",
+  "caught_by": "core-integration",
+  "strength": "integration"
+ },
+ "31": {
+  "site": {
+   "kind": "table",
+   "file": "crates/kerotakis-core/src/conductivity.rs",
+   "line": 128,
+   "start": 6674,
+   "end": 6679,
+   "original": "142.0",
+   "describes": "(\"Pb+2\", 142.0),",
+   "id": 31
+  },
+  "tiers": [
+   {
+    "tier": "core-unit",
+    "ok": true,
+    "timeout": false,
+    "seconds": 1.6,
+    "failing": []
+   },
+   {
+    "tier": "core-integration",
+    "ok": false,
+    "timeout": false,
+    "seconds": 0.2,
+    "failing": [
+     "a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted",
+     "a_quarter_wrong_would_fall_outside_the_measured_bound"
+    ],
+    "exit_code": 101,
+    "output_tail": "\u001b[1m\u001b[92m    Finished\u001b[0m `test` profile [unoptimized + debuginfo] target(s) in 0.16s\n\u001b[1m\u001b[92m     Running\u001b[0m tests/buoyancy.rs (target/debug/deps/buoyancy-977193c2e0fd01cf)\n\nrunning 5 tests\ntest a_sugar_syrup_reads_the_density_a_hydrometer_would ... ok\ntest an_ordinary_dense_solid_is_not_a_bubble_rider ... ok\ntest a_raisin_is_conserved_whole_and_is_still_a_visible_object ... ok\ntest a_raisin_in_water_needs_a_third_of_its_volume_in_attached_gas ... ok\ntest still_water_says_nothing_about_riding_bubbles ... ok\n\ntest result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s\n\n\u001b[1m\u001b[92m     Running\u001b[0m tests/conductivity_sources.rs (target/debug/deps/conductivity_sources-4798dea5f95b485b)\n\nrunning 12 tests\ntest both_coarse_sources_are_real_tables_and_too_coarse_to_corroborate ... ok\ntest every_shipped_lambda_is_either_corroborated_or_declared_unverified ... ok\ntest a_quarter_wrong_would_fall_outside_the_measured_bound ... FAILED\ntest a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted ... FAILED\ntest hydration_reverses_the_alkali_ordering ... ok\ntest past_the_last_fitted_measurement_the_estimate_admits_extrapolating ... ok\ntest the_covered_charge_fraction_is_never_more_than_all_of_it ... ok\ntest the_concentration_correction_is_an_improvement_at_every_standard ... ok\ntest the_grotthuss_ions_stand_apart_from_every_ordinary_ion ... ok\ntest the_dilute_limit_is_the_last_primary_standard ... ok\ntest the_lambda_table_agrees_with_independent_compilations ... ok\ntest the_meter_tracks_the_oiml_potassium_chloride_standards ... ok\n\nfailures:\n\n---- a_quarter_wrong_would_fall_outside_the_measured_bound stdout ----\n\nthread 'a_quarter_wrong_would_fall_outside_the_measured_bound' (14853) panicked at crates/kerotakis-core/tests/conductivity_sources.rs:981:17:\na \u03bb\u00b0(Pb+2) moved to 133.125 \u2014 0.75\u00d7 the shipped value \u2014 would still sit inside this source's own 5.60 % error, so a quarter-wrong value here is invisible to \u00a72b and this ion's mutant survives for a second reason.\n  source: A. P. Kreshkov, Osnovy analiticheskoi khimii (Fundamentals of Analytical Chemistry), Moscow: Khimiya, 1970, p. 74, limiting equivalent conductivities of ions in water at 25 \u00b0C \u2014 as reproduced in the Khimicheskii spravochnik entry at chemical_reference.academic.ru and read there 2026-09-18. READ AT ONE REMOVE: no copy of the book was opened, and the value is the book's, not the website's\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n\n---- a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted stdout ----\n\nthread 'a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted' (14852) panicked at crates/kerotakis-core/tests/conductivity_sources.rs:927:13:\n\u03bb\u00b0(Pb+2) ships as 177.5 S\u00b7cm\u00b2\u00b7mol\u207b\u00b9 against Kreshkov's 140 (+26.79 %), OUTSIDE the 5.60 % that source's own worst error on an independently corroborated ion. That is a NEW contradiction, and it wants reporting to a human \u2014 with both numbers and both sources \u2014 rather than a change to the shipped value. docs/MUTATION-SENSITIVITY.md \u00a78d is where the two known ones are written down.\n  source: A. P. Kreshkov, Osnovy analiticheskoi khimii (Fundamentals of Analytical Chemistry), Moscow: Khimiya, 1970, p. 74, limiting equivalent conductivities of ions in water at 25 \u00b0C \u2014 as reproduced in the Khimicheskii spravochnik entry at chemical_reference.academic.ru and read there 2026-09-18. READ AT ONE REMOVE: no copy of the book was opened, and the value is the book's, not the website's\n\n\nfailures:\n    a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted\n    a_quarter_wrong_would_fall_outside_the_measured_bound\n\ntest result: FAILED. 10 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\u001b[1m\u001b[91merror\u001b[0m: test failed, to rerun pass `-p kerotakis-core --test conductivity_sources`\n"
+   }
+  ],
+  "build_seconds": 55.2,
+  "verdict": "caught",
+  "caught_by": "core-integration",
+  "strength": "integration"
+ }
+}
