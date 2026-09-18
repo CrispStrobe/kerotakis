@@ -964,9 +964,20 @@ fn a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted() {
 /// [`UNCORROBORATED`], a value a quarter high AND a quarter low both fall
 /// outside the measured bound of at least one source that carries it, which
 /// is what [`a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted`]
-/// would then report. **It is the survivor count predicted without running
-/// the harness and without a falsified constant ever touching the disk** —
-/// the hazard §8b's two SIGKILLs left in a worktree.
+/// would then report. **It is the survivor count without running the harness
+/// and without a falsified constant ever touching the disk** — the hazard
+/// §8b's two SIGKILLs left in a worktree.
+///
+/// THEN THE HARNESS WAS RUN AND AGREED: same six ids, on a runner,
+/// `tools/mutation/results/2026-09-18-conductivity-rerun.json` — **6 caught,
+/// 0 survived**, five of them by this test and all six by the one above.
+/// §8b's twenty-three conductivity survivors are closed.
+///
+/// THAT IS NOT THE SAME AS THE VALUES BEING RIGHT, and the distinction is
+/// the reason this file is long. A hundred per cent here means the tree would
+/// notice a quarter. Five of the six are still uncorroborated, two of them are
+/// contradicted outright by one of the sources that reach them, and two more
+/// disagree with both.
 #[test]
 fn a_quarter_wrong_would_fall_outside_the_measured_bound() {
     for species in UNCORROBORATED {

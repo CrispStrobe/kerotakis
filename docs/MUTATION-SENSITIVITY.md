@@ -651,8 +651,9 @@ finishes.
 §8c ended on six survivors that survive because **this repository has one
 compilation for those numbers and no way to check it**. The owner's ruling was
 to buy a second source for them. This section is what a day of looking bought:
-**one ion corroborated, two disagreements to put in front of a human, and one
-pair of ions where the two second sources contradict each other.**
+**one ion corroborated, two disagreements to put in front of a human, one pair
+of ions where the two second sources contradict each other — and the last six
+conductivity survivors closed, 6 of 6 caught on a re-run.**
 
 ### The result, per ion, because they differ
 
@@ -732,7 +733,7 @@ silver and barium, and puts **carbonate at 148.0 against 138.6 — 6.8 %**. So
 two of the twenty-two "corroborated" ions are corroborated by one source and
 contradicted by another, which was not true when §8c was written.
 
-### What the survivor count does, and the honest caveat about it
+### The survivor count: 6 of 6 caught, 0 survived
 
 The bounds are far too loose to corroborate and nowhere near too loose to
 notice a quarter. `a_quarter_wrong_would_fall_outside_the_measured_bound`
@@ -740,13 +741,36 @@ asserts exactly that, for **every** ion still in `UNCORROBORATED`, in both
 directions — so the claim is checked **without a falsified constant ever
 touching the disk**, the hazard §8b's two SIGKILLs left in the worktree.
 
-**Predicted: 6 survivors → 0.** Fe³⁺ is now killed by the corroboration test
-outright; the other five are killed by the coarse bound. It is written as a
-prediction and not a result, because this operator did not re-run the harness:
-§8c moved that run to a GitHub runner behind `workflow_dispatch`, and the box
-was under load 33 with 1 GB free. **The number that belongs in this table is
-the one the re-run prints**, and it should be confirmed by dispatching
-`mutation-tables.yml` at the same six ids.
+It was written here as a prediction and then run. Same six ids, same
+catalogue, on a runner — `tools/mutation/results/2026-09-18-conductivity-rerun.json`:
+
+| | mutants | |
+|---|---:|---|
+| caught by `a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted` | 6 | all of them |
+| *also* caught by `a_quarter_wrong_would_fall_outside_the_measured_bound` | 5 | every one but Al³⁺ |
+| *also* caught by `the_lambda_table_agrees_with_independent_compilations` | 1 | Fe³⁺, the ion that left the list |
+| **survived** | **0** | |
+
+**§8b's 23 conductivity survivors are now 0.** The path was 23 → 6 (#625,
+by sourcing 22 values) → 0 (here, by sourcing the last six). Not one of the
+forty-odd assertions that closed them says that a number is the number it is;
+every one compares the table against something measured outside this
+repository.
+
+**AND THE REASON THIS NUMBER IS BELIEVED, given §8c's own false 23-of-23.**
+That failure looked like a rung taking 0.1 s when it takes 34. These rungs
+take 0.2 s, which is the same shape — so the verdicts were read rather than
+counted. Each carries `exit_code: 101`, a real `failing:` list naming real
+tests, and an `output_tail` showing the neighbouring `buoyancy.rs` binary
+running its five tests green and `conductivity_sources.rs` running its twelve
+before one failed. The builds took 55 s each. It is a fast rung because these
+tests are arithmetic over two `const` tables, not a rung that never ran.
+
+**What it does NOT say** is that the six values are right. Five of them are
+still in `UNCORROBORATED`, two of them are contradicted by one of the two
+sources that reach them, and two more disagree with both. A mutation score of
+100 % on this file now means the tree would notice a quarter — nothing more,
+and §8d exists so that the difference stays legible.
 
 ### What was read, and what refused
 
@@ -817,9 +841,11 @@ behind the same publisher wall that stopped §8c.
    a mutant asserts only that a number is the number it is — but to trace the
    values to their sources and cover the class with a cited external
    measurement, which is what `CONTRIBUTING.md` §4 says a test is for. **That
-   was done the same day and §8c is the account of it: 17 of the 23 are now
-   caught, and the six that are not are the six ions this repository has one
-   source for and no way to check.**
+   was done the same day and §8c is the account of it: 17 of the 23 were then
+   caught, and the six that were not were the six ions this repository had one
+   source for and no way to check. §8d closed those six on 2026-09-18 — 23 of
+   23 — though five of them are still `UNCORROBORATED`, which is the
+   distinction §8d exists to keep legible.**
 2. **The surfaces the new oracles were written for** — adsorption,
    electrochemistry, polarization. §5(c) found that `perturbation.rs` and
    `metamorphic.rs` killed nothing here that was not already dead. That is a
