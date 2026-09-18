@@ -743,13 +743,19 @@ pub struct Provenance {
 }
 
 impl Provenance {
-    /// A provenance whose routing is a recipe.
+    /// A provenance whose sentences are recipes.
     ///
-    /// The `routing` field is filled by rendering the recipe in the
-    /// SOURCE language, which is the property that makes this change
-    /// invisible to every consumer that reads the string: the English is
-    /// generated from the same template it used to be written as, so
-    /// there is one sentence and not two.
+    /// Each of `routing`, `dataset` and `model` is filled by rendering its
+    /// recipe in the SOURCE language, which is the property that makes
+    /// this change invisible to every consumer that reads the string: the
+    /// English is generated from the same template it used to be written
+    /// as, so there is one sentence and not two.
+    ///
+    /// `dataset` and `model` take a [`Claim`], because unlike the routing
+    /// they are sometimes a NAME and nothing else — `NASA CEA thermo.inp`
+    /// — and a name is not a sentence to be translated. A `&str` call site
+    /// says "this is a name" by passing one; a composer that has built a
+    /// recipe passes the [`Phrase`].
     #[must_use]
     pub fn new(
         engine: impl Into<String>,
