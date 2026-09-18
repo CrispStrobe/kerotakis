@@ -2036,12 +2036,24 @@ display name in the registry, is the wrong fix.
   keeps its English for the machines. Not done here — it is a solver-side
   change with machine consumers, and this was a CLI pass.
 
-- [ ] **Wire the vessel's own provenance to the drawer.** The aqueous
-  routing — which dataset answered this beaker and why — is the one a
-  learner would most want and the one the drawer cannot see. It needs a
-  decision about shape (an event at characterisation time, or the drawer
-  reading the inspected vessel), so it is left as a GUI task rather than
-  guessed at here.
+- [ ] **Wire the vessel's own provenance to the drawer. IN FLIGHT.** The
+  aqueous routing — which dataset answered this beaker and why — is the one
+  a learner would most want and the one the drawer cannot see.
+
+  **The owner has settled the shape: an event at characterisation time.**
+  It appears when the vessel is characterised and is replayable from the
+  log like every other event, which is how everything else reaches the
+  web — the engine emits, the host renders, and the sealed-unknown mask
+  applies to it like any other line. The alternative, the drawer reading
+  the inspected vessel, would have needed a second path that no replayed
+  transcript could reproduce.
+
+  The crux is the emission rule, not the wire format. The aqueous solver
+  characterises far more often than a reader would want an event: three
+  lines of `aq-023` reach `finalize_solution_info` FIVE times. An event
+  per solve would bury the log. So the event fires on CHANGE — when the
+  dataset, the model or the routing differs from what this vessel was last
+  answered by — which is the moment the sentence is news.
 
 - [x] **The `", "`-joined lists are `Slot::List` now.** Done in #642.
   **The count, settled from the source: eight sites**, and the two
