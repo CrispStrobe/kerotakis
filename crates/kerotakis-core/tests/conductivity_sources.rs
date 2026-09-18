@@ -63,8 +63,8 @@
 //! The rest of the search is recorded here rather than in a commit message
 //! because **its negative half is the more useful half**.
 //!
-//! Ten compilations were read. What most of them have in common is the reason
-//! these ions are hard:
+//! Nine sources were read and four could not be reached. What most of the nine
+//! have in common is the reason these ions are hard:
 //!
 //! * **Glasstone's *Introduction to Electrochemistry* (1942) table XIII**, p.
 //!   56, "Ion conductances at infinite dilution at 25° " — read in full, and
