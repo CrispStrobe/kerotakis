@@ -3803,17 +3803,19 @@ state a sibling `{@const}` reads.
       `heat`: two lines go, `event_count` 26 → 24. Both are the
       transcript's own sentence about a different solid — *cellulose … in
       contact with liquid* and *citric acid … in contact with liquid* —
-      printed two steps after the water was driven off. One curiosity row
-      moved — `bio-001`, *why does
-      bread dough rise when yeast is added?* — from
-      `qualitative`/`typed-observation` to
+      printed two steps after the water was driven off. Three curiosity
+      rows moved, all of them the same beaker of dough — `bio-001`,
+      `bio-002`, `bio-003` — from `qualitative`/`typed-observation` to
       `computed`/`typed-engine-event`, because the honesty route now
       returns no events for that vessel and the fermentation underneath it
       answers instead. A kneaded dough is precisely the vessel
       `SolventState::Absent` names in its own doc comment: it holds its
       water in the flour matrix and pours none into the beaker. The
       apology was being filed about a liquid that was not there, and the
-      classifier was typing the row on that remark.
+      classifier was typing the row on that remark. Only `bio-001` is in
+      the smoke set; the other two were found by the full 500-prompt
+      `coverage curiosity --check`, which is why that gate runs beside the
+      smoke test rather than instead of it.
 
       **What it does NOT close: `appearance.rs:104` carries the same
       expression**, character for character, and drives the drawn scene

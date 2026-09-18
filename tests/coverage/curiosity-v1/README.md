@@ -2434,12 +2434,18 @@ baseline. These six have joined it.
 
 ## Refresh 2026-09-18, seventeenth time — a dough is not a puddle
 
-One row moves, and it moves because a sentence that was not true stopped
-being said.
+Three rows move, and they move because a sentence that was not true
+stopped being said. All three are the same beaker of dough:
 
     bio-001  Why does bread dough rise when yeast is added?
+    bio-002  Does warm dough rise faster than cold dough?
+    bio-003  Can water that is too hot stop yeast from raising dough?
 
     qualitative / typed-observation  →  computed / typed-engine-event
+
+Only `bio-001` is in the smoke set; the other two were found by the full
+500-prompt `coverage curiosity --check`, which is the reason that gate runs
+beside the smoke test rather than instead of it.
 
 The honesty pass decided whether a solid was "in contact with a liquid" by
 asking `any(|p| matches!(p.phase, Phase::Liquid | Phase::Aqueous))`, which
@@ -2458,7 +2464,8 @@ vessel and the row is answered by the engine event that was always
 answering it. Same direction as the sixteenth refresh above: more evidence,
 not less, and no route changed its mind about the chemistry.
 
-The rest of the smoke set is unmoved, and its four dispositions are still
-all exercised (`computed` 11, `curated` 2, `qualitative` 1, `boundary` 2).
+The rest of the corpus is unmoved, and the smoke set's four dispositions
+are still all exercised (`computed` 11, `curated` 2, `qualitative` 1,
+`boundary` 2).
 
-One drift, no regressions.
+Three drifts, no regressions.
