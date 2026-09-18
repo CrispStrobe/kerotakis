@@ -1411,17 +1411,36 @@ const ORDER_DEPARTURES: &[(&str, &str)] = &[
     //     water + detergent + NaCl         -> 0.0996903242
     //     water + NaCl      + detergent    -> 0.0997000000  (exact)
     //
-    // So `solvent_kg` is the input water when the last step is the material
-    // add, and PHREEQC's equilibrated `mass_H2O` when the last step is a
-    // salt add. One final state, two numbers, chosen by operation order.
-    // `aqueous.rs` already records this shape for surface complexation —
-    // "mass_H2O is not representation-invariant here" — and this is the
-    // same fault seen from the ordinary bench.
+    // **CORRECTED 2026-09-18.** The reading above — "the input water when
+    // the material add is last, the solver's `mass_H2O` when a salt add is
+    // last" — was WRONG, and wrong in the way that matters: it named two
+    // sources where there is one. Instrumenting all three sites that set
+    // `solvent_kg` and running both orders says so plainly:
     //
-    // The fix is a DECISION, not a substitution: whichever of the two
-    // `solvent_kg` should be, the molalities have to be consistent with it,
-    // because the solver reports them per kg of its own mass_H2O. Swapping
-    // in the inventory figure would leave `n = m x kg` false by the same
+    //     material last:  solvent_only 0.0997 -> finalize 0.0997
+    //                     -> finalize 0.0997 -> finalize 0.0997010580
+    //     salt last:      solvent_only 0.0997 -> finalize 0.0997
+    //                     -> finalize 0.0996909357 -> finalize 0.0996909590
+    //
+    // **Both final values come from `finalize_solution_info`.** There is no
+    // input-water path in either run; `characterize_solvent_only` fires only
+    // on the opening water and is overwritten. So the difference is not
+    // between two code paths at all.
+    //
+    // What it is: the SAME CaCl2 addition yields 0.0997010580 when the
+    // detergent is already dissolved and 0.0996909357 when it is not.
+    // PHREEQC's `mass_H2O` is not representation-invariant — `aqueous.rs`
+    // says exactly that of surface complexation, "a first solve fed by an
+    // amount-limited ZnSO4 phase includes this water, while the identical
+    // state rebuilt from aqueous totals does not" — and the two orders hand
+    // the solver the same final state in two different representations.
+    //
+    // The fix is therefore NOT choosing between two numbers, which is what
+    // the earlier reading implied and what an owner decision was taken on.
+    // It is either posing the final state canonically before the last solve,
+    // or accepting a solver-level non-invariance and saying so on the wire.
+    // Molalities are per kg of the solver's own `mass_H2O`, so substituting
+    // the inventory figure would leave `n = m x kg` false by the same
     // 1e-4 it repaired.
     (
         "aq-023",
