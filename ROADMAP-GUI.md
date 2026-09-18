@@ -2061,7 +2061,47 @@ display name in the registry, is the wrong fix.
 
   So the rule is: **fire when the engine, the dataset, the model, or the
   SHAPE of the routing recipe differs from what this vessel was last
-  announced as.** COUNTS_GO_HERE
+  announced as.**
+
+  **What it costs, measured** — by building the same binary with the rule
+  flipped to fire on every characterisation and running both:
+
+  | script | naive (one per characterisation) | on change |
+  |---|---|---|
+  | `aq-023` (3 commands, 1 beaker) | 2 | **1** |
+  | `cabbage-rainbow.lab` (59 lines, 5 beakers) | 10 | **6** |
+  | `rusting.lab` (55 lines) | 6 | **2** |
+  | `buffer.lab` | 4 | **2** |
+  | `electrolysis.lab` | 2 | **1** |
+  | `yeast-fermentation.lab` (59 lines) | 1 | **1** |
+  | **every lesson in `lessons/`** | **452** | **190** |
+
+  Two numbers here are worth reading carefully, because they correct the
+  note above. **Five CALLS into `finalize_solution_info` is not five events
+  even under the naive rule**: the fixed point keeps only the surviving
+  pass's events, so three of aq-023's five calls are discarded trials and
+  the naive rule puts two on the wire. And `yeast-fermentation` shows the
+  floor: a lesson with one beaker on one dataset states its routing once
+  and says nothing more, under either rule.
+
+  The six in `cabbage-rainbow` are the case that makes the rule worth
+  having — **five beakers and six statements, every one of them news**:
+
+      v1  minteq.v4.dat   the problem needs chemistry the default dataset lacks
+      v2  wateq4f.dat     the default inorganic aqueous dataset
+      v3  wateq4f.dat     …and a SECOND dataset was asked for the solvent's activity
+      v4  pitzer.dat      concentrated (~1.1 mol/kgw), where ion-interaction is valid
+      v5  pitzer.dat      concentrated (~1.0 mol/kgw)
+      v5  wateq4f.dat     …and back, once it was no longer concentrated
+
+  The four the naive rule adds are four repetitions of a sentence that was
+  already on the screen.
+
+  Over the whole corpus the naive rule puts **452** routing lines on the
+  wire — one per characterisation, which is why it tracks
+  `solution_characterized`'s 445 so closely — and the change rule puts
+  **190**. Fifty-eight per cent of them said nothing that was not already
+  true, and the ones that remain are about three per lesson.
 
   Three things are worth writing down, because each of them is a place a
   simpler rule is wrong.
