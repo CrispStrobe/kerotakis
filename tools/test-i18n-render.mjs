@@ -197,18 +197,41 @@ try {
   // green run of this very file. Not finding the list is a failure.
   check("the catalogue renders its list", grouped === true);
   if (grouped) {
-    const entries = await page.evaluate(`document.querySelectorAll('dialog.panel article').length`);
-    check("the catalogue lists its experiments", entries > 50, `${entries} entries`);
+    // The list is a WINDOW: only the rows near the viewport are in the
+    // DOM, so counting `article` elements stopped being a question about
+    // the library and became one about the viewport. What the list CLAIMS
+    // about its size is `aria-setsize` — the same number a screen reader
+    // is told — and that is what this check was always asking.
+    const claimed = await page.evaluate(
+      `Number(document.querySelector('dialog.panel .cards article')?.getAttribute('aria-setsize') ?? 0)`);
+    const drawn = await page.evaluate(`document.querySelectorAll('dialog.panel .cards article').length`);
+    check("the catalogue lists its experiments", claimed > 50, `${claimed} entries, ${drawn} drawn`);
+    check("the catalogue draws a window of them, not all of them",
+          drawn > 0 && drawn < claimed, `${drawn} of ${claimed} in the DOM`);
 
     // A card that actually carries a script: the register prose and the
-    // prediction below only exist for those, and which card sorts first
-    // depends on the reader's language.
+    // prediction below only exist for those.
+    //
+    // It has to be REACHED now rather than picked out of the DOM, because
+    // a card seven hundred rows down is not in the DOM until something
+    // brings it there — which is the whole point of the box above the
+    // list. Typing the canonical English id works in every locale, so
+    // this also proves the German build's search still reaches it. No
+    // fallback to "whatever card happens to be drawn": that is how this
+    // file's own comment says the catalogue once stayed English through a
+    // green run.
     await page.evaluate(`(() => {
-      const panel = document.querySelector('dialog.panel');
-      const card = panel?.querySelector('article[data-id="strong-base"]')
-        || panel?.querySelector('article[data-run="script"]');
-      card?.querySelector('button.details')?.click();
+      const box = document.querySelector('dialog.panel input.filter');
+      if (!box) return;
+      Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")
+        .set.call(box, "strong base");
+      box.dispatchEvent(new Event("input", { bubbles: true }));
     })()`);
+    const reached = await waitFor(page,
+      `!!document.querySelector('dialog.panel article[data-id="strong-base"]')`, { timeout: 20000 });
+    check("the search reaches a card the window had not drawn", reached === true);
+    await page.evaluate(
+      `document.querySelector('dialog.panel article[data-id="strong-base"] button.details')?.click()`);
     await waitFor(page, `document.querySelector('.prose')`, { timeout: 20000 });
 
     const title = await page.evaluate(`document.querySelector('h2')?.textContent?.trim() ?? ""`);
