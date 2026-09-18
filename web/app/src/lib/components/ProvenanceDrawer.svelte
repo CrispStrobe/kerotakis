@@ -181,6 +181,14 @@
                 <li>
                   {#if source.engine}<strong>{source.engine}</strong>{/if}
                   {#if source.dataset}<code>{source.dataset}</code>{/if}
+                  {#if source.carried}
+                    <!-- The aqueous routing event fires when the routing
+                         CHANGES, so most steps restate nothing. Saying so is
+                         the difference between "this is where this step's
+                         numbers came from" and "this is where this beaker's
+                         numbers come from, still". -->
+                    <span class="carried">{t("stated on an earlier step, still standing")}</span>
+                  {/if}
                   {#if source.model}<p class="model">{engineText(source.model)}</p>{/if}
                   {#if source.routing}<p class="routing">{engineText(source.routing)}</p>{/if}
                   {#if source.datasetSources.length > 0}
@@ -301,6 +309,7 @@
   .gaps li { border-left: 3px solid var(--warning); }
   .gaps small, .chain small { color: var(--dim); font-size: .62rem; }
   .sources strong { font-size: .76rem; }
+  .carried { align-self: start; color: var(--dim); font-size: .6rem; font-weight: 750; text-transform: uppercase; letter-spacing: .04em; }
   details summary { min-height: 30px; display: flex; align-items: center; color: var(--dim); font-size: .62rem; font-weight: 750; cursor: pointer; }
   .citations li { min-height: 0; display: block; margin: 0; padding: .1rem 0 .1rem .6rem; border: 0; border-left: 2px solid var(--edge); border-radius: 0; background: none; color: var(--dim); font-size: .66rem; line-height: 1.35; }
   /* Full-bleed on a phone. The scrim already carries no padding, so there

@@ -1387,6 +1387,45 @@ pub enum Event {
         ph: f64,
         ionic_strength: f64,
     },
+    /// Which dataset now answers this beaker, and why.
+    ///
+    /// The provenance a learner would most want was the one the web could
+    /// not see. `ProvenanceDrawer.svelte` reads `event.provenance`, and
+    /// until this variant the only event carrying a [`vessel::Provenance`]
+    /// was [`Event::ThermalEquilibrium`] — the combustion one. The aqueous
+    /// routing lived on `vessel.solution.provenance` and reached `kero
+    /// explain` and the `inspect` machine contract and nothing a reader
+    /// reads in the browser.
+    ///
+    /// **It fires on CHANGE, not on every solve, and that is the whole
+    /// design.** `finalize_solution_info` runs far more often than a
+    /// reader wants a line: three commands of `aq-023` reach it five
+    /// times. An event per characterisation would bury the log and tell
+    /// nobody anything — the interesting fact is not *the solver ran*, it
+    /// is *the answer to this beaker now comes from somewhere else*. So
+    /// the solver compares the provenance it just built against the one
+    /// the vessel was last answered by and speaks only when the engine,
+    /// the dataset, the model or the routing sentence differs. A beaker's
+    /// first characterisation always differs from nothing, so the routing
+    /// is stated once and then stays quiet while it holds.
+    ///
+    /// Note what this is NOT: it is not a second copy of
+    /// `SolutionCharacterized`. That event fires when the NUMBERS move —
+    /// pH, ionic strength — which happens constantly and says nothing
+    /// about where the numbers came from. This one fires when the SOURCE
+    /// moves, which is rare and is the sentence the drawer prints.
+    SolutionRouted {
+        vessel: VesselId,
+        /// The engine, dataset, model and routing sentence behind every
+        /// aqueous number this vessel now reports — the same record
+        /// `vessel.solution.provenance` carries, put on the wire so the
+        /// drawer can reach it.
+        ///
+        /// Shaped exactly like `ThermalEquilibrium`'s field, so the web's
+        /// `sourceOf` in `provenance.ts` and `localize_event`'s
+        /// translation pass both already know how to read it.
+        provenance: crate::vessel::Provenance,
+    },
     Measured {
         vessel: VesselId,
         instrument: Instrument,

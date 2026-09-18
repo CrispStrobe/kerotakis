@@ -48,7 +48,13 @@ import {
   type OutcomeMissionContract,
 } from "./outcomeMission";
 import { summarizeResult, type ResultSummary } from "./resultSummary";
-import { buildProvenance, type ProvenanceReport, type ProvenanceStep } from "./provenance";
+import {
+  buildProvenance,
+  carryRouting,
+  type CarriedRouting,
+  type ProvenanceReport,
+  type ProvenanceStep,
+} from "./provenance";
 import { incidentNotebookEvidence } from "./incidents";
 
 export type FeedEntry = {
@@ -598,6 +604,22 @@ export class Session {
    */
   latestStep = $state<ProvenanceStep | null>(null);
   /**
+   * The last routing each vessel was told about.
+   *
+   * `solution_routed` fires on CHANGE (PROTOCOL.md), so most steps carry
+   * no routing at all -- which means the routing STANDS, not that it is
+   * missing. Without this the drawer would show a dataset on the one step
+   * that changed it and nothing on the nine after, and a reader would
+   * read the engine's quietness as an absence of provenance.
+   *
+   * Cleared at EXACTLY the two places `latestStep` is cleared, and for
+   * exactly the same reason: a routing read against a bench state that a
+   * different script produced is the corpus route-leak bug on a screen.
+   * The engine rebuilds the vessel from the replayed script and announces
+   * again, so nothing is lost by dropping it.
+   */
+  carriedRouting = $state<CarriedRouting>({});
+  /**
    * Transient visual effects per vessel (GUI-026), derived STRICTLY from
    * typed events — an effect never fires without a computed event behind
    * it. Entries age out; the canvas animates what is younger than its
@@ -620,7 +642,10 @@ export class Session {
    * missing panel.
    */
   get latestProvenance(): ProvenanceReport {
-    return buildProvenance(this.latestStep, { vessel: this.selected });
+    return buildProvenance(this.latestStep, {
+      vessel: this.selected,
+      carried: this.carriedRouting,
+    });
   }
 
   /** Drops the language subscription if the session is reconnected. */
@@ -913,6 +938,7 @@ export class Session {
       this.inspector = null;
       this.latestResult = null;
       this.latestStep = null;
+      this.carriedRouting = {};
       this.lastEquation = null;
       this.lastIonic = null;
       this.lastDiscard = null;
@@ -1116,6 +1142,13 @@ export class Session {
       this.latestResult = summarizeResult(resultEvents, resultLines, beforeScene, result.scene ?? this.scene);
       // GUI-052: the last step, not the concatenation. See `latestStep`.
       this.latestStep = (result.steps[result.steps.length - 1] as ProvenanceStep | undefined) ?? null;
+      // The routing, though, is carried over EVERY step of the result and
+      // not only the last: a `run_script` of ten lines may state the
+      // routing on its second and be quiet thereafter, and that statement
+      // is still the answer to where the tenth line's numbers came from.
+      for (const step of result.steps) {
+        this.carriedRouting = carryRouting(this.carriedRouting, step as ProvenanceStep);
+      }
       // Register lines are session state, not chemistry; everything else
       // that the engine accepted becomes part of the replayable script.
       // A command issued mid-history truncates the undone future first.
@@ -1547,8 +1580,11 @@ export class Session {
       this.latestResult = null;
       // Stepping through history moves to a bench state no single step
       // routed to; a stale routing record read against it would be the
-      // corpus classifier's neighbour bug on a screen.
+      // corpus classifier's neighbour bug on a screen. The carried routing
+      // is dropped with it, for the same reason and not a weaker one: it
+      // is the same claim one step further from its evidence.
       this.latestStep = null;
+      this.carriedRouting = {};
       this.persist();
       this.feed.push({
         kind: "note",

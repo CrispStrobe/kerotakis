@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildProvenance } from "./provenance";
+import { buildProvenance, carryRouting, type CarriedRouting } from "./provenance";
 
 /**
  * GUI-052. Every fixture below is the wire shape the engine actually emits
@@ -8,14 +8,22 @@ import { buildProvenance } from "./provenance";
  * is a test that passes while the drawer is blank.
  */
 
-/** An aqueous step: PHREEQC answered, the honesty pass had nothing to add. */
+/**
+ * An aqueous step: PHREEQC answered, the honesty pass had nothing to add.
+ *
+ * The provenance rides on `solution_routed`, which is the event that
+ * carries `vessel::Provenance` for the aqueous solver. This fixture used
+ * to hang it on `precipitated`, which was the one shape here the engine
+ * never emitted — `Event::Precipitated` has no provenance field and never
+ * had one. The drawer's aqueous source existed only in this file until
+ * `SolutionRouted` shipped, and a fixture that drifts from the engine is
+ * exactly the test that passes while the drawer is blank.
+ */
 const aqueousStep = {
   events: [
     {
-      event: "precipitated",
+      event: "solution_routed",
       vessel: 0,
-      species: "AgCl",
-      moles: 0.01,
       provenance: {
         engine: "PHREEQC (IPhreeqc)",
         dataset: "minteq.v4.dat",
@@ -283,5 +291,129 @@ describe("buildProvenance", () => {
     expect(report.routes[0]?.outcome).toBe("failed");
     expect(report.headline).toBeNull();
     expect(report.empty).toBe(false);
+  });
+
+  /**
+   * The aqueous routing reaches the SAME surface as the combustion one.
+   *
+   * This is the whole point of `Event::SolutionRouted`: the drawer reads
+   * `event.provenance`, and until it existed the only event carrying one
+   * was `thermal_equilibrium`. A learner asking where a beaker's pH came
+   * from could not be told. Both fixtures below go through one code path
+   * and land in `report.sources`, which is what the drawer prints.
+   */
+  it("reads the aqueous routing off solution_routed, as it reads the burn's", () => {
+    const aqueous = buildProvenance(aqueousStep).sources[0];
+    const burn = buildProvenance(burnStep).sources[0];
+    expect(aqueous?.dataset).toBe("minteq.v4.dat");
+    expect(aqueous?.routing).toBe(
+      "an aqueous solution is characterised, so the speciation engine leads",
+    );
+    expect(burn?.dataset).toBe("thermo.inp");
+    // Same fields populated on both, from one reader.
+    expect(Object.keys(aqueous ?? {}).sort()).toEqual(Object.keys(burn ?? {}).sort());
+  });
+
+  /**
+   * The routing arrives translated, because `localize_event` renders it
+   * before the event leaves the engine. The shell prints it verbatim and
+   * must not care which language it is in — a fixture in German proves
+   * there is no English-shaped assumption in the reader.
+   */
+  it("prints the routing in whatever language the engine sent", () => {
+    const report = buildProvenance({
+      events: [
+        {
+          event: "solution_routed",
+          vessel: 0,
+          provenance: {
+            engine: "PHREEQC (IPhreeqc, USGS)",
+            dataset: "pitzer.dat",
+            model: "Pitzer specific-ion-interaction",
+            dataset_sources: [],
+            routing:
+              "die Ionenstärke liegt über dem Bereich, in dem der Standarddatensatz zuverlässig ist",
+          },
+        },
+      ],
+      routes: [],
+    });
+    expect(report.sources[0]?.routing).toBe(
+      "die Ionenstärke liegt über dem Bereich, in dem der Standarddatensatz zuverlässig ist",
+    );
+    expect(report.sources[0]?.dataset).toBe("pitzer.dat");
+  });
+
+  /**
+   * The routing STANDS between statements.
+   *
+   * `solution_routed` fires on change, so a step that solved and said
+   * nothing about its routing has not lost one. A drawer that showed a
+   * dataset on the one step that changed it and nothing on the nine after
+   * would be reading the engine's quietness as an absence of provenance.
+   */
+  describe("carrying the routing between steps", () => {
+    const quietStep = {
+      events: [{ event: "solution_characterized", vessel: 0, ph: 7.1, ionic_strength: 0.12 }],
+      routes: [
+        {
+          solver: "phreeqc-aqueous",
+          kind: "computed",
+          chemistry: true,
+          outcome: { succeeded: { event_count: 1 } },
+          vessel: 0,
+        },
+      ],
+    };
+
+    it("carries the last routing forward, and says that it did", () => {
+      const carried = carryRouting({}, aqueousStep);
+      expect(carried[0]?.dataset).toBe("minteq.v4.dat");
+
+      const report = buildProvenance(quietStep, { vessel: 0, carried });
+      expect(report.sources).toHaveLength(1);
+      expect(report.sources[0]?.dataset).toBe("minteq.v4.dat");
+      expect(report.sources[0]?.carried).toBe(true);
+      // And it is enough to answer "who answered, on what data".
+      expect(report.headline?.dataset).toBe("minteq.v4.dat");
+    });
+
+    it("prefers what THIS step said, and never marks that carried", () => {
+      const stale: CarriedRouting = {
+        0: {
+          engine: "PHREEQC (IPhreeqc)",
+          dataset: "wateq4f.dat",
+          model: "old",
+          routing: "the default inorganic aqueous dataset",
+          datasetSources: [],
+        },
+      };
+      const report = buildProvenance(aqueousStep, { vessel: 0, carried: stale });
+      expect(report.sources.map((source) => source.dataset)).toEqual([
+        "minteq.v4.dat",
+        "wateq4f.dat",
+      ]);
+      expect(report.sources[0]?.carried).toBeUndefined();
+      expect(report.sources[1]?.carried).toBe(true);
+    });
+
+    it("keeps one beaker's routing off the other's drawer", () => {
+      const carried = carryRouting({}, aqueousStep);
+      const other = buildProvenance(quietStep, { vessel: 1, carried });
+      expect(other.sources).toEqual([]);
+    });
+
+    it("returns the map it was given when a step announced nothing", () => {
+      const before = carryRouting({}, aqueousStep);
+      expect(carryRouting(before, quietStep)).toBe(before);
+    });
+
+    it("drops a provenance that does not say which beaker it belongs to", () => {
+      const unowned = {
+        events: [{ event: "solution_routed", provenance: { engine: "e", dataset: "d.dat" } }],
+        routes: [],
+      };
+      expect(carryRouting({}, unowned)).toEqual({});
+    });
   });
 });

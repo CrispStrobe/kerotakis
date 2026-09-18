@@ -4710,6 +4710,47 @@ impl PhreeqcEquilibrator {
                 ],
             ),
         };
+        let provenance = Provenance::new(
+            "PHREEQC (IPhreeqc, USGS)",
+            dataset_name(db_tag),
+            idx.activity_model.describe(),
+            dataset_sources(db_tag),
+            routing,
+        );
+        // Which dataset answers this beaker, said once, when it changes.
+        //
+        // The provenance a learner would most want was the one the web
+        // could not reach: the drawer reads `event.provenance`, and until
+        // `Event::SolutionRouted` the only event carrying one was the
+        // combustion `ThermalEquilibrium`. This is the aqueous half, on
+        // the wire.
+        //
+        // **On CHANGE, and that is the whole of the design.** This
+        // function runs far more often than a reader wants a line — three
+        // commands of `aq-023` reach it five times, because the thermal
+        // fixed point above re-solves a clone of the vessel until the
+        // temperature settles. An event per characterisation would bury
+        // the log and tell nobody anything. The news is never *the solver
+        // ran*; it is *the answer to this beaker now comes from somewhere
+        // else* — the ionic strength went past where the default dataset
+        // is reliable and the Pitzer file took over, or a second dataset
+        // was asked for the solvent's activity, or the redox couples
+        // stood down. Those are the moments, and between them the
+        // sentence stands and says nothing.
+        //
+        // The comparison is against what was last SAID (`Vessel::
+        // aqueous_routing_said`), not against `solution.provenance`. See
+        // the field's doc: a later solver in the stack nests its own
+        // clause into the live provenance, so the live one is not a record
+        // of what a reader was told.
+        let said = provenance.source_key();
+        if vessel.aqueous_routing_said.as_deref() != Some(said.as_str()) {
+            vessel.aqueous_routing_said = Some(said);
+            events.push(Event::SolutionRouted {
+                vessel: vessel.id,
+                provenance: provenance.clone(),
+            });
+        }
         let info = SolutionInfo {
             scope: Default::default(),
             solvent_kg: value("mass_H2O"),
@@ -4718,13 +4759,7 @@ impl PhreeqcEquilibrator {
             ph,
             ionic_strength: mu,
             species: speciation,
-            provenance: Some(Provenance::new(
-                "PHREEQC (IPhreeqc, USGS)",
-                dataset_name(db_tag),
-                idx.activity_model.describe(),
-                dataset_sources(db_tag),
-                routing,
-            )),
+            provenance: Some(provenance),
             solvent_activity,
         };
         let changed = vessel

@@ -581,6 +581,13 @@ hydroxylapatite = "Hydroxylapatit"
 "solution-characterized.lv1-liquid-neutral-like" = "Die Flüssigkeit in {vessel} ist neutral — wie reines Wasser."
 "solution-characterized.lv2" = "{vessel}: pH {ph}"
 "solution-characterized.lv1-mol-kgw" = "{vessel}: pH {ph} · I = {ionic_strength} mol/kgw"
+# Woher die Antworten für dieses Gefäß kommen — gesagt, sobald es gilt, und
+# nicht wieder, solange es gilt. Dateinamen wie wateq4f.dat sind Namen und
+# werden nicht übersetzt; {routing} ist der Satz der Engine, den sie selbst
+# schon auf Deutsch rendert.
+"solution-routed.lv1" = "Die Chemie in {vessel} wird jetzt mit {dataset} berechnet."
+"solution-routed.lv2" = "{vessel}: berechnet mit {dataset} — {routing}"
+"solution-routed.lv3" = "{vessel}: Route → {engine} · {dataset} · {model} — {routing}"
 "measured.lv1" = "Das {device} an {vessel} zeigt {value} {unit} an."
 "measured.lv2" = "{vessel} {device}: {value} {unit}"
 "measured.lv2-bounded" = "{reading} — {boundary}"
