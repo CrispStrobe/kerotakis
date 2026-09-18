@@ -2259,6 +2259,43 @@ fn frozen_liquid(vessel: &Vessel, species: &SpeciesId) -> bool {
     })
 }
 
+/// Is there a liquid here for a solid to be in contact with?
+///
+/// Not `any(Phase::Liquid | Phase::Aqueous)`, which is what the honesty
+/// pass asked until 2026-09-18 and which stays true after the last of the
+/// water has left. An AQUEOUS portion is a solute's filing, not a liquid:
+/// when a vessel is taken to dryness the solvent portion goes and the
+/// solutes keep the phase they were in — [`stranded_solutes`] is the
+/// sentence the bench says about exactly that state, *the last of the
+/// water is gone and X is still shown as dissolved* — so `any(…)` was
+/// reading "there is a liquid here" off matter dissolved in a solvent that
+/// had already left. The transcript printed *"Silbernitrat ist mit einer
+/// Flüssigkeit in Kontakt"* after it had printed *"das letzte Wasser ist
+/// fort"*, about the same vessel, in the same run.
+///
+/// The medium is therefore measured as a LIQUID — portions filed
+/// `Phase::Liquid`, which is water, ethanol, and anything else poured in,
+/// plus the solvent itself where a route has filed it aqueous — and
+/// measured against [`crate::OBSERVABLE_MOLES`] rather than against zero,
+/// so that this pass and [`solvent_state`] read the same beaker. They did
+/// not: `solvent_state` has always used that threshold, so a vessel it
+/// called `Absent` was one this predicate called wet.
+///
+/// It gates all three of the pass's per-solid sentences — the insoluble
+/// verdict and both unmodelled-dissolution apologies — because all three
+/// are claims about a solid meeting a liquid and none of them is true
+/// without one.
+pub fn liquid_medium_present(vessel: &Vessel) -> bool {
+    let solvent = SpeciesId::new(SOLVENT);
+    let liquid: f64 = vessel
+        .contents
+        .iter()
+        .filter(|p| p.phase == Phase::Liquid || (p.phase == Phase::Aqueous && p.species == solvent))
+        .map(|p| p.moles.0)
+        .sum();
+    liquid > crate::OBSERVABLE_MOLES
+}
+
 /// How much of `species` is standing in this vessel in any phase but solid.
 ///
 /// The evidence behind the words *it is still all there*, which until
@@ -2382,10 +2419,7 @@ impl Equilibrator for HonestyEquilibrator {
         {
             return Ok(events);
         }
-        let has_liquid = vessel
-            .contents
-            .iter()
-            .any(|p| matches!(p.phase, Phase::Liquid | Phase::Aqueous));
+        let has_liquid = liquid_medium_present(vessel);
         // Water above the aqueous model's temperature ceiling: the engine
         // stood aside on purpose, and the reason has to be spoken —
         // a silent stand-aside reads as "nothing dissolved here".
@@ -2616,10 +2650,7 @@ impl Equilibrator for HonestyEquilibrator {
             return Ok((delta, events));
         }
 
-        let has_liquid = vessel
-            .contents
-            .iter()
-            .any(|p| matches!(p.phase, Phase::Liquid | Phase::Aqueous));
+        let has_liquid = liquid_medium_present(vessel);
 
         for p in &vessel.contents {
             if p.species == SpeciesId::new(SOLVENT) {
