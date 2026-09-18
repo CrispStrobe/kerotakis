@@ -3280,6 +3280,19 @@ finished and merged.
   both, and a value corrected in the wrong direction is how the silver
   ΔH_fus mistake happened. **The decision: restate the basis, adopt 1408.3,
   or leave it and say why.** (#625)
+- **The KCl fit target: basis restated, value left alone.** `FIT_SOURCE`
+  called 1413 µS/cm "the IUPAC/OIML reference value" for the 0.01 **mol/kg**
+  standard. OIML R 56 prints **1408.3** for its 0.01 D primary standard and
+  1413 appears nowhere in it; USGS WSP 2311 via Jones & Bradshaw gives
+  1408.07 (0.01 D) and 1410.75 (0.01 N). 1413 is the **0.0100 mol/L**
+  figure — a real standard on a *volumetric* basis, credited here to a
+  molality basis and to a body that publishes neither. **Fixed 2026-09-18**
+  (owner's decision): the basis is stated correctly and the body is no
+  longer credited; the VALUE is unchanged, because it is a real standard
+  correctly used as a fit target. **Still open:** whether to re-target the
+  fit on 1408.3, which would move a KCl calibration readout by 0.33% —
+  inside the existing 7% window, which is why nothing caught it.
+
 - **Six conductivity constants remain unwatched, and they are unwatched
   because they are unsourced.** Zn²⁺, Fe²⁺, Fe³⁺, Al³⁺, Mn²⁺, Pb²⁺ — the six
   for which no second compilation could be reached. After the sourcing work

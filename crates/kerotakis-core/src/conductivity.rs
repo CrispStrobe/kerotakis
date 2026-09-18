@@ -151,10 +151,20 @@ pub const FIT_SOURCE: &str = "Concentration correction: a two-parameter \
     of Chemistry and Physics, 'Concentrative Properties of Aqueous Solutions: \
     Conversion Tables' and 'Electrical Conductivity of Aqueous Solutions'. One \
     of the three fit targets does not need the handbook at all and is the \
-    important one: 1413 µS/cm for the 0.01 mol/kg KCl calibration standard is \
-    the IUPAC/OIML reference value, a metrological convention rather than \
-    anyone's compilation, and it is what a conductivity meter is calibrated \
-    against. The other two, roughly 8.5 S/m at 1 mol/L and 15.5 S/m at 2 mol/L \
+    important one: 1413 µS/cm is a KCl calibration-standard conductivity, a \
+    metrological convention rather than anyone's compilation, and it is what \
+    a conductivity meter is calibrated against. THE BASIS MATTERS AND WAS \
+    STATED WRONG HERE UNTIL 2026-09-18: this read '1413 µS/cm for the 0.01 \
+    mol/kg KCl standard ... the IUPAC/OIML reference value'. OIML R 56 \
+    Edition 1981 (E) was read on 2026-09-17 and prints 1408.3 µS/cm for its \
+    0.01 D primary standard; 1413 appears nowhere in it, and USGS WSP 2311 \
+    via Jones & Bradshaw gives 1408.07 (0.01 D) and 1410.75 (0.01 N). 1413 \
+    is the figure carried for the 0.0100 mol/L standard — a VOLUMETRIC basis, \
+    not the molality basis this sentence claimed, and not OIML's number. The \
+    value is unchanged because it is a real standard correctly used as a fit \
+    target; what was wrong was the body credited with it and the basis \
+    named. Whether to re-target the fit on 1408.3 is the owner's call and is \
+    recorded in PLAN.md. The other two, roughly 8.5 S/m at 1 mol/L and 15.5 S/m at 2 mol/L \
     for NaCl, are the handbook's. The FORM is Kohlrausch's √c law with a linear term added \
     because the √c law alone is valid only to about 0.1 mol/L; it is an \
     empirical fit in the spirit of the Casteel–Amis equation, not that \
@@ -633,7 +643,12 @@ mod tests {
         assert_eq!(ion_charge("S--"), -2);
     }
 
-    /// The 0.01 mol/kg KCl calibration standard reads 1413 µS/cm. The
+    /// A KCl calibration standard reads 1413 µS/cm — on the 0.0100 mol/L
+    /// VOLUMETRIC basis, not the 0.01 mol/kg molality basis this comment
+    /// claimed until 2026-09-18. OIML R 56 prints 1408.3 µS/cm for its
+    /// 0.01 D standard and 1413 appears nowhere in it; see `FIT_SOURCE`.
+    /// The number here is unchanged, and the 7% window below covers the
+    /// 0.33% between the two, which is also why nobody noticed. The
     /// model must land close — and must land HIGH, because the
     /// concentration correction is fitted to hold across two decades and
     /// is deliberately gentler than the truth at the dilute end. A result
