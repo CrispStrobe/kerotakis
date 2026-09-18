@@ -964,7 +964,7 @@ impl Equilibrator for CombinedSolver<'_> {
                     kind,
                     chemistry,
                     outcome: SolverRouteOutcome::Succeeded {
-                        event_count: more.len(),
+                        event_count: kerotakis_core::solve::answer_event_count(&more),
                     },
                     vessel: Some(vessel.id),
                     reason: None,
@@ -1050,7 +1050,7 @@ fn run_solvers(
                     kind,
                     chemistry,
                     outcome: SolverRouteOutcome::Succeeded {
-                        event_count: more.len(),
+                        event_count: kerotakis_core::solve::answer_event_count(&more),
                     },
                     vessel: Some(vessel.id),
                     reason: None,

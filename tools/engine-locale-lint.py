@@ -522,8 +522,16 @@ def main() -> int:
         per_key[m.group(1)].add(m.group(2))
     for m in REFUSAL.finditer(bench):
         per_key[m.group(1)].add(unwrap(m.group(2)))
+    # `without_test_modules`, and it is not cosmetic. A `#[cfg(test)]`
+    # fixture that reuses a live key with stand-in prose —
+    # `Phrase::bare("routing.default-inorganic", "x")` — is invisible to a
+    # reader and identical to the real defect from here: one key, two
+    # sentences. It cost two CI cycles on 2026-09-18 before anyone looked
+    # at which line was being flagged. Test prose reaches nobody, so it
+    # has no business in a collision set; the two scans above are already
+    # read this way and this one was simply missed.
     for path in COMPOSERS:
-        for m in PHRASE_CALL.finditer(path.read_text()):
+        for m in PHRASE_CALL.finditer(without_test_modules(path.read_text())):
             per_key[m.group(1)].add(unwrap(m.group(2)))
     shared = {k: v for k, v in per_key.items() if len(v) > 1}
     if shared:

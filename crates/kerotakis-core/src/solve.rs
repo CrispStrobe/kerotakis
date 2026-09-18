@@ -172,6 +172,31 @@ pub enum SolverRouteOutcome {
     Failed,
 }
 
+/// How many of a solver's events are an ANSWER, which is what
+/// [`SolverRouteOutcome::Succeeded`] counts.
+///
+/// **Not every event a solver emits is a result.** `Event::SolutionRouted`
+/// says WHERE the numbers came from — which dataset answers this beaker
+/// and why — and it is narration about the answer rather than the answer.
+/// The distinction is not decorative: `kero coverage curiosity` reads this
+/// count as "the computed route produced something"
+/// (`succeeded(SolverRouteKind::Computed)`), and the aqueous pass
+/// announces its routing on vessels it computes no chemistry for at all. A
+/// beaker of plain water would otherwise be filed as a computed answer
+/// because the lab told the reader which water relation it used.
+///
+/// This is a no-op on everything that shipped before it: the only producer
+/// of `SolutionRouted` is the aqueous solver, which until now emitted one
+/// only on the path where `chemistry_applies` is already true, and
+/// coverage's chemistry branch does not look at the count.
+#[must_use]
+pub fn answer_event_count(events: &[Event]) -> usize {
+    events
+        .iter()
+        .filter(|event| !matches!(event, Event::SolutionRouted { .. }))
+        .count()
+}
+
 /// Machine-readable evidence for the most recent stack equilibrium pass.
 /// This deliberately sits beside the stack rather than in rendered events:
 /// observing routing must not alter a simulation's event stream.
@@ -269,7 +294,7 @@ impl Equilibrator for SolverStack {
                         kind,
                         chemistry,
                         outcome: SolverRouteOutcome::Succeeded {
-                            event_count: more.len(),
+                            event_count: answer_event_count(&more),
                         },
                         vessel: Some(vessel.id),
                         reason: None,
@@ -2921,6 +2946,51 @@ mod route_trace_tests {
         fn equilibrate(&mut self, _vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
             Ok(Vec::new())
         }
+    }
+
+    /// A routing announcement is narration, and the route record says so.
+    ///
+    /// `kero coverage curiosity` reads a Computed route with events as
+    /// "this solver produced an answer". The aqueous pass announces its
+    /// routing on vessels it computes no chemistry for — a beaker of plain
+    /// water — so counting the announcement would file routine water setup
+    /// as a computed result and move rows that have nothing to do with
+    /// provenance.
+    #[test]
+    fn a_routing_announcement_is_not_counted_as_an_answer() {
+        let vessel = crate::vessel::VesselId(0);
+        let provenance = crate::vessel::Provenance::new(
+            "test engine",
+            "test.dat",
+            "test model",
+            Vec::new(),
+            // The REAL sentence for this key, not a placeholder. The
+            // engine locale lint scans this file as a composer and does
+            // not know a `#[cfg(test)]` block from the rest of it, so a
+            // fixture that reuses a live key with stand-in prose reads to
+            // the lint as one key meaning two different things — which is
+            // precisely the defect the lint exists to catch, and it was
+            // right to say so. The test does not care what the sentence
+            // is; the catalogue does.
+            Phrase::bare(
+                "routing.default-inorganic",
+                "the default inorganic aqueous dataset",
+            ),
+        );
+        let announcement = Event::SolutionRouted { vessel, provenance };
+        let characterised = Event::SolutionCharacterized {
+            vessel,
+            ph: 7.0,
+            ionic_strength: 0.0,
+        };
+        assert_eq!(answer_event_count(&[]), 0);
+        assert_eq!(answer_event_count(std::slice::from_ref(&announcement)), 0);
+        assert_eq!(answer_event_count(std::slice::from_ref(&characterised)), 1);
+        assert_eq!(
+            answer_event_count(&[announcement, characterised]),
+            1,
+            "the answer counts and the sentence about it does not"
+        );
     }
 
     #[test]

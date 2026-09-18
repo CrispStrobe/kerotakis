@@ -165,7 +165,7 @@ and it was found the same way: a published quantity that does not mean what its 
 says, invisible to any single run because −0.06 and 12.78 are both perfectly
 plausible numbers, and obvious the moment its cause is perturbed.
 
-### `solution.solvent_kg` carries an order-dependent residue that `contents[water]` does not
+### `solution.solvent_kg` carried an order-dependent residue that `contents[water]` did not — FIXED 2026-09-18
 
 `aq-023` — calcium chloride and powdered detergent in 100 mL of water. Swap
 the reagents:
@@ -177,11 +177,62 @@ the reagents:
 ```
 
 The inventory agrees to one part in 4e8. The solvent mass the solution is
-characterised against disagrees by one part in 1e4 — about 10 mg of water in
+characterised against disagreed by one part in 1e4 — about 10 mg of water in
 100 g. Every molality is divided by that number, so the discrepancy
-propagates into the whole speciation, where the wire's four significant
-figures hide it. Two surfaces of the same quantity, disagreeing; the
+propagated into the whole speciation, where the wire's four significant
+figures hide it. `ionic_strength` carried it too, 0.2759516202 against
+0.2759782269. Two surfaces of the same quantity, disagreeing; the
 generator compares them because it compares everything.
+
+**What it was.** Not two code paths, and not the salt: both numbers came out
+of one line of `finalize_solution_info`. PHREEQC's `mass_H2O` tracks the
+water the INPUT declared, and the input to the last operation is the
+*intermediate* vessel plus one reagent. The two orderings have different
+intermediate vessels — a calcium chloride solution and a carbonate one —
+holding different shares of their hydrogen and oxygen inside species rather
+than inside water, so the last solve was handed one final state in two
+representations and answered each faithfully. The inventory never departed
+because `complete_basis` rebuilds the water portion from conserved H and O,
+and conservation cannot care about order.
+
+**What fixed it.** The owner ruled on 2026-09-18: pose the final state
+canonically before the last solve.
+`PhreeqcEquilibrator::recharacterise_canonically` re-poses the *settled*
+contents and reports that answer, so the characterisation is a function of
+what the vessel holds rather than of what last happened to it. Both orders
+now read:
+
+```text
+                       solution.solvent_kg    solution.ionic_strength
+  CaCl2 first            0.0996939730 kg         0.2759702852
+  detergent first        0.0996939730 kg         0.2759702847
+```
+
+1.0129e-4 apart became 1.0023e-13; 9.6418e-5 became 1.8361e-9. `solvent_kg`
+is exact to every digit the wire prints because the PHREEQC input writes the
+solvent mass to nine decimals, which is coarser than the inventory's own
+4e-9 residue, so both orderings produce the same input text and the same
+cache entry. The element totals are written to twelve significant figures,
+which is finer than that residue, which is where the remaining 1.8e-9 in the
+ionic strength comes from — arithmetic noise in a conserved sum, not a
+difference in representation. It cost one extra solver call per
+equilibration (8 engine calls became 9 on one ordering, 6 became 8 on the
+other), which is what the ruling accepted.
+`crates/kerotakis-phreeqc/tests/order_invariance.rs` holds both.
+
+**And the row still departs, on something else.** `verdict` reports the first
+slot that moves, so closing the big departure uncovered what was sitting
+under it: `base_equivalents`, at **3.76e-5** relative rather than 1e-4 —
+2.7 orders of magnitude smaller, and a different claim. `base_equivalents` is
+`2·O − H` left over once every other portion is booked, and the two orders
+disagree about it by **1.26e-8 mol**, which is to the digit the same
+1.25e-8 mol that `contents[water]` above disagrees by and that this section
+calls agreement to one part in 4e8. One absolute wobble in a conserved sum,
+read through 5.53 mol of water at 2e-9 and through 3.35e-4 mol of base
+equivalents at 3.8e-5. It is floating-point accumulation rather than a
+representation, and closing it wants a stabler sum, not another solve. The
+recorded departure for `aq-023` says so in its own words rather than being
+deleted.
 
 ### Order dependence in an open beaker is chemistry, and the test now proves it
 
@@ -373,10 +424,15 @@ normal result, and it is why there is more than one case.
 
 `Order` has no mutation here. It did not need one: it found two real
 departures on the *unmutated* engine — `th-100`'s 12.84 units of pe (fixed
-2026-09-17) and `aq-023`'s solvent mass — which is stronger evidence that it
-is aimed at live code than any injected bug would be. The `th-100` half has
-now been through the whole cycle: found by the rule, explained, fixed, and
-pinned by a test that also asserts the number it must NOT withhold. `closing_the_vessel_restores_order_independence`
+2026-09-17) and `aq-023`'s solvent mass (fixed 2026-09-18) — which is
+stronger evidence that it is aimed at live code than any injected bug would
+be. **Both have now been through the whole cycle**: found by the rule,
+explained, fixed, and pinned by a test — `th-100`'s by one that also asserts
+the number it must NOT withhold, `aq-023`'s by
+`crates/kerotakis-phreeqc/tests/order_invariance.rs`. `aq-023` stays on the
+recorded list, because the fix uncovered a second departure 2.7 orders of
+magnitude smaller that the first had been masking, which is exactly what a
+rule that reports the first moving slot is expected to do. `closing_the_vessel_restores_order_independence`
 is in the same position: it exists because the generated `Order` rule failed
 on two open-vessel carbonate rows, and it asserts the explanation.
 
@@ -430,7 +486,10 @@ up does depend on the reagent the question is about. Before this branch,
 nothing anywhere asserted that for any of them.
 
 The 14 recorded departures break down as: **2 live defects** (`th-100`'s pe,
-`aq-023`'s solvent mass) plus **1 more found by `Dose`** (`aq-061`'s seal —
+`aq-023`'s solvent mass — **both fixed, 2026-09-17 and 2026-09-18; `th-100`
+is struck from the recorded list and `aq-023` is rewritten, because closing
+its 1e-4 departure uncovered a 3.8e-5 one underneath**) plus **1 more found
+by `Dose`** (`aq-061`'s seal —
 **withdrawn 2026-09-17, it was a burst and the engine was right**); **4 solver or wire floors**
 (two phase boundaries, one last-printed-place, one convergence residue);
 **5 corpus rows whose scripts cannot reach their own questions** (`aq-018`

@@ -451,3 +451,100 @@ fn hard_water_lesson_replays() {
         "mixed solution should be characterized"
     );
 }
+
+/// A MIX says where the mixed beaker's numbers come from.
+///
+/// **Ruled by the owner on 2026-09-18, after #653 scoped it out.** The MIX
+/// path writes a `Provenance` of its own into `vessel.solution` — a
+/// different dataset is reachable here than either source used, and the
+/// routing sentence, *MIX: two solved solutions combined by fraction*, is
+/// composed nowhere else. No `Event::SolutionRouted` carried it, and the
+/// drawer reads `event.provenance`, so a beaker filled by pouring two
+/// others held provenance nobody could see.
+///
+/// The engine-call assertion is not incidental: `Bench` treats a failed
+/// MIX as advisory and silently re-solves the target through the direct
+/// path, which announces a routing of its own. Without it this test would
+/// pass on the wrong sentence.
+#[test]
+fn a_mix_announces_the_routing_of_the_beaker_it_makes() {
+    let mut eq = PhreeqcEquilibrator::new().expect("engine");
+    let mut bench = Bench::new();
+    bench.step(Operator::NewVessel { kind: None }).unwrap(); // v2
+    bench.step(Operator::NewVessel { kind: None }).unwrap(); // v3
+
+    for (vessel, key, moles) in [
+        (VesselId(0), "water", 5.55),
+        (VesselId(0), "FeCl3", 0.01),
+        (VesselId(1), "water", 5.55),
+        (VesselId(1), "NaOH", 0.04),
+    ] {
+        bench
+            .step_with(
+                Operator::Add {
+                    vessel,
+                    species: SpeciesId::new(key),
+                    moles: Moles(moles),
+                    at: None,
+                },
+                &mut eq,
+                &PermissiveScreen,
+            )
+            .expect("add");
+    }
+
+    let before = eq.engine_calls();
+    let events = bench
+        .step_with(
+            Operator::Mix {
+                a: VesselId(0),
+                b: VesselId(1),
+                into: VesselId(2),
+                fraction_a: 1.0,
+                fraction_b: 1.0,
+            },
+            &mut eq,
+            &PermissiveScreen,
+        )
+        .expect("mix");
+    assert_eq!(
+        eq.engine_calls() - before,
+        1,
+        "the native MIX solve must be the one that answered, or this test \
+         is reading the direct path's routing: {events:#?}"
+    );
+
+    let routed: Vec<_> = events
+        .iter()
+        .filter_map(|event| match event {
+            Event::SolutionRouted { vessel, provenance } if *vessel == VesselId(2) => {
+                Some(provenance)
+            }
+            _ => None,
+        })
+        .collect();
+    assert_eq!(
+        routed.len(),
+        1,
+        "the mixed beaker says where its answers come from, once: {events:#?}"
+    );
+    assert!(
+        routed[0].routing.contains("MIX: two solved solutions"),
+        "and it is the MIX's own reason, not a source vessel's: {}",
+        routed[0].routing
+    );
+    assert!(routed[0].engine.contains("PHREEQC"), "{}", routed[0].engine);
+    // It is announced AFTER the events that say what the pour did: the
+    // reader is told what happened, then where the numbers came from.
+    let routed_at = events
+        .iter()
+        .position(|e| matches!(e, Event::SolutionRouted { .. }))
+        .expect("announced");
+    let mixed_at = events.iter().position(|e| matches!(e, Event::Mixed { .. }));
+    if let Some(mixed_at) = mixed_at {
+        assert!(
+            mixed_at < routed_at,
+            "the combining is narrated before its provenance: {events:#?}"
+        );
+    }
+}

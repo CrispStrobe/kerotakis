@@ -1457,8 +1457,16 @@ pub struct Vessel {
     /// exactly that, with a computed activity in the sentence that moves
     /// every step. Comparing against it would report a routing change on
     /// every step of every metal lesson, which is the noise this event
-    /// exists to avoid. This field is what has been SAID, and only
-    /// `finalize_solution_info` writes it.
+    /// exists to avoid. This field is what has been SAID.
+    ///
+    /// **Three paths write it, through one function.** The direct solve
+    /// (`finalize_solution_info`) was the first; the owner's 2026-09-18
+    /// ruling added MIX and solvent-only characterisation, which were both
+    /// writing a `Provenance` into the vessel that no event ever carried.
+    /// All three go through `aqueous.rs::announce_routing`, so there is one
+    /// comparison and not three — and because they share this field, a
+    /// beaker that leaves one path for another is told about the move
+    /// rather than told the same thing twice.
     ///
     /// **`#[serde(skip)]` on purpose.** This is narration state, not
     /// chemistry: it records what a reader has been told, not anything

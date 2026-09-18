@@ -132,21 +132,37 @@ fn identical_states_hit_the_cache() {
     };
 
     let first = run(&mut eq);
-    assert_eq!(eq.cache_hits(), 0, "first run is all engine calls");
+    // The first run is ALMOST all engine calls, and the exception is the
+    // point of the number rather than a wrinkle in it. Since 2026-09-18
+    // each equilibration ends by posing the SETTLED contents again
+    // (`recharacterise_canonically`), and a settled state that the last
+    // operation left where an earlier pose already put it re-poses to an
+    // input this same run has solved — so it comes back from the cache and
+    // costs nothing. Exactly one of this script's solves is in that
+    // position, which is the measured cost of the canonical pose here:
+    // one extra pose per equilibration, one of them free.
+    let posed_per_run = eq.engine_calls() + eq.cache_hits();
+    let hits_after_first = eq.cache_hits();
+    assert_eq!(
+        hits_after_first, 1,
+        "the first run should reach the engine for every solve it poses \
+         except the one canonical re-pose that repeats an earlier question"
+    );
     let calls_after_first = eq.engine_calls();
     let second = run(&mut eq);
-    // Every thermal fixed-point trial from the first run must replay from the
-    // cache. Pure solvent has no speciation problem and never reaches the
-    // engine, so it contributes neither calls nor hits.
+    // Every solve the run poses — thermal fixed-point trials and canonical
+    // re-poses alike — must replay from the cache. Pure solvent has no
+    // speciation problem and never reaches the engine, so it contributes
+    // neither calls nor hits.
     assert_eq!(
         eq.engine_calls(),
         calls_after_first,
         "identical replay must make no new engine calls"
     );
     assert_eq!(
-        eq.cache_hits(),
-        calls_after_first,
-        "every first-run engine call must have a cached replay"
+        eq.cache_hits() - hits_after_first,
+        posed_per_run,
+        "every solve the first run posed must have a cached replay"
     );
     assert_eq!(first, second, "cached answers are bit-identical");
 }

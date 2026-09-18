@@ -95,6 +95,46 @@ fn measured_species_moles(species: Option<&[SpeciesDetail]>, name: &str, water_k
         .unwrap_or(0.0)
 }
 
+/// Say which dataset answers this beaker — once, at the moment it becomes
+/// true, and not again while it holds.
+///
+/// **The rule is #653's and this is the only implementation of it.** That
+/// PR built fire-on-change for the direct solve
+/// ([`PhreeqcEquilibrator::finalize_solution_info`]) and tested it; the
+/// owner's 2026-09-18 ruling extends it to the two paths that were writing
+/// a `Provenance` into the vessel and announcing nothing — MIX, and
+/// solvent-only characterisation. A vessel filled either way held
+/// provenance in its state that no reader could ever reach, because the
+/// drawer reads `event.provenance` and no event carried it.
+///
+/// The comparison is [`Provenance::source_key`] — the engine, the dataset,
+/// the model, and the SHAPE of the routing recipe, with every measurement
+/// taken out of it. A number moving inside a reason is not a new reason:
+/// the concentrated-brine route carries the molality in its own sentence
+/// and that moves with every spoonful of salt.
+///
+/// It is compared against [`Vessel::aqueous_routing_said`] — what this
+/// vessel has been TOLD — and not against `solution.provenance`, which is
+/// the current source and which a later solver in the stack nests its own
+/// clause into. That field moves for reasons a reader was never told
+/// about; this one is the record of the telling.
+///
+/// **Why the state lives on the vessel.** The thermal fixed point solves a
+/// CLONE of the vessel up to eight times per step and keeps only the last
+/// one's events. Memory held in the solver would announce on the first
+/// pass and be silent on the pass whose events actually survive.
+fn announce_routing(vessel: &mut Vessel, provenance: &Provenance, events: &mut Vec<Event>) {
+    let said = provenance.source_key();
+    if vessel.aqueous_routing_said.as_deref() == Some(said.as_str()) {
+        return;
+    }
+    vessel.aqueous_routing_said = Some(said);
+    events.push(Event::SolutionRouted {
+        vessel: vessel.id,
+        provenance: provenance.clone(),
+    });
+}
+
 /// What to call the dataset a solve ran on — the file NAME in a slot, and
 /// the clauses around it as the part a catalogue translates.
 ///
@@ -1240,10 +1280,57 @@ fn characterize_solvent_only(vessel: &mut Vessel) -> Result<Vec<Event>, SolveErr
     let activity = 10.0_f64.powf(-ph);
     let solvent_kg = partition(vessel).map(|problem| problem.kgw);
 
+    // The provenance, composed before the record it goes into, because a
+    // reader has to be told about it and the telling is an event.
+    //
+    // This path answers WITHOUT invoking IPhreeqc — it evaluates the
+    // vendored water-dissociation relation directly — so its engine, its
+    // dataset and its model are all different from the ones a solve
+    // reports. That is exactly the kind of thing the routing line exists
+    // to say, and until now it was written into `vessel.solution` and
+    // never announced: the drawer reads `event.provenance`, and no event
+    // carried this one. Ruled in by the owner on 2026-09-18.
+    let provenance = Provenance::new(
+        "Kerotakis analytic equilibrium evaluator",
+        // "vendored USGS" is two English words in front of a file
+        // name, and LV1 used to announce them AS the dataset, because
+        // `dataset_file` could only take the first token. The name is
+        // in the slot now, so the register that wants the file gets
+        // `phreeqc.dat` and the register that wants the sentence gets
+        // it in German.
+        Phrase::new(
+            "provenance.dataset.vendored-usgs",
+            "vendored USGS {file}",
+            vec![(
+                Provenance::DATASET_FILE_SLOT.to_string(),
+                Slot::text("phreeqc.dat"),
+            )],
+        ),
+        Phrase::new(
+            "provenance.model.water-autoionisation",
+            "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+            vec![("engine".to_string(), Slot::text("PHREEQC"))],
+        ),
+        vec!["USGS PHREEQC thermodynamic database".to_string()],
+        Phrase::bare(
+            "routing.solvent-relation-only",
+            "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+        ),
+    );
+    // Fire-on-change, the same rule and the same implementation the direct
+    // solve uses. **Solvent-only characterisation is MOST
+    // characterisations**, and this is what keeps that from becoming a
+    // line on every step: a beaker of water is routed here every time the
+    // stack runs, and the answer is the same every time, so it is said
+    // once — when this vessel first becomes a solvent the lab has
+    // characterised, and again only if it ever leaves this path and comes
+    // back.
+    let mut events = Vec::new();
+    announce_routing(vessel, &provenance, &mut events);
     vessel.free_proton = activity * solvent_kg.unwrap_or(0.0);
     vessel.free_hydroxide = activity * solvent_kg.unwrap_or(0.0);
     vessel.solution = Some(SolutionInfo {
-            solvent_activity: None,
+        solvent_activity: None,
         scope: SolutionScope::SolventOnly,
         solvent_kg,
         pe: None,
@@ -1263,40 +1350,27 @@ fn characterize_solvent_only(vessel: &mut Vessel) -> Result<Vec<Event>, SolveErr
                 activity,
             },
         ],
-        provenance: Some(Provenance::new(
-            "Kerotakis analytic equilibrium evaluator",
-            // "vendored USGS" is two English words in front of a file
-            // name, and LV1 used to announce them AS the dataset, because
-            // `dataset_file` could only take the first token. The name is
-            // in the slot now, so the register that wants the file gets
-            // `phreeqc.dat` and the register that wants the sentence gets
-            // it in German.
-            Phrase::new(
-                "provenance.dataset.vendored-usgs",
-                "vendored USGS {file}",
-                vec![(
-                    Provenance::DATASET_FILE_SLOT.to_string(),
-                    Slot::text("phreeqc.dat"),
-                )],
-            ),
-            Phrase::new(
-                "provenance.model.water-autoionisation",
-                "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
-                vec![("engine".to_string(), Slot::text("PHREEQC"))],
-            ),
-            vec!["USGS PHREEQC thermodynamic database".to_string()],
-            Phrase::bare(
-                "routing.solvent-relation-only",
-                "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
-            ),
-        )),
+        provenance: Some(provenance),
     });
     vessel.refresh_pressure();
     // This is support state, not a reaction result. The ordinary honesty
-    // rung runs after us and retains ownership of any spectator diagnostics;
-    // an empty event list also prevents coverage from filing routine water
-    // setup as a computed answer.
-    Ok(Vec::new())
+    // rung runs after us and retains ownership of any spectator
+    // diagnostics.
+    //
+    // **The list used to be empty, and the reason it could not stay
+    // empty.** A `Provenance` was written into the vessel here and no
+    // event carried it, so a beaker of plain water held a claim about
+    // which relation answered it that no reader could reach. The routing
+    // announcement is the only thing in this list and it fires on CHANGE.
+    //
+    // The old comment said an empty list is what stops coverage filing
+    // routine water setup as a computed answer, and that was true while
+    // the route's `event_count` was the raw length of this vector. It is
+    // `solve::answer_event_count` now — a routing announcement says WHERE
+    // an answer came from and is not one — so the property survives the
+    // line: `chemistry_applies` stays false for a solvent-only vessel, and
+    // the count this contributes stays zero.
+    Ok(events)
 }
 
 #[derive(Clone, Copy, PartialEq, Eq)]
@@ -2343,6 +2417,8 @@ impl Equilibrator for PhreeqcEquilibrator {
             return Ok(notes);
         };
         *vessel = solved;
+        // The final state, posed canonically, before the last word on it.
+        self.recharacterise_canonically(vessel, &mut events);
         events.extend(unspeciated_acid_notes(vessel));
         events.extend(unspeciated_solute_notes(vessel));
         let ph_now = vessel.solution.as_ref().map(|s| s.ph);
@@ -2652,6 +2728,31 @@ impl Equilibrator for PhreeqcEquilibrator {
         vessel.refresh_pressure();
 
         events.extend(reference_complex_boundary(vessel, &cached.speciation));
+        // Composed BEFORE the record it goes into, because a reader has
+        // to be told about it and the telling is an event.
+        //
+        // A MIX writes a provenance of its own — a different dataset is
+        // reachable here than the one either source used, and the ROUTING
+        // is `MIX: two solved solutions combined by fraction`, which is
+        // not a sentence any other path composes. Until now it went into
+        // `vessel.solution` and stopped there: the drawer reads
+        // `event.provenance`, no event carried this one, and a beaker
+        // filled by pouring two others held provenance nobody could see.
+        // Ruled in by the owner on 2026-09-18, after #653 scoped it out.
+        let provenance = Provenance::new(
+            "PHREEQC (IPhreeqc, USGS)",
+            dataset_phrase(db_tag),
+            derived::index_for(db_tag).activity_model.phrase(),
+            dataset_sources(db_tag),
+            Phrase::bare(
+                "routing.mix-by-fraction",
+                "MIX: two solved solutions combined by fraction",
+            ),
+        );
+        // After the events that say what the pour DID, and before the
+        // characterisation: the reader is told what happened, then where
+        // the numbers for it came from.
+        announce_routing(vessel, &provenance, &mut events);
         vessel.solution = Some(SolutionInfo {
             solvent_activity: None,
             scope: Default::default(),
@@ -2662,16 +2763,7 @@ impl Equilibrator for PhreeqcEquilibrator {
             ph,
             ionic_strength: mu,
             species: cached.speciation.clone(),
-            provenance: Some(Provenance::new(
-                "PHREEQC (IPhreeqc, USGS)",
-                dataset_phrase(db_tag),
-                derived::index_for(db_tag).activity_model.phrase(),
-                dataset_sources(db_tag),
-                Phrase::bare(
-                    "routing.mix-by-fraction",
-                    "MIX: two solved solutions combined by fraction",
-                ),
-            )),
+            provenance: Some(provenance),
         });
 
         events.push(Event::SolutionCharacterized {
@@ -2701,6 +2793,206 @@ struct SolveSetup {
 }
 
 impl PhreeqcEquilibrator {
+    /// Ask the settled state again, posed from the INVENTORY rather than
+    /// from the operation that produced it.
+    ///
+    /// # The defect this exists for
+    ///
+    /// `solution.solvent_kg` was path-dependent. The same beaker — the
+    /// corpus row `aq-023`, 100 mL of water, 0.01 mol of calcium chloride
+    /// and 5 g of a carbonate laundry powder — read `0.0997010580` kg when
+    /// the salt went in first and `0.0996909590` kg when the powder did.
+    /// One part in 1e4, about 10 mg of water in 100 g. Every molality is
+    /// per kg of that mass, so the residue propagates into
+    /// `ionic_strength` and from there into every activity coefficient,
+    /// every saturation index and the pH.
+    ///
+    /// Both numbers come from the same line of the same function, so this
+    /// was never two sources disagreeing. It is one source asked two
+    /// different questions:
+    ///
+    ///   * `partition` takes the solvent mass from the vessel's **water
+    ///     portion**, and that portion is whatever the previous step's
+    ///     [`crate::inventory::complete_basis`] wrote — the water implied
+    ///     by conserved H and O once every solute is booked. That figure
+    ///     is order-free: the two orderings agree on it to one part in
+    ///     4e8, because conservation does not care what order matter
+    ///     arrived in.
+    ///   * `mass_H2O` is PHREEQC's own solvent mass, and it comes back
+    ///     from the solve tracking the water the INPUT declared. The input
+    ///     to the last operation's solve is the *intermediate* vessel plus
+    ///     one reagent — and the intermediate vessels of the two orderings
+    ///     are different solutions, holding different amounts of their
+    ///     hydrogen and oxygen inside species rather than inside water.
+    ///     So the last solve is handed the same final contents in two
+    ///     different representations and answers each faithfully.
+    ///
+    /// PHREEQC's `mass_H2O` is not representation-invariant — `aqueous.rs`
+    /// already says exactly that of the surface-complexation readback —
+    /// and that is a fact about the solver, not a bug in it.
+    ///
+    /// # What "canonically" means here, decided explicitly
+    ///
+    /// A canonical pose is one built from **what the vessel holds**, never
+    /// from what just happened to it:
+    ///
+    ///   1. the **settled contents**, after the readback and after
+    ///      `complete_basis` has put the H/O residue back into water, acid
+    ///      and base equivalents — the one representation of this state
+    ///      that conservation pins;
+    ///   2. through the ordinary [`partition`], which already sorts the
+    ///      portions and accumulates **aggregated element totals**, so
+    ///      feed order cannot reach the accumulation;
+    ///   3. and then through the ordinary [`Self::setup_problem`] and
+    ///      `build_input`, so the routing, the candidate phases and the
+    ///      formatting are the ones every other solve gets.
+    ///
+    /// Two orderings of the same reagents therefore hand this pass the
+    /// same contents, which produce the same `Problem`, which prints
+    /// almost the same input string — and what survives into the text is
+    /// worth being exact about, because it is what the invariance is
+    /// actually worth. Measured on the `aq-023` chemistry, salt-first
+    /// against powder-first:
+    ///
+    /// ```text
+    ///                       solvent_kg     ionic strength   pH
+    ///   before, salt   0.0997010580   0.2759516202   10.9521249278
+    ///   before, powder 0.0996909590   0.2759782269   10.9521322284
+    ///   after,  salt   0.0996939730   0.2759702852   10.9521300644
+    ///   after,  powder 0.0996939730   0.2759702847   10.9521300643
+    ///
+    ///   apart, relative  solvent_kg   ionic strength   pH (absolute)
+    ///   before             1.0129e-4       9.6418e-5       7.3007e-6
+    ///   after             1.0023e-13       1.8361e-9       1.1000e-10
+    /// ```
+    ///
+    /// `solvent_kg` is exact to every digit the wire can print because the
+    /// input writes the solvent mass as `{:.9}`, and the conserved
+    /// inventory's own residue — the two orderings agree on the vessel's
+    /// water to about one part in 4e8 — is finer than that quantisation,
+    /// so both print the same nine decimals and the solve is answered from
+    /// the same entry of the content-addressed cache. The element totals
+    /// are written `{:.12e}`, which is *finer* than the inventory's
+    /// residue, so a few parts in 1e9 do reach the engine and come back as
+    /// the 1.8e-9 above. That remainder is floating-point noise in a
+    /// conserved sum, not a difference in representation, and it is four
+    /// orders of magnitude below what the wire publishes.
+    ///
+    /// # What it deliberately does NOT do
+    ///
+    /// It does not rebuild the vessel. Contents, phases, surfaces,
+    /// temperature and every event stay exactly as the operation left
+    /// them; this pass only replaces the four REPORTED numbers —
+    /// `solvent_kg`, `ph`, `ionic_strength` and the species distribution —
+    /// and corrects the `SolutionCharacterized` event that carries two of
+    /// them. The state remains what the chemistry did; only the
+    /// characterisation of it becomes a function of the state alone.
+    ///
+    /// Overwriting `solvent_kg` with the vessel's own water inventory was
+    /// the obvious alternative and is not available: molalities are per kg
+    /// of the solver's `mass_H2O`, so substituting a different mass would
+    /// leave `n = m × kg` false by exactly the discrepancy it repaired.
+    /// The invariance has to come from what the solver is ASKED.
+    ///
+    /// # Cost
+    ///
+    /// One `dispatch_solve` per **equilibration**, not per pass of the
+    /// thermal fixed point (which re-solves a clone up to eight times) and
+    /// not per solver in the stack. It is placed here, after `settled`,
+    /// for that reason. Some of those calls never reach the engine at all:
+    /// a re-pose whose input the content-addressed cache already holds is
+    /// answered from it.
+    ///
+    /// Measured on the two `aq-023` orderings, which are three
+    /// equilibrations each (one of them the solvent-only opening water,
+    /// which this pass declines): **8 engine calls became 9, and 6 became
+    /// 8**. At most one more call per equilibration, which is what the
+    /// ruling accepted, and sometimes none. `tests/order_invariance.rs`
+    /// pins both the invariance and the ceiling.
+    ///
+    /// # When it declines
+    ///
+    /// A vessel with no solution, a solvent-only vessel (there is no
+    /// engine call behind that answer to repeat) and any re-pose the
+    /// engine refuses are all left exactly as they were. A refusal here
+    /// must not turn a step that worked into a step that failed — but it
+    /// does silently restore the path dependence, which is why the test
+    /// asserts the invariance on the live path rather than trusting this
+    /// branch never to be taken.
+    fn recharacterise_canonically(&mut self, vessel: &mut Vessel, events: &mut [Event]) {
+        let Some(scope) = vessel.solution.as_ref().map(|info| info.scope) else {
+            return;
+        };
+        if scope == SolutionScope::SolventOnly {
+            return;
+        }
+        let Ok(Some(setup)) = self.setup_problem(vessel) else {
+            return;
+        };
+        if setup.problem.solvent_only {
+            return;
+        }
+        // The route has to be the one the record already names.
+        //
+        // `setup_problem` picks the dataset from the problem it is handed,
+        // and this one is built from the settled contents rather than from
+        // the contents plus the reagent. The two agree in every case this
+        // bench has, because a readback moves the totals by parts in 1e6
+        // and the thresholds it crosses — an element the default dataset
+        // lacks, a molality past 1 mol/kgw — are nowhere near that. If a
+        // vessel ever does sit on one of those edges, reporting a pH from
+        // one dataset beside a provenance naming another is worse than
+        // reporting a path-dependent one, so this declines instead.
+        let routed_file = format!("{}.dat", setup.db_tag);
+        let same_route = vessel
+            .solution
+            .as_ref()
+            .and_then(|info| info.provenance.as_ref())
+            .is_some_and(|provenance| provenance.dataset.contains(&routed_file));
+        if !same_route {
+            return;
+        }
+        let Ok((cached, _)) = self.dispatch_solve(
+            vessel,
+            &setup.problem,
+            setup.db_tag,
+            &setup.input,
+            setup.key,
+        ) else {
+            return;
+        };
+        let value = |column: &str| -> Option<f64> {
+            let idx = cached.rows.first()?.iter().position(|h| h == column)?;
+            cached.rows.last()?.get(idx)?.parse().ok()
+        };
+        let (Some(solvent_kg), Some(ph), Some(mu)) = (value("mass_H2O"), value("pH"), value("mu"))
+        else {
+            return;
+        };
+        let Some(info) = vessel.solution.as_mut() else {
+            return;
+        };
+        info.solvent_kg = Some(solvent_kg);
+        info.ph = ph;
+        info.ionic_strength = mu;
+        info.species = cached.speciation.clone();
+        // The event carries the same two numbers and must not disagree
+        // with the field. Patched in place, exactly as the headspace
+        // pressure below is patched once the final temperature is known.
+        if let Some(Event::SolutionCharacterized {
+            ph: said_ph,
+            ionic_strength: said_mu,
+            ..
+        }) = events
+            .iter_mut()
+            .rev()
+            .find(|event| matches!(event, Event::SolutionCharacterized { .. }))
+        {
+            *said_ph = ph;
+            *said_mu = mu;
+        }
+    }
+
     /// One pass at the vessel's current temperature. Returns the reaction
     /// heat rather than applying it, so the caller can iterate temperature
     /// and composition to a common answer instead of reporting one solved
@@ -4928,19 +5220,10 @@ impl PhreeqcEquilibrator {
         // stood down. Those are the moments, and between them the
         // sentence stands and says nothing.
         //
-        // The comparison is against what was last SAID (`Vessel::
-        // aqueous_routing_said`), not against `solution.provenance`. See
-        // the field's doc: a later solver in the stack nests its own
-        // clause into the live provenance, so the live one is not a record
-        // of what a reader was told.
-        let said = provenance.source_key();
-        if vessel.aqueous_routing_said.as_deref() != Some(said.as_str()) {
-            vessel.aqueous_routing_said = Some(said);
-            events.push(Event::SolutionRouted {
-                vessel: vessel.id,
-                provenance: provenance.clone(),
-            });
-        }
+        // The rule itself now lives in `announce_routing`, because two
+        // other paths write a provenance and had to obey it: see there for
+        // what is compared and why it is held on the vessel.
+        announce_routing(vessel, &provenance, events);
         let info = SolutionInfo {
             scope: Default::default(),
             solvent_kg: value("mass_H2O"),
