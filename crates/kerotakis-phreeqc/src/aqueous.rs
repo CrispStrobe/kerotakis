@@ -5021,7 +5021,7 @@ impl PhreeqcEquilibrator {
         // The rule itself now lives in `announce_routing`, because two
         // other paths write a provenance and had to obey it: see there for
         // what is compared and why it is held on the vessel.
-        announce_routing(vessel, &provenance, &mut events);
+        announce_routing(vessel, &provenance, events);
         let info = SolutionInfo {
             scope: Default::default(),
             solvent_kg: value("mass_H2O"),
