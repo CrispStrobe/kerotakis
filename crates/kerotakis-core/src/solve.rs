@@ -2912,7 +2912,15 @@ mod route_trace_tests {
             "test.dat",
             "test model",
             Vec::new(),
-            Phrase::bare("routing.default-inorganic", "x"),
+            // The REAL sentence for this key, not a placeholder. The
+            // engine locale lint scans this file as a composer and does
+            // not know a `#[cfg(test)]` block from the rest of it, so a
+            // fixture that reuses a live key with stand-in prose reads to
+            // the lint as one key meaning two different things — which is
+            // precisely the defect the lint exists to catch, and it was
+            // right to say so. The test does not care what the sentence
+            // is; the catalogue does.
+            Phrase::bare("routing.default-inorganic", "the default inorganic aqueous dataset"),
         );
         let announcement = Event::SolutionRouted { vessel, provenance };
         let characterised = Event::SolutionCharacterized {
