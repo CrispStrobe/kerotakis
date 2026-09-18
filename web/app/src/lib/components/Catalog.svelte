@@ -88,6 +88,13 @@
     type CatalogLevel,
     type CatalogSourceKind,
   } from "../catalogEntry";
+  import {
+    CATALOG_FIRST_DRAW,
+    catalogWindow,
+    estimateRowHeight,
+    rowCountFor,
+    rowTops,
+  } from "../catalogWindow";
   import { localiseCapability, type CapabilityPrompt } from "../capabilities";
   import {
     canUseFreshVessels,
@@ -217,6 +224,193 @@
   const concepts = $derived(conceptIndex(entries));
   const placements = $derived(presentPlacements(all, i18n.locale));
   const related = $derived(filters.concept ? relatedConcepts(entries, filters.concept).slice(0, 6) : []);
+
+  /* ── Only what is on screen is in the DOM ───────────────────────────
+     Seven hundred and thirty cards (230 experiments, 500 answered
+     questions) is twelve thousand elements in one dialog, and every one
+     of them is built, styled and laid out before the reader sees the
+     dozen that fit. The arithmetic lives in `catalogWindow.ts`, pure, so
+     the suite — which has no DOM — can hold it to account; everything
+     here is measurement and plumbing.
+
+     Losing find-in-page is the price, and it is not a price: the in-app
+     box greps the DESCRIPTIONS as well as the titles, in the reader's
+     language and in the canonical English underneath, which is more than
+     Ctrl-F could reach even when every card was painted.
+     `catalogEntry.test.ts` pins that haystack; this is only safe while it
+     passes. */
+  let panelEl = $state<HTMLElement | null>(null);
+  let cardsEl = $state<HTMLElement | null>(null);
+  /** Resolved grid columns. Zero means "no layout has been read yet". */
+  let columns = $state(0);
+  let cardGap = $state(0);
+  let scrollTop = $state(0);
+  let viewportTop = $state(0);
+  let viewportHeight = $state(0);
+  /** Measured heights by grid-row index; re-measured whenever the list changes. */
+  let rowHeights = $state<Map<number, number>>(new Map());
+  /** The row holding keyboard focus, which is never windowed out. */
+  let focusedRow = $state<number | null>(null);
+
+  const windowed = $derived(columns > 0
+    ? catalogWindow({
+        // The FILTERED length. Windowing the unfiltered index would put
+        // the scrollbar and the drawn range on different lists.
+        total: shown.length,
+        columns,
+        scrollTop,
+        viewportTop,
+        viewportHeight,
+        heights: rowHeights,
+        gap: cardGap,
+        pinned: focusedRow,
+      })
+    : null);
+
+  /**
+   * The rows to draw, in both modes.
+   *
+   * Before the first layout there is no column count to chunk by, so the
+   * list is one ordinary grid of the first `CATALOG_FIRST_DRAW` cards —
+   * cheap, correctly laid out by the same CSS, and replaced by the real
+   * window on the next frame. Guessing the column count from the
+   * breakpoints instead would put a copy of the CSS in here to drift.
+   */
+  const drawnRows = $derived(windowed
+    ? windowed.rows.map((row) => ({ index: row.index, top: row.top, start: row.start, end: row.end }))
+    : [{ index: 0, top: null as number | null, start: 0, end: Math.min(shown.length, CATALOG_FIRST_DRAW) }]);
+
+  /** A new filter means new cards in every row, so every measurement is stale. */
+  $effect(() => {
+    shown;
+    untrack(() => {
+      if (rowHeights.size > 0) rowHeights = new Map();
+    });
+  });
+
+  /**
+   * Read the layout back, rather than recomputing it.
+   *
+   * The column count comes from the resolved `grid-template-columns` and
+   * the gap from the resolved `column-gap`, so the breakpoints and the
+   * track sizing stay in the stylesheet where they can be edited without
+   * anyone remembering there is a copy in the script.
+   */
+  function measureCatalogWindow(readTracks = false): void {
+    const panel = panelEl;
+    const grid = cardsEl;
+    if (!panel || !grid) return;
+    const rows = [...grid.querySelectorAll<HTMLElement>(".cards-row")];
+    if (rows.length === 0) return;
+
+    const height = panel.clientHeight;
+    if (height !== viewportHeight) viewportHeight = height;
+    const top = grid.getBoundingClientRect().top - panel.getBoundingClientRect().top + panel.scrollTop;
+    if (Math.abs(top - viewportTop) > 0.5) viewportTop = top;
+    if (panel.scrollTop !== scrollTop) scrollTop = panel.scrollTop;
+
+    /* `getComputedStyle` forces a style recalculation, and the track
+       sizing can only change when something has been RESIZED. Reading it
+       on every scroll frame cost more than the window saved. */
+    if (readTracks || columns === 0) {
+      const rowStyle = getComputedStyle(rows[0]!);
+      const tracks = rowStyle.gridTemplateColumns
+        .split(" ")
+        .filter((track) => track !== "" && track !== "none").length;
+      const gap = Number.parseFloat(rowStyle.columnGap);
+      if (Number.isFinite(gap) && gap !== cardGap) cardGap = gap;
+      // A different column count re-chunks the rows, so every height
+      // cached against a row index now measures different cards.
+      if (tracks > 0 && tracks !== columns) {
+        columns = tracks;
+        rowHeights = new Map();
+        return;
+      }
+    }
+
+    const next = new Map(rowHeights);
+    let changed = false;
+    for (const element of rows) {
+      const index = Number(element.dataset.row);
+      if (!Number.isInteger(index)) continue;
+      const measured = element.getBoundingClientRect().height;
+      if (measured > 0 && Math.abs((next.get(index) ?? -1) - measured) > 0.5) {
+        next.set(index, measured);
+        changed = true;
+      }
+    }
+    if (!changed) return;
+
+    /* Learning a real height moves every row below it, which would drag
+       the content the reader is looking at out from under them. So the
+       first drawn row is an anchor: whatever the measurement did to its
+       offset is added straight back to the scroller. */
+    const anchor = windowed?.rows[0] ?? null;
+    rowHeights = next;
+    if (anchor && anchor.top > 0) {
+      const after = rowTops(
+        rowCountFor(shown.length, columns),
+        next,
+        estimateRowHeight(next),
+        cardGap,
+      ).tops[anchor.index];
+      const drift = (after ?? anchor.top) - anchor.top;
+      if (Math.abs(drift) > 0.5) {
+        panel.scrollTop += drift;
+        scrollTop = panel.scrollTop;
+      }
+    }
+  }
+
+  /** Re-measure after every render of the list. */
+  $effect(() => {
+    drawnRows;
+    measureCatalogWindow();
+  });
+
+  /* And when the dialog changes size without the list changing.
+     Only the PANEL is observed. The grid's own height is set from the
+     window's total, so observing it would make every learnt row height
+     re-enter the measurement that produced it. */
+  $effect(() => {
+    const panel = panelEl;
+    if (!panel || typeof ResizeObserver === "undefined") return;
+    const observer = new ResizeObserver(() => measureCatalogWindow(true));
+    observer.observe(panel);
+    return () => observer.disconnect();
+  });
+
+  let scrollScheduled = false;
+  function onPanelScroll(): void {
+    if (scrollScheduled || !panelEl) return;
+    scrollScheduled = true;
+    requestAnimationFrame(() => {
+      scrollScheduled = false;
+      if (panelEl) scrollTop = panelEl.scrollTop;
+    });
+  }
+
+  /**
+   * Which row holds focus, so the window never drops it.
+   *
+   * Removing the focused element sends focus to `<body>`, and the next
+   * Tab then starts again from the top of the document — the reader
+   * pressing Tab on a card lands in the browser chrome. Holding one extra
+   * row in the DOM costs nothing and makes that impossible.
+   */
+  function onCardsFocusIn(event: FocusEvent): void {
+    const target = event.target;
+    const card = target instanceof Element ? target.closest("article[data-id]") : null;
+    const id = card instanceof HTMLElement ? card.dataset.id : undefined;
+    if (id === undefined || columns < 1) return;
+    const index = shown.findIndex((entry) => entry.id === id);
+    focusedRow = index < 0 ? null : Math.floor(index / columns);
+  }
+
+  function onCardsFocusOut(event: FocusEvent): void {
+    const next = event.relatedTarget;
+    if (!(next instanceof Node) || !cardsEl?.contains(next)) focusedRow = null;
+  }
 
   /** Exact authored relations only: direct Codex ids, lesson ids, or capability ids. */
   function authoredRelated(entry: CatalogEntry): CatalogEntry[] {
@@ -652,7 +846,16 @@
   onclick={() => !running && onclose()}
   onkeydown={(e) => e.key === "Escape" && !running && onclose()}
 >
-  <dialog open class="panel" class:running aria-modal={!running} aria-label={t("experiments and answered questions")} onclick={(e) => e.stopPropagation()}>
+  <dialog
+    open
+    class="panel"
+    class:running
+    bind:this={panelEl}
+    onscroll={onPanelScroll}
+    aria-modal={!running}
+    aria-label={t("experiments and answered questions")}
+    onclick={(e) => e.stopPropagation()}
+  >
     {#if running}
       <div class="dock" class:waiting={awaiting} role="status" aria-live="polite">
         <div>
@@ -835,10 +1038,39 @@
         </details>
       {/if}
 
-      <div class="cards">
-        {#each shown as item (item.id)}
+      <!-- The list is a WINDOW: `drawnRows` is the handful of grid rows
+           near the viewport, each absolutely placed at its measured
+           offset, inside a container stretched to the full height so the
+           scrollbar is the whole library's. `role="list"` carries the
+           FILTERED total and every card carries its position in it, so a
+           screen reader is told "3 of 730" whether or not card 700 has
+           ever been built. -->
+      {#if shown.length === 0}
+        <p class="empty">{t("nothing matches that filter")}</p>
+      {:else}
+        <div
+          class="cards"
+          class:windowed={windowed !== null}
+          bind:this={cardsEl}
+          role="list"
+          aria-label={t("{count} shown", { count: shown.length })}
+          onfocusin={onCardsFocusIn}
+          onfocusout={onCardsFocusOut}
+          style:height={windowed ? `${windowed.height}px` : null}
+        >
+        {#each drawnRows as row (row.index)}
+          <div class="cards-row" role="presentation" data-row={row.index} style:top={row.top === null ? null : `${row.top}px`}>
+        {#each shown.slice(row.start, row.end) as item, place (item.id)}
           {@const links = linksById.get(item.id) ?? null}
-          <article data-id={item.id} data-level={item.level} data-status={item.status} data-run={item.run.kind}>
+          <article
+            role="listitem"
+            aria-setsize={shown.length}
+            aria-posinset={row.start + place + 1}
+            data-id={item.id}
+            data-level={item.level}
+            data-status={item.status}
+            data-run={item.run.kind}
+          >
             <div class="card-head">
               <span class="kind" data-source={item.source}>{t(sourceLabel(item.source))}</span>
               <span class="level">{item.anyLevel ? t("at any level") : t(levelLabel(item.level))}</span>
@@ -953,10 +1185,11 @@
               <button class="details" aria-label={t("what this experiment covers")} title={t("what this experiment covers")} onclick={() => openEntry(item)}>i</button>
             </footer>
           </article>
-        {:else}
-          <p class="empty">{t("nothing matches that filter")}</p>
         {/each}
-      </div>
+          </div>
+        {/each}
+        </div>
+      {/if}
     {:else}
       <header>
         <button class="back" aria-label={t("back")} onclick={() => (openId = null)}>←</button>
@@ -1685,12 +1918,29 @@
   }
 
   /* ── One card, whatever the entry is ───────────────────────────────── */
+  /* The grid moved one level down, onto the ROW, so the list can draw a
+     window of rows instead of all of them. `.cards` is now the container
+     that owns the full height — the scrollbar stays the whole library's —
+     and each row is placed at its measured offset inside it.
+
+     The track sizing stays here rather than in the script: the component
+     reads the RESOLVED `grid-template-columns` and `column-gap` back off
+     a row, so the breakpoint below and this line are still the only place
+     the column count is decided. */
   .cards {
+    position: relative;
+    margin-top: 0.6rem;
+  }
+  .cards-row {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
     align-content: start;
     gap: 0.7rem;
-    margin-top: 0.6rem;
+  }
+  .cards.windowed .cards-row {
+    position: absolute;
+    left: 0;
+    right: 0;
   }
   .cards article {
     display: flex;
@@ -1786,7 +2036,7 @@
   .learning-progress[data-progress="some"] { color: var(--cool); }
 
   @media (max-width: 760px) {
-    .cards { grid-template-columns: 1fr; }
+    .cards-row { grid-template-columns: 1fr; }
     .filter { width: 6.5rem; }
   }
 </style>
