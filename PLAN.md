@@ -3292,17 +3292,6 @@ Three rulings, each blocking nothing else but each answerable only by
 whoever owns the product. All three came out of work that is otherwise
 finished and merged.
 
-- **The KCl conductivity standard is cited to an organisation that prints a
-  different number.** `FIT_SOURCE` in `conductivity.rs` calls **1413 µS/cm**
-  "the IUPAC/OIML reference value" for the 0.01 mol/kg standard. **OIML R 56
-  prints 1408.3 µS/cm** for its 0.01 D primary standard, and 1413 appears
-  nowhere in it; USGS/Jones–Bradshaw give 1408.07 (0.01 D) and 1410.75
-  (0.01 N). 1413 is close to the 0.0100 **mol/L** value — a real standard on
-  a *volumetric* basis, attributed here to a *molality* basis and to a body
-  that publishes neither. Nothing was changed: the existing 7% window covers
-  both, and a value corrected in the wrong direction is how the silver
-  ΔH_fus mistake happened. **The decision: restate the basis, adopt 1408.3,
-  or leave it and say why.** (#625)
 - **The KCl fit target: basis restated, value left alone.** `FIT_SOURCE`
   called 1413 µS/cm "the IUPAC/OIML reference value" for the 0.01 **mol/kg**
   standard. OIML R 56 prints **1408.3** for its 0.01 D primary standard and
@@ -3338,8 +3327,10 @@ finished and merged.
   **ANSWERED IN TWO STEPS.** *Buy a second source* was chosen and the search
   ran on 2026-09-18 (#654): two compilations were reached outside the
   transference-number family that stops at magnesium, both too coarse to
-  corroborate at the half a per cent this file works to, and **λ°(Fe³⁺) left
-  `UNCORROBORATED`** because both print the number already shipped. The
+  corroborate at the half a per cent this file works to, and **λ°(Fe³⁺) was
+  taken OFF the `UNCORROBORATED` list** because both print the number
+  already shipped. (Written "left `UNCORROBORATED`" until 2026-09-18,
+  which reads as its own opposite.) The
   search found exactly **one outright contradiction of a shipped value**:
   both print ⅓Al³⁺ = 63 where the table shipped 61. **Ruled 2026-09-18 and
   now done: adopt 63 — λ°(Al³⁺) 183.0 → 189.0**, because the shipped 61
@@ -3369,12 +3360,17 @@ finished and merged.
   final state in two different representations. `ionic_strength` carries the
   1e-4 into every activity coefficient.
 
-  **The real decision, which has not been made:** pose the final state
-  canonically before the last solve (costs a solve, removes the
-  path-dependence), or accept a solver-level non-invariance and say so on
-  the wire. Substituting the inventory figure is not available: molalities
-  are per kg of the solver's own `mass_H2O`, so it would leave `n = m x kg`
-  false by exactly the discrepancy it repaired.
+  **RULED 2026-09-18: pose the final state canonically before the last
+  solve.** Same contents, same answer, whatever order they arrived in —
+  at the cost of one extra solver call per characterisation. Accepting the
+  non-invariance and declaring it on the wire was offered and not chosen,
+  and so was leaving it recorded. Substituting the inventory figure was
+  never available: molalities are per kg of the solver's own `mass_H2O`, so
+  it would leave `n = m × kg` false by exactly the discrepancy it repaired.
+  The work is scoped under *Ruled by the owner, 2026-09-18* below, including
+  the instruction that if the measured cost turns out worse than "one more
+  solve" the answer is to stop and report it, not to ship a slower engine
+  quietly.
 
 
 ### Ruled by the owner, 2026-09-18
