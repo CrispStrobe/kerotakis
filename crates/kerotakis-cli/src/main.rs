@@ -3041,7 +3041,8 @@ impl Session {
                             "{}",
                             self.mask_for(
                                 v.id,
-                                &kerotakis_core::particles::census(v, 30).render(self.register)
+                                &kerotakis_core::particles::census(v, 30)
+                                    .render(self.register, self.locale)
                             )
                         );
                     }

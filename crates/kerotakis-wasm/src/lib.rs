@@ -400,7 +400,7 @@ impl Lab {
         let census = kerotakis_core::particles::census(v, 30);
         let doc = serde_json::json!({
             "census": census,
-            "rendered": census.render(self.register),
+            "rendered": census.render(self.register, self.locale),
         });
         Ok(doc.to_string())
     }
