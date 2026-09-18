@@ -69,6 +69,7 @@ mod tests {
             recipe_version: 1,
             basis: MaterialBasis::MassFraction,
             amount: 1.0,
+            protein_denatured_fraction: 0.0,
             enzyme_hydrolysis: None,
         });
         vessel.deposit(
