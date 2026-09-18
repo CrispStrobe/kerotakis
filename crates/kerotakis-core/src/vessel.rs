@@ -35,6 +35,10 @@ pub struct UnresolvedMaterialPortion {
     /// Hydrolysis changes its structure, not its conserved mass.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub enzyme_hydrolysis: Option<EnzymeHydrolysisState>,
+    /// Irreversible qualitative heat-history envelope, not calibrated kinetics.
+    /// Stored per portion so mixing raw and cooked material preserves both.
+    #[serde(default)]
+    pub protein_denatured_fraction: f64,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

@@ -79,6 +79,7 @@ mod tests {
             recipe_version: 1,
             basis: MaterialBasis::MassFraction,
             amount: 20.0,
+            protein_denatured_fraction: 0.0,
             enzyme_hydrolysis: None,
         });
         vessel.deposit(SpeciesId::new("H2O2"), crate::Moles(0.002), Phase::Liquid);

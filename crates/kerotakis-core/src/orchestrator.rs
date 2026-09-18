@@ -72,6 +72,26 @@ pub fn diff_vessels(before: &Vessel, after: &Vessel, source: &'static str) -> St
         }
     }
 
+    // Diff the bound inventory as well as the bulk inventory. Otherwise
+    // conservation auditing rejects a valid transfer onto a sorbent.
+    let mut bound = std::collections::BTreeMap::new();
+    for (vessel, sign) in [(before, -1.0), (after, 1.0)] {
+        for entry in &vessel.adsorbed {
+            *bound
+                .entry((entry.sorbent.0.clone(), entry.sorbate.0.clone()))
+                .or_insert(0.0) += sign * entry.moles.0;
+        }
+    }
+    for ((sorbent, sorbate), change) in bound {
+        if change.abs() > 1e-15 {
+            delta = delta.with_adsorbed(
+                crate::species::SpeciesId::new(&sorbent),
+                crate::species::SpeciesId::new(&sorbate),
+                change,
+            );
+        }
+    }
+
     // Thermal change
     if (before.temperature.0 - after.temperature.0).abs() > 1e-15 {
         delta = delta.with_thermal(ThermalDelta::SetTemperature(after.temperature));
@@ -224,6 +244,54 @@ mod tests {
             "mass changed: {} -> {}",
             mass_before.0,
             mass_after.0
+        );
+    }
+
+    /// ARCH-011 seam: a rung that moves matter into the adsorption ledger
+    /// (outside bulk contents) must have that move SURVIVE the transactional
+    /// pipeline. `diff_vessels` used to see only `contents`, so the whole
+    /// adsorption split was silently dropped on the orchestrator path while
+    /// the conserved ledger saw the matter vanish.
+    #[test]
+    fn adsorption_changes_survive_the_orchestrator_pipeline() {
+        use crate::adsorption::AdsorptionEquilibrator;
+
+        let mut v = water_vessel();
+        v.deposit(
+            SpeciesId::new("methyl_orange"),
+            Moles(0.001),
+            Phase::Aqueous,
+        );
+        v.deposit(
+            SpeciesId::new("activated_charcoal"),
+            Moles(0.01),
+            Phase::Solid,
+        );
+
+        let mut orch = Orchestrator::new(vec![Box::new(AdsorptionEquilibrator)]);
+        let events = orch.equilibrate(&mut v).unwrap();
+
+        assert!(
+            !events
+                .iter()
+                .any(|e| matches!(e, Event::SolverFailed { .. })),
+            "unexpected solver failure: {:?}",
+            events
+        );
+        let bound: f64 = v
+            .adsorbed
+            .iter()
+            .filter(|entry| entry.sorbate == SpeciesId::new("methyl_orange"))
+            .map(|entry| entry.moles.0)
+            .sum();
+        assert!(
+            bound > 0.0,
+            "adsorption rung must leave dye on the charcoal through the orchestrator"
+        );
+        let dissolved = v.moles_of(&SpeciesId::new("methyl_orange"));
+        assert!(
+            (bound + dissolved.0 - 0.001).abs() < 1e-12,
+            "dye must be conserved across the split"
         );
     }
 

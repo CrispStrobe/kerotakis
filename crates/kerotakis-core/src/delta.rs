@@ -86,10 +86,20 @@ pub struct StateDelta {
     pub electrode_potential_changes: Vec<ElectrodePotentialDelta>,
     /// Persistent near-surface concentration changes after a transient slice.
     pub electrode_interfacial_species_changes: Vec<ElectrodeInterfacialSpeciesDelta>,
+    /// Signed changes to material bound on sorbents.
+    pub adsorbed_changes: Vec<AdsorbedDelta>,
     /// Thermal state change.
     pub thermal: Option<ThermalDelta>,
     /// Which model produced this delta.
     pub source: &'static str,
+}
+
+/// Signed transfer to a (sorbent, sorbate) inventory; bulk changes are separate.
+#[derive(Debug, Clone, PartialEq)]
+pub struct AdsorbedDelta {
+    pub sorbent: SpeciesId,
+    pub sorbate: SpeciesId,
+    pub moles: f64,
 }
 
 /// One coupled state proposal after a single, uniform inventory limit.
@@ -180,6 +190,7 @@ impl StateDelta {
     pub fn new(source: &'static str) -> Self {
         Self {
             mole_changes: Vec::new(),
+            adsorbed_changes: Vec::new(),
             electrode_changes: Vec::new(),
             electrode_potential_changes: Vec::new(),
             electrode_interfacial_species_changes: Vec::new(),
@@ -242,6 +253,16 @@ impl StateDelta {
         self
     }
 
+    /// Add a bound-inventory change (positive binds, negative releases).
+    pub fn with_adsorbed(mut self, sorbent: SpeciesId, sorbate: SpeciesId, moles: f64) -> Self {
+        self.adsorbed_changes.push(AdsorbedDelta {
+            sorbent,
+            sorbate,
+            moles,
+        });
+        self
+    }
+
     /// Set the thermal change.
     pub fn with_thermal(mut self, thermal: ThermalDelta) -> Self {
         self.thermal = Some(thermal);
@@ -292,6 +313,37 @@ impl StateDelta {
                     phase: change.phase,
                     available,
                     requested: -cumulative_change,
+                });
+            }
+        }
+
+        // Check every prefix, matching apply order. A later deposit must
+        // not mask an earlier withdrawal that apply would otherwise clamp.
+        let mut cumulative = std::collections::BTreeMap::new();
+        for change in &self.adsorbed_changes {
+            let available: f64 = vessel
+                .adsorbed
+                .iter()
+                .filter(|entry| entry.sorbent == change.sorbent && entry.sorbate == change.sorbate)
+                .map(|entry| entry.moles.0)
+                .sum();
+            let net = cumulative
+                .entry((change.sorbent.0.clone(), change.sorbate.0.clone()))
+                .or_insert(0.0);
+            *net += change.moles;
+            if !change.moles.is_finite() || !net.is_finite() || !available.is_finite() {
+                errors.push(DeltaError::Negativity {
+                    species: change.sorbate.0.clone(),
+                    phase: Phase::Aqueous,
+                    available,
+                    requested: f64::NAN,
+                });
+            } else if available + *net < -1e-15 {
+                errors.push(DeltaError::Negativity {
+                    species: change.sorbate.0.clone(),
+                    phase: Phase::Aqueous,
+                    available,
+                    requested: -*net,
                 });
             }
         }
@@ -487,6 +539,32 @@ impl StateDelta {
             }
         }
 
+        for change in &self.adsorbed_changes {
+            if change.moles > 0.0 {
+                if let Some(entry) = vessel.adsorbed.iter_mut().find(|entry| {
+                    entry.sorbent == change.sorbent && entry.sorbate == change.sorbate
+                }) {
+                    entry.moles.0 += change.moles;
+                } else {
+                    vessel.adsorbed.push(crate::vessel::AdsorbedAmount {
+                        sorbent: change.sorbent.clone(),
+                        sorbate: change.sorbate.clone(),
+                        moles: Moles(change.moles),
+                    });
+                }
+            } else if change.moles < 0.0 {
+                let mut remaining = -change.moles;
+                for entry in &mut vessel.adsorbed {
+                    if entry.sorbent == change.sorbent && entry.sorbate == change.sorbate {
+                        let take = remaining.min(entry.moles.0);
+                        entry.moles.0 -= take;
+                        remaining -= take;
+                    }
+                }
+                vessel.adsorbed.retain(|entry| entry.moles.0 > 0.0);
+            }
+        }
+
         for change in &self.electrode_changes {
             let Some(electrode) = vessel
                 .electrodes
@@ -653,6 +731,9 @@ impl StateDelta {
         for change in &mut limited.mole_changes {
             change.moles *= scale;
         }
+        for change in &mut limited.adsorbed_changes {
+            change.moles *= scale;
+        }
         for change in &mut limited.electrode_changes {
             change.moles *= scale;
         }
@@ -741,6 +822,7 @@ impl StateDelta {
     /// Whether this delta has no changes at all.
     pub fn is_empty(&self) -> bool {
         self.mole_changes.is_empty()
+            && self.adsorbed_changes.is_empty()
             && self.electrode_changes.is_empty()
             && self.electrode_potential_changes.is_empty()
             && self.electrode_interfacial_species_changes.is_empty()

@@ -1913,6 +1913,7 @@ mod tests {
             recipe_version: 1,
             basis: MaterialBasis::MassFraction,
             amount: 0.5,
+            protein_denatured_fraction: 0.0,
             enzyme_hydrolysis: None,
         });
         let scene = scene_vessel(&v);
@@ -1931,6 +1932,7 @@ mod tests {
             recipe_version: 1,
             basis: MaterialBasis::MassFraction,
             amount: 20.0,
+            protein_denatured_fraction: 0.0,
             enzyme_hydrolysis: None,
         });
         v.lots.push(MaterialLot {
@@ -1963,6 +1965,7 @@ mod tests {
             recipe_version: 1,
             basis: MaterialBasis::MassFraction,
             amount: 13.0,
+            protein_denatured_fraction: 0.0,
             enzyme_hydrolysis: Some(crate::vessel::EnzymeHydrolysisState {
                 family: crate::enzyme::EnzymeFamily::Lactase,
                 converted_fraction: 0.625,
