@@ -2036,24 +2036,95 @@ display name in the registry, is the wrong fix.
   keeps its English for the machines. Not done here — it is a solver-side
   change with machine consumers, and this was a CLI pass.
 
-- [ ] **Wire the vessel's own provenance to the drawer. IN FLIGHT.** The
-  aqueous routing — which dataset answered this beaker and why — is the one
-  a learner would most want and the one the drawer cannot see.
+- [x] **Wire the vessel's own provenance to the drawer. DONE 2026-09-18,
+  in #653.** The aqueous routing — which dataset answered this beaker and
+  why — was the one a learner would most want and the one the drawer could
+  not see. `Event::SolutionRouted` carries it now, and the drawer prints it
+  through the reader it already had.
 
-  **The owner has settled the shape: an event at characterisation time.**
-  It appears when the vessel is characterised and is replayable from the
-  log like every other event, which is how everything else reaches the
-  web — the engine emits, the host renders, and the sealed-unknown mask
-  applies to it like any other line. The alternative, the drawer reading
-  the inspected vessel, would have needed a second path that no replayed
-  transcript could reproduce.
+  **The owner settled the shape: an event at characterisation time.** It
+  appears when the vessel is characterised and replays from the log like
+  every other event, which is how everything else reaches the web — the
+  engine emits, the host renders, and the sealed-unknown mask applies to it
+  like any other line. The alternative, the drawer reading the inspected
+  vessel, would have needed a second path that no replayed transcript could
+  reproduce.
 
-  The crux is the emission rule, not the wire format. The aqueous solver
-  characterises far more often than a reader would want an event: three
-  lines of `aq-023` reach `finalize_solution_info` FIVE times. An event
-  per solve would bury the log. So the event fires on CHANGE — when the
-  dataset, the model or the routing differs from what this vessel was last
-  answered by — which is the moment the sentence is news.
+  **The crux was the emission rule, not the wire format.** The aqueous
+  solver characterises far more often than a reader would want an event:
+  the three commands of `aq-023` reach `finalize_solution_info` FIVE times,
+  because the thermal fixed point in `equilibrate` re-solves a CLONE of the
+  vessel until the temperature settles and keeps only the last pass's
+  events. An event per solve would bury the log and tell a learner nothing:
+  the news is never *the solver ran*, it is *the answer to this beaker now
+  comes from somewhere else*.
+
+  So the rule is: **fire when the engine, the dataset, the model, or the
+  SHAPE of the routing recipe differs from what this vessel was last
+  announced as.** COUNTS_GO_HERE
+
+  Three things are worth writing down, because each of them is a place a
+  simpler rule is wrong.
+
+  * **The shape, not the sentence.** `Phrase::shape` is the recipe's keys,
+    its nesting and every name in it, with the measurements taken out. The
+    concentrated-brine route says *chosen because the solution is
+    concentrated (~16.0 mol/kgw)*, and that number moves with every
+    spoonful of salt. Comparing rendered text would announce a routing
+    change on every step of exactly the lesson where a learner is adding
+    salt. A number moving inside a reason is not a new reason. Text slots
+    are kept, though — the second-speciation clause names the FILE it asked
+    for the solvent's activity, and a different file is a different answer
+    however alike the two sentences read.
+
+  * **Compared against what was SAID, not against `solution.provenance`.**
+    The live provenance is not a record of what a reader was told: the
+    electrode pass in `displacement.rs` nests its own clause into it after
+    the aqueous solver has finished, with a computed activity in the
+    sentence that moves every step. Comparing against it would have fired
+    on every step of every metal lesson. `Vessel::aqueous_routing_said`
+    holds the key of the last ANNOUNCED routing and only
+    `finalize_solution_info` writes it. It is `#[serde(skip)]` — narration
+    state, not chemistry — so no saved session and no vessel dump changes
+    shape for it, and the one visible cost is that resuming a save
+    re-states the routing once, which is the right thing to say to a reader
+    who has just opened the file.
+
+  * **On the vessel, not in the solver.** The fixed point solves a clone up
+    to eight times and keeps the LAST pass's events. Memory held in the
+    equilibrator would have announced on the first pass and been silent on
+    the pass whose events actually survive — the event would have vanished
+    entirely. Cloned with the vessel, every trial reaches the same verdict
+    and the surviving one carries it.
+
+  **The web needed the other half of "on change".** `provenance.ts` already
+  lifted `event.provenance` off ANY event, so the new one reaches
+  `report.sources` with no new reader — the wiring was already there and
+  waiting for an event to exist. But a step that solved and said nothing
+  about its routing has not LOST one, and a drawer that showed a dataset on
+  the step that changed it and nothing on the nine after would read the
+  engine's quietness as an absence of provenance. So the session carries
+  the last routing per vessel and the drawer marks it *stated on an earlier
+  step, still standing* rather than passing it off as this step's work. It
+  is cleared at exactly the two places `latestStep` is cleared, and for the
+  reason written there: a routing read against a bench state that a
+  different script produced is the corpus route-leak bug on a screen.
+
+  **One fixture was found to be fiction.** `provenance.test.ts` hung its
+  aqueous provenance on a `precipitated` event, and `Event::Precipitated`
+  has no provenance field and never had one. The drawer's aqueous source
+  existed only in that file. It is a `solution_routed` fixture now, which
+  is a shape the engine emits.
+
+  Not done here, and deliberately: the MIX path
+  (`routing.mix-by-fraction`) and the solvent-only analytic path
+  (`routing.solvent-relation-only`) still write a provenance without
+  announcing one. Both are reachable and neither is wrong to leave — the
+  solvent-only path returns an empty event list ON PURPOSE, so that routine
+  water setup is not filed as a computed answer, and giving it an event
+  would move coverage rows for a reason that has nothing to do with
+  provenance. Neither disturbs the memory, so a later ordinary solve is
+  still compared against the last thing a reader was actually told.
 
 - [x] **The `", "`-joined lists are `Slot::List` now.** Done in #642.
   **The count, settled from the source: eight sites**, and the two
