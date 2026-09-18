@@ -105,7 +105,7 @@ fn assert_nothing_claims_a_liquid(bench: &Bench, events: &[Event]) {
     let keys = reason_keys(events);
     for said in SAID_OF_A_SOLID_MEETING_A_LIQUID {
         assert!(
-            !keys.iter().any(|key| key == said),
+            !keys.iter().any(|key| key.as_str() == said),
             "there is no liquid in this vessel and `{said}` was said about \
              a solid in it: {events:#?}"
         );
@@ -191,7 +191,7 @@ fn a_solid_in_real_water_still_gets_its_apology() {
     assert!(
         reason_keys(&silver)
             .iter()
-            .any(|key| key == "not-modeled.no-dissolution-solver"),
+            .any(|key| key.as_str() == "not-modeled.no-dissolution-solver"),
         "{silver:#?}"
     );
 }
