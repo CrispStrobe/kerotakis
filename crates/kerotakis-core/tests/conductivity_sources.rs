@@ -69,11 +69,15 @@
 //! which of the two they are, because the class test cannot tell them apart
 //! and a reader must be able to.
 //!
-//! What still has no second source of any kind is **zinc, iron(II),
-//! manganese(II), lead(II) and permanganate**, and the two compilations that
-//! reach four of those five **contradict each other about manganese and
-//! lead**. The rest of the search is recorded here rather than in a commit
-//! message because **its negative half is the more useful half**.
+//! What still rests on the single refused compilation is **zinc, iron(II),
+//! manganese(II), lead(II) and permanganate**. Every one of them is now
+//! REACHED by at least one coarse table — that is what the 2026-09-18 search
+//! bought — and not one of them is CORROBORATED by one, because those tables
+//! measure an order of magnitude too loose for the half a per cent this file
+//! works to; and about manganese and lead the two of them **contradict each
+//! other**, by seven and eight per cent. The rest of the search is recorded
+//! here rather than in a commit message because **its negative half is the
+//! more useful half**.
 //!
 //! Nine sources were read and four could not be reached. What most of the nine
 //! have in common is the reason these ions are hard:
