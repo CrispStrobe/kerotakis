@@ -696,6 +696,62 @@ impl Provenance {
             .as_ref()
             .map_or_else(|| self.routing.clone(), |phrase| phrase.render(locale))
     }
+
+    /// What makes this the SAME answer as another provenance, for a caller
+    /// that has to decide whether the source of a vessel's numbers has
+    /// moved.
+    ///
+    /// Which engine, which dataset, which model, and which REASONS the
+    /// router gave — see [`Provenance::source_key`] for what the last of
+    /// those means and why it is not the rendered sentence.
+    ///
+    /// Deliberately not `PartialEq` on the whole record:
+    /// `dataset_sources` is a citation list that travels with the dataset
+    /// and cannot move without `dataset` moving.
+    #[must_use]
+    pub fn same_source_as(&self, other: &Provenance) -> bool {
+        self.source_key() == other.source_key()
+    }
+
+    /// The same comparison as [`Provenance::same_source_as`], as a value a
+    /// caller can hold on to after the provenance itself has gone.
+    ///
+    /// The routing enters as its SHAPE ([`crate::phrase::Phrase::shape`]),
+    /// not as a rendered sentence — the recipe's keys, its nesting, and
+    /// every name in it, with the measurements taken out. Two reasons to
+    /// do it that way, and the first is the one that matters:
+    ///
+    /// * **A number moving inside a reason is not a new reason.** The
+    ///   concentrated-brine route says *chosen because the solution is
+    ///   concentrated (~16.0 mol/kgw)*, and that number moves with every
+    ///   spoonful of salt. Comparing rendered text would report a routing
+    ///   change on every step of the lesson that adds salt, which is the
+    ///   noise `Event::SolutionRouted` exists to avoid.
+    /// * It is locale-free by construction. A reader switching to German
+    ///   has not changed which dataset answers their beaker.
+    ///
+    /// A provenance old enough to have no recipe falls back to its
+    /// English, which is all it has, and compares honestly against
+    /// another of its own kind.
+    ///
+    /// `\u{1f}` — ASCII unit separator — because it is the one byte that
+    /// cannot occur in a dataset name, a model name or a phrase key, so
+    /// two different provenances cannot collide by having their fields
+    /// land on the same concatenation.
+    #[must_use]
+    pub fn source_key(&self) -> String {
+        let routing = self
+            .routing_phrase
+            .as_ref()
+            .map_or_else(|| self.routing.clone(), crate::phrase::Phrase::shape);
+        [
+            self.engine.as_str(),
+            self.dataset.as_str(),
+            self.model.as_str(),
+            routing.as_str(),
+        ]
+        .join("\u{1f}")
+    }
 }
 
 /// How much of a vessel's liquid composition a [`SolutionInfo`] describes.
@@ -1152,11 +1208,43 @@ pub struct Vessel {
     /// ARCH-005: Solver-derived state, invalidated on mutation.
     #[serde(default)]
     pub resolved: ResolvedState,
+    /// The source key ([`Provenance::source_key`]) of the aqueous routing
+    /// this vessel has already been told about.
+    ///
+    /// `Event::SolutionRouted` fires on CHANGE, and this is what "change"
+    /// is measured against. It has to live on the vessel rather than in
+    /// the solver, because the thermal fixed point solves a CLONE of the
+    /// vessel up to eight times per step and keeps only the last one's
+    /// events: memory held in the solver would announce on the first pass
+    /// and then be silent on the pass whose events actually survive.
+    /// Cloned with the vessel, it is the same for every trial, so every
+    /// trial reaches the same verdict and the surviving one carries it.
+    ///
+    /// It is deliberately NOT the provenance already on
+    /// `solution.provenance`, which is a different question. That field is
+    /// the CURRENT source, and a later solver in the stack may nest its
+    /// own clause into it — the electrode pass in `displacement.rs` does
+    /// exactly that, with a computed activity in the sentence that moves
+    /// every step. Comparing against it would report a routing change on
+    /// every step of every metal lesson, which is the noise this event
+    /// exists to avoid. This field is what has been SAID, and only
+    /// `finalize_solution_info` writes it.
+    ///
+    /// **`#[serde(skip)]` on purpose.** This is narration state, not
+    /// chemistry: it records what a reader has been told, not anything
+    /// about the beaker. Keeping it off the wire means no saved session
+    /// and no vessel dump changes shape for it. The one visible cost is
+    /// that resuming a saved session re-states the routing once, which is
+    /// the right thing to say on resume anyway — the reader who just
+    /// opened the file has not been told.
+    #[serde(skip)]
+    pub aqueous_routing_said: Option<String>,
 }
 
 impl Vessel {
     pub fn new(id: VesselId, label: impl Into<String>) -> Self {
         Vessel {
+            aqueous_routing_said: None,
             elapsed_seconds: 0.0,
             nuclides: Default::default(),
             excess_enthalpy_j: 0.0,

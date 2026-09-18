@@ -8,7 +8,17 @@
  *     in `kerotakis-core/src/solve.rs`): every solver the stack asked, in
  *     the order it asked them, and what each one answered.
  *   * `provenance` on an event - the engine, dataset, model and routing
- *     sentence behind a computed claim (`vessel::Provenance`).
+ *     sentence behind a computed claim (`vessel::Provenance`). Two events
+ *     carry one: `thermal_equilibrium` for the combustion/CEA path, and
+ *     `solution_routed` for the aqueous one. The second is why the reader
+ *     below is written against the FIELD rather than against a list of
+ *     event names - a new event that carries a provenance reaches the
+ *     drawer without this file changing.
+ *
+ *     `solution_routed` fires on CHANGE, not on every characterisation:
+ *     the aqueous solver runs far more often than a reader wants a line.
+ *     So a step may carry no routing at all and still have been solved -
+ *     which is the routing standing, not a routing missing.
  *   * the honesty pass - `not_yet_modeled` events, which say in the
  *     engine's own words what the bench declined to claim.
  *

@@ -156,3 +156,217 @@ fn a_dataset_that_cannot_express_the_question_says_so() {
         other => panic!("expected CannotExpress, got {other:?}"),
     }
 }
+
+/// Which dataset answers this beaker, on the wire — and only when it
+/// changes.
+///
+/// `Event::SolutionRouted` exists because the provenance a learner would
+/// most want was the one the web could not see: `ProvenanceDrawer.svelte`
+/// reads `event.provenance`, and the only event that carried one was the
+/// combustion `ThermalEquilibrium`. The aqueous routing lived on
+/// `vessel.solution.provenance` and reached `kero explain` and nothing a
+/// reader reads in a browser.
+///
+/// The design is the emission rule, not the wire format, so BOTH halves
+/// are tested here. A test that only checked it fires would pass just as
+/// happily if it fired on every solve — which is what it must not do:
+/// `finalize_solution_info` runs five times over the three commands of
+/// `aq-023` alone.
+fn routed<'a>(events: &'a [Event], v: VesselId) -> Vec<&'a vessel::Provenance> {
+    events
+        .iter()
+        .filter_map(|event| match event {
+            Event::SolutionRouted { vessel, provenance } if *vessel == v => Some(provenance),
+            _ => None,
+        })
+        .collect()
+}
+
+#[test]
+fn the_routing_is_announced_when_the_dataset_changes_under_the_beaker() {
+    let mut eq = PhreeqcEquilibrator::new().expect("engine");
+    let mut bench = Bench::new();
+    let v = VesselId(0);
+
+    // The first characterisation differs from nothing, so it is news: the
+    // beaker has a source now and did not before.
+    let first = bench
+        .step_with(
+            Operator::Add {
+                vessel: v,
+                species: SpeciesId::new("water"),
+                moles: Moles(55.51),
+                at: None,
+            },
+            &mut eq,
+            &PermissiveScreen,
+        )
+        .expect("step");
+    let opening = routed(&first, v);
+    assert_eq!(
+        opening.len(),
+        1,
+        "the beaker says where its answers come from, once: {first:#?}"
+    );
+
+    // Enough salt to put the solution past where the default dataset is
+    // reliable. That is a different FILE answering the same beaker, which
+    // is exactly the sentence a learner should be shown at the moment it
+    // becomes true.
+    let brined = bench
+        .step_with(
+            Operator::Add {
+                vessel: v,
+                species: SpeciesId::new("NaCl"),
+                moles: Moles(8.0),
+                at: None,
+            },
+            &mut eq,
+            &PermissiveScreen,
+        )
+        .expect("step");
+    let moved = routed(&brined, v);
+    assert_eq!(
+        moved.len(),
+        1,
+        "one event for one change of dataset: {:#?}",
+        brined
+            .iter()
+            .filter(|e| matches!(e, Event::SolutionRouted { .. }))
+            .collect::<Vec<_>>()
+    );
+    assert_eq!(moved[0].dataset, PITZER_DATASET);
+    assert_ne!(
+        opening[0].dataset, moved[0].dataset,
+        "the announcement is the change, not a repeat"
+    );
+    assert!(
+        moved[0].model.contains("Pitzer"),
+        "and it carries the model that came with the file: {}",
+        moved[0].model
+    );
+    assert!(
+        moved[0].routing.contains("concentrated"),
+        "and the reason: {}",
+        moved[0].routing
+    );
+}
+
+#[test]
+fn a_repeat_characterisation_on_the_same_source_says_nothing() {
+    let mut eq = PhreeqcEquilibrator::new().expect("engine");
+    let mut bench = Bench::new();
+    let v = VesselId(0);
+    add(&mut bench, &mut eq, v, "water", 55.51);
+
+    // A second solute on the SAME dataset, the same model and the same
+    // reason. The solution is re-characterised — pH and ionic strength
+    // both move, and `SolutionCharacterized` says so — and the source has
+    // not moved at all.
+    let more = bench
+        .step_with(
+            Operator::Add {
+                vessel: v,
+                species: SpeciesId::new("NaCl"),
+                moles: Moles(0.05),
+                at: None,
+            },
+            &mut eq,
+            &PermissiveScreen,
+        )
+        .expect("step");
+    assert!(
+        more.iter()
+            .any(|e| matches!(e, Event::SolutionCharacterized { .. })),
+        "the beaker really was characterised again: {more:#?}"
+    );
+    assert!(
+        routed(&more, v).is_empty(),
+        "the routing had not changed, so there is nothing to say: {:#?}",
+        routed(&more, v)
+    );
+
+    // And again, with a third helping of the same salt. This is the case
+    // a rendered-text comparison gets wrong: the concentrated-brine route
+    // puts the molality IN its sentence, and a number moving inside a
+    // reason is not a new reason.
+    let again = bench
+        .step_with(
+            Operator::Add {
+                vessel: v,
+                species: SpeciesId::new("NaCl"),
+                moles: Moles(0.05),
+                at: None,
+            },
+            &mut eq,
+            &PermissiveScreen,
+        )
+        .expect("step");
+    assert!(
+        routed(&again, v).is_empty(),
+        "still the same source: {:#?}",
+        routed(&again, v)
+    );
+}
+
+/// The concentrated route's molality moves with every spoonful, and the
+/// routing does not.
+///
+/// `routing.concentrated-ion-interaction` renders *chosen because the
+/// solution is concentrated (~16.0 mol/kgw)*. Comparing the rendered
+/// sentence would announce a routing change on every step of a lesson
+/// that adds salt to brine. `Provenance::source_key` compares the recipe's
+/// SHAPE, so the measurement is out and the reasons are in.
+#[test]
+fn a_number_moving_inside_a_reason_is_not_a_new_reason() {
+    let mut eq = PhreeqcEquilibrator::new().expect("engine");
+    let mut bench = Bench::new();
+    let v = VesselId(0);
+    add(&mut bench, &mut eq, v, "water", 55.51);
+    add(&mut bench, &mut eq, v, "NaCl", 8.0);
+    let before = bench
+        .vessel(v)
+        .unwrap()
+        .solution
+        .clone()
+        .unwrap()
+        .provenance
+        .unwrap();
+
+    let more = bench
+        .step_with(
+            Operator::Add {
+                vessel: v,
+                species: SpeciesId::new("NaCl"),
+                moles: Moles(1.0),
+                at: None,
+            },
+            &mut eq,
+            &PermissiveScreen,
+        )
+        .expect("step");
+    let after = bench
+        .vessel(v)
+        .unwrap()
+        .solution
+        .clone()
+        .unwrap()
+        .provenance
+        .unwrap();
+
+    assert_ne!(
+        before.routing, after.routing,
+        "the sentence really did change — the molality in it moved"
+    );
+    assert!(
+        before.same_source_as(&after),
+        "and it is still the same routing:\n  {}\n  {}",
+        before.routing,
+        after.routing
+    );
+    assert!(
+        routed(&more, v).is_empty(),
+        "so nothing is announced: {:#?}",
+        routed(&more, v)
+    );
+}

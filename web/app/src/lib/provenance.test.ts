@@ -8,14 +8,22 @@ import { buildProvenance } from "./provenance";
  * is a test that passes while the drawer is blank.
  */
 
-/** An aqueous step: PHREEQC answered, the honesty pass had nothing to add. */
+/**
+ * An aqueous step: PHREEQC answered, the honesty pass had nothing to add.
+ *
+ * The provenance rides on `solution_routed`, which is the event that
+ * carries `vessel::Provenance` for the aqueous solver. This fixture used
+ * to hang it on `precipitated`, which was the one shape here the engine
+ * never emitted — `Event::Precipitated` has no provenance field and never
+ * had one. The drawer's aqueous source existed only in this file until
+ * `SolutionRouted` shipped, and a fixture that drifts from the engine is
+ * exactly the test that passes while the drawer is blank.
+ */
 const aqueousStep = {
   events: [
     {
-      event: "precipitated",
+      event: "solution_routed",
       vessel: 0,
-      species: "AgCl",
-      moles: 0.01,
       provenance: {
         engine: "PHREEQC (IPhreeqc)",
         dataset: "minteq.v4.dat",
@@ -283,5 +291,56 @@ describe("buildProvenance", () => {
     expect(report.routes[0]?.outcome).toBe("failed");
     expect(report.headline).toBeNull();
     expect(report.empty).toBe(false);
+  });
+
+  /**
+   * The aqueous routing reaches the SAME surface as the combustion one.
+   *
+   * This is the whole point of `Event::SolutionRouted`: the drawer reads
+   * `event.provenance`, and until it existed the only event carrying one
+   * was `thermal_equilibrium`. A learner asking where a beaker's pH came
+   * from could not be told. Both fixtures below go through one code path
+   * and land in `report.sources`, which is what the drawer prints.
+   */
+  it("reads the aqueous routing off solution_routed, as it reads the burn's", () => {
+    const aqueous = buildProvenance(aqueousStep).sources[0];
+    const burn = buildProvenance(burnStep).sources[0];
+    expect(aqueous?.dataset).toBe("minteq.v4.dat");
+    expect(aqueous?.routing).toBe(
+      "an aqueous solution is characterised, so the speciation engine leads",
+    );
+    expect(burn?.dataset).toBe("thermo.inp");
+    // Same fields populated on both, from one reader.
+    expect(Object.keys(aqueous ?? {}).sort()).toEqual(Object.keys(burn ?? {}).sort());
+  });
+
+  /**
+   * The routing arrives translated, because `localize_event` renders it
+   * before the event leaves the engine. The shell prints it verbatim and
+   * must not care which language it is in — a fixture in German proves
+   * there is no English-shaped assumption in the reader.
+   */
+  it("prints the routing in whatever language the engine sent", () => {
+    const report = buildProvenance({
+      events: [
+        {
+          event: "solution_routed",
+          vessel: 0,
+          provenance: {
+            engine: "PHREEQC (IPhreeqc, USGS)",
+            dataset: "pitzer.dat",
+            model: "Pitzer specific-ion-interaction",
+            dataset_sources: [],
+            routing:
+              "die Ionenstärke liegt über dem Bereich, in dem der Standarddatensatz zuverlässig ist",
+          },
+        },
+      ],
+      routes: [],
+    });
+    expect(report.sources[0]?.routing).toBe(
+      "die Ionenstärke liegt über dem Bereich, in dem der Standarddatensatz zuverlässig ist",
+    );
+    expect(report.sources[0]?.dataset).toBe("pitzer.dat");
   });
 });

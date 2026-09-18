@@ -92,6 +92,44 @@ impl Phrase {
             .collect();
         locale.fill_owned(&self.key, &self.en, &vars)
     }
+
+    /// What this clause SAYS, with the measurements taken out.
+    ///
+    /// The key and the nesting and every name in it, and a `#` wherever a
+    /// number stood. It exists for a caller that has to decide whether a
+    /// sentence is the same sentence as one it saw earlier — which is a
+    /// different question from whether the two render identically.
+    ///
+    /// `Event::SolutionRouted` is the caller, and the aqueous router is
+    /// the reason it is needed: its concentrated-brine route says *chosen
+    /// because the solution is concentrated (~16.0 mol/kgw)*, and the
+    /// number in it moves every time another spoonful of salt goes in. A
+    /// rendered comparison would call that a routing change and say so,
+    /// every step, in exactly the lesson where a learner is adding salt.
+    /// It is the same routing, re-measured. A number moving inside a
+    /// reason is not a new reason.
+    ///
+    /// Everything that is NOT a measurement is kept, including the text
+    /// slots — those carry dataset and model NAMES (the second-speciation
+    /// clause names the file it asked for the solvent's activity), and a
+    /// different file is a different answer however alike the sentences
+    /// look.
+    ///
+    /// Locale-free on purpose: a reader switching to German has not
+    /// changed which dataset answers their beaker, and must not be told
+    /// they have.
+    #[must_use]
+    pub fn shape(&self) -> String {
+        let mut slots: Vec<String> = self
+            .slots
+            .iter()
+            .map(|(name, slot)| format!("{name}={}", slot.shape()))
+            .collect();
+        // The doc on `slots` says "in no particular order", so the shape
+        // may not depend on the order either.
+        slots.sort();
+        format!("{}({})", self.key, slots.join(","))
+    }
 }
 
 /// What goes in a hole.
@@ -132,6 +170,24 @@ pub enum Slot {
 }
 
 impl Slot {
+    /// This slot with the measurements taken out — see [`Phrase::shape`].
+    #[must_use]
+    pub fn shape(&self) -> String {
+        match self {
+            // A measured value is the thing this comparison exists to
+            // ignore. Its PRESENCE still counts: a reason that gained a
+            // number is a different reason.
+            Slot::Number { .. } => "#".to_string(),
+            Slot::Text { text } => format!("t:{text}"),
+            Slot::Term { section, en } => format!("{section}:{en}"),
+            Slot::Phrase { phrase } => phrase.shape(),
+            Slot::List { items } => {
+                let inner: Vec<String> = items.iter().map(Slot::shape).collect();
+                format!("[{}]", inner.join("|"))
+            }
+        }
+    }
+
     pub fn text(value: impl Into<String>) -> Slot {
         Slot::Text { text: value.into() }
     }

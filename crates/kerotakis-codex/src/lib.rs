@@ -1464,6 +1464,11 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         E::StockExhausted { key, .. } => ("stock_exhausted", Some(key.as_str())),
         E::ReactionOccurred { .. } => ("reaction", None),
         E::SolutionCharacterized { .. } => ("solution", None),
+        // Which dataset answers this beaker. A claim about provenance, not
+        // about chemistry — a quest can ask that the routing was stated,
+        // never which file it named, because the file is an implementation
+        // of the lab and not a fact about the world.
+        E::SolutionRouted { .. } => ("solution_routed", None),
         E::ThermalEquilibrium { .. } => ("thermal_equilibrium", None),
         E::TemperatureChanged { .. } => ("temperature_changed", None),
         E::EnergyTransferred { .. } => ("energy_transferred", None),

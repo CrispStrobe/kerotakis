@@ -17,6 +17,7 @@
 //!    holes and all, wherever a host renders the event.
 
 use kerotakis_core::phrase::{Phrase, Slot};
+use kerotakis_core::render::{render_event_in, Register};
 use kerotakis_core::vessel::Provenance;
 use kerotakis_core::{Kelvin, Locale, VesselId};
 
@@ -170,4 +171,132 @@ fn the_event_a_host_reads_carries_the_translated_routing() {
     // English is the no-op it has always been.
     let untouched = kerotakis_core::localize_events(std::slice::from_ref(&event), Locale::EN);
     assert_eq!(untouched[0], event);
+}
+
+/// The aqueous half, which is why `Event::SolutionRouted` exists.
+///
+/// `ProvenanceDrawer.svelte` prints `source.routing` verbatim off whatever
+/// event carries a provenance, so the routing has to be German by the time
+/// the event leaves the engine — exactly as the combustion one above is.
+/// The reader in `provenance.ts` is written against the FIELD and not
+/// against a list of event names, so this arm is the whole of the wiring.
+#[test]
+fn the_aqueous_routing_reaches_a_host_in_the_readers_language() {
+    let event = kerotakis_core::Event::SolutionRouted {
+        vessel: VesselId(0),
+        provenance: Provenance::new(
+            "PHREEQC (IPhreeqc, USGS)",
+            "pitzer.dat",
+            "Pitzer specific-ion-interaction",
+            Vec::new(),
+            Phrase::new(
+                "routing.concentrated-ion-interaction",
+                "chosen because the solution is concentrated (~{molality} mol/kgw), where the ion-interaction model is the valid one",
+                vec![("molality".to_string(), Slot::number("16.0"))],
+            ),
+        ),
+    };
+    let localized = kerotakis_core::localize_events(std::slice::from_ref(&event), de());
+    let kerotakis_core::Event::SolutionRouted { provenance, .. } = &localized[0] else {
+        panic!("the event survives localization as itself");
+    };
+    assert!(
+        provenance.routing.contains("konzentriert") && provenance.routing.contains("16,0 mol/kgw"),
+        "{}",
+        provenance.routing
+    );
+    assert!(
+        !provenance.routing.contains("chosen because"),
+        "no English left in it: {}",
+        provenance.routing
+    );
+    // The dataset is a FILE NAME and is never translated.
+    assert_eq!(provenance.dataset, "pitzer.dat");
+    // The recipe stays in the source language, as the combustion one does.
+    assert_eq!(
+        provenance.routing_phrase.as_ref().map(|p| p.key.as_str()),
+        Some("routing.concentrated-ion-interaction")
+    );
+    assert_eq!(
+        kerotakis_core::localize_events(std::slice::from_ref(&event), Locale::EN)[0],
+        event
+    );
+}
+
+/// The line a reader actually sees, in German, at every register.
+///
+/// `localize_event` renders the event; this is the gate that the three
+/// catalogue rows exist and that no English survives into the German
+/// sentence. A key with no German row would render its English source and
+/// pass every other test in this file.
+#[test]
+fn the_rendered_line_is_german_at_every_register() {
+    let event = kerotakis_core::Event::SolutionRouted {
+        vessel: VesselId(0),
+        provenance: Provenance::new(
+            "PHREEQC (IPhreeqc, USGS)",
+            "pitzer.dat",
+            "Pitzer specific-ion-interaction",
+            Vec::new(),
+            Phrase::bare(
+                "routing.default-inorganic",
+                "the default inorganic aqueous dataset",
+            ),
+        ),
+    };
+    for register in [Register::LV1, Register::LV2, Register::LV3] {
+        let line = render_event_in(&event, register, de());
+        assert!(
+            line.contains("pitzer.dat"),
+            "{register} names the file: {line}"
+        );
+        assert!(
+            !line.contains("is being worked out")
+                && !line.contains("answered by")
+                && !line.contains("routing →"),
+            "{register} is German, not the English source: {line}"
+        );
+    }
+}
+
+/// `Phrase::shape` is what `Event::SolutionRouted` compares, so it has to
+/// hold two properties that a rendered comparison does not: a measurement
+/// moving is the same shape, and a different NAME is not.
+#[test]
+fn a_routings_shape_ignores_its_measurements_and_keeps_its_names() {
+    let at = |molality: &str| {
+        Phrase::new(
+            "routing.concentrated-ion-interaction",
+            "chosen because the solution is concentrated (~{molality} mol/kgw), where the ion-interaction model is the valid one",
+            vec![("molality".to_string(), Slot::number(molality))],
+        )
+    };
+    assert_eq!(at("16.0").shape(), at("16.2").shape());
+    assert_ne!(
+        at("16.0").shape(),
+        Phrase::bare(
+            "routing.default-inorganic",
+            "the default inorganic aqueous dataset"
+        )
+        .shape(),
+        "a different reason is a different shape"
+    );
+
+    // A dataset NAME lives in a text slot, and swapping it is a different
+    // answer however alike the two sentences read.
+    let second = |dataset: &str| {
+        Phrase::new(
+            "routing.second-speciation-for-solvent",
+            "{routing}; the solvent's activity is from {dataset}",
+            vec![
+                (
+                    "routing".to_string(),
+                    Slot::phrase(Phrase::bare("routing.default-inorganic", "the default")),
+                ),
+                ("dataset".to_string(), Slot::text(dataset)),
+            ],
+        )
+    };
+    assert_ne!(second("pitzer.dat").shape(), second("wateq4f.dat").shape());
+    assert_eq!(second("pitzer.dat").shape(), second("pitzer.dat").shape());
 }

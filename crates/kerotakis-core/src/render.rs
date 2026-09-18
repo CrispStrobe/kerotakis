@@ -3645,6 +3645,44 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 )
             }
         },
+        // Where this beaker's numbers come from, said at the moment it
+        // becomes true and not again while it holds.
+        //
+        // The routing sentence is the engine's own recipe and is rendered
+        // HERE, in the reader's language, exactly as the combustion
+        // event's is — `routing_in(locale)` rather than the `routing`
+        // field, which keeps its English for the audit script and the
+        // three tests that read it. lv1 gets the dataset's name and
+        // nothing else: which file answered is the one fact a learner can
+        // act on, and the reason it answered is a paragraph. lv2 and lv3
+        // get the reason, because that is where a reader asks for it.
+        Event::SolutionRouted { vessel, provenance } => match register.level() {
+            1 => locale.fill(
+                "event.solution-routed.lv1",
+                "The chemistry in {vessel} is being worked out from {dataset}.",
+                &[("vessel", &vessel.to_string()), ("dataset", &provenance.dataset)],
+            ),
+            2 => locale.fill(
+                "event.solution-routed.lv2",
+                "{vessel}: answered by {dataset} — {routing}",
+                &[
+                    ("vessel", &vessel.to_string()),
+                    ("dataset", &provenance.dataset),
+                    ("routing", &provenance.routing_in(locale)),
+                ],
+            ),
+            _ => locale.fill(
+                "event.solution-routed.lv3",
+                "{vessel}: routing → {engine} · {dataset} · {model} — {routing}",
+                &[
+                    ("vessel", &vessel.to_string()),
+                    ("engine", &provenance.engine),
+                    ("dataset", &provenance.dataset),
+                    ("model", &provenance.model),
+                    ("routing", &provenance.routing_in(locale)),
+                ],
+            ),
+        },
         // I18N-7: the summary is recomposed here rather than read off the
         // event. `Appearance.words` is the ENGLISH source text — every
         // existing consumer still gets it — and `say` rebuilds the same
@@ -4882,6 +4920,20 @@ pub fn localize_event(event: &Event, locale: Locale) -> Event {
         Event::ThermalEquilibrium { .. } => {
             let mut translated = event.clone();
             if let Event::ThermalEquilibrium { provenance, .. } = &mut translated {
+                provenance.routing = provenance.routing_in(locale);
+            }
+            translated
+        }
+        // The aqueous half of the same thing, and the reason this event
+        // exists. `provenance.ts` lifts `event.provenance` off ANY event
+        // and `ProvenanceDrawer.svelte` prints `source.routing` verbatim,
+        // so this arm is what stops a German session meeting the aqueous
+        // routing paragraph in English in the drawer. Same shape as the
+        // combustion one directly above: the recipe stays on the event as
+        // the source, and only the rendered field is translated.
+        Event::SolutionRouted { .. } => {
+            let mut translated = event.clone();
+            if let Event::SolutionRouted { provenance, .. } = &mut translated {
                 provenance.routing = provenance.routing_in(locale);
             }
             translated
