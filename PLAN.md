@@ -3723,10 +3723,13 @@ state a sibling `{@const}` reads.
       together, which is why the reading is a named function and not a
       second inline `any`.
 
-      **What it moved, measured by CI.** No lesson golden at all: the
-      repeat #667 already suppresses is the only place the sentence
-      reached a dried-out vessel, so removing it removed nothing that was
-      still being printed. One curiosity row moved — `bio-001`, *why does
+      **What it moved, measured by CI.** One lesson,
+      `invisible-ink-boundary`, whose script is `evaporate v1 1` and then
+      `heat`: two lines go, `event_count` 26 → 24. Both are the
+      transcript's own sentence about a different solid — *cellulose … in
+      contact with liquid* and *citric acid … in contact with liquid* —
+      printed two steps after the water was driven off. One curiosity row
+      moved — `bio-001`, *why does
       bread dough rise when yeast is added?* — from
       `qualitative`/`typed-observation` to
       `computed`/`typed-engine-event`, because the honesty route now
@@ -3746,6 +3749,12 @@ state a sibling `{@const}` reads.
       named here so it is not found cold a third time; it is left out of
       this change because its output is pinned by `scene-five.json` and the
       lesson goldens, and this box could not be used to regenerate them.
+      The golden for `invisible-ink-boundary` now shows the two defects
+      side by side, which is the clearest statement of what is left: the
+      two false apologies are gone, and the line after them still reads
+      *"The liquid is white and so cloudy you cannot see through it"* —
+      about the same dried-out vessel, off the same `any(Liquid |
+      Aqueous)`, one subsystem over.
 
 ### UI framework
 
