@@ -3500,6 +3500,43 @@ question was asked.
 
 ### From a live transcript, 2026-09-18 — the peroxide/chalk vessel
 
+**The data gap #665 named, now counted.** The routing estimate caps what a
+phase may contribute by the reviewed solubility the registry holds — and
+falls back to counting it in full where there is none, on purpose, because
+that is what keeps a real brine routing to Pitzer. So the cap only bites
+where the data exists, and the transcript's own manganese dioxide and
+silver chloride are among the solids where it does not.
+
+Measured against `crates/kerotakis-core/tests/golden/registry.json` and
+`data/registry/registry-source-v1.json` on 2026-09-18:
+
+- **93 solid species** in the shipped registry.
+- **22** carry a reviewed `aqueous-solubility-g-per-100-ml`, and they are
+  mostly organics and polymers — sulfur, chalk and quartz are the only
+  three that are also aqueous-database phases.
+- **71 do not.** Among them, by a crude name match against the 319 phases
+  in `wateq4f.dat`: Cu(OH)2, CuSO4, antlerite, atacamite, brochantite,
+  chalcanthite, epsomite, gypsum, langite.
+
+- [ ] **Give the precipitating solids a reviewed solubility, with a source
+      each.** Two pieces of work, and the second is the one that is easy to
+      miss:
+
+      **The values.** Each needs a citation traceable to an original
+      measurement, under the standing rule — any book may be cited, no book
+      may be systematically harvested, and the original source of a value is
+      what gets cited rather than the compilation that repeated it. A value
+      with no reachable source is better left absent than guessed: absent is
+      what the full-count fallback is *for*.
+
+      **The crosswalk, which is a finding in its own right.** The nine above
+      are what a *string* match finds. AgCl and MnO₂ are database phases too
+      — under `Chlorargyrite` and `Pyrolusite`/`Birnessite` — so a registry
+      key and a phase name do not compare by equality, and any honest count
+      of this gap needs a mineral-name crosswalk first. Until that exists,
+      "9" is a floor and not the number.
+
+
 The owner pasted a Laborbuch transcript from a vessel that boiled dry
 while catalase and manganese dioxide were decomposing peroxide. Four
 defects in it, each verified against the source rather than inferred from
