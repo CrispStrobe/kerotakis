@@ -110,14 +110,49 @@ impl Phrase {
     /// reason is not a new reason.
     ///
     /// Everything that is NOT a measurement is kept, including the text
-    /// slots — those carry dataset and model NAMES (the second-speciation
-    /// clause names the file it asked for the solvent's activity), and a
-    /// different file is a different answer however alike the sentences
-    /// look.
+    /// slots and the nesting. The second-speciation clause is the one
+    /// that matters: it names the dataset it asked for the solvent's
+    /// activity, and a different file is a different answer however alike
+    /// the sentences look. That name used to sit directly in a text slot
+    /// and now sits in a text slot at the BOTTOM of the dataset's own
+    /// recipe, which this descends into — so the file is still in the
+    /// shape, and the reliability range inside the model's recipe is
+    /// correctly a `#`, because two datasets are never told apart by a
+    /// number in a parenthesis. Their KEYS differ.
     ///
     /// Locale-free on purpose: a reader switching to German has not
     /// changed which dataset answers their beaker, and must not be told
     /// they have.
+    /// The first plain-TEXT value filled into a slot of this name, looking
+    /// inside nested clauses.
+    ///
+    /// For a caller that put a NAME into a sentence and now wants the name
+    /// back without the sentence. `Provenance::dataset_file` is the one:
+    /// the dataset claim is *{file} plus USBM IC 9429 reference-temperature
+    /// complexes* nested inside *{file}, with the reviewed Sander HBr
+    /// gas-uptake slice*, and LV1 wants `wateq4f.dat` and none of the rest.
+    ///
+    /// Depth-first and TEXT only. A nested clause under the same slot name
+    /// is descended into rather than returned, because the name is always
+    /// at the bottom of the nesting; a `Term` is deliberately not matched,
+    /// since a term is a word the catalogue translates and this exists to
+    /// find the ones it must not.
+    #[must_use]
+    pub fn text_slot(&self, name: &str) -> Option<&str> {
+        for (slot_name, slot) in &self.slots {
+            match slot {
+                Slot::Text { text } if slot_name == name => return Some(text.as_str()),
+                Slot::Phrase { phrase } => {
+                    if let Some(found) = phrase.text_slot(name) {
+                        return Some(found);
+                    }
+                }
+                _ => {}
+            }
+        }
+        None
+    }
+
     #[must_use]
     pub fn shape(&self) -> String {
         let mut slots: Vec<String> = self

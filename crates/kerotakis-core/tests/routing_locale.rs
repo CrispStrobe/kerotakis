@@ -123,6 +123,8 @@ fn a_provenance_without_a_recipe_keeps_its_english() {
         dataset_sources: Vec::new(),
         routing: "written before there was a recipe".to_string(),
         routing_phrase: None,
+        dataset_phrase: None,
+        model_phrase: None,
     };
     assert_eq!(
         provenance.routing_in(de()),

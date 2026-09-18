@@ -95,6 +95,16 @@ COMPOSERS = [
     # that composes a refusal does.
     ROOT / "crates/kerotakis-core/src/combustion.rs",
     ROOT / "crates/kerotakis-cea/src/thermal.rs",
+    # `Provenance.dataset` and `.model` — WHICH dataset answered and which
+    # model it applies — were the fifth and last instance of the same
+    # defect, and the model half is composed HERE: `ActivityModel::phrase`
+    # is the only place the three activity-model descriptions exist. The
+    # dataset half is composed in `aqueous.rs`, already listed above. A
+    # file that composes a provenance clause belongs here for the same
+    # reason a file that composes a routing clause does — and this is the
+    # first composer outside `kerotakis-core` and `kerotakis-cea`, which is
+    # why the glob above it is a LIST and not a directory walk.
+    ROOT / "crates/kerotakis-phreeqc/src/dbindex.rs",
     # The particle drawing's captions. `Census::render` took a `Register`
     # and no `Locale` at all until 2026-09-18, so a German session drew its
     # particles under English captions — and because this file was not in

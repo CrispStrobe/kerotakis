@@ -675,8 +675,18 @@ impl Equilibrator for CombustionEquilibrator {
             holds_nothing: vessel.contents.is_empty(),
             provenance: Provenance::new(
                 "curated combustion (Kerotakis)",
+                // A bare id, and there is nothing in it to translate.
                 "kerotakis:combustion:curated-fuels-v1",
-                "complete combustion to CO2 and H2O at a tabulated heat of combustion, with a limiting oxygen fraction of 0.16 for a closed boundary",
+                // A whole English sentence, on a field a reader sees. The
+                // oxygen fraction is a NUMBER: German writes 0,16.
+                crate::phrase::Phrase::new(
+                    "provenance.model.curated-complete-combustion",
+                    "complete combustion to CO2 and H2O at a tabulated heat of combustion, with a limiting oxygen fraction of {fraction} for a closed boundary",
+                    vec![(
+                        "fraction".to_string(),
+                        crate::phrase::Slot::number("0.16"),
+                    )],
+                ),
                 FUELS
                     .iter()
                     .map(|fuel| format!("{}: {}", fuel.species, fuel.equation))

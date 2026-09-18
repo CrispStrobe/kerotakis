@@ -47,6 +47,8 @@ fn brine_with_silver() -> Vessel {
             dataset_sources: Vec::new(),
             routing: "the only aqueous engine wired in this test".into(),
             routing_phrase: None,
+            dataset_phrase: None,
+            model_phrase: None,
         }),
     });
     v

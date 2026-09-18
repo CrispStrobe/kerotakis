@@ -14,6 +14,59 @@ it had while it was open, which is why a few numbers appear twice below.
 
 ## 2026-09-18
 
+**The last of the welded prose: a dataset and a model are names again (#655)**
+
+`Provenance.dataset` and `.model` were the fifth and final instance of the
+defect `Inert.why` (#626), `NotYetModeled.what` (#632), `scene_vessel`
+(#628) and `routing` (#642) closed one field at a time. `kero explain`
+made it plain the moment it spoke German (#648):
+
+    Modell:  WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)
+    ... mit wateq4f.dat plus USBM IC 9429 reference-temperature complexes,
+        with the reviewed Sander HBr gas-uptake slice
+
+`wateq4f.dat` is a NAME. What was welded to it is a SENTENCE — a
+reliability range in a parenthesis, and two clauses saying what this lab
+added to the vendored file. Same split #642 struck: the English fields
+stay, `dataset_phrase` and `model_phrase` carry the recipe, and each
+English field is that recipe rendered at `Locale::EN`, byte for byte what
+it was.
+
+**#642's entry above says "nothing branches on the sentence — the one
+structural read of a provenance uses `model`, a dataset's name, which is
+the shape to keep". Half of that was wrong, and it is the finding here.**
+`solve.rs::solvent_activity_of` does read `model`, but `model` was never a
+name: it was *Pitzer specific-ion-interaction model (valid at high ionic
+strength)*, prose with a name on the front, matched by
+`starts_with("Pitzer")`. To that caller the field is a **boolean spelled in
+English**, and it picks the ion-interaction route over the ideal one. One
+molal salt water freezes at −3.44 °C on the first and −3.61 °C on the
+second, against a thermometer's −3.4. A reword, or a translation, sends
+every brine back to Raoult with nothing failing. It is
+`#632`'s `why.contains("cannot name")` again, one field along and with a
+number on the end of it. The seam is pinned from both sides now:
+`ActivityModel::phrase().render(EN) == describe()` is asserted, and
+`describe()` still starts with the prefix.
+
+Two things the earlier passes could not have done. `Provenance::new` takes
+a `Claim` — `Name` or `Said` — because a dataset is sometimes a name and
+nothing else (`NASA CEA thermo.inp`), and the old `impl Into<String>` could
+not tell a name from a sentence, which is how this lasted; a name gets no
+catalogue row, because a row over a name invites a translator to change
+one. And `dataset_file()` asks the recipe for its `file` slot instead of
+taking the first whitespace token (#653) — a guess that worked only because
+English puts the noun first — so the water route can say *vendored USGS
+phreeqc.dat* without LV1 announcing "vendored".
+
+Eleven catalogue rows, German authored. `dbindex.rs` joins the engine
+lint's composer list: `ActivityModel::phrase` is the only place those three
+descriptions exist, and it is the first composer outside `kerotakis-core`
+and `kerotakis-cea`. One thing left deliberately: `ionic.rs`'s
+`provenance_of` still welds the three fields with `format!` and no
+`Locale`, into `NetIonic.provenance` — a field no reader reaches today, and
+localizing it means threading a `Locale` through a public signature
+`kerotakis-wasm` calls.
+
 **The catalogue list became a window, and the search had to earn it (#650)**
 
 GUI-105 (#638) put 752 rows in one index, and the list drew all of them.
