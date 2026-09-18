@@ -12,6 +12,73 @@ it had while it was open, which is why a few numbers appear twice below.
 
 ---
 
+## 2026-09-18
+
+**The catalogue list became a window, and the search had to earn it (#650)**
+
+GUI-105 (#638) put 752 rows in one index, and the list drew all of them.
+Measured in Chromium over the built payload before touching anything:
+**12,191 elements in one dialog**, and **3.9 s** from pressing *experiments*
+to the list being on screen with the CPU throttled 4× — the 2018-class
+device the performance budgets in `ROADMAP-GUI.md` are written for. The
+dozen cards that fit a viewport now cost **1,125 elements** and **0.9 s**.
+
+The interesting half is not the window. Windowing a list retires
+find-in-page, because `Strg+F` can only see what the browser painted; the
+whole case for doing it rests on the in-app box reaching MORE than Ctrl-F
+ever did, which it does only if it greps the descriptions. So the first
+thing done here was to audit that claim rather than repeat it — and **it
+was false in three places**, all of them prose a card draws today:
+
+- `safety_rationale` and `safety_guidance` were in no haystack at all,
+  while **58 guided cards print the rationale** as their safety line. The
+  one visible paragraph of a guided card the search could not see.
+- The built payload carries `procedure_de` and `observations_de` on **22
+  rows** — `tools/kids-catalog.py` merges `experiments-de-v1.json` in at
+  build time — and the haystack held only the English. `kidsList` PREFERS
+  the German twin, so the card printed words the search could not match.
+  A checked-in fixture cannot see this: the source file has no `_de` at
+  all, and the hole opens in the build step. The test walks the merge.
+- A question card draws `t(reason)`; the haystack held only the
+  untranslated `words(reason_code)`. **All 500 questions**: a German
+  reader could read a refusal on a card and then find nothing by typing it
+  back. Now `Bruchmechanik` returns the three ceramic-fracture rows.
+
+The lesson is the shape of the defect, not the fields. A haystack that is
+merely *adequate* while the whole list is painted becomes load-bearing the
+moment the list is windowed — the same latency the corpus route leak had,
+where a bug stays invisible for exactly as long as something else is
+covering for it. Six test cases now fail if any of it is taken back out.
+
+Two performance findings worth keeping. The first window was **three times
+slower to scroll** than the unwindowed list, from two feedback loops that
+only measuring found: a `ResizeObserver` watching the grid whose height
+the windowing code SETS, so every learnt row height re-entered the
+measurement that produced it; and `getComputedStyle` read on every scroll
+frame rather than on resize, a style recalculation per frame costing more
+than the window saved. The second: a row-height estimate recomputed as the
+running mean moves *every unmeasured row* a pixel or two on every
+measurement, which moves the scroll anchor, which moves the scroller,
+which raises a scroll event — a list re-settling every frame instead of
+once. Held still between material changes, it settles.
+
+What the estimate costs is stated rather than promised, because cards are
+not uniform (a refused question is three lines, a guided experiment with a
+kit is twenty): the scrollbar reports **99,172 px on open, peaks at
+116,516 px partway down, and converges to 90,702 px against an unwindowed
+truth of 90,698**. Up to ~28% long ahead of the reader, exact to 4 px in
+90,000 behind them. It overshoots because the tall experiment cards come
+first and the 500 short question rows are still estimated.
+
+Accessibility was the other thing not to trade away. A screen reader is
+still told there are 730: `role="list"` labelled with the FILTERED total,
+`aria-setsize` and `aria-posinset` on every card, so "3 of 730" survives a
+DOM holding twelve. And the focused row is pinned into the window wherever
+the reader scrolls — verified at 40,000 px away, the button still focused,
+still connected, Tab still moving to the next control in the list. Drop
+the element that holds focus and focus goes to `<body>`, which silently
+restarts the tab order at the top of the document.
+
 ## 2026-09-17
 
 **I18N-10's two follow-ups — the routing line and the joined lists (#642)**
