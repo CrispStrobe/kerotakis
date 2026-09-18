@@ -597,9 +597,25 @@ pub struct SpeciesDetail {
 pub struct Provenance {
     /// The solver that produced the answer, e.g. "PHREEQC (IPhreeqc)".
     pub engine: String,
-    /// The dataset it consulted, e.g. "wateq4f.dat".
+    /// The dataset it consulted, e.g. "wateq4f.dat", in English.
+    ///
+    /// Kept as a finished string for the same reason [`Provenance::routing`]
+    /// is: it has consumers that are not readers. `tools/chemistry-audit`
+    /// files it beside the numbers it checked, and the dataset tests in
+    /// `kerotakis-phreeqc` assert on it with `assert_eq!`. When
+    /// `dataset_phrase` is present this is that recipe rendered in
+    /// English, so every one of them sees exactly what it saw before.
     pub dataset: String,
     /// The model that dataset applies, e.g. "Pitzer specific-ion-interaction".
+    ///
+    /// **This field is read as a DECISION, not only as prose.**
+    /// `solve.rs::solvent_activity_of` asks whether it starts with
+    /// [`crate::states::ION_INTERACTION_MODEL_PREFIX`] to choose between
+    /// the ion-interaction and the ideal colligative route, and a freezing
+    /// point moves by degrees on the answer. So it stays English and stays
+    /// byte-identical: `model_phrase` renders back to exactly this string
+    /// in `Locale::EN`, which is the property that makes the split
+    /// invisible to that branch.
     pub model: String,
     /// How the dataset itself documents its sources (a sample of the
     /// literature citations carried in the data file).
@@ -635,6 +651,43 @@ pub struct Provenance {
     /// nothing.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub routing_phrase: Option<Phrase>,
+    /// The dataset claim as a RECIPE — the file NAME in a slot, and the
+    /// clauses welded around it as translatable text.
+    ///
+    /// The fifth instance of the defect `Inert.why` (#626),
+    /// `NotYetModeled.what` (#632), `scene_vessel` (#628) and `routing`
+    /// (#642) each were one field along. `dataset` was never one thing: it
+    /// is a NAME — `wateq4f.dat`, and a name is never translated — with an
+    /// English SENTENCE welded to it saying what this lab added to the
+    /// vendored file and why. A German reader met that sentence in
+    /// English in the middle of their own.
+    ///
+    /// The name travels in a [`crate::phrase::Slot::Text`], which is the
+    /// slot that is never translated; the clauses are the template around
+    /// it, which is.
+    ///
+    /// Absent where the dataset is a name and nothing else — `NASA CEA
+    /// thermo.inp`, `kerotakis:combustion:curated-fuels-v1`. There is no
+    /// sentence to translate there, and a catalogue row over a bare name
+    /// would be a row inviting a translator to change one.
+    ///
+    /// Optional and omitted on the wire when absent, so a session saved
+    /// before this field existed still loads and still answers in English.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub dataset_phrase: Option<Phrase>,
+    /// The model claim as a RECIPE — the model's NAME in a slot, its
+    /// reliability range as a NUMBER in another, and the sentence between
+    /// them as translatable text.
+    ///
+    /// The number is the half that could not survive as prose. *Davies
+    /// equation (reliable to about I = 0.5 mol/kgw)* is a German *0,5*,
+    /// and no catalogue over a finished string can know there was a
+    /// decimal point in it to move.
+    ///
+    /// See [`Provenance::model`] for why the English field stays exactly
+    /// where it is.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub model_phrase: Option<Phrase>,
 }
 
 impl Provenance {
@@ -660,7 +713,51 @@ impl Provenance {
             dataset_sources,
             routing: routing.render(Locale::EN),
             routing_phrase: Some(routing),
+            dataset_phrase: None,
+            model_phrase: None,
         }
+    }
+
+    /// Say the dataset as a recipe, keeping the English field in step.
+    ///
+    /// The English is REPLACED by the recipe rendered in the source
+    /// language rather than left as whatever the caller passed, which is
+    /// the property the whole split rests on: there is one sentence, not
+    /// two, so `dataset_in(Locale::EN)` is byte-identical to `dataset` by
+    /// construction and nothing that reads the field moves.
+    #[must_use]
+    pub fn with_dataset(mut self, dataset: Phrase) -> Provenance {
+        self.dataset = dataset.render(Locale::EN);
+        self.dataset_phrase = Some(dataset);
+        self
+    }
+
+    /// Say the model as a recipe, keeping the English field in step.
+    ///
+    /// Same construction as [`Provenance::with_dataset`], and here the
+    /// byte-identity is not a nicety: `solve.rs` routes the colligative
+    /// answer on `model.starts_with("Pitzer")`.
+    #[must_use]
+    pub fn with_model(mut self, model: Phrase) -> Provenance {
+        self.model = model.render(Locale::EN);
+        self.model_phrase = Some(model);
+        self
+    }
+
+    /// Which dataset answered, in the reader's language.
+    #[must_use]
+    pub fn dataset_in(&self, locale: Locale) -> String {
+        self.dataset_phrase
+            .as_ref()
+            .map_or_else(|| self.dataset.clone(), |phrase| phrase.render(locale))
+    }
+
+    /// Which model it applies, in the reader's language.
+    #[must_use]
+    pub fn model_in(&self, locale: Locale) -> String {
+        self.model_phrase
+            .as_ref()
+            .map_or_else(|| self.model.clone(), |phrase| phrase.render(locale))
     }
 
     /// Replace the routing with a recipe, keeping the English in step.
@@ -697,30 +794,41 @@ impl Provenance {
             .map_or_else(|| self.routing.clone(), |phrase| phrase.render(locale))
     }
 
+    /// The name of the slot a dataset recipe puts its FILE in.
+    ///
+    /// One name, shared by the composer and by [`Provenance::dataset_file`],
+    /// so the reader and the writer cannot drift apart silently.
+    pub const DATASET_FILE_SLOT: &'static str = "file";
+
     /// The dataset's FILE, without the prose welded to it.
     ///
-    /// `dataset` is the fifth instance of the family `Inert.why` and
-    /// `NotYetModeled.what` were: a NAME with an English sentence welded
-    /// on. The aqueous solver composes
-    /// *`wateq4f.dat` plus USBM IC 9429 reference-temperature complexes,
-    /// with the reviewed Sander HBr gas-uptake slice* — a file name, then
-    /// two clauses saying what was added to it and why. Splitting that
-    /// properly is its own job (ROADMAP-GUI.md, "`Provenance.dataset` and
-    /// `.model` carry English PROSE, not names"): it is a solver-side
-    /// change with machine consumers, and the field has to keep its
-    /// English for them.
+    /// **This now ASKS the recipe rather than cutting up the sentence.**
+    /// It was a whitespace scan when `dataset` was a finished string and
+    /// the first token was the best guess available (#653). The recipe
+    /// carries the file in a named [`crate::phrase::Slot::Text`], so the
+    /// name comes back because it was put there, not because English
+    /// happens to put the noun first — and the composer can now say
+    /// *vendored USGS phreeqc.dat* without LV1 announcing "vendored".
     ///
-    /// This is the half of it a reader needs NOW, and it is a token scan
-    /// rather than a guess: every dataset this engine composes begins with
-    /// its file, because the two places that build one —
-    /// `aqueous::dataset_name` and the combustion routes — build it that
-    /// way, and a dataset id with no space in it is returned whole. It is
-    /// used where the rest of the sentence would be actively wrong: the
+    /// The scan stays as the fallback, and has two real callers: a
+    /// provenance whose dataset is a bare NAME and carries no recipe at
+    /// all (`kerotakis:combustion:curated-fuels-v1` comes back whole), and
+    /// a session saved before the recipe existed, which is owed the answer
+    /// it had.
+    ///
+    /// Used where the rest of the sentence would be actively wrong: the
     /// LV1 register, which is the one a nine-year-old reads, and which
     /// would otherwise meet an English clause in the middle of a German
     /// line.
     #[must_use]
     pub fn dataset_file(&self) -> &str {
+        if let Some(file) = self
+            .dataset_phrase
+            .as_ref()
+            .and_then(|phrase| phrase.text_slot(Provenance::DATASET_FILE_SLOT))
+        {
+            return file;
+        }
         self.dataset
             .split_whitespace()
             .next()
@@ -875,16 +983,73 @@ pub struct SolutionInfo {
 /// impossible. See `states::SolventActivity::from_speciation`.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct SolventActivityProvenance {
-    /// The dataset asked for the activity, e.g. "vendored USGS pitzer.dat".
+    /// The dataset asked for the activity, e.g. "vendored USGS pitzer.dat",
+    /// in English. See [`Provenance::dataset`] for why the English stays.
     pub dataset: String,
-    /// The model that dataset applies.
+    /// The model that dataset applies. English, and
+    /// [`SolventActivityProvenance::model_phrase`] renders back to it.
     pub model: String,
+    /// The dataset claim as a recipe — see [`Provenance::dataset_phrase`].
+    ///
+    /// This half of the second speciation reaches a reader twice: on
+    /// `kero explain`'s solvent-activity line, and NESTED inside the
+    /// aqueous routing sentence, which says *the solvent's activity is …
+    /// from a second speciation … on {dataset} ({model})*. Both were
+    /// English inside a German paragraph.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub dataset_phrase: Option<Phrase>,
+    /// The model claim as a recipe — see [`Provenance::model_phrase`].
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub model_phrase: Option<Phrase>,
     /// a_w: the `H2O` row of that dataset's species distribution.
     pub water_activity: f64,
     /// Dissolved particle molality in THAT solve, mol/kgw.
     pub particle_molality: f64,
     /// Ionic strength in THAT solve, mol/kgw.
     pub ionic_strength: f64,
+}
+
+impl SolventActivityProvenance {
+    /// Which dataset answered for the solvent, in the reader's language.
+    #[must_use]
+    pub fn dataset_in(&self, locale: Locale) -> String {
+        self.dataset_phrase
+            .as_ref()
+            .map_or_else(|| self.dataset.clone(), |phrase| phrase.render(locale))
+    }
+
+    /// Which model it applies, in the reader's language.
+    #[must_use]
+    pub fn model_in(&self, locale: Locale) -> String {
+        self.model_phrase
+            .as_ref()
+            .map_or_else(|| self.model.clone(), |phrase| phrase.render(locale))
+    }
+
+    /// The dataset claim ready to NEST inside another solver's clause.
+    ///
+    /// The aqueous routing sentence names the second dataset inside
+    /// itself. It travelled as [`crate::phrase::Slot::Text`] — correct
+    /// while the value was a name, wrong the moment it was a name with a
+    /// sentence on it — and travels as the recipe now, falling back to
+    /// text for a provenance built before the recipe existed.
+    #[must_use]
+    pub fn dataset_slot(&self) -> crate::phrase::Slot {
+        self.dataset_phrase.clone().map_or_else(
+            || crate::phrase::Slot::text(self.dataset.clone()),
+            crate::phrase::Slot::phrase,
+        )
+    }
+
+    /// The model claim ready to nest — see
+    /// [`SolventActivityProvenance::dataset_slot`].
+    #[must_use]
+    pub fn model_slot(&self) -> crate::phrase::Slot {
+        self.model_phrase.clone().map_or_else(
+            || crate::phrase::Slot::text(self.model.clone()),
+            crate::phrase::Slot::phrase,
+        )
+    }
 }
 
 /// One oxidation state of one element, and how much of it there is.

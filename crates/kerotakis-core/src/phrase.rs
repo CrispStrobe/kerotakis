@@ -118,6 +118,36 @@ impl Phrase {
     /// Locale-free on purpose: a reader switching to German has not
     /// changed which dataset answers their beaker, and must not be told
     /// they have.
+    /// The first plain-TEXT value filled into a slot of this name, looking
+    /// inside nested clauses.
+    ///
+    /// For a caller that put a NAME into a sentence and now wants the name
+    /// back without the sentence. `Provenance::dataset_file` is the one:
+    /// the dataset claim is *{file} plus USBM IC 9429 reference-temperature
+    /// complexes* nested inside *{file}, with the reviewed Sander HBr
+    /// gas-uptake slice*, and LV1 wants `wateq4f.dat` and none of the rest.
+    ///
+    /// Depth-first and TEXT only. A nested clause under the same slot name
+    /// is descended into rather than returned, because the name is always
+    /// at the bottom of the nesting; a `Term` is deliberately not matched,
+    /// since a term is a word the catalogue translates and this exists to
+    /// find the ones it must not.
+    #[must_use]
+    pub fn text_slot(&self, name: &str) -> Option<&str> {
+        for (slot_name, slot) in &self.slots {
+            match slot {
+                Slot::Text { text } if slot_name == name => return Some(text.as_str()),
+                Slot::Phrase { phrase } => {
+                    if let Some(found) = phrase.text_slot(name) {
+                        return Some(found);
+                    }
+                }
+                _ => {}
+            }
+        }
+        None
+    }
+
     #[must_use]
     pub fn shape(&self) -> String {
         let mut slots: Vec<String> = self
