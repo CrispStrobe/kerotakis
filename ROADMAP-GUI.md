@@ -2128,9 +2128,16 @@ display name in the registry, is the wrong fix.
   the substance against the test for it, and `invisible ink boundary` is
   *Grenze der unsichtbaren Tinte* against *Unsichtbare Tinte*, which drops
   the boundary the lesson is about. Decide which each should be, then keep
-  one. The merge comment says "six keys actually collide" and is stale at
-  59 — a lint that counts the real collisions, and fails when one carries
-  two different translations, belongs in `preflight.sh`.
+  one. **The lint half is DONE 2026-09-18**: `tools/locale-collision-lint.py`
+  counts the real collisions and fails when one carries two different
+  translations, wired into `preflight.sh` with a self-test. The two above are
+  recorded in it with what each side means, so a THIRD fails the build while
+  the wording decision stays open — and a recorded one that heals fails too,
+  because a stale exemption is a lint that has quietly stopped checking. The
+  merge comment said "six keys actually collide" and now says 59 and why.
+  **What is left is the decision**: which of *Kalkwasser* / *Kalkwasserprobe*
+  `limewater` is, and whether `invisible ink boundary` keeps the boundary in
+  its name.
 
 ## Two doors onto one question (GUI-105) — landed 2026-09-17
 

@@ -105,6 +105,8 @@ step "i18n vocabulary self-test"; python3 -m unittest tools/test_i18n_engine_voc
 step "i18n holes";     python3 tools/i18n-holes-lint.py --check
 step "i18n surfaces";  python3 tools/i18n-surface-lint.py --check
 step "i18n slugs";     python3 tools/i18n-slug-lint.py --check
+step "i18n collisions"; python3 tools/locale-collision-lint.py --check
+step "i18n collisions self-test"; python3 -m unittest tools.tests.test_locale_collision_lint
 step "codex lint";    cargo run --release -p kerotakis-cli -- codex lint
 step "provenance";    cargo run --release -p kerotakis-cli -- provenance lint
 # The scientific-upstream audit. REPORTING ONLY: it counts and names the
