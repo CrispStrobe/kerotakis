@@ -82,13 +82,29 @@
 
 use crate::vessel::{SolutionInfo, SpeciesDetail, Vessel};
 
-/// Where every λ° in [`LIMITING_CONDUCTIVITY`] comes from.
+/// Where every λ° in [`LIMITING_CONDUCTIVITY`] comes from — with one row
+/// that no longer does, named in the string itself.
 pub const LAMBDA_SOURCE: &str = "λ°: CRC Handbook of Chemistry and \
     Physics, 'Ionic Conductivity and Diffusion at Infinite Dilution' \
     (Vanýsek), 25 °C, water — a commercial compilation, cited without \
     embarrassment and ranking below a primary measurement, which for these \
     twenty-eight ions would be the classic conductance papers of \
     Kohlrausch, Shedlovsky, MacInnes and Owen. \
+    ONE ROW IS NO LONGER THIS HANDBOOK'S, AND SAYING SO IS THE POINT OF \
+    THIS SENTENCE: λ°(Al+3) shipped as 183.0 — Vanýsek's 61 per equivalent \
+    — until 2026-09-18, and is now 189.0, which is the 63 per equivalent \
+    that Kreshkov (1970) p. 74 and Hübschmann and Links (1991) p. 62 both \
+    print. The owner ruled for the two: they were reached independently of \
+    each other and of the Handbook, which `provenance/upstreams.toml` \
+    refuses as a systematic source, and two reachable compilations that \
+    agree outweigh one refused compilation that disagrees with both. WHAT \
+    THAT RULING DOES NOT BUY is precision: both print two significant \
+    figures and both are measurably coarse — see section 2b of \
+    crates/kerotakis-core/tests/conductivity_sources.rs, which measures \
+    each of them against ions two better compilations already settle and \
+    finds one 5.6 per cent out on copper and the other 6.8 per cent out on \
+    carbonate. So 189.0 is where the reachable evidence points and is not \
+    a value known to three figures. \
     THE OBVIOUS LOCAL UPGRADE IS A ROUND TRIP AND WAS REJECTED, and the \
     reasoning is kept here because it is not obvious and someone will try \
     it again: the vendored phreeqc.dat carries a -dw tracer diffusion \
@@ -123,7 +139,10 @@ pub const LIMITING_CONDUCTIVITY: &[(&str, f64)] = &[
     ("Zn+2", 105.6),
     ("Fe+2", 108.0),
     ("Fe+3", 204.0),
-    ("Al+3", 183.0),
+    // 189.0 and not the Handbook's 183.0 since 2026-09-18, on two coarse
+    // compilations that agree with each other and not with it. The whole
+    // of the reasoning, and what it does not buy, is in `LAMBDA_SOURCE`.
+    ("Al+3", 189.0),
     ("Mn+2", 107.0),
     ("Pb+2", 142.0),
     ("Cl-", 76.31),

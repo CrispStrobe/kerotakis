@@ -655,6 +655,13 @@ to buy a second source for them. This section is what a day of looking bought:
 of ions where the two second sources contradict each other — and the last six
 conductivity survivors closed, 6 of 6 caught on a re-run.**
 
+**AND THEN THE OWNER RULED ON ONE OF THE TWO DISAGREEMENTS, THE SAME DAY.**
+λ°(Al³⁺) ships as **189.0 and no longer as 183.0** — see "Two values that
+disagree" below, which is where the finding was put and where the ruling is
+now recorded beside it. `UNCORROBORATED` is **five**, not six. Read the rest
+of this section as the search that produced the evidence; the last two
+subsections under that heading are what was decided about it.
+
 ### The result, per ion, because they differ
 
 Per equivalent, as all three tables print them.
@@ -662,14 +669,15 @@ Per equivalent, as all three tables print them.
 | ion | shipped | Kreshkov 1970 p. 74 | Hübschmann & Links 1991 p. 62 | outcome |
 |---|---:|---:|---:|---|
 | **Fe³⁺** | 68.0 | **68** | **68** | **(1) CORROBORATED — left the list** |
-| **Al³⁺** | 61.0 | **63** | **63** | **(2) both disagree, +3.3 %** |
+| **Al³⁺** | 61.0 → **63.0** | **63** | **63** | **(2) both disagreed; the shipped value MOVED, see below** |
 | **Fe²⁺** | 54.0 | **53.5** | **53.5** | **(2) both disagree, −0.9 %** |
 | Mn²⁺ | 53.5 | 53.5 | **50** | the two sources differ by 7.0 % |
 | Pb²⁺ | 71.0 | **70** | **65** | the two sources differ by 7.7 % |
 | Zn²⁺ | 52.8 | absent | **53** | reached at last; 2 s.f., cannot settle |
 | MnO₄⁻ | 61.3 | absent | 61 | −0.5 %, just outside tolerance |
 
-`UNCORROBORATED` goes from **seven to six**. λ°(Fe³⁺) leaves it.
+`UNCORROBORATED` goes from **seven to six** on the search alone — λ°(Fe³⁺)
+leaves it — and then to **five** on the owner's ruling about aluminium.
 
 ### The one that left, and the caveat that rides with it
 
@@ -699,7 +707,7 @@ we cannot check to 0.5 %. So the six get a **bound** rather than a
 confirmation, and §2b of `conductivity_sources.rs` asserts exactly that — with
 each bound *measured from its own calibration*, so it cannot be tuned to pass.
 
-### Two values that disagree, reported and not changed
+### Two values that disagree — one adopted on the owner's ruling, one not
 
 Both are stronger than a lone disagreement because **both coarse sources print
 the same number independently**:
@@ -707,13 +715,52 @@ the same number independently**:
 * **⅓Al³⁺ = 63** against the shipped 61 — molar **189 against 183, +3.3 %**
 * **½Fe²⁺ = 53.5** against the shipped 54.0 — molar **107 against 108, −0.9 %**
 
-**Neither is applied.** #586 corrected a silver ΔH_fus in the wrong direction
-and #595 had to undo it. Here the case against acting is more specific than
-that general caution: **both gaps are smaller than the same sources' own worst
-error on ions two other compilations agree about.** Under their measured
-fidelity these are not evidence that 183 and 108 are wrong; they are evidence
-that two lineages print different numbers and none of the three has been traced
-to a measurement. That trace is what would settle it.
+**Neither was applied when this section was written**, and the argument for
+holding is worth keeping because it is the argument the ruling had to answer.
+#586 corrected a silver ΔH_fus in the wrong direction and #595 had to undo it.
+Here the case against acting was more specific than that general caution:
+**both gaps are smaller than the same sources' own worst error on ions two
+other compilations agree about.** Under their measured fidelity these are not
+evidence that 183 and 108 are wrong; they are evidence that two lineages print
+different numbers and none of the three has been traced to a measurement. That
+trace is what would settle it, and it still has not been made.
+
+**THE OWNER RULED ON ALUMINIUM ON 2026-09-18, AND THE SHIPPED VALUE MOVED:
+λ°(Al³⁺) 183.0 → 189.0.** The ruling is not that 189 was measured. It is a
+ruling about which reading to prefer when none of them has been traced:
+
+* The shipped 183 is Vanýsek's 61 in the CRC Handbook, which
+  `provenance/upstreams.toml` **refuses as a systematic source** and which no
+  route reached directly — the French Wikipedia list that prints it to the
+  digit is a second printing of that one table, not a second source.
+* The 189 is 63 per equivalent in **two compilations reached independently of
+  each other and of the Handbook**, and it is the only value any reachable
+  source prints. This was the one outright contradiction the whole search
+  found.
+
+**Two reachable compilations that agree outweigh one refused compilation that
+disagrees with both** — that is the whole of it, and it is a judgement about
+evidence available, not about accuracy achieved.
+
+**What the move costs, said plainly rather than left for a reader to find.**
+Both of those sources print two significant figures, so 189.0 is not known to
+three; and both are measurably coarse on ions that *can* be checked — Kreshkov
+5.6 % out on ½Cu²⁺, Hübschmann & Links 6.8 % out on ½CO₃²⁻. The 3.3 % the
+shipped value just moved is **smaller than either of those errors**, so under
+these sources' own measured fidelity the disagreement was never resolved; the
+owner chose which unresolved reading to ship. λ°(Al³⁺) now sits in
+`CORROBORATED`, and its row there says at length that the 0.0 % it measures is
+agreement by construction rather than a second opinion — a shipped value moved
+onto a source cannot then be checked against it. **λ°(Fe²⁺) is not moved**:
+0.9 % is deep inside both sources' noise and there is no contradiction to
+resolve.
+
+**Nothing downstream moved.** An aluminium-bearing solution's conductivity
+readout would rise about 2 %, and the sweep for one found none: nothing in the
+lessons, the goldens or the curiosity corpus puts Al³⁺ in solution. The only
+aluminium a bench sees is the metal — foil and powder — and `aq-017`, the one
+prompt that puts it in water, is a recorded reaction gap. No golden was
+regenerated because no golden changed.
 
 ### And two where the second sources contradict each other
 
@@ -766,9 +813,13 @@ running its five tests green and `conductivity_sources.rs` running its twelve
 before one failed. The builds took 55 s each. It is a fast rung because these
 tests are arithmetic over two `const` tables, not a rung that never ran.
 
-**What it does NOT say** is that the six values are right. Five of them are
+**What it does NOT say** is that the six values are right. Four of them are
 still in `UNCORROBORATED`, two of them are contradicted by one of the two
-sources that reach them, and two more disagree with both. A mutation score of
+sources that reach them, and two more disagree with both. The fifth, Al³⁺,
+left the list on 2026-09-18 by the shipped value being *moved* — its mutant is
+now caught twice, by the contradiction test and by the corroboration test, and
+a mutant caught by a source the value was copied from says less than the count
+suggests. That is why the sentence above this one exists. A mutation score of
 100 % on this file now means the tree would notice a quarter — nothing more,
 and §8d exists so that the difference stays legible.
 
@@ -844,8 +895,10 @@ behind the same publisher wall that stopped §8c.
    was done the same day and §8c is the account of it: 17 of the 23 were then
    caught, and the six that were not were the six ions this repository had one
    source for and no way to check. §8d closed those six on 2026-09-18 — 23 of
-   23 — though five of them are still `UNCORROBORATED`, which is the
-   distinction §8d exists to keep legible.**
+   23 — though four of them are still `UNCORROBORATED`, and the fifth left
+   only because the owner moved the shipped λ°(Al³⁺) onto the two coarse
+   sources that contradicted it. That distinction is what §8d exists to keep
+   legible.**
 2. **The surfaces the new oracles were written for** — adsorption,
    electrochemistry, polarization. §5(c) found that `perturbation.rs` and
    `metamorphic.rs` killed nothing here that was not already dead. That is a

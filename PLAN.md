@@ -3323,6 +3323,25 @@ finished and merged.
   nobody has corroborated", which is a different problem and a better one.
   **The decision: buy a second source for the six, mark them
   `Unestablished`, or accept them as they are.** (#625)
+
+  **ANSWERED IN TWO STEPS.** *Buy a second source* was chosen and the search
+  ran on 2026-09-18 (#654): two compilations were reached outside the
+  transference-number family that stops at magnesium, both too coarse to
+  corroborate at the half a per cent this file works to, and **λ°(Fe³⁺) left
+  `UNCORROBORATED`** because both print the number already shipped. The
+  search found exactly **one outright contradiction of a shipped value**:
+  both print ⅓Al³⁺ = 63 where the table shipped 61. **Ruled 2026-09-18 and
+  now done: adopt 63 — λ°(Al³⁺) 183.0 → 189.0**, because the shipped 61
+  traces to the CRC Handbook that `provenance/upstreams.toml` refuses as a
+  systematic source and that no route reached directly, and two reachable
+  compilations agreeing beat one refused one that disagrees with both. It is
+  a choice between unsourced readings and not a measurement: both print two
+  significant figures, and each is measurably coarser (5.6 % on Cu²⁺, 6.8 %
+  on CO₃²⁻) than the 3.3 % the value moved. `UNCORROBORATED` is now **five** —
+  Zn²⁺, Fe²⁺, Mn²⁺, Pb²⁺, MnO₄⁻ — with manganese and lead **contradicted by
+  sources that contradict each other**, which is why neither of those moves.
+  Nothing downstream changed: no lesson, golden or corpus row puts aluminium
+  in solution.
 - **`solution.solvent_kg` is path-dependent because the SOLVER is not
   representation-invariant.** *This replaces an earlier framing of mine that
   was wrong, and that an owner decision was taken on: I reported two sources

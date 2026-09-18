@@ -48,20 +48,36 @@
 //!
 //! # What this file does NOT establish, stated because the gap is the finding
 //!
-//! **Six** of the twenty-eight tabulated ions — Zn²⁺, Fe²⁺, Al³⁺, Mn²⁺, Pb²⁺
-//! and MnO₄⁻ — are in [`UNCORROBORATED`]. They are not wrong; they are
+//! **Five** of the twenty-eight tabulated ions — Zn²⁺, Fe²⁺, Mn²⁺, Pb²⁺ and
+//! MnO₄⁻ — are in [`UNCORROBORATED`]. They are not wrong; they are
 //! unverified here, and they rest on the single compilation the shipped table
-//! names. The list is asserted to be exactly right, so a seventh cannot be
+//! names. The list is asserted to be exactly right, so a sixth cannot be
 //! added in silence, and so that finding a source for one of them is a
 //! one-line deletion.
 //!
-//! ## The second search, 2026-09-18: one ion out, two disagreements in
+//! ## The second search, 2026-09-18: two ions out, one disagreement left
 //!
 //! It was seven. **λ°(Fe³⁺) has left the list**, because two compilations
 //! reached by two unrelated routes, neither of them the CRC Handbook, both
 //! print ⅓Fe³⁺ = 68 — see the row in [`CORROBORATED`] and the caveat on it.
-//! The rest of the search is recorded here rather than in a commit message
-//! because **its negative half is the more useful half**.
+//! **λ°(Al³⁺) has left it too, and by a different door**: the same two
+//! compilations both print ⅓Al³⁺ = 63 against the Handbook's 61, and the
+//! owner ruled — on the same day, after the search reported it — that the
+//! shipped value should move to meet them, 183.0 → 189.0. One ion left
+//! because two sources confirmed the engine; the other because the engine
+//! was changed to what two sources say. Both rows in [`CORROBORATED`] say
+//! which of the two they are, because the class test cannot tell them apart
+//! and a reader must be able to.
+//!
+//! What still rests on the single refused compilation is **zinc, iron(II),
+//! manganese(II), lead(II) and permanganate**. Every one of them is now
+//! REACHED by at least one coarse table — that is what the 2026-09-18 search
+//! bought — and not one of them is CORROBORATED by one, because those tables
+//! measure an order of magnitude too loose for the half a per cent this file
+//! works to; and about manganese and lead the two of them **contradict each
+//! other**, by seven and eight per cent. The rest of the search is recorded
+//! here rather than in a commit message because **its negative half is the
+//! more useful half**.
 //!
 //! Nine sources were read and four could not be reached. What most of the nine
 //! have in common is the reason these ions are hard:
@@ -454,10 +470,40 @@ const CORROBORATED: &[Corroboration] = &[
     // deny — that the value rests on one compilation. It no longer does, and
     // two that have nothing to do with each other write down the same number.
     c("Fe+3", 3.0, 68.0, true, false, HUEBSCHMANN),
+    // --- the ion the OWNER moved, 2026-09-18, and the row that says so ----
+    //
+    // ⅓Al³⁺ = 63 in both coarse compilations — Hübschmann and Links (1991)
+    // p. 62 via de.wikipedia, Kreshkov (1970) p. 74 via a Russian reference
+    // collection — against the Handbook's 61. The shipped value was 183.0
+    // and is now 189.0 because the owner ruled for the two reachable
+    // sources over the one `provenance/upstreams.toml` refuses.
+    //
+    // READ THIS ROW FOR WHAT IT IS, WHICH IS LESS THAN THE Fe³⁺ ROW ABOVE.
+    // Iron(III) left UNCORROBORATED because two compilations printed the
+    // number this engine was ALREADY shipping. Aluminium is the other way
+    // round: the shipped value was moved ONTO these sources, so the 0.0 %
+    // this row measures is agreement by construction and not a second
+    // opinion. What it does establish is the same smaller thing — that the
+    // value no longer rests on one compilation — and it keeps that claim
+    // where the class test can see it.
+    //
+    // AND THE COARSENESS IS THE RISK, MEASURED RATHER THAN WAVED AT. §2b
+    // calibrates both of these sources against ions USGS and a Sartorius
+    // handbook have already settled, and finds Kreshkov 5.6 % out on
+    // ½Cu²⁺ (113.2 against 107.2) and Hübschmann 6.8 % out on ½CO₃²⁻
+    // (148.0 against 138.6) — each an order of magnitude past the 0.5 %
+    // this section's tolerance means by "agrees". Both also print two
+    // significant figures, so "63" is anything in [62.5, 63.5] and 189.0
+    // cannot be told from 188 or 190 by anything here. The move from 183
+    // to 189 is 3.3 %, which is SMALLER than either source's own worst
+    // error on an ion that can be checked: the ruling is that two
+    // independent coarse readings beat one refused one, not that the
+    // disagreement was resolved by measurement. It was not.
+    c("Al+3", 3.0, 63.0, true, false, HUEBSCHMANN),
 ];
 
-/// `const fn` only so the table above reads as data rather than as twenty-one
-/// struct literals.
+/// `const fn` only so the table above reads as data rather than as
+/// twenty-three struct literals.
 const fn c(
     species: &'static str,
     charge: f64,
@@ -487,14 +533,25 @@ const fn c(
 ///
 /// SEARCHED AGAIN ON 2026-09-18: SEVEN BECAME SIX. λ°(Fe³⁺) left, on two
 /// compilations from unrelated routes printing the same number. Every one of
-/// the six that remain now has at least one coarse source and a measured
+/// the six that remained then had at least one coarse source and a measured
 /// bound (section 2b) — zinc included, which had nothing at all before — and
-/// none of them has corroboration, because those bounds are an order of
+/// none of them had corroboration, because those bounds are an order of
 /// magnitude wider than the half a per cent this file's corroboration test
 /// demands. The distinction is the point of keeping this list: "not
 /// contradicted by a loose table" and "confirmed by an independent one" are
 /// different claims, and only the second one gets an ion out of here.
-const UNCORROBORATED: &[&str] = &["Zn+2", "Fe+2", "Al+3", "Mn+2", "Pb+2", "MnO4-"];
+///
+/// THEN SIX BECAME FIVE ON THE SAME DAY, AND FOR A DIFFERENT REASON — worth
+/// separating, because the two departures are not the same event. Fe³⁺ left
+/// because two sources agreed with the shipped value. λ°(Al³⁺) leaves
+/// because the owner, told that both of them print 63 per equivalent against
+/// the Handbook's 61, ruled that the SHIPPED VALUE should move: 183.0 →
+/// 189.0. So aluminium is not out of this list on evidence that the number
+/// is right; it is out because the number it names is now the one two
+/// reachable compilations print, and no longer rests on the single refused
+/// one. Its `CORROBORATED` row says exactly that, at length, and says how
+/// coarse the two sources measure. Read the two rows differently.
+const UNCORROBORATED: &[&str] = &["Zn+2", "Fe+2", "Mn+2", "Pb+2", "MnO4-"];
 
 /// Every λ° this engine ships that an independent compilation also prints
 /// must agree with it.
@@ -701,9 +758,11 @@ const COARSE: &[Coarse] = &[
     k("HCO3-", 1.0, 44.5),
     // --- Kreshkov 1970 p. 74: the ions nothing precise carries. NO ZINC:
     //     this table is sorted descending and zinc's place, between ½Mg²⁺
-    //     53.1 and Na⁺ 50.1, is simply empty. Fe³⁺ has left UNCORROBORATED
-    //     on the strength of this row agreeing with the next source's, and
-    //     stays here as one of the two halves of that agreement.
+    //     53.1 and Na⁺ 50.1, is simply empty. Fe³⁺ and Al³⁺ have both left
+    //     UNCORROBORATED on the strength of these rows agreeing with the
+    //     next source's, and stay here as one of the two halves of each
+    //     agreement — for aluminium, of the agreement the shipped value was
+    //     then moved to meet.
     k("Pb+2", 2.0, 70.0),
     k("Fe+3", 3.0, 68.0),
     k("Al+3", 3.0, 63.0),
@@ -771,10 +830,13 @@ fn coarse_molar(row: &Coarse) -> f64 {
 /// the per-equivalent and international-ohm corrections its own rows carry.
 ///
 /// A ROW WHOSE CORROBORATION IS ITSELF ONE OF THESE COARSE SOURCES IS NOT AN
-/// INDEPENDENT VALUE and returns `None`. That is not bookkeeping: λ°(Fe³⁺) is
-/// corroborated by [`HUEBSCHMANN`], so calibrating Hübschmann against it would
-/// be the source measuring itself and would read a flawless 0 %. The one ion
-/// this search moved is therefore the one ion it may not be judged by.
+/// INDEPENDENT VALUE and returns `None`. That is not bookkeeping: λ°(Fe³⁺)
+/// and λ°(Al³⁺) are both corroborated by [`HUEBSCHMANN`], so calibrating
+/// Hübschmann against either would be the source measuring itself and would
+/// read a flawless 0 % — twice over for aluminium, whose shipped value was
+/// moved onto that very number. The two ions this search moved are therefore
+/// the two ions it may not be judged by, and the overlap the calibration
+/// runs over stays at the twenty-one it was measured on.
 fn independent(species: &str) -> Option<f64> {
     CORROBORATED
         .iter()
@@ -975,9 +1037,19 @@ fn a_coarse_source_that_contradicts_a_shipped_value_is_named_and_counted() {
 ///
 /// THAT IS NOT THE SAME AS THE VALUES BEING RIGHT, and the distinction is
 /// the reason this file is long. A hundred per cent here means the tree would
-/// notice a quarter. Five of the six are still uncorroborated, two of them are
+/// notice a quarter. Four of the six are still uncorroborated, two of them are
 /// contradicted outright by one of the sources that reach them, and two more
 /// disagree with both.
+///
+/// THE ALUMINIUM MUTANT IS NOW CAUGHT TWICE OVER AND BY A DIFFERENT TEST,
+/// which is why this loop no longer covers it. Since 2026-09-18 λ°(Al³⁺) is
+/// in [`CORROBORATED`], so a quarter either way is caught by
+/// [`the_lambda_table_agrees_with_independent_compilations`] at 0.5 % as well
+/// as by the contradiction test at the measured bound. The survivor count
+/// below is unchanged by the move; what changed is which assertion does the
+/// catching, and that a caught mutant now says less about aluminium than it
+/// did, because the value and the source it is compared with are the same
+/// number by construction.
 #[test]
 fn a_quarter_wrong_would_fall_outside_the_measured_bound() {
     for species in UNCORROBORATED {
