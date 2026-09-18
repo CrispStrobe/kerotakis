@@ -164,3 +164,19 @@ describe("the grid the CSS actually made", () => {
     expect(catalogWindow(input({ scrollTop: 2000, viewportTop: 0 })).first).toBeGreaterThan(0);
   });
 });
+
+describe("the estimate the caller holds still", () => {
+  it("uses the passed estimate rather than recomputing the mean", () => {
+    const heights = new Map([[0, 400]]);
+    const drifting = catalogWindow(input({ total: 30, columns: 1, heights, viewportHeight: 100 }));
+    const held = catalogWindow(input({ total: 30, columns: 1, heights, estimate: 200, viewportHeight: 100 }));
+    expect(drifting.estimate).toBe(400);
+    expect(held.estimate).toBe(200);
+    expect(held.height).toBeLessThan(drifting.height);
+  });
+
+  it("falls back to the mean when the caller has none yet", () => {
+    expect(catalogWindow(input({ estimate: 0 })).estimate).toBe(CATALOG_ESTIMATE);
+    expect(catalogWindow(input({ estimate: undefined })).estimate).toBe(CATALOG_ESTIMATE);
+  });
+});

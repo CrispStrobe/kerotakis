@@ -75,6 +75,18 @@ export interface CatalogWindowInput {
   /** Rows above and below the viewport. */
   overscan?: number;
   /**
+   * The height to assume for a row nobody has measured.
+   *
+   * The caller passes this rather than letting it be recomputed, because
+   * the mean moves a little on EVERY measurement, and a moving estimate
+   * moves every unmeasured row with it — including rows above the reader,
+   * whose offsets are what the scroll anchor is defined against. Holding
+   * it still between material changes is the difference between a list
+   * that settles and one that re-anchors on every frame. Omitted, it
+   * falls back to the mean of what has been measured.
+   */
+  estimate?: number;
+  /**
    * A row that must stay in the DOM wherever it is.
    *
    * This is the focused card's row. Dropping the element that holds focus
@@ -153,7 +165,9 @@ export function catalogWindow(input: CatalogWindowInput): CatalogWindowShape {
   const columns = Math.max(1, Math.floor(input.columns) || 1);
   const total = Math.max(0, input.total);
   const rowCount = rowCountFor(total, columns);
-  const estimate = estimateRowHeight(input.heights);
+  const estimate = input.estimate && input.estimate > 0
+    ? input.estimate
+    : estimateRowHeight(input.heights);
   const gap = Math.max(0, input.gap);
   const { tops, height } = rowTops(rowCount, input.heights, estimate, gap);
 

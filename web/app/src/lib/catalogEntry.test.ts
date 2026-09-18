@@ -884,7 +884,7 @@ describe("the search reaches the prose, not only the title", () => {
           withGerman[`${field}_de`] = twin[field];
         }
       }
-      return withGerman as KidsExperiment;
+      return withGerman as unknown as KidsExperiment;
     });
 
     const rows = oneIndex([], merged, [], context({ locale: "de" }) as Parameters<typeof oneIndex>[3]);

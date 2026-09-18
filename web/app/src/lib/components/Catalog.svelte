@@ -89,6 +89,7 @@
     type CatalogSourceKind,
   } from "../catalogEntry";
   import {
+    CATALOG_ESTIMATE,
     CATALOG_FIRST_DRAW,
     catalogWindow,
     estimateRowHeight,
@@ -251,6 +252,16 @@
   let rowHeights = $state<Map<number, number>>(new Map());
   /** The row holding keyboard focus, which is never windowed out. */
   let focusedRow = $state<number | null>(null);
+  /**
+   * The assumed height of a row nobody has looked at.
+   *
+   * Held still, and moved only when the measured mean has drifted by more
+   * than a twentieth. Recomputing it on every measurement moved every
+   * unmeasured row a pixel or two, which moved the anchor, which moved
+   * the scroller, which produced another scroll event — the list
+   * re-settling on every frame instead of once.
+   */
+  let rowEstimate = $state(CATALOG_ESTIMATE);
 
   const windowed = $derived(columns > 0
     ? catalogWindow({
@@ -262,6 +273,7 @@
         viewportTop,
         viewportHeight,
         heights: rowHeights,
+        estimate: rowEstimate,
         gap: cardGap,
         pinned: focusedRow,
       })
@@ -341,17 +353,23 @@
     }
     if (!changed) return;
 
+    const mean = estimateRowHeight(next);
+    const settled = Math.abs(mean - rowEstimate) / rowEstimate > 0.05 ? mean : rowEstimate;
+
     /* Learning a real height moves every row below it, which would drag
        the content the reader is looking at out from under them. So the
-       first drawn row is an anchor: whatever the measurement did to its
-       offset is added straight back to the scroller. */
-    const anchor = windowed?.rows[0] ?? null;
+       topmost row of the contiguous band is an anchor — not `rows[0]`,
+       which may be the pinned focus row from somewhere else entirely —
+       and whatever the measurement did to its offset is added straight
+       back to the scroller. */
+    const anchor = windowed?.rows.find((row) => row.index === windowed.first) ?? null;
     rowHeights = next;
+    rowEstimate = settled;
     if (anchor && anchor.top > 0) {
       const after = rowTops(
         rowCountFor(shown.length, columns),
         next,
-        estimateRowHeight(next),
+        settled,
         cardGap,
       ).tops[anchor.index];
       const drift = (after ?? anchor.top) - anchor.top;
