@@ -66,7 +66,30 @@ export type ProvenanceSource = {
   routing: string;
   /** How the dataset documents its own literature sources. */
   datasetSources: string[];
+  /**
+   * Stated on an earlier step and still standing.
+   *
+   * `solution_routed` fires on CHANGE, so most steps carry no routing at
+   * all - which means the routing STANDS, not that it is missing. A drawer
+   * that showed nothing on those steps would be reporting the engine's
+   * quietness as an absence of provenance, which is the opposite of what
+   * the quietness means. So the session carries the last routing forward
+   * and this flag says which one it is: a reader is entitled to know
+   * whether the sentence was computed by the step they are looking at.
+   */
+  carried?: boolean;
 };
+
+/**
+ * The last routing each vessel was told about, carried between steps.
+ *
+ * Keyed by vessel because two beakers can be on two datasets, and reading
+ * one beaker's routing against the other is the corpus route-leak bug on a
+ * screen. Held by the session and cleared wherever `latestStep` is cleared
+ * - a routing read against a bench state that a different script produced
+ * is exactly the staleness that clearing guards.
+ */
+export type CarriedRouting = Record<number, ProvenanceSource>;
 
 /**
  * A bound on a number the step produced: `Event::Measured`'s `note`, which
@@ -200,6 +223,34 @@ function sourceKey(source: ProvenanceSource): string {
 }
 
 /**
+ * `previous`, updated with whatever routing this step announced.
+ *
+ * Pure, so a caller can hold the result as ordinary state and a test can
+ * drive it a step at a time. A step that announced nothing returns the map
+ * it was given, unchanged - the routing standing is not a routing gone.
+ * An event that does not say which vessel it belongs to is dropped rather
+ * than filed under a guess.
+ */
+export function carryRouting(
+  previous: CarriedRouting,
+  step: ProvenanceStep | null | undefined,
+): CarriedRouting {
+  const events = Array.isArray(step?.events) ? step.events : [];
+  let next = previous;
+  for (const entry of events) {
+    const event = record(entry);
+    if (!event) continue;
+    const owner = vesselOf(event.vessel);
+    if (owner === undefined) continue;
+    const source = sourceOf(event.provenance);
+    if (!source) continue;
+    if (next === previous) next = { ...previous };
+    next[owner] = source;
+  }
+  return next;
+}
+
+/**
  * Build the drawer's model from one step.
  *
  * `vessel` narrows to one beaker: a step may equilibrate more than one, and
@@ -210,9 +261,9 @@ function sourceKey(source: ProvenanceSource): string {
  */
 export function buildProvenance(
   step: ProvenanceStep | null | undefined,
-  options: { vessel?: number } = {},
+  options: { vessel?: number; carried?: CarriedRouting } = {},
 ): ProvenanceReport {
-  const { vessel } = options;
+  const { vessel, carried } = options;
   const mine = (owner: number | undefined): boolean =>
     vessel === undefined || owner === undefined || owner === vessel;
 
@@ -245,6 +296,17 @@ export function buildProvenance(
     if (event.event === "not_yet_modeled") {
       const what = text(event.what);
       if (what) gaps.push({ what, cause: text(event.cause) ?? "unclassified" });
+    }
+  }
+
+  // A routing this step did not restate, but which has not been withdrawn
+  // either. Added only when the step said nothing about that source, so a
+  // fresh statement always wins and is never marked carried.
+  if (carried && vessel !== undefined) {
+    const standing = carried[vessel];
+    if (standing && !seen.has(sourceKey(standing))) {
+      seen.add(sourceKey(standing));
+      sources.push({ ...standing, carried: true });
     }
   }
 
