@@ -295,7 +295,7 @@ impl Lab {
             // GUI-052: which solver answered, and what the ones that did
             // not said instead. Beside the events, never inside them.
             "routes": self.stack.last_routes,
-            "scene": kerotakis_core::scene(&self.bench),
+            "scene": self.localized_scene(),
             "bench": { "vessels": self.bench.vessels },
         });
         Ok(doc.to_string())
@@ -351,7 +351,7 @@ impl Lab {
         }
         Ok(serde_json::json!({
             "steps": steps,
-            "scene": kerotakis_core::scene(&self.bench),
+            "scene": self.localized_scene(),
             "bench": { "vessels": self.bench.vessels },
         })
         .to_string())
@@ -360,8 +360,20 @@ impl Lab {
     /// The render model of the whole bench (PROTOCOL.md, GUI-003):
     /// everything a bench canvas needs, nothing it must derive.
     pub fn scene(&self) -> String {
-        serde_json::to_string(&kerotakis_core::scene(&self.bench))
-            .expect("the scene is serialisable")
+        serde_json::to_string(&self.localized_scene()).expect("the scene is serialisable")
+    }
+
+    /// The scene with every sentence in it said in the session's language
+    /// (I18N-11).
+    ///
+    /// The bench composes the scene in English and knows nothing about who
+    /// is reading — the same division `localize_events` exists for. It
+    /// matters more here than it looks: the web canvas paints its caption
+    /// and its accessibility text from `scene`, NOT from `rendered`, so a
+    /// sentence translated only on the way through `render.rs` never
+    /// reached the drawn vessel at all.
+    fn localized_scene(&self) -> kerotakis_core::Scene {
+        kerotakis_core::scene::localize(&kerotakis_core::scene(&self.bench), self.locale)
     }
 
     /// Empty the bench and start again.
@@ -388,7 +400,7 @@ impl Lab {
         let census = kerotakis_core::particles::census(v, 30);
         let doc = serde_json::json!({
             "census": census,
-            "rendered": census.render(self.register),
+            "rendered": census.render(self.register, self.locale),
         });
         Ok(doc.to_string())
     }

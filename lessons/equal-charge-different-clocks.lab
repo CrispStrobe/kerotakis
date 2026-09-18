@@ -1,5 +1,5 @@
-# Compare cumulative production for equal charge, not gas left in open vessels.
-# Ideal electrode stoichiometry; real current efficiency is not modeled.
+#@title Compare cumulative production for equal charge, not gas left in open vessels.
+#@intro Ideal electrode stoichiometry; real current efficiency is not modeled.
 register lv3
 add v1 water 250mL
 add v1 KNO3 0.001mol

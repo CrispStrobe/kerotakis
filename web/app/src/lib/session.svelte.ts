@@ -19,7 +19,9 @@ import { isChartSpec, type ChartSpec } from "./chart";
 import { equationFromRenderedLine } from "./benchEquation";
 import { latestNetIonic, spectatorPhrase, type NetIonic } from "./ionic";
 import { type Lesson, parseLesson } from "./lesson";
+import { lessonProse } from "./lessonProse";
 import { scriptKit } from "./codex";
+import { benchDiffersFromFresh, benchOccupied } from "./catalogRunner";
 import { schedule, type Playback } from "./replay";
 import type { AnswerRefusal, QuestOutput } from "./host/EngineHost";
 import {
@@ -515,6 +517,12 @@ export class Session {
    * advancing through the source .lab commands. The .lab remains its source
    * for narration and core kit; the contract adds alternative valid routes. */
   missionOutcome = $state<{ contract: OutcomeMissionContract; secured: string[] } | null>(null);
+  /**
+   * A lesson held at the door because the bench is not the bench it was
+   * written for. Non-null means the learner has been asked and has not
+   * answered yet; no lesson is active while it is set.
+   */
+  lessonGate = $state<{ name: string; text: string; occupied: boolean } | null>(null);
   /** Log position after the lesson's last own step — the point "return
    * to the script" rewinds to. Free commands past it are the deviation. */
   private lessonBaseline = $state(0);
@@ -1570,8 +1578,88 @@ export class Session {
     await this.jumpTo(this.position + 1);
   }
 
-  /** Begin walking a lesson. The bench keeps whatever is on it — a lesson
-   * is an overlay on the real bench, not a sandbox swap. */
+  /**
+   * Record that what follows is being read off a bench that was not empty.
+   *
+   * The learner is allowed to say "start on this bench as it is" — but a
+   * reading taken from a vessel that already held something is not that
+   * experiment's reading alone, and the feed is where the numbers are
+   * read back. Unsaid, every number after this point is unattributable.
+   */
+  noteBenchWasNotEmpty(): void {
+    this.feed.push({
+      kind: "note",
+      text: t("running on a bench that was not empty — these readings include whatever was already here."),
+    });
+  }
+
+  /**
+   * Ask for a lesson, and let the bench say whether it can start now.
+   *
+   * THE DEFECT THIS CLOSES. A lesson is an overlay on the real bench —
+   * that part of the original design stands, and it is why deviation and
+   * "back on the script" exist. What did not stand is the unspoken second
+   * half: every `.lab` in `lessons/` names its glassware absolutely and
+   * was written against the bench the engine hands over, one empty vessel.
+   * Started on a bench that still held the last lesson's reagents, the
+   * electrode lesson poured its water into the sherbet lesson's citric
+   * acid and baking soda, then reported that vessel's pH as its own. The
+   * chemistry was real; the lesson it was attributed to was not.
+   *
+   * So the bench is now a precondition, and an unmet precondition is a
+   * QUESTION, not a silent wipe. Emptying glassware is a weighed, logged,
+   * confirmed act everywhere else in this app — the disposal station, the
+   * remove-vessel dialog, `Operator::Discard` — and a lesson start is not
+   * the one place allowed to bin the learner's work on its own authority.
+   * An already-fresh bench is never asked, so the question only appears
+   * when there is something real to lose.
+   */
+  requestLesson(name: string, text: string): void {
+    if (benchDiffersFromFresh(this.scene)) {
+      this.lessonGate = { name, text, occupied: benchOccupied(this.scene) };
+      return;
+    }
+    this.startLesson(name, text);
+  }
+
+  /**
+   * The learner's answer to that question.
+   *
+   * `"clear"` empties the bench through the same `clear()` the toolbar's
+   * confirmed press uses, which writes its own note into the feed — so the
+   * emptying is in the record, not behind it. `"keep"` starts the lesson
+   * where it stands and says so in the feed, because a reading taken from
+   * a bench that already held something has to carry that with it. `null`
+   * is a cancel: the bench is untouched and no lesson begins.
+   *
+   * "Fresh glassware beside it" — the catalogue's third option — is NOT
+   * offered here. `canUseFreshVessels` already refuses any script that
+   * allocates its own vessels, which is 94 of the 113 lessons, and the
+   * renumbering prelude would shift the `#@part.*` prose labels off the
+   * steps they annotate. Scoped, not forgotten.
+   */
+  async resolveLessonGate(decision: "clear" | "keep" | null): Promise<void> {
+    const pending = this.lessonGate;
+    this.lessonGate = null;
+    if (!pending || decision === null) return;
+    if (decision === "clear") {
+      await this.clear();
+      if (benchDiffersFromFresh(this.scene)) {
+        // `clear()` declines outright while the bench is busy, and it
+        // returns nothing to say so. Starting the lesson anyway would be
+        // the original defect with a press of consent in front of it, so
+        // the question stays open instead and the learner can ask again.
+        this.lessonGate = pending;
+        return;
+      }
+    } else {
+      this.noteBenchWasNotEmpty();
+    }
+    this.startLesson(pending.name, pending.text);
+  }
+
+  /** Begin walking a lesson. Reached through `requestLesson`, which is
+   * where the bench the lesson needs is settled first. */
   startLesson(name: string, text: string): void {
     this.missionDebrief = null;
     const contract = outcomeMissionContract(name);
@@ -1618,7 +1706,9 @@ export class Session {
     while (this.lesson.cursor < lesson.steps.length) {
       const step = lesson.steps[this.lesson.cursor]!;
       if (step.kind !== "note") break;
-      this.feed.push({ kind: "note", text: t(step.text) });
+      // Labelled prose answers from `lessons/prose/<code>.toml`; an
+      // unlabelled comment takes the path it always took (I18N-9).
+      this.feed.push({ kind: "note", text: lessonProse(step.key, step.text) });
       this.lesson.cursor += 1;
     }
     if (this.lesson.cursor >= lesson.steps.length) {

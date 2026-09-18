@@ -1,0 +1,650 @@
+# Lektionstexte auf Deutsch.
+#
+# Gegenstück zu `en.toml`: derselbe Schlüssel, dieselbe Stelle in der
+# Lektion. Der Schlüssel benennt den ORT, an dem der Text gesagt wird, nicht
+# den englischen Satz — eine Umformulierung des Englischen macht die
+# Übersetzung also nicht zur Waise.
+#
+# Von Hand geschrieben, nicht maschinell gefüllt. Eine Lektion, für die noch
+# kein gutes Deutsch vorliegt, trägt noch keine Marken im `.lab` und wird von
+# `tools/lesson-prose-lint.py` als "noch nicht migriert" gezählt. Ein
+# fehlender Schlüssel hier ist ein Fehler, keine Lücke.
+
+["antacid-suspension"]
+title = "Eine Antazida-Suspension: Die Neutralisation endet, wenn die Säure verbraucht ist"
+intro = "Überschüssiges, schwer lösliches Magnesiumhydroxid bleibt zurück. Das ist Chemie und weder ein medizinischer Rat noch eine Dosierungsempfehlung."
+
+["apple-browning"]
+title = "Einen angeschnittenen Apfel am Braunwerden hindern"
+intro = "Das Braunwerden gehört allein zur vorbereiteten Identität cut_apple: Ein unversehrter, allgemeiner Apfel hat keine ausgewiesene frische Schnittfläche. Die Antwort ist eine begrenzte Beobachtungsgröße aus Sauerstoff und Zeit, kein Enzymumsatz, keine Aussage über Geschmack, Beschaffenheit oder Lebensmittelsicherheit."
+part.1 = "Luftkontrolle: Eine frische Schnittfläche bräunt, während die gemeinsame Uhr weiterläuft."
+part.2 = "Vergleich mit Vitamin C: dieselbe Masse, dieselbe Luft, dieselbe Zeit, nur mit Ascorbat daneben. Das Modell berechnet die Hemmung der sichtbaren Reaktion; es behauptet keine dauerhafte Konservierung."
+
+["baking-powder-or-soda"]
+title = "Backpulver oder Natron: Wasser, Säure und Hitze sind verschiedene Auslöser"
+intro = "Die beiden weißen Pulver sind nicht austauschbar. Diese Simulation vergleicht gleiche Portionen und ändert dabei jeweils nur eine Bedingung. Echtes Backpulver enthält ein Gemisch von Säuren, deren gestaffelte Wirkung von Marke zu Marke verschieden ist; der hier benannte Stoff ist ein geprüfter Lehrersatz und kein Rezept für Lebensmittel."
+part.1 = "Natron löst sich in kaltem Wasser. Das Gleichgewicht in der Lösung kann auch ohne eine Flasche Säure etwas CO2 freisetzen; das ist nicht derselbe Weg wie der Zerfall durch Hitze."
+part.2 = "Der benannte Backpulverersatz enthält Hydrogencarbonat und Stärke. Beim Erwärmen setzt er auf einem weiteren modellierten Weg CO2 frei. Die gestaffelten Säuresysteme bestimmter handelsüblicher Backpulver bildet er nicht nach."
+part.3 = "Säure ist ein anderer Weg zum selben sichtbaren Gas. Diese Kontrolle nutzt gewöhnlichen 5-prozentigen Essig. Die Werkbank bildet weder Krume noch Teigelastizität, weder Ofenfeuchte noch die Frage ab, ob ein Gebäck aufgegangen ist."
+
+["balloon-pressure"]
+title = "Luftballon auf der Flasche: Gas braucht einen Platz"
+intro = "Ein Kolbendeckel steht hier für einen dehnbaren Luftballon: Er berechnet Druck und wachsendes Volumen, nicht die Elastizität des Gummis, die Form des Ballons oder das Reißen des Latex."
+
+["blue-crystals"]
+title = "Blaue Kristalle aus Kupfersulfat züchten"
+intro = "Kupfervitriol ist der Kristall, den jede Schule züchtet: Löse so viel Kupfersulfat, wie heißes Wasser aufnimmt, lass es abkühlen, und das Wasser gibt das meiste davon als große blaue Kristalle zurück. Das Blau ist nicht das Kupfer allein — es sind die fünf Wassermoleküle, die mit ihm im Kristall eingeschlossen sind, und deshalb hat der Feststoff einen eigenen Namen."
+part.1 = "Dreißig Gramm auf hundert Milliliter sind mehr, als kaltes Wasser halten kann, ein Teil kommt also sofort als Chalkanthit wieder heraus. Sieh dir die Flüssigkeit an, die zurückbleibt: so konzentriert, dass die Werkbank sie SCHWARZ nennt statt blau — und genau so sieht eine starke Kupfersulfatlösung im Becherglas wirklich aus: Die Farbe sättigt, und man kann nicht mehr hindurchsehen."
+part.2 = "Erwärme sie, und das Wasser nimmt alles auf."
+part.3 = "Und nun kühle sie richtig ab. Das ist der Schritt, in dem die Kristalle wachsen, und die Werkbank schreibt die Gleichung dazu auf: Kupfer, Sulfat und fünf Wasser gehen in einen Feststoff. Und jetzt liest sich die Flüssigkeit BLAU statt schwarz — nicht weil etwas die Farbe gewechselt hätte, sondern weil so viel Kupfer sie verlassen hat, dass man durch den Rest hindurchsehen kann."
+boundary.1 = "Was hier nicht abgebildet wird: der Kristall. Keine Form, keine Flächen, kein einzelnes großes Stück, das eine Woche lang an einem Faden wächst — die Werkbank sagt, wie viel Feststoff zurückkommt und welche Farbe er hat, und bei einem Wettbewerb im Kristallzüchten zählt alles andere."
+boundary.2 = "Du wirst außerdem sehen, wie die Werkbank drei weitere Kupferfeststoffe ablehnt, gegen die die Lösung laut Datenbank übersättigt ist — Langit, Antlerit, Brochantit, die Grüntöne von verwittertem Kupfer. Sie werden benannt und abgelehnt statt stillschweigend übergangen, denn eine Lösung, die sie wirklich ausfällen würde, ist keine Lösung, die dieses Becherglas ehrlich beschreibt."
+
+["boiling-curve"]
+title = "Die Heizkurve: warum ein kochender Topf bei 100 °C bleibt"
+intro = "Wärme ist nicht Temperatur. Ein Gefäß auf der Platte wird stetig wärmer, bis das Wasser zu sieden beginnt, und dann steigt die Temperatur nicht weiter — jedes weitere Joule kauft Dampf statt Grad. Dieser flache Abschnitt ist die latente Wärme, und er ist der Grund, warum ein Topf kochenden Wassers durch mehr Hitze nicht heißer wird, sondern nur leerer."
+part.1 = "Unterhalb des Plateaus: 30 kJ in 100 mL sind reine fühlbare Wärme."
+part.2 = "Darüber hinaus. Die nächsten 30 kJ bewegen das Thermometer nicht; sie tragen Wasser aus."
+part.3 = "Und noch einmal dieselbe Energie, dieselbe Temperatur, noch weniger Wasser."
+part.4 = "Salz hebt das Plateau: derselbe kolligative Effekt, der den Gefrierpunkt einer gestreuten Straße senkt, hebt den Siedepunkt eines gesalzenen Topfes."
+boundary = "Was hier nicht abgebildet wird: Die am Plateau übrige Wärme wird auf die Wärmekapazität verteilt, die das Gefäß *vor* dem Trockenkochen hatte, die Endtemperatur eines trockengekochten Gefäßes wird also zu niedrig angegeben; und der Dampf verlässt ein offenes Gefäß, statt weiterverfolgt zu werden."
+
+["borax-snowflake"]
+title = "Eine Boraxschneeflocke: warum manches beim Abkühlen kristallisiert und anderes nicht"
+intro = "Borax ist der Grund, warum dieser Versuch mit Borax gemacht wird. Kaltes Wasser nimmt fast nichts davon auf; kochendes Wasser elfmal so viel. Löse so viel du kannst in heißem Wasser, lass es abkühlen, und das Wasser muss das meiste davon wieder hergeben — als Kristalle."
+part.1 = "1. Zuerst kaltes Wasser, damit du siehst, wie wenig es aufnimmt. Fünfundzwanzig Gramm kommen hinein, und das meiste liegt einfach da."
+part.2 = "2. Erwärme es. Jetzt schluckt dasselbe Wasser fast alles."
+part.3 = "3. Und kühle es richtig ab. Was das Wasser nicht mehr halten kann, kommt wieder heraus — 0,096 mol, also das meiste von dem, was sich gelöst hatte."
+part.4 = "4. Der Gegensatz, auf den es ankommt, und die Werkbank zeichnet ihn schärfer, als es die Zahlen allein tun. Auch die Löslichkeit von Zucker steigt mit der Temperatur — von 200 auf 487 g je 100 mL, gut das Doppelte, gegen 2,5 auf 27,4 bei Borax, das Elffache. Aber sieh, was die beiden auf dem Weg nach unten tun: Das Borax kommt HERAUS, und der Zuckersirup wird ÜBERSÄTTIGT und bleibt bei dem 1,25-Fachen dessen gelöst, was das Wasser halten sollte. Genau diesen Unterschied erlebt man auch in der Küche. Eine Boraxschneeflocke wächst über Nacht von allein; Kandiszucker liegt da und weigert sich anzufangen, bis man ihm eine Schnur zum Wachsen gibt."
+boundary.1 = "Was hier nicht abgebildet wird: der Kristall. Es gibt keinen Pfeifenreiniger zum Anwachsen, keine Tracht, keine sechszählige Symmetrie — die Werkbank sagt, wie viel Feststoff zurückkommt, nicht welche Form er annimmt, und bei einer Schneeflocke geht es ausschließlich um die Form."
+boundary.2 = "Und eine offengelegte Ersetzung: Die Löslichkeiten aus dem Tabellenwerk gelten für das Decahydrat Na2B4O7·10H2O, und genau das kristallisiert auch wirklich aus einer abkühlenden Lösung aus. Diese Datenbank kennt nur das wasserfreie Salz, es steht also für das Decahydrat, mit dessen Löslichkeit und über das Massenverhältnis umgerechnet. Die Mengen stimmen; der Feststoff, der sie trägt, ist ein Stellvertreter."
+
+["buffer"]
+title = "Puffer: warum dein Blut den pH-Wert nicht ändert, wenn du Limonade trinkst"
+
+["cabbage-rainbow"]
+title = "Der Rotkohl-Regenbogen: ein Farbstoff, fünf Farben"
+intro = "Rotkohlwasser besteht nicht aus fünf Farbstoffen. Es ist ein einziger Farbstoff, der in Stufen Protonen abgibt, und jede Stufe verschluckt Licht anders — seine Farbe ist also eine Ablesung des pH-Werts. Die Werkbank berechnet sie so wie jede andere Farbe: ε(λ) über Beer-Lambert und den CIE-Normalbeobachter, nicht über eine Tabelle mit „wird im Alkalischen blau“."
+part.1 = "Essig: die Flavylium-Form, rot."
+part.2 = "Sprudelwasser, leicht sauer: die mittlere Form, violett. Das ist die Farbe, die das Glas Saft hat, bevor irgendetwas mit ihm geschieht."
+part.3 = "Natron: die erste alkalische Stufe."
+part.4 = "Soda, stärker — und hier lohnt sich das Innehalten."
+part.5 = "Starkes Alkali, ganz oben auf der Leiter."
+part.6 = "Keine Form dieses Farbstoffs ist grün. Das Grün erscheint dort, wo eine blaue und eine gelbe Form gleichzeitig vorliegen: Zusammen verschlucken sie an beiden Enden des sichtbaren Bereichs Licht und lassen dazwischen ein Fenster offen. Das ist eine Farbe, die in keiner Tabelle dieser Engine steht, berechnet aus zweien, die darin stehen — und genau das ist das ganze Argument dafür, Farbe zu berechnen statt sie zu speichern."
+boundary = "Was hier nicht abgebildet wird: Echter Rotkohlsaft ist leicht sauer und puffert selbst, ein paar Tropfen in ungepuffertes Wasser würden den pH-Wert also verschieben und nicht nur anzeigen; hier zeigt der Saft nur an. Der Farbstoff ist ein Gemisch acylierter Cyanidin-Glykoside und keine einzelne Verbindung, und weder Sorte noch Extraktion noch eine Verschiebung durch Copigmentierung werden behauptet."
+
+["calorimetry"]
+title = "Neutralisationsenthalpie: Wie viel Wärme liefert eine Säure-Base-Reaktion?"
+
+["candle-jar"]
+title = "Die Kerze und das Glas: Eine Flamme verbraucht NICHT allen Sauerstoff"
+intro = "Jedem wird beigebracht, dass eine Kerze unter einem Glas „den Sauerstoff aufbraucht“ und ausgeht. Sieh dir hier die Zahlen an: Sie geht aus, während noch etwa drei Viertel des Sauerstoffs im Glas sind. Eine Flamme braucht nicht IRGENDWIE Sauerstoff — sie braucht Luft, die REICH daran ist, etwa ein Teil von sechs, und darunter hört sie auf, obwohl reichlich übrig ist."
+part.1 = "1. Eine Kerze an der freien Luft. Nichts begrenzt sie, sie brennt also vollständig ab — 5 g Wachs sind etwa 210 kJ, und das ist viel Energie für etwas, das man in einer Hand halten kann."
+part.2 = "2. Dieselbe Kerze unter einem Glas. `regulate` ist die ehrliche Grenze für ein Glas, das auf dem Tisch steht: Das Gas kann nicht entweichen, aber drücken, es zerspringt also nichts. Achte vorher und nachher auf die Sauerstoffzeile."
+part.3 = "Lies nach, was gerade passiert ist. Kaum Wachs ist verbrannt, die Flamme ist aus, und es ist noch Sauerstoff im Glas — er fiel von 21 % des Gases auf 16 %, und das reichte, um sie zu stoppen. Kohlendioxid und Wasser haben den Platz des verbrauchten Sauerstoffs eingenommen."
+part.4 = "3. Ein Feuerlöscher, also eine Flasche Kohlendioxid. Der Kerze wird nichts weggenommen: Das Wachs ist noch da, und der Sauerstoff auch. Das Kohlendioxid nimmt nur Platz weg, und jetzt kann die Flamme gar nicht erst anfangen."
+part.5 = "4. Auch Papier brennt, und es ist dieselbe Chemie mit einem anderen Brennstoff: Cellulose statt Wachs. Papier entzündet sich bei 506 K — das sind 451 Grad Fahrenheit, und der Titel des Romans ist ein echter Messwert. Sieh dir an, wie viel weniger Wärme dieselbe Masse liefert als Wachs."
+boundary = "Was hier nicht abgebildet wird: der Docht, der geschmolzene See, das Licht. Eine echte Kerze verbrennt langsam WachsDAMPF, der im Docht hochgezogen wird; diese Werkbank verbrennt auf einmal, was die Luft zulässt, und bildet die Uhr nicht ab. Es gibt keinen Ruß, keinen Rauch, keine Verkohlung und kein Kohlenmonoxid — das Verbrennen ist hier immer vollständig, direkt zu Kohlendioxid und Wasser. Und die Grenze von 16 % ist eine einzelne Lehrzahl für etwas, das in Wirklichkeit vom Brennstoff, vom Docht und von der Form des Glases abhängt."
+
+["chalk-vinegar"]
+title = "Schäumt Kreide in Essig? Eine Säurekontrolle mit zwei Gefäßen"
+intro = "Nimm für einen echten Versuch nur gewöhnlichen 5-prozentigen Speiseessig und Schulkreide aus Calciumcarbonat. Trage eine Schutzbrille, schütze den Tisch, frage vorher eine erwachsene Person, und koste niemals etwas, das in Laborglas gestanden hat."
+part.control = "Kontrolle: Ein Kreidestift löst sich in derselben Menge reinem Wasser kaum und hat keine begrenzte Säurequelle, aus der ein sichtbarer Stoß Kohlendioxid entstehen könnte."
+part.test = "Test: Ersetze das Wasser durch das benannte Rezept für 5-prozentigen Essig und lass die Kreidemenge gleich. Die ausgeglichene Reaktion verbraucht begrenztes CaCO3 und begrenzte Essigsäure. Ihr wirklicher CO2-Bestand treibt den gewohnten Blaseneffekt und entweicht aus diesem offenen Becherglas; er ist keine abgespielte Animation."
+boundary = "Versuche es in einem frischen Gefäß mit weniger Kreide oder weniger Essig. Das begrenzende Reagenz bestimmt die Gasmenge. Mahlen würde die tatsächliche Geschwindigkeit ändern, doch eine Kinetik über die Teilchenoberfläche bleibt für diese Reaktion ausdrücklich ein künftiges Modell."
+
+["cola-shell-surrogate"]
+title = "Eine Eierschale in Cola: Prüfe die Säure, die tatsächlich abgebildet ist"
+intro = "Die Phosphorsäure der Cola trifft auf carbonathaltige Kreide. Membran, Zahnschmelz, Osmose, Oberflächenstruktur und ein ganzes Ei sind nicht abgebildet."
+
+["conductivity"]
+title = "Ionische Leitfähigkeit: starke und schwache Elektrolyte im Vergleich"
+part.1 = "Starker Elektrolyt: NaCl dissoziiert vollständig"
+part.2 = "Schwacher Elektrolyt: Essigsäure dissoziiert nur teilweise"
+
+["conjugate-base-shifts-buffer-ph"]
+title = "Die konjugierte Base verschiebt den pH-Wert eines Puffers"
+boundary = "Die berechneten Aktivitäten in Lösung enthalten keine Unsicherheit von Messsonde und Probenvorbereitung."
+
+["copper-concentration-lifts-cell-voltage"]
+title = "Kupferionen heben die Spannung der Daniell-Zelle"
+boundary = "Das sind Leerlaufspannungen im Gleichgewicht, keine Messungen unter Stromfluss."
+
+["copper-patina"]
+title = "Eine Kupfermünze reinigen — und das Grün, das zurückkommt"
+intro = "Eine angelaufene Münze wird in Essig wieder blank. Kommt es für das Grün, das danach erscheint, auf das Salz an? Zwei gleich angesetzte Bechergläser ändern eine einzige Sache, damit die Farbe ein Beleg ist und keine Geschichte, die wir uns hinterher erzählen."
+part.1 = "1. Kontrolle: Kupferoxid und Essig, aber kein Chlorid."
+part.2 = "2. Versuch: dieselben Mengen in einem frischen Becherglas, mit Salz als einziger Änderung."
+part.3 = "Vergleiche die Bilanzen nebeneinander. Chlorid ist das, was gelöstes Kupfer wieder in einen grünen Feststoff verwandelt: Atacamit, Cu2Cl(OH)3, das Mineral, das an Kupferbeschlägen in Meeresnähe wächst. Die Kontrolle hält die Aussage über das Chlorid ehrlich."
+boundary.1 = "Was das zeigt und was nicht. Das Blau in der Flüssigkeit ist gelöstes Kupfer(II) und wird berechnet; auch der grüne Feststoff wird berechnet, von der wässrigen Engine, aus einer Phase, die die mitgelieferte Datenbank seit jeher kennt. Was bis jetzt fehlte, war eine Spezies dafür im Verzeichnis dieses Labors — damit die Werkbank sehen konnte, dass die Lösung übersättigt war, das auch sagen konnte und nichts auf den Boden des Becherglases legen durfte."
+boundary.2 = "Eine Münze gibt es weiterhin nicht. Das ist die Chemie einer Kupferoberfläche ohne die Oberfläche: keine Anlaufschicht zum Entfernen, kein Glanz, der zurückkehrt, und kein Unterschied zwischen einer Münze, die eine Sekunde eingetaucht wurde, und einer, die über Nacht darin lag. Was die Werkbank hat, ist das, was die Flüssigkeit tut."
+
+["counting-in-fives"]
+title = "Permanganat zählt in Fünferschritten: eine Redoxtitration, am Endpunkt gestoppt"
+
+["current-time-and-electrolysis-yield"]
+title = "Stromstärke, Zeit und Ausbeute der Elektrolyse"
+intro = "Halte die Zeit bei 75 s fest und ordne die Produktmengen, die 0,05 A, 0,1 A, 0,2 A und 0,4 A erzeugen. Verbinde diese Reihenfolge mit der Ladung Q = I · t; die Stromstärke allein ist kein Ausbeutegesetz, sobald sich auch die Zeit ändern darf."
+
+["dancing-raisins"]
+title = "Tanzende Rosinen: Wie viel Gas braucht es, um eine anzuheben?"
+intro = "Eine Rosine ist schwerer als Wasser, sie sinkt also. An ihrer runzligen Haut bleiben Blasen hängen, und wenn genug davon beisammen sind, sind die Rosine und ihre Blasen ZUSAMMEN leichter als das Wasser — nach oben geht es. Oben platzen die Blasen, und sie kommt wieder herunter. In diesem Versuch reagiert nichts: Die Rosine ist die ganze Zeit dieselbe Rosine. Was sich ändert, ist nur, wo sie ist."
+part.1 = "1. Die Kontrolle. Eine Rosine in reinem Wasser, ganz ohne Gas. Sie sinkt und bleibt unten, und die Werkbank sagt nichts vom Tanzen, weil es nichts zum Tanzen gibt."
+part.2 = "2. Der Versuch. Leg die Rosine zuerst hinein und gieß das Sprudelwasser darüber — so macht man es auch in der Küche. Lies die Zahl ab: Die Blasen müssen etwa ein Drittel der Rosine selbst wert sein."
+part.3 = "3. Mach die Flüssigkeit nun schwerer. Zuckersirup ist dichter als Wasser, die Rosine ist dem Schwimmen also schon viel näher — und das Gas hat weit weniger zu tun. Dieselbe Rosine, dieselben Blasen, ein Drittel des nötigen Auftriebs."
+boundary = "Was hier nicht abgebildet wird: wie lange das Tanzen dauert, wie viele Fahrten die Rosine macht, wie groß die Blasen sind und wie viele hängen bleiben. Diese Werkbank lässt ein Glas Sprudelwasser in einem einzigen Schritt schal werden, es gibt also keine Uhr, die einen Schlusspunkt setzt. Berechnet werden die Dichte des Körpers, die Dichte der Flüssigkeit, in der er liegt, und wie viel anhaftendes Gas ihn anheben würde — und genau um diese letzte Zahl geht es in dem Versuch."
+
+["density-tower-boundary"]
+title = "Dichteturm: was das Messgerät beweist und was das Mischen zunichtemacht"
+part.1 = "Jede Ausgangsflüssigkeit hat eine berechnete Dichte. Mischbare Flüssigkeiten in einen Zylinder zu geben benutzt den gewöhnlichen Zugabebefehl und mischt sie deshalb; ohne einen Befehl zum langsamen Überschichten und ohne einen Zustand für die senkrechte Diffusion wäre ein dauerhaft geschichteter Turm eine falsche Behauptung im Bild."
+
+["density"]
+title = "Dichte: die Messung, die Dinge unterscheidet, wo Wiegen es nicht kann"
+intro = "Leg fünf Gramm Kupfer, fünf Gramm Zink und fünf Gramm Aluminium auf eine Waage, und du lernst nichts: Alle wiegen fünf Gramm. Unterscheiden tut sie, wie viel PLATZ diese fünf Gramm einnehmen, und das ist die Dichte — Masse geteilt durch Volumen, eine Eigenschaft des Stoffes selbst und nicht des Stücks, das du gerade in der Hand hast."
+part.1 = "1. Drei Metalle, dieselbe Masse, drei verschiedene Antworten."
+part.2 = "Die Waage sagt dreimal 5 g. Das Dichtemessgerät sagt 8,96, 7,14 und 2,70 g/mL — und das Stück Aluminium ist mehr als dreimal so groß wie das aus Kupfer. Deshalb wiegt ein Händler Altmetall UND sieht sich an, wie groß es ist."
+part.3 = "2. Auch Flüssigkeiten haben eine Dichte, und etwas darin zu lösen ändert sie. Darauf baut ein Dichteturm auf: Jede Schicht muss schwerer sein als die darüber, sonst hält der Turm nicht."
+part.4 = "Drei Flüssigkeiten, drei Dichten, und sie steigen mit dem Zucker. Ganz behutsam übereinandergeschichtet, die schwerste zuerst, lägen sie in Schichten — doch diese Werkbank kann nicht langsam gießen: Gießt man sie hier zusammen, mischen sie sich, und genau das würde auch wirklich geschehen, wenn man schnell gösse. Die Zahlen sind der Teil, auf den der Turm angewiesen ist, und sie stimmen."
+part.5 = "3. Eine Dichte gehört EINEM Stoff. Zwei Pulver auf einem Haufen haben eine Masse und ein Volumen, aber keine Dichte, die man jemandem nennen sollte."
+boundary = "Was hier nicht abgebildet wird: Das Volumen eines Stücks wird aus der geprüften Dichte des Stoffes berechnet und nicht durch Verdrängung von Wasser gemessen; das ist also die Dichte des Materials und nicht die des Körpers — ein hohles oder aufgeschäumtes Stück läse sich hier gleich und schwämme in einem echten Eimer. Die Volumina der gelösten Stoffe in den Zuckerlösungen nutzen dieselbe Näherung additiver Volumina wie der Rest der Werkbank; ein echter Sirup zieht sich beim Mischen ein klein wenig zusammen."
+
+["dilute-the-current-carriers"]
+title = "Die Leitfähigkeit folgt der Ionenkonzentration nach dem Mischen"
+intro = "Gleiche Endvolumina Wasser bekommen steigende Mengen Natriumchlorid. Das trennt die Ionenkonzentration vom Volumen, bevor die Leitfähigkeit gemessen wird."
+boundary = "Die Leitfähigkeit wird aus den berechneten Ionen geschätzt; Zellkonstante, Elektrodenpolarisation, Kalibrierdrift und Temperaturkompensation fehlen."
+
+["distillation-cut-controls-collection"]
+title = "Ein größerer Destillationsschnitt sammelt mehr"
+boundary = "Der Gleichgewichtsschnitt sagt weder die Leistung einer echten Kolonne noch die Reinheit voraus."
+
+["dry-then-wet-fizz"]
+title = "Trocken, dann nass: warum Brausepulver und Badebomben auf Wasser warten"
+intro = "Citronensäure und Natron können trocken nebeneinanderliegen. Erst Wasser lässt Ionen wandern und startet die Reaktion zwischen Säure und Carbonat. Das ist ein chemischer Vergleich und kein Rezept: Laborgemische werden nicht gekostet."
+part.dry = "Trockene Kontrolle: Beide Zutaten sind vorhanden, aber keine Flüssigkeit verbindet sie."
+part.wet = "Nasser Vergleich: dieselben Zutaten, diesmal mit Wasser zuerst."
+boundary = "Zu echtem Brausepulver gehört der Geschmack, zu einer Badebombe gehören Bindemittel, Duftstoffe, Pressform und Auflösegeschwindigkeit. Nichts davon wird hier abgeleitet. Auch Schaum wird nicht behauptet: Gas schäumt nur, wenn ein modelliertes Tensid vorhanden ist."
+
+["electrode"]
+title = "Die elektrochemische Spannungsreihe: Zink verdrängt Kupfer"
+
+["electrolysis-products-follow-time"]
+title = "Die Produkte der Elektrolyse folgen der Zeit"
+boundary = "Ideale Ausbeute nach dem Faraday-Gesetz, ohne Wirkungsgrad, Überspannung und Gasauffang."
+
+["electrolysis"]
+title = "Elektrolyse von Kupfersulfat: das Faraday-Gesetz, auf der Waage geprüft"
+intro = "Das Besondere hier ist, dass man es zuerst auf dem Papier ausrechnen kann. Wieg die Elektrode, lass die Zelle laufen, wieg sie wieder — und der Unterschied ist eine Zahl, die du schon vorhergesagt hast:"
+calc.given = "I = 1,000 A, t = 965 s"
+calc.charge = "Q = I·t         = 965 C"
+calc.electrons = "n(e-) = Q/F     = 965 / 96485,33 = 0,010002 mol Elektronen"
+calc.copper = "n(Cu) = n(e-)/2 = 0,005001 mol            <- die 2 ist die einzige Chemie"
+calc.mass = "m = n·M         = 0,005001 x 63,546 = 0,3178 g"
+aside.element = "Alles außer dieser 2 ist Rechnen, das man für jedes Element genauso machen könnte. Die 2 ist das Kupfer(II): Jedes Ion braucht zwei Elektronen, um ein Atom zu werden. Bei Silber wäre es 1 und bei Aluminium 3, und dieselbe Ladung würde ganz verschiedene Massen abscheiden."
+aside.assumptions = "Annahmen, denn die vorhergesagte Masse hängt von ihnen ab. Inerte Elektroden, an der Anode wird also Wasser oxidiert und das Becherglas wird sauer. Und die Zelle gilt für Kupfer als vollständig wirksam: An der Kathode entsteht kein Wasserstoff nebenher. Das ist eine obere Schranke und keine Messung — eine echte Elektrode wiegt so viel oder weniger, nie mehr. Die Werkbank sagt das auf Stufe lv3 und meldet einen berechneten Wirkungsgrad unter 1, wenn das Kupfer vor der Ladung ausgeht."
+
+["elephant-toothpaste-catalyst-dose"]
+title = "Elefantenzahnpasta: Die Katalysatormenge bestimmt, wie schnell der Schaum kommt"
+intro = "Simulierter Versuch. Ein echter Versuch mit Kindern nutzt nur 3-prozentiges Wasserstoffperoxid aus dem Haushalt, Aufsicht durch Erwachsene, eine passende Schutzbrille und Handschuhe. Vorführungen mit Kaliumiodid gehören auf eine beaufsichtigte Schulbank; stärkeres Peroxid ist hier virtuelle Erkundung und keine Anleitung für zu Hause."
+part.1 = "Ein fairer Vergleich: gleich viel Peroxid, gleich viel Spülmittel, gleiche Gefäße, gleiche Zeit. Nur die Menge Kaliumiodid ändert sich. Der Katalysator bleibt in beiden Gefäßen erhalten."
+part.2 = "Eine gemeinsame Uhr lässt die Abhängigkeit erster Ordnung vom Iodid bis ins sichtbare Gas- und Schaummodell durchschlagen, ohne einem der Gefäße zusätzliche Reaktionszeit zu schenken."
+boundary = "Vorhersage: v2 sollte in denselben zehn Sekunden mehr Sauerstoff bilden, eine höhere Schaumsäule aufbauen und weiter überlaufen. Keines der beiden Gefäße verbraucht dabei sein Kaliumiodid."
+
+["elephant-toothpaste"]
+title = "Elefantenzahnpasta: Die Seife fängt den Sauerstoff ein, sie macht ihn nicht"
+intro = "Simulierter Versuch. Für einen echten Versuch mit Kindern nur 3-prozentiges Wasserstoffperoxid aus dem Haushalt verwenden, gemeinsam mit einer erwachsenen Person, mit passender Schutzbrille und Handschuhen. Stärkeres Peroxid dient hier der virtuellen Erkundung und ist keine Anleitung für zu Hause."
+part.1 = "Zwei gleiche Peroxidportionen machen daraus einen fairen Vergleich. Die erste bekommt Spülmittel, die zweite ist die Kontrolle ohne Seife."
+part.2 = "Trockenhefe steht hier für Katalase-Aktivität. Das zehn Sekunden lange Rühren nach dem warmen Wasser bringt ihre begrenzte Quellphase voran, bevor die gemeinsame Wartezeit beginnt. Sehr heißes Wasser drückt den Wirkbereich des Enzyms; Marke und Alter schwanken ohnehin, deshalb behauptet Kerotakis keine allgemeingültige Hefegeschwindigkeit."
+part.3 = "Eine Uhr bewegt beide Bechergläser. Sauerstoffausbeute und Reaktionswärme kommen aus demselben Geschwindigkeitsgesetz für das Peroxid. Nur v1 hat einen ausgewiesenen Schaumstabilisator."
+part.4 = "Vorhersage zum Besprechen: Beide Gefäße sollten aus gleich viel Peroxid gleich viel Sauerstoff bilden. v1 hält einen großen Teil davon vorübergehend als Schaum fest; v2 blubbert, kann aber keinen dauerhaften Schaum aufbauen. Warte noch einmal und sieh zu, wie der modellierte Schaum zusammenfällt."
+
+["endpoint-is-not-a-full-drop"]
+title = "Virtueller Vergleich: Der rechnerische Endpunkt ist kein ganzer Büretten-Schritt."
+intro = "Beide Gefäße enthalten 0,0023 mol HCl. Bei 0,1 mol/L liegt der Äquivalenzpunkt bei etwa 23 mL. Der Versuchsschritt von 7 mL verfehlt ihn absichtlich. Der automatische Löser verfeinert seinen letzten Schritt; eine echte Bürette und ein echter Indikator haben ihre eigene Unsicherheit, die diese Rechnung nicht abbildet."
+
+["equal-charge-different-clocks"]
+title = "Vergleiche die insgesamt erzeugte Menge bei gleicher Ladung, nicht das Gas, das in offenen Gefäßen übrig bleibt."
+intro = "Ideale Elektrodenstöchiometrie; die tatsächliche Stromausbeute wird nicht modelliert."
+
+["equilibrium-can-run-backward"]
+title = "Virtuelle Gleichgewichtsrechnung, kein Syntheserezept und keine Zeitvorhersage."
+intro = "Dieselbe Reaktion, zwei Ausgangslagen. Aus den Edukten kann ein Ester entstehen; beginnt man stattdessen mit Ester und Wasser, läuft die Hydrolyse in die Gegenrichtung. Der ausdrückliche Befehl nutzt das vorhandene Modell der idealen Mischung mit K = 4, keine gemessene Geschwindigkeit, kein Katalysatormodell und keine reale Aktivität in der Flüssigkeit."
+
+["filter-cannot-catch-dissolved"]
+title = "Ein Stoff, zwei Phasen: Der Filter hält nur den Feststoff zurück"
+boundary = "Das Gleichgewicht in der Lösung entscheidet, wie viel Kieselsäure gelöst ist. Der Filter überführt dann die flüssige Phase und behält die feste; er entscheidet nicht nach der chemischen Identität."
+
+["filter-then-concentrate-the-brine"]
+title = "Erst filtrieren, dann die Sole einengen"
+intro = "Verfolge Kieselsäure, Salz und Wasser durch Filtration und halbes Eindampfen und wiederhole das Ganze im doppelten Maßstab. Der Filter hält die Kieselsäure zurück, während das salzhaltige Filtrat eingeengt wird; doppelte Einwaage bedeutet doppelte Bestände."
+
+["fire"]
+title = "Feuer: was brennt, was nicht, und was übrig bleibt"
+
+["first-warmth"]
+title = "Erste Wärme: Misch heißes und kaltes Wasser und sieh dir die Mitte an"
+
+["fizz"]
+title = "Das Sprudeln: Essig trifft Natron"
+
+["flame-colour-series"]
+title = "Sechs Salze, sechs Beobachtungen in der Flamme"
+intro = "Jedes trockene Salz trägt eine geprüfte Flammenfarbe. Das ist eine virtuelle Flammenprobe: Koste niemals Salze und halte niemals Haushaltsstoffe in eine echte Flamme. Lithium fehlt in der derzeitigen Datenbank und wird nicht stillschweigend ersetzt."
+
+["float-or-sink"]
+title = "Welche Kunststoffe schwimmen?"
+intro = "Beim Recycling werden Kunststoffe nach der Dichte sortiert, und in einem Glas kann man das nachmachen. Jeder davon ist ein Feststoff, alle sehen ziemlich gleich aus, und das Wasser unterscheidet sie, ohne irgendetwas zu wiegen: Was leichter ist als die Flüssigkeit, kommt nach oben, und was schwerer ist, geht nach unten."
+part.1 = "1. Polypropylen, 0,90 g/mL — leichter als Wasser."
+part.2 = "2. Polystyrol, 1,05 g/mL. Nur knapp schwerer — aber schwerer ist schwerer. Gib ihm ein paar Minuten: Ein Feststoff, der gerade hineingefallen ist, wirbelt noch umher, und die Werkbank sagt das, bevor sie sagt, wo er gelandet ist."
+part.3 = "3. PET, 1,38 g/mL, der Kunststoff der Getränkeflaschen. Noch einmal schwerer."
+part.4 = "Das Sortieren hat geklappt: Einer schwimmt, zwei sinken, und gewogen wurde nichts. Das ist das ganze industrielle Verfahren — ein Schwimm-Sink-Becken mit einer Flüssigkeit, deren Dichte man einstellt."
+part.5 = "Was hier nicht abgebildet wird: Die Dichte gehört dem MATERIAL und nicht dem Stück. Eine hohle PET-Flasche schwimmt in einem echten Spülbecken, und diese Werkbank würde PET trotzdem schwerer als Wasser nennen, weil sie keine Form hat, über die sie nachdenken könnte — dieselbe Grenze, die auch das Dichtemessgerät nennt. Auch die Oberflächenspannung, die kleine leichte Gegenstände wirklich trägt, ist nicht abgebildet."
+part.6 = "Und eine Warnung, die die Werkbank sich selbst ausstellt: Die Dichte des Wassers mit Salz zu erhöhen wäre der Weg, die beiden Sinker zu trennen, und dieses Modell kann das nicht. Jedes Ion im Verzeichnis trägt die Dichte von Wasser als Platzhalter, Salzwasser liest sich also als genau 1,00 g/mL. Das Messgerät sagt das, statt dich der Sole glauben zu lassen."
+
+["follow-the-salt-through-staged-transfers"]
+title = "Verfolge das Salz durch mehrstufiges Umfüllen"
+intro.1 = "Ein Becherglas wird in einem Zug ausgegossen. Das andere in zwei Schritten. Verliert einer der beiden Wege Salz?"
+intro.2 = "Bereite zwei gleiche Portionen Salzwasser vor."
+part.1 = "Gib jeder Portion ein leeres Auffanggefäß."
+part.2 = "Füll die erste Portion in einem Zug um und die zweite in zwei aufeinanderfolgenden Güssen."
+part.3 = "Sieh dir jedes Gefäß an. Der Weg ändert, wo die Lösung wartet, nicht die Gesamtmenge an H, O, Na oder Cl in jedem Paar aus Quelle und Auffanggefäß."
+
+["grinding-rate-boundary"]
+title = "Pulver oder Brocken: Die Oberfläche wird berechnet, die Geschwindigkeit nicht"
+intro = "Das Mahlen berechnet die freiliegende Oberfläche. Dieser Carbonatweg hat keine von der Oberfläche abhängige Geschwindigkeit, gleiche Ergebnisse in einem Schritt sind hier also eine Grenze des Modells und keine echte Vorhersage."
+
+["grit"]
+title = "Streusalz für die Straße: Salz hält Wasser unter null flüssig"
+
+["grouping-does-not-change-water-heat"]
+title = "Dieselben sechs Mol und netto 200 J je Zweig, nur anders gruppiert."
+intro = "Lass v1 leer, bis es das fertige Gemisch des linken Zweigs aufnimmt."
+
+["hand-warmer"]
+title = "Das Handwärmekissen, das nicht klicken will"
+intro.1 = "Ein wiederverwendbares Handwärmekissen ist ein Beutel mit Natriumacetatlösung, die weit mehr Salz hält, als sie eigentlich könnte. Man knickt eine kleine Metallscheibe darin, vom Klick aus rasen Kristalle los, und der Beutel wird heiß — diese Wärme ist der entstehende Feststoff, zurückgegeben."
+intro.2 = "Diese Lektion steht hier, weil die Werkbank den Klick NICHT kann, und der Grund dafür ist mehr wert als eine Vorführung."
+part.1 = "Setz die Lösung so an, wie der Beutel angesetzt wird: viel Salz in heißes Wasser."
+part.2 = "Kühle sie nun richtig ab, über den Punkt hinaus, an dem sie hätte kristallisieren müssen. In einem echten Beutel ist das der Zustand, den man den ganzen Winter in der Jacke mit sich herumträgt: flüssig, kalt und geladen."
+part.3 = "Und hier kommt der ehrliche Teil. Die Werkbank weiß, dass die Lösung über ihrer Grenze liegt — sie sagt auch, wie weit — und sie sagt dir, dass sie den Feststoff nicht erscheinen lassen kann. Nicht „es ist nichts passiert“, sondern *warum* nichts passiert ist."
+part.4 = "Der Grund ist weder eine fehlende Zahl noch die falsche Datenbank. Der Feststoff, den ein Handwärmer bildet, ist Natriumacetat-Trihydrat, und keine mit diesem Projekt mitgelieferte PHREEQC-Datenbank kennt überhaupt einen Acetat-Feststoff — weder wateq4f noch minteq.v4, weder pitzer noch llnl. Es gibt nichts, was die wässrige Engine ausfällen könnte."
+part.5 = "Vergleiche das mit Borax, eine Lektion weiter: dieselbe Idee, eine Lösung, die beim Abkühlen über ihre Grenze gerät, und dort gibt es den Feststoff, und er kommt sofort heraus. Der Unterschied zwischen den beiden Fällen ist nicht die Chemie, die ein Kind sieht. Er liegt darin, ob irgendjemand die Phase aufgeschrieben hat."
+
+["hard-water-soap-boundary"]
+title = "Hartes Wasser und Seife: Kesselstein ist nicht Kalkseife"
+intro = "Die Ionen des harten Wassers und der Carbonatstein sind modelliert. Spülmittel ist ein ausgewiesenes Tensid, doch eine Seifenspezies aus Fettsäuren gibt es nicht, also kann die Werkbank die flockige Kalkseife nicht bilden, die für schlechten Schaum sorgt. Genau dieses Fehlen ist die Grenze, die dieser Vergleich sichtbar macht."
+part.1 = "Eine eigene Kontrolle zur Steinbildung zeigt die Calciumchemie, die die Engine wirklich beherrscht."
+
+["hard-water-soap-scum"]
+title = "Warum Fettseife in hartem Wasser Kalkseife bildet"
+intro = "Hier wird ein ausgewiesenes Lehrreagenz verwendet, das Natriumstearat entspricht — kein Spülmittel und keine Aussage über eine Markenseife. Je Calcium- oder Magnesiumion binden zwei Fettsäure-Äquivalente; die Masse des Niederschlags folgt der tatsächlich verbrauchten Natriumseife und dem verbrauchten Ca bzw. Mg, das freigesetzte Natrium geht zurück in Lösung."
+part.1 = "Kontrolle in weichem Wasser: kein Ca2+ und kein Mg2+, also kann sich nichts abscheiden."
+part.2 = "Versuch in hartem Wasser: Calcium ist das begrenzende Reagenz und liefert die erhaltene Kalkseife sowie freigesetzte Natriumionen."
+part.3 = "Magnesium folgt derselben Regel von zwei Äquivalenten je Ion."
+boundary = "Schaum, Mizellen, Gemische verschiedener Kettenlängen, Waschmittelzusätze und Kesselstein werden aus dieser begrenzten Fällungsrechnung nicht abgeleitet."
+
+["hard-water"]
+title = "Der Wasserkocher und die Statue: hartes Wasser und Kesselstein"
+part.1 = "Enthärten durch Mischen: hartes Wasser trifft Sodalösung"
+
+["heating-proteins"]
+title = "Proteine erhitzen: klares Eiklar wird undurchsichtig"
+intro = "Vergleiche gleiche Portionen bei Raumtemperatur und am oberen Rand des geprüften Bereichs, in dem das Modell Eiklar denaturieren lässt. Das Material bleibt erhalten; das Erhitzen ändert die Struktur des Proteins und die sichtbare Verklumpung."
+part.1 = "Albumin ist der Vergleich mit dem reinen Protein. Es folgt seinem eigenen begrenzten Denaturierungsbereich, statt sich das Rezept für ganzes Eiklar zu borgen."
+boundary = "Gelatine ist schon denaturiertes Kollagen, bevor sie ins Regal kommt; das Gelieren beim Abkühlen ist ein anderer Strukturübergang und wird hier nicht behauptet."
+
+["hot-share-temperature"]
+title = "Der heiße Anteil bestimmt die Endtemperatur"
+intro = "Vier gleiche Ausgangsportionen isolieren eine einzige Größe: wie viel heißes Wasser in die Endmischung gelangt. Das Thermometer sollte mit diesem Anteil stetig steigen."
+boundary = "Diese Gefäße sind adiabatische Modelle mit konstanter Wärmekapazität. Echte Behälter verlieren Wärme, und die Werkbank sagt weder das Gießen noch die Abkühlgeschwindigkeit voraus."
+
+["ink-chromatography"]
+title = "Einen schwarzen Filzstift zerlegen: aus einem Fleck werden drei"
+intro = "Eine schwarze Tinte sieht aus wie eine einzige Farbe. Setz einen Tupfen davon unten auf einen Papierstreifen, stell das Papier in Wasser, und das Wasser, das an dem Tupfen vorbei nach oben steigt, trägt jeden Farbstoff unterschiedlich weit — weil sich jeder anders zwischen dem Wasser, das wandert, und dem Wasser, das das Papier festhält, verteilt. Die Zahl, die sagt wie weit, ist der Rf-Wert, und es ist derselbe Verteilungskoeffizient, der entscheidet, wie lange jeder Farbstoff in einer Säule bleibt."
+part.1 = "Die Farbstoffe einzeln, zum Vergleich. Jeder läuft auf seine eigene Höhe, und es sind dieselben Höhen, die das Gemisch eben geliefert hat — so weist ein Streifen nach, was in einer unbekannten Tinte steckt."
+part.2 = "Dieselben Zahlen, als Säule gelesen statt als Streifen. Eine Trennung, zwei Geräte, ein Verteilungskoeffizient: Der Farbstoff, den die Säule am längsten hält, ist der, der dem Bleistiftstrich am nächsten bleibt."
+boundary = "Was hier nicht abgebildet wird: Die Rf-Werte sind geprüfte Lehrzahlen und keine Messwerte, ausgewählt, damit die Reihenfolge der Farbstoffe und die ungefähren Abstände der Flecken stimmen — der Rf-Wert eines echten Streifens hängt vom Laufmittel, vom Papier und von der Temperatur ab, und nichts davon wird hier behauptet. Gelöste Ionen wandern mit dem Wasser und werden ausdrücklich als außerhalb des Verfahrens benannt, statt stillschweigend wegzufallen."
+
+["instant-snow"]
+title = "Zauberschnee: Wo ist das Wasser geblieben?"
+part.1 = "Eine gleich angesetzte Kontrolle nur mit Wasser bleibt ganz gewöhnlich flüssig."
+boundary = "Nichts verschwindet: Das Wasser bleibt in der Bilanz erhalten. Die Grenze von 100 g/g ist ein Lehrwert, keine Produktangabe. Vernetzungsgrad, Korngröße, Salz, pH-Wert, Quellzeit, Volumen und Beschaffenheit liegen außerhalb dieses Gleichgewichtsmodells der Wasseraufnahme."
+
+["invisible-ink-boundary"]
+title = "Geheimtinte: Trocknen, Bräunen und Verbrennen sind verschiedene Vorgänge"
+intro = "Diese Lektion berechnet nur den geprüften Zitronensaftstrich auf Papier. Sein begrenztes Braunwerden ist kein allgemeiner Mechanismus für Karamellisierung oder Maillard-Reaktion."
+part.1 = "Nasse Kontrolle: Wärme allein kann einen Strich nicht sichtbar machen, solange noch Wasser da ist."
+part.2 = "Trockne denselben Strich erst und erwärme ihn dann. Das Bräunen entzündet das Papier nicht."
+part.3 = "Getrennte virtuelle Brennkontrolle. Zünde für diesen Versuch niemals echtes Papier an."
+
+["kitchen-hot-and-cold-packs"]
+title = "Wärme- und Kältekissen aus der Küche: Lösen kann wärmen oder kühlen"
+intro = "Gleiche Wasserportionen bekommen gleiche Salzmassen. Das Thermometer entscheidet; „Lösen setzt Wärme frei“ ist keine allgemeine Regel. Das sind Proben in der Simulation, keine Anleitung für Lebensmittel oder medizinische Kissen."
+part.1 = "Calciumchlorid löst sich exotherm."
+part.2 = "Ammoniumchlorid löst sich unter denselben Bedingungen endotherm. Ammoniumsalze aus dem Labor werden nicht eingenommen."
+part.3 = "Gewöhnliches Kochsalz liefert einen Vergleich aus dem Haushalt statt einer weiteren allgemeingültigen Regel."
+boundary = "Die Gefäße sind adiabatische Näherungen. Eine echte Tasse, ein echtes Beutelchen und der Raum nehmen Wärme auf, und weder die Lösegeschwindigkeit noch der Aufbau des Beutels stecken in diesem Ergebnis."
+
+["kitchen-ph"]
+title = "Eine pH-Karte der Küche — und was ein pH-Meter nicht immer sagen kann"
+intro = "Fünf Dinge aus einer Küche, ein Messgerät. Vier davon antworten. Das fünfte ist das interessante, und es liegt nicht daran, dass die Werkbank faul wäre."
+part.1 = "Zitronensaft. Sauer, und die Säure ist Citronensäure — für die die geladene Datenbank ein Citrat kennt, das Messgerät kann sie also bewerten."
+part.2 = "Apfelsaft. Ebenfalls sauer, ebenfalls eine Fruchtsäure, ebenfalls als sie selbst aufgelöst — und das Messgerät kann sie nicht bewerten. Äpfelsäure steht in der Datenbank und im Glas; ein Malat steht in keiner mitgelieferten Datenbank, ihre zwei Protonen tauchen also in niemandes Speziation auf. Die Werkbank sagt genau das, statt eine Zahl zu liefern, die aussähe wie die anderen."
+boundary = "Das ist die ganze Lektion. Der Unterschied zwischen v4 und v5 liegt nicht in der Chemie, nicht in der Frucht und nicht in der Sorgfalt, mit der das Rezept geschrieben wurde. Er liegt darin, ob irgendwer irgendwo für dieses eine Anion ein thermodynamisches Modell veröffentlicht hat — und wenn nicht, ist die ehrliche Antwort ein Satz und keine Zahl."
+
+["kitchen-starch-hunt"]
+title = "Stärkesuche in der Küche: Mehl und Teig sind nicht einfach weiße Pulver"
+intro = "Lugolsche Lösung ist ohne Stärke braun und wird blauschwarz, sobald ihr Iod auf ausreichend lange Stärkehelices trifft. Nimm getrennte Becher, damit jede Probe dieselbe Menge Wasser und Indikator sieht. Iod färbt ab: Schütze Augen, Kleidung und Arbeitsfläche, und koste kein Laborgemisch."
+part.1 = "Eine Kontrolle mit Zucker. Weiß bedeutet nicht Stärke."
+part.2 = "Mehl löst einen geprüften Stärkeanteil auf, deshalb erscheint dieselbe berechnete Absorptionsbande, ohne dass über Mehl eine Sonderregel nötig wäre."
+part.3 = "Einfacher Teig aus Mehl und Wasser trägt dieselbe Stärkeidentität."
+boundary = "Die Farbe weist Stärke nach; sie misst nicht, wie viel davon da ist. Diese Werkbank bildet außerdem weder das Kochen noch das Verkleistern der Stärke noch die Lebensmittelsicherheit ab."
+
+["lactase-and-milk"]
+title = "Lactase und Milch: Ein Enzym passt zu einem Substrat"
+intro = "Drei gleiche Milchproben teilen sich eine Uhr. Nur die Probe mit Lactase spaltet den Milchzucker; kein Enzym und das falsche Enzym sind faire Kontrollen."
+boundary = "Die Werkbank verbucht eine begrenzte Bindungsspaltung innerhalb der erhaltenen Milchtrockenmasse. Sie behauptet weder Süße noch benannte Mengen an Glucose und Galactose."
+
+["lemon-cell"]
+title = "Leerlaufspannung im Zitronensaft: Ein Voltmeterwert ist keine nutzbare Leistung"
+intro = "Zink liefert Elektronen. Kupfer ist eine inerte Oberfläche, an der Wasserstoffionen sie aufnehmen können. Der Zitronensaft trägt die Ladung zwischen beiden, doch sein pH-Wert allein verrät weder Stromstärke noch Leistung oder Lebensdauer einer echten Fruchtbatterie."
+part.1 = "Das Voltmeter zieht keinen Strom. Weil in diesem Aufbau keine Aktivität der Zinkionen gemessen wird, weist die Werkbank ihre Spannung als Lehrschätzung bei Aktivität 1 aus."
+boundary = "Damit ist die Frage ohne Last beantwortet: Derselbe Zustand liefert immer dieselbe begrenzte Spannungsschätzung. Die Frage nach einer belasteten Batterie beantwortet sie bewusst nicht. Die Form der Frucht, Fläche und Abstand der Elektroden, Polarisation und Innenwiderstand entscheiden über Spannung und Leistung unter Last. Nichts davon folgt aus der Leerlaufschätzung, und das Kupfer wird nicht als Cu/Cu2+ behandelt."
+
+["lemonade-indicator"]
+title = "Limonade, die die Farbe wechselt: Ein Indikator misst die Flüssigkeit"
+intro = "Bromthymolblau nutzt ein berechnetes Spektrum in einer basischen Kontrolle und in Zitronensäure. Der genannte Saft ist ein Ersatzstoff; Laborgemische werden nicht gekostet."
+
+["limewater"]
+title = "Kohlendioxid gelangt in ein offenes Gefäß hinein und ebenso wieder heraus."
+intro = "Die erste Dosis trübt das Kalkwasser; ein echter Überschuss klärt es wieder."
+
+["lipase-and-oil"]
+title = "Lipase und Öl: ein Triglyceridgemisch hydrolysieren"
+intro = "Gleiche Proben aus Öl und Wasser vergleichen Lipase, kein Enzym und Protease."
+boundary = "Das Öl bleibt ein erhaltenes, nicht weiter aufgelöstes Gemisch. Die Werkbank erfindet weder einen pH-Abfall noch benannte Mengen an Glycerin und Fettsäuren, die sie noch nicht bilanzieren kann."
+
+["liquid-nitrogen-freezes-ethanol"]
+title = "Flüssiger Stickstoff: Ein Phasenübergang bezahlt den anderen (nur virtuelle Untersuchung)"
+intro = "Echter flüssiger Stickstoff kann schwere Kälteverbrennungen verursachen und die Atemluft verdrängen. Nur unter geschulter Aufsicht verwenden, mit Augen- und Gesichtsschutz, Kryohandschuhen, starker Belüftung und offenem Druckausgleich. Verschließe ein Kryogen niemals."
+part.1 = "0,1713 mol und 2,8807 mol entsprechen 10 mL Ethanol und 100 mL flüssigem Stickstoff bei den angegebenen Dichten der Flüssigkeiten. Die Zugabe in Mol nutzt den geprüften Phasenweg."
+
+["longer-waits-advance-peroxide-kinetics"]
+title = "Längeres Warten treibt die Peroxid-Kinetik voran"
+intro.1 = "Gib gleichen Peroxidproben vier verschiedene Wartezeiten. Was macht das hinterlegte kinetische Netz, während die modellierte Zeit voranschreitet? Aufgabe für Fortgeschrittene. Sieh dir den vollständigen Bestand nach 30, 60, 120 und 240 Sekunden an: Der Zerfall des Peroxids schreitet voran, während Wasserstoff und Sauerstoff lückenlos verbucht bleiben."
+intro.2 = "Grenze des Modells: Das prüft das hinterlegte Peroxidnetz der Werkbank und ist kein neues, empirisch gewonnenes Geschwindigkeitsgesetz. Der echte Zerfall hängt außerdem von Konzentration, Temperatur, Licht, Verunreinigungen, Oberflächen und Katalysatoren ab. Für einen echten Vergleich nur von einer Lehrkraft angesetztes, verdünntes Peroxid, Augenschutz und saubere, geeignete Geräte verwenden. Nicht einnehmen und benutztes Material nicht in die Vorratsflasche zurückgeben."
+
+["luminol-temperature"]
+title = "Luminol-Licht: warm leuchtet heller, kalt hält länger"
+intro = "Zwei gleich angesetzte Systeme unterscheiden sich nur in der Temperatur. Das ist eine Luminol-Demonstration für den Unterricht, nicht die Chemie handelsüblicher Knicklichter."
+boundary = "Die relative Helligkeit und die Halbwertszeit sind ein ausdrücklich kalibrierter Vergleich in Arrhenius-Form. Produkte und Photonenausbeute werden nicht berechnet."
+
+["magic-milk"]
+title = "Zaubermilch: Seife lässt die Farben rennen"
+intro = "Ein kindgerechter Versuch zur Bewegung an der Oberfläche, mit Vollmilch, Lebensmittelfarbe und ein wenig Spülmittel. Lebensmittelfarbe kann färben: Schutzbrille tragen, Kleidung und Tisch schützen, vor der Verwendung von Lebensmitteln eine erwachsene Person fragen und niemals etwas aus einem Laborgefäß kosten."
+part.1 = "Setz drei kleine Farbtropfen auf die ruhige Milch. Ihre aufgelöste Farbstoffmenge bleibt erhalten, sie bleibt aber an der Oberfläche beisammen, statt sofort das ganze Becherglas einzufärben."
+part.2 = "Gib nun Spülmittel dazu, ohne zu rühren. Die im Rezept ausgewiesene Tensidmenge berechnet die Ausbreitung nach außen, löst SurfaceColourSpread aus und treibt die Animation der farbigen Schlieren an. Die Bahnen sind eine Beobachtungsgröße für den Unterricht und keine Strömungsrechnung, die ein bestimmtes echtes Muster vorhersagt."
+part.3 = "Bau eine faire Kontrolle mit gleich viel Milch und gleich viel Farbe, rühr die Farbe aber vor dem Spülmittel ein. Das Rühren löst SurfaceColourMixed aus und übergibt dieselben erhaltenen Farbträger dem gewöhnlichen Mischmodell nach Beer-Lambert. Ohne verbliebene Tropfen an einer Stelle darf späteres Spülmittel keinen Regenbogen erfinden."
+boundary = "Ändere in einem frischen Gefäß eine einzige Farbmenge oder die Spülmitteldosis. Das Modell erhält Farbstärke und Reihenfolge, behauptet aber weder die molekulare Zusammensetzung der Milch noch eine allgemeine Oberflächenspannung noch die tatsächlichen Bahnen der Schlieren."
+
+["measure-twice"]
+title = "Zweimal messen, nichts verändern"
+intro = "Jedes Messgerät liest dasselbe unveränderte Gefäß zweimal ab. Die Wertepaare sind eine Kontrolle für die Zusage der Werkbank, deterministisch und ohne Eingriff zu messen."
+boundary = "Kalibrierfehler, Drift, zufälliges Rauschen, Probenverbrauch und die Störung durch die Sonde liegen bewusst außerhalb dieses deterministischen Messmodells."
+
+["metal-acid-race"]
+title = "Welches Metall reagiert zuerst? Dieselbe Säure, gleiche Metallmengen"
+intro = "Magnesium reagiert heftig, Zink langsamer, und Kupfer verweigert sich aus einem elektrochemischen Grund. Die Engine berechnet Reaktion und Wärme, aber weder echte Zeiten für ein Wettrennen noch Unterschiede in der Oberfläche der Stücke."
+
+["milk-curds"]
+title = "Milch, Essig, Quark und Molke: Wie viel Säure ist genug?"
+intro = "Ein kindgerechter Vergleich mit gewöhnlicher Milch und 5-prozentigem Haushaltsessig. Koste nichts aus einem Laborgefäß, reinige die Gefäße nach dem Versuch und frag eine erwachsene Person, bevor du Lebensmittel für ein Experiment verwendest."
+part.1 = "Beginne mit einer absichtlich winzigen Menge Essig. Die Milch bleibt ein fein verteiltes weißes Kolloid, weil die zugegebene Säuremenge die ausgewiesene Schwelle zum Ausflocken nicht erreicht."
+part.2 = "Setz ein faires zweites Gefäß mit derselben Milchmenge und der zehnfachen Menge Essig an. Die tatsächliche Menge Essigsäure erreicht nun die begrenzte Antwort: Die Milchtrockenmasse schließt sich zu sichtbaren weichen Klumpen zusammen, während die umgebende Molke durchsichtiger wird. Das ist ein Lehrmodell für das Ausflocken, kein Rezept, keine Prüfung der Lebensmittelsicherheit, keine Vorhersage der Käseausbeute und keine Aussage über jede Art von Milch."
+
+["naked-egg-osmosis"]
+title = "Nacktes Ei: ein Vergleich des Wassertransports durch eine Membran"
+intro = "Das vorbereitete naked_egg ist ausdrücklich ein Ersatzstoff mit der Zusammensetzung von Eiklar hinter einer halbdurchlässigen Membran. Es ist kein simuliertes ganzes Ei: Das Entfernen der Schale ist der eigene Weg mit Kreide und Essig, und Dotter, Elastizität und die Endgröße im Gleichgewicht liegen außerhalb dieses Modells."
+part.1 = "In reinem Wasser hat das Bad weniger gelöste Teilchen als das ausgewiesene Innere, deshalb wandert Wasser in den zusammenhängenden Körper hinein."
+part.2 = "Zucker erhöht die Osmolarität des Bades. Bei gleichem Körper und gleicher Uhr wandert das Wasser nun hinaus. Die gewöhnlichen Befehle zum Abgießen und Filtrieren lassen den zusammenhängenden Körper absichtlich zurück; einen erfundenen Befehl, ein ganzes Objekt aufzunehmen, gibt es nicht."
+
+["neutral-moves"]
+title = "Neutral ist ein bewegliches Ziel: warmes Wasser ist immer noch nur Wasser"
+
+["neutral-sugars-are-conductivity-controls"]
+title = "Neutrale Zucker sind Kontrollen für die Leitfähigkeit"
+boundary = "Die Zucker bleiben in diesem Modell neutrale Moleküle. Verunreinigungen, die Autoprotolyse des Wassers, der Untergrund der Messsonde, die Kalibrierung und die Temperatur bleiben unberücksichtigt."
+
+["never-mix"]
+title = "Die Sicherheitsschicht: genau bei der Gefahr, ehrlich beim Ergebnis"
+part.1 = "1. Chlorbleiche + Ammoniak → Chloramingas (bestehende Regel)"
+part.2 = "2. Starkes Oxidationsmittel + brennbare Flüssigkeit → Brandgefahr"
+part.3 = "3. Starke Säure + unedles Metall → Wasserstoffgas"
+part.4 = "4. Starke Säure + Carbonat → Spritzer durch CO₂"
+
+["oil-water-colour"]
+title = "Öl, Wasser und Farbe: Welche Flüssigkeit bekommt den Farbstoff?"
+intro = "Ein sicherer Versuch zu Dichte und Mischbarkeit mit Wasser, Speiseöl und Lebensmittelfarbe. Koste keine Labormaterialien; schütze Kleidung und Flächen, denn Lebensmittelfarbe färbt ab, und arbeite gemeinsam mit einer erwachsenen Person."
+part.1 = "Färb zuerst das Wasser und gib dann das Öl dazu. Sag vorher, ob das gelbe Öl seine Farbe ändert oder eine eigene Schicht bildet."
+part.2 = "Kehr die Reihenfolge nun in einem schmalen Zylinder um. Lebensmittelfarbe ist eine wässrige Tropflösung: Sie färbt das Öl nicht, und ihre winzige gefärbte Wasserphase setzt sich stattdessen unter dem Öl ab."
+part.3 = "Zurück zum ersten Gefäß. Spülmittel allein löscht die Schicht nicht: Nimm den Rührer, um mechanisch zu mischen, und sieh zu, wie winzige Öltröpfchen das Wasser trüben, während oben etwas unverteiltes Öl bleibt."
+part.4 = "Lass das Gefäß eine ausgewiesene Halbwertszeit des Zusammenfließens ruhen. Etwa die Hälfte des verteilten Öls schließt sich wieder der oberen Schicht an. Dieses Modell erhält das allgemeine, nicht weiter aufgelöste Öl; es bildet weder fallende Tropfen noch das Schütteln von Hand, weder einzelne Tropfengrößen noch Viskosität oder eine Lavalampen-Tablette ab."
+
+["one-thing-at-a-time"]
+title = "Eins nach dem anderen: Die Säule hält ein Gemisch auseinander."
+intro = "Drei farblose Flüssigkeiten, in Wasser gelöst, sehen aus wie eine einzige. Die Säule sieht das anders: Jeder gelöste Stoff verbringt seinen eigenen Anteil der Zeit in der stationären Phase, bestimmt von demselben Verteilungskoeffizienten, der auch den Scheidetrichter antreibt, und trifft deshalb allein ein."
+part.detail = "Dieselbe Einspritzung, genauer gelesen: Retentionszeiten, Breiten, Flächen — und K selbst, die Zahl, die die ganze Arbeit macht."
+
+["oobleck"]
+title = "Oobleck: eine Flüssigkeit, über die man laufen kann"
+intro = "Maisstärke und Wasser ist der eine Versuch in diesem Regal, der keine Chemie ist. Nichts reagiert. Was sich ändert, ist die Antwort des Gemischs auf Druck: Rührt man langsam, fließt es; rührt man schnell, können die Teilchen einander nicht rechtzeitig ausweichen, und es hält dagegen wie ein Feststoff. Hör auf zu rühren, und es ist wieder eine Flüssigkeit."
+part.1 = "Die klassische Mischung: etwa zwei Teile Maisstärke auf einen Teil Wasser."
+part.2 = "Sanft. Es fließt."
+part.3 = "Und nun schnell. Dasselbe Gemisch, derselbe Augenblick, eine andere Antwort."
+part.4 = "Eine dünne Mischung tut weder das eine noch das andere, so kräftig man auch rührt — der Effekt braucht Teilchen, die dicht genug gepackt sind, um sich zu verhaken."
+part.5 = "Lies die Bilanz in v1: Stärke und Wasser sind genau das, was hineinging. Nichts ist entstanden und nichts verbraucht worden; geändert hat sich nur die Antwort auf die Frage „wie fest drückst du?“."
+boundary = "Was hier nicht abgebildet wird: Es gibt keine Viskosität, keine Fließgrenze und keine kritische Schergeschwindigkeit — nur die begrenzte Aussage, dass dieses Gemisch zu denen gehört, die das tun, und dass dieses Rühren schnell genug dafür war. Teilchengröße, Herkunft der Stärke und wie lange sie gestanden hat, sind in einer echten Schüssel allesamt wichtig und hier allesamt nicht abgebildet."
+
+["pepper-and-soap"]
+title = "Pfeffer flieht vor der Seife: An der Wasseroberfläche kommt es auf die Reihenfolge an"
+intro = "Ein sicherer Beobachtungsversuch mit Wasser, gemahlenem Pfeffer und einer winzigen Menge Spülmittel. Koste keine Labormaterialien und spüle hinterher ab."
+part.1 = "Stell zuerst die bekannte, mit Pfeffer bedeckte Wasseroberfläche her."
+part.2 = "Bau eine Kontrolle mit denselben Stoffen in umgekehrter Reihenfolge auf. Ist die Seife bereits über das Wasser verteilt, entsteht beim Aufstreuen des Pfeffers kein neues örtliches Gefälle, das Modell darf das plötzliche Auseinanderstieben also nicht erfinden."
+part.3 = "Berühr nun die Oberfläche mit dem Pfeffer zuerst mit Spülmittel. Die im Rezept ausgewiesene Dosis berechnet die freie Fläche in der Mitte; das ausgelöste Ereignis SurfaceSpread, der gespeicherte Zustand der Szene und die Animation stammen alle aus diesem einen Übergang in der Engine."
+boundary = "Nimm in einem frischen Gefäß weniger Seife und sag voraus, wie groß die freie Fläche wird. Das ist ein begrenztes Modell für den Unterricht und keine molekulare Rechnung zur Oberflächenspannung oder Strömung, und für eine Wiederholung braucht es frisches Wasser und frischen Pfeffer."
+
+["permanganate-standardisation"]
+title = "Permanganat einstellen: Die Bürette verrät ihren eigenen Gehalt"
+
+["pressure-follows-gas-amount"]
+title = "Mehr Gas, mehr Druck"
+boundary = "Nur ideale, starre Gasräume; Undichtigkeiten und die Unsicherheit des Manometers bleiben unberücksichtigt."
+
+["pressure-follows-headspace"]
+title = "Der Druck steigt, wenn der Gasraum kleiner wird"
+boundary = "Nur ideale, starre Gasräume; echtes Arbeiten unter Druck verlangt dafür zugelassene Apparaturen."
+
+["protease-and-gelatin"]
+title = "Protease und Gelatine: ein Enzym, das Proteine zerschneidet"
+intro = "Gleiche Proben aus gequollener Gelatine vergleichen Protease, kein Enzym und Lactase."
+boundary = "Berechnet wird eine begrenzte Proteinhydrolyse. Die Beschaffenheit des Gels und benannte Peptide oder Aminosäuren liegen außerhalb des Modells, ein Wackelpudding wird also nicht vorgetäuscht."
+
+["rates"]
+title = "Geschwindigkeit: zwei Bechergläser, eine veränderte Größe, eine Uhr."
+intro = "Das verschwindende Kreuz. Thiosulfat und Säure bilden Schwefel, der Schwefel trübt die Flüssigkeit, und die Zeit, bis eine Markierung unter dem Becherglas nicht mehr zu sehen ist, ist die Messung. Nichts daran ist vorgegeben: In beiden Bechergläsern läuft dasselbe Geschwindigkeitsgesetz, und der einzige Unterschied ist die Temperatur."
+part.1 = "Die Zeit ist gemeinsam. `wait` bewegt die ganze Werkbank weiter, und nur so bedeutet ein fairer Vergleich überhaupt etwas."
+
+["repeated-liquid-extraction"]
+title = "Ein Lösungsmittelbudget, mehrere Extraktionen"
+intro = "Ein Scheidetrichter belohnt ein einziges großes Schütteln weniger als mehrere kleinere mit frischem Lösungsmittel. Dieser Durchlauf gibt vier gleichen Portionen insgesamt dieselbe Menge Hexan wie der einstufige Vergleich daneben. Die Engine berechnet beides aus den Phasenvolumina und K = [I2]Hexan/[I2]Wasser; keiner der beiden Prozentwerte steht in der Lektion geschrieben."
+part.1 = "Auf Stufe lv3 nennt das Ergebnis außerdem die Richtung des Koeffizienten, die Massenbilanz, die Sättigungsprüfung und die Herkunft der Daten. Dieses geprüfte Iodmodell gilt nur bei 25 °C; andere gelöste Stoffe mit Gruppenzerlegung nutzen den gemeinsamen UNIFAC-Weg, und nicht abgedeckte Paare werden ausdrücklich abgelehnt."
+
+["rock-candy"]
+title = "Kandiszucker: warum der Zucker zurückkommt und warum er darauf wartet, gefragt zu werden"
+intro = "Heißes Wasser hält weit mehr Zucker als kaltes. Löse so viel, wie heißes Wasser aufnimmt, lass es abkühlen, und das Wasser hält nun mehr, als es kann — doch es lässt erst los, wenn dem ersten Kristall irgendwo ein Anfang gegeben wird. Deshalb braucht der Versuch eine Schnur, und deshalb kann das Glas einen Tag lang klar im Regal stehen und dann in einer Minute fest werden."
+part.1 = "1. Zuerst kaltes Wasser, damit der Unterschied etwas hat, woran er gemessen wird."
+part.2 = "2. Derselbe Zucker in heißes Wasser. Weit mehr davon geht hinein."
+part.3 = "3. Kühle das heiße ab. Es kommt nichts heraus — und die Werkbank sagt auch, warum, statt still zu kristallisieren, denn ein Sirup, der von allein kristallisiert, ist nicht der Versuch."
+part.4 = "4. Gib ihm nun einen Keim: Ein einziger Kristall desselben Zuckers genügt."
+boundary.1 = "Die Lösung endet genau an der Grenze für ihre Temperatur, und alles darüber ist jetzt Kristall. Das ist die Ausbeute des Versuchs, und niemand musste sie jemandem sagen — sie ist der Unterschied zwischen zwei Löslichkeiten."
+boundary.2 = "Was hier nicht abgebildet wird: Die Grenze ist eine Gerade zwischen geprüften Werten bei 20 °C und 100 °C, in der Mitte des Bereichs liegt sie also ein paar Prozent zu tief; Kristalle wachsen augenblicklich statt über Tage, ohne Größe, Tracht oder Reinheit; und hier keimt nichts von allein, die Unberechenbarkeit eines echten Sirups — der Grund, warum ein Glas über Nacht fest wird und das nächste nicht — liegt also außerhalb dieses Modells."
+
+["rubbery-bone-boundary"]
+title = "Kreide in Essig: warum das kein Modell für einen biegsamen Knochen ist"
+intro = "Säure entzieht der Kreide das Carbonat. Echter Knochen ist ein Verbundstoff: Calciumphosphat verstärkt Kollagen. Säure kann dieses Kollagengerüst biegsam zurücklassen; Kreide enthält kein Kollagen, aus ihrem Auflösen lässt sich also keine Biegung eines Knochens vorhersagen."
+boundary = "Die zugehörige Kontrolle berechnet ehrlich das Auflösen von Carbonat in Säure und das entstehende Kohlendioxid. Sie ist nur ein Beleg über Kreide. Es gibt in diesem Modell weder eine Knochenspezies noch ein Kollagengerüst, weder mechanische Steifigkeit noch eine beobachtbare Biegung."
+
+["rusting"]
+title = "Rosten: Eisen braucht Luft UND Wasser, und Salz macht es schneller"
+intro = "Vier Nägel, vier Bedingungen, eine Uhr. Alles hier ist ungefährlich, doch die Gefäße sind mit Absicht verschlossen: Der Sauerstoff, den ein Nagel erreichen kann, ist der Sauerstoff, der über ihm eingeschlossen ist, und dass er ausgeht, ist die halbe Lektion."
+part.1 = "1. Trocken. Eisen und Luft, überhaupt kein Wasser. Sag es voraus, bevor du wartest."
+part.2 = "2. Wasser, aus dem die Luft vertrieben wurde. Ein Stickstoffstrom ist die Entsprechung der Werkbank für das abgekochte Wasser, das im Unterricht verwendet wird."
+part.3 = "3. Reines Wasser, verschlossen über gewöhnlicher Raumluft."
+part.4 = "4. Dasselbe, aber in Salzwasser. Chlorid wird von der Reaktion nicht verbraucht und taucht in ihrer Gleichung nicht auf — es macht dieselbe Reaktion nur schneller."
+part.5 = "Für alle vier vergeht ein Tag."
+part.6 = "Die Gefäße 1 und 2 sind die Kontrollen, und jedem fehlt eine Sache. Lies die Sauerstoffzeile in den Gefäßen 3 und 4: Das mit Salz hat fast allen verbraucht, und wenn der Sauerstoff weg ist, hört das Rosten auf, obwohl noch Eisen im Gefäß liegt. Deshalb rostet eine verschlossene Konservendose nicht von innen."
+boundary = "Was hier nicht abgebildet wird: Die Eisenmenge steht für die Eisenoberfläche, Späne und ein Nagel gleicher Masse rosten hier also gleich schnell; das Produkt ist das wasserfreie Eisen(III)-oxid aus dem Verzeichnis und nicht der wasserhaltige Rost eines echten Nagels; und ein offenes Gefäß zieht keinen Sauerstoff aus dem Raum nach, weshalb jedes Gefäß oben über einer abgemessenen Menge davon verschlossen ist."
+
+["saline-scaling-preserves-conductivity"]
+title = "Gleiche Konzentration, größere Portion: Leitfähigkeit ist eine intensive Größe"
+boundary = "Wasser und Salz werden zusammen skaliert, die Konzentration bleibt also gleich. Echte Messwerte hängen außerdem von der Zellkonstante, der Kalibrierung, der Polarisation und der Temperatur ab."
+
+["salt-from-brine"]
+title = "Salz aus Sole: die älteste Chemie der Welt"
+
+["salt-or-sugar-ice"]
+title = "Salz oder Zucker auf Eis: gleiche Massen sind nicht gleich viele Teilchen"
+intro = "Salz dissoziiert, Zucker bleibt molekular. Dieser Gleichgewichtsvergleich bildet weder Korngröße noch Rührgeschwindigkeit ab, und auch nicht, wie schnell ein echtes Eisbad schmilzt."
+
+["sealed-gas"]
+title = "Gasgesetze im geschlossenen Gefäß"
+
+["sealed-mass-conservation"]
+title = "Nichts geht verloren, wenn nichts entweicht: Wähle das System, bevor du wiegst"
+intro = "Im geschlossenen System bleibt das Gas, aus dem offenen entweicht es. Die Atome bleiben in beiden erhalten; die Waage zeigt Unterschiedliches, weil die gewogene Grenze eine andere ist."
+
+["silver-and-salt"]
+title = "Fallakte: Chlorid mit Silbernitrat nachweisen"
+
+["slime"]
+title = "Schleim: Wie viel Borax ist genug?"
+intro = "Weißer Bastelkleber besteht aus langen Ketten Polyvinylalkohol, die aneinander vorbeigleiten, und deshalb lässt er sich gießen. Borax baut Boratbrücken zwischen die Ketten. Die Brücken brechen und bilden sich immer wieder neu, das Ergebnis ist also weder flüssig noch fest: Es fließt, wenn man wartet, und reißt, wenn man zieht. Verbraucht wird nichts — das Borat ist ein Verbinder und kein Reagenz — die Frage lautet also nicht „reagiert es“, sondern „wie viel ist genug“."
+part.1 = "Zu wenig. Die Ketten sind kaum verbunden, und es läuft noch."
+part.2 = "Die Menge aus dem Unterricht. Der größte Teil des Polymers steckt jetzt im Netzwerk."
+part.3 = "Und deutlich darüber. Jenseits der Sättigung bringt mehr Borax nichts: Jede Kette, die verbrückt werden kann, ist es bereits, und deshalb wird überdosierter Schleim gummiartig statt schleimiger."
+boundary.1 = "Lies die Bilanz in einem beliebigen davon: Das Borax ist noch da, und zwar vollständig. Ein Vernetzer wird nicht verbraucht, und das ist der Unterschied zwischen diesem und jedem anderen Vorgang in diesem Labor."
+boundary.2 = "Was hier nicht abgebildet wird: Die Dosis-Wirkungs-Kurve ist eine begrenzte Lehrkurve, auf das bekannte Verhältnis mit 50 mL Kleber abgestimmt, und keine gemessene Rheologie — kein Modul, keine Relaxationszeit, keine Fädenbildung. Ob ein bestimmter Kleber überhaupt geliert, hängt von seinem Hydrolysegrad ab, und Kleber aus Polyvinylacetat gelieren auf diese Weise gar nicht. Haushaltsborax ist das Decahydrat, etwas mehr als die Hälfte dessen, was die Packung wiegt, ist also das Salz, das die Arbeit macht."
+
+["spannungsreihe"]
+title = "Die Spannungsreihe: Wer nimmt die Elektronen, und was ist eine Batterie wert?"
+part.displacement = "Teil 1 — Verdrängung: Ein unedleres Metall drängt ein edleres aus seiner Lösung"
+part.refusal = "Teil 2 — umgekehrt passiert nichts, und das Labor sagt auch, warum"
+part.acid = "Teil 3 — Metalle und Säure: unterhalb des Wasserstoffs sprudelt es, oberhalb bleibt es ruhig"
+part.cell = "Teil 4 — die Reihe als Spannungsmessung: die Daniell-Zelle"
+part.nernst = "Teil 5 — dieselbe Zelle mit zehnmal weniger Kupfer: Nernst, über Aktivitäten"
+
+["spirit-still"]
+title = "Die Destille — und die Mauer bei 96 Prozent"
+intro = "Wein enthält ein paar Prozent Ethanol. Ein Durchgang durch die Destille reichert ihn an, ein zweiter noch mehr — und dann hört der Anstieg auf. Nahe 89 Molprozent hat der Dampf dieselbe Zusammensetzung wie die Flüssigkeit, und stärkeres Kochen reichert nichts mehr an. Diese Mauer ist das Azeotrop, und es wird hier aus Aktivitätskoeffizienten berechnet und nicht nachgeschlagen. Der letzte Durchgang läuft durch eine vierstufige Kolonne — der schnellste erlaubte Weg bis an die Mauer."
+
+["split-heat-same-temperature"]
+title = "Aufgeteilte Wärmestöße führen zur selben Temperatur"
+boundary = "Adiabatische Gefäße mit konstanter Wärmekapazität; Wärmeverluste und die Wärmekapazität des Gefäßes bleiben unberücksichtigt."
+
+["starch-iodine-test"]
+title = "In welchem Becher ist Stärke? Die Farbprobe mit Lugolscher Lösung"
+intro = "Vergleiche dieselbe verdünnte Iod-Iodid-Lösung mit und ohne gewöhnliche Maisstärke. Frag für einen echten Versuch vorher eine erwachsene Person, schütze Kleidung und Tisch vor Iodflecken, trage Augenschutz und koste keine Laborgemische."
+part.1 = "Kontrolle: Verdünnte Lugolsche Lösung ist in Wasser braun. Dieses Gefäß enthält dieselbe Menge Wasser und Indikator wie das Versuchsgefäß, aber keine Stärke."
+part.2 = "Versuch: Setz zuerst eine gleiche braune Kontrolle an und ändere dann genau eine Sache, indem du Maisstärke zugibst. Iodid hält das Iod in der Lösung; ausreichend lange Stärkehelices steuern die berechnete breite Absorptionsbande bei, der sichtbare Zustand wird also blauschwarz, ohne dass Stärke oder KI verbraucht werden."
+boundary = "Probiere Mehl, Kartoffel oder eine Zuckerkontrolle erst, wenn es für diese Stoffe benannte Rezepte gibt. Verschiedene Stärkequellen und Erhitzen können die echte Farbe verändern; diese Lektion bildet bewusst den geprüften Ersatzstoff Maisstärke bei Raumtemperatur ab, statt jedes weiße Pulver als Stärke zu behandeln."
+
+["sugar-water-density-tower"]
+title = "Zuckerwasserturm: Miss die Reihenfolge, bevor du zu stapeln versuchst"
+part.1 = "Gleich viel Wasser am Anfang, steigende Zuckermenge. Die Dichtewerte sind der berechnete Beleg dafür, welche Lösung nach unten gehört."
+boundary = "Die Reihenfolge ist berechnet. Ein echter Turm braucht außerdem ein behutsames Überschichten, das ein senkrechtes Konzentrationsgefälle erhält. Diese Werkbank hat weder einen Befehl zum langsamen Gießen noch einen Diffusionszustand und zeichnet deshalb keine Schichten, die sie nicht halten kann."
+
+["there-and-back"]
+title = "Hin und zurück: Ein Ester entsteht und wird wieder zerlegt."
+intro = "Säure und Alkohol verbinden sich unter Wasserabspaltung zu einem Ester; derselbe Ester wird mit Hydroxid wieder zum Alkohol und zum Salz der Säure hydrolysiert. Zwei kuratierte Umwandlungen, jede gegen eine atomgenau zugeordnete Vorlage geprüft — und jede läuft nur, wenn man sie anfordert, denn ein Becherglas mit Essig und Spiritus tut das nicht von allein."
+
+["three-components-one-cut"]
+title = "Rechnung für eine ideale Mischung, keine Apparatur und keine Synthesevorschrift."
+intro = "Quelle und Vorlage müssen jede Komponente erhalten; eine Azeotropvorhersage gibt es nicht."
+
+["three-protons"]
+title = "Drei Protonen: Phosphorsäure trifft die Bürette"
+
+["titration-manual"]
+title = "Titration: starke Säure trifft starke Base"
+
+["titration"]
+title = "Titration: starke Säure trifft starke Base"
+
+["track-precipitate-and-filtrate-through-drying"]
+title = "Verfolge Niederschlag und Filtrat durch das Trocknen"
+intro = "Bilde zweimal Bariumsulfat. Filtriere beide Ansätze und trockne dann nur das zweite Filtrat. Bilanziere den BaSO4-Rückstand und die gelösten Zuschauerionen in jedem System aus Quelle und Auffanggefäß, bevor du entscheidest, ob Materie verloren ging."
+boundary = "Nur Simulation: lösliche Bariumsalze sind giftig. Eine echte Durchführung verlangt geschulte Aufsicht, Augenschutz, Handschuhe und die Sammlung als Sondermüll."
+
+["transport-column"]
+title = "Ein Salzstoß durch eine Wassersäule"
+intro.1 = "Drei Zellen mit reinem Wasser. Ein viertes Gefäß enthält Salzwasser — den Zulauf. Drücke den Zulauf durch die Säule und fang auf, was herauskommt. Nach drei Schritten bei einer Courant-Zahl von 0,5 hat sich das Salz gemäß den Binomialkoeffizienten in der Säule verteilt: Die Front zerfließt genau so, wie es die Theorie sagt."
+intro.2 = "v1 ist das voreingestellte Becherglas — nimm es als Zelle 1"
+part.1 = "Zellen 2 und 3"
+part.2 = "der Zulauf: Salzwasser im gleichen Volumen"
+part.3 = "ein leeres Auffanggefäß für den Ablauf"
+part.4 = "drücke das Salz in drei Schritten hindurch"
+part.5 = "sieh nach, was wo gelandet ist"
+
+["two-limits-one-carbon-dioxide-ledger"]
+title = "Zwei Grenzen, eine Kohlendioxid-Bilanz"
+intro.1 = "Halte das Hydrogencarbonat fest, während die Säure steigt, und halte dann die Säure im Überschuss, während das Hydrogencarbonat steigt. Welches Reagenz begrenzt das berechnete Kohlendioxid? Aufgabe für Fortgeschrittene. Vergleiche beide Vierergruppen: Eine größere Dosis hebt die Kohlenstoffbilanz nur so lange, bis der andere Reaktionspartner zum begrenzenden wird."
+intro.2 = "Grenze des Modells: Das sind Bestandsrechnungen im Gleichgewicht und keine Vorhersage über Sprudelgeschwindigkeit oder Blasenvolumen. Die offenen virtuellen Gefäße können Kohlendioxid abgeben; Schaumhöhe, Keimbildung, Gasauffang, Wärmeaustausch, Mischzeit und echte Fehler beim Ansetzen fehlen. Ein Versuch in echt sollte kleine, von einer Lehrkraft angesetzte verdünnte Portionen, Augenschutz und ein offenes Gefäß verwenden — verschließe ein Gemisch aus Säure und Carbonat niemals."
+
+["two-roads"]
+title = "Zwei Wege, eine Temperatur: der Satz von Hess mit dem Thermometer"
+
+["vitamin-c-detective"]
+title = "Vitamin-C-Detektiv: die Reaktionsbilanz hinter einer verschwindenden Farbe"
+intro = "Iod in verdünnter Lugolscher Lösung färbt Stärke blauschwarz. Ascorbinsäure reduziert das Iod und wird dabei zu Dehydroascorbinsäure oxidiert, deshalb klart die Farbe auf. Schütze Kleidung und Tisch, trage Augenschutz und koste niemals ein Gemisch, das als Laborprobe gedient hat."
+part.1 = "Die positive Farbkontrolle: Stärke und dieselbe Menge Lugolscher Lösung."
+part.2 = "Ändere eine Sache: Gib vor dem Iod eine bekannte Menge Vitamin C dazu. Das Iod wird verbraucht, während Vitamin C übrig bleibt, der blauschwarze Nachweis erscheint also nicht. Bei dieser Dosis kann die derzeitige, grobe Sicherheitsprüfung für Oxidations- und Reduktionsmittel eine Warnung ausgeben, die für konzentrierte Reagenzien geschrieben wurde; sie ist bewusst vorsichtig und keine quantitative Risikobewertung dieses verdünnten Bechers."
+boundary = "Die Bilanz benennt die Dehydroascorbinsäure, auch wenn die Beschreibung des Aussehens den farblosen Becher derzeit mit einem allgemeinen „nichts zu sehen“ beantwortet. Das ist eine Grenze der Darstellung und keine Erlaubnis, ein Farbereignis zu erfinden. Es ist außerdem keine kalibrierte Lebensmittelanalyse: Ein echter Saft hat einen unsicheren Vitamingehalt und enthält weitere reduzierende Stoffe, die Farbe allein rechtfertigt also keine Angabe für eine Nährwerttabelle."
+
+["volcano-foam"]
+title = "Der Vulkan: warum es auf die Seife ankommt"
+intro = "Ein Natronvulkan ohne Spülmittel ist ein Sprudeln. Mit Spülmittel wird das Gas beim Austreten in einem Film eingefangen, und das Ganze steigt über den Rand. An der Chemie ändert sich nichts — dasselbe Kohlendioxid, dieselbe Menge davon. Was sich ändert, ist, ob das Gas entkommen kann."
+part.1 = "1. Die Kontrolle. Natron und Essig, keine Seife: Es sprudelt, das Gas geht weg, und hinterher ist nichts zu sehen außer einer flachen Flüssigkeit."
+part.2 = "2. Dieselbe Reaktion mit Spülmittel, das schon im Glas ist. Gib die Seife ZUERST hinein — sie muss da sein, wenn das Gas kommt, denn Gas, das schon weg ist, lässt sich nicht mehr einfangen."
+part.3 = "3. Und es hält nicht an. Der Schaum läuft ab und die Blasen fließen zusammen: Zwei Minuten gegen die Halbwertszeit von 180 Sekunden dieser Seife bringen 1,375 L auf 0,866 L herunter, also etwas mehr als ein Drittel weg. Nicht „fast wieder zurück zur Flüssigkeit“ — das war die Vermutung vor dem Durchlauf, und die Zahl ist langsamer als die Vermutung."
+boundary = "Was hier nicht abgebildet wird: Blasengröße, wie der Film abläuft oder der Unterschied zwischen einem Tensidfilm und einem aus Proteinen. Die Halbwertszeit ist die geprüfte Zahl des Rezepts selbst, und der eingefangene Anteil ist ein begrenzter Lehrwert — das sagt, DASS es schäumt und ungefähr wie schnell es zurückgeht, nicht woraus der Schaum besteht."
+
+["warm-the-gas-stop-before-burst"]
+title = "Erwärme das Gas und hör vor dem Bersten auf"
+intro = "Sag die Reihenfolge der Drücke für gleiche eingeschlossene Gasproben bei 0 J, 100 J, 200 J und 400 J voraus. Die ersten drei bleiben messbar, die letzte überschreitet die Belastbarkeit des Gefäßes. Hör dort auf: Ein Bersten ist ein Befund und keine Einladung, es noch einmal zu versuchen."
+
+["water-electrolysis"]
+title = "Leitfähiges Wasser zerlegen: zwei Gase im Verhältnis zwei zu eins"
+intro = "Reines Wasser leitet für diese Apparatur zu schlecht und wird weiterhin abgelehnt. Etwas Natriumsulfat trägt den Strom, ohne selbst bevorzugt entladen zu werden: Aus Wasser wird an der Kathode Wasserstoff und an der Anode Sauerstoff."
+part.1 = "Lass die Zelle offen: Wasserstoff und Sauerstoff gemeinsam aufzufangen ergäbe ein zündfähiges Gemisch, und zum Vergleich der Mengen muss man gar kein Gas auffangen."
+boundary = "Die Mengen gehören dem Faraday-Gesetz: zwei Elektronen je H2 und vier je O2, also doppelt so viel Wasserstoff. Das ist eine ungeteilte Lehrzelle mit inerten Elektroden. Sie bildet weder Überspannung an den Elektroden noch Gasübertritt, Membran, Zündung, Wirkungsgrad oder die zum Stromfluss nötige Spannung ab."
+
+["water-filter"]
+title = "Bau einen Wasserfilter: trüb ist nicht dasselbe wie gelöst"
+intro = "Das ist eine geprüfte Lehrsuspension aus quarzreichem Spielsand. Echtes Schmutzwasser kann außerdem Ton, Mikroben, gelöste Salze und Schadstoffe enthalten; ein klares Filtrat ist nicht automatisch sauber oder rein, und diese Simulation behauptet nichts über Trinkwasser."
+part.1 = "Das Filterpapier hält die festen Körner zurück, während das Wasser in das Auffanggefäß läuft."
+boundary = "Der sichtbare Unterschied und der erhaltene Quarz sind berechnet. Die Porengröße des Papiers, die Korngrößenverteilung in der Natur und eine Reinigung über Feststoffe hinaus sind es nicht."
+
+["whole-object-buoyancy"]
+title = "Ganze Körper: warum ein Apfel schwimmt und eine Kartoffel sinkt"
+intro = "Die Dichte gehört dem ganzen Körper. Bimsstein enthält dichtes Siliciumdioxid, doch seine luftgefüllten Poren senken die Rohdichte des Steins; auch ein Apfel trägt Lufträume. Eine Kartoffel ist etwas dichter als Wasser. Das Bild und die Zeilen darunter benutzen beide diese geprüften Dichten ganzer Körper."
+boundary = "Vorhersage zum Besprechen: Nur die Dichte einer Zutat zu ändern wäre die falsche Rechnung. Form, Poren und eingeschlossene Luft gehören zu einem massiven Körper dazu. Dieses begrenzte Modell simuliert noch nicht, wie Wasser in die Poren des Bimssteins eindringt, deshalb saugt sich der Bimsstein nicht langsam voll und sinkt nicht."
+
+["yeast-fermentation"]
+title = "Was weckt Hefe auf? Ein fairer Vergleich mit Zucker und Hefe"
+intro = "Vergleiche drei gewöhnliche Ansätze an einer gemeinsamen Uhr. Nimm für einen echten Versuch angenehm warmes, nicht heißes Wasser; frag eine erwachsene Person, bevor du Lebensmittel verwendest, koste keine Laborgemische, und verschließe ein gärendes Gefäß niemals fest."
+part.1 = "Kontrolle 1 hat Wasser und Zucker, aber keine lebende Kultur."
+part.2 = "Kontrolle 2 hat Wasser und Hefe, aber keinen Zucker als Nahrung."
+part.3 = "Versuch 3 ändert nur die fehlende Zutat: Er hat dieselben Mengen Wasser, Zucker und Hefe. Der Zucker löst sich, bevor die gemeinsame Uhr startet."
+part.4 = "Für jedes Gefäß vergehen gleichzeitig zehn Minuten. Nur v3 hat gelösten Zucker und eine gequollene Hefekultur, nur dort dürfen also die berechneten Ereignisse GasProduced und Fermented auftreten. Die CO2-Blasen sind Materie, die der hinterlegte ausgeglichene Reaktionsweg erzeugt, und keine Zeitschaltuhr für eine Animation."
+boundary.1 = "Probiere frische Hefe mit gleicher Trockenmasse, eine andere Temperatur oder weniger Zucker. Das ist ein begrenztes Unterrichtsmodell und kein Beleg dafür, dass ein echter Ansatz zum Trinken, Backen, Abfüllen oder Verschließen sicher ist; Wachstum, Umschalten auf Sauerstoff, Hemmung, Aromastoffe und dehnbare Luftballons bleiben ausdrücklich künftige Arbeit."
+boundary.2 = "WIE SCHNELL, UND WIE VIEL DAVON BEHAUPTET WIRD. Am 16.09.2026 wurde die Hefegeschwindigkeit zum ersten Mal angepasst: Die Konstante ist die, bei der ein Gramm Hefe in einem Liter dieser Zuckerstärke in der ersten Stunde bei 30 °C 1,5 g Ethanol abgibt — die höchste veröffentlichte spezifische Rate für anaerobe Bier- und Backhefe (Pagliardini et al. 2013, Microbial Cell Factories 12:29). Davor verbrauchten zehn Minuten hier 58,6 % des Zuckers und machten aus einem 100-mL-Becherglas etwa 1,7 Liter Kohlendioxid — mehr Gas, als das Glas fasst. Jetzt sind es etwa 3,7 % und ungefähr 105 mL, also ein Luftballon, den eine Klasse sehen kann."
+boundary.3 = "DAS IST EINE OBERE SCHRANKE UND KEINE VORHERSAGE. Die zitierte Rate gehört zu einem Laborstamm, der in einem Fermenter wächst, nicht zu Supermarkthefe in kaltem Zuckerwasser; ein Gramm Trockenhefe wird hier als ein Gramm lebender Zellen gezählt, was es nicht ist; und die Hefe dieses Modells vermehrt sich nie, macht nie eine Pause zum Aufwachen und wird nie durch den Alkohol gebremst, den sie erzeugt. Ein veröffentlichter Punkt wird getroffen. Die Form der Kurve durch ihn hindurch wird nicht behauptet, ein längeres Warten läuft auf dieser Werkbank also schneller ab als in Wirklichkeit, und die Quellphase davor ist eine Sache von Sekunden, wo eine echte Packung Trockenhefe zehn bis fünfzehn Minuten in warmem Wasser haben will."

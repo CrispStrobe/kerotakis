@@ -26,7 +26,6 @@
   import AboutDialog from "./lib/components/AboutDialog.svelte";
   import PeriodicTable from "./lib/components/PeriodicTable.svelte";
   import Catalog from "./lib/components/Catalog.svelte";
-  import CapabilityExplorer from "./lib/components/CapabilityExplorer.svelte";
   import ReadingInset from "./lib/components/ReadingInset.svelte";
   import Toolbox from "./lib/components/Toolbox.svelte";
   import BalanceDrill from "./lib/components/BalanceDrill.svelte";
@@ -41,6 +40,7 @@
   import RoomPicker, { type RoomStyle } from "./lib/components/RoomPicker.svelte";
   import UtilityStation from "./lib/components/UtilityStation.svelte";
   import RemoveVesselDialog from "./lib/components/RemoveVesselDialog.svelte";
+  import BenchGateDialog from "./lib/components/BenchGateDialog.svelte";
   import QuestBar from "./lib/components/QuestBar.svelte";
   import { i18n, t } from "./lib/i18n.svelte";
   import { wasteStationAction } from "./lib/wasteStation";
@@ -52,6 +52,7 @@
   import { NO_STEP_PROSE, parseStepProse, type StepProseIndex } from "./lib/stepProse";
   import { briefFor, kidsEquipmentVerbs, kidsShelfKeys, storePendingKidsSandbox, takePendingKidsSandbox, type KidsSandboxBrief } from "./lib/kidsSandbox";
   import { commandCount, completedCommandCount } from "./lib/lesson";
+  import { loadLessonProse } from "./lib/lessonProse";
   import { missionTitle, type MissionSummary } from "./lib/storyProgress";
   import { pwa } from "./lib/pwa.svelte";
   import { mixLine, twoVesselLine, type TwoVesselAction } from "./lib/directActions";
@@ -558,7 +559,12 @@
     } catch {
       // Bright mode is the intentional first-run default.
     }
-    void session.connect();
+    // Held, not fired and forgotten: the pending-mission start below has to
+    // wait for it. `connect()` RESTORES the saved bench, and a mission that
+    // started while that was still in flight would be handed its vessels
+    // full a moment later — the same contamination as playing two lessons
+    // in sequence, reached through the mode switch instead.
+    const connected = session.connect();
     // Offline-first and installable: the bench registers the payload-root
     // service worker itself rather than inheriting one from a visit to the
     // console page, which is the only reason /app/ ever worked offline.
@@ -593,6 +599,13 @@
       .then((r) => (r.ok ? r.json() : null))
       .then((raw) => (quests = ((raw as { quests?: Record<string, unknown>[] })?.quests) ?? []))
       .catch(() => {});
+    // Lesson prose, keyed by the labels the `.lab` files carry (I18N-9).
+    // Fetched like the rest of the payload and absent without complaint:
+    // a build without it renders the English each lesson carries inline.
+    void fetch(new URL("lessons/prose.json", resolvePayloadBase()).href)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((raw) => loadLessonProse(raw))
+      .catch(() => {});
     void fetch(new URL("lessons/index.json", resolvePayloadBase()).href)
       .then((r) => (r.ok ? r.json() : []))
       .then((list) => {
@@ -609,7 +622,7 @@
           } catch {
             // Starting the fetched mission matters more than clearing the hint.
           }
-          void startLesson(pending);
+          void connected.then(() => startLesson(pending));
         }
       })
       .catch(() => {});
@@ -628,7 +641,10 @@
     }
     const res = await fetch(new URL(`lessons/${file}`, resolvePayloadBase()).href);
     if (res.ok) {
-      session.startLesson(file.replace(/\.lab$/, ""), await res.text());
+      // `requestLesson`, not `startLesson`: a lesson names its glassware
+      // absolutely and needs the bench the engine hands over. On a bench
+      // that is not that, it asks instead of taking (BenchGateDialog).
+      session.requestLesson(file.replace(/\.lab$/, ""), await res.text());
       missionOpen = false;
     }
   }
@@ -718,6 +734,23 @@
   let kidsOpen = $state(false);
   /** A kids task handed over from the concept map, opened on its own card. */
   let kidsInitial = $state<string | null>(null);
+
+  /**
+   * The three flags are three doors onto ONE surface, so they close as one.
+   *
+   * They used to close in three places each, and the capability explorer
+   * was a fourth overlay with its own Escape rung. Leaving one flag set
+   * while another closed left the catalogue open on a hand-over it had
+   * already made — so every exit goes through here.
+   */
+  function closeCatalog() {
+    kidsOpen = false;
+    catalogOpen = false;
+    capabilityOpen = false;
+    catalogInitial = null;
+    kidsInitial = null;
+    capabilityInitial = null;
+  }
   /** A tapped badge, magnified (the visual bar's reading inset). */
   let inset = $state<{ vessel: number; reading: { key: string; value: number; confidence: string } } | null>(null);
   let codexEntries = $state<CodexEntry[]>([]);
@@ -994,16 +1027,15 @@
     } else if (e.key === "Escape") {
       if (clearArmed) disarmClear();
       else if (inset) inset = null;
+      // Escape answers the bench question the safe way: cancel touches
+      // nothing and starts nothing. Adjacent to the remove-vessel dialog
+      // because they paint at the same depth (86), so the keyboard's
+      // order and the reader's agree (see `overlayStacking.test.ts`).
+      else if (session.lessonGate) void session.resolveLessonGate(null);
       else if (removeRequest !== null) removeRequest = null;
       else if (homeOpen) homeOpen = false;
       else if (missionOpen) missionOpen = false;
-      else if (capabilityOpen) capabilityOpen = false;
-      else if (kidsOpen || catalogOpen) {
-        kidsOpen = false;
-        catalogOpen = false;
-        catalogInitial = null;
-        kidsInitial = null;
-      }
+      else if (kidsOpen || catalogOpen || capabilityOpen) closeCatalog();
       else if (mapOpen) mapOpen = false;
       else if (roomOpen) roomOpen = false;
       else if (utilityStationOpen) utilityStationOpen = false;
@@ -1141,7 +1173,7 @@
         <button class="tool" onclick={() => (mapOpen = true)}>{t("map")}</button>
       {/if}
       {#if capabilityPrompts.length > 0}
-        <button class="tool" onclick={() => { toolsOpen = false; capabilityOpen = true; }}>{t("capabilities")}</button>
+        <button class="tool" onclick={() => { toolsOpen = false; capabilityOpen = true; }}>{t("answered questions")}</button>
       {/if}
       {#if quests.length > 0 && !session.quest}
         <label class="quest-picker" data-keeps-drawer>
@@ -1575,6 +1607,7 @@
     profile={labProfile}
     missions={lessons.length}
     experiments={codexEntries.length + kidsExperiments.length}
+    questions={capabilityPrompts.length}
     kidsExperiments={kidsExperiments.length}
     {persistenceNotice}
     canclone={labMode === "story" && appSaveRepository !== null}
@@ -1712,24 +1745,22 @@
   <BalanceDrill {session} entries={codexEntries} onclose={() => (drillOpen = false)} />
 {/if}
 
-{#if capabilityOpen}
-  <CapabilityExplorer prompts={capabilityPrompts} {session} initial={capabilityInitial} onclose={() => {
-    capabilityOpen = false;
-    capabilityInitial = null;
-  }} />
-{/if}
-
-<!-- ONE catalogue, one surface. `kidsOpen` and `catalogOpen` survive only
-     as two doors into the SAME list: one opens it whole, the other opens it
-     pre-filtered to the first level, so every existing entry point — the
-     home screen, the story map, the periodic table, the concept map — lands
-     on the same cards. -->
-{#if kidsOpen || catalogOpen}
+<!-- ONE index, one surface (GUI-105). `kidsOpen`, `catalogOpen` and
+     `capabilityOpen` survive only as three doors into the SAME list: one
+     opens it whole, one pre-filtered to the first level, one pre-filtered
+     to the reviewed questions. Every existing entry point — the home
+     screen, the story map, the periodic table, the concept map, the tools
+     menu — lands on the same cards, so "can this bench do X?" is asked
+     once and answered over all three populations. -->
+{#if kidsOpen || catalogOpen || capabilityOpen}
   <Catalog
     initialLevel={kidsOpen && kidsInitial === null ? "starter" : null}
+    initialSource={capabilityOpen && !kidsOpen && !catalogOpen ? "capability" : null}
+    initialQuestion={capabilityInitial}
     entries={codexEntries}
     models={codexModels}
     kidsEntries={kidsExperiments}
+    prompts={capabilityPrompts}
     {stepProse}
     {session}
     kidsInitial={kidsInitial}
@@ -1737,27 +1768,18 @@
     {codexIds}
     initial={catalogInitial}
     onlesson={(file) => {
-      kidsOpen = false;
-      catalogOpen = false;
+      closeCatalog();
       void startLesson(file);
     }}
     onquest={(id) => {
       const quest = quests.find((item) => item.id === id);
       if (!quest) return;
-      kidsOpen = false;
-      catalogOpen = false;
+      closeCatalog();
       void session.startQuest(quest as Parameters<typeof session.startQuest>[0]);
-    }}
-    oncapability={(id) => {
-      kidsOpen = false;
-      catalogOpen = false;
-      capabilityInitial = id;
-      capabilityOpen = true;
     }}
     onsandbox={(entry) => {
       const brief = briefFor(entry);
-      kidsOpen = false;
-      catalogOpen = false;
+      closeCatalog();
       if (labMode === "sandbox") {
         kidsSandboxBrief = brief;
         catalogScope = "mission";
@@ -1768,12 +1790,7 @@
         enterLab("sandbox");
       }
     }}
-    onclose={() => {
-      kidsOpen = false;
-      catalogOpen = false;
-      catalogInitial = null;
-      kidsInitial = null;
-    }}
+    onclose={closeCatalog}
   />
 {/if}
 
@@ -1889,6 +1906,17 @@
       clearBench();
     }}
     onclose={() => (utilityStationOpen = false)}
+  />
+{/if}
+
+{#if session.lessonGate}
+  {@const gated = session.lessonGate}
+  <BenchGateDialog
+    title={t(missionTitle(gated.name))}
+    occupied={gated.occupied}
+    onclear={() => void session.resolveLessonGate("clear")}
+    onkeep={() => void session.resolveLessonGate("keep")}
+    oncancel={() => void session.resolveLessonGate(null)}
   />
 {/if}
 

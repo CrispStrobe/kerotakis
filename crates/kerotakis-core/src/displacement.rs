@@ -732,13 +732,27 @@ pub fn displace(vessel: &mut Vessel) -> (Vec<Event>, Vec<Displacement>) {
                 continue;
             }
             if driving - eta < MARGINAL_VOLTS {
-                events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::RateNotModelled,
-                    vessel: vessel.id,
-                    what: format!(
-                        "how fast {name} fizzes: the driving force clears the hydrogen overpotential on {name} by only {:.2} V, and a rate that close to its barrier is not something this lab computes — it reacts, slowly",
-                        driving - eta
-                    ),
-                });
+                // I18N-10. This sentence and the one in `bystanders` below
+                // are the two the roadmap named: they stand in the
+                // zinc-in-vinegar lesson beside the verdicts I18N-8 taught
+                // to speak German, so a German transcript still had one
+                // English paragraph in the middle of it.
+                let reason = Phrase::new(
+                    "not-modeled.fizz-rate-near-barrier",
+                    "how fast {name} fizzes: the driving force clears the hydrogen overpotential on {name} by only {margin} V, and a rate that close to its barrier is not something this lab computes — it reacts, slowly",
+                    vec![
+                        ("name".to_string(), Slot::term("species", name)),
+                        (
+                            "margin".to_string(),
+                            Slot::number(format!("{:.2}", driving - eta)),
+                        ),
+                    ],
+                );
+                events.push(Event::not_modeled(
+                    vessel.id,
+                    crate::ops::NotModelledCause::RateNotModelled,
+                    reason,
+                ));
             }
         }
         // Complete if the potential is still positive with the last
@@ -1103,12 +1117,16 @@ pub fn bystanders(vessel: &Vessel, just_plated: &[&str]) -> Vec<Event> {
             // being eaten", not "does some route have an opinion", so a
             // stack without the corrosion solver cannot lose the apology
             // and gain nothing in its place.
-            events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::RateNotModelled,
-                vessel: vessel.id,
-                what: format!(
-                    "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model"
-                ),
-            });
+            let reason = Phrase::new(
+                "not-modeled.stays-as-the-metal",
+                "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model",
+                vec![("name".to_string(), Slot::term("species", name))],
+            );
+            events.push(Event::not_modeled(
+                vessel.id,
+                crate::ops::NotModelledCause::RateNotModelled,
+                reason,
+            ));
         }
     }
     events
@@ -1653,20 +1671,50 @@ pub fn pin_electrode(vessel: &mut Vessel) -> Option<(&'static Couple, f64)> {
     // fizzes. The Nernst value is still the number the series is built
     // on, so it is reported, with that said beside it.
     let hydrogen_line = -slope * info.ph;
-    let caveat = if e < hydrogen_line {
-        format!(
-            " This lies below water's own hydrogen line ({hydrogen_line:+.3} V at pH {:.2}): {} is not at equilibrium with the water it stands in, and a real voltmeter would read a mixed potential set by rates this lab does not model",
-            info.ph, couple.reduced
+    let caveat = (e < hydrogen_line).then(|| {
+        Phrase::new(
+            "routing.below-the-hydrogen-line",
+            "This lies below water's own hydrogen line ({line} V at pH {ph}): {name} is not at equilibrium with the water it stands in, and a real voltmeter would read a mixed potential set by rates this lab does not model",
+            vec![
+                (
+                    "line".to_string(),
+                    Slot::number(format!("{hydrogen_line:+.3}")),
+                ),
+                ("ph".to_string(), Slot::number(format!("{:.2}", info.ph))),
+                // The couple's own side of the half-reaction, as the
+                // series writes it: `Cu`, not "copper". Notation.
+                ("name".to_string(), Slot::text(couple.reduced)),
+            ],
         )
-    } else {
-        String::new()
-    };
+    });
     info.pe = Some(pe);
     if let Some(prov) = info.provenance.as_mut() {
-        prov.routing = format!(
-            "{}. The potential reported is the {}/{} electrode's, by Nernst over the computed activity ({:.3e}; E° {:+.4} V, CRC) — a metal in contact with its ion sets the potential, not the air above the beaker. The speciation itself was solved at the open-air pe.{caveat}",
-            prov.routing, couple.reduced, couple.oxidised, activity, couple.e0_volts
+        // The electrode pass NESTS the routing the aqueous solver wrote
+        // rather than pushing a string onto it. Two solvers each adding a
+        // sentence to one field is how the line became a paragraph, and a
+        // paragraph welded together with `format!` is untranslatable
+        // however many of its pieces were once separate.
+        let said = Phrase::new(
+            "routing.electrode-potential",
+            "{routing}. The potential reported is the {reduced}/{oxidised} electrode's, by Nernst over the computed activity ({activity}; E° {e0} V, CRC) — a metal in contact with its ion sets the potential, not the air above the beaker. The speciation itself was solved at the open-air pe.",
+            vec![
+                ("routing".to_string(), prov.routing_slot()),
+                ("reduced".to_string(), Slot::text(couple.reduced)),
+                ("oxidised".to_string(), Slot::text(couple.oxidised)),
+                (
+                    "activity".to_string(),
+                    Slot::number(format!("{activity:.3e}")),
+                ),
+                (
+                    "e0".to_string(),
+                    Slot::number(format!("{:+.4}", couple.e0_volts)),
+                ),
+            ],
         );
+        prov.say_routing(match caveat {
+            None => said,
+            Some(caveat) => crate::phrase::sentence_pair(said, caveat),
+        });
     }
     Some((couple, e))
 }

@@ -17,6 +17,7 @@ import {
   highestVesselNumber,
   loadRunMode,
   runCatalogEntry,
+  benchDiffersFromFresh,
   runGate,
   runnableLines,
   scriptVesselNumbers,
@@ -436,6 +437,25 @@ describe("a bench with work on it is asked about, never wiped", () => {
     expect(runGate(withWork, "clear")).toBe("ready");
     expect(runGate(withWork, "fresh")).toBe("ready");
     expect(runGate(withWork, "keep")).toBe("ready");
+    expect(runGate(bare, null)).toBe("ready");
+  });
+
+  it("asks about a leftover EMPTY vessel, because a curated script names v2", () => {
+    // The defect this closes: `runGate` asked `benchOccupied`, which is
+    // false for a bench holding one empty beaker too many. A codex route
+    // allocates with a bare `new` and then says `add v2 …`; with a stale
+    // empty v2 present, `new` returns v3 and the script fills the previous
+    // run's glassware. Right number, wrong vessel.
+    const staleEmpty = {
+      vessels: [
+        { id: 0, liquid: null, solids: [] },
+        { id: 1, liquid: null, solids: [] },
+      ],
+    };
+    expect(benchOccupied(staleEmpty), "no chemistry in either vessel").toBe(false);
+    expect(benchDiffersFromFresh(staleEmpty), "but it is not a fresh bench").toBe(true);
+    expect(runGate(staleEmpty, null), "so the gate has to ask").toBe("ask");
+    // And a genuinely fresh bench still runs without a question.
     expect(runGate(bare, null)).toBe("ready");
   });
 

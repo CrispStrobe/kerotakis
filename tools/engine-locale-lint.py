@@ -59,11 +59,63 @@ COMPOSERS = [
     ROOT / "crates/kerotakis-core/src/displacement.rs",
     ROOT / "crates/kerotakis-core/src/solve.rs",
     ROOT / "crates/kerotakis-core/src/nonaqueous.rs",
+    # I18N-11. `scene.rs` composes the sentences the WEB bench paints from
+    # — the caption under a drawn vessel and its accessibility text — and
+    # those never pass through `render.rs` at all. Ten of them were still a
+    # bare `format!` after I18N-7 had made the clause they were glued to
+    # translatable, which is exactly the shape this lint exists to count.
+    ROOT / "crates/kerotakis-core/src/scene.rs",
+    # I18N-10, tranche by tranche. A file joins this list on the commit
+    # that gives its first `Event::NotYetModeled` a `reason`.
+    ROOT / "crates/kerotakis-core/src/selectivity.rs",
+    ROOT / "crates/kerotakis-core/src/gas_tests.rs",
+    ROOT / "crates/kerotakis-core/src/clock.rs",
+    ROOT / "crates/kerotakis-core/src/family.rs",
+    ROOT / "crates/kerotakis-core/src/bench.rs",
+    # I18N-10's tail. `states.rs` and `volatility.rs` compose a refusal a
+    # solver passes through; `aqueous.rs` and `phase_diagnostics.rs` are
+    # the aqueous crate's own nine and one; `family_oracle.rs` is where
+    # the structural oracle's refusal is written, one crate away from the
+    # router that speaks it. A file joins this list on the commit that
+    # gives its first refusal a `Phrase` — leave one off and its keys are
+    # reported as orphans in one direction and vanish from the
+    # denominator in the other, which is #505's scar exactly.
+    ROOT / "crates/kerotakis-core/src/states.rs",
+    ROOT / "crates/kerotakis-core/src/volatility.rs",
+    ROOT / "crates/kerotakis-phreeqc/src/aqueous.rs",
+    ROOT / "crates/kerotakis-phreeqc/src/phase_diagnostics.rs",
+    ROOT / "crates/kerotakis-org/src/family_oracle.rs",
+    ROOT / "crates/kerotakis-core/src/kinetics.rs",
+    # `Provenance.routing` — why one dataset answered and not another —
+    # was the third instance of the same defect, and it is composed in
+    # four files rather than one: the aqueous router chooses the dataset,
+    # the electrode pass nests that choice inside its own sentence, and
+    # the two combustion routes each say why they answered. A file that
+    # composes a routing clause belongs here for the same reason a file
+    # that composes a refusal does.
+    ROOT / "crates/kerotakis-core/src/combustion.rs",
+    ROOT / "crates/kerotakis-cea/src/thermal.rs",
+    # The particle drawing's captions. `Census::render` took a `Register`
+    # and no `Locale` at all until 2026-09-18, so a German session drew its
+    # particles under English captions — and because this file was not in
+    # this list, the lint could not see that either. A surface invisible to
+    # the instrument that counts surfaces is the #505 shape once more, and
+    # it is why the tail `", and {n} more"` outlived the I18N-10 sweep.
+    ROOT / "crates/kerotakis-core/src/particles.rs",
 ]
 # `phrase.rs` asks the catalogue for the list grammar and the punctuation
 # by name, the ordinary `locale.t` way.
 PHRASE = ROOT / "crates/kerotakis-core/src/phrase.rs"
 CATALOGUES = ROOT / "crates/kerotakis-core/i18n"
+
+# I18N-10. `Event::NotYetModeled.what` is a finished English sentence, the
+# same defect `Inert.why` was one event along, and it is built at sites
+# scattered across four crates. The denominator is therefore the SOURCE —
+# every construction of the variant outside a test module — and never the
+# number of `refusal.*` rows a catalogue happens to carry, which is the
+# denominator that let #505 report `models.toml` at 100% German over 325
+# English strings. A site counts as done when it carries `reason: Some(…)`.
+REFUSAL_EVENT = "Event::NotYetModeled {"
 
 # `locale.t("vessel.open", ", open to atmosphere")` and the fill() form.
 CALL = re.compile(r'locale\s*\.\s*(?:t|fill)\s*\(\s*"([^"]+)"\s*,\s*"((?:[^"\\]|\\.)*)"')
@@ -102,11 +154,148 @@ REFUSAL = re.compile(
 PHRASE_CALL = re.compile(
     r'Phrase::(?:new|bare)\(\s*"([^"]+)"\s*,\s*"((?:[^"\\]|\\.)*)"', re.S
 )
+# `Phrase::new(kerotakis_core::family::UNNAMEABLE_PRODUCT, "…", …)`. A key
+# two crates share is named by a `const` so the two cannot drift apart,
+# and a lint that only reads literals would then drop it out of the
+# DENOMINATOR — which is #505's failure in the other direction: the number
+# goes green because the work left it. The const's value is resolved from
+# the source, never assumed.
+PHRASE_CONST = re.compile(
+    r'Phrase::(?:new|bare)\(\s*(?:[A-Za-z_][\w]*::)*([A-Z][A-Z0-9_]+)\s*,\s*"((?:[^"\\]|\\.)*)"',
+    re.S,
+)
+CONST_KEY = re.compile(r'const\s+([A-Z][A-Z0-9_]+)\s*:\s*&\s*str\s*=\s*"([^"]+)"')
+# `Phrase::bare("material-assumption.whole_milk-casein", &sentence)` — a
+# key named at the call site whose ENGLISH is data, quoted from a material
+# recipe. The source text cannot be read out of the Rust, but the key can,
+# and a key this lint cannot see is a key it reports as an orphan while
+# leaving the row out of the denominator.
+PHRASE_KEY_ONLY = re.compile(r'Phrase::(?:new|bare)\(\s*"([^"]+)"\s*,\s*[^"\s]')
+# `Phrase::bare(&format!("unspeciated-acid.{key}"), why)` — a CURATED row
+# keyed by its place in a table, the shape `inert-in-solvent` introduced.
+# The prefix is a dynamic section like any other, and reading it out of
+# the source rather than listing prefixes by hand is what keeps the next
+# one from being silently orphaned.
+PHRASE_DYNAMIC = re.compile(
+    r'Phrase::(?:new|bare)\(\s*&?\s*format!\s*\(\s*"([\w.-]+)\.\{'
+)
+
+
+def notmodeled_sites() -> tuple[int, int, list[str]]:
+    """(carrying a Phrase, still a finished sentence, where the rest are).
+
+    Braces are matched rather than regexed: the variant is constructed
+    across as many as ten lines and a line-based count would miss most of
+    them. Test modules are cut the same way the rest of this lint cuts
+    them — nobody reads a fixture on a screen.
+    """
+    done = todo = 0
+    remaining: collections.Counter[str] = collections.Counter()
+    for path in sorted(ROOT.glob("crates/*/src/**/*.rs")):
+        # `ops.rs` DEFINES the event and its constructor. The struct
+        # literal inside `Event::not_modeled` is the one place that is not
+        # a site, and counting it would have the helper report itself as a
+        # migrated call site.
+        if path.name == "ops.rs":
+            continue
+        text = without_test_modules(path.read_text())
+        # A CONVERTED site is a call to `Event::not_modeled`, which
+        # generates `what` from the recipe. It is no longer a struct
+        # literal, so it would otherwise leave the denominator entirely
+        # and make the percentage go up by deleting its own numerator.
+        done += text.count("Event::not_modeled(")
+        i = 0
+        while True:
+            at = text.find(REFUSAL_EVENT, i)
+            if at == -1:
+                break
+            j, depth = at + len(REFUSAL_EVENT), 1
+            while j < len(text) and depth:
+                if text[j] == "{":
+                    depth += 1
+                elif text[j] == "}":
+                    depth -= 1
+                j += 1
+            block, i = text[at:j], j
+            # A pattern, not a construction. `Event::NotYetModeled { .. }`
+            # in a `matches!` binds fields rather than filling them, and
+            # `{ vessel, .. }` in a `retain` looks exactly like a shorthand
+            # construction until you notice the rest-pattern.
+            if ".." in block:
+                continue
+            if "vessel:" not in block and "vessel," not in block:
+                continue
+            if "what:" not in block and "what," not in block:
+                continue
+            # The last shape a pattern can wear: `Event::NotYetModeled {
+            # vessel, what, cause } => …` in `localize_event` names every
+            # field and takes no rest-pattern, so it reads as a shorthand
+            # construction right up to the fat arrow after it.
+            if text[j:].lstrip().startswith("=>"):
+                continue
+            # A pass-through site — `localize_event` rebuilding the
+            # event, `phase_diagnostics` re-emitting one — carries the
+            # reason on rather than composing one, and is done when it
+            # stops dropping it. `reason: None` is the unconverted state.
+            has_field = re.search(r"(?<![A-Za-z0-9_])reason:", block) is not None
+            if has_field and "reason: None" not in block:
+                done += 1
+            else:
+                todo += 1
+                remaining[str(path.relative_to(ROOT))] += 1
+    return done, todo, [f"{n:>4}  {f}" for f, n in remaining.most_common()]
 
 
 def unwrap(text: str) -> str:
     """A Rust string literal's `\\`-at-end-of-line continuation, undone."""
     return re.sub(r"\\\n\s*", "", text)
+
+
+def without_test_modules(text: str) -> str:
+    """Every `#[cfg(test)] mod … { … }` removed, braces matched.
+
+    Cutting at the FIRST `#[cfg(test)]` is what this file used to do, and
+    it is right only for a file whose tests are all at the bottom.
+    `kinetics.rs` has a test module at line 1294 and a thousand lines of
+    engine after it, so the cut hid `proton_consumption_boundary`
+    entirely: its key was reported as an orphan while its row sat outside
+    the denominator. A lint that cannot see part of the source is one
+    whose percentage means nothing, which is #505's lesson in its
+    sharpest form.
+    """
+    out, i = [], 0
+    while True:
+        at = text.find("#[cfg(test)]", i)
+        if at == -1:
+            out.append(text[i:])
+            return "".join(out)
+        out.append(text[i:at])
+        brace = text.find("{", at)
+        if brace == -1:
+            return "".join(out)
+        j, depth = brace + 1, 1
+        while j < len(text) and depth:
+            if text[j] == "{":
+                depth += 1
+            elif text[j] == "}":
+                depth -= 1
+            j += 1
+        i = j
+
+
+def uncommented(text: str) -> str:
+    """Whole-line `//` comments dropped.
+
+    A comment sits between `Phrase::new(` and its key often enough —
+    saying WHY that key and not another — that a pattern which cannot
+    step over one silently loses the call, and a lost call is a row this
+    lint then reports as an orphan while dropping it from the
+    denominator. Whole lines only: a `//` inside a string literal is not
+    at the start of its line, and a comment that is would be.
+    """
+    return "\n".join(
+        line for line in text.splitlines() if not line.lstrip().startswith("//")
+    )
 
 # A dotted key named anywhere in the file, which covers the case where the
 # key is chosen by a match arm rather than passed literally:
@@ -149,17 +338,41 @@ def main() -> int:
         bench = bench[:bench_cut]
     refusals = {m.group(1): unwrap(m.group(2)) for m in REFUSAL.finditer(bench)}
     used.update(refusals)
+    # Every `const … : &str = "…"` the workspace declares, so a key named
+    # by a constant is still counted where it is used.
+    const_keys: dict[str, str] = {}
+    for path in sorted(ROOT.glob("crates/*/src/**/*.rs")):
+        for m in CONST_KEY.finditer(path.read_text()):
+            const_keys[m.group(1)] = m.group(2)
     composed: dict[str, str] = {}
     for path in COMPOSERS:
-        text = path.read_text()
-        cut = text.find("\n#[cfg(test)]")
-        if cut != -1:
-            text = text[:cut]
+        text = uncommented(without_test_modules(path.read_text()))
+        # A composer file may also ask the catalogue DIRECTLY, the ordinary
+        # `locale.t` / `locale.fill` way, when what it builds is a string
+        # rather than an event — `particles.rs` draws the census and hands
+        # back text. Scanning these files for `Phrase` alone reported six
+        # real keys as orphans on 2026-09-18, which is this lint's own
+        # denominator failing in the direction #505 failed: a surface
+        # invisible to the instrument that counts surfaces.
+        for m in CALL.finditer(text):
+            composed[m.group(1)] = unwrap(m.group(2))
         for m in PHRASE_CALL.finditer(text):
             composed[m.group(1)] = unwrap(m.group(2))
-    phrase_src = PHRASE.read_text()
+        for m in PHRASE_KEY_ONLY.finditer(text):
+            composed.setdefault(m.group(1), "")
+        for m in PHRASE_CONST.finditer(text):
+            key = const_keys.get(m.group(1))
+            if key:
+                composed[key] = unwrap(m.group(2))
+    # `phrase.rs` asks for the list grammar and the punctuation the
+    # ordinary `locale.t` way — and composes one clause of its own,
+    # `look.sentence-join`, which a CALL-only read of this file could not
+    # see. A key the lint cannot see is a key outside the denominator.
+    phrase_src = uncommented(without_test_modules(PHRASE.read_text()))
     for m in CALL.finditer(phrase_src):
         composed[m.group(1)] = m.group(2)
+    for m in PHRASE_CALL.finditer(phrase_src):
+        composed[m.group(1)] = unwrap(m.group(2))
     used.update(composed)
     grammar = SCRIPT.read_text()
     dynamic = {m.group(1) for m in DYNAMIC.finditer(src)}
@@ -168,17 +381,28 @@ def main() -> int:
     # out of the table row they came from. Neither can be named at a call
     # site, which is the same legitimate pattern the glassware and species
     # tables use.
-    dynamic |= {"inert-in-solvent"}
-    for path in COMPOSERS:
+    for path in COMPOSERS + [BENCH, RENDER]:
+        text = path.read_text()
         dynamic |= {
-            m.group(1)
-            for m in re.finditer(r'Slot::term\(\s*"([\w.-]+)"', path.read_text())
+            m.group(1) for m in re.finditer(r'Slot::term\(\s*"([\w.-]+)"', text)
         }
+        dynamic |= {m.group(1) for m in PHRASE_DYNAMIC.finditer(text)}
+        dynamic |= {m.group(1) for m in DYNAMIC.finditer(text)}
     dynamic |= {m.group(1) for m in DYNAMIC.finditer(grammar)}
     dynamic |= {m.group(1) for m in SECTION.finditer(grammar)}
     dynamic |= {m.group(1) for m in SECTION_LITERAL.finditer(grammar)}
     mentioned = {m.group(1) for m in MENTIONED.finditer(src)}
     mentioned |= {m.group(1) for m in MENTIONED.finditer(grammar)}
+    # A composer file may choose its key by a match arm too — `particles.rs`
+    # picks one of six `census.kind.*` for the word beside each drawn row.
+    # Scanning only `render.rs` for that shape reported all six as orphans
+    # on 2026-09-18, the same direction this lint's own denominator failed
+    # in an hour earlier with `locale.t` in a composer.
+    for path in COMPOSERS:
+        mentioned |= {
+            m.group(1)
+            for m in MENTIONED.finditer(uncommented(without_test_modules(path.read_text())))
+        }
 
     # Everything that looks like prose, minus what already goes through a
     # call. Rough by design: it over-reports rather than under-reports,
@@ -256,6 +480,12 @@ def main() -> int:
     print(f"{'sentences the engine composes':<34}")
     print(f"   reachable by a catalogue : {len(composed):>4} keys")
     print(f"   ({', '.join(p.name for p in COMPOSERS)}, phrase.rs)")
+    done, todo, where = notmodeled_sites()
+    print(f"{'refusals in NotYetModeled.what':<34}")
+    print(f"   carrying a Phrase        : {done:>4} sites")
+    print(f"   still a finished sentence: {todo:>4} sites")
+    for line in where:
+        print(f"   {line}")
 
     problems = len(shared)
     print()

@@ -1,7 +1,7 @@
-# Instant snow: where did the water go?
+#@title Instant snow: where did the water go?
 register lv2
 
-# A matched water-only control stays ordinary liquid.
+#@part.1 A matched water-only control stays ordinary liquid.
 add v1 water 50mL
 look v1
 
@@ -11,7 +11,7 @@ add v2 water 50mL
 look v2
 inspect v2
 
-# Nothing vanishes: water remains in the conserved ledger. The 100 g/g
+#@boundary Nothing vanishes: water remains in the conserved ledger. The 100 g/g
 # ceiling is a teaching capacity, not a product specification. Cross-link
 # density, grain size, salt, pH, swelling time, volume and texture are outside
 # this equilibrium mass-uptake model.

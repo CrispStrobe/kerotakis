@@ -1,6 +1,6 @@
-# Hard water and soap: scale is not soap scum
+#@title Hard water and soap: scale is not soap scum
 #
-# The hard-water ions and carbonate scale are modeled. Dish soap is a declared
+#@intro The hard-water ions and carbonate scale are modeled. Dish soap is a declared
 # surfactant material, but no fatty-acid soap species exists, so the bench cannot
 # form the curd-like soap scum responsible for poor lather. That absence is the
 # boundary this comparison exposes.
@@ -15,7 +15,7 @@ new beaker
 add v2 water 100mL
 add v2 dish_soap 2mL
 look v2
-# A separate scale-forming control shows the calcium chemistry the engine does own.
+#@part.1 A separate scale-forming control shows the calcium chemistry the engine does own.
 new beaker
 add v3 water 100mL
 add v3 NaHCO3 1.7g

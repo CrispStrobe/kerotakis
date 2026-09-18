@@ -189,13 +189,20 @@ fn the_english_journal_is_untouched() {
 #[test]
 fn a_refusal_reason_is_german_too() {
     use kerotakis_core::ops::Event;
+    use kerotakis_core::phrase::Phrase;
     use kerotakis_core::render::render_event_in;
 
-    let event = Event::NotYetModeled {
-        cause: kerotakis_core::ops::NotModelledCause::NothingToActOn,
-        vessel: VesselId(0),
-        what: "nothing to evaporate — no water in the vessel".into(),
-    };
+    // I18N-10: the gap carries the recipe, and the German is keyed by the
+    // place rather than by the English sentence — so rewording the English
+    // no longer orphans it.
+    let event = Event::not_modeled(
+        VesselId(0),
+        kerotakis_core::ops::NotModelledCause::NothingToActOn,
+        Phrase::bare(
+            "not-modeled.nothing-to-evaporate",
+            "nothing to evaporate — no water in the vessel",
+        ),
+    );
     let line = render_event_in(&event, Register::LV2, Locale::parse("de"));
     assert!(line.contains("nichts zu verdampfen"), "{line}");
     assert!(
@@ -217,6 +224,8 @@ fn an_untranslated_refusal_keeps_its_english() {
         cause: kerotakis_core::ops::NotModelledCause::NothingToActOn,
         vessel: VesselId(0),
         what: "nothing here can be electrolysed: no ions".into(),
+        reason: None,
+        beside_a_visible_change: false,
     };
     let line = render_event_in(&event, Register::LV2, Locale::parse("de"));
     assert!(

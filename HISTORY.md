@@ -12,6 +12,209 @@ it had while it was open, which is why a few numbers appear twice below.
 
 ---
 
+## 2026-09-17
+
+**I18N-10's two follow-ups — the routing line and the joined lists (#642)**
+
+`Provenance.routing` was the third instance of prose welded shut inside a
+solver, after `Inert.why` (#626) and `NotYetModeled.what` (#632), and the
+first one said BESIDE the numbers rather than instead of them. Five
+writers had been appending to one string: the aqueous router's dataset
+choice, its activity-model caveat, the redox note, the second-speciation
+note, and a whole paragraph about the electrode pushed on by
+`displacement.rs`. All of it is `Phrase` now, composed by NESTING —
+`{routing}` is a hole in the clause that qualifies it, so a language that
+puts the qualification first writes its row the other way round.
+
+What made this one different from the two before it is that `routing` has
+consumers that are not readers: `tools/chemistry-audit/analyse.py` files
+it verbatim as a `routing_claim`, `kero explain` prints it, and three
+tests assert on what it says. So the field stays and is now **the recipe
+rendered at `Locale::EN`, byte for byte what it was**, with
+`routing_phrase` beside it. Nothing branches on the sentence — the one
+structural read of a provenance uses `model`, a dataset's name, which is
+the shape to keep; #632's `why.contains("cannot name")` is what it looks
+like when that goes wrong.
+
+Two surface facts the roadmap entry had wrong, and they are the reason
+this was scoped rather than declared finished. The provenance drawer reads
+`event.provenance`, and the only event carrying one is
+`ThermalEquilibrium` — the combustion route. `localize_event` translates
+that, so the routing line a reader actually sees is German. The **aqueous**
+routing lives on `vessel.solution.provenance`, which reaches `kero explain`
+(English end to end, with `self.locale` one frame up) and the `inspect`
+machine contract and nothing a German reader reads. Translatable now;
+wiring it to the drawer is a GUI task with a shape decision in it.
+
+The lists: eight sites held a `", "`-joined list inside a `Slot::Text`,
+where the separator is in the Rust and the final conjunction is absent.
+**The count was disputed — five, six, eight and nine were all on record —
+and the answer is eight**, settled with a paren-matching scan because the
+line-window scans that disagreed all missed a `.join(", ")` sitting
+several lines below the `Slot::text(` containing it. I18N-10's nine was
+honest: it is these eight plus `particles.rs`' `", and {n} more"`, which
+is not a `Slot` at all — `Census::render` has no `Locale` and every
+caption in it is a literal, so a German session draws its particles under
+English captions. Written down as its own item rather than half-converted.
+
+One golden line moved and no number did: `lessons.json`'s stranded-solute
+sentence gained the word *and*. The lint went 555/555 → 570/570 with
+`combustion.rs` and `kerotakis-cea/src/thermal.rs` added to its composer
+list — leave a file off and its keys are orphans in one direction and
+missing from the denominator in the other, which is #505's scar. German
+is authored, not moved: no catalogue row said any of these fifteen
+sentences, because the web's `engineText` never translated `routing` and
+the engine catalogue had no `[routing]` section at all.
+
+
+**GUI-105 — two doors onto one question, closed (#638)**
+
+The app showed "only 208 experiments" and the owner asked the sharper
+question: does it make sense to *not* bundle the experiments and the
+capabilities together? The answer built here is that the split between them
+is an **author's** distinction, not a reader's. Nobody arrives asking
+whether their question is a runnable experiment or a reviewed capability
+claim; they ask "can it do this?", and that had to be asked in two places
+or it got a wrong "no".
+
+**One index, typed facets** — not a flattening. `CatalogSourceKind` gained
+a third value and stopped being internal: what a row IS became the reader's
+question, so it is now a badge and a facet chip with its own count. One
+matcher for all three populations (`capabilityMatches` is gone — a second
+predicate over a second shape is precisely how the two doors happened), and
+the headline is derived from the rows: **"252 experiments and 500 answered
+questions"**, rather than a false "752 experiments" or the old "208". The
+`Fähigkeiten-Explorer` is retired; its three flags survive as three doors
+onto the same surface, closing through one `closeCatalog()`.
+
+What a question row deliberately does NOT carry is the point. No derived
+materials list — the corpus script writes `add v1 NaCl 5g` where the shelf
+is keyed `sodium_chloride`, so `scriptKit` would have reported salt that is
+on the shelf as missing. No readiness line, no completion chip (progress is
+a record of successful codex runs and a question id is not a codex id), and
+no duration where there is no script.
+
+Three defects the move exposed, every one of them live in the retired
+explorer:
+
+- **Sixty rows offered a button that produced nothing.** All 500 prompts
+  carry a `script`, but all sixty `boundary` rows ship it EMPTY — the
+  refusal is the answer. The explorer gated its run button on
+  `support !== "missing"` alone, so pressing it handed the runner an empty
+  string. The affordance now follows *script presence*, and #630's lesson
+  (`inspect` where the reader needed `look`) is the same lesson in a new
+  costume: a control whose press cannot do what its label says.
+- **A machine code reached the reader, in English.** `prompt.boundary` is
+  null on all 500 rows, so `boundary ?? reason_code` always rendered
+  `unsupported-fracture-mechanics`. All 57 codes the corpus ships now have
+  authored German, and the coverage is read out of the corpus rather than
+  typed — `capabilityFacets.test.ts`, whose vacuity guard immediately
+  earned its place: the shards author the field as `action` and the
+  exporter renames it to `topic`, so the topic-mapping check had been
+  passing over an empty list (the #505 shape again).
+- **24 questions had no level.** The corpus bands them `all` rather than to
+  a school age, which `BAND_LABELS` had no entry for. Such a row now passes
+  every level chip rather than being filed under one the corpus never
+  chose, and `levelCounts` counts it under each — a chip's number has to be
+  the number of rows the chip will show.
+
+A fifth finding came from CI rather than from the code: the theme-contrast
+gate reads `#[0-9a-f]{3,8}` over a whole `.svelte` file, so `#505` written
+in a doc comment — explaining why a count is derived — failed
+`Catalog.svelte` on a *sentence*. Comments are stripped before the colour
+scan now, proved by appending a real `color: #ff00aa` and watching the gate
+still bite.
+
+1355 → 1376 web tests, `svelte-check` clean, `vite build` clean, no engine
+change.
+
+
+**German reached the engine's own voice, and four green suites were wrong**
+
+The shell had been German for weeks; the *engine* was not, and one pasted
+lesson transcript showed exactly where the boundary fell — "Du gibst
+Citronensäure in v1" followed by "Du gibst baking_soda in v1", then "Du
+siehst dir v1 genau an. **There is white baking soda in the beaker.**"
+
+Four PRs closed that, and the diagnosis in each was a missing *mechanism*
+rather than a missing string, which is why no translation count had ever
+caught them.
+
+**#617 — material names, and the German that already shipped.** `Event::Added`
+rendered through `species_name`; forty lines below, every event naming a
+MATERIAL printed the key the script typed. No translation was authored: all
+132 registry recipes already carried `aliases.de`, because the *parser* has
+accepted German input since BRD-002. The renderer had simply never asked. The
+same change exposed the identical defect in English — the engine was printing
+`naked_egg` and `cut_apple` into learner prose and `frozen_behavior` had
+frozen it as correct. 162 golden lines changed and every number on them
+stayed byte-identical.
+
+**#626 — `appearance.rs` took no locale at all.** Not a missing key: the file
+never received one, and could not have used one, because its words reached
+the reader through an *event* with the sentence already assembled. Fragment
+translation was never available either — French orders colour and noun the
+other way, German inflects the colour to the noun's gender, and `", "`
+against `" and "` is a list *grammar*. So the engine emits a recipe and the
+host cooks it: `Phrase`, with typed slots, where `Term` carries what a flat
+substitution cannot — only the composer knows *silver chloride* is a species
+and *white* is an appearance word.
+
+**#628 — the scene, where the web reader actually looks.** The roadmap said
+eleven sentences; it was twenty, and composing clauses in `observe` had
+bought a browser reader nothing, because the canvas paints its caption from
+the *scene*. `SceneVessel` now generates its `words` from clauses. The scene
+golden: **11777 insertions, zero deletions.** It also corrected the migration
+count it inherited — 93 sites was `matches!` patterns counted as
+constructions; the lint reads 82 from the source.
+
+**#629 — all 113 lessons.** 413 labels, authored German for every one, and
+the migration proved rather than asserted: each lesson replayed against its
+pre-migration self for byte-identical `kero run` output. A `#@label` is still
+a `#` comment. French is `lessons/prose/fr.toml` and nothing else.
+
+**What the day really taught: four suites were green and the product was
+wrong.**
+
+A lesson named "The Lugol colour test" printed an inventory and never showed
+a colour (#630). A sealed gas flask and a filtered beaker of sand each
+described themselves as `"."`, and **241 conformance checks asserting the
+words are non-empty were satisfied by that full stop** (#626). A mutation
+verdict came back "caught" from a test rung that ran in 0.1 s where it takes
+34, because the harness hardcoded one box's `TMPDIR` (#625). And a defect
+report where every observation was correct — the gauge did read atmospheric,
+the boundary *was* open, doubling the dose changed nothing — reached the
+wrong conclusion, because the bottle had burst and a burst leaves no trace in
+a pressure reading taken afterwards (#627).
+
+Each was found by looking at output rather than at an assertion about it. The
+common shape: **a single plausible scalar is not evidence.**
+
+**Measurement.** The const-table mutation run finished at 70 of 70 — 36
+caught, 34 survived — and found that five conductivity constants are watched
+and that is the whole list: H+, OH-, Na+, K+, Cl-. The ions in table salt and
+in the acid and base every lesson pours. **The λ° table was verified exactly
+where the lessons happen to go** (#623). The owner chose to source the values
+and cover the class rather than pin each constant; 23 unwatched became 6, and
+the six that survive are exactly the six for which no second source could be
+reached — the survivor list is now a list of unsourced *data* rather than of
+untested code (#625).
+
+**Chemistry.** Fermentation extent went as the *square* of the batch, because
+a rate in grams of culture was never divided by volume (#618); the magnitude
+was then calibrated against published fermentations and never against pH,
+and bio-069 crossed real yoghurt's 4.4–4.6 band from below to above with
+nothing aiming at it (#621). `solution.pe` was published for beakers holding
+no couple, because the guard asked whether any element *could* be redox-active
+and carbon can — 760 mV of path residue on the wire (#631). And the published
+contract stopped calling residual cation charge "hydroxide" (#619).
+
+**Two records were withdrawn rather than quietly edited**: the seal defect
+that was a burst (#627), and a duplicate-key count of mine that came from
+counting pairs across two sections of one file (#620).
+
+---
+
 ## 2026-09-16
 
 **Provenance: the audit that found its own instrument broken**

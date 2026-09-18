@@ -1636,22 +1636,65 @@ So the truthful inventory is 131 + 77 + 44 = **252**, and the shortfall was
     limit that actually remains — the colour is a **visible state, not a
     measured absorbance**, so the lesson cannot say how much starch is
     present from how dark it went.
-  - [ ] **GUI-106 — the engine says nothing happened, then describes what
-    happened.** Running the fixed lesson:
+  - [x] **GUI-106 — the engine says nothing happened, then describes what
+    happened. DONE 2026-09-17.** Running the fixed lesson:
 
         You add cornstarch to v2.
         Hmm — nothing visible happens in v2 (this part of the lab isn't awake yet).
         You look closely at v2. The liquid is blue-black and so cloudy you cannot see through it.
 
-    The `NotYetModeled` line is emitted for the step that *did* change the
-    vessel's appearance, and it tells a learner the opposite of what the next
-    line tells them. Same family as the two defects #626 found — a filtered
-    beaker of sand and a sealed gas flask that both described themselves as
-    `"."` — where the words contradict the scene the reader is looking at.
-    The fix is presumably to suppress the line when the step moved the
-    appearance, but `NotYetModeled` is mid-migration under I18N-10 (93
-    construction sites), so this is recorded rather than patched underneath
-    that work.
+    Same family as the two defects #626 found — a filtered beaker of sand
+    and a sealed gas flask that both described themselves as `"."` — where
+    the words contradict the scene the reader is looking at.
+
+    **The gap is real and the sentence carrying it is not.** No wired
+    solver speciates starch, so the note is true; the lv1 register says it
+    in a sentence that makes a SECOND claim, about the beaker, which is
+    not this event's to make and which the next line refutes.
+
+    So the bench measures the thing the sentence claims. It reads
+    `liquid_colour_word_of` before the operator and again after every
+    solver — the same before/after shape it already uses for swelling,
+    curdling and the luminol glow, and its own existing answer to "the one
+    word a person would use for the liquid in this vessel", which EXP-39's
+    self-indicating endpoint reads and nothing else — and sets
+    `NotYetModeled.beside_a_visible_change` where the word moved. lv1 then
+    says *"Something did change in v2 — but part of what happened isn't
+    modelled yet."*
+
+    **Nothing is suppressed, which is what makes it safe.** At lv2 and lv3
+    the reason is word for word what it was, and at lv1 the note is still
+    said. There is no path by which a genuine gap goes unreported, so the
+    guard is not a judgement call about which gaps matter.
+
+    The colour WORD and not the whole observation, and that difference
+    decides two cases that look alike. Dropping iron into water changes
+    what is IN the beaker and changes nothing about how the water looks —
+    that is K17, the experiment the lv1 sentence was written for, and it
+    keeps its sentence unchanged. Stirring cornstarch into Lugol takes the
+    liquid from brown to blue-black.
+
+    Four tests, two of them the "both ways" pair: the contradiction is
+    gone and the reason still prints at lv2; a gap over an unchanged
+    liquid keeps "nothing visible happens"; the flag belongs to the VESSEL
+    and not to the step; and the real lesson on the shipped binary reads
+    what a learner reads.
+
+    That last one asserts three things and needs all three. The absence of
+    the wrong sentence is worth almost nothing alone: it is satisfied just
+    as well by a lesson that has stopped computing, and by a gap that
+    stopped being reported — the same defect wearing silence instead of a
+    wrong sentence. So it pins the colour line (**blue-black** in the test
+    vessel, **brown** in the control, which is the comparison the lesson
+    IS) and the replacement note beside it. Together they say: the gap
+    still fires for that step, the defect was real, and what stands there
+    now is true.
+
+    *The limit, written down rather than glossed:* a liquid that goes
+    cloudy without changing colour word does not trip this, and neither
+    does a change that is only a new solid at the bottom. Both are
+    reachable from the same measurement if a later reader wants them; the
+    colour word is where the evidence was.
   - [x] **GUI-104b — the picker's `"more"` bucket is empty. DONE 2026-09-17.**
     47 of 113 lessons sat in it. Every one carried authored `topics` in the
     catalogue, so the grouping already existed and was simply written down
@@ -1724,69 +1767,361 @@ display name in the registry, is the wrong fix.
   `INERT_IN_SOLVENT`, not by their English, so rewording one does not orphan
   its translation. Numbers go through `Slot::Number`, which is why a German
   reader sees +0,62 V.
-- [ ] **I18N-9 — Lesson prose has no translation mechanism.** The title,
-  description, section comments and boundary note are the `.lab` file's own
-  comments, rendered verbatim; only the *slug* is translated, which is why
-  "Trocken, dann nass: Brausen" sits above six lines of English. 113 lessons.
-  **Scoped, not built** — it is a 113-file migration and belongs in its own
-  PR; a half-migrated catalogue is worse than none. The shape, decided:
+- [x] **I18N-9 — Lesson prose had no translation mechanism.** The title,
+  description, section comments and boundary note were the `.lab` file's own
+  comments, rendered verbatim; only the *slug* was translated, which is why
+  "Trocken, dann nass: Brausen" sat above six lines of English. **All 113
+  lessons are migrated**, 413 labels, every one of them with authored German.
+  Built as scoped, with four differences worth naming:
 
-  * **A labelled comment.** `#@part.displacement Part 1 — displacement: a
-    more reactive metal pushes a less reactive one out of solution` replaces
-    the bare `#` comment. It is still a comment, so `kero run lessons/x.lab`
-    keeps working with no parser change and a `.lab` stays runnable on its
-    own — the label names the PLACE the prose is said, the same discipline
-    `i18n/de.toml` already uses, so rewording the English does not orphan it.
-  * **`lessons/prose/en.toml` is the source**, keyed `<lesson-stem>.<label>`,
-    and `lessons/prose/<code>.toml` beside it. The `.lab` keeps the English
-    inline as the fallback, exactly as `locale.t` keeps it at the call site:
-    a payload built without the prose directory renders English rather than
-    nothing. **Adding French is `lessons/prose/fr.toml` and no code.**
-  * **One curriculum.** `tools/lessons-index.py` — already the single source
-    for the web build and the shell payload, after the "more" bucket taught
-    us why — emits the label as `blurb_key` beside today's `blurb`, and both
-    payloads ship the same prose files. There is no peer file to drift, which
-    is the mistake `experiments-de-v1.json` made by being a peer rather than
-    a fallback.
-  * **`tools/lesson-prose-lint.py`**, whose denominator is **every label
-    referenced by a `.lab` file**, read from the lessons — never the key count
-    of `en.toml`, which is the denominator that let `models.toml` report 100%
-    German over 325 English strings in #505. It reports missing translations,
-    orphaned rows no `.lab` asks for, and a label used by two different
-    English sentences.
-  * Once it lands, `web/app/src/locales/de.json`'s lesson slugs are the same
-    data said twice and should be folded into `lessons/prose/de.toml`.
-- [ ] **I18N-10 — `NotYetModeled.what` is the same defect one event along.**
-  Found while landing I18N-8, and deliberately not fixed with it: `what` is
-  a finished English sentence for exactly the reason `Inert.why` was, and
-  two of them sit in `displacement.rs` beside the verdicts that now speak
-  German — *"how fast {name} fizzes: the driving force clears the hydrogen
-  overpotential on {name} by only 0.03 V…"* and *"{name} stays as the
-  metal: nothing dissolved here sits below it in the activity series…"*
-  A reader of the zinc-in-vinegar lesson therefore still meets one English
-  paragraph. The mechanism to fix it exists — a `reason: Option<Phrase>`
-  beside `what`, exactly as `Inert` now carries — but the event has **93
-  construction sites**, so it is a migration and not a patch. Do it in
-  tranches, highest-traffic file first, with `localize_refusal`'s existing
-  suffix-matching as the fallback for the ones not yet converted.
-- [ ] **I18N-11 — `scene_vessel` appends eleven English sentences to the
-  observation.** `appearance::observe` now composes translatable clauses,
-  and then `scene.rs` pushes osmosis, gel, swelling, chemiluminescence,
-  enzyme conversion, adsorption, partition, emulsion, layering and curdling
-  onto the end of `words` with a bare `format!` each. The `look` line does
-  not go through `scene_vessel`, so the owner's quoted defect is fixed; the
-  WEB bench paints from the scene, so a German web reader still sees those
-  sentences in English. Each is a `Phrase` away, and `Appearance` already
-  has the `clauses` vector to push them onto.
+  * **A labelled comment**, as designed: `#@part.displacement Part 1 —
+    displacement: …`, and `spannungsreihe.lab` carries exactly that label. It
+    is still a `#` comment, so `kero run lessons/x.lab` is unchanged — proven
+    by replaying every one of the 113 migrated files against its pre-migration
+    self, output identical in all 113.
+  * **The unit is the PARAGRAPH, not the line.** A labelled comment owns the
+    plain comment lines under it. A `.lab` wraps at 78 columns for the
+    terminal and that wrap is typography, not grammar — I18N-7 already paid
+    for the alternative once. The one place where the line break IS the
+    meaning, `electrolysis.lab`'s Faraday arithmetic, is labelled per line
+    (`calc.charge`, `calc.electrons`, …) rather than run together.
+  * **`lessons/prose/en.toml` is GENERATED** from the `.lab` files rather
+    than maintained beside them. The roadmap called it the source; the `.lab`
+    is the one source of truth for a lesson (GUI-020), and two hand-kept
+    copies of the same English is a drift the lint would then have to police
+    anyway. `--write` regenerates it, `--check` fails when it no longer
+    matches the words the lesson says — which is how a reworded sentence
+    forces its translations to be looked at again.
+  * **A dotted label nests in TOML**, so `intro` and `intro.2` cannot both be
+    keys of one lesson: the catalogue simply stops parsing.
+    `lesson_prose.clashes` names the two labels and the file instead.
+
+  `tools/lessons-index.py` stays the single source both payloads read: it
+  emits `blurb_key` beside today's `blurb` and compiles the catalogue into
+  `lessons/prose.json` (91 KB of German) beside `lessons/index.json`. English
+  is deliberately absent from that file — the `.lab` carries it inline and the
+  player falls back to it, so shipping it twice would be one more copy to
+  drift. **Adding French is `lessons/prose/fr.toml` and no code**, discovered
+  by filename the way `src/locales/*.json` already is.
+
+  Two gates, because the lint and the screen can disagree:
+
+  * `tools/lesson-prose-lint.py` — denominator is every label a `.lab`
+    **references**, read from the lessons. It fails on a missing German row,
+    an orphan no lesson asks for, one label holding two sentences, a
+    malformed `#@` line, and a stale `en.toml`; it reports, without failing,
+    how many lessons are migrated and how many comment lines still render
+    verbatim (now 113 and 0), and which rows are identical to their English
+    (one: a formula line with no words in it).
+  * `web/app/src/lib/lessonProseParity.test.ts` — the PLAYER's parser walked
+    over all 113 real lessons and held against the same catalogue. A payload
+    keyed by one parser and read by another is green on both sides while the
+    reader meets English, which is #505's shape one layer along. The lint
+    also pins the player's two regexes, so a change there fails loudly
+    rather than silently making every key a guess.
+
+  One thing scoped and *not* done: folding `web/app/src/locales/de.json`'s
+  lesson slugs into `lessons/prose/de.toml`. They turn out not to be the same
+  data said twice — the slug is the lesson's short NAME ("Trocken, dann nass:
+  Brausen"), the `title` label is its opening sentence ("Trocken, dann nass:
+  warum Brausepulver und Badebomben auf Wasser warten"), and the picker shows
+  both. Folding them would need a key no `.lab` references, which the lint
+  would rightly call an orphan.
+- [x] **I18N-10 — `NotYetModeled.what` is the same defect one event along.
+  DONE 2026-09-17.** *82 of 82 sites carry a recipe; the lint reports zero
+  still holding a finished English sentence, and 553 of 553 reachable keys
+  carry German.* `what` was a finished English sentence for exactly the
+  reason `Inert.why` was, and two of them sat in `displacement.rs` beside
+  the verdicts that now speak German, so a reader of the zinc-in-vinegar
+  lesson met one English paragraph in a German transcript. Both of those
+  are done.
+
+  The count in the earlier note, 93, was wrong — it counted patterns as
+  well as constructions. `tools/engine-locale-lint.py` reads it out of the
+  source now and reports **82**, of which a `matches!` arm is none.
+
+  * `Event::NotYetModeled` carries `reason: Option<Phrase>` beside `what`,
+    exactly as `Inert` does.
+  * **`Event::not_modeled(vessel, cause, reason)` generates `what` from
+    the recipe**, for the reason `Event::state_changed` exists: written by
+    hand at eighty-two call sites, the English and the translation are two
+    copies that drift. Converting a site is now one call, which is what
+    makes the remaining tranches cheap.
+  * `reason: None` is the honest unconverted state and still falls back to
+    `localize_refusal`'s English-keyed `[refusal]` table.
+  * The eighteen FIXED gap reasons that `[refusal]` could reach are
+    `[not-modeled]` rows now, keyed by their place. **The German was moved,
+    not rewritten.** `i18n_coverage.rs`'s scraper has nothing left to
+    scrape and has been turned around: writing a gap reason as a finished
+    English sentence again is now the failure.
+
+  **Tranche three, the last twenty-six.** Every one outside `aqueous.rs`
+  passed a sentence through from a helper, so the work was in the helper
+  and the call sites followed: `SolventActivity::out_of_range_reason`
+  (two keys, because the two routes say different things and not the same
+  thing about a different route), `solve::stranded_solutes`,
+  `SolventState::boundary`, `volatility::additional_solvent_cut`,
+  `family::outcome_extent` and `KineticReaction::proton_consumption_
+  boundary` all return a `Phrase` now. The curated
+  `UNAVAILABLE_SOLID_PHASES` verdict is keyed by its ROW, the
+  `INERT_IN_SOLVENT` treatment #626 chose, and so are
+  `derived::UNSPECIATED_ACIDS` and the sentence quoted out of the whole
+  milk recipe's `lot_assumptions`.
+
+  Three things fell out that were not translation:
+
+  * **`StructureOracle::apply` errs with a `Phrase`, and its KEY is what
+    the router files the refusal's cause on.** It read
+    `why.contains("cannot name")` — an English sentence doing structural
+    work, so rewording the refusal would have silently refiled a registry
+    gap as a model boundary. The key is a `pub const` in
+    `kerotakis-core::family` because two crates share it.
+  * **`unspeciated_acid_notes` carried the reason out of
+    `UNSPECIATED_ACIDS` and threw the key away** — and the key is the only
+    thing a curated row can be translated BY.
+  * **`localize_refusal` rescues two gap reasons by STRIPPING the species
+    name off the end of the English** and refilling a template with what
+    is left. Both sites emit a recipe now, so nothing the engine emits
+    reaches it — it is a REPLAY shim, for a session saved before today
+    whose events hold `reason: None` and the English, and a reader
+    opening that save is owed the German it had. It was deleted first and
+    put back, because deleting it silently un-translates an old save.
+    What DID change is the key it fills: the row it used to own was
+    moved, so it now fills the key the live site composes and one German
+    row serves both paths. Finding the noun by looking at the end of the
+    sentence works only because English puts it first, which is the whole
+    reason the event carries a recipe now.
+
+  `phrase::sentence_pair` is new: the space between two whole sentences is
+  `look.sentence-join` in the catalogue, for the reason `look.full-stop`
+  already is. It replaced a `push_str` and a `.trim()` in the aqueous
+  crate's reference-complex boundary, where two optional caveats made
+  three shapes out of two booleans.
+
+  **Three holes in the lint's own denominator,** each of which would have
+  let a number go green by leaving work outside it. #505's scar again, and
+  worth writing down because none of them looked like a denominator bug:
+
+  * It cut a file at its FIRST `#[cfg(test)]`. `kinetics.rs` has a test
+    module at line 1294 and a thousand lines of engine after it, so
+    `proton_consumption_boundary` was invisible in both directions at
+    once — its key reported as an orphan, its row outside the total. Test
+    modules are brace-matched and removed now, wherever they sit.
+  * A comment between `Phrase::new(` and its key lost the call.
+  * A key named by a `const`, or one whose English is DATA rather than a
+    literal, was not read at all.
+  * `phrase.rs` was read for `locale.t` calls only, so `look.sentence-join`
+    — the one clause that file composes itself — sat outside the
+    denominator and its German was never asked for.
+
+  `states.rs`, `volatility.rs`, `kinetics.rs`, `aqueous.rs`,
+  `phase_diagnostics.rs` and `family_oracle.rs` joined the composer list,
+  and `Phrase::bare(&format!("prefix.{…}"))` registers its prefix as a
+  dynamic section the way `locale.lookup` already did, so the next curated
+  table keyed by its row is not silently orphaned.
+
+  **The follow-up that is still not a tranche.** NINE converted sites hold
+  a `", "`-joined list inside a `Slot::Text` — the seven already named,
+  plus `stranded_solutes`' solute names and `phase_diagnostics`' phase
+  list (which also carries an English `", and {n} more"` tail).
+  `Slot::List` would join them in the reader's grammar, which is the whole
+  reason the slot type exists, and it renders *a, b and c* where the
+  `join` renders *a, b, c* — so converting them CHANGES the English and
+  needs a golden pass of its own.
+- [x] **I18N-11 — `scene_vessel` appended English sentences to the
+  observation.** Not eleven: **twenty**. `appearance::observe` composes
+  translatable clauses, and `scene.rs` then took the finished English
+  `words` off it and pushed its own `format!`s on — osmosis (three
+  directions), the gel, both coating films, corrosion, swelling, the
+  luminol glow, enzyme conversion, both food-colour states, adsorption,
+  partition, emulsion, the material layer, "the vessel contains", the
+  curds, and both foam states. The `look` line does not go through
+  `scene_vessel`, so the owner's quoted defect was already fixed; the WEB
+  bench paints its caption and its accessibility text from the SCENE
+  (`t(vessel.words)` in `Vessel.svelte`), so a German web reader met every
+  one of those twenty in English.
+  `SceneVessel` now carries `clauses` (the observation's, passed through)
+  and `notes` (its own); `SceneVessel::say(locale)` recomposes both, and
+  `words` is **generated** from them rather than written beside them.
+  `scene::localize(&scene, locale)` is to the scene what
+  `render::localize_events` is to the events, and the wasm boundary calls
+  it — the only place that knows who is reading. `SceneCoating` and
+  `SceneCorrosion` carry their own `phrase` because the web draws each as
+  a separate SVG `<title>`.
+  Two of the twenty already had German in `web/app/src/locales/de.json`
+  (the coating films have no holes, so a whole-sentence lookup could reach
+  them); the engine's rows take that German word for word rather than
+  inventing a second one. `scene.material-layer` is the `look.coloured`
+  decision again — *gelb* declines to *Schicht* and *orange* does not
+  decline at all — so the German row puts the colour in brackets beside
+  the noun, in the data. The scene golden was re-blessed and the diff is
+  **11777 insertions, zero deletions**: every `words` string and every
+  number in it is byte-for-byte what it was.
+
+### Found while finishing I18N-10, and fixed in #642
+
+- [x] **`Provenance.routing` was a finished English paragraph.** Done in
+  #642. It is a `Phrase` now, in all four files that compose one: the
+  aqueous router's three dataset choices and its activity-model caveat,
+  the redox note and the second-speciation note in
+  `finalize_solution_info`, the electrode pass in `displacement.rs`
+  (which NESTS the aqueous routing inside its own clause instead of
+  pushing a string onto it), and the two combustion routes. The field
+  keeps its English — `routing` is the recipe rendered in the source
+  language, byte for byte what it was — because it has consumers that are
+  not readers, which is what made this one different from `Inert.why` and
+  `NotYetModeled.what`:
+
+  | consumer | what it needs | matches on English? |
+  |---|---|---|
+  | `tools/chemistry-audit/analyse.py` | files the string verbatim as a `routing_claim` beside the numbers it checked | no — it records, it does not branch |
+  | `kero explain` (`kerotakis-cli`) | prints it under `routing:` | no; and see below |
+  | the provenance drawer (`ProvenanceDrawer.svelte`) | prints `source.routing` verbatim | no |
+  | `phreeqc/tests/provenance.rs`, `displacement.rs`, `ligand_reference.rs` | `contains("concentrated")`, `contains("Nernst")`, `contains("not a validated concentrated-mixture prediction")` | **yes, three of them** |
+  | `solve.rs`'s ion-interaction check | `provenance.model.starts_with(ION_INTERACTION_MODEL_PREFIX)` | no — and this is the healthy shape: the structural decision reads `model`, never the prose |
+
+  So nothing ROUTES on the sentence the way `StructureOracle::apply` did
+  in #632 — the one place in the engine that decides something from a
+  provenance reads `model`, which is a dataset's name and not prose. The
+  three tests do, and they are why `routing` still carries English: a
+  German `routing` would have broken them, and they are right to want the
+  source language.
+
+  **Two surface facts that are worth writing down, because the entry
+  above was wrong about one of them.** The aqueous routing paragraph is
+  *not* on the drawer today: the drawer reads `event.provenance`, and the
+  only event that carries a `vessel::Provenance` is
+  `ThermalEquilibrium` — the combustion/CEA one. The aqueous routing
+  lives on `vessel.solution.provenance`, which reaches `kero explain`
+  and the `inspect` machine contract and nothing a reader reads in
+  German. So #642 translates what is reachable (`localize_event` now
+  renders `ThermalEquilibrium`'s routing, which IS beside the numbers in
+  the drawer) and makes the rest translatable the moment somebody wires
+  it.
+
+- [ ] **`kero explain` is English end to end, and the CLI has a locale.**
+  `explain_text` writes `"  {target}: answered by {} using {}"`,
+  `"model:"`, `"routing:"` and a dozen more labels as literals while
+  `self.locale` sits one frame up; `:lang de` changes every other line
+  the CLI prints. Not a translation gap in the engine — the sentences are
+  all in the CLI — so it is its own small pass, and `Provenance::routing_in`
+  is waiting for it.
+- [ ] **Wire the vessel's own provenance to the drawer.** The aqueous
+  routing — which dataset answered this beaker and why — is the one a
+  learner would most want and the one the drawer cannot see. It needs a
+  decision about shape (an event at characterisation time, or the drawer
+  reading the inspected vessel), so it is left as a GUI task rather than
+  guessed at here.
+
+- [x] **The `", "`-joined lists are `Slot::List` now.** Done in #642.
+  **The count, settled from the source: eight sites**, and the two
+  numbers on record were each half right. A paren-matching scan over
+  every `crates/*/src/**/*.rs` with test modules removed — the shape
+  `tools/engine-locale-lint.py` uses, because a line-window scan is what
+  produced the disagreement — finds exactly eight `Slot::text(…join…)`:
+
+  | site | list | items |
+  |---|---|---|
+  | `bench.rs` co-evaporation | `other_liquids` | display names → `Slot::terms("species", …)` |
+  | `bench.rs` no distribution coefficient | `outside` | `SpeciesId` → `Slot::texts` |
+  | `bench.rs` extraction without a coefficient | `outside` | `SpeciesId` → `Slot::texts` |
+  | `bench.rs` incomplete absorbance | `gaps` | `Slot::terms("species", …)`, matching `appearance.rs`'s `look.spectral-gap`, which already rendered the same list that way |
+  | `bench.rs` no group decomposition | `names` | `SpeciesId` → `Slot::texts` |
+  | `bench.rs` no curated nuclide | `known` | notation → `Slot::texts` |
+  | `bench.rs` no curated reaction | `ORG_REACTIONS` | row names → `Slot::texts` |
+  | `solve.rs` `stranded_solutes` | `names` | display names → `Slot::terms("species", …)` |
+
+  The roadmap's earlier scan named five and flagged two more as needing
+  individual reading; both of those were real, and it missed two others
+  outright (`outside` in the no-distribution-coefficient branch, and the
+  curated organic reactions) because in both the `.join(", ")` sits
+  several lines below the `Slot::text(` that contains it. **The I18N-10
+  report's nine was the honest number** — it is these eight plus the
+  `particles.rs` tail, which is the one item on the old list that is not
+  a `Slot` at all. So: nine things named, eight of them `Slot::text`
+  sites, and the disagreement was entirely about whether the tail counts.
+
+  Three constructors carry the pattern now — `Slot::list`, `Slot::texts`,
+  `Slot::terms` — so the next call site is one line and cannot reach for
+  a `join` by accident. Only one golden line moved:
+  `lessons.json`'s stranded-solute sentence gained the word *and*.
+
+- [x] **`particles.rs` speaks the reader's language. DONE 2026-09-18.**
+  The entry below was right that the tail could not be converted alone, and
+  right about what it would cost. `Census::render` takes a `Locale` now, and
+  the whole drawing moved with it: the two elision captions, the scale line,
+  the water aside, the inventory footnote, `Kind::describe`'s six words in
+  parentheses beside every row, and the species names — those reuse the
+  `species.*` rows the engine already ships rather than a second copy of
+  them. The tail renders through `census.and-more`, so its separator and its
+  count phrase are the language's business.
+
+  **It also predicted the lint failure, and it happened twice.** Adding
+  `particles.rs` to the composer list was not enough: the composer scan
+  looked only for `Phrase::new(…)`, so six `locale.t` keys came back as
+  ORPHANS; and once those were seen, the six `census.kind.*` chosen by a
+  match arm came back as orphans too, because `MENTIONED` — the mechanism
+  for exactly that shape — was applied to `render.rs` alone. Both widened.
+  Reachable keys 570 → 576, de 100.0%, match-arm keys 12 → 18.
+
+  The test is in `kerotakis-phreeqc`, not core, and that is the other
+  finding: a `Bench` with no equilibrator never speciates, so trace salts
+  stay solid, never enter the census, and **nothing is elided** — a
+  core-only test would have asserted the captions of a picture the product
+  never draws.
+
+### Found while resolving the bench gate against GUI-105
+
+- [x] **Curated scripts ask for a fresh bench. DONE 2026-09-17.** Two
+  pieces of work converged on the same answer for a dirty bench — the
+  lesson gate (#641) and GUI-105's replacement for the capability explorer
+  (#638) — and did not converge on the same *test*: the lesson path asked
+  `benchDiffersFromFresh`, the catalogue path `runGate`, which was
+  `benchOccupied` alone.
+
+  Measured before changing it. The engine **refuses** `add v2` on a bench
+  with no `v2` (*"no vessel v2 — make it first with `new`"*), so no script
+  can reach past what it allocated. What it can do is land in the wrong
+  vessel: **117 codex routes allocate with a bare `new` and then name the
+  result absolutely as `v2`**, so with a leftover EMPTY `v2` present, `new`
+  hands back `v3` and `add v2 water` fills the previous run's glassware —
+  right number, wrong vessel, of whatever type that run left behind. All
+  500 corpus prompts open `add v1 …` and have the same exposure.
+
+  `runGate` asks `benchDiffersFromFresh` now, because **both of its callers
+  run curated scripts**. `benchOccupied` stays, and its doc says what it is
+  still the right question for — a script that only writes into glassware
+  it can see, of which this app currently has none.
 
 ### Two defects found in the same playback, neither of them i18n
 
-- [ ] **The bench is not reset between lessons.** "Lektion begonnen: Elektrode"
+- [x] **The bench is not reset between lessons.** "Lektion begonnen: Elektrode"
   is followed by water going into `v1` and the *previous* lesson's Natron and
   Citronensäure dissolving in it. The electrode lesson then computes its pH and
   its driving force from a vessel that is holding another lesson's reagents.
   Every number it reports after that point is wrong, and it will reproduce
   whenever two lessons are played in sequence.
+  *Closed. Every `.lab` in `lessons/` numbers its glassware from `v1` with no
+  gaps — there is a test for that now — so all 113 are written for the bench
+  the engine hands over, one empty vessel, and `startLesson` never checked.
+  The bench is a precondition now, and an unmet precondition is a QUESTION:
+  `requestLesson` holds the lesson at the door and asks, in the same shape the
+  catalogue's own run gate has always used. Clearing goes through the confirmed
+  `clear()` and leaves its note in the feed; keeping starts anyway and records
+  that the readings are not the lesson's alone; cancelling touches nothing.
+  Nothing is discarded silently, which is the principle the disposal station
+  and the remove-vessel dialog exist for. The condition is* not *`benchOccupied`
+  — a leftover EMPTY beaker is unoccupied and still wrong, because `new` then
+  returns `v3` where the lesson says `v2`. "Fresh glassware beside it", the
+  catalogue's third option, is scoped out rather than forgotten:
+  `canUseFreshVessels` already refuses any script that allocates its own
+  vessels, which is 94 of the 113, and the renumbering prelude would shift the
+  `#@part.*` prose labels off the steps they annotate. The same gap was open in
+  `CapabilityExplorer.run()`, where all 500 corpus scripts open `add v1 …`
+  against an assumed empty beaker and were fired at the bench with no gate at
+  all; it uses the same dialog now. `importLab` is left alone deliberately —
+  its contract is that an import COMPOSES onto the bench you can see, and the
+  file is one the learner chose themselves.*
 - [ ] **Two locale keys disagree across `terms` and `messages`.**
   *This entry corrects an earlier claim of mine, made 2026-09-16 and wrong:
   I reported "59 duplicate keys" in `de.json` by counting key/value pairs
@@ -1799,36 +2134,33 @@ display name in the registry, is the wrong fix.
   the substance against the test for it, and `invisible ink boundary` is
   *Grenze der unsichtbaren Tinte* against *Unsichtbare Tinte*, which drops
   the boundary the lesson is about. Decide which each should be, then keep
-  one. The merge comment says "six keys actually collide" and is stale at
-  59 — a lint that counts the real collisions, and fails when one carries
-  two different translations, belongs in `preflight.sh`.
+  one. **The lint half is DONE 2026-09-18**: `tools/locale-collision-lint.py`
+  counts the real collisions and fails when one carries two different
+  translations, wired into `preflight.sh` with a self-test. The two above are
+  recorded in it with what each side means, so a THIRD fails the build while
+  the wording decision stays open — and a recorded one that heals fails too,
+  because a stale exemption is a lint that has quietly stopped checking. The
+  merge comment said "six keys actually collide" and now says 59 and why.
+  **What is left is the decision**: which of *Kalkwasser* / *Kalkwasserprobe*
+  `limewater` is, and whether `invisible ink boundary` keeps the boundary in
+  its name.
 
-## Two doors onto one question (GUI-105)
+## Two doors onto one question (GUI-105) — landed 2026-09-17
 
-The app has two catalogues and the reader has to know which is which. The
-**Forschungsbibliothek** holds 131 codex routes and 77 guided experiments;
-the **Fähigkeiten-Explorer** holds the 500 reviewed corpus questions, all 500
-of them already translated. A third shelf, the 113 lessons, is reachable only
-from the picker (GUI-104).
+The app had two catalogues and the reader had to know which was which. The
+split is real — an experiment is something you *run*, a corpus row is a
+question with a *reviewed answer*, and flattening them would claim the
+engine can run 500 experiments it cannot — but it was an author's
+distinction, not a reader's. Nobody arrives asking which kind their
+question is; they ask **"can it do this?"**, and that had to be asked in two
+places or it got a wrong "no".
 
-The split is real — a lesson is something you *run*, a corpus row is a
-question with a *reviewed answer*, and flattening them would claim the engine
-can run 500 experiments it cannot. But the split is an author's distinction,
-not a reader's. Nobody arrives asking "is my question a runnable experiment or
-a reviewed capability claim?" They arrive asking **"can it do this?"**, and
-today that question has to be asked twice, in two places, or it gets a wrong
-"no".
-
-- [ ] **GUI-105 — One index, typed facets.** A single search across all four
-  populations, each row carrying what it *is*: runnable lesson, guided
-  experiment, codex route, or answered question. One query, one result list,
-  the type as a filter and a badge rather than as a separate door. The counts
-  stay honest because each type is counted and labelled separately — the
-  headline becomes "252 experiments and 500 answered questions", which is both
-  larger and truer than "208". Prerequisite: GUI-104, which landed — the
-  headline already reads 252, so what is left here is the typing and the
-  single door, not the missing population.
-
+One index, typed facets: 131 codex routes, 121 guided experiments and the
+500 reviewed corpus questions in one list, one query, one matcher, with the
+kind as a badge and a facet chip. The counts stay separate and are derived
+from the rows, so the headline reads **"252 experiments and 500 answered
+questions"** rather than a false "752 experiments" or the old "208". The
+detail, and the three defects the move exposed, are in `HISTORY.md`.
 
 ## Completed GUI tasks
 
@@ -1840,7 +2172,7 @@ GUI-028, GUI-029, GUI-033, GUI-053, GUI-055 · GUI-076, GUI-079, GUI-080
 (Phase G2.5 numbering) · GUI-058, GUI-061, GUI-062, GUI-063, GUI-064, GUI-065,
 GUI-066, GUI-067, GUI-074, GUI-075, GUI-077, GUI-078, GUI-079, GUI-080,
 GUI-083a, GUI-083b (realism-bar numbering) · GUI-087, GUI-091, GUI-095,
-GUI-096, GUI-097 · GPU-1 … GPU-5a, GPU-6a … GPU-6d · ANIM-1, ANIM-2,
+GUI-096, GUI-097, GUI-105 · GPU-1 … GPU-5a, GPU-6a … GPU-6d · ANIM-1, ANIM-2,
 ANIM-3 · I18N-2, I18N-3 · DATA-010, WEB-003. GUI-060 was superseded by
 GUI-065 rather than built; its number stays retired.
 

@@ -1,6 +1,6 @@
-# Slime: how much borax is enough?
+#@title Slime: how much borax is enough?
 #
-# White glue is long chains of poly(vinyl alcohol) drifting past each other,
+#@intro White glue is long chains of poly(vinyl alcohol) drifting past each other,
 # which is why it pours. Borax puts borate bridges between the chains. The
 # bridges keep breaking and re-forming, so the result is neither liquid nor
 # solid: it flows if you wait and tears if you pull. Nothing is used up —
@@ -8,14 +8,14 @@
 # react" but "how much is enough".
 register lv1
 
-# Too little. The chains are barely joined and it still runs.
+#@part.1 Too little. The chains are barely joined and it still runs.
 add v1 water 100mL
 add v1 pva_glue 50mL
 add v1 borax 0.05g
 stir v1
 inspect v1
 
-# The classroom amount. Most of the polymer is now in the network.
+#@part.2 The classroom amount. Most of the polymer is now in the network.
 new beaker
 add v2 water 100mL
 add v2 pva_glue 50mL
@@ -23,7 +23,7 @@ add v2 borax 0.25g
 stir v2
 inspect v2
 
-# And well past it. Beyond saturation more borax buys nothing: every chain
+#@part.3 And well past it. Beyond saturation more borax buys nothing: every chain
 # that can be bridged already is, which is why over-boraxed slime goes
 # rubbery rather than more slimy.
 new beaker
@@ -33,11 +33,11 @@ add v3 borax 2g
 stir v3
 inspect v3
 
-# Read the ledger in any of them: the borax is still there, all of it. A
+#@boundary.1 Read the ledger in any of them: the borax is still there, all of it. A
 # crosslinker is not consumed, and that is the difference between this and
 # every other reaction in this lab.
 
-# What this does not model: the dose response is a bounded teaching curve
+#@boundary.2 What this does not model: the dose response is a bounded teaching curve
 # calibrated to the familiar 50 mL-glue ratio, not measured rheology — no
 # modulus, no relaxation time, no stringiness. Whether a particular glue
 # gels at all depends on its degree of hydrolysis, and poly(vinyl acetate)

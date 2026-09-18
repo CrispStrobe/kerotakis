@@ -92,20 +92,22 @@ export function localiseCapability(
 }
 
 /**
- * Does this prompt match what the reader typed?
+ * Everything worth matching a query against, in both languages.
  *
- * Searches the English AND the reader's own language. A German reader
- * given a German list has no reason to guess that the box wants English,
- * and a search that silently only matched the hidden source text would
- * make the translation look broken rather than the search.
+ * NOT a predicate. This used to be `capabilityMatches`, a second search
+ * predicate beside the catalogue's own — which is exactly how the app
+ * ended up with two doors onto one question: two matchers cannot be kept
+ * in step, and a reader typing into one of them got a wrong "no" about
+ * the population behind the other. So a prompt now contributes its
+ * haystack to the ONE index and `catalogEntryMatches` does the matching,
+ * with `normalizeCatalogText` giving a German reader accent-insensitive
+ * search the old predicate never had.
+ *
+ * The corpus's own translations only — never the shell dictionary. A
+ * German haystack handed to an English reader would match words that
+ * appear nowhere on their screen.
  */
-export function capabilityMatches(
-  prompt: CapabilityPrompt,
-  query: string,
-  locale = "en",
-): boolean {
-  const needle = query.trim().toLocaleLowerCase();
-  if (!needle) return true;
+export function capabilitySearchText(prompt: CapabilityPrompt, locale: string): string[] {
   const suffix = locale === "en" ? null : `_${locale}`;
   const localised = suffix
     ? [twin(prompt, `question${suffix}`), twin(prompt, `material_class${suffix}`)]
@@ -118,7 +120,38 @@ export function capabilityMatches(
     prompt.topic,
     prompt.material_class,
     prompt.owning_task,
+    prompt.reason_code,
     ...prompt.tags,
+    ...prompt.script,
     ...localised,
-  ].some((value) => value.replaceAll("_", " ").toLocaleLowerCase().includes(needle));
+  ];
+}
+
+/**
+ * Why the corpus answers this question the way it does, as words.
+ *
+ * The corpus writes a machine code (`unsupported-fracture-mechanics`) and
+ * ships no prose beside it — `boundary` is null on all five hundred rows,
+ * so the explorer's `prompt.boundary ?? prompt.reason_code` always
+ * rendered the code. Handing it to the dictionary as words gives it
+ * German; `capabilities.reasons.test.ts` pins that every code the corpus
+ * actually ships has an entry, because this reaches `t()` as a variable
+ * and the literal scan in `i18n.test.ts` walks straight past it.
+ */
+export function capabilityReasonText(prompt: Pick<CapabilityPrompt, "boundary" | "reason_code">): string {
+  return prompt.boundary?.trim() || words(prompt.reason_code);
+}
+
+/**
+ * Can the bench actually run this question's script?
+ *
+ * SCRIPT PRESENCE, not support level — because they disagree. All sixty
+ * `boundary` rows ship an EMPTY script (the refusal is the answer), and
+ * the explorer gated its run button on `support !== "missing"` alone: it
+ * therefore offered sixty rows a button that called the runner with an
+ * empty string and produced nothing. A `missing` row has a script but no
+ * science behind it yet, so it is excluded too.
+ */
+export function capabilityRunnable(prompt: Pick<CapabilityPrompt, "support" | "script">): boolean {
+  return prompt.support !== "missing" && prompt.script.length > 0;
 }

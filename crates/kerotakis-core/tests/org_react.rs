@@ -153,6 +153,7 @@ fn a_missing_reactant_refuses_out_loud() {
                 cause: ops::NotModelledCause::NothingToActOn,
                 vessel: VesselId(0),
                 what,
+                ..
             } if what.contains("esterification")
                 && what.contains("neither forward nor reverse reactants provide capacity")
                 && what.contains("1e-12 mol no-conversion tolerance")

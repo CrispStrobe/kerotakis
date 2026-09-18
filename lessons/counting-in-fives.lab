@@ -1,4 +1,4 @@
-# Permanganate counts in fives: a redox titration, stopped at the endpoint
+#@title Permanganate counts in fives: a redox titration, stopped at the endpoint
 register lv2
 add v1 water 100mL
 add v1 H2SO4 0.005mol

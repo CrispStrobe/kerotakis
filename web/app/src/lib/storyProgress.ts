@@ -4,6 +4,10 @@ export type MissionSummary = {
   file: string;
   name: string;
   blurb?: string;
+  /** The label the lesson's first comment carries, when it has one
+   * (I18N-9). `lessonProse` answers with this language's wording and falls
+   * back to `blurb`, which is the English the `.lab` carries inline. */
+  blurb_key?: string;
   topic?: string;
   /** Authored learning depth. It labels a mission but never changes which
    * district is open; district completion remains the sole unlock rule. */

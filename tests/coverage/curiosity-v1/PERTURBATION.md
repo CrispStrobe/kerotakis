@@ -132,6 +132,17 @@ needs water specifically. `dose` reaches most and is worth least.
 
 ### `solution.pe` is path-dependent by 12.8 units where nothing constrains it
 
+> **FIXED 2026-09-17.** The guard existed and asked the wrong question —
+> whether any element *could* carry more than one oxidation state in the
+> dataset, which carbon can — so a fizzing bicarbonate solution satisfied
+> it. It now also requires that some element actually **is** split. `th-100`
+> reports no pe in either order; `FeCl3` still reports 18.65875 against
+> 18.65716 across the same reordering, four significant figures apart.
+> Withdrawn from `ORDER_DEPARTURES`;
+> `a_pe_no_couple_constrains_is_not_published` pins both halves. The account
+> below is left as written, because it is how the defect was found.
+
+
 `th-100` — "will a smaller headspace reach more pressure from the same
 generated gas?" — is bicarbonate, hydrochloric acid, a sealed 200 mL
 headspace and a pressure gauge. Swap the two reagents and:
@@ -361,9 +372,11 @@ normal result, and it is why there is more than one case.
 ### What is NOT proven by mutation, and why
 
 `Order` has no mutation here. It did not need one: it found two real
-departures on the *unmutated* engine — `th-100`'s 12.84 units of pe and
-`aq-023`'s solvent mass — which is stronger evidence that it is aimed at
-live code than any injected bug would be. `closing_the_vessel_restores_order_independence`
+departures on the *unmutated* engine — `th-100`'s 12.84 units of pe (fixed
+2026-09-17) and `aq-023`'s solvent mass — which is stronger evidence that it
+is aimed at live code than any injected bug would be. The `th-100` half has
+now been through the whole cycle: found by the rule, explained, fixed, and
+pinned by a test that also asserts the number it must NOT withhold. `closing_the_vessel_restores_order_independence`
 is in the same position: it exists because the generated `Order` rule failed
 on two open-vessel carbonate rows, and it asserts the explanation.
 

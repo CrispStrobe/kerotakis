@@ -199,17 +199,54 @@ export function benchOccupied(scene: { vessels?: readonly BenchVesselLike[] } | 
 }
 
 /**
+ * Whether the bench still looks the way the engine hands it over.
+ *
+ * `benchOccupied` answers "is there chemistry in it", which is the right
+ * question for a script that only writes into glassware it can see. A
+ * CURATED script — a lesson, a corpus prompt — asks a second question,
+ * because it names its vessels absolutely (`v1`, `v2`) and allocates the
+ * rest with `new`. A bench carrying a leftover EMPTY beaker is unoccupied
+ * and still wrong for it: `new` then hands back `v3` where the script
+ * expects `v2`, so the script's own second vessel is some earlier run's
+ * glassware, of whatever type that happened to be.
+ *
+ * A fresh bench is exactly one empty vessel (`Bench::new()`), so that is
+ * the shape this compares against.
+ */
+export function benchDiffersFromFresh(
+  scene: { vessels?: readonly BenchVesselLike[] } | null | undefined,
+): boolean {
+  return benchOccupied(scene) || (scene?.vessels?.length ?? 0) > 1;
+}
+
+/**
  * Whether the panel must ask before running.
  *
- * A decision already taken is honoured; an empty bench never asks. Nothing
+ * A decision already taken is honoured; a fresh bench never asks. Nothing
  * here wipes anything — the decision is the learner's, and `runCatalogEntry`
  * only clears when it is handed `"clear"`.
+ *
+ * This asks `benchDiffersFromFresh`, not `benchOccupied`, and the reason is
+ * that **both of its callers run curated scripts**. Codex routes allocate
+ * with a bare `new` — 117 of them do — and then name the result absolutely
+ * as `v2`; all 500 corpus prompts open `add v1 …`. The engine refuses
+ * `add v2` on a bench that has no `v2` ("no vessel v2 — make it first with
+ * `new`"), so a script cannot reach past what it allocated; what it CAN do
+ * is land in the wrong vessel. With a leftover EMPTY `v2` on the bench,
+ * `new` hands back `v3` and the script's `add v2 water` fills the previous
+ * run's glassware instead — the right number, the wrong vessel, of whatever
+ * type that run happened to leave.
+ *
+ * `benchOccupied` cannot see that, because an empty beaker holds no
+ * chemistry. It is still the right question for a script that only writes
+ * into glassware it can see; nothing in this app is such a script today,
+ * and a caller that is should ask for it by name.
  */
 export function runGate(
   scene: { vessels?: readonly BenchVesselLike[] } | null | undefined,
   decision: BenchDecision | null,
 ): RunGate {
-  return decision === null && benchOccupied(scene) ? "ask" : "ready";
+  return decision === null && benchDiffersFromFresh(scene) ? "ask" : "ready";
 }
 
 /** The highest vessel NUMBER as the grammar spells it (`v3` → 3). */

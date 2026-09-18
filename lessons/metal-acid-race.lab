@@ -1,6 +1,6 @@
-# Which metal reacts first? Same acid, equal metal amounts
+#@title Which metal reacts first? Same acid, equal metal amounts
 #
-# Magnesium reacts vigorously, zinc more slowly, and copper refuses for an
+#@intro Magnesium reacts vigorously, zinc more slowly, and copper refuses for an
 # electrochemical reason. The engine computes reaction and heat but not literal
 # wall-clock race times or differences in piece surface area.
 register lv2

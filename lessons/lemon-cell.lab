@@ -1,6 +1,6 @@
-# Open-circuit lemon-juice voltage: a voltmeter reading is not useful power
+#@title Open-circuit lemon-juice voltage: a voltmeter reading is not useful power
 #
-# Zinc supplies electrons. Copper is an inert surface where hydrogen ions can
+#@intro Zinc supplies electrons. Copper is an inert surface where hydrogen ions can
 # accept them. The lemon juice carries charge between the two, but its pH alone
 # cannot tell us the current, power or lifetime of a real fruit battery.
 register lv2
@@ -10,13 +10,13 @@ new beaker
 add v2 lemon_juice 50mL
 add v2 Cu 1g
 
-# The voltmeter draws no current. Because this setup has no measured zinc-ion
+#@part.1 The voltmeter draws no current. Because this setup has no measured zinc-ion
 # activity, the bench labels its voltage as a unit-activity teaching estimate.
 cell v1 v2
 inspect v1
 inspect v2
 
-# This completes the no-load question: the same state always gives the same
+#@boundary This completes the no-load question: the same state always gives the same
 # bounded voltage estimate. It deliberately does not answer a loaded-battery
 # question. Fruit geometry, electrode area and spacing, polarisation and
 # internal resistance decide the loaded voltage and power. None is inferred

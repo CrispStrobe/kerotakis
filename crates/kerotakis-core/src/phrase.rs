@@ -156,6 +156,40 @@ impl Slot {
         }
     }
 
+    /// Several values, joined by the READER's list grammar.
+    ///
+    /// The three constructors below exist because the alternative was
+    /// written at nine call sites and each of them was wrong in the same
+    /// way: `Slot::text(names.join(", "))` puts a list INSIDE a text slot,
+    /// where the separator is an English comma the catalogue cannot see
+    /// and the final conjunction is missing entirely. `a, b and c` is not
+    /// `a, b, c` with a word added; it is a grammar, and it is the
+    /// grammar [`join_list`] already had two catalogue rows for.
+    #[must_use]
+    pub fn list(items: Vec<Slot>) -> Slot {
+        Slot::List { items }
+    }
+
+    /// A list of values the catalogue does not translate — formulae,
+    /// nuclide notation, the names of curated rows.
+    #[must_use]
+    pub fn texts<T: Into<String>>(values: impl IntoIterator<Item = T>) -> Slot {
+        Slot::list(values.into_iter().map(Slot::text).collect())
+    }
+
+    /// A list of terms the catalogue names under one section — species
+    /// names, colour words: each looked up in the reader's language, and
+    /// then joined in the reader's grammar.
+    #[must_use]
+    pub fn terms<T: Into<String>>(section: &str, values: impl IntoIterator<Item = T>) -> Slot {
+        Slot::list(
+            values
+                .into_iter()
+                .map(|value| Slot::term(section, value))
+                .collect(),
+        )
+    }
+
     fn render(&self, locale: Locale) -> String {
         match self {
             Slot::Text { text } => text.clone(),
@@ -191,6 +225,30 @@ fn join_list(parts: &[String], locale: Locale) -> String {
             )
         }
     }
+}
+
+/// Two finished statements standing side by side.
+///
+/// The space between two sentences looks like typography rather than
+/// language right up until the language is one that does not use it —
+/// Japanese runs its sentences together after `。` — so the join is a
+/// catalogue entry, exactly as `look.full-stop` is. A language that wants
+/// the second statement first writes `"{second} {first}"` and gets it,
+/// without a line of Rust.
+///
+/// Used where a refusal is built from an optional caveat plus a fixed
+/// body: the two halves are each whole sentences with their own holes, so
+/// neither is a slot INSIDE the other.
+#[must_use]
+pub fn sentence_pair(first: Phrase, second: Phrase) -> Phrase {
+    Phrase::new(
+        "look.sentence-join",
+        "{first} {second}",
+        vec![
+            ("first".to_string(), Slot::phrase(first)),
+            ("second".to_string(), Slot::phrase(second)),
+        ],
+    )
 }
 
 /// The clauses as one sentence, in `locale`.

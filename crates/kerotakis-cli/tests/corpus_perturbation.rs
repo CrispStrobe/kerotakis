@@ -1347,27 +1347,82 @@ fn gate(rule: Rule) -> (usize, Vec<(String, String)>) {
 // Recorded departures. Each entry is a row and the reason it departs, both
 // filled from the sweep rather than from an argument.
 const ORDER_DEPARTURES: &[(&str, &str)] = &[
-    // LIVE DEFECT. Bicarbonate, acid, a sealed 200 mL headspace and a
-    // pressure gauge. Swapping the two reagents leaves pH agreeing to four
-    // decimals (5.555778 / 5.555338), ionic strength to six (0.497017 both
-    // ways) and the gauge to a part in a million — and moves `pe` from
-    // 12.780243 to -0.055944, about 760 mV. Neither vessel holds a redox
-    // couple: `solution.redox` is `[]` in both. The number is
-    // unconstrained, the solver returns whatever its path left behind, and
-    // the `--json` contract publishes it as the vessel's pe with nothing
-    // to say it means nothing. Same shape as the `contents["OH-"]` defect
-    // fixed on 2026-09-16, found the same way.
+    // FIXED 2026-09-17, and left here as the shape of the defect rather
+    // than as a live entry.
+    //
+    // Bicarbonate, acid, a sealed 200 mL headspace and a pressure gauge.
+    // Swapping the two reagents left pH agreeing to four decimals
+    // (5.555778 / 5.555338), ionic strength to six (0.497017 both ways)
+    // and the gauge to a part in a million — and moved `pe` from
+    // 12.780243 to -0.055944, about 760 mV. Neither vessel held a redox
+    // couple: `solution.redox` was `[]` in both, so the number was
+    // whatever the solver's path left behind, published as the vessel's pe
+    // with nothing to say it meant nothing. Same shape as the
+    // `contents["OH-"]` defect fixed on 2026-09-16, found the same way.
+    //
+    // The guard existed and asked the wrong question: whether any element
+    // COULD carry more than one oxidation state in the dataset. Carbon
+    // can, so a fizzing bicarbonate solution satisfied it. It now also
+    // requires that some element actually IS split. `th-100` reports no pe
+    // either way; FeCl3 still reports 18.65875 / 18.65716 across the same
+    // reordering, which is four significant figures and a solver residue.
+    // `a_pe_no_couple_constrains_is_not_published` pins both halves.
+    // CORRECT PHYSICS, and it was hidden behind the pe defect until that
+    // was fixed on 2026-09-17 — a row already departing cannot report its
+    // second reason.
+    //
+    // `th-100` adds bicarbonate and acid to an OPEN vessel and seals it
+    // afterwards, so roughly 0.05 mol of carbon dioxide leaves for the room
+    // while the two react, and what is under the lid at sealing time is the
+    // trace that had not escaped yet: 3.299e-6 mol one way against
+    // 3.305e-6 the other. That 0.2% sits on a residue about one
+    // ten-thousandth the size of the carbon that passed through, so the
+    // absolute difference is roughly one part in eight million of the
+    // reaction.
+    //
+    // An open vessel exchanging with the atmosphere is legitimately
+    // path-dependent — `closing_the_vessel_restores_order_independence`
+    // asserts exactly that, and this row is the same family seen through a
+    // readout small enough to show it. Recorded rather than excused: the
+    // rule is right that the number moved, and the reason it moved is the
+    // experiment rather than the engine.
     (
         "th-100",
-        "solution.pe is path-dependent by 12.84 where no redox couple \
-         constrains it, while every other surface agrees",
+        "an open vessel vents CO2 while the reagents meet, so the trace \
+         sealed in afterwards depends on the order by 2.3e-3 relative",
     ),
-    // LIVE DEFECT, small. Calcium chloride and powdered detergent. The
-    // inventory's water agrees between the two orders to one part in 4e8
-    // (5.5339424445 against 5.5339424570 mol); `solution.solvent_kg`
-    // disagrees by one part in 1e4 (0.0997010580 against 0.0996909590 kg),
-    // about 10 mg in 100 g. Every molality is divided by that number, and
-    // the wire's four significant figures hide the result.
+    // LIVE DEFECT, small, and LOCALISED 2026-09-17. Calcium chloride and
+    // powdered detergent. The inventory's water agrees between the two
+    // orders to one part in 4e8 (5.5339424445 against 5.5339424570 mol);
+    // `solution.solvent_kg` disagrees by one part in 1e4 (0.0997010580
+    // against 0.0996909590 kg), about 10 mg in 100 g. Every molality is
+    // divided by that number, and the wire's four significant figures hide
+    // the result — but `ionic_strength` carries it too, 0.2759516 against
+    // 0.2759782, which is the same 1e-4 and feeds every activity
+    // coefficient.
+    //
+    // It is not the salt and it is not convergence. Two ordinary salts in
+    // either order give `solvent_kg` 0.0997000000 EXACTLY both ways — a
+    // round number derived from the 100 mL that went in, not an echo of the
+    // solver. The residue needs the unresolved material, and which way
+    // round it goes is decided by the LAST operation:
+    //
+    //     water + detergent                -> 0.0997000000  (exact)
+    //     water + detergent + NaCl         -> 0.0996903242
+    //     water + NaCl      + detergent    -> 0.0997000000  (exact)
+    //
+    // So `solvent_kg` is the input water when the last step is the material
+    // add, and PHREEQC's equilibrated `mass_H2O` when the last step is a
+    // salt add. One final state, two numbers, chosen by operation order.
+    // `aqueous.rs` already records this shape for surface complexation —
+    // "mass_H2O is not representation-invariant here" — and this is the
+    // same fault seen from the ordinary bench.
+    //
+    // The fix is a DECISION, not a substitution: whichever of the two
+    // `solvent_kg` should be, the molalities have to be consistent with it,
+    // because the solver reports them per kg of its own mass_H2O. Swapping
+    // in the inventory figure would leave `n = m x kg` false by the same
+    // 1e-4 it repaired.
     (
         "aq-023",
         "solution.solvent_kg carries an order-dependent residue that \

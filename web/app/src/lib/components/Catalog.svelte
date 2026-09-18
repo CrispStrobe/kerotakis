@@ -30,6 +30,20 @@
   the CONTENT: an entry with a script runs on the visible bench, one whose
   procedure was written as a guided lesson opens that lesson. Both go
   through `runCatalogEntry`, one step at a time, on the bench you can see.
+
+  GUI-105 folded in the third population. The five hundred reviewed corpus
+  questions used to live behind their OWN dialog, so "can this bench do
+  X?" had to be asked in two places or it got a wrong "no" — an author's
+  distinction (runnable experiment vs. reviewed answer) standing in a
+  reader's way. They are now rows of this same index, searched by the same
+  predicate, with the kind as a badge and a facet chip.
+
+  What is deliberately NOT flattened is the claim. A question is not an
+  experiment: sixty of them are refusals that ship no script at all, so
+  the counts stay separate and separately labelled, the run affordance
+  follows script presence rather than kind, and a question row draws no
+  readiness line, no completion chip and no materials list, because it
+  makes none of those claims.
 -->
 <script lang="ts">
   import { untrack } from "svelte";
@@ -52,22 +66,29 @@
   import {
     CATALOG_DURATIONS,
     CATALOG_LEVELS,
+    CATALOG_SOURCES,
     authoredRelatedEntries,
-    catalogEntries,
     durationLabel,
+    experimentOnlyFilters,
     filterCatalogEntries,
     levelCounts,
     levelLabel,
     NO_CATALOG_FILTERS,
+    oneIndex,
     presentPlacements,
     presentTopics,
     runTargetLabel,
     slugWords,
+    sourceCounts,
+    sourceLabel,
+    sourceLabelPlural,
     topicLabel,
     type CatalogEntry,
     type CatalogFilters,
     type CatalogLevel,
+    type CatalogSourceKind,
   } from "../catalogEntry";
+  import { localiseCapability, type CapabilityPrompt } from "../capabilities";
   import {
     canUseFreshVessels,
     loadRunMode,
@@ -75,6 +96,7 @@
     runGate,
     runnableLines,
     saveRunMode,
+    scriptForDecision,
     type BenchDecision,
     type RunMode,
     type RunStep,
@@ -93,6 +115,7 @@
     entries,
     models = [],
     kidsEntries = [],
+    prompts = [],
     stepProse = NO_STEP_PROSE,
     session,
     capabilityIds = new Set<string>(),
@@ -100,15 +123,18 @@
     initial = null,
     kidsInitial = null,
     initialLevel = null,
+    initialSource = null,
+    initialQuestion = null,
     onlesson,
     onquest,
-    oncapability,
     onsandbox,
     onclose,
   }: {
     entries: CodexEntry[];
     models?: CodexModel[];
     kidsEntries?: KidsExperiment[];
+    /** The reviewed corpus questions — the index's third population. */
+    prompts?: CapabilityPrompt[];
     /** One sentence per script line, for the learner who paces a run. */
     stepProse?: StepProseIndex;
     session: Session;
@@ -122,9 +148,14 @@
     kidsInitial?: string | null;
     /** A door that used to open a tier now opens the list pre-filtered. */
     initialLevel?: CatalogLevel | null;
+    /** The old capability dialog is now this list, pre-filtered to questions. */
+    initialSource?: CatalogSourceKind | null;
+    /** Open on one corpus question by id — the same hand-over `initial`
+     * makes for a codex entry, now that a question is a row of this same
+     * index and has a page of its own here. */
+    initialQuestion?: string | null;
     onlesson?: (file: string) => void;
     onquest?: (id: string) => void;
-    oncapability?: (id: string) => void;
     onsandbox?: (entry: KidsExperiment) => void;
     onclose: () => void;
   } = $props();
@@ -150,7 +181,7 @@
    * German they can see, which is the defect `catalogSearch` was written
    * for and which a cached English index would quietly bring back.
    */
-  const all = $derived(catalogEntries(entries, kidsEntries, {
+  const all = $derived(oneIndex(entries, kidsEntries, prompts, {
     locale: i18n.locale,
     translate: t,
     completed: session.completedExperiments,
@@ -163,10 +194,23 @@
   let filters = $state<CatalogFilters>({
     ...NO_CATALOG_FILTERS,
     level: untrack(() => initialLevel),
+    source: untrack(() => initialSource),
     query: untrack(() => kidsInitial ?? ""),
   });
   const shown = $derived(filterCatalogEntries(all, filters));
   const counts = $derived(levelCounts(all));
+  /**
+   * The headline, derived rather than typed.
+   *
+   * Three populations, counted from the rows themselves and labelled
+   * separately, because "752 experiments" would be a bigger number and a
+   * false one: sixty of the questions have no script and one has no
+   * science yet. #505 is the standing lesson — `models.toml` reported
+   * 100% German over 325 English strings — so a total nobody derives is a
+   * total nobody can trust.
+   */
+  const kinds = $derived(sourceCounts(all));
+  const experimentTotal = $derived(kinds.codex + kinds.guided);
   const topics = $derived(presentTopics(all)
     .map((topic) => ({ topic, label: t(topicLabel(topic)) }))
     .sort((a, b) => a.label.localeCompare(b.label, i18n.locale)));
@@ -224,7 +268,7 @@
    * the panel would keep showing the German title of an English session,
    * or a completion that has since been recorded.
    */
-  let openId = $state<string | null>(untrack(() => initial?.id ?? null));
+  let openId = $state<string | null>(untrack(() => initial?.id ?? initialQuestion ?? null));
   const open = $derived(openId === null ? null : byId.get(openId) ?? null);
   let tab = $state<"theory" | "procedure" | "run">("theory");
   let predicted = $state<number | null>(null);
@@ -298,6 +342,67 @@
     answer("stop");
   }
 
+  /** Which question is on the bench right now, so its button can say so. */
+  let questionRunning = $state<string | null>(null);
+
+  /**
+   * A reviewed question, run as itself — but gated like everything else.
+   *
+   * NOT through `runCatalogEntry`, for a reason that only shows up at its
+   * last two lines: with no `expect` to check, `result.allOk` is true and
+   * the runner MARKS THE ENTRY DONE. A corpus id would land in the
+   * progress record as a completed experiment, which is the one claim
+   * this whole task exists to refuse. (It would also have offered an
+   * empty "predict & run" tab and an empty comparison table — a claim
+   * that something was checked for the reader.)
+   *
+   * What the retired explorer did skip, and this does not, is the consent
+   * gate. `session.runExperiment` writes line by line into the bench the
+   * reader can SEE, so `add v1 water 100mL` landed in a vessel already
+   * holding their work, silently. The gate's own pieces — `runGate`,
+   * `canUseFreshVessels`, `scriptForDecision`, `session.clear()` — are
+   * all plain functions over a script string, so a question asks the
+   * same question an experiment does, with the same three answers.
+   */
+  function requestQuestionRun(entry: CatalogEntry) {
+    if (!entry.prompt || questionRunning !== null || session.busy) return;
+    if (entry.run.kind !== "question") return;
+    if (runGate(session.scene, decision) === "ask") {
+      asking = true;
+      return;
+    }
+    void runQuestion(entry, decision);
+  }
+
+  async function runQuestion(entry: CatalogEntry, chosen: BenchDecision | null) {
+    const prompt = entry.prompt;
+    if (!prompt || questionRunning !== null) return;
+    asking = false;
+    decision = chosen;
+    questionRunning = entry.id;
+    try {
+      if (chosen === "clear") await session.clear();
+      await session.runExperiment(
+        scriptForDecision(prompt.script.join("\n"), chosen, session.scene),
+      );
+      onclose();
+    } finally {
+      questionRunning = null;
+      // Consent is per run, not per row: a replay of a question the
+      // reader cleared the bench for has to ask again.
+      decision = null;
+    }
+  }
+
+  /** One press, routed to whichever runner the open row actually needs. */
+  function proceed(chosen: BenchDecision | null) {
+    if (open?.prompt) {
+      void runQuestion(open, chosen);
+      return;
+    }
+    void go(chosen);
+  }
+
   function openEntry(entry: CatalogEntry, at: typeof tab = "theory") {
     openId = entry.id;
     tab = entry.script ? at : "theory";
@@ -325,6 +430,11 @@
         if (entry.guided) onsandbox?.(entry.guided);
         return;
       default:
+        // Every remaining kind — a question, an unanswered question, a
+        // documented boundary — opens the entry page. The same shape the
+        // codex path takes: the primary button names what the page will
+        // offer, and the run itself is pressed there, with the script in
+        // front of the reader rather than behind the press.
         openEntry(entry);
     }
   }
@@ -333,8 +443,39 @@
     filters = { ...NO_CATALOG_FILTERS };
   }
 
+  /**
+   * Filters no question can answer, named rather than left to look broken.
+   *
+   * A concept, a curriculum stage, a shelf and a readiness are properties
+   * of an EXPERIMENT. A corpus question carries none of them, so any of
+   * those filters drops all five hundred rows by construction — and a
+   * reader who typed a question into one box and watched the answers
+   * vanish gets the same wrong "no" the two doors used to give, only from
+   * inside one of them. So the rail says which filter is doing it.
+   */
+  const questionsExcluded = $derived(
+    kinds.capability > 0
+    && filters.source !== "capability"
+    && experimentOnlyFilters(filters)
+    && shown.every((entry) => entry.source !== "capability"),
+  );
+
+  /** Keep the free text; drop only the axes a question cannot answer. */
+  function showQuestionsInstead() {
+    filters = {
+      ...filters,
+      source: "capability",
+      concept: null,
+      curriculum: null,
+      shelfOnly: false,
+      readiness: "all",
+      progress: filters.progress === "completed" ? "all" : filters.progress,
+    };
+  }
+
   const filtering = $derived(
-    filters.level !== null || filters.topic !== null || filters.duration !== null
+    filters.source !== null
+    || filters.level !== null || filters.topic !== null || filters.duration !== null
     || filters.shelfOnly || filters.readiness !== "all" || filters.progress !== "all"
     || filters.concept !== null || filters.curriculum !== null || filters.query.trim() !== "",
   );
@@ -382,7 +523,13 @@
   const prediction = $derived(open?.script?.expect?.predict ?? null);
   const mustPredict = $derived(prediction !== null && predicted === null);
   const stepCount = $derived(open?.script ? runnableLines(open.script.setup.script).length : 0);
-  const canFresh = $derived(open?.script ? canUseFreshVessels(open.script.setup.script) : false);
+  const canFresh = $derived(
+    open?.script
+      ? canUseFreshVessels(open.script.setup.script)
+      : open?.prompt
+        ? canUseFreshVessels(open.prompt.script.join("\n"))
+        : false,
+  );
 
   /**
    * What to watch for, line by line, in the language being read.
@@ -478,6 +625,23 @@
     values.map((value) => t(slugWords(value))).join(" · ");
 </script>
 
+<!-- The consent gate, asked once and rendered wherever a run is pressed.
+     A snippet rather than a copy: a question's page and an experiment's
+     run tab must not be able to drift into asking two different things
+     about the same bench. -->
+{#snippet benchNotEmpty()}
+  <div class="ask" role="group" aria-label={t("the bench is not empty")}>
+    <strong>{t("your bench is not empty")}</strong>
+    <p>{t("This script writes into the bench you can see. Clear it first, or keep your work and run the experiment in fresh glassware beside it.")}</p>
+    <div class="ask-actions">
+      <button class="go" onclick={() => proceed("clear")}>{t("clear the bench, then run")}</button>
+      {#if canFresh}<button class="go" onclick={() => proceed("fresh")}>{t("keep my work, run in new vessels")}</button>{/if}
+      <button class="go" onclick={() => proceed("keep")}>{t("run on this bench as it is")}</button>
+      <button class="link" onclick={() => (asking = false)}>{t("cancel")}</button>
+    </div>
+  </div>
+{/snippet}
+
 <!-- While a script runs the scrim goes transparent and stops swallowing
      pointer events: the whole point is that the learner watches the bench
      react, which they cannot do through a blurred sheet of glass. -->
@@ -488,7 +652,7 @@
   onclick={() => !running && onclose()}
   onkeydown={(e) => e.key === "Escape" && !running && onclose()}
 >
-  <dialog open class="panel" class:running aria-modal={!running} aria-label={t("experiments")} onclick={(e) => e.stopPropagation()}>
+  <dialog open class="panel" class:running aria-modal={!running} aria-label={t("experiments and answered questions")} onclick={(e) => e.stopPropagation()}>
     {#if running}
       <div class="dock" class:waiting={awaiting} role="status" aria-live="polite">
         <div>
@@ -529,8 +693,20 @@
       </div>
     {:else if !open}
       <header>
-        <h2 id="catalog-title">{t("experiments")}</h2>
-        <span class="hint">{t("{shown} of {total} — each one computed, checked, and yours to break", { shown: shown.length, total: all.length })}</span>
+        <h2 id="catalog-title">{t("experiments and answered questions")}</h2>
+        <!-- Two claims, because there are two kinds of thing here and one
+             sentence over both of them would be false. The experiments
+             keep the claim they earned; the questions get their own,
+             which says out loud that some of them are refusals. -->
+        <span class="hint">{t("{count} experiments — each one computed, checked, and yours to break", { count: experimentTotal })}</span>
+        <!-- Only once the payload has actually arrived. The corpus index
+             is fetched, so a line printed eagerly would read "and 0
+             answered questions" for as long as the request took — a
+             claim about the library, made before it was known. -->
+        {#if kinds.capability > 0}
+          <span class="hint">{t("and {count} answered questions, including the ones this bench refuses", { count: kinds.capability })}</span>
+        {/if}
+        <span class="hint">{t("{count} shown", { count: shown.length })}</span>
         <button class="icon-close" aria-label={t("close")} title={t("close")} onclick={onclose}>×</button>
       </header>
 
@@ -546,6 +722,21 @@
           aria-label={t("filter experiments")}
         />
         <div class="filter-rail">
+          <!-- The facet that used to be a second dialog. A badge on every
+               card says the same word, so the chip and the row agree. -->
+          <div class="chips kinds" role="group" aria-label={t("what it is")}>
+            <button class:on={filters.source === null} aria-pressed={filters.source === null} onclick={() => (filters.source = null)}>{t("everything")} <small>{all.length}</small></button>
+            <!-- Never an empty chip: the shelf's own rule. A kind with no
+                 rows offers a filter that selects nothing. -->
+            {#each CATALOG_SOURCES.filter((source) => kinds[source] > 0) as source (source)}
+              <button
+                data-source={source}
+                class:on={filters.source === source}
+                aria-pressed={filters.source === source}
+                onclick={() => (filters.source = filters.source === source ? null : source)}
+              >{t(sourceLabelPlural(source))} <small>{kinds[source]}</small></button>
+            {/each}
+          </div>
           <div class="chips levels" role="group" aria-label={t("level")}>
             <button class:on={filters.level === null} aria-pressed={filters.level === null} onclick={() => (filters.level = null)}>{t("all")}</button>
             {#each CATALOG_LEVELS as level (level)}
@@ -606,6 +797,13 @@
         </div>
       </div>
 
+      {#if questionsExcluded}
+        <p class="meta excluded-note">
+          {t("{count} answered questions describe no materials, no concept and no curriculum stage, so this filter shows none of them.", { count: kinds.capability })}
+          <button class="link" onclick={showQuestionsInstead}>{t("show the questions instead")}</button>
+        </p>
+      {/if}
+
       {#if filters.concept && related.length > 0}
         <p class="meta">
           {t("taught alongside:")}
@@ -642,28 +840,61 @@
           {@const links = linksById.get(item.id) ?? null}
           <article data-id={item.id} data-level={item.level} data-status={item.status} data-run={item.run.kind}>
             <div class="card-head">
-              <span class="level">{t(levelLabel(item.level))}</span>
-              <span class="minutes">{t("about {count} min", { count: item.minutes })}</span>
-              <span class="completion">{item.done ? "✓ " : ""}{t(item.done ? "completed" : "not tried")}</span>
+              <span class="kind" data-source={item.source}>{t(sourceLabel(item.source))}</span>
+              <span class="level">{item.anyLevel ? t("at any level") : t(levelLabel(item.level))}</span>
+              <!-- Omitted rather than rounded: a refusal ships no script,
+                   and `minutesForSteps(0)` would have called it "about
+                   2 min" of work nobody can do. -->
+              {#if item.minutes > 0}
+                <span class="minutes">{t("about {count} min", { count: item.minutes })}</span>
+              {/if}
+              <!-- Progress is a record of successful codex runs. A question
+                   id is not a codex id, so "not tried" would be a claim
+                   about a record that cannot exist for this row. -->
+              {#if item.source !== "capability"}
+                <span class="completion">{item.done ? "✓ " : ""}{t(item.done ? "completed" : "not tried")}</span>
+              {/if}
+              {#if item.support}
+                <span class="support" data-support={item.support}>{t(item.support)}</span>
+              {/if}
             </div>
             <h2>{item.title}</h2>
-            <p class="hook">{item.hook}</p>
+            {#if item.source === "capability"}
+              <p class="hook">{t("material: {material}", { material: item.hook })}</p>
+            {:else}
+              <p class="hook">{item.hook}</p>
+            {/if}
+            {#if item.prompt && item.run.kind === "unanswered"}
+              <p class="boundary" data-reason={item.prompt.reason_code}>
+                {item.support === "missing"
+                  ? t("Not runnable yet: {reason}", { reason: t(item.reason ?? "") })
+                  : t("Answered by refusing: {reason}", { reason: t(item.reason ?? "") })}
+                · {t("owner: {task}", { task: item.prompt.owning_task })}
+              </p>
+            {/if}
             {#if item.guided}
               <p class="safety-summary">{t(item.safety === "home" ? "home-friendly" : "school supervision")}{item.safetyRationale ? ` — ${item.safetyRationale}` : ""}</p>
             {/if}
             {#if item.observations[0]}<p class="preview"><strong>{t("look for")}</strong> {item.observations[0]}</p>{/if}
             {#if item.kits.length > 0}<p class="preview"><strong>{t("apparatus")}</strong> {item.kits.map((kit) => t(kit.title)).join(" · ")}</p>{/if}
-            <dl>
-              <div><dt>{t("what you need")}</dt><dd>{item.needs.length > 0 ? words(item.needs) : t("nothing from the shelf")}</dd></div>
-              <div><dt>{t("apparatus")}</dt><dd>{item.apparatus.length > 0 ? words(item.apparatus) : t("the bench as it stands")}</dd></div>
-            </dl>
-            <p class:ready={item.readyNow} class="readiness" data-ready-now={item.availabilityKnown ? item.readyNow : undefined} data-readiness-known={item.availabilityKnown}>
-              {!item.availabilityKnown ? t("checking availability…") : item.readyNow ? `✓ ${t("ready now")}` : `${t("missing now")}: ${item.missingNeeds.length > 0 ? words(item.missingNeeds) : t("locked equipment")}`}
-            </p>
-            {#each item.access as catalogItem (catalogItem.id)}
-              {@const note = accessNote(catalogItem)}
-              {#if note}<p class="access-reason" data-catalog-reason={catalogItem.reason.reason}>{accessName(catalogItem)}: {note}</p>{/if}
-            {/each}
+            <!-- A question makes no claim about materials, so it is asked
+                 for none. The corpus script names formulae (`add v1 NaCl
+                 5g`) where the shelf is keyed by registry id, so deriving
+                 a shopping list from it reported salt that is on the
+                 shelf as missing. -->
+            {#if item.source !== "capability"}
+              <dl>
+                <div><dt>{t("what you need")}</dt><dd>{item.needs.length > 0 ? words(item.needs) : t("nothing from the shelf")}</dd></div>
+                <div><dt>{t("apparatus")}</dt><dd>{item.apparatus.length > 0 ? words(item.apparatus) : t("the bench as it stands")}</dd></div>
+              </dl>
+              <p class:ready={item.readyNow} class="readiness" data-ready-now={item.availabilityKnown ? item.readyNow : undefined} data-readiness-known={item.availabilityKnown}>
+                {!item.availabilityKnown ? t("checking availability…") : item.readyNow ? `✓ ${t("ready now")}` : `${t("missing now")}: ${item.missingNeeds.length > 0 ? words(item.missingNeeds) : t("locked equipment")}`}
+              </p>
+              {#each item.access as catalogItem (catalogItem.id)}
+                {@const note = accessNote(catalogItem)}
+                {#if note}<p class="access-reason" data-catalog-reason={catalogItem.reason.reason}>{accessName(catalogItem)}: {note}</p>{/if}
+              {/each}
+            {/if}
             {#if item.boundary}<p class="boundary">{item.boundary}</p>{/if}
             {#if links && links.linkedLearning > 0}
               <div class="learning-progress" data-progress={links.progress}>
@@ -673,8 +904,14 @@
             {/if}
             {#if links && (links.capabilities.length > 0 || links.codex.length > 0 || links.lessonCompleted)}
               <div class="connections" aria-label={t("related learning and saved progress")}>
+                <!-- No longer a hand-over to another dialog. The question
+                     is a row of THIS index, so the link opens its page
+                     here — which is the whole of GUI-105 in one button. -->
                 {#each links.capabilities as id (id)}
-                  <button class="related" onclick={() => oncapability?.(id)}>{t("related question")} <span>{id}</span> →</button>
+                  {@const question = byId.get(id) ?? null}
+                  {#if question}
+                    <button class="related" onclick={() => openEntry(question)}>{t("related question")} <span>{question.title}</span> →</button>
+                  {/if}
                 {/each}
                 {#each links.codex as id (id)}
                   <button class="related" onclick={() => { const found = byId.get(id); if (found) openEntry(found); }}>{t(codexLearningLabel(links.codexCompleted.includes(id)))} <span>{t(slugWords(id))}</span> →</button>
@@ -693,6 +930,13 @@
               <span class="topics">{item.topics.map((topic) => t(topicLabel(topic))).join(" · ")}</span>
               {#if item.run.kind === "boundary"}
                 <span class="no-launch">{t("documented boundary")}</span>
+              {:else if item.run.kind === "unanswered"}
+                <!-- The reason is already on the card. What must NOT be
+                     here is a button: every one of these rows either
+                     ships an empty script or has no science behind it
+                     yet, and a press that produces nothing is the
+                     `inspect`-instead-of-`look` defect in a new costume. -->
+                <span class="no-launch">{t("read, not run")}</span>
               {:else}
                 <button class="run-here" onclick={() => act(item)}>{t(runTargetLabel(item.run, item.done))} →</button>
               {/if}
@@ -730,15 +974,21 @@
           <span>{t(open.status)}</span>
           <span>{t(open.safety === "home" ? "home-friendly" : "school supervision")}</span>
         {/if}
+        {#if open.support}
+          <span class="kind" data-source={open.source}>{t(sourceLabel(open.source))}</span>
+          <span class="support" data-support={open.support}>{t(open.support)}</span>
+        {/if}
         <span>{open.topics.map((topic) => t(topicLabel(topic))).join(" · ")}</span>
       </p>
-      <p class:ready={open.readyNow} class="readiness" data-ready-now={open.availabilityKnown ? open.readyNow : undefined} data-readiness-known={open.availabilityKnown}>
-        {!open.availabilityKnown ? t("checking availability…") : open.readyNow ? `✓ ${t("ready now")}` : `${t("missing now")}: ${open.missingNeeds.length > 0 ? words(open.missingNeeds) : t("locked equipment")}`}
-      </p>
-      {#each open.access as catalogItem (catalogItem.id)}
-        {@const note = accessNote(catalogItem)}
-        {#if note}<p class="access-reason" data-catalog-reason={catalogItem.reason.reason}>{accessName(catalogItem)}: {note}</p>{/if}
-      {/each}
+      {#if open.source !== "capability"}
+        <p class:ready={open.readyNow} class="readiness" data-ready-now={open.availabilityKnown ? open.readyNow : undefined} data-readiness-known={open.availabilityKnown}>
+          {!open.availabilityKnown ? t("checking availability…") : open.readyNow ? `✓ ${t("ready now")}` : `${t("missing now")}: ${open.missingNeeds.length > 0 ? words(open.missingNeeds) : t("locked equipment")}`}
+        </p>
+        {#each open.access as catalogItem (catalogItem.id)}
+          {@const note = accessNote(catalogItem)}
+          {#if note}<p class="access-reason" data-catalog-reason={catalogItem.reason.reason}>{accessName(catalogItem)}: {note}</p>{/if}
+        {/each}
+      {/if}
       {#if authoredRelated(open).length > 0}
         <div class="connections" aria-label={t("continue with")}>
           {#each authoredRelated(open) as next (next.id)}
@@ -778,7 +1028,40 @@
         </nav>
       {/if}
 
-      {#if !open.script}
+      {#if open.prompt}
+        <!-- A reviewed question's page: the question, what it is about,
+             the script that would run, and then EITHER the run or the
+             reason there is none. Never both, and never a button with
+             nothing behind it. -->
+        {@const said = localiseCapability(open.prompt, i18n.locale, t)}
+        <p class="prose">{said.question}</p>
+        <p class="meta">{t("material: {material}", { material: said.materialClass })} · {t(slugWords(open.prompt.topic))}</p>
+        <!-- Keyed by position: the English tags are unique, but two of them
+             can translate to one word, and a duplicate key is a crash
+             rather than a repeated chip. -->
+        <div class="tags">{#each said.tags as tag, index (index)}<span>{tag}</span>{/each}</div>
+        {#if open.prompt.script.length > 0}
+          <p class="script-label">{t("bench script")}</p>
+          <pre class="script">{open.prompt.script.join("\n")}</pre>
+        {/if}
+        {#if open.run.kind === "question"}
+          <p class="meta">{t("The bench runs this reviewed script and you read the answer off it. A question carries no authored prediction, so nothing is checked for you the way an experiment's expectations are.")}</p>
+          {#if asking}
+            {@render benchNotEmpty()}
+          {:else}
+            <button class="go" disabled={questionRunning !== null || session.busy} onclick={() => requestQuestionRun(open)}>
+              {questionRunning === open.id ? t("running…") : t(runTargetLabel(open.run, open.done))}
+            </button>
+          {/if}
+        {:else}
+          <p class="boundary" data-reason={open.prompt.reason_code}>
+            {open.support === "missing"
+              ? t("Not runnable yet: {reason}", { reason: t(open.reason ?? "") })
+              : t("Answered by refusing: {reason}", { reason: t(open.reason ?? "") })}
+          </p>
+          <p class="meta">{t("owner: {task}", { task: open.prompt.owning_task })}</p>
+        {/if}
+      {:else if !open.script}
         <!-- No script of its own: the honest page is what it is about, what
              it needs, where the model stops, and the door that does exist. -->
         <p class="prose">{open.hook}</p>
@@ -840,16 +1123,7 @@
         {/if}
 
         {#if asking}
-          <div class="ask" role="group" aria-label={t("the bench is not empty")}>
-            <strong>{t("your bench is not empty")}</strong>
-            <p>{t("This script writes into the bench you can see. Clear it first, or keep your work and run the experiment in fresh glassware beside it.")}</p>
-            <div class="ask-actions">
-              <button class="go" onclick={() => void go("clear")}>{t("clear the bench, then run")}</button>
-              {#if canFresh}<button class="go" onclick={() => void go("fresh")}>{t("keep my work, run in new vessels")}</button>{/if}
-              <button class="go" onclick={() => void go("keep")}>{t("run on this bench as it is")}</button>
-              <button class="link" onclick={() => (asking = false)}>{t("cancel")}</button>
-            </div>
-          </div>
+          {@render benchNotEmpty()}
         {:else}
           <!-- The pace is chosen BEFORE the run, because during it there is
                nothing left to decide: a script already halfway through at
@@ -1099,6 +1373,7 @@
   }
   header {
     display: flex;
+    flex-wrap: wrap;
     align-items: baseline;
     gap: 0.7rem;
   }
@@ -1109,6 +1384,53 @@
   .hint {
     color: var(--dim);
     font-size: 0.76rem;
+  }
+  .kind {
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    padding: 0.1rem 0.4rem;
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .kind[data-source="capability"] {
+    color: var(--discovery);
+  }
+  .support {
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    padding: 0.1rem 0.4rem;
+    font-size: 0.6rem;
+  }
+  .support[data-support="computed"],
+  .support[data-support="curated"] {
+    color: var(--success);
+  }
+  .support[data-support="boundary"],
+  .support[data-support="missing"] {
+    color: var(--warning);
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin: 0.45rem 0;
+  }
+  .tags span {
+    padding: 0.15rem 0.35rem;
+    border-radius: 5px;
+    color: var(--dim);
+    background: var(--panel-raised);
+    font-size: 0.62rem;
+  }
+  .script-label {
+    margin: 0.5rem 0 0.2rem;
+    color: var(--dim);
+    font-size: 0.6rem;
+    font-weight: 850;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
   }
   .back {
     background: var(--panel-raised);

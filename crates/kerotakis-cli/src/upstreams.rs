@@ -325,13 +325,30 @@
 //!    correctly attributed citation of a book was a permanent finding, so
 //!    zero was reachable only by deleting the citation, which is the one
 //!    route this item forbids in its own sentence. That contradiction is
-//!    gone. The count is 67 and the work to move it is unchanged.
+//!    gone. The count was 67 when that was written; it reads **68 over 405
+//!    strings** on 2026-09-17, the one new finding being the conductivity
+//!    sourcing work declaring a `claims` row for a value read at one remove
+//!    through a cleared route. **Eight citations were added and exactly one
+//!    finding came with them**, which is the count behaving as designed: a
+//!    number to watch to zero, not a rate that well-sourced rows can dilute.
 //! 2. **The 105 unjudged registry citations shrink.** A gate over a surface
 //!    where more than half the rows name no audited source at all is a gate
 //!    with a hole bigger than itself.
 //! 3. **`names` lists are reviewed once more against the tree**, since a
 //!    forward guard that matches nothing is indistinguishable from one that
 //!    works. Seven of the eleven refused rows currently match nothing.
+//!    *A SECOND hole in this item was found on 2026-09-17 and is worse than
+//!    the first, because it is not about the lists at all.* The scanner finds
+//!    a citation by looking for a FIELD named `source` (or `provenance`,
+//!    `citation`, …) followed by a string literal. `conductivity.rs`'s
+//!    `const LAMBDA_SOURCE: &str = "…"` puts a type where the quote should
+//!    be, so **the string declaring that the entire λ° table came from the
+//!    CRC Handbook — which this repository refuses as a systematic source —
+//!    does not appear in this lint's output at all.** `FIT_SOURCE` likewise.
+//!    A gate promoted today would pass a surface whose largest single
+//!    dependence on a refused source is invisible to it. Recorded at length
+//!    in `docs/MUTATION-SENSITIVITY.md`; making the two visible would add
+//!    findings to a reviewed count, which is the owner's call.
 //! 4. **`--fail` is added in `tools/preflight.sh`** and the CI job that runs
 //!    it, in a pull request that does nothing else, so that the promotion is
 //!    revertible on its own.

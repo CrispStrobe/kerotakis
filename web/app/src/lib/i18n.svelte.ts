@@ -49,7 +49,11 @@ const BUNDLES: Record<string, Bundle> = Object.fromEntries(
  * One flat lookup per language.
  *
  * `terms` first so `messages` wins where both carry a key: that is the
- * order the two literal maps had, and six keys actually collide.
+ * order the two literal maps had. It was six keys when this was written
+ * and it is 59 now — `tools/locale-collision-lint.py` counts them, and
+ * fails when one carries two DIFFERENT translations, because then the
+ * merge is silently replacing one with the other. Two do today, both
+ * recorded there pending a wording decision.
  */
 const TABLES: Record<string, Record<string, string>> = Object.fromEntries(
   Object.entries(BUNDLES).map(([code, b]) => [

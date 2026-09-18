@@ -57,15 +57,21 @@ impl Kind {
         }
     }
 
-    pub fn describe(self) -> &'static str {
-        match self {
-            Kind::Cation => "positive ion",
-            Kind::Anion => "negative ion",
-            Kind::NeutralSolute => "uncharged, dissolved",
-            Kind::Solvent => "solvent",
-            Kind::Solid => "solid",
-            Kind::Gas => "gas",
-        }
+    /// What kind of particle this is, in the reader's language.
+    ///
+    /// Six words the census prints in parentheses beside every row it
+    /// draws. They were `&'static str` and English, which is why the
+    /// drawing stayed English even once its captions did not.
+    pub fn describe_in(self, locale: crate::Locale) -> &'static str {
+        let (key, en) = match self {
+            Kind::Cation => ("census.kind.cation", "positive ion"),
+            Kind::Anion => ("census.kind.anion", "negative ion"),
+            Kind::NeutralSolute => ("census.kind.neutral", "uncharged, dissolved"),
+            Kind::Solvent => ("census.kind.solvent", "solvent"),
+            Kind::Solid => ("census.kind.solid", "solid"),
+            Kind::Gas => ("census.kind.gas", "gas"),
+        };
+        locale.t(key, en)
     }
 }
 
@@ -299,34 +305,59 @@ pub fn census(vessel: &Vessel, glyphs: usize) -> Census {
 }
 
 impl Census {
-    /// Draw it, at the depth the register asks for.
-    pub fn render(&self, register: crate::render::Register) -> String {
+    /// Draw it, at the depth the register asks for, in the reader's language.
+    ///
+    /// This took a `Register` and no `Locale` until 2026-09-18, so a German
+    /// session drew its particles under English captions — and the
+    /// `", and {n} more"` tail was the last piece of reader-facing English
+    /// the I18N-10 sweep left behind. It could not be translated on its own:
+    /// it is glued onto a caption built here, so rendering *und 3 weitere*
+    /// inside "also in there, too few to draw" would have been worse than
+    /// leaving it.
+    ///
+    /// The captions are catalogue templates with the list as a slot, not
+    /// fragments — the same reason `appearance.rs` could not be fixed by
+    /// translating `"there is"` and `" and "` separately (#626).
+    pub fn render(&self, register: crate::render::Register, locale: crate::Locale) -> String {
         let mut out = String::new();
         for p in &self.populations {
             let row: String = std::iter::repeat_n(p.kind.glyph(), p.drawn.min(40)).collect();
             match register.level() {
-                1 => out.push_str(&format!("  {row}   {}\n", plain_name(&p.label))),
-                2 => out.push_str(&format!("  {row}   {}  ({})\n", p.label, p.kind.describe())),
+                1 => out.push_str(&format!("  {row}   {}\n", plain_name_in(&p.label, locale))),
+                2 => out.push_str(&format!(
+                    "  {row}   {}  ({})\n",
+                    p.label,
+                    p.kind.describe_in(locale)
+                )),
                 _ => out.push_str(&format!(
                     "  {row}   {:<12} {:.4e}  {}\n",
                     p.label,
                     p.amount,
-                    p.kind.describe()
+                    p.kind.describe_in(locale)
                 )),
             }
         }
         if register.level() >= 2 {
-            out.push_str(&format!(
-                "  one {} ≈ {:.3e} {}",
-                Kind::Cation.glyph(),
-                self.per_glyph,
-                match self.source {
-                    Source::Speciation => "mol/kgw",
-                    Source::Inventory => "mol",
-                }
+            // The unit is a unit and stays as written; the sentence around
+            // it is the reader's.
+            let unit = match self.source {
+                Source::Speciation => "mol/kgw",
+                Source::Inventory => "mol",
+            };
+            out.push_str(&locale.fill(
+                "census.one-glyph-is",
+                "  one {glyph} ≈ {amount} {unit}",
+                &[
+                    ("glyph", Kind::Cation.glyph().encode_utf8(&mut [0u8; 4])),
+                    ("amount", &format!("{:.3e}", self.per_glyph)),
+                    ("unit", unit),
+                ],
             ));
             if self.populations.iter().any(|p| p.kind == Kind::Solvent) {
-                out.push_str("; the water is drawn sparsely, not to scale");
+                out.push_str(locale.t(
+                    "census.water-sparse",
+                    "; the water is drawn sparsely, not to scale",
+                ));
             }
             out.push('\n');
         }
@@ -336,41 +367,59 @@ impl Census {
                 .iter()
                 .take(4)
                 .map(|(n, a)| match register.level() {
-                    1 => plain_name(n).to_string(),
+                    1 => plain_name_in(n, locale).to_string(),
                     _ => format!("{n} ({a:.2e})"),
                 })
                 .collect();
-            let more = match self.too_rare.len().saturating_sub(4) {
-                0 => String::new(),
-                n => format!(", and {n} more"),
+            let listed = names.join(", ");
+            let hidden = self.too_rare.len().saturating_sub(4);
+            let shown = if hidden == 0 {
+                listed
+            } else {
+                locale.fill(
+                    "census.and-more",
+                    "{listed}, and {count} more",
+                    &[("listed", &listed), ("count", &hidden.to_string())],
+                )
             };
             out.push_str(&match register.level() {
-                1 => format!(
-                    "  also in there, too few to draw: {}{more}\n",
-                    names.join(", ")
+                1 => locale.fill(
+                    "census.too-few-to-draw.lv1",
+                    "  also in there, too few to draw: {species}\n",
+                    &[("species", &shown)],
                 ),
-                _ => format!(
-                    "  present below one glyph, so not drawn: {}{more}\n",
-                    names.join(", ")
+                _ => locale.fill(
+                    "census.too-few-to-draw.lv2",
+                    "  present below one glyph, so not drawn: {species}\n",
+                    &[("species", &shown)],
                 ),
             });
         }
         if self.source == Source::Inventory && register.level() >= 2 {
-            out.push_str(
+            out.push_str(locale.t(
+                "census.from-inventory",
                 "  drawn from the inventory: no solution was characterised, so ion pairs and complexes are not resolved here\n",
-            );
+            ));
         }
         out
     }
 }
 
 /// A formula a nine-year-old can read out loud.
-fn plain_name(formula: &str) -> &str {
-    species::REGISTRY
+/// A formula a nine-year-old can read out loud, in their language.
+///
+/// The species catalogue is keyed by the ENGLISH name (`species.<name>`),
+/// which is what `render::species_name` looks up — so the translation the
+/// rest of the engine already ships reaches the drawing by asking for it.
+fn plain_name_in(formula: &str, locale: crate::Locale) -> &str {
+    let english = species::REGISTRY
         .iter()
         .find(|d| d.formula == formula || d.key == formula)
         .map(|d| d.name)
-        .unwrap_or(formula)
+        .unwrap_or(formula);
+    locale
+        .lookup(&format!("species.{english}"))
+        .unwrap_or(english)
 }
 
 #[cfg(test)]
@@ -437,13 +486,13 @@ mod tests {
             "but it must still be reported: {:?}",
             c.too_rare
         );
-        let text = c.render(Register::LV3);
+        let text = c.render(Register::LV3, crate::Locale::EN);
         assert!(text.contains("AgCl"), "{text}");
     }
 
     #[test]
     fn the_scale_is_stated() {
-        let text = census(&salty(), 30).render(Register::LV2);
+        let text = census(&salty(), 30).render(Register::LV2, crate::Locale::EN);
         assert!(text.contains("one ● ≈"), "{text}");
         assert!(
             text.contains("not to scale"),
@@ -458,7 +507,7 @@ mod tests {
         v.deposit(SpeciesId::new("NaCl"), Moles(0.1), Phase::Solid);
         let c = census(&v, 30);
         assert_eq!(c.source, Source::Inventory);
-        let text = c.render(Register::LV2);
+        let text = c.render(Register::LV2, crate::Locale::EN);
         assert!(text.contains("no solution was characterised"), "{text}");
     }
 
@@ -492,7 +541,7 @@ mod tests {
         let v = Vessel::new(VesselId(0), "beaker");
         let c = census(&v, 30);
         assert!(c.populations.is_empty());
-        assert!(c.render(Register::LV1).is_empty());
+        assert!(c.render(Register::LV1, crate::Locale::EN).is_empty());
     }
 }
 
