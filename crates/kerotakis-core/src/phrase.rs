@@ -110,10 +110,15 @@ impl Phrase {
     /// reason is not a new reason.
     ///
     /// Everything that is NOT a measurement is kept, including the text
-    /// slots — those carry dataset and model NAMES (the second-speciation
-    /// clause names the file it asked for the solvent's activity), and a
-    /// different file is a different answer however alike the sentences
-    /// look.
+    /// slots and the nesting. The second-speciation clause is the one
+    /// that matters: it names the dataset it asked for the solvent's
+    /// activity, and a different file is a different answer however alike
+    /// the sentences look. That name used to sit directly in a text slot
+    /// and now sits in a text slot at the BOTTOM of the dataset's own
+    /// recipe, which this descends into — so the file is still in the
+    /// shape, and the reliability range inside the model's recipe is
+    /// correctly a `#`, because two datasets are never told apart by a
+    /// number in a parenthesis. Their KEYS differ.
     ///
     /// Locale-free on purpose: a reader switching to German has not
     /// changed which dataset answers their beaker, and must not be told
