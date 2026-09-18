@@ -14,6 +14,7 @@
 use std::io::{BufRead, Write};
 
 use kerotakis_core::script::{parse_op, parse_vessel};
+use kerotakis_core::Locale;
 use kerotakis_core::*;
 
 use crate::{balance_text, build_stack, explain_text};
@@ -93,7 +94,11 @@ impl BenchSession {
                     .map(|w| parse_vessel(w))
                     .transpose()?
                     .unwrap_or(VesselId(0));
-                let text = explain_text(&self.bench, &mut self.paths, target)?;
+                // English, deliberately. MCP is a machine protocol: its consumer is
+                // a tool, not a reader, and a caller that parses this must not
+                // have the language change under it. The REPL passes its own
+                // locale; this does not.
+                let text = explain_text(&self.bench, &mut self.paths, target, Locale::EN)?;
                 out.push(json_explain(self.bench.log.len(), target, &text));
                 Ok(())
             }
@@ -255,7 +260,9 @@ fn call_tool(
                 Some(w) => parse_vessel(w).map_err(ToolError::Failed)?,
                 None => VesselId(0),
             };
-            explain_text(&session.bench, &mut session.paths, target).map_err(ToolError::Failed)
+            // English, for the same reason as above: a tool reads this.
+            explain_text(&session.bench, &mut session.paths, target, Locale::EN)
+                .map_err(ToolError::Failed)
         }
         "balance" => balance_text(need("equation")?).map_err(ToolError::Failed),
         "species" => {

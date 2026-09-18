@@ -1395,10 +1395,32 @@ fn material_provenance(bench: &Bench, target: VesselId) -> String {
     out
 }
 
+/// `explain`, in the reader's language.
+///
+/// The CLI localised only its errors before this: `:lang de` changed every
+/// other line it printed and left this command's labels English. They go
+/// through the ENGINE's catalogue, under `[explain]`, rather than a CLI
+/// catalogue of its own — a third file per language would break the rule
+/// that adding French is one core `.toml` and one web `.json`.
+///
+/// **The routing value is the reader's too.** Two records disagreed about
+/// this — `vessel.rs` grouped `kero explain` with the audit script and the
+/// three tests that "want the SOURCE language and would be wrong to get
+/// German", while `ROADMAP-GUI.md` said `Provenance::routing_in` was
+/// waiting for this function to gain a locale. The owner settled it on
+/// 2026-09-18: **`explain` is a user-facing command, so it answers in the
+/// reader's language.**
+///
+/// The machine consumers keep English and are untouched, because they do
+/// not read this function: `tools/chemistry-audit/analyse.py` files the
+/// `routing` FIELD verbatim from the JSON, and the three tests assert on
+/// that field. `routing_in(Locale::EN)` is byte-identical to `routing` by
+/// construction (#642), so an English session's output does not move.
 fn explain_text(
     bench: &Bench,
     paths: &mut Option<kerotakis_phreeqc::PhreeqcEquilibrator>,
     target: VesselId,
+    locale: Locale,
 ) -> Result<String, String> {
     use std::fmt::Write as _;
     let vessel = bench.vessel(target).map_err(|e| e.to_string())?;
@@ -1408,12 +1430,32 @@ fn explain_text(
         Some(p) => {
             writeln!(
                 out,
-                "  {target}: answered by {} using {}",
-                p.engine, p.dataset
+                "{}",
+                locale.fill(
+                    "explain.answered-by",
+                    "  {vessel}: answered by {engine} using {dataset}",
+                    &[
+                        ("vessel", &target.to_string()),
+                        ("engine", &p.engine),
+                        ("dataset", &p.dataset),
+                    ],
+                )
             )
             .unwrap();
-            writeln!(out, "    model:   {}", p.model).unwrap();
-            writeln!(out, "    routing: {}", p.routing).unwrap();
+            writeln!(
+                out,
+                "    {} {}",
+                locale.t("explain.model", "model:  "),
+                p.model
+            )
+            .unwrap();
+            writeln!(
+                out,
+                "    {} {}",
+                locale.t("explain.routing", "routing:"),
+                p.routing_in(locale)
+            )
+            .unwrap();
             // A vessel that cost two solves says so here, on its own line,
             // because "which dataset answered this?" has two answers for it
             // and the one above is only the first.
@@ -1424,17 +1466,33 @@ fn explain_text(
             {
                 writeln!(
                     out,
-                    "    solvent activity: a_w = {:.5} from a second speciation on {} ({}), at {:.4} mol/kgw of particles and I = {:.4}",
-                    second.water_activity,
-                    second.dataset,
-                    second.model,
-                    second.particle_molality,
-                    second.ionic_strength
+                    "    {}",
+                    locale.fill(
+                        "explain.solvent-activity",
+                        "solvent activity: a_w = {activity} from a second speciation on \
+                         {dataset} ({model}), at {molality} mol/kgw of particles and \
+                         I = {ionic_strength}",
+                        &[
+                            ("activity", &format!("{:.5}", second.water_activity)),
+                            ("dataset", &second.dataset),
+                            ("model", &second.model),
+                            ("molality", &format!("{:.4}", second.particle_molality)),
+                            ("ionic_strength", &format!("{:.4}", second.ionic_strength)),
+                        ],
+                    )
                 )
                 .unwrap();
             }
             if !p.dataset_sources.is_empty() {
-                writeln!(out, "    the dataset records its own sources, e.g.:").unwrap();
+                writeln!(
+                    out,
+                    "    {}",
+                    locale.t(
+                        "explain.dataset-sources",
+                        "the dataset records its own sources, e.g.:"
+                    )
+                )
+                .unwrap();
                 for src in &p.dataset_sources {
                     writeln!(out, "      · {src}").unwrap();
                 }
@@ -1442,7 +1500,12 @@ fn explain_text(
         }
         None => writeln!(
             out,
-            "  {target}: no aqueous solver has characterised this vessel"
+            "{}",
+            locale.fill(
+                "explain.uncharacterised",
+                "  {vessel}: no aqueous solver has characterised this vessel",
+                &[("vessel", &target.to_string())],
+            )
         )
         .unwrap(),
     }
@@ -1460,13 +1523,34 @@ fn explain_text(
     // What every other dataset says about the same vessel.
     let vessel = vessel.clone();
     match paths.as_mut() {
-        None => writeln!(out, "    (no engine available to compare paths)").unwrap(),
+        None => writeln!(
+            out,
+            "    {}",
+            locale.t(
+                "explain.no-engine",
+                "(no engine available to compare paths)"
+            )
+        )
+        .unwrap(),
         Some(engine) => {
             let compared = engine.compare_paths(&vessel);
             if compared.is_empty() {
-                writeln!(out, "    (nothing aqueous to compare)").unwrap();
+                writeln!(
+                    out,
+                    "    {}",
+                    locale.t("explain.nothing-aqueous", "(nothing aqueous to compare)")
+                )
+                .unwrap();
             } else {
-                writeln!(out, "  the same question, asked of every dataset:").unwrap();
+                writeln!(
+                    out,
+                    "  {}",
+                    locale.t(
+                        "explain.same-question",
+                        "the same question, asked of every dataset:"
+                    )
+                )
+                .unwrap();
                 for path in compared {
                     match path.outcome {
                         kerotakis_phreeqc::PathOutcome::Solved {
@@ -3001,7 +3085,7 @@ impl Session {
                     .map(|w| parse_vessel(w))
                     .transpose()?
                     .unwrap_or(VesselId(0));
-                let text = explain_text(&self.bench, &mut self.paths, target)?;
+                let text = explain_text(&self.bench, &mut self.paths, target, self.locale)?;
                 if self.json {
                     println!(
                         "{}",
