@@ -22,7 +22,7 @@
 use std::collections::BTreeMap;
 use std::sync::OnceLock;
 
-use kerotakis_core::phrase::Phrase;
+use kerotakis_core::phrase::{Phrase, Slot};
 use kerotakis_core::species::{self, Phase};
 use kerotakis_core::{
     Equilibrator, Event, Kelvin, Moles, Portion, Provenance, SolveError, SpeciesId, ThermalMode,
@@ -836,7 +836,7 @@ impl Equilibrator for ThermalEquilibrator {
                             "{name} polynomials, ideal gas + pure condensed phases",
                             vec![(
                                 "name".to_string(),
-                                kerotakis_core::phrase::Slot::text("NASA-9"),
+                                Slot::text("NASA-9"),
                             )],
                         );
                         if feed_tp_fallback {
@@ -845,7 +845,7 @@ impl Equilibrator for ThermalEquilibrator {
                                 "{model}; TP liquid-feed fallback at the explicit ignition-zone temperature",
                                 vec![(
                                     "model".to_string(),
-                                    kerotakis_core::phrase::Slot::phrase(base),
+                                    Slot::phrase(base),
                                 )],
                             )
                         } else {

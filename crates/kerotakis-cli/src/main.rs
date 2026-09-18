@@ -1552,6 +1552,12 @@ fn explain_text(
                 )
                 .unwrap();
                 for path in compared {
+                    // Said in the reader's language BEFORE the match takes
+                    // the outcome apart: `dataset_in` borrows the whole
+                    // `PathResult`, and the arms below move fields out of
+                    // it.
+                    let dataset = path.dataset_in(locale);
+                    let model = path.model_in(locale);
                     match path.outcome {
                         kerotakis_phreeqc::PathOutcome::Solved {
                             ph,
@@ -1566,28 +1572,24 @@ fn explain_text(
                             writeln!(
                                 out,
                                 "    {:<14} pH {ph:.3} · I = {ionic_strength:.4} m{solids}",
-                                path.dataset_in(locale)
+                                dataset
                             )
                             .unwrap();
-                            writeln!(out, "      {}", path.model_in(locale)).unwrap();
+                            writeln!(out, "      {model}").unwrap();
                         }
                         kerotakis_phreeqc::PathOutcome::CannotExpress { missing_elements } => {
                             writeln!(
                                 out,
                                 "    {:<14} cannot express this problem (no {})",
-                                path.dataset_in(locale),
+                                dataset,
                                 missing_elements.join(", ")
                             )
                             .unwrap()
                         }
                         kerotakis_phreeqc::PathOutcome::Failed { detail } => {
                             let short: String = detail.lines().next().unwrap_or("").into();
-                            writeln!(
-                                out,
-                                "    {:<14} could not solve it: {short}",
-                                path.dataset_in(locale)
-                            )
-                            .unwrap()
+                            writeln!(out, "    {:<14} could not solve it: {short}", dataset)
+                                .unwrap()
                         }
                     }
                 }

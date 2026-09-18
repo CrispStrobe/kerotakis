@@ -95,21 +95,21 @@ fn measured_species_moles(species: Option<&[SpeciesDetail]>, name: &str, water_k
         .unwrap_or(0.0)
 }
 
-/// What to call the dataset a solve ran on.
+/// What to call the dataset a solve ran on — the file NAME in a slot, and
+/// the clauses around it as the part a catalogue translates.
 ///
 /// Not simply `{tag}.dat`, because minteq.v4 is not run as vendored: this
 /// lab adds one reviewed lactate definition to it (see
 /// `databases::minteq_v4`). Reporting the bare filename would name a
 /// database we are not running, in the field whose entire job is to let a
 /// reader trace where a number came from.
-/// The same claim as a RECIPE: the file NAME in a slot, the clauses that
-/// say what this lab added to it as the part a catalogue translates.
 ///
-/// This is the composer the whole change is about. What it used to build
-/// was one string — *wateq4f.dat plus USBM IC 9429 reference-temperature
-/// complexes, with the reviewed Sander HBr gas-uptake slice* — in which
-/// the first token is a FILE NAME that no language translates and
-/// everything after it is an English sentence that every language must.
+/// **And that is exactly why this is a recipe and not a string.** What it
+/// used to build was one sentence — *wateq4f.dat plus USBM IC 9429
+/// reference-temperature complexes, with the reviewed Sander HBr
+/// gas-uptake slice* — in which the first token is a FILE NAME that no
+/// language translates and everything after it is English that every
+/// language must. A German reader met the whole of it in English.
 ///
 /// Two levels, and the nesting is what keeps the German honest: the
 /// Sander clause is said ONCE, in one catalogue row, and wraps whatever
