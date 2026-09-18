@@ -438,9 +438,16 @@ hydroxylapatite = "Hydroxylapatit"
 [explain]
 # `kero explain` — why this dataset answered this beaker. The CLI's own
 # labels live in the ENGINE catalogue rather than a CLI one, so adding
-# French stays one core toml and one web json. The routing VALUE is
-# deliberately NOT here: two records disagree about whether it should be
-# German, and printing it would settle a question nobody has decided.
+# French stays one core toml and one web json.
+#
+# The VALUES are not here and never will be, and the reason changed. It
+# used to be that two records disagreed about whether the routing should be
+# German. The owner settled that on 2026-09-18 — `explain` is a user-facing
+# command and answers in the reader's language — and the routing, the
+# dataset and the model are all German now. They are not rows in this
+# section because they are not the CLI's words: each is a `Phrase` the
+# SOLVER composes, and its German lives under `[routing]` and
+# `[provenance]` beside every other sentence the engine builds.
 "answered-by" = "  {vessel}: beantwortet von {engine} mit {dataset}"
 "model" = "Modell: "
 "routing" = "Weg:    "
