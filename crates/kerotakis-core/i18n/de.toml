@@ -432,6 +432,22 @@ hydroxylapatite = "Hydroxylapatit"
 "kind.gas" = "Gas"
 "from-inventory" = "  aus der Bilanz gezeichnet: es wurde keine Lösung charakterisiert, daher werden Ionenpaare und Komplexe hier nicht aufgelöst\n"
 
+[explain]
+# `kero explain` — why this dataset answered this beaker. The CLI's own
+# labels live in the ENGINE catalogue rather than a CLI one, so adding
+# French stays one core toml and one web json. The routing VALUE is
+# deliberately NOT here: two records disagree about whether it should be
+# German, and printing it would settle a question nobody has decided.
+"answered-by" = "  {vessel}: beantwortet von {engine} mit {dataset}"
+"model" = "Modell: "
+"routing" = "Weg:    "
+"uncharacterised" = "  {vessel}: kein wässriger Löser hat dieses Gefäß charakterisiert"
+"no-engine" = "(keine Engine verfügbar, um Wege zu vergleichen)"
+"dataset-sources" = "der Datensatz nennt seine eigenen Quellen, z. B.:"
+"nothing-aqueous" = "(nichts Wässriges zum Vergleichen)"
+"same-question" = "dieselbe Frage, an jeden Datensatz gestellt:"
+"solvent-activity" = "Lösungsmittel-Aktivität: a_w = {activity} aus einer zweiten Speziation auf {dataset} ({model}), bei {molality} mol/kgw an Teilchen und I = {ionic_strength}"
+
 [event]
 "vessel-created.lv1" = "Ein frisches Becherglas erscheint auf dem Labortisch: {vessel}."
 "vessel-created.lv2" = "{vessel}: neues Gefäß"

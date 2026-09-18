@@ -605,9 +605,13 @@ pub struct Provenance {
     ///
     /// Kept as a finished string because it has consumers that are not
     /// readers: `tools/chemistry-audit/analyse.py` files it verbatim as a
-    /// `routing_claim` beside the numbers it checked, `kero explain`
-    /// prints it, and three tests assert on what it says. All of those
-    /// want the SOURCE language and would be wrong to get German. When
+    /// `routing_claim` beside the numbers it checked, and three tests
+    /// assert on what it says. Those want the SOURCE language and would be
+    /// wrong to get German. **`kero explain` was listed here and should not
+    /// have been** — it is a user-facing command and answers in the
+    /// reader's language via [`Provenance::routing_in`] (owner's decision,
+    /// 2026-09-18). It reads this field only in an English session, where
+    /// the two are identical. When
     /// `routing_phrase` is present this is that recipe rendered in
     /// English, so every one of them sees exactly what it saw before.
     pub routing: String,
