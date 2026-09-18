@@ -2325,6 +2325,33 @@ from the rows, so the headline reads **"252 experiments and 500 answered
 questions"** rather than a false "752 experiments" or the old "208". The
 detail, and the three defects the move exposed, are in `HISTORY.md`.
 
+### The list that index produced is now a window — 2026-09-18
+
+One index of 752 rows drew 752 cards. Measured in Chromium over the built
+payload (730 rows there: 230 experiments, 500 questions): **12,191
+elements in one dialog**, and **3.9 s** from pressing *experiments* to the
+list being on screen with the CPU throttled 4× — the 2018-class target the
+budgets above are written for. The dozen cards that fit a viewport cost
+**1,125 elements** and **0.9 s**.
+
+So the list draws a window: the grid rows near the viewport plus three
+rows of overscan, absolutely placed inside a container stretched to the
+library's height. Rows are measured as they are drawn rather than assumed,
+because a refused question is three lines and a guided experiment with a
+kit is twenty; a row nobody has visited uses the running mean, so the
+scrollbar is up to ~28% long ahead of the reader and exact to 4 px in
+90,000 behind them. Wheel scrolling stays at one frame a step; a fling at
+646 px per frame costs more on a throttled CPU than the old list, which is
+the trade.
+
+Windowing is only safe because the in-app search greps the DESCRIPTIONS —
+and the audit that established it found **three places where it did not**:
+the safety rationale 58 guided cards print, the German procedure and
+observation lists 22 of them ship, and the refusal reason all 500
+questions draw through `t()`. All three are in the haystack now and
+`catalogEntry.test.ts` fails loudly if any is taken back out, because
+`Strg+F` is no longer there to cover for it.
+
 ## Completed GUI tasks
 
 Numbers are never renumbered and never reused. Each of these landed; the detail
