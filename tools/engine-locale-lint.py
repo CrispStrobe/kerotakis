@@ -132,6 +132,38 @@ CALL = re.compile(r'locale\s*\.\s*(?:t|fill)\s*\(\s*"([^"]+)"\s*,\s*"((?:[^"\\]|
 # format! and report the code between them as prose.
 LITERAL = re.compile(r'"((?:[^"\\\n]|\\.){6,})"')
 
+# ...and the same question asked of a `format!`'s TEMPLATE, which is the
+# half `LITERAL` cannot answer.
+#
+# `LITERAL` reads every string in the file, code included, so `PROSE`
+# below has to be strict enough that `, &vessel.to_string()), (` — the
+# text BETWEEN two literals on one line — is not reported as English. Two
+# adjacent words is that threshold, and it is the right one for a scanner
+# with no idea what it is looking at.
+#
+# The cost is a sentence whose words are all separated by holes.
+# `"{vessel}: {reaction} released {energy_j:.2} J"` carries exactly one
+# English word and no two of its words are adjacent, so it read as
+# not-prose and sat outside the denominator. Fifteen lines hid in that
+# gap until I18N-13 — one of them at lv1, one at lv2 — while this file
+# reported zero.
+#
+# A `format!`'s first argument is a TEMPLATE by construction, never code,
+# so it can be judged on its own terms: blank the holes, and a single
+# English word is enough. This is the #505 shape once more and in its
+# purest form — the instrument could not see a surface, so the surface
+# did not exist.
+FORMAT_TEMPLATE = re.compile(r'format!\(\s*\n?\s*"((?:[^"\\\n]|\\.)*)"')
+HOLE = re.compile(r"\{[^}]*\}")
+# `format!("species.{english}")` builds a lookup KEY, not a sentence.
+LOOKUP_KEY = re.compile(r"^[a-z][\w-]*(?:\.[\w-]+)*\.\{")
+# A word that is the same in every language this ships, so its presence
+# says nothing about whether the template is prose.
+UNITS = frozenset(
+    {"mol", "kJ", "Pa", "kPa", "mg", "mL", "cm", "atm", "rpm", "nm", "kgw"}
+)
+WORD = re.compile(r"[A-Za-z][A-Za-z'-]{2,}")
+
 # `locale.lookup(&format!("glassware.{}", …))`: keys under a prefix looked
 # up this way never appear as a literal at a call site, so they are used
 # even though nothing names them. Reporting them as orphans is the lint
@@ -446,17 +478,29 @@ def main() -> int:
             for lit in re.findall(r'"((?:[^"\\\n]|\\.)*)"', m.group(0)):
                 reachable_texts.add(lit)
 
+    def is_comment(at: int) -> bool:
+        """Doc comments and attributes are not output."""
+        line_start = src.rfind("\n", 0, at) + 1
+        return src[line_start:at].lstrip().startswith(("//", "#[", "///"))
+
     bare = set()
     for m in LITERAL.finditer(src):
         text = m.group(1)
         if text in reachable_texts or not PROSE.search(text):
             continue
-        # Doc comments and attributes are not output.
-        line_start = src.rfind("\n", 0, m.start()) + 1
-        line = src[line_start : m.start()]
-        if line.lstrip().startswith(("//", "#[", "///")):
+        if is_comment(m.start()):
             continue
         bare.add(text)
+    # The templates, judged as templates. See `FORMAT_TEMPLATE`.
+    for m in FORMAT_TEMPLATE.finditer(src):
+        text = m.group(1)
+        if text in reachable_texts or LOOKUP_KEY.match(text):
+            continue
+        if is_comment(m.start()):
+            continue
+        words = [w for w in WORD.findall(HOLE.sub(" ", text)) if w not in UNITS]
+        if words:
+            bare.add(text)
 
     # A key used by two DIFFERENT templates is the worst failure this
     # file can have: not a missing translation but a wrong sentence, since

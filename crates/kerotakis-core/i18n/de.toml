@@ -21,6 +21,9 @@ swept-before = ", stickstoffgespült bei "
 liquid = "Flüssigkeit"
 empty = "    (leer)"
 redox = "Redox"
+# "all iron as Fe(II)" — the one redox line that was still a bare
+# `format!`, and the only one outside `[event]` in this tranche.
+"redox-all-as" = "{element} vollständig als {state}"
 speciation = "    Speziation (mol/kgw · Aktivität · γ):"
 mixed-crystal = "Mischkristall"
 ph = "pH-Wert"
@@ -656,7 +659,7 @@ hydroxylapatite = "Hydroxylapatit"
 "cell-voltage.lv3" = "{notation}: E_cell = {volts} V im Leerlauf, kein Strom, kein Innenwiderstand modelliert (E°_cell = {standard_volts} V; die Differenz ist der Nernst-Term über die berechneten Ionenaktivitäten; ideale Salzbrücke, kein Diffusionspotential); Anode {anode}, Kathode {cathode}; {equation}"
 "acid-metal-cell-voltage.lv1" = "Zink und Kupfer in Säure bieten ungefähr {volts} V — Elektronen würden vom Zink bei {anode} zur Kupferoberfläche bei {cathode} fließen. Dies ist eine Voltmeter-Schätzung, kein Versprechen über den Strom, den eine Zitrone liefern kann."
 "acid-metal-cell-voltage.lv2" = "Zn | Zn²⁺(Einheitsaktivität als Schätzung) ‖ H⁺(pH {ph}) | H₂ an Cu: E ≈ {volts} V im Leerlauf; Zink ist die Anode bei {anode}, Kupfer die inerte Oberfläche für die Wasserstoffentwicklung bei {cathode}. Die Zinkionenaktivität wurde nicht gemessen; dies ist eine begrenzte Lehrschätzung. Innenwiderstand, Strom, Leistung und Lebensdauer werden nicht modelliert"
-"chromatographed.lv3" = "{vessel}: N={plates}, t0={void_time_s}s, β=0,5; K = γ∞(water)/γ∞(alkane) aus demselben UNIFAC, nach dem auch der Scheidetrichter verteilt; tR = t0·(1+K·β), w = 4·tR/√N — {table}{unseen}"
+"chromatographed.lv3" = "{vessel}: N={plates}, t0={void_time_s}s, β=0,5; {method}; tR = t0·(1+K·β), w = 4·tR/√N, Rf = Kβ_Papier/(1+Kβ_Papier) auf einem 100-mm-Streifen — {table}{unseen}"
 "consumed.lv1-being-used" = "Das {name} in {vessel} wird verbraucht."
 "consumed.lv1-some-used" = "Ein Teil des {name} in {vessel} wird verbraucht."
 "did-not-ignite.lv3" = "{vessel}: nichts entzündet"
@@ -888,6 +891,85 @@ hydroxylapatite = "Hydroxylapatit"
 "transition-point.wet.lv1" = "Die Probe ist noch feucht. Trockne sie zuerst — eine feuchte Probe schmilzt zu niedrig und unsauber, und der Messwert wäre eine Lüge."
 "transition-point.wet.lv2" = "{vessel} {what}: Die Probe ist nicht isoliert — im Gefäß befindet sich neben {subject} noch etwas einer anderen Phase. Trockne oder trenne sie zuerst"
 "transition-point.wet.lv3" = "{vessel} {what}: abgelehnt — {subject} ist zwar der einzige Stoff der gewünschten Phase, es ist aber Materie einer anderen Phase vorhanden; damit ist dies eine feuchte oder gelöste Probe und keine isolierte. {boundary}"
+
+# I18N-13. The lv3 evidence lines that were still a bare `format!`.
+#
+# `I18N.md` used to record the 27 of them as "counted separately on
+# purpose" — the working, for a reader who asked for it. That exemption is
+# withdrawn: lv3 is a register a reader SELECTS, and a register a reader
+# selects is a user-facing surface. The lines below are the rest of that
+# surface in German.
+#
+# They are terse on purpose. lv1 narrates and lv2 summarises; lv3 hands
+# over the arithmetic and the boundary of the claim, and German keeps the
+# same register rather than smoothing it into prose.
+"spill-created.lv3" = "{source}: {percent} % in die Verschüttung auf {where} übergegangen"
+"container-broken.lv3" = "{vessel}: Gefäß bei {impulse} N·s zerbrochen; der Inhalt landete auf {where}"
+"collision-withstood.lv3" = "{vessel}: Stoß bei {impulse} N·s überstanden"
+"spill-recovered.lv3" = "Verschüttung auf {where}: {percent} % in {to} zurückgeholt"
+"spill-hazard.lv3" = "Verschüttung auf {where} ({severity}): {hazard}; {real_world}"
+"hazard-warning.lv3" = "GEFAHR [{severity}] (L0): {hazard}; {real_world}"
+"fermented.lv3" = "{vessel}: Hefe vergor {sucrose} mol Saccharose in {seconds} s → {ethanol} mol Ethanol + {co2} mol CO2 ({yeast} g wirksame Hefe)"
+"hydrolysed.lv3" = "{vessel}: begrenzte {family}-Aktivität hat {mass} g {substrate} in {material} hydrolysiert; {percent} % umgesetzt. Die Produkte verbleiben im erhaltenen, nicht aufgelösten Material: Es wird kein benanntes Produktinventar behauptet."
+"surface-spread.lv3" = "{vessel}: {material} — die freie Fläche in der Mitte wuchs von {from} % auf {to} %"
+"surface-colour-spread.lv3" = "{vessel}: {spots} Farbfleck(en) an der Oberfläche breiteten sich von {from} % auf {to} % aus"
+"surface-colour-mixed.lv3" = "{vessel}: {spots} Farbfleck(en) an der Oberfläche homogenisiert"
+"emulsion-changed.lv3" = "{vessel}: begrenzte Emulsionsantwort auf Rezeptebene {from} → {to}; dispergiert {volume} L; Halbwertszeit {half_life} s — keine Aussage über CMC, Tröpfchenverteilung oder CFD"
+"curdling-changed.lv3" = "{vessel}: begrenzte Säuregerinnungs-Antwort {from} → {to}; Trennungsfortschritt {progress}; Quarkfeststoff {mass} g aus {acid_moles} mol {acid}; erhaltene Gesamtmasse, keine Aussage über Casein-Speziation oder Nassausbeute"
+"headspace-partitioned.lv3" = "{vessel}: {name} Flüssigkeit → Gasraum, {moles} mol; Gasanteil {fraction}, p = {pa} Pa, H = {henry} mol/(L·atm) — {source}"
+"headspace-partitioned.lv3-back" = "{vessel}: {name} Gasraum → Flüssigkeit, {moles} mol; Gasanteil {fraction}, p = {pa} Pa, H = {henry} mol/(L·atm) — {source}"
+"material-layers-formed.lv3" = "{vessel}: geprüfte Materialschicht-Rolle — das nicht aufgelöste {upper_material} ist mit der wässrigen Phase nicht mischbar und liegt über {lower}; dies ist keine molekulare LLE-Rechnung"
+"distilled.lv3-modelled" = "{from} → {to}: {contents}; {at} K → {ended} K; {stages} Boden/Böden; {energy} kJ latente Wärme. {model}"
+"precipitated.lv3" = "{vessel}: {moles} mol {name} ausgefallen"
+"precipitated.lv3-dry" = "{vessel}: {moles} mol {name} als kondensiertes Produkt entstanden (trockenes Gefäß)"
+"below-autoignition.lv3" = "{vessel}: {name} mit Sauerstoff bei {at} K, unter seiner Zündtemperatur von {needs} K; kein Funke, also hält sich der thermische Löser heraus"
+"sealed-cell.lv3" = "{vessel}: {material}, geprüfte Entladung {reaction} bei {volts} V Leerlaufspannung. Die Reaktion wird BENANNT und nicht gerechnet — ihre Produkte haben in dieser Registry keine Spezies und es wird keine Ladung mitgeführt —, also bleibt die Bilanz unberührt und die Masse des Objekts ist von der Konstruktion her erhalten, nicht durch Rechnung über Produkte"
+"polymer-heated.lv3-softened" = "{vessel}: {name} bei {kelvin} K, über dem geprüften Erweichungspunkt {limit} K — Kettengleiten, reversibel; es wird weder eine Viskosität noch eine Fließgeschwindigkeit behauptet"
+"polymer-heated.lv3-charred" = "{vessel}: {name} bei {kelvin} K, über der geprüften Zersetzungstemperatur {limit} K — irreversibel; die Pyrolyseprodukte sind nicht modelliert und die Bilanz bleibt unberührt"
+"polymer-heated.lv3-network" = "{vessel}: {name} bei {kelvin} K, vernetzt — bei keiner Temperatur existiert ein Erweichungspunkt; die nächstgelegene Schwelle ist die Zersetzung bei {limit} K"
+"polymer-heated.lv3-rigid" = "{vessel}: {name} bei {kelvin} K, unter dem geprüften Erweichungspunkt {limit} K"
+"corroded.lv3" = "{vessel}: {name} korrodiert: {why}"
+"corroded.lv3-spared" = "{vessel}: {name} korrodiert nicht: {why}"
+"adsorbed.lv3" = "{vessel}: {dye} an {solid}, {held} mol bei {loading} mg/g gebunden, {left} mol noch gelöst. Grenze: {boundary}"
+
+# I18N-13, second tranche: the lines the LINT could not see either.
+#
+# `engine-locale-lint.py` found prose by looking for two adjacent English
+# words, which is blind to a sentence whose words are all separated by
+# holes — "{vessel}: {reaction} released {energy} J" has exactly one
+# English word in it and reads as prose to a person. Fifteen more lines
+# hid in that gap, one of them at lv2 and one at lv1. The lint now reads
+# a `format!`'s TEMPLATE on its own terms, so they are counted; these are
+# their German.
+"gas-produced.lv3" = "{vessel}: {moles} mol {species} entstanden ({rate} mol/s)"
+"reaction-heat-released.lv3" = "{vessel}: {reaction} setzte {energy} J frei"
+"foam-changed.lv3" = "{vessel}: Schaum {volume} L, {height} cm hoch, Überlauf {overflow} L"
+"uv-attenuated.lv3" = "{vessel}: {name} lässt {fraction} von {nm} nm durch ({band}); {mechanism}"
+"magnet-separated.lv3-separated" = "{from} → {to}: magnetisch angezogen: {attracted}; nicht magnetisch verblieben: {remained}"
+"magnet-separated.lv3-nothing-remained" = "keine"
+"org-reacted.lv3" = "{vessel}: {name}, {equation}, Umsatz {extent} mol. Grenze: {boundary}"
+"smelled.lv2-wafted" = "{vessel}: gefächelt — {list}"
+"dissolved.lv3" = "{vessel}: {moles} mol {name} gelöst"
+"inert.lv3" = "{vessel}: {name} inert: {why}"
+"observed.lv3" = "{vessel}: {appearance} (Flüssigkeit {colour}, Trübung {turbidity})"
+"no-cell.lv3" = "{a}–{b}: keine Zelle: {why}"
+"state-changed.lv1-generic" = "Das {name} in {vessel} {verb}."
+"reacted.lv3-catalyst" = " (Katalysator: {c})"
+"solver-failed.lv3" = "{vessel}: Löser '{solver}' fehlgeschlagen: {detail}"
+
+# Moved, not invented. `chromatographed.lv3` above carried this clause
+# written into its own template, so the `{method}` hole the English grew —
+# the one that says whether a K was computed or reviewed — could never
+# reach a German reader at all. The German below is that row's own words,
+# lifted out of it.
+#
+# One word IS changed, and deliberately: the row said "γ∞(water)/γ∞(alkane)"
+# while `chromatographed.lv3-method-mixed`, which fills the SAME hole when
+# a curated K is on the column, says "γ∞(Wasser)/γ∞(Alkan)". Two spellings
+# for one formula was invisible while only one of them could ever render;
+# now that they are alternatives at one hole, a German reader would see the
+# sentence spell its own symbols two ways depending on the dye.
+"chromatographed.lv3-method-unifac" = "K = γ∞(Wasser)/γ∞(Alkan) aus demselben UNIFAC, nach dem auch der Scheidetrichter verteilt"
 
 # The melting/boiling apparatus, looked up by value.
 #
@@ -1711,3 +1793,33 @@ below-the-hydrogen-line = "Das liegt unterhalb der Wasserstofflinie des Wassers 
 curated-fuel-table = "NASA CEA führt für diesen Brennstoff keine Thermochemie, deshalb hat die kuratierte Tabelle geantwortet, statt dass das Gefäß an die Modellgrenze stößt"
 cea-feed-tp-fallback = "flüssiger Brennstoff nutzte CEAs eigene Thermochemie für die Zuführung; HP hat nicht eingeschlossen, deshalb wurde die Zusammensetzung bei der ausdrücklich angegebenen Zündzonentemperatur gelöst, und die Reaktionsenergie wird weiterhin gesondert angegeben"
 dry-solids-and-gases = "gewählt, weil dieses Gefäß trockene Feststoffe und Gase enthält, die die wässrige Rechenmaschine nicht modelliert"
+
+# Where a spill ended up, by the VARIANT that named it.
+#
+# `SpillDestination` reached every register as `{:?}` — `Bench { zone:
+# "react" }`, Rust's own syntax, inside a German sentence. The zone stays
+# verbatim because the bench assigns it as an identifier: translating one
+# would rename it.
+#
+# These are worded as DESIGNATORS and carry no article, the way a platform
+# is "Gleis 3". The same row has to serve "ergießt sich auf {where}" and
+# "Verschüttung auf {where}" and "Material von {where}"; an article would
+# have to choose accusative or dative and would be wrong at the others.
+[spill-site]
+bench = "Labortisch (Bereich {zone})"
+tray = "Tablett {tray}"
+floor = "Boden (Bereich {zone})"
+waste = "Abfallbehälter"
+
+# Which enzyme did it, looked up by the variant's own name.
+#
+# Nearly the same word in both languages, which is exactly why it was
+# never noticed: a German reader was shown `Lactase` and — at lv1, which
+# folded the case — `lactase`, which German does not do to a noun.
+[enzyme-family]
+Lactase = "Laktase"
+Protease = "Protease"
+Lipase = "Lipase"
+Catalase = "Katalase"
+Pepsin = "Pepsin"
+Bromelain = "Bromelain"

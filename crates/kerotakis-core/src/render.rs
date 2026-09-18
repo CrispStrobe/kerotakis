@@ -290,6 +290,78 @@ fn material_name(locale: Locale, typed: &str) -> String {
         .map_or(english, str::to_string)
 }
 
+/// Which enzyme did it, as a word rather than as a Rust variant.
+///
+/// `{family:?}` prints `Lactase`. The word is nearly the same in German —
+/// `Laktase`, `Katalase` — and "nearly" is the whole problem: a reader in
+/// German got the English spelling, and lv1 additionally lower-cased it,
+/// which German does not do to a noun.
+///
+/// So the fold is applied to the FALLBACK only. A catalogue row is a word
+/// a translator wrote, capitalisation included; the Rust variant name is
+/// Title Case by construction and is the only thing lv1 may safely fold.
+fn enzyme_family_name(
+    locale: Locale,
+    family: &crate::enzyme::EnzymeFamily,
+    lower_case: bool,
+) -> String {
+    let english = format!("{family:?}");
+    match locale.lookup(&format!("enzyme-family.{english}")) {
+        Some(word) => word.to_string(),
+        None if lower_case => english.to_lowercase(),
+        None => english,
+    }
+}
+
+/// How bad L0 thinks it is, in the reader's language.
+///
+/// `{severity:?}` is `Caution`/`Danger` — the variant's Rust name. The
+/// `[severity]` rows have said "Vorsicht"/"Gefahr" since the hazard
+/// warning was translated; this is the same lookup, lifted out of that one
+/// call site so the spill hazard's own line can reach it.
+fn severity_name(locale: Locale, severity: &crate::solve::Severity) -> String {
+    let english = format!("{severity:?}");
+    locale
+        .lookup(&format!("severity.{english}"))
+        .map_or(english, str::to_string)
+}
+
+/// Where a spill ended up, as a name rather than as Rust.
+///
+/// `SpillDestination` is an enum with fields, so `{:?}` renders it
+/// `Bench { zone: "react" }` — Rust's own syntax, mid-sentence, in
+/// whatever language the sentence is in. Every register printed that,
+/// lv1 included, and #649's brief named it as the hazard to avoid while
+/// translating the lv3 lines that carry it.
+///
+/// The VARIANT chooses a key and the zone rides in a slot, because a zone
+/// is an identifier the bench assigns: translating one would rename it.
+///
+/// The German rows are worded as a DESIGNATOR and carry no article —
+/// "Labortisch (Bereich react)", the way a platform is "Gleis 3". One row
+/// then serves `auf {where}` and `von {where}` alike; an article would
+/// have to pick accusative or dative and be wrong at the other call site.
+/// English keeps its article, because English has only the one form.
+fn spill_site_name(locale: Locale, destination: &crate::authority::SpillDestination) -> String {
+    use crate::authority::SpillDestination as D;
+    match destination {
+        D::Bench { zone } => locale.fill(
+            "spill-site.bench",
+            "the bench (zone {zone})",
+            &[("zone", zone)],
+        ),
+        D::Tray { tray } => locale.fill("spill-site.tray", "the tray {tray}", &[("tray", tray)]),
+        D::Floor { zone } => locale.fill(
+            "spill-site.floor",
+            "the floor (zone {zone})",
+            &[("zone", zone)],
+        ),
+        D::Waste => locale
+            .t("spill-site.waste", "the waste container")
+            .to_string(),
+    }
+}
+
 /// What Faraday's law does not tell you, appended to the line that used it.
 ///
 /// The law converts charge to moles exactly. It is silent on how the charge
@@ -421,7 +493,7 @@ pub fn render_vessel_in(v: &Vessel, register: Register, locale: Locale) -> Vec<S
             locale.t("vessel.liquid", "liquid")
         ))
     ));
-    if let Some(redox) = redox_words(v.solution.as_ref()) {
+    if let Some(redox) = redox_words(locale, v.solution.as_ref()) {
         out.push(format!(
             "    {} — {redox}",
             locale.t("vessel.redox", "redox")
@@ -490,7 +562,7 @@ pub fn render_vessel_in(v: &Vessel, register: Register, locale: Locale) -> Vec<S
     out
 }
 
-fn redox_words(solution: Option<&SolutionInfo>) -> Option<String> {
+fn redox_words(locale: Locale, solution: Option<&SolutionInfo>) -> Option<String> {
     let s = solution?;
     let mut elements: Vec<&str> = s.redox.iter().map(|r| r.element.as_str()).collect();
     elements.sort_unstable();
@@ -511,11 +583,21 @@ fn redox_words(solution: Option<&SolutionInfo>) -> Option<String> {
             .filter(|state| state.molality / total >= 0.005)
             .collect();
         if visible.len() == 1 {
-            parts.push(format!("all {element} as {}", visible[0].label()));
+            parts.push(locale.fill(
+                "vessel.redox-all-as",
+                "all {element} as {state}",
+                &[("element", element), ("state", &visible[0].label())],
+            ));
         } else if !visible.is_empty() {
             let split: Vec<_> = visible
                 .iter()
-                .map(|state| format!("{:.0}% {}", 100.0 * state.molality / total, state.label()))
+                .map(|state| {
+                    format!(
+                        "{}% {}",
+                        locale.number(format!("{:.0}", 100.0 * state.molality / total)),
+                        state.label()
+                    )
+                })
                 .collect();
             parts.push(format!("{element}: {}", split.join(", ")));
         }
@@ -641,12 +723,17 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 "Material from {source} spills onto {where}.",
                 &[
                     ("source", &source.to_string()),
-                    ("where", &format!("{destination:?}")),
+                    ("where", &spill_site_name(locale, destination)),
                 ],
             ),
-            _ => format!(
-                "{source}: {:.3}% transferred to spill {destination:?}",
-                fraction * 100.0
+            _ => locale.fill(
+                "event.spill-created.lv3",
+                "{source}: {percent}% transferred to the spill at {where}",
+                &[
+                    ("source", &source.to_string()),
+                    ("percent", &locale.number(format!("{:.3}", fraction * 100.0))),
+                    ("where", &spill_site_name(locale, destination)),
+                ],
             ),
         },
         Event::ContainerBroken {
@@ -660,10 +747,18 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 "{vessel} breaks; its contents spill onto {where}.",
                 &[
                     ("vessel", &vessel.to_string()),
-                    ("where", &format!("{destination:?}")),
+                    ("where", &spill_site_name(locale, destination)),
                 ],
             ),
-            _ => format!("{vessel}: container broke at {impulse_ns:.3} N·s; destination {destination:?}"),
+            _ => locale.fill(
+                "event.container-broken.lv3",
+                "{vessel}: container broke at {impulse} N·s; the contents went to {where}",
+                &[
+                    ("vessel", &vessel.to_string()),
+                    ("impulse", &locale.number(format!("{impulse_ns:.3}"))),
+                    ("where", &spill_site_name(locale, destination)),
+                ],
+            ),
         },
         Event::CollisionWithstood {
             vessel, impulse_ns, ..
@@ -673,7 +768,14 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 "{vessel} is knocked but stays intact.",
                 &[("vessel", &vessel.to_string())],
             ),
-            _ => format!("{vessel}: collision withstood at {impulse_ns:.3} N·s"),
+            _ => locale.fill(
+                "event.collision-withstood.lv3",
+                "{vessel}: collision withstood at {impulse} N·s",
+                &[
+                    ("vessel", &vessel.to_string()),
+                    ("impulse", &locale.number(format!("{impulse_ns:.3}"))),
+                ],
+            ),
         },
         Event::SpillRecovered {
             destination,
@@ -684,13 +786,18 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 "event.spill-recovered.lv1",
                 "Material from {where} is recovered into {to}.",
                 &[
-                    ("where", &format!("{destination:?}")),
+                    ("where", &spill_site_name(locale, destination)),
                     ("to", &to.to_string()),
                 ],
             ),
-            _ => format!(
-                "spill {destination:?}: {:.3}% recovered into {to}",
-                fraction * 100.0
+            _ => locale.fill(
+                "event.spill-recovered.lv3",
+                "spill at {where}: {percent}% recovered into {to}",
+                &[
+                    ("where", &spill_site_name(locale, destination)),
+                    ("percent", &locale.number(format!("{:.3}", fraction * 100.0))),
+                    ("to", &to.to_string()),
+                ],
             ),
         },
         Event::Discarded {
@@ -796,12 +903,21 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 "event.spill-hazard.lv1",
                 "Hazard at spill {where}: {hazard} {real_world}",
                 &[
-                    ("where", &format!("{destination:?}")),
+                    ("where", &spill_site_name(locale, destination)),
                     ("hazard", hazard),
                     ("real_world", real_world),
                 ],
             ),
-            _ => format!("spill {destination:?}: {severity:?}: {hazard}; {real_world}"),
+            _ => locale.fill(
+                "event.spill-hazard.lv3",
+                "spill at {where} ({severity}): {hazard}; {real_world}",
+                &[
+                    ("where", &spill_site_name(locale, destination)),
+                    ("severity", &severity_name(locale, severity)),
+                    ("hazard", hazard),
+                    ("real_world", real_world),
+                ],
+            ),
         },
         Event::Added {
             vessel,
@@ -919,9 +1035,15 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 "{vessel}: {species} bubbles are being made.",
                 &[("vessel", &vessel.to_string()), ("species", &species.to_string())],
             ),
-            _ => format!(
-                "{vessel}: {:.6} mol {species} produced ({rate_moles_per_second:.3e} mol/s)",
-                moles.0
+            _ => locale.fill(
+                "event.gas-produced.lv3",
+                "{vessel}: {moles} mol {species} produced ({rate} mol/s)",
+                &[
+                    ("vessel", &vessel.to_string()),
+                    ("moles", &locale.number(format!("{:.6}", moles.0))),
+                    ("species", &species.to_string()),
+                    ("rate", &locale.number(format!("{rate_moles_per_second:.3e}"))),
+                ],
             ),
         },
         Event::Fermented {
@@ -937,11 +1059,17 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 "Yeast feeds on sugar in {vessel}, making alcohol and carbon-dioxide bubbles.",
                 &[("vessel", &vessel.to_string())],
             ),
-            _ => format!(
-                "{vessel}: yeast fermented {:.6} mol sucrose in {seconds:.0} s → {:.6} mol ethanol + {:.6} mol CO2 ({active_yeast_grams:.3} g effective yeast)",
-                sucrose_moles.0,
-                ethanol_moles.0,
-                carbon_dioxide_moles.0,
+            _ => locale.fill(
+                "event.fermented.lv3",
+                "{vessel}: yeast fermented {sucrose} mol sucrose in {seconds} s → {ethanol} mol ethanol + {co2} mol CO2 ({yeast} g effective yeast)",
+                &[
+                    ("vessel", &vessel.to_string()),
+                    ("sucrose", &locale.number(format!("{:.6}", sucrose_moles.0))),
+                    ("seconds", &locale.number(format!("{seconds:.0}"))),
+                    ("ethanol", &locale.number(format!("{:.6}", ethanol_moles.0))),
+                    ("co2", &locale.number(format!("{:.6}", carbon_dioxide_moles.0))),
+                    ("yeast", &locale.number(format!("{active_yeast_grams:.3}"))),
+                ],
             ),
         },
         Event::EnzymeHydrolysed {
@@ -957,7 +1085,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 "event.enzyme-hydrolysed.lv1",
                 "The {family} in {vessel} is cutting up {substrate} from {material}.",
                 &[
-                    ("family", &format!("{family:?}").to_lowercase()),
+                    ("family", &enzyme_family_name(locale, family, true)),
                     ("vessel", &vessel.to_string()),
                     ("substrate", substrate),
                     ("material", &material_name(locale, material)),
@@ -968,20 +1096,27 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 "{vessel}: {family} hydrolysed {mass} of {substrate} in {seconds} s ({percent}% converted)",
                 &[
                     ("vessel", &vessel.to_string()),
-                    // lv1 lower-cases this; lv2 never did, and changing
-                    // the English here would be a rewording rather than a
-                    // translation fix.
-                    ("family", &format!("{family:?}")),
+                    // lv1 folds the case, lv2 never did — and neither may
+                    // touch a word a catalogue supplied. See
+                    // `enzyme_family_name`.
+                    ("family", &enzyme_family_name(locale, family, false)),
                     ("mass", &grams_amount(locale, *hydrolysed_mass_g)),
                     ("substrate", substrate),
                     ("seconds", &locale.number(format!("{seconds:.0}"))),
                     ("percent", &locale.number(format!("{:.1}", converted_fraction * 100.0))),
                 ],
             ),
-            _ => format!(
-                "{vessel}: {:?} bounded activity hydrolysed {hydrolysed_mass_g:.6} g of {substrate} in {material}; {:.3}% converted. Products remain in conserved unresolved material: no named product inventory is claimed.",
-                family,
-                converted_fraction * 100.0,
+            _ => locale.fill(
+                "event.hydrolysed.lv3",
+                "{vessel}: bounded {family} activity hydrolysed {mass} g of {substrate} in {material}; {percent}% converted. Products remain in conserved unresolved material: no named product inventory is claimed.",
+                &[
+                    ("vessel", &vessel.to_string()),
+                    ("family", &enzyme_family_name(locale, family, false)),
+                    ("mass", &locale.number(format!("{hydrolysed_mass_g:.6}"))),
+                    ("substrate", substrate),
+                    ("material", &material_name(locale, material)),
+                    ("percent", &locale.number(format!("{:.3}", converted_fraction * 100.0))),
+                ],
             ),
         },
         Event::ReactionHeatReleased {
@@ -994,7 +1129,15 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 "{vessel} grows warmer as the reaction runs.",
                 &[("vessel", &vessel.to_string())],
             ),
-            _ => format!("{vessel}: {reaction} released {energy_j:.2} J"),
+            _ => locale.fill(
+                "event.reaction-heat-released.lv3",
+                "{vessel}: {reaction} released {energy} J",
+                &[
+                    ("vessel", &vessel.to_string()),
+                    ("reaction", reaction),
+                    ("energy", &locale.number(format!("{energy_j:.2}"))),
+                ],
+            ),
         },
         Event::FoamChanged {
             vessel,
@@ -1015,8 +1158,15 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 "Foam rises in {vessel}.",
                 &[("vessel", &vessel.to_string())],
             ),
-            _ => format!(
-                "{vessel}: foam {volume_liters:.3} L, {height_cm:.1} cm high, overflow {overflow_liters:.3} L"
+            _ => locale.fill(
+                "event.foam-changed.lv3",
+                "{vessel}: foam {volume} L, {height} cm high, overflow {overflow} L",
+                &[
+                    ("vessel", &vessel.to_string()),
+                    ("volume", &locale.number(format!("{volume_liters:.3}"))),
+                    ("height", &locale.number(format!("{height_cm:.1}"))),
+                    ("overflow", &locale.number(format!("{overflow_liters:.3}"))),
+                ],
             ),
         },
         Event::SurfaceSpread {
@@ -1031,10 +1181,15 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 "The {material} darts away from the soap in {vessel}!",
                 &[("material", &material_name(locale, material)), ("vessel", &vessel.to_string())],
             ),
-            _ => format!(
-                "{vessel}: {material} central clearing increased from {:.0}% to {:.0}%",
-                100.0 * from_cleared_fraction,
-                100.0 * to_cleared_fraction
+            _ => locale.fill(
+                "event.surface-spread.lv3",
+                "{vessel}: {material} central clearing increased from {from}% to {to}%",
+                &[
+                    ("vessel", &vessel.to_string()),
+                    ("material", &material_name(locale, material)),
+                    ("from", &locale.number(format!("{:.0}", 100.0 * from_cleared_fraction))),
+                    ("to", &locale.number(format!("{:.0}", 100.0 * to_cleared_fraction))),
+                ],
             ),
         },
         Event::SurfaceColourSpread {
@@ -1048,10 +1203,15 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 "The colours race and swirl across the milk in {vessel}!",
                 &[("vessel", &vessel.to_string())],
             ),
-            _ => format!(
-                "{vessel}: {spot_count} surface colour spot(s) spread from {:.0}% to {:.0}%",
-                100.0 * from_spread_fraction,
-                100.0 * to_spread_fraction
+            _ => locale.fill(
+                "event.surface-colour-spread.lv3",
+                "{vessel}: {spots} surface colour spot(s) spread from {from}% to {to}%",
+                &[
+                    ("vessel", &vessel.to_string()),
+                    ("spots", &spot_count.to_string()),
+                    ("from", &locale.number(format!("{:.0}", 100.0 * from_spread_fraction))),
+                    ("to", &locale.number(format!("{:.0}", 100.0 * to_spread_fraction))),
+                ],
             ),
         },
         Event::SurfaceColourMixed { vessel, spot_count } => match register.level() {
@@ -1060,7 +1220,14 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 "Stirring blends the surface colours through {vessel}.",
                 &[("vessel", &vessel.to_string())],
             ),
-            _ => format!("{vessel}: homogenized {spot_count} surface colour spot(s)"),
+            _ => locale.fill(
+                "event.surface-colour-mixed.lv3",
+                "{vessel}: homogenized {spots} surface colour spot(s)",
+                &[
+                    ("vessel", &vessel.to_string()),
+                    ("spots", &spot_count.to_string()),
+                ],
+            ),
         },
         Event::TemperatureChanged { vessel, from, to } => {
             let d = to.0 - from.0;
@@ -1328,12 +1495,16 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     ("half_life", &locale.number(format!("{half_life_seconds:.0}"))),
                 ],
             ),
-            _ => format!(
-                "{vessel}: bounded recipe-level emulsion {:.6} → {:.6}; dispersed {:.9} L; half-life {:.3} s — no CMC, droplet distribution or CFD claim",
-                from_dispersed_fraction,
-                to_dispersed_fraction,
-                dispersed_volume_l,
-                half_life_seconds,
+            _ => locale.fill(
+                "event.emulsion-changed.lv3",
+                "{vessel}: bounded recipe-level emulsion {from} → {to}; dispersed {volume} L; half-life {half_life} s — no CMC, droplet distribution or CFD claim",
+                &[
+                    ("vessel", &vessel.to_string()),
+                    ("from", &locale.number(format!("{from_dispersed_fraction:.6}"))),
+                    ("to", &locale.number(format!("{to_dispersed_fraction:.6}"))),
+                    ("volume", &locale.number(format!("{dispersed_volume_l:.9}"))),
+                    ("half_life", &locale.number(format!("{half_life_seconds:.3}"))),
+                ],
             ),
         },
         Event::Thickened {
@@ -1438,14 +1609,18 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     ("mass", &locale.number(format!("{curd_solids_mass_g:.2}"))),
                 ],
             ),
-            _ => format!(
-                "{vessel}: bounded acid-curdling response {:.6} → {:.6}; separation progress {:.6}; curd solids {:.6} g from {:.9} mol {}; conserved aggregate, no casein-speciation or wet-yield claim",
-                from_formed_fraction,
-                to_formed_fraction,
-                separation_progress,
-                curd_solids_mass_g,
-                acid_moles.0,
-                acid_species.0,
+            _ => locale.fill(
+                "event.curdling-changed.lv3",
+                "{vessel}: bounded acid-curdling response {from} → {to}; separation progress {progress}; curd solids {mass} g from {acid_moles} mol {acid}; conserved aggregate, no casein-speciation or wet-yield claim",
+                &[
+                    ("vessel", &vessel.to_string()),
+                    ("from", &locale.number(format!("{from_formed_fraction:.6}"))),
+                    ("to", &locale.number(format!("{to_formed_fraction:.6}"))),
+                    ("progress", &locale.number(format!("{separation_progress:.6}"))),
+                    ("mass", &locale.number(format!("{curd_solids_mass_g:.6}"))),
+                    ("acid_moles", &locale.number(format!("{:.9}", acid_moles.0))),
+                    ("acid", species_name(locale, acid_species)),
+                ],
             ),
         },
         Event::Ground {
@@ -1584,8 +1759,17 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     "{vessel}: {name} transmits {percent}% at {nm} nm ({band}) — {mechanism}",
                     &[("vessel", &vessel.to_string()), ("name", material), ("percent", &percent), ("nm", &nm), ("band", band), ("mechanism", mechanism)],
                 ),
-                _ => format!(
-                    "{vessel}: {material} transmits {transmitted_fraction:.4} of {wavelength_nm:.1} nm ({band}); {mechanism}"
+                _ => locale.fill(
+                    "event.uv-attenuated.lv3",
+                    "{vessel}: {name} transmits {fraction} of {nm} nm ({band}); {mechanism}",
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("name", material),
+                        ("fraction", &locale.number(format!("{transmitted_fraction:.4}"))),
+                        ("nm", &locale.number(format!("{wavelength_nm:.1}"))),
+                        ("band", band),
+                        ("mechanism", mechanism),
+                    ],
                 ),
             }
         }
@@ -1602,6 +1786,20 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             let name = species_name(locale, sid);
             let percent = locale.number(format!("{:.1}", gas_fraction * 100.0));
             let kpa = locale.number(format!("{:.3}", partial_pressure_pa / 1000.0));
+            // lv3's values. The TUPLES are written out at each call site
+            // rather than shared, even though the two directions supply
+            // the same six: `tools/i18n-holes-lint.py` reads the literal
+            // `&[("name", …), …]` after a template to check that every
+            // hole has something to fill it, and a list bound to a
+            // variable is invisible to it. The first shape of this commit
+            // used one array for both arms and the preflight gate caught
+            // it — correctly, because a call it cannot read is a call it
+            // cannot check.
+            let vessel_s = vessel.to_string();
+            let moles_s6 = locale.number(format!("{:.6}", moles.0));
+            let fraction_s = locale.number(format!("{gas_fraction:.4}"));
+            let pa_s = locale.number(format!("{partial_pressure_pa:.1}"));
+            let henry_s = locale.number(format!("{henry_mol_per_l_atm:.3}"));
             let moles_s = moles_amount(locale, moles.0);
             match (register.level(), *to_gas) {
                 (1, true) => locale.fill(
@@ -1624,10 +1822,36 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     "{vessel}: {moles} {name} headspace → liquid; {percent}% in the gas at {kpa} kPa partial pressure (Henry's law)",
                     &[("vessel", &vessel.to_string()), ("moles", &moles_s), ("name", name), ("percent", &percent), ("kpa", &kpa)],
                 ),
-                _ => format!(
-                    "{vessel}: {name} {} {:.6} mol; gas fraction {gas_fraction:.4}, p = {partial_pressure_pa:.1} Pa, H = {henry_mol_per_l_atm:.3} mol/(L·atm) — {source}",
-                    if *to_gas { "liquid → headspace" } else { "headspace → liquid" },
-                    moles.0
+                // Two directions, two keys. The direction used to be an
+                // `if` INSIDE the format argument — a phrase spliced into
+                // a sentence whose word order is English, which is the
+                // shape I18N.md names as English grammar compiled into a
+                // format string. lv1 and lv2 already split; lv3 now does.
+                (_, true) => locale.fill(
+                    "event.headspace-partitioned.lv3",
+                    "{vessel}: {name} liquid → headspace, {moles} mol; gas fraction {fraction}, p = {pa} Pa, H = {henry} mol/(L·atm) — {source}",
+                    &[
+                        ("vessel", vessel_s.as_str()),
+                        ("name", name),
+                        ("moles", &moles_s6),
+                        ("fraction", &fraction_s),
+                        ("pa", &pa_s),
+                        ("henry", &henry_s),
+                        ("source", source),
+                    ],
+                ),
+                _ => locale.fill(
+                    "event.headspace-partitioned.lv3-back",
+                    "{vessel}: {name} headspace → liquid, {moles} mol; gas fraction {fraction}, p = {pa} Pa, H = {henry} mol/(L·atm) — {source}",
+                    &[
+                        ("vessel", vessel_s.as_str()),
+                        ("name", name),
+                        ("moles", &moles_s6),
+                        ("fraction", &fraction_s),
+                        ("pa", &pa_s),
+                        ("henry", &henry_s),
+                        ("source", source),
+                    ],
                 ),
             }
         }
@@ -1797,10 +2021,24 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         };
                         format!("{main}{rem_part}")
                     }
-                    _ => format!(
-                        "{from} → {to}: magnetic {} attracted; non-magnetic {} remained",
-                        att.join(", "),
-                        if rem.is_empty() { "none".to_string() } else { rem.join(", ") },
+                    // `if rem.is_empty() { "none" }` put an English word
+                    // inside a format argument — the shape I18N.md names.
+                    // It is a word, so it gets a key like any other word.
+                    _ => locale.fill(
+                        "event.magnet-separated.lv3-separated",
+                        "{from} → {to}: magnetic {attracted} attracted; non-magnetic {remained} remained",
+                        &[
+                            ("from", &from.to_string()),
+                            ("to", &to.to_string()),
+                            ("attracted", &att.join(", ")),
+                            ("remained", &if rem.is_empty() {
+                                locale
+                                    .t("event.magnet-separated.lv3-nothing-remained", "none")
+                                    .to_string()
+                            } else {
+                                rem.join(", ")
+                            }),
+                        ],
                     ),
                 }
             }
@@ -1905,9 +2143,16 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 "{vessel}: {name} ran — {equation} ({extent} mol reacted)",
                 &[("vessel", &vessel.to_string()), ("name", &name.to_string()), ("equation", &equation.to_string()), ("extent", &locale.number(format!("{:.3}", extent.0)))],
             ),
-            _ => format!(
-                "{vessel}: {name}, {equation}, extent {:.6} mol. Boundary: {boundary}",
-                extent.0
+            _ => locale.fill(
+                "event.org-reacted.lv3",
+                "{vessel}: {name}, {equation}, extent {extent} mol. Boundary: {boundary}",
+                &[
+                    ("vessel", &vessel.to_string()),
+                    ("name", &name.to_string()),
+                    ("equation", &equation.to_string()),
+                    ("extent", &locale.number(format!("{:.6}", extent.0))),
+                    ("boundary", boundary),
+                ],
             ),
         },
         // The census renders itself, and has since EXP-?? — the CLI was
@@ -1973,7 +2218,11 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         "You waft the air from {vessel} toward your nose — {list}.",
                         &[("vessel", &vessel.to_string()), ("list", &list.join("; ").to_string())],
                     ),
-                    2 => format!("{vessel}: wafted — {}", list.join("; ")),
+                    2 => locale.fill(
+                        "event.smelled.lv2-wafted",
+                        "{vessel}: wafted — {list}",
+                        &[("vessel", &vessel.to_string()), ("list", &list.join("; "))],
+                    ),
                     _ => locale.fill(
                         "event.smelled.lv3",
                         "{vessel}: waft (taught technique — never a direct huff): {list}. Odour words are editorial curation in the qualitative-analysis register",
@@ -2231,8 +2480,8 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     .collect::<Vec<_>>();
                 let method = if curated.is_empty() {
                     locale
-                        .lookup("event.chromatographed.lv3-method-unifac")
-                        .unwrap_or(
+                        .t(
+                            "event.chromatographed.lv3-method-unifac",
                             "K = γ∞(water)/γ∞(alkane) from the same UNIFAC the funnel partitions on",
                         )
                         .to_string()
@@ -2355,9 +2604,14 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     ("lower", species_name(locale, lower)),
                 ],
             ),
-            _ => format!(
-                "{vessel}: reviewed material-layer role — unresolved {upper_material} is immiscible with the aqueous phase and lies above {}; this is not a molecular LLE calculation",
-                lower.0,
+            _ => locale.fill(
+                "event.material-layers-formed.lv3",
+                "{vessel}: reviewed material-layer role — unresolved {upper_material} is immiscible with the aqueous phase and lies above {lower}; this is not a molecular LLE calculation",
+                &[
+                    ("vessel", &vessel.to_string()),
+                    ("upper_material", upper_material),
+                    ("lower", species_name(locale, lower)),
+                ],
             ),
         },
         Event::Evaporated { vessel, moles } => match register.level() {
@@ -2378,8 +2632,21 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             ),
         },
         Event::Distilled { from, to, components, model, at, ended, stages, energy_kj, .. } if !model.is_empty() => {
-            let contents = components.iter().map(|(id, n)| format!("{} mol {}", locale.number(format!("{:.6}", n.0)), id.0)).collect::<Vec<_>>().join(" + ");
-            format!("{from} → {to}: {contents}; {:.2} K → {:.2} K; {stages} stage(s); {:.3} kJ latent heat. {model}", at.0, ended.0, energy_kj)
+            let contents = components.iter().map(|(id, n)| format!("{} mol {}", locale.number(format!("{:.6}", n.0)), species_name(locale, id))).collect::<Vec<_>>().join(" + ");
+            locale.fill(
+                "event.distilled.lv3-modelled",
+                "{from} → {to}: {contents}; {at} K → {ended} K; {stages} stage(s); {energy} kJ latent heat. {model}",
+                &[
+                    ("from", &from.to_string()),
+                    ("to", &to.to_string()),
+                    ("contents", &contents),
+                    ("at", &locale.number(format!("{:.2}", at.0))),
+                    ("ended", &locale.number(format!("{:.2}", ended.0))),
+                    ("stages", &stages.to_string()),
+                    ("energy", &locale.number(format!("{energy_kj:.3}"))),
+                    ("model", model),
+                ],
+            )
         },
         Event::Distilled { from, to, water, ethanol, at, ended, stages, energy_kj, azeotropic, .. } => match register.level() {
             1 => locale.fill(
@@ -2481,7 +2748,15 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         ("name", name),
                     ],
                 ),
-                _ => format!("{vessel}: {} mol {name} dissolved", quantity(moles.0, 6)),
+                _ => locale.fill(
+                    "event.dissolved.lv3",
+                    "{vessel}: {moles} mol {name} dissolved",
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("moles", &locale.number(quantity(moles.0, 6))),
+                        ("name", name),
+                    ],
+                ),
             }
         }
         Event::Neutralised { vessel, moles } => match register.level() {
@@ -2548,15 +2823,24 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         ("name", name),
                     ],
                 ),
-                _ if *dry => {
-                    format!(
-                        "{vessel}: {} mol {name} formed as a condensed product (dry vessel)",
-                        quantity(moles.0, 6)
-                    )
-                }
-                _ => {
-                    format!("{vessel}: {} mol {name} precipitated", quantity(moles.0, 6))
-                }
+                _ if *dry => locale.fill(
+                    "event.precipitated.lv3-dry",
+                    "{vessel}: {moles} mol {name} formed as a condensed product (dry vessel)",
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("moles", &locale.number(quantity(moles.0, 6))),
+                        ("name", name),
+                    ],
+                ),
+                _ => locale.fill(
+                    "event.precipitated.lv3",
+                    "{vessel}: {moles} mol {name} precipitated",
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("moles", &locale.number(quantity(moles.0, 6))),
+                        ("name", name),
+                    ],
+                ),
             }
         }
         Event::Supersaturated {
@@ -2670,7 +2954,11 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     "{vessel}: {name} does not react — {why}",
                     &[("vessel", &vessel.to_string()), ("name", name), ("why", why)],
                 ),
-                _ => format!("{vessel}: {name} inert: {why}"),
+                _ => locale.fill(
+                    "event.inert.lv3",
+                    "{vessel}: {name} inert: {why}",
+                    &[("vessel", &vessel.to_string()), ("name", name), ("why", why)],
+                ),
             }
         }
         // BRD-023: the corrosion verdict. `why` already carries the
@@ -2697,9 +2985,15 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     "{vessel}: {name} below autoignition — at {at} °C, needs {needs} °C or a spark",
                     &[("vessel", &vessel.to_string()), ("name", name), ("at", &at), ("needs", &needs)],
                 ),
-                _ => format!(
-                    "{vessel}: {name} with oxygen at {:.1} K, below its autoignition temperature of {:.1} K; no spark, so the thermal solver stands aside",
-                    temperature.0, autoignition.0
+                _ => locale.fill(
+                    "event.below-autoignition.lv3",
+                    "{vessel}: {name} with oxygen at {at} K, below its autoignition temperature of {needs} K; no spark, so the thermal solver stands aside",
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("name", name),
+                        ("at", &locale.number(format!("{:.1}", temperature.0))),
+                        ("needs", &locale.number(format!("{:.1}", autoignition.0))),
+                    ],
                 ),
             }
         }
@@ -2722,8 +3016,15 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     "{vessel}: {material} — {reaction}, about {volts} V open-circuit; sealed, so the mass is conserved",
                     &[("vessel", &vessel.to_string()), ("material", &material_name(locale, material)), ("reaction", reaction), ("volts", &volts)],
                 ),
-                _ => format!(
-                    "{vessel}: {material}, curated discharge {reaction} at {open_circuit_volts:.2} V open-circuit. The reaction is NAMED and not run — its products have no species in this registry and no charge is tracked — so the ledger is untouched and the object's mass is conserved by construction rather than by arithmetic over products"
+                _ => locale.fill(
+                    "event.sealed-cell.lv3",
+                    "{vessel}: {material}, curated discharge {reaction} at {volts} V open-circuit. The reaction is NAMED and not run — its products have no species in this registry and no charge is tracked — so the ledger is untouched and the object's mass is conserved by construction rather than by arithmetic over products",
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("material", &material_name(locale, material)),
+                        ("reaction", reaction),
+                        ("volts", &locale.number(format!("{open_circuit_volts:.2}"))),
+                    ],
                 ),
             }
         }
@@ -2742,6 +3043,14 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             let name = material.as_str();
             let at = locale.number(format!("{:.0}", temperature.to_celsius()));
             let limit = locale.number(format!("{:.0}", threshold.to_celsius()));
+            // lv3 reports kelvin rather than celsius. All four of its
+            // lines carry the same four values and only the sentence
+            // differs, but the tuples are still written at each call site:
+            // see the note in `HeadspacePartitioned` — a bound list is one
+            // `tools/i18n-holes-lint.py` cannot read.
+            let vessel_s = vessel.to_string();
+            let kelvin_s = locale.number(format!("{:.1}", temperature.0));
+            let limit_k_s = locale.number(format!("{:.1}", threshold.0));
             match (register.level(), state, cross_linked) {
                 (1, crate::ops::PolymerState::Softened, _) => locale.fill(
                     "event.polymer-heated.lv1-softened",
@@ -2783,21 +3092,45 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     "{vessel}: {name} rigid at {at} °C — below its {limit} °C softening point",
                     &[("vessel", &vessel.to_string()), ("name", name), ("at", &at), ("limit", &limit)],
                 ),
-                (_, crate::ops::PolymerState::Softened, _) => format!(
-                    "{vessel}: {name} at {:.1} K, above the reviewed softening point {:.1} K — chain slip, reversible; no viscosity or rate of flow is claimed",
-                    temperature.0, threshold.0
+                (_, crate::ops::PolymerState::Softened, _) => locale.fill(
+                    "event.polymer-heated.lv3-softened",
+                    "{vessel}: {name} at {kelvin} K, above the reviewed softening point {limit} K — chain slip, reversible; no viscosity or rate of flow is claimed",
+                    &[
+                        ("vessel", vessel_s.as_str()),
+                        ("name", name),
+                        ("kelvin", &kelvin_s),
+                        ("limit", &limit_k_s),
+                    ],
                 ),
-                (_, crate::ops::PolymerState::Charred, _) => format!(
-                    "{vessel}: {name} at {:.1} K, past the reviewed decomposition temperature {:.1} K — irreversible; the products of the pyrolysis are not modelled and the ledger is untouched",
-                    temperature.0, threshold.0
+                (_, crate::ops::PolymerState::Charred, _) => locale.fill(
+                    "event.polymer-heated.lv3-charred",
+                    "{vessel}: {name} at {kelvin} K, past the reviewed decomposition temperature {limit} K — irreversible; the products of the pyrolysis are not modelled and the ledger is untouched",
+                    &[
+                        ("vessel", vessel_s.as_str()),
+                        ("name", name),
+                        ("kelvin", &kelvin_s),
+                        ("limit", &limit_k_s),
+                    ],
                 ),
-                (_, crate::ops::PolymerState::Rigid, true) => format!(
-                    "{vessel}: {name} at {:.1} K, cross-linked — no softening point exists at any temperature; the nearest threshold is decomposition at {:.1} K",
-                    temperature.0, threshold.0
+                (_, crate::ops::PolymerState::Rigid, true) => locale.fill(
+                    "event.polymer-heated.lv3-network",
+                    "{vessel}: {name} at {kelvin} K, cross-linked — no softening point exists at any temperature; the nearest threshold is decomposition at {limit} K",
+                    &[
+                        ("vessel", vessel_s.as_str()),
+                        ("name", name),
+                        ("kelvin", &kelvin_s),
+                        ("limit", &limit_k_s),
+                    ],
                 ),
-                (_, crate::ops::PolymerState::Rigid, false) => format!(
-                    "{vessel}: {name} at {:.1} K, below the reviewed softening point {:.1} K",
-                    temperature.0, threshold.0
+                (_, crate::ops::PolymerState::Rigid, false) => locale.fill(
+                    "event.polymer-heated.lv3-rigid",
+                    "{vessel}: {name} at {kelvin} K, below the reviewed softening point {limit} K",
+                    &[
+                        ("vessel", vessel_s.as_str()),
+                        ("name", name),
+                        ("kelvin", &kelvin_s),
+                        ("limit", &limit_k_s),
+                    ],
                 ),
             }
         }
@@ -2830,10 +3163,20 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     "{vessel}: {name} does not corrode — {why}",
                     &[("vessel", &vessel.to_string()), ("name", name), ("why", why)],
                 ),
-                _ => {
-                    let verdict = if *corroding { "corroding" } else { "not corroding" };
-                    format!("{vessel}: {name} {verdict}: {why}")
-                }
+                // The verdict used to be an `if` producing an English
+                // participle spliced into an English sentence. German
+                // negates with a separate word in a different position, so
+                // the CASE picks the key and each key holds a whole line.
+                (_, true) => locale.fill(
+                    "event.corroded.lv3",
+                    "{vessel}: {name} corroding: {why}",
+                    &[("vessel", &vessel.to_string()), ("name", name), ("why", why)],
+                ),
+                (_, false) => locale.fill(
+                    "event.corroded.lv3-spared",
+                    "{vessel}: {name} not corroding: {why}",
+                    &[("vessel", &vessel.to_string()), ("name", name), ("why", why)],
+                ),
             }
         }
         Event::Adsorbed {
@@ -2875,9 +3218,18 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         ("left", &locale.number(format!("{:.6}", still_dissolved.0))),
                     ],
                 ),
-                _ => format!(
-                    "{vessel}: {dye} on {solid}, held {:.6} mol at {loading_mg_per_g:.2} mg/g, {:.6} mol still dissolved. Boundary: {boundary}",
-                    held.0, still_dissolved.0
+                _ => locale.fill(
+                    "event.adsorbed.lv3",
+                    "{vessel}: {dye} on {solid}, held {held} mol at {loading} mg/g, {left} mol still dissolved. Boundary: {boundary}",
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("dye", dye),
+                        ("solid", solid),
+                        ("held", &locale.number(format!("{:.6}", held.0))),
+                        ("loading", &locale.number(format!("{loading_mg_per_g:.2}"))),
+                        ("left", &locale.number(format!("{:.6}", still_dissolved.0))),
+                        ("boundary", boundary),
+                    ],
                 ),
             }
         }
@@ -3314,10 +3666,15 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     .liquid
                     .map(|c| format!("#{:02X}{:02X}{:02X}", c.r, c.g, c.b))
                     .unwrap_or_else(|| "—".to_string());
-                format!(
-                    "{vessel}: {} (liquid {colour}, turbidity {:.2})",
-                    appearance.say(locale),
-                    appearance.cloudiness
+                locale.fill(
+                    "event.observed.lv3",
+                    "{vessel}: {appearance} (liquid {colour}, turbidity {turbidity})",
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("appearance", &appearance.say(locale)),
+                        ("colour", &colour),
+                        ("turbidity", &locale.number(format!("{:.2}", appearance.cloudiness))),
+                    ],
                 )
             }
         },
@@ -3342,13 +3699,17 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             match (&reading.verdict, register.level()) {
                 (V::Pure, level) => {
                     let value = reading.value_c.unwrap_or_default();
-                    let outcome = reading
-                        .outcome
-                        .map(|o| o.as_str())
-                        .unwrap_or("changes state");
-                    let outcome = locale
-                        .lookup(&format!("transition.outcome.{outcome}"))
-                        .unwrap_or(outcome);
+                    // No recorded outcome: the generic verb, asked for by
+                    // name like every other word rather than hidden in an
+                    // `unwrap_or`. `[transition]` has said "wechselt den
+                    // Aggregatzustand" all along; nothing could reach it,
+                    // because the literal was never a key at a call site.
+                    let outcome = match reading.outcome {
+                        Some(o) => locale
+                            .lookup(&format!("transition.outcome.{}", o.as_str()))
+                            .unwrap_or(o.as_str()),
+                        None => locale.t("transition.outcome.changes state", "changes state"),
+                    };
                     match level {
                         1 => locale.fill(
                             "event.transition-point-read.lv1",
@@ -3713,7 +4074,15 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 "{a}–{b}: no cell — {why}",
                 &[("a", &a.to_string()), ("b", &b.to_string()), ("why", &why.to_string())],
             ),
-            _ => format!("{a}–{b}: no cell: {why}"),
+            _ => locale.fill(
+                "event.no-cell.lv3",
+                "{a}–{b}: no cell: {why}",
+                &[
+                    ("a", &a.to_string()),
+                    ("b", &b.to_string()),
+                    ("why", &why.to_string()),
+                ],
+            ),
         },
         Event::HazardWarning {
             severity,
@@ -3721,11 +4090,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             real_world,
             ..
         } => {
-            let severity_en = format!("{severity:?}");
-            let severity_text = locale
-                .lookup(&format!("severity.{severity_en}"))
-                .map(str::to_string)
-                .unwrap_or(severity_en);
+            let severity_text = severity_name(locale, severity);
             match register.level() {
             1 => locale.fill(
                 "event.hazard-warning.lv1",
@@ -3737,7 +4102,15 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 "⚠ HAZARD ({severity}): {hazard} — {real_world} Safe only because this lab is virtual.",
                 &[("severity", &severity_text), ("hazard", &hazard.to_string()), ("real_world", &real_world.to_string())],
             ),
-            _ => format!("HAZARD [{severity:?}] (L0): {hazard}; {real_world}"),
+            _ => locale.fill(
+                "event.hazard-warning.lv3",
+                "HAZARD [{severity}] (L0): {hazard}; {real_world}",
+                &[
+                    ("severity", &severity_text),
+                    ("hazard", &hazard.to_string()),
+                    ("real_world", &real_world.to_string()),
+                ],
+            ),
             }
         }
         Event::SafetyVeto { reason } => match register.level() {
@@ -4074,7 +4447,11 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                             &[("name", name), ("vessel", &vessel.to_string())],
                         )
                     }
-                    _ => format!("The {name} in {vessel} {verb}."),
+                    _ => locale.fill(
+                        "event.state-changed.lv1-generic",
+                        "The {name} in {vessel} {verb}.",
+                        &[("name", name), ("vessel", &vessel.to_string()), ("verb", verb)],
+                    ),
                 },
                 2 => {
                     if shifted_by.abs() < 0.05 {
@@ -4136,7 +4513,11 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             }
             _ => {
                 let with = match catalyst {
-                    Some(c) => format!(" (catalyst: {c})"),
+                    Some(c) => locale.fill(
+                        "event.reacted.lv3-catalyst",
+                        " (catalyst: {c})",
+                        &[("c", &c.to_string())],
+                    ),
                     None => String::new(),
                 };
                 locale.fill(
@@ -4219,7 +4600,15 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 "The lab couldn't work out what happens in {vessel}. That's honest — better than guessing!",
                 &[("vessel", &vessel.to_string())],
             ),
-            _ => format!("{vessel}: solver '{solver}' failed: {detail}"),
+            _ => locale.fill(
+                "event.solver-failed.lv3",
+                "{vessel}: solver '{solver}' failed: {detail}",
+                &[
+                    ("vessel", &vessel.to_string()),
+                    ("solver", solver),
+                    ("detail", detail),
+                ],
+            ),
         },
         Event::Diluted {
             vessel,
@@ -4526,9 +4915,15 @@ fn localize_refusal(what: &str, locale: Locale) -> String {
         return translated.to_string();
     }
 
+    // Each const is the LIVE site's template, hole and all, and the tail
+    // is that template minus the hole. Written as the tail alone — which
+    // is how these read until #649 — the const was a second copy of the
+    // sentence that no longer looked like the first, and `engine-locale-
+    // lint.py` counted it as untranslatable English because it is not a
+    // string this file ever says. It is a string this file READS.
     const CONTACT: &str =
-        " in contact with liquid: no wired solver models this dissolution/reaction";
-    if let Some(name) = what.strip_suffix(CONTACT) {
+        "{name} in contact with liquid: no wired solver models this dissolution/reaction";
+    if let Some(name) = what.strip_suffix(CONTACT.strip_prefix("{name}").unwrap_or(CONTACT)) {
         let translated_name = locale.lookup(&format!("species.{name}")).unwrap_or(name);
         return locale.fill(
             // The key the LIVE site composes, so one German row serves
@@ -4541,8 +4936,9 @@ fn localize_refusal(what: &str, locale: Locale) -> String {
         );
     }
 
-    const UNSPECIATED: &str = " dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker";
-    if let Some(name) = what.strip_suffix(UNSPECIATED) {
+    const UNSPECIATED: &str = "{name} dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker";
+    if let Some(name) = what.strip_suffix(UNSPECIATED.strip_prefix("{name}").unwrap_or(UNSPECIATED))
+    {
         let translated_name = locale.lookup(&format!("species.{name}")).unwrap_or(name);
         return locale.fill(
             "not-modeled.dissolves-unspeciated",
