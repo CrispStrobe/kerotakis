@@ -1814,8 +1814,8 @@ whole_milk-casein = "KASEIN IST NICHT MODELLIERT, SEINE PUFFERWIRKUNG FEHLT DAHE
 # to the vendored file, wrapped in the clause that is true of all of them.
 # The wrapper is written ONCE here for the same reason it is composed once
 # in `aqueous.rs` — three flat rows would be three chances to drift.
-"dataset.plus-reference-complexes" = "{file} plus Referenztemperatur-Komplexe aus USBM IC 9429"
-"dataset.plus-lactate-and-reference-complexes" = "{file} plus geprüftem Lactat und Referenztemperatur-Komplexen aus USBM IC 9429"
+"dataset.plus-reference-complexes" = "{file}, ergänzt um Referenztemperatur-Komplexe aus USBM IC 9429"
+"dataset.plus-lactate-and-reference-complexes" = "{file}, ergänzt um geprüftes Lactat und Referenztemperatur-Komplexe aus USBM IC 9429"
 "dataset.with-gas-uptake-slice" = "{file}, mit dem geprüften Datenausschnitt zur HBr-Gasaufnahme nach Sander"
 "dataset.vendored-usgs" = "{file}, wie vom USGS mitgeliefert"
 
@@ -1829,7 +1829,7 @@ whole_milk-casein = "KASEIN IST NICHT MODELLIERT, SEINE PUFFERWIRKUNG FEHLT DAHE
 "model.water-autoionisation" = "ideal verdünnte Autoprotolyse des Wassers ({engine}-Beziehung für log K mit sechs Koeffizienten)"
 "model.curated-complete-combustion" = "vollständige Verbrennung zu CO2 und H2O bei tabellierter Verbrennungswärme, mit einem begrenzenden Sauerstoffanteil von {fraction} für eine geschlossene Grenze"
 "model.nasa9-polynomials" = "{name}-Polynome, ideales Gas + reine kondensierte Phasen"
-"model.with-feed-tp-fallback" = "{model}; TP-Rückgriff auf die Zuführung bei der ausdrücklich angegebenen Zündzonentemperatur"
+"model.with-feed-tp-fallback" = "{model}; TP-Rückgriff auf die Flüssigbrennstoff-Zuführung bei der ausdrücklich angegebenen Zündzonentemperatur"
 
 [routing]
 solvent-relation-only = "keine dargestellte Säure, Base, kein Salz, keine Oberfläche, kein Austauscher, kein Gasübergang und kein reaktiver wässriger Gelöststoff; die Lösungsmittelbeziehung wurde ohne Aufruf von IPhreeqc ausgewertet, das gesamte Zuschauer-Inventar blieb dabei erhalten"
