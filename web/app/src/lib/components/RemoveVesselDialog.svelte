@@ -12,9 +12,26 @@
   }: {
     vessel: SceneVessel;
     vesselCount: number;
-    onconfirm: () => void;
-    ontransfer?: () => void;
-    onopenwaste: () => void;
+    /**
+     * Each of these hands back the id of the vessel the dialog is about.
+     *
+     * It is not a convenience. The caller's `vessel` comes from
+     * `{@const vessel = removeVessel}`, and in Svelte 5 an `{@const}` is a
+     * DERIVED, not a local: a handler that clears `removeRequest` and then
+     * reads `vessel.id` re-evaluates the derived against the state it just
+     * cleared and reads `.id` off null. All three of these callbacks did
+     * exactly that, so "remove empty vessel", "pour all liquid…" and
+     * "open waste station" each threw a TypeError and the dialog closed
+     * with nothing behind it — which is precisely how the owner described
+     * it: you could no longer get rid of a vessel at all.
+     *
+     * The id is read HERE, from this component's own prop, before the
+     * caller has had a chance to invalidate anything. Passing it makes the
+     * ordering bug structurally impossible rather than merely fixed.
+     */
+    onconfirm: (vesselId: number) => void;
+    ontransfer?: (vesselId: number) => void;
+    onopenwaste: (vesselId: number) => void;
     onclose: () => void;
   } = $props();
 
@@ -77,12 +94,12 @@
     <footer>
       <button class="secondary" onclick={onclose}>{t("keep vessel")}</button>
       {#if !empty && ontransfer && volumeMl > 0}
-        <button class="transfer" onclick={ontransfer}>{t("pour all liquid…")}</button>
+        <button class="transfer" onclick={() => ontransfer?.(vessel.id)}>{t("pour all liquid…")}</button>
       {/if}
       {#if !empty}
-        <button class="waste" onclick={onopenwaste}>{t("open waste station")}</button>
+        <button class="waste" onclick={() => onopenwaste(vessel.id)}>{t("open waste station")}</button>
       {:else if !onlyVessel}
-        <button class="remove" onclick={onconfirm}>{t("remove empty vessel")}</button>
+        <button class="remove" onclick={() => onconfirm(vessel.id)}>{t("remove empty vessel")}</button>
       {/if}
     </footer>
   </dialog>

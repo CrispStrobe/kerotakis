@@ -1922,25 +1922,34 @@
 
 {#if removeVessel}
   {@const vessel = removeVessel}
+  <!-- Every callback below takes the vessel id as an ARGUMENT, and none of
+       them reads `vessel` after its first line. `vessel` is an `{@const}`,
+       which in Svelte 5 is a DERIVED over `removeRequest`: clearing
+       `removeRequest` and then reading `vessel.id` re-evaluates the derived
+       against the state just cleared and reads `.id` off null. All three of
+       these did exactly that, so removing a vessel, pouring it out and
+       opening the waste station each died mid-handler — after the line that
+       had already dismissed the dialog, which is why the reader saw a
+       button that did nothing. -->
   <RemoveVesselDialog
     {vessel}
     vesselCount={session.scene?.vessels.length ?? 0}
-    onconfirm={() => {
+    onconfirm={(vesselId) => {
       removeRequest = null;
-      void session.submit(`remove v${vessel.id + 1}`);
+      void session.submit(`remove v${vesselId + 1}`);
     }}
     ontransfer={(session.scene?.vessels.length ?? 0) > 1 && vessel.liquid
-      ? () => {
+      ? (vesselId) => {
           removeRequest = null;
-          transfer = { verb: "decant", fraction: 1, from: vessel.id };
+          transfer = { verb: "decant", fraction: 1, from: vesselId };
         }
       : undefined}
-    onopenwaste={() => {
+    onopenwaste={(vesselId) => {
       // The signpost has to arrive at the station pointed at THIS vessel:
       // the station acts on the selection, and sending a reader there with
       // some other vessel selected would offer to empty the wrong one.
       removeRequest = null;
-      session.selected = vessel.id;
+      session.selected = vesselId;
       utilityStationOpen = true;
     }}
     onclose={() => (removeRequest = null)}

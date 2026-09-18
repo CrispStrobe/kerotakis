@@ -3502,6 +3502,88 @@ question was asked.
       not reintroduce the virtualisation's `aria-setsize`/`aria-posinset`
       bookkeeping bugs.
 
+### From a live transcript, 2026-09-18 — the peroxide/chalk vessel
+
+The owner pasted a Laborbuch transcript from a vessel that boiled dry
+while catalase and manganese dioxide were decomposing peroxide. Four
+defects in it, each verified against the source rather than inferred from
+the prose.
+
+**One thing the same day settled, so nobody redoes it:** `App.svelte` was
+audited for the read-after-invalidate shape that produced #664 — a handler
+that assigns to a `$state` and then reads a `$derived` (or an `{@const}`,
+which is one) computed from it. 53 states, 14 deriveds, every arrow-function
+handler in the markup: two candidates, both spurious on inspection. The
+remove-vessel dialog was the only instance. The COMPONENTS were not audited
+the same way and do not need to be for this shape — a component cannot
+assign to the prop its `{@const}` derives from — but that argument is the
+reason, not an assumption, and it stops holding the moment a component owns
+state a sibling `{@const}` reads.
+
+- [ ] **The routing caveat prints "~71046,6 mol/kgw" one line above
+      "I = 0,0004 mol/kgw".** `aqueous.rs:3089` estimates a "potential
+      molality" as *(dissolved totals + 2 × equilibrium-phase moles + 2 ×
+      solid-solution moles) / `problem.kgw`*, and `> 1.0` both **selects
+      the dataset** and triggers the `routing.activity-model-fallback`
+      caveat that quotes the number. Two things are wrong with it at once
+      and they compound:
+
+      **The denominator is an evaporating solvent.** There is no floor on
+      `problem.kgw`. The transcript's vessel has boiled dry — it says so
+      itself, *"das letzte Wasser ist fort"* — so the fixed solute
+      inventory is being divided by a residue. 71046.6 against a numerator
+      of order 0.05 mol implies a `kgw` of about 1e-6 kg, a milligram of
+      water. The measured ionic strength printed directly underneath, from
+      the solver that actually ran, is 0.0004.
+
+      **The numerator counts solids that will never dissolve.** Each
+      equilibrium phase contributes two ions per formula unit. In this
+      vessel those phases include chalk — whose *own* message three lines
+      earlier says it dissolves to 0.0013 g per 100 mL, "below anything a
+      beaker would show" — and silver chloride, and manganese dioxide.
+      The estimate is deliberately pessimistic ("what the solid phases
+      *could* dissolve"), but counting a solid the engine has separately
+      declared insoluble is not pessimism, it is a contradiction between
+      two parts of the same answer.
+
+      **Why it is not cosmetic:** `potential_molality > 1.0` picks the
+      database. A vessel drying out is routed to a different activity
+      model, and told it is, on the strength of a number the solver
+      disagrees with by eight orders of magnitude.
+
+- [ ] **Identical lines repeat on every solve step.** The same
+      `Event::Inert` for chalk is emitted unconditionally at
+      `solve.rs:2466` and `solve.rs:2603` — once per step, forever. The
+      transcript carries the same forty-word German sentence about chalk's
+      solubility more than thirty times, and "NICHT MODELLIERT:
+      Silbernitrat ist mit einer Flüssigkeit in Kontakt" ten times. This
+      is the same defect shape `#653` solved for provenance: fire on
+      change, comparing `Phrase::shape()`, not on every tick. Whatever is
+      done here should reuse that mechanism rather than invent a second
+      one.
+
+- [ ] **The engine says chalk dissolved and, on the next line, that it
+      does not dissolve and is "still all there".** Verbatim, in order:
+      *"0,000001 mol Kreide (Calciumcarbonat) gelöst"*, then *"Kreide
+      (Calciumcarbonat) inert: … löst sich nicht in Wasser … Es ist noch
+      vollständig vorhanden"*. PHREEQC's equilibrium dissolves a micromole;
+      the `Inert` message is generated from a solubility table
+      (`aqueous_solubility_at`, filtered to `< 0.01` g/100 mL) that knows
+      nothing about what the solver just did. Two subsystems describing the
+      same solid and disagreeing — the family of #626 and #630, the words
+      against the scene. The fix is not to silence either one: it is that
+      the sentence claiming "still all there" must be derived from what is
+      left, not from a table lookup.
+
+- [ ] **"Silbernitrat ist mit einer Flüssigkeit in Kontakt" in a vessel
+      with no liquid.** Emitted repeatedly *after* the engine has already
+      reported that the last water has gone. Whatever decides "is in
+      contact with a liquid" is not reading the same state as the
+      evaporation step. Smaller than the others and probably a one-line
+      predicate, but it is the third place in one transcript where two
+      parts of the answer contradict each other, which is the pattern
+      worth naming.
+
 ### UI framework
 
 `kerotakis-core` is the invariant either way; the CLI defers the choice

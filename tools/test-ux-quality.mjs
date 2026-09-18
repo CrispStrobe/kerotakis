@@ -1085,6 +1085,86 @@ try {
   // one: the doctored engine cannot reach the registration the rest of
   // this file has been driving, and that registration cannot answer for
   // the doctored one.
+  /* -- the remove-vessel dialog's three exits ---------------------------
+   *
+   * The owner: "we can NOT anymore get actually rid of vessels ... clicking
+   * on 'Entsorgungsstation öffnen' just does nothing". Every unit test in
+   * web/app renders through `svelte/server`, which produces markup and
+   * never fires a handler, so all three exits were perfect on paper and
+   * dead in a browser.
+   *
+   * The cause was Svelte 5 semantics. `App.svelte` mounts the dialog under
+   * `{#if removeVessel}{@const vessel = removeVessel}`, and an `{@const}`
+   * in Svelte 5 is a DERIVED. Each handler cleared `removeRequest` — the
+   * state `removeVessel` derives from — and then read `vessel.id`, which
+   * re-evaluated the derived against the state just cleared and read `.id`
+   * off null. The dialog was already gone by then, so the reader saw a
+   * button that did nothing.
+   *
+   * This is the level the defect is visible at, which is why the guard
+   * lives here and not in vitest: it needs a real click and a real
+   * uncaught exception.
+   */
+  console.log("");
+  const errors = await page.evaluate(`(() => {
+    // Whatever the checks above left open, close it: this one drives a
+    // gesture that starts on the bench, and a scrim over it would swallow
+    // the first click and fail for the wrong reason.
+    document.querySelectorAll('.scrim, .world-scrim').forEach((scrim) => scrim.click());
+    window.__uxErrors = [];
+    window.addEventListener("error", (event) => window.__uxErrors.push(String(event.message)));
+    window.addEventListener("unhandledrejection", (event) => window.__uxErrors.push(String(event.reason)));
+    return "armed";
+  })()`);
+  check("the error trap is armed", errors === "armed", errors);
+
+  await page.evaluate(`(() => {
+    const row = [...document.querySelectorAll('nav.shelf-pane button.species')]
+      .find((button) => /\\bH2O\\b/.test(button.textContent));
+    row?.click();
+  })()`);
+  await settle();
+  await page.evaluate(`document.querySelector('form.amounts button.add-amount')?.click()`);
+  // The form closing is the app accepting the add; the wait after it is the
+  // engine's round trip, which is a wasm solve and not instant.
+  await waitFor(page, `!document.querySelector('nav.shelf-pane form.amounts')`, { timeout: 30000 });
+  await new Promise((resolve) => setTimeout(resolve, 4000));
+
+  const dialogOpened = JSON.parse(await page.evaluate(`(() => {
+    document.querySelector('.placement-toggle')?.click();
+    return JSON.stringify({ toggled: Boolean(document.querySelector('.placement-toggle')) });
+  })()`));
+  await settle();
+  await page.evaluate(`document.querySelector('.bench button.remove')?.click()`);
+  await settle();
+  const dialog = JSON.parse(await page.evaluate(`(() => JSON.stringify({
+    open: Boolean(document.querySelector('dialog[aria-labelledby="remove-vessel-title"]')),
+    waste: Boolean(document.querySelector('button.waste')),
+  }))()`));
+  check("a vessel holding something opens the remove dialog with a waste exit",
+    dialogOpened.toggled && dialog.open && dialog.waste,
+    JSON.stringify({ ...dialogOpened, ...dialog }));
+
+  if (dialog.waste) {
+    await page.evaluate(`document.querySelector('button.waste')?.click()`);
+    await settle();
+    const landed = JSON.parse(await page.evaluate(`(() => JSON.stringify({
+      station: Boolean(document.querySelector('#utility-title')),
+      removeGone: !document.querySelector('dialog[aria-labelledby="remove-vessel-title"]'),
+      errors: window.__uxErrors,
+    }))()`));
+    // The whole defect in one assertion: the signpost has to ARRIVE
+    // somewhere. Closing the dialog and opening nothing is the failure.
+    check("\"open waste station\" lands on the utility station", landed.station,
+      JSON.stringify(landed));
+    check("and it throws nothing on the way", landed.errors.length === 0,
+      landed.errors.join(" | "));
+  } else {
+    check("\"open waste station\" lands on the utility station", false, "no waste exit to press");
+  }
+  await page.evaluate(`document.querySelector('.scrim')?.click()`);
+  await settle();
+
   console.log("");
   let servedDoctored = 0;
   const { server: engineless, origin: mismatched } = await serve(PAYLOAD, {
