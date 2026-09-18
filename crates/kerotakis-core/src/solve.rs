@@ -2920,7 +2920,10 @@ mod route_trace_tests {
             // precisely the defect the lint exists to catch, and it was
             // right to say so. The test does not care what the sentence
             // is; the catalogue does.
-            Phrase::bare("routing.default-inorganic", "the default inorganic aqueous dataset"),
+            Phrase::bare(
+                "routing.default-inorganic",
+                "the default inorganic aqueous dataset",
+            ),
         );
         let announcement = Event::SolutionRouted { vessel, provenance };
         let characterised = Event::SolutionCharacterized {
