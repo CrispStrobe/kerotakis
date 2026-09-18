@@ -9,6 +9,8 @@
  * when the reader has scrolled a long way from it.
  */
 import { describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import {
   CATALOG_ESTIMATE,
   CATALOG_OVERSCAN,
@@ -178,5 +180,64 @@ describe("the estimate the caller holds still", () => {
   it("falls back to the mean when the caller has none yet", () => {
     expect(catalogWindow(input({ estimate: 0 })).estimate).toBe(CATALOG_ESTIMATE);
     expect(catalogWindow(input({ estimate: undefined })).estimate).toBe(CATALOG_ESTIMATE);
+  });
+});
+
+/**
+ * What the component must keep doing, read off its own source.
+ *
+ * The arithmetic above is testable; the wiring is not, because the suite
+ * has no DOM. These are the four promises a window makes that a later
+ * edit could quietly take back, and each of them is the difference
+ * between a windowed list and a broken one:
+ *
+ *   - it windows the FILTERED array, so the scrollbar and the drawn rows
+ *     are about the same list;
+ *   - the count a reader and a screen reader are given is that filtered
+ *     total, never the dozen cards that happen to be built;
+ *   - every card says where it sits in that total, because `751 of 752`
+ *     cannot be inferred from a DOM that holds twelve;
+ *   - the focused row is pinned, because dropping the element that holds
+ *     focus sends focus to `<body>`.
+ *
+ * Same shape as `overlayStacking.test.ts`: read the declaration rather
+ * than restate it, so the test cannot drift from the component silently.
+ */
+describe("the catalogue component's side of the contract", () => {
+  const source = readFileSync(join(import.meta.dirname, "components", "Catalog.svelte"), "utf8");
+
+  it("windows the filtered list, not the whole index", () => {
+    // `shown` is `filterCatalogEntries(all, filters)`; `all` is the index.
+    expect(source).toMatch(/const shown = \$derived\(filterCatalogEntries\(all, filters\)\)/);
+    expect(source).toMatch(/catalogWindow\(\{[\s\S]*?total: shown\.length/);
+    expect(source).not.toMatch(/catalogWindow\(\{[\s\S]*?total: all\.length/);
+  });
+
+  it("labels the list with the filtered total and not the drawn count", () => {
+    expect(source).toMatch(/role="list"\s*\n\s*aria-label=\{t\("\{count\} shown", \{ count: shown\.length \}\)\}/);
+    expect(source).not.toMatch(/aria-label=\{t\("\{count\} shown", \{ count: (drawnRows|windowed)/);
+  });
+
+  it("tells a screen reader where each card sits in that total", () => {
+    expect(source).toMatch(/role="listitem"/);
+    expect(source).toMatch(/aria-setsize=\{shown\.length\}/);
+    expect(source).toMatch(/aria-posinset=\{row\.start \+ place \+ 1\}/);
+  });
+
+  it("pins the focused row so focus is never dropped out of the DOM", () => {
+    expect(source).toMatch(/onfocusin=\{onCardsFocusIn\}/);
+    expect(source).toMatch(/onfocusout=\{onCardsFocusOut\}/);
+    expect(source).toMatch(/pinned: focusedRow/);
+  });
+
+  /**
+   * The column count and the gap are read back off the resolved computed
+   * style. A second copy of the breakpoint in the script would be a
+   * silent way for the drawn rows to disagree with the painted ones.
+   */
+  it("reads the grid back from the CSS rather than recomputing it", () => {
+    expect(source).toMatch(/rowStyle\.gridTemplateColumns/);
+    expect(source).toMatch(/rowStyle\.columnGap/);
+    expect(source).toMatch(/\.cards-row \{[\s\S]*?grid-template-columns: repeat\(auto-fill, minmax\(18rem, 1fr\)\)/);
   });
 });
