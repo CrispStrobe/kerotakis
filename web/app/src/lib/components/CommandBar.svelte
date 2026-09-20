@@ -45,10 +45,6 @@
    * cannot announce is a feature only some readers get. The input owns
    * `aria-expanded`/`aria-controls`/`aria-activedescendant`; the list is
    * a `listbox` of `option`s; arrows move, Escape closes, Enter takes.
-   *
-   * `dismissed` is why the popup does not fight the typist: Escape means
-   * "not now", and it stays meant until the next keystroke changes the
-   * word being completed.
    */
   /**
    * A mark and a word per inventory, so "v2" and "NaCl" are not two
@@ -59,10 +55,13 @@
   const KIND_MARKS = { verb: "\u25b8", vessel: "\u25bd", reagent: "\u25cf" } as const;
   const KIND_LABELS = { verb: "command", vessel: "vessel", reagent: "chemical" } as const;
   /**
-   * Starts dismissed, so the bar is a bar until the reader touches it: a
-   * popup listing every verb the moment the console is opened is a wall
-   * of text nobody asked for. Focus or a keystroke opens it; blur and
-   * Escape close it; Escape stays meant until the next keystroke.
+   * Why the popup never fights the typist.
+   *
+   * It starts dismissed, so the bar is a bar until the reader touches it:
+   * a list of every verb the moment the console opens is a wall of text
+   * nobody asked for, over the journal it sits on. Focus or a keystroke
+   * opens it; blur, Escape and running a line close it; and Escape stays
+   * meant until the next keystroke changes the word being completed.
    */
   let dismissed = $state(true);
   let active = $state(0);
@@ -125,7 +124,10 @@
     onsubmit(trimmed);
     line = "";
     caret = 0;
-    dismissed = false;
+    // Closed, not reopened: a popup that springs back over the feed the
+    // instant a command runs would cover the answer the reader just
+    // asked for. Their next keystroke brings it back.
+    dismissed = true;
     active = 0;
     problem = null;
   }
