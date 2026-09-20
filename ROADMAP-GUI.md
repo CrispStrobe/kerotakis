@@ -2805,6 +2805,24 @@ evolved CO₂ and half a mole of it must not look the same.
   foam effect that reads `gasMag` the way the condenser reads its
   magnitude — not a new parameter system.
 
+  **And the drawings are thinner than "missing" too — read this before
+  building anything.** Forty-odd effect kinds are already drawn, `foam`
+  among them: `Vessel.svelte` renders a foam block whose height comes from
+  `vessel.foam.height_cm`, whose bubble count scales with
+  `vessel.foam.volume_liters`, and whose collapse runs on the model's own
+  `halfLifeSeconds`. The engine models the foam and the app draws it to
+  scale, today.
+
+  So the gap is **confinement, not absence**. Every effect is drawn inside
+  the vessel's own rectangle, and a soda volcano is precisely the case
+  where the interesting part does not fit inside the glass: foam that
+  climbs past the rim and spills down the outside, steam that rises above
+  the beaker, a flare that reaches beyond it. The honest version of this
+  item is "let an effect leave the vessel's box when the modelled quantity
+  exceeds the vessel, and keep the scaling while it does" — which is a
+  much smaller and much better-defined change than a new effect system,
+  and it keeps every existing audit of the magnitude link intact.
+
   Scope note: "explosions" in a school-chemistry bench means a flare, a
   bang, a lid lifting, a flask venting — the engine models energy release
   and gas production, and the drawing must not promise more than the model
