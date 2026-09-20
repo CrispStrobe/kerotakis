@@ -2733,6 +2733,73 @@ started. Recorded so they are not lost.
   is one form field and one validation rule, against a verb that already
   accepts `heat v1 40kJ on burner`.
 
+## The bench must look like a bench (GUI-114 … GUI-116)
+
+Stated by the owner on 2026-09-20, in one breath, after using the app:
+
+> it is counterintuitive that we can have devices floating not on a desk.
+> we have not realistic rendered animations for most things that go on. for
+> kids, it would be cool to have really impressive animations for some of
+> the most standard experiments like soda vulcano etc. lage amounts of
+> foam, steam, explosions, etc, visibly rendered, but their extent relative
+> to modelled parameters. really drawn devices not text or schematic
+> symbols no one understands. a real cupboard of devices not a wall of
+> text.
+
+**The clause that governs all three of these is "but their extent relative
+to modelled parameters".** It is the same rule the 2026-08-27 product
+directive already states as its sixth point — motion and visible effects
+driven by computed power, temperature, RPM, viscosity, fill, particle
+settling, reaction energy, gas/solid amount and time, *never* generic
+animation — and it is what separates this work from decoration. A foam
+column that is always the same height is a lie told beautifully, and this
+engine's whole claim is that it does not tell those. Half a litre of
+evolved CO₂ and half a mole of it must not look the same.
+
+- [ ] **GUI-114 — Apparatus stands on something.** Instruments and
+  glassware currently float in the bench pane with nothing under them. A
+  bench has a work surface, a stand takes a clamp, a hotplate sits *under*
+  a beaker rather than beside it, and a burner belongs below what it heats.
+  The physical relationship is already in the model — `ApparatusAssembly`
+  and the transport/connection ports know what is attached to what — so
+  this is about drawing the relationship that exists rather than inventing
+  one. Watch: the bench already has a `work-surface` element and a
+  `vessel-position`; start by finding out what they currently do.
+
+- [ ] **GUI-115 — A cupboard of devices, not a wall of text.** GUI-109
+  drew ten instruments as inline SVG and left `pH` and `Bq` as letters
+  because neither has an honest silhouette. That was the icons. This is the
+  cupboard itself: it is still a scrolling list of rows with a drawing at
+  the left, which reads as a menu rather than as a place things are kept.
+  Shelves, depth, things standing where you would reach for them. The same
+  honesty rule applies as for the icons — where a device cannot be drawn
+  recognisably, say so rather than ship a shape that means nothing.
+
+- [ ] **GUI-116 — The showpiece reactions, rendered, and scaled by the
+  numbers.** A soda volcano should look like one: foam that climbs and
+  spills, steam that rises and thins, a flame that flares. The owner named
+  foam, steam and explosions. Each needs a quantity to ride on, and the
+  engine already computes them — `GasEvolved` carries moles and a rate,
+  `peroxide-decomposition` reports joules released, boiling reports the
+  water that left the vessel, `Sedimentation` reports a settled fraction.
+
+  **The contract, and it is not negotiable:** nothing may be drawn that is
+  not read off a computed quantity, and the mapping from quantity to
+  appearance must be visible in the code and testable. A learner who doses
+  twice the vinegar must see a visibly bigger eruption, and a test must
+  fail if they do not. `BenchEffect.svelte`, `FluidOverlay.svelte`,
+  `ParticleView.svelte` and `IgnitionFlameCanvas.svelte` are the existing
+  surfaces; `fluidScene` is the deterministic scene the engine already
+  ships, and GUI-098's WebGPU tier is a *presentation* option on top of it,
+  never a second source of truth.
+
+  Scope note: "explosions" in a school-chemistry bench means a flare, a
+  bang, a lid lifting, a flask venting — the engine models energy release
+  and gas production, and the drawing must not promise more than the model
+  computed. See also the standing rule that this laboratory shows what a
+  bench would really do, including refusing to show what it has not
+  modelled.
+
 ## Completed GUI tasks
 
 Numbers are never renumbered and never reused. Each of these landed; the detail
