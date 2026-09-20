@@ -2793,6 +2793,18 @@ evolved CO₂ and half a mole of it must not look the same.
   ships, and GUI-098's WebGPU tier is a *presentation* option on top of it,
   never a second source of truth.
 
+  **Most of the contract above already exists, and the next person to work
+  on this should build on it rather than start over.** `magnitudes.ts` is
+  GUI-059: 2600 lines that map engine event amounts onto visual scale
+  factors in [0, 1], under its own stated rule — *"Every factor names its
+  source event field so the link is auditable."* `BenchEffect.svelte`
+  already drives `--condense-rate` and `--drain-rate` from
+  `benchEffect.magnitude`, and already prints the quantity beside the
+  drawing (`… kJ`, `… mmol`). So the mapping layer is built and audited;
+  what is thin is the DRAWING on the far end of it. A soda volcano needs a
+  foam effect that reads `gasMag` the way the condenser reads its
+  magnitude — not a new parameter system.
+
   Scope note: "explosions" in a school-chemistry bench means a flare, a
   bang, a lid lifting, a flask venting — the engine models energy release
   and gas production, and the drawing must not promise more than the model
