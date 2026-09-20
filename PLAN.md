@@ -3401,7 +3401,18 @@ question was asked.
       seven, and the caveat comment in `conductivity_sources.rs` is the
       thing that makes the claim honest rather than the list length.
 
-- [ ] **λ°(Al³⁺): adopt 189 (63 per equivalent). RULED 2026-09-18.** The
+- [x] **λ°(Al³⁺): adopt 189. RULED AND DONE 2026-09-18 (#661).**
+      *Shipped 183.0 → 189.0. `UNCORROBORATED` is five. **No golden moved** —
+      nothing on this bench puts aluminium in solution, so the +2% is a
+      readout waiting for a lesson that uses it. The row says out loud that
+      this is WEAKER evidence than the Fe³⁺ row beside it: iron(III) left
+      because two sources confirmed the shipped value, aluminium left
+      because the shipped value was moved onto them, so the 0.0% the
+      corroboration test now reads is agreement by construction. Both
+      sources are coarser elsewhere (5.6% on Cu²⁺, 6.8% on CO₃²⁻) than the
+      3.3% the value moved. `independent()` still returns `None` for
+      coarse-sourced rows, so the calibration overlap stays 21 and
+      Hübschmann is not allowed to grade itself.* Original ruling: The
       engine ships 183.0 (61 per equivalent) and **both** new independent
       compilations contradict it at 63 — a 3.3% disagreement, the only
       outright contradiction the 2026-09-17 sourcing sweep found. Nothing was
@@ -3418,7 +3429,14 @@ question was asked.
       CO₃²⁻ against values this repo has already corroborated, so these are
       coarse tables and the reader is owed that.
 
-- [ ] **The KCl fit target: re-target on OIML's 1408.3. RULED 2026-09-18.**
+- [x] **The KCl fit target: 1408.3. RULED AND DONE 2026-09-18 (#662).**
+      *"Re-target" overstated it and the work says so: **no coefficient
+      moved and none needed to.** The fault was a basis mismatch inside one
+      test, which built a 0.01 mol/kgw solution and asserted against the
+      volumetric figure. The model reads 1423.0 — 1.04% high against
+      1408.3 where it was 0.71% high against 1413 — and `must_overestimate`
+      keeps its direction with more margin. **The 7% window is not
+      narrowed**, deliberately.* Original ruling:
       The `kcl_calibration_standard_within_model_error` test builds a
       **0.01 mol/kgw** solution and compares it against **1413**, which is
       the *volumetric* (0.0100 mol/L) standard's figure. The basis-consistent
@@ -3480,7 +3498,14 @@ question was asked.
       and report. `crates/kerotakis-phreeqc/tests/order_invariance.rs` holds
       the invariance and the ceiling.
 
-- [ ] **`ionic.rs::provenance_of`: thread a `Locale` through
+- [x] **`ionic.rs::provenance_of`: DONE 2026-09-18 (#659).** *Sixth and
+      last of the welded-prose family, closed. The German ionic drawer
+      reads `Herkunft: PHREEQC 3.7.3 · llnl.dat ·
+      Pitzer-Ionenwechselwirkung`. Zero catalogue rows added — the three
+      parts are a name, a name-or-recipe and a recipe, and ` · ` is
+      punctuation — so English output is byte-identical. The wasm caller
+      came with it; `clippy --workspace` was the gate that would have
+      caught it otherwise.* Original ruling: thread a `Locale` through
       `net_ionic_for`. RULED 2026-09-18.** The sixth and last member of the
       welded-prose family — the one place still building
       `"{engine} · {dataset} · {model}"` as one English string with no
@@ -3494,7 +3519,10 @@ question was asked.
       running `cargo clippy -p kerotakis-core` instead of `--workspace`, and
       this is the same shape of change.
 
-- [ ] **MIX and solvent-only characterisation must announce their
+- [x] **MIX and solvent-only now announce. DONE 2026-09-18 (#663).**
+      *Both paths, under the same fire-on-change rule #653 built. A beaker
+      of plain water and a mixed beaker both say where their numbers came
+      from.* Original ruling: MIX and solvent-only characterisation must announce their
       provenance. RULED 2026-09-18.** Both paths write a `Provenance` record
       that no `SolutionRouted` event ever carries, so a vessel filled that
       way holds provenance in its state that never reaches a reader.
@@ -3522,7 +3550,13 @@ question was asked.
       one is worse than the uncorrected one, because nobody checks a number
       that looks right.
 
-- [ ] **GUI-093 — organise the materials shelf by chemical role — is the
+- [x] **GUI-093 — DONE 2026-09-18 (#660).** *Sticky headings per role in
+      `REAGENT_ROLES`' pedagogical order, one heading per bottle, and the
+      hazard mark on the tile in three states — ⚠ assessed, **?** never
+      assessed, nothing for assessed-and-clean. One test exists only to fail
+      the moment "unassessed" starts looking like "safe". **It also
+      reordered the shelf**, which broke a browser check of mine that had
+      been matching a reagent row by substring; see #674.* Original ruling: GUI-093 — organise the materials shelf by chemical role — is the
       next GUI session. RULED 2026-09-18.** Chosen over GUI-092 (show the
       ionic equation derived), GUI-094 (give the vessel the room) and I18N-4
       (store the locale across reloads), which stay open and unranked.
