@@ -1312,10 +1312,13 @@ try {
       activeResolves: Boolean(activeId && document.getElementById(activeId)),
       selected: options.filter((option) => option.getAttribute('aria-selected') === "true").length,
       // 44 px, the floor this file audits everywhere else.
-      small: options.filter((option) => {
-        const box = option.querySelector('button')?.getBoundingClientRect();
-        return box ? box.height < 44 : true;
-      }).length,
+      small: options.filter((option) => option.getBoundingClientRect().height < 44).length,
+      // An option may not contain interactive content: keyboard focus
+      // stays in the input and the active-descendant attribute moves
+      // instead, so a button in here would be a second tab stop the
+      // combobox pattern does not have. (No backticks in this comment —
+      // the whole function is a template literal.)
+      interactiveChildren: options.filter((option) => option.querySelector('button, a, input')).length,
     });
   })()`);
 
@@ -1327,6 +1330,8 @@ try {
   check("focusing the empty bar offers the grammar's verbs",
     onFocus.expanded === "true" && onFocus.count > 0, JSON.stringify({ ...onFocus, hints: undefined }));
   check("every suggestion clears the 44 px touch floor", onFocus.small === 0, `${onFocus.small} too small`);
+  check("and no suggestion hides a second tab stop inside itself",
+    onFocus.interactiveChildren === 0, `${onFocus.interactiveChildren} with interactive children`);
   // The verbs are offered in the reader's language because the ENGINE
   // spelled them: each hint is that verb's own example line, and the word
   // the bar would insert is that line's first word. Nothing in the app

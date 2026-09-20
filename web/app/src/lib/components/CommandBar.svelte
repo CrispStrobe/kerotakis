@@ -235,23 +235,30 @@
   {#if open}
     <ul class="completions" id={listId} role="listbox" aria-label={t("suggestions")}>
       {#each suggestions.options as option, index (option.kind + option.insert)}
+        <!-- The row IS the option, with no button inside it. An
+             `option` may not contain interactive content, and it does not
+             need to: keyboard focus stays in the input and
+             `aria-activedescendant` moves — which is the whole point of
+             the combobox pattern, and why the list is not a tab stop.
+             `onpointerdown` rather than `onclick`, because the input's
+             blur fires first and would close the popup out from under the
+             finger pressing it. -->
         <li
           id={optionId(index)}
           role="option"
           aria-selected={index === activeIndex}
           class:active={index === activeIndex}
+          onpointerdown={(e) => {
+            e.preventDefault();
+            take(option);
+          }}
         >
-          <!-- `onpointerdown` rather than `onclick`: the input's blur
-               fires first and would close the popup out from under the
-               finger that is pressing it. -->
-          <button type="button" onpointerdown={(e) => { e.preventDefault(); take(option); }}>
-            <span class="kind" aria-hidden="true">{KIND_MARKS[option.kind]}</span>
-            <span class="what">
-              <span class="label">{option.label}</span>
-              <span class="sr-only">{t(KIND_LABELS[option.kind])}</span>
-            </span>
-            {#if option.hint}<span class="hint">{option.hint}</span>{/if}
-          </button>
+          <span class="kind" aria-hidden="true">{KIND_MARKS[option.kind]}</span>
+          <span class="what">
+            <span class="label">{option.label}</span>
+            <span class="sr-only">{t(KIND_LABELS[option.kind])}</span>
+          </span>
+          {#if option.hint}<span class="hint">{option.hint}</span>{/if}
         </li>
       {/each}
     </ul>
@@ -336,27 +343,23 @@
   .completions li + li {
     border-top: 1px solid color-mix(in srgb, var(--edge) 55%, transparent);
   }
-  .completions button {
+  .completions li {
     display: flex;
-    width: 100%;
     min-height: 44px;
     align-items: center;
     gap: 0.5rem;
     padding: 0.35rem 1rem;
-    border: 0;
-    background: none;
     color: var(--ink);
     font: 0.8rem/1.3 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    text-align: left;
     cursor: pointer;
   }
-  .completions li.active button,
-  .completions button:hover {
+  .completions li.active,
+  .completions li:hover {
     background: color-mix(in srgb, var(--action) 14%, transparent);
   }
   /* The highlight is a background AND a bar: colour alone is not a
      carrier, and this list is read at a glance. */
-  .completions li.active button {
+  .completions li.active {
     box-shadow: inset 3px 0 0 var(--action);
   }
   .completions .kind {
