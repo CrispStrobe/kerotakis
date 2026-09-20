@@ -2556,12 +2556,14 @@ questions draw through `t()`. All three are in the haystack now and
 `catalogEntry.test.ts` fails loudly if any is taken back out, because
 `Strg+F` is no longer there to cover for it.
 
-## Five things the owner hit in the German deploy (GUI-107 … GUI-111)
+## The journal, after the owner used it (GUI-107)
 
-Reported from using the app, in the owner's own words. They are two
-different complaints wearing five hats: *the chrome is eating the content*
-(GUI-107, GUI-108, GUI-110) and *the labels are not telling me anything*
-(GUI-109, GUI-111).
+One of five things the owner hit in the German deploy. They are two
+different complaints wearing five hats — *the chrome is eating the
+content* (GUI-107, GUI-108, GUI-110) and *the labels are not telling me
+anything* (GUI-109, GUI-111) — and each is recorded with the surface it
+belongs to rather than in a section of its own: GUI-108 beside the result
+card, GUI-109 … GUI-111 with the cupboard.
 
 - [x] **GUI-107 — The Laborbuch spends two rows saying who it is.** The
   owner: *"the '≡ / >_ / ›' in Laborbuch can we move up into the top '≡
