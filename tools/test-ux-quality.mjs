@@ -1118,13 +1118,46 @@ try {
   })()`);
   check("the error trap is armed", errors === "armed", errors);
 
-  await page.evaluate(`(() => {
-    const row = [...document.querySelectorAll('nav.shelf-pane button.species')]
-      .find((button) => /\\bH2O\\b/.test(button.textContent));
-    row?.click();
-  })()`);
+  // Clear whatever the audits above left on the shelf before looking for
+  // water. The subject of this check is the DIALOG, not the cabinet, and a
+  // phase or role chip still pressed from an earlier audit hides most rows
+  // — which is how this arrived on #671 as `waste:false`, a symptom three
+  // steps downstream of a shelf that simply had no water on it.
+  const poured = JSON.parse(await page.evaluate(`(() => {
+    document.querySelectorAll('nav.shelf-pane [role="radio"][aria-checked="true"]')
+      .forEach((chip) => chip.click());
+    const search = document.querySelector('nav.shelf-pane input[type="search"]');
+    if (search && search.value) {
+      Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value").set.call(search, "");
+      search.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+    return JSON.stringify({ cleared: true });
+  })()`));
   await settle();
-  await page.evaluate(`document.querySelector('form.amounts button.add-amount')?.click()`);
+  const reagent = await page.evaluate(`(() => {
+    // The FORMULA span, matched exactly — not the row's text. A substring
+    // test for "H2O" also matches "5% chlorine bleach  NaOCl(aq) + H2O",
+    // and which of the two comes first depends on how the shelf happens to
+    // be ordered that day. GUI-093 groups the shelf by chemical role, so
+    // that order is not even stable across releases: this check would then
+    // pour bleach, silently, and fail three steps later on something else.
+    const row = [...document.querySelectorAll('nav.shelf-pane button.species')]
+      .find((button) => button.querySelector('.formula')?.textContent.trim() === "H2O");
+    if (!row) return "";
+    row.click();
+    return row.textContent.trim();
+  })()`);
+  // Say WHICH precondition failed. A bare `waste:false` three steps later
+  // is a mystery; "no water on the shelf" is a diagnosis.
+  check("the shelf offers water to pour", Boolean(reagent) && poured.cleared, reagent || "no H2O row on the shelf");
+  await settle();
+  const added = await page.evaluate(`(() => {
+    const add = document.querySelector('form.amounts button.add-amount');
+    if (!add) return "";
+    add.click();
+    return "submitted";
+  })()`);
+  check("the amount form takes the pour", added === "submitted", added || "no amount form opened");
   // The form closing is the app accepting the add; the wait after it is the
   // engine's round trip, which is a wasm solve and not instant.
   await waitFor(page, `!document.querySelector('nav.shelf-pane form.amounts')`, { timeout: 30000 });
