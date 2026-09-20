@@ -5,6 +5,7 @@
   import { TauriHost, isTauri } from "./lib/host/TauriHost";
   import Bench from "./lib/components/Bench.svelte";
   import Feed from "./lib/components/Feed.svelte";
+  import JournalHeader from "./lib/components/JournalHeader.svelte";
   import CommandBar from "./lib/components/CommandBar.svelte";
   import RegisterDial from "./lib/components/RegisterDial.svelte";
   import Shelf from "./lib/components/Shelf.svelte";
@@ -170,11 +171,25 @@
   }
   let cabinetCollapsed = $state(modeStorage?.getItem(MODE_CABINET_PANEL_KEY) === "yes");
   let journalCollapsed = $state(modeStorage?.getItem(MODE_JOURNAL_PANEL_KEY) === "yes");
+  /**
+   * GUI-107: the journal's two view states live in the shell.
+   *
+   * They belong to the log, and `Feed.svelte` still owns what they MEAN —
+   * which entries are drawn, where the composer form goes. But the buttons
+   * that set them are in the pane heading now, one component up, and two
+   * siblings can only share a value through the parent that holds both.
+   * Deliberately not persisted: the journal opens on the observations,
+   * every session, exactly as it did when the toggle lived inside it.
+   */
+  let journalTrace = $state(false);
+  let journalComposing = $state(false);
   const session = new Session(
     isTauri() ? new TauriHost() : WorkerHost.create(),
     modeStorage,
     labMode,
   );
+  /** The badge on the trace view: how many lines it would add. */
+  const journalCommands = $derived(session.feed.filter((entry) => entry.kind === "command").length);
   type Theme = "light" | "dark" | "contrast";
   const savedTheme = appSaveRepository ? readSharedSetting(appSaveRepository, "theme") : undefined;
   let theme = $state<Theme>(savedTheme === "dark" || savedTheme === "contrast" ? savedTheme : "light");
@@ -1527,18 +1542,19 @@
       ><span aria-hidden="true">‹</span></button>
     {/if}
     <div class="pane-body">
-      <div class="pane-heading journal-heading">
-        <span class="pane-icon" aria-hidden="true">≡</span>
-        <span><strong>{t("lab journal")}</strong></span>
-        <span class="entry-count" title={t("notebook entries")}>{session.feed.length}</span>
-        <button
-          class="panel-collapse"
-          aria-expanded={!journalCollapsed}
-          aria-label={journalCollapsed ? t("open lab journal") : t("collapse lab journal")}
-          title={journalCollapsed ? t("open lab journal") : t("collapse lab journal")}
-          onclick={() => setPanelCollapsed("journal", !journalCollapsed)}
-        >{journalCollapsed ? "‹" : "›"}</button>
-      </div>
+      <!-- GUI-107: one row of chrome over the journal, not two. The pane
+           heading carries the journal's own controls now — the view toggle
+           and the note chevron used to sit in a second row inside the feed
+           below it. -->
+      <JournalHeader
+        entryCount={session.feed.length}
+        hiddenCommands={journalCommands}
+        collapsed={journalCollapsed}
+        canCompose={true}
+        bind:showTrace={journalTrace}
+        bind:composing={journalComposing}
+        oncollapse={() => setPanelCollapsed("journal", !journalCollapsed)}
+      />
       {#if session.inspector}
         <Inspector
           vessel={session.inspector.vessel}
@@ -1567,6 +1583,8 @@
       <Feed
         entries={session.feed}
         selectedVessel={session.selected}
+        bind:showTrace={journalTrace}
+        bind:composing={journalComposing}
         onaddnote={(text) => session.addUserNote(text)}
         oneditnote={(createdAt, text) => session.editUserNote(createdAt, text)}
         onremovenote={(createdAt) => session.removeUserNote(createdAt)}
@@ -2526,19 +2544,6 @@
     background: color-mix(in srgb, var(--primary) 11%, var(--surface-raised));
     font-size: 0.95rem;
     font-weight: 800;
-  }
-  .journal-heading .pane-icon {
-    color: var(--discovery);
-    background: color-mix(in srgb, var(--discovery) 10%, var(--surface-raised));
-  }
-  .entry-count {
-    min-width: 1.8rem;
-    padding: 0.22rem 0.4rem;
-    border-radius: 999px;
-    color: var(--dim);
-    background: var(--surface-raised);
-    font-size: 0.7rem;
-    text-align: center;
   }
   .panel-collapse {
     width: 28px;

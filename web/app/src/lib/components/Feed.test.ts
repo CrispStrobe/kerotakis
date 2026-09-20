@@ -27,10 +27,18 @@ function text(html: string): string {
   return html.replace(/<!--[\s\S]*?-->/g, "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 }
 
-/** What comes after the header: the log itself. */
+/**
+ * The log itself.
+ *
+ * This used to slice off everything up to the feed's own `</header>`.
+ * GUI-107 moved that header into `JournalHeader.svelte`, so there is no
+ * longer anything above the log to cut — and the slice had become actively
+ * wrong, because a user note draws a `<header>` of its own and the cut
+ * would have started at the first of those, swallowing every entry before
+ * it.
+ */
 function log(html: string): string {
-  const end = html.indexOf("</header>");
-  return text(end === -1 ? html : html.slice(end));
+  return text(html);
 }
 
 const restored: FeedEntry[] = [
@@ -107,8 +115,34 @@ describe("the journal on screen", () => {
 
   it("keeps the note composer collapsed without hiding the log behind it", () => {
     const rendered = body(restored, { onaddnote: () => {} });
-    expect(rendered).toContain('aria-expanded="false"');
     expect(rendered).not.toContain("<textarea");
     expect(log(rendered)).toContain("The bench is live");
+  });
+
+  it("draws the composer form, and nothing else, when the heading opens it", () => {
+    // GUI-107: the chevron is in `JournalHeader.svelte` now and the form is
+    // here. The binding is what joins them, so the thing worth pinning is
+    // that the feed obeys the flag — and that it did not keep a second copy
+    // of the chevron when the first one moved out.
+    const open = body(restored, { onaddnote: () => {}, composing: true });
+    expect(open).toContain("<textarea");
+    expect(open).toContain('id="journal-note-composer"');
+    expect(log(open)).toContain("The bench is live");
+  });
+
+  it("carries no row of chrome of its own any more", () => {
+    // The two rows GUI-107 folded into one. Both of these are markup the
+    // pane heading owns now; finding either here means the journal has
+    // grown its second row back.
+    const rendered = body(restored, { onaddnote: () => {} });
+    expect(rendered).not.toContain("journal-head");
+    expect(rendered).not.toContain("journal-view");
+    expect(rendered).not.toContain("composer-toggle");
+  });
+
+  it("draws the trace view when the heading asks for it", () => {
+    const traced: FeedEntry[] = [...restored, { kind: "command", text: "add 100mL water to v1" }];
+    expect(log(body(traced))).not.toContain("add 100mL water");
+    expect(log(body(traced, { showTrace: true }))).toContain("add 100mL water");
   });
 });

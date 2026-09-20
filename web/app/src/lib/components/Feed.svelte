@@ -17,56 +17,42 @@
     oneditnote,
     onremovenote,
     selectedVessel = 0,
+    showTrace = $bindable(false),
+    composing = $bindable(false),
   }: {
     entries: FeedEntry[];
     onaddnote?: (text: string) => void;
     oneditnote?: (createdAt: string, text: string) => void;
     onremovenote?: (createdAt: string) => void;
     selectedVessel?: number;
+    /**
+     * Which view the log is drawn in. GUI-107 moved the two buttons that
+     * set it up into the pane heading, so the control and the thing it
+     * controls now live in different components; the state stays here,
+     * where the filtering it drives lives, and the heading binds to it.
+     */
+    showTrace?: boolean;
+    /**
+     * GUI: the note composer is a chevron until it is asked for.
+     *
+     * Expanded by default it took a textarea and a button off the top of
+     * the journal on every session, and most sessions never write a note
+     * at all. Deliberately NOT remembered: the journal opens on the
+     * journal, every time, and a learner who wants the composer is one tap
+     * from it. Bindable for the same reason as `showTrace` — the chevron
+     * is in the heading, the form is here.
+     */
+    composing?: boolean;
   } = $props();
   let note = $state("");
-  let showTrace = $state(false);
   let editing = $state<string | null>(null);
   let editText = $state("");
-  /**
-   * GUI: the note composer is a chevron until it is asked for.
-   *
-   * Expanded by default it took a textarea and a button off the top of the
-   * journal on every session, and most sessions never write a note at all.
-   * Deliberately NOT remembered: the journal opens on the journal, every
-   * time, and a learner who wants the composer is one tap from it.
-   */
-  let composing = $state(false);
-
-  /**
-   * The header's one line of tooltip.
-   *
-   * `title=` covers a mouse and nothing else: it never reaches a finger,
-   * and it is not reliably surfaced on keyboard focus. So the label is
-   * state — pointer and focus show it, a tap pins it (a tap is the only
-   * "hover" a touch screen has), and the pin times out so it can never sit
-   * over the log. `title` stays on every control as the native fallback.
-   */
-  let tip = $state<string | null>(null);
-  let pinned: ReturnType<typeof setTimeout> | undefined;
-  function hint(text: string | null): void {
-    clearTimeout(pinned);
-    tip = text;
-  }
-  function pin(text: string): void {
-    hint(text);
-    pinned = setTimeout(() => {
-      if (tip === text) tip = null;
-    }, 2600);
-  }
-  $effect(() => () => clearTimeout(pinned));
 
   const visibleEntries = $derived(journalEntries(entries, { showTrace }));
   const shown = $derived(
     visibleEntries.length > JOURNAL_WINDOW ? visibleEntries.slice(-JOURNAL_WINDOW) : visibleEntries,
   );
   const trimmed = $derived(visibleEntries.length - shown.length);
-  const hiddenCommands = $derived(entries.filter((entry) => entry.kind === "command").length);
 
   let list: HTMLElement | undefined = $state();
   $effect(() => {
@@ -79,10 +65,12 @@
 <!-- The feed is the notebook and the screen-reader surface: everything the
      bench does is a legible line here, announced as it happens. -->
 <section class="feed" aria-label={t("lab notebook")} aria-live="polite" bind:this={list}>
-  <!-- One row of chrome, and never more: the view toggle and the note
-       chevron. Every caption this used to stack is a tooltip, so the
-       journal starts at the top of the pane instead of five rows down it.
-       What is deliberately NOT here any more:
+  <!-- No row of chrome at all, since GUI-107: the view toggle and the note
+       chevron went up into the pane heading (`JournalHeader.svelte`), which
+       was already drawing `≡ Laborbuch 2 ›` one row above them. Two rows of
+       chrome over a log is one row too many on a pane this narrow.
+
+       What is deliberately NOT here, and did not move either:
 
        * the vessel scope. It filtered the log to one vessel, and the
          journal is the record of the whole bench — a bench where the
@@ -93,79 +81,22 @@
          log, and they went to the header instead — which emptied the
          logbook outright for anyone who had not yet run a command, since
          on a fresh or restored bench they are the only entries there are.
-  -->
-  <header class="journal-head">
-      <div class="journal-view" role="group" aria-label={t("journal view")}>
-        <button
-          type="button"
-          class="icon-btn"
-          aria-pressed={!showTrace}
-          class:active={!showTrace}
-          aria-label={t("observations")}
-          title={t("observations")}
-          onpointerenter={() => hint(t("observations"))}
-          onpointerleave={() => hint(null)}
-          onfocus={() => hint(t("observations"))}
-          onblur={() => hint(null)}
-          onclick={() => {
-            showTrace = false;
-            pin(t("observations"));
-          }}
-        ><span aria-hidden="true">≡</span></button>
-        <button
-          type="button"
-          class="icon-btn"
-          aria-pressed={showTrace}
-          class:active={showTrace}
-          aria-label={t("full trace")}
-          title={t("full trace")}
-          onpointerenter={() => hint(t("full trace"))}
-          onpointerleave={() => hint(null)}
-          onfocus={() => hint(t("full trace"))}
-          onblur={() => hint(null)}
-          onclick={() => {
-            showTrace = true;
-            pin(t("full trace"));
-          }}
-        >
-          <span aria-hidden="true">&gt;_</span>
-          {#if hiddenCommands > 0}<span class="count" aria-hidden="true">{hiddenCommands}</span>{/if}
-        </button>
-      </div>
-    {#if onaddnote}
-      <div class="note-composer">
-        <button
-          type="button"
-          class="icon-btn composer-toggle"
-          aria-expanded={composing}
-          aria-controls="journal-note-composer"
-          aria-label={t("add note")}
-          title={t("add note")}
-          onpointerenter={() => hint(t("add note"))}
-          onpointerleave={() => hint(null)}
-          onfocus={() => hint(t("add note"))}
-          onblur={() => hint(null)}
-          onclick={() => {
-            composing = !composing;
-            pin(t("add note"));
-          }}
-        ><span aria-hidden="true">{composing ? "⌄" : "›"}</span></button>
-        {#if composing}
-          <form id="journal-note-composer" onsubmit={(event) => {
-            event.preventDefault();
-            const text = note.trim();
-            if (!text) return;
-            onaddnote(text);
-            note = "";
-          }}>
-            <textarea rows="2" bind:value={note} placeholder={t("write your own observation…")} aria-label={t("new journal note")}></textarea>
-            <button type="submit" disabled={!note.trim()}>{t("add note")}</button>
-          </form>
-        {/if}
-      </div>
-    {/if}
-    {#if tip}<p class="tip" aria-hidden="true">{tip}</p>{/if}
-  </header>
+
+       The composer FORM stays: the chevron that opens it is chrome, but the
+       textarea is part of the notebook and belongs beside the entries it
+       is about to join. -->
+  {#if onaddnote && composing}
+    <form id="journal-note-composer" class="note-composer" onsubmit={(event) => {
+      event.preventDefault();
+      const text = note.trim();
+      if (!text) return;
+      onaddnote(text);
+      note = "";
+    }}>
+      <textarea rows="2" bind:value={note} placeholder={t("write your own observation…")} aria-label={t("new journal note")}></textarea>
+      <button type="submit" disabled={!note.trim()}>{t("add note")}</button>
+    </form>
+  {/if}
   {#if trimmed > 0}
     <p class="note">{t("…{count} earlier entries not shown (the exports keep them)", { count: trimmed })}</p>
   {/if}
@@ -241,47 +172,6 @@
     flex-direction: column;
     gap: 0.25rem;
   }
-  /* Static, not sticky: the tab bar used to float over the log it
-     switches between, covering the newest lines as you scrolled. It is a
-     heading for the segment below it, so it scrolls with it. */
-  .journal-head {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 0.22rem;
-    margin-bottom: 0.35rem;
-  }
-  .journal-view {
-    align-self: flex-start;
-    display: flex;
-    gap: 2px;
-    padding: 3px;
-    border: 1px solid var(--edge);
-    border-radius: 10px;
-    background: color-mix(in srgb, var(--surface) 94%, transparent);
-  }
-  .icon-btn {
-    position: relative;
-    min-width: 2.1rem;
-    min-height: 30px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.22rem;
-    padding: 0 0.3rem;
-    border: 0;
-    border-radius: 7px;
-    color: var(--dim);
-    background: transparent;
-    font: inherit;
-    font-size: 0.74rem;
-    font-weight: 750;
-    line-height: 1;
-    cursor: pointer;
-  }
-  .icon-btn:hover { color: var(--ink); }
-  .journal-view .icon-btn.active { color: var(--primary); background: color-mix(in srgb, var(--primary) 10%, var(--surface-raised)); }
-  .count { min-width: 1.1rem; padding: 0.04rem 0.22rem; border-radius: 999px; color: var(--dim); background: var(--surface); font-size: 0.52rem; }
   /* Session bookkeeping, in the log where it belongs but dressed so it
      does not read as chemistry: the icon carries the kind, the sentence
      carries the rest. */
@@ -293,32 +183,13 @@
   .status-note[data-status="restore-failed"] .status-mark { color: var(--bad); }
   .status-note[data-status="cabinet-silent"] .status-mark { color: var(--bad); }
   .status-note[data-status="cabinet-answered"] .status-mark { color: var(--good); }
-  /* Anchored to the header and inset on both sides, so a long sentence can
-     never widen the pane: it wraps inside the tooltip instead. */
-  .tip {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    z-index: 5;
-    margin: 0.15rem 0 0;
-    padding: 0.3rem 0.45rem;
-    border: 1px solid var(--edge);
-    border-radius: 8px;
-    color: var(--ink);
-    background: var(--surface-raised);
-    box-shadow: 0 6px 18px var(--shadow);
-    font-size: 0.62rem;
-    font-weight: 600;
-    line-height: 1.3;
-    pointer-events: none;
-  }
-  .note-composer { display: flex; flex-direction: column; gap: 0.3rem; }
-  .composer-toggle { align-self: flex-start; min-width: 1.9rem; }
-  .note-composer form { display: grid; grid-template-columns: 1fr auto; gap: 0.4rem; }
+  /* The composer form, where the chevron in the pane heading puts it:
+     at the top of the log, immediately above the entries the note is
+     about to join. */
+  .note-composer { display: grid; grid-template-columns: 1fr auto; gap: 0.4rem; margin-bottom: 0.35rem; }
   .note-composer textarea { resize: vertical; min-width: 0; padding: 0.5rem; border: 1px solid var(--edge); border-radius: 9px; color: var(--ink); background: var(--panel-raised); font: inherit; }
-  .note-composer form button { align-self: stretch; padding: 0.35rem 0.55rem; border: 0; border-radius: 9px; color: var(--on-accent); background: var(--primary); font: inherit; font-size: 0.72rem; font-weight: 750; cursor: pointer; }
-  .note-composer form button:disabled { opacity: 0.4; cursor: default; }
+  .note-composer button { align-self: stretch; padding: 0.35rem 0.55rem; border: 0; border-radius: 9px; color: var(--on-accent); background: var(--primary); font: inherit; font-size: 0.72rem; font-weight: 750; cursor: pointer; }
+  .note-composer button:disabled { opacity: 0.4; cursor: default; }
   .user-note { padding: 0.55rem; border-left: 3px solid var(--discovery); border-radius: 8px; background: color-mix(in srgb, var(--discovery) 7%, var(--surface)); }
   .user-note header { display: flex; align-items: center; gap: 0.35rem; margin-bottom: 0.25rem; color: var(--discovery); font-size: 0.62rem; }
   .user-note header time { margin-left: auto; }
