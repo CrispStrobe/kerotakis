@@ -770,6 +770,35 @@ export interface Effect {
 }
 
 /** Clamp `x` into [0, 1], scaling linearly from 0 at `lo` to 1 at `hi`. */
+/**
+ * How far foam that has left the vessel should be drawn to reach, given
+ * the engine's own `foam.overflow_liters` and the vessel's full volume.
+ *
+ * `Vessel.svelte` used `min(1, overflow / full)`, which reaches its
+ * maximum at one vessel-full of spill — so a learner who doses ten times
+ * that much sees exactly the first picture again. That breaks the rule
+ * the whole module exists for: the extent has to follow the number, and a
+ * tenfold dose is the one comparison a child actually makes.
+ *
+ * A log window instead, the same shape `gasMag` and `areaMag` use: a
+ * fiftieth of the vessel is the least spill worth drawing, twenty
+ * vessel-fulls is as large as the picture goes. Three decades, chosen by
+ * measuring rather than by taste — a two-decade window put one
+ * vessel-full at 0.85 of the range, which leaves a tenfold dose only
+ * 0.15 to move through and is the old clamp wearing a thinner coat. At
+ * three decades the same step moves a third of the range.
+ *
+ * Still clamped at both ends, because the drawing lives in a 100 x 140
+ * viewBox and an unbounded reach would leave it. What is fixed here is
+ * saturation inside the range a bench actually produces, not the
+ * existence of a maximum.
+ */
+export function foamSpillScale(overflowLiters: number, vesselFullLiters: number): number {
+  const full = Math.max(0.01, vesselFullLiters);
+  if (!(overflowLiters > 0)) return 0;
+  return scale(Math.log10(overflowLiters), Math.log10(full / 50), Math.log10(full * 20));
+}
+
 function scale(x: number, lo: number, hi: number): number {
   if (hi <= lo) return x >= lo ? 1 : 0;
   return Math.max(0, Math.min(1, (x - lo) / (hi - lo)));
