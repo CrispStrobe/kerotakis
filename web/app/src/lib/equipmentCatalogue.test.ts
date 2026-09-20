@@ -10,18 +10,14 @@ import {
   GATED_IDS,
   GROUP_BLURBS,
   GROUP_LABELS,
-  SETS_VIEW_KEY,
   SHELF_ENTRIES,
   accessId,
-  asShown,
   catalogIdForApparatus,
   cupboardTally,
   deployedLabel,
   equipmentById,
   equipmentInfoRows,
   equipmentIn,
-  loadSetsView,
-  saveSetsView,
   setSkinOf,
   runEquipment,
   type EquipmentEntry,
@@ -201,83 +197,52 @@ describe("the merged equipment catalogue", () => {
   });
 });
 
-describe("the activity sets, as a chip rather than a shelf", () => {
-  it("shows the candle exactly once in either state", () => {
-    // As a shelf, the kits put the candle on the wall twice — once as
-    // "Kerze und Docht" and once as "Kerze / Bunsenbrenner". The chip
-    // renames one slot instead of adding a second.
-    for (const sets of [false, true]) {
-      const drawn = SHELF_ENTRIES.map((entry) => asShown(entry, sets));
-      expect(drawn.length).toBe(SHELF_ENTRIES.length);
-      expect(new Set(drawn.map((entry) => entry.id)).size).toBe(drawn.length);
-      const candles = drawn.filter((entry) => accessId(entry) === "bunsen");
-      expect(candles.length).toBe(1);
-      const balloons = drawn.filter((entry) => accessId(entry) === "regulate");
-      expect(balloons.length).toBe(1);
-    }
+describe("the activity kits, now that the chip is gone (GUI-111)", () => {
+  it("draws one slot per tool, under the tool's own name", () => {
+    // The chip renamed five of these and nothing else. What matters after
+    // its removal is what mattered before: the candle is on the wall once.
+    expect(new Set(SHELF_ENTRIES.map((entry) => entry.id)).size).toBe(SHELF_ENTRIES.length);
+    expect(SHELF_ENTRIES.filter((entry) => accessId(entry) === "bunsen").length).toBe(1);
+    expect(SHELF_ENTRIES.filter((entry) => accessId(entry) === "regulate").length).toBe(1);
+    expect(equipmentById("bunsen")?.name).toBe("candle / Bunsen flame");
+    for (const entry of SHELF_ENTRIES) expect(entry.aliasOf).toBeUndefined();
   });
 
-  it("wears the set's name, picture, parts and preset when the chip is on", () => {
-    const burner = equipmentById("bunsen") as EquipmentEntry;
-    expect(asShown(burner, false)).toBe(burner);
-    const candle = asShown(burner, true);
-    expect(candle.id).toBe("candle-kit");
-    expect(candle.name).toBe("candle and wick");
-    expect(candle.parts?.length).toBeGreaterThan(0);
-    // The preset comes with the name: a candle that opened the flame panel
-    // on a laboratory burner's default would be a candle in name only.
-    expect(candle.action).toEqual({ kind: "install", verb: "bunsen", preset: { source: "candle" } });
-    // Availability and the shelf are still the tool's own.
-    expect(accessId(candle)).toBe("bunsen");
-    expect(candle.group).toBe(burner.group);
-  });
-
-  it("leaves a tool no set names exactly as it is, rather than hiding it", () => {
-    // The chip is not a mode: turning it on must not empty the shelves of
-    // everything the five kits do not happen to cover.
-    const unnamed = SHELF_ENTRIES.filter((entry) => setSkinOf(entry.id) === undefined);
-    expect(unnamed.length).toBe(SHELF_ENTRIES.length - KIDS_EQUIPMENT.length);
-    for (const entry of unnamed) expect(asShown(entry, true)).toBe(entry);
+  it("still knows which kit names which tool, because two things still need it", () => {
+    // `setSkinOf` outlived the chip: it feeds the cupboard's search
+    // haystack and the (i) panel. Delete it and the kit vocabulary becomes
+    // unreachable, which is the one thing the owner ruled out.
     expect(setSkinOf("bunsen")?.id).toBe("candle-kit");
+    expect(setSkinOf("measure:chromatograph")?.name).toBe("paper chromatography kit");
     expect(setSkinOf("measure:geiger")).toBeUndefined();
+    expect(KIDS_EQUIPMENT.every((kit) => setSkinOf(kit.engineVerb)?.id === kit.id)).toBe(true);
   });
 
-  it("remembers the chip per browser, and treats unreadable storage as off", () => {
-    const store = new Map<string, string>();
-    const storage = {
-      getItem: (key: string) => store.get(key) ?? null,
-      setItem: (key: string, value: string) => void store.set(key, value),
-    };
-    expect(loadSetsView(storage, SETS_VIEW_KEY)).toBe(false);
-    saveSetsView(storage, SETS_VIEW_KEY, true);
-    expect(loadSetsView(storage, SETS_VIEW_KEY)).toBe(true);
-    saveSetsView(storage, SETS_VIEW_KEY, false);
-    expect(loadSetsView(storage, SETS_VIEW_KEY)).toBe(false);
-    expect(loadSetsView(null, SETS_VIEW_KEY)).toBe(false);
-    expect(loadSetsView({ getItem: () => { throw new Error("blocked"); } }, SETS_VIEW_KEY)).toBe(false);
-    expect(() => saveSetsView({ setItem: () => { throw new Error("full"); } }, SETS_VIEW_KEY, true)).not.toThrow();
-    expect(() => saveSetsView(null, SETS_VIEW_KEY, true)).not.toThrow();
-  });
-});
-
-describe("the catalogue's own vocabulary", () => {
-  afterEach(() => {
-    i18n.locale = "en";
+  it("names the kit and lists its parts in the tool's own (i) panel", () => {
+    // Where the kit's name, parts and inventory went. Nothing a kit said
+    // is gone; it is said on the tool it was always a skin over.
+    const rows = equipmentInfoRows(equipmentById("bunsen") as EquipmentEntry, (key) => key);
+    expect(rows[0]).toEqual({ term: "also called", detail: "candle and wick" });
+    expect(rows[1]?.term).toBe("parts");
+    expect(rows[1]?.detail).toContain("wick");
+    expect(rows.at(-1)?.term).toBe("what the model computes");
   });
 
-  it("has German for every name, purpose, boundary and shelf heading", () => {
-    // These reach `t()` through a variable, so the source scan in
-    // i18n.test.ts cannot see them: an English sentence would sit inside a
-    // German cupboard and fail nothing at all.
-    const missing = new Set<string>();
-    for (const label of [...Object.values(GROUP_LABELS), ...Object.values(GROUP_BLURBS)]) {
-      if (!hasGermanTranslation(label)) missing.add(label);
-    }
-    for (const entry of EQUIPMENT_CATALOGUE) {
-      for (const text of [entry.name, entry.blurb, entry.boundary, ...(entry.parts ?? [])]) {
-        if (!hasGermanTranslation(text)) missing.add(text);
-      }
-    }
-    expect([...missing].sort()).toEqual([]);
+  it("adds no kit row to a tool no kit names", () => {
+    const rows = equipmentInfoRows(equipmentById("measure:geiger") as EquipmentEntry, (key) => key);
+    expect(rows.map((row) => row.term)).not.toContain("also called");
+    expect(rows.map((row) => row.term)).not.toContain("parts");
+  });
+
+  it("keeps the candle reachable as a flame, which is what it always was", () => {
+    // The one feature the chip carried beyond a label: `candle-kit` had
+    // `preset: { source: "candle" }`, and the engine caps a candle 100 °C
+    // below a laboratory burner. The capability is the flame panel's own
+    // `source` field, so removing the shortcut removed no chemistry.
+    const burner = APPARATUS.find((item) => item.verb === "bunsen");
+    const source = burner?.fields.find((field) => field.name === "source");
+    expect(source?.options?.map((option) => option.value)).toContain("candle");
+    expect(KIDS_EQUIPMENT.find((kit) => kit.id === "candle-kit")?.preset)
+      .toEqual({ source: "candle" });
   });
 });

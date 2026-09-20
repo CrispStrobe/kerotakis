@@ -1582,6 +1582,62 @@ lives in is not predictable from what the tool is.
   reason for each. Per the convention at the top of this file, the detail and
   the lessons live in `HISTORY.md`.
 
+## The cupboard, after the owner used it (GUI-109 … GUI-111)
+
+Three of the five things the owner hit in the German deploy landed on this
+cupboard, so they are recorded here rather than in a section of their own.
+The other two are with the journal and with the result card.
+
+- [x] **GUI-111 — "Experimentierkästen" earns nothing.** The owner: *"it
+  makes no sense that '◆Experimentierkästen' changes a little bit like
+  Chromatograph => Papierchromatograph. probably just remove that button
+  (while of course keeping all features)"*.
+
+  Done: the chip, `asShown()`, `instrumentSurface.sets`, `showSets()` and
+  the stored `kerotakis.equipment.sets` key are all gone.
+
+  **What the work found — what the button actually did.** It swapped five
+  shelf slots for the `aliasOf` entry that skins them, which carried five
+  differences: the name, the icon, the parts list, the modelling caveat,
+  and — on one of the five — a `preset`. Four of those are description and
+  one was behaviour.
+
+  Where each went:
+
+  * **the name** — into the tool's own (i) panel as an *Auch genannt* row,
+    and into the search haystack. It was already half-there: the filter has
+    searched both vocabularies since GUI-103. It searched them only in the
+    ACTIVE language, though, so a German reader could find the burner by
+    typing "Kerze" and an English reader could not find it by typing
+    "candle and wick". Both vocabularies in both languages now.
+  * **the parts list** — into the same (i) panel. A tool a kit names wears
+    that kit's inventory, which is the list a learner setting it up needs.
+  * **the caveat and the icon** — dropped. The tool's own boundary sentence
+    is the more accurate of the two (the kit's said "uses the existing
+    two-vessel filter"; the tool's says what the filter models and does
+    not), and the tool's own drawing is of the apparatus.
+  * **the preset** — `candle-kit` carried `preset: { source: "candle" }`.
+    This is the one that was real: the engine caps a candle 100 °C below a
+    laboratory burner, so it is a physical claim and not a label. It
+    survives because the flame panel's `source` field has always offered
+    `candle` alongside `burner` — see the `bunsen` spec in `apparatus.ts`.
+    The capability is reachable in full; what is gone is a shortcut that
+    pre-selected it. That is the better home for the choice anyway: which
+    flame you are holding is a property of the flame, not a different
+    device.
+
+  **Which label stays, and why.** The laboratory name. It is the name the
+  engine grammar, the catalog ids and the codex already use; it is the
+  general tool, and naming a general operator after one classroom special
+  case understates it — the chromatography operator does more than paper;
+  and the kit name now has a better home than a label that half the
+  sessions never saw.
+
+  `setSkinOf()` and the `aliasOf` entries stay, because two things still
+  need them: the search haystack and the (i) panel. Deleting them would
+  have made the kit vocabulary unreachable, which is the one thing the
+  owner ruled out.
+
 ## Localisation is not finished (I18N-1 … I18N-4)
 
 The shell is locale-keyed and English and German ship together. The *content*

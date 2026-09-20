@@ -362,17 +362,31 @@ export const setSkinOf = (id: string): EquipmentEntry | undefined =>
   EQUIPMENT_CATALOGUE.find((entry) => entry.aliasOf === id);
 
 /**
- * One slot, as it is drawn.
+ * GUI-111 — why there is no longer a switch here.
  *
- * With the *Experimentierkästen* chip off, a tool is itself. With it on, a
- * tool a set names is drawn as that set — its name, its picture, its parts
- * and its purpose, and its `preset` too, because "Kerze und Docht" that
- * opened the flame panel on a laboratory burner's 1500 °C default would be
- * a candle in name only. A tool no set names is untouched: the chip renames
- * what it can and hides nothing.
+ * `asShown(entry, sets)` used to swap a tool for the kit that skins it when
+ * the *Experimentierkästen* chip was on. The owner: *"it makes no sense
+ * that '◆Experimentierkästen' changes a little bit like Chromatograph =>
+ * Papierchromatograph. probably just remove that button (while of course
+ * keeping all features)."*
+ *
+ * Audited before removing. The chip did five things, and four of them were
+ * a name, a picture, a parts list and a caveat sentence — all of which are
+ * now shown by the tool's OWN slot, through `setSkinOf()`: the kit name is
+ * in the search haystack (`alsoKnownAs` in the cupboard) and the kit's
+ * parts and boundary are rows in the tool's (i) panel
+ * (`equipmentInfoRows`). Nothing about a kit became unreachable.
+ *
+ * The fifth was real and is the reason this comment is long: `candle-kit`
+ * carried `preset: { source: "candle" }`, so opening the flame panel under
+ * the kit's name pre-selected a candle, which the engine caps 100 °C below
+ * a laboratory burner. That is a physical claim, not a label. It survives
+ * because the flame panel's own `source` select has always offered
+ * `candle` — see `APPARATUS`'s `bunsen` spec — so the capability is
+ * reachable in full; what is gone is a shortcut that pre-selected it. That
+ * is the right place for the choice anyway: which flame you are holding is
+ * a property of the flame, not a different device.
  */
-export const asShown = (entry: EquipmentEntry, sets: boolean): EquipmentEntry =>
-  (sets ? setSkinOf(entry.id) ?? entry : entry);
 
 /**
  * The ids the tally counts: every tool the learner can EVER have.
@@ -396,33 +410,6 @@ export interface CupboardTally {
 export function cupboardTally(isAvailable: (id: string) => boolean): CupboardTally {
   const available = GATED_IDS.filter((id) => isAvailable(id)).length;
   return { available, total: GATED_IDS.length, show: available < GATED_IDS.length };
-}
-
-/** Whether the cupboard opens showing set names. Remembered per browser. */
-export const SETS_VIEW_KEY = "kerotakis.equipment.sets";
-
-/** Off unless this browser says otherwise; anything unreadable is off. */
-export function loadSetsView(storage: { getItem(key: string): string | null } | null, key: string): boolean {
-  if (!storage) return false;
-  try {
-    return storage.getItem(key) === "on";
-  } catch {
-    // A private window throws on the property itself.
-    return false;
-  }
-}
-
-export function saveSetsView(
-  storage: { setItem(key: string, value: string): void } | null,
-  key: string,
-  on: boolean,
-): void {
-  if (!storage) return;
-  try {
-    storage.setItem(key, on ? "on" : "off");
-  } catch {
-    // The chip still works for this visit when persistence is unavailable.
-  }
 }
 
 export interface EquipmentHandlers {
@@ -491,8 +478,18 @@ export function equipmentInfoRows(
   translate: (key: string) => string,
 ): InfoRow[] {
   const rows: InfoRow[] = [];
-  if (entry.parts && entry.parts.length > 0) {
-    rows.push({ term: translate("parts"), detail: entry.parts.map((part) => translate(part)).join(" · ") });
+  // GUI-111: the classroom name for this tool, where a learner who knows
+  // it by that name will find it. The kits were a view of the whole
+  // cupboard; they are a line on the one tool each of them named.
+  const kit = entry.aliasOf === undefined ? setSkinOf(entry.id) : undefined;
+  if (kit) {
+    rows.push({ term: translate("also called"), detail: translate(kit.name) });
+  }
+  // A kit's own slot carries its parts; a tool wears the parts of the kit
+  // that names it, which is the inventory a learner setting this up needs.
+  const parts = entry.parts ?? kit?.parts;
+  if (parts && parts.length > 0) {
+    rows.push({ term: translate("parts"), detail: parts.map((part) => translate(part)).join(" · ") });
   }
   if (entry.boundary) {
     // A sentence set opposite its label starts in a different place on

@@ -29,7 +29,6 @@
     GROUP_LABELS,
     SHELF_ENTRIES,
     accessId,
-    asShown,
     cupboardTally,
     deployedLabel,
     equipmentById,
@@ -39,7 +38,6 @@
     type EquipmentEntry,
     type EquipmentGroup,
   } from "../equipmentCatalogue";
-  import { instrumentSurface } from "../instrumentSurface.svelte";
 
   let {
     target,
@@ -81,10 +79,6 @@
     onburette: () => void;
     onclose: () => void;
   } = $props();
-
-  // The sets chip is remembered per browser; read it before the first paint
-  // so the cupboard opens in the state the learner left it in.
-  instrumentSurface.hydrate();
 
   let filter = $state("");
   /** One explanation at a time: several open panels is the wall of text the
@@ -142,20 +136,35 @@
     return equipmentAccess(catalog, id, mode).available;
   };
   /**
-   * One slot per tool, wearing the set's name when the chip is on.
+   * One slot per tool, under its laboratory name — GUI-111.
    *
-   * The filter searches BOTH names whichever is showing, so a learner who
-   * knows the cupboard by one vocabulary can still type the other: typing
-   * "Bunsenbrenner" in the sets view finds the candle, and typing "Kerze"
-   * outside it finds the burner.
+   * There used to be a chip here that renamed five of these slots after the
+   * activity kits that skin them: Chromatograph became Papierchromatograph,
+   * Bunsenbrenner became Kerze und Docht. The owner asked for it to go, and
+   * the audit agreed: it was a whole-cupboard switch that changed five
+   * labels, and a reader who did not already know what it did had no way to
+   * find out except by pressing it.
+   *
+   * The laboratory name is the one that stays, for three reasons: it is the
+   * name the engine grammar, the catalog ids and the codex all use; it is
+   * the general tool, and naming a general operator after one classroom
+   * special case understates what it does; and the kit name has somewhere
+   * better to live. Which is here — the filter still searches BOTH
+   * vocabularies, so typing "Kerze" finds the burner and typing
+   * "Papierchromatographie" finds the chromatograph, and the (i) panel
+   * names the kit outright and lists its parts.
    */
-  const displayed = $derived(SHELF_ENTRIES.map((entry) => asShown(entry, instrumentSurface.sets)));
   const alsoKnownAs = (entry: EquipmentEntry): string => {
     const other = entry.aliasOf === undefined ? setSkinOf(entry.id) : equipmentById(entry.aliasOf);
-    return other ? `${t(other.name)} ${t(other.blurb)}` : "";
+    // Both vocabularies AND both languages. The tool's own English source
+    // text is already in the haystack (`equipmentMatches` searches `title`
+    // and `blurb` unlocalised); until GUI-111 the kit's was not, so a
+    // German reader could find the burner by typing "Kerze" and an English
+    // one could not find it by typing "candle and wick".
+    return other ? `${other.name} ${other.blurb} ${t(other.name)} ${t(other.blurb)}` : "";
   };
   const shown = $derived(
-    displayed.filter((entry) =>
+    SHELF_ENTRIES.filter((entry) =>
       (accessId(entry) !== "react" || reactAvailable)
       && inScope(entry)
       && equipmentMatches(
@@ -217,19 +226,6 @@
           <span><small>{t("next instrument installs on")}</small><strong>v{target + 1} · {t(targetLabel)}</strong></span>
         </p>
       {/if}
-      <!-- The sets are a chip, not a shelf and not a mode: it renames the
-           tools the kits stand for and hides nothing, so the cupboard holds
-           the same slots in both states. -->
-      <button
-        type="button"
-        class="sets-chip"
-        class:on={instrumentSurface.sets}
-        aria-pressed={instrumentSurface.sets}
-        title={t("Show the tools under the names of the activity kits.")}
-        onclick={() => instrumentSurface.showSets(!instrumentSurface.sets)}
-      >
-        <span aria-hidden="true">◆</span>{t("activity kits")}
-      </button>
       <label class="equipment-search">
         <span aria-hidden="true">⌕</span>
         <input bind:value={filter} placeholder={t("filter…")} aria-label={`${t("filter…")} ${t("equipment")}`} />
@@ -349,9 +345,6 @@
   .shelf h3 small { min-width: 1.35rem; padding: .12rem .3rem; border-radius: 999px; background: var(--surface-raised); text-align: center; }
   .shelf-items { display: grid; grid-template-columns: repeat(auto-fill, minmax(6.4rem, 1fr)); gap: .4rem; align-items: end; }
   .board { display: block; height: 6px; margin-top: .2rem; border-radius: 3px; background: linear-gradient(180deg, color-mix(in srgb, var(--action) 26%, var(--surface-raised)), var(--surface-raised)); box-shadow: 0 3px 7px var(--shadow); }
-  .sets-chip { min-height: 34px; display: inline-flex; align-items: center; gap: .35rem; justify-self: start; padding: .2rem .7rem; border: 1px solid var(--edge); border-radius: 999px; color: var(--dim); background: var(--surface-raised); cursor: pointer; font: inherit; font-size: .68rem; font-weight: 700; }
-  .sets-chip:hover { color: var(--ink); border-color: var(--discovery); }
-  .sets-chip.on { border-color: var(--discovery); color: var(--ink); background: color-mix(in srgb, var(--discovery) 14%, var(--surface)); }
   .slot { min-width: 0; display: flex; flex-direction: column; align-items: center; gap: .1rem; }
   .item { position: relative; width: 100%; min-height: 84px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: .3rem; padding: .5rem .35rem; overflow: hidden; border: 1px solid var(--edge); border-radius: 12px; color: var(--ink); background: linear-gradient(160deg, var(--surface), color-mix(in srgb, var(--surface-raised) 78%, var(--surface))); cursor: pointer; font: inherit; text-align: center; }
   .item:hover:not(:disabled) { border-color: var(--action); transform: translateY(-2px); box-shadow: 0 7px 16px var(--shadow); }
