@@ -46,6 +46,7 @@
   import { INSTRUMENTS, instrumentCommand } from "../instruments";
   import { quickAccessRow } from "../instrumentRecents";
   import { instrumentSurface } from "../instrumentSurface.svelte";
+  import ToolIcon from "./ToolIcon.svelte";
   let {
     vessel,
     busy,
@@ -78,7 +79,16 @@
       title={t(inst.label)}
       onclick={() => measure(inst.token)}
     >
-      <span class="glyph" class:word={inst.glyph.length > 1} aria-hidden="true">{inst.glyph}</span>
+      <!-- GUI-109: the same portrait the cupboard draws. The strip and the
+           cupboard are two doors onto one instrument, so a reading that is
+           a balance in one and a `⚖` in the other is two vocabularies for
+           one tool. Where `instruments.ts` kept a letter (pH, Bq) the
+           letter is drawn here too. -->
+      {#if inst.icon}
+        <span class="glyph" aria-hidden="true"><ToolIcon name={inst.icon} /></span>
+      {:else}
+        <span class="glyph" class:word={inst.glyph.length > 1} aria-hidden="true">{inst.glyph}</span>
+      {/if}
       <span class="name">{t(inst.label)}</span>
     </button>
   {/each}
@@ -148,11 +158,22 @@
     border-color: var(--action);
   }
   .glyph {
+    display: inline-grid;
+    place-items: center;
     font-size: 0.95rem;
     line-height: 1;
   }
-  /* The typographic ones (pH, mL, λ, Rf) are read, not looked at, so they
-     want the smaller, steadier treatment the emoji do not. */
+  /* GUI-109: the drawings, at the size the glyphs occupied. `ToolIcon`
+     ships a 16 px default with a right margin for inline use beside text;
+     in this row the picture IS the cell. */
+  .glyph :global(svg) {
+    width: 17px;
+    height: 17px;
+    margin: 0;
+    vertical-align: 0;
+  }
+  /* The two that are still typographic (pH, Bq) are read, not looked at,
+     so they want the smaller, steadier treatment the emoji do not. */
   .glyph.word {
     font-size: 0.7rem;
     font-weight: 600;
@@ -180,6 +201,10 @@
     }
     .glyph {
       font-size: 1.1rem;
+    }
+    .glyph :global(svg) {
+      width: 20px;
+      height: 20px;
     }
     .glyph.word {
       font-size: 0.8rem;

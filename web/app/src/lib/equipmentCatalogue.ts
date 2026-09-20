@@ -211,7 +211,13 @@ const instrumentEntries = (): EquipmentEntry[] =>
     name: item.label,
     blurb: item.purpose,
     boundary: boundaryOf(instrumentVerb(item.token)),
-    render: { kind: "glyph" as const, text: item.glyph },
+    // GUI-109: a drawing of the apparatus where one exists, and the
+    // instrument's own notation where `instruments.ts` decided a letter is
+    // the honest answer — `pH` and `Bq`. The apparatus have had portraits
+    // since GUI-033; the twelve readings had single characters.
+    render: item.icon
+      ? { kind: "icon" as const, name: item.icon }
+      : { kind: "glyph" as const, text: item.glyph },
     action: { kind: "measure" as const, token: item.token },
   }));
 
