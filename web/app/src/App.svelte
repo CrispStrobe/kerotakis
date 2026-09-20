@@ -785,6 +785,24 @@
   let apparatusTarget = $state<number | null>(restoredApparatus?.target ?? null);
   let apparatusPreview = $state<Record<string, number | string>>(restoredApparatus?.values ?? {});
   const apparatusSpec = $derived(APPARATUS.find((s) => s.verb === apparatusOut) ?? null);
+
+  /**
+   * GUI-112 — what the command bar may suggest, assembled from what the
+   * bench already knows and nothing that was written down here.
+   *
+   * The grammar rows are the engine's verb inventory (`Lab::grammar()`),
+   * the vessels are the live scene's, and the shelf is the registry as
+   * the cabinet already has it. `completions.ts` reads the context out of
+   * the grammar's own example lines; this only hands it the inventories
+   * and the app's `t()`, so a German reader is offered German words for
+   * chemicals a German data pack named.
+   */
+  const commandCompletions = $derived({
+    grammar: session.grammarRows,
+    vessels: (session.scene?.vessels ?? []).map((vessel) => ({ id: vessel.id, label: vessel.label })),
+    shelf: session.shelf.map((item) => ({ key: item.key, name: item.name, formula: item.formula })),
+    translate: t,
+  });
   const selectedSceneVessel = $derived(session.scene?.vessels.find((v) => v.id === session.selected));
   /**
    * What the disposal station's press means — see `wasteStation.ts`.
@@ -1598,7 +1616,7 @@
     onsubmit={(line) => void session.submit(line)}
     busy={session.busy}
     onvalidate={(line) => session.parse(line)}
-    examples={session.verbExamples}
+    completionSources={commandCompletions}
     onclose={() => setConsoleOpen(false)}
   />
 {/if}

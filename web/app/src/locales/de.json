@@ -2720,6 +2720,9 @@
   "a number I type": "einer Zahl, die ich eingebe",
   "that is not a number — write it as 7.5 or 7,5": "das ist keine Zahl — schreibe sie als 7,5 oder 7.5",
   "an energy of nothing heats nothing — write a number above zero": "eine Energie von nichts erwärmt nichts — schreibe eine Zahl über null",
-  "more than this flame can deliver: at full power with the collar open it reaches 150 kJ in the longest exposure the panel allows": "mehr, als diese Flamme liefern kann: bei voller Stärke und offenem Luftregler erreicht sie 150 kJ in der längsten Einwirkzeit, die das Bedienfeld zulässt"
+  "more than this flame can deliver: at full power with the collar open it reaches 150 kJ in the longest exposure the panel allows": "mehr, als diese Flamme liefern kann: bei voller Stärke und offenem Luftregler erreicht sie 150 kJ in der längsten Einwirkzeit, die das Bedienfeld zulässt",
+  "suggestions": "Vorschläge",
+  "vessel": "Gefäß",
+  "chemical": "Chemikalie"
  }
 }

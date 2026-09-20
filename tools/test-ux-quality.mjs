@@ -1453,6 +1453,234 @@ try {
   await openBench();
   check("the command line comes back when it is asked for",
     Boolean(await page.evaluate(`Boolean(document.querySelector('form.bar input'))`)));
+
+  /* -- GUI-112: the prompt bar's completions ---------------------------
+   *
+   * The owner: "we should optionally have in GUI also the prompt bar for
+   * fast text entry. it should have auto-complete (suggestions from
+   * available commands, parts, chemicals, etc, relative to context
+   * insofar as possible)."
+   *
+   * `completions.test.ts` owns the model — which inventory belongs at
+   * which position, and where the answer came from. What it cannot own is
+   * any of this: `svelte/server` renders the bar and fires no handler, so
+   * a popup wired to nothing would pass every unit test in web/app. The
+   * combobox is therefore driven here, with real keys, in German.
+   */
+  console.log("");
+  const barReady = await waitFor(page, `!document.querySelector('form.bar input')?.disabled`, { timeout: 60000 });
+  check("the command bar is ready to take a line", barReady === true);
+
+  /** Type into the real input the way a keyboard does, character by
+   * character, so every keystroke goes through the component's own
+   * handler rather than one assignment it might not be listening to. */
+  /**
+   * Let Svelte's effects run before anything is read back.
+   *
+   * Two animation frames: the first is the one the update is scheduled
+   * into, the second is after it has painted. Without this, a read taken
+   * immediately after an input event can see the list the popup held
+   * BEFORE the keystroke — a stale value that is indistinguishable from
+   * a filter that did not work.
+   */
+  const flush = () => page.evaluate(
+    `new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve("flushed"))))`);
+  const typeText = (value) => page.evaluate(`(() => {
+    const input = document.querySelector('form.bar input');
+    if (!input) return "no bar";
+    input.focus();
+    const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value").set;
+    setter.call(input, ${JSON.stringify(value)});
+    input.setSelectionRange(input.value.length, input.value.length);
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    return "typed";
+  })()`);
+  const typeLine = async (value) => {
+    const typed = await typeText(value);
+    await flush();
+    return typed;
+  };
+  const pressKey = (key) => page.evaluate(`(() => {
+    const input = document.querySelector('form.bar input');
+    input?.dispatchEvent(new KeyboardEvent("keydown", { key: ${JSON.stringify(key)}, bubbles: true, cancelable: true }));
+    return "pressed";
+  })()`);
+  const press = async (key) => {
+    const pressed = await pressKey(key);
+    await flush();
+    return pressed;
+  };
+  const popup = () => page.evaluate(`(() => {
+    const input = document.querySelector('form.bar input');
+    const list = document.querySelector('ul.completions[role="listbox"]');
+    const options = [...(list?.querySelectorAll('li[role="option"]') ?? [])];
+    const activeId = input?.getAttribute('aria-activedescendant') ?? "";
+    return JSON.stringify({
+      expanded: input?.getAttribute('aria-expanded') ?? "",
+      line: input?.value ?? "",
+      count: options.length,
+      // The label and the hint are separate elements; matching the row's
+      // whole text would conflate the word the bar INSERTS with the
+      // example beside it, and the two are deliberately different.
+      labels: options.map((option) => option.querySelector('.label')?.textContent.trim() ?? ""),
+      hints: options.map((option) => option.querySelector('.hint')?.textContent.trim() ?? ""),
+      activeId,
+      // The active option must be an element that EXISTS: an
+      // aria-activedescendant pointing nowhere is how a combobox goes
+      // silent for the only readers it was built for.
+      activeResolves: Boolean(activeId && document.getElementById(activeId)),
+      selected: options.filter((option) => option.getAttribute('aria-selected') === "true").length,
+      // 44 px, the floor this file audits everywhere else.
+      small: options.filter((option) => option.getBoundingClientRect().height < 44).length,
+      // An option may not contain interactive content: keyboard focus
+      // stays in the input and the active-descendant attribute moves
+      // instead, so a button in here would be a second tab stop the
+      // combobox pattern does not have. (No backticks in this comment —
+      // the whole function is a template literal.)
+      interactiveChildren: options.filter((option) => option.querySelector('button, a, input')).length,
+    });
+  })()`);
+
+  await page.evaluate(`window.__uxErrors = [];`);
+  await typeLine("");
+
+  /**
+   * Focus, and keep focusing until the verbs are there.
+   *
+   * NOT a fixed pause. The verb inventory arrives from the engine
+   * asynchronously — `loadGrammar()` is a round trip made after the app
+   * boots — so an empty popup 300 ms after a reload is a bar that has
+   * not been told the verbs yet, not a broken popup. A `settle()` here
+   * measured the race and reported `count:0` while the same popup, read
+   * a second later, held all eight. The condition each check needs is
+   * the condition it waits on.
+   */
+  const offered = await waitFor(page, `(() => {
+    const field = document.querySelector('form.bar input');
+    if (!field || field.disabled) return false;
+    field.focus();
+    return field.getAttribute('aria-expanded') === "true"
+      && document.querySelectorAll('ul.completions li[role="option"]').length > 0;
+  })()`, { timeout: 60000 });
+  const onFocus = JSON.parse(await popup());
+  check("focusing the empty bar offers the grammar's verbs",
+    offered === true && onFocus.expanded === "true" && onFocus.count > 0,
+    JSON.stringify({ ...onFocus, hints: undefined }));
+  check("every suggestion clears the 44 px touch floor", onFocus.small === 0, `${onFocus.small} too small`);
+  check("and no suggestion hides a second tab stop inside itself",
+    onFocus.interactiveChildren === 0, `${onFocus.interactiveChildren} with interactive children`);
+  // The verbs are offered in the reader's language because the ENGINE
+  // spelled them: each hint is that verb's own example line, and the word
+  // the bar would insert is that line's first word. Nothing in the app
+  // holds a list of German verbs — this is the assertion that says so.
+  const localised = onFocus.labels.filter((label, index) => onFocus.hints[index]?.split(" ")[0] === label);
+  check("each verb offered is the first word of the engine's own example line",
+    onFocus.count > 0 && localised.length === onFocus.count,
+    JSON.stringify({ labels: onFocus.labels, hints: onFocus.hints }));
+
+  // The popup opens on the first option, so "an arrow moved something"
+  // is the descendant becoming the SECOND — waited on, not slept on.
+  await press("ArrowDown");
+  await waitFor(page,
+    `document.querySelector('form.bar input')?.getAttribute('aria-activedescendant') === "kero-completions-1"`,
+    { timeout: 20000 });
+  const moved = JSON.parse(await popup());
+  check("arrow keys move an active option a screen reader can resolve",
+    moved.activeResolves && moved.selected === 1 && /-1$/.test(moved.activeId),
+    JSON.stringify({ activeId: moved.activeId, selected: moved.selected }));
+
+  await press("Escape");
+  await waitFor(page,
+    `document.querySelector('form.bar input')?.getAttribute('aria-expanded') === "false"`,
+    { timeout: 20000 });
+  const escaped = JSON.parse(await popup());
+  check("Escape closes the popup without clearing the line",
+    escaped.expanded === "false" && escaped.count === 0, JSON.stringify(escaped));
+
+  // English, deliberately: the alias layer accepts it in any locale, so
+  // this half of the check does not depend on which German word a
+  // translator chose for a verb.
+  // Stated as its own check: with nothing on the bench there is nothing
+  // to suggest, and "no vessels offered" would then be a fact about the
+  // bench rather than a broken completion — a diagnosis, not a mystery.
+  const bench = await page.evaluate(`document.querySelectorAll('.bench .vessel').length`);
+  check("the bench has a vessel to suggest", bench > 0, `${bench} vessels on the bench`);
+  await typeLine("add ");
+  await waitFor(page, `document.querySelectorAll('ul.completions li[role="option"]').length > 0`,
+    { timeout: 30000 });
+  const afterVerb = JSON.parse(await popup());
+  const vesselRows = afterVerb.labels.filter((label) => /^v\d+$/.test(label));
+  check("after a verb whose example takes a vessel, the bench's own vessels are offered",
+    afterVerb.count > 0 && vesselRows.length === afterVerb.count,
+    JSON.stringify(afterVerb.labels));
+  // A vessel is named by what it IS, not only by its number — the hint is
+  // the scene's own kind, translated.
+  check("and each one says what kind of glassware it is",
+    afterVerb.hints.every((hint) => hint.length > 0), JSON.stringify(afterVerb.hints));
+
+  await press("ArrowDown");
+  await press("Enter");
+  await waitFor(page, `/^add v\\d+ $/.test(document.querySelector('form.bar input')?.value ?? "")`,
+    { timeout: 20000 });
+  const took = JSON.parse(await popup());
+  check("Enter takes the highlighted suggestion rather than running the line",
+    /^add v\d+ $/.test(took.line), took.line);
+
+  // The chemicals, searched in German and inserted in the engine's own
+  // word. This is the whole point of the feature for its reader: they
+  // think "Wasser", and the line that reaches the bench says `water`.
+  await typeLine(`${took.line}Wass`);
+  await waitFor(page, `document.querySelectorAll('ul.completions li[role="option"]').length > 0`,
+    { timeout: 30000 });
+  const byGermanName = JSON.parse(await popup());
+  check("a chemical can be found by its German name",
+    byGermanName.count > 0 && byGermanName.labels.some((label) => /^Wass/i.test(label)),
+    JSON.stringify(byGermanName.labels));
+  await press("Enter");
+  await waitFor(page, `/^add v\\d+ \\S+ $/.test(document.querySelector('form.bar input')?.value ?? "")`,
+    { timeout: 20000 });
+  const inserted = JSON.parse(await popup());
+  const word = inserted.line.trim().split(" ").pop() ?? "";
+  // Not asserted to be `water` specifically: which German name sorts
+  // first under "Wass" is a property of the data pack, and pinning it
+  // here would make this check fail the next time a species is added.
+  // What must hold is that the word inserted is the REGISTRY key and not
+  // the German label the reader searched with.
+  check("and the word that lands in the line is the engine's, not the German label it was found by",
+    /^add v\d+ \S+ $/.test(inserted.line) && word.length > 0 && word !== byGermanName.labels[0],
+    JSON.stringify({ line: inserted.line, searched: byGermanName.labels[0] }));
+
+  /*
+   * The proof that a completed line is a line the bench takes is the
+   * bar's own live parse, which is the engine's — and the check is that
+   * it says NOTHING, which is also what a validator that never ran says.
+   * So the validator is made to speak first: a line of nonsense must
+   * raise a complaint before its silence about the completed line means
+   * anything. A precondition stated as a check, rather than a passing
+   * assertion that proves nothing.
+   */
+  await press("Escape");
+  await typeLine("quatschbefehl");
+  const complains = await waitFor(page,
+    `(document.querySelector('.wrap p.problem')?.textContent.trim().length ?? 0) > 0`,
+    { timeout: 30000 });
+  check("the bar's live parse is answering at all", complains === true,
+    "a nonsense line raised no complaint, so silence below would prove nothing");
+
+  await typeLine(`${inserted.line.trim()} 10mL`);
+  const accepted = await waitFor(page,
+    `(document.querySelector('.wrap p.problem')?.textContent.trim().length ?? 0) === 0`,
+    { timeout: 30000 });
+  const judged = JSON.parse(await page.evaluate(`(() => JSON.stringify({
+    problem: document.querySelector('.wrap p.problem')?.textContent.trim() ?? "",
+    errors: window.__uxErrors,
+  }))()`));
+  check("a line built entirely from suggestions is one the grammar accepts",
+    accepted === true && judged.problem === "", judged.problem);
+  check("and completing a line throws nothing", judged.errors.length === 0, judged.errors.join(" | "));
+  await typeLine("");
+  await press("Escape");
+  await settle();
   await page.evaluate(`(() => {
     const style = document.createElement("style");
     style.id = "ux-text-zoom";

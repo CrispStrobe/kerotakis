@@ -36,6 +36,7 @@ import { registerText } from "./registerText";
 import { missionTitle } from "./storyProgress";
 import { caseAwardedTools, contaminatedSampleComplete } from "./storyChapter";
 import { access as catalogAccess, catalogMap, type CabinetStatus, type CatalogMap } from "./catalogProgress";
+import type { GrammarRow } from "./completions";
 import { persistStockUsed, restoreStockUsed, stockRemaining, suppliedSpecies, STORY_STOCK_KEY } from "./storyStock";
 import type { LabMode } from "./worldState";
 import { parseElementCoverage, type ElementCoverageReport } from "./elements";
@@ -540,11 +541,20 @@ export class Session {
   elementCoverage = $state<ElementCoverageReport | null>(null);
   /** Curated reaction names the `react` verb accepts (from the grammar). */
   reactOptions = $state<string[]>([]);
-  /** One example line per verb, as a learner of the CURRENT language would
-   * type it (I18N) — what the command bar offers. English lines wherever
-   * the engine has no localised form, which is also what an older host
-   * without the field gives us. */
-  verbExamples = $state<string[]>([]);
+  /**
+   * The engine's verb inventory, whole: canonical verb, canonical
+   * example, and (I18N) the same line as a learner of the CURRENT
+   * language would type it. English wherever the engine has no localised
+   * form, which is also what an older host without the field gives us.
+   *
+   * This used to be `verbExamples`, a flat list of finished lines, which
+   * was all a `<datalist>` could use. GUI-112's completion model needs
+   * the canonical example as a positional SCHEMA — what may follow this
+   * verb at this position — and the canonical verb to recognise an
+   * English word the alias layer never rewrote, so the rows are kept as
+   * the engine sent them and `completions.ts` reads what it needs.
+   */
+  grammarRows = $state<GrammarRow[]>([]);
   /** While set, submit() records event keys (tag and tag:species) here —
    * the experiment checker compares them against codex claims. */
   private eventCollector: string[] | null = null;
@@ -1516,9 +1526,9 @@ export class Session {
         options?: string[];
       }[];
       this.reactOptions = grammar.find((g) => g.verb === "react")?.options ?? [];
-      this.verbExamples = grammar
-        .map((g) => g.typed ?? g.example ?? "")
-        .filter((line) => line.length > 0);
+      this.grammarRows = grammar
+        .filter((g) => typeof g.example === "string" && g.example.length > 0)
+        .map((g) => ({ verb: g.verb, example: g.example!, typed: g.typed ?? null }));
     } catch {
       // An older host without grammar still runs; the picker just hides.
     }
