@@ -2556,6 +2556,67 @@ questions draw through `t()`. All three are in the haystack now and
 `catalogEntry.test.ts` fails loudly if any is taken back out, because
 `Strg+F` is no longer there to cover for it.
 
+## The journal, after the owner used it (GUI-107)
+
+One of five things the owner hit in the German deploy. They are two
+different complaints wearing five hats — *the chrome is eating the
+content* (GUI-107, GUI-108, GUI-110) and *the labels are not telling me
+anything* (GUI-109, GUI-111) — and each is recorded with the surface it
+belongs to rather than in a section of its own: GUI-108 beside the result
+card, GUI-109 … GUI-111 with the cupboard.
+
+- [x] **GUI-107 — The Laborbuch spends two rows saying who it is.** The
+  owner: *"the '≡ / >_ / ›' in Laborbuch can we move up into the top '≡
+  Laborbuch 2 ›' row to save screenspace"*.
+
+  Done. The pane heading and the journal's control row were two separate
+  components' idea of the same thing: `App.svelte` drew `≡ Laborbuch 2 ›`
+  and `Feed.svelte` drew a second row inside the log with the view toggle
+  and the note chevron. They are one row now — `JournalHeader.svelte` —
+  ordered identity, then what to look at, then what to add, then the pane's
+  own collapse, which is the reading order and the tab order both.
+
+  **What the work found:** the two rows could not simply be concatenated,
+  because the controls and the state they drive live in different
+  components and Svelte scopes styles to whoever wrote the markup. Three
+  consequences worth recording. (1) `showTrace` and `composing` are
+  `$bindable` props of `Feed.svelte` now, held in the shell: the button is
+  one component up from the thing it switches, and two siblings can only
+  share a value through the parent that holds both. (2) The pinned-tip
+  behaviour — a tap pins the label, because a tap is the only "hover" a
+  touch screen has — had to move WITH the buttons, which is the reason this
+  is a component and not ten lines of markup in a 2800-line `App.svelte`.
+  A `title=` alone would have been a silent accessibility regression on
+  every phone. (3) The composer FORM stayed in the feed while its chevron
+  went up: the textarea is part of the notebook and belongs beside the
+  entries it is about to join.
+
+  At 320 px the row is icon + name + count + two view buttons + chevron and
+  nothing else — the collapse chevron is already `display: none` below 980
+  px, because a tab bar gives the journal the whole screen there and a
+  collapse control that cannot do anything is not worth its width. The name
+  is the only elastic cell, so when the pane narrows it is the WORD that
+  ellipsises and never the controls.
+
+## Asked for, and deliberately not built here (GUI-112, GUI-113)
+
+Both are the owner's, both are larger than the five above, and neither is
+started. Recorded so they are not lost.
+
+- [ ] **GUI-112 — A command prompt bar in the GUI, with context-aware
+  autocomplete.** The owner wants to type at the bench. `CommandBar.svelte`
+  exists and is opt-in from the utilities menu, and `session.parse(line)`
+  already validates a line without running it — so the parse-only door the
+  autocomplete would need is open. What is missing is the completion model:
+  what can follow this verb, in this scene, for this vessel. That is an
+  engine-side question about affordances before it is a widget.
+
+- [ ] **GUI-113 — Set the energy amount directly for `Erhitzen`.** Today the
+  heat panel takes its energy through the apparatus form's own controls.
+  The owner wants to type the number. Related to GUI-112 but separable: it
+  is one form field and one validation rule, against a verb that already
+  accepts `heat v1 40kJ on burner`.
+
 ## Completed GUI tasks
 
 Numbers are never renumbered and never reused. Each of these landed; the detail

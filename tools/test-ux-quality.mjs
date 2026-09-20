@@ -1021,6 +1021,111 @@ try {
   check("320 px cabinet stays inside the page", narrowShelf.bodyOverflow <= 1 && Boolean(narrowShelf.cabinet), `${narrowShelf.bodyOverflow}px`);
   check("320 px journal stays inside the page", narrowJournal.bodyOverflow <= 1 && Boolean(narrowJournal.journal), `${narrowJournal.bodyOverflow}px`);
 
+  /* -- GUI-107: the journal's chrome is ONE row, and it still works -------
+   *
+   * The owner: "the '≡ / >_ / ›' in Laborbuch can we move up into the top
+   * '≡ Laborbuch 2 ›' row to save screenspace". The pane heading and the
+   * feed's own control row are one row now, which moved the view toggle
+   * and the note chevron into a different component from the state they
+   * drive — a `$bindable` prop away from the log they switch.
+   *
+   * That is exactly the shape of defect the unit tests cannot see: every
+   * component test in `web/app` renders through `svelte/server`, which
+   * produces markup and never fires a handler, so a binding that does not
+   * reach the feed passes the whole suite. So the assertion here is a
+   * PRESS — and it is made at 320 px, the width where a row that did not
+   * really fold would wrap and give itself away.
+   */
+  const journalChrome = JSON.parse(await page.evaluate(`(() => {
+    window.__journalErrors = [];
+    window.addEventListener("error", (event) => window.__journalErrors.push(String(event.message)));
+    const pane = document.querySelector('main > aside');
+    if (!pane) return JSON.stringify({ present: false });
+    const rows = [...pane.querySelectorAll('.pane-heading')];
+    const feed = pane.querySelector('.feed');
+    // Controls are found by ROLE and class, never by their visible text: the
+    // glyphs are a design choice and the labels are translated, and #674
+    // is the standing lesson about matching a control on a substring of
+    // what it happens to render today.
+    const controls = [...pane.querySelectorAll('.pane-heading button')].filter((item) => item.offsetParent);
+    const tops = new Set(controls.map((item) => Math.round(item.getBoundingClientRect().top)));
+    return JSON.stringify({
+      present: true,
+      headings: rows.length,
+      // Everything that is chrome must be in the heading; the feed keeps
+      // the log and the composer form and nothing else.
+      strayChrome: feed ? feed.querySelectorAll('.journal-view, .composer-toggle').length : 1,
+      controls: controls.length,
+      unnamed: controls.filter((item) => !(item.getAttribute('aria-label') || '').trim()).length,
+      rows: tops.size,
+      // A hit target is the whole heading row's height for these: they are
+      // 32 px of paint inside a 44 px row.
+      short: controls.filter((item) => item.getBoundingClientRect().height < 24).length,
+      paneOverflow: pane.scrollWidth - pane.clientWidth,
+    });
+  })()`));
+  check("320 px journal draws one row of chrome, not two",
+    journalChrome.present && journalChrome.headings === 1 && journalChrome.strayChrome === 0,
+    JSON.stringify(journalChrome));
+  check("320 px journal keeps its controls on that one row",
+    journalChrome.rows === 1 && journalChrome.controls >= 3,
+    `${journalChrome.controls} controls on ${journalChrome.rows} row(s)`);
+  check("320 px journal chrome is named and not squeezed flat",
+    journalChrome.unnamed === 0 && journalChrome.short === 0,
+    `${journalChrome.unnamed} unnamed, ${journalChrome.short} under 24px`);
+  check("320 px journal does not scroll sideways", journalChrome.paneOverflow <= 1,
+    `${journalChrome.paneOverflow}px`);
+
+  // The press. `aria-pressed` on the pair is the journal's own answer to
+  // "which view am I in", so a toggle that did not reach the feed leaves it
+  // unchanged — which is the failure this check exists for.
+  const traceToggle = JSON.parse(await page.evaluate(`(() => {
+    const group = document.querySelector('main > aside .pane-heading .journal-view');
+    const buttons = [...(group?.querySelectorAll('button') ?? [])];
+    const before = buttons.map((item) => item.getAttribute('aria-pressed')).join(",");
+    buttons[1]?.click();
+    return JSON.stringify({ buttons: buttons.length, before });
+  })()`));
+  await settle();
+  const traced = JSON.parse(await page.evaluate(`(() => {
+    const group = document.querySelector('main > aside .pane-heading .journal-view');
+    const buttons = [...(group?.querySelectorAll('button') ?? [])];
+    return JSON.stringify({
+      after: buttons.map((item) => item.getAttribute('aria-pressed')).join(","),
+      errors: window.__journalErrors,
+    });
+  })()`));
+  check("the trace toggle in the heading reaches the log below it",
+    traceToggle.buttons === 2 && traceToggle.before === "true,false" && traced.after === "false,true",
+    JSON.stringify({ ...traceToggle, ...traced }));
+
+  // The composer chevron is the other half of the same binding: the button
+  // is in the heading, the textarea is in the feed.
+  const composer = JSON.parse(await page.evaluate(`(() => {
+    const chevron = document.querySelector('main > aside .pane-heading button.composer-toggle');
+    chevron?.click();
+    return JSON.stringify({ chevron: Boolean(chevron) });
+  })()`));
+  await settle();
+  const composed = JSON.parse(await page.evaluate(`(() => JSON.stringify({
+    form: Boolean(document.querySelector('main > aside .feed #journal-note-composer textarea')),
+    expanded: document.querySelector('main > aside .pane-heading button.composer-toggle')
+      ?.getAttribute('aria-expanded'),
+    errors: window.__journalErrors,
+  }))()`));
+  check("the note chevron in the heading opens the composer in the feed",
+    composer.chevron && composed.form && composed.expanded === "true",
+    JSON.stringify({ ...composer, ...composed }));
+  check("and the journal's folded chrome throws nothing on the way",
+    composed.errors.length === 0, composed.errors.join(" | "));
+  // Leave the journal as it was found, so the checks after this one do not
+  // inherit an open composer or the trace view.
+  await page.evaluate(`(() => {
+    document.querySelector('main > aside .pane-heading button.composer-toggle')?.click();
+    document.querySelector('main > aside .pane-heading .journal-view button')?.click();
+  })()`);
+  await settle();
+
   // Text-only zoom is more demanding than page zoom: the viewport does not
   // shrink, but inherited type and rem-sized controls double. This catches
   // rigid chrome that a narrow-viewport test alone cannot see.
