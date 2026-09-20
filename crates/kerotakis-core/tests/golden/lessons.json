@@ -75,7 +75,7 @@
     ]
   },
   "baking-powder-or-soda": {
-    "event_count": 18,
+    "event_count": 16,
     "events_sample": [
       "v1: +2.7671 mol water",
       "v1: +5.000 g baking soda (1 known ingredients)",
@@ -88,8 +88,6 @@
       "v2 thermometer: 25.00 °C",
       "v2: 25.0 °C → 72.4 °C",
       "v2: 10.00 kJ requested; 10.00 kJ delivered — time model not yet coupled",
-      "v2: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
-      "v2: starch does not react — starch does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
       "v2 thermometer: 72.37 °C",
       "v3: new vessel",
       "v3: +50.300 g 5% white vinegar (2 known ingredients)",
@@ -162,7 +160,7 @@
     ]
   },
   "balloon-pressure": {
-    "event_count": 10,
+    "event_count": 9,
     "events_sample": [
       "v1: +50.300 g 5% white vinegar (2 known ingredients)",
       "v1: sealed over 0.500 L of headspace, trapping 0.0204 mol of room air",
@@ -171,7 +169,6 @@
       "v1 pressure gauge: 101.33 kPa",
       "v1 volume meter: 500.00 mL",
       "v1: pressure controlled at 1.000 bar; initial headspace 0.500 L",
-      "v1: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
       "v1 pressure gauge: 100.00 kPa",
       "v1 volume meter: 506.62 mL"
     ],
@@ -217,7 +214,7 @@
     ]
   },
   "blue-crystals": {
-    "event_count": 11,
+    "event_count": 9,
     "events_sample": [
       "v1: +5.5343 mol water",
       "v1: +0.1880 mol copper sulfate",
@@ -225,10 +222,8 @@
       "v1: The liquid is white and so cloudy you cannot see through it.",
       "v1: 25.0 °C → 70.9 °C",
       "v1: 20.00 kJ requested; 20.00 kJ delivered — time model not yet coupled",
-      "v1: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: 70.9 °C → 2.1 °C",
       "v1: 30.00 kJ requested; 30.00 kJ removed — time model not yet coupled",
-      "v1: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: The liquid is white and so cloudy you cannot see through it."
     ],
     "lesson": "blue-crystals.lab",
@@ -253,7 +248,7 @@
     ]
   },
   "boiling-curve": {
-    "event_count": 25,
+    "event_count": 24,
     "events_sample": [
       "v1: +5.5343 mol water",
       "v1: 25.0 °C → 96.8 °C",
@@ -334,7 +329,7 @@
     ]
   },
   "borax-snowflake": {
-    "event_count": 23,
+    "event_count": 21,
     "events_sample": [
       "v1: +5.5343 mol water",
       "v1: +0.1242 mol sodium tetraborate (borax)",
@@ -343,11 +338,9 @@
       "v1: 25.0 °C → 81.8 °C",
       "v1: 25.00 kJ requested; 25.00 kJ delivered — time model not yet coupled",
       "v1: 0.0878 mol sodium tetraborate (borax) dissolved",
-      "v1: not yet modelled — sodium tetraborate (borax) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v1: 81.8 °C → 13.6 °C",
       "v1: 30.00 kJ requested; 30.00 kJ removed — time model not yet coupled",
       "v1: 0.0956 mol sodium tetraborate (borax) precipitated ↓",
-      "v1: not yet modelled — sodium tetraborate (borax) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v2: new vessel",
       "v2: +5.5343 mol water",
       "v2: +0.7304 mol sucrose",
@@ -355,7 +348,9 @@
       "v2: not yet modelled — sucrose dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v2: 25.0 °C → 57.4 °C",
       "v2: 25.00 kJ requested; 25.00 kJ delivered — time model not yet coupled",
-      "v2: 0.0937 mol sucrose dissolved"
+      "v2: 0.0937 mol sucrose dissolved",
+      "v2: 57.4 °C → 18.5 °C",
+      "v2: 30.00 kJ requested; 30.00 kJ removed — time model not yet coupled"
     ],
     "lesson": "borax-snowflake.lab",
     "vessels": [
@@ -401,7 +396,7 @@
     ]
   },
   "buffer": {
-    "event_count": 12,
+    "event_count": 11,
     "events_sample": [
       "v1: +55.3428 mol water",
       "v1: +0.1000 mol acetic acid",
@@ -409,7 +404,6 @@
       "v1: not yet modelled — sodium acetate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
       "v1: +0.0100 mol hydrochloric acid",
-      "v1: not yet modelled — sodium acetate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
       "v2: new vessel",
       "v2: +55.3428 mol water",
@@ -465,7 +459,7 @@
     ]
   },
   "cabbage-rainbow": {
-    "event_count": 31,
+    "event_count": 29,
     "events_sample": [
       "v1: +100.600 g 5% white vinegar (2 known ingredients)",
       "v1: +10.000 g red-cabbage indicator juice (2 known ingredients)",
@@ -481,12 +475,12 @@
       "v3: +2.000 g baking soda (1 known ingredients)",
       "v3: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
       "v3: +10.000 g red-cabbage indicator juice (2 known ingredients)",
-      "v3: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
       "v3: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
       "v3: The liquid is white and so cloudy you cannot see through it.",
       "v4: new vessel",
       "v4: +5.5343 mol water",
-      "v4: +4.000 g washing soda (1 known ingredients)"
+      "v4: +4.000 g washing soda (1 known ingredients)",
+      "v4: +10.000 g red-cabbage indicator juice (2 known ingredients)"
     ],
     "lesson": "cabbage-rainbow.lab",
     "vessels": [
@@ -603,7 +597,7 @@
     ]
   },
   "calorimetry": {
-    "event_count": 11,
+    "event_count": 10,
     "events_sample": [
       "v2: new vessel",
       "v1: +5.5343 mol water",
@@ -612,7 +606,6 @@
       "v1 thermometer: 25.00 °C",
       "v1 calorimeter: 0.00 kJ",
       "v1: +0.0549 mol hydrochloric acid",
-      "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
       "v1 thermometer: 25.00 °C",
       "v1 calorimeter: 0.00 kJ",
       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel"
@@ -755,7 +748,7 @@
       "v1: +2.7671 mol water",
       "v1: +2.000 g calcium-carbonate chalk stick (1 known ingredients)",
       "v1: 6.49 µmol chalk (calcium carbonate) dissolved",
-      "v1: chalk (calcium carbonate) does not react — chalk (calcium carbonate) does not dissolve in water: its reviewed solubility is 0.0013 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v1: chalk (calcium carbonate) does not react — chalk (calcium carbonate) hardly dissolves in water: its reviewed solubility is 0.0013 g per 100 mL, which is below anything a beaker would show. A trace of it is in solution; the rest is still there",
       "v2: new vessel",
       "v2: +50.300 g 5% white vinegar (2 known ingredients)",
       "v2: +2.000 g calcium-carbonate chalk stick (1 known ingredients)",
@@ -822,14 +815,14 @@
       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
       "v1: +2.000 g calcium-carbonate chalk stick (1 known ingredients)",
       "v1: 12.0 µmol chalk (calcium carbonate) dissolved",
-      "v1: chalk (calcium carbonate) does not react — chalk (calcium carbonate) does not dissolve in water: its reviewed solubility is 0.0013 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v1: chalk (calcium carbonate) does not react — chalk (calcium carbonate) hardly dissolves in water: its reviewed solubility is 0.0013 g per 100 mL, which is below anything a beaker would show. A trace of it is in solution; the rest is still there",
       "v1: The liquid is white and so cloudy you cannot see through it, bubbles of gas are rising through it.",
       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
       "v2: new vessel",
       "v2: +5.5343 mol water",
       "v2: +2.000 g calcium-carbonate chalk stick (1 known ingredients)",
       "v2: 13.0 µmol chalk (calcium carbonate) dissolved",
-      "v2: chalk (calcium carbonate) does not react — chalk (calcium carbonate) does not dissolve in water: its reviewed solubility is 0.0013 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v2: chalk (calcium carbonate) does not react — chalk (calcium carbonate) hardly dissolves in water: its reviewed solubility is 0.0013 g per 100 mL, which is below anything a beaker would show. A trace of it is in solution; the rest is still there",
       "v2: The liquid is white and so cloudy you cannot see through it."
     ],
     "lesson": "cola-shell-surrogate.lab",
@@ -1066,20 +1059,18 @@
     ]
   },
   "copper-concentration-lifts-cell-voltage": {
-    "event_count": 59,
+    "event_count": 51,
     "events_sample": [
       "v1: +11.0686 mol water",
       "v1: +0.0100 mol zinc sulfate",
       "v1: not yet modelled — zinc sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: +0.0500 mol zinc",
-      "v1: not yet modelled — zinc sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — zinc in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: new vessel",
       "v2: +11.0686 mol water",
       "v2: +500 µmol copper sulfate",
       "v2: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: +0.0500 mol copper",
-      "v2: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: not yet modelled — copper in contact with liquid: no wired solver models this dissolution/reaction",
       "v1–v2: no cell — v1 has Zn but none of its ion in solution: a metal in water that does not contain its own ion has no defined potential here",
       "v3: new vessel",
@@ -1087,7 +1078,9 @@
       "v3: +0.0100 mol zinc sulfate",
       "v3: not yet modelled — zinc sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v3: +0.0500 mol zinc",
-      "v3: not yet modelled — zinc sulfate in contact with liquid: no wired solver models this dissolution/reaction"
+      "v3: not yet modelled — zinc in contact with liquid: no wired solver models this dissolution/reaction",
+      "v4: new vessel",
+      "v4: +11.0686 mol water"
     ],
     "lesson": "copper-concentration-lifts-cell-voltage.lab",
     "vessels": [
@@ -1270,7 +1263,7 @@
     ]
   },
   "copper-patina": {
-    "event_count": 12,
+    "event_count": 11,
     "events_sample": [
       "v1: +0.0126 mol copper(II) oxide",
       "v1: +30.180 g 5% white vinegar (2 known ingredients)",
@@ -1281,7 +1274,6 @@
       "v2: +30.180 g 5% white vinegar (2 known ingredients)",
       "v2: not yet modelled — copper(II) oxide in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: +0.0342 mol sodium chloride",
-      "v2: not yet modelled — copper(II) oxide in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: The liquid is white and so cloudy you cannot see through it, there is black copper(II) oxide at the bottom."
     ],
@@ -1339,7 +1331,7 @@
     ]
   },
   "counting-in-fives": {
-    "event_count": 11,
+    "event_count": 8,
     "events_sample": [
       "v1: +5.5343 mol water",
       "v1: +5.00 mmol sulfuric acid",
@@ -1347,11 +1339,8 @@
       "v1: not yet modelled — iron(II) sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
       "v1: +500 µmol potassium permanganate",
-      "v1: not yet modelled — iron(II) sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — potassium permanganate in contact with liquid: no wired solver models this dissolution/reaction",
-      "v1: +500 µmol potassium permanganate — 1.00 mmol now in vessel",
-      "v1: not yet modelled — iron(II) sulfate in contact with liquid: no wired solver models this dissolution/reaction",
-      "v1: not yet modelled — potassium permanganate in contact with liquid: no wired solver models this dissolution/reaction"
+      "v1: +500 µmol potassium permanganate — 1.00 mmol now in vessel"
     ],
     "lesson": "counting-in-fives.lab",
     "vessels": [
@@ -1385,28 +1374,27 @@
     ]
   },
   "current-time-and-electrolysis-yield": {
-    "event_count": 23,
+    "event_count": 19,
     "events_sample": [
       "v1: +13.8357 mol water",
       "v1: +1.00 mmol sodium sulfate",
       "v1: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — nothing here can be electrolysed: the solvent-electrolysis model requires a dissolved supporting electrolyte; pure water has finite but very low conductivity, and the voltage, electrode spacing and overpotentials needed to sustain the requested current are not modelled",
-      "v1: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: new vessel",
       "v2: +13.8357 mol water",
       "v2: +1.00 mmol sodium sulfate",
       "v2: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: not yet modelled — nothing here can be electrolysed: the solvent-electrolysis model requires a dissolved supporting electrolyte; pure water has finite but very low conductivity, and the voltage, electrode spacing and overpotentials needed to sustain the requested current are not modelled",
-      "v2: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v3: new vessel",
       "v3: +13.8357 mol water",
       "v3: +1.00 mmol sodium sulfate",
       "v3: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v3: not yet modelled — nothing here can be electrolysed: the solvent-electrolysis model requires a dissolved supporting electrolyte; pure water has finite but very low conductivity, and the voltage, electrode spacing and overpotentials needed to sustain the requested current are not modelled",
-      "v3: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v4: new vessel",
       "v4: +13.8357 mol water",
-      "v4: +1.00 mmol sodium sulfate"
+      "v4: +1.00 mmol sodium sulfate",
+      "v4: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v4: not yet modelled — nothing here can be electrolysed: the solvent-electrolysis model requires a dissolved supporting electrolyte; pure water has finite but very low conductivity, and the voltage, electrode spacing and overpotentials needed to sustain the requested current are not modelled"
     ],
     "lesson": "current-time-and-electrolysis-yield.lab",
     "vessels": [
@@ -2001,7 +1989,7 @@
     ]
   },
   "dry-then-wet-fizz": {
-    "event_count": 13,
+    "event_count": 12,
     "events_sample": [
       "v1: +0.0104 mol citric acid",
       "v1: +2.000 g baking soda (1 known ingredients)",
@@ -2012,7 +2000,6 @@
       "v2: not yet modelled — citric acid in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
       "v2: +2.000 g baking soda (1 known ingredients)",
-      "v2: not yet modelled — citric acid in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
       "v2: The liquid is white and so cloudy you cannot see through it."
@@ -2061,20 +2048,17 @@
     ]
   },
   "electrode": {
-    "event_count": 14,
+    "event_count": 11,
     "events_sample": [
       "v2: new vessel",
       "v1: +11.0686 mol water",
       "v1: +0.0125 mol copper sulfate",
       "v1: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: +0.0459 mol zinc",
-      "v1: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — zinc in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
       "v1: The liquid is white and so cloudy you cannot see through it, there is grey zinc at the bottom.",
       "v1: 100% of the suspended particles settle in 60 s",
-      "v1: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
-      "v1: not yet modelled — zinc in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: The liquid is colourless and clear, there is grey zinc and white copper sulfate at the bottom.",
       "v1 balance: 204.40 g"
     ],
@@ -2111,7 +2095,7 @@
     ]
   },
   "electrolysis": {
-    "event_count": 10,
+    "event_count": 9,
     "events_sample": [
       "v2: new vessel",
       "v1: +11.0686 mol water",
@@ -2120,7 +2104,6 @@
       "v1 balance: 204.40 g",
       "v1: The liquid is white and so cloudy you cannot see through it.",
       "v1: not yet modelled — nothing here can be electrolysed: the solvent-electrolysis model requires a dissolved supporting electrolyte; pure water has finite but very low conductivity, and the voltage, electrode spacing and overpotentials needed to sustain the requested current are not modelled",
-      "v1: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1 balance: 204.40 g",
       "v1: The liquid is white and so cloudy you cannot see through it."
     ],
@@ -2152,28 +2135,27 @@
     ]
   },
   "electrolysis-products-follow-time": {
-    "event_count": 23,
+    "event_count": 19,
     "events_sample": [
       "v1: +13.8357 mol water",
       "v1: +1.00 mmol sodium sulfate",
       "v1: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — nothing here can be electrolysed: the solvent-electrolysis model requires a dissolved supporting electrolyte; pure water has finite but very low conductivity, and the voltage, electrode spacing and overpotentials needed to sustain the requested current are not modelled",
-      "v1: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: new vessel",
       "v2: +13.8357 mol water",
       "v2: +1.00 mmol sodium sulfate",
       "v2: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: not yet modelled — nothing here can be electrolysed: the solvent-electrolysis model requires a dissolved supporting electrolyte; pure water has finite but very low conductivity, and the voltage, electrode spacing and overpotentials needed to sustain the requested current are not modelled",
-      "v2: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v3: new vessel",
       "v3: +13.8357 mol water",
       "v3: +1.00 mmol sodium sulfate",
       "v3: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v3: not yet modelled — nothing here can be electrolysed: the solvent-electrolysis model requires a dissolved supporting electrolyte; pure water has finite but very low conductivity, and the voltage, electrode spacing and overpotentials needed to sustain the requested current are not modelled",
-      "v3: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v4: new vessel",
       "v4: +13.8357 mol water",
-      "v4: +1.00 mmol sodium sulfate"
+      "v4: +1.00 mmol sodium sulfate",
+      "v4: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v4: not yet modelled — nothing here can be electrolysed: the solvent-electrolysis model requires a dissolved supporting electrolyte; pure water has finite but very low conductivity, and the voltage, electrode spacing and overpotentials needed to sustain the requested current are not modelled"
     ],
     "lesson": "electrolysis-products-follow-time.lab",
     "vessels": [
@@ -2616,14 +2598,13 @@
     ]
   },
   "filter-cannot-catch-dissolved": {
-    "event_count": 9,
+    "event_count": 8,
     "events_sample": [
       "v1: +12.0000 mol water",
       "v1: +400 µmol silicon dioxide (quartz)",
       "v1: 43.3 µmol silicon dioxide (quartz) dissolved",
-      "v1: silicon dioxide (quartz) does not react — silicon dioxide (quartz) does not dissolve in water: its reviewed solubility is 0.0012 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v1: silicon dioxide (quartz) does not react — silicon dioxide (quartz) hardly dissolves in water: its reviewed solubility is 0.0012 g per 100 mL, which is below anything a beaker would show. A trace of it is in solution; the rest is still there",
       "v1: +800 µmol sodium chloride",
-      "v1: silicon dioxide (quartz) does not react — silicon dioxide (quartz) does not dissolve in water: its reviewed solubility is 0.0012 g per 100 mL, which is below anything a beaker would show. It is still all there",
       "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: new vessel",
       "v1 → v2: filtrate passed; residue retained"
@@ -2667,14 +2648,13 @@
     ]
   },
   "filter-then-concentrate-the-brine": {
-    "event_count": 23,
+    "event_count": 21,
     "events_sample": [
       "v1: +16.6028 mol water",
       "v1: +3.00 mmol silicon dioxide (quartz)",
       "v1: 59.9 µmol silicon dioxide (quartz) dissolved",
-      "v1: silicon dioxide (quartz) does not react — silicon dioxide (quartz) does not dissolve in water: its reviewed solubility is 0.0012 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v1: silicon dioxide (quartz) does not react — silicon dioxide (quartz) hardly dissolves in water: its reviewed solubility is 0.0012 g per 100 mL, which is below anything a beaker would show. A trace of it is in solution; the rest is still there",
       "v1: +0.0200 mol sodium chloride",
-      "v1: silicon dioxide (quartz) does not react — silicon dioxide (quartz) does not dissolve in water: its reviewed solubility is 0.0012 g per 100 mL, which is below anything a beaker would show. It is still all there",
       "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: new vessel",
       "v1 → v2: filtrate passed; residue retained",
@@ -2684,11 +2664,12 @@
       "v3: +33.2057 mol water",
       "v3: +6.00 mmol silicon dioxide (quartz)",
       "v3: 120 µmol silicon dioxide (quartz) dissolved",
-      "v3: silicon dioxide (quartz) does not react — silicon dioxide (quartz) does not dissolve in water: its reviewed solubility is 0.0012 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v3: silicon dioxide (quartz) does not react — silicon dioxide (quartz) hardly dissolves in water: its reviewed solubility is 0.0012 g per 100 mL, which is below anything a beaker would show. A trace of it is in solution; the rest is still there",
       "v3: +0.0400 mol sodium chloride",
-      "v3: silicon dioxide (quartz) does not react — silicon dioxide (quartz) does not dissolve in water: its reviewed solubility is 0.0012 g per 100 mL, which is below anything a beaker would show. It is still all there",
       "v3: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
-      "v4: new vessel"
+      "v4: new vessel",
+      "v3 → v4: filtrate passed; residue retained",
+      "v4: 16.603 mol water evaporated"
     ],
     "lesson": "filter-then-concentrate-the-brine.lab",
     "vessels": [
@@ -2854,7 +2835,7 @@
     ]
   },
   "fizz": {
-    "event_count": 9,
+    "event_count": 8,
     "events_sample": [
       "v1: +13.8357 mol water",
       "v1: +0.0500 mol baking soda (sodium bicarbonate)",
@@ -2862,7 +2843,6 @@
       "v1 balance: 253.45 g",
       "v1 thermometer: 25.00 °C",
       "v1: +0.0599 mol acetic acid",
-      "v1: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
       "v1 balance: 257.05 g",
       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel"
     ],
@@ -2990,7 +2970,7 @@
     ]
   },
   "float-or-sink": {
-    "event_count": 28,
+    "event_count": 23,
     "events_sample": [
       "v1: +11.0686 mol water",
       "v1: +0.1188 mol polypropylene",
@@ -3002,8 +2982,6 @@
       "v2: +0.0480 mol polystyrene",
       "v2: polystyrene does not react — polystyrene does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
       "v2: 97% of the suspended particles settle in 120 s",
-      "v1: polypropylene does not react — polypropylene does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
-      "v2: polystyrene does not react — polystyrene does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
       "v2: The liquid is colourless and very slightly hazy, there is white polystyrene at the bottom.",
       "v3: new vessel",
       "v3: +11.0686 mol water",
@@ -3011,7 +2989,9 @@
       "v3: polyethylene terephthalate does not react — polyethylene terephthalate does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
       "v2: 97% of the suspended particles settle in 120 s",
       "v3: 100% of the suspended particles settle in 120 s",
-      "v1: polypropylene does not react — polypropylene does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there"
+      "v3: The liquid is colourless and clear, there is white polyethylene terephthalate at the bottom.",
+      "v4: new vessel",
+      "v4: +11.0686 mol water"
     ],
     "lesson": "float-or-sink.lab",
     "vessels": [
@@ -3086,7 +3066,7 @@
     ]
   },
   "follow-the-salt-through-staged-transfers": {
-    "event_count": 15,
+    "event_count": 14,
     "events_sample": [
       "v1: +16.6028 mol water",
       "v1: +3.00 mmol sodium chloride",
@@ -3101,7 +3081,6 @@
       "v4: new vessel",
       "v1 → v3: 100% of the liquid",
       "v2 → v4: 50% of the liquid",
-      "v2: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
       "v2 → v4: 100% of the liquid"
     ],
     "lesson": "follow-the-salt-through-staged-transfers.lab",
@@ -3231,7 +3210,7 @@
     ]
   },
   "grit": {
-    "event_count": 14,
+    "event_count": 13,
     "events_sample": [
       "v1: +5.5343 mol water",
       "v1: +0.1000 mol sodium chloride",
@@ -3240,7 +3219,6 @@
       "v2: +5.5343 mol water",
       "v1: 25.0 °C → -10.4 °C",
       "v1: 15.00 kJ requested; 15.00 kJ removed — time model not yet coupled",
-      "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: 25.0 °C → -10.8 °C",
       "v2: 15.00 kJ requested; 15.00 kJ removed — time model not yet coupled",
       "v1 thermometer: -10.39 °C",
@@ -3382,7 +3360,7 @@
     ]
   },
   "hand-warmer": {
-    "event_count": 8,
+    "event_count": 7,
     "events_sample": [
       "v1: +2.7671 mol water",
       "v1: +0.4876 mol sodium acetate",
@@ -3390,7 +3368,6 @@
       "v1 thermometer: 25.00 °C",
       "v1: 25.0 °C → -23.2 °C",
       "v1: 12.00 kJ requested; 12.00 kJ removed — time model not yet coupled",
-      "v1: not yet modelled — sodium acetate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1 thermometer: -23.24 °C"
     ],
     "lesson": "hand-warmer.lab",
@@ -3415,28 +3392,28 @@
     ]
   },
   "hard-water": {
-    "event_count": 32,
+    "event_count": 26,
     "events_sample": [
       "v1: +27.6714 mol water",
       "v1: +0.0202 mol baking soda (sodium bicarbonate)",
       "v1: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: +9.91 mmol calcium chloride",
-      "v1: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — calcium chloride in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: new vessel",
       "v2: +11.0686 mol water",
       "v2: +9.99 mmol chalk (calcium carbonate)",
       "v2: 26.0 µmol chalk (calcium carbonate) dissolved",
-      "v2: chalk (calcium carbonate) does not react — chalk (calcium carbonate) does not dissolve in water: its reviewed solubility is 0.0013 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v2: chalk (calcium carbonate) does not react — chalk (calcium carbonate) hardly dissolves in water: its reviewed solubility is 0.0013 g per 100 mL, which is below anything a beaker would show. A trace of it is in solution; the rest is still there",
       "v2: +0.0300 mol hydrochloric acid",
-      "v2: chalk (calcium carbonate) does not react — chalk (calcium carbonate) does not dissolve in water: its reviewed solubility is 0.0013 g per 100 mL, which is below anything a beaker would show. It is still all there",
       "v2 balance: 201.49 g",
       "v3: new vessel",
       "v3: +27.6714 mol water",
       "v3: +5.00 mmol calcium chloride",
       "v3: not yet modelled — calcium chloride in contact with liquid: no wired solver models this dissolution/reaction",
       "v3: +3.00 mmol magnesium sulfate",
-      "v3: not yet modelled — calcium chloride in contact with liquid: no wired solver models this dissolution/reaction"
+      "v3: not yet modelled — magnesium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v3: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v4: new vessel"
     ],
     "lesson": "hard-water.lab",
     "vessels": [
@@ -3543,17 +3520,14 @@
     ]
   },
   "hard-water-soap-boundary": {
-    "event_count": 22,
+    "event_count": 18,
     "events_sample": [
       "v1: +5.5343 mol water",
       "v1: +2.00 mmol calcium chloride",
       "v1: not yet modelled — calcium chloride in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: +1.00 mmol magnesium sulfate",
-      "v1: not yet modelled — calcium chloride in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — magnesium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: +2.060 g dish soap (1 known ingredients)",
-      "v1: not yet modelled — calcium chloride in contact with liquid: no wired solver models this dissolution/reaction",
-      "v1: not yet modelled — magnesium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: The liquid is colourless and cloudy.",
       "v2: new vessel",
       "v2: +5.5343 mol water",
@@ -3564,7 +3538,8 @@
       "v3: +0.0202 mol baking soda (sodium bicarbonate)",
       "v3: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
       "v3: +9.91 mmol calcium chloride",
-      "v3: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction"
+      "v3: not yet modelled — calcium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v3: The liquid is white and so cloudy you cannot see through it."
     ],
     "lesson": "hard-water-soap-boundary.lab",
     "vessels": [
@@ -3627,7 +3602,7 @@
     ]
   },
   "hard-water-soap-scum": {
-    "event_count": 17,
+    "event_count": 15,
     "events_sample": [
       "v1: +5.5509 mol water",
       "v1: +1.000 g sodium fatty-soap teaching equivalent (0 known ingredients)",
@@ -3637,14 +3612,12 @@
       "v2: +1.00 mmol calcium chloride",
       "v2: not yet modelled — calcium chloride in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: +1.000 g sodium fatty-soap teaching equivalent (0 known ingredients)",
-      "v2: not yet modelled — calcium chloride in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: The liquid is colourless and cloudy.",
       "v3: new vessel",
       "v3: +5.5509 mol water",
       "v3: +1.00 mmol magnesium sulfate",
       "v3: not yet modelled — magnesium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v3: +1.000 g sodium fatty-soap teaching equivalent (0 known ingredients)",
-      "v3: not yet modelled — magnesium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v3: The liquid is colourless and cloudy."
     ],
     "lesson": "hard-water-soap-scum.lab",
@@ -4074,7 +4047,7 @@
     ]
   },
   "invisible-ink-boundary": {
-    "event_count": 28,
+    "event_count": 26,
     "events_sample": [
       "v1: +2.000 g paper (1 known ingredients)",
       "v1: +2.060 g lemon juice surrogate (5 known ingredients)",
@@ -4634,7 +4607,7 @@
     ]
   },
   "lemon-cell": {
-    "event_count": 18,
+    "event_count": 16,
     "events_sample": [
       "v1: +51.500 g lemon juice surrogate (5 known ingredients)",
       "v1: 2.86 mmol D-fructose (fruit sugar) dissolved",
@@ -4642,7 +4615,6 @@
       "v1: 752 µmol sucrose dissolved",
       "v1: not yet modelled — citric acid in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: +0.0153 mol zinc",
-      "v1: not yet modelled — citric acid in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — zinc in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: new vessel",
       "v2: +51.500 g lemon juice surrogate (5 known ingredients)",
@@ -4651,7 +4623,6 @@
       "v2: 752 µmol sucrose dissolved",
       "v2: not yet modelled — citric acid in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: +0.0157 mol copper",
-      "v2: not yet modelled — citric acid in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: not yet modelled — copper in contact with liquid: no wired solver models this dissolution/reaction",
       "v1–v2: no cell — v1 has Zn but none of its ion in solution: a metal in water that does not contain its own ion has no defined potential here"
     ],
@@ -4734,13 +4705,12 @@
     ]
   },
   "lemonade-indicator": {
-    "event_count": 16,
+    "event_count": 14,
     "events_sample": [
       "v1: +5.5343 mol water",
       "v1: +1.00 mmol sodium hydroxide",
       "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: +10.0 µmol bromothymol blue",
-      "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: The liquid is colourless and cloudy.",
       "v2: new vessel",
       "v2: +103.000 g lemon juice surrogate (5 known ingredients)",
@@ -4749,7 +4719,6 @@
       "v2: 1.50 mmol sucrose dissolved",
       "v2: not yet modelled — citric acid in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: +10.0 µmol bromothymol blue",
-      "v2: not yet modelled — citric acid in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: The liquid is white and so cloudy you cannot see through it.",
       "v2: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel"
     ],
@@ -4817,16 +4786,14 @@
     ]
   },
   "limewater": {
-    "event_count": 9,
+    "event_count": 7,
     "events_sample": [
       "v1: +55.3428 mol water",
       "v1: +0.0100 mol slaked lime (calcium hydroxide)",
       "v1: not yet modelled — slaked lime (calcium hydroxide) in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: +0.0100 mol carbon dioxide",
-      "v1: not yet modelled — slaked lime (calcium hydroxide) in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: The liquid is colourless and cloudy, bubbles of gas are rising through it.",
       "v1: +0.0500 mol carbon dioxide — 0.0600 mol now in vessel",
-      "v1: not yet modelled — slaked lime (calcium hydroxide) in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: The liquid is colourless and cloudy, bubbles of gas are rising through it."
     ],
     "lesson": "limewater.lab",
@@ -5594,7 +5561,7 @@
     ]
   },
   "naked-egg-osmosis": {
-    "event_count": 20,
+    "event_count": 18,
     "events_sample": [
       "v1: +8.3264 mol water",
       "v1: +50.000 g naked egg membrane surrogate (2 known ingredients)",
@@ -5607,14 +5574,12 @@
       "v2: 0.6386 mol sucrose dissolved",
       "v2: not yet modelled — sucrose dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v2: +50.000 g naked egg membrane surrogate (2 known ingredients)",
-      "v2: not yet modelled — sucrose dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v1: naked egg membrane surrogate exchanged 0.006010 mol water (+0.108 g)",
       "v1: naked egg membrane surrogate exchanged 0.006025 mol water (+0.109 g)",
       "v2: 100% of the suspended particles settle in 3600 s",
       "v2: naked egg membrane surrogate exchanged -0.039870 mol water (-0.718 g)",
       "v2: naked egg membrane surrogate exchanged -0.039220 mol water (-0.707 g)",
       "v2: 9.10 mmol sucrose dissolved",
-      "v2: not yet modelled — sucrose dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v2: The liquid is colourless and clear, there is white sucrose at the bottom."
     ],
     "lesson": "naked-egg-osmosis.lab",
@@ -5656,7 +5621,7 @@
     ]
   },
   "neutral-moves": {
-    "event_count": 14,
+    "event_count": 12,
     "events_sample": [
       "v1: +5.5343 mol water",
       "v1: +1.00 mmol sodium chloride",
@@ -5664,12 +5629,10 @@
       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
       "v1: 25.0 °C → 50.1 °C",
       "v1: 10.45 kJ requested; 10.45 kJ delivered — time model not yet coupled",
-      "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
       "v1 thermometer: 50.06 °C",
       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
       "v1: 50.1 °C → 3.3 °C",
       "v1: 19.50 kJ requested; 19.50 kJ removed — time model not yet coupled",
-      "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
       "v1 thermometer: 3.32 °C",
       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel"
     ],
@@ -5810,7 +5773,7 @@
       "v4: +0.1000 mol hydrochloric acid",
       "v4: +0.0500 mol chalk (calcium carbonate)",
       "v4: 13.0 µmol chalk (calcium carbonate) dissolved",
-      "v4: chalk (calcium carbonate) does not react — chalk (calcium carbonate) does not dissolve in water: its reviewed solubility is 0.0013 g per 100 mL, which is below anything a beaker would show. It is still all there"
+      "v4: chalk (calcium carbonate) does not react — chalk (calcium carbonate) hardly dissolves in water: its reviewed solubility is 0.0013 g per 100 mL, which is below anything a beaker would show. A trace of it is in solution; the rest is still there"
     ],
     "lesson": "never-mix.lab",
     "vessels": [
@@ -6004,23 +5967,20 @@
     ]
   },
   "oobleck": {
-    "event_count": 15,
+    "event_count": 12,
     "events_sample": [
       "v1: +2.7671 mol water",
       "v1: +100.000 g cornstarch (1 known ingredients)",
       "v1: starch does not react — starch does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
       "v1: magnetic stirrer 60 rpm for 5 s — bar tip 0.079 m/s; 73% resuspension",
       "v1: 67% starch by mass — a shear-thickening suspension at 1.00 of full strength, sheared at 0.08 m/s",
-      "v1: starch does not react — starch does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
       "v1: magnetic stirrer 600 rpm for 5 s — bar tip 0.785 m/s; 100% resuspension",
       "v1: 67% starch by mass — a shear-thickening suspension at 1.00 of full strength, sheared at 0.79 m/s",
-      "v1: starch does not react — starch does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
       "v2: new vessel",
       "v2: +11.0686 mol water",
       "v2: +20.000 g cornstarch (1 known ingredients)",
       "v2: starch does not react — starch does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
-      "v2: magnetic stirrer 600 rpm for 5 s — bar tip 0.785 m/s; 100% resuspension",
-      "v2: starch does not react — starch does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there"
+      "v2: magnetic stirrer 600 rpm for 5 s — bar tip 0.785 m/s; 100% resuspension"
     ],
     "lesson": "oobleck.lab",
     "vessels": [
@@ -6433,28 +6393,27 @@
     ]
   },
   "rates": {
-    "event_count": 26,
+    "event_count": 19,
     "events_sample": [
       "v1: +5.5343 mol water",
       "v1: +5.00 mmol sodium thiosulfate",
       "v1: not yet modelled — sodium thiosulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: +2.00 mmol hydrochloric acid",
-      "v1: not yet modelled — sodium thiosulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: new vessel",
       "v2: +5.5343 mol water",
       "v2: +5.00 mmol sodium thiosulfate",
       "v2: not yet modelled — sodium thiosulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: +2.00 mmol hydrochloric acid",
-      "v2: not yet modelled — sodium thiosulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: 25.0 °C → 44.1 °C",
       "v2: 8.00 kJ requested; 8.00 kJ delivered — time model not yet coupled",
-      "v2: not yet modelled — sodium thiosulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: 100% of the suspended particles settle in 20 s",
       "v2: 100% of the suspended particles settle in 20 s",
       "v2: 44.1 °C → 44.0 °C",
-      "v1: not yet modelled — sodium thiosulfate in contact with liquid: no wired solver models this dissolution/reaction",
-      "v2: not yet modelled — sodium thiosulfate in contact with liquid: no wired solver models this dissolution/reaction",
-      "v1: The liquid is colourless and clear, there is white sodium thiosulfate at the bottom."
+      "v1: The liquid is colourless and clear, there is white sodium thiosulfate at the bottom.",
+      "v2: The liquid is colourless and clear, there is white sodium thiosulfate at the bottom.",
+      "v2: 44.0 °C → 43.7 °C",
+      "v1: The liquid is colourless and clear, there is white sodium thiosulfate at the bottom.",
+      "v2: The liquid is colourless and clear, there is white sodium thiosulfate at the bottom."
     ],
     "lesson": "rates.lab",
     "vessels": [
@@ -6628,7 +6587,7 @@
       "v1: +2.7671 mol water",
       "v1: +2.000 g calcium-carbonate chalk stick (1 known ingredients)",
       "v1: 6.49 µmol chalk (calcium carbonate) dissolved",
-      "v1: chalk (calcium carbonate) does not react — chalk (calcium carbonate) does not dissolve in water: its reviewed solubility is 0.0013 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v1: chalk (calcium carbonate) does not react — chalk (calcium carbonate) hardly dissolves in water: its reviewed solubility is 0.0013 g per 100 mL, which is below anything a beaker would show. A trace of it is in solution; the rest is still there",
       "v1: The liquid is white and so cloudy you cannot see through it.",
       "v2: new vessel",
       "v2: +50.300 g 5% white vinegar (2 known ingredients)",
@@ -6691,7 +6650,7 @@
     ]
   },
   "rusting": {
-    "event_count": 40,
+    "event_count": 30,
     "events_sample": [
       "v1: +0.0179 mol iron",
       "v1: sealed over 0.500 L of headspace, trapping 0.0204 mol of room air",
@@ -6701,18 +6660,18 @@
       "v2: +0.0179 mol iron",
       "v2: not yet modelled — iron in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: swept by nitrogen at 1.000 bar; volatile products are purged",
-      "v2: not yet modelled — iron in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: sealed over 0.500 L of headspace, trapping 0.0202 mol of room air",
-      "v2: not yet modelled — iron in contact with liquid: no wired solver models this dissolution/reaction",
       "v3: new vessel",
       "v3: +5.5343 mol water",
       "v3: +0.0179 mol iron",
       "v3: not yet modelled — iron in contact with liquid: no wired solver models this dissolution/reaction",
       "v3: sealed over 0.500 L of headspace, trapping 0.0204 mol of room air",
-      "v3: not yet modelled — iron in contact with liquid: no wired solver models this dissolution/reaction",
       "v4: new vessel",
       "v4: +5.5343 mol water",
-      "v4: +0.0513 mol sodium chloride"
+      "v4: +0.0513 mol sodium chloride",
+      "v4: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v4: +0.0179 mol iron",
+      "v4: not yet modelled — iron in contact with liquid: no wired solver models this dissolution/reaction"
     ],
     "lesson": "rusting.lab",
     "vessels": [
@@ -6942,14 +6901,13 @@
     ]
   },
   "salt-from-brine": {
-    "event_count": 6,
+    "event_count": 5,
     "events_sample": [
       "v1: +55.3428 mol water",
       "v1: +2.0020 mol sodium chloride",
       "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
       "v1 balance: 1114.00 g",
-      "v1: 44.274 mol water evaporated",
-      "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction"
+      "v1: 44.274 mol water evaporated"
     ],
     "lesson": "salt-from-brine.lab",
     "vessels": [
@@ -7030,18 +6988,16 @@
     ]
   },
   "sealed-gas": {
-    "event_count": 13,
+    "event_count": 11,
     "events_sample": [
       "v2: new vessel",
       "v1: +5.5343 mol water",
       "v1: +0.0500 mol baking soda (sodium bicarbonate)",
       "v1: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: sealed over 0.200 L of headspace, trapping 8.17 mmol of room air",
-      "v1: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
       "v1 pressure gauge: 101.33 kPa",
       "v1 volume meter: 200.00 mL",
       "v1: +0.0599 mol acetic acid",
-      "v1: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
       "v1 pressure gauge: 101.33 kPa",
       "v1 volume meter: 200.00 mL",
       "v1 thermometer: 25.00 °C"
@@ -7171,7 +7127,7 @@
     ]
   },
   "silver-and-salt": {
-    "event_count": 10,
+    "event_count": 9,
     "events_sample": [
       "v1: +5.5343 mol water",
       "v1: +9.92 mmol sodium chloride",
@@ -7181,8 +7137,7 @@
       "v2: +5.5343 mol water",
       "v2: +0.0100 mol silver nitrate",
       "v2: not yet modelled — silver nitrate in contact with liquid: no wired solver models this dissolution/reaction",
-      "v2 → v1: 100% of the liquid",
-      "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction"
+      "v2 → v1: 100% of the liquid"
     ],
     "lesson": "silver-and-salt.lab",
     "vessels": [
@@ -7218,28 +7173,28 @@
     ]
   },
   "slime": {
-    "event_count": 28,
+    "event_count": 22,
     "events_sample": [
       "v1: +5.5343 mol water",
       "v1: +52.500 g PVA craft glue (2 known ingredients)",
       "v1: not yet modelled — poly(vinyl alcohol) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v1: +0.050 g borax powder (1 known ingredients)",
       "v1: 131 µmol sodium tetraborate (borax) dissolved",
-      "v1: not yet modelled — poly(vinyl alcohol) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v1: magnetic stirrer 500 rpm for 10 s — bar tip 0.654 m/s; 100% resuspension",
-      "v1: not yet modelled — poly(vinyl alcohol) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v2: new vessel",
       "v2: +5.5343 mol water",
       "v2: +52.500 g PVA craft glue (2 known ingredients)",
       "v2: not yet modelled — poly(vinyl alcohol) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v2: +0.250 g borax powder (1 known ingredients)",
       "v2: 655 µmol sodium tetraborate (borax) dissolved",
-      "v2: not yet modelled — poly(vinyl alcohol) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v2: 15% of the poly(vinyl alcohol) is bound into a gel by 0.00065 mol sodium tetraborate (borax) across 11.55 g of polymer",
       "v2: magnetic stirrer 500 rpm for 10 s — bar tip 0.654 m/s; 100% resuspension",
-      "v2: not yet modelled — poly(vinyl alcohol) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v3: new vessel",
-      "v3: +5.5343 mol water"
+      "v3: +5.5343 mol water",
+      "v3: +52.500 g PVA craft glue (2 known ingredients)",
+      "v3: not yet modelled — poly(vinyl alcohol) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+      "v3: +2.000 g borax powder (1 known ingredients)",
+      "v3: 5.24 mmol sodium tetraborate (borax) dissolved"
     ],
     "lesson": "slime.lab",
     "vessels": [
@@ -7312,13 +7267,12 @@
     ]
   },
   "spannungsreihe": {
-    "event_count": 47,
+    "event_count": 41,
     "events_sample": [
       "v1: +5.5343 mol water",
       "v1: +0.0100 mol copper sulfate",
       "v1: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: +0.0206 mol magnesium",
-      "v1: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — magnesium in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: The liquid is white and so cloudy you cannot see through it, there is white magnesium at the bottom.",
       "v1 thermometer: 25.00 °C",
@@ -7327,13 +7281,14 @@
       "v2: +0.0100 mol copper sulfate",
       "v2: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: +0.0200 mol silver",
-      "v2: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: not yet modelled — silver in contact with liquid: no wired solver models this dissolution/reaction",
       "v3: new vessel",
       "v3: +5.5343 mol water",
       "v3: +0.1000 mol hydrochloric acid",
       "v3: +0.0200 mol copper",
-      "v3: not yet modelled — copper in contact with liquid: no wired solver models this dissolution/reaction"
+      "v3: not yet modelled — copper in contact with liquid: no wired solver models this dissolution/reaction",
+      "v3: +0.0200 mol magnesium",
+      "v3: not yet modelled — magnesium in contact with liquid: no wired solver models this dissolution/reaction"
     ],
     "lesson": "spannungsreihe.lab",
     "vessels": [
@@ -7740,7 +7695,7 @@
     ]
   },
   "there-and-back": {
-    "event_count": 9,
+    "event_count": 8,
     "events_sample": [
       "v1: +13.8357 mol water",
       "v1: +0.1000 mol acetic acid",
@@ -7749,8 +7704,7 @@
       "v1: The liquid is colourless and clear.",
       "v1: +0.1000 mol sodium hydroxide",
       "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
-      "v1: saponification ran — CH3COOC2H5 + NaOH → NaOAc + C2H5OH (0.003 mol reacted)",
-      "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction"
+      "v1: saponification ran — CH3COOC2H5 + NaOH → NaOAc + C2H5OH (0.003 mol reacted)"
     ],
     "lesson": "there-and-back.lab",
     "vessels": [
@@ -7846,7 +7800,7 @@
     ]
   },
   "three-protons": {
-    "event_count": 15,
+    "event_count": 12,
     "events_sample": [
       "v1: +55.3428 mol water",
       "v1: +0.1000 mol phosphoric acid",
@@ -7855,13 +7809,10 @@
       "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
       "v1: +0.0500 mol sodium hydroxide — 0.1000 mol now in vessel",
-      "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
       "v1: +0.0500 mol sodium hydroxide — 0.1500 mol now in vessel",
-      "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
       "v1: +0.0500 mol sodium hydroxide — 0.2000 mol now in vessel",
-      "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel"
     ],
     "lesson": "three-protons.lab",
@@ -7926,7 +7877,7 @@
     ]
   },
   "titration-manual": {
-    "event_count": 15,
+    "event_count": 12,
     "events_sample": [
       "v1: +27.6714 mol water",
       "v1: +0.0100 mol hydrochloric acid",
@@ -7935,13 +7886,10 @@
       "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
       "v1: +4.00 mmol sodium hydroxide — 9.00 mmol now in vessel",
-      "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
       "v1: +1.00 mmol sodium hydroxide — 0.0100 mol now in vessel",
-      "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
       "v1: +2.00 mmol sodium hydroxide — 0.0120 mol now in vessel",
-      "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel"
     ],
     "lesson": "titration-manual.lab",
@@ -7971,13 +7919,12 @@
     ]
   },
   "track-precipitate-and-filtrate-through-drying": {
-    "event_count": 18,
+    "event_count": 16,
     "events_sample": [
       "v1: +19.3700 mol water",
       "v1: +600 µmol barium chloride",
       "v1: not yet modelled — barium chloride in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: +600 µmol sodium sulfate",
-      "v1: not yet modelled — barium chloride in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: new vessel",
       "v1 → v2: filtrate passed; residue retained",
@@ -7986,7 +7933,6 @@
       "v3: +600 µmol barium chloride",
       "v3: not yet modelled — barium chloride in contact with liquid: no wired solver models this dissolution/reaction",
       "v3: +600 µmol sodium sulfate",
-      "v3: not yet modelled — barium chloride in contact with liquid: no wired solver models this dissolution/reaction",
       "v3: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v4: new vessel",
       "v3 → v4: filtrate passed; residue retained",
@@ -8137,28 +8083,28 @@
     ]
   },
   "two-limits-one-carbon-dioxide-ledger": {
-    "event_count": 47,
+    "event_count": 39,
     "events_sample": [
       "v1: +13.8357 mol water",
       "v1: +4.00 mmol baking soda (sodium bicarbonate)",
       "v1: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: +500 µmol hydrochloric acid",
-      "v1: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: new vessel",
       "v2: +13.8357 mol water",
       "v2: +4.00 mmol baking soda (sodium bicarbonate)",
       "v2: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: +1.00 mmol hydrochloric acid",
-      "v2: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
       "v3: new vessel",
       "v3: +13.8357 mol water",
       "v3: +4.00 mmol baking soda (sodium bicarbonate)",
       "v3: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
       "v3: +2.00 mmol hydrochloric acid",
-      "v3: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
       "v4: new vessel",
       "v4: +13.8357 mol water",
-      "v4: +4.00 mmol baking soda (sodium bicarbonate)"
+      "v4: +4.00 mmol baking soda (sodium bicarbonate)",
+      "v4: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v4: +3.00 mmol hydrochloric acid",
+      "v5: new vessel"
     ],
     "lesson": "two-limits-one-carbon-dioxide-ledger.lab",
     "vessels": [
@@ -8341,7 +8287,7 @@
     ]
   },
   "two-roads": {
-    "event_count": 13,
+    "event_count": 12,
     "events_sample": [
       "v1: +5.5343 mol water",
       "v1: +0.1000 mol hydrochloric acid",
@@ -8354,7 +8300,6 @@
       "v2: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
       "v2 thermometer: 25.00 °C",
       "v2: +0.1000 mol hydrochloric acid",
-      "v2: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
       "v2 thermometer: 25.00 °C"
     ],
     "lesson": "two-roads.lab",
@@ -8406,7 +8351,7 @@
     ]
   },
   "vitamin-c-detective": {
-    "event_count": 18,
+    "event_count": 16,
     "events_sample": [
       "v1: +5.5343 mol water",
       "v1: +1.000 g cornstarch (1 known ingredients)",
@@ -8420,12 +8365,10 @@
       "v2: +1.000 g cornstarch (1 known ingredients)",
       "v2: starch does not react — starch does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
       "v2: +0.0100 mol ascorbic acid (vitamin C)",
-      "v2: starch does not react — starch does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
       "v2: not yet modelled — ascorbic acid (vitamin C) in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: +2.040 g 1% Lugol iodine solution (3 known ingredients)",
       "v2: 246 µmol potassium iodide dissolved",
-      "v2: 80.4 µmol iodine dissolved",
-      "v2: not yet modelled — ascorbic acid (vitamin C) in contact with liquid: no wired solver models this dissolution/reaction"
+      "v2: 80.4 µmol iodine dissolved"
     ],
     "lesson": "vitamin-c-detective.lab",
     "vessels": [
@@ -8491,7 +8434,7 @@
     ]
   },
   "volcano-foam": {
-    "event_count": 15,
+    "event_count": 12,
     "events_sample": [
       "v1: +0.0595 mol baking soda (sodium bicarbonate)",
       "v1: +50.300 g 5% white vinegar (2 known ingredients)",
@@ -8502,11 +8445,8 @@
       "v2: +0.0595 mol baking soda (sodium bicarbonate)",
       "v2: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: +50.300 g 5% white vinegar (2 known ingredients)",
-      "v2: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: The liquid is white and so cloudy you cannot see through it.",
       "v2: 100% of the suspended particles settle in 120 s",
-      "v1: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
-      "v2: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: The liquid is colourless and clear, there is white baking soda (sodium bicarbonate) at the bottom."
     ],
     "lesson": "volcano-foam.lab",
@@ -8658,13 +8598,12 @@
     ]
   },
   "water-electrolysis": {
-    "event_count": 6,
+    "event_count": 5,
     "events_sample": [
       "v1: +11.0686 mol water",
       "v1: +7.04 mmol sodium sulfate",
       "v1: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — nothing here can be electrolysed: the solvent-electrolysis model requires a dissolved supporting electrolyte; pure water has finite but very low conductivity, and the voltage, electrode spacing and overpotentials needed to sustain the requested current are not modelled",
-      "v1: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: The liquid is white and so cloudy you cannot see through it."
     ],
     "lesson": "water-electrolysis.lab",
@@ -8694,7 +8633,7 @@
       "v1: +5.5343 mol water",
       "v1: +5.000 g quartz-rich sand surrogate (1 known ingredients)",
       "v1: 20.0 µmol silicon dioxide (quartz) dissolved",
-      "v1: silicon dioxide (quartz) does not react — silicon dioxide (quartz) does not dissolve in water: its reviewed solubility is 0.0012 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v1: silicon dioxide (quartz) does not react — silicon dioxide (quartz) hardly dissolves in water: its reviewed solubility is 0.0012 g per 100 mL, which is below anything a beaker would show. A trace of it is in solution; the rest is still there",
       "v1: The liquid is white and so cloudy you cannot see through it.",
       "v2: new vessel",
       "v1 → v2: filtrate passed; residue retained",
@@ -8748,7 +8687,7 @@
       "v2: +13.8357 mol water",
       "v2: +20.000 g pumice (volcanic froth) (1 known ingredients)",
       "v2: 49.9 µmol silicon dioxide (quartz) dissolved",
-      "v2: silicon dioxide (quartz) does not react — silicon dioxide (quartz) does not dissolve in water: its reviewed solubility is 0.0012 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v2: silicon dioxide (quartz) does not react — silicon dioxide (quartz) hardly dissolves in water: its reviewed solubility is 0.0012 g per 100 mL, which is below anything a beaker would show. A trace of it is in solution; the rest is still there",
       "v2: The liquid is white and so cloudy you cannot see through it, a piece of pumice (volcanic froth) floats on top.",
       "v3: new vessel",
       "v3: +13.8357 mol water",

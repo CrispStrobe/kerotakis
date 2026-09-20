@@ -1457,8 +1457,16 @@ pub struct Vessel {
     /// exactly that, with a computed activity in the sentence that moves
     /// every step. Comparing against it would report a routing change on
     /// every step of every metal lesson, which is the noise this event
-    /// exists to avoid. This field is what has been SAID, and only
-    /// `finalize_solution_info` writes it.
+    /// exists to avoid. This field is what has been SAID.
+    ///
+    /// **Three paths write it, through one function.** The direct solve
+    /// (`finalize_solution_info`) was the first; the owner's 2026-09-18
+    /// ruling added MIX and solvent-only characterisation, which were both
+    /// writing a `Provenance` into the vessel that no event ever carried.
+    /// All three go through `aqueous.rs::announce_routing`, so there is one
+    /// comparison and not three — and because they share this field, a
+    /// beaker that leaves one path for another is told about the move
+    /// rather than told the same thing twice.
     ///
     /// **`#[serde(skip)]` on purpose.** This is narration state, not
     /// chemistry: it records what a reader has been told, not anything
@@ -1469,12 +1477,46 @@ pub struct Vessel {
     /// opened the file has not been told.
     #[serde(skip)]
     pub aqueous_routing_said: Option<String>,
+    /// The shapes ([`crate::phrase::Phrase::shape`]) of the honesty pass's
+    /// per-solid sentences as they stood when the reader was last told
+    /// them.
+    ///
+    /// `Event::Inert` and the `NotYetModeled` twin beside it answer the
+    /// same question every step — *is this solid doing anything?* — and
+    /// answered it out loud every step. A transcript of one vessel carried
+    /// the same forty-word sentence about chalk's solubility more than
+    /// thirty times and "silver nitrate in contact with liquid" ten. The
+    /// news is never *the honesty pass ran*; it is *this solid's standing
+    /// changed*, and between those moments the sentence stands and says
+    /// nothing.
+    ///
+    /// The same mechanism as [`Provenance::source_key`] and
+    /// [`Vessel::aqueous_routing_said`] (#653), for the same reasons and
+    /// deliberately not a second one. A SHAPE rather than a rendered
+    /// sentence, so the suppression is locale-free by construction: a
+    /// reader switching to German has not learned anything new about the
+    /// chalk, and must not be told the same thirty sentences again to
+    /// prove it.
+    ///
+    /// Held as what stands NOW rather than as everything ever said, so a
+    /// solid that stops being inert — it dissolves, or a reaction
+    /// consumes it — and later is inert again is announced again. An
+    /// early return from the pass leaves it empty for the same reason:
+    /// the sentence is no longer standing.
+    ///
+    /// **`#[serde(skip)]` on purpose**, exactly as its neighbour above:
+    /// this is a record of what a reader has been told, not of anything
+    /// in the beaker, and resuming a saved session should re-state it
+    /// once.
+    #[serde(skip)]
+    pub honesty_said: Vec<String>,
 }
 
 impl Vessel {
     pub fn new(id: VesselId, label: impl Into<String>) -> Self {
         Vessel {
             aqueous_routing_said: None,
+            honesty_said: Vec::new(),
             elapsed_seconds: 0.0,
             nuclides: Default::default(),
             excess_enthalpy_j: 0.0,

@@ -1358,6 +1358,7 @@ couple-spent-trace = "bis auf eine Spur ist das gesamte {other} abgeschieden ({l
 uphill-in-series = "{name} steht in der Spannungsreihe über {other} (E° {e_self} V gegen {e_other} V), die Elektronen müssten also bergauf fließen: das weniger reaktive Metall verdrängt das reaktivere nicht"
 above-hydrogen = "{name} steht in der Spannungsreihe über Wasserstoff (E° {e_self} V gegen 0,000 V für 2H⁺/H₂), verdünnte Säure kann ihm seine Elektronen also nicht abnehmen. Eine oxidierende Säure wie Salpetersäure könnte es über ein anderes Redoxpaar, und das ist nicht modelliert"
 insoluble-in-water = "{name} löst sich nicht in Wasser: die geprüfte Löslichkeit beträgt {limit} g pro 100 mL, das liegt unter allem, was in einem Becherglas zu sehen wäre. Es ist noch vollständig vorhanden"
+insoluble-in-water-trace-in-solution = "{name} löst sich kaum in Wasser: die geprüfte Löslichkeit beträgt {limit} g pro 100 mL, das liegt unter allem, was in einem Becherglas zu sehen wäre. Eine Spur davon ist in Lösung; der Rest ist noch da"
 
 # The curated organic-solvent verdicts, keyed by the ROW of
 # `nonaqueous::INERT_IN_SOLVENT` — metal and solvent — rather than by the

@@ -3372,6 +3372,14 @@ finished and merged.
   solve" the answer is to stop and report it, not to ship a slower engine
   quietly.
 
+  **RULED AND DONE 2026-09-18** — pose it canonically; see the ticked item
+  in the section below for the numbers. The reading above is right about the
+  non-invariance and still short of the cause: `mass_H2O` follows the water
+  the INPUT declared, and the input to the last operation is the
+  *intermediate* vessel plus one reagent. The two orders have different
+  intermediate vessels, so the same final contents reach the solver as two
+  different questions. The vessel's own water inventory never departed.
+
 
 ### Ruled by the owner, 2026-09-18
 
@@ -3427,20 +3435,50 @@ question was asked.
       offered and not chosen, and narrowing it risks failing CI on a genuine
       model limitation at the dilute end.
 
-- [ ] **`solution.solvent_kg`: pose the final state canonically before the
-      last solve. RULED 2026-09-18.** Same contents must give the same
-      answer regardless of the order they arrived in. Today a CaCl₂ addition
-      yields 0.0997010580 with the detergent already dissolved and
-      0.0996909357 without, and `ionic_strength` carries that 1e-4 into every
-      activity coefficient. Accepting the non-invariance and declaring it on
-      the wire was offered and not chosen.
-      **What reaches the user:** both orders read `solvent_kg 0.0996909590`
-      and `ionic_strength 0.2759782269`; the `aq-023` corpus row stops
-      departing.
-      **The cost, which is real:** one extra solver call per
-      characterisation, on a box where a lesson already takes seconds. If the
-      measured cost turns out to be worse than "one more solve", stop and
-      report it rather than shipping a slower engine quietly.
+- [x] **`solution.solvent_kg`: pose the final state canonically before the
+      last solve. RULED 2026-09-18; DONE 2026-09-18.** Both orders of
+      `aq-023` now read `solvent_kg 0.0996939730` and `ionic_strength`
+      0.2759702852 against 0.2759702847, where they read 0.0997010580 /
+      0.0996909590 and 0.2759516202 / 0.2759782269 before. **1.0129e-4 apart
+      became 1.0023e-13, and 9.6418e-5 became 1.8361e-9.**
+      **The row does NOT stop departing, and that is a finding rather than a
+      shortfall.** The perturbation rule reports the first slot that moves,
+      so closing the 1e-4 uncovered a 3.76e-5 one underneath it:
+      `base_equivalents` — `2·O − H` left over once every portion is booked —
+      differs between the orders by 1.26e-8 mol, which is to the digit the
+      same 1.25e-8 mol `contents[water]` has always differed by and that the
+      same file calls agreement to one part in 4e8. One wobble in a conserved
+      sum, read through 5.53 mol at 2e-9 and through 3.35e-4 mol at 3.8e-5.
+      It is floating-point accumulation, not a representation, and it wants a
+      stabler sum rather than another solve. `ORDER_DEPARTURES` keeps
+      `aq-023` with that as its reason.
+      **The answer landed on neither of the two old numbers**, which is the
+      point: it is the answer to the state rather than to either route
+      through it, and the value the ruling predicted was simply the
+      powder-first one quoted forward.
+      **What the work found, and what two earlier readings got wrong.**
+      `mass_H2O` tracks the water the INPUT declared, and the input to the
+      last operation is the *intermediate* vessel plus one reagent — a
+      calcium chloride solution in one order and a carbonate one in the
+      other, holding different shares of their hydrogen and oxygen inside
+      species rather than inside water. The vessel's own inventory never
+      departed at all, because `complete_basis` rebuilds the water portion
+      from conserved H and O. So the fix is one extra pose of the SETTLED
+      contents (`PhreeqcEquilibrator::recharacterise_canonically`), which
+      replaces the four reported numbers and rebuilds nothing.
+      **Why the residue is not zero, stated rather than rounded away:** the
+      input writes the solvent mass to nine decimals, coarser than the
+      inventory's own 4e-9 disagreement, so both orders produce the same
+      input text and `solvent_kg` is exact; the element totals are written
+      to twelve significant figures, finer than that residue, which is the
+      whole of the remaining 1.8e-9 in the ionic strength — noise in a
+      conserved sum, not a representation.
+      **The cost, measured:** 8 engine calls became 9 on one ordering and 6
+      became 8 on the other — at most one more per equilibration, sometimes
+      none when the content-addressed cache answers the re-pose. Exactly the
+      "one more solve" the ruling accepted, so there was nothing to stop
+      and report. `crates/kerotakis-phreeqc/tests/order_invariance.rs` holds
+      the invariance and the ceiling.
 
 - [ ] **`ionic.rs::provenance_of`: thread a `Locale` through
       `net_ionic_for`. RULED 2026-09-18.** The sixth and last member of the
@@ -3527,6 +3565,43 @@ question was asked.
 
 ### From a live transcript, 2026-09-18 — the peroxide/chalk vessel
 
+**The data gap #665 named, now counted.** The routing estimate caps what a
+phase may contribute by the reviewed solubility the registry holds — and
+falls back to counting it in full where there is none, on purpose, because
+that is what keeps a real brine routing to Pitzer. So the cap only bites
+where the data exists, and the transcript's own manganese dioxide and
+silver chloride are among the solids where it does not.
+
+Measured against `crates/kerotakis-core/tests/golden/registry.json` and
+`data/registry/registry-source-v1.json` on 2026-09-18:
+
+- **93 solid species** in the shipped registry.
+- **22** carry a reviewed `aqueous-solubility-g-per-100-ml`, and they are
+  mostly organics and polymers — sulfur, chalk and quartz are the only
+  three that are also aqueous-database phases.
+- **71 do not.** Among them, by a crude name match against the 319 phases
+  in `wateq4f.dat`: Cu(OH)2, CuSO4, antlerite, atacamite, brochantite,
+  chalcanthite, epsomite, gypsum, langite.
+
+- [ ] **Give the precipitating solids a reviewed solubility, with a source
+      each.** Two pieces of work, and the second is the one that is easy to
+      miss:
+
+      **The values.** Each needs a citation traceable to an original
+      measurement, under the standing rule — any book may be cited, no book
+      may be systematically harvested, and the original source of a value is
+      what gets cited rather than the compilation that repeated it. A value
+      with no reachable source is better left absent than guessed: absent is
+      what the full-count fallback is *for*.
+
+      **The crosswalk, which is a finding in its own right.** The nine above
+      are what a *string* match finds. AgCl and MnO₂ are database phases too
+      — under `Chlorargyrite` and `Pyrolusite`/`Birnessite` — so a registry
+      key and a phase name do not compare by equality, and any honest count
+      of this gap needs a mineral-name crosswalk first. Until that exists,
+      "9" is a floor and not the number.
+
+
 The owner pasted a Laborbuch transcript from a vessel that boiled dry
 while catalase and manganese dioxide were decomposing peroxide. Four
 defects in it, each verified against the source rather than inferred from
@@ -3543,7 +3618,7 @@ assign to the prop its `{@const}` derives from — but that argument is the
 reason, not an assumption, and it stops holding the moment a component owns
 state a sibling `{@const}` reads.
 
-- [ ] **The routing caveat prints "~71046,6 mol/kgw" one line above
+- [x] **The routing caveat prints "~71046,6 mol/kgw" one line above
       "I = 0,0004 mol/kgw".** `aqueous.rs:3089` estimates a "potential
       molality" as *(dissolved totals + 2 × equilibrium-phase moles + 2 ×
       solid-solution moles) / `problem.kgw`*, and `> 1.0` both **selects
@@ -3574,7 +3649,31 @@ state a sibling `{@const}` reads.
       model, and told it is, on the strength of a number the solver
       disagrees with by eight orders of magnitude.
 
-- [ ] **Identical lines repeat on every solve step.** The same
+      **Done in #665, and what it found.** Both faults are real and the
+      arithmetic checks out: a numerator of 0.048 mol over a `kgw` of
+      6.76e-7 kg — 0.68 mg of water — is 71 048 mol/kgw. The estimate is
+      now bounded twice, on the value that ROUTES rather than on a printed
+      copy of it: the solvent mass is floored at one millilitre (the
+      largest floor that leaves `condense_supersaturated`'s documented
+      1 mL probe untouched), and a phase contributes at most what the
+      water present could hold, read from the same reviewed solubility
+      that composes its own `Event::Inert` sentence. The transcript's
+      beaker goes from **71 048 to 0.00026 mol/kgw**, beside the solver's
+      measured 0.0004 — the first time the two halves of that answer
+      agree. Brine is untouched: 8 mol of NaCl in a kilogram still reads
+      16.0, and the 1 mL probe still hands the router 200.
+
+      **What it does NOT close, deliberately.** The cap only bites where
+      the registry has reviewed a solubility — 22 species, of which
+      chalk, quartz and sulfur are the only ones that are also database
+      phases. A solid it has not reviewed is still counted in full,
+      because that is what keeps halite and sylvite routing a real brine
+      to pitzer. So manganese dioxide and silver chloride, both in that
+      vessel, still contribute their whole inventory. Closing that is
+      registry data with a source behind it, not arithmetic in
+      `aqueous.rs`, and it is the next thing to do here.
+
+- [x] **Identical lines repeat on every solve step.** The same
       `Event::Inert` for chalk is emitted unconditionally at
       `solve.rs:2466` and `solve.rs:2603` — once per step, forever. The
       transcript carries the same forty-word German sentence about chalk's
@@ -3585,7 +3684,35 @@ state a sibling `{@const}` reads.
       done here should reuse that mechanism rather than invent a second
       one.
 
-- [ ] **The engine says chalk dissolved and, on the next line, that it
+      **Done in #667, and what it found.** `Vessel::honesty_said` is the
+      sibling of `aqueous_routing_said` — `#[serde(skip)]`, compared as a
+      shape, holding what STANDS rather than everything ever said, so a
+      solid that stops being inert and is inert again is announced again.
+      Across the 113 lesson goldens, **49 changed and all 49 changed the
+      same way**: 133 lines removed, no vessel state moved, no line added
+      that was not a first occurrence, and not one count went up. The
+      largest single reduction was `rusting`, 40 events to 30.
+
+      **`NotYetModeled` had half a mechanism, and it was not this one.**
+      `render_events_in` drops a line identical to one already in the
+      batch — but only inside ONE batch and only at lv1, so thirty steps
+      are thirty batches and it never saw them, and lv2/lv3 readers were
+      not covered at all. It gets the same treatment at the same two
+      sites.
+
+      **No suppressed line carried a quantity that moves.** Only
+      `inert.insoluble-in-water` has a measurement in it at all — the
+      reviewed solubility — and of the species that can reach that branch
+      (below 0.01 g/100 mL) none has a second, 100 °C entry to
+      interpolate towards, so it cannot move while the sentence stands.
+
+      **What the repetition was costing, found by eye.** `hard-water`'s
+      third vessel printed the calcium-chloride apology twice and pushed
+      magnesium sulfate's own first sentence out of view; with the repeat
+      gone, the magnesium sulfate line appears. The noise was not only
+      noise — it was crowding out news.
+
+- [x] **The engine says chalk dissolved and, on the next line, that it
       does not dissolve and is "still all there".** Verbatim, in order:
       *"0,000001 mol Kreide (Calciumcarbonat) gelöst"*, then *"Kreide
       (Calciumcarbonat) inert: … löst sich nicht in Wasser … Es ist noch
@@ -3597,6 +3724,66 @@ state a sibling `{@const}` reads.
       against the scene. The fix is not to silence either one: it is that
       the sentence claiming "still all there" must be derived from what is
       left, not from a table lookup.
+
+      **Done in #669, and the first thing it found is that this item is
+      wrong about where the two sentences come from.** They are not two
+      subsystems. They are one registry row read twice:
+      `MixingEquilibrator`'s reviewed-solubility route
+      (`solve::saturation_moves`) dissolves a solid up to
+      `limit × mL / 100 / M`, and the honesty pass then reads that same
+      `aqueous_solubility_at` under the same `< 0.01 g/100 mL` filter and
+      appends *it is still all there*. PHREEQC is not involved and does
+      not need to be: the pair reproduces in a bench with no aqueous
+      engine wired at all — 5.5 mol of water and 0.01 mol of chalk emit
+      `Dissolved 1.29e-5 mol` and the intact verdict in one batch, one
+      line apart. A vessel-independent table decided both.
+
+      **What a reader now sees.** `outside_the_solid` sums every portion
+      of that species standing in any phase but solid — any phase, because
+      what the clause claims is that the SOLID is undiminished, and a
+      portion that has melted is as absent from it as one that has
+      dissolved — and it picks the verdict. Where nothing of it is
+      outside the solid the sentence is the one it always was: *"Kreide
+      (Calciumcarbonat) löst sich nicht in Wasser: die geprüfte
+      Löslichkeit beträgt 0,0013 g pro 100 mL, das liegt unter allem, was
+      in einem Becherglas zu sehen wäre. Es ist noch vollständig
+      vorhanden"*. Where a trace stands in solution — chalk in water,
+      always, which is the transcript's case — it is
+      `inert.insoluble-in-water-trace-in-solution`: *"Kreide
+      (Calciumcarbonat) löst sich **kaum** in Wasser: … **Eine Spur davon
+      ist in Lösung; der Rest ist noch da**"*.
+
+      **Eleven golden lines moved and every one was a false claim**:
+      chalk in eight places and quartz in three, each in a vessel whose
+      own contents held a dissolved trace of the solid the line was
+      calling untouched. No vessel state moved, and `scene-five.json` is
+      unchanged.
+
+      **The #667 interaction is deliberate rather than discovered**, which
+      is why it is two KEYS and not one interpolated clause.
+      `Vessel::honesty_said` holds what stands and compares
+      `Phrase::shape()`; two keys are two shapes, so the step on which a
+      trace first goes into solution is a change in the standing verdict
+      and is announced, and every step after it is an echo and is not. For
+      the same mechanism's other half, no amount goes into the sentence:
+      `Slot::Number` renders as `#` in a shape, so a sentence carrying a
+      moving measurement would stand while its number went stale. How much
+      went is `Event::Dissolved`'s line, on the step it happens — which
+      keeps #667's own finding true, that the only measurement in this
+      recipe is a reviewed solubility that cannot move.
+
+      **What it does NOT close.** With observable water in the vessel the
+      intact wording is now effectively unreachable, because the branch
+      that says it and the route that dissolves the trace read the same
+      registry row under the same filter: if the sentence can be said at
+      all, a trace has gone. That is the correct outcome rather than a
+      shortcut — the wording was false in every one of those vessels — and
+      the surviving case is the instant before the mixing pass runs, which
+      the unit test exercises directly. It also leaves the other half of
+      the pair alone: `Event::Dissolved` still says *12,9 µmol gelöst*
+      with no hint that this is the whole of what this water can hold, so
+      the reader is still left to notice that *a trace dissolved* and
+      *hardly dissolves* are the same fact measured twice.
 
 - [ ] **"Silbernitrat ist mit einer Flüssigkeit in Kontakt" in a vessel
       with no liquid.** Emitted repeatedly *after* the engine has already
