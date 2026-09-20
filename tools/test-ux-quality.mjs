@@ -1553,11 +1553,39 @@ try {
    * quantity table could therefore squeeze the log it was summarising to
    * zero height, which is what "covers the journal" looks like.
    *
-   * The pour above has just been answered by the engine, so the card is on
-   * screen: measure rather than reason. The geometry is the assertion —
+   * A water pour is NOT enough to put a card on screen, which is how this
+   * check first failed: `summarizeResult` returns null unless the step
+   * produced a significant event, and pouring solvent into an empty beaker
+   * produces none. The owner's own example was a heat step —
+   * "Temperaturänderung ΔT +25,97 K" — and `temperature_changed` is
+   * exactly what the digest is built from. So ask for one.
+   *
+   * With a card on screen, measure rather than reason. The geometry is the
+   * assertion —
    * the two boxes must not intersect, and the log must keep a share of the
    * pane worth reading.
    */
+  const heated = await page.evaluate(`(() => {
+    const input = document.querySelector('form.bar input');
+    if (!input || input.disabled) return "";
+    Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value").set.call(input, "heat v1 10kJ");
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    input.form.dispatchEvent(new SubmitEvent("submit", { bubbles: true, cancelable: true }));
+    return "submitted";
+  })()`);
+  check("the bench takes a heat step to summarise", heated === "submitted",
+    heated || "no command bar to type into");
+  await waitFor(page, `!document.querySelector('form.bar input')?.disabled`, { timeout: 60000 });
+  await new Promise((resolve) => setTimeout(resolve, 3000));
+  // The card is hidden at lv3 BY DESIGN — `session.latestResult &&
+  // session.register !== "lv3"` — so a register left on lv3 by an audit
+  // above looks exactly like a missing card from here. Say which it is
+  // rather than letting the next reader guess, which is the lesson #674
+  // paid for on the check below this one.
+  const cardRegister = await page.evaluate(`document.querySelector('.dial select')?.value ?? ""`);
+  check("the journal is on a register that shows the card", cardRegister !== "lv3",
+    cardRegister || "no register dial on screen");
+
   const journalShare = JSON.parse(await page.evaluate(`(() => {
     const pane = document.querySelector('main > aside .pane-body');
     const card = document.querySelector('main > aside .result-card');
