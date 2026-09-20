@@ -46,7 +46,7 @@ const openCupboard = async () => {
 
 const cupboardAudit = () => page.evaluate(`(() => {
   const panel = document.querySelector('dialog.cupboard');
-  if (!panel) return JSON.stringify({ catalogue: 0, shelves: 0, items: 0, unnamed: 1, info: 0, viewportOverflow: 0, locked: 0, tally: 0, kitNames: 0, setsChip: 1, unexplainedShelves: 1 });
+  if (!panel) return JSON.stringify({ catalogue: 0, shelves: 0, items: 0, unnamed: 1, info: 0, viewportOverflow: 0, locked: 0, tally: 0, kitNames: 0, setsChip: 1, unexplainedShelves: 1, drawn: 0, lettered: 0, blankPortraits: 1, smallInfo: 1, infoOverDrawing: 1 });
   const items = [...panel.querySelectorAll('button.item')];
   const rect = panel.getBoundingClientRect();
   // The catalogue size is on the dialog rather than read out of the header
@@ -68,6 +68,34 @@ const cupboardAudit = () => page.evaluate(`(() => {
     items: items.length,
     unnamed: items.filter((item) => !(item.textContent.trim() || item.getAttribute('aria-label'))).length,
     info: panel.querySelectorAll('button.info-toggle').length,
+    // GUI-109. A portrait is an inline SVG or the instrument's own
+    // notation; what it must never be is NOTHING, which is what a name
+    // with no path in ToolIcon renders as. Counted here because an empty
+    // box on a shelf looks like a design choice from the outside.
+    drawn: items.filter((item) => item.querySelector('.item-render svg')).length,
+    lettered: items.filter((item) => item.querySelector('.item-render .glyph')).length,
+    blankPortraits: items.filter((item) => {
+      const render = item.querySelector('.item-render');
+      return !render || (!render.querySelector('svg') && !render.textContent.trim());
+    }).length,
+    // GUI-110. The (i) shrank to a 19 px mark in the tile's corner; its
+    // BUTTON did not shrink, and must still clear the 44 px touch floor.
+    smallInfo: [...panel.querySelectorAll('button.info-toggle')]
+      .filter((item) => item.offsetParent)
+      .filter((item) => {
+        const box = item.getBoundingClientRect();
+        return box.width < 44 || box.height < 44;
+      }).length,
+    // And the 44 px square it kept must not sit over the drawing, or the
+    // hit area was bought with the tile's own.
+    infoOverDrawing: [...panel.querySelectorAll('.slot')].filter((slot) => {
+      const info = slot.querySelector('button.info-toggle');
+      const render = slot.querySelector('.item-render');
+      if (!info || !render || !info.offsetParent) return false;
+      const a = info.getBoundingClientRect();
+      const b = render.getBoundingClientRect();
+      return a.left < b.right - 1 && b.left < a.right - 1 && a.top < b.bottom - 1 && b.top < a.bottom - 1;
+    }).length,
     locked: items.filter((item) => item.classList.contains('locked')).length,
     tally: panel.querySelector('header b') ? 1 : 0,
     // GUI-111: the candle has one slot and one name — the laboratory one.
@@ -770,6 +798,67 @@ try {
   check("the cupboard shows what this learner has", cupboard.items >= 12, `${cupboard.items} items`);
   check("every cupboard item is named", cupboard.unnamed === 0, `${cupboard.unnamed} unnamed`);
   check("every cupboard item can say what it models", cupboard.info === cupboard.items, `${cupboard.info} of ${cupboard.items}`);
+  /* -- GUI-109 and GUI-110: the pictures, and the (i) ------------------
+   *
+   * The owner, on the cabinet: "most symbols are not even intuitive. we
+   * should have much better icons/symbols/drawings of the devices", and
+   * "the (i) buttons there should be more tiny and e.g. in upper right
+   * corner of the drawings of the devices, not occupy that much room".
+   *
+   * The half of this that only a browser can answer is the geometry. A
+   * missing drawing is not an error anywhere — ToolIcon renders nothing
+   * for a name it has no path for — so an empty portrait reaches the shelf
+   * silently; and the whole point of the corner (i) is that what you see
+   * shrank while what you can hit did not, which is two rectangles and
+   * cannot be asserted from markup.
+   */
+  check("every cupboard item is drawn or lettered, never blank",
+    cupboard.blankPortraits === 0, `${cupboard.blankPortraits} empty portraits`);
+  check("most cupboard items are a drawing rather than a character",
+    cupboard.drawn > cupboard.lettered, `${cupboard.drawn} drawn, ${cupboard.lettered} lettered`);
+  check("the (i) keeps a 44 px hit area after shrinking to a corner mark",
+    cupboard.smallInfo === 0, `${cupboard.smallInfo} under the floor`);
+  check("and does not buy that hit area out of the tool's own drawing",
+    cupboard.infoOverDrawing === 0, `${cupboard.infoOverDrawing} overlapping`);
+  // The press. A corner (i) that is drawn but cannot be reached — because
+  // the tile's own button is painted over it, or because the 44 px square
+  // is under the tile rather than above it — is exactly the defect
+  // `svelte/server` tests cannot see: the markup is identical either way.
+  // Aimed at the CORNER of the square, not its centre, because the centre
+  // is the half that was never in doubt.
+  const infoPress = JSON.parse(await page.evaluate(`(() => {
+    window.__cabinetErrors = [];
+    window.addEventListener("error", (event) => window.__cabinetErrors.push(String(event.message)));
+    const slot = document.querySelector('dialog.cupboard .slot');
+    const info = slot?.querySelector('button.info-toggle');
+    if (!info) return JSON.stringify({ pressed: false });
+    const box = info.getBoundingClientRect();
+    const onTop = document.elementFromPoint(box.right - 6, box.top + 6);
+    info.click();
+    return JSON.stringify({
+      pressed: true,
+      // What a finger landing in that corner actually hits.
+      hitsTheToggle: Boolean(onTop && onTop.closest('button.info-toggle')),
+    });
+  })()`));
+  await settle();
+  const infoOpened = JSON.parse(await page.evaluate(`(() => {
+    const slot = document.querySelector('dialog.cupboard .slot');
+    const info = slot?.querySelector('button.info-toggle');
+    return JSON.stringify({
+      expanded: info?.getAttribute('aria-expanded'),
+      panel: Boolean(document.querySelector('dialog.cupboard .slot-info')),
+      errors: window.__cabinetErrors,
+    });
+  })()`));
+  check("the corner of the (i) square is the (i), not the tile under it",
+    infoPress.pressed && infoPress.hitsTheToggle, JSON.stringify(infoPress));
+  check("pressing the corner (i) opens the tool's explanation",
+    infoOpened.expanded === "true" && infoOpened.panel, JSON.stringify(infoOpened));
+  check("and the cabinet throws nothing on the way",
+    infoOpened.errors.length === 0, infoOpened.errors.join(" | "));
+  await page.evaluate(`document.querySelector('dialog.cupboard .slot button.info-toggle')?.click()`);
+  await settle();
   // The tally is printed only while it carries information. In Sandbox
   // nothing is locked, so a fraction there would read "34/34".
   check("the cupboard shows its tally only while something is locked",

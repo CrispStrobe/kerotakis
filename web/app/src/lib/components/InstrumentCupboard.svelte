@@ -281,7 +281,10 @@
                     {#if entryAccess.loaned}<span class="loaned-label">{t("mission kit")}</span>{/if}
                     {#if !entryAccess.available}<span class="locked-label">⌁ {requirementLabel(accessId(entry))}</span>{/if}
                   </button>
+                  <!-- GUI-110: in the tile's corner, not on a row of its
+                       own under every tool. -->
                   <InfoToggle
+                    placement="corner"
                     expanded={openInfo === entry.id}
                     controls={panelId(entry.id)}
                     label={t("about {name}", { name: t(entry.name) })}
@@ -343,22 +346,45 @@
   .shelf { margin-bottom: 1.2rem; }
   .shelf h3 { display: flex; align-items: center; justify-content: space-between; margin: 0 0 .4rem; color: var(--dim); font-size: .62rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
   .shelf h3 small { min-width: 1.35rem; padding: .12rem .3rem; border-radius: 999px; background: var(--surface-raised); text-align: center; }
-  .shelf-items { display: grid; grid-template-columns: repeat(auto-fill, minmax(6.4rem, 1fr)); gap: .4rem; align-items: end; }
+  .shelf-items { display: grid; grid-template-columns: repeat(auto-fill, minmax(6.8rem, 1fr)); gap: .4rem; align-items: stretch; }
   .board { display: block; height: 6px; margin-top: .2rem; border-radius: 3px; background: linear-gradient(180deg, color-mix(in srgb, var(--action) 26%, var(--surface-raised)), var(--surface-raised)); box-shadow: 0 3px 7px var(--shadow); }
-  .slot { min-width: 0; display: flex; flex-direction: column; align-items: center; gap: .1rem; }
-  .item { position: relative; width: 100%; min-height: 84px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: .3rem; padding: .5rem .35rem; overflow: hidden; border: 1px solid var(--edge); border-radius: 12px; color: var(--ink); background: linear-gradient(160deg, var(--surface), color-mix(in srgb, var(--surface-raised) 78%, var(--surface))); cursor: pointer; font: inherit; text-align: center; }
+  /* GUI-110 — the (i) lives in this box, not under it.
+
+     The slot used to be a column: the tool tile, then a 2.15 x 40 px info
+     button on a row of its own. Five shelves of tools meant five rows of
+     cabinet spent on a control most visits never press, which is what the
+     owner met as "the (i) buttons ... occupy that much room".
+
+     The tension, stated plainly, because it is real: the repo audits a
+     44 px touch floor, and a 44 px square is a quarter of a 6.8 rem tile.
+     The resolution is to separate the two things a button conflates.
+     `InfoToggle`'s corner variant keeps a 44 px BUTTON — the hit area is
+     not reduced by one pixel — and paints a 19 px mark inside it. The tile
+     then has to give that corner up, so the tile stops centring its
+     contents and stands them on the left: the 34 px drawing runs from the
+     tile's left padding and the name sits under it, both clear of the
+     44 px square in the top right. A press aimed at the drawing or the
+     name selects the tool; only the empty corner explains it.
+
+     The column minimum went 6.4rem -> 6.8rem so that stays true at the
+     narrowest desktop column, and the phone rule below does the same for
+     the narrow grid. */
+  .slot { position: relative; min-width: 0; display: flex; flex-direction: column; }
+  .item { position: relative; width: 100%; flex: 1; min-height: 84px; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: .3rem; padding: .5rem .45rem; overflow: hidden; border: 1px solid var(--edge); border-radius: 12px; color: var(--ink); background: linear-gradient(160deg, var(--surface), color-mix(in srgb, var(--surface-raised) 78%, var(--surface))); cursor: pointer; font: inherit; text-align: left; }
   .item:hover:not(:disabled) { border-color: var(--action); transform: translateY(-2px); box-shadow: 0 7px 16px var(--shadow); }
   .item.deployed { border-color: var(--action); background: color-mix(in srgb, var(--action) 9%, var(--surface)); }
   .item.locked, .item:disabled { opacity: .78; filter: saturate(.55); cursor: not-allowed; }
   .item.locked:hover { transform: none; border-color: var(--edge); box-shadow: none; }
-  .item-render { width: 38px; height: 38px; display: grid; place-items: center; flex: none; border-radius: 11px; color: var(--action); background: color-mix(in srgb, var(--action) 10%, var(--surface)); }
-  .item-render :global(svg) { width: 26px; height: 26px; margin: 0; }
-  .glyph { font-size: 1.1rem; line-height: 1; }
-  /* pH, mL, λ, Rf are read rather than looked at; they want the steadier
-     typographic treatment the emoji do not. */
+  .item-render { width: 34px; height: 34px; display: grid; place-items: center; flex: none; border-radius: 10px; color: var(--action); background: color-mix(in srgb, var(--action) 10%, var(--surface)); }
+  .item-render :global(svg) { width: 24px; height: 24px; margin: 0; vertical-align: 0; }
+  .glyph { font-size: 1.05rem; line-height: 1; }
+  /* pH and Bq are read rather than looked at; they want the steadier
+     typographic treatment a drawing does not. Since GUI-109 they are the
+     only two left — every other instrument is drawn. */
   .glyph.word { font-size: .74rem; font-weight: 800; letter-spacing: .02em; }
   .item-name { font-size: .64rem; line-height: 1.2; overflow-wrap: anywhere; }
-  .deployed-label { position: absolute; top: .25rem; right: .25rem; padding: .12rem .3rem; border-radius: 999px; color: var(--on-accent); background: var(--action); font-size: .45rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+  /* Bottom right since GUI-110: the top right belongs to the (i). */
+  .deployed-label { position: absolute; bottom: .25rem; right: .25rem; padding: .12rem .3rem; border-radius: 999px; color: var(--on-accent); background: var(--action); font-size: .45rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
   .locked-label { margin-top: auto; padding: .16rem .3rem; border-radius: 7px; color: var(--dim); background: color-mix(in srgb, var(--surface-raised) 90%, transparent); font-size: .5rem; font-weight: 800; line-height: 1.2; }
   .loaned-label { margin-top: auto; padding: .16rem .3rem; border-radius: 999px; color: var(--instrument); background: color-mix(in srgb, var(--instrument) 10%, var(--surface)); font-size: .46rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
   /* The explanation takes the whole row: a sentence in a 6 rem column is a
@@ -377,6 +403,9 @@
        widens the page it is sitting on. */
     .scrim { padding: 0; }
     .cupboard { width: 100vw; max-height: 100vh; border-radius: 0; }
-    .shelf-items { grid-template-columns: repeat(auto-fill, minmax(5.2rem, 1fr)); }
+    /* 5.2rem was 83 px, and a 44 px corner on an 83 px tile would sit over
+       the drawing. 5.8rem is 93 px: drawing 7-41 px, (i) square 49-93 px,
+       and they do not meet. */
+    .shelf-items { grid-template-columns: repeat(auto-fill, minmax(5.8rem, 1fr)); }
   }
 </style>

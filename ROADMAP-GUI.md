@@ -1588,6 +1588,66 @@ Three of the five things the owner hit in the German deploy landed on this
 cupboard, so they are recorded here rather than in a section of their own.
 The other two are with the journal and with the result card.
 
+- [x] **GUI-109 — The cabinet's symbols are not drawings of anything.** The
+  owner: *"most symbols are not even intuitive. we should have much better
+  icons/symbols/drawings of the devices"*.
+
+  Done. Ten of the twelve readings are inline SVG portraits in
+  `ToolIcon.svelte` now — the same 18×18 box, the same stroke-only
+  `currentColor` hand the apparatus have had since GUI-033 — and they are
+  drawn in the cupboard and in the MESSEN strip, which are two doors onto
+  one instrument and were showing two vocabularies.
+
+  **Two are deliberately still letters, and this is the finding worth
+  keeping:** `pH` and `Bq`. Both are the quantity's or the unit's own
+  notation, translated into no language the app ships, so neither is the
+  untranslatable text the no-text rule is about. And neither instrument has
+  a silhouette: a pH probe is a rod, a Geiger counter is a box with a cable
+  and a tube, and at 24 px both are grey rectangles. The radiation trefoil
+  would read — but it marks RADIOACTIVITY, not a counter, and dressing a
+  hazard symbol as an instrument is exactly the kind of shape that means
+  nothing. A letter is honest about being a label; a bad drawing is not.
+  `ToolIcon.test.ts` pins the pair so that giving one of them an icon is a
+  decision somebody makes on purpose.
+
+  **A defect the guard found on its first run:** `cool` — the cooling bath
+  — named an icon `ToolIcon` had no path for. It renders `{#if d}`, so the
+  tile had simply been drawing NOTHING since the portraits landed, and an
+  empty box on a shelf looks like a design choice from the outside. Nothing
+  threw, nothing logged, and no test could see it because every component
+  test renders through `svelte/server` and would have produced the same
+  empty markup. It is drawn now, as the deliberate opposite of `heat`: the
+  same dish, a snowflake instead of rising heat. The test that caught it
+  holds the whole catalogue against the paths the component declares.
+
+- [x] **GUI-110 — The (i) buttons eat the cabinet.** The owner: *"the (i)
+  buttons there should be more tiny and e.g. in upper right corner of the
+  drawings of the devices, not occupy that much room"*.
+
+  Done: `InfoToggle` gained `placement="corner"`, and the cupboard uses it.
+
+  **How the 44 px floor survived the shrink.** By separating the two things
+  a button conflates — what you see and what you can hit. The button
+  element is still a 44 × 44 square, anchored to the tile's top-right
+  corner and transparent; the thing painted inside it is a 19 px circled
+  *i* in that corner. Nothing about the hit area was reduced.
+
+  That is only honest if the square is genuinely spare, and it was not: a
+  44 px corner on the old 83 px phone tile would have sat over the drawing,
+  so a finger aimed at the tool would have opened its explanation instead.
+  So the tile changed with it. It stands its contents on the LEFT rather
+  than centred — 34 px drawing from the left padding, name underneath — and
+  the grid's column minimum went 6.4 rem → 6.8 rem on a desktop and 5.2 rem
+  → 5.8 rem on a phone. At 5.8 rem (93 px) the drawing runs 7–41 px and the
+  (i) square runs 49–93 px: they do not meet, at the narrowest width the
+  app is audited at. The browser guard asserts both halves — every toggle's
+  rectangle is at least 44 × 44, and no toggle's rectangle intersects its
+  tile's drawing — and then presses the square's outer CORNER and checks
+  that `elementFromPoint` there is the toggle and not the tile beneath it.
+
+  The deployed badge moved to the tile's bottom-right, because the top
+  right now belongs to the (i).
+
 - [x] **GUI-111 — "Experimentierkästen" earns nothing.** The owner: *"it
   makes no sense that '◆Experimentierkästen' changes a little bit like
   Chromatograph => Papierchromatograph. probably just remove that button
