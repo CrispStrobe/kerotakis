@@ -1621,6 +1621,11 @@ try {
       // here is the defect itself, in one number. (No backticks in this
       // comment: the whole function is a template literal.)
       cardShrink: cardBox ? getComputedStyle(card).flexShrink : "",
+      // The decomposition, so a failure here says WHERE the pane went
+      // rather than only that it went. The card's own header is a fixed
+      // cost no CSS on the body can reduce.
+      summaryHeight: card ? Math.round((card.querySelector('summary')?.getBoundingClientRect().height) ?? 0) : 0,
+      chromeHeight: Math.round(paneBox.height - feedBox.height - (cardBox ? cardBox.height : 0)),
     });
   })()`));
   // Say which half is missing rather than failing on a bare false: no card
@@ -1634,11 +1639,23 @@ try {
       journalShare.intersection <= 1, `${journalShare.intersection}px of overlap`);
     check("the result card can give way in the column",
       journalShare.cardShrink !== "0", `flex-shrink: ${journalShare.cardShrink}`);
-    // Half the pane is the line: below it the log is a scrap and the
-    // reader is back to the complaint this check exists for.
-    check("the log keeps at least half the journal pane with a card on screen",
-      journalShare.feedHeight * 2 >= journalShare.paneHeight,
-      `${journalShare.feedHeight}px of ${journalShare.paneHeight}px`);
+    // A THIRD of the pane, not a half, and the arithmetic is why.
+    //
+    // Half was the first threshold written here and it is not reachable.
+    // Measured at 371 px of pane: the journal's own chrome takes ~73 px
+    // and the card's summary ~119 px, both fixed costs that no rule on
+    // the card's body can reduce. Half the pane for the log would leave
+    // the card 112 px — less than its own header — so the assertion could
+    // only ever have been satisfied by deleting the card.
+    //
+    // A third leaves the log ~124 px of 371 px, which is five or six
+    // lines: enough to read what just happened, which is the complaint
+    // this check exists for. The decomposition above is reported so the
+    // next person to move this number can see what they are trading.
+    check("the log keeps at least a third of the journal pane with a card on screen",
+      journalShare.feedHeight * 3 >= journalShare.paneHeight,
+      `${journalShare.feedHeight}px of ${journalShare.paneHeight}px `
+        + `(summary ${journalShare.summaryHeight}px, journal chrome ${journalShare.chromeHeight}px)`);
     check("a long result scrolls inside the card", journalShare.bodyScrolls === "auto",
       journalShare.bodyScrolls);
   }

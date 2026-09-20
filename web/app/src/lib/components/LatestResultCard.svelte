@@ -296,30 +296,30 @@
      is `vh` rather than a percentage because `<details>` cannot be made a
      flex or grid container without risking the closed state, and the pane
      is very nearly viewport height in every layout the app offers. */
-  /* Capped in rem, after two attempts at "half the pane" did nothing.
+  /* Two bounds, and the reason for each was measured rather than chosen.
 
-     `.result-body` used to carry `max-height: 30vh`, which on a 1000 px
-     window is 300 px of a 371 px journal pane: the card was allowed to be
+     `.result-body` used to carry `max-height: 30vh` — on a 1000 px window
+     that is 300 px of a 371 px journal pane, so the card was allowed to be
      nearly the whole of the thing it sits above, which is the owner's
-     complaint measured. `flex-shrink` does not save it either — the log is
-     `flex: 1`, that is `1 1 0%`, so its BASIS is zero and it never
-     competes; it simply takes what the card leaves.
+     complaint in one declaration. `flex-shrink` never rescues it: the log
+     is `flex: 1`, that is `1 1 0%`, so its basis is zero and it takes only
+     what the card leaves.
 
-     Capping the card is therefore the only lever, and the obvious cap does
-     not work here: `max-height: 50%` moved the log to 98 px, and
-     `flex-basis: 50%` moved it to 98 px again — the same number twice,
-     which is a percentage not resolving rather than a cap being too
-     generous. `.pane-body`'s own height comes from flexing, and a
-     percentage against an indefinite height is ignored.
+     `max-height: 50%` on the card moved the log from 51 px to 98 px, so it
+     DOES resolve — my first reading of that was wrong, and adding
+     `flex-basis: 50%` on top changed nothing because the ceiling was
+     already doing the work. `max-height: 8rem` on the body is the second
+     bound, and it matters because the card's summary is about 119 px on
+     its own: a rule on the body is the only part of the card a rule on
+     the body can reach.
 
-     So the bound is stated in rem, which always resolves. 8 rem of body
-     under a ~3.25 rem summary keeps the card near 180 px, and the browser
-     check measures the share that produces rather than trusting this
-     arithmetic. The honest caveat: a rem is not a share, so on a very
-     short pane the card would take more of it than half. The check runs
-     at desktop; a phone-height assertion would be a different check and
-     is not written yet. */
-  .result-card { display: flex; flex-direction: column; flex: 0 1 auto; min-height: 0; margin: .6rem .65rem 0; border: 1px solid color-mix(in srgb, var(--success) 45%, var(--edge)); border-radius: 14px; color: var(--ink); background: color-mix(in srgb, var(--success) 6%, var(--surface-raised)); overflow: hidden; }
+     What neither bound can do is make the log half the pane. At 371 px
+     the journal's own chrome takes ~73 px and the summary ~119 px, so
+     half for the log would leave the card 112 px — less than its own
+     header. The browser check asks for a third instead, and reports the
+     decomposition so the next person to move that number can see what
+     they are trading. */
+  .result-card { display: flex; flex-direction: column; max-height: 50%; flex: 0 1 auto; min-height: 0; margin: .6rem .65rem 0; border: 1px solid color-mix(in srgb, var(--success) 45%, var(--edge)); border-radius: 14px; color: var(--ink); background: color-mix(in srgb, var(--success) 6%, var(--surface-raised)); overflow: hidden; }
   summary { min-height: 3.25rem; display: grid; grid-template-columns: 32px minmax(0, 1fr) auto auto; align-items: center; gap: .55rem; padding: .55rem .65rem; cursor: pointer; list-style: none; }
   /* Anchored so the menu hangs off the icon rather than widening the card. */
   .header-actions { position: relative; display: flex; align-items: center; gap: .2rem; }
