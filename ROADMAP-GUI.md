@@ -2756,15 +2756,58 @@ column that is always the same height is a lie told beautifully, and this
 engine's whole claim is that it does not tell those. Half a litre of
 evolved CO₂ and half a mole of it must not look the same.
 
-- [ ] **GUI-114 — Apparatus stands on something.** Instruments and
-  glassware currently float in the bench pane with nothing under them. A
-  bench has a work surface, a stand takes a clamp, a hotplate sits *under*
-  a beaker rather than beside it, and a burner belongs below what it heats.
-  The physical relationship is already in the model — `ApparatusAssembly`
-  and the transport/connection ports know what is attached to what — so
-  this is about drawing the relationship that exists rather than inventing
-  one. Watch: the bench already has a `work-surface` element and a
-  `vessel-position`; start by finding out what they currently do.
+- [x] **GUI-114 — Apparatus stands on something.** *Floating was a missing
+  surface, not a missing relationship.* What the work found, in the order
+  it found it:
+
+  - `.work-surface` names a surface and paints nothing: it is a bare
+    `position: relative` box whose only job is to be the coordinate space
+    `.vessel-position` is absolutely positioned in. `.bench` *did* paint
+    "the counter the glassware stands on" — as a 2.6 rem lip along the
+    very bottom edge of the scroll area, under a wall gradient covering
+    the top 58%, with **nothing in between**. Vessels live at y 0.28–0.84
+    of the work surface, which is exactly that nothing. Hence: devices,
+    floating.
+  - The scene says *where* a thing is and *what it is attached to*, and it
+    has said both all along. `benchLayout.ts` stores a free (x, y) per
+    vessel and per workstation; `apparatusTarget.ts` and the
+    `deployedTool`/`deployedTarget` pair say what is installed on which
+    vessel. Neither of them knew anything about "on".
+  - The heater's relationship to its vessel was **already drawn**.
+    `DeployedApparatus` renders a hotplate, stirrer, cooling bath and
+    burner inside the vessel's own `0 0 100 140` viewBox with their base
+    below the glass, and `ApparatusAssembly` names the parts on top of it.
+    Freestanding workstations (mortar, centrifuge, burette, wash bottle,
+    evaporating dish) stand beside their vessel with a drawn route and a
+    `v1` badge. Nothing there needed inventing.
+
+  So the change is a bench top and a set of feet. `BENCH_DECK_TOP` is the
+  counter's far edge; `.bench-deck` draws the counter from there down to
+  the front lip, behind everything that stands on it. `footingY` says
+  where each stack *touches* that counter — the glass base normally, the
+  appliance's base when a hotplate, stirrer, bath or burner is carrying
+  the glassware — and a `.bench-footing` contact patch is drawn there. The
+  mortar and the centrifuge had no contact patch at all and now have one;
+  the evaporating dish, the wash bottle and the retort stand already drew
+  theirs and now share the name. A workstation could be parked at y 0.12,
+  which is up the wall: `APPARATUS_Y_MIN` is the deck edge now.
+
+  Proved by measurement, in `tools/test-ux-quality.mjs` at 1440 px and at
+  320 px: the deck exists inside the work surface, runs its full width (at
+  320 px that is the surface's own 42 rem scroll width, not the viewport)
+  and reaches the front; there is wall above it; and every vessel's
+  contact patch lies inside the deck, at the foot of its own drawing
+  (below 78% of the drawing's height) and horizontally under it.
+
+  Left standing, deliberately, because the scene cannot yet say it: a
+  burner is drawn *behind* a beaker whose base is at y 127 of a 140-unit
+  box, not underneath it. Putting it truly below what it heats means
+  lifting the glassware onto a tripod, which means making room in the
+  vessel's own viewBox — a change to every drawn effect's coordinates, not
+  a change to this layer. And the browser audit does not press a hotplate
+  into place, because the only route to a deployed appliance is
+  `ApparatusForm`, which GUI-112/113 is rewriting as this lands; the
+  carrying rule is held by `benchFooting.test.ts` until that settles.
 
 - [ ] **GUI-115 — A cupboard of devices, not a wall of text.** GUI-109
   drew ten instruments as inline SVG and left `pH` and `Bq` as letters
