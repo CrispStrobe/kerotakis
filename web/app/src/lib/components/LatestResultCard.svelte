@@ -296,7 +296,22 @@
      is `vh` rather than a percentage because `<details>` cannot be made a
      flex or grid container without risking the closed state, and the pane
      is very nearly viewport height in every layout the app offers. */
-  .result-card { flex: 0 1 auto; min-height: 0; margin: .6rem .65rem 0; border: 1px solid color-mix(in srgb, var(--success) 45%, var(--edge)); border-radius: 14px; color: var(--ink); background: color-mix(in srgb, var(--success) 6%, var(--surface-raised)); overflow: hidden; }
+  /* Capped against the PANE, not the viewport.
+
+     `.result-body` used to carry `max-height: 30vh`, and on a 1000 px
+     window that is 300 px of a 371 px journal pane — the card was allowed
+     to be nearly the whole of the thing it sits above, which is the
+     owner's complaint measured. `flex-shrink: 1` does not save it: the log
+     below has no minimum it insists on, so nothing ever asks the card to
+     give way.
+
+     50% of the pane does. The card becomes a flex column so its body can
+     take the remaining room and scroll inside it, which is what
+     `overflow-y: auto` down there was always for. If the percentage cannot
+     resolve — a parent with no definite height — this falls back to
+     exactly today's behaviour, and the browser check says so rather than
+     nobody noticing. */
+  .result-card { display: flex; flex-direction: column; max-height: 50%; flex: 0 1 auto; min-height: 0; margin: .6rem .65rem 0; border: 1px solid color-mix(in srgb, var(--success) 45%, var(--edge)); border-radius: 14px; color: var(--ink); background: color-mix(in srgb, var(--success) 6%, var(--surface-raised)); overflow: hidden; }
   summary { min-height: 3.25rem; display: grid; grid-template-columns: 32px minmax(0, 1fr) auto auto; align-items: center; gap: .55rem; padding: .55rem .65rem; cursor: pointer; list-style: none; }
   /* Anchored so the menu hangs off the icon rather than widening the card. */
   .header-actions { position: relative; display: flex; align-items: center; gap: .2rem; }
@@ -371,7 +386,7 @@
   /* The scroll region. `overscroll-behavior` so that reaching the bottom of
      a long result does not then start scrolling the log underneath — the
      journal is the thing the reader is trying to keep. */
-  .result-body { max-height: 30vh; display: grid; gap: .45rem; padding: 0 .7rem .65rem 2.85rem; overflow-y: auto; overscroll-behavior: contain; border-top: 1px solid color-mix(in srgb, var(--success) 22%, transparent); }
+  .result-body { flex: 1 1 auto; min-height: 0; display: grid; gap: .45rem; padding: 0 .7rem .65rem 2.85rem; overflow-y: auto; overscroll-behavior: contain; border-top: 1px solid color-mix(in srgb, var(--success) 22%, transparent); }
   p { margin: .55rem 0 0; }
   .equation { overflow-x: auto; font-family: ui-monospace, SFMono-Regular, monospace; font-size: .78rem; font-weight: 700; white-space: nowrap; }
   .reactants { display: flex; flex-wrap: wrap; gap: .3rem; margin: 0; padding: 0; list-style: none; }
