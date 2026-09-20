@@ -32,7 +32,7 @@
     soluteSplit,
     substrateClearing,
     sweepPeriodS,
-  } from "../magnitudes";
+    foamSpillScale } from "../magnitudes";
   import { i18n, t } from "../i18n.svelte";
   import DeployedApparatus from "./DeployedApparatus.svelte";
   import ApparatusAssembly from "./ApparatusAssembly.svelte";
@@ -1127,7 +1127,7 @@
     </g>
 
     {#if vessel.foam && foamOverflow > 0}
-      {@const spillScale = Math.min(1, foamOverflow / Math.max(0.01, FULL_AT_L))}
+      {@const spillScale = foamSpillScale(foamOverflow, FULL_AT_L)}
       <g class="foam-overflow" aria-hidden="true" style={`--spill:${spillScale};--foam-colour:${rgb(foamColour)}`}>
         <ellipse cx="50" cy="7" rx={12 + spillScale * 13} ry={3 + spillScale * 3} />
         <path d={`M ${38 - spillScale * 4} 8 Q ${28 - spillScale * 8} ${18 + spillScale * 8} ${30 - spillScale * 9} ${38 + spillScale * 30}`} />

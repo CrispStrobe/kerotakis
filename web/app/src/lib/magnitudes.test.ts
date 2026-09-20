@@ -3,6 +3,7 @@ import {
   FALLBACK_MOLAR_VOLUME_L,
   AIR_OXYGEN_FRACTION,
   activityIntensity,
+  foamSpillScale,
   adsorptionDarkening,
   autoignitionApproach,
   unlitSmoke,
@@ -1490,5 +1491,57 @@ describe("the invisible ones (GUI-099 ANIM-3)", () => {
     expect(back!.kind).toBe("rehydrate");
     expect(back!.hydration!.drivingOff).toBe(false);
     expect(back!.hydration!.atK).toBeUndefined();
+  });
+});
+
+/**
+ * The clamp that made a tenfold dose look like the first one.
+ *
+ * `Vessel.svelte` drew the spill with `min(1, overflow / full)`, whose
+ * maximum arrives at one vessel-full. Past that point every eruption is
+ * the same picture — and "twice the vinegar, twice the eruption" is the
+ * one comparison a child actually makes, and the rule this whole module
+ * exists to keep.
+ */
+describe("foam that has left the vessel is drawn to the amount that left", () => {
+  const FULL = 0.4;
+
+  it("draws nothing when nothing overflowed", () => {
+    expect(foamSpillScale(0, FULL)).toBe(0);
+    expect(foamSpillScale(-1, FULL)).toBe(0);
+  });
+
+  it("keeps growing past one vessel-full, which the old clamp did not", () => {
+    const one = foamSpillScale(FULL, FULL);
+    const ten = foamSpillScale(FULL * 10, FULL);
+    expect(ten).toBeGreaterThan(one);
+    // Not merely different — visibly different. A third of the range is
+    // about the smallest step that reads as a bigger eruption.
+    expect(ten - one).toBeGreaterThan(0.25);
+    // The old expression is what this replaces; state it so the
+    // regression is named rather than implied.
+    expect(Math.min(1, (FULL * 10) / FULL)).toBe(Math.min(1, FULL / FULL));
+  });
+
+  it("is monotone across the range a bench produces", () => {
+    const steps = [FULL / 40, FULL / 8, FULL / 2, FULL, FULL * 4, FULL * 20];
+    const values = steps.map((litres) => foamSpillScale(litres, FULL));
+    for (let i = 1; i < values.length; i += 1) {
+      expect(values[i]!).toBeGreaterThanOrEqual(values[i - 1]!);
+    }
+  });
+
+  it("stays inside [0, 1] so the drawing cannot leave its viewBox", () => {
+    for (const litres of [1e-9, FULL / 1000, FULL * 1e6]) {
+      const value = foamSpillScale(litres, FULL);
+      expect(value).toBeGreaterThanOrEqual(0);
+      expect(value).toBeLessThanOrEqual(1);
+    }
+  });
+
+  it("scales with the vessel, not with an absolute volume", () => {
+    // The same spill relative to its glass reads the same in a beaker and
+    // in a flask — the vessel is the ruler.
+    expect(foamSpillScale(0.2, 0.4)).toBeCloseTo(foamSpillScale(2, 4), 10);
   });
 });
