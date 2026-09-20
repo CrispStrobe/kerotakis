@@ -1255,6 +1255,162 @@ try {
   await openBench();
   check("the command line comes back when it is asked for",
     Boolean(await page.evaluate(`Boolean(document.querySelector('form.bar input'))`)));
+
+  /* -- GUI-112: the prompt bar's completions ---------------------------
+   *
+   * The owner: "we should optionally have in GUI also the prompt bar for
+   * fast text entry. it should have auto-complete (suggestions from
+   * available commands, parts, chemicals, etc, relative to context
+   * insofar as possible)."
+   *
+   * `completions.test.ts` owns the model — which inventory belongs at
+   * which position, and where the answer came from. What it cannot own is
+   * any of this: `svelte/server` renders the bar and fires no handler, so
+   * a popup wired to nothing would pass every unit test in web/app. The
+   * combobox is therefore driven here, with real keys, in German.
+   */
+  console.log("");
+  const barReady = await waitFor(page, `!document.querySelector('form.bar input')?.disabled`, { timeout: 60000 });
+  check("the command bar is ready to take a line", barReady === true);
+
+  /** Type into the real input the way a keyboard does, character by
+   * character, so every keystroke goes through the component's own
+   * handler rather than one assignment it might not be listening to. */
+  const typeLine = (value) => page.evaluate(`(() => {
+    const input = document.querySelector('form.bar input');
+    if (!input) return "no bar";
+    input.focus();
+    const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value").set;
+    setter.call(input, ${JSON.stringify(value)});
+    input.setSelectionRange(input.value.length, input.value.length);
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    return "typed";
+  })()`);
+  const press = (key) => page.evaluate(`(() => {
+    const input = document.querySelector('form.bar input');
+    input?.dispatchEvent(new KeyboardEvent("keydown", { key: ${JSON.stringify(key)}, bubbles: true, cancelable: true }));
+    return "pressed";
+  })()`);
+  const popup = () => page.evaluate(`(() => {
+    const input = document.querySelector('form.bar input');
+    const list = document.querySelector('ul.completions[role="listbox"]');
+    const options = [...(list?.querySelectorAll('li[role="option"]') ?? [])];
+    const activeId = input?.getAttribute('aria-activedescendant') ?? "";
+    return JSON.stringify({
+      expanded: input?.getAttribute('aria-expanded') ?? "",
+      line: input?.value ?? "",
+      count: options.length,
+      // The label and the hint are separate elements; matching the row's
+      // whole text would conflate the word the bar INSERTS with the
+      // example beside it, and the two are deliberately different.
+      labels: options.map((option) => option.querySelector('.label')?.textContent.trim() ?? ""),
+      hints: options.map((option) => option.querySelector('.hint')?.textContent.trim() ?? ""),
+      activeId,
+      // The active option must be an element that EXISTS: an
+      // aria-activedescendant pointing nowhere is how a combobox goes
+      // silent for the only readers it was built for.
+      activeResolves: Boolean(activeId && document.getElementById(activeId)),
+      selected: options.filter((option) => option.getAttribute('aria-selected') === "true").length,
+      // 44 px, the floor this file audits everywhere else.
+      small: options.filter((option) => {
+        const box = option.querySelector('button')?.getBoundingClientRect();
+        return box ? box.height < 44 : true;
+      }).length,
+    });
+  })()`);
+
+  await page.evaluate(`window.__uxErrors = [];`);
+  await typeLine("");
+  await page.evaluate(`document.querySelector('form.bar input')?.dispatchEvent(new FocusEvent("focus", { bubbles: true }))`);
+  await settle();
+  const onFocus = JSON.parse(await popup());
+  check("focusing the empty bar offers the grammar's verbs",
+    onFocus.expanded === "true" && onFocus.count > 0, JSON.stringify({ ...onFocus, hints: undefined }));
+  check("every suggestion clears the 44 px touch floor", onFocus.small === 0, `${onFocus.small} too small`);
+  // The verbs are offered in the reader's language because the ENGINE
+  // spelled them: each hint is that verb's own example line, and the word
+  // the bar would insert is that line's first word. Nothing in the app
+  // holds a list of German verbs — this is the assertion that says so.
+  const localised = onFocus.labels.filter((label, index) => onFocus.hints[index]?.split(" ")[0] === label);
+  check("each verb offered is the first word of the engine's own example line",
+    onFocus.count > 0 && localised.length === onFocus.count,
+    JSON.stringify({ labels: onFocus.labels, hints: onFocus.hints }));
+
+  await press("ArrowDown");
+  await settle();
+  const moved = JSON.parse(await popup());
+  check("arrow keys move an active option a screen reader can resolve",
+    moved.activeResolves && moved.selected === 1, JSON.stringify({ activeId: moved.activeId, selected: moved.selected }));
+
+  await press("Escape");
+  await settle();
+  const escaped = JSON.parse(await popup());
+  check("Escape closes the popup without clearing the line",
+    escaped.expanded === "false" && escaped.count === 0, JSON.stringify(escaped));
+
+  // English, deliberately: the alias layer accepts it in any locale, so
+  // this half of the check does not depend on which German word a
+  // translator chose for a verb.
+  // Stated as its own check: with nothing on the bench there is nothing
+  // to suggest, and "no vessels offered" would then be a fact about the
+  // bench rather than a broken completion — a diagnosis, not a mystery.
+  const bench = await page.evaluate(`document.querySelectorAll('.bench .vessel').length`);
+  check("the bench has a vessel to suggest", bench > 0, `${bench} vessels on the bench`);
+  await typeLine("add ");
+  await settle();
+  const afterVerb = JSON.parse(await popup());
+  const vesselRows = afterVerb.labels.filter((label) => /^v\d+$/.test(label));
+  check("after a verb whose example takes a vessel, the bench's own vessels are offered",
+    afterVerb.count > 0 && vesselRows.length === afterVerb.count,
+    JSON.stringify(afterVerb.labels));
+  // A vessel is named by what it IS, not only by its number — the hint is
+  // the scene's own kind, translated.
+  check("and each one says what kind of glassware it is",
+    afterVerb.hints.every((hint) => hint.length > 0), JSON.stringify(afterVerb.hints));
+
+  await press("ArrowDown");
+  await press("Enter");
+  await settle();
+  const took = JSON.parse(await popup());
+  check("Enter takes the highlighted suggestion rather than running the line",
+    /^add v\d+ $/.test(took.line), took.line);
+
+  // The chemicals, searched in German and inserted in the engine's own
+  // word. This is the whole point of the feature for its reader: they
+  // think "Wasser", and the line that reaches the bench says `water`.
+  await typeLine(`${took.line}Wass`);
+  await settle();
+  const byGermanName = JSON.parse(await popup());
+  check("a chemical can be found by its German name",
+    byGermanName.count > 0 && byGermanName.labels.some((label) => /^Wass/i.test(label)),
+    JSON.stringify(byGermanName.labels));
+  await press("Enter");
+  await settle();
+  const inserted = JSON.parse(await popup());
+  const word = inserted.line.trim().split(" ").pop() ?? "";
+  // Not asserted to be `water` specifically: which German name sorts
+  // first under "Wass" is a property of the data pack, and pinning it
+  // here would make this check fail the next time a species is added.
+  // What must hold is that the word inserted is the REGISTRY key and not
+  // the German label the reader searched with.
+  check("and the word that lands in the line is the engine's, not the German label it was found by",
+    /^add v\d+ \S+ $/.test(inserted.line) && word.length > 0 && word !== byGermanName.labels[0],
+    JSON.stringify({ line: inserted.line, searched: byGermanName.labels[0] }));
+
+  // The proof that a completed line is a line the bench takes: the bar's
+  // own live parse, which is the engine's, says nothing is wrong with it.
+  await typeLine(`${inserted.line.trim()} 10mL`);
+  await new Promise((resolve) => setTimeout(resolve, 1200));
+  const judged = JSON.parse(await page.evaluate(`(() => JSON.stringify({
+    problem: document.querySelector('.wrap p.problem')?.textContent.trim() ?? "",
+    errors: window.__uxErrors,
+  }))()`));
+  check("a line built entirely from suggestions is one the grammar accepts",
+    judged.problem === "", judged.problem);
+  check("and completing a line throws nothing", judged.errors.length === 0, judged.errors.join(" | "));
+  await typeLine("");
+  await press("Escape");
+  await settle();
   await page.evaluate(`(() => {
     const style = document.createElement("style");
     style.id = "ux-text-zoom";

@@ -1,30 +1,104 @@
 <script lang="ts">
   import { i18n, t } from "../i18n.svelte";
+  import {
+    applyCompletion,
+    completionsFor,
+    type Completion,
+    type CompletionSources,
+  } from "../completions";
   let {
     onsubmit,
     busy,
     onvalidate,
-    examples = [],
+    completionSources,
     onclose,
   }: {
     onsubmit: (line: string) => void;
     busy: boolean;
     onvalidate?: (line: string) => Promise<{ ok: boolean; error?: string }>;
-    /** One example line per verb, already in the learner's language
-     * (I18N): the engine's own inventory, so the bar can never offer a
-     * verb the parser does not have. */
-    examples?: string[];
+    /**
+     * GUI-112. Everything the bar may suggest, in the shapes the engine
+     * ships them: the grammar's own verb inventory with its example
+     * lines, the scene's vessels, and the shelf. Absent (an older host,
+     * or a caller that has none) and the bar is exactly what it was — the
+     * popup simply never opens.
+     */
+    completionSources?: CompletionSources;
     /** Absent where the console is not dismissible (the desktop shell). */
     onclose?: () => void;
   } = $props();
 
   let line = $state("");
+  let caret = $state(0);
+  let input = $state<HTMLInputElement | null>(null);
   let history: string[] = [];
   let cursor = $state(-1);
   let draft = "";
   /** null = nothing to say; string = the grammar's complaint. */
   let problem = $state<string | null>(null);
   let debounce: ReturnType<typeof setTimeout> | undefined;
+
+  /* ── The completion popup (GUI-112) ────────────────────────────────
+   *
+   * An ARIA combobox, not a list of divs: this repo audits keyboard
+   * paths and 44 px touch targets, and a popup that a screen reader
+   * cannot announce is a feature only some readers get. The input owns
+   * `aria-expanded`/`aria-controls`/`aria-activedescendant`; the list is
+   * a `listbox` of `option`s; arrows move, Escape closes, Enter takes.
+   *
+   * `dismissed` is why the popup does not fight the typist: Escape means
+   * "not now", and it stays meant until the next keystroke changes the
+   * word being completed.
+   */
+  /**
+   * A mark and a word per inventory, so "v2" and "NaCl" are not two
+   * unexplained strings in one list. The mark is decorative; the word is
+   * for a screen reader, which announces an option's whole text and
+   * would otherwise read the two rows identically.
+   */
+  const KIND_MARKS = { verb: "\u25b8", vessel: "\u25bd", reagent: "\u25cf" } as const;
+  const KIND_LABELS = { verb: "command", vessel: "vessel", reagent: "chemical" } as const;
+  /**
+   * Starts dismissed, so the bar is a bar until the reader touches it: a
+   * popup listing every verb the moment the console is opened is a wall
+   * of text nobody asked for. Focus or a keystroke opens it; blur and
+   * Escape close it; Escape stays meant until the next keystroke.
+   */
+  let dismissed = $state(true);
+  let active = $state(0);
+  const listId = "kero-completions";
+  const suggestions = $derived(
+    completionSources && !busy
+      ? completionsFor(line, caret, completionSources)
+      : { start: 0, end: 0, options: [] },
+  );
+  const open = $derived(!dismissed && suggestions.options.length > 0);
+  const activeIndex = $derived(Math.min(active, Math.max(0, suggestions.options.length - 1)));
+  const optionId = (index: number) => `${listId}-${index}`;
+
+  function take(option: Completion) {
+    const next = applyCompletion(line, suggestions, option);
+    line = next.line;
+    caret = next.caret;
+    dismissed = false;
+    active = 0;
+    // The caret has to be MOVED, not just recorded: the reader carries on
+    // typing the next argument, and a caret left at the end of the line
+    // would complete the wrong word on a line they went back to edit.
+    const target = input;
+    if (target) {
+      queueMicrotask(() => {
+        target.focus();
+        target.setSelectionRange(next.caret, next.caret);
+      });
+    }
+  }
+
+  /** Wherever the caret may have moved — a click, an arrow, a selection. */
+  function syncCaret(event: Event) {
+    const field = event.currentTarget as HTMLInputElement;
+    caret = field.selectionStart ?? field.value.length;
+  }
 
   // Live validation (GUI-005): ask the engine's parser, debounced, and
   // only ever complain — silence while typing something valid.
@@ -50,6 +124,9 @@
     cursor = -1;
     onsubmit(trimmed);
     line = "";
+    caret = 0;
+    dismissed = false;
+    active = 0;
     problem = null;
   }
 
@@ -100,6 +177,33 @@
   }
 
   function onkeydown(e: KeyboardEvent) {
+    // The popup takes the arrows only while it is open, so the history
+    // recall this bar has always had is untouched the rest of the time.
+    if (open) {
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        e.preventDefault();
+        const count = suggestions.options.length;
+        active = (activeIndex + (e.key === "ArrowDown" ? 1 : count - 1)) % count;
+        return;
+      }
+      if (e.key === "Escape") {
+        e.preventDefault();
+        dismissed = true;
+        return;
+      }
+      if (e.key === "Enter" || e.key === "Tab") {
+        const option = suggestions.options[activeIndex];
+        if (option) {
+          // Enter takes the suggestion rather than running the line:
+          // a reader looking at a highlighted row means that row, and a
+          // command that ran instead would be a command they did not
+          // finish writing.
+          e.preventDefault();
+          take(option);
+          return;
+        }
+      }
+    }
     if (e.key === "ArrowUp") {
       if (history.length === 0) return;
       e.preventDefault();
@@ -125,35 +229,68 @@
 </script>
 
 <div class="wrap">
+  <!-- Above the bar, because on a phone the bar sits at the foot of the
+       screen and a list hanging below it would be under the thumb or off
+       the bottom of the viewport. -->
+  {#if open}
+    <ul class="completions" id={listId} role="listbox" aria-label={t("suggestions")}>
+      {#each suggestions.options as option, index (option.kind + option.insert)}
+        <li
+          id={optionId(index)}
+          role="option"
+          aria-selected={index === activeIndex}
+          class:active={index === activeIndex}
+        >
+          <!-- `onpointerdown` rather than `onclick`: the input's blur
+               fires first and would close the popup out from under the
+               finger that is pressing it. -->
+          <button type="button" onpointerdown={(e) => { e.preventDefault(); take(option); }}>
+            <span class="kind" aria-hidden="true">{KIND_MARKS[option.kind]}</span>
+            <span class="what">
+              <span class="label">{option.label}</span>
+              <span class="sr-only">{t(KIND_LABELS[option.kind])}</span>
+            </span>
+            {#if option.hint}<span class="hint">{option.hint}</span>{/if}
+          </button>
+        </li>
+      {/each}
+    </ul>
+  {/if}
   {#if problem}
     <p class="problem" role="status">{problem}</p>
   {/if}
   <form class="bar" class:invalid={problem !== null} onsubmit={submit}>
     <span class="prompt" aria-hidden="true">kero&gt;</span>
     <input
+      bind:this={input}
       type="text"
       bind:value={line}
       {onkeydown}
+      oninput={(e) => {
+        dismissed = false;
+        active = 0;
+        syncCaret(e);
+      }}
+      onfocus={(e) => {
+        dismissed = false;
+        syncCaret(e);
+      }}
+      onclick={syncCaret}
+      onkeyup={syncCaret}
+      onblur={() => (dismissed = true)}
       placeholder={t("add v1 water 100mL")}
       aria-label={t("command")}
       aria-invalid={problem !== null}
       autocomplete="off"
       autocapitalize="off"
       spellcheck="false"
-      list={examples.length > 0 ? "kero-verbs" : undefined}
+      role="combobox"
+      aria-expanded={open}
+      aria-controls={listId}
+      aria-autocomplete="list"
+      aria-activedescendant={open ? optionId(activeIndex) : undefined}
       disabled={busy}
     />
-    <!-- The grammar, offered rather than remembered. In German these are
-         German lines, because the engine composed them from the same
-         alias tables its parser reads — a suggestion here is always a
-         line the bench will take. -->
-    {#if examples.length > 0}
-      <datalist id="kero-verbs">
-        {#each examples as example}
-          <option value={example}></option>
-        {/each}
-      </datalist>
-    {/if}
     {#if RecognitionCtor}
       <button
         type="button"
@@ -184,6 +321,77 @@
     background: var(--surface);
     box-shadow: 0 6px 22px var(--shadow);
     overflow: hidden;
+  }
+  /* Above the bar and scrolling inside itself: on a phone the bar is at
+     the foot of the screen, so a list hanging below it would be under the
+     thumb or off the viewport entirely. */
+  .completions {
+    max-height: 15rem;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+    list-style: none;
+    border-bottom: 1px solid var(--edge);
+  }
+  .completions li + li {
+    border-top: 1px solid color-mix(in srgb, var(--edge) 55%, transparent);
+  }
+  .completions button {
+    display: flex;
+    width: 100%;
+    min-height: 44px;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 1rem;
+    border: 0;
+    background: none;
+    color: var(--ink);
+    font: 0.8rem/1.3 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    text-align: left;
+    cursor: pointer;
+  }
+  .completions li.active button,
+  .completions button:hover {
+    background: color-mix(in srgb, var(--action) 14%, transparent);
+  }
+  /* The highlight is a background AND a bar: colour alone is not a
+     carrier, and this list is read at a glance. */
+  .completions li.active button {
+    box-shadow: inset 3px 0 0 var(--action);
+  }
+  .completions .kind {
+    flex: none;
+    width: 1rem;
+    color: var(--action);
+    text-align: center;
+  }
+  .completions .what {
+    min-width: 0;
+    flex: none;
+  }
+  .completions .label {
+    font-weight: 700;
+  }
+  .completions .hint {
+    min-width: 0;
+    overflow: hidden;
+    flex: 1;
+    color: var(--dim);
+    font-size: 0.72rem;
+    text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
   .problem {
     margin: 0;

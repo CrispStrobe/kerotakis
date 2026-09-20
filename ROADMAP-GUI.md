@@ -2719,13 +2719,72 @@ card, GUI-109 … GUI-111 with the cupboard.
 Both are the owner's, both are larger than the five above, and neither is
 started. Recorded so they are not lost.
 
-- [ ] **GUI-112 — A command prompt bar in the GUI, with context-aware
-  autocomplete.** The owner wants to type at the bench. `CommandBar.svelte`
-  exists and is opt-in from the utilities menu, and `session.parse(line)`
-  already validates a line without running it — so the parse-only door the
-  autocomplete would need is open. What is missing is the completion model:
-  what can follow this verb, in this scene, for this vessel. That is an
-  engine-side question about affordances before it is a widget.
+- [x] **GUI-112 — A command prompt bar in the GUI, with context-aware
+  autocomplete.** First slice done: verbs, vessels and chemicals, each in
+  the reader's own language, with the context read out of the grammar.
+  `completions.ts` is the model, `CommandBar.svelte` is now an ARIA
+  combobox over it.
+
+  **What the work found — the completion model was already in the engine,
+  in a place nobody had read it as one.** Every source turned out to
+  exist, and none of them had to be hand-written:
+
+  - **The verbs** are `kerotakis_core::script::VERBS`, reaching the app
+    through `Lab::grammar()` — the same inventory the protocol
+    conformance suite already checks `affordances.json` against, so a verb
+    the bar offers is a verb the parser has. Each row carries a canonical
+    example and (I18N) a `typed` line spelled by the engine's own alias
+    layer. **The first word of `typed` is that language's word for the
+    verb.** Nothing in the web app knows the word *erhitze*; it reads it
+    off the engine's own example. A language added later brings its verbs
+    with it, which keeps "one core toml + one web json, no code" true.
+  - **The vessels** are the scene's `vessels[].id`, which is what `vN`
+    counts, with the scene's own `label` as the hint so a suggestion says
+    *Becherglas* and not only *v1*.
+  - **The chemicals** are `session.shelf` — the registry the cabinet
+    already has. Matched on the German name *and* the key, inserted as the
+    **key**, because a species alias may or may not exist in every
+    language and a suggestion that does not parse is worse than none.
+
+  **And the context — "insofar as possible" — is the example line itself,
+  read as a positional schema.** `VERBS` says `add` is
+  `add v1 water 100mL`: position 1 is a vessel because the example has a
+  vessel there, and position 2 is a chemical because the example has a
+  shelf species there. `stock NaCl 0.5mol` puts its species at position 1
+  instead, and nothing in the app knows that either. This is the one idea
+  in `completions.ts`; it needed no new engine surface, it cannot drift
+  from the grammar it is read out of, and a verb added tomorrow arrives
+  with its own schema. `affordances.json` was examined and is not a
+  completion source — it is English prose about which GUI surface invokes
+  each verb — but it is the file that proves the verb list is total.
+
+  **What is deliberately left for a second slice**, and why:
+
+  - **Arguments that are amounts.** Where the example has `100mL`,
+    `0.5mol`, `500rpm` or `254nm`, the bar says nothing. Offering a guess
+    at *how much* somebody meant is a claim about their experiment, not a
+    completion of their typing; `amounts.ts` already knows register-aware
+    quick amounts and could supply them, but only against a vessel and a
+    phase the bar does not yet track.
+  - **Joining words** — `until`, `stages`, `from`, `to`, `on` — which the
+    schema can see but which are worth offering only together with the
+    clause they open.
+  - **`react`'s curated reaction names**, which `session.reactOptions`
+    already carries from the same grammar call: the example is
+    `react v1 esterification`, so the slot is a name from a list rather
+    than a shelf species, and it needs a fourth completion kind.
+  - **Fuzzy ranking and history-based prediction**, which were out of
+    scope by instruction and are worse than prefix matching for a reader
+    learning a vocabulary: a list that reorders itself is a list that
+    cannot be learned.
+
+  The popup is an ARIA combobox — `aria-expanded`, `aria-controls`,
+  `aria-activedescendant` resolving to an element that exists, arrows,
+  Escape, Enter — with every row over 44 px, because this repo audits
+  both. It starts closed: a wall of every verb the moment the console
+  opens is not a feature. `verbExamples` is gone; it was a flat list of
+  finished lines for a `<datalist>`, and it threw away the two thirds of
+  each grammar row the model needs.
 
 - [x] **GUI-113 — Set the energy amount directly for `Erhitzen`.** Done. The
   flame panel now has an *Energie aus* switch: **Flamme und Einwirkzeit**,
