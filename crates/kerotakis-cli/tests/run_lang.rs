@@ -13,9 +13,22 @@
 //!
 //! What every test here is really about is the invariant underneath:
 //! **the canonical script stays English**. A German file and its English
-//! twin are the same run, byte for byte on stdout, because the rewrite
-//! happens before anything executes and the bench echoes, logs and
-//! exports the canonical form.
+//! twin are the same run, because the rewrite happens before anything
+//! executes and the bench logs and exports the canonical form.
+//!
+//! Where that invariant LIVES moved on 2026-09-20. It used to be pinned
+//! on stdout prose, and it was only true there because the CLI called the
+//! English-only render wrappers: `kero run --lang de` parsed German and
+//! answered `v1: +5.5343 mol water` while the GUI answered `v1: +5,5343
+//! mol Wasser`. Prose is the half of the conversation the READER owns, so
+//! it now follows the invocation. The canonical form is `--json`, which
+//! is structure and carries no prose at all, and that is what the twin
+//! assertions below compare.
+//!
+//! One case keeps prose English on purpose: a `lang de` DIRECTIVE on a
+//! file's first line describes the FILE, not whoever runs it. A shipped
+//! German-authored lesson still reads back canonical English, which is
+//! what makes it shareable.
 
 use std::process::Command;
 
@@ -64,26 +77,34 @@ fn kero(args: &[&str], env: &[(&str, &str)]) -> (String, String, bool) {
 }
 
 /// The German file and the English one are the same run.
+///
+/// Compared on `--json`, which is the contract: the operator, the events
+/// and the scene, none of which is prose. If the alias layer ever let a
+/// German word through to the bench, or rewrote a step it should not
+/// have, these two streams stop matching.
 #[test]
-fn a_german_script_run_with_lang_produces_the_english_transcript() {
+fn a_german_script_run_with_lang_executes_the_english_twins_steps() {
     let english = scratch("twin-en.lab", ENGLISH);
     let german = scratch("twin-de.lab", GERMAN);
 
-    let (want, err, ok) = kero(&["run", english.to_str().unwrap()], &[]);
+    let (want, err, ok) = kero(&["run", "--json", english.to_str().unwrap()], &[]);
     assert!(ok, "the English twin runs: {err}");
     assert!(!want.trim().is_empty(), "it prints something");
 
-    let (got, err, ok) = kero(&["run", "--lang", "de", german.to_str().unwrap()], &[]);
+    let (got, err, ok) = kero(
+        &["run", "--json", "--lang", "de", german.to_str().unwrap()],
+        &[],
+    );
     assert!(ok, "the German twin runs: {err}");
     assert_eq!(
         got, want,
-        "a German script must produce the transcript its English twin does"
+        "a German script must run the steps its English twin does"
     );
-    // And the transcript is the canonical one: English prose, whatever
-    // was typed. This is the half of the conversation the CLI owns.
+    // The canonical form is in there too: the bench logs the English
+    // operator whatever was typed at it.
     assert!(
-        !got.contains("Wasser") && !got.contains("zugeben"),
-        "the bench answers in the canonical language:\n{got}"
+        !got.contains("zugeben") && !got.contains("erhitzen"),
+        "the bench logs the canonical operator:\n{got}"
     );
 }
 
@@ -96,9 +117,12 @@ fn a_german_script_run_with_lang_produces_the_english_transcript() {
 fn the_flag_may_precede_the_path() {
     let english = scratch("order-en.lab", ENGLISH);
     let german = scratch("order-de.lab", GERMAN);
-    let (want, _, ok) = kero(&["run", english.to_str().unwrap()], &[]);
+    let (want, _, ok) = kero(&["run", "--json", english.to_str().unwrap()], &[]);
     assert!(ok);
-    let (got, err, ok) = kero(&["run", "--lang=de", german.to_str().unwrap()], &[]);
+    let (got, err, ok) = kero(
+        &["run", "--json", "--lang=de", german.to_str().unwrap()],
+        &[],
+    );
     assert!(ok, "--lang=de before the path: {err}");
     assert_eq!(got, want);
 }
@@ -108,10 +132,10 @@ fn the_flag_may_precede_the_path() {
 fn kero_lang_is_honoured_by_run() {
     let english = scratch("env-en.lab", ENGLISH);
     let german = scratch("env-de.lab", GERMAN);
-    let (want, _, ok) = kero(&["run", english.to_str().unwrap()], &[]);
+    let (want, _, ok) = kero(&["run", "--json", english.to_str().unwrap()], &[]);
     assert!(ok);
     let (got, err, ok) = kero(
-        &["run", german.to_str().unwrap()],
+        &["run", "--json", german.to_str().unwrap()],
         &[("KERO_LANG", "de-AT")],
     );
     assert!(ok, "KERO_LANG=de-AT: {err}");
@@ -123,6 +147,11 @@ fn kero_lang_is_honoured_by_run() {
 /// This is the case the flag cannot cover: a file is shared, and whoever
 /// runs it next does not know what it was written in. `lang de` is a
 /// property of the file, the way `register lv2` is.
+///
+/// And because it is a property of the FILE, it moves the parser and not
+/// the reader: this comparison is on stdout prose, unlike the three
+/// above, because a declared German lesson must still read back in
+/// English to an English reader who was handed it.
 #[test]
 fn a_lang_directive_in_the_file_needs_no_flag() {
     let english = scratch("decl-en.lab", ENGLISH);
@@ -132,6 +161,10 @@ fn a_lang_directive_in_the_file_needs_no_flag() {
     let (got, err, ok) = kero(&["run", declared.to_str().unwrap()], &[]);
     assert!(ok, "a declared file runs on its own: {err}");
     assert_eq!(got, want);
+    assert!(
+        !got.contains("Wasser"),
+        "the file's language is not the reader's:\n{got}"
+    );
 }
 
 /// English stays the default, and a German file without either says so.
@@ -158,9 +191,12 @@ fn english_remains_the_default() {
 #[test]
 fn an_english_script_is_the_same_run_under_lang_de() {
     let english = scratch("stable-en.lab", ENGLISH);
-    let (plain, _, ok) = kero(&["run", english.to_str().unwrap()], &[]);
+    let (plain, _, ok) = kero(&["run", "--json", english.to_str().unwrap()], &[]);
     assert!(ok);
-    let (translated, err, ok) = kero(&["run", "--lang", "de", english.to_str().unwrap()], &[]);
+    let (translated, err, ok) = kero(
+        &["run", "--json", "--lang", "de", english.to_str().unwrap()],
+        &[],
+    );
     assert!(ok, "{err}");
     assert_eq!(plain, translated);
 }

@@ -471,6 +471,8 @@ hydroxylapatite = "Hydroxylapatit"
 "added.lv1" = "Du gibst {what} in {vessel}."
 "added.lv2" = "{vessel}: +{amount} {what}"
 "added.lv2-total" = "{vessel}: +{amount} {what} — jetzt {total} im Gefäß"
+"added.lv3" = "{vessel}: +{moles} mol {what}{extra}"
+"added.lv3-species" = " ({formula}, M = {molar_mass} g/mol)"
 "dissolved-in-solvent.lv1-none" = "Das {what} bleibt einfach am Boden des {solvent} liegen — es löst sich nicht."
 "dissolved-in-solvent.lv1-all" = "Das {what} verschwindet im {solvent}."
 "dissolved-in-solvent.lv1-some" = "Ein wenig {what} löst sich im {solvent}; der Rest bleibt am Boden liegen."
@@ -1878,3 +1880,11 @@ Lipase = "Lipase"
 Catalase = "Katalase"
 Pepsin = "Pepsin"
 Bromelain = "Bromelain"
+
+# The terminal bench's own chrome — the lines `kero repl` writes around a
+# rendered result rather than through it. They live in the ENGINE
+# catalogue beside `[explain]`, for the same reason `[explain]` does:
+# a CLI catalogue of its own would make adding French three files per
+# language instead of two, and the rule is that it is two.
+[repl]
+"particles-header" = "{vessel} — was die Teilchen tun:"
