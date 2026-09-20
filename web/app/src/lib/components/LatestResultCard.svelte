@@ -305,13 +305,25 @@
      below has no minimum it insists on, so nothing ever asks the card to
      give way.
 
-     50% of the pane does. The card becomes a flex column so its body can
-     take the remaining room and scroll inside it, which is what
-     `overflow-y: auto` down there was always for. If the percentage cannot
+     50% of the pane does — asked for twice, because the first ask was not
+     enough. The log beside it is `flex: 1`, which is `1 1 0%`: its BASIS
+     is zero, so it never competes for space and simply takes whatever the
+     card leaves. Capping the card is therefore the only lever there is,
+     and `max-height: 50%` alone moved the log from 51 px to 98 px of a
+     371 px pane rather than to half of it. `flex-basis: 50%` states the
+     same bound as the card's hypothetical main size rather than as a
+     ceiling on its content, which is the form flexbox resolves more
+     willingly against a parent whose own height came from flexing.
+
+     The card becomes a flex column so its body can take the remaining room
+     and scroll inside it, which is what `overflow-y: auto` down there was
+     always for. The browser check adjudicates this, not this comment: it
+     measures both boxes and fails on the ratio, which is how the first
+     attempt was caught being half a fix. If the percentage cannot
      resolve — a parent with no definite height — this falls back to
      exactly today's behaviour, and the browser check says so rather than
      nobody noticing. */
-  .result-card { display: flex; flex-direction: column; max-height: 50%; flex: 0 1 auto; min-height: 0; margin: .6rem .65rem 0; border: 1px solid color-mix(in srgb, var(--success) 45%, var(--edge)); border-radius: 14px; color: var(--ink); background: color-mix(in srgb, var(--success) 6%, var(--surface-raised)); overflow: hidden; }
+  .result-card { display: flex; flex-direction: column; max-height: 50%; flex: 0 1 50%; min-height: 0; margin: .6rem .65rem 0; border: 1px solid color-mix(in srgb, var(--success) 45%, var(--edge)); border-radius: 14px; color: var(--ink); background: color-mix(in srgb, var(--success) 6%, var(--surface-raised)); overflow: hidden; }
   summary { min-height: 3.25rem; display: grid; grid-template-columns: 32px minmax(0, 1fr) auto auto; align-items: center; gap: .55rem; padding: .55rem .65rem; cursor: pointer; list-style: none; }
   /* Anchored so the menu hangs off the icon rather than widening the card. */
   .header-actions { position: relative; display: flex; align-items: center; gap: .2rem; }
