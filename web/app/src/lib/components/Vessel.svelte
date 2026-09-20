@@ -66,6 +66,7 @@
     apparatusValues = {},
     gpuIgnition = null,
     gpuMetricsRegistry = null,
+    roomy = false,
   }: {
     vessel: SceneVessel;
     register: string;
@@ -87,6 +88,12 @@
     apparatusValues?: Record<string, number | string>;
     gpuIgnition?: WebGpuEnvironmentSnapshot | null;
     gpuMetricsRegistry?: WebGpuMetricsRegistry | null;
+    /**
+     * GUI-094: this is the only vessel on the bench, so it may have the
+     * room. See the width rule on the `<svg>` below for what that buys and
+     * what it costs.
+     */
+    roomy?: boolean;
   } = $props();
 
   // Transient effects: young enough that their animation is still running.
@@ -623,7 +630,34 @@
     ondragleave={() => (dropReady = false)}
     {ondrop}
   >
-  <svg viewBox="0 0 100 140" role="img" style={`width:clamp(64px,14vw,${geom.svgW}px)`}>
+  <!--
+    GUI-094 — the vessel deserves the room.
+
+    The old rule was `clamp(64px, 14vw, svgW)`, and `svgW` is 150 for a
+    beaker. At a 1600 px window `14vw` is 224 px and the clamp threw it
+    away: one beaker alone on a 1024 x 779 bench was held to 150 x 210 by
+    a constant, which is 3.9% of the pane it had to itself. Measured on
+    the deployed bench, not estimated — and it is why effects that ARE
+    drawn to scale do not read as anything: a spill scaled perfectly
+    inside a small picture is still a small picture.
+
+    With the bench to itself the cap lifts to 2.6x the glassware's own
+    figure and the preferred size becomes a share of the bench's smaller
+    axis rather than of the viewport's width, so a short wide window does
+    not produce a vessel taller than the counter it stands on. `svgW`
+    still sets the RATIO between the glassware: a test tube does not
+    become a beaker, it becomes a larger test tube.
+
+    Unchanged the moment a second vessel arrives, because then the room is
+    not this one's to take.
+  -->
+  <svg
+    viewBox="0 0 100 140"
+    role="img"
+    style={roomy
+      ? `width:clamp(96px,min(26vw,30vh),${Math.round(geom.svgW * 2.6)}px)`
+      : `width:clamp(64px,14vw,${geom.svgW}px)`}
+  >
     <title>{t(vessel.words)}</title>
     <defs>
       <clipPath id={`vclip-${vessel.id}`}>

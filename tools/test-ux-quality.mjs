@@ -786,6 +786,52 @@ try {
   if (desktop.cabinet && desktop.bench && desktop.journal) {
     check("desktop panels do not overlap", desktop.cabinet.right <= desktop.bench.left + 1 && desktop.bench.right <= desktop.journal.left + 1);
   }
+  /* -- GUI-094: one vessel, and the room it is standing in ---------------
+   *
+   * Measured on the deployed bench before this check existed: a lone
+   * beaker drew at 150 x 210 inside a 1024 x 779 pane — 3.9% of the room
+   * it had to itself — because `clamp(64px, 14vw, svgW)` threw away the
+   * 224 px that 14vw offered at a 1600 px window and stopped at the
+   * glassware constant.
+   *
+   * That number is also the answer to "why do the effects not look like
+   * anything": foam, spill and steam are all drawn to the engine's own
+   * quantities, inside a picture too small for any of it to read. So the
+   * assertion is a share of the pane, not a pixel size — a pixel size
+   * would pass on a phone and fail on a monitor while meaning the same
+   * thing.
+   *
+   * The floor is deliberately well under what the change produces. This
+   * guards against the cap coming back, not against a particular design.
+   */
+  const soloVessel = JSON.parse(await page.evaluate(`(() => {
+    const pane = document.querySelector('.bench-pane') || document.querySelector('.bench');
+    const vessels = [...document.querySelectorAll('.vessel')];
+    const svg = vessels.length === 1 ? vessels[0].querySelector('svg') : null;
+    if (!pane || vessels.length !== 1 || !svg) {
+      return JSON.stringify({ pane: Boolean(pane), vessels: vessels.length, svg: Boolean(svg) });
+    }
+    const p = pane.getBoundingClientRect();
+    const v = svg.getBoundingClientRect();
+    return JSON.stringify({
+      pane: true, vessels: 1, svg: true,
+      vesselW: Math.round(v.width), vesselH: Math.round(v.height),
+      paneW: Math.round(p.width), paneH: Math.round(p.height),
+      sharePercent: +((v.width * v.height) / (p.width * p.height) * 100).toFixed(1),
+      insidePane: v.left >= p.left - 1 && v.right <= p.right + 1 && v.bottom <= p.bottom + 1,
+    });
+  })()`));
+  // The precondition is its own check: one vessel, or this measures nothing.
+  check("the bench holds exactly one vessel to measure",
+    soloVessel.vessels === 1 && soloVessel.svg === true, JSON.stringify(soloVessel));
+  if (soloVessel.vessels === 1 && soloVessel.svg) {
+    check("a vessel alone on the bench is drawn at the size of the bench",
+      soloVessel.sharePercent >= 8,
+      `${soloVessel.sharePercent}% of the pane (${soloVessel.vesselW}x${soloVessel.vesselH} of ${soloVessel.paneW}x${soloVessel.paneH})`);
+    check("and it still fits inside the bench it stands on", soloVessel.insidePane,
+      JSON.stringify(soloVessel));
+  }
+
   check("visible buttons have an accessible name", desktop.unnamed === 0, `${desktop.unnamed} unnamed`);
   check("the rendered page has no duplicate ids", desktop.duplicateIds.length === 0, desktop.duplicateIds.join(", "));
 
