@@ -169,7 +169,7 @@ pub(crate) fn complete_basis(
     // defined hydrogen to be whatever made it balance.
     let reconstructed = 2.0 * water.max(0.0) + acid + base;
     let residue = reconstructed - hydrogen;
-    if !(residue.abs() <= 1e-9 + 1e-6 * hydrogen.abs()) {
+    if !residue.is_finite() || residue.abs() > 1e-9 + 1e-6 * hydrogen.abs() {
         return Err(SolveError::NotConverged {
             solver: "phreeqc-inventory".into(),
             detail: format!(
