@@ -552,6 +552,7 @@
           <Vessel
             {vessel}
             {register}
+            roomy={(scene?.vessels.length ?? 0) === 1}
             selected={vessel.id === selected}
             transferTarget={transferFrom !== null && vessel.id !== transferFrom}
             {onselect}
