@@ -2776,6 +2776,184 @@ started. Recorded so they are not lost.
   `tools/test-ux-quality.mjs`, because that is the only level at which it
   is demonstrable.
 
+## The bench must look like a bench (GUI-114 … GUI-116)
+
+Stated by the owner on 2026-09-20, in one breath, after using the app:
+
+> it is counterintuitive that we can have devices floating not on a desk.
+> we have not realistic rendered animations for most things that go on. for
+> kids, it would be cool to have really impressive animations for some of
+> the most standard experiments like soda vulcano etc. lage amounts of
+> foam, steam, explosions, etc, visibly rendered, but their extent relative
+> to modelled parameters. really drawn devices not text or schematic
+> symbols no one understands. a real cupboard of devices not a wall of
+> text.
+
+**The clause that governs all three of these is "but their extent relative
+to modelled parameters".** It is the same rule the 2026-08-27 product
+directive already states as its sixth point — motion and visible effects
+driven by computed power, temperature, RPM, viscosity, fill, particle
+settling, reaction energy, gas/solid amount and time, *never* generic
+animation — and it is what separates this work from decoration. A foam
+column that is always the same height is a lie told beautifully, and this
+engine's whole claim is that it does not tell those. Half a litre of
+evolved CO₂ and half a mole of it must not look the same.
+
+- [x] **GUI-114 — Apparatus stands on something.** *Floating was a missing
+  surface, not a missing relationship.* What the work found, in the order
+  it found it:
+
+  - `.work-surface` names a surface and paints nothing: it is a bare
+    `position: relative` box whose only job is to be the coordinate space
+    `.vessel-position` is absolutely positioned in. `.bench` *did* paint
+    "the counter the glassware stands on" — as a 2.6 rem lip along the
+    very bottom edge of the scroll area, under a wall gradient covering
+    the top 58%, with **nothing in between**. Vessels live at y 0.28–0.84
+    of the work surface, which is exactly that nothing. Hence: devices,
+    floating.
+  - The scene says *where* a thing is and *what it is attached to*, and it
+    has said both all along. `benchLayout.ts` stores a free (x, y) per
+    vessel and per workstation; `apparatusTarget.ts` and the
+    `deployedTool`/`deployedTarget` pair say what is installed on which
+    vessel. Neither of them knew anything about "on".
+  - The heater's relationship to its vessel was **already drawn**.
+    `DeployedApparatus` renders a hotplate, stirrer, cooling bath and
+    burner inside the vessel's own `0 0 100 140` viewBox with their base
+    below the glass, and `ApparatusAssembly` names the parts on top of it.
+    Freestanding workstations (mortar, centrifuge, burette, wash bottle,
+    evaporating dish) stand beside their vessel with a drawn route and a
+    `v1` badge. Nothing there needed inventing.
+
+  So the change is a bench top and a set of feet. `BENCH_DECK_TOP` is the
+  counter's far edge; `.bench-deck` draws the counter from there down to
+  the front lip, behind everything that stands on it. `footingY` says
+  where each stack *touches* that counter — the glass base normally, the
+  appliance's base when a hotplate, stirrer, bath or burner is carrying
+  the glassware — and a `.bench-footing` contact patch is drawn there. The
+  mortar and the centrifuge had no contact patch at all and now have one;
+  the evaporating dish, the wash bottle and the retort stand already drew
+  theirs and now share the name. A workstation could be parked at y 0.12,
+  which is up the wall: `APPARATUS_Y_MIN` is the deck edge now.
+
+  Proved by measurement, in `tools/test-ux-quality.mjs` at 1440 px and at
+  320 px: the deck exists inside the work surface, runs its full width (at
+  320 px that is the surface's own 42 rem scroll width, not the viewport)
+  and reaches the front; there is wall above it; and every vessel's
+  contact patch lies inside the deck, at the foot of its own drawing
+  (below 78% of the drawing's height) and horizontally under it.
+
+  Left standing, deliberately, because the scene cannot yet say it: a
+  burner is drawn *behind* a beaker whose base is at y 127 of a 140-unit
+  box, not underneath it. Putting it truly below what it heats means
+  lifting the glassware onto a tripod, which means making room in the
+  vessel's own viewBox — a change to every drawn effect's coordinates, not
+  a change to this layer. And the browser audit does not press a hotplate
+  into place, because the only route to a deployed appliance is
+  `ApparatusForm`, which GUI-112/113 is rewriting as this lands; the
+  carrying rule is held by `benchFooting.test.ts` until that settles.
+
+- [ ] **GUI-115 — A cupboard of devices, not a wall of text.** GUI-109
+  drew ten instruments as inline SVG and left `pH` and `Bq` as letters
+  because neither has an honest silhouette. That was the icons. This is the
+  cupboard itself: it is still a scrolling list of rows with a drawing at
+  the left, which reads as a menu rather than as a place things are kept.
+  Shelves, depth, things standing where you would reach for them. The same
+  honesty rule applies as for the icons — where a device cannot be drawn
+  recognisably, say so rather than ship a shape that means nothing.
+
+- [ ] **GUI-116 — The showpiece reactions, rendered, and scaled by the
+  numbers.** A soda volcano should look like one: foam that climbs and
+  spills, steam that rises and thins, a flame that flares. The owner named
+  foam, steam and explosions. Each needs a quantity to ride on, and the
+  engine already computes them — `GasEvolved` carries moles and a rate,
+  `peroxide-decomposition` reports joules released, boiling reports the
+  water that left the vessel, `Sedimentation` reports a settled fraction.
+
+  **The contract, and it is not negotiable:** nothing may be drawn that is
+  not read off a computed quantity, and the mapping from quantity to
+  appearance must be visible in the code and testable. A learner who doses
+  twice the vinegar must see a visibly bigger eruption, and a test must
+  fail if they do not. `BenchEffect.svelte`, `FluidOverlay.svelte`,
+  `ParticleView.svelte` and `IgnitionFlameCanvas.svelte` are the existing
+  surfaces; `fluidScene` is the deterministic scene the engine already
+  ships, and GUI-098's WebGPU tier is a *presentation* option on top of it,
+  never a second source of truth.
+
+  **Most of the contract above already exists, and the next person to work
+  on this should build on it rather than start over.** `magnitudes.ts` is
+  GUI-059: 2600 lines that map engine event amounts onto visual scale
+  factors in [0, 1], under its own stated rule — *"Every factor names its
+  source event field so the link is auditable."* `BenchEffect.svelte`
+  already drives `--condense-rate` and `--drain-rate` from
+  `benchEffect.magnitude`, and already prints the quantity beside the
+  drawing (`… kJ`, `… mmol`). So the mapping layer is built and audited;
+  what is thin is the DRAWING on the far end of it. A soda volcano needs a
+  foam effect that reads `gasMag` the way the condenser reads its
+  magnitude — not a new parameter system.
+
+  **And the drawings are thinner than "missing" too — read this before
+  building anything.** Forty-odd effect kinds are already drawn, `foam`
+  among them: `Vessel.svelte` renders a foam block whose height comes from
+  `vessel.foam.height_cm`, whose bubble count scales with
+  `vessel.foam.volume_liters`, and whose collapse runs on the model's own
+  `halfLifeSeconds`. The engine models the foam and the app draws it to
+  scale, today.
+
+  **Nor is it confinement — I claimed that next and it is also wrong.**
+  `Vessel.svelte` already draws `foam-overflow`: an ellipse at the rim and
+  two paths running down the outside of the glass, scaled by
+  `overflow_liters / FULL_AT_L` off the engine's own `foam.overflow_liters`.
+  Foam already climbs, spills, and is measured while it does.
+
+  **So this entry has been wrong twice, and the remaining question is
+  empirical rather than architectural.** Everything the item asked for is
+  built: the quantities, the mapping, the drawing, the spill. The owner
+  used the app and it did not read that way. Before anyone writes code
+  here, someone has to *look at the running bench* and say which of these
+  it is:
+
+  - **Size.** The vessel SVG is `width: clamp(64px, 14vw, …)` in a 100×140
+    viewBox. A spill that runs to y≈68 of 140 is a third of a small
+    picture. This is GUI-094 — *the vessel deserves the room* — wearing a
+    different hat, and if it is the cause then GUI-116 is largely blocked
+    on it rather than on any new drawing.
+  - **Duration.** `latestEffect("foam", 3000)` — three seconds. An
+    eruption a learner looks away from is an eruption that did not happen.
+  - **Amplitude.** `spillScale` clamps at 1 at one vessel-full of
+    overflow, so a tenfold dose past that looks identical to the first.
+    That one is a real defect against the rule at the head of this
+    section, and it is findable without looking at anything.
+
+  The third was fixed on sight (#688: a log window in `magnitudes.ts`, so
+  ten times the overflow moves the drawing by a third of its range instead
+  of not at all). **The first was then measured on the deployed bench, and
+  it is the answer:**
+
+      vessel SVG     150 x 210
+      bench pane    1024 x 779
+      vessel share   3.9% of the pane's area
+
+  One beaker, alone on the bench, drawn across under four per cent of the
+  room it has. A spill scaled perfectly inside a 150 x 210 picture cannot
+  look like an eruption, because the picture is not the size of an
+  eruption. **So GUI-116 is mostly GUI-094 — *the vessel deserves the
+  room* — and should be sequenced after it rather than beside it.** That
+  item already says the same thing in words: "the wide empty expanse
+  around a small beaker is the strongest signal we send that nothing much
+  is happening."
+
+  What is left of GUI-116 once the vessel is large: **duration.**
+  `latestEffect("foam", 3000)` gives an eruption three seconds, and an
+  eruption a learner looks away from is an eruption that did not happen.
+  That one is independent of size and can be done whenever.
+
+  Scope note: "explosions" in a school-chemistry bench means a flare, a
+  bang, a lid lifting, a flask venting — the engine models energy release
+  and gas production, and the drawing must not promise more than the model
+  computed. See also the standing rule that this laboratory shows what a
+  bench would really do, including refusing to show what it has not
+  modelled.
+
 ## Completed GUI tasks
 
 Numbers are never renumbered and never reused. Each of these landed; the detail

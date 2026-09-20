@@ -1,3 +1,5 @@
+import { BENCH_DECK_TOP } from "./benchFooting";
+
 export const BENCH_ZONES = ["prepare", "react", "analyse"] as const;
 export type BenchZone = (typeof BENCH_ZONES)[number];
 
@@ -31,9 +33,14 @@ export const LAB_LAYOUT_PREFIX = "# kerotakis-bench-layout-v2 ";
 
 const X_MIN = 0.08;
 const X_MAX = 0.92;
-const Y_MIN = 0.28;
+/** GUI-114: y runs from the far edge of the bench top to its front lip.
+ * Nothing that stands on the bench may be placed above `BENCH_DECK_TOP` —
+ * that band is wall, and a workstation parked in it was the floating the
+ * owner complained about. Glassware was already inside the counter;
+ * freestanding workstations were allowed up to 0.12 and are not any more. */
+export const Y_MIN = 0.28;
 const Y_MAX = 0.84;
-const APPARATUS_Y_MIN = 0.12;
+export const APPARATUS_Y_MIN = BENCH_DECK_TOP;
 const APPARATUS_Y_MAX = 0.88;
 
 export function isBenchZone(value: unknown): value is BenchZone {

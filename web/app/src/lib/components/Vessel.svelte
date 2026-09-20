@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { SceneVessel } from "../host/EngineHost";
   import { KINDS, depositDisplayHeight, solidLayers, fillHeight, graduationTicks } from "../glassware";
+  import { footingY } from "../benchFooting";
   import FluidOverlay from "./FluidOverlay.svelte";
   import type { FluidSpecies } from "../fluidScene";
   import type { Effect } from "../magnitudes";
@@ -247,6 +248,10 @@
   }
 
   const geom = $derived(KINDS[vessel.label] ?? KINDS.beaker!);
+  /** GUI-114: where this stack touches the bench top. Bare glass stands on
+   * its own base; a hotplate, stirrer, bath or burner stands on the bench
+   * and carries the glass, so the contact moves down to the appliance. */
+  const FOOTING_Y = $derived(footingY(geom.by, deployedTool));
   const INNER_X = $derived(geom.ix);
   const INNER_W = $derived(geom.iw);
   const BOTTOM_Y = $derived(geom.by);
@@ -649,6 +654,20 @@
         <stop offset="1" stop-color="#1770d8" stop-opacity="0" />
       </radialGradient>
     </defs>
+
+    <!-- The contact with the bench top, drawn before anything else so it
+         lies under the glass rather than on it. It is where the stack
+         MEETS the counter, not a decorative drop shadow: `footingY` moves
+         it onto the appliance's base when an appliance is carrying the
+         glassware. -->
+    <ellipse
+      class="bench-footing"
+      cx="50"
+      cy={FOOTING_Y}
+      rx={Math.max(16, geom.iw * 0.62)}
+      ry="3.4"
+      aria-hidden="true"
+    />
 
     {#if vessel.chemiluminescence && glowStrength > 0.002}
       <g class="computed-glow" aria-hidden="true" style={`--glow-strength:${glowStrength}`}>
@@ -3441,6 +3460,14 @@
       transform: translateY(calc(-1 * var(--rise, 60px)));
       opacity: 0;
     }
+  }
+  /* GUI-114. The contact patch where the glassware (or the appliance
+     carrying it) meets the bench top. Soft, dark and anchored to the
+     drawing's base: it is what makes the object read as standing on the
+     counter rather than hanging in front of it. */
+  .bench-footing {
+    fill: color-mix(in srgb, var(--shadow) 62%, transparent);
+    filter: blur(1.6px);
   }
   .glow {
     fill: var(--hot);

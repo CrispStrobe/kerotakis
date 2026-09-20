@@ -279,6 +279,120 @@ const openApparatus = async (action) => {
   return waitFor(page, `document.querySelector('section.apparatus')`, { timeout: 20000 });
 };
 
+/** GUI-114: the bench has a top, and everything on it stands on that top.
+ *
+ * The owner: "it is counterintuitive that we can have devices floating not
+ * on a desk". The markup already carried a `.work-surface` and a
+ * `.vessel-position`, but neither drew a surface — `.work-surface` is a
+ * bare positioning box and `.bench` painted its counter as a 2.6 rem lip
+ * along the bottom of the scroll area, so every vessel stood in the
+ * transparent band between the wall and that lip.
+ *
+ * This is geometry, so it belongs here and not in a component test: every
+ * test in `web/app` renders through `svelte/server`, which produces markup
+ * and measures nothing. Elements are matched on their own class, never on
+ * visible text.
+ */
+
+/** The bench pane is a shell that exists before the engine has produced a
+ * scene: `.work-surface` is inside `{#if scene}`, so `openBench` returning
+ * means the PANE is up, not that there is any glassware on it. Measuring
+ * at that moment reports "no surface, 0 vessels" and blames the layout for
+ * a wasm round trip that has not finished. Wait for a vessel actually
+ * standing somewhere before measuring where it stands. */
+const benchStandsReady = () => waitFor(page,
+  `Boolean(document.querySelector('.work-surface .vessel-position .bench-footing'))`,
+  { timeout: 60000 });
+
+/** Put the bench in a known state before measuring it: at least one piece
+ * of glassware, standing. The audits in this file share one page, and what
+ * an earlier one left behind is not a precondition anything here may rely
+ * on — the same lesson #674 learned about the shelf's chips. If the scene
+ * has no vessel, add one through the bench's own `+`. */
+const ensureGlassware = async () => {
+  await waitFor(page, `Boolean(document.querySelector('.work-surface'))`, { timeout: 60000 });
+  const already = await page.evaluate(
+    `Boolean(document.querySelector('.work-surface .vessel-position'))`);
+  if (already !== true && already !== "true") {
+    await page.evaluate(`document.querySelector('.bench .add-vessel button.plus')?.click()`);
+    await settle();
+    await page.evaluate(`document.querySelector('.bench .add-vessel button.kind')?.click()`);
+  }
+  return benchStandsReady();
+};
+
+const benchSurfaceAudit = () => page.evaluate(`(() => {
+  const pane = document.querySelector('main .bench-pane');
+  // Say WHICH precondition failed. A bare surface:false is a mystery; "the
+  // pane is not on screen" and "the scene has not arrived" are diagnoses.
+  const paneBox = pane?.getBoundingClientRect() ?? null;
+  const paneShown = Boolean(paneBox) && paneBox.width > 0 && paneBox.height > 0;
+  const surface = document.querySelector('.work-surface');
+  const deck = document.querySelector('.work-surface .bench-deck');
+  if (!surface || !deck) return JSON.stringify({
+    paneShown,
+    scene: Boolean(surface),
+    surface: Boolean(surface),
+    deck: false,
+    stood: [],
+    machines: [],
+    floating: [],
+  });
+  const surfaceBox = surface.getBoundingClientRect();
+  const deckBox = deck.getBoundingClientRect();
+  const stood = [...document.querySelectorAll('.work-surface .vessel-position')].map((slot) => {
+    // The drawing, not the figure: the caption sits below the glass, so a
+    // figure's own box bottom is not where the glassware ends.
+    const drawing = slot.querySelector('.vessel .glassbtn svg');
+    const footing = slot.querySelector('.bench-footing');
+    if (!drawing || !footing) return { name: slot.getAttribute('aria-label') || '?', footing: Boolean(footing) };
+    const art = drawing.getBoundingClientRect();
+    const foot = footing.getBoundingClientRect();
+    const centre = foot.top + foot.height / 2;
+    return {
+      name: slot.getAttribute('aria-label') || '?',
+      footing: true,
+      // On the bench top: the contact patch is inside the drawn counter.
+      onDeck: foot.top >= deckBox.top - 2 && foot.bottom <= deckBox.bottom + 2,
+      // At the FOOT of the drawing, not hovering in the middle of it.
+      atBase: centre >= art.top + art.height * 0.78,
+      // And under it: a contact patch off to one side is not a contact.
+      under: foot.left < art.right && foot.right > art.left,
+      above: Math.round(deckBox.top - foot.top),
+    };
+  });
+  const machines = [...document.querySelectorAll('.work-surface .apparatus-position')].map((slot) => {
+    const footing = slot.querySelector('.bench-footing');
+    if (!footing) return { name: slot.getAttribute('aria-label') || '?', footing: false };
+    const foot = footing.getBoundingClientRect();
+    return {
+      name: (slot.getAttribute('aria-label') || '?').slice(0, 40),
+      footing: true,
+      onDeck: foot.top >= deckBox.top - 2 && foot.bottom <= deckBox.bottom + 2,
+    };
+  });
+  return JSON.stringify({
+    paneShown,
+    scene: true,
+    surface: true,
+    deck: true,
+    // The counter reaches the front of the bench and the full width the
+    // vessels are placed across — at 320 px that width is the surface's
+    // own scroll width, not the viewport's.
+    full: Math.round(deckBox.width) >= Math.round(surfaceBox.width) - 1
+      && deckBox.bottom >= surfaceBox.bottom - 1,
+    // There is still a wall above it: a deck flush with the top of the
+    // surface would be a repaint, not a bench.
+    wall: Math.round(deckBox.top - surfaceBox.top),
+    surfaceHeight: Math.round(surfaceBox.height),
+    stood,
+    machines,
+    floating: stood.filter((item) => !item.footing || !item.onDeck || !item.atBase || !item.under)
+      .concat(machines.filter((item) => !item.footing || !item.onDeck))
+      .map((item) => item.name),
+  });
+})()`);
+
 /** GUI-473: the pour chooser stands with the vessel it pours out of. It was
  * a banner between the top bar and the stage, which is the one place it
  * could not be: it named two vessels drawn below it and pushed them down by
@@ -611,6 +725,27 @@ try {
   await page.evaluate(`localStorage.setItem("kerotakis.mode.v1", "sandbox")`);
   await page.goto(`${origin}/app/`);
   check("the desktop bench opens", await openBench());
+
+  /* -- GUI-114: apparatus stands on something ---------------------------- */
+  const benchStood = await ensureGlassware();
+  await settle();
+  const benchTop = JSON.parse(await benchSurfaceAudit());
+  check("the bench pane is on screen with a scene on it",
+    benchStood && benchTop.paneShown === true && benchTop.scene === true,
+    JSON.stringify({ waited: benchStood, paneShown: benchTop.paneShown, scene: benchTop.scene }));
+  check("the bench draws a work surface under its objects",
+    benchTop.surface && benchTop.deck, JSON.stringify({ surface: benchTop.surface, deck: benchTop.deck }));
+  check("the work surface reaches the front and the full width of the bench",
+    benchTop.full === true, JSON.stringify({ full: benchTop.full, surfaceHeight: benchTop.surfaceHeight }));
+  check("there is wall above the counter, not counter to the ceiling",
+    benchTop.wall > 24, `${benchTop.wall}px of wall`);
+  // The precondition, said out loud: an empty bench proves nothing about
+  // what standing on it looks like.
+  check("the bench has glassware to stand on it", (benchTop.stood ?? []).length > 0,
+    `${(benchTop.stood ?? []).length} vessel(s)`);
+  check("every vessel rests on the work surface rather than floating over it",
+    (benchTop.floating ?? []).length === 0 && (benchTop.stood ?? []).length > 0,
+    JSON.stringify(benchTop.stood ?? []));
   const entry = JSON.parse(await page.evaluate(`JSON.stringify({
     chooser: Boolean(document.querySelector('dialog.world')),
     console: Boolean(document.querySelector('form.bar')),
@@ -1088,6 +1223,23 @@ try {
     narrowTabs.map((tab) => tab.name).join(", "));
   check("320 px tabs retain 44 px touch targets", narrowTabs.every((tab) => tab.width >= 44 && tab.height >= 44));
   const narrowBench = await chooseMobilePane(0);
+  // GUI-114 at the width that breaks layouts. The bench pane scrolls
+  // sideways here (the work surface has a 42 rem minimum), so the counter
+  // has to be as wide as the surface it belongs to, not as wide as the
+  // viewport — otherwise a vessel scrolled into view stands on nothing.
+  const narrowStood = await ensureGlassware();
+  await settle();
+  const narrowTop = JSON.parse(await benchSurfaceAudit());
+  check("320 px bench pane is on screen with a scene on it",
+    narrowStood && narrowTop.paneShown === true && narrowTop.scene === true,
+    JSON.stringify({ waited: narrowStood, paneShown: narrowTop.paneShown, scene: narrowTop.scene }));
+  check("320 px bench still draws its work surface",
+    narrowTop.surface && narrowTop.deck, JSON.stringify({ surface: narrowTop.surface, deck: narrowTop.deck }));
+  check("320 px counter runs the whole width the vessels are placed across",
+    narrowTop.full === true, JSON.stringify({ full: narrowTop.full }));
+  check("320 px vessels rest on the work surface",
+    (narrowTop.floating ?? []).length === 0 && (narrowTop.stood ?? []).length > 0,
+    JSON.stringify(narrowTop.stood ?? []));
   const narrowShelf = await chooseMobilePane(1);
   // The shelf is where the longest words in the product live:
   // "Wasserstoffperoxid" is wider than a 320px phone, and a name that

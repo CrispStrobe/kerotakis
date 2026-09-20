@@ -37,6 +37,7 @@
     aria-label={t("mortar on the bench")}
   >
     <svg viewBox="0 0 100 82" role="img" aria-label={t("mortar and pestle")}>
+      <ellipse class="bench-footing" cx="50" cy="74" rx="31" ry="4.5" />
       <ellipse class="rim" cx="50" cy="34" rx="32" ry="10" />
       <path class="bowl" d="M18 34 Q22 69 50 73 Q78 69 82 34 Q66 43 50 43 Q34 43 18 34Z" />
       <path class="pestle" d="M28 8 L59 49" />
@@ -55,7 +56,7 @@
     aria-label={t("evaporating dish station on the bench")}
   >
     <svg viewBox="0 0 110 88" role="img" aria-label={t("evaporating dish and heater") }>
-      <ellipse class="station-shadow" cx="55" cy="78" rx="38" ry="5" />
+      <ellipse class="station-shadow bench-footing" cx="55" cy="78" rx="38" ry="5" />
       <rect class="heater-base" x="20" y="58" width="70" height="18" rx="5" />
       <ellipse class="heater-top" cx="55" cy="58" rx="30" ry="8" />
       <path class="porcelain-dish" d="M17 36 Q55 54 93 36 L84 57 Q55 70 26 57Z" />
@@ -83,7 +84,7 @@
     aria-label={t("wash bottle station on the bench")}
   >
     <svg viewBox="0 0 110 88" role="img" aria-label={t("wash bottle adding water") }>
-      <ellipse class="station-shadow" cx="45" cy="80" rx="30" ry="4" />
+      <ellipse class="station-shadow bench-footing" cx="45" cy="80" rx="30" ry="4" />
       <path class="wash-body" d="M25 27 Q45 19 65 27 L70 69 Q67 79 45 80 Q23 79 20 69Z" />
       <path class="wash-water" d="M23 48 Q45 43 67 48 L69 68 Q65 76 45 77 Q25 76 21 68Z" />
       <rect class="wash-cap" x="36" y="18" width="18" height="12" rx="3" />
@@ -108,6 +109,7 @@
     aria-label={t("mini centrifuge on the bench")}
   >
     <svg viewBox="0 0 110 88" role="img" aria-label={t("mini centrifuge") }>
+      <ellipse class="bench-footing" cx="55" cy="83" rx="47" ry="4.5" />
       <path class="centrifuge-base" d="M12 33 Q12 20 26 18 H84 Q98 20 98 33 L103 73 Q101 82 91 82 H19 Q9 82 7 73Z" />
       <ellipse class="lid" class:danger={rotorImbalance > 0.1} cx="55" cy="32" rx="39" ry="22" />
       <g class="rotor">
@@ -148,7 +150,7 @@
     aria-label={t("burette and retort stand on the bench")}
   >
     <svg viewBox="0 0 110 120" role="img" aria-label={t("burette and retort stand")}>
-      <ellipse class="stand-foot" cx="69" cy="111" rx="34" ry="6" />
+      <ellipse class="stand-foot bench-footing" cx="69" cy="111" rx="34" ry="6" />
       <rect class="stand-base" x="42" y="102" width="54" height="9" rx="3" />
       <rect class="stand-rod" x="82" y="8" width="5" height="96" rx="2" />
       <path class="boss" d="M55 23 H87 V30 H55Z" />
@@ -182,6 +184,13 @@
 {/if}
 
 <style>
+  /* GUI-114: every workstation meets the bench top somewhere, and the
+     patch where it does is what stops it reading as floating. The mortar
+     and the centrifuge had none; the evaporating dish, the wash bottle
+     and the retort stand already drew one and now share its name so the
+     browser audit can find all five on one selector. */
+  .bench-footing { fill: color-mix(in srgb, var(--shadow) 60%, transparent); }
+
   .standalone {
     width: 100%;
     margin: 0;
