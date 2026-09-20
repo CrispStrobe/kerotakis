@@ -293,10 +293,51 @@ const openApparatus = async (action) => {
  * and measures nothing. Elements are matched on their own class, never on
  * visible text.
  */
+
+/** The bench pane is a shell that exists before the engine has produced a
+ * scene: `.work-surface` is inside `{#if scene}`, so `openBench` returning
+ * means the PANE is up, not that there is any glassware on it. Measuring
+ * at that moment reports "no surface, 0 vessels" and blames the layout for
+ * a wasm round trip that has not finished. Wait for a vessel actually
+ * standing somewhere before measuring where it stands. */
+const benchStandsReady = () => waitFor(page,
+  `Boolean(document.querySelector('.work-surface .vessel-position .bench-footing'))`,
+  { timeout: 60000 });
+
+/** Put the bench in a known state before measuring it: at least one piece
+ * of glassware, standing. The audits in this file share one page, and what
+ * an earlier one left behind is not a precondition anything here may rely
+ * on — the same lesson #674 learned about the shelf's chips. If the scene
+ * has no vessel, add one through the bench's own `+`. */
+const ensureGlassware = async () => {
+  await waitFor(page, `Boolean(document.querySelector('.work-surface'))`, { timeout: 60000 });
+  const already = await page.evaluate(
+    `Boolean(document.querySelector('.work-surface .vessel-position'))`);
+  if (already !== true && already !== "true") {
+    await page.evaluate(`document.querySelector('.bench .add-vessel button.plus')?.click()`);
+    await settle();
+    await page.evaluate(`document.querySelector('.bench .add-vessel button.kind')?.click()`);
+  }
+  return benchStandsReady();
+};
+
 const benchSurfaceAudit = () => page.evaluate(`(() => {
+  const pane = document.querySelector('main .bench-pane');
+  // Say WHICH precondition failed. A bare surface:false is a mystery; "the
+  // pane is not on screen" and "the scene has not arrived" are diagnoses.
+  const paneBox = pane?.getBoundingClientRect() ?? null;
+  const paneShown = Boolean(paneBox) && paneBox.width > 0 && paneBox.height > 0;
   const surface = document.querySelector('.work-surface');
   const deck = document.querySelector('.work-surface .bench-deck');
-  if (!surface || !deck) return JSON.stringify({ surface: Boolean(surface), deck: false });
+  if (!surface || !deck) return JSON.stringify({
+    paneShown,
+    scene: Boolean(surface),
+    surface: Boolean(surface),
+    deck: false,
+    stood: [],
+    machines: [],
+    floating: [],
+  });
   const surfaceBox = surface.getBoundingClientRect();
   const deckBox = deck.getBoundingClientRect();
   const stood = [...document.querySelectorAll('.work-surface .vessel-position')].map((slot) => {
@@ -331,6 +372,8 @@ const benchSurfaceAudit = () => page.evaluate(`(() => {
     };
   });
   return JSON.stringify({
+    paneShown,
+    scene: true,
     surface: true,
     deck: true,
     // The counter reaches the front of the bench and the full width the
@@ -684,7 +727,12 @@ try {
   check("the desktop bench opens", await openBench());
 
   /* -- GUI-114: apparatus stands on something ---------------------------- */
+  const benchStood = await ensureGlassware();
+  await settle();
   const benchTop = JSON.parse(await benchSurfaceAudit());
+  check("the bench pane is on screen with a scene on it",
+    benchStood && benchTop.paneShown === true && benchTop.scene === true,
+    JSON.stringify({ waited: benchStood, paneShown: benchTop.paneShown, scene: benchTop.scene }));
   check("the bench draws a work surface under its objects",
     benchTop.surface && benchTop.deck, JSON.stringify({ surface: benchTop.surface, deck: benchTop.deck }));
   check("the work surface reaches the front and the full width of the bench",
@@ -1179,7 +1227,12 @@ try {
   // sideways here (the work surface has a 42 rem minimum), so the counter
   // has to be as wide as the surface it belongs to, not as wide as the
   // viewport — otherwise a vessel scrolled into view stands on nothing.
+  const narrowStood = await ensureGlassware();
+  await settle();
   const narrowTop = JSON.parse(await benchSurfaceAudit());
+  check("320 px bench pane is on screen with a scene on it",
+    narrowStood && narrowTop.paneShown === true && narrowTop.scene === true,
+    JSON.stringify({ waited: narrowStood, paneShown: narrowTop.paneShown, scene: narrowTop.scene }));
   check("320 px bench still draws its work surface",
     narrowTop.surface && narrowTop.deck, JSON.stringify({ surface: narrowTop.surface, deck: narrowTop.deck }));
   check("320 px counter runs the whole width the vessels are placed across",
