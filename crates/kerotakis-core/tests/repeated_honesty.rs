@@ -171,9 +171,11 @@ fn a_sentence_that_stopped_standing_is_said_again() {
     // Take the chalk out — filtered off, in bench terms. The state is
     // edited directly because this test is about the RECORD rather than
     // about any one verb: what matters is that the sentence stops being
-    // true. (Pouring the WATER off would not do it: an aqueous portion of
-    // the chalk stays behind, the solid is still in contact with a
-    // liquid, and the sentence still stands — correctly.)
+    // true. (Pouring the WATER off would also stop it standing, but only
+    // since #672: an aqueous portion of the chalk stays behind, and an
+    // aqueous portion is not a liquid, so there is nothing left for the
+    // solid to be in contact with. That is a different fact with its own
+    // test — `tests/liquid_contact.rs` — and this one is about the record.)
     let held = bench
         .vessels
         .iter_mut()

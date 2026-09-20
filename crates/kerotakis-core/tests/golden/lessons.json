@@ -4047,7 +4047,7 @@
     ]
   },
   "invisible-ink-boundary": {
-    "event_count": 26,
+    "event_count": 24,
     "events_sample": [
       "v1: +2.000 g paper (1 known ingredients)",
       "v1: +2.060 g lemon juice surrogate (5 known ingredients)",
@@ -4064,11 +4064,11 @@
       "v1: 0.104 mol water evaporated",
       "v1: the lemon mark is dry and still faint",
       "v1: not yet modelled — the last of the water is gone and D-fructose (fruit sugar), D-glucose (dextrose) and sucrose are still shown as dissolved, which is not a state a beaker can be in. What they crystallise into is not decidable from the ions alone, so the bench will not guess at the solids",
-      "v1: not yet modelled — cellulose (anhydroglucose unit) in contact with liquid: no wired solver models this dissolution/reaction",
-      "v1: not yet modelled — citric acid in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: 217.7 °C → 1065.1 °C",
       "v1: 2.00 kJ requested; 2.00 kJ delivered — time model not yet coupled",
-      "v1: the dry lemon mark is 100% brown at 1338.2 K"
+      "v1: the dry lemon mark is 100% brown at 1338.2 K",
+      "v1: The liquid is white and so cloudy you cannot see through it, there is white cellulose (anhydroglucose unit) at the bottom, a piece of paper is in the beaker.",
+      "v2: new vessel"
     ],
     "lesson": "invisible-ink-boundary.lab",
     "vessels": [
