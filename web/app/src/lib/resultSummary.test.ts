@@ -1,7 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { hasGermanTranslation } from "./i18n.svelte";
 import type { Scene } from "./host/EngineHost";
-import { reactantsOf, summarizeResult } from "./resultSummary";
+import {
+  RESULT_CARD_OPEN_KEY,
+  loadResultCardOpen,
+  reactantsOf,
+  saveResultCardOpen,
+  summarizeResult,
+} from "./resultSummary";
 
 function scene(temperatureK: number): Scene {
   return {
@@ -301,5 +307,46 @@ describe("which steps earn a result card", () => {
       { event: "measured", vessel: 0, instrument: "ph_meter", value: 7.2, unit: "" },
       { event: "precipitated", vessel: 0, species: "AgCl", moles: 0.01 },
     ], ["a white solid forms"], null, null)?.kind).toBe("precipitation");
+  });
+});
+
+/**
+ * GUI-108 — the card's disclosure, remembered per browser.
+ *
+ * Small, but the failure mode is not: a reader who collapses the card
+ * because it was covering their journal must not find it open again on the
+ * next command. And every read has to survive a browser that throws on
+ * `localStorage` rather than returning null, because that is what a
+ * private window does.
+ */
+describe("whether the result card opens expanded", () => {
+  it("is expanded when this browser has never been asked", () => {
+    expect(loadResultCardOpen(null, RESULT_CARD_OPEN_KEY)).toBe(true);
+    expect(loadResultCardOpen({ getItem: () => null }, RESULT_CARD_OPEN_KEY)).toBe(true);
+  });
+
+  it("stays collapsed once a reader has collapsed it", () => {
+    expect(loadResultCardOpen({ getItem: () => "off" }, RESULT_CARD_OPEN_KEY)).toBe(false);
+    expect(loadResultCardOpen({ getItem: () => "on" }, RESULT_CARD_OPEN_KEY)).toBe(true);
+  });
+
+  it("shows the detail when storage cannot be read at all", () => {
+    // The card's whole purpose is the detail. A browser that will not tell
+    // us what the reader chose should err towards showing it, not hiding
+    // it — the opposite default from the cupboard's sets chip, and for the
+    // opposite reason.
+    const hostile = { getItem(): string | null { throw new Error("blocked"); } };
+    expect(loadResultCardOpen(hostile, RESULT_CARD_OPEN_KEY)).toBe(true);
+  });
+
+  it("writes the reader's answer, and survives a store that refuses it", () => {
+    const written: string[] = [];
+    saveResultCardOpen({ setItem: (_key, value) => written.push(value) }, RESULT_CARD_OPEN_KEY, false);
+    saveResultCardOpen({ setItem: (_key, value) => written.push(value) }, RESULT_CARD_OPEN_KEY, true);
+    expect(written).toEqual(["off", "on"]);
+    expect(() => saveResultCardOpen({
+      setItem() { throw new Error("quota"); },
+    }, RESULT_CARD_OPEN_KEY, false)).not.toThrow();
+    expect(() => saveResultCardOpen(null, RESULT_CARD_OPEN_KEY, false)).not.toThrow();
   });
 });

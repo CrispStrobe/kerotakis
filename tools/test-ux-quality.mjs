@@ -1538,6 +1538,74 @@ try {
   await waitFor(page, `!document.querySelector('nav.shelf-pane form.amounts')`, { timeout: 30000 });
   await new Promise((resolve) => setTimeout(resolve, 4000));
 
+  /* -- GUI-108: the latest-result card may not take the journal ----------
+   *
+   * The owner: "the 'Neuestes berechnetes Ergebnis · v1 / Temperaturänderung
+   * / ΔT +25,97 K / ⌖ ⤓ ×' modal overlays over the text in Laborbuch".
+   *
+   * It is not an overlay in the painting sense — the card has no
+   * `position` and no stacking context, which is why it never appears in
+   * `overlayStacking.test.ts` and why a z-index audit would have found
+   * nothing. It was `flex: none` in a flex column beside a feed that was
+   * `flex: 1; min-height: 0`: the one item that would not give way, next
+   * to the one that would give way entirely. An `<details open>` carrying
+   * an equation, a reactant list, an observation, a thermal row and a
+   * quantity table could therefore squeeze the log it was summarising to
+   * zero height, which is what "covers the journal" looks like.
+   *
+   * The pour above has just been answered by the engine, so the card is on
+   * screen: measure rather than reason. The geometry is the assertion —
+   * the two boxes must not intersect, and the log must keep a share of the
+   * pane worth reading.
+   */
+  const journalShare = JSON.parse(await page.evaluate(`(() => {
+    const pane = document.querySelector('main > aside .pane-body');
+    const card = document.querySelector('main > aside .result-card');
+    const feed = document.querySelector('main > aside .feed');
+    if (!pane || !feed) return JSON.stringify({ pane: Boolean(pane), card: Boolean(card), feed: Boolean(feed) });
+    const paneBox = pane.getBoundingClientRect();
+    const feedBox = feed.getBoundingClientRect();
+    const cardBox = card ? card.getBoundingClientRect() : null;
+    const body = card ? card.querySelector('.result-body') : null;
+    return JSON.stringify({
+      pane: true,
+      card: Boolean(card),
+      feed: true,
+      paneHeight: Math.round(paneBox.height),
+      feedHeight: Math.round(feedBox.height),
+      cardHeight: cardBox ? Math.round(cardBox.height) : 0,
+      // Positive means the card's box reaches into the log's box.
+      intersection: cardBox ? Math.round(Math.min(cardBox.bottom, feedBox.bottom) - Math.max(cardBox.top, feedBox.top)) : 0,
+      // The card's own scroll region: a long result scrolls inside the card
+      // rather than growing the card.
+      bodyScrolls: body ? getComputedStyle(body).overflowY : "",
+      bodyOverflow: body ? Math.max(0, body.scrollHeight - body.clientHeight) : 0,
+      // Whatever is stacked above the log must be able to shrink. A zero
+      // here is the defect itself, in one number. (No backticks in this
+      // comment: the whole function is a template literal.)
+      cardShrink: cardBox ? getComputedStyle(card).flexShrink : "",
+    });
+  })()`));
+  // Say which half is missing rather than failing on a bare false: no card
+  // means the pour produced no computed result, which is a different bug
+  // from the card being too big.
+  check("the pour leaves a latest-result card in the journal",
+    journalShare.pane && journalShare.feed && journalShare.card,
+    JSON.stringify(journalShare));
+  if (journalShare.card) {
+    check("the result card stands above the log, not over it",
+      journalShare.intersection <= 1, `${journalShare.intersection}px of overlap`);
+    check("the result card can give way in the column",
+      journalShare.cardShrink !== "0", `flex-shrink: ${journalShare.cardShrink}`);
+    // Half the pane is the line: below it the log is a scrap and the
+    // reader is back to the complaint this check exists for.
+    check("the log keeps at least half the journal pane with a card on screen",
+      journalShare.feedHeight * 2 >= journalShare.paneHeight,
+      `${journalShare.feedHeight}px of ${journalShare.paneHeight}px`);
+    check("a long result scrolls inside the card", journalShare.bodyScrolls === "auto",
+      journalShare.bodyScrolls);
+  }
+
   const dialogOpened = JSON.parse(await page.evaluate(`(() => {
     document.querySelector('.placement-toggle')?.click();
     return JSON.stringify({ toggled: Boolean(document.querySelector('.placement-toggle')) });

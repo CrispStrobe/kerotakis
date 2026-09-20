@@ -23,6 +23,7 @@
   import { engineText } from "../engineText";
   import type { ResultSummary } from "../resultSummary";
   import { resultCardFilename, resultCardSvg } from "../resultCardImage";
+  import { RESULT_CARD_OPEN_KEY, loadResultCardOpen, saveResultCardOpen } from "../resultSummary";
 
   let {
     result,
@@ -54,6 +55,31 @@
      */
     onexport?: (run: ((format: "svg" | "png") => void) | null) => void;
   } = $props();
+
+  /**
+   * GUI-108 — the disclosure, remembered.
+   *
+   * The card is capped so it can no longer squeeze the log to nothing, but
+   * a reader who wants the summary and not the detail should be able to
+   * say so once rather than on every command. `<details>` is the control
+   * they already have; this is what makes the answer stick.
+   *
+   * Read through `localStorage` guarded twice: the property itself throws
+   * in a private window, and there is no `localStorage` at all when the
+   * card is rendered on the server — which is how every component test in
+   * this app renders it.
+   */
+  const viewStorage = (): Storage | null => {
+    try {
+      return typeof localStorage === "undefined" ? null : localStorage;
+    } catch {
+      return null;
+    }
+  };
+  let expanded = $state(loadResultCardOpen(viewStorage(), RESULT_CARD_OPEN_KEY));
+  $effect(() => {
+    saveResultCardOpen(viewStorage(), RESULT_CARD_OPEN_KEY, expanded);
+  });
 
   /** The export menu is closed until asked for, and closes behind itself. */
   let exporting = $state(false);
@@ -149,7 +175,7 @@
   }
 </script>
 
-<details class="result-card" open>
+<details class="result-card" bind:open={expanded}>
   <summary>
     <span class="result-mark" aria-hidden="true">✓</span>
     <span>
@@ -251,7 +277,26 @@
 </details>
 
 <style>
-  .result-card { flex: none; margin: .6rem .65rem 0; border: 1px solid color-mix(in srgb, var(--success) 45%, var(--edge)); border-radius: 14px; color: var(--ink); background: color-mix(in srgb, var(--success) 6%, var(--surface-raised)); overflow: hidden; }
+  /* GUI-108 — the card takes what is left of the journal pane, never what
+     is under it.
+
+     `flex: none` is what the owner met as "the card overlays the text in
+     Laborbuch". It is not an overlay in the painting sense — the card has
+     no `position` and no stacking context worth the name, which is why it
+     never appears in `overlayStacking.test.ts` — but in a flex column it
+     was the one item that would not give way. The feed beside it is
+     `flex: 1; min-height: 0`, so an `<details open>` with an equation, a
+     reactant list, an observation, a thermal row and a quantity table
+     simply took the pane and squeezed the log it was summarising to
+     nothing. A reader after a step wants BOTH, and got one.
+
+     `Inspector.svelte` learned this exactly one component earlier and its
+     comment still says so: a block that can be taller than its share of a
+     narrow journal keeps its own scroll region. So does this one. The cap
+     is `vh` rather than a percentage because `<details>` cannot be made a
+     flex or grid container without risking the closed state, and the pane
+     is very nearly viewport height in every layout the app offers. */
+  .result-card { flex: 0 1 auto; min-height: 0; margin: .6rem .65rem 0; border: 1px solid color-mix(in srgb, var(--success) 45%, var(--edge)); border-radius: 14px; color: var(--ink); background: color-mix(in srgb, var(--success) 6%, var(--surface-raised)); overflow: hidden; }
   summary { min-height: 3.25rem; display: grid; grid-template-columns: 32px minmax(0, 1fr) auto auto; align-items: center; gap: .55rem; padding: .55rem .65rem; cursor: pointer; list-style: none; }
   /* Anchored so the menu hangs off the icon rather than widening the card. */
   .header-actions { position: relative; display: flex; align-items: center; gap: .2rem; }
@@ -323,7 +368,10 @@
   summary b[data-confidence] { border-color: color-mix(in srgb, var(--warning) 55%, transparent); }
   summary b.cooler { color: var(--cool); background: color-mix(in srgb, var(--cool) 10%, var(--surface)); }
   summary b.cooler[data-confidence] { border-color: color-mix(in srgb, var(--cool) 55%, transparent); }
-  .result-body { display: grid; gap: .45rem; padding: 0 .7rem .65rem 2.85rem; border-top: 1px solid color-mix(in srgb, var(--success) 22%, transparent); }
+  /* The scroll region. `overscroll-behavior` so that reaching the bottom of
+     a long result does not then start scrolling the log underneath — the
+     journal is the thing the reader is trying to keep. */
+  .result-body { max-height: 30vh; display: grid; gap: .45rem; padding: 0 .7rem .65rem 2.85rem; overflow-y: auto; overscroll-behavior: contain; border-top: 1px solid color-mix(in srgb, var(--success) 22%, transparent); }
   p { margin: .55rem 0 0; }
   .equation { overflow-x: auto; font-family: ui-monospace, SFMono-Regular, monospace; font-size: .78rem; font-weight: 700; white-space: nowrap; }
   .reactants { display: flex; flex-wrap: wrap; gap: .3rem; margin: 0; padding: 0; list-style: none; }
