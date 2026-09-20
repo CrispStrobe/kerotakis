@@ -11,6 +11,7 @@
   import { eligibleVessels, type TransferDraft } from "../pour";
   import { t } from "../i18n.svelte";
   import { benchIgnitionApproved } from "../ignitionBenchApproval";
+  import { BENCH_DECK_TOP } from "../benchFooting";
   import { browserGpuEnvironment } from "../browserGpuEnvironment";
   import {
     createWebGpuEnvironmentPolicy,
@@ -233,8 +234,10 @@
       // A drag preview carries no zone; the vessel's stored placement does.
       zone: "zone" in anchor ? anchor.zone : positionFor(layout, target).zone,
       x: anchor.x,
+      // The lane above is further BACK on the same bench top, never off
+      // the back of it: GUI-114 clamps to the counter's far edge.
       y: anchor.y >= 0.5
-        ? Math.max(0.12, anchor.y - 0.48)
+        ? Math.max(BENCH_DECK_TOP, anchor.y - 0.48)
         : Math.min(0.88, anchor.y + 0.48),
     };
   }
@@ -512,6 +515,12 @@
         {@const incidentPosition = positionFor(layout, effect.source ?? 0)}
         <BenchIncident {effect} x={incidentPosition.x} y={incidentPosition.y} />
       {/each}
+      <!-- GUI-114. The counter itself. `.bench` paints a wall above and a
+           front lip along the bottom of the scroll area; between them was
+           nothing, and every vessel stood in that nothing. This is the top
+           the glassware rests on, from its far edge down to the lip, drawn
+           behind everything that stands on it. -->
+      <div class="bench-deck" aria-hidden="true" style={`--deck-top:${BENCH_DECK_TOP * 100}%`}></div>
       {#if showZones}
         <div class="zone-guides" aria-label={t("bench work zones")}>
           {#each BENCH_ZONES as zone (zone)}
@@ -730,6 +739,9 @@
       linear-gradient(to bottom, rgb(255 255 255 / 13%), transparent 30%);
   }
   .bench[data-room="discovery"] {
+    --deck-top-colour: var(--room-discovery-trim);
+    --deck-front-colour: var(--room-discovery-front);
+    --deck-edge: var(--room-discovery-trim);
     background:
       radial-gradient(circle at 12% 17%, color-mix(in srgb, var(--action) 16%, transparent), transparent 13rem),
       radial-gradient(circle at 88% 12%, color-mix(in srgb, var(--instrument) 17%, transparent), transparent 14rem),
@@ -737,12 +749,18 @@
       linear-gradient(to bottom, transparent calc(100% - 2.6rem), var(--room-discovery-trim) calc(100% - 2.6rem), var(--room-discovery-trim) calc(100% - 2.2rem), var(--room-discovery-front) calc(100% - 2.2rem));
   }
   .bench[data-room="research"] {
+    --deck-top-colour: var(--room-research-trim);
+    --deck-front-colour: var(--room-research-front);
+    --deck-edge: var(--room-research-trim);
     background:
       radial-gradient(ellipse at 50% 22%, color-mix(in srgb, var(--room-research-glow) 18%, transparent), transparent 48%),
       linear-gradient(to bottom, color-mix(in srgb, var(--room-research-wall) 48%, var(--surface-raised)) 0 58%, transparent 58%),
       linear-gradient(to bottom, transparent calc(100% - 2.6rem), var(--room-research-trim) calc(100% - 2.6rem), var(--room-research-trim) calc(100% - 2.2rem), var(--room-research-front) calc(100% - 2.2rem));
   }
   .bench[data-room="orbital"] {
+    --deck-top-colour: var(--room-orbital-trim);
+    --deck-front-colour: var(--room-orbital-front);
+    --deck-edge: var(--room-orbital-trim);
     background:
       radial-gradient(ellipse at 50% 5%, color-mix(in srgb, var(--room-orbital-glow) 20%, transparent), transparent 42%),
       linear-gradient(115deg, transparent 19%, color-mix(in srgb, var(--room-orbital-beam) 12%, transparent) 19.3% 21.5%, transparent 21.8% 78%, color-mix(in srgb, var(--room-orbital-beam) 12%, transparent) 78.3% 80.5%, transparent 80.8%),
@@ -954,6 +972,25 @@
     min-height: max(29rem, calc(100% - 1rem));
     overflow: hidden;
     border-radius: 16px 16px 0 0;
+  }
+  .bench-deck {
+    position: absolute;
+    inset: var(--deck-top, 24%) 0 0;
+    z-index: 0;
+    pointer-events: none;
+    /* A plane seen from slightly above: a lit far edge, then the counter
+       colour warming towards the viewer. The band above it is left alone
+       so `.bench`'s own wall still shows through. */
+    background:
+      linear-gradient(to bottom,
+        color-mix(in srgb, var(--deck-edge, var(--bench-top)) 82%, white 18%) 0 2px,
+        var(--deck-edge, var(--bench-top)) 2px 5px,
+        transparent 5px),
+      linear-gradient(to bottom,
+        color-mix(in srgb, var(--deck-top-colour, var(--bench-top)) 70%, var(--surface)),
+        var(--deck-top-colour, var(--bench-top)) 62%,
+        color-mix(in srgb, var(--deck-front-colour, var(--bench-front)) 55%, var(--deck-top-colour, var(--bench-top))));
+    box-shadow: inset 0 3px 7px color-mix(in srgb, var(--shadow) 48%, transparent);
   }
   .zone-guides {
     position: absolute;

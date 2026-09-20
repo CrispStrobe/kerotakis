@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { BENCH_DECK_TOP } from "./benchFooting";
 import {
   EMPTY_BENCH_LAYOUT,
   adjacentZone,
@@ -51,11 +52,14 @@ describe("bench layout", () => {
     expect(positionFor(moved, 1)).toEqual({ zone: "analyse", x: 0.74, y: 0.41 });
   });
 
-  it("persists independently positioned apparatus and clamps it to the surface", () => {
-    const fallback = { zone: "react" as const, x: 0.5, y: 0.18 };
+  it("persists independently positioned apparatus and clamps it onto the bench top", () => {
+    const fallback = { zone: "react" as const, x: 0.5, y: 0.3 };
     expect(apparatusPositionFor(EMPTY_BENCH_LAYOUT, "grind", fallback)).toBe(fallback);
     const moved = positionApparatus(EMPTY_BENCH_LAYOUT, "grind", 2, -3);
-    expect(apparatusPositionFor(moved, "grind", fallback)).toEqual({ zone: "analyse", x: 0.92, y: 0.12 });
+    // GUI-114: the clamp is the counter's far edge, not the top of the
+    // pane. Above it is wall, and a workstation parked on the wall was
+    // exactly the floating the owner reported.
+    expect(apparatusPositionFor(moved, "grind", fallback)).toEqual({ zone: "analyse", x: 0.92, y: BENCH_DECK_TOP });
     expect(parseBenchLayout(JSON.stringify(moved))).toEqual(moved);
   });
 
