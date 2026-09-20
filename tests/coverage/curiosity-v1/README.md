@@ -2431,3 +2431,41 @@ computed route.
 This is not a new or a weaker code for this family: `th-076`, the
 neighbouring peroxide prompt, already carried `typed-engine-event` in the
 baseline. These six have joined it.
+
+## Refresh 2026-09-18, seventeenth time — a dough is not a puddle
+
+Three rows move, and they move because a sentence that was not true
+stopped being said. All three are the same beaker of dough:
+
+    bio-001  Why does bread dough rise when yeast is added?
+    bio-002  Does warm dough rise faster than cold dough?
+    bio-003  Can water that is too hot stop yeast from raising dough?
+
+    qualitative / typed-observation  →  computed / typed-engine-event
+
+Only `bio-001` is in the smoke set; the other two were found by the full
+500-prompt `coverage curiosity --check`, which is the reason that gate runs
+beside the smoke test rather than instead of it.
+
+The honesty pass decided whether a solid was "in contact with a liquid" by
+asking `any(|p| matches!(p.phase, Phase::Liquid | Phase::Aqueous))`, which
+is true of a vessel holding dissolved matter and no solvent. A kneaded
+dough is exactly that vessel: it holds its water in the flour matrix and
+pours none into the beaker — `solve::SolventState::Absent` names this case
+in its own doc comment, and `solvent_state` has always called such a vessel
+dry. The honesty pass did not, so it filed an unmodelled-dissolution
+apology about a liquid that was not there, and the classifier typed the row
+on that remark rather than on the fermentation underneath it.
+
+With `solve::liquid_medium_present` measuring a LIQUID — portions filed
+`Phase::Liquid`, plus the solvent where a route has filed it aqueous,
+against `OBSERVABLE_MOLES` — the honesty route returns zero events for this
+vessel and the row is answered by the engine event that was always
+answering it. Same direction as the sixteenth refresh above: more evidence,
+not less, and no route changed its mind about the chemistry.
+
+The rest of the corpus is unmoved, and the smoke set's four dispositions
+are still all exercised (`computed` 11, `curated` 2, `qualitative` 1,
+`boundary` 2).
+
+Three drifts, no regressions.
