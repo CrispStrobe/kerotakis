@@ -1734,7 +1734,7 @@ unnameable-product = "die Familie {family} hat eine Struktur erzeugt, die das Ve
 dissolved-and-unspeciated = "{name} ist gelöst und ohne Speziesverteilung: {why}"
 no-component-mapping = "{name} ist ein ionischer gelöster Stoff ohne Zuordnung zu einer wässrigen Komponente in diesem Labor. Seine Ionenverteilung, Acidität, Leitfähigkeit und Reaktionen sind nicht enthalten; jeder Lösungswert beschreibt nur die abgebildeten Komponenten, nicht die vollständige Mischung."
 unspeciated-acidity = "diese Lösung enthält eine Säure, deren Acidität nicht modelliert ist: {why}. Der angezeigte pH-Wert ist der pH-Wert alles Übrigen im Glas, und die wirkliche Lösung ist saurer, als er angibt"
-milk-buffer-lower-bound = "diese Milch wurde auf pH {ph} angesäuert, und der Wert ist eine UNTERE SCHRANKE — das wirkliche Becherglas ist milder. {assumption} (die vollständige Annahme des Rezepts steht in `explain material whole_milk`)"
+milk-casein-buffer-residual = "diese Milch wurde auf pH {ph} angesäuert, und nur die Hälfte ihres Puffers ist modelliert. Ihr kolloidales Calciumphosphat ist vorhanden und geht in Lösung, sobald die Säure eintrifft; die Pufferwirkung des Caseins fehlt dagegen vollständig, und sie macht etwa ein Drittel der Pufferkapazität von Milch aus. Oberhalb von pH 5 kostet das Fehlende wenig; darunter ist das Kolloid aufgebraucht und diesem Becherglas bleibt nichts mehr entgegenzusetzen, während ein wirkliches noch das Casein hat — der Wert ist also wieder eine untere Schranke, und zwar eine schlechtere als zuvor. {assumption} (die vollständige Annahme des Rezepts steht in `explain material whole_milk`)"
 
 # Looked up by VALUE. Substrate and nucleophile classes are WORDS, which
 # is why they are not baked into the sentence: German declines them.
@@ -1777,7 +1777,7 @@ malic_acid = "keine mitgelieferte Datenbank definiert eine Malat-Spezies, deshal
 # by the recipe and the assumption rather than by its text — the recipe is
 # data, and the quote has to survive it being reworded.
 [material-assumption]
-whole_milk-casein = "KASEIN IST NICHT MODELLIERT, SEINE PUFFERWIRKUNG FEHLT DAHER"
+whole_milk-casein = "KASEIN IST WEITERHIN NICHT MODELLIERT, SEINE PUFFERWIRKUNG FEHLT DAHER WEITERHIN"
 
 # Warum dieser Weg und nicht ein anderer: `vessel::Provenance.routing`.
 #

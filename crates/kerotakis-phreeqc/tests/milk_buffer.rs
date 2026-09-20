@@ -17,13 +17,23 @@
 //! failure message prints what the tail actually computed so that a
 //! reviewer who moves a mineral can see where it went.
 //!
-//! What is NOT pinned here, and cannot be: an acidified milk. Casein is
-//! not modelled, and between pH 6.6 and pH 5.0 casein and its colloidal
-//! calcium phosphate carry more of milk's buffer capacity than the salts
-//! do. A yoghurt pH computed from this recipe is therefore a LOWER bound
-//! on the real thing at the same acid dose — the recipe's own lot
-//! assumptions say so — which is why the acidification test below asserts
-//! an ordering against water and not a value.
+//! HALF THE REST ARRIVED ON 2026-09-18 and half did not. The colloidal
+//! calcium phosphate is now booked into the recipe as a solid — 189 mg per
+//! 100 mL, entered from the colloidal inorganic phosphorus FDC's total
+//! leaves — and it dissolves as acid arrives, which is what milk's colloid
+//! really does between pH 6.6 and about 4.9. Casein's own buffering is
+//! still modelled by nothing, and Kim et al. 2018 quoting Salaün et al.
+//! 2005 rank it at about 35% of milk's buffer capacity.
+//!
+//! So an acidified milk is no longer a plain lower bound, and it is not a
+//! prediction either. It reads 4.60 at the acid a cited yoghurt carries,
+//! where that yoghurt measured 4.6 and where this recipe read 3.94 before
+//! — and that agreement is a coincidence of where the modelled colloid
+//! runs out rather than a validated buffer.
+//! `crates/kerotakis-phreeqc/tests/lactate_speciation.rs` says so at
+//! length and asserts the residual by showing the beaker fall away past
+//! the colloid. The acidification test below still asserts an ordering
+//! against water rather than a value, for the same reason it always did.
 
 use kerotakis_core::*;
 use kerotakis_phreeqc::PhreeqcEquilibrator;
@@ -185,5 +195,121 @@ fn the_mineral_buffer_actually_buffers() {
         acidified_milk > 5.5,
         "0.5 mmol of HCl is well inside what milk's phosphate and citrate absorb; \
          milk went to pH {acidified_milk}"
+    );
+}
+
+/// The colloid is in the glass, and putting it there moved nothing about
+/// fresh milk.
+///
+/// That is not luck and it is the reason this could be done at all. The
+/// serum this recipe books is already at octacalcium phosphate's
+/// saturation — it is why the solver was already laying about 37 mg of the
+/// stuff down — so adding more of the same SOLID cannot move a dissolved
+/// amount. A charge-neutral mineral at its own saturation disturbs
+/// nothing until an acid comes for it, which is exactly the behaviour
+/// milk's colloidal calcium phosphate has.
+///
+/// Measured when this landed: pH 6.5636 and ionic strength 0.07412 with
+/// the colloid and without it, and the serum the solver hands back
+/// unchanged at Ca 8.1 and inorganic phosphate 10.1 mmol per kg of water.
+#[test]
+fn the_colloidal_calcium_phosphate_is_in_the_glass_and_fresh_milk_did_not_move() {
+    let vessel = milk(103.0);
+    let colloid = vessel.moles_of(&SpeciesId::new("octacalcium_phosphate")).0;
+    assert!(
+        colloid > 3.0e-4,
+        "the recipe books 0.3667 mmol of colloidal calcium phosphate per 100 g \
+         and the solver adds its own; 100 mL holds {colloid:.6} mol"
+    );
+    let info = solution(&vessel);
+    assert!(
+        (6.4..=7.0).contains(&info.ph),
+        "booking the colloid must not move fresh milk's pH, and it did not \
+         when this landed: 6.5636 either way. Got {}",
+        info.ph
+    );
+}
+
+/// The residual is NAMED ON THE WIRE, which is the owner's condition on
+/// shipping half a buffer (2026-09-18).
+///
+/// A half-corrected buffer that reads as a fully-corrected one is worse
+/// than the uncorrected one, because nobody re-checks a number that looks
+/// right — and this one looks right: with the acid a cited yoghurt carries
+/// the beaker reads 4.60 against that yoghurt's measured 4.6. So the
+/// vessel has to say, every time it is acidified, that casein's own
+/// buffering is not modelled and roughly what that is worth.
+///
+/// Asserted in BOTH languages, because "named on the wire" means named to
+/// the reader and not to the English-speaking reader. Nothing in the
+/// sentence is welded: it is a `Phrase` with a key, and German comes from
+/// `crates/kerotakis-core/i18n/de.toml` with no code of its own.
+#[test]
+fn the_casein_residual_is_named_on_the_wire_in_both_languages() {
+    use kerotakis_core::i18n::Locale;
+    use kerotakis_core::render::{render_events_in, Register};
+
+    let recipe = kerotakis_core::material::lookup("whole_milk", None).expect("the milk recipe");
+    let mut bench = Bench::new();
+    let mut solvers = stack();
+    bench
+        .step_with(
+            Operator::AddMaterial {
+                vessel: VesselId(0),
+                material: recipe.canonical_key.clone(),
+                recipe_id: recipe.id.clone(),
+                recipe_version: recipe.version,
+                total_amount: 103.0,
+                basis: recipe.basis,
+                sample_seed: 0,
+                at: None,
+            },
+            &mut solvers,
+            &PermissiveScreen,
+        )
+        .expect("add milk");
+    let events = bench
+        .step_with(
+            Operator::Add {
+                vessel: VesselId(0),
+                species: SpeciesId::new("lactic_acid"),
+                moles: Moles(0.0035),
+                at: None,
+            },
+            &mut solvers,
+            &PermissiveScreen,
+        )
+        .expect("acidify the milk");
+
+    let english = render_events_in(&events, Register::LV2, Locale::EN).join("\n");
+    for claim in [
+        "casein's own buffering is not here at all",
+        "about a third of milk's buffer capacity",
+        "colloidal calcium phosphate is here",
+    ] {
+        assert!(
+            english.contains(claim),
+            "an acidified milk must say {claim:?} on the wire. Full output:\n{english}"
+        );
+    }
+
+    let german = render_events_in(&events, Register::LV2, Locale::parse("de")).join("\n");
+    for claim in [
+        "die Pufferwirkung des Caseins fehlt dagegen vollständig",
+        "etwa ein Drittel der Pufferkapazität von Milch",
+        "Ihr kolloidales Calciumphosphat ist vorhanden",
+    ] {
+        assert!(
+            german.contains(claim),
+            "and it must say it in German too: {claim:?} is missing. Full output:\n{german}"
+        );
+    }
+    // The pH inside that sentence is a NUMBER slot, so German gets its own
+    // decimal separator rather than an English one in the middle of a
+    // German paragraph.
+    assert!(
+        german.contains("pH 4,"),
+        "the pH in the German sentence must use a German decimal comma. \
+         Full output:\n{german}"
     );
 }

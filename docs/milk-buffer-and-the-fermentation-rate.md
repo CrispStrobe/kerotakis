@@ -97,10 +97,13 @@ no part:
 | the same milk carrying the cited yoghurt's acid | **3.944** |
 | what Jankowska *et al.* measured with that acid in it | **4.6** |
 
-**The missing buffer is worth about 0.66 of a pH unit at a real yoghurt's
-acidity.** That is the number, measured, and
-`crates/kerotakis-phreeqc/tests/lactate_speciation.rs::the_cited_yoghurts_own_acid_reads_below_the_cited_yoghurts_ph`
-holds it.
+**The missing buffer was worth about 0.66 of a pH unit at a real yoghurt's
+acidity.** That is the number, measured. **Half of the buffer landed on
+2026-09-18 and the table above is now history** — see *What changed on
+2026-09-18* at the end of this file for what the same three rows read now,
+and for why the new agreement is not a validated buffer.
+`crates/kerotakis-phreeqc/tests/lactate_speciation.rs::the_cited_yoghurts_own_acid_and_the_casein_that_is_still_missing`
+holds both.
 
 **It is smaller than the 60% figure would suggest, and that is worth saying
 rather than smoothing over.** Read as a flat coefficient, "the model carries
@@ -175,6 +178,8 @@ every computed milk and yoghurt pH in the repository behind it.
 equivalent.** It gets its own commit and its own test, as the milk-buffer
 work already has one.
 
+**The owner ruled otherwise on 2026-09-18**, and what happened is below.
+
 ## What is claimed after this PR, and what is not
 
 - **Claimed:** the lactic and alcoholic rate constants reproduce one
@@ -191,8 +196,12 @@ work already has one.
 - **Not claimed:** a stopping point. There is no product inhibition, so the
   modelled extent goes to one and a long enough wait converts all of the
   lactose at a pH no yoghurt has ever had.
-- **Not claimed, and the reason this file exists:** a yoghurt pH. It is a
+- **Not claimed, and the reason this file exists:** a yoghurt pH. It was a
   lower bound, by about 0.66 of a unit at yoghurt-like acidity, measured.
+  Since 2026-09-18 half of that buffer is modelled and half is not, so the
+  claim is narrower and stranger: see *What changed on 2026-09-18* below.
+  The computed pH is no longer a plain lower bound above pH 5 and is a worse
+  one below it.
 - **Not claimed:** that `bio-069` is a yoghurt at all. It is eight hours of
   souring at 25 °C with a 43 °C culture.
 - **Not claimed at all, for two of the four:** the acetic and heterolactic
@@ -201,3 +210,126 @@ work already has one.
   gram of starter, was found. Their `rate_evidence.method` reads `editorial`
   where the other two read `derived`, which is the whole reason that field was
   added.
+
+## What changed on 2026-09-18
+
+The owner ruled: **do the phosphate half now, leave the casein residual
+recorded, and name the residual on the wire.** Waiting for both halves was
+offered and not chosen, and so was declaring milk out of scope. The
+non-negotiable came with it — *a half-corrected buffer that reads as a
+fully-corrected one is worse than the uncorrected one, because nobody
+re-checks a number that looks right.*
+
+### What was done
+
+`whole_milk` books **183.45 mg of octacalcium phosphate per 100 g** —
+`Ca4H(PO4)3:3H2O`, 0.3667 mmol of the database's half formula unit — as a
+**solid**. That is milk's colloidal calcium phosphate, and it dissolves as
+acid arrives, taking five protons per formula unit with it.
+
+The reading above said this half was blocked on "resolving how much of milk's
+calcium and phosphate is colloidal". It was, and the resolution is a choice
+between two budgets the recipe already contains, which is written into the
+recipe's own lot assumptions rather than hidden:
+
+- **the phosphorus budget, which is what is booked.** FDC 746782 gives 101 mg
+  of total P per 100 g; 34.1 mg of it is already booked as the diffusible
+  inorganic share, which the recipe calls "roughly one third" of the total;
+  the colloidal inorganic third is the same size, so 34.1 mg of it goes into
+  the mineral and the last third is left where it is, esterified onto casein
+  and onto the phospholipids.
+- **the calcium budget, which is not.** FDC's 123 mg of total Ca less the
+  40 mg diffusible share leaves 83 mg, which as octacalcium phosphate is
+  about 280 mg of mineral. It assumes all of milk's colloidal calcium is in
+  the mineral, and it is not — part of it is bound directly to casein's
+  phosphoserine and carboxyl groups and is not a phosphate phase at all.
+
+**The two land 0.47 of a pH unit apart at a yoghurt's acidity**, 4.60 against
+5.07, which is the same size as the error the addition repairs. Neither is a
+citation for the quantity that actually decides it — how much phosphate the
+colloid releases between pH 6.6 and 4.6 — and that is a titration curve. It
+is the same titration curve the casein half is waiting on, and Salaün 2005 is
+still behind a 403. **So "the data is already in the repo" is true of the
+composition and false of the buffer**, and this file would rather say that
+than let the new number look derived.
+
+### What it reads now
+
+| | before | after | measured |
+|---|---|---|---|
+| fresh milk | 6.5636 | **6.5636** | 6.6–6.8 |
+| fresh milk, ionic strength | 0.07412 | **0.07412** | 0.073 (Holt's diffusate) |
+| the cited yoghurt's acid | 3.9441 | **4.6000** | 4.6 |
+| 0.5 mmol HCl in 100 mL | 6.0668 | **6.0668** | — |
+| 10 mL of 5% vinegar | 4.1156 | **4.4138** | — |
+| `bio-069`, 8 h on a counter at 25 °C | 5.44 | **5.80** | — |
+| the colloid in the glass | 37 mg | **227 mg** | ~280 mg in real milk's micelle |
+
+**Fresh milk did not move, and that is the property that made this possible.**
+The serum this recipe books is already at octacalcium phosphate's saturation
+— it is why the solver was already laying about 37 mg of the stuff down — so
+adding more of the same solid cannot move a dissolved amount. A
+charge-neutral mineral at its own saturation disturbs nothing until an acid
+comes for it, which is exactly the behaviour milk's colloid has. The serum
+the solver hands back is unchanged at Ca 8.1 and inorganic phosphate
+10.1 mmol per kg of water, so every check in the recipe's
+*booked serum against the measured one* assumption still reads as it did.
+
+The 0.5 mmol HCl row did not move either, for the same reason: the solid is
+present before and after, so the pH sits on the saturation surface both
+times. The buffer is only visible once the acid is enough to consume it.
+
+### Why 4.60 against a measured 4.6 is NOT a validated buffer
+
+Three things are true at once and the third is the important one:
+
+1. **Casein is still modelled by nothing**, and Kim *et al.* rank the caseins
+   at about 35% of milk's buffer capacity, second only to the soluble
+   minerals.
+2. **The modelled colloid is spent at very nearly this acidity.** The dose
+   curve reads 5.21 at three quarters of the acid with 4% of the solid left,
+   then 4.60 with none, then 4.29 and 4.10 and 3.85 as the acid goes on. The
+   agreement sits on the shoulder of an exhaustion rather than in the middle
+   of a buffered region.
+3. **The amount of colloid is uncertain by 40%**, as above, which is 0.47 of a
+   unit at this dose.
+
+So the honest reading is: **above pH 5 this recipe now has the buffer that
+matters, with a stated uncertainty; below pH 5 it has nothing, where a real
+beaker still has casein's carboxyl groups.** The computed pH is no longer a
+plain lower bound in the buffered region and is a worse lower bound outside
+it, because there is nothing left to resist.
+
+`lactate_speciation.rs` asserts both halves of that — a window around 4.6,
+and a fall past the colloid — and the second assertion is the residual made
+visible rather than argued from a percentage.
+
+### The residual, named on the wire
+
+The owner's condition. Every vessel of this milk that goes below pH 6.0 now
+carries a `NotYetModeled` event whose `Phrase`
+(`not-modeled.milk-casein-buffer-residual`) says which half is modelled,
+which is not, roughly what the missing half is worth, and where the two swap
+over. In German, from `crates/kerotakis-core/i18n/de.toml` and with no code
+of its own:
+
+> diese Milch wurde auf pH 4,60 angesäuert, und nur die Hälfte ihres Puffers
+> ist modelliert. Ihr kolloidales Calciumphosphat ist vorhanden und geht in
+> Lösung, sobald die Säure eintrifft; die Pufferwirkung des Caseins fehlt
+> dagegen vollständig, und sie macht etwa ein Drittel der Pufferkapazität von
+> Milch aus. Oberhalb von pH 5 kostet das Fehlende wenig; darunter ist das
+> Kolloid aufgebraucht und diesem Becherglas bleibt nichts mehr
+> entgegenzusetzen, während ein wirkliches noch das Casein hat — der Wert ist
+> also wieder eine untere Schranke, und zwar eine schlechtere als zuvor.
+
+`milk_buffer.rs::the_casein_residual_is_named_on_the_wire_in_both_languages`
+asserts it in both languages, because *named on the wire* means named to the
+reader and not to the English-speaking reader.
+
+### What the rate calibration is owed
+
+Nothing. The rates were fitted against a conversion extent and not against a
+pH, precisely so that moving the buffer would move the pH and leave the rates
+alone — and it did. `bio-069` went 5.44 → 5.80 because the beaker now
+resists, not because anything about the culture changed, and the fermentation
+tests' windows moved with it rather than the constants.

@@ -3536,19 +3536,46 @@ question was asked.
       goldens will say so loudly, and that is the signal to look again at
       `Vessel::aqueous_routing_said`, not to suppress the line.
 
-- [ ] **Milk: do the phosphate half of the buffer now, leave casein
-      recorded. RULED 2026-09-18.** The measured error is 0.66 of a pH unit
-      and roughly half of it is a ~30-line phosphate addition using data
-      already in the repo; the other half needs a casein titration curve
-      behind a publisher's 403. Waiting for both halves was offered and not
-      chosen, and so was declaring milk out of scope.
-      **What reaches the user:** vinegar into milk reads pH 6.7 → 5.9 where
-      the measurement is 6.7 → 6.1 and today's model says 5.4 — an error of
-      1.3 units becoming 0.2.
-      **Non-negotiable:** the residual is *named on the wire*, not merely in
-      a limits file. A half-corrected buffer that reads as a fully-corrected
-      one is worse than the uncorrected one, because nobody checks a number
-      that looks right.
+- [x] **Milk: do the phosphate half of the buffer now, leave casein
+      recorded. RULED 2026-09-18; DONE 2026-09-18.** `whole_milk` books
+      183.45 mg of octacalcium phosphate per 100 g — `Ca4H(PO4)3:3H2O`, as a
+      SOLID — which is milk's colloidal calcium phosphate, and it dissolves
+      as acid arrives taking five protons per formula unit with it.
+      **What reaches the user, measured:** `lessons/milk-curds.lab`'s 1 mL of
+      vinegar into 100 mL of milk reads **pH 5.85** where the PLAN's own
+      figure for the old model was 5.4 and the measurement is 6.1 — the
+      before was not re-measured here, only the after. The cited yoghurt's
+      acid reads **4.6000** where it read 3.9441 and where Jankowska et al.
+      measured 4.6. `bio-069` on a counter goes 5.44 → 5.80. **Fresh milk
+      does not move at all** — 6.5636 and ionic strength 0.07412 either way —
+      because the serum is already at this phase's saturation, which is the
+      property that made a solid bookable without re-tuning anything.
+      **The ~30 lines were there and the DATA WAS NOT, which is the finding.**
+      The composition is in the repo; the quantity that decides the buffer is
+      not. Two budgets the recipe already contains disagree by 40%: the
+      colloidal PHOSPHORUS third (booked — FDC's 101 mg of total P less the
+      34.1 mg diffusible share, with the colloidal third the same size) and
+      the colloidal CALCIUM (not booked — 83 mg of Ca, ≈280 mg of mineral,
+      which wrongly assumes all colloidal calcium is in the mineral rather
+      than partly bound straight to casein). **They land 0.47 of a pH unit
+      apart at a yoghurt's acidity, 4.60 against 5.07 — the same size as the
+      error being repaired.** Neither is a citation for how much phosphate
+      the colloid releases between 6.6 and 4.6; that is a titration curve,
+      and it is the same one the casein half is waiting on.
+      **So 4.60 against a measured 4.6 is NOT a validated buffer**, and the
+      work says so everywhere it can: the modelled colloid is spent at very
+      nearly that acidity (5.21 at three quarters of the acid with 4% of the
+      solid left, 4.60 with none, 4.10 at half again), so the agreement sits
+      on the shoulder of an exhaustion. Past it this beaker has nothing,
+      where a real one still has casein's carboxyl groups —
+      `lactate_speciation.rs` asserts that fall as the residual made visible
+      rather than argued from a percentage.
+      **Non-negotiable, met:** every vessel of this milk below pH 6.0 carries
+      `not-modeled.milk-casein-buffer-residual`, which says which half is
+      modelled, which is not, that casein is about a third of milk's buffer
+      capacity, and where the two swap over — in German from `de.toml` with
+      no code of its own, asserted in both languages by
+      `milk_buffer.rs::the_casein_residual_is_named_on_the_wire_in_both_languages`.
 
 - [x] **GUI-093 — DONE 2026-09-18 (#660).** *Sticky headings per role in
       `REAGENT_ROLES`' pedagogical order, one heading per bottle, and the
