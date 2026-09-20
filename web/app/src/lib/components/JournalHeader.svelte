@@ -92,9 +92,13 @@
         pin(t("observations"));
       }}
     ><span aria-hidden="true">≡</span></button>
+    <!-- `trace-toggle`, like `composer-toggle` below: the journal hides
+         command lines until this is pressed, so a browser-level check
+         that wants to read what was sent to the bench has to press it —
+         and needs a handle that is not a translated word. -->
     <button
       type="button"
-      class="icon-btn"
+      class="icon-btn trace-toggle"
       aria-pressed={showTrace}
       class:active={showTrace}
       aria-label={t("full trace")}

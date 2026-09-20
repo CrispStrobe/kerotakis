@@ -1529,9 +1529,26 @@ try {
   check("a German decimal comma is a number, not an empty field",
     !comma.disabled && comma.warning === "", JSON.stringify(comma));
 
+  /*
+   * The journal hides command lines until the trace view is on
+   * (`journalEntries` filters `kind === "command"` unless `showTrace`),
+   * so `p.command` was not a race — it was a pane that had been asked to
+   * show observations. Pressed, and asserted pressed, as its own named
+   * check: without it "no command echoed" is a mystery three steps from
+   * its cause.
+   */
+  await page.evaluate(`document.querySelector('button.trace-toggle')?.click()`);
+  const tracing = await waitFor(page,
+    `document.querySelector('button.trace-toggle')?.getAttribute('aria-pressed') === "true"`,
+    { timeout: 20000 });
+  check("the journal is showing its command trace", tracing === true,
+    "the trace view never turned on, so no command line would be rendered");
+
   const commands = await page.evaluate(`document.querySelectorAll('p.command').length`);
   await page.evaluate(`document.querySelector('section.apparatus button.run')?.click()`);
-  await waitFor(page, `document.querySelectorAll('p.command').length > ${commands}`, { timeout: 60000 });
+  const echoed = await waitFor(page, `document.querySelectorAll('p.command').length > ${commands}`, { timeout: 60000 });
+  check("the run reaches the bench and the journal echoes it", echoed === true,
+    `still ${commands} command lines`);
   const ran = JSON.parse(await page.evaluate(`(() => {
     const lines = [...document.querySelectorAll('p.command')];
     return JSON.stringify({
