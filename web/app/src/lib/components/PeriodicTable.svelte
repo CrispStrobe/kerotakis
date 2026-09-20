@@ -15,6 +15,7 @@
   import type { ShelfItem } from "../session.svelte";
   import SpeciesChip from "./SpeciesChip.svelte";
   import { t, tEngine } from "../i18n.svelte";
+  import { slugWords } from "../catalogEntry";
 
   let {
     shelf,
@@ -105,6 +106,27 @@
   const routes = $derived(picked
     ? contentRoutesForElement(picked.symbol, shelf, lessons, experiments)
     : []);
+  /**
+   * A shelf key as the shelf itself says it.
+   *
+   * `route.requiredShelfKeys` are raw ENGINE keys — `water`,
+   * `apple_juice`, `chalk_stick` — and the `needs:` line printed them
+   * verbatim, while the list of bottles directly above it renders
+   * `t(item.name)`. So one German panel named the same bottle twice,
+   * once in each language: "Wasser" in the shelf list and "water" two
+   * paragraphs below it.
+   *
+   * The key is not the thing to translate. A key de-slugged into
+   * "apple juice" is a phrase no catalogue has, and inventing a row for
+   * it would duplicate `apple juice surrogate` → "Apfelsaft", which the
+   * catalogue already carries. The NAME is what the dictionary is keyed
+   * on, so the key is resolved to its shelf item first — and every key
+   * here is on the shelf by construction, since `contentRoutesForElement`
+   * only offers a route whose `requiredShelfKeys.every(k =>
+   * shelfKeys.has(k))`. The de-slugged key is the fallback, not the path.
+   */
+  const shelfNames = $derived(new Map(shelf.map((item) => [item.key, item.name])));
+  const tShelfKey = (key: string) => t(shelfNames.get(key) ?? slugWords(key));
   const capability = $derived(routes.some((route) => route.kind === "lesson")
     ? "lesson_backed"
     : routes.length > 0
@@ -235,7 +257,7 @@
                   {#if tEngine(route, "summary")}
                     <small class="route-summary">{tEngine(route, "summary")}</small>
                   {/if}
-                  <small>{t("needs: {materials}", { materials: route.requiredShelfKeys.join(", ") })}</small>
+                  <small>{t("needs: {materials}", { materials: route.requiredShelfKeys.map(tShelfKey).join(", ") })}</small>
                 </button>
               </li>
             {/each}
