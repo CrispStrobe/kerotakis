@@ -2813,15 +2813,33 @@ evolved CO₂ and half a mole of it must not look the same.
   `halfLifeSeconds`. The engine models the foam and the app draws it to
   scale, today.
 
-  So the gap is **confinement, not absence**. Every effect is drawn inside
-  the vessel's own rectangle, and a soda volcano is precisely the case
-  where the interesting part does not fit inside the glass: foam that
-  climbs past the rim and spills down the outside, steam that rises above
-  the beaker, a flare that reaches beyond it. The honest version of this
-  item is "let an effect leave the vessel's box when the modelled quantity
-  exceeds the vessel, and keep the scaling while it does" — which is a
-  much smaller and much better-defined change than a new effect system,
-  and it keeps every existing audit of the magnitude link intact.
+  **Nor is it confinement — I claimed that next and it is also wrong.**
+  `Vessel.svelte` already draws `foam-overflow`: an ellipse at the rim and
+  two paths running down the outside of the glass, scaled by
+  `overflow_liters / FULL_AT_L` off the engine's own `foam.overflow_liters`.
+  Foam already climbs, spills, and is measured while it does.
+
+  **So this entry has been wrong twice, and the remaining question is
+  empirical rather than architectural.** Everything the item asked for is
+  built: the quantities, the mapping, the drawing, the spill. The owner
+  used the app and it did not read that way. Before anyone writes code
+  here, someone has to *look at the running bench* and say which of these
+  it is:
+
+  - **Size.** The vessel SVG is `width: clamp(64px, 14vw, …)` in a 100×140
+    viewBox. A spill that runs to y≈68 of 140 is a third of a small
+    picture. This is GUI-094 — *the vessel deserves the room* — wearing a
+    different hat, and if it is the cause then GUI-116 is largely blocked
+    on it rather than on any new drawing.
+  - **Duration.** `latestEffect("foam", 3000)` — three seconds. An
+    eruption a learner looks away from is an eruption that did not happen.
+  - **Amplitude.** `spillScale` clamps at 1 at one vessel-full of
+    overflow, so a tenfold dose past that looks identical to the first.
+    That one is a real defect against the rule at the head of this
+    section, and it is findable without looking at anything.
+
+  The third is worth fixing on sight. The first two are not worth guessing
+  at: deploy, look, then decide.
 
   Scope note: "explosions" in a school-chemistry bench means a flare, a
   bang, a lid lifting, a flask venting — the engine models energy release
