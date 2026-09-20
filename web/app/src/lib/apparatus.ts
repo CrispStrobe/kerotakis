@@ -17,6 +17,32 @@ export interface FormField {
   step?: number;
   /** `choice` only: the fixed options, in the order they are offered. */
   options?: { value: string; label: string }[];
+  /**
+   * `number` only: entered as free text rather than through
+   * `<input type="number">`.
+   *
+   * A spinner's value is parsed by the BROWSER against the BROWSER's
+   * locale, which is not the locale this app is speaking. A German reader
+   * on an English-locale Chrome who types `7,5` into a number input hands
+   * the app an empty string, and the panel says the field is empty while
+   * the reader is looking at a number. Where the reader is expected to
+   * type a decimal rather than nudge a step, the field takes text and
+   * `num()` below does the parsing — for both separators.
+   */
+  decimal?: boolean;
+  /**
+   * Whether this field applies to the values currently set.
+   *
+   * A form whose fields are all always shown can only offer one way of
+   * saying a thing. The bunsen panel now has two — derive the energy from
+   * the flame, or state it — and the controls that belong to the other
+   * one are not merely irrelevant, they are misleading: a flame slider
+   * sitting under a typed energy reads as if it still did something.
+   *
+   * Hidden, never dropped: `values` keeps every field's entry, so
+   * switching back finds the flame where it was left.
+   */
+  when?: (values: Record<string, number | string>) => boolean;
 }
 
 /**
@@ -73,7 +99,33 @@ export interface ApparatusSpec {
   warning?: (values: Record<string, number | string>) => string | null;
 }
 
+/**
+ * A field's value as a number, in either decimal notation.
+ *
+ * The reader of this app is German (I18N), and a German reader writes
+ * `7,5`. `Number("7,5")` is `NaN`, so without this line a typed comma is
+ * the same as an empty field — a run button that greys out with no
+ * explanation. The command that comes out the other end always carries a
+ * POINT, because the grammar has one spelling of a number and it is not
+ * the reader's.
+ *
+ * A lone comma is always the DECIMAL point, never a thousands group —
+ * `1,234` is 1.234. That reading is safe here only because the fields
+ * that take it are bounded well under a thousand (`BUNSEN_MAX_KJ` is
+ * 150), so a grouping separator has nothing to group; a field that could
+ * hold four digits would have to ask rather than guess. A string with
+ * more than one comma, or with both a comma and a point, is refused
+ * outright: that is a typo, not a convention.
+ */
 const num = (v: number | string | undefined): number | null => {
+  if (typeof v === "string") {
+    const trimmed = v.trim();
+    if (trimmed === "") return null;
+    const commas = (trimmed.match(/,/g) ?? []).length;
+    if (commas > 1 || (commas === 1 && trimmed.includes("."))) return null;
+    const n = Number(trimmed.replace(",", "."));
+    return Number.isFinite(n) ? n : null;
+  }
   const n = Number(v);
   return Number.isFinite(n) ? n : null;
 };
@@ -96,7 +148,35 @@ const energyReadout = (watts: number | string | undefined, seconds: number | str
   }];
 };
 
+/**
+ * The most this panel's own model can deliver: full flame, open collar,
+ * the longest exposure the exposure field accepts.
+ *
+ * Derived from the bounds the fields already declare rather than picked,
+ * so it cannot drift away from them. It is what a typed energy is judged
+ * against (GUI-113): the point of typing the number is to say exactly how
+ * much, not to escape the burner the panel is modelling.
+ */
+export const BUNSEN_MAX_KJ = 0.005 * 100 * 300 * 1;
+
+/** Which control says how much energy the flame delivers (GUI-113). */
+export const ENERGY_ENTRY = { derived: "flame", typed: "energy" } as const;
+
+const bunsenTyped = (values: Record<string, number | string>): boolean =>
+  values.entry === ENERGY_ENTRY.typed;
+
 const bunsenEnergyKj = (values: Record<string, number | string>): number | null => {
+  // The owner's ask: "we should be able to directly change, for Erhitzen,
+  // what amount of 'zugeführte Energie' we add". The panel already PRINTED
+  // that number as a readout; in this mode the readout is the input, and
+  // the flame controls that used to compute it step aside.
+  if (bunsenTyped(values)) {
+    const typed = num(values.energy);
+    if (typed === null || typed <= 0 || typed > BUNSEN_MAX_KJ) return null;
+    // Three decimals, the same precision the derived path rounds to — a
+    // pasted 0.1+0.2 must not reach the grammar as 0.30000000000000004.
+    return Number(typed.toFixed(3));
+  }
   const flame = num(values.flame);
   const air = num(values.air ?? 100);
   const seconds = pos(values.seconds);
@@ -107,6 +187,28 @@ const bunsenEnergyKj = (values: Record<string, number | string>): number | null 
   return Number((0.005 * flame * seconds * collarEfficiency).toFixed(3));
 };
 
+/**
+ * Why a typed energy is refused, in words, or null.
+ *
+ * `build` returning null already greys the run button out; on a field the
+ * reader has just typed into, a grey button with no sentence beside it is
+ * the app refusing to say what is wrong with what they wrote. The three
+ * refusals are distinct on purpose — an unreadable number, a number that
+ * is not an amount, and a number larger than this burner has.
+ */
+const bunsenEnergyWarning = (values: Record<string, number | string>): string | null => {
+  if (!bunsenTyped(values)) return null;
+  const raw = values.energy;
+  if (typeof raw === "string" && raw.trim() === "") return null;
+  const typed = num(raw);
+  if (typed === null) return "that is not a number — write it as 7.5 or 7,5";
+  if (typed <= 0) return "an energy of nothing heats nothing — write a number above zero";
+  if (typed > BUNSEN_MAX_KJ) {
+    return "more than this flame can deliver: at full power with the collar open it reaches 150 kJ in the longest exposure the panel allows";
+  }
+  return null;
+};
+
 export const APPARATUS: ApparatusSpec[] = [
   {
     verb: "bunsen",
@@ -114,9 +216,34 @@ export const APPARATUS: ApparatusSpec[] = [
     title: "candle / Bunsen flame",
     blurb: "adjust a flame, then heat or test ignition",
     fields: [
-      { name: "flame", label: "flame power", type: "number", unit: "%", default: 50, min: 0, max: 100, step: 5 },
-      { name: "air", label: "air collar", type: "number", unit: "%", default: 70, min: 0, max: 100, step: 5 },
-      { name: "seconds", label: "exposure", type: "number", unit: "s", default: 30, min: 1, max: 300 },
+      // GUI-113. Which of the two controls owns the energy — and it is a
+      // control of its own rather than a mode hidden in a blank field,
+      // because "leave it empty and the flame decides" is a rule nobody
+      // can see and a screen reader cannot announce.
+      {
+        name: "entry",
+        label: "energy from",
+        type: "choice",
+        default: ENERGY_ENTRY.derived,
+        options: [
+          { value: ENERGY_ENTRY.derived, label: "flame and exposure" },
+          { value: ENERGY_ENTRY.typed, label: "a number I type" },
+        ],
+      },
+      {
+        name: "energy",
+        label: "delivered energy",
+        type: "number",
+        unit: "kJ",
+        decimal: true,
+        default: 7.5,
+        min: 0,
+        max: BUNSEN_MAX_KJ,
+        when: bunsenTyped,
+      },
+      { name: "flame", label: "flame power", type: "number", unit: "%", default: 50, min: 0, max: 100, step: 5, when: (f) => !bunsenTyped(f) },
+      { name: "air", label: "air collar", type: "number", unit: "%", default: 70, min: 0, max: 100, step: 5, when: (f) => !bunsenTyped(f) },
+      { name: "seconds", label: "exposure", type: "number", unit: "s", default: 30, min: 1, max: 300, when: (f) => !bunsenTyped(f) },
       // Which flame this actually is. The title has always said "candle /
       // Bunsen flame"; until the engine took a source, that slash was the
       // only place the difference existed.
@@ -142,9 +269,14 @@ export const APPARATUS: ApparatusSpec[] = [
       // point of the clause is that the flame is no longer an assumption.
       return energyKj === null ? null : `heat v${v + 1} ${energyKj}kJ on ${heatSource(f.source).value}`;
     },
+    warning: bunsenEnergyWarning,
     readouts: (f) => {
       const energyKj = bunsenEnergyKj(f);
       const ceiling = { label: "flame ceiling", value: heatSource(f.source).ceilingC, unit: "°C", digits: 0 };
+      // Typed, the energy is on the field the reader is looking at;
+      // echoing it back as a readout is the panel telling them what they
+      // just wrote. The ceiling is the fact the flame still owns.
+      if (bunsenTyped(f)) return [ceiling];
       return energyKj === null
         ? [ceiling]
         : [{ label: "delivered energy", value: energyKj, unit: "kJ", digits: 3 }, ceiling];
@@ -152,6 +284,10 @@ export const APPARATUS: ApparatusSpec[] = [
     secondary: {
       label: "touch flame to contents",
       build: (v, f) => {
+        // `ignite` has no energy in it: touching the flame to the contents
+        // is the same gesture whichever control set the burner, so the
+        // typed mode keeps it rather than losing a verb to a radio button.
+        if (bunsenTyped(f)) return `ignite v${v + 1}`;
         const flame = num(f.flame);
         return flame !== null && flame > 0 && flame <= 100 ? `ignite v${v + 1}` : null;
       },

@@ -1421,6 +1421,149 @@ try {
   await page.evaluate(`document.querySelector('.scrim')?.click()`);
   await settle();
 
+  /* -- GUI-113: the flame's energy, typed ------------------------------
+   *
+   * The owner: "we should be able to directly change, for Erhitzen, what
+   * amount of 'zugeführte Energie' we add". The panel takes the number
+   * now, and the part of that which a unit test CANNOT see is the part
+   * that matters: `<input type="number">` parses its value against the
+   * BROWSER's locale, not the one this app is speaking, so a German
+   * reader on an English-locale Chrome who writes `40,5` hands the app an
+   * empty string and watches the run button grey out with no reason
+   * given. The field is text and `num()` does the parsing — and this is
+   * the only level at which that is demonstrable, because every unit test
+   * in web/app renders through `svelte/server` and never types anything.
+   *
+   * The browser here is the default en-US Chrome the rig launches, with
+   * the app set to German. That mismatch IS the reproduction.
+   */
+  console.log("");
+  await page.evaluate(`document.getElementById('ux-text-zoom')?.remove();
+    window.__uxErrors = [];`);
+  await settle();
+  check("the equipment cupboard opens to reach the flame", await openCupboard());
+  // By id, never by the tile's name: "candle / Bunsen flame" is a
+  // translated string, and a check that matched it would pass in English
+  // and quietly stop finding the tool in German.
+  const flameOpened = await page.evaluate(`(() => {
+    const tile = document.querySelector('dialog.cupboard button.item[data-tool="bunsen"]');
+    if (!tile) return "no bunsen tile in the cupboard";
+    if (tile.disabled) return "the bunsen tile is locked in this mode";
+    tile.click();
+    return "opened";
+  })()`);
+  check("the flame panel is reachable from the cupboard", flameOpened === "opened", flameOpened);
+  await waitFor(page, `Boolean(document.querySelector('section.apparatus'))`, { timeout: 20000 });
+  await settle();
+
+  // The precondition, stated on its own: the panel opens on the flame
+  // controls and offers the switch. Without this, a later "no typed
+  // field" reads as a broken field rather than a panel that never
+  // changed mode.
+  const before = JSON.parse(await page.evaluate(`(() => {
+    const panel = document.querySelector('section.apparatus');
+    return JSON.stringify({
+      panel: Boolean(panel),
+      fields: [...(panel?.querySelectorAll('.fields label[data-field]') ?? [])]
+        .map((label) => label.getAttribute('data-field')),
+      typed: Boolean(panel?.querySelector('input.typed')),
+    });
+  })()`));
+  check("the flame panel opens on its flame controls, with an energy-source switch",
+    before.panel && before.fields.includes("entry") && before.fields.includes("flame") && !before.typed,
+    JSON.stringify(before));
+
+  // Svelte 5 binds a select through its `change` event, so setting
+  // `.value` alone changes the widget and tells the component nothing.
+  const switched = JSON.parse(await page.evaluate(`(() => {
+    const select = document.querySelector('section.apparatus label[data-field="entry"] select');
+    if (!select) return JSON.stringify({ found: false });
+    select.value = "energy";
+    select.dispatchEvent(new Event("change", { bubbles: true }));
+    return JSON.stringify({ found: true });
+  })()`));
+  await settle();
+  const typedMode = JSON.parse(await page.evaluate(`(() => {
+    const panel = document.querySelector('section.apparatus');
+    return JSON.stringify({
+      fields: [...(panel?.querySelectorAll('.fields label[data-field]') ?? [])]
+        .map((label) => label.getAttribute('data-field')),
+      inputmode: panel?.querySelector('label[data-field="energy"] input')?.getAttribute('inputmode') ?? "",
+      type: panel?.querySelector('label[data-field="energy"] input')?.getAttribute('type') ?? "",
+    });
+  })()`));
+  check("choosing a typed energy swaps the flame controls for one field",
+    switched.found && typedMode.fields.includes("energy") && !typedMode.fields.includes("flame"),
+    JSON.stringify({ ...switched, ...typedMode }));
+  // `type="number"` is precisely the bug: it would parse the comma below
+  // against the browser's locale and hand the app "".
+  check("and that field takes text with a decimal keypad, not a number spinner",
+    typedMode.type === "text" && typedMode.inputmode === "decimal", JSON.stringify(typedMode));
+
+  const typeEnergy = (value) => page.evaluate(`(() => {
+    const input = document.querySelector('section.apparatus label[data-field="energy"] input');
+    if (!input) return "no field";
+    Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value").set.call(input, ${JSON.stringify(value)});
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    return "typed";
+  })()`);
+  const runState = () => page.evaluate(`(() => {
+    const panel = document.querySelector('section.apparatus');
+    return JSON.stringify({
+      disabled: Boolean(panel?.querySelector('button.run')?.disabled),
+      warning: panel?.querySelector('p.warning')?.textContent.trim() ?? "",
+    });
+  })()`);
+
+  await typeEnergy("vierzig");
+  await settle();
+  const nonsense = JSON.parse(await runState());
+  // A grey button with nothing beside it is the app refusing to say what
+  // is wrong with what the reader wrote.
+  check("a number the field cannot read is refused in words, not in silence",
+    nonsense.disabled && nonsense.warning.length > 0, JSON.stringify(nonsense));
+
+  await typeEnergy("40,5");
+  await settle();
+  const comma = JSON.parse(await runState());
+  check("a German decimal comma is a number, not an empty field",
+    !comma.disabled && comma.warning === "", JSON.stringify(comma));
+
+  /*
+   * The journal hides command lines until the trace view is on
+   * (`journalEntries` filters `kind === "command"` unless `showTrace`),
+   * so `p.command` was not a race — it was a pane that had been asked to
+   * show observations. Pressed, and asserted pressed, as its own named
+   * check: without it "no command echoed" is a mystery three steps from
+   * its cause.
+   */
+  await page.evaluate(`document.querySelector('button.trace-toggle')?.click()`);
+  const tracing = await waitFor(page,
+    `document.querySelector('button.trace-toggle')?.getAttribute('aria-pressed') === "true"`,
+    { timeout: 20000 });
+  check("the journal is showing its command trace", tracing === true,
+    "the trace view never turned on, so no command line would be rendered");
+
+  const commands = await page.evaluate(`document.querySelectorAll('p.command').length`);
+  await page.evaluate(`document.querySelector('section.apparatus button.run')?.click()`);
+  const echoed = await waitFor(page, `document.querySelectorAll('p.command').length > ${commands}`, { timeout: 60000 });
+  check("the run reaches the bench and the journal echoes it", echoed === true,
+    `still ${commands} command lines`);
+  const ran = JSON.parse(await page.evaluate(`(() => {
+    const lines = [...document.querySelectorAll('p.command')];
+    return JSON.stringify({
+      line: lines[lines.length - 1]?.textContent.trim() ?? "",
+      errors: window.__uxErrors,
+    });
+  })()`));
+  // The grammar has one spelling of a number and it is not the reader's:
+  // whatever they typed, the bench is sent a POINT.
+  check("the bench is sent the energy the reader wrote, spelled the grammar's way",
+    /\b40\.5kJ\b/.test(ran.line), ran.line || "no command echoed");
+  check("and typing an energy throws nothing", ran.errors.length === 0, ran.errors.join(" | "));
+  await page.evaluate(`document.querySelector('section.apparatus button.icon-close')?.click()`);
+  await settle();
+
   console.log("");
   let servedDoctored = 0;
   const { server: engineless, origin: mismatched } = await serve(PAYLOAD, {
