@@ -12,7 +12,7 @@
  */
 
 import { createServer } from "node:http";
-import { createReadStream } from "node:fs";
+import { createReadStream, readdirSync } from "node:fs";
 import { stat, mkdtemp, rm } from "node:fs/promises";
 import { spawn } from "node:child_process";
 import { join, extname, normalize } from "node:path";
@@ -21,11 +21,49 @@ import { tmpdir } from "node:os";
 /** The deploy prefix these harnesses reproduce. */
 export const PREFIX = "/kerotakis";
 
+/**
+ * Chrome-for-Testing builds Playwright has already downloaded, newest first.
+ *
+ * Worth looking for because `/usr/bin/chromium` on Ubuntu is a snap
+ * wrapper, and a snap refuses to launch outside a session snapd has
+ * tagged: `<cgroup> is not a snap cgroup for tag snap.chromium.chromium`,
+ * exit code 1. That happens in exactly the places this harness is used —
+ * a detached `screen`, an ssh command with no login session, an agent's
+ * shell — so "chromium is installed" and "chromium will run" are
+ * different facts on the same machine.
+ */
+function playwrightChromes() {
+  const roots = [
+    process.env.PLAYWRIGHT_BROWSERS_PATH,
+    join(process.env.HOME ?? "", ".cache/ms-playwright"),
+    "/mnt/volume1/opt/ms-playwright",
+  ].filter(Boolean);
+  const found = [];
+  for (const root of roots) {
+    let entries = [];
+    try {
+      entries = readdirSync(root);
+    } catch {
+      continue;
+    }
+    // Prefer the full browser over the headless shell: this harness passes
+    // `--headless=new`, which the shell does not need and does not want.
+    for (const dir of entries.filter((d) => d.startsWith("chromium-")).sort().reverse()) {
+      found.push(join(root, dir, "chrome-linux64/chrome"), join(root, dir, "chrome-linux/chrome"));
+    }
+    for (const dir of entries.filter((d) => d.startsWith("chromium_headless_shell-")).sort().reverse()) {
+      found.push(join(root, dir, "chrome-headless-shell-linux64/chrome-headless-shell"));
+    }
+  }
+  return found;
+}
+
 const CHROME_CANDIDATES = [
   process.env.CHROME_PATH,
   process.env.CHROME,
   "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
   "/usr/bin/google-chrome",
+  ...playwrightChromes(),
   "/usr/bin/chromium",
   "/usr/bin/chromium-browser",
 ].filter(Boolean);
@@ -129,9 +167,25 @@ export async function browser({ disableGpu = true, extraArgs = [], headless = tr
     "about:blank",
   ];
 
+  // This file speaks CDP over Node's GLOBAL WebSocket, which landed in
+  // Node 22. On Node 20 every candidate launches perfectly and then the
+  // attach throws `WebSocket is not defined`, which reads as "no usable
+  // Chrome found" and sends the reader after the wrong thing entirely.
+  if (typeof globalThis.WebSocket === "undefined") {
+    throw new Error(
+      `this harness needs Node 22's global WebSocket to speak CDP; this is ${process.version}`,
+    );
+  }
+
   let child = null;
   let lastError = null;
+  /** What each candidate said when it refused, for the error at the end. */
+  const attempts = new Map();
   for (const bin of CHROME_CANDIDATES) {
+    // Kept out of the Promise so the catch below can quote it. A refusal
+    // explains itself on stderr and then exits; the exit code alone does
+    // not distinguish "no such binary" from "snapd said no".
+    let stderr = "";
     try {
       child = spawn(bin, args, { stdio: ["ignore", "ignore", "pipe"] });
       // Chrome announces the debugger URL on stderr when it picks the port.
@@ -151,6 +205,7 @@ export async function browser({ disableGpu = true, extraArgs = [], headless = tr
         });
         child.stderr.on("data", (d) => {
           buf += d;
+          stderr += d;
           const m = buf.match(/ws:\/\/[^\s]+/);
           if (m) {
             clearTimeout(timer);
@@ -207,6 +262,7 @@ export async function browser({ disableGpu = true, extraArgs = [], headless = tr
       };
     } catch (err) {
       lastError = err;
+      attempts.set(bin, `${err.message}${stderr ? ` — ${stderr.trim().split("\n").slice(-1)[0]}` : ""}`);
       try {
         child?.kill();
       } catch {
@@ -215,7 +271,14 @@ export async function browser({ disableGpu = true, extraArgs = [], headless = tr
     }
   }
   await rm(profile, { recursive: true, force: true }).catch(() => {});
-  throw new Error(`no usable Chrome found (set CHROME_PATH): ${lastError?.message}`);
+  // Say what each candidate said. "Chrome exited with 1" on its own sent
+  // one reader looking for a missing binary when the binary was there and
+  // snapd had refused the cgroup — the answer was in Chrome's stderr and
+  // this harness was throwing it away.
+  const tried = CHROME_CANDIDATES.map((c) => `      ${c}: ${attempts.get(c) ?? "not tried"}`).join("\n");
+  throw new Error(
+    `no usable Chrome found (set CHROME_PATH): ${lastError?.message}\n    tried:\n${tried}`,
+  );
 }
 
 /** Poll the page until `predicate` (a JS expression) is truthy, or give up. */
