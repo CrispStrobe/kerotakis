@@ -4452,19 +4452,25 @@
     ]
   },
   "lactase-and-milk": {
-    "event_count": 11,
+    "event_count": 17,
     "events_sample": [
-      "v1: +20.000 g whole milk surrogate (7 known ingredients)",
+      "v1: +20.000 g whole milk surrogate (8 known ingredients)",
+      "v1: not yet modelled — octacalcium phosphate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: +833 nmol lactase",
       "v2: new vessel",
-      "v2: +20.000 g whole milk surrogate (7 known ingredients)",
+      "v2: +20.000 g whole milk surrogate (8 known ingredients)",
+      "v2: not yet modelled — octacalcium phosphate in contact with liquid: no wired solver models this dissolution/reaction",
       "v3: new vessel",
-      "v3: +20.000 g whole milk surrogate (7 known ingredients)",
+      "v3: +20.000 g whole milk surrogate (8 known ingredients)",
+      "v3: not yet modelled — octacalcium phosphate in contact with liquid: no wired solver models this dissolution/reaction",
       "v3: +3.03 µmol lipase",
+      "v1: 100% of the suspended particles settle in 3600 s",
       "v1: Lactase hydrolysed 0.9034 g of lactose in milk in 3600 s (94.1% converted)",
-      "v1: The liquid is white and so cloudy you cannot see through it.",
-      "v2: The liquid is white and so cloudy you cannot see through it.",
-      "v3: The liquid is white and so cloudy you cannot see through it."
+      "v2: 100% of the suspended particles settle in 3600 s",
+      "v3: 100% of the suspended particles settle in 3600 s",
+      "v1: The liquid is white and so cloudy you cannot see through it, there is white octacalcium phosphate at the bottom.",
+      "v2: The liquid is white and so cloudy you cannot see through it, there is white octacalcium phosphate at the bottom.",
+      "v3: The liquid is white and so cloudy you cannot see through it, there is white octacalcium phosphate at the bottom."
     ],
     "lesson": "lactase-and-milk.lab",
     "vessels": [
@@ -4504,6 +4510,11 @@
             "moles": 8.3e-7,
             "phase": "Aqueous",
             "species": "lactase"
+          },
+          {
+            "moles": 0.00007334,
+            "phase": "Solid",
+            "species": "octacalcium_phosphate"
           },
           {
             "moles": 0.96586178,
@@ -4546,6 +4557,11 @@
             "moles": 0.00033058,
             "phase": "Aqueous",
             "species": "Na+"
+          },
+          {
+            "moles": 0.00007334,
+            "phase": "Solid",
+            "species": "octacalcium_phosphate"
           },
           {
             "moles": 0.96586178,
@@ -4593,6 +4609,11 @@
             "moles": 3.03e-6,
             "phase": "Aqueous",
             "species": "lipase"
+          },
+          {
+            "moles": 0.00007334,
+            "phase": "Solid",
+            "species": "octacalcium_phosphate"
           },
           {
             "moles": 0.96586178,
@@ -5115,16 +5136,18 @@
     ]
   },
   "magic-milk": {
-    "event_count": 14,
+    "event_count": 16,
     "events_sample": [
-      "v1: +103.000 g whole milk surrogate (7 known ingredients)",
+      "v1: +103.000 g whole milk surrogate (8 known ingredients)",
+      "v1: not yet modelled — octacalcium phosphate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: +0.200 g red food colouring (2 known ingredients)",
       "v1: +0.200 g yellow food colouring (2 known ingredients)",
       "v1: +0.200 g blue food colouring (2 known ingredients)",
       "v1: +0.515 g dish soap (1 known ingredients)",
       "v1: 3 surface colour spot(s) spread from 0% to 90%",
       "v2: new vessel",
-      "v2: +103.000 g whole milk surrogate (7 known ingredients)",
+      "v2: +103.000 g whole milk surrogate (8 known ingredients)",
+      "v2: not yet modelled — octacalcium phosphate in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: +0.200 g red food colouring (2 known ingredients)",
       "v2: +0.200 g yellow food colouring (2 known ingredients)",
       "v2: +0.200 g blue food colouring (2 known ingredients)",
@@ -5182,6 +5205,11 @@
             "species": "indigo_carmine"
           },
           {
+            "moles": 0.0003777,
+            "phase": "Solid",
+            "species": "octacalcium_phosphate"
+          },
+          {
             "moles": 5.03033028,
             "phase": "Liquid",
             "species": "water"
@@ -5237,6 +5265,11 @@
             "moles": 4.3e-7,
             "phase": "Aqueous",
             "species": "indigo_carmine"
+          },
+          {
+            "moles": 0.0003777,
+            "phase": "Solid",
+            "species": "octacalcium_phosphate"
           },
           {
             "moles": 5.03033028,
@@ -5453,14 +5486,16 @@
     ]
   },
   "milk-curds": {
-    "event_count": 6,
+    "event_count": 8,
     "events_sample": [
-      "v1: +103.000 g whole milk surrogate (7 known ingredients)",
+      "v1: +103.000 g whole milk surrogate (8 known ingredients)",
+      "v1: not yet modelled — octacalcium phosphate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: +1.006 g 5% white vinegar (2 known ingredients)",
       "v2: new vessel",
-      "v2: +103.000 g whole milk surrogate (7 known ingredients)",
+      "v2: +103.000 g whole milk surrogate (8 known ingredients)",
+      "v2: not yet modelled — octacalcium phosphate in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: +10.060 g 5% white vinegar (2 known ingredients)",
-      "v2: whole milk surrogate curd solids 0% → 28% (3.57 g aggregate solids in visible curds)"
+      "v2: whole milk surrogate curd solids 0% → 28% (3.52 g aggregate solids in visible curds)"
     ],
     "lesson": "milk-curds.lab",
     "vessels": [
@@ -5500,6 +5535,11 @@
             "moles": 0.00170248,
             "phase": "Aqueous",
             "species": "Na+"
+          },
+          {
+            "moles": 0.0003777,
+            "phase": "Solid",
+            "species": "octacalcium_phosphate"
           },
           {
             "moles": 5.02723841,
@@ -5547,6 +5587,11 @@
             "moles": 0.00170248,
             "phase": "Aqueous",
             "species": "Na+"
+          },
+          {
+            "moles": 0.0003777,
+            "phase": "Solid",
+            "species": "octacalcium_phosphate"
           },
           {
             "moles": 5.50469054,
