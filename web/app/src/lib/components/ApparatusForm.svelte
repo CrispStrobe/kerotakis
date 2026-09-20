@@ -90,6 +90,15 @@
       ? []
       : [{ term: t("physical setup"), detail: t("this setup is not drawn on the vessel"), block: true } as InfoRow]),
   ]);
+  /**
+   * The fields that apply to what is currently set (GUI-113).
+   *
+   * `values` above is still seeded from EVERY field, hidden ones
+   * included: a reader who tries the typed energy and goes back must find
+   * their flame setting where they left it, and a builder that reads a
+   * field its own mode hides must still find a value there.
+   */
+  const shownFields = $derived(spec.fields.filter((f) => f.when?.(values) ?? true));
   const line = $derived(spec.build(vessel, values));
   const secondaryLine = $derived(spec.secondary?.build(vessel, values) ?? null);
   const warning = $derived(spec.warning?.(values) ?? null);
@@ -125,8 +134,12 @@
   </div>
   {#if infoOpen}<InfoPanel id={infoId} rows={infoRows} />{/if}
   <div class="fields">
-    {#each spec.fields as f (f.name)}
-      <label>
+    {#each shownFields as f (f.name)}
+      <!-- `data-field` is the field's own name, which is the only stable
+           handle a browser-level check has: every visible word here is
+           translated, and a check that matched one would pass in English
+           and break in German. -->
+      <label data-field={f.name}>
         {t(f.label)}
         {#if f.type === "species"}
           <select bind:value={values[f.name]}>
@@ -144,6 +157,25 @@
               <option value={option.value}>{t(option.label)}</option>
             {/each}
           </select>
+        {:else if f.decimal}
+          <!-- Typed, not nudged (GUI-113). `type="number"` hands the
+               parsing to the BROWSER's locale, which is not the one this
+               app is speaking: a German reader on an English-locale
+               Chrome who writes "7,5" hands us "". Text plus
+               `inputmode="decimal"` keeps the phone's number pad and lets
+               `num()` in apparatus.ts read both separators. -->
+          <span class="exact-value">
+            <input
+              class="typed"
+              type="text"
+              inputmode="decimal"
+              bind:value={values[f.name]}
+              autocomplete="off"
+              aria-label={t(f.label)}
+              aria-invalid={warning !== null}
+            />
+            {#if f.unit}<small>{f.unit}</small>{/if}
+          </span>
         {:else}
           <span class="parameter-control">
             {#if f.min !== undefined && f.max !== undefined}
@@ -255,6 +287,14 @@
   }
   input[type="number"] {
     width: 4rem;
+  }
+  /* Wider than a spinner: this one holds a number somebody typed, which
+     may be "137,5" and must not scroll inside its own field. */
+  input.typed {
+    width: 5.5rem;
+  }
+  input[aria-invalid="true"] {
+    border-color: var(--danger);
   }
   .parameter-control {
     width: 100%;

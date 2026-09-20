@@ -2727,11 +2727,54 @@ started. Recorded so they are not lost.
   what can follow this verb, in this scene, for this vessel. That is an
   engine-side question about affordances before it is a widget.
 
-- [ ] **GUI-113 — Set the energy amount directly for `Erhitzen`.** Today the
-  heat panel takes its energy through the apparatus form's own controls.
-  The owner wants to type the number. Related to GUI-112 but separable: it
-  is one form field and one validation rule, against a verb that already
-  accepts `heat v1 40kJ on burner`.
+- [x] **GUI-113 — Set the energy amount directly for `Erhitzen`.** Done. The
+  flame panel now has an *Energie aus* switch: **Flamme und Einwirkzeit**,
+  which is what it always did, or **einer Zahl, die ich eingebe**, which
+  hides the flame/collar/exposure controls and takes the kilojoules
+  directly. The readout labelled *zugeführte Energie* was already there —
+  this makes that same number an input.
+
+  **What the work found.** Three things the one-line estimate did not
+  anticipate.
+
+  (1) **The German decimal comma is a real defect and it is invisible to
+  every unit test in `web/app`.** A `<input type="number">` is parsed by
+  the BROWSER against the BROWSER's locale, which is not the locale this
+  app is speaking. A German reader on an English-locale Chrome who writes
+  `40,5` hands the app the empty string: the field looks like it holds a
+  number, and the run button greys out saying nothing. Nothing in this app
+  parsed typed decimals before — `amounts.ts` and `stepAmount.ts` only
+  ever *produce* numbers, and every displayed value goes out through
+  `Intl.NumberFormat` — so there was no house parser to follow. The field
+  is therefore `type="text" inputmode="decimal"` and `num()` in
+  `apparatus.ts` reads both separators, which makes every apparatus field
+  comma-tolerant rather than just this one. A lone comma is always the
+  decimal point (`1,234` is 1.234), which is only safe to decide because
+  this field's ceiling is 150 — there is nothing here for a thousands
+  separator to group; a four-digit field would have to ask. Two separators
+  is a typo and is refused. Whatever is typed, the grammar is sent a
+  POINT.
+
+  (2) **A form of fields that are all always shown can only offer one way
+  of saying a thing.** `FormField` gained `when?(values)`, so a mode's
+  controls hide when the other mode owns the answer — a flame slider
+  sitting under a typed energy reads as if it still did something. Hidden,
+  never dropped: `values` keeps every field, so switching back finds the
+  flame where it was left.
+
+  (3) **The ceiling had to come from the panel's own bounds, not from a
+  round number.** `BUNSEN_MAX_KJ` is `0.005 × 100 × 300 × 1` — full flame,
+  open collar, the longest exposure the exposure field accepts — so the
+  limit on a typed energy cannot drift away from the fields it is the
+  limit of. A test asserts the derived path at those settings produces
+  exactly that number, and that the refusal sentence quotes it.
+
+  The refusals say which thing is wrong (unreadable, not an amount, more
+  than this flame has) rather than greying the button in silence, and an
+  empty field is not yet a mistake. The browser-level half — that a comma
+  survives a real keystroke in a real Chrome — is in
+  `tools/test-ux-quality.mjs`, because that is the only level at which it
+  is demonstrable.
 
 ## Completed GUI tasks
 

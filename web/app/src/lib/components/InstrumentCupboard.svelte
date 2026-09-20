@@ -257,6 +257,7 @@
                 <div class="slot" class:open={openInfo === entry.id}>
                   <button
                     class="item"
+                    data-tool={entry.id}
                     class:locked={!entryAccess.available}
                     class:deployed={badge !== null}
                     aria-pressed={badge !== null}

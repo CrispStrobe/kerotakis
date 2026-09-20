@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { APPARATUS, HEAT_SOURCES, heatSource } from "./apparatus";
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+import { APPARATUS, BUNSEN_MAX_KJ, ENERGY_ENTRY, HEAT_SOURCES, heatSource } from "./apparatus";
 
 const spec = (verb: string) => APPARATUS.find((s) => s.verb === verb)!;
 const defaults = (verb: string) =>
@@ -149,6 +152,121 @@ describe("apparatus forms compile to the grammar", () => {
       expect(field.type).toBe("choice");
       expect(field.default).toBe("burner");
       expect(field.options?.map((o) => o.value)).toEqual(["burner", "candle"]);
+    });
+  });
+
+  /**
+   * GUI-113 — the owner: "we should be able to directly change, for
+   * Erhitzen, what amount of 'zugeführte Energie' we add".
+   *
+   * The panel already PRINTED that number, computed from flame power,
+   * collar and exposure. Here it can be the input instead, and the three
+   * things that can go wrong with a typed number each say so in words.
+   */
+  describe("the flame's energy, typed", () => {
+    const typed = (values: Record<string, number | string>) => ({
+      ...defaults("bunsen"),
+      entry: ENERGY_ENTRY.typed,
+      ...values,
+    });
+
+    it("has both entry modes as a choice the panel can render", () => {
+      const field = spec("bunsen").fields.find((f) => f.name === "entry")!;
+      expect(field.type).toBe("choice");
+      expect(field.default).toBe(ENERGY_ENTRY.derived);
+      expect(field.options?.map((o) => o.value)).toEqual([ENERGY_ENTRY.derived, ENERGY_ENTRY.typed]);
+    });
+
+    it("hides each mode's controls from the other, and hides nothing by default", () => {
+      const fields = spec("bunsen").fields;
+      const shown = (values: Record<string, number | string>) =>
+        fields.filter((f) => f.when?.(values) ?? true).map((f) => f.name);
+      expect(shown(defaults("bunsen"))).toEqual(["entry", "flame", "air", "seconds", "source"]);
+      expect(shown(typed({}))).toEqual(["entry", "energy", "source"]);
+    });
+
+    it("sends the number the reader wrote, not one derived from a flame", () => {
+      expect(spec("bunsen").build(0, typed({ energy: 40 }))).toBe("heat v1 40kJ on burner");
+      expect(spec("bunsen").build(0, typed({ energy: 0.25, source: "candle" })))
+        .toBe("heat v1 0.25kJ on candle");
+    });
+
+    /**
+     * The reader of this app is German and writes 7,5. A `type="number"`
+     * input parses against the BROWSER's locale, so on an English-locale
+     * Chrome that value arrives as the empty string; the field is text and
+     * the parsing is here, which is why this test can exist at all.
+     */
+    it("reads a German decimal comma", () => {
+      expect(spec("bunsen").build(0, typed({ energy: "7,5" }))).toBe("heat v1 7.5kJ on burner");
+      expect(spec("bunsen").build(0, typed({ energy: "7.5" }))).toBe("heat v1 7.5kJ on burner");
+      expect(spec("bunsen").warning?.(typed({ energy: "7,5" }))).toBeNull();
+    });
+
+    it("reads a lone comma as the decimal point, and refuses a second separator", () => {
+      // `1,234` is 1.234 kJ and not 1234 kJ. Safe to decide rather than
+      // ask only because this field's ceiling is 150: there is nothing
+      // here for a thousands separator to group.
+      expect(spec("bunsen").build(0, typed({ energy: "1,234" }))).toBe("heat v1 1.234kJ on burner");
+      expect(spec("bunsen").build(0, typed({ energy: "1.2,3" }))).toBeNull();
+      expect(spec("bunsen").build(0, typed({ energy: "1,2,3" }))).toBeNull();
+      expect(spec("bunsen").build(0, typed({ energy: "ganz viel" }))).toBeNull();
+    });
+
+    it("says which thing is wrong rather than greying the button in silence", () => {
+      expect(spec("bunsen").warning?.(typed({ energy: "ganz viel" })))
+        .toBe("that is not a number — write it as 7.5 or 7,5");
+      expect(spec("bunsen").warning?.(typed({ energy: 0 })))
+        .toBe("an energy of nothing heats nothing — write a number above zero");
+      expect(spec("bunsen").warning?.(typed({ energy: BUNSEN_MAX_KJ + 1 })))
+        .toContain("more than this flame can deliver");
+      // An empty field is not yet a mistake: it is somebody mid-typing.
+      expect(spec("bunsen").warning?.(typed({ energy: "" }))).toBeNull();
+      expect(spec("bunsen").build(0, typed({ energy: "" }))).toBeNull();
+      // And the derived mode is never scolded about a field it does not show.
+      expect(spec("bunsen").warning?.({ ...defaults("bunsen"), energy: "nonsense" })).toBeNull();
+    });
+
+    it("judges a typed energy against this panel's own bounds, not a round number", () => {
+      // The ceiling IS the derived path at full flame, open collar, the
+      // longest exposure the exposure field takes — so it cannot drift
+      // away from the fields it is the limit of.
+      const flatOut = { ...defaults("bunsen"), flame: 100, air: 100, seconds: 300 };
+      expect(spec("bunsen").build(0, flatOut)).toBe(`heat v1 ${BUNSEN_MAX_KJ}kJ on burner`);
+      expect(spec("bunsen").build(0, typed({ energy: BUNSEN_MAX_KJ }))).not.toBeNull();
+      expect(spec("bunsen").build(0, typed({ energy: BUNSEN_MAX_KJ + 0.001 }))).toBeNull();
+      // The sentence quotes the number; a test, so the two cannot part.
+      expect(spec("bunsen").warning?.(typed({ energy: 10_000 })))
+        .toContain(`${BUNSEN_MAX_KJ} kJ`);
+    });
+
+    it("keeps the flame touch available, because igniting carries no energy", () => {
+      expect(spec("bunsen").secondary!.build(0, typed({ energy: 40 }))).toBe("ignite v1");
+    });
+
+    it("echoes the ceiling and not a delivered-energy readout it did not compute", () => {
+      expect(spec("bunsen").readouts?.(typed({ energy: 40 }))).toEqual([
+        { label: "flame ceiling", value: 1500, unit: "°C", digits: 0 },
+      ]);
+    });
+
+    /** I18N: a label with no catalogue row shows the reader English. */
+    it("names every new control in German", () => {
+      const DIR = join(dirname(fileURLToPath(import.meta.url)), "../locales");
+      const de = JSON.parse(readFileSync(join(DIR, "de.json"), "utf8")).messages as Record<string, string>;
+      const template = JSON.parse(readFileSync(join(DIR, "_template.json"), "utf8")).messages as Record<string, string>;
+      const strings = [
+        ...spec("bunsen").fields.flatMap((f) => [f.label, ...(f.options ?? []).map((o) => o.label)]),
+        spec("bunsen").warning!({ ...defaults("bunsen"), entry: ENERGY_ENTRY.typed, energy: "x" })!,
+        spec("bunsen").warning!({ ...defaults("bunsen"), entry: ENERGY_ENTRY.typed, energy: 0 })!,
+        spec("bunsen").warning!({ ...defaults("bunsen"), entry: ENERGY_ENTRY.typed, energy: 1e6 })!,
+      ];
+      expect(strings.length).toBeGreaterThan(8);
+      for (const text of strings) {
+        expect(de[text], text).toBeTruthy();
+        // A language added later must find the row waiting, empty.
+        expect(Object.hasOwn(template, text), text).toBe(true);
+      }
     });
   });
 });
