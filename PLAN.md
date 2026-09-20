@@ -3470,6 +3470,41 @@ question was asked.
       It is floating-point accumulation, not a representation, and it wants a
       stabler sum rather than another solve. `ORDER_DEPARTURES` keeps
       `aq-023` with that as its reason.
+
+      **CORRECTED 2026-09-20 (#676), and the correction matters more than
+      the original claim.** "It wants a stabler sum" was wrong, and so was
+      the reading that followed it — that `excess = H − 2·O` loses the
+      answer to catastrophic cancellation between two ~11 mol residuals. A
+      one-round CI probe printed all three candidate routes side by side on
+      both orderings, and on the same inputs they agree:
+
+          SALT[3]  difference   = -3.34552570969037788e-4
+                   reassociated = -3.34552570969773311e-4
+                   charge       = -3.34552570983298082e-4
+
+      The cancellation costs about 1e-12. What actually differs is one line
+      earlier — the element totals the solver hands back:
+
+          SALT[3]    booked H = 3.34541295364319151e-4
+          POWDER[2]  booked H = 3.34528746285860914e-4
+
+      1.25e-8 apart, which is the whole of the departure. **The arithmetic
+      was never the problem; the inputs are.** The two orderings produce
+      different species distributions for the same final state in the eighth
+      digit, and `base_equivalents` is simply where that first becomes
+      visible.
+
+- [ ] **`complete_basis` is fed a state that was never canonically
+      re-posed.** This is the same family as the `solvent_kg` ruling above,
+      not a separate defect: #668 re-poses the settled contents before
+      *characterising* them, and the element totals `complete_basis` reads
+      still come from the incremental solve. Establish whether the re-pose
+      can cover this path too, and what that costs — the accepted price
+      there was one extra solver call per characterisation, and the owner's
+      condition was to stop and report rather than ship a slower engine
+      quietly if the real cost turned out worse. Until then `ORDER_DEPARTURES`
+      keeps `aq-023` with the corrected reason above rather than the
+      floating-point one.
       **The answer landed on neither of the two old numbers**, which is the
       point: it is the answer to the state rather than to either route
       through it, and the value the ruling predicted was simply the
