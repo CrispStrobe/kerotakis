@@ -105,6 +105,13 @@ step "i18n vocabulary"; python3 tools/i18n-engine-vocabulary-lint.py --check
 step "i18n vocabulary self-test"; python3 -m unittest tools/test_i18n_engine_vocabulary.py
 step "i18n holes";     python3 tools/i18n-holes-lint.py --check
 step "i18n surfaces";  python3 tools/i18n-surface-lint.py --check
+# The static console page (web/index.html) carries its own inline
+# dictionary, because it is hand-written and has no build step to reach
+# web/app/src/locales/. Nothing in tools/ read it until 2026-09-20, and
+# two German rows for the link to the bench app had been sitting there
+# unreachable ever since they were written.
+step "i18n console";   python3 tools/console-locale-lint.py --check
+step "i18n console self-test"; python3 -m unittest tools.tests.test_console_locale_lint
 step "i18n slugs";     python3 tools/i18n-slug-lint.py --check
 step "i18n collisions"; python3 tools/locale-collision-lint.py --check
 step "i18n collisions self-test"; python3 -m unittest tools.tests.test_locale_collision_lint

@@ -18,6 +18,13 @@ because the locale argument is usually on the next line:
      letters.
   2. A `.sort()` or `.filter()` touching a rendered field mentions a
      translator inside the same expression.
+  3. A list joined INTO a translated sentence is itself translated. The
+     label went through `t()` and the items did not, so the periodic
+     table's route buttons read "benötigt: water, baking_soda" — a German
+     sentence with English contents, two paragraphs below the same
+     bottles listed as "Wasser". `t()` falls back to its key, which IS
+     the English source, so a missing lookup and a missing row look
+     identical on screen and neither looks broken.
 
 Both rules cover the DISPLAY layer (`.svelte`) only. The data layer sorts
 deterministically on purpose: `conceptGraph` in codex.ts orders the nodes
@@ -43,6 +50,21 @@ SRC = ROOT / "web/app/src"
 # Fields the catalogue and shelf render through t()/tSlug()/tEngine().
 RENDERED = ("\\.id\\b", "\\.summary\\b", "\\.equation\\b", "\\.phase\\b", "\\.concepts\\b")
 TRANSLATORS = ("t(", "tSlug(", "tEngine(", "i18n.locale")
+# `t(`, and the naming convention for a helper that wraps it: `tSlug`,
+# `tEngine`, `tShelfKey`. A translator is spelled `t` followed by a
+# capital, which is what lets rule 3 recognise one it has never heard of
+# without a list to keep up to date.
+#
+# It may be CALLED — `.map((h) => t(h))` — or PASSED — `.map(tSlug)`, the
+# commoner spelling in this tree — so the character after the name is `(`
+# for the first and `)` or `,` for the second. Reading only the call form
+# reported all five correct sites and missed nothing, which is a lint
+# nobody would keep.
+TRANSLATOR_CALL = re.compile(r"\bt(?:[A-Z]\w*)?\s*[(),]")
+# A join whose parts are not words: symbols, formulas and numbers are the
+# same in every language, and a lint that flags them is one people learn
+# to silence.
+NEUTRAL_JOIN = re.compile(r"\.(?:symbol|formula|key|id)\b|\bString\(")
 
 
 def call_at(text, open_paren):
@@ -88,6 +110,26 @@ for path in sorted(SRC.rglob("*.svelte")):
         problems.append(
             f"{rel}:{line_of(text, m.start())}: .{m.group(1)}() over a rendered field "
             f"without a translator"
+        )
+
+    # Rule 3: a list joined into a translated sentence.
+    for m in re.finditer(r"\bt(?:Engine)?\(", text):
+        # `.localeCompare(`, `.split(` — only a call that STARTS a word.
+        if m.start() > 0 and (text[m.start() - 1].isalnum() or text[m.start() - 1] in "._$"):
+            continue
+        call = call_at(text, m.end() - 1)
+        if ".join(" not in call:
+            continue
+        before = text[max(0, m.start() - 400) : m.start()]
+        if "i18n-ok:" in call or "i18n-ok:" in before.rsplit("\n\n", 1)[-1]:
+            continue
+        # The outer `t(` itself is not evidence; look at what is INSIDE.
+        inner = call[call.index("(") + 1 :]
+        if TRANSLATOR_CALL.search(inner) or NEUTRAL_JOIN.search(inner):
+            continue
+        problems.append(
+            f"{rel}:{line_of(text, m.start())}: a list joined into a translated "
+            f"sentence, with nothing translating its items"
         )
 
 for p in problems:
