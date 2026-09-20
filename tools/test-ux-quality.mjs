@@ -1565,6 +1565,15 @@ try {
    * the two boxes must not intersect, and the log must keep a share of the
    * pane worth reading.
    */
+  // The `kero>` prompt only exists while the console is open — `{#if
+  // consoleOpen}` in App.svelte — and an audit above may have closed it.
+  // Ask for it back before typing.
+  await page.evaluate(`(() => {
+    if (!document.querySelector('form.bar input')) {
+      document.querySelector('button.console-toggle')?.click();
+    }
+  })()`);
+  await settle();
   const heated = await page.evaluate(`(() => {
     const input = document.querySelector('form.bar input');
     if (!input || input.disabled) return "";
