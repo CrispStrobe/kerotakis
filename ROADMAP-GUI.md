@@ -2838,8 +2838,28 @@ evolved CO₂ and half a mole of it must not look the same.
     That one is a real defect against the rule at the head of this
     section, and it is findable without looking at anything.
 
-  The third is worth fixing on sight. The first two are not worth guessing
-  at: deploy, look, then decide.
+  The third was fixed on sight (#688: a log window in `magnitudes.ts`, so
+  ten times the overflow moves the drawing by a third of its range instead
+  of not at all). **The first was then measured on the deployed bench, and
+  it is the answer:**
+
+      vessel SVG     150 x 210
+      bench pane    1024 x 779
+      vessel share   3.9% of the pane's area
+
+  One beaker, alone on the bench, drawn across under four per cent of the
+  room it has. A spill scaled perfectly inside a 150 x 210 picture cannot
+  look like an eruption, because the picture is not the size of an
+  eruption. **So GUI-116 is mostly GUI-094 — *the vessel deserves the
+  room* — and should be sequenced after it rather than beside it.** That
+  item already says the same thing in words: "the wide empty expanse
+  around a small beaker is the strongest signal we send that nothing much
+  is happening."
+
+  What is left of GUI-116 once the vessel is large: **duration.**
+  `latestEffect("foam", 3000)` gives an eruption three seconds, and an
+  eruption a learner looks away from is an eruption that did not happen.
+  That one is independent of size and can be done whenever.
 
   Scope note: "explosions" in a school-chemistry bench means a flare, a
   bang, a lid lifting, a flask venting — the engine models energy release
