@@ -46,7 +46,7 @@ const openCupboard = async () => {
 
 const cupboardAudit = () => page.evaluate(`(() => {
   const panel = document.querySelector('dialog.cupboard');
-  if (!panel) return JSON.stringify({ catalogue: 0, shelves: 0, items: 0, unnamed: 1, info: 0, viewportOverflow: 0, locked: 0, tally: 0, kitNames: 0, unexplainedShelves: 1 });
+  if (!panel) return JSON.stringify({ catalogue: 0, shelves: 0, items: 0, unnamed: 1, info: 0, viewportOverflow: 0, locked: 0, tally: 0, kitNames: 0, setsChip: 1, unexplainedShelves: 1 });
   const items = [...panel.querySelectorAll('button.item')];
   const rect = panel.getBoundingClientRect();
   // The catalogue size is on the dialog rather than read out of the header
@@ -70,16 +70,37 @@ const cupboardAudit = () => page.evaluate(`(() => {
     info: panel.querySelectorAll('button.info-toggle').length,
     locked: items.filter((item) => item.classList.contains('locked')).length,
     tally: panel.querySelector('header b') ? 1 : 0,
-    // The candle: one slot in both states, named for the kit in one of them.
+    // GUI-111: the candle has one slot and one name — the laboratory one.
+    // The kit vocabulary is still reachable, but from the search box and
+    // the (i) panel, never as a second label on the wall.
     kitNames: items.filter((item) => /candle and wick|Kerze und Docht/.test(item.textContent)).length,
+    setsChip: panel.querySelectorAll('button.sets-chip').length,
     viewportOverflow: Math.max(0, rect.right - document.documentElement.clientWidth, -rect.left),
   });
 })()`);
 
-/** GUI-103: the sets are a chip in the cupboard header, not a shelf. */
-const toggleSets = async () => {
-  await page.evaluate(`document.querySelector('dialog.cupboard button.sets-chip')?.click()`);
-  return JSON.parse(await cupboardAudit());
+/**
+ * GUI-111: the kit vocabulary, from the search box.
+ *
+ * The *Experimentierkästen* chip is gone — it was a whole-cupboard switch
+ * that renamed five slots — and the owner's condition for removing it was
+ * that no feature went with it. The kit names are in the filter's haystack,
+ * so typing one still finds the tool it named. Typed into the real input,
+ * because the haystack is assembled in the component and a unit test over
+ * the matcher would not notice the component feeding it the wrong strings.
+ */
+const filterCupboard = async (term) => {
+  await page.evaluate(`(() => {
+    const input = document.querySelector('dialog.cupboard .equipment-search input');
+    if (!input) return;
+    Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value").set.call(input, ${JSON.stringify(term)});
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+  })()`);
+  await settle();
+  return JSON.parse(await page.evaluate(`JSON.stringify(
+    [...document.querySelectorAll('dialog.cupboard button.item')]
+      .map((item) => (item.querySelector('.item-name')?.textContent || '').trim())
+  )`));
 };
 
 /** GUI-103: the MESSEN strip is four recents plus the cupboard door, and it
@@ -755,17 +776,25 @@ try {
         (cupboard.locked > 0) === (cupboard.tally === 1),
         `${cupboard.locked} locked, tally ${cupboard.tally}`);
   check("the cupboard opens under laboratory names", cupboard.kitNames === 0, `${cupboard.kitNames} kit names`);
-  const setsOn = await toggleSets();
-  // The chip renames slots; it never adds or removes one. As a shelf, the
-  // kits put the candle on the wall twice.
-  check("the kits chip renames a tool rather than adding a second one",
-        setsOn.items === cupboard.items && setsOn.kitNames === 1,
-        `${setsOn.items} items, ${setsOn.kitNames} kit names`);
-  check("the kits chip is not a mode: the shelves keep their tools", setsOn.shelves === cupboard.shelves,
-        `${setsOn.shelves} shelves`);
-  const setsOff = await toggleSets();
-  check("the kits chip turns back off", setsOff.kitNames === 0 && setsOff.items === cupboard.items,
-        `${setsOff.items} items, ${setsOff.kitNames} kit names`);
+  // GUI-111. The owner: "it makes no sense that '◆Experimentierkästen'
+  // changes a little bit like Chromatograph => Papierchromatograph.
+  // probably just remove that button (while of course keeping all
+  // features)." The button is gone; the two checks below are the "keeping
+  // all features" half, and they are the reason this is not just a
+  // deletion.
+  check("the cupboard offers no kits chip to switch vocabularies with",
+        cupboard.setsChip === 0, `${cupboard.setsChip} chips`);
+  // The English source name, so this check does not depend on which
+  // laboratory the run happened to restore and therefore which locale the
+  // app booted in. GUI-111 put both vocabularies in the haystack in both
+  // languages for exactly this reason.
+  const byKitName = await filterCupboard("candle and wick");
+  check("a kit name still finds the tool it named", byKitName.length > 0,
+        byKitName.join(", ") || "nothing matched the kit name");
+  const byToolName = await filterCupboard("Chromatograph");
+  check("and the laboratory name still finds it too", byToolName.length > 0,
+        byToolName.join(", ") || "nothing matched the tool name");
+  await filterCupboard("");
   await page.evaluate(`document.querySelector('dialog.cupboard button.icon-close')?.click()`);
 
   // The concept map at the three widths it is actually read at. The dialog

@@ -1,8 +1,7 @@
 /**
- * Who owns "the cupboard is open", "what was measured last", and "does the
- * cupboard use the activity sets' names".
+ * Who owns "the cupboard is open" and "what was measured last".
  *
- * The first two are needed by two components that are not related: the strip
+ * Both are needed by two components that are not related: the strip
  * lives inside `Inspector.svelte` (the journal pane) and the cupboard is a
  * modal the app mounts at the top level. Threading a prop between them would
  * mean editing every component on the path for state neither of them owns,
@@ -13,7 +12,6 @@
  * this module is imported during SSR-free tests and by the vitest suite,
  * where `localStorage` may not exist at import time.
  */
-import { SETS_VIEW_KEY, loadSetsView, saveSetsView } from "./equipmentCatalogue";
 import {
   DEFAULT_RECENT_INSTRUMENTS,
   RECENT_INSTRUMENTS_KEY,
@@ -37,14 +35,12 @@ class InstrumentSurface {
   /** Most recent first. Empty until `hydrate()` has run at least once. */
   recent = $state<string[]>([]);
   /**
-   * Whether the cupboard names its tools after the activity sets (GUI-103).
-   *
-   * It lives here rather than in the cupboard because the cupboard is
-   * mounted and unmounted on every open, and a view preference that forgot
-   * itself between two openings would be a switch the learner has to flip
-   * again every time they come back to it.
+   * GUI-111 retired `sets`, and with it `showSets()` and the stored
+   * `kerotakis.equipment.sets` key. It said whether the cupboard named its
+   * tools after the activity kits; it is not a choice any more, because
+   * the kit names moved onto the tools themselves — into the search
+   * haystack and into the (i) panel — where they need no switch.
    */
-  sets = $state(false);
   #hydrated = false;
 
   /** Reads what was stored the first time anyone asks; cheap afterwards. */
@@ -52,13 +48,6 @@ class InstrumentSurface {
     if (this.#hydrated) return;
     this.#hydrated = true;
     this.recent = loadRecentInstruments(browserStorage(), RECENT_INSTRUMENTS_KEY);
-    this.sets = loadSetsView(browserStorage(), SETS_VIEW_KEY);
-  }
-
-  showSets(on: boolean): void {
-    this.hydrate();
-    this.sets = on;
-    saveSetsView(browserStorage(), SETS_VIEW_KEY, on);
   }
 
   used(token: string, known: readonly string[]): void {
