@@ -62,13 +62,35 @@ struct Session {
     /// The vessels a sealed unknown has touched: sealed on `add`, and
     /// spread by every `Transferred` event out of a sealed vessel.
     sealed_vessels: std::collections::HashSet<VesselId>,
-    /// The language the person at the keyboard TYPES in (`kero repl
-    /// --lang de`, or `KERO_LANG`). It reaches the parser and nothing
-    /// else: this shell still prints English, and a `.lab` file it runs is
-    /// canonical English by definition, so a language here would be a
-    /// language in the wrong half of the conversation. What it buys is a
-    /// learner who may type `erhitzen v1 10kJ` at a terminal.
+    /// The language the person READS in — every line this shell prints.
+    ///
+    /// It used to say "parser and nothing else: this shell still prints
+    /// English", and that sentence was the bug. A German session parsed
+    /// `zugeben v1 Wasser 100mL` and answered `v1: +5.5343 mol water`,
+    /// where the same command in the GUI answers `v1: +5,5343 mol
+    /// Wasser` — the host held the reader's language and handed the
+    /// English-only render wrappers the register alone. The decimal
+    /// separator rides here too, through `Locale::number`.
+    ///
+    /// Set from the INVOCATION — `--lang de`, `KERO_LANG`, or `lang de`
+    /// typed at the prompt — because those are statements about the
+    /// person. A `lang` directive on a file's first line is not: see
+    /// `script_locale`.
     locale: kerotakis_core::Locale,
+    /// The language the lines arriving are TYPED in, which reaches the
+    /// parser and nothing else.
+    ///
+    /// Usually the same as `locale`, and separate for one case: a
+    /// German-authored `.lab` that declares `lang de` on its first line.
+    /// That line describes the FILE, not whoever runs it, so a shipped
+    /// German lesson still reads back canonical English to an English
+    /// reader — the invariant every shipped lesson, the corpus and the
+    /// replay cache rest on.
+    script_locale: kerotakis_core::Locale,
+    /// True when the lines are being typed by the person reading the
+    /// answers, i.e. the REPL. `run` is reading a file somebody else may
+    /// have written, which is what makes `lang` mean two things.
+    interactive: bool,
 }
 
 /// Native CLI bench sessions require their shipped aqueous engine. The
@@ -172,8 +194,14 @@ fn main() {
                 // FILE was typed in that language, and even then an
                 // English line is never rewritten — the alias index drops
                 // any word the English grammar already spends — so a
-                // shipped lesson run under `--lang de` is the same run.
+                // shipped lesson run under `--lang de` executes the same
+                // steps. What it now also says is who is reading: a
+                // person who invoked the bench in German is answered in
+                // German. The canonical, machine-read form is `--json`,
+                // which is structure and carries no prose at all.
                 locale: typing_language(),
+                script_locale: typing_language(),
+                interactive: false,
             };
             for (lineno, line) in text.lines().enumerate() {
                 if let Err(e) = session.exec_line(line) {
@@ -2946,6 +2974,8 @@ fn repl() {
         cover_masks: Vec::new(),
         sealed_vessels: Default::default(),
         locale: typing_language(),
+        script_locale: typing_language(),
+        interactive: true,
     };
     let stdin = std::io::stdin();
     loop {
@@ -3053,10 +3083,13 @@ impl Session {
             // wherever `register` is, because there is no reason for two
             // rules.
             //
-            // What it changes is the PARSER and nothing else. The bench
-            // still echoes, logs, saves and exports canonical English,
-            // so a lesson with `lang de` at the top produces the same
-            // transcript as its English twin.
+            // What the DIRECTIVE changes is the PARSER and nothing else.
+            // The bench still echoes, logs, saves and exports canonical
+            // English, so a lesson with `lang de` at the top produces the
+            // same transcript as its English twin — which is what lets a
+            // German-authored lesson be shared with an English reader.
+            // Typed at the prompt it means one thing more, because there
+            // the person typing is the person reading: see the handler.
             "lang" => {
                 let Some(tag) = words.get(1) else {
                     return Err(format!(
@@ -3082,7 +3115,16 @@ impl Session {
                         shipped_languages()
                     ));
                 }
-                self.locale = locale;
+                self.script_locale = locale;
+                // `lang` in a FILE describes the file; `lang` at the
+                // PROMPT describes the person. A shipped German-authored
+                // lesson must still read back the same to an English
+                // reader, so the directive moves the parser only — while
+                // a learner who types it at the prompt is saying what
+                // language they read in, and gets it.
+                if self.interactive {
+                    self.locale = locale;
+                }
                 Ok(())
             }
             "explain" => {
@@ -3122,7 +3164,19 @@ impl Session {
                             self.mask_json(json_particles(self.bench.log.len(), v))
                         );
                     } else {
-                        println!("  {} — what the particles are doing:", v.id);
+                        // The caption under the drawing went through
+                        // the catalogue in `particles.rs`; the HEADER
+                        // above it was a bare `println!`, so a German
+                        // session read a German drawing under an English
+                        // title.
+                        println!(
+                            "  {}",
+                            self.locale.fill(
+                                "repl.particles-header",
+                                "{vessel} — what the particles are doing:",
+                                &[("vessel", &v.id.to_string())],
+                            )
+                        );
                         // The census names ions the vessel line never
                         // shows; a sealed unknown's `Na+` row is the
                         // answer in a different font, so it wears the
@@ -3181,7 +3235,7 @@ impl Session {
                         .collect::<Vec<_>>()
                         .join(" ")
                 };
-                let command = kerotakis_core::script::parse_command(&unmasked, self.locale)
+                let command = kerotakis_core::script::parse_command(&unmasked, self.script_locale)
                     .map_err(|e| e.detail)?;
                 match command.operator {
                     Some(op) => {
@@ -3521,7 +3575,12 @@ impl Session {
             } else {
                 Self::mask_covered
             };
-            for line in render_events(&events, self.register) {
+            // I18N: the reader's language, not the build's. `render_events`
+            // is the English-only wrapper — calling it here was why a German
+            // session read its own step back in English, and why it read
+            // `+5.5343` where German writes `+5,5343`: the decimal separator
+            // rides on the same locale, through `Locale::number`.
+            for line in render_events_in(&events, self.register, self.locale) {
                 println!("  {}", masker(self, &line));
             }
             // GUI-092: the equation the beaker actually ran, derived from
@@ -3531,7 +3590,10 @@ impl Session {
                 &events,
                 &self.bench.vessels,
                 self.register,
-                kerotakis_core::Locale::EN,
+                // The equation itself is chemical notation and is the same
+                // in every language; the LABEL ("net ionic", "spectator
+                // ions") is prose and was pinned to English here.
+                self.locale,
             ) {
                 println!("  {}", self.mask(&line));
             }
@@ -3552,7 +3614,9 @@ impl Session {
         // Through the mask: `inspect` on a sealed unknown was the one
         // window that printed the vessel's truth unmasked, which made
         // the identification quest a reading exercise.
-        for line in render_vessel(v, self.register) {
+        // I18N: same defect as `run_op` — the host held the reader's
+        // language and handed the English-only wrapper the register alone.
+        for line in render_vessel_in(v, self.register, self.locale) {
             println!("  {}", self.mask_for(v.id, &line));
         }
     }

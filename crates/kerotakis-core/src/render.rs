@@ -954,10 +954,36 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     ),
                 },
                 _ => {
+                    // The expert line was a bare `format!` while lv1 and
+                    // lv2 beside it went through the catalogue, so lv3 was
+                    // the one register of `add` no translation could
+                    // reach — and the one that still wrote `5.534330` to a
+                    // reader whose language writes `5,534330`.
                     let extra = species::lookup(sid)
-                        .map(|d| format!(" ({}, M = {:.3} g/mol)", d.formula, d.molar_mass))
+                        .map(|d| {
+                            locale.fill(
+                                "event.added.lv3-species",
+                                " ({formula}, M = {molar_mass} g/mol)",
+                                &[
+                                    ("formula", d.formula),
+                                    (
+                                        "molar_mass",
+                                        &locale.number(format!("{:.3}", d.molar_mass)),
+                                    ),
+                                ],
+                            )
+                        })
                         .unwrap_or_default();
-                    format!("{vessel}: +{:.6} mol {name}{extra}", moles.0)
+                    locale.fill(
+                        "event.added.lv3",
+                        "{vessel}: +{moles} mol {what}{extra}",
+                        &[
+                            ("vessel", &vessel.to_string()),
+                            ("moles", &locale.number(format!("{:.6}", moles.0))),
+                            ("what", name),
+                            ("extra", &extra),
+                        ],
+                    )
                 }
             }
         }
