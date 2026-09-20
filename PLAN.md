@@ -3685,7 +3685,7 @@ state a sibling `{@const}` reads.
       gone, the magnesium sulfate line appears. The noise was not only
       noise — it was crowding out news.
 
-- [ ] **The engine says chalk dissolved and, on the next line, that it
+- [x] **The engine says chalk dissolved and, on the next line, that it
       does not dissolve and is "still all there".** Verbatim, in order:
       *"0,000001 mol Kreide (Calciumcarbonat) gelöst"*, then *"Kreide
       (Calciumcarbonat) inert: … löst sich nicht in Wasser … Es ist noch
@@ -3697,6 +3697,66 @@ state a sibling `{@const}` reads.
       against the scene. The fix is not to silence either one: it is that
       the sentence claiming "still all there" must be derived from what is
       left, not from a table lookup.
+
+      **Done in #669, and the first thing it found is that this item is
+      wrong about where the two sentences come from.** They are not two
+      subsystems. They are one registry row read twice:
+      `MixingEquilibrator`'s reviewed-solubility route
+      (`solve::saturation_moves`) dissolves a solid up to
+      `limit × mL / 100 / M`, and the honesty pass then reads that same
+      `aqueous_solubility_at` under the same `< 0.01 g/100 mL` filter and
+      appends *it is still all there*. PHREEQC is not involved and does
+      not need to be: the pair reproduces in a bench with no aqueous
+      engine wired at all — 5.5 mol of water and 0.01 mol of chalk emit
+      `Dissolved 1.29e-5 mol` and the intact verdict in one batch, one
+      line apart. A vessel-independent table decided both.
+
+      **What a reader now sees.** `outside_the_solid` sums every portion
+      of that species standing in any phase but solid — any phase, because
+      what the clause claims is that the SOLID is undiminished, and a
+      portion that has melted is as absent from it as one that has
+      dissolved — and it picks the verdict. Where nothing of it is
+      outside the solid the sentence is the one it always was: *"Kreide
+      (Calciumcarbonat) löst sich nicht in Wasser: die geprüfte
+      Löslichkeit beträgt 0,0013 g pro 100 mL, das liegt unter allem, was
+      in einem Becherglas zu sehen wäre. Es ist noch vollständig
+      vorhanden"*. Where a trace stands in solution — chalk in water,
+      always, which is the transcript's case — it is
+      `inert.insoluble-in-water-trace-in-solution`: *"Kreide
+      (Calciumcarbonat) löst sich **kaum** in Wasser: … **Eine Spur davon
+      ist in Lösung; der Rest ist noch da**"*.
+
+      **Eleven golden lines moved and every one was a false claim**:
+      chalk in eight places and quartz in three, each in a vessel whose
+      own contents held a dissolved trace of the solid the line was
+      calling untouched. No vessel state moved, and `scene-five.json` is
+      unchanged.
+
+      **The #667 interaction is deliberate rather than discovered**, which
+      is why it is two KEYS and not one interpolated clause.
+      `Vessel::honesty_said` holds what stands and compares
+      `Phrase::shape()`; two keys are two shapes, so the step on which a
+      trace first goes into solution is a change in the standing verdict
+      and is announced, and every step after it is an echo and is not. For
+      the same mechanism's other half, no amount goes into the sentence:
+      `Slot::Number` renders as `#` in a shape, so a sentence carrying a
+      moving measurement would stand while its number went stale. How much
+      went is `Event::Dissolved`'s line, on the step it happens — which
+      keeps #667's own finding true, that the only measurement in this
+      recipe is a reviewed solubility that cannot move.
+
+      **What it does NOT close.** With observable water in the vessel the
+      intact wording is now effectively unreachable, because the branch
+      that says it and the route that dissolves the trace read the same
+      registry row under the same filter: if the sentence can be said at
+      all, a trace has gone. That is the correct outcome rather than a
+      shortcut — the wording was false in every one of those vessels — and
+      the surviving case is the instant before the mixing pass runs, which
+      the unit test exercises directly. It also leaves the other half of
+      the pair alone: `Event::Dissolved` still says *12,9 µmol gelöst*
+      with no hint that this is the whole of what this water can hold, so
+      the reader is still left to notice that *a trace dissolved* and
+      *hardly dissolves* are the same fact measured twice.
 
 - [ ] **"Silbernitrat ist mit einer Flüssigkeit in Kontakt" in a vessel
       with no liquid.** Emitted repeatedly *after* the engine has already
