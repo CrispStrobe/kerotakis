@@ -48,33 +48,6 @@ fn amount(totals: &BTreeMap<String, f64>, element: &str) -> f64 {
     totals.get(element).copied().unwrap_or(0.0)
 }
 
-/// TEMPORARY (one CI round): what the three candidate routes to `excess`
-/// each say, and the magnitudes they are built from.
-#[doc(hidden)]
-#[derive(Debug, Clone, Copy, Default)]
-pub struct ProbeRecord {
-    pub target_h: f64,
-    pub target_o: f64,
-    pub booked_h: f64,
-    pub booked_o: f64,
-    pub core_h: f64,
-    pub core_o: f64,
-    pub basis_excess: f64,
-    pub gas_excess: f64,
-    pub target_charge: f64,
-    pub booked_charge: f64,
-    pub excess_difference: f64,
-    pub excess_reassociated: f64,
-    pub excess_charge: f64,
-    pub water: f64,
-    pub acid: f64,
-    pub base: f64,
-}
-
-/// TEMPORARY (one CI round): every `complete_basis` call, in order.
-#[doc(hidden)]
-pub static PROBE: std::sync::Mutex<Vec<ProbeRecord>> = std::sync::Mutex::new(Vec::new());
-
 pub(crate) fn complete_basis(
     before: &Vessel,
     after: &mut Vessel,
@@ -83,7 +56,6 @@ pub(crate) fn complete_basis(
 ) -> Result<(), SolveError> {
     let before_ledger = ConservedLedger::from_vessel(before);
     let mut target = before_ledger.elements;
-    let mut target_charge = before_ledger.charge;
     // What the gas that left or arrived took with it, both as element
     // totals and as its own acid/base coordinate.
     let mut gas_excess = 0.0;
@@ -103,7 +75,6 @@ pub(crate) fn complete_basis(
             let h = formula.counts.get("H").copied().unwrap_or(0.0);
             let o = formula.counts.get("O").copied().unwrap_or(0.0);
             gas_excess += moles * (h - 2.0 * o);
-            target_charge += moles * formula.charge;
             for (element, count) in formula.counts {
                 *target.entry(element).or_default() += moles * count;
             }
@@ -176,26 +147,6 @@ pub(crate) fn complete_basis(
                 "the aqueous basis does not close on hydrogen: residual H={hydrogen}, \
                  O={oxygen}, rebuilt H={reconstructed}"
             ),
-        });
-    }
-    if let Ok(mut probe) = PROBE.lock() {
-        probe.push(ProbeRecord {
-            target_h: amount(&target, "H"),
-            target_o: amount(&target, "O"),
-            booked_h: amount(&booked, "H"),
-            booked_o: amount(&booked, "O"),
-            core_h: amount(&core, "H"),
-            core_o: amount(&core, "O"),
-            basis_excess,
-            gas_excess,
-            target_charge,
-            booked_charge: after_ledger.charge,
-            excess_difference: hydrogen - 2.0 * oxygen,
-            excess_reassociated: excess,
-            excess_charge: target_charge - after_ledger.charge,
-            water,
-            acid,
-            base,
         });
     }
     for (key, amount, phase) in [

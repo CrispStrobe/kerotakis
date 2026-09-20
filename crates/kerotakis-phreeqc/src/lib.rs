@@ -20,7 +20,7 @@ pub mod complexation;
 pub mod dbindex;
 pub mod derived;
 pub mod enthalpy;
-pub mod inventory;
+mod inventory;
 mod native_namespace;
 mod phase_diagnostics;
 pub mod pourbaix;
