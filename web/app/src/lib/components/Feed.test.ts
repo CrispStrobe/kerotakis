@@ -91,8 +91,10 @@ describe("the journal on screen", () => {
     const rendered = body(feed);
     expect(log(rendered)).toContain("You add 100 mL of water");
     expect(log(rendered)).not.toContain("add v1 water 100mL");
-    // …and the toggle that reveals them says how many there are.
-    expect(rendered).toContain('aria-label="full trace"');
+    // …and asking for the trace reveals them. The TOGGLE that asks is in
+    // `JournalHeader.svelte` since GUI-107, and is asserted there; what
+    // belongs here is that the feed obeys it.
+    expect(log(body(feed, { showTrace: true }))).toContain("add v1 water 100mL");
   });
 
   it("shows every vessel whichever one is selected", () => {
