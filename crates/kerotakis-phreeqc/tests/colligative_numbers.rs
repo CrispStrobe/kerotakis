@@ -584,19 +584,28 @@ fn a_hundredth_molal_brine_is_left_on_raoults_law_and_costs_one_solve() {
 /// two degrees, in the opposite direction from the one the freezing test
 /// pins.
 ///
-/// **This test deliberately has NO world-facing band, and the reason is a
-/// correction rather than a gap in the sources.** This file and HISTORY.md
-/// have both been quoting 108.7 °C as the measurement this beaker should be
-/// compared against, in this file's own words "a measurement of a saturated
-/// brine". But the beaker below is 6.000 mol/kg, and a saturated chloride
-/// brine at its BOILING point is more concentrated than that: the test
-/// itself records halite saturating near 6.11 mol/kgw at the vessel's
-/// temperature, and a chloride's solubility rises as it is heated. So 108.7
-/// and 108.0 are not two answers for one solution, they are answers for two
-/// solutions, and the 0.7 K between them is mostly composition. Adding that
-/// comparison as a band would have been the exact defect this bench has a
-/// name for — a quantity checked against a proxy that moves for a reason
-/// nobody controlled.
+/// **This test still has no world-facing band, but the reason changed on
+/// 2026-09-21 and the old reason was wrong.**
+///
+/// This file and HISTORY.md quoted 108.7 °C as "a measurement of a saturated
+/// brine", and the comparison was withdrawn on the ground that the beaker
+/// below is 6.000 mol/kg and therefore a different solution. Somebody then
+/// read the source. H. Droop Richmond, *The Analyst* 18 (1893) 142, measured
+/// nine sodium chloride solutions; **his saturated one is 28.7 per cent and
+/// boils at 109.5 °C.** 108.7 °C is his row 8, at **26.0 per cent — which is
+/// 6.012 mol/kg**, against this beaker's 6.000. It was a measurement of very
+/// nearly this beaker all along, and the 0.7 K is not composition.
+///
+/// The band is still absent because 8.7 K rests on one determination whose
+/// author says it runs about 1 °C above the only earlier series he knows, and
+/// holding a modern engine to that without a second opinion would be the
+/// mirror of the old error. `validation/cases/colligative.toml` carries the
+/// measurement, the band that disagreement implies, and what would close it.
+///
+/// **This test's own name is now known to be wrong.** It builds 26.0 per
+/// cent and calls it saturated; saturation at this temperature is nearer
+/// 28.7. Renaming it is left to whoever next touches the assertions, so that
+/// this correction stays a documentation change.
 ///
 /// A real anchor for this row exists and has not been bought: [S4] measured
 /// the vapour pressure of NaCl(aq) from 298 to 373 K over 1 to 6 mol/kg,

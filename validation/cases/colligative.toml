@@ -27,9 +27,9 @@ created = "2026-09-15"
 # and must leave `quantities_covered` exactly where it is. That is the whole
 # anti-gaming mechanism, and it is mechanical rather than procedural.
 headline_metric = "quantities_covered"
-quantities_covered = 2
-anchored_rows = 6
-open_rows = 1
+quantities_covered = 3
+anchored_rows = 7
+open_rows = 0
 
 # --------------------------------------------------------------- the gate ---
 # There is none, on purpose.
@@ -209,28 +209,45 @@ H. Droop Richmond, "The boiling points of salt solutions", The Analyst 18
 """
 doi = "10.1039/AN8931800142"
 record_verified = "crossref and the RSC article landing page, 2026-09-17"
-access = "publisher returns HTTP 403 to this host; a scanned copy is indexed but its text would not retrieve"
-transcription = "not-read"
+access = "open scan, Internet Archive item `analyst_1893-06_18_6` (the June 1893 issue); the publisher's own PDF returns HTTP 403 to this host"
+transcription = "read 2026-09-21 from the Internet Archive OCR of the June 1893 issue; the sodium chloride table transcribed in full below and its internal arithmetic checked"
 licence = """
 Published 1893. Copyright expired by age, which is the same footing as the
 1908 iodine solubility measurement this repository already cites and
 transcribes. No text or table is redistributed here.
 """
 why_this_one = """
-A CANDIDATE. It supplies no number to this file and must not be cited as
-though it did.
+READ. It supplies the world value for this family's boiling row.
 
-It is here because it is the only lane found so far that reaches the
-concentration this family's open row needs. Its table runs from about 7.6 to
-28.7 per cent sodium chloride, and 6.000 mol/kg is 25.96 per cent — inside the
-range with room on both sides, unlike every other candidate checked.
+The sodium chloride table as printed, nine determinations, boiling point in C
+against per cent NaCl by mass:
 
-WHAT IS NOT KNOWN, and must be before a value is taken from it: the barometric
-pressure the measurements were made at, whether the concentrations are per cent
-of solution or grams per 100 g of water (which differ by 35 per cent at this
-strength and would silently move the row a long way), the accuracy claimed, and
-whether an 1893 thermometry has a band this corpus can honestly state. Those
-questions are the reason it is `not-read` rather than pending transcription.
+  102.2 / 7.6    103.0 / 10.x   104.2 / 14.9   104.8 / 16.1   106.1 / 18.8
+  107.1 / 22.3   107.7 / 24.0   108.7 / 26.0   109.5 / 28.7 (saturated)
+
+Row 2's percentage did not survive the scan cleanly and is not used. Row 8 is
+the one this file takes: 26.0 per cent is 6.012 mol/kg against the case's
+6.000, near enough that the difference moves the boiling point by under two
+hundredths of a kelvin.
+
+WHY IT IS TRUSTWORTHY FOR AN ELEVATION SPECIFICALLY. He boiled the solution in
+a flask over pumice, withdrew 5 cc through a pipette whose tip sat beside the
+thermometer bulb, and titrated that aliquot against standardised silver with
+potassium chromate — so the composition is measured on the liquid that was
+actually at the recorded temperature, not on what was weighed out. And he
+"corrected to 760 m.m. by taking the boiling point of water at the same time",
+which cancels the thermometer's systematic error in the DIFFERENCE, which is
+the quantity this row wants.
+
+ITS OWN STATED LIMIT, carried into the band rather than hidden: "My results
+are about 1 C higher than Legrand's."
+
+THE QUESTIONS THAT WERE OPEN ON 2026-09-17 ARE ANSWERED. Pressure: 760 mm,
+corrected against water in the same apparatus. Concentration basis: per cent
+by mass of solution, confirmed by recomputing his "molecular percentage"
+column from it — 2.47, 9.76 and 11.04 on rows 1, 8 and 9 reproduce to within
+0.01, which they do not on a per-100-g-of-water reading. Precision: read to
+one-tenth of a degree.
 """
 
 [[source]]
@@ -525,49 +542,84 @@ a backlog is allowed to be; promoting it means adding a band to the test.
 [[case.quantity]]
 name = "boiling_point_elevation"
 unit = "K"
-status = "open"
 model_value = 8.0
-world_value = 0.0
-world_tolerance = 0.0
+model_tolerance = 0.4
+world_value = 8.7
+world_tolerance = 1.0
 condition = "1:1 NaCl(aq), 6.000 mol/kg, 101.325 kPa"
-source_id = "gibbard-1974-nacl-vapour-liquid"
-source_locator = "not read"
-tolerance_reason = "none — this row carries no world value and no band, deliberately"
-open_reason = """
-THE ONLY ROW IN THIS FAMILY WITH NO REFERENCE VALUE, and it is open because a
-comparison was WITHDRAWN rather than because none was ever written.
-`colligative_numbers.rs` and HISTORY.md have both been quoting 108.7 C as the
-measurement for this beaker, in the test file's own words "a measurement of a
-saturated brine". But this case builds 6.000 mol/kg, and a saturated chloride
-at its BOILING point is more concentrated than that — the test itself records
-halite saturating near 6.11 mol/kgw at the vessel's temperature, and a
-chloride's solubility rises as it is heated. So 108.7 and the bench's 108.0
-are answers for two different solutions, not two answers for one, and most of
-the 0.7 K between them is composition. Writing it in as a band would have been
-the defect this bench has a name for: a quantity checked against a proxy that
-moves for a reason nobody controlled.
-CORRECTED 2026-09-17: `gibbard-1974-nacl-vapour-liquid` does NOT measure this
-beaker, and reading its table will not close this row. Its range stops at
-373 K; pure water boils at 373.15 K and this solution boils near 381 K, so the
-quantity this row wants lies outside that paper entirely. See its
-`why_this_one`. Reading it remains worth doing for the phi-with-temperature
-question in `known_failure_modes`, which is a different question.
+source_id = "richmond-1893-boiling-points-of-salt-solutions"
+source_locator = "sodium chloride table, row 8 of 9: 108.7 C at 26.0 per cent NaCl"
+tolerance_reason = """
+THE BAND IS SET BY DISAGREEMENT BETWEEN OBSERVERS, NOT BY THE MODEL, and it
+is wide because that is what the world actually knows here.
 
-What a closing source would have to be: an ebullioscopic measurement at about
-26 per cent NaCl by mass, which is what 6.000 mol/kg is. Two lanes were checked
-on 2026-09-17 and neither reaches it. The standard direct series — "The Boiling
-Point Elevation" II and III in J. Am. Chem. Soc. — stops at 4.0 M and 100 C.
-The high-concentration work that does exist above those bounds is correlation
-fitted to vapour-pressure data rather than a boiling measurement, which is the
-wrong kind of number for this corpus: it would be checking a model against a
-model.
+Richmond could read his thermometer to a tenth of a degree and cancelled most
+of the systematic error the right way — he measured water boiling in the same
+flask, with the same thermometer, at the same time, and corrected to 760 mm
+against it, which is the correct experiment for an ELEVATION rather than for a
+boiling point. A tenth of a degree is not the uncertainty, though. He states
+himself that his results run about 1 C above Legrand's tables (Ann. Chim.
+Phys., 1835 [2], lix, 423), the only earlier series he names. One kelvin on an
+8.7 K elevation is twelve per cent, and that spread is the honest width.
 
-`richmond-1893-boiling-points-of-salt-solutions` is the candidate, and it is
-declared below WITHOUT a value because its table has not been read. It spans
-7.6 to 28.7 per cent, so 25.96 per cent sits inside it with room either side.
+EXCLUDES THE PREDECESSOR: the ideal dilute law gives nu*Kb*m = 2 * 0.5121 *
+6.000 = 6.15 K, which is 2.55 K below the world value — two and a half times
+this band, and outside it by a wide margin.
+
+SURVIVES AN IMPROVEMENT: a modern determination would almost certainly narrow
+this, and it may well move the centre DOWN rather than up. An osmotic
+coefficient near 1.27 carried into nu*Kb*phi*m puts the elevation near 7.8 K,
+below Richmond and close to the bench. Richmond looks high, by roughly the
+amount he says he is high.
+
+WHAT THIS BAND DOES NOT DO, stated because a band this wide invites the wrong
+reading: the model sitting inside it is WEAK evidence. This row says the bench
+is not wrong by more than the nineteenth century disagreed with itself. It
+does not say the bench is right.
 """
 independent_of_path = true
+independence_note = """
+Independent in the way that matters for a fit: 1893 ebullioscopy is not among
+the isopiestic and vapour-pressure data `pitzer.dat`'s Na-Cl virial
+coefficients were regressed on, so unlike this family's osmotic-coefficient
+rows, this measurement did not help build the model it is checking.
+
+NOT independent in kind, and the difference is worth keeping straight. A
+boiling point elevation and a vapour pressure lowering are the same
+thermodynamic statement about the solvent's activity, read two ways. This row
+checks the bench's activity against a direct measurement of the same physical
+quantity by a different route and a different century. It is not a check
+against unrelated physics.
+"""
 asserted_today = false
+not_asserted_note = """
+`colligative_numbers.rs` asserts 108.0 +/- 0.4 C, which is the model band
+above and does not mention the world value. Promoting this row means widening
+that test to carry the reference, or deciding the reference is too old to hold
+a modern engine to. Either is a decision; neither is done here.
+"""
+history_note = """
+THIS ROW WAS OPEN ON A FALSE PREMISE, and the premise died when somebody read
+the table.
+
+It was withdrawn because 108.7 C was believed to be a measurement of a
+SATURATED brine and this case builds 6.000 mol/kg, which is not saturated — so
+the two were held to be answers about different solutions. Richmond's table
+says otherwise. His saturated solution is row 9, and it boils at 109.5 C at
+28.7 per cent. 108.7 C is row 8, at 26.0 per cent, which is 6.012 mol/kg
+against this case's 6.000. The number was a measurement of very nearly this
+beaker the whole time.
+
+The table's own arithmetic was checked before this was believed. Richmond
+prints a "molecular percentage" column; recomputing it from his mass
+percentages reproduces 2.47, 9.76 and 11.04 on rows 1, 8 and 9 to within 0.01,
+so the transcription is not an OCR misreading.
+
+WHAT THAT LEAVES UNSETTLED: where "saturated brine boils at 108.7" came from,
+since it is not this source. It is a common claim and this file no longer
+relies on it. Note also that `a_saturated_brine_boils_hotter_than_the_dilute_
+law_allows` builds 26.0 per cent and is named for a solution it does not make.
+"""
 
 [[case]]
 id = "sucrose-1m"
