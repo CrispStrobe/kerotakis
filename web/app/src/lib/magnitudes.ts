@@ -805,6 +805,69 @@ function scale(x: number, lo: number, hi: number): number {
 }
 
 /**
+ * How long a drawing should stay on screen, given the duration the model
+ * itself puts on the phenomenon.
+ *
+ * GUI-116. `Vessel.svelte` reads every effect through
+ * `latestEffect(kind, withinMs)`, and `withinMs` is only a FALLBACK: the
+ * live window is `effect.durationMs ?? withinMs`. So the honest place to
+ * decide how long an eruption lasts is here, beside the factors that
+ * decide how big it is, and under the same rule — the number has to come
+ * off a field the engine computed.
+ *
+ * The bounds are measured, not chosen for roundness:
+ *
+ *   - **What the model produces.** The apparatus forms in `apparatus.ts`
+ *     accept `seconds` in 1 … 3600 for stir, heat, cool and centrifuge
+ *     (1 … 300 for a burner exposure), and the seven foam-stabiliser
+ *     half-lives in the shipped registry are exactly 90, 100, 120, 180,
+ *     300, 1800 and 3600 s. So the span a bench can ask for is 1 s to one
+ *     hour — three and a half decades.
+ *   - **What the screen can spend.** Every looping effect in the vessel
+ *     runs a cycle between 0.8 s (`drip-fall`) and 4 s (`bubble-ride`);
+ *     the effect clock ticks at 100 ms. Below about a second the learner
+ *     sees a fragment of one loop, which is why the shortest window
+ *     already in the file is 1200 ms — that is the floor.
+ *   - **Where real time has to stop.** 12 000 ms is the longest window
+ *     this app already uses (`ferment`, whose comment says "hours of
+ *     bench time compressed to a watchable window"), so that is where
+ *     one-to-one ends.
+ *
+ * Hence the shape: **real time while real time is watchable**, so a four
+ * second settling really does take four seconds and the drawing is not
+ * lying about a duration it could have honoured; a log tail above it, so
+ * an hour still outlasts a minute on screen — by 1.5x rather than by 60x,
+ * because past the ceiling the job of the number is ORDER, not duration.
+ * The tail adds at most half the watchable window again: 18 000 ms at
+ * 3600 s, the largest figure either the forms or the registry produce.
+ *
+ * Unbounded was the state before this: `foam_changed` set
+ * `durationMs = half_life_seconds * 1000` with nothing on either end, and
+ * since a foam event only ever fires when a stabiliser is present, that
+ * was never under 90 000 ms and reached 3 600 000 ms. A foam drawing —
+ * and its `rising` class — stayed live for between a minute and a half
+ * and a full hour after the foam had gone. The `latestEffect("foam",
+ * 3000)` the roadmap cites as the defect is in fact unreachable code.
+ */
+export const LIFETIME_FLOOR_MS = 1200;
+export const LIFETIME_REAL_TIME_CEILING_MS = 12_000;
+export const LIFETIME_MAX_MS = 18_000;
+/** The largest duration the forms accept and the longest shipped half-life. */
+const LIFETIME_MODEL_MAX_S = 3600;
+
+export function modelledLifetimeMs(modelSeconds: number, fallbackMs: number): number {
+  if (!Number.isFinite(modelSeconds) || modelSeconds <= 0) return fallbackMs;
+  const ms = modelSeconds * 1000;
+  if (ms <= LIFETIME_FLOOR_MS) return LIFETIME_FLOOR_MS;
+  if (ms <= LIFETIME_REAL_TIME_CEILING_MS) return ms;
+  const ceilingS = LIFETIME_REAL_TIME_CEILING_MS / 1000;
+  const past = Math.log10(modelSeconds / ceilingS);
+  const span = Math.log10(LIFETIME_MODEL_MAX_S / ceilingS);
+  return LIFETIME_REAL_TIME_CEILING_MS
+    + (LIFETIME_MAX_MS - LIFETIME_REAL_TIME_CEILING_MS) * Math.min(1, past / span);
+}
+
+/**
  * Named-colour → CSS colour for flame rendering.
  * Keys match the engine's `FlameTest.colour` / `Ignited.flame` strings.
  */
@@ -1607,16 +1670,22 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
       return { kind: "vent", at: now, magnitude: gasMag(e), species: String(e.species ?? ""), reading: Number(e.moles ?? 0), unit: "mol" };
     case "gas_produced": {
       const rawRate = Number(e.rate_moles_per_second ?? 0);
+      const molesPerSecond = Number.isFinite(rawRate) ? Math.max(0, rawRate) : 0;
+      const moles = Math.max(0, Number(e.moles ?? 0));
       return {
         kind: "vent",
         at: now,
+        // moles / (moles per second) is how long the gas takes to come
+        // off, and it is the only duration on this event. A slow fizz
+        // vents for longer than a fast one of the same size, which is
+        // the whole difference between the two on a bench. `gas_evolved`
+        // carries no rate, so it keeps the 4000 ms fallback and says so.
+        durationMs: molesPerSecond > 0 ? modelledLifetimeMs(moles / molesPerSecond, 4000) : undefined,
         magnitude: gasMag(e),
         species: String(e.species ?? ""),
         reading: Number(e.moles ?? 0),
         unit: "mol",
-        gasProduction: {
-          molesPerSecond: Number.isFinite(rawRate) ? Math.max(0, rawRate) : 0,
-        },
+        gasProduction: { molesPerSecond },
       };
     }
     case "gas_contained":
@@ -1746,7 +1815,11 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
       return {
         kind: "react",
         at: now,
-        durationMs: 5200,
+        // The event's own `seconds`: the same tenth of a mole in a second
+        // and over an hour are different observations, and the comment
+        // above has said so since the field was added — but the drawing
+        // lasted 5200 ms either way.
+        durationMs: modelledLifetimeMs(seconds, 5200),
         magnitude: extent.intensity,
         reading: moles,
         unit: "mol",
@@ -2068,7 +2141,10 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
       return {
         kind: "foam",
         at: now,
-        durationMs: halfLifeSeconds > 0 ? halfLifeSeconds * 1000 : undefined,
+        // The foam lasts as long as the model says it lasts — bounded, see
+        // `modelledLifetimeMs`. Unbounded, the seven shipped stabiliser
+        // half-lives held this drawing open for 90 s to an hour.
+        durationMs: modelledLifetimeMs(halfLifeSeconds, 3000),
         magnitude: scale(Number(e.height_cm ?? 0), 0.5, 30),
         foam: halfLifeSeconds > 0 ? { halfLifeSeconds } : undefined,
       };
@@ -2132,7 +2208,7 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         kind: "electrolyse",
         at: now,
         magnitude: electroMag(e),
-        durationMs: Math.min(8000, Math.max(1200, Number(e.seconds ?? 2.2) * 1000)),
+        durationMs: modelledLifetimeMs(Number(e.seconds ?? 0), 2200),
         electrolysis: {
           species: String(e.species ?? ""),
           amps: Number(e.amps ?? 0),
@@ -2170,7 +2246,7 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         kind: "swirl",
         at: now,
         magnitude: stirMag(e),
-        durationMs: Math.min(8000, Math.max(1200, Number(e.seconds ?? 2.2) * 1000)),
+        durationMs: modelledLifetimeMs(Number(e.seconds ?? 0), 2200),
         stir: {
           rpm: Number(e.rpm ?? 0),
           seconds: Number(e.seconds ?? 0),
@@ -2206,7 +2282,7 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         kind: "centrifuge",
         at: now,
         magnitude: centrifugeMag(e),
-        durationMs: Math.min(8000, Math.max(1200, Number(e.seconds ?? 2.2) * 1000)),
+        durationMs: modelledLifetimeMs(Number(e.seconds ?? 0), 2200),
         centrifuge: {
           rpm: Number(e.rpm ?? 0),
           seconds: Number(e.seconds ?? 0),
@@ -2249,7 +2325,7 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
       return {
         kind: "settle",
         at: now,
-        durationMs: Math.min(8000, Math.max(1200, seconds * 1000)),
+        durationMs: modelledLifetimeMs(seconds, 8000),
         magnitude: populations.reduce((strongest, population) => Math.max(strongest, population.separatedFraction), 0),
         settling: { seconds, populations },
       };
@@ -2571,7 +2647,7 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         at: now,
         // The dispersion is visible for as long as it survives: the engine's
         // own half-life, clamped to a watchable window.
-        durationMs: Math.min(9000, Math.max(1500, halfLifeSeconds * 1000)),
+        durationMs: modelledLifetimeMs(halfLifeSeconds, 9000),
         magnitude: scale(toDispersedFraction, 0.02, 1),
         reading: toDispersedFraction,
         unit: "fraction",
@@ -2593,7 +2669,7 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         at: now,
         // Hours of bench time compressed to a watchable window; the TEMPO
         // stays honest because it comes from the rate, not from this.
-        durationMs: Math.min(12_000, Math.max(2500, 2500 + Math.log10(1 + seconds) * 2500)),
+        durationMs: modelledLifetimeMs(seconds, 12_000),
         magnitude: gasMag({ moles: carbonDioxideMoles }),
         reading: carbonDioxideMoles,
         unit: "mol",
