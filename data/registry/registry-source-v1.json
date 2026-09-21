@@ -1719,6 +1719,24 @@
       "origin": "Kerotakis original stoichiometric derivation",
       "revision": "1",
       "retrieved": "2026-09-06"
+    },
+    {
+      "id": "literature/bates-bower-smith-calcium-hydroxide-1956",
+      "citation": "R. G. Bates, V. E. Bower and E. R. Smith, 'Calcium hydroxide as a highly alkaline pH standard', Journal of Research of the National Bureau of Standards 56 (1956) 305-312, Research Paper RP2680, doi:10.6028/jres.056.040; read in full 2026-09-21 from https://nvlpubs.nist.gov. IT IS PRIMARY LITERATURE WITH A DOI and a United States Government work - an NBS Technical Series publication - so it is the `primary-literature` route of provenance/upstreams.toml and not a compilation row. WHAT THE PAPER PRINTS FOR THE SOLID THIS ROW SUPPORTS. The paper's subject is a pH standard, but its section 5.1 is the authors' OWN determination of the solubility: granular calcium hydroxide shaken with water in a thermostat, the filtrate titrated against standard hydrochloric acid to a phenol red endpoint, reproducible to +/-0.5 per cent, giving 0.02110 mol per kilogram of water at 20 degrees C. THE ARITHMETIC TO g/100 mL, which is this bench's unit: 0.02110 mol/kg water at this registry's molar mass of 74.093 g/mol is 1.5633 g per kilogram of water, hence 0.15633 g per 100 mL of water. WHAT THE AUTHORS THEMSELVES WARN ABOUT AND THIS ROW DOES NOT HIDE. Their section 5.1 records that the apparent solubility depends on the crystal size of the lime by 6 to 15 per cent, which is wider than the last digits of the figure shipped here; the value is a well-made measurement of one preparation and not a constant of nature. THE EXPERIMENT IS THEIRS AND NOT THIS PROJECT'S. Read 2026-09-21",
+      "licence": "CC0-1.0",
+      "lane": "runtime",
+      "origin": "https://doi.org/10.6028/jres.056.040",
+      "revision": "J. Res. Natl. Bur. Stand. 56 (1956) 305-312, RP2680, section 5.1",
+      "retrieved": "2026-09-21"
+    },
+    {
+      "id": "literature/berkeley-saturated-solutions-1904",
+      "citation": "Earl of Berkeley, 'On some physical constants of saturated solutions', Philosophical Transactions of the Royal Society of London A 203 (1904) 189-215, doi:10.1098/rsta.1904.0020; read in full 2026-09-21 from the open scan at https://archive.org/details/philosophicaltr203royauoft. IT IS PRIMARY JOURNAL LITERATURE WITH A DOI, the `primary-literature` route of provenance/upstreams.toml. The publisher's own copy refuses an automated request from this host, so the open scan is named as what was actually opened. WHAT THE PAPER PRINTS FOR THE SOLIDS THESE ROWS SUPPORT, in parts of anhydrous salt per 100 parts of water: sodium chloride 35.84 at 15.20 degrees C, potassium chloride 34.37 at 19.55 degrees C. HOW HE MEASURED IT. Gravimetric: the saturated solution was stirred against excess solid in a thermostat, and the contents of a pyknometer evaporated to dryness and weighed; each point is the mean of an approach from supersaturation and one from undersaturation, which is the control that makes a saturation figure a measurement rather than a reading taken on the way somewhere. THE STEP TO THIS BENCH'S UNIT IS NONE AT ALL. His basis is parts per 100 parts of WATER and this registry's field is grams per 100 mL of WATER; 100 mL of water is 100 g, so the printed number is shipped unchanged and nothing is converted. TEMPERATURE. This bench anchors its cold solubility at 20 degrees C. The potassium chloride point is at 19.55 and needs no discussion; the sodium chloride point is at 15.20, and Berkeley's own neighbouring points, 35.75 at 0.35 degrees C and 36.20 at 30.05 degrees C, bound the error of reading it five degrees warm at about 0.3 per cent. ONE MORE SOLID WAS READ OUT OF THIS PAPER AND IS DELIBERATELY NOT SHIPPED. Sodium sulphate, 27.67 parts per 100 parts water at 24.90 degrees C: at that temperature the saturating solid is mirabilite, Na2SO4.10H2O, and this registry's `Na2SO4` key is the anhydrous salt, so the number is about a different solid. PLAN.md records it. Read 2026-09-21",
+      "licence": "CC0-1.0",
+      "lane": "runtime",
+      "origin": "https://doi.org/10.1098/rsta.1904.0020",
+      "revision": "Phil. Trans. R. Soc. Lond. A 203 (1904) 189-215",
+      "retrieved": "2026-09-21"
     }
   ],
   "identities": [
@@ -55092,6 +55110,46 @@
       }
     },
     {
+      "id": "aqueous-solubility/NaCl",
+      "subject": {
+        "kind": "species",
+        "id": "NaCl"
+      },
+      "model": "bounded-room-temperature-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml",
+      "quantity": {
+        "value": 35.84,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": {
+            "lower": 288.35,
+            "upper": 288.35,
+            "unit": {
+              "symbol": "K",
+              "dimension": "temperature"
+            }
+          },
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": "water",
+          "phase": "solid",
+          "notes": "Berkeley 1904, 35.84 parts anhydrous salt per 100 parts water at 15.20 °C"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/berkeley-saturated-solutions-1904",
+        "method": {
+          "kind": "measured",
+          "detail": "THE CITED SOURCE IS THE MEASUREMENT AND NOTHING IS CONVERTED. Berkeley (1904) prints 35.84 parts of anhydrous sodium chloride per 100 parts of WATER at 15.20 °C, gravimetrically: saturated solution stirred against excess solid in a thermostat, pyknometer contents evaporated to dryness and weighed, each point the mean of an approach from supersaturation and one from undersaturation. This registry's field is grams per 100 mL of water and 100 mL of water is 100 g, so the printed number ships unchanged. TEMPERATURE. The point is 4.8 °C below this bench's 20 °C anchor; his own neighbouring points, 35.75 at 0.35 °C and 36.20 at 30.05 °C, bound that offset at about 0.3 %. THE EXPERIMENT IS HIS AND NOT THIS PROJECT'S."
+        }
+      }
+    },
+    {
       "id": "legacy-tint-strength/NaCl",
       "subject": {
         "kind": "species",
@@ -55187,6 +55245,86 @@
         "method": {
           "kind": "derived",
           "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "aqueous-solubility/AgCl",
+      "subject": {
+        "kind": "species",
+        "id": "AgCl"
+      },
+      "model": "bounded-room-temperature-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml",
+      "quantity": {
+        "value": 0.00015049,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": {
+            "lower": 291.15,
+            "upper": 291.15,
+            "unit": {
+              "symbol": "K",
+              "dimension": "temperature"
+            }
+          },
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": "water",
+          "phase": "solid",
+          "notes": "Melcher 1910 Table V, 18 °C column — the paper prints no 25 °C figure for silver chloride"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/melcher-barium-sulphate-1910",
+        "method": {
+          "kind": "measured",
+          "detail": "THE CITED SOURCE IS THE MEASUREMENT. Melcher (1910) Table V, 18 °C column: 0.0105 milli-equivalents per litre. Silver chloride carries one charge per formula unit, so that is 1.05e-5 mol/L, and at this registry's molar mass of 143.32 g/mol, 0.00015049 g/100 mL. TEMPERATURE, AND IT IS NOT THIS BENCH'S ANCHOR. Melcher prints 18, 50 and 100 °C for this solid and no 25 °C row, so the figure read at this bench's 20 °C anchor is his 18 °C one; `conditions.temperature` says 291.15 K and not 293.15 K for that reason. Reading two degrees cold errs low, which is the conservative direction for a cap. THE EXPERIMENT IS HIS AND NOT THIS PROJECT'S."
+        }
+      }
+    },
+    {
+      "id": "aqueous-solubility-100c/AgCl",
+      "subject": {
+        "kind": "species",
+        "id": "AgCl"
+      },
+      "model": "two-point-temperature-dependent-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml-at-100c",
+      "quantity": {
+        "value": 0.0021068,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": {
+            "lower": 373.15,
+            "upper": 373.15,
+            "unit": {
+              "symbol": "K",
+              "dimension": "temperature"
+            }
+          },
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": "water",
+          "phase": "solid",
+          "notes": "Melcher 1910 Table V, 100 °C column"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/melcher-barium-sulphate-1910",
+        "method": {
+          "kind": "measured",
+          "detail": "THE CITED SOURCE IS THE MEASUREMENT. Melcher (1910) Table V, 100 °C column: 0.147 milli-equivalents per litre, one charge per formula unit, so 1.47e-4 mol/L and at 143.32 g/mol 0.0021068 g/100 mL."
         }
       }
     },
@@ -55649,6 +55787,46 @@
         "method": {
           "kind": "derived",
           "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "aqueous-solubility/Ca(OH)2",
+      "subject": {
+        "kind": "species",
+        "id": "Ca(OH)2"
+      },
+      "model": "bounded-room-temperature-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml",
+      "quantity": {
+        "value": 0.15633,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": {
+            "lower": 293.15,
+            "upper": 293.15,
+            "unit": {
+              "symbol": "K",
+              "dimension": "temperature"
+            }
+          },
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": "water",
+          "phase": "solid",
+          "notes": "Bates, Bower and Smith 1956, RP2680, section 5.1 — their own titrimetric determination at 20 °C"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/bates-bower-smith-calcium-hydroxide-1956",
+        "method": {
+          "kind": "measured",
+          "detail": "THE CITED SOURCE IS THE MEASUREMENT. Bates, Bower and Smith (1956), section 5.1: granular calcium hydroxide shaken with water in a thermostat, the filtrate titrated against standard hydrochloric acid to a phenol red endpoint, reproducible to ±0.5 %, giving 0.02110 mol per kilogram of water at 20 °C. THE ARITHMETIC TO g/100 mL: 0.02110 mol/kg × 74.093 g/mol = 1.5633 g per kilogram of water, hence 0.15633 g per 100 mL. NOTHING IS CONVERTED FROM A SOLUBILITY PRODUCT here; the paper publishes both and this row takes the titration. WHAT THE AUTHORS WARN ABOUT, CARRIED RATHER THAN HIDDEN: their own section 5.1 records that the apparent solubility varies with the crystal size of the lime by 6 to 15 %, which is wider than the last digits printed here. THE EXPERIMENT IS THEIRS AND NOT THIS PROJECT'S."
         }
       }
     },
@@ -56650,6 +56828,46 @@
       }
     },
     {
+      "id": "aqueous-solubility/KCl",
+      "subject": {
+        "kind": "species",
+        "id": "KCl"
+      },
+      "model": "bounded-room-temperature-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml",
+      "quantity": {
+        "value": 34.37,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": {
+            "lower": 292.7,
+            "upper": 292.7,
+            "unit": {
+              "symbol": "K",
+              "dimension": "temperature"
+            }
+          },
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": "water",
+          "phase": "solid",
+          "notes": "Berkeley 1904, 34.37 parts anhydrous salt per 100 parts water at 19.55 °C"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/berkeley-saturated-solutions-1904",
+        "method": {
+          "kind": "measured",
+          "detail": "THE CITED SOURCE IS THE MEASUREMENT AND NOTHING IS CONVERTED. Berkeley (1904) prints 34.37 parts of anhydrous potassium chloride per 100 parts of WATER at 19.55 °C, by the same gravimetric method and the same supersaturation/undersaturation bracket as his sodium chloride row. Parts per 100 parts of water IS grams per 100 mL of water, so the printed number ships unchanged. TEMPERATURE: 19.55 °C is within half a degree of this bench's 20 °C anchor and needs no correction. THE EXPERIMENT IS HIS AND NOT THIS PROJECT'S."
+        }
+      }
+    },
+    {
       "id": "dissolves-without-speciation/CaCl2",
       "subject": {
         "kind": "species",
@@ -56844,6 +57062,86 @@
         "method": {
           "kind": "derived",
           "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "aqueous-solubility/gypsum",
+      "subject": {
+        "kind": "species",
+        "id": "gypsum"
+      },
+      "model": "bounded-room-temperature-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml",
+      "quantity": {
+        "value": 0.25395,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": {
+            "lower": 291.15,
+            "upper": 291.15,
+            "unit": {
+              "symbol": "K",
+              "dimension": "temperature"
+            }
+          },
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": "water",
+          "phase": "solid",
+          "notes": "Melcher 1910 Table XI, 18 °C — expressed as the DIHYDRATE, which is the solid this registry keys as `gypsum`"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/melcher-barium-sulphate-1910",
+        "method": {
+          "kind": "measured",
+          "detail": "THE CITED SOURCE IS THE MEASUREMENT. Melcher (1910) Table XI, 18 °C: 29.5 milli-equivalents per litre. Calcium sulphate carries two charges per formula unit, so 1.475e-2 mol/L. THE HYDRATE IS THE WHOLE CARE OF THIS ROW. Melcher's bomb held the dihydrate and this registry's `gypsum` key IS the dihydrate, so the mass is taken at its molar mass, 172.17 g/mol: 0.25395 g/100 mL. THE SAME MEASUREMENT EXPRESSED AS ANHYDROUS CaSO4 READS 0.2008, AND THAT IS A DIFFERENT SOLID — the trap that keeps `Na2SO4` unshipped from Berkeley, arriving from the other side. His own Table XII checks the determination against Hulett and Allen's, obtained by an entirely different method: 29.5 against 29.6. THE EXPERIMENT IS HIS AND NOT THIS PROJECT'S."
+        }
+      }
+    },
+    {
+      "id": "aqueous-solubility-100c/gypsum",
+      "subject": {
+        "kind": "species",
+        "id": "gypsum"
+      },
+      "model": "two-point-temperature-dependent-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml-at-100c",
+      "quantity": {
+        "value": 0.20058,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": {
+            "lower": 373.15,
+            "upper": 373.15,
+            "unit": {
+              "symbol": "K",
+              "dimension": "temperature"
+            }
+          },
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": "water",
+          "phase": "solid",
+          "notes": "Melcher 1910 Table XI, 100 °C — as the dihydrate. RETROGRADE: less soluble hot than cold"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/melcher-barium-sulphate-1910",
+        "method": {
+          "kind": "measured",
+          "detail": "THE CITED SOURCE IS THE MEASUREMENT. Melcher (1910) Table XI, 100 °C: 23.3 milli-equivalents per litre, two charges per formula unit, so 1.165e-2 mol/L and at the dihydrate's 172.17 g/mol 0.20058 g/100 mL. THE PAIR IS RETROGRADE — LOWER HOT THAN COLD — and that is the measurement and not a transcription slip; it is why a boiled gypsum solution scales."
         }
       }
     },

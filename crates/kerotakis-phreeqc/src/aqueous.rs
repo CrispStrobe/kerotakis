@@ -1843,27 +1843,33 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
                 // TOTALS, with no phase for the solver to dissolve or
                 // precipitate.
                 //
-                // #699 named that as the reason it could not ship four
-                // measured solubilities it had sourced. It was reproduced
-                // on 2026-09-21 and THE DIAGNOSIS DOES NOT HOLD, which is
-                // worth saying here rather than only in `PLAN.md`: the two
-                // routes reach the same equilibrium today. `pH charge`
-                // recovers the hydroxide that `contribution_from_counts`
-                // drops — portlandite's elements really are `[(Ca, 1)]`,
-                // and slaked lime entered as totals is still pH 12.2 —
-                // and `append_candidate_phases` has already offered the
-                // phase at zero moles, so what the totals put in the
-                // candidate can take back out. `lessons/limewater.lab`
-                // goes milky either way. What made that lesson read clear
-                // was the ENGINE-FREE golden, whose cloudiness was
-                // undissolved lime being read as a suspension.
+                // #699 named that as what emptied `lessons/limewater.lab`
+                // when `Ca(OH)2` got its measured solubility. Reproduced
+                // 2026-09-21 on the full stack, and THAT HALF OF THE
+                // DIAGNOSIS DOES NOT HOLD — worth saying here rather than
+                // only in `PLAN.md`, because the next reader will find the
+                // same two branches and wonder. The totals route is not
+                // lossy: `pH charge` recovers the hydroxide that
+                // `contribution_from_counts` drops (portlandite's elements
+                // really are `[(Ca, 1)]`, and slaked lime entered as
+                // totals still solves to pH 12.2), and
+                // `append_candidate_phases` has already offered the phase
+                // at zero moles, so what the totals put in the candidate
+                // can take back out. The lesson goes milky either way.
+                // What went clear was the ENGINE-FREE golden, whose
+                // cloudiness was undissolved lime read as a suspension.
                 //
-                // This is therefore an invariant and not a fix. The two
+                // The other half of #699's finding was real and is fixed
+                // where it lives: `saturation_moves` was SOLUTION-BLIND,
+                // and `AgCl` proved it one order of magnitude above chalk
+                // rather than two below limewater.
+                //
+                // So this branch is an invariant and not that fix. The two
                 // routes agree by luck — by a charge balance and a
                 // zero-mole candidate each doing half the work — and the
-                // next solid to cross the trace line should not have to
-                // find out whether they still do. A mineral now gives the
-                // same solution whichever condensed phase the bench has it
+                // next solid to cross the line should not have to find out
+                // whether they still do. A mineral now gives the same
+                // solution whichever condensed phase the bench has it
                 // booked in, so a saturation move is bookkeeping rather
                 // than chemistry.
                 //
@@ -1874,8 +1880,7 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
                 // in the solution the vessel actually holds — common ion,
                 // pH, ionic strength. `saturation_moves` is left free to
                 // keep bounding the solids no database spells, which is
-                // the case it was written for and the only one where it is
-                // the best answer available.
+                // the case it was written for.
                 //
                 // Phase::Liquid keeps the old branch: a melted solid is
                 // neither a mineral assemblage nor, strictly, dissolved,
@@ -6810,12 +6815,26 @@ mod routing_molality_tests {
         );
     }
 
-    /// The case the pitzer route exists for is untouched.
+    /// The case the pitzer route exists for is untouched — and it now
+    /// reads a saturated brine rather than a dissolved mountain.
     ///
     /// Eight moles of salt in a kilogram of water is the vessel
-    /// `Provenance::source_key`'s doc quotes at ~16.0 mol/kgw, and the
-    /// registry has reviewed no solubility for halite, so it keeps the
-    /// pessimistic reading on purpose.
+    /// `Provenance::source_key`'s doc quotes at ~16.0 mol/kgw. That figure
+    /// was the PESSIMISTIC reading: the registry had reviewed no
+    /// solubility for halite, so the estimate counted every mole of the
+    /// eight as if all of it could dissolve. Halite now carries the Earl
+    /// of Berkeley's 1904 gravimetric figure, so the cap that already
+    /// bounded chalk bounds this too, and the estimate is what a kilogram
+    /// of water could actually hold: 6.13 mol/kgw, doubled for two ions
+    /// per formula unit.
+    ///
+    /// THE ROUTING DECISION IS UNCHANGED AND THAT IS WHAT THIS TEST IS
+    /// FOR. 12.26 is what the pitzer route exists for exactly as 16.0 was
+    /// — an order of magnitude above the 1.0 where the Debye-Hückel
+    /// datasets leave their validity domain — and it is also still above
+    /// `condense_supersaturated`'s own trigger, so the brine is still
+    /// posed as a solid dissolving to saturation rather than as an
+    /// impossible total.
     #[test]
     fn a_real_brine_still_reads_as_concentrated() {
         let mut vessel = Vessel::new(VesselId(0), "brine");
@@ -6825,12 +6844,16 @@ mod routing_molality_tests {
         let (kgw, before, after) = estimate(&vessel);
         eprintln!("brine: kgw={kgw:.6e} before={before:.4} after={after:.4}");
         assert!(
-            (before - after).abs() < 1e-9,
-            "neither bound binds here: {before} vs {after}"
+            (15.0..17.0).contains(&before),
+            "the pessimistic reading is the ~16.0 mol/kgw the provenance doc quotes: {before}"
         );
         assert!(
-            (15.0..17.0).contains(&after),
-            "still the ~16.0 mol/kgw the provenance doc quotes: {after}"
+            (12.0..13.0).contains(&after),
+            "and the capped reading is what the water could hold: {after}"
+        );
+        assert!(
+            after > 1.0,
+            "either way it is routed as concentrated: {after}"
         );
     }
 
@@ -6854,13 +6877,19 @@ mod routing_molality_tests {
             (kgw - MIN_SOLVENT_KG).abs() < 1e-6,
             "the probe really does sit on the floor: {kgw}"
         );
-        assert!(
-            (before - after).abs() < 1e-6,
-            "so the floor may not move it: {before} vs {after}"
-        );
+        // Halite's reviewed solubility arrived 2026-09-21, so the cap that
+        // already bounded chalk bounds this probe too: a millilitre of
+        // water holds 6.13e-3 mol of salt, which is 12.26 mol/kgw doubled
+        // for two ions, against the 200 the uncapped inventory read. The
+        // floor is still doing its job — what it must not do is let the
+        // probe fall BELOW the concentrated route, and it does not.
         assert!(
             after > 1.0,
             "and it is still routed as concentrated: {after}"
+        );
+        assert!(
+            after < before,
+            "the cap binds where the floor does not: {before} vs {after}"
         );
     }
 

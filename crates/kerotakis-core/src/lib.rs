@@ -285,31 +285,58 @@ mod tests {
         assert!((bench.total_enthalpy().0 - before_h).abs() < 1e-6);
     }
 
+    /// A solid in liquid is answered where a reviewed measurement says how
+    /// much dissolves, and flagged honest-unmodelled where none does.
+    ///
+    /// Sodium chloride used to be the example of the second half: with no
+    /// reviewed solubility the engine-free bench apologised for it, and
+    /// this test asserted the apology "until L2 lands". It now carries the
+    /// Earl of Berkeley's 1904 gravimetric figure, so salt in water is a
+    /// computed amount here and the apology would be a lie. The guard is
+    /// worth keeping, so it keeps both halves and picks a solid that is
+    /// still in the gap — `Fe(OH)2`, which `repeated_honesty.rs` uses for
+    /// the same reason and for which `PLAN.md` records that no reachable
+    /// source publishes anything but a solubility product.
     #[test]
-    fn solid_in_liquid_is_honestly_not_modeled() {
-        let mut bench = Bench::new();
-        let v = VesselId(0);
-        bench
-            .step(Operator::Add {
-                vessel: v,
-                species: SpeciesId::new("water"),
-                moles: Moles(5.0),
-                at: None,
-            })
-            .unwrap();
-        let events = bench
-            .step(Operator::Add {
-                vessel: v,
-                species: SpeciesId::new("NaCl"),
-                moles: Moles(0.1),
-                at: None,
-            })
-            .unwrap();
+    fn a_solid_is_answered_where_a_measurement_exists_and_flagged_where_none_does() {
+        let dissolve = |key: &str| {
+            let mut bench = Bench::new();
+            let v = VesselId(0);
+            bench
+                .step(Operator::Add {
+                    vessel: v,
+                    species: SpeciesId::new("water"),
+                    moles: Moles(5.0),
+                    at: None,
+                })
+                .unwrap();
+            bench
+                .step(Operator::Add {
+                    vessel: v,
+                    species: SpeciesId::new(key),
+                    moles: Moles(0.1),
+                    at: None,
+                })
+                .unwrap()
+        };
+
+        let salt = dissolve("NaCl");
         assert!(
-            events
+            salt.iter()
+                .any(|e| matches!(e, Event::Dissolved { species, .. } if species.0 == "NaCl")),
+            "salt in water has a reviewed solubility and must be answered, not apologised for"
+        );
+        assert!(
+            !salt
                 .iter()
                 .any(|e| matches!(e, Event::NotYetModeled { .. })),
-            "salt in water must be flagged honest-unmodelled until L2 lands"
+            "and the apology must not stand beside the answer"
+        );
+
+        let gap = dissolve("Fe(OH)2");
+        assert!(
+            gap.iter().any(|e| matches!(e, Event::NotYetModeled { .. })),
+            "a solid with no reviewed solubility must still be flagged honest-unmodelled"
         );
     }
 

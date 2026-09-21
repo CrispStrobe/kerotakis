@@ -882,6 +882,8 @@ const MELCHER_1910: &str = "literature/melcher-barium-sulphate-1910";
 const ALMKVIST_1918: &str = "literature/almkvist-metal-hydroxide-solubility-1918";
 const PECHET_1940: &str = "literature/pechet-cupric-oxide-solubility-1940";
 const MCGEE_1977: &str = "literature/mcgee-hostetler-brucite-1977";
+const BATES_1956: &str = "literature/bates-bower-smith-calcium-hydroxide-1956";
+const BERKELEY_1904: &str = "literature/berkeley-saturated-solutions-1904";
 
 fn reviewed_solubility(key: &str) -> Option<ReviewedSolubility> {
     let (source, cold_k, measured) = match key {
@@ -889,6 +891,15 @@ fn reviewed_solubility(key: &str) -> Option<ReviewedSolubility> {
         "BaSO4" => (MELCHER_1910, 298.15, true),
         "Fe(OH)3" => (ALMKVIST_1918, 293.15, true),
         "CuO" => (PECHET_1940, 298.15, true),
+        // 2026-09-21, the second tranche. Melcher prints no 25 °C row for
+        // silver chloride, so its cold anchor is his 18 °C one and this
+        // table says 291.15 rather than 293.15; gypsum is Table XI read as
+        // the DIHYDRATE, which is the solid this registry keys.
+        "AgCl" => (MELCHER_1910, 291.15, true),
+        "gypsum" => (MELCHER_1910, 291.15, true),
+        "Ca(OH)2" => (BATES_1956, 293.15, true),
+        "NaCl" => (BERKELEY_1904, 288.35, true),
+        "KCl" => (BERKELEY_1904, 292.70, true),
         "Mg(OH)2" => (MCGEE_1977, 298.15, false),
         _ => return None,
     };
@@ -1149,12 +1160,19 @@ fn the_atomic_weight_table_reaches_the_molar_masses_it_is_said_to_reach() {
 /// colorimetry for ferric hydroxide, and Pechet's 1940 dialysis for cupric
 /// oxide.
 ///
+/// Six more arrived the same day, once `saturation_moves` stopped being
+/// solution-blind and the five solids #699 had sourced could ship: Melcher
+/// again for silver chloride and for gypsum AS THE DIHYDRATE (two rows
+/// each, his cold and 100 °C columns), Bates, Bower and Smith's 1956
+/// titration for calcium hydroxide, and the Earl of Berkeley's 1904
+/// gravimetry for sodium and potassium chloride.
+///
 /// BRUCITE IS DELIBERATELY NOT HERE. Its source publishes a solubility
 /// product, so its record claims `derived` and `reviewed_solubility` says
 /// so; a regeneration that promoted it would be claiming somebody weighed
 /// a number nobody weighed, and this list is where that would show.
 #[test]
-fn six_records_claim_their_source_is_the_measurement() {
+fn twelve_records_claim_their_source_is_the_measurement() {
     let document = export_current_registry().expect("export current registry");
     let measured: Vec<&str> = document
         .model_parameters
@@ -1172,7 +1190,14 @@ fn six_records_claim_their_source_is_the_measurement() {
     assert_eq!(
         measured,
         vec![
+            "aqueous-solubility/NaCl",
+            "aqueous-solubility/AgCl",
+            "aqueous-solubility-100c/AgCl",
+            "aqueous-solubility/Ca(OH)2",
             "aqueous-solubility/CuO",
+            "aqueous-solubility/KCl",
+            "aqueous-solubility/gypsum",
+            "aqueous-solubility-100c/gypsum",
             "aqueous-solubility/I2",
             "aqueous-solubility/Fe(OH)3",
             "aqueous-solubility/BaSO4",
