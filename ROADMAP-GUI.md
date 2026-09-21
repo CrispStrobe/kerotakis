@@ -3456,6 +3456,236 @@ evolved CO₂ and half a mole of it must not look the same.
   the card's accessible name, its vessel, or the operation.
 
 
+## Text painted into a zero box (GUI-121)
+
+- [x] **GUI-121 — The class GUI-120 turned out to be an instance of.**
+  GUI-120 found that the latest-result card, at the 200% text zoom this
+  suite injects, gave its name column **0 px**: a 32 px tick, a 165 px ΔT
+  badge and 90 px of icons filled a 263 px grid row, `minmax(0, 1fr)`
+  resolved the name to zero, and `.operation`'s own `max-width: 100%;
+  overflow: hidden` clipped the operation name and the reaction class out
+  of existence. The card's entire answer to *what just happened* was not
+  painted, at the accessibility setting the suite exists to test — and
+  **no assertion could see it**, because a card with no legible content is
+  exactly as tall as a card with some. Every height, overlap and share
+  check in `tools/test-ux-quality.mjs` passed on that card.
+
+  That is a class rather than an instance: **content squeezed to nothing
+  by rem-sized furniture beside it, in a container that is itself
+  perfectly healthy**, invisible to every geometric assertion already
+  written. This item is the sweep for it, the general assertion it
+  produced, and the three live instances it found.
+
+  ### The assertion
+
+  > An element that carries text a reader is meant to read must have a box
+  > that text can be painted in — at every regime this suite drives.
+
+  *Meant to be read* is an element with non-whitespace text in its **own
+  child text nodes**. Own text, not `textContent`: otherwise every
+  ancestor up to `<body>` carries the same string, one defect is reported
+  at thirty boxes, and only one of them is the box that failed.
+
+  *The visible box* is the element's own rect, cut down by every ancestor
+  that clips with `overflow: hidden` or `clip` **between it and the first
+  ancestor that scrolls**. `auto` and `scroll` are not clips — what lies
+  outside them is one gesture from the reader — and the per-axis stop at a
+  scroller is the whole difference between a defect and a list. Without
+  it, a bottle below the fold of the cabinet's own `.groups` scroller is
+  cut to zero height by `.shelf-pane`'s `overflow: hidden` three levels
+  up: the first run reported **1117 of the 1194 elements on one surface**
+  that way, and every one of them was a row the reader had simply not
+  scrolled to yet.
+
+  The viewport is not a clip either: an element pushed off the page is
+  what `bodyOverflow` and `viewportOverflow` already measure, and counting
+  it here would report the `position: absolute; left: -9999px` idiom as a
+  defect every time it appeared.
+
+  Two tiers, because *zero* and *unreadable* are different failures.
+  **blank** — the visible box is zero in an axis and nothing of the text
+  reaches the screen; this is GUI-120's `.operation`. **squeezed** — the
+  box survives but paints less than the text needs, measured as the
+  *smaller* of one em and the element's own `scrollWidth`. That second
+  clause matters: a 22 px box holding a two-letter element symbol at a
+  23 px font paints all of it and is fine, while a 20 px box holding
+  200 px of German compound noun paints not one character and is not. An
+  absolute floor reported the periodic table's `Li` and `Ir` as defects;
+  the content-relative one does not.
+
+  ### What it deliberately excludes
+
+  Each exclusion is counted and printed with every reading, so that a
+  shrinking sample cannot quietly empty the check:
+
+  | exclusion | why |
+  | --- | --- |
+  | `aria-hidden="true"`, on the element or any ancestor | the app has already said this text is not to be read: a decorative tick, a `·` separator, a duplicated glyph |
+  | `.sr-only` / `.visually-hidden`, self or ancestor | being a 1 px box with `clip-path: inset(50%)` is the *point* of that class — it is what GUI-120 turned the card's eyebrow into |
+  | the same idiom spelled without the class | a ≤ 1 px absolutely positioned box with `clip-path` or `overflow: hidden`. `Vessel.svelte`'s `.observation-status` is one: a `role="status"` live region, announced and never painted, exactly as designed |
+  | no box at all (`getClientRects()` empty) | `display: none`, `[hidden]`, a **closed `<details>`**, an unopened `<dialog>`: not painted, deliberately. This is why the sweep *opens* each surface before measuring it rather than trawling the document once |
+  | `checkVisibility()` says no | `visibility: hidden`, `opacity: 0`, `content-visibility: hidden` |
+  | a descendant of something already reported | the outermost offender is the one that describes the defect |
+
+  ### Where it measures, and in which regime
+
+  Sixteen readings, each **labelled with its regime** rather than
+  inheriting it silently. That is GUI-120's other finding made
+  procedural: `#ux-text-zoom` is injected at one line of
+  `tools/test-ux-quality.mjs` and removed **369 lines below it**, and
+  GUI-108's entire table of measurements sat inside that bracket without
+  saying so. For the record, in the file **as GUI-120 left it** the
+  regimes were 1440 px (lines 808–1088, 1118–1401, 1423–1478, 1782–2019
+  and from 2388), 390 px (1088–1118, 1412–1478, 1478–1579), 320 px
+  (1579–1782) and **200% text zoom at 1440 px (2019–2388)** — the whole
+  of the GUI-108 and GUI-120 blocks.
+
+  The surfaces are the bench, the cabinet, the journal and its
+  latest-result card, the equipment cupboard, the catalogue, the periodic
+  table, the remove-vessel dialog, the utility drawer and an instrument
+  panel — at 1440 px, at 320 px and at 200% text zoom. The cupboard, the
+  catalogue and the table are dialogs, so the zoomed readings of them are
+  *driven* open, and the open is a named check of its own; the
+  catalogue's zoom bracket is five lines long, which is the point.
+
+  Three preconditions are named checks: both regimes were visited, every
+  surface offered text before it was measured, and the sweep saw the app
+  rather than a fragment (~15 000 readable elements across the sixteen
+  readings). An assertion that passes on an empty sample is the exact
+  failure mode this one is written against.
+
+  ### What the sweep found
+
+  **The first instance is GUI-120's defect one component over.**
+  At 200% text zoom the journal's own heading row gave its title nothing:
+  `strong.pane-title` measured **0 × 33 px** with *"Laborbuch"* in it, and
+  `.panel-collapse` was pushed outside the `aside` and clipped away by its
+  `overflow: hidden`. The CSS comment above the rule had already predicted
+  it — *"when the pane narrows it is the WORD that gives way"* — without
+  noticing that text zoom narrows it without narrowing the pane. Every gap,
+  pad and hit-area minimum in that row was in rem, so all of them doubled
+  while the journal stayed at `min(18rem, 23vw)` = 331 px; the doubled
+  furniture wanted 451 px of it. It reproduced in six of the sixteen
+  readings — every zoomed one, because the journal is mounted behind every
+  dialog — and in none of the 1440 px or 320 px readings.
+
+  **The fix is GUI-120's rule: the chrome is px and the prose is rem.**
+  `min-height` was already px; the gaps, the padding, the hit-area
+  minimums and the *icon glyph* sizes join it, because an icon is
+  furniture and does not grow with the reader's type. What stays in rem is
+  everything with a word or a number in it — the title, and the digits in
+  `.entry-count` and `.count`, which are information a reader reads. Each
+  px value is its rem value at a 16 px root, rounded, so **nothing about
+  the row changes at 100%**; at 200% the furniture comes to about 247 px
+  of 331 and the title is painted again.
+
+  **Two more instances, of a second shape of the same mechanism.** Once
+  the scroller rule was in, the sweep read clean at 1440 px and at 320 px
+  and still reported eight elements at zero in *every* 200% text-zoom
+  reading. Neither is reachable by scrolling: both lie below the bottom
+  of a pane whose overflow is hidden.
+
+  - **The bench's control strip.** `.bench` had `min-height: 24rem`,
+    which is **768 px** at a 32 px root. The bench pane has about 860, so
+    roughly thirty were left for everything below the stage and the
+    `VesselActionDock` was pushed clean out of `.bench-pane` and clipped
+    away by its `overflow: hidden`. The selected vessel's name, its
+    volume and temperature, its contents, and the *show all*,
+    *measurement tools* and *equipment cabinet* buttons were not painted
+    at all. That is a **layout** minimum — how much counter you need in
+    order to stand glassware on it — not prose, so it is 384 px, which is
+    what 24rem is at a 16 px root. Nothing changes at 100%.
+  - **The cabinet's count.** `.tally` was a shrinkable flex item beside
+    the group list, and at 200% zoom *"323 von 323 Stoffen"* was squeezed
+    to **286 × 0** below the bottom of `.shelf-pane`. `flex: none`: the
+    list beside it is the thing with a scroller and `min-height: 0`, so
+    it is the one that should absorb the squeeze.
+
+  Neither is fully closed, and the part that is left is **GUI-122** below
+  rather than more of this item: the bench stage's minimum bought the
+  dock about 45 px and recovered its first button, and `flex: none`
+  stopped the tally being the item that gives way, but both panes are
+  still taller than themselves at 200% zoom and the arithmetic that
+  remains is a design decision rather than a rule.
+
+  Nothing else was blank or squeezed. Every other candidate the first run
+  produced was a scrolled-out row, the inline visually-hidden idiom, or a
+  short string measured against an absolute floor.
+
+  ### It fails on the defect, not merely passes on the fix
+
+  Verified, rather than asserted, on a branch carrying this tree with
+  `LatestResultCard.svelte` reverted to `aefc0502^` — the card exactly as
+  GUI-120 found it. The sweep reports:
+
+  ```
+  strong.operation "Temperaturänderung" visible 0x41.8 of own 0x41.8 (em 28.8) in span. 0x71.9
+  button.icon-provenance "⌖" visible 0x28 of own 28x28 clipped by details.result-card
+  button.icon-export "⤓"    visible 0x28 of own 28x28 clipped by details.result-card
+  button.icon-close "×"     visible 0x28 of own 28x28 clipped by details.result-card
+  ```
+
+  — the operation name at zero width inside a `minmax(0, 1fr)` track that
+  is itself at zero, in a summary that is the right size, on a card that
+  is the right size, in a pane that is the right size. GUI-120's own four
+  checks fail beside it with the numbers they were written for (*summary
+  104px of 64px*, *0px painting "Temperaturänderung"*, *214px of the card
+  clipped*). The sweep also finds three things GUI-120's checks did not:
+  the card's own export, provenance and close icons, pushed outside the
+  card and clipped away.
+
+  ### Known limit, stated rather than discovered later
+
+  The sweep reads text *nodes*. The value and the placeholder of an
+  `<input>` are neither, so a form field squeezed to nothing is not in
+  this net — `Shelf.svelte`'s `.stepper` carries the standing comment
+  about a number field once measured at 33 px, and that is the shape of
+  thing this assertion does not yet see. Nor does it model `clip-path`,
+  transforms or a parent's `text-overflow` beyond the box arithmetic
+  above.
+
+## A pane taller than itself at 200% text zoom (GUI-122)
+
+- [ ] **GUI-122 — What falls out of the bottom of a pane is not below the
+  fold; it is gone.** GUI-121's sweep left two instances standing, and
+  they are one finding wearing two hats. It is a *different shape* from
+  the rem-furniture defects GUI-121 closed: there, a fixed box beside the
+  text took the room; here, a pane's whole column of children is taller
+  than the pane at 200% text zoom, the pane clips with `overflow: hidden`,
+  and the part that falls out sits under **no scroller at all**. Not one
+  gesture away — unreachable.
+
+  | what is not painted | under | selector |
+  | --- | --- | --- |
+  | the selected vessel's name, volume, temperature and contents | `div.bench-pane` | `span.selection-copy` |
+  | *measurement tools*, *equipment cabinet* | `div.bench-pane` | `div.more-actions` |
+  | *"323 von 323 Stoffen"* | `nav.shelf-pane` | `p.tally` |
+
+  GUI-121 took the two rules that were plainly wrong: the bench stage's
+  `min-height` came down from 24rem (**768 px** at a 32 px root) to
+  384 px, which bought the dock about 45 px and recovered its first
+  button, and `.tally` became `flex: none` so it is no longer the item
+  that gives way. Roughly **120 px** is still missing from the bench
+  pane's column, and it is spread across four components — the equation
+  block, the stage, the `VesselActionDock` and the command bar — none of
+  which is obviously the one that should yield.
+
+  **That is the question this item exists to answer, and it is a design
+  decision rather than a rule**: does the pane itself become a scroller,
+  does the stage collapse below its minimum when the column is short,
+  does the dock become a sheet that the bench can cover? Whichever, it
+  changes how the bench reads at every size, which is why GUI-121 did not
+  take it.
+
+  **It is guarded in the meantime, from both directions.** `KNOWN_OPEN`
+  in `tools/test-ux-quality.mjs` names these three by precise selector
+  and regime — never by their text — so a *new* zero anywhere else still
+  fails the sweep. And a second check asserts that every entry in the
+  list **still reproduces**, so the day this item lands the suite fails
+  until the list is deleted. An exception cannot outlive the defect it
+  names.
+
+
 ## Completed GUI tasks
 
 Numbers are never renumbered and never reused. Each of these landed; the detail

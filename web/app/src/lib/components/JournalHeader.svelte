@@ -148,14 +148,36 @@
   /* The shell's pane heading, restated here because Svelte scopes styles
      to the component that writes the markup. The shelf pane still uses the
      shell's copy; this one carries the journal's controls as well, so it
-     also owns the rules that keep them on ONE line. */
+     also owns the rules that keep them on ONE line.
+
+     GUI-121 — the furniture in this row is px, and the reason is the row
+     below it. This is GUI-120's defect one component over: every gap,
+     pad and hit-area minimum here was in rem, so at 200% text zoom they
+     all doubled while the pane did not. The journal is
+     `min(18rem, 23vw)` wide — 331 px at 1440 px, whether the type is
+     doubled or not — and the doubled furniture wanted 451 px of it. Flex
+     gave the elastic cell what was left, which was NOTHING: the pane's
+     own title read 0 px wide, and `.panel-collapse` was pushed outside
+     the `aside` and clipped away by its `overflow: hidden`. The journal
+     did not say it was the journal, at the accessibility setting the UX
+     suite exists to test.
+
+     So the same rule GUI-120 wrote for the result card: the chrome is
+     px and the prose is rem. `min-height` was already px. The gaps, the
+     padding, the hit-area minimums and the ICON glyph sizes join it —
+     an icon is furniture and does not grow with the reader's type. What
+     stays in rem is everything with a word or a number in it: the
+     title, and `.entry-count`'s digits, which are information and must
+     scale. Each px value is its rem value at a 16 px root, rounded, so
+     nothing about the row changes at 100%; at 200% the furniture comes
+     to about 247 px and the title is painted again. */
   .pane-heading {
     position: relative;
     min-height: 44px;
     display: flex;
     align-items: center;
-    gap: 0.4rem;
-    padding: 0.4rem 0.6rem;
+    gap: 6px;
+    padding: 6px 10px;
     border-bottom: 1px solid var(--edge);
   }
   .pane-icon {
@@ -167,7 +189,7 @@
     border-radius: 10px;
     color: var(--discovery);
     background: color-mix(in srgb, var(--discovery) 10%, var(--surface-raised));
-    font-size: 0.95rem;
+    font-size: 15px;
     font-weight: 800;
   }
   /* The one elastic cell. Everything else in the row is a control with a
@@ -182,10 +204,12 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+  /* The digits stay in rem: this is a number the reader reads, not a
+     glyph. Only the box around them is furniture. */
   .entry-count {
-    min-width: 1.5rem;
+    min-width: 24px;
     flex: none;
-    padding: 0.18rem 0.32rem;
+    padding: 3px 5px;
     border-radius: 999px;
     color: var(--dim);
     background: var(--surface-raised);
@@ -203,20 +227,20 @@
   }
   .icon-btn {
     position: relative;
-    min-width: 2rem;
+    min-width: 32px;
     min-height: 32px;
     display: inline-flex;
     flex: none;
     align-items: center;
     justify-content: center;
-    gap: 0.22rem;
-    padding: 0 0.28rem;
+    gap: 3px;
+    padding: 0 4px;
     border: 0;
     border-radius: 7px;
     color: var(--dim);
     background: transparent;
     font: inherit;
-    font-size: 0.74rem;
+    font-size: 12px;
     font-weight: 750;
     line-height: 1;
     cursor: pointer;
@@ -229,7 +253,7 @@
     background: var(--surface-raised);
   }
   .composer-toggle[aria-expanded="true"] { color: var(--primary); border-color: var(--primary); }
-  .count { min-width: 1.1rem; padding: 0.04rem 0.22rem; border-radius: 999px; color: var(--dim); background: var(--surface); font-size: 0.52rem; }
+  .count { min-width: 18px; padding: 1px 3px; border-radius: 999px; color: var(--dim); background: var(--surface); font-size: 0.52rem; }
   .panel-collapse {
     width: 28px;
     height: 28px;
@@ -242,7 +266,7 @@
     color: var(--dim);
     background: var(--surface-raised);
     font: inherit;
-    font-size: 1rem;
+    font-size: 16px;
     cursor: pointer;
   }
   .panel-collapse:hover { color: var(--primary); border-color: var(--primary); }

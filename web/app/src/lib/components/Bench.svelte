@@ -707,10 +707,23 @@
 </section>
 
 <style>
+  /* GUI-121 — 384px, not 24rem, and the difference is a whole control
+     strip. This is a LAYOUT minimum (how much counter you need in order
+     to stand glassware on it), not prose, so it must not grow with the
+     reader's type. At 200% text zoom 24rem is 768 px, which left the
+     bench pane's ~860 px with about thirty for everything below: the
+     VesselActionDock was pushed clean out of `.bench-pane` and clipped
+     away by its `overflow: hidden`. The selected vessel's name, its
+     volume and temperature, its contents, and the "show all",
+     "measurement tools" and "equipment cabinet" buttons were not painted
+     at all — and unlike the list inside `.bench`, which scrolls, there
+     was nothing to scroll to reach them.
+
+     384 px is 24rem at a 16 px root, so nothing changes at 100%. */
   .bench {
     flex: 1;
     display: block;
-    min-height: 24rem;
+    min-height: 384px;
     padding: 2.7rem 0.75rem 2.6rem;
     overflow: auto;
     position: relative;
