@@ -3281,9 +3281,9 @@ evolved CO₂ and half a mole of it must not look the same.
   themes defines its own glass, and that the phone vessel is still the
   same gradient-painted glass at the small size.
 
-## The result card's header was the journal pane (GUI-119)
+## The result card's header was the journal pane (GUI-120)
 
-- [x] **GUI-119 — The sequel GUI-108 named at `.result-card` and did not
+- [x] **GUI-120 — The sequel GUI-108 named at `.result-card` and did not
   write.** GUI-108 capped the latest-result card so it could no longer
   squeeze the log to nothing, and left the arithmetic of the squeeze in a
   comment: at 371 px of journal pane, 88 px of journal chrome, **104 px of

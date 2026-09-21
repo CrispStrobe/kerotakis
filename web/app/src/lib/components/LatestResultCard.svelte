@@ -183,7 +183,7 @@
   <summary title={provenanceText}>
     <span class="result-mark" aria-hidden="true">✓</span>
     <span class="headline">
-      <!-- GUI-119 — "Neuestes berechnetes Ergebnis" was a visible eyebrow
+      <!-- GUI-120 — "Neuestes berechnetes Ergebnis" was a visible eyebrow
            over the name, on every card, saying what the card's own frame
            and tick already say. It was also the SECOND LINE of this
            column, and so half the header's height. It is the accessible
@@ -338,7 +338,7 @@
      went**, and a more compact summary was the change that would buy both
      the card and the log something. That was GUI-108's sequel.
 
-     GUI-119 is it, and the first thing it found is that the 104 px was
+     GUI-120 is it, and the first thing it found is that the 104 px was
      not a wrapped header. It is `min-height: 3.25rem` read at a 32 px
      root: the check above runs inside the 200% TEXT ZOOM the audit before
      it injects and never removes, so every number in that table is a
@@ -356,7 +356,7 @@
      gain. What the zoomed measurement had been hiding is in the header
      rule below. */
   .result-card { display: flex; flex-direction: column; max-height: 36%; flex: 0 1 auto; min-height: 0; margin: .6rem .65rem 0; border: 1px solid color-mix(in srgb, var(--success) 45%, var(--edge)); border-radius: 14px; color: var(--ink); background: color-mix(in srgb, var(--success) 6%, var(--surface-raised)); overflow: hidden; }
-  /* GUI-119 — the header, measured rather than guessed.
+  /* GUI-120 — the header, measured rather than guessed.
      ...............................................................
      GUI-108 left the sequel named at this rule: "104 px of summary is
      where this pane went". The 104 px is real and it is not a wrap.
@@ -490,7 +490,7 @@
   /* The scroll region. `overscroll-behavior` so that reaching the bottom of
      a long result does not then start scrolling the log underneath — the
      journal is the thing the reader is trying to keep. */
-  /* GUI-119 — the cap was clipping the scroll region rather than sizing it.
+  /* GUI-120 — the cap was clipping the scroll region rather than sizing it.
      Chrome wraps everything after the `<summary>` in `::details-content`,
      so `.result-body` is a grandchild of the card and its `flex: 1 1 auto;
      min-height: 0` was being read by a block box that is not a flex

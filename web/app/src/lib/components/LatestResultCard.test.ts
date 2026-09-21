@@ -53,7 +53,7 @@ describe("the result card's chrome", () => {
   });
 
   /**
-   * GUI-119 — what the compact header keeps.
+   * GUI-120 — what the compact header keeps.
    *
    * This file renders through `svelte/server`, so it can say what is in
    * the markup and nothing about how tall it is. The height is asserted

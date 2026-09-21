@@ -2116,13 +2116,13 @@ try {
       // cost no CSS on the body can reduce.
       summaryHeight: card ? Math.round((card.querySelector('summary')?.getBoundingClientRect().height) ?? 0) : 0,
       chromeHeight: Math.round(paneBox.height - feedBox.height - (cardBox ? cardBox.height : 0)),
-      // GUI-119. The header's job in one number: how much of it is being
+      // GUI-120. The header's job in one number: how much of it is being
       // PAINTED with the operation name or the reaction class. This is
       // the string the card exists to deliver, and at 200% text zoom the
       // four rigid grid tracks around it used to leave it zero.
       nameWidth: card ? Math.round((card.querySelector('summary .operation, summary .badge')?.getBoundingClientRect().width) ?? 0) : 0,
       nameText: card ? (card.querySelector('summary .operation, summary .badge')?.textContent ?? '').trim() : '',
-      // GUI-119. The cap has to SIZE the body, not slice it off. Chrome
+      // GUI-120. The cap has to SIZE the body, not slice it off. Chrome
       // puts everything after the summary inside ::details-content, so
       // the body's own flex rules were being read by a box that is not in
       // the card's flex line, and the bottom of the scroll region fell
@@ -2149,7 +2149,7 @@ try {
       journalShare.intersection <= 1, `${journalShare.intersection}px of overlap`);
     check("the result card can give way in the column",
       journalShare.cardShrink !== "0", `flex-shrink: ${journalShare.cardShrink}`);
-    /* -- GUI-119: the summary was the pane, and the zoom was the reason --
+    /* -- GUI-120: the summary was the pane, and the zoom was the reason --
      *
      * Read the decomposition this block prints together with WHERE it is
      * printed from: `#ux-text-zoom` is injected far above and removed far
@@ -2172,7 +2172,7 @@ try {
      * their own. Each is written to report the number, so a regression
      * says what it measured rather than only that it failed.
      */
-    // GUI-119. The header is chrome, and chrome is sized in px: 44 px is
+    // GUI-120. The header is chrome, and chrome is sized in px: 44 px is
     // the audited touch floor and the summary is a real press target, so
     // that is the floor it keeps at every zoom. 104 px is the value this
     // check was written against.
@@ -2181,11 +2181,11 @@ try {
       journalShare.summaryHeight <= headerCeiling,
       `summary ${journalShare.summaryHeight}px of ${headerCeiling}px `
         + `${journalShare.cardOpen ? "open" : "closed"} at a ${journalShare.rootFontSize} root`);
-    // GUI-119. The card's whole job, as one measurement.
+    // GUI-120. The card's whole job, as one measurement.
     check("the header still paints the name of what the bench just did",
       journalShare.nameWidth >= 60,
       `${journalShare.nameWidth}px painting "${journalShare.nameText}"`);
-    // GUI-119. A cap that clips instead of sizing is not a cap.
+    // GUI-120. A cap that clips instead of sizing is not a cap.
     check("the card's cap sizes its body rather than slicing the bottom off",
       journalShare.cardClipped <= 1, `${journalShare.cardClipped}px of the card clipped`);
     // The log's share, and the arithmetic is why it is what it is.
@@ -2200,7 +2200,7 @@ try {
     // about two lines, which the comment at `.result-card` called a
     // squeeze rather than a fix.
     //
-    // GUI-119 took 60 px out of the header, so the trade is no longer
+    // GUI-120 took 60 px out of the header, so the trade is no longer
     // between the log and two lines of body: at the same 371 px the cap
     // is 36% rather than 40% and the four numbers are 88 / 44 / 88 / 149.
     // The log gains and the body doubles, which is why this now asks for
