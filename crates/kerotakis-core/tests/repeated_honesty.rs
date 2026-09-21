@@ -101,15 +101,25 @@ fn an_inert_solid_is_named_once_and_not_once_per_step() {
 }
 
 /// A solid the bench has no dissolution route for gets the same
-/// treatment, and needs it: neither of its two recipes carries a
-/// measurement, so every repeat is a repeat of the whole sentence.
+/// treatment, and needs it: nothing in the registry carries a measurement
+/// for it, so every repeat is a repeat of the whole sentence.
+///
+/// This was magnesium hydroxide until 2026-09-21, when brucite gained a
+/// reviewed solubility and stopped being an example of the thing — the
+/// bench now says a trace of it is in solution and the rest is still
+/// there, which is a better sentence and a different one. Iron(II)
+/// hydroxide replaces it because it is still in the gap that
+/// `mineral_crosswalk.rs` counts: its canonical determinations are all on
+/// hosts that refuse an automated request, so nobody here has read one.
+/// When it gains a solubility, this test wants another species from that
+/// list rather than a weakened assertion.
 #[test]
 fn the_unmodelled_dissolution_apology_is_also_said_once() {
     let mut bench = Bench::new();
     let mut solver = stack();
     let v = VesselId(0);
     add(&mut bench, &mut solver, v, "water", 5.5);
-    let introduced = add(&mut bench, &mut solver, v, "Mg(OH)2", 0.02);
+    let introduced = add(&mut bench, &mut solver, v, "Fe(OH)2", 0.02);
     assert_eq!(
         apologies(&introduced)
             .iter()

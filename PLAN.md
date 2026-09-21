@@ -3723,6 +3723,26 @@ Measured against `crates/kerotakis-core/tests/golden/registry.json` and
       `conditions.temperature` and `method.detail` say which. It errs in
       the conservative direction.
 
+      **What reaches the reader, and it is in the golden rather than
+      silent.** Four of the five fall under the `< 0.01 g/100 mL` branch,
+      so the bench now says of them that they hardly dissolve and prints
+      the reviewed number. `lessons/antacid-suspension.lab` stops
+      apologising — "not yet modelled — magnesium hydroxide in contact with
+      liquid" becomes "14.9 µmol magnesium hydroxide dissolved" followed by
+      the honest trace sentence — and the copper(II) oxide lesson does the
+      same. `repeated_honesty.rs` had been using magnesium hydroxide as its
+      example of a solid with no dissolution route, and now uses iron(II)
+      hydroxide, which is still in the gap.
+
+      **A defect this makes more visible without causing it.** The
+      insoluble sentence formats its limit with `{limit:.4}`, so anything
+      below 5 × 10⁻⁵ g/100 mL reads "its reviewed solubility is 0.0000 g
+      per 100 mL" — a printed zero for a number that is not zero. Sulfur
+      already did this eleven times in the shipped golden before this
+      change; ferric hydroxide and cupric oxide now do it too. It is a
+      presentation fix, not a data one, and it is left for a separate
+      change rather than mixed into this one.
+
 - [ ] **Four solids whose measurement WAS found and read, and is still not
       shipped — because the engine cannot hold it yet.** This is the real
       finding of the sourcing pass and it is an engine item, not a data
