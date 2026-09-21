@@ -128,6 +128,55 @@ fn stack_from_aqueous(
     Ok(SolverStack::new(kerotakis_stack::standard_solvers(tail)))
 }
 
+/// The aqueous engine, held by the stack and still reachable here.
+///
+/// `prewarm` needs both: the stack has to own an `Equilibrator` for the
+/// whole replay, and this scope has to call `export_cache` on the engine
+/// afterwards. `SolverStack` takes `Box<dyn Equilibrator>` with no
+/// lifetime, so a shared handle is the only way to have both, and the
+/// delegation below is mechanical — every method forwards, so the stack
+/// cannot tell this apart from the engine itself.
+struct SharedAqueous(std::rc::Rc<std::cell::RefCell<kerotakis_phreeqc::PhreeqcEquilibrator>>);
+
+impl Equilibrator for SharedAqueous {
+    fn name(&self) -> &'static str {
+        self.0.borrow().name()
+    }
+    fn route_kind(&self) -> kerotakis_core::solve::SolverRouteKind {
+        self.0.borrow().route_kind()
+    }
+    fn applies(&self, vessel: &Vessel) -> bool {
+        self.0.borrow().applies(vessel)
+    }
+    fn chemistry_applies(&self, vessel: &Vessel) -> bool {
+        self.0.borrow().chemistry_applies(vessel)
+    }
+    fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
+        self.0.borrow_mut().equilibrate(vessel)
+    }
+    fn record_route(&mut self, route: kerotakis_core::solve::SolverRoute) {
+        self.0.borrow_mut().record_route(route);
+    }
+    fn time_boundaries(&self, vessel: &Vessel) -> Vec<Event> {
+        self.0.borrow().time_boundaries(vessel)
+    }
+    fn mix(
+        &mut self,
+        vessel: &mut Vessel,
+        soln_a: &Vessel,
+        frac_a: f64,
+        soln_b: &Vessel,
+        frac_b: f64,
+    ) -> Option<Result<Vec<Event>, SolveError>> {
+        self.0
+            .borrow_mut()
+            .mix(vessel, soln_a, frac_a, soln_b, frac_b)
+    }
+    fn capability(&self, vessel: &Vessel) -> kerotakis_core::solve::CapabilityReport {
+        self.0.borrow().capability(vessel)
+    }
+}
+
 fn optional_explanation_engine() -> Option<kerotakis_phreeqc::PhreeqcEquilibrator> {
     match kerotakis_phreeqc::PhreeqcEquilibrator::new() {
         Ok(engine) => Some(engine),
@@ -389,10 +438,41 @@ fn main() {
                 eprintln!("kero prewarm: no .lab files given");
                 std::process::exit(2);
             }
-            let mut engine = kerotakis_phreeqc::PhreeqcEquilibrator::new().unwrap_or_else(|e| {
+            let engine = kerotakis_phreeqc::PhreeqcEquilibrator::new().unwrap_or_else(|e| {
                 eprintln!("kero prewarm: aqueous engine unavailable: {e}");
                 std::process::exit(1);
             });
+            // THE CACHE MUST BE WARMED THROUGH THE STACK THAT WILL READ IT.
+            //
+            // This stepped the bench with the bare aqueous engine, so the
+            // states it recorded were the ones PHREEQC saw with no rung
+            // ahead of it. Every consumer — the CLI, the shell, the wasm
+            // lab — runs `kerotakis_stack`'s full order, in which
+            // `MixingEquilibrator` has already moved what a reviewed
+            // solubility says dissolves before the aqueous rung is asked
+            // anything. The two agreed only for as long as no solid on the
+            // lesson path had a reviewed solubility above a trace.
+            //
+            // Sodium chloride arriving with the Earl of Berkeley's 1904
+            // figure ended that. Prewarm recorded `Halite 0 9.92e-3` with
+            // no sodium or chloride totals — salt as an undissolved phase —
+            // and the wasm lab asked for the same beaker with the salt in
+            // solution and got "this state is not in the shipped results".
+            // `silver-and-salt.lab` stopped replaying in the browser while
+            // every native suite stayed green, because the native suites
+            // have an engine and never consult the cache.
+            //
+            // Sharing the engine is what lets the stack own the run and
+            // this scope still export the cache afterwards. `SolverStack`
+            // holds `Box<dyn Equilibrator>` with no borrow, so a handle is
+            // the only way to have both.
+            let shared = std::rc::Rc::new(std::cell::RefCell::new(engine));
+            let mut stack =
+                stack_from_aqueous(Ok(Box::new(SharedAqueous(std::rc::Rc::clone(&shared)))))
+                    .unwrap_or_else(|e| {
+                        eprintln!("kero prewarm: {e}");
+                        std::process::exit(1);
+                    });
             let mut steps = 0usize;
             for file in &files {
                 let text = std::fs::read_to_string(file).unwrap_or_else(|e| {
@@ -404,7 +484,7 @@ fn main() {
                     match parse_op(line) {
                         Ok(Some(op)) => {
                             bench
-                                .step_with(op, &mut engine, &kerotakis_safety::ReactiveGroupScreen)
+                                .step_with(op, &mut stack, &kerotakis_safety::ReactiveGroupScreen)
                                 .ok();
                             steps += 1;
                         }
@@ -416,6 +496,10 @@ fn main() {
                     }
                 }
             }
+            drop(stack);
+            let mut engine = std::rc::Rc::try_unwrap(shared)
+                .unwrap_or_else(|_| unreachable!("the stack was the only other handle"))
+                .into_inner();
             // The shipped cache is also the offline R1 contract. Keep these
             // application scenarios beside the lesson states so a browser
             // with no attached engine can prove the same five outcomes.

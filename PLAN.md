@@ -4315,6 +4315,35 @@ dissolution released on the step in one case and not the other. A drift is
 now a failing test rather than a silent difference, which is what the
 change was for.
 
+#### The prewarmed cache was warmed through the wrong stack
+
+The third scar, and the only one that would have shipped a broken browser.
+`kero prewarm` stepped the bench with the **bare aqueous engine**, so the
+states it recorded were the ones PHREEQC saw with no rung ahead of it.
+Every consumer — the CLI, the shell, the wasm lab — runs `kerotakis_stack`'s
+full order, in which `MixingEquilibrator` has already moved whatever a
+reviewed solubility says dissolves before the aqueous rung is asked
+anything.
+
+The two agreed for exactly as long as no solid on the lesson path carried a
+reviewed solubility above a trace. Sodium chloride ended that. Prewarm
+recorded `Halite 0 9.92e-3` with no sodium or chloride totals — salt as an
+undissolved phase — and the wasm lab asked for the same beaker with the
+salt in solution and got *"this state is not in the shipped results"*.
+`silver-and-salt.lab` stopped replaying in the browser **while every
+native suite stayed green**, because the native suites have an engine and
+never consult the cache.
+
+`prewarm` now replays through `stack_from_aqueous`, the same construction
+`kero run` uses, holding the engine behind an `Rc<RefCell<…>>` so the stack
+can own the run and the exporter can still reach the cache afterwards. The
+wasm lab passes, `silver-and-salt.lab` replays, and *"limewater clouds and
+clears again in cached WebAssembly"* is green.
+
+Worth keeping in view: **a cache warmed by a different stack than the one
+that reads it is a contract with no test on it.** What caught this was a
+data change, not a guard.
+
 #### The five, shipped
 
 | solid | g/100 mL | at | source |
