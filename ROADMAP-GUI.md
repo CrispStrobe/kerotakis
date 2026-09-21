@@ -2992,6 +2992,16 @@ evolved CO₂ and half a mole of it must not look the same.
     compartment rather than in `rem` off the root, because the compartment
     is 117 px on the desktop grid and 144 px on a mid-size phone. They
     come out at 40% of its height, and `letterShare` pins that.
+  - **The check found something before the layout shipped.** With the
+    "after 2 missions" and "mission kit" tickets left in the flow AFTER
+    the drawing, a locked tile's device sits higher than its neighbours'
+    while the row stretches around it, and a shelf row's feet disagree by
+    the height of a ticket. `unlevelRows` fails on that. The tickets moved
+    above the device, between the plate and the compartment, so the
+    drawing stays the last item with `margin-top: auto` and its foot is
+    the tile's bottom edge whatever else the tile carries. With a locked
+    and a loaned tile in every row the share settles at 52.5–54.3% rather
+    than 58.1–60.5%, because those rows are taller.
   - **The phone needed no rule of its own.** The 5.8rem column override
     GUI-110 added is gone: the tile's own 7.6rem minimum yields exactly
     two columns at 320 px, and the device is BIGGER there (125 px) than on
