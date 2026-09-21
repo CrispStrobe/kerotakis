@@ -3281,6 +3281,94 @@ evolved CO₂ and half a mole of it must not look the same.
   themes defines its own glass, and that the phone vessel is still the
   same gradient-painted glass at the small size.
 
+## The colour the model could not finish (GUI-119)
+
+- [x] **GUI-119 — A vessel that admits its colour is incomplete.**
+  #691 (GUI-118) ended with a list of computed values the picture was not
+  showing. `Appearance.spectral_gaps` was the one that had *no path to the
+  picture at all*: `SceneVessel` did not carry it, so the drawn beaker
+  painted a confident colour over a gap the engine had already admitted in
+  words. A learner who ran `look` and read the note learned the colour was
+  partial; a learner who looked at the beaker did not. That is the wrong
+  way round for a laboratory whose standing rule is that it refuses to
+  show what it has not modelled.
+
+  **What the work found.**
+
+  - The *prose* half was already complete, and complete in German: the
+    `look.spectral-gap` Phrase has a catalogue row, `SceneVessel.notes`
+    carries it, and `scene::localize` recomposes it — so the vessel's SVG
+    `<title>` and the live observation line under the drawing have been
+    saying "Die Farbe ist unvollständig …" for as long as the note has
+    existed. Nothing needed inventing; the sentence needed a *picture* to
+    stand next to.
+  - The gap list is produced by `solution_optics::spectral_gaps`, which
+    walks `vessel.solution.species` — the native speciation. **In the
+    browser, `kerotakis-phreeqc` is built cache-only** (a browser cannot
+    link the C++ engine), so an aqueous answer is a shipped pre-warmed
+    result or a stated cache miss. The gap therefore appears in the app
+    only where the shipped cache carries a solution whose native complexes
+    have no registered spectrum. Whether any *lesson* currently reaches
+    that state was not measured here and is worth its own item — the
+    signal is now wired end to end either way, and the native bench and
+    the conformance corpus reach it directly.
+  - `bench.rs` and `instrument.rs` both consult the same list for the
+    spectrophotometer. Three consumers, one source; the scene is the
+    fourth and was the only one missing.
+
+  **What is on the scene.** `SceneLiquid.spectral_gaps: Vec<String>` —
+  the *names*, not a flag. Names cost a few short strings per frame and
+  buy the only question the mark provokes ("what is missing?"); a bare
+  boolean would also have put the picture and the prose beside it in
+  disagreement about how much the model is willing to say. Empty lists
+  are omitted from the wire, so a host written before the field sees
+  byte-for-byte what it saw before. Recorded in `PROTOCOL.md`.
+
+  **What is drawn.** A diagonal hatch over the liquid column, and nothing
+  else in the vessel — the glass, the foam and the deposit are not what is
+  in doubt. A hatch because hatching is what a chart draws over a region
+  it has no data for: it says *this is not fully known* without adding one
+  fact about the liquid. It carries **no hue at all**, which is the whole
+  point — the content of this signal is that no colour could be computed,
+  and tinting the gap would invert it. It is not a warning either: no
+  red, no icon, no animation.
+
+  Two strokes per tile, one `--glass-depth` and one `--glass-specular`,
+  half a pitch apart. The liquid underneath is an arbitrary engine colour
+  on an arbitrary bench, and a single-tone hatch vanishes against half of
+  them; a light/dark pair cannot. Rendered at five liquid colours from
+  near-white to near-black, at 64 px and 257 px, on all three benches: the
+  texture reads in every one of the thirty.
+
+  `patternUnits="userSpaceOnUse"` inside the same fixed `viewBox` as
+  everything else, so an 8-unit tile is 5 px at the 64 px vessel and 20 px
+  at the 257 px one — one drawing scaled, never a re-tiling that turns to
+  noise at one end.
+
+  **What is said.** A `<title>` on the hatch, so pointing at the texture
+  answers what it is; and a standing readout in the caption row the reader
+  already reads the vessel's numbers from — `Farbe unvollständig` with the
+  species named — so the admission is visible text and not only a hover.
+  Three new rows in `de.json` and three empty ones in `_template.json`;
+  adding a language stays one core toml and one web json, with no code.
+
+  **Deliberately not done.** No tint was invented for the missing species,
+  for the same reason `path_length_cm` stayed unwired in #691: the model
+  could not compute it, and a renderer that guesses has made the claim the
+  engine refused to. The hatch does not extend over the deposit or the
+  foam, which the gap says nothing about.
+
+  **Guarded.** `VesselSpectralGap.test.ts` runs it in both directions — a
+  whole colour draws no mark, a gapped one draws the hatch and names the
+  species; a scene from an older engine reads as "nothing known to be
+  missing"; the liquid's own fill is byte-identical with the mark and
+  without it. Named preconditions in `tools/test-ux-quality.mjs` measure
+  the real thing in real Chrome at the real drawn scale: both strokes
+  resolve, they differ from each other, **neither carries a hue**, they
+  are faint enough to leave the computed colour legible, and the tile is
+  still a hatch rather than a flat wash at the smallest size the bench
+  ever draws.
+
 ## The result card's header was the journal pane (GUI-120)
 
 - [x] **GUI-120 — The sequel GUI-108 named at `.result-card` and did not
@@ -3366,6 +3454,7 @@ evolved CO₂ and half a mole of it must not look the same.
   34), and the log keeps more than a third. The component test can only say
   what is in the markup, so it says that dropping the eyebrow did not drop
   the card's accessible name, its vessel, or the operation.
+
 
 ## Completed GUI tasks
 
