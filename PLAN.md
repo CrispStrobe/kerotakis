@@ -4259,16 +4259,39 @@ invention.
 #### Two things the shipped data then exposed, both fixed here
 
 **An enthalpy leak, the one `nonaqueous.rs` already names one rung over.**
-Calling a solid "dissolved" moves it from its own Cp(T) curve to the flat
-registry constant, and relabelling at a fixed temperature rewrote the
-vessel's enthalpy for free. It was invisible while the solids reaching
-this rung were sugar and iodine; sodium chloride arriving with a measured
-solubility made it a 2.9 J divergence on 90 kJ of traffic in
-`conservation::energy_is_conserved`, ten times that test's tolerance.
-Enthalpy, not temperature, is what survives a relabelling: the vessel's
-enthalpy is now exactly what it was and the temperature is whatever the
-new mixture's heat capacity says. The shift is 1e-4 K on two lesson
-goldens and it is in the diff.
+Calling a solid "dissolved" moved it from its own Cp(T) curve to the flat
+registry constant — a species that owns only a solid curve has none for
+the liquid phase — and the two agree at the reference temperature and
+nowhere else, so the relabelling alone rewrote the vessel's enthalpy for
+free. Invisible while the solids reaching this rung were sugar and iodine;
+sodium chloride arriving with a measured solubility made it a **2.9 J
+divergence on 90 kJ** of traffic in `conservation::energy_is_conserved`,
+ten times that test's tolerance.
+
+**Correcting the TEMPERATURE was the first attempt and it is worse — this
+is the second scar in this ruling and it is the more instructive one.**
+Holding the enthalpy and letting the temperature move is what
+`nonaqueous.rs` does and it closes the leak. But the correction rides on a
+heat-capacity integral, and a heat-capacity integral is **not
+bit-identical between native and wasm**. The prewarmed replay cache is
+keyed on vessel state, so a temperature that differs in its last digits
+splits the key: the wasm lab lost `silver-and-salt.lab` entirely — *"this
+state is not in the shipped results and there is no solver here to compute
+it"* — while every native suite stayed green. That is the
+`kero-native-wasm-one-value` shape, arriving from a direction nobody was
+watching.
+
+**What ships instead is the root cause.** A solid that dissolves does not
+change which model describes it: `states::heat_capacity_curve` now falls
+back to the species' own SOLID curve for an aqueous portion of a solid
+that has no liquid curve, rather than to the flat constant. The enthalpy
+is continuous across the relabelling by construction, no temperature
+moves, and the cache key is untouched. It claims nothing about the heat
+capacity of a solution — dissolved sodium chloride is aqueous ions, whose
+partial molar Cp is a quantity this registry does not carry — only that
+the bench's answer for one substance must not depend on which label the
+bookkeeping has just put on it. Four lesson temperatures move, by 2e-4 K
+and less, and they are in the diff.
 
 **A mineral posed as its phase whichever condensed phase holds it —
 TRIED, AND WITHDRAWN, AND IT IS WORTH RECORDING WHY.** `partition` folds

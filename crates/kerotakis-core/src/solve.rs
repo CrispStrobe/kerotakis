@@ -578,34 +578,9 @@ impl Equilibrator for MixingEquilibrator {
         // limit dissolve only up to that finite capacity. This changes phase
         // bookkeeping but makes no pH, ionic-strength, or activity claim.
         //
-        // ENTHALPY, NOT TEMPERATURE, IS WHAT SURVIVES THE RELABELLING —
-        // the rule `nonaqueous.rs` already keeps for the same move one rung
-        // over, and the rule the aqueous tail keeps across speciation.
-        // Calling a solid "dissolved" moves it from its own Cp(T) curve to
-        // the flat registry constant, because a species that owns only a
-        // solid curve has none for the aqueous phase and
-        // `states::heat_capacity_curve` falls back to the number. Curve and
-        // constant agree at the reference temperature and nowhere else, so
-        // relabelling at a fixed temperature silently rewrites the vessel's
-        // enthalpy for free.
-        //
-        // It stayed invisible while the solids that reach this rung were
-        // sugar and iodine, whose doses are small. Sodium chloride arriving
-        // with a measured solubility made it a 2.9 J divergence on 90 kJ of
-        // traffic in `conservation::energy_is_conserved` — ten times that
-        // test's tolerance, and a leak rather than arithmetic.
-        //
-        // These rows are solubilities and not enthalpies, so this move
-        // carries no heat of solution: the vessel's enthalpy is exactly
-        // what it was, and the temperature is whatever the new mixture's
-        // heat capacity says it is. The shift is real and tiny — the two
-        // Cp models differ in the third decimal, not the first.
-        let held_before_saturation = vessel.enthalpy().0;
-        let mut relabelled = false;
         for move_ in saturation_moves(vessel) {
             match move_ {
                 SaturationMove::Dissolve(solute, moles) => {
-                    relabelled = true;
                     vessel.withdraw(&solute, moles);
                     vessel.deposit(solute.clone(), moles, Phase::Aqueous);
                     rephase_lots(vessel, &solute, moles);
@@ -617,7 +592,6 @@ impl Equilibrator for MixingEquilibrator {
                     vessel.resolved.invalidate();
                 }
                 SaturationMove::Crystallise(solute, moles) => {
-                    relabelled = true;
                     vessel.withdraw_phase(&solute, moles, Phase::Aqueous);
                     vessel.deposit(solute.clone(), moles, Phase::Solid);
                     events.push(Event::Precipitated {
@@ -641,16 +615,6 @@ impl Equilibrator for MixingEquilibrator {
                     capacity,
                 }),
             }
-        }
-        // A vessel held at a bath temperature is held; only an adiabatic
-        // one moves with its own contents.
-        if relabelled
-            && matches!(vessel.thermal_mode, ThermalMode::Adiabatic)
-            && vessel.heat_capacity() > 0.0
-        {
-            let t_ref = Kelvin::STANDARD.0;
-            vessel.temperature =
-                Kelvin(vessel.temperature_after_from(t_ref, held_before_saturation));
         }
         // K51: and the salts that are past saturation and cannot be made
         // to come out. Silence here is the answer a learner cannot use.

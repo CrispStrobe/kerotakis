@@ -233,7 +233,40 @@ pub fn heat_capacity_curve(data: &SpeciesData, phase: Phase) -> Option<&'static 
         Phase::Aqueous => Phase::Liquid,
         other => other,
     };
-    crate::heat_capacity::polynomial_for(data.heat_capacity_polys, wanted)
+    if let Some(curve) = crate::heat_capacity::polynomial_for(data.heat_capacity_polys, wanted) {
+        return Some(curve);
+    }
+    // A SOLID THAT DISSOLVES DOES NOT CHANGE WHICH MODEL DESCRIBES IT.
+    //
+    // A species that owns only a solid curve has none for the liquid
+    // phase, so calling it "dissolved" used to drop it from its own Cp(T)
+    // onto the flat registry constant. The two agree at the reference
+    // temperature and nowhere else, which means the relabelling alone
+    // rewrote the vessel's enthalpy — a leak, not arithmetic, and the same
+    // one `nonaqueous.rs` documents at its own dissolution rung.
+    //
+    // It was invisible while the solids that dissolve on a reviewed
+    // solubility were sugar and iodine. Sodium chloride arriving with the
+    // Earl of Berkeley's 1904 figure made it 2.9 J on 90 kJ of traffic in
+    // `conservation::energy_is_conserved`, ten times that test's tolerance.
+    //
+    // Correcting the TEMPERATURE instead was tried and is worse: the
+    // correction rides on a heat-capacity integral, which is not
+    // bit-identical between native and wasm, and a vessel temperature that
+    // differs in its last digits splits the replay cache — the wasm lab
+    // lost `silver-and-salt.lab` to "not in the shipped results". Keeping
+    // one model for one substance costs nothing and moves no temperature.
+    //
+    // NEITHER CURVE IS A HEAT CAPACITY OF THE SOLUTION, and this does not
+    // claim to be one: dissolved sodium chloride is aqueous ions, whose
+    // partial molar Cp is a different quantity that this registry does not
+    // carry. What is claimed is only that the bench's answer for this
+    // substance must not depend on which label the bookkeeping has just
+    // put on it.
+    if data.standard_phase == Phase::Solid && phase == Phase::Aqueous {
+        return crate::heat_capacity::polynomial_for(data.heat_capacity_polys, Phase::Solid);
+    }
+    None
 }
 
 /// Molar heat capacity of a species in a phase AT a temperature, J/(mol·K).
