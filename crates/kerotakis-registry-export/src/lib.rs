@@ -589,6 +589,11 @@ pub fn export_current_registry() -> Result<RegistryDocument, String> {
         "literature/almkvist-metal-hydroxide-solubility-1918",
         "literature/pechet-cupric-oxide-solubility-1940",
         "literature/mcgee-hostetler-brucite-1977",
+        // 2026-09-21, the second tranche: the five solids #699 sourced and
+        // held back because `saturation_moves` was solution-blind. Melcher
+        // carries silver chloride and gypsum and is already listed above.
+        "literature/bates-bower-smith-calcium-hydroxide-1956",
+        "literature/berkeley-saturated-solutions-1904",
     ];
     for record in reviewed
         .identities

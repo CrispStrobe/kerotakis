@@ -577,6 +577,7 @@ impl Equilibrator for MixingEquilibrator {
         // Neutral molecular solids with an explicit reviewed room-temperature
         // limit dissolve only up to that finite capacity. This changes phase
         // bookkeeping but makes no pH, ionic-strength, or activity claim.
+        //
         for move_ in saturation_moves(vessel) {
             match move_ {
                 SaturationMove::Dissolve(solute, moles) => {
@@ -891,6 +892,119 @@ pub fn unavailable_crystallisations(vessel: &Vessel) -> Vec<UnavailableCrystalli
         .collect()
 }
 
+/// The pure-water saturation point, re-read as a solubility product and
+/// answered in the solution the beaker actually holds.
+///
+/// **#699's finding, and the sharper half of it.**
+/// `aqueous_solubility_g_per_100_ml` is a saturation point somebody
+/// measured **in pure water**. [`saturation_moves`] read it as a fixed
+/// capacity and knew nothing else about the beaker, so a solid dissolved
+/// the same amount whatever was already in solution. Magnitude was never
+/// the problem: `AgCl` at 1.05e-5 mol/L is barely above chalk, and it
+/// still broke `codex lint` — *"common-ion-effect: claims 'dissolved:AgCl'
+/// does NOT happen, but it did"*. The entry teaches that silver chloride
+/// in 0.01 mol/L salt water dissolves nothing a bench could weigh, and the
+/// cap dissolved it anyway, because it could not see the chloride.
+///
+/// For a salt of two monatomic ions the pure-water number IS a solubility
+/// product in disguise. `Ksp = Π (ν_i · s0)^ν_i` from the measurement
+/// itself, and the amount that can still dissolve into a solution already
+/// holding those ions is the `s` that satisfies
+/// `Π (c_i + ν_i · s)^ν_i = Ksp`. Nothing is curated and no constant is
+/// introduced: the same reviewed figure answers both questions.
+///
+/// **Deliberately narrow.** Only `MₐXᵦ` where both elements appear in the
+/// vessel's own solution as monatomic ions — silver chloride, halite,
+/// sylvite. A polyatomic anion (carbonate, sulfate, hydroxide) cannot have
+/// its product reconstructed from one mass figure without assuming which
+/// species carries it, and guessing that is how a beaker of vinegar would
+/// have suppressed chalk on the carbon in the acetate. Those keep the
+/// pure-water cap they have always had, which is where nothing is
+/// reported broken. Under-suppressing is today's behaviour; over-
+/// suppressing would be a new invention.
+///
+/// `None` where the rule does not apply, and the caller keeps the
+/// pure-water capacity.
+fn common_ion_capacity(
+    vessel: &Vessel,
+    formula: &str,
+    pure_water_moles: f64,
+    litres: f64,
+) -> Option<f64> {
+    if litres <= 0.0 || pure_water_moles <= 0.0 {
+        return None;
+    }
+    let parsed = crate::stoich::parse_formula(formula).ok()?;
+    if parsed.charge != 0.0 || parsed.counts.len() != 2 {
+        return None;
+    }
+    let stoichiometry: Vec<(String, f64)> = parsed
+        .counts
+        .iter()
+        .map(|(el, n)| (el.clone(), *n))
+        .collect();
+    if stoichiometry
+        .iter()
+        .any(|(el, n)| el == "H" || el == "O" || *n <= 0.0)
+    {
+        return None;
+    }
+    // What the vessel already holds of each of those elements, counted
+    // only where a MONATOMIC ion carries it. Acetate carries carbon and is
+    // not carbonate; ammonium carries nitrogen and is not nitrate. An ion
+    // that is one atom cannot be mistaken for another salt's anion.
+    let present = |element: &str| -> f64 {
+        vessel
+            .contents
+            .iter()
+            .filter(|portion| portion.phase == Phase::Aqueous)
+            .filter_map(|portion| {
+                let data = species::lookup(&portion.species)?;
+                let ion = crate::stoich::parse_formula(data.formula).ok()?;
+                (ion.charge != 0.0 && ion.counts.len() == 1 && ion.counts.contains_key(element))
+                    .then(|| portion.moles.0 * ion.counts.get(element).copied().unwrap_or(0.0))
+            })
+            .sum()
+    };
+    let concentrations: Vec<f64> = stoichiometry
+        .iter()
+        .map(|(el, _)| present(el) / litres)
+        .collect();
+    if concentrations.iter().all(|c| *c <= 0.0) {
+        return None;
+    }
+    let s0 = pure_water_moles / litres;
+    let product = |s: f64| -> f64 {
+        stoichiometry
+            .iter()
+            .zip(concentrations.iter())
+            .map(|((_, nu), c)| (c + nu * s).powf(*nu))
+            .product::<f64>()
+    };
+    let ksp = stoichiometry
+        .iter()
+        .map(|(_, nu)| (nu * s0).powf(*nu))
+        .product::<f64>();
+    if product(0.0) >= ksp {
+        return Some(0.0);
+    }
+    if product(s0) <= ksp {
+        return None;
+    }
+    // Monotone in `s`, so bisection converges and cannot pick a root that
+    // is not there.
+    let (mut lo, mut hi) = (0.0f64, s0);
+    for _ in 0..80 {
+        let mid = 0.5 * (lo + hi);
+        if product(mid) < ksp {
+            lo = mid;
+        } else {
+            hi = mid;
+        }
+    }
+    Some(0.5 * (lo + hi) * litres)
+}
+
 pub fn saturation_moves(vessel: &Vessel) -> Vec<SaturationMove> {
     let water_moles = vessel
         .contents
@@ -929,7 +1043,25 @@ pub fn saturation_moves(vessel: &Vessel) -> Vec<SaturationMove> {
         };
         let solid = amount(Phase::Solid);
         let aqueous = amount(Phase::Aqueous);
-        let capacity = limit * water_ml / 100.0 / data.molar_mass;
+        let pure_water_capacity = limit * water_ml / 100.0 / data.molar_mass;
+        // The same reviewed figure, answered in THIS solution rather than
+        // in the pure water it was measured in.
+        let capacity =
+            match common_ion_capacity(vessel, data.formula, pure_water_capacity, water_ml / 1000.0)
+            {
+                // Suppressed below what a beaker could show. The bench has
+                // nothing to claim and says nothing: a `Dissolved` event for
+                // eleven nanomoles is the false precision `codex lint` caught,
+                // and the honesty pass already has the sentence for a solid
+                // that is sitting there. Note that this floor is only ever
+                // reached by SUPPRESSION — in pure water `None` comes back and
+                // the pure-water capacity stands however small it is, so the
+                // traces #699 shipped (magnesium hydroxide, cupric oxide) are
+                // untouched.
+                Some(suppressed) if suppressed < crate::OBSERVABLE_MOLES => continue,
+                Some(suppressed) => suppressed,
+                None => pure_water_capacity,
+            };
         if aqueous > capacity + 1e-12 {
             // A seed is a crystal of the same solute already in the vessel.
             // Without one the solution stays where it is and says so; with

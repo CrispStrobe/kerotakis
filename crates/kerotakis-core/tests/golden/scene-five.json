@@ -2527,6 +2527,294 @@
       "outcome": {
         "events": [
           "added",
+          "dissolved"
+        ]
+      },
+      "scene": {
+        "scene": 1,
+        "vessels": [
+          {
+            "badges": [],
+            "boiling_point_k": 373.15,
+            "boundary": "open",
+            "bubbling": false,
+            "bulk_objects": [],
+            "clauses": [
+              {
+                "en": "the liquid is {colour} {clarity}",
+                "key": "look.liquid",
+                "slots": [
+                  [
+                    "colour",
+                    {
+                      "term": {
+                        "en": "colourless",
+                        "section": "appearance"
+                      }
+                    }
+                  ],
+                  [
+                    "clarity",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "and clear",
+                          "key": "look.clarity-clear"
+                        }
+                      }
+                    }
+                  ]
+                ]
+              }
+            ],
+            "elapsed_s": 0.0,
+            "id": 0,
+            "label": "beaker",
+            "layers": [
+              {
+                "colour_word": "colourless",
+                "name": "solution",
+                "species": "solution",
+                "srgb": [
+                  255,
+                  255,
+                  255
+                ],
+                "volume_l": 0.1
+              }
+            ],
+            "liquid": {
+              "cloudiness": 0.0,
+              "colour_word": "colourless",
+              "path_length_cm": 4.0,
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.1
+            },
+            "mass_g": 99.7,
+            "melting_point_k": 273.15,
+            "pressure_pa": 101325.0,
+            "solids": [],
+            "temperature_k": 369.992242,
+            "words": "The liquid is colourless and clear."
+          },
+          {
+            "badges": [],
+            "boiling_point_k": 373.15,
+            "boundary": "open",
+            "bubbling": false,
+            "bulk_objects": [],
+            "clauses": [
+              {
+                "en": "the liquid is {colour} {clarity}",
+                "key": "look.liquid",
+                "slots": [
+                  [
+                    "colour",
+                    {
+                      "term": {
+                        "en": "colourless",
+                        "section": "appearance"
+                      }
+                    }
+                  ],
+                  [
+                    "clarity",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "and clear",
+                          "key": "look.clarity-clear"
+                        }
+                      }
+                    }
+                  ]
+                ]
+              }
+            ],
+            "elapsed_s": 0.0,
+            "id": 1,
+            "label": "beaker",
+            "layers": [
+              {
+                "colour_word": "colourless",
+                "name": "solution",
+                "species": "solution",
+                "srgb": [
+                  255,
+                  255,
+                  255
+                ],
+                "volume_l": 0.1
+              }
+            ],
+            "liquid": {
+              "cloudiness": 0.0,
+              "colour_word": "colourless",
+              "path_length_cm": 4.0,
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.1
+            },
+            "mass_g": 99.7,
+            "melting_point_k": 273.15,
+            "pressure_pa": 101325.0,
+            "solids": [],
+            "temperature_k": 440.351788,
+            "words": "The liquid is colourless and clear."
+          },
+          {
+            "badges": [],
+            "boiling_point_k": 373.15,
+            "boundary": "open",
+            "bubbling": false,
+            "bulk_objects": [],
+            "clauses": [
+              {
+                "en": "the liquid is {colour} {clarity}",
+                "key": "look.liquid",
+                "slots": [
+                  [
+                    "colour",
+                    {
+                      "term": {
+                        "en": "colourless",
+                        "section": "appearance"
+                      }
+                    }
+                  ],
+                  [
+                    "clarity",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "and clear",
+                          "key": "look.clarity-clear"
+                        }
+                      }
+                    }
+                  ]
+                ]
+              }
+            ],
+            "elapsed_s": 0.0,
+            "id": 2,
+            "label": "beaker",
+            "layers": [
+              {
+                "colour_word": "colourless",
+                "name": "solution",
+                "species": "solution",
+                "srgb": [
+                  255,
+                  255,
+                  255
+                ],
+                "volume_l": 0.1
+              }
+            ],
+            "liquid": {
+              "cloudiness": 0.0,
+              "colour_word": "colourless",
+              "path_length_cm": 4.0,
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.1
+            },
+            "mass_g": 99.7,
+            "melting_point_k": 273.15,
+            "pressure_pa": 101325.0,
+            "solids": [],
+            "temperature_k": 743.396706,
+            "words": "The liquid is colourless and clear."
+          },
+          {
+            "badges": [],
+            "boiling_point_k": 373.15,
+            "boundary": "open",
+            "bubbling": false,
+            "bulk_objects": [],
+            "clauses": [
+              {
+                "en": "the liquid is {colour} {clarity}",
+                "key": "look.liquid",
+                "slots": [
+                  [
+                    "colour",
+                    {
+                      "term": {
+                        "en": "colourless",
+                        "section": "appearance"
+                      }
+                    }
+                  ],
+                  [
+                    "clarity",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "and clear",
+                          "key": "look.clarity-clear"
+                        }
+                      }
+                    }
+                  ]
+                ]
+              }
+            ],
+            "elapsed_s": 0.0,
+            "id": 3,
+            "label": "beaker",
+            "layers": [
+              {
+                "colour_word": "colourless",
+                "name": "solution",
+                "species": "solution",
+                "srgb": [
+                  255,
+                  255,
+                  255
+                ],
+                "volume_l": 0.1
+              }
+            ],
+            "liquid": {
+              "cloudiness": 0.0,
+              "colour_word": "colourless",
+              "path_length_cm": 4.0,
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.1
+            },
+            "mass_g": 119.7,
+            "melting_point_k": 273.15,
+            "pressure_pa": 101325.0,
+            "solids": [],
+            "temperature_k": 298.15,
+            "words": "The liquid is colourless and clear."
+          }
+        ]
+      }
+    },
+    {
+      "command": "heat v4 60kJ",
+      "line": 34,
+      "outcome": {
+        "events": [
+          "temperature_changed",
+          "energy_transferred",
           "not_yet_modeled"
         ]
       },
@@ -2752,7 +3040,7 @@
                     "colour",
                     {
                       "term": {
-                        "en": "white",
+                        "en": "colourless",
                         "section": "appearance"
                       }
                     }
@@ -2762,8 +3050,8 @@
                     {
                       "phrase": {
                         "phrase": {
-                          "en": "and so cloudy you cannot see through it",
-                          "key": "look.clarity-opaque"
+                          "en": "and clear",
+                          "key": "look.clarity-clear"
                         }
                       }
                     }
@@ -2776,7 +3064,7 @@
             "label": "beaker",
             "layers": [
               {
-                "colour_word": "white",
+                "colour_word": "colourless",
                 "name": "solution",
                 "species": "solution",
                 "srgb": [
@@ -2788,8 +3076,8 @@
               }
             ],
             "liquid": {
-              "cloudiness": 1.0,
-              "colour_word": "white",
+              "cloudiness": 0.0,
+              "colour_word": "colourless",
               "path_length_cm": 4.0,
               "srgb": [
                 255,
@@ -2801,328 +3089,9 @@
             "mass_g": 119.7,
             "melting_point_k": 273.15,
             "pressure_pa": 101325.0,
-            "solids": [
-              {
-                "colour_word": "white",
-                "metallic": false,
-                "moles": 0.342214,
-                "name": "sodium chloride",
-                "represented_by_bulk_object": false,
-                "settled_fraction": 0.0,
-                "species": "NaCl",
-                "srgb": [
-                  250,
-                  250,
-                  250
-                ],
-                "volume_l": 0.009217
-              }
-            ],
-            "temperature_k": 298.15,
-            "words": "The liquid is white and so cloudy you cannot see through it."
-          }
-        ]
-      }
-    },
-    {
-      "command": "heat v4 60kJ",
-      "line": 34,
-      "outcome": {
-        "events": [
-          "temperature_changed",
-          "energy_transferred"
-        ]
-      },
-      "scene": {
-        "scene": 1,
-        "vessels": [
-          {
-            "badges": [],
-            "boiling_point_k": 373.15,
-            "boundary": "open",
-            "bubbling": false,
-            "bulk_objects": [],
-            "clauses": [
-              {
-                "en": "the liquid is {colour} {clarity}",
-                "key": "look.liquid",
-                "slots": [
-                  [
-                    "colour",
-                    {
-                      "term": {
-                        "en": "colourless",
-                        "section": "appearance"
-                      }
-                    }
-                  ],
-                  [
-                    "clarity",
-                    {
-                      "phrase": {
-                        "phrase": {
-                          "en": "and clear",
-                          "key": "look.clarity-clear"
-                        }
-                      }
-                    }
-                  ]
-                ]
-              }
-            ],
-            "elapsed_s": 0.0,
-            "id": 0,
-            "label": "beaker",
-            "layers": [
-              {
-                "colour_word": "colourless",
-                "name": "solution",
-                "species": "solution",
-                "srgb": [
-                  255,
-                  255,
-                  255
-                ],
-                "volume_l": 0.1
-              }
-            ],
-            "liquid": {
-              "cloudiness": 0.0,
-              "colour_word": "colourless",
-              "path_length_cm": 4.0,
-              "srgb": [
-                255,
-                255,
-                255
-              ],
-              "volume_l": 0.1
-            },
-            "mass_g": 99.7,
-            "melting_point_k": 273.15,
-            "pressure_pa": 101325.0,
             "solids": [],
-            "temperature_k": 369.992242,
-            "words": "The liquid is colourless and clear."
-          },
-          {
-            "badges": [],
-            "boiling_point_k": 373.15,
-            "boundary": "open",
-            "bubbling": false,
-            "bulk_objects": [],
-            "clauses": [
-              {
-                "en": "the liquid is {colour} {clarity}",
-                "key": "look.liquid",
-                "slots": [
-                  [
-                    "colour",
-                    {
-                      "term": {
-                        "en": "colourless",
-                        "section": "appearance"
-                      }
-                    }
-                  ],
-                  [
-                    "clarity",
-                    {
-                      "phrase": {
-                        "phrase": {
-                          "en": "and clear",
-                          "key": "look.clarity-clear"
-                        }
-                      }
-                    }
-                  ]
-                ]
-              }
-            ],
-            "elapsed_s": 0.0,
-            "id": 1,
-            "label": "beaker",
-            "layers": [
-              {
-                "colour_word": "colourless",
-                "name": "solution",
-                "species": "solution",
-                "srgb": [
-                  255,
-                  255,
-                  255
-                ],
-                "volume_l": 0.1
-              }
-            ],
-            "liquid": {
-              "cloudiness": 0.0,
-              "colour_word": "colourless",
-              "path_length_cm": 4.0,
-              "srgb": [
-                255,
-                255,
-                255
-              ],
-              "volume_l": 0.1
-            },
-            "mass_g": 99.7,
-            "melting_point_k": 273.15,
-            "pressure_pa": 101325.0,
-            "solids": [],
-            "temperature_k": 440.351788,
-            "words": "The liquid is colourless and clear."
-          },
-          {
-            "badges": [],
-            "boiling_point_k": 373.15,
-            "boundary": "open",
-            "bubbling": false,
-            "bulk_objects": [],
-            "clauses": [
-              {
-                "en": "the liquid is {colour} {clarity}",
-                "key": "look.liquid",
-                "slots": [
-                  [
-                    "colour",
-                    {
-                      "term": {
-                        "en": "colourless",
-                        "section": "appearance"
-                      }
-                    }
-                  ],
-                  [
-                    "clarity",
-                    {
-                      "phrase": {
-                        "phrase": {
-                          "en": "and clear",
-                          "key": "look.clarity-clear"
-                        }
-                      }
-                    }
-                  ]
-                ]
-              }
-            ],
-            "elapsed_s": 0.0,
-            "id": 2,
-            "label": "beaker",
-            "layers": [
-              {
-                "colour_word": "colourless",
-                "name": "solution",
-                "species": "solution",
-                "srgb": [
-                  255,
-                  255,
-                  255
-                ],
-                "volume_l": 0.1
-              }
-            ],
-            "liquid": {
-              "cloudiness": 0.0,
-              "colour_word": "colourless",
-              "path_length_cm": 4.0,
-              "srgb": [
-                255,
-                255,
-                255
-              ],
-              "volume_l": 0.1
-            },
-            "mass_g": 99.7,
-            "melting_point_k": 273.15,
-            "pressure_pa": 101325.0,
-            "solids": [],
-            "temperature_k": 743.396706,
-            "words": "The liquid is colourless and clear."
-          },
-          {
-            "badges": [],
-            "boiling_point_k": 373.15,
-            "boundary": "open",
-            "bubbling": false,
-            "bulk_objects": [],
-            "clauses": [
-              {
-                "en": "the liquid is {colour} {clarity}",
-                "key": "look.liquid",
-                "slots": [
-                  [
-                    "colour",
-                    {
-                      "term": {
-                        "en": "white",
-                        "section": "appearance"
-                      }
-                    }
-                  ],
-                  [
-                    "clarity",
-                    {
-                      "phrase": {
-                        "phrase": {
-                          "en": "and so cloudy you cannot see through it",
-                          "key": "look.clarity-opaque"
-                        }
-                      }
-                    }
-                  ]
-                ]
-              }
-            ],
-            "elapsed_s": 0.0,
-            "id": 3,
-            "label": "beaker",
-            "layers": [
-              {
-                "colour_word": "white",
-                "name": "solution",
-                "species": "solution",
-                "srgb": [
-                  255,
-                  255,
-                  255
-                ],
-                "volume_l": 0.1
-              }
-            ],
-            "liquid": {
-              "cloudiness": 1.0,
-              "colour_word": "white",
-              "path_length_cm": 4.0,
-              "srgb": [
-                255,
-                255,
-                255
-              ],
-              "volume_l": 0.1
-            },
-            "mass_g": 119.7,
-            "melting_point_k": 273.15,
-            "pressure_pa": 101325.0,
-            "solids": [
-              {
-                "colour_word": "white",
-                "metallic": false,
-                "moles": 0.342214,
-                "name": "sodium chloride",
-                "represented_by_bulk_object": false,
-                "settled_fraction": 0.0,
-                "species": "NaCl",
-                "srgb": [
-                  250,
-                  250,
-                  250
-                ],
-                "volume_l": 0.009217
-              }
-            ],
             "temperature_k": 434.804922,
-            "words": "The liquid is white and so cloudy you cannot see through it."
+            "words": "The liquid is colourless and clear."
           }
         ]
       }
@@ -3357,7 +3326,7 @@
                     "colour",
                     {
                       "term": {
-                        "en": "white",
+                        "en": "colourless",
                         "section": "appearance"
                       }
                     }
@@ -3367,8 +3336,8 @@
                     {
                       "phrase": {
                         "phrase": {
-                          "en": "and so cloudy you cannot see through it",
-                          "key": "look.clarity-opaque"
+                          "en": "and clear",
+                          "key": "look.clarity-clear"
                         }
                       }
                     }
@@ -3381,7 +3350,7 @@
             "label": "beaker",
             "layers": [
               {
-                "colour_word": "white",
+                "colour_word": "colourless",
                 "name": "solution",
                 "species": "solution",
                 "srgb": [
@@ -3393,8 +3362,8 @@
               }
             ],
             "liquid": {
-              "cloudiness": 1.0,
-              "colour_word": "white",
+              "cloudiness": 0.0,
+              "colour_word": "colourless",
               "path_length_cm": 4.0,
               "srgb": [
                 255,
@@ -3406,25 +3375,9 @@
             "mass_g": 119.7,
             "melting_point_k": 273.15,
             "pressure_pa": 101325.0,
-            "solids": [
-              {
-                "colour_word": "white",
-                "metallic": false,
-                "moles": 0.342214,
-                "name": "sodium chloride",
-                "represented_by_bulk_object": false,
-                "settled_fraction": 0.0,
-                "species": "NaCl",
-                "srgb": [
-                  250,
-                  250,
-                  250
-                ],
-                "volume_l": 0.009217
-              }
-            ],
+            "solids": [],
             "temperature_k": 434.804922,
-            "words": "The liquid is white and so cloudy you cannot see through it."
+            "words": "The liquid is colourless and clear."
           }
         ]
       }
@@ -14876,7 +14829,7 @@
       "outcome": {
         "events": [
           "added",
-          "not_yet_modeled"
+          "dissolved"
         ]
       },
       "scene": {
@@ -15415,7 +15368,7 @@
                     "colour",
                     {
                       "term": {
-                        "en": "white",
+                        "en": "colourless",
                         "section": "appearance"
                       }
                     }
@@ -15425,8 +15378,8 @@
                     {
                       "phrase": {
                         "phrase": {
-                          "en": "and so cloudy you cannot see through it",
-                          "key": "look.clarity-opaque"
+                          "en": "and clear",
+                          "key": "look.clarity-clear"
                         }
                       }
                     }
@@ -15439,7 +15392,7 @@
             "label": "beaker",
             "layers": [
               {
-                "colour_word": "white",
+                "colour_word": "colourless",
                 "name": "solution",
                 "species": "solution",
                 "srgb": [
@@ -15451,8 +15404,8 @@
               }
             ],
             "liquid": {
-              "cloudiness": 1.0,
-              "colour_word": "white",
+              "cloudiness": 0.0,
+              "colour_word": "colourless",
               "path_length_cm": 4.0,
               "srgb": [
                 255,
@@ -15464,25 +15417,9 @@
             "mass_g": 102.7,
             "melting_point_k": 273.15,
             "pressure_pa": 101325.0,
-            "solids": [
-              {
-                "colour_word": "white",
-                "metallic": false,
-                "moles": 0.051332,
-                "name": "sodium chloride",
-                "represented_by_bulk_object": false,
-                "settled_fraction": 0.0,
-                "species": "NaCl",
-                "srgb": [
-                  250,
-                  250,
-                  250
-                ],
-                "volume_l": 0.001382
-              }
-            ],
+            "solids": [],
             "temperature_k": 298.15,
-            "words": "The liquid is white and so cloudy you cannot see through it."
+            "words": "The liquid is colourless and clear."
           }
         ]
       }
@@ -16032,7 +15969,7 @@
                     "colour",
                     {
                       "term": {
-                        "en": "white",
+                        "en": "colourless",
                         "section": "appearance"
                       }
                     }
@@ -16042,8 +15979,8 @@
                     {
                       "phrase": {
                         "phrase": {
-                          "en": "and so cloudy you cannot see through it",
-                          "key": "look.clarity-opaque"
+                          "en": "and clear",
+                          "key": "look.clarity-clear"
                         }
                       }
                     }
@@ -16131,7 +16068,7 @@
             "label": "beaker",
             "layers": [
               {
-                "colour_word": "white",
+                "colour_word": "colourless",
                 "name": "solution",
                 "species": "solution",
                 "srgb": [
@@ -16143,8 +16080,8 @@
               }
             ],
             "liquid": {
-              "cloudiness": 1.0,
-              "colour_word": "white",
+              "cloudiness": 0.0,
+              "colour_word": "colourless",
               "path_length_cm": 4.0,
               "srgb": [
                 255,
@@ -16183,21 +16120,6 @@
             "pressure_pa": 101325.0,
             "solids": [
               {
-                "colour_word": "white",
-                "metallic": false,
-                "moles": 0.051332,
-                "name": "sodium chloride",
-                "represented_by_bulk_object": false,
-                "settled_fraction": 0.0,
-                "species": "NaCl",
-                "srgb": [
-                  250,
-                  250,
-                  250
-                ],
-                "volume_l": 0.001382
-              },
-              {
                 "colour_word": "grey",
                 "metallic": true,
                 "moles": 0.017907,
@@ -16214,7 +16136,7 @@
               }
             ],
             "temperature_k": 298.15,
-            "words": "The liquid is white and so cloudy you cannot see through it, there is grey iron at the bottom. 0% of the tracked iron is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage."
+            "words": "The liquid is colourless and clear, there is grey iron at the bottom. 0% of the tracked iron is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage."
           }
         ]
       }
@@ -16763,7 +16685,7 @@
                     "colour",
                     {
                       "term": {
-                        "en": "white",
+                        "en": "colourless",
                         "section": "appearance"
                       }
                     }
@@ -16773,8 +16695,8 @@
                     {
                       "phrase": {
                         "phrase": {
-                          "en": "and so cloudy you cannot see through it",
-                          "key": "look.clarity-opaque"
+                          "en": "and clear",
+                          "key": "look.clarity-clear"
                         }
                       }
                     }
@@ -16868,7 +16790,7 @@
             "label": "beaker",
             "layers": [
               {
-                "colour_word": "white",
+                "colour_word": "colourless",
                 "name": "solution",
                 "species": "solution",
                 "srgb": [
@@ -16880,8 +16802,8 @@
               }
             ],
             "liquid": {
-              "cloudiness": 1.0,
-              "colour_word": "white",
+              "cloudiness": 0.0,
+              "colour_word": "colourless",
               "path_length_cm": 4.0,
               "srgb": [
                 255,
@@ -16920,21 +16842,6 @@
             "pressure_pa": 101325.0,
             "solids": [
               {
-                "colour_word": "white",
-                "metallic": false,
-                "moles": 0.051332,
-                "name": "sodium chloride",
-                "represented_by_bulk_object": false,
-                "settled_fraction": 0.0,
-                "species": "NaCl",
-                "srgb": [
-                  250,
-                  250,
-                  250
-                ],
-                "volume_l": 0.001382
-              },
-              {
                 "colour_word": "grey",
                 "metallic": true,
                 "moles": 0.017907,
@@ -16952,7 +16859,7 @@
             ],
             "temperature_k": 298.15,
             "volume": 0.5,
-            "words": "The liquid is white and so cloudy you cannot see through it, bubbles of gas are rising through it, there is grey iron at the bottom. 0% of the tracked iron is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage."
+            "words": "The liquid is colourless and clear, bubbles of gas are rising through it, there is grey iron at the bottom. 0% of the tracked iron is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage."
           }
         ]
       }
@@ -16963,7 +16870,6 @@
       "outcome": {
         "events": [
           "reacted",
-          "gravity_settled",
           "reacted",
           "not_yet_modeled",
           "not_yet_modeled"
@@ -17589,7 +17495,7 @@
                                     "colour",
                                     {
                                       "term": {
-                                        "en": "white",
+                                        "en": "grey",
                                         "section": "appearance"
                                       }
                                     }
@@ -17598,7 +17504,7 @@
                                     "name",
                                     {
                                       "term": {
-                                        "en": "sodium chloride",
+                                        "en": "iron",
                                         "section": "species"
                                       }
                                     }
@@ -17617,7 +17523,7 @@
                                     "colour",
                                     {
                                       "term": {
-                                        "en": "grey",
+                                        "en": "reddish brown",
                                         "section": "appearance"
                                       }
                                     }
@@ -17626,7 +17532,7 @@
                                     "name",
                                     {
                                       "term": {
-                                        "en": "iron",
+                                        "en": "iron(III) oxide (hematite)",
                                         "section": "species"
                                       }
                                     }
@@ -17733,21 +17639,6 @@
             "pressure_pa": 89472.37993,
             "solids": [
               {
-                "colour_word": "white",
-                "metallic": false,
-                "moles": 0.051332,
-                "name": "sodium chloride",
-                "represented_by_bulk_object": false,
-                "settled_fraction": 1.0,
-                "species": "NaCl",
-                "srgb": [
-                  250,
-                  250,
-                  250
-                ],
-                "volume_l": 0.001382
-              },
-              {
                 "colour_word": "grey",
                 "metallic": true,
                 "moles": 0.014719,
@@ -17780,7 +17671,7 @@
             ],
             "temperature_k": 298.15,
             "volume": 0.5,
-            "words": "The liquid is colourless and cloudy, bubbles of gas are rising through it, there is white sodium chloride and grey iron at the bottom. 18% of the tracked iron is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage."
+            "words": "The liquid is colourless and cloudy, bubbles of gas are rising through it, there is grey iron and reddish brown iron(III) oxide (hematite) at the bottom. 18% of the tracked iron is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage."
           }
         ]
       }
@@ -18413,7 +18304,7 @@
                                     "colour",
                                     {
                                       "term": {
-                                        "en": "white",
+                                        "en": "grey",
                                         "section": "appearance"
                                       }
                                     }
@@ -18422,7 +18313,7 @@
                                     "name",
                                     {
                                       "term": {
-                                        "en": "sodium chloride",
+                                        "en": "iron",
                                         "section": "species"
                                       }
                                     }
@@ -18441,7 +18332,7 @@
                                     "colour",
                                     {
                                       "term": {
-                                        "en": "grey",
+                                        "en": "reddish brown",
                                         "section": "appearance"
                                       }
                                     }
@@ -18450,7 +18341,7 @@
                                     "name",
                                     {
                                       "term": {
-                                        "en": "iron",
+                                        "en": "iron(III) oxide (hematite)",
                                         "section": "species"
                                       }
                                     }
@@ -18557,21 +18448,6 @@
             "pressure_pa": 89472.37993,
             "solids": [
               {
-                "colour_word": "white",
-                "metallic": false,
-                "moles": 0.051332,
-                "name": "sodium chloride",
-                "represented_by_bulk_object": false,
-                "settled_fraction": 1.0,
-                "species": "NaCl",
-                "srgb": [
-                  250,
-                  250,
-                  250
-                ],
-                "volume_l": 0.001382
-              },
-              {
                 "colour_word": "grey",
                 "metallic": true,
                 "moles": 0.014719,
@@ -18604,7 +18480,7 @@
             ],
             "temperature_k": 298.15,
             "volume": 0.5,
-            "words": "The liquid is colourless and cloudy, bubbles of gas are rising through it, there is white sodium chloride and grey iron at the bottom. 18% of the tracked iron is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage."
+            "words": "The liquid is colourless and cloudy, bubbles of gas are rising through it, there is grey iron and reddish brown iron(III) oxide (hematite) at the bottom. 18% of the tracked iron is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage."
           }
         ]
       }
@@ -19237,7 +19113,7 @@
                                     "colour",
                                     {
                                       "term": {
-                                        "en": "white",
+                                        "en": "grey",
                                         "section": "appearance"
                                       }
                                     }
@@ -19246,7 +19122,7 @@
                                     "name",
                                     {
                                       "term": {
-                                        "en": "sodium chloride",
+                                        "en": "iron",
                                         "section": "species"
                                       }
                                     }
@@ -19265,7 +19141,7 @@
                                     "colour",
                                     {
                                       "term": {
-                                        "en": "grey",
+                                        "en": "reddish brown",
                                         "section": "appearance"
                                       }
                                     }
@@ -19274,7 +19150,7 @@
                                     "name",
                                     {
                                       "term": {
-                                        "en": "iron",
+                                        "en": "iron(III) oxide (hematite)",
                                         "section": "species"
                                       }
                                     }
@@ -19381,21 +19257,6 @@
             "pressure_pa": 89472.37993,
             "solids": [
               {
-                "colour_word": "white",
-                "metallic": false,
-                "moles": 0.051332,
-                "name": "sodium chloride",
-                "represented_by_bulk_object": false,
-                "settled_fraction": 1.0,
-                "species": "NaCl",
-                "srgb": [
-                  250,
-                  250,
-                  250
-                ],
-                "volume_l": 0.001382
-              },
-              {
                 "colour_word": "grey",
                 "metallic": true,
                 "moles": 0.014719,
@@ -19428,7 +19289,7 @@
             ],
             "temperature_k": 298.15,
             "volume": 0.5,
-            "words": "The liquid is colourless and cloudy, bubbles of gas are rising through it, there is white sodium chloride and grey iron at the bottom. 18% of the tracked iron is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage."
+            "words": "The liquid is colourless and cloudy, bubbles of gas are rising through it, there is grey iron and reddish brown iron(III) oxide (hematite) at the bottom. 18% of the tracked iron is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage."
           }
         ]
       }
@@ -20061,7 +19922,7 @@
                                     "colour",
                                     {
                                       "term": {
-                                        "en": "white",
+                                        "en": "grey",
                                         "section": "appearance"
                                       }
                                     }
@@ -20070,7 +19931,7 @@
                                     "name",
                                     {
                                       "term": {
-                                        "en": "sodium chloride",
+                                        "en": "iron",
                                         "section": "species"
                                       }
                                     }
@@ -20089,7 +19950,7 @@
                                     "colour",
                                     {
                                       "term": {
-                                        "en": "grey",
+                                        "en": "reddish brown",
                                         "section": "appearance"
                                       }
                                     }
@@ -20098,7 +19959,7 @@
                                     "name",
                                     {
                                       "term": {
-                                        "en": "iron",
+                                        "en": "iron(III) oxide (hematite)",
                                         "section": "species"
                                       }
                                     }
@@ -20205,21 +20066,6 @@
             "pressure_pa": 89472.37993,
             "solids": [
               {
-                "colour_word": "white",
-                "metallic": false,
-                "moles": 0.051332,
-                "name": "sodium chloride",
-                "represented_by_bulk_object": false,
-                "settled_fraction": 1.0,
-                "species": "NaCl",
-                "srgb": [
-                  250,
-                  250,
-                  250
-                ],
-                "volume_l": 0.001382
-              },
-              {
                 "colour_word": "grey",
                 "metallic": true,
                 "moles": 0.014719,
@@ -20252,7 +20098,7 @@
             ],
             "temperature_k": 298.15,
             "volume": 0.5,
-            "words": "The liquid is colourless and cloudy, bubbles of gas are rising through it, there is white sodium chloride and grey iron at the bottom. 18% of the tracked iron is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage."
+            "words": "The liquid is colourless and cloudy, bubbles of gas are rising through it, there is grey iron and reddish brown iron(III) oxide (hematite) at the bottom. 18% of the tracked iron is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage."
           }
         ]
       }
@@ -20885,7 +20731,7 @@
                                     "colour",
                                     {
                                       "term": {
-                                        "en": "white",
+                                        "en": "grey",
                                         "section": "appearance"
                                       }
                                     }
@@ -20894,7 +20740,7 @@
                                     "name",
                                     {
                                       "term": {
-                                        "en": "sodium chloride",
+                                        "en": "iron",
                                         "section": "species"
                                       }
                                     }
@@ -20913,7 +20759,7 @@
                                     "colour",
                                     {
                                       "term": {
-                                        "en": "grey",
+                                        "en": "reddish brown",
                                         "section": "appearance"
                                       }
                                     }
@@ -20922,7 +20768,7 @@
                                     "name",
                                     {
                                       "term": {
-                                        "en": "iron",
+                                        "en": "iron(III) oxide (hematite)",
                                         "section": "species"
                                       }
                                     }
@@ -21029,21 +20875,6 @@
             "pressure_pa": 89472.37993,
             "solids": [
               {
-                "colour_word": "white",
-                "metallic": false,
-                "moles": 0.051332,
-                "name": "sodium chloride",
-                "represented_by_bulk_object": false,
-                "settled_fraction": 1.0,
-                "species": "NaCl",
-                "srgb": [
-                  250,
-                  250,
-                  250
-                ],
-                "volume_l": 0.001382
-              },
-              {
                 "colour_word": "grey",
                 "metallic": true,
                 "moles": 0.014719,
@@ -21076,7 +20907,7 @@
             ],
             "temperature_k": 298.15,
             "volume": 0.5,
-            "words": "The liquid is colourless and cloudy, bubbles of gas are rising through it, there is white sodium chloride and grey iron at the bottom. 18% of the tracked iron is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage."
+            "words": "The liquid is colourless and cloudy, bubbles of gas are rising through it, there is grey iron and reddish brown iron(III) oxide (hematite) at the bottom. 18% of the tracked iron is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage."
           }
         ]
       }

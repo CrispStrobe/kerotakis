@@ -81,6 +81,75 @@ fn prepared_kids_mechanism_lessons_replay_the_computed_events() {
     }
 }
 
+/// A LESSON'S OBSERVATION MAY NOT REST ON A RE-BLESSABLE GOLDEN.
+///
+/// `every_lesson_replays_and_computes_chemistry` below asks only that a
+/// lesson still runs and still says something. The only thing watching
+/// what a lesson SHOWS was `crates/kerotakis-core/tests/golden/lessons.json`
+/// — and that is the deliberately engine-free bench, which has no carbon
+/// dioxide chemistry at all. Its limewater "cloudy" is `appearance.rs`
+/// reading undissolved lime as a suspension, so the moment #699 gave
+/// `Ca(OH)2` its measured solubility the lime dissolved, the suspension
+/// went, and the reading became "clear" — an observation resting on a
+/// reagent failing to dissolve, one re-bless away from being gone.
+///
+/// So the observation is pinned here instead, on the full stack, in the
+/// words a learner reads, where the milkiness is calcite. `limewater.lab`
+/// says what it is for in its own intro line: *the first dose turns
+/// limewater milky; genuine excess clears it again.* Both halves are
+/// asserted, because either one alone can be had for the wrong reason — a
+/// beaker of undissolved lime is cloudy too, and a beaker with no alkali
+/// in it is clear at both doses.
+///
+/// This is the shape the next lesson-observation guard should take: name
+/// the observable, read it out of the rendered transcript, and say in the
+/// failure message what the lesson was for.
+#[test]
+fn limewater_goes_milky_on_the_first_co2_dose_and_clears_on_excess() {
+    let lesson = lessons_dir().join("limewater.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+
+    // Calcium carbonate is what the milkiness IS. Assert the mechanism as
+    // well as the appearance: they can only both be wrong together.
+    assert!(
+        out.contains("calcium carbonate"),
+        "limewater never formed calcium carbonate \u{2014} the milkiness has no \
+         substance behind it:\n{out}"
+    );
+
+    let observations: Vec<&str> = out
+        .lines()
+        .filter(|line| line.contains("The liquid") || line.contains("cloudy"))
+        .collect();
+    assert!(
+        observations.len() >= 2,
+        "limewater is a lesson about what the liquid LOOKS like and the \
+         transcript describes it {} time(s):\n{out}",
+        observations.len()
+    );
+    assert!(
+        observations[0].contains("cloudy"),
+        "the first carbon dioxide dose must turn limewater milky \u{2014} that is \
+         the whole observation. It read: {}\n\n{out}",
+        observations[0]
+    );
+    // "Clears again" is asserted as the milkiness GOING, not as the word
+    // "clear" arriving. The excess dose redissolves all but about 0.7 mmol
+    // of the chalk, and the bench reads what is left honestly — *colourless
+    // and very slightly hazy, there is white chalk at the bottom*. That is
+    // the right answer and it is not the word the lesson's intro uses.
+    assert!(
+        !observations
+            .last()
+            .expect("at least two observations")
+            .contains("cloudy"),
+        "genuine excess carbon dioxide must take the milkiness back out of \
+         limewater. It read: {}\n\n{out}",
+        observations.last().expect("at least two observations")
+    );
+}
+
 #[test]
 fn invisible_ink_requires_drying_before_the_mark_browns() {
     let lesson = lessons_dir().join("invisible-ink-boundary.lab");

@@ -157,6 +157,7 @@
   },
   {
     "appearance": "white",
+    "aqueous_solubility_g_per_100_ml": 35.84,
     "colour": {
       "b": 250,
       "g": 250,
@@ -251,6 +252,8 @@
   },
   {
     "appearance": "white",
+    "aqueous_solubility_g_per_100_ml": 0.00015049,
+    "aqueous_solubility_g_per_100_ml_at_100c": 0.0021068,
     "colour": {
       "b": 246,
       "g": 248,
@@ -532,6 +535,7 @@
   },
   {
     "appearance": "white",
+    "aqueous_solubility_g_per_100_ml": 0.15633,
     "colour": {
       "b": 244,
       "g": 246,
@@ -1358,6 +1362,7 @@
   },
   {
     "appearance": "white",
+    "aqueous_solubility_g_per_100_ml": 34.37,
     "colour": null,
     "density": 1.984,
     "dissolution_enthalpy_kj": 17.2,
@@ -1537,6 +1542,8 @@
   },
   {
     "appearance": "white",
+    "aqueous_solubility_g_per_100_ml": 0.25395,
+    "aqueous_solubility_g_per_100_ml_at_100c": 0.20058,
     "colour": null,
     "density": 2.32,
     "dissolution_enthalpy_kj": null,

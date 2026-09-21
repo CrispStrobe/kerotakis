@@ -6727,12 +6727,23 @@ mod routing_molality_tests {
         );
     }
 
-    /// The case the pitzer route exists for is untouched.
+    /// The case the pitzer route exists for is untouched — and it now
+    /// reads a saturated brine rather than a dissolved mountain.
     ///
     /// Eight moles of salt in a kilogram of water is the vessel
-    /// `Provenance::source_key`'s doc quotes at ~16.0 mol/kgw, and the
-    /// registry has reviewed no solubility for halite, so it keeps the
-    /// pessimistic reading on purpose.
+    /// `Provenance::source_key`'s doc quotes at ~16.0 mol/kgw. That figure
+    /// was the PESSIMISTIC reading: the registry had reviewed no
+    /// solubility for halite, so the estimate counted every mole of the
+    /// eight as if all of it could dissolve. Halite now carries the Earl
+    /// of Berkeley's 1904 gravimetric figure, so the cap that already
+    /// bounded chalk bounds this too, and the estimate is what a kilogram
+    /// of water could actually hold: 6.13 mol/kgw, doubled for two ions
+    /// per formula unit.
+    ///
+    /// THE ROUTING DECISION IS UNCHANGED AND THAT IS WHAT THIS TEST IS
+    /// FOR. 12.26 is what the pitzer route exists for exactly as 16.0 was
+    /// — an order of magnitude above the 1.0 where the Debye-Hückel
+    /// datasets leave their validity domain.
     #[test]
     fn a_real_brine_still_reads_as_concentrated() {
         let mut vessel = Vessel::new(VesselId(0), "brine");
@@ -6742,12 +6753,16 @@ mod routing_molality_tests {
         let (kgw, before, after) = estimate(&vessel);
         eprintln!("brine: kgw={kgw:.6e} before={before:.4} after={after:.4}");
         assert!(
-            (before - after).abs() < 1e-9,
-            "neither bound binds here: {before} vs {after}"
+            (15.0..17.0).contains(&before),
+            "the pessimistic reading is the ~16.0 mol/kgw the provenance doc quotes: {before}"
         );
         assert!(
-            (15.0..17.0).contains(&after),
-            "still the ~16.0 mol/kgw the provenance doc quotes: {after}"
+            (12.0..13.0).contains(&after),
+            "and the capped reading is what the water could hold: {after}"
+        );
+        assert!(
+            after > 1.0,
+            "either way it is routed as concentrated: {after}"
         );
     }
 
@@ -6771,13 +6786,19 @@ mod routing_molality_tests {
             (kgw - MIN_SOLVENT_KG).abs() < 1e-6,
             "the probe really does sit on the floor: {kgw}"
         );
-        assert!(
-            (before - after).abs() < 1e-6,
-            "so the floor may not move it: {before} vs {after}"
-        );
+        // Halite's reviewed solubility arrived 2026-09-21, so the cap that
+        // already bounded chalk bounds this probe too: a millilitre of
+        // water holds 6.13e-3 mol of salt, which is 12.26 mol/kgw doubled
+        // for two ions, against the 200 the uncapped inventory read. The
+        // floor is still doing its job — what it must not do is let the
+        // probe fall BELOW the concentrated route, and it does not.
         assert!(
             after > 1.0,
             "and it is still routed as concentrated: {after}"
+        );
+        assert!(
+            after < before,
+            "the cap binds where the floor does not: {before} vs {after}"
         );
     }
 

@@ -3735,9 +3735,14 @@ Measured against `crates/kerotakis-core/tests/golden/registry.json` and
       presentation fix, not a data one, and it is left for a separate
       change rather than mixed into this one.
 
-- [ ] **`saturation_moves` is solution-blind, and that is what bounds this
-      field.** The real finding of the sourcing pass, and an engine item
-      rather than a data one. `kerotakis_core::solve::saturation_moves`
+- [x] **`saturation_moves` is solution-blind, and that is what bounds this
+      field. CLOSED 2026-09-21 — and half of the diagnosis below was
+      wrong, which the ruling under "Open decisions" reproduces line by
+      line.** The silver chloride case was exactly as written; the calcium
+      hydroxide one was the ENGINE-FREE golden reading undissolved lime as
+      a suspension, and the lesson goes milky on the full stack either
+      way. All five measurements below are shipped. The real finding of
+      the sourcing pass, and an engine item rather than a data one. `kerotakis_core::solve::saturation_moves`
       reads `aqueous_solubility_g_per_100_ml` and moves a solid into
       solution as an **undissociated aqueous portion** up to that limit. It
       knows the limit and nothing else about the beaker. Where a routed
@@ -3767,12 +3772,16 @@ Measured against `crates/kerotakis-core/tests/golden/registry.json` and
         the problem, the solution-blindness was, and the codex was the
         instrument that said so.
 
-      `derived::Derived::build` already names the fix in its own words:
+      `derived::Derived::build` names one fix in its own words —
       `saturation_moves` has to be able to see a dissolved amount that has
-      been booked onto ions.
+      been booked onto ions — and it is not the one that closed this.
+      Seeing the dissolved AgCl would not have helped: there is no silver
+      in that beaker, only chloride. What closed it is reading the
+      pure-water figure back as the solubility product it implies and
+      answering it in the solution the beaker holds.
 
-      The five numbers below are in hand, read and checked, so the engine
-      change does not have to re-do the sourcing:
+      The five numbers below were in hand, read and checked, and all five
+      are now shipped:
 
       - **`AgCl` = 0.00015049 g/100 mL at 18 °C and 0.0021068 at 100 °C.**
         Melcher 1910, Table V, 0.0105 and 0.147 milli-equivalents per
@@ -3809,8 +3818,9 @@ Measured against `crates/kerotakis-core/tests/golden/registry.json` and
         30.05 °C, bound the 5 °C offset at about 0.3 %.
 
 - [ ] **The 20 posable rows that are still counted in full for want of a
-      number, and why each one is.** (The other five are the ones above:
-      their numbers exist and the engine cannot hold them yet.) Left absent deliberately. A solid with
+      number, and why each one is.** (The other five are the ones above,
+      shipped 2026-09-21 once the engine could hold them.) Left absent
+      deliberately. A solid with
       no reviewed solubility is counted in full, which is pessimistic and
       safe; a guessed number would make the cap bite on a fiction, which is
       worse than the gap. Grouped by the reason, because the reasons are
@@ -3903,9 +3913,9 @@ counts against the vendored files (2026-09-21):
   minerals.
 - Of those 36, **3** carried a reviewed solubility (chalk, sulfur, quartz)
   and **33** did not. That, not nine, was the gap. **Since 2026-09-21 it is
-  7 and 29** — see the ruling below for which four moved, whose measurement
-  each one is, and why five more that were sourced and read are
-  deliberately not shipped.
+  12 and 24** — four moved that morning and five more the same day, once
+  `saturation_moves` stopped being solution-blind. The ruling under "Open
+  decisions" says whose measurement each one is.
 - **621** of the 683 minerals the three databases define are no registry
   solid at all. Also normal: the files are natural-water mineralogy.
 - **12** solids are spelled by more than one phase name, and the crosswalk
@@ -4175,6 +4185,214 @@ state a sibling `{@const}` reads.
       *"The liquid is white and so cloudy you cannot see through it"* —
       about the same dried-out vessel, off the same `any(Liquid |
       Aqueous)`, one subsystem over.
+
+### `saturation_moves` can see the solution it is moving into (2026-09-21)
+
+**Closes the engine item above, and corrects half of it.** #699 held five
+sourced measurements back and named two symptoms. Both were reproduced
+here before anything was changed, and they are not the same defect.
+
+**The `AgCl` half is real, and it is the whole of it.** Adding Melcher's
+0.00015049 g/100 mL locally reproduces `codex lint` exactly:
+*"common-ion-effect: claims 'dissolved:AgCl' does NOT happen, but it did"*.
+That entry puts 1 g of silver chloride into 0.01 mol/L salt water and
+teaches that nothing measurable dissolves; `saturation_moves` dissolved
+1.05 × 10⁻⁵ mol anyway, because it read the solubility field and knew
+nothing else about the beaker. #699's own words for it — **magnitude was
+not the problem, solution-blindness was** — are right, and silver chloride
+sits one order of magnitude above chalk rather than two above limewater.
+
+**The `Ca(OH)2` half does not hold.** With 0.15633 g/100 mL added locally
+and the full `MixingEquilibrator` + `PhreeqcEquilibrator` stack run over
+the lesson:
+
+```
++0.0100 mol slaked lime  ->  0.0100 mol slaked lime dissolved; pH 12.20
++0.0100 mol CO2          ->  9.88 mmol chalk precipitated;     pH 9.91
++0.0500 mol CO2          ->  9.08 mmol chalk dissolved;        pH 8.22
+```
+
+Rendered: *"The liquid is colourless and cloudy, there is white chalk
+(calcium carbonate) at the bottom"* after the first dose, *"very slightly
+hazy"* after the excess. That is the lesson's own intro line, intact. The
+element-totals route is not lossy — `pH charge` recovers the hydroxide
+that `contribution_from_counts` drops, and `append_candidate_phases` has
+already offered `Portlandite` at zero moles — so lime booked as a solid
+and lime booked as dissolved solve to pH 12.1962 and 12.1974, the
+difference being the heat of dissolution released on the step in one case
+and not the other.
+
+**"Clear instead of cloudy" was `crates/kerotakis-core/tests/golden/lessons.json`**,
+the deliberately engine-free bench, which has no carbon dioxide chemistry
+at all. Its limewater cloudiness was `appearance.rs` reading 0.01 mol of
+**undissolved lime** as a suspension. The observation was resting on the
+reagent failing to dissolve. Three lessons were resting on the same thing
+for salt — `grit`, `salt-or-sugar-ice` and `copper-patina` all read *"white
+and so cloudy you cannot see through it"* about brine — and all three now
+read clear, which is what brine looks like.
+
+#### The fix: a pure-water figure is a solubility product in disguise
+
+`aqueous_solubility_g_per_100_ml` is a saturation point somebody measured
+**in pure water**. For a salt of two monatomic ions that one figure gives
+`Ksp = Π (ν_i · s₀)^ν_i`, and the amount that can still dissolve into a
+solution already holding those ions is the `s` satisfying
+`Π (c_i + ν_i · s)^ν_i = Ksp` — found by bisection, the product being
+monotone. **Nothing is curated and no constant is introduced**: the same
+reviewed figure answers both questions.
+
+Where the suppression takes the capacity below `OBSERVABLE_MOLES` the
+bench moves nothing and says nothing, and that floor is only ever reached
+BY suppression — in pure water the rule declines and the pure-water
+capacity stands however small it is, so the traces #699 shipped (magnesium
+hydroxide at 14.9 µmol, cupric oxide at 71.9 nmol) are untouched.
+
+**Deliberately narrow: `MₐXᵦ` of two monatomic ions only.** Silver
+chloride, halite, sylvite. A polyatomic anion — carbonate, sulfate,
+hydroxide — cannot have its product reconstructed from one mass figure
+without assuming which dissolved species carries it, and guessing that is
+how a beaker of vinegar would have suppressed chalk on the carbon in the
+acetate. Those keep the pure-water cap they have always had.
+Under-suppressing is today's behaviour; over-suppressing would be a new
+invention.
+
+#### Two things the shipped data then exposed, both fixed here
+
+**An enthalpy leak, the one `nonaqueous.rs` already names one rung over.**
+Calling a solid "dissolved" moved it from its own Cp(T) curve to the flat
+registry constant — a species that owns only a solid curve has none for
+the liquid phase — and the two agree at the reference temperature and
+nowhere else, so the relabelling alone rewrote the vessel's enthalpy for
+free. Invisible while the solids reaching this rung were sugar and iodine;
+sodium chloride arriving with a measured solubility made it a **2.9 J
+divergence on 90 kJ** of traffic in `conservation::energy_is_conserved`,
+ten times that test's tolerance.
+
+**Correcting the TEMPERATURE was the first attempt and it is worse — this
+is the second scar in this ruling and it is the more instructive one.**
+Holding the enthalpy and letting the temperature move is what
+`nonaqueous.rs` does and it closes the leak. But the correction rides on a
+heat-capacity integral, and a heat-capacity integral is **not
+bit-identical between native and wasm**. The prewarmed replay cache is
+keyed on vessel state, so a temperature that differs in its last digits
+splits the key: the wasm lab lost `silver-and-salt.lab` entirely — *"this
+state is not in the shipped results and there is no solver here to compute
+it"* — while every native suite stayed green. That is the
+`kero-native-wasm-one-value` shape, arriving from a direction nobody was
+watching.
+
+**What ships instead is the root cause.** A solid that dissolves does not
+change which model describes it: `states::heat_capacity_curve` now falls
+back to the species' own SOLID curve for an aqueous portion of a solid
+that has no liquid curve, rather than to the flat constant. The enthalpy
+is continuous across the relabelling by construction, no temperature
+moves, and the cache key is untouched. It claims nothing about the heat
+capacity of a solution — dissolved sodium chloride is aqueous ions, whose
+partial molar Cp is a quantity this registry does not carry — only that
+the bench's answer for one substance must not depend on which label the
+bookkeeping has just put on it. Four lesson temperatures move, by 2e-4 K
+and less, and they are in the diff.
+
+**A mineral posed as its phase whichever condensed phase holds it —
+TRIED, AND WITHDRAWN, AND IT IS WORTH RECORDING WHY.** `partition` folds
+only the `Phase::Solid` part of a mineral into `EQUILIBRIUM_PHASES`; what
+`saturation_moves` has already moved takes the other branch and enters as
+element totals. Making that symmetric is a tidier statement of an
+invariant that already holds, and it is byte-identical on limewater.
+
+It cost three prompts. `aq-071`, `aq-090` and `mat-115` — chalk in a
+beaker, filtered or decanted — left the curiosity corpus's computed route
+with *"coupled aqueous temperature did not converge within 64 passes"*,
+because moving a trace out of the totals and into the phase moves the
+dissolution heat that fixed point is iterating on. Tidiness is not worth
+three prompts, so the asymmetry stays.
+
+What watches it instead is
+`crates/kerotakis-phreeqc/tests/saturation_versus_equilibrium_phase.rs`,
+which asserts the invariant directly: the same lime booked as a solid and
+booked as dissolved gives the same solution, to within the heat of
+dissolution released on the step in one case and not the other. A drift is
+now a failing test rather than a silent difference, which is what the
+change was for.
+
+#### The prewarmed cache was warmed through the wrong stack
+
+The third scar, and the only one that would have shipped a broken browser.
+`kero prewarm` stepped the bench with the **bare aqueous engine**, so the
+states it recorded were the ones PHREEQC saw with no rung ahead of it.
+Every consumer — the CLI, the shell, the wasm lab — runs `kerotakis_stack`'s
+full order, in which `MixingEquilibrator` has already moved whatever a
+reviewed solubility says dissolves before the aqueous rung is asked
+anything.
+
+The two agreed for exactly as long as no solid on the lesson path carried a
+reviewed solubility above a trace. Sodium chloride ended that. Prewarm
+recorded `Halite 0 9.92e-3` with no sodium or chloride totals — salt as an
+undissolved phase — and the wasm lab asked for the same beaker with the
+salt in solution and got *"this state is not in the shipped results"*.
+`silver-and-salt.lab` stopped replaying in the browser **while every
+native suite stayed green**, because the native suites have an engine and
+never consult the cache.
+
+`prewarm` now replays through `stack_from_aqueous`, the same construction
+`kero run` uses, holding the engine behind an `Rc<RefCell<…>>` so the stack
+can own the run and the exporter can still reach the cache afterwards. The
+wasm lab passes, `silver-and-salt.lab` replays, and *"limewater clouds and
+clears again in cached WebAssembly"* is green.
+
+Worth keeping in view: **a cache warmed by a different stack than the one
+that reads it is a contract with no test on it.** What caught this was a
+data change, not a guard.
+
+#### The five, shipped
+
+| solid | g/100 mL | at | source |
+|---|---|---|---|
+| `AgCl` | 0.00015049 / 0.0021068 | 18 °C / 100 °C | Melcher 1910, Table V |
+| `Ca(OH)2` | 0.15633 | 20 °C | Bates, Bower & Smith 1956, RP2680 §5.1 |
+| `gypsum` | 0.25395 / 0.20058 | 18 °C / 100 °C | Melcher 1910, Table XI, **as the dihydrate** |
+| `NaCl` | 35.84 | 15.20 °C | Earl of Berkeley 1904 |
+| `KCl` | 34.37 | 19.55 °C | Earl of Berkeley 1904 |
+
+The crosswalk gap is **24**, from 29; `with_reviewed_solubility` is 12,
+from 7. `twelve_records_claim_their_source_is_the_measurement` is the
+renamed pin on which records claim somebody weighed the number, and
+brucite is still deliberately absent from it.
+
+#### What moved in the lessons, and it is a lot
+
+Eighteen lessons stop apologising for sodium chloride on the engine-free
+bench — *"not yet modelled — sodium chloride in contact with liquid"*
+becomes a computed amount. Three stop calling brine opaque white.
+
+`transport-column` **starts working**. Its own intro says the salt spreads
+through the column by the binomial coefficients; with the salt an
+undissolved solid nothing crossed at all, and every cell weighed 99.70 g —
+pure water, three times over. It now weighs 104.08, 102.20 and 100.33 g,
+which is the dispersing front the lesson was written to show. Nothing had
+ever failed.
+
+`salt-from-brine` gains its supersaturation verdict.
+`dilute-the-current-carriers` **loses** a conductivity reading at v6: it
+used to print the pure-water baseline with the words *"explicitly nonionic
+solutes add no charge carriers"* over a beaker holding a millimole of
+sodium chloride, and it now declines. Losing a false reading is the
+improvement, and on the full stack that vessel is speciated and answered
+properly.
+
+`scene-five.json` follows: salt water is drawn clear rather than opaque,
+with no crystal pile on the bottom.
+
+#### And the guard
+
+The observation `limewater.lab` exists for was watched only by a golden
+that a re-bless would have retired.
+`limewater_goes_milky_on_the_first_co2_dose_and_clears_on_excess` reads it
+out of the **full stack's** rendered transcript, where the milkiness is
+calcite, and asserts both halves of the lesson's own intro line — because
+either half alone can be had for the wrong reason: a beaker of undissolved
+lime is cloudy too, and a beaker with no alkali is clear at both doses.
+That is the shape the next lesson-observation guard should take.
 
 ### UI framework
 

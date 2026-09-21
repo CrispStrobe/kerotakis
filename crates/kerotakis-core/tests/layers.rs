@@ -136,10 +136,16 @@ fn draining_takes_the_brine_and_leaves_the_hexane() {
         "all the water drains, got {moles}"
     );
 
-    // Without the aqueous engine attached, core-level NaCl is a solid —
-    // and a stopcock passes liquid, so the solid stays in the funnel
-    // with the hexane. (The engine-backed test in kerotakis-phreeqc is
-    // where dissolved salt travels with its water.)
+    // The salt goes with its water, and it does so WITHOUT the aqueous
+    // engine attached. This test used to assert the opposite — that
+    // core-level sodium chloride is a solid, so a stopcock that passes
+    // liquid leaves it behind in the funnel with the hexane — and that
+    // was true only because the registry had no solubility for it. With
+    // the Earl of Berkeley's 1904 figure in place, 0.2 mol of salt in
+    // 2 mol of water is comfortably under the 0.22 mol the water can
+    // hold, so it is dissolved before the stopcock opens and it leaves
+    // through it. A separating funnel that keeps the salt behind is a
+    // funnel that has not dissolved it.
     let funnel = &bench.vessels[1];
     let kept: Vec<&str> = funnel
         .contents
@@ -147,12 +153,21 @@ fn draining_takes_the_brine_and_leaves_the_hexane() {
         .map(|p| p.species.0.as_str())
         .collect();
     assert!(
-        kept.contains(&"hexane") && kept.contains(&"NaCl"),
-        "funnel keeps the upper layer and the settled solid, got {kept:?}"
+        kept.contains(&"hexane"),
+        "funnel keeps the upper layer, got {kept:?}"
     );
     assert!(
-        !kept.contains(&"water"),
-        "the water is gone through the stopcock"
+        !kept.contains(&"water") && !kept.contains(&"NaCl"),
+        "the brine is gone through the stopcock, salt and all, got {kept:?}"
+    );
+    let received: Vec<&str> = bench.vessels[2]
+        .contents
+        .iter()
+        .map(|p| p.species.0.as_str())
+        .collect();
+    assert!(
+        received.contains(&"water") && received.contains(&"NaCl"),
+        "the receiver has the brine, got {received:?}"
     );
 }
 

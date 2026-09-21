@@ -28,11 +28,13 @@ use kerotakis_phreeqc::derived::{self, mineral_crosswalk, solubility_gap, Solubi
 /// across the two namespaces. The composition match finds 36, and the gap
 /// it named was 33 rather than 9.
 ///
-/// The gap is now 29. Four of the 33 were sourced to papers that were read
-/// in full rather than to a handbook. The 29 that remain are still counted
-/// in full, which is the deliberate pessimism, and `PLAN.md` says of each
-/// one why no value could be sourced — or, for five of them, why a value
-/// that WAS sourced and read is still not shipped.
+/// The gap is now 24. Nine of the 33 have been sourced to papers that were
+/// read in full rather than to a handbook — four on the morning of
+/// 2026-09-21 and five more the same day, once `saturation_moves` stopped
+/// being solution-blind and the measurements it could not hold could ship.
+/// The 24 that remain are still counted in full, which is the deliberate
+/// pessimism, and `PLAN.md` says of each one why no value could be
+/// sourced.
 #[test]
 fn the_gap_is_counted_from_both_datasets() {
     assert_eq!(
@@ -40,8 +42,8 @@ fn the_gap_is_counted_from_both_datasets() {
         SolubilityGap {
             registry_solids: 93,
             database_phases: 36,
-            with_reviewed_solubility: 7,
-            without_reviewed_solubility: 29,
+            with_reviewed_solubility: 12,
+            without_reviewed_solubility: 24,
             not_a_database_phase: 57,
             phases_without_a_registry_solid: 621,
             several_phase_names: 12,
@@ -51,31 +53,29 @@ fn the_gap_is_counted_from_both_datasets() {
     );
 }
 
-/// The seven solids where the routing cap can bite today, and the ones
+/// The twelve solids where the routing cap can bite today, and the ones
 /// where it cannot. Asserted as whole lists so a drift prints the new
 /// membership rather than a changed integer.
 ///
-/// EVERY ONE OF THE SEVEN IS SPARINGLY SOLUBLE, AND THAT IS NOT A
-/// COINCIDENCE — it is a boundary this field has, found by walking into
-/// it. `kerotakis_core::solve::saturation_moves` reads the same field and
+/// THE LIST IS NO LONGER ALL SPARINGLY SOLUBLE, AND THAT IS THE POINT OF
+/// THE CHANGE THAT PUT HALITE AND SYLVITE ON IT.
+/// `kerotakis_core::solve::saturation_moves` reads the same field and
 /// moves a solid into solution as an UNDISSOCIATED aqueous portion up to
-/// it, and it is SOLUTION-BLIND: it knows the limit and nothing about what
-/// else is in the beaker. Where a routed database also spells the solid,
-/// the two mechanisms then disagree, and the disagreement is bounded by
-/// the limit itself. Below about 2e-4 mol/L — chalk's own figure, and
-/// chalk has carried this since long before the field was counted — the
-/// part that moves is a trace and the answer is not visibly wrong.
+/// it. It used to be SOLUTION-BLIND — it knew the limit and nothing about
+/// what else was in the beaker — and that, rather than magnitude, is what
+/// bounded this field. `AgCl` at 1.05e-5 mol/L is barely above chalk and
+/// still broke `codex lint`: the `common-ion-effect` entry teaches that
+/// silver chloride in 0.01 mol/L salt water dissolves nothing measurable,
+/// and the cap dissolved it anyway because it could not see the chloride.
 ///
-/// Above it, it is. `Ca(OH)2` at 0.0211 mol/L emptied
-/// `lessons/limewater.lab` of its whole observation, and `AgCl` at
-/// 1.05e-5 mol/L broke `codex lint`: the `common-ion-effect` entry teaches
-/// that silver chloride in 0.01 mol/L salt water dissolves nothing
-/// measurable, and `saturation_moves` dissolved it anyway because it
-/// cannot see the chloride. Both measurements were read and both are
-/// recorded in `PLAN.md`; neither is shipped. Closing that is the engine
-/// change `derived::Derived::build` already names in its own words:
-/// `saturation_moves` has to be able to see a dissolved amount that has
-/// been booked onto ions.
+/// It can now. For a salt of two monatomic ions the pure-water figure is
+/// read back as the solubility product it implies and answered in the
+/// solution the beaker actually holds, so the five measurements #699
+/// sourced and held back are shipped here. What has NOT changed is the
+/// pessimism for a polyatomic anion: carbonate, sulfate and hydroxide
+/// still keep the pure-water cap, because a product cannot be
+/// reconstructed from one mass figure without assuming which species
+/// carries the anion. `PLAN.md` says so at the ruling.
 #[test]
 fn which_database_phases_have_a_reviewed_solubility() {
     let rows = mineral_crosswalk();
@@ -86,7 +86,10 @@ fn which_database_phases_have_a_reviewed_solubility() {
         .collect();
     assert_eq!(
         with,
-        vec!["BaSO4", "CaCO3", "CuO", "Fe(OH)3", "Mg(OH)2", "S", "SiO2"],
+        vec![
+            "AgCl", "BaSO4", "Ca(OH)2", "CaCO3", "CuO", "Fe(OH)3", "KCl", "Mg(OH)2", "NaCl", "S",
+            "SiO2", "gypsum",
+        ],
         "solids that are database phases AND carry a reviewed solubility"
     );
 
@@ -99,8 +102,6 @@ fn which_database_phases_have_a_reviewed_solubility() {
         without,
         vec![
             "Ag",
-            "AgCl",
-            "Ca(OH)2",
             "Ca3(PO4)2",
             "CaO",
             "Cu",
@@ -108,11 +109,9 @@ fn which_database_phases_have_a_reviewed_solubility() {
             "CuSO4",
             "Fe(OH)2",
             "Fe2O3",
-            "KCl",
             "MgO",
             "MnO2",
             "Na2SO4",
-            "NaCl",
             "NaHCO3",
             "Pb",
             "Zn",
@@ -123,7 +122,6 @@ fn which_database_phases_have_a_reviewed_solubility() {
             "brochantite",
             "chalcanthite",
             "epsomite",
-            "gypsum",
             "hydroxylapatite",
             "langite",
             "octacalcium_phosphate",
