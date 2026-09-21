@@ -146,6 +146,13 @@
   });
   const gasTestEffect = $derived(latestEffect("gas_test", 4500));
   const ventEffect = $derived(latestEffect("vent", 4000));
+  // GUI-116: every `withinMs` here is a FALLBACK — `effectAlive` uses
+  // `effect.durationMs ?? withinMs`, and `magnitudes.ts` puts a bounded,
+  // model-derived duration on the effects whose engine event carries one
+  // (foam's half-life, a produced gas's rate, a reaction's seconds, a
+  // settling's, a stir's, an electrolysis's, an emulsion's, a ferment's).
+  // The constants below govern the kinds that honestly have nothing to
+  // ride on, and those are the majority.
   const foamEffect = $derived(latestEffect("foam", 3000));
   const waftEffect = $derived(latestEffect("waft", 4200));
   const pressureControlEffect = $derived(latestEffect("regulate", 4500));
@@ -173,6 +180,22 @@
    * like it is IN the liquid. The NUMBER it shows is repeated here as HTML,
    * where 24 px of glyph and 15 px of value are 24 px and 15 px at every
    * width.
+   *
+   * GUI-116 re-measured that premise after #689 and it now holds only
+   * half the time. A lone vessel with the bench to itself is 257 px wide,
+   * so its 4.5-unit type is 11.6 real pixels — legible. The moment a
+   * second vessel arrives the clamp drops back to 150 px and the same
+   * glyph is 6.8 px, and on a phone it is the original 2.9. The badge
+   * stays because the small case is the one it was built for, and
+   * because two sizes of the same number would be worse than one.
+   *
+   * Nothing else in this drawing needed retuning at the larger size:
+   * every stroke width, radius, particle count and font-size in here is
+   * in the units of a fixed `0 0 100 140` viewBox, so 2.6x scales all of
+   * them together and the composition inside the picture is by
+   * definition unchanged. The only lengths that do not scale with the
+   * SVG are the HTML chrome around it — this badge and `.drop-ready`,
+   * both in rem — and they are meant not to.
    *
    * The newest live instrument wins, so measuring pH after temperature
    * replaces the reading rather than stacking a second badge under it.

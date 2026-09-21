@@ -4,6 +4,10 @@ import {
   AIR_OXYGEN_FRACTION,
   activityIntensity,
   foamSpillScale,
+  modelledLifetimeMs,
+  LIFETIME_FLOOR_MS,
+  LIFETIME_REAL_TIME_CEILING_MS,
+  LIFETIME_MAX_MS,
   adsorptionDarkening,
   autoignitionApproach,
   unlitSmoke,
@@ -73,8 +77,14 @@ describe("effectFromEvent", () => {
     const high = effectFromEvent({ event: "foam_changed", vessel: 0, height_cm: 20, half_life_seconds: 40 });
     expect(low!.kind).toBe("foam");
     expect(high!.magnitude).toBeGreaterThan(low!.magnitude);
+    // GUI-116. The half-life still sets the lifetime, but bounded: 12 s is
+    // inside the real-time band and is honoured to the millisecond; 40 s is
+    // past it and is compressed, so it outlasts the 12 s foam on screen
+    // without holding the drawing open for forty seconds.
     expect(low).toMatchObject({ durationMs: 12_000, foam: { halfLifeSeconds: 12 } });
-    expect(high).toMatchObject({ durationMs: 40_000, foam: { halfLifeSeconds: 40 } });
+    expect(high!.foam).toMatchObject({ halfLifeSeconds: 40 });
+    expect(high!.durationMs!).toBeGreaterThan(low!.durationMs!);
+    expect(high!.durationMs!).toBeLessThanOrEqual(LIFETIME_MAX_MS);
   });
 
   it("maps computed pepper clearing to a surface-spread effect", () => {
@@ -165,8 +175,12 @@ describe("effectFromEvent", () => {
     });
     expect(e!.kind).toBe("electrolyse");
     expect(e!.magnitude).toBeGreaterThan(0.3);
+    // 120 s of electrolysis is past the real-time ceiling, so it is
+    // compressed rather than shown for two minutes — but it still outlasts
+    // a short run, which the old `min(8000, …)` clamp could not say.
+    expect(e!.durationMs!).toBeGreaterThan(LIFETIME_REAL_TIME_CEILING_MS);
+    expect(e!.durationMs!).toBeLessThanOrEqual(LIFETIME_MAX_MS);
     expect(e).toMatchObject({
-      durationMs: 8000,
       electrolysis: {
         species: "Cu", amps: .75, seconds: 120, coulombs: 964.85,
         electronMoles: .01, productMoles: .005, grams: .318, electronsPerIon: 2,
@@ -780,7 +794,8 @@ describe("the invisible ones (GUI-099 ANIM-3)", () => {
       to_dispersed_fraction: 0.62, dispersed_volume_l: 0.004, half_life_seconds: 0.2,
     });
     expect(shaken!.durationMs!).toBeGreaterThan(fleeting!.durationMs!);
-    expect(shaken!.durationMs!).toBeLessThanOrEqual(9000);
+    expect(fleeting!.durationMs!).toBe(LIFETIME_FLOOR_MS);
+    expect(shaken!.durationMs!).toBeLessThanOrEqual(LIFETIME_MAX_MS);
   });
 
   it("more dispersed means a stronger emulsion effect", () => {
@@ -797,8 +812,8 @@ describe("the invisible ones (GUI-099 ANIM-3)", () => {
     });
     expect(brew).toMatchObject({ kind: "ferment", unit: "mol", reading: 0.04 });
     expect(brew!.fermentation!.molesPerSecond).toBeCloseTo(0.04 / 3600, 12);
-    expect(brew!.durationMs!).toBeGreaterThanOrEqual(2500);
-    expect(brew!.durationMs!).toBeLessThanOrEqual(12_000);
+    expect(brew!.durationMs!).toBeGreaterThanOrEqual(LIFETIME_REAL_TIME_CEILING_MS);
+    expect(brew!.durationMs!).toBeLessThanOrEqual(LIFETIME_MAX_MS);
   });
 
   it("a faster ferment bubbles more often, and the tempo stays watchable", () => {
@@ -1543,5 +1558,93 @@ describe("foam that has left the vessel is drawn to the amount that left", () =>
     // The same spill relative to its glass reads the same in a beaker and
     // in a flask — the vessel is the ruler.
     expect(foamSpillScale(0.2, 0.4)).toBeCloseTo(foamSpillScale(2, 4), 10);
+  });
+});
+
+describe("GUI-116 — a longer-lived phenomenon stays on screen longer", () => {
+  it("honours the model exactly while real time is watchable", () => {
+    // Four seconds of settling takes four seconds. Inside the band the
+    // drawing is not compressing anything, so it is not lying about a
+    // duration it could have honoured.
+    expect(modelledLifetimeMs(4, 9999)).toBe(4000);
+    expect(modelledLifetimeMs(12, 9999)).toBe(LIFETIME_REAL_TIME_CEILING_MS);
+  });
+
+  it("keeps a millisecond phenomenon visible", () => {
+    // The effect clock ticks at 100 ms and the shortest looping effect in
+    // the vessel runs an 800 ms cycle: below the floor the learner sees a
+    // fragment of one loop, or nothing at all.
+    expect(modelledLifetimeMs(0.001, 9999)).toBe(LIFETIME_FLOOR_MS);
+    expect(modelledLifetimeMs(1, 9999)).toBe(LIFETIME_FLOOR_MS);
+  });
+
+  it("never pins the drawing open, however long the model says", () => {
+    // An hour is the largest figure the apparatus forms accept and the
+    // longest stabiliser half-life the registry ships. A day is not
+    // reachable, and still must not hold the bench.
+    for (const seconds of [3600, 86_400, 1e9]) {
+      expect(modelledLifetimeMs(seconds, 9999)).toBeLessThanOrEqual(LIFETIME_MAX_MS);
+    }
+  });
+
+  it("orders two phenomena by their modelled durations, past the ceiling too", () => {
+    // THE claim. Not "the constant is a variable": that the longer-lived
+    // one is on screen longer, both inside the real-time band and above
+    // it, where the old ad-hoc clamps made every long run identical.
+    const short = modelledLifetimeMs(2, 9999);
+    const medium = modelledLifetimeMs(8, 9999);
+    const long = modelledLifetimeMs(120, 9999);
+    const longer = modelledLifetimeMs(1800, 9999);
+    expect(medium).toBeGreaterThan(short);
+    expect(long).toBeGreaterThan(medium);
+    expect(longer).toBeGreaterThan(long);
+    // In the band the ratio IS the model's ratio.
+    expect(medium / short).toBeCloseTo(4, 10);
+    // `Math.min(8000, Math.max(1200, seconds * 1000))` gave these two the
+    // same 8000 ms, which is the defect this replaces.
+    expect(longer / long).toBeGreaterThan(1);
+  });
+
+  it("falls back to the named constant when the engine gives no duration", () => {
+    // Several effects honestly have nothing to ride on. They say so by
+    // arriving here with no number, and keep the component's constant.
+    for (const nothing of [0, -1, Number.NaN, Number.POSITIVE_INFINITY]) {
+      expect(modelledLifetimeMs(nothing, 4200)).toBe(4200);
+    }
+  });
+
+  it("a slow fizz vents for longer than a fast one of the same size", () => {
+    // `gas_produced` is the one gas event that carries a rate, so it is
+    // the one that can say how long the gas takes to come off.
+    const fast = effectFromEvent({
+      event: "gas_produced", vessel: 0, species: "CO2", moles: 0.05, rate_moles_per_second: 0.05,
+    });
+    const slow = effectFromEvent({
+      event: "gas_produced", vessel: 0, species: "CO2", moles: 0.05, rate_moles_per_second: 0.002,
+    });
+    expect(slow!.durationMs!).toBeGreaterThan(fast!.durationMs!);
+    expect(slow!.durationMs!).toBeLessThanOrEqual(LIFETIME_MAX_MS);
+    // `gas_evolved` carries no rate. It gets no duration and keeps the
+    // 4000 ms constant `Vessel.svelte` names — the honest answer.
+    expect(effectFromEvent({ event: "gas_evolved", vessel: 0, species: "CO2", moles: 0.05 })!.durationMs)
+      .toBeUndefined();
+  });
+
+  it("an hour-long reaction outlasts a one-second one", () => {
+    const flash = effectFromEvent({ event: "reacted", vessel: 0, reaction: "r", moles: 0.1, seconds: 1 });
+    const slow = effectFromEvent({ event: "reacted", vessel: 0, reaction: "r", moles: 0.1, seconds: 3600 });
+    expect(slow!.durationMs!).toBeGreaterThan(flash!.durationMs!);
+    expect(slow!.durationMs!).toBeLessThanOrEqual(LIFETIME_MAX_MS);
+  });
+
+  it("no shipped foam half-life can hold the drawing open for a minute", () => {
+    // The seven stabiliser half-lives in `registry-source-v1.json`. Before
+    // this the foam effect lived `half_life_seconds * 1000` ms — from 90
+    // seconds to a full hour — and `latestEffect("foam", 3000)` never ran.
+    const shipped = [90, 100, 120, 180, 300, 1800, 3600];
+    const lives = shipped.map((halfLife) =>
+      effectFromEvent({ event: "foam_changed", vessel: 0, height_cm: 5, half_life_seconds: halfLife })!.durationMs!);
+    for (const life of lives) expect(life).toBeLessThanOrEqual(LIFETIME_MAX_MS);
+    for (let i = 1; i < lives.length; i += 1) expect(lives[i]!).toBeGreaterThan(lives[i - 1]!);
   });
 });

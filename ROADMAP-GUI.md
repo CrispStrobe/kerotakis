@@ -2962,8 +2962,11 @@ evolved CO₂ and half a mole of it must not look the same.
   honesty rule applies as for the icons — where a device cannot be drawn
   recognisably, say so rather than ship a shape that means nothing.
 
-- [ ] **GUI-116 — The showpiece reactions, rendered, and scaled by the
-  numbers.** A soda volcano should look like one: foam that climbs and
+- [x] **GUI-116 — The showpiece reactions, rendered, and scaled by the
+  numbers.** *All three candidate causes named below were measured and
+  closed: amplitude (#688), size (#689) and lifetime.*
+
+  A soda volcano should look like one: foam that climbs and
   spills, steam that rises and thins, a flame that flares. The owner named
   foam, steam and explosions. Each needs a quantity to ride on, and the
   engine already computes them — `GasEvolved` carries moles and a rate,
@@ -3043,10 +3046,77 @@ evolved CO₂ and half a mole of it must not look the same.
   around a small beaker is the strongest signal we send that nothing much
   is happening."
 
-  What is left of GUI-116 once the vessel is large: **duration.**
-  `latestEffect("foam", 3000)` gives an eruption three seconds, and an
-  eruption a learner looks away from is an eruption that did not happen.
-  That one is independent of size and can be done whenever.
+  What was left of GUI-116 once the vessel was large: **duration.** That
+  half is done, and it corrects this entry for the fourth time, because
+  `latestEffect("foam", 3000)` is not what governs a foam.
+
+  **`withinMs` was never the window.** `effectAlive` is
+  `at - effect.at < (effect.durationMs ?? fallbackMs)`, so every constant
+  in `Vessel.svelte` is a fallback that an engine-derived duration
+  overrides. `foam_changed` has set `durationMs = half_life_seconds *
+  1000` since it was mapped, with nothing on either end — and a foam
+  event only fires when a stabiliser is present, so that product was
+  never zero and never small. The seven stabiliser half-lives the
+  registry ships are 90, 100, 120, 180, 300, 1800 and 3600 s. The foam
+  drawing, and its `rising` class, therefore stayed live for between a
+  minute and a half and **a full hour** after the foam was gone, and its
+  collapse animation ran at `--foam-half-life: 3600s`, which is motion no
+  one can see. Three seconds was the diagnosis; an hour was the defect.
+  The 3000 was unreachable code.
+
+  Inventory first: of the 54 `latestEffect(kind, ms)` windows,
+  **eight kinds had a model quantity to ride on** — foam
+  (`half_life_seconds`), `gas_produced` (`moles / rate_moles_per_second`,
+  which is how long the gas takes to come off), `reacted` (`seconds`,
+  a field whose own comment already said a mole in a second and a mole in
+  an hour are different observations), plus settling, stirring,
+  electrolysis, emulsion and fermentation, which already rode theirs
+  through four *different* hand-written `Math.min(a, Math.max(b, …))`
+  clamps. **The other forty-odd have nothing**, and that is the honest
+  answer for them: an `osmosis` or a `gas_test` event carries no duration
+  and no rate, so it keeps its constant.
+
+  The decision now lives in `magnitudes.ts` as `modelledLifetimeMs`,
+  beside the factors, under the same auditable rule — and it is bounded,
+  by measurement rather than by taste. **What the model produces:**
+  `apparatus.ts` accepts `seconds` in 1 … 3600 for stir, heat, cool and
+  centrifuge (1 … 300 for a burner exposure), and the shipped foam
+  half-lives top out at 3600 s — three and a half decades. **What the
+  screen can spend:** the effect clock ticks at 100 ms and the vessel's
+  looping effects run cycles of 0.8 s (`drip-fall`) to 4 s
+  (`bubble-ride`), so below about a second a learner sees a fragment of
+  one loop; the shortest window already in the file is 1200 ms, and that
+  is the floor. **Where real time stops:** 12 000 ms, the longest window
+  the app already used (`ferment`, "hours of bench time compressed to a
+  watchable window").
+
+  So: real time while real time is watchable — a four-second settling
+  takes four seconds and the drawing is not lying about a duration it
+  could have honoured — then a log tail to 18 000 ms at one hour, because
+  past the ceiling the job of the number is *order*, not duration. An
+  hour outlasts a minute by 1.5x instead of by 60x, and the old clamps'
+  worst property goes with it: `min(8000, …)` gave a two-minute
+  electrolysis and a half-hour one the same 8000 ms, which is #688's
+  saturation defect in the time axis.
+
+  The test is the claim, not the refactor: two phenomena whose modelled
+  durations differ produce different visible lifetimes with the ratio in
+  the right direction — inside the band, where the ratio is exactly the
+  model's, and above it, where the old clamps made every long run
+  identical.
+
+  **And the larger vessel needed nothing retuned.** Checked rather than
+  assumed: every stroke width, radius, particle count and font-size in
+  the vessel drawing is in the units of a fixed `0 0 100 140` viewBox, so
+  #689's 2.6x scales all of them together and the composition inside the
+  picture is by definition unchanged — there is nothing expressed in
+  device pixels to tune. The one thing #689 did change is a *premise*:
+  the instrument readout's comment justified a duplicate HTML badge by
+  "4.5-unit screen type lands at under 3 real pixels", and at 257 px that
+  type is 11.6 px. The badge stays — the moment a second vessel arrives
+  the clamp drops back to 150 px and the glyph is 6.8 px again, and on a
+  phone it is the original 2.9 — but the comment now records both
+  numbers instead of the one that stopped being true.
 
   Scope note: "explosions" in a school-chemistry bench means a flare, a
   bang, a lid lifting, a flask venting — the engine models energy release
