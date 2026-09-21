@@ -3055,6 +3055,81 @@ evolved CO₂ and half a mole of it must not look the same.
   bench would really do, including refusing to show what it has not
   modelled.
 
+## Glass and liquid at the new size (GUI-118)
+
+- [x] **GUI-118 — The optics of a vessel three times the area.** #689
+  (GUI-094) took a lone vessel from 150x210 to 257x360, from 3.9% of the
+  bench pane to 11.6%. Everything inside that picture had been tuned for
+  the small one. This item is the paint, not the layout.
+
+  **What the work found, before changing anything.** An audit of what the
+  engine *computes* against what the app *draws*:
+
+  | Engine value | Where it is computed | Drawn? |
+  | --- | --- | --- |
+  | `SceneLiquid.srgb` (Beer–Lambert over the CIE 1931 observer) | `appearance.rs` → `scene.rs` | yes, per layer, with `liquidOpacity` mapping tint to alpha |
+  | `SceneLayer.srgb` per phase (LLE split) | `scene.rs` | yes, bottom-up |
+  | `SceneLiquid.cloudiness` | `appearance.rs:267` — max of particle, emulsion, colloid and protein turbidity | yes, but only over the liquid — see below |
+  | `SceneSolid.srgb` + `metallic` | `scene.rs` | yes, metals get their own stroke texture |
+  | `SceneSolid.settled_fraction`, `volume_l` | `scene.rs` | yes, via `depositDisplayHeight` |
+  | `SceneFoam.srgb` | `scene.rs` | yes, through `--foam-colour` |
+  | `bubbling` | `appearance.rs` | yes |
+  | `SceneChemiluminescence.relative_intensity` | `scene.rs:455` | intensity yes; the **hue is invented** — see the note |
+  | `SceneLiquid.path_length_cm` | `scene.rs` | **no consumer in the app** |
+  | `Appearance.spectral_gaps` | `appearance.rs:35` | **never reaches the scene at all** |
+
+  Everything else in the vessel's glass — the wall tint, the vertical
+  depth shading, the meniscus — is *drawn*, computed by nobody, and that
+  is the correct side of the line: it is presentation of a shape the scene
+  already fixes, the same way a drawn beaker is not a claim about
+  chemistry.
+
+  **The one computed thing that was not reaching the picture.** The
+  suspension wash is painted inside the liquid block, and the settled
+  deposit is painted after it. So a milky vessel showed its deposit in
+  full, unveiled colour *through* cloudy liquid. Light leaving that
+  deposit has crossed the same suspension the engine already computed, so
+  the same `cloudiness` is now applied over the deposit band as well —
+  once, not twice: the wash below it is covered by the deposit itself.
+
+  **Made theme-aware.** The glass gradients carried `#bcd6e4`, `#eaf5fb`,
+  `#ffffff` and `#000000` fixed in the markup. They are now the tokens
+  `--glass-wall`, `--glass-core`, `--glass-specular` and `--glass-depth`,
+  defined for the light, dark and high-contrast benches. SVG presentation
+  attributes cannot hold `var()`, so the stops carry classes and the
+  component's stylesheet resolves them.
+
+  **Retuned for the size.** Five stops across the wall falloff read as
+  flat bands once the vessel is three times the area, so the falloff is
+  now sampled closely enough to stay a curve, with a direction to the
+  light: a specular streak at the left quarter, a turned-away wall on the
+  right. The meniscus gained a shaded underside; a single 1-unit stroke
+  was a scratch at 150 px and a longer scratch at 257 px. Nothing
+  geometric changed — the drawing is one fixed `viewBox` scaled by CSS, so
+  every stop and stroke is in the same user units at 64 px as at 257 px.
+
+  **Deliberately not done.** `path_length_cm` is shipped with a doc
+  comment inviting a renderer to rescale absorbance against it. The drawn
+  vessel width is not a physical path length, so rescaling the colour by
+  it would put a fabricated optical claim on screen; it stays unused and
+  is recorded here instead. `spectral_gaps` — the species whose optical
+  contribution the model could not compute — is an honesty signal the
+  engine produces and `SceneVessel` does not carry, so the app paints a
+  colour without ever admitting the gap. Surfacing it needs an engine
+  change and belongs to its own item. The chemiluminescence glow is a
+  fixed cyan over a computed intensity: the hue is invented, the engine
+  models no emitter, and it was left alone only because it is another
+  item's live surface.
+
+  **Guarded.** `VesselGlassOptics.test.ts` renders the component and
+  asserts the computed `cloudiness` reaches the drawing, scales it, and
+  veils the deposit — and that a clear liquid draws neither. Named
+  preconditions in `tools/test-ux-quality.mjs` check in real Chrome that
+  the glass gradient is actually painted, that every stop resolves to a
+  colour (a missing token paints glass flat black), that each of the three
+  themes defines its own glass, and that the phone vessel is still the
+  same gradient-painted glass at the small size.
+
 ## Completed GUI tasks
 
 Numbers are never renumbered and never reused. Each of these landed; the detail
