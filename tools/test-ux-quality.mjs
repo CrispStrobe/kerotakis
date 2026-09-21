@@ -787,6 +787,22 @@ const learningProgressJourney = async () => {
   })()`));
   check("the card reports all linked learning and Replay actions", kids.progress === "all" && kids.count === "3/3" && kids.replayLesson && kids.replayCodex === 2, `${kids.progress} ${kids.count}`);
   check("level chips expose one accessible selected state", kids.selected === 1, `${kids.selected} selected`);
+  /* GUI-121. The catalogue is a dialog with cards in it, and it is open
+   * right here with a known card matched — so this is where it can be
+   * read. Both regimes, and the zoomed one is bracketed in FIVE lines
+   * rather than three hundred and seventy: the injection, the reading,
+   * the removal. GUI-108's table of measurements is the standing lesson
+   * about a zoom bracket long enough to forget you are inside it. */
+  await sweepLegibility("catalogue", "1440 px");
+  await page.evaluate(`(() => {
+    const style = document.createElement("style");
+    style.id = "ux-text-zoom";
+    style.textContent = "html { font-size: 200% !important; } body { font-size: 200% !important; }";
+    document.head.append(style);
+  })()`);
+  await sweepLegibility("catalogue", "200% text zoom");
+  await page.evaluate(`document.getElementById('ux-text-zoom')?.remove()`);
+  await settle();
   await page.evaluate(`document.querySelector('dialog header button[aria-label="close"]')?.click()`);
 };
 
@@ -2591,6 +2607,8 @@ try {
     // somewhere. Closing the dialog and opening nothing is the failure.
     check("\"open waste station\" lands on the utility station", landed.station,
       JSON.stringify(landed));
+    // GUI-121. The drawer is open and zoomed; read it while it is here.
+    if (landed.station) await sweepLegibility("utility drawer", "200% text zoom");
     check("and it throws nothing on the way", landed.errors.length === 0,
       landed.errors.join(" | "));
   } else {
