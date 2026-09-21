@@ -832,6 +832,87 @@ try {
       JSON.stringify(soloVessel));
   }
 
+  /* -- GUI-118: glass reads as glass at both sizes and in both themes ----
+   *
+   * #689 gave a lone vessel 257x360 where it had 150x210. Everything in
+   * that picture was tuned for the small one. The drawing is a fixed
+   * viewBox scaled by CSS, so nothing geometric breaks; what CAN break is
+   * the paint, and the two ways it breaks silently are a gradient whose
+   * stops never resolve (a token typo paints the glass flat black) and a
+   * colour fixed in the markup that only suits one theme. Each
+   * precondition below is its own check, because "glass is wrong" three
+   * steps downstream tells the next reader nothing.
+   */
+  const glassAudit = () => page.evaluate(`(() => {
+    const svg = document.querySelector('.vessel svg');
+    if (!svg) return JSON.stringify({ svg: false });
+    const painted = svg.querySelector('path[fill^="url(#vglass"]');
+    const stops = [...svg.querySelectorAll('linearGradient[id^="vglass"] > stop')];
+    const colours = stops.map((stop) => getComputedStyle(stop).stopColor);
+    const box = svg.getBoundingClientRect();
+    return JSON.stringify({
+      svg: true,
+      painted: Boolean(painted),
+      stops: stops.length,
+      distinct: [...new Set(colours)].length,
+      black: colours.filter((colour) => colour === 'rgb(0, 0, 0)').length,
+      width: Math.round(box.width),
+      height: Math.round(box.height),
+    });
+  })()`);
+  const glass = JSON.parse(await glassAudit());
+  check("a vessel is on the bench to inspect its glass", glass.svg === true, JSON.stringify(glass));
+  if (glass.svg) {
+    check("the glass body is painted with the curvature gradient, not a flat fill",
+      glass.painted === true, JSON.stringify(glass));
+    check("the curvature gradient is sampled finely enough to survive the larger vessel",
+      glass.stops >= 9, `${glass.stops} stops at ${glass.width}x${glass.height}`);
+    check("every glass stop resolves to a real colour, so no token has gone missing",
+      glass.black === 0 && glass.distinct >= 2,
+      `${glass.distinct} distinct, ${glass.black} unresolved`);
+  }
+  const glassTokens = JSON.parse(await page.evaluate(`(() => {
+    const root = document.documentElement;
+    const previous = root.getAttribute('data-theme');
+    const read = () => ['--glass-wall', '--glass-core', '--glass-depth']
+      .map((name) => getComputedStyle(root).getPropertyValue(name).trim());
+    const light = read();
+    root.setAttribute('data-theme', 'dark');
+    const dark = read();
+    root.setAttribute('data-theme', 'contrast');
+    const contrast = read();
+    if (previous === null) root.removeAttribute('data-theme'); else root.setAttribute('data-theme', previous);
+    return JSON.stringify({ light, dark, contrast });
+  })()`));
+  check("the glass tokens are defined on the default theme",
+    glassTokens.light.every((value) => value.length > 0), JSON.stringify(glassTokens.light));
+  check("the dark bench gets its own glass, not the light bench's",
+    glassTokens.dark.every((value) => value.length > 0)
+      && glassTokens.dark.join("|") !== glassTokens.light.join("|"),
+    JSON.stringify(glassTokens.dark));
+  check("the high-contrast bench gets its own glass too",
+    glassTokens.contrast.every((value) => value.length > 0)
+      && glassTokens.contrast.join("|") !== glassTokens.light.join("|"),
+    JSON.stringify(glassTokens.contrast));
+
+  // The same vessel at the size a phone never leaves, and the size a
+  // second vessel on the desktop bench falls back to. Measured here
+  // rather than in the phone pass because here a vessel is provably on
+  // the bench; a narrower viewport is the only difference.
+  await viewport(390, 844);
+  await settle();
+  const smallGlass = JSON.parse(await glassAudit());
+  check("the same vessel is still on the bench at 390 px", smallGlass.svg === true, JSON.stringify(smallGlass));
+  if (smallGlass.svg && glass.svg) {
+    check("the narrow bench draws the vessel smaller, not the same size",
+      smallGlass.width < glass.width, `${smallGlass.width}px vs ${glass.width}px`);
+    check("and the small vessel is the same gradient-painted glass, not a flat block",
+      smallGlass.painted === true && smallGlass.stops >= 9 && smallGlass.black === 0,
+      JSON.stringify(smallGlass));
+  }
+  await viewport(1440, 900);
+  await settle();
+
   check("visible buttons have an accessible name", desktop.unnamed === 0, `${desktop.unnamed} unnamed`);
   check("the rendered page has no duplicate ids", desktop.duplicateIds.length === 0, desktop.duplicateIds.join(", "));
 
@@ -1172,6 +1253,7 @@ try {
   await openBench();
   const mobile = JSON.parse(await layoutAudit());
   check("phone layout has no page-level horizontal overflow", mobile.bodyOverflow <= 1, `${mobile.bodyOverflow}px`);
+
   const tabs = JSON.parse(await mobileTabs());
   check("phone navigation exposes three tabs", tabs.length === 3, `${tabs.length} tabs`);
   check("phone tabs meet the 44 px touch minimum", tabs.every((tab) => tab.width >= 44 && tab.height >= 44));

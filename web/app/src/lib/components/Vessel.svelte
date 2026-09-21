@@ -689,21 +689,41 @@
       <clipPath id={`inspect-clip-${vessel.id}`}>
         <circle cx="77" cy="39" r="18" />
       </clipPath>
-      <!-- Horizontal glass-curvature tint: denser refraction at the walls,
-           near-clear in the middle — what makes a cylinder read as round. -->
+      <!-- Horizontal glass-curvature tint: denser at the walls, near-clear
+           in the middle — what makes a cylinder read as round.
+
+           GUI-118: five stops were enough at 150 px wide. At 257 px a
+           lone vessel is three times the area and the same five stops
+           read as flat bands, so the falloff is now sampled closely
+           enough to stay a curve, and the light has a direction: a
+           specular streak near the left quarter and a darker turned-away
+           wall on the right. This is PRESENTATION of the shape the scene
+           already fixes — no refractive index is modelled and none is
+           claimed. Colours are theme tokens, because a pale blue fixed
+           in the markup reads as glass on the light bench and as a smear
+           on the dark one. -->
       <linearGradient id={`vglass-${vessel.id}`} x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0" stop-color="#bcd6e4" stop-opacity="0.28" />
-        <stop offset="0.16" stop-color="#bcd6e4" stop-opacity="0.07" />
-        <stop offset="0.5" stop-color="#eaf5fb" stop-opacity="0.03" />
-        <stop offset="0.86" stop-color="#bcd6e4" stop-opacity="0.08" />
-        <stop offset="1" stop-color="#bcd6e4" stop-opacity="0.26" />
+        <stop class="glass-wall" offset="0" stop-opacity="0.30" />
+        <stop class="glass-wall" offset="0.05" stop-opacity="0.19" />
+        <stop class="glass-wall" offset="0.11" stop-opacity="0.09" />
+        <stop class="glass-specular" offset="0.17" stop-opacity="0.30" />
+        <stop class="glass-specular" offset="0.23" stop-opacity="0.08" />
+        <stop class="glass-core" offset="0.34" stop-opacity="0.03" />
+        <stop class="glass-core" offset="0.62" stop-opacity="0.04" />
+        <stop class="glass-wall" offset="0.79" stop-opacity="0.10" />
+        <stop class="glass-wall" offset="0.90" stop-opacity="0.18" />
+        <stop class="glass-wall" offset="1" stop-opacity="0.30" />
       </linearGradient>
       <!-- Vertical depth over the liquid: lit at the surface, dim at the
-           bottom. Pure shading — the colour underneath stays the engine's. -->
+           bottom. Pure shading — the colour underneath stays the engine's.
+           The dark half is now three stops so the ramp does not show a
+           hard shoulder when the vessel is drawn large. -->
       <linearGradient id={`vdepth-${vessel.id}`} x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#ffffff" stop-opacity="0.16" />
-        <stop offset="0.3" stop-color="#000000" stop-opacity="0" />
-        <stop offset="1" stop-color="#000000" stop-opacity="0.2" />
+        <stop class="glass-specular" offset="0" stop-opacity="0.18" />
+        <stop class="glass-specular" offset="0.08" stop-opacity="0.07" />
+        <stop class="glass-depth" offset="0.3" stop-opacity="0" />
+        <stop class="glass-depth" offset="0.68" stop-opacity="0.07" />
+        <stop class="glass-depth" offset="1" stop-opacity="0.2" />
       </linearGradient>
       <radialGradient id={`vglow-${vessel.id}`}>
         <stop offset="0" stop-color="#5de8ff" stop-opacity="0.9" />
@@ -758,6 +778,10 @@
           class="meniscus"
           d={`M ${INNER_X + 1} ${layer.y + 1.5} Q 50 ${layer.y - 1.5} ${INNER_X + INNER_W - 1} ${layer.y + 1.5}`}
         />
+        <path
+          class="meniscus-shade"
+          d={`M ${INNER_X + 1} ${layer.y + 2.6} Q 50 ${layer.y - 0.4} ${INNER_X + INNER_W - 1} ${layer.y + 2.6}`}
+        />
       {/each}
       {#each persistentPartitionReadouts as split (split.species)}
         {@const lower = stackedLayers.find((layer) => layer.species === split.lower_solvent)}
@@ -777,13 +801,18 @@
         {/if}
       {/each}
       {#if vessel.liquid.cloudiness > 0.01}
+        <!-- Suspended solid, scattering across the whole liquid column.
+             The number is the engine's `cloudiness`; only the 0.85 is a
+             drawing choice, so a fully opaque suspension still reads as
+             a vessel rather than a white rectangle. -->
         <rect
+          class="turbidity-veil"
           x={INNER_X}
           y={BOTTOM_Y - liquidH}
           width={INNER_W}
           height={liquidH}
-          fill="var(--cloud)"
           opacity={0.85 * vessel.liquid.cloudiness}
+          data-cloudiness={vessel.liquid.cloudiness.toFixed(4)}
         />
       {/if}
       <rect
@@ -1133,6 +1162,24 @@
         y1={BOTTOM_Y - solidH}
         y2={BOTTOM_Y - solidH}
       />
+      {#if vessel.liquid && liquidH > 0 && vessel.liquid.cloudiness > 0.01}
+        <!-- GUI-118: the suspension wash above is painted before the
+             deposit, so a milky vessel used to show its settled solid in
+             full colour through cloudy liquid. Light leaving the deposit
+             crosses the same suspension the engine already computed, so
+             the same `cloudiness` is applied again over the deposit band
+             — the band is veiled exactly once, no other layer twice. -->
+        <rect
+          class="turbidity-veil"
+          x={INNER_X}
+          y={Math.max(BOTTOM_Y - liquidH, BOTTOM_Y - solidH)}
+          width={INNER_W}
+          height={Math.max(0, Math.min(solidH, liquidH))}
+          opacity={0.85 * vessel.liquid.cloudiness}
+          data-veils-deposit="true"
+          data-cloudiness={vessel.liquid.cloudiness.toFixed(4)}
+        />
+      {/if}
     {/if}
 
     {#if gelSetEffect?.gelSet && gelSetEffect.magnitude > 0}
@@ -3359,11 +3406,41 @@
   .shadow {
     fill: var(--shadow, rgb(0 0 0 / 30%));
   }
+  /* Gradient stops carry theme tokens, which a presentation ATTRIBUTE
+     cannot hold: var() is only legal in a declaration. */
+  .glass-wall {
+    stop-color: var(--glass-wall);
+  }
+  .glass-core {
+    stop-color: var(--glass-core);
+  }
+  .glass-specular {
+    stop-color: var(--glass-specular);
+  }
+  .glass-depth {
+    stop-color: var(--glass-depth);
+  }
+  /* The liquid surface. A single 1-unit line was a scratch at 150 px and
+     is a scratch three times as long at 257 px; a meniscus is a lit lip
+     with a shaded underside, so it is drawn as two strokes. Geometry
+     only — the height it sits at is the engine's volume. */
   .meniscus {
     fill: none;
     stroke: var(--cloud);
     stroke-width: 1;
     opacity: 0.3;
+  }
+  .meniscus-shade {
+    fill: none;
+    stroke: var(--glass-depth);
+    stroke-width: 0.7;
+    opacity: 0.18;
+  }
+  /* Turbidity is the engine's `cloudiness`, and light from the deposit
+     has crossed the whole suspension before it reaches the eye. */
+  .turbidity-veil {
+    fill: var(--cloud);
+    pointer-events: none;
   }
   .computed-glow {
     opacity: calc(0.18 + var(--glow-strength) * 0.68);

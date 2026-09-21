@@ -21,6 +21,16 @@
   --warning: #a65a00;
   --danger: #c63f4a;
   --glass: #ffffff;
+  /* Glass optics (GUI-118). The wall tint, the clear core and the specular
+     streak are PRESENTATION of a cylinder's shape, not a claim about any
+     modelled refractive index. They are tokens because a hard-coded
+     #bcd6e4 that reads as glass on the light bench reads as a pale smear
+     on the dark one. --glass-depth is the shade under a liquid column;
+     on the light theme it is an ink, on the dark theme it is black. */
+  --glass-wall: #bcd6e4;
+  --glass-core: #eaf5fb;
+  --glass-specular: #ffffff;
+  --glass-depth: #0a1c2c;
   --bench-front-color: #b9d4e2;
   --shadow: rgb(23 50 77 / 16%);
   --shadow-strong: rgb(23 50 77 / 24%);
@@ -91,6 +101,10 @@
     --warning: #ffc15a;
     --danger: #ff7b84;
     --glass: #f6fbff;
+    --glass-wall: #8fb8d4;
+    --glass-core: #cfe6f6;
+    --glass-specular: #ffffff;
+    --glass-depth: #000000;
     --bench-front-color: #20394b;
     --shadow: rgb(0 0 0 / 28%);
     --shadow-strong: rgb(0 0 0 / 42%);
@@ -138,6 +152,10 @@
   --warning: #784000;
   --danger: #a51f32;
   --glass: #ffffff;
+  --glass-wall: #6f91a8;
+  --glass-core: #eaf5fb;
+  --glass-specular: #ffffff;
+  --glass-depth: #081c2c;
   --bench-front-color: #afcad9;
   --shadow: rgb(8 28 44 / 20%);
   --shadow-strong: rgb(8 28 44 / 34%);
