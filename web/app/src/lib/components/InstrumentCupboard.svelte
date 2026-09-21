@@ -278,6 +278,16 @@
                     <span class="item-plate">
                       <span class="item-name">{t(entry.name)}</span>
                     </span>
+                    <!-- The tickets go ABOVE the device, not below it. A
+                         ticket in the flow after the drawing lifts that one
+                         tile's drawing off the compartment floor while its
+                         neighbours' stay down, and a shelf row whose feet
+                         disagree is the thing `unlevelRows` fails on. Above
+                         it, the drawing is still the last item with
+                         `margin-top: auto`, so every foot lands on the same
+                         line whatever the tile carries. -->
+                    {#if entryAccess.loaned}<span class="loaned-label">{t("mission kit")}</span>{/if}
+                    {#if !entryAccess.available}<span class="locked-label">⌁ {requirementLabel(accessId(entry))}</span>{/if}
                     <span class="item-render">
                       {#if entry.render.kind === "icon"}
                         <ToolIcon name={entry.render.name} />
@@ -286,8 +296,6 @@
                       {/if}
                     </span>
                     {#if badge}<span class="deployed-label">{t(badge)}</span>{/if}
-                    {#if entryAccess.loaned}<span class="loaned-label">{t("mission kit")}</span>{/if}
-                    {#if !entryAccess.available}<span class="locked-label">⌁ {requirementLabel(accessId(entry))}</span>{/if}
                   </button>
                   <!-- GUI-110: in the tile's corner, not on a row of its
                        own under every tool. -->
@@ -439,10 +447,10 @@
   /* Bottom left since GUI-115: the top right belongs to the (i), and the
      bottom right is where a right-handed thumb rests on a phone. */
   .deployed-label { position: absolute; bottom: .3rem; left: .3rem; padding: .12rem .3rem; border-radius: 999px; color: var(--on-accent); background: var(--action); font-size: .45rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
-  /* Under the device rather than in place of it: these stand in the flow
-     after the drawing, so a locked tool keeps its picture. */
-  .locked-label { margin: .3rem .1rem 0; padding: .16rem .3rem; border-radius: 7px; color: var(--dim); background: color-mix(in srgb, var(--surface-raised) 90%, transparent); font-size: .5rem; font-weight: 800; line-height: 1.2; }
-  .loaned-label { margin: .3rem .1rem 0; padding: .16rem .3rem; border-radius: 999px; color: var(--instrument); background: color-mix(in srgb, var(--instrument) 10%, var(--surface)); font-size: .46rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+  /* Between the plate and the device, never in place of it: a locked tool
+     keeps its picture, and see the markup for why they are not below it. */
+  .locked-label { align-self: flex-start; max-width: 100%; margin: 0 .1rem .1rem; padding: .16rem .3rem; border-radius: 7px; color: var(--dim); background: color-mix(in srgb, var(--surface-raised) 90%, transparent); font-size: .5rem; font-weight: 800; line-height: 1.2; }
+  .loaned-label { align-self: flex-start; max-width: 100%; margin: 0 .1rem .1rem; padding: .16rem .3rem; border-radius: 999px; color: var(--instrument); background: color-mix(in srgb, var(--instrument) 10%, var(--surface)); font-size: .46rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
   /* The explanation takes the whole row: a sentence in a 6 rem column is a
      column of two-word lines. */
   .slot-info { grid-column: 1 / -1; }
