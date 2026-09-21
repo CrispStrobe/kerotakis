@@ -496,3 +496,44 @@ export function summarizeResult(
 
   return summary;
 }
+
+/**
+ * GUI-108 — whether the result card opens expanded, remembered per browser.
+ *
+ * Capping the card's height stops it from taking the journal pane, but a
+ * reader who never wants the detail should be able to say so once. The
+ * `<details>` is the control they already have; this is what makes the
+ * answer stick.
+ *
+ * Expanded unless this browser says otherwise, and anything unreadable is
+ * expanded — the card's whole purpose is the detail, so a private window
+ * that throws on the property should show it, not hide it. The shape is
+ * the one `equipmentCatalogue.ts` uses for the cupboard's sets chip.
+ */
+export const RESULT_CARD_OPEN_KEY = "kerotakis.result.expanded";
+
+export function loadResultCardOpen(
+  storage: { getItem(key: string): string | null } | null,
+  key: string,
+): boolean {
+  if (!storage) return true;
+  try {
+    return storage.getItem(key) !== "off";
+  } catch {
+    // A private window throws on the property itself.
+    return true;
+  }
+}
+
+export function saveResultCardOpen(
+  storage: { setItem(key: string, value: string): void } | null,
+  key: string,
+  open: boolean,
+): void {
+  if (!storage) return;
+  try {
+    storage.setItem(key, open ? "on" : "off");
+  } catch {
+    // The disclosure still works for this visit when persistence is not.
+  }
+}

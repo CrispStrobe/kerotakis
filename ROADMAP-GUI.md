@@ -2835,6 +2835,48 @@ started. Recorded so they are not lost.
   `tools/test-ux-quality.mjs`, because that is the only level at which it
   is demonstrable.
 
+- [x] **GUI-108 — The latest-result card takes the journal it summarises.**
+  The owner: *"the 'Neuestes berechnetes Ergebnis · v1 / Temperaturänderung
+  / ΔT +25,97 K / ⌖ ⤓ ×' modal overlays over the text in Laborbuch"*.
+
+  Done. `.result-card` is `flex: 0 1 auto; min-height: 0` and its body is a
+  capped scroll region, so the card takes what is left of the pane and
+  never what is under it. The disclosure is remembered per browser, so a
+  reader who wants the headline and not the detail says so once.
+
+  **What the work found:** it is not an overlay, and looking for one is the
+  wrong search. The card has no `position`, no z-index above its own export
+  menu, and no scrim — which is exactly why it never appears in
+  `overlayStacking.test.ts`, whose contract is about `position: fixed;
+  inset: 0` surfaces and the Escape chain. **No z-index was changed and no
+  recorded exception was added or healed.**
+
+  The real mechanism is a flex column. `.pane-body` stacks the vessel
+  inspector, this card and the feed; the feed is `flex: 1; min-height: 0`
+  and the card was `flex: none`. One item that would not give way, beside
+  one that would give way entirely — so an `<details open>` carrying an
+  equation, a reactant list, an observation, a thermal row, a quantity
+  table, a boundary note and a safety note could squeeze the log to zero
+  height. To the reader that is indistinguishable from being covered.
+
+  `Inspector.svelte` is the precedent, one component earlier in the same
+  column, and its comment already said the whole thing: *"The instrument
+  and action rows can be taller than their share of a narrow journal. Keep
+  them in their own scroll region so they never paint over (or steal
+  pointer events from) the notebook below."* The card now does the same.
+
+  Two constraints shaped the implementation. The cap is `30vh` on the BODY
+  rather than a percentage on the card, because `<details>` cannot safely
+  be made a flex or grid container — the closed state depends on the UA's
+  own display handling — and the journal pane is very nearly viewport
+  height in every layout the app offers. And the summary row is left out of
+  the scroll region so the export menu, which hangs off it, is not clipped.
+
+  Known and deliberate: with the vessel inspector open as well (capped at
+  55% of the pane) the log is thin. Both blocks scroll and neither can
+  reach zero, and a reader in the inspector is not reading the log — but it
+  is a compound case worth naming rather than claiming it is solved.
+
 ## The bench must look like a bench (GUI-114 … GUI-116)
 
 Stated by the owner on 2026-09-20, in one breath, after using the app:
