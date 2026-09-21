@@ -251,8 +251,6 @@
   },
   {
     "appearance": "white",
-    "aqueous_solubility_g_per_100_ml": 0.00015049,
-    "aqueous_solubility_g_per_100_ml_at_100c": 0.0021068,
     "colour": {
       "b": 246,
       "g": 248,

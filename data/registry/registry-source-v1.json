@@ -1667,8 +1667,8 @@
       "retrieved": "2026-09-16"
     },
     {
-      "id": "literature/melcher-silver-chloride-and-barium-sulphate-1910",
-      "citation": "A. C. Melcher, 'The solubility of silver chloride, barium sulphate, and calcium sulphate at high temperatures', J. Am. Chem. Soc. 32 (1910) 50-66, doi:10.1021/ja01919a003; read in full 2026-09-21 from the open scan at https://zenodo.org/records/2284124. IT IS PRIMARY JOURNAL LITERATURE WITH A DOI, which is the `primary-literature` route of provenance/upstreams.toml rather than a compilation row - the shape `literature/hartley-campbell-iodine-water` and `literature/osborne-stimson-ginnings-water-vaporisation` already use in this registry. The publisher's own copy is not reachable from this host, so the open scan is named as what was actually opened rather than a URL nobody here could load. Kerotakis transcribes four printed numbers and redistributes no source text or table. WHY ONE PAPER CARRIES TWO SOLIDS. Melcher measured the specific conductance of solutions saturated in a rotating steel bomb, one apparatus and one method for every salt in the paper, which is why two registry rows can rest on a single reading rather than two unread ones. WHAT THE PAPER PRINTS, in milli-equivalents per litre. Table V, 'Solubility of silver chloride and barium sulphate': silver chloride 0.0105 at 18 °C, 0.0365 at 50 °C, 0.147 at 100 °C, the 25 °C cell blank; barium sulphate 0.0190 at 18 °C, 0.0212 at 25 °C, 0.0288 at 50 °C, 0.0334 at 100 °C. THE ARITHMETIC TO g/100 mL, which is this bench's unit. A milli-equivalent is a millimole divided by the charge the formula unit carries: one for silver chloride, two for barium sulphate. So silver chloride at 18 °C is 1.05e-5 mol/L, which at this registry's molar mass of 143.32 g/mol is 1.50486e-3 g/L and therefore 0.00015049 g/100 mL; at 100 °C, 1.47e-4 mol/L, 0.0021068 g/100 mL. Barium sulphate at 25 °C is 0.0212/2 = 1.06e-5 mol/L, at 233.383 g/mol 0.00024739 g/100 mL; at 100 °C, 1.67e-5 mol/L, 0.00038975 g/100 mL. WHAT IS ASSUMED IN THE CONVERSION AND IS NOT MELCHER'S. His tables are per litre of SOLUTION and this bench's field is per 100 mL of WATER; at a quarter of a milligram per litre the two differ immeasurably, and no density correction is applied. WHAT IS MELCHER'S OWN DERIVATION AND IS NOT A WEIGHING. The solubilities in Table V are conductances divided by an equivalent conductance and then by an estimated degree of ionisation, so they are his reported solubilities rather than a gravimetric determination. He says so, and the paper checks itself elsewhere: his Table XII sets his calcium sulphate values beside Hulett and Allen's, obtained 'by an entirely different method', and they agree to 29.5 against 29.6 at 18 °C. TEMPERATURE, SAID PLAINLY BECAUSE THE FIELD CANNOT SAY IT. This bench anchors its cold solubility at 20 °C. The barium sulphate figure is Melcher's 25 °C row; the silver chloride figure is his 18 °C row, because he printed no 25 °C value for it, and an 18 °C measurement read at the 20 °C anchor is the conservative direction. Each row's own `conditions.temperature` carries the temperature the number was measured at rather than the temperature it is read at. WHAT IT IS NOT: not an evaluation, not a compilation, and not the paper's calcium sulphate values. Those were read too - gypsum 29.5 milli-equivalents/L at 18 °C and 23.3 at 100 °C, which is 0.25395 and 0.20058 g/100 mL as the dihydrate - and are DELIBERATELY NOT SHIPPED; PLAN.md records why, and the reason is the engine rather than the measurement. Read 2026-09-21",
+      "id": "literature/melcher-barium-sulphate-1910",
+      "citation": "A. C. Melcher, 'The solubility of silver chloride, barium sulphate, and calcium sulphate at high temperatures', J. Am. Chem. Soc. 32 (1910) 50-66, doi:10.1021/ja01919a003; read in full 2026-09-21 from the open scan at https://zenodo.org/records/2284124. IT IS PRIMARY JOURNAL LITERATURE WITH A DOI, which is the `primary-literature` route of provenance/upstreams.toml rather than a compilation row - the shape `literature/hartley-campbell-iodine-water` and `literature/osborne-stimson-ginnings-water-vaporisation` already use in this registry. The publisher's own copy is not reachable from this host, so the open scan is named as what was actually opened rather than a URL nobody here could load. Kerotakis transcribes two printed numbers and redistributes no source text or table. WHAT THE PAPER PRINTS FOR THE SOLID THIS ROW SUPPORTS. Table V, 'Solubility of silver chloride and barium sulphate', in milli-equivalents per litre: barium sulphate 0.0190 at 18 °C, 0.0212 at 25 °C, 0.0288 at 50 °C, 0.0334 at 100 °C. Melcher measured the specific conductance of solutions saturated in a rotating steel bomb, one apparatus and one method for every salt in the paper. THE ARITHMETIC TO g/100 mL, which is this bench's unit. A milli-equivalent is a millimole divided by the charge the formula unit carries, two for barium sulphate. So 0.0212/2 = 1.06e-5 mol/L, which at this registry's molar mass of 233.383 g/mol is 0.00024739 g/100 mL; at 100 °C, 1.67e-5 mol/L, 0.00038975 g/100 mL. WHAT IS ASSUMED IN THE CONVERSION AND IS NOT MELCHER'S. His tables are per litre of SOLUTION and this bench's field is per 100 mL of WATER; at a quarter of a milligram per litre the two differ immeasurably, and no density correction is applied. WHAT IS MELCHER'S OWN DERIVATION AND IS NOT A WEIGHING. The solubilities in Table V are conductances divided by an equivalent conductance and then by an estimated degree of ionisation, so they are his reported solubilities rather than a gravimetric determination. He says so, and the paper checks itself elsewhere: his Table XII sets his calcium sulphate values beside Hulett and Allen's, obtained 'by an entirely different method', and they agree to 29.5 against 29.6 at 18 °C. TEMPERATURE. This bench anchors its cold solubility at 20 °C and the figure taken is his 25 °C row; his 18 °C row, 0.0190, would give 0.00022170 g/100 mL, and the difference is far below the resolution of anything the bench prints from it. TWO OTHER SOLIDS WERE READ OUT OF THIS PAPER AND ARE DELIBERATELY NOT SHIPPED, and PLAN.md says why of each - the reason is the engine rather than the measurement. Silver chloride: 0.0105 milli-equivalents/L at 18 °C and 0.147 at 100 °C, which is 0.00015049 and 0.0021068 g/100 mL. Gypsum, Table XI: 29.5 and 23.3 milli-equivalents/L, which is 0.25395 and 0.20058 g/100 mL AS THE DIHYDRATE - the same measurement expressed as anhydrous calcium sulphate reads 0.2008, and that is a different solid. Read 2026-09-21",
       "licence": "CC0-1.0",
       "lane": "runtime",
       "origin": "https://doi.org/10.1021/ja01919a003",
@@ -55191,86 +55191,6 @@
       }
     },
     {
-      "id": "aqueous-solubility/AgCl",
-      "subject": {
-        "kind": "species",
-        "id": "AgCl"
-      },
-      "model": "bounded-room-temperature-dissolution",
-      "parameter": "aqueous-solubility-g-per-100-ml",
-      "quantity": {
-        "value": 0.00015049,
-        "unit": {
-          "symbol": "g/100mL",
-          "dimension": "mass_concentration"
-        },
-        "conditions": {
-          "temperature": {
-            "lower": 291.15,
-            "upper": 291.15,
-            "unit": {
-              "symbol": "K",
-              "dimension": "temperature"
-            }
-          },
-          "pressure": null,
-          "ph": null,
-          "ionic_strength": null,
-          "medium": "water",
-          "phase": "solid",
-          "notes": "Melcher 1910 Table V; 18 °C, the paper prints no 25 °C value for this salt"
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "literature/melcher-silver-chloride-and-barium-sulphate-1910",
-        "method": {
-          "kind": "measured",
-          "detail": "THE CITED SOURCE IS THE MEASUREMENT. Melcher (1910) Table V gives the solubility of silver chloride as 0.0105 milli-equivalents per litre at 18 °C; silver chloride carries one charge per formula unit, so that is 1.05e-5 mol/L, and at this registry's molar mass of 143.32 g/mol, 0.00015049 g/100 mL. THE EXPERIMENT IS HIS AND NOT THIS PROJECT'S - this project operates no laboratory, and `measured` says only that `source_id` points at the experiment the number came out of rather than at a table the number was copied from. IT IS AN 18 °C VALUE READ AT A 20 °C ANCHOR: the paper prints no 25 °C figure for silver chloride, its solubility rises with temperature, and so the 18 °C number is the conservative one to carry. The band is unestablished: the paper quotes no uncertainty beside this row."
-        }
-      }
-    },
-    {
-      "id": "aqueous-solubility-100c/AgCl",
-      "subject": {
-        "kind": "species",
-        "id": "AgCl"
-      },
-      "model": "two-point-temperature-dependent-dissolution",
-      "parameter": "aqueous-solubility-g-per-100-ml-at-100c",
-      "quantity": {
-        "value": 0.0021068,
-        "unit": {
-          "symbol": "g/100mL",
-          "dimension": "mass_concentration"
-        },
-        "conditions": {
-          "temperature": {
-            "lower": 373.15,
-            "upper": 373.15,
-            "unit": {
-              "symbol": "K",
-              "dimension": "temperature"
-            }
-          },
-          "pressure": null,
-          "ph": null,
-          "ionic_strength": null,
-          "medium": "water",
-          "phase": "solid",
-          "notes": "Melcher 1910 Table V, 100 °C column"
-        },
-        "uncertainty": {
-          "kind": "unestablished"
-        },
-        "source_id": "literature/melcher-silver-chloride-and-barium-sulphate-1910",
-        "method": {
-          "kind": "measured",
-          "detail": "THE CITED SOURCE IS THE MEASUREMENT. Melcher (1910) Table V, 100 °C column: 0.147 milli-equivalents per litre, one charge per formula unit, so 1.47e-4 mol/L and at 143.32 g/mol 0.0021068 g/100 mL. Melcher's own note on this row is worth carrying: Böttger's specific conductance at 100 °C is nearly identical to his, and the difference in the derived solubility comes from how hard it is to hold exact saturation at 100 °C when the bomb is shaken by hand rather than mechanically."
-        }
-      }
-    },
-    {
       "id": "legacy-tint-strength/AgCl",
       "subject": {
         "kind": "species",
@@ -61700,7 +61620,7 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "literature/melcher-silver-chloride-and-barium-sulphate-1910",
+        "source_id": "literature/melcher-barium-sulphate-1910",
         "method": {
           "kind": "measured",
           "detail": "THE CITED SOURCE IS THE MEASUREMENT. Melcher (1910) Table V, 25 °C column: 0.0212 milli-equivalents per litre. Barium sulphate carries two charges per formula unit, so that is 1.06e-5 mol/L, and at this registry's molar mass of 233.383 g/mol, 0.00024739 g/100 mL. The 25 °C figure is read at this bench's 20 °C anchor; the 18 °C row in the same table, 0.0190, would give 0.00022170 g/100 mL, and the difference is far below the resolution of anything the bench prints from it. THE EXPERIMENT IS HIS AND NOT THIS PROJECT'S."
@@ -61740,7 +61660,7 @@
         "uncertainty": {
           "kind": "unestablished"
         },
-        "source_id": "literature/melcher-silver-chloride-and-barium-sulphate-1910",
+        "source_id": "literature/melcher-barium-sulphate-1910",
         "method": {
           "kind": "measured",
           "detail": "THE CITED SOURCE IS THE MEASUREMENT. Melcher (1910) Table V, 100 °C column: 0.0334 milli-equivalents per litre, two charges per formula unit, so 1.67e-5 mol/L and at 233.383 g/mol 0.00038975 g/100 mL."

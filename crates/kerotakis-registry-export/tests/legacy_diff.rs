@@ -878,7 +878,7 @@ struct ReviewedSolubility {
     measured: bool,
 }
 
-const MELCHER_1910: &str = "literature/melcher-silver-chloride-and-barium-sulphate-1910";
+const MELCHER_1910: &str = "literature/melcher-barium-sulphate-1910";
 const ALMKVIST_1918: &str = "literature/almkvist-metal-hydroxide-solubility-1918";
 const PECHET_1940: &str = "literature/pechet-cupric-oxide-solubility-1940";
 const MCGEE_1977: &str = "literature/mcgee-hostetler-brucite-1977";
@@ -886,7 +886,6 @@ const MCGEE_1977: &str = "literature/mcgee-hostetler-brucite-1977";
 fn reviewed_solubility(key: &str) -> Option<ReviewedSolubility> {
     let (source, cold_k, measured) = match key {
         "I2" => ("literature/hartley-campbell-iodine-water", 298.15, true),
-        "AgCl" => (MELCHER_1910, 291.15, true),
         "BaSO4" => (MELCHER_1910, 298.15, true),
         "Fe(OH)3" => (ALMKVIST_1918, 293.15, true),
         "CuO" => (PECHET_1940, 298.15, true),
@@ -1134,7 +1133,7 @@ fn the_atomic_weight_table_reaches_the_molar_masses_it_is_said_to_reach() {
 
 /// `measured` is no longer empty, and it is empty of everything else.
 ///
-/// Seven records in the registry have a source that is itself the experiment.
+/// Six records in the registry have a source that is itself the experiment.
 /// Asserting the exact set keeps two opposite mistakes visible: a record
 /// quietly claiming a measurement it cannot support, and one of these losing
 /// the claim in a regeneration.
@@ -1144,18 +1143,18 @@ fn the_atomic_weight_table_reaches_the_molar_masses_it_is_said_to_reach() {
 /// Stimson and Ginnings's 1939 calorimetry rather than a table repeating it,
 /// which is the line this field draws.
 ///
-/// Five more arrived on 2026-09-21 with the sparingly soluble solids'
-/// reviewed solubilities: Melcher's 1910 conductometry for silver chloride
-/// and barium sulphate (two of the five are that paper's 100 °C points),
-/// Almkvist's 1918 colorimetry for ferric hydroxide, and Pechet's 1940
-/// dialysis for cupric oxide.
+/// Four more arrived on 2026-09-21 with the sparingly soluble solids'
+/// reviewed solubilities: Melcher's 1910 conductometry for barium sulphate
+/// (two of the four are his 25 °C and 100 °C rows), Almkvist's 1918
+/// colorimetry for ferric hydroxide, and Pechet's 1940 dialysis for cupric
+/// oxide.
 ///
 /// BRUCITE IS DELIBERATELY NOT HERE. Its source publishes a solubility
 /// product, so its record claims `derived` and `reviewed_solubility` says
 /// so; a regeneration that promoted it would be claiming somebody weighed
 /// a number nobody weighed, and this list is where that would show.
 #[test]
-fn seven_records_claim_their_source_is_the_measurement() {
+fn six_records_claim_their_source_is_the_measurement() {
     let document = export_current_registry().expect("export current registry");
     let measured: Vec<&str> = document
         .model_parameters
@@ -1173,8 +1172,6 @@ fn seven_records_claim_their_source_is_the_measurement() {
     assert_eq!(
         measured,
         vec![
-            "aqueous-solubility/AgCl",
-            "aqueous-solubility-100c/AgCl",
             "aqueous-solubility/CuO",
             "aqueous-solubility/I2",
             "aqueous-solubility/Fe(OH)3",

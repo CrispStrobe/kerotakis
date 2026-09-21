@@ -3669,14 +3669,12 @@ Measured against `crates/kerotakis-core/tests/golden/registry.json` and
       `gypsum` and the transcript's own `AgCl` and `MnO2` are the ones a
       school bench actually grows.
 
-      **FIVE SHIPPED, 2026-09-21. The gap is 28, of which 4 are the metals,
-      so 24 posable rows remain.** Four papers, each opened and read rather
+      **FOUR SHIPPED, 2026-09-21. The gap is 29, of which 4 are the metals,
+      so 25 posable rows remain.** Four papers, each opened and read rather
       than cited from memory, and not one of them a compilation:
 
       | solid | g/100 mL | at | source |
       |---|---|---|---|
-      | `AgCl` | 0.00015049 | 18 °C | Melcher 1910, Table V |
-      | `AgCl` (100 °C) | 0.0021068 | 100 °C | Melcher 1910, Table V |
       | `BaSO4` | 0.00024739 | 25 °C | Melcher 1910, Table V |
       | `BaSO4` (100 °C) | 0.00038975 | 100 °C | Melcher 1910, Table V |
       | `Fe(OH)3` | 0.0000151 | 20 °C | Almkvist 1918 |
@@ -3686,9 +3684,9 @@ Measured against `crates/kerotakis-core/tests/golden/registry.json` and
       - A. C. Melcher, *J. Am. Chem. Soc.* **32** (1910) 50–66,
         doi:10.1021/ja01919a003, read from the open scan at
         `zenodo.org/records/2284124`. One rotating steel bomb and one
-        conductometric method, which is why two solids rest on one reading.
-        Table V, milli-equivalents per litre: `AgCl` 0.0105 at 18 °C and
-        0.147 at 100 °C; `BaSO4` 0.0212 at 25 °C and 0.0334 at 100 °C.
+        conductometric method for every salt in the paper. Table V,
+        milli-equivalents per litre: `BaSO4` 0.0212 at 25 °C and 0.0334 at
+        100 °C.
       - G. Almkvist, *Z. anorg. allg. Chem.* **103** (1918) 240–242,
         doi:10.1002/zaac.19181030113, read from `zenodo.org/records/2516728`.
         Fresh ferric hydroxide stirred 96 h in distilled water at 20 °C,
@@ -3712,21 +3710,15 @@ Measured against `crates/kerotakis-core/tests/golden/registry.json` and
         **lower bound**, and all four are written into the record.
 
       **Nothing else was converted from a solubility product.** The other
-      four are milli-equivalents per litre, milligrams per litre and moles
+      three are milli-equivalents per litre, milligrams per litre and moles
       per litre as printed; the step to g/100 mL is stoichiometry and the
       registry's own molar mass, and each row's `method.detail` prints the
       arithmetic.
 
-      **The temperature trap bit, and the record carries it rather than the
-      prose.** Melcher prints no 25 °C figure for silver chloride, so that
-      row is his **18 °C** row read at this bench's 20 °C anchor, and both
-      `conditions.temperature` and `method.detail` say which. It errs in
-      the conservative direction.
-
       **What reaches the reader, and it is in the golden rather than
-      silent.** Four of the five fall under the `< 0.01 g/100 mL` branch,
-      so the bench now says of them that they hardly dissolve and prints
-      the reviewed number. `lessons/antacid-suspension.lab` stops
+      silent.** All four fall under the `< 0.01 g/100 mL` branch, so the
+      bench now says of them that they hardly dissolve and prints the
+      reviewed number. `lessons/antacid-suspension.lab` stops
       apologising — "not yet modelled — magnesium hydroxide in contact with
       liquid" becomes "14.9 µmol magnesium hydroxide dissolved" followed by
       the honest trace sentence — and the copper(II) oxide lesson does the
@@ -3743,28 +3735,49 @@ Measured against `crates/kerotakis-core/tests/golden/registry.json` and
       presentation fix, not a data one, and it is left for a separate
       change rather than mixed into this one.
 
-- [ ] **Four solids whose measurement WAS found and read, and is still not
-      shipped — because the engine cannot hold it yet.** This is the real
-      finding of the sourcing pass and it is an engine item, not a data
-      one. `kerotakis_core::solve::saturation_moves` reads
-      `aqueous_solubility_g_per_100_ml` and moves a solid into solution as
-      an **undissociated aqueous portion** up to that limit. Where a routed
-      database also spells the solid, `aqueous.rs` then sees a `Mineral`
-      role on a non-solid portion and enters its ELEMENTS as totals instead
-      of posing the phase in `EQUILIBRIUM_PHASES`. Below about 2 × 10⁻⁴
-      mol/L — chalk's own figure, and the reason chalk, sulfur and quartz
-      never showed this — the part that moves is negligible and the two
-      mechanisms do not collide. Above it they do, and `lessons/limewater.lab`
-      is where it showed: giving `Ca(OH)2` its measured solubility made the
-      lesson print "0.0100 mol slaked lime dissolved" instead of "not yet
-      modelled", which is *better*, and then made the liquid read **clear
-      instead of cloudy after both carbon dioxide doses**, which is the
-      lesson's entire observation gone. `derived::Derived::build` already
-      names the fix in its own words: `saturation_moves` has to be able to
-      see a dissolved amount that has been booked onto ions.
+- [ ] **`saturation_moves` is solution-blind, and that is what bounds this
+      field.** The real finding of the sourcing pass, and an engine item
+      rather than a data one. `kerotakis_core::solve::saturation_moves`
+      reads `aqueous_solubility_g_per_100_ml` and moves a solid into
+      solution as an **undissociated aqueous portion** up to that limit. It
+      knows the limit and nothing else about the beaker. Where a routed
+      database also spells the solid — which is every row in this gap, by
+      construction — `aqueous.rs` then sees a `Mineral` role on a non-solid
+      portion and enters its ELEMENTS as totals instead of posing the phase
+      in `EQUILIBRIUM_PHASES`, and the two mechanisms give different
+      answers. The disagreement is bounded by the limit itself, which is
+      why chalk has carried a reviewed solubility for as long as it has
+      without anyone noticing: below about 2 × 10⁻⁴ mol/L the part that
+      moves is a trace.
 
-      The four numbers are in hand, read and checked, so the engine change
-      does not have to re-do the sourcing:
+      **Two attempts to go above that line, and what each one cost.** Both
+      were tried in #699, both are recorded here rather than argued about:
+
+      - `Ca(OH)2` at 0.0211 mol/L. `lessons/limewater.lab` stopped
+        apologising — "not yet modelled — slaked lime in contact with
+        liquid" became "0.0100 mol slaked lime dissolved", which is
+        *better* — and then read **clear instead of cloudy after both
+        carbon dioxide doses**. The lesson's entire observation, gone.
+      - `AgCl` at 1.05 × 10⁻⁵ mol/L, which is barely above chalk and still
+        broke `codex lint`: *"common-ion-effect: claims 'dissolved:AgCl'
+        does NOT happen, but it did"*. That entry teaches that silver
+        chloride in 0.01 mol/L salt water dissolves nothing measurable, and
+        `saturation_moves` dissolved it anyway, because it cannot see the
+        chloride. **This is the sharper of the two**: the magnitude was not
+        the problem, the solution-blindness was, and the codex was the
+        instrument that said so.
+
+      `derived::Derived::build` already names the fix in its own words:
+      `saturation_moves` has to be able to see a dissolved amount that has
+      been booked onto ions.
+
+      The five numbers below are in hand, read and checked, so the engine
+      change does not have to re-do the sourcing:
+
+      - **`AgCl` = 0.00015049 g/100 mL at 18 °C and 0.0021068 at 100 °C.**
+        Melcher 1910, Table V, 0.0105 and 0.147 milli-equivalents per
+        litre; the paper prints no 25 °C figure for it, so the cold row is
+        his 18 °C row.
 
       - **`Ca(OH)2` = 0.15633 g/100 mL at 20 °C** (0.0211 mol/kg water).
         R. G. Bates, V. E. Bower and E. R. Smith, "Calcium hydroxide as a
@@ -3795,8 +3808,9 @@ Measured against `crates/kerotakis-core/tests/golden/registry.json` and
         undersaturation. His own NaCl points, 35.75 at 0.35 °C and 36.20 at
         30.05 °C, bound the 5 °C offset at about 0.3 %.
 
-- [ ] **The 24 posable rows that are still counted in full for want of a
-      number, and why each one is.** Left absent deliberately. A solid with
+- [ ] **The 20 posable rows that are still counted in full for want of a
+      number, and why each one is.** (The other five are the ones above:
+      their numbers exist and the engine cannot hold them yet.) Left absent deliberately. A solid with
       no reviewed solubility is counted in full, which is pessimistic and
       safe; a guessed number would make the cap bite on a fiction, which is
       worse than the gap. Grouped by the reason, because the reasons are
@@ -3867,7 +3881,7 @@ Measured against `crates/kerotakis-core/tests/golden/registry.json` and
       text, Zenodo's deposit of pre-1923 journal scans (searchable through
       its own API by title — it is where Melcher and Almkvist came from),
       and `archive.org` item downloads, though **not** its full-text
-      search. The systematic compilations that carry all 24 of these
+      search. The systematic compilations that carry all 20 of these
       numbers in one table are exactly what `provenance/upstreams.toml`
       refuses, and no amount of convenience changes that.
 
@@ -3889,9 +3903,9 @@ counts against the vendored files (2026-09-21):
   minerals.
 - Of those 36, **3** carried a reviewed solubility (chalk, sulfur, quartz)
   and **33** did not. That, not nine, was the gap. **Since 2026-09-21 it is
-  8 and 28** — see the ruling below for which five moved, whose measurement
-  each one is, and why four more that were sourced are deliberately not
-  shipped.
+  7 and 29** — see the ruling below for which four moved, whose measurement
+  each one is, and why five more that were sourced and read are
+  deliberately not shipped.
 - **621** of the 683 minerals the three databases define are no registry
   solid at all. Also normal: the files are natural-water mineralogy.
 - **12** solids are spelled by more than one phase name, and the crosswalk
