@@ -3707,7 +3707,7 @@ Whoever implements it should make the stage the *last* thing to scroll
 out of view, not the first.
 
 
-- [ ] **GUI-122 — What falls out of the bottom of a pane is not below the
+- [x] **GUI-122 — What falls out of the bottom of a pane is not below the
   fold; it is gone.** GUI-121's sweep left two instances standing, and
   they are one finding wearing two hats. It is a *different shape* from
   the rem-furniture defects GUI-121 closed: there, a fixed box beside the
@@ -3745,6 +3745,102 @@ out of view, not the first.
   list **still reproduces**, so the day this item lands the suite fails
   until the list is deleted. An exception cannot outlive the defect it
   names.
+
+  ### What the work found
+
+  **`KNOWN_OPEN` is empty.** All three entries stopped reproducing and all
+  three were deleted; the list and both of its checks stay, so an empty
+  list is now the asserted claim that this sweep carries no standing
+  exceptions at all.
+
+  **A scroller is not a clip, and the sweep already knew it.** The one
+  thing that made all three instances *defects* rather than *lists* is the
+  rule `visibleBox` has carried since GUI-121: the walk up the ancestors
+  stops cutting once an axis is reachable, which is what keeps the
+  cabinet's 1117 unscrolled bottles from being reported invisible. So the
+  fix and the assertion are the same change of state — `overflow: hidden`
+  to `overflow: hidden auto` on `div.bench-pane` and on `nav.shelf-pane`
+  — and nothing in the sweep had to be taught about it.
+
+  **The cabinet's count was not the bench's problem wearing a hat; it was
+  a sibling problem.** The ruling says the cabinet "already has a
+  scroller", and it does — on the *list*. `p.tally` is the list's
+  **sibling**, so no amount of scrolling the bottles could ever reach it,
+  and GUI-121's `flex: none` only stopped it being the item that gave way.
+  The pane itself had to become the fallback scroller. One consequence had
+  to be answered with it: with the pane scrolling, an unfloored list
+  shrinks to nothing and the cabinet becomes a column of rails over no
+  bottles, so the list took a **120 px** floor — a layout minimum, in px
+  like the stage's 384 px, so it does not double with the reader's type.
+
+  **"The stage scrolls last" is three rules, not one.** The *order* — the
+  two pieces of chrome at the two ends of the column with the stage
+  between them, so a reader scrolling down loses the equation block and
+  gains the dock and passes over the stage either way. `flex: none` on
+  both ends — GUI-121's `.tally` lesson said again, that the ends of a
+  column must not be the items that give way; what gives way is the
+  stage, down to its own 384 px floor, and after that the pane scrolls.
+  And a *cap*: neither end may fill the pane, `max-height: 66%` with its
+  own scroller inside the cap, so at either end of the scroll the stage
+  keeps at least a third of the pane. The cap is a percentage of the
+  **pane** and not of the viewport, because the pane is what the reader is
+  scrolling — an earlier draft of this used `45vh`, and the measurement
+  below is why that was wrong: at 200% the pane is 371 px, so 45vh is
+  *405 px*, a bound larger than the thing it was supposed to bound.
+
+  **What a reader actually loses, measured in the app rather than
+  reasoned about.** At 1440x900, 100%: the pane's column is 820 px in an
+  820 px pane — **no overflow, no scrollbar, and the scroll cannot move**
+  — with the stage at 691, the vessel at 424 and the dock at 113, all
+  whole. At 320x700: 582 px in a 582 px pane, the same, with the whole
+  vessel on screen before anything is scrolled. At 200% text zoom the
+  pane is only **371 px** and its column is **623** — 252 px of overflow,
+  a quarter more than the ~120 px GUI-121 estimated, because the dock
+  stops being squeezed once it is `flex: none`. With the pane untouched
+  the stage shows **372 of its 384** and the dock is cut to **0 of 207**;
+  run to the bottom, the dock is whole at 207 and the stage still shows
+  **133**. That is the ruling's sentence as numbers: the reader reaches
+  the dock, and never loses the counter.
+
+  **The vessel is reachable, and it is not wholly on screen — and that is
+  GUI-114's geometry rather than this ruling's.** At 200% the vessel is
+  **479 px** of glassware on a work surface inside a 384 px stage that
+  has carried its own scroller since GUI-114, so it cannot be wholly on
+  screen at any scroll position of any pane, and it could not before this
+  change either. The first draft of the assertion asked for it anyway and
+  failed in CI on exactly that — 479 px tall, 0 px of it in the pane —
+  which is the useful half of the finding. What the ruling actually owes
+  is that it is never clipped away with nothing to reach it by, so that
+  is what is asserted, twice: the stage's own scroller brings it into the
+  pane's view with the pane untouched, and the pane's new scroll brings
+  **more** of it into view rather than less — 0 px at the top, 239 at the
+  bottom.
+
+  **The cabinet's numbers.** 172 px of overflow at 200%, the count whole
+  at 64 px once the pane is scrolled to it, and 120 px of shelf still
+  showing under the rails.
+
+  **The sweep itself is clean.** 1194 readable elements on the bench,
+  cabinet and journal at a 32 px root: **0 blank, 0 squeezed**. Same for
+  the cupboard (1243), the periodic table (1435), the latest-result card
+  (1216), the remove-vessel dialog (1231) and the utility drawer (1229).
+
+  **Every reading says which regime it was taken in.** `benchScrollAudit`
+  takes `regime` as an argument and returns the root font size with the
+  measurement, because `#ux-text-zoom` is injected on one line of that
+  file and removed hundreds of lines below it and #697's whole table sat
+  inside the bracket without saying so. The three readings are labelled
+  `1440 px`, `320 px` and `200% text zoom`, and each block leads with its
+  own preconditions as named checks — a pane with no dock in it, a pane
+  that does not actually overflow, or a pane whose scroll never moves all
+  make every claim after them vacuous.
+
+  **One thing is asserted on one axis only, and says so.** The vessel
+  check measures *vertical* overlap with the pane. Sideways is the work
+  surface's own scroller — a 42 rem minimum inside a narrower pane, and
+  that has been true since GUI-114 — so what this ruling changed, and
+  therefore all this asserts, is what the pane's new vertical scroll can
+  take away.
 
 
 ## Completed GUI tasks

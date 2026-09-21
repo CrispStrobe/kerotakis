@@ -722,11 +722,13 @@
      384 px is 24rem at a 16 px root, so nothing changes at 100%.
 
      GUI-122 finished the sentence: there is something to scroll now.
-     `.bench-pane` carries its own scroller, and this floor is what makes
-     the stage the LAST thing to leave rather than the first — the stage
-     is the only child of that pane allowed to be taller than half of it,
-     so a reader who scrolls loses the equation block or reaches the dock
-     and never loses the beaker. */
+     `.bench-pane` carries its own scroller, and this floor is half of
+     what makes the stage the LAST thing to leave rather than the first —
+     the other half is that the chrome at the two ends of that column is
+     `flex: none` and capped, so neither end can fill the pane. At 200%
+     text zoom the pane is 371 px and this floor is 384, so the stage is
+     larger than the pane it sits in: a reader who scrolls loses the
+     equation block or reaches the dock, and never loses the counter. */
   .bench {
     flex: 1;
     display: block;

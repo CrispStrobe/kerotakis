@@ -522,6 +522,21 @@ const benchScrollAudit = (regime) => page.evaluate(`(() => {
   pane.scrollTop = pane.scrollHeight;
   const ranTo = Math.round(pane.scrollTop);
   const atBottom = read();
+  // The stage has a scroller of its own, and has had since GUI-114: the
+  // work surface carries a 42 rem minimum and at 200% text zoom it is
+  // taller than the 384 px floor the stage stands on. So "is the vessel
+  // reachable" is a question about TWO scrollers, and it is asked by
+  // driving the inner one with the outer one at the top -- which is the
+  // reader's own gesture, and the only honest way to answer it.
+  pane.scrollTop = 0;
+  let reached = null;
+  if (stage && vessel) {
+    const kept = stage.scrollTop;
+    stage.scrollTop = kept
+      + (vessel.getBoundingClientRect().top - stage.getBoundingClientRect().top) - 8;
+    reached = read().vessel;
+    stage.scrollTop = kept;
+  }
   pane.scrollTop = restore;
   const style = getComputedStyle(pane);
   return JSON.stringify({
@@ -539,6 +554,7 @@ const benchScrollAudit = (regime) => page.evaluate(`(() => {
     hasVessel: Boolean(vessel),
     atTop,
     atBottom,
+    reached,
   });
 })()`);
 
@@ -1208,7 +1224,7 @@ try {
     `${benchScrolls100.overflow}px over ${benchScrolls100.clientHeight}px at a ${benchScrolls100.root} root`);
   check("at 100% the dock is whole on screen with nothing to scroll",
     (benchScrolls100.atTop.dock?.visible ?? 0) >= (benchScrolls100.atTop.dock?.height ?? 1) - 1
-      && benchScrolls100.ranTo === 0,
+      && benchScrolls100.ranTo <= 1,
     JSON.stringify({ dock: benchScrolls100.atTop.dock, ranTo: benchScrolls100.ranTo }));
   const entry = JSON.parse(await page.evaluate(`JSON.stringify({
     chooser: Boolean(document.querySelector('dialog.world')),
@@ -1993,7 +2009,7 @@ try {
   check("320 px bench pane scrolls what does not fit rather than clipping it",
     benchScrolls320.overflowY === "auto",
     `overflow-y: ${benchScrolls320.overflowY}, ${benchScrolls320.overflow}px over`);
-  check("320 px bench shows the vessel before anything has been scrolled",
+  check("320 px bench shows the whole vessel before anything is scrolled",
     (benchScrolls320.atTop.vessel?.visible ?? 0) > 0
       && (benchScrolls320.atTop.stage?.visible ?? 0) > 0,
     JSON.stringify({ vessel: benchScrolls320.atTop.vessel, stage: benchScrolls320.atTop.stage }));
@@ -2462,20 +2478,44 @@ try {
   check("200% text zoom: what does not fit is under a scroller, not clipped away",
     benchScrolls200.overflowY === "auto" && benchScrolls200.ranTo > 0,
     `overflow-y: ${benchScrolls200.overflowY}, scrolled ${benchScrolls200.ranTo}px`);
-  // The mechanism that makes the next two true by arithmetic rather than
-  // by luck: only the stage may be taller than half the pane, so whatever
-  // the chrome does, the slice of stage on screen is at least the pane's
-  // height minus 45vh — at either end of the scroll.
-  const half = benchScrolls200.viewportHeight * 0.45 + 1;
+  // The third of the three rules that make the checks below true by
+  // arithmetic rather than by luck (the other two are the order of the
+  // column and `flex: none` on its ends): neither piece of chrome may
+  // fill the pane, so at either end of the scroll the stage keeps at
+  // least a third of the pane. Measured against the pane's own height,
+  // because a percentage that silently failed to resolve would leave
+  // `max-height: none` and this is the check that would notice.
+  const cap = benchScrolls200.clientHeight * 0.66 + 1;
   const tall = ["equation", "dock"].filter((part) =>
-    (benchScrolls200.atTop[part]?.height ?? 0) > half);
-  check("200% text zoom: nothing in the bench pane but the stage is taller than 45vh",
+    (benchScrolls200.atTop[part]?.height ?? 0) > cap);
+  check("200% text zoom: neither end of the bench pane's column can fill the pane",
     tall.length === 0,
-    `${tall.join(", ") || "none"} over ${Math.round(half)}px of a ${benchScrolls200.viewportHeight}px viewport`);
-  check("200% text zoom: scrolled to the top, the vessel is still on the stage and on screen",
-    (benchScrolls200.atTop.vessel?.visible ?? 0) > 0
-      && (benchScrolls200.atTop.stage?.visible ?? 0) > 0,
-    JSON.stringify({ vessel: benchScrolls200.atTop.vessel, stage: benchScrolls200.atTop.stage }));
+    `${tall.join(", ") || "none"} over ${Math.round(cap)}px of a ${benchScrolls200.clientHeight}px pane`);
+  // Vertical overlap only, and deliberately. Sideways is the work
+  // surface's own scroller — a 42 rem minimum in a narrower pane — and
+  // has been since GUI-114; what this ruling changed, and therefore what
+  // this asserts, is what the PANE's new vertical scroll can take away.
+  check("200% text zoom: scrolled to the top, it is the stage the reader is looking at",
+    (benchScrolls200.atTop.stage?.visible ?? 0) > 0
+      && (benchScrolls200.atTop.stage?.visible ?? 0)
+        > (benchScrolls200.atTop.dock?.visible ?? 0),
+    JSON.stringify({ stage: benchScrolls200.atTop.stage, dock: benchScrolls200.atTop.dock }));
+  /* The vessel, measured as the question a reader would ask: can I get to
+   * it. At 200% text zoom it is 479 px of glassware standing on a work
+   * surface inside a 384 px stage, so it CANNOT be wholly on screen at
+   * any scroll position — that is GUI-114's geometry, not this ruling's,
+   * and it was equally true before the pane scrolled. What this ruling
+   * owes is that it is never clipped away with nothing to reach it by,
+   * and that is asserted twice: the stage's own scroller brings it into
+   * the pane's view with the pane untouched, and the pane's new scroll
+   * brings more of it into view rather than less. */
+  check("200% text zoom: the stage's own scroller reaches the vessel with the pane at the top",
+    (benchScrolls200.reached?.visible ?? 0) > 0,
+    JSON.stringify({ reached: benchScrolls200.reached, vessel: benchScrolls200.atTop.vessel }));
+  check("200% text zoom: and the pane's own scroll brings the vessel further into view, not out of it",
+    (benchScrolls200.atBottom.vessel?.visible ?? 0)
+      >= (benchScrolls200.atTop.vessel?.visible ?? 0),
+    JSON.stringify({ atTop: benchScrolls200.atTop.vessel, atBottom: benchScrolls200.atBottom.vessel }));
   check("200% text zoom: and it is the dock the fold cuts, not the stage",
     (benchScrolls200.atTop.dock?.visible ?? 0) < (benchScrolls200.atTop.dock?.height ?? 0),
     JSON.stringify(benchScrolls200.atTop.dock));

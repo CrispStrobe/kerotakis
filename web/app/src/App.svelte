@@ -2143,25 +2143,36 @@
     flex: 1;
   }
   /* GUI-122, the other half of the ruling: the stage is the LAST thing to
-     scroll out of view, not the first, and that is arithmetic rather than
-     hope. Only the stage may be taller than half the pane. The equation
-     block above it and the dock below it are capped at 45vh and scroll
-     inside that cap, so however tall either grows, the slice of stage on
-     screen is at least the pane's height minus 45vh — at the top of the
-     scroll, at the bottom of it, and everywhere between.
+     scroll out of view, not the first.
 
-     `flex: none` is the `.tally` lesson from GUI-121 said again: the two
-     ends of this column must not be the items that give way. What gives
-     way is the stage, down to its own 384 px floor, and after that the
-     pane scrolls.
+     Three rules, and together they are arithmetic rather than hope.
 
-     45vh is viewport-relative on purpose. It is a layout budget — how
-     much of the counter a reader may have covered by chrome — not prose,
-     so it must not itself double when the type does. */
+     One: the ORDER. The two pieces of chrome sit at the two ends of this
+     column with the stage between them, so a reader scrolling down loses
+     the equation block and gains the dock, and passes over the stage
+     either way.
+
+     Two: `flex: none` on both ends — GUI-121's `.tally` lesson said
+     again, that the ends of a column must not be the items that give way.
+     What gives way is the stage, down to its own 384 px floor, and after
+     that the pane scrolls.
+
+     Three: neither end may fill the pane. Capped at two thirds of the
+     pane and scrolling inside that cap, so at either end of the scroll
+     the stage keeps at least a third of the pane on screen. The cap is
+     deliberately generous: measured at 200% text zoom the dock is 207 px
+     of a 371 px pane, well under it, so this changes nothing a reader can
+     see today and exists to stop a pathologically tall equation or dock
+     from ever becoming the thing that pins the stage out of view.
+
+     It is a percentage of the PANE and not of the viewport, because the
+     pane is what a reader is scrolling; and it is not in rem, because it
+     is a layout budget — how much counter may be covered by chrome — and
+     must not double when the type does. */
   .bench-pane > .equation,
   .bench-pane > :global(.dock) {
     flex: none;
-    max-height: 45vh;
+    max-height: 66%;
     overflow-y: auto;
   }
   /* The tab bar exists only on narrow screens. */
