@@ -29,6 +29,7 @@
   import Catalog from "./lib/components/Catalog.svelte";
   import ReadingInset from "./lib/components/ReadingInset.svelte";
   import Toolbox from "./lib/components/Toolbox.svelte";
+  import CompleteIonicLine from "./lib/components/CompleteIonicLine.svelte";
   import BalanceDrill from "./lib/components/BalanceDrill.svelte";
   import ConceptMap from "./lib/components/ConceptMap.svelte";
   import InstrumentCupboard from "./lib/components/InstrumentCupboard.svelte";
@@ -1426,6 +1427,18 @@
               >
             {/if}
           </span>
+          <!-- GUI-092, second slice: the same reaction written out with the
+               spectators on both sides and a line through them, so the
+               cancellation is watched rather than asserted. It appears only
+               where the engine solved and VERIFIED those coefficients —
+               absent is a correct answer, and the net line above is then
+               the whole of the honest claim. -->
+          {#if session.register === "lv3" && session.lastComplete}
+            <CompleteIonicLine
+              complete={session.lastComplete}
+              label={t("complete ionic")}
+            />
+          {/if}
         {/if}
       </p>
     {/if}

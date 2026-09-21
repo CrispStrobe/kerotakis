@@ -17,7 +17,13 @@ import type { EngineHost, ParticleCensus, Scene } from "./host/EngineHost";
 import { EngineError } from "./host/EngineHost";
 import { isChartSpec, type ChartSpec } from "./chart";
 import { equationFromRenderedLine } from "./benchEquation";
-import { latestNetIonic, spectatorPhrase, type NetIonic } from "./ionic";
+import {
+  completeIonic,
+  latestNetIonic,
+  spectatorPhrase,
+  type CompleteIonic,
+  type NetIonic,
+} from "./ionic";
 import { type Lesson, parseLesson } from "./lesson";
 import { lessonProse } from "./lessonProse";
 import { scriptKit } from "./codex";
@@ -599,6 +605,13 @@ export class Session {
    * half of the lesson the equation itself cannot show. */
   get lastSpectators(): string | null {
     return this.lastIonic ? spectatorPhrase(this.lastIonic) : null;
+  }
+  /** The same reaction written out in full, spectators and all, where the
+   * engine could solve their coefficients and verify the result (GUI-092).
+   * Null is a correct answer and the common one: the net line above is the
+   * honest fallback, and the shell never assembles one of its own. */
+  get lastComplete(): CompleteIonic | null {
+    return this.lastIonic ? completeIonic(this.lastIonic) : null;
   }
   /** Compact evidence digest for the latest accepted operation. */
   latestResult = $state<ResultSummary | null>(null);
