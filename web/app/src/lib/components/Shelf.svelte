@@ -692,8 +692,18 @@
      shrink, and with a `<ul>` per group that is no longer a `<ul>`. The
      inner lists give their overflow back so a group cannot grow a scrollbar
      of its own inside the one that already exists. */
+  /* GUI-122 — a floor under the shrink, not a change to who absorbs it.
+     The list is still the one flex item that gives way, but once the pane
+     itself scrolls (see `.shelf-pane`) an unfloored list shrinks to
+     nothing and the cabinet becomes a column of rails over no bottles at
+     all. 120 px is a LAYOUT minimum — about two rows of shelf — so it is
+     px rather than rem and does not double with the reader's type; at
+     100% the list is many times taller than this and nothing changes. */
+  .shelf > ul {
+    min-height: 120px;
+  }
   .groups {
-    min-height: 0;
+    min-height: 120px;
     padding-bottom: 0.4rem;
     overflow-y: auto;
   }

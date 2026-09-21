@@ -2142,6 +2142,28 @@
   .bench-pane > :global(.bench) {
     flex: 1;
   }
+  /* GUI-122, the other half of the ruling: the stage is the LAST thing to
+     scroll out of view, not the first, and that is arithmetic rather than
+     hope. Only the stage may be taller than half the pane. The equation
+     block above it and the dock below it are capped at 45vh and scroll
+     inside that cap, so however tall either grows, the slice of stage on
+     screen is at least the pane's height minus 45vh — at the top of the
+     scroll, at the bottom of it, and everywhere between.
+
+     `flex: none` is the `.tally` lesson from GUI-121 said again: the two
+     ends of this column must not be the items that give way. What gives
+     way is the stage, down to its own 384 px floor, and after that the
+     pane scrolls.
+
+     45vh is viewport-relative on purpose. It is a layout budget — how
+     much of the counter a reader may have covered by chrome — not prose,
+     so it must not itself double when the type does. */
+  .bench-pane > .equation,
+  .bench-pane > :global(.dock) {
+    flex: none;
+    max-height: 45vh;
+    overflow-y: auto;
+  }
   /* The tab bar exists only on narrow screens. */
   .tabs {
     display: none;
@@ -2506,12 +2528,21 @@
     gap: 0.75rem;
     padding: 0.75rem;
   }
+  /* GUI-122's third instance, and the same answer. The cabinet already
+     has a scroller, but it is on the LIST, and `p.tally` is the list's
+     sibling: at 200% text zoom the rails and the search field above it
+     are taller than the pane on their own, so the count was pushed under
+     this `overflow: hidden` with nothing to scroll to reach it. The pane
+     itself becomes the fallback scroller — it engages only when the
+     cabinet's fixed chrome alone no longer fits, which at 100% it never
+     does. Sideways stays clipped, as the rails scroll themselves. */
   .shelf-pane {
     width: min(15rem, 20vw);
     border: 1px solid var(--edge);
     border-radius: var(--radius-lg);
     background: var(--surface);
-    overflow: hidden;
+    overflow: hidden auto;
+    overscroll-behavior-y: contain;
     box-shadow: 0 8px 28px var(--shadow);
   }
   aside {
@@ -2522,8 +2553,27 @@
     overflow: hidden;
     box-shadow: 0 8px 28px var(--shadow);
   }
+  /* GUI-122 — the pane scrolls. At 200% text zoom this pane's column of
+     children is about 120 px taller than the pane itself, and with
+     `overflow: hidden` that 120 px sat under no scroller at all: the
+     selected vessel's name, its volume and temperature, and the
+     "measurement tools" and "equipment cabinet" buttons were not below a
+     fold, they were gone. A scroller is one gesture; a clip is nothing.
+
+     The cost, accepted by the ruling: a scrollbar this pane does not have
+     at 100%, and a stage no longer GUARANTEED wholly on screen. What is
+     not accepted is losing the beaker while the chrome stays put, so the
+     stage is made the last thing to leave rather than the first — see
+     `.equation` and `.dock` below. `hidden auto`: sideways is still
+     clipped, because the work surface has its own horizontal scroller and
+     a second one around it would be two answers to one gesture.
+
+     `overscroll-behavior-y: contain` because `.bench` scrolls inside
+     this: reaching the end of the stage must not start scrolling the
+     pane out from under the hand that is dragging a vessel. */
   .bench-pane {
-    overflow: hidden;
+    overflow: hidden auto;
+    overscroll-behavior-y: contain;
     border: 1px solid var(--edge);
     border-radius: var(--radius-lg);
     background: var(--surface);

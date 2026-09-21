@@ -480,6 +480,68 @@ const benchSurfaceAudit = () => page.evaluate(`(() => {
   });
 })()`);
 
+/** GUI-122. The bench pane is a scroller now, and the whole of the ruling
+ * is about what a reader LOSES by scrolling it, so this reads the pane at
+ * both extremes of its own scroll in one pass: what is on screen with it
+ * untouched, and what is on screen with it run to the bottom.
+ *
+ * `regime` is passed in and printed rather than sniffed. `#ux-text-zoom`
+ * is injected on one line of this file and removed hundreds of lines
+ * below it, and #697 put a whole table of measurements inside that
+ * bracket without saying which side of it they came from. The root font
+ * size comes back with every reading so the log states the regime even if
+ * a caller mislabels it.
+ *
+ * Every element is found by selector, never by its text: the dock's
+ * buttons are translated and #674 is the standing lesson about matching a
+ * control on a substring of whatever it renders today. */
+const benchScrollAudit = (regime) => page.evaluate(`(() => {
+  const pane = document.querySelector('main .bench-pane');
+  const label = ${JSON.stringify(regime)};
+  if (!pane) return JSON.stringify({ regime: label, present: false });
+  const stage = pane.querySelector('.bench');
+  const dock = pane.querySelector('section.dock');
+  const equation = pane.querySelector('p.equation');
+  const vessel = pane.querySelector('.work-surface .vessel-position');
+  const restore = pane.scrollTop;
+  const read = () => {
+    const box = pane.getBoundingClientRect();
+    const slice = (el) => {
+      if (!el) return null;
+      const r = el.getBoundingClientRect();
+      return {
+        height: Math.round(r.height),
+        visible: Math.round(Math.max(0,
+          Math.min(r.bottom, box.bottom) - Math.max(r.top, box.top))),
+      };
+    };
+    return { stage: slice(stage), dock: slice(dock), equation: slice(equation), vessel: slice(vessel) };
+  };
+  pane.scrollTop = 0;
+  const atTop = read();
+  pane.scrollTop = pane.scrollHeight;
+  const ranTo = Math.round(pane.scrollTop);
+  const atBottom = read();
+  pane.scrollTop = restore;
+  const style = getComputedStyle(pane);
+  return JSON.stringify({
+    regime: label,
+    present: true,
+    root: getComputedStyle(document.documentElement).fontSize,
+    viewportHeight: window.innerHeight,
+    overflowY: style.overflowY,
+    clientHeight: pane.clientHeight,
+    scrollHeight: pane.scrollHeight,
+    overflow: pane.scrollHeight - pane.clientHeight,
+    ranTo,
+    hasStage: Boolean(stage),
+    hasDock: Boolean(dock),
+    hasVessel: Boolean(vessel),
+    atTop,
+    atBottom,
+  });
+})()`);
+
 /** GUI-473: the pour chooser stands with the vessel it pours out of. It was
  * a banner between the top bar and the stage, which is the one place it
  * could not be: it named two vessels drawn below it and pushed them down by
@@ -1055,39 +1117,30 @@ const sweepLegibility = async (surface, regime) => {
   return found;
 };
 
-/* GUI-122, open: the two places where this assertion is currently
- * failing on purpose.
+/* Standing exceptions to the legibility assertion: elements this sweep
+ * reports as painted at zero, named by PRECISE SELECTOR and regime rather
+ * than by any text they happen to render, and guarded from both
+ * directions — a new zero outside this list fails the sweep, and an entry
+ * in it that stops reproducing fails it too.
  *
- * Both are one finding wearing two hats, and it is a DIFFERENT shape from
- * the rem-furniture defects GUI-121 fixed. At 200% text zoom a pane's
- * column of children is taller than the pane, the pane clips with
- * overflow: hidden, and the part that falls out the bottom sits under no
- * scroller at all — so it is not merely below the fold, it is gone.
+ * It is empty, and that is a result rather than a default. GUI-121 filled
+ * it with the three instances it could not close: `span.selection-copy`
+ * and `div.more-actions` under `div.bench-pane`, and `p.tally` under
+ * `nav.shelf-pane`. All three were the same finding — at 200% text zoom a
+ * pane's column of children is taller than the pane, the pane clips with
+ * `overflow: hidden`, and what falls out the bottom sits under no
+ * scroller at all, so it is not below a fold, it is gone.
  *
- *   span.selection-copy, div.more-actions   the VesselActionDock, under
- *     div.bench-pane. The bench stage's minimum came down from 24rem to
- *     384 px, which bought the dock about 45 px and recovered its first
- *     button; roughly 120 px is still missing, and it is spread across
- *     the equation block, the stage, the dock and the command bar.
- *
- *   p.tally                                 the cabinet's count, under
- *     nav.shelf-pane. `flex: none` stops it being the item that gives
- *     way, and it is still below the pane's bottom, because the column
- *     above it is already too tall.
- *
- * What gives way is a design decision — does the pane scroll, does the
- * stage collapse, does the dock become a sheet — and that is a redesign
- * rather than a sweep, so GUI-122 carries it. It is recorded here rather
- * than skipped, matched on precise selectors rather than on any text, and
- * guarded from BOTH directions: a new zero outside this list fails, and
- * an entry in this list that stops reproducing fails too, so the day
- * GUI-122 lands this list must be deleted rather than left to rot.
+ * GUI-122 answered it the way the owner ruled: the pane scrolls. Both
+ * panes now carry `overflow: hidden auto`, and a scroller is not a clip —
+ * `visibleBox` above stops cutting at an ancestor once an axis of it is
+ * reachable, which is the same rule that keeps every unscrolled bottle in
+ * the cabinet from being reported invisible. The checks that the stage
+ * stays on screen while it scrolls are up in the 200% block, not here:
+ * this list is about what is PAINTED, and that ruling is about what is
+ * reachable.
  */
-const KNOWN_OPEN = [
-  { item: "GUI-122", regime: "200% text zoom", parent: "span.selection-copy" },
-  { item: "GUI-122", regime: "200% text zoom", parent: "div.more-actions" },
-  { item: "GUI-122", regime: "200% text zoom", element: "p.tally" },
-];
+const KNOWN_OPEN = [];
 const knownOpen = (entry) => KNOWN_OPEN.find((known) =>
   known.regime === entry.regime
   && (known.parent === undefined || known.parent === entry.parent)
@@ -1131,6 +1184,32 @@ try {
   check("every vessel rests on the work surface rather than floating over it",
     (benchTop.floating ?? []).length === 0 && (benchTop.stood ?? []).length > 0,
     JSON.stringify(benchTop.stood ?? []));
+
+  /* -- GUI-122: the pane scrolls, and at 100% it has nothing to scroll --
+   *
+   * The ruling's cost is a scrollbar this pane does not have at 100%, so
+   * the first thing asserted about the change is that 100% is unchanged.
+   * This reading is taken at 1440 px with no `#ux-text-zoom` in the
+   * document, and it says so: the zoomed reading of the same pane is
+   * several hundred lines below, under "200% text zoom".
+   *
+   * The precondition is its own check. A pane with no dock in it fits
+   * trivially, and "fits" would then be a fact about an empty pane
+   * rather than about the layout — which is the shape of mystery a bare
+   * `false` three steps downstream costs four debugging cycles.
+   */
+  const benchScrolls100 = JSON.parse(await benchScrollAudit("1440 px"));
+  check("the bench pane is measurable, with a stage, a vessel and a dock in it",
+    benchScrolls100.present && benchScrolls100.hasStage && benchScrolls100.hasVessel
+      && benchScrolls100.hasDock,
+    JSON.stringify(benchScrolls100));
+  check("at 100% the bench pane's column still fits inside the pane",
+    benchScrolls100.overflow <= 1,
+    `${benchScrolls100.overflow}px over ${benchScrolls100.clientHeight}px at a ${benchScrolls100.root} root`);
+  check("at 100% the dock is whole on screen with nothing to scroll",
+    (benchScrolls100.atTop.dock?.visible ?? 0) >= (benchScrolls100.atTop.dock?.height ?? 1) - 1
+      && benchScrolls100.ranTo === 0,
+    JSON.stringify({ dock: benchScrolls100.atTop.dock, ranTo: benchScrolls100.ranTo }));
   const entry = JSON.parse(await page.evaluate(`JSON.stringify({
     chooser: Boolean(document.querySelector('dialog.world')),
     console: Boolean(document.querySelector('form.bar')),
@@ -1901,6 +1980,23 @@ try {
   check("320 px vessels rest on the work surface",
     (narrowTop.floating ?? []).length === 0 && (narrowTop.stood ?? []).length > 0,
     JSON.stringify(narrowTop.stood ?? []));
+  /* GUI-122 at the tightest surface in the product. This reading is
+   * UNZOOMED — `#ux-text-zoom` is injected hundreds of lines below — and
+   * 320x700 is the one place where the pane's column may legitimately be
+   * taller than the pane even at a 16 px root. The rule is the same one
+   * the zoomed checks assert: whatever the column does, the vessel is on
+   * screen before the reader has scrolled anything. */
+  const benchScrolls320 = JSON.parse(await benchScrollAudit("320 px"));
+  check("320 px bench pane is measurable with a vessel in it",
+    benchScrolls320.present && benchScrolls320.hasStage && benchScrolls320.hasVessel,
+    JSON.stringify(benchScrolls320));
+  check("320 px bench pane scrolls what does not fit rather than clipping it",
+    benchScrolls320.overflowY === "auto",
+    `overflow-y: ${benchScrolls320.overflowY}, ${benchScrolls320.overflow}px over`);
+  check("320 px bench shows the vessel before anything has been scrolled",
+    (benchScrolls320.atTop.vessel?.visible ?? 0) > 0
+      && (benchScrolls320.atTop.stage?.visible ?? 0) > 0,
+    JSON.stringify({ vessel: benchScrolls320.atTop.vessel, stage: benchScrolls320.atTop.stage }));
   await sweepLegibility("bench", "320 px");
   /* GUI-115 at 320 px, where the cupboard goes full-screen. The tile's
    * own 7.6rem minimum is what fixes the column count here — the phone
@@ -2335,6 +2431,94 @@ try {
   // measurements can sit inside this bracket without saying which side of
   // it the numbers came from.
   await sweepLegibility("bench, cabinet and journal", "200% text zoom");
+
+  /* -- GUI-122: what falls out of the bottom is under a scroller ------- *
+   *
+   * Still inside the `#ux-text-zoom` bracket: every number below is a
+   * ZOOMED one, taken at 1440x900 with a 32 px root, and the audit
+   * carries the regime and the root it read so the log can be trusted
+   * without counting lines.
+   *
+   * Four preconditions before any claim, each its own named check,
+   * because every one of them makes the checks after it vacuous if it is
+   * false: a pane with no dock, a pane that does not actually overflow,
+   * or a pane whose scroll never moves all prove nothing.
+   *
+   * The ruling's own words are what the last three assert. The pane may
+   * gain a scrollbar; the reader may lose the equation block or have to
+   * scroll for the dock; the reader may NOT lose the beaker while chrome
+   * stays pinned. So: at the top of the scroll the vessel is on screen
+   * and it is the dock that the fold cuts, and at the bottom of it the
+   * dock is whole and the stage has still not gone.
+   */
+  const benchScrolls200 = JSON.parse(await benchScrollAudit("200% text zoom"));
+  check("200% text zoom: the bench pane still has a stage, a vessel and a dock in it",
+    benchScrolls200.present && benchScrolls200.hasStage && benchScrolls200.hasVessel
+      && benchScrolls200.hasDock,
+    JSON.stringify(benchScrolls200));
+  check("200% text zoom: the bench pane's column is taller than the pane",
+    benchScrolls200.overflow > 0,
+    `${benchScrolls200.scrollHeight}px of children in ${benchScrolls200.clientHeight}px of pane`);
+  check("200% text zoom: what does not fit is under a scroller, not clipped away",
+    benchScrolls200.overflowY === "auto" && benchScrolls200.ranTo > 0,
+    `overflow-y: ${benchScrolls200.overflowY}, scrolled ${benchScrolls200.ranTo}px`);
+  // The mechanism that makes the next two true by arithmetic rather than
+  // by luck: only the stage may be taller than half the pane, so whatever
+  // the chrome does, the slice of stage on screen is at least the pane's
+  // height minus 45vh — at either end of the scroll.
+  const half = benchScrolls200.viewportHeight * 0.45 + 1;
+  const tall = ["equation", "dock"].filter((part) =>
+    (benchScrolls200.atTop[part]?.height ?? 0) > half);
+  check("200% text zoom: nothing in the bench pane but the stage is taller than 45vh",
+    tall.length === 0,
+    `${tall.join(", ") || "none"} over ${Math.round(half)}px of a ${benchScrolls200.viewportHeight}px viewport`);
+  check("200% text zoom: scrolled to the top, the vessel is still on the stage and on screen",
+    (benchScrolls200.atTop.vessel?.visible ?? 0) > 0
+      && (benchScrolls200.atTop.stage?.visible ?? 0) > 0,
+    JSON.stringify({ vessel: benchScrolls200.atTop.vessel, stage: benchScrolls200.atTop.stage }));
+  check("200% text zoom: and it is the dock the fold cuts, not the stage",
+    (benchScrolls200.atTop.dock?.visible ?? 0) < (benchScrolls200.atTop.dock?.height ?? 0),
+    JSON.stringify(benchScrolls200.atTop.dock));
+  check("200% text zoom: scrolled to the bottom, the dock is whole and the stage has not gone",
+    (benchScrolls200.atBottom.dock?.visible ?? 0) >= (benchScrolls200.atBottom.dock?.height ?? 1) - 1
+      && (benchScrolls200.atBottom.stage?.visible ?? 0) > 0,
+    JSON.stringify({ dock: benchScrolls200.atBottom.dock, stage: benchScrolls200.atBottom.stage }));
+  // The cabinet's half of the same finding. `p.tally` is the list's
+  // SIBLING, so the scroller on the list never covered it; the pane is
+  // now the fallback scroller that does.
+  const cabinetScrolls = JSON.parse(await page.evaluate(`(() => {
+    const pane = document.querySelector('nav.shelf-pane');
+    if (!pane) return JSON.stringify({ present: false });
+    const tally = pane.querySelector('p.tally');
+    const list = pane.querySelector('.groups') || pane.querySelector('.shelf > ul');
+    const restore = pane.scrollTop;
+    pane.scrollTop = pane.scrollHeight;
+    const box = pane.getBoundingClientRect();
+    const rect = tally ? tally.getBoundingClientRect() : null;
+    const visible = rect
+      ? Math.round(Math.max(0, Math.min(rect.bottom, box.bottom) - Math.max(rect.top, box.top))) : 0;
+    const ranTo = Math.round(pane.scrollTop);
+    pane.scrollTop = restore;
+    return JSON.stringify({
+      present: true,
+      hasTally: Boolean(tally),
+      overflowY: getComputedStyle(pane).overflowY,
+      overflow: pane.scrollHeight - pane.clientHeight,
+      ranTo,
+      tallyHeight: rect ? Math.round(rect.height) : 0,
+      tallyVisible: visible,
+      listHeight: list ? Math.round(list.getBoundingClientRect().height) : 0,
+    });
+  })()`));
+  check("200% text zoom: the cabinet pane is measurable and still prints its count",
+    cabinetScrolls.present && cabinetScrolls.hasTally, JSON.stringify(cabinetScrolls));
+  check("200% text zoom: the cabinet pane scrolls rather than clipping its count away",
+    cabinetScrolls.overflowY === "auto", `overflow-y: ${cabinetScrolls.overflowY}`);
+  check("200% text zoom: the count is reachable by scrolling the cabinet",
+    cabinetScrolls.tallyVisible >= cabinetScrolls.tallyHeight - 1,
+    JSON.stringify(cabinetScrolls));
+  check("200% text zoom: and the cabinet still shows shelf under its rails",
+    cabinetScrolls.listHeight >= 119, `${cabinetScrolls.listHeight}px of list`);
 
   await page.cdp.send("Emulation.setEmulatedMedia", {
     media: "screen", features: [{ name: "prefers-reduced-motion", value: "reduce" }],
@@ -2877,10 +3061,16 @@ try {
     unexpected.length === 0,
     `${unexpected.length} painted at zero: ${legibilityDetail(unexpected)}`);
   // The other direction, so an exception cannot outlive the defect it
-  // names: when GUI-122 lands, this fails until its entries are deleted.
-  check("and every instance GUI-122 records as open still reproduces",
+  // names. GUI-122 is what it was written for and GUI-122 emptied it:
+  // the bench pane and the cabinet pane both scroll now, so all three
+  // entries stopped reproducing and all three were deleted. The
+  // machinery stays. An empty list is not a dead check — it is the claim,
+  // asserted rather than assumed, that this sweep currently carries no
+  // standing exceptions at all.
+  check("and no recorded exception outlives the defect it names",
     reproduced.size === KNOWN_OPEN.length,
-    `${reproduced.size} of ${KNOWN_OPEN.length} reproduced — delete from KNOWN_OPEN whichever no longer does`);
+    `${reproduced.size} of ${KNOWN_OPEN.length} recorded instances still reproduce`
+      + ` — delete from KNOWN_OPEN whichever no longer does`);
   check("and no such box is narrower than a single character of it",
     legibility.squeezed.length === 0,
     `${legibility.squeezed.length} squeezed: ${legibilityDetail(legibility.squeezed)}`);

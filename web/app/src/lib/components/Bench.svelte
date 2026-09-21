@@ -719,7 +719,14 @@
      at all — and unlike the list inside `.bench`, which scrolls, there
      was nothing to scroll to reach them.
 
-     384 px is 24rem at a 16 px root, so nothing changes at 100%. */
+     384 px is 24rem at a 16 px root, so nothing changes at 100%.
+
+     GUI-122 finished the sentence: there is something to scroll now.
+     `.bench-pane` carries its own scroller, and this floor is what makes
+     the stage the LAST thing to leave rather than the first — the stage
+     is the only child of that pane allowed to be taller than half of it,
+     so a reader who scrolls loses the equation block or reaches the dock
+     and never loses the beaker. */
   .bench {
     flex: 1;
     display: block;
