@@ -17,12 +17,26 @@ argued for this successor and specified the first step.
 
 | | |
 |---|---|
-| `cases/colligative.toml` | four cases, six anchored rows, one open row |
+| `cases/colligative.toml` | four cases, seven anchored rows, no open row |
 | `../crates/kerotakis-core/tests/accuracy_corpus.rs` | the structural lint — no engine, no accuracy gate |
 
-**Quantities covered: 2** — `freezing_point_depression` and
-`osmotic_coefficient`. One further quantity, `boiling_point_elevation`, has a
-case and a source and no value, and the reason it is open is worth reading.
+**Quantities covered: 3** — `freezing_point_depression`,
+`osmotic_coefficient` and, since 2026-09-21, `boiling_point_elevation`.
+
+The boiling row closed the way the open ones are meant to: somebody read the
+source. It had been open because 108.7 °C was believed to be a measurement of
+a *saturated* brine while the case builds 6.000 mol/kg, so the two were held
+to be answers about different solutions. Richmond's 1893 table says his
+saturated solution is 28.7 per cent and boils at 109.5 °C; **108.7 °C is his
+26.0 per cent row, which is 6.012 mol/kg.** The number had been a measurement
+of very nearly this beaker the whole time, and the premise that withdrew it
+was wrong.
+
+Its band is the widest in the file at ±1.0 K, and deliberately: Richmond
+states his results run about 1 °C above the only earlier series he names, and
+that disagreement — not his tenth-of-a-degree reading — is what the world
+knows here. **A model sitting inside a band that wide is weak evidence, and
+the row says so in its own `tolerance_reason`.**
 
 ## The three rules this corpus is built on
 
