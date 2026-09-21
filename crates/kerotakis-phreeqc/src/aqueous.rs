@@ -1831,44 +1831,50 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
                 // whichever side of the bench's own solid/aqueous line it
                 // is sitting on.
                 //
-                // Two mechanisms bound the same dissolution and they used
-                // to collide here. `kerotakis_core::solve::saturation_moves`
-                // reads the registry's curated `aqueous_solubility_g_per_100_ml`
-                // and moves the solid into the aqueous compartment as an
+                // Two mechanisms bound the same dissolution.
+                // `kerotakis_core::solve::saturation_moves` reads the
+                // registry's curated `aqueous_solubility_g_per_100_ml` and
+                // moves the solid into the aqueous compartment as an
                 // UNDISSOCIATED portion of itself; the `Mineral` role says
-                // the routed database spells this solid and its saturation
+                // a routed database spells this solid and its saturation
                 // index will do the bounding. Posing only the part the
                 // bench had left as `Phase::Solid` meant the part it had
-                // moved took the other branch — entered as ELEMENT TOTALS,
-                // with no phase for the solver to dissolve or precipitate.
+                // moved took the other branch and entered as ELEMENT
+                // TOTALS, with no phase for the solver to dissolve or
+                // precipitate.
                 //
-                // That is not a smaller version of the same claim, it is a
-                // different one, and the difference is what the formula
-                // drops. `contribution_from_counts` deliberately discards
-                // hydroxide pairs and acid protons because `pH charge`
-                // recovers them from a SOLUTION — but portlandite's
-                // elements are `[(Ca, 1)]`, so an aqueous portion of
-                // slaked lime entered 0.01 mol of calcium and NO base,
-                // while the same portion posed as `Portlandite` dissolves
-                // with its two hydroxides and buffers the solution. Below
-                // about 2e-4 mol/L the moved part is negligible and nobody
-                // noticed (chalk, sulfur and quartz all sit there). Above
-                // it, giving `Ca(OH)2` its measured solubility emptied
-                // `lessons/limewater.lab` of the one thing it exists to
-                // show: the liquid read clear after both CO2 doses,
-                // because there was no alkali left to make calcite out of.
+                // #699 named that as the reason it could not ship four
+                // measured solubilities it had sourced. It was reproduced
+                // on 2026-09-21 and THE DIAGNOSIS DOES NOT HOLD, which is
+                // worth saying here rather than only in `PLAN.md`: the two
+                // routes reach the same equilibrium today. `pH charge`
+                // recovers the hydroxide that `contribution_from_counts`
+                // drops — portlandite's elements really are `[(Ca, 1)]`,
+                // and slaked lime entered as totals is still pH 12.2 —
+                // and `append_candidate_phases` has already offered the
+                // phase at zero moles, so what the totals put in the
+                // candidate can take back out. `lessons/limewater.lab`
+                // goes milky either way. What made that lesson read clear
+                // was the ENGINE-FREE golden, whose cloudiness was
+                // undissolved lime being read as a suspension.
+                //
+                // This is therefore an invariant and not a fix. The two
+                // routes agree by luck — by a charge balance and a
+                // zero-mole candidate each doing half the work — and the
+                // next solid to cross the trace line should not have to
+                // find out whether they still do. A mineral now gives the
+                // same solution whichever condensed phase the bench has it
+                // booked in, so a saturation move is bookkeeping rather
+                // than chemistry.
                 //
                 // **Which path defers to which.** The saturation index,
                 // every time, where a routed database has one. A curated
                 // g/100 mL is one measurement at one temperature in pure
                 // water; a log K reproduces that measurement AND answers
                 // in the solution the vessel actually holds — common ion,
-                // pH, ionic strength. So the bench move becomes what it
-                // should always have been for these solids: bookkeeping
-                // about where the portion is standing, with no power over
-                // what is posed. `saturation_moves` is left free to keep
-                // bounding the solids no database spells, which is the
-                // case it was written for and the only one where it is
+                // pH, ionic strength. `saturation_moves` is left free to
+                // keep bounding the solids no database spells, which is
+                // the case it was written for and the only one where it is
                 // the best answer available.
                 //
                 // Phase::Liquid keeps the old branch: a melted solid is

@@ -81,24 +81,25 @@ fn prepared_kids_mechanism_lessons_replay_the_computed_events() {
     }
 }
 
-/// A LESSON'S OBSERVATION MAY NOT SILENTLY DISAPPEAR.
+/// A LESSON'S OBSERVATION MAY NOT REST ON A RE-BLESSABLE GOLDEN.
 ///
 /// `every_lesson_replays_and_computes_chemistry` below asks only that a
-/// lesson still runs and still says something. That is the guard PR #699
-/// walked past: giving `Ca(OH)2` its measured solubility (Bates, Bower &
-/// Smith 1956, 0.15633 g/100 mL) made `limewater.lab` print a *better*
-/// sentence — "0.0100 mol slaked lime dissolved" in place of an apology —
-/// and in the same step emptied the lesson of the only thing it exists to
-/// show. Every replay guard stayed green. A better number produced a
-/// worse lesson and nothing failed.
+/// lesson still runs and still says something. The only thing watching
+/// what a lesson SHOWS was `crates/kerotakis-core/tests/golden/lessons.json`
+/// — and that is the deliberately engine-free bench, which has no carbon
+/// dioxide chemistry at all. Its limewater "cloudy" is `appearance.rs`
+/// reading undissolved lime as a suspension, so the moment #699 gave
+/// `Ca(OH)2` its measured solubility the lime dissolved, the suspension
+/// went, and the reading became "clear" — an observation resting on a
+/// reagent failing to dissolve, one re-bless away from being gone.
 ///
-/// So the observation itself is pinned here, in the words a learner reads
-/// rather than in a solver's internals. `limewater.lab` says what it is
-/// for in its own intro line: *the first dose turns limewater milky;
-/// genuine excess clears it again.* Both halves are asserted, because
-/// either one alone can be had for the wrong reason — a beaker of
-/// undissolved lime is cloudy too, and a beaker with no alkali in it is
-/// clear at both doses.
+/// So the observation is pinned here instead, on the full stack, in the
+/// words a learner reads, where the milkiness is calcite. `limewater.lab`
+/// says what it is for in its own intro line: *the first dose turns
+/// limewater milky; genuine excess clears it again.* Both halves are
+/// asserted, because either one alone can be had for the wrong reason — a
+/// beaker of undissolved lime is cloudy too, and a beaker with no alkali
+/// in it is clear at both doses.
 ///
 /// This is the shape the next lesson-observation guard should take: name
 /// the observable, read it out of the rendered transcript, and say in the
