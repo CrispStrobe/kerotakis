@@ -2116,6 +2116,21 @@ try {
       // cost no CSS on the body can reduce.
       summaryHeight: card ? Math.round((card.querySelector('summary')?.getBoundingClientRect().height) ?? 0) : 0,
       chromeHeight: Math.round(paneBox.height - feedBox.height - (cardBox ? cardBox.height : 0)),
+      // GUI-119. The header's job in one number: how much of it is being
+      // PAINTED with the operation name or the reaction class. This is
+      // the string the card exists to deliver, and at 200% text zoom the
+      // four rigid grid tracks around it used to leave it zero.
+      nameWidth: card ? Math.round((card.querySelector('summary .operation, summary .badge')?.getBoundingClientRect().width) ?? 0) : 0,
+      nameText: card ? (card.querySelector('summary .operation, summary .badge')?.textContent ?? '').trim() : '',
+      // GUI-119. The cap has to SIZE the body, not slice it off. Chrome
+      // puts everything after the summary inside ::details-content, so
+      // the body's own flex rules were being read by a box that is not in
+      // the card's flex line, and the bottom of the scroll region fell
+      // outside the card's clipped box where no scrollbar could reach it.
+      cardClipped: card ? Math.max(0, card.scrollHeight - card.clientHeight) : 0,
+      // Text zoom is the state this whole section runs in (see below), so
+      // report it rather than leaving the next reader to rediscover it.
+      rootFontSize: getComputedStyle(document.documentElement).fontSize,
     });
   })()`));
   // Say which half is missing rather than failing on a bare false: no card
@@ -2129,23 +2144,66 @@ try {
       journalShare.intersection <= 1, `${journalShare.intersection}px of overlap`);
     check("the result card can give way in the column",
       journalShare.cardShrink !== "0", `flex-shrink: ${journalShare.cardShrink}`);
-    // A THIRD of the pane, not a half, and the arithmetic is why.
+    /* -- GUI-119: the summary was the pane, and the zoom was the reason --
+     *
+     * Read the decomposition this block prints together with WHERE it is
+     * printed from: `#ux-text-zoom` is injected far above and removed far
+     * below, so every number here is a 200% text-zoom number. That single
+     * fact explains GUI-108's "104 px of summary": `min-height: 3.25rem`
+     * on a 32 px root is exactly 104 px. Nothing in that header wrapped —
+     * four explicit grid tracks cannot wrap — and measuring a replica of
+     * the pane from 160 px to 400 px never produced a second row.
+     *
+     * What the four tracks did instead was give the name column nothing.
+     * A 32 px tick, an 84 px ΔT badge and 90 px of icons, plus 26 px of
+     * rem-sized gaps, took 232 px of the journal's 263 px; at 200% zoom
+     * the ΔT badge alone was 165 px and `minmax(0, 1fr)` resolved the
+     * name to ZERO. The operation name and the reaction class — the one
+     * string that differs between two cards — were not painted at all,
+     * and no assertion here could see that, because a card with no
+     * legible content is exactly as tall as a card with some.
+     *
+     * So the threshold moves and three preconditions become checks of
+     * their own. Each is written to report the number, so a regression
+     * says what it measured rather than only that it failed.
+     */
+    // GUI-119. The header is chrome, and chrome is sized in px: 44 px is
+    // the audited touch floor and the summary is a real press target, so
+    // that is the floor it keeps at every zoom. 104 px is the value this
+    // check was written against.
+    check("the result card's header stays chrome, not a second pane",
+      journalShare.summaryHeight <= 64,
+      `summary ${journalShare.summaryHeight}px at a ${journalShare.rootFontSize} root`);
+    // GUI-119. The card's whole job, as one measurement.
+    check("the header still paints the name of what the bench just did",
+      journalShare.nameWidth >= 60,
+      `${journalShare.nameWidth}px painting "${journalShare.nameText}"`);
+    // GUI-119. A cap that clips instead of sizing is not a cap.
+    check("the card's cap sizes its body rather than slicing the bottom off",
+      journalShare.cardClipped <= 1, `${journalShare.cardClipped}px of the card clipped`);
+    // The log's share, and the arithmetic is why it is what it is.
     //
-    // Half was the first threshold written here and it is not reachable.
-    // Measured at 371 px of pane: the journal's own chrome takes ~73 px
-    // and the card's summary ~119 px, both fixed costs that no rule on
-    // the card's body can reduce. Half the pane for the log would leave
-    // the card 112 px — less than its own header — so the assertion could
-    // only ever have been satisfied by deleting the card.
+    // Half was the first threshold written here and it was not reachable:
+    // at 371 px of pane the journal's own chrome takes ~88 px and the
+    // card's summary took 104 px, both fixed costs no rule on the card's
+    // body could reduce. Half the pane for the log would have left the
+    // card 124 px — barely its own header — so the assertion could only
+    // ever have been satisfied by deleting the card, and a third was the
+    // honest answer. It bought the log 135 px and left the body 44 px,
+    // about two lines, which the comment at `.result-card` called a
+    // squeeze rather than a fix.
     //
-    // A third leaves the log ~124 px of 371 px, which is five or six
-    // lines: enough to read what just happened, which is the complaint
-    // this check exists for. The decomposition above is reported so the
-    // next person to move this number can see what they are trading.
-    check("the log keeps at least a third of the journal pane with a card on screen",
-      journalShare.feedHeight * 3 >= journalShare.paneHeight,
+    // GUI-119 took 60 px out of the header, so the trade is no longer
+    // between the log and two lines of body: at the same 371 px the cap
+    // is 36% rather than 40% and the four numbers are 88 / 44 / 88 / 149.
+    // The log gains and the body doubles, which is why this now asks for
+    // more than a third. The decomposition is reported either way so the
+    // next person to move the number can see what they are trading.
+    check("the log keeps more than a third of the journal pane with a card on screen",
+      journalShare.feedHeight * 100 >= journalShare.paneHeight * 37,
       `${journalShare.feedHeight}px of ${journalShare.paneHeight}px `
-        + `(summary ${journalShare.summaryHeight}px, journal chrome ${journalShare.chromeHeight}px)`);
+        + `(chrome ${journalShare.chromeHeight}px, summary ${journalShare.summaryHeight}px, `
+        + `body ${journalShare.cardHeight - journalShare.summaryHeight}px)`);
     check("a long result scrolls inside the card", journalShare.bodyScrolls === "auto",
       journalShare.bodyScrolls);
   }
