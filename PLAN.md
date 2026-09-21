@@ -3661,13 +3661,110 @@ Measured against `crates/kerotakis-core/tests/golden/registry.json` and
       no reachable source is better left absent than guessed: absent is what
       the full-count fallback is *for*.
 
-      **Which solids, settled.** The gap is the 33 rows listed by
+      **Which solids, settled.** The gap was the 33 rows listed by
       `tests/mineral_crosswalk.rs::which_database_phases_have_a_reviewed_solubility`
       — four of which (Ag, Cu, Pb, Zn) are metals `displacement` owns and
       are never posed as equilibrium phases, so 29 of them are cases where
       the cap could bite and does not. `Ca(OH)2`, `Mg(OH)2`, `BaSO4`,
       `gypsum` and the transcript's own `AgCl` and `MnO2` are the ones a
       school bench actually grows.
+
+      **FOUR OF THEM SHIPPED, 2026-09-21. The gap is 29, of which 4 are the
+      metals, so 25 posable rows remain.** Two papers, each read in full
+      rather than cited from memory, and neither of them a compilation:
+
+      - A. C. Melcher, *J. Am. Chem. Soc.* **32** (1910) 50–66,
+        doi:10.1021/ja01919a003, read from the open scan at
+        `zenodo.org/records/2284124`. One rotating steel bomb and one
+        conductometric method for three salts, which is why three registry
+        rows can rest on a single reading. Table V: `AgCl` 0.0105
+        milli-equivalents/L at 18 °C and 0.147 at 100 °C; `BaSO4` 0.0212 at
+        25 °C and 0.0334 at 100 °C. Table XI: `gypsum` 29.5 at 18 °C and
+        23.3 at 100 °C. → 0.00015049 and 0.0021068; 0.00024739 and
+        0.00038975; 0.25395 and 0.20058 g/100 mL.
+      - R. G. Bates, V. E. Bower and E. R. Smith, *J. Res. Natl. Bur.
+        Stand.* **56** (1956) 305–312, RP2680, doi:10.6028/jres.056.040,
+        read from `nvlpubs.nist.gov`. The paper is about a pH standard;
+        §5.1 is **their own** titrimetric determination of `Ca(OH)2`,
+        0.0211 m at 20 °C, reproducible to ±0.5 %. → 0.15633 g/100 mL.
+        Public domain twice over as an NBS Technical Series work.
+
+      **No value was converted from a solubility product.** Milli-equivalents
+      per litre and a molality are measurements; the step to g/100 mL is
+      stoichiometry and the registry's own molar mass, and each row's
+      `method.detail` prints the arithmetic and names what it assumes.
+
+      **Both traps the item warned about bit, and both are recorded in the
+      data rather than in prose.** *Temperature*: Melcher prints no 25 °C
+      figure for silver chloride or gypsum, so those two rows are his 18 °C
+      rows read at this bench's 20 °C anchor, and the row says so. *Hydrate*:
+      `gypsum` is the dihydrate, which is the solid Melcher's bomb held and
+      the solid this registry keys, so the value is 0.25395 g/100 mL — the
+      same measurement expressed as anhydrous calcium sulfate reads 0.2008,
+      and that is a different solid.
+
+      **What the four change in behaviour, said out loud because adding a
+      solubility is not inert.** `saturation_moles` now caps four phases in
+      the routing estimate instead of counting them in full;
+      `solve::saturation_moves` can crystallise them; and silver chloride
+      and barium sulfate fall under the `< 0.01 g/100 mL` branch, so the
+      bench now says of them that they do not dissolve and prints the
+      reviewed number. None of that is silent: the goldens carry it.
+
+- [ ] **The 25 posable rows that are still counted in full, and why each
+      one is.** Left absent deliberately. A solid with no reviewed
+      solubility is counted in full, which is pessimistic and safe; a
+      guessed number would make the cap bite on a fiction, which is worse
+      than the gap. Grouped by the reason, because the reasons are not the
+      same kind of thing:
+
+      - **A mass solubility is not the quantity (10).** `CaO`, `MgO`,
+        `MnO2`, `Fe(OH)2`, `Fe(OH)3`, `Fe2O3`, `Cu(OH)2`, `CuO`,
+        `Zn(OH)2`, `Mg(OH)2`. The two oxides of the alkaline earths do not
+        dissolve, they *react* — what a bench measures after adding CaO to
+        water is portlandite's solubility, which is now in the registry
+        under `Ca(OH)2`. Manganese dioxide's dissolution is redox-controlled
+        rather than congruent, and the crosswalk already carries it as three
+        polymorphs (`Pyrolusite`, `Birnessite`, `Nsutite`) whose reactivity
+        differs; "the solubility of MnO₂" is not a number anybody measured.
+        The hydroxides and the ferric oxide are published as solubility
+        *products*, and converting one to a mass solubility needs the pH of
+        the saturated solution — which the dissolution itself sets — so the
+        conversion carries an assumption the item explicitly says must not
+        be presented as a measurement.
+      - **Incongruent dissolution (3).** `Ca3(PO4)2`, `hydroxylapatite`,
+        `octacalcium_phosphate`. These do not put their own composition into
+        solution; the solid left behind is a different calcium phosphate.
+        The NBS Journal of Research carries careful solubility work on all
+        three, but in the Ca(OH)₂–H₃PO₄–H₂O system rather than in water, and
+        a congruent g/100 mL for pure water is not in it.
+      - **Copper secondary minerals with no reachable mass solubility (4).**
+        `antlerite`, `atacamite`, `brochantite`, `langite`. What the
+        literature publishes for these is the log K the vendored databases
+        already carry, from mine-drainage geochemistry. No bench
+        determination of grams per 100 mL was found.
+      - **Freely soluble salts: a sourcing job nobody did here (8).**
+        `NaCl`, `KCl`, `Na2SO4`, `NaHCO3`, `CuSO4`, `ZnSO4`, `epsomite`,
+        `chalcanthite`. These are the only group where the value is
+        uncontroversial and the gap is purely that no original measurement
+        was opened for them. They are also the group where the fallback
+        costs least — counting a freely soluble salt in full is close to
+        right — and the group where a hydrate error costs most: `epsomite`
+        is MgSO₄·7H₂O and `chalcanthite` is CuSO₄·5H₂O, and the handbook
+        figure a reader remembers is usually for the anhydrous salt.
+
+      **What was tried and failed, so the next reader does not repeat it.**
+      `pubs.acs.org`, `sciencedirect.com` and `wiley.com` answer an
+      automated request with 403 from this host, which rules out the obvious
+      route to most twentieth-century solubility work; `pmc.ncbi.nlm.nih.gov`
+      answers with a captcha. What *did* work and is worth trying first next
+      time: Zenodo's deposit of pre-1923 journal scans, which is where
+      Melcher came from and which its own API will search by title, and
+      `nvlpubs.nist.gov`, which is public domain and full-text searchable
+      through a plain web search. The systematic compilations that carry all
+      25 of these numbers in one table are exactly what
+      `provenance/upstreams.toml` refuses, and no amount of convenience
+      changes that.
 
 **The crosswalk, done — and it was already in the tree.** The finding that
 made this look like two pieces of work was right about the premise and
@@ -3685,8 +3782,10 @@ counts against the vendored files (2026-09-21):
 - **36** of the 93 registry solids are a phase in at least one shipped
   database; **57** are not, which is normal — sucrose and polythene are not
   minerals.
-- Of those 36, **3** carry a reviewed solubility (chalk, sulfur, quartz)
-  and **33** do not. That, not nine, is the gap.
+- Of those 36, **3** carried a reviewed solubility (chalk, sulfur, quartz)
+  and **33** did not. That, not nine, was the gap. **Since 2026-09-21 it is
+  7 and 29** — see the ruling below for which four moved and whose
+  measurement each one is.
 - **621** of the 683 minerals the three databases define are no registry
   solid at all. Also normal: the files are natural-water mineralogy.
 - **12** solids are spelled by more than one phase name, and the crosswalk
