@@ -2131,6 +2131,11 @@ try {
       // Text zoom is the state this whole section runs in (see below), so
       // report it rather than leaving the next reader to rediscover it.
       rootFontSize: getComputedStyle(document.documentElement).fontSize,
+      // The disclosure is remembered per browser and defaults to open. A
+      // closed card is only its header, so it is ALLOWED the second row
+      // that carries ΔT; an open one is not, because the body below it
+      // says the same thing.
+      cardOpen: card ? card.open : false,
     });
   })()`));
   // Say which half is missing rather than failing on a bare false: no card
@@ -2171,9 +2176,11 @@ try {
     // the audited touch floor and the summary is a real press target, so
     // that is the floor it keeps at every zoom. 104 px is the value this
     // check was written against.
+    const headerCeiling = journalShare.cardOpen ? 64 : 112;
     check("the result card's header stays chrome, not a second pane",
-      journalShare.summaryHeight <= 64,
-      `summary ${journalShare.summaryHeight}px at a ${journalShare.rootFontSize} root`);
+      journalShare.summaryHeight <= headerCeiling,
+      `summary ${journalShare.summaryHeight}px of ${headerCeiling}px `
+        + `${journalShare.cardOpen ? "open" : "closed"} at a ${journalShare.rootFontSize} root`);
     // GUI-119. The card's whole job, as one measurement.
     check("the header still paints the name of what the bench just did",
       journalShare.nameWidth >= 60,
