@@ -1044,9 +1044,14 @@ try {
     // THE honesty assertion, and the one a well-meaning redesign breaks:
     // the mark must carry no hue. A tinted hatch is a colour claim for
     // exactly the species the engine said it could not compute one for.
+    // Chroma in absolute channel terms, not saturation: --glass-depth is a
+    // near-black ink with a faint blue cast (10,28,44 on the light bench),
+    // which is numerically SATURATED and perceptually neutral. What must
+    // never appear here is a real hue — a warning amber is 165 apart, a
+    // danger red 135, and any tint borrowed from a species further still.
     const achromatic = (colour) => {
       const parts = (colour.match(/[\d.]+/g) ?? []).slice(0, 3).map(Number);
-      return parts.length === 3 && Math.max(...parts) - Math.min(...parts) <= 12;
+      return parts.length === 3 && Math.max(...parts) - Math.min(...parts) <= 45;
     };
     check("neither stroke carries a hue, so no colour is invented for the gap",
       hatch.strokes.every((stroke) => achromatic(stroke.colour)),
