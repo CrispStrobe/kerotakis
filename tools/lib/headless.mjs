@@ -187,7 +187,12 @@ export async function browser({ disableGpu = true, extraArgs = [], headless = tr
     // not distinguish "no such binary" from "snapd said no".
     let stderr = "";
     try {
-      child = spawn(bin, args, { stdio: ["ignore", "ignore", "pipe"] });
+      // `detached` so Chrome leads its own process group. Killing the
+      // direct child leaves its zygote, GPU and renderer processes behind,
+      // which is how this harness left twelve browsers on a shared box
+      // holding a couple of gigabytes: `close()` was called every time and
+      // every time it killed one process out of four.
+      child = spawn(bin, args, { stdio: ["ignore", "ignore", "pipe"], detached: true });
       // Chrome announces the debugger URL on stderr when it picks the port.
       const wsUrl = await new Promise((resolve, reject) => {
         let buf = "";
@@ -249,14 +254,38 @@ export async function browser({ disableGpu = true, extraArgs = [], headless = tr
         return result.value;
       };
 
+      // The whole group, SIGKILL, and only once. Chrome ignores SIGTERM
+      // often enough in headless mode that a polite kill is not a kill.
+      const launched = child;
+      let reaped = false;
+      const reap = () => {
+        if (reaped) return;
+        reaped = true;
+        try {
+          process.kill(-launched.pid, "SIGKILL");
+        } catch {
+          try {
+            launched.kill("SIGKILL");
+          } catch {
+            /* already gone */
+          }
+        }
+      };
+      // A script that throws, or forgets to call close(), must not leave a
+      // browser behind — that is how the leak happened, and a harness used
+      // by throwaway probes has to assume the probe is throwaway too.
+      process.once("exit", reap);
+
       return {
         cdp,
         sessionId,
         goto,
         evaluate,
+        /** Kill the browser without waiting for the profile removal. */
+        reap,
         async close() {
           cdp.close();
-          child.kill();
+          reap();
           await rm(profile, { recursive: true, force: true }).catch(() => {});
         },
       };
