@@ -176,19 +176,29 @@
 </script>
 
 <details class="result-card" bind:open={expanded}>
-  <summary>
+  <!-- The provenance sentence was a visible line of its own under every
+       card, saying the same thing every time. It is the tooltip on the
+       claim it backs now, and the exported image still writes it out in
+       full — the card stops repeating it, nobody loses it. -->
+  <summary title={provenanceText}>
     <span class="result-mark" aria-hidden="true">✓</span>
-    <span>
-      <!-- The provenance sentence was a visible line of its own under every
-           card, saying the same thing every time. It is the tooltip on the
-           claim it backs now, and the exported image still writes it out in
-           full — the card stops repeating it, nobody loses it. -->
-      <small title={provenanceText}>{t("latest computed result")}{result.vessel === undefined ? "" : ` · v${result.vessel + 1}`}</small>
+    <span class="headline">
+      <!-- GUI-120 — "Neuestes berechnetes Ergebnis" was a visible eyebrow
+           over the name, on every card, saying what the card's own frame
+           and tick already say. It was also the SECOND LINE of this
+           column, and so half the header's height. It is the accessible
+           name of the disclosure now: a screen reader still hears it
+           first, and the pixels go to the one string that differs between
+           two cards — what the bench just did. -->
+      <span class="sr-only">{t("latest computed result")}</span>
       {#if result.reactionClass}
         <strong class="badge" data-confidence="computed">{t(result.reactionClass)}</strong>
       {:else}
         <strong class="operation">{t(result.kind)}</strong>
       {/if}
+      <!-- Which vessel is the one fact in the old eyebrow that is not
+           deducible from anything else on the card, so it stays visible. -->
+      {#if result.vessel !== undefined}<small class="vessel">v{result.vessel + 1}</small>{/if}
     </span>
     {#if result.temperature}
       <b
@@ -322,16 +332,89 @@
          log             135 px
 
      Half for the log would leave the card 124 px — barely its own header
-     — so the check asks for a third, and the cap is 40% rather than 50%
-     to deliver it. That trade is deliberate and it is a squeeze: the body
-     scrolls in about two lines. The room is not really the body's to give.
-     **104 px of summary is where this pane went**, and a more compact
-     summary is the change that would buy both the card and the log
-     something. That is GUI-108's sequel and it is not written. */
-  .result-card { display: flex; flex-direction: column; max-height: 40%; flex: 0 1 auto; min-height: 0; margin: .6rem .65rem 0; border: 1px solid color-mix(in srgb, var(--success) 45%, var(--edge)); border-radius: 14px; color: var(--ink); background: color-mix(in srgb, var(--success) 6%, var(--surface-raised)); overflow: hidden; }
-  summary { min-height: 3.25rem; display: grid; grid-template-columns: 32px minmax(0, 1fr) auto auto; align-items: center; gap: .55rem; padding: .55rem .65rem; cursor: pointer; list-style: none; }
+     — so the check asks for a third. That trade was deliberate and it was
+     a squeeze: the body scrolled in about two lines, and the room was not
+     really the body's to give. **104 px of summary is where this pane
+     went**, and a more compact summary was the change that would buy both
+     the card and the log something. That was GUI-108's sequel.
+
+     GUI-120 is it, and the first thing it found is that the 104 px was
+     not a wrapped header. It is `min-height: 3.25rem` read at a 32 px
+     root: the check above runs inside the 200% TEXT ZOOM the audit before
+     it injects and never removes, so every number in that table is a
+     zoomed number. The header is sized in px now and the eyebrow line is
+     gone, which takes it to 44 px — the audited touch floor, and the
+     summary is a real press target. At the same 371 px of pane the four
+     numbers read:
+
+         journal chrome   88 px   fixed
+         card summary     44 px   was 104
+         card body        88 px   was 44
+         log             149 px   was 135
+
+     so the cap comes down from 40% to 36% and the log and the body both
+     gain. What the zoomed measurement had been hiding is in the header
+     rule below. */
+  .result-card { display: flex; flex-direction: column; max-height: 36%; flex: 0 1 auto; min-height: 0; margin: .6rem .65rem 0; border: 1px solid color-mix(in srgb, var(--success) 45%, var(--edge)); border-radius: 14px; color: var(--ink); background: color-mix(in srgb, var(--success) 6%, var(--surface-raised)); overflow: hidden; }
+  /* GUI-120 — the header, measured rather than guessed.
+     ...............................................................
+     GUI-108 left the sequel named at this rule: "104 px of summary is
+     where this pane went". The 104 px is real and it is not a wrap.
+     `min-height: 3.25rem` is 104 px because the check that reported it
+     runs under the 200% TEXT ZOOM the audit above it injects and never
+     removes (`#ux-text-zoom` in `tools/test-ux-quality.mjs`), and 3.25rem
+     of a 32 px root is exactly 104. Every number in GUI-108's table is a
+     zoomed number. Measured in a replica of the pane, nothing in this
+     header wraps at ANY width from 160 px to 400 px — the row stays one
+     row, because four explicit grid tracks cannot wrap.
+
+     What went wrong instead is worse than wrapping, and it is what the
+     four tracks did to the second one. The journal is 288 px wide (the
+     `min(18rem, 23vw)` rule near the end of `App.svelte`, not the
+     `min(24rem, 34vw)` earlier in it), so the summary has 263 px. The
+     three RIGID tracks — a 32 px tick, an 84 px ΔT and 90 px of icons,
+     plus 26 px of `.55rem` gaps — take 232 of them. `minmax(0, 1fr)`
+     then gives the name 10 px. Under the audit's text zoom it gives the
+     name ZERO: at 200% the ΔT badge alone is 165 px, and the operation
+     name and the reaction class — the card's whole answer to "what just
+     happened" — are not painted at all.
+
+     So three things change, and each is a rule that used to grow with
+     the type and now does not:
+
+     1. The chrome is in px. `min-height`, the gaps and the padding are
+        the card's furniture, not its prose: at 200% they doubled and
+        took the pane with them. 44 px is the audited touch floor and the
+        summary is a real press target (it toggles the disclosure), so
+        that is the floor it keeps — at every zoom.
+     2. The eyebrow is gone from the flow (see the markup), so this
+        column is one line instead of two.
+     3. ΔT moves to a second grid row and is hidden while the card is
+        OPEN, because the body two rules below already states it exactly,
+        with the before and after temperatures the header cannot fit. A
+        closed card has no body, so there it is shown — and a closed card
+        is only its header, so the second row costs the log nothing. */
+  summary {
+    flex: none;
+    min-height: 44px;
+    display: grid;
+    grid-template-columns: 20px minmax(0, 1fr) auto;
+    grid-template-areas: "mark headline actions" "delta delta delta";
+    align-items: center;
+    align-content: center;
+    column-gap: 6px;
+    row-gap: 0;
+    padding: 6px 8px;
+    cursor: pointer;
+    list-style: none;
+  }
+  /* Off the screen, not out of the document: the disclosure keeps the name
+     it always had for anyone who cannot see the frame it sits in. */
+  .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; clip-path: inset(50%); overflow: hidden; white-space: nowrap; }
+  .headline { grid-area: headline; min-width: 0; display: flex; align-items: baseline; gap: .3rem; }
+  .vessel { flex: none; color: var(--dim); font-size: .68rem; font-weight: 750; letter-spacing: .04em; }
   /* Anchored so the menu hangs off the icon rather than widening the card. */
-  .header-actions { position: relative; display: flex; align-items: center; gap: .2rem; }
+  .header-actions { grid-area: actions; position: relative; display: flex; align-items: center; gap: 3px; }
   .icon-export {
     width: 28px;
     height: 28px;
@@ -388,22 +471,42 @@
   .export-menu button { min-height: 32px; padding: .25rem .55rem; border: 0; border-radius: 7px; color: var(--ink); background: transparent; font: inherit; font-size: .68rem; font-weight: 700; white-space: nowrap; cursor: pointer; }
   .export-menu button:hover { background: color-mix(in srgb, var(--primary) 12%, transparent); }
   summary::-webkit-details-marker { display: none; }
-  .result-mark { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 10px; color: var(--on-accent); background: var(--success); font-weight: 900; }
-  summary span:nth-child(2) { min-width: 0; display: flex; flex-direction: column; align-items: flex-start; }
-  summary small { overflow: hidden; color: var(--dim); font-size: .65rem; font-weight: 750; letter-spacing: .08em; text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; }
+  /* 20px rather than 30px, and in px so it does not double: it is a tick
+     on a green card, and every pixel it gives back is a pixel of the name
+     beside it. */
+  .result-mark { grid-area: mark; width: 20px; height: 20px; display: grid; place-items: center; border-radius: 7px; color: var(--on-accent); background: var(--success); font-size: .7rem; font-weight: 900; }
   /* GUI-023 supplies the border STYLE from data-confidence; the width and
      colour are the card's, so an unclassified tag is visibly a different
      kind of claim without a second colour vocabulary. */
-  .badge { max-width: 100%; overflow: hidden; padding: .05rem .3rem; border: 1px solid color-mix(in srgb, var(--ink) 30%, transparent); border-radius: 7px; font-size: .9rem; text-overflow: ellipsis; white-space: nowrap; }
-  .operation { max-width: 100%; overflow: hidden; font-size: .9rem; text-overflow: ellipsis; white-space: nowrap; }
-  summary b { padding: .2rem .38rem; border: 1px solid transparent; border-radius: 999px; color: var(--warning); background: color-mix(in srgb, var(--warning) 10%, var(--surface)); font-size: .72rem; white-space: nowrap; }
+  .badge { min-width: 0; max-width: 100%; overflow: hidden; padding: .05rem .3rem; border: 1px solid color-mix(in srgb, var(--ink) 30%, transparent); border-radius: 7px; font-size: .9rem; text-overflow: ellipsis; white-space: nowrap; }
+  .operation { min-width: 0; max-width: 100%; overflow: hidden; font-size: .9rem; text-overflow: ellipsis; white-space: nowrap; }
+  summary b { grid-area: delta; justify-self: start; margin-top: 3px; padding: .2rem .38rem; border: 1px solid transparent; border-radius: 999px; color: var(--warning); background: color-mix(in srgb, var(--warning) 10%, var(--surface)); font-size: .72rem; white-space: nowrap; }
+  /* Open, the thermal row in the body says this and more; a header that
+     repeated it was spending a third of its width on a duplicate. */
+  .result-card[open] summary b { display: none; }
   summary b[data-confidence] { border-color: color-mix(in srgb, var(--warning) 55%, transparent); }
   summary b.cooler { color: var(--cool); background: color-mix(in srgb, var(--cool) 10%, var(--surface)); }
   summary b.cooler[data-confidence] { border-color: color-mix(in srgb, var(--cool) 55%, transparent); }
   /* The scroll region. `overscroll-behavior` so that reaching the bottom of
      a long result does not then start scrolling the log underneath — the
      journal is the thing the reader is trying to keep. */
-  .result-body { flex: 1 1 auto; min-height: 0; max-height: 8rem; display: grid; gap: .45rem; padding: 0 .7rem .65rem 2.85rem; overflow-y: auto; overscroll-behavior: contain; border-top: 1px solid color-mix(in srgb, var(--success) 22%, transparent); }
+  /* GUI-120 — the cap was clipping the scroll region rather than sizing it.
+     Chrome wraps everything after the `<summary>` in `::details-content`,
+     so `.result-body` is a grandchild of the card and its `flex: 1 1 auto;
+     min-height: 0` was being read by a block box that is not a flex
+     container. The card's flex line therefore never shrank the body: at
+     GUI-108's cap the card was 146 px of content box holding 180 px, and
+     the bottom 34 px of the body — the end of its own scrollbar — was
+     clipped and unreachable. Giving the pseudo-element the flex rules the
+     body was written for puts the body back in the line it was meant to
+     be in. Browsers without `::details-content` never had the bug: there
+     the body IS the flex child, and both rules say the same thing. */
+  .result-card::details-content { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+  /* The left indent aligned the body under the headline, and in `rem` it
+     was 91 px of a 285 px card at 200% text zoom — a third of the body's
+     width, spent on an indent. In px it still aligns (8 padding + 20 mark
+     + 6 gap) and it stops growing. */
+  .result-body { flex: 1 1 auto; min-height: 0; max-height: 8rem; display: grid; gap: .45rem; padding: 0 .7rem .65rem 34px; overflow-y: auto; overscroll-behavior: contain; border-top: 1px solid color-mix(in srgb, var(--success) 22%, transparent); }
   p { margin: .55rem 0 0; }
   .equation { overflow-x: auto; font-family: ui-monospace, SFMono-Regular, monospace; font-size: .78rem; font-weight: 700; white-space: nowrap; }
   .reactants { display: flex; flex-wrap: wrap; gap: .3rem; margin: 0; padding: 0; list-style: none; }

@@ -52,6 +52,30 @@ describe("the result card's chrome", () => {
     }
   });
 
+  /**
+   * GUI-120 — what the compact header keeps.
+   *
+   * This file renders through `svelte/server`, so it can say what is in
+   * the markup and nothing about how tall it is. The height is asserted
+   * where it can be measured, in `tools/test-ux-quality.mjs`; what
+   * belongs here is that removing the visible eyebrow did not remove the
+   * card's name, its vessel, or the reader's answer to "what happened".
+   */
+  it("keeps the card's own name for a screen reader after dropping the eyebrow", () => {
+    const card = draw();
+    expect(card).toContain('class="sr-only');
+    expect(card).toContain("latest computed result");
+    // The eyebrow is no longer a visible line stacked over the name.
+    expect(card).not.toContain("· v1");
+    expect(card).toContain(">v1<");
+  });
+
+  it("still names the operation, which is the whole point of the header", () => {
+    expect(draw()).toContain("precipitation");
+    expect(draw({ ...precipitation, reactionClass: undefined, kind: "stirring" }))
+      .toContain("stirring");
+  });
+
   it("names the export in German", () => {
     i18n.setLocale("de");
     expect(draw()).toContain("Ergebniskarte exportieren");

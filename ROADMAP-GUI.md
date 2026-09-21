@@ -3281,6 +3281,92 @@ evolved CO₂ and half a mole of it must not look the same.
   themes defines its own glass, and that the phone vessel is still the
   same gradient-painted glass at the small size.
 
+## The result card's header was the journal pane (GUI-120)
+
+- [x] **GUI-120 — The sequel GUI-108 named at `.result-card` and did not
+  write.** GUI-108 capped the latest-result card so it could no longer
+  squeeze the log to nothing, and left the arithmetic of the squeeze in a
+  comment: at 371 px of journal pane, 88 px of journal chrome, **104 px of
+  card summary**, 44 px of card body and 135 px of log. Its own verdict was
+  that *the room is not really the body's to give* — the header is where
+  the pane went. This item is the header.
+
+  **What the work found, before changing anything.** Three things, and the
+  first invalidates the premise of the brief.
+
+  1. **The 104 px is not a wrapped header. It is `min-height: 3.25rem` read
+     at a 32 px root.** The check that reports the decomposition lives
+     between `#ux-text-zoom`'s injection and its removal in
+     `tools/test-ux-quality.mjs` — over 300 lines apart — so it runs under
+     **200% text zoom** and every number in GUI-108's table is a zoomed
+     number. 3.25rem × 32 px = 104 px exactly. Measuring a replica of the
+     journal pane with the real component and the real stylesheet, the
+     summary is one row at every width from 160 px to 400 px: four explicit
+     grid tracks cannot wrap.
+
+  2. **What the four tracks did instead is worse than wrapping.** The
+     journal is 288 px wide — `min(18rem, 23vw)` from the *later*,
+     unconditional `aside` rule in `App.svelte`, not the `min(24rem, 34vw)`
+     earlier in the same file — which leaves the summary 263 px. A 32 px
+     tick, an 84 px ΔT badge and 90 px of icons, plus 26 px of rem-sized
+     gaps, take 232 of them, and `minmax(0, 1fr)` gave the operation name
+     the remaining **10 px**. Under the audit's own text zoom the ΔT badge
+     alone is 165 px and the name resolves to **0 px**: the operation name
+     and the reaction class — the card's entire answer to *what just
+     happened* — were not painted at all, at the accessibility setting the
+     suite exists to test. No assertion could see it, because a card with
+     no legible content is exactly as tall as a card with some.
+
+  3. **The cap was clipping the body, not sizing it.** Chrome wraps
+     everything after a `<summary>` in `::details-content`, so
+     `.result-body` is a grandchild of the card and its `flex: 1 1 auto;
+     min-height: 0` was being read by a block box outside the card's flex
+     line. At GUI-108's cap the card was a 146 px content box holding
+     180 px: the bottom 34 px of the scroll region lay outside the clipped
+     card where no scrollbar reached it.
+
+  **What changed.** The header's furniture is px, not rem — `min-height`
+  44 px (the audited touch floor; the summary is a real press target),
+  6 px gaps, 6/8 px padding, a 20 px tick instead of 30 px — so it stops
+  doubling with the type. The visible eyebrow *"Neuestes berechnetes
+  Ergebnis"*, which was the second line of the name column and said what
+  the card's own green frame already says, becomes the disclosure's
+  accessible name; the vessel stays visible as a `v1` chip, because which
+  vessel is the one fact in that line not deducible from the rest of the
+  card. The ΔT badge moves to a second grid row and is hidden while the
+  card is **open**, where the body's thermal row states it exactly with the
+  before and after temperatures the header cannot fit; a closed card has no
+  body, and is only its header, so there it shows and the second row costs
+  the log nothing. `::details-content` is given the flex rules the body was
+  written for. The body's left indent is 34 px rather than 2.85rem, which
+  at 200% zoom had been spending a third of the body's width on an indent.
+
+  **The same four numbers, at the same 371 px of pane:**
+
+  | | before | after |
+  | --- | --- | --- |
+  | journal chrome | 88 px | 88 px |
+  | card summary | 104 px | **44 px** |
+  | card body | 44 px | **88 px** |
+  | log | 135 px | **149 px** |
+
+  The cap comes down from 40% to 36% *because* the header gave 60 px back:
+  the log and the body both gain, which is what GUI-108 said a compact
+  summary would buy. The body is four or five lines rather than two, and
+  nothing of it is clipped. The name column is 108 px at 100% zoom and
+  114 px at 200% — ellipsised for a long German term such as
+  *Löslichkeitsgleichgewicht*, but painted, where it was 10 px and 0 px.
+  At 320 px the journal is the whole screen and the name gets 124 px.
+
+  **Where it is asserted.** The GUI-108 block in `tools/test-ux-quality.mjs`
+  is extended rather than duplicated, and each precondition is its own
+  named check: the header stays chrome (≤ 64 px — the defect reads 104),
+  the header still paints the name (≥ 60 px — the defect reads 0), the cap
+  sizes the body rather than slicing it (0 px clipped — the defect reads
+  34), and the log keeps more than a third. The component test can only say
+  what is in the markup, so it says that dropping the eyebrow did not drop
+  the card's accessible name, its vessel, or the operation.
+
 ## Completed GUI tasks
 
 Numbers are never renumbered and never reused. Each of these landed; the detail
