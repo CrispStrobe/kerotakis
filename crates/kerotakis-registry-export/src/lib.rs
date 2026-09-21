@@ -578,7 +578,18 @@ pub fn export_current_registry() -> Result<RegistryDocument, String> {
     ))
     .map_err(|error| error.to_string())?;
     const BASIS: &str = "kerotakis/aqueous-basis-v1";
-    const REVIEWED_PARAMETER_SOURCES: &[&str] = &["literature/hartley-campbell-iodine-water"];
+    // Grown 2026-09-21 by the two papers that carry the precipitating
+    // solids' reviewed solubilities. The overlay is what keeps a curated
+    // `source_id` and a `measured` method from being relabelled as a
+    // legacy import on the next export, and a source added to the registry
+    // without being added here would vanish from the generated document.
+    const REVIEWED_PARAMETER_SOURCES: &[&str] = &[
+        "literature/hartley-campbell-iodine-water",
+        "literature/melcher-barium-sulphate-1910",
+        "literature/almkvist-metal-hydroxide-solubility-1918",
+        "literature/pechet-cupric-oxide-solubility-1940",
+        "literature/mcgee-hostetler-brucite-1977",
+    ];
     for record in reviewed
         .identities
         .iter()

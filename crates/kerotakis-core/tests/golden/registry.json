@@ -621,6 +621,7 @@
   },
   {
     "appearance": "black",
+    "aqueous_solubility_g_per_100_ml": 0.0000199,
     "colour": {
       "b": 20,
       "g": 22,
@@ -3811,6 +3812,7 @@
   },
   {
     "appearance": "red-brown",
+    "aqueous_solubility_g_per_100_ml": 0.0000151,
     "colour": {
       "b": 45,
       "g": 82,
@@ -3924,6 +3926,7 @@
   },
   {
     "appearance": "white",
+    "aqueous_solubility_g_per_100_ml": 0.0008679,
     "colour": {
       "b": 245,
       "g": 245,
@@ -4673,6 +4676,8 @@
   },
   {
     "appearance": "white",
+    "aqueous_solubility_g_per_100_ml": 0.00024739,
+    "aqueous_solubility_g_per_100_ml_at_100c": 0.00038975,
     "colour": {
       "b": 250,
       "g": 250,

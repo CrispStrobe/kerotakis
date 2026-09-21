@@ -1667,6 +1667,42 @@
       "retrieved": "2026-09-16"
     },
     {
+      "id": "literature/melcher-barium-sulphate-1910",
+      "citation": "A. C. Melcher, 'The solubility of silver chloride, barium sulphate, and calcium sulphate at high temperatures', J. Am. Chem. Soc. 32 (1910) 50-66, doi:10.1021/ja01919a003; read in full 2026-09-21 from the open scan at https://zenodo.org/records/2284124. IT IS PRIMARY JOURNAL LITERATURE WITH A DOI, which is the `primary-literature` route of provenance/upstreams.toml rather than a compilation row - the shape `literature/hartley-campbell-iodine-water` and `literature/osborne-stimson-ginnings-water-vaporisation` already use in this registry. The publisher's own copy is not reachable from this host, so the open scan is named as what was actually opened rather than a URL nobody here could load. Kerotakis transcribes two printed numbers and redistributes no source text or table. WHAT THE PAPER PRINTS FOR THE SOLID THIS ROW SUPPORTS. Table V, 'Solubility of silver chloride and barium sulphate', in milli-equivalents per litre: barium sulphate 0.0190 at 18 °C, 0.0212 at 25 °C, 0.0288 at 50 °C, 0.0334 at 100 °C. Melcher measured the specific conductance of solutions saturated in a rotating steel bomb, one apparatus and one method for every salt in the paper. THE ARITHMETIC TO g/100 mL, which is this bench's unit. A milli-equivalent is a millimole divided by the charge the formula unit carries, two for barium sulphate. So 0.0212/2 = 1.06e-5 mol/L, which at this registry's molar mass of 233.383 g/mol is 0.00024739 g/100 mL; at 100 °C, 1.67e-5 mol/L, 0.00038975 g/100 mL. WHAT IS ASSUMED IN THE CONVERSION AND IS NOT MELCHER'S. His tables are per litre of SOLUTION and this bench's field is per 100 mL of WATER; at a quarter of a milligram per litre the two differ immeasurably, and no density correction is applied. WHAT IS MELCHER'S OWN DERIVATION AND IS NOT A WEIGHING. The solubilities in Table V are conductances divided by an equivalent conductance and then by an estimated degree of ionisation, so they are his reported solubilities rather than a gravimetric determination. He says so, and the paper checks itself elsewhere: his Table XII sets his calcium sulphate values beside Hulett and Allen's, obtained 'by an entirely different method', and they agree to 29.5 against 29.6 at 18 °C. TEMPERATURE. This bench anchors its cold solubility at 20 °C and the figure taken is his 25 °C row; his 18 °C row, 0.0190, would give 0.00022170 g/100 mL, and the difference is far below the resolution of anything the bench prints from it. TWO OTHER SOLIDS WERE READ OUT OF THIS PAPER AND ARE DELIBERATELY NOT SHIPPED, and PLAN.md says why of each - the reason is the engine rather than the measurement. Silver chloride: 0.0105 milli-equivalents/L at 18 °C and 0.147 at 100 °C, which is 0.00015049 and 0.0021068 g/100 mL. Gypsum, Table XI: 29.5 and 23.3 milli-equivalents/L, which is 0.25395 and 0.20058 g/100 mL AS THE DIHYDRATE - the same measurement expressed as anhydrous calcium sulphate reads 0.2008, and that is a different solid. Read 2026-09-21",
+      "licence": "CC0-1.0",
+      "lane": "runtime",
+      "origin": "https://doi.org/10.1021/ja01919a003",
+      "revision": "J. Am. Chem. Soc. 32 (1910) 50-66, Table V",
+      "retrieved": "2026-09-21"
+    },
+    {
+      "id": "literature/almkvist-metal-hydroxide-solubility-1918",
+      "citation": "G. Almkvist, 'Bestimmung der Löslichkeit einiger Metallhydroxyde in Wasser', Zeitschrift für anorganische und allgemeine Chemie 103 (1918) 240-242, doi:10.1002/zaac.19181030113; read in full 2026-09-21 from the open scan at https://zenodo.org/records/2516728. Primary journal literature with a DOI, the `primary-literature` route of provenance/upstreams.toml. One printed number is transcribed; no source text or table is redistributed. WHAT THE PAPER DID. Ferric hydroxide was precipitated from twice-recrystallised ferric ammonium sulfate with ammonia, boiled 15 minutes in a silver dish, filtered and washed until the wash water no longer turned phenolphthalein, then suspended in distilled water and stirred continuously for about 96 hours at 20 °C. Two litres of the filtrate were evaporated to about 50 mL, acidified with sulfuric acid, and the iron determined colorimetrically as the thiocyanate. WHAT IT PRINTS, under Fe(OH)3: 'Erste Bestimmung 0.155 mg pro Liter; Zweite Bestimmung 0.146; Mittelzahl 0.151 mg pro Liter'. The temperature is stated for the series as 'etwa 20°' with variations not exceeding 1°. THE ARITHMETIC. 0.151 mg per litre is 1.51e-4 g/L and therefore 0.0000151 g/100 mL. That is the whole conversion; nothing else is assumed. WHAT IT IS AND IS NOT. It is total dissolved iron, determined colorimetrically and expressed by the author as Fe(OH)3 - congruence is not demonstrated, it is assumed by the author, and this registry assumes no more than he did. He raises the one incongruency risk he saw himself: the water was ordinary distilled water holding some CO2, so some of these hydroxides may have turned partly into basic carbonates, and he states that this applies only to Ni(OH)2 and BiO(OH) 'während die übrigen wie bekannt keine Karbonate bilden'. He also records that the solubility of these hydroxides appears to fall with time, and this figure is after about 96 hours only - so it is a fresh precipitate's figure, which is the ferric hydroxide a bench actually has. The band is unestablished: the paper quotes none. Read 2026-09-21",
+      "licence": "CC0-1.0",
+      "lane": "runtime",
+      "origin": "https://doi.org/10.1002/zaac.19181030113",
+      "revision": "Z. anorg. allg. Chem. 103 (1918) 240-242, the Fe(OH)3 section",
+      "retrieved": "2026-09-21"
+    },
+    {
+      "id": "literature/pechet-cupric-oxide-solubility-1940",
+      "citation": "M. M. Pechet, 'The solubility of cupric hydroxide and cupric oxide in water at various temperatures: a study of the phase relations between cupric hydroxide and water', M.Sc. thesis, University of Alberta, April 1940, carried out under the direction of Dr. J. W. Shipley; read 2026-09-21 from the open scan at https://archive.org/details/solubilityofcupr00pech. IT IS A THESIS RATHER THAN A JOURNAL PAPER, AND THAT IS SAID FIRST. The `primary-literature` route of provenance/upstreams.toml is 'the paper that made the measurement', and this is the document that made this measurement; it was never published elsewhere. It carries no DOI and no peer review, and it is cited here for one number rather than leaned on. WHAT IT PRINTS, in its own Summary, point 6: 'The solubility of anhydrous cupric oxide at 25 °C. is 2.5x10^-6 moles per litre.' The saturated solution was dialysed through a collodion membrane first, which is the thesis's own answer to the difficulty that defeated the determination it compares itself with: 'McDowell and Johnston point out that their value is only a rough approximation, because they were faced with the difficulty of the copper solution coming out colloidal.' THE ARITHMETIC. 2.5e-6 mol/L at this registry's molar mass of 79.55 g/mol is 1.98875e-4 g/L and therefore 0.0000199 g/100 mL, quoted to the three figures the source supports. WHAT THE SOLID IS, AND THE CAUTION THAT GOES WITH IT. The anhydrous oxide was made by dehydrating the blue hydroxide two independent ways, and the thesis identifies it by the two preparations agreeing rather than by diffraction: 'The values of the solubilities of the sintered copper hydroxide coincided with those of the copper hydroxide dehydrated over phosphorous pentoxide.' Calling it tenorite is therefore this registry's inference from composition, not the thesis's claim. WHAT IS DELIBERATELY NOT TAKEN FROM IT. The same thesis reports cupric HYDROXIDE solubilities, and its own Summary point 5 says of them that below 45 °C 'the solubility value obtained in the absence of control, and knowledge of the material used, might be any one of three values'. A source that says its own number is one of three is not a source for one number, so Cu(OH)2 keeps no reviewed solubility here and PLAN.md records that as a finding rather than a gap. Read 2026-09-21",
+      "licence": "CC0-1.0",
+      "lane": "runtime",
+      "origin": "https://archive.org/details/solubilityofcupr00pech",
+      "revision": "M.Sc. thesis, University of Alberta, 1940, Summary point 6",
+      "retrieved": "2026-09-21"
+    },
+    {
+      "id": "literature/mcgee-hostetler-brucite-1977",
+      "citation": "K. A. McGee and P. B. Hostetler, 'Activity-product constants of brucite from 10° to 90°C', Journal of Research of the U.S. Geological Survey 5 (1977) 227-233; read in full 2026-09-21 from https://pubs.usgs.gov/journal/1977/vol5issue2/report.pdf, catalogue entry https://pubs.usgs.gov/publication/70233078. A work of the United States Government, and the measurement itself rather than a table repeating it. THIS ROW IS THE ONE DERIVED VALUE IN THE SOLUBILITY TRANCHE AND SAYS SO LOUDLY. The paper publishes a solubility PRODUCT, not a mass solubility. Abstract, quoted: 'The activity-product constant of brucite, K_B = [Mg2+][OH-]^2 (where the brackets denote activities), was determined experimentally at 10°, 25°, 40°, 55°, 70°, and 90°C. The values obtained for log K_B are 10.89±0.16 (10°), 10.88±0.10 (25°), 10.90±0.10 (40°), 10.90±0.10 (55°), 10.99±0.14 (70°), and 11.10±0.14 (90°).' Those printed figures are the NEGATIVE logarithm - K_B is about 1.3e-11, not 1e+11 - and the sign is stated here because the paper's own column headings render it both ways. WHAT WAS MEASURED. Forty-two runs, 24 of them 'made in pure water', 10.0 g of Mg(OH)2 in 1,800 mL, nitrogen presaturated with water vapour bubbled through for the whole run to keep CO2 out, pH followed to constancy and dissolved magnesium determined by atomic absorption. The starting material was aged 3 to 4 weeks at 90 °C to grow and even out the grains. THE CONVERSION, AND EVERY ASSUMPTION IN IT. Taking dissolution as congruent - the paper's own equation 1, 'Mg(OH)2 = Mg2+ + 2OH-' - charge balance in pure water gives [OH-] = 2s, so K_B = 4s^3 and s = (K_B/4)^(1/3) = 1.4881e-4 mol/L. At this registry's molar mass of 58.32 g/mol that is 8.679e-3 g/L and therefore 0.0008679 g/100 mL. THREE ASSUMPTIONS, ALL OF WHICH MAKE THE FIGURE A LOWER BOUND. Activities are read as concentrations, which at an ionic strength of 4.5e-4 understates the solubility by a few percent. The MgOH+ ion pair is ignored, though the paper models it explicitly (its equation 6, 'm_Mg2+ + m_MgOH+ = total Mg molality'), and ignoring it understates total dissolved magnesium. And no carbon dioxide is present, which a real beaker of water cannot promise. SO THE METHOD OF THIS RECORD IS `derived`, NOT `measured`, and that is the whole point of the distinction: the experiment is theirs, the arithmetic on top of it is this project's, and a reader must be able to tell which part to check. Read 2026-09-21",
+      "licence": "CC0-1.0",
+      "lane": "runtime",
+      "origin": "https://pubs.usgs.gov/journal/1977/vol5issue2/report.pdf",
+      "revision": "J. Res. U.S. Geol. Survey 5 (1977) 227-233, abstract and Table 3",
+      "retrieved": "2026-09-21"
+    },
+    {
       "id": "literature/hartley-campbell-iodine-water",
       "citation": "H. Hartley and N. P. Campbell, 'The solubility of iodine in water', J. Chem. Soc., Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741: 0.3393 g I2 per litre water at 25 °C. Kerotakis converts this factual measurement to 0.03393 g/100 mL and releases its transcription as CC0; no source text or table is redistributed.",
       "licence": "CC0-1.0",
@@ -55749,6 +55785,46 @@
       }
     },
     {
+      "id": "aqueous-solubility/CuO",
+      "subject": {
+        "kind": "species",
+        "id": "CuO"
+      },
+      "model": "bounded-room-temperature-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml",
+      "quantity": {
+        "value": 0.0000199,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": {
+            "lower": 298.15,
+            "upper": 298.15,
+            "unit": {
+              "symbol": "K",
+              "dimension": "temperature"
+            }
+          },
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": "water",
+          "phase": "solid",
+          "notes": "Pechet 1940, Summary point 6; anhydrous cupric oxide, dialysed to exclude colloid"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/pechet-cupric-oxide-solubility-1940",
+        "method": {
+          "kind": "measured",
+          "detail": "THE CITED SOURCE IS THE MEASUREMENT. Pechet (1940), Summary point 6: 'The solubility of anhydrous cupric oxide at 25 °C. is 2.5x10^-6 moles per litre', the saturated solution having been dialysed through a collodion membrane to keep colloidal copper out of the analysis. At this registry's molar mass of 79.55 g/mol that is 0.0000199 g/100 mL. THE EXPERIMENT IS HIS AND NOT THIS PROJECT'S. THE SOLID'S IDENTITY IS AN INFERENCE, HIS AND THEN OURS: he identifies the anhydrous oxide by two independent dehydrations of the blue hydroxide giving the same solubility, not by diffraction, and this registry books it as tenorite on composition alone."
+        }
+      }
+    },
+    {
       "id": "legacy-tint-strength/CuO",
       "subject": {
         "kind": "species",
@@ -60211,6 +60287,46 @@
       }
     },
     {
+      "id": "aqueous-solubility/Fe(OH)3",
+      "subject": {
+        "kind": "species",
+        "id": "Fe(OH)3"
+      },
+      "model": "bounded-room-temperature-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml",
+      "quantity": {
+        "value": 0.0000151,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": {
+            "lower": 293.15,
+            "upper": 293.15,
+            "unit": {
+              "symbol": "K",
+              "dimension": "temperature"
+            }
+          },
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": "water",
+          "phase": "solid",
+          "notes": "Almkvist 1918, the Fe(OH)3 section; mean of two colorimetric determinations on a fresh precipitate after 96 h"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/almkvist-metal-hydroxide-solubility-1918",
+        "method": {
+          "kind": "measured",
+          "detail": "THE CITED SOURCE IS THE MEASUREMENT. Almkvist (1918) suspended freshly precipitated, boiled and washed ferric hydroxide in distilled water, stirred it for about 96 hours at 20 °C, and determined the iron in the filtrate colorimetrically as the thiocyanate: 0.155 and 0.146 mg per litre, mean 0.151, which is 0.0000151 g/100 mL. THE EXPERIMENT IS HIS AND NOT THIS PROJECT'S. WHAT THE NUMBER IS: total dissolved iron expressed as Fe(OH)3 by the author, from a FRESH precipitate. He records that the solubility of these hydroxides falls with age, so an aged or crystalline ferric hydroxide is a different and less soluble solid, and this row does not claim to cover it."
+        }
+      }
+    },
+    {
       "id": "legacy-tint-strength/Fe(OH)3",
       "subject": {
         "kind": "species",
@@ -60339,6 +60455,46 @@
         "method": {
           "kind": "derived",
           "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "aqueous-solubility/Mg(OH)2",
+      "subject": {
+        "kind": "species",
+        "id": "Mg(OH)2"
+      },
+      "model": "bounded-room-temperature-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml",
+      "quantity": {
+        "value": 0.0008679,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": {
+            "lower": 298.15,
+            "upper": 298.15,
+            "unit": {
+              "symbol": "K",
+              "dimension": "temperature"
+            }
+          },
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": "water",
+          "phase": "solid",
+          "notes": "converted from McGee and Hostetler 1977's log K_B = 10.88 at 25 °C assuming congruent dissolution and unit activity coefficients; a lower bound, not a measurement"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/mcgee-hostetler-brucite-1977",
+        "method": {
+          "kind": "derived",
+          "detail": "DERIVED, NOT MEASURED, AND THE DIFFERENCE IS THE POINT. McGee and Hostetler (1977) measured an activity-product constant, log K_B = 10.88 ± 0.10 at 25 °C for K_B = [Mg2+][OH-]^2 - that is, K_B about 1.3e-11 - in 24 runs made in pure water under nitrogen. This registry's field is a mass solubility, so the number here is arithmetic on top of their measurement: congruent dissolution as their own equation 1 writes it, charge balance in pure water giving [OH-] = 2s, hence s = (K_B/4)^(1/3) = 1.4881e-4 mol/L, and at 58.32 g/mol 0.0008679 g/100 mL. EVERY ASSUMPTION IN IT PUSHES THE SAME WAY and the result is a lower bound: activities read as concentrations, the MgOH+ ion pair their own equation 6 carries left out, and no dissolved carbon dioxide. `measured` would be a false claim about this row and `imported` would hide the arithmetic; `derived` says the experiment is theirs and the conversion is ours."
         }
       }
     },
@@ -61428,6 +61584,86 @@
         "method": {
           "kind": "derived",
           "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "aqueous-solubility/BaSO4",
+      "subject": {
+        "kind": "species",
+        "id": "BaSO4"
+      },
+      "model": "bounded-room-temperature-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml",
+      "quantity": {
+        "value": 0.00024739,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": {
+            "lower": 298.15,
+            "upper": 298.15,
+            "unit": {
+              "symbol": "K",
+              "dimension": "temperature"
+            }
+          },
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": "water",
+          "phase": "solid",
+          "notes": "Melcher 1910 Table V, 25 °C column"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/melcher-barium-sulphate-1910",
+        "method": {
+          "kind": "measured",
+          "detail": "THE CITED SOURCE IS THE MEASUREMENT. Melcher (1910) Table V, 25 °C column: 0.0212 milli-equivalents per litre. Barium sulphate carries two charges per formula unit, so that is 1.06e-5 mol/L, and at this registry's molar mass of 233.383 g/mol, 0.00024739 g/100 mL. The 25 °C figure is read at this bench's 20 °C anchor; the 18 °C row in the same table, 0.0190, would give 0.00022170 g/100 mL, and the difference is far below the resolution of anything the bench prints from it. THE EXPERIMENT IS HIS AND NOT THIS PROJECT'S."
+        }
+      }
+    },
+    {
+      "id": "aqueous-solubility-100c/BaSO4",
+      "subject": {
+        "kind": "species",
+        "id": "BaSO4"
+      },
+      "model": "two-point-temperature-dependent-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml-at-100c",
+      "quantity": {
+        "value": 0.00038975,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": {
+            "lower": 373.15,
+            "upper": 373.15,
+            "unit": {
+              "symbol": "K",
+              "dimension": "temperature"
+            }
+          },
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": "water",
+          "phase": "solid",
+          "notes": "Melcher 1910 Table V, 100 °C column"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/melcher-barium-sulphate-1910",
+        "method": {
+          "kind": "measured",
+          "detail": "THE CITED SOURCE IS THE MEASUREMENT. Melcher (1910) Table V, 100 °C column: 0.0334 milli-equivalents per litre, two charges per formula unit, so 1.67e-5 mol/L and at 233.383 g/mol 0.00038975 g/100 mL."
         }
       }
     },
