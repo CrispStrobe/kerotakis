@@ -753,7 +753,6 @@ fn compare_model_parameters(
     phase: Phase,
     source_id: &str,
 ) {
-    const IODINE_WATER_SOURCE: &str = "literature/hartley-campbell-iodine-water";
     let dissolves = parameter(
         document,
         &format!("dissolves-without-speciation/{}", species.key),
@@ -768,7 +767,7 @@ fn compare_model_parameters(
     );
     assert_eq!(dissolves.quantity.uncertainty, Uncertainty::Exact);
     if species.key == "I2" {
-        assert_eq!(dissolves.quantity.source_id, IODINE_WATER_SOURCE);
+        assert_eq!(dissolves.quantity.source_id, "literature/hartley-campbell-iodine-water");
         assert!(matches!(dissolves.quantity.method, Method::Curated(_)));
     } else {
         assert_eq!(dissolves.quantity.source_id, source_id);
@@ -777,42 +776,36 @@ fn compare_model_parameters(
     match species.aqueous_solubility_g_per_100_ml {
         Some(value) => {
             let solubility = parameter(document, &format!("aqueous-solubility/{}", species.key));
-            if species.key == "I2" {
-                assert_eq!(solubility.quantity.value, value);
-                assert_eq!(solubility.quantity.unit.symbol, "g/100mL");
-                assert_eq!(
-                    solubility.quantity.unit.dimension,
-                    Dimension::MassConcentration
-                );
-                assert_eq!(solubility.quantity.conditions.phase, Some(phase));
-                let temperature = solubility
-                    .quantity
-                    .conditions
-                    .temperature
-                    .as_ref()
-                    .expect("reviewed iodine solubility states its temperature");
-                assert_eq!((temperature.lower, temperature.upper), (298.15, 298.15));
-                // The one record in 1917 whose source IS the experiment.
-                // `measured` is a claim about Hartley and Campbell, not
-                // about this project, and the band stays open because
-                // nobody has read their paper for one - which is why this
-                // assertion pairs `Measured` with `Unestablished` rather
-                // than with `NotReported`.
-                assert_eq!(solubility.quantity.uncertainty, Uncertainty::Unestablished);
-                assert_eq!(solubility.quantity.source_id, IODINE_WATER_SOURCE);
-                assert!(matches!(solubility.quantity.method, Method::Measured(_)));
-            } else {
-                assert_imported_quantity(
+            match reviewed_solubility(species.key) {
+                Some(reviewed) => assert_measured_solubility(
+                    &solubility.quantity,
+                    value,
+                    phase,
+                    reviewed.source,
+                    reviewed.cold_k,
+                ),
+                None => assert_imported_quantity(
                     &solubility.quantity,
                     value,
                     "g/100mL",
                     Dimension::MassConcentration,
                     phase,
                     source_id,
-                );
+                ),
             }
         }
         None => assert_missing_parameter(document, &format!("aqueous-solubility/{}", species.key)),
+    }
+    // The 100 °C point of a reviewed solubility is the same paper's other
+    // row, and it has to carry the same claim. A hot point that quietly
+    // regressed to `imported` would say the registry had read a second
+    // number out of a table, which is the thing this file is here to catch.
+    if let (Some(hot), Some(reviewed)) = (
+        species.aqueous_solubility_g_per_100_ml_at_100c,
+        reviewed_solubility(species.key),
+    ) {
+        let record = parameter(document, &format!("aqueous-solubility-100c/{}", species.key));
+        assert_measured_solubility(&record.quantity, hot, phase, reviewed.source, 373.15);
     }
     match species.colour {
         Some(colour) => {
@@ -854,6 +847,65 @@ fn compare_model_parameters(
     } else {
         assert_missing_parameter(document, &format!("magnetic/{}", species.key));
     }
+}
+
+/// A solubility whose source is the paper that MADE the measurement rather
+/// than the legacy table, and the temperature the cold point was measured
+/// at.
+///
+/// Written out here rather than read from the exporter, for the reason
+/// `RESISTIVITY_KEYS` gives: a test that derives its expectation from the
+/// code under test agrees with that code however wrong it is. The
+/// temperature is in the table because it is the field most likely to be
+/// got wrong quietly — two of these are 18 °C rows read at this bench's
+/// 20 °C anchor, because the paper prints no 25 °C figure for them, and a
+/// regeneration that rounded that away would be losing the only warning a
+/// reader gets.
+struct ReviewedSolubility {
+    source: &'static str,
+    cold_k: f64,
+}
+
+const MELCHER_1910: &str =
+    "literature/melcher-silver-chloride-barium-sulphate-calcium-sulphate-1910";
+const BATES_1956: &str = "literature/bates-bower-smith-calcium-hydroxide-1956";
+
+fn reviewed_solubility(key: &str) -> Option<ReviewedSolubility> {
+    let (source, cold_k) = match key {
+        "I2" => ("literature/hartley-campbell-iodine-water", 298.15),
+        "AgCl" => (MELCHER_1910, 291.15),
+        "BaSO4" => (MELCHER_1910, 298.15),
+        "gypsum" => (MELCHER_1910, 291.15),
+        "Ca(OH)2" => (BATES_1956, 293.15),
+        _ => return None,
+    };
+    Some(ReviewedSolubility { source, cold_k })
+}
+
+/// `measured` is a claim about the people who did the experiment, not about
+/// this project, and the band stays open because nobody has read any of
+/// these papers for one — which is why this pairs `Measured` with
+/// `Unestablished` rather than with `NotReported`.
+fn assert_measured_solubility(
+    quantity: &NumericRecord,
+    value: f64,
+    phase: Phase,
+    source_id: &str,
+    temperature_k: f64,
+) {
+    assert_eq!(quantity.value, value);
+    assert_eq!(quantity.unit.symbol, "g/100mL");
+    assert_eq!(quantity.unit.dimension, Dimension::MassConcentration);
+    assert_eq!(quantity.conditions.phase, Some(phase));
+    let temperature = quantity
+        .conditions
+        .temperature
+        .as_ref()
+        .expect("a reviewed solubility states the temperature it was measured at");
+    assert_eq!((temperature.lower, temperature.upper), (temperature_k, temperature_k));
+    assert_eq!(quantity.uncertainty, Uncertainty::Unestablished);
+    assert_eq!(quantity.source_id, source_id);
+    assert!(matches!(quantity.method, Method::Measured(_)));
 }
 
 fn assert_missing_parameter(document: &RegistryDocument, id: &str) {
@@ -1057,7 +1109,7 @@ fn the_atomic_weight_table_reaches_the_molar_masses_it_is_said_to_reach() {
 
 /// `measured` is no longer empty, and it is empty of everything else.
 ///
-/// Two records in the registry have a source that is itself the experiment.
+/// Nine records in the registry have a source that is itself the experiment.
 /// Asserting the exact set keeps two opposite mistakes visible: a record
 /// quietly claiming a measurement it cannot support, and one of these losing
 /// the claim in a regeneration.
@@ -1066,8 +1118,15 @@ fn the_atomic_weight_table_reaches_the_molar_masses_it_is_said_to_reach() {
 /// which had no source of any kind until then. Its source is Osborne,
 /// Stimson and Ginnings's 1939 calorimetry rather than a table repeating it,
 /// which is the line this field draws.
+///
+/// Seven more arrived on 2026-09-21 with the precipitating solids' reviewed
+/// solubilities: Melcher's 1910 conductometry for silver chloride, barium
+/// sulphate and gypsum — one bomb and one method, which is why three solids
+/// share a source — and Bates, Bower and Smith's 1956 titrations for
+/// calcium hydroxide. Three of them are 100 °C points from the same tables
+/// as their cold twins.
 #[test]
-fn exactly_two_records_claim_their_source_is_the_measurement() {
+fn nine_records_claim_their_source_is_the_measurement() {
     let document = export_current_registry().expect("export current registry");
     let measured: Vec<&str> = document
         .model_parameters
@@ -1084,10 +1143,22 @@ fn exactly_two_records_claim_their_source_is_the_measurement() {
         .collect();
     assert_eq!(
         measured,
-        vec!["aqueous-solubility/I2", "enthalpy-of-vaporisation/water"],
+        vec![
+            "aqueous-solubility/AgCl",
+            "aqueous-solubility-100c/AgCl",
+            "aqueous-solubility/Ca(OH)2",
+            "aqueous-solubility/gypsum",
+            "aqueous-solubility-100c/gypsum",
+            "aqueous-solubility/I2",
+            "aqueous-solubility/BaSO4",
+            "aqueous-solubility-100c/BaSO4",
+            "enthalpy-of-vaporisation/water",
+        ],
         "the registry's measured records are the iodine solubility Hartley \
-         and Campbell determined in 1908 and the heat of vaporization Osborne, \
-         Stimson and Ginnings determined in 1939"
+         and Campbell determined in 1908, the four precipitating solids \
+         Melcher determined in 1910 and Bates, Bower and Smith in 1956, and \
+         the heat of vaporization Osborne, Stimson and Ginnings determined \
+         in 1939"
     );
 }
 
