@@ -1324,7 +1324,17 @@ and presents them well.
   solver has been computing the extent (from the change in the solutes'
   net charge) to get the heat right and discarding the number. Carried on
   the wire as an additive `ionic` field (PROTOCOL.md), rendered at lv2 and
-  above, with the spectators named at lv3. Still open: showing the neutral
+  above, with the spectators named at lv3.*
+  *Closed 2026-09-21 by the second slice: the COMPLETE ionic equation, with
+  the spectators on both sides at solved coefficients and flagged so the
+  shell strikes them through. There is no stored molecular equation to take
+  those coefficients from — the bench never believed in one — so they come
+  from the fact that the reagents arrived in electrically neutral bottles,
+  which gives `2 Na⁺` and `2 Cl⁻` around a barium sulfate without anything
+  in the beaker saying "two". Where that cannot be solved and verified —
+  two cations and no way to say which salt was opened, or no spectator of
+  the needed sign — nothing is drawn and the net line stands, which is the
+  honest fallback rather than a failure. Still open: showing the neutral
   complexes beside the free ions, and any basis beyond these two — redox
   and organic steps carry no participant list yet and are not guessed at.*
 
@@ -3661,8 +3671,8 @@ evolved CO₂ and half a mole of it must not look the same.
       a loose one and say so at the check — the distinction between "the
       answer" and "a hint" is one a reader would agree with.
 
-- [ ] **GUI-092 — the ionic equation, derived: solve the spectator
-      coefficients.** The first slice shipped in August: the net ionic
+- [x] **GUI-092 — the ionic equation, derived: solve the spectator
+      coefficients. DONE 2026-09-21.** The first slice shipped in August: the net ionic
       line, with spectators named at lv3. The complete equation with the
       spectators struck through was offered to the owner and could not
       honestly be drawn, and the reason is worth stating where the next
@@ -3678,6 +3688,83 @@ evolved CO₂ and half a mole of it must not look the same.
       rather than a least-squares fiction. That refusal is the model: a
       complete equation that cannot be balanced must not be drawn at all,
       and the net line that ships today is the honest fallback.
+
+      *What the work found, 2026-09-21.*
+
+      **There is no molecular equation to balance against, and that turned
+      out to be the useful discovery.** The ruling says "balance the
+      spectators against the molecular equation", and the first hour went
+      looking for it: `render.rs` composes equation LINES, but for a
+      precipitation the string is never built — `Event::Precipitated`
+      carries a solid and a quantity, and the bench has never believed in
+      `AgNO3 + NaCl → AgCl + NaNO3` in any form a coefficient could be read
+      off. The equation a textbook would print does not exist in this
+      engine, by design.
+
+      What does exist is the same stoichiometry in the only form a bench
+      can hold it without remembering a reaction: **the reagents came out
+      of bottles, and a bottle is electrically neutral.** Every ion the net
+      equation consumes arrived beside a counter-ion, in the number that
+      made its salt neutral. That is the molecular stoichiometry, derived
+      rather than looked up, and it gives the same answer a molecular
+      equation would: one chloride beside one silver, *two* beside one
+      barium. It is one linear row per sign — the spectator cations account
+      for the charge the anionic net reactants brought in and vice versa —
+      solved with the module's own `gauss_jordan` and verified against
+      every row, which is `balance_against`'s model precisely.
+
+      `BaCl₂ + Na₂SO₄` is the worked case and the one a suite of 1:1 salts
+      would have passed on: `Ba²⁺(aq) + SO₄²⁻(aq) + 2 Na⁺(aq) + 2 Cl⁻(aq) →
+      BaSO₄(s) + 2 Na⁺(aq) + 2 Cl⁻(aq)`. Nothing in the beaker says "two";
+      it falls out of barium carrying twice the charge sodium does.
+
+      **The refusal got one guard the ruling did not anticipate, and it is
+      the one that fires most.** A linear solve that pins free variables to
+      zero is right for the net participants, where the free variables are
+      candidate balancing partners and zero means "not needed". It is
+      *wrong* for spectators, because there the free variables are ions
+      that are physically in the beaker and the zero would be an assertion
+      about which bottle was opened. With Na⁺ and K⁺ both in solution and
+      cation counter-charge to account for, the system does not determine
+      the answer — and it would verify anyway. So the ambiguity guard sits
+      BEFORE the solve, and a beaker with two cations gets no complete
+      equation. `an_ambiguous_counter_ion_draws_no_complete_equation`
+      exercises it; `nothing_spectating_means_nothing_to_write_out`
+      exercises the other refusal, a demand no spectator of that sign can
+      meet. Both assert the net line still ships, because that is the
+      point: falling back is a correct outcome.
+
+      The verification is stronger than element-and-charge, and had to be:
+      the spectators stand on both sides, so they cancel out of the element
+      rows and out of total charge, which makes those rows nearly free. The
+      row with teeth is that **each side is electrically neutral** — a side
+      carrying net charge describes a beaker that would have electrocuted
+      somebody. That is asserted in the engine tests directly and
+      re-checked on the wire in `test-protocol-conformance.mjs`.
+
+      On the wire the flag is `spectator: true` per term and no markup: the
+      engine emits structure, the shell draws the line through it. Omitted
+      when false, so every term outside `complete` is byte-identical to the
+      August contract.
+
+      **What stays open, and neither is a shortcut not taken:**
+
+      - *The neutral complexes beside the free ions* — AgCl(aq) is present
+        at fifty times the free silver and appears in neither line. The
+        first slice deliberately ordered charge above abundance to keep
+        `AgCl(aq) → AgCl(s)` out of the net equation; showing the complex
+        *beside* the free ions is a different display question (a third
+        row, not a fourth term) and nothing here decided it.
+      - *Bases beyond precipitation and neutralisation.* Unchanged:
+        `IonicBasis` still has two variants because those are the two
+        engine results that carry their own participants. Redox and organic
+        steps carry no participant list and are still not guessed at.
+      - *Multi-salt beakers.* The ambiguity guard means a solution holding
+        two cations or two anions above the naming threshold gets the net
+        line only. That is honest and it is also a real limit: a learner
+        who adds a third salt loses the complete equation. Narrowing it
+        needs a way to say which counter-ion arrived with which
+        participant, which the speciation does not record.
 
 ## A pane taller than itself at 200% text zoom (GUI-122)
 
