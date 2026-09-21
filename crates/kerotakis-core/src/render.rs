@@ -635,7 +635,9 @@ pub fn render_events_in(events: &[Event], register: Register, locale: Locale) ->
 /// being told "it went cloudy" is not helped by being handed a charge
 /// balance in the same breath. lv3 adds the ions that stayed out of it,
 /// because naming the spectators is the half of the lesson the equation
-/// itself cannot show.
+/// itself cannot show — and, since 2026-09-21, the complete equation with
+/// those spectators on both sides, where the engine could solve their
+/// coefficients and verify the result.
 pub fn render_ionic(net: &crate::ionic::NetIonic, register: Register) -> Option<String> {
     render_ionic_in(net, register, Locale::EN)
 }
@@ -658,6 +660,16 @@ pub fn render_ionic_in(
         if let Some(phrase) = net.spectator_phrase() {
             let spectators = locale.t("ionic.spectators", "spectator ions");
             line.push_str(&format!("  ({spectators}: {phrase})"));
+        }
+        // The complete equation, where the engine could solve and verify
+        // the spectators' coefficients (GUI-092). A reader in prose cannot
+        // be shown a line struck through, so the feed prints it whole and
+        // the spectators above say which terms cancel; the shell, which
+        // can draw, strikes them. Absent is a real answer — see
+        // `NetIonic::complete`.
+        if let Some(complete) = &net.complete {
+            let label = locale.t("ionic.complete", "complete ionic");
+            line.push_str(&format!("  ({label}: {})", complete.equation));
         }
     }
     Some(line)

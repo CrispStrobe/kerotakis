@@ -576,6 +576,38 @@ if (!resultsPath) {
                 fail("ionic", `term missing contract fields: ${JSON.stringify(term)}`);
             }
         }
+        // The complete ionic equation (GUI-092, 2026-09-21). ABSENT is a
+        // correct answer and is not failed here: the spectators'
+        // coefficients are solved and verified, and where they cannot be
+        // the engine draws nothing rather than a half-balanced line. What
+        // is checked is that a `complete` which IS present keeps its
+        // promises — the spectators stand on both sides at the same
+        // counts, and each side is electrically neutral, because each side
+        // is a statement about bottles.
+        checks++;
+        if (net.complete !== undefined) {
+            const c = net.complete;
+            if (typeof c.equation !== "string" || !Array.isArray(c.reactants)
+                || !Array.isArray(c.products)) {
+                fail("ionic", `complete missing contract fields: ${JSON.stringify(c).slice(0, 200)}`);
+            }
+            const charge = (side) => side.reduce((n, t) => n + t.charge * t.coefficient, 0);
+            if (charge(c.reactants) !== 0 || charge(c.products) !== 0) {
+                fail("ionic", `a complete ionic side carries net charge: ${c.equation}`);
+            }
+            const struck = (side) => side.filter((t) => t.spectator === true)
+                .map((t) => `${t.coefficient} ${t.species}`).sort().join(" + ");
+            if (struck(c.reactants) !== struck(c.products)) {
+                fail("ionic", `spectators differ across the arrow: ${c.equation}`);
+            }
+            if (struck(c.reactants) === "") {
+                fail("ionic", `a complete equation with nothing struck through: ${c.equation}`);
+            }
+            console.log(`ionic (complete): ${c.equation}`);
+        } else {
+            console.log("ionic (complete): absent — the spectators did not solve, "
+                + "and the net line is the honest fallback");
+        }
         console.log(`ionic: ${net.equation} `
             + `(spectators: ${net.spectators.map((t) => t.label).join(", ") || "none"})`);
     }

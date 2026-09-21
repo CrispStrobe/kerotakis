@@ -1016,6 +1016,7 @@ hydroxylapatite = "Hydroxylapatit"
 [ionic]
 net = "Netto-Ionengleichung"
 spectators = "Zuschauerionen"
+complete = "Vollständige Ionengleichung"
 
 [model]
 "coupling-active" = "aktiv"
