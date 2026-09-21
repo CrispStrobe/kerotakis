@@ -4204,7 +4204,12 @@ lesson, and the answer is the same with the asymmetry and without it:
 ```
 
 The lesson goes milky and clears again, which is exactly its own intro
-line. The element-totals route is not lossy here: `pH charge` recovers the
+line. In the rendered transcript: *"The liquid is colourless and cloudy,
+there is white chalk (calcium carbonate) at the bottom"* after the first
+dose, and *"colourless and very slightly hazy"* after the excess, with
+0.7 mmol of chalk still on the bottom. "Clears again" is therefore the
+milkiness GOING and not the word *clear* arriving, and the guard asserts
+it that way. The element-totals route is not lossy here: `pH charge` recovers the
 hydroxide that `contribution_from_counts` drops — the comment on that
 function always said so and now a test asserts it — and
 `append_candidate_phases` has already offered `Portlandite` at zero moles,

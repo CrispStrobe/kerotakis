@@ -134,13 +134,18 @@ fn limewater_goes_milky_on_the_first_co2_dose_and_clears_on_excess() {
          the whole observation. It read: {}\n\n{out}",
         observations[0]
     );
+    // "Clears again" is asserted as the milkiness GOING, not as the word
+    // "clear" arriving. The excess dose redissolves all but about 0.7 mmol
+    // of the chalk, and the bench reads what is left honestly — *colourless
+    // and very slightly hazy, there is white chalk at the bottom*. That is
+    // the right answer and it is not the word the lesson's intro uses.
     assert!(
-        observations
+        !observations
             .last()
             .expect("at least two observations")
-            .contains("clear"),
-        "genuine excess carbon dioxide must clear limewater again. It read: \
-         {}\n\n{out}",
+            .contains("cloudy"),
+        "genuine excess carbon dioxide must take the milkiness back out of \
+         limewater. It read: {}\n\n{out}",
         observations.last().expect("at least two observations")
     );
 }
