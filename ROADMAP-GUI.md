@@ -3811,10 +3811,10 @@ out of view, not the first.
   failed in CI on exactly that — 479 px tall, 0 px of it in the pane —
   which is the useful half of the finding. What the ruling actually owes
   is that it is never clipped away with nothing to reach it by, so that
-  is what is asserted, twice: the stage's own scroller brings it into the
-  pane's view with the pane untouched, and the pane's new scroll brings
-  **more** of it into view rather than less — 0 px at the top, 239 at the
-  bottom.
+  is what is asserted, twice: the stage's own scroller brings **364 of its
+  479 px** into the pane's view with the pane untouched, and the pane's
+  new scroll brings **more** of it into view rather than less — 0 px at
+  the top, 239 at the bottom.
 
   **The cabinet's numbers.** 172 px of overflow at 200%, the count whole
   at 64 px once the pane is scrolled to it, and 120 px of shelf still
