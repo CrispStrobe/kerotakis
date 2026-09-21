@@ -804,6 +804,207 @@ const periodicAudit = () => page.evaluate(`(() => {
   });
 })()`);
 
+/* -- GUI-121: text that is meant to be read must have a box to read it in --
+ *
+ * The class of defect GUI-120 turned out to be an instance of.
+ *
+ * In the latest-result card, at 200% text zoom, four explicit grid tracks
+ * held a 32 px tick, a 165 px ΔT badge and 90 px of icons in a 263 px row,
+ * so `minmax(0, 1fr)` resolved the name column to ZERO and `.operation`'s
+ * own `max-width: 100%; overflow: hidden` clipped the operation name and
+ * the reaction class out of existence. The card's entire answer to *what
+ * just happened* was not painted, at the accessibility setting this suite
+ * exists to test — and NOTHING here could see it, because a card with no
+ * legible content is exactly as tall as a card with some. Every height,
+ * overlap and share assertion in this file passed on that card.
+ *
+ * So the assertion is not about the card. It is about the class: content
+ * squeezed to nothing by rem-sized furniture beside it, in a container
+ * that is itself perfectly healthy. Stated generally:
+ *
+ *     an element that carries text a reader is meant to read must have a
+ *     box that text can be painted in — at every regime this suite drives.
+ *
+ * WHAT COUNTS AS "MEANT TO BE READ". An element with non-whitespace text
+ * in its OWN child text nodes. Own text, not `textContent`: otherwise
+ * every ancestor up to `<body>` carries the same string and a single
+ * defect is reported thirty times, at thirty different boxes, only one of
+ * which is the one that failed.
+ *
+ * WHAT IS DELIBERATELY EXCLUDED, each counted and printed so that a
+ * shrinking sample cannot quietly empty this check:
+ *
+ *   ariaHidden  `aria-hidden="true"` on the element or any ancestor. A
+ *               decorative tick, a `·` separator, a duplicated glyph: the
+ *               app has already said this text is not to be read.
+ *   srOnly      `.sr-only` / `.visually-hidden` on the element or any
+ *               ancestor. Being a 1 px box with `clip-path: inset(50%)`
+ *               is the POINT of that class — it is what GUI-120 turned
+ *               the card's eyebrow into.
+ *   noBox       No box at all (`getClientRects()` is empty): `display:
+ *               none`, `[hidden]`, a closed `<details>`, an unopened
+ *               `<dialog>`. Not painted, and deliberately so. This is the
+ *               collapsed-disclosure case, and it is why the sweep opens
+ *               each surface before measuring it rather than trawling the
+ *               whole document once.
+ *   invisible   `checkVisibility()` says no: `visibility: hidden`,
+ *               `opacity: 0`, `content-visibility: hidden`.
+ *   nested      A descendant of something already reported. The outermost
+ *               offender is the one that describes the defect.
+ *
+ * WHAT IS NOT EXCLUDED, and why it is not a false positive: a scroll
+ * container. `overflow: auto` and `overflow: scroll` are NOT treated as
+ * clips here, so text scrolled out of the journal's feed, the catalogue's
+ * window or a chip rail is never reported — it is one gesture from the
+ * reader. Only `overflow: hidden` and `overflow: clip` clip, because
+ * those a reader cannot undo. The viewport is not a clip either: an
+ * element pushed off the page is what the `viewportOverflow` and
+ * `bodyOverflow` checks above already measure, and treating it as one
+ * here would report the `position: absolute; left: -9999px` idiom as a
+ * defect every time it appeared.
+ *
+ * TWO TIERS, because "zero" and "unreadable" are different failures:
+ *
+ *   blank     the visible box is 0 in either axis. Nothing of this text
+ *             reaches the screen. This is GUI-120's `.operation`.
+ *   squeezed  the visible box survives but is narrower than one em with
+ *             more than one character to paint, or shorter than half an
+ *             em. Not even one character of it can be read.
+ */
+const legibility = {
+  surfaces: [],
+  blank: [],
+  squeezed: [],
+  regimes: new Set(),
+  excluded: { ariaHidden: 0, srOnly: 0, noBox: 0, invisible: 0, nested: 0 },
+};
+
+/** One measurement of one open surface, in whichever regime the caller is in.
+ *
+ * `regime` is passed in and printed rather than sniffed, because THAT is
+ * GUI-120's second lesson: `#ux-text-zoom` is injected on one line of this
+ * file and removed over 300 lines below it, and GUI-108's whole table of
+ * measurements sat inside that bracket without saying so. The root font
+ * size comes back with every reading so the log states which regime it was
+ * taken in even if a caller mislabels it. */
+const legibilityProbe = (surface, regime) => page.evaluate(`(() => {
+  const SKIP = new Set(["SCRIPT", "STYLE", "TEMPLATE", "OPTION", "NOSCRIPT", "SELECT", "TITLE"]);
+  const found = { sampled: 0, blank: [], squeezed: [],
+    excluded: { ariaHidden: 0, srOnly: 0, noBox: 0, invisible: 0, nested: 0 } };
+  const reported = [];
+  const describe = (el) => {
+    const classes = typeof el.className === "string"
+      ? el.className.trim().split(" ").filter(Boolean).slice(0, 2) : [];
+    return el.tagName.toLowerCase() + (el.id ? "#" + el.id : "")
+      + (classes.length ? "." + classes.join(".") : "");
+  };
+  // Own text nodes only. See the comment above: textContent would report
+  // one defect at every ancestor of it.
+  const ownText = (el) => {
+    let text = "";
+    for (const node of el.childNodes) if (node.nodeType === 3) text += node.nodeValue;
+    return text.trim();
+  };
+  const screenReaderOnly = (el) => {
+    let node = el;
+    while (node && node !== document.body) {
+      if (node.classList && (node.classList.contains("sr-only")
+        || node.classList.contains("visually-hidden"))) return true;
+      node = node.parentElement;
+    }
+    return false;
+  };
+  // The box a reader can actually see, which is the element's own box cut
+  // down by every ancestor clip it sits under. Only hidden/clip: auto and
+  // scroll are reachable, and the element's own overflow is in the walk
+  // because the .operation rule GUI-120 found clipped ITSELF to a
+  // zero-width track. Nothing in this script may contain a backtick:
+  // it is inside the template literal that carries it to the page.
+  const visibleBox = (el) => {
+    const rect = el.getBoundingClientRect();
+    let left = rect.left, top = rect.top, right = rect.right, bottom = rect.bottom;
+    let clippedBy = "";
+    let node = el;
+    while (node && node !== document.documentElement) {
+      const style = getComputedStyle(node);
+      const clipsX = style.overflowX === "hidden" || style.overflowX === "clip";
+      const clipsY = style.overflowY === "hidden" || style.overflowY === "clip";
+      if (clipsX || clipsY) {
+        const box = node.getBoundingClientRect();
+        const was = left + "/" + top + "/" + right + "/" + bottom;
+        if (clipsX) { left = Math.max(left, box.left); right = Math.min(right, box.right); }
+        if (clipsY) { top = Math.max(top, box.top); bottom = Math.min(bottom, box.bottom); }
+        if (!clippedBy && was !== left + "/" + top + "/" + right + "/" + bottom) clippedBy = describe(node);
+      }
+      node = node.parentElement;
+    }
+    return { own: rect, width: Math.max(0, right - left), height: Math.max(0, bottom - top), clippedBy };
+  };
+  const round = (value) => Math.round(value * 10) / 10;
+
+  for (const el of document.body.querySelectorAll("*")) {
+    if (SKIP.has(el.tagName)) continue;
+    const text = ownText(el);
+    if (!text) continue;
+    if (el.closest('[aria-hidden="true"]')) { found.excluded.ariaHidden += 1; continue; }
+    if (screenReaderOnly(el)) { found.excluded.srOnly += 1; continue; }
+    if (el.getClientRects().length === 0) { found.excluded.noBox += 1; continue; }
+    if (!el.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true })) {
+      found.excluded.invisible += 1; continue;
+    }
+    found.sampled += 1;
+    const box = visibleBox(el);
+    const em = parseFloat(getComputedStyle(el).fontSize) || 16;
+    const blank = box.width <= 0.5 || box.height <= 0.5;
+    const squeezed = !blank && ((box.width < em && text.length > 1) || box.height < em * 0.5);
+    if (!blank && !squeezed) continue;
+    if (reported.some((other) => other.contains(el))) { found.excluded.nested += 1; continue; }
+    reported.push(el);
+    const parent = el.parentElement;
+    const parentBox = parent ? parent.getBoundingClientRect() : { width: 0, height: 0 };
+    (blank ? found.blank : found.squeezed).push({
+      surface: ${JSON.stringify(surface)},
+      regime: ${JSON.stringify(regime)},
+      element: describe(el),
+      text: text.slice(0, 44),
+      width: round(box.width), height: round(box.height),
+      ownWidth: round(box.own.width), ownHeight: round(box.own.height),
+      clippedBy: box.clippedBy,
+      parent: parent ? describe(parent) : "",
+      parentWidth: round(parentBox.width), parentHeight: round(parentBox.height),
+      em: round(em),
+    });
+  }
+  found.root = getComputedStyle(document.documentElement).fontSize;
+  return JSON.stringify(found);
+})()`);
+
+/** Measure one surface and fold it into the run's tally, printing the
+ * reading as it goes so a CI log says where every offender was found. */
+const sweepLegibility = async (surface, regime) => {
+  await settle();
+  const found = JSON.parse(await legibilityProbe(surface, regime));
+  legibility.surfaces.push({ surface, regime, sampled: found.sampled, root: found.root });
+  legibility.regimes.add(regime);
+  for (const entry of found.blank) legibility.blank.push(entry);
+  for (const entry of found.squeezed) legibility.squeezed.push(entry);
+  for (const key of Object.keys(legibility.excluded)) legibility.excluded[key] += found.excluded[key];
+  console.log(`   ..    legibility · ${regime} · ${surface}: ${found.sampled} read at a `
+    + `${found.root} root, ${found.blank.length} blank, ${found.squeezed.length} squeezed`);
+  for (const entry of found.blank.concat(found.squeezed)) {
+    console.log(`          ${entry.element} "${entry.text}" `
+      + `visible ${entry.width}x${entry.height} of own ${entry.ownWidth}x${entry.ownHeight} `
+      + `(em ${entry.em}${entry.clippedBy ? `, clipped by ${entry.clippedBy}` : ""}) `
+      + `in ${entry.parent} ${entry.parentWidth}x${entry.parentHeight}`);
+  }
+  return found;
+};
+
+const legibilityDetail = (entries) => entries.slice(0, 8).map((entry) =>
+  `${entry.regime} · ${entry.surface} · ${entry.element} "${entry.text}" `
+  + `${entry.width}x${entry.height} in ${entry.parent} ${entry.parentWidth}x${entry.parentHeight}`
+  + `${entry.clippedBy ? ` clipped by ${entry.clippedBy}` : ""}`).join("  |  ");
+
 try {
   await viewport(1440, 900);
   await learningProgressJourney();
@@ -826,6 +1027,10 @@ try {
     benchTop.full === true, JSON.stringify({ full: benchTop.full, surfaceHeight: benchTop.surfaceHeight }));
   check("there is wall above the counter, not counter to the ceiling",
     benchTop.wall > 24, `${benchTop.wall}px of wall`);
+  // GUI-121, first vantage point. The desktop bench, the shelf pane and the
+  // journal are all mounted here: one reading covers the three surfaces the
+  // app opens on.
+  await sweepLegibility("bench, cabinet and journal", "1440 px");
   // The precondition, said out loud: an empty bench proves nothing about
   // what standing on it looks like.
   check("the bench has glassware to stand on it", (benchTop.stood ?? []).length > 0,
@@ -1197,6 +1402,7 @@ try {
   check("the restored panel renders its body again", restored.width > 120, `${Math.round(restored.width)}px`);
 
   check("the periodic table opens from the bench", await openPeriodicTable());
+  await sweepLegibility("periodic table", "1440 px");
   const labTable = JSON.parse(await periodicAudit());
   check("the default table keeps Fe, Cu, and Zn", ["Fe", "Cu", "Zn"].every((symbol) => labTable.symbols.includes(symbol)));
   check("the default table omits hazardous and synthetic identities",
@@ -1250,6 +1456,7 @@ try {
   await page.evaluate(`document.querySelector('dialog.provenance-drawer button.icon-close')?.click()`);
 
   check("the equipment cupboard opens from the bench", await openCupboard());
+  await sweepLegibility("equipment cupboard", "1440 px");
   const cupboard = JSON.parse(await cupboardAudit());
   // Five shelves since GUI-103: measure, heat & cool, prepare & convert,
   // contain & connect, separate. `drive` was folded into its neighbours and
@@ -1601,12 +1808,14 @@ try {
   check("320 px vessels rest on the work surface",
     (narrowTop.floating ?? []).length === 0 && (narrowTop.stood ?? []).length > 0,
     JSON.stringify(narrowTop.stood ?? []));
+  await sweepLegibility("bench", "320 px");
   /* GUI-115 at 320 px, where the cupboard goes full-screen. The tile's
    * own 7.6rem minimum is what fixes the column count here — the phone
    * override that used to set it is gone — so this is the check that
    * notices if that minimum ever stops yielding two columns: three would
    * leave the name plate about 30 px of text beside its 44 px corner. */
   check("the equipment cupboard opens at 320 px", await openCupboard());
+  await sweepLegibility("equipment cupboard", "320 px");
   const narrowCupboard = JSON.parse(await cupboardAudit());
   check("320 px cupboard stays inside the viewport",
     narrowCupboard.viewportOverflow <= 1, `${narrowCupboard.viewportOverflow}px`);
@@ -1666,10 +1875,12 @@ try {
     narrowFilters.clipped?.length === 0, `${(narrowFilters.clipped ?? []).join(", ")} in a ${narrowFilters.railHeight}px rail`);
   check("320 px phase chips keep 44 px touch targets",
     narrowFilters.small?.length === 0, (narrowFilters.small ?? []).join(", "));
+  await sweepLegibility("cabinet", "320 px");
   const narrowJournal = await chooseMobilePane(2);
   check("320 px workspace stays inside the page", narrowBench.bodyOverflow <= 1 && Boolean(narrowBench.bench), `${narrowBench.bodyOverflow}px`);
   check("320 px cabinet stays inside the page", narrowShelf.bodyOverflow <= 1 && Boolean(narrowShelf.cabinet), `${narrowShelf.bodyOverflow}px`);
   check("320 px journal stays inside the page", narrowJournal.bodyOverflow <= 1 && Boolean(narrowJournal.journal), `${narrowJournal.bodyOverflow}px`);
+  await sweepLegibility("journal", "320 px");
 
   /* -- GUI-107: the journal's chrome is ONE row, and it still works -------
    *
@@ -2026,11 +2237,26 @@ try {
   check("200% text zoom keeps the three surfaces separate", Boolean(zoomed.cabinet && zoomed.bench && zoomed.journal)
     && zoomed.cabinet.right <= zoomed.bench.left + 1 && zoomed.bench.right <= zoomed.journal.left + 1);
   check("200% text zoom keeps controls named", zoomed.unnamed === 0, `${zoomed.unnamed} unnamed`);
+  // GUI-121. From here to the `#ux-text-zoom` removal below, every reading
+  // is a ZOOMED one, and each is labelled so that no future table of
+  // measurements can sit inside this bracket without saying which side of
+  // it the numbers came from.
+  await sweepLegibility("bench, cabinet and journal", "200% text zoom");
 
   await page.cdp.send("Emulation.setEmulatedMedia", {
     media: "screen", features: [{ name: "prefers-reduced-motion", value: "reduce" }],
   }, page.sessionId);
+  // GUI-121. The cupboard and the catalogue are dialogs, so they are only
+  // measurable while open: the zoomed reading of them has to be driven, not
+  // waited for. Stated as its own named check — a sweep of a cupboard that
+  // never opened would report a clean surface.
+  check("the equipment cupboard opens at 200% text zoom", await openCupboard());
+  await sweepLegibility("equipment cupboard", "200% text zoom");
+  await page.evaluate(`document.querySelector('dialog.cupboard button.icon-close')?.click();
+    document.querySelector('dialog.cupboard')?.close();`);
+  await settle();
   check("the periodic table opens with reduced motion", await openPeriodicTable());
+  await sweepLegibility("periodic table", "200% text zoom");
   const reducedTable = JSON.parse(await periodicAudit());
   check("reduced motion leaves no running periodic-table animation", reducedTable.animations === 0, `${reducedTable.animations} animations`);
   await page.evaluate(`document.querySelector('dialog.table-panel button.icon-close')?.click()`);
@@ -2331,6 +2557,10 @@ try {
         + `body ${journalShare.cardHeight - journalShare.summaryHeight}px)`);
     check("a long result scrolls inside the card", journalShare.bodyScrolls === "auto",
       journalShare.bodyScrolls);
+    // GUI-121 on GUI-120's own surface: the card is open, on screen, and
+    // under 200% text zoom. This is the reading that reports 0 px for
+    // `.operation` against the pre-GUI-120 card.
+    await sweepLegibility("latest-result card", "200% text zoom");
   }
 
   const dialogOpened = JSON.parse(await page.evaluate(`(() => {
@@ -2347,6 +2577,7 @@ try {
   check("a vessel holding something opens the remove dialog with a waste exit",
     dialogOpened.toggled && dialog.open && dialog.waste,
     JSON.stringify({ ...dialogOpened, ...dialog }));
+  if (dialog.open) await sweepLegibility("remove-vessel dialog", "200% text zoom");
 
   if (dialog.waste) {
     await page.evaluate(`document.querySelector('button.waste')?.click()`);
@@ -2419,6 +2650,8 @@ try {
   check("the flame panel opens on its flame controls, with an energy-source switch",
     before.panel && before.fields.includes("entry") && before.fields.includes("flame") && !before.typed,
     JSON.stringify(before));
+  // Below the `#ux-text-zoom` removal: an UNZOOMED reading, and it says so.
+  await sweepLegibility("instrument panel", "1440 px");
 
   // Svelte 5 binds a select through its `change` event, so setting
   // `.value` alone changes the widget and tells the component nothing.
@@ -2510,6 +2743,40 @@ try {
   check("and typing an energy throws nothing", ran.errors.length === 0, ran.errors.join(" | "));
   await page.evaluate(`document.querySelector('section.apparatus button.icon-close')?.click()`);
   await settle();
+
+  /* -- GUI-121: the verdict of the legibility sweep ---------------------
+   *
+   * Preconditions first, each named, because an assertion that passes on
+   * an empty sample is the failure mode this whole check is written
+   * against: a card with no legible content is exactly as tall as a card
+   * with some, and a sweep that read nothing is exactly as green as a
+   * sweep that read everything.
+   */
+  console.log("");
+  console.log(`   ..    legibility sweep: ${legibility.surfaces.length} surfaces, `
+    + `${legibility.surfaces.reduce((total, item) => total + item.sampled, 0)} readable elements, `
+    + `excluded ${JSON.stringify(legibility.excluded)}`);
+  const thinnest = legibility.surfaces.reduce((least, item) =>
+    item.sampled < least.sampled ? item : least, { sampled: Infinity, surface: "none", regime: "none" });
+  check("the legibility sweep ran in both regimes this class of defect lives in",
+    legibility.regimes.has("320 px") && legibility.regimes.has("200% text zoom"),
+    [...legibility.regimes].join(", "));
+  check("the legibility sweep opened every surface it measured",
+    thinnest.sampled >= 8,
+    `${thinnest.surface} at ${thinnest.regime} offered ${thinnest.sampled} elements with text`);
+  check("the legibility sweep saw the app, not a fragment of it",
+    legibility.surfaces.reduce((total, item) => total + item.sampled, 0) >= 400,
+    `${legibility.surfaces.reduce((total, item) => total + item.sampled, 0)} readable elements across `
+      + `${legibility.surfaces.length} surfaces`);
+  // THE assertion. GUI-120's `.operation` was 0 px wide inside a summary
+  // that was the right size, on a card that was the right size, in a pane
+  // that was the right size.
+  check("every element carrying text is painted in a box that text can be read in",
+    legibility.blank.length === 0,
+    `${legibility.blank.length} painted at zero: ${legibilityDetail(legibility.blank)}`);
+  check("and no such box is narrower than a single character of it",
+    legibility.squeezed.length === 0,
+    `${legibility.squeezed.length} squeezed: ${legibilityDetail(legibility.squeezed)}`);
 
   console.log("");
   let servedDoctored = 0;
