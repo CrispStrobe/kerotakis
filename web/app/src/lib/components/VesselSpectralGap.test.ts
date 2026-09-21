@@ -95,9 +95,23 @@ describe("the mark is coverage, not chemistry and not an alarm", () => {
     expect(pattern).not.toMatch(/fill=/);
   });
 
+  /** One CSS rule's declarations, by selector. */
+  const ruleBody = (selector: string): string => {
+    const at = source.indexOf(`${selector} {`);
+    if (at < 0) return "";
+    const open = source.indexOf("{", at);
+    const close = source.indexOf("}", open);
+    return close < 0 ? "" : source.slice(open + 1, close);
+  };
+
   it("takes both hatch strokes from theme tokens, so it reads on every bench", () => {
+    // The rule's BODY, not the bytes right after its brace. The first
+    // version of this assertion required `stroke` to be the opening
+    // declaration, so adding `fill: none` above it — which the hatch
+    // needs — failed a test about theme tokens for a reason that had
+    // nothing to do with theme tokens.
     for (const [name, token] of [["gap-hatch-under", "glass-depth"], ["gap-hatch-over", "glass-specular"]]) {
-      expect(source).toMatch(new RegExp(`\\.${name}\\s*\\{\\s*stroke: var\\(--${token}\\)`));
+      expect(ruleBody(`.${name}`)).toContain(`stroke: var(--${token})`);
     }
   });
 
