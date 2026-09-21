@@ -313,13 +313,22 @@
      its own: a rule on the body is the only part of the card a rule on
      the body can reach.
 
-     What neither bound can do is make the log half the pane. At 371 px
-     the journal's own chrome takes ~73 px and the summary ~119 px, so
-     half for the log would leave the card 112 px — less than its own
-     header. The browser check asks for a third instead, and reports the
-     decomposition so the next person to move that number can see what
-     they are trading. */
-  .result-card { display: flex; flex-direction: column; max-height: 50%; flex: 0 1 auto; min-height: 0; margin: .6rem .65rem 0; border: 1px solid color-mix(in srgb, var(--success) 45%, var(--edge)); border-radius: 14px; color: var(--ink); background: color-mix(in srgb, var(--success) 6%, var(--surface-raised)); overflow: hidden; }
+     What neither bound can do is make the log half the pane. The check now
+     reports the decomposition and it reads, at 371 px of pane:
+
+         journal chrome   88 px   fixed
+         card summary    104 px   fixed
+         card body        44 px   at this cap
+         log             135 px
+
+     Half for the log would leave the card 124 px — barely its own header
+     — so the check asks for a third, and the cap is 40% rather than 50%
+     to deliver it. That trade is deliberate and it is a squeeze: the body
+     scrolls in about two lines. The room is not really the body's to give.
+     **104 px of summary is where this pane went**, and a more compact
+     summary is the change that would buy both the card and the log
+     something. That is GUI-108's sequel and it is not written. */
+  .result-card { display: flex; flex-direction: column; max-height: 40%; flex: 0 1 auto; min-height: 0; margin: .6rem .65rem 0; border: 1px solid color-mix(in srgb, var(--success) 45%, var(--edge)); border-radius: 14px; color: var(--ink); background: color-mix(in srgb, var(--success) 6%, var(--surface-raised)); overflow: hidden; }
   summary { min-height: 3.25rem; display: grid; grid-template-columns: 32px minmax(0, 1fr) auto auto; align-items: center; gap: .55rem; padding: .55rem .65rem; cursor: pointer; list-style: none; }
   /* Anchored so the menu hangs off the icon rather than widening the card. */
   .header-actions { position: relative; display: flex; align-items: center; gap: .2rem; }
