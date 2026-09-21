@@ -585,8 +585,10 @@ pub fn export_current_registry() -> Result<RegistryDocument, String> {
     // without being added here would vanish from the generated document.
     const REVIEWED_PARAMETER_SOURCES: &[&str] = &[
         "literature/hartley-campbell-iodine-water",
-        "literature/melcher-silver-chloride-barium-sulphate-calcium-sulphate-1910",
-        "literature/bates-bower-smith-calcium-hydroxide-1956",
+        "literature/melcher-silver-chloride-and-barium-sulphate-1910",
+        "literature/almkvist-metal-hydroxide-solubility-1918",
+        "literature/pechet-cupric-oxide-solubility-1940",
+        "literature/mcgee-hostetler-brucite-1977",
     ];
     for record in reviewed
         .identities

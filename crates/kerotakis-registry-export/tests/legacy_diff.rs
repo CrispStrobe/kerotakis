@@ -780,11 +780,11 @@ fn compare_model_parameters(
         Some(value) => {
             let solubility = parameter(document, &format!("aqueous-solubility/{}", species.key));
             match reviewed_solubility(species.key) {
-                Some(reviewed) => assert_measured_solubility(
+                Some(reviewed) => assert_reviewed_solubility(
                     &solubility.quantity,
                     value,
                     phase,
-                    reviewed.source,
+                    &reviewed,
                     reviewed.cold_k,
                 ),
                 None => assert_imported_quantity(
@@ -811,7 +811,7 @@ fn compare_model_parameters(
             document,
             &format!("aqueous-solubility-100c/{}", species.key),
         );
-        assert_measured_solubility(&record.quantity, hot, phase, reviewed.source, 373.15);
+        assert_reviewed_solubility(&record.quantity, hot, phase, &reviewed, 373.15);
     }
     match species.colour {
         Some(colour) => {
@@ -870,33 +870,45 @@ fn compare_model_parameters(
 struct ReviewedSolubility {
     source: &'static str,
     cold_k: f64,
+    /// `false` where the shipped number is arithmetic on top of the cited
+    /// experiment rather than the experiment's own figure — brucite, whose
+    /// source publishes a solubility PRODUCT. That record must claim
+    /// `derived`, and a regeneration that promoted it to `measured` would
+    /// be claiming somebody weighed a number nobody weighed.
+    measured: bool,
 }
 
-const MELCHER_1910: &str =
-    "literature/melcher-silver-chloride-barium-sulphate-calcium-sulphate-1910";
-const BATES_1956: &str = "literature/bates-bower-smith-calcium-hydroxide-1956";
+const MELCHER_1910: &str = "literature/melcher-silver-chloride-and-barium-sulphate-1910";
+const ALMKVIST_1918: &str = "literature/almkvist-metal-hydroxide-solubility-1918";
+const PECHET_1940: &str = "literature/pechet-cupric-oxide-solubility-1940";
+const MCGEE_1977: &str = "literature/mcgee-hostetler-brucite-1977";
 
 fn reviewed_solubility(key: &str) -> Option<ReviewedSolubility> {
-    let (source, cold_k) = match key {
-        "I2" => ("literature/hartley-campbell-iodine-water", 298.15),
-        "AgCl" => (MELCHER_1910, 291.15),
-        "BaSO4" => (MELCHER_1910, 298.15),
-        "gypsum" => (MELCHER_1910, 291.15),
-        "Ca(OH)2" => (BATES_1956, 293.15),
+    let (source, cold_k, measured) = match key {
+        "I2" => ("literature/hartley-campbell-iodine-water", 298.15, true),
+        "AgCl" => (MELCHER_1910, 291.15, true),
+        "BaSO4" => (MELCHER_1910, 298.15, true),
+        "Fe(OH)3" => (ALMKVIST_1918, 293.15, true),
+        "CuO" => (PECHET_1940, 298.15, true),
+        "Mg(OH)2" => (MCGEE_1977, 298.15, false),
         _ => return None,
     };
-    Some(ReviewedSolubility { source, cold_k })
+    Some(ReviewedSolubility {
+        source,
+        cold_k,
+        measured,
+    })
 }
 
 /// `measured` is a claim about the people who did the experiment, not about
 /// this project, and the band stays open because nobody has read any of
 /// these papers for one — which is why this pairs `Measured` with
 /// `Unestablished` rather than with `NotReported`.
-fn assert_measured_solubility(
+fn assert_reviewed_solubility(
     quantity: &NumericRecord,
     value: f64,
     phase: Phase,
-    source_id: &str,
+    reviewed: &ReviewedSolubility,
     temperature_k: f64,
 ) {
     assert_eq!(quantity.value, value);
@@ -913,8 +925,12 @@ fn assert_measured_solubility(
         (temperature_k, temperature_k)
     );
     assert_eq!(quantity.uncertainty, Uncertainty::Unestablished);
-    assert_eq!(quantity.source_id, source_id);
-    assert!(matches!(quantity.method, Method::Measured(_)));
+    assert_eq!(quantity.source_id, reviewed.source);
+    if reviewed.measured {
+        assert!(matches!(quantity.method, Method::Measured(_)));
+    } else {
+        assert!(matches!(quantity.method, Method::Derived(_)));
+    }
 }
 
 fn assert_missing_parameter(document: &RegistryDocument, id: &str) {
@@ -1118,7 +1134,7 @@ fn the_atomic_weight_table_reaches_the_molar_masses_it_is_said_to_reach() {
 
 /// `measured` is no longer empty, and it is empty of everything else.
 ///
-/// Nine records in the registry have a source that is itself the experiment.
+/// Seven records in the registry have a source that is itself the experiment.
 /// Asserting the exact set keeps two opposite mistakes visible: a record
 /// quietly claiming a measurement it cannot support, and one of these losing
 /// the claim in a regeneration.
@@ -1128,14 +1144,18 @@ fn the_atomic_weight_table_reaches_the_molar_masses_it_is_said_to_reach() {
 /// Stimson and Ginnings's 1939 calorimetry rather than a table repeating it,
 /// which is the line this field draws.
 ///
-/// Seven more arrived on 2026-09-21 with the precipitating solids' reviewed
-/// solubilities: Melcher's 1910 conductometry for silver chloride, barium
-/// sulphate and gypsum — one bomb and one method, which is why three solids
-/// share a source — and Bates, Bower and Smith's 1956 titrations for
-/// calcium hydroxide. Three of them are 100 °C points from the same tables
-/// as their cold twins.
+/// Five more arrived on 2026-09-21 with the sparingly soluble solids'
+/// reviewed solubilities: Melcher's 1910 conductometry for silver chloride
+/// and barium sulphate (two of the five are that paper's 100 °C points),
+/// Almkvist's 1918 colorimetry for ferric hydroxide, and Pechet's 1940
+/// dialysis for cupric oxide.
+///
+/// BRUCITE IS DELIBERATELY NOT HERE. Its source publishes a solubility
+/// product, so its record claims `derived` and `reviewed_solubility` says
+/// so; a regeneration that promoted it would be claiming somebody weighed
+/// a number nobody weighed, and this list is where that would show.
 #[test]
-fn nine_records_claim_their_source_is_the_measurement() {
+fn seven_records_claim_their_source_is_the_measurement() {
     let document = export_current_registry().expect("export current registry");
     let measured: Vec<&str> = document
         .model_parameters
@@ -1155,19 +1175,18 @@ fn nine_records_claim_their_source_is_the_measurement() {
         vec![
             "aqueous-solubility/AgCl",
             "aqueous-solubility-100c/AgCl",
-            "aqueous-solubility/Ca(OH)2",
-            "aqueous-solubility/gypsum",
-            "aqueous-solubility-100c/gypsum",
+            "aqueous-solubility/CuO",
             "aqueous-solubility/I2",
+            "aqueous-solubility/Fe(OH)3",
             "aqueous-solubility/BaSO4",
             "aqueous-solubility-100c/BaSO4",
             "enthalpy-of-vaporisation/water",
         ],
         "the registry's measured records are the iodine solubility Hartley \
-         and Campbell determined in 1908, the four precipitating solids \
-         Melcher determined in 1910 and Bates, Bower and Smith in 1956, and \
-         the heat of vaporization Osborne, Stimson and Ginnings determined \
-         in 1939"
+         and Campbell determined in 1908, the sparingly soluble solids \
+         Melcher determined in 1910, Almkvist in 1918 and Pechet in 1940, \
+         and the heat of vaporization Osborne, Stimson and Ginnings \
+         determined in 1939"
     );
 }
 
