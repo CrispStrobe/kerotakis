@@ -3474,7 +3474,7 @@ evolved CO₂ and half a mole of it must not look the same.
   by rem-sized furniture beside it, in a container that is itself
   perfectly healthy**, invisible to every geometric assertion already
   written. This item is the sweep for it, the general assertion it
-  produced, and the one other live instance it found.
+  produced, and the three live instances it found.
 
   ### The assertion
 
@@ -3556,7 +3556,7 @@ evolved CO₂ and half a mole of it must not look the same.
 
   ### What the sweep found
 
-  **One live instance, and it is GUI-120's defect one component over.**
+  **The first instance is GUI-120's defect one component over.**
   At 200% text zoom the journal's own heading row gave its title nothing:
   `strong.pane-title` measured **0 × 33 px** with *"Laborbuch"* in it, and
   `.panel-collapse` was pushed outside the `aside` and clipped away by its
@@ -3579,9 +3579,53 @@ evolved CO₂ and half a mole of it must not look the same.
   the row changes at 100%**; at 200% the furniture comes to about 247 px
   of 331 and the title is painted again.
 
-  **Nothing else was blank or squeezed** once the scroller rule, the
-  inline visually-hidden idiom and the content-relative squeeze bar were
-  in. Every other candidate the first run produced was one of those three.
+  **Two more instances, of a second shape of the same mechanism.** Once
+  the scroller rule was in, the sweep read clean at 1440 px and at 320 px
+  and still reported eight elements at zero in *every* 200% text-zoom
+  reading. Neither is reachable by scrolling: both lie below the bottom
+  of a pane whose overflow is hidden.
+
+  - **The bench's control strip.** `.bench` had `min-height: 24rem`,
+    which is **768 px** at a 32 px root. The bench pane has about 860, so
+    roughly thirty were left for everything below the stage and the
+    `VesselActionDock` was pushed clean out of `.bench-pane` and clipped
+    away by its `overflow: hidden`. The selected vessel's name, its
+    volume and temperature, its contents, and the *show all*,
+    *measurement tools* and *equipment cabinet* buttons were not painted
+    at all. That is a **layout** minimum — how much counter you need in
+    order to stand glassware on it — not prose, so it is 384 px, which is
+    what 24rem is at a 16 px root. Nothing changes at 100%.
+  - **The cabinet's count.** `.tally` was a shrinkable flex item beside
+    the group list, and at 200% zoom *"323 von 323 Stoffen"* was squeezed
+    to **286 × 0** below the bottom of `.shelf-pane`. `flex: none`: the
+    list beside it is the thing with a scroller and `min-height: 0`, so
+    it is the one that should absorb the squeeze.
+
+  Nothing else was blank or squeezed. Every other candidate the first run
+  produced was a scrolled-out row, the inline visually-hidden idiom, or a
+  short string measured against an absolute floor.
+
+  ### It fails on the defect, not merely passes on the fix
+
+  Verified, rather than asserted, on a branch carrying this tree with
+  `LatestResultCard.svelte` reverted to `aefc0502^` — the card exactly as
+  GUI-120 found it. The sweep reports:
+
+  ```
+  strong.operation "Temperaturänderung" visible 0x41.8 of own 0x41.8 (em 28.8) in span. 0x71.9
+  button.icon-provenance "⌖" visible 0x28 of own 28x28 clipped by details.result-card
+  button.icon-export "⤓"    visible 0x28 of own 28x28 clipped by details.result-card
+  button.icon-close "×"     visible 0x28 of own 28x28 clipped by details.result-card
+  ```
+
+  — the operation name at zero width inside a `minmax(0, 1fr)` track that
+  is itself at zero, in a summary that is the right size, on a card that
+  is the right size, in a pane that is the right size. GUI-120's own four
+  checks fail beside it with the numbers they were written for (*summary
+  104px of 64px*, *0px painting "Temperaturänderung"*, *214px of the card
+  clipped*). The sweep also finds three things GUI-120's checks did not:
+  the card's own export, provenance and close icons, pushed outside the
+  card and clipped away.
 
   ### Known limit, stated rather than discovered later
 
