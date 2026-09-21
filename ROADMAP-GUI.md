@@ -3601,6 +3601,13 @@ evolved CO₂ and half a mole of it must not look the same.
     list beside it is the thing with a scroller and `min-height: 0`, so
     it is the one that should absorb the squeeze.
 
+  Neither is fully closed, and the part that is left is **GUI-122** below
+  rather than more of this item: the bench stage's minimum bought the
+  dock about 45 px and recovered its first button, and `flex: none`
+  stopped the tally being the item that gives way, but both panes are
+  still taller than themselves at 200% zoom and the arithmetic that
+  remains is a design decision rather than a rule.
+
   Nothing else was blank or squeezed. Every other candidate the first run
   produced was a scrolled-out row, the inline visually-hidden idiom, or a
   short string measured against an absolute floor.
@@ -3636,6 +3643,48 @@ evolved CO₂ and half a mole of it must not look the same.
   thing this assertion does not yet see. Nor does it model `clip-path`,
   transforms or a parent's `text-overflow` beyond the box arithmetic
   above.
+
+## A pane taller than itself at 200% text zoom (GUI-122)
+
+- [ ] **GUI-122 — What falls out of the bottom of a pane is not below the
+  fold; it is gone.** GUI-121's sweep left two instances standing, and
+  they are one finding wearing two hats. It is a *different shape* from
+  the rem-furniture defects GUI-121 closed: there, a fixed box beside the
+  text took the room; here, a pane's whole column of children is taller
+  than the pane at 200% text zoom, the pane clips with `overflow: hidden`,
+  and the part that falls out sits under **no scroller at all**. Not one
+  gesture away — unreachable.
+
+  | what is not painted | under | selector |
+  | --- | --- | --- |
+  | the selected vessel's name, volume, temperature and contents | `div.bench-pane` | `span.selection-copy` |
+  | *measurement tools*, *equipment cabinet* | `div.bench-pane` | `div.more-actions` |
+  | *"323 von 323 Stoffen"* | `nav.shelf-pane` | `p.tally` |
+
+  GUI-121 took the two rules that were plainly wrong: the bench stage's
+  `min-height` came down from 24rem (**768 px** at a 32 px root) to
+  384 px, which bought the dock about 45 px and recovered its first
+  button, and `.tally` became `flex: none` so it is no longer the item
+  that gives way. Roughly **120 px** is still missing from the bench
+  pane's column, and it is spread across four components — the equation
+  block, the stage, the `VesselActionDock` and the command bar — none of
+  which is obviously the one that should yield.
+
+  **That is the question this item exists to answer, and it is a design
+  decision rather than a rule**: does the pane itself become a scroller,
+  does the stage collapse below its minimum when the column is short,
+  does the dock become a sheet that the bench can cover? Whichever, it
+  changes how the bench reads at every size, which is why GUI-121 did not
+  take it.
+
+  **It is guarded in the meantime, from both directions.** `KNOWN_OPEN`
+  in `tools/test-ux-quality.mjs` names these three by precise selector
+  and regime — never by their text — so a *new* zero anywhere else still
+  fails the sweep. And a second check asserts that every entry in the
+  list **still reproduces**, so the day this item lands the suite fails
+  until the list is deleted. An exception cannot outlive the defect it
+  names.
+
 
 ## Completed GUI tasks
 
