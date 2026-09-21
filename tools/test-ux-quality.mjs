@@ -892,7 +892,7 @@ const legibility = {
   blank: [],
   squeezed: [],
   regimes: new Set(),
-  excluded: { ariaHidden: 0, srOnly: 0, noBox: 0, invisible: 0, nested: 0 },
+  excluded: { ariaHidden: 0, srOnly: 0, srIdiom: 0, noBox: 0, invisible: 0, nested: 0 },
 };
 
 /** One measurement of one open surface, in whichever regime the caller is in.
@@ -906,7 +906,7 @@ const legibility = {
 const legibilityProbe = (surface, regime) => page.evaluate(`(() => {
   const SKIP = new Set(["SCRIPT", "STYLE", "TEMPLATE", "OPTION", "NOSCRIPT", "SELECT", "TITLE"]);
   const found = { sampled: 0, blank: [], squeezed: [],
-    excluded: { ariaHidden: 0, srOnly: 0, noBox: 0, invisible: 0, nested: 0 } };
+    excluded: { ariaHidden: 0, srOnly: 0, srIdiom: 0, noBox: 0, invisible: 0, nested: 0 } };
   const reported = [];
   const describe = (el) => {
     const classes = typeof el.className === "string"
@@ -930,21 +930,35 @@ const legibilityProbe = (surface, regime) => page.evaluate(`(() => {
     }
     return false;
   };
-  // The box a reader can actually see, which is the element's own box cut
-  // down by every ancestor clip it sits under. Only hidden/clip: auto and
-  // scroll are reachable, and the element's own overflow is in the walk
-  // because the .operation rule GUI-120 found clipped ITSELF to a
-  // zero-width track. Nothing in this script may contain a backtick:
-  // it is inside the template literal that carries it to the page.
+  // The box a reader can actually see: the element's own box, cut down by
+  // every ancestor clip BETWEEN it and the first ancestor that scrolls.
+  // The element's own overflow never clips itself, so the walk starts at
+  // the parent.
+  //
+  // The scroller rule is the whole difference between a defect and a
+  // list. overflow auto and scroll are not clips: what lies outside them
+  // is one gesture from the reader. And once an axis has a scroller, no
+  // ancestor ABOVE it may clip in that axis either -- otherwise a row
+  // below the fold of the cabinet's own .groups scroller is cut to zero
+  // height by the .shelf-pane overflow: hidden three levels up, and every
+  // bottle the reader has not scrolled to yet is reported as invisible.
+  // That reading is what the first run of this sweep produced: 1117 of
+  // them on one surface.
+  //
+  // Nothing in this script may contain a backtick: it is inside the
+  // template literal that carries it to the page.
   const visibleBox = (el) => {
     const rect = el.getBoundingClientRect();
     let left = rect.left, top = rect.top, right = rect.right, bottom = rect.bottom;
     let clippedBy = "";
-    let node = el;
+    let scrollsX = false, scrollsY = false;
+    let node = el.parentElement;
     while (node && node !== document.documentElement) {
       const style = getComputedStyle(node);
-      const clipsX = style.overflowX === "hidden" || style.overflowX === "clip";
-      const clipsY = style.overflowY === "hidden" || style.overflowY === "clip";
+      const reachableX = style.overflowX === "auto" || style.overflowX === "scroll";
+      const reachableY = style.overflowY === "auto" || style.overflowY === "scroll";
+      const clipsX = !scrollsX && (style.overflowX === "hidden" || style.overflowX === "clip");
+      const clipsY = !scrollsY && (style.overflowY === "hidden" || style.overflowY === "clip");
       if (clipsX || clipsY) {
         const box = node.getBoundingClientRect();
         const was = left + "/" + top + "/" + right + "/" + bottom;
@@ -952,6 +966,8 @@ const legibilityProbe = (surface, regime) => page.evaluate(`(() => {
         if (clipsY) { top = Math.max(top, box.top); bottom = Math.min(bottom, box.bottom); }
         if (!clippedBy && was !== left + "/" + top + "/" + right + "/" + bottom) clippedBy = describe(node);
       }
+      if (reachableX) scrollsX = true;
+      if (reachableY) scrollsY = true;
       node = node.parentElement;
     }
     return { own: rect, width: Math.max(0, right - left), height: Math.max(0, bottom - top), clippedBy };
@@ -964,15 +980,34 @@ const legibilityProbe = (surface, regime) => page.evaluate(`(() => {
     if (!text) continue;
     if (el.closest('[aria-hidden="true"]')) { found.excluded.ariaHidden += 1; continue; }
     if (screenReaderOnly(el)) { found.excluded.srOnly += 1; continue; }
+    // The same intent written inline rather than as a class: a 1 px
+    // absolutely positioned box with clip-path: inset(50%). Vessel's
+    // .observation-status is one, and it is a live region -- announced,
+    // never painted, exactly as designed.
+    const own = el.getBoundingClientRect();
+    const style = getComputedStyle(el);
+    if (own.width <= 2 && own.height <= 2 && style.position === "absolute"
+      && (style.clipPath !== "none" || style.overflow === "hidden")) {
+      found.excluded.srIdiom += 1; continue;
+    }
     if (el.getClientRects().length === 0) { found.excluded.noBox += 1; continue; }
     if (!el.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true })) {
       found.excluded.invisible += 1; continue;
     }
     found.sampled += 1;
     const box = visibleBox(el);
-    const em = parseFloat(getComputedStyle(el).fontSize) || 16;
+    const em = parseFloat(style.fontSize) || 16;
     const blank = box.width <= 0.5 || box.height <= 0.5;
-    const squeezed = !blank && ((box.width < em && text.length > 1) || box.height < em * 0.5);
+    // Squeezed is measured against what the text NEEDS, not against an
+    // absolute floor. A 22 px box holding a two-letter element symbol at
+    // a 23 px font paints all of it and is not squeezed; a 20 px box
+    // holding 200 px of German compound noun paints not one character of
+    // it and is. So the bar is the SMALLER of one em and the content's
+    // own width -- a short string is allowed to be short.
+    const needsWidth = Math.min(em, el.scrollWidth);
+    const needsHeight = Math.min(em * 0.5, el.scrollHeight);
+    const squeezed = !blank
+      && ((box.width + 0.5 < needsWidth && text.length > 1) || box.height + 0.5 < needsHeight);
     if (!blank && !squeezed) continue;
     if (reported.some((other) => other.contains(el))) { found.excluded.nested += 1; continue; }
     reported.push(el);
@@ -2265,7 +2300,7 @@ try {
   // GUI-121. The cupboard and the catalogue are dialogs, so they are only
   // measurable while open: the zoomed reading of them has to be driven, not
   // waited for. Stated as its own named check — a sweep of a cupboard that
-  // never opened would report a clean surface.
+  // never opened reports the BENCH behind it, cleanly and wrongly.
   check("the equipment cupboard opens at 200% text zoom", await openCupboard());
   await sweepLegibility("equipment cupboard", "200% text zoom");
   await page.evaluate(`document.querySelector('dialog.cupboard button.icon-close')?.click();
@@ -2779,8 +2814,13 @@ try {
   check("the legibility sweep ran in both regimes this class of defect lives in",
     legibility.regimes.has("320 px") && legibility.regimes.has("200% text zoom"),
     [...legibility.regimes].join(", "));
-  check("the legibility sweep opened every surface it measured",
-    thinnest.sampled >= 8,
+  // Not a size assertion: a surface that never opened reports the page
+  // BEHIND it, which is large rather than small. What this catches is a
+  // reading taken of nothing at all -- a navigation that went somewhere
+  // blank, a dialog that ate the document. The 320 px journal is the
+  // floor in practice, with seven strings on it.
+  check("every surface the sweep read had text on it",
+    thinnest.sampled >= 3,
     `${thinnest.surface} at ${thinnest.regime} offered ${thinnest.sampled} elements with text`);
   check("the legibility sweep saw the app, not a fragment of it",
     legibility.surfaces.reduce((total, item) => total + item.sampled, 0) >= 400,
