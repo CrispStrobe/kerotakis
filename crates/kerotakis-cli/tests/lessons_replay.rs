@@ -81,6 +81,69 @@ fn prepared_kids_mechanism_lessons_replay_the_computed_events() {
     }
 }
 
+/// A LESSON'S OBSERVATION MAY NOT SILENTLY DISAPPEAR.
+///
+/// `every_lesson_replays_and_computes_chemistry` below asks only that a
+/// lesson still runs and still says something. That is the guard PR #699
+/// walked past: giving `Ca(OH)2` its measured solubility (Bates, Bower &
+/// Smith 1956, 0.15633 g/100 mL) made `limewater.lab` print a *better*
+/// sentence — "0.0100 mol slaked lime dissolved" in place of an apology —
+/// and in the same step emptied the lesson of the only thing it exists to
+/// show. Every replay guard stayed green. A better number produced a
+/// worse lesson and nothing failed.
+///
+/// So the observation itself is pinned here, in the words a learner reads
+/// rather than in a solver's internals. `limewater.lab` says what it is
+/// for in its own intro line: *the first dose turns limewater milky;
+/// genuine excess clears it again.* Both halves are asserted, because
+/// either one alone can be had for the wrong reason — a beaker of
+/// undissolved lime is cloudy too, and a beaker with no alkali in it is
+/// clear at both doses.
+///
+/// This is the shape the next lesson-observation guard should take: name
+/// the observable, read it out of the rendered transcript, and say in the
+/// failure message what the lesson was for.
+#[test]
+fn limewater_goes_milky_on_the_first_co2_dose_and_clears_on_excess() {
+    let lesson = lessons_dir().join("limewater.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+
+    // Calcium carbonate is what the milkiness IS. Assert the mechanism as
+    // well as the appearance: they can only both be wrong together.
+    assert!(
+        out.contains("calcium carbonate"),
+        "limewater never formed calcium carbonate \u{2014} the milkiness has no \
+         substance behind it:\n{out}"
+    );
+
+    let observations: Vec<&str> = out
+        .lines()
+        .filter(|line| line.contains("The liquid") || line.contains("cloudy"))
+        .collect();
+    assert!(
+        observations.len() >= 2,
+        "limewater is a lesson about what the liquid LOOKS like and the \
+         transcript describes it {} time(s):\n{out}",
+        observations.len()
+    );
+    assert!(
+        observations[0].contains("cloudy"),
+        "the first carbon dioxide dose must turn limewater milky \u{2014} that is \
+         the whole observation. It read: {}\n\n{out}",
+        observations[0]
+    );
+    assert!(
+        observations
+            .last()
+            .expect("at least two observations")
+            .contains("clear"),
+        "genuine excess carbon dioxide must clear limewater again. It read: \
+         {}\n\n{out}",
+        observations.last().expect("at least two observations")
+    );
+}
+
 #[test]
 fn invisible_ink_requires_drying_before_the_mark_browns() {
     let lesson = lessons_dir().join("invisible-ink-boundary.lab");

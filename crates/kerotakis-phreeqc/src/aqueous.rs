@@ -1827,7 +1827,54 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
                 for (el, _) in els {
                     note_element(el);
                 }
-                if p.phase == Phase::Solid {
+                // A CONDENSED portion of a mineral is posed as its phase
+                // whichever side of the bench's own solid/aqueous line it
+                // is sitting on.
+                //
+                // Two mechanisms bound the same dissolution and they used
+                // to collide here. `kerotakis_core::solve::saturation_moves`
+                // reads the registry's curated `aqueous_solubility_g_per_100_ml`
+                // and moves the solid into the aqueous compartment as an
+                // UNDISSOCIATED portion of itself; the `Mineral` role says
+                // the routed database spells this solid and its saturation
+                // index will do the bounding. Posing only the part the
+                // bench had left as `Phase::Solid` meant the part it had
+                // moved took the other branch — entered as ELEMENT TOTALS,
+                // with no phase for the solver to dissolve or precipitate.
+                //
+                // That is not a smaller version of the same claim, it is a
+                // different one, and the difference is what the formula
+                // drops. `contribution_from_counts` deliberately discards
+                // hydroxide pairs and acid protons because `pH charge`
+                // recovers them from a SOLUTION — but portlandite's
+                // elements are `[(Ca, 1)]`, so an aqueous portion of
+                // slaked lime entered 0.01 mol of calcium and NO base,
+                // while the same portion posed as `Portlandite` dissolves
+                // with its two hydroxides and buffers the solution. Below
+                // about 2e-4 mol/L the moved part is negligible and nobody
+                // noticed (chalk, sulfur and quartz all sit there). Above
+                // it, giving `Ca(OH)2` its measured solubility emptied
+                // `lessons/limewater.lab` of the one thing it exists to
+                // show: the liquid read clear after both CO2 doses,
+                // because there was no alkali left to make calcite out of.
+                //
+                // **Which path defers to which.** The saturation index,
+                // every time, where a routed database has one. A curated
+                // g/100 mL is one measurement at one temperature in pure
+                // water; a log K reproduces that measurement AND answers
+                // in the solution the vessel actually holds — common ion,
+                // pH, ionic strength. So the bench move becomes what it
+                // should always have been for these solids: bookkeeping
+                // about where the portion is standing, with no power over
+                // what is posed. `saturation_moves` is left free to keep
+                // bounding the solids no database spells, which is the
+                // case it was written for and the only one where it is
+                // the best answer available.
+                //
+                // Phase::Liquid keeps the old branch: a melted solid is
+                // neither a mineral assemblage nor, strictly, dissolved,
+                // and nothing here is evidence about it either way.
+                if matches!(p.phase, Phase::Solid | Phase::Aqueous) {
                     if let Some(entry) = phases.iter_mut().find(|(name, ..)| name == phase) {
                         entry.1 += p.moles.0;
                     } else {
@@ -4881,12 +4928,42 @@ impl PhreeqcEquilibrator {
                 // solids: a freely-soluble solid (e.g. KCl) contributes to
                 // the totals, not the phase, and comparing against vessel
                 // solids double-counted its dissolution (and its heat).
-                let before = problem
+                let posed = problem
                     .phases
                     .iter()
                     .find(|(name, ..)| name == phase)
                     .map(|(_, m, _)| *m)
                     .unwrap_or(0.0);
+                // ...minus the part of that input which was NOT standing
+                // as a solid when the step began.
+                //
+                // `partition` now poses a mineral's whole condensed
+                // inventory, the aqueous share included, so that a
+                // bench-level saturation move cannot change the problem
+                // the solver is handed. But a portion the bench had
+                // already moved into solution was announced when it moved
+                // — `Event::Dissolved` from `solve::saturation_moves` —
+                // and measuring this delta against the whole inventory
+                // would announce the same dissolution a second time on
+                // the same step. What this event is for is what the SOLVE
+                // did, so the baseline is what was solid before it ran.
+                //
+                // For every solid the bench did not touch the two numbers
+                // are identical, which is why this reads as the old line
+                // in all but the one case. It is still not the vessel's
+                // solids in general: a freely soluble solid (KCl) has no
+                // `Mineral` role, contributes to the totals rather than
+                // to a phase, and never reaches this branch at all — the
+                // double-counted dissolution the old comment records.
+                let moved_into_solution: f64 = vessel
+                    .contents
+                    .iter()
+                    .filter(|portion| {
+                        portion.species.0 == species && portion.phase == Phase::Aqueous
+                    })
+                    .map(|portion| portion.moles.0)
+                    .sum();
+                let before = (posed - moved_into_solution).max(0.0);
                 if *moles > TRACE {
                     contents.push(Portion {
                         species: SpeciesId::new(species),

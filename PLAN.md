@@ -4176,6 +4176,73 @@ state a sibling `{@const}` reads.
       about the same dried-out vessel, off the same `any(Liquid |
       Aqueous)`, one subsystem over.
 
+### The saturation cap and the equilibrium phase, composed (2026-09-21)
+
+**Found by #699 while sourcing solubilities, fixed here.** Two mechanisms
+bound the same dissolution and they used to collide.
+`kerotakis_core::solve::saturation_moves` reads the registry's curated
+`aqueous_solubility_g_per_100_ml` and moves a solid into the aqueous
+compartment as an **undissociated portion of itself**;
+`DerivedRole::Mineral` says a routed database spells the solid, so
+`partition` poses it in `EQUILIBRIUM_PHASES` and the saturation index does
+the bounding. `partition` folded only the `Phase::Solid` part into the
+phase, and the part the bench had already moved took the other branch —
+entered as **element totals**, with no phase for the solver to dissolve or
+precipitate.
+
+**Why it stayed hidden for so long, and what made it visible.** Below about
+2 × 10⁻⁴ mol/L the moved part is negligible; chalk, sulfur and quartz are
+the only three minerals that carried both a curated solubility and a
+database phase, and all three sit there. `Ca(OH)2` at its measured
+0.15633 g/100 mL is 0.0211 mol/L, so the **whole** 0.01 mol dose of
+`lessons/limewater.lab` moved — and what entered was calcium with no base
+attached, because `contribution_from_counts` drops hydroxide pairs into the
+charge-balance domain that only a posed phase puts back. Portlandite's
+elements are `[(Ca, 1)]`. A limewater with no alkali in it has nothing for
+carbon dioxide to precipitate, and the lesson's only observation went with
+it.
+
+**Which path defers to which, and why.** The saturation index, every time,
+where a routed database has one. A curated g/100 mL is one measurement at
+one temperature in pure water; a log K reproduces that measurement *and*
+answers in the solution the vessel actually holds — common ion, pH, ionic
+strength. So `partition` now poses a mineral's whole **condensed**
+inventory, aqueous share included, and the bench move becomes what it
+should always have been for these solids: bookkeeping about where the
+portion is standing, with no power over what is posed.
+`saturation_moves` keeps bounding the solids no database spells, which is
+the case it was written for and the only one where it is the best answer
+available. `Phase::Liquid` keeps the old branch: a melted solid is neither
+a mineral assemblage nor, strictly, dissolved.
+
+**The second half, which the first half would otherwise have broken.** The
+readback's `Precipitated`/`Dissolved` delta measured against the phase's
+input amount. With the whole condensed inventory now posed, that baseline
+includes a portion the bench had **already announced** when it moved it,
+so the same dissolution would be reported twice on one step. The baseline
+is now the posed amount minus what was standing aqueous before the solve —
+what this event is for is what the SOLVE did. For every solid the bench
+did not touch the two numbers are identical.
+
+**And the guard, because the real defect is that nothing failed.** A better
+number produced a worse lesson and every replay test stayed green:
+`every_lesson_replays_and_computes_chemistry` asks only that a lesson runs
+and says something. `limewater_goes_milky_on_the_first_co2_dose_and_clears_on_excess`
+pins the observation itself, in the words a learner reads, and asserts both
+halves of the lesson's own intro line — because either half alone can be had
+for the wrong reason: a beaker of undissolved lime is cloudy too, and a
+beaker with no alkali is clear at both doses. That is the shape the next
+lesson-observation guard should take.
+
+**`crates/kerotakis-core/tests/golden/lessons.json` is the engine-free
+bench** and its limewater reading is a different claim from the one above:
+its "cloudy" is suspended lime, not calcite, because that bench has no
+calcite route at all. Any change that gives `Ca(OH)2` a solubility moves
+that golden to "clear" and the move is honest there — the lime really does
+all dissolve and the engine-free bench really cannot make the precipitate.
+The lesson's observation lives in the full stack, which is where the guard
+reads it.
+
 ### UI framework
 
 `kerotakis-core` is the invariant either way; the CLI defers the choice
