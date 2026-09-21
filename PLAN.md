@@ -3650,25 +3650,53 @@ Measured against `crates/kerotakis-core/tests/golden/registry.json` and
   three that are also aqueous-database phases.
 - **71 do not.** Among them, by a crude name match against the 319 phases
   in `wateq4f.dat`: Cu(OH)2, CuSO4, antlerite, atacamite, brochantite,
-  chalcanthite, epsomite, gypsum, langite.
+  chalcanthite, epsomite, gypsum, langite. **The nine is not the number
+  — see the crosswalk below: it is 33.**
 
 - [ ] **Give the precipitating solids a reviewed solubility, with a source
-      each.** Two pieces of work, and the second is the one that is easy to
-      miss:
+      each.** Each needs a citation traceable to an original measurement,
+      under the standing rule — any book may be cited, no book may be
+      systematically harvested, and the original source of a value is what
+      gets cited rather than the compilation that repeated it. A value with
+      no reachable source is better left absent than guessed: absent is what
+      the full-count fallback is *for*.
 
-      **The values.** Each needs a citation traceable to an original
-      measurement, under the standing rule — any book may be cited, no book
-      may be systematically harvested, and the original source of a value is
-      what gets cited rather than the compilation that repeated it. A value
-      with no reachable source is better left absent than guessed: absent is
-      what the full-count fallback is *for*.
+      **Which solids, settled.** The gap is the 33 rows listed by
+      `tests/mineral_crosswalk.rs::which_database_phases_have_a_reviewed_solubility`
+      — four of which (Ag, Cu, Pb, Zn) are metals `displacement` owns and
+      are never posed as equilibrium phases, so 29 of them are cases where
+      the cap could bite and does not. `Ca(OH)2`, `Mg(OH)2`, `BaSO4`,
+      `gypsum` and the transcript's own `AgCl` and `MnO2` are the ones a
+      school bench actually grows.
 
-      **The crosswalk, which is a finding in its own right.** The nine above
-      are what a *string* match finds. AgCl and MnO₂ are database phases too
-      — under `Chlorargyrite` and `Pyrolusite`/`Birnessite` — so a registry
-      key and a phase name do not compare by equality, and any honest count
-      of this gap needs a mineral-name crosswalk first. Until that exists,
-      "9" is a floor and not the number.
+**The crosswalk, done — and it was already in the tree.** The finding that
+made this look like two pieces of work was right about the premise and
+wrong about the remedy: a registry key and a phase name genuinely do not
+compare by equality, but this repository has never compared them that way.
+`derived::registry_solid_matching` pairs a database phase with a registry
+solid by *composition and hydrate water*, from the parsed `.dat` files, and
+`saturation_moles` already reaches the registry through it. The crosswalk
+was therefore never missing; it was unreachable and uncounted. It is now
+`derived::mineral_crosswalk()` and `derived::solubility_gap()`, derived
+from the shipped databases on every call the way `index_for` reads them,
+with `crates/kerotakis-phreeqc/tests/mineral_crosswalk.rs` pinning the
+counts against the vendored files (2026-09-21):
+
+- **36** of the 93 registry solids are a phase in at least one shipped
+  database; **57** are not, which is normal — sucrose and polythene are not
+  minerals.
+- Of those 36, **3** carry a reviewed solubility (chalk, sulfur, quartz)
+  and **33** do not. That, not nine, is the gap.
+- **621** of the 683 minerals the three databases define are no registry
+  solid at all. Also normal: the files are natural-water mineralogy.
+- **12** solids are spelled by more than one phase name, and the crosswalk
+  carries every one rather than choosing: MnO₂ is `Pyrolusite`,
+  `Birnessite` *and* `Nsutite`; Zn(OH)₂ is ten names; SiO₂ is seven.
+- Silver chloride is **`Cerargyrite`** in both databases that spell it.
+  `Chlorargyrite` — named above from memory — appears only in `llnl.dat`
+  and the Thermoddem file, neither of which this bench loads. Typing a
+  crosswalk from memory would have missed AgCl entirely, which is the
+  argument for deriving it.
 
 
 The owner pasted a Laborbuch transcript from a vessel that boiled dry

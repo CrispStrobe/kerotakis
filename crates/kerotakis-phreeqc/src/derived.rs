@@ -579,6 +579,161 @@ pub fn phase_coverage() -> PhaseCoverage {
     }
 }
 
+/// One registry solid and every shipped database phase that IS that solid.
+///
+/// A registry key and a database phase name do not compare by equality, and
+/// nothing about this repository ever suggested they would: this bench
+/// writes silver chloride `AgCl`, wateq4f and minteq.v4 both write it
+/// `Cerargyrite`, and manganese dioxide is spelled three different ways
+/// across the two files. The crosswalk between the two namespaces is
+/// therefore a real question about two datasets this repository ships, and
+/// the answer is *derived from both of them* — the same composition match
+/// [`Derived::build`] already uses to pair a phase with a solid — rather
+/// than written down. A hand-kept list of the pairs would be the same
+/// mistake as a lint whose denominator came from the catalogue instead of
+/// the source.
+///
+/// Three things are normal and are reported rather than hidden:
+///
+/// * **A registry solid that is no database phase.** Most of the shelf:
+///   sucrose, the polymers, the laboratory salts nobody precipitates.
+/// * **A database phase that is no registry solid.** The overwhelming
+///   majority of the ~700 minerals the three files define.
+/// * **One solid spelled by several phase names.** `Pyrolusite`,
+///   `Birnessite` and `Nsutite` are all MnO₂ and the row carries all
+///   three; picking one would be a claim about mineralogy this table is
+///   not entitled to make.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct CrosswalkRow {
+    /// Registry key of the solid.
+    pub species: &'static str,
+    /// `(database tag, phase name)`, in [`DB_TAGS`] order then name order.
+    pub phases: Vec<(&'static str, String)>,
+    /// Whether this solid may be posed as an equilibrium phase at all.
+    /// `false` for the two classes [`Derived::build`] deliberately keeps
+    /// out of the candidate list — elemental metals, which belong to
+    /// `displacement` because it accounts for the electrons, and condensed
+    /// gases, whose stability is a temperature and not a solubility
+    /// product. They are still database phases, and a count that dropped
+    /// them would be answering a different question quietly.
+    pub posable: bool,
+    /// Whether the registry holds a reviewed `aqueous-solubility-g-per-100-ml`
+    /// for this solid — which is exactly what decides whether the routing
+    /// estimate's cap can bite on it (see `aqueous::potential_molality`).
+    pub reviewed_solubility: bool,
+}
+
+/// The crosswalk, read out of the shipped databases and the shipped
+/// registry every time it is asked for.
+///
+/// Computed on demand rather than cached, for the reason [`phase_coverage`]
+/// states: it is cheap, and a `OnceLock` reachable from [`derived`] is how
+/// this module deadlocked once before.
+pub fn mineral_crosswalk() -> Vec<CrosswalkRow> {
+    let mut rows: BTreeMap<&'static str, Vec<(&'static str, String)>> = BTreeMap::new();
+    for tag in DB_TAGS {
+        let idx = index_for(tag);
+        for (name, info) in &idx.phases {
+            if info.is_gas {
+                continue;
+            }
+            let Some(species) = registry_solid_matching(&info.composition, info.waters) else {
+                continue;
+            };
+            let entry = rows.entry(species).or_default();
+            if !entry.iter().any(|(t, n)| *t == tag && n == name) {
+                entry.push((tag, name.clone()));
+            }
+        }
+    }
+    rows.into_iter()
+        .map(|(species, phases)| CrosswalkRow {
+            posable: !kerotakis_core::displacement::is_elemental_metal(species)
+                && !kerotakis_core::phase_route::is_condensed_gas(species),
+            reviewed_solubility: species::lookup_key(species)
+                .and_then(|d| d.aqueous_solubility_g_per_100_ml)
+                .is_some(),
+            species,
+            phases,
+        })
+        .collect()
+}
+
+/// How much of the routing cap's data actually exists, counted from the
+/// two datasets rather than from anybody's expectation of them.
+///
+/// `aqueous::potential_molality` caps what an equilibrium phase may
+/// contribute by the reviewed solubility of the solid it is booked as, and
+/// falls back to counting the solid in full where the registry has none —
+/// on purpose, because that fallback is what keeps a real brine routing to
+/// pitzer. So the cap bites exactly where [`CrosswalkRow::reviewed_solubility`]
+/// is true and nowhere else, and this is the size of "nowhere else".
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct SolubilityGap {
+    /// Solid species in the shipped registry.
+    pub registry_solids: usize,
+    /// Of those, how many are a phase in at least one shipped database.
+    pub database_phases: usize,
+    /// Of those, how many carry a reviewed aqueous solubility.
+    pub with_reviewed_solubility: usize,
+    /// Of those, how many do not — the gap.
+    pub without_reviewed_solubility: usize,
+    /// Registry solids that are no database phase. Normal, not a gap.
+    pub not_a_database_phase: usize,
+    /// Non-gas phase names across the three databases that are no registry
+    /// solid. Also normal: the files are natural-water mineralogy.
+    pub phases_without_a_registry_solid: usize,
+    /// Crosswalk rows carrying more than one distinct phase name.
+    pub several_phase_names: usize,
+    /// Crosswalk rows that are database phases but are deliberately never
+    /// posed as equilibrium phases (see [`CrosswalkRow::posable`]).
+    pub not_posable: usize,
+}
+
+/// The gap, counted from the shipped databases and the shipped registry.
+pub fn solubility_gap() -> SolubilityGap {
+    let rows = mineral_crosswalk();
+    let named: BTreeSet<&str> = rows
+        .iter()
+        .flat_map(|r| r.phases.iter().map(|(_, n)| n.as_str()))
+        .collect();
+    let mut every: BTreeSet<&str> = BTreeSet::new();
+    for tag in DB_TAGS {
+        every.extend(
+            index_for(tag)
+                .phases
+                .iter()
+                .filter(|(_, info)| !info.is_gas)
+                .map(|(n, _)| n.as_str()),
+        );
+    }
+    let registry_solids = species::REGISTRY
+        .iter()
+        .filter(|s| s.standard_phase == Phase::Solid)
+        .count();
+    let with = rows.iter().filter(|r| r.reviewed_solubility).count();
+    SolubilityGap {
+        registry_solids,
+        database_phases: rows.len(),
+        with_reviewed_solubility: with,
+        without_reviewed_solubility: rows.len() - with,
+        not_a_database_phase: registry_solids - rows.len(),
+        phases_without_a_registry_solid: every.len() - named.len(),
+        several_phase_names: rows
+            .iter()
+            .filter(|r| {
+                r.phases
+                    .iter()
+                    .map(|(_, n)| n.as_str())
+                    .collect::<BTreeSet<_>>()
+                    .len()
+                    > 1
+            })
+            .count(),
+        not_posable: rows.iter().filter(|r| !r.posable).count(),
+    }
+}
+
 pub fn index_for(db_tag: &str) -> &'static DbIndex {
     let d = derived();
     match db_tag {
@@ -836,6 +991,17 @@ impl Derived {
 
 /// A solid registry species whose formula matches this composition and
 /// hydrate count exactly.
+/// The registry solid a database phase's composition IS, if any — the one
+/// judgement the mineral crosswalk rests on, exposed so a test can check
+/// the crosswalk's rows against the shipped databases directly rather than
+/// against a list of what we expected to find there.
+pub fn registry_solid_for(
+    composition: &BTreeMap<String, f64>,
+    waters: f64,
+) -> Option<&'static str> {
+    registry_solid_matching(composition, waters)
+}
+
 pub(crate) fn registry_solid_matching(
     composition: &BTreeMap<String, f64>,
     waters: f64,
