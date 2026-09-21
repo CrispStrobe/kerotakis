@@ -39,6 +39,23 @@
 //! speciation, and if the solver never characterised the solution there is
 //! nothing to say.
 //!
+//! # The complete equation (2026-09-21)
+//!
+//! Beside the net line, the same reaction written out in full, with the
+//! spectators standing on both sides — the line that shows *why* the net
+//! equation is what it is, because a cancellation you were never shown is
+//! not a cancellation you can follow.
+//!
+//! It waited a month for a reason worth keeping: [`spectators`] selects by
+//! abundance and gives every term `coefficient: 1` unconditionally, so
+//! putting that list on both sides would have asserted a balance nothing
+//! computed. The coefficients are now solved — see [`complete_ionic`] —
+//! from the one piece of molecular stoichiometry a bench can hold without
+//! remembering a reaction: the reagents came out of bottles, and a bottle
+//! is electrically neutral. One chloride came in beside one silver; *two*
+//! came in beside one barium. Where that cannot be solved and verified,
+//! there is no complete equation and the net line stands alone.
+//!
 //! # What it will not do
 //!
 //! Return a guess. Where the vessel carries no speciation, where a partner
@@ -48,6 +65,8 @@
 //! honest scope today is precipitation and neutralisation, the two cases
 //! where the participants are knowable; redox and organic steps carry no
 //! participant list yet and are not guessed at.
+
+use std::collections::BTreeMap;
 
 use serde::{Deserialize, Serialize};
 
@@ -91,6 +110,17 @@ pub struct IonTerm {
     /// Net charge on one formula unit.
     pub charge: i32,
     pub phase: Phase,
+    /// True where this term stands on BOTH sides of a complete ionic
+    /// equation, unchanged — a spectator. The host draws the line through
+    /// it; the engine emits the flag and no markup, which is this repo's
+    /// standing division of labour. Always false on a net equation's own
+    /// terms, and omitted from the wire when false.
+    #[serde(default, skip_serializing_if = "not_spectating")]
+    pub spectator: bool,
+}
+
+fn not_spectating(spectator: &bool) -> bool {
+    !*spectator
 }
 
 impl IonTerm {
@@ -101,6 +131,24 @@ impl IonTerm {
             coefficient,
             charge,
             phase,
+            spectator: false,
+        }
+    }
+
+    /// The same ion, carried into a complete equation as a spectator at a
+    /// solved count.
+    fn spectating(&self, coefficient: u32) -> IonTerm {
+        IonTerm {
+            coefficient,
+            spectator: true,
+            ..self.clone()
+        }
+    }
+
+    fn scaled(&self, k: u32) -> IonTerm {
+        IonTerm {
+            coefficient: self.coefficient * k,
+            ..self.clone()
         }
     }
 
@@ -127,6 +175,28 @@ pub enum IonicBasis {
     Neutralisation,
 }
 
+/// The complete ionic equation: every ion the reagents put in the beaker,
+/// on both sides, with the ones that took no part flagged so a host can
+/// strike them through.
+///
+/// This is the line that shows a learner *why* the net equation is what it
+/// is — you cannot see a cancellation you were never shown. It is built
+/// only where the spectators' coefficients could be solved AND the result
+/// verified; see [`complete_ionic`] for what "verified" means and
+/// [`NetIonic::complete`] for what happens when it cannot be.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct CompleteIonic {
+    /// Everything poured in, as ions: the net participants first, then the
+    /// spectators at their solved counts.
+    pub reactants: Vec<IonTerm>,
+    /// Everything present afterwards, as ions: the net products, then the
+    /// same spectators at the same counts.
+    pub products: Vec<IonTerm>,
+    /// The assembled line, spectators included and nothing struck through:
+    /// `Ag⁺(aq) + Cl⁻(aq) + Na⁺(aq) + NO₃⁻(aq) → AgCl(s) + Na⁺(aq) + NO₃⁻(aq)`.
+    pub equation: String,
+}
+
 /// A net ionic equation and the solution it was read out of.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct NetIonic {
@@ -140,6 +210,17 @@ pub struct NetIonic {
     pub spectators: Vec<IonTerm>,
     /// The equation as one line: `Ag⁺(aq) + Cl⁻(aq) → AgCl(s)`.
     pub equation: String,
+    /// The same reaction written out in full, with the spectators on both
+    /// sides (GUI-092, 2026-09-21).
+    ///
+    /// `None` is a correct outcome and the common one. The spectators'
+    /// coefficients are *solved*, and where they cannot be solved and
+    /// verified the complete line is not drawn at all — the net equation
+    /// above is the honest fallback. A host must not assemble one of its
+    /// own from `spectators`, because that list is selected by abundance
+    /// and its coefficients mean nothing.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub complete: Option<CompleteIonic>,
     /// The solver whose speciation this was read out of, where the vessel
     /// records one.
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -163,6 +244,7 @@ impl NetIonic {
                 .join(" + ")
         };
         let equation = format!("{} → {}", side(&reactants), side(&products));
+        let complete = complete_ionic(&reactants, &products, &spectators);
         NetIonic {
             vessel,
             basis,
@@ -170,6 +252,7 @@ impl NetIonic {
             products,
             spectators,
             equation,
+            complete,
             provenance,
         }
     }
@@ -474,6 +557,215 @@ fn aqueous_or_solvent(name: &str) -> Phase {
     } else {
         Phase::Aqueous
     }
+}
+
+// ── the complete ionic equation ─────────────────────────────────────
+
+/// The complete ionic equation, or `None`.
+///
+/// # Where the coefficients come from
+///
+/// Not from abundance. `spectators` is selected by abundance and every
+/// term in it carries `coefficient: 1` unconditionally, which is why the
+/// complete equation could not be drawn until now: putting those ones on
+/// both sides would assert a balance nothing computed.
+///
+/// A precipitation carries no stored molecular equation — there is no
+/// `AgNO3 + NaCl → AgCl + NaNO3` anywhere in the engine to read
+/// coefficients off, because the bench never believed in it. What the
+/// engine *does* know is stronger and is the molecular stoichiometry in
+/// the only form a bench can hold it: **the reagents came out of bottles,
+/// and a bottle is electrically neutral.** Every ion the net equation
+/// consumes arrived beside a counter-ion, in the number that made its salt
+/// neutral. So one chloride accompanies one silver, and *two* chlorides
+/// accompany one barium — which is exactly the coefficient a molecular
+/// equation would have given, derived rather than remembered.
+///
+/// That is one linear row per sign, solved and then verified the way
+/// [`balance_against`] solves and verifies the net participants:
+///
+/// - the spectator cations must carry the charge the *anionic* net
+///   reactants brought in, and
+/// - the spectator anions must carry the charge the *cationic* ones did.
+///
+/// # When it refuses, and it refuses often
+///
+/// - **Ambiguity.** With two cations in solution and a demand for cation
+///   counter-charge, which one accompanied the anion is not computable —
+///   `Na⁺` and `K⁺` are both there and the beaker does not say which salt
+///   was opened. A linear solve would happily pin one to zero and verify;
+///   that is a fiction, so this refuses instead.
+/// - **Absence.** A demand no spectator of that sign can meet.
+/// - **Fractions** no whole multiple up to twelve clears.
+/// - **Verification.** The assembled line is re-checked against every
+///   element, against total charge, and against the neutrality of each
+///   side. Anything that fails returns `None`.
+///
+/// `None` is not a failure. The net equation ships either way and is the
+/// honest fallback; a half-balanced complete line is not.
+fn complete_ionic(
+    reactants: &[IonTerm],
+    products: &[IonTerm],
+    spectators: &[IonTerm],
+) -> Option<CompleteIonic> {
+    if spectators.is_empty() {
+        return None;
+    }
+    let counts = counter_ion_counts(reactants, spectators)?;
+    let scale = integer_scale(&counts)?;
+
+    let carried: Vec<IonTerm> = spectators
+        .iter()
+        .zip(counts.iter())
+        .filter_map(|(ion, count)| {
+            let n = count * scale as f64;
+            (n >= 0.5).then(|| ion.spectating(n.round() as u32))
+        })
+        .collect();
+    // A "complete" equation identical to the net one is not a second line
+    // worth drawing; it is the net one with extra characters.
+    if carried.is_empty() {
+        return None;
+    }
+
+    let mut lhs: Vec<IonTerm> = reactants.iter().map(|t| t.scaled(scale)).collect();
+    let mut rhs: Vec<IonTerm> = products.iter().map(|t| t.scaled(scale)).collect();
+    lhs.extend(carried.iter().cloned());
+    rhs.extend(carried.iter().cloned());
+    verify_complete(&lhs, &rhs)?;
+
+    let side = |terms: &[IonTerm]| {
+        terms
+            .iter()
+            .map(IonTerm::written)
+            .collect::<Vec<_>>()
+            .join(" + ")
+    };
+    let equation = format!("{} → {}", side(&lhs), side(&rhs));
+    Some(CompleteIonic {
+        reactants: lhs,
+        products: rhs,
+        equation,
+    })
+}
+
+/// How many of each spectator accompanied the net reactants into the
+/// beaker — one row per sign, solved with the module's own
+/// [`gauss_jordan`] and then verified against both rows.
+///
+/// The ambiguity guard sits *before* the solve on purpose. Pinning free
+/// variables to zero is the right move when the question is which of
+/// several balancing partners the chemistry needs — the net participants
+/// use it that way. It is the wrong move here, because the free variables
+/// are ions that are physically present and the zero would be an assertion
+/// about which bottle was opened. Where the system does not determine the
+/// answer, there is no answer.
+fn counter_ion_counts(reactants: &[IonTerm], spectators: &[IonTerm]) -> Option<Vec<f64>> {
+    // The charge each sign of spectator has to account for: a reactant ion
+    // of charge z and coefficient c came in with −z·c of the opposite sign
+    // beside it.
+    let demand = |sign: i32| -> f64 {
+        -reactants
+            .iter()
+            .filter(|t| t.charge.signum() == sign)
+            .map(|t| t.charge as f64 * t.coefficient as f64)
+            .sum::<f64>()
+    };
+    let n = spectators.len();
+    let mut rows: Vec<Vec<f64>> = Vec::with_capacity(2);
+    for sign in [1i32, -1] {
+        // Cations answer for the anionic reactants and vice versa.
+        let need = demand(-sign);
+        let candidates = spectators
+            .iter()
+            .filter(|t| t.charge.signum() == sign)
+            .count();
+        if need.abs() > 1e-9 && candidates != 1 {
+            return None;
+        }
+        let mut row: Vec<f64> = spectators
+            .iter()
+            .map(|t| {
+                if t.charge.signum() == sign {
+                    t.charge as f64
+                } else {
+                    0.0
+                }
+            })
+            .collect();
+        row.push(need);
+        rows.push(row);
+    }
+
+    let solution = gauss_jordan(&mut rows, n)?;
+    for row in &rows {
+        let lhs: f64 = row[..n]
+            .iter()
+            .zip(solution.iter())
+            .map(|(a, x)| a * x)
+            .sum();
+        if (lhs - row[n]).abs() > 1e-6 {
+            return None;
+        }
+    }
+    // A negative count of a spectator is not a smaller number of ions; it
+    // is nonsense.
+    solution.iter().all(|c| *c >= -1e-9).then_some(solution)
+}
+
+/// Re-check an assembled complete equation from scratch: every element,
+/// total charge, and the neutrality of each side.
+///
+/// The element and charge rows are nearly free here — the spectators are
+/// identical on both sides, so they reduce to the net equation's own
+/// balance, which already held. The row with teeth is neutrality: each
+/// side of a complete ionic equation is a statement about bottles, and a
+/// side that carries a net charge describes a beaker that would have
+/// electrocuted somebody.
+fn verify_complete(reactants: &[IonTerm], products: &[IonTerm]) -> Option<()> {
+    let tally = |terms: &[IonTerm]| -> Option<(BTreeMap<String, f64>, f64)> {
+        let mut counts: BTreeMap<String, f64> = BTreeMap::new();
+        let mut charge = 0.0f64;
+        for term in terms {
+            let formula = formula_of(&term.species)?;
+            let n = term.coefficient as f64;
+            for (element, count) in &formula.counts {
+                *counts.entry(element.clone()).or_insert(0.0) += count * n;
+            }
+            charge += term.charge as f64 * n;
+        }
+        Some((counts, charge))
+    };
+    let (left, left_charge) = tally(reactants)?;
+    let (right, right_charge) = tally(products)?;
+
+    let mut elements: Vec<&String> = left.keys().chain(right.keys()).collect();
+    elements.sort();
+    elements.dedup();
+    for element in elements {
+        let a = left.get(element).copied().unwrap_or(0.0);
+        let b = right.get(element).copied().unwrap_or(0.0);
+        if (a - b).abs() > 1e-6 {
+            return None;
+        }
+    }
+    if (left_charge - right_charge).abs() > 1e-6 {
+        return None;
+    }
+    if left_charge.abs() > 1e-6 || right_charge.abs() > 1e-6 {
+        return None;
+    }
+    Some(())
+}
+
+/// A term's formula, however the term happens to be named. Dissolved
+/// species arrive in PHREEQC's dialect (`SO4-2`); a precipitate arrives as
+/// whatever the registry calls it. A name neither dialect can parse is a
+/// refusal, not a term silently worth zero.
+fn formula_of(name: &str) -> Option<Formula> {
+    stoich::parse_formula_with(name, FormulaDialect::PhreeqcMaster)
+        .ok()
+        .or_else(|| stoich::parse_formula(name).ok())
 }
 
 // ── the small linear solve ──────────────────────────────────────────
@@ -847,6 +1139,219 @@ mod tests {
             dry: false,
         }];
         assert!(net_ionic_for(&events, std::slice::from_ref(&v), Locale::EN).is_empty());
+    }
+
+    /// The complete equation for the silver-chloride beaker: the same
+    /// reaction with the sodium and the nitrate standing on both sides,
+    /// each flagged so the shell can strike it through.
+    #[test]
+    fn the_complete_equation_carries_its_spectators_on_both_sides() {
+        let v = beaker(vec![
+            detail("Na+", 0.086),
+            detail("NO3-", 0.059),
+            detail("Cl-", 0.027),
+            detail("AgCl", 3.6e-7),
+            detail("H+", 1e-7),
+            detail("OH-", 1e-7),
+            detail("Ag+", 6.7e-9),
+        ]);
+        let event = Event::Precipitated {
+            vessel: VesselId(0),
+            species: SpeciesId::new("AgCl"),
+            moles: Moles(0.0058),
+            dry: false,
+        };
+        let net = net_ionic(&event, &v, Locale::EN).expect("derivable");
+        let complete = net
+            .complete
+            .as_ref()
+            .expect("both spectators are unambiguous");
+
+        assert_eq!(
+            complete.equation,
+            "Ag⁺(aq) + Cl⁻(aq) + Na⁺(aq) + NO₃⁻(aq) → AgCl(s) + Na⁺(aq) + NO₃⁻(aq)"
+        );
+        // The flag is the whole interface to the strike-through: the
+        // engine marks, the host draws.
+        assert!(complete
+            .reactants
+            .iter()
+            .filter(|t| t.spectator)
+            .map(|t| t.species.as_str())
+            .eq(["Na+", "NO3-"]));
+        assert_eq!(complete.products.iter().filter(|t| t.spectator).count(), 2);
+        assert!(net.reactants.iter().all(|t| !t.spectator));
+        assert_charge_balances(complete);
+    }
+
+    /// **The case a 1:1 suite would have passed on the bug this fixes.**
+    /// Barium chloride met by sodium sulfate: the spectators are 2 Na⁺ and
+    /// 2 Cl⁻, and a `coefficient: 1` on either would be a lie about a
+    /// bottle. Nothing in the beaker says "two" — it falls out of barium
+    /// carrying twice the charge sodium does.
+    #[test]
+    fn barium_sulfate_needs_two_of_each_spectator() {
+        let v = beaker(vec![
+            detail("Na+", 0.10),
+            detail("Cl-", 0.10),
+            detail("SO4-2", 2.0e-5),
+            detail("Ba+2", 1.0e-5),
+            detail("H+", 1e-7),
+            detail("OH-", 1e-7),
+        ]);
+        let event = Event::Precipitated {
+            vessel: VesselId(0),
+            species: SpeciesId::new("BaSO4"),
+            moles: Moles(0.004),
+            dry: false,
+        };
+        let net = net_ionic(&event, &v, Locale::EN).expect("derivable");
+        assert_eq!(net.equation, "Ba²⁺(aq) + SO₄²⁻(aq) → BaSO₄(s)");
+
+        let complete = net
+            .complete
+            .as_ref()
+            .expect("one cation, one anion: determined");
+        assert_eq!(
+            complete.equation,
+            "Ba²⁺(aq) + SO₄²⁻(aq) + 2 Na⁺(aq) + 2 Cl⁻(aq) \
+             → BaSO₄(s) + 2 Na⁺(aq) + 2 Cl⁻(aq)"
+        );
+        for side in [&complete.reactants, &complete.products] {
+            for term in side.iter().filter(|t| t.spectator) {
+                assert_eq!(term.coefficient, 2, "{}", term.species);
+            }
+        }
+        assert_charge_balances(complete);
+    }
+
+    /// Neutralisation writes out too, and the spectators are the salt that
+    /// is left: `H⁺ + Cl⁻ + Na⁺ + OH⁻ → H₂O + Na⁺ + Cl⁻`.
+    #[test]
+    fn neutralisation_writes_out_the_salt_that_stays_dissolved() {
+        let v = beaker(vec![
+            detail("Na+", 0.10),
+            detail("Cl-", 0.10),
+            detail("H+", 1.0e-7),
+            detail("OH-", 1.0e-7),
+        ]);
+        let event = Event::Neutralised {
+            vessel: VesselId(0),
+            moles: Moles(0.01),
+        };
+        let net = net_ionic(&event, &v, Locale::EN).expect("derivable");
+        let complete = net.complete.as_ref().expect("one cation, one anion");
+        assert_eq!(
+            complete.equation,
+            "H⁺(aq) + OH⁻(aq) + Na⁺(aq) + Cl⁻(aq) → H₂O(l) + Na⁺(aq) + Cl⁻(aq)"
+        );
+        assert_charge_balances(complete);
+    }
+
+    /// **The refusal, which matters as much as the success.** Two cations
+    /// in solution and a chloride to account for: whether the silver came
+    /// in beside nitrate or beside perchlorate is not something the beaker
+    /// says, so nothing is drawn. The net equation is unaffected — that is
+    /// the fallback, and falling back to it is the correct outcome.
+    #[test]
+    fn an_ambiguous_counter_ion_draws_no_complete_equation() {
+        let v = beaker(vec![
+            detail("Na+", 0.086),
+            detail("K+", 0.080),
+            detail("NO3-", 0.059),
+            detail("Cl-", 0.027),
+            detail("H+", 1e-7),
+            detail("OH-", 1e-7),
+            detail("Ag+", 6.7e-9),
+        ]);
+        let event = Event::Precipitated {
+            vessel: VesselId(0),
+            species: SpeciesId::new("AgCl"),
+            moles: Moles(0.0058),
+            dry: false,
+        };
+        let net = net_ionic(&event, &v, Locale::EN).expect("the NET line still ships");
+        assert_eq!(net.equation, "Ag⁺(aq) + Cl⁻(aq) → AgCl(s)");
+        assert!(
+            net.complete.is_none(),
+            "two cations cannot both have accompanied the chloride: {:?}",
+            net.complete
+        );
+    }
+
+    /// The other refusal: a demand no spectator of that sign can meet.
+    /// Pure acid met by pure base leaves nothing spectating at all, and a
+    /// "complete" equation identical to the net one is not a second line.
+    #[test]
+    fn nothing_spectating_means_nothing_to_write_out() {
+        let v = beaker(vec![detail("H+", 1.0e-7), detail("OH-", 1.0e-7)]);
+        let event = Event::Neutralised {
+            vessel: VesselId(0),
+            moles: Moles(0.01),
+        };
+        let net = net_ionic(&event, &v, Locale::EN).expect("the net line is still derivable");
+        assert!(net.spectators.is_empty());
+        assert!(net.complete.is_none());
+
+        // And a solution holding only a cation cannot say what the silver
+        // arrived beside.
+        let one_sided = beaker(vec![
+            detail("Na+", 0.086),
+            detail("Cl-", 0.027),
+            detail("H+", 1e-7),
+            detail("OH-", 1e-7),
+            detail("Ag+", 6.7e-9),
+        ]);
+        let precipitate = Event::Precipitated {
+            vessel: VesselId(0),
+            species: SpeciesId::new("AgCl"),
+            moles: Moles(0.0058),
+            dry: false,
+        };
+        let net = net_ionic(&precipitate, &one_sided, Locale::EN).expect("net is derivable");
+        assert_eq!(net.equation, "Ag⁺(aq) + Cl⁻(aq) → AgCl(s)");
+        assert!(
+            net.complete.is_none(),
+            "no anion is left over to have come in beside the silver"
+        );
+    }
+
+    /// Charge on each side of a complete ionic equation is a claim about
+    /// bottles, and bottles are neutral. Asserted directly rather than
+    /// trusted to the solver that produced it.
+    fn assert_charge_balances(complete: &CompleteIonic) {
+        let charge = |terms: &[IonTerm]| -> i64 {
+            terms
+                .iter()
+                .map(|t| t.charge as i64 * t.coefficient as i64)
+                .sum()
+        };
+        assert_eq!(
+            charge(&complete.reactants),
+            charge(&complete.products),
+            "charge must balance across the arrow: {}",
+            complete.equation
+        );
+        assert_eq!(
+            charge(&complete.reactants),
+            0,
+            "each side is a set of neutral reagents: {}",
+            complete.equation
+        );
+        assert_eq!(charge(&complete.products), 0, "{}", complete.equation);
+    }
+
+    /// A spectator flag that is false never reaches the wire, so every
+    /// host that read the August contract reads the identical bytes.
+    #[test]
+    fn the_net_terms_serialise_exactly_as_they_did() {
+        let term = IonTerm::new("Ag+", 1, 1, Phase::Aqueous);
+        let json = serde_json::to_string(&term).expect("a term serialises");
+        assert!(!json.contains("spectator"), "{json}");
+        let carried = term.spectating(2);
+        let json = serde_json::to_string(&carried).expect("a spectator serialises");
+        assert!(json.contains("\"spectator\":true"), "{json}");
+        assert_eq!(carried.coefficient, 2);
     }
 
     #[test]

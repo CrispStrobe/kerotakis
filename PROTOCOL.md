@@ -326,6 +326,20 @@ stored per reaction. Empty is the common and honest case.
     { "species": "NO3-", "label": "NO₃⁻", "coefficient": 1, "charge": -1, "phase": "aqueous" }
   ],
   "equation": "Ag⁺(aq) + Cl⁻(aq) → AgCl(s)",
+  "complete": {
+    "reactants": [
+      { "species": "Ag+",  "label": "Ag⁺",  "coefficient": 1, "charge":  1, "phase": "aqueous" },
+      { "species": "Cl-",  "label": "Cl⁻",  "coefficient": 1, "charge": -1, "phase": "aqueous" },
+      { "species": "Na+",  "label": "Na⁺",  "coefficient": 1, "charge":  1, "phase": "aqueous", "spectator": true },
+      { "species": "NO3-", "label": "NO₃⁻", "coefficient": 1, "charge": -1, "phase": "aqueous", "spectator": true }
+    ],
+    "products": [
+      { "species": "AgCl", "label": "AgCl", "coefficient": 1, "charge":  0, "phase": "solid" },
+      { "species": "Na+",  "label": "Na⁺",  "coefficient": 1, "charge":  1, "phase": "aqueous", "spectator": true },
+      { "species": "NO3-", "label": "NO₃⁻", "coefficient": 1, "charge": -1, "phase": "aqueous", "spectator": true }
+    ],
+    "equation": "Ag⁺(aq) + Cl⁻(aq) + Na⁺(aq) + NO₃⁻(aq) → AgCl(s) + Na⁺(aq) + NO₃⁻(aq)"
+  },
   "provenance": "PHREEQC (IPhreeqc) · wateq4f.dat · Debye–Hückel"
 }
 ```
@@ -338,7 +352,26 @@ stored per reaction. Empty is the common and honest case.
   `species`. `equation` is the assembled line, so a client that only wants
   to print one needs no term logic.
 - `spectators` are the charged species the solver left in solution taking
-  no part, most abundant first. Empty is a real answer.
+  no part, most abundant first. Empty is a real answer. **Their
+  `coefficient` is 1 and means nothing** — the list is selected by
+  abundance, not solved. A host must not build a complete equation out of
+  it; that is what `complete` is for.
+- Additive 2026-09-21 (GUI-092): `complete` is the **complete ionic
+  equation** — the same reaction with the spectators standing on both
+  sides, each term flagged `spectator: true`. A host strikes those through;
+  the engine emits the flag and never the markup. Coefficients here ARE
+  solved: every ion the net equation consumes arrived beside a counter-ion
+  in the number that made its salt neutral, so one chloride accompanies one
+  silver and *two* accompany one barium. Each side is guaranteed
+  electrically neutral and the whole line is re-verified against every
+  element and against charge before it is emitted.
+- `complete` is **absent** wherever that could not be solved and verified,
+  and that is a correct outcome rather than a gap: where two cations are in
+  solution the beaker does not say which salt was opened, and where no
+  spectator of the needed sign is present there is nothing to write. The
+  net equation ships either way and is the honest fallback. The flag
+  `spectator` is omitted when false, so every term outside `complete` is
+  byte-identical to the August contract.
 - `provenance` is absent where the vessel records no solver. Changed
   2026-09-18: it is composed **in the session's language**, not in
   English. The three parts are the engine, the dataset and the model, and
