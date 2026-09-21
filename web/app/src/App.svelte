@@ -2155,6 +2155,39 @@
   .bench-pane > :global(.bench) {
     flex: 1;
   }
+  /* GUI-122, the other half of the ruling: the stage is the LAST thing to
+     scroll out of view, not the first.
+
+     Three rules, and together they are arithmetic rather than hope.
+
+     One: the ORDER. The two pieces of chrome sit at the two ends of this
+     column with the stage between them, so a reader scrolling down loses
+     the equation block and gains the dock, and passes over the stage
+     either way.
+
+     Two: `flex: none` on both ends — GUI-121's `.tally` lesson said
+     again, that the ends of a column must not be the items that give way.
+     What gives way is the stage, down to its own 384 px floor, and after
+     that the pane scrolls.
+
+     Three: neither end may fill the pane. Capped at two thirds of the
+     pane and scrolling inside that cap, so at either end of the scroll
+     the stage keeps at least a third of the pane on screen. The cap is
+     deliberately generous: measured at 200% text zoom the dock is 207 px
+     of a 371 px pane, well under it, so this changes nothing a reader can
+     see today and exists to stop a pathologically tall equation or dock
+     from ever becoming the thing that pins the stage out of view.
+
+     It is a percentage of the PANE and not of the viewport, because the
+     pane is what a reader is scrolling; and it is not in rem, because it
+     is a layout budget — how much counter may be covered by chrome — and
+     must not double when the type does. */
+  .bench-pane > .equation,
+  .bench-pane > :global(.dock) {
+    flex: none;
+    max-height: 66%;
+    overflow-y: auto;
+  }
   /* The tab bar exists only on narrow screens. */
   .tabs {
     display: none;
@@ -2519,12 +2552,21 @@
     gap: 0.75rem;
     padding: 0.75rem;
   }
+  /* GUI-122's third instance, and the same answer. The cabinet already
+     has a scroller, but it is on the LIST, and `p.tally` is the list's
+     sibling: at 200% text zoom the rails and the search field above it
+     are taller than the pane on their own, so the count was pushed under
+     this `overflow: hidden` with nothing to scroll to reach it. The pane
+     itself becomes the fallback scroller — it engages only when the
+     cabinet's fixed chrome alone no longer fits, which at 100% it never
+     does. Sideways stays clipped, as the rails scroll themselves. */
   .shelf-pane {
     width: min(15rem, 20vw);
     border: 1px solid var(--edge);
     border-radius: var(--radius-lg);
     background: var(--surface);
-    overflow: hidden;
+    overflow: hidden auto;
+    overscroll-behavior-y: contain;
     box-shadow: 0 8px 28px var(--shadow);
   }
   aside {
@@ -2535,8 +2577,27 @@
     overflow: hidden;
     box-shadow: 0 8px 28px var(--shadow);
   }
+  /* GUI-122 — the pane scrolls. At 200% text zoom this pane's column of
+     children is about 120 px taller than the pane itself, and with
+     `overflow: hidden` that 120 px sat under no scroller at all: the
+     selected vessel's name, its volume and temperature, and the
+     "measurement tools" and "equipment cabinet" buttons were not below a
+     fold, they were gone. A scroller is one gesture; a clip is nothing.
+
+     The cost, accepted by the ruling: a scrollbar this pane does not have
+     at 100%, and a stage no longer GUARANTEED wholly on screen. What is
+     not accepted is losing the beaker while the chrome stays put, so the
+     stage is made the last thing to leave rather than the first — see
+     `.equation` and `.dock` below. `hidden auto`: sideways is still
+     clipped, because the work surface has its own horizontal scroller and
+     a second one around it would be two answers to one gesture.
+
+     `overscroll-behavior-y: contain` because `.bench` scrolls inside
+     this: reaching the end of the stage must not start scrolling the
+     pane out from under the hand that is dragging a vessel. */
   .bench-pane {
-    overflow: hidden;
+    overflow: hidden auto;
+    overscroll-behavior-y: contain;
     border: 1px solid var(--edge);
     border-radius: var(--radius-lg);
     background: var(--surface);
