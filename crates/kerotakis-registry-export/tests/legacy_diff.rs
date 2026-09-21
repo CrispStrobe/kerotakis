@@ -767,7 +767,10 @@ fn compare_model_parameters(
     );
     assert_eq!(dissolves.quantity.uncertainty, Uncertainty::Exact);
     if species.key == "I2" {
-        assert_eq!(dissolves.quantity.source_id, "literature/hartley-campbell-iodine-water");
+        assert_eq!(
+            dissolves.quantity.source_id,
+            "literature/hartley-campbell-iodine-water"
+        );
         assert!(matches!(dissolves.quantity.method, Method::Curated(_)));
     } else {
         assert_eq!(dissolves.quantity.source_id, source_id);
@@ -804,7 +807,10 @@ fn compare_model_parameters(
         species.aqueous_solubility_g_per_100_ml_at_100c,
         reviewed_solubility(species.key),
     ) {
-        let record = parameter(document, &format!("aqueous-solubility-100c/{}", species.key));
+        let record = parameter(
+            document,
+            &format!("aqueous-solubility-100c/{}", species.key),
+        );
         assert_measured_solubility(&record.quantity, hot, phase, reviewed.source, 373.15);
     }
     match species.colour {
@@ -902,7 +908,10 @@ fn assert_measured_solubility(
         .temperature
         .as_ref()
         .expect("a reviewed solubility states the temperature it was measured at");
-    assert_eq!((temperature.lower, temperature.upper), (temperature_k, temperature_k));
+    assert_eq!(
+        (temperature.lower, temperature.upper),
+        (temperature_k, temperature_k)
+    );
     assert_eq!(quantity.uncertainty, Uncertainty::Unestablished);
     assert_eq!(quantity.source_id, source_id);
     assert!(matches!(quantity.method, Method::Measured(_)));
