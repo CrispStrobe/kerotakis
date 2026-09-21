@@ -26,7 +26,14 @@ use kerotakis_phreeqc::derived::{self, mineral_crosswalk, solubility_gap, Solubi
 ///
 /// `PLAN.md` recorded nine — the names that happen to match as *strings*
 /// across the two namespaces. The composition match finds 36, and the gap
-/// it names is 33 rather than 9.
+/// it named was 33 rather than 9.
+///
+/// The gap is now 29. Four of the 33 were sourced to two papers that were
+/// read in full rather than to a handbook: Melcher 1910 for silver
+/// chloride, barium sulphate and gypsum, and Bates, Bower and Smith 1956
+/// for calcium hydroxide. The other 29 are still counted in full, which is
+/// the deliberate pessimism, and `PLAN.md` says of each one why no value
+/// could be sourced for it.
 #[test]
 fn the_gap_is_counted_from_both_datasets() {
     assert_eq!(
@@ -34,8 +41,8 @@ fn the_gap_is_counted_from_both_datasets() {
         SolubilityGap {
             registry_solids: 93,
             database_phases: 36,
-            with_reviewed_solubility: 3,
-            without_reviewed_solubility: 33,
+            with_reviewed_solubility: 7,
+            without_reviewed_solubility: 29,
             not_a_database_phase: 57,
             phases_without_a_registry_solid: 621,
             several_phase_names: 12,
@@ -45,9 +52,15 @@ fn the_gap_is_counted_from_both_datasets() {
     );
 }
 
-/// The three solids where the routing cap can bite today, and the ones
+/// The seven solids where the routing cap can bite today, and the ones
 /// where it cannot. Asserted as whole lists so a drift prints the new
 /// membership rather than a changed integer.
+///
+/// The membership is the point rather than the count: the four that moved
+/// on 2026-09-21 are the ones a school bench actually grows — a silver
+/// chloride curd, a barium sulphate haze, limewater, and gypsum scale —
+/// and every one of them is a solid whose whole interest is that most of
+/// it does not dissolve.
 #[test]
 fn which_database_phases_have_a_reviewed_solubility() {
     let rows = mineral_crosswalk();
@@ -58,7 +71,7 @@ fn which_database_phases_have_a_reviewed_solubility() {
         .collect();
     assert_eq!(
         with,
-        vec!["CaCO3", "S", "SiO2"],
+        vec!["AgCl", "BaSO4", "Ca(OH)2", "CaCO3", "S", "SiO2", "gypsum"],
         "solids that are database phases AND carry a reviewed solubility"
     );
 
@@ -71,9 +84,6 @@ fn which_database_phases_have_a_reviewed_solubility() {
         without,
         vec![
             "Ag",
-            "AgCl",
-            "BaSO4",
-            "Ca(OH)2",
             "Ca3(PO4)2",
             "CaO",
             "Cu",
@@ -99,7 +109,6 @@ fn which_database_phases_have_a_reviewed_solubility() {
             "brochantite",
             "chalcanthite",
             "epsomite",
-            "gypsum",
             "hydroxylapatite",
             "langite",
             "octacalcium_phosphate",

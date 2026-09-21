@@ -1667,6 +1667,24 @@
       "retrieved": "2026-09-16"
     },
     {
+      "id": "literature/melcher-silver-chloride-barium-sulphate-calcium-sulphate-1910",
+      "citation": "A. C. Melcher, 'The solubility of silver chloride, barium sulphate, and calcium sulphate at high temperatures', J. Am. Chem. Soc. 32 (1910) 50-66, doi:10.1021/ja01919a003; read in full 2026-09-21 from the open scan at https://zenodo.org/records/2284124. IT IS PRIMARY JOURNAL LITERATURE WITH A DOI, which is the `primary-literature` route of provenance/upstreams.toml rather than a compilation row - the shape `literature/hartley-campbell-iodine-water` and `literature/osborne-stimson-ginnings-water-vaporisation` already use in this registry. The publisher's own copy is not reachable from this host, which is why the open scan is named as what was actually opened rather than a URL nobody here could load. Kerotakis transcribes three printed numbers and redistributes no source text or table. WHY ONE PAPER CARRIES THREE SOLIDS. Melcher measured the specific conductance of solutions saturated in a rotating steel bomb, one apparatus and one method for all three salts, which is the reason three registry rows can cite a single reading rather than three unread ones. WHAT THE PAPER PRINTS, in milli-equivalents per litre. Table V, 'Solubility of silver chloride and barium sulphate': silver chloride 0.0105 at 18 °C, 0.0365 at 50 °C, 0.147 at 100 °C, the 25 °C cell blank; barium sulphate 0.0190 at 18 °C, 0.0212 at 25 °C, 0.0288 at 50 °C, 0.0334 at 100 °C. Table XI, 'Solubility values for calcium sulphate', same units: gypsum 29.5 at 18 °C, 30.0 at 50 °C, 23.3 at 100 °C. THE ARITHMETIC TO g/100 mL, which is this bench's unit. A milli-equivalent is a millimole divided by the charge the formula unit carries: one for silver chloride, two for barium sulphate and for calcium sulphate. So silver chloride at 18 °C is 1.05e-5 mol/L, which at the registry's own molar mass of 143.32 g/mol is 1.50486e-3 g/L and therefore 0.00015049 g/100 mL; at 100 °C, 1.47e-4 mol/L, 0.0021068 g/100 mL. Barium sulphate at 25 °C is 0.0212/2 = 1.06e-5 mol/L, at 233.383 g/mol 0.00024739 g/100 mL; at 100 °C, 1.67e-5 mol/L, 0.00038975 g/100 mL. Gypsum at 18 °C is 29.5/2 = 1.475e-2 mol/L, and AT THE DIHYDRATE'S MOLAR MASS of 172.171 g/mol - which is the solid this registry ships and the solid Melcher's bomb held - 0.25395 g/100 mL; at 100 °C, 1.165e-2 mol/L, 0.20058 g/100 mL. Expressed instead as anhydrous calcium sulphate the 18 °C figure would read 0.2008 g/100 mL, which is the number a reader who remembers 'about 2 g/L' is remembering, and it is a different solid. WHAT IS ASSUMED IN THE CONVERSION AND IS NOT MELCHER'S. His tables are per litre of SOLUTION and this bench's field is per 100 mL of WATER; at 2.5 g/L and below the two differ by less than the solution's density departs from unity, under 0.3 percent for gypsum and immeasurably for the other two, and no density correction is applied. WHAT IS MELCHER'S OWN DERIVATION AND IS NOT A WEIGHING. The solubilities in Tables V and XI are conductances divided by an equivalent conductance and then by an estimated degree of ionisation, so they are his reported solubilities rather than a gravimetric determination. He says so and checks it: his Table XII sets the gypsum values beside Hulett and Allen's, obtained 'by an entirely different method', and they agree to 29.5 against 29.6 at 18 °C and 23.3 against 23.8 at 100 °C. TEMPERATURE, SAID PLAINLY BECAUSE THE FIELD CANNOT SAY IT. This bench anchors its cold solubility at 20 °C. The barium sulphate figure is Melcher's 25 °C row; the silver chloride and gypsum figures are his 18 °C rows, because he printed no 25 °C value for either, and an 18 °C measurement read at the 20 °C anchor is the conservative direction for both. Each row's own `conditions.temperature` carries the temperature the number was measured at rather than the temperature it is read at. WHAT IT IS NOT: not an evaluation, not a compilation, and not a value for anhydrite or for the soluble anhydrite, which are different solids measured in the same paper and are not shipped here. Read 2026-09-21",
+      "licence": "CC0-1.0",
+      "lane": "runtime",
+      "origin": "https://doi.org/10.1021/ja01919a003",
+      "revision": "J. Am. Chem. Soc. 32 (1910) 50-66, Tables V and XI",
+      "retrieved": "2026-09-21"
+    },
+    {
+      "id": "literature/bates-bower-smith-calcium-hydroxide-1956",
+      "citation": "R. G. Bates, V. E. Bower and E. R. Smith, 'Calcium hydroxide as a highly alkaline pH standard', Journal of Research of the National Bureau of Standards 56 (1956) 305-312, Research Paper 2680, doi:10.6028/jres.056.040; read 2026-09-21 from https://nvlpubs.nist.gov/nistpubs/jres/56/jresv56n6p305_A1b.pdf. IT IS PRIMARY JOURNAL LITERATURE WITH A DOI, the `primary-literature` route of provenance/upstreams.toml, AND IT IS PUBLIC DOMAIN TWICE OVER: the journal is the NBS Technical Series, works by NIST employees are not subject to copyright in the United States under 17 U.S.C. 105, and the `nbs-thermochemical` row records NIST's own statement to that effect for exactly this series. The same double footing `literature/osborne-stimson-ginnings-water-vaporisation` stands on. THE PAPER IS ABOUT A pH STANDARD AND THE SOLUBILITY IS ITS OWN MEASUREMENT, which is the thing to check before citing it. Section 5.1, 'Solubility of calcium hydroxide': 'In the present study, the solubility of several samples of calcium hydroxide prepared in various ways was determined by shaking the material vigorously with about 15 times its volume of water in a glass-stoppered bottle... The excess of solid was removed on a sintered-glass funnel of medium porosity, and the concentration of the filtrate was determined by titration with a standard solution of hydrochloric acid to the endpoint of phenol red... The solubility determinations were reproducible to ±0.5 percent or better.' It is a titrimetric determination by these authors, not a value they took from anyone. WHAT IT PRINTS: 'The average solubility is 0.0203 m at 25 °C. At 20° the solubility was found to be 0.0211 m and at 30 °C, 0.0196 m.' Molality, moles per kilogram of water. THE ARITHMETIC. This bench anchors its cold solubility at 20 °C, so the 20 °C row is the one taken: 0.0211 mol/kg at the registry's own molar mass of 74.09 g/mol is 1.5633 g per kilogram of water, and therefore 0.15633 g/100 mL. The step from 'per 100 g of water' to 'per 100 mL of water' assumes a water density of 1.00 g/mL and is 0.2 percent low at 20 °C - far inside the spread the paper itself reports. THE SPREAD THE PAPER ITSELF REPORTS, recorded because it is larger than the number's last digits and a reader should not read precision into them. Section 5.1 states that the apparent solubility depends on crystal size, that Bassett's 'true solubility' for large crystals is 6 to 15 percent lower than for very small ones, and that these authors' own figures 'do not preclude a solubility lower by perhaps 1 to 3 percent for large well-defined crystals'. The value shipped here is theirs, for granular calcium hydroxide shaken with water - which is what a school bench has. WHAT IT IS NOT: no 100 °C value is claimed. Calcium hydroxide is retrograde, its solubility falls with temperature, and the paper reaches 30 °C. Reading it at boiling would be an extrapolation of a curve nobody here has measured, so this registry holds one point and says so. Read 2026-09-21",
+      "licence": "CC0-1.0",
+      "lane": "runtime",
+      "origin": "https://nvlpubs.nist.gov/nistpubs/jres/56/jresv56n6p305_A1b.pdf",
+      "revision": "J. Res. Natl. Bur. Stand. 56 (1956) 305-312, RP2680, section 5.1",
+      "retrieved": "2026-09-21"
+    },
+    {
       "id": "literature/hartley-campbell-iodine-water",
       "citation": "H. Hartley and N. P. Campbell, 'The solubility of iodine in water', J. Chem. Soc., Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741: 0.3393 g I2 per litre water at 25 °C. Kerotakis converts this factual measurement to 0.03393 g/100 mL and releases its transcription as CC0; no source text or table is redistributed.",
       "licence": "CC0-1.0",
@@ -55155,6 +55173,86 @@
       }
     },
     {
+      "id": "aqueous-solubility/AgCl",
+      "subject": {
+        "kind": "species",
+        "id": "AgCl"
+      },
+      "model": "bounded-room-temperature-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml",
+      "quantity": {
+        "value": 0.00015049,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": {
+            "lower": 291.15,
+            "upper": 291.15,
+            "unit": {
+              "symbol": "K",
+              "dimension": "temperature"
+            }
+          },
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": "water",
+          "phase": "solid",
+          "notes": "Melcher 1910 Table V; 18 °C, the paper prints no 25 °C value for this salt"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/melcher-silver-chloride-barium-sulphate-calcium-sulphate-1910",
+        "method": {
+          "kind": "measured",
+          "detail": "THE CITED SOURCE IS THE MEASUREMENT. Melcher (1910) Table V gives the solubility of silver chloride as 0.0105 milli-equivalents per litre at 18 °C; silver chloride carries one charge per formula unit, so that is 1.05e-5 mol/L, and at this registry's molar mass of 143.32 g/mol, 0.00015049 g/100 mL. THE EXPERIMENT IS HIS AND NOT THIS PROJECT'S - this project operates no laboratory, and `measured` says only that `source_id` points at the experiment the number came out of rather than at a table the number was copied from. IT IS AN 18 °C VALUE READ AT A 20 °C ANCHOR: the paper prints no 25 °C figure for silver chloride, silver chloride's solubility rises with temperature, and so an 18 °C number is the conservative one to carry. The band is unestablished: the paper quotes no uncertainty beside this row and nobody here has re-opened the question of whether it quotes one elsewhere."
+        }
+      }
+    },
+    {
+      "id": "aqueous-solubility-100c/AgCl",
+      "subject": {
+        "kind": "species",
+        "id": "AgCl"
+      },
+      "model": "two-point-temperature-dependent-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml-at-100c",
+      "quantity": {
+        "value": 0.0021068,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": {
+            "lower": 373.15,
+            "upper": 373.15,
+            "unit": {
+              "symbol": "K",
+              "dimension": "temperature"
+            }
+          },
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": "water",
+          "phase": "solid",
+          "notes": "Melcher 1910 Table V, 100 °C column"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/melcher-silver-chloride-barium-sulphate-calcium-sulphate-1910",
+        "method": {
+          "kind": "measured",
+          "detail": "THE CITED SOURCE IS THE MEASUREMENT. Melcher (1910) Table V, 100 °C column: 0.147 milli-equivalents per litre, one charge per formula unit, so 1.47e-4 mol/L and at 143.32 g/mol 0.0021068 g/100 mL. Melcher's own note on this row is worth carrying: Böttger's specific conductance at 100 °C is nearly identical to his, and the difference in the derived solubility comes from how hard it is to hold exact saturation at 100 °C when the bomb is shaken by hand rather than mechanically."
+        }
+      }
+    },
+    {
       "id": "legacy-tint-strength/AgCl",
       "subject": {
         "kind": "species",
@@ -55613,6 +55711,46 @@
         "method": {
           "kind": "derived",
           "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "aqueous-solubility/Ca(OH)2",
+      "subject": {
+        "kind": "species",
+        "id": "Ca(OH)2"
+      },
+      "model": "bounded-room-temperature-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml",
+      "quantity": {
+        "value": 0.15633,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": {
+            "lower": 293.15,
+            "upper": 293.15,
+            "unit": {
+              "symbol": "K",
+              "dimension": "temperature"
+            }
+          },
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": "water",
+          "phase": "solid",
+          "notes": "Bates, Bower and Smith 1956 section 5.1; 20 °C, their own titrimetric determination"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/bates-bower-smith-calcium-hydroxide-1956",
+        "method": {
+          "kind": "measured",
+          "detail": "THE CITED SOURCE IS THE MEASUREMENT. Bates, Bower and Smith (1956), section 5.1: 'At 20° the solubility was found to be 0.0211 m', determined by these authors by shaking granular calcium hydroxide with water in a thermostat and titrating the filtrate against standard hydrochloric acid to a phenol red endpoint, reproducible to ±0.5 percent. At this registry's molar mass of 74.09 g/mol, 0.0211 mol per kilogram of water is 1.5633 g/kg and therefore 0.15633 g/100 mL, the step from per-100-g to per-100-mL assuming a water density of 1.00 g/mL. THE EXPERIMENT IS THEIRS AND NOT THIS PROJECT'S. THE REPRODUCIBILITY IS NOT THE UNCERTAINTY: the same section reports that the apparent solubility depends on crystal size by 6 to 15 percent, so the band on this number is wider than their ±0.5 percent and nobody has established it - hence `unestablished` rather than an interval this registry would be inventing."
         }
       }
     },
@@ -56768,6 +56906,86 @@
         "method": {
           "kind": "derived",
           "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "aqueous-solubility/gypsum",
+      "subject": {
+        "kind": "species",
+        "id": "gypsum"
+      },
+      "model": "bounded-room-temperature-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml",
+      "quantity": {
+        "value": 0.25395,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": {
+            "lower": 291.15,
+            "upper": 291.15,
+            "unit": {
+              "symbol": "K",
+              "dimension": "temperature"
+            }
+          },
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": "water",
+          "phase": "solid",
+          "notes": "Melcher 1910 Table XI, row Gypsum, 18 °C; expressed as the dihydrate, the solid the registry keys as gypsum"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/melcher-silver-chloride-barium-sulphate-calcium-sulphate-1910",
+        "method": {
+          "kind": "measured",
+          "detail": "THE CITED SOURCE IS THE MEASUREMENT, AND THE HYDRATE IS THE POINT. Melcher (1910) Table XI, row 'Gypsum', 18 °C: 29.5 milli-equivalents per litre. Calcium sulphate carries two charges per formula unit, so that is 1.475e-2 mol/L of dissolved calcium sulphate in equilibrium with the DIHYDRATE, which is the solid this registry keys as `gypsum` and the solid in Melcher's bomb. At the dihydrate's molar mass of 172.171 g/mol that is 0.25395 g/100 mL. Expressed as anhydrous calcium sulphate the same measurement reads 0.2008 g/100 mL; anhydrite is a different registry solid with a different solubility, and this row is not it. IT IS AN 18 °C VALUE READ AT A 20 °C ANCHOR, and gypsum barely moves over that interval - Melcher's own 50 °C figure is 30.0 against 18 °C's 29.5. CORROBORATED IN THE PAPER ITSELF: his Table XII sets 29.5 beside Hulett and Allen's 29.6, obtained 'by an entirely different method'."
+        }
+      }
+    },
+    {
+      "id": "aqueous-solubility-100c/gypsum",
+      "subject": {
+        "kind": "species",
+        "id": "gypsum"
+      },
+      "model": "two-point-temperature-dependent-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml-at-100c",
+      "quantity": {
+        "value": 0.20058,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": {
+            "lower": 373.15,
+            "upper": 373.15,
+            "unit": {
+              "symbol": "K",
+              "dimension": "temperature"
+            }
+          },
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": "water",
+          "phase": "solid",
+          "notes": "Melcher 1910 Table XI, row Gypsum, 100 °C; calcium sulphate is retrograde and this is lower than the cold value"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/melcher-silver-chloride-barium-sulphate-calcium-sulphate-1910",
+        "method": {
+          "kind": "measured",
+          "detail": "THE CITED SOURCE IS THE MEASUREMENT. Melcher (1910) Table XI, row 'Gypsum', 100 °C: 23.3 milli-equivalents per litre, two charges per formula unit, so 1.165e-2 mol/L and at the dihydrate's 172.171 g/mol 0.20058 g/100 mL. IT IS LOWER THAN THE COLD VALUE AND THAT IS NOT A TYPO: calcium sulphate is retrograde, it is less soluble in hot water than in cold, and this pair is why a bench that boils a gypsum solution dry deposits scale. The two points bracket a maximum near 40 °C that the linear reading between them does not reproduce; what the pair is for is the sign of the slope and the size of the change, both of which it has."
         }
       }
     },
@@ -61428,6 +61646,86 @@
         "method": {
           "kind": "derived",
           "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "aqueous-solubility/BaSO4",
+      "subject": {
+        "kind": "species",
+        "id": "BaSO4"
+      },
+      "model": "bounded-room-temperature-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml",
+      "quantity": {
+        "value": 0.00024739,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": {
+            "lower": 298.15,
+            "upper": 298.15,
+            "unit": {
+              "symbol": "K",
+              "dimension": "temperature"
+            }
+          },
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": "water",
+          "phase": "solid",
+          "notes": "Melcher 1910 Table V, 25 °C column"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/melcher-silver-chloride-barium-sulphate-calcium-sulphate-1910",
+        "method": {
+          "kind": "measured",
+          "detail": "THE CITED SOURCE IS THE MEASUREMENT. Melcher (1910) Table V, 25 °C column: 0.0212 milli-equivalents per litre. Barium sulphate carries two charges per formula unit, so that is 1.06e-5 mol/L, and at this registry's molar mass of 233.383 g/mol, 0.00024739 g/100 mL. The 25 °C figure is read at this bench's 20 °C anchor, a 5 °C extrapolation of a curve that moves about 11 percent between 18 and 25 °C in the same table - the 18 °C row, 0.0190, would give 0.00022170 g/100 mL, and the difference is far below the resolution of anything the bench prints from it. THE EXPERIMENT IS HIS AND NOT THIS PROJECT'S."
+        }
+      }
+    },
+    {
+      "id": "aqueous-solubility-100c/BaSO4",
+      "subject": {
+        "kind": "species",
+        "id": "BaSO4"
+      },
+      "model": "two-point-temperature-dependent-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml-at-100c",
+      "quantity": {
+        "value": 0.00038975,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": {
+            "lower": 373.15,
+            "upper": 373.15,
+            "unit": {
+              "symbol": "K",
+              "dimension": "temperature"
+            }
+          },
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": "water",
+          "phase": "solid",
+          "notes": "Melcher 1910 Table V, 100 °C column"
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "literature/melcher-silver-chloride-barium-sulphate-calcium-sulphate-1910",
+        "method": {
+          "kind": "measured",
+          "detail": "THE CITED SOURCE IS THE MEASUREMENT. Melcher (1910) Table V, 100 °C column: 0.0334 milli-equivalents per litre, two charges per formula unit, so 1.67e-5 mol/L and at 233.383 g/mol 0.00038975 g/100 mL."
         }
       }
     },
