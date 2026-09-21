@@ -46,8 +46,9 @@ const openCupboard = async () => {
 
 const cupboardAudit = () => page.evaluate(`(() => {
   const panel = document.querySelector('dialog.cupboard');
-  if (!panel) return JSON.stringify({ catalogue: 0, shelves: 0, items: 0, unnamed: 1, info: 0, viewportOverflow: 0, locked: 0, tally: 0, kitNames: 0, setsChip: 1, unexplainedShelves: 1, drawn: 0, lettered: 0, blankPortraits: 1, smallInfo: 1, infoOverDrawing: 1 });
+  if (!panel) return JSON.stringify({ catalogue: 0, shelves: 0, items: 0, unnamed: 1, info: 0, viewportOverflow: 0, locked: 0, tally: 0, kitNames: 0, setsChip: 1, unexplainedShelves: 1, drawn: 0, lettered: 0, blankPortraits: 1, smallInfo: 1, infoOverDrawing: 1, infoOverName: 1, drawingShare: 0, tile: '', portrait: '', looseDrawings: 1, smallDrawings: 1, letterShare: 0, unlevelRows: 1 });
   const items = [...panel.querySelectorAll('button.item')];
+  const visible = items.filter((item) => item.offsetParent);
   const rect = panel.getBoundingClientRect();
   // The catalogue size is on the dialog rather than read out of the header
   // fraction, because since GUI-103 the fraction is printed only while
@@ -96,6 +97,92 @@ const cupboardAudit = () => page.evaluate(`(() => {
       const b = render.getBoundingClientRect();
       return a.left < b.right - 1 && b.left < a.right - 1 && a.top < b.bottom - 1 && b.top < a.bottom - 1;
     }).length,
+    // And it must not sit over the NAME either. GUI-115 moved the name up
+    // into the plate the (i) shares, so the plate's right padding is the
+    // only thing keeping the two apart; without this the name would creep
+    // under the mark the first time the font changed.
+    infoOverName: [...panel.querySelectorAll('.slot')].filter((slot) => {
+      const info = slot.querySelector('button.info-toggle');
+      const name = slot.querySelector('.item-name');
+      if (!info || !name || !info.offsetParent) return false;
+      const a = info.getBoundingClientRect();
+      const b = name.getBoundingClientRect();
+      return a.left < b.right - 1 && b.left < a.right - 1 && a.top < b.bottom - 1 && b.top < a.bottom - 1;
+    }).length,
+    /* GUI-115 — THE assertion this item exists for.
+     *
+     * The drawing was right and too small to be what you saw: a 34 x 34
+     * portrait on a 118 x 84 tile is 11.7% of it, and the other 88% was
+     * the name and the padding round it. Nothing in the suite could tell
+     * that from a cupboard of pictures, because every other fact about
+     * the tile — it is drawn, it is named, it explains itself — was
+     * already true. Share of the tile is the fact that was not.
+     *
+     * Measured off '.item-render', which is square and which the drawing
+     * fills exactly ('looseDrawings' below is what holds that), so this
+     * is the picture's own area and not a padded box around it.
+     */
+    drawingShare: (() => {
+      const shares = visible.map((item) => {
+        const tile = item.getBoundingClientRect();
+        const port = item.querySelector('.item-render');
+        if (!port || tile.width < 1 || tile.height < 1) return 0;
+        const box = port.getBoundingClientRect();
+        return (box.width * box.height) / (tile.width * tile.height) * 100;
+      });
+      return shares.length === 0 ? 0 : Math.round(Math.min(...shares) * 10) / 10;
+    })(),
+    tile: (() => {
+      const box = visible[0]?.getBoundingClientRect();
+      return box ? Math.round(box.width) + 'x' + Math.round(box.height) : '';
+    })(),
+    portrait: (() => {
+      const box = visible[0]?.querySelector('.item-render')?.getBoundingClientRect();
+      return box ? Math.round(box.width) + 'x' + Math.round(box.height) : '';
+    })(),
+    // A big box with a small picture centred in it would pass the share
+    // above and be exactly the defect again. 'ToolIcon' is an 18x18
+    // viewBox in a square box, so the painted extent IS the box — unless
+    // someone gives the svg a width again, which this catches.
+    looseDrawings: visible.filter((item) => {
+      const svg = item.querySelector('.item-render svg');
+      const port = item.querySelector('.item-render');
+      if (!svg || !port) return false;
+      const a = svg.getBoundingClientRect();
+      const b = port.getBoundingClientRect();
+      return b.width < 1 || (a.width * a.height) / (b.width * b.height) < 0.96;
+    }).length,
+    // Absolute size, not only share: a tile that shrank would keep its
+    // share while the drawing became unreadable.
+    smallDrawings: visible.filter((item) => {
+      const box = item.querySelector('.item-render')?.getBoundingClientRect();
+      return !box || Math.min(box.width, box.height) < 72;
+    }).length,
+    // pH and Bq stay letters, deliberately (GUI-109), so they cannot be
+    // held to the drawings' rule — but they must grow with the
+    // compartment, or two tiles in thirty-four read as a mistake.
+    letterShare: (() => {
+      const shares = [...panel.querySelectorAll('.item-render .glyph')].map((glyph) => {
+        const port = glyph.parentElement.getBoundingClientRect();
+        return port.height < 1 ? 0 : glyph.getBoundingClientRect().height / port.height * 100;
+      });
+      return shares.length === 0 ? 0 : Math.round(Math.min(...shares));
+    })(),
+    // Things standing where you would reach for them: within one row of a
+    // shelf every device's feet are on the same line, however many lines
+    // its name ran to.
+    unlevelRows: (() => {
+      const rows = new Map();
+      for (const item of visible) {
+        const top = Math.round(item.getBoundingClientRect().top);
+        const foot = item.querySelector('.item-render')?.getBoundingClientRect().bottom;
+        if (foot === undefined) continue;
+        const key = item.closest('.shelf-items') ? [...panel.querySelectorAll('.shelf-items')].indexOf(item.closest('.shelf-items')) + ':' + top : 'x:' + top;
+        if (!rows.has(key)) rows.set(key, []);
+        rows.get(key).push(foot);
+      }
+      return [...rows.values()].filter((feet) => Math.max(...feet) - Math.min(...feet) > 2).length;
+    })(),
     locked: items.filter((item) => item.classList.contains('locked')).length,
     tally: panel.querySelector('header b') ? 1 : 0,
     // GUI-111: the candle has one slot and one name — the laboratory one.
@@ -1082,6 +1169,28 @@ try {
     cupboard.smallInfo === 0, `${cupboard.smallInfo} under the floor`);
   check("and does not buy that hit area out of the tool's own drawing",
     cupboard.infoOverDrawing === 0, `${cupboard.infoOverDrawing} overlapping`);
+  check("nor out of the name it shares its plate with",
+    cupboard.infoOverName === 0, `${cupboard.infoOverName} overlapping`);
+  /* -- GUI-115: the device is the thing you see -------------------------
+   *
+   * "A real cupboard of devices, not a wall of text." The drawing was
+   * 11.7% of its own tile and the rest was the name and the padding round
+   * it, which is the same defect as a lone vessel drawn at 3.9% of the
+   * bench: correct, and too small to be the picture. Each precondition is
+   * its own check — a bare `false` three steps downstream is what cost
+   * four debugging cycles here yesterday.
+   */
+  check("the cupboard tile is mostly the device, not mostly its name",
+    cupboard.drawingShare >= 45,
+    `${cupboard.drawingShare}% of the tile — ${cupboard.portrait} drawn on ${cupboard.tile}`);
+  check("the drawing fills its compartment rather than floating in it",
+    cupboard.looseDrawings === 0, `${cupboard.looseDrawings} drawings loose in their box`);
+  check("no device is drawn too small to recognise",
+    cupboard.smallDrawings === 0, `${cupboard.smallDrawings} under 72 px`);
+  check("pH and Bq are lettered, and the letters grew with the compartment",
+    cupboard.letterShare >= 25, `${cupboard.letterShare}% of the compartment`);
+  check("every device on a shelf row stands on the same line",
+    cupboard.unlevelRows === 0, `${cupboard.unlevelRows} rows with uneven feet`);
   // The press. A corner (i) that is drawn but cannot be reached — because
   // the tile's own button is painted over it, or because the 44 px square
   // is under the tile rather than above it — is exactly the defect
@@ -1279,6 +1388,12 @@ try {
   check("the equipment cupboard opens on a phone", await openCupboard());
   const phoneCupboard = JSON.parse(await cupboardAudit());
   check("the phone cupboard stays inside the viewport", phoneCupboard.viewportOverflow <= 1, `${phoneCupboard.viewportOverflow}px`);
+  // Two wide compartments rather than three narrow ones: the device is
+  // actually BIGGER on a phone than on the desktop grid, which is the
+  // right way round for the surface with the least room for prose.
+  check("the phone cupboard tile is mostly the device, not mostly its name",
+    phoneCupboard.drawingShare >= 45,
+    `${phoneCupboard.drawingShare}% of the tile — ${phoneCupboard.portrait} drawn on ${phoneCupboard.tile}`);
   await page.evaluate(`document.querySelector('dialog.cupboard button.icon-close')?.click()`);
 
   check("the provenance drawer opens on a phone", await openProvenance());
@@ -1368,6 +1483,25 @@ try {
   check("320 px vessels rest on the work surface",
     (narrowTop.floating ?? []).length === 0 && (narrowTop.stood ?? []).length > 0,
     JSON.stringify(narrowTop.stood ?? []));
+  /* GUI-115 at 320 px, where the cupboard goes full-screen. The tile's
+   * own 7.6rem minimum is what fixes the column count here — the phone
+   * override that used to set it is gone — so this is the check that
+   * notices if that minimum ever stops yielding two columns: three would
+   * leave the name plate about 30 px of text beside its 44 px corner. */
+  check("the equipment cupboard opens at 320 px", await openCupboard());
+  const narrowCupboard = JSON.parse(await cupboardAudit());
+  check("320 px cupboard stays inside the viewport",
+    narrowCupboard.viewportOverflow <= 1, `${narrowCupboard.viewportOverflow}px`);
+  check("320 px cupboard tile is mostly the device, not mostly its name",
+    narrowCupboard.drawingShare >= 45,
+    `${narrowCupboard.drawingShare}% of the tile — ${narrowCupboard.portrait} drawn on ${narrowCupboard.tile}`);
+  check("320 px devices are still drawn large enough to recognise",
+    narrowCupboard.smallDrawings === 0, `${narrowCupboard.smallDrawings} under 72 px`);
+  check("320 px (i) keeps its 44 px hit area without taking the drawing",
+    narrowCupboard.smallInfo === 0 && narrowCupboard.infoOverDrawing === 0,
+    `${narrowCupboard.smallInfo} under the floor, ${narrowCupboard.infoOverDrawing} overlapping`);
+  await page.evaluate(`document.querySelector('dialog.cupboard button.icon-close')?.click()`);
+  await settle();
   const narrowShelf = await chooseMobilePane(1);
   // The shelf is where the longest words in the product live:
   // "Wasserstoffperoxid" is wider than a 320px phone, and a name that

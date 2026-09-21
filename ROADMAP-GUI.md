@@ -2953,14 +2953,95 @@ evolved CO₂ and half a mole of it must not look the same.
   `ApparatusForm`, which GUI-112/113 is rewriting as this lands; the
   carrying rule is held by `benchFooting.test.ts` until that settles.
 
-- [ ] **GUI-115 — A cupboard of devices, not a wall of text.** GUI-109
-  drew ten instruments as inline SVG and left `pH` and `Bq` as letters
-  because neither has an honest silhouette. That was the icons. This is the
-  cupboard itself: it is still a scrolling list of rows with a drawing at
-  the left, which reads as a menu rather than as a place things are kept.
-  Shelves, depth, things standing where you would reach for them. The same
-  honesty rule applies as for the icons — where a device cannot be drawn
-  recognisably, say so rather than ship a shape that means nothing.
+- [x] **GUI-115 — A cupboard of devices, not a wall of text.** *The
+  picture was there, correctly drawn, and 11.7% of its own tile.* What the
+  work found, in the order it found it:
+
+  - **There were two small boxes, not one.** The tile was 118 x 84 and the
+    portrait inside it 34 x 34, which is the 11.7% the item was opened
+    for — but the `<svg>` inside THAT was 24 x 24, so the drawing itself
+    was 5.8% of the tile. A padded container around a small picture is the
+    same defect twice, and a share measured off the container would have
+    flattered the fix. So the compartment is square and the drawing fills
+    it: `.item-render` IS the picture's box now, and the number below is
+    the picture.
+  - **The 44 px (i) was the binding constraint, not the name.** GUI-110
+    put a 44 px hit square in the tile's top-right and audits that the
+    drawing never overlaps it. On a 118 px tile that is a quarter of the
+    width, and a drawing that fills the width cannot clear it — so
+    "make the drawing bigger" and "keep the touch floor" looked like a
+    choice between two things the repo had already decided.
+
+    They are not in conflict once the tile stops being a column and
+    becomes a compartment. The name moved UP into a plate across the top
+    whose `min-height` is exactly the 44 px the (i) needs, and the device
+    stands below it. The (i) still costs a corner — it costs the PLATE's
+    corner, which was going to be empty. `infoOverDrawing` is still zero
+    and now says something true rather than something arranged, and
+    `infoOverName` is new beside it because the plate's right padding is
+    the only thing now keeping the mark off the caption.
+  - **The stroke was the thing that did not survive the scale.**
+    `ToolIcon` draws at `stroke-width: 1.3` in an 18-unit viewBox, which
+    is 1.3/18 of whatever the box is: a hairline in the 16 px inline icon
+    and a 7.9 px slab at 120 px. Held at 2.4 CSS px with
+    `non-scaling-stroke` it reads as the same hand at every size the grid
+    produces. Nothing about the paths changed.
+  - **`pH` and `Bq` stay letters** — GUI-109's ruling stands, neither has
+    a silhouette — but they had to grow with everything else or two tiles
+    in thirty-four would read as a mistake. Sized in `cqw` off the
+    compartment rather than in `rem` off the root, because the compartment
+    is 117 px on the desktop grid and 144 px on a mid-size phone. They
+    come out at 40% of its height, and `letterShare` pins that.
+  - **The check found something before the layout shipped.** With the
+    "after 2 missions" and "mission kit" tickets left in the flow AFTER
+    the drawing, a locked tile's device sits higher than its neighbours'
+    while the row stretches around it, and a shelf row's feet disagree by
+    the height of a ticket. `unlevelRows` fails on that. The tickets moved
+    above the device, between the plate and the compartment, so the
+    drawing stays the last item with `margin-top: auto` and its foot is
+    the tile's bottom edge whatever else the tile carries. With a locked
+    and a loaned tile in every row the share settles at 52.5–54.3% rather
+    than 58.1–60.5%, because those rows are taller.
+  - **The phone needed no rule of its own.** The 5.8rem column override
+    GUI-110 added is gone: the tile's own 7.6rem minimum yields exactly
+    two columns at 320 px, and the device is BIGGER there (125 px) than on
+    the desktop grid (123 px), which is the right way round for the
+    surface with the least room for prose.
+
+  Measured at four widths, by the harness's own audit code run against a
+  standalone page serving this component's real CSS, the real catalogue
+  and the real `ToolIcon` paths — it reproduces the deployed cupboard's
+  118 x 84 / 34 x 34 / 11.7% exactly, which is what makes it worth
+  trusting, and the assertion itself runs in CI against the built payload:
+
+  | viewport | tile | drawing | share | was |
+  | --- | --- | --- | --- | --- |
+  | 1440 x 900 | 136 x 185 | 123 x 123 | **60.1%** | 11.7% |
+  | 896 x 920 | 130 x 179 | 117 x 117 | **58.8%** | 12.2% |
+  | 390 x 844 | 173 x 206 | 144 x 144 | **58.1%** | 12.0% |
+  | 320 x 640 | 138 x 187 | 125 x 125 | **60.5%** | 9.8% |
+
+  `tools/test-ux-quality.mjs` holds it, one named check per precondition:
+  the share is at least 45%; the drawing fills at least 96% of its
+  compartment; no device is under 72 px on a side; the letters take at
+  least a quarter of their compartment's height; and every device on a
+  shelf row has its feet on the same line, however many lines its name ran
+  to. Run against the old cupboard those report 11.7%, 32 drawings loose
+  in their box and 34 under 72 px, so the check fails on the defect it was
+  written for rather than only passing on the fix.
+
+  **The price, stated rather than hidden: scroll.** The cupboard went from
+  1.2 screens to 2.6 at 1440, and from 4.3 to 8.7 at 320 x 640. Thirty-four
+  devices drawn at 120 px cannot also fit on one screen, and the item asked
+  for the devices. The filter box and the five shelves are the navigation
+  that makes that survivable, and both were already there.
+
+  Left standing, and it is the honest answer to "does anything still read
+  as a list": the three rows of chrome ABOVE the first shelf. The target
+  card, the filter and the progress line are a form, and on a 320 px phone
+  they take a third of the height before a single device is visible. The
+  shelves below them are now a cupboard; the top of the dialog is still a
+  dialog.
 
 - [x] **GUI-116 — The showpiece reactions, rendered, and scaled by the
   numbers.** *All three candidate causes named below were measured and
