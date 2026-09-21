@@ -1,31 +1,38 @@
-//! Two mechanisms bound the same dissolution, and they have to compose.
+//! Two mechanisms bound the same dissolution, and today they agree.
 //!
 //! `kerotakis_core::solve::saturation_moves` reads the registry's curated
 //! `aqueous_solubility_g_per_100_ml` and moves a solid into the aqueous
-//! compartment as an **undissociated portion of itself** — a bench-level
-//! statement that this much went into solution. `DerivedRole::Mineral`
-//! says a routed database spells the solid, so `partition` poses it in
-//! `EQUILIBRIUM_PHASES` and its saturation index does the bounding.
+//! compartment as an **undissociated portion of itself**.
+//! `DerivedRole::Mineral` says a routed database spells the solid, so
+//! `partition` poses it in `EQUILIBRIUM_PHASES` and its saturation index
+//! does the bounding. `partition` folds only the `Phase::Solid` part into
+//! the phase; what the bench has already moved takes the other branch and
+//! enters as ELEMENT TOTALS.
 //!
-//! `partition` used to fold only the `Phase::Solid` part into the phase;
-//! what the bench had already moved took the other branch and entered as
-//! ELEMENT TOTALS. #699 named that as the reason it could not ship four
-//! measured solubilities it had sourced. **Reproduced 2026-09-21, and the
-//! diagnosis does not hold** — the transcript is in `PLAN.md`. Posing the
-//! phase and entering the totals reach the same answer, because
-//! `append_candidate_phases` already offers the phase at zero moles and
-//! `pH charge` recovers the hydroxide that `contribution_from_counts`
-//! drops. Slaked lime booked either way solves to pH 12.1962 / 12.1974,
-//! the difference being its heat of dissolution and nothing else, and
-//! `lessons/limewater.lab` still goes milky on the full stack with the
-//! measured solubility in place.
+//! #699 named that asymmetry as what emptied `lessons/limewater.lab` when
+//! `Ca(OH)2` got its measured solubility. **Reproduced 2026-09-21 and it
+//! does not hold** — the transcript is in `PLAN.md`. The totals route is
+//! not lossy: `pH charge` recovers the hydroxide that
+//! `contribution_from_counts` drops, and `append_candidate_phases` has
+//! already offered the phase at zero moles, so what the totals put in the
+//! candidate can take back out. Limewater goes milky either way. What went
+//! clear was the ENGINE-FREE golden, whose cloudiness was undissolved lime
+//! read as a suspension.
 //!
-//! So these tests are **not** the fix for that. They pin the invariant the
-//! change makes true by construction, so that the next solid above the
-//! trace line does not have to find out the hard way whether the two
-//! routes still happen to agree: **a mineral gives the same solution
-//! whichever condensed phase the bench has it booked in.** A datum that
-//! changes bookkeeping must not change chemistry.
+//! **Posing the aqueous share as part of the phase as well was tried, and
+//! it is not free.** It is byte-identical in this vessel and it took
+//! `aq-071`, `aq-090` and `mat-115` out of the curiosity corpus's computed
+//! route — three chalk beakers whose coupled aqueous temperature stopped
+//! converging within 64 passes, because moving a trace out of the totals
+//! and into the phase moves the dissolution heat the fixed point is
+//! iterating on. A tidier statement of an invariant that already holds is
+//! not worth three prompts, so the asymmetry stays and this is what
+//! watches it instead.
+//!
+//! The invariant, stated once here so a drift is a failing test rather
+//! than a silent difference: **a mineral gives the same solution whichever
+//! condensed phase the bench has it booked in.** A datum that changes
+//! bookkeeping must not change chemistry.
 
 #![cfg(feature = "engine")]
 
@@ -34,11 +41,12 @@ use kerotakis_phreeqc::PhreeqcEquilibrator;
 
 /// One kilogram of water and 0.01 mol of slaked lime, with the lime
 /// standing in `lime` — `Phase::Solid` as it is poured, `Phase::Aqueous`
-/// as `saturation_moves` leaves it once the solid carries a measured
-/// solubility above the trace line. Portlandite is `Ca(OH)2`'s phase in
+/// as `saturation_moves` leaves it now that the solid carries Bates,
+/// Bower and Smith's 0.15633 g/100 mL. Portlandite is `Ca(OH)2`'s phase in
 /// wateq4f, so the role is live: it reads
 /// `Mineral { phase: "Portlandite", elements: [("Ca", 1.0)] }` — the two
-/// hydroxides are already gone from the element list.
+/// hydroxides are already gone from the element list, which is exactly the
+/// loss the suspicion was about.
 fn limewater(lime: Phase) -> Vessel {
     let mut vessel = Vessel::new(VesselId(0), "beaker");
     vessel.deposit(SpeciesId::new("water"), Moles(55.51), Phase::Liquid);

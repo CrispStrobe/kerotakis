@@ -4270,16 +4270,27 @@ enthalpy is now exactly what it was and the temperature is whatever the
 new mixture's heat capacity says. The shift is 1e-4 K on two lesson
 goldens and it is in the diff.
 
-**A mineral posed as its phase whichever condensed phase holds it.** Not
-the fix for anything reported — the two routes agree today — but they
-agree by a charge balance and a zero-mole candidate each doing half the
-work, and the next solid over the line should not have to find out whether
-they still do. Which path defers to which is argued at the code: the
-saturation index, every time, where a routed database has one, because a
-curated g/100 mL is one measurement in pure water and a log K also answers
-in the solution the vessel holds. The readback's precipitate/dissolve
-baseline moves with it, or one dissolution would be announced twice on the
-same step.
+**A mineral posed as its phase whichever condensed phase holds it —
+TRIED, AND WITHDRAWN, AND IT IS WORTH RECORDING WHY.** `partition` folds
+only the `Phase::Solid` part of a mineral into `EQUILIBRIUM_PHASES`; what
+`saturation_moves` has already moved takes the other branch and enters as
+element totals. Making that symmetric is a tidier statement of an
+invariant that already holds, and it is byte-identical on limewater.
+
+It cost three prompts. `aq-071`, `aq-090` and `mat-115` — chalk in a
+beaker, filtered or decanted — left the curiosity corpus's computed route
+with *"coupled aqueous temperature did not converge within 64 passes"*,
+because moving a trace out of the totals and into the phase moves the
+dissolution heat that fixed point is iterating on. Tidiness is not worth
+three prompts, so the asymmetry stays.
+
+What watches it instead is
+`crates/kerotakis-phreeqc/tests/saturation_versus_equilibrium_phase.rs`,
+which asserts the invariant directly: the same lime booked as a solid and
+booked as dissolved gives the same solution, to within the heat of
+dissolution released on the step in one case and not the other. A drift is
+now a failing test rather than a silent difference, which is what the
+change was for.
 
 #### The five, shipped
 

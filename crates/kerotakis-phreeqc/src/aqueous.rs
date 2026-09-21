@@ -1827,65 +1827,7 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
                 for (el, _) in els {
                     note_element(el);
                 }
-                // A CONDENSED portion of a mineral is posed as its phase
-                // whichever side of the bench's own solid/aqueous line it
-                // is sitting on.
-                //
-                // Two mechanisms bound the same dissolution.
-                // `kerotakis_core::solve::saturation_moves` reads the
-                // registry's curated `aqueous_solubility_g_per_100_ml` and
-                // moves the solid into the aqueous compartment as an
-                // UNDISSOCIATED portion of itself; the `Mineral` role says
-                // a routed database spells this solid and its saturation
-                // index will do the bounding. Posing only the part the
-                // bench had left as `Phase::Solid` meant the part it had
-                // moved took the other branch and entered as ELEMENT
-                // TOTALS, with no phase for the solver to dissolve or
-                // precipitate.
-                //
-                // #699 named that as what emptied `lessons/limewater.lab`
-                // when `Ca(OH)2` got its measured solubility. Reproduced
-                // 2026-09-21 on the full stack, and THAT HALF OF THE
-                // DIAGNOSIS DOES NOT HOLD — worth saying here rather than
-                // only in `PLAN.md`, because the next reader will find the
-                // same two branches and wonder. The totals route is not
-                // lossy: `pH charge` recovers the hydroxide that
-                // `contribution_from_counts` drops (portlandite's elements
-                // really are `[(Ca, 1)]`, and slaked lime entered as
-                // totals still solves to pH 12.2), and
-                // `append_candidate_phases` has already offered the phase
-                // at zero moles, so what the totals put in the candidate
-                // can take back out. The lesson goes milky either way.
-                // What went clear was the ENGINE-FREE golden, whose
-                // cloudiness was undissolved lime read as a suspension.
-                //
-                // The other half of #699's finding was real and is fixed
-                // where it lives: `saturation_moves` was SOLUTION-BLIND,
-                // and `AgCl` proved it one order of magnitude above chalk
-                // rather than two below limewater.
-                //
-                // So this branch is an invariant and not that fix. The two
-                // routes agree by luck — by a charge balance and a
-                // zero-mole candidate each doing half the work — and the
-                // next solid to cross the line should not have to find out
-                // whether they still do. A mineral now gives the same
-                // solution whichever condensed phase the bench has it
-                // booked in, so a saturation move is bookkeeping rather
-                // than chemistry.
-                //
-                // **Which path defers to which.** The saturation index,
-                // every time, where a routed database has one. A curated
-                // g/100 mL is one measurement at one temperature in pure
-                // water; a log K reproduces that measurement AND answers
-                // in the solution the vessel actually holds — common ion,
-                // pH, ionic strength. `saturation_moves` is left free to
-                // keep bounding the solids no database spells, which is
-                // the case it was written for.
-                //
-                // Phase::Liquid keeps the old branch: a melted solid is
-                // neither a mineral assemblage nor, strictly, dissolved,
-                // and nothing here is evidence about it either way.
-                if matches!(p.phase, Phase::Solid | Phase::Aqueous) {
+                if p.phase == Phase::Solid {
                     if let Some(entry) = phases.iter_mut().find(|(name, ..)| name == phase) {
                         entry.1 += p.moles.0;
                     } else {
@@ -4939,42 +4881,12 @@ impl PhreeqcEquilibrator {
                 // solids: a freely-soluble solid (e.g. KCl) contributes to
                 // the totals, not the phase, and comparing against vessel
                 // solids double-counted its dissolution (and its heat).
-                let posed = problem
+                let before = problem
                     .phases
                     .iter()
                     .find(|(name, ..)| name == phase)
                     .map(|(_, m, _)| *m)
                     .unwrap_or(0.0);
-                // ...minus the part of that input which was NOT standing
-                // as a solid when the step began.
-                //
-                // `partition` now poses a mineral's whole condensed
-                // inventory, the aqueous share included, so that a
-                // bench-level saturation move cannot change the problem
-                // the solver is handed. But a portion the bench had
-                // already moved into solution was announced when it moved
-                // — `Event::Dissolved` from `solve::saturation_moves` —
-                // and measuring this delta against the whole inventory
-                // would announce the same dissolution a second time on
-                // the same step. What this event is for is what the SOLVE
-                // did, so the baseline is what was solid before it ran.
-                //
-                // For every solid the bench did not touch the two numbers
-                // are identical, which is why this reads as the old line
-                // in all but the one case. It is still not the vessel's
-                // solids in general: a freely soluble solid (KCl) has no
-                // `Mineral` role, contributes to the totals rather than
-                // to a phase, and never reaches this branch at all — the
-                // double-counted dissolution the old comment records.
-                let moved_into_solution: f64 = vessel
-                    .contents
-                    .iter()
-                    .filter(|portion| {
-                        portion.species.0 == species && portion.phase == Phase::Aqueous
-                    })
-                    .map(|portion| portion.moles.0)
-                    .sum();
-                let before = (posed - moved_into_solution).max(0.0);
                 if *moles > TRACE {
                     contents.push(Portion {
                         species: SpeciesId::new(species),
@@ -6831,10 +6743,7 @@ mod routing_molality_tests {
     /// THE ROUTING DECISION IS UNCHANGED AND THAT IS WHAT THIS TEST IS
     /// FOR. 12.26 is what the pitzer route exists for exactly as 16.0 was
     /// — an order of magnitude above the 1.0 where the Debye-Hückel
-    /// datasets leave their validity domain — and it is also still above
-    /// `condense_supersaturated`'s own trigger, so the brine is still
-    /// posed as a solid dissolving to saturation rather than as an
-    /// impossible total.
+    /// datasets leave their validity domain.
     #[test]
     fn a_real_brine_still_reads_as_concentrated() {
         let mut vessel = Vessel::new(VesselId(0), "brine");
