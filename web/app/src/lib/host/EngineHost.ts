@@ -310,6 +310,11 @@ export interface SceneLiquid {
   colour_word: string;
   cloudiness: number;
   path_length_cm: number;
+  /** GUI-119. Species whose optical contribution the engine could not
+   * compute, so `srgb` above is an incomplete colour that knows which part
+   * of itself is missing. Absent on an older engine, and omitted when the
+   * colour is whole. Never a licence to invent the missing tint. */
+  spectral_gaps?: string[];
 }
 
 export interface SceneSolid {

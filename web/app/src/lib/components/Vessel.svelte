@@ -308,6 +308,12 @@
     : 0);
   const snowH = $derived(vessel.swelling ? Math.max(7, FULL_H * (0.22 + snowFraction * 0.68)) : 0);
   const glowStrength = $derived(Math.min(1, (vessel.chemiluminescence?.relative_intensity ?? 0) / 4));
+  /* GUI-119. The species the engine could not give a colour to.
+     `Appearance.spectral_gaps` has reported these since the optics went in
+     and the prose has always said them; until the scene carried them the
+     PICTURE painted a confident colour over the admission. Absent on an
+     older engine, which is the same as "nothing known to be missing". */
+  const spectralGaps = $derived(vessel.liquid?.spectral_gaps ?? []);
   const persistentEnzymeReadouts = $derived(enzymeReadouts(vessel));
   // The layer stack in pixels, bottom-up: each layer's share of the
   // total height is its share of the total volume, so the drawn split
@@ -725,6 +731,39 @@
         <stop class="glass-depth" offset="0.68" stop-opacity="0.07" />
         <stop class="glass-depth" offset="1" stop-opacity="0.2" />
       </linearGradient>
+      <!-- GUI-119: the mark for a colour the model could not finish.
+           A hatch, because hatching is what a chart draws over the region
+           it has no data for: it says "this is not fully known" without
+           adding a single fact about the liquid. It deliberately carries
+           NO hue — the whole content of the signal is that no hue could be
+           computed, and tinting the gap would invert it.
+
+           Two strokes per tile, one light and one dark, half a pitch
+           apart. The liquid underneath is an arbitrary engine colour in an
+           arbitrary theme, and a single-tone hatch disappears against half
+           of them; a pair cannot. Both are existing glass tokens, defined
+           on all three benches.
+
+           `userSpaceOnUse` in the same fixed viewBox as everything else,
+           so the pitch is the same number of user units at 64 px as at
+           257 px and the hatch scales with the drawing instead of
+           re-tiling into noise.
+
+           Defined on every vessel rather than only on a marked one. A
+           `<defs>` entry paints nothing, and the pitch and the two stroke
+           colours are exactly what goes silently wrong — a token renamed,
+           a tile shrunk past legibility. Leaving it here lets the browser
+           audit measure the real thing at the real drawn scale without
+           having to manufacture a gap first. -->
+      <pattern
+        id={`vgap-${vessel.id}`}
+        patternUnits="userSpaceOnUse"
+        width="8"
+        height="8"
+      >
+        <path class="gap-hatch-under" d="M -2 2 L 2 -2 M 0 8 L 8 0 M 6 10 L 10 6" />
+        <path class="gap-hatch-over" d="M 0 2 L 4 -2 M 2 8 L 10 0 M 8 10 L 12 6" />
+      </pattern>
       <radialGradient id={`vglow-${vessel.id}`}>
         <stop offset="0" stop-color="#5de8ff" stop-opacity="0.9" />
         <stop offset="0.45" stop-color="#28aee9" stop-opacity="0.5" />
@@ -822,6 +861,25 @@
         height={liquidH}
         fill={`url(#vdepth-${vessel.id})`}
       />
+      {#if spectralGaps.length > 0}
+        <!-- The colour above is incomplete and the engine named the part
+             it could not compute. The hatch covers the liquid column the
+             claim was made about, and nothing else: the glass, the foam
+             and the deposit are not what is in doubt. -->
+        <g class="spectral-gap" data-gaps={spectralGaps.join(",")}>
+          <rect
+            class="spectral-gap-hatch"
+            x={INNER_X}
+            y={BOTTOM_Y - liquidH}
+            width={INNER_W}
+            height={liquidH}
+            fill={`url(#vgap-${vessel.id})`}
+          />
+          <title>{t("the computed colour is incomplete: no absorption spectrum for {species}", {
+            species: spectralGaps.map((name) => t(name)).join(", "),
+          })}</title>
+        </g>
+      {/if}
     {/if}
 
     {#if vessel.swelling && snowH > 0}
@@ -2953,6 +3011,25 @@
     {#if vessel.gel}
       <small class="gel-status">{Math.round(vessel.gel.gelled_fraction * 100)}% {t("of polymer gelled")}</small>
     {/if}
+    {#if spectralGaps.length > 0}
+      <!-- GUI-119. The hatch on the glass says THAT the colour is
+           incomplete; this says WHAT is missing, in the row the reader
+           already reads the vessel's standing numbers from. A readout,
+           not a warning: nothing has gone wrong on the bench, the model
+           simply has no spectrum for these species and declines to
+           pretend otherwise. -->
+      <span
+        class="persistent-readout spectral-gap-readout"
+        data-gaps={spectralGaps.join(",")}
+        aria-label={t("the computed colour is incomplete: no absorption spectrum for {species}", {
+          species: spectralGaps.map((name) => t(name)).join(", "),
+        })}
+        title={t("The hatching on the liquid marks the part of the colour the model could not compute. It says something about the model, not about the liquid.")}
+      >
+        <small>{t("colour incomplete")}</small>
+        <strong>{spectralGaps.map((name) => t(name)).join(", ")}</strong>
+      </span>
+    {/if}
     {#each persistentEnzymeReadouts as progress (progress.material + progress.family)}
       <span
         class="persistent-readout"
@@ -3435,6 +3512,31 @@
     stroke: var(--glass-depth);
     stroke-width: 0.7;
     opacity: 0.18;
+  }
+  /* GUI-119. The hatch over a colour the model could not finish. Both
+     strokes are glass tokens rather than fixed colours, so the mark reads
+     on the light, dark and high-contrast benches; neither carries a hue,
+     because the signal is the ABSENCE of a computed colour and any tint
+     here would be a chemistry claim the engine explicitly declined to
+     make. Not a warning either: no red, no flashing, no icon. */
+  .gap-hatch-under {
+    fill: none;
+    stroke: var(--glass-depth);
+    stroke-width: 1.5;
+    opacity: 0.36;
+  }
+  .gap-hatch-over {
+    fill: none;
+    stroke: var(--glass-specular);
+    stroke-width: 1.5;
+    opacity: 0.46;
+  }
+  /* The hatch keeps its pointer events: the reader who wonders what the
+     texture is points AT the texture, and its own title is the answer.
+     The vessel's sentence is not lost — it is the figure's aria-label and
+     the live observation line under the drawing. */
+  .spectral-gap-readout strong {
+    font-weight: 600;
   }
   /* Turbidity is the engine's `cloudiness`, and light from the deposit
      has crossed the whole suspension before it reaches the eye. */

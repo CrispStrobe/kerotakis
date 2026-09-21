@@ -982,6 +982,105 @@ try {
       && glassTokens.contrast.join("|") !== glassTokens.light.join("|"),
     JSON.stringify(glassTokens.contrast));
 
+  /* -- GUI-119: the mark for a colour the model could not finish -------
+   *
+   * `Appearance.spectral_gaps` names the species the engine could not
+   * give an optical contribution to. It reached the prose and not the
+   * picture, so a vessel whose colour is admittedly incomplete was drawn
+   * as confidently as one that is whole.
+   *
+   * The mark is a hatch. Whether a hatch is DRAWN is the component
+   * tests' business — they run it in both directions, gap and no gap.
+   * What only a browser can answer is whether the hatch is legible where
+   * it lands: it is authored in the fixed viewBox's own units, and a
+   * pitch that reads at 257 px can be a flat grey wash at 64 px. So the
+   * tile is measured at the real drawn scale, and the two strokes are
+   * read as the browser resolves them.
+   *
+   * Each precondition is its own named check.
+   */
+  const hatchAudit = () => page.evaluate(`(() => {
+    const svg = document.querySelector('.vessel svg');
+    const pattern = svg?.querySelector('pattern[id^="vgap"]');
+    if (!svg || !pattern) return JSON.stringify({ svg: Boolean(svg), pattern: false });
+    const box = svg.getBoundingClientRect();
+    // One viewBox unit in CSS pixels. Every length in the drawing is in
+    // these, so this is the only conversion the audit needs.
+    const unit = box.width / 100;
+    const strokes = ['.gap-hatch-under', '.gap-hatch-over'].map((selector) => {
+      const path = pattern.querySelector(selector);
+      if (!path) return { missing: true };
+      const style = getComputedStyle(path);
+      return {
+        colour: style.stroke,
+        width: parseFloat(style.strokeWidth) || 0,
+        opacity: parseFloat(style.opacity) || 0,
+      };
+    });
+    return JSON.stringify({
+      svg: true,
+      pattern: true,
+      vesselWidth: Math.round(box.width),
+      tilePx: +(Number(pattern.getAttribute('width')) * unit).toFixed(2),
+      strokePx: +(strokes[0].width * unit).toFixed(2),
+      strokes,
+    });
+  })()`);
+  const hatch = JSON.parse(await hatchAudit());
+  check("the vessel on the bench defines the incomplete-colour hatch",
+    hatch.svg === true && hatch.pattern === true, JSON.stringify(hatch));
+  if (hatch.pattern) {
+    // "Resolves" here cannot mean "is not black": --glass-depth IS black
+    // on the dark bench, deliberately. A stroke has gone missing when it
+    // is absent or fully transparent.
+    check("both hatch strokes exist and resolve to a paintable colour",
+      hatch.strokes.every((stroke) =>
+        !stroke.missing && /^rgb/.test(stroke.colour) && !/,\s*0\)$/.test(stroke.colour)),
+      JSON.stringify(hatch.strokes));
+    // A single-tone hatch disappears against half the colours the engine
+    // can compute. The pair is the whole reason it reads on any liquid.
+    check("the two strokes are different colours, so the hatch reads on any liquid",
+      hatch.strokes[0].colour !== hatch.strokes[1].colour, JSON.stringify(hatch.strokes));
+    // THE honesty assertion, and the one a well-meaning redesign breaks:
+    // the mark must carry no hue. A tinted hatch is a colour claim for
+    // exactly the species the engine said it could not compute one for.
+    // Chroma in absolute channel terms, not saturation: --glass-depth is a
+    // near-black ink with a faint blue cast (10,28,44 on the light bench),
+    // which is numerically SATURATED and perceptually neutral. What must
+    // never appear here is a real hue — a warning amber is 165 apart, a
+    // danger red 135, and any tint borrowed from a species further still.
+    const achromatic = (colour) => {
+      const parts = (colour.match(/[\d.]+/g) ?? []).slice(0, 3).map(Number);
+      return parts.length === 3 && Math.max(...parts) - Math.min(...parts) <= 45;
+    };
+    check("neither stroke carries a hue, so no colour is invented for the gap",
+      hatch.strokes.every((stroke) => achromatic(stroke.colour)),
+      JSON.stringify(hatch.strokes.map((stroke) => stroke.colour)));
+    check("the hatch is faint enough to leave the computed colour legible under it",
+      hatch.strokes.every((stroke) => stroke.opacity > 0 && stroke.opacity < 0.6),
+      JSON.stringify(hatch.strokes.map((stroke) => stroke.opacity)));
+    check("the hatch tile reads as a texture on the lone vessel, not one flat wash",
+      hatch.tilePx >= 8 && hatch.strokePx >= 1.5,
+      `${hatch.tilePx}px tile, ${hatch.strokePx}px stroke at ${hatch.vesselWidth}px wide`);
+  }
+  const hatchTokens = JSON.parse(await page.evaluate(`(() => {
+    const root = document.documentElement;
+    const previous = root.getAttribute('data-theme');
+    const read = () => ['--glass-depth', '--glass-specular']
+      .map((name) => getComputedStyle(root).getPropertyValue(name).trim());
+    const light = read();
+    root.setAttribute('data-theme', 'dark');
+    const dark = read();
+    root.setAttribute('data-theme', 'contrast');
+    const contrast = read();
+    if (previous === null) root.removeAttribute('data-theme'); else root.setAttribute('data-theme', previous);
+    return JSON.stringify({ light, dark, contrast });
+  })()`));
+  check("every bench defines both hatch tokens, so the mark never goes missing",
+    [hatchTokens.light, hatchTokens.dark, hatchTokens.contrast]
+      .every((pair) => pair.length === 2 && pair.every((value) => value.length > 0)),
+    JSON.stringify(hatchTokens));
+
   // The same vessel at the size a phone never leaves, and the size a
   // second vessel on the desktop bench falls back to. Measured here
   // rather than in the phone pass because here a vessel is provably on
@@ -996,6 +1095,25 @@ try {
     check("and the small vessel is the same gradient-painted glass, not a flat block",
       smallGlass.painted === true && smallGlass.stops >= 9 && smallGlass.black === 0,
       JSON.stringify(smallGlass));
+  }
+  /* GUI-119, the harder half of the same question. The vessel here is at
+   * the floor of `clamp(64px, …)` — the size a phone never leaves, and
+   * the size a second vessel on the desktop bench falls back to. A hatch
+   * that reads on the 257 px lone vessel and turns to flat grey here has
+   * failed at exactly the size most learners see it. */
+  const smallHatch = JSON.parse(await hatchAudit());
+  check("the small vessel carries the same hatch definition", smallHatch.pattern === true,
+    JSON.stringify(smallHatch));
+  if (smallHatch.pattern && hatch.pattern) {
+    check("the hatch is in viewBox units, so it shrinks with the vessel instead of re-tiling",
+      smallHatch.tilePx < hatch.tilePx,
+      `${smallHatch.tilePx}px at ${smallHatch.vesselWidth}px vs ${hatch.tilePx}px at ${hatch.vesselWidth}px`);
+    // The floor. Below roughly four pixels of pitch the stripes fuse and
+    // the mark stops being a hatch; below one pixel of stroke it stops
+    // being visible at all.
+    check("and it is still a hatch at the smallest size the bench ever draws",
+      smallHatch.tilePx >= 4 && smallHatch.strokePx >= 0.9,
+      `${smallHatch.tilePx}px tile, ${smallHatch.strokePx}px stroke at ${smallHatch.vesselWidth}px wide`);
   }
   await viewport(1440, 900);
   await settle();

@@ -244,6 +244,25 @@ reports `Event::StockExhausted` with both numbers. The level lives on
 `Bench`, so the opaque `snapshot`/`restore` token round-trips it with
 everything else.
 
+Additive 2026-09-21 (GUI-119): `liquid` carries `spectral_gaps` — the
+species whose optical contribution the model could not compute, so the
+`srgb` beside them is an **incomplete** colour and says which part of it is
+missing:
+
+```json
+"liquid": { "srgb": [58,92,140], "colour_word": "blue",
+            "spectral_gaps": ["Cu(NH3)4+2"] }
+```
+
+The same list `Appearance.spectral_gaps` has always reported and the
+`look.spectral-gap` note has always spoken; it was reaching the prose and
+not the picture. Names rather than a flag, because a host that can only say
+"something is missing" cannot answer the one question the mark provokes.
+**Never a colour**: the content of this signal is precisely that none could
+be computed, and a host that invents a tint for a named species has
+inverted it. The array is **omitted when empty**, so a host written before
+this field sees byte-for-byte what it saw before.
+
 ## The chart contract (CAP-3; authoritative in `kerotakis-core/src/chart.rs`)
 
 One JSON contract, every renderer consumes it — the CLI's `chart_svg`, and

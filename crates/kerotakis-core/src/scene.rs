@@ -502,6 +502,23 @@ pub struct SceneLiquid {
     /// The path length the colour was computed for. A canvas drawing a
     /// wider or narrower vessel may rescale absorbance against this basis.
     pub path_length_cm: f64,
+    /// Species whose optical contribution could not be computed, so the
+    /// `srgb` above is INCOMPLETE and the engine knows which part of it is
+    /// missing. Already carried to the PROSE as the `look.spectral-gap`
+    /// note; this is the same admission, on its way to the picture.
+    ///
+    /// Names, not a flag. The names cost a few short strings per frame and
+    /// buy the only answer a reader who notices the mark can ask for —
+    /// *what* is missing — and the prose beside the drawing already names
+    /// them, so a bare boolean would have made the two disagree about how
+    /// much the model is willing to say.
+    ///
+    /// Never a colour: the whole content of this signal is that the model
+    /// could not compute one. Empty — and omitted from the wire — when the
+    /// colour is whole, so a host written before this field sees exactly
+    /// what it saw before.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub spectral_gaps: Vec<String>,
 }
 
 /// One solid species in the vessel, ready to paint.
@@ -837,6 +854,7 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
             colour_word: appearance::liquid_colour_word(c, seen.cloudiness).to_string(),
             cloudiness: seen.cloudiness,
             path_length_cm: crate::vessel::path_cm_for(&v.label),
+            spectral_gaps: seen.spectral_gaps.clone(),
         })
         .or_else(|| {
             material_layers.first().map(|layer| SceneLiquid {
@@ -845,6 +863,7 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
                 colour_word: layer.colour_word.clone(),
                 cloudiness: 0.0,
                 path_length_cm: crate::vessel::path_cm_for(&v.label),
+                spectral_gaps: seen.spectral_gaps.clone(),
             })
         });
     if let (Some(liquid), Some(emulsion)) = (&mut liquid, &emulsion_observation) {
@@ -1742,6 +1761,74 @@ mod tests {
         assert_eq!(s.solids[0].species, "AgCl");
         // The precipitate clouds the liquid; the sponge does not add to it.
         assert!(s.liquid.unwrap().cloudiness > 0.1);
+    }
+
+    /// GUI-119. The engine has always known which species it could not
+    /// give a colour to, and has always said so in the prose. The scene
+    /// dropped it, so the picture painted a confident colour over a gap.
+    ///
+    /// Both directions, because only one of them is the defect: a whole
+    /// colour must carry no gap, and the same vessel with an uncomputable
+    /// complex in it must carry the complex by name.
+    #[test]
+    fn an_incomplete_colour_reaches_the_scene_naming_what_is_missing() {
+        use crate::vessel::{SolutionInfo, SpeciesDetail};
+        let mut v = vessel_with(&[
+            ("water", 5.55, Phase::Liquid),
+            ("Cu+2", 0.01, Phase::Aqueous),
+        ]);
+        let whole = scene_vessel(&v).liquid.expect("a liquid");
+        assert!(
+            whole.spectral_gaps.is_empty(),
+            "a colour the model computed whole admits no gap: {:?}",
+            whole.spectral_gaps
+        );
+        assert!(
+            !serde_json::to_value(&whole).unwrap()["spectral_gaps"].is_array(),
+            "an empty list stays off the wire, so an older host sees what it saw"
+        );
+
+        // The ammine complex carries almost all the copper and has no
+        // registered spectrum, so the colour above is most of the copper
+        // missing. `solution_optics::spectral_gaps` has reported this for
+        // as long as it has existed.
+        v.solution = Some(SolutionInfo {
+            solvent_activity: None,
+            scope: Default::default(),
+            solvent_kg: Some(0.1),
+            ph: 9.0,
+            pe: None,
+            redox: vec![],
+            ionic_strength: 0.1,
+            provenance: None,
+            species: vec![
+                SpeciesDetail {
+                    name: "Cu+2".into(),
+                    molality: 0.001,
+                    activity: 0.0005,
+                },
+                SpeciesDetail {
+                    name: "Cu(NH3)4+2".into(),
+                    molality: 0.099,
+                    activity: 0.05,
+                },
+            ],
+        });
+        let gapped = scene_vessel(&v).liquid.expect("a liquid");
+        assert_eq!(
+            gapped.spectral_gaps,
+            vec!["Cu(NH3)4+2".to_string()],
+            "the scene names what the prose names"
+        );
+        // And it is still only an admission. The engine did not invent the
+        // missing absorbance: it painted the tenth of the copper it could
+        // still see, so the colour got PALER rather than gaining a tint
+        // nobody computed.
+        assert!(
+            gapped.srgb.iter().copied().map(u32::from).sum::<u32>()
+                >= whole.srgb.iter().copied().map(u32::from).sum::<u32>(),
+            "the uncomputable share was left out, not guessed at"
+        );
     }
 
     #[test]
