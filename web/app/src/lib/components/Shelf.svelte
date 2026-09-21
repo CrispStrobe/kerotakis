@@ -650,7 +650,15 @@
     padding: 0.6rem 0.8rem;
     list-style: none;
   }
+  /* GUI-121 — the count does not give way; the shelf above it does.
+     Without `flex: none` the tally is a shrinkable flex item like the
+     group list beside it, and at 200% text zoom it was shrunk out of the
+     cabinet entirely: "323 von 323 Stoffen" measured 286 x 0, below the
+     bottom of `.shelf-pane` and clipped by its `overflow: hidden`. The
+     list is the thing with a scroller and `min-height: 0`; it is the one
+     that should absorb the squeeze. */
   .tally {
+    flex: none;
     margin: 0;
     padding: 0.35rem 0.8rem 0.6rem;
     color: var(--dim);
