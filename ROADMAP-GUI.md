@@ -3644,7 +3644,68 @@ evolved CO₂ and half a mole of it must not look the same.
   transforms or a parent's `text-overflow` beyond the box arithmetic
   above.
 
+## Two more rulings, 2026-09-21
+
+- [ ] **GUI-123 — the legibility guard reaches form controls.** GUI-121's
+      assertion reads text *nodes*, so an `<input>`'s value and its
+      placeholder are outside its net — a limit it recorded at the check
+      rather than leaving to be discovered. `Shelf.svelte`'s `.stepper`
+      already carries a standing comment about a number field measured at
+      33 px, which is the defect in the wild.
+
+      **RULED: extend it.** A value a reader typed, painted too small to
+      read, is the same defect as a heading painted at zero. The ruling
+      carries its own warning: **placeholders legitimately truncate**, so a
+      threshold copied from the text-node rule will cry wolf. If the two
+      cannot share a rule, give the value a strict one and the placeholder
+      a loose one and say so at the check — the distinction between "the
+      answer" and "a hint" is one a reader would agree with.
+
+- [ ] **GUI-092 — the ionic equation, derived: solve the spectator
+      coefficients.** The first slice shipped in August: the net ionic
+      line, with spectators named at lv3. The complete equation with the
+      spectators struck through was offered to the owner and could not
+      honestly be drawn, and the reason is worth stating where the next
+      person will look — **`ionic.rs::spectators` selects by abundance and
+      constructs every term with `coefficient: 1`**. They are never
+      stoichiometrically solved, so placing them on both sides of a
+      complete equation would assert a balance nothing computed.
+
+      **RULED: solve them.** Balance the spectators against the molecular
+      equation the same way the net participants already are — `ionic.rs`
+      has a small linear solve (`balance_against`) that pins free
+      variables to zero and then *verifies every row*, returning `None`
+      rather than a least-squares fiction. That refusal is the model: a
+      complete equation that cannot be balanced must not be drawn at all,
+      and the net line that ships today is the honest fallback.
+
 ## A pane taller than itself at 200% text zoom (GUI-122)
+
+**RULED 2026-09-21: the pane scrolls.** Put a scroller on the bench pane,
+as the journal and the cabinet already have. Nothing is lost and nothing
+is redesigned; a zoomed reader scrolls the bench the way they scroll
+everything else.
+
+Two alternatives were offered and declined, and the reasons are worth
+keeping because they constrain the implementation:
+
+- *Let the stage give up its share* — shrink the vessel at high zoom so
+  the furniture fits. Declined, and it would have undone work from the
+  same week: GUI-094 has just taken a lone vessel from 3.9% to 11.6% of
+  the pane **because it was too small**, and a reader at 200% zoom is
+  often zoomed precisely because they need things larger. Making the
+  picture smaller for the readers who most need it bigger is the wrong
+  trade.
+- *Turn the dock into a pull-up sheet below a height threshold.* Declined:
+  a second interaction model for the same controls, and a sheet that can
+  cover the very vessel you are pouring into.
+
+**The cost this ruling accepts, stated plainly:** the bench pane gains a
+scrollbar it does not have at 100%, and the stage stops being guaranteed
+wholly on screen — which is the one thing that pane has always promised.
+Whoever implements it should make the stage the *last* thing to scroll
+out of view, not the first.
+
 
 - [ ] **GUI-122 — What falls out of the bottom of a pane is not below the
   fold; it is gone.** GUI-121's sweep left two instances standing, and
