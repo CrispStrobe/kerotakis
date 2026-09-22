@@ -862,11 +862,27 @@
   }
   .stepper {
     /* 88px of touch targets plus a number wide enough to read. Below this
-       the number field was measured at 33px — too narrow to edit in. */
+       the number field was measured at 33px — too narrow to edit in.
+
+       GUI-123: the two buttons are **px, not rem**, and the difference is
+       a defect the legibility sweep caught the day it learned to read
+       form controls. A touch target is a PHYSICAL size — 44 px is what a
+       finger hits — and it does not grow because the reader asked for
+       bigger text. At `2.75rem` they did: at a 32 px root they became
+       88 px each, took 176 of the stepper's 262 px, and left the number
+       field 86.4 px, in which its own value "100" no longer fit. The
+       reader had asked for larger type and been given a field they could
+       not read their own number in.
+
+       px is also what every other target in this app uses — the register
+       dial's 40, the dock's 36, the pane heading's 44 — so this was the
+       outlier rather than the convention. Page zoom still scales these,
+       because page zoom scales px; only TEXT zoom does not, which is
+       exactly the distinction that was lost. */
     flex: 1 1 8.5rem;
     min-width: 8.2rem;
     display: grid;
-    grid-template-columns: 2.75rem minmax(0, 1fr) 2.75rem;
+    grid-template-columns: 44px minmax(0, 1fr) 44px;
   }
   .amounts select {
     flex: 0 1 auto;
@@ -882,9 +898,11 @@
   }
   .step {
     /* 44px is the smallest target a finger hits reliably; the measured
-       height here was 38. */
-    min-height: 2.75rem;
-    min-width: 2.75rem;
+       height here was 38. In px rather than rem since GUI-123, for the
+       reason the `.stepper` grid above gives: a finger is the same size
+       whatever type the reader has chosen. */
+    min-height: 44px;
+    min-width: 44px;
     background: var(--panel-raised);
     border: 1px solid var(--edge);
     color: var(--ink);
