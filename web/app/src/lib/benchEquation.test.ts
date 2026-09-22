@@ -1,44 +1,51 @@
 import { describe, expect, it } from "vitest";
-import { equationFromRenderedLine } from "./benchEquation";
+import { equationsFromEvents } from "./benchEquation";
 
-describe("the equation inside a rendered line", () => {
-  it("drops the vessel prefix the engine renders in front of it", () => {
-    // The live German bench pinned `": HCO₃⁻ + CH₃COOH → …"` — a heading
-    // whose title looked lost. It was the colon out of `v1: {equation}`.
-    expect(equationFromRenderedLine("v1: HCO₃⁻ + CH₃COOH → CH₃COO⁻ + H₂O + CO₂↑"))
-      .toBe("HCO₃⁻ + CH₃COOH → CH₃COO⁻ + H₂O + CO₂↑");
+const reaction = (equation: string) => ({ event: "reaction_occurred", vessel: 0, equation });
+
+describe("the equations a step's events carry", () => {
+  it("reads the equation off the event that carries it", () => {
+    expect(equationsFromEvents([reaction("HCO₃⁻ + CH₃COOH → CH₃COO⁻ + H₂O + CO₂↑")]))
+      .toEqual(["HCO₃⁻ + CH₃COOH → CH₃COO⁻ + H₂O + CO₂↑"]);
   });
 
-  it("never returns something that starts with punctuation", () => {
-    for (const line of [
-      "v1: A + B → C",
-      "v12: net ionic: Ag⁺ + Cl⁻ → AgCl↓",
-      "2 H₂ + O₂ → 2 H₂O",
-      "v3: N₂O₄ ⇌ 2 NO₂",
-    ]) {
-      const equation = equationFromRenderedLine(line);
-      expect(equation).not.toBeNull();
-      expect(equation![0]).toMatch(/[^\s:;.]/);
-    }
+  it("keeps every equation in the step, oldest first", () => {
+    expect(equationsFromEvents([reaction("A → B"), { event: "observed" }, reaction("C ⇌ D")]))
+      .toEqual(["A → B", "C ⇌ D"]);
   });
 
-  it("keeps the equation and drops the sentence that follows it", () => {
-    expect(equationFromRenderedLine("v1: CaCO₃ → CaO + CO₂↑. The gas escapes."))
-      .toBe("CaCO₃ → CaO + CO₂↑");
+  /**
+   * The two that were pinned on a live German bench, and the class they
+   * belong to. All three carry an arrow and none is chemistry; a scrape of
+   * the rendered prose caught all three, and reading the event catches
+   * none — which is the whole point of the change.
+   */
+  it.each([
+    ["the aqueous routing announcement", "solution_routed",
+      "v1: Route → Kerotakis analytic equilibrium evaluator · phreeqc.dat, wie vom USGS mitgeliefert"],
+    ["a temperature change", "temperature_changed", "v1: T 298,150 K → 299,356 K (ΔT = +1,206 K)"],
+    ["a transfer", "transferred", "v1 → v2: 50 mL"],
+  ])("is not fooled by %s", (_name, event, rendered) => {
+    // The rendered text is passed as a field the function does not read, so
+    // the assertion is about the EVENT kind and not about the words: a
+    // sentence with an arrow in it is not an equation no matter how much it
+    // looks like one.
+    expect(equationsFromEvents([{ event, rendered }])).toEqual([]);
   });
 
-  it("takes the chemistry out of a tagged ionic line", () => {
-    expect(equationFromRenderedLine("v2: net ionic: Ag⁺ + Cl⁻ → AgCl↓"))
-      .toBe("Ag⁺ + Cl⁻ → AgCl↓");
+  it("ignores a reaction event whose equation is half an equation", () => {
+    // The engine does not write these. If it ever does, an empty rail is
+    // the honest answer — a pinned fragment reads as a title that lost its
+    // heading, which is the bug this rail was born from.
+    expect(equationsFromEvents([reaction("A →"), reaction("→ B"), reaction("no arrow at all")]))
+      .toEqual([]);
   });
 
-  it("reads an unprefixed equation unchanged", () => {
-    expect(equationFromRenderedLine("2 H₂ + O₂ → 2 H₂O")).toBe("2 H₂ + O₂ → 2 H₂O");
-  });
-
-  it("refuses a line with no arrow, and a lone arrow with nothing beside it", () => {
-    expect(equationFromRenderedLine("the mixture warms by 3 K")).toBeNull();
-    expect(equationFromRenderedLine("v1: →")).toBeNull();
-    expect(equationFromRenderedLine("v1: A →")).toBeNull();
+  it("answers for a step with nothing in it", () => {
+    expect(equationsFromEvents([])).toEqual([]);
+    expect(equationsFromEvents(undefined)).toEqual([]);
+    expect(equationsFromEvents(null)).toEqual([]);
+    // A host that predates the field, and a malformed row.
+    expect(equationsFromEvents([{ event: "reaction_occurred" }, null, "not an object"])).toEqual([]);
   });
 });

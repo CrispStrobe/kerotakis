@@ -987,24 +987,78 @@ describe("Session", () => {
     expect(s.titrationPlayback!.vessel).toBe(0);
   });
 
-  it("the latest rendered equation is pinned for the strip", async () => {
+  it("the latest equation is pinned for the strip, off the event that carries it", async () => {
     const host = new FakeHost();
     host.runScript = async (script: string) => ({
       steps: [
         {
           operator: {},
-          events: [],
+          events: [{ event: "reaction_occurred", vessel: 0, equation: "Ag+ + Cl- → AgCl" }],
           rendered: [
             "The silver and the chloride find each other.",
-            "Ag+ + Cl- → AgCl",
+            "v1: Ag+ + Cl- → AgCl",
           ],
         },
       ],
       scene: { scene: 1, vessels: [] } as Scene,
     });
     const s = new Session(host);
+    s.register = "lv2";
     await s.submit("add v1 AgNO3 1.7g");
     expect(s.lastEquation).toBe("Ag+ + Cl- → AgCl");
+  });
+
+  /**
+   * GUI-125. The arrow is not the reaction's private punctuation: 41 of the
+   * engine's rendered lines carry one, and scraping them pinned the routing
+   * announcement and the temperature change onto the REAKTION rail — and
+   * into the balancing drill's question pool.
+   */
+  it("pins nothing from a line that merely has an arrow in it", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [
+        {
+          operator: {},
+          events: [
+            { event: "solution_routed", vessel: 0 },
+            { event: "temperature_changed", vessel: 0 },
+          ],
+          rendered: [
+            "v1: Route → Kerotakis analytic equilibrium evaluator · phreeqc.dat, wie vom USGS mitgeliefert",
+            "v1: T 298,150 K → 299,356 K (ΔT = +1,206 K)",
+          ],
+        },
+      ],
+      scene: { scene: 1, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    s.register = "lv3";
+    await s.submit("add v1 NaOH 0.005mol");
+    expect(s.lastEquation).toBeNull();
+  });
+
+  /**
+   * lv1 renders "the mixture changes — something new is forming!" and no
+   * equation. The rail follows the reader's register rather than overruling
+   * it, which is why the pin is gated rather than unconditional.
+   */
+  it("leaves the rail empty at lv1, where the engine shows no equation", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [
+        {
+          operator: {},
+          events: [{ event: "reaction_occurred", vessel: 0, equation: "Ag+ + Cl- → AgCl" }],
+          rendered: ["The mixture in v1 changes — something new is forming!"],
+        },
+      ],
+      scene: { scene: 1, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    await s.submit("add v1 AgNO3 1.7g");
+    expect(s.register).toBe("lv1");
+    expect(s.lastEquation).toBeNull();
   });
 
   it("the ionic equation is taken from the step's structured field, not the prose", async () => {
@@ -1013,8 +1067,8 @@ describe("Session", () => {
       steps: [
         {
           operator: {},
-          events: [],
-          rendered: ["AgNO3 + NaCl → AgCl + NaNO3"],
+          events: [{ event: "reaction_occurred", vessel: 0, equation: "AgNO3 + NaCl → AgCl + NaNO3" }],
+          rendered: ["v1: AgNO3 + NaCl → AgCl + NaNO3"],
           ionic: [
             {
               vessel: 0,
@@ -1039,6 +1093,7 @@ describe("Session", () => {
       scene: { scene: 1, vessels: [] } as Scene,
     });
     const s = new Session(host);
+    s.register = "lv2";
     await s.submit("add v1 AgNO3 1.7g");
     expect(s.lastEquation).toBe("AgNO3 + NaCl → AgCl + NaNO3");
     expect(s.lastIonic?.equation).toBe("Ag⁺(aq) + Cl⁻(aq) → AgCl(s)");
@@ -1124,14 +1179,15 @@ describe("Session", () => {
       steps: [
         {
           operator: {},
-          events: [],
-          rendered: ["2 Mg + O2 → 2 MgO"],
+          events: [{ event: "reaction_occurred", vessel: 0, equation: "2 Mg + O2 → 2 MgO" }],
+          rendered: ["v1: 2 Mg + O2 → 2 MgO"],
           ionic: [],
         },
       ],
       scene: { scene: 1, vessels: [] } as Scene,
     });
     const s = new Session(host);
+    s.register = "lv2";
     await s.submit("ignite v1");
     expect(s.lastEquation).toBe("2 Mg + O2 → 2 MgO");
     expect(s.lastIonic).toBeNull();
@@ -1148,8 +1204,8 @@ describe("Session", () => {
           call === 1
             ? {
                 operator: {},
-                events: [],
-                rendered: ["AgNO3 + NaCl → AgCl + NaNO3"],
+                events: [{ event: "reaction_occurred", vessel: 0, equation: "AgNO3 + NaCl → AgCl + NaNO3" }],
+                rendered: ["v1: AgNO3 + NaCl → AgCl + NaNO3"],
                 ionic: [
                   {
                     vessel: 0,
@@ -1163,14 +1219,15 @@ describe("Session", () => {
               }
             : {
                 operator: {},
-                events: [],
-                rendered: ["2 Mg + O2 → 2 MgO"],
+                events: [{ event: "reaction_occurred", vessel: 1, equation: "2 Mg + O2 → 2 MgO" }],
+                rendered: ["v2: 2 Mg + O2 → 2 MgO"],
               },
         ],
         scene: { scene: 1, vessels: [] } as Scene,
       };
     };
     const s = new Session(host);
+    s.register = "lv2";
     await s.submit("add v1 AgNO3 1.7g");
     expect(s.lastIonic?.equation).toBe("Ag⁺(aq) + Cl⁻(aq) → AgCl(s)");
     await s.submit("ignite v2");
@@ -1857,7 +1914,13 @@ describe("clearing the bench clears the whole bench", () => {
         return {
           steps: [{
             operator: {},
-            events: [],
+            // The event carries the equation bare; the vessel belongs to the
+            // PROSE the engine renders around it, and the rail never sees it.
+            events: [{
+              event: "reaction_occurred",
+              vessel: 0,
+              equation: "HCO₃⁻ + CH₃COOH → CH₃COO⁻ + H₂O + CO₂↑",
+            }],
             rendered: ["v1: HCO₃⁻ + CH₃COOH → CH₃COO⁻ + H₂O + CO₂↑"],
           }],
           scene: { scene: 1, vessels: [] } as Scene,
@@ -1865,6 +1928,7 @@ describe("clearing the bench clears the whole bench", () => {
       }
     }
     const s = new Session(new ReactingHost(), new FakeStorage());
+    s.register = "lv2";
     await s.submit("add v1 vinegar 10mL");
     expect(s.lastEquation).toBe("HCO₃⁻ + CH₃COOH → CH₃COO⁻ + H₂O + CO₂↑");
     expect(s.benchEquations[0]).toBe("HCO₃⁻ + CH₃COOH → CH₃COO⁻ + H₂O + CO₂↑");

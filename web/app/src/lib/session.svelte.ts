@@ -16,7 +16,7 @@
 import type { EngineHost, ParticleCensus, Scene } from "./host/EngineHost";
 import { EngineError } from "./host/EngineHost";
 import { isChartSpec, type ChartSpec } from "./chart";
-import { equationFromRenderedLine } from "./benchEquation";
+import { equationsFromEvents } from "./benchEquation";
 import {
   completeIonic,
   latestNetIonic,
@@ -1121,14 +1121,19 @@ export class Session {
         let pinnedEquation = false;
         for (const rendered of step.rendered) {
           this.feed.push({ kind: "line", text: rendered });
-          // The engine writes balanced equations with a real arrow; the
-          // latest one is the reaction the bench is showing right now.
-          // `benchEquation` takes the chemistry out of the engine's own
-          // framing — the line arrives as `v1: {equation}`, and pinning the
-          // colon with it is what put a title-less ": HCO₃⁻ + …" on the
-          // bench and into the balancing drill's question pool.
-          const equation = equationFromRenderedLine(rendered);
-          if (equation) {
+        }
+        // GUI-125: the equation comes off the EVENT, never out of the prose.
+        // Scraping any line with a `→` pinned the routing announcement and
+        // the temperature change onto the REAKTION rail and into the
+        // balancing drill's pool — 41 rendered lines carry that arrow and
+        // one of them is chemistry. See `benchEquation`.
+        //
+        // lv1 is the reader's own answer to "should there be an equation
+        // here at all": the engine deliberately renders no equation at that
+        // register, and the rail follows the register rather than
+        // overruling it.
+        if (this.register !== "lv1") {
+          for (const equation of equationsFromEvents(step.events as unknown[])) {
             this.lastEquation = equation;
             this.rememberEquation(equation);
             pinnedEquation = true;

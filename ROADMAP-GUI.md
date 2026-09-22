@@ -3982,6 +3982,54 @@ experiment picker/runner, we see 'added' not 'hinzugefügt'."*
   collision lint records are the two it recorded before.
 
 
+## Forty-one arrows, one of them chemistry (GUI-125)
+
+Found while measuring the runner for the 2026-09-22 report. The REAKTION
+rail above the bench read, in a German session:
+
+```
+REAKTION   Route → Kerotakis analytic equilibrium evaluator · phreeqc
+```
+
+- [x] **GUI-125 — the equation comes off the event, never out of the
+  prose.** `equationFromRenderedLine` took any rendered line carrying a
+  `→`, cut it at the last colon before the arrow and the first full stop
+  after it, and pinned the result as the reaction — onto the rail, into
+  `benchEquations`, and into the **balancing drill's question pool**.
+
+  **The arrow is not the reaction's private punctuation.** 41 of the
+  engine's rendered lines carry one and exactly one of them is an
+  equation. Two were caught live:
+
+  - `v1: Route → Kerotakis analytic equilibrium evaluator · phreeqc.dat…`
+    — the aqueous routing announcement, whose arrow separates a label from
+    a solver name.
+  - `v1: T 298,150 K → 299,356 K (ΔT = +1,206 K)` — a temperature change.
+    In German there is not even a full stop to cut it at, because the
+    decimal separator is a comma, so the **whole line** pinned.
+
+  No heuristic separates those from chemistry, because they are the same
+  shape: a thing, an arrow, another thing. So the scrape is gone.
+  `equationsFromEvents` reads `Event::ReactionOccurred { vessel, equation }`
+  — the event the prose was rendered FROM — which is the move GUI-092 made
+  for the ionic form and for the same reason: the structured claim is the
+  claim, and its prose is one rendering of it. It also drops the vessel
+  prefix for free, since the event never carried one.
+
+  **The register gate moved with it.** Reading the event means the
+  equation is available at lv1 too, where the engine deliberately renders
+  "the mixture changes — something new is forming!" and no equation. The
+  rail already hid itself at lv1; the PIN now respects lv1 as well, which
+  is the half that was keeping the drill's pool honest.
+
+  **Verified in Chrome-for-Testing against the deployed engine payload**
+  (`kero-5522ab0`) with the app built from this branch, German, lv3,
+  `vinegar-and-baking-soda` run from the catalogue: the rail reads
+  `HCO₃⁻ + CH₃COOH → CH₃COO⁻ + H₂O + CO₂↑`, and at the step where the
+  routing announcement and two temperature changes land it reads nothing
+  at all — where before the change it read the routing sentence.
+
+
 ## Completed GUI tasks
 
 Numbers are never renumbered and never reused. Each of these landed; the detail
