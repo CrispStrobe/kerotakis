@@ -4248,6 +4248,71 @@ whole catalogue run rather than by reading the code.
   test that merely passes on the fix.
 
 
+## One bug or a class? (GUI-129)
+
+GUI-128a was found by tracing the DOM at 120 ms through a whole catalogue
+run. The obvious next question is whether the fizz was the only phenomenon
+the bench computed and never drew.
+
+**The sweep.** Fifteen catalogue entries, one for each visible verb the
+codex's own `expect.events` promise, run line by line through the same
+door a typed command uses, with the vessel's SVG classes sampled every
+120 ms and the union taken per entry. Thirteen drew a great deal —
+`burning-magnesium` alone put up flame, incandescence, glow, a rolling
+boil, consumed edges, a precipitate and a steam plume. Two did not:
+
+| entry | promised | drew |
+|---|---|---|
+| `equilibrium-can-run-backward` | `org_reacted` | **nothing but bench chrome** |
+| `chains-slide-networks-do-not` | `polymer_heated` ×2 | a heated block, the same one for both materials |
+
+- [x] **GUI-129a — an organic reaction is a reaction, and is drawn as
+  one.** `org_reacted` had no case in `magnitudes.ts`, no scene field and
+  no readout, so an esterification ran on a bench that never moved. It
+  reuses the `react` effect rather than inventing a second reaction visual,
+  because it IS one and the drawing is already parametrised by extent.
+  What it cannot supply is `seconds` — `Event::OrgReacted` carries no
+  duration — so the rate is reported as unknown rather than as a number
+  nobody measured. Re-traced after: `reacting`, `reaction-front`,
+  `reaction-readout`.
+
+- [x] **GUI-129b — dissolving in a solvent that is not water looks like
+  dissolving.** `dissolved_in_solvent` had no case either, so the
+  identical solid dissolved in front of the reader in water and silently
+  in ethanol. An asymmetry with no reason behind it.
+
+- [x] **GUI-129c — the guard, which is the part that lasts.**
+  `effectVisibility.test.ts` reads the `Event` enum out of `ops.rs` and
+  requires every variant to be in exactly ONE bucket: handled in
+  `magnitudes.ts`/`session.svelte.ts`; `DRAWN_FROM_THE_SCENE` naming the
+  standing scene field that carries it; `REPORTED_NOT_DRAWN` with the
+  reason there is no picture; or `KNOWN_GAPS` with what it would take.
+  The enum is read rather than restated, because a hand-kept list has to
+  be remembered at exactly the moment someone adds an event.
+
+  It checks more than membership. A scene-drawn entry must name a field
+  the scene interface actually has AND one `Vessel.svelte` actually
+  reads — a field nobody draws is the same defect wearing the scene's
+  clothes. No event may sit in two buckets, and **that check earned its
+  place immediately**: it caught `measured` listed as "reported" when
+  `magnitudes.ts` already handled it, and `enzyme_hydrolysed` claimed as
+  scene-drawn when what it has is a persistent readout. Two wrong claims
+  of mine, found by the test rather than by me. No bucket may name an
+  event the engine does not have, because an excuse outliving its defect
+  is worse than no excuse. And `KNOWN_GAPS` is capped at its current size,
+  so growing it is a decision someone makes rather than a backlog that
+  fills.
+
+  **What stays recorded, with what it would take.** `polymer_heated` —
+  `chains-slide-networks-do-not` is ABOUT the difference between a
+  thermoplastic that softens and a thermoset that does not, and the bench
+  draws the same heated block for both; `PolymerState` is the lesson and
+  needs a shape. `extracted` — a solvent extraction moves solutes between
+  two vessels and draws no transfer; `BenchEffect` has six operations and
+  no extract, and the event carries `stages` and a per-solute split to
+  scale one with.
+
+
 ## Completed GUI tasks
 
 Numbers are never renumbered and never reused. Each of these landed; the detail

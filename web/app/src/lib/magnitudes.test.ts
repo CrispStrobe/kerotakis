@@ -1637,6 +1637,48 @@ describe("GUI-116 — a longer-lived phenomenon stays on screen longer", () => {
     expect(slow!.durationMs!).toBeLessThanOrEqual(LIFETIME_MAX_MS);
   });
 
+  /**
+   * GUI-129. Both were found by tracing the bench in a browser, not by
+   * reading it: `equilibrium-can-run-backward` ran an esterification and
+   * the only classes that appeared over the whole script were the bench's
+   * own chrome.
+   */
+  it("an organic reaction is a reaction, and is drawn as one", () => {
+    const organic = effectFromEvent({
+      event: "org_reacted", vessel: 0, name: "esterification",
+      equation: "CH3COOH + C2H5OH ⇌ CH3COOC2H5 + H2O", extent: 0.004, boundary: "open",
+    });
+    expect(organic).not.toBeNull();
+    expect(organic!.kind).toBe("react");
+    expect(organic!.magnitude).toBeGreaterThan(0);
+    expect(organic!.reaction?.reaction).toBe("esterification");
+    expect(organic!.reading).toBeCloseTo(0.004);
+    // `Event::OrgReacted` carries no duration, so the rate is unknown and
+    // is reported as unknown rather than as a number nobody measured.
+    expect(organic!.reaction?.molesPerSecond).toBe(0);
+  });
+
+  it("a bigger organic extent is drawn bigger", () => {
+    const small = effectFromEvent({ event: "org_reacted", vessel: 0, name: "r", equation: "", extent: 0.0002 })!;
+    const large = effectFromEvent({ event: "org_reacted", vessel: 0, name: "r", equation: "", extent: 0.05 })!;
+    expect(large.magnitude).toBeGreaterThan(small.magnitude);
+  });
+
+  it("dissolving in a solvent that is not water looks like dissolving", () => {
+    // The asymmetry had no reason behind it: the identical solid going
+    // into water dissolved in front of the reader and into ethanol did
+    // not. The amount lives in `dissolved`, which is the only difference.
+    const aqueous = effectFromEvent({ event: "dissolved", vessel: 0, species: "NaCl", moles: 0.02 })!;
+    const organic = effectFromEvent({
+      event: "dissolved_in_solvent", vessel: 0, species: "I2", solvent: "ethanol",
+      dissolved: 0.02, undissolved: 0,
+    })!;
+    expect(organic.kind).toBe(aqueous.kind);
+    expect(organic.magnitude).toBeCloseTo(aqueous.magnitude);
+    expect(organic.reading).toBeCloseTo(0.02);
+    expect(organic.species).toBe("I2");
+  });
+
   it("no shipped foam half-life can hold the drawing open for a minute", () => {
     // The seven stabiliser half-lives in `registry-source-v1.json`. Before
     // this the foam effect lived `half_life_seconds * 1000` ms — from 90

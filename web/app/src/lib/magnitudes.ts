@@ -1834,6 +1834,40 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         },
       };
     }
+    // GUI-129. An organic reaction is a reaction, and it drew nothing at
+    // all: `org_reacted` had no case here, no scene field and no readout,
+    // so `equilibrium-can-run-backward` ran an esterification on a bench
+    // that showed a beaker of liquid and never moved. Confirmed in Chrome
+    // by sampling the vessel every 120 ms through the whole script — the
+    // only classes that appeared were the bench's own chrome.
+    //
+    // It reuses `react` rather than inventing a second reaction visual,
+    // because it IS one and the drawing is already parametrised by extent.
+    // What it cannot supply is `seconds`: `Event::OrgReacted` carries no
+    // duration, so the rate is unknown and reported as unknown rather
+    // than as zero-over-something — `reactionExtent` returns 0 mol/s for
+    // an elapsed time of 0, which is the same answer it gives any
+    // instantaneous event.
+    case "org_reacted": {
+      const moles = Math.max(0, Number(e.extent ?? 0));
+      const extent = reactionExtent(moles, 0);
+      return {
+        kind: "react",
+        at: now,
+        durationMs: 5200,
+        magnitude: extent.intensity,
+        reading: moles,
+        unit: "mol",
+        reaction: {
+          reaction: String(e.name ?? ""),
+          equation: String(e.equation ?? ""),
+          moles,
+          seconds: 0,
+          molesPerSecond: 0,
+          activationEnergyJPerMol: 0,
+        },
+      };
+    }
     case "reaction_heat_released": {
       const energyJ = Math.max(0, Number(e.energy_j ?? 0));
       return {
@@ -2411,6 +2445,20 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         magnitude: precipMag(e),
         species: String(e.species ?? ""),
         reading: Number(e.moles ?? 0),
+        unit: "mol",
+      };
+    // GUI-129: the same thing, in a solvent that is not water. It had no
+    // case, so a solid going into ethanol drew nothing while the identical
+    // solid going into water dissolved in front of the reader — an
+    // asymmetry with no reason behind it. The amount is `dissolved`
+    // rather than `moles`, which is the only difference in the event.
+    case "dissolved_in_solvent":
+      return {
+        kind: "dissolve",
+        at: now,
+        magnitude: precipMag({ ...e, moles: e.dissolved }),
+        species: String(e.species ?? ""),
+        reading: Number(e.dissolved ?? 0),
         unit: "mol",
       };
     case "plated": {
