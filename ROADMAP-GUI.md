@@ -4432,11 +4432,42 @@ written down at the scene and unreachable by the check.
   The reader asked for larger type and was handed a field they could not
   read their own number in.
 
-  They are `44px` now, as is `.step`. px is also what every other target
-  in this app already uses — the register dial's 40, the run dock's 36,
-  the pane heading's 44 — so the stepper was the outlier and not the
-  convention. Page zoom still scales them, because page zoom scales px;
-  only TEXT zoom does not, which is the distinction that was lost.
+  They are `44px` now, as is `.step` and `.amounts input`'s own
+  `min-height`. px is also what every other target in this app already
+  uses — the register dial's 40, the run dock's 36, the pane heading's 44
+  — so the stepper was the outlier and not the convention. Page zoom still
+  scales them, because page zoom scales px; only TEXT zoom does not, which
+  is the distinction that was lost.
+
+- [x] **GUI-123d — and CI found a SECOND instance this box could not
+  see.** At 1440 px, not at zoom: the field measured **51.7 px inside a
+  139.7 px stepper**, with "100" cut off. It had always been there; the
+  `rem`→`px` change above is a no-op at a 16 px root and could not have
+  touched it. The local sweep measured that stepper at 262 px, so two
+  honest runs of the same check on the same commit disagreed — the shelf
+  pane is a different width in the two environments, and **a layout
+  defect that depends on available width needs the width swept, not
+  sampled**. A probe that caps `.stepper` at 140, 152, 168, 207 and
+  262 px answers what one viewport cannot.
+
+  Three more units mistakes in the same block, all the same shape:
+
+  * `.amounts input` sets `min-width: 0` so the row can wrap, which for
+    the number field is a licence to be squeezed to nothing. Its floor is
+    **`4rem`, in rem** — and that is the other half of the ruling. The
+    buttons beside it are px because a finger is physical; the field is
+    rem because it holds TYPE. A field's minimum has to grow with the text
+    in it for exactly the reason a target's must not.
+  * `.stepper`'s own `min-width` was 8.2rem — 131 px, less than 88 px of
+    button plus any readable field. It is **9.5rem**, which is the button
+    row plus the field's floor.
+  * the native **spin buttons** were still drawn, redundant beside the −
+    and + this stepper already has, eating 13–17 px of a field with none
+    to spare. Gone.
+
+  Measured after, sweeping the width: the stepper refuses to go below
+  152 px even when capped at 140, the field holds at 64 px, and the value
+  fits at every width tested.
 
 
 ## Completed GUI tasks
