@@ -4030,6 +4030,78 @@ REAKTION   Route → Kerotakis analytic equilibrium evaluator · phreeqc
   at all — where before the change it read the routing sentence.
 
 
+## The caption that became a lid (GUI-126)
+
+Owner, 2026-09-22: *"the 'next step' dialog is in the way, overlaying the
+complete bench."*
+
+- [x] **GUI-126 — a caption takes a third of the screen, and what gives
+  way inside it is the account.** The design was already right in
+  principle — `.scrim.running` goes transparent and drops pointer events,
+  and the panel becomes a strip at the foot of the screen — and it was
+  right at one size only. `.panel.running` carried `max-height: none`.
+
+  **Measured in Chrome against the deployed engine payload
+  (`kero-5522ab0`), German, lv3, step-by-step, before the change:**
+
+  | regime | caption | of viewport | stage covered | vessel covered |
+  |---|---:|---:|---:|---:|
+  | 1440×900 | 250 px | 28% | 19% | 11% |
+  | 390×844 | 390 px | 46% | 39% | 31% |
+  | 1440×900 @ 200% text | **713 px** | **79%** | **100%** | 21% |
+
+  The third row is the report, in numbers: at 200% text zoom there was no
+  bench on the screen at all.
+
+  **And after:**
+
+  | regime | caption | of viewport | stage covered | vessel covered |
+  |---|---:|---:|---:|---:|
+  | 1440×900 | 270 px | 30% | 21% | 12% |
+  | 390×844 | 253 px | 30% | 17% | **0%** |
+  | 1440×900 @ 200% text | 288 px | 32% | 49% | 21% |
+
+  The desktop caption is **20 px taller** than it was, and that is the
+  cost of the column layout below; in exchange its account scrolls rather
+  than deciding the height. Everywhere else the caption roughly halves.
+
+  **Three rules, and the third is the one that is easy to lose.** A cap
+  in `vh`, because the panel is a fixed overlay whose container IS the
+  viewport — the mirror of GUI-122's `45vh` mistake, where the container
+  was a pane and `vh` bounded the wrong box. **The account is what gives
+  way**: `.dock-account` scrolls, the panel itself does not, and
+  `.dock-controls` is `flex: none`, because a capped panel that scrolls
+  its own "next step" button away is a run nobody can continue. That is
+  GUI-121 and GUI-122's lesson a third time — what gives way is the
+  middle, never the ends.
+
+  **The cap carries a floor in `rem`, and the measurement is why.** At a
+  flat `30vh` under 200% text zoom the controls took 190 of 270 px and
+  the account was one clipped line. The floor is 9 rem — nine lines of
+  the reader's own type — which is 144 px at rest (under the cap, so the
+  ordinary case is untouched) and 288 px zoomed. An 11 rem floor was
+  tried and rejected on its number: a third line of account cost **29
+  more points of covered stage**, 66% against 37%. The bench is the
+  experiment, so the bench won.
+
+  **What actually fixes the 200% case is not geometry.** Of that step's
+  550 characters of account, **454 are one lv3 routing paragraph**. The
+  cap is a bound on the damage; the verbosity switch is the fix.
+
+  **`.dock-produced` lost its own `max-height: 5.5rem`** — 88 px at rest
+  and 176 px at 200%, a nested scroller that grew in the one regime where
+  the box containing it needed to shrink.
+
+  **Guarded twice.** `tools/test-ux-quality.mjs` walks the catalogue,
+  starts a step-by-step run and measures the caption in both regimes —
+  the caption at most 40% of the screen, the stage never wholly behind
+  it, the glass keeping the half its chemistry is drawn in, the controls
+  on screen and inside the caption, and the account able to scroll.
+  `runningCaption.test.ts` reads the rule out of the component, because a
+  `max-height` deleted in a refactor reads as tidying up and no
+  behavioural test can see a stylesheet.
+
+
 ## Completed GUI tasks
 
 Numbers are never renumbered and never reused. Each of these landed; the detail

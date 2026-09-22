@@ -884,6 +884,146 @@ const learningProgressJourney = async () => {
   await page.evaluate(`document.querySelector('dialog header button[aria-label="close"]')?.click()`);
 };
 
+/**
+ * GUI-126: while a script runs, the catalogue is a caption at the foot of
+ * the screen and not a lid on top of it.
+ *
+ * Measured before the change, in Chrome, against the deployed engine: at
+ * 1440x900 the running panel was 250 px and read as a caption; on a
+ * 390x844 phone it was 390 px — 46% of the viewport and 39% of the stage;
+ * and at **200% text zoom it was 713 px of 900, covering 100% of the
+ * stage**. That last reading is the owner's report in numbers.
+ *
+ * Every element is found by selector and the entry by `data-id`, never by
+ * its text: this audit runs in whatever language the shell is in. Each
+ * stage of the walk is reported, so a failure names where it stopped
+ * rather than arriving as one dead boolean.
+ */
+/** The experiment catalogue, reached the way a learner reaches it in
+ *  Sandbox: through the utilities drawer. Matched whole rather than by
+ *  substring, for the reason `openConceptMap` gives. */
+const openExperimentCatalogue = async () => {
+  const wanted = ["experiments", "experimente"];
+  const present = () => page.evaluate(`Boolean([...document.querySelectorAll('button.tool')].find((item) =>
+    ${JSON.stringify(wanted)}.includes((item.textContent || "").trim().toLocaleLowerCase())))`);
+  if (!(await present())) {
+    await page.evaluate(`document.querySelector('button.utility-toggle')?.click()`);
+    await waitFor(page, `document.querySelector('.utility-drawer')`, { timeout: 5000 });
+  }
+  const there = await waitFor(page, `[...document.querySelectorAll('button.tool')].some((item) =>
+    ${JSON.stringify(wanted)}.includes((item.textContent || "").trim().toLocaleLowerCase()))`,
+    { timeout: 30000 });
+  if (!there) return false;
+  await page.evaluate(`(() => {
+    const button = [...document.querySelectorAll('button.tool')].find((item) =>
+      ${JSON.stringify(wanted)}.includes((item.textContent || "").trim().toLocaleLowerCase()));
+    button?.click();
+  })()`);
+  return waitFor(page, `document.querySelectorAll('dialog.panel article[data-id]').length > 0`, { timeout: 20000 });
+};
+
+const startAStepByStepRun = async () => {
+  const opened = await page.evaluate(`(() => {
+    const entry = [...document.querySelectorAll('dialog.panel article[data-id]')]
+      .find((item) => item.offsetParent);
+    entry?.querySelector('button')?.click();
+    return Boolean(entry);
+  })()`);
+  if (!opened) return { stage: "no entry to open" };
+  await settle();
+  // The entry view has tabs and the run lives behind the last of them.
+  const tabbed = await page.evaluate(`(() => {
+    const tabs = [...document.querySelectorAll('dialog.panel nav.tabs button')];
+    tabs[tabs.length - 1]?.click();
+    return tabs.length;
+  })()`);
+  await settle();
+  // Some entries gate the run on a prediction; answering any option opens
+  // it. The second pace chip is "step by step".
+  await page.evaluate(`(() => {
+    document.querySelector('dialog.panel .predict button.option')?.click();
+    document.querySelectorAll('dialog.panel .pace button')[1]?.click();
+  })()`);
+  await settle();
+  const pressed = await page.evaluate(`(() => {
+    const go = [...document.querySelectorAll('dialog.panel button.go')]
+      .filter((item) => !item.classList.contains('dock-next') && item.offsetParent && !item.disabled);
+    go[0]?.click();
+    return go.length;
+  })()`);
+  await settle();
+  // A bench with work on it asks what to do with it first; clearing is the
+  // answer that makes the run reproducible.
+  await page.evaluate(`(() => {
+    const decide = [...document.querySelectorAll('dialog.panel button.go')]
+      .filter((item) => !item.classList.contains('dock-next') && item.offsetParent);
+    if (decide.length > 1) decide[0].click();
+  })()`);
+  const running = await waitFor(page, `document.querySelector('dialog.panel.running .dock.waiting')`, { timeout: 40000 });
+  return { stage: running ? "running" : "never reached a step", tabs: tabbed, go: pressed };
+};
+
+const runningCaptionAudit = () => page.evaluate(`(() => {
+  const panel = document.querySelector('dialog.panel.running');
+  if (!panel) return JSON.stringify({ running: false });
+  // The same two boxes benchScrollAudit measures, by the same selectors.
+  const stage = document.querySelector('main .bench-pane .bench');
+  const vessel = document.querySelector('.work-surface .vessel-position');
+  const controls = panel.querySelector('.dock-controls');
+  const account = panel.querySelector('.dock-account');
+  const vh = window.innerHeight;
+  const box = panel.getBoundingClientRect();
+  const c = controls?.getBoundingClientRect();
+  const coveredPct = (el) => {
+    if (!el) return null;
+    const a = el.getBoundingClientRect();
+    const overlap = Math.max(0, Math.min(a.bottom, box.bottom) - Math.max(a.top, box.top));
+    return a.height ? Math.round((overlap / a.height) * 100) : 0;
+  };
+  return JSON.stringify({
+    running: true,
+    rootFontPx: Math.round(parseFloat(getComputedStyle(document.documentElement).fontSize)),
+    panelPx: Math.round(box.height),
+    viewportPx: vh,
+    panelPct: Math.round((box.height / vh) * 100),
+    stageCoveredPct: coveredPct(stage),
+    // The bottom of the glass is where the liquid, the foam and the
+    // bubbles are drawn, and it is the half a bottom-anchored caption
+    // takes first.
+    vesselCoveredPct: coveredPct(vessel),
+    // The press a learner repeats has to be on screen and inside the
+    // caption: a capped panel that scrolls its own buttons away is a run
+    // nobody can continue.
+    controlsOnScreen: Boolean(c && c.top >= 0 && c.bottom <= vh + 1 && c.height > 0),
+    controlsInsidePanel: Boolean(c && c.bottom <= box.bottom + 1),
+    // What gives way is the account, and it must be able to.
+    accountScrolls: Boolean(account && getComputedStyle(account).overflowY === 'auto'),
+  });
+})()`);
+
+/**
+ * Stop the run, close the catalogue, and put the bench back.
+ *
+ * The bench is shared state for every check after this one, and the entry
+ * this audit opens is whichever sorted first — which may be a script that
+ * works in two vessels. Leaving that behind made "the bench holds exactly
+ * one vessel to measure", three hundred lines below, fail on a bench this
+ * audit had furnished.
+ */
+const stopTheRun = async () => {
+  await page.evaluate(`(() => {
+    const buttons = [...document.querySelectorAll('dialog.panel.running .dock-controls button.stop')];
+    buttons[buttons.length - 1]?.click();
+  })()`);
+  await settle();
+  await page.evaluate(`document.querySelector('dialog.panel button.icon-close')?.click()`);
+  await settle();
+  await page.evaluate(`document.querySelector('button.clear-toggle')?.click()`);
+  await settle();
+  await page.evaluate(`document.querySelector('button.clear-yes')?.click()`);
+  await waitFor(page, `!document.querySelector('.work-surface .vessel-position')`, { timeout: 20000 });
+};
+
 const periodicAudit = () => page.evaluate(`(() => {
   const panel = document.querySelector('dialog.table-panel');
   const options = [...(panel?.querySelectorAll('[role="option"]') || [])];
@@ -1193,6 +1333,58 @@ try {
   // journal are all mounted here: one reading covers the three surfaces the
   // app opens on.
   await sweepLegibility("bench, cabinet and journal", "1440 px");
+
+  /* -- GUI-126: the run is the experiment, and the caption is a caption -- */
+  if (await openExperimentCatalogue()) {
+    const started = await startAStepByStepRun();
+    check("a catalogue entry runs step by step on the visible bench",
+      started.stage === "running", JSON.stringify(started));
+    if (started.stage === "running") {
+      // Both regimes in one bracket of five lines, and each reading says
+      // which one it came from — GUI-108's standing lesson about a zoom
+      // bracket long enough to forget you are inside it.
+      for (const regime of ["1440 px", "200% text zoom"]) {
+        if (regime !== "1440 px") {
+          await page.evaluate(`(() => {
+            const style = document.createElement("style");
+            style.id = "ux-text-zoom";
+            style.textContent = "html { font-size: 200% !important; } body { font-size: 200% !important; }";
+            document.head.append(style);
+          })()`);
+          await settle();
+        }
+        const caption = JSON.parse(await runningCaptionAudit());
+        const said = `${regime}: ${caption.panelPx}px of ${caption.viewportPx} (${caption.panelPct}%), `
+          + `stage ${caption.stageCoveredPct}% covered, vessel ${caption.vesselCoveredPct}% covered, `
+          + `root ${caption.rootFontPx}px`;
+        // A third of the screen, with the 9rem floor the cap carries for
+        // the zoomed case: 288px of 900 is 32%, so 40 is the bound that
+        // holds in both regimes and still fails the 79% this replaces.
+        check(`the running caption takes at most 40% of the screen (${regime})`,
+          caption.running === true && caption.panelPct <= 40, said);
+        check(`the stage is not wholly behind the caption (${regime})`,
+          caption.stageCoveredPct !== null && caption.stageCoveredPct < 80, said);
+        // 60 rather than 50: the reading at 200% is 49% and a bound one
+        // point away from the measurement is a flake, not a gate. What it
+        // has to catch is the 100%-of-the-stage regime this replaces.
+        check(`the glass keeps the half its chemistry is drawn in (${regime})`,
+          caption.vesselCoveredPct !== null && caption.vesselCoveredPct < 60,
+          `${regime}: vessel ${caption.vesselCoveredPct}% covered`);
+        check(`the run's controls are on screen and inside the caption (${regime})`,
+          caption.controlsOnScreen === true && caption.controlsInsidePanel === true,
+          JSON.stringify({ onScreen: caption.controlsOnScreen, inside: caption.controlsInsidePanel }));
+        check(`what gives way is the account, not the controls (${regime})`,
+          caption.accountScrolls === true, `accountScrolls=${caption.accountScrolls}`);
+      }
+      await page.evaluate(`document.getElementById('ux-text-zoom')?.remove()`);
+      await settle();
+    }
+    await stopTheRun();
+  } else {
+    check("the experiment catalogue opens from the utilities drawer", false);
+  }
+  await ensureGlassware();
+  await settle();
   // The precondition, said out loud: an empty bench proves nothing about
   // what standing on it looks like.
   check("the bench has glassware to stand on it", (benchTop.stood ?? []).length > 0,
