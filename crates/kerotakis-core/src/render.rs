@@ -618,8 +618,71 @@ pub fn render_events(events: &[Event], register: Register) -> Vec<String> {
 
 /// `render_events`, in the reader's language.
 pub fn render_events_in(events: &[Event], register: Register, locale: Locale) -> Vec<String> {
+    render_events_narrated(events, register, locale, Narration::FULL)
+}
+
+/// What a reader has asked to be TOLD, beside how much detail to tell it in.
+///
+/// The register answers *how much chemistry*; this answers *which kinds of
+/// line at all*. They are different axes and were confused, because there
+/// was only one of them: the aqueous routing announcement is a paragraph
+/// at lv3 — which engine, which dataset, which activity model, and the
+/// clause explaining why that dataset was chosen — and the only way to be
+/// rid of it was to leave lv3, giving up every number the reader had
+/// turned lv3 on for. On a German bench at lv3 it was **454 of one step's
+/// 550 characters**.
+///
+/// **Only the PROSE is suppressed.** The event still travels in the step's
+/// `events` and its provenance still reaches `routes`, so the provenance
+/// drawer — which is where a reader goes when they want this — answers
+/// exactly as before. A reader who has turned the announcement off has
+/// said "not in the log", not "do not tell me".
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct Narration {
+    /// Announce in the log which engine, dataset and activity model
+    /// answered a vessel, whenever that changes.
+    pub routing: bool,
+}
+
+impl Default for Narration {
+    /// Everything. A host that has never heard of this renders what it
+    /// always rendered.
+    fn default() -> Self {
+        Self::FULL
+    }
+}
+
+impl Narration {
+    /// Every kind of line — what `render_events_in` has always produced.
+    pub const FULL: Self = Self { routing: true };
+
+    /// The same, minus the routing announcements.
+    pub const WITHOUT_ROUTING: Self = Self { routing: false };
+
+    /// Does the reader still want a line for this event?
+    fn announces(&self, event: &Event) -> bool {
+        self.routing || !matches!(event, Event::SolutionRouted { .. })
+    }
+}
+
+/// `render_events_in`, minus the kinds of line the reader has switched off.
+///
+/// The filter is on the EVENT and not on the words, which is the whole
+/// point of doing this here rather than in a shell: `Event::SolutionRouted`
+/// is a fact about the step, while "the line that starts with Route" is a
+/// fact about one language's rendering of it at one register.
+pub fn render_events_narrated(
+    events: &[Event],
+    register: Register,
+    locale: Locale,
+    narration: Narration,
+) -> Vec<String> {
     let mut out: Vec<String> = Vec::new();
-    for event in events.iter().filter(|e| e.is_observable()) {
+    for event in events
+        .iter()
+        .filter(|e| e.is_observable())
+        .filter(|e| narration.announces(e))
+    {
         let line = render_event_in(event, register, locale);
         if register.level() == 1 && out.contains(&line) {
             continue;
@@ -5085,6 +5148,92 @@ fn localize_hazard(hazard: &str, locale: Locale) -> String {
         .or_else(|| locale.lookup(&format!("hazard_vapour.{hazard}")))
         .map(str::to_string)
         .unwrap_or_else(|| hazard.to_string())
+}
+
+#[cfg(test)]
+mod narration_tests {
+    use super::*;
+    use crate::units::Moles;
+    use crate::vessel::{Provenance, VesselId};
+
+    fn routed() -> Event {
+        Event::SolutionRouted {
+            vessel: VesselId(0),
+            provenance: Provenance {
+                engine: "PHREEQC (IPhreeqc)".to_string(),
+                dataset: "wateq4f.dat".to_string(),
+                model: "ion association".to_string(),
+                dataset_sources: Vec::new(),
+                routing: "an aqueous solution is characterised".to_string(),
+                routing_phrase: None,
+                dataset_phrase: None,
+                model_phrase: None,
+            },
+        }
+    }
+
+    fn dissolved() -> Event {
+        Event::Dissolved {
+            vessel: VesselId(0),
+            species: crate::species::SpeciesId::new("NaCl"),
+            moles: Moles(0.05),
+        }
+    }
+
+    #[test]
+    fn full_narration_is_what_render_events_in_has_always_produced() {
+        let events = vec![routed(), dissolved()];
+        assert_eq!(
+            render_events_narrated(&events, Register::LV3, Locale::EN, Narration::FULL),
+            render_events_in(&events, Register::LV3, Locale::EN),
+        );
+    }
+
+    #[test]
+    fn without_routing_drops_the_announcement_and_keeps_the_chemistry() {
+        let events = vec![routed(), dissolved()];
+        let full = render_events_narrated(&events, Register::LV3, Locale::EN, Narration::FULL);
+        let quiet = render_events_narrated(
+            &events,
+            Register::LV3,
+            Locale::EN,
+            Narration::WITHOUT_ROUTING,
+        );
+        assert_eq!(full.len(), 2, "both events render at lv3: {full:?}");
+        assert_eq!(quiet.len(), 1, "only the routing line goes: {quiet:?}");
+        // The line that remains is the chemistry, not the routing with its
+        // first clause trimmed: this filters EVENTS, never words.
+        assert_eq!(quiet, vec![full[1].clone()]);
+    }
+
+    /// The switch is about the LOG. The event is still in the step, which
+    /// is what the provenance drawer and `routes` read — a reader who has
+    /// turned the announcement off has said "not in the log", not "do not
+    /// tell me".
+    #[test]
+    fn the_event_itself_is_untouched() {
+        let events = vec![routed()];
+        let _ = render_events_narrated(
+            &events,
+            Register::LV3,
+            Locale::EN,
+            Narration::WITHOUT_ROUTING,
+        );
+        assert!(matches!(events[0], Event::SolutionRouted { .. }));
+    }
+
+    #[test]
+    fn it_applies_at_every_register_a_routing_line_exists_at() {
+        for register in [Register::LV1, Register::LV2, Register::LV3] {
+            let quiet = render_events_narrated(
+                &[routed()],
+                register,
+                Locale::EN,
+                Narration::WITHOUT_ROUTING,
+            );
+            assert!(quiet.is_empty(), "{register:?} still announced: {quiet:?}");
+        }
+    }
 }
 
 #[cfg(test)]

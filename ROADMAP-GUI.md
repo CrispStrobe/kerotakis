@@ -4102,6 +4102,68 @@ complete bench."*
   behavioural test can see a stylesheet.
 
 
+## Routing is its own switch, not lv3's tax (GUI-127)
+
+Owner, 2026-09-22: *"we need a toggle for verbosity: display 'Route ->'
+info or not."*
+
+- [x] **GUI-127 — the register is how much chemistry; this is which kinds
+  of line at all.** The aqueous routing announcement is a paragraph at
+  lv3 — engine · dataset · activity model · the clause explaining why
+  that dataset was chosen. On the German bench measured for GUI-126 it
+  was **454 of one step's 550 rendered characters**, and there was
+  exactly one way to be rid of it: leave lv3, and give up every number
+  lv3 had been turned on for. Two different questions had one control.
+
+  **The engine decides, not the shell.** `Narration { routing }` in
+  `kerotakis-core::render` filters the EVENT — `Event::SolutionRouted` —
+  and `render_events_narrated` is what both hosts now call.
+  `render_events_in` stays, delegating with `Narration::FULL`, so every
+  other caller renders exactly what it rendered before. A shell-side
+  filter was considered and rejected on this codebase's own scars: the
+  only handle a shell has is the WORDS, and "the line that starts with
+  Route" is a fact about one language's rendering at one register, not
+  about the step. `rendered` is not positionally aligned with `events`
+  either — it is filtered by `is_observable()` and deduped at lv1 — so
+  a client cannot even find the line reliably without reimplementing the
+  engine's own rules in TypeScript — one value derived in two places, which
+  is the split the native/wasm divergence has already cost this project
+  twice.
+
+  **Only the prose is suppressed.** The event still travels in `events`
+  and its provenance still reaches `routes`, so the provenance drawer —
+  the surface that exists for exactly this — answers the same either way.
+  A reader who turns the announcement off has said *not in the log*, not
+  *do not tell me*. The switch's two titles say so in one sentence each,
+  and the "off" one names where the fact went.
+
+  **Both bindings, because the native one is the one that gets
+  forgotten.** `set_announce_routing` is answered by the wasm host and by
+  `NativeLab`, and `every_command_the_shell_sends_is_answered` scrapes
+  `TauriHost.ts`, so it cannot be added to the browser alone — which is
+  precisely what happened to `set_locale` for as long as the engine had a
+  German catalogue.
+
+  **An older engine keeps the switch where it is.** The command is
+  refused by name, the session catches it, and the control does NOT move:
+  a switch reading "off" over a log that still announces is worse than a
+  switch that did not move. `hello.narration` (`["routing"]`) is how a
+  shell can know before it offers the control. A save written before this
+  carries no answer, and that absence IS the default.
+
+  **Verified in Chrome** against the deployed payload: the control
+  renders beside the dial as a 40x40 target, inside the viewport, with
+  its German sentence as the accessible name, and clicking it against an
+  engine that does not answer the command leaves it pressed — the honest
+  degradation, exercised for real rather than reasoned about. **What is
+  NOT verified in a browser here is the suppression itself**: that needs
+  a wasm build of this branch, and building one on this box is what the
+  memory of near-OOM preflights is about. It is covered by
+  `narration_tests` in `render.rs` — full narration byte-identical to
+  `render_events_in`, the announcement gone and the chemistry kept, the
+  event itself untouched, at all three registers — and by CI.
+
+
 ## Completed GUI tasks
 
 Numbers are never renumbered and never reused. Each of these landed; the detail

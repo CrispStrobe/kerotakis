@@ -34,6 +34,7 @@ type Lab = {
   balanceReveal(equation: string): string;
   catalog(requestJson: string): string;
   setRegister(level: string): void;
+  setAnnounceRouting(on: boolean): void;
   setLocale(code: string): void;
   setSolver(hook: (dbTag: string, input: string) => string): void;
   aqueousDatabase(tag: string): string;
@@ -227,6 +228,10 @@ onmessage = async (ev: MessageEvent) => {
         break;
       case "set_register":
         lab.setRegister(String(msg.level));
+        done(id, "{}");
+        break;
+      case "set_announce_routing":
+        lab.setAnnounceRouting(msg.on !== false);
         done(id, "{}");
         break;
       case "set_locale":

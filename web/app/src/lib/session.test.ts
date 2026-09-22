@@ -97,6 +97,9 @@ class FakeHost implements EngineHost {
   async setRegister(level: string) {
     this.calls.push(`register:${level}`);
   }
+  async setAnnounceRouting(on: boolean) {
+    this.calls.push(`routing:${on}`);
+  }
   async setLocale(code: string) {
     // Recorded, so a test can assert the session tells the ENGINE which
     // language to render in — separately from the interface's own locale,
@@ -1233,6 +1236,68 @@ describe("Session", () => {
     await s.submit("ignite v2");
     expect(s.lastEquation).toBe("2 Mg + O2 → 2 MgO");
     expect(s.lastIonic).toBeNull();
+  });
+
+  /**
+   * GUI-127. The routing announcement is the engine's to make or withhold,
+   * so the session's job is to carry the reader's answer to it and to
+   * remember it — not to recognise a routing line by its words.
+   */
+  describe("the routing switch", () => {
+    it("announces by default, which is what an unasked engine renders", () => {
+      expect(new Session(new FakeHost()).announceRouting).toBe(true);
+    });
+
+    it("tells the engine, and does not narrate the switch into the log", async () => {
+      const host = new FakeHost();
+      const s = new Session(host);
+      const before = s.feed.length;
+      await s.setAnnounceRouting(false);
+      expect(host.calls).toContain("routing:false");
+      expect(s.announceRouting).toBe(false);
+      // A register change is worth a line because it changes what every
+      // future line says. This changes whether one kind of line appears,
+      // and announcing an announcement being switched off is a joke the
+      // log does not need.
+      expect(s.feed.length).toBe(before);
+    });
+
+    it("keeps the switch where the engine actually put it", async () => {
+      // An engine that predates the command refuses it by name. The
+      // reader's choice did not take effect, so it is not recorded —
+      // a switch showing "off" over a log that still announces is worse
+      // than a switch that did not move.
+      class OldEngine extends FakeHost {
+        async setAnnounceRouting(): Promise<void> {
+          throw new Error("unknown command set_announce_routing");
+        }
+      }
+      const s = new Session(new OldEngine());
+      await s.setAnnounceRouting(false);
+      expect(s.announceRouting).toBe(true);
+    });
+
+    it("survives a reload, and an older save restores a bench that announces", async () => {
+      const storage = new FakeStorage();
+      const first = new Session(new FakeHost(), storage);
+      await first.submit("add v1 water 100mL");
+      await first.setAnnounceRouting(false);
+
+      const host = new FakeHost();
+      const second = new Session(host, storage);
+      await second.connect();
+      expect(second.announceRouting).toBe(false);
+      expect(host.calls).toContain("routing:false");
+
+      // A save written before the field existed carries no answer, and the
+      // absence IS the default rather than a silence to guess at.
+      const saved = JSON.parse(storage.getItem("kero.session.v1") ?? "{}");
+      delete saved.announceRouting;
+      storage.setItem("kero.session.v1", JSON.stringify(saved));
+      const third = new Session(new FakeHost(), storage);
+      await third.connect();
+      expect(third.announceRouting).toBe(true);
+    });
   });
 
   it("hazard events become cards; a veto reads as a refusal", async () => {

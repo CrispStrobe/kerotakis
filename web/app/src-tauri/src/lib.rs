@@ -14,8 +14,9 @@
 use std::sync::{mpsc, Mutex};
 
 use kerotakis_core::{
-    localize_events, render_events_in, render_vessel_in, Bench, Equilibrator, Locale, Operator,
-    PhaseEquilibrator, Refuses, Register, SolverStack, StateEquilibrator, VesselId,
+    localize_events, render_events_narrated, render_vessel_in, Bench, Equilibrator, Locale,
+    Narration, Operator, PhaseEquilibrator, Refuses, Register, SolverStack, StateEquilibrator,
+    VesselId,
 };
 use serde_json::{json, Value};
 
@@ -26,6 +27,12 @@ struct NativeLab {
     /// The language to render in. English until the shell says otherwise,
     /// which is also what a host that never sets one gets.
     locale: Locale,
+    /// Which KINDS of line the reader wants at all (GUI-127). Full until
+    /// the shell says otherwise, so nothing changes for a shell that never
+    /// asks — and set HERE as well as in the wasm binding, because the
+    /// native host is the one that gets forgotten: it had no `set_locale`
+    /// for as long as the engine had a German catalogue.
+    narration: Narration,
     can_solve: bool,
     quest: Option<kerotakis_codex::quest::QuestSpec>,
     quest_states: std::collections::BTreeMap<String, kerotakis_codex::quest::QuestState>,
@@ -58,6 +65,7 @@ impl NativeLab {
             stack,
             register: Register::default(),
             locale: Locale::EN,
+            narration: Narration::default(),
             can_solve,
             quest: None,
             quest_states: std::collections::BTreeMap::new(),
@@ -186,7 +194,8 @@ pub(crate) fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, Strin
             let quest = lab.quest_observe(&events);
             Ok(json!({
                 "events": events,
-                "rendered": render_events_in(&events, lab.register, lab.locale),
+                "rendered":
+                    render_events_narrated(&events, lab.register, lab.locale, lab.narration),
                 "charts": kerotakis_core::chart::charts_for_events(&events),
                 "ionic": kerotakis_core::ionic::net_ionic_for(&events, &lab.bench.vessels),
                 "quest": quest,
@@ -221,7 +230,8 @@ pub(crate) fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, Strin
                             "canonical": canonical,
                             "operator": op,
                             "events": events,
-                            "rendered": render_events_in(&events, lab.register, lab.locale),
+                            "rendered":
+                    render_events_narrated(&events, lab.register, lab.locale, lab.narration),
                             "charts": kerotakis_core::chart::charts_for_events(&events),
                             "ionic": kerotakis_core::ionic::net_ionic_for(&events, &lab.bench.vessels),
                             "quest": quest,
@@ -284,6 +294,18 @@ pub(crate) fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, Strin
             let level = field("level")?;
             lab.register =
                 Register::parse(level).ok_or_else(|| format!("unknown level {level:?}"))?;
+            Ok("{}".to_string())
+        }
+        // GUI-127. A different axis from the register: the routing
+        // paragraph belongs to lv3, and a reader who wants lv3's numbers
+        // without its provenance had no way to say so except to leave lv3.
+        // Only the PROSE is affected — the event and its provenance still
+        // travel in `events` and `routes` for the drawer.
+        "set_announce_routing" => {
+            lab.narration.routing = req
+                .get("on")
+                .and_then(Value::as_bool)
+                .ok_or_else(|| "missing on".to_string())?;
             Ok("{}".to_string())
         }
         "scene" => {
