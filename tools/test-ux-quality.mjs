@@ -980,8 +980,16 @@ const runningCaptionAudit = () => page.evaluate(`(() => {
     const overlap = Math.max(0, Math.min(a.bottom, box.bottom) - Math.max(a.top, box.top));
     return a.height ? Math.round((overlap / a.height) * 100) : 0;
   };
+  // GUI-130: the run aligns the glass to the top of the caption, and the
+  // pane reserves the caption's height at its foot. Do what the run does
+  // before measuring, so this asks what a learner actually sees.
+  document.querySelector('.work-surface .vessel-position')?.scrollIntoView({ block: 'end' });
+  const paneReserve = parseFloat(getComputedStyle(
+    document.querySelector('main .bench-pane')).paddingBottom) || 0;
   return JSON.stringify({
     running: true,
+    paneReserve: Math.round(paneReserve),
+    reserveMatchesCaption: Math.abs(paneReserve - box.height) <= 2,
     rootFontPx: Math.round(parseFloat(getComputedStyle(document.documentElement).fontSize)),
     panelPx: Math.round(box.height),
     viewportPx: vh,
@@ -1364,12 +1372,17 @@ try {
           caption.running === true && caption.panelPct <= 40, said);
         check(`the stage is not wholly behind the caption (${regime})`,
           caption.stageCoveredPct !== null && caption.stageCoveredPct < 80, said);
-        // 60 rather than 50: the reading at 200% is 49% and a bound one
-        // point away from the measurement is a flake, not a gate. What it
-        // has to catch is the 100%-of-the-stage regime this replaces.
-        check(`the glass keeps the half its chemistry is drawn in (${regime})`,
-          caption.vesselCoveredPct !== null && caption.vesselCoveredPct < 60,
+        // GUI-130 moved this from "keeps half" to "is essentially clear".
+        // Measured after the change: 0% at 1440x900 and on a 390x844
+        // phone, 1% at a 32 px root — where before it was 21%, and 59%
+        // when the alignment used `block: "nearest"`. 15 leaves room for
+        // a pixel of border and nowhere near enough for a regression.
+        check(`the glass is clear of the caption (${regime})`,
+          caption.vesselCoveredPct !== null && caption.vesselCoveredPct < 15,
           `${regime}: vessel ${caption.vesselCoveredPct}% covered`);
+        check(`the bench pane reserves the caption's height at its foot (${regime})`,
+          caption.reserveMatchesCaption === true,
+          `${regime}: reserve ${caption.paneReserve}px against a ${caption.panelPx}px caption`);
         check(`the run's controls are on screen and inside the caption (${regime})`,
           caption.controlsOnScreen === true && caption.controlsInsidePanel === true,
           JSON.stringify({ onScreen: caption.controlsOnScreen, inside: caption.controlsInsidePanel }));

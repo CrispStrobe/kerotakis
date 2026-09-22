@@ -243,6 +243,90 @@
      passes. */
   let panelEl = $state<HTMLElement | null>(null);
   let cardsEl = $state<HTMLElement | null>(null);
+
+  /**
+   * GUI-130: while a run is in progress, the bench pane reserves the
+   * caption's height at its foot.
+   *
+   * GUI-126 capped the caption so it could not be a lid. It still SITS
+   * over the bottom of the pane, and at 200% text zoom that is 49% of the
+   * stage — measured, with the routing announcement already switched off,
+   * so it is not the prose. It is the controls: a pressable "next step"
+   * at a 32 px root is 190 px on its own, and no amount of trimming the
+   * account gets a caption under that.
+   *
+   * So the answer is not a smaller caption, it is a REACHABLE bench. The
+   * pane already scrolls (GUI-122); giving it bottom padding equal to the
+   * caption means its content ends above the caption rather than under
+   * it, and `scroll-padding-bottom` makes every `scrollIntoView` inside
+   * it respect the same edge. That turns "half the stage is behind the
+   * caption" into "all of the stage can be brought out from behind it",
+   * which is the promise GUI-122 made about the pane's own foot.
+   *
+   * The height is measured rather than assumed: the caption is 201 px at
+   * 1440x900 and 288 px at a 32 px root, and a constant would be wrong in
+   * one of them. It rides on the document element because the pane is in
+   * `App.svelte` and this is in the dialog — one custom property is a
+   * smaller seam than a prop drilled through the layout.
+   */
+  $effect(() => {
+    const root = typeof document === "undefined" ? null : document.documentElement;
+    if (!root) return;
+    if (!running || !panelEl) {
+      root.removeAttribute("data-bench-run");
+      root.style.removeProperty("--run-caption");
+      return;
+    }
+    const panel = panelEl;
+    const measure = () => {
+      root.style.setProperty("--run-caption", `${Math.round(panel.getBoundingClientRect().height)}px`);
+      // Re-align after the reserve changes, not only when the run
+      // advances. A caption that grows — the reader zooms, or a step
+      // writes more than the last one — moves the edge the glass was
+      // aligned to, and nothing else would notice.
+      alignVessel();
+    };
+    measure();
+    root.setAttribute("data-bench-run", "");
+    const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(measure);
+    observer?.observe(panel);
+    return () => {
+      observer?.disconnect();
+      root.removeAttribute("data-bench-run");
+      root.style.removeProperty("--run-caption");
+    };
+  });
+
+  /**
+   * And the vessel is brought into the clear as each step lands.
+   *
+   * `block: "end"`, which with the pane's `scroll-padding-bottom` means
+   * "align the bottom of the glass with the top of the caption". That is
+   * the alignment the phenomena need: foam, bubbles, a precipitate and a
+   * liquid line are all drawn in the BOTTOM of the vessel, and at 200%
+   * text zoom the glass is 480 px inside a 371 px pane, so it cannot be
+   * wholly clear at any scroll position and something has to choose which
+   * half survives.
+   *
+   * `"nearest"` was tried first and was worse than doing nothing — 59% of
+   * the glass covered against 21% — because for an element taller than
+   * the scrollport it aligns the wrong edge.
+   */
+  function alignVessel(): void {
+    if (typeof document === "undefined") return;
+    const vessel = document.querySelector<HTMLElement>(".work-surface .vessel-position");
+    if (!vessel) return;
+    const still = typeof matchMedia === "function"
+      && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    vessel.scrollIntoView({ block: "end", behavior: still ? "auto" : "smooth" });
+  }
+
+  $effect(() => {
+    if (!running) return;
+    // Read the step so this runs again when the run advances.
+    void step?.index;
+    alignVessel();
+  });
   /** Resolved grid columns. Zero means "no layout has been read yet". */
   let columns = $state(0);
   let cardGap = $state(0);
