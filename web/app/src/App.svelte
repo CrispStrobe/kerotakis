@@ -1115,7 +1115,12 @@
   </button>
 
   <div class="top-controls">
-    <RegisterDial value={session.register} onchange={(lv) => void session.setRegister(lv)} />
+    <RegisterDial
+      value={session.register}
+      onchange={(lv) => void session.setRegister(lv)}
+      routing={session.announceRouting}
+      onroutingchange={(on) => void session.setAnnounceRouting(on)}
+    />
     <span
       class="status"
       class:live={session.canSolve}

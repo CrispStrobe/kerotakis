@@ -46,6 +46,129 @@ describe("computed gas and foam motion", () => {
     expect(html).toContain("half-life 12.0 s");
   });
 
+  /**
+   * GUI-128. The foam head was a coloured rectangle with 5-16 cells on a
+   * modulo lattice: every foam in the app had the same bubbles in the
+   * same places, in rows, and none of them moved. Three things are read
+   * off the engine now, and each is asserted against the value it is read
+   * from rather than against a number written down here twice.
+   */
+  describe("the foam head is drawn from the foam", () => {
+    const withFoam = (volumeLiters: number, halfLifeSeconds?: number): string =>
+      render(Vessel, {
+        props: {
+          vessel: { ...vessel, foam: { ...vessel.foam!, volume_liters: volumeLiters } },
+          register: "lv2",
+          effects: halfLifeSeconds === undefined ? [] : [{
+            kind: "foam", at: Date.now(), durationMs: 12_000, magnitude: 0.5,
+            foam: { halfLifeSeconds },
+          }],
+        },
+      }).body;
+
+    const cells = (html: string): number => (html.match(/class="foam-cell/g) ?? []).length;
+
+    it("puts more bubbles in more foam", () => {
+      const thin = cells(withFoam(0.01));
+      const thick = cells(withFoam(0.6));
+      expect(thin).toBeGreaterThan(0);
+      expect(thick).toBeGreaterThan(thin);
+    });
+
+    it("breaks the top edge with a crown rather than ruling a line across it", () => {
+      expect(withFoam(0.08)).toContain('class="foam-cell crown');
+    });
+
+    it("churns at the engine's own half-life, not at a rate of its own", () => {
+      // A head that halves in 1.2 s boils; one that halves in 30 s is
+      // nearly still. Same number that drives `foam-collapse`, said as
+      // motion instead of as height.
+      const fast = /--pop-period:([\d.]+)s/.exec(withFoam(0.08, 1.2))?.[1];
+      const slow = /--pop-period:([\d.]+)s/.exec(withFoam(0.08, 30))?.[1];
+      expect(Number(fast)).toBeGreaterThan(0);
+      expect(Number(slow)).toBeGreaterThan(Number(fast));
+    });
+
+    it("scatters the bubbles instead of ruling them into rows", () => {
+      // The lattice put every cell at `(i * 17) % width`, so the same
+      // handful of x positions repeated. A scatter has many.
+      const xs = [...withFoam(0.6).matchAll(/class="foam-cell[^"]*"[^>]*?cx="([\d.]+)"/g)]
+        .map((m) => m[1]);
+      expect(xs.length).toBeGreaterThan(10);
+      expect(new Set(xs).size).toBeGreaterThan(xs.length * 0.7);
+    });
+
+    it("fills the head rather than ruling a diagonal through it", () => {
+      // Caught in a photograph, not in a test. The first draft salted ONE
+      // golden-ratio sequence with an additive offset per axis — and an
+      // additive offset of a sequence is the same sequence, so x and y
+      // were perfectly correlated and every bubble sat on one diagonal
+      // band through the middle. A scatter that is a line is a lattice
+      // wearing a different hat, which is what it replaced.
+      // The head's own cells, NOT the crown: the crown sits in a row of
+      // its own along the top, and including it fills buckets the head
+      // did not — which is how a first draft of this assertion passed
+      // against the very scatter it was written to reject.
+      const cells = [...withFoam(0.6).matchAll(
+        /class="foam-cell svelte[^"]*"[^>]*?cx="([\d.]+)"[^>]*?cy="([\d.]+)"/g,
+      )].map((m) => [Number(m[1]), Number(m[2])] as const);
+      expect(cells.length).toBeGreaterThan(20);
+      const span = (at: 0 | 1) => {
+        const values = cells.map((c) => c[at]);
+        return [Math.min(...values), Math.max(...values)] as const;
+      };
+      const [x0, x1] = span(0);
+      const [y0, y1] = span(1);
+      const bucket = new Set(cells.map(([x, y]) =>
+        `${Math.min(2, Math.floor(((x - x0) / (x1 - x0 || 1)) * 3))},`
+        + `${Math.min(2, Math.floor(((y - y0) / (y1 - y0 || 1)) * 3))}`));
+      // Measured both ways: the correlated pair reaches 6 of the 9 cells
+      // of a 3x3 grid (two diagonal bands), and the R2 pair reaches all
+      // 9. The bound is 8, which separates them with a cell to spare.
+      expect(bucket.size).toBeGreaterThanOrEqual(8);
+    });
+
+    it("draws the same picture twice — the scatter is the index, not a die", () => {
+      // Not decoration: a `Math.random()` scatter re-rolls on every
+      // reactive redraw and the foam twitches, and no server-rendered
+      // test could assert anything about it.
+      expect(withFoam(0.3)).toBe(withFoam(0.3));
+    });
+  });
+
+  /**
+   * GUI-128. The seal failing drew eight identical shards at eight fixed
+   * angles however hard it failed; only the distance and the ring radius
+   * moved with the magnitude.
+   */
+  describe("a burst is as big as the burst", () => {
+    const burst = (magnitude: number): string =>
+      render(Vessel, {
+        props: { vessel, register: "lv2", effects: [{ kind: "burst", at: Date.now(), magnitude }] },
+      }).body;
+    const shards = (html: string): number =>
+      (html.match(/<path[^>]*--angle:/g) ?? []).length;
+
+    it("throws more shards for a bigger failure", () => {
+      expect(shards(burst(0.1))).toBeGreaterThan(0);
+      expect(shards(burst(1))).toBeGreaterThan(shards(burst(0.1)));
+    });
+
+    it("gives every shard its own reach and spin", () => {
+      const html = burst(1);
+      expect(new Set([...html.matchAll(/--reach:([\d.]+)/g)].map((m) => m[1])).size)
+        .toBeGreaterThan(3);
+      expect(new Set([...html.matchAll(/--spin:(\d+)deg/g)].map((m) => m[1])).size)
+        .toBeGreaterThan(3);
+    });
+
+    it("draws a front with depth and a flash, not one ruled circle", () => {
+      const html = burst(0.8);
+      expect(html).toContain('class="flash');
+      expect(html).toContain('class="second');
+    });
+  });
+
   it("stops both computed motions when reduced motion is requested", () => {
     const source = readFileSync(new URL("./Vessel.svelte", import.meta.url), "utf8");
     const reduced = source.slice(source.indexOf("@media (prefers-reduced-motion: reduce)"));

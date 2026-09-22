@@ -106,6 +106,10 @@ export class TauriHost implements EngineHost {
   async setRegister(level: string): Promise<void> {
     await this.req("set_register", { level });
   }
+
+  async setAnnounceRouting(on: boolean): Promise<void> {
+    await this.req("set_announce_routing", { on });
+  }
   async scene(): Promise<Scene> {
     return JSON.parse(await this.req("scene"));
   }

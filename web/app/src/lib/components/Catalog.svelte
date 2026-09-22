@@ -876,8 +876,14 @@
     onclick={(e) => e.stopPropagation()}
   >
     {#if running}
+      <!-- GUI-126: an account that can scroll, over controls that cannot.
+           The account is the part that grows without limit — a step
+           sentence, the bench's own lines, and at lv3 a routing paragraph
+           — so it is the part that gives way. The controls are the press
+           the learner repeats, and they stay put. Same shape as GUI-122's
+           ruling for the bench pane, for the same reason. -->
       <div class="dock" class:waiting={awaiting} role="status" aria-live="polite">
-        <div>
+        <div class="dock-account">
           <span class="dock-kicker">{awaiting ? t("your turn") : t("running on the bench")}</span>
           <strong>{open?.title ?? ""}</strong>
           <code>{step?.line ?? ""}</code>
@@ -903,15 +909,17 @@
             {/if}
           {/if}
         </div>
-        <span class="dock-count">{t("step {step} of {total}", { step: (step?.index ?? 0) + 1, total: step?.total ?? stepCount })}</span>
-        {#if stepping}
-          <!-- Mounted for the whole run, inert between steps: a control
-               that disappears after every press takes the keyboard's focus
-               with it, and this is the press a learner repeats. -->
-          <button class="go dock-next" disabled={!awaiting} onclick={() => answer("next")}>{t("next step")}</button>
-          <button class="stop" disabled={!awaiting} onclick={() => answer("rest")}>{t("run the rest for me")}</button>
-        {/if}
-        <button class="stop" onclick={stopRun}>{t("stop the run")}</button>
+        <div class="dock-controls">
+          <span class="dock-count">{t("step {step} of {total}", { step: (step?.index ?? 0) + 1, total: step?.total ?? stepCount })}</span>
+          {#if stepping}
+            <!-- Mounted for the whole run, inert between steps: a control
+                 that disappears after every press takes the keyboard's focus
+                 with it, and this is the press a learner repeats. -->
+            <button class="go dock-next" disabled={!awaiting} onclick={() => answer("next")}>{t("next step")}</button>
+            <button class="stop" disabled={!awaiting} onclick={() => answer("rest")}>{t("run the rest for me")}</button>
+          {/if}
+          <button class="stop" onclick={stopRun}>{t("stop the run")}</button>
+        </div>
       </div>
     {:else if !open}
       <header>
@@ -1509,22 +1517,81 @@
     max-height: 90vh;
     overflow-y: auto;
   }
+  /* GUI-126. The cap is the whole ruling: a caption may take at most a
+     THIRD of the screen, and the bench keeps the rest.
+
+     `max-height: none` was the old value and it was measured, in Chrome,
+     against the deployed engine: at 1440x900 the running panel was 250 px
+     and read as a caption; on a 390x844 phone it was 390 px — 46% of the
+     viewport, 39% of the stage; and at 200% text zoom it was **713 px of
+     900**, covering **100% of the stage**. That last reading is the
+     owner's report in numbers: "the dialog is in the way, overlaying the
+     complete bench".
+
+     The cap is `vh` and not `rem` on purpose. It bounds a fixed overlay
+     whose container IS the viewport, so a viewport percentage is a bound
+     on the thing being bounded — and the regime that broke this is text
+     zoom, under which every rem doubles and a rem-based cap doubles with
+     the overflow it was meant to stop. (GUI-122's `45vh` mistake was the
+     mirror of this one: there the container was a PANE, so vh bounded the
+     wrong box. The rule is the same rule — measure the cap in the units
+     of whatever actually contains it.)
+
+     The `clamp` is the second half of the ruling, and it is the one place
+     a rem belongs here. At 200% text zoom a 900 px viewport genuinely
+     cannot hold a readable account AND a button row big enough to press
+     inside 30% of itself: at a flat 30vh the controls took 190 of 270 px
+     and the account was one clipped line. So the floor is **9 rem**, in
+     the reader's own type size, and the caption grows to it rather than
+     squeezing the account to nothing. At a 16 px root that is 144 px,
+     well under 30vh, so nothing about the ordinary case changes; at a
+     32 px root it is 288 px and wins, leaving the kicker and the title
+     legible with the rest a scroll away.
+
+     A larger floor was tried and rejected with the measurement: 11 rem
+     bought a third line of account and cost 29 more points of covered
+     stage (66% against 37%). The bench is the experiment, so the bench
+     won. What actually fixes the 200% case is not geometry at all — most
+     of that account is ONE lv3 routing paragraph, 454 characters of the
+     step's 550 — and that is the verbosity switch's job, not this cap's.
+
+     The ceiling is there so a very tall screen does not hand a caption a
+     third of itself simply because it can. */
   .panel.running {
     pointer-events: auto;
-    max-height: none;
+    max-height: clamp(9rem, 30vh, 26rem);
     padding: 0.55rem 0.85rem;
     border-color: var(--hot);
+    display: flex;
+    flex-direction: column;
+    /* The scroller is INSIDE, on the account. A scrolling panel would take
+       the buttons off the bottom of the caption. */
+    overflow: hidden;
   }
   .dock {
     display: flex;
     align-items: center;
     gap: 0.8rem;
+    min-height: 0;
+    flex: 1 1 auto;
   }
-  .dock > div {
+  .dock-account {
     display: flex;
     flex-direction: column;
     gap: 0.1rem;
     min-width: 0;
+    min-height: 0;
+  }
+  .dock-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    /* Never the item that gives way: this is the press a learner repeats,
+       and a "next step" button scrolled out of a capped caption is a run
+       they cannot continue without finding the scrollbar first. */
+    flex: none;
+    margin-left: auto;
+    flex-wrap: wrap;
   }
   .dock-kicker {
     color: var(--hot);
@@ -1541,16 +1608,27 @@
     white-space: nowrap;
   }
   .dock-count {
-    margin-left: auto;
     color: var(--dim);
     font-size: 0.74rem;
     white-space: nowrap;
   }
   /* Waiting is a state, not a pause in the same state: the strip grows to
-     hold the account of the step and says whose turn it is. */
+     hold the account of the step and says whose turn it is — up to the
+     cap, at which point the ACCOUNT scrolls and the controls do not.
+     A column rather than a wrapping row: in a wrapping row each line
+     sizes to its own content, so the account cannot be told to give way
+     and the controls get clipped by the cap instead. */
   .dock.waiting {
-    align-items: flex-start;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .dock.waiting .dock-account {
+    flex: 1 1 auto;
+    overflow-y: auto;
+  }
+  .dock.waiting .dock-controls {
+    margin-left: 0;
+    justify-content: flex-end;
   }
   /* The step's own sentence, above the bench's account of it: authored
      guidance and machine report are different kinds of claim, so they do
@@ -1563,12 +1641,15 @@
     max-width: 58ch;
   }
 
+  /* No max-height of its own since GUI-126. It had `5.5rem`, which is
+     88 px at rest and 176 px at 200% text zoom — a nested scroller that
+     grew in the one regime where the outer box needed it to shrink. The
+     account above it is capped in viewport units and scrolls; a second
+     scroller over the same text only hides half of it twice. */
   .dock-produced {
     list-style: none;
     margin: 0.2rem 0 0;
     padding: 0;
-    max-height: 5.5rem;
-    overflow-y: auto;
     font-size: 0.76rem;
   }
   .dock-produced li {

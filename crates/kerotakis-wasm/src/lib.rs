@@ -19,8 +19,8 @@
 pub mod worker;
 
 use kerotakis_core::{
-    localize_events, render_events_in, render_vessel_in, Bench, Equilibrator, Event, Locale,
-    Operator, Refuses, Register, SolverRoute, SolverRouteOutcome, SolverStack,
+    localize_events, render_events_narrated, render_vessel_in, Bench, Equilibrator, Event, Locale,
+    Narration, Operator, Refuses, Register, SolverRoute, SolverRouteOutcome, SolverStack,
 };
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
@@ -39,6 +39,10 @@ pub struct Lab {
     quest_states: std::collections::BTreeMap<String, kerotakis_codex::quest::QuestState>,
     /// The language the engine renders its prose in (I18N-5).
     locale: Locale,
+    /// Which KINDS of line the reader wants at all, beside how much
+    /// detail each carries (GUI-127). Full by default, so a shell that
+    /// never asks gets what it always got.
+    narration: Narration,
 }
 
 /// QuestOutput, serialized for the wire: {kind, quest, say|title} with
@@ -87,6 +91,7 @@ impl Lab {
             stack: kerotakis_stack::standard_stack(vec![]),
             aqueous,
             register: Register::default(),
+            narration: Narration::default(),
             quest: None,
             quest_states: std::collections::BTreeMap::new(),
             locale: Locale::default(),
@@ -224,6 +229,10 @@ impl Lab {
             "engine_version": env!("CARGO_PKG_VERSION"),
             "git_rev": option_env!("KEROTAKIS_GIT_REV"),
             "registers": ["lv1", "lv2", "lv3"],
+            // GUI-127: which narration switches this engine understands,
+            // so a shell can offer the control only where it is answered
+            // rather than sending a command into a `catch`.
+            "narration": ["routing"],
             // WEB-003: the model-pack inventory. content_hash is empty
             // until the pack build pipeline stamps it — an HONEST
             // "declared, not yet independently deliverable" state; a
@@ -256,6 +265,20 @@ impl Lab {
         Ok(())
     }
 
+    /// Announce the aqueous routing in the log, or leave it to the
+    /// provenance drawer (GUI-127).
+    ///
+    /// A different axis from the register, and deliberately not folded
+    /// into it: the routing paragraph is lv3's, and a reader who wants
+    /// lv3's numbers without lv3's provenance had no way to say so except
+    /// by leaving lv3. Cannot fail, and changes nothing but the PROSE —
+    /// the event and its provenance still travel in `events` and `routes`,
+    /// so the drawer answers exactly as before.
+    #[wasm_bindgen(js_name = setAnnounceRouting)]
+    pub fn set_announce_routing(&mut self, on: bool) {
+        self.narration.routing = on;
+    }
+
     /// Choose the language the engine renders its own prose in.
     ///
     /// Unlike `setRegister` this cannot fail: an unknown tag falls back to
@@ -280,7 +303,7 @@ impl Lab {
         // English safety prose. This is the first point that knows the
         // language — `bench.rs` and the safety screen do not.
         let events = localize_events(&self.run(op)?, self.locale);
-        let rendered = render_events_in(&events, self.register, self.locale);
+        let rendered = render_events_narrated(&events, self.register, self.locale, self.narration);
         let charts = kerotakis_core::chart::charts_for_events(&events);
         // GUI-092: the net ionic equation, where the solved speciation
         // supports one. Empty is the common and honest case.
@@ -329,7 +352,8 @@ impl Lab {
                     // sites, and a hazard note that reached the reader
                     // through only one of them would be worse than neither.
                     let events = localize_events(&self.run(op.clone())?, self.locale);
-                    let rendered = render_events_in(&events, self.register, self.locale);
+                    let rendered =
+                        render_events_narrated(&events, self.register, self.locale, self.narration);
                     let charts = kerotakis_core::chart::charts_for_events(&events);
                     let ionic = kerotakis_core::ionic::net_ionic_for(
                         &events,

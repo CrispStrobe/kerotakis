@@ -204,6 +204,14 @@ export interface StorageLike {
   setItems?(changes: Readonly<Record<string, string>>): void;
 }
 
+/**
+ * Long enough to have SEEN that something happened, in ms.
+ *
+ * Not long enough to have watched it finish, which is a different number
+ * and a much larger one — see `Session.settleMs`.
+ */
+export const VISIBLE_EFFECT_MS = 1400;
+
 const SAVE_KEY = "kero.session.v1";
 /** Learner progress: ids of codex entries whose run checked out. Kept
  * apart from the bench save — clearing the bench must not unlearn. */
@@ -254,6 +262,25 @@ const CATALOG_BACKOFF_MS = [400, 1200];
 
 export class Session {
   register = $state<string>("lv1");
+  /**
+   * GUI-127: whether the log carries the aqueous routing announcement.
+   *
+   * A second axis beside the register, because they answer different
+   * questions — the register is HOW MUCH chemistry, this is WHICH KINDS
+   * OF LINE. Folding them together is what shipped: the routing paragraph
+   * belongs to lv3, and on a German bench it was 454 of one step's 550
+   * characters, so the only way to be rid of it was to leave lv3 and give
+   * up every number lv3 was turned on for.
+   *
+   * The engine owns the decision — `Narration` in `kerotakis-core` — so
+   * the wasm bench and the native bench cannot drift, and so nothing here
+   * has to recognise a routing line by its words. What a line IS is a
+   * fact about the event; what it SAYS is a fact about one language at
+   * one register.
+   *
+   * On by default: a bench that has never been asked says everything.
+   */
+  announceRouting = $state<boolean>(true);
   scene = $state<Scene | null>(null);
   feed = $state<FeedEntry[]>([]);
   busy = $state(false);
@@ -443,6 +470,42 @@ export class Session {
     list.push(effect);
     this.vesselEffects = { ...this.vesselEffects, [vessel]: list };
     this.expireEffect(vessel, effect);
+  }
+
+  /**
+   * How long the bench would like before another line lands on it, in ms.
+   *
+   * GUI-128. `runCatalogEntry` paced itself at a flat 420 ms, and every
+   * visible effect on this bench outlives that — a burst is drawn for
+   * 1800 ms, a foam head for 3000, a bubble ride for 9000. A ten-line
+   * script therefore fired ten animations inside four seconds, each wiped
+   * by the next before it had drawn. That is the ORIGINAL defect the
+   * runner was written to fix ("no pacing, so the animations of ten
+   * commands collapsed into one frame"), surviving in the one number
+   * nobody had measured against the thing it paces.
+   *
+   * The bench answers rather than the runner guessing, because the bench
+   * is what knows whether the line just submitted put anything on the
+   * stage. It reports the remainder of `VISIBLE_EFFECT_MS` since the
+   * NEWEST effect, so:
+   *
+   *   - a line that started one asks for the rest of that window;
+   *   - a line that only moved a number asks for nothing, because the
+   *     newest effect is already older than the window, and the run stays
+   *     brisk;
+   *   - no effects at all asks for nothing.
+   *
+   * It is a floor on being SEEN, not a promise to play an effect out: the
+   * runner caps what it will wait, because a twelve-line script that
+   * honoured a nine-second bubble ride in full would take two minutes.
+   */
+  settleMs(): number {
+    let newest = 0;
+    for (const list of Object.values(this.vesselEffects)) {
+      for (const effect of list) if (effect.at > newest) newest = effect.at;
+    }
+    if (newest === 0) return 0;
+    return Math.max(0, VISIBLE_EFFECT_MS - (Date.now() - newest));
   }
 
   /** Removing an effect is itself reactive. CSS animations therefore stop
@@ -800,6 +863,7 @@ export class Session {
         log: string[];
         position: number;
         register: string;
+        announceRouting?: boolean;
         notes?: { text: string; createdAt: string }[];
         /** v2: the engine snapshot at `position` — one restore() call
          * instead of a replay. Absent in v1 saves; replay covers those. */
@@ -813,6 +877,17 @@ export class Session {
       if (saved.register && saved.register !== this.register) {
         await this.host.setRegister(saved.register);
         this.register = saved.register;
+      }
+      // Absent in every save written before GUI-127, which is exactly the
+      // default — so an old save restores a bench that announces.
+      if (saved.announceRouting === false) {
+        try {
+          await this.host.setAnnounceRouting(false);
+          this.announceRouting = false;
+        } catch {
+          // An engine without the command announces; the switch follows
+          // the engine rather than claiming a state it does not have.
+        }
       }
       const position = Math.max(0, Math.min(saved.log.length, saved.position ?? saved.log.length));
       let how = t("replayed");
@@ -862,6 +937,7 @@ export class Session {
           log: this.commandLog,
           position: this.position,
           register: this.register,
+          announceRouting: this.announceRouting,
           notes: this.feed
             .filter((entry) => entry.kind === "user-note")
             .map(({ text, createdAt }) => ({ text, createdAt: createdAt ?? new Date().toISOString() })),
@@ -1493,6 +1569,33 @@ export class Session {
     list.push(effect);
     this.vesselEffects = { ...this.vesselEffects, [vessel]: list };
     this.expireEffect(vessel, effect);
+  }
+
+  /**
+   * Turn the routing announcement in the log on or off.
+   *
+   * No feed line either way, unlike `setRegister`: the register changes
+   * what every future line SAYS and is worth recording, while this only
+   * decides whether one kind of line appears — and announcing an
+   * announcement being switched off is a joke the log does not need. An
+   * engine that predates the command refuses it; the switch then stays
+   * where the reader put it and the log is unchanged, which is the same
+   * degradation `setLocale` had.
+   */
+  async setAnnounceRouting(on: boolean): Promise<void> {
+    if (this.busy) return;
+    this.busy = true;
+    try {
+      await this.host.setAnnounceRouting(on);
+      this.announceRouting = on;
+      this.persist();
+    } catch {
+      // An older engine. The reader's choice is not recorded, because it
+      // did not take effect, and saying so would be the only honest
+      // alternative to saying nothing.
+    } finally {
+      this.busy = false;
+    }
   }
 
   async setRegister(level: string): Promise<void> {

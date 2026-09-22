@@ -31,6 +31,7 @@ class DeterministicHost {
       async hello() { return { protocol: 1, can_solve: true }; },
       async setLocale() {},
       async setRegister(level: string) { self.calls.push(`register:${level}`); },
+      async setAnnounceRouting(on: boolean) { self.calls.push(`routing:${on}`); },
       async grammar() { return []; },
       async relations() { return []; },
       async species() { return [{ key: "NaCl", name: "sodium chloride", formula: "NaCl", phase: "solid" }]; },

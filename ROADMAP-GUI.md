@@ -4030,6 +4030,224 @@ REAKTION   Route → Kerotakis analytic equilibrium evaluator · phreeqc
   at all — where before the change it read the routing sentence.
 
 
+## The caption that became a lid (GUI-126)
+
+Owner, 2026-09-22: *"the 'next step' dialog is in the way, overlaying the
+complete bench."*
+
+- [x] **GUI-126 — a caption takes a third of the screen, and what gives
+  way inside it is the account.** The design was already right in
+  principle — `.scrim.running` goes transparent and drops pointer events,
+  and the panel becomes a strip at the foot of the screen — and it was
+  right at one size only. `.panel.running` carried `max-height: none`.
+
+  **Measured in Chrome against the deployed engine payload
+  (`kero-5522ab0`), German, lv3, step-by-step, before the change:**
+
+  | regime | caption | of viewport | stage covered | vessel covered |
+  |---|---:|---:|---:|---:|
+  | 1440×900 | 250 px | 28% | 19% | 11% |
+  | 390×844 | 390 px | 46% | 39% | 31% |
+  | 1440×900 @ 200% text | **713 px** | **79%** | **100%** | 21% |
+
+  The third row is the report, in numbers: at 200% text zoom there was no
+  bench on the screen at all.
+
+  **And after:**
+
+  | regime | caption | of viewport | stage covered | vessel covered |
+  |---|---:|---:|---:|---:|
+  | 1440×900 | 270 px | 30% | 21% | 12% |
+  | 390×844 | 253 px | 30% | 17% | **0%** |
+  | 1440×900 @ 200% text | 288 px | 32% | 49% | 21% |
+
+  The desktop caption is **20 px taller** than it was, and that is the
+  cost of the column layout below; in exchange its account scrolls rather
+  than deciding the height. Everywhere else the caption roughly halves.
+
+  **Three rules, and the third is the one that is easy to lose.** A cap
+  in `vh`, because the panel is a fixed overlay whose container IS the
+  viewport — the mirror of GUI-122's `45vh` mistake, where the container
+  was a pane and `vh` bounded the wrong box. **The account is what gives
+  way**: `.dock-account` scrolls, the panel itself does not, and
+  `.dock-controls` is `flex: none`, because a capped panel that scrolls
+  its own "next step" button away is a run nobody can continue. That is
+  GUI-121 and GUI-122's lesson a third time — what gives way is the
+  middle, never the ends.
+
+  **The cap carries a floor in `rem`, and the measurement is why.** At a
+  flat `30vh` under 200% text zoom the controls took 190 of 270 px and
+  the account was one clipped line. The floor is 9 rem — nine lines of
+  the reader's own type — which is 144 px at rest (under the cap, so the
+  ordinary case is untouched) and 288 px zoomed. An 11 rem floor was
+  tried and rejected on its number: a third line of account cost **29
+  more points of covered stage**, 66% against 37%. The bench is the
+  experiment, so the bench won.
+
+  **What actually fixes the 200% case is not geometry.** Of that step's
+  550 characters of account, **454 are one lv3 routing paragraph**. The
+  cap is a bound on the damage; the verbosity switch is the fix.
+
+  **`.dock-produced` lost its own `max-height: 5.5rem`** — 88 px at rest
+  and 176 px at 200%, a nested scroller that grew in the one regime where
+  the box containing it needed to shrink.
+
+  **Guarded twice.** `tools/test-ux-quality.mjs` walks the catalogue,
+  starts a step-by-step run and measures the caption in both regimes —
+  the caption at most 40% of the screen, the stage never wholly behind
+  it, the glass keeping the half its chemistry is drawn in, the controls
+  on screen and inside the caption, and the account able to scroll.
+  `runningCaption.test.ts` reads the rule out of the component, because a
+  `max-height` deleted in a refactor reads as tidying up and no
+  behavioural test can see a stylesheet.
+
+
+## Routing is its own switch, not lv3's tax (GUI-127)
+
+Owner, 2026-09-22: *"we need a toggle for verbosity: display 'Route ->'
+info or not."*
+
+- [x] **GUI-127 — the register is how much chemistry; this is which kinds
+  of line at all.** The aqueous routing announcement is a paragraph at
+  lv3 — engine · dataset · activity model · the clause explaining why
+  that dataset was chosen. On the German bench measured for GUI-126 it
+  was **454 of one step's 550 rendered characters**, and there was
+  exactly one way to be rid of it: leave lv3, and give up every number
+  lv3 had been turned on for. Two different questions had one control.
+
+  **The engine decides, not the shell.** `Narration { routing }` in
+  `kerotakis-core::render` filters the EVENT — `Event::SolutionRouted` —
+  and `render_events_narrated` is what both hosts now call.
+  `render_events_in` stays, delegating with `Narration::FULL`, so every
+  other caller renders exactly what it rendered before. A shell-side
+  filter was considered and rejected on this codebase's own scars: the
+  only handle a shell has is the WORDS, and "the line that starts with
+  Route" is a fact about one language's rendering at one register, not
+  about the step. `rendered` is not positionally aligned with `events`
+  either — it is filtered by `is_observable()` and deduped at lv1 — so
+  a client cannot even find the line reliably without reimplementing the
+  engine's own rules in TypeScript — one value derived in two places, which
+  is the split the native/wasm divergence has already cost this project
+  twice.
+
+  **Only the prose is suppressed.** The event still travels in `events`
+  and its provenance still reaches `routes`, so the provenance drawer —
+  the surface that exists for exactly this — answers the same either way.
+  A reader who turns the announcement off has said *not in the log*, not
+  *do not tell me*. The switch's two titles say so in one sentence each,
+  and the "off" one names where the fact went.
+
+  **Both bindings, because the native one is the one that gets
+  forgotten.** `set_announce_routing` is answered by the wasm host and by
+  `NativeLab`, and `every_command_the_shell_sends_is_answered` scrapes
+  `TauriHost.ts`, so it cannot be added to the browser alone — which is
+  precisely what happened to `set_locale` for as long as the engine had a
+  German catalogue.
+
+  **An older engine keeps the switch where it is.** The command is
+  refused by name, the session catches it, and the control does NOT move:
+  a switch reading "off" over a log that still announces is worse than a
+  switch that did not move. `hello.narration` (`["routing"]`) is how a
+  shell can know before it offers the control. A save written before this
+  carries no answer, and that absence IS the default.
+
+  **Verified in Chrome** against the deployed payload: the control
+  renders beside the dial as a 40x40 target, inside the viewport, with
+  its German sentence as the accessible name, and clicking it against an
+  engine that does not answer the command leaves it pressed — the honest
+  degradation, exercised for real rather than reasoned about. **What is
+  NOT verified in a browser here is the suppression itself**: that needs
+  a wasm build of this branch, and building one on this box is what the
+  memory of near-OOM preflights is about. It is covered by
+  `narration_tests` in `render.rs` — full narration byte-identical to
+  `render_events_in`, the announcement gone and the chemistry kept, the
+  event itself untouched, at all three registers — and by CI.
+
+
+## The volcano that drew no bubbles (GUI-128)
+
+Owner, 2026-09-22: *"we need real animations. foam/explosions must be
+visually rendered, parametrised to computed values."* The machinery was
+already there and parametrised; three separate things kept it off the
+screen, and the first was found by tracing the bench at 100 ms through a
+whole catalogue run rather than by reading the code.
+
+- [x] **GUI-128a — the fizz is drawn from the EVENT, not from the steady
+  state.** `{#if vessel.bubbling}` gated the gas bubbles, and
+  `vessel.bubbling` is a state read off the scene AFTER the step settles.
+  An open beaker of vinegar and baking soda evolves 32 mmol of CO₂ and
+  then the gas is **gone**, out of the vessel, so the flag is false by the
+  time anything is drawn.
+
+  Traced in Chrome over the whole of `vinegar-and-baking-soda`: the bench
+  drew dissolving grains, then a heater, and **not one bubble** — while
+  the journal beside it reported the carbon dioxide twice. The condition
+  is now `vessel.bubbling || active("vent", 4000)`: the effect already
+  carried the magnitude and the engine's own production rate, and was
+  simply not allowed to draw unless the steady state agreed. Same trace
+  after: **10 bubbles for 1.4 s of a 2.5 s run.**
+
+- [x] **GUI-128b — the runner paces to what the step put on the stage.**
+  `paceMs` was a flat **420 ms** and every visible effect outlives it — a
+  burst is drawn for 1800 ms, a foam head for 3000, a bubble ride for
+  9000. Ten lines therefore fired ten animations inside four seconds,
+  each wiped by the next before it had drawn: *the original defect this
+  runner was written to fix*, surviving in the one number nobody had
+  measured against the thing it paces.
+
+  The BENCH answers now — `settleMs()` — because the bench is what knows
+  whether that line put anything on the stage. It reports the remainder
+  of a 1400 ms window since the newest effect, so a line that started one
+  asks for the rest of it and a line that only moved a number asks for
+  nothing. The runner caps what it will wait at 1800 ms: a twelve-line
+  script honouring a nine-second bubble ride in full would take two
+  minutes, and what a learner needs is to see that something happened. A
+  bench that cannot answer keeps the flat pace, which is the run that
+  shipped before.
+
+- [x] **GUI-128c — the foam head is a foam and the burst is as big as the
+  burst.** The head was a coloured rectangle with 5–16 cells on a modulo
+  lattice (`(i * 17) % width`), so every foam in the app had the same
+  bubbles in the same places, in rows, and none of them moved. Three
+  things are read off the engine now: **how much** foam decides the count
+  (8 cells at a trace, 42 at a head that fills the glass) and the density;
+  a foam **coarsens upward**, so the radius scales with the cell's own
+  height in the head rather than with `i % 3`; and a foam that dies in two
+  seconds **churns** while one that stands barely moves, so the pop cycle
+  is the engine's own half-life divided down — the same number that
+  drives `foam-collapse`, said as motion instead of as height. Plus a
+  crown of larger bubbles proud of the fill, because the ruled line across
+  the top of a rectangle was the single most artificial thing in the
+  drawing.
+
+  The burst threw eight identical shards at eight fixed angles however
+  hard the seal failed; only the distance and the ring radius moved. The
+  **count** is the magnitude now (6 to 20), every shard has its own angle,
+  length, size, spin and delay, and there are two staggered rings and a
+  flash.
+
+  **The scatter is the index, never `Math.random()`**: a random scatter
+  re-rolls on every reactive redraw and the foam twitches, and no
+  server-rendered test could assert anything about a picture that is
+  different every time.
+
+  **And the scatter had to be two-dimensional, which a photograph caught
+  and the first test did not.** The first draft salted ONE golden-ratio
+  sequence with an additive offset per axis — and an additive offset of a
+  sequence is the same sequence, so x and y were perfectly correlated and
+  every bubble sat on a diagonal band through the middle of the head. A
+  scatter that is a line is a lattice wearing a different hat. Each axis
+  now has its own irrational, the first two being the R2 pair. Measured:
+  the correlated version reaches **6 of the 9 cells** of a 3×3 grid, the
+  R2 pair reaches **all 9**, and the assertion is 8.
+
+  That assertion also had to exclude the crown, which sits in a row of its
+  own along the top and filled buckets the head did not — which is how the
+  first draft of it passed against the very scatter it was written to
+  reject. The rule both times: a test proven to fail on the defect, not a
+  test that merely passes on the fix.
+
+
 ## Completed GUI tasks
 
 Numbers are never renumbered and never reused. Each of these landed; the detail
