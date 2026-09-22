@@ -60,6 +60,7 @@
   import ComparisonResults from "./ComparisonResults.svelte";
   import { comparisonRows, type ComparisonRow } from "../comparisonResults";
   import { t, tSlug, tEngine, i18n } from "../i18n.svelte";
+  import { expectationLabel } from "../expectationLabel";
   import { shelfAccess } from "../catalogProgress";
   import { equipmentById } from "../equipmentCatalogue";
   import type { CatalogItem } from "../host/EngineHost";
@@ -1415,10 +1416,10 @@
             <strong>{result.allOk ? t("the chemistry agrees") : t("not everything checked out")}</strong>
             <ul>
               {#each result.events as e (e.want)}
-                <li class:ok={e.seen}>{e.seen ? "✓" : "✗"} {t(e.want.replace(/_/g, " "))}</li>
+                <li class:ok={e.seen}>{e.seen ? "✓" : "✗"} {expectationLabel(e.want)}</li>
               {/each}
               {#each result.forbidden as f (f.want)}
-                <li class:ok={!f.violated}>{f.violated ? `✗ ${t("occurred")}` : `✓ ${t("absent")}`}: {t(f.want.replace(/_/g, " "))}</li>
+                <li class:ok={!f.violated}>{f.violated ? `✗ ${t("occurred")}` : `✓ ${t("absent")}`}: {expectationLabel(f.want)}</li>
               {/each}
               {#if result.ph}
                 <li class:ok={result.ph.ok}>
