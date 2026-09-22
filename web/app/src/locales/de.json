@@ -542,7 +542,10 @@
   "electrolysis products follow time": "Elektrolyseprodukte folgen der Zeit",
   "pressure follows gas amount": "Druck folgt der Gasmenge",
   "pressure follows headspace": "Druck folgt dem Kopfraum",
-  "split heat same temperature": "Geteilte Wärme, gleiche Temperatur"
+  "split heat same temperature": "Geteilte Wärme, gleiche Temperatur",
+  "gypsum": "Gips",
+  "peroxide decomposition": "Peroxidzerfall",
+  "thiosulfate acid": "Thiosulfat mit Säure"
  },
  "messages": {
   "electrolytes": "Elektrolyte",
@@ -2727,6 +2730,35 @@
   "more than this flame can deliver: at full power with the collar open it reaches 150 kJ in the longest exposure the panel allows": "mehr, als diese Flamme liefern kann: bei voller Stärke und offenem Luftregler erreicht sie 150 kJ in der längsten Einwirkzeit, die das Bedienfeld zulässt",
   "suggestions": "Vorschläge",
   "vessel": "Gefäß",
-  "chemical": "Chemikalie"
+  "chemical": "Chemikalie",
+  "a cell voltage was read": "eine Zellspannung wurde gemessen",
+  "something distilled over": "etwas destillierte über",
+  "something evaporated": "etwas verdunstete",
+  "something was filtered": "etwas wurde filtriert",
+  "a gas was tested": "ein Gas wurde nachgewiesen",
+  "a hazard was warned about": "vor einer Gefahr wurde gewarnt",
+  "the headspace partitioned": "etwas ging in den Kopfraum über",
+  "something ignited": "etwas entzündete sich",
+  "something was measured": "etwas wurde gemessen",
+  "something was mixed": "etwas wurde gemischt",
+  "not yet modelled": "noch nicht modelliert",
+  "something was observed": "etwas wurde beobachtet",
+  "an organic reaction ran": "eine organische Reaktion lief ab",
+  "something was stirred": "etwas wurde gerührt",
+  "the temperature changed": "die Temperatur änderte sich",
+  "{what} added": "{what} hinzugefügt",
+  "{what} adsorbed": "{what} adsorbiert",
+  "{what} boiled": "{what} siedete",
+  "{what} consumed": "{what} verbraucht",
+  "{what} dissolved": "{what} gelöst",
+  "{what} electrolysed": "{what} elektrolysiert",
+  "{what} flame test": "Flammenprobe auf {what}",
+  "{what} froze": "{what} gefror",
+  "{what} evolved as gas": "{what} als Gas freigesetzt",
+  "{what} stayed inert": "{what} blieb inert",
+  "{what} plated out": "{what} schied sich ab",
+  "{what} heated as a polymer": "{what} als Polymer erhitzt",
+  "{what} precipitated": "{what} ausgefallen",
+  "{what} reacted": "{what} reagierte"
  }
 }

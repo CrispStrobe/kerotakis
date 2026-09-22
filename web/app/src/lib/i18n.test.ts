@@ -11,6 +11,11 @@ import {
   sourceLabelPlural,
   type CatalogRunTarget,
 } from "./catalogEntry";
+import {
+  EXPECTATION_VERBS,
+  EXPECTATION_VERBS_WITH,
+  parseExpectation,
+} from "./expectationLabel";
 
 function sourceFiles(directory: string): string[] {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -160,6 +165,67 @@ describe("i18n", () => {
       // The wire tag itself must never be handed to the dictionary: t() falls
       // back to its key, so `t(vessel.boundary)` renders "pressure_controlled".
       expect(source).not.toContain("t(vessel.boundary)");
+    });
+
+    /**
+     * GUI-124: the verdict list under a finished catalogue run.
+     *
+     * Its rows are not authored in this repo's TypeScript at all — they are
+     * wire tokens out of `codex/*.toml`, `added:phenolphthalein` and
+     * `gas_evolved:CO2`, which the panel used to hand to `t()` whole. No
+     * bundle has ever carried a key of that shape, so every row rendered in
+     * English no matter how complete the translation was.
+     *
+     * So the gate reads the CATALOGUE rather than the tables: the tables
+     * are only right for as long as they cover what the data says, and the
+     * failure mode this replaces is a codex author adding one more verb
+     * that nobody translates.
+     */
+    describe("the catalogue's own expectation tokens", () => {
+      const tokens = (() => {
+        const dir = join(import.meta.dirname, "../../../../codex");
+        const found = new Set<string>();
+        for (const file of readdirSync(dir).filter((f) => f.endsWith(".toml"))) {
+          const source = readFileSync(join(dir, file), "utf8");
+          for (const list of source.matchAll(/\b(?:events|forbidden) = \[([^\]]*)\]/g)) {
+            for (const item of list[1]!.matchAll(/"([^"]+)"/g)) found.add(item[1]!);
+          }
+        }
+        return [...found].sort();
+      })();
+
+      it("finds the tokens at all, so nothing below is vacuous", () => {
+        expect(tokens.length).toBeGreaterThan(50);
+      });
+
+      it("every verb is one the label tables name", () => {
+        const unknown = [...new Set(tokens.map((token) => parseExpectation(token).verb))]
+          .filter((verb) => !(verb in EXPECTATION_VERBS) && !(verb in EXPECTATION_VERBS_WITH))
+          .sort();
+        expect(unknown).toEqual([]);
+      });
+
+      it("every verb the tables name has German", () => {
+        const phrases = [
+          ...Object.values(EXPECTATION_VERBS),
+          ...Object.values(EXPECTATION_VERBS_WITH),
+        ];
+        expect(untranslated(phrases)).toEqual([]);
+      });
+
+      it("every operand that is a NAME has German", () => {
+        // A formula is excluded on purpose and not by omission: `NaCl` and
+        // `CO2` are the same in every language, and sending them to a
+        // translator is how a bundle acquires a German "NaCl" that is
+        // simply "NaCl" and one day is not.
+        const names = tokens
+          .map((token) => parseExpectation(token).what)
+          .filter((what): what is string => what !== null)
+          .filter((what) => !/^[A-Z][A-Za-z0-9()·]*$/.test(what))
+          .map((what) => what.replace(/[_-]/g, " "));
+        expect(names.length).toBeGreaterThan(5);
+        expect(untranslated(names)).toEqual([]);
+      });
     });
 
     it("every capability support level and row kind has German", () => {

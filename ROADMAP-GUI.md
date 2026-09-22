@@ -3930,6 +3930,58 @@ out of view, not the first.
   take away.
 
 
+## The verdict list was the last English thing on a German screen (GUI-124)
+
+Reported 2026-09-22, in a paste of a German bench transcript: *"in the
+experiment picker/runner, we see 'added' not 'hinzugefügt'."*
+
+- [x] **GUI-124 — an expectation is a verb and a name, and each is
+  translated for what it is.** The rows under a finished catalogue run
+  are not authored strings. They are wire tokens out of `codex/*.toml` —
+  `added:phenolphthalein`, `gas_evolved:CO2`, `not_yet_modelled` — and
+  `Catalog.svelte` rendered each one as `t(want.replace(/_/g, " "))`.
+
+  **Two independent reasons, and either alone was fatal.** The compound
+  token went to the dictionary as ONE key, and no bundle has ever carried
+  a key of that shape, so `t()` fell back to its key: the colon was not
+  even spaced. And the dictionary held no entry for the verbs regardless
+  — **26 of the 29** verbs the catalogue uses had no German at all. The
+  three that resolved (`boiled`, `froze`, `measured`) did so by colliding
+  with words translated for something else, which is worse than missing:
+  it is a verdict row that looks translated.
+
+  **The fix splits the token, because the two halves are different kinds
+  of thing.** The verb is prose and gets a per-verb template with `{what}`
+  in it, since word order is not shared between languages — *"phenolphthalein
+  added"* is *"Phenolphthalein hinzugefügt"*, and the German reader meets
+  the operand first. A verb beside a colon cannot express that, which is
+  why these are templates. The operand is a NAME and goes through the
+  same term table the rest of the bench uses, with underscores and hyphens
+  normalised to spaces because the catalogue writes the same name three
+  ways (`methyl_orange`, `peroxide-decomposition`, `thermoplastic sheet`).
+
+  **A formula is excluded on purpose, not by omission.** `NaCl` and `CO2`
+  have no dictionary entry and therefore render as themselves. Sending a
+  formula to a translator is how a bundle acquires a German "NaCl" that is
+  "NaCl" today and is something else after a well-meaning edit.
+
+  **The gate reads the catalogue, not the tables.** `i18n.test.ts` walks
+  `codex/*.toml`, collects every `events`/`forbidden` token, and fails on
+  a verb neither table names, on a verb phrase with no German, and on a
+  lowercase operand with no German. The tables are only right for as long
+  as they cover the data, and the failure this replaces is a codex author
+  adding one more verb that nobody translates. Proven non-vacuous by
+  removing one German value: the gate names it.
+
+  **What it cost:** `expectationLabel.ts` (two tables, 15 bare verbs and
+  14 with an operand, a partition asserted in its own test), 32 new
+  strings in `de.json` and `_template.json` — 29 verb phrases in
+  `messages`, and `gypsum`, `peroxide decomposition`, `thiosulfate acid`
+  in `terms`, the only three operands the catalogue names in words that
+  German had not already been taught. No new collisions: the two the
+  collision lint records are the two it recorded before.
+
+
 ## Completed GUI tasks
 
 Numbers are never renumbered and never reused. Each of these landed; the detail

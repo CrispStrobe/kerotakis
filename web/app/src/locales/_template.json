@@ -542,7 +542,10 @@
   "electrolysis products follow time": "",
   "pressure follows gas amount": "",
   "pressure follows headspace": "",
-  "split heat same temperature": ""
+  "split heat same temperature": "",
+  "gypsum": "",
+  "peroxide decomposition": "",
+  "thiosulfate acid": ""
  },
  "messages": {
   "electrolytes": "",
@@ -2727,6 +2730,35 @@
   "more than this flame can deliver: at full power with the collar open it reaches 150 kJ in the longest exposure the panel allows": "",
   "suggestions": "",
   "vessel": "",
-  "chemical": ""
+  "chemical": "",
+  "a cell voltage was read": "",
+  "something distilled over": "",
+  "something evaporated": "",
+  "something was filtered": "",
+  "a gas was tested": "",
+  "a hazard was warned about": "",
+  "the headspace partitioned": "",
+  "something ignited": "",
+  "something was measured": "",
+  "something was mixed": "",
+  "not yet modelled": "",
+  "something was observed": "",
+  "an organic reaction ran": "",
+  "something was stirred": "",
+  "the temperature changed": "",
+  "{what} added": "",
+  "{what} adsorbed": "",
+  "{what} boiled": "",
+  "{what} consumed": "",
+  "{what} dissolved": "",
+  "{what} electrolysed": "",
+  "{what} flame test": "",
+  "{what} froze": "",
+  "{what} evolved as gas": "",
+  "{what} stayed inert": "",
+  "{what} plated out": "",
+  "{what} heated as a polymer": "",
+  "{what} precipitated": "",
+  "{what} reacted": ""
   }
 }
