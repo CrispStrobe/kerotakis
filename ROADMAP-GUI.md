@@ -4313,6 +4313,61 @@ boil, consumed edges, a precipitate and a steam plume. Two did not:
   scale one with.
 
 
+## A reachable bench, not a smaller caption (GUI-130)
+
+GUI-126 left one number unfinished and said so: at 200% text zoom the
+running caption still covered **49% of the stage**, and the note there
+guessed the cause — *"of that step's 550 characters of account, 454 are
+one lv3 routing paragraph"*. GUI-127 shipped the switch that removes the
+paragraph, so the guess was testable.
+
+**It was wrong.** With the routing announcement switched off, the
+account's longest line falls from **454 characters to 49** — and the
+caption is still 288 px and the stage still 49% covered. At a 32 px root
+a pressable "next step" is 190 px on its own; no amount of trimming the
+prose gets a caption under that. The prose was never the constraint.
+
+- [x] **GUI-130 — so the answer is not a smaller caption, it is a
+  reachable bench.** The pane already scrolls (GUI-122). It now reserves
+  the caption's height at its own foot while a run is in progress, so its
+  content ENDS above the caption instead of running under it, and
+  `scroll-padding-bottom` makes every `scrollIntoView` inside it respect
+  the same edge. That is the promise GUI-122 made about the pane's foot,
+  applied to the thing now sitting on it.
+
+  **Measured, at three regimes, before and after:**
+
+  | regime | stage covered | vessel covered |
+  |---|---:|---:|
+  | 1440×900 | 21% → **0%** | 12% → **0%** |
+  | 390×844 | 17% → **0%** | 0% → **0%** |
+  | 1440×900 @ 200% text | 49% → **2%** | 21% → **1%** |
+
+  **The alignment is `block: "end"`, and the wrong one was measured
+  rather than reasoned about.** `"nearest"` was tried first and was
+  *worse than doing nothing* — **59%** of the glass covered against 21% —
+  because for an element taller than the scrollport it aligns the wrong
+  edge. At 200% the glass is 480 px inside a 371 px pane, so it cannot be
+  wholly clear at any scroll position and something has to choose which
+  half survives. Foam, bubbles, a precipitate and the liquid line are all
+  drawn in the bottom one, so the bottom is what is aligned.
+
+  **The height is measured, not assumed** — 201 px at 1440×900 and 288 px
+  at a 32 px root, so a constant would be right in one regime and wrong
+  in the other. A `ResizeObserver` keeps it true, and re-aligns when it
+  changes: a caption that grows because the reader zoomed moves the edge
+  the glass was aligned to, and nothing else would notice.
+
+  **The reserve is removed on teardown as well as when the run ends**,
+  because 270 px of dead space at the foot of every session is a worse
+  bug than the one this fixes.
+
+  Guarded in `test-ux-quality.mjs` — the glass under 15% covered in both
+  regimes, and the reserve within 2 px of the caption it is reserving for
+  — and in `runningCaption.test.ts`, which pins the rule, the measurement
+  and the alignment, including that `"nearest"` does not come back.
+
+
 ## Completed GUI tasks
 
 Numbers are never renumbered and never reused. Each of these landed; the detail

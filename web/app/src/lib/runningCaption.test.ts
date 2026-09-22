@@ -55,6 +55,55 @@ describe("the running caption", () => {
     expect(rule(".dock-controls")).toMatch(/flex:\s*none/);
   });
 
+  /**
+   * GUI-130. Capping the caption stopped it being a lid; it still SAT
+   * over the foot of the pane, and at 200% text zoom that was 49% of the
+   * stage with the routing announcement already switched off — so it was
+   * never the prose, it was a pressable button at a 32 px root. The
+   * answer is a reachable bench rather than a smaller caption.
+   */
+  describe("the bench pane reserves the caption's height", () => {
+    const APP = readFileSync(join(import.meta.dirname, "../App.svelte"), "utf8");
+    const CATALOG = SOURCE;
+
+    it("reserves it at the foot of the pane, and for scrolling inside it", () => {
+      const rule = /html\[data-bench-run\]\)\s*\.bench-pane\s*\{([^}]*)\}/.exec(APP)?.[1] ?? "";
+      expect(rule).not.toBe("");
+      expect(rule).toMatch(/padding-bottom:\s*var\(--run-caption/);
+      // Without this the alignment below would put the glass under the
+      // caption rather than above it.
+      expect(rule).toMatch(/scroll-padding-bottom:\s*var\(--run-caption/);
+    });
+
+    it("measures the caption rather than assuming a height", () => {
+      // 201 px at 1440x900 and 288 px at a 32 px root: a constant would
+      // be wrong in one of them.
+      expect(CATALOG).toContain("--run-caption");
+      expect(CATALOG).toMatch(/getBoundingClientRect\(\)\.height/);
+      expect(CATALOG).toContain("ResizeObserver");
+    });
+
+    it("aligns the BOTTOM of the glass, which is where the chemistry is drawn", () => {
+      // `nearest` was tried and was worse than doing nothing — 59% of the
+      // glass covered against 21% — because for an element taller than
+      // the scrollport it aligns the wrong edge. At 200% the glass is
+      // 480 px in a 371 px pane, so something has to choose which half
+      // survives, and foam, bubbles and a precipitate are all in the
+      // bottom one.
+      expect(CATALOG).toMatch(/scrollIntoView\(\{\s*block:\s*"end"/);
+      expect(CATALOG).not.toMatch(/scrollIntoView\(\{\s*block:\s*"nearest"/);
+    });
+
+    it("leaves the pane alone when no run is in progress", () => {
+      // The attribute is the whole switch, and it is removed on teardown
+      // as well as when `running` goes false — a reserve left standing
+      // after the dialog closes is 270 px of dead space at the foot of
+      // every session.
+      expect(CATALOG).toMatch(/removeAttribute\("data-bench-run"\)/);
+      expect(CATALOG).toMatch(/removeProperty\("--run-caption"\)/);
+    });
+  });
+
   it("puts no second scroller over the account's own text", () => {
     // `.dock-produced` had `max-height: 5.5rem` — 88 px at rest and 176 px
     // at 200% text zoom, a nested scroller that GREW in the regime where
