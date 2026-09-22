@@ -2759,6 +2759,8 @@
   "{what} plated out": "{what} schied sich ab",
   "{what} heated as a polymer": "{what} als Polymer erhitzt",
   "{what} precipitated": "{what} ausgefallen",
-  "{what} reacted": "{what} reagierte"
+  "{what} reacted": "{what} reagierte",
+  "the log says which dataset and activity model answered each vessel": "das Protokoll nennt Datensatz und Aktivitätsmodell für jedes Gefäß",
+  "the log leaves the dataset and the activity model to the provenance drawer": "das Protokoll überlässt Datensatz und Aktivitätsmodell der Herkunftsansicht"
  }
 }

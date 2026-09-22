@@ -2759,6 +2759,8 @@
   "{what} plated out": "",
   "{what} heated as a polymer": "",
   "{what} precipitated": "",
-  "{what} reacted": ""
+  "{what} reacted": "",
+  "the log says which dataset and activity model answered each vessel": "",
+  "the log leaves the dataset and the activity model to the provenance drawer": ""
   }
 }
