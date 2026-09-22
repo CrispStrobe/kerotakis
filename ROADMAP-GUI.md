@@ -3656,7 +3656,8 @@ evolved CO₂ and half a mole of it must not look the same.
 
 ## Two more rulings, 2026-09-21
 
-- [ ] **GUI-123 — the legibility guard reaches form controls.** GUI-121's
+- [x] **GUI-123 — the legibility guard reaches form controls. DONE
+      2026-09-22, and it found one.** GUI-121's
       assertion reads text *nodes*, so an `<input>`'s value and its
       placeholder are outside its net — a limit it recorded at the check
       rather than leaving to be discovered. `Shelf.svelte`'s `.stepper`
@@ -4366,6 +4367,107 @@ prose gets a caption under that. The prose was never the constraint.
   regimes, and the reserve within 2 px of the caption it is reserving for
   — and in `runningCaption.test.ts`, which pins the rule, the measurement
   and the alignment, including that `"nearest"` does not come back.
+
+
+## A finger is not a font (GUI-123)
+
+The ruling of 2026-09-21: GUI-121's legibility sweep reads text NODES, and
+an `<input>` has none — its value and its placeholder are painted by the
+control itself — so the whole net passed over them. `Shelf.svelte` has
+carried a standing comment since the stepper was built, *"the number field
+was measured at 33px — too narrow to edit in"*, which is this defect,
+written down at the scene and unreachable by the check.
+
+- [x] **GUI-123a — two thresholds, because the ruling asked for two.** A
+  value a reader typed and a hint the app offered are not the same claim.
+
+  **A VALUE is squeezed when the browser says it is cut off AND it is
+  short** — six characters or fewer. `scrollWidth > clientWidth` on an
+  input is the browser reporting that the content does not fit; for a
+  typed sentence that is ordinary, because the caret scrolls it and this
+  file's own standing rule is that a scroller is not a clip. For "100" in
+  a 33 px box it is the defect the ruling named. Verified directly in
+  Chrome before it was relied on: a 33 px field holding "100" reports
+  `scrollWidth 36` against `clientWidth 31`.
+
+  **A PLACEHOLDER is only ever reported BLANK.** The ruling warned that
+  placeholders legitimately truncate and that a threshold copied from the
+  text-node rule would cry wolf. A hint cut short is still a hint, and the
+  reader has lost nothing they put there themselves.
+
+  `<select>` is measured through its selected option, because a unit chip
+  reading "mL" clipped to "m" is the same defect wearing a different tag.
+  Controls with no painted text — checkbox, radio, range, colour, file,
+  image, hidden — are excluded and COUNTED, so a shrinking sample cannot
+  quietly empty the check.
+
+- [x] **GUI-123b — the net had to be made to reach the thing it was
+  written for.** The first clean run measured 66 controls and found
+  nothing, which was not reassurance: the stepper — the one control this
+  repo has a standing comment about — sits behind a disclosure and **was
+  never in the sample at all**. The sweep read the search box and two
+  dials. So it now expands a bottle's amount form before measuring the
+  cabinet, at all three regimes, and asserts that it did. 66 controls
+  became **80**.
+
+  The route there is worth recording, because the first attempt to prove
+  the guard was wrong in an instructive way: narrowing `.stepper`'s
+  `min-width` from 8.2rem to 5.5rem reproduced NOTHING, because the flex
+  row gives the field 118 px whatever the min-width says. A guard that has
+  never failed has not been proven, and the thing that was actually
+  missing was coverage, not a threshold.
+
+- [x] **GUI-123c — and it found one, immediately: a finger is not a
+  font.** With the form open, at 200% text zoom, `input[number]` holding
+  "100" is **86.4 px wide inside a 262.4 px stepper at a 25.6 px em**, and
+  its own value does not fit. Three surfaces reported it — the bench, the
+  cupboard and the periodic table all have the cabinet beside them.
+
+  The cause is a units mistake of exactly the shape GUI-126 recorded for
+  the caption: **measure a thing in the units of what it actually is.**
+  The stepper's two buttons were `2.75rem`, so at a 32 px root they became
+  **88 px each**, took 176 of the stepper's 262 px, and left the field
+  86.4. A touch target is a PHYSICAL size — 44 px is what a finger hits —
+  and it has no business growing because the reader asked for bigger text.
+  The reader asked for larger type and was handed a field they could not
+  read their own number in.
+
+  They are `44px` now, as is `.step` and `.amounts input`'s own
+  `min-height`. px is also what every other target in this app already
+  uses — the register dial's 40, the run dock's 36, the pane heading's 44
+  — so the stepper was the outlier and not the convention. Page zoom still
+  scales them, because page zoom scales px; only TEXT zoom does not, which
+  is the distinction that was lost.
+
+- [x] **GUI-123d — and CI found a SECOND instance this box could not
+  see.** At 1440 px, not at zoom: the field measured **51.7 px inside a
+  139.7 px stepper**, with "100" cut off. It had always been there; the
+  `rem`→`px` change above is a no-op at a 16 px root and could not have
+  touched it. The local sweep measured that stepper at 262 px, so two
+  honest runs of the same check on the same commit disagreed — the shelf
+  pane is a different width in the two environments, and **a layout
+  defect that depends on available width needs the width swept, not
+  sampled**. A probe that caps `.stepper` at 140, 152, 168, 207 and
+  262 px answers what one viewport cannot.
+
+  Three more units mistakes in the same block, all the same shape:
+
+  * `.amounts input` sets `min-width: 0` so the row can wrap, which for
+    the number field is a licence to be squeezed to nothing. Its floor is
+    **`4rem`, in rem** — and that is the other half of the ruling. The
+    buttons beside it are px because a finger is physical; the field is
+    rem because it holds TYPE. A field's minimum has to grow with the text
+    in it for exactly the reason a target's must not.
+  * `.stepper`'s own `min-width` was 8.2rem — 131 px, less than 88 px of
+    button plus any readable field. It is **9.5rem**, which is the button
+    row plus the field's floor.
+  * the native **spin buttons** were still drawn, redundant beside the −
+    and + this stepper already has, eating 13–17 px of a field with none
+    to spare. Gone.
+
+  Measured after, sweeping the width: the stepper refuses to go below
+  152 px even when capped at 140, the field holds at 64 px, and the value
+  fits at every width tested.
 
 
 ## Completed GUI tasks

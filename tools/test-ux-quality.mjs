@@ -1112,13 +1112,43 @@ const periodicAudit = () => page.evaluate(`(() => {
  *   squeezed  the visible box survives but is narrower than one em with
  *             more than one character to paint, or shorter than half an
  *             em. Not even one character of it can be read.
+ *
+ * FORM CONTROLS (GUI-123). Everything above reads TEXT NODES, and an
+ * `<input>` has none: its value and its placeholder are painted by the
+ * control itself. So the whole net passed over them, and `Shelf.svelte`
+ * has carried a standing comment since the stepper was built — *"the
+ * number field was measured at 33px — too narrow to edit in"* — which is
+ * this defect, written down at the scene and unreachable by the check.
+ *
+ * The ruling says a value a reader typed, painted too small to read, is
+ * the same defect as a heading painted at zero. It also warns that
+ * **placeholders legitimately truncate**, so one threshold for both would
+ * cry wolf. They get different ones:
+ *
+ *   a VALUE is squeezed when it does not fit its own control AND it is
+ *     short — six characters or fewer. `scrollWidth > clientWidth` on an
+ *     input is the browser saying the content is cut off; for a sentence
+ *     that is ordinary, because the caret scrolls it and this file's own
+ *     rule is that a scroller is not a clip. For "1000" in a 33 px box it
+ *     is the defect the ruling named.
+ *   a PLACEHOLDER is only ever reported BLANK. A hint cut short is a hint,
+ *     and the reader has lost nothing they put there themselves.
+ *
+ * Both are reported blank on the same terms as text: a box that is zero
+ * in an axis paints nothing, whatever is in it.
+ *
+ * Controls with no painted text are excluded and counted (`noText`):
+ * checkbox, radio, range, color, file, image and hidden. A `<select>` IS
+ * measured, through its selected option's label, because a unit chip
+ * reading "mL" clipped to "m" is the same defect wearing a different tag.
  */
 const legibility = {
   surfaces: [],
   blank: [],
   squeezed: [],
   regimes: new Set(),
-  excluded: { ariaHidden: 0, srOnly: 0, srIdiom: 0, noBox: 0, invisible: 0, nested: 0 },
+  controls: [],
+  excluded: { ariaHidden: 0, srOnly: 0, srIdiom: 0, noBox: 0, invisible: 0, nested: 0, noText: 0 },
 };
 
 /** One measurement of one open surface, in whichever regime the caller is in.
@@ -1131,8 +1161,8 @@ const legibility = {
  * taken in even if a caller mislabels it. */
 const legibilityProbe = (surface, regime) => page.evaluate(`(() => {
   const SKIP = new Set(["SCRIPT", "STYLE", "TEMPLATE", "OPTION", "NOSCRIPT", "SELECT", "TITLE"]);
-  const found = { sampled: 0, blank: [], squeezed: [],
-    excluded: { ariaHidden: 0, srOnly: 0, srIdiom: 0, noBox: 0, invisible: 0, nested: 0 } };
+  const found = { sampled: 0, controls: 0, blank: [], squeezed: [],
+    excluded: { ariaHidden: 0, srOnly: 0, srIdiom: 0, noBox: 0, invisible: 0, nested: 0, noText: 0 } };
   const reported = [];
   // Svelte's scoping hash is not a name: it changes whenever a
   // component's CSS changes, so a signature carrying one could never be
@@ -1256,22 +1286,103 @@ const legibilityProbe = (surface, regime) => page.evaluate(`(() => {
       em: round(em),
     });
   }
+  // GUI-123: the same question asked of the controls, whose text is not
+  // in a text node. Deliberately a second pass rather than a branch in
+  // the loop above: the thresholds differ, and folding two rules into one
+  // walk is how the looser of them ends up applied to both.
+  const NO_TEXT = new Set(["checkbox", "radio", "range", "color", "file", "image", "hidden"]);
+  for (const el of document.body.querySelectorAll("input, textarea, select")) {
+    const tag = el.tagName.toLowerCase();
+    const type = tag === "input" ? (el.getAttribute("type") || "text").toLowerCase() : tag;
+    if (NO_TEXT.has(type)) { found.excluded.noText += 1; continue; }
+    if (el.closest('[aria-hidden="true"]')) { found.excluded.ariaHidden += 1; continue; }
+    if (screenReaderOnly(el)) { found.excluded.srOnly += 1; continue; }
+    if (el.getClientRects().length === 0) { found.excluded.noBox += 1; continue; }
+    if (!el.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true })) {
+      found.excluded.invisible += 1; continue;
+    }
+    // A select paints its selected option; an input paints its value, or
+    // its placeholder when it has none.
+    const value = tag === "select"
+      ? (el.selectedOptions && el.selectedOptions[0] ? el.selectedOptions[0].textContent.trim() : "")
+      : String(el.value || "");
+    const hint = tag === "select" ? "" : String(el.getAttribute("placeholder") || "");
+    const painted = value || hint;
+    if (!painted) { found.excluded.noText += 1; continue; }
+    found.controls += 1;
+    const box = visibleBox(el);
+    const style = getComputedStyle(el);
+    const em = parseFloat(style.fontSize) || 16;
+    const blank = box.width <= 0.5 || box.height <= 0.5;
+    // The strict rule, and only for a value the reader put there: the
+    // browser says the content is cut off, and the content is short
+    // enough that there was nothing to cut. A select cannot scroll its
+    // own label, so an overflowing one is cut off outright.
+    const cutOff = tag === "select"
+      ? box.width + 0.5 < el.scrollWidth
+      : el.scrollWidth > el.clientWidth + 0.5;
+    const squeezed = !blank && Boolean(value) && value.length <= 6 && cutOff;
+    if (!blank && !squeezed) continue;
+    const parent = el.parentElement;
+    const parentBox = parent ? parent.getBoundingClientRect() : { width: 0, height: 0 };
+    (blank ? found.blank : found.squeezed).push({
+      surface: ${JSON.stringify(surface)},
+      regime: ${JSON.stringify(regime)},
+      element: describe(el) + "[" + type + "]",
+      // Say WHICH rule fired: a blank placeholder and a clipped value are
+      // different findings and a reader of the log needs to know which.
+      text: (value ? "value " : "placeholder ") + JSON.stringify(painted.slice(0, 30)),
+      width: round(box.width), height: round(box.height),
+      ownWidth: round(box.own.width), ownHeight: round(box.own.height),
+      clippedBy: box.clippedBy,
+      parent: parent ? describe(parent) : "",
+      parentWidth: round(parentBox.width), parentHeight: round(parentBox.height),
+      em: round(em),
+    });
+  }
   found.root = getComputedStyle(document.documentElement).fontSize;
   return JSON.stringify(found);
 })()`);
+
+/**
+ * Expand a bottle's amount form before sweeping the cabinet (GUI-123).
+ *
+ * Without this the control sweep reads the search box and the two dials
+ * and nothing else: the stepper — the one control this repo has a
+ * standing comment about, *"the number field was measured at 33px — too
+ * narrow to edit in"* — is behind a disclosure and was never in the
+ * sample. A net that does not reach the thing it was written for is a net
+ * that passes.
+ *
+ * Tolerant on purpose: the cabinet is not open at every call site, and a
+ * sweep that threw here would take the surfaces after it down with it.
+ * Returns whether the form is on screen, so a caller can say so.
+ */
+const openAmountForm = async () => {
+  await page.evaluate(`(() => {
+    if (document.querySelector('.stepper input')) return;
+    const bottle = [...document.querySelectorAll('nav.shelf-pane ul li button.species')]
+      .find((item) => item.offsetParent);
+    bottle?.click();
+  })()`);
+  await settle();
+  return Boolean(await page.evaluate(`Boolean(document.querySelector('.stepper input'))`));
+};
 
 /** Measure one surface and fold it into the run's tally, printing the
  * reading as it goes so a CI log says where every offender was found. */
 const sweepLegibility = async (surface, regime) => {
   await settle();
   const found = JSON.parse(await legibilityProbe(surface, regime));
-  legibility.surfaces.push({ surface, regime, sampled: found.sampled, root: found.root });
+  legibility.surfaces.push({ surface, regime, sampled: found.sampled, controls: found.controls, root: found.root });
+  legibility.controls.push(found.controls);
   legibility.regimes.add(regime);
   for (const entry of found.blank) legibility.blank.push(entry);
   for (const entry of found.squeezed) legibility.squeezed.push(entry);
   for (const key of Object.keys(legibility.excluded)) legibility.excluded[key] += found.excluded[key];
-  console.log(`   ..    legibility · ${regime} · ${surface}: ${found.sampled} read at a `
-    + `${found.root} root, ${found.blank.length} blank, ${found.squeezed.length} squeezed`);
+  console.log(`   ..    legibility · ${regime} · ${surface}: ${found.sampled} read `
+    + `+ ${found.controls} control(s) at a ${found.root} root, `
+    + `${found.blank.length} blank, ${found.squeezed.length} squeezed`);
   for (const entry of found.blank.concat(found.squeezed)) {
     console.log(`          ${entry.element} "${entry.text}" `
       + `visible ${entry.width}x${entry.height} of own ${entry.ownWidth}x${entry.ownHeight} `
@@ -1340,6 +1451,8 @@ try {
   // GUI-121, first vantage point. The desktop bench, the shelf pane and the
   // journal are all mounted here: one reading covers the three surfaces the
   // app opens on.
+  check("the amount form is open where the sweep can read its field (1440 px)",
+    await openAmountForm());
   await sweepLegibility("bench, cabinet and journal", "1440 px");
 
   /* -- GUI-126: the run is the experiment, and the caption is a caption -- */
@@ -2285,6 +2398,8 @@ try {
     narrowFilters.clipped?.length === 0, `${(narrowFilters.clipped ?? []).join(", ")} in a ${narrowFilters.railHeight}px rail`);
   check("320 px phase chips keep 44 px touch targets",
     narrowFilters.small?.length === 0, (narrowFilters.small ?? []).join(", "));
+  check("the amount form is open where the sweep can read its field (320 px)",
+    await openAmountForm());
   await sweepLegibility("cabinet", "320 px");
   const narrowJournal = await chooseMobilePane(2);
   check("320 px workspace stays inside the page", narrowBench.bodyOverflow <= 1 && Boolean(narrowBench.bench), `${narrowBench.bodyOverflow}px`);
@@ -2651,6 +2766,8 @@ try {
   // is a ZOOMED one, and each is labelled so that no future table of
   // measurements can sit inside this bracket without saying which side of
   // it the numbers came from.
+  check("the amount form is open where the sweep can read its field (200% text zoom)",
+    await openAmountForm());
   await sweepLegibility("bench, cabinet and journal", "200% text zoom");
 
   /* -- GUI-122: what falls out of the bottom is under a scroller ------- *
@@ -3293,6 +3410,13 @@ try {
   check("every surface the sweep read had text on it",
     thinnest.sampled >= 3,
     `${thinnest.surface} at ${thinnest.regime} offered ${thinnest.sampled} elements with text`);
+  // GUI-123: the same claim for the half of the app the text-node walk
+  // cannot see. A sweep that read no controls would pass this section in
+  // silence, which is the shape of failure this whole block is written
+  // against — so the sample is asserted before the finding is.
+  const controlsRead = legibility.controls.reduce((total, n) => total + n, 0);
+  check("the sweep reached the form controls, whose text is not in a text node",
+    controlsRead >= 8, `${controlsRead} control value(s)/placeholder(s) measured`);
   check("the legibility sweep saw the app, not a fragment of it",
     legibility.surfaces.reduce((total, item) => total + item.sampled, 0) >= 400,
     `${legibility.surfaces.reduce((total, item) => total + item.sampled, 0)} readable elements across `
