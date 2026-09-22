@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { EngineError, type EngineHost, type Scene, type ScriptResult } from "./host/EngineHost";
-import { REGISTERS, Session, type StorageLike } from "./session.svelte";
+import { REGISTERS, Session, VISIBLE_EFFECT_MS, type StorageLike } from "./session.svelte";
 
 class FakeStorage implements StorageLike {
   map = new Map<string, string>();
@@ -1297,6 +1297,45 @@ describe("Session", () => {
       const third = new Session(new FakeHost(), storage);
       await third.connect();
       expect(third.announceRouting).toBe(true);
+    });
+  });
+
+  /**
+   * GUI-128. The runner asks the BENCH how long to wait, because the bench
+   * is what knows whether the line just submitted put anything on the
+   * stage.
+   */
+  describe("how long the bench wants before the next line", () => {
+    it("asks for nothing on a bench nothing has happened to", () => {
+      expect(new Session(new FakeHost()).settleMs()).toBe(0);
+    });
+
+    it("asks for the remainder of the window after something is drawn", () => {
+      const s = new Session(new FakeHost());
+      s.vesselEffects = { 0: [{ kind: "burst", at: Date.now(), magnitude: 1 }] };
+      const wanted = s.settleMs();
+      expect(wanted).toBeGreaterThan(VISIBLE_EFFECT_MS - 200);
+      expect(wanted).toBeLessThanOrEqual(VISIBLE_EFFECT_MS);
+    });
+
+    it("asks for nothing once the window has already passed", () => {
+      // A step that only moved a number leaves the newest effect older
+      // than the window, so the run stays brisk rather than honouring an
+      // animation the previous line started.
+      const s = new Session(new FakeHost());
+      s.vesselEffects = {
+        0: [{ kind: "foam", at: Date.now() - VISIBLE_EFFECT_MS - 500, magnitude: 1 }],
+      };
+      expect(s.settleMs()).toBe(0);
+    });
+
+    it("reads the newest effect on any vessel, not the first it finds", () => {
+      const s = new Session(new FakeHost());
+      s.vesselEffects = {
+        0: [{ kind: "foam", at: Date.now() - 9000, magnitude: 1 }],
+        1: [{ kind: "burst", at: Date.now(), magnitude: 1 }],
+      };
+      expect(s.settleMs()).toBeGreaterThan(0);
     });
   });
 

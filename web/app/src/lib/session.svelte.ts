@@ -204,6 +204,14 @@ export interface StorageLike {
   setItems?(changes: Readonly<Record<string, string>>): void;
 }
 
+/**
+ * Long enough to have SEEN that something happened, in ms.
+ *
+ * Not long enough to have watched it finish, which is a different number
+ * and a much larger one — see `Session.settleMs`.
+ */
+export const VISIBLE_EFFECT_MS = 1400;
+
 const SAVE_KEY = "kero.session.v1";
 /** Learner progress: ids of codex entries whose run checked out. Kept
  * apart from the bench save — clearing the bench must not unlearn. */
@@ -462,6 +470,42 @@ export class Session {
     list.push(effect);
     this.vesselEffects = { ...this.vesselEffects, [vessel]: list };
     this.expireEffect(vessel, effect);
+  }
+
+  /**
+   * How long the bench would like before another line lands on it, in ms.
+   *
+   * GUI-128. `runCatalogEntry` paced itself at a flat 420 ms, and every
+   * visible effect on this bench outlives that — a burst is drawn for
+   * 1800 ms, a foam head for 3000, a bubble ride for 9000. A ten-line
+   * script therefore fired ten animations inside four seconds, each wiped
+   * by the next before it had drawn. That is the ORIGINAL defect the
+   * runner was written to fix ("no pacing, so the animations of ten
+   * commands collapsed into one frame"), surviving in the one number
+   * nobody had measured against the thing it paces.
+   *
+   * The bench answers rather than the runner guessing, because the bench
+   * is what knows whether the line just submitted put anything on the
+   * stage. It reports the remainder of `VISIBLE_EFFECT_MS` since the
+   * NEWEST effect, so:
+   *
+   *   - a line that started one asks for the rest of that window;
+   *   - a line that only moved a number asks for nothing, because the
+   *     newest effect is already older than the window, and the run stays
+   *     brisk;
+   *   - no effects at all asks for nothing.
+   *
+   * It is a floor on being SEEN, not a promise to play an effect out: the
+   * runner caps what it will wait, because a twelve-line script that
+   * honoured a nine-second bubble ride in full would take two minutes.
+   */
+  settleMs(): number {
+    let newest = 0;
+    for (const list of Object.values(this.vesselEffects)) {
+      for (const effect of list) if (effect.at > newest) newest = effect.at;
+    }
+    if (newest === 0) return 0;
+    return Math.max(0, VISIBLE_EFFECT_MS - (Date.now() - newest));
   }
 
   /** Removing an effect is itself reactive. CSS animations therefore stop

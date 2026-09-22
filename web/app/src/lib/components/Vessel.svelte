@@ -301,6 +301,38 @@
     );
     return Math.max(0, combined - liquidH);
   });
+  /**
+   * A stable per-cell fraction in [0,1), from the cell's index alone.
+   *
+   * GUI-128. The foam head used to be a coloured rectangle with cells on
+   * a lattice — `(i * 17) % width` — so every foam in the app had the
+   * same bubbles in the same places, in rows. This scatters them, and it
+   * does it from the index rather than from `Math.random()` for two
+   * reasons: a random scatter re-rolls on every reactive redraw and the
+   * foam twitches, and the server-rendered tests could not assert
+   * anything about a picture that is different every time.
+   *
+   * The multipliers are irrational and one PER AXIS, which is the part
+   * that took a photograph to get right. The first draft salted a single
+   * golden-ratio sequence with an additive offset per axis — and an
+   * additive offset of one sequence is the SAME sequence, so x and y were
+   * perfectly correlated and every bubble landed on one diagonal band
+   * through the middle of the head. A scatter that is a line is a lattice
+   * wearing a different hat.
+   *
+   * So each axis gets its own irrational. The first two are the R2
+   * sequence (the plastic number and its square), which is the standard
+   * low-discrepancy pair for filling a rectangle: successive indices land
+   * far apart in BOTH axes rather than drifting into a stripe.
+   */
+  const SCATTER_AXES = [
+    0.7548776662466927, 0.5698402909980532, 0.6180339887498949, 0.3247179572447460,
+    0.8191725133961644, 0.4301597090019467, 0.2451223338516541, 0.9061372198963032,
+  ];
+  const scatter = (i: number, axis = 0): number => {
+    const x = (i + 1) * SCATTER_AXES[axis % SCATTER_AXES.length]!;
+    return x - Math.floor(x);
+  };
   const foamOverflow = $derived(vessel.foam?.overflow_liters ?? 0);
   const foamColour = $derived(vessel.foam?.srgb ?? [245, 245, 245] as [number, number, number]);
   const snowFraction = $derived(vessel.swelling
@@ -954,6 +986,9 @@
     {#if vessel.foam && foamH > 0}
       {@const foamY = BOTTOM_Y - liquidH - foamH}
       {@const foamHalfLife = foamEffect?.foam?.halfLifeSeconds}
+      {@const foamFill = Math.min(1, vessel.foam.volume_liters / FULL_AT_L)}
+      {@const cells = Math.round(8 + foamFill * 34)}
+      {@const churn = Math.min(4, Math.max(0.55, (foamHalfLife ?? 6) / 3))}
       <g
         class="foam-state"
         class:rising={active("foam", 3000)}
@@ -976,12 +1011,44 @@
             height: vessel.foam.height_cm.toFixed(1),
           })}{foamHalfLife === undefined ? "" : ` · ${t("half-life {seconds} s", { seconds: formatReading(foamHalfLife, 1) })}`}</title>
         </rect>
-        {#each Array.from({ length: Math.max(5, Math.round(5 + Math.min(1, vessel.foam.volume_liters / FULL_AT_L) * 11)) }, (_, i) => i) as i (i)}
+        <!-- GUI-128. Three things about a foam head that a rectangle with
+             cells on a lattice could not show, and all three are read off
+             the engine rather than chosen:
+
+             * HOW MUCH foam there is decides how many cells and how
+               densely: `volume_liters` against the vessel's own full
+               volume, 8 cells at a trace and 42 at a head that fills it.
+             * A foam COARSENS UPWARD — the bubbles near the crown have
+               drained and merged, the ones at the liquid line are still
+               fine — so the radius is scaled by the cell's own height in
+               the head rather than by `i % 3`.
+             * A foam that dies in two seconds CHURNS, and one that stands
+               for a minute barely moves. The pop cycle is the engine's own
+               half-life divided down, so the motion and the collapse are
+               the same number said twice. -->
+        {#each Array.from({ length: cells }, (_, i) => i) as i (i)}
+          {@const up = scatter(i, 1)}
+          {@const cy = foamY + 1.6 + up * Math.max(2, foamH - 3.2)}
+          {@const high = foamH > 0 ? 1 - (cy - foamY) / Math.max(1, foamH) : 0}
           <circle
             class="foam-cell"
-            cx={INNER_X + 4 + ((i * 17) % Math.max(6, INNER_W - 8))}
-            cy={foamY + 3 + ((i * 11) % Math.max(4, foamH - 4))}
-            r={1.2 + (i % 3) * 0.55}
+            cx={INNER_X + 1.8 + scatter(i) * Math.max(3, INNER_W - 3.6)}
+            {cy}
+            r={(0.8 + foamFill * 0.9) * (0.55 + high * 1.25)}
+            style={`--pop-period:${(churn * (0.7 + scatter(i, 2) * 0.8)).toFixed(2)}s;--pop-delay:${(scatter(i, 3) * churn).toFixed(2)}s`}
+          />
+        {/each}
+        <!-- The crown: a broken edge instead of a ruled one. A foam head
+             is not flat on top, and the straight line across the rect was
+             the single most artificial thing about the old drawing. -->
+        {#each Array.from({ length: Math.max(4, Math.round(4 + foamFill * 7)) }, (_, i) => i) as i (i)}
+          {@const r = (1.1 + foamFill * 1.5) * (0.7 + scatter(i, 4) * 0.7)}
+          <circle
+            class="foam-cell crown"
+            cx={INNER_X + r + scatter(i, 5) * Math.max(2, INNER_W - 2 * r)}
+            cy={foamY + r * 0.35}
+            {r}
+            style={`--pop-period:${(churn * (0.9 + scatter(i, 6) * 0.7)).toFixed(2)}s;--pop-delay:${(scatter(i, 7) * churn).toFixed(2)}s`}
           />
         {/each}
       </g>
@@ -2282,12 +2349,33 @@
       {/if}
     {/if}
     {#if active("burst", 1800)}
+      <!-- GUI-128. The seal failing used to look the same however hard it
+           failed: eight identical shards at eight fixed angles and one
+           ring. Only the distance and the radius moved with the
+           magnitude, so a hairline vent and a flask coming apart drew the
+           same picture at two sizes.
+
+           Now the COUNT is the magnitude — six shards at the threshold,
+           twenty when the headspace was far over the rating — and every
+           shard has its own angle, length, size and spin, scattered from
+           its index so the star is a burst rather than a snowflake. Two
+           rings, staggered, because a pressure wave is not one edge; and
+           a flash, which is the part a reader actually catches out of the
+           corner of an eye. -->
       {@const burstMag = mag("burst", 1800)}
+      {@const shards = Math.round(6 + burstMag * 14)}
       <g class="burst" aria-hidden="true" style={`--burst-distance:${18 + burstMag * 30}px`}>
-        {#each [0, 45, 90, 135, 180, 225, 270, 315] as angle (angle)}
-          <path d="M 47 65 l 6 -4 l -1 7 z" style={`--angle:${angle}deg`} />
+        <circle class="flash" cx="50" cy="65" r={10 + burstMag * 10} />
+        {#each Array.from({ length: shards }, (_, i) => i) as i (i)}
+          {@const angle = (i * 360) / shards + (scatter(i) - 0.5) * (300 / shards)}
+          {@const size = 0.65 + scatter(i, 1) * 0.8}
+          <path
+            d={`M 47 65 l ${(6 * size).toFixed(2)} ${(-4 * size).toFixed(2)} l ${(-1 * size).toFixed(2)} ${(7 * size).toFixed(2)} z`}
+            style={`--angle:${angle.toFixed(1)}deg;--reach:${(0.55 + scatter(i, 2) * 0.75).toFixed(2)};--spin:${(140 + scatter(i, 3) * 260).toFixed(0)}deg;--shard-delay:${(scatter(i, 4) * 0.18).toFixed(3)}s`}
+          />
         {/each}
         <circle cx="50" cy="65" r={18 + burstMag * 14} />
+        <circle class="second" cx="50" cy="65" r={11 + burstMag * 9} />
       </g>
     {/if}
     {#if plateEffect}
@@ -2538,11 +2626,30 @@
       </g>
     {/if}
 
-    {#if vessel.bubbling && liquidH > 0}
+    {#if (vessel.bubbling || active("vent", 4000)) && liquidH > 0}
       <!-- GUI-059: the fizz is sized by the gas the step actually made. Two
            staggered columns of bubbles so a real effervescence reads as a
            curtain rising through the liquid, not a row of beads; the count,
-           size and tempo all follow the magnitude. -->
+           size and tempo all follow the magnitude.
+
+           GUI-128 added the second half of that condition, and it is the
+           difference between drawing the gas and not. `vessel.bubbling` is
+           a STATE — "this liquid is fizzing right now" — and it is read
+           off the scene AFTER the step has settled. An open beaker of
+           vinegar and baking soda evolves 32 mmol of CO2 and then the gas
+           is GONE, out of the vessel, so the state is false by the time
+           anything is drawn. Traced in Chrome: over the whole of
+           `vinegar-and-baking-soda` the bench drew dissolving grains and a
+           heater and not one bubble, while the journal beside it reported
+           the carbon dioxide twice.
+
+           `active("vent")` is the EVENT — "gas came off just now" — and
+           that is what a learner is watching for. The effect already
+           carried the magnitude and the engine's own production rate; it
+           simply was not allowed to draw unless the steady state agreed.
+           Either is enough: a vessel that is still fizzing keeps drawing
+           after the event has aged out, and a puff that has already left
+           is still shown happening. -->
       {@const bMag = mag("vent", 4000)}
       {@const bCount = Math.max(3, Math.round(3 + bMag * 11))}
       {@const bRadius = 1.2 + bMag * 1.6}
@@ -3444,10 +3551,20 @@
   .heater rect { fill: color-mix(in srgb, var(--hot) 40%, var(--edge-strong)); }
   .heat-wave { fill: none; stroke: var(--hot); stroke-width: 1.2; opacity: 0; animation: heat-rise var(--heat-duration, 1.5s) ease-out infinite; }
   @keyframes heat-rise { 0% { opacity: 0; transform: translateY(4px); } 35% { opacity: var(--heat-opacity, 0.5); } 100% { opacity: 0; transform: translateY(-8px); } }
-  .burst path { fill: var(--edge-strong); transform-box: fill-box; transform-origin: center; animation: shard-fly 1.1s cubic-bezier(.12,.65,.25,1) forwards; }
+  .burst path { fill: var(--edge-strong); transform-box: fill-box; transform-origin: center; animation: shard-fly 1.1s cubic-bezier(.12,.65,.25,1) var(--shard-delay, 0s) forwards; }
   .burst path:nth-child(2n) { fill: var(--cloud); }
   .burst circle { fill: none; stroke: var(--danger); stroke-width: 3; opacity: 0; animation: pressure-wave 0.9s ease-out forwards; }
-  @keyframes shard-fly { to { opacity: 0; transform: rotate(var(--angle)) translateX(var(--burst-distance)) rotate(220deg); } }
+  /* A second edge, behind the first: a pressure wave is a front with
+     depth, and one ring reads as a drawn circle. */
+  .burst circle.second { stroke-width: 1.6; animation: pressure-wave 0.9s ease-out 0.16s forwards; }
+  /* The part a reader catches without looking straight at it. Short
+     enough that it is a flash and not a glow. */
+  .burst circle.flash { fill: var(--cloud); stroke: none; opacity: 0; animation: burst-flash 0.28s ease-out forwards; }
+  /* `--reach` and `--spin` are per shard, so the star is a burst rather
+     than a snowflake: eight identical shards at eight fixed angles is
+     what this replaces. */
+  @keyframes shard-fly { to { opacity: 0; transform: rotate(var(--angle)) translateX(calc(var(--burst-distance) * var(--reach, 1))) rotate(var(--spin, 220deg)); } }
+  @keyframes burst-flash { 0% { opacity: 0.85; } 100% { opacity: 0; } }
   @keyframes pressure-wave { 0% { opacity: 0.8; transform: scale(0.25); transform-origin: 50px 65px; } 100% { opacity: 0; transform: scale(2.1); transform-origin: 50px 65px; } }
   .vessel.bursting { animation: burst-shock 0.42s linear 2; }
   @keyframes burst-shock { 25% { transform: translate(-5px, 1px) rotate(-1deg); } 75% { transform: translate(5px, -1px) rotate(1deg); } }
@@ -3614,6 +3731,20 @@
     fill: color-mix(in srgb, white 30%, transparent);
     stroke: color-mix(in srgb, var(--foam-colour, var(--instrument)) 48%, var(--edge));
     stroke-width: 0.45;
+    transform-box: fill-box;
+    transform-origin: center;
+    /* GUI-128: the churn. `--pop-period` is the engine's half-life
+       divided down and `--pop-delay` scatters the phase, so a head that
+       collapses in two seconds boils and one that stands is nearly
+       still — the same number that drives `foam-collapse`, said as
+       motion instead of as height. */
+    animation: foam-pop var(--pop-period, 2s) ease-in-out var(--pop-delay, 0s) infinite;
+  }
+  /* The crown sits proud of the fill, so the head has a broken edge
+     rather than the ruled line a rectangle gives it. */
+  .foam-cell.crown {
+    fill: color-mix(in srgb, white 70%, var(--foam-colour, var(--instrument)));
+    stroke-width: 0.5;
   }
   .surface-particle {
     fill: #31261f;
@@ -3667,6 +3798,13 @@
     to { transform: scaleY(1); opacity: 1; }
   }
   @keyframes foam-collapse { from { transform: scaleY(1); } to { transform: scaleY(.5); } }
+  /* Grow, thin, pop. Never all the way to zero: a cell that vanishes
+     leaves a hole in the head, and foam does not have holes in it. */
+  @keyframes foam-pop {
+    0%   { transform: scale(0.72); opacity: 0.55; }
+    55%  { transform: scale(1.12); opacity: 1; }
+    100% { transform: scale(0.72); opacity: 0.55; }
+  }
   @keyframes foam-spill {
     from { transform: translateY(0); }
     to { transform: translateY(2px); }
@@ -4249,6 +4387,7 @@
     .heat-wave,
     .burst path,
     .burst circle,
+    .foam-cell,
     .vessel.bursting {
       animation: none;
     }

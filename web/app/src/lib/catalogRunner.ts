@@ -55,6 +55,24 @@ export interface RunnerBench {
    * it simply reports nothing produced.
    */
   readonly feed?: readonly RunnerFeedLine[];
+  /**
+   * How long the bench would like before the next line, in ms.
+   *
+   * GUI-128. The pace was a flat 420 ms, and every visible effect on the
+   * bench outlives that: a burst is drawn for 1800 ms, a foam head for
+   * 3000, a bubble ride for 9000. So a ten-line script fired its ten
+   * animations inside four seconds, each one wiped by the next before it
+   * had drawn — which is the ORIGINAL bug this runner was written to fix,
+   * surviving in the one number nobody had measured against the thing it
+   * paces.
+   *
+   * The bench answers rather than the runner guessing, because the bench
+   * is what knows whether that line produced anything to look at. A step
+   * that only changed a number asks for nothing and the run stays brisk.
+   * Optional: a bench that cannot answer keeps the flat pace, which is
+   * exactly the run that shipped before.
+   */
+  settleMs?(): number;
 }
 
 /** One line of the feed, as a step report carries it. */
@@ -307,6 +325,15 @@ export interface RunOptions {
   /** Between steps, so the stage has time to show what just happened. */
   pause?: (ms: number) => Promise<void>;
   paceMs?: number;
+  /**
+   * The longest the runner will wait for one step's animation, ms.
+   *
+   * A ceiling and not a target: the bubble ride is drawn for nine
+   * seconds, and a twelve-line script that honoured every effect in full
+   * would take two minutes. What the learner needs is to SEE that
+   * something happened, which is the first second of it.
+   */
+  settleCapMs?: number;
   decision?: BenchDecision | null;
   /** Polled between steps: a learner who taps stop is obeyed. */
   stopped?: () => boolean;
@@ -383,7 +410,15 @@ export async function runCatalogEntry(
   entry: RunnableEntry,
   options: RunOptions = {},
 ): Promise<CatalogRunOutcome> {
-  const { onstep, pause = wait, paceMs = 420, decision = null, stopped, onstepdone } = options;
+  const {
+    onstep,
+    pause = wait,
+    paceMs = 420,
+    settleCapMs = 1800,
+    decision = null,
+    stopped,
+    onstepdone,
+  } = options;
   if (decision === "clear") await bench.clear();
   const vesselOffset = decision === "fresh" ? highestVesselNumber(bench.scene) : 0;
   const script = scriptForDecision(entry.setup.script, decision, bench.scene);
@@ -439,7 +474,10 @@ export async function runCatalogEntry(
         if (verdict === "rest") manual = false;
         continue;
       }
-      if (more) await pause(paceMs);
+      // The pace is the longer of "brisk" and "long enough to have seen
+      // it". `settleMs` is asked AFTER the line, so it answers about what
+      // that line actually put on the stage.
+      if (more) await pause(Math.max(paceMs, Math.min(settleCapMs, bench.settleMs?.() ?? 0)));
     }
   } finally {
     observed = bench.endEventCapture();

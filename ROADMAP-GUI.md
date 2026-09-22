@@ -4164,6 +4164,90 @@ info or not."*
   event itself untouched, at all three registers — and by CI.
 
 
+## The volcano that drew no bubbles (GUI-128)
+
+Owner, 2026-09-22: *"we need real animations. foam/explosions must be
+visually rendered, parametrised to computed values."* The machinery was
+already there and parametrised; three separate things kept it off the
+screen, and the first was found by tracing the bench at 100 ms through a
+whole catalogue run rather than by reading the code.
+
+- [x] **GUI-128a — the fizz is drawn from the EVENT, not from the steady
+  state.** `{#if vessel.bubbling}` gated the gas bubbles, and
+  `vessel.bubbling` is a state read off the scene AFTER the step settles.
+  An open beaker of vinegar and baking soda evolves 32 mmol of CO₂ and
+  then the gas is **gone**, out of the vessel, so the flag is false by the
+  time anything is drawn.
+
+  Traced in Chrome over the whole of `vinegar-and-baking-soda`: the bench
+  drew dissolving grains, then a heater, and **not one bubble** — while
+  the journal beside it reported the carbon dioxide twice. The condition
+  is now `vessel.bubbling || active("vent", 4000)`: the effect already
+  carried the magnitude and the engine's own production rate, and was
+  simply not allowed to draw unless the steady state agreed. Same trace
+  after: **10 bubbles for 1.4 s of a 2.5 s run.**
+
+- [x] **GUI-128b — the runner paces to what the step put on the stage.**
+  `paceMs` was a flat **420 ms** and every visible effect outlives it — a
+  burst is drawn for 1800 ms, a foam head for 3000, a bubble ride for
+  9000. Ten lines therefore fired ten animations inside four seconds,
+  each wiped by the next before it had drawn: *the original defect this
+  runner was written to fix*, surviving in the one number nobody had
+  measured against the thing it paces.
+
+  The BENCH answers now — `settleMs()` — because the bench is what knows
+  whether that line put anything on the stage. It reports the remainder
+  of a 1400 ms window since the newest effect, so a line that started one
+  asks for the rest of it and a line that only moved a number asks for
+  nothing. The runner caps what it will wait at 1800 ms: a twelve-line
+  script honouring a nine-second bubble ride in full would take two
+  minutes, and what a learner needs is to see that something happened. A
+  bench that cannot answer keeps the flat pace, which is the run that
+  shipped before.
+
+- [x] **GUI-128c — the foam head is a foam and the burst is as big as the
+  burst.** The head was a coloured rectangle with 5–16 cells on a modulo
+  lattice (`(i * 17) % width`), so every foam in the app had the same
+  bubbles in the same places, in rows, and none of them moved. Three
+  things are read off the engine now: **how much** foam decides the count
+  (8 cells at a trace, 42 at a head that fills the glass) and the density;
+  a foam **coarsens upward**, so the radius scales with the cell's own
+  height in the head rather than with `i % 3`; and a foam that dies in two
+  seconds **churns** while one that stands barely moves, so the pop cycle
+  is the engine's own half-life divided down — the same number that
+  drives `foam-collapse`, said as motion instead of as height. Plus a
+  crown of larger bubbles proud of the fill, because the ruled line across
+  the top of a rectangle was the single most artificial thing in the
+  drawing.
+
+  The burst threw eight identical shards at eight fixed angles however
+  hard the seal failed; only the distance and the ring radius moved. The
+  **count** is the magnitude now (6 to 20), every shard has its own angle,
+  length, size, spin and delay, and there are two staggered rings and a
+  flash.
+
+  **The scatter is the index, never `Math.random()`**: a random scatter
+  re-rolls on every reactive redraw and the foam twitches, and no
+  server-rendered test could assert anything about a picture that is
+  different every time.
+
+  **And the scatter had to be two-dimensional, which a photograph caught
+  and the first test did not.** The first draft salted ONE golden-ratio
+  sequence with an additive offset per axis — and an additive offset of a
+  sequence is the same sequence, so x and y were perfectly correlated and
+  every bubble sat on a diagonal band through the middle of the head. A
+  scatter that is a line is a lattice wearing a different hat. Each axis
+  now has its own irrational, the first two being the R2 pair. Measured:
+  the correlated version reaches **6 of the 9 cells** of a 3×3 grid, the
+  R2 pair reaches **all 9**, and the assertion is 8.
+
+  That assertion also had to exclude the crown, which sits in a row of its
+  own along the top and filled buckets the head did not — which is how the
+  first draft of it passed against the very scatter it was written to
+  reject. The rule both times: a test proven to fail on the defect, not a
+  test that merely passes on the fix.
+
+
 ## Completed GUI tasks
 
 Numbers are never renumbered and never reused. Each of these landed; the detail
