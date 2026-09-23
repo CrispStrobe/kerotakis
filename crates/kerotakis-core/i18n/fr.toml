@@ -1611,3 +1611,27 @@ Bromelain = "broméline"
 
 [repl]
 "particles-header" = "{vessel} — ce que font les particules :"
+
+# What corrosion did or did not do, and why (I18N-12).
+[corrosion]
+cathode-above-hydrogen = "{name} se situe au-dessus de l'hydrogène dans la série d'activité (E° {e0} V) : dans une eau neutre aérée, il est donc la cathode de toute pile de corrosion et non l'anode — l'oxygène prend les électrons à sa surface et il reste à l'état métallique{patina}"
+copper-patina = ". Le vert d'un vieux contact en cuivre n'est pas de la rouille et n'est pas cette réaction : c'est une patine de carbonate et de sulfate basiques de cuivre, formée au fil des ans à partir du dioxyde de carbone et du dioxyde de soufre de l'air sur un premier film de Cu2O. C'est une altération atmosphérique, elle demande une phase gazeuse que cette paillasse ne porte pas, et aucune voie ici ne la revendique"
+protected-by-a-baser-metal = "{name} ne se corrode pas tant que {other} est en contact avec lui ici. Deux métaux dans un même électrolyte forment une pile, et c'est la pile qui décide : {other} se situe sous {name} dans la série (E° {e_other} V contre {e_self} V), {other} est donc l'anode et cède les électrons pour les deux pendant que {name} est la cathode et se trouve épargné. C'est exactement ce qu'est la galvanisation, et c'est pourquoi une rayure ne l'annule pas — le zinc protège le fer qu'il côtoie simplement, pas seulement celui qu'il recouvre, et il continue de le faire jusqu'à ce que le zinc soit épuisé"
+no-oxygen = "rien ne rouille dans ce récipient, parce qu'il n'y a pas d'oxygène dedans. La corrosion demande trois choses à la fois — le métal, l'eau liquide et l'oxygène — car c'est un circuit : {name} céderait des électrons à l'anode, l'oxygène les prendrait à la cathode, et l'eau transporte les ions entre les deux. Cette paillasse ne tire pas encore l'oxygène de la pièce dans un bécher ouvert : il faut donc mettre l'oxygène dans le récipient pour que l'horloge lente le voie{and_then}"
+and-then-this-one-goes-first = ". Quand il y a de l'oxygène, c'est le {name} qui part et non le {others}, car {name} est le métal au E° le plus bas en contact"
+everything-it-needs = "{name}, l'eau liquide et l'oxygène sont tous les trois ici, c'est-à-dire tout ce qu'il faut à la corrosion : {name} cède des électrons à l'anode, l'oxygène les prend à la cathode, et l'eau entre les deux transporte les ions{protecting}. {name} est le métal au E° le plus bas en contact : il est donc l'anode de chaque pile de ce récipient, et c'est lui qui part"
+and-the-others-are-spared = ", et le {others} à côté est épargné"
+
+# The boundary a conductivity reading carries with it (I18N-12).
+[measured]
+conductivity-past-the-dilute-limit = "au-delà de I = {limit} mol/kgw, une somme de conductivités molaires limites n'est plus une lecture étalonnée : {where_it_stands}. Le type de charge et la taille des ions ne figurent pas dans la correction, si bien qu'un sel 2:2 est une affirmation plus faible qu'un sel 1:1"
+conductivity-fitted-correction = "le frottement ion-ion est corrigé par un facteur empirique ({factor}× la somme à dilution infinie ici), ajusté sur les chlorures de sodium et de potassium entre 0,01 et {limit} mol/kgw"
+conductivity-extrapolated = "cette solution est à I = {ionic_strength} mol/kgw, AU-DESSUS des {limit} mol/kgw sur lesquels la correction a été ajustée : le facteur appliqué ({factor}×) est donc une extrapolation"
+
+# The words around a drawn curve (I18N-12). `pH` and `pe` are notation
+# and stay as they are.
+[chart]
+titrant-added = "réactif titrant ajouté"
+titration-title = "titrage de {vessel} par {titrant} ({molarity} M)"
+redox-titration-title = "titrage rédox de {vessel} par {titrant} ({molarity} M)"
+one-point-one-equilibration = "chaque point : une mise à l'équilibre du solveur aqueux après un incrément de burette (titrate) ; rien d'interpolé"

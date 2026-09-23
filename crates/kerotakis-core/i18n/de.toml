@@ -1889,3 +1889,33 @@ Bromelain = "Bromelain"
 # language instead of two, and the rule is that it is two.
 [repl]
 "particles-header" = "{vessel} — was die Teilchen tun:"
+
+# What corrosion did or did not do, and why (I18N-12).
+#
+# Four verdicts composed in `corrosion.rs`, plus the three clauses that
+# hang off them. They were finished `format!`s until a French transcript
+# said "nothing rusts in this vessel" in the middle of French prose —
+# the same defect `[inert]` fixed for displacement in I18N-8, in the one
+# module that pass did not reach.
+[corrosion]
+cathode-above-hydrogen = "{name} steht in der Spannungsreihe über Wasserstoff (E° {e0} V), in belüftetem neutralem Wasser ist es deshalb die Kathode jeder Korrosionszelle und nicht die Anode: Sauerstoff nimmt an seiner Oberfläche Elektronen auf, und es bleibt als Metall zurück{patina}"
+copper-patina = ". Das Grün an einem alten Kupferkontakt ist kein Rost und nicht diese Reaktion: es ist eine Patina aus basischem Kupfercarbonat und -sulfat, über Jahre aus Kohlenstoffdioxid und Schwefeldioxid der Luft auf einem ersten Film aus Cu2O gewachsen. Das ist atmosphärische Verwitterung, sie braucht eine Gasphase, die dieses Labor nicht führt, und kein Weg hier behauptet sie"
+protected-by-a-baser-metal = "{name} korrodiert nicht, solange {other} damit in Kontakt steht. Zwei Metalle in einem Elektrolyten sind eine Zelle, und die Zelle entscheidet: {other} steht in der Reihe unter {name} (E° {e_other} V gegen {e_self} V), also ist {other} die Anode und gibt die Elektronen für beide ab, während {name} die Kathode ist und verschont bleibt. Genau das ist Verzinken, und deshalb hebt ein Kratzer es nicht auf — das Zink schützt das Eisen, neben dem es bloß liegt, nicht nur das Eisen, das es bedeckt, und es tut das, bis das Zink aufgebraucht ist"
+no-oxygen = "hier rostet nichts, weil kein Sauerstoff im Gefäß ist. Korrosion braucht drei Dinge gleichzeitig — das Metall, flüssiges Wasser und Sauerstoff —, denn sie ist ein Stromkreis: {name} würde an der Anode Elektronen abgeben, Sauerstoff würde sie an der Kathode aufnehmen, und das Wasser trägt die Ionen dazwischen. Dieses Labor zieht noch keinen Sauerstoff aus dem Raum in ein offenes Becherglas, der Sauerstoff muss also ins Gefäß gegeben werden, damit die langsame Uhr ihn sieht{and_then}"
+and-then-this-one-goes-first = ". Wenn Sauerstoff da ist, geht das {name} und nicht das {others}, denn {name} ist das Metall mit dem niedrigsten E° im Kontakt"
+everything-it-needs = "{name}, flüssiges Wasser und Sauerstoff sind hier alle drei, und das ist alles, was Korrosion braucht: {name} gibt an der Anode Elektronen ab, Sauerstoff nimmt sie an der Kathode auf, und das Wasser dazwischen trägt die Ionen{protecting}. {name} ist das Metall mit dem niedrigsten E° im Kontakt, es ist also die Anode jeder Zelle in diesem Gefäß und dasjenige, das geht"
+and-the-others-are-spared = ", und das {others} daneben bleibt verschont"
+
+# The boundary a conductivity reading carries with it (I18N-12).
+[measured]
+conductivity-past-the-dilute-limit = "jenseits von I = {limit} mol/kgw ist eine Summe von Grenzleitfähigkeiten keine kalibrierte Messung mehr: {where_it_stands}. Ladungstyp und Ionengröße stecken nicht in der Korrektur, ein 2:2-Salz ist deshalb eine schwächere Aussage als ein 1:1-Salz"
+conductivity-fitted-correction = "die Ion-Ion-Reibung wird mit einem empirischen Faktor korrigiert ({factor}× der Summe bei unendlicher Verdünnung hier), angepasst an Natrium- und Kaliumchlorid zwischen 0,01 und {limit} mol/kgw"
+conductivity-extrapolated = "diese Lösung liegt bei I = {ionic_strength} mol/kgw, ÜBER den {limit} mol/kgw, an die die Korrektur angepasst wurde; der angewandte Faktor ({factor}×) ist also eine Extrapolation"
+
+# The words around a drawn curve (I18N-12). `pH` and `pe` are notation
+# and stay as they are.
+[chart]
+titrant-added = "zugegebene Maßlösung"
+titration-title = "Titration von {vessel} mit {titrant} ({molarity} M)"
+redox-titration-title = "Redoxtitration von {vessel} mit {titrant} ({molarity} M)"
+one-point-one-equilibration = "jeder Punkt: eine Gleichgewichtsrechnung der wässrigen Rechenmaschine nach einem Bürettenschritt (titrate); nichts interpoliert"

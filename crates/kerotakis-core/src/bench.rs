@@ -1288,12 +1288,13 @@ impl Bench {
                 instrument: Instrument::PressureGauge,
             } if events.iter().any(|event| {
                 matches!(
-                    event,
-                    Event::Measured {
-                        instrument: Instrument::PressureGauge,
-                        ..
-                    }
-                )
+                                    event,
+                                    Event::Measured {
+                                        instrument: Instrument::PressureGauge,
+                                        ..
+                    note_reason: None,
+                }
+                                )
             }) =>
             {
                 Some((
@@ -3823,6 +3824,7 @@ impl Bench {
                         value: v.temperature.to_celsius(),
                         unit: "°C".to_string(),
                         note: None,
+                        note_reason: None,
                     }),
                     Instrument::Balance => events.push(Event::Measured {
                         vessel: *vessel,
@@ -3830,6 +3832,7 @@ impl Bench {
                         value: v.mass().0,
                         unit: "g".to_string(),
                         note: None,
+                        note_reason: None,
                     }),
                     Instrument::Eyes => events.push(Event::Observed {
                         vessel: *vessel,
@@ -3842,6 +3845,7 @@ impl Bench {
                             value: info.ph,
                             unit: "pH".to_string(),
                             note: None,
+                            note_reason: None,
                         }),
                         None if crate::conductivity::neutral_aqueous_ph(v).is_some() => {
                             events.push(Event::Measured {
@@ -3871,6 +3875,7 @@ impl Bench {
                         value: v.pressure.0 / 1000.0,
                         unit: "kPa".to_string(),
                         note: None,
+                        note_reason: None,
                     }),
                     // This meter reads the SEALED HEADSPACE, not the liquid.
                     // On an open vessel it used to report `0.00 mL`, which is
@@ -3892,6 +3897,7 @@ impl Bench {
                                 value: volume.0 * 1000.0,
                                 unit: "mL".to_string(),
                                 note: None,
+                                note_reason: None,
                             })
                         }
                         _ => events.push(Event::not_modeled(
@@ -3920,32 +3926,46 @@ impl Bench {
                             // coverage census read a beaker the meter
                             // answered as one it could not, which is the
                             // opposite of what saying it is for.
-                            let note = (!est.within_dilute_limit).then(|| {
+                            let note_reason = (!est.within_dilute_limit).then(|| {
                                 let where_it_stands = if est.within_fitted_range {
-                                    format!(
-                                        "the ion–ion drag is corrected by an empirical factor ({:.2}× the infinite-dilution sum here), fitted to sodium and potassium chloride between 0.01 and {:.0} mol/kgw",
-                                        est.concentration_factor,
-                                        crate::conductivity::FITTED_LIMIT_MOLAL
+                                    crate::phrase::Phrase::new(
+                                        "measured.conductivity-fitted-correction",
+                                        "the ion–ion drag is corrected by an empirical factor ({factor}× the infinite-dilution sum here), fitted to sodium and potassium chloride between 0.01 and {limit} mol/kgw",
+                                        vec![
+                                            ("factor".to_string(), crate::phrase::Slot::number(format!("{:.2}", est.concentration_factor))),
+                                            ("limit".to_string(), crate::phrase::Slot::number(format!("{:.0}", crate::conductivity::FITTED_LIMIT_MOLAL))),
+                                        ],
                                     )
                                 } else {
-                                    format!(
-                                        "this solution is at I = {:.1} mol/kgw, ABOVE the {:.0} mol/kgw the correction was fitted to, so the factor applied ({:.2}×) is an extrapolation",
-                                        info.ionic_strength,
-                                        crate::conductivity::FITTED_LIMIT_MOLAL,
-                                        est.concentration_factor
+                                    crate::phrase::Phrase::new(
+                                        "measured.conductivity-extrapolated",
+                                        "this solution is at I = {ionic_strength} mol/kgw, ABOVE the {limit} mol/kgw the correction was fitted to, so the factor applied ({factor}×) is an extrapolation",
+                                        vec![
+                                            ("ionic_strength".to_string(), crate::phrase::Slot::number(format!("{:.1}", info.ionic_strength))),
+                                            ("limit".to_string(), crate::phrase::Slot::number(format!("{:.0}", crate::conductivity::FITTED_LIMIT_MOLAL))),
+                                            ("factor".to_string(), crate::phrase::Slot::number(format!("{:.2}", est.concentration_factor))),
+                                        ],
                                     )
                                 };
-                                format!(
-                                    "past I = {:.2} mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: {where_it_stands}. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one",
-                                    crate::conductivity::DILUTE_LIMIT_MOLAL
+                                crate::phrase::Phrase::new(
+                                    "measured.conductivity-past-the-dilute-limit",
+                                    "past I = {limit} mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: {where_it_stands}. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one",
+                                    vec![
+                                        ("limit".to_string(), crate::phrase::Slot::number(format!("{:.2}", crate::conductivity::DILUTE_LIMIT_MOLAL))),
+                                        ("where_it_stands".to_string(), crate::phrase::Slot::phrase(where_it_stands)),
+                                    ],
                                 )
                             });
+                            let note = note_reason
+                                .as_ref()
+                                .map(|reason| reason.render(crate::i18n::Locale::EN));
                             events.push(Event::Measured {
                                 vessel: *vessel,
                                 instrument: *instrument,
                                 value: est.microsiemens_per_cm,
                                 unit: "µS/cm".to_string(),
                                 note,
+                                note_reason,
                             });
                         }
                         // The dry-solid path: one isolated solid with a
@@ -3975,6 +3995,7 @@ impl Bench {
                                 value: solid.conductivity_s_per_m,
                                 unit: "S/m".to_string(),
                                 note: None,
+                                note_reason: None,
                             }),
                             None => {
                                 let lone_dry_solid = v.liquid_volume().0 <= 0.0
@@ -4023,6 +4044,7 @@ impl Bench {
                                 value: density,
                                 unit: "g/mL".to_string(),
                                 note: None,
+                                note_reason: None,
                             });
                             // KID-19b: and say what the number leaves out.
                             if crate::buoyancy::ionic_volume_unaccounted(v) {
@@ -4065,6 +4087,7 @@ impl Bench {
                                             value: density,
                                             unit: "g/mL".to_string(),
                                             note: None,
+                                            note_reason: None,
                                         }),
                                         None => events.push(Event::not_modeled(
                                                                 *vessel,
@@ -4088,6 +4111,7 @@ impl Bench {
                                             value: density,
                                             unit: "g/mL".to_string(),
                                             note: None,
+                                            note_reason: None,
                                         }),
                                         None => events.push(Event::not_modeled(
                                                                 *vessel,
@@ -4154,6 +4178,7 @@ impl Bench {
                                 value: reading.value,
                                 unit: reading.observable,
                                 note: None,
+                                note_reason: None,
                             });
                         } else if gaps.is_empty() {
                             // Written out rather than folded into one push with
@@ -4194,6 +4219,7 @@ impl Bench {
                                 value: reading.value,
                                 unit: reading.unit,
                                 note: None,
+                                note_reason: None,
                             });
                         }
                     }
@@ -4225,6 +4251,7 @@ impl Bench {
                             value: crate::nuclide::total_activity_bq(&v.nuclides),
                             unit: "Bq".to_string(),
                             note: None,
+                            note_reason: None,
                         });
                     }
                     Instrument::Chromatograph => {
