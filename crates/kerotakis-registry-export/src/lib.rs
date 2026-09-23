@@ -5602,7 +5602,11 @@ fn export_material_recipes(document: &mut RegistryDocument) {
 /// whitespace, lower case. Two names that normalise alike are the same
 /// name as far as the registry is concerned, and only one may be listed.
 fn normalise_material_name(value: &str) -> String {
-    value.split_whitespace().collect::<Vec<_>>().join(" ").to_lowercase()
+    value
+        .split_whitespace()
+        .collect::<Vec<_>>()
+        .join(" ")
+        .to_lowercase()
 }
 
 fn name_every_recipe_in_every_shipped_language(document: &mut RegistryDocument) {
