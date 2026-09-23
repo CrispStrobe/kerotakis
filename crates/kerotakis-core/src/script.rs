@@ -521,6 +521,22 @@ pub fn parse_command(line: &str, locale: Locale) -> Result<Command, ParseError> 
     }
 }
 
+/// The word THIS locale shows for a canonical verb: the first alias its
+/// translator listed that still resolves back to the verb.
+///
+/// `Locale::section` sorts, so the answer is the same on every run and in
+/// every host. `None` for English, and for a verb the catalogue has not
+/// been given a word for — in both cases the canonical verb is the only
+/// name there is, and the caller should keep it.
+fn first_verb_alias(verb: &str, locale: Locale) -> Option<String> {
+    let index = alias_index(locale);
+    let rows = locale.section("script-verb");
+    let list: &'static str = rows.iter().find(|(canonical, _)| *canonical == verb)?.1;
+    split_aliases(list)
+        .find(|alias| index.verbs.get(&alias.to_lowercase()).map(String::as_str) == Some(verb))
+        .map(str::to_string)
+}
+
 /// The unknown-verb refusal, in the learner's language.
 ///
 /// The English says "try 'help'", and a learner who has just typed a
@@ -533,6 +549,27 @@ fn localised(error: ParseError, locale: Locale) -> ParseError {
     if locale.is_english() {
         return error;
     }
+    // A usage line names the CANONICAL verb, which at a French prompt is
+    // a word the learner was never shown and does not need: typing
+    // `ajouter v1` answered `usage: add <vessel> …`. That is worse than
+    // an untranslated sentence — it points at the wrong vocabulary. The
+    // rest of the line is left in English, because the placeholders are a
+    // separate job; the verb is the part that actively misleads.
+    if let Some(rest) = error.detail.strip_prefix("usage: ") {
+        let (verb, tail) = rest.split_once(' ').unwrap_or((rest, ""));
+        if let Some(alias) = first_verb_alias(verb, locale) {
+            let detail = if tail.is_empty() {
+                format!("usage: {alias}")
+            } else {
+                format!("usage: {alias} {tail}")
+            };
+            return ParseError {
+                kind: error.kind,
+                detail,
+            };
+        }
+        return error;
+    }
     let Some(word) = error
         .detail
         .strip_prefix("unknown command '")
@@ -543,14 +580,7 @@ fn localised(error: ParseError, locale: Locale) -> ParseError {
     // The FIRST alias the catalogue lists for a verb, which is the one
     // its translator put first — and `Locale::section` sorts, so the
     // sentence is the same on every run and in every host.
-    let index = alias_index(locale);
-    let rows = locale.section("script-verb");
-    let first_alias = |verb: &str| -> Option<String> {
-        let list: &'static str = rows.iter().find(|(canonical, _)| *canonical == verb)?.1;
-        split_aliases(list)
-            .find(|alias| index.verbs.get(&alias.to_lowercase()).map(String::as_str) == Some(verb))
-            .map(str::to_string)
-    };
+    let first_alias = |verb: &str| first_verb_alias(verb, locale);
     let mut verbs: Vec<String> = VERBS
         .iter()
         .map(|(verb, _)| match first_alias(verb) {
@@ -1695,6 +1725,49 @@ mod localised_grammar {
 
     fn de() -> Locale {
         Locale::parse("de")
+    }
+
+    /// A usage line names the verb the learner typed, not `add`.
+    ///
+    /// Found in a browser, not here: typing `ajouter v1` at a French
+    /// prompt answered `usage: add <vessel> <species> …`. The command was
+    /// right and the answer named a word French never asks for and the
+    /// interface never shows — an untranslated sentence is a gap, but
+    /// this one points at the wrong vocabulary.
+    ///
+    /// Every shipped language, because the defect is not French's: it is
+    /// what a canonical-verb usage line does at any localised prompt.
+    #[test]
+    fn a_usage_line_names_the_verb_the_learner_typed() {
+        for locale in Locale::available() {
+            if locale.is_english() {
+                continue;
+            }
+            let Some(alias) = first_verb_alias("add", locale) else {
+                continue;
+            };
+            let error = parse_command(&format!("{alias} v1"), locale)
+                .expect_err("an `add` with no species is a usage refusal");
+            assert!(
+                error.detail.starts_with(&format!("usage: {alias} ")),
+                "{}: {}",
+                locale.code(),
+                error.detail
+            );
+            assert!(
+                !error.detail.starts_with("usage: add "),
+                "{}: still names the canonical verb: {}",
+                locale.code(),
+                error.detail
+            );
+        }
+    }
+
+    /// English is untouched: its canonical verb IS the word it shows.
+    #[test]
+    fn an_english_usage_line_is_unchanged() {
+        let error = parse_command("add v1", Locale::EN).expect_err("usage refusal");
+        assert!(error.detail.starts_with("usage: add "), "{}", error.detail);
     }
 
     /// A canonical line for every verb an alias table may name — the

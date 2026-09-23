@@ -3616,6 +3616,107 @@ try {
   } finally {
     engineless.close();
   }
+/* -- I18N-12: the engine answers in the reader's language ------------
+ *
+ * Everything else about a translation can be checked without a browser:
+ * a key set, a placeholder set, a lint. None of that reaches the
+ * ENGINE's half, which is a TOML compiled into wasm and reachable only
+ * by running a command — so it went unverified until someone loaded the
+ * page, and what they found was not one bug but three:
+ *
+ *   * 83 rows still addressed the reader as `vous`, through the VERB,
+ *     where no pronoun existed for a grep to find;
+ *   * the shelf showed French names the parser refused;
+ *   * `ajouter v1` answered `usage: add <vessel> …`.
+ *
+ * Every test in the suite was passing throughout. So this drives the
+ * real engine in the browser, once per shipped language, and it reads
+ * the languages off the catalogue directory rather than naming them —
+ * a fourth language is covered by existing, which is the property the
+ * rest of the i18n surface already has and this check must not lack.
+ */
+try {
+  const { readdir } = await import("node:fs/promises");
+  const catalogues = (await readdir(new URL("../crates/kerotakis-core/i18n/", import.meta.url)))
+    .filter((name) => name.endsWith(".toml"))
+    .map((name) => name.replace(/\.toml$/, ""));
+  check("there is more than one language to check", catalogues.length > 0,
+    catalogues.join(", ") || "no catalogues found");
+
+  for (const code of catalogues) {
+    const toml = await readFile(
+      new URL(`../crates/kerotakis-core/i18n/${code}.toml`, import.meta.url), "utf8");
+    // `[script-verb]` maps a canonical verb to this language's words for
+    // it, first one first. The bench must accept the first one.
+    const verbs = Object.fromEntries(
+      (toml.match(/^\[script-verb\][\s\S]*?(?=\n\[)/m)?.[0] ?? "")
+        .split("\n")
+        .map((line) => line.match(/^([a-z_]+) = "([^"]+)"/))
+        .filter(Boolean)
+        .map((hit) => [hit[1], hit[2].split(",")[0].trim()]));
+    const add = verbs.add;
+    const species = (toml.match(/^water = "([^"]+)"/m) ?? [])[1];
+    if (!add || !species) {
+      check(`${code}: the catalogue names a verb for \`add\` and a word for water`,
+        false, `add=${add ?? "-"} water=${species ?? "-"}`);
+      continue;
+    }
+
+    await viewport(1440, 900);
+    await page.evaluate(`(() => {
+      localStorage.setItem("kerotakis.locale", ${JSON.stringify(code)});
+      localStorage.setItem("kerotakis.mode.v1", "sandbox");
+      localStorage.setItem("kerotakis.console.v1", "shown");
+    })()`);
+    await page.goto(`${origin}/app/`);
+    await openBench();
+    await waitFor(page, `Boolean(document.querySelector('form.bar input'))`, { timeout: 60000 });
+
+    const run = async (line) => {
+      await page.evaluate(`(() => {
+        const box = document.querySelector("form.bar input");
+        const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value").set;
+        setter.call(box, ${JSON.stringify(line)});
+        box.dispatchEvent(new Event("input", { bubbles: true }));
+      })()`);
+      await settle();
+      const verdict = JSON.parse(await page.evaluate(
+        `JSON.stringify(document.querySelector(".problem")?.textContent?.trim() ?? "")`));
+      return verdict;
+    };
+
+    // 1. The language's own verb and its own word for water, together.
+    //    Either half failing leaves a learner typing English.
+    const refusal = await run(`${add} v1 ${species} 100mL`);
+    check(`${code}: \`${add} v1 ${species}\` is a command this bench accepts`,
+      refusal === "", refusal);
+    if (refusal === "") {
+      await page.evaluate(`document.querySelector("form.bar")?.requestSubmit()`);
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+      // 2. And the answer comes back composed in that language. The look
+      //    line is the engine's own prose, not a catalogue lookup the
+      //    shell could have done.
+      const look = JSON.parse(await page.evaluate(`(() => {
+        const el = document.querySelector(".journal") ?? document.querySelector("main");
+        return JSON.stringify(el?.innerText ?? "");
+      })()`));
+      const english = /\b(the liquid is|the beaker is empty|there is nothing to see)\b/i.test(look);
+      check(`${code}: the engine's observation is not English`, !english,
+        english ? look.split("\n").find((line) => /the liquid is/i.test(line)) ?? "" : "");
+    }
+
+    // 3. And the line that says what to do next names the verb the
+    //    learner typed, not the canonical English one.
+    const usage = await run(`${add} v1`);
+    check(`${code}: a usage line names \`${add}\`, not \`add\``,
+      usage.startsWith(`usage: ${add}`) || (code === "en" && usage.startsWith("usage: add")),
+      usage);
+  }
+} catch (error) {
+  console.error(`UX quality (engine language): ${error.stack ?? error.message}`);
+  failures++;
+}
+
 } catch (error) {
   console.error(`UX quality: ${error.stack ?? error.message}`);
   failures++;
