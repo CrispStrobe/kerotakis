@@ -298,6 +298,50 @@ export interface GasProductionRun {
   molesPerSecond: number;
 }
 
+/**
+ * What heating did to a polymer object, and why (GUI-131).
+ *
+ * The whole of `chains-slide-networks-do-not` is the DIFFERENCE between
+ * two materials at the same temperature, and the bench drew the same
+ * heated block for both. So the fields the drawing needs are the ones
+ * that differ: the state reached, whether the thing is a cross-linked
+ * network or loose chains, and whether it comes back when it cools.
+ */
+export interface PolymerRun {
+  /** `rigid`, `softened` or `charred`, as the engine decided. */
+  state: "rigid" | "softened" | "charred";
+  /** The recipe's display name, matched against the scene's bulk object. */
+  material: string;
+  /** A network has no melt to reach; chains do. This IS the lesson. */
+  crossLinked: boolean;
+  /** Softening comes back when it cools. Charring does not. */
+  reversible: boolean;
+  temperatureK: number;
+  thresholdK: number;
+  /** Kelvin past the wall — negative when the wall was never reached. */
+  overK: number;
+}
+
+/** One solute's share of a solvent extraction, as the engine split it. */
+export interface ExtractionSolute {
+  species: string;
+  extracted: number;
+  remaining: number;
+  /** Fraction taken across all stages, 0-1. */
+  stagedEfficiency: number;
+}
+
+/**
+ * A solvent extraction, which moved solutes between two vessels and drew
+ * no transfer at all before GUI-131.
+ */
+export interface ExtractionRun {
+  solvent: string;
+  /** How many times the solvent was used. The reason staging is taught. */
+  stages: number;
+  solutes: ExtractionSolute[];
+}
+
 /** Engine-computed persistence of a newly formed foam head. */
 export interface FoamRun {
   /** Seconds in which the modeled foam head falls to half its height. */
@@ -649,6 +693,129 @@ export interface HydrationRun {
 export const INSTRUMENT_READING_MS = 6000;
 
 /** A visual effect with magnitude, produced by {@link effectFromEvent}. */
+/**
+ * How long each kind of effect is drawn when the ENGINE did not say.
+ *
+ * Every one of these was a numeric literal at its call site in
+ * `Vessel.svelte` — 58 of them across 55 kinds — and the second argument
+ * to `latestEffect`/`active`/`mag` is a FALLBACK: `effectAlive` uses
+ * `effect.durationMs ?? withinMs`, so the engine's own duration wins
+ * wherever it supplies one. Scattered, the fallbacks had no way to be
+ * compared, and two kinds quietly disagreed with themselves.
+ *
+ * Gathering them buys two things beyond tidiness. A disagreement becomes
+ * visible instead of invisible. And `Session.settleMs` can pace the
+ * catalogue runner by what a step ACTUALLY drew — a burst at 1800 ms and
+ * a bubble ride at 9000 are different waits — where before it used one
+ * flat number for every effect because it had nowhere to look one up.
+ *
+ * These are milliseconds of DRAWING, not of chemistry. The engine's
+ * `durationMs` is the modelled lifetime and is always preferred; this is
+ * how long a picture stays up when nothing modelled says otherwise.
+ */
+export const EFFECT_WINDOW_MS: Readonly<Record<string, number>> = {
+  absorb: 2600,
+  // The nine instrument READOUTS share one window on purpose and have
+  // since before this table: a reading is a reading, and showing the
+  // thermometer's for longer than the balance's would be a claim about
+  // instruments that nobody makes. Referenced rather than copied, so the
+  // group stays a group.
+  balance: INSTRUMENT_READING_MS,
+  calorimeter: INSTRUMENT_READING_MS,
+  conductivity_meter: INSTRUMENT_READING_MS,
+  geiger_counter: INSTRUMENT_READING_MS,
+  ph_probe: INSTRUMENT_READING_MS,
+  pressure_gauge: INSTRUMENT_READING_MS,
+  thermometer: INSTRUMENT_READING_MS,
+  uvvis: INSTRUMENT_READING_MS,
+  volume_meter: INSTRUMENT_READING_MS,
+  ferment: 9000,
+  flame_test: 3000,
+  gas_test: 4500,
+  adsorb: 5200,
+  "below-autoignition": 4600,
+  boil: 3200,
+  "bubble-ride": 9000,
+  burst: 1800,
+  chromatograph: 5200,
+  consume: 4200,
+  cool: 2200,
+  corrode: 5000,
+  curdle: 2600,
+  decay: 6000,
+  dehydrate: 4200,
+  "did-not-ignite": 4200,
+  dissolve: 1400,
+  drip: 2400,
+  electrolyse: 8000,
+  emulsify: 9000,
+  evaporate: 2500,
+  exotherm: 4200,
+  "flame-starve": 4600,
+  foam: 3000,
+  freeze: 2200,
+  "gel-set": 3600,
+  grind: 4600,
+  "headspace-equilibrium": 4200,
+  "headspace-partition": 4200,
+  heat: 2200,
+  ignite: 3000,
+  inspect: 4500,
+  irradiate: 4200,
+  "magic-milk": 3000,
+  melt: 3200,
+  neutralise: 3000,
+  osmosis: 6000,
+  plate: 4200,
+  polymer: 4200,
+  pour: 2200,
+  precipitate: 1800,
+  react: 5200,
+  regulate: 4500,
+  rehydrate: 4200,
+  seal: 4000,
+  settle: 8000,
+  "solute-partition": 5000,
+  spike: 5000,
+  sublimate: 3200,
+  supersaturate: 5200,
+  "surface-spread": 2600,
+  sweep: 3800,
+  swirl: 2200,
+  "thermal-equilibrium": 5000,
+  thicken: 3600,
+  uv: 4600,
+  vent: 4000,
+  waft: 4200,
+};
+
+/**
+ * The two windows that are deliberately NOT their kind's, named so they
+ * cannot be mistaken for the drift they looked like.
+ *
+ * `swirl` was written three ways — 8000, 2200 and 2000 — and `vent` two.
+ * Reading the call sites, only two of those five are a second thing:
+ *
+ *   - a stir READOUT outlives the stirring. The motion is over in a
+ *     couple of seconds; the engine's shear numbers beside the glass are
+ *     what the reader is still looking at.
+ *   - the wisps ABOVE the rim are shorter than the fizz inside the
+ *     liquid. Gas that has left the vessel is gone sooner than gas still
+ *     coming out of solution.
+ *
+ * The third — `swirl` at 2000 for the vortex against 2200 for the motion
+ * — was drift, 200 ms apart with no reason at either site, and is now
+ * simply the kind's window.
+ */
+export const STIR_READOUT_MS = 8000;
+export const VENT_WISP_MS = 2600;
+
+/** The drawing window for one kind, or a middling default for a kind
+ *  nobody has given one. */
+export function effectWindowMs(kind: string): number {
+  return EFFECT_WINDOW_MS[kind] ?? 4000;
+}
+
 export interface Effect {
   kind: string;
   at: number;
@@ -677,7 +844,7 @@ export interface Effect {
   outsideMethod?: string[];
   appearance?: InspectionAppearance;
   /** Physical setup connecting source and target vessels. */
-  operation?: "pour" | "filter" | "drain" | "magnet" | "distil" | "cell";
+  operation?: "pour" | "filter" | "drain" | "magnet" | "distil" | "cell" | "extract";
   /** Computed pre-transfer source-liquid colour, captured before scene replacement. */
   fluidColour?: string;
   /** Engine-scene solids left on the paper during a filtration. */
@@ -717,6 +884,10 @@ export interface Effect {
   gasProduction?: GasProductionRun;
   /** Engine-owned foam half-life, for collapse timing. */
   foam?: FoamRun;
+  /** What heat did to a polymer object, and whether it can come back. */
+  polymer?: PolymerRun;
+  /** The staged split a solvent extraction computed. */
+  extraction?: ExtractionRun;
   /** Engine-owned UV transmission, for the beam. */
   uv?: UvRun;
   /** Engine-owned Henry's-law split, for the headspace tint and arrows. */
@@ -1865,6 +2036,75 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
           seconds: 0,
           molesPerSecond: 0,
           activationEnergyJPerMol: 0,
+        },
+      };
+    }
+    /**
+     * GUI-131. `chains-slide-networks-do-not` is ABOUT the difference
+     * between a thermoplastic that softens and a thermoset that does not,
+     * and the bench drew the same heated block for both — recorded as a
+     * gap by GUI-129's guard rather than left to be rediscovered.
+     *
+     * The magnitude is how far past the wall the vessel stands, not how
+     * hot it is: a block ten degrees over its softening point and one two
+     * hundred degrees over are different observations, and a block that
+     * never reached its wall is the zero this whole experiment turns on.
+     */
+    case "polymer_heated": {
+      const temperatureK = Number(e.temperature ?? 0);
+      const thresholdK = Number(e.threshold ?? 0);
+      const overK = temperatureK - thresholdK;
+      const state = String(e.state ?? "rigid");
+      return {
+        kind: "polymer",
+        at: now,
+        durationMs: 4200,
+        // Rigid is deliberately not zero: "nothing happened" still has to
+        // be drawn, because the reader is being shown that it did not.
+        magnitude: state === "rigid" ? 0.2 : scale(Math.max(0, overK), 0, 120),
+        reading: temperatureK,
+        unit: "K",
+        polymer: {
+          state: state === "softened" || state === "charred" ? state : "rigid",
+          material: String(e.material ?? ""),
+          crossLinked: e.cross_linked === true,
+          reversible: e.reversible === true,
+          temperatureK,
+          thresholdK,
+          overK,
+        },
+      };
+    }
+    /**
+     * GUI-131. A solvent extraction moved solutes between two vessels and
+     * drew no transfer — the second gap GUI-129 recorded.
+     *
+     * The magnitude is the BEST solute's staged efficiency, because that
+     * is what the rig is for: an extraction that took 95% of the thing
+     * you wanted and an extraction that took 5% are the same three
+     * shake-outs and completely different results.
+     */
+    case "extracted": {
+      const rows = Array.isArray(e.solutes) ? (e.solutes as Record<string, unknown>[]) : [];
+      const solutes = rows.map((row) => ({
+        species: String(row.species ?? ""),
+        extracted: Number(row.extracted ?? 0),
+        remaining: Number(row.remaining ?? 0),
+        stagedEfficiency: Number(row.staged_efficiency ?? 0),
+      }));
+      const best = solutes.reduce((most, row) => Math.max(most, row.stagedEfficiency), 0);
+      return {
+        kind: "extract",
+        at: now,
+        durationMs: 4200,
+        magnitude: Math.max(0, Math.min(1, best)),
+        source: Number(e.from ?? 0),
+        target: Number(e.to ?? 0),
+        operation: "extract",
+        extraction: {
+          solvent: String(e.solvent ?? ""),
+          stages: Math.max(1, Number(e.stages ?? 1)),
+          solutes,
         },
       };
     }

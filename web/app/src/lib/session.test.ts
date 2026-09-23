@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { EngineError, type EngineHost, type Scene, type ScriptResult } from "./host/EngineHost";
-import { REGISTERS, Session, VISIBLE_EFFECT_MS, type StorageLike } from "./session.svelte";
+import { REGISTERS, Session, type StorageLike } from "./session.svelte";
+import { EFFECT_WINDOW_MS, effectWindowMs } from "./magnitudes";
 
 class FakeStorage implements StorageLike {
   map = new Map<string, string>();
@@ -1310,12 +1311,34 @@ describe("Session", () => {
       expect(new Session(new FakeHost()).settleMs()).toBe(0);
     });
 
-    it("asks for the remainder of the window after something is drawn", () => {
+    it("asks for the remainder of THAT EFFECT's window", () => {
       const s = new Session(new FakeHost());
       s.vesselEffects = { 0: [{ kind: "burst", at: Date.now(), magnitude: 1 }] };
       const wanted = s.settleMs();
-      expect(wanted).toBeGreaterThan(VISIBLE_EFFECT_MS - 200);
-      expect(wanted).toBeLessThanOrEqual(VISIBLE_EFFECT_MS);
+      expect(wanted).toBeGreaterThan(EFFECT_WINDOW_MS.burst! - 200);
+      expect(wanted).toBeLessThanOrEqual(EFFECT_WINDOW_MS.burst!);
+    });
+
+    it("asks a different amount for a different kind — that is the point", () => {
+      // GUI-132. One flat number for every kind was not a judgement, it
+      // was the absence of one: the windows were literals in
+      // `Vessel.svelte` with nowhere to look a kind's up.
+      const at = Date.now();
+      const ask = (kind: string) => {
+        const s = new Session(new FakeHost());
+        s.vesselEffects = { 0: [{ kind, at, magnitude: 1 }] };
+        return s.settleMs();
+      };
+      expect(effectWindowMs("bubble-ride")).toBeGreaterThan(effectWindowMs("dissolve"));
+      expect(ask("bubble-ride")).toBeGreaterThan(ask("dissolve"));
+    });
+
+    it("prefers the engine's own duration over the table", () => {
+      // The table is a fallback for a kind, exactly as it is in the
+      // drawing: a modelled lifetime beats a default every time.
+      const s = new Session(new FakeHost());
+      s.vesselEffects = { 0: [{ kind: "dissolve", at: Date.now(), durationMs: 6000, magnitude: 1 }] };
+      expect(s.settleMs()).toBeGreaterThan(EFFECT_WINDOW_MS.dissolve! + 1000);
     });
 
     it("asks for nothing once the window has already passed", () => {
@@ -1324,7 +1347,7 @@ describe("Session", () => {
       // animation the previous line started.
       const s = new Session(new FakeHost());
       s.vesselEffects = {
-        0: [{ kind: "foam", at: Date.now() - VISIBLE_EFFECT_MS - 500, magnitude: 1 }],
+        0: [{ kind: "foam", at: Date.now() - effectWindowMs("foam") - 500, magnitude: 1 }],
       };
       expect(s.settleMs()).toBe(0);
     });
@@ -1332,7 +1355,7 @@ describe("Session", () => {
     it("reads the newest effect on any vessel, not the first it finds", () => {
       const s = new Session(new FakeHost());
       s.vesselEffects = {
-        0: [{ kind: "foam", at: Date.now() - 9000, magnitude: 1 }],
+        0: [{ kind: "foam", at: Date.now() - effectWindowMs("foam") - 9000, magnitude: 1 }],
         1: [{ kind: "burst", at: Date.now(), magnitude: 1 }],
       };
       expect(s.settleMs()).toBeGreaterThan(0);

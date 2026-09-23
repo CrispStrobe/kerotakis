@@ -4470,6 +4470,168 @@ written down at the scene and unreachable by the check.
   fits at every width tested.
 
 
+## One window per effect (GUI-132)
+
+How long a drawing stays up when the ENGINE did not supply a duration was
+a numeric literal at every call site in `Vessel.svelte`: **85 of them
+across 55 kinds**. The second argument to `latestEffect`/`active`/`mag`
+is a fallback — `effectAlive` uses `effect.durationMs ?? withinMs` — so
+the engine's own lifetime always won where it had one, and these are what
+happens when it does not.
+
+- [x] **GUI-132a — the table, and the two disagreements it made visible.**
+  Scattered, the fallbacks had no way to be compared with each other, and
+  two kinds quietly disagreed with themselves: `swirl` was written
+  **8000, 2200 and 2000**, and `vent` **4000 and 2600**.
+
+  Reading the call sites, three of those five were one thing said three
+  ways and two were a second thing:
+
+  * a stir **readout** outlives the stirring. The motion is over in a
+    couple of seconds; the engine's shear numbers beside the glass are
+    what the reader is still looking at. `STIR_READOUT_MS`.
+  * the wisps **above the rim** are shorter than the fizz inside the
+    liquid. Gas that has left the vessel is gone sooner than gas still
+    coming out of solution. `VENT_WISP_MS`.
+
+  The third — `swirl` at 2000 for the vortex against 2200 for the motion
+  — was drift: 200 ms apart, with no reason at either site. It is the
+  kind's window now.
+
+  **A deliberate exception and drift are indistinguishable until one of
+  them is given a name.** That is the whole reason the two survive as
+  constants rather than being flattened into the table with the third.
+
+- [x] **GUI-132b — and one grouping that was already right.**
+  `INSTRUMENT_READING_MS` predates this and is the better shape: **nine**
+  instrument readouts share one window, because a reading is a reading
+  and showing the thermometer's for longer than the balance's would be a
+  claim about instruments nobody makes. The table REFERENCES that
+  constant rather than copying 6000 nine times, so the group cannot come
+  apart one row at a time.
+
+  Four of those nine were missed on the first pass, along with `ferment`,
+  `flame_test` and `gas_test` — the extraction regex read `[a-z0-9-]+`
+  and every one of them has an **underscore** in its kind, and `ferment`
+  was written `12_000`. A sweep that cannot see part of its subject
+  reports a clean result, which is worse than reporting nothing; the
+  guard uses the widened pattern for exactly that reason.
+
+- [x] **GUI-132c — the payoff: the runner paces by what actually drew.**
+  `Session.settleMs` used one flat 1400 ms for every kind. That was not a
+  judgement, it was the absence of one — the windows were literals in a
+  4400-line component and there was nowhere to look a kind's up. It now
+  reports the remainder of each live effect's own window: a burst asks
+  for its 1800 ms, a dissolve for its 1400, a bubble ride for its 9000.
+  It does **not** cap itself — the honest answer to "how long is this
+  drawn for" is nine seconds — and the runner caps what a run can afford,
+  which is the same division of labour GUI-128 set up, kept rather than
+  blurred. `VISIBLE_EFFECT_MS` is gone: it existed only because there was
+  no table.
+
+  Guarded by `effectWindows.test.ts`, which reads `Vessel.svelte`: every
+  kind the drawing asks for has a window, no row exists that nobody
+  draws, **no numeric literal survives at a call site**, each named
+  exception genuinely differs from its kind's window and in the direction
+  its reason claims, and every window is between 1 and 10 seconds.
+## Sweep the width, do not sample it (GUI-133)
+
+GUI-123 ended with two honest runs of the same check, on the same commit,
+disagreeing: the stepper's number field measured **211 px on the author's
+box and 139.7 px in CI**, at the same 1440 px viewport. Both were right.
+The viewport was never the variable — the shelf PANE was, and four
+sampled viewports cannot answer a question about a continuum.
+
+- [x] **GUI-133 — constrain the container and walk its own range.** The
+  sweep pins `nav.shelf-pane` to each of twelve widths from 160 px to
+  420 px and asks, at each, whether any control clips its own value — the
+  same rule GUI-123's legibility pass uses. It is cheap because the
+  layout reflows without re-navigating: the amount form is opened once
+  and resized under.
+
+  **Proven to fail on the defect rather than merely passing on the fix.**
+  With GUI-123 reverted the sweep reports the clip at a **160 px pane**,
+  a width no sampled viewport produces on that machine.
+
+  **And it separated which half of GUI-123 was load-bearing**, which
+  nobody knew:
+
+  | state | field at a 160 px pane | value fits? |
+  |---|---:|---|
+  | shipped (floor + spinners hidden) | 64 px | yes |
+  | floor reverted, spinners still hidden | 43 px | **yes** |
+  | both reverted | 43 px | **no** |
+
+  So the `4rem`/`9.5rem` floors are what keep the field comfortable, and
+  hiding the native **spin buttons** is what makes the narrow case
+  survivable at all. Two changes were shipped together as one fix and
+  only one of them was doing the work at the extreme; the table says which.
+
+  **What a first attempt got wrong, recorded because it is the instrument
+  and not the app.** The sweep was written against the VIEWPORT first, at
+  eighteen widths from 320 to 1920. Below 1024 px it reported the field
+  at **0 px at every width** — and that is not a defect, it is the app in
+  single-pane mode with the cabinet not on screen at all. A sweep that
+  cannot see its subject reports a clean zero, which reads exactly like a
+  pass. The pane sweep asks the question the layout cannot hide.
+## The last two with no picture (GUI-131)
+
+GUI-129 emptied the effect surface except for two recorded gaps, each
+carrying what it would take. This is that.
+
+- [x] **GUI-131a — chains slide and networks do not, and now the bench
+  says so.** `chains-slide-networks-do-not` is ABOUT the difference
+  between two materials at one temperature, and the bench drew the same
+  heated block for both. What is drawn now is the STRUCTURE, because the
+  structure is the reason: a thermoplastic gets three loose chains that
+  slide past one another, each on its own phase; a thermoset gets the
+  same strands with the **cross-links** that tie them, and nothing moves.
+  Charring darkens and breaks the line work and does not animate, because
+  it does not undo.
+
+  Rigid is drawn rather than omitted. "Nothing happened" is half of this
+  experiment and it is the half a blank space cannot make: the reader is
+  being shown that heat reached this block and it did not move. The
+  magnitude is how far past the wall the vessel stands, not how hot it is
+  — 430 K is 430 K, and ten degrees over a softening point is a different
+  observation from two hundred.
+
+  **It hangs off the VESSEL, not off a scene object, and that was the
+  same bug one layer down.** The first draft anchored it to
+  `bulk_objects` and covered exactly ONE of the two materials: the engine
+  files the thermoset as a bulk object and the thermoplastic as a
+  **solid**, so the material that actually softens drew nothing and the
+  lesson stayed invisible. Found in a browser — the scene reported
+  `scene-solid: 1, bulk-object: 0` — and by no test, which is why there
+  is now a test for exactly that shape of scene.
+
+- [x] **GUI-131b — an extraction is a transfer, and it borrows the funnel
+  it already owns.** The first draft drew its own separating funnel and
+  that was wrong: the drain rig IS a separating funnel, and two pictures
+  of one piece of glassware is how a bench stops being a bench. So the
+  extraction reuses it and adds only what an extraction adds — a solvent
+  layer whose opacity is how much that solvent took, one tick per stage
+  arriving in order, and a travelling mark per solute sized by how much
+  of IT was taken.
+
+  The magnitude is the BEST solute's staged efficiency, not the mean: an
+  extraction that took 80% of the thing you wanted and 6% of the thing
+  you did not is a good extraction, and averaging them would draw it as a
+  poor one. Six ticks is the cap, past which the number beside them is
+  the honest answer.
+
+  **Verified against the real engine**, German, lv3: rig drawn, four
+  ticks for `stages 4`, "4×" beside them, a mark crossing. The reviewed
+  partition data is one row — I2/hexane/water, K = 85 — so that is the
+  extraction that was driven.
+
+- [x] **GUI-131c — `KNOWN_GAPS` is empty.** The machinery stays and the
+  assertion inverts: `effectVisibility.test.ts` now asserts the list is
+  EMPTY, which is the claim, made rather than assumed, that every
+  phenomenon this engine computes reaches the screen or says in one line
+  why it does not.
+
+
 ## Completed GUI tasks
 
 Numbers are never renumbered and never reused. Each of these landed; the detail
