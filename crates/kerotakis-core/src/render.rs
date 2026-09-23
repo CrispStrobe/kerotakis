@@ -3807,7 +3807,20 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     ("appearance", &appearance.say(locale)),
                 ],
             ),
-            2 => format!("{vessel}: {}", appearance.say(locale)),
+            // lv1 and lv3 have had a key since there was a catalogue;
+            // lv2 never did, and lv2 is the DEFAULT register — so the one
+            // observation line most readers ever see was the one line
+            // that could not be translated. French puts a space before a
+            // colon, and this printed `v1:` directly under a `v1 :` that
+            // came from the row below it.
+            2 => locale.fill(
+                "event.observed.lv2",
+                "{vessel}: {appearance}",
+                &[
+                    ("vessel", &vessel.to_string()),
+                    ("appearance", &appearance.say(locale)),
+                ],
+            ),
             _ => {
                 let colour = appearance
                     .liquid
