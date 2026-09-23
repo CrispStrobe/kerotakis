@@ -1291,7 +1291,33 @@ enthalpy is a clause in a sentence. A bench that computes real chemistry and
 then buries it reads as less capable than one that fakes forty reactions
 and presents them well.
 
-- [ ] **GUI-090 — The result card.** The newest result gets a card above the
+- [x] **GUI-090 — The result card. DONE, and twice repaired since.** *The
+      card ships: the newest result gets a card above the feed rather than
+      another line in it (`LatestResultCard.svelte`). Both repairs are
+      worth more than the original delivery.*
+
+      **GUI-108 (#679)** — it was taking the journal it summarised. Not an
+      overlay: no `position`, no scrim, which is why it never appeared in
+      `overlayStacking.test.ts` and a z-index audit would have found
+      nothing. It was `flex: none` beside a feed that was `flex: 1;
+      min-height: 0` — the one item that would not give way next to the one
+      that would give way entirely, so it could squeeze the log to zero.
+      Three attempts at "the log keeps half the pane" failed before the
+      arithmetic showed the threshold itself was unreachable: the journal's
+      own chrome and the card's summary are fixed costs, and half for the
+      log left the card less than its own header. It asks for a third now
+      and **prints the decomposition**, so the next person to move that
+      number can see what they are trading.
+
+      **GUI-120 (#697)** — that decomposition then found something worse.
+      At 200% text zoom a 32 px tick, a 165 px ΔT badge and 90 px of icons
+      consumed a 263 px grid row, so `minmax(0, 1fr)` gave the operation
+      name and the reaction class **0 px**. The card's entire answer to
+      *what just happened* was not painted at all, at the accessibility
+      setting the suite exists to test — and **no assertion could see it,
+      because a card with no legible content is exactly as tall as a card
+      with some.** That is the defect GUI-121 then generalised into a
+      sweep. Original item: The newest result gets a card above the
   feed rather than another line in it. Collapsed: the reaction-class badge,
   the equation, one sentence of observation, and an affordance to expand.
   Expanded: equation, ionic equation, reactant chips, observation,
@@ -1307,7 +1333,39 @@ and presents them well.
   all land without a second engine call. Only the ionic equation remains,
   and it is GUI-092's work — deliberately not faked here.*
 
-- [ ] **GUI-092 — The ionic equation, derived.** Beside the molecular
+- [x] **GUI-092 — The ionic equation, derived. DONE 2026-09-21 (#703
+      engine, #705 shell).** *The complete ionic equation now ships beside
+      the net one, with the spectators struck through — the line that shows
+      a learner WHY the net equation is what it is, because a cancellation
+      you were never shown is not a cancellation you can follow.*
+
+      **The finding that made it possible, and it is not what the ruling
+      assumed.** The ruling said to balance the spectators against the
+      molecular equation. **There is no molecular equation.** For a
+      precipitation `render.rs` never composes one — `Event::Precipitated`
+      carries a solid and a quantity, and this bench has never believed in
+      `AgNO3 + NaCl -> AgCl + NaNO3` in any form a coefficient could be
+      read off.
+
+      What the engine does know is the same stoichiometry in the only form
+      a bench can hold it without remembering a reaction: **the reagents
+      came out of bottles, and a bottle is electrically neutral.** Every
+      ion the net equation consumes arrived beside a counter-ion in the
+      number that made its salt neutral — one chloride per silver, *two*
+      per barium. One linear row per sign, solved with this module's own
+      `gauss_jordan` and verified against every row, which is
+      `balance_against`'s model precisely:
+
+          Ba2+ + SO4 2- + 2 Na+ + 2 Cl- -> BaSO4(s) + 2 Na+ + 2 Cl-
+
+      Nothing in the beaker says "two". It falls out of barium carrying
+      twice the charge sodium does.
+
+      **`complete: None` is a correct outcome, not a gap** — the net line
+      ships either way and is the honest fallback. The engine emits a
+      `spectator` flag per term and the shell draws the strike-through from
+      it; the shell never assembles a line of its own, which is that
+      module's standing contract. Original item: Beside the molecular
   equation, the ionic one — built from the solved speciation rather than
   stored. This is a thing only a computing bench can do honestly: the
   spectator ions are the ones the solver actually left in solution, at the
@@ -1378,7 +1436,32 @@ and presents them well.
   is the label a screen reader hears, the tooltip a pointer finds, and the
   full row under the (i).
 
-- [ ] **GUI-094 — The vessel deserves the room.** One vessel, large, central,
+- [x] **GUI-094 — The vessel deserves the room. DONE 2026-09-20 (#689),
+      verified on the deploy.** *Measured before and after, on
+      `crispstrobe.github.io`:*
+
+          before   150 x 210     3.9% of the bench pane
+          after    257 x 360    11.6%
+
+      *The cause was a constant: `clamp(64px, 14vw, svgW)` with `svgW` of
+      150 for a beaker, so at a 1600 px window the 224 px that `14vw`
+      offered was thrown away. With the bench to itself the cap lifts to
+      2.6x the glassware's own figure and the preferred size becomes a
+      share of the bench's smaller axis, so a short wide window cannot
+      produce a vessel taller than the counter it stands on. `svgW` still
+      sets the ratio between glassware: a test tube becomes a larger test
+      tube, not a beaker. The moment a second vessel arrives the room is
+      not this one's to take and nothing changes.*
+
+      **This number is also the answer to a complaint that looked like a
+      different problem.** The owner reported that the effects did not look
+      like anything, and foam height, spill reach and steam were *already*
+      drawn to the engine's own quantities. They were drawn inside a
+      picture too small for any of it to read. A spill scaled perfectly
+      inside a small picture is still a small picture. **Still open,
+      measured:** the vessel lands at 257 px where the new cap allows about
+      300, so something upstream of the clamp binds — worth finding before
+      anyone widens the clamp expecting more. Original item: One vessel, large, central,
   when only one is on the bench; the wide empty expanse around a small beaker
   is the strongest signal we send that nothing much is happening. With it,
   quick-action chips within reach of the vessel for the two or three things
