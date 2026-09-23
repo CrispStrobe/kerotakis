@@ -1,0 +1,53 @@
+# The `kero` binary, downloadable.
+#
+# The workspace does not build on every machine that works on it — the
+# aqueous stack pulls in IPhreeqc and SUNDIALS, and a box with a gigabyte
+# of RAM free cannot compile it at all. That made one ordinary thing
+# impossible: running a script through the CLI to see what it answers.
+# The engine could be exercised in a browser, which is the same core but
+# not the same host, and a claim about `kero` has to come from `kero`.
+#
+# Dispatch-only and deliberately not a gate: it builds nothing CI does
+# not already build, it just keeps the result.
+name: The kero CLI, as a binary
+
+on:
+  workflow_dispatch:
+    inputs:
+      profile:
+        description: "cargo profile"
+        default: "release"
+        type: choice
+        options: [release, debug]
+
+jobs:
+  build:
+    name: Build kero (${{ inputs.profile }})
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: recursive
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Fetch SUNDIALS (not vendored; pinned by checksum)
+        run: bash tools/fetch-sundials.sh
+      - name: Build
+        run: |
+          if [ "${{ inputs.profile }}" = "release" ]; then
+            cargo build -p kerotakis-cli --release
+            echo "KERO=target/release/kero" >> "$GITHUB_ENV"
+          else
+            cargo build -p kerotakis-cli
+            echo "KERO=target/debug/kero" >> "$GITHUB_ENV"
+          fi
+      - name: It runs, and says which build it is
+        run: |
+          "$KERO" --version || true
+          "$KERO" species | head -5
+      - uses: actions/upload-artifact@v6
+        with:
+          name: kero-${{ inputs.profile }}-${{ github.sha }}
+          path: ${{ env.KERO }}
+          retention-days: 7
+          if-no-files-found: error
