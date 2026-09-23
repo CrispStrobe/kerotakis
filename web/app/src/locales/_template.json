@@ -2761,6 +2761,10 @@
   "{what} precipitated": "",
   "{what} reacted": "",
   "the log says which dataset and activity model answered each vessel": "",
-  "the log leaves the dataset and the activity model to the provenance drawer": ""
+  "the log leaves the dataset and the activity model to the provenance drawer": "",
+  "{count}×": "",
+  "{material} softened at {temperature} K, {over} K past its softening point; cooling sets it in the new shape": "",
+  "{material} charred at {temperature} K — past decomposition, and this does not undo": "",
+  "{material} held its shape at {temperature} K; its wall is {threshold} K": ""
   }
 }

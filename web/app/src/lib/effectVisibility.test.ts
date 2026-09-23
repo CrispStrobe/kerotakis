@@ -104,16 +104,7 @@ const REPORTED_NOT_DRAWN: Readonly<Record<string, string>> = {
  * what it would take, because "no picture yet" is only honest if the next
  * person can see what was intended.
  */
-const KNOWN_GAPS: Readonly<Record<string, string>> = {
-  polymer_heated:
-    "GUI-129: `chains-slide-networks-do-not` is ABOUT the difference between a "
-    + "thermoplastic that softens and a thermoset that does not, and the bench draws "
-    + "the same heated block for both. `PolymerState` is the lesson and needs a shape.",
-  extracted:
-    "GUI-129: a solvent extraction moves solutes between two vessels and draws no "
-    + "transfer. `BenchEffect` has pour/filter/drain/magnet/distil/cell operations and "
-    + "no extract; the event carries `stages` and a per-solute split to scale one with.",
-};
+const KNOWN_GAPS: Readonly<Record<string, string>> = {};
 
 describe("every computed event is drawn, or says why not", () => {
   const events = engineEvents();
@@ -174,9 +165,20 @@ describe("every computed event is drawn, or says why not", () => {
     expect(handled.has("dissolved_in_solvent")).toBe(true);
   });
 
-  it("records what is still missing, and no more than that", () => {
-    // Bounded on purpose: a gap list that can grow silently is a backlog,
-    // not a record. Raising this number is a decision someone makes.
-    expect(Object.keys(KNOWN_GAPS).length).toBeLessThanOrEqual(2);
+  it("the two GUI-129 RECORDED and GUI-131 closed stay closed", () => {
+    // These were the gap list, and they were the whole gap list. An event
+    // that falls back out of `handled` would be caught by "accounted for
+    // exactly once" above only if someone also added it to a bucket —
+    // which is exactly the edit this stops being silent.
+    expect(handled.has("polymer_heated")).toBe(true);
+    expect(handled.has("extracted")).toBe(true);
+  });
+
+  it("records what is still missing, and there is nothing", () => {
+    // GUI-131 emptied it. The machinery stays, and an empty list is not a
+    // dead check: it is the claim, asserted rather than assumed, that
+    // every phenomenon this engine computes now reaches the screen or
+    // says in one line why it does not.
+    expect(Object.keys(KNOWN_GAPS)).toEqual([]);
   });
 });
