@@ -3799,7 +3799,12 @@
               "next_de": "Addiere für jede Komponente die verbliebene und die aufgefangene Stoffmenge und vergleiche danach die Zusammensetzung der Vorlage mit der Ausgangsmischung.",
               "source": null
             }
-          ]
+          ],
+          "options_fr": [
+            "Oui : une distillation ne transfère jamais qu'un seul constituant",
+            "Non : la vapeur est un mélange, et chaque constituant doit être compté dans les deux récipients"
+          ],
+          "question_fr": "Le constituant le plus volatil arrive-t-il seul dans le récipient de tête ?"
         },
         "ph": null,
         "temperature_c": null
@@ -3816,7 +3821,8 @@
         "source": "Original audit-derived lesson; conservation and cut-fraction arithmetic, existing reviewed USCG CHRIS still inputs and existing water latent reference; no new imported data. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-07.",
         "licence": null,
         "computed_by": "Kerotakis generic multicomponent Rayleigh solver; independent third/fourth-fleet component and latent-duty checks"
-      }
+      },
+      "summary_fr": "Une coupe de distillation calculée transfère trois constituants sans en créer ni en écarter aucun"
     },
     {
       "id": "equal-charge-different-clocks",
@@ -3897,7 +3903,8 @@
         "source": "Original audit-derived control lesson; Faraday charge/stoichiometry arithmetic using the existing runtime Faraday constant, no new imported data. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-07.",
         "licence": null,
         "computed_by": "Kerotakis generic solvent-electrolysis operator and ordinary aqueous/gas stack; independent third-fleet charge and external-flow atom checks"
-      }
+      },
+      "summary_fr": "À charge égale, le modèle d'électrolyse de l'eau produit la même chose quel que soit le profil de courant"
     },
     {
       "id": "grouping-does-not-change-water-heat",
@@ -4137,7 +4144,8 @@
         "source": "Original audit preservation using the already shipped ideal-mixture esterification model; no new empirical constants. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-06.",
         "licence": null,
         "computed_by": "Kerotakis generic reversible mass-action extent solver, followed by the ordinary solver stack"
-      }
+      },
+      "summary_fr": "Un ester se forme puis se défait : le même équilibre, parcouru dans les deux sens"
     },
     {
       "id": "salt-dissolves",
@@ -13589,7 +13597,8 @@
         "source": "The exact PolymerHeatResponse rows and boundaries curated in the thermoplastic-sheet and cured-thermoset-resin material recipes. Their tranche is PENDING REVIEW and does not claim paper-level provenance. The 130 °C polyethylene melt and 300/400 °C decomposition thresholds are teaching values, not predictions for arbitrary plastics. Virtual school-laboratory comparison only: heating real plastics can burn and release hazardous decomposition products, which this model deliberately does not formulate or render. Diagnoses: Editorial judgement (Kerotakis), 2026-09-06.",
         "licence": null,
         "computed_by": "Kerotakis material-owned heat capacity and bounded PolymerHeatResponse projection"
-      }
+      },
+      "summary_fr": "Chauffées ensemble, les chaînes glissent et le réseau ne bouge pas"
     }
   ],
   "models": [

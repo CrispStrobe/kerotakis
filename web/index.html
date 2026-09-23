@@ -6,7 +6,14 @@
 <meta name="theme-color" content="#14120f">
 <meta name="description" content="A virtual chemistry laboratory that computes real chemistry — PHREEQC solving in your browser, offline.">
 <link rel="manifest" href="manifest.webmanifest">
-<script>{ let choice; try { choice = localStorage.getItem("kerotakis.locale"); } catch {} if ((choice || navigator.language).toLowerCase().startsWith("de")) document.currentScript.previousElementSibling.href = "manifest.de.webmanifest"; }</script>
+<!-- I18N: the manifest follows the reader's language, and the list of
+     languages is DATA rather than a branch. This was `startsWith("de")`,
+     which meant a French reader got the English manifest whatever they
+     had chosen — and that adding a language meant editing this file.
+     Adding one now means adding its code here beside its manifest, which
+     is the smallest thing a static page can be asked to carry: there is
+     no build step on this file to discover them for it. -->
+<script>{ const shipped = ["de", "fr"]; let choice; try { choice = localStorage.getItem("kerotakis.locale"); } catch {} const want = (choice || navigator.language || "").toLowerCase().split(/[-_]/)[0]; if (shipped.includes(want)) document.currentScript.previousElementSibling.href = `manifest.${want}.webmanifest`; }</script>
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="icon" href="icon-192.png" sizes="192x192" type="image/png">
 <!-- iOS reads this, not the manifest, for Add to Home Screen. -->
@@ -141,8 +148,20 @@ import { openLab } from "./kerotakis.mjs";
 
 let savedLocale;
 try { savedLocale = localStorage.getItem("kerotakis.locale"); } catch {}
-const locale = savedLocale || (navigator.language.toLowerCase().startsWith("de") ? "de" : "en");
-const DE = {
+/* I18N: the languages this page ships are DATA, and the reader's choice is
+   matched against them. `startsWith("de")` was the whole of it, so a
+   French reader fell through to English however their browser was set —
+   and adding a language meant editing the condition as well as the
+   dictionary below. */
+const BUNDLE_CODES = ["de", "fr"];
+const wanted = (savedLocale || navigator.language || "").toLowerCase().split(/[-_]/)[0];
+const locale = BUNDLE_CODES.includes(wanted) ? wanted : "en";
+/* One object per language, keyed by code. It was a single `const DE`,
+   which is why the console page could not have a third language at all
+   without a second dictionary AND a second branch. Adding one is now
+   adding a key here and a code to `BUNDLE_CODES` above. */
+const BUNDLES = {
+  de: {
   "Language":"Sprache", "a chemistry bench that computes, in your browser":"ein Chemielabor, das im Browser rechnet",
   "starting…":"startet…", "→ the bench app":"→ zur Labor-App",
   "— same engine, drawn glassware":"— dieselbe Engine, gezeichnete Glasgeräte",
@@ -171,8 +190,36 @@ const DE = {
   "  detail is now {level}.":"  Detailstufe ist jetzt {level}.", "the aqueous engine did not start: {reason}":"Die wässrige Engine ist nicht gestartet: {reason}",
   "Kerotakis — a bench in the browser":"Kerotakis — ein Labor im Browser",
   "A virtual chemistry laboratory that computes real chemistry — PHREEQC solving in your browser, offline.":"Ein virtuelles Chemielabor, das echte Chemie berechnet — PHREEQC im Browser, offline."
+  },
+  fr: {
+  "Language":"Langue", "a chemistry bench that computes, in your browser":"une paillasse de chimie qui calcule, dans votre navigateur",
+  "starting…":"démarrage…", "→ the bench app":"→ vers l'application",
+  "— same engine, drawn glassware":"— le même moteur, verrerie dessinée",
+  "Try these":"Essayez ceci", "Silver meets salt":"L'argent rencontre le sel", "Blue gel, then black":"Gel bleu, puis noir",
+  "Rates: two beakers, one clock":"Vitesses : deux béchers, une horloge", Catalysis:"Catalyse",
+  "Freeze it":"Congeler", "Grit: salt against frost":"Sel de déneigement contre le gel", "Neutral is a moving target":"Le neutre est une cible mouvante",
+  Permanganate:"Permanganate", Electrochemistry:"Électrochimie", "Zinc displaces copper":"Le zinc déplace le cuivre",
+  "Copper plating":"Cuivrage", Instruments:"Instruments", "Strong vs weak electrolyte":"Électrolyte fort et faible",
+  "Neutralisation heat":"Chaleur de neutralisation", "Gas laws (sealed)":"Lois des gaz (récipient scellé)", Distillation:"Distillation",
+  "Ethanol–water still":"Alambic éthanol-eau", "Organic chemistry":"Chimie organique", "Ethanol structure":"Structure de l'éthanol",
+  "Acetic acid structure":"Structure de l'acide acétique", "Ethanol groups":"Groupes fonctionnels de l'éthanol",
+  "Ethyl acetate groups":"Groupes fonctionnels de l'acétate d'éthyle", Photochemistry:"Photochimie", "UV on peroxide":"UV sur le peroxyde",
+  "Particle size":"Taille des grains", "Ground calcium carbonate + acid":"Carbonate de calcium broyé + acide", Calorimetry:"Calorimétrie",
+  "NaOH dissolving":"Dissolution de NaOH", Coverage:"Couverture", "Solver coverage":"Couverture des solveurs", Detail:"Niveau de détail",
+  "lv1 — what you see":"nv1 — ce que vous voyez", "lv2 — equations and amounts":"nv2 — équations et quantités",
+  "lv3 — everything":"nv3 — tout", Also:"Aussi", "reset the bench":"réinitialiser la paillasse", Source:"Code source",
+  "AGPL-3.0-or-later. Aqueous chemistry by":"AGPL-3.0-or-later. Chimie en solution par",
+  "● solving live (PHREEQC in wasm)":"● calcul en direct (PHREEQC en wasm)", "● shipped results only":"● résultats préenregistrés seulement",
+  "Kerotakis — a virtual chemistry laboratory that computes real chemistry.":"Kerotakis — un laboratoire de chimie virtuel qui calcule de la vraie chimie.",
+  "The aqueous engine is running in this tab. Nothing below is a lookup table.\n":"Le moteur aqueux tourne dans cet onglet. Rien de ce qui suit n'est une table de correspondance.\n",
+  "Running without the aqueous engine: anything nobody pre-computed will be reported as a stated miss rather than guessed at.\n":"Fonctionnement sans le moteur aqueux : tout ce qui n'a pas été précalculé sera signalé comme manquant plutôt que deviné.\n",
+  "Type a command, or pick one from the right. `help` lists them.\n":"Tapez une commande, ou choisissez-en une à droite. `help` les liste.\n",
+  "  the bench is clean again.":"  la paillasse est de nouveau propre.", "  (nothing to draw)":"  (rien à dessiner)",
+  "  no functional groups found":"  aucun groupe fonctionnel trouvé", "  (nothing happened)":"  (rien ne s'est passé)",
+  "  detail is now {level}.":"  le niveau de détail est maintenant {level}.", "the aqueous engine did not start: {reason}":"le moteur aqueux n'a pas démarré : {reason}",
+  },
 };
-const tr = (message, vars={}) => (locale === "de" ? (DE[message] || message) : message).replace(/\{(\w+)\}/g, (_, key) => vars[key] ?? `{${key}}`);
+const tr = (message, vars={}) => ((BUNDLES[locale]?.[message]) || message).replace(/\{(\w+)\}/g, (_, key) => vars[key] ?? `{${key}}`);
 document.documentElement.lang = locale;
 document.title = tr("Kerotakis — a bench in the browser");
 document.querySelector('meta[name="description"]').content = tr("A virtual chemistry laboratory that computes real chemistry — PHREEQC solving in your browser, offline.");

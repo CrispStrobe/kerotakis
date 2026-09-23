@@ -1,0 +1,9 @@
+# Lesson prose, French.
+#
+# Started 2026-09-23 with the third-language exercise. Keys are the
+# LABELLED comments a `.lab` file carries (`#@intro …`), and
+# `tools/lesson-prose-lint.py` counts against the labels a lesson actually
+# references — so a key here that no lesson asks for is reported, and a
+# lesson label with no key falls back to the English inline in the `.lab`.
+#
+# Deliberately partial.

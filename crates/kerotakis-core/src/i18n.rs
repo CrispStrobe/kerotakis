@@ -41,7 +41,10 @@ use serde::{Deserialize, Serialize};
 ///
 /// Add a line here to add a language. The file is parsed once, lazily, on
 /// the first line rendered in that language.
-const CATALOGUES: &[(&str, &str)] = &[("de", include_str!("../i18n/de.toml"))];
+const CATALOGUES: &[(&str, &str)] = &[
+    ("de", include_str!("../i18n/de.toml")),
+    ("fr", include_str!("../i18n/fr.toml")),
+];
 
 /// Which language the engine speaks when it turns state into prose.
 ///

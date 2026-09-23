@@ -205,12 +205,18 @@ fn an_english_script_is_the_same_run_under_lang_de() {
 ///
 /// `Locale::parse` answers English for anything it cannot find, which is
 /// the right answer for an environment variable someone else set and the
-/// wrong one for a line an author wrote on purpose: parsing a French
-/// lesson as English fails later, somewhere else, with a message about a
-/// verb.
+/// wrong one for a line an author wrote on purpose: parsing a lesson in
+/// a language we do not have as English fails later, somewhere else,
+/// with a message about a verb.
+///
+/// The example is Klingon on purpose. This test used to say `lang fr`,
+/// and passed for as long as French was hypothetical — adding one
+/// sidecar file turned an assertion about refusal into an assertion
+/// that a shipping language is broken. A test about the *unshipped*
+/// must not be worded in a language anybody might ship.
 #[test]
 fn an_unknown_language_directive_is_refused_by_name() {
-    let script = scratch("unknown.lab", "lang fr\nadd v1 water 100mL\n");
+    let script = scratch("unknown.lab", "lang tlh\nadd v1 water 100mL\n");
     let (_, err, ok) = kero(&["run", script.to_str().unwrap()], &[]);
     assert!(!ok, "an unshipped language is refused");
     assert!(
