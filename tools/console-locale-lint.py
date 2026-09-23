@@ -162,6 +162,12 @@ def bundle_bodies(page: str) -> dict[str, str]:
     all. It reads `const BUNDLES = { de: {…}, fr: {…} }` now, and a
     language added there is checked without touching this file.
     """
+    if "const BUNDLES = {" not in page:
+        sys.exit(
+            "console-locale-lint: no `const BUNDLES = {` in the page — it "
+            "carried one `const DE` until I18N-10, and a caller still "
+            "writing that shape is reading a page this lint cannot parse"
+        )
     start = page.index("const BUNDLES = {")
     bodies: dict[str, str] = {}
     for found in re.finditer(r"^  ([a-z]{2}): \{$", page[start:], re.M):
