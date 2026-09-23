@@ -228,6 +228,39 @@ describe("i18n", () => {
       });
     });
 
+    /**
+     * The smell that both GUI-124 and the `limewater` collision left
+     * behind, made checkable.
+     *
+     * 248 `t()` call sites take a VARIABLE rather than a literal, which
+     * is far too many to enumerate — but the dangerous ones all share a
+     * signature: they hand the dictionary a WIRE TOKEN. When that
+     * happens somebody eventually translates the token, and the
+     * translation lands in the bundle looking like any other key.
+     *
+     * So the bundle is asked instead of the call sites. The two sections
+     * mean different things and that is what makes this decidable:
+     * `terms` is the ENGINE's vocabulary, keyed by the engine's own
+     * identifiers — `ethyl_acetate`, `naked_egg`, `water_reactive` are
+     * registry `canonical_key`s and belong there. `messages` is the
+     * INTERFACE's own English. A snake_case key in `messages` is
+     * therefore a wire token that reached `t()` and got translated
+     * instead of being given a name.
+     *
+     * It found five: `glowing_splint` and `damp_litmus`, the gas-test
+     * tokens behind the `limewater` collision, and `naked_egg`,
+     * `cut_apple` and `fatty_soap`, which were engine vocabulary filed
+     * in the wrong section.
+     */
+    it("no interface message is keyed by a wire token", () => {
+      const bundle = JSON.parse(readFileSync(
+        join(import.meta.dirname, "../locales/de.json"), "utf8",
+      ));
+      const tokens = Object.keys(bundle.messages)
+        .filter((key) => /^[a-z0-9]+(_[a-z0-9]+)+$/.test(key)).sort();
+      expect(tokens).toEqual([]);
+    });
+
     it("every capability support level and row kind has German", () => {
       // The explorer's own `BAND_LABELS` table is gone: GUI-105 folded the
       // corpus questions into the one catalogue index, so a question's

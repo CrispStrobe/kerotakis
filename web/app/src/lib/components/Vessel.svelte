@@ -37,6 +37,7 @@
     effectWindowMs,
     STIR_READOUT_MS,
     VENT_WISP_MS } from "../magnitudes";
+  import { gasTestLabel } from "../gasTests";
   import { i18n, t } from "../i18n.svelte";
   import DeployedApparatus from "./DeployedApparatus.svelte";
   import ApparatusAssembly from "./ApparatusAssembly.svelte";
@@ -1554,7 +1555,7 @@
         class:positive={gasTest.positive}
         data-test={gasTest.test}
         aria-label={t("{test}: {result}", {
-          test: t(gasTest.test),
+          test: t(gasTestLabel(gasTest.test)),
           result: t(gasTest.positive ? "positive" : "negative"),
         })}
       >
