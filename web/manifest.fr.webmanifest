@@ -1,0 +1,83 @@
+{
+  "id": "./",
+  "name": "Kerotakis — un laboratoire de chimie qui calcule",
+  "short_name": "Kerotakis",
+  "description": "Un laboratoire de chimie virtuel qui calcule de la vraie chimie — PHREEQC dans le navigateur, hors ligne.",
+  "start_url": "./app/",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "orientation": "any",
+  "background_color": "#F4FAFF",
+  "theme_color": "#F4FAFF",
+  "categories": [
+    "education",
+    "science",
+    "utilities"
+  ],
+  "lang": "fr",
+  "dir": "ltr",
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshot-wide.png",
+      "sizes": "1280x800",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Paillasse, étagère et cahier côte à côte pendant que le chlorure d'argent précipite."
+    },
+    {
+      "src": "screenshot-narrow.png",
+      "sizes": "860x1864",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "La même expérience sur un téléphone, un volet à la fois."
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "La console",
+      "short_name": "Console",
+      "description": "Le même moteur en terminal — taper des commandes et lire le journal.",
+      "url": "./",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}

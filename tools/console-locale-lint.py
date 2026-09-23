@@ -153,16 +153,42 @@ def selectors_from(page: str) -> list[tuple[str, str]]:
     return out
 
 
+def bundle_bodies(page: str) -> dict[str, str]:
+    """Each language's dictionary body, by code.
+
+    The page carried ONE `const DE = {…}` and this lint read it by that
+    name, so the lint was as German-only as the page was: the moment the
+    console page learned a second language the lint stopped parsing at
+    all. It reads `const BUNDLES = { de: {…}, fr: {…} }` now, and a
+    language added there is checked without touching this file.
+    """
+    start = page.index("const BUNDLES = {")
+    bodies: dict[str, str] = {}
+    for found in re.finditer(r"^  ([a-z]{2}): \{$", page[start:], re.M):
+        code = found.group(1)
+        body_at = start + found.end()
+        end = page.index("\n  },", body_at)
+        bodies[code] = page[body_at:end]
+    if not bodies:
+        sys.exit("console-locale-lint: found `const BUNDLES` but no `<code>: {` inside it")
+    return bodies
+
+
 def analyse(page: str) -> tuple[set[str], set[str], list[str], list[str]]:
-    """(German rows, swept text, rows nobody reaches, swept-and-untranslated)."""
-    start = page.index("const DE = {")
-    end = page.index("};", start)
+    """(translated rows, swept text, rows nobody reaches, swept-and-untranslated).
+
+    The ROWS are the union across every language the page ships: a key one
+    language carries and another does not is a gap in that language, which
+    the coverage table below reports, and not an orphan — an orphan is a
+    row NO language's page can ever reach.
+    """
+    body = "".join(bundle_bodies(page).values())
     rows = {
         # `findall` yields '' for a group that did not participate, not
         # None, so `or` is the test and `is not None` silently turned
         # every BARE key — `Catalysis:"Katalyse"` — into the empty string.
         unescape(quoted or bare)
-        for quoted, bare, _ in ENTRY.findall(page[start:end])
+        for quoted, bare, _ in ENTRY.findall(body)
     }
 
     sweep = Sweep(selectors_from(page))
@@ -190,7 +216,7 @@ def main() -> int:
     for row in orphans:
         print(f"      orphan: {row!r}")
     if unrooted:
-        print(f"   swept, no German row   : {len(unrooted):>4}   (reported, not a failure)")
+        print(f"   swept, no translated row   : {len(unrooted):>4}   (reported, not a failure)")
         for value in unrooted:
             print(f"      untranslated: {value!r}")
 

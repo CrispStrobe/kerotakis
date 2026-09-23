@@ -1,0 +1,311 @@
+# The engine's own words, in French.
+#
+# One file per language. This one was written to find out whether the
+# claim in `src/i18n.rs` is true — that adding a language is this file and
+# a single line in `CATALOGUES`, with no existing translation touched.
+#
+# Keys are dotted paths naming WHERE the phrase is said, not what it says,
+# so a reworded English source does not orphan its translations. Where a
+# key IS an English word (`[glassware] beaker`), the lookup is by value:
+# the engine asks the catalogue what it calls a beaker.
+#
+# The English original stays at the call site in Rust. A missing key here
+# is a fallback to that English, never a blank — which is what lets this
+# file ship while it is still being written.
+
+[vessel]
+open = ", ouvert sur l'atmosphère"
+sealed-before = ", scellé, "
+sealed-after = " mL de ciel gazeux à "
+pressure-controlled-before = ", à pression régulée, "
+swept-before = ", balayé à l'azote à "
+liquid = "liquide"
+empty = "    (vide)"
+redox = "Rédox"
+"redox-all-as" = "{element} entièrement sous forme de {state}"
+speciation = "    Spéciation (mol/kgw · activité · γ) :"
+mixed-crystal = "Cristal mixte"
+ph = "pH"
+
+# The glassware. A vessel absent from here keeps its English name rather
+# than vanishing — better a word we have than a word we do not.
+[glassware]
+beaker = "bécher"
+flask = "ballon"
+"conical flask" = "erlenmeyer"
+"volumetric flask" = "fiole jaugée"
+"round-bottom flask" = "ballon à fond rond"
+"test tube" = "tube à essai"
+"measuring cylinder" = "éprouvette graduée"
+burette = "burette"
+tube = "tube à essai"
+cylinder = "éprouvette graduée"
+pipette = "pipette"
+crucible = "creuset"
+"evaporating basin" = "capsule d'évaporation"
+calorimeter = "calorimètre"
+"gas syringe" = "seringue à gaz"
+"watch glass" = "verre de montre"
+funnel = "entonnoir"
+still = "alambic"
+cuvette = "cuve"
+column = "colonne"
+
+[phase]
+aqueous = "en solution"
+liquid = "liquide"
+solid = "solide"
+gas = "gazeux"
+
+[census]
+"and-more" = "{listed} et {count} autres"
+"too-few-to-draw.lv1" = "  présents aussi, trop peu pour être dessinés : {species}\n"
+"too-few-to-draw.lv2" = "  présents en dessous d'un symbole, donc non dessinés : {species}\n"
+"one-glyph-is" = "  un {glyph} ≈ {amount} {unit}"
+"water-sparse" = " ; l'eau est dessinée clairsemée, non à l'échelle"
+"kind.cation" = "ion positif"
+"kind.anion" = "ion négatif"
+"kind.neutral" = "neutre, dissous"
+"kind.solvent" = "solvant"
+"kind.solid" = "solide"
+"kind.gas" = "gaz"
+"from-inventory" = "  dessiné à partir du bilan : aucune solution n'a été caractérisée, les paires d'ions et les complexes ne sont donc pas résolus ici\n"
+
+[heat-source]
+"bunsen-burner" = "bec Bunsen"
+"candle" = "bougie"
+"hot-plate" = "plaque chauffante"
+"unnamed-heat-source" = "source de chaleur"
+
+[transition]
+"melting point" = "point de fusion"
+"boiling point" = "point d'ébullition"
+"outcome.melts" = "fond"
+"outcome.boils" = "bout"
+"outcome.sublimes" = "se sublime"
+"outcome.decomposes" = "se décompose"
+"outcome.loses its water of crystallisation" = "perd son eau de cristallisation"
+"outcome.changes state" = "change d'état"
+
+[model]
+"coupling-active" = "actif"
+"coupling-absent" = "pas encore modélisé"
+
+[test]
+positive = "positif"
+negative = "négatif"
+
+[shifted]
+lower = "plus bas"
+higher = "plus haut"
+
+[instrument]
+thermometer = "thermomètre"
+balance = "balance"
+"pH meter" = "pH-mètre"
+eyes = "yeux"
+"pressure gauge" = "manomètre"
+"volume meter" = "mesure du volume"
+"conductivity meter" = "conductimètre"
+"density meter" = "densimètre"
+spectrophotometer = "spectrophotomètre"
+calorimeter = "calorimètre"
+chromatograph = "chromatographe"
+"Geiger counter" = "compteur Geiger"
+"melting-point apparatus" = "banc Kofler"
+"boiling-point apparatus" = "appareil à point d'ébullition"
+
+[verb]
+froze = "a gelé"
+melted = "a fondu"
+boiled = "a bouilli"
+"changed state" = "a changé d'état"
+
+[boiling-route]
+"normal-boiling-point" = "point d'ébullition normal"
+"cleared-correlation" = "corrélation validée"
+"pressure-outside-cleared-window" = "pression hors de la fenêtre validée"
+"no-usable-pressure" = "aucune pression exploitable"
+"solvent-not-in-pack" = "solvant absent du jeu de paramètres"
+
+[severity]
+Caution = "Prudence"
+Danger = "Danger"
+
+[hazard]
+"mixing bleach with ammonia makes chloramine, a toxic gas" = "mélanger de l'eau de Javel avec de l'ammoniaque produit de la chloramine, un gaz toxique"
+"mixing bleach with acid releases chlorine, a toxic gas" = "mélanger de l'eau de Javel avec un acide libère du chlore, un gaz toxique"
+"mixing bleach with vinegar or another weak acid releases chlorine, a toxic gas" = "mélanger de l'eau de Javel avec du vinaigre ou un autre acide faible libère du chlore, un gaz toxique"
+"a strong oxidizer mixed with a flammable liquid can ignite or explode" = "un oxydant fort mélangé à un liquide inflammable peut s'enflammer ou exploser"
+"a strong oxidizer in the presence of a flammable gas creates an explosion risk" = "un oxydant fort en présence d'un gaz inflammable crée un risque d'explosion"
+"mixing a strong oxidizer with a reducing agent can cause a violent, potentially explosive reaction" = "mélanger un oxydant fort avec un réducteur peut provoquer une réaction violente, potentiellement explosive"
+"strong acid dissolves this metal, releasing hydrogen gas which is flammable" = "un acide fort dissout ce métal en libérant du dihydrogène, qui est inflammable"
+"strong acid and carbonate fizz vigorously, releasing carbon dioxide — the mixture can spatter" = "un acide fort et un carbonate effervescent vigoureusement en libérant du dioxyde de carbone — le mélange peut projeter"
+"this water-reactive substance already reacted with water; combining with a strong base adds further heat" = "cette substance hydroréactive a déjà réagi avec l'eau ; y ajouter une base forte dégage encore de la chaleur"
+"this substance reacts violently with water, releasing a large amount of heat" = "cette substance réagit violemment avec l'eau en dégageant une grande quantité de chaleur"
+"sealed vessel over-pressurised and burst" = "récipient scellé mis en surpression et éclaté"
+"radioactive source: ionising radiation" = "source radioactive : rayonnement ionisant"
+"liquid nitrogen is a cryogen and its boil-off displaces breathable air" = "l'azote liquide est un cryogène et son évaporation chasse l'air respirable"
+
+[flame]
+"a blinding white" = "d'un blanc aveuglant"
+"apple green" = "vert pomme"
+"blue-green" = "bleu-vert"
+"brick red" = "rouge brique"
+"bright yellow" = "jaune vif"
+"crimson red" = "rouge carmin"
+"lilac" = "lilas"
+"orange-red" = "rouge orangé"
+"violet" = "violet"
+
+# Surface 5: the words a learner may TYPE. Accented and unaccented forms
+# both, because a keyboard is not always the one the language expects —
+# the German file carries `erwaermen` beside `erwärmen` for the same
+# reason, and a French one needs `precipiter` beside `précipiter`.
+[script-verb]
+new = "nouveau, nouvelle"
+remove = "retirer, enlever, ranger"
+discard = "jeter, vider, éliminer, eliminer"
+add = "ajouter, verser, introduire"
+stock = "approvisionner, stock"
+heat = "chauffer, réchauffer, rechauffer"
+cool = "refroidir, glacer"
+wait = "attendre, patienter"
+ignite = "enflammer, allumer, embraser"
+stir = "agiter, remuer, mélanger, melanger"
+seal = "sceller, fermer, boucher"
+regulate = "réguler, reguler, régler, regler"
+sweep = "balayer, purger"
+open = "ouvrir, déboucher, deboucher"
+filter = "filtrer"
+evaporate = "évaporer, evaporer"
+decant = "décanter, decanter, transvaser"
+drain = "vidanger, soutirer"
+extract = "extraire"
+distil = "distiller"
+measure = "mesurer, relever"
+chromatograph = "chromatographier"
+electrolyse = "électrolyser, electrolyser"
+cell = "pile, demi-pile"
+grind = "broyer, moudre, concasser"
+centrifuge = "centrifuger"
+irradiate = "irradier, éclairer, eclairer"
+dilute = "diluer"
+titrate = "titrer, doser"
+magnet = "aimanter"
+transport = "transporter"
+react = "réagir, reagir, faire réagir"
+test = "tester, identifier, caractériser, caracteriser"
+particles = "particules, vue particulaire"
+smell = "sentir, humer"
+look = "regarder, observer, examiner"
+observe = "constater"
+waft = "éventer, eventer"
+mix = "mélanger, melanger, mixer"
+zoom = "agrandir, zoomer"
+voltmeter = "voltmètre, voltmetre"
+
+[script-instrument]
+thermometer = "température, temperature, thermomètre, thermometre"
+balance = "balance, masse, peser"
+ph = "ph-mètre, ph-metre, ph, acidité, acidite"
+eyes = "yeux, œil, oeil, regard"
+pressure = "pression, manomètre, manometre"
+volume = "volume, niveau"
+conductivity = "conductivité, conductivite, conductimètre, conductimetre"
+density = "densité, densite, masse volumique, densimètre, densimetre"
+spectrophotometer = "spectrophotomètre, spectrophotometre, spectromètre, spectrometre"
+calorimeter = "calorimètre, calorimetre"
+chromatograph = "colonne, chromatographie"
+geiger = "compteur geiger, geiger"
+melting_point = "point de fusion, fusion"
+boiling_point = "point d'ébullition, point d ebullition, ébullition, ebullition"
+
+[script-test]
+pop = "test à la flamme, detonation, aboiement"
+splint = "bûchette incandescente, buchette incandescente, buchette"
+limewater = "eau de chaux"
+litmus = "tournesol, papier de tournesol"
+
+[script-source]
+burner = "bec, bec bunsen, brûleur, bruleur"
+candle = "bougie"
+hotplate = "plaque chauffante, plaque"
+
+[script-word]
+until = "jusqu'à, jusqu a, jusqua"
+into = "dans"
+from = "de, depuis"
+to = "vers"
+steps = "étapes, etapes"
+stages = "étages, etages, plateaux"
+max = "maximum, au plus"
+persists = "persiste, tient"
+colour = "couleur, virage"
+on = "sur"
+with = "avec"
+
+[script]
+unknown-verb = "commande inconnue « {word} » — le laboratoire connaît ces verbes : {verbs}"
+
+[scene]
+osmosis-in = "Dans le modèle pédagogique, l'osmose a transporté au total {water} mol ({mass} g) d'eau vers l'intérieur de {material} ; la taille de l'objet, la mécanique de la membrane et l'équilibre final ne sont pas modélisés."
+osmosis-out = "Dans le modèle pédagogique, l'osmose a transporté au total {water} mol ({mass} g) d'eau hors de {material} ; la taille de l'objet, la mécanique de la membrane et l'équilibre final ne sont pas modélisés."
+osmosis-either = "Dans le modèle pédagogique, l'osmose a transporté au total {water} mol ({mass} g) d'eau vers l'intérieur ou hors de {material} ; la taille de l'objet, la mécanique de la membrane et l'équilibre final ne sont pas modélisés."
+gel = "Un gel translucide et cohérent contient {percent} % du polymère {polymer}."
+coating-paint = "Le fer peint porte un film de peinture protecteur intact ; les rayures ne sont pas modélisées."
+coating-passive-film = "L'acier inoxydable porte une couche passive transparente ; son épaisseur n'est pas représentée à l'échelle."
+corrosion = "{percent} % du {metal} suivi est actuellement immobilisé dans son oxyde modélisé. Un oxyde ajouté directement est indiscernable d'un oxyde formé ici ; ce n'est ni une vitesse de corrosion, ni un historique, ni une épaisseur, ni un taux de recouvrement."
+swelling = "Le réseau superabsorbant retient {water} g d'eau ({ratio} fois sa masse sèche)."
+chemiluminescence = "Le système au luminol émet une lumière bleue d'intensité relative {intensity} ; la demi-vie estimée est ici de {half_life} secondes."
+enzyme-conversion = "Le modèle enzymatique restreint indique {percent} % de conversion de {substrate} dans {material}."
+food-colour-spread = "Le colorant alimentaire s'est étalé en filets sur la surface du lait."
+food-colour-resting = "Des gouttes de colorant alimentaire reposent sur la surface du lait."
+adsorption = "{percent} % du {sorbate} suivi est fixé sur {sorbent} ; {dissolved} mg restent dissous. C'est une répartition à l'équilibre, pas une vitesse d'élimination."
+partition = "À l'équilibre, {lower_percent} % du {species} modélisé se trouve dans la phase inférieure {lower} et {upper_percent} % dans la phase supérieure {upper}."
+emulsion = "L'agitation a dispersé {percent} % de {material} en gouttelettes troubles ; le reste surnage toujours au-dessus de l'eau."
+material-layer = "{material} forme sa propre couche ({colour}) au-dessus de l'eau."
+vessel-contains = "Le récipient contient {material}."
+curdling = "Des flocons mous totalisant {mass} g de solide modélisé se sont séparés de {material} ; il reste un petit-lait trouble."
+foam-overflow = "La mousse déborde du bord."
+foam-standing = "De la mousse repose sur le liquide."
+
+[polymer]
+PVA = "PVA"
+
+[substrate]
+"lactose in milk" = "lactose du lait"
+"gelatine protein" = "protéine de gélatine"
+"albumin protein" = "protéine d'albumine"
+"triglycerides in vegetable oil" = "triglycérides de l'huile végétale"
+"muscle protein" = "protéine musculaire"
+
+[substrate-class]
+methyl = "méthyle"
+primary = "primaire"
+secondary = "secondaire"
+tertiary = "tertiaire"
+
+[nucleophile-class]
+strong = "fort"
+weak = "faible"
+
+[gas-test]
+"pop test" = "test de la détonation"
+"glowing splint" = "test de la bûchette incandescente"
+"limewater" = "test à l'eau de chaux"
+"damp red litmus" = "papier de tournesol rouge humide"
+
+[spill-site]
+bench = "paillasse (zone {zone})"
+tray = "plateau {tray}"
+floor = "sol (zone {zone})"
+waste = "bac à déchets"
+
+[enzyme-family]
+Lactase = "lactase"
+Protease = "protéase"
+Lipase = "lipase"
+Catalase = "catalase"
+Pepsin = "pepsine"
+Bromelain = "broméline"

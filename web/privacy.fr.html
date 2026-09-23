@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#14120f">
+<meta name="description" content="Politique de confidentialité de Kerotakis : l'application ne collecte rien, n'envoie rien et fonctionne sans réseau.">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="alternate" hreflang="en" href="privacy.html">
+<link rel="alternate" hreflang="de" href="privacy.de.html">
+<title>Kerotakis — Confidentialité</title>
+<style>
+  :root { --bg:#14120f; --panel:#1c1a16; --edge:#322e27; --ink:#e8e2d6; --dim:#948c7d; --hot:#d98a4a; --cool:#6fa8c7; }
+  @media (prefers-color-scheme: light) { :root { --bg:#f6f3ec; --panel:#efeae0; --edge:#d4ccbc; --ink:#262319; --dim:#6f6758; --hot:#b05f1f; --cool:#2f6f94; } }
+  * { box-sizing: border-box; }
+  body { margin:0 auto;max-width:42rem;padding:2rem 1.25rem 4rem;background:var(--bg);color:var(--ink);font:15px/1.65 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+  h1 { font-size:1.15rem;letter-spacing:.02em; } h1 small { display:block;color:var(--dim);font-weight:400;font-size:.8rem;margin-top:.3rem; }
+  h2 { font-size:.85rem;color:var(--hot);margin:2rem 0 .5rem;letter-spacing:.04em;text-transform:uppercase; }
+  a { color:var(--cool); } ul { padding-left:1.2rem; } li { margin:.35rem 0; }
+  .lede { border-left:2px solid var(--hot);padding-left:.9rem;color:var(--ink); }
+  footer { margin-top:3rem;padding-top:1rem;border-top:1px solid var(--edge);color:var(--dim);font-size:.8rem; }
+</style>
+</head>
+<body>
+<nav aria-label="Langue"><a href="privacy.html" lang="en">English</a> · <a href="privacy.de.html" lang="de">Deutsch</a> · <strong>Français</strong></nav>
+<h1>Kerotakis — politique de confidentialité
+  <small>Dernière mise à jour le 28 août 2026 · s'applique aux applications web, macOS et iOS</small>
+</h1>
+<p class="lede">Kerotakis ne collecte rien, ne transmet rien et n'exploite aucun serveur. La chimie est calculée sur votre propre appareil. En mode avion, toutes les fonctions restent disponibles.</p>
+<h2>Quelles données sont collectées</h2>
+<p>Aucune. Il n'y a ni compte, ni connexion, ni analytique, ni télémétrie, ni rapport de plantage, ni publicité, ni pistage. Aucun identifiant n'est créé, lu ou partagé. Rien vous concernant, ni concernant votre appareil, ne quitte l'appareil.</p>
+<h2>Où votre travail est conservé</h2>
+<ul>
+  <li>Votre laboratoire — récipients, historique des commandes et niveau de détail choisi — se trouve dans la mémoire de l'application en cours d'exécution, et sur le web également dans le stockage local du navigateur.</li>
+  <li>Les fichiers enregistrés (scripts <code>.lab</code>, cahiers de laboratoire et graphiques) ne vont que là où vous les déposez dans la boîte de dialogue d'enregistrement.</li>
+  <li>Les fichiers ouverts sont lus dans l'application et copiés nulle part ailleurs.</li>
+  <li>Rien de tout cela n'est téléversé. Effacer les données du site ou l'application supprime ces données.</li>
+</ul>
+<h2>Utilisation du réseau</h2>
+<p>Les applications macOS et iOS n'émettent aucune requête réseau de leur fait : les solveurs, les bases de données thermodynamiques et les leçons sont intégrés à l'application.</p>
+<p>Un point de transparence, parce qu'il est vérifiable : la version macOS déclare le droit <code>com.apple.security.network.client</code>. Il ne sert pas à un usage réseau propre à l'application. macOS fait passer tout ce que charge la vue web intégrée — y compris les fichiers internes à l'application — par le processus réseau de WebKit. Dans le bac à sable de l'application, ce processus ne peut rien charger sans ce droit ; l'application n'afficherait qu'une fenêtre vide. Dans les deux cas, rien n'est envoyé.</p>
+<p>La version web télécharge l'application et le moteur depuis le site qui les héberge et les met en cache pour une utilisation hors ligne ultérieure. L'hébergeur (actuellement GitHub Pages) peut tenir les journaux habituels d'un serveur web ; cela échappe à notre contrôle.</p>
+<h2>Enfants</h2>
+<p>Kerotakis convient à un usage scolaire. Comme aucune donnée n'est collectée, aucune donnée d'enfant n'est collectée non plus.</p>
+<h2>Tiers</h2>
+<p>Il n'y en a aucun. Ni SDK, ni régie publicitaire, ni service d'analytique. L'application contient des composants libres — avant tout <a href="https://www.usgs.gov/software/phreeqc-version-3">IPhreeqc</a> de l'U.S. Geological Survey — sous forme de bibliothèques locales, et non de services appelés.</p>
+<h2>Modifications</h2>
+<p>Si cette déclaration change, la nouvelle version paraîtra ici avec une nouvelle date. Un changement signifierait que l'application fait quelque chose qu'elle ne fait pas aujourd'hui ; ce serait dit clairement ici.</p>
+<h2>Contact</h2>
+<p>Questions ou signalement d'erreur : <a href="mailto:cstr+apple@mailbox.org">cstr+apple@mailbox.org</a> ou une issue sur <a href="https://github.com/CrispStrobe/kerotakis">github.com/CrispStrobe/kerotakis</a>.</p>
+<footer><a href="./">Console</a> · <a href="./app/">Laboratoire</a> · Kerotakis est un logiciel libre sous licence AGPL-3.0-or-later.</footer>
+</body>
+</html>
