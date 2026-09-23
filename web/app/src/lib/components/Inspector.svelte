@@ -3,6 +3,7 @@
   import ParticleView from "./ParticleView.svelte";
   import InstrumentTray from "./InstrumentTray.svelte";
   import { t } from "../i18n.svelte";
+  import { gasTestLabel } from "../gasTests";
   import { engineText } from "../engineText";
 
   let {
@@ -28,6 +29,20 @@
   const v = $derived(`v${vessel + 1}`);
   // The four classical gas tests (EXP-31): applied to the headspace, and
   // each button is exactly the grammar line — `test v1 pop`.
+  /**
+   * The four gas tests, as wire tokens and as the English a reader sees.
+   *
+   * The tokens used to go straight to `t()`, which made `limewater` the
+   * dictionary key for BOTH the substance and the test for it — and the
+   * merge in `i18n.svelte` lets `messages` win, so the shelf called a
+   * bottle of limewater "Kalkwasserprobe", the test. You do not pour a
+   * test into a beaker.
+   *
+   * One English string, one meaning: the test's key now says it is a
+   * test. This is GUI-124's rule applied to a second wire token — a
+   * compound identifier is not a sentence, and handing one to the
+   * dictionary is how two unrelated things end up sharing a key.
+   */
   const GAS_TESTS = ["pop", "splint", "limewater", "litmus"] as const;
 </script>
 
@@ -50,7 +65,7 @@
       <p>{t("Apply a test to the headspace of the selected vessel.")}</p>
       <div class="actions" role="group">
         {#each GAS_TESTS as test (test)}
-          <button disabled={busy} onclick={() => onaction(`test ${v} ${test}`)}>{t(test)}</button>
+          <button disabled={busy} onclick={() => onaction(`test ${v} ${test}`)}>{t(gasTestLabel(test))}</button>
         {/each}
       </div>
     </details>
