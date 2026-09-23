@@ -41,10 +41,18 @@ jobs:
             cargo build -p kerotakis-cli
             echo "KERO=target/debug/kero" >> "$GITHUB_ENV"
           fi
-      - name: It runs, and says which build it is
+      - name: It runs, reads its own registry, and answers in every language
         run: |
-          "$KERO" --version || true
           "$KERO" species | head -5
+          printf 'add v1 water 100mL\nlook v1\n' > "$RUNNER_TEMP/smoke.lab"
+          # Every shipped language, read off the catalogue directory: a
+          # binary that cannot answer in one of them is exactly the kind
+          # of thing this artifact exists to find.
+          for toml in crates/kerotakis-core/i18n/*.toml; do
+            code=$(basename "$toml" .toml)
+            echo "== $code"
+            "$KERO" run "$RUNNER_TEMP/smoke.lab" --lang "$code"
+          done
       - uses: actions/upload-artifact@v6
         with:
           name: kero-${{ inputs.profile }}-${{ github.sha }}
