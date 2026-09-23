@@ -4470,6 +4470,64 @@ written down at the scene and unreachable by the check.
   fits at every width tested.
 
 
+## The last two with no picture (GUI-131)
+
+GUI-129 emptied the effect surface except for two recorded gaps, each
+carrying what it would take. This is that.
+
+- [x] **GUI-131a — chains slide and networks do not, and now the bench
+  says so.** `chains-slide-networks-do-not` is ABOUT the difference
+  between two materials at one temperature, and the bench drew the same
+  heated block for both. What is drawn now is the STRUCTURE, because the
+  structure is the reason: a thermoplastic gets three loose chains that
+  slide past one another, each on its own phase; a thermoset gets the
+  same strands with the **cross-links** that tie them, and nothing moves.
+  Charring darkens and breaks the line work and does not animate, because
+  it does not undo.
+
+  Rigid is drawn rather than omitted. "Nothing happened" is half of this
+  experiment and it is the half a blank space cannot make: the reader is
+  being shown that heat reached this block and it did not move. The
+  magnitude is how far past the wall the vessel stands, not how hot it is
+  — 430 K is 430 K, and ten degrees over a softening point is a different
+  observation from two hundred.
+
+  **It hangs off the VESSEL, not off a scene object, and that was the
+  same bug one layer down.** The first draft anchored it to
+  `bulk_objects` and covered exactly ONE of the two materials: the engine
+  files the thermoset as a bulk object and the thermoplastic as a
+  **solid**, so the material that actually softens drew nothing and the
+  lesson stayed invisible. Found in a browser — the scene reported
+  `scene-solid: 1, bulk-object: 0` — and by no test, which is why there
+  is now a test for exactly that shape of scene.
+
+- [x] **GUI-131b — an extraction is a transfer, and it borrows the funnel
+  it already owns.** The first draft drew its own separating funnel and
+  that was wrong: the drain rig IS a separating funnel, and two pictures
+  of one piece of glassware is how a bench stops being a bench. So the
+  extraction reuses it and adds only what an extraction adds — a solvent
+  layer whose opacity is how much that solvent took, one tick per stage
+  arriving in order, and a travelling mark per solute sized by how much
+  of IT was taken.
+
+  The magnitude is the BEST solute's staged efficiency, not the mean: an
+  extraction that took 80% of the thing you wanted and 6% of the thing
+  you did not is a good extraction, and averaging them would draw it as a
+  poor one. Six ticks is the cap, past which the number beside them is
+  the honest answer.
+
+  **Verified against the real engine**, German, lv3: rig drawn, four
+  ticks for `stages 4`, "4×" beside them, a mark crossing. The reviewed
+  partition data is one row — I2/hexane/water, K = 85 — so that is the
+  extraction that was driven.
+
+- [x] **GUI-131c — `KNOWN_GAPS` is empty.** The machinery stays and the
+  assertion inverts: `effectVisibility.test.ts` now asserts the list is
+  EMPTY, which is the claim, made rather than assumed, that every
+  phenomenon this engine computes reaches the screen or says in one line
+  why it does not.
+
+
 ## Completed GUI tasks
 
 Numbers are never renumbered and never reused. Each of these landed; the detail

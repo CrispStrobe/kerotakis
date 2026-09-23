@@ -169,6 +169,94 @@ describe("computed gas and foam motion", () => {
     });
   });
 
+  /**
+   * GUI-131. `chains-slide-networks-do-not` is ABOUT the difference
+   * between two materials at one temperature, and the bench drew the same
+   * heated block for both. So what is asserted is the DIFFERENCE, not the
+   * presence of a drawing.
+   */
+  describe("chains slide and networks do not", () => {
+    const block = (material: string, over: number, crossLinked: boolean): string =>
+      render(Vessel, {
+        props: {
+          vessel: {
+            ...vessel,
+            bulk_objects: [{
+              material, recipe_id: material.replace(/\s+/g, "-"), amount_g: 20,
+              bulk_density_g_per_ml: 0.95, position: "sunk" as const,
+              srgb: [200, 190, 175] as [number, number, number],
+            }],
+          },
+          register: "lv2",
+          effects: [{
+            kind: "polymer", at: Date.now(), durationMs: 4200, magnitude: 0.6,
+            polymer: {
+              state: crossLinked ? "rigid" as const : (over > 0 ? "softened" as const : "rigid" as const),
+              material, crossLinked, reversible: !crossLinked && over > 0,
+              temperatureK: 420 + over, thresholdK: 420, overK: over,
+            },
+          }],
+        },
+      }).body;
+
+    it("draws the structure, because the structure is the reason", () => {
+      expect(block("thermoplastic sheet", 60, false)).toContain("polymer-strand");
+    });
+
+    it("a network gets its cross-links; loose chains do not", () => {
+      // The cross-links ARE the explanation: a thing tied to itself has
+      // nothing to slide.
+      expect(block("cured thermoset resin", 60, true)).toContain("polymer-link");
+      expect(block("thermoplastic sheet", 60, false)).not.toContain("polymer-link");
+    });
+
+    it("the same heat draws two different pictures", () => {
+      // The one assertion this whole item exists for.
+      expect(block("cured thermoset resin", 60, true))
+        .not.toBe(block("thermoplastic sheet", 60, false));
+    });
+
+    it("only the chains get the sliding class", () => {
+      expect(block("thermoplastic sheet", 60, false)).toContain("softened");
+      expect(block("cured thermoset resin", 60, true)).not.toContain("softened");
+    });
+
+    it("says what happened in words as well as in line work", () => {
+      // The drawing is not the only reader of this bench.
+      expect(block("thermoplastic sheet", 60, false)).toMatch(/aria-label="[^"]*480/);
+    });
+
+    it("draws for a vessel whose polymer is a SOLID, not a bulk object", () => {
+      // The first draft anchored this to `bulk_objects` and covered
+      // exactly one of the two materials: the engine files the thermoset
+      // as a bulk object and the thermoplastic as a solid, so the one
+      // that actually softens drew nothing. Caught in a browser — the
+      // scene reported `scene-solid: 1, bulk-object: 0` — and not by any
+      // test, which is why this one exists.
+      const html = render(Vessel, {
+        props: {
+          vessel: { ...vessel, bulk_objects: [] },
+          register: "lv2",
+          effects: [{
+            kind: "polymer", at: Date.now(), magnitude: 0.6,
+            polymer: {
+              state: "softened" as const, material: "thermoplastic sheet",
+              crossLinked: false, reversible: true,
+              temperatureK: 480, thresholdK: 420, overK: 60,
+            },
+          }],
+        },
+      }).body;
+      expect(html).toContain("polymer-strand");
+      expect(html).toContain("softened");
+    });
+
+    it("draws nothing when no polymer was heated", () => {
+      expect(render(Vessel, { props: { vessel, register: "lv2", effects: [] } }).body)
+        .not.toContain("polymer-strand");
+    });
+  });
+
   it("stops both computed motions when reduced motion is requested", () => {
     const source = readFileSync(new URL("./Vessel.svelte", import.meta.url), "utf8");
     const reduced = source.slice(source.indexOf("@media (prefers-reduced-motion: reduce)"));
