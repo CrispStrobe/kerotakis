@@ -64556,9 +64556,6 @@
           "rubbing alcohol 70%",
           "isopropyl alcohol 70%",
           "rubbing_alcohol_70%"
-        ],
-        "fr": [
-          "isopropanol 70%"
         ]
       },
       "basis": "volume_fraction",
@@ -64919,9 +64916,6 @@
         ],
         "en": [
           "fizzy cola"
-        ],
-        "fr": [
-          "cola"
         ]
       },
       "basis": "mass_fraction",
@@ -69370,9 +69364,6 @@
         "en": [
           "sheet of paper",
           "office paper"
-        ],
-        "fr": [
-          "papier"
         ]
       },
       "basis": "mass_fraction",
@@ -73411,9 +73402,6 @@
         ],
         "en": [
           "mayo"
-        ],
-        "fr": [
-          "mayonnaise"
         ]
       },
       "basis": "mass_fraction",
@@ -77200,9 +77188,6 @@
         "en": [
           "fresh pineapple",
           "pineapple flesh"
-        ],
-        "fr": [
-          "ananas"
         ]
       },
       "basis": "mass_fraction",
@@ -77626,9 +77611,6 @@
         "en": [
           "sourdough",
           "sourdough sponge",
-          "levain"
-        ],
-        "fr": [
           "levain"
         ]
       },

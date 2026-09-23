@@ -5598,6 +5598,13 @@ fn export_material_recipes(document: &mut RegistryDocument) {
 /// German is unchanged by this: its display name is already its first
 /// alias, so the pass finds it present and adds nothing. That is the
 /// check — if this ever moves a German array, the derivation is wrong.
+/// `kerotakis_data::validate`'s own comparison, restated: collapsed
+/// whitespace, lower case. Two names that normalise alike are the same
+/// name as far as the registry is concerned, and only one may be listed.
+fn normalise_material_name(value: &str) -> String {
+    value.split_whitespace().collect::<Vec<_>>().join(" ").to_lowercase()
+}
+
 fn name_every_recipe_in_every_shipped_language(document: &mut RegistryDocument) {
     for locale in Locale::available() {
         if locale.is_english() {
@@ -5609,13 +5616,38 @@ fn name_every_recipe_in_every_shipped_language(document: &mut RegistryDocument) 
             let Some(translated) = names.get(recipe.name.as_str()) else {
                 continue;
             };
-            let aliases = recipe
+            // A name this recipe already answers to, in any language, is
+            // already typeable — and `validate.rs` holds every material
+            // name and alias in ONE set, normalised to collapsed
+            // whitespace and lower case, so re-listing it under `fr` is a
+            // duplicate and the export is refused. Six of the 132 French
+            // names are their German alias in different case
+            // (`isopropanol 70%` against `Isopropanol 70%`), and four are
+            // the word both languages use: `cola`, `papier`, `ananas`,
+            // `levain`.
+            //
+            // A collision with a DIFFERENT recipe is deliberately not
+            // skipped here. That one is a translation defect — a shelf
+            // name that resolves to another bottle — and it should fail
+            // the export loudly rather than be dropped into silence.
+            let claimed = |value: &str| {
+                let want = normalise_material_name(value);
+                normalise_material_name(&recipe.canonical_key) == want
+                    || normalise_material_name(&recipe.name) == want
+                    || recipe
+                        .aliases
+                        .values()
+                        .flatten()
+                        .any(|alias| normalise_material_name(alias) == want)
+            };
+            if claimed(translated) {
+                continue;
+            }
+            recipe
                 .aliases
                 .entry(locale.code().to_string())
-                .or_default();
-            if !aliases.iter().any(|alias| alias == translated) {
-                aliases.push((*translated).to_string());
-            }
+                .or_default()
+                .push((*translated).to_string());
         }
     }
 }
