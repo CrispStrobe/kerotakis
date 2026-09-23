@@ -4470,6 +4470,46 @@ written down at the scene and unreachable by the check.
   fits at every width tested.
 
 
+## Sweep the width, do not sample it (GUI-133)
+
+GUI-123 ended with two honest runs of the same check, on the same commit,
+disagreeing: the stepper's number field measured **211 px on the author's
+box and 139.7 px in CI**, at the same 1440 px viewport. Both were right.
+The viewport was never the variable — the shelf PANE was, and four
+sampled viewports cannot answer a question about a continuum.
+
+- [x] **GUI-133 — constrain the container and walk its own range.** The
+  sweep pins `nav.shelf-pane` to each of twelve widths from 160 px to
+  420 px and asks, at each, whether any control clips its own value — the
+  same rule GUI-123's legibility pass uses. It is cheap because the
+  layout reflows without re-navigating: the amount form is opened once
+  and resized under.
+
+  **Proven to fail on the defect rather than merely passing on the fix.**
+  With GUI-123 reverted the sweep reports the clip at a **160 px pane**,
+  a width no sampled viewport produces on that machine.
+
+  **And it separated which half of GUI-123 was load-bearing**, which
+  nobody knew:
+
+  | state | field at a 160 px pane | value fits? |
+  |---|---:|---|
+  | shipped (floor + spinners hidden) | 64 px | yes |
+  | floor reverted, spinners still hidden | 43 px | **yes** |
+  | both reverted | 43 px | **no** |
+
+  So the `4rem`/`9.5rem` floors are what keep the field comfortable, and
+  hiding the native **spin buttons** is what makes the narrow case
+  survivable at all. Two changes were shipped together as one fix and
+  only one of them was doing the work at the extreme; the table says which.
+
+  **What a first attempt got wrong, recorded because it is the instrument
+  and not the app.** The sweep was written against the VIEWPORT first, at
+  eighteen widths from 320 to 1920. Below 1024 px it reported the field
+  at **0 px at every width** — and that is not a defect, it is the app in
+  single-pane mode with the cabinet not on screen at all. A sweep that
+  cannot see its subject reports a clean zero, which reads exactly like a
+  pass. The pane sweep asks the question the layout cannot hide.
 ## The last two with no picture (GUI-131)
 
 GUI-129 emptied the effect surface except for two recorded gaps, each
