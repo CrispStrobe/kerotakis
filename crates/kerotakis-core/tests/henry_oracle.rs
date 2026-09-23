@@ -127,7 +127,48 @@ const UNREACHABLE: &[(&str, &str)] = &[(
      in hydrolysis and a redox half-reaction; comparing that to a Henry \
      constant would be wrong by orders of magnitude and would read as a \
      finding. So chlorine's 9.2e-2 mol/(L atm) and its 2500 K rest on Sander \
-     alone and are corroborated by nothing in this repository.",
+     alone and are corroborated by nothing in this repository. \
+     \
+     CHECKED AGAINST THE PUBLISHED SPREAD, 2026-09-22, and BOTH NUMBERS SIT \
+     OUTSIDE IT. Sander's own current compilation (version 5.0.0, ACP 23 \
+     (2023) 10901, CC-BY, per-species table at henrys-law.org for CAS \
+     7782-50-5) lists: 6.0e-4 with 3000 K (Yakovkin 1900, measured), 6.2e-4 \
+     with 3500 K (Whitney and Vivian 1941, measured), 6.1e-4 with 3200 K \
+     (Aieta and Roberts 1986, measured), 6.1e-4 with 2800 K (Wagman 1982, \
+     theory), 7.4e-4 with 2600 K (Lin and Pehkonen 1998, review) and 8.7e-4 \
+     (Hayer 2022, estimate), all mol/(m^3 Pa). Our 9.2e-2 mol/(L atm) is \
+     9.08e-4 in those units - ABOVE every entry, including the estimate - \
+     and our 2500 K is BELOW every temperature dependence listed. \
+     \
+     THE LIKELY CAUSE IS A QUANTITY MISMATCH, not a transcription slip, and \
+     it has this repository's own name on it: a number correct for the thing \
+     it belongs to, applied to a different thing wearing the same name. \
+     Chlorine hydrolyses, so there are two constants - the INTRINSIC one for \
+     molecular Cl2, and an EFFECTIVE one that also counts the HOCl. Sander \
+     marks the entries that report the second with a note reading 'the total \
+     solubility of chlorine (i.e. the sum of Cl2 and HOCl)', and that note is \
+     on his OWN earlier reviews of 2011 and 2006. Our 9.2e-2 mol/(L atm) is \
+     0.092 mol/L at one atmosphere, which is the textbook TOTAL solubility of \
+     chlorine, about 6.5 g/L. The intrinsic value is near 6.1e-4, half as \
+     much again lower. Sander is explicit that the effective constant should \
+     be avoided for halogens, because it is not a constant: as the chlorine \
+     grows more dilute the hydrolysis runs further right and the ratio moves. \
+     \
+     WHAT IT COSTS TODAY: nothing computed, and that is why this is recorded \
+     rather than fixed here. `volatility::coefficient_for` returns None for \
+     any species the registry carries as a gas, which chlorine is, and every \
+     other caller of `henry_lookup` names CO2 explicitly - so no solver reads \
+     this row. It is still PRINTED: `kero properties` lists every coefficient \
+     in this table, and the `henry` query answers `gas=Cl2`. So the bench \
+     will tell somebody this number while no test can catch it being wrong. \
+     \
+     WHY IT IS NOT CHANGED IN THIS COMMIT: picking the replacement is a \
+     judgement, not an arithmetic. Three independent determinations 86 years \
+     apart agree on 6.0-6.2e-4, which is the obvious candidate; but Sander's \
+     own first-listed row is Burkholder (2019), which carries the total \
+     solubility note, so the compilation's recommendation and its measured \
+     rows do not point the same way. That is an owner's call about which \
+     value this bench should publish, and it should be made deliberately.",
 )];
 
 /// Where the two lineages agree on the temperature coefficient.
