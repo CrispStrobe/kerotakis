@@ -157,6 +157,8 @@
   // The constants below govern the kinds that honestly have nothing to
   // ride on, and those are the majority.
   const foamEffect = $derived(latestEffect("foam", effectWindowMs("foam")));
+  /** GUI-131: what heat did to a polymer object, and whether it comes back. */
+  const polymerEffect = $derived(latestEffect("polymer", effectWindowMs("polymer")));
   const waftEffect = $derived(latestEffect("waft", effectWindowMs("waft")));
   const pressureControlEffect = $derived(latestEffect("regulate", effectWindowMs("regulate")));
   const sweepEffect = $derived(latestEffect("sweep", effectWindowMs("sweep")));
@@ -1054,6 +1056,92 @@
             style={`--pop-period:${(churn * (0.9 + scatter(i, 6) * 0.7)).toFixed(2)}s;--pop-delay:${(scatter(i, 7) * churn).toFixed(2)}s`}
           />
         {/each}
+      </g>
+    {/if}
+
+    <!-- GUI-131. `chains-slide-networks-do-not` is ABOUT the difference
+         between a thermoplastic that softens and a thermoset that does
+         not, and the bench drew the same heated block for both. So what
+         is drawn is the STRUCTURE, because the structure is the reason:
+         loose chains free to slide past one another, or a cross-linked
+         network that cannot.
+
+         It hangs off the VESSEL and not off a scene object, which is the
+         second half of the same bug. The first draft anchored it to
+         `bulk_objects` and covered exactly one of the two materials — the
+         engine files the thermoset as a bulk object and the thermoplastic
+         as a solid, so the one that actually softens drew nothing and the
+         lesson stayed invisible one layer down. Effects are already keyed
+         by vessel, so the vessel is the honest anchor, and the material
+         is named in the label rather than inferred from the scene. -->
+    {#if polymerEffect?.polymer}
+      {@const poly = polymerEffect.polymer}
+      {@const polyW = INNER_W * 0.46}
+      {@const polyX = INNER_X + (INNER_W - polyW) / 2}
+      {@const polyY = BOTTOM_Y - 12}
+      {@const strands = 3}
+      <g
+        class="polymer-state"
+        class:softened={poly.state === "softened"}
+        class:charred={poly.state === "charred"}
+        class:network={poly.crossLinked}
+        data-polymer-state={poly.state}
+        data-polymer-over-k={poly.overK.toFixed(1)}
+        style={`--slide:${(polyW * 0.16).toFixed(2)}px`}
+        aria-label={poly.state === "softened"
+          ? t("{material} softened at {temperature} K, {over} K past its softening point; cooling sets it in the new shape", {
+              material: t(poly.material),
+              temperature: formatReading(poly.temperatureK, 1),
+              over: formatReading(Math.max(0, poly.overK), 1),
+            })
+          : poly.state === "charred"
+            ? t("{material} charred at {temperature} K — past decomposition, and this does not undo", {
+                material: t(poly.material),
+                temperature: formatReading(poly.temperatureK, 1),
+              })
+            : t("{material} held its shape at {temperature} K; its wall is {threshold} K", {
+                material: t(poly.material),
+                temperature: formatReading(poly.temperatureK, 1),
+                threshold: formatReading(poly.thresholdK, 1),
+              })}
+      >
+        {#if poly.crossLinked}
+          <!-- A network: the strands are tied to each other, so nothing
+               slides. The cross-links ARE the explanation. -->
+          {#each Array.from({ length: strands }, (_, k) => k) as k (k)}
+            <line
+              class="polymer-strand"
+              x1={polyX}
+              x2={polyX + polyW}
+              y1={polyY + k * 2.2}
+              y2={polyY + k * 2.2}
+            />
+          {/each}
+          {#each Array.from({ length: Math.max(3, Math.round(polyW / 5)) }, (_, k) => k) as k (k)}
+            <line
+              class="polymer-link"
+              x1={polyX + 2 + k * 5}
+              x2={polyX + 2 + k * 5}
+              y1={polyY}
+              y2={polyY + (strands - 1) * 2.2}
+            />
+          {/each}
+        {:else}
+          <!-- Chains: free to slide, and they do once the wall is past.
+               Each one gets its own phase so they move relative to one
+               another — sliding together would be the network's picture
+               drawn with the chains' line work. -->
+          {#each Array.from({ length: strands }, (_, k) => k) as k (k)}
+            <path
+              class="polymer-strand chain"
+              style={`--phase:${(k * 0.37).toFixed(2)}s`}
+              d={`M ${polyX} ${polyY + k * 2.2}
+                  q ${polyW / 6} -1.4 ${polyW / 3} 0
+                  t ${polyW / 3} 0
+                  t ${polyW / 3} 0`}
+            />
+          {/each}
+        {/if}
       </g>
     {/if}
 
@@ -3437,6 +3525,43 @@
     transform-origin: center;
     animation: object-bob 2.8s ease-in-out infinite alternate;
   }
+  /* GUI-131. Three states, and each says WHY it is that state.
+
+     Rigid is drawn, not omitted: the reader is being shown that heat
+     reached this block and it did not move, which is half of
+     `chains-slide-networks-do-not` and the half a blank space cannot
+     make. */
+  .polymer-strand {
+    fill: none;
+    stroke: color-mix(in srgb, var(--ink) 62%, transparent);
+    stroke-width: 0.5;
+    stroke-linecap: round;
+  }
+  .polymer-link {
+    stroke: color-mix(in srgb, var(--ink) 72%, transparent);
+    stroke-width: 0.45;
+  }
+  /* Softened: the chains slide PAST one another, each on its own phase.
+     Sliding together would draw the network's answer with the chains'
+     line work. A network never reaches this class — the engine does not
+     emit `softened` for a cross-linked recipe — and the `:not(.network)`
+     guard says so in the stylesheet as well, because a rule that relies
+     on data being well-formed is a rule that breaks quietly. */
+  .polymer-state.softened:not(.network) .polymer-strand.chain {
+    animation: chain-slide 2.6s ease-in-out var(--phase, 0s) infinite alternate;
+  }
+  /* Charred does not undo, so it does not animate: the structure is
+     broken into fragments and left there. */
+  .polymer-state.charred .polymer-strand,
+  .polymer-state.charred .polymer-link {
+    stroke: color-mix(in srgb, #1b1410 78%, transparent);
+    stroke-dasharray: 1.4 1.1;
+    animation: none;
+  }
+  @keyframes chain-slide {
+    from { transform: translateX(calc(var(--slide) * -1)); }
+    to { transform: translateX(var(--slide)); }
+  }
   .persistent-coating {
     pointer-events: none;
     stroke-width: 2;
@@ -4391,6 +4516,7 @@
     .burst path,
     .burst circle,
     .foam-cell,
+    .polymer-strand.chain,
     .vessel.bursting {
       animation: none;
     }
