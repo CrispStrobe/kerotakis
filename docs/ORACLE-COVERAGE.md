@@ -225,8 +225,20 @@ Stated because a coverage claim without its complement is half a claim.
   abandoned: it is a genuinely awkward two-dimensional root find for a pair
   this asymmetric, and a fragile oracle is worse than a stated gap.
 - **`ethanol_water_density_g_ml` and `sucrose_water_density_g_ml`**
-  (`properties.rs`) are polynomial fits to the CRC Handbook, which
-  `upstreams.toml` marks `avoid`. No oracle here touches them.
+  (`properties.rs`). **This row was wrong about both, and is corrected
+  2026-09-22.** `sucrose_water_density_g_ml` was already fitted to `NBS114`,
+  a public-domain Bureau of Standards circular, and had been for some time.
+  `ethanol_water_density_g_ml` was the CRC fit this row describes, and is now
+  refitted to Osborne, McKelvy and Bearce (1913) — the United States
+  Government determination the handbook's own table descends from. Neither is
+  a CRC fit today.
+
+  What remains true is the last sentence: **no oracle here touches either**,
+  and nothing in the engine consumes the ethanol one at all. The refit was
+  worth doing for the provenance rather than for the number — the superseded
+  fit already agreed with the primary to 0.84 mg/mL — so this is still a
+  quantity with no independent check, just no longer one sourced from a work
+  marked `avoid`.
 
 ## 6. Oracles that would check a number nothing consumes
 
