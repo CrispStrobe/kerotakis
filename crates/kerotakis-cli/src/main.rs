@@ -3185,9 +3185,9 @@ impl Session {
                 // `Locale::parse` answers English for anything it does not
                 // ship, which is the right answer for an environment
                 // variable someone else set and the wrong one for a line
-                // an author wrote on purpose: silently parsing a French
-                // lesson as English fails later, somewhere else, with a
-                // message about a verb.
+                // an author wrote on purpose: silently parsing a lesson
+                // written in a language we do not have as English fails
+                // later, somewhere else, with a message about a verb.
                 let primary = tag
                     .split(['-', '_'])
                     .next()
