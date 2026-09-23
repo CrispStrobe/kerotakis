@@ -298,6 +298,50 @@ export interface GasProductionRun {
   molesPerSecond: number;
 }
 
+/**
+ * What heating did to a polymer object, and why (GUI-131).
+ *
+ * The whole of `chains-slide-networks-do-not` is the DIFFERENCE between
+ * two materials at the same temperature, and the bench drew the same
+ * heated block for both. So the fields the drawing needs are the ones
+ * that differ: the state reached, whether the thing is a cross-linked
+ * network or loose chains, and whether it comes back when it cools.
+ */
+export interface PolymerRun {
+  /** `rigid`, `softened` or `charred`, as the engine decided. */
+  state: "rigid" | "softened" | "charred";
+  /** The recipe's display name, matched against the scene's bulk object. */
+  material: string;
+  /** A network has no melt to reach; chains do. This IS the lesson. */
+  crossLinked: boolean;
+  /** Softening comes back when it cools. Charring does not. */
+  reversible: boolean;
+  temperatureK: number;
+  thresholdK: number;
+  /** Kelvin past the wall — negative when the wall was never reached. */
+  overK: number;
+}
+
+/** One solute's share of a solvent extraction, as the engine split it. */
+export interface ExtractionSolute {
+  species: string;
+  extracted: number;
+  remaining: number;
+  /** Fraction taken across all stages, 0-1. */
+  stagedEfficiency: number;
+}
+
+/**
+ * A solvent extraction, which moved solutes between two vessels and drew
+ * no transfer at all before GUI-131.
+ */
+export interface ExtractionRun {
+  solvent: string;
+  /** How many times the solvent was used. The reason staging is taught. */
+  stages: number;
+  solutes: ExtractionSolute[];
+}
+
 /** Engine-computed persistence of a newly formed foam head. */
 export interface FoamRun {
   /** Seconds in which the modeled foam head falls to half its height. */
@@ -677,7 +721,7 @@ export interface Effect {
   outsideMethod?: string[];
   appearance?: InspectionAppearance;
   /** Physical setup connecting source and target vessels. */
-  operation?: "pour" | "filter" | "drain" | "magnet" | "distil" | "cell";
+  operation?: "pour" | "filter" | "drain" | "magnet" | "distil" | "cell" | "extract";
   /** Computed pre-transfer source-liquid colour, captured before scene replacement. */
   fluidColour?: string;
   /** Engine-scene solids left on the paper during a filtration. */
@@ -717,6 +761,10 @@ export interface Effect {
   gasProduction?: GasProductionRun;
   /** Engine-owned foam half-life, for collapse timing. */
   foam?: FoamRun;
+  /** What heat did to a polymer object, and whether it can come back. */
+  polymer?: PolymerRun;
+  /** The staged split a solvent extraction computed. */
+  extraction?: ExtractionRun;
   /** Engine-owned UV transmission, for the beam. */
   uv?: UvRun;
   /** Engine-owned Henry's-law split, for the headspace tint and arrows. */
@@ -1865,6 +1913,75 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
           seconds: 0,
           molesPerSecond: 0,
           activationEnergyJPerMol: 0,
+        },
+      };
+    }
+    /**
+     * GUI-131. `chains-slide-networks-do-not` is ABOUT the difference
+     * between a thermoplastic that softens and a thermoset that does not,
+     * and the bench drew the same heated block for both — recorded as a
+     * gap by GUI-129's guard rather than left to be rediscovered.
+     *
+     * The magnitude is how far past the wall the vessel stands, not how
+     * hot it is: a block ten degrees over its softening point and one two
+     * hundred degrees over are different observations, and a block that
+     * never reached its wall is the zero this whole experiment turns on.
+     */
+    case "polymer_heated": {
+      const temperatureK = Number(e.temperature ?? 0);
+      const thresholdK = Number(e.threshold ?? 0);
+      const overK = temperatureK - thresholdK;
+      const state = String(e.state ?? "rigid");
+      return {
+        kind: "polymer",
+        at: now,
+        durationMs: 4200,
+        // Rigid is deliberately not zero: "nothing happened" still has to
+        // be drawn, because the reader is being shown that it did not.
+        magnitude: state === "rigid" ? 0.2 : scale(Math.max(0, overK), 0, 120),
+        reading: temperatureK,
+        unit: "K",
+        polymer: {
+          state: state === "softened" || state === "charred" ? state : "rigid",
+          material: String(e.material ?? ""),
+          crossLinked: e.cross_linked === true,
+          reversible: e.reversible === true,
+          temperatureK,
+          thresholdK,
+          overK,
+        },
+      };
+    }
+    /**
+     * GUI-131. A solvent extraction moved solutes between two vessels and
+     * drew no transfer — the second gap GUI-129 recorded.
+     *
+     * The magnitude is the BEST solute's staged efficiency, because that
+     * is what the rig is for: an extraction that took 95% of the thing
+     * you wanted and an extraction that took 5% are the same three
+     * shake-outs and completely different results.
+     */
+    case "extracted": {
+      const rows = Array.isArray(e.solutes) ? (e.solutes as Record<string, unknown>[]) : [];
+      const solutes = rows.map((row) => ({
+        species: String(row.species ?? ""),
+        extracted: Number(row.extracted ?? 0),
+        remaining: Number(row.remaining ?? 0),
+        stagedEfficiency: Number(row.staged_efficiency ?? 0),
+      }));
+      const best = solutes.reduce((most, row) => Math.max(most, row.stagedEfficiency), 0);
+      return {
+        kind: "extract",
+        at: now,
+        durationMs: 4200,
+        magnitude: Math.max(0, Math.min(1, best)),
+        source: Number(e.from ?? 0),
+        target: Number(e.to ?? 0),
+        operation: "extract",
+        extraction: {
+          solvent: String(e.solvent ?? ""),
+          stages: Math.max(1, Number(e.stages ?? 1)),
+          solutes,
         },
       };
     }

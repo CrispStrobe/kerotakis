@@ -2761,6 +2761,10 @@
   "{what} precipitated": "{what} ausgefallen",
   "{what} reacted": "{what} reagierte",
   "the log says which dataset and activity model answered each vessel": "das Protokoll nennt Datensatz und Aktivitätsmodell für jedes Gefäß",
-  "the log leaves the dataset and the activity model to the provenance drawer": "das Protokoll überlässt Datensatz und Aktivitätsmodell der Herkunftsansicht"
+  "the log leaves the dataset and the activity model to the provenance drawer": "das Protokoll überlässt Datensatz und Aktivitätsmodell der Herkunftsansicht",
+  "{count}×": "{count}×",
+  "{material} softened at {temperature} K, {over} K past its softening point; cooling sets it in the new shape": "{material} wurde bei {temperature} K weich, {over} K über dem Erweichungspunkt; beim Abkühlen erstarrt es in der neuen Form",
+  "{material} charred at {temperature} K — past decomposition, and this does not undo": "{material} verkohlte bei {temperature} K — jenseits der Zersetzung, und das ist nicht rückgängig zu machen",
+  "{material} held its shape at {temperature} K; its wall is {threshold} K": "{material} behielt bei {temperature} K seine Form; seine Schwelle liegt bei {threshold} K"
  }
 }
