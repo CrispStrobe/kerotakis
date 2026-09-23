@@ -36,6 +36,7 @@ import {
   effectFromEvent,
   vesselOf,
   type Effect,
+  effectWindowMs,
 } from "./magnitudes";
 import { i18n, t } from "./i18n.svelte";
 import { registerText } from "./registerText";
@@ -203,14 +204,6 @@ export interface StorageLike {
    * falls back to sequential writes. */
   setItems?(changes: Readonly<Record<string, string>>): void;
 }
-
-/**
- * Long enough to have SEEN that something happened, in ms.
- *
- * Not long enough to have watched it finish, which is a different number
- * and a much larger one — see `Session.settleMs`.
- */
-export const VISIBLE_EFFECT_MS = 1400;
 
 const SAVE_KEY = "kero.session.v1";
 /** Learner progress: ids of codex entries whose run checked out. Kept
@@ -486,26 +479,42 @@ export class Session {
    *
    * The bench answers rather than the runner guessing, because the bench
    * is what knows whether the line just submitted put anything on the
-   * stage. It reports the remainder of `VISIBLE_EFFECT_MS` since the
-   * NEWEST effect, so:
+   * stage. It reports the remainder of each live effect's OWN window and
+   * takes the longest, so:
    *
-   *   - a line that started one asks for the rest of that window;
-   *   - a line that only moved a number asks for nothing, because the
-   *     newest effect is already older than the window, and the run stays
-   *     brisk;
+   *   - a line that started something asks for the rest of the time that
+   *     something is drawn for;
+   *   - a line that only moved a number asks for nothing, because every
+   *     effect is already past its window, and the run stays brisk;
    *   - no effects at all asks for nothing.
    *
-   * It is a floor on being SEEN, not a promise to play an effect out: the
-   * runner caps what it will wait, because a twelve-line script that
-   * honoured a nine-second bubble ride in full would take two minutes.
+   * GUI-132: this used one flat 1400 ms for every kind, which was not a
+   * judgement but the absence of one — the windows were numeric literals
+   * scattered across `Vessel.svelte` and there was nowhere to look a
+   * kind's up. With `EFFECT_WINDOW_MS` there is, so a burst asks for its
+   * 1800 ms and a dissolve for its 1400.
+   *
+   * It does NOT cap itself. The honest answer to "how long is this drawn
+   * for" is nine seconds for a bubble ride; how much of that a RUN can
+   * afford is the runner's business, and the runner caps it — the same
+   * division of labour, kept rather than blurred.
    */
   settleMs(): number {
-    let newest = 0;
+    const now = Date.now();
+    let wanted = 0;
     for (const list of Object.values(this.vesselEffects)) {
-      for (const effect of list) if (effect.at > newest) newest = effect.at;
+      for (const effect of list) {
+        // GUI-132: what this effect is actually drawn for, not one flat
+        // number for every kind. A burst is 1800 ms and a bubble ride is
+        // 9000; pacing both at 1400 was the best that could be done while
+        // the windows were literals scattered across `Vessel.svelte` with
+        // nowhere to look one up. The engine's own duration still wins
+        // wherever it supplies one, exactly as the drawing uses it.
+        const window = effect.durationMs ?? effectWindowMs(effect.kind);
+        wanted = Math.max(wanted, window - (now - effect.at));
+      }
     }
-    if (newest === 0) return 0;
-    return Math.max(0, VISIBLE_EFFECT_MS - (Date.now() - newest));
+    return Math.max(0, wanted);
   }
 
   /** Removing an effect is itself reactive. CSS animations therefore stop

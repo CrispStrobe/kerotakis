@@ -693,6 +693,129 @@ export interface HydrationRun {
 export const INSTRUMENT_READING_MS = 6000;
 
 /** A visual effect with magnitude, produced by {@link effectFromEvent}. */
+/**
+ * How long each kind of effect is drawn when the ENGINE did not say.
+ *
+ * Every one of these was a numeric literal at its call site in
+ * `Vessel.svelte` — 58 of them across 55 kinds — and the second argument
+ * to `latestEffect`/`active`/`mag` is a FALLBACK: `effectAlive` uses
+ * `effect.durationMs ?? withinMs`, so the engine's own duration wins
+ * wherever it supplies one. Scattered, the fallbacks had no way to be
+ * compared, and two kinds quietly disagreed with themselves.
+ *
+ * Gathering them buys two things beyond tidiness. A disagreement becomes
+ * visible instead of invisible. And `Session.settleMs` can pace the
+ * catalogue runner by what a step ACTUALLY drew — a burst at 1800 ms and
+ * a bubble ride at 9000 are different waits — where before it used one
+ * flat number for every effect because it had nowhere to look one up.
+ *
+ * These are milliseconds of DRAWING, not of chemistry. The engine's
+ * `durationMs` is the modelled lifetime and is always preferred; this is
+ * how long a picture stays up when nothing modelled says otherwise.
+ */
+export const EFFECT_WINDOW_MS: Readonly<Record<string, number>> = {
+  absorb: 2600,
+  // The nine instrument READOUTS share one window on purpose and have
+  // since before this table: a reading is a reading, and showing the
+  // thermometer's for longer than the balance's would be a claim about
+  // instruments that nobody makes. Referenced rather than copied, so the
+  // group stays a group.
+  balance: INSTRUMENT_READING_MS,
+  calorimeter: INSTRUMENT_READING_MS,
+  conductivity_meter: INSTRUMENT_READING_MS,
+  geiger_counter: INSTRUMENT_READING_MS,
+  ph_probe: INSTRUMENT_READING_MS,
+  pressure_gauge: INSTRUMENT_READING_MS,
+  thermometer: INSTRUMENT_READING_MS,
+  uvvis: INSTRUMENT_READING_MS,
+  volume_meter: INSTRUMENT_READING_MS,
+  ferment: 9000,
+  flame_test: 3000,
+  gas_test: 4500,
+  adsorb: 5200,
+  "below-autoignition": 4600,
+  boil: 3200,
+  "bubble-ride": 9000,
+  burst: 1800,
+  chromatograph: 5200,
+  consume: 4200,
+  cool: 2200,
+  corrode: 5000,
+  curdle: 2600,
+  decay: 6000,
+  dehydrate: 4200,
+  "did-not-ignite": 4200,
+  dissolve: 1400,
+  drip: 2400,
+  electrolyse: 8000,
+  emulsify: 9000,
+  evaporate: 2500,
+  exotherm: 4200,
+  "flame-starve": 4600,
+  foam: 3000,
+  freeze: 2200,
+  "gel-set": 3600,
+  grind: 4600,
+  "headspace-equilibrium": 4200,
+  "headspace-partition": 4200,
+  heat: 2200,
+  ignite: 3000,
+  inspect: 4500,
+  irradiate: 4200,
+  "magic-milk": 3000,
+  melt: 3200,
+  neutralise: 3000,
+  osmosis: 6000,
+  plate: 4200,
+  polymer: 4200,
+  pour: 2200,
+  precipitate: 1800,
+  react: 5200,
+  regulate: 4500,
+  rehydrate: 4200,
+  seal: 4000,
+  settle: 8000,
+  "solute-partition": 5000,
+  spike: 5000,
+  sublimate: 3200,
+  supersaturate: 5200,
+  "surface-spread": 2600,
+  sweep: 3800,
+  swirl: 2200,
+  "thermal-equilibrium": 5000,
+  thicken: 3600,
+  uv: 4600,
+  vent: 4000,
+  waft: 4200,
+};
+
+/**
+ * The two windows that are deliberately NOT their kind's, named so they
+ * cannot be mistaken for the drift they looked like.
+ *
+ * `swirl` was written three ways — 8000, 2200 and 2000 — and `vent` two.
+ * Reading the call sites, only two of those five are a second thing:
+ *
+ *   - a stir READOUT outlives the stirring. The motion is over in a
+ *     couple of seconds; the engine's shear numbers beside the glass are
+ *     what the reader is still looking at.
+ *   - the wisps ABOVE the rim are shorter than the fizz inside the
+ *     liquid. Gas that has left the vessel is gone sooner than gas still
+ *     coming out of solution.
+ *
+ * The third — `swirl` at 2000 for the vortex against 2200 for the motion
+ * — was drift, 200 ms apart with no reason at either site, and is now
+ * simply the kind's window.
+ */
+export const STIR_READOUT_MS = 8000;
+export const VENT_WISP_MS = 2600;
+
+/** The drawing window for one kind, or a middling default for a kind
+ *  nobody has given one. */
+export function effectWindowMs(kind: string): number {
+  return EFFECT_WINDOW_MS[kind] ?? 4000;
+}
+
 export interface Effect {
   kind: string;
   at: number;

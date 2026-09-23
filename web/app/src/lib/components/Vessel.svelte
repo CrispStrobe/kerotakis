@@ -33,7 +33,10 @@
     soluteSplit,
     substrateClearing,
     sweepPeriodS,
-    foamSpillScale } from "../magnitudes";
+    foamSpillScale,
+    effectWindowMs,
+    STIR_READOUT_MS,
+    VENT_WISP_MS } from "../magnitudes";
   import { gasTestLabel } from "../gasTests";
   import { i18n, t } from "../i18n.svelte";
   import DeployedApparatus from "./DeployedApparatus.svelte";
@@ -135,18 +138,18 @@
   const conductivityEffect = $derived(latestEffect("conductivity_meter", INSTRUMENT_READING_MS));
   const uvvisEffect = $derived(latestEffect("uvvis", INSTRUMENT_READING_MS));
   const calorimeterEffect = $derived(latestEffect("calorimeter", INSTRUMENT_READING_MS));
-  const chromatographEffect = $derived(latestEffect("chromatograph", 5200));
-  const inspectionEffect = $derived(latestEffect("inspect", 4500));
+  const chromatographEffect = $derived(latestEffect("chromatograph", effectWindowMs("chromatograph")));
+  const inspectionEffect = $derived(latestEffect("inspect", effectWindowMs("inspect")));
   const geigerEffect = $derived(latestEffect("geiger_counter", INSTRUMENT_READING_MS));
-  const flameTestEffect = $derived(latestEffect("flame_test", 3000));
+  const flameTestEffect = $derived(latestEffect("flame_test", effectWindowMs("flame_test")));
   const ignitionEffect = $derived(liveIgnitionEffect(effects, effectClock));
-  const settlingEffect = $derived(latestEffect("settle", 8000));
+  const settlingEffect = $derived(latestEffect("settle", effectWindowMs("settle")));
   const stirEffect = $derived.by(() => {
-    const effect = latestEffect("swirl", 8000);
+    const effect = latestEffect("swirl", STIR_READOUT_MS);
     return effect?.stir ? effect : undefined;
   });
-  const gasTestEffect = $derived(latestEffect("gas_test", 4500));
-  const ventEffect = $derived(latestEffect("vent", 4000));
+  const gasTestEffect = $derived(latestEffect("gas_test", effectWindowMs("gas_test")));
+  const ventEffect = $derived(latestEffect("vent", effectWindowMs("vent")));
   // GUI-116: every `withinMs` here is a FALLBACK — `effectAlive` uses
   // `effect.durationMs ?? withinMs`, and `magnitudes.ts` puts a bounded,
   // model-derived duration on the effects whose engine event carries one
@@ -154,14 +157,14 @@
   // settling's, a stir's, an electrolysis's, an emulsion's, a ferment's).
   // The constants below govern the kinds that honestly have nothing to
   // ride on, and those are the majority.
-  const foamEffect = $derived(latestEffect("foam", 3000));
+  const foamEffect = $derived(latestEffect("foam", effectWindowMs("foam")));
   /** GUI-131: what heat did to a polymer object, and whether it comes back. */
-  const polymerEffect = $derived(latestEffect("polymer", 4200));
-  const waftEffect = $derived(latestEffect("waft", 4200));
-  const pressureControlEffect = $derived(latestEffect("regulate", 4500));
-  const sweepEffect = $derived(latestEffect("sweep", 3800));
-  const irradiationEffect = $derived(latestEffect("irradiate", 4200));
-  const electrolysisEffect = $derived(latestEffect("electrolyse", 8000));
+  const polymerEffect = $derived(latestEffect("polymer", effectWindowMs("polymer")));
+  const waftEffect = $derived(latestEffect("waft", effectWindowMs("waft")));
+  const pressureControlEffect = $derived(latestEffect("regulate", effectWindowMs("regulate")));
+  const sweepEffect = $derived(latestEffect("sweep", effectWindowMs("sweep")));
+  const irradiationEffect = $derived(latestEffect("irradiate", effectWindowMs("irradiate")));
+  const electrolysisEffect = $derived(latestEffect("electrolyse", effectWindowMs("electrolyse")));
   const thermalEffect = $derived.by(() => {
     const effect = latestEffect(deployedTool === "cool" ? "cool" : "heat", 2600);
     return effect?.thermal ? effect : undefined;
@@ -436,7 +439,7 @@
   // normal boiling point. Between events scene v1 carries no standing
   // boiling point, so the stage falls back to pure water at one atmosphere
   // rather than inventing a correlation of its own.
-  const boilEffect = $derived(latestEffect("boil", 3200));
+  const boilEffect = $derived(latestEffect("boil", effectWindowMs("boil")));
   // GUI-099 scene numbers: the scene now carries `boiling_point_k` as a
   // STANDING value — the vessel's own pressure and its own dissolved
   // particles already in it — so a flask sitting at 350 K under a partial
@@ -468,7 +471,7 @@
     // a constant wearing the shape of a plume.
     // GUI-099 ANIM-9: the water a hydrate gives up is vapour like any
     // other, and it leaves at the temperature the engine drove it off at.
-    return Math.max(mag("evaporate", 2500), mag("sublimate", 3200), mag("dehydrate", 4200), last);
+    return Math.max(mag("evaporate", effectWindowMs("evaporate")), mag("sublimate", effectWindowMs("sublimate")), mag("dehydrate", effectWindowMs("dehydrate")), last);
   });
   const vapourMoles = $derived.by(() => {
     const clock = effectClock;
@@ -481,13 +484,13 @@
     return carriers.length > 0 ? (carriers[carriers.length - 1]!.reading ?? 0) : 0;
   });
   const boiling = $derived(
-    vessel.liquid !== null && (vessel.temperature_k >= boilingK - 0.25 || active("boil", 3200)),
+    vessel.liquid !== null && (vessel.temperature_k >= boilingK - 0.25 || active("boil", effectWindowMs("boil"))),
   );
   // A sublimation is vapour leaving without a boil: dry ice fogs with no
   // liquid in the vessel at all, so the rolling-boil gate above (which needs
   // a liquid) can never fire for it and it used to draw nothing.
   const steaming = $derived(
-    boiling || active("evaporate", 2500) || active("sublimate", 3200) || active("dehydrate", 4200),
+    boiling || active("evaporate", effectWindowMs("evaporate")) || active("sublimate", effectWindowMs("sublimate")) || active("dehydrate", effectWindowMs("dehydrate")),
   );
   // Above ~800 K a body glows in the visible, and its colour is a function of
   // temperature alone: the blackbody locus, deep red through amber to white.
@@ -498,8 +501,8 @@
   // GUI-099 ANIM-2: how many grains, and how big. The count is the amount,
   // the size is the room a mole of THIS substance takes up — so a fluffy
   // hydroxide and a dense sulfate stop drawing the same 1.2 px circle.
-  const precipitateEffect = $derived(latestEffect("precipitate", 1800));
-  const dissolveEffect = $derived(latestEffect("dissolve", 1400));
+  const precipitateEffect = $derived(latestEffect("precipitate", effectWindowMs("precipitate")));
+  const dissolveEffect = $derived(latestEffect("dissolve", effectWindowMs("dissolve")));
   const precipitateGrains = $derived(
     depositParticles(
       precipitateEffect?.solid?.moles ?? precipitateEffect?.reading ?? 0,
@@ -518,7 +521,7 @@
   // free volume and the scene's pressure once that event's window closes.
   // The piston used to be drawn at y=16 whatever the pressure, so squeezing
   // a gas moved nothing on screen.
-  const sealEffect = $derived(latestEffect("seal", 4000));
+  const sealEffect = $derived(latestEffect("seal", effectWindowMs("seal")));
   const capacityL = $derived(geom.capacity_ml / 1000);
   const freeVolumeL = $derived(Math.max(0, capacityL - (vessel.liquid?.volume_l ?? 0)));
   const headspace = $derived.by(() => {
@@ -561,46 +564,46 @@
   );
   // GUI-099 ANIM-3: three things the engine has always computed and the
   // bench has never drawn.
-  const emulsifyEffect = $derived(latestEffect("emulsify", 9000));
-  const fermentEffect = $derived(latestEffect("ferment", 12_000));
-  const uvEffect = $derived(latestEffect("uv", 4600));
+  const emulsifyEffect = $derived(latestEffect("emulsify", effectWindowMs("emulsify")));
+  const fermentEffect = $derived(latestEffect("ferment", effectWindowMs("ferment")));
+  const uvEffect = $derived(latestEffect("uv", effectWindowMs("uv")));
   // GUI-099 ANIM-5: four more events that moved a real quantity and drew
   // nothing at all, plus the corrosion extent PR 4 put on the wire and
   // left unread.
-  const absorbEffect = $derived(latestEffect("absorb", 2600));
-  const partitionEffect = $derived(latestEffect("headspace-partition", 4200));
-  const headspaceSettledEffect = $derived(latestEffect("headspace-equilibrium", 4200));
-  const supersaturateEffect = $derived(latestEffect("supersaturate", 5200));
-  const corrodeEffect = $derived(latestEffect("corrode", 5000));
+  const absorbEffect = $derived(latestEffect("absorb", effectWindowMs("absorb")));
+  const partitionEffect = $derived(latestEffect("headspace-partition", effectWindowMs("headspace-partition")));
+  const headspaceSettledEffect = $derived(latestEffect("headspace-equilibrium", effectWindowMs("headspace-equilibrium")));
+  const supersaturateEffect = $derived(latestEffect("supersaturate", effectWindowMs("supersaturate")));
+  const corrodeEffect = $derived(latestEffect("corrode", effectWindowMs("corrode")));
   // GUI-099 ANIM-6: six more. `reacted` is the commonest event on the
   // bench and drew nothing in the vessel at all; `neutralised` is the
   // commonest reaction a school lab runs and had nothing against it.
-  const reactEffect = $derived(latestEffect("react", 5200));
-  const exothermEffect = $derived(latestEffect("exotherm", 4200));
-  const neutraliseEffect = $derived(latestEffect("neutralise", 3000));
-  const bubbleRideEffect = $derived(latestEffect("bubble-ride", 9000));
-  const adsorbEffect = $derived(latestEffect("adsorb", 5200));
-  const thickenEffect = $derived(latestEffect("thicken", 3600));
+  const reactEffect = $derived(latestEffect("react", effectWindowMs("react")));
+  const exothermEffect = $derived(latestEffect("exotherm", effectWindowMs("exotherm")));
+  const neutraliseEffect = $derived(latestEffect("neutralise", effectWindowMs("neutralise")));
+  const bubbleRideEffect = $derived(latestEffect("bubble-ride", effectWindowMs("bubble-ride")));
+  const adsorbEffect = $derived(latestEffect("adsorb", effectWindowMs("adsorb")));
+  const thickenEffect = $derived(latestEffect("thicken", effectWindowMs("thicken")));
   // GUI-099 ANIM-7: the last six rows the audit still listed as missing.
-  const flameStarvedEffect = $derived(latestEffect("flame-starve", 4600));
-  const autoignitionEffect = $derived(latestEffect("below-autoignition", 4600));
+  const flameStarvedEffect = $derived(latestEffect("flame-starve", effectWindowMs("flame-starve")));
+  const autoignitionEffect = $derived(latestEffect("below-autoignition", effectWindowMs("below-autoignition")));
   // The audit's one row that could not be closed from the client: the
   // engine now names WHICH absence, so there is something to draw.
-  const didNotIgniteEffect = $derived(latestEffect("did-not-ignite", 4200));
-  const spikeEffect = $derived(latestEffect("spike", 5000));
-  const solutePartitionEffect = $derived(latestEffect("solute-partition", 5000));
-  const osmosisEffect = $derived(latestEffect("osmosis", 6000));
-  const thermalEquilibriumEffect = $derived(latestEffect("thermal-equilibrium", 5000));
+  const didNotIgniteEffect = $derived(latestEffect("did-not-ignite", effectWindowMs("did-not-ignite")));
+  const spikeEffect = $derived(latestEffect("spike", effectWindowMs("spike")));
+  const solutePartitionEffect = $derived(latestEffect("solute-partition", effectWindowMs("solute-partition")));
+  const osmosisEffect = $derived(latestEffect("osmosis", effectWindowMs("osmosis")));
+  const thermalEquilibriumEffect = $derived(latestEffect("thermal-equilibrium", effectWindowMs("thermal-equilibrium")));
   // GUI-099 ANIM-8: the rows that had a visual driven by a CONSTANT.
-  const plateEffect = $derived(latestEffect("plate", 4200));
-  const consumeEffect = $derived(latestEffect("consume", 4200));
-  const grindEffect = $derived(latestEffect("grind", 4600));
-  const decayEffect = $derived(latestEffect("decay", 6000));
+  const plateEffect = $derived(latestEffect("plate", effectWindowMs("plate")));
+  const consumeEffect = $derived(latestEffect("consume", effectWindowMs("consume")));
+  const grindEffect = $derived(latestEffect("grind", effectWindowMs("grind")));
+  const decayEffect = $derived(latestEffect("decay", effectWindowMs("decay")));
   // GUI-099 ANIM-9: the last three rows that drew from a constant.
-  const gelSetEffect = $derived(latestEffect("gel-set", 3600));
-  const mixEffect = $derived(latestEffect("swirl", 2200));
-  const dehydrateEffect = $derived(latestEffect("dehydrate", 4200));
-  const rehydrateEffect = $derived(latestEffect("rehydrate", 4200));
+  const gelSetEffect = $derived(latestEffect("gel-set", effectWindowMs("gel-set")));
+  const mixEffect = $derived(latestEffect("swirl", effectWindowMs("swirl")));
+  const dehydrateEffect = $derived(latestEffect("dehydrate", effectWindowMs("dehydrate")));
+  const rehydrateEffect = $derived(latestEffect("rehydrate", effectWindowMs("rehydrate")));
   // The scene's standing conversion, which had a caption and no picture:
   // milk clouded with undigested substrate clears as the enzyme works.
   const substrateTurbidity = $derived(
@@ -628,19 +631,19 @@
   );
   const hot = $derived(Math.min(1, Math.max(0, (vessel.temperature_k - 310) / 300)));
   const cold = $derived(Math.min(1, Math.max(0, (273.15 - vessel.temperature_k) / 60)));
-  const motionMag = $derived(Math.max(mag("swirl", 2200), mag("burst", 1800), mag("heat", 2200), mag("cool", 2200)));
+  const motionMag = $derived(Math.max(mag("swirl", effectWindowMs("swirl")), mag("burst", effectWindowMs("burst")), mag("heat", effectWindowMs("heat")), mag("cool", effectWindowMs("cool"))));
   // A melt is the engine saying the ice went: the frost recedes with it.
   const frostIntensity = $derived(
-    Math.max(cold, mag("cool", 2200), mag("freeze", 2200)) * (1 - mag("melt", 3200)),
+    Math.max(cold, mag("cool", effectWindowMs("cool")), mag("freeze", effectWindowMs("freeze"))) * (1 - mag("melt", effectWindowMs("melt"))),
   );
   const apparatusOperating = $derived(
     apparatusWorking ||
-      (deployedTool === "stir" && active("swirl", 2200)) ||
-      (deployedTool === "heat" && active("heat", 2200)) ||
-      (deployedTool === "cool" && active("cool", 2200)) ||
-      (deployedTool === "sweep" && active("sweep", 3800)) ||
-      (deployedTool === "irradiate" && active("irradiate", 4200)) ||
-      (deployedTool === "electrolyse" && active("electrolyse", 8000)),
+      (deployedTool === "stir" && active("swirl", effectWindowMs("swirl"))) ||
+      (deployedTool === "heat" && active("heat", effectWindowMs("heat"))) ||
+      (deployedTool === "cool" && active("cool", effectWindowMs("cool"))) ||
+      (deployedTool === "sweep" && active("sweep", effectWindowMs("sweep"))) ||
+      (deployedTool === "irradiate" && active("irradiate", effectWindowMs("irradiate"))) ||
+      (deployedTool === "electrolyse" && active("electrolyse", effectWindowMs("electrolyse"))),
   );
   const activeTool = $derived(deployedTool ?? linkedTool);
   const apparatusTitle = $derived(
@@ -671,17 +674,17 @@
   class:drop-ready={dropReady}
   class:transfer-target={transferTarget}
   class:workstation-target={linkedTool !== null}
-  class:whirling={active("swirl", 2200)}
+  class:whirling={active("swirl", effectWindowMs("swirl"))}
   class:apparatus-working={apparatusOperating}
-  class:bursting={active("burst", 1800)}
+  class:bursting={active("burst", effectWindowMs("burst"))}
   data-vessel-id={vessel.id}
   data-temperature-k={vessel.temperature_k.toFixed(2)}
   data-boiling-k={boilingK.toFixed(2)}
-  style={`--swirl-duration:${2.2 - motionMag * 1.25}s;--stir-duration:${1.15 - motionMag * 0.65}s;--heat-duration:${1.8 - Math.max(hot, mag("heat", 2200)) * 0.8}s;--heat-opacity:${0.25 + Math.max(hot, mag("heat", 2200)) * 0.65};--pour-angle:${9 + mag("pour", 2200) * 23}deg`}
+  style={`--swirl-duration:${2.2 - motionMag * 1.25}s;--stir-duration:${1.15 - motionMag * 0.65}s;--heat-duration:${1.8 - Math.max(hot, mag("heat", effectWindowMs("heat"))) * 0.8}s;--heat-opacity:${0.25 + Math.max(hot, mag("heat", effectWindowMs("heat"))) * 0.65};--pour-angle:${9 + mag("pour", effectWindowMs("pour")) * 23}deg`}
 >
   <button
     class="glassbtn"
-    class:pouring={active("pour", 2200)}
+    class:pouring={active("pour", effectWindowMs("pour"))}
     aria-label={`${t(vessel.label)} v${vessel.id + 1}: ${t(vessel.words)}${transferTarget ? ` · ${t("transfer target")}` : ""}${apparatusRelationship ? ` · ${apparatusRelationship}` : ""}`}
     aria-pressed={selected}
     onclick={() => onselect?.(vessel.id)}
@@ -969,7 +972,7 @@
 
     {#if vessel.curds && vessel.liquid && liquidH > 0}
       {@const curdCount = Math.max(4, Math.round(4 + vessel.curds.separation_progress * 16))}
-      <g class="milk-curds" class:forming={active("curdle", 2600)}>
+      <g class="milk-curds" class:forming={active("curdle", effectWindowMs("curdle"))}>
         <title>{t("soft curds with {mass} g modeled aggregate solids separated from {material}", {
           mass: vessel.curds.solids_mass_g.toFixed(2),
           material: t(vessel.curds.material),
@@ -994,7 +997,7 @@
       {@const churn = Math.min(4, Math.max(0.55, (foamHalfLife ?? 6) / 3))}
       <g
         class="foam-state"
-        class:rising={active("foam", 3000)}
+        class:rising={active("foam", effectWindowMs("foam"))}
         class:collapsing={foamHalfLife !== undefined}
         data-foam-half-life-s={foamHalfLife?.toFixed(2)}
         style={`transform-origin:50px ${BOTTOM_Y - liquidH}px;--foam-colour:${rgb(foamColour)};--foam-half-life:${foamHalfLife ?? 0}s`}
@@ -1147,7 +1150,7 @@
       {@const particleCount = Math.max(5, Math.round(5 + vessel.surface_particles.coverage_fraction * 20))}
       <g
         class="surface-particles"
-        class:spreading={active("surface-spread", 2600)}
+        class:spreading={active("surface-spread", effectWindowMs("surface-spread"))}
         style={`transform-origin:50px ${BOTTOM_Y - liquidH}px`}
       >
         <title>{t("modeled floating {material}; central clearing {percent}%", {
@@ -1168,7 +1171,7 @@
     {#if vessel.surface_colours && vessel.surface_colours.length > 0 && vessel.liquid && liquidH > 0}
       <g
         class="surface-colours"
-        class:spreading={active("magic-milk", 3000)}
+        class:spreading={active("magic-milk", effectWindowMs("magic-milk"))}
         style={`transform-origin:50px ${BOTTOM_Y - liquidH}px`}
       >
         <title>{t("modeled food-colour drops and streaks on the milk surface")}</title>
@@ -1506,7 +1509,7 @@
     {#if hot > 0.02}
       <ellipse class="glow" cx="50" cy="132" rx="34" ry="5" style={`opacity:${0.15 + hot * 0.5}`} />
     {/if}
-    {#if hot > 0.02 || active("heat", 2200)}
+    {#if hot > 0.02 || active("heat", effectWindowMs("heat"))}
       <g class="heater" aria-hidden="true">
         <rect x="25" y="130" width="50" height="7" rx="2" />
         {#each [35, 50, 65] as x, i (x)}
@@ -1515,7 +1518,7 @@
       </g>
     {/if}
     {#if burning && ignitionFallbackVisible}
-      {@const flameMagnitude = mag("ignite", 3000)}
+      {@const flameMagnitude = mag("ignite", effectWindowMs("ignite"))}
       {@const flameScale = 0.42 + flameMagnitude * 0.88}
       {@const flameDuration = 0.48 - flameMagnitude * 0.25}
       <g
@@ -1669,7 +1672,7 @@
         {/each}
       </g>
     {/if}
-    {#if frosty || active("cool", 2200) || active("freeze", 2200)}
+    {#if frosty || active("cool", effectWindowMs("cool")) || active("freeze", effectWindowMs("freeze"))}
       {@const frostPoints = [[18, 40], [80, 60], [22, 90], [78, 105], [30, 55], [68, 78], [40, 100], [60, 42], [50, 68], [28, 112], [72, 116]]}
       {@const frostCount = Math.round(3 + frostIntensity * 8)}
       <g class="frost" aria-hidden="true" style={`opacity:${0.35 + frostIntensity * 0.65}`}>
@@ -2267,14 +2270,14 @@
         {/each}
       </g>
     {/if}
-    {#if active("electrolyse", 8000) && liquidH > 0}
+    {#if active("electrolyse", effectWindowMs("electrolyse")) && liquidH > 0}
       <!-- GUI-099: each electrode is sized by what actually comes off IT.
            The engine now names both half-reactions, so splitting water draws
            twice as many bubbles at the cathode as at the anode — the one
            observation the experiment is run to make. Where a log carries
            only one product, both fall back to the CHARGE the electrodes
            shared: equal by definition, so never an invented ratio. -->
-      {@const eMag = mag("electrolyse", 8000)}
+      {@const eMag = mag("electrolyse", effectWindowMs("electrolyse"))}
       {@const eRun = electrolysisEffect?.electrolysis}
       {@const eCoulombs = eRun?.coulombs ?? 0}
       {@const ePair = electrodePairBubbles(eCoulombs, eRun?.anodeMoles, eRun?.cathodeMoles)}
@@ -2369,7 +2372,7 @@
         <title>{engineText(uv.mechanism)}</title>
       </g>
     {/if}
-    {#if active("vent", 2600) && !sealed}
+    {#if active("vent", VENT_WISP_MS) && !sealed}
       <!-- Gas leaving the open mouth: wisps above the rim, not in the liquid. -->
       {#each [42, 50, 58] as x, i (x)}
         <path
@@ -2379,7 +2382,7 @@
         />
       {/each}
     {/if}
-    {#if active("drip", 2400)}
+    {#if active("drip", effectWindowMs("drip"))}
       <!-- The burette's drop: falls from above the mouth to the surface. -->
       <circle
         class="drip"
@@ -2389,8 +2392,8 @@
         style={`--fall-to:${BOTTOM_Y - Math.max(liquidH, 6) - 2}px`}
       />
     {/if}
-    {#if active("swirl", 2000) && liquidH > 0}
-      {@const sMag = mag("swirl", 2000)}
+    {#if active("swirl", effectWindowMs("swirl")) && liquidH > 0}
+      {@const sMag = mag("swirl", effectWindowMs("swirl"))}
       {@const sScale = 0.4 + sMag * 0.6}
       {#if deployedTool !== "stir"}
         <g class="stir-plate" aria-hidden="true">
@@ -2437,7 +2440,7 @@
         </g>
       {/if}
     {/if}
-    {#if active("burst", 1800)}
+    {#if active("burst", effectWindowMs("burst"))}
       <!-- GUI-128. The seal failing used to look the same however hard it
            failed: eight identical shards at eight fixed angles and one
            ring. Only the distance and the radius moved with the
@@ -2451,7 +2454,7 @@
            rings, staggered, because a pressure wave is not one edge; and
            a flash, which is the part a reader actually catches out of the
            corner of an eye. -->
-      {@const burstMag = mag("burst", 1800)}
+      {@const burstMag = mag("burst", effectWindowMs("burst"))}
       {@const shards = Math.round(6 + burstMag * 14)}
       <g class="burst" aria-hidden="true" style={`--burst-distance:${18 + burstMag * 30}px`}>
         <circle class="flash" cx="50" cy="65" r={10 + burstMag * 10} />
@@ -2715,7 +2718,7 @@
       </g>
     {/if}
 
-    {#if (vessel.bubbling || active("vent", 4000)) && liquidH > 0}
+    {#if (vessel.bubbling || active("vent", effectWindowMs("vent"))) && liquidH > 0}
       <!-- GUI-059: the fizz is sized by the gas the step actually made. Two
            staggered columns of bubbles so a real effervescence reads as a
            curtain rising through the liquid, not a row of beads; the count,
@@ -2739,7 +2742,7 @@
            Either is enough: a vessel that is still fizzing keeps drawing
            after the event has aged out, and a puff that has already left
            is still shown happening. -->
-      {@const bMag = mag("vent", 4000)}
+      {@const bMag = mag("vent", effectWindowMs("vent"))}
       {@const bCount = Math.max(3, Math.round(3 + bMag * 11))}
       {@const bRadius = 1.2 + bMag * 1.6}
       {@const productionRate = ventEffect?.gasProduction?.molesPerSecond}
