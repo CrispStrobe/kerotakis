@@ -38,18 +38,28 @@ LOCALES = ROOT / "web/app/src/locales"
 # A collision whose two sides carry different text, with what each means.
 # An entry here is a known wording question, NOT an exemption on principle:
 # a new disagreement fails, and these fail too once somebody decides.
-RECORDED: dict[str, str] = {
-    "limewater": (
-        "terms says Kalkwasser (the substance), messages says Kalkwasserprobe "
-        "(the test for it). The picker shows both; which one this key is has "
-        "not been decided."
-    ),
-    "invisible ink boundary": (
-        "terms says 'Grenze der unsichtbaren Tinte', messages says "
-        "'Unsichtbare Tinte', which drops the boundary the lesson is named "
-        "for. Not decided."
-    ),
-}
+# Empty since 2026-09-23, and an empty list is the claim rather than the
+# absence of one: no key in this app means two different things.
+#
+# The two that were here are worth remembering because they failed in
+# opposite directions, and only one of them was a translation problem.
+#
+#   `limewater` was ONE English word doing two jobs — the substance and
+#   the test for it — so no German could be right. `messages` wins the
+#   merge, so the test's name reached a shelf and an ingredients list,
+#   where you do not pour a test into a beaker. Fixed by giving the TEST
+#   its own English ("limewater test", via `gasTests.ts`), not by choosing
+#   between two translations of one key.
+#
+#   `invisible ink boundary` was one meaning with two German renderings,
+#   and the one that won dropped the word the lesson is named for. Its
+#   five sibling boundary lessons all read "Grenze …", so the `terms`
+#   entry was right and the `messages` duplicate was deleted.
+#
+# A key carrying two meanings is a source-text problem. A key carrying two
+# translations is a translation problem. They look identical here and they
+# are not fixed the same way.
+RECORDED: dict[str, str] = {}
 
 
 def bundles() -> list[pathlib.Path]:
