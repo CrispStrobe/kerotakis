@@ -1,9 +1,0 @@
-# The curiosity corpus, in French.
-#
-# Started 2026-09-23 with the third-language exercise. One file per
-# language, beside the corpus it translates: adding French here required
-# no new field in a shard, no new branch in a component and no edit to any
-# existing translation, which is the claim this file was written to test.
-#
-# Deliberately partial, and safe to be: every prompt absent here falls
-# back to its English on its own, per string.
