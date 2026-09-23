@@ -403,6 +403,13 @@ fn alias_index(locale: Locale) -> &'static AliasIndex {
 /// how `add v1 Milch 100mL` has always worked — so the only thing
 /// missing was the rewrite back to `whole_milk` for the log, and a pack
 /// loaded at runtime gets it for free.
+/// The longest phrase the alias tables are allowed to claim.
+///
+/// `sel de poche froide` is four words and `eau de Javel 5%` is four; a
+/// bound keeps a long line from being rescanned once per suffix, and
+/// five leaves room for the next bottle without being a guess.
+const LONGEST_NAME_IN_WORDS: usize = 5;
+
 pub fn canonical_line_in(line: &str, locale: Locale) -> Option<String> {
     if locale.is_english() {
         return None;
@@ -414,7 +421,46 @@ pub fn canonical_line_in(line: &str, locale: Locale) -> Option<String> {
     let index = alias_index(locale);
     let mut changed = false;
     let mut out: Vec<String> = Vec::new();
-    for (position, word) in trimmed.split_whitespace().enumerate() {
+    let words: Vec<&str> = trimmed.split_whitespace().collect();
+    let mut position = 0;
+    while position < words.len() {
+        let word = words[position];
+        // A NAME IS NOT A WORD. This walked one token at a time, so every
+        // name that is a phrase was invisible to it: the catalogue holds
+        // `chlorure de sodium -> NaCl` and `eau de chaux -> limewater`
+        // and the lookup asked it about `chlorure` and `eau`. German
+        // compounds — `Natriumchlorid` is one token — so German never
+        // showed the hole, and French, which builds its chemical names
+        // out of `de`, hides almost all of its 193 species names behind
+        // it. The shelf shows a name the parser then refuses, which is
+        // the same defect the material aliases had one layer up.
+        //
+        // Longest span first, so `eau de chaux` is the limewater test
+        // rather than water followed by two words nobody claimed.
+        if position > 0 {
+            let reach = LONGEST_NAME_IN_WORDS.min(words.len() - position);
+            let mut claimed = None;
+            for take in (2..=reach).rev() {
+                let phrase = words[position..position + take].join(" ");
+                let lower = phrase.to_lowercase();
+                if let Some(canonical) = index.words.get(&lower) {
+                    claimed = Some((take, canonical.clone()));
+                    break;
+                }
+                if let Some(recipe) = material::lookup(&phrase, None)
+                    .filter(|recipe| !recipe.matches(&phrase, Some("en")))
+                {
+                    claimed = Some((take, recipe.canonical_key));
+                    break;
+                }
+            }
+            if let Some((take, canonical)) = claimed {
+                changed = true;
+                out.push(canonical);
+                position += take;
+                continue;
+            }
+        }
         let lower = word.to_lowercase();
         let canonical = if position == 0 {
             if is_canonical_verb(word) {
@@ -448,6 +494,7 @@ pub fn canonical_line_in(line: &str, locale: Locale) -> Option<String> {
             }
             None => out.push(word.to_string()),
         }
+        position += 1;
     }
     changed.then(|| out.join(" "))
 }
@@ -1725,6 +1772,72 @@ mod localised_grammar {
 
     fn de() -> Locale {
         Locale::parse("de")
+    }
+
+    /// A name made of several words is still one name.
+    ///
+    /// Every shipped language, and driven off the catalogue rather than
+    /// a hand-written list, because the words differ per language and
+    /// the CLAIM does not: whatever `[species]` shows for a substance,
+    /// a learner must be able to type.
+    #[test]
+    fn a_species_name_of_several_words_resolves() {
+        for locale in Locale::available() {
+            if locale.is_english() {
+                continue;
+            }
+            let mut checked = 0;
+            for data in species::registry() {
+                let Some(name) = locale.lookup(&format!("species.{}", data.name)) else {
+                    continue;
+                };
+                if !name.contains(' ') || material::lookup(name, None).is_some() {
+                    continue;
+                }
+                // Only the names this locale's index actually claims: a
+                // word dropped for colliding with English or with
+                // another token is a different rule, tested elsewhere.
+                if alias_index(locale)
+                    .words
+                    .get(&name.to_lowercase())
+                    .map(String::as_str)
+                    != Some(data.key)
+                {
+                    continue;
+                }
+                checked += 1;
+                let line = format!("add v1 {name} 0.01mol");
+                let canonical = canonical_line_in(&line, locale)
+                    .unwrap_or_else(|| panic!("{}: {line} was left alone", locale.code()));
+                assert_eq!(
+                    canonical,
+                    format!("add v1 {} 0.01mol", data.key),
+                    "{}: {name}",
+                    locale.code()
+                );
+            }
+            assert!(
+                checked > 5,
+                "{}: only {checked} multi-word species names were checked — \
+                 the catalogue moved and this gate is measuring almost nothing",
+                locale.code()
+            );
+        }
+    }
+
+    /// And the phrase wins over its own first word.
+    ///
+    /// `eau de chaux` is the limewater test. Taken one token at a time it
+    /// is water, then two words nobody claimed — which is what the bench
+    /// answered before: `unknown gas test 'water'`.
+    #[test]
+    fn a_phrase_outranks_the_word_it_starts_with() {
+        let fr = Locale::parse("fr");
+        if fr.is_english() {
+            return;
+        }
+        let canonical = canonical_line_in("test v1 eau de chaux", fr);
+        assert_eq!(canonical.as_deref(), Some("test v1 limewater"));
     }
 
     /// A usage line names the verb the learner typed, not `add`.
