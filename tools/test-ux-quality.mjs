@@ -899,6 +899,76 @@ const learningProgressJourney = async () => {
  * stage of the walk is reported, so a failure names where it stopped
  * rather than arriving as one dead boolean.
  */
+/**
+ * Sweep the width, do not sample it (GUI-133).
+ *
+ * GUI-123's defect lived at a shelf-pane width CI produced and the
+ * author's box did not: two honest runs of the same check, on the same
+ * commit, disagreed — the field measured 139.7 px here and 211 there at
+ * the SAME 1440 px viewport. Four sampled viewports cannot answer a
+ * question about a continuum, and the viewport was never the variable:
+ * the pane was.
+ *
+ * So this constrains the container directly and walks its own range. It
+ * is cheap because the layout reflows without re-navigating: open the
+ * amount form once, then resize the pane under it.
+ *
+ * Proven to fail on the defect rather than merely passing on the fix. With
+ * GUI-123 reverted the sweep reports the clip at a 160 px pane — a width
+ * no sampled viewport produces on that machine — and it also separates
+ * which half of that fix was load-bearing: with the spin buttons hidden
+ * but no floor the value still fits at 43 px, and with the spinners back
+ * it does not.
+ */
+const PANE_SWEEP_WIDTHS = [160, 180, 200, 207, 220, 240, 260, 280, 300, 340, 380, 420];
+
+const clippedControls = () => page.evaluate(`(() => {
+  const NO_TEXT = new Set(["checkbox","radio","range","color","file","image","hidden"]);
+  const out = [];
+  for (const el of document.querySelectorAll("input, textarea, select")) {
+    const tag = el.tagName.toLowerCase();
+    const type = tag === "input" ? (el.getAttribute("type") || "text").toLowerCase() : tag;
+    if (NO_TEXT.has(type)) continue;
+    if (el.getClientRects().length === 0) continue;
+    if (!el.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true })) continue;
+    const value = tag === "select"
+      ? (el.selectedOptions && el.selectedOptions[0] ? el.selectedOptions[0].textContent.trim() : "")
+      : String(el.value || "");
+    // The same rule GUI-123's legibility pass uses: a value the browser
+    // reports as cut off, short enough that there was nothing to cut.
+    if (!value || value.length > 6) continue;
+    const cutOff = tag === "select"
+      ? el.getBoundingClientRect().width + 0.5 < el.scrollWidth
+      : el.scrollWidth > el.clientWidth + 0.5;
+    if (!cutOff) continue;
+    out.push({ what: tag + "[" + type + "]", value, w: Math.round(el.getBoundingClientRect().width) });
+  }
+  return JSON.stringify(out);
+})()`);
+
+const sweepPaneWidths = async () => {
+  const opened = await openAmountForm();
+  if (!opened) return { opened: false, widths: 0, clipped: [], narrowest: null };
+  const clipped = [];
+  let narrowest = null;
+  for (const width of PANE_SWEEP_WIDTHS) {
+    await page.evaluate(`(() => {
+      let style = document.getElementById("pane-width-sweep");
+      if (!style) { style = document.createElement("style"); style.id = "pane-width-sweep"; document.head.append(style); }
+      style.textContent = "nav.shelf-pane { width: ${width}px !important; min-width: ${width}px !important; "
+        + "max-width: ${width}px !important; flex: none !important; }";
+    })()`);
+    await settle();
+    const field = Number(await page.evaluate(`(() => { const e = document.querySelector(".stepper input");
+      return e ? String(Math.round(e.getBoundingClientRect().width)) : "0"; })()`));
+    if (field > 0 && (narrowest === null || field < narrowest)) narrowest = field;
+    for (const entry of JSON.parse(await clippedControls())) clipped.push({ width, ...entry });
+  }
+  await page.evaluate(`document.getElementById("pane-width-sweep")?.remove()`);
+  await settle();
+  return { opened: true, widths: PANE_SWEEP_WIDTHS.length, clipped, narrowest };
+};
+
 /** The experiment catalogue, reached the way a learner reaches it in
  *  Sandbox: through the utilities drawer. Matched whole rather than by
  *  substring, for the reason `openConceptMap` gives. */
@@ -1454,6 +1524,15 @@ try {
   check("the amount form is open where the sweep can read its field (1440 px)",
     await openAmountForm());
   await sweepLegibility("bench, cabinet and journal", "1440 px");
+
+  /* -- GUI-133: sweep the pane's width rather than sampling viewports -- */
+  const paneSweep = await sweepPaneWidths();
+  check("the pane-width sweep opened the form it is about",
+    paneSweep.opened && paneSweep.widths >= 10, JSON.stringify({ opened: paneSweep.opened, widths: paneSweep.widths }));
+  check("no control clips its own value at any pane width",
+    paneSweep.clipped.length === 0,
+    paneSweep.clipped.map((c) => `${c.width}px pane → ${c.what} "${c.value}" in ${c.w}px`).join("  |  ")
+      || `${paneSweep.widths} widths, narrowest field ${paneSweep.narrowest}px`);
 
   /* -- GUI-126: the run is the experiment, and the caption is a caption -- */
   if (await openExperimentCatalogue()) {
