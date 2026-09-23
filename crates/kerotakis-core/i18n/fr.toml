@@ -1,18 +1,3 @@
-# The engine's own words, in French.
-#
-# One file per language. This one was written to find out whether the
-# claim in `src/i18n.rs` is true — that adding a language is this file and
-# a single line in `CATALOGUES`, with no existing translation touched.
-#
-# Keys are dotted paths naming WHERE the phrase is said, not what it says,
-# so a reworded English source does not orphan its translations. Where a
-# key IS an English word (`[glassware] beaker`), the lookup is by value:
-# the engine asks the catalogue what it calls a beaker.
-#
-# The English original stays at the call site in Rust. A missing key here
-# is a fallback to that English, never a blank — which is what lets this
-# file ship while it is still being written.
-
 [vessel]
 open = ", ouvert sur l'atmosphère"
 sealed-before = ", scellé, "
@@ -22,13 +7,13 @@ swept-before = ", balayé à l'azote à "
 liquid = "liquide"
 empty = "    (vide)"
 redox = "Rédox"
+# "all iron as Fe(II)" — the one redox line that was still a bare
+# `format!`, and the only one outside `[event]` in this tranche.
 "redox-all-as" = "{element} entièrement sous forme de {state}"
 speciation = "    Spéciation (mol/kgw · activité · γ) :"
 mixed-crystal = "Cristal mixte"
 ph = "pH"
 
-# The glassware. A vessel absent from here keeps its English name rather
-# than vanishing — better a word we have than a word we do not.
 [glassware]
 beaker = "bécher"
 flask = "ballon"
@@ -38,6 +23,10 @@ flask = "ballon"
 "test tube" = "tube à essai"
 "measuring cylinder" = "éprouvette graduée"
 burette = "burette"
+# The five kinds `Vessel::new` actually draws are `beaker`, `flask`,
+# `tube`, `cylinder` and `crucible` — the short labels, not the long names
+# below them. `every_glassware_kind_the_bench_draws_has_german` walks
+# `vessel::VESSEL_KINDS`; before it did, a tube read "tube" in German.
 tube = "tube à essai"
 cylinder = "éprouvette graduée"
 pipette = "pipette"
@@ -57,7 +46,362 @@ liquid = "liquide"
 solid = "solide"
 gas = "gazeux"
 
+[species]
+"hydrogen ion" = "ion hydrogène"
+"dissolved carbon dioxide" = "dioxyde de carbone dissous"
+"carbonate ion" = "ion carbonate"
+"hydrogen phosphate ion" = "ion hydrogénophosphate"
+"phosphate ion" = "ion phosphate"
+"nitrite ion" = "ion nitrite"
+"thiocyanate ion" = "ion thiocyanate"
+"potassium thiocyanate (aqueous reagent)" = "thiocyanate de potassium (réactif aqueux)"
+"poly(vinyl alcohol)" = "poly(alcool vinylique)"
+"sodium tetraborate (borax)" = "tétraborate de sodium (borax)"
+"anthocyanin (red-cabbage pigment)" = "anthocyane (pigment du chou rouge)"
+water = "eau"
+ethanol = "éthanol"
+"sodium chloride" = "chlorure de sodium"
+"silver nitrate" = "nitrate d'argent"
+"silver chloride" = "chlorure d'argent"
+"hydrogen peroxide" = "peroxyde d'hydrogène"
+"sodium hydroxide" = "hydroxyde de sodium"
+"hydrochloric acid" = "acide chlorhydrique"
+"sulfuric acid" = "acide sulfurique"
+"acetic acid" = "acide acétique"
+"sodium acetate" = "acétate de sodium"
+"carbon dioxide" = "dioxyde de carbone"
+"calcium carbonate" = "carbonate de calcium"
+"calcium hydroxide" = "hydroxyde de calcium"
+"copper(II) sulfate" = "sulfate de cuivre(II)"
+"copper(II) sulfate pentahydrate (chalcanthite)" = "sulfate de cuivre(II) pentahydraté (chalcanthite)"
+"sodium carbonate" = "carbonate de sodium"
+"sodium bicarbonate" = "hydrogénocarbonate de sodium"
+"potassium permanganate" = "permanganate de potassium"
+sulfur = "soufre"
+catalase = "catalase"
+"manganese dioxide" = "dioxyde de manganèse"
+
+# The journal — what the learner reads while working.
+#
+# lv1 and lv2 are different sentences, not different wordings of one, so
+# they carry separate keys. Placeholders are named, so a translation may
+# put them in any order German wants.
+"acetate ion" = "ion acétate"
+aluminium = "aluminium"
+"ammonia solution" = "ammoniaque"
+"ammonium chloride" = "chlorure d'ammonium"
+"ammonium ion" = "ion ammonium"
+amylase = "amylase"
+"ascorbic acid (vitamin C)" = "acide ascorbique (vitamine C)"
+"oxalic acid" = "acide oxalique"
+"baking soda (sodium bicarbonate)" = "bicarbonate de soude (hydrogénocarbonate de sodium)"
+"barium chloride" = "chlorure de baryum"
+"barium hydroxide" = "hydroxyde de baryum"
+"barium ion" = "ion baryum"
+"barium sulfate" = "sulfate de baryum"
+# Not a substance: the analytical base equivalents that close a solved
+# vessel's H/O balance (species::BASE_EQUIVALENTS). "Äquivalent" is the
+# analytical-chemistry word and carries the same "titratable, not weighed"
+# sense in German that "equivalents" does in English.
+"base equivalents" = "équivalents de base"
+"betanin (beetroot red)" = "bétanine (rouge de betterave)"
+"bicarbonate ion" = "ion hydrogénocarbonate"
+"bleach (sodium hypochlorite)" = "eau de Javel (hypochlorite de sodium)"
+"bromothymol blue" = "bleu de bromothymol"
+"calcium chloride" = "chlorure de calcium"
+"calcium ion" = "ion calcium"
+"carbon (charcoal)" = "carbone (charbon de bois)"
+"cellulose (anhydroglucose unit)" = "cellulose (unité anhydroglucose)"
+"chalk (calcium carbonate)" = "craie (carbonate de calcium)"
+"citrate ion" = "ion citrate"
+"citric acid" = "acide citrique"
+chloramine = "chloramine"
+"chloride ion" = "ion chlorure"
+"chlorine gas" = "dichlore"
+copper = "cuivre"
+"copper sulfate" = "sulfate de cuivre"
+"copper(I) ion" = "ion cuivre(I)"
+"copper(II) hydroxide" = "hydroxyde de cuivre(II)"
+"copper(II) ion" = "ion cuivre(II)"
+"copper(II) oxide" = "oxyde de cuivre(II)"
+"curcumin (turmeric yellow)" = "curcumine (jaune de curcuma)"
+"D-fructose (fruit sugar)" = "D-fructose (sucre de fruit)"
+"D-glucose (dextrose)" = "D-glucose (dextrose)"
+"dehydroascorbic acid" = "acide déhydroascorbique"
+"dihydrogen phosphate ion" = "ion dihydrogénophosphate"
+ethyl_acetate = "acétate d'éthyle"
+"gypsum (calcium sulfate dihydrate)" = "gypse (sulfate de calcium dihydraté)"
+hexane = "hexane"
+hydrogen = "dihydrogène"
+"hydrogen iodide" = "iodure d'hydrogène"
+"hydroxide ion" = "ion hydroxyde"
+"indigo carmine (E132)" = "carmin d'indigo (E132)"
+iodine = "diiode"
+iron = "fer"
+"iron(II) ion" = "ion fer(II)"
+"iron(II) sulfate" = "sulfate de fer(II)"
+"iron(III) chloride" = "chlorure de fer(III)"
+"iron(III) ion" = "ion fer(III)"
+lead = "plomb"
+"lead(II) ion" = "ion plomb(II)"
+"lead(II) nitrate" = "nitrate de plomb(II)"
+magnesium = "magnésium"
+"magnesium ion" = "ion magnésium"
+"magnesium oxide" = "oxyde de magnésium"
+"magnesium sulfate" = "sulfate de magnésium"
+"malic acid" = "acide malique"
+maltose = "maltose"
+"manganate ion" = "ion manganate"
+"manganese(II) ion" = "ion manganèse(II)"
+"manganese(III) ion" = "ion manganèse(III)"
+methanol = "méthanol"
+"methyl orange" = "orangé de méthyle"
+"nitrate ion" = "ion nitrate"
+nitrogen = "diazote"
+"oxidised betanin (colourless)" = "bétanine oxydée (incolore)"
+"oxidised curcumin (colourless)" = "curcumine oxydée (incolore)"
+"oxidised indigo carmine (colourless)" = "carmin d'indigo oxydé (incolore)"
+oxygen = "dioxygène"
+"permanganate ion" = "ion permanganate"
+phenolphthalein = "phénolphtaléine"
+"phosphoric acid" = "acide phosphorique"
+"polyethylene (HDPE)" = "polyéthylène (PEHD)"
+"polyethylene terephthalate" = "polyéthylène téréphtalate"
+polypropylene = "polypropylène"
+polystyrene = "polystyrène"
+"potassium chloride" = "chlorure de potassium"
+"potassium hydroxide" = "hydroxyde de potassium"
+"potassium iodate" = "iodate de potassium"
+"potassium iodide" = "iodure de potassium"
+"potassium ion" = "ion potassium"
+"potassium nitrate" = "nitrate de potassium"
+propanone = "acétone"
+"quicklime (calcium oxide)" = "chaux vive (oxyde de calcium)"
+silver = "argent"
+"silver ion" = "ion argent"
+"slaked lime (calcium hydroxide)" = "chaux éteinte (hydroxyde de calcium)"
+"sodium bisulfate" = "hydrogénosulfate de sodium"
+"sodium bisulfite" = "hydrogénosulfite de sodium"
+"sodium ion" = "ion sodium"
+"sodium nitrate" = "nitrate de sodium"
+"sodium sulfate" = "sulfate de sodium"
+"sodium sulfite" = "sulfite de sodium"
+"sodium thiosulfate" = "thiosulfate de sodium"
+starch = "amidon"
+"strontium ion" = "ion strontium"
+"sulfate ion" = "ion sulfate"
+"sulfur dioxide" = "dioxyde de soufre"
+"washing soda (sodium carbonate)" = "cristaux de soude (carbonate de sodium)"
+zinc = "zinc"
+"zinc ion" = "ion zinc"
+"zinc sulfate" = "sulfate de zinc"
+
+# Added by `every_species_the_registry_names_has_german`, which walks
+# `species::registry()` rather than this file. These seventeen had been
+# added to the registry since the last translation pass and read in
+# English inside German sentences; nothing reported them, because the
+# fallback is per key and silent.
+"2-bromo-2-methylpropane" = "2-bromo-2-méthylpropane"
+"2-methylpropan-2-ol" = "2-méthylpropan-2-ol"
+"2-methylpropene" = "2-méthylpropène"
+"bromide ion" = "ion bromure"
+bromoethane = "bromoéthane"
+ethene = "éthène"
+"hydrogen bromide" = "bromure d'hydrogène"
+"iron(II) hydroxide" = "hydroxyde de fer(II)"
+"iron(III) hydroxide" = "hydroxyde de fer(III)"
+"iron(III) oxide (hematite)" = "oxyde de fer(III) (hématite)"
+isopropanol = "isopropanol"
+"magnesium hydroxide" = "hydroxyde de magnésium"
+"magnesium sulfate heptahydrate (epsomite)" = "sulfate de magnésium heptahydraté (epsomite)"
+"silicon dioxide (quartz)" = "dioxyde de silicium (quartz)"
+"sodium bromide" = "bromure de sodium"
+paraffin = "paraffine"
+"ammonium nitrate" = "nitrate d'ammonium"
+"diamond" = "diamant"
+"graphite" = "graphite"
+"uranium" = "uranium"
+"cold pack salt" = "sel de poche de froid"
+"atacamite (green copper corrosion)" = "atacamite (corrosion verte du cuivre)"
+"antlerite (green copper sulfate)" = "antlérite (sulfate de cuivre vert)"
+"brochantite (green copper patina)" = "brochantite (patine verte du cuivre)"
+"langite (blue-green copper sulfate)" = "langite (sulfate de cuivre bleu-vert)"
+sucrose = "saccharose"
+"zinc hydroxide" = "hydroxyde de zinc"
+methane = "méthane"
+propane = "propane"
+butane = "butane"
+helium = "hélium"
+naphthalene = "naphtalène"
+"hydrogen sulfide" = "sulfure d'hydrogène"
+"chlorophyll a" = "chlorophylle a"
+"nylon 6,6 (repeat unit)" = "nylon 6,6 (unité de répétition)"
+"lactic acid" = "acide lactique"
+"lactate ion" = "ion lactate"
+"hypochlorite ion" = "ion hypochlorite"
+"hypochlorous acid" = "acide hypochloreux"
+"boric acid" = "acide borique"
+dihydrogenborate = "dihydrogénoborate"
+"thiosulfate ion" = "ion thiosulfate"
+"sulfite ion" = "ion sulfite"
+"bisulfite ion" = "ion hydrogénosulfite"
+hydroxylapatite = "hydroxylapatite"
+"beta-tricalcium phosphate" = "bêta-phosphate tricalcique"
+"octacalcium phosphate" = "phosphate octacalcique"
+"carbon monoxide" = "monoxyde de carbone"
+"n-dodecane" = "n-dodécane"
+"n-hexadecane" = "n-hexadécane"
+"hair pigment (eumelanin repeat unit)" = "pigment capillaire (unité de répétition de l'eumélanine)"
+"bleached hair pigment (oxidised)" = "pigment capillaire décoloré (oxydé)"
+"dry ice" = "neige carbonique"
+"activated charcoal" = "charbon actif"
+"liquid nitrogen" = "azote liquide"
+
+[material]
+# Display names for the 132 named materials. NOT new translation work: each
+# value is the recipe's first German alias in
+# `data/registry/registry-source-v1.json`, which the parser has always
+# accepted as input. It lives here because display is the catalogue's job —
+# adding French means adding `fr.toml` beside this file, not editing the
+# registry.
+"1% Lugol iodine solution" = "solution de Lugol 1%"
+"3% hydrogen peroxide" = "peroxyde d'hydrogène 3%"
+"3.5% seawater surrogate" = "eau de mer"
+"5% ammonia cleaner" = "nettoyant ammoniaqué 5%"
+"5% chlorine bleach" = "eau de Javel 5%"
+"5% white vinegar" = "vinaigre"
+"70% isopropanol" = "isopropanol 70%"
+"acetic-acid bacteria culture" = "bactéries acétiques"
+"albumin (dried protein)" = "albumine d'œuf"
+"alcohol hand sanitiser" = "gel hydroalcoolique"
+"alcohol-based perfume" = "parfum"
+"alkaline battery cell" = "pile alcaline"
+"alkaline battery electrolyte" = "électrolyte de pile"
+"aluminium foil" = "papier aluminium"
+"apple (fresh fruit)" = "pomme"
+"apple juice surrogate" = "jus de pomme"
+"baking soda" = "bicarbonate de soude"
+"bar hand soap" = "pain de savon"
+"bile salts" = "sels biliaires"
+"black acrylic paint" = "peinture acrylique noire"
+"black felt-tip ink" = "encre noire"
+"blue acrylic paint" = "peinture acrylique bleue"
+"blue food colouring" = "colorant alimentaire bleu"
+"blue watercolor" = "aquarelle bleue"
+"boiling chips" = "pierres à ébullition"
+"borax powder" = "poudre de borax"
+"borosilicate glass" = "verre borosilicaté"
+"bread (baked loaf)" = "pain"
+"cabbage (head)" = "chou"
+"cake batter" = "pâte à gâteau"
+"calcium-carbonate chalk stick" = "bâton de craie"
+"candle wax" = "cire de bougie"
+"celery stem" = "branche de céleri"
+"clay (kaolin)" = "argile"
+"cocoa powder" = "poudre de cacao"
+"coconut fat" = "graisse de coco"
+"cola drink surrogate" = "cola"
+"cold pack salt" = "nitrate d'ammonium"
+"coloured glass" = "verre coloré"
+"copper wire" = "fil de cuivre"
+"cornstarch" = "fécule de maïs"
+"cotton fibre" = "coton"
+"cured thermoset resin" = "thermodurcissable"
+"dairy butter" = "beurre doux"
+"dairy cream" = "crème fraîche"
+"damp wood" = "bois humide"
+"diesel fuel" = "gazole"
+"dish soap" = "liquide vaisselle"
+"doped silicon" = "silicium dopé"
+"dried beans" = "haricots secs"
+"dried pasta" = "pâtes"
+"dried rice grain" = "riz"
+"dry seed" = "graine"
+"dry yeast" = "levure"
+"egg white (raw)" = "blanc d'œuf"
+"Epsom salt" = "sel d'Epsom"
+"expanded polystyrene" = "polystyrène expansé"
+"flour-and-water dough" = "pâte"
+"fresh compressed yeast" = "levure fraîche"
+"freshly cut apple" = "tranche de pomme"
+"fruit jam" = "confiture"
+"full-fat mayonnaise" = "mayonnaise"
+"fused silica glass" = "verre de quartz"
+"galvanised steel" = "acier galvanisé"
+"gelatine (dry sheets)" = "gélatine"
+"germinating seed" = "graine germante"
+"glazed ceramic" = "céramique émaillée"
+"granulated table sugar" = "sucre de ménage"
+"green leaf" = "feuille"
+"ground black pepper" = "poivre"
+"heat-activated baking powder surrogate" = "levure chimique"
+"honey (clear jar)" = "miel"
+"intrinsic silicon" = "silicium"
+"iron filings" = "limaille de fer"
+"iron nail surrogate" = "clou en fer"
+"kitchen grease" = "graisse de cuisine"
+"lead battery terminal" = "borne de batterie"
+"lemon juice surrogate" = "jus de citron"
+"liquid hand soap" = "savon liquide"
+"magnesium ribbon" = "ruban de magnésium"
+"mineralised tap-water surrogate" = "eau du robinet"
+"muddy water" = "eau boueuse"
+"naked egg membrane surrogate" = "œuf nu"
+"onion (bulb)" = "oignon"
+"onion epidermis" = "peau d'oignon"
+"orange peel oil" = "huile de zeste d'orange"
+"painted iron" = "fer peint"
+"paper" = "papier"
+"permanent marker ink" = "encre de marqueur permanent"
+"pineapple (fresh fruit)" = "ananas"
+"pondweed shoot" = "élodée"
+"popcorn kernel" = "grain de maïs"
+"porcelain (fired china)" = "porcelaine"
+"potato (tuber)" = "pomme de terre"
+"powdered dishwasher detergent" = "poudre pour lave-vaisselle"
+"powdered laundry detergent" = "lessive en poudre"
+"prepared luminol glow solution" = "solution luminescente au luminol"
+"prepared mustard" = "moutarde"
+"pumice (volcanic froth)" = "pierre ponce"
+"PVA craft glue" = "colle blanche"
+"quartz crystal" = "cristal de roche"
+"quartz-rich sand surrogate" = "sable"
+"raisin (dried grape)" = "raisin sec"
+"raw meat" = "viande crue"
+"red acrylic paint" = "peinture acrylique rouge"
+"red food colouring" = "colorant alimentaire rouge"
+"red watercolor" = "aquarelle rouge"
+"red-cabbage indicator juice" = "jus de chou rouge"
+"soda-lime glass" = "verre"
+"sodium fatty-soap teaching equivalent" = "savon d'acide gras"
+"sourdough starter" = "levain"
+"sparkling water" = "eau gazeuse"
+"stainless steel" = "acier inoxydable"
+"steel wool surrogate" = "laine d'acier"
+"sugar water" = "eau sucrée"
+"sunscreen lotion" = "crème solaire"
+"superabsorbent instant-snow powder" = "poudre de neige instantanée"
+"sweetened tea" = "thé sucré"
+"table salt" = "sel de table"
+"thermoplastic sheet" = "thermoplastique"
+"unleaded petrol" = "essence"
+"vegetable oil" = "huile végétale"
+"washing soda" = "cristaux de soude"
+"wheat flour" = "farine"
+"white acrylic paint" = "peinture acrylique blanche"
+"whole milk surrogate" = "lait"
+"wilted lettuce leaf" = "feuille de salade flétrie"
+"yellow acrylic paint" = "peinture acrylique jaune"
+"yellow food colouring" = "colorant alimentaire jaune"
+"yellow watercolor" = "aquarelle jaune"
+"yoghurt starter culture" = "ferments lactiques"
+"zinc strip" = "bande de zinc"
+
 [census]
+# The particle drawing's captions. The list of species is a SLOT, not a
+# fragment: German puts "und" before the last item and the count phrase
+# inflects, so the sentence is the unit of translation (same reason as
+# `[look]`). The unit (mol/kgw) and the glyph are not words.
 "and-more" = "{listed} et {count} autres"
 "too-few-to-draw.lv1" = "  présents aussi, trop peu pour être dessinés : {species}\n"
 "too-few-to-draw.lv2" = "  présents en dessous d'un symbole, donc non dessinés : {species}\n"
@@ -71,7 +415,561 @@ gas = "gazeux"
 "kind.gas" = "gaz"
 "from-inventory" = "  dessiné à partir du bilan : aucune solution n'a été caractérisée, les paires d'ions et les complexes ne sont donc pas résolus ici\n"
 
+[explain]
+# `kero explain` — why this dataset answered this beaker. The CLI's own
+# labels live in the ENGINE catalogue rather than a CLI one, so adding
+# French stays one core toml and one web json.
+#
+# The VALUES are not here and never will be, and the reason changed. It
+# used to be that two records disagreed about whether the routing should be
+# German. The owner settled that on 2026-09-18 — `explain` is a user-facing
+# command and answers in the reader's language — and the routing, the
+# dataset and the model are all German now. They are not rows in this
+# section because they are not the CLI's words: each is a `Phrase` the
+# SOLVER composes, and its German lives under `[routing]` and
+# `[provenance]` beside every other sentence the engine builds.
+"answered-by" = "  {vessel} : répondu par {engine} avec {dataset}"
+"model" = "Modèle : "
+"routing" = "Voie : "
+"uncharacterised" = "  {vessel} : aucun moteur aqueux n'a caractérisé ce récipient"
+"no-engine" = "(aucun moteur disponible pour comparer les voies)"
+"dataset-sources" = "le jeu de données cite ses propres sources, par ex. :"
+"nothing-aqueous" = "(rien d'aqueux à comparer)"
+"same-question" = "la même question, posée à chaque jeu de données :"
+"solvent-activity" = "activité du solvant : a_w = {activity} d'une seconde spéciation sur {dataset} ({model}), à {molality} mol/kgw de particules et I = {ionic_strength}"
+
+[event]
+"vessel-created.lv1" = "Un bécher tout neuf apparaît sur la paillasse : {vessel}."
+"vessel-created.lv2" = "{vessel} : nouveau récipient"
+"vessel-removed.lv1" = "Le récipient vide {vessel} retourne dans l'armoire."
+"vessel-removed.lv2" = "{vessel} : récipient vide retiré"
+"discarded.lv1" = "Tu vides {vessel} dans le bac à déchets. Le récipient reste là, vide et encore chaud."
+"discarded.lv2" = "{vessel} → déchets : {grams} g ({moles} mol) éliminés"
+"discarded.lv3" = "{vessel} → déchets : {grams} g ({moles} mol) éliminés. Rien n'est détruit — le bac à déchets continue de le contenir et de le peser, et le contrôle d'incompatibilité examine tout le bac : ce qui s'y trouve déjà décide si le prochain rejet est autorisé"
+"discarded.line" = "  {vessel} → déchets : {moles} mol {species} ({phase})"
+"discarded.line-material" = "  {vessel} → déchets : {material} (non dissous)"
+"added.lv1" = "Tu ajoutes {what} dans {vessel}."
+"added.lv2" = "{vessel} : +{amount} {what}"
+"added.lv2-total" = "{vessel} : +{amount} {what} — maintenant {total} dans le récipient"
+"added.lv3" = "{vessel} : +{moles} mol {what}{extra}"
+"added.lv3-species" = " ({formula}, M = {molar_mass} g/mol)"
+"dissolved-in-solvent.lv1-none" = "Le {what} reste simplement au fond du {solvent} — il ne se dissout pas."
+"dissolved-in-solvent.lv1-all" = "Le {what} disparaît dans le {solvent}."
+"dissolved-in-solvent.lv1-some" = "Un peu de {what} se dissout dans le {solvent} ; le reste reste au fond."
+"dissolved-in-solvent.lv2" = "{vessel} : {what} dans {solvent} — {dissolved} dissous (limite du manuel), {solid} resté à l'état solide"
+"stirred.lv1" = "L'agitateur magnétique fait tourner {vessel} pendant {seconds} secondes."
+"stirred.lv2" = "{vessel} : agitateur magnétique {rpm} tr/min pendant {seconds} s — vitesse en bout de barreau {tip} m/s ; {resuspended} % remis en suspension"
+"ground.lv1" = "Tu broies le {what} dans {vessel} en une poudre plus fine."
+"ground.lv2" = "{vessel} : {what} broyé à {diameter} µm — environ {area} m² de surface"
+
+# The journal, converted in bulk (63 sentences). Placeholders are named,
+# so German puts them where German wants them.
+"material-added.lv1" = "Tu ajoutes {material} dans {vessel}."
+"gas-produced.lv1" = "{vessel} : des bulles de {species} se forment."
+"reaction-heat-released.lv1" = "{vessel} devient plus chaud à mesure que la réaction avance."
+"foam-changed.lv1" = "De la mousse monte dans {vessel}."
+"temperature-changed.lv1-stays-same-temperature" = "{vessel} reste à peu près à la même température."
+"temperature-changed.lv1-gets-warmer" = "{vessel} devient plus chaud !"
+"temperature-changed.lv1-gets-colder" = "{vessel} devient plus froid !"
+"magnet-separated.lv1" = "Tu tiens un aimant au-dessus de {from} — rien ne s'y accroche."
+"inert-in-solvent.lv1" = "Le {name} reste simplement dans {solv} — il ne se passe rien."
+"inert-in-solvent.lv2" = "{vessel} : {name} ne réagit pas avec {solv} — non-réaction calculée, pas une lacune"
+# The particle census reaches hosts as an event now, so its heading is a
+# translated string like any other. The drawing itself already answers to
+# the register; only this sentence changes.
+"particles-counted.lv1" = "Ce que font les particules dans {vessel} en ce moment :\n{drawing}"
+"particles-counted.lv2" = "{vessel} — ce que font les particules :\n{drawing}"
+
+"smelled.lv1" = "Tu éventes vers ton nez l'air venant de {vessel} — rien que tu puisses sentir."
+"smelled.lv2" = "{vessel} : aucune odeur détectable à un examen attentif"
+"smelled.lv3-species" = "{name} : {d}"
+"gas-tested.lv1-positive" = "Le {test} sur {vessel} est positif !"
+"gas-tested.lv1-shows-nothing" = "Le {test} sur {vessel} ne montre rien."
+"burst.lv1" = "PAN — {vessel}, scellé, n'a pas pu résister à la pression et a éclaté !"
+"heat-of-mixing.lv1-liquids-mingle-glass-1" = "Pendant que les liquides se mélangent dans {vessel}, le verre devient un peu chaud."
+"heat-of-mixing.lv1-liquids-mingle-glass-2" = "Pendant que les liquides se mélangent dans {vessel}, le verre devient un peu frais."
+"nuclide-spiked.lv1" = "Un minuscule échantillon radioactif de {nuclide} arrive dans {vessel} — le compteur à côté commence à cliqueter."
+"decayed.lv1" = "Dans {vessel}, pendant que tu attendais, une partie du {parent} s'est silencieusement transformée en {daughter}."
+"chromatographed.lv1-mixture-from-runs" = "Le mélange de {vessel} traverse la colonne et ressort l'un après l'autre : {order}."
+"chromatographed.lv1-chromatogram" = "{vessel} : chromatogramme — {table}{unseen}"
+"drained.lv1" = "Tu ouvres le robinet, et la couche inférieure s'écoule de {from} vers {to}."
+"extracted.split" = "{species} : {staged} % extrait ({single} % en une seule étape avec la même quantité totale de solvant), K={k}"
+"extracted.lv1" = "Tu agites {from} successivement avec {stages} portions fraîches de {solvent} et rassembles les extraits dans {to}. {summary}"
+"layers-formed.lv1" = "Le liquide dans {vessel} se sépare en deux couches."
+"evaporated.lv1" = "De la vapeur s'élève de {vessel} — l'eau s'évapore en bouillant !"
+"distilled.lv1" = "De la vapeur s'élève de {from}, se refroidit dans le tube et goutte dans {to}."
+"distilled.lv2" = " à travers une colonne à {stages} étages"
+"transferred.lv1" = "Tu verses un peu de {from} dans {to}."
+"dissolved.lv1" = "Le {name} se dissout dans l'eau de {vessel} !"
+"inert.lv2" = "{vessel} : {name} ne réagit pas — {why}"
+"corroded.lv1" = "Le {name} dans {vessel} est le métal qui corrode ici."
+"corroded.lv1-spared" = "Le {name} dans {vessel} ne corrode pas — et c'est une réponse, pas une lacune."
+"corroded.lv2" = "{vessel} : {name} corrode — {why}"
+"corroded.lv2-spared" = "{vessel} : {name} ne corrode pas — {why}"
+"adsorbed.lv1" = "Le {solid} dans {vessel} retient {percent} du {dye} ; le reste reste dans l'eau."
+"adsorbed.lv2" = "{vessel} : {solid} retient {held} mol {dye} ({loading} mg/g) ; {left} mol reste dissous"
+"below-autoignition.lv1" = "Le {name} dans {vessel} est chaud, mais pas assez pour s'enflammer — il lui faut {needs} °C ou une étincelle."
+"uv-attenuated.lv1" = "Le {name} dans {vessel} ne laisse passer, à {nm} nm, que {percent} % de la lumière {band} — le reste est arrêté par ses filtres."
+"headspace-partitioned.lv1" = "Une partie du {name} dans {vessel} passe du liquide à l'air au-dessus — {percent} % s'en trouve maintenant dans le ciel gazeux."
+"headspace-partitioned.lv1-back" = "Une partie du {name} dans l'air au-dessus de {vessel} retourne dans le liquide — {percent} % en reste dans le ciel gazeux."
+"headspace-partitioned.lv2" = "{vessel} : {moles} {name} liquide → ciel gazeux ; {percent} % dans le gaz à {kpa} kPa de pression partielle (loi de Henry)"
+"headspace-partitioned.lv2-back" = "{vessel} : {moles} {name} ciel gazeux → liquide ; {percent} % dans le gaz à {kpa} kPa de pression partielle (loi de Henry)"
+"uv-attenuated.lv2" = "{vessel} : {name} laisse passer {percent} % à {nm} nm ({band}) — {mechanism}"
+"below-autoignition.lv2" = "{vessel} : {name} sous la température d'auto-inflammation — à {at} °C, il faut {needs} °C ou une étincelle"
+"sealed-cell.lv1" = "Le {material} dans {vessel} est une pile scellée : {why} Elle fournit environ {volts} V, et comme rien ne s'échappe par le boîtier, elle pèse exactement le même poids qu'avant."
+"sealed-cell.lv2" = "{vessel} : {material} — {reaction}, environ {volts} V de tension à vide ; scellée, la masse est conservée"
+"polymer-heated.lv1-softened" = "Le {name} dans {vessel} est devenu mou — ses chaînes glissent les unes sur les autres, il peut être pressé dans une nouvelle forme qu'il conserve en refroidissant."
+"polymer-heated.lv1-charred" = "Le {name} dans {vessel} a carbonisé. Au-dessus de {limit} °C, les liaisons qui le maintenaient se rompent, et rien ne peut le ramener en arrière."
+"polymer-heated.lv1-network" = "Le {name} dans {vessel} garde sa forme, et ce jusqu'en haut de l'échelle : un thermodurcissable durci n'a pas de point de fusion. Il est réticulé en une seule molécule, il n'y a donc pas de chaînes individuelles qui pourraient glisser."
+"polymer-heated.lv1-rigid" = "Le {name} dans {vessel} est encore dur. Au-dessus de {limit} °C, ses chaînes commenceraient à glisser et il deviendrait mou."
+"polymer-heated.lv2-softened" = "{vessel} : {name} ramolli — {at} °C, au-dessus du point de ramollissement de {limit} °C ; réversible au refroidissement"
+"polymer-heated.lv2-charred" = "{vessel} : {name} carbonisé — {at} °C, au-dessus de la température de décomposition de {limit} °C ; non réversible"
+"polymer-heated.lv2-network" = "{vessel} : {name} solide à {at} °C — réticulé, donc pas de point de ramollissement ; il se décompose à la place à {limit} °C"
+"polymer-heated.lv2-rigid" = "{vessel} : {name} solide à {at} °C — en dessous du point de ramollissement de {limit} °C"
+"thickened.lv1-hard" = "Remue {vessel} vite, et il résiste — sous l'agitateur, il devient raide comme un solide. Remué plus lentement, il coule de nouveau comme un liquide."
+"thickened.lv1-slow" = "Remué doucement, {vessel} coule comme une masse épaisse. Remue plus vite, et il ne se laisse pas faire."
+"thickened.lv2" = "{vessel} : {percent} % de {name} en masse — une suspension rhéoépaississante à {strength} de la pleine intensité, cisaillée à {speed} m/s"
+"thickened.lv3" = "{vessel} : réponse rhéoépaississante {strength} pour une fraction massique de solide {fraction}, vitesse en bout de barreau agitateur {speed} m/s ; une affirmation limitée disant que ce mélange fait partie de ceux qui se comportent ainsi, et que cette agitation était assez rapide pour le remarquer — ni la viscosité, ni le seuil d'écoulement, ni le taux de cisaillement critique ne sont calculés, et le bilan ne bouge pas"
+"gel-formed.lv1" = "La colle dans {vessel} arrête de couler et commence à s'étirer — c'est devenu du slime !"
+"gel-formed.lv2" = "{vessel} : {percent} % du {poly} sont réticulés en un gel par {moles} mol de {link} pour {grams} g de polymère"
+"gel-formed.lv3" = "{vessel} : fraction réticulée {fraction} pour {dose} mol de {link} par gramme de {poly} ; les diesters de borate pontent les groupes hydroxyle de chaînes voisines et s'échangent en permanence, rien n'est donc consommé — une réponse didactique limitée, pas une rhéologie mesurée, et ni le module ni le temps de relaxation ne sont avancés"
+"polymer-swelled.lv1" = "La poudre dans {vessel} absorbe l'eau et devient un tas de neige molle et humide."
+"polymer-swelled.lv2" = "{vessel} : {polymer} g de poudre retiennent {water} g d'eau — {ratio} fois la masse sèche"
+"polymer-swelled.lv3" = "{vessel} : gonflement à l'équilibre limité {ratio} g/g (capacité fixée {capacity} g/g ; saturé={saturated}) ; l'eau reste dans le bilan de conservation, la salinité, le pH, la granulométrie et le temps de gonflement se situent hors de ce modèle pédagogique"
+"chemiluminescence-observed.lv1" = "Le mélange dans {vessel} brille en bleu. Les mélanges plus chauds brillent maintenant plus fort, mais s'estompent plus tôt."
+"chemiluminescence-observed.lv2" = "{vessel} : intensité relative de la lumière bleue {intensity} ; demi-vie estimée {half} s à {temp} K"
+"chemiluminescence-observed.lv3" = "{vessel} : intensité relative limitée du système au luminol {intensity} après {elapsed} s à {temp} K avec {oxidant} mol de H2O2 ; réponse pédagogique de type Arrhenius, ni rendement quantique de photons ni spéciation des produits, et non la chimie peroxyoxalate d'un bâton lumineux du commerce"
+"supersaturated.lv1" = "Dans l'eau de {vessel}, il y a plus de {name} dissous que ce qu'elle peut normalement contenir — et ça y reste. Il lui faut quelque chose sur quoi commencer à croître."
+"supersaturated.lv2" = "{vessel} : sursaturé — {dissolved} de {name} dissous contre une limite de {capacity} à cette température ({times}× la saturation) ; ça reste en solution jusqu'à ce que quelque chose serve de germe"
+"supersaturated.lv3" = "{vessel} : {name} sursaturé de {excess} mol ({dissolved} dissous contre {capacity} pouvant être retenus à la température de ce récipient, d'après la limite à deux points) ; métastable — cette paillasse ne le cristallise qu'au contact d'un germe du même solide, et ne modélise ni la nucléation spontanée ni le temps d'induction qui la précède"
+"consumed.lv1" = "Le {name} dans {vessel} est épuisé."
+"ignited.lv1-catches-fire-burning" = "Ça s'enflamme dans {vessel} — et ça brûle avec une lumière {colour} !"
+"ignited.lv1-ignited" = "{vessel} : enflammé{colour}{energy}"
+"flame-test.lv2" = "{vessel} : test à la flamme — {name} colore la flamme en {colour}"
+"bubble-ride.lv1" = "Des petites bulles s'accumulent sur {object} dans {vessel}. Il est plus lourd que le liquide et repose donc au fond — jusqu'à ce que les bulles accrochées atteignent environ {percent} de sa propre taille, et il remonte. En haut, elles éclatent, et il redescend."
+"bubble-ride.lv1-floats" = "{object} dans {vessel} ne coule pas du tout — ce liquide est plus lourd que lui, alors il flotte tout simplement, avec ou sans bulles."
+"bubble-ride.lv2" = "{vessel} : {object} coule avec {density} g/mL dans un liquide de {liquid} g/mL ; des bulles accrochées représentant {percent} % de son propre volume le feraient remonter"
+"bubble-ride.lv2-floats" = "{vessel} : {object} flotte tout seul — {density} g/mL contre un liquide de {liquid} g/mL"
+"bubble-ride.lv3" = "{vessel} : portance par les bulles — objet {density} g/mL, liquide {liquid} g/mL, remontée à partir d'une fraction de gaz accroché de {fraction} ; ni la période, ni la taille des bulles, ni le nombre de sites de nucléation ne sont modélisés"
+"did-not-ignite.lv1" = "Tu approches la flamme de {vessel} — et rien ne se passe. Tout ne brûle pas."
+"did-not-ignite.lv1-no-fuel" = "Tu approches la flamme de {vessel} — et rien ne se passe. Il n'y a rien dedans qui puisse brûler."
+"did-not-ignite.lv1-no-oxygen" = "Tu approches la flamme de {vessel} — et rien ne se passe. Le {name} est encore là ; l'air autour, non. Une flamme a besoin d'oxygène, et il n'y en a pas ici."
+"did-not-ignite.lv1-below-autoignition" = "Tu approches la flamme de {vessel} — et rien ne commence à brûler. Le {name} est chaud, mais encore à {gap} degrés de la température à laquelle il brûle."
+"did-not-ignite.lv2-no-fuel" = "{vessel} : rien ne s'enflamme — rien de tout cela n'est un combustible"
+"did-not-ignite.lv2-no-oxygen" = "{vessel} : rien ne s'enflamme — {name} est présent, mais le gaz ne contient que {percent} % d'oxygène"
+"did-not-ignite.lv2-below-autoignition" = "{vessel} : rien ne s'enflamme — {name} est à {gap} K sous la température à laquelle il s'enflamme"
+"flame-starved.lv1" = "La flamme dans {vessel} rétrécit et s'éteint — pourtant il reste encore de l'air dedans et quelque chose à brûler. Une flamme a besoin d'un air RICHE en oxygène ; un peu ne suffit pas."
+"flame-starved.lv1-never-caught" = "La flamme ne prend pas du tout dans {vessel}. Il Y A de l'oxygène dedans — mais trop peu, parce que quelque chose d'autre occupe la place."
+"flame-starved.lv2" = "{vessel} : le {name} a cessé de brûler alors qu'il restait encore {percent} % d'oxygène dans le gaz — une flamme s'éteint bien avant que le dernier ne soit consommé"
+"flame-starved.lv2-never-caught" = "{vessel} : le {name} n'a même pas pris — seulement {percent} % du gaz est de l'oxygène, et une flamme a besoin d'environ 16 %"
+"flame-starved.lv3" = "{vessel} : flamme étouffée — {burned} mol de {name} brûlés, fraction molaire d'oxygène {fraction}"
+"thermal-equilibrium.lv1" = "Tout dans {vessel} atteint son équilibre à cette température."
+"thermal-equilibrium.lv1-empty" = "{vessel} est maintenant vide — tout est parti par le haut sous forme de gaz chaud. Cette température appartient à la flamme, pas au verre vide, et le verre refroidit déjà."
+"solution-characterized.lv1-liquid-acid" = "Le liquide dans {vessel} est un acide."
+"solution-characterized.lv1-liquid-base-opposite" = "Le liquide dans {vessel} est une base (le contraire d'un acide)."
+"solution-characterized.lv1-liquid-neutral-like" = "Le liquide dans {vessel} est neutre — comme l'eau pure."
+"solution-characterized.lv2" = "{vessel} : pH {ph}"
+"solution-characterized.lv1-mol-kgw" = "{vessel} : pH {ph} · I = {ionic_strength} mol/kgw"
+# Woher die Antworten für dieses Gefäß kommen — gesagt, sobald es gilt, und
+# nicht wieder, solange es gilt. Dateinamen wie wateq4f.dat sind Namen und
+# werden nicht übersetzt; {routing} ist der Satz der Engine, den sie selbst
+# schon auf Deutsch rendert.
+"solution-routed.lv1" = "La chimie dans {vessel} est maintenant calculée avec {dataset}."
+"solution-routed.lv2" = "{vessel} : calculé avec {dataset} — {routing}"
+"solution-routed.lv3" = "{vessel} : route → {engine} · {dataset} · {model} — {routing}"
+"measured.lv1" = "Le {device} sur {vessel} indique {value} {unit}."
+"measured.lv2" = "{vessel} {device} : {value} {unit}"
+"measured.lv2-bounded" = "{reading} — {boundary}"
+"electrolysed.lv1" = "{grams} g de {name} se déposent sur l'électrode dans {vessel}."
+"electrolysed.lv2" = "{vessel} : {amps} A pendant {seconds} s = {coulombs} C → {electrons} e⁻ → {moles} {name} = {grams} g"
+"electrolysed.gas.lv1" = "Aux deux électrodes dans {vessel}, du gaz remonte en bulles : {name} à l'une, {anode_name} à l'autre."
+"electrolysed.gas.lv2" = "{vessel} : {amps} A pendant {seconds} s = {coulombs} C → {electrons} e⁻ → {moles} {name} à la cathode et {anode_moles} {anode_name} à l'anode"
+"electrolysed.efficiency.lv1" = " La réserve dissoute s'est épuisée en cours de route, si bien que seulement {percent}% du courant a continué à former du {name} — après quoi les bulles sont de l'hydrogène."
+"electrolysed.efficiency.lv2" = " Rendement faradique {percent}% : l'ion était épuisé avant la fin de la charge, le reste a réduit l'eau en hydrogène."
+"electrolysed.efficiency.lv3" = " Rendement faradique pour {name} = {percent}% : l'ion était épuisé, si bien que le reste de la charge est allé dans le dégagement d'hydrogène 2 H₂O + 2 e⁻ → H₂ + 2 OH⁻. La masse en haut n'a plus augmenté à partir de là ; le courant, lui, a continué de circuler."
+"electrolysed.efficiency.bound" = " En supposant que chaque électron a atteint le {name} : à la cathode, il ne se forme pas d'hydrogène en parallèle, ce que cette paillasse ne peut pas résoudre sans surface d'électrode ni densités de courant d'échange. Une vraie électrode pèse autant ou moins, jamais plus."
+"energy-transferred.delivered" = "fournis"
+"energy-transferred.removed" = "retirés"
+"energy-transferred.coupled" = "couplé"
+"energy-transferred.not-yet-coupled" = "pas encore couplé"
+"energy-transferred.lv1-heating" = "{vessel} absorbe {delivered} kJ de chaleur. Cette étape énergétique n'a pas encore de modèle temporel."
+"energy-transferred.lv1-cooling" = "{vessel} cède {delivered} kJ de chaleur. Cette étape énergétique n'a pas encore de modèle temporel."
+"energy-transferred.lv2" = "{vessel} : {requested} kJ demandés ; {delivered} kJ {transfer} — modèle temporel {coupling}"
+"energy-transferred.unnamed-source" = "source de chaleur"
+"energy-transferred.lv1-heating-capped" = "{vessel} absorbe {delivered} kJ de {source} et ne peut pas en recevoir plus : {undelivered} kJ des {requested} kJ demandés ne sont jamais arrivés — un brûleur ne peut rien rendre plus chaud que sa propre flamme, {ceiling} °C."
+"energy-transferred.lv2-heating" = "{vessel} : {requested} kJ demandés ; {delivered} kJ fournis, {undelivered} kJ non fournis — {source}, plafond {ceiling} °C ; sur ce qui a été fourni, {sensible} kJ sont de la chaleur que le récipient retient encore, et {chemistry} kJ sont allés dans la chimie ou un changement de phase ({passes} passages) — modèle temporel {coupling}"
+"energy-transferred.lv3-heating" = "{vessel} : énergie thermique demandée={requested} J, transférée={delivered} J, non transférée={undelivered} J ; source={source}, plafond={ceiling} K ; sensible={sensible} J, chimie/phase={chemistry} J ; passages={passes}, limite de passages atteinte={capped}, modèle temporel couplé={time_coupled}"
+"energy-transferred.lv3" = "{vessel} : énergie thermique demandée={requested} J, transférée={delivered} J, chauffage={heating}, modèle temporel couplé={time_coupled}"
+"irradiated.coupled" = "couplé"
+"irradiated.not-yet-coupled" = "pas encore couplé"
+"irradiated.lv1" = "La lampe irradie {vessel}. La lumière agit, mais la photolyse n'est pas encore couplée."
+"irradiated.lv2" = "{vessel} : lampe {wavelength} nm à {irradiance} W/m² — photolyse {coupling}"
+"irradiated.lv3" = "{vessel} : irradiation λ={wavelength} nm, Ė/A={irradiance} W/m² ; photolyse couplée={coupled}"
+"value.true" = "oui"
+"value.false" = "non"
+"no-cell.lv1" = "Le voltmètre entre {a} et {b} n'indique rien — l'un des deux n'est pas encore une vraie demi-pile. Chaque côté a besoin d'un métal plongé dans une solution de son propre ion : le zinc dans du sulfate de zinc, le cuivre dans du sulfate de cuivre."
+"no-cell.lv2" = "{a}–{b} : pas de pile — {why}"
+"safety-veto.lv1" = "Le laboratoire refuse de faire cela : {reason}"
+"shelf-stocked.lv1" = "Il y a maintenant {amount} {unit} de {key} sur l'étagère."
+"shelf-stocked.lv2" = "Étagère : {key} réapprovisionné de {amount} {unit}"
+"shelf-stocked.lv3" = "STOCK D'ÉTAGÈRE : {key} = {amount} {unit}"
+"stock-exhausted.lv1" = "Il ne reste pas assez de {key} — le flacon contient {remaining} {unit}, mais il en faudrait {requested} {unit}. Rien n'a été versé."
+"stock-exhausted.lv2" = "Étagère : pas assez de {key} — {remaining} {unit} restant, {requested} {unit} demandé ; rien n'a été prélevé"
+"stock-exhausted.lv3" = "PRÉLÈVEMENT REFUSÉ : {key}, stock restant {remaining} {unit} < demandé {requested} {unit} ; paillasse inchangée"
+"reaction-occurred.lv1" = "Le mélange dans {vessel} change — quelque chose de nouveau apparaît !"
+"gas-evolved.lv1" = "Des bulles ! Un gaz s'échappe de {vessel}."
+"gas-absorbed.lv1" = "Du gaz entre dans {vessel} et est absorbé par le liquide."
+"gas-contained.lv1" = "Des bulles se forment dans {vessel}, mais le gaz reste à l'intérieur."
+"vessel-sealed.lv1" = "Un couvercle ferme {vessel}. Plus rien de gazeux ne peut s'échapper maintenant."
+"vessel-pressure-controlled.lv1" = "Un piston mobile maintient {vessel} à pression constante."
+"vessel-swept.lv1" = "De l'azote balaie {vessel} et entraîne les gaz avec lui."
+"vessel-opened.lv1" = "Le couvercle est retiré de {vessel} ; son gaz peut s'échapper dans la pièce."
+"headspace-equilibrated.lv1" = "Le gaz sous le couvercle de {vessel} s'équilibre avec le liquide."
+"state-changed.lv1-turned-ice" = "Le {name} dans {vessel} s'est transformé en glace !"
+"state-changed.lv1-ice-melted-back" = "La glace dans {vessel} a refondu en {name}."
+"state-changed.lv1-boiling-look-steam" = "Le {name} dans {vessel} bout — regarde la vapeur !"
+"state-changed.lv1-x" = "{vessel} : {name} {verb} à {c} °C"
+"not-yet-modeled.lv1" = "Hmm — rien de visible ne se passe dans {vessel} (cette partie du laboratoire n'est pas encore réveillée)."
+# GUI-106: the same note, said where the vessel DID visibly change. The
+# line above claims the beaker did nothing, which is the one thing this
+# event does not know and, in the starch test, the opposite of the truth.
+"not-yet-modeled.lv1-beside-change" = "Quelque chose a changé dans {vessel} — mais une partie n'est pas encore modélisée."
+"not-yet-modeled.lv2" = "{vessel} : pas encore modélisé — {what}"
+"diluted.lv1" = "Tu ajoutes de l'eau dans {vessel} — la solution s'affaiblit."
+
+# Cases that English handled by appending a letter or swapping a word.
+# German needs whole sentences, so each case is its own key.
+"magnet-separated.lv1-one" = "Tu tiens un aimant au-dessus de {from} — le {what} saute dessus. Tu le laisses tomber dans {to}."
+"magnet-separated.lv1-many" = "Tu tiens un aimant au-dessus de {from} — {what} sautent dessus. Tu les laisses tomber dans {to}."
+"magnet-separated.lv1-stays-one" = " Le {what} reste sur place."
+"magnet-separated.lv1-stays-many" = " {what} restent sur place."
+"heat-of-mixing.lv2-released" = "{vessel} : chaleur de mélange dégagée — {joules} J"
+"heat-of-mixing.lv2-absorbed" = "{vessel} : chaleur de mélange absorbée — {joules} J"
+
+# Batch 2: the multi-line sites, converted on spans.
+"cell-voltage.lv1" = "Le voltmètre entre {anode} et {cathode} indique {volts} V — tu as construit une pile ! Les électrons veulent circuler de {anode} vers {cathode}. (Rien n'utilise encore le courant, donc rien ne change dans les béchers.)"
+"transition-point-read.lv1" = "L'échantillon de {vessel} {outcome} à {value} °C. Chaque substance pure a son propre point de transition, toujours le même — c'est ainsi qu'on distingue une poudre blanche d'une autre."
+"dehydrated.lv1" = "Les cristaux bleus deviennent blancs à mesure que l'eau de cristallisation est chassée. Cette eau n'a jamais été liquide — elle était liée dans le cristal et s'échappe maintenant sous forme de vapeur."
+"hydrated.lv1" = "Une goutte d'eau, et la poudre blanche redevient bleue. L'eau est retournée dans le cristal — exactement autant qu'il en avait été chassé auparavant."
+"cell-voltage.lv2" = "{notation} : E = {volts} V à vide (E° = {standard_volts} V) ; les électrons circuleraient de {anode} → {cathode} ; un circuit fermé ferait se dérouler {equation}. Aucun courant ne circule, donc c'est la tension que la pile *offre*, pas celle qu'elle fournit en charge"
+"cell-voltage.lv3" = "{notation} : E_pile = {volts} V à vide, aucun courant, aucune résistance interne modélisée (E°_pile = {standard_volts} V ; la différence est le terme de Nernst sur les activités ioniques calculées ; pont salin idéal, aucun potentiel de diffusion) ; anode {anode}, cathode {cathode} ; {equation}"
+"acid-metal-cell-voltage.lv1" = "Le zinc et le cuivre dans l'acide offrent environ {volts} V — les électrons circuleraient du zinc à {anode} vers la surface de cuivre à {cathode}. C'est une estimation au voltmètre, pas une promesse sur le courant qu'un citron peut fournir."
+"acid-metal-cell-voltage.lv2" = "Zn | Zn²⁺(activité unitaire, estimée) ‖ H⁺(pH {ph}) | H₂ sur Cu : E ≈ {volts} V à vide ; le zinc est l'anode à {anode}, le cuivre la surface inerte pour le dégagement d'hydrogène à {cathode}. L'activité de l'ion zinc n'a pas été mesurée ; c'est une estimation pédagogique limitée. La résistance interne, le courant, la puissance et la durée de vie ne sont pas modélisés"
+"chromatographed.lv3" = "{vessel} : N={plates}, t0={void_time_s}s, β=0,5 ; {method} ; tR = t0·(1+K·β), w = 4·tR/√N, Rf = Kβ_papier/(1+Kβ_papier) sur une bande de 100 mm — {table}{unseen}"
+"consumed.lv1-being-used" = "Le {name} dans {vessel} est consommé."
+"consumed.lv1-some-used" = "Une partie du {name} dans {vessel} est consommée."
+"did-not-ignite.lv3" = "{vessel} : rien ne s'est enflammé"
+"did-not-ignite.lv3-no-fuel" = "{vessel} : rien ne s'est enflammé ; aucune espèce présente ne porte de température d'auto-inflammation"
+"did-not-ignite.lv3-no-oxygen" = "{vessel} : rien ne s'est enflammé ; {name} présent à une fraction d'oxygène de {percent}%, en dessous de la fraction limite"
+"did-not-ignite.lv3-below-autoignition" = "{vessel} : rien ne s'est enflammé ; {name} est à {gap} K en dessous de sa température d'auto-inflammation"
+"filtered.lv1" = "Tu verses {from} à travers le papier filtre — le liquide s'écoule dans {to}, et le solide reste sur le papier."
+"filtered.lv3" = "{from} → {to} : filtrat passé ; résidu retenu"
+"flame-test.lv1" = "Ça ne prend pas feu — mais regarde : ça colore la flamme en {colour} ! Chaque métal a sa propre couleur, c'est ainsi que tu peux les distinguer."
+"flame-test.lv3" = "{vessel} : pas de combustion ; émission caractéristique de {name} ({colour})"
+"gas-evolved.lv1-toxic" = "Un gaz s'échappe de {vessel} — il est toxique. Dans une vraie pièce, tu devrais sortir MAINTENANT."
+"gravity-settled.lv1" = "Pendant que tu attends, les particules dans {vessel} se déposent au fond."
+"gravity-settled.lv3" = "{vessel} : sédimentation sous gravité pendant {seconds} s (Stokes, 1 g, 0,04 m de chute) : {detail}"
+"hazard-warning.lv1" = "⚠️  ARRÊTE ET LIS : {hazard}. {real_world} N'essaie JAMAIS cela en dehors du laboratoire virtuel — ici, nous pouvons observer sans danger ce qui se passe."
+"hazard-warning.lv2" = "⚠ DANGER ({severity}) : {hazard} — {real_world} Sûr uniquement parce que ce laboratoire est virtuel."
+"heat-of-mixing.lv3" = "{vessel} : q_mix = {joules} J à partir de ΔHᴱ (UNIFAC Gibbs–Helmholtz, liste blanche de paires vérifiées ; comptabilité par fonction d'état, de sorte que l'ordre de versement ne change pas le résultat). Limite du modèle : les paramètres ajustés sur l'ELV ne rendent hᴱ exact qu'à l'ordre de grandeur près, et les paires non vérifiées sont retenues, non estimées"
+"ignited.lv1" = "Ça prend feu dans {vessel} !"
+"ignited.lv3" = "{vessel} : source d'inflammation appliquée ; énergie de réaction indisponible"
+"inert.lv1" = "Le {name} dans {vessel} n'échange sa place avec rien de dissous ici — c'est bien la vraie réponse, pas une lacune."
+"inert-spent.lv1" = "Le {other} est maintenant entièrement sorti de l'eau dans {vessel}, le {name} restant n'a donc plus rien à faire."
+"magnet-separated.lv3" = "{from} : aucune espèce magnétique présente"
+"not-yet-modeled.lv3" = "{vessel} : NON MODÉLISÉ : {what}"
+"org-reacted.lv1" = "Quelque chose de nouveau apparaît dans {vessel} — la réaction {name} transforme le mélange en d'autres substances."
+# {colour} is a registry appearance and arrives uninflected, so it stands
+# in parentheses rather than in front of the noun: "ein weiß Belag" is not
+# German, and "weißes kristallines Pulver" cannot be given an ending at
+# all. See [appearance].
+"plated.lv1" = "Sur {host} dans {vessel}, un dépôt de {name} ({colour}) se forme — le {name} s'est déposé dessus depuis l'eau."
+"precipitated.lv1" = "Dans {vessel}, ça devient trouble ! Un solide ({colour}) apparaît au fond — on appelle cela un précipité."
+"precipitated.lv1-dry" = "Dans {vessel}, il reste une poudre ({colour}) — c'est le {name}."
+"reacted.lv1-after-seconds-something" = "Après {seconds} secondes, quelque chose se passe dans {vessel}."
+"reacted.lv1-making-happen-much" = "Dans {vessel}, {c} accélère beaucoup les choses — après {seconds} secondes, beaucoup a déjà changé !"
+"reacted.lv2" = ", accéléré par {c}"
+"safety-veto.lv3" = "VETO DE SÉCURITÉ (L0) : {reason}"
+"smelled.lv3-none" = "{vessel} : aucune indication d'odeur enregistrée parmi les espèces volatiles — et « inodore » est déjà en soi une affirmation : le CO2 et le CO montrent pourquoi un nez n'est pas un détecteur de gaz"
+"solver-failed.lv1" = "Le laboratoire n'a pas réussi à déterminer ce qui se passe dans {vessel}. C'est honnête — mieux vaut ça que de deviner !"
+"titrated.lv1" = "Tu titres {vessel} avec {name} — après {steps} ajouts, le pH atteint {final_ph}."
+"titrated.endpoint.colour" = "une coloration {name} persistante"
+"titrated.endpoint.pe" = "pe {compare} {value}"
+"titrated.no_potential" = "indéterminé — aucun potentiel fixé"
+"titrated.not_reached" = "Point final NON atteint"
+"titrated.reached" = "Point final atteint"
+"titrated.redox.lv1" = "Tu titres {vessel} avec {name}, jusqu'à obtenir {arrival} — il te faut {steps} ajouts pour cela."
+"transported.lv1" = "La solution s'écoule à travers {cells} cellules de colonne et se rassemble dans {receiver}."
+"transported.lv3" = "Transport amont 1D : {cells} cellules × {steps} pas @ Cf={courant} ; effluent total {total} mol → {receiver}"
+"vessel-opened.lv3" = "{vessel} : frontière scellée ouverte vers le réservoir atmosphérique"
+"centrifuged.lv1" = "La mini-centrifugeuse fait tourner {vessel} ; les particules parcourent {travelled} % de la longueur du tube."
+"centrifuged.lv2" = "{vessel} : {rpm} tr/min pendant {seconds} s — {rcf} × g ; {separation} % de séparation ; déséquilibre inférieur à {imbalance} g"
+"gravity-settled.lv2" = "{vessel} : {settled} % des particules en suspension se déposent en {seconds} s"
+
+# Batch 3: positional holes, named from their arguments.
+"burst.lv2" = "{vessel} : ÉCLATÉ à {at_pa} kPa (résistance du verre ~{rating_pa} kPa) — le bouchon a cédé, les gaz se sont échappés"
+"burst.lv3" = "{vessel} : l'espace gazeux scellé a dépassé la constante d'éclatement pédagogique ({at_pa} Pa > {rating_pa} Pa) ; le bouchon a cédé, l'espace gazeux est ouvert, chaque gaz est enregistré comme un événement, et le bilan reste exact malgré la défaillance. La constante est fixée éditorialement — ce que le modèle affirme, c'est que les récipients scellés ONT des limites, pas la certification d'un ballon particulier"
+"centrifuged.lv3" = "{vessel} : centrifugation {rpm} tr/min × {seconds} s, r={rotor_radius_m} m, RCF={rcf} ; échantillon={sample_mass_g} g, contrepoids={counterbalance_g} g, Δm={imbalance_g} g ; ρfluide={fluid_density_kg_m3} kg/m³, μ={dynamic_viscosity_pa_s} Pa·s ; {detail} ; couplage d'état {coupling}"
+"chromatographed.lv2" = " — les ions dissous ({outside_method}) migrent avec l'eau et ne sont pas séparés"
+"chromatographed.lv3-outside-method-ion" = "; hors de la méthode : {outside_method} (échange d'ions non modélisé)"
+"decayed.lv2" = "{vessel} : {equation} — {moles} mol désintégrés ({mode}, t½ = {half_life_s} s)"
+"decayed.lv3" = "{vessel} : {equation} ; {moles} mol transformés. Les éléments ne sont PAS conservés lors de cet événement — les nucléons, si (les paquets α conservent leur He-4 dans le bilan), la comptabilité des charges note le β/ν sortant, et le défaut de masse est une limite du modèle explicitement signalée"
+"diluted.lv2" = "{vessel} : dilué avec {volume} mL d'eau ({moles})"
+"diluted.lv3" = "{vessel} : +{moles} mol H₂O provenant de {volume} L d'eau de dilution"
+"dissolved-in-solvent.lv3" = "{vessel} : {species} dans {solvent} : {dissolved} mol dissous jusqu'à la limite de solubilité enregistrée, {undissolved} mol de solide restent. Limite du modèle : soluté non dissocié, aucun modèle de spéciation ou d'activité en phase organique"
+"distilled.lv2-mol-water-mol" = "{from} → {to} : {water} mol d'eau + {ethanol} mol d'éthanol via{column} — la vapeur correspond maintenant au liquide (azéotrope), des plateaux supplémentaires ou une ébullition plus forte n'enrichissent plus rien"
+"distilled.lv2-mol-water-mol-2" = "{from} → {to} : {water} mol d'eau + {ethanol} mol d'éthanol via{column} ; le ballon bouillait à {t0} °C et est monté à {t1} °C, tandis que le composant le plus volatil s'échappait"
+"distilled.lv2-mol-water-mol-3" = "{from} → {to} : {water} mol d'eau + {ethanol} mol d'éthanol via{column}, bouillant à {t0} °C"
+"distilled.lv3" = "{from} → {to} : coupe Rayleigh en discontinu, {stages} plateau(x) théorique(s) à reflux total (une colonne réelle à reflux fini sépare moins, jamais plus) ; ballon {at} K → {ended} K ; chaleur latente {energy_kj} kJ apportée par le brûleur et évacuée par le réfrigérant, délibérément hors du bilan du récipient{azeotrope}"
+"drained.lv2" = "{from} → {to} : la couche inférieure évacuée — {moles} mol {species} avec tout ce qui y est dissous ; la couche supérieure reste"
+"drained.lv3" = "{from} → {to} : couche inférieure ({solvent}, {moles} mol de solvant) plus ses solutés aqueux ; les solides restent — un robinet laisse passer le liquide, et un solide déposé relève de la filtration"
+"extracted.lv2" = "{from} → {to} : {total} mol {solvent}, répartis sur {stages} étages d'extraction idéaux — {summary}"
+"extracted.lv3" = "{from} → {to} : extraction d'équilibre répétée avec {total} mol {solvent} en {stages} portions fraîches égales ; K=[substance]organique/[substance]aqueuse ; le bilan matière se referme à chaque étage — {summary}. {evidence}"
+"electrolysed.lv3" = "{vessel} : I = {amps} A ; t = {seconds} s ; Q = It = {coulombs} C ; n(e⁻) = Q/F = {electrons} mol ; n({name}) = n(e⁻)/{per_ion} = {moles} mol ; m = {grams} g — seul {per_ion} relève de la chimie. Anode inerte supposée : c'est là que l'eau est oxydée, si bien que l'oxygène s'échappe et que l'acide reste"
+"electrolysed.gas.lv3" = "{vessel} : I = {amps} A ; t = {seconds} s ; Q = It = {coulombs} C ; n(e⁻) = Q/F = {electrons} mol ; cathode n({name}) = n(e⁻)/{per_ion} = {moles} mol ; anode n({anode_name}) = {anode_moles} mol. Électrodes inertes supposées : la surtension, le passage de gaz, la membrane et le rendement de la cellule ne sont pas modélisés"
+"evaporated.lv2" = "{vessel} : {moles} mol d'eau évaporés"
+"evaporated.lv3" = "{vessel} : {moles} mol H2O évaporés (enthalpie de vaporisation pas encore prise en compte dans le bilan)"
+"gas-absorbed.lv2" = "{vessel} : {moles} {name} absorbé(s) à la frontière gazeuse"
+"gas-absorbed.lv3" = "{vessel} : {moles} mol {name} transférés, gaz → phase condensée"
+"gas-contained.lv2" = "{vessel} : {moles} {name} formé(s) et retenu(s) dans l'espace gazeux fermé"
+"gas-contained.lv3" = "{vessel} : {moles} mol {name} transférés dans l'espace gazeux fini (système fermé ; la masse est conservée)"
+"gas-evolved.lv2" = "{vessel} : {moles} {name} ↑ (le gaz s'échappe du récipient ouvert)"
+"gas-evolved.lv3" = "{vessel} : {moles} mol {name} libérés (système ouvert ; la masse quitte le récipient)"
+"ground.lv3" = "{vessel} : broyage de {name} ; {solid_moles} mol de solide ; diamètre moyen {diameter_um} µm ; surface de particules sphériques {surface_area_m2} m² ; couplage de vitesse {coupling}"
+"headspace-equilibrated.lv2" = "{vessel} : l'espace gazeux s'est équilibré à {pressure} bar avec {total_moles} de gaz"
+"headspace-equilibrated.lv3" = "{vessel} : équilibre gaz/liquide à volume fini ; P={pressure} Pa, n_gaz={total_moles} mol"
+"ignited.lv3-ignition-source-applied" = "{vessel} : source d'inflammation appliquée ; énergie de réaction calculée = {joules} J"
+"inert-in-solvent.lv3" = "{vessel} : {species} inerte dans {solvent} : {why}"
+"layers-formed.lv2" = "{vessel} : deux couches — {species} flotte sur {species2} ; leur mélange augmenterait l'énergie de Gibbs, c'est pourquoi elles se séparent"
+"layers-formed.lv3" = "{vessel} : séparation liquide-liquide (UNIFAC LLE, construction de la tangente commune). La séparation et l'ordre des couches sont robustes ; les traces de solubilité mutuelle sont des bornes supérieures — les paramètres UNIFAC ajustés sur l'ELV sous-estiment γ∞ pour le couple alcane–eau — et ne sont délibérément pas indiquées"
+"material-added.lv2" = "{vessel} : +{total_amount} {unit} de {material} ({components} composants connus)"
+"material-added.lv3" = "{vessel} : +{total_amount} {unit} de {material} ; {components} composants canoniques, {unresolved_amount} {unit} non résolus"
+"mixed.lv1" = "Tu mélanges un peu de {a} et {b} ensemble dans {into}. Cela se stabilise à {temperature_into} °C."
+"nuclide-spiked.lv2" = "{vessel} : dopé avec {moles} mol de {nuclide} — activité initiale {activity_bq} Bq"
+"nuclide-spiked.lv3" = "{vessel} : traceur {nuclide}, {moles} mol, A₀ = {activity_bq} Bq (λN, demi-vie selon NUBASE2020). Limite du modèle : échelle traceur, chimiquement inerte dans ce modèle ; la pratique de radioprotection est réelle, non simulée"
+"observed.lv1" = "Tu regardes {vessel} de près. {appearance}"
+"org-reacted.lv2" = "{vessel} : {name} effectué — {equation} ({extent} mol convertis)"
+"partitioned.lv1" = "Une partie du {species} dans {vessel} migre dans chaque couche."
+"partitioned.lv2" = "{vessel} : {species} réparti sur les couches — {fraction_lower}% dans l'inférieure, le reste dissous dans la supérieure"
+"partitioned.lv3" = "{vessel} : {species} réparti selon un K issu du rapport UNIFAC-γ∞ ; fraction dans la couche inférieure {fraction_lower} (répartition à activité égale sur les volumes des couches)"
+"plated.lv2" = "{vessel} : {moles} {name} déposé(s) sur {host}"
+"plated.lv3" = "{vessel} : {moles} mol {name} déposés sur {host}"
+"reacted.lv2-mol-reacted" = "{vessel} : {moles} converti(s) en {seconds} s{with}  —  {equation}"
+"reacted.lv3" = "{vessel} : conversion {moles} mol sur {seconds} s, Ea = {activation_energy} kJ/mol{with}  —  {equation}"
+"smelled.lv1-you-waft-air" = "Tu éventes l'air de {vessel} vers ton nez — {list}."
+"smelled.lv3" = "{vessel} : éventer (technique apprise — ne jamais inhaler directement) : {list}. Les termes d'odeur sont un choix éditorial dans le registre de l'analyse qualitative"
+"state-changed.lv2" = "{vessel} : {name} {verb} à {c} °C — {shifted_by} °C {direction} que le {name} pur, à cause des substances qui y sont dissoutes"
+"state-changed.lv3" = "{vessel} : {name} {from} → {to} à {at} K ({c} °C), décalé de {shifted_by} K par les particules dissoutes"
+"boiling-point-routed.lv1" = "La pression au-dessus de {vessel} n'est pas la pression atmosphérique ordinaire, c'est pourquoi le {name} bout à {c} °C."
+"boiling-point-routed.lv1-unrouted" = "La pression au-dessus de {vessel} se situe en dehors de ce pour quoi ce laboratoire dispose de mesures, c'est pourquoi le {name} continue de bouillir à {c} °C."
+"boiling-point-routed.lv2" = "{vessel} : à {pressure} kPa, le {name} bout à {c} °C — {shifted_by} °C {direction} qu'à une atmosphère"
+"boiling-point-routed.lv2-unrouted" = "{vessel} : à {pressure} kPa, aucune mesure validée ne couvre le {name}, son point d'ébullition à une atmosphère de {c} °C reste donc valable"
+"boiling-point-routed.lv3" = "{vessel} : point d'ébullition de {name} à {boiling} K sous {pressure} kPa ; route {route} ; modèle {model} ; décalage de pression {shifted_by} K"
+"stirred.lv3" = "{vessel} : agitation {rpm} tr/min × {seconds} s ; barreau agitateur {bar_length_m} mm ; vitesse en bout de pale {tip_speed_m_s} m/s ; remis en suspension {resuspended_fraction} % ; couplage cinétique {coupling}"
+"thermal-equilibrium.lv2" = "{vessel} : équilibre thermique à {temperature} °C"
+"thermal-equilibrium.lv2-empty" = "{vessel} : plus rien dans le récipient ; {temperature} °C est la température de flamme, donc celle des gaz d'échappement"
+"thermal-equilibrium.lv3" = "{vessel} : minimum de Gibbs à {temperature} K · {provenance} · {provenance2}"
+"thermal-equilibrium.lv3-empty" = "{vessel} : minimum de Gibbs à {temperature} K, température de flamme adiabatique au-dessus d'un récipient vide · {provenance} · {provenance2}"
+"titrated.lv2" = "{vessel} : titré avec {concentration} mol/L de {name} ; {steps} étapes, {total_volume} mL au total, pH final {final_ph}"
+"titrated.lv3" = "{vessel} : auto-titrage avec la solution titrante {titrant} ({concentration} mol/L ; {steps} étapes, {total_volume} mL cumulés = {concentration2} mol ajoutées avec leur eau porteuse) ; pH final {final_ph}"
+"titrated.redox.lv2" = "{vessel} : titré avec {concentration} mol/L de {name} jusqu'à {arrival} ; {steps} étapes, {total_volume} mL au total, {outcome}"
+"titrated.redox.lv3" = "{vessel} : auto-titrage avec la solution titrante {titrant} ({concentration} mol/L ; {steps} étapes, {total_volume} mL cumulés = {delivered} mol ajoutées avec leur eau porteuse) ; point final = {arrival}, {outcome} ; pe final {final_pe}, pH final {final_ph}"
+"transferred.lv3" = "{from} → {to} : {fraction} % du liquide"
+"vessel-pressure-controlled.lv2" = "{vessel} : régulé en pression à {pressure} bar ; ciel gazeux initial {initial_volume} L"
+"vessel-pressure-controlled.lv3" = "{vessel} : condition limite = pression régulée ; P={pressure} Pa, V_initial={initial_volume} L, gaz emprisonné={trapped_gas} mol"
+"vessel-sealed.lv2" = "{vessel} : scellé sur {headspace_volume} L de ciel gazeux, {trapped_air} d'air ambiant emprisonné"
+"vessel-sealed.lv3" = "{vessel} : condition limite = ouvert → scellé ; V_gaz={headspace_volume} L, approximation d'air sec emprisonné={trapped_air} mol"
+"vessel-swept.lv2" = "{vessel} : balayé à l'azote à {pressure} bar ; les produits volatils sont entraînés"
+"vessel-swept.lv3" = "{vessel} : condition limite = balayé ; purge inerte au N2 à P={pressure} Pa, inventaire gazeux externe"
+
+# Seven event variants whose learner-facing sentence was still inside a
+# bare format!, so no catalogue could reach them and German readers got
+# English no matter how complete this file was. Found by
+# `every_event_the_engine_can_emit_has_a_german_sentence`, which walks the
+# serde variant names of the Event enum rather than a list kept by hand.
+# The spill and breakage events, merged the day this gate was written and
+# caught by it the same afternoon: five variants, no German at all. Nothing
+# else noticed, because an untranslated event renders English and reads as
+# a sentence somebody chose to leave alone.
+"spill-created.lv1" = "De la matière se déverse de {source} sur {where}."
+"container-broken.lv1" = "{vessel} se brise ; le contenu se déverse sur {where}."
+"collision-withstood.lv1" = "{vessel} encaisse un choc, mais reste intact."
+"spill-recovered.lv1" = "La matière de {where} est récupérée dans {to}."
+"spill-hazard.lv1" = "Danger à l'endroit renversé {where} : {hazard} {real_world}"
+
+"fermented.lv1" = "La levure se nourrit du sucre dans {vessel} et produit de l'alcool et des bulles de dioxyde de carbone."
+"enzyme-hydrolysed.lv1" = "La {family} dans {vessel} clive {substrate} à partir de {material}."
+"surface-spread.lv1" = "Le {material} fuit le savon dans {vessel} !"
+"surface-colour-spread.lv1" = "Les couleurs se poursuivent et tourbillonnent à la surface du lait dans {vessel} !"
+"surface-colour-mixed.lv1" = "L'agitation disperse les couleurs de surface dans {vessel}."
+"emulsion-changed.lv1-dispersing" = "De minuscules gouttelettes de {material} se dispersent dans l'eau de {vessel} et la troublent."
+"emulsion-changed.lv1-coalescing" = "Les gouttelettes dans {vessel} se rassemblent de nouveau, et la couche de {material} réapparaît."
+"curdling-changed.lv1" = "Le {material} dans {vessel} se sépare en flocons de caillé blancs et mous et en petit-lait trouble."
+"material-layers-formed.lv1" = "Le {upper_material} flotte en couche distincte au-dessus de l'eau dans {vessel}."
+
+# Words that a branch used to choose in English and drop into a sentence.
+# They go through the catalogue now, so German picks German words.
+"gas-tested.lv2" = "{vessel} : {test} — {outcome}"
+"foam-changed.lv1-overflow" = "La mousse déborde de {vessel} et se répand par-dessus le bord !"
+"neutralised.lv1" = "Dans {vessel}, l'acide et la base s'annulent mutuellement — ce qui en résulte, c'est de l'eau."
+"neutralised.lv2" = "{vessel} : {moles} neutralisé(s)"
+"neutralised.lv3" = "{vessel} : {moles} mol d'acidité neutralisés (déduits de la variation de charge nette des solutés ; PHREEQC raisonne en sommes d'éléments et ne signale jamais cette réaction)"
+
+# GUI-092: die Nettoionengleichung. Nur die Beschriftung wird übersetzt —
+# die Gleichung selbst ist chemische Notation und in jeder Sprache gleich.
+"object-spill-boundary.lv1" = "{vessel} : {count} objets solidaires restent dans le récipient ; ce modèle de déversement ne déplace que les phases massiques"
+"osmosis-changed.lv1" = "{vessel} : {material} échange {water} mol d'eau ({mass} g)"
+"browning-changed.lv1" = "{vessel} : la surface de {material} est brunie à {percent} %"
+"soap-scum-formed.lv1" = "{vessel} : {mass} g d'agrégat de crasse de savon se forment à partir de {moles} mol de Ca/Mg"
+"lemon-paper-marked.lv1" = "{vessel} : {lemon_amount_g} g de jus de citron marquent {paper_amount_g} g de papier ; la trace est encore humide"
+"lemon-paper-dried.lv1" = "{vessel} : la trace de citron est sèche et encore pâle"
+"lemon-paper-browned.lv1" = "{vessel} : la trace de citron sèche est brune à {percent} % à {temperature_k} K"
+
+# ── Added by the i18n leak sweep ─────────────────────────────────────
+#
+# Everything below was reachable by the catalogue and had no German, so
+# the sentence rendered in English inside an otherwise German journal.
+# The two chromatogram lines are not new: they were written under
+# `[flame]` by mistake, which made their key `flame.chromatographed.…`
+# and left `event.chromatographed.…` unanswered. The orphan check could
+# not see it, because `flame.*` is looked up by value and therefore
+# exempt from that check — a misfiled key hid inside the exemption.
+
+# An empty chromatogram is a result: the run happened and the detector saw
+# nothing, so what went past unseparated is the answer (aq-087).
+"chromatographed.lv1-nothing-separated" = "Tout ce qui est dissous dans {vessel} traverse directement la colonne avec l'eau — cette méthode n'en sépare rien ({outside_method})."
+"chromatographed.lv2-no-peaks" = "{vessel} : chromatogramme — aucun pic{unseen}"
+"chromatographed.lv1-spot" = "{name} à {mm} mm de haut"
+"chromatographed.lv2-peak" = "{name} à {seconds} s, Rf {rf} ({area} % de l'aire)"
+"chromatographed.lv3-method-mixed" = "K = γ∞(eau)/γ∞(alcane) issu du même UNIFAC, avec lequel l'ampoule à décanter effectue aussi sa répartition — sauf pour {curated}, dont le K est une valeur pédagogique vérifiée : un colorant est un glycoside ou un aromatique sulfoné, et une décomposition UNIFAC de celui-ci serait une invention déguisée en calcul"
+
+"consumed.lv2" = "{vessel} : {moles} {name} consommé(s)"
+"dissolved.lv2" = "{vessel} : {moles} {name} dissous"
+"precipitated.lv2" = "{vessel} : {moles} {name} précipité ↓"
+"precipitated.lv2-dry" = "{vessel} : {moles} {name} restés à l'état solide — pas de liquide dans le récipient, donc pas de précipité"
+
+"curdling-changed.lv2" = "{vessel} : {material} — part de caillé {from} % → {to} % ({mass} g de solide au total en flocons visibles)"
+"emulsion-changed.lv2" = "{vessel} : {material} dispersé {from} % → {to} % ({volume} mL ; demi-vie de coalescence {half_life} s)"
+"hydrolysed.lv2" = "{vessel} : {family} a hydrolysé {mass} de {substrate} en {seconds} s ({percent} % converti)"
+"material-layers-formed.lv2" = "{vessel} : {upper_material} forme la couche supérieure ; {lower} est plus dense et reste en dessous"
+
+"dehydrated.lv2" = "{vessel} : {hydrate} → {anhydrous} + eau, chassée à {at} °C — {water_g} g d'eau ont quitté le creuset"
+"dehydrated.lv3" = "{vessel} : déshydratation à {at} K — {units} mol {hydrate} → {units} mol {anhydrous} + {water} mol H2O ({water_g} g). En une seule étape jusqu'au sel anhydre : les hydrates intermédiaires existent réellement, mais ne sont pas modélisés ici"
+"hydrated.lv2" = "{vessel} : {anhydrous} + eau → {hydrate} ; {water} mol d'eau sont retournées dans le réseau cristallin"
+"hydrated.lv3" = "{vessel} : réhydratation — {units} mol {anhydrous} + {water} mol H2O → {units} mol {hydrate}. Déclenchée parce que l'eau libre disponible ne dépasse pas le besoin stœchiométrique du cristal ; avec plus d'eau, la dissolution serait la réponse honnête, et c'est à la machine de calcul aqueuse qu'il revient de la traiter"
+
+# The flame colour is the observation. It went through the table at lv1
+# and was composed in English at lv2, so the German line ended
+# "entzündet — orange-red flame". German cannot decline these colours
+# attributively without inflecting the table, so the noun goes first and
+# the colour follows as an apposition.
+"ignited.lv2-flame" = " — flamme : {colour}"
+"ignited.lv2-energy" = " · {kilojoules} kJ libérés"
+
+"temperature-changed.lv2" = "{vessel} : {from} °C → {to} °C"
+"temperature-changed.lv3" = "{vessel} : T {from} K → {to} K (ΔT = {delta} K)"
+
+"transported.lv2" = "{cells} cellules × {steps} étapes (Cf={courant}) ; éluat → {receiver} : {what}"
+"transported.lv2-portion" = "{moles} {name}"
+
+# The melting/boiling apparatus. Every one of its refusals is the lesson —
+# a mixture is told WHY it has no sharp point — so an English refusal in a
+# German lab is the worst place for this table to be missing.
+"transition-point.lv2" = "{vessel} {what} : {subject} {outcome} à {value} °C (± 0,5), net — une seule substance"
+"transition-point.lv3" = "{vessel} {what} : {subject} {outcome} à {value} °C ± 0,5 (net : une seule substance au-dessus du seuil de pureté de {trace} de fraction molaire). Source : {source}. Limite : {boundary}"
+"transition-point.empty.lv1" = "Il n'y a rien dans le tube qui puisse fondre."
+"transition-point.empty.lv2" = "{vessel} {what} : rien de la phase requise ne se trouve dans le récipient"
+"transition-point.mixture.lv1" = "Cela ne fond pas à une seule température — cela devient mou et pâteux sur toute une plage. C'est exactement ce que fait toujours un mélange, et c'est à cela que tu reconnais que cet échantillon n'est pas pur."
+"transition-point.mixture.lv2" = "{vessel} {what} : pas de point net — l'échantillon est un mélange ({listed}). Il devient mou et fond sur toute une plage, à partir de moins de {bound} °C"
+"transition-point.mixture.lv3" = "{vessel} {what} : refusé — {listed} sont tous au-dessus du seuil de pureté, il n'y a donc aucune transition nette à rapporter. {boundary}"
+"transition-point.nodata.lv1" = "Personne n'a encore consigné cela dans le cahier de laboratoire, l'appareil ne peut donc rien te dire à ce sujet."
+"transition-point.nodata.lv2" = "{vessel} {what} : l'échantillon est une seule substance ({subject}), mais la base de données ne porte aucun {what} pour elle — aucune valeur n'est inventée"
+"transition-point.wet.lv1" = "L'échantillon est encore humide. Sèche-le d'abord — un échantillon humide fond trop bas et de façon imprécise, et la mesure serait un mensonge."
+"transition-point.wet.lv2" = "{vessel} {what} : l'échantillon n'est pas isolé — outre {subject}, le récipient contient encore un peu d'une autre phase. Sèche-le ou sépare-le d'abord"
+"transition-point.wet.lv3" = "{vessel} {what} : refusé — {subject} est certes la seule substance de la phase voulue, mais de la matière d'une autre phase est présente ; il s'agit donc d'un échantillon humide ou dissous, et non isolé. {boundary}"
+
+# I18N-13. The lv3 evidence lines that were still a bare `format!`.
+#
+# `I18N.md` used to record the 27 of them as "counted separately on
+# purpose" — the working, for a reader who asked for it. That exemption is
+# withdrawn: lv3 is a register a reader SELECTS, and a register a reader
+# selects is a user-facing surface. The lines below are the rest of that
+# surface in German.
+#
+# They are terse on purpose. lv1 narrates and lv2 summarises; lv3 hands
+# over the arithmetic and the boundary of the claim, and German keeps the
+# same register rather than smoothing it into prose.
+"spill-created.lv3" = "{source} : {percent} % sont passés dans le déversement sur {where}"
+"container-broken.lv3" = "{vessel} : récipient brisé à {impulse} N·s ; le contenu a atterri sur {where}"
+"collision-withstood.lv3" = "{vessel} : choc de {impulse} N·s encaissé"
+"spill-recovered.lv3" = "Déversement sur {where} : {percent} % récupérés dans {to}"
+"spill-hazard.lv3" = "Déversement sur {where} ({severity}) : {hazard} ; {real_world}"
+"hazard-warning.lv3" = "DANGER [{severity}] (L0) : {hazard} ; {real_world}"
+"fermented.lv3" = "{vessel} : la levure a fait fermenter {sucrose} mol de saccharose en {seconds} s → {ethanol} mol d'éthanol + {co2} mol de CO2 ({yeast} g de levure active)"
+"hydrolysed.lv3" = "{vessel} : une activité {family} limitée a hydrolysé {mass} g de {substrate} dans {material} ; {percent} % converti. Les produits restent dans la matière conservée, non dissoute : aucun inventaire de produits nommés n'est affirmé."
+"surface-spread.lv3" = "{vessel} : {material} — la surface libre au centre est passée de {from} % à {to} %"
+"surface-colour-spread.lv3" = "{vessel} : {spots} tache(s) de couleur en surface se sont étendues de {from} % à {to} %"
+"surface-colour-mixed.lv3" = "{vessel} : {spots} tache(s) de couleur en surface homogénéisée(s)"
+"emulsion-changed.lv3" = "{vessel} : réponse d'émulsion limitée au niveau de la recette {from} → {to} ; {volume} L dispersés ; demi-vie {half_life} s — aucune affirmation sur la CMC, la distribution des gouttelettes ou la CFD"
+"curdling-changed.lv3" = "{vessel} : réponse limitée de coagulation acide {from} → {to} ; avancement de la séparation {progress} ; solide de caillé {mass} g à partir de {acid_moles} mol de {acid} ; masse totale conservée, aucune affirmation sur la spéciation de la caséine ou le rendement humide"
+"headspace-partitioned.lv3" = "{vessel} : {name} liquide → ciel gazeux, {moles} mol ; fraction gazeuse {fraction}, p = {pa} Pa, H = {henry} mol/(L·atm) — {source}"
+"headspace-partitioned.lv3-back" = "{vessel} : {name} ciel gazeux → liquide, {moles} mol ; fraction gazeuse {fraction}, p = {pa} Pa, H = {henry} mol/(L·atm) — {source}"
+"material-layers-formed.lv3" = "{vessel} : rôle de couche de matière vérifié — le {upper_material} non dissous est immiscible avec la phase aqueuse et se trouve au-dessus de {lower} ; ce n'est pas un calcul moléculaire d'équilibre liquide-liquide"
+"distilled.lv3-modelled" = "{from} → {to} : {contents} ; {at} K → {ended} K ; {stages} plateau(x) théorique(s) ; {energy} kJ de chaleur latente. {model}"
+"precipitated.lv3" = "{vessel} : {moles} mol de {name} précipités"
+"precipitated.lv3-dry" = "{vessel} : {moles} mol de {name} formés comme produit condensé (récipient sec)"
+"below-autoignition.lv3" = "{vessel} : {name} en présence d'oxygène à {at} K, en dessous de sa température d'auto-inflammation de {needs} K ; pas d'étincelle, donc le solveur thermique s'abstient"
+"sealed-cell.lv3" = "{vessel} : {material}, décharge vérifiée {reaction} à {volts} V de tension à vide. La réaction est NOMMÉE et non calculée — ses produits n'ont aucune espèce dans ce registre et aucune charge n'est suivie —, le bilan reste donc intact et la masse de l'objet est conservée par construction, non par un calcul sur les produits"
+"polymer-heated.lv3-softened" = "{vessel} : {name} à {kelvin} K, au-dessus du point de ramollissement vérifié de {limit} K — glissement des chaînes, réversible ; aucune viscosité ni vitesse d'écoulement n'est affirmée"
+"polymer-heated.lv3-charred" = "{vessel} : {name} à {kelvin} K, au-dessus de la température de décomposition vérifiée de {limit} K — irréversible ; les produits de pyrolyse ne sont pas modélisés et le bilan reste intact"
+"polymer-heated.lv3-network" = "{vessel} : {name} à {kelvin} K, réticulé — aucun point de ramollissement n'existe à quelque température que ce soit ; le seuil le plus proche est la décomposition à {limit} K"
+"polymer-heated.lv3-rigid" = "{vessel} : {name} à {kelvin} K, en dessous du point de ramollissement vérifié de {limit} K"
+"corroded.lv3" = "{vessel} : {name} corrodé : {why}"
+"corroded.lv3-spared" = "{vessel} : {name} ne corrode pas : {why}"
+"adsorbed.lv3" = "{vessel} : {dye} sur {solid}, {held} mol fixées à {loading} mg/g, {left} mol encore dissoutes. Limite : {boundary}"
+
+# I18N-13, second tranche: the lines the LINT could not see either.
+#
+# `engine-locale-lint.py` found prose by looking for two adjacent English
+# words, which is blind to a sentence whose words are all separated by
+# holes — "{vessel}: {reaction} released {energy} J" has exactly one
+# English word in it and reads as prose to a person. Fifteen more lines
+# hid in that gap, one of them at lv2 and one at lv1. The lint now reads
+# a `format!`'s TEMPLATE on its own terms, so they are counted; these are
+# their German.
+"gas-produced.lv3" = "{vessel} : {moles} mol de {species} formés ({rate} mol/s)"
+"reaction-heat-released.lv3" = "{vessel} : {reaction} a libéré {energy} J"
+"foam-changed.lv3" = "{vessel} : mousse {volume} L, {height} cm de haut, débordement {overflow} L"
+"uv-attenuated.lv3" = "{vessel} : {name} laisse passer {fraction} de {nm} nm ({band}) ; {mechanism}"
+"magnet-separated.lv3-separated" = "{from} → {to} : attirés magnétiquement : {attracted} ; restés non magnétiques : {remained}"
+"magnet-separated.lv3-nothing-remained" = "aucune"
+"org-reacted.lv3" = "{vessel} : {name}, {equation}, avancement {extent} mol. Limite : {boundary}"
+"smelled.lv2-wafted" = "{vessel} : éventé — {list}"
+"dissolved.lv3" = "{vessel} : {moles} mol de {name} dissous"
+"inert.lv3" = "{vessel} : {name} inerte : {why}"
+"observed.lv3" = "{vessel} : {appearance} (liquide {colour}, trouble {turbidity})"
+"no-cell.lv3" = "{a}–{b} : pas de pile : {why}"
+"state-changed.lv1-generic" = "Le {name} dans {vessel} {verb}."
+"reacted.lv3-catalyst" = " (catalyseur : {c})"
+"solver-failed.lv3" = "{vessel} : solveur « {solver} » en échec : {detail}"
+
+# Moved, not invented. `chromatographed.lv3` above carried this clause
+# written into its own template, so the `{method}` hole the English grew —
+# the one that says whether a K was computed or reviewed — could never
+# reach a German reader at all. The German below is that row's own words,
+# lifted out of it.
+#
+# One word IS changed, and deliberately: the row said "γ∞(water)/γ∞(alkane)"
+# while `chromatographed.lv3-method-mixed`, which fills the SAME hole when
+# a curated K is on the column, says "γ∞(Wasser)/γ∞(Alkan)". Two spellings
+# for one formula was invisible while only one of them could ever render;
+# now that they are alternatives at one hole, a German reader would see the
+# sentence spell its own symbols two ways depending on the dye.
+"chromatographed.lv3-method-unifac" = "K = γ∞(eau)/γ∞(alcane) issu du même UNIFAC, selon lequel l'ampoule à décanter répartit aussi"
+
 [heat-source]
+# What the burner, the candle and the hotplate are called. The engine
+# names them in English on the event; this is where they get their word.
 "bunsen-burner" = "bec Bunsen"
 "candle" = "bougie"
 "hot-plate" = "plaque chauffante"
@@ -87,6 +985,11 @@ gas = "gazeux"
 "outcome.loses its water of crystallisation" = "perd son eau de cristallisation"
 "outcome.changes state" = "change d'état"
 
+[ionic]
+net = "Équation ionique nette"
+spectators = "Ions spectateurs"
+complete = "Équation ionique complète"
+
 [model]
 "coupling-active" = "actif"
 "coupling-absent" = "pas encore modélisé"
@@ -98,6 +1001,9 @@ negative = "négatif"
 [shifted]
 lower = "plus bas"
 higher = "plus haut"
+
+[distilled]
+azeotrope = "; azéotrope atteint : y = x"
 
 [instrument]
 thermometer = "thermomètre"
@@ -128,6 +1034,43 @@ boiled = "a bouilli"
 "no-usable-pressure" = "aucune pression exploitable"
 "solvent-not-in-pack" = "solvant absent du jeu de paramètres"
 
+[centrifuged]
+"diameter-assumed" = " (diamètre supposé)"
+
+[chromatographed]
+"solvent-only" = "éluant seul"
+
+[refusal]
+"sealed vessel over-pressurised and burst" = "récipient scellé mis en surpression et éclaté"
+"radioactive source: ionising radiation" = "source radioactive : rayonnement ionisant"
+"liquid nitrogen is a cryogen and its boil-off displaces breathable air" = "l'azote liquide est un cryogène et son évaporation chasse l'air respirable"
+"a liquid medium is required" = "un milieu liquide est requis"
+"no solid particles are present" = "aucune particule solide n'est présente"
+
+[error]
+"no-such-vessel" = "aucun récipient {vessel} — crée-le d'abord avec `new` ; cela crée le prochain récipient libre"
+"unknown-species" = "substance inconnue « {species} » — absente du registre"
+"unknown-material" = "matériau inconnu « {material} » — absent du registre des recettes"
+"material-recipe-mismatch" = "l'identité de recette du matériau ne correspond pas à l'opérateur indiqué"
+"non-positive-amount" = "la quantité doit être positive"
+"unstockable-key" = "rien ne porte le nom « {key} » dans le stock — ce n'est ni une substance ni un matériau"
+"stock-exhausted" = "la bouteille « {key} » contient {remaining} {unit}, mais {requested} {unit} ont été demandés"
+"bad-fraction" = "la fraction doit être comprise entre 0 et 1"
+"self-transfer" = "le récipient source et le récipient de destination sont le même"
+"vessel-not-empty" = "le récipient {vessel} n'est pas vide — transvase d'abord son contenu ou jette-le"
+"vessel-sealed" = "le récipient {vessel} est fermé — ouvre {vessel} d'abord, puis jette-le. Verser un récipient fermé dans les déchets viderait un contenant qui retient encore sa propre atmosphère, et le gaz doit aller là où on peut le voir"
+"last-vessel" = "le dernier récipient doit rester sur la paillasse"
+"broken-vessel" = "le récipient {vessel} est cassé et ne peut pas être utilisé"
+"no-such-spill" = "rien n'est renversé à l'endroit indiqué"
+"solid-not-present" = "il n'y a pas de {species} solide à broyer dans le récipient {vessel} — broyer change la granulométrie d'un solide et doit donc se faire avant qu'il ne se dissolve, pas après"
+"centrifuge-unavailable" = "la centrifugeuse ne peut pas faire tourner ce récipient : {reason}"
+"centrifuge-imbalance" = "le rotor de la centrifugeuse a un balourd de {imbalance_g} g (échantillon {sample_g} g, contrepoids {counterbalance_g} g) ; équilibre-le à 0,10 g près"
+# The two nested error types still write their own English sentence. The
+# hole is here so that the frame exists the day they get keys of their own;
+# translating `{detail}` is not a translation, it is a promise to keep.
+"kinetics" = "{detail}"
+"transport" = "{detail}"
+
 [severity]
 Caution = "Prudence"
 Danger = "Danger"
@@ -145,7 +1088,174 @@ Danger = "Danger"
 "this substance reacts violently with water, releasing a large amount of heat" = "cette substance réagit violemment avec l'eau en dégageant une grande quantité de chaleur"
 "sealed vessel over-pressurised and burst" = "récipient scellé mis en surpression et éclaté"
 "radioactive source: ionising radiation" = "source radioactive : rayonnement ionisant"
+# GUI: this sentence WAS translated — under `[refusal]`, where nothing
+# looks for it. `localize_hazard` tries `hazard.*` then `hazard_vapour.*`
+# and stops, so the one Danger-severity rule about a cryogen reached a
+# German learner as a German real_world sentence wrapped around an English
+# hazard clause. Its two neighbours above are duplicated into both tables
+# on purpose; this one had only half that treatment.
 "liquid nitrogen is a cryogen and its boil-off displaces breathable air" = "l'azote liquide est un cryogène et son évaporation chasse l'air respirable"
+
+[real_world]
+"People are hospitalised every year from mixing these two household cleaners." = "Chaque année, des personnes sont hospitalisées pour avoir mélangé ces deux produits d'entretien ménagers."
+"Chlorine gas was used as a chemical weapon; even small amounts damage lungs." = "Le chlore gazeux a été utilisé comme arme chimique ; même de petites quantités endommagent les poumons."
+"Bleach and vinegar is one of the commonest household poisonings there is — both are ordinary kitchen bottles, which is exactly why people mix them." = "L'eau de Javel et le vinaigre forment l'une des intoxications domestiques les plus courantes qui soient — ce sont deux bouteilles de cuisine tout à fait ordinaires, et c'est précisément pour cela qu'on les mélange."
+"Potassium permanganate and glycerol ignite on contact; similar mixtures cause laboratory fires." = "Le permanganate de potassium et le glycérol s'enflamment à leur contact mutuel ; des mélanges similaires provoquent des incendies de laboratoire."
+"Hydrogen and chlorine mixtures can detonate when exposed to light or a spark." = "Les mélanges d'hydrogène et de chlore peuvent détoner sous l'effet de la lumière ou d'une étincelle."
+"Permanganate and sulfite solutions react vigorously; at scale, such mixtures can detonate." = "Les solutions de permanganate et de sulfite réagissent vivement ; à grande échelle, de tels mélanges peuvent détoner."
+"Any metal above hydrogen in the activity series gives off hydrogen gas in acid; magnesium ribbon in hydrochloric acid is the school version, where the gas pops with a lit splint. The gas is genuinely flammable whichever metal and acid made it." = "Tout métal situé au-dessus de l'hydrogène dans la série d'activité dégage du dihydrogène au contact d'un acide ; le ruban de magnésium dans l'acide chlorhydrique en est la version scolaire, où le gaz détone au contact de l'esquille incandescente. Quels que soient le métal et l'acide qui l'ont produit, ce gaz est réellement inflammable."
+"Adding acid to chalk or baking soda foams over if the vessel is too small. CO₂ displaces air in enclosed spaces." = "Verser de l'acide sur de la craie ou du bicarbonate de soude fait déborder la mousse si le récipient est trop petit. Le CO₂ chasse l'air dans les espaces confinés."
+"Quicklime (CaO) generates enough heat on contact with water to cause burns; adding caustic soda on top is reckless." = "La chaux vive (CaO) dégage assez de chaleur au contact de l'eau pour causer des brûlures ; y ajouter en plus de la soude caustique est imprudent."
+"Quicklime (CaO) in water can reach 100 °C and cause severe burns. Always add the solid to the water slowly, never the reverse." = "La chaux vive (CaO) dans l'eau peut atteindre 100 °C et causer de graves brûlures. Verse toujours le solide lentement dans l'eau, jamais l'inverse."
+"flying glass and a pressure wave — a sealed vessel that makes gas or warms up is how real labs get hurt" = "des éclats de verre et une onde de choc — un récipient scellé qui produit du gaz ou qui chauffe, voilà comment on se blesse dans un vrai laboratoire"
+"on a real bench this one is never smelled directly — fume hood, waft only, and some not even then" = "sur une vraie paillasse, on ne sent jamais celui-ci directement — sous hotte, en éventant seulement, et pour certains pas même cela"
+"on a real bench this needs shielding, dosimetry and a licence; safe only because this lab is virtual" = "sur une vraie paillasse, cela exige un blindage, une dosimétrie et une autorisation ; sans danger uniquement parce que ce laboratoire est virtuel"
+"Virtual investigation only. Real liquid nitrogen requires trained supervision, eye and face protection, cryogenic gloves, ventilation, and an open pressure-relief path; never seal it in glass or handle it in an unventilated room." = "Étude virtuelle uniquement. L'azote liquide réel exige une supervision formée, une protection des yeux et du visage, des gants cryogéniques, une ventilation et une voie de décompression ouverte ; ne jamais le sceller dans du verre ni le manipuler dans une pièce non ventilée."
+
+[hazard_vapour]
+"NH3 vapour is hazardous to inhale" = "la vapeur de NH3 est dangereuse à inhaler"
+"Cl2 vapour is hazardous to inhale" = "le gaz Cl2 est dangereux à inhaler"
+"SO2 vapour is hazardous to inhale" = "le gaz SO2 est dangereux à inhaler"
+"NO2 vapour is hazardous to inhale" = "le gaz NO2 est dangereux à inhaler"
+"methanol vapour is hazardous to inhale" = "la vapeur de méthanol est dangereuse à inhaler"
+"NH2Cl vapour is hazardous to inhale" = "le gaz NH2Cl est dangereux à inhaler"
+
+[appearance]
+black = "noir"
+orange = "orange"
+yellow = "jaune"
+pink = "rose"
+brown = "brun"
+"dark brown" = "brun foncé"
+"blue-black" = "bleu-noir"
+"deep purple" = "violet profond"
+purple = "violet"
+blue = "bleu"
+"deep blue crystals" = "cristaux bleu profond"
+"bluish-silver" = "argenté bleuté"
+"bright yellow powder" = "poudre jaune vif"
+"brilliant white" = "blanc éclatant"
+"clear plastic" = "plastique transparent"
+"colorless solution" = "solution incolore"
+colourless = "incolore"
+"off-white" = "blanc cassé"
+"blue-green" = "bleu-vert"
+"grey-black" = "gris-noir"
+"colourless to white crystals" = "cristaux incolores à blancs"
+"colourless to white grains" = "grains incolores à blancs"
+"colourless, oily" = "incolore, huileux"
+"colourless, sharp smell" = "incolore, odeur âcre"
+"colourless, syrupy" = "incolore, sirupeux"
+"colourless, vinegar smell" = "incolore, odeur de vinaigre"
+"dark blue powder" = "poudre bleu foncé"
+"dark green-black crystals" = "cristaux vert-noir foncé"
+"dark purple crystals" = "cristaux pourpre foncé"
+"dark red powder" = "poudre rouge foncé"
+"dark violet crystals" = "cristaux violet foncé"
+"dull grey" = "gris terne"
+"dull silvery grey" = "gris argenté terne"
+"fuming colorless liquid" = "liquide incolore fumant"
+green = "vert"
+grey = "gris"
+"intense purple" = "pourpre intense"
+# A species the registry does not describe. English says "new"; the
+# fallback is looked up like any other word rather than left in English.
+new = "nouveau"
+"pale blue" = "bleu pâle"
+"pale green" = "vert pâle"
+"pale yellow" = "jaune pâle"
+"pale yellow-green" = "jaune-vert pâle"
+red = "rouge"
+"red-brown" = "rouge-brun"
+"reddish brown" = "brun rougeâtre"
+"reddish-brown" = "brun-rougeâtre"
+"sharp-smelling, toxic" = "odeur âcre, toxique"
+silver = "argent"
+silvery = "argenté"
+"silvery-white" = "argenté-blanc"
+"translucent white plastic" = "plastique blanc translucide"
+"very pale pink" = "rose très pâle"
+white = "blanc"
+"white crystals" = "cristaux blancs"
+"white crystalline powder" = "poudre cristalline blanche"
+"white crystalline solid" = "solide cristallin blanc"
+"white fibrous solid" = "solide fibreux blanc"
+"white granular solid" = "solide granuleux blanc"
+"white opaque plastic" = "plastique blanc opaque"
+"white powder" = "poudre blanche"
+"white to yellowish powder" = "poudre blanche à jaunâtre"
+"white when dry" = "blanc à l'état sec"
+"yellow-green, toxic" = "jaune-vert, toxique"
+
+[look]
+# The space between two whole sentences. It looks like typography rather
+# than language right up until the language is one that does not use it —
+# Japanese runs its sentences together after 。 — so it is a row here for
+# the reason `look.full-stop` is. German uses the space, and says so
+# explicitly rather than by falling back.
+sentence-join = "{first} {second}"
+empty = "le bécher est vide"
+nothing-visible = "il n'y a rien à voir dans le bécher"
+liquid = "le liquide est {colour} {clarity}"
+clarity-opaque = "et si trouble qu'on ne voit pas au travers"
+clarity-cloudy = "et trouble"
+clarity-hazy = "et à peine voilé"
+clarity-clear = "et limpide"
+bubbling = "des bulles de gaz y remontent"
+protein-coagulated = "la protéine de {material} s'est dénaturée et a coagulé en un solide blanc opaque"
+deposit-in-liquid = "au fond, tu vois {what}"
+deposit-dry = "dans le bécher, tu vois {what}"
+surface-skin = "une peau de {material} recouvre la surface"
+surface-grains = "des grains de {material} flottent à la surface"
+floats-on-top = "à la surface, tu vois {what}"
+coloured = "{name} ({colour})"
+piece-floats = "un morceau de {what} flotte à la surface"
+piece-bottom = "un morceau de {what} repose au fond"
+piece-here = "un morceau de {what} se trouve dans le bécher"
+spectral-gap = "La couleur est incomplète : aucun spectre d'absorption pour {species}."
+# The list grammar, as two entries rather than a hardcoded " and ": a
+# language that uses no final conjunction writes "{head}{last}" here and
+# gets what it wants.
+list-separator = ", "
+list-final = "{head} et {last}"
+clause-separator = ", "
+full-stop = "."
+
+[inert]
+hydrogen-overpotential = "{name} devrait se dissoudre dans cet acide d'après la série (force motrice {driving} V), mais l'hydrogène doit se former sur {name}, et sur cette surface cela coûte une surtension d'environ {eta} V. Bloqué cinétiquement à l'échelle de temps d'un cours, et non inerte thermodynamiquement — c'est toute la différence entre une paillasse et une pile"
+couple-spent = "tout le {other} s'est déposé ; il ne reste plus rien à déplacer au {name} restant. Le couple descend toujours la pente (E° {e_self} V pour {name} contre {e_other} V pour {other}) — il n'y a simplement plus d'ions {other}"
+couple-spent-trace = "tout le {other} s'est déposé à une trace près ({left} mol d'ion restante, là où la racine de Nernst a placé l'équilibre) ; il ne reste plus rien à déplacer au {name} restant. Le couple descend toujours la pente (E° {e_self} V pour {name} contre {e_other} V pour {other})"
+uphill-in-series = "{name} se situe au-dessus de {other} dans la série d'activité (E° {e_self} V contre {e_other} V) : les électrons devraient donc remonter la pente, et le métal le moins réactif ne déplace pas le plus réactif"
+above-hydrogen = "{name} se situe au-dessus de l'hydrogène dans la série d'activité (E° {e_self} V contre 0,000 V pour 2H⁺/H₂), un acide dilué ne peut donc pas lui prendre ses électrons. Un acide oxydant comme l'acide nitrique le pourrait, par un autre couple, et cela n'est pas modélisé"
+insoluble-in-water = "{name} ne se dissout pas dans l'eau : sa solubilité vérifiée est de {limit} g pour 100 mL, en dessous de tout ce qu'un bécher montrerait. Il est encore là en entier"
+insoluble-in-water-trace-in-solution = "{name} se dissout à peine dans l'eau : sa solubilité vérifiée est de {limit} g pour 100 mL, en dessous de tout ce qu'un bécher montrerait. Une trace en est en solution ; le reste est toujours là"
+
+[inert-in-solvent]
+Zn-ethanol = "la série d'activité a besoin d'une source de protons ou d'un couple aqueux ; l'éthanol sec n'offre ni l'un ni l'autre à température ambiante, à une vitesse observable"
+Fe-ethanol = "pas de couple aqueux et pas d'acide : le fer reste inchangé dans l'éthanol sec"
+Cu-ethanol = "le cuivre est sous l'hydrogène dans la série, et l'éthanol sec n'offre rien qui puisse l'oxyder"
+Mg-ethanol = "l'éthanolate de magnésium ne se forme qu'à reflux avec un catalyseur ; à température ambiante le ruban reste inchangé"
+Pb-ethanol = "pas de couple aqueux et pas d'acide : le plomb reste inchangé dans l'éthanol sec"
+Ag-ethanol = "l'argent est noble face à tout ce que ce solvant peut offrir"
+MnO2-ethanol = "le dioxyde de manganèse est un oxyde insoluble ; il reste inchangé dans l'éthanol, en précipité brun-noir"
+Zn-hexane = "l'hexane est apolaire et aprotique ; aucune voie rédox ou acide-base n'attaque le zinc dans les conditions de la paillasse"
+Fe-hexane = "le fer est inerte dans les hydrocarbures secs — pas d'eau, pas d'acide, pas d'oxydant"
+Cu-hexane = "le cuivre est inerte dans les hydrocarbures secs — aucun oxydant présent"
+Mg-hexane = "le magnésium est inerte dans les hydrocarbures secs — aucune voie protique ni acide de Lewis"
+Pb-hexane = "le plomb est inerte dans les hydrocarbures secs à température ambiante"
+Ag-hexane = "l'argent est noble, et l'hexane n'offre rien qui puisse l'oxyder"
+Zn-propanone = "l'acétone sèche est aprotique ; à température ambiante aucune voie acide-base ou rédox n'attaque le zinc"
+Fe-propanone = "le fer reste inchangé dans l'acétone sèche — pas de couple aqueux, pas d'acide"
+Cu-propanone = "le cuivre est sous l'hydrogène, et l'acétone sèche n'offre rien qui puisse l'oxyder"
+Mg-propanone = "le magnésium est inerte dans l'acétone sèche à température ambiante"
+Pb-propanone = "le plomb est inerte dans l'acétone sèche — pas de couple aqueux, pas d'acide"
+Ag-propanone = "l'argent est noble face à tout ce que l'acétone peut offrir"
+Zn-ethyl_acetate = "l'acétate d'éthyle sec est aprotique ; à température ambiante aucune voie n'attaque le zinc"
+Fe-ethyl_acetate = "le fer reste inchangé dans l'acétate d'éthyle sec — pas de couple aqueux, pas d'acide"
+Cu-ethyl_acetate = "le cuivre est inerte dans l'acétate d'éthyle sec — aucun oxydant présent"
+Mg-ethyl_acetate = "le magnésium est inerte dans l'acétate d'éthyle sec à température ambiante"
+Pb-ethyl_acetate = "le plomb est inerte dans l'acétate d'éthyle sec — pas de couple aqueux, pas d'acide"
+Ag-ethyl_acetate = "l'argent est noble face à tout ce que l'acétate d'éthyle peut offrir"
 
 [flame]
 "a blinding white" = "d'un blanc aveuglant"
@@ -158,13 +1268,12 @@ Danger = "Danger"
 "orange-red" = "rouge orangé"
 "violet" = "violet"
 
-# Surface 5: the words a learner may TYPE. Accented and unaccented forms
-# both, because a keyboard is not always the one the language expects —
-# the German file carries `erwaermen` beside `erwärmen` for the same
-# reason, and a French one needs `precipiter` beside `précipiter`.
 [script-verb]
 new = "nouveau, nouvelle"
 remove = "retirer, enlever, ranger"
+# `entsorgen` used to sit on `remove`, which could not take a full
+# vessel — the German word for disposal pointed at the verb that
+# refuses to dispose of anything. It belongs here.
 discard = "jeter, vider, éliminer, eliminer"
 add = "ajouter, verser, introduire"
 stock = "approvisionner, stock"
@@ -198,11 +1307,15 @@ react = "réagir, reagir, faire réagir"
 test = "tester, identifier, caractériser, caracteriser"
 particles = "particules, vue particulaire"
 smell = "sentir, humer"
+# The verbs the parser accepts without listing them in `VERBS`, because
+# each is a second spelling of a row that is already there.
 look = "regarder, observer, examiner"
 observe = "constater"
 waft = "éventer, eventer"
 mix = "mélanger, melanger, mixer"
 zoom = "agrandir, zoomer"
+# `voltmeter` is the same word in German, so rule 2 drops it and
+# `Spannungsmesser` is what actually registers.
 voltmeter = "voltmètre, voltmetre"
 
 [script-instrument]
@@ -246,13 +1359,23 @@ on = "sur"
 with = "avec"
 
 [script]
+# `das Labor` because that is what the interface bundle calls the bench
+# (`web/app/src/locales/de.json`, "the bench"); two German words for
+# one object is how a translation starts reading like two products.
 unknown-verb = "commande inconnue « {word} » — le laboratoire connaît ces verbes : {verbs}"
 
 [scene]
+# Three templates for one fact, because German takes a different case for
+# water going in and water coming out, and "into" is not a word that can be
+# swapped in place. The direction is a property of the sentence.
 osmosis-in = "Dans le modèle pédagogique, l'osmose a transporté au total {water} mol ({mass} g) d'eau vers l'intérieur de {material} ; la taille de l'objet, la mécanique de la membrane et l'équilibre final ne sont pas modélisés."
 osmosis-out = "Dans le modèle pédagogique, l'osmose a transporté au total {water} mol ({mass} g) d'eau hors de {material} ; la taille de l'objet, la mécanique de la membrane et l'équilibre final ne sont pas modélisés."
 osmosis-either = "Dans le modèle pédagogique, l'osmose a transporté au total {water} mol ({mass} g) d'eau vers l'intérieur ou hors de {material} ; la taille de l'objet, la mécanique de la membrane et l'équilibre final ne sont pas modélisés."
 gel = "Un gel translucide et cohérent contient {percent} % du polymère {polymer}."
+# The two coating sentences take the German `web/app/src/locales/de.json`
+# already carries for them, word for word. The web looked them up whole —
+# they have no holes, so that worked — and a second, different German for
+# the same sentence is how one product starts reading like two.
 coating-paint = "Le fer peint porte un film de peinture protecteur intact ; les rayures ne sont pas modélisées."
 coating-passive-film = "L'acier inoxydable porte une couche passive transparente ; son épaisseur n'est pas représentée à l'échelle."
 corrosion = "{percent} % du {metal} suivi est actuellement immobilisé dans son oxyde modélisé. Un oxyde ajouté directement est indiscernable d'un oxyde formé ici ; ce n'est ni une vitesse de corrosion, ni un historique, ni une épaisseur, ni un taux de recouvrement."
@@ -264,6 +1387,10 @@ food-colour-resting = "Des gouttes de colorant alimentaire reposent sur la surfa
 adsorption = "{percent} % du {sorbate} suivi est fixé sur {sorbent} ; {dissolved} mg restent dissous. C'est une répartition à l'équilibre, pas une vitesse d'élimination."
 partition = "À l'équilibre, {lower_percent} % du {species} modélisé se trouve dans la phase inférieure {lower} et {upper_percent} % dans la phase supérieure {upper}."
 emulsion = "L'agitation a dispersé {percent} % de {material} en gouttelettes troubles ; le reste surnage toujours au-dessus de l'eau."
+# The colour goes BESIDE the noun, not in front of it, for the reason
+# `look.coloured` gives: a German attributive adjective takes the noun's
+# gender and ending, so "{colour}e Schicht" is right for gelb and wrong for
+# orange and rosa. That decision belongs in this file, never in the Rust.
 material-layer = "{material} forme sa propre couche ({colour}) au-dessus de l'eau."
 vessel-contains = "Le récipient contient {material}."
 curdling = "Des flocons mous totalisant {mass} g de solide modélisé se sont séparés de {material} ; il reste un petit-lait trouble."
@@ -271,6 +1398,8 @@ foam-overflow = "La mousse déborde du bord."
 foam-standing = "De la mousse repose sur le liquide."
 
 [polymer]
+# PVA is PVA in German. It is here so that a language where it is not can
+# say so without a line of Rust.
 PVA = "PVA"
 
 [substrate]
@@ -279,6 +1408,128 @@ PVA = "PVA"
 "albumin protein" = "protéine d'albumine"
 "triglycerides in vegetable oil" = "triglycérides de l'huile végétale"
 "muscle protein" = "protéine musculaire"
+
+[not-modeled]
+# Tranche two: the gaps with a HOLE in them, which is why `[refusal]`
+# could never reach any of these. New German, authored.
+cooling-below-absolute-zero = "ce récipient n'avait que {available} kJ à céder avant le zéro absolu, et on lui en a demandé {asked} kJ. Aucun fluide frigorigène n'est modélisé ici — rien ne fixe la température de l'environnement — le reste ne pouvait donc simplement pas être retiré. La chaleur que contient une substance est intégrée sur sa propre capacité thermique là où le registre en porte une, mais en dessous d'environ 200 K même une courbe tabulée est à court de table et est maintenue constante : ce plancher est donc une limite de modèle et non une mesure"
+co-evaporation = "la co-évaporation de {liquids} demande un équilibre liquide-vapeur — c'est le travail de `distil` ; seule l'eau a été retirée"
+no-bubble-point = "un point de bulle pour ce mélange à {pressure} kPa — hors des domaines d'Antoine ajustés"
+distribution-coefficient-temperature = "le coefficient de partage {upper}/{lower} de {species} n'est vérifié qu'à {reviewed} K (tolérance +/- {tolerance} K) ; ce récipient est à {actual} K"
+not-an-extracting-solvent = "{solvent} n'est pas un solvant d'extraction liquide dans les conditions ambiantes"
+water-distribution-coefficient-temperature = "le coefficient de partage {solvent}/eau de {solute} n'est vérifié qu'à {reviewed} K (tolérance +/- {tolerance} K) ; ce récipient est à {actual} K"
+loading-exceeds-capacity = "la charge en {solute} dépasse la capacité eau/{solvent} vérifiée qu'implique sa solubilité aqueuse de {solubility} mol/L à {temperature} K ; un équilibre triphasique solide/liquide/organique persistant n'est pas encore modélisé"
+no-distribution-coefficient = "aucun coefficient de partage {solvent}/eau vérifié pour {solutes}"
+any-solute-here = "le moindre soluté dans ce récipient"
+extraction-without-coefficient = "l'extraction a déplacé les solutés pris en charge, mais il n'existe aucun coefficient de partage {solvent}/eau vérifié pour {solutes}"
+no-reviewed-density = "la masse volumique de {species} — le registre n'en porte aucune valeur vérifiée, le morceau a donc ici une masse et pas de taille"
+no-reviewed-bulk-density = "la masse volumique de {material} — la recette ne porte aucune masse volumique apparente vérifiée"
+density-of-a-mixture = "une masse volumique unique pour ce récipient : il contient {contents}, et une masse volumique appartient à une substance, pas à un mélange. Pèse-les séparément"
+incomplete-absorbance = "l'absorbance complète est indisponible : aucun spectre d'absorption pour {species}"
+no-group-decomposition = "la colonne n'a aucune décomposition en groupes curatée pour {species} — une vraie colonne les séparerait, c'est donc une lacune du modèle plutôt qu'un résultat"
+nothing-to-electrolyse = "rien ici ne peut être électrolysé : {why}"
+electrolysis-needs-an-electrolyte = "le modèle d'électrolyse du solvant exige un électrolyte support dissous ; l'eau pure a une conductivité finie mais très faible, et la tension, l'écartement des électrodes et les surtensions nécessaires pour soutenir le courant demandé ne sont pas modélisés"
+no-curated-nuclide = "aucun nucléide curaté nommé '{nuclide}' — le jeu pédagogique : {known}"
+no-curated-reaction = "aucune réaction curatée nommée '{reaction}' — au catalogue : {known}"
+non-finite-extent = "{reaction} a renvoyé un avancement de réaction non fini ; aucune conversion n'a été appliquée"
+no-capacity-either-direction = "Aucune conversion pour {reaction} : ni les réactifs directs ni les réactifs inverses n'offrent de capacité au-dessus de la tolérance de non-conversion de 1e-12 mol"
+no-limiting-reactant = "Aucune conversion jusqu'à épuisement pour {reaction} : un réactif limitant est absent, épuisé, ou sa capacité est en deçà de la tolérance de non-conversion de 1e-12 mol"
+partial-freezing-boundary = "la limite du modèle de congélation partielle à {temperature} °C : en dessous de ce point, la cristallisation des sels et un diagramme de phases eutectique propre au soluté deviennent nécessaires ; la paillasse n'extrapolera donc pas une relation colligative dont elle ne peut plus situer l'activité du solvant"
+aqueous-temperature-ceiling = "le plafond de température du modèle aqueux à {temperature} °C : les expressions en température des bases thermodynamiques livrées s'arrêtent là, cette solution est donc déclarée non caractérisée plutôt qu'extrapolée"
+mostly-organic-solvent = "un solvant mixte à dominante organique (l'eau représente {percent} % du liquide) : les modèles d'activité livrés supposent l'eau comme solvant, et dans cet environnement diélectrique leurs constantes d'équilibre ne s'appliquent pas ; la spéciation ionique est donc déclarée non caractérisée ici"
+combustion-no-solver = "si ce contenu brûle ou non : aucun solveur câblé n'en modélise la combustion, le laboratoire ne peut donc trancher ni dans un sens ni dans l'autre"
+heating-an-empty-vessel = "chauffer un récipient vide (la capacité thermique du récipient n'est pas modélisée)"
+cooling-an-empty-vessel = "refroidir un récipient vide (la capacité thermique du récipient n'est pas modélisée)"
+nothing-to-evaporate = "rien à évaporer — pas d'eau dans le récipient"
+distil-without-water-or-ethanol = "la distillation d'un récipient sans eau ni éthanol liquides — les autres liquides volatils demandent que leurs constantes d'Antoine soient d'abord curatées"
+drain-a-single-phase-liquid = "soutirer un liquide monophasique — l'ampoule ne sépare que ce que la thermodynamique a déjà séparé en couches"
+staged-extraction-needs-fresh-aqueous = "une extraction étagée neuve exige une seule phase aqueuse liquide au départ ; soutire d'abord une couche organique existante"
+extraction-needs-water-and-solvent = "l'extraction liquide-liquide demande une phase aqueuse et un solvant d'extraction liquide de volume molaire connu"
+ph-meter-has-no-solution = "le pH-mètre n'indique rien — aucune solution aqueuse n'a été caractérisée dans ce récipient"
+volume-meter-on-an-open-vessel = "le volumètre lit le ciel gazeux d'un récipient fermé, et celui-ci est ouvert — ferme-le pour donner au gaz un volume mesuré. Le volume du liquide, lui, figure sur la ligne du récipient."
+conductivity-on-a-dry-solid = "le conductimètre est posé sur un solide sec dont le registre ne porte aucune résistivité électrique — la lecture demande une valeur vérifiée, pas une estimation"
+conductivity-has-no-solution = "le conductimètre n'indique rien — aucune solution aqueuse n'a été caractérisée"
+density-of-the-dissolved-ions = "la part des ions dissous dans cette masse volumique : dans le registre, chaque ion porte celle de l'eau comme valeur structurelle par défaut plutôt que comme valeur mesurée, si bien qu'une solution saline se lit comme l'eau dont elle a été faite. Le chiffre du solvant est juste, celui des solutés manque"
+density-of-an-empty-vessel = "une masse volumique — le récipient est vide, il n'y a rien où faire flotter l'aréomètre et rien à peser"
+spectrophotometer-has-no-solution = "aucune solution aqueuse pour le spectrophotomètre"
+chromatography-needs-an-aqueous-sample = "la chromatographie demande un échantillon aqueux — la phase mobile de la colonne est l'eau"
+chromatography-needs-a-solute = "la chromatographie demande quelque chose de dissous à injecter — ce récipient ne contient que sa phase mobile"
+titration-endpoint-not-refined = "le franchissement du pH a été encadré, mais l'affinement du point d'équivalence n'a pas convergé à 0,0001 pH ; l'état calculé le plus proche est conservé"
+titration-needs-an-aqueous-solver = "le titrage demande un solveur aqueux pour calculer le pH après chaque ajout — aucun n'est câblé"
+kinetic-outcome-needs-a-time-model = "Un résultat cinétique exige un modèle de temps routé ; un avancement nul n'établit pas l'équilibre"
+fizz-rate-near-barrier = "la vitesse à laquelle {name} pétille : la force motrice ne dépasse la surtension de l'hydrogène sur {name} que de {margin} V, et une vitesse aussi proche de sa barrière n'est pas quelque chose que ce laboratoire calcule — il réagit, lentement"
+stays-as-the-metal = "{name} reste à l'état métallique : rien de ce qui est dissous ici ne se situe en dessous de lui dans la série d'activité. Sa réaction lente avec l'eau elle-même — de l'hydrogène au fil des heures, une peau d'hydroxyde passivante — est une vitesse que ce laboratoire ne modélise pas"
+no-haloalkane = "aucun substrat halogénoalcane dans le récipient — la table de sélectivité couvre le bromoéthane (primaire) et le bromure de tert-butyle (tertiaire)"
+no-nucleophile = "aucun nucléophile reconnu dans le récipient — la table de sélectivité couvre NaOH (fort) et l'eau (faible)"
+# The two classes go in brackets beside the noun rather than in front of
+# it: a German adjective declines to the noun it qualifies, and "Methyl"
+# does not decline at all. Same decision as `look.coloured`, same reason.
+no-selectivity-rule = "aucune règle de sélectivité pour un substrat {substrate} + un nucléophile {nucleophile} à {temperature} °C — hors de la table curatée"
+no-product-table = "la sélectivité prédit {mechanism} pour {substrate} + {nucleophile}, mais aucune entrée de la table des produits n'existe — c'est une lacune d'implémentation"
+nothing-for-verb = "rien sur quoi {verb} puisse agir — il lui faut {needs} ensemble dans le récipient"
+gas-already-gone = "rien à tester — le gaz est parti à mesure qu'il se formait ; recueille-le d'abord dans un récipient fermé, puis fais {test}"
+boundary-does-not-retain-gas = "la paroi de ce récipient ne retient pas le gaz — ferme-le d'abord, puis fais {test}"
+no-henry-path-to-headspace = "{test} lit le ciel gazeux, et cette paillasse n'a aucun chemin qui y mène depuis {target} dissous (pas de coefficient de Henry vérifié) — {dissolved} mol sont présentes dans le liquide, et `smell` les rapporte de là, mais le ciel gazeux que lit le test reste vide"
+finite-acid-inventory = "{reaction} consomme un stock d'acide fini. Sur cet intervalle d'intégration, le coefficient d'activité est maintenu à sa valeur initiale pendant que la concentration en protons s'épuise ; l'équilibre acide-base est résolu à nouveau entre les intervalles, et non couplé en continu à cette loi de vitesse."
+family-declined-at-gate = "{family} v{version} a correspondu, mais a été refusée au verrou {gate} : {why}. Attendre ne fournit pas une vitesse de réaction manquante et ne satisfait pas le verrou de condition"
+
+# ── I18N-10, tranche three: the last twenty-six ────────────────────────
+#
+# Four of these are MOVED, not written: the ice verdict, the boiling
+# verdict and the two the `[refusal]` table used to reach by stripping the
+# species name off the end of the English. A second German for a sentence
+# that already had one is how one product starts reading like two.
+
+# The solvent-activity range, one key per ROUTE. The two sentences differ
+# in what they say, not only in which route they name, so they are two
+# rows rather than one with a `{route}` hole doing the work.
+activity-range-ion-interaction = "le domaine annoncé du modèle d'activité du solvant sur lequel repose cette transition ({route}) : le jeu de données d'interaction ionique est ajusté jusqu'à environ I = {fitted} mol/kgw, que cette solution atteint à {ceiling} mol/kgw de particules dissoutes, et elle est à {molality}"
+activity-range-ideal = "le domaine annoncé du modèle d'activité du solvant sur lequel repose cette transition ({route}) : faute de modèle d'activité couvrant cette solution, la paillasse utilise la loi de Raoult, qu'elle ne pousse pas au-delà de {ceiling} mol/kgw de particules dissoutes, et celle-ci est à {molality}"
+partial-freezing-cap = "la limite du modèle de congélation partielle à {temperature} °C : refroidir davantage demande la cristallisation des sels et un diagramme de phases eutectique propre au soluté"
+# `{boundary}` is one of the three rows above, whole. A subordinate
+# clause, not an interpolated fragment: a language that wants it first can
+# put it first.
+brine-retained-at-boundary = "la glace pure a été retirée et la saumure résiduelle conservée, mais poursuivre le refroidissement rencontre {boundary}"
+ice-is-not-a-solution = "l'eau de ce récipient est de la glace, et la glace n'est pas une solution : le pH, la force ionique et la spéciation décrivent tous des particules dissoutes dans un liquide, aucun d'eux n'est donc rapporté tant que le solvant est gelé"
+boiling-is-not-settled = "l'eau bout et s'en va en vapeur, donc ce qui est dissous dans le reste se concentre pendant que tu regardes : cette paillasse rapporte la transition plutôt qu'un pH établi pour une composition qui change encore"
+stranded-solutes = "la dernière eau a disparu et {names} sont toujours indiqués comme dissous, ce qui n'est pas un état qu'un bécher peut avoir. Ce en quoi ils cristallisent ne se décide pas à partir des seuls ions, et la paillasse ne devinera pas les solides"
+unavailable-crystallisation = "la cristallisation de {salt} : {dissolved} mol sont dissoutes pour une limite de {capacity} mol à cette température, et {why}"
+no-dissolution-solver = "{name} au contact du liquide : aucun solveur câblé ne modélise cette dissolution ou cette réaction"
+dissolves-unspeciated = "{name} se dissout, mais aucun moteur câblé ne le spécie : il ne contribue ni au pH ni à la force ionique ici, et ces valeurs valent pour tout le reste du bécher"
+proton-consuming-kinetics = "{reaction} : une cinétique consommatrice de protons exige un équilibre acide faible/tampon couplé — l'activité en protons libres mesurée n'est pas le stock d'acide titrable. Cette étape de vitesse non couplée est retenue plutôt que de traiter le tampon comme un réservoir d'acide fixe"
+template-refused = "le modèle de réaction de la famille {family} n'a pas pu être appliqué : {detail}"
+unregistered-condensed-species = "espèce condensée non enregistrée {key}"
+no-reviewed-still-properties = "la distillation demande des propriétés de pression de vapeur et de chaleur latente vérifiées pour {key} ; aucun composant n'a été transféré"
+outside-constant-latent-domain = "la distillation multiconstituant est hors du domaine borné de Clausius-Clapeyron à chaleur latente constante (à moins de 40 K de chaque point d'ébullition normal, 1 à 128 étages théoriques) ; aucun composant n'a été transféré"
+titration-pe-never-pinned = "la burette a atteint sa limite de {steps} incréments sans arriver au pe {target} : aucun potentiel n'a été fixé à aucun moment de ce titrage. Avec un seul degré d'oxydation d'un couple dans le ballon, le bilan électronique n'a pas de racine, et le pe est donc indéfini plutôt que bas — ajoute l'autre moitié d'un couple rédox, ou titre jusqu'à une couleur"
+titration-pe-out-of-reach = "la burette a atteint sa limite de {steps} incréments sans arriver au pe {target} ; le dernier potentiel fixé par ce ballon était {last}"
+# `{colour}` stands predicatively after "ist noch immer", where a German
+# adjective does NOT decline — so the colour word goes in plain here, and
+# `look.coloured`'s bracket trick is not needed.
+titration-colour-persists = "la burette a atteint sa limite de {steps} incréments et le liquide est toujours {colour} : soit le point d'équivalence est plus loin que {steps} incréments, soit rien ici ne porte de spectre d'absorption curaté que l'œil puisse lire. Augmente `max`, ou titre jusqu'à un pH ou un pe"
+kinetic-law-not-routed = "le modèle de résultat kinetic_law ({kinetics}) n'est pas encore routé — BRD-050 a la charge d'admettre une loi de vitesse issue d'une famille"
+unequal-stoichiometric-sums = "le modèle d'équilibre exige des sommes stœchiométriques égales pour que le volume se simplifie ; cet enregistrement en a {in_sum} à l'entrée et {out_sum} à la sortie"
+supersaturated-no-registry-solid = "la solution est sursaturée par rapport à {phases}. Ces phases solides figurent dans {database}.dat, mais n'ont pas de solide correspondant dans le registre de ce laboratoire ; leur précipitation n'est donc pas prise en compte. La sursaturation seule ne décide ni si un précipité se forme, ni à quelle vitesse"
+supersaturated-below-formation-temperature = "la solution est sursaturée par rapport à {phases} ; en dessous du seuil de température de formation du registre, à {temperature} °C, elle est délibérément retenue. C'est une limite de métastabilité curatée, non une vitesse de nucléation ou de croissance calculée"
+supersaturated-solid-not-offered = "la solution est sursaturée par rapport à {phases}. Des solides correspondants existent dans le registre de ce laboratoire, mais ils n'ont pas été proposés dans ce problème d'équilibre aqueux ; la sélection des phases, des restrictions sur le degré d'oxydation, ou la compétence d'un autre modèle peuvent les exclure. Ces indices de saturation ne prédisent ni leur formation ni son évolution dans le temps"
+saturation-index-is-a-gas = "{phases} sont des indices de saturation de la phase gazeuse, rapportés à la fugacité de référence de la base de données thermodynamique, et non des précipités manquants. Lis-les avec la limite gazeuse et la pression de ce récipient ; à eux seuls, ces indices ne prédisent ni la formation de bulles ni les temps de transfert gazeux"
+saturation-index-unclassified = "des indices de saturation sont rapportés pour {phases}, mais il n'existe aucune définition de phase dans l'index de diagnostic choisi {database} ; leur type de phase et la raison de leur exclusion ne peuvent pas être déterminés"
+# Two whole sentences, each its own row, joined by `look.sentence-join`.
+at-the-reference-temperature = "La solution se trouve à la température de référence tabulée."
+away-from-the-reference-temperature = "À cette température du récipient, ce sont des approximations pour la température de référence, et non des constantes dépendant de la température qui ont été vérifiées."
+usbm-reference-complexes = "La spéciation des complexes cuivre-ammine et fer-thiocyanate utilise les constantes cumulatives du domaine public tirées de l'USBM IC 9429 à 25 °C et force ionique nulle, avec les corrections d'activité de la base de données choisie. {temperature} Cet extrait de données ne fournit ni les enthalpies de formation des complexes, ni les lois de vitesse, ni les spectres des complexes ; la chaleur de réaction et la couleur sont donc incomplètes là où ces contributions comptent."
+thiocyanate-slice = "Le thiocyanate est traité comme un ligand SCN− conservé. Cet extrait ne couvre ni la protonation en HNCS, ni les processus redox du ligand, ni la liaison à des métaux autres que Fe(III) ; en particulier, ce n'est pas un modèle complet du thiocyanate pour les acides forts. KSCN est un équivalent analytique aqueux, non un modèle de dissolution du solide."
+hbr-at-the-reference-temperature = "Cet état se trouve à la température de référence de 25 °C."
+hbr-away-from-the-reference-temperature = "En dehors de 25 °C, une approximation locale de van 't Hoff à enthalpie constante est utilisée ici, et non une corrélation vérifiée sur une large plage de température."
+hbr-gas-uptake = "L'absorption du gaz HBr utilise la constante de Henry dissociative de la collection CC-BY de Sander, convertie de la concentration à l'état standard molal dilué. L'enthalpie de réaction provient de sa pente locale en température et d'une correction pour la masse volumique du solvant, et non d'une mesure calorimétrique indépendante. {temperature} Le transfert gazeux est une limite d'équilibre, non un modèle d'absorption dépendant du temps."
+finite-gas-dose = "{species}, dose de gaz finie : l'absorption est un calcul d'équilibre instantané, non une vitesse de transfert de matière. Après la dose, seule une espèce atmosphérique explicitement configurée échange avec un réservoir extérieur ; aucun nouveau réservoir n'est déduit de la dose. Le temps d'attente ne paramètre pas le dégazage"
+redox-coupling-stood-down = "ces éléments n'ont pas réagi entre eux — ils sont montrés dans les degrés d'oxydation où ils ont été ajoutés, ce qui n'est pas ce que ferait le bécher : {why}"
+unnameable-oxidation-state = "{moles} mol se sont retrouvées sous {column}, un degré d'oxydation auquel ce laboratoire ne donne aucun nom — il ne figure pas dans le bilan du récipient, il y a donc un peu moins de cet élément dans le verre que ce qui y a été versé"
+unnameable-product = "la famille {family} a produit une structure que le registre ne sait pas nommer ({smiles}) ; l'étendue de ce qui est nommable est la limite, et l'élargir est une tâche pour le registre, pas une omission silencieuse"
+dissolved-and-unspeciated = "{name} est dissous et sans spéciation : {why}"
+no-component-mapping = "{name} est un soluté ionique sans correspondance avec une composante aqueuse de ce laboratoire. Sa spéciation ionique, son acidité, sa conductivité et ses réactions ne sont pas prises en compte ; toute valeur de la solution ne décrit que les composantes représentées, pas le mélange complet."
+unspeciated-acidity = "cette solution contient un acide dont l'acidité n'est pas modélisée : {why}. Le pH affiché est celui de tout le reste dans le verre, et la solution réelle est plus acide que ce qu'il indique"
+milk-casein-buffer-residual = "ce lait a été acidifié jusqu'à pH {ph}, et seule la moitié de son pouvoir tampon est modélisée. Son phosphate de calcium colloïdal est présent et passe en solution dès que l'acide arrive ; l'effet tampon de la caséine, en revanche, manque entièrement, et il représente environ un tiers de la capacité tampon du lait. Au-dessus de pH 5, ce qui manque coûte peu ; en dessous, le colloïde est épuisé et ce bécher n'a plus rien à opposer, alors qu'un vrai lait a encore la caséine — la valeur est donc de nouveau une borne inférieure, et une moins bonne qu'auparavant. {assumption} (l'hypothèse complète de la recette figure dans `explain material whole_milk`)"
 
 [substrate-class]
 methyl = "méthyle"
@@ -296,6 +1547,54 @@ weak = "faible"
 "limewater" = "test à l'eau de chaux"
 "damp red litmus" = "papier de tournesol rouge humide"
 
+[unavailable-solid]
+"sodium acetate" = "le solide sous lequel il cristalliserait est l'acétate de sodium trihydraté, et aucune base de données PHREEQC livrée avec ce projet ne définit la moindre phase solide acétate — la machine de calcul aqueuse n'a donc rien à précipiter, et la cristallisation sur laquelle repose une chaufferette ne peut pas être calculée ici"
+
+[unspeciated-acid]
+malic_acid = "aucune base de données livrée ne définit d'espèce malate, ses deux protons carboxyliques ne sont donc pas comptés dans ce pH"
+
+[material-assumption]
+whole_milk-casein = "LA CASÉINE N'EST TOUJOURS PAS MODÉLISÉE, SON EFFET TAMPON RESTE DONC ABSENT"
+
+[provenance]
+# The dataset half. Two levels: a base clause naming what this lab added
+# to the vendored file, wrapped in the clause that is true of all of them.
+# The wrapper is written ONCE here for the same reason it is composed once
+# in `aqueous.rs` — three flat rows would be three chances to drift.
+"dataset.plus-reference-complexes" = "{file}, complété par les complexes à température de référence de l'USBM IC 9429"
+"dataset.plus-lactate-and-reference-complexes" = "{file}, complété par le lactate vérifié et les complexes à température de référence de l'USBM IC 9429"
+"dataset.with-gas-uptake-slice" = "{file}, avec l'extrait de données vérifié sur l'absorption du gaz HBr selon Sander"
+"dataset.vendored-usgs" = "{file}, tel que fourni par l'USGS"
+
+# The model half. The three activity models are composed in
+# `kerotakis-phreeqc/src/dbindex.rs`, which is the only place their
+# descriptions exist; the other three are composed where the solver that
+# applies them is.
+"model.ion-interaction" = "modèle d'interaction ionique spécifique {name} (valide à force ionique élevée)"
+"model.wateq-debye-huckel" = "extension {name} (fiable jusqu'à environ I = {ionic_strength} mol/kgw)"
+"model.davies" = "équation {name} (fiable jusqu'à environ I = {ionic_strength} mol/kgw)"
+"model.water-autoionisation" = "autoprotolyse de l'eau en dilution idéale (relation {engine} pour log K à six coefficients)"
+"model.curated-complete-combustion" = "combustion complète en CO2 et H2O à chaleur de combustion tabulée, avec une fraction d'oxygène limitante de {fraction} pour une enceinte fermée"
+"model.nasa9-polynomials" = "polynômes {name}, gaz parfait + phases condensées pures"
+"model.with-feed-tp-fallback" = "{model} ; repli TP sur l'alimentation en combustible liquide à la température de zone d'allumage explicitement indiquée"
+
+[routing]
+solvent-relation-only = "aucun acide, aucune base, aucun sel, aucune surface, aucun échangeur, aucun transfert gazeux et aucun soluté aqueux réactif représentés ; la relation du solvant a été évaluée sans appel à IPhreeqc, et tout l'inventaire spectateur est resté conservé"
+mix-by-fraction = "MIX : deux solutions dissoutes mélangées proportionnellement"
+extended-chemistry = "choisi parce que le problème demande une chimie absente du jeu de données par défaut (ligands organiques, le couple hypochlorite emprunté, ou l'acide phosphorique libre)"
+concentrated-ion-interaction = "choisi parce que la solution est concentrée (~{molality} mol/kgw) ; c'est là que le modèle d'interaction ionique est valide"
+default-inorganic = "le jeu de données aqueux inorganique par défaut"
+activity-model-fallback = "{routing} ; l'entrée porte une charge de soluté peut-être concentrée (~{molality} mol/kgw, sans force ionique mesurée), mais la route de Pitzer ne peut pas représenter toute la chimie demandée. Ce repli sur un autre modèle d'activité n'est pas une prédiction validée pour les mélanges concentrés"
+redox-not-coupled = "les éléments rédox ici n'ont pas pu être couplés ; chacun est donc montré dans le degré d'oxydation où il a été ajouté, et ils n'ont pas réagi entre eux — {why}"
+slow-couples-held-as-added = "certains éléments conservent ici le degré d'oxydation où ils ont été ajoutés : seuls les couples qui s'équilibrent à l'échelle de temps d'une paillasse échangent des électrons, et les lents — sulfate, nitrate, carbonate — sont maintenus tels qu'ils ont été ajoutés"
+with-redox-note = "{routing}. {note}"
+second-speciation-for-solvent = "{routing} ; l'activité du solvant ne provient PAS de ce jeu de données — il rapporte le substitut câblé en dur de PHREEQC, 1 - 0.017*Sum(m), au lieu d'un modèle —, mais d'une seconde spéciation de la même solution sur {dataset} ({model}), posée sans phases, gaz ni interfaces, et interrogée uniquement pour a_w"
+electrode-potential = "{routing}. Le potentiel indiqué est celui de l'électrode {reduced}/{oxidised}, par Nernst sur l'activité calculée ({activity} ; E° {e0} V, CRC) — un métal en contact avec son propre ion fixe le potentiel, et non l'air au-dessus du bécher. La spéciation elle-même a été résolue au pe de l'air libre."
+below-the-hydrogen-line = "Cela se situe sous la ligne de l'hydrogène de l'eau elle-même ({line} V à pH {ph}) : {name} n'est pas à l'équilibre avec l'eau dans laquelle il se trouve, et un vrai voltmètre lirait un potentiel mixte fixé par des vitesses que ce laboratoire ne modélise pas"
+curated-fuel-table = "NASA CEA ne porte aucune thermochimie pour ce combustible : la table curatée a donc répondu, au lieu que le récipient atteigne la limite du modèle"
+cea-feed-tp-fallback = "le combustible liquide a utilisé la thermochimie propre de CEA pour l'alimentation ; HP n'a pas convergé, la composition a donc été résolue à la température de zone d'allumage explicitement indiquée, et l'énergie de réaction continue d'être indiquée séparément"
+dry-solids-and-gases = "choisi parce que ce récipient contient des solides secs et des gaz que la machine de calcul aqueuse ne modélise pas"
+
 [spill-site]
 bench = "paillasse (zone {zone})"
 tray = "plateau {tray}"
@@ -310,184 +1609,5 @@ Catalase = "catalase"
 Pepsin = "pepsine"
 Bromelain = "broméline"
 
-# What the bench LOOKS like, composed in `appearance.rs`.
-#
-# These are not catalogue entries a lesson author writes — they are the
-# sentences the engine assembles itself, so a reader of French meets them
-# inside an otherwise translated lesson. `every_composed_key_is_translated`
-# is the gate: the denominator is the count of key literals in the SOURCE.
-[look]
-# The space between two whole sentences, and the list grammar, as rows:
-# they look like typography until the language is one that punctuates
-# differently. French uses the space and the final conjunction, and says
-# so here rather than by falling back.
-sentence-join = "{first} {second}"
-list-separator = ", "
-list-final = "{head} et {last}"
-clause-separator = ", "
-full-stop = "."
-empty = "le bécher est vide"
-nothing-visible = "il n'y a rien à voir dans le bécher"
-liquid = "le liquide est {colour} {clarity}"
-clarity-opaque = "et si trouble qu'on ne voit pas au travers"
-clarity-cloudy = "et trouble"
-clarity-hazy = "et à peine voilé"
-clarity-clear = "et limpide"
-bubbling = "des bulles de gaz y remontent"
-protein-coagulated = "la protéine de {material} s'est dénaturée et a coagulé en un solide blanc opaque"
-deposit-in-liquid = "au fond, tu vois {what}"
-deposit-dry = "dans le bécher, tu vois {what}"
-surface-skin = "une peau de {material} recouvre la surface"
-surface-grains = "des grains de {material} flottent à la surface"
-floats-on-top = "à la surface, tu vois {what}"
-# The colour follows the noun in French, so the row reorders rather than
-# translating word for word — the same move the German row makes.
-coloured = "{name} ({colour})"
-piece-floats = "un morceau de {what} flotte à la surface"
-piece-bottom = "un morceau de {what} repose au fond"
-piece-here = "un morceau de {what} se trouve dans le bécher"
-spectral-gap = "La couleur est incomplète : aucun spectre d'absorption pour {species}."
-
-# Why nothing happened, composed in `displacement.rs` and `solve.rs`.
-#
-# The refusal's NAME has been translatable since there was a catalogue;
-# its REASON was a finished `format!` by the time it reached an event.
-# These are the sentences where the engine explains itself, so they are
-# exactly the ones a learner has to be able to read.
-[inert]
-hydrogen-overpotential = "{name} devrait se dissoudre dans cet acide d'après la série (force motrice {driving} V), mais l'hydrogène doit se former sur {name}, et sur cette surface cela coûte une surtension d'environ {eta} V. Bloqué cinétiquement à l'échelle de temps d'un cours, et non inerte thermodynamiquement — c'est toute la différence entre une paillasse et une pile"
-couple-spent = "tout le {other} s'est déposé ; il ne reste plus rien à déplacer au {name} restant. Le couple descend toujours la pente (E° {e_self} V pour {name} contre {e_other} V pour {other}) — il n'y a simplement plus d'ions {other}"
-couple-spent-trace = "tout le {other} s'est déposé à une trace près ({left} mol d'ion restante, là où la racine de Nernst a placé l'équilibre) ; il ne reste plus rien à déplacer au {name} restant. Le couple descend toujours la pente (E° {e_self} V pour {name} contre {e_other} V pour {other})"
-uphill-in-series = "{name} se situe au-dessus de {other} dans la série d'activité (E° {e_self} V contre {e_other} V) : les électrons devraient donc remonter la pente, et le métal le moins réactif ne déplace pas le plus réactif"
-above-hydrogen = "{name} se situe au-dessus de l'hydrogène dans la série d'activité (E° {e_self} V contre 0,000 V pour 2H⁺/H₂), un acide dilué ne peut donc pas lui prendre ses électrons. Un acide oxydant comme l'acide nitrique le pourrait, par un autre couple, et cela n'est pas modélisé"
-insoluble-in-water = "{name} ne se dissout pas dans l'eau : sa solubilité vérifiée est de {limit} g pour 100 mL, en dessous de tout ce qu'un bécher montrerait. Il est encore là en entier"
-insoluble-in-water-trace-in-solution = "{name} se dissout à peine dans l'eau : sa solubilité vérifiée est de {limit} g pour 100 mL, en dessous de tout ce qu'un bécher montrerait. Une trace en est en solution ; le reste est toujours là"
-
-# The curated organic-solvent verdicts, keyed by the ROW of
-# `nonaqueous::INERT_IN_SOLVENT` — metal and solvent — rather than by the
-# English in it: the verdicts carry no holes, so a key naming the phrase
-# would orphan every translation the moment someone reworded one.
-[inert-in-solvent]
-Zn-ethanol = "la série d'activité a besoin d'une source de protons ou d'un couple aqueux ; l'éthanol sec n'offre ni l'un ni l'autre à température ambiante, à une vitesse observable"
-Fe-ethanol = "pas de couple aqueux et pas d'acide : le fer reste inchangé dans l'éthanol sec"
-Cu-ethanol = "le cuivre est sous l'hydrogène dans la série, et l'éthanol sec n'offre rien qui puisse l'oxyder"
-Mg-ethanol = "l'éthanolate de magnésium ne se forme qu'à reflux avec un catalyseur ; à température ambiante le ruban reste inchangé"
-Pb-ethanol = "pas de couple aqueux et pas d'acide : le plomb reste inchangé dans l'éthanol sec"
-Ag-ethanol = "l'argent est noble face à tout ce que ce solvant peut offrir"
-MnO2-ethanol = "le dioxyde de manganèse est un oxyde insoluble ; il reste inchangé dans l'éthanol, en précipité brun-noir"
-Zn-hexane = "l'hexane est apolaire et aprotique ; aucune voie rédox ou acide-base n'attaque le zinc dans les conditions de la paillasse"
-Fe-hexane = "le fer est inerte dans les hydrocarbures secs — pas d'eau, pas d'acide, pas d'oxydant"
-Cu-hexane = "le cuivre est inerte dans les hydrocarbures secs — aucun oxydant présent"
-Mg-hexane = "le magnésium est inerte dans les hydrocarbures secs — aucune voie protique ni acide de Lewis"
-Pb-hexane = "le plomb est inerte dans les hydrocarbures secs à température ambiante"
-Ag-hexane = "l'argent est noble, et l'hexane n'offre rien qui puisse l'oxyder"
-Zn-propanone = "l'acétone sèche est aprotique ; à température ambiante aucune voie acide-base ou rédox n'attaque le zinc"
-Fe-propanone = "le fer reste inchangé dans l'acétone sèche — pas de couple aqueux, pas d'acide"
-Cu-propanone = "le cuivre est sous l'hydrogène, et l'acétone sèche n'offre rien qui puisse l'oxyder"
-Mg-propanone = "le magnésium est inerte dans l'acétone sèche à température ambiante"
-Pb-propanone = "le plomb est inerte dans l'acétone sèche — pas de couple aqueux, pas d'acide"
-Ag-propanone = "l'argent est noble face à tout ce que l'acétone peut offrir"
-Zn-ethyl_acetate = "l'acétate d'éthyle sec est aprotique ; à température ambiante aucune voie n'attaque le zinc"
-Fe-ethyl_acetate = "le fer reste inchangé dans l'acétate d'éthyle sec — pas de couple aqueux, pas d'acide"
-Cu-ethyl_acetate = "le cuivre est inerte dans l'acétate d'éthyle sec — aucun oxydant présent"
-Mg-ethyl_acetate = "le magnésium est inerte dans l'acétate d'éthyle sec à température ambiante"
-Pb-ethyl_acetate = "le plomb est inerte dans l'acétate d'éthyle sec — pas de couple aqueux, pas d'acide"
-Ag-ethyl_acetate = "l'argent est noble face à tout ce que l'acétate d'éthyle peut offrir"
-
-# The salts held past saturation whose solid no shipped database defines,
-# keyed by the row of `UNAVAILABLE_SOLID_PHASES` they came from.
-[unavailable-solid]
-"sodium acetate" = "le solide sous lequel il cristalliserait est l'acétate de sodium trihydraté, et aucune base de données PHREEQC livrée avec ce projet ne définit la moindre phase solide acétate — la machine de calcul aqueuse n'a donc rien à précipiter, et la cristallisation sur laquelle repose une chaufferette ne peut pas être calculée ici"
-
-# Where the model stops, composed at the site that reaches the boundary.
-#
-# Each of these is a sentence the bench writes about ITSELF: what it will
-# not compute, and why. A learner reading French must meet the boundary in
-# French, or the one line that admits a limit is the one line in English.
-[not-modeled]
-fizz-rate-near-barrier = "la vitesse à laquelle {name} pétille : la force motrice ne dépasse la surtension de l'hydrogène sur {name} que de {margin} V, et une vitesse aussi proche de sa barrière n'est pas quelque chose que ce laboratoire calcule — il réagit, lentement"
-stays-as-the-metal = "{name} reste à l'état métallique : rien de ce qui est dissous ici ne se situe en dessous de lui dans la série d'activité. Sa réaction lente avec l'eau elle-même — de l'hydrogène au fil des heures, une peau d'hydroxyde passivante — est une vitesse que ce laboratoire ne modélise pas"
-unavailable-crystallisation = "la cristallisation de {salt} : {dissolved} mol sont dissoutes pour une limite de {capacity} mol à cette température, et {why}"
-partial-freezing-boundary = "la limite du modèle de congélation partielle à {temperature} °C : en dessous de ce point, la cristallisation des sels et un diagramme de phases eutectique propre au soluté deviennent nécessaires ; la paillasse n'extrapolera donc pas une relation colligative dont elle ne peut plus situer l'activité du solvant"
-partial-freezing-cap = "la limite du modèle de congélation partielle à {temperature} °C : refroidir davantage demande la cristallisation des sels et un diagramme de phases eutectique propre au soluté"
-brine-retained-at-boundary = "la glace pure a été retirée et la saumure résiduelle conservée, mais poursuivre le refroidissement rencontre {boundary}"
-stranded-solutes = "la dernière eau a disparu et {names} sont toujours indiqués comme dissous, ce qui n'est pas un état qu'un bécher peut avoir. Ce en quoi ils cristallisent ne se décide pas à partir des seuls ions, et la paillasse ne devinera pas les solides"
-aqueous-temperature-ceiling = "le plafond de température du modèle aqueux à {temperature} °C : les expressions en température des bases thermodynamiques livrées s'arrêtent là, cette solution est donc déclarée non caractérisée plutôt qu'extrapolée"
-mostly-organic-solvent = "un solvant mixte à dominante organique (l'eau représente {percent} % du liquide) : les modèles d'activité livrés supposent l'eau comme solvant, et dans cet environnement diélectrique leurs constantes d'équilibre ne s'appliquent pas ; la spéciation ionique est donc déclarée non caractérisée ici"
-dissolves-unspeciated = "{name} se dissout, mais aucun moteur câblé ne le spécie : il ne contribue ni au pH ni à la force ionique ici, et ces valeurs valent pour tout le reste du bécher"
-no-dissolution-solver = "{name} au contact du liquide : aucun solveur câblé ne modélise cette dissolution ou cette réaction"
-ice-is-not-a-solution = "l'eau de ce récipient est de la glace, et la glace n'est pas une solution : le pH, la force ionique et la spéciation décrivent tous des particules dissoutes dans un liquide, aucun d'eux n'est donc rapporté tant que le solvant est gelé"
-boiling-is-not-settled = "l'eau bout et s'en va en vapeur, donc ce qui est dissous dans le reste se concentre pendant que tu regardes : cette paillasse rapporte la transition plutôt qu'un pH établi pour une composition qui change encore"
-no-selectivity-rule = "aucune règle de sélectivité pour un substrat {substrate} + un nucléophile {nucleophile} à {temperature} °C — hors de la table curatée"
-no-product-table = "la sélectivité prédit {mechanism} pour {substrate} + {nucleophile}, mais aucune entrée de la table des produits n'existe — c'est une lacune d'implémentation"
-nothing-for-verb = "rien sur quoi {verb} puisse agir — il lui faut {needs} ensemble dans le récipient"
-no-haloalkane = "aucun substrat halogénoalcane dans le récipient — la table de sélectivité couvre le bromoéthane (primaire) et le bromure de tert-butyle (tertiaire)"
-no-nucleophile = "aucun nucléophile reconnu dans le récipient — la table de sélectivité couvre NaOH (fort) et l'eau (faible)"
-gas-already-gone = "rien à tester — le gaz est parti à mesure qu'il se formait ; recueille-le d'abord dans un récipient fermé, puis fais {test}"
-boundary-does-not-retain-gas = "la paroi de ce récipient ne retient pas le gaz — ferme-le d'abord, puis fais {test}"
-no-henry-path-to-headspace = "{test} lit le ciel gazeux, et cette paillasse n'a aucun chemin qui y mène depuis {target} dissous (pas de coefficient de Henry vérifié) — {dissolved} mol sont présentes dans le liquide, et `smell` les rapporte de là, mais le ciel gazeux que lit le test reste vide"
-finite-acid-inventory = "{reaction} consomme un stock d'acide fini. Sur cet intervalle d'intégration, le coefficient d'activité est maintenu à sa valeur initiale pendant que la concentration en protons s'épuise ; l'équilibre acide-base est résolu à nouveau entre les intervalles, et non couplé en continu à cette loi de vitesse."
-kinetic-law-not-routed = "le modèle de résultat kinetic_law ({kinetics}) n'est pas encore routé — BRD-050 a la charge d'admettre une loi de vitesse issue d'une famille"
-unequal-stoichiometric-sums = "le modèle d'équilibre exige des sommes stœchiométriques égales pour que le volume se simplifie ; cet enregistrement en a {in_sum} à l'entrée et {out_sum} à la sortie"
-family-declined-at-gate = "{family} v{version} a correspondu, mais a été refusée au verrou {gate} : {why}. Attendre ne fournit pas une vitesse de réaction manquante et ne satisfait pas le verrou de condition"
-cooling-below-absolute-zero = "ce récipient n'avait que {available} kJ à céder avant le zéro absolu, et on lui en a demandé {asked} kJ. Aucun fluide frigorigène n'est modélisé ici — rien ne fixe la température de l'environnement — le reste ne pouvait donc simplement pas être retiré. La chaleur que contient une substance est intégrée sur sa propre capacité thermique là où le registre en porte une, mais en dessous d'environ 200 K même une courbe tabulée est à court de table et est maintenue constante : ce plancher est donc une limite de modèle et non une mesure"
-co-evaporation = "la co-évaporation de {liquids} demande un équilibre liquide-vapeur — c'est le travail de `distil` ; seule l'eau a été retirée"
-no-bubble-point = "un point de bulle pour ce mélange à {pressure} kPa — hors des domaines d'Antoine ajustés"
-distribution-coefficient-temperature = "le coefficient de partage {upper}/{lower} de {species} n'est vérifié qu'à {reviewed} K (tolérance +/- {tolerance} K) ; ce récipient est à {actual} K"
-not-an-extracting-solvent = "{solvent} n'est pas un solvant d'extraction liquide dans les conditions ambiantes"
-water-distribution-coefficient-temperature = "le coefficient de partage {solvent}/eau de {solute} n'est vérifié qu'à {reviewed} K (tolérance +/- {tolerance} K) ; ce récipient est à {actual} K"
-loading-exceeds-capacity = "la charge en {solute} dépasse la capacité eau/{solvent} vérifiée qu'implique sa solubilité aqueuse de {solubility} mol/L à {temperature} K ; un équilibre triphasique solide/liquide/organique persistant n'est pas encore modélisé"
-no-distribution-coefficient = "aucun coefficient de partage {solvent}/eau vérifié pour {solutes}"
-extraction-without-coefficient = "l'extraction a déplacé les solutés pris en charge, mais il n'existe aucun coefficient de partage {solvent}/eau vérifié pour {solutes}"
-no-reviewed-density = "la masse volumique de {species} — le registre n'en porte aucune valeur vérifiée, le morceau a donc ici une masse et pas de taille"
-no-reviewed-bulk-density = "la masse volumique de {material} — la recette ne porte aucune masse volumique apparente vérifiée"
-density-of-a-mixture = "une masse volumique unique pour ce récipient : il contient {contents}, et une masse volumique appartient à une substance, pas à un mélange. Pèse-les séparément"
-incomplete-absorbance = "l'absorbance complète est indisponible : aucun spectre d'absorption pour {species}"
-no-group-decomposition = "la colonne n'a aucune décomposition en groupes curatée pour {species} — une vraie colonne les séparerait, c'est donc une lacune du modèle plutôt qu'un résultat"
-nothing-to-electrolyse = "rien ici ne peut être électrolysé : {why}"
-no-curated-nuclide = "aucun nucléide curaté nommé '{nuclide}' — le jeu pédagogique : {known}"
-no-curated-reaction = "aucune réaction curatée nommée '{reaction}' — au catalogue : {known}"
-titration-pe-never-pinned = "la burette a atteint sa limite de {steps} incréments sans arriver au pe {target} : aucun potentiel n'a été fixé à aucun moment de ce titrage. Avec un seul degré d'oxydation d'un couple dans le ballon, le bilan électronique n'a pas de racine, et le pe est donc indéfini plutôt que bas — ajoute l'autre moitié d'un couple rédox, ou titre jusqu'à une couleur"
-titration-pe-out-of-reach = "la burette a atteint sa limite de {steps} incréments sans arriver au pe {target} ; le dernier potentiel fixé par ce ballon était {last}"
-titration-colour-persists = "la burette a atteint sa limite de {steps} incréments et le liquide est toujours {colour} : soit le point d'équivalence est plus loin que {steps} incréments, soit rien ici ne porte de spectre d'absorption curaté que l'œil puisse lire. Augmente `max`, ou titre jusqu'à un pH ou un pe"
-non-finite-extent = "{reaction} a renvoyé un avancement de réaction non fini ; aucune conversion n'a été appliquée"
-no-capacity-either-direction = "Aucune conversion pour {reaction} : ni les réactifs directs ni les réactifs inverses n'offrent de capacité au-dessus de la tolérance de non-conversion de 1e-12 mol"
-no-limiting-reactant = "Aucune conversion jusqu'à épuisement pour {reaction} : un réactif limitant est absent, épuisé, ou sa capacité est en deçà de la tolérance de non-conversion de 1e-12 mol"
-combustion-no-solver = "si ce contenu brûle ou non : aucun solveur câblé n'en modélise la combustion, le laboratoire ne peut donc trancher ni dans un sens ni dans l'autre"
-heating-an-empty-vessel = "chauffer un récipient vide (la capacité thermique du récipient n'est pas modélisée)"
-cooling-an-empty-vessel = "refroidir un récipient vide (la capacité thermique du récipient n'est pas modélisée)"
-nothing-to-evaporate = "rien à évaporer — pas d'eau dans le récipient"
-distil-without-water-or-ethanol = "la distillation d'un récipient sans eau ni éthanol liquides — les autres liquides volatils demandent que leurs constantes d'Antoine soient d'abord curatées"
-drain-a-single-phase-liquid = "soutirer un liquide monophasique — l'ampoule ne sépare que ce que la thermodynamique a déjà séparé en couches"
-staged-extraction-needs-fresh-aqueous = "une extraction étagée neuve exige une seule phase aqueuse liquide au départ ; soutire d'abord une couche organique existante"
-extraction-needs-water-and-solvent = "l'extraction liquide-liquide demande une phase aqueuse et un solvant d'extraction liquide de volume molaire connu"
-any-solute-here = "le moindre soluté dans ce récipient"
-ph-meter-has-no-solution = "le pH-mètre n'indique rien — aucune solution aqueuse n'a été caractérisée dans ce récipient"
-volume-meter-on-an-open-vessel = "le volumètre lit le ciel gazeux d'un récipient fermé, et celui-ci est ouvert — ferme-le pour donner au gaz un volume mesuré. Le volume du liquide, lui, figure sur la ligne du récipient."
-conductivity-on-a-dry-solid = "le conductimètre est posé sur un solide sec dont le registre ne porte aucune résistivité électrique — la lecture demande une valeur vérifiée, pas une estimation"
-conductivity-has-no-solution = "le conductimètre n'indique rien — aucune solution aqueuse n'a été caractérisée"
-density-of-the-dissolved-ions = "la part des ions dissous dans cette masse volumique : dans le registre, chaque ion porte celle de l'eau comme valeur structurelle par défaut plutôt que comme valeur mesurée, si bien qu'une solution saline se lit comme l'eau dont elle a été faite. Le chiffre du solvant est juste, celui des solutés manque"
-density-of-an-empty-vessel = "une masse volumique — le récipient est vide, il n'y a rien où faire flotter l'aréomètre et rien à peser"
-spectrophotometer-has-no-solution = "aucune solution aqueuse pour le spectrophotomètre"
-chromatography-needs-an-aqueous-sample = "la chromatographie demande un échantillon aqueux — la phase mobile de la colonne est l'eau"
-chromatography-needs-a-solute = "la chromatographie demande quelque chose de dissous à injecter — ce récipient ne contient que sa phase mobile"
-electrolysis-needs-an-electrolyte = "le modèle d'électrolyse du solvant exige un électrolyte support dissous ; l'eau pure a une conductivité finie mais très faible, et la tension, l'écartement des électrodes et les surtensions nécessaires pour soutenir le courant demandé ne sont pas modélisés"
-titration-endpoint-not-refined = "le franchissement du pH a été encadré, mais l'affinement du point d'équivalence n'a pas convergé à 0,0001 pH ; l'état calculé le plus proche est conservé"
-titration-needs-an-aqueous-solver = "le titrage demande un solveur aqueux pour calculer le pH après chaque ajout — aucun n'est câblé"
-kinetic-outcome-needs-a-time-model = "Un résultat cinétique exige un modèle de temps routé ; un avancement nul n'établit pas l'équilibre"
-activity-range-ion-interaction = "le domaine annoncé du modèle d'activité du solvant sur lequel repose cette transition ({route}) : le jeu de données d'interaction ionique est ajusté jusqu'à environ I = {fitted} mol/kgw, que cette solution atteint à {ceiling} mol/kgw de particules dissoutes, et elle est à {molality}"
-activity-range-ideal = "le domaine annoncé du modèle d'activité du solvant sur lequel repose cette transition ({route}) : faute de modèle d'activité couvrant cette solution, la paillasse utilise la loi de Raoult, qu'elle ne pousse pas au-delà de {ceiling} mol/kgw de particules dissoutes, et celle-ci est à {molality}"
-unregistered-condensed-species = "espèce condensée non enregistrée {key}"
-no-reviewed-still-properties = "la distillation demande des propriétés de pression de vapeur et de chaleur latente vérifiées pour {key} ; aucun composant n'a été transféré"
-outside-constant-latent-domain = "la distillation multiconstituant est hors du domaine borné de Clausius-Clapeyron à chaleur latente constante (à moins de 40 K de chaque point d'ébullition normal, 1 à 128 étages théoriques) ; aucun composant n'a été transféré"
-proton-consuming-kinetics = "{reaction} : une cinétique consommatrice de protons exige un équilibre acide faible/tampon couplé — l'activité en protons libres mesurée n'est pas le stock d'acide titrable. Cette étape de vitesse non couplée est retenue plutôt que de traiter le tampon comme un réservoir d'acide fixe"
-
-# Which model answered, and on what data. Composed where the solver runs.
-[provenance]
-"model.curated-complete-combustion" = "combustion complète en CO2 et H2O à chaleur de combustion tabulée, avec une fraction d'oxygène limitante de {fraction} pour une enceinte fermée"
-
-# Which route the engine took to an answer, composed at the routing site.
-[routing]
-below-the-hydrogen-line = "Cela se situe sous la ligne de l'hydrogène de l'eau elle-même ({line} V à pH {ph}) : {name} n'est pas à l'équilibre avec l'eau dans laquelle il se trouve, et un vrai voltmètre lirait un potentiel mixte fixé par des vitesses que ce laboratoire ne modélise pas"
-electrode-potential = "{routing}. Le potentiel indiqué est celui de l'électrode {reduced}/{oxidised}, par Nernst sur l'activité calculée ({activity} ; E° {e0} V, CRC) — un métal en contact avec son propre ion fixe le potentiel, et non l'air au-dessus du bécher. La spéciation elle-même a été résolue au pe de l'air libre."
-curated-fuel-table = "NASA CEA ne porte aucune thermochimie pour ce combustible : la table curatée a donc répondu, au lieu que le récipient atteigne la limite du modèle"
+[repl]
+"particles-header" = "{vessel} — ce que font les particules :"

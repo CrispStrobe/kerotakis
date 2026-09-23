@@ -1,9 +1,662 @@
-# Lesson prose, French.
+# Textes de leçon, en français — traduits à partir de `en.toml`.
 #
-# Started 2026-09-23 with the third-language exercise. Keys are the
-# LABELLED comments a `.lab` file carries (`#@intro …`), and
-# `tools/lesson-prose-lint.py` counts against the labels a lesson actually
-# references — so a key here that no lesson asks for is reported, and a
-# lesson label with no key falls back to the English inline in the `.lab`.
+# Pendant de `en.toml` : même clé, même emplacement dans la leçon. La clé
+# nomme l'ENDROIT où le texte est dit, pas la phrase anglaise — reformuler
+# l'anglais ne rend donc pas la traduction orpheline.
 #
-# Deliberately partial.
+# Écrit à la main à partir de l'anglais de `en.toml`, en ne consultant
+# `de.toml` que pour voir comment une ligne ambiguë avait été comprise.
+#
+# Les étiquettes en usage, pour qu'une nouvelle leçon se lise comme les
+# 113 déjà présentes :
+#
+#   title      la première ligne de commentaire — aussi le résumé du menu
+#   intro      le paragraphe en dessous, avant la première commande
+#   part.<x>   un commentaire de section entre des commandes ; nomme la
+#              CHOSE qu'elle fait (`part.displacement`) quand il y a un nom
+#              à donner, et retombe sur `part.1`, `part.2` par position sinon
+#   boundary   la note finale sur ce que le modèle ne prétend pas
+#
+# Là où une zone contient plus d'un paragraphe, ils sont numérotés —
+# `intro.1`, `intro.2` — jamais `intro` plus `intro.2`, car une étiquette à
+# point fait de son radical une table TOML, et les deux ne peuvent pas en
+# partager une.
+
+["antacid-suspension"]
+title = "Une suspension antiacide : la neutralisation s'arrête quand l'acide est épuisé"
+intro = "Il reste un excès d'hydroxyde de magnésium peu soluble. C'est de la chimie, ni un avis médical ni une recommandation de dose."
+
+["apple-browning"]
+title = "Empêcher un quartier de pomme coupé de brunir"
+intro = "Le brunissement n'appartient qu'à l'identité préparée cut_apple : une pomme générique intacte n'a pas de surface fraîche déclarée. La réponse est une observable bornée d'oxygène et de temps, pas le renouvellement enzymatique, ni le goût, la texture ou un avis de sécurité alimentaire."
+part.1 = "Contrôle à l'air : une surface fraîche brunit à mesure que l'horloge commune avance."
+part.2 = "Comparaison à la vitamine C : même masse, même air, même temps, avec de l'ascorbate à proximité. Le modèle calcule l'inhibition de la réponse visible ; il ne prétend pas à une conservation permanente."
+
+["baking-powder-or-soda"]
+title = "Levure chimique ou bicarbonate : l'eau, l'acide et la chaleur sont des déclencheurs différents"
+intro = "Les deux poudres blanches ne sont pas interchangeables. Cette simulation compare des portions égales en ne changeant qu'une condition à la fois. La vraie levure chimique contient un mélange d'acides dont l'action échelonnée varie d'une marque à l'autre ; le matériau nommé ici est un substitut pédagogique vérifié, pas une recette alimentaire."
+part.1 = "Le bicarbonate se dissout dans l'eau froide. L'équilibre en solution peut libérer un peu de CO2 même sans flacon d'acide ; ce n'est pas la même voie que la décomposition sous l'effet de la chaleur."
+part.2 = "Le substitut de levure chimique nommé ici porte du bicarbonate et de l'amidon. Le chauffer déclenche un autre dégagement modélisé de CO2. Il ne reproduit pas les systèmes d'acides échelonnés de certaines levures chimiques à double action du commerce."
+part.3 = "L'acide est une autre voie vers le même gaz visible. Ce contrôle utilise du vinaigre ordinaire à 5 %. La paillasse ne modélise ni la mie du gâteau, ni l'élasticité de la pâte, ni l'humidité du four, ni si un aliment cuit a levé."
+
+["balloon-pressure"]
+title = "Un ballon de baudruche sur une bouteille : le gaz a besoin d'un endroit où aller"
+intro = "Un couvercle à piston représente un ballon de baudruche souple : il calcule la pression et le volume en expansion, pas l'élasticité du caoutchouc, la forme du ballon ou la rupture du latex."
+
+["blue-crystals"]
+title = "Faire pousser des cristaux bleus de sulfate de cuivre"
+intro = "Le vitriol bleu est le cristal que fait pousser chaque école : dissous autant de sulfate de cuivre que l'eau chaude peut en prendre, laisse refroidir, et l'eau en restitue la majeure partie sous forme de gros cristaux bleus. Le bleu n'est pas le cuivre seul — ce sont les cinq eaux enfermées avec lui dans le cristal, et c'est pourquoi le solide porte son propre nom."
+part.1 = "Trente grammes pour cent millilitres, c'est plus que ce que l'eau froide peut tenir, une partie ressort donc aussitôt sous forme de chalcanthite. Regarde le liquide qui reste : si concentré que la paillasse le dit NOIR plutôt que bleu — c'est vraiment à cela que ressemble une solution concentrée de sulfate de cuivre dans un bécher : la couleur sature et on ne voit plus au travers."
+part.2 = "Chauffe-la, et l'eau prend le tout."
+part.3 = "Refroidis-la ensuite tout à fait. C'est l'étape où le cristal pousse, et la paillasse en écrit l'équation : le cuivre, le sulfate et cinq eaux qui forment un seul solide. Et maintenant le liquide se lit BLEU plutôt que noir — non pas parce que quelque chose a changé de couleur, mais parce que tant de cuivre l'a quitté qu'on voit au travers de ce qui reste."
+boundary.1 = "Ce que ceci ne modélise pas : le cristal. Pas de forme, pas de faces, pas de spécimen unique et gros qui aurait poussé sur un fil pendant une semaine — la paillasse dit combien de solide revient et de quelle couleur il est, et un concours de croissance cristalline se juge sur tout le reste."
+boundary.2 = "Tu verras aussi la paillasse refuser trois autres solides de cuivre contre lesquels la base de données dit le liquide sursaturé — langite, antlérite, brochantite, les verts du cuivre patiné. Ils sont nommés et refusés plutôt que discrètement omis, car une solution qui les précipiterait vraiment n'est pas une solution que ce bécher décrit honnêtement."
+
+["boiling-curve"]
+title = "La courbe de chauffe : pourquoi une casserole qui bout reste à 100 °C"
+intro = "La chaleur n'est pas la température. Un récipient sur un brûleur monte régulièrement jusqu'à ce que l'eau commence à bouillir, puis elle cesse de monter — chaque joule supplémentaire achète de la vapeur plutôt que des degrés. Ce palier plat est la chaleur latente, et c'est pourquoi on ne peut pas rendre une casserole d'eau bouillante plus chaude en poussant le feu, seulement plus vide."
+part.1 = "Sous le palier : 30 kJ dans 100 mL, c'est de la chaleur sensible pure."
+part.2 = "Au-delà. Les 30 kJ suivants ne bougent pas le thermomètre ; ils emportent de l'eau."
+part.3 = "Et encore la même énergie, la même température, encore moins d'eau."
+part.4 = "Le sel élève le palier : le même effet colligatif qui abaisse le point de congélation d'une route salée élève le point d'ébullition d'une casserole salée."
+boundary = "Ce que ceci ne modélise pas : la chaleur restante du palier est répartie sur la capacité thermique que le récipient avait *avant* de bouillir à sec, la température finale d'un récipient poussé au-delà du dessèchement est donc sous-estimée ; et la vapeur quitte un récipient ouvert plutôt que d'être suivie."
+
+["borax-snowflake"]
+title = "Un flocon de neige en borax : pourquoi certaines choses cristallisent en refroidissant et d'autres non"
+intro = "Le borax est la raison pour laquelle cette expérience se fait avec du borax. L'eau froide n'en tient presque pas ; l'eau bouillante en tient onze fois plus. Dissous-en autant que possible dans l'eau chaude, laisse refroidir, et l'eau doit en rendre la majeure partie — sous forme de cristaux."
+part.1 = "1. D'abord l'eau froide, pour voir combien peu elle en prend. Vingt-cinq grammes y entrent, et la plupart restent simplement là."
+part.2 = "2. Chauffe-la. La même eau avale maintenant presque tout."
+part.3 = "3. Et refroidis-la tout à fait. Ce que l'eau ne peut plus tenir ressort — 0,096 mol, soit la majeure partie de ce qui s'était dissous."
+part.4 = "4. Le contraste qui fait tout l'argument, et la paillasse le dessine plus nettement que les chiffres seuls. La solubilité du sucre monte aussi avec la température — de 200 à 487 g pour 100 mL, un peu plus du double, contre 2,5 à 27,4 pour le borax, onze fois plus. Mais regarde ce que font les deux en redescendant : le borax RESSORT, et le sirop de sucre devient SURSATURÉ et reste dissous à 1,25 fois ce que l'eau devrait tenir. C'est exactement la différence que voit une cuisine. Un flocon de borax pousse tout seul pendant la nuit ; le sucre candi reste là et refuse de commencer tant qu'on ne lui donne pas une ficelle sur laquelle pousser."
+boundary.1 = "Ce que ceci ne modélise pas : le cristal. Pas de cure-pipe sur lequel pousser, pas de faciès, pas de symétrie senaire — la paillasse dit combien de solide revient, pas quelle forme il prend, et un flocon de neige, c'est entièrement une question de forme."
+boundary.2 = "Et une substitution déclarée : les solubilités du manuel pour le borax valent pour le décahydrate, Na2B4O7·10H2O, qui est aussi ce qui cristallise vraiment à partir d'une solution en train de refroidir. Ce registre ne connaît que le sel anhydre, qui tient donc lieu du décahydrate, à la solubilité du décahydrate, mis à l'échelle par le rapport de masse. Les quantités sont justes ; le solide qui les porte est un substitut."
+
+["buffer"]
+title = "Tampons : pourquoi ton sang ne change pas de pH quand tu bois de la limonade"
+
+["cabbage-rainbow"]
+title = "L'arc-en-ciel du chou rouge : un pigment, cinq couleurs"
+intro = "L'eau de chou n'est pas cinq colorants. C'est un seul pigment qui perd des protons par étapes, et chaque étape absorbe la lumière différemment — sa couleur est donc une lecture du pH. La paillasse la calcule comme elle calcule toute autre couleur : ε(λ) via Beer-Lambert sur l'observateur CIE, et non une table du genre « vire au bleu en milieu alcalin »."
+part.1 = "Vinaigre : la forme flavylium, rouge."
+part.2 = "Eau gazeuse, légèrement acide : la forme intermédiaire, violette. C'est la couleur du bocal de jus avant qu'on ne lui fasse quoi que ce soit."
+part.3 = "Bicarbonate : la première étape alcaline."
+part.4 = "Cristaux de soude, plus fort — et voici celle sur laquelle il vaut la peine de s'arrêter."
+part.5 = "Alcali fort, tout en haut de l'échelle."
+part.6 = "Aucune forme de ce pigment n'est verte. Le vert apparaît là où une forme bleue et une forme jaune sont présentes ensemble : à elles deux, elles absorbent à chaque extrémité du domaine visible et laissent une fenêtre entre les deux. C'est une couleur qui ne figure dans aucune table de ce moteur, calculée à partir de deux qui y figurent — et c'est là tout l'argument pour calculer la couleur plutôt que de la stocker."
+boundary = "Ce que ceci ne modélise pas : le vrai jus de chou est légèrement acide et porte son propre pouvoir tampon, quelques gouttes dans de l'eau non tamponnée déplaceraient donc le pH en plus de le signaler ; ici, le jus ne fait que le signaler. Le pigment est un mélange de glycosides de cyanidine acylés plutôt qu'un seul composé, et aucun effet de variété, d'extraction ou de copigmentation n'est revendiqué."
+
+["calorimetry"]
+title = "Enthalpie de neutralisation : combien de chaleur produit une réaction acide-base ?"
+
+["candle-jar"]
+title = "La bougie et le bocal : une flamme ne consomme pas TOUT l'oxygène"
+intro = "On apprend à tout le monde qu'une bougie sous un bocal « consomme l'oxygène » et s'éteint. Regarde les chiffres ici : elle s'éteint alors qu'il reste encore environ les trois quarts de l'oxygène dans le bocal. Une flamme n'a pas besoin d'UN PEU d'oxygène — elle a besoin d'un air qui en est RICHE, environ une part sur six, et en dessous elle s'arrête alors qu'il en reste encore beaucoup."
+part.1 = "1. Une bougie à l'air libre. Rien ne la limite, elle brûle donc entièrement — 5 g de cire, c'est environ 210 kJ, ce qui est beaucoup d'énergie pour quelque chose que l'on tient dans une main."
+part.2 = "2. La même bougie sous un bocal. `regulate` est la limite honnête pour un bocal posé sur la paillasse : le gaz ne peut pas sortir, mais il peut pousser, donc rien n'éclate. Observe la ligne de l'oxygène avant et après."
+part.3 = "Lis ce qui vient de se passer. À peine de la cire a brûlé, la flamme s'est éteinte, et il reste de l'oxygène dans le bocal — il est tombé de 21 % du gaz à 16 %, et cela a suffi à l'arrêter. Le dioxyde de carbone et l'eau ont pris la place de l'oxygène disparu."
+part.4 = "3. Un extincteur, c'est-à-dire une bouteille de dioxyde de carbone. Rien n'est retiré à la bougie : la cire est toujours là en entier, et l'oxygène aussi. Le dioxyde de carbone ne fait que prendre de la place, et maintenant la flamme ne peut même plus démarrer."
+part.5 = "4. Le papier brûle aussi, et c'est la même chimie avec un combustible différent : la cellulose au lieu de la cire. Le papier s'enflamme à 506 K — soit 451 degrés Fahrenheit, et le titre du roman est une vraie mesure. Note à quel point la même masse dégage moins de chaleur que la cire."
+boundary = "Ce que ceci ne modélise pas : la mèche, le bain de cire fondue, la lumière. Une vraie bougie brûle lentement de la cire à l'état de VAPEUR aspirée le long d'une mèche ; cette paillasse brûle d'un coup ce que l'air permet et ne modélise pas l'horloge. Il n'y a ni suie, ni fumée, ni carbonisation, ni monoxyde de carbone — la combustion est ici toujours complète, directement en dioxyde de carbone et en eau. Et la limite de 16 % est un unique chiffre pédagogique qui tient lieu de quelque chose qui dépend en réalité du combustible, de la mèche et de la forme du bocal."
+
+["chalk-vinegar"]
+title = "La craie pétille-t-elle dans le vinaigre ? Un contrôle acide à deux récipients"
+intro = "N'utilise, pour une vraie activité, que du vinaigre alimentaire ordinaire à 5 % et de la craie scolaire en carbonate de calcium. Porte des lunettes de protection, protège la table, demande d'abord à un adulte, et ne goûte jamais rien qui a été placé dans de la verrerie de laboratoire."
+part.control = "Contrôle : un bâton de craie dans le même volume d'eau pure se dissout à peine et n'a aucune source finie d'acide pour produire un dégagement visible de dioxyde de carbone."
+part.test = "Test : remplace l'eau par la recette nommée de vinaigre à 5 % et garde la même dose de craie. La réaction équilibrée consomme un stock fini de CaCO3 et d'acide acétique. Son véritable bilan de CO2 anime l'effet de bulles habituel et s'échappe par ce bécher ouvert ; ce n'est pas une animation préenregistrée."
+boundary = "Essaie une dose de craie plus petite ou moins de vinaigre dans un récipient neuf. Le réactif limitant change la quantité de gaz. Réduire en poudre changerait la vitesse réelle, mais la cinétique liée à la surface des particules pour cette réaction reste explicitement un modèle à venir."
+
+["cola-shell-surrogate"]
+title = "Une coquille d'œuf dans du cola : teste l'acide réellement représenté"
+intro = "L'acide phosphorique du cola rencontre la craie carbonatée. La membrane, l'émail, l'osmose, la texture de surface et un œuf entier ne sont pas représentés."
+
+["conductivity"]
+title = "Conductivité ionique : électrolytes forts contre faibles"
+part.1 = "Électrolyte fort : NaCl se dissocie entièrement"
+part.2 = "Électrolyte faible : l'acide acétique se dissocie partiellement"
+
+["conjugate-base-shifts-buffer-ph"]
+title = "La base conjuguée déplace le pH d'un tampon"
+boundary = "Les activités en solution calculées ne tiennent pas compte de l'incertitude de la sonde ni de la préparation."
+
+["copper-concentration-lifts-cell-voltage"]
+title = "Les ions cuivre élèvent la tension de la pile Daniell"
+boundary = "Ce sont des tensions à vide, à l'équilibre, et non des mesures sous courant délivré."
+
+["copper-patina"]
+title = "Nettoyer une pièce en cuivre, et le vert qui revient"
+intro = "Une pièce ternie redevient brillante dans le vinaigre. Le sel a-t-il de l'importance pour le vert qui apparaît ensuite ? Deux béchers appariés ne changent qu'une chose, pour que la couleur soit une preuve plutôt qu'une histoire racontée après coup."
+part.1 = "1. Contrôle : oxyde de cuivre et vinaigre, mais pas de chlorure."
+part.2 = "2. Test : les mêmes quantités dans un bécher neuf, avec le sel comme seul changement."
+part.3 = "Compare les bilans côte à côte. C'est le chlorure qui retransforme le cuivre dissous en un solide vert : l'atacamite, Cu2Cl(OH)3, le minéral qui pousse sur les garnitures de cuivre près de la mer. Le contrôle garde honnête l'affirmation sur le chlorure."
+boundary.1 = "Ce que cela montre et ce que cela ne montre pas. Le bleu du liquide est du cuivre(II) dissous, et il est calculé ; le solide vert est calculé aussi, par le moteur de solution aqueuse, à partir d'une phase que la base de données livrée a toujours définie. Ce qui manquait jusqu'ici, c'était une espèce pour elle dans le registre de ce laboratoire — pour que la paillasse puisse voir que la solution était sursaturée, le dire, et ne rien pouvoir déposer au fond du bécher."
+boundary.2 = "Il n'y a toujours pas de pièce. C'est la chimie d'une surface de cuivre sans la surface : pas de couche de ternissure à enlever, pas d'éclat qui revient, et aucune distinction entre une pièce trempée une seconde et une laissée toute la nuit. Ce que la paillasse a, c'est ce que fait le liquide."
+
+["counting-in-fives"]
+title = "Le permanganate compte par cinq : un titrage rédox, arrêté au point final"
+
+["current-time-and-electrolysis-yield"]
+title = "Intensité, temps et rendement d'électrolyse"
+intro = "Fixe le temps à 75 s et classe les quantités de produit formées par 0,05 A, 0,1 A, 0,2 A et 0,4 A. Relie ce classement à la charge Q = I t ; l'intensité seule n'est pas une loi de rendement quand le temps peut aussi varier."
+
+["dancing-raisins"]
+title = "Les raisins secs qui dansent : combien de gaz faut-il pour en soulever un ?"
+intro = "Un raisin sec est plus lourd que l'eau, il coule donc. Des bulles s'accrochent à sa peau ridée, et quand il y en a assez, le raisin et ses bulles PRIS ENSEMBLE sont plus légers que l'eau — il remonte. En haut, les bulles éclatent et il redescend. Rien ne réagit dans cette expérience : le raisin sec reste le même raisin d'un bout à l'autre. Ce qui change, c'est seulement où il se trouve."
+part.1 = "1. Le contrôle. Un raisin sec dans l'eau pure, sans gaz nulle part. Il coule, et il reste là, et la paillasse ne dit rien d'une danse parce qu'il n'y a rien pour danser."
+part.2 = "2. L'expérience. Mets d'abord le raisin sec, puis verse l'eau gazeuse dessus — c'est aussi comme cela qu'on fait dans une cuisine. Lis le nombre : les bulles doivent valoir environ un tiers de la taille du raisin lui-même."
+part.3 = "3. Rends maintenant le liquide plus lourd. Le sirop de sucre est plus dense que l'eau, le raisin sec est donc déjà bien plus près de flotter — et le gaz a beaucoup moins de travail à faire. Même raisin, mêmes bulles, un tiers de la portance nécessaire."
+boundary = "Ce que ceci ne modélise pas : combien de temps dure la danse, combien de voyages fait le raisin sec, quelle est la taille des bulles ou combien y adhèrent. Cette paillasse fait s'éventer un verre d'eau gazeuse en une seule étape, il n'y a donc pas d'horloge pour y mettre un point final. Ce qu'elle calcule, c'est la masse volumique de l'objet, celle du liquide où il se trouve, et combien de gaz attaché le soulèverait — et c'est ce dernier chiffre qui est vraiment le sujet de l'expérience."
+
+["density-tower-boundary"]
+title = "Tour de densité : ce que le densimètre prouve, et ce que le mélange efface"
+part.1 = "Chaque liquide source a une masse volumique calculée. Mettre des liquides mutuellement miscibles dans une même éprouvette utilise l'opération d'ajout ordinaire et les mélange donc ; sans opération de versement lent ni état de diffusion verticale, une tour à couches persistantes serait une fausse affirmation visuelle."
+
+["density"]
+title = "Masse volumique : la mesure qui distingue les choses là où la pesée ne le peut pas"
+intro = "Mets cinq grammes de cuivre, cinq grammes de zinc et cinq grammes d'aluminium sur une balance, et tu n'apprends rien : ils pèsent tous cinq grammes. Ce qui les distingue, c'est la PLACE que prennent ces cinq grammes, et c'est la masse volumique — la masse divisée par le volume, une propriété de la substance elle-même plutôt que du morceau que tu tiens dans la main."
+part.1 = "1. Trois métaux, la même masse, trois réponses différentes."
+part.2 = "La balance dit 5 g trois fois. Le densimètre dit 8,96, 7,14 et 2,70 g/mL — et le morceau d'aluminium fait plus de trois fois la taille de celui de cuivre. C'est pourquoi un ferrailleur pèse la ferraille ET regarde sa taille."
+part.3 = "2. Les liquides ont eux aussi une masse volumique, et y dissoudre quelque chose la change. C'est sur cela que repose une tour de densité : chaque couche doit être plus lourde que celle du dessus, sinon la tour ne s'empile pas."
+part.4 = "Trois liquides, trois masses volumiques, et elles montent avec le sucre. Versés très doucement, le plus lourd en premier, ils resteraient en couches — mais cette paillasse n'a pas de versement lent : verse-les ensemble ici et ils se mélangent, ce qui est exactement ce qui se passerait vraiment si on les versait vite. Les chiffres sont la partie dont dépend la tour, et ils sont exacts."
+part.5 = "3. Une masse volumique appartient à UNE substance. Deux poudres en tas ont une masse et un volume, et aucune masse volumique qu'on devrait annoncer à qui que ce soit."
+boundary = "Ce que ceci ne modélise pas : le volume d'un morceau est calculé à partir de la masse volumique vérifiée de la substance, et non mesuré par déplacement d'eau ; c'est donc la masse volumique du matériau et non celle de l'objet — un morceau creux ou bullé se lirait pareil ici et flotterait dans un vrai seau. Les volumes des solutés dans les solutions sucrées utilisent l'approximation des volumes additifs que le reste de la paillasse emploie ; un vrai sirop se contracte très légèrement en se mélangeant."
+
+["dilute-the-current-carriers"]
+title = "La conductivité suit la concentration en ions après le mélange"
+intro = "Des volumes d'eau finaux égaux reçoivent des quantités croissantes de chlorure de sodium. Cela isole la concentration en ions du volume avant les lectures de conductivité."
+boundary = "La conductivité est estimée à partir des ions calculés ; la constante de cellule, la polarisation des électrodes, la dérive de calibrage et la compensation en température sont absentes."
+
+["distillation-cut-controls-collection"]
+title = "Une coupe de distillation plus large recueille davantage"
+boundary = "La coupe à l'équilibre n'est pas une prédiction de la performance ou de la pureté d'une vraie colonne."
+
+["dry-then-wet-fizz"]
+title = "Sec, puis mouillé : pourquoi les poudres de sherbet et de bombes de bain attendent l'eau"
+intro = "L'acide citrique et le bicarbonate peuvent rester côte à côte tant qu'ils sont secs. L'eau laisse les ions se déplacer et démarre la réaction acide-carbonate. C'est une comparaison chimique, pas une recette : ne goûte pas les mélanges de laboratoire."
+part.dry = "Contrôle sec : les deux ingrédients sont présents, mais aucun liquide ne les relie."
+part.wet = "Comparaison mouillée : mêmes ingrédients, avec l'eau fournie en premier."
+boundary = "Un vrai sherbet fait intervenir le goût, et une bombe de bain fait intervenir des liants, un parfum, une forme de pastille et une vitesse de dissolution. Rien de tout cela n'est déduit ici. La mousse non plus n'est pas revendiquée : le gaz ne fait de la mousse que si un tensioactif modélisé est présent."
+
+["electrode"]
+title = "La série électrochimique : le zinc déplace le cuivre"
+
+["electrolysis-products-follow-time"]
+title = "Les produits d'électrolyse suivent le temps"
+boundary = "La production idéale selon la loi de Faraday ne tient pas compte du rendement, de la surtension ni de la capture des gaz."
+
+["electrolysis"]
+title = "Électrolyse du sulfate de cuivre : la loi de Faraday, vérifiée sur une balance"
+intro = "L'intérêt de celle-ci, c'est qu'on peut d'abord la faire sur le papier. Pèse l'électrode, fais fonctionner la cellule, pèse-la à nouveau, et la différence est un nombre que tu avais déjà prédit :"
+calc.given = "I = 1,000 A, t = 965 s"
+calc.charge = "Q = I·t         = 965 C"
+calc.electrons = "n(e-) = Q/F     = 965 / 96485,33 = 0,010002 mol d'électrons"
+calc.copper = "n(Cu) = n(e-)/2 = 0,005001 mol            <- le 2 est toute la chimie"
+calc.mass = "m = n·M         = 0,005001 x 63,546 = 0,3178 g"
+aside.element = "Tout, sauf ce 2, est de l'arithmétique que tu pourrais faire pour n'importe quel élément. Le 2, c'est le cuivre(II) : chaque ion a besoin de deux électrons pour devenir un atome. Pour l'argent ce serait 1, et pour l'aluminium 3, et la même charge déposerait des masses bien différentes."
+aside.assumptions = "Des hypothèses, car la masse prédite en dépend. Électrodes inertes, donc l'anode oxyde l'eau et le bécher devient acide. Et la cellule est prise comme totalement efficace pour le cuivre : aucun hydrogène n'est co-produit à la cathode. C'est une borne supérieure, pas une mesure -- une vraie électrode pèse cela ou moins, jamais plus. La paillasse le dit au niveau lv3, et elle signale un rendement calculé inférieur à 1 si le cuivre s'épuise avant la charge."
+
+["elephant-toothpaste-catalyst-dose"]
+title = "Le dentifrice d'éléphant : la dose de catalyseur change la vitesse d'arrivée de la mousse"
+intro = "Activité simulée. Une vraie activité destinée aux enfants n'utilise que du peroxyde d'hydrogène domestique à 3 %, sous la surveillance d'un adulte, avec des lunettes adaptées et des gants. Les démonstrations à l'iodure de potassium ont leur place sur une paillasse scolaire surveillée ; un peroxyde plus concentré est ici une exploration virtuelle, pas une instruction pour la maison."
+part.1 = "Une comparaison équitable : même peroxyde, même savon, mêmes récipients, même temps écoulé. Seule la dose d'iodure de potassium change. Le catalyseur est conservé dans les deux récipients."
+part.2 = "Une horloge commune laisse la dépendance de premier ordre à l'iodure atteindre le modèle visible de gaz et de mousse sans donner à l'un ou l'autre récipient de temps de réaction supplémentaire."
+boundary = "Prédiction : v2 devrait produire plus d'oxygène, bâtir une colonne de mousse plus haute et déborder plus loin dans les mêmes dix secondes. Aucun des deux récipients ne consomme son stock de KI."
+
+["elephant-toothpaste"]
+title = "Le dentifrice d'éléphant : le savon capte l'oxygène, il ne le fabrique pas"
+intro = "Activité simulée. Pour une vraie activité destinée aux enfants, n'utilise que du peroxyde d'hydrogène domestique à 3 %, avec un adulte, des lunettes adaptées et des gants. Un peroxyde plus concentré sert ici à l'exploration virtuelle, pas à une instruction pour la maison."
+part.1 = "Deux portions égales de peroxyde en font un test équitable. La première reçoit du liquide vaisselle ; la seconde est le contrôle sans savon."
+part.2 = "La levure sèche tient lieu d'activité catalase. Les dix secondes d'agitation après l'eau tiède font maintenant avancer sa montée en puissance bornée d'hydratation avant l'attente finale commune. Une eau très chaude supprime l'enveloppe d'activité de l'enzyme ; la marque et l'âge varient de toute façon, aussi Kerotakis ne revendique-t-il aucune vitesse universelle de la levure."
+part.3 = "Une seule horloge fait avancer les deux béchers. Le rendement en oxygène et la chaleur de réaction viennent de la même loi de vitesse du peroxyde. Seul v1 a un stabilisant de mousse déclaré."
+part.4 = "Prédiction à discuter : les deux récipients devraient produire la même quantité d'oxygène à partir d'un peroxyde égal. v1 en retient une bonne partie temporairement sous forme de mousse ; v2 fait des bulles mais ne peut pas bâtir de mousse persistante. Attends encore pour voir la mousse modélisée s'égoutter."
+
+["endpoint-is-not-a-full-drop"]
+title = "Comparaison virtuelle : le point final numérique n'est pas un incrément entier de burette."
+intro = "Les deux récipients contiennent 0,0023 mol de HCl. À 0,1 mol/L, le point d'équivalence demande environ 23 mL. L'incrément d'essai de 7 mL le manque délibérément. Le solveur automatique affine son dernier incrément ; une vraie burette et un vrai indicateur ont leur propre incertitude, que ce calcul ne modélise pas."
+
+["equal-charge-different-clocks"]
+title = "Compare la production cumulée à charge égale, pas le gaz restant dans des récipients ouverts."
+intro = "Stœchiométrie idéale des électrodes ; le rendement réel du courant n'est pas modélisé."
+
+["equilibrium-can-run-backward"]
+title = "Requête virtuelle d'équilibre, ni recette de synthèse ni prédiction temporelle."
+intro = "Même réaction, deux états initiaux. Les réactifs peuvent former l'ester ; partir plutôt d'ester et d'eau entraîne l'hydrolyse dans le sens inverse. La commande explicite utilise le modèle existant de mélange idéal avec K = 4, et non une vitesse mesurée, un modèle de catalyseur ou un calcul d'activité en liquide non idéal."
+
+["filter-cannot-catch-dissolved"]
+title = "Une substance, deux phases : le filtre ne retient que le solide"
+boundary = "L'équilibre en solution décide de la quantité de silice dissoute. Le filtre transfère ensuite la phase liquide et retient la phase solide ; il ne décide pas selon l'identité chimique."
+
+["filter-then-concentrate-the-brine"]
+title = "Filtrer, puis concentrer la saumure"
+intro = "Suis la silice, le sel et l'eau à travers une filtration puis une demi-évaporation, puis répète le tout à une échelle deux fois plus grande. Le filtre retient la silice pendant que le filtrat salé se concentre ; doubler les quantités de départ double les bilans."
+
+["fire"]
+title = "Le feu : ce qui brûle, ce qui ne brûle pas, et ce qu'il laisse derrière lui"
+
+["first-warmth"]
+title = "Première tiédeur : mélange de l'eau chaude et de l'eau froide, observe le milieu"
+
+["fizz"]
+title = "Le pétillement : le vinaigre rencontre le bicarbonate"
+
+["flame-colour-series"]
+title = "Six sels, six observations à la flamme"
+intro = "Chaque sel sec porte une couleur de flamme vérifiée. C'est un test de flamme virtuel : ne goûte jamais de sels et ne mets jamais de substances domestiques dans une vraie flamme. Le lithium est absent du registre actuel et n'est pas discrètement remplacé."
+
+["float-or-sink"]
+title = "Quels plastiques flottent ?"
+intro = "Le recyclage trie les plastiques par masse volumique, et tu peux le faire dans un verre. Chacun d'eux est un solide, ils se ressemblent tous beaucoup, et l'eau les distingue sans rien peser : ce qui est plus léger que le liquide vient en haut, et ce qui est plus lourd descend au fond."
+part.1 = "1. Polypropylène, 0,90 g/mL — plus léger que l'eau."
+part.2 = "2. Polystyrène, 1,05 g/mL. À peine plus lourd — mais plus lourd, c'est plus lourd. Laisse-lui quelques minutes : un solide qui vient d'être plongé tourbillonne encore, et la paillasse le dit avant de dire où il a fini."
+part.3 = "3. Le PET, 1,38 g/mL, le plastique des bouteilles de boisson. Encore plus lourd."
+part.4 = "Le tri a fonctionné : un flotte, deux coulent, et rien n'a été pesé. C'est toute la méthode industrielle — un bac de flottaison-décantation avec un liquide réglé à une masse volumique choisie."
+part.5 = "Ce que ceci ne modélise pas : la masse volumique appartient au MATÉRIAU, pas au morceau. Une bouteille creuse en PET flotte dans un vrai évier, et cette paillasse dirait quand même que le PET est plus lourd que l'eau, car elle n'a pas de forme sur laquelle raisonner — la même limite qu'énonce le densimètre. La tension superficielle, qui soutient vraiment de petits objets légers, n'est pas non plus modélisée."
+part.6 = "Et un avertissement que la paillasse s'adresse à elle-même : augmenter la masse volumique de l'eau avec du sel serait le moyen de séparer les deux qui coulent, et ce modèle ne peut pas le faire. Chaque ion du registre porte la masse volumique de l'eau comme valeur par défaut, l'eau salée se lit donc exactement 1,00 g/mL. Le densimètre le dit plutôt que de te laisser croire la saumure."
+
+["follow-the-salt-through-staged-transfers"]
+title = "Suivre le sel à travers des transferts étagés"
+intro.1 = "Un bécher est versé d'un coup. L'autre en deux étapes. L'une ou l'autre voie perd-elle du sel ?"
+intro.2 = "Prépare deux portions égales d'eau salée."
+part.1 = "Donne à chaque portion un récipient récepteur vide."
+part.2 = "Transfère la première portion en un seul versement, et la seconde en deux versements successifs."
+part.3 = "Inspecte chaque récipient. Le trajet change où attend la solution, pas le total de H, O, Na ou Cl dans chaque paire source-récepteur."
+
+["grinding-rate-boundary"]
+title = "Poudre ou morceau : la surface est calculée, la vitesse ne l'est pas"
+intro = "Le broyage calcule la surface exposée. Cette voie carbonatée n'a pas de vitesse dépendant de la surface, des résultats égaux en une étape sont donc une limite du modèle, et non une vraie prédiction."
+
+["grit"]
+title = "Du sel pour la route : le sel garde l'eau liquide en dessous de zéro"
+
+["grouping-does-not-change-water-heat"]
+title = "Les mêmes six moles et un net de 200 J par branche, groupées différemment."
+intro = "Garde v1 vide jusqu'à ce qu'il reçoive le mélange final de la branche de gauche."
+
+["hand-warmer"]
+title = "La chaufferette de poche qui ne veut pas cliquer"
+intro.1 = "Une chaufferette de poche réutilisable est un sachet de solution d'acétate de sodium qui tient bien plus de sel qu'elle ne le devrait. Tu plies un petit disque métallique à l'intérieur, des cristaux jaillissent depuis le clic, et le sachet devient chaud — cette chaleur, c'est le solide qui se forme, rendu."
+intro.2 = "Cette leçon est là parce que la paillasse NE PEUT PAS faire le clic, et la raison vaut plus qu'une démonstration ne le ferait."
+part.1 = "Prépare la solution comme le sachet est préparé : beaucoup de sel dans de l'eau chaude."
+part.2 = "Refroidis-la maintenant tout à fait, au-delà du point où elle aurait dû cristalliser. Dans un vrai sachet, c'est l'état que tu trimballes dans ton manteau tout l'hiver : liquide, froid, et chargé."
+part.3 = "Et voici la partie honnête. La paillasse sait que la solution a dépassé sa limite — elle dit de combien — et elle te dit qu'elle ne peut pas faire apparaître le solide. Pas « il ne s'est rien passé » : *pourquoi* il ne s'est rien passé."
+part.4 = "La raison n'est ni un nombre manquant ni la mauvaise base de données. Le solide que forme une chaufferette est l'acétate de sodium trihydraté, et aucune base de données PHREEQC livrée avec ce projet ne définit le moindre solide acétate — ni wateq4f, ni minteq.v4, ni pitzer, ni llnl. Il n'y a rien que le moteur de solution aqueuse puisse précipiter."
+part.5 = "Compare cela au borax, une leçon plus loin : même idée, une solution qui dépasse sa limite en refroidissant, et là, le solide existe et ressort tout de suite. La différence entre les deux n'est pas la chimie que voit un enfant. C'est de savoir si quelqu'un a couché la phase par écrit."
+
+["hard-water-soap-boundary"]
+title = "Eau dure et savon : le tartre n'est pas le dépôt calcaire de savon"
+intro = "Les ions de l'eau dure et le tartre carbonaté sont modélisés. Le liquide vaisselle est un matériau tensioactif déclaré, mais aucune espèce de savon d'acide gras n'existe, la paillasse ne peut donc pas former le dépôt calcaire grumeleux responsable d'une mauvaise mousse. Cette absence est la limite que révèle cette comparaison."
+part.1 = "Un contrôle séparé de formation de tartre montre la chimie du calcium que le moteur possède réellement."
+
+["hard-water-soap-scum"]
+title = "Pourquoi un savon gras forme un dépôt calcaire dans l'eau dure"
+intro = "Ceci utilise un réactif pédagogique déclaré, équivalent au stéarate de sodium, ni un détergent vaisselle ni une affirmation sur un savon de marque. Deux équivalents de carboxylate gras se lient à chaque ion calcium ou magnésium ; la masse de l'agrégat suit le savon de sodium et le Ca/Mg réellement consommés, le sodium libéré retournant en solution."
+part.1 = "Contrôle en eau douce : pas de Ca2+ ni de Mg2+, donc aucun agrégat n'est possible."
+part.2 = "Test en eau dure : le calcium est le réactif limitant et produit un agrégat de dépôt calcaire conservé, plus des ions sodium libérés."
+part.3 = "Le magnésium suit la même règle de deux équivalents par ion."
+boundary = "La mousse, les micelles, les mélanges de longueurs de chaîne, les adjuvants et le tartre carbonaté ne sont pas déduits de ce calcul borné de précipitation."
+
+["hard-water"]
+title = "La bouilloire et la statue : l'eau dure et le tartre"
+part.1 = "Adoucissement par mélange : l'eau dure rencontre une solution de cendre de soude"
+
+["heating-proteins"]
+title = "Chauffer des protéines : le blanc d'œuf clair devient opaque"
+intro = "Compare des portions égales à température ambiante et au bord supérieur de l'intervalle vérifié de dénaturation du blanc d'œuf du modèle. La matière reste conservée ; le chauffage change la structure de la protéine et l'agrégation visible."
+part.1 = "L'albumine est la comparaison avec la protéine isolée. Elle suit son propre intervalle borné de dénaturation au lieu d'emprunter la recette du blanc d'œuf entier."
+boundary = "La gélatine est déjà du collagène dénaturé avant d'arriver en rayon ; la gélification au refroidissement est une transition structurelle différente et n'est pas revendiquée ici."
+
+["hot-share-temperature"]
+title = "La fraction chaude fixe la température d'équilibre"
+intro = "Quatre portions sources égales isolent une seule variable : la quantité d'eau chaude qui entre dans le mélange final. Le thermomètre devrait monter de façon monotone avec cette part."
+boundary = "Ces récipients sont des modèles adiabatiques à capacité thermique constante. Les vrais récipients perdent de la chaleur, et la paillasse ne prédit ni la vitesse de versement ni celle de refroidissement."
+
+["ink-chromatography"]
+title = "Décomposer un feutre noir : la tache qui en est vraiment trois"
+intro = "Une encre noire ressemble à une seule couleur. Mets-en un point près du bas d'une bande de papier, place le papier debout dans l'eau, et l'eau qui monte au-delà du point emporte chaque colorant sur une distance différente — parce que chacun se répartit différemment entre l'eau qui se déplace et l'eau que le papier retient. Le nombre qui dit jusqu'où est le Rf, et c'est le même coefficient de partage qui décide combien de temps chaque colorant met sur une colonne."
+part.1 = "Les colorants seuls, pour comparaison. Chacun monte à sa propre hauteur, et ce sont les mêmes hauteurs que le mélange vient de produire — c'est ainsi qu'une bande identifie ce qui se trouve dans une encre inconnue."
+part.2 = "Les mêmes nombres, lus comme une colonne plutôt qu'une bande. Une séparation, deux instruments, un coefficient de partage : le colorant que la colonne retient le plus longtemps est celui qui reste le plus près du trait de crayon."
+boundary = "Ce que ceci ne modélise pas : les valeurs de Rf sont des chiffres pédagogiques vérifiés plutôt que des mesures, choisis pour reproduire quel colorant monte le plus loin et à peu près l'écart entre les taches — le Rf d'une vraie bande dépend du solvant, du papier et de la température, et rien de tout cela n'est revendiqué ici. Les ions dissous voyagent avec l'eau et sont désignés comme hors de la méthode plutôt que discrètement écartés."
+
+["instant-snow"]
+title = "Neige instantanée : où est passée l'eau ?"
+part.1 = "Un contrôle apparié à l'eau seule reste un liquide ordinaire."
+boundary = "Rien ne disparaît : l'eau reste dans le bilan conservé. Le plafond de 100 g/g est une capacité pédagogique, pas une spécification produit. La densité de réticulation, la taille des grains, le sel, le pH, le temps de gonflement, le volume et la texture sont en dehors de ce modèle d'absorption de masse à l'équilibre."
+
+["invisible-ink-boundary"]
+title = "Encre invisible : sécher, brunir et brûler sont des transformations différentes"
+intro = "Cette leçon ne calcule que la marque vérifiée de jus de citron sur le papier. Son apparition bornée de brun n'est pas un mécanisme général de caramélisation ou de réaction de Maillard."
+part.1 = "Contrôle humide : la chaleur seule ne peut pas révéler une marque tant qu'il reste de l'eau."
+part.2 = "Sèche d'abord la même marque, puis chauffe-la. Le brunissement n'enflamme pas le papier."
+part.3 = "Contrôle virtuel séparé de combustion. N'enflamme jamais de vrai papier pour cette activité."
+
+["kitchen-hot-and-cold-packs"]
+title = "Coussins chauds et froids de cuisine : dissoudre peut réchauffer ou refroidir"
+intro = "Des portions d'eau égales reçoivent des masses de sel égales. C'est le thermomètre qui décide ; « dissoudre libère de la chaleur » n'est pas une règle générale. Ce sont des échantillons de simulation, pas des instructions alimentaires ou pour des coussins médicaux."
+part.1 = "La dissolution du chlorure de calcium est exothermique."
+part.2 = "La dissolution du chlorure d'ammonium est endothermique dans les mêmes conditions de départ. N'ingère pas de sels d'ammonium de laboratoire."
+part.3 = "Le sel ordinaire fournit une comparaison à l'échelle domestique plutôt qu'une autre règle universelle."
+boundary = "Les récipients sont des approximations adiabatiques. Une vraie tasse, un vrai sachet et une vraie pièce absorbent de la chaleur, et la vitesse de dissolution ainsi que la construction du sachet sont en dehors de ce résultat."
+
+["kitchen-ph"]
+title = "Une carte du pH de la cuisine — et ce qu'un pH-mètre ne peut pas toujours dire"
+intro = "Cinq choses d'une cuisine, un appareil de mesure. Quatre d'entre elles répondent. La cinquième est la plus intéressante, et ce n'est pas la paillasse qui fait preuve de paresse."
+part.1 = "Jus de citron. Acide, et cette acidité est l'acide citrique — pour lequel la base de données chargée définit un citrate, le pH-mètre peut donc le chiffrer."
+part.2 = "Jus de pomme. Acide aussi, un acide de fruit aussi, résolu lui aussi en tant que lui-même — et le pH-mètre ne peut pas le chiffrer. L'acide malique est dans le registre et dans le verre ; un malate n'est dans aucune base de données livrée, ses deux protons ne sont donc dans la spéciation de personne. La paillasse dit exactement cela plutôt que de renvoyer un nombre qui ressemblerait aux autres."
+boundary = "C'est toute la leçon. La différence entre v4 et v5 n'est ni la chimie, ni le fruit, ni le soin apporté à l'écriture de la recette. C'est de savoir si quelqu'un, quelque part, a publié un modèle thermodynamique pour cet anion particulier — et quand ce n'est pas le cas, la réponse honnête est une phrase plutôt qu'un nombre."
+
+["kitchen-starch-hunt"]
+title = "Chasse à l'amidon dans la cuisine : la farine et la pâte ne sont pas de simples poudres blanches"
+intro = "La solution de Lugol est brune sans amidon et bleu-noir quand son iode rencontre des hélices d'amidon suffisamment longues. Utilise des gobelets séparés pour que chaque échantillon voie la même eau et la même dose d'indicateur. L'iode tache : protège les yeux, les vêtements et le plan de travail, et ne goûte aucun mélange de laboratoire."
+part.1 = "Un contrôle au sucre. Blanc ne veut pas dire amidon."
+part.2 = "La farine résout une fraction d'amidon vérifiée, la même bande d'absorption calculée apparaît donc sans affirmation spéciale sur la farine."
+part.3 = "Une pâte simple de farine et d'eau porte la même identité d'amidon."
+boundary = "La couleur identifie l'amidon ; elle ne mesure pas combien il y en a. Cette paillasse ne modélise pas non plus la cuisson, la gélatinisation de l'amidon ou la sécurité alimentaire."
+
+["lactase-and-milk"]
+title = "Lactase et lait : une enzyme correspond à un substrat"
+intro = "Trois échantillons de lait égaux partagent une horloge. Seul l'échantillon avec de la lactase hydrolyse le sucre du lait ; pas d'enzyme et la mauvaise enzyme sont des contrôles équitables."
+boundary = "La paillasse enregistre une rupture de liaison bornée à l'intérieur de la matière sèche du lait, conservée. Elle ne revendique ni la douceur ni des quantités nommées de glucose et de galactose."
+
+["lemon-cell"]
+title = "Tension à vide du jus de citron : une lecture au voltmètre n'est pas une puissance utile"
+intro = "Le zinc fournit des électrons. Le cuivre est une surface inerte où les ions hydrogène peuvent les accepter. Le jus de citron transporte la charge entre les deux, mais son pH seul ne peut pas nous dire l'intensité, la puissance ou la durée de vie d'une vraie pile au fruit."
+part.1 = "Le voltmètre ne tire aucun courant. Comme ce montage n'a pas d'activité mesurée des ions zinc, la paillasse désigne sa tension comme une estimation pédagogique à activité unitaire."
+boundary = "Cela répond entièrement à la question à vide : le même état donne toujours la même estimation bornée de tension. Elle ne répond délibérément pas à une question de pile en charge. La géométrie du fruit, la surface et l'espacement des électrodes, la polarisation et la résistance interne décident de la tension et de la puissance en charge. Rien de tout cela n'est déduit de l'estimation à vide, et le cuivre n'est pas traité comme Cu/Cu2+."
+
+["lemonade-indicator"]
+title = "Une limonade qui change de couleur : un indicateur mesure le liquide"
+intro = "Le bleu de bromothymol utilise un spectre calculé unique dans un contrôle basique et de l'acide citronné. Le jus nommé est un substitut ; ne goûte pas les mélanges de laboratoire."
+
+["limewater"]
+title = "Le dioxyde de carbone entre autant qu'il sort d'un récipient ouvert."
+intro = "La première dose trouble l'eau de chaux ; un véritable excès la reclarifie."
+
+["lipase-and-oil"]
+title = "Lipase et huile : hydrolyser un mélange de triglycérides"
+intro = "Des échantillons égaux d'huile et d'eau comparent la lipase, l'absence d'enzyme et la protéase."
+boundary = "L'huile reste un mélange conservé non résolu. La paillasse n'invente ni une chute de pH ni des quantités nommées de glycérol et d'acides gras qu'elle ne peut pas encore bilancer."
+
+["liquid-nitrogen-freezes-ethanol"]
+title = "Azote liquide : un changement de phase en paie un autre (investigation virtuelle uniquement)"
+intro = "L'azote liquide réel peut causer de graves brûlures par le froid et chasser l'air respirable. À n'utiliser que sous surveillance formée, avec protection des yeux et du visage, des gants cryogéniques, une forte ventilation, et un chemin ouvert de décompression. Ne scelle jamais un cryogène."
+part.1 = "0,1713 mol et 2,8807 mol correspondent à 10 mL d'éthanol et 100 mL d'azote liquide aux masses volumiques citées. Les ajouts en moles utilisent la voie de phase vérifiée."
+
+["longer-waits-advance-peroxide-kinetics"]
+title = "Des attentes plus longues font avancer la cinétique du peroxyde"
+intro.1 = "Donne à des échantillons de peroxyde identiques quatre attentes différentes. Que fait le réseau cinétique enregistré à mesure que le temps modélisé avance ? Mission intermédiaire. Examine le bilan complet après 30, 60, 120 et 240 secondes : la décomposition du peroxyde avance pendant que l'hydrogène et l'oxygène restent comptabilisés."
+intro.2 = "Limite du modèle : ceci teste le réseau de peroxyde enregistré de la paillasse, ce n'est pas une nouvelle loi de vitesse empirique. La décomposition réelle dépend aussi de la concentration, de la température, de la lumière, des impuretés, des surfaces et des catalyseurs. Pour toute comparaison physique, n'utilise qu'un peroxyde dilué préparé par un enseignant, une protection oculaire et du matériel compatible propre. Ne l'ingère pas et ne remets pas le matériel utilisé dans son flacon de stock."
+
+["luminol-temperature"]
+title = "La lumière du luminol : chaud brille plus, froid dure plus longtemps"
+intro = "Deux systèmes préparés appariés ne diffèrent que par la température. C'est une démonstration de classe au luminol, pas la chimie d'un bâton lumineux du commerce."
+boundary = "L'intensité relative et la demi-vie forment une comparaison explicitement calibrée, de forme arrhénienne. Les produits et le rendement en photons ne sont pas calculés."
+
+["magic-milk"]
+title = "Le lait magique : le savon fait s'emballer les couleurs"
+intro = "Une activité de mouvement de surface adaptée aux enfants, avec du lait entier, du colorant alimentaire et un peu de liquide vaisselle. Le colorant alimentaire peut tacher : porte des lunettes de protection, protège les vêtements et la table, demande à un adulte avant d'utiliser des aliments, et ne goûte jamais rien provenant d'un récipient de laboratoire."
+part.1 = "Dépose trois petites gouttes de couleur sur du lait immobile. Leur quantité résolue de colorant est conservée, mais elle reste localisée à la surface au lieu de teinter aussitôt tout le bécher."
+part.2 = "Ajoute maintenant du liquide vaisselle sans remuer. La dose de tensioactif déclarée dans la recette calcule l'étalement vers l'extérieur, émet SurfaceColourSpread et pilote l'animation des filets colorés. Les trajectoires sont une observable pédagogique de surface, pas une prédiction de mécanique des fluides d'un motif réel exact."
+part.3 = "Fais un contrôle équitable avec autant de lait et autant de colorant, mais mélange le colorant dans la masse avant d'ajouter le savon. Mélanger émet SurfaceColourMixed et remet les mêmes chromophores conservés au modèle habituel de mélange de Beer-Lambert. Sans goutte localisée restante, le savon ajouté plus tard ne doit pas inventer un événement arc-en-ciel."
+boundary = "Essaie de changer une quantité de colorant ou la dose de détergent dans un récipient neuf. Le modèle conserve l'intensité et l'ordre de la couleur, mais ne revendique ni la composition moléculaire du lait, ni une tension superficielle universelle, ni les trajectoires exactes des filets."
+
+["measure-twice"]
+title = "Mesurer deux fois, ne rien changer"
+intro = "Chaque instrument lit deux fois le même récipient inchangé. Les valeurs appariées sont un contrôle du contrat de mesure déterministe et non invasive de la paillasse."
+boundary = "L'erreur de calibrage, la dérive, le bruit aléatoire, la consommation d'échantillon et la perturbation par la sonde sont délibérément en dehors de ce modèle d'instrument déterministe."
+
+["metal-acid-race"]
+title = "Quel métal réagit en premier ? Même acide, quantités de métal égales"
+intro = "Le magnésium réagit vigoureusement, le zinc plus lentement, et le cuivre refuse pour une raison électrochimique. Le moteur calcule la réaction et la chaleur, mais pas des temps de course chronométrés au réel, ni des différences de surface entre les morceaux."
+
+["milk-curds"]
+title = "Lait, vinaigre, caillé et petit-lait : quelle quantité d'acide suffit ?"
+intro = "Une comparaison adaptée aux enfants avec du lait ordinaire et du vinaigre domestique à 5 %. Ne goûte rien provenant d'un récipient de laboratoire ; nettoie les récipients après l'activité, et demande à un adulte avant d'utiliser des aliments pour une expérience."
+part.1 = "Commence par une dose de vinaigre délibérément minuscule. Le lait reste un colloïde blanc dispersé, car la dose d'acide installée n'a pas atteint son seuil déclaré de caillage."
+part.2 = "Fais un second récipient équitable avec le même volume de lait et dix fois plus de vinaigre. Le stock réel d'acide acétique atteint maintenant la réponse bornée : la matière sèche du lait se rassemble en grumeaux mous visibles pendant que le petit-lait environnant devient moins opaque. C'est un modèle pédagogique d'agrégation, ni une recette, ni un contrôle de sécurité alimentaire, ni une prédiction de rendement fromager, ni une affirmation sur tous les types de lait."
+
+["naked-egg-osmosis"]
+title = "L'œuf nu : une comparaison du transfert d'eau à travers une membrane"
+intro = "L'objet préparé naked_egg est explicitement un substitut de composition de blanc d'œuf derrière une membrane semi-perméable. Ce n'est pas un œuf entier simulé : le retrait de la coquille est la voie séparée craie-et-vinaigre, et le jaune, l'élasticité et la taille finale à l'équilibre sont en dehors de ce modèle."
+part.1 = "Dans l'eau pure, le bain a moins de particules dissoutes que l'intérieur déclaré, l'eau se déplace donc vers l'objet cohérent."
+part.2 = "Le sucre augmente l'osmolarité du bain. Avec le même objet et la même horloge, l'eau se déplace maintenant vers l'extérieur. Les commandes ordinaires de décantation et de filtration laissent délibérément l'objet cohérent de côté ; il n'existe pas de commande inventée pour ramasser un objet entier."
+
+["neutral-moves"]
+title = "Le neutre est une cible mobile : l'eau tiède reste simplement de l'eau"
+
+["neutral-sugars-are-conductivity-controls"]
+title = "Les sucres neutres sont des contrôles de conductivité"
+boundary = "Les sucres restent des molécules neutres dans ce modèle. Les impuretés, l'autoprotolyse de l'eau, le bruit de fond de la sonde, le calibrage et la température sont omis."
+
+["never-mix"]
+title = "La couche de sécurité : précise sur le danger, honnête sur les résultats"
+part.1 = "1. Eau de Javel + ammoniaque → gaz chloramine (règle existante)"
+part.2 = "2. Oxydant fort + liquide inflammable → risque d'incendie"
+part.3 = "3. Acide fort + métal réactif → dihydrogène"
+part.4 = "4. Acide fort + carbonate → projections de CO₂"
+
+["oil-water-colour"]
+title = "Huile, eau et couleur : quel liquide récupère le colorant ?"
+intro = "Une activité sûre sur la masse volumique et le mélange, avec de l'eau, de l'huile végétale et du colorant alimentaire. Ne goûte pas les matériaux de laboratoire ; protège les vêtements et les surfaces car le colorant alimentaire tache, et travaille avec un adulte."
+part.1 = "Colore d'abord l'eau, puis ajoute l'huile. Prédis si l'huile jaune va changer de couleur ou former sa propre couche."
+part.2 = "Inverse maintenant l'ordre dans une éprouvette étroite. Le colorant alimentaire est une solution aqueuse à compte-gouttes : il ne colore pas l'huile, et sa minuscule phase aqueuse colorée se dépose au contraire sous l'huile."
+part.3 = "Reviens au premier récipient. Le liquide vaisselle seul n'efface pas la couche : utilise l'agitateur pour fournir un mélange mécanique et observe de minuscules gouttelettes d'huile troubler l'eau pendant qu'un peu d'huile non dispersée reste au-dessus."
+part.4 = "Laisse le récipient reposer pendant une demi-vie de coalescence déclarée. Environ la moitié de l'huile dispersée rejoint à nouveau la couche supérieure. Ce modèle conserve l'huile générique non résolue ; il ne modélise pas encore les gouttes qui tombent, l'agitation à la main, la taille des gouttelettes individuelles, la viscosité ou une pastille de lampe à lave."
+
+["one-thing-at-a-time"]
+title = "Une chose à la fois : la colonne distingue un mélange."
+intro = "Trois liquides incolores dissous dans l'eau ressemblent à un seul liquide. La colonne n'est pas d'accord : chaque soluté passe sa propre part de temps dans la phase stationnaire, fixée par le même coefficient de partage qui fait fonctionner l'ampoule à décanter, et chacun arrive donc seul."
+part.detail = "La même injection lue de plus près : temps de rétention, largeurs, aires — et K lui-même, le nombre qui fait tout le travail."
+
+["oobleck"]
+title = "L'oobleck : un liquide sur lequel on peut courir"
+intro = "La fécule de maïs et l'eau, c'est la seule expérience de cette étagère qui n'est pas de la chimie. Rien ne réagit. Ce qui change, c'est la façon dont le mélange répond à une poussée : remue-le lentement et il coule, remue-le vite et les particules n'ont pas le temps de se dégager mutuellement, il résiste alors comme un solide. Arrête, et c'est de nouveau un liquide."
+part.1 = "Le mélange classique : environ deux parts de fécule de maïs pour une part d'eau."
+part.2 = "Doucement. Ça coule."
+part.3 = "Maintenant vite. Le même mélange, le même instant, une réponse différente."
+part.4 = "Un mélange dilué ne fait ni l'un ni l'autre, aussi fort qu'on le remue — l'effet a besoin de particules assez serrées pour se bloquer entre elles."
+part.5 = "Lis le bilan dans v1 : la fécule et l'eau sont exactement ce qui a été versé. Rien n'a été créé et rien n'a été consommé ; seule la réponse à la question « avec quelle force pousses-tu ? » a changé."
+boundary = "Ce que ceci ne modélise pas : il n'y a ici ni viscosité, ni seuil d'écoulement, ni vitesse de cisaillement critique — seulement l'affirmation bornée que ce mélange fait partie de ceux qui se comportent ainsi, et que ce remuement a été assez rapide pour qu'on le remarque. La taille des particules, l'origine de la fécule et depuis combien de temps elle a reposé comptent tous dans un vrai saladier, et aucun d'eux n'est représenté."
+
+["pepper-and-soap"]
+title = "Le poivre fuit le savon : l'ordre compte à la surface de l'eau"
+intro = "Une activité d'observation sûre avec de l'eau, du poivre moulu et une toute petite quantité de liquide vaisselle. Ne goûte pas les matériaux de laboratoire, et lave la vaisselle ensuite."
+part.1 = "Fais d'abord la surface d'eau couverte de poivre, bien connue."
+part.2 = "Mets en place un contrôle avec les mêmes matériaux dans l'ordre inverse. Une fois le savon déjà étalé sur l'eau, il n'y a plus de nouveau gradient local à l'arrivée du poivre, le modèle ne doit donc pas inventer l'événement de fuite soudaine."
+part.3 = "Touche maintenant la surface poivre-en-premier avec du liquide vaisselle. La dose déclarée dans la recette calcule la zone dégagée au centre ; l'événement SurfaceSpread qui en résulte, l'état de scène conservé et l'animation proviennent tous de cette seule transition du moteur."
+boundary = "Essaie moins de savon dans un récipient neuf et prédis la largeur de la zone dégagée. C'est un modèle borné pour la classe, pas un calcul moléculaire de tension superficielle ou de mécanique des fluides, et répéter l'effet demande de l'eau et du poivre frais."
+
+["permanganate-standardisation"]
+title = "Étalonner le permanganate : la burette te dit elle-même sa propre concentration"
+
+["pressure-follows-gas-amount"]
+title = "Plus de gaz, plus de pression"
+boundary = "Seulement des ciels gazeux rigides idéaux ; les fuites et l'incertitude du manomètre sont omises."
+
+["pressure-follows-headspace"]
+title = "La pression monte quand le ciel gazeux rétrécit"
+boundary = "Seulement des ciels gazeux rigides idéaux ; un vrai travail sous pression demande un appareillage homologué."
+
+["protease-and-gelatin"]
+title = "Protéase et gélatine : une enzyme qui découpe les protéines"
+intro = "Des échantillons égaux de gélatine hydratée comparent la protéase, l'absence d'enzyme et la lactase."
+boundary = "Ceci calcule une hydrolyse protéique bornée. La texture du gel et des produits nommés de peptides ou d'acides aminés restent en dehors du modèle, il ne simule donc pas une gelée."
+
+["rates"]
+title = "Vitesses : deux béchers, une variable, une horloge."
+intro = "La croix qui disparaît. Le thiosulfate et l'acide forment du soufre, le soufre trouble le liquide, et le temps qu'il faut pour cacher une marque sous le bécher est la mesure. Rien ici n'est scénarisé : les deux béchers suivent la même loi de vitesse, et la seule différence entre eux est la température."
+part.1 = "Le temps est commun. `wait` fait avancer toute la paillasse, et c'est la seule façon pour qu'un test équitable ait un sens."
+
+["repeated-liquid-extraction"]
+title = "Un même budget de solvant, plusieurs extractions"
+intro = "Une ampoule à décanter récompense moins une seule grande agitation que plusieurs petites agitations avec du solvant frais. Ce passage donne à quatre portions égales la même allocation TOTALE d'hexane que la comparaison en une seule étape imprimée à côté. Le moteur calcule les deux à partir des volumes de phase et de K = [I2]hexane/[I2]eau ; aucun des deux pourcentages n'est scénarisé dans la leçon."
+part.1 = "Au niveau lv3, le résultat nomme aussi le sens du coefficient, le bilan de masse, la garde de saturation et la provenance. Ce modèle vérifié de l'iode est restreint à 25 °C ; d'autres solutés avec des décompositions en groupes moléculaires utilisent la voie UNIFAC commune, tandis que les paires non prises en charge sont explicitement refusées."
+
+["rock-candy"]
+title = "Le sucre candi : pourquoi le sucre revient, et pourquoi il attend qu'on le lui demande"
+intro = "L'eau chaude tient bien plus de sucre que l'eau froide. Dissous-en autant que l'eau chaude peut en prendre, laisse refroidir, et l'eau tient maintenant plus qu'elle ne peut — mais elle ne lâche rien tant que quelque chose ne donne pas au premier cristal un endroit où commencer. C'est pourquoi l'expérience a besoin d'une ficelle, et pourquoi le bocal peut rester clair sur une étagère pendant un jour puis devenir solide en une minute."
+part.1 = "1. D'abord l'eau froide, pour que la différence ait quelque chose contre quoi se mesurer."
+part.2 = "2. Le même sucre dans l'eau chaude. Il en entre bien davantage."
+part.3 = "3. Refroidis celle qui était chaude. Rien n'en ressort — et la paillasse dit pourquoi plutôt que de discrètement le cristalliser, car un sirop qui cristallise tout seul n'est pas l'expérience."
+part.4 = "4. Donne-lui maintenant un germe : un seul cristal du même sucre suffit."
+boundary.1 = "La solution finit exactement à la limite pour sa température, et tout ce qui dépasse est maintenant du cristal. C'est le rendement de l'expérience, et personne n'a eu besoin de le dire — c'est la différence entre deux solubilités."
+boundary.2 = "Ce que ceci ne modélise pas : la limite est une droite entre des valeurs vérifiées à 20 °C et 100 °C, le milieu de l'intervalle est donc légèrement sous-estimé de quelques pour cent ; les cristaux poussent instantanément plutôt qu'en plusieurs jours, sans taille, faciès ni pureté ; et rien ici ne germe spontanément, si bien que l'imprévisibilité d'un vrai sirop — la raison pour laquelle un bocal prend en une nuit et pas le suivant — est en dehors de ce modèle."
+
+["rubbery-bone-boundary"]
+title = "De la craie dans le vinaigre : pourquoi ce n'est pas un modèle d'os caoutchouteux"
+intro = "L'acide retire le carbonate de la craie. Un vrai os est un composite : le minéral phosphate de calcium renforce le collagène. L'acide peut laisser cette charpente de collagène souple ; la craie ne contient pas de collagène, la dissoudre ne peut donc pas prédire la flexion d'un os."
+boundary = "Le contrôle apparié calcule honnêtement la dissolution acide-carbonate et le dioxyde de carbone. C'est une preuve concernant la craie uniquement. Il n'existe dans ce modèle ni espèce osseuse, ni charpente de collagène, ni rigidité mécanique, ni observable de flexion."
+
+["rusting"]
+title = "La rouille : le fer a besoin d'air ET d'eau, et le sel accélère le processus"
+intro = "Quatre clous, quatre conditions, une horloge. Tout ici est sûr, mais les récipients sont scellés exprès : l'oxygène qu'un clou peut atteindre est l'oxygène piégé au-dessus de lui, et l'épuiser est la moitié de la leçon."
+part.1 = "1. Sec. Fer et air, pas d'eau du tout. Prédis avant d'attendre."
+part.2 = "2. De l'eau dont l'air a été chassé. Une purge à l'azote est la version de la paillasse pour l'eau bouillie qu'utilise l'expérience de classe."
+part.3 = "3. Eau pure, scellée au-dessus de l'air ordinaire de la pièce."
+part.4 = "4. La même chose, dans l'eau salée. Le chlorure n'est pas consommé par la réaction et n'apparaît pas dans son équation — il rend la même réaction plus rapide."
+part.5 = "Un jour passe pour les quatre."
+part.6 = "Les récipients 1 et 2 sont les contrôles, et il manque une chose à chacun. Lis la ligne de l'oxygène dans les récipients 3 et 4 : celui au sel en a consommé presque tout, et quand l'oxygène est épuisé, la rouille s'arrête alors qu'il reste du fer dans le récipient. C'est pourquoi une boîte de conserve scellée ne rouille pas de l'intérieur."
+boundary = "Ce que ceci ne modélise pas : la quantité de fer tient lieu de surface de fer, de la limaille et un clou de même masse rouillent donc ici à la même vitesse ; le produit est l'oxyde de fer(III) anhydre du registre plutôt que la rouille hydratée d'un vrai clou ; et un récipient ouvert ne puise pas d'oxygène dans la pièce, c'est pourquoi chaque récipient ci-dessus est scellé au-dessus d'une quantité mesurée de celui-ci."
+
+["saline-scaling-preserves-conductivity"]
+title = "Même concentration, portion plus grande : la conductivité est une grandeur intensive"
+boundary = "L'eau et le sel sont mis à l'échelle ensemble, la concentration reste donc fixe. De vraies lectures dépendent aussi de la constante de cellule, du calibrage, de la polarisation et de la température."
+
+["salt-from-brine"]
+title = "Du sel à partir de la saumure : la plus vieille chimie du monde"
+
+["salt-or-sugar-ice"]
+title = "Sel ou sucre sur la glace : des masses égales ne sont pas des nombres de particules égaux"
+intro = "Le sel se dissocie ; le sucre reste moléculaire. Cette comparaison à l'équilibre ne modélise ni la taille des grains, ni la vitesse de mélange, ni la rapidité avec laquelle un vrai bain de glace fond."
+
+["sealed-gas"]
+title = "Les lois des gaz dans un récipient scellé"
+
+["sealed-mass-conservation"]
+title = "Rien ne se perd si rien ne s'échappe : choisis le système avant de peser"
+intro = "Le gaz reste dans le système scellé et quitte le système ouvert. Les atomes sont conservés dans les deux ; la balance diffère parce que la frontière pesée diffère."
+
+["silver-and-salt"]
+title = "Dossier d'enquête : identifier le chlorure avec du nitrate d'argent"
+
+["slime"]
+title = "Le slime : quelle quantité de borax suffit ?"
+intro = "La colle blanche, ce sont de longues chaînes de poly(alcool vinylique) qui glissent les unes le long des autres, c'est pourquoi elle coule. Le borax place des ponts de borate entre les chaînes. Les ponts se cassent et se reforment sans cesse, le résultat n'est donc ni liquide ni solide : ça coule si on attend et ça se déchire si on tire. Rien n'est consommé — le borate est un lien, pas un réactif — la question n'est donc pas « est-ce que ça réagit » mais « quelle quantité suffit »."
+part.1 = "Trop peu. Les chaînes sont à peine reliées et ça coule encore."
+part.2 = "La quantité de la classe. La majeure partie du polymère est maintenant dans le réseau."
+part.3 = "Et bien au-delà. Passé la saturation, davantage de borax n'apporte rien : chaque chaîne pontable l'est déjà, c'est pourquoi un slime trop boraxé devient caoutchouteux plutôt que plus visqueux."
+boundary.1 = "Lis le bilan dans n'importe lequel d'entre eux : le borax est toujours là, en entier. Un agent réticulant n'est pas consommé, et c'est la différence entre ceci et toute autre réaction de ce laboratoire."
+boundary.2 = "Ce que ceci ne modélise pas : la courbe dose-réponse est une courbe pédagogique bornée, calibrée sur le rapport familier de 50 mL de colle, et non une rhéologie mesurée — pas de module, pas de temps de relaxation, pas de filance. Le fait qu'une colle particulière gélifie du tout dépend de son degré d'hydrolyse, et les colles de poly(acétate de vinyle) ne gélifient pas du tout de cette façon. Le borax domestique est le décahydrate, un peu plus de la moitié du poids de la boîte est donc le sel qui fait le travail."
+
+["spannungsreihe"]
+title = "La série électrochimique : qui prend les électrons, et ce que vaut une pile"
+part.displacement = "Partie 1 — déplacement : un métal plus réactif chasse un métal moins réactif de sa solution"
+part.refusal = "Partie 2 — dans l'autre sens il ne se passe rien, et le laboratoire dit pourquoi"
+part.acid = "Partie 3 — métaux et acide : en dessous de l'hydrogène ça pétille, au-dessus ça reste tranquille"
+part.cell = "Partie 4 — la série comme lecture au voltmètre : la pile Daniell"
+part.nernst = "Partie 5 — la même pile, dix fois moins de cuivre : Nernst, sur les activités"
+
+["spirit-still"]
+title = "L'alambic — et le mur à 96 pour cent"
+intro = "Le vin contient quelques pour cent d'éthanol. Un passage dans l'alambic l'enrichit, un second davantage — puis la montée s'arrête. Près de 89 pour cent molaire, la vapeur a la même composition que le liquide, et bouillir plus fort n'enrichit plus rien. Ce mur est l'azéotrope, et il est ici calculé à partir de coefficients d'activité, pas cherché dans une table. Le dernier passage traverse une colonne à quatre étages — la voie légale la plus rapide vers le mur."
+
+["split-heat-same-temperature"]
+title = "Des impulsions de chaleur fractionnées atteignent la même température"
+boundary = "Les récipients adiabatiques à capacité thermique constante omettent les pertes de chaleur et la chaleur du récipient."
+
+["starch-iodine-test"]
+title = "Quel gobelet contient de l'amidon ? Le test colorimétrique de Lugol"
+intro = "Compare la même solution de test diluée d'iode-iodure avec et sans fécule de maïs ordinaire. Pour une vraie activité, demande d'abord à un adulte, protège les vêtements et la table des taches d'iode, porte une protection oculaire, et ne goûte pas les mélanges de laboratoire."
+part.1 = "Contrôle : la solution de Lugol diluée est brune dans l'eau. Ce récipient a la même eau et la même dose d'indicateur que le récipient de test, mais pas d'amidon."
+part.2 = "Test : fais d'abord un contrôle brun identique, puis ne change qu'une seule chose en ajoutant de la fécule de maïs. L'iodure garde l'iode dans le bilan aqueux ; des hélices d'amidon suffisamment longues contribuent à la large bande d'absorption calculée, l'état visible devient donc bleu-noir sans consommer l'amidon ni le KI."
+boundary = "N'essaie la farine, la pomme de terre ou un contrôle au sucre qu'une fois que leurs recettes de matériau nommé existent. Différentes sources d'amidon et la chaleur peuvent modifier la vraie couleur ; cette leçon modélise délibérément le substitut vérifié de fécule de maïs à température ambiante plutôt que de traiter toute poudre blanche comme de l'amidon."
+
+["sugar-water-density-tower"]
+title = "Tour d'eau sucrée : mesure l'ordre avant d'essayer de l'empiler"
+part.1 = "Eau de départ égale, sucre croissant. Les lectures de masse volumique sont la preuve calculée de quelle solution appartient au fond."
+boundary = "L'ordre est calculé. Une vraie tour a aussi besoin d'un versement délicat qui préserve un gradient de concentration vertical. Cette paillasse n'a pas d'opération de versement lent ni d'état de diffusion, elle ne dessine donc pas des couches qu'elle ne peut pas retenir."
+
+["there-and-back"]
+title = "Aller et retour : un ester se forme, puis se défait."
+intro = "L'acide et l'alcool se condensent en un ester et de l'eau ; le même ester, mis en présence d'hydroxyde, s'hydrolyse en retour vers l'alcool et le sel de l'acide. Deux transformations curatées, chacune vérifiée contre un modèle à correspondance atomique — et chacune ne s'exécute que sur demande, car un bécher de vinaigre et d'alcool ne fait pas cela tout seul."
+
+["three-components-one-cut"]
+title = "Calcul virtuel de mélange idéal, ni un appareillage ni un mode opératoire de synthèse."
+intro = "La source plus le récepteur doivent conserver chaque composant ; aucune prédiction d'azéotrope."
+
+["three-protons"]
+title = "Trois protons : l'acide phosphorique rencontre la burette"
+
+["titration-manual"]
+title = "Titrage : un acide fort rencontre une base forte"
+
+["titration"]
+title = "Titrage : un acide fort rencontre une base forte"
+
+["track-precipitate-and-filtrate-through-drying"]
+title = "Suivre le précipité et le filtrat jusqu'au séchage"
+intro = "Forme du sulfate de baryum deux fois. Filtre les deux préparations, puis ne sèche que le second filtrat. Comptabilise le résidu de BaSO4 et les ions spectateurs solubles dans chaque système source-récepteur avant de décider si de la matière a été perdue."
+boundary = "Simulation uniquement : les sels de baryum solubles sont toxiques. Une version physique demande une surveillance formée, une protection oculaire, des gants, et la collecte des déchets dangereux."
+
+["transport-column"]
+title = "Une impulsion de sel à travers une colonne d'eau"
+intro.1 = "Trois cellules d'eau pure. Un quatrième récipient contient de l'eau salée — l'alimentation. Pousse l'alimentation à travers la colonne et recueille ce qui en sort. Après trois étapes à un nombre de Courant de 0,5, le sel s'est réparti dans la colonne selon les coefficients binomiaux : le front se disperse exactement comme le dit la théorie."
+intro.2 = "v1 est le bécher par défaut — utilise-le comme cellule 1"
+part.1 = "cellules 2 et 3"
+part.2 = "l'entrée : de l'eau salée au même volume"
+part.3 = "un récepteur vide pour l'effluent"
+part.4 = "pousse le sel à travers trois étapes"
+part.5 = "regarde ce qui a fini où"
+
+["two-limits-one-carbon-dioxide-ledger"]
+title = "Deux limites, un seul bilan de dioxyde de carbone"
+intro.1 = "Garde le bicarbonate fixe pendant que l'acide monte, puis garde l'acide en excès pendant que le bicarbonate monte. Quel réactif limite le dioxyde de carbone calculé ? Mission intermédiaire. Compare les deux séries de quatre récipients : une dose plus grande élève le bilan carbone seulement jusqu'à ce que l'autre réactif devienne limitant."
+intro.2 = "Limite du modèle : ce sont des calculs de bilan à l'équilibre, pas une prédiction de vitesse d'effervescence ou de volume de bulles. Les récipients virtuels ouverts peuvent libérer du dioxyde de carbone ; la hauteur de mousse, la nucléation, la capture des gaz, l'échange de chaleur, le temps de mélange et l'erreur réelle de préparation sont absents. Un analogue physique devrait utiliser de petites portions diluées préparées par un enseignant, une protection oculaire et un récipient ouvert — ne scelle jamais un mélange acide-carbonate."
+
+["two-roads"]
+title = "Deux chemins, une température : la loi de Hess avec un thermomètre"
+
+["vitamin-c-detective"]
+title = "Détective vitamine C : le bilan réactionnel derrière une couleur qui disparaît"
+intro = "L'iode contenu dans une solution de Lugol diluée rend l'amidon bleu-noir. L'acide ascorbique réduit l'iode et est oxydé en acide déhydroascorbique, la couleur s'éclaircit donc. Protège les vêtements et la table, porte une protection oculaire, et ne goûte jamais un mélange qui a servi d'échantillon de laboratoire."
+part.1 = "Le contrôle positif de couleur : amidon plus la même dose de Lugol."
+part.2 = "Change une chose : ajoute une quantité connue de vitamine C avant l'iode. L'iode est consommé pendant que la vitamine C subsiste, le positif bleu-noir n'apparaît donc pas. À cette dose, le filtre de sécurité oxydant/réducteur, large et actuel, peut afficher un avertissement rédigé pour des réactifs concentrés ; il est délibérément prudent et n'est pas une évaluation quantitative du risque pour ce gobelet dilué."
+boundary = "Le bilan nomme l'acide déhydroascorbique même si le moteur d'affichage actuel répond au gobelet incolore par une ligne générique « rien à voir ». C'est une limite de présentation, pas une permission d'inventer un événement de couleur. Ce n'est pas non plus un dosage alimentaire calibré : un vrai jus a une concentration en vitamine incertaine et d'autres composés réducteurs, la couleur seule ne justifie donc pas un résultat d'étiquette nutritionnelle."
+
+["volcano-foam"]
+title = "Le volcan : pourquoi le savon compte"
+intro = "Un volcan au bicarbonate sans liquide vaisselle, c'est un pétillement. Avec lui, le gaz est capturé dans un film à sa sortie, et le tout grimpe par-dessus le bord. Rien ne change dans la chimie — le même dioxyde de carbone, la même quantité. Ce qui change, c'est si le gaz peut s'échapper."
+part.1 = "1. Le contrôle. Bicarbonate et vinaigre, pas de savon : ça pétille, le gaz s'en va, et il ne reste après plus qu'un liquide plat à voir."
+part.2 = "2. La même réaction avec du liquide vaisselle déjà dans le verre. Mets le savon EN PREMIER — il doit être là quand le gaz arrive, car un gaz déjà parti ne peut plus être capturé."
+part.3 = "3. Et ça ne dure pas. La mousse s'égoutte et les bulles se rejoignent : deux minutes face à la demi-vie de 180 secondes de ce savon fait passer 1,375 L à 0,866 L, un peu plus d'un tiers de disparu. Pas « presque revenu à un liquide » — c'était la supposition avant le passage, et le chiffre est plus lent que la supposition."
+boundary = "Ce que ceci ne modélise pas : la taille des bulles, la façon dont le film s'égoutte, ou la différence entre un film de détergent et un film de protéine. La demi-vie est le propre chiffre vérifié de la recette, et la fraction piégée est une valeur pédagogique bornée — ceci dit QUE ça mousse et à peu près à quelle vitesse ça retombe, pas de quoi la mousse est faite."
+
+["warm-the-gas-stop-before-burst"]
+title = "Réchauffe le gaz, arrête-toi avant l'éclatement"
+intro = "Prédis l'ordre des pressions pour des échantillons de gaz scellés égaux recevant 0 J, 100 J, 200 J et 400 J. Les trois premiers restent mesurables ; le dernier franchit la limite du récipient. Arrête-toi là : un éclatement est une preuve, pas une invitation à recommencer."
+
+["water-electrolysis"]
+title = "Décomposer de l'eau conductrice : deux gaz, dans un rapport de deux pour un"
+intro = "L'eau pure conduit trop mal pour cet appareillage et reste refusée. Un peu de sulfate de sodium porte le courant sans être déchargé préférentiellement : l'eau devient de l'hydrogène à la cathode et de l'oxygène à l'anode."
+part.1 = "Garde la cellule ouverte : recueillir l'hydrogène et l'oxygène ensemble formerait un mélange inflammable, et la collecte des gaz n'est pas nécessaire pour comparer leurs quantités."
+boundary = "La loi de Faraday commande les quantités : deux électrons par H2 et quatre par O2, donc deux fois plus d'hydrogène. C'est une cellule pédagogique non divisée à électrodes inertes. Elle ne modélise ni la surtension aux électrodes, ni le passage des gaz, ni une membrane, ni l'allumage, ni le rendement, ni la tension nécessaire pour entretenir le courant."
+
+["water-filter"]
+title = "Construire un filtre à eau : trouble n'est pas la même chose que dissous"
+intro = "C'est une suspension pédagogique vérifiée de sable de jeu riche en quartz. Une vraie eau sale peut aussi contenir de l'argile, des microbes, des sels dissous et des polluants ; un filtrat clair n'est pas automatiquement sûr ou pur, et cette simulation ne fait aucune affirmation sur l'eau potable."
+part.1 = "Le papier filtre retient les grains solides pendant que l'eau entre dans le récepteur."
+boundary = "Le contraste visible et le quartz conservé sont calculés. La taille des pores du papier, les distributions naturelles de taille de grain et la purification au-delà des solides ne le sont pas."
+
+["whole-object-buoyancy"]
+title = "Objets entiers : pourquoi une pomme flotte et une pomme de terre coule"
+intro = "La masse volumique appartient à l'objet entier. La pierre ponce contient de la silice dense, mais ses pores remplis d'air abaissent la masse volumique globale de la pierre ; une pomme porte elle aussi des espaces d'air. Une pomme de terre est légèrement plus dense que l'eau. L'image et le texte ci-dessous utilisent tous deux ces masses volumiques vérifiées d'objets entiers."
+boundary = "Prédiction à discuter : changer seulement la masse volumique d'un ingrédient serait le mauvais calcul. La forme, les pores et l'air emprisonné font partie d'un objet massif. Ce modèle borné ne simule pas encore l'eau qui pénètre dans les pores de la pierre ponce, la pierre ponce ne s'imbibe donc pas lentement pour couler."
+
+["yeast-fermentation"]
+title = "Qu'est-ce qui réveille la levure ? Un test équitable sucre-et-levure"
+intro = "Compare trois mélanges ordinaires sur une horloge commune. Utilise, pour une vraie expérience, de l'eau confortablement tiède, pas chaude ; demande à un adulte avant d'utiliser des aliments, ne goûte pas les mélanges de laboratoire, et ne scelle jamais hermétiquement un récipient de fermentation active."
+part.1 = "Le contrôle 1 a de l'eau et du sucre mais pas de culture vivante."
+part.2 = "Le contrôle 2 a de l'eau et de la levure mais pas de sucre comme nourriture."
+part.3 = "Le test 3 ne change que l'ingrédient manquant : il a les mêmes doses d'eau, de sucre et de levure. Le sucre se dissout avant que l'horloge commune ne démarre."
+part.4 = "Dix minutes passent pour chaque récipient à la fois. Seul v3 a du sucre dissous et une culture de levure hydratée, lui seul peut donc émettre les événements calculés GasProduced et Fermented. Les bulles de CO2 sont de la matière produite par la voie équilibrée installée, pas une minuterie d'animation."
+boundary.1 = "Essaie de la levure fraîche à masse sèche égale, une autre température ou une dose de sucre plus petite. C'est un modèle borné pour la classe, pas une preuve qu'un vrai mélange soit sûr à boire, cuire, mettre en bouteille ou sceller ; la croissance, le basculement vers l'oxygène, l'inhibition, les composés aromatiques et les ballons souples restent explicitement un travail à venir."
+boundary.2 = "À QUELLE VITESSE, ET QUELLE PART DE CELA EST REVENDIQUÉE. Le 16/09/2026, la vitesse de la levure a été ajustée pour la première fois : la constante est celle qui fait qu'un gramme de levure dans un litre de cette même force de sucre donne 1,5 g d'éthanol dans la première heure à 30 °C, ce qui est la vitesse spécifique la plus rapide publiée pour la levure de bière et de boulanger anaérobie (Pagliardini et al. 2013, Microbial Cell Factories 12:29). Avant cela, dix minutes ici consommaient 58,6 % du sucre et produisaient environ 1,7 litre de dioxyde de carbone à partir d'un bécher de 100 mL — plus de gaz que le bécher n'en contient. Cela prend maintenant environ 3,7 % et produit environ 105 mL, soit un ballon qu'une classe peut voir."
+boundary.3 = "C'EST UNE BORNE SUPÉRIEURE ET NON UNE PRÉDICTION. La vitesse citée appartient à une souche de laboratoire qui pousse dans un fermenteur, pas à une levure de supermarché dans de l'eau sucrée froide ; un gramme de levure sèche est compté ici comme un gramme de cellules vivantes, ce qu'il n'est pas ; et la levure de ce modèle ne se multiplie jamais, ne fait jamais de pause pour se réveiller et n'est jamais ralentie par l'alcool qu'elle produit. Un point publié est reproduit. La forme de la courbe qui le traverse n'est pas revendiquée, une attente plus longue sur cette paillasse s'exécute donc plus vite qu'une vraie attente ne le ferait, et la montée en puissance d'hydratation qui la précède est une affaire de secondes là où un vrai paquet de levure séchée veut dix à quinze minutes dans l'eau tiède."

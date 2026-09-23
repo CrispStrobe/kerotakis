@@ -41,17 +41,32 @@ def german() -> dict:
     return tomllib.loads((CORPUS / "i18n/de.toml").read_text())
 
 
-class ShippedGermanTest(unittest.TestCase):
-    def test_german_covers_every_question_class_and_tag(self):
+class ShippedTranslationsTest(unittest.TestCase):
+    def test_every_shipped_language_covers_question_class_and_tag(self):
+        """The claim is about a SHIPPED language, not about German.
+
+        This read `[de] = PROSE.read_translations(CORPUS)` — a
+        destructure that asserts, in passing and without saying so, that
+        exactly one language exists. `read_translations` has always been
+        filename discovery ("every language shipped beside the corpus"),
+        so the day a second file landed the test stopped being a
+        coverage test and became `ValueError: too many values to
+        unpack`. The loop is what it meant all along.
+        """
         corpus = PROSE.read_corpus(CORPUS)
-        [de] = PROSE.read_translations(CORPUS)
-        self.assertEqual(de["locale"], "de")
-        self.assertEqual(len(de["question"]), 500)
-        self.assertEqual(set(de["question"]), set(corpus.questions))
-        self.assertEqual(set(de["material_class"]), corpus.material_classes)
-        self.assertEqual(set(de["tag"]), corpus.tags)
+        translations = PROSE.read_translations(CORPUS)
         self.assertEqual(len(corpus.material_classes), 186)
         self.assertEqual(len(corpus.tags), 367)
+        self.assertIn("de", [t["locale"] for t in translations])
+        for translation in translations:
+            code = translation["locale"]
+            with self.subTest(locale=code):
+                self.assertEqual(len(translation["question"]), 500)
+                self.assertEqual(set(translation["question"]), set(corpus.questions))
+                self.assertEqual(
+                    set(translation["material_class"]), corpus.material_classes
+                )
+                self.assertEqual(set(translation["tag"]), corpus.tags)
 
     def test_task_identifiers_stay_names(self):
         corpus = PROSE.read_corpus(CORPUS)
