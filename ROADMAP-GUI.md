@@ -4470,6 +4470,72 @@ written down at the scene and unreachable by the check.
   fits at every width tested.
 
 
+## One window per effect (GUI-132)
+
+How long a drawing stays up when the ENGINE did not supply a duration was
+a numeric literal at every call site in `Vessel.svelte`: **85 of them
+across 55 kinds**. The second argument to `latestEffect`/`active`/`mag`
+is a fallback — `effectAlive` uses `effect.durationMs ?? withinMs` — so
+the engine's own lifetime always won where it had one, and these are what
+happens when it does not.
+
+- [x] **GUI-132a — the table, and the two disagreements it made visible.**
+  Scattered, the fallbacks had no way to be compared with each other, and
+  two kinds quietly disagreed with themselves: `swirl` was written
+  **8000, 2200 and 2000**, and `vent` **4000 and 2600**.
+
+  Reading the call sites, three of those five were one thing said three
+  ways and two were a second thing:
+
+  * a stir **readout** outlives the stirring. The motion is over in a
+    couple of seconds; the engine's shear numbers beside the glass are
+    what the reader is still looking at. `STIR_READOUT_MS`.
+  * the wisps **above the rim** are shorter than the fizz inside the
+    liquid. Gas that has left the vessel is gone sooner than gas still
+    coming out of solution. `VENT_WISP_MS`.
+
+  The third — `swirl` at 2000 for the vortex against 2200 for the motion
+  — was drift: 200 ms apart, with no reason at either site. It is the
+  kind's window now.
+
+  **A deliberate exception and drift are indistinguishable until one of
+  them is given a name.** That is the whole reason the two survive as
+  constants rather than being flattened into the table with the third.
+
+- [x] **GUI-132b — and one grouping that was already right.**
+  `INSTRUMENT_READING_MS` predates this and is the better shape: **nine**
+  instrument readouts share one window, because a reading is a reading
+  and showing the thermometer's for longer than the balance's would be a
+  claim about instruments nobody makes. The table REFERENCES that
+  constant rather than copying 6000 nine times, so the group cannot come
+  apart one row at a time.
+
+  Four of those nine were missed on the first pass, along with `ferment`,
+  `flame_test` and `gas_test` — the extraction regex read `[a-z0-9-]+`
+  and every one of them has an **underscore** in its kind, and `ferment`
+  was written `12_000`. A sweep that cannot see part of its subject
+  reports a clean result, which is worse than reporting nothing; the
+  guard uses the widened pattern for exactly that reason.
+
+- [x] **GUI-132c — the payoff: the runner paces by what actually drew.**
+  `Session.settleMs` used one flat 1400 ms for every kind. That was not a
+  judgement, it was the absence of one — the windows were literals in a
+  4400-line component and there was nowhere to look a kind's up. It now
+  reports the remainder of each live effect's own window: a burst asks
+  for its 1800 ms, a dissolve for its 1400, a bubble ride for its 9000.
+  It does **not** cap itself — the honest answer to "how long is this
+  drawn for" is nine seconds — and the runner caps what a run can afford,
+  which is the same division of labour GUI-128 set up, kept rather than
+  blurred. `VISIBLE_EFFECT_MS` is gone: it existed only because there was
+  no table.
+
+  Guarded by `effectWindows.test.ts`, which reads `Vessel.svelte`: every
+  kind the drawing asks for has a window, no row exists that nobody
+  draws, **no numeric literal survives at a call site**, each named
+  exception genuinely differs from its kind's window and in the direction
+  its reason claims, and every window is between 1 and 10 seconds.
+
+
 ## Completed GUI tasks
 
 Numbers are never renumbered and never reused. Each of these landed; the detail
