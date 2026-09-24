@@ -1288,13 +1288,12 @@ impl Bench {
                 instrument: Instrument::PressureGauge,
             } if events.iter().any(|event| {
                 matches!(
-                                    event,
-                                    Event::Measured {
-                                        instrument: Instrument::PressureGauge,
-                                        ..
-                    note_reason: None,
-                }
-                                )
+                    event,
+                    Event::Measured {
+                        instrument: Instrument::PressureGauge,
+                        ..
+                    }
+                )
             }) =>
             {
                 Some((
