@@ -3733,6 +3733,7 @@ mod native_startup_tests {
                 value: 101.325,
                 unit: "kPa".into(),
                 note: Some("not a scalar contract field".into()),
+                note_reason: None,
             },
             Event::SolutionCharacterized {
                 vessel: VesselId(0),

@@ -104,7 +104,7 @@ pub fn charts_for_events(events: &[crate::Event], locale: crate::i18n::Locale) -
                         "titration of {vessel} with {titrant} ({molarity} M)",
                         &[
                             ("vessel", &format!("v{}", vessel.0 + 1)),
-                            ("titrant", titrant),
+                            ("titrant", titrant.0.as_str()),
                             ("molarity", &locale.number(concentration.to_string())),
                         ],
                     ),
@@ -142,7 +142,7 @@ pub fn charts_for_events(events: &[crate::Event], locale: crate::i18n::Locale) -
                         "redox titration of {vessel} with {titrant} ({molarity} M)",
                         &[
                             ("vessel", &format!("v{}", vessel.0 + 1)),
-                            ("titrant", titrant),
+                            ("titrant", titrant.0.as_str()),
                             ("molarity", &locale.number(concentration.to_string())),
                         ],
                     ),

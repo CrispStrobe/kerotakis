@@ -3858,6 +3858,7 @@ impl Bench {
                                     "ideal 25 °C water-autoprotolysis baseline; listed neutral unspeciated solutes are assumed to add no acidity or basicity. Dissolved CO₂, activity effects, temperature dependence and trace contamination are outside this blank"
                                         .to_string(),
                                 ),
+                                note_reason: None,
                             })
                         }
                         None => events.push(Event::not_modeled(
@@ -3986,6 +3987,7 @@ impl Bench {
                                     "25 °C limiting-law water baseline from H⁺/OH⁻ autoprotolysis; explicitly nonionic solutes add no charge carriers. Temperature dependence, dissolved CO₂ and trace contamination are outside this ideal blank"
                                         .to_string(),
                                 ),
+                                note_reason: None,
                             });
                         } else {
                             match crate::conductivity::dry_solid_conductance(v) {
