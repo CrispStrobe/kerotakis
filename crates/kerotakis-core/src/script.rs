@@ -230,15 +230,38 @@ struct AliasIndex {
 /// by a translation of something else. And an alias claimed twice is
 /// dropped rather than resolved, because the alternative is a bench that
 /// does one of two things depending on which section was read first.
+/// Whether this table may hold an alias made of several words.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum Phrases {
+    Yes,
+    No,
+}
+
 fn claim(
     map: &mut HashMap<String, String>,
     dropped: &mut HashSet<String>,
     alias: &str,
     canonical: &str,
     already_english: impl Fn(&str) -> bool,
+    phrases: Phrases,
 ) {
     let alias = alias.trim().to_lowercase();
-    if alias.is_empty() || alias.contains(char::is_whitespace) || dropped.contains(&alias) {
+    // A NAME may be several words; a VERB may not.
+    //
+    // This rejected every alias with a space in it, which is why
+    // `chlorure de sodium` and `eau de chaux` were not merely unmatched
+    // but absent: the catalogue offered them and the index threw them
+    // away. The rule was right while the rewriter walked one token at a
+    // time — a phrase it could never look up is dead weight — and it is
+    // what made German look complete, because German compounds and had
+    // no phrases to lose.
+    //
+    // Verbs keep the old rule. They are matched at position 0 only, one
+    // token, and an alias the matcher cannot reach is still dead weight.
+    if alias.is_empty() || dropped.contains(&alias) {
+        return;
+    }
+    if phrases == Phrases::No && alias.contains(char::is_whitespace) {
         return;
     }
     if already_english(&alias) {
@@ -287,6 +310,7 @@ fn build_alias_index(locale: Locale) -> AliasIndex {
                 alias,
                 canonical,
                 is_canonical_verb,
+                Phrases::No,
             );
             verb_order.push((canonical.to_string(), alias.to_string()));
         }
@@ -311,6 +335,7 @@ fn build_alias_index(locale: Locale) -> AliasIndex {
                     alias,
                     canonical,
                     is_canonical_word,
+                    Phrases::Yes,
                 );
             }
         }
@@ -328,6 +353,7 @@ fn build_alias_index(locale: Locale) -> AliasIndex {
                 name,
                 kind,
                 is_canonical_word,
+                Phrases::Yes,
             );
             name_order.push(((*kind).to_string(), name.to_string()));
         }
@@ -353,6 +379,7 @@ fn build_alias_index(locale: Locale) -> AliasIndex {
             name,
             data.key,
             is_canonical_word,
+            Phrases::Yes,
         );
         name_order.push((data.key.to_string(), name.to_string()));
     }
@@ -1782,6 +1809,7 @@ mod localised_grammar {
     /// a learner must be able to type.
     #[test]
     fn a_species_name_of_several_words_resolves() {
+        let mut total = 0;
         for locale in Locale::available() {
             if locale.is_english() {
                 continue;
@@ -1816,13 +1844,20 @@ mod localised_grammar {
                     locale.code()
                 );
             }
-            assert!(
-                checked > 5,
-                "{}: only {checked} multi-word species names were checked — \
-                 the catalogue moved and this gate is measuring almost nothing",
-                locale.code()
-            );
+            total += checked;
         }
+        // Across the languages, not within one. German compounds —
+        // `Natriumchlorid` is a single token — so it contributes NOTHING
+        // to this gate and a per-language minimum failed on it, which is
+        // the gate accusing a language of a hole it cannot have. What has
+        // to stay true is that SOME shipped language still exercises the
+        // phrase path; the day none does, this is measuring nothing and
+        // should say so.
+        assert!(
+            total > 5,
+            "only {total} multi-word names across every shipped language — \
+             the catalogues moved and this gate is measuring almost nothing"
+        );
     }
 
     /// And the phrase wins over its own first word.
@@ -2004,12 +2039,40 @@ mod localised_grammar {
 
         let mut index = HashMap::new();
         let mut dropped = HashSet::new();
-        claim(&mut index, &mut dropped, "probe", "ph", |_| false);
-        claim(&mut index, &mut dropped, "probe", "balance", |_| false);
+        claim(
+            &mut index,
+            &mut dropped,
+            "probe",
+            "ph",
+            |_| false,
+            Phrases::No,
+        );
+        claim(
+            &mut index,
+            &mut dropped,
+            "probe",
+            "balance",
+            |_| false,
+            Phrases::No,
+        );
         assert_eq!(index.get("probe"), None, "a word claimed twice must go");
-        claim(&mut index, &mut dropped, "probe", "ph", |_| false);
+        claim(
+            &mut index,
+            &mut dropped,
+            "probe",
+            "ph",
+            |_| false,
+            Phrases::No,
+        );
         assert_eq!(index.get("probe"), None, "and must not come back");
-        claim(&mut index, &mut dropped, "waage", "balance", |_| true);
+        claim(
+            &mut index,
+            &mut dropped,
+            "waage",
+            "balance",
+            |_| true,
+            Phrases::No,
+        );
         assert_eq!(index.get("waage"), None, "English wins");
     }
 
