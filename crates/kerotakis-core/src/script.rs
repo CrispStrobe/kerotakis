@@ -222,6 +222,15 @@ struct AliasIndex {
     /// itself in every language.
     verb_display: HashMap<String, String>,
     word_display: HashMap<String, String>,
+    /// How many words the longest NAME in this language is made of.
+    ///
+    /// Read off the table as it is built rather than guessed. I guessed
+    /// five and French has `eau de Javel (hypochlorite de sodium)`,
+    /// which is six — so the rewriter stopped one word short of a name
+    /// the catalogue holds, and only that one name failed, which is the
+    /// worst way for a bound to be wrong. A language whose names are
+    /// longer than any shipped today costs nothing here.
+    longest_name_in_words: usize,
 }
 
 /// Claim `alias` for `canonical`, honouring the two rules.
@@ -244,6 +253,7 @@ fn claim(
     canonical: &str,
     already_english: impl Fn(&str) -> bool,
     phrases: Phrases,
+    widest: &mut usize,
 ) {
     let alias = alias.trim().to_lowercase();
     // A NAME may be several words; a VERB may not.
@@ -264,8 +274,12 @@ fn claim(
     if phrases == Phrases::No && alias.contains(char::is_whitespace) {
         return;
     }
+    let words = alias.split_whitespace().count();
     if already_english(&alias) {
         return;
+    }
+    if phrases == Phrases::Yes && words > *widest {
+        *widest = words;
     }
     match map.get(&alias).cloned() {
         Some(existing) if existing.as_str() != canonical => {
@@ -287,6 +301,7 @@ fn build_alias_index(locale: Locale) -> AliasIndex {
     let mut index = AliasIndex::default();
     let mut dropped_verbs = HashSet::new();
     let mut dropped_words = HashSet::new();
+    let mut widest = 1usize;
     // Every (canonical, alias) pair in the order the catalogue lists it,
     // so the display pass below can take the FIRST alias that survived —
     // the one the translator put first — without depending on a map's
@@ -311,6 +326,7 @@ fn build_alias_index(locale: Locale) -> AliasIndex {
                 canonical,
                 is_canonical_verb,
                 Phrases::No,
+                &mut widest,
             );
             verb_order.push((canonical.to_string(), alias.to_string()));
         }
@@ -336,6 +352,7 @@ fn build_alias_index(locale: Locale) -> AliasIndex {
                     canonical,
                     is_canonical_word,
                     Phrases::Yes,
+                    &mut widest,
                 );
             }
         }
@@ -354,6 +371,7 @@ fn build_alias_index(locale: Locale) -> AliasIndex {
                 kind,
                 is_canonical_word,
                 Phrases::Yes,
+                &mut widest,
             );
             name_order.push(((*kind).to_string(), name.to_string()));
         }
@@ -380,6 +398,7 @@ fn build_alias_index(locale: Locale) -> AliasIndex {
             data.key,
             is_canonical_word,
             Phrases::Yes,
+            &mut widest,
         );
         name_order.push((data.key.to_string(), name.to_string()));
     }
@@ -398,6 +417,7 @@ fn build_alias_index(locale: Locale) -> AliasIndex {
             index.word_display.entry(canonical).or_insert(name);
         }
     }
+    index.longest_name_in_words = widest;
     index
 }
 
@@ -430,13 +450,6 @@ fn alias_index(locale: Locale) -> &'static AliasIndex {
 /// how `add v1 Milch 100mL` has always worked — so the only thing
 /// missing was the rewrite back to `whole_milk` for the log, and a pack
 /// loaded at runtime gets it for free.
-/// The longest phrase the alias tables are allowed to claim.
-///
-/// `sel de poche froide` is four words and `eau de Javel 5%` is four; a
-/// bound keeps a long line from being rescanned once per suffix, and
-/// five leaves room for the next bottle without being a guess.
-const LONGEST_NAME_IN_WORDS: usize = 5;
-
 pub fn canonical_line_in(line: &str, locale: Locale) -> Option<String> {
     if locale.is_english() {
         return None;
@@ -465,7 +478,7 @@ pub fn canonical_line_in(line: &str, locale: Locale) -> Option<String> {
         // Longest span first, so `eau de chaux` is the limewater test
         // rather than water followed by two words nobody claimed.
         if position > 0 {
-            let reach = LONGEST_NAME_IN_WORDS.min(words.len() - position);
+            let reach = index.longest_name_in_words.min(words.len() - position);
             let mut claimed = None;
             for take in (2..=reach).rev() {
                 let phrase = words[position..position + take].join(" ");
@@ -2046,6 +2059,7 @@ mod localised_grammar {
             "ph",
             |_| false,
             Phrases::No,
+            &mut 0,
         );
         claim(
             &mut index,
@@ -2054,6 +2068,7 @@ mod localised_grammar {
             "balance",
             |_| false,
             Phrases::No,
+            &mut 0,
         );
         assert_eq!(index.get("probe"), None, "a word claimed twice must go");
         claim(
@@ -2063,6 +2078,7 @@ mod localised_grammar {
             "ph",
             |_| false,
             Phrases::No,
+            &mut 0,
         );
         assert_eq!(index.get("probe"), None, "and must not come back");
         claim(
@@ -2072,6 +2088,7 @@ mod localised_grammar {
             "balance",
             |_| true,
             Phrases::No,
+            &mut 0,
         );
         assert_eq!(index.get("waage"), None, "English wins");
     }
