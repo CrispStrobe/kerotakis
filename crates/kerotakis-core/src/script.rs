@@ -222,6 +222,15 @@ struct AliasIndex {
     /// itself in every language.
     verb_display: HashMap<String, String>,
     word_display: HashMap<String, String>,
+    /// How many words the longest NAME in this language is made of.
+    ///
+    /// Read off the table as it is built rather than guessed. I guessed
+    /// five and French has `eau de Javel (hypochlorite de sodium)`,
+    /// which is six — so the rewriter stopped one word short of a name
+    /// the catalogue holds, and only that one name failed, which is the
+    /// worst way for a bound to be wrong. A language whose names are
+    /// longer than any shipped today costs nothing here.
+    longest_name_in_words: usize,
 }
 
 /// Claim `alias` for `canonical`, honouring the two rules.
@@ -230,19 +239,47 @@ struct AliasIndex {
 /// by a translation of something else. And an alias claimed twice is
 /// dropped rather than resolved, because the alternative is a bench that
 /// does one of two things depending on which section was read first.
+/// Whether this table may hold an alias made of several words.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum Phrases {
+    Yes,
+    No,
+}
+
 fn claim(
     map: &mut HashMap<String, String>,
     dropped: &mut HashSet<String>,
     alias: &str,
     canonical: &str,
     already_english: impl Fn(&str) -> bool,
+    phrases: Phrases,
+    widest: &mut usize,
 ) {
     let alias = alias.trim().to_lowercase();
-    if alias.is_empty() || alias.contains(char::is_whitespace) || dropped.contains(&alias) {
+    // A NAME may be several words; a VERB may not.
+    //
+    // This rejected every alias with a space in it, which is why
+    // `chlorure de sodium` and `eau de chaux` were not merely unmatched
+    // but absent: the catalogue offered them and the index threw them
+    // away. The rule was right while the rewriter walked one token at a
+    // time — a phrase it could never look up is dead weight — and it is
+    // what made German look complete, because German compounds and had
+    // no phrases to lose.
+    //
+    // Verbs keep the old rule. They are matched at position 0 only, one
+    // token, and an alias the matcher cannot reach is still dead weight.
+    if alias.is_empty() || dropped.contains(&alias) {
         return;
     }
+    if phrases == Phrases::No && alias.contains(char::is_whitespace) {
+        return;
+    }
+    let words = alias.split_whitespace().count();
     if already_english(&alias) {
         return;
+    }
+    if phrases == Phrases::Yes && words > *widest {
+        *widest = words;
     }
     match map.get(&alias).cloned() {
         Some(existing) if existing.as_str() != canonical => {
@@ -264,6 +301,7 @@ fn build_alias_index(locale: Locale) -> AliasIndex {
     let mut index = AliasIndex::default();
     let mut dropped_verbs = HashSet::new();
     let mut dropped_words = HashSet::new();
+    let mut widest = 1usize;
     // Every (canonical, alias) pair in the order the catalogue lists it,
     // so the display pass below can take the FIRST alias that survived —
     // the one the translator put first — without depending on a map's
@@ -287,6 +325,8 @@ fn build_alias_index(locale: Locale) -> AliasIndex {
                 alias,
                 canonical,
                 is_canonical_verb,
+                Phrases::No,
+                &mut widest,
             );
             verb_order.push((canonical.to_string(), alias.to_string()));
         }
@@ -311,6 +351,8 @@ fn build_alias_index(locale: Locale) -> AliasIndex {
                     alias,
                     canonical,
                     is_canonical_word,
+                    Phrases::Yes,
+                    &mut widest,
                 );
             }
         }
@@ -328,6 +370,8 @@ fn build_alias_index(locale: Locale) -> AliasIndex {
                 name,
                 kind,
                 is_canonical_word,
+                Phrases::Yes,
+                &mut widest,
             );
             name_order.push(((*kind).to_string(), name.to_string()));
         }
@@ -353,6 +397,8 @@ fn build_alias_index(locale: Locale) -> AliasIndex {
             name,
             data.key,
             is_canonical_word,
+            Phrases::Yes,
+            &mut widest,
         );
         name_order.push((data.key.to_string(), name.to_string()));
     }
@@ -371,6 +417,7 @@ fn build_alias_index(locale: Locale) -> AliasIndex {
             index.word_display.entry(canonical).or_insert(name);
         }
     }
+    index.longest_name_in_words = widest;
     index
 }
 
@@ -414,7 +461,46 @@ pub fn canonical_line_in(line: &str, locale: Locale) -> Option<String> {
     let index = alias_index(locale);
     let mut changed = false;
     let mut out: Vec<String> = Vec::new();
-    for (position, word) in trimmed.split_whitespace().enumerate() {
+    let words: Vec<&str> = trimmed.split_whitespace().collect();
+    let mut position = 0;
+    while position < words.len() {
+        let word = words[position];
+        // A NAME IS NOT A WORD. This walked one token at a time, so every
+        // name that is a phrase was invisible to it: the catalogue holds
+        // `chlorure de sodium -> NaCl` and `eau de chaux -> limewater`
+        // and the lookup asked it about `chlorure` and `eau`. German
+        // compounds — `Natriumchlorid` is one token — so German never
+        // showed the hole, and French, which builds its chemical names
+        // out of `de`, hides almost all of its 193 species names behind
+        // it. The shelf shows a name the parser then refuses, which is
+        // the same defect the material aliases had one layer up.
+        //
+        // Longest span first, so `eau de chaux` is the limewater test
+        // rather than water followed by two words nobody claimed.
+        if position > 0 {
+            let reach = index.longest_name_in_words.min(words.len() - position);
+            let mut claimed = None;
+            for take in (2..=reach).rev() {
+                let phrase = words[position..position + take].join(" ");
+                let lower = phrase.to_lowercase();
+                if let Some(canonical) = index.words.get(&lower) {
+                    claimed = Some((take, canonical.clone()));
+                    break;
+                }
+                if let Some(recipe) = material::lookup(&phrase, None)
+                    .filter(|recipe| !recipe.matches(&phrase, Some("en")))
+                {
+                    claimed = Some((take, recipe.canonical_key));
+                    break;
+                }
+            }
+            if let Some((take, canonical)) = claimed {
+                changed = true;
+                out.push(canonical);
+                position += take;
+                continue;
+            }
+        }
         let lower = word.to_lowercase();
         let canonical = if position == 0 {
             if is_canonical_verb(word) {
@@ -448,6 +534,7 @@ pub fn canonical_line_in(line: &str, locale: Locale) -> Option<String> {
             }
             None => out.push(word.to_string()),
         }
+        position += 1;
     }
     changed.then(|| out.join(" "))
 }
@@ -1727,6 +1814,80 @@ mod localised_grammar {
         Locale::parse("de")
     }
 
+    /// A name made of several words is still one name.
+    ///
+    /// Every shipped language, and driven off the catalogue rather than
+    /// a hand-written list, because the words differ per language and
+    /// the CLAIM does not: whatever `[species]` shows for a substance,
+    /// a learner must be able to type.
+    #[test]
+    fn a_species_name_of_several_words_resolves() {
+        let mut total = 0;
+        for locale in Locale::available() {
+            if locale.is_english() {
+                continue;
+            }
+            let mut checked = 0;
+            for data in species::registry() {
+                let Some(name) = locale.lookup(&format!("species.{}", data.name)) else {
+                    continue;
+                };
+                if !name.contains(' ') || material::lookup(name, None).is_some() {
+                    continue;
+                }
+                // Only the names this locale's index actually claims: a
+                // word dropped for colliding with English or with
+                // another token is a different rule, tested elsewhere.
+                if alias_index(locale)
+                    .words
+                    .get(&name.to_lowercase())
+                    .map(String::as_str)
+                    != Some(data.key)
+                {
+                    continue;
+                }
+                checked += 1;
+                let line = format!("add v1 {name} 0.01mol");
+                let canonical = canonical_line_in(&line, locale)
+                    .unwrap_or_else(|| panic!("{}: {line} was left alone", locale.code()));
+                assert_eq!(
+                    canonical,
+                    format!("add v1 {} 0.01mol", data.key),
+                    "{}: {name}",
+                    locale.code()
+                );
+            }
+            total += checked;
+        }
+        // Across the languages, not within one. German compounds —
+        // `Natriumchlorid` is a single token — so it contributes NOTHING
+        // to this gate and a per-language minimum failed on it, which is
+        // the gate accusing a language of a hole it cannot have. What has
+        // to stay true is that SOME shipped language still exercises the
+        // phrase path; the day none does, this is measuring nothing and
+        // should say so.
+        assert!(
+            total > 5,
+            "only {total} multi-word names across every shipped language — \
+             the catalogues moved and this gate is measuring almost nothing"
+        );
+    }
+
+    /// And the phrase wins over its own first word.
+    ///
+    /// `eau de chaux` is the limewater test. Taken one token at a time it
+    /// is water, then two words nobody claimed — which is what the bench
+    /// answered before: `unknown gas test 'water'`.
+    #[test]
+    fn a_phrase_outranks_the_word_it_starts_with() {
+        let fr = Locale::parse("fr");
+        if fr.is_english() {
+            return;
+        }
+        let canonical = canonical_line_in("test v1 eau de chaux", fr);
+        assert_eq!(canonical.as_deref(), Some("test v1 limewater"));
+    }
+
     /// A usage line names the verb the learner typed, not `add`.
     ///
     /// Found in a browser, not here: typing `ajouter v1` at a French
@@ -1891,12 +2052,44 @@ mod localised_grammar {
 
         let mut index = HashMap::new();
         let mut dropped = HashSet::new();
-        claim(&mut index, &mut dropped, "probe", "ph", |_| false);
-        claim(&mut index, &mut dropped, "probe", "balance", |_| false);
+        claim(
+            &mut index,
+            &mut dropped,
+            "probe",
+            "ph",
+            |_| false,
+            Phrases::No,
+            &mut 0,
+        );
+        claim(
+            &mut index,
+            &mut dropped,
+            "probe",
+            "balance",
+            |_| false,
+            Phrases::No,
+            &mut 0,
+        );
         assert_eq!(index.get("probe"), None, "a word claimed twice must go");
-        claim(&mut index, &mut dropped, "probe", "ph", |_| false);
+        claim(
+            &mut index,
+            &mut dropped,
+            "probe",
+            "ph",
+            |_| false,
+            Phrases::No,
+            &mut 0,
+        );
         assert_eq!(index.get("probe"), None, "and must not come back");
-        claim(&mut index, &mut dropped, "waage", "balance", |_| true);
+        claim(
+            &mut index,
+            &mut dropped,
+            "waage",
+            "balance",
+            |_| true,
+            Phrases::No,
+            &mut 0,
+        );
         assert_eq!(index.get("waage"), None, "English wins");
     }
 
