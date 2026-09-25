@@ -518,20 +518,30 @@ fn every_event_the_engine_can_emit_has_a_german_sentence() {
 /// the literal finds every one — including the arm added in the commit
 /// that forgot to translate it.
 fn refusal_keys() -> Vec<String> {
-    const SOURCE: &str = include_str!("../src/bench.rs");
-    let mut keys: Vec<String> = SOURCE
-        .match_indices("\"error.")
-        .filter_map(|(at, _)| {
-            let rest = &SOURCE[at + 1..];
-            rest.find('"').map(|end| rest[..end].to_string())
+    // TWO authors, not one. The bench has raised `error.*` since there
+    // were refusals; the GRAMMAR joined it in I18N-13, when `script.rs`
+    // stopped answering with finished English. Reading only bench.rs
+    // called all twenty of the grammar's keys stale — the same "I cannot
+    // see a file" the locale lint had, in a second gate.
+    const SOURCES: &[&str] = &[
+        include_str!("../src/bench.rs"),
+        include_str!("../src/script.rs"),
+    ];
+    let mut keys: Vec<String> = SOURCES
+        .iter()
+        .flat_map(|source| {
+            source.match_indices("\"error.").filter_map(|(at, _)| {
+                let rest = &source[at + 1..];
+                rest.find('"').map(|end| rest[..end].to_string())
+            })
         })
         .collect();
     keys.sort_unstable();
     keys.dedup();
     assert!(
         !keys.is_empty(),
-        "no `error.*` keys found in bench.rs — the refusals stopped naming \
-         themselves, and this gate is now checking nothing"
+        "no `error.*` keys found in bench.rs or script.rs — the refusals \
+         stopped naming themselves, and this gate is now checking nothing"
     );
     keys
 }

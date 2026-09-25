@@ -2077,13 +2077,13 @@ mod localised_grammar {
     /// A usage line names the verb the learner typed, not `add`.
     ///
     /// Found in a browser, not here: typing `ajouter v1` at a French
-    /// prompt answered `usage: add <vessel> <species> …`. The command was
-    /// right and the answer named a word French never asks for and the
-    /// interface never shows — an untranslated sentence is a gap, but
-    /// this one points at the wrong vocabulary.
+    /// prompt answered `usage: add <vessel> <species> …`. The command
+    /// was right and the answer named a word French never asks for.
     ///
-    /// Every shipped language, because the defect is not French's: it is
-    /// what a canonical-verb usage line does at any localised prompt.
+    /// It used to assert the line STARTS WITH `usage: {alias}`, which
+    /// stopped being true the moment the framing word was translated
+    /// too — German now opens `Aufruf:`. What has to hold is that the
+    /// learner's verb is in the line and the canonical one is not.
     #[test]
     fn a_usage_line_names_the_verb_the_learner_typed() {
         for locale in Locale::available() {
@@ -2096,13 +2096,13 @@ mod localised_grammar {
             let error = parse_command(&format!("{alias} v1"), locale)
                 .expect_err("an `add` with no species is a usage refusal");
             assert!(
-                error.detail.starts_with(&format!("usage: {alias} ")),
-                "{}: {}",
+                error.detail.contains(&alias),
+                "{}: the learner's verb is not in it: {}",
                 locale.code(),
                 error.detail
             );
             assert!(
-                !error.detail.starts_with("usage: add "),
+                !error.detail.contains("usage: add "),
                 "{}: still names the canonical verb: {}",
                 locale.code(),
                 error.detail
