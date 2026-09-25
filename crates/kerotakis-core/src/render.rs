@@ -2373,7 +2373,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 "{vessel}: {test}: {notes}",
                 &[
                     ("vessel", &vessel.to_string()),
-                    ("test", test),
+                    ("test", &test.to_string()),
                     ("notes", notes),
                 ],
             ),
