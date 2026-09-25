@@ -1636,3 +1636,33 @@ titrant-added = "réactif titrant ajouté"
 titration-title = "titrage de {vessel} par {titrant} ({molarity} M)"
 redox-titration-title = "titrage rédox de {vessel} par {titrant} ({molarity} M)"
 one-point-one-equilibration = "chaque point : une mise à l'équilibre du solveur aqueux après un incrément de burette (titrate) ; rien d'interpolé"
+
+# Extra names a bottle answers to, beside the one on the shelf (I18N-13).
+#
+# Comma-separated, like `[script-verb]`. German has carried two or three
+# per bottle by hand since the registry had aliases at all — `Essig` as
+# well as `Haushaltsessig 5%` — and French had exactly one, the shelf
+# name, because that is all the derivation produced. A name already
+# claimed by this recipe or another is skipped, so a duplicate here is
+# harmless rather than an export failure.
+[material-alias]
+"5% white vinegar" = "vinaigre blanc, vinaigre d'alcool"
+"baking soda" = "bicarbonate, bicarbonate de sodium, hydrogénocarbonate de sodium"
+"5% chlorine bleach" = "javel, eau de javel, hypochlorite de sodium"
+"3% hydrogen peroxide" = "eau oxygénée, peroxyde d'hydrogène"
+"70% isopropanol" = "alcool isopropylique, alcool à friction"
+"alcohol hand sanitiser" = "solution hydroalcoolique, gel désinfectant"
+"5% ammonia cleaner" = "ammoniaque, nettoyant à l'ammoniaque"
+"table salt" = "sel, sel de cuisine, sel de table"
+"granulated table sugar" = "sucre, sucre en poudre, sucre semoule"
+"1% Lugol iodine solution" = "lugol, solution iodo-iodurée"
+"aluminium foil" = "alu, feuille d'aluminium, papier alu"
+"black felt-tip ink" = "encre de feutre, encre"
+"cabbage (head)" = "chou rouge, chou frisé"
+"alcohol-based perfume" = "eau de toilette"
+"bar hand soap" = "savon, savon de Marseille"
+"borax powder" = "borax, tétraborate de sodium"
+"3.5% seawater surrogate" = "eau salée, eau de mer artificielle"
+"boiling chips" = "billes d'ébullition, régulateurs d'ébullition"
+"albumin (dried protein)" = "albumine, blanc d'œuf séché"
+"alkaline battery cell" = "pile, pile bâton"
