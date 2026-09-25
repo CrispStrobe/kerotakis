@@ -1049,6 +1049,8 @@ boiled = "a bouilli"
 "no solid particles are present" = "aucune particule solide n'est présente"
 
 [error]
+"unknown-ingredient" = "espèce ou matériau inconnu « {name} » ('species' liste les corps purs, 'materials' les flacons domestiques et scolaires, 'find <mot>' cherche dans les deux)"
+"unknown-ingredient-did-you-mean" = "espèce ou matériau inconnu « {name} » — voulais-tu dire « {hit} » ? ('species' liste les corps purs, 'materials' les flacons domestiques et scolaires, 'find {name}' cherche dans les deux)"
 "unknown-vessel-kind" = "type de récipient inconnu « {kind} » — connus : {known}"
 "unknown-gas-test" = "test de gaz inconnu « {name} » — possibles : pop, splint, limewater, litmus"
 "not-a-comparison" = "« {word} » n'est pas une comparaison — écris `until pe > 8`, `>=`, `<` ou `<=` (ou les mots `above`/`below`)"

@@ -765,18 +765,23 @@ const TITRATE_USAGE_FORM: &str = "titrate <vessel> <titrant> [<c>M] <step><mL|L>
 /// bottle was sent to the one command that could not show it. The shelf has
 /// two halves; the message now names both, and offers the closest thing it
 /// actually holds.
-pub fn unknown_ingredient(name: &str) -> String {
+pub fn unknown_ingredient(name: &str) -> Refusal {
     match nearest_ingredient(name) {
-        Some(hit) => format!(
+        Some(hit) => Refusal::new(
+            "error.unknown-ingredient-did-you-mean",
             "unknown species or material '{name}' — did you mean '{hit}'? \
              ('species' lists the pure substances, 'materials' the household \
-             and school bottles, 'find {name}' searches both)"
-        ),
-        None => format!(
+             and school bottles, 'find {name}' searches both)",
+        )
+        .with("name", name)
+        .with("hit", hit),
+        None => Refusal::new(
+            "error.unknown-ingredient",
             "unknown species or material '{name}' \
              ('species' lists the pure substances, 'materials' the household \
-             and school bottles, 'find <word>' searches both)"
-        ),
+             and school bottles, 'find <word>' searches both)",
+        )
+        .with("name", name),
     }
 }
 

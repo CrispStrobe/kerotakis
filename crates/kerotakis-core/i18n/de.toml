@@ -1113,6 +1113,8 @@ boiled = "siedete"
 #
 # `{vessel}` is a NAME (v1, v2) and never a number: it keeps its point.
 [error]
+"unknown-ingredient" = "unbekannter Stoff oder unbekanntes Material '{name}' ('species' listet die Reinstoffe, 'materials' die Haushalts- und Schulflaschen, 'find <wort>' durchsucht beides)"
+"unknown-ingredient-did-you-mean" = "unbekannter Stoff oder unbekanntes Material '{name}' — meintest du '{hit}'? ('species' listet die Reinstoffe, 'materials' die Haushalts- und Schulflaschen, 'find {name}' durchsucht beides)"
 "unknown-vessel-kind" = "unbekannte Gefäßart '{kind}' — bekannt: {known}"
 "unknown-gas-test" = "unbekannte Gasprobe '{name}' — möglich: pop, splint, limewater, litmus"
 "not-a-comparison" = "'{word}' ist kein Vergleich — schreib `until pe > 8`, `>=`, `<` oder `<=` (oder die Wörter `above`/`below`)"

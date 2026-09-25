@@ -77,7 +77,7 @@ impl Probe {
             other => match other.strip_prefix("amount:") {
                 Some(species) if !species.is_empty() => {
                     if kerotakis_core::species::lookup_key(species).is_none() {
-                        return Err(kerotakis_core::script::unknown_ingredient(species));
+                        return Err(kerotakis_core::script::unknown_ingredient(species).to_string());
                     }
                     Probe::Amount(vessel, species.to_string())
                 }
