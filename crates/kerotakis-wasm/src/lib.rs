@@ -304,7 +304,7 @@ impl Lab {
         // language — `bench.rs` and the safety screen do not.
         let events = localize_events(&self.run(op)?, self.locale);
         let rendered = render_events_narrated(&events, self.register, self.locale, self.narration);
-        let charts = kerotakis_core::chart::charts_for_events(&events);
+        let charts = kerotakis_core::chart::charts_for_events(&events, self.locale);
         // GUI-092: the net ionic equation, where the solved speciation
         // supports one. Empty is the common and honest case.
         let ionic = kerotakis_core::ionic::net_ionic_for(&events, &self.bench.vessels, self.locale);
@@ -354,7 +354,7 @@ impl Lab {
                     let events = localize_events(&self.run(op.clone())?, self.locale);
                     let rendered =
                         render_events_narrated(&events, self.register, self.locale, self.narration);
-                    let charts = kerotakis_core::chart::charts_for_events(&events);
+                    let charts = kerotakis_core::chart::charts_for_events(&events, self.locale);
                     let ionic = kerotakis_core::ionic::net_ionic_for(
                         &events,
                         &self.bench.vessels,

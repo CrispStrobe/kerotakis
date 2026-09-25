@@ -297,7 +297,7 @@ fn the_pe_curve_reaches_the_chart_contract() {
     let pe_curve = titrated(&events)
         .unwrap_or_else(|| panic!("{events:?}"))
         .pe_curve;
-    let charts = chart::charts_for_events(&events);
+    let charts = chart::charts_for_events(&events, kerotakis_core::i18n::Locale::EN);
     // The pH chart is unconditional and unchanged.
     assert!(
         charts.iter().any(|c| c.y.label == "pH"),

@@ -58,6 +58,10 @@ const COMPOSERS: &[(&str, &str)] = &[
     ("clock.rs", include_str!("../src/clock.rs")),
     ("family.rs", include_str!("../src/family.rs")),
     ("bench.rs", include_str!("../src/bench.rs")),
+    // I18N-12. Corrosion composed four verdicts and three clauses as
+    // finished `format!`s until a French transcript printed "nothing
+    // rusts in this vessel" in the middle of French prose.
+    ("corrosion.rs", include_str!("../src/corrosion.rs")),
     // I18N-10's tail. Each one composes a refusal a SOLVER passes
     // through: the solvent-activity range, the still's missing
     // properties, the proton-consuming rate step.

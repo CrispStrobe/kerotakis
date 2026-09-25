@@ -111,7 +111,9 @@
 //!   arrived in, because it is a fact about the object.
 
 use crate::displacement::{Couple, SERIES};
+use crate::i18n::Locale;
 use crate::ops::Event;
+use crate::phrase::{Phrase, Slot};
 use crate::solve::{Equilibrator, SolveError, SolverRouteKind};
 use crate::species::{self, Phase, SpeciesId};
 use crate::vessel::Vessel;
@@ -188,6 +190,28 @@ pub struct Verdict {
     /// Whether it is corroding here.
     pub corroding: bool,
     pub why: String,
+    /// The same sentence as a phrase, for a reader who is not English.
+    ///
+    /// `why` is `reason.render(Locale::EN)` — one sentence, not two, the
+    /// way `displacement.rs` has carried its verdicts since I18N-8. It
+    /// was the last corrosion surface still composing a finished
+    /// `format!`: a French transcript said "nothing rusts in this vessel"
+    /// in the middle of otherwise French prose.
+    pub reason: Option<Phrase>,
+}
+
+/// An optional clause as a slot: the phrase when there is one, and the
+/// empty string when there is not.
+///
+/// The English used to build these by `format!`-ing `""` into the
+/// sentence, which is exactly what a hole with nothing in it is — the
+/// difference is that a slot can be translated and a spliced `String`
+/// cannot.
+fn clause(phrase: Option<Phrase>) -> Slot {
+    match phrase {
+        Some(phrase) => Slot::phrase(phrase),
+        None => Slot::text(""),
+    }
 }
 
 fn solid_moles(vessel: &Vessel, key: &str) -> f64 {
@@ -387,10 +411,14 @@ pub fn verdicts(vessel: &Vessel) -> Vec<Verdict> {
         .map(|c| c.reduced)
         .collect();
     let protecting = if protected.is_empty() {
-        String::new()
+        None
     } else {
         let names: Vec<&str> = protected.iter().copied().map(display_name).collect();
-        format!(", and the {} beside it is spared", names.join(" and "))
+        Some(Phrase::new(
+            "corrosion.and-the-others-are-spared",
+            ", and the {others} beside it is spared",
+            vec![("others".to_string(), Slot::terms("species", names))],
+        ))
     };
     let oxygen = has_oxygen(vessel);
 
@@ -409,6 +437,12 @@ pub fn verdicts(vessel: &Vessel) -> Vec<Verdict> {
                 metal,
                 corroding: true,
                 why: creep.why.to_string(),
+                // Curated table prose, keyed by a lot source rather than
+                // composed here — the `INERT_IN_SOLVENT` shape, which
+                // wants a row per table entry and a gate that counts the
+                // table. Still English in every language; named in the
+                // commit rather than left to be discovered.
+                reason: None,
             });
             continue;
         }
@@ -418,23 +452,33 @@ pub fn verdicts(vessel: &Vessel) -> Vec<Verdict> {
                 metal,
                 corroding: false,
                 why: barrier.why.to_string(),
+                // As above: `BARRIERS` is curated prose, not composed.
+                reason: None,
             });
             continue;
         }
 
         if couple.e0_volts > 0.0 {
-            let patina = if metal == "Cu" {
-                ". The green on an old copper contact is not rust and is not this reaction: it is a patina of basic copper carbonate and sulfate, grown over years from carbon dioxide and sulfur dioxide in the air on a first film of Cu2O. That is atmospheric weathering, it needs a gas phase this bench does not carry, and no route here claims it"
-            } else {
-                ""
-            };
+            let patina = (metal == "Cu").then(|| {
+                Phrase::bare(
+                    "corrosion.copper-patina",
+                    ". The green on an old copper contact is not rust and is not this reaction: it is a patina of basic copper carbonate and sulfate, grown over years from carbon dioxide and sulfur dioxide in the air on a first film of Cu2O. That is atmospheric weathering, it needs a gas phase this bench does not carry, and no route here claims it",
+                )
+            });
+            let reason = Phrase::new(
+                "corrosion.cathode-above-hydrogen",
+                "{name} sits above hydrogen in the activity series (E° {e0} V), so in aerated neutral water it is the cathode of any corrosion cell rather than the anode: oxygen takes electrons at its surface and it stays as the metal{patina}",
+                vec![
+                    ("name".to_string(), Slot::term("species", name)),
+                    ("e0".to_string(), Slot::number(format!("{:+.3}", couple.e0_volts))),
+                    ("patina".to_string(), clause(patina)),
+                ],
+            );
             out.push(Verdict {
                 metal,
                 corroding: false,
-                why: format!(
-                    "{name} sits above hydrogen in the activity series (E° {:+.3} V), so in aerated neutral water it is the cathode of any corrosion cell rather than the anode: oxygen takes electrons at its surface and it stays as the metal{patina}",
-                    couple.e0_volts
-                ),
+                why: reason.render(Locale::EN),
+                reason: Some(reason),
             });
             continue;
         }
@@ -445,43 +489,67 @@ pub fn verdicts(vessel: &Vessel) -> Vec<Verdict> {
 
         if anode.reduced != metal {
             let other = display_name(anode.reduced);
+            let reason = Phrase::new(
+                "corrosion.protected-by-a-baser-metal",
+                "{name} does not corrode while {other} is in contact with it here. Two metals in one electrolyte are a cell, and the cell decides: {other} sits below {name} in the series (E° {e_other} V against {e_self} V), so {other} is the anode and gives up the electrons for both while {name} is the cathode and is spared. This is what galvanising is, and it is why a scratch does not undo it — the zinc protects the iron it is merely NEXT to, not only the iron it covers, and it goes on doing so until the zinc is gone",
+                vec![
+                    ("name".to_string(), Slot::term("species", name)),
+                    ("other".to_string(), Slot::term("species", other)),
+                    ("e_other".to_string(), Slot::number(format!("{:+.3}", anode.e0_volts))),
+                    ("e_self".to_string(), Slot::number(format!("{:+.3}", couple.e0_volts))),
+                ],
+            );
             out.push(Verdict {
                 metal,
                 corroding: false,
-                why: format!(
-                    "{name} does not corrode while {other} is in contact with it here. Two metals in one electrolyte are a cell, and the cell decides: {other} sits below {name} in the series (E° {:+.3} V against {:+.3} V), so {other} is the anode and gives up the electrons for both while {name} is the cathode and is spared. This is what galvanising is, and it is why a scratch does not undo it — the zinc protects the iron it is merely NEXT to, not only the iron it covers, and it goes on doing so until the zinc is gone",
-                    anode.e0_volts, couple.e0_volts
-                ),
+                why: reason.render(Locale::EN),
+                reason: Some(reason),
             });
             continue;
         }
 
         if !oxygen {
-            let and_then = if protected.is_empty() {
-                String::new()
-            } else {
+            let and_then = (!protected.is_empty()).then(|| {
                 let names: Vec<&str> = protected.iter().copied().map(display_name).collect();
-                format!(
-                    ". When there is oxygen it is the {name} that goes and not the {}, because {name} is the lowest-E° metal in contact",
-                    names.join(" or the ")
+                Phrase::new(
+                    "corrosion.and-then-this-one-goes-first",
+                    ". When there is oxygen it is the {name} that goes and not the {others}, because {name} is the lowest-E° metal in contact",
+                    vec![
+                        ("name".to_string(), Slot::term("species", name)),
+                        ("others".to_string(), Slot::terms("species", names)),
+                    ],
                 )
-            };
+            });
+            let reason = Phrase::new(
+                "corrosion.no-oxygen",
+                "nothing rusts in this vessel, because there is no oxygen in it. Corrosion needs three things at once — the metal, liquid water and oxygen — since it is a circuit: {name} would give up electrons at the anode, oxygen would take them at the cathode, and the water carries the ions between the two. This bench does not yet draw oxygen from the room into an open beaker, so the oxygen has to be put in the vessel for the slow clock to see it{and_then}",
+                vec![
+                    ("name".to_string(), Slot::term("species", name)),
+                    ("and_then".to_string(), clause(and_then)),
+                ],
+            );
             out.push(Verdict {
                 metal,
                 corroding: false,
-                why: format!(
-                    "nothing rusts in this vessel, because there is no oxygen in it. Corrosion needs three things at once — the metal, liquid water and oxygen — since it is a circuit: {name} would give up electrons at the anode, oxygen would take them at the cathode, and the water carries the ions between the two. This bench does not yet draw oxygen from the room into an open beaker, so the oxygen has to be put in the vessel for the slow clock to see it{and_then}"
-                ),
+                why: reason.render(Locale::EN),
+                reason: Some(reason),
             });
             continue;
         }
 
+        let reason = Phrase::new(
+            "corrosion.everything-it-needs",
+            "{name}, liquid water and oxygen are all three here, which is everything corrosion needs: {name} gives up electrons at the anode, oxygen takes them at the cathode, and the water between them carries the ions{protecting}. {name} is the lowest-E° metal in contact, so it is the anode of every cell in this vessel and it is the one that goes",
+            vec![
+                ("name".to_string(), Slot::term("species", name)),
+                ("protecting".to_string(), clause(protecting.clone())),
+            ],
+        );
         out.push(Verdict {
             metal,
             corroding: true,
-            why: format!(
-                "{name}, liquid water and oxygen are all three here, which is everything corrosion needs: {name} gives up electrons at the anode, oxygen takes them at the cathode, and the water between them carries the ions{protecting}. {name} is the lowest-E° metal in contact, so it is the anode of every cell in this vessel and it is the one that goes"
-            ),
+            why: reason.render(Locale::EN),
+            reason: Some(reason),
         });
     }
     out
@@ -655,6 +723,7 @@ impl Equilibrator for CorrosionEquilibrator {
                     species: SpeciesId::new(v.metal),
                     corroding: v.corroding,
                     why: v.why,
+                    reason: v.reason,
                     corroded_moles: extent.map(|(moles, _)| moles),
                     corroded_fraction: extent.map(|(_, fraction)| fraction),
                 }

@@ -3240,9 +3240,16 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             species: sid,
             corroding,
             why,
+            reason,
             ..
         } => {
             let name = species_name(locale, sid);
+            // The phrase where the verdict was composed, the English
+            // otherwise: a curated-table verdict has no phrase, and an
+            // English fallback is a gap the reader can see rather than a
+            // sentence that vanishes.
+            let rendered = reason.as_ref().map(|reason| reason.render(locale));
+            let why: &str = rendered.as_deref().unwrap_or(why);
             match (register.level(), *corroding) {
                 (1, true) => locale.fill(
                     "event.corroded.lv1",
@@ -4022,6 +4029,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             value,
             unit,
             note,
+            note_reason,
         } => {
             let device = instrument_name(*instrument);
             // The English name is the source text and the fallback; German
@@ -4058,6 +4066,8 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 ),
                 _ => format!("{vessel} {device}: {value:.4} {unit}"),
             };
+            let rendered = note_reason.as_ref().map(|reason| reason.render(locale));
+            let note = rendered.as_deref().or(note.as_deref());
             match (register.level(), note) {
                 (1, _) | (_, None) => reading,
                 (_, Some(boundary)) => locale.fill(

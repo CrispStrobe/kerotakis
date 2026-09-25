@@ -72,6 +72,13 @@ COMPOSERS = [
     ROOT / "crates/kerotakis-core/src/clock.rs",
     ROOT / "crates/kerotakis-core/src/family.rs",
     ROOT / "crates/kerotakis-core/src/bench.rs",
+    # I18N-12. `corrosion.rs` composes four verdicts and three clauses;
+    # `chart.rs` names the axes and the title of a drawn curve. Both were
+    # finished English until a French transcript showed them, and both
+    # are invisible here until they are listed — the orphan report is how
+    # this lint says a file is missing, and it said it about eleven keys.
+    ROOT / "crates/kerotakis-core/src/corrosion.rs",
+    ROOT / "crates/kerotakis-core/src/chart.rs",
     # I18N-10's tail. `states.rs` and `volatility.rs` compose a refusal a
     # solver passes through; `aqueous.rs` and `phase_diagnostics.rs` are
     # the aqueous crate's own nine and one; `family_oracle.rs` is where
