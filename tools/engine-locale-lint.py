@@ -232,6 +232,12 @@ PHRASE_KEY_ONLY = re.compile(r'Phrase::(?:new|bare)\(\s*"([^"]+)"\s*,\s*[^"\s]')
 # The prefix is a dynamic section like any other, and reading it out of
 # the source rather than listing prefixes by hand is what keeps the next
 # one from being silently orphaned.
+#: A file that writes a locale key at a call site, however `rustfmt` has
+#: wrapped it.
+COMPOSES = re.compile(
+    r'(?:Phrase::(?:new|bare)|locale\s*\.\s*fill)\s*\(\s*"[a-z][\w.-]*"'
+)
+
 PHRASE_DYNAMIC = re.compile(
     r'Phrase::(?:new|bare)\(\s*&?\s*format!\s*\(\s*"([\w.-]+)\.\{'
 )
@@ -564,6 +570,34 @@ def main() -> int:
         print(f"   {line}")
 
     problems = len(shared)
+
+    # A file that names locale keys and is not in any list above is read
+    # by nothing here, so its keys are counted as ORPHANS — which reads
+    # like "the catalogue has dead rows" and means "the lint cannot see a
+    # file". That is how `corrosion.rs` and `chart.rs` were reported on
+    # 2026-09-25: eleven keys per catalogue, all of them live.
+    #
+    # The Rust side has had this check since I18N-10
+    # (`unknown_composers_are_declared`), and it covers the phrase sites
+    # in ONE crate. This is the workspace-wide half, and it is the half
+    # that was missing.
+    listed = {p.resolve() for p in COMPOSERS + [RENDER, SCRIPT, BENCH]}
+    listed.add((ROOT / "crates/kerotakis-core/src/phrase.rs").resolve())
+    undeclared = []
+    for path in sorted(ROOT.glob("crates/*/src/**/*.rs")):
+        if path.resolve() in listed:
+            continue
+        text = without_test_modules(path.read_text())
+        # `rustfmt` puts a long key on its own line, so the opener and the
+        # quote are not adjacent: `Phrase::new(\n    "corrosion.no-oxygen",`.
+        # Matching the literal `Phrase::new("` found nothing and the check
+        # silently passed, which is the failure mode it exists to prevent.
+        if COMPOSES.search(text):
+            undeclared.append(path.relative_to(ROOT))
+    for path in undeclared:
+        print(f"   UNLISTED: {path} names locale keys but is in no list here")
+        problems += 1
+
     print()
     print(f"{'language':<12} {'translated':>10} {'of':>4} {'reachable':>10}   coverage")
     for path in sorted(CATALOGUES.glob("*.toml")):
