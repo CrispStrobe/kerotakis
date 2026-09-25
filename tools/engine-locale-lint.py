@@ -446,6 +446,14 @@ def main() -> int:
         dynamic |= {m.group(1) for m in DYNAMIC.finditer(text)}
     dynamic |= {m.group(1) for m in DYNAMIC.finditer(grammar)}
     dynamic |= {m.group(1) for m in SECTION.finditer(grammar)}
+    # A whole section may also be read OUTSIDE the grammar: the registry
+    # exporter reads `[material]` and `[material-alias]` at build time to
+    # give every bottle the names its language answers to. That file is
+    # not prose and is in no list above, so without this every row of
+    # those two sections is reported as an orphan — which is the same
+    # "I cannot see a file" as #734, one build step further out.
+    for extra in sorted(ROOT.glob("crates/kerotakis-registry-export/src/**/*.rs")):
+        dynamic |= {m.group(1) for m in SECTION.finditer(extra.read_text())}
     dynamic |= {m.group(1) for m in SECTION_LITERAL.finditer(grammar)}
     mentioned = {m.group(1) for m in MENTIONED.finditer(src)}
     mentioned |= {m.group(1) for m in MENTIONED.finditer(grammar)}
