@@ -1,0 +1,4 @@
+add v1 water 100mL
+add v1 CuSO4 0.02mol
+measure v1 spectrophotometer
+look v1

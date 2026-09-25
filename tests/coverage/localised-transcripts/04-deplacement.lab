@@ -1,0 +1,5 @@
+add v1 water 150mL
+add v1 CuSO4 0.02mol
+add v1 Zn 0.03mol
+wait 600s
+look v1

@@ -1,0 +1,5 @@
+add v1 water 100mL
+add v1 I2 0.001mol
+new
+extract v1 v2 hexane 40mL
+look v2

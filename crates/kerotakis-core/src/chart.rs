@@ -175,6 +175,20 @@ mod tests {
 
     #[test]
     fn a_titrated_event_becomes_the_titration_chart() {
+        fn event2() -> crate::Event {
+            crate::Event::Titrated {
+                vessel: crate::VesselId(0),
+                titrant: crate::SpeciesId::new("NaOH"),
+                concentration: 0.1,
+                steps: 2,
+                total_volume: crate::units::Liters(0.002),
+                final_ph: 7.2,
+                curve: vec![(0.0, 2.9), (1.0, 3.4), (2.0, 7.2)],
+                pe_curve: Vec::new(),
+                endpoint_reached: Some(true),
+                endpoint: crate::ops::Endpoint::Ph,
+            }
+        }
         let event = crate::Event::Titrated {
             vessel: crate::VesselId(0),
             titrant: crate::SpeciesId::new("NaOH"),
@@ -196,6 +210,38 @@ mod tests {
             vec![[0.0, 2.9], [1.0, 3.4], [2.0, 7.2]]
         );
         assert!(!c.provenance.is_empty());
+
+        // The words around the curve follow the reader, in every
+        // shipped language. `pH` and `pe` do not: they are notation, and
+        // a chart whose axis says `pH` in five languages is the one that
+        // stays readable. Driven off the catalogue rather than naming a
+        // language, so a fourth is covered by existing.
+        for locale in crate::i18n::Locale::available() {
+            if locale.is_english() {
+                continue;
+            }
+            let mine = charts_for_events(&[event2()], locale);
+            let mine = &mine[0];
+            assert_ne!(
+                mine.title,
+                c.title,
+                "{}: the chart title is still the English one",
+                locale.code()
+            );
+            assert_ne!(
+                mine.x.label,
+                c.x.label,
+                "{}: the x axis is still labelled in English",
+                locale.code()
+            );
+            assert_eq!(
+                mine.y.label,
+                c.y.label,
+                "{}: pH is notation and must not be translated",
+                locale.code()
+            );
+            assert_eq!(mine.x.unit, c.x.unit, "{}: mL is a unit", locale.code());
+        }
 
         // A single reading is not a curve; no chart is claimed.
         let short = crate::Event::Titrated {
