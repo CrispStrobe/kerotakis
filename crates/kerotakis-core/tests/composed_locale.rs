@@ -334,6 +334,52 @@ fn every_unavailable_solid_verdict_is_translated() {
     }
 }
 
+/// The curated corrosion verdicts, keyed by the lot source they answer
+/// about.
+///
+/// Same shape and same argument as the solvent verdicts below: reviewed
+/// paragraphs with no holes, so the key names the ROW. The scanner
+/// cannot see them — there is no key literal — so the tables are the
+/// denominator, read from the `const`s the engine uses. A barrier added
+/// without a translation fails here on the commit that adds it.
+#[test]
+fn every_curated_corrosion_verdict_is_translated() {
+    use kerotakis_core::corrosion::{BARRIERS, ELECTROLYTE_CREEP};
+    let rows: Vec<(&str, &str)> = BARRIERS
+        .iter()
+        .map(|b| ("corrosion-barrier", b.lot_source))
+        .chain(
+            ELECTROLYTE_CREEP
+                .iter()
+                .map(|c| ("corrosion-creep", c.lot_source)),
+        )
+        .collect();
+    assert!(
+        rows.len() >= 3,
+        "only {} curated corrosion rows — a table moved and this gate is \
+         checking almost nothing",
+        rows.len()
+    );
+    for locale in Locale::available().into_iter().filter(|l| !l.is_english()) {
+        let missing: Vec<String> = rows
+            .iter()
+            .filter(|(section, lot)| {
+                let id = lot.strip_prefix("material recipe ").unwrap_or(lot);
+                locale.lookup(&format!("{section}.{id}")).is_none()
+            })
+            .map(|(section, lot)| format!("  {section}.{lot}"))
+            .collect();
+        assert!(
+            missing.is_empty(),
+            "{} of {} curated corrosion verdicts have no {} translation:\n{}",
+            missing.len(),
+            rows.len(),
+            locale.code(),
+            missing.join("\n"),
+        );
+    }
+}
+
 /// The curated organic-solvent verdicts, whose key is built from the table
 /// row rather than written as a literal.
 ///

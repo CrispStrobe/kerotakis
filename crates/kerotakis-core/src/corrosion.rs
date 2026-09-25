@@ -207,6 +207,36 @@ pub struct Verdict {
 /// sentence, which is exactly what a hole with nothing in it is — the
 /// difference is that a slot can be translated and a spliced `String`
 /// cannot.
+/// The recipe id a lot source names: `metal/painted-iron`.
+///
+/// The bench prefixes every lot source with `material recipe `, and that
+/// prefix is bookkeeping rather than identity.
+fn recipe_id(lot_source: &str) -> &str {
+    lot_source
+        .strip_prefix("material recipe ")
+        .unwrap_or(lot_source)
+}
+
+/// A curated verdict, keyed by the TABLE ROW rather than by its English.
+///
+/// `BARRIERS` and `ELECTROLYTE_CREEP` are reviewed paragraphs with no
+/// holes, so a key built out of the sentence would orphan every
+/// translation the moment somebody reworded one — the same argument
+/// `inert-in-solvent` settled.
+///
+/// Two functions rather than one taking the section, because the section
+/// has to be a LITERAL in the `format!`: `engine-locale-lint.py` reads
+/// the prefix out of the source to know these keys are looked up by
+/// value, and `format!("{section}.{id}")` tells it nothing. Written as
+/// one function, all six rows were reported as orphans.
+fn curated_barrier(lot_source: &str, en: &'static str) -> Phrase {
+    Phrase::bare(&format!("corrosion-barrier.{}", recipe_id(lot_source)), en)
+}
+
+fn curated_creep(lot_source: &str, en: &'static str) -> Phrase {
+    Phrase::bare(&format!("corrosion-creep.{}", recipe_id(lot_source)), en)
+}
+
 fn clause(phrase: Option<Phrase>) -> Slot {
     match phrase {
         Some(phrase) => Slot::phrase(phrase),
@@ -437,12 +467,7 @@ pub fn verdicts(vessel: &Vessel) -> Vec<Verdict> {
                 metal,
                 corroding: true,
                 why: creep.why.to_string(),
-                // Curated table prose, keyed by a lot source rather than
-                // composed here — the `INERT_IN_SOLVENT` shape, which
-                // wants a row per table entry and a gate that counts the
-                // table. Still English in every language; named in the
-                // commit rather than left to be discovered.
-                reason: None,
+                reason: Some(curated_creep(creep.lot_source, creep.why)),
             });
             continue;
         }
@@ -452,8 +477,11 @@ pub fn verdicts(vessel: &Vessel) -> Vec<Verdict> {
                 metal,
                 corroding: false,
                 why: barrier.why.to_string(),
-                // As above: `BARRIERS` is curated prose, not composed.
-                reason: None,
+                reason: Some(curated(
+                    "corrosion-barrier",
+                    barrier.lot_source,
+                    barrier.why,
+                )),
             });
             continue;
         }
