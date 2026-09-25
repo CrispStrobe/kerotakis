@@ -1,0 +1,6 @@
+add v1 water 150mL
+add v1 NaCl 0.02mol
+add v1 Fe 0.02mol
+add v1 Zn 0.01mol
+wait 3600s
+look v1

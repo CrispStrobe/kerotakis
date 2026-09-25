@@ -1,0 +1,5 @@
+add v1 water 200mL
+add v1 NaCl 0.05mol
+measure v1 conductivity
+measure v1 density
+look v1

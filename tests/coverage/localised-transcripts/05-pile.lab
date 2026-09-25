@@ -1,0 +1,8 @@
+add v1 water 100mL
+add v1 CuSO4 0.05mol
+add v1 Cu 0.01mol
+new
+add v2 water 100mL
+add v2 ZnSO4 0.05mol
+add v2 Zn 0.01mol
+cell v1 v2

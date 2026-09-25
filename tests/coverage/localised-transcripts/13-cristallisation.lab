@@ -1,0 +1,4 @@
+add v1 water 100mL
+add v1 NaCl 0.2mol
+evaporate v1 0.9
+look v1

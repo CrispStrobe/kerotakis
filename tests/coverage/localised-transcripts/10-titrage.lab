@@ -1,0 +1,3 @@
+add v1 water 100mL
+add v1 HCl 0.01mol
+titrate v1 NaOH 0.1M 1mL until ph 7
