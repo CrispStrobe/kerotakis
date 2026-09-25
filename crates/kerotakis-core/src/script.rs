@@ -1129,13 +1129,13 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
         }
         "wait" => {
             // `wait 30s` — the clock the rate experiments need.
-            let raw = words.get(1).ok_or("usage: wait <n><s|min|h>")?;
+            let raw = words.get(1).ok_or_else(|| usage("wait <n><s|min|h>"))?;
             Operator::Wait {
                 seconds: parse_duration_seconds(raw)?,
             }
         }
         "ignite" => Operator::Ignite {
-            vessel: parse_vessel(words.get(1).ok_or("usage: ignite <vessel>")?)?,
+            vessel: parse_vessel(words.get(1).ok_or_else(|| usage("ignite <vessel>"))?)?,
         },
         "stir" => {
             if words.len() > 4 {
@@ -1144,7 +1144,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
             let vessel = parse_vessel(
                 words
                     .get(1)
-                    .ok_or("usage: stir <vessel> [<rpm>rpm] [<duration><s|min>]")?,
+                    .ok_or_else(|| usage("stir <vessel> [<rpm>rpm] [<duration><s|min>]"))?,
             )?;
             let rpm = words.get(2).map_or(Ok(500.0), |raw| {
                 raw.strip_suffix("rpm")
@@ -1192,7 +1192,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
             }
         }
         "open" => Operator::Open {
-            vessel: parse_vessel(words.get(1).ok_or("usage: open <vessel>")?)?,
+            vessel: parse_vessel(words.get(1).ok_or_else(|| usage("open <vessel>"))?)?,
         },
         "filter" => {
             if words.len() < 3 {
@@ -1251,8 +1251,13 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
                 ));
             }
             let solvent = SpeciesId::new(words[3]);
-            let data = species::lookup(&solvent)
-                .ok_or_else(|| format!("unknown species '{}'", words[3]))?;
+            let data = species::lookup(&solvent).ok_or_else(|| {
+                Refusal::new(
+                    "error.unknown-species",
+                    "unknown species '{species}' — not in the registry",
+                )
+                .with("species", words[3])
+            })?;
             let total_solvent = parse_amount(words[4], data)?;
             let stages = if words.len() == 5 {
                 1
@@ -1360,7 +1365,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
             let test_name = words
                 .get(2)
                 .copied()
-                .ok_or("usage: test <vessel> pop|splint|limewater|litmus")?;
+                .ok_or_else(|| usage("test <vessel> pop|splint|limewater|litmus"))?;
             let test = match test_name {
                 "pop" => crate::gas_tests::GasTest::Pop,
                 "splint" => crate::gas_tests::GasTest::GlowingSplint,
@@ -1432,8 +1437,13 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
             }
             let vessel = parse_vessel(words[1])?;
             let species_key = words[2];
-            let _ = species::lookup_key(species_key)
-                .ok_or_else(|| format!("unknown species '{species_key}'"))?;
+            let _ = species::lookup_key(species_key).ok_or_else(|| {
+                Refusal::new(
+                    "error.unknown-species",
+                    "unknown species '{species}' — not in the registry",
+                )
+                .with("species", species_key)
+            })?;
             let diameter = parse_suffixed(
                 words[3],
                 &[("um", 1.0), ("μm", 1.0), ("mm", 1000.0), ("", 1.0)],
@@ -1504,8 +1514,13 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
             }
             let vessel = parse_vessel(words[1])?;
             let titrant_key = words[2];
-            let _ = species::lookup_key(titrant_key)
-                .ok_or_else(|| format!("unknown species '{titrant_key}' (see 'species')"))?;
+            let _ = species::lookup_key(titrant_key).ok_or_else(|| {
+                Refusal::new(
+                    "error.unknown-titrant",
+                    "unknown species '{species}' (see 'species')",
+                )
+                .with("species", titrant_key)
+            })?;
             let (concentration, rest) = match words[3].strip_suffix(['M', 'm']) {
                 Some(c) if c.parse::<f64>().is_ok() => (c.parse::<f64>().unwrap(), &words[4..]),
                 _ => (1.0, &words[3..]),
@@ -1655,19 +1670,26 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
                 .iter()
                 .map(|w| parse_vessel(w))
                 .collect::<Result<_, _>>()?;
-            let inlet = parse_vessel(
-                words
-                    .get(from_pos + 1)
-                    .ok_or("expected inlet vessel after 'from'")?,
-            )?;
-            let receiver = parse_vessel(
-                words
-                    .get(to_pos + 1)
-                    .ok_or("expected receiver vessel after 'to'")?,
-            )?;
+            let inlet = parse_vessel(words.get(from_pos + 1).ok_or_else(|| {
+                Refusal::new(
+                    "error.transport-expected-inlet",
+                    "expected inlet vessel after 'from'",
+                )
+            })?)?;
+            let receiver = parse_vessel(words.get(to_pos + 1).ok_or_else(|| {
+                Refusal::new(
+                    "error.transport-expected-receiver",
+                    "expected receiver vessel after 'to'",
+                )
+            })?)?;
             let steps: u32 = words
                 .get(steps_pos + 1)
-                .ok_or("expected step count after 'steps'")?
+                .ok_or_else(|| {
+                    Refusal::new(
+                        "error.transport-expected-steps",
+                        "expected step count after 'steps'",
+                    )
+                })?
                 .parse()
                 .map_err(|_| {
                     format!(
@@ -1679,7 +1701,12 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
             let courant: f64 = match courant_pos {
                 Some(cp) => words
                     .get(cp + 1)
-                    .ok_or("expected Courant fraction after 'courant'")?
+                    .ok_or_else(|| {
+                        Refusal::new(
+                            "error.transport-expected-courant",
+                            "expected Courant fraction after 'courant'",
+                        )
+                    })?
                     .parse()
                     .map_err(|_| {
                         format!(
