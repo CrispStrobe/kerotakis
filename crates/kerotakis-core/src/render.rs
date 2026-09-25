@@ -1084,12 +1084,12 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 ),
                 2 => locale.fill(
                     "event.material-added.lv2",
-                    "{vessel}: +{total_amount} {unit} {material} ({components} known ingredients)",
+                    "{vessel}: +{total_amount} {unit} {material} ({components} known ingredient(s))",
                     &[("vessel", &vessel.to_string()), ("total_amount", &locale.number(format!("{total_amount:.3}"))), ("unit", unit), ("material", &material_name(locale, material)), ("components", &format!("{}", components.len()))],
                 ),
                 _ => locale.fill(
                     "event.material-added.lv3",
-                    "{vessel}: +{total_amount} {unit} {material}; {components} canonical components, {unresolved_amount} {unit} unresolved",
+                    "{vessel}: +{total_amount} {unit} {material}; {components} canonical component(s), {unresolved_amount} {unit} unresolved",
                     &[("vessel", &vessel.to_string()), ("total_amount", &locale.number(format!("{total_amount:.6}"))), ("unit", unit), ("material", &material_name(locale, material)), ("components", &format!("{}", components.len())), ("unresolved_amount", &locale.number(format!("{unresolved_amount:.6}")))],
                 ),
             }
@@ -1538,7 +1538,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
         } => match register.level() {
             1 => locale.fill(
                 "event.stirred.lv1",
-                "The magnetic stirrer spins {vessel} for {seconds} seconds.",
+                "The magnetic stirrer spins {vessel} for {seconds} second(s).",
                 &[
                     ("vessel", &vessel.to_string()),
                     ("seconds", &locale.number(format!("{seconds:.0}"))),
@@ -2366,7 +2366,17 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     ),
                 ],
             ),
-            _ => format!("{vessel}: {test}: {notes}"),
+            // lv3 had no key, so the one line that carries the gas
+            // test's own notes was the line no language could reach.
+            _ => locale.fill(
+                "event.gas-tested.lv3",
+                "{vessel}: {test}: {notes}",
+                &[
+                    ("vessel", &vessel.to_string()),
+                    ("test", test),
+                    ("notes", notes),
+                ],
+            ),
         },
         Event::Burst { vessel, at_pa, rating_pa } => match register.level() {
             1 => locale.fill(
@@ -2644,12 +2654,12 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             match register.level() {
                 1 => locale.fill(
                     "event.extracted.lv1",
-                    "You shake {from} with fresh {solvent} in {stages} portions and collect the extracts in {to}. {summary}",
+                    "You shake {from} with fresh {solvent} in {stages} portion(s) and collect the extracts in {to}. {summary}",
                     &[("from", &from.to_string()), ("to", &to.to_string()), ("solvent", species_name(locale, solvent)), ("stages", &stages.to_string()), ("summary", &summary)],
                 ),
                 2 => locale.fill(
                     "event.extracted.lv2",
-                    "{from} -> {to}: {total} mol {solvent}, divided across {stages} ideal extraction stages — {summary}",
+                    "{from} -> {to}: {total} mol {solvent}, divided across {stages} ideal extraction stage(s) — {summary}",
                     &[("from", &from.to_string()), ("to", &to.to_string()), ("total", &locale.number(format!("{:.4}", total_solvent.0))), ("solvent", species_name(locale, solvent)), ("stages", &stages.to_string()), ("summary", &summary)],
                 ),
                 _ => {
@@ -2660,7 +2670,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         .join("; ");
                     locale.fill(
                         "event.extracted.lv3",
-                        "{from} -> {to}: repeated equilibrium extraction with {total} mol {solvent} over {stages} equal fresh portions; K=[solute]organic/[solute]aqueous; mass balance closes at every stage — {summary}. {evidence}",
+                        "{from} -> {to}: repeated equilibrium extraction with {total} mol {solvent} over {stages} equal fresh portion(s); K=[solute]organic/[solute]aqueous; mass balance closes at every stage — {summary}. {evidence}",
                         &[("from", &from.to_string()), ("to", &to.to_string()), ("total", &locale.number(format!("{:.6}", total_solvent.0))), ("solvent", &solvent.0), ("stages", &stages.to_string()), ("summary", &summary), ("evidence", &evidence)],
                     )
                 }
@@ -3381,7 +3391,15 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         ("name", name),
                     ],
                 ),
-                _ => format!("{vessel}: −{} mol {name}", quantity(moles.0, 6)),
+                _ => locale.fill(
+                    "event.removed.lv3",
+                    "{vessel}: −{moles} mol {name}",
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("moles", &locale.number(quantity(moles.0, 6))),
+                        ("name", name),
+                    ],
+                ),
             }
         }
         Event::Ignited {
@@ -4346,7 +4364,14 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 "The mixture in {vessel} changes — something new is forming!",
                 &[("vessel", &vessel.to_string())],
             ),
-            _ => format!("{vessel}: {equation}"),
+            // The equation itself is notation and stays; the line it
+            // sits on is a sentence, and French puts a space before the
+            // colon it was printing tight.
+            _ => locale.fill(
+                "event.reaction-occurred.lv2",
+                "{vessel}: {equation}",
+                &[("vessel", &vessel.to_string()), ("equation", equation)],
+            ),
         },
         Event::GasEvolved {
             vessel,
@@ -4662,7 +4687,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 ),
                 None => locale.fill(
                     "event.reacted.lv1-after-seconds-something",
-                    "After {seconds} seconds, something has been happening in {vessel}.",
+                    "After {seconds} second(s), something has been happening in {vessel}.",
                     &[("seconds", &locale.number(format!("{seconds:.0}"))), ("vessel", &vessel.to_string())],
                 ),
             },
@@ -4852,17 +4877,17 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             match register.level() {
                 1 => locale.fill(
                     "event.titrated.redox.lv1",
-                    "You titrate {vessel} with {name} until you get {arrival} — that took {steps} additions.",
+                    "You titrate {vessel} with {name} until you get {arrival} — that took {steps} addition(s).",
                     &[("vessel", &vessel.to_string()), ("name", name), ("steps", &steps.to_string()), ("arrival", &arrival)],
                 ),
                 2 => locale.fill(
                     "event.titrated.redox.lv2",
-                    "{vessel}: titrated with {concentration} mol/L {name} to {arrival}; {steps} steps, {total_volume} mL total, {outcome}",
+                    "{vessel}: titrated with {concentration} mol/L {name} to {arrival}; {steps} step(s), {total_volume} mL total, {outcome}",
                     &[("vessel", &vessel.to_string()), ("concentration", &concentration.to_string()), ("name", name), ("arrival", &arrival), ("steps", &steps.to_string()), ("total_volume", &locale.number(format!("{:.1}", total_volume.0 * 1000.0))), ("outcome", outcome)],
                 ),
                 _ => locale.fill(
                     "event.titrated.redox.lv3",
-                    "{vessel}: auto-titration with {titrant} standard solution ({concentration} mol/L; {steps} steps, {total_volume} mL cumulative = {delivered} mol delivered with its carrier water); endpoint = {arrival}, {outcome}; final pe {final_pe}, final pH {final_ph}",
+                    "{vessel}: auto-titration with {titrant} standard solution ({concentration} mol/L; {steps} step(s), {total_volume} mL cumulative = {delivered} mol delivered with its carrier water); endpoint = {arrival}, {outcome}; final pe {final_pe}, final pH {final_ph}",
                     &[("vessel", &vessel.to_string()), ("titrant", &titrant.0.to_string()), ("concentration", &concentration.to_string()), ("steps", &steps.to_string()), ("total_volume", &locale.number(format!("{:.3}", total_volume.0 * 1000.0))), ("delivered", &locale.number(format!("{:.5}", concentration * total_volume.0))), ("arrival", &arrival), ("outcome", outcome), ("final_pe", &final_pe), ("final_ph", &locale.number(format!("{final_ph:.3}")))],
                 ),
             }
@@ -4880,17 +4905,17 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             match register.level() {
                 1 => locale.fill(
                     "event.titrated.lv1",
-                    "You titrate {vessel} with {name} — after {steps} additions the pH reaches {final_ph}.",
+                    "You titrate {vessel} with {name} — after {steps} addition(s) the pH reaches {final_ph}.",
                     &[("vessel", &vessel.to_string()), ("name", name), ("steps", &steps.to_string()), ("final_ph", &locale.number(format!("{final_ph:.1}")))],
                 ),
                 2 => locale.fill(
                     "event.titrated.lv2",
-                    "{vessel}: titrated with {concentration} mol/L {name}; {steps} steps, {total_volume} mL total, final pH {final_ph}",
+                    "{vessel}: titrated with {concentration} mol/L {name}; {steps} step(s), {total_volume} mL total, final pH {final_ph}",
                     &[("vessel", &vessel.to_string()), ("concentration", &concentration.to_string()), ("name", name), ("steps", &steps.to_string()), ("total_volume", &locale.number(format!("{:.1}", total_volume.0 * 1000.0))), ("final_ph", &locale.number(format!("{final_ph:.2}")))],
                 ),
                 _ => locale.fill(
                     "event.titrated.lv3",
-                    "{vessel}: auto-titration with {titrant} standard solution ({concentration} mol/L; {steps} steps, {total_volume} mL cumulative = {concentration2} mol delivered with its carrier water); final pH {final_ph}",
+                    "{vessel}: auto-titration with {titrant} standard solution ({concentration} mol/L; {steps} step(s), {total_volume} mL cumulative = {concentration2} mol delivered with its carrier water); final pH {final_ph}",
                     &[("vessel", &vessel.to_string()), ("titrant", &titrant.0.to_string()), ("concentration", &concentration.to_string()), ("steps", &steps.to_string()), ("total_volume", &locale.number(format!("{:.3}", total_volume.0 * 1000.0))), ("concentration2", &locale.number(format!("{:.5}", concentration * total_volume.0))), ("final_ph", &locale.number(format!("{final_ph:.3}")))],
                 ),
             }
@@ -4932,7 +4957,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     };
                     locale.fill(
                         "event.transported.lv2",
-                        "{cells} cells × {steps} steps (Cf={courant}); effluent → {receiver}: {what}",
+                        "{cells} cell(s) × {steps} step(s) (Cf={courant}); effluent → {receiver}: {what}",
                         &[
                             ("cells", &cells.to_string()),
                             ("steps", &steps.to_string()),
@@ -4944,7 +4969,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 }
                 _ => locale.fill(
                     "event.transported.lv3",
-                    "1-D upwind transport: {cells} cells × {steps} steps @ Cf={courant}; \
+                    "1-D upwind transport: {cells} cell(s) × {steps} step(s) @ Cf={courant}; \
                      effluent total {total} mol → {receiver}",
                     &[("cells", &cells.to_string()), ("steps", &steps.to_string()), ("courant", &locale.number(format!("{courant:.4}"))), ("total", &locale.number(format!("{total:.6}"))), ("receiver", &receiver.to_string())],
                 ),
