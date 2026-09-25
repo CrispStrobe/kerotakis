@@ -64556,6 +64556,10 @@
           "rubbing alcohol 70%",
           "isopropyl alcohol 70%",
           "rubbing_alcohol_70%"
+        ],
+        "fr": [
+          "alcool isopropylique",
+          "alcool à friction"
         ]
       },
       "basis": "volume_fraction",
@@ -64629,7 +64633,10 @@
           "bleach_5%"
         ],
         "fr": [
-          "eau de Javel 5%"
+          "eau de Javel 5%",
+          "javel",
+          "eau de javel",
+          "hypochlorite de sodium"
         ]
       },
       "basis": "mass_fraction",
@@ -64726,7 +64733,9 @@
           "ammonia_cleaner_5%"
         ],
         "fr": [
-          "nettoyant ammoniaqué 5%"
+          "nettoyant ammoniaqué 5%",
+          "ammoniaque",
+          "nettoyant à l'ammoniaque"
         ]
       },
       "basis": "mass_fraction",
@@ -65150,7 +65159,9 @@
           "salt water"
         ],
         "fr": [
-          "eau de mer"
+          "eau de mer",
+          "eau salée",
+          "eau de mer artificielle"
         ]
       },
       "basis": "mass_fraction",
@@ -65291,7 +65302,9 @@
           "peroxide_3%"
         ],
         "fr": [
-          "peroxyde d'hydrogène 3%"
+          "peroxyde d'hydrogène 3%",
+          "eau oxygénée",
+          "peroxyde d'hydrogène"
         ]
       },
       "basis": "mass_fraction",
@@ -65387,7 +65400,9 @@
           "household vinegar"
         ],
         "fr": [
-          "vinaigre"
+          "vinaigre",
+          "vinaigre blanc",
+          "vinaigre d'alcool"
         ]
       },
       "basis": "mass_fraction",
@@ -66028,7 +66043,10 @@
           "granulated sugar"
         ],
         "fr": [
-          "sucre de ménage"
+          "sucre de ménage",
+          "sucre",
+          "sucre en poudre",
+          "sucre semoule"
         ]
       },
       "basis": "mass_fraction",
@@ -66171,7 +66189,10 @@
           "sodium bicarbonate"
         ],
         "fr": [
-          "bicarbonate de soude"
+          "bicarbonate de soude",
+          "bicarbonate",
+          "bicarbonate de sodium",
+          "hydrogénocarbonate de sodium"
         ]
       },
       "basis": "mass_fraction",
@@ -66421,7 +66442,9 @@
           "Lugol 1%"
         ],
         "fr": [
-          "solution de Lugol 1%"
+          "solution de Lugol 1%",
+          "lugol",
+          "solution iodo-iodurée"
         ]
       },
       "basis": "mass_fraction",
@@ -67862,7 +67885,9 @@
           "soap bar"
         ],
         "fr": [
-          "pain de savon"
+          "pain de savon",
+          "savon",
+          "savon de Marseille"
         ]
       },
       "basis": "mass_fraction",
@@ -68508,7 +68533,9 @@
           "cooking salt"
         ],
         "fr": [
-          "sel de table"
+          "sel de table",
+          "sel",
+          "sel de cuisine"
         ]
       },
       "basis": "mass_fraction",
@@ -69126,7 +69153,10 @@
           "tin foil"
         ],
         "fr": [
-          "papier aluminium"
+          "papier aluminium",
+          "alu",
+          "feuille d'aluminium",
+          "papier alu"
         ]
       },
       "basis": "mass_fraction",
@@ -71783,7 +71813,9 @@
           "red cabbage head"
         ],
         "fr": [
-          "chou"
+          "chou",
+          "chou rouge",
+          "chou frisé"
         ]
       },
       "basis": "mass_fraction",
@@ -72814,7 +72846,9 @@
           "protein"
         ],
         "fr": [
-          "albumine d'œuf"
+          "albumine d'œuf",
+          "albumine",
+          "blanc d'œuf séché"
         ]
       },
       "basis": "mass_fraction",
@@ -73088,7 +73122,8 @@
           "washing borax"
         ],
         "fr": [
-          "poudre de borax"
+          "poudre de borax",
+          "tétraborate de sodium"
         ]
       },
       "basis": "mass_fraction",
@@ -73155,7 +73190,9 @@
           "black marker ink"
         ],
         "fr": [
-          "encre noire"
+          "encre noire",
+          "encre de feutre",
+          "encre"
         ]
       },
       "basis": "mass_fraction",
@@ -73876,7 +73913,9 @@
           "alcohol gel"
         ],
         "fr": [
-          "gel hydroalcoolique"
+          "gel hydroalcoolique",
+          "solution hydroalcoolique",
+          "gel désinfectant"
         ]
       },
       "basis": "mass_fraction",
@@ -76162,7 +76201,9 @@
           "anti-bumping granules"
         ],
         "fr": [
-          "pierres à ébullition"
+          "pierres à ébullition",
+          "billes d'ébullition",
+          "régulateurs d'ébullition"
         ]
       },
       "basis": "mass_fraction",
@@ -76346,7 +76387,9 @@
           "zinc-manganese dioxide cell"
         ],
         "fr": [
-          "pile alcaline"
+          "pile alcaline",
+          "pile",
+          "pile bâton"
         ]
       },
       "basis": "mass_fraction",
