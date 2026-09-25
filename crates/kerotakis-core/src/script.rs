@@ -10,6 +10,7 @@ use std::sync::OnceLock;
 use crate::i18n::Locale;
 use crate::material::{self, MaterialBasis, MaterialRecipe};
 use crate::ops::{Compare, Endpoint, Instrument, Operator};
+use crate::refusal::Refusal;
 use crate::species::{self, SpeciesData, SpeciesId};
 use crate::units::{Grams, Joules, Kelvin, Liters, Moles, Pascal};
 use crate::vessel::{VesselId, VESSEL_KINDS};
@@ -636,61 +637,120 @@ fn localised(error: ParseError, locale: Locale) -> ParseError {
     if locale.is_english() {
         return error;
     }
-    // A usage line names the CANONICAL verb, which at a French prompt is
-    // a word the learner was never shown and does not need: typing
-    // `ajouter v1` answered `usage: add <vessel> …`. That is worse than
-    // an untranslated sentence — it points at the wrong vocabulary. The
-    // rest of the line is left in English, because the placeholders are a
-    // separate job; the verb is the part that actively misleads.
-    if let Some(rest) = error.detail.strip_prefix("usage: ") {
-        let (verb, tail) = rest.split_once(' ').unwrap_or((rest, ""));
-        if let Some(alias) = first_verb_alias(verb, locale) {
-            let detail = if tail.is_empty() {
-                format!("usage: {alias}")
-            } else {
-                format!("usage: {alias} {tail}")
-            };
-            return ParseError {
-                kind: error.kind,
-                detail,
-            };
-        }
-        return error;
-    }
-    let Some(word) = error
-        .detail
-        .strip_prefix("unknown command '")
-        .and_then(|rest| rest.split('\'').next())
-    else {
+    // On the KEY, not on the English. This used to read the sentence back
+    // — `detail.strip_prefix("usage: ")` — which is the same
+    // prose-scraping GUI-125 removed from the equation rail, and it only
+    // worked because the English happened to start with a known word.
+    let Some(refusal) = error.refusal.clone() else {
         return error;
     };
-    // The FIRST alias the catalogue lists for a verb, which is the one
-    // its translator put first — and `Locale::section` sorts, so the
-    // sentence is the same on every run and in every host.
-    let first_alias = |verb: &str| first_verb_alias(verb, locale);
-    let mut verbs: Vec<String> = VERBS
-        .iter()
-        .map(|(verb, _)| match first_alias(verb) {
-            Some(alias) => format!("{alias} ({verb})"),
-            None => (*verb).to_string(),
-        })
-        .collect();
-    verbs.sort_unstable();
-    let detail = locale.fill(
-        "script.unknown-verb",
-        "unknown command '{word}' — the bench knows these verbs: {verbs}",
-        &[("word", word), ("verbs", &verbs.join(", "))],
-    );
+    let refusal = match refusal.key {
+        // The verb list depends on the reader, so it is built here rather
+        // than where the refusal was written: `zugeben (add)`.
+        "error.unknown-command" => {
+            let word = refusal.params.get("word").cloned().unwrap_or_default();
+            let mut verbs: Vec<String> = VERBS
+                .iter()
+                .map(|(verb, _)| match first_verb_alias(verb, locale) {
+                    Some(alias) => format!("{alias} ({verb})"),
+                    None => (*verb).to_string(),
+                })
+                .collect();
+            verbs.sort_unstable();
+            Refusal::new(
+                "script.unknown-verb",
+                "unknown command '{word}' — the bench knows these verbs: {verbs}",
+            )
+            .with("word", word)
+            .with("verbs", verbs.join(", "))
+        }
+        "error.usage" => {
+            let form = refusal.params.get("form").cloned().unwrap_or_default();
+            usage(localised_form(&form, locale))
+        }
+        _ => refusal,
+    };
     ParseError {
         kind: error.kind,
-        detail,
+        detail: refusal.render(locale),
+        refusal: Some(refusal),
     }
+}
+
+/// A usage FORM with the reader's words in it.
+///
+/// Two substitutions and no more: the verb, which #726 showed is the
+/// part that actively misleads — `ajouter v1` answering `usage: add …`
+/// names a word French never asks for — and each simple
+/// `<metavariable>`, from the catalogue's `[syntax]` section.
+///
+/// Everything else is left exactly as it is. `<mol|g|mL>` is a list of
+/// literal tokens the learner types, `[max <n>]` is grammar, and
+/// `<ph <target> | pe <op> <value> | colour persists>` is a nested
+/// construct — translating any of them would describe a command the
+/// bench does not accept. A metavariable with no row is left in English,
+/// per string and never per language, so a half-filled `[syntax]` reads
+/// half in the reader's language rather than not at all.
+fn localised_form(form: &str, locale: Locale) -> String {
+    let (verb, tail) = form.split_once(' ').unwrap_or((form, ""));
+    let verb = first_verb_alias(verb, locale).unwrap_or_else(|| verb.to_string());
+    if tail.is_empty() {
+        return verb;
+    }
+    let mut out = String::with_capacity(form.len());
+    out.push_str(&verb);
+    out.push(' ');
+    let mut rest = tail;
+    while let Some(open) = rest.find('<') {
+        out.push_str(&rest[..open]);
+        let after = &rest[open + 1..];
+        match after.find('>') {
+            // A simple name and nothing else: `<vessel>`, `<species>`.
+            // Anything with a space, a pipe or another `<` inside is
+            // grammar rather than a word, and is left alone.
+            Some(close)
+                if !after[..close].is_empty()
+                    && after[..close]
+                        .chars()
+                        .all(|c| c.is_ascii_lowercase() || c == '-') =>
+            {
+                let name = &after[..close];
+                // `lookup` hands back `&'static str` and `name` borrows
+                // the form, so the two cannot share an `unwrap_or`.
+                let shown = locale.lookup(&format!("syntax.{name}"));
+                out.push('<');
+                out.push_str(shown.unwrap_or(name));
+                out.push('>');
+                rest = &after[close + 1..];
+            }
+            _ => {
+                out.push('<');
+                rest = after;
+            }
+        }
+    }
+    out.push_str(rest);
+    out
+}
+
+/// `usage: …`, as a refusal rather than a finished sentence.
+///
+/// The FORM is canonical syntax and travels as a hole: `localised` puts
+/// the reader's word for the verb and for each `<metavariable>` into it,
+/// so a language needs one row for the framing word and one per
+/// metavariable — not one per verb. A verb added later needs no new
+/// translation at all, which is the property the rest of this surface
+/// has and a table of twenty whole sentences would not.
+fn usage(form: impl Into<String>) -> Refusal {
+    Refusal::new("error.usage", "usage: {form}").with("form", form.into())
 }
 
 /// The one usage line for `titrate`, kept in one place now that the verb
 /// has three endpoints (EXP-39).
-const TITRATE_USAGE: &str = "usage: titrate <vessel> <titrant> [<c>M] <step><mL|L> until \
-                             <ph <target> | pe <op> <value> | colour persists> [max <n>]";
+/// The FORM only: `usage(…)` adds the framing word, in the reader's
+/// language.
+const TITRATE_USAGE_FORM: &str = "titrate <vessel> <titrant> [<c>M] <step><mL|L> until \
+                                  <ph <target> | pe <op> <value> | colour persists> [max <n>]";
 
 /// Refuse a number the operator log could not carry.
 ///
@@ -705,18 +765,23 @@ const TITRATE_USAGE: &str = "usage: titrate <vessel> <titrant> [<c>M] <step><mL|
 /// bottle was sent to the one command that could not show it. The shelf has
 /// two halves; the message now names both, and offers the closest thing it
 /// actually holds.
-pub fn unknown_ingredient(name: &str) -> String {
+pub fn unknown_ingredient(name: &str) -> Refusal {
     match nearest_ingredient(name) {
-        Some(hit) => format!(
+        Some(hit) => Refusal::new(
+            "error.unknown-ingredient-did-you-mean",
             "unknown species or material '{name}' — did you mean '{hit}'? \
              ('species' lists the pure substances, 'materials' the household \
-             and school bottles, 'find {name}' searches both)"
-        ),
-        None => format!(
+             and school bottles, 'find {name}' searches both)",
+        )
+        .with("name", name)
+        .with("hit", hit),
+        None => Refusal::new(
+            "error.unknown-ingredient",
             "unknown species or material '{name}' \
              ('species' lists the pure substances, 'materials' the household \
-             and school bottles, 'find <word>' searches both)"
-        ),
+             and school bottles, 'find <word>' searches both)",
+        )
+        .with("name", name),
     }
 }
 
@@ -823,6 +888,16 @@ pub enum ParseErrorKind {
 pub struct ParseError {
     pub kind: ParseErrorKind,
     pub detail: String,
+    /// The same refusal as a key and its holes, for a reader who is not
+    /// English.
+    ///
+    /// `detail` is its English rendering, so there is one sentence and
+    /// not two — the shape `Event::Inert` has carried since I18N-8. The
+    /// grammar's own helpers still answer with finished `String`s and
+    /// arrive here as `error.unkeyed`; converting them is the next
+    /// tranche, and until then they reach the reader in English rather
+    /// than not at all.
+    pub refusal: Option<Refusal>,
 }
 
 pub fn parse_op_typed(line: &str) -> Result<Option<Operator>, ParseError> {
@@ -851,7 +926,11 @@ pub fn parse_op_typed(line: &str) -> Result<Option<Operator>, ParseError> {
         }
         _ => ParseErrorKind::InvalidSyntax,
     };
-    parse_op_untyped(line).map_err(|detail| ParseError { kind, detail })
+    parse_op_untyped(line).map_err(|refusal| ParseError {
+        kind,
+        detail: refusal.render(Locale::EN),
+        refusal: Some(refusal),
+    })
 }
 
 /// Compatibility parser. Prefer [`parse_op_typed`] when callers must retain a
@@ -860,7 +939,7 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
     parse_op_typed(line).map_err(|error| error.detail)
 }
 
-fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
+fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
     let line = line.trim();
     if line.is_empty() || line.starts_with('#') {
         return Ok(None);
@@ -879,7 +958,9 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
         // parse time, with the shelf listed.
         "react" => {
             if words.len() < 3 {
-                return Err("usage: react <vessel> <reaction> (see curated::ORG_REACTIONS)".into());
+                return Err(usage(
+                    "react <vessel> <reaction> (see curated::ORG_REACTIONS)",
+                ));
             }
             let vessel = parse_vessel(words[1])?;
             let name = words[2];
@@ -891,10 +972,12 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
                     .map(|r| r.name)
                     .collect();
                 known.push(crate::selectivity::VERB_NAME);
-                return Err(format!(
-                    "unknown reaction '{name}' — curated: {}",
-                    known.join(", ")
-                ));
+                return Err(Refusal::new(
+                    "error.unknown-reaction",
+                    "unknown reaction '{name}' — curated: {known}",
+                )
+                .with("name", name)
+                .with("known", known.join(", ")));
             }
             Operator::React {
                 vessel,
@@ -909,10 +992,12 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
                         .iter()
                         .map(|(k, _)| *k)
                         .collect();
-                    return Err(format!(
-                        "unknown vessel kind '{kind}' — known: {}",
-                        known.join(", ")
-                    ));
+                    return Err(Refusal::new(
+                        "error.unknown-vessel-kind",
+                        "unknown vessel kind '{kind}' — known: {known}",
+                    )
+                    .with("kind", kind)
+                    .with("known", known.join(", ")));
                 }
                 Operator::NewVessel {
                     kind: Some((*kind).to_string()),
@@ -921,7 +1006,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
         },
         "remove" => {
             if words.len() != 2 {
-                return Err("usage: remove <vessel>".into());
+                return Err(usage("remove <vessel>"));
             }
             Operator::RemoveVessel {
                 vessel: parse_vessel(words[1])?,
@@ -932,7 +1017,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
         // a long time, and the missing one is this.
         "discard" => {
             if words.len() != 2 {
-                return Err("usage: discard <vessel>".into());
+                return Err(usage("discard <vessel>"));
             }
             Operator::Discard {
                 vessel: parse_vessel(words[1])?,
@@ -940,7 +1025,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
         }
         "add" => {
             if words.len() < 4 {
-                return Err("usage: add <vessel> <species> <amount><mol|g|mL> [@ <T>C]".into());
+                return Err(usage("add <vessel> <species> <amount><mol|g|mL> [@ <T>C]"));
             }
             let vessel = parse_vessel(words[1])?;
             // EXP-49: El-A notation with a curated nuclide entry routes
@@ -991,7 +1076,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
         // are counted in one unit and no conversion is invented here.
         "stock" => {
             if words.len() < 3 {
-                return Err("usage: stock <species|material> <amount><mol|g|mL>".into());
+                return Err(usage("stock <species|material> <amount><mol|g|mL>"));
             }
             let amount = if let Some(data) = species::lookup_key(words[1]) {
                 parse_amount(words[2], data)?.0
@@ -1008,7 +1093,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
         }
         "heat" | "cool" => {
             if words.len() < 3 {
-                return Err(format!("usage: {} <vessel> <energy><J|kJ>", words[0]));
+                return Err(usage(format!("{} <vessel> <energy><J|kJ>", words[0])));
             }
             let vessel = parse_vessel(words[1])?;
             let energy = parse_energy(words[2])?;
@@ -1044,22 +1129,22 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
         }
         "wait" => {
             // `wait 30s` — the clock the rate experiments need.
-            let raw = words.get(1).ok_or("usage: wait <n><s|min|h>")?;
+            let raw = words.get(1).ok_or_else(|| usage("wait <n><s|min|h>"))?;
             Operator::Wait {
                 seconds: parse_duration_seconds(raw)?,
             }
         }
         "ignite" => Operator::Ignite {
-            vessel: parse_vessel(words.get(1).ok_or("usage: ignite <vessel>")?)?,
+            vessel: parse_vessel(words.get(1).ok_or_else(|| usage("ignite <vessel>"))?)?,
         },
         "stir" => {
             if words.len() > 4 {
-                return Err("usage: stir <vessel> [<rpm>rpm] [<duration><s|min>]".into());
+                return Err(usage("stir <vessel> [<rpm>rpm] [<duration><s|min>]"));
             }
             let vessel = parse_vessel(
                 words
                     .get(1)
-                    .ok_or("usage: stir <vessel> [<rpm>rpm] [<duration><s|min>]")?,
+                    .ok_or_else(|| usage("stir <vessel> [<rpm>rpm] [<duration><s|min>]"))?,
             )?;
             let rpm = words.get(2).map_or(Ok(500.0), |raw| {
                 raw.strip_suffix("rpm")
@@ -1078,7 +1163,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
         }
         "seal" => {
             if words.len() != 3 {
-                return Err("usage: seal <vessel> <headspace-volume><mL|L>".into());
+                return Err(usage("seal <vessel> <headspace-volume><mL|L>"));
             }
             Operator::Seal {
                 vessel: parse_vessel(words[1])?,
@@ -1087,10 +1172,9 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
         }
         "regulate" => {
             if words.len() != 4 {
-                return Err(
-                    "usage: regulate <vessel> <pressure><Pa|kPa|bar|atm> <initial-volume><mL|L>"
-                        .into(),
-                );
+                return Err(usage(
+                    "regulate <vessel> <pressure><Pa|kPa|bar|atm> <initial-volume><mL|L>",
+                ));
             }
             Operator::Regulate {
                 vessel: parse_vessel(words[1])?,
@@ -1100,7 +1184,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
         }
         "sweep" => {
             if words.len() != 3 {
-                return Err("usage: sweep <vessel> <pressure><Pa|kPa|bar|atm>".into());
+                return Err(usage("sweep <vessel> <pressure><Pa|kPa|bar|atm>"));
             }
             Operator::Sweep {
                 vessel: parse_vessel(words[1])?,
@@ -1108,11 +1192,11 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
             }
         }
         "open" => Operator::Open {
-            vessel: parse_vessel(words.get(1).ok_or("usage: open <vessel>")?)?,
+            vessel: parse_vessel(words.get(1).ok_or_else(|| usage("open <vessel>"))?)?,
         },
         "filter" => {
             if words.len() < 3 {
-                return Err("usage: filter <from> <to>".into());
+                return Err(usage("filter <from> <to>"));
             }
             Operator::Filter {
                 from: parse_vessel(words[1])?,
@@ -1121,7 +1205,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
         }
         "magnet" => {
             if words.len() < 3 {
-                return Err("usage: magnet <from> <to>".into());
+                return Err(usage("magnet <from> <to>"));
             }
             Operator::Magnet {
                 from: parse_vessel(words[1])?,
@@ -1130,7 +1214,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
         }
         "evaporate" => {
             if words.len() < 3 {
-                return Err("usage: evaporate <vessel> <fraction>".into());
+                return Err(usage("evaporate <vessel> <fraction>"));
             }
             Operator::Evaporate {
                 vessel: parse_vessel(words[1])?,
@@ -1141,7 +1225,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
         }
         "decant" => {
             if words.len() < 4 {
-                return Err("usage: decant <from> <to> <fraction>".into());
+                return Err(usage("decant <from> <to> <fraction>"));
             }
             Operator::Decant {
                 from: parse_vessel(words[1])?,
@@ -1153,7 +1237,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
         }
         "drain" => {
             if words.len() < 3 {
-                return Err("usage: drain <from> <to>".into());
+                return Err(usage("drain <from> <to>"));
             }
             Operator::Drain {
                 from: parse_vessel(words[1])?,
@@ -1162,14 +1246,18 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
         }
         "extract" => {
             if words.len() < 5 {
-                return Err(
-                    "usage: extract <from> <to> <solvent> <total-amount><mol|g|mL> [stages <n>]"
-                        .into(),
-                );
+                return Err(usage(
+                    "extract <from> <to> <solvent> <total-amount><mol|g|mL> [stages <n>]",
+                ));
             }
             let solvent = SpeciesId::new(words[3]);
-            let data = species::lookup(&solvent)
-                .ok_or_else(|| format!("unknown species '{}'", words[3]))?;
+            let data = species::lookup(&solvent).ok_or_else(|| {
+                Refusal::new(
+                    "error.unknown-species",
+                    "unknown species '{species}' — not in the registry",
+                )
+                .with("species", words[3])
+            })?;
             let total_solvent = parse_amount(words[4], data)?;
             let stages = if words.len() == 5 {
                 1
@@ -1178,13 +1266,15 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
                     .parse::<u32>()
                     .map_err(|_| format!("bad stage count '{}'", words[6]))?
             } else {
-                return Err(
-                    "usage: extract <from> <to> <solvent> <total-amount><mol|g|mL> [stages <n>]"
-                        .into(),
-                );
+                return Err(usage(
+                    "extract <from> <to> <solvent> <total-amount><mol|g|mL> [stages <n>]",
+                ));
             };
             if stages == 0 {
-                return Err("extraction needs at least one stage".into());
+                return Err(Refusal::new(
+                    "error.extract-needs-a-stage",
+                    "extraction needs at least one stage",
+                ));
             }
             Operator::Extract {
                 from: parse_vessel(words[1])?,
@@ -1196,9 +1286,9 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
         }
         "distil" | "distill" => {
             if words.len() < 4 {
-                return Err(
-                    "usage: distil <from> <to> <fraction | energy J|kJ> [stages <n>]".into(),
-                );
+                return Err(usage(
+                    "distil <from> <to> <fraction | energy J|kJ> [stages <n>]",
+                ));
             }
             let (fraction, energy) = if let Some(kj) = words[3].strip_suffix("kJ") {
                 let v: f64 = kj
@@ -1221,7 +1311,12 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
                     n.parse().map_err(|_| format!("bad stage count '{n}'"))?
                 }
                 (None, _) => 1,
-                _ => return Err("after the amount, only `stages <n>` may follow".into()),
+                _ => {
+                    return Err(Refusal::new(
+                        "error.distil-only-stages-may-follow",
+                        "after the amount, only `stages <n>` may follow",
+                    ))
+                }
             };
             Operator::Distil {
                 from: parse_vessel(words[1])?,
@@ -1238,13 +1333,19 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
         },
         "measure" => {
             if words.len() < 3 {
-                return Err("usage: measure <vessel> <thermometer|balance|ph>".into());
+                return Err(usage("measure <vessel> <thermometer|balance|ph>"));
             }
             Operator::Measure {
                 vessel: parse_vessel(words[1])?,
                 instrument: match instrument_by_word(words[2]) {
                     Some(instrument) => instrument,
-                    None => return Err(format!("unknown instrument '{}'", words[2])),
+                    None => {
+                        return Err(Refusal::new(
+                            "error.unknown-instrument",
+                            "unknown instrument '{name}'",
+                        )
+                        .with("name", words[2]))
+                    }
                 },
             }
         }
@@ -1264,16 +1365,18 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
             let test_name = words
                 .get(2)
                 .copied()
-                .ok_or("usage: test <vessel> pop|splint|limewater|litmus")?;
+                .ok_or_else(|| usage("test <vessel> pop|splint|limewater|litmus"))?;
             let test = match test_name {
                 "pop" => crate::gas_tests::GasTest::Pop,
                 "splint" => crate::gas_tests::GasTest::GlowingSplint,
                 "limewater" => crate::gas_tests::GasTest::Limewater,
                 "litmus" => crate::gas_tests::GasTest::DampLitmus,
                 _ => {
-                    return Err(format!(
-                        "unknown gas test '{test_name}' — options: pop, splint, limewater, litmus"
-                    ));
+                    return Err(Refusal::new(
+                        "error.unknown-gas-test",
+                        "unknown gas test '{name}' — options: pop, splint, limewater, litmus",
+                    )
+                    .with("name", test_name));
                 }
             };
             Operator::TestGas { vessel, test }
@@ -1291,7 +1394,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
             // `electrolyse v1 0.5A 600s` — a current and a clock, which is
             // exactly what the practical gives you.
             if words.len() < 4 {
-                return Err("usage: electrolyse <vessel> <current>A <time><s|min|h>".into());
+                return Err(usage("electrolyse <vessel> <current>A <time><s|min|h>"));
             }
             let vessel = parse_vessel(words[1])?;
             let amps = parse_suffixed(words[2], &[("a", 1.0), ("ma", 1e-3), ("", 1.0)], "current")?;
@@ -1320,7 +1423,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
         }
         "cell" | "voltmeter" => {
             if words.len() < 3 {
-                return Err("usage: cell <vessel> <vessel>".into());
+                return Err(usage("cell <vessel> <vessel>"));
             }
             Operator::Cell {
                 a: parse_vessel(words[1])?,
@@ -1330,12 +1433,17 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
         "grind" => {
             // `grind v1 NaCl 50um` — set particle size for heterogeneous rates
             if words.len() < 4 {
-                return Err("usage: grind <vessel> <species> <diameter>um".into());
+                return Err(usage("grind <vessel> <species> <diameter>um"));
             }
             let vessel = parse_vessel(words[1])?;
             let species_key = words[2];
-            let _ = species::lookup_key(species_key)
-                .ok_or_else(|| format!("unknown species '{species_key}'"))?;
+            let _ = species::lookup_key(species_key).ok_or_else(|| {
+                Refusal::new(
+                    "error.unknown-species",
+                    "unknown species '{species}' — not in the registry",
+                )
+                .with("species", species_key)
+            })?;
             let diameter = parse_suffixed(
                 words[3],
                 &[("um", 1.0), ("μm", 1.0), ("mm", 1000.0), ("", 1.0)],
@@ -1349,7 +1457,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
         }
         "centrifuge" => {
             if words.len() < 5 {
-                return Err("usage: centrifuge <vessel> <rpm>rpm <time>s <radius>cm".into());
+                return Err(usage("centrifuge <vessel> <rpm>rpm <time>s <radius>cm"));
             }
             Operator::Centrifuge {
                 vessel: parse_vessel(words[1])?,
@@ -1369,7 +1477,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
         "irradiate" => {
             // `irradiate v1 254nm 10W/m2` — turn on UV lamp
             if words.len() < 4 {
-                return Err("usage: irradiate <vessel> <wavelength>nm <irradiance>W/m2".into());
+                return Err(usage("irradiate <vessel> <wavelength>nm <irradiance>W/m2"));
             }
             let vessel = parse_vessel(words[1])?;
             let wavelength = parse_suffixed(words[2], &[("nm", 1.0), ("", 1.0)], "wavelength")?;
@@ -1382,7 +1490,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
         }
         "dilute" => {
             if words.len() < 3 {
-                return Err("usage: dilute <vessel> <volume><mL|L>".into());
+                return Err(usage("dilute <vessel> <volume><mL|L>"));
             }
             Operator::Dilute {
                 vessel: parse_vessel(words[1])?,
@@ -1402,27 +1510,35 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
             // dose ~50× per mL for NaOH and leap the whole curve in one
             // step, which is what this grammar replaced.)
             if words.len() < 7 {
-                return Err(TITRATE_USAGE.into());
+                return Err(usage(TITRATE_USAGE_FORM));
             }
             let vessel = parse_vessel(words[1])?;
             let titrant_key = words[2];
-            let _ = species::lookup_key(titrant_key)
-                .ok_or_else(|| format!("unknown species '{titrant_key}' (see 'species')"))?;
+            let _ = species::lookup_key(titrant_key).ok_or_else(|| {
+                Refusal::new(
+                    "error.unknown-titrant",
+                    "unknown species '{species}' (see 'species')",
+                )
+                .with("species", titrant_key)
+            })?;
             let (concentration, rest) = match words[3].strip_suffix(['M', 'm']) {
                 Some(c) if c.parse::<f64>().is_ok() => (c.parse::<f64>().unwrap(), &words[4..]),
                 _ => (1.0, &words[3..]),
             };
             if concentration <= 0.0 {
-                return Err("titrant concentration must be positive".into());
+                return Err(Refusal::new(
+                    "error.titrant-concentration-positive",
+                    "titrant concentration must be positive",
+                ));
             }
             if rest.len() < 4 {
-                return Err(TITRATE_USAGE.into());
+                return Err(usage(TITRATE_USAGE_FORM));
             }
             let step = parse_volume(rest[0])?;
             finite(step.0, "burette increment")?;
             finite(concentration, "titrant concentration")?;
             if rest[1] != "until" {
-                return Err(TITRATE_USAGE.into());
+                return Err(usage(TITRATE_USAGE_FORM));
             }
             // EXP-39: three endpoints. `ph` is CAP-12's and keeps its
             // exact spelling and its exact meaning — a crossing, in
@@ -1443,9 +1559,10 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
                 }
                 "pe" => {
                     if rest.len() < 5 {
-                        return Err("usage: titrate <vessel> <titrant> [<c>M] <step> until \
-                                    pe <op> <value> [max <n>], where <op> is > >= < <="
-                            .into());
+                        return Err(usage(
+                            "titrate <vessel> <titrant> [<c>M] <step> until \
+                                    pe <op> <value> [max <n>], where <op> is > >= < <=",
+                        ));
                     }
                     let compare = match rest[3] {
                         ">" | "above" => Compare::Above,
@@ -1453,10 +1570,10 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
                         "<" | "below" => Compare::Below,
                         "<=" => Compare::AtMost,
                         other => {
-                            return Err(format!(
-                                "'{other}' is not a comparison — write `until pe > 8`, \
-                                 `>=`, `<` or `<=` (or the words `above`/`below`)"
-                            ))
+                            return Err(Refusal::new(
+    "error.not-a-comparison",
+    "'{word}' is not a comparison — write `until pe > 8`, `>=`, `<` or `<=` (or the words `above`/`below`)",
+).with("word", other))
                         }
                     };
                     let value: f64 = rest[4]
@@ -1467,17 +1584,18 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
                 }
                 "colour" | "color" => {
                     if rest.get(3) != Some(&"persists") {
-                        return Err("usage: titrate <vessel> <titrant> [<c>M] <step> until \
-                                    colour persists [max <n>]"
-                            .into());
+                        return Err(usage(
+                            "titrate <vessel> <titrant> [<c>M] <step> until \
+                                    colour persists [max <n>]",
+                        ));
                     }
                     (Endpoint::ColourPersists, NEUTRAL_PH, &rest[4..])
                 }
                 other => {
-                    return Err(format!(
-                        "'{other}' is not an endpoint — this bench titrates until \
-                         `ph <target>`, `pe <op> <value>`, or `colour persists`"
-                    ))
+                    return Err(Refusal::new(
+    "error.not-an-endpoint",
+    "'{word}' is not an endpoint — this bench titrates until `ph <target>`, `pe <op> <value>`, or `colour persists`",
+).with("word", other))
                 }
             };
             let max_steps = match (tail.first(), tail.get(1)) {
@@ -1485,7 +1603,12 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
                     n.parse().map_err(|_| format!("bad max step count '{n}'"))?
                 }
                 (None, _) => 100,
-                _ => return Err("after the endpoint, only `max <n>` may follow".into()),
+                _ => {
+                    return Err(Refusal::new(
+                        "error.titrate-only-max-may-follow",
+                        "after the endpoint, only `max <n>` may follow",
+                    ))
+                }
             };
             Operator::Titrate {
                 vessel,
@@ -1500,9 +1623,9 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
         "mix" => {
             // mix v1 0.5 v2 0.5 into v3
             if words.len() < 7 {
-                return Err(
-                    "usage: mix <vessel-a> <frac-a> <vessel-b> <frac-b> into <target>".into(),
-                );
+                return Err(usage(
+                    "mix <vessel-a> <frac-a> <vessel-b> <frac-b> into <target>",
+                ));
             }
             let a = parse_vessel(words[1])?;
             let fraction_a: f64 = words[2]
@@ -1513,9 +1636,9 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
                 .parse()
                 .map_err(|_| format!("bad fraction '{}'", words[4]))?;
             if words[5] != "into" {
-                return Err(
-                    "usage: mix <vessel-a> <frac-a> <vessel-b> <frac-b> into <target>".into(),
-                );
+                return Err(usage(
+                    "mix <vessel-a> <frac-a> <vessel-b> <frac-b> into <target>",
+                ));
             }
             let into = parse_vessel(words[6])?;
             Operator::Mix {
@@ -1533,33 +1656,40 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
             let steps_pos = words.iter().position(|&w| w == "steps");
             let (from_pos, to_pos, steps_pos) = match (from_pos, to_pos, steps_pos) {
                 (Some(f), Some(t), Some(s)) => (f, t, s),
-                _ => {
-                    return Err(
-                        "usage: transport <v1> [v2 ...] from <inlet> to <receiver> steps <n> [courant <f>]"
-                            .into(),
-                    )
-                }
+                _ => return Err(usage(
+                    "transport <v1> [v2 ...] from <inlet> to <receiver> steps <n> [courant <f>]",
+                )),
             };
             if from_pos < 2 {
-                return Err("transport needs at least one cell vessel before 'from'".into());
+                return Err(Refusal::new(
+                    "error.transport-needs-a-cell",
+                    "transport needs at least one cell vessel before 'from'",
+                ));
             }
             let chain: Vec<VesselId> = words[1..from_pos]
                 .iter()
                 .map(|w| parse_vessel(w))
                 .collect::<Result<_, _>>()?;
-            let inlet = parse_vessel(
-                words
-                    .get(from_pos + 1)
-                    .ok_or("expected inlet vessel after 'from'")?,
-            )?;
-            let receiver = parse_vessel(
-                words
-                    .get(to_pos + 1)
-                    .ok_or("expected receiver vessel after 'to'")?,
-            )?;
+            let inlet = parse_vessel(words.get(from_pos + 1).ok_or_else(|| {
+                Refusal::new(
+                    "error.transport-expected-inlet",
+                    "expected inlet vessel after 'from'",
+                )
+            })?)?;
+            let receiver = parse_vessel(words.get(to_pos + 1).ok_or_else(|| {
+                Refusal::new(
+                    "error.transport-expected-receiver",
+                    "expected receiver vessel after 'to'",
+                )
+            })?)?;
             let steps: u32 = words
                 .get(steps_pos + 1)
-                .ok_or("expected step count after 'steps'")?
+                .ok_or_else(|| {
+                    Refusal::new(
+                        "error.transport-expected-steps",
+                        "expected step count after 'steps'",
+                    )
+                })?
                 .parse()
                 .map_err(|_| {
                     format!(
@@ -1571,7 +1701,12 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
             let courant: f64 = match courant_pos {
                 Some(cp) => words
                     .get(cp + 1)
-                    .ok_or("expected Courant fraction after 'courant'")?
+                    .ok_or_else(|| {
+                        Refusal::new(
+                            "error.transport-expected-courant",
+                            "expected Courant fraction after 'courant'",
+                        )
+                    })?
                     .parse()
                     .map_err(|_| {
                         format!(
@@ -1589,7 +1724,13 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
                 courant,
             }
         }
-        other => return Err(format!("unknown command '{other}' (try 'help')")),
+        other => {
+            return Err(Refusal::new(
+                "error.unknown-command",
+                "unknown command '{word}' (try 'help')",
+            )
+            .with("word", other))
+        }
     };
     Ok(Some(op))
 }
@@ -1812,6 +1953,51 @@ mod localised_grammar {
 
     fn de() -> Locale {
         Locale::parse("de")
+    }
+
+    /// A usage line is the reader's words around canonical syntax.
+    ///
+    /// Every shipped language, and driven off the catalogue: the verb
+    /// becomes that language's first alias, `<vessel>` becomes its word
+    /// for a vessel, and the unit list `<mol|g|mL>` is left exactly as it
+    /// is because those are tokens the learner types.
+    #[test]
+    fn a_usage_line_is_syntax_with_the_readers_words_in_it() {
+        for locale in Locale::available() {
+            if locale.is_english() {
+                continue;
+            }
+            let error = parse_command("add v1", locale)
+                .expect_err("an `add` with no species is a usage refusal");
+            let code = locale.code();
+            assert!(
+                error.detail.contains("<mol|g|mL>"),
+                "{code}: the unit list must survive verbatim: {}",
+                error.detail
+            );
+            assert!(
+                !error.detail.contains("usage: add "),
+                "{code}: still the canonical verb: {}",
+                error.detail
+            );
+            if let Some(word) = locale.lookup("syntax.vessel") {
+                assert!(
+                    error.detail.contains(word),
+                    "{code}: `<vessel>` was not put in the reader's words: {}",
+                    error.detail
+                );
+            }
+        }
+    }
+
+    /// The refusal travels as a key, so the reader's language is chosen
+    /// at render time rather than scraped back out of the English.
+    #[test]
+    fn a_grammar_refusal_carries_its_key() {
+        let error = parse_command("add v1", Locale::EN).expect_err("usage refusal");
+        let refusal = error.refusal.expect("the grammar keys its refusals");
+        assert_eq!(refusal.key, "error.usage");
+        assert_eq!(error.detail, refusal.render(Locale::EN));
     }
 
     /// A name made of several words is still one name.

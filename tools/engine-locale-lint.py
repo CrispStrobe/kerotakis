@@ -392,7 +392,14 @@ def main() -> int:
     bench_cut = bench.find("\n#[cfg(test)]")
     if bench_cut != -1:
         bench = bench[:bench_cut]
-    refusals = {m.group(1): unwrap(m.group(2)) for m in REFUSAL.finditer(bench)}
+    # The GRAMMAR refuses too, and its refusals carry keys as of I18N-13.
+    # Reading them only out of `bench.rs` would report every one of them
+    # as an orphan the moment the catalogue gained a row for it.
+    grammar_src = without_test_modules(SCRIPT.read_text())
+    refusals = {
+        m.group(1): unwrap(m.group(2))
+        for m in REFUSAL.finditer(bench + "\n" + grammar_src)
+    }
     used.update(refusals)
     # Every `const … : &str = "…"` the workspace declares, so a key named
     # by a constant is still counted where it is used.
@@ -527,7 +534,7 @@ def main() -> int:
     per_key = collections.defaultdict(set)
     for m in CALL.finditer(src):
         per_key[m.group(1)].add(m.group(2))
-    for m in REFUSAL.finditer(bench):
+    for m in REFUSAL.finditer(bench + "\n" + without_test_modules(SCRIPT.read_text())):
         per_key[m.group(1)].add(unwrap(m.group(2)))
     # `without_test_modules`, and it is not cosmetic. A `#[cfg(test)]`
     # fixture that reuses a live key with stand-in prose —
