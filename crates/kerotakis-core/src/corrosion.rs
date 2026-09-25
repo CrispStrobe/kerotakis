@@ -477,11 +477,7 @@ pub fn verdicts(vessel: &Vessel) -> Vec<Verdict> {
                 metal,
                 corroding: false,
                 why: barrier.why.to_string(),
-                reason: Some(curated(
-                    "corrosion-barrier",
-                    barrier.lot_source,
-                    barrier.why,
-                )),
+                reason: Some(curated_barrier(barrier.lot_source, barrier.why)),
             });
             continue;
         }
