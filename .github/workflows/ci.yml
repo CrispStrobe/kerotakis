@@ -105,8 +105,13 @@ jobs:
         run: bash tools/fetch-sundials.sh
       - name: Install cargo-deny
         run: cargo install cargo-deny --locked
-      - name: librsvg, so the icon check actually runs
-        run: sudo apt-get update -qq && sudo apt-get install -y -qq librsvg2-bin
+      - name: librsvg and Pillow, so the icon check actually runs
+        # Both, because the gate needs both and had been silent about
+        # each of them: installing librsvg let it run for the first time
+        # and it got as far as `No module named 'PIL'`.
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq librsvg2-bin
+          python3 -m pip install --quiet --upgrade Pillow
       - name: Run tools/preflight.sh
         # --no-clippy: the `Test (native)` matrix above already runs the
         # identical clippy command on ubuntu and macOS, so this would be
