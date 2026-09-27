@@ -319,6 +319,32 @@ jobs:
         working-directory: web/app/src-tauri
         run: cargo check --all-targets
 
+  engine-msvc:
+    # IPhreeqc's C++ had never been compiled by MSVC anywhere in this repo. The
+    # Windows release build was the only thing that tried, and it had been
+    # failing earlier — at the shell payload — for long enough that nothing
+    # downstream of it had ever run. The first dry run to get past the payload
+    # died in three translation units on:
+    #
+    #   vendor/iphreeqc/src/thread.h(39): fatal error C1083:
+    #     Cannot open include file: 'pthread.h'
+    #
+    # `cargo check` is enough: build scripts run, so the whole C++ library is
+    # compiled, without paying for Rust codegen or a bundle. Nothing here needs
+    # SUNDIALS, so the checkout is the only setup.
+    name: IPhreeqc under MSVC
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: recursive
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: cargo check -p kerotakis-phreeqc
+        # Default features include `engine`, which is what pulls in cmake and
+        # the vendored C++. Without it this would compile nothing and pass.
+        run: cargo check -p kerotakis-phreeqc --all-targets
+
   payload:
     # The shell payload's four Python steps were only ever run on
     # `ubuntu-latest` (and macOS, in native-host). The release builds them on
