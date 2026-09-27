@@ -105,13 +105,37 @@ fn the_corpus_runs_in_every_shipped_language() {
 #[test]
 fn nothing_but_notation_reads_the_same_as_english() {
     let mut untranslated: Vec<String> = Vec::new();
-    for script in corpus() {
+    let scripts = corpus();
+    // The sibling test guards the corpus size and this one did not, so an
+    // empty directory would have passed it in silence. A gate has to
+    // stand on its own: the one next to it may be deleted.
+    assert!(
+        scripts.len() >= 12,
+        "only {} scripts — the corpus shrank and this gate is measuring \
+         almost nothing",
+        scripts.len()
+    );
+    for script in scripts {
         let english = transcript(&script, None);
         for locale in Locale::available() {
             if locale.is_english() {
                 continue;
             }
             let theirs = transcript(&script, Some(locale.code()));
+            // `zip` stops at the shorter side, so a language that printed
+            // FEWER lines would have had the rest of the English silently
+            // unexamined — the comparison quietly measuring less than it
+            // appears to. A transcript is the same run in another
+            // language; it may not gain or lose a line.
+            assert_eq!(
+                english.len(),
+                theirs.len(),
+                "{} in {}: {} lines against English's {}",
+                script.file_name().unwrap_or_default().to_string_lossy(),
+                locale.code(),
+                theirs.len(),
+                english.len()
+            );
             for (en, them) in english.iter().zip(theirs.iter()) {
                 if en == them && !is_notation(en) {
                     untranslated.push(format!(
