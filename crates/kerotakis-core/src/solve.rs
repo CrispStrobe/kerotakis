@@ -2497,11 +2497,50 @@ fn outside_the_solid(vessel: &Vessel, species: &SpeciesId) -> f64 {
 /// carrying a moving measurement would stand while its number went stale.
 /// How MUCH went is `Event::Dissolved`'s sentence, which fires on the step
 /// it happens; this one is about the standing state of the solid.
+/// A reviewed solubility, printed so it is still a number.
+///
+/// This said `{limit:.4}`, and four decimals is enough for chalk's 0.0013
+/// and for nothing sparingly soluble. Every value the 2026-09-21 sourcing
+/// pass added lands under it: silver chloride's 0.00015049, barium
+/// sulfate's 0.00024739, copper(II) oxide's 0.0000199 and iron(III)
+/// hydroxide's 0.0000151 all rendered as **"0.0000 g per 100 mL"** — a
+/// sentence citing a measurement and then printing zero, which reads as
+/// the engine having no figure rather than having a very small one.
+/// Thirteen golden lines said it before any of those arrived, because
+/// sulfur already did.
+///
+/// Two significant figures instead, with the decimals that takes. Two
+/// because that is what the underlying measurements carry — Almkvist
+/// published 0.155 and 0.146 mg/L and took their mean — and printing more
+/// would claim precision nobody measured.
+///
+/// **Never fewer than four decimals**, though, which the first draft of
+/// this got wrong: two significant figures alone turns slaked lime's
+/// 0.15633 into "0.16" and gypsum's 0.25395 into "0.25", so a fix for
+/// values that printed as nothing would have coarsened every value that
+/// printed correctly. The floor keeps those at 0.1563 and 0.2540, exactly
+/// as before. Anything at or above a gram keeps the plain two-decimal
+/// form a reader expects.
+fn significant_grams(limit: f64) -> String {
+    if !limit.is_finite() || limit <= 0.0 {
+        return "0".to_string();
+    }
+    if limit >= 1.0 {
+        return format!("{limit:.2}");
+    }
+    // The first significant digit sits at this decimal place; keep two of
+    // them. Never fewer than the four decimals this printed before, so no
+    // value that already read correctly loses a digit: 0.1563 stays
+    // 0.1563 rather than becoming 0.16.
+    let places = ((-limit.log10().floor()) as usize + 1).max(4);
+    format!("{limit:.places$}", places = places.min(12))
+}
+
 fn insoluble_verdict(vessel: &Vessel, species: &SpeciesId, name: &str, limit: f64) -> Phrase {
     let slots = || {
         vec![
             ("name".to_string(), Slot::term("species", name)),
-            ("limit".to_string(), Slot::number(format!("{limit:.4}"))),
+            ("limit".to_string(), Slot::number(significant_grams(limit))),
         ]
     };
     if outside_the_solid(vessel, species) > 0.0 {
@@ -2999,6 +3038,65 @@ where
             Some(moles * crate::states::enthalpy_between(data, phase, t0, t1))
         })
         .sum()
+}
+
+#[cfg(test)]
+mod solubility_printing_tests {
+    use super::significant_grams;
+
+    /// The defect: a sentence that cites a reviewed measurement and then
+    /// prints zero. Every one of these is a value somebody measured and
+    /// somebody else sourced.
+    #[test]
+    fn a_reviewed_measurement_never_prints_as_zero() {
+        for (grams, why) in [
+            (0.000_015_1_f64, "Fe(OH)3, Almkvist 1918"),
+            (0.000_019_9, "CuO, Pechet 1940"),
+            (0.000_150_49, "AgCl, Melcher 1910"),
+            (0.000_247_39, "BaSO4, Melcher 1910"),
+            (0.001_3, "chalk, which already printed"),
+        ] {
+            let printed = significant_grams(grams);
+            assert!(
+                printed.chars().any(|c| ('1'..='9').contains(&c)),
+                "{why}: {grams} printed as {printed}, which says the engine has no figure"
+            );
+        }
+    }
+
+    /// The first draft of the fix coarsened these, which would have traded
+    /// one wrong sentence for a dozen.
+    #[test]
+    fn values_that_already_printed_correctly_are_untouched() {
+        assert_eq!(significant_grams(0.001_3), "0.0013");
+        assert_eq!(significant_grams(0.156_33), "0.1563");
+        assert_eq!(significant_grams(0.253_95), "0.2540");
+        assert_eq!(significant_grams(0.200_8), "0.2008");
+    }
+
+    /// `{limit:.4}` gave silver chloride and barium sulfate the same
+    /// "0.0002", and they differ by two thirds.
+    #[test]
+    fn two_different_solids_no_longer_read_the_same() {
+        assert_ne!(
+            significant_grams(0.000_150_49),
+            significant_grams(0.000_247_39)
+        );
+    }
+
+    #[test]
+    fn a_soluble_salt_does_not_carry_four_meaningless_decimals() {
+        assert_eq!(significant_grams(35.84), "35.84");
+    }
+
+    #[test]
+    fn nothing_and_nonsense_do_not_panic() {
+        assert_eq!(significant_grams(0.0), "0");
+        assert_eq!(significant_grams(-1.0), "0");
+        assert_eq!(significant_grams(f64::NAN), "0");
+        // Absurdly small still terminates, at the 12-decimal ceiling.
+        assert!(significant_grams(1e-30).len() < 20);
+    }
 }
 
 #[cfg(test)]
