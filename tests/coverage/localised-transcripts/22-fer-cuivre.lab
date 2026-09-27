@@ -1,0 +1,5 @@
+add v1 water 150mL
+add v1 CuSO4 0.03mol
+add v1 Fe 0.03mol
+wait 900s
+look v1

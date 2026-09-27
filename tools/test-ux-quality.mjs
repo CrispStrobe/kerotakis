@@ -3679,10 +3679,20 @@ try {
         setter.call(box, ${JSON.stringify(line)});
         box.dispatchEvent(new Event("input", { bubbles: true }));
       })()`);
-      await settle();
-      const verdict = JSON.parse(await page.evaluate(
-        `JSON.stringify(document.querySelector(".problem")?.textContent?.trim() ?? "")`));
-      return verdict;
+      // Validation is a round trip to the engine, so `.problem` is empty
+      // for a moment after the keystroke. One `settle()` was enough for
+      // German and not for French, which is what a race looks like when
+      // you only run two languages: wait for a verdict to APPEAR, and
+      // only call it empty after the line has had real time to fail.
+      const read = async () =>
+        JSON.parse(await page.evaluate(
+          `JSON.stringify(document.querySelector(".problem")?.textContent?.trim() ?? "")`));
+      for (let tries = 0; tries < 20; tries += 1) {
+        const verdict = await read();
+        if (verdict) return verdict;
+        await settle();
+      }
+      return "";
     };
 
     // 1. The language's own verb and its own word for water, together.

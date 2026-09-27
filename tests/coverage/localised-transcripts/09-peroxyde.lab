@@ -1,0 +1,5 @@
+add v1 water 100mL
+add v1 H2O2 0.05mol
+seal v1 0.5L
+wait 1800s
+measure v1 pressure
