@@ -64556,6 +64556,10 @@
           "rubbing alcohol 70%",
           "isopropyl alcohol 70%",
           "rubbing_alcohol_70%"
+        ],
+        "fr": [
+          "alcool isopropylique",
+          "alcool à friction"
         ]
       },
       "basis": "volume_fraction",
@@ -64629,6 +64633,9 @@
           "bleach_5%"
         ],
         "fr": [
+          "javel",
+          "eau de javel",
+          "hypochlorite de sodium",
           "eau de Javel 5%"
         ]
       },
@@ -64726,6 +64733,8 @@
           "ammonia_cleaner_5%"
         ],
         "fr": [
+          "ammoniaque",
+          "nettoyant à l'ammoniaque",
           "nettoyant ammoniaqué 5%"
         ]
       },
@@ -65150,6 +65159,8 @@
           "salt water"
         ],
         "fr": [
+          "eau salée",
+          "eau de mer artificielle",
           "eau de mer"
         ]
       },
@@ -65291,6 +65302,8 @@
           "peroxide_3%"
         ],
         "fr": [
+          "eau oxygénée",
+          "peroxyde d'hydrogène",
           "peroxyde d'hydrogène 3%"
         ]
       },
@@ -65387,6 +65400,8 @@
           "household vinegar"
         ],
         "fr": [
+          "vinaigre blanc",
+          "vinaigre d'alcool",
           "vinaigre"
         ]
       },
@@ -66028,6 +66043,9 @@
           "granulated sugar"
         ],
         "fr": [
+          "sucre",
+          "sucre en poudre",
+          "sucre semoule",
           "sucre de ménage"
         ]
       },
@@ -66171,6 +66189,9 @@
           "sodium bicarbonate"
         ],
         "fr": [
+          "bicarbonate",
+          "bicarbonate de sodium",
+          "hydrogénocarbonate de sodium",
           "bicarbonate de soude"
         ]
       },
@@ -66421,6 +66442,8 @@
           "Lugol 1%"
         ],
         "fr": [
+          "lugol",
+          "solution iodo-iodurée",
           "solution de Lugol 1%"
         ]
       },
@@ -67862,6 +67885,8 @@
           "soap bar"
         ],
         "fr": [
+          "savon",
+          "savon de Marseille",
           "pain de savon"
         ]
       },
@@ -68508,6 +68533,8 @@
           "cooking salt"
         ],
         "fr": [
+          "sel",
+          "sel de cuisine",
           "sel de table"
         ]
       },
@@ -69126,6 +69153,9 @@
           "tin foil"
         ],
         "fr": [
+          "alu",
+          "feuille d'aluminium",
+          "papier alu",
           "papier aluminium"
         ]
       },
@@ -71783,6 +71813,8 @@
           "red cabbage head"
         ],
         "fr": [
+          "chou rouge",
+          "chou frisé",
           "chou"
         ]
       },
@@ -72814,6 +72846,8 @@
           "protein"
         ],
         "fr": [
+          "albumine",
+          "blanc d'œuf séché",
           "albumine d'œuf"
         ]
       },
@@ -73088,6 +73122,7 @@
           "washing borax"
         ],
         "fr": [
+          "tétraborate de sodium",
           "poudre de borax"
         ]
       },
@@ -73155,6 +73190,8 @@
           "black marker ink"
         ],
         "fr": [
+          "encre de feutre",
+          "encre",
           "encre noire"
         ]
       },
@@ -73876,6 +73913,8 @@
           "alcohol gel"
         ],
         "fr": [
+          "solution hydroalcoolique",
+          "gel désinfectant",
           "gel hydroalcoolique"
         ]
       },
@@ -76162,6 +76201,8 @@
           "anti-bumping granules"
         ],
         "fr": [
+          "billes d'ébullition",
+          "régulateurs d'ébullition",
           "pierres à ébullition"
         ]
       },
@@ -76346,6 +76387,8 @@
           "zinc-manganese dioxide cell"
         ],
         "fr": [
+          "pile",
+          "pile bâton",
           "pile alcaline"
         ]
       },
