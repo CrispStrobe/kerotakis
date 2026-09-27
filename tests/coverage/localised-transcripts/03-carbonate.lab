@@ -1,0 +1,7 @@
+add v1 water 100mL
+add v1 CaCO3 0.02mol
+seal v1 0.5L
+add v1 HCl 0.04mol
+test v1 limewater
+measure v1 pressure
+look v1

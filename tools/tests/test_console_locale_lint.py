@@ -35,6 +35,13 @@ def page(sweep: str, body: str, normalising: bool = True) -> str:
     `normalising` is the fix to the second bug, written the way the real
     page writes it, because the lint FEATURE-DETECTS it: a lint that
     assumed the page normalised would grade the page it wished were there.
+
+    The dictionary is written as `const BUNDLES = { de: {…} }` for the same
+    reason: I18N-10 generalised the page from one hardcoded `const DE` to a
+    table keyed by language, and this miniature has to keep the shape the
+    lint parses. It did not, and six tests here went from testing the lint
+    to raising `ValueError: substring not found` — a fixture that has
+    drifted from the thing it stands in for tests nothing.
     """
     collapse = 'value.replace(/\\s+/g, " ")' if normalising else "value"
     return f"""<body>
@@ -43,12 +50,14 @@ def page(sweep: str, body: str, normalising: bool = True) -> str:
 {body}
 </aside>
 <script type="module">
-const DE = {{
+const BUNDLES = {{
+  de: {{
   "a bench":"ein Labor", "→ the bench app":"→ zur Labor-App",
   "— same engine, drawn glassware":"— dieselbe Engine, gezeichnete Glasgeräte",
   Source:"Quellcode"
+  }},
 }};
-const tr = (m) => DE[m] || m;
+const tr = (m) => (BUNDLES[locale]?.[m]) || m;
 for (const el of document.querySelectorAll("{sweep}")) {{ set(tr({collapse})); }}
 </script>
 </body>"""

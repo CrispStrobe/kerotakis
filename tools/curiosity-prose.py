@@ -59,13 +59,21 @@ CORPUS = ROOT / "tests/coverage/curiosity-v1"
 #: a translated identifier joins to nothing.
 IDENTIFIER = re.compile(r"^[A-Z][A-Z0-9]{1,7}-\d+$")
 
-#: Age and childhood wording, in both languages, is never shown to a
-#: learner (GUI-470). Same list as `tools/step-prose.py` — deliberately,
+#: Age and childhood wording, in EVERY shipped language, is never shown to
+#: a learner (GUI-470). Same list as `tools/step-prose.py` — deliberately,
 #: because the two files are read by the same reader on the same screen.
+#:
+#: I18N-10: this list said "in both languages" and held German and English
+#: only, so it was a rule that a third language silently escaped. French is
+#: here now. The lesson generalises: a wording rule written as a word list
+#: has to grow with the catalogue, or it stops being a rule and becomes a
+#: rule about German.
 FORBIDDEN = re.compile(
     r"\b(kind|kinder|kindern|kindes|kinderlabor|kids?|child|children|children's"
     r"|alter|altersgruppe|altersgruppen|altersband|jahre|jahren|jahrgang"
-    r"|ages?|aged|years)\b",
+    r"|ages?|aged|years"
+    r"|enfant|enfants|enfantine?|gamins?"
+    r"|âges?|tranche d'âge|ann[ée]es?|ans)\b",
     re.IGNORECASE,
 )
 

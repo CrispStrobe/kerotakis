@@ -642,6 +642,25 @@ export interface EngineHost {
    * so there is no error for a host to handle and no reason to make
    * callers handle one. */
   setLocale(code: string): Promise<void>;
+  /** GUI-127: announce the aqueous routing in the log, or leave it to the
+   * provenance drawer.
+   *
+   * A different axis from the register, deliberately not folded into it.
+   * The routing announcement is a paragraph at lv3 — engine, dataset,
+   * activity model and the clause explaining the choice — and on a German
+   * bench it was 454 of one step's 550 characters of log. The only way to
+   * be rid of it was to leave lv3, giving up every number the reader had
+   * turned lv3 on for.
+   *
+   * Only the PROSE changes. The `solution_routed` event and its provenance
+   * still arrive in `events` and `routes`, so the provenance drawer — the
+   * surface a reader goes to when they DO want this — answers exactly as
+   * before.
+   *
+   * Cannot fail, like `setLocale`: there is nothing for a caller to
+   * handle. An engine that predates it refuses the command by name, which
+   * is what `narration` in `hello` is for. */
+  setAnnounceRouting(on: boolean): Promise<void>;
   scene(): Promise<Scene>;
   state(): Promise<unknown>;
   species(): Promise<unknown[]>;

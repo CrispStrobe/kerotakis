@@ -618,8 +618,71 @@ pub fn render_events(events: &[Event], register: Register) -> Vec<String> {
 
 /// `render_events`, in the reader's language.
 pub fn render_events_in(events: &[Event], register: Register, locale: Locale) -> Vec<String> {
+    render_events_narrated(events, register, locale, Narration::FULL)
+}
+
+/// What a reader has asked to be TOLD, beside how much detail to tell it in.
+///
+/// The register answers *how much chemistry*; this answers *which kinds of
+/// line at all*. They are different axes and were confused, because there
+/// was only one of them: the aqueous routing announcement is a paragraph
+/// at lv3 — which engine, which dataset, which activity model, and the
+/// clause explaining why that dataset was chosen — and the only way to be
+/// rid of it was to leave lv3, giving up every number the reader had
+/// turned lv3 on for. On a German bench at lv3 it was **454 of one step's
+/// 550 characters**.
+///
+/// **Only the PROSE is suppressed.** The event still travels in the step's
+/// `events` and its provenance still reaches `routes`, so the provenance
+/// drawer — which is where a reader goes when they want this — answers
+/// exactly as before. A reader who has turned the announcement off has
+/// said "not in the log", not "do not tell me".
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct Narration {
+    /// Announce in the log which engine, dataset and activity model
+    /// answered a vessel, whenever that changes.
+    pub routing: bool,
+}
+
+impl Default for Narration {
+    /// Everything. A host that has never heard of this renders what it
+    /// always rendered.
+    fn default() -> Self {
+        Self::FULL
+    }
+}
+
+impl Narration {
+    /// Every kind of line — what `render_events_in` has always produced.
+    pub const FULL: Self = Self { routing: true };
+
+    /// The same, minus the routing announcements.
+    pub const WITHOUT_ROUTING: Self = Self { routing: false };
+
+    /// Does the reader still want a line for this event?
+    fn announces(&self, event: &Event) -> bool {
+        self.routing || !matches!(event, Event::SolutionRouted { .. })
+    }
+}
+
+/// `render_events_in`, minus the kinds of line the reader has switched off.
+///
+/// The filter is on the EVENT and not on the words, which is the whole
+/// point of doing this here rather than in a shell: `Event::SolutionRouted`
+/// is a fact about the step, while "the line that starts with Route" is a
+/// fact about one language's rendering of it at one register.
+pub fn render_events_narrated(
+    events: &[Event],
+    register: Register,
+    locale: Locale,
+    narration: Narration,
+) -> Vec<String> {
     let mut out: Vec<String> = Vec::new();
-    for event in events.iter().filter(|e| e.is_observable()) {
+    for event in events
+        .iter()
+        .filter(|e| e.is_observable())
+        .filter(|e| narration.announces(e))
+    {
         let line = render_event_in(event, register, locale);
         if register.level() == 1 && out.contains(&line) {
             continue;
@@ -1021,12 +1084,12 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 ),
                 2 => locale.fill(
                     "event.material-added.lv2",
-                    "{vessel}: +{total_amount} {unit} {material} ({components} known ingredients)",
+                    "{vessel}: +{total_amount} {unit} {material} ({components} known ingredient(s))",
                     &[("vessel", &vessel.to_string()), ("total_amount", &locale.number(format!("{total_amount:.3}"))), ("unit", unit), ("material", &material_name(locale, material)), ("components", &format!("{}", components.len()))],
                 ),
                 _ => locale.fill(
                     "event.material-added.lv3",
-                    "{vessel}: +{total_amount} {unit} {material}; {components} canonical components, {unresolved_amount} {unit} unresolved",
+                    "{vessel}: +{total_amount} {unit} {material}; {components} canonical component(s), {unresolved_amount} {unit} unresolved",
                     &[("vessel", &vessel.to_string()), ("total_amount", &locale.number(format!("{total_amount:.6}"))), ("unit", unit), ("material", &material_name(locale, material)), ("components", &format!("{}", components.len())), ("unresolved_amount", &locale.number(format!("{unresolved_amount:.6}")))],
                 ),
             }
@@ -1475,7 +1538,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
         } => match register.level() {
             1 => locale.fill(
                 "event.stirred.lv1",
-                "The magnetic stirrer spins {vessel} for {seconds} seconds.",
+                "The magnetic stirrer spins {vessel} for {seconds} second(s).",
                 &[
                     ("vessel", &vessel.to_string()),
                     ("seconds", &locale.number(format!("{seconds:.0}"))),
@@ -2303,7 +2366,17 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     ),
                 ],
             ),
-            _ => format!("{vessel}: {test}: {notes}"),
+            // lv3 had no key, so the one line that carries the gas
+            // test's own notes was the line no language could reach.
+            _ => locale.fill(
+                "event.gas-tested.lv3",
+                "{vessel}: {test}: {notes}",
+                &[
+                    ("vessel", &vessel.to_string()),
+                    ("test", &test.to_string()),
+                    ("notes", notes),
+                ],
+            ),
         },
         Event::Burst { vessel, at_pa, rating_pa } => match register.level() {
             1 => locale.fill(
@@ -2581,12 +2654,12 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             match register.level() {
                 1 => locale.fill(
                     "event.extracted.lv1",
-                    "You shake {from} with fresh {solvent} in {stages} portions and collect the extracts in {to}. {summary}",
+                    "You shake {from} with fresh {solvent} in {stages} portion(s) and collect the extracts in {to}. {summary}",
                     &[("from", &from.to_string()), ("to", &to.to_string()), ("solvent", species_name(locale, solvent)), ("stages", &stages.to_string()), ("summary", &summary)],
                 ),
                 2 => locale.fill(
                     "event.extracted.lv2",
-                    "{from} -> {to}: {total} mol {solvent}, divided across {stages} ideal extraction stages — {summary}",
+                    "{from} -> {to}: {total} mol {solvent}, divided across {stages} ideal extraction stage(s) — {summary}",
                     &[("from", &from.to_string()), ("to", &to.to_string()), ("total", &locale.number(format!("{:.4}", total_solvent.0))), ("solvent", species_name(locale, solvent)), ("stages", &stages.to_string()), ("summary", &summary)],
                 ),
                 _ => {
@@ -2597,7 +2670,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         .join("; ");
                     locale.fill(
                         "event.extracted.lv3",
-                        "{from} -> {to}: repeated equilibrium extraction with {total} mol {solvent} over {stages} equal fresh portions; K=[solute]organic/[solute]aqueous; mass balance closes at every stage — {summary}. {evidence}",
+                        "{from} -> {to}: repeated equilibrium extraction with {total} mol {solvent} over {stages} equal fresh portion(s); K=[solute]organic/[solute]aqueous; mass balance closes at every stage — {summary}. {evidence}",
                         &[("from", &from.to_string()), ("to", &to.to_string()), ("total", &locale.number(format!("{:.6}", total_solvent.0))), ("solvent", &solvent.0), ("stages", &stages.to_string()), ("summary", &summary), ("evidence", &evidence)],
                     )
                 }
@@ -3177,9 +3250,16 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             species: sid,
             corroding,
             why,
+            reason,
             ..
         } => {
             let name = species_name(locale, sid);
+            // The phrase where the verdict was composed, the English
+            // otherwise: a curated-table verdict has no phrase, and an
+            // English fallback is a gap the reader can see rather than a
+            // sentence that vanishes.
+            let rendered = reason.as_ref().map(|reason| reason.render(locale));
+            let why: &str = rendered.as_deref().unwrap_or(why);
             match (register.level(), *corroding) {
                 (1, true) => locale.fill(
                     "event.corroded.lv1",
@@ -3311,7 +3391,15 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         ("name", name),
                     ],
                 ),
-                _ => format!("{vessel}: −{} mol {name}", quantity(moles.0, 6)),
+                _ => locale.fill(
+                    "event.removed.lv3",
+                    "{vessel}: −{moles} mol {name}",
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("moles", &locale.number(quantity(moles.0, 6))),
+                        ("name", name),
+                    ],
+                ),
             }
         }
         Event::Ignited {
@@ -3744,7 +3832,20 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     ("appearance", &appearance.say(locale)),
                 ],
             ),
-            2 => format!("{vessel}: {}", appearance.say(locale)),
+            // lv1 and lv3 have had a key since there was a catalogue;
+            // lv2 never did, and lv2 is the DEFAULT register — so the one
+            // observation line most readers ever see was the one line
+            // that could not be translated. French puts a space before a
+            // colon, and this printed `v1:` directly under a `v1 :` that
+            // came from the row below it.
+            2 => locale.fill(
+                "event.observed.lv2",
+                "{vessel}: {appearance}",
+                &[
+                    ("vessel", &vessel.to_string()),
+                    ("appearance", &appearance.say(locale)),
+                ],
+            ),
             _ => {
                 let colour = appearance
                     .liquid
@@ -3946,6 +4047,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             value,
             unit,
             note,
+            note_reason,
         } => {
             let device = instrument_name(*instrument);
             // The English name is the source text and the fallback; German
@@ -3982,6 +4084,8 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 ),
                 _ => format!("{vessel} {device}: {value:.4} {unit}"),
             };
+            let rendered = note_reason.as_ref().map(|reason| reason.render(locale));
+            let note = rendered.as_deref().or(note.as_deref());
             match (register.level(), note) {
                 (1, _) | (_, None) => reading,
                 (_, Some(boundary)) => locale.fill(
@@ -4260,7 +4364,14 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 "The mixture in {vessel} changes — something new is forming!",
                 &[("vessel", &vessel.to_string())],
             ),
-            _ => format!("{vessel}: {equation}"),
+            // The equation itself is notation and stays; the line it
+            // sits on is a sentence, and French puts a space before the
+            // colon it was printing tight.
+            _ => locale.fill(
+                "event.reaction-occurred.lv2",
+                "{vessel}: {equation}",
+                &[("vessel", &vessel.to_string()), ("equation", equation)],
+            ),
         },
         Event::GasEvolved {
             vessel,
@@ -4576,7 +4687,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 ),
                 None => locale.fill(
                     "event.reacted.lv1-after-seconds-something",
-                    "After {seconds} seconds, something has been happening in {vessel}.",
+                    "After {seconds} second(s), something has been happening in {vessel}.",
                     &[("seconds", &locale.number(format!("{seconds:.0}"))), ("vessel", &vessel.to_string())],
                 ),
             },
@@ -4766,17 +4877,17 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             match register.level() {
                 1 => locale.fill(
                     "event.titrated.redox.lv1",
-                    "You titrate {vessel} with {name} until you get {arrival} — that took {steps} additions.",
+                    "You titrate {vessel} with {name} until you get {arrival} — that took {steps} addition(s).",
                     &[("vessel", &vessel.to_string()), ("name", name), ("steps", &steps.to_string()), ("arrival", &arrival)],
                 ),
                 2 => locale.fill(
                     "event.titrated.redox.lv2",
-                    "{vessel}: titrated with {concentration} mol/L {name} to {arrival}; {steps} steps, {total_volume} mL total, {outcome}",
+                    "{vessel}: titrated with {concentration} mol/L {name} to {arrival}; {steps} step(s), {total_volume} mL total, {outcome}",
                     &[("vessel", &vessel.to_string()), ("concentration", &concentration.to_string()), ("name", name), ("arrival", &arrival), ("steps", &steps.to_string()), ("total_volume", &locale.number(format!("{:.1}", total_volume.0 * 1000.0))), ("outcome", outcome)],
                 ),
                 _ => locale.fill(
                     "event.titrated.redox.lv3",
-                    "{vessel}: auto-titration with {titrant} standard solution ({concentration} mol/L; {steps} steps, {total_volume} mL cumulative = {delivered} mol delivered with its carrier water); endpoint = {arrival}, {outcome}; final pe {final_pe}, final pH {final_ph}",
+                    "{vessel}: auto-titration with {titrant} standard solution ({concentration} mol/L; {steps} step(s), {total_volume} mL cumulative = {delivered} mol delivered with its carrier water); endpoint = {arrival}, {outcome}; final pe {final_pe}, final pH {final_ph}",
                     &[("vessel", &vessel.to_string()), ("titrant", &titrant.0.to_string()), ("concentration", &concentration.to_string()), ("steps", &steps.to_string()), ("total_volume", &locale.number(format!("{:.3}", total_volume.0 * 1000.0))), ("delivered", &locale.number(format!("{:.5}", concentration * total_volume.0))), ("arrival", &arrival), ("outcome", outcome), ("final_pe", &final_pe), ("final_ph", &locale.number(format!("{final_ph:.3}")))],
                 ),
             }
@@ -4794,17 +4905,17 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             match register.level() {
                 1 => locale.fill(
                     "event.titrated.lv1",
-                    "You titrate {vessel} with {name} — after {steps} additions the pH reaches {final_ph}.",
+                    "You titrate {vessel} with {name} — after {steps} addition(s) the pH reaches {final_ph}.",
                     &[("vessel", &vessel.to_string()), ("name", name), ("steps", &steps.to_string()), ("final_ph", &locale.number(format!("{final_ph:.1}")))],
                 ),
                 2 => locale.fill(
                     "event.titrated.lv2",
-                    "{vessel}: titrated with {concentration} mol/L {name}; {steps} steps, {total_volume} mL total, final pH {final_ph}",
+                    "{vessel}: titrated with {concentration} mol/L {name}; {steps} step(s), {total_volume} mL total, final pH {final_ph}",
                     &[("vessel", &vessel.to_string()), ("concentration", &concentration.to_string()), ("name", name), ("steps", &steps.to_string()), ("total_volume", &locale.number(format!("{:.1}", total_volume.0 * 1000.0))), ("final_ph", &locale.number(format!("{final_ph:.2}")))],
                 ),
                 _ => locale.fill(
                     "event.titrated.lv3",
-                    "{vessel}: auto-titration with {titrant} standard solution ({concentration} mol/L; {steps} steps, {total_volume} mL cumulative = {concentration2} mol delivered with its carrier water); final pH {final_ph}",
+                    "{vessel}: auto-titration with {titrant} standard solution ({concentration} mol/L; {steps} step(s), {total_volume} mL cumulative = {concentration2} mol delivered with its carrier water); final pH {final_ph}",
                     &[("vessel", &vessel.to_string()), ("titrant", &titrant.0.to_string()), ("concentration", &concentration.to_string()), ("steps", &steps.to_string()), ("total_volume", &locale.number(format!("{:.3}", total_volume.0 * 1000.0))), ("concentration2", &locale.number(format!("{:.5}", concentration * total_volume.0))), ("final_ph", &locale.number(format!("{final_ph:.3}")))],
                 ),
             }
@@ -4846,7 +4957,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     };
                     locale.fill(
                         "event.transported.lv2",
-                        "{cells} cells × {steps} steps (Cf={courant}); effluent → {receiver}: {what}",
+                        "{cells} cell(s) × {steps} step(s) (Cf={courant}); effluent → {receiver}: {what}",
                         &[
                             ("cells", &cells.to_string()),
                             ("steps", &steps.to_string()),
@@ -4858,7 +4969,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 }
                 _ => locale.fill(
                     "event.transported.lv3",
-                    "1-D upwind transport: {cells} cells × {steps} steps @ Cf={courant}; \
+                    "1-D upwind transport: {cells} cell(s) × {steps} step(s) @ Cf={courant}; \
                      effluent total {total} mol → {receiver}",
                     &[("cells", &cells.to_string()), ("steps", &steps.to_string()), ("courant", &locale.number(format!("{courant:.4}"))), ("total", &locale.number(format!("{total:.6}"))), ("receiver", &receiver.to_string())],
                 ),
@@ -5085,6 +5196,92 @@ fn localize_hazard(hazard: &str, locale: Locale) -> String {
         .or_else(|| locale.lookup(&format!("hazard_vapour.{hazard}")))
         .map(str::to_string)
         .unwrap_or_else(|| hazard.to_string())
+}
+
+#[cfg(test)]
+mod narration_tests {
+    use super::*;
+    use crate::units::Moles;
+    use crate::vessel::{Provenance, VesselId};
+
+    fn routed() -> Event {
+        Event::SolutionRouted {
+            vessel: VesselId(0),
+            provenance: Provenance {
+                engine: "PHREEQC (IPhreeqc)".to_string(),
+                dataset: "wateq4f.dat".to_string(),
+                model: "ion association".to_string(),
+                dataset_sources: Vec::new(),
+                routing: "an aqueous solution is characterised".to_string(),
+                routing_phrase: None,
+                dataset_phrase: None,
+                model_phrase: None,
+            },
+        }
+    }
+
+    fn dissolved() -> Event {
+        Event::Dissolved {
+            vessel: VesselId(0),
+            species: crate::species::SpeciesId::new("NaCl"),
+            moles: Moles(0.05),
+        }
+    }
+
+    #[test]
+    fn full_narration_is_what_render_events_in_has_always_produced() {
+        let events = vec![routed(), dissolved()];
+        assert_eq!(
+            render_events_narrated(&events, Register::LV3, Locale::EN, Narration::FULL),
+            render_events_in(&events, Register::LV3, Locale::EN),
+        );
+    }
+
+    #[test]
+    fn without_routing_drops_the_announcement_and_keeps_the_chemistry() {
+        let events = vec![routed(), dissolved()];
+        let full = render_events_narrated(&events, Register::LV3, Locale::EN, Narration::FULL);
+        let quiet = render_events_narrated(
+            &events,
+            Register::LV3,
+            Locale::EN,
+            Narration::WITHOUT_ROUTING,
+        );
+        assert_eq!(full.len(), 2, "both events render at lv3: {full:?}");
+        assert_eq!(quiet.len(), 1, "only the routing line goes: {quiet:?}");
+        // The line that remains is the chemistry, not the routing with its
+        // first clause trimmed: this filters EVENTS, never words.
+        assert_eq!(quiet, vec![full[1].clone()]);
+    }
+
+    /// The switch is about the LOG. The event is still in the step, which
+    /// is what the provenance drawer and `routes` read — a reader who has
+    /// turned the announcement off has said "not in the log", not "do not
+    /// tell me".
+    #[test]
+    fn the_event_itself_is_untouched() {
+        let events = vec![routed()];
+        let _ = render_events_narrated(
+            &events,
+            Register::LV3,
+            Locale::EN,
+            Narration::WITHOUT_ROUTING,
+        );
+        assert!(matches!(events[0], Event::SolutionRouted { .. }));
+    }
+
+    #[test]
+    fn it_applies_at_every_register_a_routing_line_exists_at() {
+        for register in [Register::LV1, Register::LV2, Register::LV3] {
+            let quiet = render_events_narrated(
+                &[routed()],
+                register,
+                Locale::EN,
+                Narration::WITHOUT_ROUTING,
+            );
+            assert!(quiet.is_empty(), "{register:?} still announced: {quiet:?}");
+        }
+    }
 }
 
 #[cfg(test)]

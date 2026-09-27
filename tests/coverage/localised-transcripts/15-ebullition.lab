@@ -1,0 +1,5 @@
+add v1 water 100mL
+heat v1 40kJ
+measure v1 thermometer
+measure v1 boiling_point
+look v1

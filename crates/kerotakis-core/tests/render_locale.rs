@@ -95,9 +95,13 @@ fn locale_parsing_falls_back_to_english_rather_than_failing() {
     assert_eq!(Locale::parse("de-DE"), Locale::parse("de"));
     assert_eq!(Locale::parse("DE-at"), Locale::parse("de"));
     assert_eq!(Locale::parse("en"), Locale::EN);
+    assert_eq!(Locale::parse("fr"), Locale::parse("fr"));
+    assert_eq!(Locale::parse("fr-CA"), Locale::parse("fr"));
     // A language nobody has translated to should show the language we do
-    // have, not an error and not an empty screen.
-    assert_eq!(Locale::parse("fr"), Locale::EN);
+    // have, not an error and not an empty screen. The example is Klingon
+    // because this line used to say `fr`, and a shipped language then
+    // turned the assertion into a claim that French is broken.
+    assert_eq!(Locale::parse("tlh"), Locale::EN);
     assert_eq!(Locale::parse(""), Locale::EN);
 }
 

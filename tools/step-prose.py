@@ -34,9 +34,13 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 #: learner (GUI-470). The bundles are gated by `learnerWording.test.ts`;
 #: this prose never reaches a bundle, so it is gated here instead.
 FORBIDDEN = re.compile(
+    # I18N-10: French joined the catalogue, and a word list that names only
+    # German and English is a rule a third language walks straight past.
     r"\b(kind|kinder|kindern|kindes|kids?|child|children|children's"
     r"|alter|altersgruppe|altersgruppen|jahre|jahren|jahrgang"
-    r"|ages?|aged|years)\b",
+    r"|ages?|aged|years"
+    r"|enfant|enfants|enfantine?|gamins?"
+    r"|âges?|ann[ée]es?|ans)\b",
     re.IGNORECASE,
 )
 

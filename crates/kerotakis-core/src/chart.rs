@@ -72,7 +72,19 @@ impl Series {
 /// Today one producer: a `Titrated` event's recorded curve becomes the
 /// live titration chart (GUI-021/CAP-12). Each point is one solver
 /// equilibration after one burette increment; nothing is interpolated.
-pub fn charts_for_events(events: &[crate::Event]) -> Vec<Chart> {
+/// The charts a run earns, with their furniture in the reader's language.
+///
+/// The axis labels and the title were English literals, so a French
+/// titration drew a French curve under `titrant added (mL)` and a title
+/// that said `titration of v1 with NaOH`. The numbers were never the
+/// problem; the words around them were the last English on the screen.
+///
+/// `pH` and `pe` stay as they are: they are notation, like `2H⁺/H₂`, and
+/// translating notation is how a chart stops being readable.
+pub fn charts_for_events(events: &[crate::Event], locale: crate::i18n::Locale) -> Vec<Chart> {
+    let titrant_added = locale
+        .lookup("chart.titrant-added")
+        .unwrap_or("titrant added");
     let mut charts = Vec::new();
     for event in events {
         if let crate::Event::Titrated {
@@ -87,14 +99,17 @@ pub fn charts_for_events(events: &[crate::Event]) -> Vec<Chart> {
             // One reading is a number, not a curve; the chart starts at two.
             if curve.len() >= 2 {
                 charts.push(Chart {
-                    title: format!(
-                        "titration of v{} with {} ({} M)",
-                        vessel.0 + 1,
-                        titrant,
-                        concentration
+                    title: locale.fill(
+                        "chart.titration-title",
+                        "titration of {vessel} with {titrant} ({molarity} M)",
+                        &[
+                            ("vessel", &format!("v{}", vessel.0 + 1)),
+                            ("titrant", titrant.0.as_str()),
+                            ("molarity", &locale.number(concentration.to_string())),
+                        ],
                     ),
                     x: Axis {
-                        label: "titrant added".into(),
+                        label: titrant_added.into(),
                         unit: Some("mL".into()),
                     },
                     y: Axis {
@@ -105,8 +120,12 @@ pub fn charts_for_events(events: &[crate::Event]) -> Vec<Chart> {
                         name: "pH".into(),
                         points: curve.iter().map(|&(ml, ph)| [ml, ph]).collect(),
                     }],
-                    provenance: "each point: one aqueous-solver equilibration after one \
-                                 burette increment (titrate); nothing interpolated"
+                    provenance: locale
+                        .lookup("chart.one-point-one-equilibration")
+                        .unwrap_or(
+                            "each point: one aqueous-solver equilibration after one \
+                             burette increment (titrate); nothing interpolated",
+                        )
                         .into(),
                 });
             }
@@ -118,14 +137,17 @@ pub fn charts_for_events(events: &[crate::Event]) -> Vec<Chart> {
             // draw a line through the very point that has no value.
             if pe_curve.len() >= 2 {
                 charts.push(Chart {
-                    title: format!(
-                        "redox titration of v{} with {} ({} M)",
-                        vessel.0 + 1,
-                        titrant,
-                        concentration
+                    title: locale.fill(
+                        "chart.redox-titration-title",
+                        "redox titration of {vessel} with {titrant} ({molarity} M)",
+                        &[
+                            ("vessel", &format!("v{}", vessel.0 + 1)),
+                            ("titrant", titrant.0.as_str()),
+                            ("molarity", &locale.number(concentration.to_string())),
+                        ],
                     ),
                     x: Axis {
-                        label: "titrant added".into(),
+                        label: titrant_added.into(),
                         unit: Some("mL".into()),
                     },
                     y: Axis {
@@ -153,6 +175,20 @@ mod tests {
 
     #[test]
     fn a_titrated_event_becomes_the_titration_chart() {
+        fn event2() -> crate::Event {
+            crate::Event::Titrated {
+                vessel: crate::VesselId(0),
+                titrant: crate::SpeciesId::new("NaOH"),
+                concentration: 0.1,
+                steps: 2,
+                total_volume: crate::units::Liters(0.002),
+                final_ph: 7.2,
+                curve: vec![(0.0, 2.9), (1.0, 3.4), (2.0, 7.2)],
+                pe_curve: Vec::new(),
+                endpoint_reached: Some(true),
+                endpoint: crate::ops::Endpoint::Ph,
+            }
+        }
         let event = crate::Event::Titrated {
             vessel: crate::VesselId(0),
             titrant: crate::SpeciesId::new("NaOH"),
@@ -165,7 +201,7 @@ mod tests {
             endpoint_reached: Some(true),
             endpoint: crate::ops::Endpoint::Ph,
         };
-        let charts = charts_for_events(&[event]);
+        let charts = charts_for_events(&[event], crate::i18n::Locale::EN);
         assert_eq!(charts.len(), 1);
         let c = &charts[0];
         assert_eq!(c.x.unit.as_deref(), Some("mL"));
@@ -174,6 +210,38 @@ mod tests {
             vec![[0.0, 2.9], [1.0, 3.4], [2.0, 7.2]]
         );
         assert!(!c.provenance.is_empty());
+
+        // The words around the curve follow the reader, in every
+        // shipped language. `pH` and `pe` do not: they are notation, and
+        // a chart whose axis says `pH` in five languages is the one that
+        // stays readable. Driven off the catalogue rather than naming a
+        // language, so a fourth is covered by existing.
+        for locale in crate::i18n::Locale::available() {
+            if locale.is_english() {
+                continue;
+            }
+            let mine = charts_for_events(&[event2()], locale);
+            let mine = &mine[0];
+            assert_ne!(
+                mine.title,
+                c.title,
+                "{}: the chart title is still the English one",
+                locale.code()
+            );
+            assert_ne!(
+                mine.x.label,
+                c.x.label,
+                "{}: the x axis is still labelled in English",
+                locale.code()
+            );
+            assert_eq!(
+                mine.y.label,
+                c.y.label,
+                "{}: pH is notation and must not be translated",
+                locale.code()
+            );
+            assert_eq!(mine.x.unit, c.x.unit, "{}: mL is a unit", locale.code());
+        }
 
         // A single reading is not a curve; no chart is claimed.
         let short = crate::Event::Titrated {
@@ -188,7 +256,7 @@ mod tests {
             endpoint_reached: Some(false),
             endpoint: crate::ops::Endpoint::Ph,
         };
-        assert!(charts_for_events(&[short]).is_empty());
+        assert!(charts_for_events(&[short], crate::i18n::Locale::EN).is_empty());
     }
 
     /// EXP-39: a redox titration earns a second chart, and the gap where
@@ -208,7 +276,7 @@ mod tests {
             endpoint_reached: Some(true),
             endpoint: crate::ops::Endpoint::ColourPersists,
         };
-        let charts = charts_for_events(&[event]);
+        let charts = charts_for_events(&[event], crate::i18n::Locale::EN);
         assert_eq!(charts.len(), 2, "a pH chart and a pe chart");
         let redox = &charts[1];
         assert_eq!(redox.y.label, "pe");
@@ -231,7 +299,7 @@ mod tests {
             endpoint_reached: Some(false),
             endpoint: crate::ops::Endpoint::ColourPersists,
         };
-        assert_eq!(charts_for_events(&[one]).len(), 1);
+        assert_eq!(charts_for_events(&[one], crate::i18n::Locale::EN).len(), 1);
     }
 
     #[test]

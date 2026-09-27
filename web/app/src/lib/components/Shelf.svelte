@@ -862,11 +862,31 @@
   }
   .stepper {
     /* 88px of touch targets plus a number wide enough to read. Below this
-       the number field was measured at 33px — too narrow to edit in. */
+       the number field was measured at 33px — too narrow to edit in.
+
+       GUI-123: the two buttons are **px, not rem**, and the difference is
+       a defect the legibility sweep caught the day it learned to read
+       form controls. A touch target is a PHYSICAL size — 44 px is what a
+       finger hits — and it does not grow because the reader asked for
+       bigger text. At `2.75rem` they did: at a 32 px root they became
+       88 px each, took 176 of the stepper's 262 px, and left the number
+       field 86.4 px, in which its own value "100" no longer fit. The
+       reader had asked for larger type and been given a field they could
+       not read their own number in.
+
+       px is also what every other target in this app uses — the register
+       dial's 40, the dock's 36, the pane heading's 44 — so this was the
+       outlier rather than the convention. Page zoom still scales these,
+       because page zoom scales px; only TEXT zoom does not, which is
+       exactly the distinction that was lost. */
     flex: 1 1 8.5rem;
-    min-width: 8.2rem;
+    /* 88px of button plus the field's own 4rem floor. In rem because the
+       half that has to scale is the field: at a 32px root this is 304px
+       and the field gets 216 of it, which is what the reader asked for by
+       enlarging their type. */
+    min-width: 9.5rem;
     display: grid;
-    grid-template-columns: 2.75rem minmax(0, 1fr) 2.75rem;
+    grid-template-columns: 44px minmax(0, 1fr) 44px;
   }
   .amounts select {
     flex: 0 1 auto;
@@ -879,12 +899,34 @@
   .stepper input {
     border-radius: 0;
     text-align: center;
+    /* GUI-123. The floor is in **rem**, and that is the other half of the
+       ruling: the buttons beside it are px because a finger is physical,
+       and this is rem because it holds TYPE. A field's minimum has to
+       grow with the text in it for the same reason a target's must not.
+
+       `.amounts input` sets `min-width: 0` so the row can wrap, which for
+       this one field is a licence to be squeezed to nothing — CI measured
+       it at **51.7 px inside a 139.7 px stepper**, with "100" no longer
+       fitting. 4rem is the value plus its padding with room to edit. */
+    min-width: 4rem;
+    /* The native spin buttons are redundant beside the − and + this
+       stepper already has, and they eat 13-17 px of a field that has none
+       to spare. Removing them is most of what the floor above is buying. */
+    appearance: textfield;
+    -moz-appearance: textfield;
+  }
+  .stepper input::-webkit-outer-spin-button,
+  .stepper input::-webkit-inner-spin-button {
+    appearance: none;
+    margin: 0;
   }
   .step {
     /* 44px is the smallest target a finger hits reliably; the measured
-       height here was 38. */
-    min-height: 2.75rem;
-    min-width: 2.75rem;
+       height here was 38. In px rather than rem since GUI-123, for the
+       reason the `.stepper` grid above gives: a finger is the same size
+       whatever type the reader has chosen. */
+    min-height: 44px;
+    min-width: 44px;
     background: var(--panel-raised);
     border: 1px solid var(--edge);
     color: var(--ink);
@@ -914,8 +956,10 @@
     min-width: 0;
     /* 44px, not the 38px this used to say: measured on the bench at iPad
        size, 38 is under the touch minimum and this whole row is meant to
-       be tapped. */
-    min-height: 2.75rem;
+       be tapped. In px rather than rem since GUI-123, for the reason the
+       `.stepper` grid gives: a finger is the same size whatever type the
+       reader has chosen. */
+    min-height: 44px;
   }
   .add-amount { color: var(--on-accent); background: var(--action); border-color: var(--action); cursor: pointer; font-weight: 750; }
   .amounts small { flex: 1 1 6.5rem; min-width: 6rem; color: var(--dim); font-size: 0.6rem; line-height: 1.2; }

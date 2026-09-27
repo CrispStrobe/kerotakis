@@ -144,8 +144,8 @@ pub use pigment::{opaque_mixture_colour, PigmentAmount, PigmentMixError, Pigment
 pub use refusal::{Refusal, Refuses};
 pub use render::{
     localize_event, localize_events, render_event, render_event_in, render_events,
-    render_events_in, render_ionic, render_ionic_for, render_ionic_in, render_vessel,
-    render_vessel_in, Register,
+    render_events_in, render_events_narrated, render_ionic, render_ionic_for, render_ionic_in,
+    render_vessel, render_vessel_in, Narration, Register,
 };
 pub use scene::{scene, scene_of, scene_vessel, Scene, SceneStockBottle, SceneVessel};
 pub use solve::{

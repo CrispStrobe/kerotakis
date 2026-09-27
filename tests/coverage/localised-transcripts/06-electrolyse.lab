@@ -1,0 +1,4 @@
+add v1 water 200mL
+add v1 NaCl 0.1mol
+electrolyse v1 0.5A 300s
+look v1

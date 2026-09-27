@@ -2302,12 +2302,15 @@ fn usage() -> ! {
         "kerotakis — a virtual laboratory that computes real chemistry\n\
          \n\
          usage:\n\
-         \x20 kero [repl] [--lang de]    interactive bench; --lang lets you TYPE\n\
-         \x20                            in that language (the bench answers in English)\n\
+         \x20 kero [repl] [--lang de]    interactive bench IN that language: you\n\
+         \x20                            type in it and the bench answers in it\n\
          \x20 kero run FILE.lab [--json] [--lang de]\n\
-         \x20                            replay a command script; --lang says which\n\
-         \x20                            language the FILE was typed in (a `lang de`\n\
-         \x20                            first line in the file says the same thing)\n\
+         \x20                            replay a command script and read the answers\n\
+         \x20                            in that language. A `lang de` FIRST LINE in\n\
+         \x20                            the file is a different statement: it says\n\
+         \x20                            which language the file was TYPED in, so a\n\
+         \x20                            German lesson still reads back in English to\n\
+         \x20                            an English reader\n\
          \x20 kero study FILE.lab --vary add:v1:HCl=0.005..0.02:4\n\
          \x20        --collect ph@v1[,…] [--csv]   run it varied over a parameter\n\
          \x20 kero fit FILE.lab --param rate:REACTION:pre_exponential\n\
@@ -3185,9 +3188,9 @@ impl Session {
                 // `Locale::parse` answers English for anything it does not
                 // ship, which is the right answer for an environment
                 // variable someone else set and the wrong one for a line
-                // an author wrote on purpose: silently parsing a French
-                // lesson as English fails later, somewhere else, with a
-                // message about a verb.
+                // an author wrote on purpose: silently parsing a lesson
+                // written in a language we do not have as English fails
+                // later, somewhere else, with a message about a verb.
                 let primary = tag
                     .split(['-', '_'])
                     .next()
@@ -3733,6 +3736,7 @@ mod native_startup_tests {
                 value: 101.325,
                 unit: "kPa".into(),
                 note: Some("not a scalar contract field".into()),
+                note_reason: None,
             },
             Event::SolutionCharacterized {
                 vessel: VesselId(0),

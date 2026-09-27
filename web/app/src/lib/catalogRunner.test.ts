@@ -162,6 +162,60 @@ describe("running an entry on the visible bench", () => {
     expect(pause).toHaveBeenCalledWith(42);
   });
 
+  /**
+   * GUI-128. The pace was a flat 420 ms and every visible effect on the
+   * bench outlives that — a burst is drawn for 1800 ms, a foam head for
+   * 3000, a bubble ride for 9000 — so ten animations fired inside four
+   * seconds, each wiped by the next before it had drawn. That is the
+   * defect this runner was written to fix, surviving in the one number
+   * nobody had measured against the thing it paces.
+   */
+  describe("the pace waits for what the step put on the stage", () => {
+    class SettlingBench extends FakeBench {
+      wants = 0;
+      settleMs(): number {
+        return this.wants;
+      }
+    }
+
+    it("waits the longer of brisk and long enough to have seen it", async () => {
+      const bench = new SettlingBench();
+      bench.wants = 1200;
+      const pause = vi.fn(async () => {});
+      await runCatalogEntry(bench, ENTRY, { pause, paceMs: 42 });
+      expect(pause).toHaveBeenCalledWith(1200);
+    });
+
+    it("stays brisk for a step that put nothing on the stage", async () => {
+      // The bench reports the REMAINDER of the window, so a line that
+      // started nothing reports zero and the run does not crawl.
+      const bench = new SettlingBench();
+      bench.wants = 0;
+      const pause = vi.fn(async () => {});
+      await runCatalogEntry(bench, ENTRY, { pause, paceMs: 42 });
+      expect(pause).toHaveBeenCalledWith(42);
+    });
+
+    it("caps what it will wait, because a run is not a film", async () => {
+      // A bubble ride is drawn for nine seconds. A twelve-line script that
+      // honoured every effect in full would take two minutes; what the
+      // learner needs is to see that something happened.
+      const bench = new SettlingBench();
+      bench.wants = 9000;
+      const pause = vi.fn(async () => {});
+      await runCatalogEntry(bench, ENTRY, { pause, paceMs: 42, settleCapMs: 1500 });
+      expect(pause).toHaveBeenCalledWith(1500);
+    });
+
+    it("keeps the flat pace for a bench that cannot answer", async () => {
+      // `FakeBench` has no `settleMs`, and neither does a host built
+      // before this existed. That is exactly the run that shipped before.
+      const pause = vi.fn(async () => {});
+      await runCatalogEntry(new FakeBench(), ENTRY, { pause, paceMs: 42 });
+      expect(pause).toHaveBeenCalledWith(42);
+    });
+  });
+
   it("stops at a refused line and names it, leaving the rest unrun", async () => {
     const bench = new FakeBench();
     bench.refuse = "add v1 HCl 0.01mol";

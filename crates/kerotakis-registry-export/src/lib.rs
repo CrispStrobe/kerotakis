@@ -9,6 +9,7 @@ use std::collections::BTreeMap;
 
 use kerotakis_core::{
     heat_capacity::CpForm,
+    i18n::Locale,
     species::{Colour, Phase as LegacyPhase, SpeciesData, REGISTRY},
     spectrum::BAND_NM,
     stoich::parse_formula,
@@ -5570,6 +5571,89 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             evidence: evidence(),
         },
     ]);
+    name_every_recipe_in_every_shipped_language(document);
+}
+
+/// What the shelf SHOWS, a learner must be able to TYPE.
+///
+/// The recipes above carry `de_aliases` and `en_aliases` — two
+/// parameters, named after the two languages that existed when they were
+/// written. German's catalogue row is by construction the recipe's first
+/// German alias, so for German the invariant held by hand: the bottle on
+/// the shelf says `Essig` and `add v1 Essig` works.
+///
+/// French broke that. I18N-10 gave `[material]` its 132 French display
+/// names, so the shelf reads `eau de Javel 5%` — and the parser refused
+/// it, because input resolves through this alias map and the map had no
+/// French in it. A shelf you cannot type from is worse than an
+/// untranslated one: it shows the learner a name and then denies it.
+///
+/// So the aliases are DERIVED from the catalogue rather than restated
+/// beside it. Every shipped non-English locale contributes its
+/// `[material]` row as an alias, which makes the invariant structural
+/// instead of a thing each translator has to remember, and means a
+/// fourth language is one TOML file and no edit here — the promise the
+/// rest of the i18n surface already keeps.
+///
+/// German is unchanged by this: its display name is already its first
+/// alias, so the pass finds it present and adds nothing. That is the
+/// check — if this ever moves a German array, the derivation is wrong.
+/// `kerotakis_data::validate`'s own comparison, restated: collapsed
+/// whitespace, lower case. Two names that normalise alike are the same
+/// name as far as the registry is concerned, and only one may be listed.
+fn normalise_material_name(value: &str) -> String {
+    value
+        .split_whitespace()
+        .collect::<Vec<_>>()
+        .join(" ")
+        .to_lowercase()
+}
+
+fn name_every_recipe_in_every_shipped_language(document: &mut RegistryDocument) {
+    for locale in Locale::available() {
+        if locale.is_english() {
+            continue;
+        }
+        let names: std::collections::BTreeMap<&str, &str> =
+            locale.section("material").into_iter().collect();
+        for recipe in &mut document.material_recipes {
+            let Some(translated) = names.get(recipe.name.as_str()) else {
+                continue;
+            };
+            // A name this recipe already answers to, in any language, is
+            // already typeable — and `validate.rs` holds every material
+            // name and alias in ONE set, normalised to collapsed
+            // whitespace and lower case, so re-listing it under `fr` is a
+            // duplicate and the export is refused. Six of the 132 French
+            // names are their German alias in different case
+            // (`isopropanol 70%` against `Isopropanol 70%`), and four are
+            // the word both languages use: `cola`, `papier`, `ananas`,
+            // `levain`.
+            //
+            // A collision with a DIFFERENT recipe is deliberately not
+            // skipped here. That one is a translation defect — a shelf
+            // name that resolves to another bottle — and it should fail
+            // the export loudly rather than be dropped into silence.
+            let claimed = |value: &str| {
+                let want = normalise_material_name(value);
+                normalise_material_name(&recipe.canonical_key) == want
+                    || normalise_material_name(&recipe.name) == want
+                    || recipe
+                        .aliases
+                        .values()
+                        .flatten()
+                        .any(|alias| normalise_material_name(alias) == want)
+            };
+            if claimed(translated) {
+                continue;
+            }
+            recipe
+                .aliases
+                .entry(locale.code().to_string())
+                .or_default()
+                .push((*translated).to_string());
+        }
+    }
 }
 
 fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Result<(), String> {

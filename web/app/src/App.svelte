@@ -1115,7 +1115,12 @@
   </button>
 
   <div class="top-controls">
-    <RegisterDial value={session.register} onchange={(lv) => void session.setRegister(lv)} />
+    <RegisterDial
+      value={session.register}
+      onchange={(lv) => void session.setRegister(lv)}
+      routing={session.announceRouting}
+      onroutingchange={(on) => void session.setAnnounceRouting(on)}
+    />
     <span
       class="status"
       class:live={session.canSolve}
@@ -2602,6 +2607,21 @@
     border-radius: var(--radius-lg);
     background: var(--surface);
     box-shadow: 0 10px 32px var(--shadow);
+  }
+  /* GUI-130. While a catalogue run is in progress the caption sits over
+     the foot of this pane — 201 px at 1440x900, 288 px at a 32 px root —
+     so the pane reserves exactly that much at its own foot. Its content
+     then ENDS above the caption instead of running under it, and
+     `scroll-padding-bottom` makes every `scrollIntoView` inside the pane
+     respect the same edge.
+
+     The height is a custom property set by `Catalog.svelte` from the
+     caption it measures, because a constant would be right in one regime
+     and wrong in the other. `0px` when no run is in progress, which is
+     every other moment of the session. */
+  :global(html[data-bench-run]) .bench-pane {
+    padding-bottom: var(--run-caption, 0px);
+    scroll-padding-bottom: var(--run-caption, 0px);
   }
   /* One line. The second was a restatement — "choose what goes on the
      bench" under a cabinet full of bottles, and "observations and

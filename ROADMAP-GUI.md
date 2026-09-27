@@ -1291,7 +1291,33 @@ enthalpy is a clause in a sentence. A bench that computes real chemistry and
 then buries it reads as less capable than one that fakes forty reactions
 and presents them well.
 
-- [ ] **GUI-090 — The result card.** The newest result gets a card above the
+- [x] **GUI-090 — The result card. DONE, and twice repaired since.** *The
+      card ships: the newest result gets a card above the feed rather than
+      another line in it (`LatestResultCard.svelte`). Both repairs are
+      worth more than the original delivery.*
+
+      **GUI-108 (#679)** — it was taking the journal it summarised. Not an
+      overlay: no `position`, no scrim, which is why it never appeared in
+      `overlayStacking.test.ts` and a z-index audit would have found
+      nothing. It was `flex: none` beside a feed that was `flex: 1;
+      min-height: 0` — the one item that would not give way next to the one
+      that would give way entirely, so it could squeeze the log to zero.
+      Three attempts at "the log keeps half the pane" failed before the
+      arithmetic showed the threshold itself was unreachable: the journal's
+      own chrome and the card's summary are fixed costs, and half for the
+      log left the card less than its own header. It asks for a third now
+      and **prints the decomposition**, so the next person to move that
+      number can see what they are trading.
+
+      **GUI-120 (#697)** — that decomposition then found something worse.
+      At 200% text zoom a 32 px tick, a 165 px ΔT badge and 90 px of icons
+      consumed a 263 px grid row, so `minmax(0, 1fr)` gave the operation
+      name and the reaction class **0 px**. The card's entire answer to
+      *what just happened* was not painted at all, at the accessibility
+      setting the suite exists to test — and **no assertion could see it,
+      because a card with no legible content is exactly as tall as a card
+      with some.** That is the defect GUI-121 then generalised into a
+      sweep. Original item: The newest result gets a card above the
   feed rather than another line in it. Collapsed: the reaction-class badge,
   the equation, one sentence of observation, and an affordance to expand.
   Expanded: equation, ionic equation, reactant chips, observation,
@@ -1307,7 +1333,39 @@ and presents them well.
   all land without a second engine call. Only the ionic equation remains,
   and it is GUI-092's work — deliberately not faked here.*
 
-- [ ] **GUI-092 — The ionic equation, derived.** Beside the molecular
+- [x] **GUI-092 — The ionic equation, derived. DONE 2026-09-21 (#703
+      engine, #705 shell).** *The complete ionic equation now ships beside
+      the net one, with the spectators struck through — the line that shows
+      a learner WHY the net equation is what it is, because a cancellation
+      you were never shown is not a cancellation you can follow.*
+
+      **The finding that made it possible, and it is not what the ruling
+      assumed.** The ruling said to balance the spectators against the
+      molecular equation. **There is no molecular equation.** For a
+      precipitation `render.rs` never composes one — `Event::Precipitated`
+      carries a solid and a quantity, and this bench has never believed in
+      `AgNO3 + NaCl -> AgCl + NaNO3` in any form a coefficient could be
+      read off.
+
+      What the engine does know is the same stoichiometry in the only form
+      a bench can hold it without remembering a reaction: **the reagents
+      came out of bottles, and a bottle is electrically neutral.** Every
+      ion the net equation consumes arrived beside a counter-ion in the
+      number that made its salt neutral — one chloride per silver, *two*
+      per barium. One linear row per sign, solved with this module's own
+      `gauss_jordan` and verified against every row, which is
+      `balance_against`'s model precisely:
+
+          Ba2+ + SO4 2- + 2 Na+ + 2 Cl- -> BaSO4(s) + 2 Na+ + 2 Cl-
+
+      Nothing in the beaker says "two". It falls out of barium carrying
+      twice the charge sodium does.
+
+      **`complete: None` is a correct outcome, not a gap** — the net line
+      ships either way and is the honest fallback. The engine emits a
+      `spectator` flag per term and the shell draws the strike-through from
+      it; the shell never assembles a line of its own, which is that
+      module's standing contract. Original item: Beside the molecular
   equation, the ionic one — built from the solved speciation rather than
   stored. This is a thing only a computing bench can do honestly: the
   spectator ions are the ones the solver actually left in solution, at the
@@ -1378,7 +1436,32 @@ and presents them well.
   is the label a screen reader hears, the tooltip a pointer finds, and the
   full row under the (i).
 
-- [ ] **GUI-094 — The vessel deserves the room.** One vessel, large, central,
+- [x] **GUI-094 — The vessel deserves the room. DONE 2026-09-20 (#689),
+      verified on the deploy.** *Measured before and after, on
+      `crispstrobe.github.io`:*
+
+          before   150 x 210     3.9% of the bench pane
+          after    257 x 360    11.6%
+
+      *The cause was a constant: `clamp(64px, 14vw, svgW)` with `svgW` of
+      150 for a beaker, so at a 1600 px window the 224 px that `14vw`
+      offered was thrown away. With the bench to itself the cap lifts to
+      2.6x the glassware's own figure and the preferred size becomes a
+      share of the bench's smaller axis, so a short wide window cannot
+      produce a vessel taller than the counter it stands on. `svgW` still
+      sets the ratio between glassware: a test tube becomes a larger test
+      tube, not a beaker. The moment a second vessel arrives the room is
+      not this one's to take and nothing changes.*
+
+      **This number is also the answer to a complaint that looked like a
+      different problem.** The owner reported that the effects did not look
+      like anything, and foam height, spill reach and steam were *already*
+      drawn to the engine's own quantities. They were drawn inside a
+      picture too small for any of it to read. A spill scaled perfectly
+      inside a small picture is still a small picture. **Still open,
+      measured:** the vessel lands at 257 px where the new cap allows about
+      300, so something upstream of the clamp binds — worth finding before
+      anyone widens the clamp expecting more. Original item: One vessel, large, central,
   when only one is on the bench; the wide empty expanse around a small beaker
   is the strongest signal we send that nothing much is happening. With it,
   quick-action chips within reach of the vessel for the two or three things
@@ -3656,7 +3739,8 @@ evolved CO₂ and half a mole of it must not look the same.
 
 ## Two more rulings, 2026-09-21
 
-- [ ] **GUI-123 — the legibility guard reaches form controls.** GUI-121's
+- [x] **GUI-123 — the legibility guard reaches form controls. DONE
+      2026-09-22, and it found one.** GUI-121's
       assertion reads text *nodes*, so an `<input>`'s value and its
       placeholder are outside its net — a limit it recorded at the check
       rather than leaving to be discovered. `Shelf.svelte`'s `.stepper`
@@ -3928,6 +4012,707 @@ out of view, not the first.
   that has been true since GUI-114 — so what this ruling changed, and
   therefore all this asserts, is what the pane's new vertical scroll can
   take away.
+
+
+## The verdict list was the last English thing on a German screen (GUI-124)
+
+Reported 2026-09-22, in a paste of a German bench transcript: *"in the
+experiment picker/runner, we see 'added' not 'hinzugefügt'."*
+
+- [x] **GUI-124 — an expectation is a verb and a name, and each is
+  translated for what it is.** The rows under a finished catalogue run
+  are not authored strings. They are wire tokens out of `codex/*.toml` —
+  `added:phenolphthalein`, `gas_evolved:CO2`, `not_yet_modelled` — and
+  `Catalog.svelte` rendered each one as `t(want.replace(/_/g, " "))`.
+
+  **Two independent reasons, and either alone was fatal.** The compound
+  token went to the dictionary as ONE key, and no bundle has ever carried
+  a key of that shape, so `t()` fell back to its key: the colon was not
+  even spaced. And the dictionary held no entry for the verbs regardless
+  — **26 of the 29** verbs the catalogue uses had no German at all. The
+  three that resolved (`boiled`, `froze`, `measured`) did so by colliding
+  with words translated for something else, which is worse than missing:
+  it is a verdict row that looks translated.
+
+  **The fix splits the token, because the two halves are different kinds
+  of thing.** The verb is prose and gets a per-verb template with `{what}`
+  in it, since word order is not shared between languages — *"phenolphthalein
+  added"* is *"Phenolphthalein hinzugefügt"*, and the German reader meets
+  the operand first. A verb beside a colon cannot express that, which is
+  why these are templates. The operand is a NAME and goes through the
+  same term table the rest of the bench uses, with underscores and hyphens
+  normalised to spaces because the catalogue writes the same name three
+  ways (`methyl_orange`, `peroxide-decomposition`, `thermoplastic sheet`).
+
+  **A formula is excluded on purpose, not by omission.** `NaCl` and `CO2`
+  have no dictionary entry and therefore render as themselves. Sending a
+  formula to a translator is how a bundle acquires a German "NaCl" that is
+  "NaCl" today and is something else after a well-meaning edit.
+
+  **The gate reads the catalogue, not the tables.** `i18n.test.ts` walks
+  `codex/*.toml`, collects every `events`/`forbidden` token, and fails on
+  a verb neither table names, on a verb phrase with no German, and on a
+  lowercase operand with no German. The tables are only right for as long
+  as they cover the data, and the failure this replaces is a codex author
+  adding one more verb that nobody translates. Proven non-vacuous by
+  removing one German value: the gate names it.
+
+  **What it cost:** `expectationLabel.ts` (two tables, 15 bare verbs and
+  14 with an operand, a partition asserted in its own test), 32 new
+  strings in `de.json` and `_template.json` — 29 verb phrases in
+  `messages`, and `gypsum`, `peroxide decomposition`, `thiosulfate acid`
+  in `terms`, the only three operands the catalogue names in words that
+  German had not already been taught. No new collisions: the two the
+  collision lint records are the two it recorded before.
+
+
+## Forty-one arrows, one of them chemistry (GUI-125)
+
+Found while measuring the runner for the 2026-09-22 report. The REAKTION
+rail above the bench read, in a German session:
+
+```
+REAKTION   Route → Kerotakis analytic equilibrium evaluator · phreeqc
+```
+
+- [x] **GUI-125 — the equation comes off the event, never out of the
+  prose.** `equationFromRenderedLine` took any rendered line carrying a
+  `→`, cut it at the last colon before the arrow and the first full stop
+  after it, and pinned the result as the reaction — onto the rail, into
+  `benchEquations`, and into the **balancing drill's question pool**.
+
+  **The arrow is not the reaction's private punctuation.** 41 of the
+  engine's rendered lines carry one and exactly one of them is an
+  equation. Two were caught live:
+
+  - `v1: Route → Kerotakis analytic equilibrium evaluator · phreeqc.dat…`
+    — the aqueous routing announcement, whose arrow separates a label from
+    a solver name.
+  - `v1: T 298,150 K → 299,356 K (ΔT = +1,206 K)` — a temperature change.
+    In German there is not even a full stop to cut it at, because the
+    decimal separator is a comma, so the **whole line** pinned.
+
+  No heuristic separates those from chemistry, because they are the same
+  shape: a thing, an arrow, another thing. So the scrape is gone.
+  `equationsFromEvents` reads `Event::ReactionOccurred { vessel, equation }`
+  — the event the prose was rendered FROM — which is the move GUI-092 made
+  for the ionic form and for the same reason: the structured claim is the
+  claim, and its prose is one rendering of it. It also drops the vessel
+  prefix for free, since the event never carried one.
+
+  **The register gate moved with it.** Reading the event means the
+  equation is available at lv1 too, where the engine deliberately renders
+  "the mixture changes — something new is forming!" and no equation. The
+  rail already hid itself at lv1; the PIN now respects lv1 as well, which
+  is the half that was keeping the drill's pool honest.
+
+  **Verified in Chrome-for-Testing against the deployed engine payload**
+  (`kero-5522ab0`) with the app built from this branch, German, lv3,
+  `vinegar-and-baking-soda` run from the catalogue: the rail reads
+  `HCO₃⁻ + CH₃COOH → CH₃COO⁻ + H₂O + CO₂↑`, and at the step where the
+  routing announcement and two temperature changes land it reads nothing
+  at all — where before the change it read the routing sentence.
+
+
+## The caption that became a lid (GUI-126)
+
+Owner, 2026-09-22: *"the 'next step' dialog is in the way, overlaying the
+complete bench."*
+
+- [x] **GUI-126 — a caption takes a third of the screen, and what gives
+  way inside it is the account.** The design was already right in
+  principle — `.scrim.running` goes transparent and drops pointer events,
+  and the panel becomes a strip at the foot of the screen — and it was
+  right at one size only. `.panel.running` carried `max-height: none`.
+
+  **Measured in Chrome against the deployed engine payload
+  (`kero-5522ab0`), German, lv3, step-by-step, before the change:**
+
+  | regime | caption | of viewport | stage covered | vessel covered |
+  |---|---:|---:|---:|---:|
+  | 1440×900 | 250 px | 28% | 19% | 11% |
+  | 390×844 | 390 px | 46% | 39% | 31% |
+  | 1440×900 @ 200% text | **713 px** | **79%** | **100%** | 21% |
+
+  The third row is the report, in numbers: at 200% text zoom there was no
+  bench on the screen at all.
+
+  **And after:**
+
+  | regime | caption | of viewport | stage covered | vessel covered |
+  |---|---:|---:|---:|---:|
+  | 1440×900 | 270 px | 30% | 21% | 12% |
+  | 390×844 | 253 px | 30% | 17% | **0%** |
+  | 1440×900 @ 200% text | 288 px | 32% | 49% | 21% |
+
+  The desktop caption is **20 px taller** than it was, and that is the
+  cost of the column layout below; in exchange its account scrolls rather
+  than deciding the height. Everywhere else the caption roughly halves.
+
+  **Three rules, and the third is the one that is easy to lose.** A cap
+  in `vh`, because the panel is a fixed overlay whose container IS the
+  viewport — the mirror of GUI-122's `45vh` mistake, where the container
+  was a pane and `vh` bounded the wrong box. **The account is what gives
+  way**: `.dock-account` scrolls, the panel itself does not, and
+  `.dock-controls` is `flex: none`, because a capped panel that scrolls
+  its own "next step" button away is a run nobody can continue. That is
+  GUI-121 and GUI-122's lesson a third time — what gives way is the
+  middle, never the ends.
+
+  **The cap carries a floor in `rem`, and the measurement is why.** At a
+  flat `30vh` under 200% text zoom the controls took 190 of 270 px and
+  the account was one clipped line. The floor is 9 rem — nine lines of
+  the reader's own type — which is 144 px at rest (under the cap, so the
+  ordinary case is untouched) and 288 px zoomed. An 11 rem floor was
+  tried and rejected on its number: a third line of account cost **29
+  more points of covered stage**, 66% against 37%. The bench is the
+  experiment, so the bench won.
+
+  **What actually fixes the 200% case is not geometry.** Of that step's
+  550 characters of account, **454 are one lv3 routing paragraph**. The
+  cap is a bound on the damage; the verbosity switch is the fix.
+
+  **`.dock-produced` lost its own `max-height: 5.5rem`** — 88 px at rest
+  and 176 px at 200%, a nested scroller that grew in the one regime where
+  the box containing it needed to shrink.
+
+  **Guarded twice.** `tools/test-ux-quality.mjs` walks the catalogue,
+  starts a step-by-step run and measures the caption in both regimes —
+  the caption at most 40% of the screen, the stage never wholly behind
+  it, the glass keeping the half its chemistry is drawn in, the controls
+  on screen and inside the caption, and the account able to scroll.
+  `runningCaption.test.ts` reads the rule out of the component, because a
+  `max-height` deleted in a refactor reads as tidying up and no
+  behavioural test can see a stylesheet.
+
+
+## Routing is its own switch, not lv3's tax (GUI-127)
+
+Owner, 2026-09-22: *"we need a toggle for verbosity: display 'Route ->'
+info or not."*
+
+- [x] **GUI-127 — the register is how much chemistry; this is which kinds
+  of line at all.** The aqueous routing announcement is a paragraph at
+  lv3 — engine · dataset · activity model · the clause explaining why
+  that dataset was chosen. On the German bench measured for GUI-126 it
+  was **454 of one step's 550 rendered characters**, and there was
+  exactly one way to be rid of it: leave lv3, and give up every number
+  lv3 had been turned on for. Two different questions had one control.
+
+  **The engine decides, not the shell.** `Narration { routing }` in
+  `kerotakis-core::render` filters the EVENT — `Event::SolutionRouted` —
+  and `render_events_narrated` is what both hosts now call.
+  `render_events_in` stays, delegating with `Narration::FULL`, so every
+  other caller renders exactly what it rendered before. A shell-side
+  filter was considered and rejected on this codebase's own scars: the
+  only handle a shell has is the WORDS, and "the line that starts with
+  Route" is a fact about one language's rendering at one register, not
+  about the step. `rendered` is not positionally aligned with `events`
+  either — it is filtered by `is_observable()` and deduped at lv1 — so
+  a client cannot even find the line reliably without reimplementing the
+  engine's own rules in TypeScript — one value derived in two places, which
+  is the split the native/wasm divergence has already cost this project
+  twice.
+
+  **Only the prose is suppressed.** The event still travels in `events`
+  and its provenance still reaches `routes`, so the provenance drawer —
+  the surface that exists for exactly this — answers the same either way.
+  A reader who turns the announcement off has said *not in the log*, not
+  *do not tell me*. The switch's two titles say so in one sentence each,
+  and the "off" one names where the fact went.
+
+  **Both bindings, because the native one is the one that gets
+  forgotten.** `set_announce_routing` is answered by the wasm host and by
+  `NativeLab`, and `every_command_the_shell_sends_is_answered` scrapes
+  `TauriHost.ts`, so it cannot be added to the browser alone — which is
+  precisely what happened to `set_locale` for as long as the engine had a
+  German catalogue.
+
+  **An older engine keeps the switch where it is.** The command is
+  refused by name, the session catches it, and the control does NOT move:
+  a switch reading "off" over a log that still announces is worse than a
+  switch that did not move. `hello.narration` (`["routing"]`) is how a
+  shell can know before it offers the control. A save written before this
+  carries no answer, and that absence IS the default.
+
+  **Verified in Chrome** against the deployed payload: the control
+  renders beside the dial as a 40x40 target, inside the viewport, with
+  its German sentence as the accessible name, and clicking it against an
+  engine that does not answer the command leaves it pressed — the honest
+  degradation, exercised for real rather than reasoned about. **What is
+  NOT verified in a browser here is the suppression itself**: that needs
+  a wasm build of this branch, and building one on this box is what the
+  memory of near-OOM preflights is about. It is covered by
+  `narration_tests` in `render.rs` — full narration byte-identical to
+  `render_events_in`, the announcement gone and the chemistry kept, the
+  event itself untouched, at all three registers — and by CI.
+
+
+## The volcano that drew no bubbles (GUI-128)
+
+Owner, 2026-09-22: *"we need real animations. foam/explosions must be
+visually rendered, parametrised to computed values."* The machinery was
+already there and parametrised; three separate things kept it off the
+screen, and the first was found by tracing the bench at 100 ms through a
+whole catalogue run rather than by reading the code.
+
+- [x] **GUI-128a — the fizz is drawn from the EVENT, not from the steady
+  state.** `{#if vessel.bubbling}` gated the gas bubbles, and
+  `vessel.bubbling` is a state read off the scene AFTER the step settles.
+  An open beaker of vinegar and baking soda evolves 32 mmol of CO₂ and
+  then the gas is **gone**, out of the vessel, so the flag is false by the
+  time anything is drawn.
+
+  Traced in Chrome over the whole of `vinegar-and-baking-soda`: the bench
+  drew dissolving grains, then a heater, and **not one bubble** — while
+  the journal beside it reported the carbon dioxide twice. The condition
+  is now `vessel.bubbling || active("vent", 4000)`: the effect already
+  carried the magnitude and the engine's own production rate, and was
+  simply not allowed to draw unless the steady state agreed. Same trace
+  after: **10 bubbles for 1.4 s of a 2.5 s run.**
+
+- [x] **GUI-128b — the runner paces to what the step put on the stage.**
+  `paceMs` was a flat **420 ms** and every visible effect outlives it — a
+  burst is drawn for 1800 ms, a foam head for 3000, a bubble ride for
+  9000. Ten lines therefore fired ten animations inside four seconds,
+  each wiped by the next before it had drawn: *the original defect this
+  runner was written to fix*, surviving in the one number nobody had
+  measured against the thing it paces.
+
+  The BENCH answers now — `settleMs()` — because the bench is what knows
+  whether that line put anything on the stage. It reports the remainder
+  of a 1400 ms window since the newest effect, so a line that started one
+  asks for the rest of it and a line that only moved a number asks for
+  nothing. The runner caps what it will wait at 1800 ms: a twelve-line
+  script honouring a nine-second bubble ride in full would take two
+  minutes, and what a learner needs is to see that something happened. A
+  bench that cannot answer keeps the flat pace, which is the run that
+  shipped before.
+
+- [x] **GUI-128c — the foam head is a foam and the burst is as big as the
+  burst.** The head was a coloured rectangle with 5–16 cells on a modulo
+  lattice (`(i * 17) % width`), so every foam in the app had the same
+  bubbles in the same places, in rows, and none of them moved. Three
+  things are read off the engine now: **how much** foam decides the count
+  (8 cells at a trace, 42 at a head that fills the glass) and the density;
+  a foam **coarsens upward**, so the radius scales with the cell's own
+  height in the head rather than with `i % 3`; and a foam that dies in two
+  seconds **churns** while one that stands barely moves, so the pop cycle
+  is the engine's own half-life divided down — the same number that
+  drives `foam-collapse`, said as motion instead of as height. Plus a
+  crown of larger bubbles proud of the fill, because the ruled line across
+  the top of a rectangle was the single most artificial thing in the
+  drawing.
+
+  The burst threw eight identical shards at eight fixed angles however
+  hard the seal failed; only the distance and the ring radius moved. The
+  **count** is the magnitude now (6 to 20), every shard has its own angle,
+  length, size, spin and delay, and there are two staggered rings and a
+  flash.
+
+  **The scatter is the index, never `Math.random()`**: a random scatter
+  re-rolls on every reactive redraw and the foam twitches, and no
+  server-rendered test could assert anything about a picture that is
+  different every time.
+
+  **And the scatter had to be two-dimensional, which a photograph caught
+  and the first test did not.** The first draft salted ONE golden-ratio
+  sequence with an additive offset per axis — and an additive offset of a
+  sequence is the same sequence, so x and y were perfectly correlated and
+  every bubble sat on a diagonal band through the middle of the head. A
+  scatter that is a line is a lattice wearing a different hat. Each axis
+  now has its own irrational, the first two being the R2 pair. Measured:
+  the correlated version reaches **6 of the 9 cells** of a 3×3 grid, the
+  R2 pair reaches **all 9**, and the assertion is 8.
+
+  That assertion also had to exclude the crown, which sits in a row of its
+  own along the top and filled buckets the head did not — which is how the
+  first draft of it passed against the very scatter it was written to
+  reject. The rule both times: a test proven to fail on the defect, not a
+  test that merely passes on the fix.
+
+
+## One bug or a class? (GUI-129)
+
+GUI-128a was found by tracing the DOM at 120 ms through a whole catalogue
+run. The obvious next question is whether the fizz was the only phenomenon
+the bench computed and never drew.
+
+**The sweep.** Fifteen catalogue entries, one for each visible verb the
+codex's own `expect.events` promise, run line by line through the same
+door a typed command uses, with the vessel's SVG classes sampled every
+120 ms and the union taken per entry. Thirteen drew a great deal —
+`burning-magnesium` alone put up flame, incandescence, glow, a rolling
+boil, consumed edges, a precipitate and a steam plume. Two did not:
+
+| entry | promised | drew |
+|---|---|---|
+| `equilibrium-can-run-backward` | `org_reacted` | **nothing but bench chrome** |
+| `chains-slide-networks-do-not` | `polymer_heated` ×2 | a heated block, the same one for both materials |
+
+- [x] **GUI-129a — an organic reaction is a reaction, and is drawn as
+  one.** `org_reacted` had no case in `magnitudes.ts`, no scene field and
+  no readout, so an esterification ran on a bench that never moved. It
+  reuses the `react` effect rather than inventing a second reaction visual,
+  because it IS one and the drawing is already parametrised by extent.
+  What it cannot supply is `seconds` — `Event::OrgReacted` carries no
+  duration — so the rate is reported as unknown rather than as a number
+  nobody measured. Re-traced after: `reacting`, `reaction-front`,
+  `reaction-readout`.
+
+- [x] **GUI-129b — dissolving in a solvent that is not water looks like
+  dissolving.** `dissolved_in_solvent` had no case either, so the
+  identical solid dissolved in front of the reader in water and silently
+  in ethanol. An asymmetry with no reason behind it.
+
+- [x] **GUI-129c — the guard, which is the part that lasts.**
+  `effectVisibility.test.ts` reads the `Event` enum out of `ops.rs` and
+  requires every variant to be in exactly ONE bucket: handled in
+  `magnitudes.ts`/`session.svelte.ts`; `DRAWN_FROM_THE_SCENE` naming the
+  standing scene field that carries it; `REPORTED_NOT_DRAWN` with the
+  reason there is no picture; or `KNOWN_GAPS` with what it would take.
+  The enum is read rather than restated, because a hand-kept list has to
+  be remembered at exactly the moment someone adds an event.
+
+  It checks more than membership. A scene-drawn entry must name a field
+  the scene interface actually has AND one `Vessel.svelte` actually
+  reads — a field nobody draws is the same defect wearing the scene's
+  clothes. No event may sit in two buckets, and **that check earned its
+  place immediately**: it caught `measured` listed as "reported" when
+  `magnitudes.ts` already handled it, and `enzyme_hydrolysed` claimed as
+  scene-drawn when what it has is a persistent readout. Two wrong claims
+  of mine, found by the test rather than by me. No bucket may name an
+  event the engine does not have, because an excuse outliving its defect
+  is worse than no excuse. And `KNOWN_GAPS` is capped at its current size,
+  so growing it is a decision someone makes rather than a backlog that
+  fills.
+
+  **What stays recorded, with what it would take.** `polymer_heated` —
+  `chains-slide-networks-do-not` is ABOUT the difference between a
+  thermoplastic that softens and a thermoset that does not, and the bench
+  draws the same heated block for both; `PolymerState` is the lesson and
+  needs a shape. `extracted` — a solvent extraction moves solutes between
+  two vessels and draws no transfer; `BenchEffect` has six operations and
+  no extract, and the event carries `stages` and a per-solute split to
+  scale one with.
+
+
+## A reachable bench, not a smaller caption (GUI-130)
+
+GUI-126 left one number unfinished and said so: at 200% text zoom the
+running caption still covered **49% of the stage**, and the note there
+guessed the cause — *"of that step's 550 characters of account, 454 are
+one lv3 routing paragraph"*. GUI-127 shipped the switch that removes the
+paragraph, so the guess was testable.
+
+**It was wrong.** With the routing announcement switched off, the
+account's longest line falls from **454 characters to 49** — and the
+caption is still 288 px and the stage still 49% covered. At a 32 px root
+a pressable "next step" is 190 px on its own; no amount of trimming the
+prose gets a caption under that. The prose was never the constraint.
+
+- [x] **GUI-130 — so the answer is not a smaller caption, it is a
+  reachable bench.** The pane already scrolls (GUI-122). It now reserves
+  the caption's height at its own foot while a run is in progress, so its
+  content ENDS above the caption instead of running under it, and
+  `scroll-padding-bottom` makes every `scrollIntoView` inside it respect
+  the same edge. That is the promise GUI-122 made about the pane's foot,
+  applied to the thing now sitting on it.
+
+  **Measured, at three regimes, before and after:**
+
+  | regime | stage covered | vessel covered |
+  |---|---:|---:|
+  | 1440×900 | 21% → **0%** | 12% → **0%** |
+  | 390×844 | 17% → **0%** | 0% → **0%** |
+  | 1440×900 @ 200% text | 49% → **2%** | 21% → **1%** |
+
+  **The alignment is `block: "end"`, and the wrong one was measured
+  rather than reasoned about.** `"nearest"` was tried first and was
+  *worse than doing nothing* — **59%** of the glass covered against 21% —
+  because for an element taller than the scrollport it aligns the wrong
+  edge. At 200% the glass is 480 px inside a 371 px pane, so it cannot be
+  wholly clear at any scroll position and something has to choose which
+  half survives. Foam, bubbles, a precipitate and the liquid line are all
+  drawn in the bottom one, so the bottom is what is aligned.
+
+  **The height is measured, not assumed** — 201 px at 1440×900 and 288 px
+  at a 32 px root, so a constant would be right in one regime and wrong
+  in the other. A `ResizeObserver` keeps it true, and re-aligns when it
+  changes: a caption that grows because the reader zoomed moves the edge
+  the glass was aligned to, and nothing else would notice.
+
+  **The reserve is removed on teardown as well as when the run ends**,
+  because 270 px of dead space at the foot of every session is a worse
+  bug than the one this fixes.
+
+  Guarded in `test-ux-quality.mjs` — the glass under 15% covered in both
+  regimes, and the reserve within 2 px of the caption it is reserving for
+  — and in `runningCaption.test.ts`, which pins the rule, the measurement
+  and the alignment, including that `"nearest"` does not come back.
+
+
+## A finger is not a font (GUI-123)
+
+The ruling of 2026-09-21: GUI-121's legibility sweep reads text NODES, and
+an `<input>` has none — its value and its placeholder are painted by the
+control itself — so the whole net passed over them. `Shelf.svelte` has
+carried a standing comment since the stepper was built, *"the number field
+was measured at 33px — too narrow to edit in"*, which is this defect,
+written down at the scene and unreachable by the check.
+
+- [x] **GUI-123a — two thresholds, because the ruling asked for two.** A
+  value a reader typed and a hint the app offered are not the same claim.
+
+  **A VALUE is squeezed when the browser says it is cut off AND it is
+  short** — six characters or fewer. `scrollWidth > clientWidth` on an
+  input is the browser reporting that the content does not fit; for a
+  typed sentence that is ordinary, because the caret scrolls it and this
+  file's own standing rule is that a scroller is not a clip. For "100" in
+  a 33 px box it is the defect the ruling named. Verified directly in
+  Chrome before it was relied on: a 33 px field holding "100" reports
+  `scrollWidth 36` against `clientWidth 31`.
+
+  **A PLACEHOLDER is only ever reported BLANK.** The ruling warned that
+  placeholders legitimately truncate and that a threshold copied from the
+  text-node rule would cry wolf. A hint cut short is still a hint, and the
+  reader has lost nothing they put there themselves.
+
+  `<select>` is measured through its selected option, because a unit chip
+  reading "mL" clipped to "m" is the same defect wearing a different tag.
+  Controls with no painted text — checkbox, radio, range, colour, file,
+  image, hidden — are excluded and COUNTED, so a shrinking sample cannot
+  quietly empty the check.
+
+- [x] **GUI-123b — the net had to be made to reach the thing it was
+  written for.** The first clean run measured 66 controls and found
+  nothing, which was not reassurance: the stepper — the one control this
+  repo has a standing comment about — sits behind a disclosure and **was
+  never in the sample at all**. The sweep read the search box and two
+  dials. So it now expands a bottle's amount form before measuring the
+  cabinet, at all three regimes, and asserts that it did. 66 controls
+  became **80**.
+
+  The route there is worth recording, because the first attempt to prove
+  the guard was wrong in an instructive way: narrowing `.stepper`'s
+  `min-width` from 8.2rem to 5.5rem reproduced NOTHING, because the flex
+  row gives the field 118 px whatever the min-width says. A guard that has
+  never failed has not been proven, and the thing that was actually
+  missing was coverage, not a threshold.
+
+- [x] **GUI-123c — and it found one, immediately: a finger is not a
+  font.** With the form open, at 200% text zoom, `input[number]` holding
+  "100" is **86.4 px wide inside a 262.4 px stepper at a 25.6 px em**, and
+  its own value does not fit. Three surfaces reported it — the bench, the
+  cupboard and the periodic table all have the cabinet beside them.
+
+  The cause is a units mistake of exactly the shape GUI-126 recorded for
+  the caption: **measure a thing in the units of what it actually is.**
+  The stepper's two buttons were `2.75rem`, so at a 32 px root they became
+  **88 px each**, took 176 of the stepper's 262 px, and left the field
+  86.4. A touch target is a PHYSICAL size — 44 px is what a finger hits —
+  and it has no business growing because the reader asked for bigger text.
+  The reader asked for larger type and was handed a field they could not
+  read their own number in.
+
+  They are `44px` now, as is `.step` and `.amounts input`'s own
+  `min-height`. px is also what every other target in this app already
+  uses — the register dial's 40, the run dock's 36, the pane heading's 44
+  — so the stepper was the outlier and not the convention. Page zoom still
+  scales them, because page zoom scales px; only TEXT zoom does not, which
+  is the distinction that was lost.
+
+- [x] **GUI-123d — and CI found a SECOND instance this box could not
+  see.** At 1440 px, not at zoom: the field measured **51.7 px inside a
+  139.7 px stepper**, with "100" cut off. It had always been there; the
+  `rem`→`px` change above is a no-op at a 16 px root and could not have
+  touched it. The local sweep measured that stepper at 262 px, so two
+  honest runs of the same check on the same commit disagreed — the shelf
+  pane is a different width in the two environments, and **a layout
+  defect that depends on available width needs the width swept, not
+  sampled**. A probe that caps `.stepper` at 140, 152, 168, 207 and
+  262 px answers what one viewport cannot.
+
+  Three more units mistakes in the same block, all the same shape:
+
+  * `.amounts input` sets `min-width: 0` so the row can wrap, which for
+    the number field is a licence to be squeezed to nothing. Its floor is
+    **`4rem`, in rem** — and that is the other half of the ruling. The
+    buttons beside it are px because a finger is physical; the field is
+    rem because it holds TYPE. A field's minimum has to grow with the text
+    in it for exactly the reason a target's must not.
+  * `.stepper`'s own `min-width` was 8.2rem — 131 px, less than 88 px of
+    button plus any readable field. It is **9.5rem**, which is the button
+    row plus the field's floor.
+  * the native **spin buttons** were still drawn, redundant beside the −
+    and + this stepper already has, eating 13–17 px of a field with none
+    to spare. Gone.
+
+  Measured after, sweeping the width: the stepper refuses to go below
+  152 px even when capped at 140, the field holds at 64 px, and the value
+  fits at every width tested.
+
+
+## One window per effect (GUI-132)
+
+How long a drawing stays up when the ENGINE did not supply a duration was
+a numeric literal at every call site in `Vessel.svelte`: **85 of them
+across 55 kinds**. The second argument to `latestEffect`/`active`/`mag`
+is a fallback — `effectAlive` uses `effect.durationMs ?? withinMs` — so
+the engine's own lifetime always won where it had one, and these are what
+happens when it does not.
+
+- [x] **GUI-132a — the table, and the two disagreements it made visible.**
+  Scattered, the fallbacks had no way to be compared with each other, and
+  two kinds quietly disagreed with themselves: `swirl` was written
+  **8000, 2200 and 2000**, and `vent` **4000 and 2600**.
+
+  Reading the call sites, three of those five were one thing said three
+  ways and two were a second thing:
+
+  * a stir **readout** outlives the stirring. The motion is over in a
+    couple of seconds; the engine's shear numbers beside the glass are
+    what the reader is still looking at. `STIR_READOUT_MS`.
+  * the wisps **above the rim** are shorter than the fizz inside the
+    liquid. Gas that has left the vessel is gone sooner than gas still
+    coming out of solution. `VENT_WISP_MS`.
+
+  The third — `swirl` at 2000 for the vortex against 2200 for the motion
+  — was drift: 200 ms apart, with no reason at either site. It is the
+  kind's window now.
+
+  **A deliberate exception and drift are indistinguishable until one of
+  them is given a name.** That is the whole reason the two survive as
+  constants rather than being flattened into the table with the third.
+
+- [x] **GUI-132b — and one grouping that was already right.**
+  `INSTRUMENT_READING_MS` predates this and is the better shape: **nine**
+  instrument readouts share one window, because a reading is a reading
+  and showing the thermometer's for longer than the balance's would be a
+  claim about instruments nobody makes. The table REFERENCES that
+  constant rather than copying 6000 nine times, so the group cannot come
+  apart one row at a time.
+
+  Four of those nine were missed on the first pass, along with `ferment`,
+  `flame_test` and `gas_test` — the extraction regex read `[a-z0-9-]+`
+  and every one of them has an **underscore** in its kind, and `ferment`
+  was written `12_000`. A sweep that cannot see part of its subject
+  reports a clean result, which is worse than reporting nothing; the
+  guard uses the widened pattern for exactly that reason.
+
+- [x] **GUI-132c — the payoff: the runner paces by what actually drew.**
+  `Session.settleMs` used one flat 1400 ms for every kind. That was not a
+  judgement, it was the absence of one — the windows were literals in a
+  4400-line component and there was nowhere to look a kind's up. It now
+  reports the remainder of each live effect's own window: a burst asks
+  for its 1800 ms, a dissolve for its 1400, a bubble ride for its 9000.
+  It does **not** cap itself — the honest answer to "how long is this
+  drawn for" is nine seconds — and the runner caps what a run can afford,
+  which is the same division of labour GUI-128 set up, kept rather than
+  blurred. `VISIBLE_EFFECT_MS` is gone: it existed only because there was
+  no table.
+
+  Guarded by `effectWindows.test.ts`, which reads `Vessel.svelte`: every
+  kind the drawing asks for has a window, no row exists that nobody
+  draws, **no numeric literal survives at a call site**, each named
+  exception genuinely differs from its kind's window and in the direction
+  its reason claims, and every window is between 1 and 10 seconds.
+## Sweep the width, do not sample it (GUI-133)
+
+GUI-123 ended with two honest runs of the same check, on the same commit,
+disagreeing: the stepper's number field measured **211 px on the author's
+box and 139.7 px in CI**, at the same 1440 px viewport. Both were right.
+The viewport was never the variable — the shelf PANE was, and four
+sampled viewports cannot answer a question about a continuum.
+
+- [x] **GUI-133 — constrain the container and walk its own range.** The
+  sweep pins `nav.shelf-pane` to each of twelve widths from 160 px to
+  420 px and asks, at each, whether any control clips its own value — the
+  same rule GUI-123's legibility pass uses. It is cheap because the
+  layout reflows without re-navigating: the amount form is opened once
+  and resized under.
+
+  **Proven to fail on the defect rather than merely passing on the fix.**
+  With GUI-123 reverted the sweep reports the clip at a **160 px pane**,
+  a width no sampled viewport produces on that machine.
+
+  **And it separated which half of GUI-123 was load-bearing**, which
+  nobody knew:
+
+  | state | field at a 160 px pane | value fits? |
+  |---|---:|---|
+  | shipped (floor + spinners hidden) | 64 px | yes |
+  | floor reverted, spinners still hidden | 43 px | **yes** |
+  | both reverted | 43 px | **no** |
+
+  So the `4rem`/`9.5rem` floors are what keep the field comfortable, and
+  hiding the native **spin buttons** is what makes the narrow case
+  survivable at all. Two changes were shipped together as one fix and
+  only one of them was doing the work at the extreme; the table says which.
+
+  **What a first attempt got wrong, recorded because it is the instrument
+  and not the app.** The sweep was written against the VIEWPORT first, at
+  eighteen widths from 320 to 1920. Below 1024 px it reported the field
+  at **0 px at every width** — and that is not a defect, it is the app in
+  single-pane mode with the cabinet not on screen at all. A sweep that
+  cannot see its subject reports a clean zero, which reads exactly like a
+  pass. The pane sweep asks the question the layout cannot hide.
+## The last two with no picture (GUI-131)
+
+GUI-129 emptied the effect surface except for two recorded gaps, each
+carrying what it would take. This is that.
+
+- [x] **GUI-131a — chains slide and networks do not, and now the bench
+  says so.** `chains-slide-networks-do-not` is ABOUT the difference
+  between two materials at one temperature, and the bench drew the same
+  heated block for both. What is drawn now is the STRUCTURE, because the
+  structure is the reason: a thermoplastic gets three loose chains that
+  slide past one another, each on its own phase; a thermoset gets the
+  same strands with the **cross-links** that tie them, and nothing moves.
+  Charring darkens and breaks the line work and does not animate, because
+  it does not undo.
+
+  Rigid is drawn rather than omitted. "Nothing happened" is half of this
+  experiment and it is the half a blank space cannot make: the reader is
+  being shown that heat reached this block and it did not move. The
+  magnitude is how far past the wall the vessel stands, not how hot it is
+  — 430 K is 430 K, and ten degrees over a softening point is a different
+  observation from two hundred.
+
+  **It hangs off the VESSEL, not off a scene object, and that was the
+  same bug one layer down.** The first draft anchored it to
+  `bulk_objects` and covered exactly ONE of the two materials: the engine
+  files the thermoset as a bulk object and the thermoplastic as a
+  **solid**, so the material that actually softens drew nothing and the
+  lesson stayed invisible. Found in a browser — the scene reported
+  `scene-solid: 1, bulk-object: 0` — and by no test, which is why there
+  is now a test for exactly that shape of scene.
+
+- [x] **GUI-131b — an extraction is a transfer, and it borrows the funnel
+  it already owns.** The first draft drew its own separating funnel and
+  that was wrong: the drain rig IS a separating funnel, and two pictures
+  of one piece of glassware is how a bench stops being a bench. So the
+  extraction reuses it and adds only what an extraction adds — a solvent
+  layer whose opacity is how much that solvent took, one tick per stage
+  arriving in order, and a travelling mark per solute sized by how much
+  of IT was taken.
+
+  The magnitude is the BEST solute's staged efficiency, not the mean: an
+  extraction that took 80% of the thing you wanted and 6% of the thing
+  you did not is a good extraction, and averaging them would draw it as a
+  poor one. Six ticks is the cap, past which the number beside them is
+  the honest answer.
+
+  **Verified against the real engine**, German, lv3: rig drawn, four
+  ticks for `stages 4`, "4×" beside them, a mark crossing. The reviewed
+  partition data is one row — I2/hexane/water, K = 85 — so that is the
+  extraction that was driven.
+
+- [x] **GUI-131c — `KNOWN_GAPS` is empty.** The machinery stays and the
+  assertion inverts: `effectVisibility.test.ts` now asserts the list is
+  EMPTY, which is the claim, made rather than assumed, that every
+  phenomenon this engine computes reaches the screen or says in one line
+  why it does not.
 
 
 ## Completed GUI tasks

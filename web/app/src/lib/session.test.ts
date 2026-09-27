@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { EngineError, type EngineHost, type Scene, type ScriptResult } from "./host/EngineHost";
 import { REGISTERS, Session, type StorageLike } from "./session.svelte";
+import { EFFECT_WINDOW_MS, effectWindowMs } from "./magnitudes";
 
 class FakeStorage implements StorageLike {
   map = new Map<string, string>();
@@ -96,6 +97,9 @@ class FakeHost implements EngineHost {
   }
   async setRegister(level: string) {
     this.calls.push(`register:${level}`);
+  }
+  async setAnnounceRouting(on: boolean) {
+    this.calls.push(`routing:${on}`);
   }
   async setLocale(code: string) {
     // Recorded, so a test can assert the session tells the ENGINE which
@@ -987,24 +991,78 @@ describe("Session", () => {
     expect(s.titrationPlayback!.vessel).toBe(0);
   });
 
-  it("the latest rendered equation is pinned for the strip", async () => {
+  it("the latest equation is pinned for the strip, off the event that carries it", async () => {
     const host = new FakeHost();
     host.runScript = async (script: string) => ({
       steps: [
         {
           operator: {},
-          events: [],
+          events: [{ event: "reaction_occurred", vessel: 0, equation: "Ag+ + Cl- → AgCl" }],
           rendered: [
             "The silver and the chloride find each other.",
-            "Ag+ + Cl- → AgCl",
+            "v1: Ag+ + Cl- → AgCl",
           ],
         },
       ],
       scene: { scene: 1, vessels: [] } as Scene,
     });
     const s = new Session(host);
+    s.register = "lv2";
     await s.submit("add v1 AgNO3 1.7g");
     expect(s.lastEquation).toBe("Ag+ + Cl- → AgCl");
+  });
+
+  /**
+   * GUI-125. The arrow is not the reaction's private punctuation: 41 of the
+   * engine's rendered lines carry one, and scraping them pinned the routing
+   * announcement and the temperature change onto the REAKTION rail — and
+   * into the balancing drill's question pool.
+   */
+  it("pins nothing from a line that merely has an arrow in it", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [
+        {
+          operator: {},
+          events: [
+            { event: "solution_routed", vessel: 0 },
+            { event: "temperature_changed", vessel: 0 },
+          ],
+          rendered: [
+            "v1: Route → Kerotakis analytic equilibrium evaluator · phreeqc.dat, wie vom USGS mitgeliefert",
+            "v1: T 298,150 K → 299,356 K (ΔT = +1,206 K)",
+          ],
+        },
+      ],
+      scene: { scene: 1, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    s.register = "lv3";
+    await s.submit("add v1 NaOH 0.005mol");
+    expect(s.lastEquation).toBeNull();
+  });
+
+  /**
+   * lv1 renders "the mixture changes — something new is forming!" and no
+   * equation. The rail follows the reader's register rather than overruling
+   * it, which is why the pin is gated rather than unconditional.
+   */
+  it("leaves the rail empty at lv1, where the engine shows no equation", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [
+        {
+          operator: {},
+          events: [{ event: "reaction_occurred", vessel: 0, equation: "Ag+ + Cl- → AgCl" }],
+          rendered: ["The mixture in v1 changes — something new is forming!"],
+        },
+      ],
+      scene: { scene: 1, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    await s.submit("add v1 AgNO3 1.7g");
+    expect(s.register).toBe("lv1");
+    expect(s.lastEquation).toBeNull();
   });
 
   it("the ionic equation is taken from the step's structured field, not the prose", async () => {
@@ -1013,8 +1071,8 @@ describe("Session", () => {
       steps: [
         {
           operator: {},
-          events: [],
-          rendered: ["AgNO3 + NaCl → AgCl + NaNO3"],
+          events: [{ event: "reaction_occurred", vessel: 0, equation: "AgNO3 + NaCl → AgCl + NaNO3" }],
+          rendered: ["v1: AgNO3 + NaCl → AgCl + NaNO3"],
           ionic: [
             {
               vessel: 0,
@@ -1039,6 +1097,7 @@ describe("Session", () => {
       scene: { scene: 1, vessels: [] } as Scene,
     });
     const s = new Session(host);
+    s.register = "lv2";
     await s.submit("add v1 AgNO3 1.7g");
     expect(s.lastEquation).toBe("AgNO3 + NaCl → AgCl + NaNO3");
     expect(s.lastIonic?.equation).toBe("Ag⁺(aq) + Cl⁻(aq) → AgCl(s)");
@@ -1124,14 +1183,15 @@ describe("Session", () => {
       steps: [
         {
           operator: {},
-          events: [],
-          rendered: ["2 Mg + O2 → 2 MgO"],
+          events: [{ event: "reaction_occurred", vessel: 0, equation: "2 Mg + O2 → 2 MgO" }],
+          rendered: ["v1: 2 Mg + O2 → 2 MgO"],
           ionic: [],
         },
       ],
       scene: { scene: 1, vessels: [] } as Scene,
     });
     const s = new Session(host);
+    s.register = "lv2";
     await s.submit("ignite v1");
     expect(s.lastEquation).toBe("2 Mg + O2 → 2 MgO");
     expect(s.lastIonic).toBeNull();
@@ -1148,8 +1208,8 @@ describe("Session", () => {
           call === 1
             ? {
                 operator: {},
-                events: [],
-                rendered: ["AgNO3 + NaCl → AgCl + NaNO3"],
+                events: [{ event: "reaction_occurred", vessel: 0, equation: "AgNO3 + NaCl → AgCl + NaNO3" }],
+                rendered: ["v1: AgNO3 + NaCl → AgCl + NaNO3"],
                 ionic: [
                   {
                     vessel: 0,
@@ -1163,19 +1223,143 @@ describe("Session", () => {
               }
             : {
                 operator: {},
-                events: [],
-                rendered: ["2 Mg + O2 → 2 MgO"],
+                events: [{ event: "reaction_occurred", vessel: 1, equation: "2 Mg + O2 → 2 MgO" }],
+                rendered: ["v2: 2 Mg + O2 → 2 MgO"],
               },
         ],
         scene: { scene: 1, vessels: [] } as Scene,
       };
     };
     const s = new Session(host);
+    s.register = "lv2";
     await s.submit("add v1 AgNO3 1.7g");
     expect(s.lastIonic?.equation).toBe("Ag⁺(aq) + Cl⁻(aq) → AgCl(s)");
     await s.submit("ignite v2");
     expect(s.lastEquation).toBe("2 Mg + O2 → 2 MgO");
     expect(s.lastIonic).toBeNull();
+  });
+
+  /**
+   * GUI-127. The routing announcement is the engine's to make or withhold,
+   * so the session's job is to carry the reader's answer to it and to
+   * remember it — not to recognise a routing line by its words.
+   */
+  describe("the routing switch", () => {
+    it("announces by default, which is what an unasked engine renders", () => {
+      expect(new Session(new FakeHost()).announceRouting).toBe(true);
+    });
+
+    it("tells the engine, and does not narrate the switch into the log", async () => {
+      const host = new FakeHost();
+      const s = new Session(host);
+      const before = s.feed.length;
+      await s.setAnnounceRouting(false);
+      expect(host.calls).toContain("routing:false");
+      expect(s.announceRouting).toBe(false);
+      // A register change is worth a line because it changes what every
+      // future line says. This changes whether one kind of line appears,
+      // and announcing an announcement being switched off is a joke the
+      // log does not need.
+      expect(s.feed.length).toBe(before);
+    });
+
+    it("keeps the switch where the engine actually put it", async () => {
+      // An engine that predates the command refuses it by name. The
+      // reader's choice did not take effect, so it is not recorded —
+      // a switch showing "off" over a log that still announces is worse
+      // than a switch that did not move.
+      class OldEngine extends FakeHost {
+        async setAnnounceRouting(): Promise<void> {
+          throw new Error("unknown command set_announce_routing");
+        }
+      }
+      const s = new Session(new OldEngine());
+      await s.setAnnounceRouting(false);
+      expect(s.announceRouting).toBe(true);
+    });
+
+    it("survives a reload, and an older save restores a bench that announces", async () => {
+      const storage = new FakeStorage();
+      const first = new Session(new FakeHost(), storage);
+      await first.submit("add v1 water 100mL");
+      await first.setAnnounceRouting(false);
+
+      const host = new FakeHost();
+      const second = new Session(host, storage);
+      await second.connect();
+      expect(second.announceRouting).toBe(false);
+      expect(host.calls).toContain("routing:false");
+
+      // A save written before the field existed carries no answer, and the
+      // absence IS the default rather than a silence to guess at.
+      const saved = JSON.parse(storage.getItem("kero.session.v1") ?? "{}");
+      delete saved.announceRouting;
+      storage.setItem("kero.session.v1", JSON.stringify(saved));
+      const third = new Session(new FakeHost(), storage);
+      await third.connect();
+      expect(third.announceRouting).toBe(true);
+    });
+  });
+
+  /**
+   * GUI-128. The runner asks the BENCH how long to wait, because the bench
+   * is what knows whether the line just submitted put anything on the
+   * stage.
+   */
+  describe("how long the bench wants before the next line", () => {
+    it("asks for nothing on a bench nothing has happened to", () => {
+      expect(new Session(new FakeHost()).settleMs()).toBe(0);
+    });
+
+    it("asks for the remainder of THAT EFFECT's window", () => {
+      const s = new Session(new FakeHost());
+      s.vesselEffects = { 0: [{ kind: "burst", at: Date.now(), magnitude: 1 }] };
+      const wanted = s.settleMs();
+      expect(wanted).toBeGreaterThan(EFFECT_WINDOW_MS.burst! - 200);
+      expect(wanted).toBeLessThanOrEqual(EFFECT_WINDOW_MS.burst!);
+    });
+
+    it("asks a different amount for a different kind — that is the point", () => {
+      // GUI-132. One flat number for every kind was not a judgement, it
+      // was the absence of one: the windows were literals in
+      // `Vessel.svelte` with nowhere to look a kind's up.
+      const at = Date.now();
+      const ask = (kind: string) => {
+        const s = new Session(new FakeHost());
+        s.vesselEffects = { 0: [{ kind, at, magnitude: 1 }] };
+        return s.settleMs();
+      };
+      expect(effectWindowMs("bubble-ride")).toBeGreaterThan(effectWindowMs("dissolve"));
+      expect(ask("bubble-ride")).toBeGreaterThan(ask("dissolve"));
+    });
+
+    it("prefers the engine's own duration over the table", () => {
+      // The table is a fallback for a kind, exactly as it is in the
+      // drawing: a modelled lifetime beats a default every time.
+      const s = new Session(new FakeHost());
+      s.vesselEffects = { 0: [{ kind: "dissolve", at: Date.now(), durationMs: 6000, magnitude: 1 }] };
+      expect(s.settleMs()).toBeGreaterThan(EFFECT_WINDOW_MS.dissolve! + 1000);
+    });
+
+    it("asks for nothing once the window has already passed", () => {
+      // A step that only moved a number leaves the newest effect older
+      // than the window, so the run stays brisk rather than honouring an
+      // animation the previous line started.
+      const s = new Session(new FakeHost());
+      s.vesselEffects = {
+        0: [{ kind: "foam", at: Date.now() - effectWindowMs("foam") - 500, magnitude: 1 }],
+      };
+      expect(s.settleMs()).toBe(0);
+    });
+
+    it("reads the newest effect on any vessel, not the first it finds", () => {
+      const s = new Session(new FakeHost());
+      s.vesselEffects = {
+        0: [{ kind: "foam", at: Date.now() - effectWindowMs("foam") - 9000, magnitude: 1 }],
+        1: [{ kind: "burst", at: Date.now(), magnitude: 1 }],
+      };
+      expect(s.settleMs()).toBeGreaterThan(0);
+    });
   });
 
   it("hazard events become cards; a veto reads as a refusal", async () => {
@@ -1857,7 +2041,13 @@ describe("clearing the bench clears the whole bench", () => {
         return {
           steps: [{
             operator: {},
-            events: [],
+            // The event carries the equation bare; the vessel belongs to the
+            // PROSE the engine renders around it, and the rail never sees it.
+            events: [{
+              event: "reaction_occurred",
+              vessel: 0,
+              equation: "HCO₃⁻ + CH₃COOH → CH₃COO⁻ + H₂O + CO₂↑",
+            }],
             rendered: ["v1: HCO₃⁻ + CH₃COOH → CH₃COO⁻ + H₂O + CO₂↑"],
           }],
           scene: { scene: 1, vessels: [] } as Scene,
@@ -1865,6 +2055,7 @@ describe("clearing the bench clears the whole bench", () => {
       }
     }
     const s = new Session(new ReactingHost(), new FakeStorage());
+    s.register = "lv2";
     await s.submit("add v1 vinegar 10mL");
     expect(s.lastEquation).toBe("HCO₃⁻ + CH₃COOH → CH₃COO⁻ + H₂O + CO₂↑");
     expect(s.benchEquations[0]).toBe("HCO₃⁻ + CH₃COOH → CH₃COO⁻ + H₂O + CO₂↑");

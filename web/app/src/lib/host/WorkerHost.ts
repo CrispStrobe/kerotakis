@@ -162,6 +162,10 @@ export class WorkerHost implements EngineHost {
     await this.channel.request("set_register", { level });
   }
 
+  async setAnnounceRouting(on: boolean): Promise<void> {
+    await this.channel.request("set_announce_routing", { on });
+  }
+
   async scene(): Promise<Scene> {
     return JSON.parse(await this.channel.request("scene"));
   }

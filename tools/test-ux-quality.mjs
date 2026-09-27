@@ -884,6 +884,224 @@ const learningProgressJourney = async () => {
   await page.evaluate(`document.querySelector('dialog header button[aria-label="close"]')?.click()`);
 };
 
+/**
+ * GUI-126: while a script runs, the catalogue is a caption at the foot of
+ * the screen and not a lid on top of it.
+ *
+ * Measured before the change, in Chrome, against the deployed engine: at
+ * 1440x900 the running panel was 250 px and read as a caption; on a
+ * 390x844 phone it was 390 px — 46% of the viewport and 39% of the stage;
+ * and at **200% text zoom it was 713 px of 900, covering 100% of the
+ * stage**. That last reading is the owner's report in numbers.
+ *
+ * Every element is found by selector and the entry by `data-id`, never by
+ * its text: this audit runs in whatever language the shell is in. Each
+ * stage of the walk is reported, so a failure names where it stopped
+ * rather than arriving as one dead boolean.
+ */
+/**
+ * Sweep the width, do not sample it (GUI-133).
+ *
+ * GUI-123's defect lived at a shelf-pane width CI produced and the
+ * author's box did not: two honest runs of the same check, on the same
+ * commit, disagreed — the field measured 139.7 px here and 211 there at
+ * the SAME 1440 px viewport. Four sampled viewports cannot answer a
+ * question about a continuum, and the viewport was never the variable:
+ * the pane was.
+ *
+ * So this constrains the container directly and walks its own range. It
+ * is cheap because the layout reflows without re-navigating: open the
+ * amount form once, then resize the pane under it.
+ *
+ * Proven to fail on the defect rather than merely passing on the fix. With
+ * GUI-123 reverted the sweep reports the clip at a 160 px pane — a width
+ * no sampled viewport produces on that machine — and it also separates
+ * which half of that fix was load-bearing: with the spin buttons hidden
+ * but no floor the value still fits at 43 px, and with the spinners back
+ * it does not.
+ */
+const PANE_SWEEP_WIDTHS = [160, 180, 200, 207, 220, 240, 260, 280, 300, 340, 380, 420];
+
+const clippedControls = () => page.evaluate(`(() => {
+  const NO_TEXT = new Set(["checkbox","radio","range","color","file","image","hidden"]);
+  const out = [];
+  for (const el of document.querySelectorAll("input, textarea, select")) {
+    const tag = el.tagName.toLowerCase();
+    const type = tag === "input" ? (el.getAttribute("type") || "text").toLowerCase() : tag;
+    if (NO_TEXT.has(type)) continue;
+    if (el.getClientRects().length === 0) continue;
+    if (!el.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true })) continue;
+    const value = tag === "select"
+      ? (el.selectedOptions && el.selectedOptions[0] ? el.selectedOptions[0].textContent.trim() : "")
+      : String(el.value || "");
+    // The same rule GUI-123's legibility pass uses: a value the browser
+    // reports as cut off, short enough that there was nothing to cut.
+    if (!value || value.length > 6) continue;
+    const cutOff = tag === "select"
+      ? el.getBoundingClientRect().width + 0.5 < el.scrollWidth
+      : el.scrollWidth > el.clientWidth + 0.5;
+    if (!cutOff) continue;
+    out.push({ what: tag + "[" + type + "]", value, w: Math.round(el.getBoundingClientRect().width) });
+  }
+  return JSON.stringify(out);
+})()`);
+
+const sweepPaneWidths = async () => {
+  const opened = await openAmountForm();
+  if (!opened) return { opened: false, widths: 0, clipped: [], narrowest: null };
+  const clipped = [];
+  let narrowest = null;
+  for (const width of PANE_SWEEP_WIDTHS) {
+    await page.evaluate(`(() => {
+      let style = document.getElementById("pane-width-sweep");
+      if (!style) { style = document.createElement("style"); style.id = "pane-width-sweep"; document.head.append(style); }
+      style.textContent = "nav.shelf-pane { width: ${width}px !important; min-width: ${width}px !important; "
+        + "max-width: ${width}px !important; flex: none !important; }";
+    })()`);
+    await settle();
+    const field = Number(await page.evaluate(`(() => { const e = document.querySelector(".stepper input");
+      return e ? String(Math.round(e.getBoundingClientRect().width)) : "0"; })()`));
+    if (field > 0 && (narrowest === null || field < narrowest)) narrowest = field;
+    for (const entry of JSON.parse(await clippedControls())) clipped.push({ width, ...entry });
+  }
+  await page.evaluate(`document.getElementById("pane-width-sweep")?.remove()`);
+  await settle();
+  return { opened: true, widths: PANE_SWEEP_WIDTHS.length, clipped, narrowest };
+};
+
+/** The experiment catalogue, reached the way a learner reaches it in
+ *  Sandbox: through the utilities drawer. Matched whole rather than by
+ *  substring, for the reason `openConceptMap` gives. */
+const openExperimentCatalogue = async () => {
+  const wanted = ["experiments", "experimente"];
+  const present = () => page.evaluate(`Boolean([...document.querySelectorAll('button.tool')].find((item) =>
+    ${JSON.stringify(wanted)}.includes((item.textContent || "").trim().toLocaleLowerCase())))`);
+  if (!(await present())) {
+    await page.evaluate(`document.querySelector('button.utility-toggle')?.click()`);
+    await waitFor(page, `document.querySelector('.utility-drawer')`, { timeout: 5000 });
+  }
+  const there = await waitFor(page, `[...document.querySelectorAll('button.tool')].some((item) =>
+    ${JSON.stringify(wanted)}.includes((item.textContent || "").trim().toLocaleLowerCase()))`,
+    { timeout: 30000 });
+  if (!there) return false;
+  await page.evaluate(`(() => {
+    const button = [...document.querySelectorAll('button.tool')].find((item) =>
+      ${JSON.stringify(wanted)}.includes((item.textContent || "").trim().toLocaleLowerCase()));
+    button?.click();
+  })()`);
+  return waitFor(page, `document.querySelectorAll('dialog.panel article[data-id]').length > 0`, { timeout: 20000 });
+};
+
+const startAStepByStepRun = async () => {
+  const opened = await page.evaluate(`(() => {
+    const entry = [...document.querySelectorAll('dialog.panel article[data-id]')]
+      .find((item) => item.offsetParent);
+    entry?.querySelector('button')?.click();
+    return Boolean(entry);
+  })()`);
+  if (!opened) return { stage: "no entry to open" };
+  await settle();
+  // The entry view has tabs and the run lives behind the last of them.
+  const tabbed = await page.evaluate(`(() => {
+    const tabs = [...document.querySelectorAll('dialog.panel nav.tabs button')];
+    tabs[tabs.length - 1]?.click();
+    return tabs.length;
+  })()`);
+  await settle();
+  // Some entries gate the run on a prediction; answering any option opens
+  // it. The second pace chip is "step by step".
+  await page.evaluate(`(() => {
+    document.querySelector('dialog.panel .predict button.option')?.click();
+    document.querySelectorAll('dialog.panel .pace button')[1]?.click();
+  })()`);
+  await settle();
+  const pressed = await page.evaluate(`(() => {
+    const go = [...document.querySelectorAll('dialog.panel button.go')]
+      .filter((item) => !item.classList.contains('dock-next') && item.offsetParent && !item.disabled);
+    go[0]?.click();
+    return go.length;
+  })()`);
+  await settle();
+  // A bench with work on it asks what to do with it first; clearing is the
+  // answer that makes the run reproducible.
+  await page.evaluate(`(() => {
+    const decide = [...document.querySelectorAll('dialog.panel button.go')]
+      .filter((item) => !item.classList.contains('dock-next') && item.offsetParent);
+    if (decide.length > 1) decide[0].click();
+  })()`);
+  const running = await waitFor(page, `document.querySelector('dialog.panel.running .dock.waiting')`, { timeout: 40000 });
+  return { stage: running ? "running" : "never reached a step", tabs: tabbed, go: pressed };
+};
+
+const runningCaptionAudit = () => page.evaluate(`(() => {
+  const panel = document.querySelector('dialog.panel.running');
+  if (!panel) return JSON.stringify({ running: false });
+  // The same two boxes benchScrollAudit measures, by the same selectors.
+  const stage = document.querySelector('main .bench-pane .bench');
+  const vessel = document.querySelector('.work-surface .vessel-position');
+  const controls = panel.querySelector('.dock-controls');
+  const account = panel.querySelector('.dock-account');
+  const vh = window.innerHeight;
+  const box = panel.getBoundingClientRect();
+  const c = controls?.getBoundingClientRect();
+  const coveredPct = (el) => {
+    if (!el) return null;
+    const a = el.getBoundingClientRect();
+    const overlap = Math.max(0, Math.min(a.bottom, box.bottom) - Math.max(a.top, box.top));
+    return a.height ? Math.round((overlap / a.height) * 100) : 0;
+  };
+  // GUI-130: the run aligns the glass to the top of the caption, and the
+  // pane reserves the caption's height at its foot. Do what the run does
+  // before measuring, so this asks what a learner actually sees.
+  document.querySelector('.work-surface .vessel-position')?.scrollIntoView({ block: 'end' });
+  const paneReserve = parseFloat(getComputedStyle(
+    document.querySelector('main .bench-pane')).paddingBottom) || 0;
+  return JSON.stringify({
+    running: true,
+    paneReserve: Math.round(paneReserve),
+    reserveMatchesCaption: Math.abs(paneReserve - box.height) <= 2,
+    rootFontPx: Math.round(parseFloat(getComputedStyle(document.documentElement).fontSize)),
+    panelPx: Math.round(box.height),
+    viewportPx: vh,
+    panelPct: Math.round((box.height / vh) * 100),
+    stageCoveredPct: coveredPct(stage),
+    // The bottom of the glass is where the liquid, the foam and the
+    // bubbles are drawn, and it is the half a bottom-anchored caption
+    // takes first.
+    vesselCoveredPct: coveredPct(vessel),
+    // The press a learner repeats has to be on screen and inside the
+    // caption: a capped panel that scrolls its own buttons away is a run
+    // nobody can continue.
+    controlsOnScreen: Boolean(c && c.top >= 0 && c.bottom <= vh + 1 && c.height > 0),
+    controlsInsidePanel: Boolean(c && c.bottom <= box.bottom + 1),
+    // What gives way is the account, and it must be able to.
+    accountScrolls: Boolean(account && getComputedStyle(account).overflowY === 'auto'),
+  });
+})()`);
+
+/**
+ * Stop the run, close the catalogue, and put the bench back.
+ *
+ * The bench is shared state for every check after this one, and the entry
+ * this audit opens is whichever sorted first — which may be a script that
+ * works in two vessels. Leaving that behind made "the bench holds exactly
+ * one vessel to measure", three hundred lines below, fail on a bench this
+ * audit had furnished.
+ */
+const stopTheRun = async () => {
+  await page.evaluate(`(() => {
+    const buttons = [...document.querySelectorAll('dialog.panel.running .dock-controls button.stop')];
+    buttons[buttons.length - 1]?.click();
+  })()`);
+  await settle();
+  await page.evaluate(`document.querySelector('dialog.panel button.icon-close')?.click()`);
+  await settle();
+  await page.evaluate(`document.querySelector('button.clear-toggle')?.click()`);
+  await settle();
+  await page.evaluate(`document.querySelector('button.clear-yes')?.click()`);
+  await waitFor(page, `!document.querySelector('.work-surface .vessel-position')`, { timeout: 20000 });
+};
+
 const periodicAudit = () => page.evaluate(`(() => {
   const panel = document.querySelector('dialog.table-panel');
   const options = [...(panel?.querySelectorAll('[role="option"]') || [])];
@@ -964,13 +1182,43 @@ const periodicAudit = () => page.evaluate(`(() => {
  *   squeezed  the visible box survives but is narrower than one em with
  *             more than one character to paint, or shorter than half an
  *             em. Not even one character of it can be read.
+ *
+ * FORM CONTROLS (GUI-123). Everything above reads TEXT NODES, and an
+ * `<input>` has none: its value and its placeholder are painted by the
+ * control itself. So the whole net passed over them, and `Shelf.svelte`
+ * has carried a standing comment since the stepper was built — *"the
+ * number field was measured at 33px — too narrow to edit in"* — which is
+ * this defect, written down at the scene and unreachable by the check.
+ *
+ * The ruling says a value a reader typed, painted too small to read, is
+ * the same defect as a heading painted at zero. It also warns that
+ * **placeholders legitimately truncate**, so one threshold for both would
+ * cry wolf. They get different ones:
+ *
+ *   a VALUE is squeezed when it does not fit its own control AND it is
+ *     short — six characters or fewer. `scrollWidth > clientWidth` on an
+ *     input is the browser saying the content is cut off; for a sentence
+ *     that is ordinary, because the caret scrolls it and this file's own
+ *     rule is that a scroller is not a clip. For "1000" in a 33 px box it
+ *     is the defect the ruling named.
+ *   a PLACEHOLDER is only ever reported BLANK. A hint cut short is a hint,
+ *     and the reader has lost nothing they put there themselves.
+ *
+ * Both are reported blank on the same terms as text: a box that is zero
+ * in an axis paints nothing, whatever is in it.
+ *
+ * Controls with no painted text are excluded and counted (`noText`):
+ * checkbox, radio, range, color, file, image and hidden. A `<select>` IS
+ * measured, through its selected option's label, because a unit chip
+ * reading "mL" clipped to "m" is the same defect wearing a different tag.
  */
 const legibility = {
   surfaces: [],
   blank: [],
   squeezed: [],
   regimes: new Set(),
-  excluded: { ariaHidden: 0, srOnly: 0, srIdiom: 0, noBox: 0, invisible: 0, nested: 0 },
+  controls: [],
+  excluded: { ariaHidden: 0, srOnly: 0, srIdiom: 0, noBox: 0, invisible: 0, nested: 0, noText: 0 },
 };
 
 /** One measurement of one open surface, in whichever regime the caller is in.
@@ -983,8 +1231,8 @@ const legibility = {
  * taken in even if a caller mislabels it. */
 const legibilityProbe = (surface, regime) => page.evaluate(`(() => {
   const SKIP = new Set(["SCRIPT", "STYLE", "TEMPLATE", "OPTION", "NOSCRIPT", "SELECT", "TITLE"]);
-  const found = { sampled: 0, blank: [], squeezed: [],
-    excluded: { ariaHidden: 0, srOnly: 0, srIdiom: 0, noBox: 0, invisible: 0, nested: 0 } };
+  const found = { sampled: 0, controls: 0, blank: [], squeezed: [],
+    excluded: { ariaHidden: 0, srOnly: 0, srIdiom: 0, noBox: 0, invisible: 0, nested: 0, noText: 0 } };
   const reported = [];
   // Svelte's scoping hash is not a name: it changes whenever a
   // component's CSS changes, so a signature carrying one could never be
@@ -1108,22 +1356,103 @@ const legibilityProbe = (surface, regime) => page.evaluate(`(() => {
       em: round(em),
     });
   }
+  // GUI-123: the same question asked of the controls, whose text is not
+  // in a text node. Deliberately a second pass rather than a branch in
+  // the loop above: the thresholds differ, and folding two rules into one
+  // walk is how the looser of them ends up applied to both.
+  const NO_TEXT = new Set(["checkbox", "radio", "range", "color", "file", "image", "hidden"]);
+  for (const el of document.body.querySelectorAll("input, textarea, select")) {
+    const tag = el.tagName.toLowerCase();
+    const type = tag === "input" ? (el.getAttribute("type") || "text").toLowerCase() : tag;
+    if (NO_TEXT.has(type)) { found.excluded.noText += 1; continue; }
+    if (el.closest('[aria-hidden="true"]')) { found.excluded.ariaHidden += 1; continue; }
+    if (screenReaderOnly(el)) { found.excluded.srOnly += 1; continue; }
+    if (el.getClientRects().length === 0) { found.excluded.noBox += 1; continue; }
+    if (!el.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true })) {
+      found.excluded.invisible += 1; continue;
+    }
+    // A select paints its selected option; an input paints its value, or
+    // its placeholder when it has none.
+    const value = tag === "select"
+      ? (el.selectedOptions && el.selectedOptions[0] ? el.selectedOptions[0].textContent.trim() : "")
+      : String(el.value || "");
+    const hint = tag === "select" ? "" : String(el.getAttribute("placeholder") || "");
+    const painted = value || hint;
+    if (!painted) { found.excluded.noText += 1; continue; }
+    found.controls += 1;
+    const box = visibleBox(el);
+    const style = getComputedStyle(el);
+    const em = parseFloat(style.fontSize) || 16;
+    const blank = box.width <= 0.5 || box.height <= 0.5;
+    // The strict rule, and only for a value the reader put there: the
+    // browser says the content is cut off, and the content is short
+    // enough that there was nothing to cut. A select cannot scroll its
+    // own label, so an overflowing one is cut off outright.
+    const cutOff = tag === "select"
+      ? box.width + 0.5 < el.scrollWidth
+      : el.scrollWidth > el.clientWidth + 0.5;
+    const squeezed = !blank && Boolean(value) && value.length <= 6 && cutOff;
+    if (!blank && !squeezed) continue;
+    const parent = el.parentElement;
+    const parentBox = parent ? parent.getBoundingClientRect() : { width: 0, height: 0 };
+    (blank ? found.blank : found.squeezed).push({
+      surface: ${JSON.stringify(surface)},
+      regime: ${JSON.stringify(regime)},
+      element: describe(el) + "[" + type + "]",
+      // Say WHICH rule fired: a blank placeholder and a clipped value are
+      // different findings and a reader of the log needs to know which.
+      text: (value ? "value " : "placeholder ") + JSON.stringify(painted.slice(0, 30)),
+      width: round(box.width), height: round(box.height),
+      ownWidth: round(box.own.width), ownHeight: round(box.own.height),
+      clippedBy: box.clippedBy,
+      parent: parent ? describe(parent) : "",
+      parentWidth: round(parentBox.width), parentHeight: round(parentBox.height),
+      em: round(em),
+    });
+  }
   found.root = getComputedStyle(document.documentElement).fontSize;
   return JSON.stringify(found);
 })()`);
+
+/**
+ * Expand a bottle's amount form before sweeping the cabinet (GUI-123).
+ *
+ * Without this the control sweep reads the search box and the two dials
+ * and nothing else: the stepper — the one control this repo has a
+ * standing comment about, *"the number field was measured at 33px — too
+ * narrow to edit in"* — is behind a disclosure and was never in the
+ * sample. A net that does not reach the thing it was written for is a net
+ * that passes.
+ *
+ * Tolerant on purpose: the cabinet is not open at every call site, and a
+ * sweep that threw here would take the surfaces after it down with it.
+ * Returns whether the form is on screen, so a caller can say so.
+ */
+const openAmountForm = async () => {
+  await page.evaluate(`(() => {
+    if (document.querySelector('.stepper input')) return;
+    const bottle = [...document.querySelectorAll('nav.shelf-pane ul li button.species')]
+      .find((item) => item.offsetParent);
+    bottle?.click();
+  })()`);
+  await settle();
+  return Boolean(await page.evaluate(`Boolean(document.querySelector('.stepper input'))`));
+};
 
 /** Measure one surface and fold it into the run's tally, printing the
  * reading as it goes so a CI log says where every offender was found. */
 const sweepLegibility = async (surface, regime) => {
   await settle();
   const found = JSON.parse(await legibilityProbe(surface, regime));
-  legibility.surfaces.push({ surface, regime, sampled: found.sampled, root: found.root });
+  legibility.surfaces.push({ surface, regime, sampled: found.sampled, controls: found.controls, root: found.root });
+  legibility.controls.push(found.controls);
   legibility.regimes.add(regime);
   for (const entry of found.blank) legibility.blank.push(entry);
   for (const entry of found.squeezed) legibility.squeezed.push(entry);
   for (const key of Object.keys(legibility.excluded)) legibility.excluded[key] += found.excluded[key];
-  console.log(`   ..    legibility · ${regime} · ${surface}: ${found.sampled} read at a `
-    + `${found.root} root, ${found.blank.length} blank, ${found.squeezed.length} squeezed`);
+  console.log(`   ..    legibility · ${regime} · ${surface}: ${found.sampled} read `
+    + `+ ${found.controls} control(s) at a ${found.root} root, `
+    + `${found.blank.length} blank, ${found.squeezed.length} squeezed`);
   for (const entry of found.blank.concat(found.squeezed)) {
     console.log(`          ${entry.element} "${entry.text}" `
       + `visible ${entry.width}x${entry.height} of own ${entry.ownWidth}x${entry.ownHeight} `
@@ -1192,7 +1521,75 @@ try {
   // GUI-121, first vantage point. The desktop bench, the shelf pane and the
   // journal are all mounted here: one reading covers the three surfaces the
   // app opens on.
+  check("the amount form is open where the sweep can read its field (1440 px)",
+    await openAmountForm());
   await sweepLegibility("bench, cabinet and journal", "1440 px");
+
+  /* -- GUI-133: sweep the pane's width rather than sampling viewports -- */
+  const paneSweep = await sweepPaneWidths();
+  check("the pane-width sweep opened the form it is about",
+    paneSweep.opened && paneSweep.widths >= 10, JSON.stringify({ opened: paneSweep.opened, widths: paneSweep.widths }));
+  check("no control clips its own value at any pane width",
+    paneSweep.clipped.length === 0,
+    paneSweep.clipped.map((c) => `${c.width}px pane → ${c.what} "${c.value}" in ${c.w}px`).join("  |  ")
+      || `${paneSweep.widths} widths, narrowest field ${paneSweep.narrowest}px`);
+
+  /* -- GUI-126: the run is the experiment, and the caption is a caption -- */
+  if (await openExperimentCatalogue()) {
+    const started = await startAStepByStepRun();
+    check("a catalogue entry runs step by step on the visible bench",
+      started.stage === "running", JSON.stringify(started));
+    if (started.stage === "running") {
+      // Both regimes in one bracket of five lines, and each reading says
+      // which one it came from — GUI-108's standing lesson about a zoom
+      // bracket long enough to forget you are inside it.
+      for (const regime of ["1440 px", "200% text zoom"]) {
+        if (regime !== "1440 px") {
+          await page.evaluate(`(() => {
+            const style = document.createElement("style");
+            style.id = "ux-text-zoom";
+            style.textContent = "html { font-size: 200% !important; } body { font-size: 200% !important; }";
+            document.head.append(style);
+          })()`);
+          await settle();
+        }
+        const caption = JSON.parse(await runningCaptionAudit());
+        const said = `${regime}: ${caption.panelPx}px of ${caption.viewportPx} (${caption.panelPct}%), `
+          + `stage ${caption.stageCoveredPct}% covered, vessel ${caption.vesselCoveredPct}% covered, `
+          + `root ${caption.rootFontPx}px`;
+        // A third of the screen, with the 9rem floor the cap carries for
+        // the zoomed case: 288px of 900 is 32%, so 40 is the bound that
+        // holds in both regimes and still fails the 79% this replaces.
+        check(`the running caption takes at most 40% of the screen (${regime})`,
+          caption.running === true && caption.panelPct <= 40, said);
+        check(`the stage is not wholly behind the caption (${regime})`,
+          caption.stageCoveredPct !== null && caption.stageCoveredPct < 80, said);
+        // GUI-130 moved this from "keeps half" to "is essentially clear".
+        // Measured after the change: 0% at 1440x900 and on a 390x844
+        // phone, 1% at a 32 px root — where before it was 21%, and 59%
+        // when the alignment used `block: "nearest"`. 15 leaves room for
+        // a pixel of border and nowhere near enough for a regression.
+        check(`the glass is clear of the caption (${regime})`,
+          caption.vesselCoveredPct !== null && caption.vesselCoveredPct < 15,
+          `${regime}: vessel ${caption.vesselCoveredPct}% covered`);
+        check(`the bench pane reserves the caption's height at its foot (${regime})`,
+          caption.reserveMatchesCaption === true,
+          `${regime}: reserve ${caption.paneReserve}px against a ${caption.panelPx}px caption`);
+        check(`the run's controls are on screen and inside the caption (${regime})`,
+          caption.controlsOnScreen === true && caption.controlsInsidePanel === true,
+          JSON.stringify({ onScreen: caption.controlsOnScreen, inside: caption.controlsInsidePanel }));
+        check(`what gives way is the account, not the controls (${regime})`,
+          caption.accountScrolls === true, `accountScrolls=${caption.accountScrolls}`);
+      }
+      await page.evaluate(`document.getElementById('ux-text-zoom')?.remove()`);
+      await settle();
+    }
+    await stopTheRun();
+  } else {
+    check("the experiment catalogue opens from the utilities drawer", false);
+  }
+  await ensureGlassware();
+  await settle();
   // The precondition, said out loud: an empty bench proves nothing about
   // what standing on it looks like.
   check("the bench has glassware to stand on it", (benchTop.stood ?? []).length > 0,
@@ -2080,6 +2477,8 @@ try {
     narrowFilters.clipped?.length === 0, `${(narrowFilters.clipped ?? []).join(", ")} in a ${narrowFilters.railHeight}px rail`);
   check("320 px phase chips keep 44 px touch targets",
     narrowFilters.small?.length === 0, (narrowFilters.small ?? []).join(", "));
+  check("the amount form is open where the sweep can read its field (320 px)",
+    await openAmountForm());
   await sweepLegibility("cabinet", "320 px");
   const narrowJournal = await chooseMobilePane(2);
   check("320 px workspace stays inside the page", narrowBench.bodyOverflow <= 1 && Boolean(narrowBench.bench), `${narrowBench.bodyOverflow}px`);
@@ -2446,6 +2845,8 @@ try {
   // is a ZOOMED one, and each is labelled so that no future table of
   // measurements can sit inside this bracket without saying which side of
   // it the numbers came from.
+  check("the amount form is open where the sweep can read its field (200% text zoom)",
+    await openAmountForm());
   await sweepLegibility("bench, cabinet and journal", "200% text zoom");
 
   /* -- GUI-122: what falls out of the bottom is under a scroller ------- *
@@ -3088,6 +3489,13 @@ try {
   check("every surface the sweep read had text on it",
     thinnest.sampled >= 3,
     `${thinnest.surface} at ${thinnest.regime} offered ${thinnest.sampled} elements with text`);
+  // GUI-123: the same claim for the half of the app the text-node walk
+  // cannot see. A sweep that read no controls would pass this section in
+  // silence, which is the shape of failure this whole block is written
+  // against — so the sample is asserted before the finding is.
+  const controlsRead = legibility.controls.reduce((total, n) => total + n, 0);
+  check("the sweep reached the form controls, whose text is not in a text node",
+    controlsRead >= 8, `${controlsRead} control value(s)/placeholder(s) measured`);
   check("the legibility sweep saw the app, not a fragment of it",
     legibility.surfaces.reduce((total, item) => total + item.sampled, 0) >= 400,
     `${legibility.surfaces.reduce((total, item) => total + item.sampled, 0)} readable elements across `
@@ -3208,6 +3616,117 @@ try {
   } finally {
     engineless.close();
   }
+/* -- I18N-12: the engine answers in the reader's language ------------
+ *
+ * Everything else about a translation can be checked without a browser:
+ * a key set, a placeholder set, a lint. None of that reaches the
+ * ENGINE's half, which is a TOML compiled into wasm and reachable only
+ * by running a command — so it went unverified until someone loaded the
+ * page, and what they found was not one bug but three:
+ *
+ *   * 83 rows still addressed the reader as `vous`, through the VERB,
+ *     where no pronoun existed for a grep to find;
+ *   * the shelf showed French names the parser refused;
+ *   * `ajouter v1` answered `usage: add <vessel> …`.
+ *
+ * Every test in the suite was passing throughout. So this drives the
+ * real engine in the browser, once per shipped language, and it reads
+ * the languages off the catalogue directory rather than naming them —
+ * a fourth language is covered by existing, which is the property the
+ * rest of the i18n surface already has and this check must not lack.
+ */
+try {
+  const { readdir } = await import("node:fs/promises");
+  const catalogues = (await readdir(new URL("../crates/kerotakis-core/i18n/", import.meta.url)))
+    .filter((name) => name.endsWith(".toml"))
+    .map((name) => name.replace(/\.toml$/, ""));
+  check("there is more than one language to check", catalogues.length > 0,
+    catalogues.join(", ") || "no catalogues found");
+
+  for (const code of catalogues) {
+    const toml = await readFile(
+      new URL(`../crates/kerotakis-core/i18n/${code}.toml`, import.meta.url), "utf8");
+    // `[script-verb]` maps a canonical verb to this language's words for
+    // it, first one first. The bench must accept the first one.
+    const verbs = Object.fromEntries(
+      (toml.match(/^\[script-verb\][\s\S]*?(?=\n\[)/m)?.[0] ?? "")
+        .split("\n")
+        .map((line) => line.match(/^([a-z_]+) = "([^"]+)"/))
+        .filter(Boolean)
+        .map((hit) => [hit[1], hit[2].split(",")[0].trim()]));
+    const add = verbs.add;
+    const species = (toml.match(/^water = "([^"]+)"/m) ?? [])[1];
+    if (!add || !species) {
+      check(`${code}: the catalogue names a verb for \`add\` and a word for water`,
+        false, `add=${add ?? "-"} water=${species ?? "-"}`);
+      continue;
+    }
+
+    await viewport(1440, 900);
+    await page.evaluate(`(() => {
+      localStorage.setItem("kerotakis.locale", ${JSON.stringify(code)});
+      localStorage.setItem("kerotakis.mode.v1", "sandbox");
+      localStorage.setItem("kerotakis.console.v1", "shown");
+    })()`);
+    await page.goto(`${origin}/app/`);
+    await openBench();
+    await waitFor(page, `Boolean(document.querySelector('form.bar input'))`, { timeout: 60000 });
+
+    const run = async (line) => {
+      await page.evaluate(`(() => {
+        const box = document.querySelector("form.bar input");
+        const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value").set;
+        setter.call(box, ${JSON.stringify(line)});
+        box.dispatchEvent(new Event("input", { bubbles: true }));
+      })()`);
+      // Validation is a round trip to the engine, so `.problem` is empty
+      // for a moment after the keystroke. One `settle()` was enough for
+      // German and not for French, which is what a race looks like when
+      // you only run two languages: wait for a verdict to APPEAR, and
+      // only call it empty after the line has had real time to fail.
+      const read = async () =>
+        JSON.parse(await page.evaluate(
+          `JSON.stringify(document.querySelector(".problem")?.textContent?.trim() ?? "")`));
+      for (let tries = 0; tries < 20; tries += 1) {
+        const verdict = await read();
+        if (verdict) return verdict;
+        await settle();
+      }
+      return "";
+    };
+
+    // 1. The language's own verb and its own word for water, together.
+    //    Either half failing leaves a learner typing English.
+    const refusal = await run(`${add} v1 ${species} 100mL`);
+    check(`${code}: \`${add} v1 ${species}\` is a command this bench accepts`,
+      refusal === "", refusal);
+    if (refusal === "") {
+      await page.evaluate(`document.querySelector("form.bar")?.requestSubmit()`);
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+      // 2. And the answer comes back composed in that language. The look
+      //    line is the engine's own prose, not a catalogue lookup the
+      //    shell could have done.
+      const look = JSON.parse(await page.evaluate(`(() => {
+        const el = document.querySelector(".journal") ?? document.querySelector("main");
+        return JSON.stringify(el?.innerText ?? "");
+      })()`));
+      const english = /\b(the liquid is|the beaker is empty|there is nothing to see)\b/i.test(look);
+      check(`${code}: the engine's observation is not English`, !english,
+        english ? look.split("\n").find((line) => /the liquid is/i.test(line)) ?? "" : "");
+    }
+
+    // 3. And the line that says what to do next names the verb the
+    //    learner typed, not the canonical English one.
+    const usage = await run(`${add} v1`);
+    check(`${code}: a usage line names \`${add}\`, not \`add\``,
+      usage.startsWith(`usage: ${add}`) || (code === "en" && usage.startsWith("usage: add")),
+      usage);
+  }
+} catch (error) {
+  console.error(`UX quality (engine language): ${error.stack ?? error.message}`);
+  failures++;
+}
+
 } catch (error) {
   console.error(`UX quality: ${error.stack ?? error.message}`);
   failures++;

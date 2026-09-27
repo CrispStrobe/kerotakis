@@ -38,13 +38,19 @@ else
 fi
 
 echo "== the page"
-cp "$ROOT/web/index.html" "$ROOT/web/privacy.html" \
-   "$ROOT/web/privacy.de.html" "$ROOT/web/kerotakis.mjs" \
-   "$ROOT/web/manifest.webmanifest" "$ROOT/web/manifest.de.webmanifest" \
+cp "$ROOT/web/index.html" "$ROOT/web/privacy.html" "$ROOT/web/kerotakis.mjs" \
+   "$ROOT/web/manifest.webmanifest" \
    "$ROOT/web/icon.svg" \
    "$ROOT/web/icon-192.png" "$ROOT/web/icon-512.png" \
    "$ROOT/web/icon-maskable-512.png" "$ROOT/web/apple-touch-icon.png" \
    "$ROOT/web/screenshot-wide.png" "$ROOT/web/screenshot-narrow.png" "$OUT/"
+# I18N: every translated page and manifest, by GLOB rather than by name.
+# These were listed as `privacy.de.html` and `manifest.de.webmanifest`, so
+# adding a language meant editing this script — and forgetting to would
+# ship a language whose install prompt and privacy page were missing, with
+# nothing failing.
+cp "$ROOT"/web/privacy.*.html "$ROOT"/web/manifest.*.webmanifest "$OUT/"
+
 cp "$ROOT/vendor/iphreeqc/database/wateq4f.dat" \
    "$ROOT/vendor/iphreeqc/database/minteq.v4.dat" \
    "$ROOT/vendor/iphreeqc/database/pitzer.dat" "$OUT/db/"

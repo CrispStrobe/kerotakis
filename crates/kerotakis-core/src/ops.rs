@@ -1234,6 +1234,15 @@ pub enum Event {
         species: SpeciesId,
         corroding: bool,
         why: String,
+        /// The same verdict as a phrase, for a reader who is not English.
+        ///
+        /// `why` is its English rendering, so there is one sentence and
+        /// not two — the shape `Inert` has carried since I18N-8. `None`
+        /// for the curated-table verdicts (`BARRIERS`,
+        /// `ELECTROLYTE_CREEP`), whose prose is keyed by a lot source and
+        /// is a translation surface of its own.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        reason: Option<crate::phrase::Phrase>,
         /// How much of the metal is already gone: moles of it now locked in
         /// the oxide its corrosion reaction makes, read off the vessel.
         ///
@@ -1450,6 +1459,14 @@ pub enum Event {
         /// event serialises exactly as before.
         #[serde(default, skip_serializing_if = "Option::is_none")]
         note: Option<String>,
+        /// The same caveat as a phrase, for a reader who is not English.
+        ///
+        /// `note` is its English rendering. The conductivity boundary was
+        /// the last long paragraph the bench wrote as a finished
+        /// `format!`, so a French transcript carried a whole English
+        /// explanation hanging off an otherwise French reading.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        note_reason: Option<crate::phrase::Phrase>,
     },
     /// The open-circuit voltage between two half-cells, and which way the
     /// electrons would go. Open circuit means: no current drawn, no

@@ -16,7 +16,7 @@
 import type { EngineHost, ParticleCensus, Scene } from "./host/EngineHost";
 import { EngineError } from "./host/EngineHost";
 import { isChartSpec, type ChartSpec } from "./chart";
-import { equationFromRenderedLine } from "./benchEquation";
+import { equationsFromEvents } from "./benchEquation";
 import {
   completeIonic,
   latestNetIonic,
@@ -36,6 +36,7 @@ import {
   effectFromEvent,
   vesselOf,
   type Effect,
+  effectWindowMs,
 } from "./magnitudes";
 import { i18n, t } from "./i18n.svelte";
 import { registerText } from "./registerText";
@@ -254,6 +255,25 @@ const CATALOG_BACKOFF_MS = [400, 1200];
 
 export class Session {
   register = $state<string>("lv1");
+  /**
+   * GUI-127: whether the log carries the aqueous routing announcement.
+   *
+   * A second axis beside the register, because they answer different
+   * questions — the register is HOW MUCH chemistry, this is WHICH KINDS
+   * OF LINE. Folding them together is what shipped: the routing paragraph
+   * belongs to lv3, and on a German bench it was 454 of one step's 550
+   * characters, so the only way to be rid of it was to leave lv3 and give
+   * up every number lv3 was turned on for.
+   *
+   * The engine owns the decision — `Narration` in `kerotakis-core` — so
+   * the wasm bench and the native bench cannot drift, and so nothing here
+   * has to recognise a routing line by its words. What a line IS is a
+   * fact about the event; what it SAYS is a fact about one language at
+   * one register.
+   *
+   * On by default: a bench that has never been asked says everything.
+   */
+  announceRouting = $state<boolean>(true);
   scene = $state<Scene | null>(null);
   feed = $state<FeedEntry[]>([]);
   busy = $state(false);
@@ -443,6 +463,58 @@ export class Session {
     list.push(effect);
     this.vesselEffects = { ...this.vesselEffects, [vessel]: list };
     this.expireEffect(vessel, effect);
+  }
+
+  /**
+   * How long the bench would like before another line lands on it, in ms.
+   *
+   * GUI-128. `runCatalogEntry` paced itself at a flat 420 ms, and every
+   * visible effect on this bench outlives that — a burst is drawn for
+   * 1800 ms, a foam head for 3000, a bubble ride for 9000. A ten-line
+   * script therefore fired ten animations inside four seconds, each wiped
+   * by the next before it had drawn. That is the ORIGINAL defect the
+   * runner was written to fix ("no pacing, so the animations of ten
+   * commands collapsed into one frame"), surviving in the one number
+   * nobody had measured against the thing it paces.
+   *
+   * The bench answers rather than the runner guessing, because the bench
+   * is what knows whether the line just submitted put anything on the
+   * stage. It reports the remainder of each live effect's OWN window and
+   * takes the longest, so:
+   *
+   *   - a line that started something asks for the rest of the time that
+   *     something is drawn for;
+   *   - a line that only moved a number asks for nothing, because every
+   *     effect is already past its window, and the run stays brisk;
+   *   - no effects at all asks for nothing.
+   *
+   * GUI-132: this used one flat 1400 ms for every kind, which was not a
+   * judgement but the absence of one — the windows were numeric literals
+   * scattered across `Vessel.svelte` and there was nowhere to look a
+   * kind's up. With `EFFECT_WINDOW_MS` there is, so a burst asks for its
+   * 1800 ms and a dissolve for its 1400.
+   *
+   * It does NOT cap itself. The honest answer to "how long is this drawn
+   * for" is nine seconds for a bubble ride; how much of that a RUN can
+   * afford is the runner's business, and the runner caps it — the same
+   * division of labour, kept rather than blurred.
+   */
+  settleMs(): number {
+    const now = Date.now();
+    let wanted = 0;
+    for (const list of Object.values(this.vesselEffects)) {
+      for (const effect of list) {
+        // GUI-132: what this effect is actually drawn for, not one flat
+        // number for every kind. A burst is 1800 ms and a bubble ride is
+        // 9000; pacing both at 1400 was the best that could be done while
+        // the windows were literals scattered across `Vessel.svelte` with
+        // nowhere to look one up. The engine's own duration still wins
+        // wherever it supplies one, exactly as the drawing uses it.
+        const window = effect.durationMs ?? effectWindowMs(effect.kind);
+        wanted = Math.max(wanted, window - (now - effect.at));
+      }
+    }
+    return Math.max(0, wanted);
   }
 
   /** Removing an effect is itself reactive. CSS animations therefore stop
@@ -800,6 +872,7 @@ export class Session {
         log: string[];
         position: number;
         register: string;
+        announceRouting?: boolean;
         notes?: { text: string; createdAt: string }[];
         /** v2: the engine snapshot at `position` — one restore() call
          * instead of a replay. Absent in v1 saves; replay covers those. */
@@ -813,6 +886,17 @@ export class Session {
       if (saved.register && saved.register !== this.register) {
         await this.host.setRegister(saved.register);
         this.register = saved.register;
+      }
+      // Absent in every save written before GUI-127, which is exactly the
+      // default — so an old save restores a bench that announces.
+      if (saved.announceRouting === false) {
+        try {
+          await this.host.setAnnounceRouting(false);
+          this.announceRouting = false;
+        } catch {
+          // An engine without the command announces; the switch follows
+          // the engine rather than claiming a state it does not have.
+        }
       }
       const position = Math.max(0, Math.min(saved.log.length, saved.position ?? saved.log.length));
       let how = t("replayed");
@@ -862,6 +946,7 @@ export class Session {
           log: this.commandLog,
           position: this.position,
           register: this.register,
+          announceRouting: this.announceRouting,
           notes: this.feed
             .filter((entry) => entry.kind === "user-note")
             .map(({ text, createdAt }) => ({ text, createdAt: createdAt ?? new Date().toISOString() })),
@@ -1121,14 +1206,19 @@ export class Session {
         let pinnedEquation = false;
         for (const rendered of step.rendered) {
           this.feed.push({ kind: "line", text: rendered });
-          // The engine writes balanced equations with a real arrow; the
-          // latest one is the reaction the bench is showing right now.
-          // `benchEquation` takes the chemistry out of the engine's own
-          // framing — the line arrives as `v1: {equation}`, and pinning the
-          // colon with it is what put a title-less ": HCO₃⁻ + …" on the
-          // bench and into the balancing drill's question pool.
-          const equation = equationFromRenderedLine(rendered);
-          if (equation) {
+        }
+        // GUI-125: the equation comes off the EVENT, never out of the prose.
+        // Scraping any line with a `→` pinned the routing announcement and
+        // the temperature change onto the REAKTION rail and into the
+        // balancing drill's pool — 41 rendered lines carry that arrow and
+        // one of them is chemistry. See `benchEquation`.
+        //
+        // lv1 is the reader's own answer to "should there be an equation
+        // here at all": the engine deliberately renders no equation at that
+        // register, and the rail follows the register rather than
+        // overruling it.
+        if (this.register !== "lv1") {
+          for (const equation of equationsFromEvents(step.events as unknown[])) {
             this.lastEquation = equation;
             this.rememberEquation(equation);
             pinnedEquation = true;
@@ -1488,6 +1578,33 @@ export class Session {
     list.push(effect);
     this.vesselEffects = { ...this.vesselEffects, [vessel]: list };
     this.expireEffect(vessel, effect);
+  }
+
+  /**
+   * Turn the routing announcement in the log on or off.
+   *
+   * No feed line either way, unlike `setRegister`: the register changes
+   * what every future line SAYS and is worth recording, while this only
+   * decides whether one kind of line appears — and announcing an
+   * announcement being switched off is a joke the log does not need. An
+   * engine that predates the command refuses it; the switch then stays
+   * where the reader put it and the log is unchanged, which is the same
+   * degradation `setLocale` had.
+   */
+  async setAnnounceRouting(on: boolean): Promise<void> {
+    if (this.busy) return;
+    this.busy = true;
+    try {
+      await this.host.setAnnounceRouting(on);
+      this.announceRouting = on;
+      this.persist();
+    } catch {
+      // An older engine. The reader's choice is not recorded, because it
+      // did not take effect, and saying so would be the only honest
+      // alternative to saying nothing.
+    } finally {
+      this.busy = false;
+    }
   }
 
   async setRegister(level: string): Promise<void> {

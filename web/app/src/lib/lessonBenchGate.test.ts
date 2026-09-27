@@ -167,6 +167,7 @@ class BenchHost implements EngineHost {
     return { ok: false as const, error: "not in the fake" };
   }
   async setRegister() {}
+  async setAnnounceRouting() {}
   async setLocale() {}
   async state() {
     return {};

@@ -107,6 +107,58 @@
             </circle>
           {/each}
         {/each}
+      {:else if benchEffect.operation === "extract"}
+        <!-- GUI-131. A solvent extraction moved solutes between two
+             vessels and drew nothing at all — the second gap GUI-129's
+             guard recorded.
+
+             It borrows the DRAIN's separating funnel rather than drawing
+             one of its own. That was the first draft and it was wrong:
+             the two operations use the same piece of glassware, and two
+             pictures of one apparatus is how a bench stops being a bench.
+             What an extraction adds is what an extraction IS — a solvent
+             layer that did the taking, sized by how much it took; the
+             stages, because "three small shake-outs beat one big one" is
+             the whole lesson and the count is the only part of it a
+             picture can carry; and the solutes crossing.
+
+             Six ticks is the cap: past that they stop being countable and
+             the number beside them is the honest answer. -->
+        {@const extraction = benchEffect.extraction}
+        {@const stages = Math.min(6, extraction?.stages ?? 1)}
+        {@const taken = Math.max(0.08, benchEffect.magnitude)}
+        <g
+          class="separator extracting"
+          transform={`translate(${midpoint.x - 15} ${midpoint.y - 15})`}
+          style={`--lower:${benchEffect.fluidColour ?? "var(--cool)"};--upper:color-mix(in srgb, var(--fluid) 55%, white);--taken:${taken}`}
+        >
+          <path class="separator-stand" d="M 29 -7 V 38 M 24 38 H 34 M 20 4 H 29" />
+          <path class="separator-glass" d="M 7 0 H 19 L 21 5 Q 26 16 13 28 Q 0 16 5 5 Z M 13 28 V 34" />
+          <path class="upper-layer" d="M 4.5 8 Q 13 10 21.5 8 Q 23 16 18 21 H 8 Q 3 16 4.5 8 Z" />
+          <path class="lower-layer" d="M 8 21 H 18 Q 16 25 13 28 Q 10 25 8 21 Z" />
+          <path class="stopcock" d="M 8 32 H 18 M 13 30 V 35" />
+          {#each Array.from({ length: stages }, (_, i) => i) as i (i)}
+            <circle class="stage-tick" cx={30 + i * 4} cy="14" r="1.3" style={`--tick-delay:${(i * 0.14).toFixed(2)}s`} />
+          {/each}
+          <text class="stage-count" x="13" y="-4" text-anchor="middle">{t("{count}×", { count: extraction?.stages ?? 1 })}</text>
+          <text x="13" y="50" text-anchor="middle">{t(extraction?.solvent ?? "")}</text>
+        </g>
+        {#each (extraction?.solutes ?? []).slice(0, 3) as solute, soluteIndex (solute.species)}
+          <!-- One travelling mark per solute, sized by how much of IT the
+               solvent actually took. A solute the rig left behind draws a
+               small one, which is the finding rather than a failure. -->
+          <circle
+            class="extracted-mark"
+            r={1 + Math.max(0, Math.min(1, solute.stagedEfficiency)) * 2.4}
+          >
+            <animateMotion
+              dur={`${(1.4 - benchEffect.magnitude * 0.5).toFixed(2)}s`}
+              begin={`${(soluteIndex * 0.22).toFixed(2)}s`}
+              path={path}
+              fill="freeze"
+            />
+          </circle>
+        {/each}
       {:else if benchEffect.operation === "filter"}
         <g
           class="filter"
@@ -193,6 +245,14 @@
   .filter .residue { fill: var(--residue); fill-opacity: calc(.38 + var(--residue-load) * .55); stroke: color-mix(in srgb, var(--residue) 80%, var(--edge-strong)); stroke-width: .5; }
   .filter .residue-grain { fill: var(--residue); opacity: calc(.45 + var(--residue-load) * .45); }
   .filter.loaded .residue-grain { animation: settle-grain .55s ease-out both; animation-delay: var(--grain-delay); }
+  /* GUI-131. An extraction borrows the drain's funnel and adds only what
+     it adds. `--taken` is the best solute's staged efficiency, so the
+     solvent layer's opacity IS how much that solvent got. */
+  .separator.extracting .upper-layer { fill-opacity: calc(.3 + var(--taken) * .6); }
+  .separator .stage-tick { fill: var(--primary); opacity: 0; animation: stage-land .4s ease-out var(--tick-delay) forwards; }
+  .separator .stage-count { fill: var(--primary); }
+  .extracted-mark { fill: var(--fluid); stroke: var(--edge-strong); stroke-width: .4; }
+  @keyframes stage-land { from { opacity: 0; transform: translateY(-3px); } to { opacity: .9; transform: none; } }
   .magnet-body { fill: color-mix(in srgb, var(--surface) 82%, var(--edge)); stroke: var(--edge-strong); stroke-width: 1.6; }
   .magnet-pole { stroke: var(--edge-strong); stroke-width: .6; }
   .magnet-pole.north { fill: var(--danger); }
@@ -238,11 +298,13 @@
     .condensate-drop,
     .separator .stopcock,
     .separator .drain-jet,
+    .separator .stage-tick,
     .cable { animation: none; }
     .pour-glow, .pour-stream { stroke-dashoffset: 0; }
     .pour-glow { opacity: .18; }
     .pour-stream { opacity: .62; }
     .condensate-drop { opacity: .75; }
-    .landing, .magnetic-grain { display: none; }
+    .landing, .magnetic-grain, .extracted-mark { display: none; }
+    .separator .stage-tick { opacity: .9; }
   }
 </style>

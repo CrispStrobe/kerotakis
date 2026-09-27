@@ -1637,6 +1637,125 @@ describe("GUI-116 — a longer-lived phenomenon stays on screen longer", () => {
     expect(slow!.durationMs!).toBeLessThanOrEqual(LIFETIME_MAX_MS);
   });
 
+  /**
+   * GUI-129. Both were found by tracing the bench in a browser, not by
+   * reading it: `equilibrium-can-run-backward` ran an esterification and
+   * the only classes that appeared over the whole script were the bench's
+   * own chrome.
+   */
+  it("an organic reaction is a reaction, and is drawn as one", () => {
+    const organic = effectFromEvent({
+      event: "org_reacted", vessel: 0, name: "esterification",
+      equation: "CH3COOH + C2H5OH ⇌ CH3COOC2H5 + H2O", extent: 0.004, boundary: "open",
+    });
+    expect(organic).not.toBeNull();
+    expect(organic!.kind).toBe("react");
+    expect(organic!.magnitude).toBeGreaterThan(0);
+    expect(organic!.reaction?.reaction).toBe("esterification");
+    expect(organic!.reading).toBeCloseTo(0.004);
+    // `Event::OrgReacted` carries no duration, so the rate is unknown and
+    // is reported as unknown rather than as a number nobody measured.
+    expect(organic!.reaction?.molesPerSecond).toBe(0);
+  });
+
+  it("a bigger organic extent is drawn bigger", () => {
+    const small = effectFromEvent({ event: "org_reacted", vessel: 0, name: "r", equation: "", extent: 0.0002 })!;
+    const large = effectFromEvent({ event: "org_reacted", vessel: 0, name: "r", equation: "", extent: 0.05 })!;
+    expect(large.magnitude).toBeGreaterThan(small.magnitude);
+  });
+
+  it("dissolving in a solvent that is not water looks like dissolving", () => {
+    // The asymmetry had no reason behind it: the identical solid going
+    // into water dissolved in front of the reader and into ethanol did
+    // not. The amount lives in `dissolved`, which is the only difference.
+    const aqueous = effectFromEvent({ event: "dissolved", vessel: 0, species: "NaCl", moles: 0.02 })!;
+    const organic = effectFromEvent({
+      event: "dissolved_in_solvent", vessel: 0, species: "I2", solvent: "ethanol",
+      dissolved: 0.02, undissolved: 0,
+    })!;
+    expect(organic.kind).toBe(aqueous.kind);
+    expect(organic.magnitude).toBeCloseTo(aqueous.magnitude);
+    expect(organic.reading).toBeCloseTo(0.02);
+    expect(organic.species).toBe("I2");
+  });
+
+  /**
+   * GUI-131. The two phenomena GUI-129's guard recorded as having no
+   * picture at all. Both carry the numbers their drawing needs; neither
+   * was being read.
+   */
+  describe("the last two events with no picture", () => {
+    const heated = (over: number, extra: Record<string, unknown> = {}) => effectFromEvent({
+      event: "polymer_heated", vessel: 0, material: "thermoplastic sheet",
+      state: over > 0 ? "softened" : "rigid", temperature: 420 + over, threshold: 420,
+      reversible: over > 0, cross_linked: false, ...extra,
+    })!;
+
+    it("a polymer that never reached its wall is still drawn", () => {
+      // "Nothing happened" is half of `chains-slide-networks-do-not`, and
+      // it is the half a blank space cannot make: the reader is being
+      // shown that heat reached this block and it did not move.
+      const cold = heated(-80);
+      expect(cold.kind).toBe("polymer");
+      expect(cold.polymer?.state).toBe("rigid");
+      expect(cold.magnitude).toBeGreaterThan(0);
+    });
+
+    it("scales on how far past the wall it is, not on how hot it is", () => {
+      // 430 K is 430 K; ten degrees over a softening point and two
+      // hundred over are different observations of it.
+      expect(heated(200).magnitude).toBeGreaterThan(heated(10).magnitude);
+    });
+
+    it("carries the fact the lesson turns on", () => {
+      const network = heated(60, { cross_linked: true, state: "rigid", reversible: false });
+      const chains = heated(60);
+      expect(network.polymer?.crossLinked).toBe(true);
+      expect(chains.polymer?.crossLinked).toBe(false);
+      // Same heat, same vessel, two different pictures. That IS the
+      // experiment, and the bench drew one block for both.
+      expect(network.polymer?.state).not.toBe(chains.polymer?.state);
+    });
+
+    it("charring is not reversible, and says so", () => {
+      const charred = heated(300, { state: "charred", reversible: false });
+      expect(charred.polymer?.state).toBe("charred");
+      expect(charred.polymer?.reversible).toBe(false);
+    });
+
+    it("an extraction is a transfer between two vessels", () => {
+      const pulled = effectFromEvent({
+        event: "extracted", from: 0, to: 1, solvent: "ethyl acetate",
+        total_solvent: 0.2, stages: 3,
+        solutes: [
+          { species: "caffeine", extracted: 0.004, remaining: 0.001, staged_efficiency: 0.8 },
+          { species: "tannin", extracted: 0.0002, remaining: 0.003, staged_efficiency: 0.06 },
+        ],
+      })!;
+      expect(pulled.kind).toBe("extract");
+      expect(pulled.operation).toBe("extract");
+      expect(pulled.source).toBe(0);
+      expect(pulled.target).toBe(1);
+      expect(pulled.extraction?.stages).toBe(3);
+      // The BEST solute, because that is what the rig is for: taking 80%
+      // of the thing you wanted and 6% of the thing you did not is a
+      // successful extraction, and averaging them would call it a poor one.
+      expect(pulled.magnitude).toBeCloseTo(0.8);
+      expect(pulled.extraction?.solutes).toHaveLength(2);
+    });
+
+    it("an extraction that took almost nothing draws almost nothing", () => {
+      const weak = effectFromEvent({
+        event: "extracted", from: 0, to: 1, solvent: "water", stages: 1,
+        solutes: [{ species: "x", extracted: 0, remaining: 0.01, staged_efficiency: 0.01 }],
+      })!;
+      expect(weak.magnitude).toBeLessThan(0.05);
+      // A stage count is never zero: the solvent was used at least once,
+      // whatever it came back with.
+      expect(weak.extraction?.stages).toBe(1);
+    });
+  });
+
   it("no shipped foam half-life can hold the drawing open for a minute", () => {
     // The seven stabiliser half-lives in `registry-source-v1.json`. Before
     // this the foam effect lived `half_life_seconds * 1000` ms — from 90
