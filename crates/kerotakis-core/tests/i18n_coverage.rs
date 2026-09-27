@@ -529,6 +529,16 @@ fn refusal_keys() -> Vec<String> {
     ];
     let mut keys: Vec<String> = SOURCES
         .iter()
+        // Production halves only. `script.rs` now carries a test that
+        // asserts `error.unkeyed` is gone, and the literal in that
+        // assertion was read back as a live key — so the gate demanded a
+        // German translation of its own failure message. A scanner that
+        // reads fixtures as production is the same mistake as one that
+        // reads nothing.
+        .map(|source| match source.find("\n#[cfg(test)]") {
+            Some(at) => &source[..at],
+            None => *source,
+        })
         .flat_map(|source| {
             source.match_indices("\"error.").filter_map(|(at, _)| {
                 let rest = &source[at + 1..];
