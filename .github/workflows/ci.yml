@@ -105,6 +105,13 @@ jobs:
         run: bash tools/fetch-sundials.sh
       - name: Install cargo-deny
         run: cargo install cargo-deny --locked
+      - name: librsvg and Pillow, so the icon check actually runs
+        # Both, because the gate needs both and had been silent about
+        # each of them: installing librsvg let it run for the first time
+        # and it got as far as `No module named 'PIL'`.
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq librsvg2-bin
+          python3 -m pip install --quiet --upgrade Pillow
       - name: Run tools/preflight.sh
         # --no-clippy: the `Test (native)` matrix above already runs the
         # identical clippy command on ubuntu and macOS, so this would be
@@ -277,6 +284,40 @@ jobs:
           "$RUNNER_TEMP/registry-source-v1.json"
       - name: Generated source document is checked in exactly
         run: cmp data/registry/registry-source-v1.json "$RUNNER_TEMP/registry-source-v1.json"
+
+  native-host:
+    name: The native host still compiles
+    # `kerotakis-app` is deliberately outside the main workspace — its own
+    # workspace root — so `cargo check --workspace` has never touched it,
+    # and nothing else here builds it either. It drifted: #729 gave
+    # `charts_for_events`, `net_ionic_for` and `census.render` a locale,
+    # the wasm host was updated, and the native one was not. Five call
+    # sites, broken from that merge until an App Store build found them,
+    # which is the most expensive place to find a missing argument.
+    #
+    # macOS because Tauri needs no extra system packages there, and
+    # `cargo check` because this is about the call sites, not a bundle.
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: recursive
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: web/app/src-tauri
+      - name: Fetch SUNDIALS (not vendored; pinned by checksum)
+        run: bash tools/fetch-sundials.sh
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+      - name: The shell payload tauri-build looks for
+        run: |
+          npm --prefix web/app ci --no-audit --no-fund
+          bash tools/build-shell-payload.sh
+      - name: cargo check
+        working-directory: web/app/src-tauri
+        run: cargo check --all-targets
 
   wasm-lab:
     name: The bench in WebAssembly

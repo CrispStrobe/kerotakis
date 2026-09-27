@@ -53,6 +53,30 @@ for arg in "$@"; do
 done
 
 step() { printf '\n\033[1m== %s\033[0m\n' "$1"; }
+
+# A gate whose precondition is missing must SAY so, and in CI it must
+# fail.
+#
+# The icon check sat behind `if command -v rsvg-convert` and printed
+# "skipping" on every CI run there has ever been, so the one gate that
+# would notice the shipped artwork drifting from its source never once
+# executed. The same shape guards cargo-deny and the provenance
+# checksums. Both happen to run today — and both would disappear without
+# a word the day a tool moved or a file was renamed, which is the same
+# hole waiting for a different afternoon.
+#
+# On a developer's machine a missing optional tool is not a failure: a
+# checkout without librsvg should still run the rest. In CI it is a hole
+# in the gate, so it is an error there.
+needed() {
+  local what="$1" how="$2"
+  if [ -n "${CI:-}" ]; then
+    echo "::error::$what is missing, so its gate cannot run. $how"
+    exit 1
+  fi
+  echo "   ($what absent, skipping its check)"
+}
+
 # Run a gate step with the lock fd closed for its children, so nothing a
 # step spawns can inherit — and outlive us holding — the build gate.
 gated() { "$@" 9>&-; }
@@ -136,11 +160,15 @@ step "quest lint";     cargo run --release -p kerotakis-cli -- quest lint
 # CAP-14: licence bar as cargo-deny lint (2026-08-23)
 if command -v cargo-deny >/dev/null 2>&1; then
   step "cargo-deny";  cargo deny check
+else
+  needed "cargo-deny" "cargo install cargo-deny --locked"
 fi
 
 # Provenance checksums (vendored files)
 if [ -f tools/provenance-lint.sh ]; then
   step "provenance checksums"; bash tools/provenance-lint.sh
+else
+  needed "tools/provenance-lint.sh" "it was renamed or removed; restore it, or delete this gate deliberately"
 fi
 
 # The committed icons must still match the mark they were drawn from —
@@ -156,7 +184,7 @@ fi
 if command -v rsvg-convert >/dev/null 2>&1; then
   step "icons"; python3 tools/gen-icons.py --check
 else
-  echo "   (icons: rsvg-convert absent, skipping the icon check)"
+  needed "rsvg-convert" "apt-get install -y librsvg2-bin"
 fi
 
 printf '\n\033[1;32mpreflight clean\033[0m\n'

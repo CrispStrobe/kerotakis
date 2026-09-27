@@ -94,6 +94,27 @@ lipo -archs "$APP/Contents/MacOS/$EXE"
 lipo -archs "$APP/Contents/MacOS/$EXE" | grep -q x86_64 \
     || { echo "not universal: an Intel Mac could not install this"; exit 1; }
 
+# THE ICON, and that it is OUR icon. macOS applies no mask of its own, so
+# the rounded shape has to BE the artwork — `tools/gen-app-icons.sh`
+# rebuilds `icon.icns` from the squircle master for exactly that reason.
+# Nothing checked that the rebuilt file reached the bundle, so a stale or
+# missing icns shipped silently and surfaced in the store.
+ICNS="$(/usr/libexec/PlistBuddy -c "Print CFBundleIconFile" "$APP/Contents/Info.plist" 2>/dev/null || echo icon)"
+BUNDLED="$APP/Contents/Resources/${ICNS%.icns}.icns"
+[ -f "$BUNDLED" ] \
+    || { echo "no $BUNDLED — the app bundle carries no icon"; exit 1; }
+# Byte-compared against the committed master, because "an icon is
+# present" and "the right icon is present" are different claims and only
+# the second one is what a store listing shows.
+if ! cmp -s "$BUNDLED" "$TAURI/icons/icon.icns"; then
+    echo "the bundled icns is not the committed one —"
+    echo "  bundle: $(shasum -a 256 "$BUNDLED" | cut -c1-16)"
+    echo "  master: $(shasum -a 256 "$TAURI/icons/icon.icns" | cut -c1-16)"
+    echo "  run tools/gen-app-icons.sh and commit the result"
+    exit 1
+fi
+echo "   icon: $(basename "$BUNDLED"), matches the committed master"
+
 PKG="$TARGET_DIR/universal-apple-darwin/release/bundle/macos/Kerotakis-$VERSION.pkg"
 echo "== the installer package"
 productbuild --component "$APP" /Applications \

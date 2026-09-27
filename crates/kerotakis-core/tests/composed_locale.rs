@@ -122,6 +122,10 @@ fn without_test_modules(text: &str) -> String {
 /// A regex would need a crate; the shape is fixed enough to scan for.
 fn phrase_literals() -> Vec<(&'static str, String, String)> {
     let mut out = Vec::new();
+    // Guarded at the end: a scanner that matches nothing makes every
+    // gate built on it pass. `rustfmt` moving a key onto its own line
+    // already broke one marker like this in `engine-locale-lint.py`, and
+    // there the symptom was silence.
     for (file, src) in COMPOSERS {
         let src = without_test_modules(src);
         for opener in ["Phrase::new(", "Phrase::bare("] {
@@ -214,6 +218,20 @@ fn holes(template: &str) -> BTreeSet<String> {
 #[test]
 fn every_composed_key_is_translated() {
     let phrases = phrase_literals();
+    // A FLOOR against a scanner that stopped matching, not a target. It
+    // is 100 because the count is 138 today and the failure this guards
+    // against takes it to nearly zero — `rustfmt` moving a key onto its
+    // own line did exactly that to the equivalent marker in
+    // `engine-locale-lint.py`. I first wrote 150, which is above the
+    // real number: a guard set by guessing rather than by counting fails
+    // on the day it is added, which is at least the cheap day.
+    assert!(
+        phrases.len() > 100,
+        "only {} composed phrases found across {} files — the scanner \
+         stopped matching and this gate is now checking almost nothing",
+        phrases.len(),
+        COMPOSERS.len()
+    );
     for locale in Locale::available().into_iter().filter(|l| !l.is_english()) {
         let missing: Vec<String> = phrases
             .iter()
