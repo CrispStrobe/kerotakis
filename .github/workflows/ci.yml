@@ -320,17 +320,17 @@ jobs:
         run: cargo check --all-targets
 
   payload:
-    # The shell payload is pure Python and Node, and until v0.1.0 it was only
-    # ever built on `ubuntu-latest` (and macOS, in native-host). The release
-    # builds it on `ubuntu-22.04` and `windows-latest` too, and both failed
-    # there while CI was green:
+    # The shell payload's four Python steps were only ever run on
+    # `ubuntu-latest` (and macOS, in native-host). The release builds them on
+    # `ubuntu-22.04` and `windows-latest` too, and v0.1.0 failed on both while
+    # CI was green:
     #
     #   ubuntu-22.04    ModuleNotFoundError: No module named 'tomllib'  (py3.10)
     #   windows-latest  UnicodeDecodeError: 'charmap' codec can't decode 0x81
     #
-    # So this job runs the payload build on exactly the runners the release
-    # uses. It needs no Rust and no bundle, which is why it is cheap enough to
-    # run on every pull request.
+    # So this runs them on exactly those two runners. `--without-codex` drops
+    # the single step that needs a compiler, which is what keeps this cheap
+    # enough for every pull request: no submodules, no SUNDIALS, no C++.
     name: Shell payload (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     strategy:
@@ -339,23 +339,22 @@ jobs:
         os: [ubuntu-22.04, windows-latest]
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
-        with:
-          node-version: "22"
-      # Deliberately NOT PYTHONUTF8=1, and deliberately the runner's own
-      # python3 on ubuntu-22.04: this job exists to fail when a script forgets
-      # its encoding, and either of those would hide that. `release.yml` sets
-      # both, so the shipped build is protected; this one stays exposed.
-      - name: Build the shell payload
+      # Deliberately no setup-python and deliberately no PYTHONUTF8: this job
+      # exists to fail when a script forgets its encoding or reaches for a
+      # module its oldest supported interpreter lacks, and either of those
+      # would hide it. `release.yml` sets both, so the shipped build is safe
+      # while this gate stays exposed.
+      - name: Which interpreter is this, exactly
+        shell: bash
+        run: python3 -VV
+      - name: The Python half of the shell payload
+        shell: bash
+        run: bash tools/build-shell-payload.sh --without-codex
+      - name: The payload is not empty, and the accents survived
         shell: bash
         run: |
-          npm --prefix web/app ci --no-audit --no-fund
-          bash tools/build-shell-payload.sh
-      - name: The payload is not empty
-        shell: bash
-        run: |
-          # A build that produced an empty index would pass the step above,
-          # because every script in it exits 0 over nothing. Count the rows.
+          # Every script above exits 0 over an empty input, so an exit code is
+          # not evidence. Count the rows, then look for the bytes that broke.
           python3 - <<'EOF'
           import json, pathlib
           root = pathlib.Path("web/app/public/engine")
@@ -363,14 +362,27 @@ jobs:
           assert len(rows) > 100, f"only {len(rows)} lessons indexed"
           size = sum(f.stat().st_size for f in root.rglob("*") if f.is_file())
           print(f"{len(rows)} lessons, payload {size:,} bytes")
-          # The point of running here at all: prove the accented rows survived
-          # the platform's default codec instead of being mangled or dropped.
           prose = json.loads((root / "lessons/prose.json").read_text(encoding="utf-8"))
           text = json.dumps(prose, ensure_ascii=False)
-          for accent in ("é", "ü", "à"):
+          for accent in ("\u00e9", "\u00fc"):
               assert accent in text, f"no {accent!r} in the translated prose"
           print("accented prose survived the round trip")
           EOF
+      - name: Nothing that ships may pass --without-codex
+        shell: bash
+        run: |
+          # The flag above skips a step. A skipped step that reports success is
+          # the exact shape this whole job exists to catch, so the flag is
+          # allowed in CI and nowhere else.
+          # web/app/package.json matters most: `build:shell` there is the path
+          # tauri's beforeBuildCommand actually takes into this script.
+          if grep -rn -- '--without-codex' .github/workflows/release.yml \
+               .github/workflows/appstore.yml web/app/src-tauri/tauri.conf.json \
+               web/app/package.json; then
+            echo "::error::a shipping build would package a payload with no codex"
+            exit 1
+          fi
+          echo "no shipping build passes --without-codex"
 
   wasm-lab:
     name: The bench in WebAssembly
