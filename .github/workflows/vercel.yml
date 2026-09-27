@@ -42,6 +42,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
+      # tools/build-web.sh reaches tools/build-shell-payload.sh, which needs
+      # tomllib — Python 3.11 and newer. Pinned rather than inherited so a
+      # change of runner image cannot break the deploy.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
       - name: Build the same payload Pages serves
         run: bash tools/build-web.sh "$RUNNER_TEMP/site"
       - name: Deploy

@@ -339,11 +339,16 @@ jobs:
         os: [ubuntu-22.04, windows-latest]
     steps:
       - uses: actions/checkout@v6
-      # Deliberately no setup-python and deliberately no PYTHONUTF8: this job
-      # exists to fail when a script forgets its encoding or reaches for a
-      # module its oldest supported interpreter lacks, and either of those
-      # would hide it. `release.yml` sets both, so the shipped build is safe
-      # while this gate stays exposed.
+      # The same Python the release names. These tools use `tomllib`, so 3.11
+      # is the floor, and pinning it here rather than taking the runner's own
+      # is the point: ubuntu-22.04 ships 3.10 and its payload build died on
+      # exactly that. The guard step below keeps the two pins in step.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      # Deliberately NOT PYTHONUTF8=1, though — `release.yml` sets it and this
+      # job must not, or a script that forgets its encoding passes here and
+      # breaks for whoever runs it on Windows without that variable.
       - name: Which interpreter is this, exactly
         shell: bash
         run: python3 -VV
@@ -368,6 +373,14 @@ jobs:
               assert accent in text, f"no {accent!r} in the translated prose"
           print("accented prose survived the round trip")
           EOF
+      - name: Every workflow that reaches a tomllib tool names its Python
+        shell: bash
+        # The Linux half of v0.1.0 died because release.yml ran this on a
+        # runner whose python3 was 3.10. Pinning it fixed that one workflow;
+        # this keeps the next one from repeating it, and it follows the
+        # indirect chains — appstore.yml reaches the same Python through
+        # `tauri build`, and build-web.sh through no payload script at all.
+        run: python3 tools/payload-toolchain-lint.py --check --verbose
       - name: Nothing that ships may pass --without-codex
         shell: bash
         run: |
