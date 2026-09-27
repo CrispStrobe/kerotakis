@@ -155,6 +155,19 @@ fi
 # this is the gate on them.
 if command -v rsvg-convert >/dev/null 2>&1; then
   step "icons"; python3 tools/gen-icons.py --check
+elif [ -n "${CI:-}" ]; then
+  # A skip is not a pass. This printed "rsvg-convert absent, skipping"
+  # on every CI run there has ever been, so the one gate that would
+  # notice the shipped artwork drifting from its source has never once
+  # executed — and the first place anyone would find out is the App
+  # Store, where an icon costs another build and another review.
+  #
+  # On a developer's machine the skip is right: librsvg is a real
+  # dependency and a Windows checkout should not fail for want of it.
+  # In CI it is a missing tool, and a missing tool is a failure.
+  echo "::error::rsvg-convert is not installed, so the icon check cannot run."
+  echo "Install it in the workflow: apt-get install -y librsvg2-bin"
+  exit 1
 else
   echo "   (icons: rsvg-convert absent, skipping the icon check)"
 fi

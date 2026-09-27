@@ -105,6 +105,8 @@ jobs:
         run: bash tools/fetch-sundials.sh
       - name: Install cargo-deny
         run: cargo install cargo-deny --locked
+      - name: librsvg, so the icon check actually runs
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq librsvg2-bin
       - name: Run tools/preflight.sh
         # --no-clippy: the `Test (native)` matrix above already runs the
         # identical clippy command on ubuntu and macOS, so this would be

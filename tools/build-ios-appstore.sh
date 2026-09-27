@@ -193,6 +193,25 @@ codesign --verify -R="anchor apple generic" --verbose "$APP" 2>&1 | tail -2
 PLIST_VERSION="$(/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "$APP/Info.plist")"
 [ "$PLIST_VERSION" = "$VERSION" ] \
     || { echo "Info.plist says $PLIST_VERSION, tauri.conf.json says $VERSION"; exit 1; }
+# THE ICON. This script asserted four Info.plist keys and nothing about
+# the artwork, so a bundle with no icon — or with Xcode's placeholder —
+# uploaded cleanly and only showed itself in the store, where it cannot
+# be fixed without another build and another review.
+#
+# Two facts, because they fail differently. `CFBundleIcons` missing means
+# the asset catalogue was never wired into the target; the catalogue
+# present but empty means `actool` ran and found nothing to compile.
+/usr/libexec/PlistBuddy -c "Print :CFBundleIcons:CFBundlePrimaryIcon:CFBundleIconName" \
+    "$APP/Info.plist" >/dev/null 2>&1 \
+    || { echo "Info.plist names no app icon — the asset catalogue is not in the target"; exit 1; }
+[ -f "$APP/Assets.car" ] \
+    || { echo "Assets.car is missing — actool compiled no asset catalogue"; exit 1; }
+# `actool` also writes the loose PNGs the springboard falls back to, and
+# their absence is the shape a wrong-icon report actually takes.
+ls "$APP"/AppIcon*.png >/dev/null 2>&1 \
+    || { echo "no AppIcon*.png in the bundle — the icon set did not compile"; exit 1; }
+echo "   icon: $(/usr/libexec/PlistBuddy -c "Print :CFBundleIcons:CFBundlePrimaryIcon:CFBundleIconName" "$APP/Info.plist"), $(ls "$APP"/AppIcon*.png | wc -l | tr -d ' ') loose PNG(s), Assets.car $(stat -f%z "$APP/Assets.car" 2>/dev/null || stat -c%s "$APP/Assets.car") bytes"
+
 # ITMS-90068 is a WARNING on upload, so a build below the floor ships
 # silently. Assert it here, where it is an error.
 MIN_OS="$(/usr/libexec/PlistBuddy -c "Print :MinimumOSVersion" "$APP/Info.plist")"
