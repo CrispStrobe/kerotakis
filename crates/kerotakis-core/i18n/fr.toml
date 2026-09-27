@@ -1052,6 +1052,8 @@ boiled = "a bouilli"
 "no solid particles are present" = "aucune particule solide n'est présente"
 
 [error]
+"nuclide-takes-moles" = "les quantités de nucléide s'expriment en moles (reçu : « {amount} ») — échelle traceur, par exemple 1e-9mol"
+"unknown-heat-source" = "source de chaleur inconnue « {word} » : essaie burner, candle ou hotplate"
 "not-finite" = "{what} doit être un nombre fini — « {value} » ne peut pas être écrit dans le journal d'opérateurs avec lequel la paillasse se sauvegarde"
 "log-scale-out-of-range" = "{what} doit rester dans ±{limit} — {value} est un exposant qu'aucun solveur aqueux ne représente"
 "bad-vessel" = "récipient invalide « {word} » (utilise v1, v2, …)"
@@ -1683,6 +1685,13 @@ one-point-one-equilibration = "chaque point : une mise à l'équilibre du solveu
 
 # The metavariables a usage line names — the WORDS, never the tokens.
 [syntax]
+"stir speed" = "vitesse d'agitation"
+"stage count" = "nombre d'étages"
+"step count" = "nombre de pas"
+"max step count" = "nombre maximal de pas"
+"pH target" = "pH visé"
+"pe target" = "pe visé"
+"Courant fraction" = "fraction de Courant"
 vessel = "récipient"
 species = "espèce"
 material = "matériau"

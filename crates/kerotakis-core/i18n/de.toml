@@ -1116,6 +1116,8 @@ boiled = "siedete"
 #
 # `{vessel}` is a NAME (v1, v2) and never a number: it keeps its point.
 [error]
+"nuclide-takes-moles" = "Nuklidmengen werden in Mol angegeben (bekommen: '{amount}') — Tracer-Maßstab, z. B. 1e-9mol"
+"unknown-heat-source" = "unbekannte Wärmequelle \"{word}\": versuch burner, candle oder hotplate"
 "not-finite" = "{what} muss eine endliche Zahl sein — '{value}' lässt sich nicht in das Operator-Protokoll schreiben, mit dem sich das Labor selbst sichert"
 "log-scale-out-of-range" = "{what} muss innerhalb von ±{limit} liegen — {value} ist ein Exponent, den keine wässrige Rechenmaschine darstellt"
 "bad-vessel" = "ungültiges Gefäß '{word}' (nimm v1, v2, …)"
@@ -1971,6 +1973,13 @@ one-point-one-equilibration = "jeder Punkt: eine Gleichgewichtsrechnung der wäs
 # deliberately absent; so is `[max <n>]`, which is grammar. A name with no
 # row stays English, per string and never per language.
 [syntax]
+"stir speed" = "Rührgeschwindigkeit"
+"stage count" = "Stufenzahl"
+"step count" = "Schrittzahl"
+"max step count" = "maximale Schrittzahl"
+"pH target" = "pH-Zielwert"
+"pe target" = "pe-Zielwert"
+"Courant fraction" = "Courant-Zahl"
 vessel = "Gefäß"
 species = "Stoff"
 material = "Material"
