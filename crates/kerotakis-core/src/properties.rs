@@ -225,37 +225,49 @@ pub fn henry_lookup(formula: &str) -> Option<&'static HenryCoefficient> {
 
 // ── Ethanol-water mixture density ──────────────────────────────────
 //
-// Polynomial fit to CRC Handbook of Chemistry and Physics, 97th ed.,
-// Table "Density of aqueous ethanol solutions at 20 °C".
-// 21 data points (0–100 % w/w in 5 % steps), 5th-order polynomial.
-// Valid: 0 ≤ w ≤ 1 (mass fraction ethanol), T = 20 °C.
-// Max residual: 1.5 mg/mL against the tabulated values.
-// ETHANOL_WATER_DENSITY_PROV below names the public-domain primary this
-// could be refitted to.
-// 21 data points (0–100 % w/w in 5 % steps), 5th-order polynomial.
-// Valid: 0 ≤ w ≤ 1 (mass fraction ethanol), T = 20 °C.
-// Max residual: 1.5 mg/mL against the tabulated values.
+// Refitted 2026-09-22 to the primary measurement, which this file had
+// already identified and called "a genuine upgrade nobody has done".
+//
+// Osborne, McKelvy and Bearce, Bulletin of the Bureau of Standards 9
+// (1913), Table XLIX, the 20 °C column. 98 of its 101 one-per-cent rows
+// (13, 86 and 93 did not survive the scan), 5th-order polynomial in mass
+// fraction. Valid: 0 ≤ w ≤ 1, T = 20 °C. Max residual 0.45 mg/mL.
+//
+// THE NUMBERS BARELY MOVED AND THAT IS THE POINT. The superseded fit,
+// taken from a commercial handbook, already agreed with this measurement
+// to 0.84 mg/mL — the handbook's table descends from this paper. What
+// changed is which of them the bench cites, and that the fit now rests on
+// 98 points of a public-domain United States Government determination
+// instead of 21 points transcribed out of a work whose `upstreams.toml`
+// row reads `verdict = "avoid"`.
 
 const ETHANOL_WATER_DENSITY_PROV: &str =
-    "CRC Handbook, 97th ed., 'density of aqueous ethanol solutions at 20 °C'; \
-     5th-order polynomial in mass fraction fitted to its twenty-one points, \
-     valid 0 ≤ w ≤ 1, max residual 1.5 mg/mL. The handbook is a commercial \
-     compilation and ranks below a primary measurement; the primary here is \
-     identified and simply has not been checked against. UNVERIFIED LEAD, \
-     recorded as a lead and not as a source: Osborne, McKelvy and Bearce, \
-     'Density and thermal expansion of ethyl alcohol and of its mixtures with \
-     water', Bulletin of the Bureau of Standards 9 (1913) 327-474, is the \
-     United States Government measurement every alcoholometric table descends \
-     from, and it is public domain. Refitting these coefficients to it would \
-     be a genuine upgrade and nobody has done it";
+    "N. S. Osborne, E. C. McKelvy and H. W. Bearce, 'Density and thermal \
+     expansion of ethyl alcohol and of its mixtures with water', Bulletin of \
+     the Bureau of Standards 9 (1913) 327-474 (Scientific Paper 197), Table \
+     XLIX 'Density of Mixtures of Ethyl Alcohol and Water', 20 °C column; \
+     5th-order polynomial in mass fraction fitted to 98 of its 101 \
+     one-per-cent rows, valid 0 ≤ w ≤ 1, max residual 0.45 mg/mL. A United \
+     States Government work of 1913: public domain twice over, by authorship \
+     and by age. This is the determination every alcoholometric table \
+     descends from, so it is a primary measurement rather than a compilation. \
+     READ, not inferred: the scan is Internet Archive item \
+     `dens93274741913197197osbo`. The transcription was checked before it was \
+     used — the table's own water row reads 0.99973, 0.99913, 0.99823, \
+     0.99708, 0.99568, 0.99406 and 0.99225 at 10, 15, 20, 25, 30, 35 and \
+     40 °C, which is the textbook density of water at all seven, fixing both \
+     the table's identity and which column is 20 °C. WHAT MOVED: the \
+     superseded CRC fit agreed with these points to 0.84 mg/mL already, so \
+     the values change by under a milligram per millilitre. The provenance is \
+     the upgrade, not the number";
 
 const EW_COEFFS: [f64; 6] = [
-    9.977_472_131_347e-01,
-    -1.873_665_046_600e-01,
-    4.305_337_838_453e-01,
-    -1.410_997_305_338,
-    1.565_239_129_337,
-    -6.066_534_820_230e-01,
+    9.979_569_513_341e-01,
+    -1.895_297_001_672e-01,
+    4.458_501_428_086e-01,
+    -1.458_015_238_398,
+    1.622_990_483_639,
+    -6.303_650_429_177e-01,
 ];
 
 /// Density of an ethanol-water mixture in g/mL at 20 °C.
@@ -764,8 +776,10 @@ mod tests {
     // ── evaluate dispatcher ─────────────────────────────────────────
 
     // ── Ethanol-water density reference points ───────────────────────
-    // CRC Handbook 97th ed., density of aqueous ethanol at 20 °C — the
-    // same points the curve was fitted to.
+    // Osborne, McKelvy and Bearce (1913), Table XLIX, 20 °C column — the
+    // same points the curve is fitted to. The bands are ±0.002 g/mL, far
+    // looser than the 0.45 mg/mL the fit achieves, so they check the shape
+    // rather than the fit; tightening them is a separate decision.
 
     #[test]
     fn ethanol_water_pure_water() {

@@ -1,0 +1,59 @@
+# The web payload to Vercel, on purpose and never by accident.
+#
+# Pages is the live deploy and it happens on every merge to main; this is
+# the second host, and it has never been wired. `web/vercel.json` has
+# always been here — immutable caching for the hashed assets, nosniff for
+# everything else — but nothing ever sent Vercel a build.
+#
+# Dispatch-only, and it uploads a PREBUILT payload: the same
+# `tools/build-web.sh` output Pages serves, so the two hosts cannot drift
+# into being two different builds. Vercel runs nothing.
+name: Vercel
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Which deployment"
+        type: choice
+        options: [preview, production]
+        default: preview
+
+jobs:
+  deploy:
+    name: Deploy the web payload (${{ inputs.target }})
+    runs-on: ubuntu-latest
+    # Without a token this job cannot do anything, and saying so here is
+    # better than a 401 forty lines into a build.
+    steps:
+      - name: A token has to exist
+        run: |
+          if [ -z "${{ secrets.VERCEL_TOKEN }}" ]; then
+            echo "::error::VERCEL_TOKEN is not set. Add it in Settings → Secrets → Actions."
+            exit 1
+          fi
+      - uses: actions/checkout@v6
+        with:
+          submodules: recursive
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Fetch SUNDIALS (not vendored; pinned by checksum)
+        run: bash tools/fetch-sundials.sh
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Build the same payload Pages serves
+        run: bash tools/build-web.sh "$RUNNER_TEMP/site"
+      - name: Deploy
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          cp web/vercel.json "$RUNNER_TEMP/site/vercel.json"
+          npx --yes vercel@latest deploy "$RUNNER_TEMP/site" \
+            --prebuilt=false --yes --token "$VERCEL_TOKEN" \
+            ${{ inputs.target == 'production' && '--prod' || '' }} \
+            | tee "$RUNNER_TEMP/url.txt"
+          echo "### Deployed" >> "$GITHUB_STEP_SUMMARY"
+          echo "\`$(tail -1 "$RUNNER_TEMP/url.txt")\`" >> "$GITHUB_STEP_SUMMARY"

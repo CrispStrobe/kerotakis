@@ -78,6 +78,21 @@ pub struct Refusal {
 }
 
 impl Refusal {
+    /// A sentence that has not been given a key yet.
+    ///
+    /// The grammar's helpers — `parse_amount`, `split_unit`, the unit
+    /// readers — still return finished English `String`s, and there are
+    /// sixteen of them. They travel as `error.unkeyed` so that the
+    /// sentence still reaches the reader while it is untranslated, and so
+    /// that converting them is a later tranche rather than a
+    /// prerequisite: `From<String>` keeps every existing `?` compiling.
+    ///
+    /// It is deliberately ugly to read in a catalogue. A key called
+    /// `unkeyed` is a to-do that cannot be mistaken for a translation.
+    pub fn unkeyed(text: String) -> Self {
+        Refusal::new("error.unkeyed", "{text}").with("text", text)
+    }
+
     /// A refusal with no holes.
     pub fn new(key: &'static str, en: &'static str) -> Self {
         Refusal {
@@ -133,6 +148,14 @@ impl Refusal {
             .map(|(name, value)| (*name, value.as_str()))
             .collect();
         locale.fill(self.key, self.en, &vars)
+    }
+}
+
+/// So a helper that still answers with a finished `String` can be `?`-ed
+/// straight into a function that has moved on to refusals.
+impl From<String> for Refusal {
+    fn from(text: String) -> Self {
+        Refusal::unkeyed(text)
     }
 }
 

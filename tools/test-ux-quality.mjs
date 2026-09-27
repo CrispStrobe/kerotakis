@@ -3717,9 +3717,13 @@ try {
 
     // 3. And the line that says what to do next names the verb the
     //    learner typed, not the canonical English one.
+    // The line is `Aufruf: zugeben <Gefäß> …` now — the framing word and
+    // the metavariables follow the reader too, so `startsWith("usage: ")`
+    // stopped being true the moment that landed. What has to hold is
+    // that the learner's verb is in it and the canonical one is not.
     const usage = await run(`${add} v1`);
     check(`${code}: a usage line names \`${add}\`, not \`add\``,
-      usage.startsWith(`usage: ${add}`) || (code === "en" && usage.startsWith("usage: add")),
+      usage.includes(add) && !usage.includes("usage: add"),
       usage);
   }
 } catch (error) {

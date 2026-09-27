@@ -398,7 +398,14 @@ def main() -> int:
     bench_cut = bench.find("\n#[cfg(test)]")
     if bench_cut != -1:
         bench = bench[:bench_cut]
-    refusals = {m.group(1): unwrap(m.group(2)) for m in REFUSAL.finditer(bench)}
+    # The GRAMMAR refuses too, and its refusals carry keys as of I18N-13.
+    # Reading them only out of `bench.rs` would report every one of them
+    # as an orphan the moment the catalogue gained a row for it.
+    grammar_src = without_test_modules(SCRIPT.read_text())
+    refusals = {
+        m.group(1): unwrap(m.group(2))
+        for m in REFUSAL.finditer(bench + "\n" + grammar_src)
+    }
     used.update(refusals)
     # Every `const … : &str = "…"` the workspace declares, so a key named
     # by a constant is still counted where it is used.
@@ -452,6 +459,14 @@ def main() -> int:
         dynamic |= {m.group(1) for m in DYNAMIC.finditer(text)}
     dynamic |= {m.group(1) for m in DYNAMIC.finditer(grammar)}
     dynamic |= {m.group(1) for m in SECTION.finditer(grammar)}
+    # A whole section may also be read OUTSIDE the grammar: the registry
+    # exporter reads `[material]` and `[material-alias]` at build time to
+    # give every bottle the names its language answers to. That file is
+    # not prose and is in no list above, so without this every row of
+    # those two sections is reported as an orphan — which is the same
+    # "I cannot see a file" as #734, one build step further out.
+    for extra in sorted(ROOT.glob("crates/kerotakis-registry-export/src/**/*.rs")):
+        dynamic |= {m.group(1) for m in SECTION.finditer(extra.read_text())}
     dynamic |= {m.group(1) for m in SECTION_LITERAL.finditer(grammar)}
     mentioned = {m.group(1) for m in MENTIONED.finditer(src)}
     mentioned |= {m.group(1) for m in MENTIONED.finditer(grammar)}
@@ -533,7 +548,7 @@ def main() -> int:
     per_key = collections.defaultdict(set)
     for m in CALL.finditer(src):
         per_key[m.group(1)].add(m.group(2))
-    for m in REFUSAL.finditer(bench):
+    for m in REFUSAL.finditer(bench + "\n" + without_test_modules(SCRIPT.read_text())):
         per_key[m.group(1)].add(unwrap(m.group(2)))
     # `without_test_modules`, and it is not cosmetic. A `#[cfg(test)]`
     # fixture that reuses a live key with stand-in prose —

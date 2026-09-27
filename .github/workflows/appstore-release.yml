@@ -1,0 +1,77 @@
+# The half a tag does not do: TestFlight, and the App Store listing.
+#
+# `appstore.yml` builds, signs and uploads on a `v*` tag, and stops. It
+# stops for a reason: a build is not assignable to any group until App
+# Store Connect reports it VALID, which takes 15 to 60 minutes, and a
+# workflow that chased it would either sleep in a runner or fail for a
+# reason that is not a failure.
+#
+# So this is dispatch-only, idempotent, and safe to run again. Every
+# script it calls re-reads what it wrote, because a 201 from
+# `betaAppReviewSubmissions` is not proof.
+#
+# `internal` needs no Apple review and is the one that makes a build
+# installable today. `external` asks for Beta App Review. `listing`
+# pushes the words a shopper reads. None of them submits the app for
+# App Store review: that step ends in a human pressing a button, and it
+# should.
+name: App Store — TestFlight and listing
+
+on:
+  workflow_dispatch:
+    inputs:
+      what:
+        description: "Which step"
+        type: choice
+        options: [internal, external, listing, all]
+        default: internal
+      platform:
+        description: "Which platform"
+        type: choice
+        options: [both, ios, macos]
+        default: both
+
+env:
+  ASC_API_KEY_P8_BASE64: ${{ secrets.ASC_API_KEY_P8_BASE64 }}
+  ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+  ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+  ASC_TEAM_ID: ${{ secrets.ASC_TEAM_ID }}
+
+jobs:
+  run:
+    name: ${{ inputs.what }} (${{ inputs.platform }})
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: The credentials have to exist
+        run: |
+          if [ -z "$ASC_KEY_ID" ] || [ -z "$ASC_API_KEY_P8_BASE64" ]; then
+            echo "::error::App Store Connect credentials are not set."
+            exit 1
+          fi
+      - name: TestFlight
+        if: inputs.what != 'listing'
+        run: |
+          set -o pipefail
+          flags=""
+          if [ "${{ inputs.what }}" = "internal" ]; then flags="--internal-only"; fi
+          for kind in ios macos; do
+            case "${{ inputs.platform }}" in
+              both) ;;
+              "$kind") ;;
+              *) continue ;;
+            esac
+            echo "== $kind"
+            # A build still processing exits non-zero and says so. That is
+            # not a broken pipeline, it is "come back in half an hour", so
+            # it is reported rather than swallowed.
+            python3 tools/asc/testflight.py "$kind" $flags || {
+              echo "::warning::$kind is not ready yet — re-run this workflow when the build reports VALID"
+            }
+          done
+      - name: Listing
+        if: inputs.what == 'listing' || inputs.what == 'all'
+        run: python3 tools/asc/listing.py
