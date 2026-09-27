@@ -69,7 +69,7 @@ npx tauri build --target universal-apple-darwin \
     --config src-tauri/tauri.macos-appstore.conf.json
 
 TARGET_DIR="$(cargo metadata --format-version 1 --no-deps --manifest-path "$TAURI/Cargo.toml" \
-    | python3 -c 'import sys,json; print(json.load(sys.stdin)["target_directory"])')"
+    | python3 -c 'import sys,json; print(json.load(sys.stdin.buffer)["target_directory"])')"
 APP="$TARGET_DIR/universal-apple-darwin/release/bundle/macos/Kerotakis.app"
 [ -d "$APP" ] || { echo "no .app at $APP"; exit 1; }
 

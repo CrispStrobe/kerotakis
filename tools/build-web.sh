@@ -12,7 +12,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 # Ask cargo where it puts things: CARGO_TARGET_DIR and .cargo/config.toml
 # both move it, and a hardcoded ./target is wrong on any machine that has.
 TARGET_DIR="$(cargo metadata --format-version 1 --no-deps 2>/dev/null \
-    | python3 -c 'import sys,json; print(json.load(sys.stdin)["target_directory"])')"
+    | python3 -c 'import sys,json; print(json.load(sys.stdin.buffer)["target_directory"])')"
 OUT="${1:-$TARGET_DIR/web}"
 
 rm -rf "$OUT"

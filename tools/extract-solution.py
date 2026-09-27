@@ -10,6 +10,10 @@ import json
 import sys
 
 last = None
+# The platform default would decide this otherwise, and on Windows that
+# is cp1252 — the codec that broke the v0.1.0 payload build.
+sys.stdin.reconfigure(encoding="utf-8")
+
 for line in sys.stdin:
     try:
         doc = json.loads(line)

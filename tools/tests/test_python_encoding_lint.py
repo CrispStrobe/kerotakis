@@ -128,6 +128,33 @@ class PythonEncodingLintTests(unittest.TestCase):
                for line, _ in MODULE.inline_offences(p)]
         self.assertEqual(bad, [])
 
+    # --- standard streams ---
+
+    def test_reading_json_from_a_text_stdin_is_caught(self):
+        """release.yml read `cargo metadata` this way, on Windows."""
+        self.assertEqual(len(self.inline(
+            """D="$(cargo metadata | python3 -c 'import sys,json; """
+            """print(json.load(sys.stdin)["target_directory"])')"\n""")), 1)
+
+    def test_the_byte_stream_is_accepted(self):
+        """json.load decodes bytes as UTF-8 itself, so this needs nothing."""
+        self.assertEqual(self.inline(
+            """python3 -c 'import sys,json; print(json.load(sys.stdin.buffer)["d"])'\n"""), [])
+
+    def test_a_reconfigured_text_stream_is_accepted(self):
+        self.assertEqual(offences('import sys\n'
+                                  'sys.stdin.reconfigure(encoding="utf-8")\n'
+                                  'for line in sys.stdin: pass\n'), [])
+
+    def test_writes_are_deliberately_not_flagged(self):
+        """Pointed at writes as well, this was wrong five times in seven:
+        `json.dump(..., sys.stdout)` is pure ASCII by default and the
+        `sys.stderr.write` calls were ASCII literals. A lint that cries wolf
+        at that rate is one people learn to skip."""
+        self.assertEqual(offences('import json, sys\n'
+                                  'json.dump(x, sys.stdout, indent=2)\n'), [])
+        self.assertEqual(self.inline('sys.stderr.write("several match\\n")\n'), [])
+
 
 if __name__ == "__main__":
     unittest.main()
