@@ -257,7 +257,7 @@ fn call_tool(
             .map_err(ToolError::Failed),
         "explain" => {
             let target = match str_arg("vessel") {
-                Some(w) => parse_vessel(w).map_err(ToolError::Failed)?,
+                Some(w) => parse_vessel(w).map_err(|e| ToolError::Failed(e.into()))?,
                 None => VesselId(0),
             };
             // English, for the same reason as above: a tool reads this.
