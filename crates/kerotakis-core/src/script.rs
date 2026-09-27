@@ -664,6 +664,21 @@ fn localised(error: ParseError, locale: Locale) -> ParseError {
             .with("word", word)
             .with("verbs", verbs.join(", "))
         }
+        // `bad {what} '{raw}'` carries an English noun — `fraction`,
+        // `energy`, `step count`. `[syntax]` already names several of
+        // them for the usage lines, so the same table answers here; a
+        // noun it has no row for stays English, per string.
+        "error.bad-quantity" => {
+            let what = refusal.params.get("what").cloned().unwrap_or_default();
+            let raw = refusal.params.get("raw").cloned().unwrap_or_default();
+            let shown = locale
+                .lookup(&format!("syntax.{what}"))
+                .map(str::to_string)
+                .unwrap_or(what);
+            Refusal::new("error.bad-quantity", "bad {what} '{raw}'")
+                .with("what", shown)
+                .with("raw", raw)
+        }
         "error.usage" => {
             let form = refusal.params.get("form").cloned().unwrap_or_default();
             usage(localised_form(&form, locale))
@@ -834,14 +849,17 @@ fn edit_distance(a: &str, b: &str) -> usize {
     previous[b.len()]
 }
 
-fn finite(value: f64, what: &str) -> Result<(), String> {
+fn finite(value: f64, what: &str) -> Result<(), Refusal> {
     if value.is_finite() {
         Ok(())
     } else {
-        Err(format!(
+        Err(Refusal::new(
+            "error.not-finite",
             "{what} must be a finite number — '{value}' cannot be written to \
-             the operator log the bench saves itself with"
-        ))
+             the operator log the bench saves itself with",
+        )
+        .with("what", what)
+        .with_number("value", value.to_string()))
     }
 }
 
@@ -855,15 +873,19 @@ fn finite(value: f64, what: &str) -> Result<(), String> {
 /// the refusal is about arithmetic, not about taste.
 const LOG_SCALE_LIMIT: f64 = 99.0;
 
-fn log_scale(value: f64, what: &str) -> Result<(), String> {
+fn log_scale(value: f64, what: &str) -> Result<(), Refusal> {
     finite(value, what)?;
     if value.abs() <= LOG_SCALE_LIMIT {
         Ok(())
     } else {
-        Err(format!(
-            "{what} must lie within ±{LOG_SCALE_LIMIT} — {value} is an \
-             exponent no aqueous solver represents"
-        ))
+        Err(Refusal::new(
+            "error.log-scale-out-of-range",
+            "{what} must lie within ±{limit} — {value} is an exponent no \
+             aqueous solver represents",
+        )
+        .with("what", what)
+        .with_number("limit", LOG_SCALE_LIMIT.to_string())
+        .with_number("value", value.to_string()))
     }
 }
 
@@ -892,11 +914,10 @@ pub struct ParseError {
     /// English.
     ///
     /// `detail` is its English rendering, so there is one sentence and
-    /// not two — the shape `Event::Inert` has carried since I18N-8. The
-    /// grammar's own helpers still answer with finished `String`s and
-    /// arrive here as `error.unkeyed`; converting them is the next
-    /// tranche, and until then they reach the reader in English rather
-    /// than not at all.
+    /// not two — the shape `Event::Inert` has carried since I18N-8.
+    ///
+    /// Always `Some` from `parse_op_typed`: every refusal this grammar
+    /// writes carries a key, and a test below keeps it that way.
     pub refusal: Option<Refusal>,
 }
 
@@ -1036,10 +1057,12 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
                     .strip_suffix("mol")
                     .and_then(|v| v.parse::<f64>().ok())
                     .ok_or_else(|| {
-                        format!(
+                        Refusal::new(
+                            "error.nuclide-takes-moles",
                             "nuclide amounts are stated in moles (got '{amount}') — \
-                             tracer scale, e.g. 1e-9mol"
+                             tracer scale, e.g. 1e-9mol",
                         )
+                        .with("amount", amount)
                     })?;
                 return Ok(Some(Operator::SpikeNuclide {
                     vessel,
@@ -1111,9 +1134,11 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
                 let source = match named {
                     Some(word) => {
                         Some(crate::apparatus::HeatSource::by_name(word).ok_or_else(|| {
-                            format!(
-                                "unknown heat source \"{word}\": try burner, candle or hotplate"
+                            Refusal::new(
+                                "error.unknown-heat-source",
+                                "unknown heat source \"{word}\": try burner, candle or hotplate",
                             )
+                            .with("word", word)
                         })?)
                     }
                     None => None,
@@ -1150,7 +1175,11 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
                 raw.strip_suffix("rpm")
                     .unwrap_or(raw)
                     .parse::<f64>()
-                    .map_err(|_| format!("bad stir speed '{raw}'"))
+                    .map_err(|_| {
+                        Refusal::new("error.bad-quantity", "bad {what} '{raw}'")
+                            .with("what", "stir speed")
+                            .with("raw", raw)
+                    })
             })?;
             let seconds = words
                 .get(3)
@@ -1218,9 +1247,11 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
             }
             Operator::Evaporate {
                 vessel: parse_vessel(words[1])?,
-                fraction: words[2]
-                    .parse()
-                    .map_err(|_| format!("bad fraction '{}'", words[2]))?,
+                fraction: words[2].parse().map_err(|_| {
+                    Refusal::new("error.bad-quantity", "bad {what} '{raw}'")
+                        .with("what", "fraction")
+                        .with("raw", words[2])
+                })?,
             }
         }
         "decant" => {
@@ -1230,9 +1261,11 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
             Operator::Decant {
                 from: parse_vessel(words[1])?,
                 to: parse_vessel(words[2])?,
-                fraction: words[3]
-                    .parse()
-                    .map_err(|_| format!("bad fraction '{}'", words[3]))?,
+                fraction: words[3].parse().map_err(|_| {
+                    Refusal::new("error.bad-quantity", "bad {what} '{raw}'")
+                        .with("what", "fraction")
+                        .with("raw", words[3])
+                })?,
             }
         }
         "drain" => {
@@ -1262,9 +1295,11 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
             let stages = if words.len() == 5 {
                 1
             } else if words.len() == 7 && words[5] == "stages" {
-                words[6]
-                    .parse::<u32>()
-                    .map_err(|_| format!("bad stage count '{}'", words[6]))?
+                words[6].parse::<u32>().map_err(|_| {
+                    Refusal::new("error.bad-quantity", "bad {what} '{raw}'")
+                        .with("what", "stage count")
+                        .with("raw", words[6])
+                })?
             } else {
                 return Err(usage(
                     "extract <from> <to> <solvent> <total-amount><mol|g|mL> [stages <n>]",
@@ -1291,25 +1326,33 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
                 ));
             }
             let (fraction, energy) = if let Some(kj) = words[3].strip_suffix("kJ") {
-                let v: f64 = kj
-                    .parse()
-                    .map_err(|_| format!("bad energy '{}'", words[3]))?;
+                let v: f64 = kj.parse().map_err(|_| {
+                    Refusal::new("error.bad-quantity", "bad {what} '{raw}'")
+                        .with("what", "energy")
+                        .with("raw", words[3])
+                })?;
                 (None, Some(Joules(v * 1000.0)))
             } else if let Some(j) = words[3].strip_suffix('J') {
-                let v: f64 = j
-                    .parse()
-                    .map_err(|_| format!("bad energy '{}'", words[3]))?;
+                let v: f64 = j.parse().map_err(|_| {
+                    Refusal::new("error.bad-quantity", "bad {what} '{raw}'")
+                        .with("what", "energy")
+                        .with("raw", words[3])
+                })?;
                 (None, Some(Joules(v)))
             } else {
-                let f: f64 = words[3]
-                    .parse()
-                    .map_err(|_| format!("bad fraction '{}'", words[3]))?;
+                let f: f64 = words[3].parse().map_err(|_| {
+                    Refusal::new("error.bad-quantity", "bad {what} '{raw}'")
+                        .with("what", "fraction")
+                        .with("raw", words[3])
+                })?;
                 (Some(f), None)
             };
             let stages = match (words.get(4), words.get(5)) {
-                (Some(&"stages"), Some(n)) => {
-                    n.parse().map_err(|_| format!("bad stage count '{n}'"))?
-                }
+                (Some(&"stages"), Some(n)) => n.parse().map_err(|_| {
+                    Refusal::new("error.bad-quantity", "bad {what} '{raw}'")
+                        .with("what", "stage count")
+                        .with("raw", n)
+                })?,
                 (None, _) => 1,
                 _ => {
                     return Err(Refusal::new(
@@ -1549,7 +1592,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
                 "ph" => {
                     let target: f64 = rest[3]
                         .parse()
-                        .map_err(|_| format!("bad pH target '{}'", rest[3]))?;
+                        .map_err(|_| Refusal::new("error.bad-quantity", "bad {what} '{raw}'").with("what", "pH target").with("raw", rest[3]))?;
                     // `"1e999".parse::<f64>()` is `Ok(inf)`, and serde_json
                     // cannot write an infinity — so an endpoint like that
                     // parses, runs, and then produces an operator log the
@@ -1578,7 +1621,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
                     };
                     let value: f64 = rest[4]
                         .parse()
-                        .map_err(|_| format!("bad pe target '{}'", rest[4]))?;
+                        .map_err(|_| Refusal::new("error.bad-quantity", "bad {what} '{raw}'").with("what", "pe target").with("raw", rest[4]))?;
                     log_scale(value, "pe target")?;
                     (Endpoint::Pe { compare, value }, NEUTRAL_PH, &rest[5..])
                 }
@@ -1599,9 +1642,11 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
                 }
             };
             let max_steps = match (tail.first(), tail.get(1)) {
-                (Some(&"max"), Some(n)) => {
-                    n.parse().map_err(|_| format!("bad max step count '{n}'"))?
-                }
+                (Some(&"max"), Some(n)) => n.parse().map_err(|_| {
+                    Refusal::new("error.bad-quantity", "bad {what} '{raw}'")
+                        .with("what", "max step count")
+                        .with("raw", n)
+                })?,
                 (None, _) => 100,
                 _ => {
                     return Err(Refusal::new(
@@ -1628,13 +1673,17 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
                 ));
             }
             let a = parse_vessel(words[1])?;
-            let fraction_a: f64 = words[2]
-                .parse()
-                .map_err(|_| format!("bad fraction '{}'", words[2]))?;
+            let fraction_a: f64 = words[2].parse().map_err(|_| {
+                Refusal::new("error.bad-quantity", "bad {what} '{raw}'")
+                    .with("what", "fraction")
+                    .with("raw", words[2])
+            })?;
             let b = parse_vessel(words[3])?;
-            let fraction_b: f64 = words[4]
-                .parse()
-                .map_err(|_| format!("bad fraction '{}'", words[4]))?;
+            let fraction_b: f64 = words[4].parse().map_err(|_| {
+                Refusal::new("error.bad-quantity", "bad {what} '{raw}'")
+                    .with("what", "fraction")
+                    .with("raw", words[4])
+            })?;
             if words[5] != "into" {
                 return Err(usage(
                     "mix <vessel-a> <frac-a> <vessel-b> <frac-b> into <target>",
@@ -1692,10 +1741,9 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
                 })?
                 .parse()
                 .map_err(|_| {
-                    format!(
-                        "bad step count '{}'",
-                        words.get(steps_pos + 1).unwrap_or(&"")
-                    )
+                    Refusal::new("error.bad-quantity", "bad {what} '{raw}'")
+                        .with("what", "step count")
+                        .with("raw", words.get(steps_pos + 1).unwrap_or(&""))
                 })?;
             let courant_pos = words.iter().position(|&w| w == "courant");
             let courant: f64 = match courant_pos {
@@ -1709,10 +1757,9 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
                     })?
                     .parse()
                     .map_err(|_| {
-                        format!(
-                            "bad Courant fraction '{}'",
-                            words.get(cp + 1).unwrap_or(&"")
-                        )
+                        Refusal::new("error.bad-quantity", "bad {what} '{raw}'")
+                            .with("what", "Courant fraction")
+                            .with("raw", words.get(cp + 1).unwrap_or(&""))
                     })?,
                 None => 1.0,
             };
@@ -1735,19 +1782,22 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, Refusal> {
     Ok(Some(op))
 }
 
-pub fn parse_vessel(word: &str) -> Result<VesselId, String> {
+pub fn parse_vessel(word: &str) -> Result<VesselId, Refusal> {
     let digits = word.trim_start_matches('v');
-    let n: usize = digits
-        .parse()
-        .map_err(|_| format!("bad vessel '{word}' (use v1, v2, …)"))?;
+    let n: usize = digits.parse().map_err(|_| {
+        Refusal::new("error.bad-vessel", "bad vessel '{word}' (use v1, v2, …)").with("word", word)
+    })?;
     if n == 0 {
-        return Err("vessels are numbered from v1".into());
+        return Err(Refusal::new(
+            "error.vessels-start-at-one",
+            "vessels are numbered from v1",
+        ));
     }
     Ok(VesselId(n - 1))
 }
 
 /// `0.5mol`, `10g`, `100mL` (unit required, so units are never guessed).
-pub fn parse_amount(word: &str, data: &SpeciesData) -> Result<Moles, String> {
+pub fn parse_amount(word: &str, data: &SpeciesData) -> Result<Moles, Refusal> {
     let (value, unit) = split_unit(word)?;
     finite(value, "amount")?;
     let amount = match unit {
@@ -1763,9 +1813,12 @@ pub fn parse_amount(word: &str, data: &SpeciesData) -> Result<Moles, String> {
         "g" => Ok(data.moles_from_grams(Grams(value))),
         "mL" | "ml" => Ok(data.moles_from_liters(Liters(value / 1000.0))),
         "L" | "l" => Ok(data.moles_from_liters(Liters(value))),
-        other => Err(format!(
-            "unknown amount '{other}' — try g, mL, L, mol, or a kitchen measure: spoon, pinch, cup, splash, drop"
-        )),
+        other => Err(Refusal::new(
+            "error.unknown-amount",
+            "unknown amount '{unit}' — try g, mL, L, mol, or a kitchen \
+             measure: spoon, pinch, cup, splash, drop",
+        )
+        .with("unit", other)),
     }?;
     // A finite input can still overflow while converting a mass, volume or
     // kitchen measure to moles. Reject that at the grammar boundary too: every
@@ -1778,10 +1831,13 @@ pub fn parse_amount(word: &str, data: &SpeciesData) -> Result<Moles, String> {
 /// Convert a user amount into a recipe's declared basis. Mass-fraction
 /// materials may accept volume only when the reviewed recipe supplies a bulk
 /// density; we never invent one at parse time.
-pub fn parse_material_amount(word: &str, recipe: &MaterialRecipe) -> Result<f64, String> {
+pub fn parse_material_amount(word: &str, recipe: &MaterialRecipe) -> Result<f64, Refusal> {
     let (value, unit) = split_unit(word)?;
     if !value.is_finite() || value <= 0.0 {
-        return Err("material amount must be positive".into());
+        return Err(Refusal::new(
+            "error.material-amount-positive",
+            "material amount must be positive",
+        ));
     }
     match recipe.basis {
         MaterialBasis::MassFraction => match unit {
@@ -1791,83 +1847,107 @@ pub fn parse_material_amount(word: &str, recipe: &MaterialRecipe) -> Result<f64,
                 .as_ref()
                 .map(|density| value * density.value)
                 .ok_or_else(|| {
-                    format!(
-                        "material '{}' has no reviewed bulk density; add it by mass (g)",
-                        recipe.canonical_key
+                    Refusal::new(
+                        "error.no-reviewed-bulk-density",
+                        "material '{material}' has no reviewed bulk density; add it by mass (g)",
                     )
+                    .with("material", &recipe.canonical_key)
                 }),
             "L" | "l" => recipe
                 .bulk_density
                 .as_ref()
                 .map(|density| value * 1000.0 * density.value)
                 .ok_or_else(|| {
-                    format!(
-                        "material '{}' has no reviewed bulk density; add it by mass (g)",
-                        recipe.canonical_key
+                    Refusal::new(
+                        "error.no-reviewed-bulk-density",
+                        "material '{material}' has no reviewed bulk density; add it by mass (g)",
                     )
+                    .with("material", &recipe.canonical_key)
                 }),
-            other => Err(format!(
-                "mass-fraction material '{}' accepts g, mL, or L (got '{other}')",
-                recipe.canonical_key
-            )),
+            other => Err(Refusal::new(
+                "error.material-takes-mass-or-volume",
+                "mass-fraction material '{material}' accepts g, mL, or L (got '{unit}')",
+            )
+            .with("material", &recipe.canonical_key)
+            .with("unit", other)),
         },
         MaterialBasis::MoleFraction => match unit {
             "mol" => Ok(value),
-            other => Err(format!(
-                "mole-fraction material '{}' accepts mol (got '{other}')",
-                recipe.canonical_key
-            )),
+            other => Err(Refusal::new(
+                "error.material-takes-moles",
+                "mole-fraction material '{material}' accepts mol (got '{unit}')",
+            )
+            .with("material", &recipe.canonical_key)
+            .with("unit", other)),
         },
         MaterialBasis::VolumeFraction => match unit {
             "mL" | "ml" => Ok(value),
             "L" | "l" => Ok(value * 1000.0),
-            other => Err(format!(
-                "volume-fraction material '{}' accepts mL or L (got '{other}')",
-                recipe.canonical_key
-            )),
+            other => Err(Refusal::new(
+                "error.material-takes-volume",
+                "volume-fraction material '{material}' accepts mL or L (got '{unit}')",
+            )
+            .with("material", &recipe.canonical_key)
+            .with("unit", other)),
         },
     }
 }
 
-pub fn parse_energy(word: &str) -> Result<Joules, String> {
+pub fn parse_energy(word: &str) -> Result<Joules, Refusal> {
     let (value, unit) = split_unit(word)?;
     match unit {
         "J" | "j" => Ok(Joules(value)),
         "kJ" | "kj" => Ok(Joules(value * 1000.0)),
-        other => Err(format!("unknown energy unit '{other}' (J, kJ)")),
+        other => Err(Refusal::new(
+            "error.unknown-energy-unit",
+            "unknown energy unit '{unit}' (J, kJ)",
+        )
+        .with("unit", other)),
     }
 }
 
-pub fn parse_volume(word: &str) -> Result<Liters, String> {
+pub fn parse_volume(word: &str) -> Result<Liters, Refusal> {
     let (value, unit) = split_unit(word)?;
     if value <= 0.0 {
-        return Err("headspace volume must be positive".into());
+        return Err(Refusal::new(
+            "error.headspace-volume-positive",
+            "headspace volume must be positive",
+        ));
     }
     match unit {
         "mL" | "ml" => Ok(Liters(value / 1000.0)),
         "L" | "l" => Ok(Liters(value)),
-        other => Err(format!("unknown volume unit '{other}' (mL, L)")),
+        other => Err(Refusal::new(
+            "error.unknown-volume-unit",
+            "unknown volume unit '{unit}' (mL, L)",
+        )
+        .with("unit", other)),
     }
 }
 
-pub fn parse_pressure(word: &str) -> Result<Pascal, String> {
+pub fn parse_pressure(word: &str) -> Result<Pascal, Refusal> {
     let (value, unit) = split_unit(word)?;
     if value <= 0.0 {
-        return Err("pressure must be positive".into());
+        return Err(Refusal::new(
+            "error.pressure-positive",
+            "pressure must be positive",
+        ));
     }
     match unit {
         "Pa" | "pa" => Ok(Pascal(value)),
         "kPa" | "kpa" => Ok(Pascal(value * 1_000.0)),
         "bar" => Ok(Pascal(value * 100_000.0)),
         "atm" => Ok(Pascal(value * Pascal::ATMOSPHERIC.0)),
-        other => Err(format!(
-            "unknown pressure unit '{other}' (Pa, kPa, bar, atm)"
-        )),
+        other => Err(Refusal::new(
+            "error.unknown-pressure-unit",
+            "unknown pressure unit '{unit}' (Pa, kPa, bar, atm)",
+        )
+        .with("unit", other)),
     }
 }
 
 /// Optional trailing `@ 60C` / `@ 333K` on `add`.
-pub fn parse_at(words: &[&str]) -> Result<Option<Kelvin>, String> {
+pub fn parse_at(words: &[&str]) -> Result<Option<Kelvin>, Refusal> {
     match words {
         [] => Ok(None),
         ["@", t] => {
@@ -1875,14 +1955,21 @@ pub fn parse_at(words: &[&str]) -> Result<Option<Kelvin>, String> {
             match unit {
                 "C" | "c" => Ok(Some(Kelvin::from_celsius(value))),
                 "K" | "k" => Ok(Some(Kelvin(value))),
-                other => Err(format!("unknown temperature unit '{other}' (C, K)")),
+                other => Err(Refusal::new(
+                    "error.unknown-temperature-unit",
+                    "unknown temperature unit '{unit}' (C, K)",
+                )
+                .with("unit", other)),
             }
         }
-        _ => Err("temperature goes last: … @ 60C".into()),
+        _ => Err(Refusal::new(
+            "error.temperature-goes-last",
+            "temperature goes last: … @ 60C",
+        )),
     }
 }
 
-fn parse_duration_seconds(raw: &str) -> Result<f64, String> {
+fn parse_duration_seconds(raw: &str) -> Result<f64, Refusal> {
     parse_suffixed(
         raw,
         &[
@@ -1902,7 +1989,7 @@ fn parse_duration_seconds(raw: &str) -> Result<f64, String> {
     )
 }
 
-fn split_unit(word: &str) -> Result<(f64, &str), String> {
+fn split_unit(word: &str) -> Result<(f64, &str), Refusal> {
     // Do not split at the `e` in scientific notation. Looking for the first
     // alphabetic byte made a perfectly ordinary generated dose such as
     // `8e-05mol` become the number `8` with the unit `e-05mol`.
@@ -1914,17 +2001,25 @@ fn split_unit(word: &str) -> Result<(f64, &str), String> {
             }
         }
     }
-    Err(format!("'{word}' needs a valid number and unit suffix"))
+    Err(Refusal::new(
+        "error.needs-number-and-unit",
+        "'{word}' needs a valid number and unit suffix",
+    )
+    .with("word", word))
 }
 
 /// A number with a unit suffix, matched longest-first so `ms` cannot be
 /// read as `m`. Shared by the operators that take a physical quantity.
-fn parse_suffixed(raw: &str, units: &[(&str, f64)], what: &str) -> Result<f64, String> {
+fn parse_suffixed(raw: &str, units: &[(&str, f64)], what: &str) -> Result<f64, Refusal> {
     let digits: String = raw
         .chars()
         .take_while(|c| c.is_ascii_digit() || *c == '.')
         .collect();
-    let value: f64 = digits.parse().map_err(|_| format!("bad {what} '{raw}'"))?;
+    let value: f64 = digits.parse().map_err(|_| {
+        Refusal::new("error.bad-quantity", "bad {what} '{raw}'")
+            .with("what", what)
+            .with("raw", raw)
+    })?;
     let suffix = raw[digits.len()..].trim().to_ascii_lowercase();
     let mut best: Option<f64> = None;
     for (name, scale) in units {
@@ -1935,8 +2030,15 @@ fn parse_suffixed(raw: &str, units: &[(&str, f64)], what: &str) -> Result<f64, S
     }
     match best {
         Some(scale) if value > 0.0 => Ok(value * scale),
-        Some(_) => Err(format!("{what} must be positive")),
-        None => Err(format!("unknown {what} unit '{suffix}'")),
+        Some(_) => Err(
+            Refusal::new("error.quantity-positive", "{what} must be positive").with("what", what),
+        ),
+        None => Err(Refusal::new(
+            "error.unknown-quantity-unit",
+            "unknown {what} unit '{unit}'",
+        )
+        .with("what", what)
+        .with("unit", suffix)),
     }
 }
 
@@ -1953,6 +2055,15 @@ mod localised_grammar {
 
     fn de() -> Locale {
         Locale::parse("de")
+    }
+
+    /// Everything before `#[cfg(test)]`. The fixtures below build error
+    /// strings on purpose and are not refusals anybody reads.
+    fn without_test_module(src: &str) -> &str {
+        match src.find("\n#[cfg(test)]") {
+            Some(at) => &src[..at],
+            None => src,
+        }
     }
 
     /// A usage line is the reader's words around canonical syntax.
@@ -1988,6 +2099,40 @@ mod localised_grammar {
                 );
             }
         }
+    }
+
+    /// Not one refusal in the grammar answers in English only.
+    ///
+    /// The tranche this closes: `parse_amount`, `split_unit`, the unit
+    /// readers and the rest travelled as `error.unkeyed` so they still
+    /// reached the reader while they waited. `unkeyed` is gone, and this
+    /// is the gate that keeps it gone — a new `Err(format!(…))` in this
+    /// file fails here rather than reaching a reader in the wrong
+    /// language.
+    #[test]
+    fn the_grammar_has_no_unkeyed_refusal_left() {
+        let src = without_test_module(include_str!("script.rs"));
+        // FOUR shapes. I first wrote this with the two I had converted —
+        // `Err(format!(` and `Err("` — and the compiler then found
+        // seventeen more behind `map_err` and `ok_or_else`, which the
+        // gate would have let back in. A guard that knows only the cases
+        // its author happened to fix is the same silence, one layer up.
+        for marker in [
+            "Err(format!(",
+            "Err(\"",
+            "map_err(|_| format!(",
+            "ok_or_else(|| format!(",
+        ] {
+            assert!(
+                !src.contains(marker),
+                "`{marker}…` is back in script.rs — a refusal written that \
+                 way carries no key and reaches every reader in English"
+            );
+        }
+        assert!(
+            !src.contains("error.unkeyed"),
+            "error.unkeyed is back; every refusal here has a key of its own"
+        );
     }
 
     /// The refusal travels as a key, so the reader's language is chosen
