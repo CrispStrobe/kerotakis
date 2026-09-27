@@ -76,7 +76,19 @@ fn main() {
     // IPhreeqc wants from it is InterlockedExchange and Sleep, both of which
     // are in the lean set.
     if target.contains("windows") && target.contains("msvc") {
-        for flag in ["/DWIN32", "/DNOMINMAX", "/DWIN32_LEAN_AND_MEAN"] {
+        // MY-BASIC maps `mb_stricmp` to `_strcmpi` whenever `_MSC_VER` is set.
+        // That is the pre-standard spelling, reachable now only through
+        // oldnames.lib, and linking the static archive from rustc does not pick
+        // it up: `LNK2019: unresolved external symbol __imp__strcmpi referenced
+        // in function _core_type`. `my_basic.h` guards the alias with `#ifndef`,
+        // so naming it here takes the documented way out rather than adding a
+        // default library, and `_stricmp` is the spelling MSVC still supports.
+        for flag in [
+            "/DWIN32",
+            "/DNOMINMAX",
+            "/DWIN32_LEAN_AND_MEAN",
+            "/Dmb_stricmp=_stricmp",
+        ] {
             cfg.cflag(flag).cxxflag(flag);
         }
     }

@@ -340,10 +340,24 @@ jobs:
           submodules: recursive
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
-      - name: cargo check -p kerotakis-phreeqc
-        # Default features include `engine`, which is what pulls in cmake and
-        # the vendored C++. Without it this would compile nothing and pass.
-        run: cargo check -p kerotakis-phreeqc --all-targets
+      - name: cargo test --no-run -p kerotakis-phreeqc
+        # `--no-run` and not `check`, because **check does not link**. This job
+        # started life as `cargo check --all-targets`, which compiled all of
+        # IPhreeqc happily and could never have caught the failure that came
+        # next:
+        #
+        #   LNK2019: unresolved external symbol __imp__strcmpi
+        #            referenced in function _core_type
+        #
+        # Building the test binaries links them, and `basic_dialect_oracle`
+        # exercises the BASIC dialect, so the linker has to pull in my_basic.o
+        # and resolve its symbols. Still no bundle and no Rust run, so it stays
+        # far cheaper than a release build.
+        #
+        # Default features include `engine` and `my-basic`, which is what pulls
+        # in cmake and the vendored C++. Without them this would compile nothing
+        # and pass.
+        run: cargo test --no-run -p kerotakis-phreeqc
 
   payload:
     # The shell payload's four Python steps were only ever run on
