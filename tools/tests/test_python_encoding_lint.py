@@ -89,6 +89,45 @@ class PythonEncodingLintTests(unittest.TestCase):
         finally:
             sys.argv = argv
 
+    # --- inline python in shell scripts and workflows ---
+
+    def inline(self, source: str, suffix: str = ".sh") -> list[tuple[int, str]]:
+        with tempfile.TemporaryDirectory() as d:
+            path = pathlib.Path(d) / f"sample{suffix}"
+            path.write_text(source, encoding="utf-8")
+            return MODULE.inline_offences(path)
+
+    def test_a_one_liner_reading_a_config_is_caught(self):
+        """The real shape: three scripts read tauri.conf.json this way."""
+        self.assertEqual(len(self.inline(
+            """VERSION="$(python3 -c "import json; print(json.load(open('$T/x.json'))['version'])")"\n""")), 1)
+
+    def test_an_inline_write_is_caught(self):
+        self.assertEqual(len(self.inline('open(os.path.join(d, "i.json"), "w").write(x)\n')), 1)
+
+    def test_a_named_encoding_inline_is_accepted(self):
+        self.assertEqual(self.inline('manifest = open(sys.argv[1], encoding="utf-8").read()\n'), [])
+
+    def test_binary_inline_is_accepted(self):
+        self.assertEqual(self.inline('doc = tomllib.load(open(f, "rb"))\n'), [])
+
+    def test_a_shell_comment_is_not_code(self):
+        self.assertEqual(self.inline('# once upon a time this said open(x)\n'), [])
+
+    def test_workflows_are_scanned_too(self):
+        self.assertEqual(len(self.inline('        run: python3 -c "print(open(p).read())"\n',
+                                         suffix=".yml")), 1)
+
+    def test_the_workflows_directory_is_clean(self):
+        bad = [(p, line) for p in sorted((ROOT / ".github").rglob("*.yml"))
+               for line, _ in MODULE.inline_offences(p)]
+        self.assertEqual(bad, [])
+
+    def test_shell_scripts_under_tools_are_clean(self):
+        bad = [(p.name, line) for p in sorted((ROOT / "tools").rglob("*.sh"))
+               for line, _ in MODULE.inline_offences(p)]
+        self.assertEqual(bad, [])
+
 
 if __name__ == "__main__":
     unittest.main()

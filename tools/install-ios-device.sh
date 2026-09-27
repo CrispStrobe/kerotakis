@@ -39,7 +39,7 @@ read -r DEV_ID DEV_UDID DEV_NAME <<<"$(
   WANT="$WANT" /usr/bin/python3 - "$DEVJSON" <<'PY'
 import json, os, sys
 want = (os.environ.get("WANT") or "").lower()
-devs = json.load(open(sys.argv[1]))["result"]["devices"]
+devs = json.load(open(sys.argv[1], encoding="utf-8"))["result"]["devices"]
 rows = []
 for d in devs:
     props = d.get("deviceProperties", {})

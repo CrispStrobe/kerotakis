@@ -13,9 +13,16 @@ mojibake that only a reader in another country notices.
 The check is AST-based rather than textual on purpose — several of these calls
 span lines, and a grep for `.write_text(` on one line cannot see the
 `encoding=` two lines below it.
+
+Inline Python is scanned too, in `.sh` and `.yml` files, and there the check
+*is* textual: a `python3 -c "... $SHELL_VAR ..."` one-liner is not valid Python
+until the shell has expanded it, so it cannot be parsed. Five real sites lived
+in that blind spot — `build-web.sh` writing an index, `provenance-lint.sh`
+reading a manifest, and three reading `tauri.conf.json` for the version — which
+is reason enough to accept the weaker check rather than skip the file type.
 """
 from __future__ import annotations
-import argparse, ast, pathlib, sys
+import argparse, ast, pathlib, re, sys
 
 # Reading bytes needs no encoding, and these callers say so.
 BINARY_MODES = {"rb", "wb", "ab", "r+b", "w+b", "rb+", "wb+", "br", "bw"}
@@ -58,14 +65,39 @@ def offences(path: pathlib.Path) -> list[tuple[int, str]]:
     return found
 
 
+INLINE = re.compile(r"\.read_text\(\s*\)|\.write_text\(|(?<![\w.])open\(")
+BINARY_ARG = re.compile(r"""['"][rwax]\+?b\+?['"]""")
+
+
+def inline_offences(path: pathlib.Path) -> list[tuple[int, str]]:
+    """Textual scan of embedded Python in a shell script or workflow.
+
+    Weaker than the AST pass by necessity (see the module docstring), so it
+    judges one line at a time and accepts an `encoding=` or a binary mode
+    anywhere on it.
+    """
+    found = []
+    for n, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+        code = line.split("#", 1)[0]
+        if "encoding" in code or BINARY_ARG.search(code) or "Image.open" in code:
+            continue
+        if INLINE.search(code):
+            found.append((n, "inline python: text I/O without encoding="))
+    return found
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("roots", nargs="*", default=["tools"], type=pathlib.Path)
+    ap.add_argument("roots", nargs="*", default=["tools"], type=pathlib.Path,
+                    help="directories to scan; .py is parsed, .sh and .yml are "
+                         "scanned textually for embedded python")
     ap.add_argument("--check", action="store_true",
                     help="exit non-zero on any finding (CI); otherwise only report")
     args = ap.parse_args()
 
-    files = sorted({p for root in args.roots for p in root.rglob("*.py") if p.is_file()})
+    files = sorted({p for root in args.roots
+                    for pattern in ("*.py", "*.sh", "*.yml")
+                    for p in root.rglob(pattern) if p.is_file()})
     if not files:
         print("python-encoding-lint: no files found — a silent pass is not a pass",
               file=sys.stderr)
@@ -73,7 +105,8 @@ def main() -> int:
 
     total = 0
     for path in files:
-        for line, why in offences(path):
+        scan = offences if path.suffix == ".py" else inline_offences
+        for line, why in scan(path):
             print(f"{path}:{line}: {why}")
             total += 1
 

@@ -35,7 +35,7 @@ PROFILE_NAME="${MAC_PROFILE_NAME:-Kerotakis Mac App Store}"
 UPLOAD=1
 [ "${1:-}" = "--no-upload" ] && UPLOAD=0
 
-VERSION="$(python3 -c "import json,sys; print(json.load(open('$TAURI/tauri.conf.json'))['version'])")"
+VERSION="$(python3 -c "import json,sys; print(json.load(open('$TAURI/tauri.conf.json', encoding='utf-8'))['version'])")"
 echo "== Kerotakis $VERSION -> Mac App Store"
 
 echo "== the provisioning profile"
