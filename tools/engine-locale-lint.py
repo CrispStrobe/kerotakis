@@ -260,7 +260,7 @@ def notmodeled_sites() -> tuple[int, int, list[str]]:
         # migrated call site.
         if path.name == "ops.rs":
             continue
-        text = without_test_modules(path.read_text())
+        text = without_test_modules(path.read_text(encoding="utf-8"))
         # A CONVERTED site is a call to `Event::not_modeled`, which
         # generates `what` from the recipe. It is no longer a struct
         # literal, so it would otherwise leave the denominator entirely
@@ -385,7 +385,7 @@ def load_catalogue(path: pathlib.Path) -> dict[str, str]:
 
 
 def main() -> int:
-    src = RENDER.read_text()
+    src = RENDER.read_text(encoding="utf-8")
     # Stop at the test module. Its fixtures and expected strings are prose
     # by every measure this script applies — "Some of the magnesium in v1
     # is used up." — but nobody reads them on a screen, and counting them
@@ -394,14 +394,14 @@ def main() -> int:
     if cut != -1:
         src = src[:cut]
     used = {m.group(1): m.group(2) for m in CALL.finditer(src)}
-    bench = BENCH.read_text()
+    bench = BENCH.read_text(encoding="utf-8")
     bench_cut = bench.find("\n#[cfg(test)]")
     if bench_cut != -1:
         bench = bench[:bench_cut]
     # The GRAMMAR refuses too, and its refusals carry keys as of I18N-13.
     # Reading them only out of `bench.rs` would report every one of them
     # as an orphan the moment the catalogue gained a row for it.
-    grammar_src = without_test_modules(SCRIPT.read_text())
+    grammar_src = without_test_modules(SCRIPT.read_text(encoding="utf-8"))
     refusals = {
         m.group(1): unwrap(m.group(2))
         for m in REFUSAL.finditer(bench + "\n" + grammar_src)
@@ -411,11 +411,11 @@ def main() -> int:
     # by a constant is still counted where it is used.
     const_keys: dict[str, str] = {}
     for path in sorted(ROOT.glob("crates/*/src/**/*.rs")):
-        for m in CONST_KEY.finditer(path.read_text()):
+        for m in CONST_KEY.finditer(path.read_text(encoding="utf-8")):
             const_keys[m.group(1)] = m.group(2)
     composed: dict[str, str] = {}
     for path in COMPOSERS:
-        text = uncommented(without_test_modules(path.read_text()))
+        text = uncommented(without_test_modules(path.read_text(encoding="utf-8")))
         # A composer file may also ask the catalogue DIRECTLY, the ordinary
         # `locale.t` / `locale.fill` way, when what it builds is a string
         # rather than an event — `particles.rs` draws the census and hands
@@ -437,13 +437,13 @@ def main() -> int:
     # ordinary `locale.t` way — and composes one clause of its own,
     # `look.sentence-join`, which a CALL-only read of this file could not
     # see. A key the lint cannot see is a key outside the denominator.
-    phrase_src = uncommented(without_test_modules(PHRASE.read_text()))
+    phrase_src = uncommented(without_test_modules(PHRASE.read_text(encoding="utf-8")))
     for m in CALL.finditer(phrase_src):
         composed[m.group(1)] = m.group(2)
     for m in PHRASE_CALL.finditer(phrase_src):
         composed[m.group(1)] = unwrap(m.group(2))
     used.update(composed)
-    grammar = SCRIPT.read_text()
+    grammar = SCRIPT.read_text(encoding="utf-8")
     dynamic = {m.group(1) for m in DYNAMIC.finditer(src)}
     # `Slot::Term { section, en }` looks a term up by VALUE under a section
     # chosen at runtime, and the curated solvent verdicts build their key
@@ -451,7 +451,7 @@ def main() -> int:
     # site, which is the same legitimate pattern the glassware and species
     # tables use.
     for path in COMPOSERS + [BENCH, RENDER]:
-        text = path.read_text()
+        text = path.read_text(encoding="utf-8")
         dynamic |= {
             m.group(1) for m in re.finditer(r'Slot::term\(\s*"([\w.-]+)"', text)
         }
@@ -466,7 +466,7 @@ def main() -> int:
     # those two sections is reported as an orphan — which is the same
     # "I cannot see a file" as #734, one build step further out.
     for extra in sorted(ROOT.glob("crates/kerotakis-registry-export/src/**/*.rs")):
-        dynamic |= {m.group(1) for m in SECTION.finditer(extra.read_text())}
+        dynamic |= {m.group(1) for m in SECTION.finditer(extra.read_text(encoding="utf-8"))}
     dynamic |= {m.group(1) for m in SECTION_LITERAL.finditer(grammar)}
     mentioned = {m.group(1) for m in MENTIONED.finditer(src)}
     mentioned |= {m.group(1) for m in MENTIONED.finditer(grammar)}
@@ -478,7 +478,7 @@ def main() -> int:
     for path in COMPOSERS:
         mentioned |= {
             m.group(1)
-            for m in MENTIONED.finditer(uncommented(without_test_modules(path.read_text())))
+            for m in MENTIONED.finditer(uncommented(without_test_modules(path.read_text(encoding="utf-8"))))
         }
 
     # Everything that looks like prose, minus what already goes through a
@@ -548,7 +548,7 @@ def main() -> int:
     per_key = collections.defaultdict(set)
     for m in CALL.finditer(src):
         per_key[m.group(1)].add(m.group(2))
-    for m in REFUSAL.finditer(bench + "\n" + without_test_modules(SCRIPT.read_text())):
+    for m in REFUSAL.finditer(bench + "\n" + without_test_modules(SCRIPT.read_text(encoding="utf-8"))):
         per_key[m.group(1)].add(unwrap(m.group(2)))
     # `without_test_modules`, and it is not cosmetic. A `#[cfg(test)]`
     # fixture that reuses a live key with stand-in prose —
@@ -559,7 +559,7 @@ def main() -> int:
     # has no business in a collision set; the two scans above are already
     # read this way and this one was simply missed.
     for path in COMPOSERS:
-        for m in PHRASE_CALL.finditer(without_test_modules(path.read_text())):
+        for m in PHRASE_CALL.finditer(without_test_modules(path.read_text(encoding="utf-8"))):
             per_key[m.group(1)].add(unwrap(m.group(2)))
     shared = {k: v for k, v in per_key.items() if len(v) > 1}
     if shared:
@@ -602,7 +602,7 @@ def main() -> int:
     for path in sorted(ROOT.glob("crates/*/src/**/*.rs")):
         if path.resolve() in listed:
             continue
-        text = without_test_modules(path.read_text())
+        text = without_test_modules(path.read_text(encoding="utf-8"))
         # `rustfmt` puts a long key on its own line, so the opener and the
         # quote are not adjacent: `Phrase::new(\n    "corrosion.no-oxygen",`.
         # Matching the literal `Phrase::new("` found nothing and the check

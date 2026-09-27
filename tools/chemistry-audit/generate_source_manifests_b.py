@@ -230,8 +230,8 @@ def main() -> None:
         path = OUT / f"{manifest['family']}.json"
         content = json.dumps(manifest, indent=2, ensure_ascii=False) + "\n"
         if args.write:
-            path.write_text(content)
-        elif not path.exists() or path.read_text() != content:
+            path.write_text(content, encoding="utf-8")
+        elif not path.exists() or path.read_text(encoding="utf-8") != content:
             stale.append(str(path))
     if stale:
         raise SystemExit("stale or missing generated manifests: " + ", ".join(stale))

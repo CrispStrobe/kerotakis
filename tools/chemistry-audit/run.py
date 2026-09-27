@@ -99,8 +99,8 @@ def main():
     new_files = subprocess.check_output(
         ["git", "ls-files", "--others", "--exclude-standard", "crates", "data",
          "provenance", "lessons", "codex", "web", "Cargo.lock"], cwd=ROOT, text=True).splitlines()
-    snapshots = {name: (ROOT / name).read_text() for name in new_files}
-    (args.out / "new-source-files.json").write_text(json.dumps(snapshots, indent=2) + "\n")
+    snapshots = {name: (ROOT / name).read_text(encoding="utf-8") for name in new_files}
+    (args.out / "new-source-files.json").write_text(json.dumps(snapshots, indent=2) + "\n", encoding="utf-8")
     metadata = {"commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
                 "complete_source_patch_sha256": hashlib.sha256(source_patch).hexdigest(),
                 "binary_sha256": hashlib.sha256(binary.read_bytes()).hexdigest(),
@@ -120,7 +120,7 @@ def main():
         directory = args.out / spec["id"]
         directory.mkdir(parents=True, exist_ok=True)
         script = directory / "experiment.lab"
-        script.write_text("# " + spec["question"] + "\n" + spec["script"])
+        script.write_text("# " + spec["question"] + "\n" + spec["script"], encoding="utf-8")
         start = time.monotonic()
         try:
             process = subprocess.run([str(binary), "run", str(script.resolve()), "--json"],
@@ -130,8 +130,8 @@ def main():
             stdout = (exc.stdout or b"").decode() if isinstance(exc.stdout, bytes) else exc.stdout or ""
             stderr = (exc.stderr or b"").decode() if isinstance(exc.stderr, bytes) else exc.stderr or ""
             rc = "timeout"
-        (directory / "stdout.ndjson").write_text(stdout)
-        (directory / "stderr.txt").write_text(stderr)
+        (directory / "stdout.ndjson").write_text(stdout, encoding="utf-8")
+        (directory / "stderr.txt").write_text(stderr, encoding="utf-8")
         rows, invalid = [], []
         for line in stdout.splitlines():
             try:
@@ -149,7 +149,7 @@ def main():
                   "final": final, "stderr": stderr}
         metadata["cases"].append(record)
         print(spec["id"], "exit=", rc, "steps=", len(rows), "events=", record["event_counts"], flush=True)
-    (args.out / "summary.json").write_text(json.dumps(metadata, indent=2) + "\n")
+    (args.out / "summary.json").write_text(json.dumps(metadata, indent=2) + "\n", encoding="utf-8")
 
 
 if __name__ == "__main__":

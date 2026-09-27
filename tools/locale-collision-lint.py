@@ -81,7 +81,7 @@ def main() -> int:
     check = "--check" in sys.argv
     problems: list[str] = []
     for path in bundles():
-        doc = json.loads(path.read_text())
+        doc = json.loads(path.read_text(encoding="utf-8"))
         found = collisions(doc)
         disagreeing = {k: v for k, v in found.items() if v[0] != v[1]}
         print(

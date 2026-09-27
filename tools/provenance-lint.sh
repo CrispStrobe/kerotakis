@@ -53,7 +53,7 @@ done < "$MANIFEST"
 # Simpler approach: parse with python
 python3 - "$MANIFEST" "$ALLOWED_RUNTIME" << 'PYEOF'
 import sys, re
-manifest = open(sys.argv[1]).read()
+manifest = open(sys.argv[1], encoding="utf-8").read()
 allowed = sys.argv[2]
 
 # Find all [[source]] blocks

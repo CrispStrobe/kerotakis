@@ -47,7 +47,7 @@ def main() -> int:
         print(f"no .xcodeproj under {GEN} — run `tauri ios init` first", file=sys.stderr)
         return 1
     pbxproj = projects[0] / "project.pbxproj"
-    text = pbxproj.read_text()
+    text = pbxproj.read_text(encoding="utf-8")
 
     # Drop the generated identity first: leaving "iPhone Developer" in place
     # makes the block ambiguous, and an sdk-scoped override outranks the
@@ -68,7 +68,7 @@ def main() -> int:
         text = re.sub(rf'^\s*{key} = .*\n', "", text, flags=re.MULTILINE)
     text, count = re.subn(r'(buildSettings = \{\n)', r'\1' + settings, text)
 
-    pbxproj.write_text(text)
+    pbxproj.write_text(text, encoding="utf-8")
     print(f"   {pbxproj.relative_to(ROOT)}: manual signing in {count} buildSettings blocks")
     print(f"   team {team}, profile {profile!r}, identity {identity!r}")
     return 0

@@ -19,7 +19,7 @@ def main():
         family = path.name.removesuffix("-law-checks.json")
         if family in reports:
             raise ValueError(f"duplicate report: {family}")
-        reports[family] = json.loads(path.read_text())
+        reports[family] = json.loads(path.read_text(encoding="utf-8"))
     if set(reports) != set(expected):
         raise ValueError(f"report families differ: expected {sorted(expected)}, got {sorted(reports)}")
     errors = []

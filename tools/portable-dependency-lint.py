@@ -68,7 +68,7 @@ def main() -> int:
     )
     args = parser.parse_args()
     repo = Path(__file__).resolve().parent.parent
-    metadata = json.loads(args.metadata.read_text()) if args.metadata else cargo_metadata(repo)
+    metadata = json.loads(args.metadata.read_text(encoding="utf-8")) if args.metadata else cargo_metadata(repo)
     violations = dependency_paths(metadata)
     if not violations:
         print(f"portable dependency lint: {ROOT_PACKAGE} closure is portable")

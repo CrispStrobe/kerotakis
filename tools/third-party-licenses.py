@@ -97,7 +97,7 @@ def package_block(
 def cargo_packages(
     registry_root: Path, catalogue: dict[str, tuple[str, str]]
 ) -> list[str]:
-    inventory = json.loads((ROOT / "data/inventory.json").read_text())
+    inventory = json.loads((ROOT / "data/inventory.json").read_text(encoding="utf-8"))
     source_dirs: dict[str, Path] = {}
     if registry_root.is_dir():
         for index in registry_root.iterdir():
@@ -165,7 +165,7 @@ def cargo_packages(
 
 
 def npm_packages(node_modules: Path, catalogue: dict[str, tuple[str, str]]) -> list[str]:
-    lock = json.loads((ROOT / "web/app/package-lock.json").read_text())
+    lock = json.loads((ROOT / "web/app/package-lock.json").read_text(encoding="utf-8"))
     blocks: list[str] = []
     missing: list[str] = []
     for key, item in sorted(lock["packages"].items()):
@@ -177,7 +177,7 @@ def npm_packages(node_modules: Path, catalogue: dict[str, tuple[str, str]]) -> l
         if not manifest_path.is_file():
             missing.append(name)
             continue
-        manifest = json.loads(manifest_path.read_text())
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
         authors: list[str] = []
         author = manifest.get("author")
         if isinstance(author, str):
@@ -376,11 +376,11 @@ def main() -> None:
     args = parser.parse_args()
     generated = generate(args.cargo_registry_root, args.node_modules, args.iphreeqc_notice)
     if args.check:
-        if not OUT.is_file() or OUT.read_text() != generated:
+        if not OUT.is_file() or OUT.read_text(encoding="utf-8") != generated:
             raise SystemExit("third-party licence bundle is stale; run tools/third-party-licenses.py")
         return
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(generated)
+    OUT.write_text(generated, encoding="utf-8")
     print(f"wrote {OUT.relative_to(ROOT)}")
 
 

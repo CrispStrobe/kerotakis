@@ -55,9 +55,9 @@ def main() -> None:
         parser.error("recording requires --binary and --out")
     base.record(args.binary, args.out, manifests, cases)
     summary = args.out / "summary.json"
-    value = json.loads(summary.read_text())
+    value = json.loads(summary.read_text(encoding="utf-8"))
     value["schema"] = "kerotakis-source-evidence-v3"
-    summary.write_text(json.dumps(value, indent=2) + "\n")
+    summary.write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
 
 
 if __name__ == "__main__":

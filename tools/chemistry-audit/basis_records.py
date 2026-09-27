@@ -10,7 +10,7 @@ import re
 
 root = pathlib.Path(__file__).resolve().parents[2]
 path = root / 'data/registry/registry-source-v1.json'
-old = path.read_text()
+old = path.read_text(encoding="utf-8")
 document = json.loads(old)
 source = 'kerotakis/aqueous-basis-v1'
 if any(row['id'] == source for row in document['sources']):

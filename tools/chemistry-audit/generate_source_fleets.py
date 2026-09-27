@@ -469,8 +469,8 @@ def main() -> None:
         path = OUT / f"{family}.json"
         content = encoded(document)
         if args.write:
-            path.write_text(content)
-        elif not path.exists() or path.read_text() != content:
+            path.write_text(content, encoding="utf-8")
+        elif not path.exists() or path.read_text(encoding="utf-8") != content:
             stale.append(str(path.relative_to(HERE.parents[1])))
     if stale:
         raise SystemExit("stale or missing generated manifests: " + ", ".join(stale))

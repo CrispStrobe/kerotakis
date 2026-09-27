@@ -12,7 +12,7 @@ def close(a, b, absolute=1e-9, relative=1e-5):
 
 
 def analyse(directory):
-    summary = json.loads((directory / "summary.json").read_text())
+    summary = json.loads((directory / "summary.json").read_text(encoding="utf-8"))
     records = {int(row["id"].split("-")[0]): row for row in summary["cases"]}
     if len(records) != 30 or set(records) != set(range(459, 489)):
         raise ValueError("exactly 30 distinct cases 459-488 required")
@@ -20,7 +20,7 @@ def analyse(directory):
     malformed = {}
     for key, record in records.items():
         rows[key], malformed[key] = [], []
-        for line in (directory / record["id"] / "stdout.ndjson").read_text().splitlines():
+        for line in (directory / record["id"] / "stdout.ndjson").read_text(encoding="utf-8").splitlines():
             try:
                 value = json.loads(line)
                 if not isinstance(value, dict):
@@ -165,9 +165,9 @@ def self_test():
         for case in cases:
             source = directory / case["id"]
             source.mkdir()
-            (source / "stdout.ndjson").write_text("")
+            (source / "stdout.ndjson").write_text("", encoding="utf-8")
             records.append({"id": case["id"], "exit": 0, "non_json_lines": [], "final": None})
-        (directory / "summary.json").write_text(json.dumps({"cases": records}))
+        (directory / "summary.json").write_text(json.dumps({"cases": records}), encoding="utf-8")
         result = analyse(directory)
         assert result["passed"] == 0 and result["unmet"] >= 30
     print(json.dumps({"distinct_inputs": 30, "missing_output_negative_control": "passed", "rejected_checks": result["unmet"]}))

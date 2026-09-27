@@ -15,7 +15,7 @@ import sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import client  # noqa: E402
 
-META = json.loads((pathlib.Path(__file__).resolve().parent / "metadata.json").read_text())
+META = json.loads((pathlib.Path(__file__).resolve().parent / "metadata.json").read_text(encoding="utf-8"))
 bundle = META["bundleId"]
 
 resolved = client.app_id(bundle)

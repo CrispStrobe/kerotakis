@@ -15,11 +15,11 @@ def close(a, b, absolute=1e-8, relative=1e-6):
 
 
 def analyse(directory):
-    summary = json.loads((directory / "summary.json").read_text())
+    summary = json.loads((directory / "summary.json").read_text(encoding="utf-8"))
     records = {int(r["id"].split("-", 1)[0]): r for r in summary["cases"]}
     if len(summary["cases"]) != 36 or set(records) != set(range(159, 195)):
         raise ValueError("Exactly 36 distinct cases 159–194 are required")
-    registry = json.loads((ROOT / "data/registry/registry-source-v1.json").read_text())
+    registry = json.loads((ROOT / "data/registry/registry-source-v1.json").read_text(encoding="utf-8"))
     composition = {r["species_id"]: {e["element"]: e["count"]["value"] for e in r["elements"]}
                    for r in registry["compositions"]}
     # `base_equivalents` is not a substance and deliberately has no registry
@@ -36,8 +36,8 @@ def analyse(directory):
         source = directory / record["id"]
         rows[k], malformed[k] = [], []
         try:
-            scripts[k] = (source / "experiment.lab").read_text()
-            lines = (source / "stdout.ndjson").read_text().splitlines()
+            scripts[k] = (source / "experiment.lab").read_text(encoding="utf-8")
+            lines = (source / "stdout.ndjson").read_text(encoding="utf-8").splitlines()
         except OSError as exc:
             scripts[k], lines = "", []
             malformed[k].append(str(exc))
@@ -236,10 +236,10 @@ def self_test():
         for case in cases:
             source = directory / case["id"]
             source.mkdir()
-            (source / "experiment.lab").write_text(case["script"])
-            (source / "stdout.ndjson").write_text("")
+            (source / "experiment.lab").write_text(case["script"], encoding="utf-8")
+            (source / "stdout.ndjson").write_text("", encoding="utf-8")
             records.append({"id": case["id"], "exit": 0, "non_json_lines": [], "final": None, "stderr": ""})
-        (directory / "summary.json").write_text(json.dumps({"cases": records}))
+        (directory / "summary.json").write_text(json.dumps({"cases": records}), encoding="utf-8")
         report = analyse(directory)
         assert report["passed"] == 0 and report["unmet"] >= 36, report
     print(json.dumps({"distinct_inputs": 36, "missing_output_negative_control": "passed", "rejected_checks": report["unmet"]}))

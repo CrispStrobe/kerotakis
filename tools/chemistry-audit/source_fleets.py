@@ -22,7 +22,7 @@ RELATION_KINDS = {"conservation", "independent-law", "metamorphic", "boundary"}
 
 
 def load_manifests(directory: Path = MANIFEST_DIR):
-    manifests = [json.loads(path.read_text()) for path in sorted(directory.glob("*.json"))]
+    manifests = [json.loads(path.read_text(encoding="utf-8")) for path in sorted(directory.glob("*.json"))]
     if not manifests:
         raise ValueError(f"no manifests in {directory}")
     cases, identifiers, scripts, relation_ids = [], set(), set(), set()
@@ -95,7 +95,7 @@ def record(binary: Path, output: Path, manifests, cases):
         directory = output / spec["id"]
         directory.mkdir()
         script_text = "register lv3\n" + spec["script"].strip() + "\ninspect\n"
-        (directory / "experiment.lab").write_text(f"# {spec['question']}\n{script_text}")
+        (directory / "experiment.lab").write_text(f"# {spec['question']}\n{script_text}", encoding="utf-8")
         started = time.monotonic()
         try:
             process = subprocess.run(
@@ -106,8 +106,8 @@ def record(binary: Path, output: Path, manifests, cases):
             stdout = exc.stdout.decode() if isinstance(exc.stdout, bytes) else exc.stdout or ""
             stderr = exc.stderr.decode() if isinstance(exc.stderr, bytes) else exc.stderr or ""
             status = "timeout"
-        (directory / "stdout.ndjson").write_text(stdout)
-        (directory / "stderr.txt").write_text(stderr)
+        (directory / "stdout.ndjson").write_text(stdout, encoding="utf-8")
+        (directory / "stderr.txt").write_text(stderr, encoding="utf-8")
         rows, malformed = [], []
         for line in stdout.splitlines():
             try:
@@ -126,7 +126,7 @@ def record(binary: Path, output: Path, manifests, cases):
             "final": final, "stderr": stderr,
         })
         print(spec["id"], "exit=", status, "steps=", len(rows), flush=True)
-    (output / "summary.json").write_text(json.dumps(envelope, indent=2) + "\n")
+    (output / "summary.json").write_text(json.dumps(envelope, indent=2) + "\n", encoding="utf-8")
 
 
 def main():

@@ -29,7 +29,7 @@ PROFILE_NAME="${IOS_PROFILE_NAME:-Kerotakis AppStore CI}"
 UPLOAD=1
 [ "${1:-}" = "--no-upload" ] && UPLOAD=0
 
-VERSION="$(python3 -c "import json; print(json.load(open('$TAURI/tauri.conf.json'))['version'])")"
+VERSION="$(python3 -c "import json; print(json.load(open('$TAURI/tauri.conf.json', encoding='utf-8'))['version'])")"
 echo "== Kerotakis $VERSION -> iOS App Store"
 
 echo "== the signing identity is present"

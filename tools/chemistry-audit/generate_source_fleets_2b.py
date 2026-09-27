@@ -214,8 +214,8 @@ def main() -> None:
     args=parser.parse_args(); OUT.mkdir(parents=True,exist_ok=True); stale=[]
     for family,doc in generated().items():
         path=OUT/f"{family}.json"; content=encoded(doc)
-        if args.write: path.write_text(content)
-        elif not path.exists() or path.read_text()!=content: stale.append(str(path.relative_to(HERE.parents[1])))
+        if args.write: path.write_text(content, encoding="utf-8")
+        elif not path.exists() or path.read_text(encoding="utf-8")!=content: stale.append(str(path.relative_to(HERE.parents[1])))
     if stale: raise SystemExit("stale or missing generated manifests: "+", ".join(stale))
     print(json.dumps({"families":6,"cases":144,"status":"written" if args.write else "current"}))
 

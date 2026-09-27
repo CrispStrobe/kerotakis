@@ -276,7 +276,7 @@ def source_line(text: str, pos: int) -> str:
 
 
 def collect(path: Path) -> list[dict]:
-    text = path.read_text()
+    text = path.read_text(encoding="utf-8")
     m = mask(text)
     excl = excluded_spans(m)
     consts = const_spans(m)
@@ -359,7 +359,7 @@ def do_catalogue(files: list[str]) -> list[dict]:
         sites.extend(collect(Path(f).resolve()))
     for n, s in enumerate(sites):
         s["id"] = n
-    CATALOGUE.write_text(json.dumps(sites, indent=1))
+    CATALOGUE.write_text(json.dumps(sites, indent=1), encoding="utf-8")
     by_kind: dict[str, int] = {}
     for s in sites:
         by_kind[s["kind"]] = by_kind.get(s["kind"], 0) + 1
@@ -368,7 +368,7 @@ def do_catalogue(files: list[str]) -> list[dict]:
 
 
 def do_instrument(skip: set[int]) -> None:
-    sites = json.loads(CATALOGUE.read_text())
+    sites = json.loads(CATALOGUE.read_text(encoding="utf-8"))
     backups = STATE / "orig"
     backups.mkdir(parents=True, exist_ok=True)
     by_file: dict[str, list[dict]] = {}
@@ -382,7 +382,7 @@ def do_instrument(skip: set[int]) -> None:
         bak = backups / rel.replace("/", "__")
         if not bak.exists():
             shutil.copy2(path, bak)
-        text = bak.read_text()
+        text = bak.read_text(encoding="utf-8")
         # Every edit is expressed as a pair of INSERTIONS rather than a
         # replacement, because the sites nest: a literal often sits inside the
         # `if` condition that is itself a site, and a replacement of the outer
@@ -400,14 +400,14 @@ def do_instrument(skip: set[int]) -> None:
         inserts.sort(key=lambda t: (t[0], t[1]), reverse=True)
         for pos, _, frag in inserts:
             text = text[:pos] + frag + text[pos:]
-        path.write_text(text)
+        path.write_text(text, encoding="utf-8")
 
     lib = REPO / "crates/kerotakis-core/src/lib.rs"
     libbak = backups / "lib_rs_root"
     if not libbak.exists():
         shutil.copy2(lib, libbak)
-    if "__mutation" not in lib.read_text():
-        lib.write_text(libbak.read_text() + RUNTIME_MODULE)
+    if "__mutation" not in lib.read_text(encoding="utf-8"):
+        lib.write_text(libbak.read_text(encoding="utf-8") + RUNTIME_MODULE, encoding="utf-8")
     print(f"instrumented {len(by_file)} file(s), {sum(len(g) for g in by_file.values())} sites")
 
 
@@ -554,14 +554,14 @@ def run_tier(tier: dict, mutant: int | None, env_extra: dict | None = None) -> d
 
 
 def do_run(ceiling: float, only: str | None, ids: list[int] | None) -> None:
-    sites = json.loads(CATALOGUE.read_text())
+    sites = json.loads(CATALOGUE.read_text(encoding="utf-8"))
     live = [s for s in sites if s["kind"] != "table"]
     if only:
         live = [s for s in live if s["kind"] == only]
     if ids:
         live = [s for s in live if s["id"] in ids]
 
-    results = json.loads(RESULTS.read_text()) if RESULTS.exists() else {}
+    results = json.loads(RESULTS.read_text(encoding="utf-8")) if RESULTS.exists() else {}
     started = time.time()
 
     if "baseline" not in results:
@@ -573,7 +573,7 @@ def do_run(ceiling: float, only: str | None, ids: list[int] | None) -> None:
     # is not mistaken for a hang.
     for tier, b in zip(TIERS, results["baseline"]):
         tier["timeout"] = max(60.0, 8.0 * b["seconds"])
-    RESULTS.write_text(json.dumps(results, indent=1))
+    RESULTS.write_text(json.dumps(results, indent=1), encoding="utf-8")
     for b in results["baseline"]:
         print(f"baseline {b['tier']}: ok={b['ok']} {b['seconds']}s")
     if not all(b["ok"] for b in results["baseline"]):
@@ -601,7 +601,7 @@ def do_run(ceiling: float, only: str | None, ids: list[int] | None) -> None:
             record["verdict"] = "survived"
             record["strength"] = None
         results[key] = record
-        RESULTS.write_text(json.dumps(results, indent=1))
+        RESULTS.write_text(json.dumps(results, indent=1), encoding="utf-8")
         print(f"#{s['id']:>3} {s['kind']:<8} {s['file'].split('/')[-1]}:{s['line']:<5} "
               f"{record['verdict']:<9} {record.get('caught_by', '')}")
 
@@ -656,7 +656,7 @@ def table_site_column(site: dict) -> tuple[Path, int, int, str]:
         orig.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(REPO / site["file"], orig)
         print(f"seeded {orig.name} from the clean working tree")
-    text = orig.read_text()
+    text = orig.read_text(encoding="utf-8")
     line_start = text.rfind("\n", 0, site["start"]) + 1
     return REPO / site["file"], site["line"], site["start"] - line_start, site["original"]
 
@@ -673,7 +673,7 @@ def mark_live(path: Path, line_no: int, original_line: str, mutant: int) -> None
                 "mutant": mutant,
             }
         )
-    )
+    , encoding="utf-8")
 
 
 def clear_live() -> None:
@@ -691,16 +691,16 @@ def recover_live() -> bool:
     """
     if not LIVE.exists():
         return False
-    mark = json.loads(LIVE.read_text())
+    mark = json.loads(LIVE.read_text(encoding="utf-8"))
     path = REPO / mark["file"]
-    lines = path.read_text().splitlines(keepends=True)
+    lines = path.read_text(encoding="utf-8").splitlines(keepends=True)
     current = lines[mark["line"] - 1]
     if current == mark["original"]:
         print(f"note: {mark['file']}:{mark['line']} was already clean "
               f"(mutant #{mark['mutant']}); marker cleared")
     else:
         lines[mark["line"] - 1] = mark["original"]
-        path.write_text("".join(lines))
+        path.write_text("".join(lines), encoding="utf-8")
         print(
             "RECOVERED a falsified constant a killed run left on disk:\n"
             f"  {mark['file']}:{mark['line']} (mutant #{mark['mutant']})\n"
@@ -730,8 +730,8 @@ def install_restore_signals() -> None:
 
 
 def do_run_table(ids: list[int], ceiling: float) -> None:
-    sites = {s["id"]: s for s in json.loads(CATALOGUE.read_text())}
-    results = json.loads(RESULTS.read_text()) if RESULTS.exists() else {}
+    sites = {s["id"]: s for s in json.loads(CATALOGUE.read_text(encoding="utf-8"))}
+    results = json.loads(RESULTS.read_text(encoding="utf-8")) if RESULTS.exists() else {}
     for tier, b in zip(TIERS, results.get("baseline", [])):
         tier["timeout"] = max(60.0, 8.0 * b["seconds"])
     started = time.time()
@@ -743,7 +743,7 @@ def do_run_table(ids: list[int], ceiling: float) -> None:
             print("ceiling reached")
             break
         path, line_no, col, literal = table_site_column(site)
-        lines = path.read_text().splitlines(keepends=True)
+        lines = path.read_text(encoding="utf-8").splitlines(keepends=True)
         line = lines[line_no - 1]
         assert line[col : col + len(literal)] == literal, (
             f"#{mid}: expected {literal!r} at {path}:{line_no}:{col}, found "
@@ -752,7 +752,7 @@ def do_run_table(ids: list[int], ceiling: float) -> None:
         original_line = line
         lines[line_no - 1] = line[:col] + perturbed(literal) + line[col + len(literal) :]
         mark_live(path, line_no, original_line, mid)
-        path.write_text("".join(lines))
+        path.write_text("".join(lines), encoding="utf-8")
         try:
             t0 = time.time()
             env = dict(os.environ)
@@ -766,7 +766,7 @@ def do_run_table(ids: list[int], ceiling: float) -> None:
                 print(f"#{mid} build failed after {build_s}s — excluded")
                 results[str(mid)] = {"site": site, "verdict": "uncompilable",
                                      "build_seconds": build_s}
-                RESULTS.write_text(json.dumps(results, indent=1))
+                RESULTS.write_text(json.dumps(results, indent=1), encoding="utf-8")
                 continue
             record = {"site": site, "tiers": [], "build_seconds": build_s}
             for tier in TIERS:
@@ -781,14 +781,14 @@ def do_run_table(ids: list[int], ceiling: float) -> None:
                 record["verdict"] = "survived"
                 record["strength"] = None
             results[str(mid)] = record
-            RESULTS.write_text(json.dumps(results, indent=1))
+            RESULTS.write_text(json.dumps(results, indent=1), encoding="utf-8")
             print(f"#{mid:>3} table    {site['file'].split('/')[-1]}:{site['line']:<5} "
                   f"{record['verdict']:<9} {record.get('caught_by', '')} "
                   f"(build {build_s}s)")
         finally:
-            lines = path.read_text().splitlines(keepends=True)
+            lines = path.read_text(encoding="utf-8").splitlines(keepends=True)
             lines[line_no - 1] = original_line
-            path.write_text("".join(lines))
+            path.write_text("".join(lines), encoding="utf-8")
             clear_live()
 
 
@@ -798,7 +798,7 @@ def do_run_table(ids: list[int], ceiling: float) -> None:
 
 
 def do_report() -> None:
-    results = json.loads(RESULTS.read_text())
+    results = json.loads(RESULTS.read_text(encoding="utf-8"))
     rows = [(int(k), v) for k, v in results.items() if k != "baseline"]
     rows.sort()
     counts: dict[str, int] = {}

@@ -12,8 +12,8 @@ SPEC.loader.exec_module(MODULE)
 
 class KidsCatalogTests(unittest.TestCase):
     def setUp(self):
-        self.document = json.loads((ROOT / "data/kids/experiments-v1.json").read_text())
-        self.german = json.loads((ROOT / "data/kids/experiments-de-v1.json").read_text())
+        self.document = json.loads((ROOT / "data/kids/experiments-v1.json").read_text(encoding="utf-8"))
+        self.german = json.loads((ROOT / "data/kids/experiments-de-v1.json").read_text(encoding="utf-8"))
 
     def test_catalog_is_the_exact_audited_run(self):
         rows = MODULE.validate(self.document)

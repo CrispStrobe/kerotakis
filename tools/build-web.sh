@@ -90,7 +90,7 @@ for f in sorted(os.listdir(d)):
         continue
     data = open(os.path.join(d, f), "rb").read()
     packs.append({"file": f, "sha256": hashlib.sha256(data).hexdigest(), "size": len(data)})
-open(os.path.join(d, "index.json"), "w").write(json.dumps({"packs": packs}, indent=1))
+open(os.path.join(d, "index.json"), "w", encoding="utf-8").write(json.dumps({"packs": packs}, indent=1))
 print(f"   manifest: {len(packs)} pack(s)")
 PYMANIFEST
 

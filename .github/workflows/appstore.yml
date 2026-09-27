@@ -72,6 +72,13 @@ jobs:
         with:
           node-version: "22"
           cache: npm
+      # tools/build-shell-payload.sh needs tomllib, so 3.11 is the floor.
+      # Reached indirectly from here, through tauri's beforeBuildCommand,
+      # which is why nothing named it until a lint followed the edges.
+      - uses: actions/setup-python@v5
+        if: steps.gate.outputs.run == 'true'
+        with:
+          python-version: "3.12"
           cache-dependency-path: web/app/package-lock.json
 
       - name: Install the app's dependencies

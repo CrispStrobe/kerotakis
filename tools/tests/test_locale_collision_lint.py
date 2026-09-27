@@ -47,7 +47,7 @@ class LocaleCollisionLintTests(unittest.TestCase):
         This is the same guard the mutation and perturbation records use:
         a recorded entry that has healed must be deleted, and saying so is
         the only thing that keeps the recorded list honest."""
-        de = json.loads((ROOT / "web/app/src/locales/de.json").read_text())
+        de = json.loads((ROOT / "web/app/src/locales/de.json").read_text(encoding="utf-8"))
         found = MODULE.collisions(de)
         for key in MODULE.RECORDED:
             self.assertIn(key, found, f"{key!r} is recorded but no longer collides")

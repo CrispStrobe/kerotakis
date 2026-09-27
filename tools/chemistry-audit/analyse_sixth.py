@@ -13,11 +13,11 @@ def close(a, b, absolute=1e-8, relative=1e-6):
     return math.isfinite(a) and math.isfinite(b) and abs(a-b) <= absolute + relative*max(abs(a),abs(b))
 
 def analyse(directory):
-    summary=json.loads((directory/'summary.json').read_text())
+    summary=json.loads((directory/'summary.json').read_text(encoding="utf-8"))
     records={int(r['id'].split('-')[0]):r for r in summary['cases']}
     if len(summary['cases']) != 24 or set(records) != set(range(195,219)):
         raise ValueError('Exactly 24 distinct cases 195–218 required')
-    registry=json.loads((ROOT/'data/registry/registry-source-v1.json').read_text())
+    registry=json.loads((ROOT/'data/registry/registry-source-v1.json').read_text(encoding="utf-8"))
     composition={r['species_id']:{e['element']:e['count']['value'] for e in r['elements']} for r in registry['compositions']}
     # `base_equivalents` is not a substance and deliberately has no registry
     # identity: it is the analytical BASE coordinate the aqueous tail books to
@@ -33,8 +33,8 @@ def analyse(directory):
         source=directory/r['id']
         rows[k],malformed[k]=[],[]
         try:
-            scripts[k]=(source/'experiment.lab').read_text()
-            for line in (source/'stdout.ndjson').read_text().splitlines():
+            scripts[k]=(source/'experiment.lab').read_text(encoding="utf-8")
+            for line in (source/'stdout.ndjson').read_text(encoding="utf-8").splitlines():
                 try:
                     row=json.loads(line)
                     if not isinstance(row,dict):
@@ -155,10 +155,10 @@ def self_test():
         records=[]
         for c in cases:
             source=directory/c['id']; source.mkdir()
-            (source/'experiment.lab').write_text(c['script'])
-            (source/'stdout.ndjson').write_text('')
+            (source/'experiment.lab').write_text(c['script'], encoding="utf-8")
+            (source/'stdout.ndjson').write_text('', encoding="utf-8")
             records.append(dict(id=c['id'],exit=0,non_json_lines=[],final=None,stderr=''))
-        (directory/'summary.json').write_text(json.dumps(dict(cases=records)))
+        (directory/'summary.json').write_text(json.dumps(dict(cases=records)), encoding="utf-8")
         result=analyse(directory)
         assert result['passed']==0 and result['unmet']>=24,result
     print(json.dumps(dict(distinct_inputs=24,missing_output_negative_control='passed',rejected_checks=result['unmet'])))

@@ -319,6 +319,84 @@ jobs:
         working-directory: web/app/src-tauri
         run: cargo check --all-targets
 
+  payload:
+    # The shell payload's four Python steps were only ever run on
+    # `ubuntu-latest` (and macOS, in native-host). The release builds them on
+    # `ubuntu-22.04` and `windows-latest` too, and v0.1.0 failed on both while
+    # CI was green:
+    #
+    #   ubuntu-22.04    ModuleNotFoundError: No module named 'tomllib'  (py3.10)
+    #   windows-latest  UnicodeDecodeError: 'charmap' codec can't decode 0x81
+    #
+    # So this runs them on exactly those two runners. `--without-codex` drops
+    # the single step that needs a compiler, which is what keeps this cheap
+    # enough for every pull request: no submodules, no SUNDIALS, no C++.
+    name: Shell payload (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, windows-latest]
+    steps:
+      - uses: actions/checkout@v6
+      # The same Python the release names. These tools use `tomllib`, so 3.11
+      # is the floor, and pinning it here rather than taking the runner's own
+      # is the point: ubuntu-22.04 ships 3.10 and its payload build died on
+      # exactly that. The guard step below keeps the two pins in step.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      # Deliberately NOT PYTHONUTF8=1, though — `release.yml` sets it and this
+      # job must not, or a script that forgets its encoding passes here and
+      # breaks for whoever runs it on Windows without that variable.
+      - name: Which interpreter is this, exactly
+        shell: bash
+        run: python3 -VV
+      - name: The Python half of the shell payload
+        shell: bash
+        run: bash tools/build-shell-payload.sh --without-codex
+      - name: The payload is not empty, and the accents survived
+        shell: bash
+        run: |
+          # Every script above exits 0 over an empty input, so an exit code is
+          # not evidence. Count the rows, then look for the bytes that broke.
+          python3 - <<'EOF'
+          import json, pathlib
+          root = pathlib.Path("web/app/public/engine")
+          rows = json.loads((root / "lessons/index.json").read_text(encoding="utf-8"))
+          assert len(rows) > 100, f"only {len(rows)} lessons indexed"
+          size = sum(f.stat().st_size for f in root.rglob("*") if f.is_file())
+          print(f"{len(rows)} lessons, payload {size:,} bytes")
+          prose = json.loads((root / "lessons/prose.json").read_text(encoding="utf-8"))
+          text = json.dumps(prose, ensure_ascii=False)
+          for accent in ("\u00e9", "\u00fc"):
+              assert accent in text, f"no {accent!r} in the translated prose"
+          print("accented prose survived the round trip")
+          EOF
+      - name: Every workflow that reaches a tomllib tool names its Python
+        shell: bash
+        # The Linux half of v0.1.0 died because release.yml ran this on a
+        # runner whose python3 was 3.10. Pinning it fixed that one workflow;
+        # this keeps the next one from repeating it, and it follows the
+        # indirect chains — appstore.yml reaches the same Python through
+        # `tauri build`, and build-web.sh through no payload script at all.
+        run: python3 tools/payload-toolchain-lint.py --check --verbose
+      - name: Nothing that ships may pass --without-codex
+        shell: bash
+        run: |
+          # The flag above skips a step. A skipped step that reports success is
+          # the exact shape this whole job exists to catch, so the flag is
+          # allowed in CI and nowhere else.
+          # web/app/package.json matters most: `build:shell` there is the path
+          # tauri's beforeBuildCommand actually takes into this script.
+          if grep -rn -- '--without-codex' .github/workflows/release.yml \
+               .github/workflows/appstore.yml web/app/src-tauri/tauri.conf.json \
+               web/app/package.json; then
+            echo "::error::a shipping build would package a payload with no codex"
+            exit 1
+          fi
+          echo "no shipping build passes --without-codex"
+
   wasm-lab:
     name: The bench in WebAssembly
     runs-on: ubuntu-latest

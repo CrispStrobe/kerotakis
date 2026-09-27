@@ -148,13 +148,13 @@ def main() -> None:
     expected = {m["family"]: json.dumps(m, indent=2) + "\n" for m in generated}
     if args.check:
         stale = [name for name, text in expected.items()
-                 if not (OUT / f"{name}.json").exists() or (OUT / f"{name}.json").read_text() != text]
+                 if not (OUT / f"{name}.json").exists() or (OUT / f"{name}.json").read_text(encoding="utf-8") != text]
         if stale:
             raise SystemExit(f"stale v3 manifests: {', '.join(stale)}")
         return
     OUT.mkdir(exist_ok=True)
     for name, text in expected.items():
-        (OUT / f"{name}.json").write_text(text)
+        (OUT / f"{name}.json").write_text(text, encoding="utf-8")
 
 
 if __name__ == "__main__":
