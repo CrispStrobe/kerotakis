@@ -5609,6 +5609,22 @@ fn normalise_material_name(value: &str) -> String {
         .to_lowercase()
 }
 
+/// Whether this recipe already answers to `value`, in any language.
+///
+/// `validate.rs` holds every material name and alias in ONE set,
+/// normalised, and refuses a duplicate — so a name the recipe already
+/// has is not added again under another code.
+fn claimed(recipe: &MaterialRecipe, value: &str) -> bool {
+    let want = normalise_material_name(value);
+    normalise_material_name(&recipe.canonical_key) == want
+        || normalise_material_name(&recipe.name) == want
+        || recipe
+            .aliases
+            .values()
+            .flatten()
+            .any(|alias| normalise_material_name(alias) == want)
+}
+
 fn name_every_recipe_in_every_shipped_language(document: &mut RegistryDocument) {
     for locale in Locale::available() {
         if locale.is_english() {
@@ -5616,7 +5632,33 @@ fn name_every_recipe_in_every_shipped_language(document: &mut RegistryDocument) 
         }
         let names: std::collections::BTreeMap<&str, &str> =
             locale.section("material").into_iter().collect();
+        // Extra names a language wants to answer to, beside the one on
+        // the shelf. German has carried two or three per bottle by hand
+        // since `de_aliases` — `Essig` as well as `Haushaltsessig 5%` —
+        // and French had exactly one, the shelf name, because that is all
+        // the derivation produced. 272 German aliases against 126 French
+        // is not a translation gap, it is a missing table.
+        //
+        // Comma-separated, like `[script-verb]`, so a language adds a
+        // synonym by editing one file.
+        let extras: std::collections::BTreeMap<&str, &str> =
+            locale.section("material-alias").into_iter().collect();
         for recipe in &mut document.material_recipes {
+            for extra in extras
+                .get(recipe.name.as_str())
+                .into_iter()
+                .flat_map(|list| list.split(','))
+                .map(str::trim)
+                .filter(|alias| !alias.is_empty())
+            {
+                if !claimed(recipe, extra) {
+                    recipe
+                        .aliases
+                        .entry(locale.code().to_string())
+                        .or_default()
+                        .push(extra.to_string());
+                }
+            }
             let Some(translated) = names.get(recipe.name.as_str()) else {
                 continue;
             };
@@ -5634,17 +5676,7 @@ fn name_every_recipe_in_every_shipped_language(document: &mut RegistryDocument) 
             // skipped here. That one is a translation defect — a shelf
             // name that resolves to another bottle — and it should fail
             // the export loudly rather than be dropped into silence.
-            let claimed = |value: &str| {
-                let want = normalise_material_name(value);
-                normalise_material_name(&recipe.canonical_key) == want
-                    || normalise_material_name(&recipe.name) == want
-                    || recipe
-                        .aliases
-                        .values()
-                        .flatten()
-                        .any(|alias| normalise_material_name(alias) == want)
-            };
-            if claimed(translated) {
+            if claimed(recipe, translated) {
                 continue;
             }
             recipe
