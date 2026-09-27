@@ -914,11 +914,10 @@ pub struct ParseError {
     /// English.
     ///
     /// `detail` is its English rendering, so there is one sentence and
-    /// not two — the shape `Event::Inert` has carried since I18N-8. The
-    /// grammar's own helpers still answer with finished `String`s and
-    /// arrive here as `error.unkeyed`; converting them is the next
-    /// tranche, and until then they reach the reader in English rather
-    /// than not at all.
+    /// not two — the shape `Event::Inert` has carried since I18N-8.
+    ///
+    /// Always `Some` from `parse_op_typed`: every refusal this grammar
+    /// writes carries a key, and a test below keeps it that way.
     pub refusal: Option<Refusal>,
 }
 
