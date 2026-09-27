@@ -46,7 +46,7 @@ if [ -z "$APP" ]; then
     # in force — this repo's builds routinely use a private one.
     TARGET_DIR="$(cargo metadata --format-version 1 --no-deps \
         --manifest-path "$TAURI/Cargo.toml" 2>/dev/null \
-        | python3 -c 'import sys,json; print(json.load(sys.stdin)["target_directory"])' \
+        | python3 -c 'import sys,json; print(json.load(sys.stdin.buffer)["target_directory"])' \
         2>/dev/null)"
     for base in "$TARGET_DIR" "$HOME/.cache/kerotakis-appstore-target" "$TAURI/target"; do
         [ -n "$base" ] && [ -d "$base" ] || continue

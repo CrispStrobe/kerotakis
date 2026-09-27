@@ -49,7 +49,16 @@ def offences(path: pathlib.Path) -> list[tuple[int, str]]:
     except (SyntaxError, UnicodeDecodeError) as exc:
         return [(getattr(exc, "lineno", 1) or 1, f"will not parse: {exc}")]
     found: list[tuple[int, str]] = []
+    # A module that reconfigures its own streams has named the encoding for all
+    # of them, so the stream check below is satisfied file-wide.
+    reconfigured = "reconfigure(" in ast.unparse(tree) if hasattr(ast, "unparse") else False
     for node in ast.walk(tree):
+        if (isinstance(node, ast.Attribute) and not reconfigured
+                and isinstance(node.value, ast.Name) and node.value.id == "sys"
+                and node.attr == "stdin"):
+            found.append((node.lineno, "sys.stdin decoded with the platform "
+                                       "default; use .buffer or "
+                                       "reconfigure(encoding=...)"))
         if not isinstance(node, ast.Call):
             continue
         names = keyword_names(node)
@@ -66,6 +75,17 @@ def offences(path: pathlib.Path) -> list[tuple[int, str]]:
 
 
 INLINE = re.compile(r"\.read_text\(\s*\)|\.write_text\(|(?<![\w.])open\(")
+# The third shape, and the least visible: a standard stream is decoded with the
+# platform default too. `release.yml` read `cargo metadata` as text on Windows
+# and was saved only by PYTHONUTF8 — an environment variable, not correct code.
+# `sys.stdin.buffer` hands json.load bytes, which it decodes as UTF-8 itself.
+#
+# Reads only, deliberately. Pointed at writes as well this flagged seven sites
+# of which five were `json.dump(..., sys.stdout)` — ensure_ascii is true by
+# default, so that output is pure ASCII and safe under any codec — and ASCII
+# `sys.stderr.write` diagnostics. A lint that is wrong five times in seven is
+# one people learn to skip, which is worse than not having it.
+STREAM = re.compile(r"sys\.stdin(?!\.(buffer|reconfigure))")
 BINARY_ARG = re.compile(r"""['"][rwax]\+?b\+?['"]""")
 
 
@@ -83,6 +103,9 @@ def inline_offences(path: pathlib.Path) -> list[tuple[int, str]]:
             continue
         if INLINE.search(code):
             found.append((n, "inline python: text I/O without encoding="))
+        elif STREAM.search(code) and "reconfigure" not in code:
+            found.append((n, "inline python: standard stream decoded with the "
+                             "platform default; use sys.stdin.buffer"))
     return found
 
 

@@ -146,7 +146,7 @@ jobs:
           mkdir -p out
           TARGET_DIR="$(cargo metadata --format-version 1 --no-deps \
             --manifest-path web/app/src-tauri/Cargo.toml \
-            | python3 -c 'import sys,json; print(json.load(sys.stdin)["target_directory"])')"
+            | python3 -c 'import sys,json; print(json.load(sys.stdin.buffer)["target_directory"])')"
           if [ "${{ matrix.platform }}" = "macos" ]; then
             find "$TARGET_DIR" -name '*.pkg' -exec cp {} out/ \;
           else
