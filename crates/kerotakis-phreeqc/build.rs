@@ -67,8 +67,18 @@ fn main() {
     // given there is never initialised from *_INIT, so that default is lost and
     // three translation units die on a missing pthread.h. Appended rather than
     // defined, to leave the flags the crate computes alone.
+    //
+    // `NOMINMAX` is the consequence of fixing that: taking the WIN32 branch
+    // pulls in <windows.h>, whose `min`/`max` macros then eat
+    // `std::numeric_limits<size_t>::max()` in KeroBasicAdapter.cpp and report
+    // it as "C2589: '(': illegal token on right side of '::'".
+    // `WIN32_LEAN_AND_MEAN` trims the rest of that header's surface; all
+    // IPhreeqc wants from it is InterlockedExchange and Sleep, both of which
+    // are in the lean set.
     if target.contains("windows") && target.contains("msvc") {
-        cfg.cflag("/DWIN32").cxxflag("/DWIN32");
+        for flag in ["/DWIN32", "/DNOMINMAX", "/DWIN32_LEAN_AND_MEAN"] {
+            cfg.cflag(flag).cxxflag(flag);
+        }
     }
 
     if has_tool("ninja") {
