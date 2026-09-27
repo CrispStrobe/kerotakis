@@ -280,6 +280,40 @@ jobs:
       - name: Generated source document is checked in exactly
         run: cmp data/registry/registry-source-v1.json "$RUNNER_TEMP/registry-source-v1.json"
 
+  native-host:
+    name: The native host still compiles
+    # `kerotakis-app` is deliberately outside the main workspace — its own
+    # workspace root — so `cargo check --workspace` has never touched it,
+    # and nothing else here builds it either. It drifted: #729 gave
+    # `charts_for_events`, `net_ionic_for` and `census.render` a locale,
+    # the wasm host was updated, and the native one was not. Five call
+    # sites, broken from that merge until an App Store build found them,
+    # which is the most expensive place to find a missing argument.
+    #
+    # macOS because Tauri needs no extra system packages there, and
+    # `cargo check` because this is about the call sites, not a bundle.
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: recursive
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: web/app/src-tauri
+      - name: Fetch SUNDIALS (not vendored; pinned by checksum)
+        run: bash tools/fetch-sundials.sh
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+      - name: The shell payload tauri-build looks for
+        run: |
+          npm --prefix web/app ci --no-audit --no-fund
+          bash tools/build-shell-payload.sh
+      - name: cargo check
+        working-directory: web/app/src-tauri
+        run: cargo check --all-targets
+
   wasm-lab:
     name: The bench in WebAssembly
     runs-on: ubuntu-latest

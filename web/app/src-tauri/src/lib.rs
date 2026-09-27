@@ -196,8 +196,8 @@ pub(crate) fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, Strin
                 "events": events,
                 "rendered":
                     render_events_narrated(&events, lab.register, lab.locale, lab.narration),
-                "charts": kerotakis_core::chart::charts_for_events(&events),
-                "ionic": kerotakis_core::ionic::net_ionic_for(&events, &lab.bench.vessels),
+                "charts": kerotakis_core::chart::charts_for_events(&events, lab.locale),
+                "ionic": kerotakis_core::ionic::net_ionic_for(&events, &lab.bench.vessels, lab.locale),
                 "quest": quest,
                 // GUI-052: identical key and shape to the wasm host's.
                 "routes": lab.stack.last_routes,
@@ -232,8 +232,8 @@ pub(crate) fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, Strin
                             "events": events,
                             "rendered":
                     render_events_narrated(&events, lab.register, lab.locale, lab.narration),
-                            "charts": kerotakis_core::chart::charts_for_events(&events),
-                            "ionic": kerotakis_core::ionic::net_ionic_for(&events, &lab.bench.vessels),
+                            "charts": kerotakis_core::chart::charts_for_events(&events, lab.locale),
+                            "ionic": kerotakis_core::ionic::net_ionic_for(&events, &lab.bench.vessels, lab.locale),
                             "quest": quest,
                             "routes": lab.stack.last_routes,
                         }));
@@ -421,7 +421,7 @@ pub(crate) fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, Strin
             let census = kerotakis_core::particles::census(v, 30);
             Ok(json!({
                 "census": census,
-                "rendered": census.render(lab.register),
+                "rendered": census.render(lab.register, lab.locale),
             })
             .to_string())
         }
