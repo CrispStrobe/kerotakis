@@ -12,15 +12,15 @@ import json, pathlib, re, sys, tomllib
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 
 def required(root: pathlib.Path = ROOT) -> dict[str, set[str]]:
-    registry=json.loads((root/'data/registry/registry-source-v1.json').read_text())
+    registry=json.loads((root/'data/registry/registry-source-v1.json').read_text(encoding="utf-8"))
     species={x['name'] for x in registry['identities']}
     visual=set()
     for x in registry.get('optical',[]):
         for key in ('appearance','flame_colour'):
             if isinstance(x.get(key),str): visual.add(x[key])
-    appearance=(root/'crates/kerotakis-core/src/appearance.rs').read_text()
+    appearance=(root/'crates/kerotakis-core/src/appearance.rs').read_text(encoding="utf-8")
     visual |= set(re.findall(r'=>\s*"([a-z][a-z -]+)"', appearance))
-    safety=(root/'crates/kerotakis-safety/src/lib.rs').read_text()
+    safety=(root/'crates/kerotakis-safety/src/lib.rs').read_text(encoding="utf-8")
     body=safety[safety.index('pub fn hazard_assessment'):safety.index('pub fn groups')]
     hazards=set(re.findall(r'=>\s*"([a-z][a-z_]+)"',body))
     lessons={p.stem.replace('-',' ') for p in (root/'lessons').glob('*.lab')}
@@ -34,7 +34,7 @@ def required(root: pathlib.Path = ROOT) -> dict[str, set[str]]:
     return {'species':species,'colours':visual,'hazards':hazards,'lessons':lessons,'apparatus/events':apparatus}
 
 def audit(root: pathlib.Path = ROOT) -> list[str]:
-    doc=json.loads((root/'web/app/src/locales/de.json').read_text())
+    doc=json.loads((root/'web/app/src/locales/de.json').read_text(encoding="utf-8"))
     terms=doc.get('terms',{})
     problems=[]
     for category, words in required(root).items():

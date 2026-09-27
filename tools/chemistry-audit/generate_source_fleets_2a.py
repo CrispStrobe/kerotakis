@@ -238,8 +238,8 @@ def main() -> None:
     stale=[]
     for family, document in generated().items():
         path=OUT/f"{family}.json"; content=encoded(document)
-        if args.write: path.write_text(content)
-        elif not path.exists() or path.read_text()!=content: stale.append(str(path))
+        if args.write: path.write_text(content, encoding="utf-8")
+        elif not path.exists() or path.read_text(encoding="utf-8")!=content: stale.append(str(path))
     if stale: raise SystemExit("stale or missing generated manifests: " + ", ".join(stale))
     print(json.dumps({"families": 6, "cases": 144, "status": "written" if args.write else "current"}))
 

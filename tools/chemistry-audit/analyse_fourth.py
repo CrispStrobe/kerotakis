@@ -10,11 +10,11 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 
 def analyse(directory):
-    summary = json.loads((directory / "summary.json").read_text())
+    summary = json.loads((directory / "summary.json").read_text(encoding="utf-8"))
     records = {int(r["id"].split("-", 1)[0]): r for r in summary["cases"]}
     if len(summary["cases"]) != 36 or set(records) != set(range(123, 159)):
         raise ValueError("Exactly 36 distinct cases 123–158 are required")
-    registry = json.loads((ROOT / "data/registry/registry-source-v1.json").read_text())
+    registry = json.loads((ROOT / "data/registry/registry-source-v1.json").read_text(encoding="utf-8"))
     composition = {r["species_id"]: {e["element"]: e["count"]["value"] for e in r["elements"]}
                    for r in registry["compositions"]}
     # `base_equivalents` is not a substance and deliberately has no registry
@@ -29,9 +29,9 @@ def analyse(directory):
     rows, scripts, malformed = {}, {}, {}
     for k, record in records.items():
         source = directory / record["id"]
-        scripts[k] = (source / "experiment.lab").read_text()
+        scripts[k] = (source / "experiment.lab").read_text(encoding="utf-8")
         rows[k], malformed[k] = [], []
-        for line in (source / "stdout.ndjson").read_text().splitlines():
+        for line in (source / "stdout.ndjson").read_text(encoding="utf-8").splitlines():
             try:
                 row = json.loads(line)
                 if not isinstance(row, dict):
@@ -98,12 +98,12 @@ def analyse(directory):
             check(f"{k}: supplied nonvolatile element inventory", nonvolatile, "conservation")
 
     latent = {}
-    for line in (ROOT / "data/thermo/uscg-chris-still.tsv").read_text().splitlines():
+    for line in (ROOT / "data/thermo/uscg-chris-still.tsv").read_text(encoding="utf-8").splitlines():
         if not line.strip() or line.startswith("#"):
             continue
         key, _tb, j_kg, grams_mol, _source = line.split()
         latent[key] = float(j_kg) * float(grams_mol) / 1e6
-    vle_source = (ROOT / "crates/kerotakis-thermo/src/vle.rs").read_text()
+    vle_source = (ROOT / "crates/kerotakis-thermo/src/vle.rs").read_text(encoding="utf-8")
     for key in ("water", "ethanol"):
         latent[key] = float(re.search(key.upper() + r"_HVAP_KJ_PER_MOL: f64 = ([0-9.]+)", vle_source)[1])
 

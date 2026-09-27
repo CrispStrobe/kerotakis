@@ -38,7 +38,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import client  # noqa: E402
 
 HERE = pathlib.Path(__file__).resolve().parent
-META = json.loads((HERE / "metadata.json").read_text())
+META = json.loads((HERE / "metadata.json").read_text(encoding="utf-8"))
 PLATFORM = {"ios": "IOS", "macos": "MAC_OS"}
 LOCALES = {
     META["primaryLocale"]: {"app": META["app"], "beta": META["beta"]},

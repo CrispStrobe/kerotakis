@@ -26,6 +26,11 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
+  # Windows defaults text I/O to cp1252, so reading a catalogue containing
+  # "bécher" raises UnicodeDecodeError and writing one emits mojibake silently.
+  # Every script under tools/ now names its encoding and a lint keeps it that
+  # way; this is the second layer, covering anything we do not own.
+  PYTHONUTF8: "1"
 
 jobs:
   desktop:
@@ -74,6 +79,15 @@ jobs:
           node-version: "22"
           cache: npm
           cache-dependency-path: web/app/package-lock.json
+
+      # Not decoration: `ubuntu-22.04` is pinned above on purpose, for an older
+      # glibc and webkit than `ubuntu-latest` carries, and its system python3 is
+      # 3.10 — which has no `tomllib`. v0.1.0's Linux build died on exactly that
+      # while CI stayed green, because CI's payload job runs on ubuntu-latest.
+      # Naming the version here means the runner image's age stops mattering.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
 
       - name: Install the app's dependencies
         working-directory: web/app

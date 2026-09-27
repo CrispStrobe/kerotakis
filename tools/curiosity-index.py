@@ -29,12 +29,12 @@ _SPEC.loader.exec_module(prose)
 
 
 def build(corpus: pathlib.Path) -> dict:
-    manifest = tomllib.loads((corpus / "manifest.toml").read_text())
-    baseline = tomllib.loads((corpus / "baseline.toml").read_text())
+    manifest = tomllib.loads((corpus / "manifest.toml").read_text(encoding="utf-8"))
+    baseline = tomllib.loads((corpus / "baseline.toml").read_text(encoding="utf-8"))
     observed = {row["id"]: row for row in baseline["observation"]}
     prompts = []
     for shard in manifest["shards"]:
-        for prompt in tomllib.loads((corpus / shard).read_text())["prompt"]:
+        for prompt in tomllib.loads((corpus / shard).read_text(encoding="utf-8"))["prompt"]:
             result = observed[prompt["id"]]
             prompts.append({
                 "id": prompt["id"],
@@ -61,4 +61,4 @@ if __name__ == "__main__":
         raise SystemExit("usage: curiosity-index.py <curiosity-dir> <output.json>")
     output = pathlib.Path(sys.argv[2])
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(json.dumps(build(pathlib.Path(sys.argv[1])), indent=1) + "\n")
+    output.write_text(json.dumps(build(pathlib.Path(sys.argv[1])), indent=1) + "\n", encoding="utf-8")

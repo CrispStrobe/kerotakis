@@ -12,7 +12,7 @@ import source_fleets_2
 
 
 def analyse(evidence_dir: Path, manifest_dir: Path = source_fleets_2.MANIFEST_DIR, family=None):
-    summary = json.loads((evidence_dir / "summary.json").read_text())
+    summary = json.loads((evidence_dir / "summary.json").read_text(encoding="utf-8"))
     if summary.get("schema") != "kerotakis-source-evidence-v2":
         raise ValueError("v2 evidence has a missing or incorrect schema")
     commit = summary.get("commit")

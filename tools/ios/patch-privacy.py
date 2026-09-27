@@ -48,7 +48,7 @@ def main() -> int:
     shutil.copy2(src, GEN / "PrivacyInfo.xcprivacy")
     print(f"   copied to {GEN.relative_to(ROOT)}/PrivacyInfo.xcprivacy")
 
-    text = project.read_text()
+    text = project.read_text(encoding="utf-8")
     if "PrivacyInfo.xcprivacy" in text:
         print("   project.yml: already declared")
         return 0
@@ -56,7 +56,7 @@ def main() -> int:
         print(f"   project.yml: anchor {ANCHOR.strip()!r} not found — the Tauri "
               f"template changed; re-derive the insertion point", file=sys.stderr)
         return 1
-    project.write_text(text.replace(ANCHOR, ANCHOR + ENTRY, 1))
+    project.write_text(text.replace(ANCHOR, ANCHOR + ENTRY, 1), encoding="utf-8")
     print("   project.yml: declared once, buildPhase resources")
     return 0
 

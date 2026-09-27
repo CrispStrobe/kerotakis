@@ -90,12 +90,12 @@ class Corpus:
 
 
 def read_corpus(directory: pathlib.Path = CORPUS) -> Corpus:
-    manifest = tomllib.loads((directory / "manifest.toml").read_text())
+    manifest = tomllib.loads((directory / "manifest.toml").read_text(encoding="utf-8"))
     questions: dict[str, str] = {}
     material_classes: set[str] = set()
     tags: set[str] = set()
     for shard in manifest["shards"]:
-        for prompt in tomllib.loads((directory / shard).read_text())["prompt"]:
+        for prompt in tomllib.loads((directory / shard).read_text(encoding="utf-8"))["prompt"]:
             questions[prompt["id"]] = prompt["question"]
             material_classes.add(prompt["material_class"])
             tags.update(prompt.get("tags", []))
@@ -186,7 +186,7 @@ def read_translations(directory: pathlib.Path = CORPUS) -> list[dict]:
     found = []
     corpus = read_corpus(directory)
     for source in sorted((directory / "i18n").glob("*.toml")):
-        found.append(check(tomllib.loads(source.read_text()), corpus, source.name))
+        found.append(check(tomllib.loads(source.read_text(encoding="utf-8")), corpus, source.name))
     return found
 
 

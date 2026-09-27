@@ -25,14 +25,14 @@ measure v1 ph
     def test_index_emits_kit_derived_from_lesson(self):
         with tempfile.TemporaryDirectory() as directory:
             path = pathlib.Path(directory) / "demo.lab"
-            path.write_text("# A demo\nadd v1 CuSO4 1g\nadd v1 water 10mL\n")
+            path.write_text("# A demo\nadd v1 CuSO4 1g\nadd v1 water 10mL\n", encoding="utf-8")
             self.assertEqual(MODULE.index(path.parent)[0]["kit"], ["CuSO4", "water"])
 
     def test_corrosion_lessons_have_a_visible_topic(self):
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
-            (root / "rusting.lab").write_text("# Rust controls\nadd v1 Fe 1g\n")
-            (root / "copper-patina.lab").write_text("# Copper controls\nadd v1 CuO 1g\n")
+            (root / "rusting.lab").write_text("# Rust controls\nadd v1 Fe 1g\n", encoding="utf-8")
+            (root / "copper-patina.lab").write_text("# Copper controls\nadd v1 CuO 1g\n", encoding="utf-8")
             indexed = {entry["file"]: entry for entry in MODULE.index(root)}
             self.assertEqual(indexed["rusting.lab"]["topic"], "corrosion & materials")
             self.assertEqual(indexed["copper-patina.lab"]["topic"], "corrosion & materials")
@@ -54,7 +54,7 @@ measure v1 ph
         """The fallback still exists, and payload builds still work alone."""
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
-            (root / "not-a-shipped-lesson.lab").write_text("# Demo\nadd v1 water 1mL\n")
+            (root / "not-a-shipped-lesson.lab").write_text("# Demo\nadd v1 water 1mL\n", encoding="utf-8")
             self.assertEqual(MODULE.index(root)[0]["topic"], "more")
 
     def test_the_catalogue_decides_where_a_lesson_without_a_curated_slot_goes(self):
@@ -76,7 +76,7 @@ measure v1 ph
     def test_crystal_collection_separates_outcome_from_boundary(self):
         with tempfile.TemporaryDirectory() as directory:
             path = pathlib.Path(directory) / "rock-candy.lab"
-            path.write_text("# Rock candy\nadd v1 water 10mL\n")
+            path.write_text("# Rock candy\nadd v1 water 10mL\n", encoding="utf-8")
             entry = MODULE.index(path.parent)[0]
             self.assertEqual(entry["topic"], "crystals & solubility")
             self.assertEqual(entry["collection"], "crystal lab")
@@ -125,7 +125,7 @@ class LessonProseTests(unittest.TestCase):
     def test_a_labelled_first_comment_carries_its_key_beside_the_english(self):
         with tempfile.TemporaryDirectory() as directory:
             path = pathlib.Path(directory) / "demo.lab"
-            path.write_text("#@title A demo\nadd v1 water 1mL\n")
+            path.write_text("#@title A demo\nadd v1 water 1mL\n", encoding="utf-8")
             entry = MODULE.index(path.parent)[0]
             self.assertEqual(entry["blurb"], "A demo")
             self.assertEqual(entry["blurb_key"], "demo.title")
@@ -133,7 +133,7 @@ class LessonProseTests(unittest.TestCase):
     def test_an_unlabelled_lesson_ships_the_blurb_it_always_shipped(self):
         with tempfile.TemporaryDirectory() as directory:
             path = pathlib.Path(directory) / "demo.lab"
-            path.write_text("# A demo\nadd v1 water 1mL\n")
+            path.write_text("# A demo\nadd v1 water 1mL\n", encoding="utf-8")
             entry = MODULE.index(path.parent)[0]
             self.assertEqual(entry["blurb"], "A demo")
             self.assertNotIn("blurb_key", entry)
@@ -141,7 +141,7 @@ class LessonProseTests(unittest.TestCase):
     def test_a_wrapped_title_is_one_blurb_rather_than_its_first_line(self):
         with tempfile.TemporaryDirectory() as directory:
             path = pathlib.Path(directory) / "demo.lab"
-            path.write_text("#@title A demo that\n# wraps\nadd v1 water 1mL\n")
+            path.write_text("#@title A demo that\n# wraps\nadd v1 water 1mL\n", encoding="utf-8")
             self.assertEqual(MODULE.index(path.parent)[0]["blurb"], "A demo that wraps")
 
     def test_english_is_not_shipped_twice(self):
@@ -150,8 +150,8 @@ class LessonProseTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
             (root / "prose").mkdir()
-            (root / "prose/en.toml").write_text('["demo"]\ntitle = "A demo"\n')
-            (root / "prose/de.toml").write_text('["demo"]\ntitle = "Eine Demo"\n')
+            (root / "prose/en.toml").write_text('["demo"]\ntitle = "A demo"\n', encoding="utf-8")
+            (root / "prose/de.toml").write_text('["demo"]\ntitle = "Eine Demo"\n', encoding="utf-8")
             self.assertEqual(MODULE.prose(root), {"de": {"demo.title": "Eine Demo"}})
 
     def test_every_shipped_translation_names_a_label_a_lesson_asks_for(self):

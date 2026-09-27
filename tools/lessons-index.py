@@ -119,7 +119,7 @@ def catalogue_topics() -> dict[str, list[str]]:
     keeps the "more" shelf it had.
     """
     try:
-        rows = json.loads(CATALOGUE.read_text())["experiments"]
+        rows = json.loads(CATALOGUE.read_text(encoding="utf-8"))["experiments"]
     except (OSError, ValueError, KeyError):
         return {}
     return {
@@ -215,7 +215,7 @@ def index(directory: pathlib.Path) -> list[dict]:
 
     out = []
     for p in sorted(directory.glob("*.lab")):
-        text = p.read_text()
+        text = p.read_text(encoding="utf-8")
         blurb, blurb_key = lesson_blurb(text, p.stem)
         entry = {
             "file": p.name,
@@ -260,11 +260,11 @@ def prose(directory: pathlib.Path) -> dict[str, dict[str, str]]:
 
 if __name__ == "__main__":
     directory = pathlib.Path(sys.argv[1])
-    (directory / "index.json").write_text(json.dumps(index(directory)))
+    (directory / "index.json").write_text(json.dumps(index(directory)), encoding="utf-8")
     translated = prose(directory)
     # Written unconditionally, so a payload never serves a stale prose file
     # from a previous build, and an empty object is a valid answer.
-    (directory / "prose.json").write_text(json.dumps(translated))
+    (directory / "prose.json").write_text(json.dumps(translated), encoding="utf-8")
     print(f"   {len(list(directory.glob('*.lab')))} lessons indexed")
     for code, rows in sorted(translated.items()):
         print(f"   {len(rows)} prose rows in {code}")

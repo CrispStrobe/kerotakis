@@ -249,7 +249,7 @@ def analyse(evidence_dir: Path, manifest_dir: Path = source_fleets.MANIFEST_DIR,
     summary_path = evidence_dir / "summary.json"
     if not summary_path.is_file():
         raise ValueError("missing summary.json")
-    summary = json.loads(summary_path.read_text())
+    summary = json.loads(summary_path.read_text(encoding="utf-8"))
     listed = summary.get("cases")
     if not isinstance(listed, list) or len(listed) != len(specs):
         raise ValueError("summary case count does not match manifests")
@@ -261,7 +261,7 @@ def analyse(evidence_dir: Path, manifest_dir: Path = source_fleets.MANIFEST_DIR,
         (manifest_dir / f"{m['family']}.json").read_bytes()).hexdigest() for m in manifests}
     if summary.get("manifest_sha256") != expected_hashes:
         raise ValueError("manifest hashes do not match frozen inputs")
-    registry = json.loads((ROOT / "data/registry/registry-source-v1.json").read_text())
+    registry = json.loads((ROOT / "data/registry/registry-source-v1.json").read_text(encoding="utf-8"))
     composition = {row["species_id"]: {e["element"]: e["count"]["value"]
                                           for e in row["elements"]}
                    for row in registry["compositions"]}
@@ -282,9 +282,9 @@ def analyse(evidence_dir: Path, manifest_dir: Path = source_fleets.MANIFEST_DIR,
         for filename in ("experiment.lab", "stdout.ndjson", "stderr.txt"):
             if not (directory / filename).is_file():
                 errors.append(f"missing {filename}")
-        script = (directory / "experiment.lab").read_text() if (directory / "experiment.lab").is_file() else ""
-        stdout = (directory / "stdout.ndjson").read_text() if (directory / "stdout.ndjson").is_file() else ""
-        stderr = (directory / "stderr.txt").read_text() if (directory / "stderr.txt").is_file() else ""
+        script = (directory / "experiment.lab").read_text(encoding="utf-8") if (directory / "experiment.lab").is_file() else ""
+        stdout = (directory / "stdout.ndjson").read_text(encoding="utf-8") if (directory / "stdout.ndjson").is_file() else ""
+        stderr = (directory / "stderr.txt").read_text(encoding="utf-8") if (directory / "stderr.txt").is_file() else ""
         for number, line in enumerate(stdout.splitlines(), 1):
             try:
                 row = json.loads(line)
@@ -407,7 +407,7 @@ def _fixture(directory, mutation=None):
     manifest = {"schema": "kerotakis-source-fleet-v1", "family": "fixture",
                 "cases": cases, "relations": relations}
     manifest_path = manifests / "fixture.json"
-    manifest_path.write_text(json.dumps(manifest))
+    manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
     evidence = directory / "evidence"; evidence.mkdir()
     listed = []
     for index, case in enumerate(cases):
@@ -418,9 +418,9 @@ def _fixture(directory, mutation=None):
             {"event": "measured", "value": 1.0, "components": [["water", 1.0]],
              "boundary": "fixture boundary"}]}]
         (case_dir / "experiment.lab").write_text(
-            f"# {case['question']}\nregister lv3\n{case['script']}\ninspect\n")
-        (case_dir / "stdout.ndjson").write_text("\n".join(json.dumps(row) for row in rows) + "\n")
-        (case_dir / "stderr.txt").write_text("")
+            f"# {case['question']}\nregister lv3\n{case['script']}\ninspect\n", encoding="utf-8")
+        (case_dir / "stdout.ndjson").write_text("\n".join(json.dumps(row) for row in rows) + "\n", encoding="utf-8")
+        (case_dir / "stderr.txt").write_text("", encoding="utf-8")
         listed.append({"id": case["id"], "family": "fixture", "question": case["question"],
                        "exit": 0, "steps": 2, "non_json_lines": [],
                        "event_counts": {"measured": 1}, "diagnostics": [],
@@ -428,7 +428,7 @@ def _fixture(directory, mutation=None):
     summary = {"binary_sha256": "0" * 64,
                "manifest_sha256": {"fixture.json": hashlib.sha256(manifest_path.read_bytes()).hexdigest()},
                "cases": listed}
-    (evidence / "summary.json").write_text(json.dumps(summary))
+    (evidence / "summary.json").write_text(json.dumps(summary), encoding="utf-8")
     if mutation:
         mutation(evidence, cases)
     return evidence, manifests
@@ -445,16 +445,16 @@ def self_test():
         mutations = {
             "missing-evidence": lambda e, c: (e / c[0]["id"] / "stdout.ndjson").unlink(),
             "nonfinite": lambda e, c: (e / c[0]["id"] / "stdout.ndjson").write_text(
-                (e / c[0]["id"] / "stdout.ndjson").read_text().replace("298.15", "NaN")),
+                (e / c[0]["id"] / "stdout.ndjson").read_text(encoding="utf-8").replace("298.15", "NaN"), encoding="utf-8"),
             "unregistered-species": lambda e, c: (e / c[0]["id"] / "stdout.ndjson").write_text(
-                (e / c[0]["id"] / "stdout.ndjson").read_text().replace('"water"', '"unobtainium"')),
+                (e / c[0]["id"] / "stdout.ndjson").read_text(encoding="utf-8").replace('"water"', '"unobtainium"'), encoding="utf-8"),
             "missing-boundary": lambda e, c: (e / c[0]["id"] / "stdout.ndjson").write_text(
-                (e / c[0]["id"] / "stdout.ndjson").read_text().replace('"fixture boundary"', '""')),
+                (e / c[0]["id"] / "stdout.ndjson").read_text(encoding="utf-8").replace('"fixture boundary"', '""'), encoding="utf-8"),
             "altered-inventory": lambda e, c: (e / c[0]["id"] / "stdout.ndjson").write_text(
-                (e / c[0]["id"] / "stdout.ndjson").read_text().replace('"moles": 1.0', '"moles": 2.0', 1)),
+                (e / c[0]["id"] / "stdout.ndjson").read_text(encoding="utf-8").replace('"moles": 1.0', '"moles": 2.0', 1), encoding="utf-8"),
             "malformed-components": lambda e, c: (e / c[0]["id"] / "stdout.ndjson").write_text(
-                (e / c[0]["id"] / "stdout.ndjson").read_text().replace(
-                    '[["water", 1.0]]', '[["water", 1.0], ["broken"]]', 1)),
+                (e / c[0]["id"] / "stdout.ndjson").read_text(encoding="utf-8").replace(
+                    '[["water", 1.0]]', '[["water", 1.0], ["broken"]]', 1), encoding="utf-8"),
         }
         for name, mutation in mutations.items():
             evidence, manifests = _fixture(root / name, mutation)

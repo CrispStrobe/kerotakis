@@ -87,7 +87,7 @@ def line_of(text, index):
 
 problems = []
 for path in sorted(SRC.rglob("*.svelte")):
-    text = path.read_text()
+    text = path.read_text(encoding="utf-8")
     rel = path.relative_to(ROOT)
 
     for m in re.finditer(r"\.localeCompare\(", text):

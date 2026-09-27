@@ -19,7 +19,7 @@ def main() -> None:
         if family in reports:
             raise ValueError(f"duplicate report: {family}")
         if family in expected:
-            reports[family] = json.loads(path.read_text())
+            reports[family] = json.loads(path.read_text(encoding="utf-8"))
     errors = []
     if set(reports) != set(expected):
         errors.append(f"report families differ: {sorted(reports)}")

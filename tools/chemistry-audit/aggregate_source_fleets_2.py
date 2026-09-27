@@ -16,7 +16,7 @@ def main():
     for path in args.directory.rglob("*-law-checks.json"):
         family = path.name.removesuffix("-law-checks.json")
         if family in reports: raise ValueError(f"duplicate report: {family}")
-        if family in expected: reports[family] = json.loads(path.read_text())
+        if family in expected: reports[family] = json.loads(path.read_text(encoding="utf-8"))
     if set(reports) != set(expected):
         raise ValueError(f"report families differ: expected {sorted(expected)}, got {sorted(reports)}")
     errors = []

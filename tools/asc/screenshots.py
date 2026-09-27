@@ -46,7 +46,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import client  # noqa: E402
 
 HERE = pathlib.Path(__file__).resolve().parent
-META = json.loads((HERE / "metadata.json").read_text())
+META = json.loads((HERE / "metadata.json").read_text(encoding="utf-8"))
 APP = META["appId"]
 
 # Which platform's version localisation each display type belongs on.
@@ -165,7 +165,7 @@ def main() -> int:
     DRY = args.dry_run
 
     root = pathlib.Path(args.directory)
-    manifest = json.loads((root / "manifest.json").read_text())
+    manifest = json.loads((root / "manifest.json").read_text(encoding="utf-8"))
 
     by_type: dict[tuple[str, str], list[pathlib.Path]] = {}
     for entry in manifest:

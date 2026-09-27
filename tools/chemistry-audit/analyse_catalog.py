@@ -13,7 +13,7 @@ import re
 
 
 def analyse(directory):
-    summary = json.loads((directory / "summary.json").read_text())
+    summary = json.loads((directory / "summary.json").read_text(encoding="utf-8"))
     records = {record["id"]: record for record in summary["cases"]}
     required = {
         "endpoint-is-not-a-full-drop", "equilibrium-can-run-backward", "cold-from-baking-soda",
@@ -33,7 +33,7 @@ def analyse(directory):
 
     for key, record in records.items():
         rows = []
-        for line in (directory / key / "stdout.ndjson").read_text().splitlines():
+        for line in (directory / key / "stdout.ndjson").read_text(encoding="utf-8").splitlines():
             try:
                 rows.append(json.loads(line))
             except ValueError:
@@ -47,7 +47,7 @@ def analyse(directory):
               {"exit": record["exit"], "solver_failures": failures})
         vessels = record["final"]["vessels"] if record["final"] else []
         ph[key] = {str(v["id"]): (v.get("solution") or {}).get("ph") for v in vessels}
-        script = (directory / key / "experiment.lab").read_text()
+        script = (directory / key / "experiment.lab").read_text(encoding="utf-8")
         if key == "three-components-one-cut":
             expected = {"water": 3.0, "methanol": 0.3, "isopropanol": 0.2}
             totals = {s: sum(p["moles"] for v in vessels for p in v["contents"]
@@ -157,6 +157,6 @@ if __name__ == "__main__":
     if args.out.exists():
         parser.error("output exists; choose a fresh evidence path")
     result = analyse(args.directory)
-    args.out.write_text(json.dumps(result, indent=2) + "\n")
+    args.out.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
     print(f'{result["passed"]} passed; {result["unmet"]} unmet')
     raise SystemExit(bool(result["unmet"]))

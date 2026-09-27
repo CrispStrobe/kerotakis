@@ -11,7 +11,7 @@ import source_fleets_3
 
 
 def analyse(directory: Path, manifests: Path, family: str | None):
-    summary = json.loads((directory / "summary.json").read_text())
+    summary = json.loads((directory / "summary.json").read_text(encoding="utf-8"))
     if summary.get("schema") != "kerotakis-source-evidence-v3":
         raise ValueError("v3 evidence has a missing or incorrect schema")
     original = shared.source_fleets

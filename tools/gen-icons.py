@@ -199,7 +199,7 @@ OUTPUTS = [
 def generate(icons_dir: pathlib.Path, out_root: pathlib.Path) -> None:
     icons_dir.mkdir(parents=True, exist_ok=True)
     for name, body in masters().items():
-        (icons_dir / name).write_text(body)
+        (icons_dir / name).write_text(body, encoding="utf-8")
     for master, rel, size, opaque in OUTPUTS:
         dst = out_root / rel
         dst.parent.mkdir(parents=True, exist_ok=True)
@@ -230,9 +230,9 @@ def main() -> int:
         generate(tmp_root / "masters", tmp_root)
         stale = []
         for name in masters():
-            if not (ICONS / name).exists() or (ICONS / name).read_text() != (
+            if not (ICONS / name).exists() or (ICONS / name).read_text(encoding="utf-8") != (
                 tmp_root / "masters" / name
-            ).read_text():
+            ).read_text(encoding="utf-8"):
                 stale.append(f"web/app/src-tauri/icons/{name}")
         for _, rel, _, _ in OUTPUTS:
             if not (ROOT / rel).exists() or not filecmp.cmp(

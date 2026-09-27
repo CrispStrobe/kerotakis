@@ -15,19 +15,19 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 
 def analyse(directory):
-    summary = json.loads((directory / "summary.json").read_text())
+    summary = json.loads((directory / "summary.json").read_text(encoding="utf-8"))
     records = {int(r["id"].split("-", 1)[0]): r for r in summary["cases"]}
     if len(summary["cases"]) != 36 or set(records) != set(range(87, 123)):
         raise ValueError("Exactly the 36 distinct cases 87–122 are required")
     rows = {}
     for number, record in records.items():
         rows[number] = []
-        for line in (directory / record["id"] / "stdout.ndjson").read_text().splitlines():
+        for line in (directory / record["id"] / "stdout.ndjson").read_text(encoding="utf-8").splitlines():
             try:
                 rows[number].append(json.loads(line))
             except ValueError:
                 pass  # non_json_lines makes the execution check fail
-    registry = json.loads((ROOT / "data/registry/registry-source-v1.json").read_text())
+    registry = json.loads((ROOT / "data/registry/registry-source-v1.json").read_text(encoding="utf-8"))
     composition = {r["species_id"]: {e["element"]: e["count"]["value"] for e in r["elements"]}
                    for r in registry["compositions"]}
     # `base_equivalents` is not a substance and deliberately has no registry
@@ -88,7 +88,7 @@ def analyse(directory):
                           if p["species"] not in composition})
         check(f"{k}: every output species has a composition", not unknown, unknown, "conservation")
         expected = {}
-        script = (directory / record["id"] / "experiment.lab").read_text()
+        script = (directory / record["id"] / "experiment.lab").read_text(encoding="utf-8")
         for key, number in re.findall(r"^add v\d+ (\S+) ([0-9.eE+-]+)mol$", script, re.M):
             # These elements have no gas outlet in the corresponding probes.
             # C/N/S/H/O need explicit reservoir/phase accounting, not a silent
@@ -125,13 +125,13 @@ def analyse(directory):
         # own reviewed USCG provenance; water remains its existing data owner.
         latent = {}
         boiling = {}
-        for line in (ROOT / "data/thermo/uscg-chris-still.tsv").read_text().splitlines():
+        for line in (ROOT / "data/thermo/uscg-chris-still.tsv").read_text(encoding="utf-8").splitlines():
             if line.startswith("#") or not line.strip():
                 continue
             key, tb, j_kg, grams_mol, _ = line.split()
             latent[key] = float(j_kg) * float(grams_mol) / 1e6
             boiling[key] = float(tb)
-        source = (ROOT / "crates/kerotakis-thermo/src/vle.rs").read_text()
+        source = (ROOT / "crates/kerotakis-thermo/src/vle.rs").read_text(encoding="utf-8")
         latent["water"] = float(re.search(r"WATER_HVAP_KJ_PER_MOL: f64 = ([0-9.]+)", source)[1])
         cut = events(90, "distilled")[-1]
         calculated = sum(amount(90, key, 1) * h for key, h in latent.items())
@@ -322,6 +322,6 @@ if __name__ == "__main__":
     if args.out.exists():
         parser.error("report already exists; preserve evidence and choose a new output")
     report = analyse(args.directory)
-    args.out.write_text(json.dumps(report, indent=2) + "\n")
+    args.out.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(f'{report["passed"]} passed; {report["unmet"]} unmet')
     raise SystemExit(bool(report["unmet"]))

@@ -138,6 +138,7 @@ step "i18n console";   python3 tools/console-locale-lint.py --check
 step "i18n console self-test"; python3 -m unittest tools.tests.test_console_locale_lint
 step "i18n slugs";     python3 tools/i18n-slug-lint.py --check
 step "i18n collisions"; python3 tools/locale-collision-lint.py --check
+step "py encoding";    python3 tools/python-encoding-lint.py --check tools
 step "i18n collisions self-test"; python3 -m unittest tools.tests.test_locale_collision_lint
 step "codex lint";    cargo run --release -p kerotakis-cli -- codex lint
 step "provenance";    cargo run --release -p kerotakis-cli -- provenance lint

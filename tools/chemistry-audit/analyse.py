@@ -29,11 +29,11 @@ def main():
     args = parser.parse_args()
     rows, executions, repeats = {}, [], []
     for directory in args.directories:
-        summary = json.loads((directory / "summary.json").read_text())
+        summary = json.loads((directory / "summary.json").read_text(encoding="utf-8"))
         for record in summary["cases"]:
             key = int(record["id"][:2])
             data = [json.loads(line) for line in
-                    (directory / record["id"] / "stdout.ndjson").read_text().splitlines()]
+                    (directory / record["id"] / "stdout.ndjson").read_text(encoding="utf-8").splitlines()]
             if key in rows:
                 repeats.append({"case": key, "identical_json": rows[key] == data})
             rows[key] = data
@@ -42,7 +42,7 @@ def main():
     required = set(range(1, 51))
     if set(rows) != required:
         raise SystemExit(f"Expected all 50 cases; missing {sorted(required - set(rows))}")
-    registry = json.loads((ROOT / "data/registry/registry-source-v1.json").read_text())
+    registry = json.loads((ROOT / "data/registry/registry-source-v1.json").read_text(encoding="utf-8"))
     molar_mass = {row["species_id"]: row["quantity"]["value"]
                   for row in registry["phase_thermodynamics"] if row["property"] == "molar_mass"}
     checks = []
@@ -199,7 +199,7 @@ def main():
               "passed": sum(c["passed"] for c in checks),
               "unmet": sum(not c["passed"] for c in checks),
               "solver_failures": [e for key in rows for e in events(key, "solver_failed")]}
-    args.out.write_text(json.dumps(result, indent=2) + "\n")
+    args.out.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
     for c in checks:
         print("PASS" if c["passed"] else "UNMET", c["check"])
     print(f"{result['passed']} passed, {result['unmet']} unmet; {len(rows)} distinct experiments")

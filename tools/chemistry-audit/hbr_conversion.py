@@ -83,7 +83,7 @@ def main() -> None:
         convergence.append({"step_K": step, "density_derivative": derivative, "delta_h_kj_mol": enthalpy})
 
     fields = {}
-    for line in GAS_DATA.read_text().splitlines():
+    for line in GAS_DATA.read_text(encoding="utf-8").splitlines():
         words = line.split()
         if words and words[0] in ("log_k", "delta_h"):
             fields[words[0]] = float(words[1])

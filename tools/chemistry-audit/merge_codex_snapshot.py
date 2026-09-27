@@ -47,7 +47,7 @@ if __name__ == "__main__":
                 for stage in (1, 2, 3)]
     merged = merge(*versions)
     entries = [entry for file in sorted((ROOT / "codex").glob("*.toml"))
-               for entry in tomllib.loads(file.read_text()).get("reaction", [])]
+               for entry in tomllib.loads(file.read_text(encoding="utf-8")).get("reaction", [])]
     by_id = {entry["id"]: entry for entry in merged["reactions"]}
     assert len(by_id) == len(entries) and set(by_id) == {entry["id"] for entry in entries}
     # main introduced a mandatory authored progress field. New audit entries
@@ -55,7 +55,7 @@ if __name__ == "__main__":
     merged["reactions"] = [dict(id=entry["id"], progress=entry["progress"],
                                  **{key: value for key, value in by_id[entry["id"]].items()
                                     if key not in {"id", "progress"}}) for entry in entries]
-    before = (ROOT / NAME).read_text()
+    before = (ROOT / NAME).read_text(encoding="utf-8")
     after = json.dumps(merged, ensure_ascii=False, indent=2) + "\n"
     diff = list(difflib.unified_diff(before.splitlines(True), after.splitlines(True)))[2:]
     print("*** Begin Patch\n*** Update File: " + str(ROOT / NAME))

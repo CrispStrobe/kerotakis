@@ -319,6 +319,59 @@ jobs:
         working-directory: web/app/src-tauri
         run: cargo check --all-targets
 
+  payload:
+    # The shell payload is pure Python and Node, and until v0.1.0 it was only
+    # ever built on `ubuntu-latest` (and macOS, in native-host). The release
+    # builds it on `ubuntu-22.04` and `windows-latest` too, and both failed
+    # there while CI was green:
+    #
+    #   ubuntu-22.04    ModuleNotFoundError: No module named 'tomllib'  (py3.10)
+    #   windows-latest  UnicodeDecodeError: 'charmap' codec can't decode 0x81
+    #
+    # So this job runs the payload build on exactly the runners the release
+    # uses. It needs no Rust and no bundle, which is why it is cheap enough to
+    # run on every pull request.
+    name: Shell payload (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, windows-latest]
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+      # Deliberately NOT PYTHONUTF8=1, and deliberately the runner's own
+      # python3 on ubuntu-22.04: this job exists to fail when a script forgets
+      # its encoding, and either of those would hide that. `release.yml` sets
+      # both, so the shipped build is protected; this one stays exposed.
+      - name: Build the shell payload
+        shell: bash
+        run: |
+          npm --prefix web/app ci --no-audit --no-fund
+          bash tools/build-shell-payload.sh
+      - name: The payload is not empty
+        shell: bash
+        run: |
+          # A build that produced an empty index would pass the step above,
+          # because every script in it exits 0 over nothing. Count the rows.
+          python3 - <<'EOF'
+          import json, pathlib
+          root = pathlib.Path("web/app/public/engine")
+          rows = json.loads((root / "lessons/index.json").read_text(encoding="utf-8"))
+          assert len(rows) > 100, f"only {len(rows)} lessons indexed"
+          size = sum(f.stat().st_size for f in root.rglob("*") if f.is_file())
+          print(f"{len(rows)} lessons, payload {size:,} bytes")
+          # The point of running here at all: prove the accented rows survived
+          # the platform's default codec instead of being mangled or dropped.
+          prose = json.loads((root / "lessons/prose.json").read_text(encoding="utf-8"))
+          text = json.dumps(prose, ensure_ascii=False)
+          for accent in ("é", "ü", "à"):
+              assert accent in text, f"no {accent!r} in the translated prose"
+          print("accented prose survived the round trip")
+          EOF
+
   wasm-lab:
     name: The bench in WebAssembly
     runs-on: ubuntu-latest

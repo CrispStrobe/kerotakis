@@ -15,21 +15,21 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 
 def analyse(directory):
-    summary = json.loads((directory / "summary.json").read_text())
+    summary = json.loads((directory / "summary.json").read_text(encoding="utf-8"))
     records = {int(r["id"][:2]): r for r in summary["cases"]}
     if set(records) != set(range(51, 87)):
         raise ValueError("All 36 distinct cases 51–86 are required")
     rows = {}
     for k, record in records.items():
         rows[k] = []
-        for line in (directory / record["id"] / "stdout.ndjson").read_text().splitlines():
+        for line in (directory / record["id"] / "stdout.ndjson").read_text(encoding="utf-8").splitlines():
             try:
                 rows[k].append(json.loads(line))
             except ValueError:
                 # The recorder's non_json_lines makes execution fail below;
                 # retain other usable evidence rather than crash the audit.
                 continue
-    registry = json.loads((ROOT / "data/registry/registry-source-v1.json").read_text())
+    registry = json.loads((ROOT / "data/registry/registry-source-v1.json").read_text(encoding="utf-8"))
     composition = {r["species_id"]: {e["element"]: e["count"]["value"]
                                     for e in r["elements"]}
                    for r in registry["compositions"]}
@@ -79,7 +79,7 @@ def analyse(directory):
         # the external water/gas boundaries; N and C can be volatile, so do
         # not pretend an unqualified closed-system ledger applies to them.
         expected = {}
-        script = (directory / record["id"] / "experiment.lab").read_text()
+        script = (directory / record["id"] / "experiment.lab").read_text(encoding="utf-8")
         for species, n in re.findall(r"^add v\d+ (\S+) ([0-9.eE+-]+)mol$", script, re.M):
             for element, count in composition[species].items():
                 if element not in {"H", "O", "C", "N"}:
@@ -178,6 +178,6 @@ if __name__ == "__main__":
     if args.out.exists():
         parser.error("check output already exists; choose a fresh evidence path")
     report = analyse(args.directory)
-    args.out.write_text(json.dumps(report, indent=2) + "\n")
+    args.out.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(f'{report["passed"]} passed; {report["unmet"]} unmet')
     raise SystemExit(bool(report["unmet"]))

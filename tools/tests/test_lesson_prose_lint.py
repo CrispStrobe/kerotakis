@@ -77,7 +77,7 @@ class DenominatorTests(unittest.TestCase):
     def test_the_denominator_is_read_from_the_lessons_not_from_the_catalogue(self):
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
-            (root / "a.lab").write_text("#@title A\n#@boundary B\nadd v1 water 1mL\n")
+            (root / "a.lab").write_text("#@title A\n#@boundary B\nadd v1 water 1mL\n", encoding="utf-8")
             keys, problems = LINT.referenced(root)
             self.assertEqual(problems, [])
             self.assertEqual(keys, {"a.title": "A", "a.boundary": "B"})
@@ -87,7 +87,7 @@ class DenominatorTests(unittest.TestCase):
         missing-key count would ever show."""
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
-            (root / "a.lab").write_text("#@part One\nadd v1 water 1mL\n#@part Two\n")
+            (root / "a.lab").write_text("#@part One\nadd v1 water 1mL\n#@part Two\n", encoding="utf-8")
             keys, problems = LINT.referenced(root)
             self.assertEqual(keys, {"a.part": "One"})
             self.assertEqual(len(problems), 1)
@@ -96,8 +96,8 @@ class DenominatorTests(unittest.TestCase):
     def test_an_unmigrated_lesson_is_counted_and_named(self):
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
-            (root / "done.lab").write_text("#@title A\n")
-            (root / "waiting.lab").write_text("# A\n# B\n")
+            (root / "done.lab").write_text("#@title A\n", encoding="utf-8")
+            (root / "waiting.lab").write_text("# A\n# B\n", encoding="utf-8")
             migrated, waiting, lines = LINT.migration(root)
             self.assertEqual(migrated, ["done"])
             self.assertEqual(waiting, ["waiting"])

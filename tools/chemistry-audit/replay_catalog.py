@@ -11,7 +11,7 @@ import run as recorder
 
 entries = []
 for path in sorted((recorder.ROOT / "codex").glob("*.toml")):
-    entries.extend(tomllib.loads(path.read_text()).get("reaction", []))
+    entries.extend(tomllib.loads(path.read_text(encoding="utf-8")).get("reaction", []))
 selected = {
     "endpoint-is-not-a-full-drop", "equilibrium-can-run-backward",
     "cold-from-baking-soda",

@@ -45,7 +45,7 @@ FILL = re.compile(
 
 
 def main() -> int:
-    src = RENDER.read_text()
+    src = RENDER.read_text(encoding="utf-8")
     unfilled: list[tuple[str, list[str], list[str]]] = []
     unused: list[tuple[str, list[str]]] = []
 

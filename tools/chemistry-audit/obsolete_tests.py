@@ -28,7 +28,7 @@ if __name__ == "__main__":
             output.write("\n")
         print(f"Planned {len(entries)} old test executables, {sum(e['bytes'] for e in entries)} bytes")
     else:
-        plan = json.loads(args.manifest.read_text())
+        plan = json.loads(args.manifest.read_text(encoding="utf-8"))
         assert plan["safe_root"] == str(SAFE)
         for entry in plan["entries"]:
             path = pathlib.Path(entry["path"])

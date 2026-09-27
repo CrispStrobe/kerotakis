@@ -50,16 +50,16 @@ def validate(document: dict, root: pathlib.Path = ROOT) -> list[dict]:
         raise ValueError(f"experiments must contain K01 through K{CATALOG_LAST_ID} exactly, in order")
     counts = {status: 0 for status in ALLOWED_STATUS}
     curiosity = root / "tests" / "coverage" / "curiosity-v1"
-    manifest = tomllib.loads((curiosity / "manifest.toml").read_text())
+    manifest = tomllib.loads((curiosity / "manifest.toml").read_text(encoding="utf-8"))
     capability_ids = {
         prompt["id"]
         for shard in manifest["shards"]
-        for prompt in tomllib.loads((curiosity / shard).read_text())["prompt"]
+        for prompt in tomllib.loads((curiosity / shard).read_text(encoding="utf-8"))["prompt"]
     }
     codex_ids = {
         reaction["id"]
         for source in (root / "codex").glob("*.toml")
-        for reaction in tomllib.loads(source.read_text()).get("reaction", [])
+        for reaction in tomllib.loads(source.read_text(encoding="utf-8")).get("reaction", [])
     }
     for row in rows:
         kid = row["id"]
@@ -165,14 +165,14 @@ def add_translation(document: dict, translation: dict) -> dict:
 
 def main() -> None:
     source = pathlib.Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "data/kids/experiments-v1.json"
-    document = json.loads(source.read_text())
+    document = json.loads(source.read_text(encoding="utf-8"))
     validate(document)
     translation = source.with_name("experiments-de-v1.json")
-    add_translation(document, json.loads(translation.read_text()))
+    add_translation(document, json.loads(translation.read_text(encoding="utf-8")))
     if len(sys.argv) > 2:
         target = pathlib.Path(sys.argv[2])
         target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text(json.dumps(document, indent=2) + "\n")
+        target.write_text(json.dumps(document, indent=2) + "\n", encoding="utf-8")
     print(f"   {len(document['experiments'])} kids experiments validated")
 
 

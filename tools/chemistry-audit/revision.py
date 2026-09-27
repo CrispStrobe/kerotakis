@@ -37,7 +37,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     current = state()
     if args.verify:
-        expected = json.loads(args.manifest.read_text())
+        expected = json.loads(args.manifest.read_text(encoding="utf-8"))
         if expected != current:
             changed = sorted(k for k in expected["files"].keys() | current["files"].keys()
                              if expected["files"].get(k) != current["files"].get(k))

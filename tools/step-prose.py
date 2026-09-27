@@ -57,7 +57,7 @@ def runnable_lines(script: str) -> list[str]:
 def codex_scripts(root: pathlib.Path = ROOT) -> dict[str, list[str]]:
     scripts: dict[str, list[str]] = {}
     for source in sorted((root / "codex").glob("*.toml")):
-        for reaction in tomllib.loads(source.read_text()).get("reaction", []):
+        for reaction in tomllib.loads(source.read_text(encoding="utf-8")).get("reaction", []):
             script = (reaction.get("setup") or {}).get("script")
             if isinstance(script, str):
                 scripts[reaction["id"]] = runnable_lines(script)
@@ -125,10 +125,10 @@ def add_translation(document: dict, translation: dict) -> dict:
 
 def build(source: pathlib.Path, root: pathlib.Path = ROOT) -> dict:
     scripts = codex_scripts(root)
-    document = json.loads(source.read_text())
+    document = json.loads(source.read_text(encoding="utf-8"))
     check_rows(document, scripts, source.name)
     for translation in sorted(source.parent.glob("step-prose-*-v1.json")):
-        other = json.loads(translation.read_text())
+        other = json.loads(translation.read_text(encoding="utf-8"))
         check_rows(other, scripts, translation.name)
         add_translation(document, other)
     return document
@@ -140,7 +140,7 @@ def main() -> None:
     if len(sys.argv) > 2:
         target = pathlib.Path(sys.argv[2])
         target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text(json.dumps(document, indent=2, ensure_ascii=False) + "\n")
+        target.write_text(json.dumps(document, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     lines = sum(len(row["say"]) for row in document["scripts"].values())
     print(f"   {len(document['scripts'])} paced scripts, {lines} step sentences validated")
 

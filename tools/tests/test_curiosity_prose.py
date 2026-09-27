@@ -38,7 +38,7 @@ CORPUS = ROOT / "tests/coverage/curiosity-v1"
 def german() -> dict:
     import tomllib
 
-    return tomllib.loads((CORPUS / "i18n/de.toml").read_text())
+    return tomllib.loads((CORPUS / "i18n/de.toml").read_text(encoding="utf-8"))
 
 
 class ShippedTranslationsTest(unittest.TestCase):

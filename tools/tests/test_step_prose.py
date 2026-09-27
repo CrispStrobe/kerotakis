@@ -16,8 +16,8 @@ SOURCE = ROOT / "data/steps/step-prose-v1.json"
 class StepProseTests(unittest.TestCase):
     def setUp(self):
         self.scripts = MODULE.codex_scripts()
-        self.document = json.loads(SOURCE.read_text())
-        self.german = json.loads((ROOT / "data/steps/step-prose-de-v1.json").read_text())
+        self.document = json.loads(SOURCE.read_text(encoding="utf-8"))
+        self.german = json.loads((ROOT / "data/steps/step-prose-de-v1.json").read_text(encoding="utf-8"))
 
     def test_shipped_prose_aligns_with_every_script_it_paces(self):
         rows = MODULE.check_rows(self.document, self.scripts, "en")
@@ -77,7 +77,7 @@ class StepProseTests(unittest.TestCase):
         # data exists to close. A NEW entry with a long script therefore
         # arrives here as a request to write its sentences — which is a
         # cheaper reminder than a learner meeting the silence.
-        paced = set(json.loads(SOURCE.read_text())["scripts"])
+        paced = set(json.loads(SOURCE.read_text(encoding="utf-8"))["scripts"])
         long_scripts = {
             entry_id for entry_id, lines in self.scripts.items() if len(lines) >= 3
         }
