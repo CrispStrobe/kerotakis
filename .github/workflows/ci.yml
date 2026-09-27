@@ -407,6 +407,37 @@ jobs:
         # indirect chains — appstore.yml reaches the same Python through
         # `tauri build`, and build-web.sh through no payload script at all.
         run: python3 tools/payload-toolchain-lint.py --check --verbose
+      - name: npm cannot run a shell script on Windows
+        shell: bash
+        run: |
+          # `"payload": "../../tools/build-shell-payload.sh"` works on every
+          # developer machine and fails in the Windows release build, because
+          # npm runs scripts through cmd.exe there:
+          #
+          #   > ../../tools/build-shell-payload.sh
+          #   '..' is not recognized as an internal or external command,
+          #
+          # This is a proxy for the real gate. Actually running `npm run
+          # payload` here would compile IPhreeqc's C++ on Windows for a second
+          # time in one workflow, which is not worth the minutes; asserting the
+          # spelling is.
+          python3 - <<'EOF'
+          import json, pathlib, sys
+          scripts = json.loads(
+              pathlib.Path("web/app/package.json").read_text(encoding="utf-8")
+          )["scripts"]
+          bad = {name: body for name, body in scripts.items()
+                 if ".sh" in body and "bash " not in body}
+          for name, body in scripts.items():
+              if ".sh" in body:
+                  print(f"{name}: {body}")
+          if bad:
+              print("::error::" + ", ".join(bad) + " invoke a .sh directly; npm "
+                    "runs scripts through cmd.exe on Windows, which cannot. "
+                    "Prefix with `bash `.", file=sys.stderr)
+              sys.exit(1)
+          print("every npm script naming a .sh runs it through bash")
+          EOF
       - name: Nothing that ships may pass --without-codex
         shell: bash
         run: |

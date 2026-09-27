@@ -12,7 +12,7 @@
     "test": "vitest run",
     "check": "svelte-check --tsconfig ./tsconfig.json --threshold error",
     "licences": "node tools/licence-lint.mjs",
-    "payload": "../../tools/build-shell-payload.sh",
+    "payload": "bash ../../tools/build-shell-payload.sh",
     "build:shell": "npm run payload && vite build",
     "dev:shell": "npm run payload && vite",
     "tauri": "tauri"
