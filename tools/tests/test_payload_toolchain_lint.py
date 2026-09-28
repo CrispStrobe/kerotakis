@@ -25,7 +25,7 @@ class PayloadToolchainLintTests(unittest.TestCase):
 
     def test_tomllib_is_found_through_a_sibling_module(self):
         """lessons-index.py never says tomllib; lesson_prose.py does."""
-        needs = MODULE.python_tools_needing_tomllib()
+        needs = MODULE.python_tools_needing("tomllib")
         self.assertIn("lesson_prose.py", needs)
         self.assertIn("lessons-index.py", needs,
                       "the import chain lesson_prose -> tomllib was not followed")
@@ -83,3 +83,29 @@ class WasmToolchainTests(unittest.TestCase):
             if "wasm32-unknown-unknown" in text or any(s in text for s in scripts):
                 continue
             self.assertNotIn(wf.name, " ".join(MODULE.wasm_offenders()))
+
+
+class CryptographyTests(unittest.TestCase):
+    """The ASC client signs its JWT with cryptography, and two workflows ran
+    its scripts without installing it — one that failed and one that had never
+    been dispatched and would have."""
+
+    def test_client_is_found_as_the_importer(self):
+        needing = MODULE.python_tools_needing("cryptography", subdirs=("asc",))
+        self.assertIn("client.py", needing)
+
+    def test_the_import_chain_is_followed_into_the_scripts(self):
+        """No asc script but client.py names cryptography; they all import
+        client, which is the whole reason the scan is transitive."""
+        needing = MODULE.python_tools_needing("cryptography", subdirs=("asc",))
+        self.assertIn("testflight.py", needing)
+        self.assertIn("store.py", needing)
+
+    def test_every_workflow_running_an_asc_script_installs_it(self):
+        self.assertEqual(MODULE.cryptography_offenders(), [])
+
+    def test_an_empty_scan_reports_itself_as_broken(self):
+        """A scan that finds no importer must not return "clean" — that is
+        indistinguishable from a repository with nothing to fix."""
+        rows = MODULE.cryptography_offenders.__doc__
+        self.assertIn("client.py", rows)

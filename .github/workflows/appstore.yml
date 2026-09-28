@@ -80,6 +80,14 @@ jobs:
         if: steps.gate.outputs.run == 'true'
         with:
           python-version: "3.12"
+      # tools/asc/client.py signs the App Store Connect JWT with it. This
+      # workflow used the runner's own python3 until the pin above arrived,
+      # and macos-latest ships cryptography preinstalled — so pinning an
+      # interpreter took it away, and the macOS build died on
+      # `ModuleNotFoundError: No module named 'cryptography'`.
+      - name: The ASC client signs its JWT with cryptography
+        if: steps.gate.outputs.run == 'true'
+        run: python3 -m pip install --quiet --disable-pip-version-check cryptography
 
       - name: Install the app's dependencies
         if: steps.gate.outputs.run == 'true'
