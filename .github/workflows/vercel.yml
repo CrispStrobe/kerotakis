@@ -69,10 +69,30 @@ jobs:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
+          # pipefail is not optional here. Piping the CLI into `tee` hands the
+          # step tee's exit status, and this deploy has already failed once
+          # while reporting success:
+          #
+          #   Error: The "--prebuilt" option was used, but no prebuilt output
+          #          found in ".vercel/output".
+          #
+          # `--prebuilt=false` is what caused that. The flag is boolean, so
+          # `=false` still switches it ON, and a deploy that uploads sources
+          # never writes .vercel/output. Dropping it is the fix; the default
+          # is exactly the non-prebuilt upload this wants.
+          set -euo pipefail
           cp web/vercel.json "$RUNNER_TEMP/site/vercel.json"
           npx --yes vercel@latest deploy "$RUNNER_TEMP/site" \
-            --prebuilt=false --yes --token "$VERCEL_TOKEN" \
+            --yes --token "$VERCEL_TOKEN" \
             ${{ inputs.target == 'production' && '--prod' || '' }} \
             | tee "$RUNNER_TEMP/url.txt"
-          echo "### Deployed" >> "$GITHUB_STEP_SUMMARY"
-          echo "\`$(tail -1 "$RUNNER_TEMP/url.txt")\`" >> "$GITHUB_STEP_SUMMARY"
+          # Belt and braces, for the same reason tools/deploy-vercel.sh does
+          # it: the CLI has exited 0 while printing "Error:" before now.
+          if grep -q '^Error:' "$RUNNER_TEMP/url.txt"; then
+            echo "::error::the Vercel CLI reported an error but exited 0"
+            exit 1
+          fi
+          url="$(grep -Eo 'https://[a-z0-9.-]+\.vercel\.app' "$RUNNER_TEMP/url.txt" | tail -1)"
+          [ -n "$url" ] || { echo "::error::no deployment URL in the output"; exit 1; }
+          echo "### Deployed"  >> "$GITHUB_STEP_SUMMARY"
+          echo "\`$url\`"      >> "$GITHUB_STEP_SUMMARY"

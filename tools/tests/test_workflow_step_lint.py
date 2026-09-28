@@ -7,7 +7,7 @@ import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 SPEC = importlib.util.spec_from_file_location(
-    "workflow_step_inputs_lint", ROOT / "tools/workflow-step-inputs-lint.py"
+    "workflow_step_lint", ROOT / "tools/workflow-step-lint.py"
 )
 MODULE = importlib.util.module_from_spec(SPEC)
 assert SPEC.loader
@@ -95,3 +95,50 @@ jobs:
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class PipelineExitStatusTests(unittest.TestCase):
+    """A pipeline reports its LAST command's status. The Vercel deploy failed
+    with `Error: The "--prebuilt" option was used...` and the job went green,
+    because the CLI was piped into `tee`."""
+
+    def pipeline(self, body: str) -> list[str]:
+        with tempfile.TemporaryDirectory() as d:
+            path = pathlib.Path(d) / "sample.yml"
+            path.write_text(body, encoding="utf-8")
+            return MODULE.pipeline_findings(path)
+
+    PIPED = """
+jobs:
+  deploy:
+    steps:
+      - name: Deploy
+        run: |
+          cp a b
+          npx vercel deploy . | tee url.txt
+"""
+
+    def test_a_pipe_without_pipefail_is_a_finding(self):
+        rows = self.pipeline(self.PIPED)
+        self.assertEqual(len(rows), 1)
+        self.assertIn("pipefail", rows[0])
+
+    def test_pipefail_clears_it(self):
+        self.assertEqual(self.pipeline(self.PIPED.replace(
+            "          cp a b", "          set -o pipefail\n          cp a b")), [])
+
+    def test_a_single_line_run_is_not_judged(self):
+        """GitHub takes a one-line `run:`'s status directly, and there is
+        nowhere to put `set -o pipefail` in it — flagging those would make the
+        lint noise."""
+        self.assertEqual(self.pipeline("""
+jobs:
+  b:
+    steps:
+      - run: cargo metadata | head -1
+"""), [])
+
+    def test_the_repository_has_no_unguarded_pipelines(self):
+        rows = [r for p in sorted(MODULE.WORKFLOWS.glob("*.yml"))
+                for r in MODULE.pipeline_findings(p)]
+        self.assertEqual(rows, [])
