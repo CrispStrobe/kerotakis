@@ -5,7 +5,7 @@ on:
     inputs:
       action:
         type: choice
-        options: [audit, listing, store, testflight]
+        options: [audit, listing, store, testflight, submit-check, submit]
         default: audit
       platform:
         type: choice
@@ -58,6 +58,21 @@ jobs:
                 python3 tools/asc/testflight.py macos
               else
                 python3 tools/asc/testflight.py "$PLATFORM"
+              fi
+              ;;
+            # `submit-check` reads the state and says whether the submission
+            # would go through. `submit` is the irreversible one: it puts the
+            # app in front of an Apple reviewer, and a rejection is visible on
+            # the account, so the two are separate choices rather than a flag
+            # someone can leave set by accident.
+            submit-check|submit)
+              flags=""
+              if [ "$ACTION" = submit ]; then flags="--submit"; fi
+              if [ "$PLATFORM" = both ]; then
+                python3 tools/asc/submit.py ios $flags
+                python3 tools/asc/submit.py macos $flags
+              else
+                python3 tools/asc/submit.py "$PLATFORM" $flags
               fi
               ;;
           esac
