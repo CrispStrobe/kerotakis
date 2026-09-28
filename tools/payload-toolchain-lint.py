@@ -50,12 +50,18 @@ def uncommented(text: str) -> str:
                      for line in text.splitlines())
 
 
-def python_tools_needing_tomllib() -> set[str]:
-    """tools/*.py that import tomllib, directly or via a sibling that does."""
+def python_tools_needing(module: str, subdirs: tuple[str, ...] = ()) -> set[str]:
+    """tools/*.py that import `module`, directly or via a sibling that does.
+
+    The transitive half is the point: `lessons-index.py` never says tomllib,
+    `lesson_prose.py` does; no `tools/asc/*.py` says cryptography except
+    `client.py`, and every one of them imports client.
+    """
+    globs = ["tools/*.py"] + [f"tools/{d}/*.py" for d in subdirs]
     sources = {p.name: uncommented(p.read_text(encoding="utf-8"))
-               for p in ROOT.glob("tools/*.py")}
+               for g in globs for p in ROOT.glob(g)}
     needs = {name for name, src in sources.items()
-             if re.search(r"^\s*import tomllib", src, re.M)}
+             if re.search(rf"^\s*(import|from) {re.escape(module)}\b", src, re.M)}
     changed = True
     while changed:
         changed = False
@@ -97,7 +103,7 @@ def reaching_tokens() -> list[str]:
     `npx tauri build` — was never picked up, and `appstore.yml` silently
     dropped out of the report it had just been failing.
     """
-    tokens = set(python_tools_needing_tomllib())
+    tokens = set(python_tools_needing("tomllib"))
     conf = json.loads((ROOT / "web/app/src-tauri/tauri.conf.json").read_text(encoding="utf-8"))
     before = conf.get("build", {}).get("beforeBuildCommand", "")
 
@@ -177,6 +183,34 @@ def wasm_offenders() -> list[str]:
     return bad
 
 
+def cryptography_offenders() -> list[str]:
+    """Workflows that run an ASC script without installing cryptography.
+
+    `tools/asc/client.py` signs the App Store Connect JWT with it, and every
+    other script in that directory imports client. `appstore.yml` got away
+    without it for as long as it used the runner's own python3 — macos-latest
+    ships cryptography preinstalled — and broke the moment a `setup-python`
+    pin replaced that interpreter with a clean one. The fix for one problem
+    uncovered the next, which is only visible if the requirement is stated
+    rather than inherited.
+    """
+    needing = python_tools_needing("cryptography", subdirs=("asc",))
+    if not needing:
+        return ["payload-toolchain-lint: nothing imports cryptography — "
+                "the scan is broken, not the repository"]
+    bad = []
+    for wf in sorted(WORKFLOWS.glob("*.yml")):
+        text = uncommented(wf.read_text(encoding="utf-8"))
+        if not any(f"tools/asc/{name}" in text for name in needing | {"client.py"}) \
+                and "tools/asc/" not in text:
+            continue
+        if "pip install" in text and "cryptography" in text:
+            continue
+        bad.append(f"{wf.name}: runs a tools/asc script but never installs "
+                   "cryptography, which client.py signs the JWT with")
+    return bad
+
+
 def offenders(reach: list[str]) -> tuple[list[str], list[tuple[str, str, bool]]]:
     rows, bad = [], []
     for wf in sorted(WORKFLOWS.glob("*.yml")):
@@ -215,6 +249,13 @@ def main() -> int:
     for name, hit, pinned in rows:
         print(f"  {name}: reaches it via {hit!r} — "
               f"{'pins python' if pinned else 'DOES NOT PIN PYTHON'}")
+
+    crypto_bad = cryptography_offenders()
+    for row in crypto_bad:
+        print(f"  {row}")
+    if crypto_bad and args.check:
+        print("::error::" + "; ".join(crypto_bad), file=sys.stderr)
+        return 1
 
     wasm_bad = wasm_offenders()
     for row in wasm_bad:

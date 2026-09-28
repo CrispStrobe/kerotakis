@@ -46,6 +46,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      # Every script under tools/asc imports client.py, and client.py signs
+      # the App Store Connect JWT with cryptography. Missing here since this
+      # workflow was written; it has never been dispatched, so nothing said so.
+      - run: python3 -m pip install --quiet --disable-pip-version-check cryptography
       - name: The credentials have to exist
         run: |
           if [ -z "$ASC_KEY_ID" ] || [ -z "$ASC_API_KEY_P8_BASE64" ]; then
