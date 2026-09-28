@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Catch workflow step inputs that ended up on the wrong step.
+"""Catch workflow steps that are wrong in ways that have already cost something.
+
+Two shapes, both from real failures: an input that ended up on the wrong
+step, and a `run:` block whose pipeline throws away the exit status of the
+command that matters.
 
 `actions/setup-node` with `cache: npm` and no `cache-dependency-path` looks
 fine, parses fine, and fails only where there is no `package-lock.json` beside
@@ -77,6 +81,46 @@ def findings(path: pathlib.Path) -> list[str]:
     return out
 
 
+PIPE_NEEDS_PIPEFAIL = ("| tee", "|tee", "| grep", "| head", "| tail")
+
+
+def pipeline_findings(path: pathlib.Path) -> list[str]:
+    """`run:` blocks that pipe a command whose failure would be swallowed.
+
+    A shell pipeline exits with the status of its LAST command, so
+
+        npx vercel deploy ... | tee "$RUNNER_TEMP/url.txt"
+
+    reports tee's success no matter what the CLI did. The Vercel deploy failed
+    with `Error: The "--prebuilt" option was used...` and the job went green.
+    `tools/deploy-vercel.sh` had already learned this — "take ITS exit code
+    directly instead of trusting log greps" — but the workflow had not.
+
+    Only multi-line `run:` blocks are judged: a one-line `run:` is a single
+    command whose status GitHub takes directly, and `set -o pipefail` cannot be
+    written there anyway.
+    """
+    doc = yaml.safe_load(path.read_text(encoding="utf-8"))
+    out = []
+    for job_name, job in (doc.get("jobs") or {}).items():
+        for step in job.get("steps") or []:
+            run = step.get("run")
+            if not run or "\n" not in run.strip():
+                continue
+            if "pipefail" in run:
+                continue
+            for marker in PIPE_NEEDS_PIPEFAIL:
+                if marker in run:
+                    name = step.get("name") or run.strip().splitlines()[0][:40]
+                    out.append(
+                        f"{path.name}:{job_name}: step {name!r} pipes into "
+                        f"`{marker.strip()}` with no `set -o pipefail`; the step "
+                        "reports the pipe's exit status, not the command's"
+                    )
+                    break
+    return out
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--check", action="store_true", help="exit non-zero on a finding")
@@ -84,17 +128,18 @@ def main() -> int:
 
     files = sorted(WORKFLOWS.glob("*.yml"))
     if not files:
-        print("workflow-step-inputs-lint: no workflows found — not a pass",
+        print("workflow-step-lint: no workflows found — not a pass",
               file=sys.stderr)
         return 1
 
     found = [row for path in files for row in findings(path)]
+    found += [row for path in files for row in pipeline_findings(path)]
     for row in found:
         print(row)
-    print(f"workflow-step-inputs-lint: {len(files)} workflows, {len(found)} finding(s)")
+    print(f"workflow-step-lint: {len(files)} workflows, {len(found)} finding(s)")
     if found and args.check:
-        print("::error::a step input is on the wrong step, or a cache has no "
-              "dependency path", file=sys.stderr)
+        print("::error::a step input is on the wrong step, a cache has no "
+              "dependency path, or a pipeline is hiding a failure", file=sys.stderr)
         return 1
     return 0
 

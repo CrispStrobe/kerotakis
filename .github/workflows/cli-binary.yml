@@ -43,6 +43,10 @@ jobs:
           fi
       - name: It runs, reads its own registry, and answers in every language
         run: |
+          # pipefail: `kero species | head -5` reports head's success, so a
+          # binary that crashed would pass the very step that exists to
+          # notice it.
+          set -o pipefail
           "$KERO" species | head -5
           printf 'add v1 water 100mL\nlook v1\n' > "$RUNNER_TEMP/smoke.lab"
           # Every shipped language, read off the catalogue directory: a

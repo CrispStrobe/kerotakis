@@ -66,6 +66,9 @@ jobs:
 
       - name: Point the build at the NDK
         run: |
+          # pipefail: a failing `ls` leaves NDK empty while the pipe still
+          # exits 0, pointing the build at nothing.
+          set -o pipefail
           NDK="$(ls -d "$ANDROID_HOME"/ndk/* | sort -V | tail -1)"
           echo "NDK_HOME=$NDK" >> "$GITHUB_ENV"
           echo "ANDROID_NDK_HOME=$NDK" >> "$GITHUB_ENV"
@@ -140,6 +143,9 @@ jobs:
       - name: Collect what was built
         run: |
           mkdir -p out
+          # pipefail: if `find` fails nothing is copied, and `ls -lh out`
+          # prints an empty directory without complaint.
+          set -o pipefail
           find web/app/src-tauri/gen/android -name '*.apk' -o -name '*.aab' \
             | grep -v intermediates | while read -r f; do cp "$f" out/; done
           ls -lh out
