@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""Every workflow that runs a tool needing `tomllib` must pin its Python.
+"""Every workflow must install what the scripts it reaches actually need.
+
+Two requirements, both learned by a workflow failing the first time it
+was ever run:
+
+**Python.** `tools/build-shell-payload.sh` calls `tomllib`, which is 3.11
+and newer.
 
 `tomllib` is Python 3.11 and newer. The Linux half of the v0.1.0 release died
 because `release.yml` ran `tools/build-shell-payload.sh` on `ubuntu-22.04`,
@@ -121,6 +127,56 @@ def reaching_tokens() -> list[str]:
             return sorted(tokens)
 
 
+def wasm_building_scripts() -> list[str]:
+    """tools/*.sh that compile for wasm, plus their callers."""
+    marks = ("wasm32-unknown-unknown", "wasm-bindgen")
+    found: list[str] = []
+    while True:
+        grew = False
+        for script in sorted(ROOT.glob("tools/*.sh")):
+            name = f"tools/{script.name}"
+            if name in found:
+                continue
+            body = uncommented(script.read_text(encoding="utf-8"))
+            if any(m in body for m in marks) or any(tok in body for tok in found):
+                found.append(name)
+                grew = True
+        if not grew:
+            return found
+
+
+def wasm_offenders() -> list[str]:
+    """Workflows that build wasm without installing the target or bindgen.
+
+    `vercel.yml` reached `tools/build-web.sh`, which compiles kerotakis-wasm,
+    with a bare `dtolnay/rust-toolchain@stable`. It failed on its first real
+    run with "the `wasm32-unknown-unknown` target may not be installed" — the
+    workflow had existed for weeks and had never been dispatched.
+    """
+    scripts = wasm_building_scripts()
+    bad = []
+    for wf in sorted(WORKFLOWS.glob("*.yml")):
+        text = uncommented(wf.read_text(encoding="utf-8"))
+        builds_wasm = ("wasm32-unknown-unknown" in text
+                       or any(s in text for s in scripts))
+        if not builds_wasm:
+            continue
+        missing = []
+        if "targets: wasm32-unknown-unknown" not in text:
+            missing.append("targets: wasm32-unknown-unknown")
+        # Only scripts that run wasm-bindgen itself need the CLI; a workflow
+        # that merely `cargo build`s for the target does not.
+        needs_bindgen = any(
+            "wasm-bindgen" in uncommented((ROOT / s).read_text(encoding="utf-8"))
+            for s in scripts if s in text and (ROOT / s).exists()
+        )
+        if needs_bindgen and "wasm-bindgen-cli" not in text:
+            missing.append("cargo install wasm-bindgen-cli")
+        if missing:
+            bad.append(f"{wf.name}: builds wasm but has no {' and no '.join(missing)}")
+    return bad
+
+
 def offenders(reach: list[str]) -> tuple[list[str], list[tuple[str, str, bool]]]:
     rows, bad = [], []
     for wf in sorted(WORKFLOWS.glob("*.yml")):
@@ -159,6 +215,13 @@ def main() -> int:
     for name, hit, pinned in rows:
         print(f"  {name}: reaches it via {hit!r} — "
               f"{'pins python' if pinned else 'DOES NOT PIN PYTHON'}")
+
+    wasm_bad = wasm_offenders()
+    for row in wasm_bad:
+        print(f"  {row}")
+    if wasm_bad and args.check:
+        print("::error::" + "; ".join(wasm_bad), file=sys.stderr)
+        return 1
 
     if bad and args.check:
         print(f"::error::{', '.join(bad)} run tools that import tomllib without "

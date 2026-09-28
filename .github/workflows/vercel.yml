@@ -35,11 +35,24 @@ jobs:
       - uses: actions/checkout@v6
         with:
           submodules: recursive
+      # tools/build-web.sh compiles kerotakis-wasm for the browser, so the
+      # target has to be installed and wasm-bindgen has to exist. Neither was
+      # here, and this workflow had never been run, so nothing said so:
+      #
+      #   error: the `wasm32-unknown-unknown` target may not be installed
+      #
+      # The wasm-bindgen CLI version is pinned to the crate version in
+      # Cargo.lock, as every other wasm job in ci.yml does — a mismatch between
+      # the two fails at bindgen time with a version error, not at build time.
       - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
       - uses: Swatinem/rust-cache@v2
+      - name: Install wasm-bindgen
+        run: cargo install wasm-bindgen-cli --version 0.2.127
       - name: Fetch SUNDIALS (not vendored; pinned by checksum)
         run: bash tools/fetch-sundials.sh
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: "22"
       # tools/build-web.sh reaches tools/build-shell-payload.sh, which needs

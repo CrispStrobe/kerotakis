@@ -60,3 +60,26 @@ class PayloadToolchainLintTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class WasmToolchainTests(unittest.TestCase):
+    """The second requirement, learned the same way as the first: vercel.yml
+    had existed for weeks, had never been dispatched, and failed on its first
+    real run with the wasm target missing."""
+
+    def test_build_web_is_recognised_as_a_wasm_builder(self):
+        self.assertIn("tools/build-web.sh", MODULE.wasm_building_scripts())
+
+    def test_every_workflow_that_builds_wasm_installs_the_target(self):
+        self.assertEqual(MODULE.wasm_offenders(), [])
+
+    def test_a_workflow_with_no_wasm_is_not_flagged(self):
+        """The check must not demand a wasm target of workflows that build
+        none — a lint that fires on unrelated files is one people route
+        around."""
+        scripts = MODULE.wasm_building_scripts()
+        for wf in sorted(MODULE.WORKFLOWS.glob("*.yml")):
+            text = MODULE.uncommented(wf.read_text(encoding="utf-8"))
+            if "wasm32-unknown-unknown" in text or any(s in text for s in scripts):
+                continue
+            self.assertNotIn(wf.name, " ".join(MODULE.wasm_offenders()))
