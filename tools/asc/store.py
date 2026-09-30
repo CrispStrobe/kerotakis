@@ -23,13 +23,32 @@ def query(path: str, **params: str) -> str:
     return f"{path}?{urllib.parse.urlencode(params)}"
 
 
+# A version in any of these can still be edited and submitted. Only
+# PREPARE_FOR_SUBMISSION was listed here, which made the whole pipeline refuse
+# to touch a REJECTED version — and a rejected version is exactly what you have
+# to edit in order to answer the rejection. Apple allows the edit; the script
+# did not.
+#
+# READY_FOR_SALE is deliberately absent: a live version's description and
+# keywords cannot be edited, and App Store Connect says so with
+# `409 STATE_ERROR: Attribute 'description' cannot be edited at this time`.
+# Shipping an update to a live version needs a NEW appStoreVersion, not this.
+EDITABLE = {
+    "PREPARE_FOR_SUBMISSION",
+    "REJECTED",
+    "DEVELOPER_REJECTED",
+    "METADATA_REJECTED",
+    "INVALID_BINARY",
+}
+
+
 def editable_version(platform: str) -> dict:
     versions = client.paged(f"/v1/apps/{APP}/appStoreVersions?limit=50")
     matches = [
         version
         for version in versions
         if version["attributes"].get("platform") == platform
-        and version["attributes"].get("appStoreState") == "PREPARE_FOR_SUBMISSION"
+        and version["attributes"].get("appStoreState") in EDITABLE
     ]
     if len(matches) != 1:
         states = [
