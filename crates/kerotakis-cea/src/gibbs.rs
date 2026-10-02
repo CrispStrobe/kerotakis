@@ -591,6 +591,11 @@ pub fn equilibrate_tp(
             ) {
                 return Ok(endpoint);
             }
+            if let Some(equilibrium) =
+                certified_mixed_gas_line(&pool, &mu0, &original_elements, budget, t, pressure_bar)
+            {
+                return Ok(equilibrium);
+            }
             // The repairable one: a Newton transient crushed a gas species
             // the element balance still needs. A cold H2/O2/air charge
             // (curiosity th-034) drives O2 and H2 to the trace floor within
@@ -1132,6 +1137,243 @@ fn certified_single_gas_endpoint(
         }
     }
     None
+}
+
+/// A bounded two-gas/two-condensed pool with one affine reaction degree.
+/// Stoichiometric elimination is independent of gas inventory: an inert
+/// stock below TRACE remains a component rather than a vanishing weighted
+/// Newton pivot. Ideal-mixture G is convex on the feasible inventory line.
+/// Only an independent global dual certificate can authorize readback.
+fn certified_mixed_gas_line(
+    pool: &[&Species],
+    mu0: &[f64],
+    elements: &[String],
+    budget: &BTreeMap<String, f64>,
+    t: f64,
+    pressure_bar: f64,
+) -> Option<Equilibrium> {
+    if pool.len() != 4
+        || pool.iter().filter(|s| s.is_gas()).count() != 2
+        || !t.is_finite()
+        || !pressure_bar.is_finite()
+        || pressure_bar <= 0.0
+        || !pool.iter().all(|s| {
+            s.intervals.iter().any(|i| (i.t_min..=i.t_max).contains(&t))
+                && s.composition
+                    .values()
+                    .all(|a| a.is_finite() && *a >= 0.0 && a.fract() == 0.0 && *a <= 1e6)
+        })
+    {
+        return None;
+    }
+    let components = independent_components(pool, elements, budget)?;
+    if components.len() != 3 {
+        return None;
+    }
+    let scale: f64 = budget.values().sum();
+    if !scale.is_finite() || scale <= 0.0 || budget.values().any(|n| !n.is_finite() || *n < 0.0) {
+        return None;
+    }
+    let a = |i: usize, j: usize| {
+        pool[i]
+            .composition
+            .get(&elements[j])
+            .copied()
+            .unwrap_or(0.0)
+    };
+    // RREF of atom constraints in inventory-normalized coordinates. These
+    // pivots are stoichiometric coefficients, never tiny gas amounts.
+    let mut matrix = [[0.0; 5]; 3];
+    for (row, &component) in components.iter().enumerate() {
+        for i in 0..4 {
+            matrix[row][i] = a(i, component);
+        }
+        matrix[row][4] = budget[&elements[component]] / scale;
+    }
+    let mut pivots = Vec::new();
+    for column in 0..4 {
+        let row = pivots.len();
+        if row == 3 {
+            break;
+        }
+        let pivot = (row..3).max_by(|left, right| {
+            matrix[*left][column]
+                .abs()
+                .total_cmp(&matrix[*right][column].abs())
+        })?;
+        if matrix[pivot][column].abs() < 1e-14 {
+            continue;
+        }
+        matrix.swap(row, pivot);
+        let divisor = matrix[row][column];
+        for c in column..5 {
+            matrix[row][c] /= divisor;
+        }
+        for r in 0..3 {
+            if r != row {
+                let multiplier = matrix[r][column];
+                for c in column..5 {
+                    matrix[r][c] -= multiplier * matrix[row][c];
+                }
+            }
+        }
+        pivots.push(column);
+    }
+    if pivots.len() != 3 {
+        return None;
+    }
+    let free = (0..4).find(|i| !pivots.contains(i))?;
+    let mut offset = [0.0; 4];
+    let mut direction = [0.0; 4];
+    direction[free] = 1.0;
+    for (row, &column) in pivots.iter().enumerate() {
+        offset[column] = matrix[row][4];
+        direction[column] = -matrix[row][free];
+    }
+    let (mut lower, mut upper) = (f64::NEG_INFINITY, f64::INFINITY);
+    for i in 0..4 {
+        if !offset[i].is_finite() || !direction[i].is_finite() {
+            return None;
+        }
+        if direction[i] > 0.0 {
+            lower = lower.max(-offset[i] / direction[i]);
+        } else if direction[i] < 0.0 {
+            upper = upper.min(-offset[i] / direction[i]);
+        } else if offset[i] < 0.0 {
+            return None;
+        }
+    }
+    if !lower.is_finite() || !upper.is_finite() || lower >= upper {
+        return None;
+    }
+    let endpoint = |x| {
+        std::array::from_fn::<_, 4, _>(|i| {
+            // A phase defining this exact algebraic bound is zero. This
+            // avoids subtraction roundoff without clipping any inventory.
+            if direction[i] != 0.0 && x == -offset[i] / direction[i] {
+                0.0
+            } else {
+                offset[i] + x * direction[i]
+            }
+        })
+    };
+    let left = endpoint(lower);
+    let right = endpoint(upper);
+    if left
+        .iter()
+        .chain(&right)
+        .any(|n| !n.is_finite() || *n < 0.0)
+        || (0..4).any(|i| pool[i].is_gas() && (left[i] <= 0.0 || right[i] <= 0.0))
+    {
+        // Absent-gas tangent boundaries belong to the separate certificate;
+        // this slice requires both gases throughout its closed interval.
+        return None;
+    }
+    let amounts = |fraction: f64| {
+        std::array::from_fn::<_, 4, _>(|i| (1.0 - fraction) * left[i] + fraction * right[i])
+    };
+    let chemical = |i: usize, n: &[f64; 4], gas_total: f64| {
+        mu0[i]
+            + if pool[i].is_gas() {
+                n[i].ln() - gas_total.ln() + (pressure_bar / P_STANDARD_BAR).ln()
+            } else {
+                0.0
+            }
+    };
+    let derivative = |fraction| {
+        let n = amounts(fraction);
+        let total: f64 = (0..4).filter(|i| pool[*i].is_gas()).map(|i| n[i]).sum();
+        (0..4)
+            .map(|i| (right[i] - left[i]) * chemical(i, &n, total))
+            .sum::<f64>()
+    };
+    let fraction = if derivative(0.0) >= 0.0 {
+        0.0
+    } else if derivative(1.0) <= 0.0 {
+        1.0
+    } else {
+        let (mut lo, mut hi) = (0.0, 1.0);
+        for _ in 0..80 {
+            let mid = (lo + hi) / 2.0;
+            let slope = derivative(mid);
+            if !slope.is_finite() {
+                return None;
+            }
+            if slope < 0.0 {
+                lo = mid;
+            } else {
+                hi = mid;
+            }
+        }
+        (lo + hi) / 2.0
+    };
+    let normalized = amounts(fraction);
+    let normalized_gas: f64 = (0..4)
+        .filter(|i| pool[*i].is_gas())
+        .map(|i| normalized[i])
+        .sum();
+    let n: Vec<_> = normalized.iter().map(|n| n * scale).collect();
+    if n.iter().any(|n| !n.is_finite() || *n < 0.0)
+        || !n.iter().sum::<f64>().is_finite()
+        || !(0..elements.len()).all(|j| {
+            let have: f64 = (0..4).map(|i| a(i, j) * n[i]).sum();
+            have.is_finite()
+                && (have - budget[&elements[j]]).abs() <= BALANCE_TOL * budget[&elements[j]]
+        })
+    {
+        return None;
+    }
+    // Global Gibbs lower-bound proof: every occupied phase has mu=a.pi,
+    // inactive condensed phases have mu>=a.pi, and both ideal-gas
+    // activities are the actual inventory fractions. This separately
+    // validates the one-dimensional optimizer and every original atom row.
+    let dot = |a: &[f64], b: &[f64]| a.iter().zip(b).map(|(x, y)| x * y).sum::<f64>();
+    let tol = 1e-8;
+    let mut basis: Vec<(Vec<f64>, f64)> = Vec::new();
+    for i in (0..4).filter(|i| n[*i] > 0.0) {
+        let mut row: Vec<_> = (0..elements.len()).map(|j| a(i, j)).collect();
+        let mut rhs = chemical(i, &normalized, normalized_gas);
+        for (q, target) in &basis {
+            let projection = dot(&row, q);
+            for (v, qv) in row.iter_mut().zip(q) {
+                *v -= projection * qv;
+            }
+            rhs -= projection * target;
+        }
+        let norm = dot(&row, &row).sqrt();
+        if norm < 1e-12 {
+            if rhs.abs() > tol {
+                return None;
+            }
+        } else {
+            for v in &mut row {
+                *v /= norm;
+            }
+            basis.push((row, rhs / norm));
+        }
+    }
+    let mut pi = vec![0.0; elements.len()];
+    for (row, target) in basis {
+        for (p, a) in pi.iter_mut().zip(row) {
+            *p += a * target;
+        }
+    }
+    if !pi.iter().all(|p| p.is_finite())
+        || !(0..4).all(|i| {
+            let difference = (0..elements.len()).map(|j| a(i, j) * pi[j]).sum::<f64>()
+                - chemical(i, &normalized, normalized_gas);
+            difference.is_finite()
+                && if n[i] > 0.0 {
+                    difference.abs() <= tol
+                } else {
+                    difference <= tol
+                }
+        })
+    {
+        return None;
+    }
+    let eq = finish(pool, &n, t, pressure_bar);
+    (eq.enthalpy.is_finite() && eq.gas_moles.is_finite() && eq.gas_moles > 0.0).then_some(eq)
 }
 
 pub(crate) fn finish(pool: &[&Species], n: &[f64], t: f64, pressure_bar: f64) -> Equilibrium {
@@ -2199,6 +2441,149 @@ mod tests {
         assert_eq!(eq.gas_moles, 1e-30);
         assert_eq!(eq.moles_of("CO2"), 1e-30);
         assert_eq!(eq.enthalpy, 1e-30 * co2.h(800.0).unwrap());
+    }
+
+    #[test]
+    fn mixed_gas_condensed_equilibrium_retains_tiny_independent_inert_stock() {
+        let pool = pool_of(&["CaCO3(cr)", "CaO(cr)", "CO2", "N2"]);
+        let b = budget(&[("Ca", 0.1), ("C", 0.2), ("O", 0.5), ("N", 2e-20)]);
+        let eq = equilibrate_tp(&b, &pool, 1300.0, 1.0).unwrap();
+        // NASA reaction affinity is strongly negative here, so lime is
+        // the unique condensed endpoint. Independent inert atoms still
+        // require their actual amount, even below the legacy gas floor.
+        assert!((eq.moles_of("CaO(cr)") / 0.1 - 1.0).abs() < BALANCE_TOL);
+        assert!((eq.moles_of("CO2") / 0.2 - 1.0).abs() < BALANCE_TOL);
+        assert!((eq.moles_of("N2") / 1e-20 - 1.0).abs() < BALANCE_TOL);
+        assert_eq!(eq.moles_of("CaCO3(cr)"), 0.0);
+        assert_conserved(&eq, &b, "tiny independent inert inventory");
+    }
+
+    #[test]
+    fn mixed_gas_condensed_coexistence_matches_mass_action_and_hp() {
+        let carbonate = crate::db().get("CaCO3(cr)").unwrap();
+        let oxide = crate::db().get("CaO(cr)").unwrap();
+        let co2 = crate::db().get("CO2").unwrap();
+        let n2 = crate::db().get("N2").unwrap();
+        let pool = [carbonate, oxide, co2, n2];
+        let b = budget(&[("Ca", 0.1), ("C", 0.2), ("O", 0.5), ("N", 0.4)]);
+        let t = 1100.0;
+        let reaction_g = oxide.g(t).unwrap() + co2.g(t).unwrap() - carbonate.g(t).unwrap();
+        let co2_fraction = (-reaction_g / (R * t)).exp();
+        let co2_amount = 0.2 * co2_fraction / (1.0 - co2_fraction);
+        let oxide_amount = co2_amount - 0.1;
+        let carbonate_amount = 0.1 - oxide_amount;
+        assert!(oxide_amount > 0.0 && carbonate_amount > 0.0);
+        let h = carbonate_amount * carbonate.h(t).unwrap()
+            + oxide_amount * oxide.h(t).unwrap()
+            + co2_amount * co2.h(t).unwrap()
+            + 0.2 * n2.h(t).unwrap();
+        for eq in [
+            equilibrate_tp(&b, &pool, t, 1.0).unwrap(),
+            equilibrate_hp(&b, &pool, h, 1.0).unwrap(),
+        ] {
+            assert!((eq.temperature - t).abs() < 1e-4);
+            assert!((eq.moles_of("CaCO3(cr)") - carbonate_amount).abs() < 1e-7);
+            assert!((eq.moles_of("CaO(cr)") - oxide_amount).abs() < 1e-7);
+            assert!((eq.moles_of("CO2") - co2_amount).abs() < 1e-7);
+            assert!((eq.moles_of("N2") / 0.2 - 1.0).abs() < BALANCE_TOL);
+            assert!((eq.enthalpy - h).abs() < 1e-6 + h.abs() * 1e-8);
+            assert_conserved(&eq, &b, "mixed-gas carbonate coexistence");
+        }
+    }
+
+    #[test]
+    fn mixed_gas_line_certificate_matches_activity_across_pressure_and_inventory_scales() {
+        let carbonate = crate::db().get("CaCO3(cr)").unwrap();
+        let oxide = crate::db().get("CaO(cr)").unwrap();
+        let co2 = crate::db().get("CO2").unwrap();
+        let n2 = crate::db().get("N2").unwrap();
+        for scale in [1e-6, 1.0, 1e6] {
+            for inert in [1e-20, 0.2] {
+                let b = budget(&[
+                    ("Ca", 0.1 * scale),
+                    ("C", 0.2 * scale),
+                    ("O", 0.5 * scale),
+                    ("N", 2.0 * inert * scale),
+                ]);
+                let elements: Vec<_> = b.keys().cloned().collect();
+                for pool in [[carbonate, oxide, co2, n2], [n2, oxide, carbonate, co2]] {
+                    for t in [800.0, 1100.0, 1300.0] {
+                        let equilibrium_pressure = (-(oxide.g(t).unwrap() + co2.g(t).unwrap()
+                            - carbonate.g(t).unwrap())
+                            / (R * t))
+                            .exp();
+                        for pressure in [0.1_f64, 1.0, 10.0] {
+                            // Independent mass action pCO2=Kp. Its inventory
+                            // must also fit the carbonate/oxide endpoints.
+                            let desired = if equilibrium_pressure < pressure {
+                                inert * scale * equilibrium_pressure
+                                    / (pressure - equilibrium_pressure)
+                            } else {
+                                f64::INFINITY
+                            };
+                            let gas_carbon = desired.max(0.1 * scale).min(0.2 * scale);
+                            let lime = gas_carbon - 0.1 * scale;
+                            let chalk = 0.1 * scale - lime;
+                            let mu: Vec<_> =
+                                pool.iter().map(|s| s.g(t).unwrap() / (R * t)).collect();
+                            let eq =
+                                certified_mixed_gas_line(&pool, &mu, &elements, &b, t, pressure)
+                                    .unwrap();
+                            assert!((eq.moles_of("CO2") - gas_carbon).abs() <= 1e-8 * scale);
+                            assert!((eq.moles_of("CaO(cr)") - lime).abs() <= 1e-8 * scale);
+                            assert!((eq.moles_of("CaCO3(cr)") - chalk).abs() <= 1e-8 * scale);
+                            assert!(
+                                (eq.moles_of("N2") / (inert * scale) - 1.0).abs() < BALANCE_TOL
+                            );
+                            let h = chalk * carbonate.h(t).unwrap()
+                                + lime * oxide.h(t).unwrap()
+                                + gas_carbon * co2.h(t).unwrap()
+                                + inert * scale * n2.h(t).unwrap();
+                            assert!((eq.enthalpy - h).abs() <= 1e-3 * scale);
+                            assert_conserved(&eq, &b, "certified mixed-gas activity");
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn mixed_gas_line_certificate_declines_outside_its_proven_domain() {
+        let carbonate = crate::db().get("CaCO3(cr)").unwrap();
+        let oxide = crate::db().get("CaO(cr)").unwrap();
+        let co2 = crate::db().get("CO2").unwrap();
+        let n2 = crate::db().get("N2").unwrap();
+        let pool = [carbonate, oxide, co2, n2];
+        let b = budget(&[("Ca", 0.1), ("C", 0.2), ("O", 0.5), ("N", 0.4)]);
+        let elements: Vec<_> = b.keys().cloned().collect();
+        let certify = |candidates: &[&Species], budget: &BTreeMap<String, f64>, t, pressure| {
+            let mu: Vec<_> = candidates
+                .iter()
+                .map(|s| s.g(t).unwrap() / (R * t))
+                .collect();
+            certified_mixed_gas_line(candidates, &mu, &elements, budget, t, pressure)
+        };
+        assert!(certify(&pool, &b, 1700.0, 1.0).is_none());
+        assert!(certify(
+            &[carbonate, oxide, co2, n2, crate::db().get("O2").unwrap()],
+            &b,
+            1100.0,
+            1.0
+        )
+        .is_none());
+        for pressure in [f64::NAN, f64::INFINITY, 0.0, -1.0] {
+            assert!(certify(&pool, &b, 1100.0, pressure).is_none());
+        }
+        let incompatible = budget(&[("Ca", 0.1), ("C", 0.2), ("O", 0.51), ("N", 0.4)]);
+        assert!(certify(&pool, &incompatible, 1100.0, 1.0).is_none());
+        // At this inventory endpoint CO2 can vanish: that tangent boundary
+        // is outside the strictly positive two-gas slice, not silently
+        // assigned an artificial trace amount.
+        let absent_gas = budget(&[("Ca", 0.1), ("C", 0.1), ("O", 0.3), ("N", 0.4)]);
+        assert!(certify(&pool, &absent_gas, 1100.0, 1.0).is_none());
+        let overflowing_h = budget(&[("Ca", 1e305), ("C", 2e305), ("O", 5e305), ("N", 4e305)]);
+        assert!(certify(&pool, &overflowing_h, 1100.0, 1.0).is_none());
     }
 
     #[test]

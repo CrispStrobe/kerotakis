@@ -237,6 +237,33 @@ fn invalid_geometry_and_courant_numbers_are_rejected_before_mutation() {
 }
 
 #[test]
+fn cell_chain_refuses_duplicate_physical_cell_identities() {
+    assert!(matches!(
+        CellChain::new(vec![
+            cell(0, 1.0, Kelvin::STANDARD.0),
+            cell(0, 1.0, Kelvin::STANDARD.0)
+        ]),
+        Err(TransportError::DuplicateCell {
+            vessel: VesselId(0)
+        })
+    ));
+    let mut chain = CellChain::new(vec![
+        cell(0, 1.0, Kelvin::STANDARD.0),
+        cell(1, 0.0, Kelvin::STANDARD.0),
+    ])
+    .unwrap();
+    chain.cells_mut()[1].id = VesselId(0);
+    let before = serde_json::to_value(chain.cells()).unwrap();
+    assert!(matches!(
+        chain.advance(&cell(99, 0.0, Kelvin::STANDARD.0), 1.0),
+        Err(TransportError::DuplicateCell {
+            vessel: VesselId(0)
+        })
+    ));
+    assert_eq!(serde_json::to_value(chain.cells()).unwrap(), before);
+}
+
+#[test]
 fn surface_released_water_does_not_change_hydraulic_cell_geometry() {
     let reference = cell(0, 0.0, Kelvin::STANDARD.0);
     let mut with_release = cell(1, 0.0, Kelvin::STANDARD.0);

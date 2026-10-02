@@ -228,3 +228,203 @@ fn receiver_collects_effluent() {
     let receiver_water = bench.vessel(VesselId(4)).unwrap().moles_of(&water).0;
     assert!(receiver_water > 0.0, "receiver must collect water effluent");
 }
+
+#[test]
+fn duplicate_chain_refusal_is_atomic_and_distinct_cells_conserve_stock() {
+    let salt = SpeciesId::new("NaCl");
+    let mut bench = setup_column();
+    bench.vessels[3].withdraw(&salt, Moles(0.1));
+    bench.vessels[0].deposit(salt.clone(), Moles(1.0), Phase::Aqueous);
+    let before = serde_json::to_value(&bench).unwrap();
+    let error = bench
+        .step(Operator::Transport {
+            chain: vec![VesselId(0), VesselId(0)],
+            inlet: VesselId(3),
+            receiver: VesselId(4),
+            steps: 1,
+            courant: 1.0,
+        })
+        .unwrap_err();
+    assert!(matches!(
+        error,
+        kerotakis_core::BenchError::Transport(kerotakis_core::TransportError::DuplicateCell {
+            vessel: VesselId(0)
+        })
+    ));
+    assert_eq!(serde_json::to_value(&bench).unwrap(), before);
+
+    bench
+        .step(Operator::Transport {
+            chain: vec![VesselId(0), VesselId(1)],
+            inlet: VesselId(3),
+            receiver: VesselId(4),
+            steps: 1,
+            courant: 1.0,
+        })
+        .unwrap();
+    assert_eq!(bench.vessels[0].moles_of(&salt).0, 0.0);
+    assert_eq!(bench.vessels[1].moles_of(&salt).0, 1.0);
+    assert_eq!(bench.vessels[4].moles_of(&salt).0, 0.0);
+}
+
+#[test]
+fn receiver_collects_signed_analytical_charge_over_multiple_transport_steps() {
+    for charge in [-0.125, 0.125] {
+        for courant in [0.0, 0.5, 1.0] {
+            let mut bench = setup_column();
+            bench.vessels[0].solute_charge = charge;
+            bench.vessels[3].solute_charge = 0.0;
+            bench.vessels[4].solute_charge = 0.5;
+            bench
+                .step(Operator::Transport {
+                    chain: vec![VesselId(0)],
+                    inlet: VesselId(3),
+                    receiver: VesselId(4),
+                    steps: 2,
+                    courant,
+                })
+                .unwrap();
+            let retained = charge * (1.0 - courant) * (1.0 - courant);
+            let discharged = charge - retained;
+            assert_eq!(bench.vessels[0].solute_charge, retained);
+            assert_eq!(bench.vessels[4].solute_charge, 0.5 + discharged);
+            assert_eq!(
+                bench.vessels[0].solute_charge + bench.vessels[4].solute_charge,
+                0.5 + charge
+            );
+        }
+    }
+}
+
+#[test]
+fn receiver_aliasing_a_chain_cell_preserves_returned_charge() {
+    let mut bench = setup_column();
+    bench.vessels[0].solute_charge = -0.125;
+    bench.vessels[3].solute_charge = 0.0;
+    bench
+        .step(Operator::Transport {
+            chain: vec![VesselId(0)],
+            inlet: VesselId(3),
+            receiver: VesselId(0),
+            steps: 2,
+            courant: 0.5,
+        })
+        .unwrap();
+    assert_eq!(bench.vessels[0].solute_charge, -0.125);
+}
+
+#[test]
+fn receiver_uses_actual_hot_effluent_temperature_and_preserves_aqueous_phase() {
+    let mut bench = setup_column();
+    let salt = SpeciesId::new("NaCl");
+    bench.vessels[0].temperature = kerotakis_core::Kelvin(350.0);
+    bench.vessels[0].deposit(salt.clone(), Moles(0.125), Phase::Aqueous);
+    bench.vessels[0].solute_charge = -0.125;
+    bench.vessels[3].temperature = kerotakis_core::Kelvin(298.15);
+    bench
+        .step(Operator::Transport {
+            chain: vec![VesselId(0)],
+            inlet: VesselId(3),
+            receiver: VesselId(4),
+            steps: 1,
+            courant: 1.0,
+        })
+        .unwrap();
+    let receiver = &bench.vessels[4];
+    assert!((receiver.temperature.0 - 350.0).abs() < 1e-6);
+    let salt_portions: Vec<_> = receiver
+        .contents
+        .iter()
+        .filter(|p| p.species == salt)
+        .collect();
+    assert_eq!(salt_portions.len(), 1);
+    assert_eq!(salt_portions[0].phase, Phase::Aqueous);
+    assert_eq!(salt_portions[0].moles.0, 0.125);
+    assert_eq!(receiver.solute_charge, -0.125);
+}
+
+#[test]
+fn distinct_outlet_temperatures_straddling_receiver_close_the_energy_ledger() {
+    let mut bench = setup_column();
+    // Courant one sends the cold last cell first, then the hot first cell.
+    // Both differ from the inlet; they also straddle the held receiver.
+    bench.vessels[0].temperature = kerotakis_core::Kelvin(350.0);
+    bench.vessels[1].temperature = kerotakis_core::Kelvin(280.0);
+    bench.vessels[3].temperature = kerotakis_core::Kelvin(298.15);
+    let water = SpeciesId::new("water");
+    bench.vessels[4].deposit(water.clone(), Moles(5.5509), Phase::Liquid);
+    bench.vessels[4].temperature = kerotakis_core::Kelvin(310.0);
+    let reference = kerotakis_core::Kelvin::STANDARD.0;
+    let expected_energy: f64 = [0, 1, 4]
+        .iter()
+        .map(|i| bench.vessels[*i].energy_between(reference, bench.vessels[*i].temperature.0))
+        .sum();
+    bench
+        .step(Operator::Transport {
+            chain: vec![VesselId(0), VesselId(1)],
+            inlet: VesselId(3),
+            receiver: VesselId(4),
+            steps: 2,
+            courant: 1.0,
+        })
+        .unwrap();
+    let receiver = &bench.vessels[4];
+    assert!((receiver.moles_of(&water).0 - 3.0 * 5.5509).abs() < 1e-12);
+    assert!(
+        receiver.temperature.0 > 313.0 && receiver.temperature.0 < 315.0,
+        "equal water parcels at 280/310/350 K should mix near 313.3 K, got {}",
+        receiver.temperature.0
+    );
+    let actual_energy = receiver.energy_between(reference, receiver.temperature.0);
+    assert!(
+        (actual_energy - expected_energy).abs() < 1e-5,
+        "receiver energy {} J versus the independently snapshotted held and outgoing stocks {} J",
+        actual_energy,
+        expected_energy
+    );
+    assert!(receiver.contents.iter().all(|p| p.phase == Phase::Liquid));
+}
+
+#[test]
+fn a_thousand_outlets_preserve_mass_and_energy_with_bounded_aggregate() {
+    let mut bench = setup_column();
+    let salt = SpeciesId::new("NaCl");
+    bench.vessels[3].withdraw(&salt, Moles(0.1));
+    bench.vessels[0].temperature = kerotakis_core::Kelvin(350.0);
+    bench.vessels[3].temperature = kerotakis_core::Kelvin(280.0);
+    let water = SpeciesId::new("water");
+    bench.vessels[4].deposit(water.clone(), Moles(5.5509), Phase::Liquid);
+    bench.vessels[4].temperature = kerotakis_core::Kelvin(310.0);
+    let reference = kerotakis_core::Kelvin::STANDARD.0;
+    let sensible = |index: usize| {
+        bench.vessels[index].energy_between(reference, bench.vessels[index].temperature.0)
+    };
+    // First outlet is the original hot cell; the next 999 are cold inlet.
+    let expected_energy = sensible(0) + sensible(4) + 999.0 * sensible(3);
+    let expected_moles = 1001.0 * 5.5509;
+    bench
+        .step(Operator::Transport {
+            chain: vec![VesselId(0)],
+            inlet: VesselId(3),
+            receiver: VesselId(4),
+            steps: 1000,
+            courant: 1.0,
+        })
+        .unwrap();
+    let receiver = &bench.vessels[4];
+    let amount_tolerance = 16.0 * f64::EPSILON * expected_moles;
+    assert!((receiver.moles_of(&water).0 - expected_moles).abs() <= amount_tolerance);
+    assert_eq!(bench.vessels[0].moles_of(&water).0, 5.5509);
+    // The water fit differences antiderivative terms of about 1.2e9 J/mol.
+    // Scale tolerance to that conditioning and the actual transported stock,
+    // rather than to step count alone or a fixed macroscopic energy credit.
+    let energy_tolerance = 16.0 * f64::EPSILON * 1.2e9 * expected_moles;
+    let actual_energy = receiver.energy_between(reference, receiver.temperature.0);
+    assert!(
+        (actual_energy - expected_energy).abs() <= energy_tolerance,
+        "energy residual {} J exceeds conditioned roundoff {} J",
+        actual_energy - expected_energy,
+        energy_tolerance
+    );
+    assert!(receiver.temperature.0 > 280.0 && receiver.temperature.0 < 281.0);
+}

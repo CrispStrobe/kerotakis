@@ -5479,7 +5479,13 @@ impl Bench {
                 if *steps == 0 {
                     return Err(BenchError::NonPositiveAmount);
                 }
-                for cid in chain.iter() {
+                for (index, cid) in chain.iter().enumerate() {
+                    if chain[..index].contains(cid) {
+                        return Err(crate::transport::TransportError::DuplicateCell {
+                            vessel: *cid,
+                        }
+                        .into());
+                    }
                     self.vessel(*cid)?;
                 }
                 self.vessel(*inlet)?;
@@ -5491,21 +5497,103 @@ impl Bench {
                     .collect::<Result<_, _>>()?;
                 let mut cell_chain = crate::transport::CellChain::new(chain_vessels)?;
 
-                let mut total_effluent: Vec<(SpeciesId, Moles)> = Vec::new();
+                let invalid_aggregate = || {
+                    BenchError::Transport(crate::transport::TransportError::InvalidMobileState {
+                        location: "transport effluent aggregate".into(),
+                    })
+                };
+                // Keep one amount per species/phase, not one parcel per step.
+                let mut amounts: Vec<(SpeciesId, Phase, TransportSum)> = Vec::new();
+                let mut charge = TransportSum::default();
+                let mut incoming_energy = TransportSum::default();
+                let reference = Kelvin::STANDARD.0;
+                let mut outlet_bounds: Option<(f64, f64)> = None;
                 for _ in 0..*steps {
                     let step = cell_chain.advance(&inlet_vessel, *courant)?;
+                    if !charge.add(step.effluent.solute_charge) {
+                        return Err(invalid_aggregate());
+                    }
                     for portion in &step.effluent.contents {
-                        if let Some(entry) = total_effluent
-                            .iter_mut()
-                            .find(|(s, _)| *s == portion.species)
+                        let index = amounts
+                            .iter()
+                            .position(|(species, phase, _)| {
+                                *species == portion.species && *phase == portion.phase
+                            })
+                            .unwrap_or_else(|| {
+                                amounts.push((
+                                    portion.species.clone(),
+                                    portion.phase,
+                                    TransportSum::default(),
+                                ));
+                                amounts.len() - 1
+                            });
+                        if !amounts[index].2.add(portion.moles.0)
+                            || !incoming_energy.add(portions_enthalpy(
+                                [(&portion.species, portion.moles.0, portion.phase)],
+                                reference,
+                                step.effluent.temperature.0,
+                            ))
                         {
-                            entry.1 = Moles(entry.1 .0 + portion.moles.0);
-                        } else {
-                            total_effluent.push((portion.species.clone(), portion.moles));
+                            return Err(invalid_aggregate());
                         }
                     }
+                    if !step.effluent.contents.is_empty() {
+                        let t = step.effluent.temperature.0;
+                        outlet_bounds = Some(outlet_bounds.map_or((t, t), |(lo, hi)| (lo.min(t), hi.max(t))));
+                    }
                 }
-
+                let mut effluent = Vec::with_capacity(amounts.len());
+                let mut total_effluent: Vec<(SpeciesId, Moles)> = Vec::new();
+                for (species, phase, amount) in amounts {
+                    let moles = amount.value();
+                    if !moles.is_finite() {
+                        return Err(invalid_aggregate());
+                    }
+                    if let Some(entry) = total_effluent.iter_mut().find(|(s, _)| *s == species) {
+                        entry.1 .0 += moles;
+                        if !entry.1 .0.is_finite() {
+                            return Err(invalid_aggregate());
+                        }
+                    } else {
+                        total_effluent.push((species.clone(), Moles(moles)));
+                    }
+                    effluent.push((species, Moles(moles), phase));
+                }
+                let incoming_energy = incoming_energy.value();
+                let total_effluent_charge = charge.value();
+                if !incoming_energy.is_finite() || !total_effluent_charge.is_finite() {
+                    return Err(invalid_aggregate());
+                }
+                // A receiver may alias a chain cell; mix into its final
+                // transport state, while validating before any writeback.
+                let receiver_state = if let Some(index) = chain.iter().position(|id| id == receiver) {
+                    &cell_chain.cells()[index]
+                } else {
+                    self.vessel(*receiver)?
+                };
+                if !(receiver_state.solute_charge + total_effluent_charge).is_finite() {
+                    return Err(invalid_aggregate());
+                }
+                let held = receiver_state.temperature.0;
+                let mut receiver_temperature = receiver_state.temperature;
+                if matches!(receiver_state.thermal_mode, ThermalMode::Adiabatic) {
+                    if let Some((lo, hi)) = outlet_bounds {
+                        let energy = |t| {
+                            receiver_state.energy_between(held, t)
+                                + portions_enthalpy(
+                                    effluent.iter().map(|(s, n, phase)| (s, n.0, *phase)),
+                                    reference,
+                                    t,
+                                )
+                                - incoming_energy
+                        };
+                        let (lo, hi) = (lo.min(held), hi.max(held));
+                        if !energy(lo).is_finite() || !energy(hi).is_finite() {
+                            return Err(invalid_aggregate());
+                        }
+                        receiver_temperature = crate::solve::adiabatic_rest_temperature(lo, hi, energy);
+                    }
+                }
                 for (i, cid) in chain.iter().enumerate() {
                     let updated = &cell_chain.cells()[i];
                     let v = self.vessel_mut(*cid)?;
@@ -5514,34 +5602,19 @@ impl Bench {
                     v.solute_charge = updated.solute_charge;
                     v.solution = None;
                 }
-
-                let t_eff = inlet_vessel.temperature;
                 let dst = self.vessel_mut(*receiver)?;
-                if matches!(dst.thermal_mode, ThermalMode::Adiabatic) && !total_effluent.is_empty()
-                {
-                    let t_new = adiabatic_mix_into(dst, t_eff, |t| {
-                        portions_enthalpy(
-                            total_effluent.iter().map(|(s, n)| (s, n.0, Phase::Liquid)),
-                            t_eff.0,
-                            t,
-                        )
+                if (receiver_temperature.0 - dst.temperature.0).abs() > 1e-9 {
+                    events.push(Event::TemperatureChanged {
+                        vessel: *receiver,
+                        from: dst.temperature,
+                        to: receiver_temperature,
                     });
-                    if (t_new.0 - dst.temperature.0).abs() > 1e-9 {
-                        events.push(Event::TemperatureChanged {
-                            vessel: *receiver,
-                            from: dst.temperature,
-                            to: t_new,
-                        });
-                    }
-                    dst.temperature = t_new;
                 }
-                for (spec, moles) in &total_effluent {
-                    let phase = species::lookup(spec)
-                        .map(|d| d.standard_phase)
-                        .unwrap_or(Phase::Aqueous);
-                    dst.deposit(spec.clone(), *moles, phase);
+                dst.temperature = receiver_temperature;
+                for (species, moles, phase) in effluent {
+                    dst.deposit(species, moles, phase);
                 }
-
+                dst.solute_charge += total_effluent_charge;
                 events.push(Event::Transported {
                     chain: chain.clone(),
                     receiver: *receiver,
@@ -5934,8 +6007,9 @@ fn advance_prepared_objects(vessel: &mut Vessel, seconds: f64, events: &mut Vec<
     let external_water = vessel
         .contents
         .iter()
-        .find(|p| p.species.0 == "water")
-        .map_or(0.0, |p| p.moles.0);
+        .filter(|p| p.species.0 == "water" && p.phase == Phase::Liquid)
+        .map(|p| p.moles.0)
+        .sum::<f64>();
     let ascorbate = vessel
         .contents
         .iter()
@@ -6024,7 +6098,7 @@ fn advance_prepared_objects(vessel: &mut Vessel, seconds: f64, events: &mut Vec<
         }
     }
     if water_delta > 0.0 {
-        vessel.withdraw(&SpeciesId::new("water"), Moles(water_delta));
+        vessel.withdraw_phase(&SpeciesId::new("water"), Moles(water_delta), Phase::Liquid);
     } else if water_delta < 0.0 {
         vessel.deposit(SpeciesId::new("water"), Moles(-water_delta), Phase::Liquid);
     }
@@ -6741,6 +6815,63 @@ pub(crate) fn hexane_groups() -> kerotakis_thermo::unifac::GroupDecomposition {
 }
 
 #[cfg(test)]
+mod prepared_object_inventory_tests {
+    use super::*;
+
+    #[test]
+    fn osmosis_draws_from_all_liquid_portions_and_leaves_ice_and_gas_owned() {
+        for (ice, gas, liquid_portion) in [(0.1, 0.02, 0.01), (0.0, 0.0, 0.01), (0.1, 0.02, 0.0)] {
+            let mut vessel = Vessel::new(VesselId(0), "osmosis inventory");
+            let water = SpeciesId::new("water");
+            if ice > 0.0 {
+                vessel.deposit(water.clone(), Moles(ice), Phase::Solid);
+            }
+            if gas > 0.0 {
+                vessel.deposit(water.clone(), Moles(gas), Phase::Gas);
+            }
+            if liquid_portion > 0.0 {
+                vessel.deposit(water.clone(), Moles(liquid_portion), Phase::Liquid);
+                vessel
+                    .contents
+                    .push(vessel.contents.last().unwrap().clone());
+            }
+            vessel.material_objects.push(MaterialObject {
+                material: "naked_egg".into(),
+                recipe_id: "test/naked-egg".into(),
+                recipe_version: 1,
+                mass_g: 50.0,
+                components: vec![ObjectComponent {
+                    species: water.clone(),
+                    moles: Moles(1.0),
+                }],
+                state: MaterialObjectState::default(),
+            });
+            let before_mass = vessel.mass().0;
+            let mut events = Vec::new();
+            advance_prepared_objects(&mut vessel, 86_400.0, &mut events);
+            let amount = |phase| {
+                vessel
+                    .contents
+                    .iter()
+                    .filter(|p| p.species == water && p.phase == phase)
+                    .map(|p| p.moles.0)
+                    .sum::<f64>()
+            };
+            assert_eq!(amount(Phase::Solid), ice);
+            assert_eq!(amount(Phase::Gas), gas);
+            assert_eq!(amount(Phase::Liquid), 0.0);
+            let taken = 2.0 * liquid_portion;
+            assert!((vessel.material_objects[0].components[0].moles.0 - 1.0 - taken).abs() < 1e-15);
+            assert_eq!(
+                vessel.material_objects[0].state.exchanged_water_moles,
+                taken
+            );
+            assert!((vessel.mass().0 - before_mass).abs() < 1e-12);
+        }
+    }
+}
+
+#[cfg(test)]
 mod react_diagnostic_tests {
     use super::*;
 
@@ -6814,5 +6945,33 @@ mod react_diagnostic_tests {
             );
             assert!(events.is_empty());
         }
+    }
+}
+
+
+/// Compensated bounded-memory sums for transported inventory and enthalpy.
+#[derive(Default)]
+struct TransportSum {
+    sum: f64,
+    correction: f64,
+}
+
+impl TransportSum {
+    fn add(&mut self, value: f64) -> bool {
+        let next = self.sum + value;
+        if !value.is_finite() || !next.is_finite() {
+            return false;
+        }
+        self.correction += if self.sum.abs() >= value.abs() {
+            (self.sum - next) + value
+        } else {
+            (value - next) + self.sum
+        };
+        self.sum = next;
+        self.correction.is_finite()
+    }
+
+    fn value(&self) -> f64 {
+        self.sum + self.correction
     }
 }

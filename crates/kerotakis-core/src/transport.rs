@@ -17,7 +17,7 @@ use crate::ops::Event;
 use crate::solve::{adiabatic_mix_into, Equilibrator, SolveError};
 use crate::species::{self, Phase, SpeciesId};
 use crate::units::{Joules, Kelvin, Liters, Moles};
-use crate::vessel::{Portion, ThermalMode, Vessel};
+use crate::vessel::{Portion, ThermalMode, Vessel, VesselId};
 
 // `Vessel::liquid_volume` is an additive solvent-volume proxy and deliberately
 // excludes solute volume. Aqueous/exchange bookkeeping can therefore move it
@@ -31,6 +31,8 @@ const VOLUME_ABSOLUTE_TOLERANCE_L: f64 = 1e-12;
 pub enum TransportError {
     #[error("a 1-D cell chain needs at least one cell")]
     EmptyChain,
+    #[error("transport cell {vessel} appears more than once in the chain")]
+    DuplicateCell { vessel: VesselId },
     #[error("Courant fraction must be finite and between 0 and 1, got {fraction}")]
     InvalidCourant { fraction: f64 },
     #[error("transport cell {cell} has no finite positive liquid volume (got {volume_l} L)")]
@@ -382,6 +384,11 @@ impl CellChain {
         let Some(first) = self.cells.first() else {
             return Err(TransportError::EmptyChain);
         };
+        for (index, cell) in self.cells.iter().enumerate() {
+            if self.cells[..index].iter().any(|prior| prior.id == cell.id) {
+                return Err(TransportError::DuplicateCell { vessel: cell.id });
+            }
+        }
         if !matches!(first.thermal_mode, ThermalMode::Adiabatic) {
             return Err(TransportError::ThermostattedCell { cell: 0 });
         }
