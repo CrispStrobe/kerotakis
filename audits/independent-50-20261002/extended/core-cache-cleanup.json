@@ -1,0 +1,50 @@
+{
+  "reason": "completed605unit and26transaction plus earlierselectedintegration checks; no active build; ignored executable caches only",
+  "records": [
+    {
+      "path": "target/debug/deps/kerotakis_core-624bd6a3b62afb00",
+      "bytes": 70685320,
+      "sha256": "3d9d548d4c0d8331c5ed7dcadf35c8847755489f1b5450bfe912339fbe7ed843"
+    },
+    {
+      "path": "target/debug/deps/solver_transactions-ef828ddc01121768",
+      "bytes": 53684920,
+      "sha256": "83e1e0802ec555912d2a520d7a13c3e18fca32d396ad59de6fa6d4aed4e31f72"
+    },
+    {
+      "path": "target/debug/deps/olive_oil-4f5c392e9a20f277",
+      "bytes": 62673600,
+      "sha256": "621d0aaef7864dec42e2f248c661325c0bbf9bca26d0f472280218302dbef6b7"
+    },
+    {
+      "path": "target/debug/deps/discard_verb-10e996721ba7390c",
+      "bytes": 61288776,
+      "sha256": "1c90beb9dac49b9301bc09dc539ae75fc224efd8d776c7b152617dc5bac37575"
+    },
+    {
+      "path": "target/debug/deps/i18n_coverage-65dcf9d884ff7564",
+      "bytes": 48082152,
+      "sha256": "e4c06fe61e24f12349fa0ddc1ef4da704431e4b850b422a694a3016a97ed2a99"
+    },
+    {
+      "path": "target/debug/deps/phase_routes-0d76d286976bd424",
+      "bytes": 49636984,
+      "sha256": "65bed7e2f80dc8a6fddc23e72138c58a391b1b076f77d45a0eceebc775448026"
+    },
+    {
+      "path": "target/debug/deps/refusal_locale-95203cae842a2751",
+      "bytes": 36897888,
+      "sha256": "617096f6e1ba86e396f6f7e50690b470ee0c67c18d009e88deaa1a7231e839cf"
+    },
+    {
+      "path": "target/debug/deps/render_locale-0295ea22c6105a82",
+      "bytes": 41047272,
+      "sha256": "8025515e87eddac852db0180cb5e78d328b9dd59cc16a85081a591facdf1d3b7"
+    },
+    {
+      "path": "target/debug/deps/routing_locale-95b614d208185167",
+      "bytes": 40569400,
+      "sha256": "af1d7b50bd48d7ecbcd5e824d367e9cd5a298c15934a04471efee500fcc0d4d8"
+    }
+  ]
+}

@@ -1,0 +1,336 @@
+{
+  "source_commit": "17ba241b707efd78cd10f7daffd897e7684e891b",
+  "completed_utc": "2026-10-02T11:59:42Z",
+  "binary_sha256": "79a2e477992a9cfbea578d29837761f9df12dc26d4fd74c728dbcc6f74146069",
+  "predictions_sha256": "0fd6e4831f5da264c892a5718b8619ae267388df0512fe54dab04fff30287064",
+  "source_file_sha256": {
+    "NOTICE": "923625fefe258d05aae029a899f9aca556ffab2a7918aa3e49c3afacd380cada",
+    "crates/kerotakis-cea/src/carbonate.rs": "5a1d7a1ca5213832b37dfb1f9beb170e9a8328ad0fd499dfab79a12ad716de6d",
+    "crates/kerotakis-cea/src/closed.rs": "8c7127d160c0e5808e5505df48ed316fa4782cd12b5d8d16f6a909b8fc6c7b26",
+    "crates/kerotakis-cea/src/gibbs.rs": "25df5bc599f87a57f8741f62f936dbc5ac94dbdfd88c896ff53424bf193ed7b0",
+    "crates/kerotakis-cea/src/lib.rs": "e220b164886cfefee11add845426e2dc3c92affc4958dab9462f626142e3c805",
+    "crates/kerotakis-cea/src/thermal.rs": "0776b7cc898914604e447ca18d237dec36924eafa6237495e0750e9783aed304",
+    "crates/kerotakis-cea/tests/autoignition.rs": "7e74e5c7fd88315e5b1609841524f9688eeff29d96ac32ef1012a641abd25102",
+    "crates/kerotakis-cea/tests/bench_thermal.rs": "ab9bff1e7833e05b1ad83d3215e3ae95d738c2e16f117aa97ab8cc2e4dcb2556",
+    "crates/kerotakis-cea/tests/closed_gas.rs": "636f473ad26a9f12c7cf2c4839a74999b37926600ea079a2780eb01f898b26be",
+    "crates/kerotakis-cea/tests/finite_boundaries.rs": "abdb5d265608b1fbb01e84b53c3c12db1a045821dad80e1ecc88e42f7615ea12",
+    "crates/kerotakis-cea/tests/heat_budget.rs": "592cc85f7a46f01e8ed793e9a4522c8ec1a3c65927ddd574920adf6749ec6bd2",
+    "crates/kerotakis-cea/tests/heat_source_ceiling.rs": "955fb74d47d1a1b8627146877018ba3470037039421425fc882f47cd9ece520a",
+    "crates/kerotakis-cea/tests/open_boundary_ledger.rs": "4f646bd60bd9badd9f39e5505c5bf5f11dc5f5ff87145da3533973cc2b51fce1",
+    "crates/kerotakis-cea/tests/vented_products.rs": "6e3ece977732cb9d90445a8d11d3f5b8cce8ad4f8728f6a273131a7d7fec411a",
+    "crates/kerotakis-cli/src/provenance.rs": "cb4008afcfe370ed8fe2c9dda93a452b604f7422ec9d7f07da1ac0e66399eab9",
+    "crates/kerotakis-cli/tests/provenance.rs": "9b1ccdeb9aef60fa69bab62a3ba2ee7dcd14e702328890951699cb4e55a76342",
+    "crates/kerotakis-cli/tests/thermal_contracts.rs": "4fb1c0b7b839a7daa7725684d053bb1f9f1c01189dcf96106473b5b9dbcc8d46",
+    "crates/kerotakis-core/i18n/de.toml": "59723f62afe5100307434d02e33015ef8e922f615432650667ffe290f7b78785",
+    "crates/kerotakis-core/i18n/fr.toml": "5d76e15c337f7aaf93efc70453559812068be85ece4c54dc7bcf59689a590729",
+    "crates/kerotakis-core/src/bench.rs": "5ab0a392731c959072e85e8f4363ce090ec484cbdb5760e748120a20fd5e00b4",
+    "crates/kerotakis-core/src/delta.rs": "e764f26a7b1e9e9e90c396a16f4f1aaf1223de16a81ea1b352f24dce1b4f28ba",
+    "crates/kerotakis-core/src/ledger.rs": "7d6dc3c2d62f1ac33eeaa54027f52504199f00fd488a573d36f87675419c5bd9",
+    "crates/kerotakis-core/src/render.rs": "64a372cc5006e30e42b55d670caa99763a54121ee418794e7f7988594c8ee62c",
+    "crates/kerotakis-core/src/solve.rs": "d9dbcfa5c194fbd1c08a23f817abdbd0e73e42c1318c29b1adfb12f8419d2082",
+    "crates/kerotakis-core/src/vessel.rs": "15c0581c25ca9e19eb75a718226e1ac2e4173a8ff508c96ddd9562d8f3a59360",
+    "crates/kerotakis-core/tests/olive_oil.rs": "17f9d88c8755d5a8379827cfc95b3cc9aa8e229ffd841f1afae12b88e5fbaf48",
+    "crates/kerotakis-core/tests/solver_transactions.rs": "730965920a004298ce76fe171743a7eedb8da6f678c6bbb2bda5d7c81cdedeb6",
+    "crates/kerotakis-data/tests/olive_oil_promotion.rs": "6a8433c3c61843256817abe1738a01776bb2f8a5bd24972200c2cf7ecf223315",
+    "crates/kerotakis-registry-export/src/lib.rs": "511ed8a1ffb422221db144e2dff297a619663879b785d76fcfba5241b5af5a18",
+    "crates/kerotakis-registry-export/tests/legacy_diff.rs": "39c3d4c438e3f1a1b5d8e5cb5737d054d039f13c6ca02dc09873876d8750ad60",
+    "crates/kerotakis-registry-export/tests/reviewed_olive_oil.rs": "54263a3e163663232e79b0c38e2a7dba32e78ac7039fbbac87da5c39a10a704e",
+    "data/registry/registry-source-v1.json": "4118ed6ff57e3f0f61bb7373a16de7ed85101c9e943664a26a854ee0e29929ef",
+    "provenance/odeh-2015-olive-oil-manifest.json": "4b531afd6c2c8b299ec25ec59e1d28307c4276750454d972fb6aec8ea279e9e6",
+    "provenance/odeh-2015-olive-oil-review.md": "e45e3ad90478a155f5cd4881d47ef1d16b2d11035adcdc4edd860318da5bc87f",
+    "provenance/odeh-2015-olive-oil-transcription.json": "438a660ef46a0a21a14b1b418b27d7443dbd906db3402ceceb82280b0c949d77",
+    "provenance/sources.toml": "3971feb26c0a1b3f0481db01f899856e6af22a50cfcedaa5533622f4eda80ae6",
+    "tools/provenance-lint.sh": "e4ed7a4ebaafc276b264b63e8fcb2dd4d3652e59be8fea0290d2dced11ca7fee",
+    "web/app/public/legal/third-party-licenses.html": "c7c632886909e7f4514cf0f75f6827b1e9ee82068417b2e2bdfe6811c948d5e6",
+    "web/app/src/App.svelte": "45650b5e2c60bbe55f9d649d564ab6f3279e34ac9c670654b2136eb2f792a22d",
+    "web/app/src/lib/components/PeriodicTable.svelte": "851d98d1c5182953b39a5fd94763c6b5bb0a5b7d11dbb91d6f8b05d4478377a9",
+    "web/app/src/lib/effectVisibility.test.ts": "773efd7429a48dac62a0761f3cce695cfa72b42872662d8697db748f97fb47e0",
+    "web/app/src/lib/generated/notice.json": "0ca434bf61f7fbc340e858ee6722b4f4dd0381971bd127545e6e0a8a8aa373ab",
+    "web/app/src/locales/_template.json": "7c69beed97b26749b4652b4dceefc70315927fdd0f81b2a26afe5cad1268fd2b",
+    "web/app/src/locales/de.json": "bc612f7543111153a44f5cd2958c80ee746ca34715044aa27e889d573c5d22d7",
+    "web/app/src/locales/fr.json": "e5f9d73a1d682d121964d350b470686b947164448ab7a38d594377daba8098ee"
+  },
+  "rust": {
+    "distinct_selected_passed": 913,
+    "core": 728,
+    "cea": 99,
+    "cli": 77,
+    "data_and_export": 9,
+    "suites": [
+      {
+        "suite": "core units",
+        "log": "/mnt/storage/kerotakis-maintenance-20261002/extended-core-capacity-final.log",
+        "result_indexes": [
+          0
+        ],
+        "passed": 605
+      },
+      {
+        "suite": "core transactions",
+        "log": "/mnt/storage/kerotakis-maintenance-20261002/extended-core-transactions-final.log",
+        "result_indexes": [
+          0
+        ],
+        "passed": 26
+      },
+      {
+        "suite": "core honesty",
+        "log": "/mnt/storage/kerotakis-maintenance-20261002/extended-core-honesty-final.log",
+        "result_indexes": [
+          0
+        ],
+        "passed": 4
+      },
+      {
+        "suite": "core heat capacity",
+        "log": "/mnt/storage/kerotakis-maintenance-20261002/extended-core-cooling-final.log",
+        "result_indexes": [
+          0
+        ],
+        "passed": 7
+      },
+      {
+        "suite": "core discard and olive",
+        "log": "/mnt/storage/kerotakis-maintenance-20261002/extended-core-complete-unit-final.log",
+        "result_indexes": [
+          1,
+          2
+        ],
+        "passed": 10
+      },
+      {
+        "suite": "core other integration",
+        "log": "/mnt/storage/kerotakis-maintenance-20261002/extended-core-integration-final.log",
+        "result_indexes": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "passed": 76
+      },
+      {
+        "suite": "CLI final contracts",
+        "log": "/mnt/storage/kerotakis-maintenance-20261002/extended-cli-contracts-final.log",
+        "result_indexes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "passed": 62
+      },
+      {
+        "suite": "CLI earlier unchanged locale and language",
+        "log": "/mnt/storage/kerotakis-maintenance-20261002/extended-cli-final.log",
+        "result_indexes": [
+          1,
+          4,
+          7
+        ],
+        "passed": 15
+      },
+      {
+        "suite": "data and primary export",
+        "log": "/mnt/storage/kerotakis-maintenance-20261002/extended-data-promotion.log",
+        "result_indexes": [
+          0,
+          1
+        ],
+        "passed": 2
+      },
+      {
+        "suite": "export regression",
+        "log": "/mnt/storage/kerotakis-maintenance-20261002/extended-export-regression-final.log",
+        "result_indexes": [
+          0,
+          1
+        ],
+        "passed": 7
+      },
+      {
+        "suite": "CEA final whole package",
+        "log": "/mnt/storage/kerotakis-maintenance-20261002/extended-cea-complete-final.log",
+        "result_indexes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "passed": 99
+      }
+    ],
+    "scope": "Selected core/CLI/data/export suites plus complete CEA package; receipts distinguish final reruns and earlier unchanged suites. Superseded failing suites are retained, not counted as passes."
+  },
+  "frontend": {
+    "distinct_tests_passed": 1645,
+    "full_run_passed": 1640,
+    "full_run_failed_then_fixed": 5,
+    "affected_files_rerun_passed": 36,
+    "post_warning_cleanup_existing_tests_passed": 12,
+    "typecheck_errors": 0,
+    "typecheck_warnings": 0,
+    "scope": "Full run plus targeted reruns after fixes; not a second whole-suite run."
+  },
+  "replay": {
+    "original_subprocesses": 100,
+    "original_successes": 96,
+    "explicit_ambiguous_formula_refusals": 4,
+    "sucrose_followup_successes": 4,
+    "physical_cases": 50,
+    "physical_expectations_met": 49,
+    "known_rate_gap_case": "35",
+    "unexpected_mismatches": 0,
+    "solver_failed_events": 0
+  },
+  "assessment_correction": "The initial assessor used op=look rather than the public measure/eyes operator and priced 50 mL water as 50 g. Corrected harness checks the same physical expectation with 0.997 g/mL water and reviewed 0.9161 g/mL oil. Frozen inputs/predictions remain unchanged. The resource runner assessment failure is superseded by the successful final standalone assessment.",
+  "locale": {
+    "german_reachable": 732,
+    "french_reachable": 732,
+    "missing": 0,
+    "orphaned": 0
+  },
+  "log_receipts": [
+    {
+      "path": "/mnt/storage/kerotakis-maintenance-20261002/extended-cea-complete-final.log",
+      "bytes": 10665,
+      "sha256": "9ca332c249ba4607967a9f2bc728b22adedf0ff63619b7a850fae48c470cb35d"
+    },
+    {
+      "path": "/mnt/storage/kerotakis-maintenance-20261002/extended-cli-contracts-final.log",
+      "bytes": 6847,
+      "sha256": "8e1126502cde59f1d3a78ebd4e6ca72a7365924c1f0fbe028f477ad54767e364"
+    },
+    {
+      "path": "/mnt/storage/kerotakis-maintenance-20261002/extended-cli-final.log",
+      "bytes": 16299,
+      "sha256": "1d463c092fa1fe5d96250cd9a78feed0a58d6ca9313e2b1d6d02123e2ace8155"
+    },
+    {
+      "path": "/mnt/storage/kerotakis-maintenance-20261002/extended-core-capacity-final.log",
+      "bytes": 47604,
+      "sha256": "727fc1b937242244c854ab96e243ac11eab4f02704ca228d717c13e754d721ed"
+    },
+    {
+      "path": "/mnt/storage/kerotakis-maintenance-20261002/extended-core-complete-unit-final.log",
+      "bytes": 45904,
+      "sha256": "a5d696a7c23b91ef9569289bd61c0df722c6d1640e9945b76c18fc175ee114a8"
+    },
+    {
+      "path": "/mnt/storage/kerotakis-maintenance-20261002/extended-core-cooling-final.log",
+      "bytes": 2020,
+      "sha256": "83472ba3a7d0d7e643ff755976b8bbc4c76e3cf0494dc859817709652ffeea05"
+    },
+    {
+      "path": "/mnt/storage/kerotakis-maintenance-20261002/extended-core-honesty-final.log",
+      "bytes": 2661,
+      "sha256": "ef23cf0f499782a978e16ba2e15f397d923e9a2e6c1f47c0b25a75e11aebfb1a"
+    },
+    {
+      "path": "/mnt/storage/kerotakis-maintenance-20261002/extended-core-integration-final.log",
+      "bytes": 5804,
+      "sha256": "fa9b3be3c54a826e74eca593b7587907e060c373b5feb75b46e0cd1941e6ddfd"
+    },
+    {
+      "path": "/mnt/storage/kerotakis-maintenance-20261002/extended-core-transactions-final.log",
+      "bytes": 2310,
+      "sha256": "770c2d306a700806c5dae236c20c2ecdbb8ee21e155f162079e778815355d5be"
+    },
+    {
+      "path": "/mnt/storage/kerotakis-maintenance-20261002/extended-data-promotion.log",
+      "bytes": 925,
+      "sha256": "684978d95751388d820396c1bc1039adcd8593d764ee7bc8011924c24c62cbb6"
+    },
+    {
+      "path": "/mnt/storage/kerotakis-maintenance-20261002/extended-engine-locale-lint-final.log",
+      "bytes": 990,
+      "sha256": "0018e1738c08bfe702ebafc69b2895a617e24f4e330f14f215e4731f835b380f"
+    },
+    {
+      "path": "/mnt/storage/kerotakis-maintenance-20261002/extended-export-byte-check.log",
+      "bytes": 1369,
+      "sha256": "bf62f3fa5cece502530a914b24e5df16990d494f21dec65ad67c4c88eff9b13d"
+    },
+    {
+      "path": "/mnt/storage/kerotakis-maintenance-20261002/extended-export-regression-final.log",
+      "bytes": 1148,
+      "sha256": "56ba36664ecf72083751a99fb039f0d0ba80273a756093e06e6900e5d19e789c"
+    },
+    {
+      "path": "/mnt/storage/kerotakis-maintenance-20261002/extended-independent-replay.log",
+      "bytes": 4683,
+      "sha256": "8577bf181ee1db215f8e4a756e475ac01f83b5fc97fa55cbc4fdfa0577c0bdfd"
+    },
+    {
+      "path": "/mnt/storage/kerotakis-maintenance-20261002/extended-physical-assessment-final.log",
+      "bytes": 2886,
+      "sha256": "584f90859090c2ad87a940e26860a1d624f75f7ab50270d457efa90e0085fc20"
+    },
+    {
+      "path": "/mnt/storage/kerotakis-maintenance-20261002/extended-physical-assessment.log",
+      "bytes": 364,
+      "sha256": "67a9795e484f4991f59d442f1de635102bb7d3bc342b4c0387a51045f9978a37"
+    },
+    {
+      "path": "/mnt/storage/kerotakis-maintenance-20261002/extended-provenance-lint.log",
+      "bytes": 3248,
+      "sha256": "6cdc239c8332c7c16b04172b656b64cf414a3acfef92708be1a9112386d1a5e5"
+    },
+    {
+      "path": "/mnt/storage/kerotakis-maintenance-20261002/extended-web-affected-final.log",
+      "bytes": 610,
+      "sha256": "f3cadc6490a665fe6112c1212c6d8056ea0190d795f0595d0aabdc5c7981b708"
+    },
+    {
+      "path": "/mnt/storage/kerotakis-maintenance-20261002/extended-web-initial-state-tests.log",
+      "bytes": 388,
+      "sha256": "8911bb47e73ba92852f7ce2815139a8c75c25e13660e05cbfc2b24ff33cab6f0"
+    },
+    {
+      "path": "/mnt/storage/kerotakis-maintenance-20261002/extended-web-tests.log",
+      "bytes": 1296697,
+      "sha256": "267d978566cdda968dae14b6d592e67aa8b785fac753cf54c8a7ccffa8ad8c43"
+    },
+    {
+      "path": "/mnt/storage/kerotakis-maintenance-20261002/extended-web-warning-check-after.log",
+      "bytes": 140,
+      "sha256": "b8a72e9cc927324f3390facba6c98acea2de3eccc1b7a8d9fab4b8244530d010"
+    }
+  ],
+  "resource_policy": {
+    "cargo_jobs": 1,
+    "test_threads": 1,
+    "replay_workers": 1,
+    "maximum_agents_used": 3,
+    "large_artifact_root": "/mnt/storage/kerotakis-maintenance-20261002",
+    "start_minimum_available_mib": 2700,
+    "start_minimum_swap_free_mib": 600,
+    "start_maximum_load1": 12,
+    "start_minimum_disk_free_mib": 800,
+    "abort_available_mib": 650,
+    "abort_swap_free_mib": 128,
+    "abort_disk_free_mib": 250
+  },
+  "remaining_model_limits": [
+    "Approved zinc/acid hydrogen-overpotential rate model absent.",
+    "Element enforcement remains opt-in pending independent aqueous/interface ledger reconciliation.",
+    "Broader all-condensed/incipient-gas Newton degeneracy is bypassed only in the explicit carbonate slice.",
+    "Full finite multiphase/radical/ionisation/real-gas combustion and swept thermal balances remain unsupported.",
+    "Dry HEAT calorimetry outside validated unchanged-stock NASA domains remains incomplete; unresolved olive oil lacks composition, Cp, spectra and kinetics."
+  ]
+}

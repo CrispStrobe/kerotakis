@@ -1,0 +1,89 @@
+{
+  "time_utc": "2026-10-02T11:56:01Z",
+  "reason": "Completed CEA test executables; ignored reproducible build cache. Preserve library metadata and live CLI binary.",
+  "passed": 99,
+  "log_sha256": "9ca332c249ba4607967a9f2bc728b22adedf0ff63619b7a850fae48c470cb35d",
+  "files": [
+    {
+      "path": "target/debug/deps/kerotakis_cea-a290b72d5bf742a3",
+      "bytes": 37582344,
+      "sha256": "956d488e75611d563e604601f92018e88fbf6ff4a1a47bc518e2fd4a0017fc25"
+    },
+    {
+      "path": "target/debug/deps/generate_cea_subset-f91e555f68bf2626",
+      "bytes": 7140992,
+      "sha256": "7eeb800e754a020900fec3658651e1ee4d0ba01a106b61bba876802fdfa341e9"
+    },
+    {
+      "path": "target/debug/deps/ambient_after_flame-dad57abc764126f5",
+      "bytes": 52647816,
+      "sha256": "d9d83a408acb5dafb25dbdf84d33f949334bc4b46c18a97ec801d542e909c55f"
+    },
+    {
+      "path": "target/debug/deps/autoignition-1c1b3e99cbf1eab1",
+      "bytes": 43458000,
+      "sha256": "21c0bbed5afa06dd548d294f5e52d981a785055f2ddd9b35ad8ccef3619a8842"
+    },
+    {
+      "path": "target/debug/deps/bench_thermal-dfb0afe598dc746d",
+      "bytes": 53094592,
+      "sha256": "30d9635a36f456da0c4127609656b06cc255e315ee47e450ffaa02e9f25cadfa"
+    },
+    {
+      "path": "target/debug/deps/closed_gas-d57b4cc20b2efc09",
+      "bytes": 43685352,
+      "sha256": "0e868ce7f038ec18e2cc2d60cad1164454b8263eb3ad586f2bf4d9006b63a95a"
+    },
+    {
+      "path": "target/debug/deps/did_not_ignite-5e1a073308844079",
+      "bytes": 52650304,
+      "sha256": "5fc1c8eb5381de9de4e61c07314c9259f319e644daf3d9ad93171fa808440be4"
+    },
+    {
+      "path": "target/debug/deps/equilibrium-462a1cd126cc2984",
+      "bytes": 36978256,
+      "sha256": "fe20e23cbc1d07e32564506c1c4241ffbb27eae4350efcee08334ec92f9e835c"
+    },
+    {
+      "path": "target/debug/deps/finite_boundaries-bf3d990ae83781d9",
+      "bytes": 43553536,
+      "sha256": "8b59ceb7b43fc89250b6a40f6a6241c62360adfb593de0e2dbab1348f69c1476"
+    },
+    {
+      "path": "target/debug/deps/gas_mechanism_endpoint-0f6a64b8489a9459",
+      "bytes": 41639056,
+      "sha256": "d7bb6930fef3ff45f87a74a4d0f718731931dec08594ad5edd86e77ae59ea3a7"
+    },
+    {
+      "path": "target/debug/deps/heat_budget-7124006977e1224c",
+      "bytes": 43709216,
+      "sha256": "ae7e9a9b2ab58a8a74e247dbca81adcd21be059b49d6b9021992547a64f9bd42"
+    },
+    {
+      "path": "target/debug/deps/heat_capacity_curves_are_the_vendored_file-bf5927b17d0245f1",
+      "bytes": 36669696,
+      "sha256": "4cbca93ed4ac157513305505581a7acaf45bbe6131b61886fcf1aabe5eb582a0"
+    },
+    {
+      "path": "target/debug/deps/heat_source_ceiling-819f337f13abf366",
+      "bytes": 53455000,
+      "sha256": "ca35241301a0a2881af29b98d74461db24f18f29bfefe326c466d48f0f0cbd0e"
+    },
+    {
+      "path": "target/debug/deps/latent_heats_are_the_vendored_file-c78543e876509607",
+      "bytes": 36307256,
+      "sha256": "36603ed3d3eb2639f0ad820c22b6f7dc3fd1e6f16ca500616c07e306061cb1c9"
+    },
+    {
+      "path": "target/debug/deps/open_boundary_ledger-4ac869862eb1cb2c",
+      "bytes": 52452568,
+      "sha256": "0208f109536e48c17c6ee6516b9a97eb1af4b5aeec86719ced14ea16ebdd3878"
+    },
+    {
+      "path": "target/debug/deps/vented_products-95ec1d58fdaf409e",
+      "bytes": 53388368,
+      "sha256": "f3a064df7b946d7937898fa03f7a2e53fc26019ded9f98e03ae21792d9f14c9d"
+    }
+  ],
+  "bytes_reclaimed": 688412352
+}

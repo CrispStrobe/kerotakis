@@ -1,0 +1,19 @@
+{"time": "2026-10-02T11:41:50Z", "stage": "cli-contracts", "state": "waiting", "available": 946671616, "swap_free": 0, "load": 16.72314453125, "disk_free": 2131918848}
+{"time": "2026-10-02T11:42:21Z", "stage": "cli-contracts", "state": "waiting", "available": 663986176, "swap_free": 6787072, "load": 18.2373046875, "disk_free": 2131841024}
+{"time": "2026-10-02T11:42:51Z", "stage": "cli-contracts", "state": "waiting", "available": 2021228544, "swap_free": 1626513408, "load": 17.60791015625, "disk_free": 2131521536}
+{"time": "2026-10-02T11:43:21Z", "stage": "cli-contracts", "state": "waiting", "available": 2757189632, "swap_free": 2419212288, "load": 14.2412109375, "disk_free": 2131099648}
+{"time": "2026-10-02T11:43:51Z", "stage": "cli-contracts", "state": "waiting", "available": 1704833024, "swap_free": 1677860864, "load": 15.29150390625, "disk_free": 2131095552}
+{"time": "2026-10-02T11:44:21Z", "stage": "cli-contracts", "state": "waiting", "available": 2734981120, "swap_free": 2234621952, "load": 13.51025390625, "disk_free": 2171502592}
+{"time": "2026-10-02T11:44:51Z", "stage": "cli-contracts", "state": "waiting", "available": 1708400640, "swap_free": 2589175808, "load": 11.291015625, "disk_free": 2171469824}
+{"time": "2026-10-02T11:45:22Z", "stage": "cli-contracts", "state": "waiting", "available": 1609392128, "swap_free": 1898778624, "load": 11.56005859375, "disk_free": 2171465728}
+{"time": "2026-10-02T11:45:52Z", "stage": "cli-contracts", "state": "waiting", "available": 1153974272, "swap_free": 1946255360, "load": 11.07177734375, "disk_free": 2171449344}
+{"time": "2026-10-02T11:46:22Z", "stage": "cli-contracts", "state": "waiting", "available": 2242248704, "swap_free": 1837854720, "load": 10.7626953125, "disk_free": 2170376192}
+{"time": "2026-10-02T11:46:52Z", "stage": "cli-contracts", "state": "waiting", "available": 2009735168, "swap_free": 1886257152, "load": 11.00146484375, "disk_free": 2150932480}
+{"time": "2026-10-02T11:47:22Z", "stage": "cli-contracts", "state": "running", "available": 3279953920, "swap_free": 2367426560, "load": 9.17138671875, "disk_free": 2163773440}
+{"time": "2026-10-02T11:52:10Z", "stage": "cli-contracts", "state": "complete", "available": 3492802560, "swap_free": 3278381056, "load": 6.8720703125, "disk_free": 2062901248, "exit_code": 0}
+{"time": "2026-10-02T11:52:10Z", "stage": "cea-final-guard", "state": "running", "available": 3488632832, "swap_free": 3278905344, "load": 6.8720703125, "disk_free": 2062901248}
+{"time": "2026-10-02T11:55:01Z", "stage": "cea-final-guard", "state": "complete", "available": 3072651264, "swap_free": 3007565824, "load": 8.70947265625, "disk_free": 1110765568, "exit_code": 0}
+{"time": "2026-10-02T11:55:01Z", "stage": "independent-replay", "state": "running", "available": 3072659456, "swap_free": 3008352256, "load": 8.70947265625, "disk_free": 1110765568}
+{"time": "2026-10-02T11:57:15Z", "stage": "independent-replay", "state": "complete", "available": 4000198656, "swap_free": 3182964736, "load": 4.2626953125, "disk_free": 1791455232, "exit_code": 0}
+{"time": "2026-10-02T11:57:20Z", "stage": "physical-assessment", "state": "running", "available": 4321722368, "swap_free": 3185061888, "load": 4.0810546875, "disk_free": 1790410752}
+{"time": "2026-10-02T11:57:22Z", "stage": "physical-assessment", "state": "failed", "available": 4620115968, "swap_free": 3185586176, "load": 4.0810546875, "disk_free": 1792004096, "exit_code": 1}

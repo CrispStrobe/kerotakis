@@ -1,5 +1,8 @@
 # Systematic extension of the independent audit
 
+Further work is recorded in [EXTENDED-AFTER.md](EXTENDED-AFTER.md); this report
+retains the results of the preceding checkpoint.
+
 This implements the follow-up to [SYSTEMATIC.md](SYSTEMATIC.md). The original
 50 scripts and prediction hash remain unchanged. Baseline and targeted-fix
 results remain in `results/` and `after/`; this extension's raw CLI output is in
