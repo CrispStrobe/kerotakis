@@ -1,0 +1,106 @@
+  v2: new vessel
+  v1: +2.7671 mol water
+  v1: answered by vendored USGS phreeqc.dat — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.0500 mol sodium chloride
+  v1: 0.0500 mol sodium chloride dissolved
+  v1: answered by pitzer.dat, with the reviewed Sander HBr gas-uptake slice — chosen because the solution is concentrated (~2.0 mol/kgw), where the ion-interaction model is the valid one
+  v1: pH 6.90
+  v1: 25.0 °C → 24.1 °C
+  v1: sealed over 0.100 L of headspace, trapping 4.10 mmol of room air
+  v1: headspace settled at 1.013 bar with 4.10 mmol gas
+  v1: pH 5.58
+  v2: +2.7671 mol water
+  v2: answered by vendored USGS phreeqc.dat — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v2: +5.00 mmol sodium sulfate
+  v2: 5.00 mmol sodium sulfate dissolved
+  v2: answered by wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice — the default inorganic aqueous dataset
+  v2: pH 7.23
+  v2: 25.0 °C → 25.1 °C
+  v2: sealed over 0.100 L of headspace, trapping 4.09 mmol of room air
+  v2: headspace settled at 1.013 bar with 4.09 mmol gas
+  v2: pH 5.95
+  v1: not yet modelled — solvent electrolysis assumes inert electrodes and complete Faradaic conversion. The anode uses an inventory rule: chlorine when chloride can supply the entire requested charge, otherwise oxygen. Electrode material, overpotentials, competing chlorine/oxygen production, and the voltage needed to sustain this current are not predicted
+  v1: 0.100 A for 60 s = 6 C → 62.2 µmol e⁻ → 31.1 µmol hydrogen at the cathode and 31.1 µmol chlorine gas at the anode
+  v1: 31.1 µmol hydrogen formed and remains in the closed headspace
+  v1: 31.1 µmol chlorine gas formed and remains in the closed headspace
+  v1: headspace settled at 1.028 bar with 4.16 mmol gas
+  v1: pH 10.85
+  v1: 24.1 °C → 24.1 °C
+  v2: not yet modelled — solvent electrolysis assumes inert electrodes and complete Faradaic conversion. The anode uses an inventory rule: chlorine when chloride can supply the entire requested charge, otherwise oxygen. Electrode material, overpotentials, competing chlorine/oxygen production, and the voltage needed to sustain this current are not predicted
+  v2: 0.100 A for 60 s = 6 C → 62.2 µmol e⁻ → 31.1 µmol hydrogen at the cathode and 15.5 µmol oxygen at the anode
+  v2: 31.1 µmol hydrogen formed and remains in the closed headspace
+  v2: 15.5 µmol oxygen formed and remains in the closed headspace
+  v2: headspace settled at 1.025 bar with 4.13 mmol gas
+  v2: pH 5.95
+  v1 (beaker) — 24.05 °C, 52.9 g, 50.0 mL liquid, sealed 100.0 mL headspace at 1.028 bar, pH 10.85, I = 1.0031 m
+           3.24 mmol  nitrogen           Gas
+            859 µmol  oxygen             Gas
+           31.1 µmol  hydrogen           Gas
+           31.1 µmol  chlorine gas       Gas
+           1.07 pmol  dissolved carbon dioxide Aqueous
+           69.4 nmol  bicarbonate ion    Aqueous
+           1.57 µmol  carbonate ion      Aqueous
+          0.0499 mol  chloride ion       Aqueous
+          0.0500 mol  sodium ion         Aqueous
+           2.94 pmol  carbon dioxide     Gas
+          2.7671 mol  water              Liquid
+           59.0 µmol  base equivalents   Aqueous
+  v2 (beaker) — 25.06 °C, 50.7 g, 50.0 mL liquid, sealed 100.0 mL headspace at 1.025 bar, pH 5.95, pe 11.98 (+0.709 V), I = 0.2620 m
+      redox — all S as S(VI)
+           3.23 mmol  nitrogen           Gas
+            872 µmol  oxygen             Gas
+           31.1 µmol  hydrogen           Gas
+          0.0100 mol  sodium ion         Aqueous
+            400 nmol  dissolved carbon dioxide Aqueous
+            228 nmol  bicarbonate ion    Aqueous
+           24.4 pmol  carbonate ion      Aqueous
+           5.00 mmol  sulfate ion        Aqueous
+           1.01 µmol  carbon dioxide     Gas
+          2.7671 mol  water              Liquid
+            229 nmol  hydrogen ion       Aqueous
+  v1: The liquid is colourless and clear, bubbles of gas are rising through it.
+  v1 pH meter: 10.85 pH — This is a model estimate with limited calibration or simplifying assumptions.
+  v2 pH meter: 5.95 pH — This is a model estimate with limited calibration or simplifying assumptions.
+  v1: answered by PHREEQC (IPhreeqc, USGS) using pitzer.dat, with the reviewed Sander HBr gas-uptake slice
+    model:   Pitzer specific-ion-interaction model (valid at high ionic strength)
+    routing: chosen because the solution is concentrated (~2.0 mol/kgw), where the ion-interaction model is the valid one
+    the dataset records its own sources, e.g.:
+      · -5 < a3 < 5 ? ka = DH_B * a2 * mu^0.5 / (1 + mu^a3), Appelo, 2017: Dw(I) = Dw(TK) * exp(-a * DH_A * z * sqrt_mu / (1 + ka))
+      · The apparent volume parameters are defined in ref. 1 & 2 For Li+ additional data from Ellis, 1968, J. Chem. Soc. A, 1138
+      · Hnedkovsky et al., 1996, JCT 28, 125
+      · sander-2023-hbr-reference
+  the same question, asked of every dataset:
+    wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice pH 10.881 · I = 1.0030 m
+      WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)
+    minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice pH 10.879 · I = 1.0030 m
+      WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)
+    pitzer.dat, with the reviewed Sander HBr gas-uptake slice pH 10.854 · I = 1.0031 m
+      Pitzer specific-ion-interaction model (valid at high ionic strength)
+  note: only 21 of 683 mineral phases exist in every dataset, so the answers
+  can differ in which solids they may form, not only in activity model
+  v1 (beaker) — 24.05 °C, 52.9 g, 50.0 mL liquid, sealed 100.0 mL headspace at 1.028 bar, pH 10.85, I = 1.0031 m
+           3.24 mmol  nitrogen           Gas
+            859 µmol  oxygen             Gas
+           31.1 µmol  hydrogen           Gas
+           31.1 µmol  chlorine gas       Gas
+           1.07 pmol  dissolved carbon dioxide Aqueous
+           69.4 nmol  bicarbonate ion    Aqueous
+           1.57 µmol  carbonate ion      Aqueous
+          0.0499 mol  chloride ion       Aqueous
+          0.0500 mol  sodium ion         Aqueous
+           2.94 pmol  carbon dioxide     Gas
+          2.7671 mol  water              Liquid
+           59.0 µmol  base equivalents   Aqueous
+  v2 (beaker) — 25.06 °C, 50.7 g, 50.0 mL liquid, sealed 100.0 mL headspace at 1.025 bar, pH 5.95, pe 11.98 (+0.709 V), I = 0.2620 m
+      redox — all S as S(VI)
+           3.23 mmol  nitrogen           Gas
+            872 µmol  oxygen             Gas
+           31.1 µmol  hydrogen           Gas
+          0.0100 mol  sodium ion         Aqueous
+            400 nmol  dissolved carbon dioxide Aqueous
+            228 nmol  bicarbonate ion    Aqueous
+           24.4 pmol  carbonate ion      Aqueous
+           5.00 mmol  sulfate ion        Aqueous
+           1.01 µmol  carbon dioxide     Gas
+          2.7671 mol  water              Liquid
+            229 nmol  hydrogen ion       Aqueous

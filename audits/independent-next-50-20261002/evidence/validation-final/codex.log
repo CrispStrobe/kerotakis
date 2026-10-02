@@ -1,0 +1,85 @@
+[1m[92m Downloading[0m crates ...
+[1m[92m  Downloaded[0m libc v0.2.190
+[1m[92m   Compiling[0m libc v0.2.190
+[1m[92m   Compiling[0m getrandom v0.3.4
+[1m[92m   Compiling[0m rand_core v0.9.5
+[1m[92m   Compiling[0m rand_chacha v0.9.0
+[1m[92m   Compiling[0m atomic-wait v1.1.0
+[1m[92m   Compiling[0m spindle v0.2.6
+[1m[92m   Compiling[0m rand v0.9.5
+[1m[92m   Compiling[0m num_cpus v1.17.0
+[1m[92m   Compiling[0m private-gemm-x86 v0.1.20
+[1m[92m   Compiling[0m rand_distr v0.5.1
+[1m[92m   Compiling[0m faer v0.24.4
+[1m[92m   Compiling[0m parking_lot_core v0.9.12
+[1m[92m   Compiling[0m diffsol-la v0.1.1
+[1m[92m   Compiling[0m serde_json v1.0.151
+[1m[92m   Compiling[0m serde_spanned v0.6.9
+[1m[92m   Compiling[0m toml_datetime v0.6.11
+[1m[92m   Compiling[0m diffsol-nl v0.1.1
+[1m[92m   Compiling[0m toml_edit v0.22.27
+[1m[92m   Compiling[0m kerotakis-core v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-core)
+[1m[92m   Compiling[0m dashmap v6.2.1
+[1m[92m   Compiling[0m serde_yaml_ng v0.10.0
+[1m[92m   Compiling[0m lasso v0.7.3
+[1m[92m   Compiling[0m diffsol v0.16.2
+[1m[92m   Compiling[0m kerotakis-data v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-data)
+[1m[92m   Compiling[0m toml v0.8.23
+[1m[92m   Compiling[0m kerotakis-thermo v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-thermo)
+[1m[92m   Compiling[0m kerotakis-codex v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-codex)
+[1m[92m    Finished[0m `test` profile [unoptimized + debuginfo] target(s) in 35.24s
+[1m[92m     Running[0m tests/quest_engine.rs (target/debug/deps/quest_engine-dba7bb88162ac12d)
+
+running 34 tests
+test a_claim_status_is_renderable_by_a_client_that_speaks_no_english ... ok
+test a_constraint_is_recorded_and_spoken_but_never_blocks ... ok
+test a_discovery_is_never_required ... ok
+test a_nudge_bound_to_a_reaction_that_does_not_exist_fails ... ok
+test a_right_answer_is_unaffected_by_either_entry_point ... ok
+test a_satisfied_claim_names_itself_by_id ... ok
+test a_v1_quest_completes_exactly_as_it_did ... ok
+test a_value_claim_says_how_far_off_it_is ... ok
+test a_wrong_answer_refuses_with_a_stable_id_and_its_parameters ... ok
+test an_answered_unknown_also_names_its_claim ... ok
+test an_unknown_alias_refuses_with_its_own_id ... ok
+test an_unmet_reason_is_a_tagged_id_with_parameters_never_prose ... ok
+test compare_needs_a_difference_that_means_something ... ok
+test design_counts_the_stages_actually_connected ... ok
+test either_route_finishes_a_v2_quest_and_names_itself ... ok
+test every_shipped_quest_is_already_a_valid_v2_quest ... ok
+test every_unmet_reason_carries_ids_and_parameters_never_prose ... ok
+test identify_and_explain_wait_to_be_told ... ok
+test nudges_fire_exactly_once ... ok
+test placement_and_rewards_survive_the_round_trip ... ok
+test produce_reads_what_the_step_made_and_says_how_short_it_fell ... ok
+test separate_accepts_two_materially_different_solutions ... ok
+test separate_refuses_a_failed_separation_by_either_route ... ok
+test status_reports_the_whole_board_and_never_disagrees_with_observe ... ok
+test the_english_rendering_is_unchanged_for_hosts_that_still_print_it ... ok
+test the_lint_catches_prose_naming_what_the_reaction_does_not ... ok
+test the_lint_refuses_a_quest_that_is_all_discovery_and_a_bad_reward ... ok
+test the_lint_refuses_a_route_that_can_never_be_satisfied ... ok
+test the_lint_refuses_an_empty_route_and_an_orphan_claim ... ok
+test the_lint_refuses_objectives_that_could_never_be_met ... ok
+test the_lint_rejects_corridors_and_lies ... ok
+test two_distinct_orders_both_complete ... ok
+test value_claims_read_the_solved_state ... ok
+test wrong_answers_are_answered_not_punished ... ok
+
+test result: ok. 34 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
+
+[1m[92m     Running[0m tests/vertical_slice.rs (target/debug/deps/vertical_slice-488970dbdf95a8b0)
+
+running 9 tests
+test all_three_leads_are_placed_in_one_chapter_and_open_together ... ok
+test each_trace_needs_its_own_physical_evidence ... ok
+test the_case_fixtures_pass_the_lint_they_will_be_authored_against ... ok
+test the_case_grants_exactly_one_permanent_unlock_however_it_is_reached ... ok
+test the_constraint_is_recorded_without_closing_the_door ... ok
+test the_fixtures_carry_translation_keys_rather_than_untranslated_prose ... ok
+test the_sealed_unknown_closes_the_lead_only_when_it_is_named ... ok
+test the_three_leads_progress_concurrently_from_one_bench ... ok
+test two_materially_different_treatment_traces_both_close_the_same_lead ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+

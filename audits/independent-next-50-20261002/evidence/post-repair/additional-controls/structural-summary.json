@@ -1,0 +1,2647 @@
+[
+  {
+    "id": "C084",
+    "exit_code": 0,
+    "json_lines": 19,
+    "parse_errors": [],
+    "stderr": "",
+    "events": [
+      {
+        "step": 0,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "events": [
+          {
+            "event": "vessel_created",
+            "vessel": 1
+          }
+        ]
+      },
+      {
+        "step": 1,
+        "operator": {
+          "moles": 2.7671384956980294,
+          "op": "add",
+          "species": "water",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 2.7671384956980294,
+            "species": "water",
+            "total_after": 2.7671384956980294,
+            "vessel": 0
+          },
+          {
+            "event": "solution_routed",
+            "provenance": {
+              "dataset": "vendored USGS phreeqc.dat",
+              "dataset_phrase": {
+                "en": "vendored USGS {file}",
+                "key": "provenance.dataset.vendored-usgs",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "text": {
+                        "text": "phreeqc.dat"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "USGS PHREEQC thermodynamic database"
+              ],
+              "engine": "Kerotakis analytic equilibrium evaluator",
+              "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+              "model_phrase": {
+                "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                "key": "provenance.model.water-autoionisation",
+                "slots": [
+                  [
+                    "engine",
+                    {
+                      "text": {
+                        "text": "PHREEQC"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "routing_phrase": {
+                "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "key": "routing.solvent-relation-only"
+              }
+            },
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 2,
+        "operator": {
+          "moles": 0.001,
+          "op": "add",
+          "species": "AgNO3",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 0.001,
+            "species": "AgNO3",
+            "total_after": 0.001,
+            "vessel": 0
+          },
+          {
+            "event": "dissolved",
+            "moles": 0.001,
+            "species": "AgNO3",
+            "vessel": 0
+          },
+          {
+            "event": "solution_routed",
+            "provenance": {
+              "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "wateq4f.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "WATEQ4F, Alpers and others, 1989",
+                "log K from llnl.dat  Aug 23, 2005",
+                "Dzombak and Morel, 1990",
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "the default inorganic aqueous dataset",
+              "routing_phrase": {
+                "en": "the default inorganic aqueous dataset",
+                "key": "routing.default-inorganic"
+              }
+            },
+            "vessel": 0
+          },
+          {
+            "event": "solution_characterized",
+            "ionic_strength": 0.0199078886183,
+            "ph": 6.796519382981,
+            "vessel": 0
+          },
+          {
+            "event": "temperature_changed",
+            "from": 298.15,
+            "to": 298.04160971511874,
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 3,
+        "operator": {
+          "moles": 0.01,
+          "op": "add",
+          "species": "NH3",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "temperature_changed",
+            "from": 298.04160971511874,
+            "to": 298.04202400227666,
+            "vessel": 0
+          },
+          {
+            "event": "added",
+            "moles": 0.01,
+            "species": "NH3",
+            "total_after": 0.01,
+            "vessel": 0
+          },
+          {
+            "event": "solution_routed",
+            "provenance": {
+              "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "wateq4f.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "WATEQ4F, Alpers and others, 1989",
+                "log K from llnl.dat  Aug 23, 2005",
+                "Dzombak and Morel, 1990",
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "the default inorganic aqueous dataset. some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones \u2014 sulfate, nitrate, carbonate \u2014 are held as added",
+              "routing_phrase": {
+                "en": "{routing}. {note}",
+                "key": "routing.with-redox-note",
+                "slots": [
+                  [
+                    "routing",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "the default inorganic aqueous dataset",
+                          "key": "routing.default-inorganic"
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "note",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones \u2014 sulfate, nitrate, carbonate \u2014 are held as added",
+                          "key": "routing.slow-couples-held-as-added"
+                        }
+                      }
+                    }
+                  ]
+                ]
+              }
+            },
+            "vessel": 0
+          },
+          {
+            "event": "solution_characterized",
+            "ionic_strength": 0.02147331552854,
+            "ph": 11.04292946577,
+            "vessel": 0
+          },
+          {
+            "cause": "phase-not-in-registry",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}. These solid phases are in {database}.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms",
+              "key": "not-modeled.supersaturated-no-registry-solid",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "Ag2O (SI +5.9)"
+                    }
+                  }
+                ],
+                [
+                  "database",
+                  {
+                    "text": {
+                      "text": "wateq4f"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "the solution is supersaturated against Ag2O (SI +5.9). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms"
+          },
+          {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}. Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices",
+              "key": "not-modeled.supersaturated-solid-not-offered",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "AgMetal (SI +2.1)"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "the solution is supersaturated against AgMetal (SI +2.1). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices"
+          },
+          {
+            "event": "temperature_changed",
+            "from": 298.04202400227666,
+            "to": 298.7149387347948,
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 4,
+        "operator": {
+          "moles": 0.002,
+          "op": "add",
+          "species": "NaOH",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "temperature_changed",
+            "from": 298.7149387347948,
+            "to": 298.7146174036408,
+            "vessel": 0
+          },
+          {
+            "event": "added",
+            "moles": 0.002,
+            "species": "NaOH",
+            "total_after": 0.002,
+            "vessel": 0
+          },
+          {
+            "event": "dissolved",
+            "moles": 0.002,
+            "species": "NaOH",
+            "vessel": 0
+          },
+          {
+            "event": "solution_characterized",
+            "ionic_strength": 0.04577762210577,
+            "ph": 12.11543275868,
+            "vessel": 0
+          },
+          {
+            "cause": "phase-not-in-registry",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}. These solid phases are in {database}.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms",
+              "key": "not-modeled.supersaturated-no-registry-solid",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "Ag2O (SI +7.0)"
+                    }
+                  }
+                ],
+                [
+                  "database",
+                  {
+                    "text": {
+                      "text": "wateq4f"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "the solution is supersaturated against Ag2O (SI +7.0). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms"
+          },
+          {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}. Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices",
+              "key": "not-modeled.supersaturated-solid-not-offered",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "AgMetal (SI +2.7)"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "the solution is supersaturated against AgMetal (SI +2.7). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices"
+          },
+          {
+            "event": "temperature_changed",
+            "from": 298.7146174036408,
+            "to": 298.8402254247659,
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 5,
+        "operator": {
+          "moles": 0.0005,
+          "op": "add",
+          "species": "glucose",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 0.0005,
+            "species": "glucose",
+            "total_after": 0.0005,
+            "vessel": 0
+          },
+          {
+            "event": "dissolved",
+            "moles": 0.0005,
+            "species": "glucose",
+            "vessel": 0
+          },
+          {
+            "event": "solution_characterized",
+            "ionic_strength": 0.04577751901895,
+            "ph": 12.1154400533,
+            "vessel": 0
+          },
+          {
+            "cause": "phase-not-in-registry",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}. These solid phases are in {database}.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms",
+              "key": "not-modeled.supersaturated-no-registry-solid",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "Ag2O (SI +7.0)"
+                    }
+                  }
+                ],
+                [
+                  "database",
+                  {
+                    "text": {
+                      "text": "wateq4f"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "the solution is supersaturated against Ag2O (SI +7.0). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms"
+          },
+          {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}. Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices",
+              "key": "not-modeled.supersaturated-solid-not-offered",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "AgMetal (SI +2.7)"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "the solution is supersaturated against AgMetal (SI +2.7). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices"
+          },
+          {
+            "event": "heat_unpriced",
+            "species": "glucose",
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 6,
+        "operator": {
+          "moles": 2.7671384956980294,
+          "op": "add",
+          "species": "water",
+          "vessel": 1
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 2.7671384956980294,
+            "species": "water",
+            "total_after": 2.7671384956980294,
+            "vessel": 1
+          },
+          {
+            "event": "solution_routed",
+            "provenance": {
+              "dataset": "vendored USGS phreeqc.dat",
+              "dataset_phrase": {
+                "en": "vendored USGS {file}",
+                "key": "provenance.dataset.vendored-usgs",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "text": {
+                        "text": "phreeqc.dat"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "USGS PHREEQC thermodynamic database"
+              ],
+              "engine": "Kerotakis analytic equilibrium evaluator",
+              "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+              "model_phrase": {
+                "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                "key": "provenance.model.water-autoionisation",
+                "slots": [
+                  [
+                    "engine",
+                    {
+                      "text": {
+                        "text": "PHREEQC"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "routing_phrase": {
+                "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "key": "routing.solvent-relation-only"
+              }
+            },
+            "vessel": 1
+          }
+        ]
+      },
+      {
+        "step": 7,
+        "operator": {
+          "moles": 0.001,
+          "op": "add",
+          "species": "AgNO3",
+          "vessel": 1
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 0.001,
+            "species": "AgNO3",
+            "total_after": 0.001,
+            "vessel": 1
+          },
+          {
+            "event": "dissolved",
+            "moles": 0.001,
+            "species": "AgNO3",
+            "vessel": 1
+          },
+          {
+            "event": "solution_routed",
+            "provenance": {
+              "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "wateq4f.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "WATEQ4F, Alpers and others, 1989",
+                "log K from llnl.dat  Aug 23, 2005",
+                "Dzombak and Morel, 1990",
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "the default inorganic aqueous dataset",
+              "routing_phrase": {
+                "en": "the default inorganic aqueous dataset",
+                "key": "routing.default-inorganic"
+              }
+            },
+            "vessel": 1
+          },
+          {
+            "event": "solution_characterized",
+            "ionic_strength": 0.0199078886183,
+            "ph": 6.796519382981,
+            "vessel": 1
+          },
+          {
+            "event": "temperature_changed",
+            "from": 298.15,
+            "to": 298.04160971511874,
+            "vessel": 1
+          }
+        ]
+      },
+      {
+        "step": 8,
+        "operator": {
+          "moles": 0.01,
+          "op": "add",
+          "species": "NH3",
+          "vessel": 1
+        },
+        "events": [
+          {
+            "event": "temperature_changed",
+            "from": 298.04160971511874,
+            "to": 298.04202400227666,
+            "vessel": 1
+          },
+          {
+            "event": "added",
+            "moles": 0.01,
+            "species": "NH3",
+            "total_after": 0.01,
+            "vessel": 1
+          },
+          {
+            "event": "solution_routed",
+            "provenance": {
+              "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "wateq4f.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "WATEQ4F, Alpers and others, 1989",
+                "log K from llnl.dat  Aug 23, 2005",
+                "Dzombak and Morel, 1990",
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "the default inorganic aqueous dataset. some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones \u2014 sulfate, nitrate, carbonate \u2014 are held as added",
+              "routing_phrase": {
+                "en": "{routing}. {note}",
+                "key": "routing.with-redox-note",
+                "slots": [
+                  [
+                    "routing",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "the default inorganic aqueous dataset",
+                          "key": "routing.default-inorganic"
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "note",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones \u2014 sulfate, nitrate, carbonate \u2014 are held as added",
+                          "key": "routing.slow-couples-held-as-added"
+                        }
+                      }
+                    }
+                  ]
+                ]
+              }
+            },
+            "vessel": 1
+          },
+          {
+            "event": "solution_characterized",
+            "ionic_strength": 0.02147331552854,
+            "ph": 11.04292946577,
+            "vessel": 1
+          },
+          {
+            "cause": "phase-not-in-registry",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}. These solid phases are in {database}.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms",
+              "key": "not-modeled.supersaturated-no-registry-solid",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "Ag2O (SI +5.9)"
+                    }
+                  }
+                ],
+                [
+                  "database",
+                  {
+                    "text": {
+                      "text": "wateq4f"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 1,
+            "what": "the solution is supersaturated against Ag2O (SI +5.9). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms"
+          },
+          {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}. Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices",
+              "key": "not-modeled.supersaturated-solid-not-offered",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "AgMetal (SI +2.1)"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 1,
+            "what": "the solution is supersaturated against AgMetal (SI +2.1). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices"
+          },
+          {
+            "event": "temperature_changed",
+            "from": 298.04202400227666,
+            "to": 298.7149387347948,
+            "vessel": 1
+          }
+        ]
+      },
+      {
+        "step": 9,
+        "operator": {
+          "moles": 0.002,
+          "op": "add",
+          "species": "NaOH",
+          "vessel": 1
+        },
+        "events": [
+          {
+            "event": "temperature_changed",
+            "from": 298.7149387347948,
+            "to": 298.7146174036408,
+            "vessel": 1
+          },
+          {
+            "event": "added",
+            "moles": 0.002,
+            "species": "NaOH",
+            "total_after": 0.002,
+            "vessel": 1
+          },
+          {
+            "event": "dissolved",
+            "moles": 0.002,
+            "species": "NaOH",
+            "vessel": 1
+          },
+          {
+            "event": "solution_characterized",
+            "ionic_strength": 0.04577762210577,
+            "ph": 12.11543275868,
+            "vessel": 1
+          },
+          {
+            "cause": "phase-not-in-registry",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}. These solid phases are in {database}.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms",
+              "key": "not-modeled.supersaturated-no-registry-solid",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "Ag2O (SI +7.0)"
+                    }
+                  }
+                ],
+                [
+                  "database",
+                  {
+                    "text": {
+                      "text": "wateq4f"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 1,
+            "what": "the solution is supersaturated against Ag2O (SI +7.0). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms"
+          },
+          {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}. Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices",
+              "key": "not-modeled.supersaturated-solid-not-offered",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "AgMetal (SI +2.7)"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 1,
+            "what": "the solution is supersaturated against AgMetal (SI +2.7). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices"
+          },
+          {
+            "event": "temperature_changed",
+            "from": 298.7146174036408,
+            "to": 298.8402254247659,
+            "vessel": 1
+          }
+        ]
+      },
+      {
+        "step": 10,
+        "operator": {
+          "moles": 0.0005,
+          "op": "add",
+          "species": "propanone",
+          "vessel": 1
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 0.0005,
+            "species": "propanone",
+            "total_after": 0.0005,
+            "vessel": 1
+          },
+          {
+            "event": "solution_characterized",
+            "ionic_strength": 0.04577757056522,
+            "ph": 12.115436406,
+            "vessel": 1
+          },
+          {
+            "cause": "phase-not-in-registry",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}. These solid phases are in {database}.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms",
+              "key": "not-modeled.supersaturated-no-registry-solid",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "Ag2O (SI +7.0)"
+                    }
+                  }
+                ],
+                [
+                  "database",
+                  {
+                    "text": {
+                      "text": "wateq4f"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 1,
+            "what": "the solution is supersaturated against Ag2O (SI +7.0). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms"
+          },
+          {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}. Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices",
+              "key": "not-modeled.supersaturated-solid-not-offered",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "AgMetal (SI +2.7)"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 1,
+            "what": "the solution is supersaturated against AgMetal (SI +2.7). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices"
+          }
+        ]
+      },
+      {
+        "step": 11,
+        "operator": {
+          "op": "wait",
+          "seconds": 600.0
+        },
+        "events": [
+          {
+            "event": "gravity_settled",
+            "seconds": 600.0,
+            "separations": [
+              {
+                "direction": "outward",
+                "distance_m": 12.505431164004424,
+                "particle_density_kg_m3": 4350.0,
+                "particle_diameter_um": 100.0,
+                "particle_size_assumed": true,
+                "separated_fraction": 1.0,
+                "species": "AgNO3",
+                "terminal_speed_m_s": 0.020842385273340706
+              },
+              {
+                "direction": "outward",
+                "distance_m": 4.2256646313203134,
+                "particle_density_kg_m3": 2130.0,
+                "particle_diameter_um": 100.0,
+                "particle_size_assumed": true,
+                "separated_fraction": 1.0,
+                "species": "NaOH",
+                "terminal_speed_m_s": 0.0070427743855338565
+              }
+            ],
+            "vessel": 0
+          },
+          {
+            "event": "temperature_changed",
+            "from": 298.83983553199266,
+            "to": 298.5724887796463,
+            "vessel": 0
+          },
+          {
+            "event": "gravity_settled",
+            "seconds": 600.0,
+            "separations": [
+              {
+                "direction": "outward",
+                "distance_m": 12.506069751636609,
+                "particle_density_kg_m3": 4350.0,
+                "particle_diameter_um": 100.0,
+                "particle_size_assumed": true,
+                "separated_fraction": 1.0,
+                "species": "AgNO3",
+                "terminal_speed_m_s": 0.020843449586061016
+              },
+              {
+                "direction": "outward",
+                "distance_m": 4.226268618103135,
+                "particle_density_kg_m3": 2130.0,
+                "particle_diameter_um": 100.0,
+                "particle_size_assumed": true,
+                "separated_fraction": 1.0,
+                "species": "NaOH",
+                "terminal_speed_m_s": 0.007043781030171892
+              }
+            ],
+            "vessel": 1
+          },
+          {
+            "event": "temperature_changed",
+            "from": 298.8400206469579,
+            "to": 298.5725481631756,
+            "vessel": 1
+          },
+          {
+            "event": "solution_characterized",
+            "ionic_strength": 0.04570887769051,
+            "ph": 12.12031531943,
+            "vessel": 0
+          },
+          {
+            "cause": "phase-not-in-registry",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}. These solid phases are in {database}.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms",
+              "key": "not-modeled.supersaturated-no-registry-solid",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "Ag2O (SI +7.0)"
+                    }
+                  }
+                ],
+                [
+                  "database",
+                  {
+                    "text": {
+                      "text": "wateq4f"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "the solution is supersaturated against Ag2O (SI +7.0). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms"
+          },
+          {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}. Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices",
+              "key": "not-modeled.supersaturated-solid-not-offered",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "AgMetal (SI +2.6)"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "the solution is supersaturated against AgMetal (SI +2.6). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices"
+          },
+          {
+            "event": "solution_characterized",
+            "ionic_strength": 0.04570887769051,
+            "ph": 12.12031531943,
+            "vessel": 1
+          },
+          {
+            "cause": "phase-not-in-registry",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}. These solid phases are in {database}.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms",
+              "key": "not-modeled.supersaturated-no-registry-solid",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "Ag2O (SI +7.0)"
+                    }
+                  }
+                ],
+                [
+                  "database",
+                  {
+                    "text": {
+                      "text": "wateq4f"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 1,
+            "what": "the solution is supersaturated against Ag2O (SI +7.0). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms"
+          },
+          {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}. Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices",
+              "key": "not-modeled.supersaturated-solid-not-offered",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "AgMetal (SI +2.6)"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 1,
+            "what": "the solution is supersaturated against AgMetal (SI +2.6). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices"
+          }
+        ]
+      },
+      {
+        "step": 12,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "appearance": {
+              "bubbling": false,
+              "clauses": [
+                {
+                  "en": "the liquid is {colour} {clarity}",
+                  "key": "look.liquid",
+                  "slots": [
+                    [
+                      "colour",
+                      {
+                        "term": {
+                          "en": "colourless",
+                          "section": "appearance"
+                        }
+                      }
+                    ],
+                    [
+                      "clarity",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "and clear",
+                            "key": "look.clarity-clear"
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                }
+              ],
+              "cloudiness": 0.0,
+              "deposit": null,
+              "liquid": {
+                "b": 255,
+                "g": 255,
+                "r": 255,
+                "strength": 0.0
+              },
+              "words": "The liquid is colourless and clear."
+            },
+            "event": "observed",
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 13,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 1
+        },
+        "events": [
+          {
+            "appearance": {
+              "bubbling": false,
+              "clauses": [
+                {
+                  "en": "the liquid is {colour} {clarity}",
+                  "key": "look.liquid",
+                  "slots": [
+                    [
+                      "colour",
+                      {
+                        "term": {
+                          "en": "colourless",
+                          "section": "appearance"
+                        }
+                      }
+                    ],
+                    [
+                      "clarity",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "and clear",
+                            "key": "look.clarity-clear"
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                }
+              ],
+              "cloudiness": 0.0,
+              "deposit": null,
+              "liquid": {
+                "b": 255,
+                "g": 255,
+                "r": 255,
+                "strength": 0.0
+              },
+              "words": "The liquid is colourless and clear."
+            },
+            "event": "observed",
+            "vessel": 1
+          }
+        ]
+      },
+      {
+        "step": 14,
+        "operator": {
+          "instrument": "spectrophotometer",
+          "op": "measure",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "measured",
+            "instrument": "spectrophotometer",
+            "model_support": {
+              "assumptions": [
+                "Beer-Lambert additive bands; caller supplies optical path"
+              ],
+              "observable": "absorbance",
+              "provenance": [],
+              "reasons": [],
+              "scope": "aqueous_phase",
+              "status": "estimated",
+              "validity": []
+            },
+            "unit": "absorbance at 405 nm",
+            "value": 0.0,
+            "vessel": 0
+          }
+        ]
+      }
+    ],
+    "final_bench": {
+      "vessels": [
+        {
+          "co2_partial_pressure_atm": -0.0,
+          "contents": [
+            {
+              "moles": 0.0005,
+              "phase": "aqueous",
+              "species": "glucose"
+            },
+            {
+              "moles": 0.001,
+              "phase": "aqueous",
+              "species": "Ag+"
+            },
+            {
+              "moles": 0.002,
+              "phase": "aqueous",
+              "species": "Na+"
+            },
+            {
+              "moles": 0.009984397794952237,
+              "phase": "aqueous",
+              "species": "NH3"
+            },
+            {
+              "moles": 1.5602205047763725e-05,
+              "phase": "aqueous",
+              "species": "NH4+"
+            },
+            {
+              "moles": 0.0010000000000000002,
+              "phase": "aqueous",
+              "species": "NO3-"
+            },
+            {
+              "moles": 2.767122893492982,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.0020156022050477652,
+              "phase": "aqueous",
+              "species": "base_equivalents"
+            }
+          ],
+          "elapsed_seconds": 600.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0008273310810467853,
+          "free_proton": 4.4076014402585506e-14,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 2.7671384956980294,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.001,
+              "particle_size_um": null,
+              "phase": "solid",
+              "source": "reagent bottle",
+              "species": "AgNO3",
+              "suspended_fraction": 0.0
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.01,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "NH3",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.002,
+              "particle_size_um": null,
+              "phase": "solid",
+              "source": "reagent bottle",
+              "species": "NaOH",
+              "suspended_fraction": 0.0
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.0005,
+              "particle_size_um": null,
+              "phase": "aqueous",
+              "source": "reagent bottle",
+              "species": "glucose",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 1.7318168964541926e-07,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0020156022050477635,
+          "solution": {
+            "ionic_strength": 0.04570887769051,
+            "pe": 8.471986164884,
+            "ph": 12.12031531943,
+            "provenance": {
+              "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "wateq4f.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "WATEQ4F, Alpers and others, 1989",
+                "log K from llnl.dat  Aug 23, 2005",
+                "Dzombak and Morel, 1990",
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "the default inorganic aqueous dataset. some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones \u2014 sulfate, nitrate, carbonate \u2014 are held as added",
+              "routing_phrase": {
+                "en": "{routing}. {note}",
+                "key": "routing.with-redox-note",
+                "slots": [
+                  [
+                    "routing",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "the default inorganic aqueous dataset",
+                          "key": "routing.default-inorganic"
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "note",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones \u2014 sulfate, nitrate, carbonate \u2014 are held as added",
+                          "key": "routing.slow-couples-held-as-added"
+                        }
+                      }
+                    }
+                  ]
+                ]
+              }
+            },
+            "redox": [
+              {
+                "element": "N",
+                "molality": 0.2006029364938,
+                "oxidation": -3
+              },
+              {
+                "element": "N",
+                "molality": 0.02006029364938,
+                "oxidation": 5
+              }
+            ],
+            "solvent_kg": 0.049849719,
+            "species": [
+              {
+                "activity": 0.9949,
+                "molality": 55.51,
+                "name": "H2O"
+              },
+              {
+                "activity": 0.20028995168466562,
+                "molality": 0.2002899516847,
+                "name": "NH3"
+              },
+              {
+                "activity": 0.033236097987759256,
+                "molality": 0.04012058729875,
+                "name": "Na+"
+              },
+              {
+                "activity": 0.01627157764026631,
+                "molality": 0.02002430173265,
+                "name": "NO3-"
+              },
+              {
+                "activity": 0.013565310005349038,
+                "molality": 0.01659650440651,
+                "name": "OH-"
+              },
+              {
+                "activity": 0.007509,
+                "molality": 0.009088,
+                "name": "Ag(OH)2-"
+              },
+              {
+                "activity": 0.005721,
+                "molality": 0.005661,
+                "name": "AgOH"
+              },
+              {
+                "activity": 0.004358591828606918,
+                "molality": 0.005275305581758,
+                "name": "Ag+"
+              },
+              {
+                "activity": 0.00025859602071651047,
+                "molality": 0.000312984809119,
+                "name": "NH4+"
+              },
+              {
+                "activity": 0.0002658,
+                "molality": 0.000263,
+                "name": "O2"
+              },
+              {
+                "activity": 3.637e-05,
+                "molality": 3.599e-05,
+                "name": "AgNO3"
+              }
+            ]
+          },
+          "surfaces": [],
+          "temperature": 298.5724887796463,
+          "thermal_mode": "adiabatic",
+          "unpriced_heat": [
+            "glucose"
+          ]
+        },
+        {
+          "co2_partial_pressure_atm": -0.0,
+          "contents": [
+            {
+              "moles": 0.0005,
+              "phase": "liquid",
+              "species": "propanone"
+            },
+            {
+              "moles": 0.001,
+              "phase": "aqueous",
+              "species": "Ag+"
+            },
+            {
+              "moles": 0.002,
+              "phase": "aqueous",
+              "species": "Na+"
+            },
+            {
+              "moles": 0.009984397794952025,
+              "phase": "aqueous",
+              "species": "NH3"
+            },
+            {
+              "moles": 1.5602205047979353e-05,
+              "phase": "aqueous",
+              "species": "NH4+"
+            },
+            {
+              "moles": 0.0010000000000000002,
+              "phase": "aqueous",
+              "species": "NO3-"
+            },
+            {
+              "moles": 2.7671228934929815,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.0020156022050479873,
+              "phase": "aqueous",
+              "species": "base_equivalents"
+            }
+          ],
+          "elapsed_seconds": 600.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0008273310810467853,
+          "free_proton": 4.4076014402585506e-14,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 1,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 2.7671384956980294,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.001,
+              "particle_size_um": null,
+              "phase": "solid",
+              "source": "reagent bottle",
+              "species": "AgNO3",
+              "suspended_fraction": 0.0
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.01,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "NH3",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.002,
+              "particle_size_um": null,
+              "phase": "solid",
+              "source": "reagent bottle",
+              "species": "NaOH",
+              "suspended_fraction": 0.0
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.0005,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "propanone",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 1.7318082810349213e-07,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0020156022050479795,
+          "solution": {
+            "ionic_strength": 0.04570887769051,
+            "pe": 8.471986164884,
+            "ph": 12.12031531943,
+            "provenance": {
+              "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "wateq4f.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "WATEQ4F, Alpers and others, 1989",
+                "log K from llnl.dat  Aug 23, 2005",
+                "Dzombak and Morel, 1990",
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "the default inorganic aqueous dataset. some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones \u2014 sulfate, nitrate, carbonate \u2014 are held as added",
+              "routing_phrase": {
+                "en": "{routing}. {note}",
+                "key": "routing.with-redox-note",
+                "slots": [
+                  [
+                    "routing",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "the default inorganic aqueous dataset",
+                          "key": "routing.default-inorganic"
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "note",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones \u2014 sulfate, nitrate, carbonate \u2014 are held as added",
+                          "key": "routing.slow-couples-held-as-added"
+                        }
+                      }
+                    }
+                  ]
+                ]
+              }
+            },
+            "redox": [
+              {
+                "element": "N",
+                "molality": 0.2006029364938,
+                "oxidation": -3
+              },
+              {
+                "element": "N",
+                "molality": 0.02006029364938,
+                "oxidation": 5
+              }
+            ],
+            "solvent_kg": 0.049849719,
+            "species": [
+              {
+                "activity": 0.9949,
+                "molality": 55.51,
+                "name": "H2O"
+              },
+              {
+                "activity": 0.20028995168466562,
+                "molality": 0.2002899516847,
+                "name": "NH3"
+              },
+              {
+                "activity": 0.033236097987759256,
+                "molality": 0.04012058729875,
+                "name": "Na+"
+              },
+              {
+                "activity": 0.01627157764026631,
+                "molality": 0.02002430173265,
+                "name": "NO3-"
+              },
+              {
+                "activity": 0.013565310005349038,
+                "molality": 0.01659650440651,
+                "name": "OH-"
+              },
+              {
+                "activity": 0.007509,
+                "molality": 0.009088,
+                "name": "Ag(OH)2-"
+              },
+              {
+                "activity": 0.005721,
+                "molality": 0.005661,
+                "name": "AgOH"
+              },
+              {
+                "activity": 0.004358591828606918,
+                "molality": 0.005275305581758,
+                "name": "Ag+"
+              },
+              {
+                "activity": 0.00025859602071651047,
+                "molality": 0.000312984809119,
+                "name": "NH4+"
+              },
+              {
+                "activity": 0.0002658,
+                "molality": 0.000263,
+                "name": "O2"
+              },
+              {
+                "activity": 3.637e-05,
+                "molality": 3.599e-05,
+                "name": "AgNO3"
+              }
+            ]
+          },
+          "surfaces": [],
+          "temperature": 298.5725481631756,
+          "thermal_mode": "adiabatic"
+        }
+      ]
+    }
+  },
+  {
+    "id": "C097",
+    "exit_code": 0,
+    "json_lines": 10,
+    "parse_errors": [],
+    "stderr": "",
+    "events": [
+      {
+        "step": 0,
+        "operator": {
+          "moles": 0.5534276991396059,
+          "op": "add",
+          "species": "water",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 0.5534276991396059,
+            "species": "water",
+            "total_after": 0.5534276991396059,
+            "vessel": 0
+          },
+          {
+            "event": "solution_routed",
+            "provenance": {
+              "dataset": "vendored USGS phreeqc.dat",
+              "dataset_phrase": {
+                "en": "vendored USGS {file}",
+                "key": "provenance.dataset.vendored-usgs",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "text": {
+                        "text": "phreeqc.dat"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "USGS PHREEQC thermodynamic database"
+              ],
+              "engine": "Kerotakis analytic equilibrium evaluator",
+              "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+              "model_phrase": {
+                "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                "key": "provenance.model.water-autoionisation",
+                "slots": [
+                  [
+                    "engine",
+                    {
+                      "text": {
+                        "text": "PHREEQC"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "routing_phrase": {
+                "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "key": "routing.solvent-relation-only"
+              }
+            },
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 1,
+        "operator": {
+          "instrument": "thermometer",
+          "op": "measure",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "measured",
+            "instrument": "thermometer",
+            "model_support": {
+              "assumptions": [
+                "represented thermal inventory; omitted reaction heats are not zero heat"
+              ],
+              "observable": "temperature",
+              "provenance": [
+                "NASA Chemical Equilibrium with Applications (CEA) thermodynamic database, thermo.inp, vendored at vendor/nasa-cea/thermo.inp and documented by NASA TP-2002-211556 (McBride, Zehe and Gordon, \"NASA Glenn Coefficients for Calculating Thermodynamic Properties of Individual Species\"). Copyright (c) United States Government as represented by the Administrator of NASA, licensed under Apache-2.0; the file is already vendored and read by kerotakis-cea, and these records are the same bytes read a second time rather than a second compilation. Each record carries its own literature reference verbatim - Gurvich, Chase (JANAF), Pankratz, Cox - and that line is kept on every interval so the reader lands on the table the coefficients came from, not on this envelope. The NASA-9 form is Cp/R = a1/T^2 + a2/T + a3 + a4*T + a5*T^2 + a6*T^3 + a7*T^4 with T in kelvin, and only a1..a7 are transcribed: the two integration constants b1 and b2 fix absolute enthalpy and entropy, which this tranche does not claim, because a bench that only needs a sensible-heat difference should not carry a formation enthalpy it never checks. What each row DOES claim is a molar heat capacity as a function of temperature over a stated interval; what it does not claim is any value outside that interval, any enthalpy of a phase or crystal transition, and any property of a real impure sample. The 298.15 K value of every curve is pinned against the constant heat capacity the registry already carried for that species, and agrees with it to better than 3 percent throughout - which is the check that these are the same substances and not merely the same names. Transcribed 2026-09-07"
+              ],
+              "reasons": [],
+              "scope": "whole_vessel",
+              "status": "computed",
+              "validity": [
+                {
+                  "lower": 273.15,
+                  "quantity": "heat-capacity-temperature:water",
+                  "unit": "K",
+                  "upper": 600.0
+                }
+              ]
+            },
+            "unit": "\u00b0C",
+            "value": 25.0,
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 2,
+        "operator": {
+          "energy": 5000.0,
+          "op": "cool",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "temperature_changed",
+            "from": 298.15,
+            "to": 241.45140586728098,
+            "vessel": 0
+          },
+          {
+            "capped": false,
+            "delivered_j": 5000.0,
+            "event": "energy_transferred",
+            "heating": false,
+            "passes": 1,
+            "requested_j": 5000.0,
+            "sensible_j": 5000.0,
+            "time_coupled": false,
+            "vessel": 0
+          },
+          {
+            "at": 273.15,
+            "event": "state_changed",
+            "from": "liquid",
+            "kind": "freezing",
+            "moles": 0.5534276991396059,
+            "shifted_by": -0.0,
+            "species": "water",
+            "to": "solid",
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 3,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "appearance": {
+              "bubbling": false,
+              "clauses": [
+                {
+                  "en": "there is {what} in the beaker",
+                  "key": "look.deposit-dry",
+                  "slots": [
+                    [
+                      "what",
+                      {
+                        "list": {
+                          "items": [
+                            {
+                              "phrase": {
+                                "phrase": {
+                                  "en": "{colour} {name}",
+                                  "key": "look.coloured",
+                                  "slots": [
+                                    [
+                                      "colour",
+                                      {
+                                        "term": {
+                                          "en": "white",
+                                          "section": "appearance"
+                                        }
+                                      }
+                                    ],
+                                    [
+                                      "name",
+                                      {
+                                        "term": {
+                                          "en": "water",
+                                          "section": "species"
+                                        }
+                                      }
+                                    ]
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  ]
+                }
+              ],
+              "cloudiness": 0.0,
+              "deposit": [
+                "water",
+                {
+                  "b": 255,
+                  "g": 255,
+                  "r": 255,
+                  "strength": 0.0
+                }
+              ],
+              "liquid": null,
+              "words": "There is white water in the beaker."
+            },
+            "event": "observed",
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 4,
+        "operator": {
+          "energy": 5000.0,
+          "op": "heat",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "temperature_changed",
+            "from": 241.45140586728098,
+            "to": 298.1500000001016,
+            "vessel": 0
+          },
+          {
+            "capped": false,
+            "ceiling_k": 1773.15,
+            "delivered_j": 5000.0,
+            "event": "energy_transferred",
+            "heating": true,
+            "passes": 1,
+            "requested_j": 5000.0,
+            "sensible_j": 2380.5722136060504,
+            "source": "Bunsen burner",
+            "time_coupled": false,
+            "vessel": 0
+          },
+          {
+            "at": 273.15,
+            "event": "state_changed",
+            "from": "solid",
+            "kind": "melting",
+            "moles": 0.5534276991396059,
+            "shifted_by": -0.0,
+            "species": "water",
+            "to": "liquid",
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 5,
+        "operator": {
+          "instrument": "thermometer",
+          "op": "measure",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "measured",
+            "instrument": "thermometer",
+            "model_support": {
+              "assumptions": [
+                "represented thermal inventory; omitted reaction heats are not zero heat"
+              ],
+              "observable": "temperature",
+              "provenance": [
+                "NASA Chemical Equilibrium with Applications (CEA) thermodynamic database, thermo.inp, vendored at vendor/nasa-cea/thermo.inp and documented by NASA TP-2002-211556 (McBride, Zehe and Gordon, \"NASA Glenn Coefficients for Calculating Thermodynamic Properties of Individual Species\"). Copyright (c) United States Government as represented by the Administrator of NASA, licensed under Apache-2.0; the file is already vendored and read by kerotakis-cea, and these records are the same bytes read a second time rather than a second compilation. Each record carries its own literature reference verbatim - Gurvich, Chase (JANAF), Pankratz, Cox - and that line is kept on every interval so the reader lands on the table the coefficients came from, not on this envelope. The NASA-9 form is Cp/R = a1/T^2 + a2/T + a3 + a4*T + a5*T^2 + a6*T^3 + a7*T^4 with T in kelvin, and only a1..a7 are transcribed: the two integration constants b1 and b2 fix absolute enthalpy and entropy, which this tranche does not claim, because a bench that only needs a sensible-heat difference should not carry a formation enthalpy it never checks. What each row DOES claim is a molar heat capacity as a function of temperature over a stated interval; what it does not claim is any value outside that interval, any enthalpy of a phase or crystal transition, and any property of a real impure sample. The 298.15 K value of every curve is pinned against the constant heat capacity the registry already carried for that species, and agrees with it to better than 3 percent throughout - which is the check that these are the same substances and not merely the same names. Transcribed 2026-09-07"
+              ],
+              "reasons": [],
+              "scope": "whole_vessel",
+              "status": "computed",
+              "validity": [
+                {
+                  "lower": 273.15,
+                  "quantity": "heat-capacity-temperature:water",
+                  "unit": "K",
+                  "upper": 600.0
+                }
+              ]
+            },
+            "unit": "\u00b0C",
+            "value": 25.000000000101636,
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 6,
+        "operator": {
+          "instrument": "balance",
+          "op": "measure",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "measured",
+            "instrument": "balance",
+            "model_support": {
+              "assumptions": [
+                "represented material inventory; excludes vessel tare"
+              ],
+              "observable": "mass",
+              "provenance": [],
+              "reasons": [],
+              "scope": "whole_vessel",
+              "status": "computed",
+              "validity": []
+            },
+            "unit": "g",
+            "value": 9.97,
+            "vessel": 0
+          }
+        ]
+      }
+    ],
+    "final_bench": {
+      "vessels": [
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 0.5534276991396059,
+              "phase": "liquid",
+              "species": "water"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 0.5534276991396059,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.1500000001016,
+          "thermal_mode": "adiabatic"
+        }
+      ]
+    }
+  },
+  {
+    "id": "C098",
+    "exit_code": 0,
+    "json_lines": 15,
+    "parse_errors": [],
+    "stderr": "",
+    "events": [
+      {
+        "step": 0,
+        "operator": {
+          "moles": 0.5,
+          "op": "add",
+          "species": "water",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 0.5,
+            "species": "water",
+            "total_after": 0.5,
+            "vessel": 0
+          },
+          {
+            "event": "solution_routed",
+            "provenance": {
+              "dataset": "vendored USGS phreeqc.dat",
+              "dataset_phrase": {
+                "en": "vendored USGS {file}",
+                "key": "provenance.dataset.vendored-usgs",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "text": {
+                        "text": "phreeqc.dat"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "USGS PHREEQC thermodynamic database"
+              ],
+              "engine": "Kerotakis analytic equilibrium evaluator",
+              "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+              "model_phrase": {
+                "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                "key": "provenance.model.water-autoionisation",
+                "slots": [
+                  [
+                    "engine",
+                    {
+                      "text": {
+                        "text": "PHREEQC"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "routing_phrase": {
+                "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "key": "routing.solvent-relation-only"
+              }
+            },
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 1,
+        "operator": {
+          "moles": 0.5,
+          "op": "add",
+          "species": "ethanol",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 0.5,
+            "species": "ethanol",
+            "total_after": 0.5,
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 2,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "events": [
+          {
+            "event": "vessel_created",
+            "vessel": 1
+          }
+        ]
+      },
+      {
+        "step": 3,
+        "operator": {
+          "moles": 0.5,
+          "op": "add",
+          "species": "water",
+          "vessel": 1
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 0.5,
+            "species": "water",
+            "total_after": 0.5,
+            "vessel": 1
+          },
+          {
+            "event": "solution_routed",
+            "provenance": {
+              "dataset": "vendored USGS phreeqc.dat",
+              "dataset_phrase": {
+                "en": "vendored USGS {file}",
+                "key": "provenance.dataset.vendored-usgs",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "text": {
+                        "text": "phreeqc.dat"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "USGS PHREEQC thermodynamic database"
+              ],
+              "engine": "Kerotakis analytic equilibrium evaluator",
+              "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+              "model_phrase": {
+                "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                "key": "provenance.model.water-autoionisation",
+                "slots": [
+                  [
+                    "engine",
+                    {
+                      "text": {
+                        "text": "PHREEQC"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "routing_phrase": {
+                "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "key": "routing.solvent-relation-only"
+              }
+            },
+            "vessel": 1
+          }
+        ]
+      },
+      {
+        "step": 4,
+        "operator": {
+          "moles": 0.5,
+          "op": "add",
+          "species": "ethanol",
+          "vessel": 1
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 0.5,
+            "species": "ethanol",
+            "total_after": 0.5,
+            "vessel": 1
+          }
+        ]
+      },
+      {
+        "step": 5,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "events": [
+          {
+            "event": "vessel_created",
+            "vessel": 2
+          }
+        ]
+      },
+      {
+        "step": 6,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "events": [
+          {
+            "event": "vessel_created",
+            "vessel": 3
+          }
+        ]
+      },
+      {
+        "step": 7,
+        "operator": {
+          "fraction": 0.01,
+          "from": 0,
+          "op": "distil",
+          "stages": 1,
+          "to": 2
+        },
+        "events": [
+          {
+            "at": 353.03294538568514,
+            "azeotropic": false,
+            "components": [
+              [
+                "water",
+                0.003450638797336194
+              ],
+              [
+                "ethanol",
+                0.006549361202663815
+              ]
+            ],
+            "ended": 353.0452370913721,
+            "energy_kj": 0.3929669767820676,
+            "ethanol": 0.006549361202663815,
+            "event": "distilled",
+            "from": 0,
+            "stages": 1,
+            "to": 2,
+            "water": 0.003450638797336194
+          }
+        ]
+      },
+      {
+        "step": 8,
+        "operator": {
+          "fraction": 0.01,
+          "from": 1,
+          "op": "distil",
+          "stages": 2,
+          "to": 3
+        },
+        "events": [
+          {
+            "at": 353.03294538568514,
+            "azeotropic": false,
+            "components": [
+              [
+                "water",
+                0.002664663009207885
+              ],
+              [
+                "ethanol",
+                0.00733533699079211
+              ]
+            ],
+            "ended": 353.0514847606995,
+            "energy_kj": 0.39133450507012485,
+            "ethanol": 0.00733533699079211,
+            "event": "distilled",
+            "from": 1,
+            "stages": 2,
+            "to": 3,
+            "water": 0.002664663009207885
+          }
+        ]
+      }
+    ],
+    "final_bench": {
+      "vessels": [
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 0.002664663009207885,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.00733533699079211,
+              "phase": "liquid",
+              "species": "ethanol"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 3,
+          "label": "beaker",
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        }
+      ]
+    }
+  }
+]

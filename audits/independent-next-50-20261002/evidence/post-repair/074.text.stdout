@@ -1,0 +1,74 @@
+  v1: +5.5343 mol water
+  v1: answered by vendored USGS phreeqc.dat — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +1.00 mmol sodium sulfate
+  v1: 1.00 mmol sodium sulfate dissolved
+  v1: answered by wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice — the default inorganic aqueous dataset
+  v1: pH 7.08
+  v1: sealed over 0.100 L of headspace, trapping 4.09 mmol of room air
+  v1: headspace settled at 1.013 bar with 4.09 mmol gas
+  v1: pH 5.86
+  v1 (beaker) — 25.01 °C, 100.0 g, 100.0 mL liquid, sealed 100.0 mL headspace at 1.013 bar, pH 5.86, pe 12.45 (+0.737 V), I = 0.0291 m
+      redox — all S as S(VI)
+           3.23 mmol  nitrogen           Gas
+            856 µmol  oxygen             Gas
+           2.00 mmol  sodium ion         Aqueous
+            633 nmol  dissolved carbon dioxide Aqueous
+            237 nmol  bicarbonate ion    Aqueous
+           12.7 pmol  carbonate ion      Aqueous
+           1000 µmol  sulfate ion        Aqueous
+            765 nmol  carbon dioxide     Gas
+          5.5343 mol  water              Liquid
+            237 nmol  hydrogen ion       Aqueous
+  v1 pressure gauge: 101.30 kPa — This is a model estimate with limited calibration or simplifying assumptions.
+  v1: not yet modelled — solvent electrolysis assumes inert electrodes and complete Faradaic conversion. The anode uses an inventory rule: chlorine when chloride can supply the entire requested charge, otherwise oxygen. Electrode material, overpotentials, competing chlorine/oxygen production, and the voltage needed to sustain this current are not predicted
+  v1: 1.000 A for 60 s = 60 C → 622 µmol e⁻ → 311 µmol hydrogen at the cathode and 155 µmol oxygen at the anode
+  v1: 311 µmol hydrogen formed and remains in the closed headspace
+  v1: 155 µmol oxygen formed and remains in the closed headspace
+  v1: headspace settled at 1.129 bar with 4.55 mmol gas
+  v1: pH 5.86
+  v1 (beaker) — 25.01 °C, 100.0 g, 100.0 mL liquid, sealed 100.0 mL headspace at 1.129 bar, pH 5.86, pe 12.18 (+0.720 V), I = 0.0291 m
+      redox — all S as S(VI)
+           3.23 mmol  nitrogen           Gas
+           1.01 mmol  oxygen             Gas
+            311 µmol  hydrogen           Gas
+           2.00 mmol  sodium ion         Aqueous
+            633 nmol  dissolved carbon dioxide Aqueous
+            237 nmol  bicarbonate ion    Aqueous
+           12.7 pmol  carbonate ion      Aqueous
+           1000 µmol  sulfate ion        Aqueous
+            765 nmol  carbon dioxide     Gas
+          5.5340 mol  water              Liquid
+            237 nmol  hydrogen ion       Aqueous
+  v1 pressure gauge: 112.87 kPa — This is a model estimate with limited calibration or simplifying assumptions.
+  v1 balance: 99.96 g
+  v1: answered by PHREEQC (IPhreeqc, USGS) using wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice
+    model:   WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)
+    routing: the default inorganic aqueous dataset
+    the dataset records its own sources, e.g.:
+      · WATEQ4F, Alpers and others, 1989
+      · log K from llnl.dat  Aug 23, 2005
+      · Dzombak and Morel, 1990
+      · usbm-ic9429-complexes-25c
+      · sander-2023-hbr-reference
+  the same question, asked of every dataset:
+    wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice pH 12.239 · I = 0.0201 m
+      WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)
+    minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice pH 12.237 · I = 0.0201 m
+      WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)
+    pitzer.dat, with the reviewed Sander HBr gas-uptake slice pH 12.236 · I = 0.0201 m
+      Pitzer specific-ion-interaction model (valid at high ionic strength)
+  note: only 21 of 683 mineral phases exist in every dataset, so the answers
+  can differ in which solids they may form, not only in activity model
+  v1 (beaker) — 25.01 °C, 100.0 g, 100.0 mL liquid, sealed 100.0 mL headspace at 1.129 bar, pH 5.86, pe 12.18 (+0.720 V), I = 0.0291 m
+      redox — all S as S(VI)
+           3.23 mmol  nitrogen           Gas
+           1.01 mmol  oxygen             Gas
+            311 µmol  hydrogen           Gas
+           2.00 mmol  sodium ion         Aqueous
+            633 nmol  dissolved carbon dioxide Aqueous
+            237 nmol  bicarbonate ion    Aqueous
+           12.7 pmol  carbonate ion      Aqueous
+           1000 µmol  sulfate ion        Aqueous
+            765 nmol  carbon dioxide     Gas
+          5.5340 mol  water              Liquid
+            237 nmol  hydrogen ion       Aqueous

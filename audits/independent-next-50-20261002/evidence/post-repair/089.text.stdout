@@ -1,0 +1,35 @@
+  v1: +1.106855 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.050000 mol sodium chloride (NaCl, M = 58.443 g/mol)
+  v1: 0.050000 mol sodium chloride dissolved
+  v1: routing → PHREEQC (IPhreeqc, USGS) · pitzer.dat, with the reviewed Sander HBr gas-uptake slice · Pitzer specific-ion-interaction model (valid at high ionic strength) — chosen because the solution is concentrated (~5.0 mol/kgw), where the ion-interaction model is the valid one
+  v1: pH 6.774 · I = 2.5075 mol/kgw
+  v1: T 298.150 K → 295.824 K (ΔT = -2.326 K)
+  v1 (beaker) — 22.67 °C, 22.9 g, 20.0 mL liquid, open to atmosphere, pH 6.77, I = 2.5075 m
+          0.0500 mol  chloride ion       Aqueous
+          0.0500 mol  sodium ion         Aqueous
+          1.1069 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.1270e-1   γ=0.016
+        Cl-              2.5075e0     1.4234e0   γ=0.568
+        Na+              2.5075e0     2.0772e0   γ=0.828
+        H+              1.0187e-7    1.6816e-7   γ=1.651
+        OH-             1.0187e-7    4.5907e-8   γ=0.451
+  v1: 0.996170 mol H2O evaporated (vaporisation enthalpy not yet in the balance)
+  v1: 0.037650 mol sodium chloride precipitated
+  v1: pH 6.193 · I = 6.1937 mol/kgw
+  v1: T 295.824 K → 310.515 K (ΔT = +14.691 K)
+  v1: net ionic: Cl⁻(aq) + Na⁺(aq) → NaCl(s)
+  v1 (beaker) — 37.36 °C, 4.9 g, 2.0 mL liquid, open to atmosphere, pH 6.19, I = 6.1937 m
+          0.0124 mol  chloride ion       Aqueous
+          0.0124 mol  sodium ion         Aqueous
+          0.0376 mol  sodium chloride    Solid
+          0.1107 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    7.5030e-1   γ=0.014
+        Cl-              6.1937e0     3.9065e0   γ=0.631
+        Na+              6.1937e0     1.0273e1   γ=1.659
+        OH-             8.8674e-8    2.8760e-8   γ=0.324
+        H+              8.8673e-8    6.4104e-7   γ=7.229
+  v1 balance: 4.9161 g
+  v1: The liquid is white and so cloudy you cannot see through it, there is white sodium chloride at the bottom. (liquid #FFFFFF, turbidity 1.00)

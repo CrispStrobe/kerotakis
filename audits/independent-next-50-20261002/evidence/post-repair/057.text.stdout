@@ -1,0 +1,14 @@
+  v1: +1.00 mmol hydrogen
+  v1: sealed over 0.100 L of headspace, trapping 4.09 mmol of room air
+  v1: pop test — positive
+  v1: headspace settled at 0.889 bar with 3.59 mmol gas
+  v1: answered by wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice — the default inorganic aqueous dataset
+  v1: pH 5.61
+  v1 (beaker) — 25.00 °C, 0.1 g, 0.0 mL liquid, sealed 100.0 mL headspace at 0.889 bar, pH 5.61, I = 0.0000 m
+           3.23 mmol  nitrogen           Gas
+            356 µmol  oxygen             Gas
+            245 pmol  dissolved carbon dioxide Aqueous
+           44.4 pmol  bicarbonate ion    Aqueous
+           1.63 µmol  carbon dioxide     Gas
+           1000 µmol  water              Liquid
+           45.2 pmol  hydrogen ion       Aqueous

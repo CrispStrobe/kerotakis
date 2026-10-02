@@ -1,0 +1,84 @@
+  v2: new vessel
+  v1: +5.5343 mol water
+  v1: answered by vendored USGS phreeqc.dat — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +1.00 mmol hydrogen peroxide
+  v1: +10.0 µmol manganese dioxide
+  v1: sealed over 0.100 L of headspace, trapping 4.09 mmol of room air
+  v1: headspace settled at 1.013 bar with 4.09 mmol gas
+  v1: answered by wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice — the default inorganic aqueous dataset
+  v1: pH 5.76
+  v2: +5.5343 mol water
+  v2: answered by vendored USGS phreeqc.dat — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v2: +1.00 mmol hydrogen peroxide
+  v2: sealed over 0.100 L of headspace, trapping 4.09 mmol of room air
+  v2: headspace settled at 1.013 bar with 4.09 mmol gas
+  v2: answered by wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice — the default inorganic aqueous dataset
+  v2: pH 5.76
+  v1: 100% of the suspended particles settle in 60 s
+  v1: headspace settled at 1.013 bar with 4.09 mmol gas
+  v1: pH 5.76
+  v2: headspace settled at 1.013 bar with 4.09 mmol gas
+  v2: pH 5.76
+  v1 (beaker) — 25.00 °C, 99.9 g, 100.0 mL liquid, sealed 100.0 mL headspace at 1.013 bar, pH 5.76, I = 0.0000 m
+            998 µmol  hydrogen peroxide  Liquid
+           10.0 µmol  manganese dioxide  Solid
+           3.23 mmol  nitrogen           Gas
+            857 µmol  oxygen             Gas
+            664 nmol  dissolved carbon dioxide Aqueous
+            172 nmol  bicarbonate ion    Aqueous
+           4.69 pmol  carbonate ion      Aqueous
+            799 nmol  carbon dioxide     Gas
+          5.5343 mol  water              Liquid
+            172 nmol  hydrogen ion       Aqueous
+  v2 (beaker) — 25.00 °C, 99.9 g, 100.0 mL liquid, sealed 100.0 mL headspace at 1.013 bar, pH 5.76, I = 0.0000 m
+           1000 µmol  hydrogen peroxide  Liquid
+           3.23 mmol  nitrogen           Gas
+            857 µmol  oxygen             Gas
+            664 nmol  dissolved carbon dioxide Aqueous
+            172 nmol  bicarbonate ion    Aqueous
+           4.69 pmol  carbonate ion      Aqueous
+            799 nmol  carbon dioxide     Gas
+          5.5343 mol  water              Liquid
+            172 nmol  hydrogen ion       Aqueous
+  v1: The liquid is colourless and clear, bubbles of gas are rising through it, there is black manganese dioxide at the bottom.
+  v1 pressure gauge: 101.33 kPa
+  v2 pressure gauge: 101.31 kPa
+  v1: answered by PHREEQC (IPhreeqc, USGS) using wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice
+    model:   WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)
+    routing: the default inorganic aqueous dataset
+    the dataset records its own sources, e.g.:
+      · WATEQ4F, Alpers and others, 1989
+      · log K from llnl.dat  Aug 23, 2005
+      · Dzombak and Morel, 1990
+      · usbm-ic9429-complexes-25c
+      · sander-2023-hbr-reference
+  the same question, asked of every dataset:
+    wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice pH 5.763 · I = 0.0000 m
+      WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)
+    minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice pH 5.763 · I = 0.0000 m
+      WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)
+    pitzer.dat, with the reviewed Sander HBr gas-uptake slice pH 5.758 · I = 0.0000 m
+      Pitzer specific-ion-interaction model (valid at high ionic strength)
+  note: only 21 of 683 mineral phases exist in every dataset, so the answers
+  can differ in which solids they may form, not only in activity model
+  v1 (beaker) — 25.00 °C, 99.9 g, 100.0 mL liquid, sealed 100.0 mL headspace at 1.013 bar, pH 5.76, I = 0.0000 m
+            998 µmol  hydrogen peroxide  Liquid
+           10.0 µmol  manganese dioxide  Solid
+           3.23 mmol  nitrogen           Gas
+            857 µmol  oxygen             Gas
+            664 nmol  dissolved carbon dioxide Aqueous
+            172 nmol  bicarbonate ion    Aqueous
+           4.69 pmol  carbonate ion      Aqueous
+            799 nmol  carbon dioxide     Gas
+          5.5343 mol  water              Liquid
+            172 nmol  hydrogen ion       Aqueous
+  v2 (beaker) — 25.00 °C, 99.9 g, 100.0 mL liquid, sealed 100.0 mL headspace at 1.013 bar, pH 5.76, I = 0.0000 m
+           1000 µmol  hydrogen peroxide  Liquid
+           3.23 mmol  nitrogen           Gas
+            857 µmol  oxygen             Gas
+            664 nmol  dissolved carbon dioxide Aqueous
+            172 nmol  bicarbonate ion    Aqueous
+           4.69 pmol  carbonate ion      Aqueous
+            799 nmol  carbon dioxide     Gas
+          5.5343 mol  water              Liquid
+            172 nmol  hydrogen ion       Aqueous

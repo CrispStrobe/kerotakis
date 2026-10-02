@@ -1,0 +1,9 @@
+  v1: +0.0100 mol helium
+  v1: pressure controlled at 1.000 bar; initial headspace 0.100 L, adding 4.03 mmol of boundary gas
+  v1 pressure gauge: 100.00 kPa
+  v1 volume meter: 347.90 mL
+  v1 (beaker) — 25.00 °C, 0.2 g, 0.0 mL liquid, pressure-controlled 347.9 mL headspace at 1.000 bar
+          0.0100 mol  helium             Gas
+           3.19 mmol  nitrogen           Gas
+            845 µmol  oxygen             Gas
+           1.61 µmol  carbon dioxide     Gas

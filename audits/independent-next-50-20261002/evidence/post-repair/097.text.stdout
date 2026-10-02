@@ -1,0 +1,49 @@
+  v1: +0.553428 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: boundary=open → sealed; V_gas=0.100000 L, trapped dry-air approximation=0.00408740 mol
+  v1: finite-volume gas/liquid equilibrium; P=101321.379 Pa, n_gas=0.00408726 mol
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v1: pH 5.629 · I = 0.0000 mol/kgw
+  v1 (beaker) — 25.00 °C, 10.1 g, 10.0 mL liquid, sealed 100.0 mL headspace at 1.013 bar, pH 5.63, I = 0.0000 m
+           3.23 mmol  nitrogen           Gas
+            856 µmol  oxygen             Gas
+            124 nmol  dissolved carbon dioxide Aqueous
+           23.4 nmol  bicarbonate ion    Aqueous
+           1.49 µmol  carbon dioxide     Gas
+          0.5534 mol  water              Liquid
+           23.4 nmol  hydrogen ion       Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1     1.0000e0   γ=0.018
+        CO2             1.2394e-5    1.2394e-5   γ=1.000
+        H+              2.3543e-6    2.3501e-6   γ=0.998
+        HCO3-           2.3499e-6    2.3457e-6   γ=0.998
+        OH-             4.2675e-9    4.2598e-9   γ=0.998
+  v1 thermometer: 25.0001 °C
+  v1: T 298.150 K → 179.555 K (ΔT = -118.595 K)
+  v1: thermal energy requested=5000.000000 J, delivered=5000.000000 J, heating=false, time_coupled=false
+  v1: carbon dioxide Gas → Solid at 194.65 K (-78.50 °C), shifted +0.000 K by dissolved particles
+  v1: T 179.555 K → 262.951 K (ΔT = +83.396 K)
+  v1: 0.000001 mol dry ice dissolved
+  v1: finite-volume gas/liquid equilibrium; P=60997.117 Pa, n_gas=0.00408577 mol
+  v1: pH 7.892 · I = 0.0000 mol/kgw
+  v1: water Liquid → Solid at 273.15 K (-0.00 °C), shifted -0.000 K by dissolved particles
+  v1: NOT MODELLED: pure ice was removed and the residual brine retained, but further cooling meets the stated range of the solvent-activity model this transition rests on (ideal-solution): with no activity model covering this solution the bench is using Raoult's law, which it does not carry past 6 mol/kgw of dissolved particles, and this one is at 6.0
+  v1: 0.000002 mol carbon dioxide transferred to the finite headspace (closed system; mass retained)
+  v1: finite-volume gas/liquid equilibrium; P=89362.865 Pa, n_gas=0.00408740 mol
+  v1: pH 5.554 · I = 0.0000 mol/kgw
+  v1: reaction heat for water is not priced; the temperature estimate is incomplete
+  v1: water Liquid → Solid at 273.15 K (-0.00 °C), shifted -0.000 K by dissolved particles
+  v1: NOT MODELLED: pure ice was removed and the residual brine retained, but further cooling meets the stated range of the solvent-activity model this transition rests on (ideal-solution): with no activity model covering this solution the bench is using Raoult's law, which it does not carry past 6 mol/kgw of dissolved particles, and this one is at 6.0
+  v1: solver 'phreeqc-aqueous' failed: phreeqc-aqueous could not solve this state: PHREEQC: ERROR: Numerical method failed on all combinations of convergence parameters, cell/soln/mix 1
+
+  v1: NOT MODELLED: the water in this vessel is ice, and ice is not a solution: pH, ionic strength and speciation all describe particles dissolved in a liquid, so none of them is reported while the solvent is frozen
+  v1 (beaker) — -10.20 °C, 10.1 g, 0.0 mL liquid, sealed 100.0 mL headspace at 0.894 bar
+      temperature estimate is incomplete: reaction heat for water is not priced
+           3.23 mmol  nitrogen           Gas
+            856 µmol  oxygen             Gas
+          0.5534 mol  water              Solid
+           11.6 pmol  dissolved carbon dioxide Aqueous
+           1.63 µmol  carbon dioxide     Gas
+            122 pmol  water              Liquid
+           7.81 nmol  base equivalents   Aqueous
+  v1: The liquid is colourless and clear, bubbles of gas are rising through it, white water floats on top. (liquid #FFFFFF, turbidity 0.00)

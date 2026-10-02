@@ -1,0 +1,107 @@
+{
+  "validated_commit": "04a82d548fd1474968ded25acb9923014f2ae6bc",
+  "validated_run": 37061681708,
+  "replay_run": 37062489395,
+  "binary_sha256": "279c168a69b0a6c2c5c306b581dfcfbcbe693d10431fa8a710bf1863556e2487",
+  "total_rust_tests_passed": 1136,
+  "sources": {
+    "crates/kerotakis-cea/src/gibbs.rs": {
+      "validated_sha256": "52333946307d2feea18dacce51f7e73651d10e1a7610e27bfc61f823ca89a7c4",
+      "current_sha256": "52333946307d2feea18dacce51f7e73651d10e1a7610e27bfc61f823ca89a7c4",
+      "matches_validation": true
+    },
+    "crates/kerotakis-core/src/bench.rs": {
+      "validated_sha256": "31aea5095f64daef70fe4381d1a3c695f157f08e50dfb42b4d2d7df6a7792809",
+      "current_sha256": "31aea5095f64daef70fe4381d1a3c695f157f08e50dfb42b4d2d7df6a7792809",
+      "matches_validation": true
+    },
+    "crates/kerotakis-core/src/transport.rs": {
+      "validated_sha256": "9ef518022c3cd9263e6afd36b774cb7e0e5eaffc723e5176dfe21c1e8cf25185",
+      "current_sha256": "9ef518022c3cd9263e6afd36b774cb7e0e5eaffc723e5176dfe21c1e8cf25185",
+      "matches_validation": true
+    },
+    "crates/kerotakis-core/tests/transport.rs": {
+      "validated_sha256": "5e4d051a8e9c7cf20585c19c285af01c5ebf2b847ae3293b1428b4e399e10539",
+      "current_sha256": "5e4d051a8e9c7cf20585c19c285af01c5ebf2b847ae3293b1428b4e399e10539",
+      "matches_validation": true
+    },
+    "crates/kerotakis-core/tests/selected_phase_transfer.rs": {
+      "validated_sha256": "795e261fb986a8cfa98867f4beb55671ebda05a84446fcaf3ef903786c54ff3e",
+      "current_sha256": "795e261fb986a8cfa98867f4beb55671ebda05a84446fcaf3ef903786c54ff3e",
+      "matches_validation": true
+    },
+    "crates/kerotakis-core/tests/thermal_phase_refusal.rs": {
+      "validated_sha256": "e3d19e9afc269b3dd52a4a9940ea831892de2b6183e5f541a6e3d786269db04e",
+      "current_sha256": "e3d19e9afc269b3dd52a4a9940ea831892de2b6183e5f541a6e3d786269db04e",
+      "matches_validation": true
+    },
+    "crates/kerotakis-core/tests/electrolysis_scope.rs": {
+      "validated_sha256": "e090eda191f41893d929c1af4b10a5e2f1a3358e2f5707a687614e4d656d31ac",
+      "current_sha256": "e090eda191f41893d929c1af4b10a5e2f1a3358e2f5707a687614e4d656d31ac",
+      "matches_validation": true
+    },
+    "crates/kerotakis-core/src/displacement.rs": {
+      "validated_sha256": "31ecb0bf10997e866f75260611173f6e84e2e03498da3da3cb9aad527a8327f1",
+      "current_sha256": "31ecb0bf10997e866f75260611173f6e84e2e03498da3da3cb9aad527a8327f1",
+      "matches_validation": true
+    },
+    "crates/kerotakis-core/src/chromatography.rs": {
+      "validated_sha256": "77acd042f80904558c79d9b30eaafce092f9613fbe0cc3c1120e4bc4f19cc88e",
+      "current_sha256": "77acd042f80904558c79d9b30eaafce092f9613fbe0cc3c1120e4bc4f19cc88e",
+      "matches_validation": true
+    },
+    "crates/kerotakis-core/src/lib.rs": {
+      "validated_sha256": "bd4050d9bc5b1046092d8f278ec6854b6b78d0e440292e54bc28437cef4411d0",
+      "current_sha256": "bd4050d9bc5b1046092d8f278ec6854b6b78d0e440292e54bc28437cef4411d0",
+      "matches_validation": true
+    },
+    "crates/kerotakis-core/src/ops.rs": {
+      "validated_sha256": "fe7de071a43b2a71904a5135a6f717341c8a889ac998853209b8ffd291773830",
+      "current_sha256": "fe7de071a43b2a71904a5135a6f717341c8a889ac998853209b8ffd291773830",
+      "matches_validation": true
+    },
+    "crates/kerotakis-core/tests/chromatography_coverage.rs": {
+      "validated_sha256": "9e69b82a298e8e6ba5d938b57a2676ee418b45e1166f384c7a8e4115397dc4d8",
+      "current_sha256": "9e69b82a298e8e6ba5d938b57a2676ee418b45e1166f384c7a8e4115397dc4d8",
+      "matches_validation": true
+    },
+    "crates/kerotakis-core/tests/solvent_electrolysis_accounting.rs": {
+      "validated_sha256": "5c28708db285dd2bdccc438543d0444c4cbb6e62b3ebab375e74cf9740fd7131",
+      "current_sha256": "5c28708db285dd2bdccc438543d0444c4cbb6e62b3ebab375e74cf9740fd7131",
+      "matches_validation": true
+    },
+    "crates/kerotakis-core/src/render.rs": {
+      "validated_sha256": "78eaadf23e452552d141f131c6ff8cac31455b4af720d2a4547633fc15e66823",
+      "current_sha256": "78eaadf23e452552d141f131c6ff8cac31455b4af720d2a4547633fc15e66823",
+      "matches_validation": true
+    },
+    "crates/kerotakis-core/tests/atomic_distil_refusal.rs": {
+      "validated_sha256": "544df609b6618c772ae7795f9a4e3335bf0e50f7685ac86f3d5ed9d11c6f1aef",
+      "current_sha256": "544df609b6618c772ae7795f9a4e3335bf0e50f7685ac86f3d5ed9d11c6f1aef",
+      "matches_validation": true
+    },
+    "crates/kerotakis-thermo/src/vle.rs": {
+      "validated_sha256": "64fa84ad0cecdb4523710b71c729dba5b2d9fdbd0a13c485372b8e1365b4ab76",
+      "current_sha256": "64fa84ad0cecdb4523710b71c729dba5b2d9fdbd0a13c485372b8e1365b4ab76",
+      "matches_validation": true
+    },
+    "crates/kerotakis-thermo/tests/distillation_completion.rs": {
+      "validated_sha256": "e8d14b024a98a01485204ae5609377036a781fc2017e13460ae19fa828c50701",
+      "current_sha256": "e8d14b024a98a01485204ae5609377036a781fc2017e13460ae19fa828c50701",
+      "matches_validation": true
+    },
+    ".github/workflows/chemistry-audit.yml": {
+      "validated_sha256": "36ccc916f187b4e91903621d8964de32d01e7037e622cc8222a7193a99f68ddd",
+      "current_sha256": "90be19ef954e2c414e76966567772524b1af752e96a1bbe82bf0d7b8b98d352f",
+      "matches_validation": false,
+      "change_after_validation": "Only replay input defaults now select this successful validation run and exact engine commit."
+    },
+    "audits/independent-50-20261002/validate_phase_ownership.py": {
+      "validated_sha256": "75ce70ef7125efd3dba30d494f67f3c4fee7db461df4123771da7b928ea08b55",
+      "current_sha256": "75ce70ef7125efd3dba30d494f67f3c4fee7db461df4123771da7b928ea08b55",
+      "matches_validation": true
+    }
+  },
+  "recorded_utc": "2026-10-02T20:49:26.757367+00:00",
+  "engine_sources_match": true
+}

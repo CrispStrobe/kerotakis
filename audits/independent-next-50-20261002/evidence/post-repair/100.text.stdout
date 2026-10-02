@@ -1,0 +1,61 @@
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.010000 mol acetic acid (CH3COOH, M = 60.052 g/mol)
+  v1: routing → PHREEQC (IPhreeqc, USGS) · minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)
+  v1: pH 2.881 · I = 0.0014 mol/kgw
+  v1 pH meter: 2.8808 pH — This is a model estimate with limited calibration or simplifying assumptions.
+  v1 (beaker) — 25.00 °C, 100.3 g, 100.0 mL liquid, open to atmosphere, pH 2.88, I = 0.0014 m
+           9.86 mmol  acetic acid        Aqueous
+            137 µmol  acetate ion        Aqueous
+          5.5343 mol  water              Liquid
+            137 µmol  hydrogen ion       Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9830e-1   γ=0.018
+        H(Acetate)      9.8929e-2    9.8929e-2   γ=1.000
+        H+              1.3714e-3    1.3157e-3   γ=0.959
+        Acetate-        1.3714e-3    1.3157e-3   γ=0.959
+        O2              2.5950e-4    2.5960e-4   γ=1.000
+  v1: T 298.150 K → 298.150 K (ΔT = -0.000 K)
+  v1: +0.005000 mol sodium hydroxide (NaOH, M = 39.997 g/mol)
+  v1: 0.005000 mol sodium hydroxide dissolved
+  v1: 0.000137 mol of acidity cancelled (from the change in the solutes' net charge; PHREEQC reports element totals and never this reaction)
+  v1: pH 4.663 · I = 0.0490 mol/kgw
+  v1: T 298.150 K → 299.355 K (ΔT = +1.205 K)
+  v1 pH meter: 4.6630 pH — This is a model estimate with limited calibration or simplifying assumptions.
+  v1 (beaker) — 26.20 °C, 100.5 g, 100.1 mL liquid, open to atmosphere, pH 4.66, I = 0.0490 m
+           5.05 mmol  acetic acid        Aqueous
+           4.95 mmol  acetate ion        Aqueous
+           5.00 mmol  sodium ion         Aqueous
+          5.5392 mol  water              Liquid
+           52.6 µmol  base equivalents   Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9750e-1   γ=0.018
+        H(Acetate)      5.0079e-2    5.0079e-2   γ=1.000
+        Acetate-        4.9038e-2    4.0308e-2   γ=0.822
+        Na+             4.9012e-2    4.0287e-2   γ=0.822
+        Na(Acetate)     1.0940e-3    1.0940e-3   γ=1.000
+        O2              2.2170e-4    2.2430e-4   γ=1.012
+        H+              2.6431e-5    2.1726e-5   γ=0.822
+  v1: T 299.355 K → 299.354 K (ΔT = -0.001 K)
+  v1: +0.005000 mol sodium hydroxide (NaOH, M = 39.997 g/mol)
+  v1: 0.005000 mol sodium hydroxide dissolved
+  v1: 0.000052 mol of acidity cancelled (from the change in the solutes' net charge; PHREEQC reports element totals and never this reaction)
+  v1: pH 8.719 · I = 0.0962 mol/kgw
+  v1: T 299.354 K → 300.561 K (ΔT = +1.207 K)
+  v1: net ionic: H⁺(aq) + OH⁻(aq) → H₂O(l)  (spectator ions: Na⁺, Acetate⁻)  (complete ionic: H⁺(aq) + OH⁻(aq) + Na⁺(aq) + Acetate⁻(aq) → H₂O(l) + Na⁺(aq) + Acetate⁻(aq))
+  v1 pH meter: 8.7187 pH — This is a model estimate with limited calibration or simplifying assumptions.
+  v1 (beaker) — 27.41 °C, 100.7 g, 100.2 mL liquid, open to atmosphere, pH 8.72, I = 0.0962 m
+            855 nmol  acetic acid        Aqueous
+          10.00 mmol  acetate ion        Aqueous
+          0.0100 mol  sodium ion         Aqueous
+          5.5443 mol  water              Liquid
+            855 nmol  base equivalents   Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9670e-1   γ=0.018
+        Na+             9.6225e-2    7.5304e-2   γ=0.783
+        Acetate-        9.6217e-2    7.5297e-2   γ=0.783
+        Na(Acetate)     3.8950e-3    3.8950e-3   γ=1.000
+        O2              1.8970e-4    1.9390e-4   γ=1.022
+        OH-             8.2368e-6    6.2906e-6   γ=0.764
+        H(Acetate)      8.2344e-6    8.2344e-6   γ=1.000
+        H+              2.4420e-9    1.9111e-9   γ=0.783

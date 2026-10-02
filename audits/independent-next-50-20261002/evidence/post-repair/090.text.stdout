@@ -1,0 +1,13 @@
+  v1: +0.010000 mol iron (Fe, M = 55.845 g/mol)
+  v1: +0.010000 mol copper (Cu, M = 63.546 g/mol)
+  v1 (beaker) — 25.00 °C, 1.2 g, 0.0 mL liquid, open to atmosphere
+          0.0100 mol  iron               Solid
+          0.0100 mol  copper             Solid
+  v2: new vessel
+  v1 → v2: magnetic iron attracted; non-magnetic copper remained
+  v1 (beaker) — 25.00 °C, 0.6 g, 0.0 mL liquid, open to atmosphere
+          0.0100 mol  copper             Solid
+  v2 (beaker) — 25.00 °C, 0.6 g, 0.0 mL liquid, open to atmosphere
+          0.0100 mol  iron               Solid
+  v1 balance: 0.6355 g
+  v2 balance: 0.5585 g
