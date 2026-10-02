@@ -1,0 +1,16 @@
+new
+add v1 water 50mL
+add v1 NaCl 0.05mol
+seal v1 100mL
+add v2 water 50mL
+add v2 Na2SO4 0.005mol
+seal v2 100mL
+electrolyse v1 0.1A 60s
+electrolyse v2 0.1A 60s
+inspect v1
+inspect v2
+look v1
+measure v1 ph
+measure v2 ph
+explain v1
+inspect

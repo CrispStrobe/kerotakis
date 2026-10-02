@@ -1,0 +1,19 @@
+new
+add v1 water 50mL
+add v1 AgNO3 0.001mol
+add v1 NH3 0.01mol
+add v1 NaOH 0.002mol
+add v1 glucose 0.0005mol
+add v2 water 50mL
+add v2 AgNO3 0.001mol
+add v2 NH3 0.01mol
+add v2 NaOH 0.002mol
+add v2 acetone 0.0005mol
+wait 10min
+look v1
+look v2
+inspect v1
+inspect v2
+measure v1 uvvis
+explain v1
+inspect

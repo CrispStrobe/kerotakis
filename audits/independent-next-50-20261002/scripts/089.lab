@@ -1,0 +1,8 @@
+register lv3
+add v1 water 20mL
+add v1 NaCl 0.05mol
+inspect v1
+evaporate v1 0.9
+inspect v1
+measure v1 balance
+look v1

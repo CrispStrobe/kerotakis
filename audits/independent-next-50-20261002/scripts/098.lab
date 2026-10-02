@@ -1,0 +1,16 @@
+register lv3
+add v1 water 0.5mol
+add v1 ethanol 0.5mol
+new
+add v2 water 0.5mol
+add v2 ethanol 0.5mol
+new
+new
+inspect v1
+inspect v2
+distil v1 v3 0.1 stages 1
+distil v2 v4 0.1 stages 2
+inspect v1
+inspect v2
+inspect v3
+inspect v4

@@ -1,0 +1,11 @@
+register lv3
+add v1 water 100mL
+add v1 phenolphthalein 0.000001mol
+add v1 NaOH 0.001mol
+measure v1 ph
+look v1
+inspect v1
+add v1 HCl 0.001mol
+measure v1 ph
+look v1
+inspect v1

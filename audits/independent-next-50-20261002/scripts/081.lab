@@ -1,0 +1,17 @@
+new
+add v1 water 100mL
+add v1 H2O2 0.001mol
+seal v1 100mL
+add v2 water 100mL
+add v2 H2O2 0.001mol
+seal v2 100mL
+irradiate v1 254nm 0W/m2
+wait 60s
+inspect v1
+inspect v2
+measure v1 thermometer
+measure v2 thermometer
+measure v1 pressure
+measure v2 pressure
+explain v1
+inspect

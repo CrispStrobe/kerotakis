@@ -1,0 +1,19 @@
+new
+add v1 water 100mL
+add v1 H2SO4 0.002mol
+add v1 FeSO4 0.0005mol
+add v1 KMnO4 0.0001mol
+add v2 water 100mL
+add v2 NaHCO3 0.005mol
+add v2 FeSO4 0.0003mol
+add v2 KMnO4 0.0001mol
+wait 30s
+look v1
+look v2
+measure v1 ph
+measure v2 ph
+inspect v1
+inspect v2
+explain v1
+explain v2
+inspect

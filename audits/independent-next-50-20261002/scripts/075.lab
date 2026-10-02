@@ -1,0 +1,15 @@
+new
+add v1 water 100mL
+add v1 Na2SO4 0.001mol
+seal v1 100mL
+add v2 water 100mL
+add v2 Na2SO4 0.001mol
+seal v2 100mL
+electrolyse v1 0.5A 60s
+electrolyse v2 1A 60s
+inspect v1
+inspect v2
+measure v1 pressure
+measure v2 pressure
+explain v2
+inspect

@@ -1,0 +1,12 @@
+new
+add v1 water 100mL
+add v1 CuSO4 0.001mol
+add v1 Cu 0.005mol
+add v2 water 100mL
+add v2 CuSO4 0.001mol
+add v2 Cu 0.005mol
+cell v1 v2
+inspect v1
+inspect v2
+explain v1
+inspect

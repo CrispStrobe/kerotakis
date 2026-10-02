@@ -1,0 +1,6 @@
+add v1 H2O 100mL
+add v1 NaCl 0.001mol
+measure v1 conductivity
+dilute v1 900mL
+measure v1 conductivity
+inspect

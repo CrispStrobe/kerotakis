@@ -1,0 +1,8 @@
+new
+add v1 N2 0.01mol @ 25C
+add v2 N2 0.01mol @ 25C
+seal v1 100mL
+seal v2 200mL
+measure v1 pressure
+measure v2 pressure
+inspect

@@ -1,0 +1,10 @@
+new
+add v1 Ar 0.01mol @ 25C
+add v2 Ar 0.01mol @ 75C
+seal v1 100mL
+seal v2 100mL
+measure v1 pressure
+measure v2 pressure
+measure v1 thermometer
+measure v2 thermometer
+inspect

@@ -1,0 +1,10 @@
+register lv3
+add v1 Fe 0.01mol
+add v1 Cu 0.01mol
+inspect v1
+new
+magnet v1 v2
+inspect v1
+inspect v2
+measure v1 balance
+measure v2 balance

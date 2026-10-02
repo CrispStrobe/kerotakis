@@ -1,0 +1,142 @@
+[
+  {
+    "id": "051",
+    "title": "Boyle syringe comparison",
+    "script": "new\nadd v1 N2 0.01mol @ 25C\nadd v2 N2 0.01mol @ 25C\nseal v1 100mL\nseal v2 200mL\nmeasure v1 pressure\nmeasure v2 pressure\ninspect\n",
+    "expectation": "Equal gas doses at equal temperature produce twice the absolute pressure in half the headspace.",
+    "criteria": "Pressure excess above any explicitly documented ambient background has ratio 2 within 2%; gas inventory unchanged."
+  },
+  {
+    "id": "052",
+    "title": "Dalton mixed inert gases",
+    "script": "new\nadd v1 N2 0.005mol @ 25C\nadd v1 Ar 0.005mol @ 25C\nadd v2 N2 0.01mol @ 25C\nseal v1 100mL\nseal v2 100mL\nmeasure v1 pressure\nmeasure v2 pressure\ninspect\n",
+    "expectation": "Equal total gas moles have equal ideal pressure regardless of inert composition.",
+    "criteria": "Pressure agreement within 2%; both gases retained in mixed vessel."
+  },
+  {
+    "id": "053",
+    "title": "Kelvin scaling of pressure",
+    "script": "new\nadd v1 Ar 0.01mol @ 25C\nadd v2 Ar 0.01mol @ 75C\nseal v1 100mL\nseal v2 100mL\nmeasure v1 pressure\nmeasure v2 pressure\nmeasure v1 thermometer\nmeasure v2 thermometer\ninspect\n",
+    "expectation": "Absolute pressure scales with Kelvin temperature, 348.15/298.15, not Celsius ratio.",
+    "criteria": "Measured temperature within 1K of doses; gas pressure contribution ratio within 2% of 1.16770."
+  },
+  {
+    "id": "054",
+    "title": "Piston volume from ideal gas law",
+    "script": "add v1 Ar 0.01mol @ 25C\nregulate v1 1bar 100mL\nmeasure v1 pressure\nmeasure v1 volume\ninspect\n",
+    "expectation": "A pressure-regulated gas piston settles to nRT/P, approximately 247.9mL for 0.01mol at 298.15K and 1bar.",
+    "criteria": "Pressure is 1bar and gas volume 247.9mL within 2%, or explicit unsupported observable refusal rather than a false liquid volume."
+  },
+  {
+    "id": "055",
+    "title": "Double gas dose at same piston pressure",
+    "script": "new\nadd v1 Ar 0.01mol @ 25C\nadd v2 Ar 0.02mol @ 25C\nregulate v1 1bar 100mL\nregulate v2 1bar 100mL\nmeasure v1 volume\nmeasure v2 volume\ninspect\n",
+    "expectation": "Doubling inert gas moles doubles regulated gas volume.",
+    "criteria": "Stored boundary or gas volume doubles within 2%; pressure equal, inventories 0.01 and 0.02mol."
+  },
+  {
+    "id": "056",
+    "title": "Venting releases compression",
+    "script": "add v1 N2 0.01mol\nseal v1 100mL\nmeasure v1 pressure\nopen v1\nmeasure v1 pressure\ninspect\n",
+    "expectation": "Opening removes imposed compression and exchanges gas with the environment.",
+    "criteria": "Final pressure ambient or explicit open-boundary indication; no sealed overpressure remains."
+  },
+  {
+    "id": "057",
+    "title": "Hydrogen pop positive",
+    "script": "add v1 H2 0.001mol\nseal v1 100mL\ntest v1 pop\ninspect\n",
+    "expectation": "Hydrogen headspace gives a positive pop test; test should not produce oxygen spontaneously.",
+    "criteria": "Positive hydrogen response with no unexplained atom creation."
+  },
+  {
+    "id": "058",
+    "title": "Helium pop negative",
+    "script": "add v1 He 0.001mol\nseal v1 100mL\ntest v1 pop\ninspect\n",
+    "expectation": "Helium is inert and cannot give the hydrogen pop response.",
+    "criteria": "Explicit negative pop test; helium inventory remains finite and nonnegative."
+  },
+  {
+    "id": "059",
+    "title": "Oxygen glowing splint positive",
+    "script": "add v1 O2 0.001mol\nseal v1 100mL\ntest v1 splint\ninspect\n",
+    "expectation": "Oxygen supports combustion and relights a glowing splint.",
+    "criteria": "Positive oxygen test, no hydrogen-specific response."
+  },
+  {
+    "id": "060",
+    "title": "Nitrogen glowing splint negative",
+    "script": "add v1 N2 0.001mol\nseal v1 100mL\ntest v1 splint\ninspect\n",
+    "expectation": "Nitrogen cannot relight a glowing splint.",
+    "criteria": "Negative splint test."
+  },
+  {
+    "id": "061",
+    "title": "Carbon dioxide limewater positive",
+    "script": "add v1 CO2 0.001mol\nseal v1 100mL\ntest v1 limewater\ninspect\n",
+    "expectation": "Carbon dioxide clouds limewater via carbonate formation.",
+    "criteria": "Positive limewater response, no false oxygen interpretation."
+  },
+  {
+    "id": "062",
+    "title": "Argon limewater negative",
+    "script": "add v1 Ar 0.001mol\nseal v1 100mL\ntest v1 limewater\ninspect\n",
+    "expectation": "Argon does not cloud limewater.",
+    "criteria": "Negative limewater response."
+  },
+  {
+    "id": "063",
+    "title": "Ammonia damp litmus basic",
+    "script": "add v1 NH3 0.001mol\nseal v1 100mL\ntest v1 litmus\ninspect\n",
+    "expectation": "Ammonia gas dissolves on damp litmus and gives an alkaline response.",
+    "criteria": "Basic blue response, or explicit unsupported ammonia test refusal; neither acidic nor neutral claimed."
+  },
+  {
+    "id": "064",
+    "title": "Dry silica versus salt conductivity",
+    "script": "new\nadd v1 H2O 100mL\nadd v1 SiO2 1g\nadd v2 H2O 100mL\nadd v2 NaCl 0.001mol\nmeasure v1 conductivity\nmeasure v2 conductivity\ninspect\n",
+    "expectation": "Insoluble silica does not generate a strong electrolyte; sodium chloride solution is much more conductive.",
+    "criteria": "Salt conductivity exceeds silica control by at least an order of magnitude, or explicit missing conductivity fit for silica."
+  },
+  {
+    "id": "065",
+    "title": "Neutral sucrose versus ionic salt",
+    "script": "new\nadd v1 H2O 100mL\nadd v1 Sucrose 0.001mol\nadd v2 H2O 100mL\nadd v2 NaCl 0.001mol\nmeasure v1 conductivity\nmeasure v2 conductivity\ninspect\n",
+    "expectation": "Sucrose dissolves as neutral molecules, while NaCl dissociates into charge carriers.",
+    "criteria": "Salt conductivity exceeds sugar control by at least tenfold, or explicit unsupported sugar conductivity refusal."
+  },
+  {
+    "id": "066",
+    "title": "Tenfold electrolyte dilution",
+    "script": "add v1 H2O 100mL\nadd v1 NaCl 0.001mol\nmeasure v1 conductivity\ndilute v1 900mL\nmeasure v1 conductivity\ninspect\n",
+    "expectation": "Dilution preserves salt amount and lowers conductivity; dilute-limit conductivity approximately tracks concentration.",
+    "criteria": "Salt atom budgets unchanged; final conductivity lower, ratio between0.05 and0.2 if quantitative fit exists."
+  },
+  {
+    "id": "067",
+    "title": "Cooling inert solid without phase crossing",
+    "script": "add v1 Fe 1mol @ 100C\nmeasure v1 thermometer\ncool v1 1kJ\nmeasure v1 thermometer\nmeasure v1 balance\ninspect\n",
+    "expectation": "One kJ removed from one mole iron lowers its temperature tens of kelvin without changing material mass.",
+    "criteria": "Temperature decreases by20\u201360K; Fe amount1mol and mass55.8g conserved within1%."
+  },
+  {
+    "id": "068",
+    "title": "Two-stage sensible heat cycle",
+    "script": "add v1 Cu 1mol @ 25C\nmeasure v1 thermometer\nheat v1 500J\ncool v1 500J\nmeasure v1 thermometer\nmeasure v1 balance\ninspect\n",
+    "expectation": "Adding then removing equal heat below any phase transition returns copper to its starting state.",
+    "criteria": "Final temperature25C within0.2K; amount1mol and mass63.55g within1%."
+  },
+  {
+    "id": "069",
+    "title": "Energy split invariance for copper",
+    "script": "new\nadd v1 Cu 1mol @ 25C\nadd v2 Cu 1mol @ 25C\nheat v1 600J\nheat v2 200J\nheat v2 400J\nmeasure v1 thermometer\nmeasure v2 thermometer\ninspect\n",
+    "expectation": "Without a phase crossing or reactions, splitting the same total input energy leaves the same final state.",
+    "criteria": "Final temperatures agree within0.2K; identical copper inventory."
+  },
+  {
+    "id": "070",
+    "title": "Equivalent molar and gram dose",
+    "script": "new\nadd v1 Fe 1mol\nadd v2 Fe 55.845g\nmeasure v1 balance\nmeasure v2 balance\nparticles v1\nparticles v2\ninspect\n",
+    "expectation": "Mass and mole input units describe the same iron inventory within atomic-weight rounding.",
+    "criteria": "Both masses55.845g within0.1%, both amounts1mol within0.1%; particle reports consistent."
+  }
+]

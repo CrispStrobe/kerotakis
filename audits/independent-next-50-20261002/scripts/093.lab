@@ -1,0 +1,11 @@
+register lv3
+add v1 water 20mL
+add v1 CHCl3 10mL
+inspect v1
+look v1
+new
+drain v1 v2
+inspect v1
+inspect v2
+measure v1 balance
+measure v2 balance

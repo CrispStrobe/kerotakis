@@ -1,0 +1,5 @@
+add v1 Ar 0.01mol @ 25C
+regulate v1 1bar 100mL
+measure v1 pressure
+measure v1 volume
+inspect

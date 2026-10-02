@@ -1,0 +1,8 @@
+new
+add v1 H2O 100mL
+add v1 SiO2 1g
+add v2 H2O 100mL
+add v2 NaCl 0.001mol
+measure v1 conductivity
+measure v2 conductivity
+inspect

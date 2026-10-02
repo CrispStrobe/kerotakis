@@ -1,0 +1,7 @@
+add v1 Cu 1mol @ 25C
+measure v1 thermometer
+heat v1 500J
+cool v1 500J
+measure v1 thermometer
+measure v1 balance
+inspect

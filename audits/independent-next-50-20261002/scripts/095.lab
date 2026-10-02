@@ -1,0 +1,12 @@
+register lv3
+add v1 water 100mL
+add v1 KI 0.001mol
+add v1 I2 0.0001mol
+inspect v1
+look v1
+add v1 Na2S2O3 0.0001mol
+inspect v1
+look v1
+add v1 Na2S2O3 0.0001mol
+inspect v1
+look v1

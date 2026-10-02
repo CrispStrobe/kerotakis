@@ -1,0 +1,17 @@
+new
+add v1 water 50mL
+add v1 AgBr 0.001mol
+seal v1 100mL
+add v2 water 50mL
+add v2 AgBr 0.001mol
+seal v2 100mL
+irradiate v1 365nm 5W/m2
+irradiate v2 700nm 5W/m2
+wait 60s
+look v1
+look v2
+inspect v1
+inspect v2
+measure v1 uvvis
+explain v1
+inspect

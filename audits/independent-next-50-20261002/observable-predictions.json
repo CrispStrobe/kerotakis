@@ -1,0 +1,170 @@
+{
+  "design_policy": "Frozen independent predictions before execution. Designs use my own chemistry expectations; only CLI help and script parser syntax were consulted. No corpus, tests, or chemistry implementation were consulted for experiment inspiration. Unknown ingredient identities are naming/capability findings and require separate follow-up, not silent edits to these frozen predictions. A modeled outcome and an honest unsupported boundary are assessed separately.",
+  "experiments": [
+    {
+      "id": "086",
+      "title": "Filter a dissolved electrolyte away from an inert mineral suspension",
+      "script": "register lv3\nadd v1 water 100mL\nadd v1 NaCl 0.01mol\nadd v1 SiO2 1g\ninspect v1\nnew\nfilter v1 v2\ninspect v1\ninspect v2\nmeasure v2 conductivity\n",
+      "physical_expectation": "Ordinary filtration retains particulate silica and passes water with dissolved sodium chloride. It must not treat all initially added solids as permanently filterable.",
+      "assessment_criteria": [
+        "The receiver contains the mobile water/electrolyte pool; the source retains silica particles.",
+        "Total Na, Cl and Si inventories across source and receiver remain conserved.",
+        "Receiver conductivity is nonzero with an explicit supported or estimated model; unsupported silica identity is a separate naming/capability finding."
+      ]
+    },
+    {
+      "id": "087",
+      "title": "A pH electrode dipped into neat hexane must disclose its scope",
+      "script": "register lv3\nadd v1 hexane 20mL\ninspect v1\nmeasure v1 ph\nmeasure v1 conductivity\nlook v1\n",
+      "physical_expectation": "An ordinary aqueous pH value is not defined by putting a water-calibrated electrode into dry hexane. Hexane is a poor electrical conductor, but absence of an ion model is not proof of exact zero conductivity.",
+      "assessment_criteria": [
+        "pH is explicitly unavailable or outside aqueous scope, rather than a confident neutral 7.",
+        "Any conductivity value distinguishes a modeled low response from missing ionic/conductivity data.",
+        "State inspection continues to identify hexane, with no invented water or proton reservoir."
+      ]
+    },
+    {
+      "id": "088",
+      "title": "A colorless metal salt should not acquire a fabricated visible spectrum",
+      "script": "register lv3\nadd v1 water 100mL\nadd v1 ZnSO4 0.001mol\ninspect v1\nmeasure v1 uvvis\nlook v1\n",
+      "physical_expectation": "A dilute zinc sulfate solution is colorless in the visible range because Zn(II) has no visible d-d transition. This does not establish that its complete UV spectrum is zero.",
+      "assessment_criteria": [
+        "Visible appearance is colorless or explicitly unresolved, without a copper-like color.",
+        "UV/visible output exposes missing wavelength/model coverage if a full zinc sulfate spectrum is absent.",
+        "No complete all-zero spectrum is asserted solely because a spectral entry is missing."
+      ]
+    },
+    {
+      "id": "089",
+      "title": "Evaporative concentration eventually leaves a conserved salt residue",
+      "script": "register lv3\nadd v1 water 20mL\nadd v1 NaCl 0.05mol\ninspect v1\nevaporate v1 0.9\ninspect v1\nmeasure v1 balance\nlook v1\n",
+      "physical_expectation": "Removing 90% of solvent can make the remaining brine supersaturated and leave NaCl crystals. Sodium and chloride remain in the vessel; lost mass is attributable to escaped water, not salt.",
+      "assessment_criteria": [
+        "NaCl analytical inventory remains 0.05mol through evaporation.",
+        "Reduced liquid-water inventory and any crystallization follow the same solvent removal.",
+        "Reported mass decrease agrees with explicit water loss; a missing saturation/evaporation model is disclosed rather than manufacturing or deleting salt."
+      ]
+    },
+    {
+      "id": "090",
+      "title": "Magnetic separation distinguishes iron filings from copper particles",
+      "script": "register lv3\nadd v1 Fe 0.01mol\nadd v1 Cu 0.01mol\ninspect v1\nnew\nmagnet v1 v2\ninspect v1\ninspect v2\nmeasure v1 balance\nmeasure v2 balance\n",
+      "physical_expectation": "A magnet attracts iron much more strongly than ordinary copper. The separation moves iron inventory while copper remains behind, without a chemical reaction.",
+      "assessment_criteria": [
+        "The receiver gains the selected iron stock and the source retains copper.",
+        "Combined Fe and Cu mole totals equal their respective initial 0.01mol.",
+        "Combined mass is unchanged; no dissolved ions or reaction heat appear from magnetic separation alone."
+      ]
+    },
+    {
+      "id": "091",
+      "title": "Distillation should reject a nonvolatile electrolyte from the condensate",
+      "script": "register lv3\nadd v1 water 100mL\nadd v1 NaCl 0.005mol\ninspect v1\nmeasure v1 conductivity\nnew\ndistil v1 v2 0.3\ninspect v1\ninspect v2\nmeasure v2 conductivity\n",
+      "physical_expectation": "An ideal still carries volatile water into the receiver while sodium chloride stays in the pot. Salt concentration in the residue rises; entrainment is a separate mechanism, not implied by distillation.",
+      "assessment_criteria": [
+        "Source and receiver NaCl totals close, with no NaCl transferred by the ideal vapor cut.",
+        "Receiver water is positive and source liquid-water inventory falls by the same amount.",
+        "Receiver electrolyte conductivity is much lower than the original brine, or the instrument explicitly discloses its missing low-ionic-strength model."
+      ]
+    },
+    {
+      "id": "092",
+      "title": "Fresh small solvent portions outperform one extraction with the same total solvent",
+      "script": "register lv3\nadd v1 water 100mL\nadd v1 I2 0.0001mol\nnew\nadd v2 water 100mL\nadd v2 I2 0.0001mol\nnew\nnew\ninspect v1\ninspect v2\nextract v1 v3 hexane 0.1mol stages 1\nextract v2 v4 hexane 0.1mol stages 4\ninspect v1\ninspect v2\ninspect v3\ninspect v4\n",
+      "physical_expectation": "At the same distribution coefficient and total organic volume, several fresh equilibrium extractions remove more dissolved iodine than a single contact. Iodine conservation must hold separately for the two independent preparations.",
+      "assessment_criteria": [
+        "The four-stage receiver contains more iodine and its aqueous source contains less than the single-stage pair.",
+        "Each source-plus-receiver iodine total remains 0.0001mol.",
+        "Any crystalline-capacity or coefficient-temperature boundary is disclosed; the comparison is not silently replaced by an unsupported empirical fit."
+      ]
+    },
+    {
+      "id": "093",
+      "title": "A dense organic liquid should leave through the lower-layer stopcock",
+      "script": "register lv3\nadd v1 water 20mL\nadd v1 CHCl3 10mL\ninspect v1\nlook v1\nnew\ndrain v1 v2\ninspect v1\ninspect v2\nmeasure v1 balance\nmeasure v2 balance\n",
+      "physical_expectation": "Chloroform is denser than water and only sparingly miscible with it. A simple two-layer separation therefore sends the chloroform-rich lower layer to the receiver, rather than assuming every organic layer floats.",
+      "assessment_criteria": [
+        "Layer ordering follows density: chloroform-rich below water-rich.",
+        "A supported drain transfers the lower layer and leaves the upper layer, with total component inventories and mass conserved.",
+        "Unsupported chloroform phase-equilibrium data or identity must produce a clear capability finding, not an incorrect water-bottom default."
+      ]
+    },
+    {
+      "id": "094",
+      "title": "An acid-base indicator should reverse color after stoichiometric neutralization",
+      "script": "register lv3\nadd v1 water 100mL\nadd v1 phenolphthalein 0.000001mol\nadd v1 NaOH 0.001mol\nmeasure v1 ph\nlook v1\ninspect v1\nadd v1 HCl 0.001mol\nmeasure v1 ph\nlook v1\ninspect v1\n",
+      "physical_expectation": "Phenolphthalein is pink in a moderately alkaline solution and loses that color when an equal strong-acid dose removes the excess hydroxide. Indicator dye is not irreversibly destroyed by this ordinary pH cycle.",
+      "assessment_criteria": [
+        "Initial alkaline pH and indicator color are mutually consistent.",
+        "After equal HCl/NaOH amounts, excess alkalinity disappears and pink no longer persists.",
+        "Indicator analytical stock remains conserved; unsupported indicator identity or spectral equilibrium is separated from acid-base solver behavior."
+      ]
+    },
+    {
+      "id": "095",
+      "title": "Thiosulfate removes iodine color at two equivalents, not one",
+      "script": "register lv3\nadd v1 water 100mL\nadd v1 KI 0.001mol\nadd v1 I2 0.0001mol\ninspect v1\nlook v1\nadd v1 Na2S2O3 0.0001mol\ninspect v1\nlook v1\nadd v1 Na2S2O3 0.0001mol\ninspect v1\nlook v1\n",
+      "physical_expectation": "I2 + 2 S2O3(2-) gives 2 I(-) + S4O6(2-). One thiosulfate equivalent can reduce only half the original iodine; two equivalents exhaust it, while preserving all iodine and sulfur atoms.",
+      "assessment_criteria": [
+        "After the first dose, reducible iodine remains; after the second, oxidized iodine is exhausted if this redox route is supported.",
+        "Iodine color tracks the remaining oxidized iodine rather than total iodine atoms.",
+        "Element/charge conservation closes through iodide and tetrathionate or the route explicitly reports missing chemistry instead of claiming a fictitious endpoint."
+      ]
+    },
+    {
+      "id": "096",
+      "title": "Carbonate acidification distinguishes bicarbonate storage from escaped carbon dioxide",
+      "script": "register lv3\nadd v1 water 100mL\nadd v1 CaCO3 0.001mol\ninspect v1\nadd v1 HCl 0.001mol\ninspect v1\nlook v1\nadd v1 HCl 0.001mol\ninspect v1\nlook v1\nmeasure v1 ph\n",
+      "physical_expectation": "Carbonate needs two strong-acid equivalents per mole for complete conversion to neutral carbon dioxide, but a one-equivalent dose may instead leave dissolved bicarbonate. A mineral disappearing is therefore not by itself proof that all carbon escaped as CO2. The second acid dose drives the carbon balance toward CO2 while conserving calcium.",
+      "assessment_criteria": [
+        "The half-stoichiometric snapshot distinguishes residual carbonate, dissolved bicarbonate and reported CO2 instead of assuming disappearance means complete gas conversion.",
+        "At the full dose, original carbonate may dissolve with CO2 evolution or dissolved-carbon storage explicitly accounted for.",
+        "Calcium and carbon close across retained stock and reported boundary losses; pH is consistent with the remaining acid/base reservoirs."
+      ]
+    },
+    {
+      "id": "097",
+      "title": "A closed water freeze-thaw cycle should return its energy and matter",
+      "script": "register lv3\nadd v1 water 10mL\nseal v1 100mL\ninspect v1\nmeasure v1 thermometer\ncool v1 5kJ\ninspect v1\nlook v1\nheat v1 5kJ\ninspect v1\nmeasure v1 thermometer\nmeasure v1 balance\n",
+      "physical_expectation": "Five kilojoules is enough to freeze 10mL of initially room-temperature water. Adding back the same energy to an isolated closed vessel should restore its initial phase/temperature state approximately, with latent heat counted and no water lost to an open reservoir.",
+      "assessment_criteria": [
+        "The cooling leg produces ice or explicitly discloses an unmodeled phase transition.",
+        "Final total water inventory and sealed material mass match their initial values.",
+        "Final temperature returns near the initial value if the same complete energy model supports both directions; a latent-heat gap must be visible instead of a confident false calorimetric closure."
+      ]
+    },
+    {
+      "id": "098",
+      "title": "An additional ideal stage enriches ethanol without creating it",
+      "script": "register lv3\nadd v1 water 0.5mol\nadd v1 ethanol 0.5mol\nnew\nadd v2 water 0.5mol\nadd v2 ethanol 0.5mol\nnew\nnew\ninspect v1\ninspect v2\ndistil v1 v3 0.1 stages 1\ndistil v2 v4 0.1 stages 2\ninspect v1\ninspect v2\ninspect v3\ninspect v4\n",
+      "physical_expectation": "Below the ethanol-water azeotrope, a second ideal equilibrium stage can enrich the ethanol fraction of a small condensate cut relative to a one-stage cut. It cannot increase the pair total of water or ethanol.",
+      "assessment_criteria": [
+        "Compute condensate ethanol mole fractions from inspected water and ethanol amounts; the two-stage cut should be richer than the one-stage cut.",
+        "Water and ethanol each close independently within their own source/receiver pair.",
+        "The stage model discloses its idealization and azeotropic limits, rather than extrapolating to pure ethanol without a boundary."
+      ]
+    },
+    {
+      "id": "099",
+      "title": "Diluting copper sulfate changes absorbance through concentration, not loss of copper",
+      "script": "register lv3\nadd v1 water 100mL\nadd v1 CuSO4 0.001mol\ninspect v1\nmeasure v1 uvvis\nlook v1\ndilute v1 100mL\ninspect v1\nmeasure v1 uvvis\nlook v1\n",
+      "physical_expectation": "For a dilute solution at unchanged optical path and nearly unchanged coordination chemistry, doubling solvent volume approximately halves absorbance of a fixed copper band. Copper atoms are conserved and the solution remains blue, but paler.",
+      "assessment_criteria": [
+        "Copper and sulfate totals are unchanged while solvent volume approximately doubles.",
+        "At supported wavelengths, absorbance after dilution is approximately half its initial value, with fixed path length.",
+        "Missing copper spectral coverage is reported explicitly; color and quantitative UV/visible confidence are not conflated."
+      ]
+    },
+    {
+      "id": "100",
+      "title": "Half-neutralized acetic acid should reveal a buffer before equivalence",
+      "script": "register lv3\nadd v1 water 100mL\nadd v1 CH3COOH 0.01mol\nmeasure v1 ph\ninspect v1\nadd v1 NaOH 0.005mol\nmeasure v1 ph\ninspect v1\nadd v1 NaOH 0.005mol\nmeasure v1 ph\ninspect v1\n",
+      "physical_expectation": "At half equivalence, an acetic-acid/acetate buffer has pH near pKa, about 4.76 at 25C. At complete neutralization, sodium acetate is mildly alkaline rather than exactly neutral; the conserved analytical acetate pool is 0.01mol.",
+      "assessment_criteria": [
+        "Half-equivalence pH is approximately 4.5–5.1, conditional on temperature and activity scope.",
+        "Equivalence pH exceeds 7 and is higher than the half-equivalence value.",
+        "Acid plus acetate carbon inventory remains 0.01mol-equivalent; absent weak-acid hydrolysis/activity support is an explicit gap rather than a strong-acid shortcut."
+      ]
+    }
+  ]
+}

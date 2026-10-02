@@ -1,0 +1,16 @@
+new
+add v1 water 100mL
+add v1 H2O2 0.001mol
+add v1 MnO2 0.00001mol
+seal v1 100mL
+add v2 water 100mL
+add v2 H2O2 0.001mol
+seal v2 100mL
+wait 60s
+inspect v1
+inspect v2
+look v1
+measure v1 pressure
+measure v2 pressure
+explain v1
+inspect

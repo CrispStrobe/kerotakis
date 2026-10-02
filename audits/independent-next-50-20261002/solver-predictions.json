@@ -1,0 +1,167 @@
+[
+  {
+    "id": "071",
+    "title": "Daniell cell responds to copper-ion activity",
+    "script": "new\nadd v1 water 100mL\nadd v1 ZnSO4 0.001mol\nadd v1 Zn 0.01mol\nadd v2 water 100mL\nadd v2 CuSO4 0.001mol\nadd v2 Cu 0.01mol\ncell v1 v2\ninspect v1\ninspect v2\nadd v2 CuSO4 0.009mol\ncell v1 v2\nmeasure v1 thermometer\nmeasure v2 thermometer\ninspect v1\ninspect v2\nexplain v2\ninspect\n",
+    "physical_expectation": "Increasing Cu(II) activity tenfold at fixed Zn(II) activity increases the Daniell emf by about 29.6mV at 298K. Absolute ideal-standard voltage is around1.10V; sulfate complexation and activity corrections can shift it.",
+    "assessment_criteria": [
+      "Two distinct cell-potential readings must be identifiable.",
+      "With comparable temperatures, the second emf should increase in the chemically appropriate orientation; ideal concentration estimate is +0.0296V, with deviations explained by actual ion activities.",
+      "A constant hard-coded voltage independent of both composition and temperature fails. Unknown names or unsupported electrochemistry are recorded as gaps, not silently replaced."
+    ]
+  },
+  {
+    "id": "072",
+    "title": "Identical copper half-cells cancel their standard potential",
+    "script": "new\nadd v1 water 100mL\nadd v1 CuSO4 0.001mol\nadd v1 Cu 0.005mol\nadd v2 water 100mL\nadd v2 CuSO4 0.001mol\nadd v2 Cu 0.005mol\ncell v1 v2\ninspect v1\ninspect v2\nexplain v1\ninspect\n",
+    "physical_expectation": "Two identical Cu/Cu(II) half-cells at the same temperature have zero emf. Choosing a nonzero standard copper potential twice must cancel.",
+    "assessment_criteria": [
+      "Supported symmetric cell emf should have magnitude below1mV.",
+      "No net material conversion should be inferred merely from a zero-emf measurement.",
+      "State and potential must remain finite; an explicit unsupported boundary is a capability gap."
+    ]
+  },
+  {
+    "id": "073",
+    "title": "A concentration cell works without two different metals",
+    "script": "new\nadd v1 water 100mL\nadd v1 CuSO4 0.0001mol\nadd v1 Cu 0.005mol\nadd v2 water 100mL\nadd v2 CuSO4 0.001mol\nadd v2 Cu 0.005mol\ncell v1 v2\ninspect v1\ninspect v2\nmeasure v1 thermometer\nexplain v2\ninspect\n",
+    "physical_expectation": "Cu/Cu(II) electrodes with a tenfold Cu(II) activity difference form a concentration cell: ideal emf magnitude29.6mV at298K, despite identical electrode metals.",
+    "assessment_criteria": [
+      "A supported result must distinguish this asymmetric cell from the symmetric copper-cell control072.",
+      "An emf in the tens-of-millivolts range is expected; a different value must use and disclose actual activities and temperature.",
+      "Zero solely because electrode species are identical fails; actual Cu, sulfate and water inventories must be preserved."
+    ]
+  },
+  {
+    "id": "074",
+    "title": "Water electrolysis obeys a numerical Faraday budget",
+    "script": "add v1 water 100mL\nadd v1 Na2SO4 0.001mol\nseal v1 100mL\ninspect v1\nmeasure v1 pressure\nelectrolyse v1 1A 60s\ninspect v1\nmeasure v1 pressure\nmeasure v1 balance\nexplain v1\ninspect\n",
+    "physical_expectation": "For aqueous sulfate with inert electrodes and100%current efficiency,60C produces60/(2F)=0.000310928mol H2 and60/(4F)=0.000155464mol O2, consuming0.000310928mol water. Sodium metal is not deposited from water.",
+    "assessment_criteria": [
+      "Sum retained and emitted gas consistently: ideal H2:O2 ratio2:1 and the numerical Faraday amounts should agree within1%if a full-efficiency inert-electrode model is claimed.",
+      "Finite sealed pressure must rise and gas must not be silently lost to room air.",
+      "If electrode identity or current efficiency is unspecified, expose that model assumption or boundary; no product may exceed its electron budget."
+    ]
+  },
+  {
+    "id": "075",
+    "title": "Equal elapsed time and doubled current double electrolysis extent",
+    "script": "new\nadd v1 water 100mL\nadd v1 Na2SO4 0.001mol\nseal v1 100mL\nadd v2 water 100mL\nadd v2 Na2SO4 0.001mol\nseal v2 100mL\nelectrolyse v1 0.5A 60s\nelectrolyse v2 1A 60s\ninspect v1\ninspect v2\nmeasure v1 pressure\nmeasure v2 pressure\nexplain v2\ninspect\n",
+    "physical_expectation": "With matching inert electrodes and negligible conversion, doubling current at fixed duration doubles transferred charge and gas production. A fixed reaction fraction per operator would violate coulometry.",
+    "assessment_criteria": [
+      "Under the same disclosed full-efficiency model, v2 electrolysis-generated H2 and O2 should each be twice v1 within1%.",
+      "Compare gas increments rather than total headspace gas, which can include an initial inventory.",
+      "Water, sulfate and electron budgets must remain consistent; unexplained operator-count-dependent yields fail."
+    ]
+  },
+  {
+    "id": "076",
+    "title": "Zero current cannot create electrolytic products",
+    "script": "add v1 water 100mL\nadd v1 Na2SO4 0.001mol\nseal v1 100mL\ninspect v1\nelectrolyse v1 0A 60s\ninspect v1\nmeasure v1 pressure\nexplain v1\ninspect\n",
+    "physical_expectation": "Zero current transfers zero charge, so it cannot electrolyse water. A parser or numerical-domain refusal is acceptable only if it leaves the entire state unchanged.",
+    "assessment_criteria": [
+      "No H2/O2 generation attributable to electrolysis, no water loss, and no inferred electrode work.",
+      "A rejected zero-current operation must be atomic and must not leave reaction events or nonfinite state.",
+      "If waiting is implicitly performed, separate any independently disclosed background chemistry from electrolytic extent."
+    ]
+  },
+  {
+    "id": "077",
+    "title": "Brine electrolysis must not invent sodium metal or universal anode selectivity",
+    "script": "new\nadd v1 water 50mL\nadd v1 NaCl 0.05mol\nseal v1 100mL\nadd v2 water 50mL\nadd v2 Na2SO4 0.005mol\nseal v2 100mL\nelectrolyse v1 0.1A 60s\nelectrolyse v2 0.1A 60s\ninspect v1\ninspect v2\nlook v1\nmeasure v1 ph\nmeasure v2 ph\nexplain v1\ninspect\n",
+    "physical_expectation": "Aqueous brine supports hydrogen evolution and potentially chlorine at the anode, competing with oxygen. Electrode kinetics and chloride activity matter. Aqueous sodium metal deposition is physically inappropriate.",
+    "assessment_criteria": [
+      "No Na(s) production in either aqueous vessel.",
+      "For6C, any H2 or Cl2 production individually cannot exceed6/(2F)=0.000031093mol; O2 cannot exceed6/(4F). Account for secondary chlorine hydrolysis separately.",
+      "If the model fixes chlorine versus oxygen selectivity, require a scoped electrode/current-efficiency assumption or explicit limitation; identical water-only behavior without chloride coverage disclosure is a gap."
+    ]
+  },
+  {
+    "id": "078",
+    "title": "Reading a galvanic voltage is not an arbitrary discharge",
+    "script": "new\nadd v1 water 100mL\nadd v1 ZnSO4 0.001mol\nadd v1 Zn 0.01mol\nadd v2 water 100mL\nadd v2 CuSO4 0.001mol\nadd v2 Cu 0.01mol\ninspect v1\ninspect v2\ncell v1 v2\ncell v1 v2\ncell v1 v2\ninspect v1\ninspect v2\nexplain v1\ninspect\n",
+    "physical_expectation": "A potential measurement alone has no specified load or discharge duration. Repeated readings should not prescribe arbitrary zinc consumption/copper deposition; a real current-transfer model would require an explicit circuit and electron ledger.",
+    "assessment_criteria": [
+      "Three readings at unchanged activities should match within1mV.",
+      "For a voltage-only interpretation, Zn/Cu totals and aqueous ion inventories remain unchanged apart from prior independently disclosed equilibrium.",
+      "Any discharge extent requires a stated circuit/time/current model and matched Zn oxidation/Cu reduction electron counts; fixed conversion per reading fails."
+    ]
+  },
+  {
+    "id": "079",
+    "title": "Unsensitized silver bromide has a spectral photochemistry boundary",
+    "script": "new\nadd v1 water 50mL\nadd v1 AgBr 0.001mol\nseal v1 100mL\nadd v2 water 50mL\nadd v2 AgBr 0.001mol\nseal v2 100mL\nirradiate v1 365nm 5W/m2\nirradiate v2 700nm 5W/m2\nwait 60s\nlook v1\nlook v2\ninspect v1\ninspect v2\nmeasure v1 uvvis\nexplain v1\ninspect\n",
+    "physical_expectation": "Unsensitized AgBr can undergo photochemical reduction to silver under absorbed near-UV light.700nm photons are below its ordinary intrinsic absorption edge, so equal incident power should not imply equal direct photolysis.",
+    "assessment_criteria": [
+      "A supported intrinsic photochemical model should show greater silver formation/AgBr loss under365nm than700nm, while preserving Ag and Br atoms.",
+      "Do not infer a quantitative yield without absorption, illuminated area and quantum-yield assumptions.",
+      "An unknown AgBr name or missing sensitization/photolysis model is a followup gap; temperature-only or wavelength-independent conversion cannot establish spectral photochemistry."
+    ]
+  },
+  {
+    "id": "080",
+    "title": "Hydrogen peroxide UV photochemistry needs a dark and red-light control",
+    "script": "new\nnew\nadd v1 water 100mL\nadd v1 H2O2 0.001mol\nseal v1 100mL\nadd v2 water 100mL\nadd v2 H2O2 0.001mol\nseal v2 100mL\nadd v3 water 100mL\nadd v3 H2O2 0.001mol\nseal v3 100mL\nirradiate v1 254nm 10W/m2\nirradiate v2 700nm 10W/m2\nwait 60s\ninspect v1\ninspect v2\ninspect v3\nmeasure v1 pressure\nmeasure v2 pressure\nmeasure v3 pressure\nmeasure v1 thermometer\nexplain v1\ninspect\n",
+    "physical_expectation": "H2O2 absorbs short-wave UV and can cleave its O\u2013O bond into radicals. Red light is not equivalent at equal irradiance. Stable gas yield also depends on radical recombination and secondary chemistry; dark decomposition is a separate baseline.",
+    "assessment_criteria": [
+      "Inspect peroxide loss and radical/stable-product coverage separately;254nm behavior should differ from red/dark if a photochemical absorption model is claimed.",
+      "Do not require a guessed universal O2 quantum yield. Any O2 yield must preserve peroxide/water oxygen and disclose modeled pathways.",
+      "Red or dark background reaction is allowed only through its own thermal/catalytic model; equal conversion solely because lamp power matches fails a spectral claim."
+    ]
+  },
+  {
+    "id": "081",
+    "title": "A zero-flux UV lamp is a dark-control operation",
+    "script": "new\nadd v1 water 100mL\nadd v1 H2O2 0.001mol\nseal v1 100mL\nadd v2 water 100mL\nadd v2 H2O2 0.001mol\nseal v2 100mL\nirradiate v1 254nm 0W/m2\nwait 60s\ninspect v1\ninspect v2\nmeasure v1 thermometer\nmeasure v2 thermometer\nmeasure v1 pressure\nmeasure v2 pressure\nexplain v1\ninspect\n",
+    "physical_expectation": "Zero irradiance supplies zero photons and zero radiative energy. Matching otherwise-identical dark vessels must not diverge because a lamp operator was called.",
+    "assessment_criteria": [
+      "No lamp-induced peroxide conversion, pressure rise or thermal energy at zero flux.",
+      "Matching dark inventories should agree within numerical conservation precision; any background chemistry must act consistently on both.",
+      "A zero-flux refusal must be atomic. A wavelength-only reaction trigger despite zero photon flux fails."
+    ]
+  },
+  {
+    "id": "082",
+    "title": "Water-rich esterification is not compulsory complete conversion",
+    "script": "new\nadd v1 water 10mL\nadd v1 ethanol 0.01mol\nadd v1 acetic_acid 0.01mol\nadd v1 H2SO4 0.0001mol\nadd v2 water 100mL\nadd v2 ethanol 0.01mol\nadd v2 acetic_acid 0.01mol\nadd v2 H2SO4 0.0001mol\nreact v1 esterification\nreact v2 esterification\nwait 1h\ninspect v1\ninspect v2\nmeasure v1 chromatograph\nmeasure v2 chromatograph\nexplain v1\ninspect\n",
+    "physical_expectation": "Acid-catalyzed ethanol/acetic-acid esterification is reversible and produces water. Water activity and dilution affect extent; applying the same exhaustive conversion to both aqueous mixtures would obscure equilibrium and kinetic scope.",
+    "assessment_criteria": [
+      "Any supported ethyl-acetate amount is bounded by0.01mol and coupled1:1 to ethanol/acetic-acid consumption.",
+      "A quantitative comparison must disclose equilibrium/activity versus finite-time kinetic assumptions; the more water-rich mixture should not show greater equilibrium ester fraction without a specific explanation.",
+      "A curated transformation may be explicitly pedagogical, but it must not claim computed universal equilibrium or catalyst-independent kinetics. Unknown organic names are recorded as followups."
+    ]
+  },
+  {
+    "id": "083",
+    "title": "Manganese dioxide accelerates peroxide decomposition without being spent as fuel",
+    "script": "new\nadd v1 water 100mL\nadd v1 H2O2 0.001mol\nadd v1 MnO2 0.00001mol\nseal v1 100mL\nadd v2 water 100mL\nadd v2 H2O2 0.001mol\nseal v2 100mL\nwait 60s\ninspect v1\ninspect v2\nlook v1\nmeasure v1 pressure\nmeasure v2 pressure\nexplain v1\ninspect\n",
+    "physical_expectation": "MnO2 can catalyze H2O2 decomposition:2H2O2\u21922H2O+O2. It should accelerate the finite-time oxygen release relative to the catalyst-free control without being consumed stoichiometrically.",
+    "assessment_criteria": [
+      "If catalytic kinetics are supported, v1 should show more peroxide loss/O2 release than v2 after the same elapsed time.",
+      "O2 production is at most0.0005mol from the added peroxide, with twice as much peroxide consumed as O2 formed.",
+      "Mn inventory must be conserved; any dissolution/redox side reaction needs separate chemistry. A missing catalytic-rate model is a capability gap, not grounds to assert an invented rate."
+    ]
+  },
+  {
+    "id": "084",
+    "title": "Tollens-type silver reduction distinguishes a reducing sugar from acetone",
+    "script": "new\nadd v1 water 50mL\nadd v1 AgNO3 0.001mol\nadd v1 NH3 0.01mol\nadd v1 NaOH 0.002mol\nadd v1 glucose 0.0005mol\nadd v2 water 50mL\nadd v2 AgNO3 0.001mol\nadd v2 NH3 0.01mol\nadd v2 NaOH 0.002mol\nadd v2 acetone 0.0005mol\nwait 10min\nlook v1\nlook v2\ninspect v1\ninspect v2\nmeasure v1 uvvis\nexplain v1\ninspect\n",
+    "physical_expectation": "Ammoniacal Ag(I) oxidizes reducing glucose and can deposit Ag metal. Ordinary acetone does not give the corresponding Tollens silver-mirror reaction. Complexation/Ag2O preparation and sugar ring opening matter.",
+    "assessment_criteria": [
+      "A supported selectivity model should produce greater Ag(0) in the glucose vessel than the acetone control; it must not infer silver merely from adding any organic molecule.",
+      "Ag atoms and oxidation/reduction electron counts must balance. At most0.001mol Ag can form from the stated silver feed.",
+      "Unsupported glucose, diamminesilver complexation or finite-time redox pathways must be explicit followups; an Ag2O precipitate alone is not a silver-mirror success."
+    ]
+  },
+  {
+    "id": "085",
+    "title": "Permanganate reduction changes its manganese endpoint with pH",
+    "script": "new\nadd v1 water 100mL\nadd v1 H2SO4 0.002mol\nadd v1 FeSO4 0.0005mol\nadd v1 KMnO4 0.0001mol\nadd v2 water 100mL\nadd v2 NaHCO3 0.005mol\nadd v2 FeSO4 0.0003mol\nadd v2 KMnO4 0.0001mol\nwait 30s\nlook v1\nlook v2\nmeasure v1 ph\nmeasure v2 ph\ninspect v1\ninspect v2\nexplain v1\nexplain v2\ninspect\n",
+    "physical_expectation": "Acidic permanganate accepts5electrons per Mn to form Mn(II); a near-neutral buffered reduction commonly accepts3electrons to form MnO2. Fe(II) supplies one electron per oxidized iron, so matching different feed ratios exposes pH-sensitive redox endpoint selection.",
+    "assessment_criteria": [
+      "Verify the actual pH first: if bicarbonate/iron chemistry defeats the intended neutral condition, record that outcome instead of forcing an MnO2 expectation.",
+      "For an acidic supported complete reaction,0.0001mol Mn(II) couples to0.0005mol Fe(II) oxidation; near-neutral MnO2 couples to0.0003mol Fe(II) oxidation.",
+      "Check explicit manganese oxidation state/phase and Fe electron balance, not purple color disappearance alone. A universal MnO2 or Mn(II) endpoint independent of conditions fails."
+    ]
+  }
+]

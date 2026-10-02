@@ -1,0 +1,9 @@
+new
+add v1 Cu 1mol @ 25C
+add v2 Cu 1mol @ 25C
+heat v1 600J
+heat v2 200J
+heat v2 400J
+measure v1 thermometer
+measure v2 thermometer
+inspect
