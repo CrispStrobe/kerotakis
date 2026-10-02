@@ -1,0 +1,18 @@
+new
+add v1 water 10mL
+add v1 ethanol 0.01mol
+add v1 CH3COOH 0.01mol
+add v1 H2SO4 0.0001mol
+add v2 water 100mL
+add v2 ethanol 0.01mol
+add v2 CH3COOH 0.01mol
+add v2 H2SO4 0.0001mol
+react v1 esterification
+react v2 esterification
+wait 1h
+inspect v1
+inspect v2
+measure v1 chromatograph
+measure v2 chromatograph
+explain v1
+inspect

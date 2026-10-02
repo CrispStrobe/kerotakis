@@ -32,22 +32,24 @@ def resources():
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--binary', type=Path, required=True)
+    p.add_argument('--suite', type=Path, default=ROOT)
     p.add_argument('--out', type=Path, required=True)
     args = p.parse_args()
     binary = args.binary.resolve()
     out = args.out.resolve()
     out.mkdir(parents=True, exist_ok=True)
-    manifest = json.loads((ROOT / 'freeze.json').read_text())
-    assert sha(ROOT / 'predictions.json') == manifest['predictions_sha256']
-    cases = json.loads((ROOT / 'predictions.json').read_text())
-    assert len(cases) == 50 and len({c['id'] for c in cases}) == 50
+    suite = args.suite.resolve()
+    manifest = json.loads((suite / 'freeze.json').read_text())
+    assert sha(suite / 'predictions.json') == manifest['predictions_sha256']
+    cases = json.loads((suite / 'predictions.json').read_text())
+    assert len(cases) == manifest['count'] and len({c['id'] for c in cases}) == len(cases)
     known_binary = sha(binary) == '8c511a646bd5fa25f6842ce921e0ba96bc477816eb4d740ac920b1820b4fee66'
     receipt = dict(predictions_sha256=manifest['predictions_sha256'], binary_source_commit='b131444248625737a1edd5c02559fa50f1e83203' if known_binary else None, binary_validation_run='https://github.com/CrispStrobe/kerotakis/actions/runs/37048306794' if known_binary else None, binary=str(binary),
                    binary_sha256=sha(binary), checkout=subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=REPO, text=True).strip(),
                    policy=dict(max_load1=3.5, min_available_mib=3200, min_swap_free_mib=600, min_disk_free_mib=2048),
                    started_utc=time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()), runs=[])
     for case in cases:
-        script = ROOT / 'scripts' / (case['id'] + '.lab')
+        script = suite / 'scripts' / (case['id'] + '.lab')
         assert script.read_text() == case['script']
         for mode in ('text', 'json'):
             if os.environ.get('GITHUB_ACTIONS') != 'true':

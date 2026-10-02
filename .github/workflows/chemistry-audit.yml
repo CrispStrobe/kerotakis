@@ -405,6 +405,8 @@ jobs:
           chmod +x "$RUNNER_TEMP/validated-cli/kero"
           python3 audits/independent-next-50-20261002/run.py --binary "$RUNNER_TEMP/validated-cli/kero" --out "$RUNNER_TEMP/next-50"
           python3 audits/independent-next-50-20261002/summarize.py "$RUNNER_TEMP/next-50"
+          python3 audits/independent-next-50-20261002/run.py --suite audits/independent-next-50-20261002/followups --binary "$RUNNER_TEMP/validated-cli/kero" --out "$RUNNER_TEMP/next-50/followups"
+          python3 audits/independent-next-50-20261002/summarize.py "$RUNNER_TEMP/next-50/followups"
       - name: Preserve every success and refusal
         if: always()
         uses: actions/upload-artifact@v6

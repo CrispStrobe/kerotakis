@@ -1,0 +1,9 @@
+new
+add v1 N2 0.005mol @ 25C
+add v1 helium 0.005mol @ 25C
+add v2 N2 0.01mol @ 25C
+seal v1 100mL
+seal v2 100mL
+measure v1 pressure
+measure v2 pressure
+inspect

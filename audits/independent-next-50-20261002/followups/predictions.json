@@ -1,0 +1,127 @@
+[
+  {
+    "id": "F052",
+    "title": "Dalton mixed inert gases",
+    "script": "new\nadd v1 N2 0.005mol @ 25C\nadd v1 helium 0.005mol @ 25C\nadd v2 N2 0.01mol @ 25C\nseal v1 100mL\nseal v2 100mL\nmeasure v1 pressure\nmeasure v2 pressure\ninspect\n",
+    "expectation": "Equal total gas moles have equal ideal pressure regardless of inert composition.",
+    "criteria": "Pressure agreement within 2%; both gases retained in mixed vessel.",
+    "original_id": "052",
+    "fixture_correction": {
+      " Ar ": " helium "
+    },
+    "classification": "alternate inert-gas fixture; argon remains unavailable"
+  },
+  {
+    "id": "F053",
+    "title": "Kelvin scaling of pressure",
+    "script": "new\nadd v1 helium 0.01mol @ 25C\nadd v2 helium 0.01mol @ 75C\nseal v1 100mL\nseal v2 100mL\nmeasure v1 pressure\nmeasure v2 pressure\nmeasure v1 thermometer\nmeasure v2 thermometer\ninspect\n",
+    "expectation": "Absolute pressure scales with Kelvin temperature, 348.15/298.15, not Celsius ratio.",
+    "criteria": "Measured temperature within 1K of doses; gas pressure contribution ratio within 2% of 1.16770.",
+    "original_id": "053",
+    "fixture_correction": {
+      " Ar ": " helium "
+    },
+    "classification": "alternate inert-gas fixture; argon remains unavailable"
+  },
+  {
+    "id": "F054",
+    "title": "Piston volume from ideal gas law",
+    "script": "add v1 helium 0.01mol @ 25C\nregulate v1 1bar 100mL\nmeasure v1 pressure\nmeasure v1 volume\ninspect\n",
+    "expectation": "A pressure-regulated gas piston settles to nRT/P, approximately 247.9mL for 0.01mol at 298.15K and 1bar.",
+    "criteria": "Pressure is 1bar and gas volume 247.9mL within 2%, or explicit unsupported observable refusal rather than a false liquid volume.",
+    "original_id": "054",
+    "fixture_correction": {
+      " Ar ": " helium "
+    },
+    "classification": "alternate inert-gas fixture; argon remains unavailable"
+  },
+  {
+    "id": "F055",
+    "title": "Double gas dose at same piston pressure",
+    "script": "new\nadd v1 helium 0.01mol @ 25C\nadd v2 helium 0.02mol @ 25C\nregulate v1 1bar 100mL\nregulate v2 1bar 100mL\nmeasure v1 volume\nmeasure v2 volume\ninspect\n",
+    "expectation": "Doubling inert gas moles doubles regulated gas volume.",
+    "criteria": "Stored boundary or gas volume doubles within 2%; pressure equal, inventories 0.01 and 0.02mol.",
+    "original_id": "055",
+    "fixture_correction": {
+      " Ar ": " helium "
+    },
+    "classification": "alternate inert-gas fixture; argon remains unavailable"
+  },
+  {
+    "id": "F058",
+    "title": "Helium pop negative",
+    "script": "add v1 helium 0.001mol\nseal v1 100mL\ntest v1 pop\ninspect\n",
+    "expectation": "Helium is inert and cannot give the hydrogen pop response.",
+    "criteria": "Explicit negative pop test; helium inventory remains finite and nonnegative.",
+    "original_id": "058",
+    "fixture_correction": {
+      " He ": " helium "
+    },
+    "classification": "canonical ingredient spelling; same substance"
+  },
+  {
+    "id": "F062",
+    "title": "Argon limewater negative",
+    "script": "add v1 helium 0.001mol\nseal v1 100mL\ntest v1 limewater\ninspect\n",
+    "expectation": "Argon does not cloud limewater.",
+    "criteria": "Negative limewater response.",
+    "original_id": "062",
+    "fixture_correction": {
+      " Ar ": " helium "
+    },
+    "classification": "alternate inert-gas fixture; argon remains unavailable"
+  },
+  {
+    "id": "F064",
+    "title": "Dry silica versus salt conductivity",
+    "script": "new\nadd v1 water 100mL\nadd v1 SiO2 1g\nadd v2 water 100mL\nadd v2 NaCl 0.001mol\nmeasure v1 conductivity\nmeasure v2 conductivity\ninspect\n",
+    "expectation": "Insoluble silica does not generate a strong electrolyte; sodium chloride solution is much more conductive.",
+    "criteria": "Salt conductivity exceeds silica control by at least an order of magnitude, or explicit missing conductivity fit for silica.",
+    "original_id": "064",
+    "fixture_correction": {
+      " H2O ": " water "
+    },
+    "classification": "canonical ingredient spelling; same substance"
+  },
+  {
+    "id": "F065",
+    "title": "Neutral sucrose versus ionic salt",
+    "script": "new\nadd v1 water 100mL\nadd v1 sucrose 0.001mol\nadd v2 water 100mL\nadd v2 NaCl 0.001mol\nmeasure v1 conductivity\nmeasure v2 conductivity\ninspect\n",
+    "expectation": "Sucrose dissolves as neutral molecules, while NaCl dissociates into charge carriers.",
+    "criteria": "Salt conductivity exceeds sugar control by at least tenfold, or explicit unsupported sugar conductivity refusal.",
+    "original_id": "065",
+    "fixture_correction": {
+      " H2O ": " water ",
+      " Sucrose ": " sucrose "
+    },
+    "classification": "canonical ingredient spelling; same substance"
+  },
+  {
+    "id": "F066",
+    "title": "Tenfold electrolyte dilution",
+    "script": "add v1 water 100mL\nadd v1 NaCl 0.001mol\nmeasure v1 conductivity\ndilute v1 900mL\nmeasure v1 conductivity\ninspect\n",
+    "expectation": "Dilution preserves salt amount and lowers conductivity; dilute-limit conductivity approximately tracks concentration.",
+    "criteria": "Salt atom budgets unchanged; final conductivity lower, ratio between0.05 and0.2 if quantitative fit exists.",
+    "original_id": "066",
+    "fixture_correction": {
+      " H2O ": " water "
+    },
+    "classification": "canonical ingredient spelling; same substance"
+  },
+  {
+    "id": "F082",
+    "title": "Water-rich esterification is not compulsory complete conversion",
+    "script": "new\nadd v1 water 10mL\nadd v1 ethanol 0.01mol\nadd v1 CH3COOH 0.01mol\nadd v1 H2SO4 0.0001mol\nadd v2 water 100mL\nadd v2 ethanol 0.01mol\nadd v2 CH3COOH 0.01mol\nadd v2 H2SO4 0.0001mol\nreact v1 esterification\nreact v2 esterification\nwait 1h\ninspect v1\ninspect v2\nmeasure v1 chromatograph\nmeasure v2 chromatograph\nexplain v1\ninspect\n",
+    "expectation": "Acid-catalyzed ethanol/acetic-acid esterification is reversible and produces water. Water activity and dilution affect extent; applying the same exhaustive conversion to both aqueous mixtures would obscure equilibrium and kinetic scope.",
+    "criteria": [
+      "Any supported ethyl-acetate amount is bounded by0.01mol and coupled1:1 to ethanol/acetic-acid consumption.",
+      "A quantitative comparison must disclose equilibrium/activity versus finite-time kinetic assumptions; the more water-rich mixture should not show greater equilibrium ester fraction without a specific explanation.",
+      "A curated transformation may be explicitly pedagogical, but it must not claim computed universal equilibrium or catalyst-independent kinetics. Unknown organic names are recorded as followups."
+    ],
+    "original_id": "082",
+    "fixture_correction": {
+      " acetic_acid ": " CH3COOH "
+    },
+    "classification": "canonical ingredient spelling; same substance"
+  }
+]
