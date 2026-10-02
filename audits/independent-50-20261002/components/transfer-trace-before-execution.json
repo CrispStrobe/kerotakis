@@ -1,0 +1,14 @@
+{
+  "source_checkpoint": "caf9ebe997c49c08b29442335c97d30294f31c50",
+  "binary_sha256": "60a0a88e9db9f5b2486a77d1067985d4ca874eb97f4197317eda33877ed4d33a",
+  "command": [
+    "target/debug/kero",
+    "run",
+    "transfer-trace-before.lab",
+    "--json"
+  ],
+  "exit_code": 0,
+  "expected_fe_after_zero_decant_mol": 2e-18,
+  "observed_fe_before_mol": 2e-18,
+  "observed_fe_after_mol": 0
+}

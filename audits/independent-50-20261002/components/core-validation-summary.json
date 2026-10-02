@@ -1,0 +1,32 @@
+{
+  "source_checkpoint": "16e126e150f7522fd7d2e877452918e2618540b7",
+  "scope": "core transfer, phase and ordered-inventory validation; CEA and CLI followup pending",
+  "source_files_sha256": {
+    "crates/kerotakis-core/src/bench.rs": "b9bc9db10699f35e3f8c597a6a36cd37eba7b79c2642a4ea493b8e7155edfe99",
+    "crates/kerotakis-core/src/delta.rs": "95d2c7548cb51b62bc6e3345c3e3f2253842b8d2c7f968b42f5d6c3a81303d70",
+    "crates/kerotakis-core/src/solve.rs": "c247bfe791bf8f9d49b2ea4bb716761e47bcd0d0608c5bbaee77ffbbf4a65020",
+    "crates/kerotakis-core/tests/solver_transactions.rs": "b7f47052a1cf1605dd682819faa16cea6d864f5bc95e73057540dff4c8639262",
+    "crates/kerotakis-core/tests/transfer_trace.rs": "861be3e121c1ab620c386c86f3bf8a3c654b2ba254a2700cbfe491e1728aeaeb"
+  },
+  "validation": {
+    "command": "cargo test -p kerotakis-core --lib --test solver_transactions --test transfer_trace --test mix --test spill_persistence --test spill_breakage --test discard_verb --test interface_conservation --test states --test pressure_boiling --test phase_heat_capacity -j1 -- --test-threads=1",
+    "passed": 697,
+    "suite_counts": [
+      606,
+      7,
+      5,
+      6,
+      4,
+      8,
+      38,
+      4,
+      3,
+      10,
+      6
+    ],
+    "log": "/mnt/storage/kerotakis-maintenance-20261002/component-core-confirmed.log",
+    "log_sha256": "ec676900794edb9454394ba542e78fb36022c9367a5ed8e79d83604fe877df6a"
+  },
+  "resource_guard_sha256": "33d477a42c7b6628474236f3a912b482ea980402fd5547e3438e6c3ea7e1d5b7",
+  "cli_trace_probe_status": "Pre-fix zero-decant loss preserved; rebuilt CLI confirmation pending."
+}

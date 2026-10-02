@@ -1,0 +1,6 @@
+register lv3
+add v1 water 100mL
+add v1 Fe 2e-18mol
+inspect v1
+decant v1 v2 0
+inspect v1
