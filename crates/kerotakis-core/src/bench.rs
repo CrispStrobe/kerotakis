@@ -4587,7 +4587,10 @@ impl Bench {
                                     ),
                                 ));
                             }
-                            if sample.peaks.is_empty() && sample.outside_method.is_empty() && sample.unparameterised.is_empty() {
+                            if sample.peaks.is_empty() && sample.outside_method.is_empty() && !sample.unparameterised.is_empty() {
+                                // With no supported response, the coverage refusal above
+                                // is the result; do not announce an empty modeled run.
+                            } else if sample.peaks.is_empty() && sample.outside_method.is_empty() {
                                 events.push(Event::not_modeled(
                                     *vessel,
                                     crate::ops::NotModelledCause::NothingToActOn,

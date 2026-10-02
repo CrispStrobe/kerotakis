@@ -129,7 +129,7 @@ fn bench_event_and_all_registers_disclose_missing_neutral_retention() {
     ] {
         let text = render::render_event(result, level);
         assert!(
-            text.contains("Incomplete sample coverage") && text.contains("ethyl acetate"),
+            text.contains("Incomplete sample coverage") && text.contains("ethyl_acetate"),
             "{text}"
         );
         assert!(text.contains("elution is unknown"), "{text}");
@@ -141,4 +141,16 @@ fn bench_event_and_all_registers_disclose_missing_neutral_retention() {
     assert!(
         matches!(restored, Event::Chromatographed { unparameterised, .. } if unparameterised.is_empty())
     );
+}
+
+#[test]
+fn only_unparameterised_neutrals_refuse_without_announcing_a_modeled_chromatogram() {
+    let mut bench = Bench::new();
+    bench.vessels[0] = vessel();
+    bench.vessels[0].deposit(SpeciesId::new("ethyl_acetate"), Moles(0.001), Phase::Liquid);
+    let events = bench.step(Operator::Measure {
+        vessel: VesselId(0), instrument: Instrument::Chromatograph,
+    }).unwrap();
+    assert!(!events.iter().any(|e| matches!(e, Event::Chromatographed { .. })));
+    assert!(events.iter().any(|e| matches!(e, Event::NotYetModeled { cause: ops::NotModelledCause::NotParameterised, what, .. } if what.contains("ethyl_acetate") && what.contains("unresolved"))));
 }
