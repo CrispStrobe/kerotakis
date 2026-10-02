@@ -9,8 +9,8 @@ use crate::i18n::Locale;
 use crate::instrument::InstrumentContract;
 use crate::material::{self, MaterialBasis, MaterialRecipe, MaterialRole};
 use crate::ops::{
-    CentrifugeSeparation, DiscardedPortion, Endpoint, Event, ExtractionSplit,
-    Instrument, LogEntry, MaterialComponentAdded, Operator,
+    CentrifugeSeparation, DiscardedPortion, Endpoint, Event, ExtractionSplit, Instrument, LogEntry,
+    MaterialComponentAdded, Operator,
 };
 use crate::phrase::{Phrase, Slot};
 use crate::refusal::{Refusal, Refuses};
@@ -965,8 +965,9 @@ impl Bench {
         if heat_start.is_some()
             && touched.iter().any(|id| {
                 self.vessel(*id).is_ok_and(|vessel| {
-                    vessel.temperature.0 > crate::states::WATER_FREEZING_K
-                        + crate::solve::PHASE_COUPLED_TEMPERATURE_TOLERANCE_K
+                    vessel.temperature.0
+                        > crate::states::WATER_FREEZING_K
+                            + crate::solve::PHASE_COUPLED_TEMPERATURE_TOLERANCE_K
                         && vessel.contents.iter().any(|portion| {
                             portion.species.0 == "water"
                                 && portion.phase == Phase::Solid
@@ -3422,11 +3423,8 @@ impl Bench {
                                 Phase::Aqueous,
                             );
                             let removed_e = Moles(liquid_e.0 + aqueous_e.0);
-                            let removed_w = src.withdraw_phase(
-                                &water,
-                                Moles(cut.water_over),
-                                Phase::Liquid,
-                            );
+                            let removed_w =
+                                src.withdraw_phase(&water, Moles(cut.water_over), Phase::Liquid);
                             let at = Kelvin(cut.t_start_c + 273.15);
                             let ended = Kelvin(cut.t_end_c + 273.15);
                             let energy_kj = cut.energy_kj;
@@ -4022,11 +4020,8 @@ impl Bench {
                     src.temperature = contact_temperature;
                     for split in &splits {
                         let total = split.extracted.0 + split.remaining.0;
-                        let aqueous = src.withdraw_phase(
-                            &split.species,
-                            Moles(total),
-                            Phase::Aqueous,
-                        );
+                        let aqueous =
+                            src.withdraw_phase(&split.species, Moles(total), Phase::Aqueous);
                         src.withdraw_phase(
                             &split.species,
                             Moles((total - aqueous.0).max(0.0)),
@@ -4650,113 +4645,88 @@ impl Bench {
                     return Err(BenchError::NonPositiveAmount);
                 }
                 let v = self.vessel(*vessel)?;
-                match crate::displacement::electrolyse(v, *amps, *seconds) {
+                let metal_plan = crate::displacement::electrolyse_checked(v, *amps, *seconds);
+                let solvent_plan = if matches!(metal_plan, Ok(None)) {
+                    crate::displacement::electrolyse_solvent_checked(v, *amps, *seconds)
+                } else {
+                    Ok(None)
+                };
+                if let Some(why) = metal_plan.as_ref().err().or(solvent_plan.as_ref().err()) {
+                    events.push(Event::not_modeled(
+                        *vessel,
+                        crate::ops::NotModelledCause::ModelBoundary,
+                        Phrase::new(
+                            "not-modeled.electrolysis-charge-refused",
+                            "electrolysis charge refused before changing inventory: {why}",
+                            vec![(
+                                "why".into(),
+                                Slot::term("electrolysis-charge-boundary", *why),
+                            )],
+                        ),
+                    ));
+                    *disposition = ApplyDisposition::Unchanged;
+                    return Ok(events);
+                }
+                match metal_plan.expect("checked above") {
                     Some(run) => {
-                        // The counter-electrode's half-reaction, named
-                        // before the event rather than only booked after
-                        // it: an inert anode splits water,
-                        // 2 H₂O → O₂ + 4 H⁺ + 4 e⁻, so a quarter of an
-                        // electron's worth of oxygen leaves for every
-                        // electron the cathode spends. Carried on the
-                        // event so a renderer can size each end of the
-                        // cell by what actually comes off it.
-                        //
-                        // Note which electron count this is: the WHOLE
-                        // current's, not the plated metal's. The anode does
-                        // not know the beaker ran out of copper, and the
-                        // hydrogen below is what makes those two agree.
+                        // Inert oxygen anode passes the entire charge. The
+                        // undivided H2 cathode cancels only its own share of
+                        // acid: the metal's electron share remains as H+.
                         let oxygen = Moles(run.electrons / 4.0);
-                        let anode_evolves = oxygen.0 > crate::OBSERVABLE_MOLES;
-                        // What the metal did not take. 2 H₂O + 2 e⁻ → H₂ +
-                        // 2 OH⁻: in this undivided cell that hydroxide meets
-                        // the anode's acid and gives the water back, so the
-                        // only new thing leaving the beaker is the gas.
                         let hydrogen = Moles(run.hydrogen_moles);
-                        let cathode_co_evolves = hydrogen.0 > crate::OBSERVABLE_MOLES;
-                        if run.moles > crate::OBSERVABLE_MOLES {
-                            let (species, moles) = (run.species.clone(), Moles(run.moles));
-                            let taken = (run.ion.clone(), Moles(run.moles * run.ion_per_metal));
-                            let v = self.vessel_mut(*vessel)?;
-                            v.deposit(species.clone(), moles, Phase::Solid);
-                            v.withdraw(&taken.0, taken.1);
-                            events.push(Event::Electrolysed {
-                                vessel: *vessel,
-                                species: species.clone(),
-                                amps: *amps,
-                                seconds: *seconds,
-                                coulombs: run.coulombs,
-                                electrons: Moles(run.electrons),
-                                moles,
-                                grams: run.grams,
-                                per_ion: run.per_ion,
-                                anode_species: anode_evolves.then(|| SpeciesId::new("O2")),
-                                anode_moles: anode_evolves.then_some(oxygen),
-                                cathode_species: Some(species),
-                                cathode_moles: Some(moles),
-                                current_efficiency: run.current_efficiency,
-                            });
-                            // The other electrode has to be somewhere.
-                            //
-                            // Taking copper out of solution leaves its
-                            // charge behind, and the solve balances that
-                            // with acid: the beaker goes from pH 4.27 to
-                            // 1.84 on 0.01 mol of electrons. That is the
-                            // right chemistry for an *inert* anode —
-                            // 2 H₂O → O₂ + 4 H⁺ + 4 e⁻, carbon rods, the
-                            // school cell — but the acid was appearing
-                            // without the oxygen that pays for it.
-                            //
-                            // Booked here so the ledger closes. A copper
-                            // anode instead dissolves to replace what
-                            // plates out, holds Cu²⁺ constant and makes no
-                            // acid at all; that is electrorefining and it
-                            // is a different cell, which the register says.
-                            if anode_evolves {
-                                let v = self.vessel_mut(*vessel)?;
-                                v.withdraw(&SpeciesId::new("water"), Moles(oxygen.0 * 2.0));
-                                let oxygen_id = SpeciesId::new("O2");
-                                if v.retain_gas(oxygen_id.clone(), oxygen) {
+                        let v = self.vessel_mut(*vessel)?;
+                        v.withdraw_phase(
+                            &run.ion,
+                            Moles(run.moles * run.ion_per_metal),
+                            Phase::Aqueous,
+                        );
+                        v.withdraw_phase(
+                            &SpeciesId::new("water"),
+                            Moles(run.electrons / 2.0),
+                            Phase::Liquid,
+                        );
+                        v.deposit(run.species.clone(), Moles(run.moles), Phase::Solid);
+                        v.deposit(
+                            SpeciesId::new("H+"),
+                            Moles(run.electrons_to_metal),
+                            Phase::Aqueous,
+                        );
+                        events.push(Event::Electrolysed {
+                            vessel: *vessel,
+                            species: run.species.clone(),
+                            amps: *amps,
+                            seconds: *seconds,
+                            coulombs: run.coulombs,
+                            electrons: Moles(run.electrons),
+                            moles: Moles(run.moles),
+                            grams: run.grams,
+                            per_ion: run.per_ion,
+                            anode_species: Some(SpeciesId::new("O2")),
+                            anode_moles: Some(oxygen),
+                            cathode_species: Some(run.species),
+                            cathode_moles: Some(Moles(run.moles)),
+                            current_efficiency: run.current_efficiency,
+                        });
+                        // Visibility is a renderer concern; every positive
+                        // physical product must remain in the stock/flow ledger.
+                        for (species, moles) in [
+                            (SpeciesId::new("O2"), oxygen),
+                            (SpeciesId::new("H2"), hydrogen),
+                        ] {
+                            if moles.0 > 0.0 {
+                                if v.retain_gas(species.clone(), moles) {
                                     events.push(Event::GasContained {
                                         vessel: *vessel,
-                                        species: oxygen_id,
-                                        moles: oxygen,
+                                        species,
+                                        moles,
                                     });
                                 } else {
                                     events.push(Event::GasEvolved {
                                         vessel: *vessel,
-                                        species: oxygen_id,
-                                        moles: oxygen,
+                                        species,
+                                        moles,
                                     });
                                 }
-                            }
-                        }
-                        // The charge asked for more than the beaker had.
-                        //
-                        // This used to be a refusal: the bench said the
-                        // rest of the charge "went nowhere". Nowhere is not
-                        // a place a coulomb can go. The supply of ion is
-                        // not what limits a galvanostat — the current is
-                        // held, so once the copper is gone the cathode
-                        // reduces the only other thing in reach, which is
-                        // water. Booking it is what closes the electron
-                        // ledger the anode above already opened at the full
-                        // current, and it is why the mass on the electrode
-                        // stops rising while the cell keeps running.
-                        if cathode_co_evolves {
-                            let v = self.vessel_mut(*vessel)?;
-                            let hydrogen_id = SpeciesId::new("H2");
-                            if v.retain_gas(hydrogen_id.clone(), hydrogen) {
-                                events.push(Event::GasContained {
-                                    vessel: *vessel,
-                                    species: hydrogen_id,
-                                    moles: hydrogen,
-                                });
-                            } else {
-                                events.push(Event::GasEvolved {
-                                    vessel: *vessel,
-                                    species: hydrogen_id,
-                                    moles: hydrogen,
-                                });
                             }
                         }
                     }
@@ -4765,11 +4735,7 @@ impl Bench {
                     // rods, hydrogen at one and chlorine at the other — and
                     // the refusal below was accurate about the model and
                     // wrong about the chemistry.
-                    None => match crate::displacement::electrolyse_solvent(
-                        self.vessel(*vessel)?,
-                        *amps,
-                        *seconds,
-                    ) {
+                    None => match solvent_plan.expect("checked above") {
                         Some(run) => {
                             events.push(Event::not_modeled(
                                 *vessel,
@@ -4780,11 +4746,15 @@ impl Bench {
                                 ),
                             ));
                             let v = self.vessel_mut(*vessel)?;
-                            if run.water_spent > crate::OBSERVABLE_MOLES {
-                                v.withdraw(&SpeciesId::new("water"), Moles(run.water_spent));
+                            if run.water_spent > 0.0 {
+                                v.withdraw_phase(
+                                    &SpeciesId::new("water"),
+                                    Moles(run.water_spent),
+                                    Phase::Liquid,
+                                );
                             }
                             // Cathode.
-                            if run.cathode_moles > crate::OBSERVABLE_MOLES {
+                            if run.cathode_moles > 0.0 {
                                 if run.cathode_plates {
                                     v.deposit(
                                         run.cathode.clone(),
@@ -4792,7 +4762,7 @@ impl Bench {
                                         Phase::Solid,
                                     );
                                     if let Some((ion, taken)) = &run.cathode_ion {
-                                        v.withdraw(ion, Moles(*taken));
+                                        v.withdraw_phase(ion, Moles(*taken), Phase::Aqueous);
                                     }
                                     events.push(electrolysed_run(*vessel, *amps, *seconds, &run));
                                     // The plating ion ran out part-way and
@@ -4802,7 +4772,7 @@ impl Bench {
                                     // cathode's electrons add up to the
                                     // anode's.
                                     let co = Moles(run.cathode_hydrogen_moles);
-                                    if co.0 > crate::OBSERVABLE_MOLES {
+                                    if co.0 > 0.0 {
                                         let h2 = SpeciesId::new("H2");
                                         if v.retain_gas(h2.clone(), co) {
                                             events.push(Event::GasContained {
@@ -4846,14 +4816,14 @@ impl Bench {
                                 }
                             }
                             // The caustic soda the chloralkali cell is FOR.
-                            if run.hydroxide_made > crate::OBSERVABLE_MOLES {
+                            if run.hydroxide_made > 0.0 {
                                 v.deposit(
                                     SpeciesId::new("OH-"),
                                     Moles(run.hydroxide_made),
                                     Phase::Aqueous,
                                 );
                             }
-                            if run.protons_made > crate::OBSERVABLE_MOLES {
+                            if run.protons_made > 0.0 {
                                 v.deposit(
                                     SpeciesId::new("H+"),
                                     Moles(run.protons_made),
@@ -4861,10 +4831,14 @@ impl Bench {
                                 );
                             }
                             // Anode.
-                            if run.chloride_spent > crate::OBSERVABLE_MOLES {
-                                v.withdraw(&SpeciesId::new("Cl-"), Moles(run.chloride_spent));
+                            if run.chloride_spent > 0.0 {
+                                v.withdraw_phase(
+                                    &SpeciesId::new("Cl-"),
+                                    Moles(run.chloride_spent),
+                                    Phase::Aqueous,
+                                );
                             }
-                            if run.anode_moles > crate::OBSERVABLE_MOLES {
+                            if run.anode_moles > 0.0 {
                                 let m = Moles(run.anode_moles);
                                 if v.retain_gas(run.anode.clone(), m) {
                                     events.push(Event::GasContained {
@@ -4886,7 +4860,7 @@ impl Bench {
                             let has_water = v.contents.iter().any(|p| {
                                 p.species.0 == "water"
                                     && p.phase == Phase::Liquid
-                                    && p.moles.0 > crate::OBSERVABLE_MOLES
+                                    && p.moles.0 > 0.0
                             });
                             // One half of this is a sentence this file
                             // writes, so it is keyed by its place. The
@@ -5474,7 +5448,8 @@ impl Bench {
                     }
                     if !step.effluent.contents.is_empty() {
                         let t = step.effluent.temperature.0;
-                        outlet_bounds = Some(outlet_bounds.map_or((t, t), |(lo, hi)| (lo.min(t), hi.max(t))));
+                        outlet_bounds =
+                            Some(outlet_bounds.map_or((t, t), |(lo, hi)| (lo.min(t), hi.max(t))));
                     }
                 }
                 let mut effluent = Vec::with_capacity(amounts.len());
@@ -5501,7 +5476,8 @@ impl Bench {
                 }
                 // A receiver may alias a chain cell; mix into its final
                 // transport state, while validating before any writeback.
-                let receiver_state = if let Some(index) = chain.iter().position(|id| id == receiver) {
+                let receiver_state = if let Some(index) = chain.iter().position(|id| id == receiver)
+                {
                     &cell_chain.cells()[index]
                 } else {
                     self.vessel(*receiver)?
@@ -5526,7 +5502,8 @@ impl Bench {
                         if !energy(lo).is_finite() || !energy(hi).is_finite() {
                             return Err(invalid_aggregate());
                         }
-                        receiver_temperature = crate::solve::adiabatic_rest_temperature(lo, hi, energy);
+                        receiver_temperature =
+                            crate::solve::adiabatic_rest_temperature(lo, hi, energy);
                     }
                 }
                 for (i, cid) in chain.iter().enumerate() {
@@ -6876,7 +6853,6 @@ mod react_diagnostic_tests {
         }
     }
 }
-
 
 /// Compensated bounded-memory sums for transported inventory and enthalpy.
 #[derive(Default)]

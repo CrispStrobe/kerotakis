@@ -1240,10 +1240,102 @@ pub fn electrolyse_solvent(
     amps: f64,
     seconds: f64,
 ) -> Option<SolventElectrolysis> {
-    let water = moles_in(vessel, "water", Phase::Liquid);
-    if water <= crate::OBSERVABLE_MOLES {
-        return None;
+    electrolyse_solvent_checked(vessel, amps, seconds)
+        .ok()
+        .flatten()
+}
+
+/// Plan the entire charge before any donor is withdrawn. A short water
+/// supply refuses the operation, rather than clipping donors while retaining
+/// products calculated from the full current.
+pub fn electrolyse_solvent_checked(
+    vessel: &Vessel,
+    amps: f64,
+    seconds: f64,
+) -> Result<Option<SolventElectrolysis>, &'static str> {
+    check_electrolysis_charge(vessel, amps, seconds)?;
+    let Some(run) = electrolyse_solvent_plan(vessel, amps, seconds) else {
+        return Ok(None);
+    };
+    if moles_in(vessel, "water", Phase::Liquid) <= 0.0 {
+        return Err("solvent electrolysis requires a positive liquid-water inventory");
     }
+    check_electrolysis_amounts(&[
+        run.coulombs,
+        run.electrons,
+        run.cathode_moles,
+        run.anode_moles,
+        run.chloride_spent,
+        run.hydroxide_made,
+        run.water_spent,
+        run.protons_made,
+        run.cathode_hydrogen_moles,
+        run.electrons_to_hydrogen,
+        run.current_efficiency,
+    ])?;
+    if run.cathode_moles <= 0.0
+        || run.anode_moles <= 0.0
+        || (run.electrons_to_hydrogen > 0.0 && run.cathode_hydrogen_moles <= 0.0)
+    {
+        return Err("the positive charge has an unrepresentable product amount");
+    }
+    check_electrolysis_donor(vessel, "water", Phase::Liquid, run.water_spent)?;
+    check_electrolysis_donor(vessel, "Cl-", Phase::Aqueous, run.chloride_spent)?;
+    if let Some((ion, amount)) = &run.cathode_ion {
+        check_electrolysis_donor(vessel, &ion.0, Phase::Aqueous, *amount)?;
+    }
+    Ok(Some(run))
+}
+
+fn check_electrolysis_amounts(amounts: &[f64]) -> Result<(), &'static str> {
+    if amounts.iter().any(|v| !v.is_finite() || *v < 0.0) {
+        return Err("the requested charge or its products are not finite nonnegative amounts");
+    }
+    Ok(())
+}
+
+fn check_electrolysis_charge(vessel: &Vessel, amps: f64, seconds: f64) -> Result<(), &'static str> {
+    let charge = amps * seconds;
+    let electrons = charge / FARADAY;
+    if !amps.is_finite()
+        || !seconds.is_finite()
+        || amps <= 0.0
+        || seconds <= 0.0
+        || !charge.is_finite()
+        || !electrons.is_finite()
+        || electrons <= 0.0
+    {
+        return Err("the requested charge is not a finite representable positive amount");
+    }
+    check_electrolysis_amounts(
+        &vessel
+            .contents
+            .iter()
+            .map(|p| p.moles.0)
+            .collect::<Vec<_>>(),
+    )?;
+    check_electrolysis_amounts(&[vessel.contents.iter().map(|p| p.moles.0).sum()])
+}
+
+fn check_electrolysis_donor(
+    vessel: &Vessel,
+    key: &str,
+    phase: Phase,
+    wanted: f64,
+) -> Result<(), &'static str> {
+    let available = moles_in(vessel, key, phase);
+    check_electrolysis_amounts(&[available, wanted])?;
+    if wanted > available {
+        return Err("the requested charge exceeds its liquid-water or aqueous-ion supply; the whole charge is refused");
+    }
+    Ok(())
+}
+
+fn electrolyse_solvent_plan(
+    vessel: &Vessel,
+    amps: f64,
+    seconds: f64,
+) -> Option<SolventElectrolysis> {
     let carries_current = vessel
         .contents
         .iter()
@@ -1271,7 +1363,7 @@ pub fn electrolyse_solvent(
         .iter()
         .filter(|c| c.reduced_phase == Phase::Solid)
         .filter(|c| c.e0_volts > 0.0)
-        .filter(|c| moles_in(vessel, c.oxidised, Phase::Aqueous) > crate::OBSERVABLE_MOLES)
+        .filter(|c| moles_in(vessel, c.oxidised, Phase::Aqueous) > 0.0)
         .max_by(|a, b| a.e0_volts.total_cmp(&b.e0_volts));
     let (cathode, cathode_moles, cathode_plates, cathode_ion, electrons_to_cathode) = match platable
     {
@@ -1351,7 +1443,11 @@ pub fn electrolyse_solvent(
     let (water_spent, protons_made, hydroxide_made) = if anode.0 == "O2" {
         (
             electrons / 2.0,
-            (electrons - electrons_to_hydrogen).max(0.0),
+            if cathode_plates {
+                electrons_to_cathode
+            } else {
+                0.0
+            },
             0.0,
         )
     } else {
@@ -1489,7 +1585,52 @@ pub struct Electrolysis {
 /// Returns `None` when the vessel is not a half-cell — `why_no_electrode`
 /// says so in words.
 pub fn electrolyse(vessel: &Vessel, amps: f64, seconds: f64) -> Option<Electrolysis> {
+    electrolyse_checked(vessel, amps, seconds).ok().flatten()
+}
+
+pub fn electrolyse_checked(
+    vessel: &Vessel,
+    amps: f64,
+    seconds: f64,
+) -> Result<Option<Electrolysis>, &'static str> {
+    check_electrolysis_charge(vessel, amps, seconds)?;
+    let Some(run) = electrolyse_plan(vessel, amps, seconds) else {
+        return Ok(None);
+    };
+    check_electrolysis_amounts(&[
+        run.moles,
+        run.grams,
+        run.coulombs,
+        run.electrons,
+        run.ion_per_metal,
+        run.per_ion,
+        run.demanded,
+        run.electrons_to_metal,
+        run.electrons_to_hydrogen,
+        run.hydrogen_moles,
+        run.current_efficiency,
+    ])?;
+    if run.electrons / 4.0 <= 0.0 || (run.electrons_to_hydrogen > 0.0 && run.hydrogen_moles <= 0.0)
+    {
+        return Err("the positive charge has an unrepresentable product amount");
+    }
+    check_electrolysis_donor(vessel, "water", Phase::Liquid, run.electrons / 2.0)?;
+    check_electrolysis_donor(
+        vessel,
+        &run.ion.0,
+        Phase::Aqueous,
+        run.moles * run.ion_per_metal,
+    )?;
+    Ok(Some(run))
+}
+
+fn electrolyse_plan(vessel: &Vessel, amps: f64, seconds: f64) -> Option<Electrolysis> {
     let e = electrode(vessel)?;
+    // This branch deposits a solid metal; hydrogen electrodes belong to the
+    // solvent route, not a fictitious solid-H2 plating operation.
+    if e.couple.reduced_phase != Phase::Solid {
+        return None;
+    }
     let coulombs = amps * seconds;
     let electrons = coulombs / FARADAY;
     let demanded = electrons / e.couple.electrons;
