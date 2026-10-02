@@ -23,8 +23,42 @@ def rows(folder, case):
 def amount(vessel, species):
     return sum(p['moles'] for p in vessel['contents'] if p['species'] == species)
 
+def merge(previous, patch):
+    # `inspect vN` serializes only that selected vessel. Reconstruct the
+    # latest observed inventory rather than treating a partial view as deletion.
+    merged = dict(previous or {})
+    vessels = {v['id']: v for v in merged.get('vessels', [])}
+    vessels.update({v['id']: v for v in patch.get('vessels', [])})
+    merged.update(patch)
+    merged['vessels'] = [vessels[k] for k in sorted(vessels)]
+    return merged
+
+def inventory(vessel):
+    # Independent formulas for this frozen electrolysis family. The analytical
+    # base-equivalent coordinate carries H1/O1/-1, not an extra free-ion dose.
+    formulas = {
+        'water': ({'H':2,'O':1},0), 'H2': ({'H':2},0), 'O2': ({'O':2},0),
+        'N2': ({'N':2},0), 'Cl2': ({'Cl':2},0), 'Na+': ({'Na':1},1),
+        'Cl-': ({'Cl':1},-1), 'SO4-2': ({'S':1,'O':4},-2),
+        'CO2': ({'C':1,'O':2},0), 'CO2(aq)': ({'C':1,'O':2},0),
+        'HCO3-': ({'H':1,'C':1,'O':3},-1), 'CO3-2': ({'C':1,'O':3},-2),
+        'H+': ({'H':1},1), 'OH-': ({'H':1,'O':1},-1),
+        'base_equivalents': ({'H':1,'O':1},-1),
+    }
+    result = {'charge':0.0}
+    for portion in vessel['contents']:
+        atoms, charge = formulas[portion['species']]
+        result['charge'] += charge * portion['moles']
+        for element, count in atoms.items():
+            result[element] = result.get(element,0.0) + count*portion['moles']
+    return result
+
 def final(data):
-    return next(r['bench'] for r in reversed(data) if 'bench' in r)
+    state = None
+    for row in data:
+        if 'bench' in row:
+            state = merge(state, row['bench'])
+    return state
 
 def events(data, event):
     return [e for r in data for e in r.get('events', []) if e['event'] == event]
@@ -80,15 +114,24 @@ for case, expected_count in [('074',1), ('075',2), ('077',2)]:
                   gas_inventory_gain_mol=anode_gain, reported_mol=e['anode_moles'])
             water_loss = amount(before, 'water')-amount(after, 'water')
             expected_loss = electrons if e['anode_species']=='Cl2' else electrons/2
-            check(f'{case} v{vid}: water consumption', abs(water_loss-expected_loss)<2e-8,
-                  water_loss_mol=water_loss, expected_mol=expected_loss)
+            before_budget, after_budget = inventory(before), inventory(after)
+            for coordinate in sorted(before_budget.keys() | after_budget.keys()):
+                change=after_budget.get(coordinate,0.0)-before_budget.get(coordinate,0.0)
+                check(f'{case} v{vid}: conserved {coordinate} inventory', abs(change)<1e-8,
+                      inventory_delta_mol=change)
+            if e['anode_species']=='O2':
+                check(f'{case} v{vid}: water consumption', abs(water_loss-expected_loss)<2e-8,
+                      water_loss_mol=water_loss, expected_mol=expected_loss)
+            # In brine, subsequent CO2/alkali neutralisation also changes
+            # solvent water. Its complete atom/charge budgets above, rather
+            # than the gross pre-settling water debit, must close.
             if e['anode_species'] == 'O2':
                 acid_delta = amount(after, 'H+')-amount(before, 'H+')
                 check(f'{case} v{vid}: no spurious electron-equivalent acid', abs(acid_delta)<electrons*.05,
                       proton_inventory_delta_mol=acid_delta)
             check(f'{case} v{vid}: electrode assumptions disclosed',
                   any(e['event']=='not_yet_modeled' and 'inert electrodes' in e.get('what','') for e in r['events']))
-        previous = r['bench']
+        previous = merge(previous, r['bench'])
 
 original = rows(args.evidence, '097')
 state = final(original)
@@ -103,9 +146,9 @@ for r in rows(args.evidence, '098'):
         continue
     if r.get('operator',{}).get('op')=='distil':
         check(f"098 stages {r['operator']['stages']}: complete refusal preserves physical state",
-              r['bench']==previous and not any(e['event']=='distilled' for e in r.get('events',[])),
+              merge(previous, r['bench'])==previous and not any(e['event']=='distilled' for e in r.get('events',[])),
               diagnostic=[e.get('what') for e in r.get('events',[]) if e['event']=='not_yet_modeled'])
-    previous = r['bench']
+    previous = merge(previous, r['bench'])
 
 chrom = events(rows(args.evidence/'followups', 'F082'), 'chromatographed')
 check('F082: missing neutrals visible alongside ethanol', bool(chrom) and
