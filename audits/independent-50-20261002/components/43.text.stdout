@@ -1,0 +1,11 @@
+  v1: +0.021707 mol ethanol (C2H5OH, M = 46.069 g/mol)
+  v1: ignition source applied; computed reaction energy = 26768.459 J
+  v1: 0.065120 mol water evolved (open system; mass leaves)
+  v1: 0.043413 mol carbon dioxide evolved (open system; mass leaves)
+  v1: 0.065120 mol oxygen transferred gas → condensed inventory
+  v1: −0.021707 mol ethanol
+  v1: C₂H₅OH(l) + 3 O₂(g) → 2 CO₂(g) + 3 H₂O(g)
+  v1: T 1200.000 K → 2057.599 K (ΔT = +857.599 K)
+  v1: Gibbs minimum at 2057.60 K, adiabatic flame over an empty vessel · NASA CEA thermo.inp · NASA-9 polynomials, ideal gas + pure condensed phases; localized spark zone 1200.00 K, bulk feed 298.15 K, room air 298.15 K; open-air allocation 16.97 times the represented feed amount
+  v1 (beaker) — 1784.45 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+      (empty)

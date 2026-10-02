@@ -1,0 +1,479 @@
+[
+  {
+    "time": "2026-10-02T14:27:40Z",
+    "stage": "component-cea-unit",
+    "state": "running",
+    "available": 5280100352,
+    "swap_free": 10528702464,
+    "load": 1.953125,
+    "disk_free": 7327305728
+  },
+  {
+    "time": "2026-10-02T14:28:52Z",
+    "stage": "component-cea-unit",
+    "state": "failed",
+    "available": 4867678208,
+    "swap_free": 10499342336,
+    "load": 4.61865234375,
+    "disk_free": 7326883840,
+    "exit_code": 101
+  },
+  {
+    "time": "2026-10-02T14:31:48Z",
+    "stage": "component-core-final",
+    "state": "running",
+    "available": 4934500352,
+    "swap_free": 10506158080,
+    "load": 3.21142578125,
+    "disk_free": 7295852544
+  },
+  {
+    "time": "2026-10-02T14:31:52Z",
+    "stage": "component-core-final",
+    "state": "failed",
+    "available": 4894519296,
+    "swap_free": 10506158080,
+    "load": 3.1943359375,
+    "disk_free": 7238889472,
+    "exit_code": 101
+  },
+  {
+    "time": "2026-10-02T14:32:16Z",
+    "stage": "component-core-verified",
+    "state": "running",
+    "available": 5391495168,
+    "swap_free": 10507206656,
+    "load": 2.6494140625,
+    "disk_free": 7238819840
+  },
+  {
+    "time": "2026-10-02T14:34:54Z",
+    "stage": "component-core-verified",
+    "state": "complete",
+    "available": 5337956352,
+    "swap_free": 10527129600,
+    "load": 2.57763671875,
+    "disk_free": 6998368256,
+    "exit_code": 0
+  },
+  {
+    "time": "2026-10-02T14:45:05Z",
+    "stage": "component-core-complete",
+    "state": "running",
+    "available": 5383200768,
+    "swap_free": 10372190208,
+    "load": 2.3134765625,
+    "disk_free": 6918963200
+  },
+  {
+    "time": "2026-10-02T14:47:57Z",
+    "stage": "component-core-complete",
+    "state": "failed",
+    "available": 5325381632,
+    "swap_free": 10350878720,
+    "load": 2.615234375,
+    "disk_free": 6765453312,
+    "exit_code": 101
+  },
+  {
+    "time": "2026-10-02T14:49:02Z",
+    "stage": "component-core-confirmed",
+    "state": "running",
+    "available": 5342785536,
+    "swap_free": 10356121600,
+    "load": 1.97802734375,
+    "disk_free": 6759993344
+  },
+  {
+    "time": "2026-10-02T14:52:02Z",
+    "stage": "component-core-confirmed",
+    "state": "complete",
+    "available": 3700994048,
+    "swap_free": 10033172480,
+    "load": 5.423828125,
+    "disk_free": 6468329472,
+    "exit_code": 0
+  },
+  {
+    "time": "2026-10-02T14:55:38Z",
+    "stage": "component-cea-confirmed",
+    "state": "waiting",
+    "available": 3292266496,
+    "swap_free": 9757900800,
+    "load": 5.048828125,
+    "disk_free": 6437990400
+  },
+  {
+    "time": "2026-10-02T14:56:08Z",
+    "stage": "component-cea-confirmed",
+    "state": "waiting",
+    "available": 3786973184,
+    "swap_free": 9768910848,
+    "load": 4.21533203125,
+    "disk_free": 6433918976
+  },
+  {
+    "time": "2026-10-02T14:56:38Z",
+    "stage": "component-cea-confirmed",
+    "state": "waiting",
+    "available": 3611168768,
+    "swap_free": 9798795264,
+    "load": 3.9716796875,
+    "disk_free": 6429929472
+  },
+  {
+    "time": "2026-10-02T14:57:08Z",
+    "stage": "component-cea-confirmed",
+    "state": "waiting",
+    "available": 3601891328,
+    "swap_free": 9804562432,
+    "load": 3.5947265625,
+    "disk_free": 6424977408
+  },
+  {
+    "time": "2026-10-02T14:57:38Z",
+    "stage": "component-cea-confirmed",
+    "state": "waiting",
+    "available": 3618119680,
+    "swap_free": 9808756736,
+    "load": 3.61474609375,
+    "disk_free": 6420905984
+  },
+  {
+    "time": "2026-10-02T14:58:09Z",
+    "stage": "component-cea-confirmed",
+    "state": "waiting",
+    "available": 4732796928,
+    "swap_free": 9845194752,
+    "load": 4.67822265625,
+    "disk_free": 6415175680
+  },
+  {
+    "time": "2026-10-02T14:58:39Z",
+    "stage": "component-cea-confirmed",
+    "state": "waiting",
+    "available": 3522789376,
+    "swap_free": 9847554048,
+    "load": 6.37451171875,
+    "disk_free": 6411726848
+  },
+  {
+    "time": "2026-10-02T14:59:09Z",
+    "stage": "component-cea-confirmed",
+    "state": "waiting",
+    "available": 3718557696,
+    "swap_free": 9898504192,
+    "load": 7.650390625,
+    "disk_free": 6407446528
+  },
+  {
+    "time": "2026-10-02T14:59:39Z",
+    "stage": "component-cea-confirmed",
+    "state": "waiting",
+    "available": 3628154880,
+    "swap_free": 9899552768,
+    "load": 6.86572265625,
+    "disk_free": 6398242816
+  },
+  {
+    "time": "2026-10-02T15:00:09Z",
+    "stage": "component-cea-confirmed",
+    "state": "waiting",
+    "available": 2727419904,
+    "swap_free": 9890107392,
+    "load": 7.759765625,
+    "disk_free": 6252515328
+  },
+  {
+    "time": "2026-10-02T15:00:39Z",
+    "stage": "component-cea-confirmed",
+    "state": "waiting",
+    "available": 3776200704,
+    "swap_free": 9866788864,
+    "load": 9.52490234375,
+    "disk_free": 6375190528
+  },
+  {
+    "time": "2026-10-02T15:01:09Z",
+    "stage": "component-cea-confirmed",
+    "state": "waiting",
+    "available": 3748925440,
+    "swap_free": 9881206784,
+    "load": 7.8525390625,
+    "disk_free": 6371758080
+  },
+  {
+    "time": "2026-10-02T15:01:39Z",
+    "stage": "component-cea-confirmed",
+    "state": "waiting",
+    "available": 1679888384,
+    "swap_free": 9744961536,
+    "load": 9.77392578125,
+    "disk_free": 6369337344
+  },
+  {
+    "time": "2026-10-02T15:02:09Z",
+    "stage": "component-cea-confirmed",
+    "state": "waiting",
+    "available": 1651068928,
+    "swap_free": 9745453056,
+    "load": 14.09326171875,
+    "disk_free": 6369161216
+  },
+  {
+    "time": "2026-10-02T15:02:39Z",
+    "stage": "component-cea-confirmed",
+    "state": "waiting",
+    "available": 1681260544,
+    "swap_free": 9744814080,
+    "load": 18.1298828125,
+    "disk_free": 6369103872
+  },
+  {
+    "time": "2026-10-02T15:03:09Z",
+    "stage": "component-cea-confirmed",
+    "state": "waiting",
+    "available": 1688104960,
+    "swap_free": 9745301504,
+    "load": 26.2744140625,
+    "disk_free": 6369046528
+  },
+  {
+    "time": "2026-10-02T15:03:39Z",
+    "stage": "component-cea-confirmed",
+    "state": "waiting",
+    "available": 1681526784,
+    "swap_free": 9745301504,
+    "load": 24.40625,
+    "disk_free": 6368972800
+  },
+  {
+    "time": "2026-10-02T15:04:09Z",
+    "stage": "component-cea-confirmed",
+    "state": "waiting",
+    "available": 1668370432,
+    "swap_free": 9745301504,
+    "load": 22.8837890625,
+    "disk_free": 6368624640
+  },
+  {
+    "time": "2026-10-02T15:04:39Z",
+    "stage": "component-cea-confirmed",
+    "state": "waiting",
+    "available": 1670615040,
+    "swap_free": 9744777216,
+    "load": 21.0419921875,
+    "disk_free": 6368546816
+  },
+  {
+    "time": "2026-10-02T15:05:09Z",
+    "stage": "component-cea-confirmed",
+    "state": "waiting",
+    "available": 1663033344,
+    "swap_free": 9745039360,
+    "load": 22.1171875,
+    "disk_free": 6368518144
+  },
+  {
+    "time": "2026-10-02T15:05:39Z",
+    "stage": "component-cea-confirmed",
+    "state": "waiting",
+    "available": 5447372800,
+    "swap_free": 10178109440,
+    "load": 21.208984375,
+    "disk_free": 6368022528
+  },
+  {
+    "time": "2026-10-02T15:06:09Z",
+    "stage": "component-cea-confirmed",
+    "state": "waiting",
+    "available": 5494624256,
+    "swap_free": 10183876608,
+    "load": 14.85791015625,
+    "disk_free": 6367907840
+  },
+  {
+    "time": "2026-10-02T15:06:40Z",
+    "stage": "component-cea-confirmed",
+    "state": "waiting",
+    "available": 4091981824,
+    "swap_free": 10186498048,
+    "load": 10.44287109375,
+    "disk_free": 6320431104
+  },
+  {
+    "time": "2026-10-02T15:07:10Z",
+    "stage": "component-cea-confirmed",
+    "state": "waiting",
+    "available": 4188344320,
+    "swap_free": 10188595200,
+    "load": 8.24609375,
+    "disk_free": 6307610624
+  },
+  {
+    "time": "2026-10-02T15:07:40Z",
+    "stage": "component-cea-confirmed",
+    "state": "waiting",
+    "available": 4269039616,
+    "swap_free": 10190168064,
+    "load": 5.82666015625,
+    "disk_free": 6196277248
+  },
+  {
+    "time": "2026-10-02T15:08:10Z",
+    "stage": "component-cea-confirmed",
+    "state": "waiting",
+    "available": 4293246976,
+    "swap_free": 10197508096,
+    "load": 4.7001953125,
+    "disk_free": 6129426432
+  },
+  {
+    "time": "2026-10-02T15:08:40Z",
+    "stage": "component-cea-confirmed",
+    "state": "waiting",
+    "available": 4212523008,
+    "swap_free": 10198556672,
+    "load": 3.61767578125,
+    "disk_free": 6116593664
+  },
+  {
+    "time": "2026-10-02T15:09:10Z",
+    "stage": "component-cea-confirmed",
+    "state": "running",
+    "available": 4376449024,
+    "swap_free": 10200653824,
+    "load": 3.462890625,
+    "disk_free": 6228131840
+  },
+  {
+    "time": "2026-10-02T15:10:36Z",
+    "stage": "component-cea-confirmed",
+    "state": "complete",
+    "available": 5544189952,
+    "swap_free": 10212974592,
+    "load": 3.216796875,
+    "disk_free": 6303449088,
+    "exit_code": 0
+  },
+  {
+    "time": "2026-10-02T15:11:28Z",
+    "stage": "component-cli-confirmed",
+    "state": "running",
+    "available": 5529243648,
+    "swap_free": 10218479616,
+    "load": 2.8193359375,
+    "disk_free": 6302806016
+  },
+  {
+    "time": "2026-10-02T15:13:31Z",
+    "stage": "component-cli-confirmed",
+    "state": "complete",
+    "available": 5446914048,
+    "swap_free": 10226868224,
+    "load": 3.7626953125,
+    "disk_free": 6297268224,
+    "exit_code": 0
+  },
+  {
+    "time": "2026-10-02T15:14:51Z",
+    "stage": "component-wasm-confirmed",
+    "state": "running",
+    "available": 5484498944,
+    "swap_free": 10231586816,
+    "load": 3.00146484375,
+    "disk_free": 5845983232
+  },
+  {
+    "time": "2026-10-02T15:15:31Z",
+    "stage": "component-wasm-confirmed",
+    "state": "complete",
+    "available": 5523304448,
+    "swap_free": 10108080128,
+    "load": 3.6240234375,
+    "disk_free": 5757132800,
+    "exit_code": 0
+  },
+  {
+    "time": "2026-10-02T15:27:23Z",
+    "stage": "component-archive",
+    "state": "waiting",
+    "available": 5076029440,
+    "swap_free": 10231549952,
+    "load": 4.21923828125,
+    "disk_free": 5599072256
+  },
+  {
+    "time": "2026-10-02T15:27:53Z",
+    "stage": "component-archive",
+    "state": "waiting",
+    "available": 5452414976,
+    "swap_free": 10233384960,
+    "load": 4.83740234375,
+    "disk_free": 5599072256
+  },
+  {
+    "time": "2026-10-02T15:28:23Z",
+    "stage": "component-archive",
+    "state": "waiting",
+    "available": 4828504064,
+    "swap_free": 10235219968,
+    "load": 6.03515625,
+    "disk_free": 5599039488
+  },
+  {
+    "time": "2026-10-02T15:28:53Z",
+    "stage": "component-archive",
+    "state": "waiting",
+    "available": 5506228224,
+    "swap_free": 10237054976,
+    "load": 5.5986328125,
+    "disk_free": 5599031296
+  },
+  {
+    "time": "2026-10-02T15:29:23Z",
+    "stage": "component-archive",
+    "state": "waiting",
+    "available": 5450186752,
+    "swap_free": 10240200704,
+    "load": 4.31396484375,
+    "disk_free": 5597544448
+  },
+  {
+    "time": "2026-10-02T15:29:53Z",
+    "stage": "component-archive",
+    "state": "waiting",
+    "available": 5451374592,
+    "swap_free": 10240200704,
+    "load": 3.9365234375,
+    "disk_free": 5597282304
+  },
+  {
+    "time": "2026-10-02T15:30:23Z",
+    "stage": "component-archive",
+    "state": "waiting",
+    "available": 5454114816,
+    "swap_free": 10241511424,
+    "load": 4.2080078125,
+    "disk_free": 5596712960
+  },
+  {
+    "time": "2026-10-02T15:30:53Z",
+    "stage": "component-archive",
+    "state": "running",
+    "available": 5475209216,
+    "swap_free": 10242822144,
+    "load": 3.26904296875,
+    "disk_free": 5597986816
+  },
+  {
+    "time": "2026-10-02T15:31:01Z",
+    "stage": "component-archive",
+    "state": "complete",
+    "available": 5449469952,
+    "swap_free": 10243346432,
+    "load": 3.0732421875,
+    "disk_free": 5597880320,
+    "exit_code": 0
+  }
+]

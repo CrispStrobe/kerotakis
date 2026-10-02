@@ -1,0 +1,7 @@
+{
+  "load1": 3.62939453125,
+  "cpu_idle_fraction": 0.2925877763328999,
+  "cpu_iowait_fraction": 0.0,
+  "cpu_busy_fraction": 0.7074122236671001,
+  "seconds": 2
+}

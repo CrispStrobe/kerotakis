@@ -1,0 +1,29 @@
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.001000 mol zinc sulfate (ZnSO4, M = 161.470 g/mol)
+  v1: 0.001000 mol zinc sulfate dissolved
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v1: pH 5.747 · I = 0.0269 mol/kgw
+  v1: T 298.150 K → 298.343 K (ΔT = +0.193 K)
+  v1: +0.002000 mol copper (Cu, M = 63.546 g/mol)
+  v1: pH 5.747 · I = 0.0269 mol/kgw
+  v1: copper inert: copper sits above zinc in the activity series (E° +0.342 V against -0.762 V), so the electrons would have to flow uphill: the less reactive metal does not displace the more reactive one
+  v1: copper not corroding: copper sits above hydrogen in the activity series (E° +0.342 V), so in aerated neutral water it is the cathode of any corrosion cell rather than the anode: oxygen takes electrons at its surface and it stays as the metal. The green on an old copper contact is not rust and is not this reaction: it is a patina of basic copper carbonate and sulfate, grown over years from carbon dioxide and sulfur dioxide in the air on a first film of Cu2O. That is atmospheric weathering, it needs a gas phase this bench does not carry, and no route here claims it
+  v1 (beaker) — 25.19 °C, 100.0 g, 100.0 mL liquid, open to atmosphere, pH 5.75, pe 14.86 (+0.880 V), I = 0.0269 m
+      redox — all S as S(VI)
+           2.00 mmol  copper             Solid
+           1.00 mmol  zinc ion           Aqueous
+           1.00 mmol  sulfate ion        Aqueous
+          5.5343 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9970e-1   γ=0.018
+        Zn+2            6.7302e-3    3.7583e-3   γ=0.558
+        SO4-2           6.5622e-3    3.5661e-3   γ=0.543
+        ZnSO4           3.1270e-3    3.1470e-3   γ=1.006
+        O2              2.6520e-4    2.6680e-4   γ=1.006
+        Zn(SO4)2-2      1.7000e-4    9.1070e-5   γ=0.536
+        ZnOH+           2.7300e-6    2.3350e-6   γ=0.855
+        H+              2.0381e-6    1.7900e-6   γ=0.878
+        HSO4-           7.2780e-7    6.2320e-7   γ=0.856
+        Zn(OH)2         1.4670e-8    1.4760e-8   γ=1.006
+        OH-             6.6718e-9    5.6730e-9   γ=0.850

@@ -1,0 +1,165 @@
+{
+  "base_commit": "7d4f256b66a6964c5499138ca289237fa9e9457a",
+  "source_files_sha256": {
+    "crates/kerotakis-cea/src/gibbs.rs": "bb88b5f60605353780cb1514bf9694d9762cec9d3d28f322015659fd3255eeb7",
+    "crates/kerotakis-core/src/bench.rs": "b9bc9db10699f35e3f8c597a6a36cd37eba7b79c2642a4ea493b8e7155edfe99",
+    "crates/kerotakis-core/src/delta.rs": "95d2c7548cb51b62bc6e3345c3e3f2253842b8d2c7f968b42f5d6c3a81303d70",
+    "crates/kerotakis-core/src/solve.rs": "c247bfe791bf8f9d49b2ea4bb716761e47bcd0d0608c5bbaee77ffbbf4a65020",
+    "crates/kerotakis-core/tests/solver_transactions.rs": "b7f47052a1cf1605dd682819faa16cea6d864f5bc95e73057540dff4c8639262",
+    "crates/kerotakis-core/tests/transfer_trace.rs": "861be3e121c1ab620c386c86f3bf8a3c654b2ba254a2700cbfe491e1728aeaeb"
+  },
+  "source_checkpoint": "81fc26a1b438c5000650d501acbe558f8e5257b2",
+  "rust_suites": [
+    {
+      "passed": 697,
+      "suite_counts": [
+        606,
+        7,
+        5,
+        6,
+        4,
+        8,
+        38,
+        4,
+        3,
+        10,
+        6
+      ],
+      "log": "/mnt/storage/kerotakis-maintenance-20261002/component-core-confirmed.log",
+      "sha256": "ec676900794edb9454394ba542e78fb36022c9367a5ed8e79d83604fe877df6a"
+    },
+    {
+      "passed": 111,
+      "suite_counts": [
+        40,
+        0,
+        1,
+        5,
+        13,
+        6,
+        1,
+        6,
+        3,
+        7,
+        8,
+        3,
+        6,
+        4,
+        3,
+        5
+      ],
+      "log": "/mnt/storage/kerotakis-maintenance-20261002/component-cea-confirmed.log",
+      "sha256": "4cddfaa083bc44c8018c4279d51b9d3422f7ceea60716b901954b31a99c9fb1b"
+    },
+    {
+      "passed": 62,
+      "suite_counts": [
+        50,
+        1,
+        1,
+        3,
+        2,
+        5
+      ],
+      "log": "/mnt/storage/kerotakis-maintenance-20261002/component-cli-confirmed.log",
+      "sha256": "2f44d7250341b15281a3c3606e3f4b489502e3505ed6d7d74cdf5440ea1d1685"
+    }
+  ],
+  "rust_tests_passed": 870,
+  "browser_check": {
+    "command": "cargo check -p kerotakis-wasm --target wasm32-unknown-unknown -j1",
+    "exit_code": 0,
+    "scope": "cross-target compilation; browser runtime and frontend tests not run in this pass",
+    "log": "/mnt/storage/kerotakis-maintenance-20261002/component-wasm-confirmed.log",
+    "sha256": "13c80ed5e50c3e3b5e350f75745e695702b21eef71a6652410a1a90b83ffb8b0"
+  },
+  "superseded_attempts": [
+    {
+      "log": "/mnt/storage/kerotakis-maintenance-20261002/component-cea-unit.log",
+      "sha256": "624ccbaffc7e4ed1b65a17985acf0364120a940699cd973b1a69f7ffccc1abab"
+    },
+    {
+      "log": "/mnt/storage/kerotakis-maintenance-20261002/component-core-final.log",
+      "sha256": "60d226483fefa521316078f9a7fdec6e3252594c08b91532244655a5d651b13e"
+    },
+    {
+      "log": "/mnt/storage/kerotakis-maintenance-20261002/component-core-complete.log",
+      "sha256": "36eaa74b55f24eba5c22c6f51b121cfbf8b347bde5d006ed301978ca4678eeba"
+    }
+  ],
+  "resource_guard": {
+    "path": "/mnt/storage/kerotakis-maintenance-20261002/component-guarded-command.py",
+    "sha256": "33d477a42c7b6628474236f3a912b482ea980402fd5547e3438e6c3ea7e1d5b7",
+    "cargo_jobs": 1,
+    "test_threads": 1,
+    "startup": {
+      "max_load1": 3.5,
+      "min_available_mib": 3200,
+      "min_swap_free_mib": 600,
+      "min_disk_free_mib": 2048
+    },
+    "pause": {
+      "max_load1": 6.0,
+      "min_available_mib": 1536,
+      "min_swap_free_mib": 512,
+      "min_disk_free_mib": 1024
+    },
+    "hard_stop": {
+      "memory_and_swap_below_mib": [
+        650,
+        128
+      ],
+      "disk_below_mib": 250
+    },
+    "scope": "own command process group only"
+  },
+  "replay_helper": {
+    "path": "/mnt/storage/kerotakis-maintenance-20261002/component-replay.py",
+    "sha256": "3bc4ed6f26674c54ded9a77a6dd0a312e89e24a758c084b0ebf0990fa1df5b34",
+    "workers": 1,
+    "gate": "same startup thresholds before each CLI command; waiting occurs before subprocess timeout starts",
+    "reported_seconds": "include headroom waiting; not a performance benchmark"
+  },
+  "predictions_sha256": "0fd6e4831f5da264c892a5718b8619ae267388df0512fe54dab04fff30287064",
+  "replay_status": "complete",
+  "binary_sha256": "d758f37dd77fddd8a55f018ebdc0b4ff1ba08b6fa07772cedc4fb3a5d17f4216",
+  "replay": {
+    "original_commands": 100,
+    "successful_original_commands": 96,
+    "expected_formula_ambiguity_refusals": [
+      [
+        "07",
+        "json",
+        1
+      ],
+      [
+        "07",
+        "text",
+        1
+      ],
+      [
+        "15",
+        "json",
+        1
+      ],
+      [
+        "15",
+        "text",
+        1
+      ]
+    ],
+    "explicit_sucrose_commands_passed": 4,
+    "physical_checks_passed": 49,
+    "known_unmet_expectation": "35: zinc/acid hydrogen-overpotential rate model missing",
+    "unexpected_mismatches": 0,
+    "solver_failed_events": 0,
+    "supplemental_assessment_exit_code": 0
+  },
+  "replay_resource_gates_sha256": "b9f7ef989e68fb6b1e002364d488d9a9537d4f4f1dc1d3d20795a46c3d385a62",
+  "replay_wait_events": 31,
+  "assessment_sha256": "584f90859090c2ad87a940e26860a1d624f75f7ab50270d457efa90e0085fc20",
+  "assessor_sha256": "e3437d157b9db86aef177c4f216f849893f437e146820756800f6c7b15ecf54c",
+  "resource_events_sha256": "4115968f2618ecb64fbecb6acff5602f1a5f45a9e7ea0d7ca22b5a4577afc608",
+  "tested_artifact_receipt_sha256": "fb2cd515d5e35d5020f2e55be124e0879e63b8a751d4d75781d15831bdac9651",
+  "artifact_archive_status": "complete on /mnt/storage; six source members and copied binary verified"
+}

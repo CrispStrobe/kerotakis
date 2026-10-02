@@ -106,3 +106,6 @@ endpoint; it refuses/falls back when its proof search is incomplete. Full
 finite multiphase combustion, swept thermal balances and broad aqueous/interface
 ledger reconciliation remain larger model extensions. Zinc/acid dissolution
 still lacks an approved rate model; no kinetic constants are guessed here.
+
+Subsequent component and ordered-transfer closure is recorded in
+[COMPONENTS-AFTER.md](COMPONENTS-AFTER.md), with separate validation receipts.

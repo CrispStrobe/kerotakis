@@ -1,0 +1,8 @@
+{
+  "source_checkpoint": "81fc26a1b438c5000650d501acbe558f8e5257b2",
+  "exit_code": 0,
+  "expected_fe_after_zero_decant_mol": 2e-18,
+  "observed_fe_before_mol": 2e-18,
+  "observed_fe_after_mol": 2e-18,
+  "binary_sha256": "d758f37dd77fddd8a55f018ebdc0b4ff1ba08b6fa07772cedc4fb3a5d17f4216"
+}
