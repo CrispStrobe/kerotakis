@@ -22,13 +22,15 @@ CORE_TESTS = """transport transport_verb prepared_kitchen_objects
 material_object_state kitchen_biology transfer_trace interface_conservation
 solver_transactions conservation phase_heat_capacity pressure_boiling states mix
 selected_phase_transfer phase_routes distil atomic_distil_refusal layers
-liquid_extraction vegetable_oil_layers""".split()
+liquid_extraction vegetable_oil_layers phase_without_aqueous thermal_phase_refusal electrolysis_scope""".split()
 SOURCE_FILES = [
     "crates/kerotakis-cea/src/gibbs.rs",
     "crates/kerotakis-core/src/bench.rs",
     "crates/kerotakis-core/src/transport.rs",
     "crates/kerotakis-core/tests/transport.rs",
     "crates/kerotakis-core/tests/selected_phase_transfer.rs",
+    "crates/kerotakis-core/tests/thermal_phase_refusal.rs",
+    "crates/kerotakis-core/tests/electrolysis_scope.rs",
     ".github/workflows/chemistry-audit.yml",
     "audits/independent-50-20261002/validate_phase_ownership.py",
 ]

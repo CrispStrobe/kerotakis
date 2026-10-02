@@ -958,6 +958,34 @@ impl Bench {
             self.vent_if_burst(id, &mut events);
         }
 
+        // Heating first proposes a sensible temperature. If a failed phase
+        // solve leaves observable ice above the model's melting boundary,
+        // that proposal is not a physical answer. Refuse the complete heat
+        // operation instead of publishing hot ice and a delivered-energy claim.
+        if heat_start.is_some()
+            && events.iter().any(|event| matches!(event, Event::SolverFailed { .. }))
+            && touched.iter().any(|id| {
+                self.vessel(*id).is_ok_and(|vessel| {
+                    vessel.temperature.0 > crate::states::WATER_FREEZING_K
+                        + crate::solve::PHASE_COUPLED_TEMPERATURE_TOLERANCE_K
+                        && vessel.contents.iter().any(|portion| {
+                            portion.species.0 == "water"
+                                && portion.phase == Phase::Solid
+                                && portion.moles.0 > crate::OBSERVABLE_MOLES
+                        })
+                })
+            })
+        {
+            self.vessels = checkpoint.0;
+            self.spills = checkpoint.1;
+            self.broken_vessels = checkpoint.2;
+            self.stock = checkpoint.3;
+            self.log.truncate(checkpoint.4);
+            return Err(BenchError::InvalidState(
+                "heating was not committed: an unsuccessful phase solve would leave solid water above its melting boundary".into(),
+            ));
+        }
+
         // A dose offered in passes is one act of heating, not eight. Fold
         // the repeats back into a single account of the step, then say how
         // much of what actually crossed is still warmth in the flask.
@@ -4868,6 +4896,14 @@ impl Bench {
                         *seconds,
                     ) {
                         Some(run) => {
+                            events.push(Event::not_modeled(
+                                *vessel,
+                                crate::ops::NotModelledCause::ModelBoundary,
+                                Phrase::bare(
+                                    "not-modeled.solvent-electrolysis-selectivity",
+                                    "solvent electrolysis assumes inert electrodes and complete Faradaic conversion. The anode uses an inventory rule: chlorine when chloride can supply the entire requested charge, otherwise oxygen. Electrode material, overpotentials, competing chlorine/oxygen production, and the voltage needed to sustain this current are not predicted",
+                                ),
+                            ));
                             let v = self.vessel_mut(*vessel)?;
                             if run.water_spent > crate::OBSERVABLE_MOLES {
                                 v.withdraw(&SpeciesId::new("water"), Moles(run.water_spent));
