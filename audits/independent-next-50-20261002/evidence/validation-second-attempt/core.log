@@ -1,0 +1,32 @@
+[1m[92m   Compiling[0m private-gemm-x86 v0.1.20
+[1m[92m   Compiling[0m faer v0.24.4
+[1m[92m   Compiling[0m diffsol-la v0.1.1
+[1m[92m   Compiling[0m getrandom v0.4.3
+[1m[92m   Compiling[0m tempfile v3.27.0
+[1m[92m   Compiling[0m diffsol-nl v0.1.1
+[1m[92m   Compiling[0m wait-timeout v0.2.1
+[1m[92m   Compiling[0m rusty-fork v0.3.1
+[1m[92m   Compiling[0m backtrace v0.3.76
+[1m[92m   Compiling[0m diffsol v0.16.2
+[1m[92m   Compiling[0m parking_lot v0.12.5
+[1m[92m   Compiling[0m rand_xorshift v0.4.0
+[1m[92m   Compiling[0m is-terminal v0.4.17
+[1m[92m   Compiling[0m proptest v1.11.0
+[1m[92m   Compiling[0m dhat v0.3.3
+[1m[92m   Compiling[0m criterion v0.5.1
+[1m[92m   Compiling[0m kerotakis-core v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-core)
+[1m[91merror[E0283][0m[1m: type annotations needed[0m
+    [1m[94m--> [0mcrates/kerotakis-core/src/bench.rs:4587:70
+     [1m[94m|[0m
+[1m[94m4587[0m [1m[94m|[0m [1m[94m...[0mes".to_string(), Slot::texts(sample.unparameterised.iter().map(|species| species.0.as_str()).collect()))],
+     [1m[94m|[0m                     [1m[91m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m [1m[91mcannot infer type for type parameter `T` declared on the associated function `texts`[0m
+     [1m[94m|[0m
+     [1m[94m= [0m[1mnote[0m: the type must implement `Into<std::string::String>`
+[1m[92mnote[0m: required by a bound in `Slot::texts`
+    [1m[94m--> [0mcrates/kerotakis-core/src/phrase.rs:267:21
+     [1m[94m|[0m
+[1m[94m 267[0m [1m[94m|[0m     pub fn texts<T: Into<String>>(values: impl IntoIterator<Item = T>) -> Slot {
+     [1m[94m|[0m                     [1m[92m^^^^^^^^^^^^[0m [1m[92mrequired by this bound in `Slot::texts`[0m
+
+[1mFor more information about this error, try `rustc --explain E0283`.[0m
+[1m[91merror[0m: could not compile `kerotakis-core` (lib) due to 1 previous error

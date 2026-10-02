@@ -1,0 +1,17 @@
+  v2: new vessel
+  v1: +0.0100 mol helium
+  v2: +0.0200 mol helium
+  v1: pressure controlled at 1.000 bar; initial headspace 0.100 L
+  v2: pressure controlled at 1.000 bar; initial headspace 0.100 L
+  v1 volume meter: 347.90 mL
+  v2 volume meter: 595.79 mL
+  v1 (beaker) — 25.00 °C, 0.2 g, 0.0 mL liquid, pressure-controlled 347.9 mL headspace at 1.000 bar
+          0.0100 mol  helium             Gas
+           3.19 mmol  nitrogen           Gas
+            845 µmol  oxygen             Gas
+           1.61 µmol  carbon dioxide     Gas
+  v2 (beaker) — 25.00 °C, 0.2 g, 0.0 mL liquid, pressure-controlled 595.8 mL headspace at 1.000 bar
+          0.0200 mol  helium             Gas
+           3.19 mmol  nitrogen           Gas
+            845 µmol  oxygen             Gas
+           1.61 µmol  carbon dioxide     Gas

@@ -1,0 +1,14 @@
+[1m[92m   Compiling[0m kerotakis-core v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-core)
+[1m[91merror[E0624][0m[1m: method `vessel_mut` is private[0m
+   [1m[94m--> [0mcrates/kerotakis-core/tests/thermal_phase_refusal.rs:19:24
+    [1m[94m|[0m
+[1m[94m 19[0m [1m[94m|[0m     let vessel = bench.vessel_mut(VesselId(0)).unwrap();
+    [1m[94m|[0m                        [1m[91m^^^^^^^^^^[0m [1m[91mprivate method[0m
+    [1m[94m|[0m
+   [1m[94m::: [0mcrates/kerotakis-core/src/bench.rs:365:5
+    [1m[94m|[0m
+[1m[94m365[0m [1m[94m|[0m     fn vessel_mut(&mut self, id: VesselId) -> Result<&mut Vessel, BenchError> {
+    [1m[94m|[0m     [1m[94m-------------------------------------------------------------------------[0m [1m[94mprivate method defined here[0m
+
+[1mFor more information about this error, try `rustc --explain E0624`.[0m
+[1m[91merror[0m: could not compile `kerotakis-core` (test "thermal_phase_refusal") due to 1 previous error

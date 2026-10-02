@@ -1,0 +1,262 @@
+{
+  "commit": "9a2829ecfbd8cf852c0e9db58f0bab00511db2bb",
+  "started_utc": "2026-10-02T19:24:38Z",
+  "source_hashes": {
+    "crates/kerotakis-cea/src/gibbs.rs": "52333946307d2feea18dacce51f7e73651d10e1a7610e27bfc61f823ca89a7c4",
+    "crates/kerotakis-core/src/bench.rs": "aae7ad2e5f7885ca871abd8bf305642ce30203839825321fc2b6d30fed113729",
+    "crates/kerotakis-core/src/transport.rs": "9ef518022c3cd9263e6afd36b774cb7e0e5eaffc723e5176dfe21c1e8cf25185",
+    "crates/kerotakis-core/tests/transport.rs": "5e4d051a8e9c7cf20585c19c285af01c5ebf2b847ae3293b1428b4e399e10539",
+    "crates/kerotakis-core/tests/selected_phase_transfer.rs": "795e261fb986a8cfa98867f4beb55671ebda05a84446fcaf3ef903786c54ff3e",
+    "crates/kerotakis-core/tests/thermal_phase_refusal.rs": "6126ebf39f23daf4cccbaaf092b22222b4b172b07c4aaa86ab90c95bca4950d7",
+    "crates/kerotakis-core/tests/electrolysis_scope.rs": "2ed8218d8a9c24ab8bf3181acd0098f1a33001be80b546927dda8892e5c3221f",
+    ".github/workflows/chemistry-audit.yml": "2f1de7b1daf63fb02282db201363bff3fbb945dff94ebdcb0fd0c2c571030a8c",
+    "audits/independent-50-20261002/validate_phase_ownership.py": "88e6a594e04913671cf688cc7efa35adfd6cc7ed6b1a9bcd9f3ba7019f1b86cd"
+  },
+  "predictions_sha256": "0fd6e4831f5da264c892a5718b8619ae267388df0512fe54dab04fff30287064",
+  "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)",
+  "platform": "linux",
+  "cargo_jobs": 1,
+  "test_threads": 1,
+  "cli_workers": 1,
+  "stages": [
+    {
+      "name": "cea",
+      "command": [
+        "cargo",
+        "test",
+        "--no-fail-fast",
+        "-p",
+        "kerotakis-cea",
+        "--lib",
+        "--tests",
+        "-j1",
+        "--",
+        "--test-threads=1"
+      ],
+      "exit_code": 0,
+      "seconds": 34.599,
+      "log": "cea.log",
+      "log_sha256": "7637d25e6d29921690c6aae28231c59d9c7f0bf6b1561f39c309a280e0615fcb",
+      "passed_test_counts": [
+        52,
+        0,
+        1,
+        5,
+        13,
+        6,
+        1,
+        6,
+        3,
+        7,
+        8,
+        3,
+        6,
+        4,
+        3,
+        5
+      ],
+      "failed_test_counts": []
+    },
+    {
+      "name": "core",
+      "command": [
+        "cargo",
+        "test",
+        "--no-fail-fast",
+        "-p",
+        "kerotakis-core",
+        "--lib",
+        "--test",
+        "transport",
+        "--test",
+        "transport_verb",
+        "--test",
+        "prepared_kitchen_objects",
+        "--test",
+        "material_object_state",
+        "--test",
+        "kitchen_biology",
+        "--test",
+        "transfer_trace",
+        "--test",
+        "interface_conservation",
+        "--test",
+        "solver_transactions",
+        "--test",
+        "conservation",
+        "--test",
+        "phase_heat_capacity",
+        "--test",
+        "pressure_boiling",
+        "--test",
+        "states",
+        "--test",
+        "mix",
+        "--test",
+        "selected_phase_transfer",
+        "--test",
+        "phase_routes",
+        "--test",
+        "distil",
+        "--test",
+        "atomic_distil_refusal",
+        "--test",
+        "layers",
+        "--test",
+        "liquid_extraction",
+        "--test",
+        "vegetable_oil_layers",
+        "--test",
+        "phase_without_aqueous",
+        "--test",
+        "thermal_phase_refusal",
+        "--test",
+        "electrolysis_scope",
+        "-j1",
+        "--",
+        "--test-threads=1"
+      ],
+      "exit_code": 101,
+      "seconds": 24.011,
+      "log": "core.log",
+      "log_sha256": "6cbeb8fc9987e7eb6f8c038e30643c45959867ed45bbf308192203a5f404ef83",
+      "passed_test_counts": [],
+      "failed_test_counts": []
+    },
+    {
+      "name": "phreeqc",
+      "command": [
+        "cargo",
+        "test",
+        "--no-fail-fast",
+        "-p",
+        "kerotakis-phreeqc",
+        "--test",
+        "exchange_transport",
+        "--test",
+        "surface_transport",
+        "-j1",
+        "--",
+        "--test-threads=1"
+      ],
+      "exit_code": 0,
+      "seconds": 147.912,
+      "log": "phreeqc.log",
+      "log_sha256": "f8677d083ac299ef8c6f9fc19b5c95758d2192af06ace0394a4585ded6fd3a2f",
+      "passed_test_counts": [
+        1,
+        1
+      ],
+      "failed_test_counts": []
+    },
+    {
+      "name": "cli",
+      "command": [
+        "cargo",
+        "test",
+        "--no-fail-fast",
+        "-p",
+        "kerotakis-cli",
+        "--bin",
+        "kero",
+        "--test",
+        "thermal_contracts",
+        "--test",
+        "provenance",
+        "--test",
+        "observable_coverage",
+        "--test",
+        "headspace_json",
+        "--test",
+        "json_contract",
+        "-j1",
+        "--",
+        "--test-threads=1"
+      ],
+      "exit_code": 0,
+      "seconds": 48.633,
+      "log": "cli.log",
+      "log_sha256": "c06853053d71e82ff029a1bd4d638b422df1481966e403a53eb9efcf6229e51a",
+      "passed_test_counts": [
+        50,
+        1,
+        1,
+        3,
+        2,
+        5
+      ],
+      "failed_test_counts": []
+    },
+    {
+      "name": "wasm",
+      "command": [
+        "cargo",
+        "check",
+        "-p",
+        "kerotakis-wasm",
+        "--target",
+        "wasm32-unknown-unknown",
+        "-j1"
+      ],
+      "exit_code": 0,
+      "seconds": 17.041,
+      "log": "wasm.log",
+      "log_sha256": "e37ab4164a7909b78de3244847194c386fb647cfcdb5493fe54109dad3a91cc9",
+      "passed_test_counts": [],
+      "failed_test_counts": []
+    },
+    {
+      "name": "replay",
+      "command": [
+        "/usr/bin/python3",
+        "/home/runner/work/kerotakis/kerotakis/audits/independent-50-20261002/run.py"
+      ],
+      "exit_code": 0,
+      "seconds": 56.443,
+      "log": "replay.log",
+      "log_sha256": "f3e57a25a513dbc97323e798bfd749482b0220fa974e4c90ae76196d52c71ceb",
+      "passed_test_counts": [],
+      "failed_test_counts": []
+    },
+    {
+      "name": "assessment",
+      "command": [
+        "/usr/bin/python3",
+        "/home/runner/work/kerotakis/kerotakis/audits/independent-50-20261002/verify_extended.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.147,
+      "log": "assessment.log",
+      "log_sha256": "584f90859090c2ad87a940e26860a1d624f75f7ab50270d457efa90e0085fc20",
+      "passed_test_counts": [],
+      "failed_test_counts": []
+    }
+  ],
+  "cargo_lock_sha256": "dca455fc630f4374c08893b09cb0669eff4185f42e986fe04a8bacbb69e612a3",
+  "binary_sha256": "27c0f6da21133a8e80eac3cd436bba60e18ff97705e6fdd089ee4be0925405dd",
+  "explicit_sucrose": [
+    {
+      "id": "07",
+      "mode": "json",
+      "exit_code": 0
+    },
+    {
+      "id": "07",
+      "mode": "text",
+      "exit_code": 0
+    },
+    {
+      "id": "15",
+      "mode": "json",
+      "exit_code": 0
+    },
+    {
+      "id": "15",
+      "mode": "text",
+      "exit_code": 0
+    }
+  ],
+  "total_rust_tests_passed": 187,
+  "passed": false,
+  "completed_utc": "2026-10-02T19:30:09Z"
+}

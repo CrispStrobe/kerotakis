@@ -1,0 +1,4464 @@
+[
+  {
+    "id": "F052",
+    "exit_code": 0,
+    "json_lines": 9,
+    "parse_errors": [],
+    "stderr": "",
+    "events": [
+      {
+        "step": 0,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "events": [
+          {
+            "event": "vessel_created",
+            "vessel": 1
+          }
+        ]
+      },
+      {
+        "step": 1,
+        "operator": {
+          "at": 298.15,
+          "moles": 0.005,
+          "op": "add",
+          "species": "N2",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 0.005,
+            "species": "N2",
+            "total_after": 0.005,
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 2,
+        "operator": {
+          "at": 298.15,
+          "moles": 0.005,
+          "op": "add",
+          "species": "helium",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 0.005,
+            "species": "helium",
+            "total_after": 0.005,
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 3,
+        "operator": {
+          "at": 298.15,
+          "moles": 0.01,
+          "op": "add",
+          "species": "N2",
+          "vessel": 1
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 0.01,
+            "species": "N2",
+            "total_after": 0.01,
+            "vessel": 1
+          }
+        ]
+      },
+      {
+        "step": 4,
+        "operator": {
+          "headspace_volume": 0.1,
+          "op": "seal",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "vessel_sealed",
+            "headspace_volume": 0.1,
+            "trapped_air": 0.004087404452432945,
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 5,
+        "operator": {
+          "headspace_volume": 0.1,
+          "op": "seal",
+          "vessel": 1
+        },
+        "events": [
+          {
+            "event": "vessel_sealed",
+            "headspace_volume": 0.1,
+            "trapped_air": 0.004087404452432945,
+            "vessel": 1
+          }
+        ]
+      },
+      {
+        "step": 6,
+        "operator": {
+          "instrument": "pressure_gauge",
+          "op": "measure",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "measured",
+            "instrument": "pressure_gauge",
+            "model_support": {
+              "assumptions": [
+                "represented headspace and imposed pressure boundary"
+              ],
+              "observable": "pressure",
+              "provenance": [],
+              "reasons": [],
+              "scope": "whole_vessel",
+              "status": "computed",
+              "validity": []
+            },
+            "unit": "kPa",
+            "value": 349.2207029556699,
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 7,
+        "operator": {
+          "instrument": "pressure_gauge",
+          "op": "measure",
+          "vessel": 1
+        },
+        "events": [
+          {
+            "event": "measured",
+            "instrument": "pressure_gauge",
+            "model_support": {
+              "assumptions": [
+                "represented headspace and imposed pressure boundary"
+              ],
+              "observable": "pressure",
+              "provenance": [],
+              "reasons": [],
+              "scope": "whole_vessel",
+              "status": "computed",
+              "validity": []
+            },
+            "unit": "kPa",
+            "value": 349.22070295566994,
+            "vessel": 1
+          }
+        ]
+      }
+    ],
+    "final_bench": {
+      "vessels": [
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 0.00822945825786727,
+              "phase": "gas",
+              "species": "N2"
+            },
+            {
+              "moles": 0.005,
+              "phase": "gas",
+              "species": "helium"
+            },
+            {
+              "moles": 0.0008563112327847019,
+              "phase": "gas",
+              "species": "O2"
+            },
+            {
+              "moles": 1.6349617809731778e-06,
+              "phase": "gas",
+              "species": "CO2"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.1
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 0.005,
+              "particle_size_um": null,
+              "phase": "gas",
+              "source": "reagent bottle",
+              "species": "N2",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.005,
+              "particle_size_um": null,
+              "phase": "gas",
+              "source": "reagent bottle",
+              "species": "helium",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 349220.7029556699,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 0.01322945825786727,
+              "phase": "gas",
+              "species": "N2"
+            },
+            {
+              "moles": 0.0008563112327847019,
+              "phase": "gas",
+              "species": "O2"
+            },
+            {
+              "moles": 1.6349617809731778e-06,
+              "phase": "gas",
+              "species": "CO2"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.1
+          },
+          "id": 1,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 0.01,
+              "particle_size_um": null,
+              "phase": "gas",
+              "source": "reagent bottle",
+              "species": "N2",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 349220.70295566996,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        }
+      ]
+    }
+  },
+  {
+    "id": "F053",
+    "exit_code": 0,
+    "json_lines": 10,
+    "parse_errors": [],
+    "stderr": "",
+    "events": [
+      {
+        "step": 0,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "events": [
+          {
+            "event": "vessel_created",
+            "vessel": 1
+          }
+        ]
+      },
+      {
+        "step": 1,
+        "operator": {
+          "at": 298.15,
+          "moles": 0.01,
+          "op": "add",
+          "species": "helium",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 0.01,
+            "species": "helium",
+            "total_after": 0.01,
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 2,
+        "operator": {
+          "at": 348.15,
+          "moles": 0.01,
+          "op": "add",
+          "species": "helium",
+          "vessel": 1
+        },
+        "events": [
+          {
+            "event": "temperature_changed",
+            "from": 298.15,
+            "to": 348.15,
+            "vessel": 1
+          },
+          {
+            "event": "added",
+            "moles": 0.01,
+            "species": "helium",
+            "total_after": 0.01,
+            "vessel": 1
+          }
+        ]
+      },
+      {
+        "step": 3,
+        "operator": {
+          "headspace_volume": 0.1,
+          "op": "seal",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "vessel_sealed",
+            "headspace_volume": 0.1,
+            "trapped_air": 0.004087404452432945,
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 4,
+        "operator": {
+          "headspace_volume": 0.1,
+          "op": "seal",
+          "vessel": 1
+        },
+        "events": [
+          {
+            "event": "vessel_sealed",
+            "headspace_volume": 0.1,
+            "trapped_air": 0.0035003867226565625,
+            "vessel": 1
+          }
+        ]
+      },
+      {
+        "step": 5,
+        "operator": {
+          "instrument": "pressure_gauge",
+          "op": "measure",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "measured",
+            "instrument": "pressure_gauge",
+            "model_support": {
+              "assumptions": [
+                "represented headspace and imposed pressure boundary"
+              ],
+              "observable": "pressure",
+              "provenance": [],
+              "reasons": [],
+              "scope": "whole_vessel",
+              "status": "computed",
+              "validity": []
+            },
+            "unit": "kPa",
+            "value": 349.22070295566994,
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 6,
+        "operator": {
+          "instrument": "pressure_gauge",
+          "op": "measure",
+          "vessel": 1
+        },
+        "events": [
+          {
+            "event": "measured",
+            "instrument": "pressure_gauge",
+            "model_support": {
+              "assumptions": [
+                "represented headspace and imposed pressure boundary"
+              ],
+              "observable": "pressure",
+              "provenance": [],
+              "reasons": [
+                "headspace-pressure-uses-limited-temperature"
+              ],
+              "scope": "whole_vessel",
+              "status": "estimated",
+              "validity": []
+            },
+            "unit": "kPa",
+            "value": 390.7930160456699,
+            "vessel": 1
+          }
+        ]
+      },
+      {
+        "step": 7,
+        "operator": {
+          "instrument": "thermometer",
+          "op": "measure",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "measured",
+            "instrument": "thermometer",
+            "model_support": {
+              "assumptions": [
+                "represented thermal inventory; omitted reaction heats are not zero heat"
+              ],
+              "observable": "temperature",
+              "provenance": [
+                "NASA Chemical Equilibrium with Applications (CEA) thermodynamic database, thermo.inp, vendored at vendor/nasa-cea/thermo.inp and documented by NASA TP-2002-211556 (McBride, Zehe and Gordon, \"NASA Glenn Coefficients for Calculating Thermodynamic Properties of Individual Species\"). Copyright (c) United States Government as represented by the Administrator of NASA, licensed under Apache-2.0; the file is already vendored and read by kerotakis-cea, and these records are the same bytes read a second time rather than a second compilation. Each record carries its own literature reference verbatim - Gurvich, Chase (JANAF), Pankratz, Cox - and that line is kept on every interval so the reader lands on the table the coefficients came from, not on this envelope. The NASA-9 form is Cp/R = a1/T^2 + a2/T + a3 + a4*T + a5*T^2 + a6*T^3 + a7*T^4 with T in kelvin, and only a1..a7 are transcribed: the two integration constants b1 and b2 fix absolute enthalpy and entropy, which this tranche does not claim, because a bench that only needs a sensible-heat difference should not carry a formation enthalpy it never checks. What each row DOES claim is a molar heat capacity as a function of temperature over a stated interval; what it does not claim is any value outside that interval, any enthalpy of a phase or crystal transition, and any property of a real impure sample. The 298.15 K value of every curve is pinned against the constant heat capacity the registry already carried for that species, and agrees with it to better than 3 percent throughout - which is the check that these are the same substances and not merely the same names. Transcribed 2026-09-07"
+              ],
+              "reasons": [],
+              "scope": "whole_vessel",
+              "status": "computed",
+              "validity": [
+                {
+                  "lower": 200.0,
+                  "quantity": "heat-capacity-temperature:N2",
+                  "unit": "K",
+                  "upper": 20000.0
+                },
+                {
+                  "lower": 200.0,
+                  "quantity": "heat-capacity-temperature:O2",
+                  "unit": "K",
+                  "upper": 20000.0
+                },
+                {
+                  "lower": 200.0,
+                  "quantity": "heat-capacity-temperature:CO2",
+                  "unit": "K",
+                  "upper": 20000.0
+                }
+              ]
+            },
+            "unit": "\u00b0C",
+            "value": 25.0,
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 8,
+        "operator": {
+          "instrument": "thermometer",
+          "op": "measure",
+          "vessel": 1
+        },
+        "events": [
+          {
+            "event": "measured",
+            "instrument": "thermometer",
+            "model_support": {
+              "assumptions": [
+                "represented thermal inventory; omitted reaction heats are not zero heat"
+              ],
+              "observable": "temperature",
+              "provenance": [
+                "NASA Chemical Equilibrium with Applications (CEA) thermodynamic database, thermo.inp, vendored at vendor/nasa-cea/thermo.inp and documented by NASA TP-2002-211556 (McBride, Zehe and Gordon, \"NASA Glenn Coefficients for Calculating Thermodynamic Properties of Individual Species\"). Copyright (c) United States Government as represented by the Administrator of NASA, licensed under Apache-2.0; the file is already vendored and read by kerotakis-cea, and these records are the same bytes read a second time rather than a second compilation. Each record carries its own literature reference verbatim - Gurvich, Chase (JANAF), Pankratz, Cox - and that line is kept on every interval so the reader lands on the table the coefficients came from, not on this envelope. The NASA-9 form is Cp/R = a1/T^2 + a2/T + a3 + a4*T + a5*T^2 + a6*T^3 + a7*T^4 with T in kelvin, and only a1..a7 are transcribed: the two integration constants b1 and b2 fix absolute enthalpy and entropy, which this tranche does not claim, because a bench that only needs a sensible-heat difference should not carry a formation enthalpy it never checks. What each row DOES claim is a molar heat capacity as a function of temperature over a stated interval; what it does not claim is any value outside that interval, any enthalpy of a phase or crystal transition, and any property of a real impure sample. The 298.15 K value of every curve is pinned against the constant heat capacity the registry already carried for that species, and agrees with it to better than 3 percent throughout - which is the check that these are the same substances and not merely the same names. Transcribed 2026-09-07"
+              ],
+              "reasons": [
+                "constant-heat-capacity-away-from-reference"
+              ],
+              "scope": "whole_vessel",
+              "status": "estimated",
+              "validity": [
+                {
+                  "lower": 200.0,
+                  "quantity": "heat-capacity-temperature:N2",
+                  "unit": "K",
+                  "upper": 20000.0
+                },
+                {
+                  "lower": 200.0,
+                  "quantity": "heat-capacity-temperature:O2",
+                  "unit": "K",
+                  "upper": 20000.0
+                },
+                {
+                  "lower": 200.0,
+                  "quantity": "heat-capacity-temperature:CO2",
+                  "unit": "K",
+                  "upper": 20000.0
+                }
+              ]
+            },
+            "unit": "\u00b0C",
+            "value": 75.0,
+            "vessel": 1
+          }
+        ]
+      }
+    ],
+    "final_bench": {
+      "vessels": [
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 0.01,
+              "phase": "gas",
+              "species": "helium"
+            },
+            {
+              "moles": 0.00322945825786727,
+              "phase": "gas",
+              "species": "N2"
+            },
+            {
+              "moles": 0.0008563112327847019,
+              "phase": "gas",
+              "species": "O2"
+            },
+            {
+              "moles": 1.6349617809731778e-06,
+              "phase": "gas",
+              "species": "CO2"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.1
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 0.01,
+              "particle_size_um": null,
+              "phase": "gas",
+              "source": "reagent bottle",
+              "species": "helium",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 349220.70295566996,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 0.01,
+              "phase": "gas",
+              "species": "helium"
+            },
+            {
+              "moles": 0.00276565554957095,
+              "phase": "gas",
+              "species": "N2"
+            },
+            {
+              "moles": 0.0007333310183965498,
+              "phase": "gas",
+              "species": "O2"
+            },
+            {
+              "moles": 1.400154689062625e-06,
+              "phase": "gas",
+              "species": "CO2"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.1
+          },
+          "id": 1,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 0.01,
+              "particle_size_um": null,
+              "phase": "gas",
+              "source": "reagent bottle",
+              "species": "helium",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 390793.0160456699,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 348.15,
+          "thermal_mode": "adiabatic"
+        }
+      ]
+    }
+  },
+  {
+    "id": "F054",
+    "exit_code": 0,
+    "json_lines": 5,
+    "parse_errors": [],
+    "stderr": "",
+    "events": [
+      {
+        "step": 0,
+        "operator": {
+          "at": 298.15,
+          "moles": 0.01,
+          "op": "add",
+          "species": "helium",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 0.01,
+            "species": "helium",
+            "total_after": 0.01,
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 1,
+        "operator": {
+          "initial_volume": 0.1,
+          "op": "regulate",
+          "pressure": 100000.0,
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "vessel_pressure_controlled",
+            "initial_volume": 0.1,
+            "pressure": 100000.0,
+            "trapped_gas": 0.004033954554584697,
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 2,
+        "operator": {
+          "instrument": "pressure_gauge",
+          "op": "measure",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "measured",
+            "instrument": "pressure_gauge",
+            "model_support": {
+              "assumptions": [
+                "represented headspace and imposed pressure boundary"
+              ],
+              "observable": "pressure",
+              "provenance": [],
+              "reasons": [],
+              "scope": "whole_vessel",
+              "status": "computed",
+              "validity": []
+            },
+            "unit": "kPa",
+            "value": 100.0,
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 3,
+        "operator": {
+          "instrument": "volume_meter",
+          "op": "measure",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "measured",
+            "instrument": "volume_meter",
+            "model_support": {
+              "assumptions": [
+                "sealed or pressure-controlled headspace geometry; excludes liquid volume"
+              ],
+              "observable": "headspace_volume",
+              "provenance": [],
+              "reasons": [],
+              "scope": "whole_vessel",
+              "status": "computed",
+              "validity": []
+            },
+            "unit": "mL",
+            "value": 347.89570295566995,
+            "vessel": 0
+          }
+        ]
+      }
+    ],
+    "final_bench": {
+      "vessels": [
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 0.01,
+              "phase": "gas",
+              "species": "helium"
+            },
+            {
+              "moles": 0.003187227493577369,
+              "phase": "gas",
+              "species": "N2"
+            },
+            {
+              "moles": 0.000845113479185494,
+              "phase": "gas",
+              "species": "O2"
+            },
+            {
+              "moles": 1.6135818218338789e-06,
+              "phase": "gas",
+              "species": "CO2"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "pressure_controlled",
+            "pressure": 100000.0,
+            "volume": 0.34789570295566996
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 0.01,
+              "particle_size_um": null,
+              "phase": "gas",
+              "source": "reagent bottle",
+              "species": "helium",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 100000.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        }
+      ]
+    }
+  },
+  {
+    "id": "F055",
+    "exit_code": 0,
+    "json_lines": 8,
+    "parse_errors": [],
+    "stderr": "",
+    "events": [
+      {
+        "step": 0,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "events": [
+          {
+            "event": "vessel_created",
+            "vessel": 1
+          }
+        ]
+      },
+      {
+        "step": 1,
+        "operator": {
+          "at": 298.15,
+          "moles": 0.01,
+          "op": "add",
+          "species": "helium",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 0.01,
+            "species": "helium",
+            "total_after": 0.01,
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 2,
+        "operator": {
+          "at": 298.15,
+          "moles": 0.02,
+          "op": "add",
+          "species": "helium",
+          "vessel": 1
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 0.02,
+            "species": "helium",
+            "total_after": 0.02,
+            "vessel": 1
+          }
+        ]
+      },
+      {
+        "step": 3,
+        "operator": {
+          "initial_volume": 0.1,
+          "op": "regulate",
+          "pressure": 100000.0,
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "vessel_pressure_controlled",
+            "initial_volume": 0.1,
+            "pressure": 100000.0,
+            "trapped_gas": 0.004033954554584697,
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 4,
+        "operator": {
+          "initial_volume": 0.1,
+          "op": "regulate",
+          "pressure": 100000.0,
+          "vessel": 1
+        },
+        "events": [
+          {
+            "event": "vessel_pressure_controlled",
+            "initial_volume": 0.1,
+            "pressure": 100000.0,
+            "trapped_gas": 0.004033954554584697,
+            "vessel": 1
+          }
+        ]
+      },
+      {
+        "step": 5,
+        "operator": {
+          "instrument": "volume_meter",
+          "op": "measure",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "measured",
+            "instrument": "volume_meter",
+            "model_support": {
+              "assumptions": [
+                "sealed or pressure-controlled headspace geometry; excludes liquid volume"
+              ],
+              "observable": "headspace_volume",
+              "provenance": [],
+              "reasons": [],
+              "scope": "whole_vessel",
+              "status": "computed",
+              "validity": []
+            },
+            "unit": "mL",
+            "value": 347.89570295566995,
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 6,
+        "operator": {
+          "instrument": "volume_meter",
+          "op": "measure",
+          "vessel": 1
+        },
+        "events": [
+          {
+            "event": "measured",
+            "instrument": "volume_meter",
+            "model_support": {
+              "assumptions": [
+                "sealed or pressure-controlled headspace geometry; excludes liquid volume"
+              ],
+              "observable": "headspace_volume",
+              "provenance": [],
+              "reasons": [],
+              "scope": "whole_vessel",
+              "status": "computed",
+              "validity": []
+            },
+            "unit": "mL",
+            "value": 595.79140591134,
+            "vessel": 1
+          }
+        ]
+      }
+    ],
+    "final_bench": {
+      "vessels": [
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 0.01,
+              "phase": "gas",
+              "species": "helium"
+            },
+            {
+              "moles": 0.003187227493577369,
+              "phase": "gas",
+              "species": "N2"
+            },
+            {
+              "moles": 0.000845113479185494,
+              "phase": "gas",
+              "species": "O2"
+            },
+            {
+              "moles": 1.6135818218338789e-06,
+              "phase": "gas",
+              "species": "CO2"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "pressure_controlled",
+            "pressure": 100000.0,
+            "volume": 0.34789570295566996
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 0.01,
+              "particle_size_um": null,
+              "phase": "gas",
+              "source": "reagent bottle",
+              "species": "helium",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 100000.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 0.02,
+              "phase": "gas",
+              "species": "helium"
+            },
+            {
+              "moles": 0.003187227493577369,
+              "phase": "gas",
+              "species": "N2"
+            },
+            {
+              "moles": 0.000845113479185494,
+              "phase": "gas",
+              "species": "O2"
+            },
+            {
+              "moles": 1.6135818218338789e-06,
+              "phase": "gas",
+              "species": "CO2"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "pressure_controlled",
+            "pressure": 100000.0,
+            "volume": 0.59579140591134
+          },
+          "id": 1,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 0.02,
+              "particle_size_um": null,
+              "phase": "gas",
+              "source": "reagent bottle",
+              "species": "helium",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 100000.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        }
+      ]
+    }
+  },
+  {
+    "id": "F058",
+    "exit_code": 0,
+    "json_lines": 4,
+    "parse_errors": [],
+    "stderr": "",
+    "events": [
+      {
+        "step": 0,
+        "operator": {
+          "moles": 0.001,
+          "op": "add",
+          "species": "helium",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 0.001,
+            "species": "helium",
+            "total_after": 0.001,
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 1,
+        "operator": {
+          "headspace_volume": 0.1,
+          "op": "seal",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "vessel_sealed",
+            "headspace_volume": 0.1,
+            "trapped_air": 0.004087404452432945,
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 2,
+        "operator": {
+          "op": "test_gas",
+          "test": "pop",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "gas_tested",
+            "notes": "no pop \u2014 H\u2082 mole fraction -0.0% is below the 4% ignition limit",
+            "positive": false,
+            "test": "pop",
+            "vessel": 0
+          }
+        ]
+      }
+    ],
+    "final_bench": {
+      "vessels": [
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 0.001,
+              "phase": "gas",
+              "species": "helium"
+            },
+            {
+              "moles": 0.00322945825786727,
+              "phase": "gas",
+              "species": "N2"
+            },
+            {
+              "moles": 0.0008563112327847019,
+              "phase": "gas",
+              "species": "O2"
+            },
+            {
+              "moles": 1.6349617809731778e-06,
+              "phase": "gas",
+              "species": "CO2"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.1
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 0.001,
+              "particle_size_um": null,
+              "phase": "gas",
+              "source": "reagent bottle",
+              "species": "helium",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 126114.57029556697,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        }
+      ]
+    }
+  },
+  {
+    "id": "F062",
+    "exit_code": 0,
+    "json_lines": 4,
+    "parse_errors": [],
+    "stderr": "",
+    "events": [
+      {
+        "step": 0,
+        "operator": {
+          "moles": 0.001,
+          "op": "add",
+          "species": "helium",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 0.001,
+            "species": "helium",
+            "total_after": 0.001,
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 1,
+        "operator": {
+          "headspace_volume": 0.1,
+          "op": "seal",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "vessel_sealed",
+            "headspace_volume": 0.1,
+            "trapped_air": 0.004087404452432945,
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 2,
+        "operator": {
+          "op": "test_gas",
+          "test": "limewater",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "gas_tested",
+            "notes": "limewater stays clear \u2014 CO\u2082 mole fraction 0.03% is below the 0.1% detection floor",
+            "positive": false,
+            "test": "limewater",
+            "vessel": 0
+          }
+        ]
+      }
+    ],
+    "final_bench": {
+      "vessels": [
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 0.001,
+              "phase": "gas",
+              "species": "helium"
+            },
+            {
+              "moles": 0.00322945825786727,
+              "phase": "gas",
+              "species": "N2"
+            },
+            {
+              "moles": 0.0008563112327847019,
+              "phase": "gas",
+              "species": "O2"
+            },
+            {
+              "moles": 1.6349617809731778e-06,
+              "phase": "gas",
+              "species": "CO2"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.0,
+          "free_proton": 0.0,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.1
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 0.001,
+              "particle_size_um": null,
+              "phase": "gas",
+              "source": "reagent bottle",
+              "species": "helium",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 126114.57029556697,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        }
+      ]
+    }
+  },
+  {
+    "id": "F064",
+    "exit_code": 0,
+    "json_lines": 8,
+    "parse_errors": [],
+    "stderr": "",
+    "events": [
+      {
+        "step": 0,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "events": [
+          {
+            "event": "vessel_created",
+            "vessel": 1
+          }
+        ]
+      },
+      {
+        "step": 1,
+        "operator": {
+          "moles": 5.534276991396059,
+          "op": "add",
+          "species": "water",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 5.534276991396059,
+            "species": "water",
+            "total_after": 5.534276991396059,
+            "vessel": 0
+          },
+          {
+            "event": "solution_routed",
+            "provenance": {
+              "dataset": "vendored USGS phreeqc.dat",
+              "dataset_phrase": {
+                "en": "vendored USGS {file}",
+                "key": "provenance.dataset.vendored-usgs",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "text": {
+                        "text": "phreeqc.dat"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "USGS PHREEQC thermodynamic database"
+              ],
+              "engine": "Kerotakis analytic equilibrium evaluator",
+              "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+              "model_phrase": {
+                "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                "key": "provenance.model.water-autoionisation",
+                "slots": [
+                  [
+                    "engine",
+                    {
+                      "text": {
+                        "text": "PHREEQC"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "routing_phrase": {
+                "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "key": "routing.solvent-relation-only"
+              }
+            },
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 2,
+        "operator": {
+          "moles": 0.016643365954330604,
+          "op": "add",
+          "species": "SiO2",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 0.016643365954330604,
+            "species": "SiO2",
+            "total_after": 0.016643365954330604,
+            "vessel": 0
+          },
+          {
+            "event": "dissolved",
+            "moles": 1.9972039145196722e-05,
+            "species": "SiO2",
+            "vessel": 0
+          },
+          {
+            "event": "inert",
+            "reason": {
+              "en": "{name} hardly dissolves in water: its reviewed solubility is {limit} g per 100 mL, which is below anything a beaker would show. A trace of it is in solution; the rest is still there",
+              "key": "inert.insoluble-in-water-trace-in-solution",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "term": {
+                      "en": "silicon dioxide (quartz)",
+                      "section": "species"
+                    }
+                  }
+                ],
+                [
+                  "limit",
+                  {
+                    "number": {
+                      "text": "0.0012"
+                    }
+                  }
+                ]
+              ]
+            },
+            "species": "SiO2",
+            "vessel": 0,
+            "why": "silicon dioxide (quartz) hardly dissolves in water: its reviewed solubility is 0.0012 g per 100 mL, which is below anything a beaker would show. A trace of it is in solution; the rest is still there"
+          }
+        ]
+      },
+      {
+        "step": 3,
+        "operator": {
+          "moles": 5.534276991396059,
+          "op": "add",
+          "species": "water",
+          "vessel": 1
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 5.534276991396059,
+            "species": "water",
+            "total_after": 5.534276991396059,
+            "vessel": 1
+          },
+          {
+            "event": "solution_routed",
+            "provenance": {
+              "dataset": "vendored USGS phreeqc.dat",
+              "dataset_phrase": {
+                "en": "vendored USGS {file}",
+                "key": "provenance.dataset.vendored-usgs",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "text": {
+                        "text": "phreeqc.dat"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "USGS PHREEQC thermodynamic database"
+              ],
+              "engine": "Kerotakis analytic equilibrium evaluator",
+              "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+              "model_phrase": {
+                "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                "key": "provenance.model.water-autoionisation",
+                "slots": [
+                  [
+                    "engine",
+                    {
+                      "text": {
+                        "text": "PHREEQC"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "routing_phrase": {
+                "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "key": "routing.solvent-relation-only"
+              }
+            },
+            "vessel": 1
+          }
+        ]
+      },
+      {
+        "step": 4,
+        "operator": {
+          "moles": 0.001,
+          "op": "add",
+          "species": "NaCl",
+          "vessel": 1
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 0.001,
+            "species": "NaCl",
+            "total_after": 0.001,
+            "vessel": 1
+          },
+          {
+            "event": "dissolved",
+            "moles": 0.001,
+            "species": "NaCl",
+            "vessel": 1
+          },
+          {
+            "event": "solution_routed",
+            "provenance": {
+              "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "wateq4f.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "WATEQ4F, Alpers and others, 1989",
+                "log K from llnl.dat  Aug 23, 2005",
+                "Dzombak and Morel, 1990",
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "the default inorganic aqueous dataset",
+              "routing_phrase": {
+                "en": "the default inorganic aqueous dataset",
+                "key": "routing.default-inorganic"
+              }
+            },
+            "vessel": 1
+          },
+          {
+            "event": "solution_characterized",
+            "ionic_strength": 0.01003020058059,
+            "ph": 6.99679587879,
+            "vessel": 1
+          }
+        ]
+      },
+      {
+        "step": 5,
+        "operator": {
+          "instrument": "conductivity_meter",
+          "op": "measure",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "measured",
+            "instrument": "conductivity_meter",
+            "model_support": {
+              "assumptions": [
+                "aqueous activity models assume water as solvent",
+                "25 C limiting mobility; alkali-halide concentration correction"
+              ],
+              "observable": "conductivity",
+              "provenance": [
+                "Kerotakis analytic equilibrium evaluator",
+                "vendored USGS phreeqc.dat",
+                "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "\u03bb\u00b0: CRC Handbook of Chemistry and Physics, 'Ionic Conductivity and Diffusion at Infinite Dilution' (Van\u00fdsek), 25 \u00b0C, water \u2014 a commercial compilation, cited without embarrassment and ranking below a primary measurement, which for these twenty-eight ions would be the classic conductance papers of Kohlrausch, Shedlovsky, MacInnes and Owen. ONE ROW IS NO LONGER THIS HANDBOOK'S, AND SAYING SO IS THE POINT OF THIS SENTENCE: \u03bb\u00b0(Al+3) shipped as 183.0 \u2014 Van\u00fdsek's 61 per equivalent \u2014 until 2026-09-18, and is now 189.0, which is the 63 per equivalent that Kreshkov (1970) p. 74 and H\u00fcbschmann and Links (1991) p. 62 both print. The owner ruled for the two: they were reached independently of each other and of the Handbook, which `provenance/upstreams.toml` refuses as a systematic source, and two reachable compilations that agree outweigh one refused compilation that disagrees with both. WHAT THAT RULING DOES NOT BUY is precision: both print two significant figures and both are measurably coarse \u2014 see section 2b of crates/kerotakis-core/tests/conductivity_sources.rs, which measures each of them against ions two better compilations already settle and finds one 5.6 per cent out on copper and the other 6.8 per cent out on carbonate. So 189.0 is where the reachable evidence points and is not a value known to three figures. THE OBVIOUS LOCAL UPGRADE IS A ROUND TRIP AND WAS REJECTED, and the reasoning is kept here because it is not obvious and someone will try it again: the vendored phreeqc.dat carries a -dw tracer diffusion coefficient for 21 of these ions, and Nernst-Einstein turns one into the other, \u03bb\u00b0 = z\u00b2F\u00b2D/RT. It reproduces this table to better than 0.05 per cent for H+, Li+, Ca+2, Fe+2, Pb+2 and Cl-, which looks like corroboration and is the opposite. At infinite dilution a tracer diffusion coefficient for an ion IS a conductivity measurement in other units \u2014 that is how D\u00b0 is obtained \u2014 so the derivation does not find a second source, it relabels the first. Six ions agreeing to five significant figures is the signature of a round trip, not of two independent measurements, and phreeqc.dat's own header credits Appelo and Postma (2005), a compilation built from conductivity data in turn",
+                "Concentration correction: a two-parameter empirical attenuation of the Kohlrausch sum, \u03ba = \u03a3 \u03bb\u00b0\u1d62c\u1d62 / (1 + a\u221aI + bI), fitted by hand to the measured specific conductance of aqueous sodium chloride and potassium chloride at 25 \u00b0C as tabulated in the CRC Handbook of Chemistry and Physics, 'Concentrative Properties of Aqueous Solutions: Conversion Tables' and 'Electrical Conductivity of Aqueous Solutions'. One of the three fit targets does not need the handbook at all and is the important one: a KCl calibration standard's conductivity is a metrological convention rather than anyone's compilation, and it is what a conductivity meter is calibrated against. THE BASIS MATTERS AND WAS STATED WRONG HERE UNTIL 2026-09-18: this read '1413 \u00b5S/cm for the 0.01 mol/kg KCl standard ... the IUPAC/OIML reference value'. OIML R 56 Edition 1981 (E) was read on 2026-09-17 and prints 1408.3 \u00b5S/cm for its 0.01 D primary standard; 1413 appears nowhere in it, and USGS WSP 2311 via Jones & Bradshaw gives 1408.07 (0.01 D) and 1410.75 (0.01 N). 1413 is the figure carried for the 0.0100 mol/L standard \u2014 a VOLUMETRIC basis, not the molality basis that sentence claimed, and not OIML's number. SO THE TARGET IS NAMED ON THE BASIS THE MODEL ACTUALLY WORKS IN, WHICH IS MOLALITY: it is OIML R 56 table 1's 1408.3 \u00b5S/cm for the 0.01 D primary standard, 0.745263 g KCl per kg of solution, 0.010004 mol/kgw. 1413 remains a real standard and is still true of the 0.0100 mol/L solution a bottle of calibration fluid holds; what it is not is a statement about the solution this model is handed, and it is no longer the reference number any test here compares against \u2014 `kcl_calibration_standard_within_model_error` builds 0.01 mol/kgw and now checks it against 1408.3. NEITHER NUMBER MOVED THE COEFFICIENTS. FIT_SQRT and FIT_LINEAR are exactly what they were: the two figures are 0.33 % apart, which is an order of magnitude inside the window either would be judged by, so this is a basis correction to what the fit is SAID to aim at and to what one test asserts, and not a re-fit. The calibration ladder in conductivity_sources.rs has validated the fit against this very row, on the correct grams-per-kg-of-solution basis, since 2026-09-17. The other two, roughly 8.5 S/m at 1 mol/L and 15.5 S/m at 2 mol/L for NaCl, are the handbook's. The FORM is Kohlrausch's \u221ac law with a linear term added because the \u221ac law alone is valid only to about 0.1 mol/L; it is an empirical fit in the spirit of the Casteel\u2013Amis equation, not that equation, and NO edition of any handbook was opened for a per-salt parameter set. Reproduces the four fitted points to better than 2% and is an extrapolation above 2 mol/kgw"
+              ],
+              "reasons": [
+                "uncovered-solutes",
+                "aqueous-result-uses-limited-temperature"
+              ],
+              "scope": "solvent_only",
+              "status": "incomplete",
+              "validity": [
+                {
+                  "lower": null,
+                  "quantity": "temperature",
+                  "unit": "K",
+                  "upper": 573.15
+                },
+                {
+                  "lower": 298.15,
+                  "quantity": "temperature",
+                  "unit": "K",
+                  "upper": 298.15
+                },
+                {
+                  "lower": 0.0,
+                  "quantity": "ionic_strength",
+                  "unit": "mol/kgw",
+                  "upper": 0.1
+                }
+              ]
+            },
+            "unit": "\u00b5S/cm",
+            "value": 0.05508761762446267,
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 6,
+        "operator": {
+          "instrument": "conductivity_meter",
+          "op": "measure",
+          "vessel": 1
+        },
+        "events": [
+          {
+            "event": "measured",
+            "instrument": "conductivity_meter",
+            "model_support": {
+              "assumptions": [
+                "aqueous activity models assume water as solvent",
+                "25 C limiting mobility; alkali-halide concentration correction"
+              ],
+              "observable": "conductivity",
+              "provenance": [
+                "PHREEQC (IPhreeqc, USGS)",
+                "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "\u03bb\u00b0: CRC Handbook of Chemistry and Physics, 'Ionic Conductivity and Diffusion at Infinite Dilution' (Van\u00fdsek), 25 \u00b0C, water \u2014 a commercial compilation, cited without embarrassment and ranking below a primary measurement, which for these twenty-eight ions would be the classic conductance papers of Kohlrausch, Shedlovsky, MacInnes and Owen. ONE ROW IS NO LONGER THIS HANDBOOK'S, AND SAYING SO IS THE POINT OF THIS SENTENCE: \u03bb\u00b0(Al+3) shipped as 183.0 \u2014 Van\u00fdsek's 61 per equivalent \u2014 until 2026-09-18, and is now 189.0, which is the 63 per equivalent that Kreshkov (1970) p. 74 and H\u00fcbschmann and Links (1991) p. 62 both print. The owner ruled for the two: they were reached independently of each other and of the Handbook, which `provenance/upstreams.toml` refuses as a systematic source, and two reachable compilations that agree outweigh one refused compilation that disagrees with both. WHAT THAT RULING DOES NOT BUY is precision: both print two significant figures and both are measurably coarse \u2014 see section 2b of crates/kerotakis-core/tests/conductivity_sources.rs, which measures each of them against ions two better compilations already settle and finds one 5.6 per cent out on copper and the other 6.8 per cent out on carbonate. So 189.0 is where the reachable evidence points and is not a value known to three figures. THE OBVIOUS LOCAL UPGRADE IS A ROUND TRIP AND WAS REJECTED, and the reasoning is kept here because it is not obvious and someone will try it again: the vendored phreeqc.dat carries a -dw tracer diffusion coefficient for 21 of these ions, and Nernst-Einstein turns one into the other, \u03bb\u00b0 = z\u00b2F\u00b2D/RT. It reproduces this table to better than 0.05 per cent for H+, Li+, Ca+2, Fe+2, Pb+2 and Cl-, which looks like corroboration and is the opposite. At infinite dilution a tracer diffusion coefficient for an ion IS a conductivity measurement in other units \u2014 that is how D\u00b0 is obtained \u2014 so the derivation does not find a second source, it relabels the first. Six ions agreeing to five significant figures is the signature of a round trip, not of two independent measurements, and phreeqc.dat's own header credits Appelo and Postma (2005), a compilation built from conductivity data in turn",
+                "Concentration correction: a two-parameter empirical attenuation of the Kohlrausch sum, \u03ba = \u03a3 \u03bb\u00b0\u1d62c\u1d62 / (1 + a\u221aI + bI), fitted by hand to the measured specific conductance of aqueous sodium chloride and potassium chloride at 25 \u00b0C as tabulated in the CRC Handbook of Chemistry and Physics, 'Concentrative Properties of Aqueous Solutions: Conversion Tables' and 'Electrical Conductivity of Aqueous Solutions'. One of the three fit targets does not need the handbook at all and is the important one: a KCl calibration standard's conductivity is a metrological convention rather than anyone's compilation, and it is what a conductivity meter is calibrated against. THE BASIS MATTERS AND WAS STATED WRONG HERE UNTIL 2026-09-18: this read '1413 \u00b5S/cm for the 0.01 mol/kg KCl standard ... the IUPAC/OIML reference value'. OIML R 56 Edition 1981 (E) was read on 2026-09-17 and prints 1408.3 \u00b5S/cm for its 0.01 D primary standard; 1413 appears nowhere in it, and USGS WSP 2311 via Jones & Bradshaw gives 1408.07 (0.01 D) and 1410.75 (0.01 N). 1413 is the figure carried for the 0.0100 mol/L standard \u2014 a VOLUMETRIC basis, not the molality basis that sentence claimed, and not OIML's number. SO THE TARGET IS NAMED ON THE BASIS THE MODEL ACTUALLY WORKS IN, WHICH IS MOLALITY: it is OIML R 56 table 1's 1408.3 \u00b5S/cm for the 0.01 D primary standard, 0.745263 g KCl per kg of solution, 0.010004 mol/kgw. 1413 remains a real standard and is still true of the 0.0100 mol/L solution a bottle of calibration fluid holds; what it is not is a statement about the solution this model is handed, and it is no longer the reference number any test here compares against \u2014 `kcl_calibration_standard_within_model_error` builds 0.01 mol/kgw and now checks it against 1408.3. NEITHER NUMBER MOVED THE COEFFICIENTS. FIT_SQRT and FIT_LINEAR are exactly what they were: the two figures are 0.33 % apart, which is an order of magnitude inside the window either would be judged by, so this is a basis correction to what the fit is SAID to aim at and to what one test asserts, and not a re-fit. The calibration ladder in conductivity_sources.rs has validated the fit against this very row, on the correct grams-per-kg-of-solution basis, since 2026-09-17. The other two, roughly 8.5 S/m at 1 mol/L and 15.5 S/m at 2 mol/L for NaCl, are the handbook's. The FORM is Kohlrausch's \u221ac law with a linear term added because the \u221ac law alone is valid only to about 0.1 mol/L; it is an empirical fit in the spirit of the Casteel\u2013Amis equation, not that equation, and NO edition of any handbook was opened for a per-salt parameter set. Reproduces the four fitted points to better than 2% and is an extrapolation above 2 mol/kgw"
+              ],
+              "reasons": [
+                "aqueous-result-uses-limited-temperature"
+              ],
+              "scope": "aqueous_phase",
+              "status": "estimated",
+              "validity": [
+                {
+                  "lower": null,
+                  "quantity": "temperature",
+                  "unit": "K",
+                  "upper": 573.15
+                },
+                {
+                  "lower": 298.15,
+                  "quantity": "temperature",
+                  "unit": "K",
+                  "upper": 298.15
+                },
+                {
+                  "lower": 0.0,
+                  "quantity": "ionic_strength",
+                  "unit": "mol/kgw",
+                  "upper": 0.1
+                }
+              ]
+            },
+            "unit": "\u00b5S/cm",
+            "value": 1204.2850564503306,
+            "vessel": 1
+          }
+        ]
+      }
+    ],
+    "final_bench": {
+      "vessels": [
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 5.534276991396059,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.016623393915185407,
+              "phase": "solid",
+              "species": "SiO2"
+            },
+            {
+              "moles": 1.9972039145196722e-05,
+              "phase": "aqueous",
+              "species": "SiO2"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 1.0030426207188841e-08,
+          "free_proton": 1.0030426207188841e-08,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 5.534276991396059,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.016623393915185407,
+              "particle_size_um": null,
+              "phase": "solid",
+              "source": "reagent bottle",
+              "species": "SiO2",
+              "suspended_fraction": 1.0
+            },
+            {
+              "added_at": 0.0,
+              "moles": 1.9972039145196722e-05,
+              "particle_size_um": null,
+              "phase": "aqueous",
+              "source": "reagent bottle",
+              "species": "SiO2",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": {
+            "ionic_strength": 1.006060803128269e-07,
+            "pe": null,
+            "ph": 6.997375771104036,
+            "provenance": {
+              "dataset": "vendored USGS phreeqc.dat",
+              "dataset_phrase": {
+                "en": "vendored USGS {file}",
+                "key": "provenance.dataset.vendored-usgs",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "text": {
+                        "text": "phreeqc.dat"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "USGS PHREEQC thermodynamic database"
+              ],
+              "engine": "Kerotakis analytic equilibrium evaluator",
+              "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+              "model_phrase": {
+                "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                "key": "provenance.model.water-autoionisation",
+                "slots": [
+                  [
+                    "engine",
+                    {
+                      "text": {
+                        "text": "PHREEQC"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "routing_phrase": {
+                "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "key": "routing.solvent-relation-only"
+              }
+            },
+            "redox": [],
+            "scope": "solvent_only",
+            "solvent_kg": 0.0997,
+            "species": [
+              {
+                "activity": 1.006060803128269e-07,
+                "molality": 1.006060803128269e-07,
+                "name": "H+"
+              },
+              {
+                "activity": 1.006060803128269e-07,
+                "molality": 1.006060803128269e-07,
+                "name": "OH-"
+              }
+            ]
+          },
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": -0.0,
+          "contents": [
+            {
+              "moles": 0.001,
+              "phase": "aqueous",
+              "species": "Cl-"
+            },
+            {
+              "moles": 0.001,
+              "phase": "aqueous",
+              "species": "Na+"
+            },
+            {
+              "moles": 5.534276991396059,
+              "phase": "liquid",
+              "species": "water"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 1.099788491374813e-08,
+          "free_proton": 1.099788491377804e-08,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 1,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 5.534276991396059,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.001,
+              "particle_size_um": null,
+              "phase": "aqueous",
+              "source": "reagent bottle",
+              "species": "NaCl",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": {
+            "ionic_strength": 0.01003020058059,
+            "pe": null,
+            "ph": 6.99679587879,
+            "provenance": {
+              "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "wateq4f.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "WATEQ4F, Alpers and others, 1989",
+                "log K from llnl.dat  Aug 23, 2005",
+                "Dzombak and Morel, 1990",
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "the default inorganic aqueous dataset",
+              "routing_phrase": {
+                "en": "the default inorganic aqueous dataset",
+                "key": "routing.default-inorganic"
+              }
+            },
+            "redox": [],
+            "solvent_kg": 0.0997,
+            "species": [
+              {
+                "activity": 0.9997,
+                "molality": 55.51,
+                "name": "H2O"
+              },
+              {
+                "activity": 0.009029232078003248,
+                "molality": 0.01003009027081,
+                "name": "Cl-"
+              },
+              {
+                "activity": 0.009055625580021164,
+                "molality": 0.01003009027081,
+                "name": "Na+"
+              },
+              {
+                "activity": 0.0002677,
+                "molality": 0.0002671,
+                "name": "O2"
+              },
+              {
+                "activity": 1.007405044472304e-07,
+                "molality": 1.103097784732e-07,
+                "name": "H+"
+              },
+              {
+                "activity": 9.926805977724114e-08,
+                "molality": 1.103097784729e-07,
+                "name": "OH-"
+              }
+            ]
+          },
+          "surfaces": [],
+          "temperature": 298.1406955541713,
+          "thermal_mode": "adiabatic"
+        }
+      ]
+    }
+  },
+  {
+    "id": "F065",
+    "exit_code": 0,
+    "json_lines": 8,
+    "parse_errors": [],
+    "stderr": "",
+    "events": [
+      {
+        "step": 0,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "events": [
+          {
+            "event": "vessel_created",
+            "vessel": 1
+          }
+        ]
+      },
+      {
+        "step": 1,
+        "operator": {
+          "moles": 5.534276991396059,
+          "op": "add",
+          "species": "water",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 5.534276991396059,
+            "species": "water",
+            "total_after": 5.534276991396059,
+            "vessel": 0
+          },
+          {
+            "event": "solution_routed",
+            "provenance": {
+              "dataset": "vendored USGS phreeqc.dat",
+              "dataset_phrase": {
+                "en": "vendored USGS {file}",
+                "key": "provenance.dataset.vendored-usgs",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "text": {
+                        "text": "phreeqc.dat"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "USGS PHREEQC thermodynamic database"
+              ],
+              "engine": "Kerotakis analytic equilibrium evaluator",
+              "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+              "model_phrase": {
+                "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                "key": "provenance.model.water-autoionisation",
+                "slots": [
+                  [
+                    "engine",
+                    {
+                      "text": {
+                        "text": "PHREEQC"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "routing_phrase": {
+                "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "key": "routing.solvent-relation-only"
+              }
+            },
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 2,
+        "operator": {
+          "moles": 0.001,
+          "op": "add",
+          "species": "sucrose",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 0.001,
+            "species": "sucrose",
+            "total_after": 0.001,
+            "vessel": 0
+          },
+          {
+            "event": "dissolved",
+            "moles": 0.001,
+            "species": "sucrose",
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 3,
+        "operator": {
+          "moles": 5.534276991396059,
+          "op": "add",
+          "species": "water",
+          "vessel": 1
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 5.534276991396059,
+            "species": "water",
+            "total_after": 5.534276991396059,
+            "vessel": 1
+          },
+          {
+            "event": "solution_routed",
+            "provenance": {
+              "dataset": "vendored USGS phreeqc.dat",
+              "dataset_phrase": {
+                "en": "vendored USGS {file}",
+                "key": "provenance.dataset.vendored-usgs",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "text": {
+                        "text": "phreeqc.dat"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "USGS PHREEQC thermodynamic database"
+              ],
+              "engine": "Kerotakis analytic equilibrium evaluator",
+              "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+              "model_phrase": {
+                "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                "key": "provenance.model.water-autoionisation",
+                "slots": [
+                  [
+                    "engine",
+                    {
+                      "text": {
+                        "text": "PHREEQC"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "routing_phrase": {
+                "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "key": "routing.solvent-relation-only"
+              }
+            },
+            "vessel": 1
+          }
+        ]
+      },
+      {
+        "step": 4,
+        "operator": {
+          "moles": 0.001,
+          "op": "add",
+          "species": "NaCl",
+          "vessel": 1
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 0.001,
+            "species": "NaCl",
+            "total_after": 0.001,
+            "vessel": 1
+          },
+          {
+            "event": "dissolved",
+            "moles": 0.001,
+            "species": "NaCl",
+            "vessel": 1
+          },
+          {
+            "event": "solution_routed",
+            "provenance": {
+              "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "wateq4f.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "WATEQ4F, Alpers and others, 1989",
+                "log K from llnl.dat  Aug 23, 2005",
+                "Dzombak and Morel, 1990",
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "the default inorganic aqueous dataset",
+              "routing_phrase": {
+                "en": "the default inorganic aqueous dataset",
+                "key": "routing.default-inorganic"
+              }
+            },
+            "vessel": 1
+          },
+          {
+            "event": "solution_characterized",
+            "ionic_strength": 0.01003020058059,
+            "ph": 6.99679587879,
+            "vessel": 1
+          }
+        ]
+      },
+      {
+        "step": 5,
+        "operator": {
+          "instrument": "conductivity_meter",
+          "op": "measure",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "measured",
+            "instrument": "conductivity_meter",
+            "model_support": {
+              "assumptions": [
+                "aqueous activity models assume water as solvent",
+                "25 C limiting mobility; alkali-halide concentration correction"
+              ],
+              "observable": "conductivity",
+              "provenance": [
+                "Kerotakis analytic equilibrium evaluator",
+                "vendored USGS phreeqc.dat",
+                "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "\u03bb\u00b0: CRC Handbook of Chemistry and Physics, 'Ionic Conductivity and Diffusion at Infinite Dilution' (Van\u00fdsek), 25 \u00b0C, water \u2014 a commercial compilation, cited without embarrassment and ranking below a primary measurement, which for these twenty-eight ions would be the classic conductance papers of Kohlrausch, Shedlovsky, MacInnes and Owen. ONE ROW IS NO LONGER THIS HANDBOOK'S, AND SAYING SO IS THE POINT OF THIS SENTENCE: \u03bb\u00b0(Al+3) shipped as 183.0 \u2014 Van\u00fdsek's 61 per equivalent \u2014 until 2026-09-18, and is now 189.0, which is the 63 per equivalent that Kreshkov (1970) p. 74 and H\u00fcbschmann and Links (1991) p. 62 both print. The owner ruled for the two: they were reached independently of each other and of the Handbook, which `provenance/upstreams.toml` refuses as a systematic source, and two reachable compilations that agree outweigh one refused compilation that disagrees with both. WHAT THAT RULING DOES NOT BUY is precision: both print two significant figures and both are measurably coarse \u2014 see section 2b of crates/kerotakis-core/tests/conductivity_sources.rs, which measures each of them against ions two better compilations already settle and finds one 5.6 per cent out on copper and the other 6.8 per cent out on carbonate. So 189.0 is where the reachable evidence points and is not a value known to three figures. THE OBVIOUS LOCAL UPGRADE IS A ROUND TRIP AND WAS REJECTED, and the reasoning is kept here because it is not obvious and someone will try it again: the vendored phreeqc.dat carries a -dw tracer diffusion coefficient for 21 of these ions, and Nernst-Einstein turns one into the other, \u03bb\u00b0 = z\u00b2F\u00b2D/RT. It reproduces this table to better than 0.05 per cent for H+, Li+, Ca+2, Fe+2, Pb+2 and Cl-, which looks like corroboration and is the opposite. At infinite dilution a tracer diffusion coefficient for an ion IS a conductivity measurement in other units \u2014 that is how D\u00b0 is obtained \u2014 so the derivation does not find a second source, it relabels the first. Six ions agreeing to five significant figures is the signature of a round trip, not of two independent measurements, and phreeqc.dat's own header credits Appelo and Postma (2005), a compilation built from conductivity data in turn",
+                "Concentration correction: a two-parameter empirical attenuation of the Kohlrausch sum, \u03ba = \u03a3 \u03bb\u00b0\u1d62c\u1d62 / (1 + a\u221aI + bI), fitted by hand to the measured specific conductance of aqueous sodium chloride and potassium chloride at 25 \u00b0C as tabulated in the CRC Handbook of Chemistry and Physics, 'Concentrative Properties of Aqueous Solutions: Conversion Tables' and 'Electrical Conductivity of Aqueous Solutions'. One of the three fit targets does not need the handbook at all and is the important one: a KCl calibration standard's conductivity is a metrological convention rather than anyone's compilation, and it is what a conductivity meter is calibrated against. THE BASIS MATTERS AND WAS STATED WRONG HERE UNTIL 2026-09-18: this read '1413 \u00b5S/cm for the 0.01 mol/kg KCl standard ... the IUPAC/OIML reference value'. OIML R 56 Edition 1981 (E) was read on 2026-09-17 and prints 1408.3 \u00b5S/cm for its 0.01 D primary standard; 1413 appears nowhere in it, and USGS WSP 2311 via Jones & Bradshaw gives 1408.07 (0.01 D) and 1410.75 (0.01 N). 1413 is the figure carried for the 0.0100 mol/L standard \u2014 a VOLUMETRIC basis, not the molality basis that sentence claimed, and not OIML's number. SO THE TARGET IS NAMED ON THE BASIS THE MODEL ACTUALLY WORKS IN, WHICH IS MOLALITY: it is OIML R 56 table 1's 1408.3 \u00b5S/cm for the 0.01 D primary standard, 0.745263 g KCl per kg of solution, 0.010004 mol/kgw. 1413 remains a real standard and is still true of the 0.0100 mol/L solution a bottle of calibration fluid holds; what it is not is a statement about the solution this model is handed, and it is no longer the reference number any test here compares against \u2014 `kcl_calibration_standard_within_model_error` builds 0.01 mol/kgw and now checks it against 1408.3. NEITHER NUMBER MOVED THE COEFFICIENTS. FIT_SQRT and FIT_LINEAR are exactly what they were: the two figures are 0.33 % apart, which is an order of magnitude inside the window either would be judged by, so this is a basis correction to what the fit is SAID to aim at and to what one test asserts, and not a re-fit. The calibration ladder in conductivity_sources.rs has validated the fit against this very row, on the correct grams-per-kg-of-solution basis, since 2026-09-17. The other two, roughly 8.5 S/m at 1 mol/L and 15.5 S/m at 2 mol/L for NaCl, are the handbook's. The FORM is Kohlrausch's \u221ac law with a linear term added because the \u221ac law alone is valid only to about 0.1 mol/L; it is an empirical fit in the spirit of the Casteel\u2013Amis equation, not that equation, and NO edition of any handbook was opened for a per-salt parameter set. Reproduces the four fitted points to better than 2% and is an extrapolation above 2 mol/kgw"
+              ],
+              "reasons": [
+                "uncovered-solutes"
+              ],
+              "scope": "solvent_only",
+              "status": "incomplete",
+              "validity": [
+                {
+                  "lower": null,
+                  "quantity": "temperature",
+                  "unit": "K",
+                  "upper": 573.15
+                },
+                {
+                  "lower": 298.15,
+                  "quantity": "temperature",
+                  "unit": "K",
+                  "upper": 298.15
+                },
+                {
+                  "lower": 0.0,
+                  "quantity": "ionic_strength",
+                  "unit": "mol/kgw",
+                  "upper": 0.1
+                }
+              ]
+            },
+            "unit": "\u00b5S/cm",
+            "value": 0.05508761762446267,
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 6,
+        "operator": {
+          "instrument": "conductivity_meter",
+          "op": "measure",
+          "vessel": 1
+        },
+        "events": [
+          {
+            "event": "measured",
+            "instrument": "conductivity_meter",
+            "model_support": {
+              "assumptions": [
+                "aqueous activity models assume water as solvent",
+                "25 C limiting mobility; alkali-halide concentration correction"
+              ],
+              "observable": "conductivity",
+              "provenance": [
+                "PHREEQC (IPhreeqc, USGS)",
+                "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "\u03bb\u00b0: CRC Handbook of Chemistry and Physics, 'Ionic Conductivity and Diffusion at Infinite Dilution' (Van\u00fdsek), 25 \u00b0C, water \u2014 a commercial compilation, cited without embarrassment and ranking below a primary measurement, which for these twenty-eight ions would be the classic conductance papers of Kohlrausch, Shedlovsky, MacInnes and Owen. ONE ROW IS NO LONGER THIS HANDBOOK'S, AND SAYING SO IS THE POINT OF THIS SENTENCE: \u03bb\u00b0(Al+3) shipped as 183.0 \u2014 Van\u00fdsek's 61 per equivalent \u2014 until 2026-09-18, and is now 189.0, which is the 63 per equivalent that Kreshkov (1970) p. 74 and H\u00fcbschmann and Links (1991) p. 62 both print. The owner ruled for the two: they were reached independently of each other and of the Handbook, which `provenance/upstreams.toml` refuses as a systematic source, and two reachable compilations that agree outweigh one refused compilation that disagrees with both. WHAT THAT RULING DOES NOT BUY is precision: both print two significant figures and both are measurably coarse \u2014 see section 2b of crates/kerotakis-core/tests/conductivity_sources.rs, which measures each of them against ions two better compilations already settle and finds one 5.6 per cent out on copper and the other 6.8 per cent out on carbonate. So 189.0 is where the reachable evidence points and is not a value known to three figures. THE OBVIOUS LOCAL UPGRADE IS A ROUND TRIP AND WAS REJECTED, and the reasoning is kept here because it is not obvious and someone will try it again: the vendored phreeqc.dat carries a -dw tracer diffusion coefficient for 21 of these ions, and Nernst-Einstein turns one into the other, \u03bb\u00b0 = z\u00b2F\u00b2D/RT. It reproduces this table to better than 0.05 per cent for H+, Li+, Ca+2, Fe+2, Pb+2 and Cl-, which looks like corroboration and is the opposite. At infinite dilution a tracer diffusion coefficient for an ion IS a conductivity measurement in other units \u2014 that is how D\u00b0 is obtained \u2014 so the derivation does not find a second source, it relabels the first. Six ions agreeing to five significant figures is the signature of a round trip, not of two independent measurements, and phreeqc.dat's own header credits Appelo and Postma (2005), a compilation built from conductivity data in turn",
+                "Concentration correction: a two-parameter empirical attenuation of the Kohlrausch sum, \u03ba = \u03a3 \u03bb\u00b0\u1d62c\u1d62 / (1 + a\u221aI + bI), fitted by hand to the measured specific conductance of aqueous sodium chloride and potassium chloride at 25 \u00b0C as tabulated in the CRC Handbook of Chemistry and Physics, 'Concentrative Properties of Aqueous Solutions: Conversion Tables' and 'Electrical Conductivity of Aqueous Solutions'. One of the three fit targets does not need the handbook at all and is the important one: a KCl calibration standard's conductivity is a metrological convention rather than anyone's compilation, and it is what a conductivity meter is calibrated against. THE BASIS MATTERS AND WAS STATED WRONG HERE UNTIL 2026-09-18: this read '1413 \u00b5S/cm for the 0.01 mol/kg KCl standard ... the IUPAC/OIML reference value'. OIML R 56 Edition 1981 (E) was read on 2026-09-17 and prints 1408.3 \u00b5S/cm for its 0.01 D primary standard; 1413 appears nowhere in it, and USGS WSP 2311 via Jones & Bradshaw gives 1408.07 (0.01 D) and 1410.75 (0.01 N). 1413 is the figure carried for the 0.0100 mol/L standard \u2014 a VOLUMETRIC basis, not the molality basis that sentence claimed, and not OIML's number. SO THE TARGET IS NAMED ON THE BASIS THE MODEL ACTUALLY WORKS IN, WHICH IS MOLALITY: it is OIML R 56 table 1's 1408.3 \u00b5S/cm for the 0.01 D primary standard, 0.745263 g KCl per kg of solution, 0.010004 mol/kgw. 1413 remains a real standard and is still true of the 0.0100 mol/L solution a bottle of calibration fluid holds; what it is not is a statement about the solution this model is handed, and it is no longer the reference number any test here compares against \u2014 `kcl_calibration_standard_within_model_error` builds 0.01 mol/kgw and now checks it against 1408.3. NEITHER NUMBER MOVED THE COEFFICIENTS. FIT_SQRT and FIT_LINEAR are exactly what they were: the two figures are 0.33 % apart, which is an order of magnitude inside the window either would be judged by, so this is a basis correction to what the fit is SAID to aim at and to what one test asserts, and not a re-fit. The calibration ladder in conductivity_sources.rs has validated the fit against this very row, on the correct grams-per-kg-of-solution basis, since 2026-09-17. The other two, roughly 8.5 S/m at 1 mol/L and 15.5 S/m at 2 mol/L for NaCl, are the handbook's. The FORM is Kohlrausch's \u221ac law with a linear term added because the \u221ac law alone is valid only to about 0.1 mol/L; it is an empirical fit in the spirit of the Casteel\u2013Amis equation, not that equation, and NO edition of any handbook was opened for a per-salt parameter set. Reproduces the four fitted points to better than 2% and is an extrapolation above 2 mol/kgw"
+              ],
+              "reasons": [
+                "aqueous-result-uses-limited-temperature"
+              ],
+              "scope": "aqueous_phase",
+              "status": "estimated",
+              "validity": [
+                {
+                  "lower": null,
+                  "quantity": "temperature",
+                  "unit": "K",
+                  "upper": 573.15
+                },
+                {
+                  "lower": 298.15,
+                  "quantity": "temperature",
+                  "unit": "K",
+                  "upper": 298.15
+                },
+                {
+                  "lower": 0.0,
+                  "quantity": "ionic_strength",
+                  "unit": "mol/kgw",
+                  "upper": 0.1
+                }
+              ]
+            },
+            "unit": "\u00b5S/cm",
+            "value": 1204.2850564503306,
+            "vessel": 1
+          }
+        ]
+      }
+    ],
+    "final_bench": {
+      "vessels": [
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 5.534276991396059,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.001,
+              "phase": "aqueous",
+              "species": "sucrose"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 1.0030426207188841e-08,
+          "free_proton": 1.0030426207188841e-08,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 5.534276991396059,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.001,
+              "particle_size_um": null,
+              "phase": "aqueous",
+              "source": "reagent bottle",
+              "species": "sucrose",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": {
+            "ionic_strength": 1.006060803128269e-07,
+            "pe": null,
+            "ph": 6.997375771104036,
+            "provenance": {
+              "dataset": "vendored USGS phreeqc.dat",
+              "dataset_phrase": {
+                "en": "vendored USGS {file}",
+                "key": "provenance.dataset.vendored-usgs",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "text": {
+                        "text": "phreeqc.dat"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "USGS PHREEQC thermodynamic database"
+              ],
+              "engine": "Kerotakis analytic equilibrium evaluator",
+              "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+              "model_phrase": {
+                "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                "key": "provenance.model.water-autoionisation",
+                "slots": [
+                  [
+                    "engine",
+                    {
+                      "text": {
+                        "text": "PHREEQC"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "routing_phrase": {
+                "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "key": "routing.solvent-relation-only"
+              }
+            },
+            "redox": [],
+            "scope": "solvent_only",
+            "solvent_kg": 0.0997,
+            "species": [
+              {
+                "activity": 1.006060803128269e-07,
+                "molality": 1.006060803128269e-07,
+                "name": "H+"
+              },
+              {
+                "activity": 1.006060803128269e-07,
+                "molality": 1.006060803128269e-07,
+                "name": "OH-"
+              }
+            ]
+          },
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": -0.0,
+          "contents": [
+            {
+              "moles": 0.001,
+              "phase": "aqueous",
+              "species": "Cl-"
+            },
+            {
+              "moles": 0.001,
+              "phase": "aqueous",
+              "species": "Na+"
+            },
+            {
+              "moles": 5.534276991396059,
+              "phase": "liquid",
+              "species": "water"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 1.099788491374813e-08,
+          "free_proton": 1.099788491377804e-08,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 1,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 5.534276991396059,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.001,
+              "particle_size_um": null,
+              "phase": "aqueous",
+              "source": "reagent bottle",
+              "species": "NaCl",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": {
+            "ionic_strength": 0.01003020058059,
+            "pe": null,
+            "ph": 6.99679587879,
+            "provenance": {
+              "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "wateq4f.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "WATEQ4F, Alpers and others, 1989",
+                "log K from llnl.dat  Aug 23, 2005",
+                "Dzombak and Morel, 1990",
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "the default inorganic aqueous dataset",
+              "routing_phrase": {
+                "en": "the default inorganic aqueous dataset",
+                "key": "routing.default-inorganic"
+              }
+            },
+            "redox": [],
+            "solvent_kg": 0.0997,
+            "species": [
+              {
+                "activity": 0.9997,
+                "molality": 55.51,
+                "name": "H2O"
+              },
+              {
+                "activity": 0.009029232078003248,
+                "molality": 0.01003009027081,
+                "name": "Cl-"
+              },
+              {
+                "activity": 0.009055625580021164,
+                "molality": 0.01003009027081,
+                "name": "Na+"
+              },
+              {
+                "activity": 0.0002677,
+                "molality": 0.0002671,
+                "name": "O2"
+              },
+              {
+                "activity": 1.007405044472304e-07,
+                "molality": 1.103097784732e-07,
+                "name": "H+"
+              },
+              {
+                "activity": 9.926805977724114e-08,
+                "molality": 1.103097784729e-07,
+                "name": "OH-"
+              }
+            ]
+          },
+          "surfaces": [],
+          "temperature": 298.1406955541713,
+          "thermal_mode": "adiabatic"
+        }
+      ]
+    }
+  },
+  {
+    "id": "F066",
+    "exit_code": 0,
+    "json_lines": 6,
+    "parse_errors": [],
+    "stderr": "",
+    "events": [
+      {
+        "step": 0,
+        "operator": {
+          "moles": 5.534276991396059,
+          "op": "add",
+          "species": "water",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 5.534276991396059,
+            "species": "water",
+            "total_after": 5.534276991396059,
+            "vessel": 0
+          },
+          {
+            "event": "solution_routed",
+            "provenance": {
+              "dataset": "vendored USGS phreeqc.dat",
+              "dataset_phrase": {
+                "en": "vendored USGS {file}",
+                "key": "provenance.dataset.vendored-usgs",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "text": {
+                        "text": "phreeqc.dat"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "USGS PHREEQC thermodynamic database"
+              ],
+              "engine": "Kerotakis analytic equilibrium evaluator",
+              "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+              "model_phrase": {
+                "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                "key": "provenance.model.water-autoionisation",
+                "slots": [
+                  [
+                    "engine",
+                    {
+                      "text": {
+                        "text": "PHREEQC"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "routing_phrase": {
+                "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "key": "routing.solvent-relation-only"
+              }
+            },
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 1,
+        "operator": {
+          "moles": 0.001,
+          "op": "add",
+          "species": "NaCl",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 0.001,
+            "species": "NaCl",
+            "total_after": 0.001,
+            "vessel": 0
+          },
+          {
+            "event": "dissolved",
+            "moles": 0.001,
+            "species": "NaCl",
+            "vessel": 0
+          },
+          {
+            "event": "solution_routed",
+            "provenance": {
+              "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "wateq4f.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "WATEQ4F, Alpers and others, 1989",
+                "log K from llnl.dat  Aug 23, 2005",
+                "Dzombak and Morel, 1990",
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "the default inorganic aqueous dataset",
+              "routing_phrase": {
+                "en": "the default inorganic aqueous dataset",
+                "key": "routing.default-inorganic"
+              }
+            },
+            "vessel": 0
+          },
+          {
+            "event": "solution_characterized",
+            "ionic_strength": 0.01003020058059,
+            "ph": 6.99679587879,
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 2,
+        "operator": {
+          "instrument": "conductivity_meter",
+          "op": "measure",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "measured",
+            "instrument": "conductivity_meter",
+            "model_support": {
+              "assumptions": [
+                "aqueous activity models assume water as solvent",
+                "25 C limiting mobility; alkali-halide concentration correction"
+              ],
+              "observable": "conductivity",
+              "provenance": [
+                "PHREEQC (IPhreeqc, USGS)",
+                "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "\u03bb\u00b0: CRC Handbook of Chemistry and Physics, 'Ionic Conductivity and Diffusion at Infinite Dilution' (Van\u00fdsek), 25 \u00b0C, water \u2014 a commercial compilation, cited without embarrassment and ranking below a primary measurement, which for these twenty-eight ions would be the classic conductance papers of Kohlrausch, Shedlovsky, MacInnes and Owen. ONE ROW IS NO LONGER THIS HANDBOOK'S, AND SAYING SO IS THE POINT OF THIS SENTENCE: \u03bb\u00b0(Al+3) shipped as 183.0 \u2014 Van\u00fdsek's 61 per equivalent \u2014 until 2026-09-18, and is now 189.0, which is the 63 per equivalent that Kreshkov (1970) p. 74 and H\u00fcbschmann and Links (1991) p. 62 both print. The owner ruled for the two: they were reached independently of each other and of the Handbook, which `provenance/upstreams.toml` refuses as a systematic source, and two reachable compilations that agree outweigh one refused compilation that disagrees with both. WHAT THAT RULING DOES NOT BUY is precision: both print two significant figures and both are measurably coarse \u2014 see section 2b of crates/kerotakis-core/tests/conductivity_sources.rs, which measures each of them against ions two better compilations already settle and finds one 5.6 per cent out on copper and the other 6.8 per cent out on carbonate. So 189.0 is where the reachable evidence points and is not a value known to three figures. THE OBVIOUS LOCAL UPGRADE IS A ROUND TRIP AND WAS REJECTED, and the reasoning is kept here because it is not obvious and someone will try it again: the vendored phreeqc.dat carries a -dw tracer diffusion coefficient for 21 of these ions, and Nernst-Einstein turns one into the other, \u03bb\u00b0 = z\u00b2F\u00b2D/RT. It reproduces this table to better than 0.05 per cent for H+, Li+, Ca+2, Fe+2, Pb+2 and Cl-, which looks like corroboration and is the opposite. At infinite dilution a tracer diffusion coefficient for an ion IS a conductivity measurement in other units \u2014 that is how D\u00b0 is obtained \u2014 so the derivation does not find a second source, it relabels the first. Six ions agreeing to five significant figures is the signature of a round trip, not of two independent measurements, and phreeqc.dat's own header credits Appelo and Postma (2005), a compilation built from conductivity data in turn",
+                "Concentration correction: a two-parameter empirical attenuation of the Kohlrausch sum, \u03ba = \u03a3 \u03bb\u00b0\u1d62c\u1d62 / (1 + a\u221aI + bI), fitted by hand to the measured specific conductance of aqueous sodium chloride and potassium chloride at 25 \u00b0C as tabulated in the CRC Handbook of Chemistry and Physics, 'Concentrative Properties of Aqueous Solutions: Conversion Tables' and 'Electrical Conductivity of Aqueous Solutions'. One of the three fit targets does not need the handbook at all and is the important one: a KCl calibration standard's conductivity is a metrological convention rather than anyone's compilation, and it is what a conductivity meter is calibrated against. THE BASIS MATTERS AND WAS STATED WRONG HERE UNTIL 2026-09-18: this read '1413 \u00b5S/cm for the 0.01 mol/kg KCl standard ... the IUPAC/OIML reference value'. OIML R 56 Edition 1981 (E) was read on 2026-09-17 and prints 1408.3 \u00b5S/cm for its 0.01 D primary standard; 1413 appears nowhere in it, and USGS WSP 2311 via Jones & Bradshaw gives 1408.07 (0.01 D) and 1410.75 (0.01 N). 1413 is the figure carried for the 0.0100 mol/L standard \u2014 a VOLUMETRIC basis, not the molality basis that sentence claimed, and not OIML's number. SO THE TARGET IS NAMED ON THE BASIS THE MODEL ACTUALLY WORKS IN, WHICH IS MOLALITY: it is OIML R 56 table 1's 1408.3 \u00b5S/cm for the 0.01 D primary standard, 0.745263 g KCl per kg of solution, 0.010004 mol/kgw. 1413 remains a real standard and is still true of the 0.0100 mol/L solution a bottle of calibration fluid holds; what it is not is a statement about the solution this model is handed, and it is no longer the reference number any test here compares against \u2014 `kcl_calibration_standard_within_model_error` builds 0.01 mol/kgw and now checks it against 1408.3. NEITHER NUMBER MOVED THE COEFFICIENTS. FIT_SQRT and FIT_LINEAR are exactly what they were: the two figures are 0.33 % apart, which is an order of magnitude inside the window either would be judged by, so this is a basis correction to what the fit is SAID to aim at and to what one test asserts, and not a re-fit. The calibration ladder in conductivity_sources.rs has validated the fit against this very row, on the correct grams-per-kg-of-solution basis, since 2026-09-17. The other two, roughly 8.5 S/m at 1 mol/L and 15.5 S/m at 2 mol/L for NaCl, are the handbook's. The FORM is Kohlrausch's \u221ac law with a linear term added because the \u221ac law alone is valid only to about 0.1 mol/L; it is an empirical fit in the spirit of the Casteel\u2013Amis equation, not that equation, and NO edition of any handbook was opened for a per-salt parameter set. Reproduces the four fitted points to better than 2% and is an extrapolation above 2 mol/kgw"
+              ],
+              "reasons": [
+                "aqueous-result-uses-limited-temperature"
+              ],
+              "scope": "aqueous_phase",
+              "status": "estimated",
+              "validity": [
+                {
+                  "lower": null,
+                  "quantity": "temperature",
+                  "unit": "K",
+                  "upper": 573.15
+                },
+                {
+                  "lower": 298.15,
+                  "quantity": "temperature",
+                  "unit": "K",
+                  "upper": 298.15
+                },
+                {
+                  "lower": 0.0,
+                  "quantity": "ionic_strength",
+                  "unit": "mol/kgw",
+                  "upper": 0.1
+                }
+              ]
+            },
+            "unit": "\u00b5S/cm",
+            "value": 1204.2850564503306,
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 3,
+        "operator": {
+          "op": "dilute",
+          "vessel": 0,
+          "volume": 0.9
+        },
+        "events": [
+          {
+            "event": "diluted",
+            "moles": 49.808492922564525,
+            "vessel": 0,
+            "volume": 0.9
+          },
+          {
+            "event": "solution_characterized",
+            "ionic_strength": 0.001003112634208,
+            "ph": 6.999380791612,
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 4,
+        "operator": {
+          "instrument": "conductivity_meter",
+          "op": "measure",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "measured",
+            "instrument": "conductivity_meter",
+            "model_support": {
+              "assumptions": [
+                "aqueous activity models assume water as solvent",
+                "25 C limiting mobility; alkali-halide concentration correction"
+              ],
+              "observable": "conductivity",
+              "provenance": [
+                "PHREEQC (IPhreeqc, USGS)",
+                "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "\u03bb\u00b0: CRC Handbook of Chemistry and Physics, 'Ionic Conductivity and Diffusion at Infinite Dilution' (Van\u00fdsek), 25 \u00b0C, water \u2014 a commercial compilation, cited without embarrassment and ranking below a primary measurement, which for these twenty-eight ions would be the classic conductance papers of Kohlrausch, Shedlovsky, MacInnes and Owen. ONE ROW IS NO LONGER THIS HANDBOOK'S, AND SAYING SO IS THE POINT OF THIS SENTENCE: \u03bb\u00b0(Al+3) shipped as 183.0 \u2014 Van\u00fdsek's 61 per equivalent \u2014 until 2026-09-18, and is now 189.0, which is the 63 per equivalent that Kreshkov (1970) p. 74 and H\u00fcbschmann and Links (1991) p. 62 both print. The owner ruled for the two: they were reached independently of each other and of the Handbook, which `provenance/upstreams.toml` refuses as a systematic source, and two reachable compilations that agree outweigh one refused compilation that disagrees with both. WHAT THAT RULING DOES NOT BUY is precision: both print two significant figures and both are measurably coarse \u2014 see section 2b of crates/kerotakis-core/tests/conductivity_sources.rs, which measures each of them against ions two better compilations already settle and finds one 5.6 per cent out on copper and the other 6.8 per cent out on carbonate. So 189.0 is where the reachable evidence points and is not a value known to three figures. THE OBVIOUS LOCAL UPGRADE IS A ROUND TRIP AND WAS REJECTED, and the reasoning is kept here because it is not obvious and someone will try it again: the vendored phreeqc.dat carries a -dw tracer diffusion coefficient for 21 of these ions, and Nernst-Einstein turns one into the other, \u03bb\u00b0 = z\u00b2F\u00b2D/RT. It reproduces this table to better than 0.05 per cent for H+, Li+, Ca+2, Fe+2, Pb+2 and Cl-, which looks like corroboration and is the opposite. At infinite dilution a tracer diffusion coefficient for an ion IS a conductivity measurement in other units \u2014 that is how D\u00b0 is obtained \u2014 so the derivation does not find a second source, it relabels the first. Six ions agreeing to five significant figures is the signature of a round trip, not of two independent measurements, and phreeqc.dat's own header credits Appelo and Postma (2005), a compilation built from conductivity data in turn",
+                "Concentration correction: a two-parameter empirical attenuation of the Kohlrausch sum, \u03ba = \u03a3 \u03bb\u00b0\u1d62c\u1d62 / (1 + a\u221aI + bI), fitted by hand to the measured specific conductance of aqueous sodium chloride and potassium chloride at 25 \u00b0C as tabulated in the CRC Handbook of Chemistry and Physics, 'Concentrative Properties of Aqueous Solutions: Conversion Tables' and 'Electrical Conductivity of Aqueous Solutions'. One of the three fit targets does not need the handbook at all and is the important one: a KCl calibration standard's conductivity is a metrological convention rather than anyone's compilation, and it is what a conductivity meter is calibrated against. THE BASIS MATTERS AND WAS STATED WRONG HERE UNTIL 2026-09-18: this read '1413 \u00b5S/cm for the 0.01 mol/kg KCl standard ... the IUPAC/OIML reference value'. OIML R 56 Edition 1981 (E) was read on 2026-09-17 and prints 1408.3 \u00b5S/cm for its 0.01 D primary standard; 1413 appears nowhere in it, and USGS WSP 2311 via Jones & Bradshaw gives 1408.07 (0.01 D) and 1410.75 (0.01 N). 1413 is the figure carried for the 0.0100 mol/L standard \u2014 a VOLUMETRIC basis, not the molality basis that sentence claimed, and not OIML's number. SO THE TARGET IS NAMED ON THE BASIS THE MODEL ACTUALLY WORKS IN, WHICH IS MOLALITY: it is OIML R 56 table 1's 1408.3 \u00b5S/cm for the 0.01 D primary standard, 0.745263 g KCl per kg of solution, 0.010004 mol/kgw. 1413 remains a real standard and is still true of the 0.0100 mol/L solution a bottle of calibration fluid holds; what it is not is a statement about the solution this model is handed, and it is no longer the reference number any test here compares against \u2014 `kcl_calibration_standard_within_model_error` builds 0.01 mol/kgw and now checks it against 1408.3. NEITHER NUMBER MOVED THE COEFFICIENTS. FIT_SQRT and FIT_LINEAR are exactly what they were: the two figures are 0.33 % apart, which is an order of magnitude inside the window either would be judged by, so this is a basis correction to what the fit is SAID to aim at and to what one test asserts, and not a re-fit. The calibration ladder in conductivity_sources.rs has validated the fit against this very row, on the correct grams-per-kg-of-solution basis, since 2026-09-17. The other two, roughly 8.5 S/m at 1 mol/L and 15.5 S/m at 2 mol/L for NaCl, are the handbook's. The FORM is Kohlrausch's \u221ac law with a linear term added because the \u221ac law alone is valid only to about 0.1 mol/L; it is an empirical fit in the spirit of the Casteel\u2013Amis equation, not that equation, and NO edition of any handbook was opened for a per-salt parameter set. Reproduces the four fitted points to better than 2% and is an extrapolation above 2 mol/kgw"
+              ],
+              "reasons": [
+                "aqueous-result-uses-limited-temperature"
+              ],
+              "scope": "aqueous_phase",
+              "status": "estimated",
+              "validity": [
+                {
+                  "lower": null,
+                  "quantity": "temperature",
+                  "unit": "K",
+                  "upper": 573.15
+                },
+                {
+                  "lower": 298.15,
+                  "quantity": "temperature",
+                  "unit": "K",
+                  "upper": 298.15
+                },
+                {
+                  "lower": 0.0,
+                  "quantity": "ionic_strength",
+                  "unit": "mol/kgw",
+                  "upper": 0.1
+                }
+              ]
+            },
+            "unit": "\u00b5S/cm",
+            "value": 124.73141900284648,
+            "vessel": 0
+          }
+        ]
+      }
+    ],
+    "final_bench": {
+      "vessels": [
+        {
+          "co2_partial_pressure_atm": -0.0,
+          "contents": [
+            {
+              "moles": 0.001,
+              "phase": "aqueous",
+              "species": "Cl-"
+            },
+            {
+              "moles": 0.001,
+              "phase": "aqueous",
+              "species": "Na+"
+            },
+            {
+              "moles": 55.34276991396058,
+              "phase": "liquid",
+              "species": "water"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 1.032963054256817e-07,
+          "free_proton": 1.032963054256817e-07,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 5.534276991396059,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.001,
+              "particle_size_um": null,
+              "phase": "aqueous",
+              "source": "reagent bottle",
+              "species": "NaCl",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0,
+          "solution": {
+            "ionic_strength": 0.001003112634208,
+            "pe": null,
+            "ph": 6.999380791612,
+            "provenance": {
+              "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "wateq4f.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "WATEQ4F, Alpers and others, 1989",
+                "log K from llnl.dat  Aug 23, 2005",
+                "Dzombak and Morel, 1990",
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "the default inorganic aqueous dataset",
+              "routing_phrase": {
+                "en": "the default inorganic aqueous dataset",
+                "key": "routing.default-inorganic"
+              }
+            },
+            "redox": [],
+            "solvent_kg": 0.997,
+            "species": [
+              {
+                "activity": 1.0,
+                "molality": 55.51,
+                "name": "H2O"
+              },
+              {
+                "activity": 0.0009676849215108697,
+                "molality": 0.001003009027081,
+                "name": "Cl-"
+              },
+              {
+                "activity": 0.0009679925142572288,
+                "molality": 0.001003009027081,
+                "name": "Na+"
+              },
+              {
+                "activity": 0.0002677,
+                "molality": 0.0002676,
+                "name": "O2"
+              },
+              {
+                "activity": 9.995481408550828e-08,
+                "molality": 1.036071268061e-07,
+                "name": "OH-"
+              },
+              {
+                "activity": 1.0014267969112123e-07,
+                "molality": 1.036071268061e-07,
+                "name": "H+"
+              }
+            ]
+          },
+          "surfaces": [],
+          "temperature": 298.14906831815085,
+          "thermal_mode": "adiabatic"
+        }
+      ]
+    }
+  },
+  {
+    "id": "F082",
+    "exit_code": 0,
+    "json_lines": 18,
+    "parse_errors": [],
+    "stderr": "",
+    "events": [
+      {
+        "step": 0,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "events": [
+          {
+            "event": "vessel_created",
+            "vessel": 1
+          }
+        ]
+      },
+      {
+        "step": 1,
+        "operator": {
+          "moles": 0.5534276991396059,
+          "op": "add",
+          "species": "water",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 0.5534276991396059,
+            "species": "water",
+            "total_after": 0.5534276991396059,
+            "vessel": 0
+          },
+          {
+            "event": "solution_routed",
+            "provenance": {
+              "dataset": "vendored USGS phreeqc.dat",
+              "dataset_phrase": {
+                "en": "vendored USGS {file}",
+                "key": "provenance.dataset.vendored-usgs",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "text": {
+                        "text": "phreeqc.dat"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "USGS PHREEQC thermodynamic database"
+              ],
+              "engine": "Kerotakis analytic equilibrium evaluator",
+              "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+              "model_phrase": {
+                "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                "key": "provenance.model.water-autoionisation",
+                "slots": [
+                  [
+                    "engine",
+                    {
+                      "text": {
+                        "text": "PHREEQC"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "routing_phrase": {
+                "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "key": "routing.solvent-relation-only"
+              }
+            },
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 2,
+        "operator": {
+          "moles": 0.01,
+          "op": "add",
+          "species": "ethanol",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 0.01,
+            "species": "ethanol",
+            "total_after": 0.01,
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 3,
+        "operator": {
+          "moles": 0.01,
+          "op": "add",
+          "species": "CH3COOH",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 0.01,
+            "species": "CH3COOH",
+            "total_after": 0.01,
+            "vessel": 0
+          },
+          {
+            "event": "solution_routed",
+            "provenance": {
+              "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "minteq.v4.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid); the input has a potentially concentrated solute load (~1.0 mol/kgw, not a measured ionic strength), but the Pitzer route cannot represent all requested chemistry. This activity-model fallback is not a validated concentrated-mixture prediction",
+              "routing_phrase": {
+                "en": "{routing}; the input has a potentially concentrated solute load (~{molality} mol/kgw, not a measured ionic strength), but the Pitzer route cannot represent all requested chemistry. This activity-model fallback is not a validated concentrated-mixture prediction",
+                "key": "routing.activity-model-fallback",
+                "slots": [
+                  [
+                    "routing",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+                          "key": "routing.extended-chemistry"
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "molality",
+                    {
+                      "number": {
+                        "text": "1.0"
+                      }
+                    }
+                  ]
+                ]
+              }
+            },
+            "vessel": 0
+          },
+          {
+            "event": "solution_characterized",
+            "ionic_strength": 0.004492924283927,
+            "ph": 2.378822511552,
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 4,
+        "operator": {
+          "moles": 0.0001,
+          "op": "add",
+          "species": "H2SO4",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 0.0001,
+            "species": "H2SO4",
+            "total_after": 0.0001,
+            "vessel": 0
+          },
+          {
+            "event": "solution_characterized",
+            "ionic_strength": 0.02190264995776,
+            "ph": 1.840537025257,
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 5,
+        "operator": {
+          "moles": 5.534276991396059,
+          "op": "add",
+          "species": "water",
+          "vessel": 1
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 5.534276991396059,
+            "species": "water",
+            "total_after": 5.534276991396059,
+            "vessel": 1
+          },
+          {
+            "event": "solution_routed",
+            "provenance": {
+              "dataset": "vendored USGS phreeqc.dat",
+              "dataset_phrase": {
+                "en": "vendored USGS {file}",
+                "key": "provenance.dataset.vendored-usgs",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "text": {
+                        "text": "phreeqc.dat"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "USGS PHREEQC thermodynamic database"
+              ],
+              "engine": "Kerotakis analytic equilibrium evaluator",
+              "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+              "model_phrase": {
+                "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                "key": "provenance.model.water-autoionisation",
+                "slots": [
+                  [
+                    "engine",
+                    {
+                      "text": {
+                        "text": "PHREEQC"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "routing_phrase": {
+                "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "key": "routing.solvent-relation-only"
+              }
+            },
+            "vessel": 1
+          }
+        ]
+      },
+      {
+        "step": 6,
+        "operator": {
+          "moles": 0.01,
+          "op": "add",
+          "species": "ethanol",
+          "vessel": 1
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 0.01,
+            "species": "ethanol",
+            "total_after": 0.01,
+            "vessel": 1
+          }
+        ]
+      },
+      {
+        "step": 7,
+        "operator": {
+          "moles": 0.01,
+          "op": "add",
+          "species": "CH3COOH",
+          "vessel": 1
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 0.01,
+            "species": "CH3COOH",
+            "total_after": 0.01,
+            "vessel": 1
+          },
+          {
+            "event": "solution_routed",
+            "provenance": {
+              "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "minteq.v4.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "routing_phrase": {
+                "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+                "key": "routing.extended-chemistry"
+              }
+            },
+            "vessel": 1
+          },
+          {
+            "event": "solution_characterized",
+            "ionic_strength": 0.001371406098103,
+            "ph": 2.880837111151,
+            "vessel": 1
+          }
+        ]
+      },
+      {
+        "step": 8,
+        "operator": {
+          "moles": 0.0001,
+          "op": "add",
+          "species": "H2SO4",
+          "vessel": 1
+        },
+        "events": [
+          {
+            "event": "added",
+            "moles": 0.0001,
+            "species": "H2SO4",
+            "total_after": 0.0001,
+            "vessel": 1
+          },
+          {
+            "event": "solution_characterized",
+            "ionic_strength": 0.003439757122368,
+            "ph": 2.612468899095,
+            "vessel": 1
+          }
+        ]
+      },
+      {
+        "step": 9,
+        "operator": {
+          "op": "react",
+          "reaction": "esterification",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "boundary": "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+            "equation": "CH3COOH + C2H5OH \u21cc CH3COOC2H5 + H2O",
+            "event": "org_reacted",
+            "extent": 0.0006325532632885614,
+            "name": "esterification",
+            "vessel": 0
+          },
+          {
+            "event": "solution_routed",
+            "provenance": {
+              "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "minteq.v4.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "routing_phrase": {
+                "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+                "key": "routing.extended-chemistry"
+              }
+            },
+            "vessel": 0
+          },
+          {
+            "event": "solution_characterized",
+            "ionic_strength": 0.0218181085815,
+            "ph": 1.842786155942,
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "step": 10,
+        "operator": {
+          "op": "react",
+          "reaction": "esterification",
+          "vessel": 1
+        },
+        "events": [
+          {
+            "boundary": "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+            "equation": "CH3COOH + C2H5OH \u21cc CH3COOC2H5 + H2O",
+            "event": "org_reacted",
+            "extent": 7.071309411070995e-05,
+            "name": "esterification",
+            "vessel": 1
+          },
+          {
+            "event": "solution_characterized",
+            "ionic_strength": 0.003435858952565,
+            "ph": 2.61313687532,
+            "vessel": 1
+          }
+        ]
+      },
+      {
+        "step": 11,
+        "operator": {
+          "op": "wait",
+          "seconds": 3600.0
+        },
+        "events": [
+          {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "{family} v{version} matched, but declined at {gate}: {why}. Waiting does not supply a missing reaction rate or satisfy the condition gate",
+              "key": "not-modeled.family-declined-at-gate",
+              "slots": [
+                [
+                  "family",
+                  {
+                    "text": {
+                      "text": "fischer-esterification"
+                    }
+                  }
+                ],
+                [
+                  "version",
+                  {
+                    "text": {
+                      "text": "1"
+                    }
+                  }
+                ],
+                [
+                  "gate",
+                  {
+                    "text": {
+                      "text": "temperature_k"
+                    }
+                  }
+                ],
+                [
+                  "why",
+                  {
+                    "term": {
+                      "en": "the vessel stands at 298.2 K and the family needs at least 333.1 K",
+                      "section": "family-gate"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "fischer-esterification v1 matched, but declined at temperature_k: the vessel stands at 298.2 K and the family needs at least 333.1 K. Waiting does not supply a missing reaction rate or satisfy the condition gate"
+          },
+          {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "{family} v{version} matched, but declined at {gate}: {why}. Waiting does not supply a missing reaction rate or satisfy the condition gate",
+              "key": "not-modeled.family-declined-at-gate",
+              "slots": [
+                [
+                  "family",
+                  {
+                    "text": {
+                      "text": "fischer-esterification"
+                    }
+                  }
+                ],
+                [
+                  "version",
+                  {
+                    "text": {
+                      "text": "1"
+                    }
+                  }
+                ],
+                [
+                  "gate",
+                  {
+                    "text": {
+                      "text": "temperature_k"
+                    }
+                  }
+                ],
+                [
+                  "why",
+                  {
+                    "term": {
+                      "en": "the vessel stands at 298.2 K and the family needs at least 333.1 K",
+                      "section": "family-gate"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 1,
+            "what": "fischer-esterification v1 matched, but declined at temperature_k: the vessel stands at 298.2 K and the family needs at least 333.1 K. Waiting does not supply a missing reaction rate or satisfy the condition gate"
+          },
+          {
+            "event": "solution_characterized",
+            "ionic_strength": 0.0218181085815,
+            "ph": 1.842786155942,
+            "vessel": 0
+          },
+          {
+            "event": "solution_characterized",
+            "ionic_strength": 0.003435858952565,
+            "ph": 2.61313687532,
+            "vessel": 1
+          }
+        ]
+      },
+      {
+        "step": 12,
+        "operator": {
+          "instrument": "chromatograph",
+          "op": "measure",
+          "vessel": 0
+        },
+        "events": [
+          {
+            "event": "chromatographed",
+            "outside_method": [
+              "CH3COO-",
+              "H+",
+              "SO4-2"
+            ],
+            "peaks": [
+              {
+                "partition_k": 0.27511139071529433,
+                "relative_area": 1.0,
+                "retention_time_s": 68.25334172145882,
+                "rf": 0.21575479030186231,
+                "species": "ethanol",
+                "width_s": 2.730133668858353
+              }
+            ],
+            "plates": 10000,
+            "vessel": 0,
+            "void_time_s": 60.0
+          }
+        ]
+      },
+      {
+        "step": 13,
+        "operator": {
+          "instrument": "chromatograph",
+          "op": "measure",
+          "vessel": 1
+        },
+        "events": [
+          {
+            "event": "chromatographed",
+            "outside_method": [
+              "CH3COO-",
+              "H+",
+              "SO4-2"
+            ],
+            "peaks": [
+              {
+                "partition_k": 0.27511124120389496,
+                "relative_area": 1.0,
+                "retention_time_s": 68.25333723611685,
+                "rf": 0.21575469834627836,
+                "species": "ethanol",
+                "width_s": 2.730133489444674
+              }
+            ],
+            "plates": 10000,
+            "vessel": 1,
+            "void_time_s": 60.0
+          }
+        ]
+      }
+    ],
+    "final_bench": {
+      "vessels": [
+        {
+          "co2_partial_pressure_atm": 0.0,
+          "contents": [
+            {
+              "moles": 0.009367446736711438,
+              "phase": "liquid",
+              "species": "ethanol"
+            },
+            {
+              "moles": 0.0006325532632885614,
+              "phase": "liquid",
+              "species": "ethyl_acetate"
+            },
+            {
+              "moles": 0.009354291502046145,
+              "phase": "aqueous",
+              "species": "CH3COOH"
+            },
+            {
+              "moles": 1.3155234665297799e-05,
+              "phase": "aqueous",
+              "species": "CH3COO-"
+            },
+            {
+              "moles": 0.0001,
+              "phase": "aqueous",
+              "species": "SO4-2"
+            },
+            {
+              "moles": 0.5540602524028944,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.00021315523466533537,
+              "phase": "aqueous",
+              "species": "H+"
+            }
+          ],
+          "elapsed_seconds": 3600.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 7.983501805352029e-15,
+          "free_proton": 0.00016546519475517377,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 0.5534276991396059,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.01,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethanol",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.01,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "CH3COOH",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.0001,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "H2SO4",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 1.410463125683849e-07,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": -0.0002131552346652978,
+          "solution": {
+            "ionic_strength": 0.0218181085815,
+            "pe": 18.76314858527,
+            "ph": 1.842786155942,
+            "provenance": {
+              "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "minteq.v4.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "routing_phrase": {
+                "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+                "key": "routing.extended-chemistry"
+              }
+            },
+            "redox": [
+              {
+                "element": "S",
+                "molality": 0.01001863923042,
+                "oxidation": 6
+              }
+            ],
+            "solvent_kg": 0.009981395,
+            "species": [
+              {
+                "activity": 0.9836,
+                "molality": 55.51,
+                "name": "H2O"
+              },
+              {
+                "activity": 0.9371727181515802,
+                "molality": 0.9371727181516,
+                "name": "H(Acetate)"
+              },
+              {
+                "activity": 0.014361964339861238,
+                "molality": 0.01657736165688,
+                "name": "H+"
+              },
+              {
+                "activity": 0.0029524796659682775,
+                "molality": 0.005240746924625,
+                "name": "SO4-2"
+              },
+              {
+                "activity": 0.004144,
+                "molality": 0.004778,
+                "name": "HSO4-"
+              },
+              {
+                "activity": 0.0011418413580153925,
+                "molality": 0.001317975501031,
+                "name": "Acetate-"
+              },
+              {
+                "activity": 0.0002596,
+                "molality": 0.0002583,
+                "name": "O2"
+              }
+            ]
+          },
+          "surfaces": [],
+          "temperature": 298.15012370602767,
+          "thermal_mode": "adiabatic"
+        },
+        {
+          "co2_partial_pressure_atm": 0.0,
+          "contents": [
+            {
+              "moles": 0.00992928690588929,
+              "phase": "liquid",
+              "species": "ethanol"
+            },
+            {
+              "moles": 7.071309411070995e-05,
+              "phase": "liquid",
+              "species": "ethyl_acetate"
+            },
+            {
+              "moles": 0.009853871786453507,
+              "phase": "aqueous",
+              "species": "CH3COOH"
+            },
+            {
+              "moles": 7.541511943578419e-05,
+              "phase": "aqueous",
+              "species": "CH3COO-"
+            },
+            {
+              "moles": 0.0001,
+              "phase": "aqueous",
+              "species": "SO4-2"
+            },
+            {
+              "moles": 5.534347704490169,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.0002754151194358026,
+              "phase": "aqueous",
+              "species": "H+"
+            }
+          ],
+          "elapsed_seconds": 3600.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 4.3861613726086437e-13,
+          "free_proton": 0.0002589873174558202,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 1,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 5.534276991396059,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.01,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethanol",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.01,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "CH3COOH",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.0001,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "H2SO4",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 7.312044944136763e-07,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": -0.00027541511943578417,
+          "solution": {
+            "ionic_strength": 0.003435858952565,
+            "pe": 17.98958695095,
+            "ph": 2.61313687532,
+            "provenance": {
+              "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "minteq.v4.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "routing_phrase": {
+                "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+                "key": "routing.extended-chemistry"
+              }
+            },
+            "redox": [
+              {
+                "element": "S",
+                "molality": 0.001002996211502,
+                "oxidation": 6
+              }
+            ],
+            "solvent_kg": 0.099701274,
+            "species": [
+              {
+                "activity": 0.9982,
+                "molality": 55.51,
+                "name": "H2O"
+              },
+              {
+                "activity": 0.09883396070429382,
+                "molality": 0.09883396070439,
+                "name": "H(Acetate)"
+              },
+              {
+                "activity": 0.002437042621733926,
+                "molality": 0.002597632979653,
+                "name": "H+"
+              },
+              {
+                "activity": 0.0006493853015350767,
+                "molality": 0.0008382259729115,
+                "name": "SO4-2"
+              },
+              {
+                "activity": 0.0007096481108973258,
+                "molality": 0.0007564107908406,
+                "name": "Acetate-"
+              },
+              {
+                "activity": 0.0002596,
+                "molality": 0.0002594,
+                "name": "O2"
+              },
+              {
+                "activity": 0.0001547,
+                "molality": 0.0001648,
+                "name": "HSO4-"
+              }
+            ]
+          },
+          "surfaces": [],
+          "temperature": 298.1500754817614,
+          "thermal_mode": "adiabatic"
+        }
+      ]
+    }
+  }
+]

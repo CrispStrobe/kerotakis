@@ -1,0 +1,532 @@
+[
+  {
+    "id": "051",
+    "title": "Boyle syringe comparison",
+    "classification": "agreement",
+    "evidence": "Pressure349.220703kPa versus225.272851kPa; subtracting trapped room-air101.325kPa gives exactly2:1. Measuring leaves inventory unchanged."
+  },
+  {
+    "id": "052",
+    "title": "Dalton mixed inert gases",
+    "classification": "capability_gap",
+    "evidence": "Original script stopped on an ingredient key: Ar is absent from the species registry.",
+    "followup_id": "F052",
+    "followup_evidence": "Helium replaces unavailable argon solely as an alternate inert-gas fixture; both pressures349.220703kPa.",
+    "followup_assessment": "agreement_with_original_physics_after_separate_fixture_correction"
+  },
+  {
+    "id": "053",
+    "title": "Kelvin scaling of pressure",
+    "classification": "capability_gap",
+    "evidence": "Original script stopped on an ingredient key: Ar is absent from the species registry.",
+    "followup_id": "F053",
+    "followup_evidence": "Helium alternate fixture gives(390.792224\u2212101.325)/(349.220703\u2212101.325)=348.15/298.15; temperatures25and75C.",
+    "followup_assessment": "agreement_with_original_physics_after_separate_fixture_correction"
+  },
+  {
+    "id": "054",
+    "title": "Piston volume from ideal gas law",
+    "classification": "capability_gap",
+    "evidence": "Original script stopped on an ingredient key: Ar is absent from the species registry.",
+    "followup_id": "F054",
+    "followup_evidence": "Helium fixture reports347.895703mL. Piston initialization adds100mL-equivalent room air, so the gas-law answer is100+247.895703mL; the original247.9mL forecast omitted that inventory.",
+    "followup_assessment": "fixture_assumption_mismatch"
+  },
+  {
+    "id": "055",
+    "title": "Double gas dose at same piston pressure",
+    "classification": "capability_gap",
+    "evidence": "Original script stopped on an ingredient key: Ar is absent from the species registry.",
+    "followup_id": "F055",
+    "followup_evidence": "Helium fixture reports347.895703and595.791406mL. Added-dose volumes above the100mLbackground have ratio2; total volumes do not because room-air inventory is shared.",
+    "followup_assessment": "fixture_assumption_mismatch"
+  },
+  {
+    "id": "056",
+    "title": "Venting releases compression",
+    "classification": "agreement",
+    "evidence": "Opening changes pressure349.220703\u2192101.325kPa and explicitly vents the owned gases."
+  },
+  {
+    "id": "057",
+    "title": "Hydrogen pop positive",
+    "classification": "agreement",
+    "evidence": "Positive hydrogen pop test;1mmolH2 reacts with0.5mmolO2 from trapped air and produces1mmolwater."
+  },
+  {
+    "id": "058",
+    "title": "Helium pop negative",
+    "classification": "naming_or_fixture_gap",
+    "evidence": "Original script stopped on an ingredient key: the parser requires canonical species keys rather than the supplied formula/capitalization.",
+    "followup_id": "F058",
+    "followup_evidence": "Canonical helium ingredient gives negative hydrogen pop test.",
+    "followup_assessment": "agreement_with_original_physics_after_separate_fixture_correction"
+  },
+  {
+    "id": "059",
+    "title": "Oxygen glowing splint positive",
+    "classification": "agreement",
+    "evidence": "Added oxygen gives a positive glowing-splint response."
+  },
+  {
+    "id": "060",
+    "title": "Nitrogen glowing splint negative",
+    "classification": "agreement",
+    "evidence": "Nitrogen-enriched trapped air gives a negative glowing-splint response."
+  },
+  {
+    "id": "061",
+    "title": "Carbon dioxide limewater positive",
+    "classification": "agreement",
+    "evidence": "AddedCO2 gives positive limewater response. The probe consumes the1mmolgas sample; this audit does not certify inventory of the external limewater apparatus."
+  },
+  {
+    "id": "062",
+    "title": "Argon limewater negative",
+    "classification": "capability_gap",
+    "evidence": "Original script stopped on an ingredient key: Ar is absent from the species registry.",
+    "followup_id": "F062",
+    "followup_evidence": "Helium alternate inert-gas fixture gives negative limewater test; argon remains absent.",
+    "followup_assessment": "agreement_with_original_physics_after_separate_fixture_correction"
+  },
+  {
+    "id": "063",
+    "title": "Ammonia damp litmus basic",
+    "classification": "agreement",
+    "evidence": "gas_tested notes explicitly say damp red litmus turns blue; NH3 molefraction19.7%."
+  },
+  {
+    "id": "064",
+    "title": "Dry silica versus salt conductivity",
+    "classification": "naming_or_fixture_gap",
+    "evidence": "Original script stopped on an ingredient key: the parser requires canonical species keys rather than the supplied formula/capitalization.",
+    "followup_id": "F064",
+    "followup_evidence": "Canonical water spelling completes: silica0.06uS/cm(incomplete model), salt1204.29uS/cm.",
+    "followup_assessment": "agreement_with_original_physics_after_separate_fixture_correction"
+  },
+  {
+    "id": "065",
+    "title": "Neutral sucrose versus ionic salt",
+    "classification": "naming_or_fixture_gap",
+    "evidence": "Original script stopped on an ingredient key: the parser requires canonical species keys rather than the supplied formula/capitalization.",
+    "followup_id": "F065",
+    "followup_evidence": "Canonical water and sucrose spellings complete: sugar0.06uS/cm(incomplete model), salt1204.29uS/cm.",
+    "followup_assessment": "agreement_with_original_physics_after_separate_fixture_correction"
+  },
+  {
+    "id": "066",
+    "title": "Tenfold electrolyte dilution",
+    "classification": "naming_or_fixture_gap",
+    "evidence": "Original script stopped on an ingredient key: the parser requires canonical species keys rather than the supplied formula/capitalization.",
+    "followup_id": "F066",
+    "followup_evidence": "Canonical water spelling completes; conductivity1204.29\u2192124.73uS/cm, ratio0.10357; sodium/chloride retained.",
+    "followup_assessment": "agreement_with_original_physics_after_separate_fixture_correction"
+  },
+  {
+    "id": "067",
+    "title": "Cooling inert solid without phase crossing",
+    "classification": "agreement",
+    "evidence": "Iron cools100\u219262.089503C for1kJ; final mass55.845g and Fe1mol."
+  },
+  {
+    "id": "068",
+    "title": "Two-stage sensible heat cycle",
+    "classification": "agreement",
+    "evidence": "Copper returns25C after+500J/\u2212500J; mass63.546g and1mol retained."
+  },
+  {
+    "id": "069",
+    "title": "Energy split invariance for copper",
+    "classification": "agreement",
+    "evidence": "One600J dose and200J+400J both yield49.42 C; copper inventory unchanged."
+  },
+  {
+    "id": "070",
+    "title": "Equivalent molar and gram dose",
+    "classification": "agreement",
+    "evidence": "1mol and55.845g input both report55.845g and1mol; identical particle census."
+  },
+  {
+    "id": "071",
+    "classification": "agreement",
+    "evidence": [
+      "Daniell emf increased from1.1041118059295403V to1.122548438518327V after added CuSO4.",
+      "Independent Nernst reconstruction using serialized Zn/Cu activities and each half-cell temperature matches both readings exactly; Cu activity rose0.0038794\u21920.0166375 rather than tenfold."
+    ],
+    "remaining_gaps": [
+      "Antlerite precipitation heat is explicitly unpriced; concentration-only29.6mV estimate is inappropriate for these computed nonideal activities."
+    ],
+    "raw_output": "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/071.json.stdout"
+  },
+  {
+    "id": "072",
+    "classification": "agreement",
+    "evidence": [
+      "no_cell explicitly states identical Cu/Cu2+ activities read0V.",
+      "Both vessels have identical inventories, temperatures and speciation."
+    ],
+    "remaining_gaps": [
+      "The zero result is textual rather than a numeric cell_voltage event; a structured zero-potential result would improve machine comparability."
+    ],
+    "raw_output": "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/072.json.stdout"
+  },
+  {
+    "id": "073",
+    "classification": "agreement",
+    "evidence": [
+      "Cu concentration cell reports0.022001217779681836V with standard_volts0.",
+      "Independent Nernst from Cu activities0.000697811 and0.003879401 and the recorded temperatures gives0.02200121777968181V."
+    ],
+    "remaining_gaps": [
+      "Brochantite/antlerite heat remains explicitly unpriced; concentration ratios differ from free-ion activity ratios."
+    ],
+    "raw_output": "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/073.json.stdout"
+  },
+  {
+    "id": "074",
+    "classification": "physical_failure",
+    "evidence": [
+      "60C gives the expected H2=0.0003109280896985319mol and O2=0.00015546404484926594mol; sealed pressure rises101.303\u2192112.865kPa.",
+      "But H+ inventory increases by0.000621856mol even though the water/H2/O2 net reaction already balances H/O.",
+      "displacement::electrolyse_solvent classifies primary H2 charge as electrons_to_cathode, then subtracts it when calculating electrons_to_hydrogen: cathodic hydroxide cannot cancel the anode protons."
+    ],
+    "remaining_gaps": [
+      "Correct primary-versus-overflow hydrogen allocation and verify independent H/O/charge closure; frozen outputs precede the fix.",
+      "Electrode material, efficiency, voltage/work and spatial pH are still simplified; root9a2829ec adds explicit selectivity scope."
+    ],
+    "raw_output": "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/074.json.stdout"
+  },
+  {
+    "id": "075",
+    "classification": "physical_failure",
+    "evidence": [
+      "Doubling current doubles reported H2/O2 exactly and doubles the pressure increment.",
+      "Both sulfate vessels also gain spurious H+ proportional to current:0.000310928 versus0.000621856mol, exposing the same charge-allocation defect as074."
+    ],
+    "remaining_gaps": [
+      "Linearity alone does not establish a conserved electrolysis model; fix and verify the complete half-reaction ledger."
+    ],
+    "raw_output": "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/075.json.stdout"
+  },
+  {
+    "id": "076",
+    "classification": "agreement",
+    "evidence": [
+      "Zero-current operation rejects with current must be positive before emitting any electrolysis result.",
+      "Last successful snapshot contains the initial sealed sulfate inventory; no electrolysis event or generated H2 occurs."
+    ],
+    "remaining_gaps": [
+      "CLI fail-fast means post-refusal inspection lines are not executed; source-level atomicity tests are needed to exercise rollback explicitly."
+    ],
+    "raw_output": "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/076.json.stdout"
+  },
+  {
+    "id": "077",
+    "classification": "physical_failure",
+    "evidence": [
+      "Brine produces H2 and Cl2 each0.00003109280896985319mol; sulfate produces the same H2 and half as much O2; no sodium metal appears.",
+      "The primary-H2 allocation bug leaves water_spent=0 and hydroxide_made=0 for chloralkali, violating net2NaCl+2H2O\u21922NaOH+H2+Cl2 despite numerically correct gas charge.",
+      "Frozen replay predates root9a2829ec selectivity disclosure."
+    ],
+    "remaining_gaps": [
+      "Repair chloralkali water/OH ledger and sulfate proton cancellation without changing Faraday amounts.",
+      "Inventory-threshold Cl2/O2 selection remains a teaching assumption; electrode/overpotential/parallel-current models are not supplied."
+    ],
+    "raw_output": "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/077.json.stdout"
+  },
+  {
+    "id": "078",
+    "classification": "agreement",
+    "evidence": [
+      "Three repeated readings are exactly1.1041118059295403V.",
+      "Cell output explicitly says open-circuit/no current; inspections show no Zn loss or Cu deposition from reading voltage."
+    ],
+    "remaining_gaps": [
+      "Loaded discharge, ion transport and resistance remain outside this open-circuit measurement."
+    ],
+    "raw_output": "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/078.json.stdout"
+  },
+  {
+    "id": "079",
+    "classification": "naming_or_fixture_gap",
+    "evidence": [
+      "Run stops at AgBr: unknown species or material, before any irradiation."
+    ],
+    "remaining_gaps": [
+      "AgBr registry support or a reviewed naming resolution is needed before assessing the frozen spectral experiment.",
+      "No conclusion about AgBr photolysis, quantum yields or700nm sensitivity follows from this fixture refusal."
+    ],
+    "raw_output": "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/079.json.stdout"
+  },
+  {
+    "id": "080",
+    "classification": "capability_gap",
+    "evidence": [
+      "254nm and700nm Irradiated events both report photolysis_coupled=false; text states photolysis not yet coupled.",
+      "UV, red and dark vessels all finish with H2O2=0.0009995126583307748mol and identical O2/temperature, indicating background kinetics rather than spectral chemistry."
+    ],
+    "remaining_gaps": [
+      "Coupled wavelength-dependent absorption, photon flux/illuminated geometry, quantum yield and radical network remain unimplemented for this scenario.",
+      "This is an explicit model boundary, not evidence of a physical wavelength-independent photolysis prediction."
+    ],
+    "raw_output": "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/080.json.stdout"
+  },
+  {
+    "id": "081",
+    "classification": "agreement",
+    "evidence": [
+      "Zero irradiance rejects with irradiance must be positive before any irradiation event.",
+      "Both preceding vessel snapshots are identical and no lamp-induced conversion occurs."
+    ],
+    "remaining_gaps": [
+      "The operation cannot represent lamp-off as zero irradiance, and fail-fast prevents subsequent dark-control wait; atomic refusal is consistent with the frozen alternative criterion."
+    ],
+    "raw_output": "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/081.json.stdout"
+  },
+  {
+    "id": "082",
+    "classification": "naming_or_fixture_gap",
+    "evidence": [
+      "Original run stops at acetic_acid, so its chemistry comparison is not exercised.",
+      "Reviewed followupF082 uses CH3COOH and reports ester extents0.0006325532632885614mol in10mL water versus0.00007071309411070995mol in100mL, matching the frozen dilution direction and stoichiometric bound.",
+      "org_reacted boundary explicitly discloses ideal-mixture K\u22484, assumed equilibration, and omitted catalyst/rate/activity/temperature/heat effects."
+    ],
+    "remaining_gaps": [
+      "Alias discovery remains a naming gap in the original forecast.",
+      "Followup chromatograms report only ethanol at100%area and outside_method only ions, despite present ethyl_acetate and acetic acid: nonionic chromatographic coverage is silently incomplete.",
+      "Finite-time Fischer family refuses at298K below333.1K; equilibrium request is not a measured one-hour kinetic prediction."
+    ],
+    "raw_output": "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/082.json.stdout",
+    "followup": {
+      "id": "F082",
+      "classification": "agreement",
+      "raw_output": "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-followups-37053213531/followups/F082.json.stdout"
+    }
+  },
+  {
+    "id": "083",
+    "classification": "agreement",
+    "evidence": [
+      "Catalyzed peroxide loss is1.681572922483e-6mol versus4.873416692252e-7mol without catalyst after60s.",
+      "O2 increments equal half the respective peroxide losses; MnO2 remains exactly1e-5mol."
+    ],
+    "remaining_gaps": [
+      "The rate is an explicitly editorial teaching correlation with surface activity and calibration limitations; this supports direction/conservation, not a measured universal catalyst rate."
+    ],
+    "raw_output": "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/083.json.stdout"
+  },
+  {
+    "id": "084",
+    "classification": "naming_or_fixture_gap",
+    "evidence": [
+      "Run stops at unknown acetone before wait and the complete control comparison.",
+      "Pre-stop glucose remains0.0005mol and Ag is dissolved; diagnostic already discloses Ag2O unavailable and AgMetal supersaturated but not offered."
+    ],
+    "remaining_gaps": [
+      "Resolve the acetone fixture and then separately assess sugar/ketone selectivity.",
+      "Ag(I)-ammonia complexation, sugar oxidation and permitted silver/Ag2O phases need a scoped coupled redox/kinetic model; supersaturation alone does not establish Tollens response."
+    ],
+    "raw_output": "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/084.json.stdout"
+  },
+  {
+    "id": "085",
+    "classification": "capability_gap",
+    "evidence": [
+      "Acidic vessel pH1.7288 gives Mn2+=0.0001mol and Fe3+=0.000499904mol, matching five-electron Mn reduction.",
+      "Buffered vessel pH9.5159 gives no MnO2: Mn2+=5.94374e-5mol, MnO4(2-)=2.82271e-6mol and residual MnO4(-)=3.77399e-5mol. Fe3+=0.0003mol and the aqueous Mn electron sum is consistent with that supply.",
+      "PH explicitly flags Pyrolusite(MnO2) SI+12.6 as a registry phase not offered, with other missing/excluded oxide phases."
+    ],
+    "remaining_gaps": [
+      "Phase eligibility/ownership excludes the expected near-neutral solid endpoint; close that model coverage before claiming quantitative pH-dependent permanganate selectivity.",
+      "The buffer reached alkaline9.52 rather than ideal neutral pH; this is recorded, but does not eliminate the disclosed MnO2 coverage gap."
+    ],
+    "raw_output": "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/085.json.stdout"
+  },
+  {
+    "id": "086",
+    "classification": "agreement",
+    "evidence": "Filtration leaves 0.016623393915mol solid silica in source and passes 0.000019972039mol dissolved silica plus 0.010000mol each Na+/Cl- and 5.534276991396mol water. Total silica equals its added0.016643365954mol. Receiver conductivity10904.8954\u00b5S/cm is explicitly estimated.",
+    "remaining_gaps": [
+      "Quartz dissolution heat is explicitly unpriced; this is a thermal capability gap, not a separation inventory failure."
+    ],
+    "raw_outputs": [
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/086.text.stdout",
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/086.text.stderr",
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/086.json.stdout"
+    ]
+  },
+  {
+    "id": "087",
+    "classification": "agreement",
+    "evidence": "Neat hexane is identified as20mL colorless liquid. Both pH and conductivity explicitly report no characterized aqueous solution instead of inventing pH 7 or exact zero conductivity.",
+    "remaining_gaps": [],
+    "raw_outputs": [
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/087.text.stdout",
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/087.text.stderr",
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/087.json.stdout"
+    ]
+  },
+  {
+    "id": "088",
+    "classification": "agreement",
+    "evidence": "Zinc sulfate dissolves and gives a colorless clear solution. Instrument reports estimated0.0000 absorbance specifically at405nm, a visible wavelength, rather than a complete UV spectrum.",
+    "remaining_gaps": [
+      "The frozen full-UV caution is not directly probed by the single405nm instrument. Its zero has estimated confidence, no displayed wavelength-domain/provenance evidence; a complete UV spectrum remains unverified."
+    ],
+    "raw_outputs": [
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/088.text.stdout",
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/088.text.stderr",
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/088.json.stdout"
+    ]
+  },
+  {
+    "id": "089",
+    "classification": "agreement",
+    "evidence": "Water falls from 1.106855398279mol to 0.110685539828mol, with0.996169858451mol evaporation reported. Final Na+/Cl-0.012350323966mol each plus 0.037649676034mol NaCl solid close the original0.050000mol salt stock. Balance4.9161g matches retained brine/crystals.",
+    "remaining_gaps": [
+      "Evaporation vaporization enthalpy is explicitly excluded, so final37.36C is not a complete evaporation calorimetry prediction."
+    ],
+    "raw_outputs": [
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/089.text.stdout",
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/089.text.stderr",
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/089.json.stdout"
+    ]
+  },
+  {
+    "id": "090",
+    "classification": "agreement",
+    "evidence": "Magnet moves exactly0.010000mol Fe to receiver and leaves 0.010000mol Cu in source. Balance0.5585g+0.6355g closes the initial metal mass; no reaction is reported.",
+    "remaining_gaps": [],
+    "raw_outputs": [
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/090.text.stdout",
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/090.text.stderr",
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/090.json.stdout"
+    ]
+  },
+  {
+    "id": "091",
+    "classification": "agreement",
+    "evidence": "Distillation transfers1.660283097419mol water and retains3.873993893977mol in pot; Na+/Cl- remain0.005000mol each in source with none in receiver. Conductivity falls from5678.8254 to 0.0550\u00b5S/cm; receiver reading explicitly says incomplete.",
+    "remaining_gaps": [
+      "Pure-water conductivity is flagged incomplete, including a strict25C calibration boundary. Distillation thermal/reflux idealizations are explicitly described."
+    ],
+    "raw_outputs": [
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/091.text.stdout",
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/091.text.stderr",
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/091.json.stdout"
+    ]
+  },
+  {
+    "id": "092",
+    "classification": "agreement",
+    "evidence": "Single-stage receiver gets 0.000091727744364mol I2, four-stage gets 0.000099506094302mol; source residues8.272255636e-6 and4.939056985e-7mol. Both pairs close0.000100mol. Reported efficiencies91.7% versus99.5% agree with fresh-stage advantage.",
+    "remaining_gaps": [],
+    "raw_outputs": [
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/092.text.stdout",
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/092.text.stderr",
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/092.json.stdout"
+    ]
+  },
+  {
+    "id": "093",
+    "classification": "naming_or_fixture_gap",
+    "evidence": "Replay stops at add CHCl3 with unknown species or material before any phase separation occurs.",
+    "remaining_gaps": [
+      "Determine whether chloroform exists under another identity or lacks an ingredient/phase record. No heavy-organic layer behavior was tested; preserve the frozen script and use a separately frozen follow-up."
+    ],
+    "raw_outputs": [
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/093.text.stdout",
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/093.text.stderr",
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/093.json.stdout"
+    ]
+  },
+  {
+    "id": "094",
+    "classification": "agreement",
+    "evidence": "Initial pH 11.9517 gives pink phenolphthalein. Equal HCl dose gives pH 6.9927 and a colorless appearance. Indicator stock stays1.000000e-6mol; Na+/Cl- each 0.001000mol.",
+    "remaining_gaps": [],
+    "raw_outputs": [
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/094.text.stdout",
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/094.text.stderr",
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/094.json.stdout"
+    ]
+  },
+  {
+    "id": "095",
+    "classification": "capability_gap",
+    "evidence": "Iodine remains0.000100mol and brown after both thiosulfate doses; final thiosulfate is0.000200mol, with no tetrathionate/iodide reaction. Output repeatedly discloses missing KI aqueous component mapping.",
+    "remaining_gaps": [
+      "Iodide analytical mapping and iodine/thiosulfate redox chemistry are absent. Ingredient recognition alone is not reaction support; the2:1 iodometric endpoint is not realized. Heat for Na2S2O3 is also explicitly unpriced."
+    ],
+    "raw_outputs": [
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/095.text.stdout",
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/095.text.stderr",
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/095.json.stdout"
+    ]
+  },
+  {
+    "id": "096",
+    "classification": "agreement",
+    "evidence": "Two CO2 boundary events total 0.000998392685384mol; retained CO2(aq)+HCO3-+CO3-2 total1.607314399e-6mol, closing the initial0.001000mol carbon. Final calcium0.000999999999mol is retained; final pH 5.5946 and clear solution agree with full acidification.",
+    "remaining_gaps": [
+      "Carbonate dissolution heat remains explicitly unpriced. Assessment counts dissolved carbon separately from escaped gas; mineral disappearance alone was not treated as gas conversion."
+    ],
+    "raw_outputs": [
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/096.text.stdout",
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/096.text.stderr",
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/096.json.stdout"
+    ]
+  },
+  {
+    "id": "097",
+    "classification": "physical_failure",
+    "evidence": "Sealed cooling produces0.553427695mol solid water near262.951K and repeated PHREEQC failures. Equal5kJ heating then reports499.228914653K (226.08C) while retaining essentially all water as solid. This fails phase/temperature cycle expectations despite preserved mass10.0879g.",
+    "remaining_gaps": [
+      "Root has added an atomic refusal for failed Heat operations that would publish superheated solid water; that later patch is not evaluated by this original hosted run. Accurate coupled sealed freeze/thaw, residual-brine domain handling and latent-energy closure remain unresolved."
+    ],
+    "raw_outputs": [
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/097.text.stdout",
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/097.text.stderr",
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/097.json.stdout"
+    ]
+  },
+  {
+    "id": "098",
+    "classification": "capability_gap",
+    "evidence": "Stage enrichment succeeds: receiver ethanol mole fractions are about 0.6520 (one stage) and0.7320 (two), and each source/receiver pair conserves0.5mol water plus 0.5mol ethanol. However requested0.1 fraction of1mol silently yields only0.08828125mol and0.059765625mol condensate.",
+    "remaining_gaps": [
+      "ethanol_water_still sets the0.1mol budget but breaks on an unavailable intermediate cascade and returns a partial Some(StillCut) without a boundary warning. A partial cut needs explicit disclosure or atomic refusal; this is separate from the successful frozen enrichment criterion."
+    ],
+    "raw_outputs": [
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/098.text.stdout",
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/098.text.stderr",
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/098.json.stdout"
+    ]
+  },
+  {
+    "id": "099",
+    "classification": "capability_gap",
+    "evidence": "Dilution doubles liquid volume100\u2192200mL and makes the displayed blue paler. Complete absorbance is explicitly unavailable before/after for CuSO4, CuOH+, Cu2(OH)2+2 and Cu(OH)2. Final Cu+2 plus3\u00d7antlerite and sulfate plusantlerite each close0.001mol.",
+    "remaining_gaps": [
+      "Copper complex spectra prevent quantitative Beer-Lambert ratio assessment. Antlerite precipitation slightly changes speciation and its heat is unpriced. The displayed qualitative color is incomplete, not a validated full-spectrum result."
+    ],
+    "raw_outputs": [
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/099.text.stdout",
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/099.text.stderr",
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/099.json.stdout"
+    ]
+  },
+  {
+    "id": "100",
+    "classification": "agreement",
+    "evidence": "pH advances 2.880837\u21924.663025 at half equivalence\u21928.718723 at equivalence. Final acid8.553718833e-7mol plusacetate0.009999144628mol equals 0.010000mol, within roundoff.",
+    "remaining_gaps": [
+      "Temperature rises to27.41C and activity corrections are present; the half-equivalence result appropriately differs somewhat from a bare25C infinite-dilution pKa."
+    ],
+    "raw_outputs": [
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/100.text.stdout",
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/100.text.stderr",
+      "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/100.json.stdout"
+    ]
+  }
+]

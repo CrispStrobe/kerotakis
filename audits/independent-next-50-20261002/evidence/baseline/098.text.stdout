@@ -1,0 +1,41 @@
+  v1: +0.500000 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.500000 mol ethanol (C2H5OH, M = 46.069 g/mol)
+  v2: new vessel
+  v2: +0.500000 mol water (H2O, M = 18.015 g/mol)
+  v2: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v2: +0.500000 mol ethanol (C2H5OH, M = 46.069 g/mol)
+  v3: new vessel
+  v4: new vessel
+  v1 (beaker) — 25.00 °C, 32.0 g, 38.2 mL liquid, open to atmosphere, pH 7.00, I = 0.0000 m
+          0.5000 mol  water              Liquid
+          0.5000 mol  ethanol            Liquid
+      speciation (mol/kgw · activity · γ):
+        H+              1.0061e-7    1.0061e-7   γ=1.000
+        OH-             1.0061e-7    1.0061e-7   γ=1.000
+  v2 (beaker) — 25.00 °C, 32.0 g, 38.2 mL liquid, open to atmosphere, pH 7.00, I = 0.0000 m
+          0.5000 mol  water              Liquid
+          0.5000 mol  ethanol            Liquid
+      speciation (mol/kgw · activity · γ):
+        H+              1.0061e-7    1.0061e-7   γ=1.000
+        OH-             1.0061e-7    1.0061e-7   γ=1.000
+  v1 → v3: Rayleigh batch cut, 1 ideal stage(s) at total reflux (a real column at finite reflux separates less, never more); pot 353.03 K → 353.15 K; latent heat 3.47 kJ paid by the burner and dumped by the condenser, deliberately outside the vessel ledger
+  v2 → v4: Rayleigh batch cut, 2 ideal stage(s) at total reflux (a real column at finite reflux separates less, never more); pot 353.03 K → 353.15 K; latent heat 2.34 kJ paid by the burner and dumped by the condenser, deliberately outside the vessel ledger
+  v1 (beaker) — 25.00 °C, 28.8 g, 34.3 mL liquid, open to atmosphere, pH 7.00, I = 0.0000 m
+          0.4693 mol  water              Liquid
+          0.4424 mol  ethanol            Liquid
+      speciation (mol/kgw · activity · γ):
+        H+              1.0061e-7    1.0061e-7   γ=1.000
+        OH-             1.0061e-7    1.0061e-7   γ=1.000
+  v2 (beaker) — 25.00 °C, 29.7 g, 35.4 mL liquid, open to atmosphere, pH 7.00, I = 0.0000 m
+          0.4840 mol  water              Liquid
+          0.4563 mol  ethanol            Liquid
+      speciation (mol/kgw · activity · γ):
+        H+              1.0061e-7    1.0061e-7   γ=1.000
+        OH-             1.0061e-7    1.0061e-7   γ=1.000
+  v3 (beaker) — 25.00 °C, 3.2 g, 3.9 mL liquid, open to atmosphere
+          0.0307 mol  water              Liquid
+          0.0576 mol  ethanol            Liquid
+  v4 (beaker) — 25.00 °C, 2.3 g, 2.8 mL liquid, open to atmosphere
+          0.0160 mol  water              Liquid
+          0.0437 mol  ethanol            Liquid

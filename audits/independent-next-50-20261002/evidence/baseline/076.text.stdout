@@ -1,0 +1,21 @@
+  v1: +5.5343 mol water
+  v1: answered by vendored USGS phreeqc.dat — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +1.00 mmol sodium sulfate
+  v1: 1.00 mmol sodium sulfate dissolved
+  v1: answered by wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice — the default inorganic aqueous dataset
+  v1: pH 7.08
+  v1: sealed over 0.100 L of headspace, trapping 4.09 mmol of room air
+  v1: headspace settled at 1.013 bar with 4.09 mmol gas
+  v1: pH 5.86
+  v1 (beaker) — 25.01 °C, 100.0 g, 100.0 mL liquid, sealed 100.0 mL headspace at 1.013 bar, pH 5.86, pe 12.45 (+0.737 V), I = 0.0291 m
+      redox — all S as S(VI)
+           3.23 mmol  nitrogen           Gas
+            856 µmol  oxygen             Gas
+           2.00 mmol  sodium ion         Aqueous
+            633 nmol  dissolved carbon dioxide Aqueous
+            237 nmol  bicarbonate ion    Aqueous
+           12.7 pmol  carbonate ion      Aqueous
+           1000 µmol  sulfate ion        Aqueous
+            765 nmol  carbon dioxide     Gas
+          5.5343 mol  water              Liquid
+            237 nmol  hydrogen ion       Aqueous

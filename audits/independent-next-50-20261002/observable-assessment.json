@@ -1,0 +1,199 @@
+{
+  "basis": "Original frozen predictions at7ba7fedb, original hosted outputs37052533758; no forecasts were changed and no experiments were rerun for this assessment. JSON is newline-delimited snapshots; final vessels were assembled from their latest per-ID snapshots.",
+  "counts": {
+    "agreement": 10,
+    "naming_or_fixture_gap": 1,
+    "capability_gap": 3,
+    "physical_failure": 1,
+    "inconclusive": 0
+  },
+  "assessments": [
+    {
+      "id": "086",
+      "classification": "agreement",
+      "evidence": "Filtration leaves 0.016623393915mol solid silica in source and passes 0.000019972039mol dissolved silica plus 0.010000mol each Na+/Cl- and 5.534276991396mol water. Total silica equals its added0.016643365954mol. Receiver conductivity10904.8954\u00b5S/cm is explicitly estimated.",
+      "remaining_gaps": [
+        "Quartz dissolution heat is explicitly unpriced; this is a thermal capability gap, not a separation inventory failure."
+      ],
+      "raw_outputs": [
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/086.text.stdout",
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/086.text.stderr",
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/086.json.stdout"
+      ]
+    },
+    {
+      "id": "087",
+      "classification": "agreement",
+      "evidence": "Neat hexane is identified as20mL colorless liquid. Both pH and conductivity explicitly report no characterized aqueous solution instead of inventing pH 7 or exact zero conductivity.",
+      "remaining_gaps": [],
+      "raw_outputs": [
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/087.text.stdout",
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/087.text.stderr",
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/087.json.stdout"
+      ]
+    },
+    {
+      "id": "088",
+      "classification": "agreement",
+      "evidence": "Zinc sulfate dissolves and gives a colorless clear solution. Instrument reports estimated0.0000 absorbance specifically at405nm, a visible wavelength, rather than a complete UV spectrum.",
+      "remaining_gaps": [
+        "The frozen full-UV caution is not directly probed by the single405nm instrument. Its zero has estimated confidence, no displayed wavelength-domain/provenance evidence; a complete UV spectrum remains unverified."
+      ],
+      "raw_outputs": [
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/088.text.stdout",
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/088.text.stderr",
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/088.json.stdout"
+      ]
+    },
+    {
+      "id": "089",
+      "classification": "agreement",
+      "evidence": "Water falls from 1.106855398279mol to 0.110685539828mol, with0.996169858451mol evaporation reported. Final Na+/Cl-0.012350323966mol each plus 0.037649676034mol NaCl solid close the original0.050000mol salt stock. Balance4.9161g matches retained brine/crystals.",
+      "remaining_gaps": [
+        "Evaporation vaporization enthalpy is explicitly excluded, so final37.36C is not a complete evaporation calorimetry prediction."
+      ],
+      "raw_outputs": [
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/089.text.stdout",
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/089.text.stderr",
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/089.json.stdout"
+      ]
+    },
+    {
+      "id": "090",
+      "classification": "agreement",
+      "evidence": "Magnet moves exactly0.010000mol Fe to receiver and leaves 0.010000mol Cu in source. Balance0.5585g+0.6355g closes the initial metal mass; no reaction is reported.",
+      "remaining_gaps": [],
+      "raw_outputs": [
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/090.text.stdout",
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/090.text.stderr",
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/090.json.stdout"
+      ]
+    },
+    {
+      "id": "091",
+      "classification": "agreement",
+      "evidence": "Distillation transfers1.660283097419mol water and retains3.873993893977mol in pot; Na+/Cl- remain0.005000mol each in source with none in receiver. Conductivity falls from5678.8254 to 0.0550\u00b5S/cm; receiver reading explicitly says incomplete.",
+      "remaining_gaps": [
+        "Pure-water conductivity is flagged incomplete, including a strict25C calibration boundary. Distillation thermal/reflux idealizations are explicitly described."
+      ],
+      "raw_outputs": [
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/091.text.stdout",
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/091.text.stderr",
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/091.json.stdout"
+      ]
+    },
+    {
+      "id": "092",
+      "classification": "agreement",
+      "evidence": "Single-stage receiver gets 0.000091727744364mol I2, four-stage gets 0.000099506094302mol; source residues8.272255636e-6 and4.939056985e-7mol. Both pairs close0.000100mol. Reported efficiencies91.7% versus99.5% agree with fresh-stage advantage.",
+      "remaining_gaps": [],
+      "raw_outputs": [
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/092.text.stdout",
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/092.text.stderr",
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/092.json.stdout"
+      ]
+    },
+    {
+      "id": "093",
+      "classification": "naming_or_fixture_gap",
+      "evidence": "Replay stops at add CHCl3 with unknown species or material before any phase separation occurs.",
+      "remaining_gaps": [
+        "Determine whether chloroform exists under another identity or lacks an ingredient/phase record. No heavy-organic layer behavior was tested; preserve the frozen script and use a separately frozen follow-up."
+      ],
+      "raw_outputs": [
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/093.text.stdout",
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/093.text.stderr",
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/093.json.stdout"
+      ]
+    },
+    {
+      "id": "094",
+      "classification": "agreement",
+      "evidence": "Initial pH 11.9517 gives pink phenolphthalein. Equal HCl dose gives pH 6.9927 and a colorless appearance. Indicator stock stays1.000000e-6mol; Na+/Cl- each 0.001000mol.",
+      "remaining_gaps": [],
+      "raw_outputs": [
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/094.text.stdout",
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/094.text.stderr",
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/094.json.stdout"
+      ]
+    },
+    {
+      "id": "095",
+      "classification": "capability_gap",
+      "evidence": "Iodine remains0.000100mol and brown after both thiosulfate doses; final thiosulfate is0.000200mol, with no tetrathionate/iodide reaction. Output repeatedly discloses missing KI aqueous component mapping.",
+      "remaining_gaps": [
+        "Iodide analytical mapping and iodine/thiosulfate redox chemistry are absent. Ingredient recognition alone is not reaction support; the2:1 iodometric endpoint is not realized. Heat for Na2S2O3 is also explicitly unpriced."
+      ],
+      "raw_outputs": [
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/095.text.stdout",
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/095.text.stderr",
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/095.json.stdout"
+      ]
+    },
+    {
+      "id": "096",
+      "classification": "agreement",
+      "evidence": "Two CO2 boundary events total 0.000998392685384mol; retained CO2(aq)+HCO3-+CO3-2 total1.607314399e-6mol, closing the initial0.001000mol carbon. Final calcium0.000999999999mol is retained; final pH 5.5946 and clear solution agree with full acidification.",
+      "remaining_gaps": [
+        "Carbonate dissolution heat remains explicitly unpriced. Assessment counts dissolved carbon separately from escaped gas; mineral disappearance alone was not treated as gas conversion."
+      ],
+      "raw_outputs": [
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/096.text.stdout",
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/096.text.stderr",
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/096.json.stdout"
+      ]
+    },
+    {
+      "id": "097",
+      "classification": "physical_failure",
+      "evidence": "Sealed cooling produces0.553427695mol solid water near262.951K and repeated PHREEQC failures. Equal5kJ heating then reports499.228914653K (226.08C) while retaining essentially all water as solid. This fails phase/temperature cycle expectations despite preserved mass10.0879g.",
+      "remaining_gaps": [
+        "Root has added an atomic refusal for failed Heat operations that would publish superheated solid water; that later patch is not evaluated by this original hosted run. Accurate coupled sealed freeze/thaw, residual-brine domain handling and latent-energy closure remain unresolved."
+      ],
+      "raw_outputs": [
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/097.text.stdout",
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/097.text.stderr",
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/097.json.stdout"
+      ]
+    },
+    {
+      "id": "098",
+      "classification": "capability_gap",
+      "evidence": "Stage enrichment succeeds: receiver ethanol mole fractions are about 0.6520 (one stage) and0.7320 (two), and each source/receiver pair conserves0.5mol water plus 0.5mol ethanol. However requested0.1 fraction of1mol silently yields only0.08828125mol and0.059765625mol condensate.",
+      "remaining_gaps": [
+        "ethanol_water_still sets the0.1mol budget but breaks on an unavailable intermediate cascade and returns a partial Some(StillCut) without a boundary warning. A partial cut needs explicit disclosure or atomic refusal; this is separate from the successful frozen enrichment criterion."
+      ],
+      "raw_outputs": [
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/098.text.stdout",
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/098.text.stderr",
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/098.json.stdout"
+      ]
+    },
+    {
+      "id": "099",
+      "classification": "capability_gap",
+      "evidence": "Dilution doubles liquid volume100\u2192200mL and makes the displayed blue paler. Complete absorbance is explicitly unavailable before/after for CuSO4, CuOH+, Cu2(OH)2+2 and Cu(OH)2. Final Cu+2 plus3\u00d7antlerite and sulfate plusantlerite each close0.001mol.",
+      "remaining_gaps": [
+        "Copper complex spectra prevent quantitative Beer-Lambert ratio assessment. Antlerite precipitation slightly changes speciation and its heat is unpriced. The displayed qualitative color is incomplete, not a validated full-spectrum result."
+      ],
+      "raw_outputs": [
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/099.text.stdout",
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/099.text.stderr",
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/099.json.stdout"
+      ]
+    },
+    {
+      "id": "100",
+      "classification": "agreement",
+      "evidence": "pH advances 2.880837\u21924.663025 at half equivalence\u21928.718723 at equivalence. Final acid8.553718833e-7mol plusacetate0.009999144628mol equals 0.010000mol, within roundoff.",
+      "remaining_gaps": [
+        "Temperature rises to27.41C and activity corrections are present; the half-equivalence result appropriately differs somewhat from a bare25C infinite-dilution pKa."
+      ],
+      "raw_outputs": [
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/100.text.stdout",
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/100.text.stderr",
+        "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/100.json.stdout"
+      ]
+    }
+  ]
+}

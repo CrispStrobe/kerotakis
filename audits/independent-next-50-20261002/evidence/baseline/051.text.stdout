@@ -1,0 +1,15 @@
+  v2: new vessel
+  v1: +0.0100 mol nitrogen
+  v2: +0.0100 mol nitrogen
+  v1: sealed over 0.100 L of headspace, trapping 4.09 mmol of room air
+  v2: sealed over 0.200 L of headspace, trapping 8.17 mmol of room air
+  v1 pressure gauge: 349.22 kPa
+  v2 pressure gauge: 225.27 kPa
+  v1 (beaker) — 25.00 °C, 0.4 g, 0.0 mL liquid, sealed 100.0 mL headspace at 3.492 bar
+          0.0132 mol  nitrogen           Gas
+            856 µmol  oxygen             Gas
+           1.63 µmol  carbon dioxide     Gas
+  v2 (beaker) — 25.00 °C, 0.5 g, 0.0 mL liquid, sealed 200.0 mL headspace at 2.253 bar
+          0.0165 mol  nitrogen           Gas
+           1.71 mmol  oxygen             Gas
+           3.27 µmol  carbon dioxide     Gas

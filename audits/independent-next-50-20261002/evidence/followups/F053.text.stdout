@@ -1,0 +1,20 @@
+  v2: new vessel
+  v1: +0.0100 mol helium
+  v2: 25.0 °C → 75.0 °C
+  v2: +0.0100 mol helium
+  v1: sealed over 0.100 L of headspace, trapping 4.09 mmol of room air
+  v2: sealed over 0.100 L of headspace, trapping 3.50 mmol of room air
+  v1 pressure gauge: 349.22 kPa
+  v2 pressure gauge: 390.79 kPa — This is a model estimate with limited calibration or simplifying assumptions.
+  v1 thermometer: 25.00 °C
+  v2 thermometer: 75.00 °C — This is a model estimate with limited calibration or simplifying assumptions.
+  v1 (beaker) — 25.00 °C, 0.2 g, 0.0 mL liquid, sealed 100.0 mL headspace at 3.492 bar
+          0.0100 mol  helium             Gas
+           3.23 mmol  nitrogen           Gas
+            856 µmol  oxygen             Gas
+           1.63 µmol  carbon dioxide     Gas
+  v2 (beaker) — 75.00 °C, 0.1 g, 0.0 mL liquid, sealed 100.0 mL headspace at 3.908 bar
+          0.0100 mol  helium             Gas
+           2.77 mmol  nitrogen           Gas
+            733 µmol  oxygen             Gas
+           1.40 µmol  carbon dioxide     Gas

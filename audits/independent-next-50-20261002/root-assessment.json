@@ -1,0 +1,149 @@
+[
+  {
+    "id": "051",
+    "title": "Boyle syringe comparison",
+    "classification": "agreement",
+    "evidence": "Pressure349.220703kPa versus225.272851kPa; subtracting trapped room-air101.325kPa gives exactly2:1. Measuring leaves inventory unchanged."
+  },
+  {
+    "id": "052",
+    "title": "Dalton mixed inert gases",
+    "classification": "capability_gap",
+    "evidence": "Original script stopped on an ingredient key: Ar is absent from the species registry.",
+    "followup_id": "F052",
+    "followup_evidence": "Helium replaces unavailable argon solely as an alternate inert-gas fixture; both pressures349.220703kPa.",
+    "followup_assessment": "agreement_with_original_physics_after_separate_fixture_correction"
+  },
+  {
+    "id": "053",
+    "title": "Kelvin scaling of pressure",
+    "classification": "capability_gap",
+    "evidence": "Original script stopped on an ingredient key: Ar is absent from the species registry.",
+    "followup_id": "F053",
+    "followup_evidence": "Helium alternate fixture gives(390.792224\u2212101.325)/(349.220703\u2212101.325)=348.15/298.15; temperatures25and75C.",
+    "followup_assessment": "agreement_with_original_physics_after_separate_fixture_correction"
+  },
+  {
+    "id": "054",
+    "title": "Piston volume from ideal gas law",
+    "classification": "capability_gap",
+    "evidence": "Original script stopped on an ingredient key: Ar is absent from the species registry.",
+    "followup_id": "F054",
+    "followup_evidence": "Helium fixture reports347.895703mL. Piston initialization adds100mL-equivalent room air, so the gas-law answer is100+247.895703mL; the original247.9mL forecast omitted that inventory.",
+    "followup_assessment": "fixture_assumption_mismatch"
+  },
+  {
+    "id": "055",
+    "title": "Double gas dose at same piston pressure",
+    "classification": "capability_gap",
+    "evidence": "Original script stopped on an ingredient key: Ar is absent from the species registry.",
+    "followup_id": "F055",
+    "followup_evidence": "Helium fixture reports347.895703and595.791406mL. Added-dose volumes above the100mLbackground have ratio2; total volumes do not because room-air inventory is shared.",
+    "followup_assessment": "fixture_assumption_mismatch"
+  },
+  {
+    "id": "056",
+    "title": "Venting releases compression",
+    "classification": "agreement",
+    "evidence": "Opening changes pressure349.220703\u2192101.325kPa and explicitly vents the owned gases."
+  },
+  {
+    "id": "057",
+    "title": "Hydrogen pop positive",
+    "classification": "agreement",
+    "evidence": "Positive hydrogen pop test;1mmolH2 reacts with0.5mmolO2 from trapped air and produces1mmolwater."
+  },
+  {
+    "id": "058",
+    "title": "Helium pop negative",
+    "classification": "naming_or_fixture_gap",
+    "evidence": "Original script stopped on an ingredient key: the parser requires canonical species keys rather than the supplied formula/capitalization.",
+    "followup_id": "F058",
+    "followup_evidence": "Canonical helium ingredient gives negative hydrogen pop test.",
+    "followup_assessment": "agreement_with_original_physics_after_separate_fixture_correction"
+  },
+  {
+    "id": "059",
+    "title": "Oxygen glowing splint positive",
+    "classification": "agreement",
+    "evidence": "Added oxygen gives a positive glowing-splint response."
+  },
+  {
+    "id": "060",
+    "title": "Nitrogen glowing splint negative",
+    "classification": "agreement",
+    "evidence": "Nitrogen-enriched trapped air gives a negative glowing-splint response."
+  },
+  {
+    "id": "061",
+    "title": "Carbon dioxide limewater positive",
+    "classification": "agreement",
+    "evidence": "AddedCO2 gives positive limewater response. The probe consumes the1mmolgas sample; this audit does not certify inventory of the external limewater apparatus."
+  },
+  {
+    "id": "062",
+    "title": "Argon limewater negative",
+    "classification": "capability_gap",
+    "evidence": "Original script stopped on an ingredient key: Ar is absent from the species registry.",
+    "followup_id": "F062",
+    "followup_evidence": "Helium alternate inert-gas fixture gives negative limewater test; argon remains absent.",
+    "followup_assessment": "agreement_with_original_physics_after_separate_fixture_correction"
+  },
+  {
+    "id": "063",
+    "title": "Ammonia damp litmus basic",
+    "classification": "agreement",
+    "evidence": "gas_tested notes explicitly say damp red litmus turns blue; NH3 molefraction19.7%."
+  },
+  {
+    "id": "064",
+    "title": "Dry silica versus salt conductivity",
+    "classification": "naming_or_fixture_gap",
+    "evidence": "Original script stopped on an ingredient key: the parser requires canonical species keys rather than the supplied formula/capitalization.",
+    "followup_id": "F064",
+    "followup_evidence": "Canonical water spelling completes: silica0.06uS/cm(incomplete model), salt1204.29uS/cm.",
+    "followup_assessment": "agreement_with_original_physics_after_separate_fixture_correction"
+  },
+  {
+    "id": "065",
+    "title": "Neutral sucrose versus ionic salt",
+    "classification": "naming_or_fixture_gap",
+    "evidence": "Original script stopped on an ingredient key: the parser requires canonical species keys rather than the supplied formula/capitalization.",
+    "followup_id": "F065",
+    "followup_evidence": "Canonical water and sucrose spellings complete: sugar0.06uS/cm(incomplete model), salt1204.29uS/cm.",
+    "followup_assessment": "agreement_with_original_physics_after_separate_fixture_correction"
+  },
+  {
+    "id": "066",
+    "title": "Tenfold electrolyte dilution",
+    "classification": "naming_or_fixture_gap",
+    "evidence": "Original script stopped on an ingredient key: the parser requires canonical species keys rather than the supplied formula/capitalization.",
+    "followup_id": "F066",
+    "followup_evidence": "Canonical water spelling completes; conductivity1204.29\u2192124.73uS/cm, ratio0.10357; sodium/chloride retained.",
+    "followup_assessment": "agreement_with_original_physics_after_separate_fixture_correction"
+  },
+  {
+    "id": "067",
+    "title": "Cooling inert solid without phase crossing",
+    "classification": "agreement",
+    "evidence": "Iron cools100\u219262.089503C for1kJ; final mass55.845g and Fe1mol."
+  },
+  {
+    "id": "068",
+    "title": "Two-stage sensible heat cycle",
+    "classification": "agreement",
+    "evidence": "Copper returns25C after+500J/\u2212500J; mass63.546g and1mol retained."
+  },
+  {
+    "id": "069",
+    "title": "Energy split invariance for copper",
+    "classification": "agreement",
+    "evidence": "One600J dose and200J+400J both yield49.42 C; copper inventory unchanged."
+  },
+  {
+    "id": "070",
+    "title": "Equivalent molar and gram dose",
+    "classification": "agreement",
+    "evidence": "1mol and55.845g input both report55.845g and1mol; identical particle census."
+  }
+]

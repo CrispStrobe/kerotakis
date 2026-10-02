@@ -1,0 +1,198 @@
+[
+  {
+    "id": "071",
+    "classification": "agreement",
+    "evidence": [
+      "Daniell emf increased from1.1041118059295403V to1.122548438518327V after added CuSO4.",
+      "Independent Nernst reconstruction using serialized Zn/Cu activities and each half-cell temperature matches both readings exactly; Cu activity rose0.0038794\u21920.0166375 rather than tenfold."
+    ],
+    "remaining_gaps": [
+      "Antlerite precipitation heat is explicitly unpriced; concentration-only29.6mV estimate is inappropriate for these computed nonideal activities."
+    ],
+    "raw_output": "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/071.json.stdout"
+  },
+  {
+    "id": "072",
+    "classification": "agreement",
+    "evidence": [
+      "no_cell explicitly states identical Cu/Cu2+ activities read0V.",
+      "Both vessels have identical inventories, temperatures and speciation."
+    ],
+    "remaining_gaps": [
+      "The zero result is textual rather than a numeric cell_voltage event; a structured zero-potential result would improve machine comparability."
+    ],
+    "raw_output": "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/072.json.stdout"
+  },
+  {
+    "id": "073",
+    "classification": "agreement",
+    "evidence": [
+      "Cu concentration cell reports0.022001217779681836V with standard_volts0.",
+      "Independent Nernst from Cu activities0.000697811 and0.003879401 and the recorded temperatures gives0.02200121777968181V."
+    ],
+    "remaining_gaps": [
+      "Brochantite/antlerite heat remains explicitly unpriced; concentration ratios differ from free-ion activity ratios."
+    ],
+    "raw_output": "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/073.json.stdout"
+  },
+  {
+    "id": "074",
+    "classification": "physical_failure",
+    "evidence": [
+      "60C gives the expected H2=0.0003109280896985319mol and O2=0.00015546404484926594mol; sealed pressure rises101.303\u2192112.865kPa.",
+      "But H+ inventory increases by0.000621856mol even though the water/H2/O2 net reaction already balances H/O.",
+      "displacement::electrolyse_solvent classifies primary H2 charge as electrons_to_cathode, then subtracts it when calculating electrons_to_hydrogen: cathodic hydroxide cannot cancel the anode protons."
+    ],
+    "remaining_gaps": [
+      "Correct primary-versus-overflow hydrogen allocation and verify independent H/O/charge closure; frozen outputs precede the fix.",
+      "Electrode material, efficiency, voltage/work and spatial pH are still simplified; root9a2829ec adds explicit selectivity scope."
+    ],
+    "raw_output": "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/074.json.stdout"
+  },
+  {
+    "id": "075",
+    "classification": "physical_failure",
+    "evidence": [
+      "Doubling current doubles reported H2/O2 exactly and doubles the pressure increment.",
+      "Both sulfate vessels also gain spurious H+ proportional to current:0.000310928 versus0.000621856mol, exposing the same charge-allocation defect as074."
+    ],
+    "remaining_gaps": [
+      "Linearity alone does not establish a conserved electrolysis model; fix and verify the complete half-reaction ledger."
+    ],
+    "raw_output": "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/075.json.stdout"
+  },
+  {
+    "id": "076",
+    "classification": "agreement",
+    "evidence": [
+      "Zero-current operation rejects with current must be positive before emitting any electrolysis result.",
+      "Last successful snapshot contains the initial sealed sulfate inventory; no electrolysis event or generated H2 occurs."
+    ],
+    "remaining_gaps": [
+      "CLI fail-fast means post-refusal inspection lines are not executed; source-level atomicity tests are needed to exercise rollback explicitly."
+    ],
+    "raw_output": "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/076.json.stdout"
+  },
+  {
+    "id": "077",
+    "classification": "physical_failure",
+    "evidence": [
+      "Brine produces H2 and Cl2 each0.00003109280896985319mol; sulfate produces the same H2 and half as much O2; no sodium metal appears.",
+      "The primary-H2 allocation bug leaves water_spent=0 and hydroxide_made=0 for chloralkali, violating net2NaCl+2H2O\u21922NaOH+H2+Cl2 despite numerically correct gas charge.",
+      "Frozen replay predates root9a2829ec selectivity disclosure."
+    ],
+    "remaining_gaps": [
+      "Repair chloralkali water/OH ledger and sulfate proton cancellation without changing Faraday amounts.",
+      "Inventory-threshold Cl2/O2 selection remains a teaching assumption; electrode/overpotential/parallel-current models are not supplied."
+    ],
+    "raw_output": "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/077.json.stdout"
+  },
+  {
+    "id": "078",
+    "classification": "agreement",
+    "evidence": [
+      "Three repeated readings are exactly1.1041118059295403V.",
+      "Cell output explicitly says open-circuit/no current; inspections show no Zn loss or Cu deposition from reading voltage."
+    ],
+    "remaining_gaps": [
+      "Loaded discharge, ion transport and resistance remain outside this open-circuit measurement."
+    ],
+    "raw_output": "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/078.json.stdout"
+  },
+  {
+    "id": "079",
+    "classification": "naming_or_fixture_gap",
+    "evidence": [
+      "Run stops at AgBr: unknown species or material, before any irradiation."
+    ],
+    "remaining_gaps": [
+      "AgBr registry support or a reviewed naming resolution is needed before assessing the frozen spectral experiment.",
+      "No conclusion about AgBr photolysis, quantum yields or700nm sensitivity follows from this fixture refusal."
+    ],
+    "raw_output": "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/079.json.stdout"
+  },
+  {
+    "id": "080",
+    "classification": "capability_gap",
+    "evidence": [
+      "254nm and700nm Irradiated events both report photolysis_coupled=false; text states photolysis not yet coupled.",
+      "UV, red and dark vessels all finish with H2O2=0.0009995126583307748mol and identical O2/temperature, indicating background kinetics rather than spectral chemistry."
+    ],
+    "remaining_gaps": [
+      "Coupled wavelength-dependent absorption, photon flux/illuminated geometry, quantum yield and radical network remain unimplemented for this scenario.",
+      "This is an explicit model boundary, not evidence of a physical wavelength-independent photolysis prediction."
+    ],
+    "raw_output": "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/080.json.stdout"
+  },
+  {
+    "id": "081",
+    "classification": "agreement",
+    "evidence": [
+      "Zero irradiance rejects with irradiance must be positive before any irradiation event.",
+      "Both preceding vessel snapshots are identical and no lamp-induced conversion occurs."
+    ],
+    "remaining_gaps": [
+      "The operation cannot represent lamp-off as zero irradiance, and fail-fast prevents subsequent dark-control wait; atomic refusal is consistent with the frozen alternative criterion."
+    ],
+    "raw_output": "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/081.json.stdout"
+  },
+  {
+    "id": "082",
+    "classification": "naming_or_fixture_gap",
+    "evidence": [
+      "Original run stops at acetic_acid, so its chemistry comparison is not exercised.",
+      "Reviewed followupF082 uses CH3COOH and reports ester extents0.0006325532632885614mol in10mL water versus0.00007071309411070995mol in100mL, matching the frozen dilution direction and stoichiometric bound.",
+      "org_reacted boundary explicitly discloses ideal-mixture K\u22484, assumed equilibration, and omitted catalyst/rate/activity/temperature/heat effects."
+    ],
+    "remaining_gaps": [
+      "Alias discovery remains a naming gap in the original forecast.",
+      "Followup chromatograms report only ethanol at100%area and outside_method only ions, despite present ethyl_acetate and acetic acid: nonionic chromatographic coverage is silently incomplete.",
+      "Finite-time Fischer family refuses at298K below333.1K; equilibrium request is not a measured one-hour kinetic prediction."
+    ],
+    "raw_output": "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/082.json.stdout",
+    "followup": {
+      "id": "F082",
+      "classification": "agreement",
+      "raw_output": "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-followups-37053213531/followups/F082.json.stdout"
+    }
+  },
+  {
+    "id": "083",
+    "classification": "agreement",
+    "evidence": [
+      "Catalyzed peroxide loss is1.681572922483e-6mol versus4.873416692252e-7mol without catalyst after60s.",
+      "O2 increments equal half the respective peroxide losses; MnO2 remains exactly1e-5mol."
+    ],
+    "remaining_gaps": [
+      "The rate is an explicitly editorial teaching correlation with surface activity and calibration limitations; this supports direction/conservation, not a measured universal catalyst rate."
+    ],
+    "raw_output": "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/083.json.stdout"
+  },
+  {
+    "id": "084",
+    "classification": "naming_or_fixture_gap",
+    "evidence": [
+      "Run stops at unknown acetone before wait and the complete control comparison.",
+      "Pre-stop glucose remains0.0005mol and Ag is dissolved; diagnostic already discloses Ag2O unavailable and AgMetal supersaturated but not offered."
+    ],
+    "remaining_gaps": [
+      "Resolve the acetone fixture and then separately assess sugar/ketone selectivity.",
+      "Ag(I)-ammonia complexation, sugar oxidation and permitted silver/Ag2O phases need a scoped coupled redox/kinetic model; supersaturation alone does not establish Tollens response."
+    ],
+    "raw_output": "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/084.json.stdout"
+  },
+  {
+    "id": "085",
+    "classification": "capability_gap",
+    "evidence": [
+      "Acidic vessel pH1.7288 gives Mn2+=0.0001mol and Fe3+=0.000499904mol, matching five-electron Mn reduction.",
+      "Buffered vessel pH9.5159 gives no MnO2: Mn2+=5.94374e-5mol, MnO4(2-)=2.82271e-6mol and residual MnO4(-)=3.77399e-5mol. Fe3+=0.0003mol and the aqueous Mn electron sum is consistent with that supply.",
+      "PH explicitly flags Pyrolusite(MnO2) SI+12.6 as a registry phase not offered, with other missing/excluded oxide phases."
+    ],
+    "remaining_gaps": [
+      "Phase eligibility/ownership excludes the expected near-neutral solid endpoint; close that model coverage before claiming quantitative pH-dependent permanganate selectivity.",
+      "The buffer reached alkaline9.52 rather than ideal neutral pH; this is recorded, but does not eliminate the disclosed MnO2 coverage gap."
+    ],
+    "raw_output": "/mnt/storage/kerotakis-maintenance-20261002/hosted-next-50-37052533758/085.json.stdout"
+  }
+]

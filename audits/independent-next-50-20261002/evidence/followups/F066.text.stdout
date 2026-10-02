@@ -1,0 +1,14 @@
+  v1: +5.5343 mol water
+  v1: answered by vendored USGS phreeqc.dat — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +1.00 mmol sodium chloride
+  v1: 1.00 mmol sodium chloride dissolved
+  v1: answered by wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice — the default inorganic aqueous dataset
+  v1: pH 7.00
+  v1 conductivity meter: 1204.29 µS/cm — This is a model estimate with limited calibration or simplifying assumptions.
+  v1: diluted with 900.0 mL water (49.8085 mol)
+  v1: pH 7.00
+  v1 conductivity meter: 124.73 µS/cm — This is a model estimate with limited calibration or simplifying assumptions.
+  v1 (beaker) — 25.00 °C, 997.1 g, 1000.0 mL liquid, open to atmosphere, pH 7.00, I = 0.0010 m
+           1.00 mmol  chloride ion       Aqueous
+           1.00 mmol  sodium ion         Aqueous
+         55.3428 mol  water              Liquid
