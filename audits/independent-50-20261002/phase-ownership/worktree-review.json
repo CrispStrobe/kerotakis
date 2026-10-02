@@ -1,0 +1,30 @@
+{
+  "other_registered": 67,
+  "merged_candidates": [
+    {
+      "worktree": "/mnt/volume1/kerotakis-26",
+      "HEAD": "ce36a8d385a58795028b2790d0f9e6dfe5e7cf2d",
+      "branch": "refs/heads/coverage/apology-stands-alone",
+      "merged_into_audit": true,
+      "status": [
+        " M sundials-kinetics-rs"
+      ]
+    },
+    {
+      "worktree": "/mnt/volume1/kerotakis-e9c",
+      "HEAD": "05a7ba78cad03aa5fb6197e5bf46d4e80a6f55de",
+      "branch": "refs/heads/fix/chlorine-henry-is-a-total-solubility",
+      "merged_into_audit": true,
+      "status": [
+        " M sundials-kinetics-rs",
+        "?? .gate/"
+      ]
+    }
+  ],
+  "process_usage": {
+    "/mnt/volume1/kerotakis-26": [],
+    "/mnt/volume1/kerotakis-e9c": []
+  },
+  "removed": [],
+  "decision": "Both merged candidates have modified submodule state; one also has untracked .gate. Preserve both; no worktrees removed."
+}

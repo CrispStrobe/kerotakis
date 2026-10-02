@@ -1,0 +1,34 @@
+{
+  "source_checkpoint": "b131444248625737a1edd5c02559fa50f1e83203",
+  "hosted_run": "https://github.com/CrispStrobe/kerotakis/actions/runs/37048306794",
+  "total_rust_tests": 965,
+  "suites": {
+    "cea": 123,
+    "core": 778,
+    "phreeqc": 2,
+    "cli": 62
+  },
+  "wasm_passed": true,
+  "replay": {
+    "original_commands": 100,
+    "successful": 96,
+    "expected_refusals": 4,
+    "explicit_sucrose_commands": 4,
+    "expectations_met": 49,
+    "known_zinc_rate_gap": 1,
+    "unexpected": 0,
+    "solver_failures": 0,
+    "predictions_sha256": "0fd6e4831f5da264c892a5718b8619ae267388df0512fe54dab04fff30287064",
+    "binary_sha256": "8c511a646bd5fa25f6842ce921e0ba96bc477816eb4d740ac920b1820b4fee66"
+  },
+  "dependency_lock_sha256": "dca455fc630f4374c08893b09cb0669eff4185f42e986fe04a8bacbb69e612a3",
+  "source_hashes": {
+    "crates/kerotakis-cea/src/gibbs.rs": "52333946307d2feea18dacce51f7e73651d10e1a7610e27bfc61f823ca89a7c4",
+    "crates/kerotakis-core/src/bench.rs": "484470a3a5aa4974429627bfd9bfb74c047c6e5567b154496dc6f8334e67623b",
+    "crates/kerotakis-core/src/transport.rs": "9ef518022c3cd9263e6afd36b774cb7e0e5eaffc723e5176dfe21c1e8cf25185",
+    "crates/kerotakis-core/tests/transport.rs": "5e4d051a8e9c7cf20585c19c285af01c5ebf2b847ae3293b1428b4e399e10539",
+    "crates/kerotakis-core/tests/selected_phase_transfer.rs": "795e261fb986a8cfa98867f4beb55671ebda05a84446fcaf3ef903786c54ff3e",
+    ".github/workflows/chemistry-audit.yml": "ba51cff85d5c96c5f478a965e35445e531171b41c81f3cf7bd20032033b742f3",
+    "audits/independent-50-20261002/validate_phase_ownership.py": "e50e570fad6769553f4bc3e24875dca0a4907d3324a37c68b304d6e34907ef5c"
+  }
+}

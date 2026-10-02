@@ -1,0 +1,66 @@
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.001000 mol sodium chloride (NaCl, M = 58.443 g/mol)
+  v1: 0.001000 mol sodium chloride dissolved
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v1: pH 6.997 · I = 0.0100 mol/kgw
+  v1: T 298.141 K → 298.141 K (ΔT = +0.000 K)
+  v1: +0.001000 mol silver nitrate (AgNO3, M = 169.870 g/mol)
+  v1: 0.000998 mol silver chloride precipitated
+  v1: 0.001000 mol silver nitrate dissolved
+  v1: pH 6.995 · I = 0.0100 mol/kgw
+  v1: T 298.141 K → 298.244 K (ΔT = +0.103 K)
+  v1: net ionic: Ag⁺(aq) + Cl⁻(aq) → AgCl(s)  (spectator ions: Na⁺, NO₃⁻)  (complete ionic: Ag⁺(aq) + Cl⁻(aq) + Na⁺(aq) + NO₃⁻(aq) → AgCl(s) + Na⁺(aq) + NO₃⁻(aq))
+  v2: new vessel
+  v2: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v2: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v2: +0.001000 mol silver nitrate (AgNO3, M = 169.870 g/mol)
+  v2: 0.001000 mol silver nitrate dissolved
+  v2: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v2: pH 6.869 · I = 0.0100 mol/kgw
+  v2: T 298.150 K → 298.096 K (ΔT = -0.054 K)
+  v2: T 298.096 K → 298.096 K (ΔT = +0.000 K)
+  v2: +0.001000 mol sodium chloride (NaCl, M = 58.443 g/mol)
+  v2: 0.001000 mol sodium chloride dissolved
+  v2: 0.000998 mol silver chloride precipitated
+  v2: pH 6.995 · I = 0.0100 mol/kgw
+  v2: T 298.096 K → 298.244 K (ΔT = +0.148 K)
+  v2: net ionic: Ag⁺(aq) + Cl⁻(aq) → AgCl(s)  (spectator ions: Na⁺, NO₃⁻)  (complete ionic: Ag⁺(aq) + Cl⁻(aq) + Na⁺(aq) + NO₃⁻(aq) → AgCl(s) + Na⁺(aq) + NO₃⁻(aq))
+  v1 (beaker) — 25.09 °C, 99.9 g, 100.0 mL liquid, open to atmosphere, pH 6.99, pe 13.62 (+0.806 V), I = 0.0100 m
+      redox — all N as N(V)
+           1.52 µmol  silver ion         Aqueous
+           1.52 µmol  chloride ion       Aqueous
+           1000 µmol  sodium ion         Aqueous
+           1000 µmol  nitrate ion        Aqueous
+            998 µmol  silver chloride    Solid
+          5.5343 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9970e-1   γ=0.018
+        Na+             1.0030e-2    9.0549e-3   γ=0.903
+        NO3-            1.0030e-2    9.0110e-3   γ=0.898
+        O2              2.6670e-4    2.6730e-4   γ=1.002
+        Cl-             1.4894e-5    1.3407e-5   γ=0.900
+        Ag+             1.4833e-5    1.3375e-5   γ=0.902
+        AgCl            3.3260e-7    3.3340e-7   γ=1.002
+        H+              1.1082e-7    1.0120e-7   γ=0.913
+        OH-             1.1068e-7    9.9595e-8   γ=0.900
+        AgNO3           6.1670e-8    6.1810e-8   γ=1.002
+  v2 (beaker) — 25.09 °C, 99.9 g, 100.0 mL liquid, open to atmosphere, pH 6.99, pe 13.62 (+0.806 V), I = 0.0100 m
+      redox — all N as N(V)
+           1.52 µmol  silver ion         Aqueous
+           1.52 µmol  chloride ion       Aqueous
+           1000 µmol  sodium ion         Aqueous
+           1000 µmol  nitrate ion        Aqueous
+            998 µmol  silver chloride    Solid
+          5.5343 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9970e-1   γ=0.018
+        Na+             1.0030e-2    9.0549e-3   γ=0.903
+        NO3-            1.0030e-2    9.0110e-3   γ=0.898
+        O2              2.6670e-4    2.6730e-4   γ=1.002
+        Cl-             1.4894e-5    1.3407e-5   γ=0.900
+        Ag+             1.4833e-5    1.3375e-5   γ=0.902
+        AgCl            3.3260e-7    3.3340e-7   γ=1.002
+        H+              1.1082e-7    1.0120e-7   γ=0.913
+        OH-             1.1068e-7    9.9595e-8   γ=0.900
+        AgNO3           6.1670e-8    6.1810e-8   γ=1.002

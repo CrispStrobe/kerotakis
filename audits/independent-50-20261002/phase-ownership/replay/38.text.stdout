@@ -1,0 +1,20 @@
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.001000 mol sulfuric acid (H2SO4, M = 98.079 g/mol)
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v1: pH 1.865 · I = 0.0207 mol/kgw
+  v1: I = 0.100000 A; t = 100.000 s; Q = It = 10.0 C; n(e⁻) = Q/F = 0.000104 mol; cathode n(hydrogen) = n(e⁻)/2 = 0.000052 mol; anode n(oxygen) = 0.000026 mol. Inert electrodes assumed: no overpotential, gas crossover, membrane or cell efficiency is modelled
+  v1: 0.000052 mol hydrogen evolved (open system; mass leaves)
+  v1: 0.000026 mol oxygen evolved (open system; mass leaves)
+  v1: pH 1.865 · I = 0.0207 mol/kgw
+  v1 (beaker) — 25.00 °C, 99.8 g, 100.0 mL liquid, open to atmosphere, pH 1.87, pe 18.76 (+1.110 V), I = 0.0207 m
+      redox — all S as S(VI)
+           1.00 mmol  sulfate ion        Aqueous
+          5.5342 mol  water              Liquid
+           2.10 mmol  hydrogen ion       Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9960e-1   γ=0.018
+        H+              1.5362e-2    1.3645e-2   γ=0.888
+        SO4-2           5.3320e-3    3.0809e-3   γ=0.578
+        HSO4-           4.6980e-3    4.0870e-3   γ=0.870
+        O2              2.6640e-4    2.6770e-4   γ=1.005

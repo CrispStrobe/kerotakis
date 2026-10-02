@@ -1,0 +1,36 @@
+   Compiling kerotakis-core v0.0.1 (/mnt/volume1/kerotakis/crates/kerotakis-core)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.80s
+     Running tests/phase_routes.rs (target/debug/deps/phase_routes-0d76d286976bd424)
+
+running 3 tests
+test drain_leaves_nonmobile_same_species_stock_in_its_original_phase ... FAILED
+test ethanol_water_still_preserves_ice_and_gas_and_matches_liquid_only_cut ... FAILED
+test extraction_debits_reviewed_aqueous_and_solid_pool_without_consuming_gas ... FAILED
+
+failures:
+
+---- drain_leaves_nonmobile_same_species_stock_in_its_original_phase stdout ----
+
+thread 'drain_leaves_nonmobile_same_species_stock_in_its_original_phase' (1391978) panicked at crates/kerotakis-core/tests/phase_routes.rs:13:5:
+-0e0 != 4e-1
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- ethanol_water_still_preserves_ice_and_gas_and_matches_liquid_only_cut stdout ----
+
+thread 'ethanol_water_still_preserves_ice_and_gas_and_matches_liquid_only_cut' (1391979) panicked at crates/kerotakis-core/tests/phase_routes.rs:13:5:
+2.0217170079525873e-1 != 4e-1
+
+---- extraction_debits_reviewed_aqueous_and_solid_pool_without_consuming_gas stdout ----
+
+thread 'extraction_debits_reviewed_aqueous_and_solid_pool_without_consuming_gas' (1391981) panicked at crates/kerotakis-core/tests/phase_routes.rs:13:5:
+9.999999999999996e-5 != 3e-4
+
+
+failures:
+    drain_leaves_nonmobile_same_species_stock_in_its_original_phase
+    ethanol_water_still_preserves_ice_and_gas_and_matches_liquid_only_cut
+    extraction_debits_reviewed_aqueous_and_solid_pool_without_consuming_gas
+
+test result: FAILED. 0 passed; 3 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.00s
+
+error: test failed, to rerun pass `-p kerotakis-core --test phase_routes`

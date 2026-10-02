@@ -1,0 +1,23 @@
+   Compiling kerotakis-cea v0.0.1 (/mnt/volume1/kerotakis/crates/kerotakis-cea)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 9.58s
+     Running unittests src/lib.rs (target/debug/deps/kerotakis_cea-a290b72d5bf742a3)
+
+running 2 tests
+test gibbs::tests::five_species_mixed_gas_activity_uses_total_diluent_and_closes_hp ... ok
+test gibbs::tests::five_species_mixed_gas_retains_tiny_inert_component_with_finite_diluent ... FAILED
+
+failures:
+
+---- gibbs::tests::five_species_mixed_gas_retains_tiny_inert_component_with_finite_diluent stdout ----
+
+thread 'gibbs::tests::five_species_mixed_gas_retains_tiny_inert_component_with_finite_diluent' (1393191) panicked at crates/kerotakis-cea/src/gibbs.rs:2505:52:
+called `Result::unwrap()` on an `Err` value: NotConverged(144)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    gibbs::tests::five_species_mixed_gas_retains_tiny_inert_component_with_finite_diluent
+
+test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 48 filtered out; finished in 0.17s
+
+error: test failed, to rerun pass `-p kerotakis-cea --lib`

@@ -1,0 +1,9 @@
+{
+  "drain": "Only lower Liquid solvent and selected aqueous/liquid solutes leave. Same-species Solid/Gas remain, independent of portion order; source plus receiver mass closes.",
+  "ethanol-water-distillation": "Only Liquid water and Liquid/Aqueous ethanol finance the VLE cut; ice and gas remain. Receiver matches liquid-only positive control and total species inventory closes.",
+  "staged-extraction": "Only reviewed Aqueous/Solid iodine stock finances the split. Gas/Liquid iodine remain; selected-pool outputs match control and total iodine closes.",
+  "stationary-domain": "Nonfinite or negative owned stationary bulk amounts refuse before any CellChain mutation. Zero and positive stationary inventory allow transport.",
+  "mix-overflow": "Finite bulk amounts with nonfinite mixing-energy endpoints refuse atomically. A moderate same-phase mixture conserves energy.",
+  "five-species-tiny-inert": "At1300K/1bar carbonate/oxide/CO2/N2/Ar with Ca.1/C.2/O.5/N2e-20/Ar.2 returns CaO.1 CO2.2 N21e-20 Ar.2; no gas floor.",
+  "five-species-finite-control": "At1100K/1bar Ca.1/C.2/O.5/N.2/Ar.1, full total-diluent CO2 mass action fixes the carbonate/oxide partition; independently assembled HP enthalpy reproduces TP."
+}

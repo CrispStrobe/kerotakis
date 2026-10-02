@@ -1,0 +1,39 @@
+   Compiling kerotakis-core v0.0.1 (/mnt/volume1/kerotakis/crates/kerotakis-core)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 49.64s
+     Running tests/transport.rs (target/debug/deps/transport-73b7d67b2bd84e50)
+
+running 12 tests
+test a_failed_reactive_cell_restores_the_complete_pre_step_chain ... ok
+test a_passive_tracer_follows_the_upwind_binomial_and_closes_every_ledger ... ok
+test cell_chain_refuses_duplicate_physical_cell_identities ... ok
+test finite_inventory_with_overflowing_mix_energy_refuses_atomically ... FAILED
+test finite_stationary_inventory_including_zero_does_not_block_transport ... ok
+test invalid_geometry_and_courant_numbers_are_rejected_before_mutation ... ok
+test invalid_stationary_inventory_is_refused_before_mobile_matter_moves ... FAILED
+test moderate_aqueous_inventory_and_temperature_difference_conserve_energy ... ok
+test positive_mobile_and_stationary_traces_close_at_every_courant_boundary ... ok
+test reactive_surface_reference_water_has_a_capacity_bounded_geometry_allowance ... ok
+test stationary_solid_and_exchange_inventory_do_not_leave_their_cell ... ok
+test surface_released_water_does_not_change_hydraulic_cell_geometry ... ok
+
+failures:
+
+---- finite_inventory_with_overflowing_mix_energy_refuses_atomically stdout ----
+
+thread 'finite_inventory_with_overflowing_mix_energy_refuses_atomically' (1394419) panicked at crates/kerotakis-core/tests/transport.rs:421:5:
+a nonrepresentable mixing-energy endpoint must refuse rather than choose a temperature
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- invalid_stationary_inventory_is_refused_before_mobile_matter_moves stdout ----
+
+thread 'invalid_stationary_inventory_is_refused_before_mobile_matter_moves' (1394422) panicked at crates/kerotakis-core/tests/transport.rs:362:13:
+invalid stationary Fe amount NaN must refuse transport
+
+
+failures:
+    finite_inventory_with_overflowing_mix_energy_refuses_atomically
+    invalid_stationary_inventory_is_refused_before_mobile_matter_moves
+
+test result: FAILED. 10 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+error: test failed, to rerun pass `-p kerotakis-core --test transport`

@@ -1,0 +1,14 @@
+{
+  "source_checkpoint": "b131444248625737a1edd5c02559fa50f1e83203",
+  "run_id": 37048306794,
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/37048306794",
+  "initial_harness_failure": {
+    "source_checkpoint": "d047408201fc20f36d31b4b7acdf3124aca04d70",
+    "run_id": 37047965490,
+    "reason": "No tracked Cargo.lock at clean checkout; new --locked flag prevented compilation. Removed flag to match existing CI and retain generated lock in artifact."
+  },
+  "local_validation": "Owned queued validator stopped after hosted dispatch; final local CEA123 passed; no core build began during queue pressure. Remaining validation runs on hosted Ubuntu, one Cargo job and one test thread.",
+  "conclusion": "success",
+  "completed_utc": "2026-10-02T18:47:57Z",
+  "artifact_directory": "/mnt/storage/kerotakis-maintenance-20261002/hosted-37048306794"
+}

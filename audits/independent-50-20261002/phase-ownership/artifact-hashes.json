@@ -1,0 +1,23 @@
+{
+  "source_checkpoint": "b131444248625737a1edd5c02559fa50f1e83203",
+  "source_members_verified": 7,
+  "source_archive_provider": "GitHub prepared archive",
+  "hosted_run_id": 37048306794,
+  "artifacts": [
+    {
+      "path": "/mnt/storage/kerotakis-maintenance-20261002/source-b1314442.tar.gz",
+      "bytes": 16608786,
+      "sha256": "cdfb9a7d71330286704504f37b91f850fa6af6fae25983d3be8a0c26790631c8"
+    },
+    {
+      "path": "/mnt/storage/kerotakis-maintenance-20261002/hosted-37048306794/kero",
+      "bytes": 96138496,
+      "sha256": "8c511a646bd5fa25f6842ce921e0ba96bc477816eb4d740ac920b1820b4fee66"
+    },
+    {
+      "path": "/mnt/storage/kerotakis-maintenance-20261002/hosted-37048306794/Cargo.lock",
+      "bytes": 75623,
+      "sha256": "dca455fc630f4374c08893b09cb0669eff4185f42e986fe04a8bacbb69e612a3"
+    }
+  ]
+}

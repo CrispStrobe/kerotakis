@@ -1,0 +1,12 @@
+{
+  "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)",
+  "cargo_lock_sha256": "9aafc3f037359dddb0330fc4300547ae1e607117bc83797765e3c82d466ca2bf",
+  "final_local_cea": {
+    "passed": 123,
+    "log": "/mnt/storage/kerotakis-maintenance-20261002/affine-cea-final.log",
+    "sha256": "141ae0dc6da3ca3584d57520168fa0c7cb1ef3f494ae31e6f2f1ef7c55e746c5"
+  },
+  "final_local_core": "not started; stopped owned waiting processes after hosted dispatch",
+  "gated_load1_max_observed": 36.24560546875,
+  "minimum_available_mib_observed": 1790.09375
+}

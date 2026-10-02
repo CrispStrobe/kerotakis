@@ -1,0 +1,10 @@
+{
+  "baseline_commit": "8c41d267d6d306275de723fb392a97057b098eea",
+  "baseline_results": {
+    "phase-routes-before.log": "0passed3failed; initial target name phase_routes, isolated new3 tests now preserved in selected_phase_transfer; original phase_routes restored unchanged",
+    "five-species-before.log": "1passed1failed; finite TP/HP passes, tinyN2 failsNotConverged144",
+    "transport-domain-before.log": "10passed2failed; stationaryinvalid and mixoverflow; bench phase-route fixes present but transport production unchanged"
+  },
+  "predictions_sha256": "17f612e473a4b2e4512f87bf817f75be01ffe8c57c3cb1aaf5a74b204e099982",
+  "final_phase_fixture": "Strengthened after baseline to retain separate equal-key portions rather than coalescing deposit; expectations unchanged."
+}

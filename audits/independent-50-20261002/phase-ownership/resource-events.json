@@ -1,0 +1,1546 @@
+[
+  {
+    "time": "2026-10-02T17:14:04Z",
+    "stage": "phase-routes-before",
+    "state": "running",
+    "available": 5672787968,
+    "swap_free": 9957097472,
+    "load": 1.91064453125,
+    "disk_free": 4430147584
+  },
+  {
+    "time": "2026-10-02T17:14:10Z",
+    "stage": "phase-routes-before",
+    "state": "failed",
+    "available": 5658624000,
+    "swap_free": 9957359616,
+    "load": 1.91796875,
+    "disk_free": 4430680064,
+    "exit_code": 101
+  },
+  {
+    "time": "2026-10-02T17:14:59Z",
+    "stage": "five-species-before",
+    "state": "running",
+    "available": 5137043456,
+    "swap_free": 9960243200,
+    "load": 2.01025390625,
+    "disk_free": 4428865536
+  },
+  {
+    "time": "2026-10-02T17:15:09Z",
+    "stage": "five-species-before",
+    "state": "failed",
+    "available": 5241999360,
+    "swap_free": 9957367808,
+    "load": 2.76513671875,
+    "disk_free": 4428873728,
+    "exit_code": 101
+  },
+  {
+    "time": "2026-10-02T17:15:55Z",
+    "stage": "transport-domain-before",
+    "state": "running",
+    "available": 5676933120,
+    "swap_free": 9960775680,
+    "load": 2.87109375,
+    "disk_free": 4428853248
+  },
+  {
+    "time": "2026-10-02T17:16:45Z",
+    "stage": "transport-domain-before",
+    "state": "failed",
+    "available": 5544419328,
+    "swap_free": 9943293952,
+    "load": 3.77294921875,
+    "disk_free": 4428734464,
+    "exit_code": 101
+  },
+  {
+    "time": "2026-10-02T17:18:30Z",
+    "stage": "affine-cea-final",
+    "state": "running",
+    "available": 5625913344,
+    "swap_free": 9955090432,
+    "load": 2.1650390625,
+    "disk_free": 4424126464
+  },
+  {
+    "time": "2026-10-02T17:19:19Z",
+    "stage": "affine-cea-final",
+    "state": "resource-pause",
+    "available": 4139298816,
+    "swap_free": 9643614208,
+    "load": 6.37353515625,
+    "disk_free": 4469760000,
+    "pid": 1395292
+  },
+  {
+    "time": "2026-10-02T17:26:19Z",
+    "stage": "affine-cea-final",
+    "state": "resource-resume",
+    "available": 4815044608,
+    "swap_free": 9574244352,
+    "load": 3.47705078125,
+    "disk_free": 3864817664,
+    "pid": 1395292
+  },
+  {
+    "time": "2026-10-02T17:27:25Z",
+    "stage": "affine-cea-final",
+    "state": "complete",
+    "available": 4853579776,
+    "swap_free": 9564585984,
+    "load": 5.3564453125,
+    "disk_free": 3741872128,
+    "exit_code": 0
+  },
+  {
+    "time": "2026-10-02T17:27:38Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4904357888,
+    "swap_free": 9582673920,
+    "load": 5.17333984375,
+    "disk_free": 3733680128
+  },
+  {
+    "time": "2026-10-02T17:28:08Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4397010944,
+    "swap_free": 9561362432,
+    "load": 5.86572265625,
+    "disk_free": 3729895424
+  },
+  {
+    "time": "2026-10-02T17:28:38Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 5006622720,
+    "swap_free": 9578139648,
+    "load": 5.6611328125,
+    "disk_free": 3717050368
+  },
+  {
+    "time": "2026-10-02T17:29:08Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 5016170496,
+    "swap_free": 9595179008,
+    "load": 4.83154296875,
+    "disk_free": 3711447040
+  },
+  {
+    "time": "2026-10-02T17:29:38Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4953464832,
+    "swap_free": 9606975488,
+    "load": 4.48779296875,
+    "disk_free": 3696680960
+  },
+  {
+    "time": "2026-10-02T17:30:08Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4975554560,
+    "swap_free": 9626374144,
+    "load": 3.6904296875,
+    "disk_free": 3679567872
+  },
+  {
+    "time": "2026-10-02T17:30:38Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4686049280,
+    "swap_free": 9641316352,
+    "load": 5.4453125,
+    "disk_free": 3527520256
+  },
+  {
+    "time": "2026-10-02T17:31:08Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4597055488,
+    "swap_free": 9647345664,
+    "load": 5.29248046875,
+    "disk_free": 3228315648
+  },
+  {
+    "time": "2026-10-02T17:31:38Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4495802368,
+    "swap_free": 9654161408,
+    "load": 5.25,
+    "disk_free": 3477147648
+  },
+  {
+    "time": "2026-10-02T17:32:08Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4903067648,
+    "swap_free": 9540661248,
+    "load": 6.232421875,
+    "disk_free": 3483815936
+  },
+  {
+    "time": "2026-10-02T17:32:38Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 5008035840,
+    "swap_free": 9550360576,
+    "load": 5.00146484375,
+    "disk_free": 3418775552
+  },
+  {
+    "time": "2026-10-02T17:33:08Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 5621391360,
+    "swap_free": 9623236608,
+    "load": 5.25830078125,
+    "disk_free": 3485745152
+  },
+  {
+    "time": "2026-10-02T17:33:38Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3928305664,
+    "swap_free": 9622450176,
+    "load": 9.1015625,
+    "disk_free": 3449110528
+  },
+  {
+    "time": "2026-10-02T17:34:09Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4279660544,
+    "swap_free": 9573650432,
+    "load": 11.9599609375,
+    "disk_free": 3446509568
+  },
+  {
+    "time": "2026-10-02T17:34:39Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4077805568,
+    "swap_free": 9525456896,
+    "load": 14.966796875,
+    "disk_free": 3476930560
+  },
+  {
+    "time": "2026-10-02T17:35:09Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3686895616,
+    "swap_free": 9522520064,
+    "load": 19.0556640625,
+    "disk_free": 3438764032
+  },
+  {
+    "time": "2026-10-02T17:35:39Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3204231168,
+    "swap_free": 9521848320,
+    "load": 18.677734375,
+    "disk_free": 3437867008
+  },
+  {
+    "time": "2026-10-02T17:36:09Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3650736128,
+    "swap_free": 9520951296,
+    "load": 20.857421875,
+    "disk_free": 3445678080
+  },
+  {
+    "time": "2026-10-02T17:36:39Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 2671898624,
+    "swap_free": 9520672768,
+    "load": 20.93212890625,
+    "disk_free": 3431829504
+  },
+  {
+    "time": "2026-10-02T17:37:09Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3109085184,
+    "swap_free": 9522737152,
+    "load": 18.80126953125,
+    "disk_free": 3467309056
+  },
+  {
+    "time": "2026-10-02T17:37:39Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3920470016,
+    "swap_free": 9509220352,
+    "load": 18.39013671875,
+    "disk_free": 3439271936
+  },
+  {
+    "time": "2026-10-02T17:38:09Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3843121152,
+    "swap_free": 9515511808,
+    "load": 15.26708984375,
+    "disk_free": 3471278080
+  },
+  {
+    "time": "2026-10-02T17:38:39Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3624939520,
+    "swap_free": 9527046144,
+    "load": 14.60009765625,
+    "disk_free": 3438231552
+  },
+  {
+    "time": "2026-10-02T17:39:09Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 5892452352,
+    "swap_free": 9571348480,
+    "load": 10.92578125,
+    "disk_free": 3474788352
+  },
+  {
+    "time": "2026-10-02T17:39:39Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4163731456,
+    "swap_free": 9575018496,
+    "load": 9.8125,
+    "disk_free": 3438161920
+  },
+  {
+    "time": "2026-10-02T17:40:09Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 5180710912,
+    "swap_free": 9579212800,
+    "load": 11.89306640625,
+    "disk_free": 3474558976
+  },
+  {
+    "time": "2026-10-02T17:40:39Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3982139392,
+    "swap_free": 9553027072,
+    "load": 11.716796875,
+    "disk_free": 3437924352
+  },
+  {
+    "time": "2026-10-02T17:41:09Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4162424832,
+    "swap_free": 9511571456,
+    "load": 12.1787109375,
+    "disk_free": 3474481152
+  },
+  {
+    "time": "2026-10-02T17:41:39Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3539435520,
+    "swap_free": 9494212608,
+    "load": 11.85595703125,
+    "disk_free": 3437867008
+  },
+  {
+    "time": "2026-10-02T17:42:09Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3641933824,
+    "swap_free": 9489657856,
+    "load": 9.87060546875,
+    "disk_free": 3437371392
+  },
+  {
+    "time": "2026-10-02T17:42:39Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3479523328,
+    "swap_free": 9489276928,
+    "load": 10.4130859375,
+    "disk_free": 3436662784
+  },
+  {
+    "time": "2026-10-02T17:43:09Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3566845952,
+    "swap_free": 9489108992,
+    "load": 10.88671875,
+    "disk_free": 3436630016
+  },
+  {
+    "time": "2026-10-02T17:43:39Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3390525440,
+    "swap_free": 9489391616,
+    "load": 9.48193359375,
+    "disk_free": 3425189888
+  },
+  {
+    "time": "2026-10-02T17:44:10Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3649527808,
+    "swap_free": 9489399808,
+    "load": 11.517578125,
+    "disk_free": 3443122176
+  },
+  {
+    "time": "2026-10-02T17:44:40Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 2995195904,
+    "swap_free": 9489399808,
+    "load": 12.73486328125,
+    "disk_free": 3406471168
+  },
+  {
+    "time": "2026-10-02T17:45:10Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3016093696,
+    "swap_free": 9488224256,
+    "load": 14.41650390625,
+    "disk_free": 3406471168
+  },
+  {
+    "time": "2026-10-02T17:45:40Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4541984768,
+    "swap_free": 9528872960,
+    "load": 10.49365234375,
+    "disk_free": 3405037568
+  },
+  {
+    "time": "2026-10-02T17:46:10Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4372062208,
+    "swap_free": 9546174464,
+    "load": 9.97705078125,
+    "disk_free": 3399925760
+  },
+  {
+    "time": "2026-10-02T17:46:40Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 5063495680,
+    "swap_free": 9549058048,
+    "load": 10.0341796875,
+    "disk_free": 3399561216
+  },
+  {
+    "time": "2026-10-02T17:47:10Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4507557888,
+    "swap_free": 9552728064,
+    "load": 11.099609375,
+    "disk_free": 3395674112
+  },
+  {
+    "time": "2026-10-02T17:47:40Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4537667584,
+    "swap_free": 9525465088,
+    "load": 10.7138671875,
+    "disk_free": 3391700992
+  },
+  {
+    "time": "2026-10-02T17:48:10Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 5324935168,
+    "swap_free": 9529135104,
+    "load": 9.3671875,
+    "disk_free": 4365447168
+  },
+  {
+    "time": "2026-10-02T17:48:40Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4119310336,
+    "swap_free": 9536737280,
+    "load": 7.9169921875,
+    "disk_free": 4361195520
+  },
+  {
+    "time": "2026-10-02T17:49:10Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3990388736,
+    "swap_free": 9545125888,
+    "load": 6.833984375,
+    "disk_free": 4361195520
+  },
+  {
+    "time": "2026-10-02T17:49:40Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 5092671488,
+    "swap_free": 9549320192,
+    "load": 5.67138671875,
+    "disk_free": 4344266752
+  },
+  {
+    "time": "2026-10-02T17:50:10Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4919197696,
+    "swap_free": 9551941632,
+    "load": 4.8125,
+    "disk_free": 4317536256
+  },
+  {
+    "time": "2026-10-02T17:50:41Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 5122347008,
+    "swap_free": 9555611648,
+    "load": 5.0859375,
+    "disk_free": 4306251776
+  },
+  {
+    "time": "2026-10-02T17:51:11Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4822626304,
+    "swap_free": 9557970944,
+    "load": 5.39208984375,
+    "disk_free": 4290879488
+  },
+  {
+    "time": "2026-10-02T17:51:41Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4789059584,
+    "swap_free": 9560592384,
+    "load": 5.48828125,
+    "disk_free": 4275249152
+  },
+  {
+    "time": "2026-10-02T17:52:11Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4783329280,
+    "swap_free": 9567408128,
+    "load": 5.87939453125,
+    "disk_free": 4239147008
+  },
+  {
+    "time": "2026-10-02T17:52:41Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3959525376,
+    "swap_free": 9557340160,
+    "load": 5.8115234375,
+    "disk_free": 4221616128
+  },
+  {
+    "time": "2026-10-02T17:53:11Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3982340096,
+    "swap_free": 9562845184,
+    "load": 6.0048828125,
+    "disk_free": 4209262592
+  },
+  {
+    "time": "2026-10-02T17:53:41Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3884199936,
+    "swap_free": 9567301632,
+    "load": 6.25830078125,
+    "disk_free": 4196929536
+  },
+  {
+    "time": "2026-10-02T17:54:11Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3735986176,
+    "swap_free": 9487630336,
+    "load": 7.7607421875,
+    "disk_free": 4153737216
+  },
+  {
+    "time": "2026-10-02T17:54:41Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3750875136,
+    "swap_free": 9488453632,
+    "load": 6.85791015625,
+    "disk_free": 4141404160
+  },
+  {
+    "time": "2026-10-02T17:55:11Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3756654592,
+    "swap_free": 9488191488,
+    "load": 6.75048828125,
+    "disk_free": 4112023552
+  },
+  {
+    "time": "2026-10-02T17:55:41Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3881115648,
+    "swap_free": 9492549632,
+    "load": 7.80078125,
+    "disk_free": 4099796992
+  },
+  {
+    "time": "2026-10-02T17:56:11Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3645149184,
+    "swap_free": 9487679488,
+    "load": 11.83642578125,
+    "disk_free": 4087623680
+  },
+  {
+    "time": "2026-10-02T17:56:41Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3609182208,
+    "swap_free": 9488502784,
+    "load": 11.84375,
+    "disk_free": 4074323968
+  },
+  {
+    "time": "2026-10-02T17:57:11Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3612450816,
+    "swap_free": 9488764928,
+    "load": 11.263671875,
+    "disk_free": 4061872128
+  },
+  {
+    "time": "2026-10-02T17:57:41Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3566972928,
+    "swap_free": 9488240640,
+    "load": 10.75,
+    "disk_free": 4045283328
+  },
+  {
+    "time": "2026-10-02T17:58:11Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3517378560,
+    "swap_free": 9488240640,
+    "load": 11.6533203125,
+    "disk_free": 4032843776
+  },
+  {
+    "time": "2026-10-02T17:58:41Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 5045280768,
+    "swap_free": 9507377152,
+    "load": 9.40625,
+    "disk_free": 3888340992
+  },
+  {
+    "time": "2026-10-02T17:59:11Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4972032000,
+    "swap_free": 9585758208,
+    "load": 7.822265625,
+    "disk_free": 3925692416
+  },
+  {
+    "time": "2026-10-02T17:59:41Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 5337612288,
+    "swap_free": 9531895808,
+    "load": 6.8193359375,
+    "disk_free": 3696549888
+  },
+  {
+    "time": "2026-10-02T18:00:11Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4689018880,
+    "swap_free": 9493704704,
+    "load": 7.03173828125,
+    "disk_free": 3659481088
+  },
+  {
+    "time": "2026-10-02T18:00:41Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4587859968,
+    "swap_free": 9497112576,
+    "load": 6.97021484375,
+    "disk_free": 3654258688
+  },
+  {
+    "time": "2026-10-02T18:01:12Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4314578944,
+    "swap_free": 9501044736,
+    "load": 7.89306640625,
+    "disk_free": 3449896960
+  },
+  {
+    "time": "2026-10-02T18:01:42Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4213010432,
+    "swap_free": 9489510400,
+    "load": 8.72998046875,
+    "disk_free": 3426197504
+  },
+  {
+    "time": "2026-10-02T18:02:12Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 2931744768,
+    "swap_free": 9484587008,
+    "load": 8.630859375,
+    "disk_free": 3578642432
+  },
+  {
+    "time": "2026-10-02T18:02:42Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 2929639424,
+    "swap_free": 9483014144,
+    "load": 11.6376953125,
+    "disk_free": 3374313472
+  },
+  {
+    "time": "2026-10-02T18:03:12Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 2673442816,
+    "swap_free": 9481703424,
+    "load": 13.86181640625,
+    "disk_free": 3326193664
+  },
+  {
+    "time": "2026-10-02T18:03:42Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 2580795392,
+    "swap_free": 9479942144,
+    "load": 14.9072265625,
+    "disk_free": 3196772352
+  },
+  {
+    "time": "2026-10-02T18:04:12Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 2468454400,
+    "swap_free": 9479704576,
+    "load": 18.62451171875,
+    "disk_free": 3075608576
+  },
+  {
+    "time": "2026-10-02T18:04:42Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 2516627456,
+    "swap_free": 9479213056,
+    "load": 21.0029296875,
+    "disk_free": 3068452864
+  },
+  {
+    "time": "2026-10-02T18:05:12Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 2529095680,
+    "swap_free": 9479008256,
+    "load": 21.43115234375,
+    "disk_free": 3032846336
+  },
+  {
+    "time": "2026-10-02T18:05:43Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 2468888576,
+    "swap_free": 9479270400,
+    "load": 20.93505859375,
+    "disk_free": 3031973888
+  },
+  {
+    "time": "2026-10-02T18:06:13Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 2598400000,
+    "swap_free": 9478758400,
+    "load": 21.06884765625,
+    "disk_free": 2989436928
+  },
+  {
+    "time": "2026-10-02T18:06:43Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3108114432,
+    "swap_free": 9499467776,
+    "load": 17.6796875,
+    "disk_free": 3257393152
+  },
+  {
+    "time": "2026-10-02T18:07:13Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3728633856,
+    "swap_free": 9520439296,
+    "load": 14.47705078125,
+    "disk_free": 3283873792
+  },
+  {
+    "time": "2026-10-02T18:07:43Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4925452288,
+    "swap_free": 9640239104,
+    "load": 11.55859375,
+    "disk_free": 3622187008
+  },
+  {
+    "time": "2026-10-02T18:08:14Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 5171097600,
+    "swap_free": 9646006272,
+    "load": 12.78369140625,
+    "disk_free": 3514122240
+  },
+  {
+    "time": "2026-10-02T18:08:44Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4969410560,
+    "swap_free": 9650462720,
+    "load": 12.9833984375,
+    "disk_free": 3300818944
+  },
+  {
+    "time": "2026-10-02T18:09:14Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4717666304,
+    "swap_free": 9658589184,
+    "load": 14.54736328125,
+    "disk_free": 3026210816
+  },
+  {
+    "time": "2026-10-02T18:09:44Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4258414592,
+    "swap_free": 9628479488,
+    "load": 15.24853515625,
+    "disk_free": 2960502784
+  },
+  {
+    "time": "2026-10-02T18:10:14Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3726917632,
+    "swap_free": 9613279232,
+    "load": 16.7724609375,
+    "disk_free": 2793254912
+  },
+  {
+    "time": "2026-10-02T18:10:44Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 2927292416,
+    "swap_free": 9476481024,
+    "load": 14.2353515625,
+    "disk_free": 2241114112
+  },
+  {
+    "time": "2026-10-02T18:11:14Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3281563648,
+    "swap_free": 9485918208,
+    "load": 12.6845703125,
+    "disk_free": 2140286976
+  },
+  {
+    "time": "2026-10-02T18:11:44Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3285008384,
+    "swap_free": 9476743168,
+    "load": 12.13525390625,
+    "disk_free": 2094411776
+  },
+  {
+    "time": "2026-10-02T18:12:14Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3218931712,
+    "swap_free": 9476771840,
+    "load": 13.40234375,
+    "disk_free": 2063581184
+  },
+  {
+    "time": "2026-10-02T18:12:44Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3131056128,
+    "swap_free": 9477296128,
+    "load": 12.6533203125,
+    "disk_free": 1982738432
+  },
+  {
+    "time": "2026-10-02T18:13:14Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 3193704448,
+    "swap_free": 9480179712,
+    "load": 12.744140625,
+    "disk_free": 2035372032
+  },
+  {
+    "time": "2026-10-02T18:13:44Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 2985009152,
+    "swap_free": 9477033984,
+    "load": 15.77001953125,
+    "disk_free": 2000351232
+  },
+  {
+    "time": "2026-10-02T18:14:14Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 2524344320,
+    "swap_free": 9461481472,
+    "load": 20.40576171875,
+    "disk_free": 1895960576
+  },
+  {
+    "time": "2026-10-02T18:14:45Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 2420862976,
+    "swap_free": 9433964544,
+    "load": 21.01904296875,
+    "disk_free": 1863536640
+  },
+  {
+    "time": "2026-10-02T18:15:15Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 2551529472,
+    "swap_free": 9432915968,
+    "load": 20.17236328125,
+    "disk_free": 2269052928
+  },
+  {
+    "time": "2026-10-02T18:15:45Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 2497998848,
+    "swap_free": 9431879680,
+    "load": 20.61376953125,
+    "disk_free": 2290827264
+  },
+  {
+    "time": "2026-10-02T18:16:15Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 2265587712,
+    "swap_free": 9431261184,
+    "load": 20.28759765625,
+    "disk_free": 2272649216
+  },
+  {
+    "time": "2026-10-02T18:16:45Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 2084147200,
+    "swap_free": 9431699456,
+    "load": 19.68994140625,
+    "disk_free": 2260254720
+  },
+  {
+    "time": "2026-10-02T18:17:15Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 1932242944,
+    "swap_free": 9431363584,
+    "load": 27.66845703125,
+    "disk_free": 2260025344
+  },
+  {
+    "time": "2026-10-02T18:17:46Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 2465349632,
+    "swap_free": 9434570752,
+    "load": 31.853515625,
+    "disk_free": 2259738624
+  },
+  {
+    "time": "2026-10-02T18:18:16Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 2446835712,
+    "swap_free": 9434411008,
+    "load": 25.3203125,
+    "disk_free": 2235678720
+  },
+  {
+    "time": "2026-10-02T18:18:46Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 2503020544,
+    "swap_free": 9431863296,
+    "load": 20.44775390625,
+    "disk_free": 2210299904
+  },
+  {
+    "time": "2026-10-02T18:19:16Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 2443972608,
+    "swap_free": 9431363584,
+    "load": 19.6845703125,
+    "disk_free": 2189590528
+  },
+  {
+    "time": "2026-10-02T18:19:46Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 2465058816,
+    "swap_free": 9431130112,
+    "load": 18.7099609375,
+    "disk_free": 2148327424
+  },
+  {
+    "time": "2026-10-02T18:20:16Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 2270011392,
+    "swap_free": 9431666688,
+    "load": 19.001953125,
+    "disk_free": 2124541952
+  },
+  {
+    "time": "2026-10-02T18:20:46Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 2020749312,
+    "swap_free": 9431404544,
+    "load": 22.3466796875,
+    "disk_free": 2118414336
+  },
+  {
+    "time": "2026-10-02T18:21:16Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 2005463040,
+    "swap_free": 9430093824,
+    "load": 31.13818359375,
+    "disk_free": 2118311936
+  },
+  {
+    "time": "2026-10-02T18:21:47Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 1941192704,
+    "swap_free": 9430093824,
+    "load": 33.98681640625,
+    "disk_free": 2118311936
+  },
+  {
+    "time": "2026-10-02T18:22:17Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 1897869312,
+    "swap_free": 9430355968,
+    "load": 34.681640625,
+    "disk_free": 2118307840
+  },
+  {
+    "time": "2026-10-02T18:22:47Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 1877049344,
+    "swap_free": 9430093824,
+    "load": 35.45068359375,
+    "disk_free": 2118201344
+  },
+  {
+    "time": "2026-10-02T18:23:17Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 2519560192,
+    "swap_free": 9431363584,
+    "load": 36.24560546875,
+    "disk_free": 2109411328
+  },
+  {
+    "time": "2026-10-02T18:23:47Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4820709376,
+    "swap_free": 9559814144,
+    "load": 26.68798828125,
+    "disk_free": 3159900160
+  },
+  {
+    "time": "2026-10-02T18:24:17Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 5049597952,
+    "swap_free": 9561911296,
+    "load": 17.35546875,
+    "disk_free": 3149037568
+  },
+  {
+    "time": "2026-10-02T18:24:47Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 5178953728,
+    "swap_free": 9566629888,
+    "load": 12.04248046875,
+    "disk_free": 3144941568
+  },
+  {
+    "time": "2026-10-02T18:25:17Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4938248192,
+    "swap_free": 9568202752,
+    "load": 10.73876953125,
+    "disk_free": 3108454400
+  },
+  {
+    "time": "2026-10-02T18:25:47Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 5332877312,
+    "swap_free": 9573445632,
+    "load": 8.03515625,
+    "disk_free": 3095781376
+  },
+  {
+    "time": "2026-10-02T18:26:17Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 5456044032,
+    "swap_free": 9575542784,
+    "load": 5.85498046875,
+    "disk_free": 3083755520
+  },
+  {
+    "time": "2026-10-02T18:26:47Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4291194880,
+    "swap_free": 9581309952,
+    "load": 5.2529296875,
+    "disk_free": 3037847552
+  },
+  {
+    "time": "2026-10-02T18:27:17Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4289982464,
+    "swap_free": 9587339264,
+    "load": 7.06884765625,
+    "disk_free": 3031957504
+  },
+  {
+    "time": "2026-10-02T18:27:47Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4463669248,
+    "swap_free": 9593106432,
+    "load": 7.55126953125,
+    "disk_free": 3019902976
+  },
+  {
+    "time": "2026-10-02T18:28:17Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4666552320,
+    "swap_free": 9598349312,
+    "load": 11.32080078125,
+    "disk_free": 3015389184
+  },
+  {
+    "time": "2026-10-02T18:28:47Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4585390080,
+    "swap_free": 9599397888,
+    "load": 11.1884765625,
+    "disk_free": 3014029312
+  },
+  {
+    "time": "2026-10-02T18:29:17Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 4684460032,
+    "swap_free": 9551609856,
+    "load": 12.3779296875,
+    "disk_free": 3047972864
+  },
+  {
+    "time": "2026-10-02T18:29:47Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 5770465280,
+    "swap_free": 9553707008,
+    "load": 9.56982421875,
+    "disk_free": 3033505792
+  },
+  {
+    "time": "2026-10-02T18:30:17Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 5755584512,
+    "swap_free": 9559998464,
+    "load": 6.630859375,
+    "disk_free": 3023003648
+  },
+  {
+    "time": "2026-10-02T18:30:48Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 5667127296,
+    "swap_free": 9564192768,
+    "load": 5.62255859375,
+    "disk_free": 2860834816
+  },
+  {
+    "time": "2026-10-02T18:31:18Z",
+    "stage": "phase-ownership-core",
+    "state": "waiting",
+    "available": 5406658560,
+    "swap_free": 9569435648,
+    "load": 5.3154296875,
+    "disk_free": 2810134528
+  },
+  {
+    "time": "2026-10-02T18:31:36Z",
+    "stage": "phase-ownership-core",
+    "state": "delegated-hosted",
+    "available": 5406658560,
+    "swap_free": 9569435648,
+    "load": 5.3154296875,
+    "disk_free": 2810134528,
+    "terminated_waiting_pids": [
+      1433291,
+      1433348
+    ],
+    "hosted_run": "https://github.com/CrispStrobe/kerotakis/actions/runs/37047965490"
+  },
+  {
+    "time": "2026-10-02T18:36:09Z",
+    "stage": "phase-ownership-source-archive",
+    "state": "waiting",
+    "available": 3418501120,
+    "swap_free": 9599524864,
+    "load": 10.10986328125,
+    "disk_free": 2474876928
+  },
+  {
+    "time": "2026-10-02T18:36:39Z",
+    "stage": "phase-ownership-source-archive",
+    "state": "waiting",
+    "available": 3318800384,
+    "swap_free": 9429598208,
+    "load": 10.7265625,
+    "disk_free": 2474434560
+  },
+  {
+    "time": "2026-10-02T18:37:09Z",
+    "stage": "phase-ownership-source-archive",
+    "state": "waiting",
+    "available": 3089940480,
+    "swap_free": 9428041728,
+    "load": 10.88623046875,
+    "disk_free": 2473308160
+  },
+  {
+    "time": "2026-10-02T18:37:39Z",
+    "stage": "phase-ownership-source-archive",
+    "state": "waiting",
+    "available": 2880245760,
+    "swap_free": 9426841600,
+    "load": 11.12353515625,
+    "disk_free": 2472878080
+  },
+  {
+    "time": "2026-10-02T18:38:09Z",
+    "stage": "phase-ownership-source-archive",
+    "state": "waiting",
+    "available": 4773543936,
+    "swap_free": 9429987328,
+    "load": 9.67529296875,
+    "disk_free": 2395246592
+  },
+  {
+    "time": "2026-10-02T18:38:39Z",
+    "stage": "phase-ownership-source-archive",
+    "state": "waiting",
+    "available": 5936390144,
+    "swap_free": 9433395200,
+    "load": 6.931640625,
+    "disk_free": 2394624000
+  },
+  {
+    "time": "2026-10-02T18:39:09Z",
+    "stage": "phase-ownership-source-archive",
+    "state": "waiting",
+    "available": 5944033280,
+    "swap_free": 9436540928,
+    "load": 5.95703125,
+    "disk_free": 2386137088
+  },
+  {
+    "time": "2026-10-02T18:39:39Z",
+    "stage": "phase-ownership-source-archive",
+    "state": "waiting",
+    "available": 5937082368,
+    "swap_free": 9438113792,
+    "load": 4.0625,
+    "disk_free": 2386030592
+  },
+  {
+    "time": "2026-10-02T18:40:09Z",
+    "stage": "phase-ownership-source-archive",
+    "state": "waiting",
+    "available": 5665644544,
+    "swap_free": 9447288832,
+    "load": 3.8515625,
+    "disk_free": 2383245312
+  },
+  {
+    "time": "2026-10-02T18:40:39Z",
+    "stage": "phase-ownership-source-archive",
+    "state": "waiting",
+    "available": 5240897536,
+    "swap_free": 9456201728,
+    "load": 4.34423828125,
+    "disk_free": 2383007744
+  },
+  {
+    "time": "2026-10-02T18:41:09Z",
+    "stage": "phase-ownership-source-archive",
+    "state": "waiting",
+    "available": 5165531136,
+    "swap_free": 9460396032,
+    "load": 4.48486328125,
+    "disk_free": 2382626816
+  },
+  {
+    "time": "2026-10-02T18:41:39Z",
+    "stage": "phase-ownership-source-archive",
+    "state": "waiting",
+    "available": 4976238592,
+    "swap_free": 9463017472,
+    "load": 6.0859375,
+    "disk_free": 2382221312
+  },
+  {
+    "time": "2026-10-02T18:42:09Z",
+    "stage": "phase-ownership-source-archive",
+    "state": "waiting",
+    "available": 4657111040,
+    "swap_free": 9466163200,
+    "load": 6.0205078125,
+    "disk_free": 2372165632
+  },
+  {
+    "time": "2026-10-02T18:42:39Z",
+    "stage": "phase-ownership-source-archive",
+    "state": "waiting",
+    "available": 4459073536,
+    "swap_free": 9427697664,
+    "load": 7.55908203125,
+    "disk_free": 2366423040
+  },
+  {
+    "time": "2026-10-02T18:43:10Z",
+    "stage": "phase-ownership-source-archive",
+    "state": "waiting",
+    "available": 4073488384,
+    "swap_free": 9427435520,
+    "load": 8.3935546875,
+    "disk_free": 2365829120
+  },
+  {
+    "time": "2026-10-02T18:43:40Z",
+    "stage": "phase-ownership-source-archive",
+    "state": "waiting",
+    "available": 3792936960,
+    "swap_free": 9429270528,
+    "load": 10.0927734375,
+    "disk_free": 2365542400
+  },
+  {
+    "time": "2026-10-02T18:44:10Z",
+    "stage": "phase-ownership-source-archive",
+    "state": "waiting",
+    "available": 3659804672,
+    "swap_free": 9427841024,
+    "load": 12.9208984375,
+    "disk_free": 2365206528
+  },
+  {
+    "time": "2026-10-02T18:44:40Z",
+    "stage": "phase-ownership-source-archive",
+    "state": "waiting",
+    "available": 3752083456,
+    "swap_free": 9426833408,
+    "load": 12.7314453125,
+    "disk_free": 2365009920
+  },
+  {
+    "time": "2026-10-02T18:45:10Z",
+    "stage": "phase-ownership-source-archive",
+    "state": "waiting",
+    "available": 3005059072,
+    "swap_free": 9426685952,
+    "load": 11.82958984375,
+    "disk_free": 2364874752
+  },
+  {
+    "time": "2026-10-02T18:45:40Z",
+    "stage": "phase-ownership-source-archive",
+    "state": "waiting",
+    "available": 3861151744,
+    "swap_free": 9432453120,
+    "load": 10.3359375,
+    "disk_free": 2364342272
+  },
+  {
+    "time": "2026-10-02T18:46:10Z",
+    "stage": "phase-ownership-source-archive",
+    "state": "waiting",
+    "available": 3446284288,
+    "swap_free": 9436123136,
+    "load": 10.5234375,
+    "disk_free": 2364030976
+  },
+  {
+    "time": "2026-10-02T18:46:40Z",
+    "stage": "phase-ownership-source-archive",
+    "state": "waiting",
+    "available": 5455290368,
+    "swap_free": 9437433856,
+    "load": 10.8330078125,
+    "disk_free": 2359021568
+  },
+  {
+    "time": "2026-10-02T18:47:10Z",
+    "stage": "phase-ownership-source-archive",
+    "state": "waiting",
+    "available": 4722151424,
+    "swap_free": 9426763776,
+    "load": 13.41552734375,
+    "disk_free": 2357686272
+  },
+  {
+    "time": "2026-10-02T18:47:40Z",
+    "stage": "phase-ownership-source-archive",
+    "state": "waiting",
+    "available": 4063449088,
+    "swap_free": 9427664896,
+    "load": 17.5263671875,
+    "disk_free": 2357497856
+  },
+  {
+    "time": "2026-10-02T18:48:10Z",
+    "stage": "phase-ownership-source-archive",
+    "state": "waiting",
+    "available": 3570974720,
+    "swap_free": 9427152896,
+    "load": 15.7587890625,
+    "disk_free": 2357440512
+  },
+  {
+    "time": "2026-10-02T18:48:40Z",
+    "stage": "phase-ownership-source-archive",
+    "state": "waiting",
+    "available": 3624554496,
+    "swap_free": 9427439616,
+    "load": 19.11865234375,
+    "disk_free": 2357317632
+  },
+  {
+    "time": "2026-10-02T18:49:10Z",
+    "stage": "phase-ownership-source-archive",
+    "state": "waiting",
+    "available": 3227365376,
+    "swap_free": 9427701760,
+    "load": 15.95556640625,
+    "disk_free": 2356752384
+  },
+  {
+    "time": "2026-10-02T18:49:40Z",
+    "stage": "phase-ownership-source-archive",
+    "state": "waiting",
+    "available": 2240913408,
+    "swap_free": 9426735104,
+    "load": 16.66015625,
+    "disk_free": 2355728384
+  },
+  {
+    "time": "2026-10-02T18:50:10Z",
+    "stage": "phase-ownership-source-archive",
+    "state": "waiting",
+    "available": 2953891840,
+    "swap_free": 9428447232,
+    "load": 14.78466796875,
+    "disk_free": 2355527680
+  },
+  {
+    "time": "2026-10-02T18:50:40Z",
+    "stage": "phase-ownership-source-archive",
+    "state": "waiting",
+    "available": 3233234944,
+    "swap_free": 9431330816,
+    "load": 10.98388671875,
+    "disk_free": 2354987008
+  },
+  {
+    "time": "2026-10-02T18:51:04Z",
+    "stage": "phase-ownership-source-archive",
+    "state": "use-hosted-source-archive",
+    "available": 3233234944,
+    "swap_free": 9431330816,
+    "load": 10.98388671875,
+    "disk_free": 2354987008,
+    "terminated_waiting_pids": [
+      1605858
+    ]
+  }
+]
