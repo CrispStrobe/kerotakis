@@ -1557,11 +1557,15 @@ pub fn ethanol_water_still(
     stages: u32,
     pressure_kpa: f64,
 ) -> Option<StillCut> {
-    if water_moles < 0.0 || ethanol_moles < 0.0 {
+    if !water_moles.is_finite()
+        || !ethanol_moles.is_finite()
+        || water_moles < 0.0
+        || ethanol_moles < 0.0
+    {
         return None;
     }
     let total0 = water_moles + ethanol_moles;
-    if total0 <= 0.0 {
+    if !total0.is_finite() || total0 <= 0.0 {
         return None;
     }
     let stages = stages.max(1);
@@ -1580,7 +1584,7 @@ pub fn ethanol_water_still(
         // Provisional mole budget for step sizing; the loop stops on the
         // real energy meter below.
         StillTake::EnergyKj(kj) => {
-            if kj < 0.0 {
+            if !kj.is_finite() || kj < 0.0 {
                 return None;
             }
             (kj / WATER_HVAP_KJ_PER_MOL.min(ETHANOL_HVAP_KJ_PER_MOL)).min(total0)
@@ -1595,6 +1599,15 @@ pub fn ethanol_water_still(
     const STEPS: usize = 256;
     let dn = budget / STEPS as f64;
     if dn <= 0.0 {
+        let requested_positive = match take {
+            StillTake::Fraction(f) => f > 0.0,
+            StillTake::EnergyKj(kj) => kj > 0.0,
+        };
+        if requested_positive {
+            // A positive request that underflows in budget/substep sizing
+            // is unsupported, not a successful zero transfer.
+            return None;
+        }
         return Some(StillCut {
             water_over: 0.0,
             ethanol_over: 0.0,
@@ -1606,7 +1619,7 @@ pub fn ethanol_water_still(
     }
     for _ in 0..STEPS {
         let pot = w + e;
-        if pot <= 1e-12 {
+        if pot <= 0.0 {
             break;
         }
         let x = e / pot;
@@ -1620,6 +1633,9 @@ pub fn ethanol_water_still(
         let de = (dn * y_top).min(e);
         let dw = (dn - de).min(w);
         let step_kj = de * ETHANOL_HVAP_KJ_PER_MOL + dw * WATER_HVAP_KJ_PER_MOL;
+        if !step_kj.is_finite() || !(energy_kj + step_kj).is_finite() {
+            return None;
+        }
         if let StillTake::EnergyKj(kj) = take {
             if energy_kj + step_kj > kj {
                 // The burner's budget ends mid-step: take the affordable
@@ -1636,6 +1652,17 @@ pub fn ethanol_water_still(
         e_over += de;
         w_over += dw;
         energy_kj += step_kj;
+    }
+    let overhead = w_over + e_over;
+    if !overhead.is_finite() || !energy_kj.is_finite() || overhead <= 0.0 {
+        return None;
+    }
+    if matches!(take, StillTake::Fraction(_))
+        && (overhead - budget).abs() > 8.0 * STEPS as f64 * f64::EPSILON * budget
+    {
+        // Subnormal step rounding or depletion must not turn a requested
+        // fraction into an unlabelled smaller/larger successful transfer.
+        return None;
     }
     Some(StillCut {
         water_over: w_over,

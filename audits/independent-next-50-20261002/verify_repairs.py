@@ -47,10 +47,18 @@ for suite, folder in [(root, args.evidence), (root/'followups', args.evidence/'f
         if run['mode'] == 'json':
             parsed = rows(folder, run['id'])
             check(f"{run['id']}: strict NDJSON", all(isinstance(r, dict) for r in parsed))
+for label, receipt in zip(['followups','additional-controls'], receipts[1:]):
+    check(f'{label}: every invocation succeeds', all(r['exit_code']==0 for r in receipt['runs']))
 check('one validated executable for all suites', len({(r['binary_sha256'], r['binary_source_commit']) for r in receipts}) == 1)
 
-for case in ['074', '075', '077']:
+for case, expected_count in [('074',1), ('075',2), ('077',2)]:
     data = rows(args.evidence, case)
+    runs=[r for r in receipts[0]['runs'] if r['id']==case]
+    check(f'{case}: both modes execute successfully', len(runs)==2 and all(r['exit_code']==0 for r in runs))
+    check(f'{case}: every predicted electrolysis occurs',
+          len([r for r in data if r.get('operator',{}).get('op')=='electrolyse']) == expected_count
+          and len(events(data,'electrolysed')) == expected_count)
+
     previous = None
     for r in data:
         if 'bench' not in r:
@@ -66,6 +74,10 @@ for case in ['074', '075', '077']:
                   hydrogen_mol=hydrogen, expected_electrons_mol=electrons)
             check(f'{case} v{vid}: anodic Faraday budget',
                   abs(e['anode_moles']*(2 if e['anode_species']=='Cl2' else 4)-electrons)<1e-12)
+            anode_gain=amount(after,e['anode_species'])-amount(before,e['anode_species'])
+            check(f'{case} v{vid}: anodic product enters physical stock',
+                  abs(anode_gain-e['anode_moles'])<1e-12,
+                  gas_inventory_gain_mol=anode_gain, reported_mol=e['anode_moles'])
             water_loss = amount(before, 'water')-amount(after, 'water')
             expected_loss = electrons if e['anode_species']=='Cl2' else electrons/2
             check(f'{case} v{vid}: water consumption', abs(water_loss-expected_loss)<2e-8,
