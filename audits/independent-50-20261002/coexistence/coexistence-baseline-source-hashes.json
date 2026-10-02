@@ -1,0 +1,7 @@
+{
+  "crates/kerotakis-cea/src/gibbs.rs": "9bc93c0d305450380f321bfbd464314e35e6aaa60c99057eabd3ec25c53a19cb",
+  "crates/kerotakis-core/src/bench.rs": "598d876889cf8a36dec9a7124577f31427a361bbde23e77a1926732044655caf",
+  "crates/kerotakis-core/src/transport.rs": "14fe47a19bce400c9c9c5bb59c62fd9f7caf8fb3e96367eaf5fd72e40c5046c3",
+  "crates/kerotakis-core/tests/transport.rs": "e013497c5b37267143fb9ee9da3f041fb87df353e30f56e60eb4fbf36e6fa7b4",
+  "crates/kerotakis-core/tests/transport_verb.rs": "9a4c99363fcb8200681f37486e8dd833d0fc58fcc8874e77775d52eea7f06c2d"
+}

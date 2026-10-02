@@ -1,0 +1,7 @@
+{
+  "duplicate-chain": "Repeated physical cell IDs refuse atomically; one initial chloride stock must not become two without chloride inlet.",
+  "hot-outlet": "At Courant one, an empty adiabatic receiver retains the source outlet temperature, independently of colder inlet temperature.",
+  "osmosis": "Uptake consumes only liquid bath water across all portions; ice and gas remain untouched, total mass is conserved, and no liquid means no uptake.",
+  "mixed-gas-tiny-inert": "At 1300 K and 1 bar, Ca0.1/C0.2/O0.5/N2e-20 returns CaO0.1mol, CO20.2mol and N21e-20mol with no arbitrary gas floor.",
+  "mixed-gas-coexistence": "At 1100 K and 1 bar with Ca0.1/C0.2/O0.5/N0.4, ideal-mixture mass action gives CO20.13083847753953914mol and CaO0.03083847753953914mol; HP with the independently assembled enthalpy returns that temperature and partition."
+}

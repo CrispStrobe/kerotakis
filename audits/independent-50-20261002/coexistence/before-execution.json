@@ -1,0 +1,64 @@
+{
+  "binary_sha256": "a77c3793de971b82cca51c1d98735b298b413c3af1fc9a99b6fafe60dfedd56f",
+  "commit": "5b940f8948c7b2a33a8b40c37d047217b574686c",
+  "runs": [
+    {
+      "name": "duplicate-chain",
+      "mode": "json",
+      "exit_code": 0,
+      "seconds": 1.5556202791631222
+    },
+    {
+      "name": "duplicate-chain",
+      "mode": "text",
+      "exit_code": 0,
+      "seconds": 1.1308574751019478
+    },
+    {
+      "name": "hot-outlet",
+      "mode": "json",
+      "exit_code": 0,
+      "seconds": 1.169829960912466
+    },
+    {
+      "name": "hot-outlet",
+      "mode": "text",
+      "exit_code": 0,
+      "seconds": 1.1243416052311659
+    }
+  ],
+  "gates": [
+    {
+      "time": "2026-10-02T16:43:40Z",
+      "load1": 2.2724609375,
+      "available": 5483180032,
+      "swap_free": 10072772608,
+      "disk_free": 5023465472,
+      "state": "start"
+    },
+    {
+      "time": "2026-10-02T16:43:42Z",
+      "load1": 2.2724609375,
+      "available": 5470765056,
+      "swap_free": 10073821184,
+      "disk_free": 5023289344,
+      "state": "start"
+    },
+    {
+      "time": "2026-10-02T16:43:43Z",
+      "load1": 2.17041015625,
+      "available": 5494824960,
+      "swap_free": 10074083328,
+      "disk_free": 5023285248,
+      "state": "start"
+    },
+    {
+      "time": "2026-10-02T16:43:44Z",
+      "load1": 2.17041015625,
+      "available": 5477683200,
+      "swap_free": 10074083328,
+      "disk_free": 5023092736,
+      "state": "start"
+    }
+  ]
+}

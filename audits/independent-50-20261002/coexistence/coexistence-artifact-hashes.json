@@ -1,0 +1,16 @@
+{
+  "source_checkpoint": "570b3022ac1c1ac37210bbfa533c2aa6f8066bf2",
+  "source_members_verified": 5,
+  "artifacts": [
+    {
+      "path": "/mnt/storage/kerotakis-maintenance-20261002/source-570b3022.tar",
+      "bytes": 99696640,
+      "sha256": "c4e87b4f785d9be5dd4a25e3a4cef498e83772737b9bfa4b0bf863c72e9ce203"
+    },
+    {
+      "path": "/mnt/storage/kerotakis-maintenance-20261002/kero-570b3022",
+      "bytes": 106019296,
+      "sha256": "f913279bf51561ccced569802bd84a3427b05d528c90ba61dc2d0b0b6a1d66c1"
+    }
+  ]
+}

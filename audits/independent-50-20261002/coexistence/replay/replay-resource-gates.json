@@ -1,0 +1,834 @@
+[
+  {
+    "time": "2026-10-02T17:01:51Z",
+    "load1": 2.56640625,
+    "available": 5590736896,
+    "swap_free": 10046754816,
+    "disk_free": 4442202112,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:01:52Z",
+    "load1": 2.52099609375,
+    "available": 5595213824,
+    "swap_free": 10046754816,
+    "disk_free": 4442132480,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:01:53Z",
+    "load1": 2.52099609375,
+    "available": 5611175936,
+    "swap_free": 10046754816,
+    "disk_free": 4442128384,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:01:55Z",
+    "load1": 2.52099609375,
+    "available": 5631762432,
+    "swap_free": 10046754816,
+    "disk_free": 4442079232,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:01:56Z",
+    "load1": 2.52099609375,
+    "available": 5665488896,
+    "swap_free": 10047803392,
+    "disk_free": 4442050560,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:01:57Z",
+    "load1": 2.52099609375,
+    "available": 5678043136,
+    "swap_free": 10048851968,
+    "disk_free": 4442009600,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:01:58Z",
+    "load1": 2.39892578125,
+    "available": 5679890432,
+    "swap_free": 10048851968,
+    "disk_free": 4442005504,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:01:59Z",
+    "load1": 2.39892578125,
+    "available": 5684031488,
+    "swap_free": 10048851968,
+    "disk_free": 4441874432,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:00Z",
+    "load1": 2.39892578125,
+    "available": 5696782336,
+    "swap_free": 10048851968,
+    "disk_free": 4441870336,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:01Z",
+    "load1": 2.39892578125,
+    "available": 5704069120,
+    "swap_free": 10048851968,
+    "disk_free": 4441833472,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:03Z",
+    "load1": 2.36669921875,
+    "available": 5736361984,
+    "swap_free": 10048851968,
+    "disk_free": 4441829376,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:04Z",
+    "load1": 2.36669921875,
+    "available": 5735202816,
+    "swap_free": 10049114112,
+    "disk_free": 4441792512,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:05Z",
+    "load1": 2.36669921875,
+    "available": 5711904768,
+    "swap_free": 10049114112,
+    "disk_free": 4441792512,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:06Z",
+    "load1": 2.36669921875,
+    "available": 5694251008,
+    "swap_free": 10049376256,
+    "disk_free": 4439564288,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:08Z",
+    "load1": 2.3369140625,
+    "available": 5701500928,
+    "swap_free": 10049900544,
+    "disk_free": 4439556096,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:09Z",
+    "load1": 2.3369140625,
+    "available": 5705441280,
+    "swap_free": 10049900544,
+    "disk_free": 4439519232,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:10Z",
+    "load1": 2.3369140625,
+    "available": 5705371648,
+    "swap_free": 10049900544,
+    "disk_free": 4439515136,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:11Z",
+    "load1": 2.3369140625,
+    "available": 5721448448,
+    "swap_free": 10049900544,
+    "disk_free": 4439429120,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:12Z",
+    "load1": 2.3369140625,
+    "available": 5728862208,
+    "swap_free": 10049900544,
+    "disk_free": 4439425024,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:13Z",
+    "load1": 2.3095703125,
+    "available": 5729046528,
+    "swap_free": 10049900544,
+    "disk_free": 4439322624,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:14Z",
+    "load1": 2.3095703125,
+    "available": 5712363520,
+    "swap_free": 10049900544,
+    "disk_free": 4439318528,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:16Z",
+    "load1": 2.3095703125,
+    "available": 5713154048,
+    "swap_free": 10049900544,
+    "disk_free": 4439130112,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:17Z",
+    "load1": 2.3095703125,
+    "available": 5738557440,
+    "swap_free": 10050162688,
+    "disk_free": 4439126016,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:18Z",
+    "load1": 2.28466796875,
+    "available": 5718216704,
+    "swap_free": 10050162688,
+    "disk_free": 4439052288,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:19Z",
+    "load1": 2.28466796875,
+    "available": 5726138368,
+    "swap_free": 10050162688,
+    "disk_free": 4439048192,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:20Z",
+    "load1": 2.28466796875,
+    "available": 5661999104,
+    "swap_free": 10050949120,
+    "disk_free": 4438761472,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:22Z",
+    "load1": 2.28466796875,
+    "available": 5668593664,
+    "swap_free": 10050949120,
+    "disk_free": 4438757376,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:23Z",
+    "load1": 2.98291015625,
+    "available": 5674491904,
+    "swap_free": 10050949120,
+    "disk_free": 4438663168,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:24Z",
+    "load1": 2.98291015625,
+    "available": 5662248960,
+    "swap_free": 10050949120,
+    "disk_free": 4438659072,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:25Z",
+    "load1": 2.98291015625,
+    "available": 5682077696,
+    "swap_free": 10050949120,
+    "disk_free": 4438638592,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:26Z",
+    "load1": 2.98291015625,
+    "available": 5684662272,
+    "swap_free": 10050949120,
+    "disk_free": 4438630400,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:28Z",
+    "load1": 2.90380859375,
+    "available": 5713731584,
+    "swap_free": 10051735552,
+    "disk_free": 4438573056,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:29Z",
+    "load1": 2.90380859375,
+    "available": 5704200192,
+    "swap_free": 10051735552,
+    "disk_free": 4438568960,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:30Z",
+    "load1": 2.90380859375,
+    "available": 5688307712,
+    "swap_free": 10051735552,
+    "disk_free": 4438384640,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:31Z",
+    "load1": 2.90380859375,
+    "available": 5688295424,
+    "swap_free": 10051735552,
+    "disk_free": 4438376448,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:32Z",
+    "load1": 2.91162109375,
+    "available": 5689159680,
+    "swap_free": 10051735552,
+    "disk_free": 4438278144,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:33Z",
+    "load1": 2.91162109375,
+    "available": 5703012352,
+    "swap_free": 10051735552,
+    "disk_free": 4438274048,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:35Z",
+    "load1": 2.91162109375,
+    "available": 5711548416,
+    "swap_free": 10051735552,
+    "disk_free": 4438216704,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:36Z",
+    "load1": 2.91162109375,
+    "available": 5704499200,
+    "swap_free": 10051997696,
+    "disk_free": 4438212608,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:37Z",
+    "load1": 2.91162109375,
+    "available": 5704204288,
+    "swap_free": 10059337728,
+    "disk_free": 4438138880,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:38Z",
+    "load1": 2.83837890625,
+    "available": 5706330112,
+    "swap_free": 10059337728,
+    "disk_free": 4438134784,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:39Z",
+    "load1": 2.83837890625,
+    "available": 5713768448,
+    "swap_free": 10059337728,
+    "disk_free": 4438093824,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:40Z",
+    "load1": 2.83837890625,
+    "available": 5709504512,
+    "swap_free": 10059337728,
+    "disk_free": 4438089728,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:41Z",
+    "load1": 2.83837890625,
+    "available": 5720735744,
+    "swap_free": 10059337728,
+    "disk_free": 4438032384,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:42Z",
+    "load1": 2.931640625,
+    "available": 5708013568,
+    "swap_free": 10059337728,
+    "disk_free": 4438028288,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:44Z",
+    "load1": 2.931640625,
+    "available": 5721542656,
+    "swap_free": 10059337728,
+    "disk_free": 4437950464,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:45Z",
+    "load1": 2.931640625,
+    "available": 5716922368,
+    "swap_free": 10059337728,
+    "disk_free": 4437946368,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:46Z",
+    "load1": 2.931640625,
+    "available": 5726220288,
+    "swap_free": 10060910592,
+    "disk_free": 4437839872,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:47Z",
+    "load1": 2.931640625,
+    "available": 5702496256,
+    "swap_free": 10060910592,
+    "disk_free": 4437835776,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:48Z",
+    "load1": 2.85693359375,
+    "available": 5696958464,
+    "swap_free": 10061172736,
+    "disk_free": 4437708800,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:49Z",
+    "load1": 2.85693359375,
+    "available": 5686136832,
+    "swap_free": 10061172736,
+    "disk_free": 4437704704,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:50Z",
+    "load1": 2.85693359375,
+    "available": 5710467072,
+    "swap_free": 10061172736,
+    "disk_free": 4437569536,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:52Z",
+    "load1": 2.85693359375,
+    "available": 5718482944,
+    "swap_free": 10061172736,
+    "disk_free": 4437565440,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:53Z",
+    "load1": 2.7880859375,
+    "available": 5720969216,
+    "swap_free": 10061172736,
+    "disk_free": 4437495808,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:54Z",
+    "load1": 2.7880859375,
+    "available": 5719859200,
+    "swap_free": 10061172736,
+    "disk_free": 4437491712,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:55Z",
+    "load1": 2.7880859375,
+    "available": 5711441920,
+    "swap_free": 10061172736,
+    "disk_free": 4437397504,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:57Z",
+    "load1": 2.7880859375,
+    "available": 5712932864,
+    "swap_free": 10061172736,
+    "disk_free": 4437393408,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:02:58Z",
+    "load1": 2.88525390625,
+    "available": 5721214976,
+    "swap_free": 10061172736,
+    "disk_free": 4437086208,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:00Z",
+    "load1": 2.88525390625,
+    "available": 5722849280,
+    "swap_free": 10061172736,
+    "disk_free": 4437078016,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:01Z",
+    "load1": 2.88525390625,
+    "available": 5736013824,
+    "swap_free": 10061172736,
+    "disk_free": 4436971520,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:02Z",
+    "load1": 2.81396484375,
+    "available": 5719793664,
+    "swap_free": 10061172736,
+    "disk_free": 4436967424,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:04Z",
+    "load1": 2.81396484375,
+    "available": 5717323776,
+    "swap_free": 10061172736,
+    "disk_free": 4436873216,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:05Z",
+    "load1": 2.81396484375,
+    "available": 5735747584,
+    "swap_free": 10061172736,
+    "disk_free": 4436869120,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:07Z",
+    "load1": 2.81396484375,
+    "available": 5740437504,
+    "swap_free": 10061172736,
+    "disk_free": 4436742144,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:08Z",
+    "load1": 2.8291015625,
+    "available": 5703409664,
+    "swap_free": 10061434880,
+    "disk_free": 4436705280,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:09Z",
+    "load1": 2.8291015625,
+    "available": 5717458944,
+    "swap_free": 10061434880,
+    "disk_free": 4436635648,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:10Z",
+    "load1": 2.8291015625,
+    "available": 5719707648,
+    "swap_free": 10061697024,
+    "disk_free": 4436631552,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:11Z",
+    "load1": 2.8291015625,
+    "available": 5713113088,
+    "swap_free": 10061959168,
+    "disk_free": 4436574208,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:13Z",
+    "load1": 2.84326171875,
+    "available": 5702266880,
+    "swap_free": 10061959168,
+    "disk_free": 4436570112,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:14Z",
+    "load1": 2.84326171875,
+    "available": 5671325696,
+    "swap_free": 10062221312,
+    "disk_free": 4436385792,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:15Z",
+    "load1": 2.84326171875,
+    "available": 5697900544,
+    "swap_free": 10062221312,
+    "disk_free": 4436381696,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:16Z",
+    "load1": 2.84326171875,
+    "available": 5686779904,
+    "swap_free": 10062221312,
+    "disk_free": 4436103168,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:18Z",
+    "load1": 2.85595703125,
+    "available": 5714993152,
+    "swap_free": 10062483456,
+    "disk_free": 4436099072,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:19Z",
+    "load1": 2.85595703125,
+    "available": 5701111808,
+    "swap_free": 10062483456,
+    "disk_free": 4435775488,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:20Z",
+    "load1": 2.85595703125,
+    "available": 5658722304,
+    "swap_free": 10062745600,
+    "disk_free": 4435767296,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:21Z",
+    "load1": 2.85595703125,
+    "available": 5668093952,
+    "swap_free": 10062745600,
+    "disk_free": 4435714048,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:22Z",
+    "load1": 2.86767578125,
+    "available": 5660758016,
+    "swap_free": 10062745600,
+    "disk_free": 4435709952,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:24Z",
+    "load1": 2.86767578125,
+    "available": 5660471296,
+    "swap_free": 10062745600,
+    "disk_free": 4435574784,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:25Z",
+    "load1": 2.86767578125,
+    "available": 5672251392,
+    "swap_free": 10062745600,
+    "disk_free": 4435570688,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:26Z",
+    "load1": 2.86767578125,
+    "available": 5652045824,
+    "swap_free": 10062745600,
+    "disk_free": 4435431424,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:27Z",
+    "load1": 2.86767578125,
+    "available": 5658492928,
+    "swap_free": 10063269888,
+    "disk_free": 4435423232,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:28Z",
+    "load1": 3.11865234375,
+    "available": 5662842880,
+    "swap_free": 10063269888,
+    "disk_free": 4435169280,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:30Z",
+    "load1": 3.11865234375,
+    "available": 5674614784,
+    "swap_free": 10063269888,
+    "disk_free": 4435165184,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:31Z",
+    "load1": 3.11865234375,
+    "available": 5721542656,
+    "swap_free": 10063269888,
+    "disk_free": 4435206144,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:32Z",
+    "load1": 3.02880859375,
+    "available": 5734965248,
+    "swap_free": 10063269888,
+    "disk_free": 4435038208,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:34Z",
+    "load1": 3.02880859375,
+    "available": 5742301184,
+    "swap_free": 10063269888,
+    "disk_free": 4435017728,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:35Z",
+    "load1": 3.02880859375,
+    "available": 5720031232,
+    "swap_free": 10063269888,
+    "disk_free": 4435013632,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:36Z",
+    "load1": 3.02880859375,
+    "available": 5729267712,
+    "swap_free": 10063532032,
+    "disk_free": 4434923520,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:38Z",
+    "load1": 2.8662109375,
+    "available": 5745127424,
+    "swap_free": 10063532032,
+    "disk_free": 4434919424,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:39Z",
+    "load1": 2.8662109375,
+    "available": 5724450816,
+    "swap_free": 10063532032,
+    "disk_free": 4434866176,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:40Z",
+    "load1": 2.8662109375,
+    "available": 5692497920,
+    "swap_free": 10063532032,
+    "disk_free": 4434862080,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:41Z",
+    "load1": 2.8662109375,
+    "available": 5710131200,
+    "swap_free": 10063532032,
+    "disk_free": 4434784256,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:43Z",
+    "load1": 2.79638671875,
+    "available": 5720051712,
+    "swap_free": 10063532032,
+    "disk_free": 4434780160,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:44Z",
+    "load1": 2.79638671875,
+    "available": 5715460096,
+    "swap_free": 10063532032,
+    "disk_free": 4434685952,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:45Z",
+    "load1": 2.79638671875,
+    "available": 5725896704,
+    "swap_free": 10063532032,
+    "disk_free": 4434681856,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:47Z",
+    "load1": 2.79638671875,
+    "available": 5730168832,
+    "swap_free": 10063794176,
+    "disk_free": 4434604032,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:48Z",
+    "load1": 2.732421875,
+    "available": 5720387584,
+    "swap_free": 10063794176,
+    "disk_free": 4434595840,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:50Z",
+    "load1": 2.732421875,
+    "available": 5720559616,
+    "swap_free": 10064056320,
+    "disk_free": 4434505728,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:51Z",
+    "load1": 2.732421875,
+    "available": 5733351424,
+    "swap_free": 10064056320,
+    "disk_free": 4434501632,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:52Z",
+    "load1": 2.732421875,
+    "available": 5721415680,
+    "swap_free": 10064056320,
+    "disk_free": 4434444288,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:53Z",
+    "load1": 2.67333984375,
+    "available": 5711618048,
+    "swap_free": 10064056320,
+    "disk_free": 4434423808,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:54Z",
+    "load1": 2.67333984375,
+    "available": 5688922112,
+    "swap_free": 10064318464,
+    "disk_free": 4434214912,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:56Z",
+    "load1": 2.67333984375,
+    "available": 5710942208,
+    "swap_free": 10064318464,
+    "disk_free": 4434210816,
+    "state": "start-command"
+  },
+  {
+    "time": "2026-10-02T17:03:57Z",
+    "load1": 2.67333984375,
+    "available": 5696778240,
+    "swap_free": 10064318464,
+    "disk_free": 4434022400,
+    "state": "start-command"
+  }
+]

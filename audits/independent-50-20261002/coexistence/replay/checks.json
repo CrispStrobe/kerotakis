@@ -1,0 +1,302 @@
+[
+  {
+    "id": "01",
+    "check": "10 kJ raises 100 g water about 24 K",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "02",
+    "check": "Equal heat and cool restore initial temperature",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "03",
+    "check": "Weighted hot/cold mixing gives 35 C",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "04",
+    "check": "Temperature rises scale inversely with water mass",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "05",
+    "check": "Cooling makes mixed ice and liquid near zero",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "06",
+    "check": "Boiling plateau and approximately 17 g water loss",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "07",
+    "check": "Salt freezes lower than equal molar sugar",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "08",
+    "check": "Equal 60 C portions stay at 60 C",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "09",
+    "check": "Tenfold dilution raises pH about one unit",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "10",
+    "check": "Neutralisation followed by alkaline overshoot",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "11",
+    "check": "Acetic acid pH is more than one unit above HCl",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "12",
+    "check": "Half neutralised acetate pH near pKa",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "13",
+    "check": "Buffer pH change is less than 1 percent of water change",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "14",
+    "check": "NaCl greatly increases conductivity",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "15",
+    "check": "Sugar conducts much less than NaCl",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "16",
+    "check": "AgCl yield close to 1 mmol",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "17",
+    "check": "Reversed reagent order gives equal solid and pH",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "18",
+    "check": "Filter retains AgCl and transfers water and sodium",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "19",
+    "check": "BaSO4 yield near 1 mmol",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "20",
+    "check": "Acid dissolves chalk with accounted CO2",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "21",
+    "check": "Excess salt remains undissolved",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "22",
+    "check": "Dilution dissolves residual NaCl",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "23",
+    "check": "Evaporation retains salt with 10 g solvent",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "24",
+    "check": "Quarter decant partitions water and salt",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "25",
+    "check": "Split and reunite restores inventory and temperature",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "26",
+    "check": "CaCl2 warms and KNO3 cools",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "27",
+    "check": "Inventory carbon agrees with speciation snapshot",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "28",
+    "check": "Fizz raises sealed pressure",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "29",
+    "check": "Smaller headspace gives larger pressure",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "30",
+    "check": "Opening restores ambient pressure and retains salt",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "31",
+    "check": "Pressure regulator expands headspace at fixed pressure",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "32",
+    "check": "Sweep removes carbon and raises pH",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "33",
+    "check": "Zinc plates copper with conserved metal totals",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "34",
+    "check": "Copper does not plate zinc",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "35",
+    "check": "Zinc dissolves in acid while copper remains",
+    "passed": false,
+    "expected_to_pass": false
+  },
+  {
+    "id": "36",
+    "check": "Cell reports about 1.1 V with stable electrode identities",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "37",
+    "check": "Equal cells have no potential then dilution produces tens of mV",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "38",
+    "check": "Faraday product amounts and 2 to 1 gas stoichiometry",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "39",
+    "check": "Missing complete Cu spectrum is explicitly bounded",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "40",
+    "check": "Tenfold dilution reduces absorbance tenfold",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "41",
+    "check": "Flame test retains NaCl",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "42",
+    "check": "Burned magnesium gains expected oxygen mass",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "43",
+    "check": "Ethanol produces combustion heat or an explicit model boundary",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "44",
+    "check": "Distillation enriches ethanol and conserves both components",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "45",
+    "check": "Oil and water are drawn as separate conserved layers",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "46",
+    "check": "Drain transfers lower water layer",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "47",
+    "check": "Salt remains aqueous alongside unresolved oil",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "48",
+    "check": "Milk acidification conserves unresolved material and produces curd event",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "49",
+    "check": "Peroxide oxygen stoichiometry and unchanged catalyst",
+    "passed": true,
+    "expected_to_pass": true
+  },
+  {
+    "id": "50",
+    "check": "One hour preserves dilute salt and water inventory",
+    "passed": true,
+    "expected_to_pass": true
+  }
+]

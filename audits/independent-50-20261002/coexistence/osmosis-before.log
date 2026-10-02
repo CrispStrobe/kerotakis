@@ -1,0 +1,24 @@
+   Compiling kerotakis-core v0.0.1 (/mnt/volume1/kerotakis/crates/kerotakis-core)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1m 08s
+     Running unittests src/lib.rs (target/debug/deps/kerotakis_core-624bd6a3b62afb00)
+
+running 1 test
+test bench::prepared_object_inventory_tests::osmosis_draws_from_all_liquid_portions_and_leaves_ice_and_gas_owned ... FAILED
+
+failures:
+
+---- bench::prepared_object_inventory_tests::osmosis_draws_from_all_liquid_portions_and_leaves_ice_and_gas_owned stdout ----
+
+thread 'bench::prepared_object_inventory_tests::osmosis_draws_from_all_liquid_portions_and_leaves_ice_and_gas_owned' (1361089) panicked at crates/kerotakis-core/src/bench.rs:6807:13:
+assertion `left == right` failed
+  left: 0.06207276647028655
+ right: 0.1
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    bench::prepared_object_inventory_tests::osmosis_draws_from_all_liquid_portions_and_leaves_ice_and_gas_owned
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 612 filtered out; finished in 0.02s
+
+error: test failed, to rerun pass `-p kerotakis-core --lib`

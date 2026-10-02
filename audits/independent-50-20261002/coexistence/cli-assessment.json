@@ -1,0 +1,17 @@
+{
+  "duplicate_before": {
+    "initial": 0.001,
+    "combined": 0.002
+  },
+  "duplicate_after": "refused before publication",
+  "hot_outlet": {
+    "before": {
+      "source": 346.09764773028746,
+      "receiver": 298.1499985250464
+    },
+    "after": {
+      "source": 346.09764773028746,
+      "receiver": 346.0976414736614
+    }
+  }
+}

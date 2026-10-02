@@ -1,0 +1,24 @@
+   Compiling kerotakis-core v0.0.1 (/mnt/volume1/kerotakis/crates/kerotakis-core)
+   Compiling kerotakis-cea v0.0.1 (/mnt/volume1/kerotakis/crates/kerotakis-cea)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 47.43s
+     Running unittests src/lib.rs (target/debug/deps/kerotakis_cea-a290b72d5bf742a3)
+
+running 2 tests
+test gibbs::tests::mixed_gas_condensed_coexistence_matches_mass_action_and_hp ... ok
+test gibbs::tests::mixed_gas_condensed_equilibrium_retains_tiny_independent_inert_stock ... FAILED
+
+failures:
+
+---- gibbs::tests::mixed_gas_condensed_equilibrium_retains_tiny_independent_inert_stock stdout ----
+
+thread 'gibbs::tests::mixed_gas_condensed_equilibrium_retains_tiny_independent_inert_stock' (1361910) panicked at crates/kerotakis-cea/src/gibbs.rs:2208:57:
+called `Result::unwrap()` on an `Err` value: NotConverged(144)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    gibbs::tests::mixed_gas_condensed_equilibrium_retains_tiny_independent_inert_stock
+
+test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 44 filtered out; finished in 0.15s
+
+error: test failed, to rerun pass `-p kerotakis-cea --lib`

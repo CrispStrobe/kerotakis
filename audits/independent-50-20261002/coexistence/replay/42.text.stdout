@@ -1,0 +1,10 @@
+  v1: +0.001000 mol magnesium (Mg, M = 24.305 g/mol)
+  v1: ignition source applied; computed reaction energy = 601.600 J
+  v1: 0.000500 mol oxygen transferred gas → condensed inventory
+  v1: 0.001000 mol magnesium oxide formed as a condensed product (dry vessel)
+  v1: −0.001000 mol magnesium
+  v1: T 1200.000 K → 551.865 K (ΔT = -648.135 K)
+  v1: Gibbs minimum at 551.87 K · NASA CEA thermo.inp · NASA-9 polynomials, ideal gas + pure condensed phases; localized spark zone 1200.00 K, bulk feed 298.15 K, room air 298.15 K; open-air allocation 79.20 times the represented feed amount
+  v1 (beaker) — 278.72 °C, 0.0 g, 0.0 mL liquid, open to atmosphere
+           1.00 mmol  magnesium oxide    Solid
+  v1 balance: 0.0403 g
