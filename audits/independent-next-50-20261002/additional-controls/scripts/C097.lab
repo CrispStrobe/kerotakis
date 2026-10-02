@@ -1,0 +1,11 @@
+register lv3
+add v1 water 10mL
+inspect v1
+measure v1 thermometer
+cool v1 5kJ
+inspect v1
+look v1
+heat v1 5kJ
+inspect v1
+measure v1 thermometer
+measure v1 balance

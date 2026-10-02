@@ -1,0 +1,39 @@
+[
+  {
+    "id": "C084",
+    "title": "Tollens-type silver reduction distinguishes a reducing sugar from acetone",
+    "script": "new\nadd v1 water 50mL\nadd v1 AgNO3 0.001mol\nadd v1 NH3 0.01mol\nadd v1 NaOH 0.002mol\nadd v1 glucose 0.0005mol\nadd v2 water 50mL\nadd v2 AgNO3 0.001mol\nadd v2 NH3 0.01mol\nadd v2 NaOH 0.002mol\nadd v2 propanone 0.0005mol\nwait 10min\nlook v1\nlook v2\ninspect v1\ninspect v2\nmeasure v1 uvvis\nexplain v1\ninspect\n",
+    "expectation": "Ammoniacal Ag(I) oxidizes reducing glucose and can deposit Ag metal. Ordinary acetone does not give the corresponding Tollens silver-mirror reaction. Complexation/Ag2O preparation and sugar ring opening matter.",
+    "criteria": [
+      "A supported selectivity model should produce greater Ag(0) in the glucose vessel than the acetone control; it must not infer silver merely from adding any organic molecule.",
+      "Ag atoms and oxidation/reduction electron counts must balance. At most0.001mol Ag can form from the stated silver feed.",
+      "Unsupported glucose, diamminesilver complexation or finite-time redox pathways must be explicit followups; an Ag2O precipitate alone is not a silver-mirror success."
+    ],
+    "original_id": "084",
+    "control": "Canonical propanone name for the same acetone substance; unchanged original reaction/selectivity prediction."
+  },
+  {
+    "id": "C097",
+    "title": "A closed water freeze-thaw cycle should return its energy and matter",
+    "script": "register lv3\nadd v1 water 10mL\ninspect v1\nmeasure v1 thermometer\ncool v1 5kJ\ninspect v1\nlook v1\nheat v1 5kJ\ninspect v1\nmeasure v1 thermometer\nmeasure v1 balance\n",
+    "expectation": "Equal5000J cooling/heating of10mL purewater without trapped air returns25C with conserved water inventory, within0.2K.",
+    "criteria": [
+      "The cooling leg produces ice or explicitly discloses an unmodeled phase transition.",
+      "Final total water inventory and sealed material mass match their initial values.",
+      "Final temperature returns near the initial value if the same complete energy model supports both directions; a latent-heat gap must be visible instead of a confident false calorimetric closure."
+    ],
+    "original_id": "097",
+    "control": "Remove trapped room air to isolate independent water phase physics from the failed sealed aqueous/headspace coupling."
+  },
+  {
+    "id": "C098",
+    "title": "An additional ideal stage enriches ethanol without creating it",
+    "script": "register lv3\nadd v1 water 0.5mol\nadd v1 ethanol 0.5mol\nnew\nadd v2 water 0.5mol\nadd v2 ethanol 0.5mol\nnew\nnew\ninspect v1\ninspect v2\ndistil v1 v3 0.01 stages 1\ndistil v2 v4 0.01 stages 2\ninspect v1\ninspect v2\ninspect v3\ninspect v4\n",
+    "expectation": "Below the ethanol-water azeotrope, a second ideal equilibrium stage can enrich the ethanol fraction of a small condensate cut relative to a one-stage cut. It cannot increase the pair total of water or ethanol.",
+    "criteria": [
+      "Each receiver gains0.01molcondensate within1e-8mol; two stages yield higher ethanol fraction; combined water and ethanol conserved."
+    ],
+    "original_id": "098",
+    "control": "A separately predicted1%cut stays within the existing fitted phase domain; the original10%cuts remain frozen."
+  }
+]
