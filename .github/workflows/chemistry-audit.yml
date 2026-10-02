@@ -16,6 +16,14 @@ on:
         type: choice
         default: fleets
         options: [fleets, independent-50, independent-next-50]
+      validated_run:
+        description: Successful independent-50 validation run supplying the executable
+        type: string
+        default: '37048306794'
+      validated_commit:
+        description: Exact commit tested by that run
+        type: string
+        default: b131444248625737a1edd5c02559fa50f1e83203
 
 concurrency:
   group: chemistry-audit-${{ github.event.pull_request.number || github.ref }}
@@ -395,17 +403,19 @@ jobs:
       - name: Obtain the previously validated executable
         uses: actions/download-artifact@v7
         with:
-          name: independent-50-b131444248625737a1edd5c02559fa50f1e83203
-          run-id: 37048306794
+          name: independent-50-${{ inputs.validated_commit }}
+          run-id: ${{ inputs.validated_run }}
           github-token: ${{ github.token }}
           path: ${{ runner.temp }}/validated-cli
       - name: Verify executable identity and run the frozen scripts serially
+        env:
+          VALIDATED_COMMIT: ${{ inputs.validated_commit }}
         run: |
-          echo "8c511a646bd5fa25f6842ce921e0ba96bc477816eb4d740ac920b1820b4fee66  $RUNNER_TEMP/validated-cli/kero" | sha256sum --check
+          python3 audits/independent-next-50-20261002/verify_binary.py "$RUNNER_TEMP/validated-cli" "$VALIDATED_COMMIT"
           chmod +x "$RUNNER_TEMP/validated-cli/kero"
-          python3 audits/independent-next-50-20261002/run.py --binary "$RUNNER_TEMP/validated-cli/kero" --out "$RUNNER_TEMP/next-50"
+          python3 audits/independent-next-50-20261002/run.py --binary "$RUNNER_TEMP/validated-cli/kero" --binary-source-commit "$VALIDATED_COMMIT" --out "$RUNNER_TEMP/next-50"
           python3 audits/independent-next-50-20261002/summarize.py "$RUNNER_TEMP/next-50"
-          python3 audits/independent-next-50-20261002/run.py --suite audits/independent-next-50-20261002/followups --binary "$RUNNER_TEMP/validated-cli/kero" --out "$RUNNER_TEMP/next-50/followups"
+          python3 audits/independent-next-50-20261002/run.py --suite audits/independent-next-50-20261002/followups --binary "$RUNNER_TEMP/validated-cli/kero" --binary-source-commit "$VALIDATED_COMMIT" --out "$RUNNER_TEMP/next-50/followups"
           python3 audits/independent-next-50-20261002/summarize.py "$RUNNER_TEMP/next-50/followups"
       - name: Preserve every success and refusal
         if: always()

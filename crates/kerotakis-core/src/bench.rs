@@ -9,7 +9,7 @@ use crate::i18n::Locale;
 use crate::instrument::InstrumentContract;
 use crate::material::{self, MaterialBasis, MaterialRecipe, MaterialRole};
 use crate::ops::{
-    CentrifugeSeparation, DiscardedPortion, ElutedPeak, Endpoint, Event, ExtractionSplit,
+    CentrifugeSeparation, DiscardedPortion, Endpoint, Event, ExtractionSplit,
     Instrument, LogEntry, MaterialComponentAdded, Operator,
 };
 use crate::phrase::{Phrase, Slot};
@@ -3389,19 +3389,21 @@ impl Bench {
                         *stages,
                         pressure_kpa,
                     ) {
-                        None => events.push(Event::not_modeled(
-                            *from,
-                            crate::ops::NotModelledCause::ModelBoundary,
-                            Phrase::new(
-                                "not-modeled.no-bubble-point",
-                                "a bubble point for this mixture at {pressure} kPa — \
-             outside the fitted Antoine ranges",
-                                vec![(
-                                    "pressure".to_string(),
-                                    Slot::number(format!("{:.1}", pressure_kpa)),
-                                )],
-                            ),
-                        )),
+                        None => {
+                            *disposition = ApplyDisposition::Unchanged;
+                            events.push(Event::not_modeled(
+                                *from,
+                                crate::ops::NotModelledCause::ModelBoundary,
+                                Phrase::new(
+                                    "not-modeled.no-complete-still-cut",
+                                    "the complete requested distillation at {pressure} kPa cannot be represented within the fitted Antoine ranges: the initial pot, intermediate pot, and every ideal-stage composition must have a fitted bubble point. No cut was transferred",
+                                    vec![(
+                                        "pressure".to_string(),
+                                        Slot::number(format!("{:.1}", pressure_kpa)),
+                                    )],
+                                ),
+                            ));
+                        }
                         Some(cut) => {
                             // The Rayleigh cut: vapour composition follows
                             // the pot as it drifts, through `stages` ideal
@@ -4574,164 +4576,35 @@ impl Bench {
                         } else {
                             let column =
                                 crate::instrument::ChromatographyColumn::school();
-                            let plate = crate::instrument::PaperPlate::school();
-                            let t_k = v.temperature.0;
-                            let mut injectable: std::collections::BTreeMap<
-                                SpeciesId,
-                                f64,
-                            > = std::collections::BTreeMap::new();
-                            let mut outside: std::collections::BTreeSet<SpeciesId> =
-                                std::collections::BTreeSet::new();
-                            // Kept apart from `outside`, because "this method
-                            // cannot separate ions" and "this model has no groups
-                            // for that dye" are different sentences and only one
-                            // of them is a result.
-                            let mut unparameterised: std::collections::BTreeSet<SpeciesId> =
-                                std::collections::BTreeSet::new();
-                            for p in v.contents.iter() {
-                                let dissolved = p.phase == Phase::Aqueous
-                                    || (p.phase == Phase::Liquid && p.species != water);
-                                if !dissolved || p.moles.0 <= 0.0 {
-                                    continue;
-                                }
-                                // KID-9: a group decomposition where one is
-                                // honest, a reviewed coefficient where it
-                                // would not be. A food dye is a large
-                                // glycoside; splitting it into UNIFAC groups
-                                // would be a fiction dressed as a
-                                // calculation, and leaving it out meant the
-                                // ink experiment every child does had
-                                // nothing to separate.
-                                if partition_groups(&p.species).is_some()
-                                    || crate::instrument::curated_partition_k(&p.species.0)
-                                        .is_some()
-                                {
-                                    *injectable.entry(p.species.clone()).or_insert(0.0) +=
-                                        p.moles.0;
-                                } else if is_ionic(&p.species) {
-                                    // Genuinely outside the METHOD: a partition
-                                    // column separates by how a neutral solute
-                                    // divides between two phases, and an ion does
-                                    // not do that — it wants ion exchange, which
-                                    // this column is not.
-                                    outside.insert(p.species.clone());
-                                } else {
-                                    // Outside this MODEL, not outside the method:
-                                    // a neutral solute with no curated UNIFAC
-                                    // decomposition is one the column would
-                                    // separate on a real bench. Saying "not
-                                    // separated" would be a confident negative
-                                    // about a gap — the two food dyes in bio-104
-                                    // are the case, and paper chromatography
-                                    // separating them is the classic demonstration.
-                                    unparameterised.insert(p.species.clone());
-                                }
+                            let sample = crate::chromatography::sample(v);
+                            if !sample.unparameterised.is_empty() {
+                                events.push(Event::not_modeled(
+                                    *vessel,
+                                    crate::ops::NotModelledCause::NotParameterised,
+                                    Phrase::new(
+                                        "not-modeled.chromatography-missing-retention",
+                                        "the column has no retention prediction for {species}; their elution and contribution to the sample are unresolved, even when other components produce modeled peaks",
+                                        vec![("species".to_string(), Slot::texts(sample.unparameterised.iter().map(|species| species.0.as_str()).collect()))],
+                                    ),
+                                ));
                             }
-                            if injectable.is_empty() && !unparameterised.is_empty() {
-                                // A solute this model cannot decompose is a GAP,
-                                // and must stay one. The column would separate it
-                                // on a real bench; reporting "not separated" would
-                                // dress a missing parameter set as a result.
-                                let names: Vec<&str> = unparameterised
-                                    .iter()
-                                    .map(|s| s.0.as_str())
-                                    .collect();
+                            if sample.peaks.is_empty() && sample.outside_method.is_empty() && sample.unparameterised.is_empty() {
                                 events.push(Event::not_modeled(
-                                                *vessel,
-                                                crate::ops::NotModelledCause::NotParameterised,
-                                                Phrase::new(
-                                                    "not-modeled.no-group-decomposition",
-                                                    "the column has no curated group decomposition for \
-             {species} — a real column would separate these, so this \
-             is a gap in the model rather than a result",
-                                                    vec![("species".to_string(), Slot::texts(names))],
-                                                ),
-                                            ));
-                            } else if injectable.is_empty() && outside.is_empty() {
-                                // Nothing dissolved at all: there is no sample,
-                                // which is a different thing from a sample the
-                                // method cannot see.
-                                events.push(Event::not_modeled(
-                                                *vessel,
-                                                crate::ops::NotModelledCause::NothingToActOn,
-                                                Phrase::bare(
-                                                    "not-modeled.chromatography-needs-a-solute",
-                                                    "chromatography needs something dissolved to \
-                                           inject — this vessel holds only its mobile \
-                                           phase",
-                                                ),
-                                            ));
-                            } else if injectable.is_empty() {
-                                // A sample the method cannot see is an ANSWER, not a
-                                // gap, and the answer was already computed: `outside`
-                                // holds exactly the species this column cannot
-                                // separate. It used to be discarded and replaced with
-                                // "the column's method is silent", which reports the
-                                // engine's silence rather than the column's result —
-                                // and the question a learner asked ("will dissolved
-                                // salt appear in this neutral-solute method?") has a
-                                // real answer: no, and here is what passed through
-                                // unseparated.
-                                //
-                                // An empty chromatogram is a chromatogram. The run
-                                // happened, the detector saw nothing, and naming what
-                                // went past it is the whole of the method's scope.
-                                events.push(Event::Chromatographed {
-                                    vessel: *vessel,
-                                    plates: column.plates,
-                                    void_time_s: column.void_time_s,
-                                    peaks: Vec::new(),
-                                    outside_method: outside.into_iter().collect(),
-                                });
+                                    *vessel,
+                                    crate::ops::NotModelledCause::NothingToActOn,
+                                    Phrase::bare(
+                                        "not-modeled.chromatography-needs-a-solute",
+                                        "chromatography needs something dissolved to inject — this vessel holds only its mobile phase",
+                                    ),
+                                ));
                             } else {
-                                let mut peaks: Vec<ElutedPeak> = injectable
-                                    .into_iter()
-                                    .map(|(species, moles)| {
-                                        let k = match partition_groups(&species) {
-                                            Some(solute) => {
-                                                kerotakis_thermo::lle::infinite_dilution_gamma(
-                                                    &solute,
-                                                    &water_groups(),
-                                                    t_k,
-                                                ) / kerotakis_thermo::lle::infinite_dilution_gamma(
-                                                    &solute,
-                                                    &hexane_groups(),
-                                                    t_k,
-                                                )
-                                            }
-                                            None => crate::instrument::curated_partition_k(
-                                                &species.0,
-                                            )
-                                            .expect("filtered on Some above")
-                                            .0,
-                                        };
-                                        let tr = column.retention_time(k);
-                                        ElutedPeak {
-                                            species,
-                                            retention_time_s: tr,
-                                            width_s: column.peak_width(tr),
-                                            relative_area: moles,
-                                            partition_k: k,
-                                            rf: plate.rf(k),
-                                        }
-                                    })
-                                    .collect();
-                                peaks.sort_by(|a, b| {
-                                    a.retention_time_s.total_cmp(&b.retention_time_s)
-                                });
-                                let largest = peaks
-                                    .iter()
-                                    .map(|p| p.relative_area)
-                                    .fold(0.0_f64, f64::max);
-                                for p in &mut peaks {
-                                    p.relative_area /= largest;
-                                }
                                 events.push(Event::Chromatographed {
                                     vessel: *vessel,
                                     plates: column.plates,
                                     void_time_s: column.void_time_s,
-                                    peaks,
-                                    outside_method: outside.into_iter().collect(),
+                                    peaks: sample.peaks,
+                                    outside_method: sample.outside_method,
+                                    unparameterised: sample.unparameterised,
                                 });
                             }
                         }
@@ -6778,12 +6651,6 @@ fn trap_boundary_gas(
 /// good the parameters get — it wants ion exchange. A neutral solute with
 /// no curated decomposition is merely unparameterised, and a real column
 /// would separate it.
-fn is_ionic(species: &SpeciesId) -> bool {
-    crate::stoich::parse_formula(&species.0)
-        .map(|f| f.charge != 0.0)
-        .unwrap_or(false)
-}
-
 pub(crate) fn partition_groups(
     species: &SpeciesId,
 ) -> Option<kerotakis_thermo::unifac::GroupDecomposition> {

@@ -16,7 +16,7 @@ impl Equilibrator for FailingPhase {
 
 fn bench(moles: f64, phase: Phase) -> Bench {
     let mut bench = Bench::new();
-    let vessel = bench.vessel_mut(VesselId(0)).unwrap();
+    let vessel = &mut bench.vessels[0];
     vessel.deposit(SpeciesId::new("water"), Moles(moles), phase);
     vessel.deposit(SpeciesId::new("N2"), Moles(0.001), Phase::Gas);
     vessel.temperature = Kelvin(263.15);

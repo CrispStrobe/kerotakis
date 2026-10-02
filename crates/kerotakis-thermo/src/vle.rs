@@ -1548,6 +1548,8 @@ fn cascade(x_pot: f64, stages: u32, pressure_kpa: f64) -> Option<(f64, BubblePoi
 /// Integration is 256 fixed steps of the overhead amount; halving the
 /// step count moves the answers in the fourth decimal, which is far
 /// inside the model's own honesty budget.
+/// Returns `None` if any required intermediate phase calculation is outside
+/// the model domain; an unlabelled partial cut is never a successful result.
 pub fn ethanol_water_still(
     water_moles: f64,
     ethanol_moles: f64,
@@ -1608,9 +1610,10 @@ pub fn ethanol_water_still(
             break;
         }
         let x = e / pot;
-        let Some((y_top, pot_bp, hit)) = cascade(x, stages, pressure_kpa) else {
-            break;
-        };
+        // A requested cut is one operation. A missing intermediate phase
+        // answer cannot be reported as a successful smaller cut: callers
+        // have no partial-result/domain metadata in this Option contract.
+        let (y_top, pot_bp, hit) = cascade(x, stages, pressure_kpa)?;
         t_end_c = pot_bp.t_celsius;
         azeo |= hit;
         let dn = dn.min(pot);

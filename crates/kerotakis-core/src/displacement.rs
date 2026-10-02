@@ -1304,7 +1304,16 @@ pub fn electrolyse_solvent(
     // runs out does not stop the current; it hands the rest of it to water,
     // which is the same half-reaction the no-metal branch above already
     // uses. Reusing it rather than inventing a second one is deliberate.
-    let electrons_to_hydrogen = (electrons - electrons_to_cathode).max(0.0);
+    // Primary hydrogen takes the full cathodic charge when no metal plates.
+    // `electrons_to_cathode` then describes H2, not plated metal: subtracting
+    // it would falsely leave all anodic protons uncancelled (and omit the
+    // chloralkali water/OH inventory). For plating, hydrogen takes only the
+    // charge remaining after the metal ion has been exhausted.
+    let electrons_to_hydrogen = if cathode_plates {
+        (electrons - electrons_to_cathode).max(0.0)
+    } else {
+        electrons
+    };
     let cathode_hydrogen_moles = electrons_to_hydrogen / 2.0;
     let current_efficiency = if electrons > 0.0 {
         (electrons_to_cathode / electrons).clamp(0.0, 1.0)

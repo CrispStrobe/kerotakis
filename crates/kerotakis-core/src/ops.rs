@@ -1792,6 +1792,10 @@ pub enum Event {
         /// all. Stated, because a chromatogram that quietly ignores half
         /// the sample teaches the wrong lesson about what a detector saw.
         outside_method: Vec<SpeciesId>,
+        /// Positive neutral sample inventory with no retention prediction.
+        /// Separate from ions outside the neutral-partition method.
+        #[serde(default, skip_serializing_if = "Vec::is_empty")]
+        unparameterised: Vec<SpeciesId>,
     },
     /// The lower layer ran out through the stopcock, solutes and all.
     Drained {

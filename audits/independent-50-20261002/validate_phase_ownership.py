@@ -22,7 +22,7 @@ CORE_TESTS = """transport transport_verb prepared_kitchen_objects
 material_object_state kitchen_biology transfer_trace interface_conservation
 solver_transactions conservation phase_heat_capacity pressure_boiling states mix
 selected_phase_transfer phase_routes distil atomic_distil_refusal layers
-liquid_extraction vegetable_oil_layers phase_without_aqueous thermal_phase_refusal electrolysis_scope""".split()
+liquid_extraction vegetable_oil_layers phase_without_aqueous thermal_phase_refusal electrolysis_scope solvent_electrolysis_accounting chromatography_coverage chromatograph""".split()
 SOURCE_FILES = [
     "crates/kerotakis-cea/src/gibbs.rs",
     "crates/kerotakis-core/src/bench.rs",
@@ -31,6 +31,16 @@ SOURCE_FILES = [
     "crates/kerotakis-core/tests/selected_phase_transfer.rs",
     "crates/kerotakis-core/tests/thermal_phase_refusal.rs",
     "crates/kerotakis-core/tests/electrolysis_scope.rs",
+    "crates/kerotakis-core/src/displacement.rs",
+    "crates/kerotakis-core/src/chromatography.rs",
+    "crates/kerotakis-core/src/lib.rs",
+    "crates/kerotakis-core/src/ops.rs",
+    "crates/kerotakis-core/tests/chromatography_coverage.rs",
+    "crates/kerotakis-core/tests/solvent_electrolysis_accounting.rs",
+    "crates/kerotakis-core/src/render.rs",
+    "crates/kerotakis-core/tests/atomic_distil_refusal.rs",
+    "crates/kerotakis-thermo/src/vle.rs",
+    "crates/kerotakis-thermo/tests/distillation_completion.rs",
     ".github/workflows/chemistry-audit.yml",
     "audits/independent-50-20261002/validate_phase_ownership.py",
 ]
@@ -85,13 +95,15 @@ def main():
         return result.returncode == 0
 
     tail = ["-j1", "--", "--test-threads=1"]
+    run("thermo", ["cargo", "test", "--no-fail-fast", "-p", "kerotakis-thermo", "--lib", "--tests"] + tail)
+    run("codex", ["cargo", "test", "--no-fail-fast", "-p", "kerotakis-codex", "--test", "vertical_slice", "--test", "quest_engine"] + tail)
     run("cea", ["cargo", "test", "--no-fail-fast", "-p", "kerotakis-cea", "--lib", "--tests"] + tail)
     core = ["cargo", "test", "--no-fail-fast", "-p", "kerotakis-core", "--lib"]
     for name in CORE_TESTS:
         core.extend(["--test", name])
     run("core", core + tail)
     run("phreeqc", ["cargo", "test", "--no-fail-fast", "-p", "kerotakis-phreeqc",
-                   "--test", "exchange_transport", "--test", "surface_transport"] + tail)
+                   "--test", "exchange_transport", "--test", "surface_transport", "--test", "chromatograph"] + tail)
     cli_ok = run("cli", ["cargo", "test", "--no-fail-fast", "-p", "kerotakis-cli", "--bin", "kero",
                          "--test", "thermal_contracts", "--test", "provenance", "--test", "observable_coverage",
                          "--test", "headspace_json", "--test", "json_contract"] + tail)

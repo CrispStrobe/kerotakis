@@ -556,6 +556,7 @@ fn separate_accepts_two_materially_different_solutions() {
             peak("propanone", 115.0, 4.6),
         ],
         outside_method: vec![],
+        unparameterised: vec![],
     }];
     assert!(ask(&spec, &column, &bench).satisfied);
 
@@ -603,6 +604,7 @@ fn separate_refuses_a_failed_separation_by_either_route() {
             peak("propanone", 115.0, 4.6),
         ],
         outside_method: vec![],
+        unparameterised: vec![],
     }];
     assert_eq!(
         ask(&spec, &smeared, &bench).unmet,

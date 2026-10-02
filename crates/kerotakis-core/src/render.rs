@@ -2487,18 +2487,24 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 &[("vessel", &vessel.to_string()), ("equation", &equation.to_string()), ("moles", &locale.number(format!("{:.6e}", moles.0)))],
             ),
         },
-        Event::Chromatographed { vessel, plates, void_time_s, peaks, outside_method } => match register.level() {
+        Event::Chromatographed { vessel, plates, void_time_s, peaks, outside_method, unparameterised } => {
+            let rendered = match register.level() {
             // An empty chromatogram is a result, not a blank line: the run
             // happened and the detector saw nothing. Saying which species went
             // past unseparated is the whole of the method's scope, and without
             // this the sentence would read "comes out one thing at a time: ".
-            1 if peaks.is_empty() => locale.fill(
+            1 if peaks.is_empty() && unparameterised.is_empty() => locale.fill(
                 "event.chromatographed.lv1-nothing-separated",
                 "Everything dissolved in {vessel} runs straight through the column with the water — this method separates none of it ({outside_method}).",
                 &[
                     ("vessel", &vessel.to_string()),
                     ("outside_method", &outside_method.iter().map(|s| species_name(locale, s)).collect::<Vec<_>>().join(", ").to_string()),
                 ],
+            ),
+            1 if peaks.is_empty() => locale.fill(
+                "event.chromatographed.lv1-unresolved",
+                "The column has no modeled peaks for {vessel}; part of the sample has no retention data.",
+                &[("vessel", &vessel.to_string())],
             ),
             1 => {
                 // KID-9: the same separation as a child sees it — spots at
@@ -2536,8 +2542,8 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     .iter()
                     .map(|p| {
                         locale.fill(
-                            "event.chromatographed.lv2-peak",
-                            "{name} at {seconds} s, Rf {rf} ({area}% area)",
+                            "event.chromatographed.lv2-modeled-peak",
+                            "{name} at {seconds} s, Rf {rf} ({area}% of largest modeled peak)",
                             &[
                                 ("name", species_name(locale, &p.species)),
                                 ("seconds", &locale.number(format!("{:.0}", p.retention_time_s))),
@@ -2621,6 +2627,17 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     "{vessel}: N={plates}, t0={void_time_s}s, β=0.5; {method}; tR = t0·(1+K·β), w = 4·tR/√N, Rf = Kβ_paper/(1+Kβ_paper) on a 100 mm strip — {table}{unseen}",
                     &[("vessel", &vessel.to_string()), ("plates", &plates.to_string()), ("void_time_s", &locale.number(format!("{void_time_s:.0}"))), ("method", &method.to_string()), ("table", &table.to_string()), ("unseen", &unseen.to_string())],
                 )
+            }
+            };
+            if unparameterised.is_empty() {
+                rendered
+            } else {
+                let missing = unparameterised.iter().map(|species| species_name(locale, species)).collect::<Vec<_>>().join(", ");
+                format!("{rendered} {}", locale.fill(
+                    "event.chromatographed.incomplete",
+                    "Incomplete sample coverage: no retention prediction for {missing}. Peak areas are relative to the largest modeled peak, not the complete sample; the missing components' elution is unknown.",
+                    &[("missing", &missing)],
+                ))
             }
         },
         Event::Drained { from, to, solvent, moles } => match register.level() {
@@ -4537,8 +4554,8 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             ),
             2 => locale.fill(
                 "event.vessel-pressure-controlled.lv2",
-                "{vessel}: pressure controlled at {pressure} bar; initial headspace {initial_volume} L",
-                &[("vessel", &vessel.to_string()), ("pressure", &locale.number(format!("{:.3}", pressure.0 / 100_000.0))), ("initial_volume", &locale.number(format!("{:.3}", initial_volume.0)))],
+                "{vessel}: pressure controlled at {pressure} bar; initial headspace {initial_volume} L, adding {trapped_gas} of boundary gas",
+                &[("vessel", &vessel.to_string()), ("pressure", &locale.number(format!("{:.3}", pressure.0 / 100_000.0))), ("initial_volume", &locale.number(format!("{:.3}", initial_volume.0))), ("trapped_gas", &moles_amount(locale, trapped_gas.0))],
             ),
             _ => locale.fill(
                 "event.vessel-pressure-controlled.lv3",

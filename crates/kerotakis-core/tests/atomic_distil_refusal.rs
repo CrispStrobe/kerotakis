@@ -107,3 +107,34 @@ fn supported_distillation_still_settles_both_affected_vessels() {
         assert_eq!(bench.log.len(), 1);
     }
 }
+
+#[test]
+fn intermediate_binary_fit_boundary_refuses_the_complete_cut_without_settling() {
+    for stages in [1, 2] {
+        let mut bench = Bench::new();
+        bench.vessels[0].deposit(SpeciesId::new("water"), Moles(0.5), Phase::Liquid);
+        bench.vessels[0].deposit(SpeciesId::new("ethanol"), Moles(0.5), Phase::Liquid);
+        bench.vessels.push(Vessel::new(VesselId(1), "receiver"));
+        let before = physical(&bench);
+        let mut solver = CountingMutator::default();
+        let events = bench
+            .step_with(
+                Operator::Distil {
+                    from: VesselId(0),
+                    to: VesselId(1),
+                    fraction: Some(0.1),
+                    energy: None,
+                    stages,
+                },
+                &mut solver,
+                &PermissiveScreen,
+            )
+            .unwrap();
+        assert_eq!(physical(&bench), before);
+        assert!(solver.calls.is_empty());
+        assert!(!events
+            .iter()
+            .any(|event| matches!(event, Event::Distilled { .. })));
+        assert!(events.iter().any(|event| matches!(event, Event::NotYetModeled { cause: ops::NotModelledCause::ModelBoundary, what, .. } if what.contains("No cut was transferred"))));
+    }
+}

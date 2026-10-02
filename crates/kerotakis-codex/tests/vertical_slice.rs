@@ -54,6 +54,7 @@ fn column_trace() -> Vec<Event> {
             peak("propanone", 115.0, 4.6),
         ],
         outside_method: vec![],
+        unparameterised: vec![],
     }]
 }
 
