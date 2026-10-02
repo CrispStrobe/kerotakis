@@ -217,7 +217,11 @@ impl ConservedLedger {
         }
 
         // Check mass conservation
-        if !self.mass.is_finite() || !after.mass.is_finite() || self.mass > floor_moles {
+        if !self.mass.is_finite()
+            || !after.mass.is_finite()
+            || self.mass.abs() > floor_moles
+            || after.mass.abs() > floor_moles
+        {
             let delta = after.mass - self.mass;
             let relative = delta.abs() / self.mass.max(floor_moles);
             if !self.mass.is_finite()
@@ -415,6 +419,36 @@ mod nonfinite_tests {
                 assert!(violations.iter().any(|v| v.quantity == "element:H"));
                 assert!(violations.iter().any(|v| v.quantity == "mass"));
                 assert!(violations.iter().any(|v| v.quantity == "charge"));
+            }
+        }
+    }
+}
+
+#[cfg(test)]
+mod empty_mass_tests {
+    use super::*;
+
+    #[test]
+    fn mass_creation_from_an_empty_or_trace_inventory_is_not_skipped() {
+        // Material with no represented elemental formula still has mass.
+        // Mass auditing must work even when the initial element map is empty.
+        for initial in [0.0, 1e-16] {
+            let empty = ConservedLedger {
+                elements: BTreeMap::new(),
+                mass: initial,
+                charge: 0.0,
+                energy: 0.0,
+            };
+            let material = ConservedLedger {
+                mass: 2.0,
+                ..empty.clone()
+            };
+            for violations in [
+                empty.check_against(&material, 1e-10, 1e-15),
+                material.check_against(&empty, 1e-10, 1e-15),
+            ] {
+                assert_eq!(violations.len(), 1);
+                assert_eq!(violations[0].quantity, "mass");
             }
         }
     }

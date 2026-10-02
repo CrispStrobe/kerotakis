@@ -7,8 +7,9 @@
 //! water holds its mass across a 98 K drop. `Vessel::mass` is a sum of
 //! portion moles times molar mass and knows nothing about temperature, so
 //! the drift is an inventory change: carbon crossing between the finite
-//! headspace and the solution is being booked at the wrong mass on one side
-//! of the crossing.
+//! headspace and the solution was being booked at the wrong mass on one side
+//! of the crossing. The current readback conserves that transfer; these
+//! regressions protect both the phase crossing and the reaction path.
 //!
 //! These runs separate the candidates the way the peer who found it
 //! suggested: a known amount of CO₂ sealed over water with no chemistry at
@@ -66,18 +67,10 @@ fn mass(bench: &Bench) -> f64 {
 /// The crossing alone: CO₂ sealed over water, nothing reacts, the vessel
 /// cools, more gas dissolves. The balance must not move.
 ///
-/// Carbon is conserved now (0.0200076 → 0.0200071 mol across a 14 K drop;
-/// before the gas phase was given its temperature it was 0.020013 →
-/// 0.019129). What remains is +0.01085 g on the balance for 0.00064 mol
-/// more CO₂ dissolved — 17 g/mol, one water per carbon: the readback books
-/// every dissolved carbon as HCO₃⁻ (61 g/mol) while PHREEQC's water mass
-/// does not drop for the H and O it lent (49.84989 g before and after).
-/// From NaHCO₃ that is exact, because the solid brought its own H and O;
-/// from CO₂ gas it is 17 g/mol too heavy, and at pH 4 the species is 99%
-/// CO₂(aq) anyway, so the name is wrong as well as the mass. The fix is a
-/// C(4) protonation split [CO₂(aq), HCO₃⁻, CO₃²⁻] with a water debit for
-/// the protonated forms, the same mechanism as N(−3)'s — the aqueous
-/// lane's, and this test is un-ignored when it lands.
+/// The historical readback booked all dissolved carbon as bicarbonate and
+/// borrowed H/O from solvent without the matching debit. The current C(4)
+/// protonation split and analytical H/O basis keep this transfer conservative;
+/// this regression protects the gas crossing separately from acid chemistry.
 #[test]
 fn co2_over_water_keeps_its_mass_when_it_cools() {
     let mut bench = Bench::new();
@@ -117,11 +110,8 @@ fn the_sealed_volcano_weighs_what_went_in() {
     let added = 5.0;
     let after_soda = inventory(&bench);
     let m_after_soda = mass(&bench);
-    // Within 5 mg of 55.89 g (CI reads 55.88626): the bicarbonate came in
-    // as a solid carrying its own H and O, so its booking is exact, and the
-    // residual is the small share of dissolved carbon that is really
-    // CO₂(aq) under the HCO₃⁻ label — the open item the ignored test above
-    // measures on its own.
+    // Five milligrams allows the reviewed material recipe and numerical
+    // readback tolerances, while detecting the historical carbon/water drift.
     assert!(
         (m_after_soda - (m_before_soda + added)).abs() < 5e-3,
         "the sealed volcano weighs {:.5} g but {:.5} g + {:.5} g went in\n{after_soda}",

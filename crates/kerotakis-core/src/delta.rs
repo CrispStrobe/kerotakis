@@ -482,6 +482,14 @@ impl StateDelta {
                 || electrode.area_m2 < 0.0
                 || !electrode.roughness.is_finite()
                 || electrode.roughness < 0.0
+                || !(electrode.area_m2 * electrode.roughness).is_finite()
+                || electrode.double_layer_capacitance_f_per_m2.is_some()
+                    != electrode.interfacial_potential_v.is_some()
+                || electrode
+                    .double_layer_capacitance_f_per_m2
+                    .is_some_and(|c| {
+                        !c.is_finite() || c <= 0.0 || !(c * electrode.area_m2).is_finite()
+                    })
                 || electrode
                     .interfacial_potential_v
                     .is_some_and(|p| !p.is_finite())
@@ -489,11 +497,130 @@ impl StateDelta {
                     !p.surface_concentration_mol_per_m3.is_finite()
                         || p.surface_concentration_mol_per_m3 < 0.0
                 })
+                || electrode.deposits.iter().any(|p| {
+                    p.thickness_m.is_some_and(|x| !x.is_finite() || x < 0.0)
+                        || p.coverage_fraction
+                            .is_some_and(|x| !x.is_finite() || !(0.0..=1.0).contains(&x))
+                        || p.electrical_resistivity_ohm_m
+                            .is_some_and(|x| !x.is_finite() || x < 0.0)
+                })
+                || !electrode
+                    .deposits
+                    .iter()
+                    .filter_map(|p| Some(p.thickness_m? * p.electrical_resistivity_ohm_m?))
+                    .sum::<f64>()
+                    .is_finite()
+                || electrode.diagnostics.as_ref().is_some_and(|d| {
+                    !d.seconds.is_finite()
+                        || d.seconds < 0.0
+                        || [
+                            d.balance.electrode_potential_v,
+                            d.balance.terminal_potential_v,
+                        ]
+                        .into_iter()
+                        .any(|x| !x.is_finite())
+                        || [
+                            d.balance.net_current_density_a_per_m2,
+                            d.balance.capacitive_current_density_a_per_m2,
+                            d.balance.total_current_density_a_per_m2,
+                        ]
+                        .into_iter()
+                        .any(|x| !x.is_finite() || !(x * electrode.area_m2).is_finite())
+                        || d.balance.partial_currents.iter().any(|p| {
+                            !p.current_density_a_per_m2.is_finite()
+                                || !(p.current_density_a_per_m2 * electrode.area_m2).is_finite()
+                        })
+                        || !d
+                            .balance
+                            .partial_currents
+                            .iter()
+                            .map(|p| p.current_density_a_per_m2)
+                            .sum::<f64>()
+                            .is_finite()
+                        || d.interfacial_conditions.iter().any(|p| {
+                            [
+                                p.bulk_concentration_mol_per_m3,
+                                p.surface_concentration_mol_per_m3,
+                                p.bulk_activity,
+                                p.surface_activity,
+                            ]
+                            .into_iter()
+                            .any(|x| !x.is_finite() || x < 0.0)
+                                || [
+                                    p.bulk_equilibrium_potential_v,
+                                    p.surface_equilibrium_potential_v,
+                                ]
+                                .into_iter()
+                                .any(|x| !x.is_finite())
+                                || p.surface_ph.is_some_and(|x| !x.is_finite())
+                                || p.migration_potential_v.is_some_and(|x| !x.is_finite())
+                        })
+                        || d.applied_parameters.iter().any(|p| {
+                            p.nominal.validate().is_err()
+                                || p.reference.validate().is_err()
+                                || p.relative_uncertainty
+                                    .is_some_and(|x| !x.is_finite() || x < 0.0)
+                        })
+                })
             {
                 errors.push(DeltaError::InvalidState {
                     field: "electrode interface".into(),
                 });
             }
+        }
+        // These persisted fractions and geometries are not extra matter,
+        // but they still feed optical/transport models and public scenes.
+        // A complete solver snapshot must not bypass their numeric domains.
+        let nonnegative = |x: f64| x.is_finite() && x >= 0.0;
+        let fraction = |x: f64| x.is_finite() && (0.0..=1.0).contains(&x);
+        if candidate.unresolved_materials.iter().any(|p| {
+            !fraction(p.protein_denatured_fraction)
+                || p.enzyme_hydrolysis
+                    .as_ref()
+                    .is_some_and(|e| !fraction(e.converted_fraction))
+        }) || candidate.material_objects.iter().any(|p| {
+            !nonnegative(p.state.elapsed_seconds)
+                // Water exchange is signed (inward/outward), unlike time.
+                || !p.state.exchanged_water_moles.is_finite()
+                || !fraction(p.state.browned_fraction)
+        }) || [
+            candidate.foam.trapped_gas_liters,
+            candidate.foam.volume_liters,
+            candidate.foam.peak_volume_liters,
+        ]
+        .into_iter()
+        .any(|x| !nonnegative(x))
+            || candidate
+                .surface_particles
+                .as_ref()
+                .is_some_and(|p| !fraction(p.coverage_fraction) || !fraction(p.cleared_fraction))
+            || candidate
+                .surface_colours
+                .iter()
+                .any(|p| !nonnegative(p.moles.0) || !fraction(p.spread_fraction))
+            || candidate.emulsion.as_ref().is_some_and(|p| {
+                !nonnegative(p.dispersed_volume_l)
+                    || !p.half_life_seconds.is_finite()
+                    || p.half_life_seconds <= 0.0
+            })
+            || candidate.soap_scum.as_ref().is_some_and(|p| {
+                [
+                    p.aggregate_mass_g,
+                    p.divalent_ion_moles,
+                    p.soap_equivalent_moles,
+                ]
+                .into_iter()
+                .any(|x| !nonnegative(x))
+            })
+            || candidate.lemon_paper_mark.as_ref().is_some_and(|p| {
+                !nonnegative(p.lemon_amount_g)
+                    || !nonnegative(p.paper_amount_g)
+                    || !fraction(p.browned_fraction)
+            })
+        {
+            errors.push(DeltaError::InvalidState {
+                field: "material progress/geometry".into(),
+            });
         }
         for solution in candidate
             .solution
@@ -913,7 +1040,7 @@ impl StateDelta {
                         remaining -= take;
                     }
                 }
-                vessel.contents.retain(|p| p.moles.0 > 1e-15);
+                vessel.contents.retain(|p| p.moles.0 > 0.0);
             }
         }
 
@@ -996,7 +1123,7 @@ impl StateDelta {
                     }
                 }
             }
-            electrode.deposits.retain(|deposit| deposit.moles > 1e-15);
+            electrode.deposits.retain(|deposit| deposit.moles > 0.0);
         }
 
         for change in &self.electrode_potential_changes {

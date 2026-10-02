@@ -370,6 +370,10 @@ pub fn applies(vessel: &Vessel) -> bool {
 pub struct AdsorptionEquilibrator;
 
 impl Equilibrator for AdsorptionEquilibrator {
+    fn element_conservation_tolerance(&self) -> Option<f64> {
+        Some(1e-10)
+    }
+
     fn name(&self) -> &'static str {
         "adsorption"
     }

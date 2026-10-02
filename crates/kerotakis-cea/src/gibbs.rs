@@ -120,6 +120,15 @@ pub fn equilibrate_tp(
     t: f64,
     pressure_bar: f64,
 ) -> Result<Equilibrium, CeaError> {
+    if !t.is_finite()
+        || t <= 0.0
+        || !pressure_bar.is_finite()
+        || pressure_bar <= 0.0
+        || budget.values().any(|n| !n.is_finite() || *n < 0.0)
+        || !budget.values().sum::<f64>().is_finite()
+    {
+        return Err(CeaError::NotConverged(0));
+    }
     if budget.is_empty() || budget.values().all(|v| *v <= 0.0) {
         return Err(CeaError::EmptyBudget);
     }
@@ -138,9 +147,11 @@ pub fn equilibrate_tp(
     // polynomial extrapolated to 3125 K says liquid is the stable phase of
     // steam, and a hydrogen flame then "converges" onto boiling-hot
     // H2O(L) or, worse, never converges at all (curiosity th-034). Gases
-    // keep their historical clamped treatment: their records span the
-    // whole working range, and a pool that loses its only carrier of an
-    // element would turn a data gap into a silent element sink.
+    // retain the historical nearest-interval polynomial treatment: some
+    // records start above a cold HP bracket. Omitting those gases would
+    // change the candidate pool or lose an element carrier. The new
+    // certified boundary below requires actual interval coverage for every
+    // record; it never certifies extrapolated gas thermochemistry.
     let pool: Vec<&Species> = candidates
         .iter()
         .copied()
@@ -162,6 +173,9 @@ pub fn equilibrate_tp(
         let g = s
             .g(t)
             .ok_or_else(|| CeaError::OutOfRange(s.name.clone(), t))?;
+        if !g.is_finite() {
+            return Err(CeaError::OutOfRange(s.name.clone(), t));
+        }
         mu0.push(g / (R * t));
     }
 
@@ -244,6 +258,37 @@ pub fn equilibrate_tp(
             for (k, slot) in left.iter_mut().enumerate() {
                 *slot -= take * a(c, k);
             }
+        }
+    }
+
+    // NASA RP-1311 I §3.6 describes the component-rank singularity when a
+    // stoichiometric condensed phase exhausts the gas. A zero gas phase
+    // has no log-mole Newton variable; certify that boundary directly.
+    // Ordinary gas-containing iterations retain their existing path.
+    if pool
+        .iter()
+        .all(|s| s.intervals.iter().any(|i| (i.t_min..=i.t_max).contains(&t)))
+    {
+        if let Some((amounts, _)) =
+            certified_condensed_boundary(&pool, &mu0, &elements, budget, &n, ln_p)
+        {
+            let eq = finish(&pool, &amounts, t, pressure_bar);
+            if !eq.enthalpy.is_finite()
+                || !eq.gas_moles.is_finite()
+                || eq
+                    .composition
+                    .iter()
+                    .any(|(_, n)| !n.is_finite() || *n <= 0.0)
+                || !eq
+                    .composition
+                    .iter()
+                    .map(|(_, n)| n)
+                    .sum::<f64>()
+                    .is_finite()
+            {
+                return Err(CeaError::NotConverged(0));
+            }
+            return Ok(eq);
         }
     }
 
@@ -600,6 +645,182 @@ pub fn equilibrate_tp(
     Err(CeaError::NotConverged(if decay_guard { 1200 } else { 400 }))
 }
 
+/// Global Gibbs certificate for a feasible all-condensed inventory.
+/// Dimensionless element potentials pi satisfy a_c.pi=mu_c for occupied
+/// phases, a_c.pi<=mu_c for every other condensed phase. For an absent ideal
+/// gas, log(sum exp(a_g.pi-mu_g-ln(P/P0)))<=0 is the tangent-plane condition.
+/// Those inequalities imply G>=pi.b for every feasible mixture; the occupied
+/// condensed phases attain equality. Thus this is proof of stability, not
+/// acceptance of a stalled Newton iteration (RP-1311 I eqs2.9–2.11, §3.4).
+fn certified_condensed_boundary(
+    pool: &[&Species],
+    mu0: &[f64],
+    elements: &[String],
+    budget: &BTreeMap<String, f64>,
+    seed: &[f64],
+    ln_p: f64,
+) -> Option<(Vec<f64>, Vec<f64>)> {
+    let tol = 1e-8; // Existing Newton chemical-potential tolerance, in RT units.
+    let composition = |i: usize| {
+        elements
+            .iter()
+            .map(|e| pool[i].composition.get(e).copied().unwrap_or(0.0))
+            .collect::<Vec<_>>()
+    };
+    let dot = |a: &[f64], b: &[f64]| a.iter().zip(b).map(|(x, y)| x * y).sum::<f64>();
+    let cond: Vec<_> = (0..pool.len()).filter(|i| !pool[*i].is_gas()).collect();
+    if cond.is_empty() {
+        return None;
+    }
+    let feasible = |n: &[f64]| {
+        elements.iter().all(|e| {
+            let have: f64 = pool
+                .iter()
+                .zip(n)
+                .map(|(s, n)| s.composition.get(e).copied().unwrap_or(0.0) * n)
+                .sum();
+            (have - budget[e]).abs() <= budget[e] * BALANCE_TOL
+        })
+    };
+    let mut candidates = Vec::new();
+    let condensed_seed: Vec<_> = seed
+        .iter()
+        .enumerate()
+        .map(|(i, n)| if pool[i].is_gas() { 0.0 } else { *n })
+        .collect();
+    if feasible(&condensed_seed) {
+        candidates.push(condensed_seed);
+    }
+    // Pure stoichiometric inventory is common even when its elements could
+    // be carried by gas, so the ordinary gas-first seed contains no solid.
+    for &i in &cond {
+        let amount = elements
+            .iter()
+            .filter_map(|e| {
+                pool[i]
+                    .composition
+                    .get(e)
+                    .filter(|a| **a > 0.0)
+                    .map(|a| budget[e] / a)
+            })
+            .reduce(f64::min)?;
+        let mut n = vec![0.0; pool.len()];
+        n[i] = amount;
+        if feasible(&n) && !candidates.iter().any(|previous| previous == &n) {
+            candidates.push(n);
+        }
+    }
+    candidates.sort_by(|a, b| dot(a, mu0).total_cmp(&dot(b, mu0)));
+    for n in candidates {
+        let active: Vec<_> = cond.iter().copied().filter(|i| n[*i] > 0.0).collect();
+        // Orthonormal rows represent the occupied-phase equalities; all
+        // following projections move only in their affine nullspace.
+        let mut basis = Vec::<(Vec<f64>, f64)>::new();
+        let mut consistent = true;
+        for &i in &active {
+            let mut row = composition(i);
+            let mut rhs = mu0[i];
+            for (q, value) in &basis {
+                let factor = dot(&row, q);
+                for (r, q) in row.iter_mut().zip(q) {
+                    *r -= factor * q;
+                }
+                rhs -= factor * value;
+            }
+            let length = dot(&row, &row).sqrt();
+            if length < 1e-12 {
+                if rhs.abs() > tol {
+                    consistent = false;
+                    break;
+                }
+            } else {
+                for r in &mut row {
+                    *r /= length;
+                }
+                basis.push((row, rhs / length));
+            }
+        }
+        if !consistent {
+            continue;
+        }
+        let null = |mut row: Vec<f64>| {
+            for (q, _) in &basis {
+                let factor = dot(&row, q);
+                for (r, q) in row.iter_mut().zip(q) {
+                    *r -= factor * q;
+                }
+            }
+            row
+        };
+        let mut pi = vec![0.0; elements.len()];
+        for (q, value) in &basis {
+            for (p, q) in pi.iter_mut().zip(q) {
+                *p += q * value;
+            }
+        }
+        // Cyclic projections onto condensed halfspaces and the ideal-gas
+        // convex tangent inequality. The finite iteration budget affects
+        // completeness only; success is checked independently at the end.
+        for _ in 0..256 {
+            for &i in &cond {
+                let row = composition(i);
+                let excess = dot(&row, &pi) - mu0[i];
+                if excess > tol {
+                    let direction = null(row);
+                    let norm = dot(&direction, &direction);
+                    if norm > 1e-24 {
+                        for (p, d) in pi.iter_mut().zip(direction) {
+                            *p -= excess * d / norm;
+                        }
+                    }
+                }
+            }
+            let gases: Vec<_> = (0..pool.len())
+                .filter(|i| pool[*i].is_gas())
+                .map(|i| (i, dot(&composition(i), &pi) - mu0[i] - ln_p))
+                .collect();
+            let gas_max = gases
+                .iter()
+                .map(|(_, log)| *log)
+                .reduce(f64::max)
+                .unwrap_or(f64::NEG_INFINITY);
+            let gas_sum: f64 = gases.iter().map(|(_, log)| (log - gas_max).exp()).sum();
+            let log_tangent = if gases.is_empty() {
+                f64::NEG_INFINITY
+            } else {
+                gas_max + gas_sum.ln()
+            };
+            let phases_valid = cond.iter().all(|i| {
+                let difference = dot(&composition(*i), &pi) - mu0[*i];
+                difference <= tol && (n[*i] <= 0.0 || difference.abs() <= tol)
+            });
+            if phases_valid && log_tangent <= tol && pi.iter().all(|p| p.is_finite()) {
+                return Some((n, pi));
+            }
+            if log_tangent > tol {
+                let mut gradient = vec![0.0; elements.len()];
+                for (i, log) in &gases {
+                    let weight = (log - gas_max).exp() / gas_sum;
+                    for (g, a) in gradient.iter_mut().zip(composition(*i)) {
+                        *g += weight * a;
+                    }
+                }
+                let direction = null(gradient);
+                let norm = dot(&direction, &direction);
+                if norm <= 1e-24 {
+                    break;
+                }
+                for (p, d) in pi.iter_mut().zip(direction) {
+                    *p -= log_tangent * d / norm;
+                }
+            } else if !phases_valid && active.len() == cond.len() {
+                break;
+            }
+        }
+    }
+    None
+}
+
 pub(crate) fn finish(pool: &[&Species], n: &[f64], t: f64, pressure_bar: f64) -> Equilibrium {
     let mut composition: Vec<(String, f64)> = pool
         .iter()
@@ -607,7 +828,7 @@ pub(crate) fn finish(pool: &[&Species], n: &[f64], t: f64, pressure_bar: f64) ->
         // A presentation cutoff is not an inventory cutoff. Closed pressure,
         // energy and boundary-flow readbacks need the same numerical moles
         // that contributed to the minimisation and its enthalpy below.
-        .filter(|(_, m)| **m > TRACE)
+        .filter(|(_, m)| **m > 0.0)
         .map(|(s, m)| (s.name.clone(), *m))
         .collect();
     composition.sort_by(|a, b| b.1.total_cmp(&a.1));
@@ -1290,6 +1511,242 @@ fn solve_flat(m: &mut [f64], n: usize, s: usize) -> bool {
 mod tests {
     use super::*;
 
+    fn prove_condensed_endpoint(
+        pool: &[&Species],
+        b: &BTreeMap<String, f64>,
+        t: f64,
+        p: f64,
+    ) -> Vec<f64> {
+        let elements: Vec<_> = b.keys().cloned().collect();
+        let mu: Vec<_> = pool.iter().map(|s| s.g(t).unwrap() / (R * t)).collect();
+        let (n, pi) =
+            certified_condensed_boundary(pool, &mu, &elements, b, &vec![0.0; pool.len()], p.ln())
+                .expect("a stable all-condensed endpoint needs a complete dual certificate");
+        let potential = |s: &Species| {
+            elements
+                .iter()
+                .zip(&pi)
+                .map(|(e, lambda)| s.composition.get(e).copied().unwrap_or(0.0) * lambda)
+                .sum::<f64>()
+                * R
+                * t
+        };
+        let mut tangent = 0.0;
+        for (s, n) in pool.iter().zip(&n) {
+            let g = s.g(t).unwrap();
+            if s.is_gas() {
+                tangent += ((potential(s) - g) / (R * t)).exp() / p;
+            } else {
+                assert!(
+                    g >= potential(s) - 2e-8 * R * t,
+                    "inactive {} would lower G",
+                    s.name
+                );
+                if *n > 0.0 {
+                    assert!(
+                        (g - potential(s)).abs() < 2e-8 * R * t,
+                        "occupied {} is not stationary",
+                        s.name
+                    );
+                }
+            }
+        }
+        assert!(
+            tangent <= 1.0 + 2e-8,
+            "ideal gas would be stable: tangent sum {tangent}"
+        );
+        let eq = equilibrate_tp(b, pool, t, p).unwrap();
+        assert_eq!(eq.gas_moles, 0.0);
+        assert!(eq.composition.iter().all(|(name, _)| !pool
+            .iter()
+            .find(|s| s.name == *name)
+            .unwrap()
+            .is_gas()));
+        assert_conserved(&eq, b, "certified condensed endpoint");
+        n
+    }
+
+    #[test]
+    fn graphite_vapour_pressure_selects_the_correct_phase_on_both_sides() {
+        let solid = crate::db().get("C(gr)").unwrap();
+        let gas = crate::db().get("C").unwrap();
+        let b = budget(&[("C", 0.1)]);
+        for t in [1000.0, 2500.0, 4000.0] {
+            // Independent one-component saturation pressure from NASA G.
+            let saturated = ((solid.g(t).unwrap() - gas.g(t).unwrap()) / (R * t)).exp();
+            let pool = [solid, gas];
+            let n = prove_condensed_endpoint(&pool, &b, t, 2.0 * saturated);
+            assert!((n[0] - 0.1).abs() < 1e-12);
+            let lower = 0.5 * saturated;
+            let mu = pool
+                .iter()
+                .map(|s| s.g(t).unwrap() / (R * t))
+                .collect::<Vec<_>>();
+            assert!(
+                certified_condensed_boundary(
+                    &pool,
+                    &mu,
+                    &["C".into()],
+                    &b,
+                    &[0.0, 0.0],
+                    lower.ln()
+                )
+                .is_none(),
+                "supersaturated gas must never be suppressed"
+            );
+            let eq = equilibrate_tp(&b, &pool, t, lower).unwrap();
+            assert!((eq.gas_moles - 0.1).abs() < 1e-9);
+            assert_eq!(eq.moles_of("C(gr)"), 0.0);
+            assert_conserved(&eq, &b, "carbon vapour");
+        }
+    }
+
+    #[test]
+    fn certified_condensed_readback_preserves_positive_stock_below_newton_floor() {
+        let pool = [
+            crate::db().get("C(gr)").unwrap(),
+            crate::db().get("C").unwrap(),
+        ];
+        let b = budget(&[("C", 1e-20)]);
+        let eq = equilibrate_tp(&b, &pool, 1000.0, 1.0).unwrap();
+        assert_eq!(eq.moles_of("C(gr)"), 1e-20);
+        assert_eq!(eq.gas_moles, 0.0);
+        assert_eq!(eq.composition.len(), 1);
+    }
+
+    #[test]
+    fn condensed_boundary_rejects_malformed_or_overflowing_numeric_states() {
+        let pool = [
+            crate::db().get("C(gr)").unwrap(),
+            crate::db().get("C").unwrap(),
+        ];
+        for value in [f64::NAN, f64::INFINITY, -1.0, f64::MAX] {
+            assert!(
+                equilibrate_tp(&budget(&[("C", value)]), &pool, 1000.0, 1.0).is_err(),
+                "invalid stock {value}"
+            );
+        }
+        assert!(equilibrate_tp(
+            &budget(&[("C", f64::MAX), ("O", f64::MAX)]),
+            &pool,
+            1000.0,
+            1.0
+        )
+        .is_err());
+        let b = budget(&[("C", 0.1)]);
+        for invalid in [f64::NAN, f64::INFINITY, 0.0, -1.0] {
+            assert!(equilibrate_tp(&b, &pool, invalid, 1.0).is_err());
+            assert!(equilibrate_tp(&b, &pool, 1000.0, invalid).is_err());
+        }
+        assert!(equilibrate_tp(&b, &pool, f64::MAX, 1.0).is_err());
+    }
+
+    #[test]
+    fn condensed_boundary_never_certifies_an_extrapolated_gas_record() {
+        let liquid = crate::db().get_reactant("C2H5OH(L)").unwrap();
+        let gas = crate::db().get("C2H5OH").unwrap();
+        let pool = [liquid, gas];
+        let b = budget(&[("C", 0.02), ("H", 0.06), ("O", 0.01)]);
+        assert!(liquid
+            .intervals
+            .iter()
+            .any(|i| (i.t_min..=i.t_max).contains(&250.0)));
+        assert!(!gas
+            .intervals
+            .iter()
+            .any(|i| (i.t_min..=i.t_max).contains(&250.0)));
+        // This one-component/multiple-element pool has a rank-deficient
+        // legacy gas Newton matrix. It must retain its refusal at250K;
+        // otherwise the new path would have certified extrapolated G.
+        assert!(equilibrate_tp(&b, &pool, 250.0, 1.0).is_err());
+        // Both actual Cp/G domains contain310K, below ethanol's1bar boil.
+        let eq = equilibrate_tp(&b, &pool, 310.0, 1.0).unwrap();
+        assert_eq!(eq.gas_moles, 0.0);
+        assert!((eq.moles_of("C2H5OH(L)") - 0.01).abs() < 1e-12);
+        assert_conserved(&eq, &b, "in-range liquid ethanol boundary");
+    }
+
+    #[test]
+    fn multiple_carbon_gases_use_the_joint_tangent_stability_test() {
+        let solid = crate::db().get("C(gr)").unwrap();
+        let pool = [
+            solid,
+            crate::db().get("C").unwrap(),
+            crate::db().get("C2").unwrap(),
+            crate::db().get("C3").unwrap(),
+        ];
+        let b = budget(&[("C", 0.1)]);
+        for t in [1000.0, 2500.0] {
+            let saturation: f64 = pool[1..]
+                .iter()
+                .map(|gas| {
+                    let atoms = gas.composition["C"];
+                    ((atoms * solid.g(t).unwrap() - gas.g(t).unwrap()) / (R * t)).exp()
+                })
+                .sum();
+            prove_condensed_endpoint(&pool, &b, t, 2.0 * saturation);
+            let mu = pool
+                .iter()
+                .map(|s| s.g(t).unwrap() / (R * t))
+                .collect::<Vec<_>>();
+            assert!(certified_condensed_boundary(
+                &pool,
+                &mu,
+                &["C".into()],
+                &b,
+                &[0.0; 4],
+                (0.5 * saturation).ln()
+            )
+            .is_none());
+        }
+    }
+
+    #[test]
+    fn bare_carbonate_is_certified_against_gas_and_competing_solids() {
+        let b = budget(&[("Ca", 0.1), ("C", 0.1), ("O", 0.3)]);
+        let candidates = [
+            "CaCO3(cr)",
+            "CaO(cr)",
+            "Ca(a)",
+            "Ca(b)",
+            "Ca(L)",
+            "C(gr)",
+            "CO2",
+            "CO",
+            "O2",
+        ];
+        for t in [500.0, 800.0, 1000.0] {
+            let pool: Vec<_> = candidates
+                .iter()
+                .map(|name| crate::db().get(name).unwrap())
+                .filter(|s| {
+                    s.is_gas() || s.t_range().is_some_and(|(lo, hi)| (lo..=hi).contains(&t))
+                })
+                .collect();
+            prove_condensed_endpoint(&pool, &b, t, 1.0);
+            let eq = equilibrate_tp(&b, &pool, t, 1.0).unwrap();
+            assert!((eq.moles_of("CaCO3(cr)") - 0.1).abs() < 1e-9);
+            assert_eq!(eq.moles_of("CaO(cr)"), 0.0);
+        }
+    }
+
+    #[test]
+    fn salt_condensed_phase_selection_uses_nasa_solid_and_liquid_records() {
+        let b = budget(&[("Na", 0.1), ("Cl", 0.1)]);
+        for (t, expected) in [(800.0, "NaCL(cr)"), (1200.0, "NaCL(L)")] {
+            let pool: Vec<_> = ["NaCL(cr)", "NaCL(L)", "NaCL", "Na", "CL"]
+                .iter()
+                .map(|name| crate::db().get(name).unwrap())
+                .filter(|s| {
+                    s.is_gas() || s.t_range().is_some_and(|(lo, hi)| (lo..=hi).contains(&t))
+                })
+                .collect();
+            prove_condensed_endpoint(&pool, &b, t, 1.0);
+            let eq = equilibrate_tp(&b, &pool, t, 1.0).unwrap();
+            assert!((eq.moles_of(expected) - 0.1).abs() < 1e-9);
+        }
+    }
+
     fn budget(pairs: &[(&str, f64)]) -> BTreeMap<String, f64> {
         pairs.iter().map(|(k, v)| (k.to_string(), *v)).collect()
     }
@@ -1305,9 +1762,12 @@ mod tests {
             let have: f64 = eq
                 .composition
                 .iter()
-                .filter_map(|(name, m)| {
-                    let s = db.get(name)?;
-                    Some(s.composition.get(el).copied().unwrap_or(0.0) * m)
+                .map(|(name, m)| {
+                    let s = db
+                        .get(name)
+                        .or_else(|| db.get_reactant(name))
+                        .unwrap_or_else(|| panic!("{what}: {name} has no NASA species record"));
+                    s.composition.get(el).copied().unwrap_or(0.0) * m
                 })
                 .sum();
             let drift = (have - target).abs() / target.max(1e-12);
@@ -1538,23 +1998,20 @@ mod tests {
     }
 
     #[test]
-    fn a_degenerate_problem_is_refused_rather_than_guessed() {
+    fn rank_deficient_bare_chalk_returns_a_certified_condensed_state() {
         // Chalk alone, no atmosphere: one condensed phase holds every
         // element and the gas phase collapses, so the element-balance rows
         // become linearly dependent and the multipliers are
-        // underdetermined. The composition is obvious to a chemist and
-        // unavailable to this formulation; the solver must say so rather
-        // than return whichever answer the arithmetic fell into.
+        // underdetermined. The boundary now has an independent global
+        // Gibbs certificate rather than relying on the singular gas-mole
+        // Newton equations or accepting whichever iterate stalled.
         let b = budget(&[("Ca", 0.0999), ("C", 0.0999), ("O", 0.2997)]);
         let pool = pool_of(&["CO2", "CO", "O2", "CaO(cr)", "CaCO3(cr)", "Ca(a)", "C(gr)"]);
-        match equilibrate_tp(&b, &pool, 800.0, 1.0) {
-            Err(CeaError::NotConverged(_)) => {}
-            Err(other) => panic!("expected a non-convergence, got {other}"),
-            Ok(eq) => {
-                // If it ever does solve, it must at least conserve.
-                assert_conserved(&eq, &b, "degenerate chalk");
-            }
-        }
+        let eq = equilibrate_tp(&b, &pool, 800.0, 1.0).unwrap();
+        assert_eq!(eq.gas_moles, 0.0);
+        assert_eq!(eq.composition.len(), 1);
+        assert!((eq.moles_of("CaCO3(cr)") - 0.0999).abs() < 1e-12);
+        assert_conserved(&eq, &b, "certified rank-deficient chalk");
     }
 
     #[test]

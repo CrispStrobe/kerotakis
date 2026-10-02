@@ -1424,10 +1424,9 @@ pub struct Vessel {
     ///
     /// The clock owns the RATE and the solver owns the CHEMISTRY, and this
     /// is the handoff between them. The clock cannot speciate the carbon
-    /// it moves — dissolved inorganic carbon is booked as bicarbonate, so
-    /// debiting a degassing vessel by hand would mean taking H and O out
-    /// of a portion whose mass is only right because of where the carbon
-    /// came from, which is the trap the C(4) split walked into. Instead
+    /// it moves: the carbonate protonation split and its acid/base/water
+    /// coordinates must settle together. Debiting a bicarbonate portion
+    /// directly would remove H and O that CO₂ itself does not carry. Instead
     /// the amount is parked here, and the aqueous tail spends it by adding
     /// it to the ELEMENT TOTALS it poses the solve with — symmetric in both
     /// directions, with the engine doing the speciation and the charge. A
@@ -1438,19 +1437,11 @@ pub struct Vessel {
     /// Cleared by whoever applies it. A vessel with no aqueous solver
     /// under it accumulates nothing, because nothing measured a pressure.
     ///
-    /// **It arrives on the BALANCE 17 g/mol too heavy, and that is not new
-    /// but it is now reachable from the open bench.** The readback books
-    /// every dissolved inorganic carbon as HCO₃⁻ (61 g/mol) while PHREEQC's
-    /// water mass does not drop for the H and O it lent, so a mole of CO₂
-    /// (44 g/mol) delivered by the room weighs a water too much. From a
-    /// bicarbonate SOLID that booking is exact, because the solid brought
-    /// its own H and O; from a gas it is not, and at bench pH most of the
-    /// carbon is really CO₂(aq) anyway, so the name is wrong as well as the
-    /// mass. `kerotakis-phreeqc/tests/sealed_mass.rs` measures it on the
-    /// sealed path and is `#[ignore]`d pending a C(4) protonation split
-    /// with a water debit — the aqueous lane's, and untouched here.
-    /// Currently 0.013 g for a beaker of water standing a month; the same
-    /// defect, not a second one.
+    /// The aqueous readback preserves the CO₂(aq)/HCO₃⁻/CO₃²⁻
+    /// protonation split. Its analytical H₂O/acid/base basis completes the
+    /// hydrogen and oxygen balance, so absorbed gas does not acquire solvent
+    /// mass merely because some of its carbon becomes bicarbonate. Sealed
+    /// transfer regressions live in `kerotakis-phreeqc/tests/sealed_mass.rs`.
     #[serde(default)]
     pub pending_co2_transfer_mol: f64,
     /// `Some` once an aqueous solver has characterised the solution; `None`
@@ -1744,16 +1735,22 @@ impl Vessel {
     /// Remove up to `moles` of a species across its portions (any phase).
     /// Returns the amount actually removed.
     pub fn withdraw(&mut self, species: &SpeciesId, moles: Moles) -> Moles {
+        if !moles.0.is_finite() {
+            return Moles(f64::NAN);
+        }
         let mut remaining = moles.0;
+        let mut withdrawn = 0.0;
         for p in self.contents.iter_mut() {
             if &p.species == species && remaining > 0.0 {
                 let take = p.moles.0.min(remaining);
                 p.moles = Moles(p.moles.0 - take);
                 remaining -= take;
+                withdrawn += take;
             }
         }
-        self.contents.retain(|p| p.moles.0 > 1e-15);
-        Moles(moles.0 - remaining)
+        // Inventory cutoffs belong to presentation, not material transfers.
+        self.contents.retain(|p| p.moles.0 > 0.0);
+        Moles(withdrawn)
     }
 
     /// KID-7: remove up to `moles` of a species from one phase only.
@@ -1764,12 +1761,17 @@ impl Vessel {
     /// solid one, and taking the shortfall out of the solid it is trying to
     /// grow would be exactly backwards.
     pub fn withdraw_phase(&mut self, species: &SpeciesId, moles: Moles, phase: Phase) -> Moles {
+        if !moles.0.is_finite() {
+            return Moles(f64::NAN);
+        }
         let mut remaining = moles.0;
+        let mut withdrawn = 0.0;
         for p in self.contents.iter_mut() {
             if &p.species == species && p.phase == phase && remaining > 0.0 {
                 let take = p.moles.0.min(remaining);
                 p.moles = Moles(p.moles.0 - take);
                 remaining -= take;
+                withdrawn += take;
             }
         }
         for lot in self.lots.iter_mut() {
@@ -1777,8 +1779,9 @@ impl Vessel {
                 break;
             }
         }
-        self.contents.retain(|p| p.moles.0 > 1e-15);
-        Moles(moles.0 - remaining)
+        // Inventory cutoffs belong to presentation, not material transfers.
+        self.contents.retain(|p| p.moles.0 > 0.0);
+        Moles(withdrawn)
     }
 
     /// Effective heat capacity of the contents under this vessel's current

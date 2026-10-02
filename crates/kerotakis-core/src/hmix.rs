@@ -156,6 +156,10 @@ const OBSERVABLE_J: f64 = 0.05;
 pub struct MixingEnthalpyEquilibrator;
 
 impl Equilibrator for MixingEnthalpyEquilibrator {
+    fn element_conservation_tolerance(&self) -> Option<f64> {
+        Some(1e-10)
+    }
+
     fn name(&self) -> &'static str {
         "heat-of-mixing"
     }

@@ -781,3 +781,215 @@ fn finite_mass_with_overflowed_heat_capacity_is_refused_atomically() {
         .is_err());
     assert_eq!(key(&original), before);
 }
+
+fn electrode() -> kerotakis_core::compartment::ElectrodeState {
+    serde_json::from_value(serde_json::json!({
+        "label":"e", "material":"Pt", "area_m2":0.001,
+        "deposits":[{"species":"Cu", "moles":0.001,
+            "thickness_m":1e-6, "coverage_fraction":0.5,
+            "electrical_resistivity_ohm_m":1e-7}]
+    }))
+    .unwrap()
+}
+
+#[test]
+fn snapshot_deposit_geometry_and_aggregate_electrical_overflow_are_atomic() {
+    for case in 0..17 {
+        let mut v = water();
+        v.electrodes.push(electrode());
+        let before = key(&v);
+        let mut after = v.clone();
+        let e = &mut after.electrodes[0];
+        if (6..=8).contains(&case) {
+            e.interfacial_potential_v = Some(0.0);
+        }
+        match case {
+            0 => e.deposits[0].coverage_fraction = Some(f64::NAN),
+            1 => e.deposits[0].coverage_fraction = Some(1.01),
+            2 => e.deposits[0].thickness_m = Some(-1.0),
+            3 => e.deposits[0].electrical_resistivity_ohm_m = Some(f64::INFINITY),
+            4 => {
+                e.deposits[0].thickness_m = Some(1e200);
+                e.deposits[0].electrical_resistivity_ohm_m = Some(1e200);
+            }
+            5 => {
+                e.area_m2 = 1e200;
+                e.roughness = 1e200;
+            }
+            6 => e.double_layer_capacitance_f_per_m2 = Some(f64::NAN),
+            7 => e.double_layer_capacitance_f_per_m2 = Some(-1.0),
+            8 => {
+                e.area_m2 = 1e200;
+                e.double_layer_capacitance_f_per_m2 = Some(1e200);
+            }
+            9 => {
+                e.deposits[0].thickness_m = Some(1e308);
+                e.deposits[0].electrical_resistivity_ohm_m = Some(1.0);
+                let mut other = e.deposits[0].clone();
+                other.species = "Zn".into();
+                e.deposits.push(other);
+            }
+            13 => e.double_layer_capacitance_f_per_m2 = Some(0.2),
+            14 => e.interfacial_potential_v = Some(-0.2),
+            _ => {
+                let mut diagnostics: kerotakis_core::compartment::ElectrodeDiagnostics =
+                    serde_json::from_value(serde_json::json!({
+                        "seconds":1.0,"inventory_limited":false,
+                        "interfacial_conditions":[],"applied_parameters":[],
+                        "balance":{"electrode_potential_v":0.0,"terminal_potential_v":0.0,
+                            "net_current_density_a_per_m2":0.0,
+                            "partial_currents":[{"reaction_id":"r","current_density_a_per_m2":0.0}]}
+                    }))
+                    .unwrap();
+                match case {
+                    10 => {
+                        diagnostics.balance.partial_currents[0].current_density_a_per_m2 = f64::NAN
+                    }
+                    11 => diagnostics.balance.total_current_density_a_per_m2 = f64::INFINITY,
+                    12 => diagnostics.seconds = -1.0,
+                    15 => {
+                        e.area_m2 = 1e200;
+                        diagnostics.balance.total_current_density_a_per_m2 = 1e200;
+                    }
+                    _ => {
+                        diagnostics.balance.partial_currents[0].current_density_a_per_m2 = 1e308;
+                        let mut other = diagnostics.balance.partial_currents[0].clone();
+                        other.reaction_id = "other".into();
+                        diagnostics.balance.partial_currents.push(other);
+                    }
+                }
+                e.diagnostics = Some(diagnostics);
+            }
+        }
+        assert!(
+            diff_vessels(&v, &after, "test").commit(&mut v).is_err(),
+            "case {case}"
+        );
+        assert_eq!(key(&v), before, "case {case}");
+    }
+}
+
+#[test]
+fn snapshot_material_progress_and_visual_geometry_are_atomic() {
+    for case in 0..8 {
+        let mut v = water();
+        let before = key(&v);
+        let mut after = v.clone();
+        match case {
+            0 => after.foam.volume_liters = f64::NAN,
+            1 => after.foam.trapped_gas_liters = -1.0,
+            2 => {
+                after.surface_particles = Some(kerotakis_core::vessel::SurfaceParticleState {
+                    material: "pepper".into(),
+                    coverage_fraction: 1.1,
+                    cleared_fraction: 0.0,
+                })
+            }
+            3 => {
+                after.emulsion = Some(kerotakis_core::vessel::EmulsionState {
+                    oil_recipe_id: "oil".into(),
+                    dispersed_volume_l: 0.001,
+                    half_life_seconds: 0.0,
+                })
+            }
+            4 => {
+                after.lemon_paper_mark = Some(kerotakis_core::vessel::LemonPaperMarkState {
+                    lemon_amount_g: 1.0,
+                    paper_amount_g: 1.0,
+                    dry: true,
+                    browned_fraction: f64::INFINITY,
+                })
+            }
+            5 => {
+                after.soap_scum = Some(kerotakis_core::vessel::SoapScumState {
+                    aggregate_mass_g: f64::NAN,
+                    divalent_ion_moles: 0.001,
+                    soap_equivalent_moles: 0.002,
+                })
+            }
+            _ => after
+                .material_objects
+                .push(kerotakis_core::vessel::MaterialObject {
+                    material: "object".into(),
+                    recipe_id: "test".into(),
+                    recipe_version: 1,
+                    mass_g: 1.0,
+                    components: vec![],
+                    state: kerotakis_core::vessel::MaterialObjectState {
+                        elapsed_seconds: 0.0,
+                        exchanged_water_moles: if case == 6 { f64::NAN } else { 0.0 },
+                        browned_fraction: if case == 7 { -0.01 } else { 0.0 },
+                    },
+                }),
+        }
+        assert!(
+            diff_vessels(&v, &after, "test").commit(&mut v).is_err(),
+            "case {case}"
+        );
+        assert_eq!(key(&v), before, "case {case}");
+    }
+}
+
+#[test]
+fn native_withdrawal_preserves_unrelated_bulk_and_electrode_traces() {
+    use kerotakis_core::delta::ElectrodeInventory;
+    let mut v = water();
+    v.deposit(SpeciesId::new("Fe"), Moles(1e-16), Phase::Solid);
+    let proposal = StateDelta::new("phase transfer")
+        .with_moles(SpeciesId::new("water"), Phase::Liquid, -1.0)
+        .with_moles(SpeciesId::new("water"), Phase::Gas, 1.0);
+    proposal.commit_conserved(&mut v, 1e-12).unwrap();
+    assert_eq!(v.moles_of(&SpeciesId::new("Fe")).0, 1e-16);
+    let mut e = electrode();
+    e.deposits[0].moles = 1e-16;
+    let mut zinc = e.deposits[0].clone();
+    zinc.species = "Zn".into();
+    zinc.moles = 0.001;
+    e.deposits.push(zinc);
+    v.electrodes.push(e);
+    StateDelta::new("electrode transfer")
+        .with_electrode_moles(
+            "e",
+            ElectrodeInventory::Deposit {
+                species: SpeciesId::new("Zn"),
+                growth: None,
+                effect: None,
+            },
+            -0.001,
+        )
+        .with_moles(SpeciesId::new("Zn+2"), Phase::Aqueous, 0.001)
+        .commit_conserved(&mut v, 1e-12)
+        .unwrap();
+    assert_eq!(v.electrodes[0].deposits.len(), 1);
+    assert_eq!(v.electrodes[0].deposits[0].species, "Cu");
+    assert_eq!(v.electrodes[0].deposits[0].moles, 1e-16);
+}
+
+#[test]
+fn valid_signed_electrical_state_and_fraction_boundaries_still_commit() {
+    let mut v = water();
+    let mut e = electrode();
+    e.double_layer_capacitance_f_per_m2 = Some(0.2);
+    e.interfacial_potential_v = Some(-0.2);
+    v.electrodes.push(e);
+    let mut after = v.clone();
+    after.electrodes[0].diagnostics = Some(
+        serde_json::from_value(serde_json::json!({
+            "seconds":1.0,"inventory_limited":false,
+            "interfacial_conditions":[],"applied_parameters":[],
+            "balance":{"electrode_potential_v":-0.2,"terminal_potential_v":-0.21,
+                "net_current_density_a_per_m2":-3.0,"total_current_density_a_per_m2":-3.0,
+                "partial_currents":[{"reaction_id":"r","current_density_a_per_m2":-3.0}]}
+        }))
+        .unwrap(),
+    );
+    after.surface_particles = Some(kerotakis_core::vessel::SurfaceParticleState {
+        material: "pepper".into(),
+        coverage_fraction: 0.0,
+        cleared_fraction: 1.0,
+    });
+    diff_vessels(&v, &after, "valid signed state")
+        .commit_conserved(&mut v, 1e-12)
+        .unwrap();
+    assert_eq!(key(&v), key(&after));
+}

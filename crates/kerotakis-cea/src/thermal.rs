@@ -219,13 +219,14 @@ fn cea_species(registry_key: &str) -> Option<&'static Species> {
 }
 
 fn formation_anchor(species: &Species, temperature: f64) -> bool {
-    // Some room-standard solids (CaCO3, MgO) start their Cp fit at 300 K,
+    // Some room-standard records (CaCO3, MgO, ethanol gas) start Cp at 300 K,
     // but their NASA header independently supplies Hf at 298.15 K. Use that
     // exact reference datum, never clamp/extrapolate the polynomial.
     temperature == crate::T_REF
-        && !species.is_gas()
         && !species.name.ends_with("(L)")
-        && species.t_range().is_some_and(|(lo, _)| lo <= 300.0)
+        && species
+            .t_range()
+            .is_some_and(|(lo, _)| lo <= 300.0 && (!species.is_gas() || temperature < lo))
 }
 
 fn record_enthalpy(species: &Species, temperature: f64) -> Option<f64> {
@@ -1256,6 +1257,29 @@ fn air_enthalpy(charge: &Charge) -> f64 {
 #[cfg(test)]
 mod feed_thermochemistry_contracts {
     use super::*;
+
+    #[test]
+    fn gas_reference_anchor_uses_header_hf_without_extrapolating_the_cp_fit() {
+        let ethanol = db().get("C2H5OH").unwrap();
+        assert_eq!(ethanol.t_range().unwrap().0, 300.0);
+        assert_eq!(
+            enthalpy_within_record(ethanol, crate::T_REF, Phase::Gas),
+            Some(ethanol.h_formation)
+        );
+        assert!(
+            (ethanol.h_formation + 234_950.0).abs() < 1.0,
+            "NASA C2H5OH header's authoritative Hf datum"
+        );
+        // The reference point supplies no invented derivative/integral at
+        // neighboring temperatures below the actual Cp domain.
+        for t in [crate::T_REF - 0.01, crate::T_REF + 0.01, 299.0] {
+            assert!(enthalpy_within_record(ethanol, t, Phase::Gas).is_none());
+        }
+        assert_eq!(
+            enthalpy_within_record(ethanol, 300.0, Phase::Gas),
+            ethanol.h(300.0)
+        );
+    }
 
     #[test]
     fn magnesium_above_its_solid_range_uses_liquid_not_vapour_enthalpy() {

@@ -348,6 +348,10 @@ pub fn settle(vessel: &mut Vessel) -> Vec<Event> {
 pub struct HeadspacePartitionEquilibrator;
 
 impl Equilibrator for HeadspacePartitionEquilibrator {
+    fn element_conservation_tolerance(&self) -> Option<f64> {
+        Some(1e-10)
+    }
+
     fn name(&self) -> &'static str {
         "headspace-partition"
     }
