@@ -3001,7 +3001,10 @@ impl Bench {
                 }
 
                 let src = self.vessel_mut(*from)?;
-                src.contents.retain(|p| p.phase == Phase::Solid);
+                // Remove exactly the phases in the filtrate. Headspace gas
+                // remains owned by the source; filtration is not a vent.
+                src.contents
+                    .retain(|p| !matches!(p.phase, Phase::Liquid | Phase::Aqueous));
                 let dst = self.vessel_mut(*to)?;
                 if matches!(dst.thermal_mode, ThermalMode::Adiabatic) {
                     let settled = adiabatic_mix_into(dst, t_from, |t| {

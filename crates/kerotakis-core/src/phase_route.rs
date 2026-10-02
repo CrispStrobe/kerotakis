@@ -276,15 +276,7 @@ fn moles_in_phase(vessel: &Vessel, species: &SpeciesId, phase: Phase) -> f64 {
 }
 
 fn withdraw_phase(vessel: &mut Vessel, species: &SpeciesId, phase: Phase, moles: f64) {
-    let mut remaining = moles;
-    for p in vessel.contents.iter_mut() {
-        if &p.species == species && p.phase == phase && remaining > 0.0 {
-            let take = p.moles.0.min(remaining);
-            p.moles = Moles(p.moles.0 - take);
-            remaining -= take;
-        }
-    }
-    vessel.contents.retain(|p| p.moles.0 > 1e-15);
+    vessel.withdraw_phase(species, Moles(moles), phase);
 }
 
 /// Release `moles` of a gas: into the headspace if the vessel owns one,
@@ -1321,5 +1313,37 @@ mod tests {
                 }
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod inventory_transfer_tests {
+    use super::*;
+    use crate::VesselId;
+
+    #[test]
+    fn phase_withdrawal_preserves_unrelated_and_other_phase_trace_inventory() {
+        let water = SpeciesId::new("water");
+        let iron = SpeciesId::new("Fe");
+        let mut vessel = Vessel::new(VesselId(0), "trace transfer");
+        vessel.deposit(water.clone(), Moles(1.0), Phase::Liquid);
+        vessel.deposit(water.clone(), Moles(4e-16), Phase::Aqueous);
+        vessel.deposit(iron.clone(), Moles(5e-16), Phase::Solid);
+        withdraw_phase(&mut vessel, &water, Phase::Liquid, 0.5);
+        assert_eq!(vessel.moles_of(&iron).0, 5e-16);
+        let liquid = vessel
+            .contents
+            .iter()
+            .filter(|p| p.species == water && p.phase == Phase::Liquid)
+            .map(|p| p.moles.0)
+            .sum::<f64>();
+        let aqueous = vessel
+            .contents
+            .iter()
+            .filter(|p| p.species == water && p.phase == Phase::Aqueous)
+            .map(|p| p.moles.0)
+            .sum::<f64>();
+        assert_eq!(liquid, 0.5);
+        assert_eq!(aqueous, 4e-16);
     }
 }

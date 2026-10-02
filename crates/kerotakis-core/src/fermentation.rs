@@ -323,7 +323,7 @@ fn consume_unresolved_lactose(
     }
     vessel
         .unresolved_materials
-        .retain(|portion| portion.amount > 1e-12);
+        .retain(|portion| portion.amount > 0.0);
     withdraw_phase(vessel, WATER, Phase::Liquid, moles);
     step.unresolved_lactose_grams += taken_g;
     moles
@@ -384,15 +384,7 @@ fn phase_moles(vessel: &Vessel, species: &str, phase: Phase) -> f64 {
 }
 
 fn withdraw_phase(vessel: &mut Vessel, species: &str, phase: Phase, moles: f64) {
-    let mut remaining = moles;
-    for portion in &mut vessel.contents {
-        if portion.species.0 == species && portion.phase == phase && remaining > 0.0 {
-            let take = portion.moles.0.min(remaining);
-            portion.moles.0 -= take;
-            remaining -= take;
-        }
-    }
-    vessel.contents.retain(|portion| portion.moles.0 > 1e-15);
+    vessel.withdraw_phase(&SpeciesId::new(species), Moles(moles), phase);
 }
 
 fn withdraw_across_phases(vessel: &mut Vessel, species: &str, phases: &[Phase], moles: f64) {
@@ -421,4 +413,80 @@ fn dry_yeast_hydration(vessel: &Vessel, recipe_id: &str) -> f64 {
         .fold(0.0, f64::max);
     let tau = (6.0 * 2_f64.powf((298.15 - vessel.temperature.0) / 10.0)).clamp(2.0, 30.0);
     (1.0 - (-hydrated_seconds / tau).exp()).clamp(0.0, 1.0)
+}
+
+#[cfg(test)]
+mod inventory_transfer_tests {
+    use super::*;
+    use crate::VesselId;
+
+    #[test]
+    fn lactose_consumption_preserves_unrelated_positive_unresolved_material() {
+        let mut vessel = Vessel::new(VesselId(0), "milk with trace material");
+        vessel.deposit(SpeciesId::new(WATER), Moles(1.0), Phase::Liquid);
+        for (recipe_id, amount) in [
+            ("household/whole-milk-surrogate", 1.0),
+            ("household/olive-oil-surrogate", 5e-13),
+        ] {
+            vessel
+                .unresolved_materials
+                .push(crate::vessel::UnresolvedMaterialPortion {
+                    material: recipe_id.to_string(),
+                    recipe_id: recipe_id.to_string(),
+                    recipe_version: 1,
+                    basis: material::MaterialBasis::MassFraction,
+                    amount,
+                    enzyme_hydrolysis: None,
+                    protein_denatured_fraction: 0.0,
+                });
+        }
+        let mut step = FermentationStep {
+            sucrose_moles: 0.0,
+            ethanol_moles: 0.0,
+            carbon_dioxide_moles: 0.0,
+            active_yeast_grams: 0.0,
+            lactic_acid_moles: 0.0,
+            acetic_acid_moles: 0.0,
+            unresolved_lactose_grams: 0.0,
+        };
+        let consumed = consume_unresolved_lactose(&mut vessel, 0.5, &mut step);
+        let share =
+            crate::enzyme_activity::unresolved_lactose_share("household/whole-milk-surrogate")
+                .unwrap();
+        assert_eq!(consumed, share * 0.5 / lactose_equivalent_molar_mass());
+        assert_eq!(vessel.unresolved_materials.len(), 2);
+        assert_eq!(vessel.unresolved_materials[1].amount, 5e-13);
+        assert_eq!(vessel.moles_of(&SpeciesId::new(WATER)).0, 1.0 - consumed);
+        assert_eq!(
+            vessel.unresolved_materials[0].amount,
+            1.0 - step.unresolved_lactose_grams
+        );
+        assert!(step.unresolved_lactose_grams > 0.0);
+    }
+
+    #[test]
+    fn phase_withdrawal_preserves_unrelated_and_other_phase_trace_inventory() {
+        let water = SpeciesId::new("water");
+        let iron = SpeciesId::new("Fe");
+        let mut vessel = Vessel::new(VesselId(0), "trace transfer");
+        vessel.deposit(water.clone(), Moles(1.0), Phase::Liquid);
+        vessel.deposit(water.clone(), Moles(4e-16), Phase::Aqueous);
+        vessel.deposit(iron.clone(), Moles(5e-16), Phase::Solid);
+        withdraw_phase(&mut vessel, "water", Phase::Liquid, 0.5);
+        assert_eq!(vessel.moles_of(&iron).0, 5e-16);
+        let liquid = vessel
+            .contents
+            .iter()
+            .filter(|p| p.species == water && p.phase == Phase::Liquid)
+            .map(|p| p.moles.0)
+            .sum::<f64>();
+        let aqueous = vessel
+            .contents
+            .iter()
+            .filter(|p| p.species == water && p.phase == Phase::Aqueous)
+            .map(|p| p.moles.0)
+            .sum::<f64>();
+        assert_eq!(liquid, 0.5);
+        assert_eq!(aqueous, 4e-16);
+    }
 }

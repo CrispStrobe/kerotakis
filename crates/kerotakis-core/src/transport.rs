@@ -310,7 +310,9 @@ impl CellChain {
                     portion.moles = Moles(portion.moles.0 * (1.0 - courant_fraction));
                 }
             }
-            cell.contents.retain(|portion| portion.moles.0 > 1e-15);
+            // Transport removes zero inventory, not positive trace matter.
+            // This includes stationary portions that were never advected.
+            cell.contents.retain(|portion| portion.moles.0 > 0.0);
             cell.solute_charge *= 1.0 - courant_fraction;
             cell.solution = None;
         }

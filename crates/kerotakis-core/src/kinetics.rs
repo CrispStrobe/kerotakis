@@ -2140,16 +2140,9 @@ fn apply_coupled_extents<'a>(
 }
 
 fn withdraw_phase(vessel: &mut Vessel, species: &str, phase: Phase, moles: f64) -> f64 {
-    let mut remaining = moles;
-    for portion in &mut vessel.contents {
-        if portion.species.0 == species && portion.phase == phase && remaining > 0.0 {
-            let take = portion.moles.0.min(remaining);
-            portion.moles.0 -= take;
-            remaining -= take;
-        }
-    }
-    vessel.contents.retain(|portion| portion.moles.0 > 1e-15);
-    moles - remaining
+    vessel
+        .withdraw_phase(&SpeciesId::new(species), Moles(moles), phase)
+        .0
 }
 
 /// Advance the built-in curated network. This is the stable bench-facing API.
@@ -3705,5 +3698,44 @@ mod heterogeneous_tests {
         assert!((surface.reactive_area_m2().unwrap() - 1.0).abs() < 1e-12);
         let flux = rate.effective_flux(1.0, 100.0).unwrap();
         assert!(flux > 0.0 && flux < 1e-3);
+    }
+}
+
+#[cfg(test)]
+mod inventory_transfer_tests {
+    use super::*;
+    use crate::VesselId;
+
+    #[test]
+    fn phase_withdrawal_preserves_unrelated_and_other_phase_trace_inventory() {
+        let water = SpeciesId::new("water");
+        let iron = SpeciesId::new("Fe");
+        let mut vessel = Vessel::new(VesselId(0), "trace transfer");
+        vessel.deposit(water.clone(), Moles(1.0), Phase::Liquid);
+        vessel.deposit(water.clone(), Moles(4e-16), Phase::Aqueous);
+        vessel.deposit(iron.clone(), Moles(5e-16), Phase::Solid);
+        withdraw_phase(&mut vessel, "water", Phase::Liquid, 0.5);
+        assert_eq!(vessel.moles_of(&iron).0, 5e-16);
+        let liquid = vessel
+            .contents
+            .iter()
+            .filter(|p| p.species == water && p.phase == Phase::Liquid)
+            .map(|p| p.moles.0)
+            .sum::<f64>();
+        let aqueous = vessel
+            .contents
+            .iter()
+            .filter(|p| p.species == water && p.phase == Phase::Aqueous)
+            .map(|p| p.moles.0)
+            .sum::<f64>();
+        assert_eq!(liquid, 0.5);
+        assert_eq!(aqueous, 4e-16);
+
+        assert_eq!(
+            withdraw_phase(&mut vessel, "water", Phase::Liquid, 1e100),
+            0.5
+        );
+        assert_eq!(vessel.moles_of(&iron).0, 5e-16);
+        assert_eq!(vessel.moles_of(&water).0, 4e-16);
     }
 }

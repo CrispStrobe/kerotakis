@@ -141,6 +141,35 @@ fn a_passive_tracer_follows_the_upwind_binomial_and_closes_every_ledger() {
 }
 
 #[test]
+fn positive_mobile_and_stationary_traces_close_at_every_courant_boundary() {
+    let salt = SpeciesId::new("NaCl");
+    let iron = SpeciesId::new("Fe");
+    let salt_moles = 8e-16;
+    let iron_moles = 5e-16;
+
+    for courant in [0.0, 0.5, 1.0] {
+        let mut initial = cell(0, 0.0, Kelvin::STANDARD.0);
+        initial.deposit(salt.clone(), Moles(salt_moles), Phase::Aqueous);
+        initial.deposit(iron.clone(), Moles(iron_moles), Phase::Solid);
+        let inlet = cell(99, 0.0, Kelvin::STANDARD.0);
+        let mut chain = CellChain::new(vec![initial]).unwrap();
+
+        let step = chain.advance(&inlet, courant).unwrap();
+        let retained = chain.cells()[0].moles_of(&salt).0;
+        let discharged = step.effluent.moles_of(&salt).0;
+        assert_eq!(retained, salt_moles * (1.0 - courant), "Courant {courant}");
+        assert_eq!(discharged, salt_moles * courant, "Courant {courant}");
+        assert_eq!(step.injected.moles_of(&salt).0, 0.0);
+        // Exact assertions deliberately avoid an absolute tolerance larger
+        // than the entire inventory under test.
+        assert_eq!(retained + discharged, salt_moles, "Courant {courant}");
+        assert_eq!(chain.cells()[0].moles_of(&iron).0, iron_moles);
+        assert_eq!(step.effluent.moles_of(&iron).0, 0.0);
+        assert_eq!(step.injected.moles_of(&iron).0, 0.0);
+    }
+}
+
+#[test]
 fn stationary_solid_and_exchange_inventory_do_not_leave_their_cell() {
     let mut first = cell(0, 0.0, Kelvin::STANDARD.0);
     first.deposit(SpeciesId::new("CaCO3"), Moles(0.2), Phase::Solid);

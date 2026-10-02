@@ -733,22 +733,11 @@ fn extent_in_solvent(vessel: &Vessel, reaction: &CuratedReaction, solvent: &str)
 /// Withdraw from liquid phase first, then solid — ensures only the
 /// dissolved (or would-dissolve) fraction is consumed.
 fn withdraw_from_solution(vessel: &mut Vessel, species: &SpeciesId, moles: Moles) {
-    let mut remaining = moles.0;
-    for p in vessel.contents.iter_mut() {
-        if &p.species == species && p.phase == Phase::Liquid && remaining > 0.0 {
-            let take = p.moles.0.min(remaining);
-            p.moles = Moles(p.moles.0 - take);
-            remaining -= take;
-        }
+    let liquid = vessel.withdraw_phase(species, moles, Phase::Liquid).0;
+    let remaining = moles.0 - liquid;
+    if remaining > 0.0 {
+        vessel.withdraw_phase(species, Moles(remaining), Phase::Solid);
     }
-    for p in vessel.contents.iter_mut() {
-        if &p.species == species && p.phase == Phase::Solid && remaining > 0.0 {
-            let take = p.moles.0.min(remaining);
-            p.moles = Moles(p.moles.0 - take);
-            remaining -= take;
-        }
-    }
-    vessel.contents.retain(|p| p.moles.0 > 1e-15);
 }
 
 /// Applies every curated reaction whose reactants are present, to
@@ -846,5 +835,35 @@ impl Equilibrator for CuratedEquilibrator {
             refresh_solute_charge(vessel);
         }
         Ok(events)
+    }
+}
+
+#[cfg(test)]
+mod inventory_transfer_tests {
+    use super::*;
+    use crate::VesselId;
+
+    #[test]
+    fn solution_withdrawal_preserves_traces_and_liquid_then_solid_order() {
+        let water = SpeciesId::new("water");
+        let iron = SpeciesId::new("Fe");
+        let mut vessel = Vessel::new(VesselId(0), "trace transfer");
+        vessel.deposit(water.clone(), Moles(0.25), Phase::Liquid);
+        vessel.deposit(water.clone(), Moles(0.75), Phase::Solid);
+        vessel.deposit(water.clone(), Moles(4e-16), Phase::Aqueous);
+        vessel.deposit(iron.clone(), Moles(5e-16), Phase::Solid);
+        withdraw_from_solution(&mut vessel, &water, Moles(0.5));
+        assert_eq!(vessel.moles_of(&iron).0, 5e-16);
+        let in_phase = |phase| {
+            vessel
+                .contents
+                .iter()
+                .filter(|p| p.species == water && p.phase == phase)
+                .map(|p| p.moles.0)
+                .sum::<f64>()
+        };
+        assert_eq!(in_phase(Phase::Liquid), 0.0);
+        assert_eq!(in_phase(Phase::Solid), 0.5);
+        assert_eq!(in_phase(Phase::Aqueous), 4e-16);
     }
 }

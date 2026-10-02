@@ -576,6 +576,21 @@ pub fn equilibrate_tp(
             n_total - sum_gas + gas.iter().map(|&i| n[i] * mu(i, &n, n_total)).sum::<f64>();
 
         if !solve_flat(&mut m_flat, dim, stride) {
+            // With one represented gas, simultaneous condensed phases
+            // can overdetermine its fixed chemical potential. At reaction
+            // coexistence the same singularity is a free extent. Recover
+            // only an independently certified feasible endpoint; no failed
+            // Newton state or guessed phase mixture is accepted.
+            if let Some(endpoint) = certified_single_gas_endpoint(
+                &pool,
+                &mu0,
+                &original_elements,
+                budget,
+                t,
+                pressure_bar,
+            ) {
+                return Ok(endpoint);
+            }
             // The repairable one: a Newton transient crushed a gas species
             // the element balance still needs. A cold H2/O2/air charge
             // (curiosity th-034) drives O2 and H2 to the trace floor within
@@ -964,6 +979,156 @@ fn certified_condensed_boundary(
             } else if !phases_valid && active.len() == cond.len() {
                 break;
             }
+        }
+    }
+    None
+}
+
+/// Bounded positive-gas endpoint certificate. With exactly one ideal gas,
+/// its chemical potential is independent of amount at fixed T/P. Each
+/// candidate contains that gas and at most one condensed phase, giving
+/// an O(species*elements²) enumeration, not a combinatorial phase search.
+/// Occupied-phase equalities and every inactive condensed inequality
+/// provide the same global Gibbs lower bound as the zero-gas certificate.
+fn certified_single_gas_endpoint(
+    pool: &[&Species],
+    mu0: &[f64],
+    elements: &[String],
+    budget: &BTreeMap<String, f64>,
+    t: f64,
+    pressure_bar: f64,
+) -> Option<Equilibrium> {
+    let gases: Vec<_> = (0..pool.len()).filter(|i| pool[*i].is_gas()).collect();
+    if gases.len() != 1
+        || !pool.iter().all(|species| {
+            species
+                .intervals
+                .iter()
+                .any(|interval| (interval.t_min..=interval.t_max).contains(&t))
+        })
+    {
+        return None;
+    }
+    let gas = gases[0];
+    let a = |i: usize, j: usize| {
+        pool[i]
+            .composition
+            .get(&elements[j])
+            .copied()
+            .unwrap_or(0.0)
+    };
+    let chemical = |i: usize| {
+        mu0[i]
+            + if i == gas {
+                (pressure_bar / P_STANDARD_BAR).ln()
+            } else {
+                0.0
+            }
+    };
+    let mut candidates = Vec::new();
+    // The gas-only endpoint covers proportional gas/solid compositions.
+    let amount = (0..elements.len())
+        .find(|j| a(gas, *j) > 0.0)
+        .map(|j| budget[&elements[j]] / a(gas, j))?;
+    let mut gas_only = vec![0.0; pool.len()];
+    gas_only[gas] = amount;
+    candidates.push(gas_only);
+    for condensed in (0..pool.len()).filter(|i| !pool[*i].is_gas()) {
+        let mut endpoint = None;
+        'pair: for j in 0..elements.len() {
+            for k in (j + 1)..elements.len() {
+                let determinant = a(gas, j) * a(condensed, k) - a(gas, k) * a(condensed, j);
+                if determinant == 0.0 || !determinant.is_finite() {
+                    continue;
+                }
+                let gas_amount = (budget[&elements[j]] * a(condensed, k)
+                    - budget[&elements[k]] * a(condensed, j))
+                    / determinant;
+                let condensed_amount = (a(gas, j) * budget[&elements[k]]
+                    - a(gas, k) * budget[&elements[j]])
+                    / determinant;
+                let mut n = vec![0.0; pool.len()];
+                n[gas] = gas_amount;
+                n[condensed] = condensed_amount;
+                endpoint = Some(n);
+                break 'pair;
+            }
+        }
+        if let Some(n) = endpoint {
+            candidates.push(n);
+        }
+    }
+    let dot = |left: &[f64], right: &[f64]| left.iter().zip(right).map(|(a, b)| a * b).sum::<f64>();
+    let tol = 1e-8; // Unchanged dimensionless Newton affinity tolerance.
+    for n in candidates {
+        if n[gas] <= 0.0
+            || n.iter().any(|amount| !amount.is_finite() || *amount < 0.0)
+            || !n.iter().sum::<f64>().is_finite()
+            || !elements.iter().enumerate().all(|(j, element)| {
+                let have: f64 = n
+                    .iter()
+                    .enumerate()
+                    .map(|(i, amount)| a(i, j) * amount)
+                    .sum();
+                have.is_finite() && (have - budget[element]).abs() <= BALANCE_TOL * budget[element]
+            })
+        {
+            continue;
+        }
+        // Construct one dual potential satisfying every occupied equality.
+        // Any remaining multiplier gauge is set to zero; failing an
+        // inactive inequality declines this candidate rather than guessing.
+        let mut basis: Vec<(Vec<f64>, f64)> = Vec::new();
+        let mut valid = true;
+        for i in (0..pool.len()).filter(|i| n[*i] > 0.0) {
+            let mut row: Vec<_> = (0..elements.len()).map(|j| a(i, j)).collect();
+            let mut rhs = chemical(i);
+            for (q, value) in &basis {
+                let projection = dot(&row, q);
+                for (v, qv) in row.iter_mut().zip(q) {
+                    *v -= projection * qv;
+                }
+                rhs -= projection * value;
+            }
+            let norm = dot(&row, &row).sqrt();
+            if norm < 1e-12 {
+                if rhs.abs() > tol {
+                    valid = false;
+                    break;
+                }
+            } else {
+                for v in &mut row {
+                    *v /= norm;
+                }
+                basis.push((row, rhs / norm));
+            }
+        }
+        if !valid {
+            continue;
+        }
+        let mut pi = vec![0.0; elements.len()];
+        for (q, value) in basis {
+            for (p, qv) in pi.iter_mut().zip(q) {
+                *p += qv * value;
+            }
+        }
+        if !pi.iter().all(|p| p.is_finite())
+            || !(0..pool.len()).all(|i| {
+                let potential: f64 = (0..elements.len()).map(|j| a(i, j) * pi[j]).sum();
+                let difference = potential - chemical(i);
+                difference.is_finite()
+                    && if n[i] > 0.0 {
+                        difference.abs() <= tol
+                    } else {
+                        difference <= tol
+                    }
+            })
+        {
+            continue;
+        }
+        let eq = finish(pool, &n, t, pressure_bar);
+        if eq.enthalpy.is_finite() && eq.gas_moles.is_finite() && eq.gas_moles > 0.0 {
+            return Some(eq);
         }
     }
     None
@@ -1923,6 +2088,117 @@ mod tests {
             ),
             Err(CeaError::NoSpecies)
         ));
+    }
+
+    #[test]
+    fn positive_gas_condensed_competition_selects_the_nasa_stable_endpoint() {
+        let carbonate = crate::db().get("CaCO3(cr)").unwrap();
+        let oxide = crate::db().get("CaO(cr)").unwrap();
+        let co2 = crate::db().get("CO2").unwrap();
+        for scale in [1e-6, 1.0, 1e6] {
+            let b = budget(&[("Ca", 0.1 * scale), ("C", 0.2 * scale), ("O", 0.5 * scale)]);
+            for pool in [[carbonate, oxide, co2], [co2, oxide, carbonate]] {
+                for t in [800.0, 1300.0, 1500.0] {
+                    for pressure in [0.1_f64, 1.0, 10.0] {
+                        let reaction_g =
+                            oxide.g(t).unwrap() + co2.g(t).unwrap() + R * t * pressure.ln()
+                                - carbonate.g(t).unwrap();
+                        let converted = reaction_g < 0.0;
+                        let eq = equilibrate_tp(&b, &pool, t, pressure).unwrap();
+                        let calcium_phase = if converted { "CaO(cr)" } else { "CaCO3(cr)" };
+                        let gas_amount = if converted { 0.2 } else { 0.1 } * scale;
+                        // Excess carbon makes gas compulsory. At fixed P,
+                        // pure CO2 has mu=G°+RTlnP; reaction affinity decides
+                        // the only stable endpoint independently of Newton.
+                        assert!(
+                            (eq.moles_of(calcium_phase) / (0.1 * scale) - 1.0).abs() < BALANCE_TOL
+                        );
+                        assert!((eq.gas_moles / gas_amount - 1.0).abs() < BALANCE_TOL);
+                        assert_conserved(&eq, &b, "positive-gas carbonate endpoint");
+                        let phase = if converted { oxide } else { carbonate };
+                        let h = 0.1 * scale * phase.h(t).unwrap() + gas_amount * co2.h(t).unwrap();
+                        assert!((eq.enthalpy / h - 1.0).abs() < BALANCE_TOL);
+                    }
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn positive_gas_coexistence_certifies_a_feasible_equal_g_endpoint() {
+        let carbonate = crate::db().get("CaCO3(cr)").unwrap();
+        let oxide = crate::db().get("CaO(cr)").unwrap();
+        let co2 = crate::db().get("CO2").unwrap();
+        let pool = [carbonate, oxide, co2];
+        let b = budget(&[("Ca", 0.1), ("C", 0.2), ("O", 0.5)]);
+        let (mut lo, mut hi) = (800.0, 1500.0);
+        for _ in 0..60 {
+            let t = (lo + hi) / 2.0;
+            if oxide.g(t).unwrap() + co2.g(t).unwrap() > carbonate.g(t).unwrap() {
+                lo = t;
+            } else {
+                hi = t;
+            }
+        }
+        let t = (lo + hi) / 2.0;
+        let mu: Vec<_> = pool.iter().map(|s| s.g(t).unwrap() / (R * t)).collect();
+        let elements: Vec<_> = b.keys().cloned().collect();
+        let eq = certified_single_gas_endpoint(&pool, &mu, &elements, &b, t, 1.0).unwrap();
+        let unconverted_g = 0.1 * carbonate.g(t).unwrap() + 0.1 * co2.g(t).unwrap();
+        let converted_g = 0.1 * oxide.g(t).unwrap() + 0.2 * co2.g(t).unwrap();
+        assert!((converted_g - unconverted_g).abs() < 1e-7);
+        let result_g = eq
+            .composition
+            .iter()
+            .map(|(name, n)| crate::db().get(name).unwrap().g(t).unwrap() * n)
+            .sum::<f64>();
+        assert!((result_g - unconverted_g).abs() < 1e-7);
+        assert!(eq.gas_moles >= 0.1 && eq.gas_moles <= 0.2);
+        assert_conserved(&eq, &b, "equal-G positive-gas endpoint");
+    }
+
+    #[test]
+    fn single_gas_certificate_declines_incomplete_or_invalid_domains() {
+        let carbonate = crate::db().get("CaCO3(cr)").unwrap();
+        let oxide = crate::db().get("CaO(cr)").unwrap();
+        let co2 = crate::db().get("CO2").unwrap();
+        let b = budget(&[("Ca", 0.1), ("C", 0.2), ("O", 0.5)]);
+        let elements: Vec<_> = b.keys().cloned().collect();
+        let certify = |pool: &[&Species], budget: &BTreeMap<String, f64>, t| {
+            let mu: Vec<_> = pool.iter().map(|s| s.g(t).unwrap() / (R * t)).collect();
+            certified_single_gas_endpoint(pool, &mu, &elements, budget, t, 1.0)
+        };
+        let pool = [carbonate, oxide, co2];
+        // All represented competitors must be source-covered. Do not omit
+        // carbonate above its fit ceiling to certify an incomplete pool.
+        assert!(certify(&pool, &b, 1700.0).is_none());
+        assert!(certify(
+            &[carbonate, oxide, co2, crate::db().get("CO").unwrap()],
+            &b,
+            1300.0
+        )
+        .is_none());
+        let wrong = budget(&[("Ca", 0.1), ("C", 0.2), ("O", 0.51)]);
+        assert!(certify(&pool, &wrong, 1300.0).is_none());
+        let huge = budget(&[("Ca", 1e305), ("C", 2e305), ("O", 5e305)]);
+        assert!(certify(&pool, &huge, 1300.0).is_none());
+        // A pool containing only the thermodynamically disfavored endpoint
+        // may be valid in its restricted domain. With the competing phase
+        // present, the certificate must select its lower-G endpoint.
+        let cold = certify(&pool, &b, 800.0).unwrap();
+        let hot = certify(&pool, &b, 1300.0).unwrap();
+        assert_eq!(cold.moles_of("CaO(cr)"), 0.0);
+        assert_eq!(hot.moles_of("CaCO3(cr)"), 0.0);
+    }
+
+    #[test]
+    fn certified_positive_gas_readback_preserves_inventory_below_trace_floor() {
+        let co2 = crate::db().get("CO2").unwrap();
+        let b = budget(&[("C", 1e-30), ("O", 2e-30)]);
+        let eq = equilibrate_tp(&b, &[co2], 800.0, 1.0).unwrap();
+        assert_eq!(eq.gas_moles, 1e-30);
+        assert_eq!(eq.moles_of("CO2"), 1e-30);
+        assert_eq!(eq.enthalpy, 1e-30 * co2.h(800.0).unwrap());
     }
 
     #[test]

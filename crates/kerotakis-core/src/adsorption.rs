@@ -324,7 +324,7 @@ fn release(vessel: &mut Vessel, sorbent: &str, sorbate: &SpeciesId, moles: f64) 
             released += take;
         }
     }
-    vessel.adsorbed.retain(|entry| entry.moles.0 > 1e-15);
+    vessel.adsorbed.retain(|entry| entry.moles.0 > 0.0);
     released
 }
 
@@ -394,6 +394,28 @@ impl Equilibrator for AdsorptionEquilibrator {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn release_preserves_positive_bound_remainders_and_unrelated_traces() {
+        let dye = SpeciesId::new("methyl_orange");
+        let other = SpeciesId::new("NaCl");
+        for fraction in [0.0, 0.25, 1.0] {
+            let mut vessel = Vessel::new(crate::VesselId(0), "beaker");
+            for (sorbate, amount) in [(&dye, 4e-18), (&dye, 4e-18), (&other, 2e-18)] {
+                vessel.adsorbed.push(AdsorbedAmount {
+                    sorbent: SpeciesId::new("activated_charcoal"),
+                    sorbate: sorbate.clone(),
+                    moles: Moles(amount),
+                });
+            }
+            let released = release(&mut vessel, "activated_charcoal", &dye, fraction * 8e-18);
+            let remaining = vessel.adsorbed_moles(&dye).0;
+            assert!((released - fraction * 8e-18).abs() <= 8e-32);
+            assert!((remaining - (1.0 - fraction) * 8e-18).abs() <= 8e-32);
+            assert!((released + remaining - 8e-18).abs() <= 8e-32);
+            assert_eq!(vessel.adsorbed_moles(&other).0, 2e-18);
+        }
+    }
 
     /// The unit bug, pinned. `dissolved_mg_at_equilibrium` returns a MASS,
     /// and the arithmetic that proves it is the mass balance itself: what

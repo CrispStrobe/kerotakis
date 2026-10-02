@@ -256,3 +256,31 @@ fn phase_changes_remove_a_total_once_and_preserve_unrelated_traces() {
         close(v.moles_of(&SpeciesId::new("Fe")).0, 2.0 * TRACE);
     }
 }
+
+#[test]
+fn filtration_preserves_source_gas_and_transfers_only_liquid_and_aqueous_stock() {
+    for gas_amount in [TRACE, 0.01] {
+        let mut bench = fixture();
+        bench.vessels[0].deposit(SpeciesId::new("N2"), Moles(gas_amount), Phase::Gas);
+        let events = step(
+            &mut bench,
+            Operator::Filter {
+                from: VesselId(0),
+                to: VesselId(2),
+            },
+        );
+        assert!(events.iter().any(|e| matches!(e, Event::Filtered { .. })));
+        close(
+            bench.vessels[0].moles_of(&SpeciesId::new("N2")).0,
+            gas_amount,
+        );
+        close(bench.vessels[2].moles_of(&SpeciesId::new("N2")).0, 0.0);
+        close(
+            bench.vessels[0].moles_of(&SpeciesId::new("Fe")).0,
+            2.0 * TRACE,
+        );
+        close(bench.vessels[0].moles_of(&SpeciesId::new("water")).0, 0.0);
+        close(bench.vessels[2].moles_of(&SpeciesId::new("water")).0, 1.0);
+        close(bench.vessels[2].moles_of(&SpeciesId::new("NaCl")).0, TRACE);
+    }
+}
