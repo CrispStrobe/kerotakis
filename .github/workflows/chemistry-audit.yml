@@ -15,7 +15,7 @@ on:
         description: Audit selection
         type: choice
         default: fleets
-        options: [fleets, independent-50]
+        options: [fleets, independent-50, independent-next-50]
 
 concurrency:
   group: chemistry-audit-${{ github.event.pull_request.number || github.ref }}
@@ -27,7 +27,7 @@ env:
 jobs:
   build-cli:
     name: Build audited CLI once
-    if: github.event_name != 'workflow_dispatch' || inputs.audit != 'independent-50'
+    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -51,7 +51,7 @@ jobs:
 
   sixth-fleet:
     name: Frozen fleet 195-218
-    if: github.event_name != 'workflow_dispatch' || inputs.audit != 'independent-50'
+    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50')
     needs: build-cli
     runs-on: ubuntu-latest
     steps:
@@ -96,7 +96,7 @@ jobs:
 
   seventh-fleet:
     name: Frozen fleet 459-488
-    if: github.event_name != 'workflow_dispatch' || inputs.audit != 'independent-50'
+    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50')
     needs: build-cli
     runs-on: ubuntu-latest
     steps:
@@ -141,7 +141,7 @@ jobs:
 
   source-fleets:
     name: Source fleet ${{ matrix.family }}
-    if: github.event_name != 'workflow_dispatch' || inputs.audit != 'independent-50'
+    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50')
     needs: build-cli
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -194,7 +194,7 @@ jobs:
 
   source-fleet-aggregate:
     name: All 240 source-informed cases
-    if: ${{ always() && (github.event_name != 'workflow_dispatch' || inputs.audit != 'independent-50') }}
+    if: ${{ always() && (github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50')) }}
     needs: source-fleets
     runs-on: ubuntu-latest
     steps:
@@ -207,7 +207,7 @@ jobs:
 
   source-fleets-v2:
     name: Source fleet v2 ${{ matrix.family }}
-    if: github.event_name != 'workflow_dispatch' || inputs.audit != 'independent-50'
+    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50')
     needs: build-cli
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -273,7 +273,7 @@ jobs:
 
   source-fleet-v2-aggregate:
     name: All 288 source-informed v2 cases
-    if: ${{ always() && (github.event_name != 'workflow_dispatch' || inputs.audit != 'independent-50') }}
+    if: ${{ always() && (github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50')) }}
     needs: source-fleets-v2
     runs-on: ubuntu-latest
     steps:
@@ -286,7 +286,7 @@ jobs:
 
   source-fleets-v3:
     name: Source fleet v3 ${{ matrix.family }}
-    if: github.event_name != 'workflow_dispatch' || inputs.audit != 'independent-50'
+    if: github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50')
     needs: build-cli
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -343,7 +343,7 @@ jobs:
 
   source-fleet-v3-aggregate:
     name: All 120 source-informed v3 cases
-    if: ${{ always() && (github.event_name != 'workflow_dispatch' || inputs.audit != 'independent-50') }}
+    if: ${{ always() && (github.event_name != 'workflow_dispatch' || (inputs.audit != 'independent-50' && inputs.audit != 'independent-next-50')) }}
     needs: source-fleets-v3
     runs-on: ubuntu-latest
     steps:
@@ -379,5 +379,37 @@ jobs:
         with:
           name: independent-50-${{ github.sha }}
           path: ${{ runner.temp }}/independent-50
+          if-no-files-found: error
+          retention-days: 30
+
+  independent-next-50:
+    name: Fifty new frozen independent CLI experiments
+    if: github.event_name == 'workflow_dispatch' && inputs.audit == 'independent-next-50'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@v6
+      - name: Obtain the previously validated executable
+        uses: actions/download-artifact@v7
+        with:
+          name: independent-50-b131444248625737a1edd5c02559fa50f1e83203
+          run-id: 37048306794
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/validated-cli
+      - name: Verify executable identity and run the frozen scripts serially
+        run: |
+          echo "8c511a646bd5fa25f6842ce921e0ba96bc477816eb4d740ac920b1820b4fee66  $RUNNER_TEMP/validated-cli/kero" | sha256sum --check
+          chmod +x "$RUNNER_TEMP/validated-cli/kero"
+          python3 audits/independent-next-50-20261002/run.py --binary "$RUNNER_TEMP/validated-cli/kero" --out "$RUNNER_TEMP/next-50"
+          python3 audits/independent-next-50-20261002/summarize.py "$RUNNER_TEMP/next-50"
+      - name: Preserve every success and refusal
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: independent-next-50-${{ github.sha }}
+          path: ${{ runner.temp }}/next-50
           if-no-files-found: error
           retention-days: 30
