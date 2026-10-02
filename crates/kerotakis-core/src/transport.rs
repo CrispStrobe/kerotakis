@@ -49,7 +49,7 @@ pub enum TransportError {
         "the inlet represents {actual_l} L of liquid; one full transport cell requires {expected_l} L"
     )]
     InletVolume { expected_l: f64, actual_l: f64 },
-    #[error("{location} contains a non-finite temperature, charge, or mobile amount")]
+    #[error("{location} contains an invalid amount, temperature, charge, or non-finite transport energy")]
     InvalidMobileState { location: String },
     #[error("transport cell {cell} is thermostatted; conservative AQ-011 transport requires adiabatic cells")]
     ThermostattedCell { cell: usize },
@@ -287,6 +287,17 @@ impl CellChain {
             .iter()
             .enumerate()
             .map(|(index, cell)| {
+                // Stationary inventory is still owned by the cell. Reject
+                // invalid stock instead of silently pruning it during a pour.
+                if cell
+                    .contents
+                    .iter()
+                    .any(|portion| !portion.moles.0.is_finite() || portion.moles.0 < 0.0)
+                {
+                    return Err(TransportError::InvalidMobileState {
+                        location: format!("transport cell {index}"),
+                    });
+                }
                 let parcel = MobileParcel::from_vessel(cell);
                 parcel.validate(format!("transport cell {index}"))?;
                 Ok(parcel.scaled(courant_fraction))
@@ -306,7 +317,10 @@ impl CellChain {
             });
         }
 
-        for cell in &mut self.cells {
+        // Prepare the complete update before committing it: a later cell's
+        // unrepresentable mixing energy must not leave earlier cells moved.
+        let mut prepared = self.cells.clone();
+        for cell in &mut prepared {
             for portion in &mut cell.contents {
                 if is_mobile(portion.phase) {
                     portion.moles = Moles(portion.moles.0 * (1.0 - courant_fraction));
@@ -319,24 +333,52 @@ impl CellChain {
             cell.solution = None;
         }
 
-        for index in 0..self.cells.len() {
+        for index in 0..prepared.len() {
             let incoming = if index == 0 {
                 &injected
             } else {
                 &outgoing[index - 1]
             };
-            let cell = &mut self.cells[index];
+            let cell = &mut prepared[index];
             if matches!(cell.thermal_mode, ThermalMode::Adiabatic) {
+                let held = cell.temperature.0;
+                let energy = |t| {
+                    cell.energy_between(held, t)
+                        + incoming.energy_between(incoming.temperature.0, t)
+                };
+                let lo = held.min(incoming.temperature.0);
+                let hi = held.max(incoming.temperature.0);
+                if !energy(lo).is_finite() || !energy(hi).is_finite() {
+                    return Err(TransportError::InvalidMobileState {
+                        location: format!("transport cell {index} mixing energy"),
+                    });
+                }
                 let settled = adiabatic_mix_into(cell, incoming.temperature, |t| {
                     incoming.energy_between(incoming.temperature.0, t)
                 });
+                if !settled.0.is_finite() || !energy(settled.0).is_finite() {
+                    return Err(TransportError::InvalidMobileState {
+                        location: format!("transport cell {index} mixing energy"),
+                    });
+                }
                 cell.temperature = settled;
             }
             for portion in &incoming.contents {
                 cell.deposit(portion.species.clone(), portion.moles, portion.phase);
             }
             cell.solute_charge += incoming.solute_charge;
+            if !cell.solute_charge.is_finite()
+                || cell
+                    .contents
+                    .iter()
+                    .any(|portion| !portion.moles.0.is_finite())
+            {
+                return Err(TransportError::InvalidMobileState {
+                    location: format!("transport cell {index} updated inventory"),
+                });
+            }
         }
+        self.cells = prepared;
 
         Ok(TransportStep {
             courant_fraction,

@@ -3382,8 +3382,22 @@ impl Bench {
                             // number is the latent heat the burner paid
                             // and the condenser dumped; it never touches
                             // the vessel ledger, and the event says so.
-                            let removed_e = src.withdraw(&ethanol, Moles(cut.ethanol_over));
-                            let removed_w = src.withdraw(&water, Moles(cut.water_over));
+                            let liquid_e = src.withdraw_phase(
+                                &ethanol,
+                                Moles(cut.ethanol_over),
+                                Phase::Liquid,
+                            );
+                            let aqueous_e = src.withdraw_phase(
+                                &ethanol,
+                                Moles((cut.ethanol_over - liquid_e.0).max(0.0)),
+                                Phase::Aqueous,
+                            );
+                            let removed_e = Moles(liquid_e.0 + aqueous_e.0);
+                            let removed_w = src.withdraw_phase(
+                                &water,
+                                Moles(cut.water_over),
+                                Phase::Liquid,
+                            );
                             let at = Kelvin(cut.t_start_c + 273.15);
                             let ended = Kelvin(cut.t_end_c + 273.15);
                             let energy_kj = cut.energy_kj;
@@ -3589,8 +3603,8 @@ impl Bench {
                     .sum::<f64>();
                 {
                     let src = self.vessel_mut(*from)?;
-                    for (spec, m, _) in &moved {
-                        src.withdraw(spec, *m);
+                    for (spec, m, phase) in &moved {
+                        src.withdraw_phase(spec, *m, *phase);
                     }
                 }
                 let t_from = source.temperature;
@@ -3978,7 +3992,17 @@ impl Bench {
                     let src = self.vessel_mut(*from)?;
                     src.temperature = contact_temperature;
                     for split in &splits {
-                        src.withdraw(&split.species, Moles(split.extracted.0 + split.remaining.0));
+                        let total = split.extracted.0 + split.remaining.0;
+                        let aqueous = src.withdraw_phase(
+                            &split.species,
+                            Moles(total),
+                            Phase::Aqueous,
+                        );
+                        src.withdraw_phase(
+                            &split.species,
+                            Moles((total - aqueous.0).max(0.0)),
+                            Phase::Solid,
+                        );
                         src.deposit(split.species.clone(), split.remaining, Phase::Aqueous);
                     }
                 }

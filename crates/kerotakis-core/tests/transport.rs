@@ -345,3 +345,140 @@ fn a_failed_reactive_cell_restores_the_complete_pre_step_chain() {
     assert_eq!(solver.calls, 2, "the third cell must never be solved");
     assert_eq!(serde_json::to_value(chain.cells()).unwrap(), before);
 }
+
+#[test]
+fn invalid_stationary_inventory_is_refused_before_mobile_matter_moves() {
+    for (species, phase) in [("Fe", Phase::Solid), ("N2", Phase::Gas)] {
+        for amount in [f64::NAN, f64::INFINITY, f64::NEG_INFINITY, -0.125] {
+            let mut initial = cell(0, 0.125, Kelvin::STANDARD.0);
+            initial.contents.push(Portion {
+                species: SpeciesId::new(species),
+                moles: Moles(amount),
+                phase,
+            });
+            let mut chain = CellChain::new(vec![initial]).unwrap();
+            let before = serde_json::to_value(chain.cells()).unwrap();
+            let result = chain.advance(&cell(99, 0.0, Kelvin::STANDARD.0), 0.5);
+            assert!(
+                matches!(result, Err(TransportError::InvalidMobileState { .. })),
+                "invalid stationary {species} amount {amount} must refuse transport"
+            );
+            assert_eq!(
+                serde_json::to_value(chain.cells()).unwrap(),
+                before,
+                "refusal must preserve the original stock and all mobile state"
+            );
+        }
+    }
+}
+
+#[test]
+fn finite_stationary_inventory_including_zero_does_not_block_transport() {
+    for (species, phase) in [("Fe", Phase::Solid), ("N2", Phase::Gas)] {
+        for amount in [0.0, 5e-16, 0.125] {
+            let mut initial = cell(0, 0.125, Kelvin::STANDARD.0);
+            initial.contents.push(Portion {
+                species: SpeciesId::new(species),
+                moles: Moles(amount),
+                phase,
+            });
+            let mut chain = CellChain::new(vec![initial]).unwrap();
+            let step = chain
+                .advance(&cell(99, 0.0, Kelvin::STANDARD.0), 0.5)
+                .unwrap();
+            assert_eq!(
+                chain.cells()[0].moles_of(&SpeciesId::new(species)).0,
+                amount
+            );
+            assert_eq!(step.effluent.moles_of(&SpeciesId::new(species)).0, 0.0);
+            assert_eq!(
+                chain.total_moles(&SpeciesId::new("passive-tracer")).0,
+                0.0625
+            );
+            assert_eq!(
+                step.effluent.moles_of(&SpeciesId::new("passive-tracer")).0,
+                0.0625
+            );
+        }
+    }
+}
+
+#[test]
+fn finite_inventory_with_overflowing_mix_energy_refuses_atomically() {
+    let mut initial = cell(0, 0.0, 350.0);
+    initial.deposit(SpeciesId::new("NaCl"), Moles(1e306), Phase::Aqueous);
+    assert!(
+        initial.mass().0.is_finite(),
+        "the mass itself is representable"
+    );
+    assert!(
+        initial.heat_capacity().is_finite(),
+        "the local heat capacity is representable"
+    );
+    let mut chain = CellChain::new(vec![initial]).unwrap();
+    let before = serde_json::to_value(chain.cells()).unwrap();
+    let result = chain.advance(&cell(99, 0.0, Kelvin::STANDARD.0), 0.5);
+    assert!(
+        matches!(result, Err(TransportError::InvalidMobileState { .. })),
+        "a nonrepresentable mixing-energy endpoint must refuse rather than choose a temperature"
+    );
+    assert_eq!(serde_json::to_value(chain.cells()).unwrap(), before);
+}
+
+#[test]
+fn moderate_aqueous_inventory_and_temperature_difference_conserve_energy() {
+    let mut initial = cell(0, 0.0, 350.0);
+    let salt = SpeciesId::new("NaCl");
+    initial.deposit(salt.clone(), Moles(0.25), Phase::Aqueous);
+    let reference = Kelvin::STANDARD.0;
+    let initial_energy = initial.energy_between(reference, initial.temperature.0);
+    let mut chain = CellChain::new(vec![initial]).unwrap();
+    let inlet = cell(99, 0.0, reference);
+    let step = chain.advance(&inlet, 0.5).unwrap();
+    assert_eq!(chain.total_moles(&salt).0, 0.125);
+    assert_eq!(step.effluent.moles_of(&salt).0, 0.125);
+    assert!(chain.cells()[0].temperature.0 > reference && chain.cells()[0].temperature.0 < 350.0);
+    let residue = initial_energy + step.injected.sensible_energy().0
+        - chain.total_sensible_energy().0
+        - step.effluent.sensible_energy().0;
+    assert!(
+        residue.abs() < 1e-5,
+        "independent energy ledger residual {residue} J"
+    );
+}
+
+#[test]
+fn later_cell_energy_refusal_rolls_back_transport_before_reaction_starts() {
+    let first = cell(0, 0.125, Kelvin::STANDARD.0);
+    let mut second = cell(1, 0.0, 350.0);
+    second.deposit(SpeciesId::new("NaCl"), Moles(1e306), Phase::Aqueous);
+    let mut chain = CellChain::new(vec![first, second]).unwrap();
+    let before = serde_json::to_value(chain.cells()).unwrap();
+    let mut solver = FailingSecondCell { calls: 0 };
+    let result = chain.advance_reactive(&cell(99, 0.0, 310.0), 0.5, &mut solver);
+    assert!(matches!(
+        result,
+        Err(ReactiveTransportError::Transport(
+            TransportError::InvalidMobileState { .. }
+        ))
+    ));
+    assert_eq!(serde_json::to_value(chain.cells()).unwrap(), before);
+    assert_eq!(
+        solver.calls, 0,
+        "failed transport must not start local reactions"
+    );
+}
+
+#[test]
+fn inlet_identity_is_a_boundary_template_not_an_additional_owned_cell() {
+    let initial = cell(0, 0.125, Kelvin::STANDARD.0);
+    let inlet = initial.clone();
+    let inlet_before = serde_json::to_value(&inlet).unwrap();
+    let mut chain = CellChain::new(vec![initial]).unwrap();
+    let step = chain.advance(&inlet, 0.5).unwrap();
+    let tracer = SpeciesId::new("passive-tracer");
+    assert_eq!(chain.total_moles(&tracer).0, 0.125);
+    assert_eq!(step.injected.moles_of(&tracer).0, 0.0625);
+    assert_eq!(step.effluent.moles_of(&tracer).0, 0.0625);
+    assert_eq!(serde_json::to_value(&inlet).unwrap(), inlet_before);
+}
