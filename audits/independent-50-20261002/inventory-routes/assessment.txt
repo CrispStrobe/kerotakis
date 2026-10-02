@@ -1,0 +1,54 @@
+01 PASS 10 kJ raises 100 g water about 24 K
+02 PASS Equal heat and cool restore initial temperature
+03 PASS Weighted hot/cold mixing gives 35 C
+04 PASS Temperature rises scale inversely with water mass
+05 PASS Cooling makes mixed ice and liquid near zero
+06 PASS Boiling plateau and approximately 17 g water loss
+07 PASS Salt freezes lower than equal molar sugar
+08 PASS Equal 60 C portions stay at 60 C
+09 PASS Tenfold dilution raises pH about one unit
+10 PASS Neutralisation followed by alkaline overshoot
+11 PASS Acetic acid pH is more than one unit above HCl
+12 PASS Half neutralised acetate pH near pKa
+13 PASS Buffer pH change is less than 1 percent of water change
+14 PASS NaCl greatly increases conductivity
+15 PASS Sugar conducts much less than NaCl
+16 PASS AgCl yield close to 1 mmol
+17 PASS Reversed reagent order gives equal solid and pH
+18 PASS Filter retains AgCl and transfers water and sodium
+19 PASS BaSO4 yield near 1 mmol
+20 PASS Acid dissolves chalk with accounted CO2
+21 PASS Excess salt remains undissolved
+22 PASS Dilution dissolves residual NaCl
+23 PASS Evaporation retains salt with 10 g solvent
+24 PASS Quarter decant partitions water and salt
+25 PASS Split and reunite restores inventory and temperature
+26 PASS CaCl2 warms and KNO3 cools
+27 PASS Inventory carbon agrees with speciation snapshot
+28 PASS Fizz raises sealed pressure
+29 PASS Smaller headspace gives larger pressure
+30 PASS Opening restores ambient pressure and retains salt
+31 PASS Pressure regulator expands headspace at fixed pressure
+32 PASS Sweep removes carbon and raises pH
+33 PASS Zinc plates copper with conserved metal totals
+34 PASS Copper does not plate zinc
+35 FAIL Zinc dissolves in acid while copper remains
+36 PASS Cell reports about 1.1 V with stable electrode identities
+37 PASS Equal cells have no potential then dilution produces tens of mV
+38 PASS Faraday product amounts and 2 to 1 gas stoichiometry
+39 PASS Missing complete Cu spectrum is explicitly bounded
+40 PASS Tenfold dilution reduces absorbance tenfold
+41 PASS Flame test retains NaCl
+42 PASS Burned magnesium gains expected oxygen mass
+43 PASS Ethanol produces combustion heat or an explicit model boundary
+44 PASS Distillation enriches ethanol and conserves both components
+45 PASS Oil and water are drawn as separate conserved layers
+46 PASS Drain transfers lower water layer
+47 PASS Salt remains aqueous alongside unresolved oil
+48 PASS Milk acidification conserves unresolved material and produces curd event
+49 PASS Peroxide oxygen stoichiometry and unchanged catalyst
+50 PASS One hour preserves dilute salt and water inventory
+Original physical expectations; zinc remains an explicit rate boundary:
+Checks: 50 Passed: 49 Known mismatches: 1 Unexpected: 0
+Additional rate, gas explanation, supported combustion, and layer-scope checks: PASS
+All 50 assessed physical cases contain no SolverFailed events: PASS

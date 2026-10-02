@@ -1,0 +1,23 @@
+   Compiling kerotakis-core v0.0.1 (/mnt/volume1/kerotakis/crates/kerotakis-core)
+   Compiling kerotakis-cea v0.0.1 (/mnt/volume1/kerotakis/crates/kerotakis-cea)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 53.51s
+     Running unittests src/lib.rs (target/debug/deps/kerotakis_cea-a290b72d5bf742a3)
+
+running 1 test
+test gibbs::tests::positive_gas_condensed_competition_selects_the_nasa_stable_endpoint ... FAILED
+
+failures:
+
+---- gibbs::tests::positive_gas_condensed_competition_selects_the_nasa_stable_endpoint stdout ----
+
+thread 'gibbs::tests::positive_gas_condensed_competition_selects_the_nasa_stable_endpoint' (1322335) panicked at crates/kerotakis-cea/src/gibbs.rs:2097:73:
+called `Result::unwrap()` on an `Err` value: NotConverged(2)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    gibbs::tests::positive_gas_condensed_competition_selects_the_nasa_stable_endpoint
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 43 filtered out; finished in 0.17s
+
+error: test failed, to rerun pass `-p kerotakis-cea --lib`

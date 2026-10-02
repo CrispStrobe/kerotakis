@@ -1,0 +1,8 @@
+# Filtration transfers the liquid, preserving trapped nitrogen in the source.
+register lv3
+add v1 water 100mL
+seal v1 1L
+inspect v1
+filter v1 v2
+inspect v1
+inspect v2

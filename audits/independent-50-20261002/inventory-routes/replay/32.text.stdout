@@ -1,0 +1,27 @@
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: boundary=open → sealed; V_gas=0.100000 L, trapped dry-air approximation=0.00408740 mol
+  v1: finite-volume gas/liquid equilibrium; P=101304.301 Pa, n_gas=0.00408657 mol
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v1: pH 5.763 · I = 0.0000 mol/kgw
+  v1: T 298.150 K → 298.150 K (ΔT = -0.000 K)
+  v1: +0.001000 mol carbon dioxide (CO2, M = 44.009 g/mol)
+  v1: finite-volume gas/liquid equilibrium; P=114799.894 Pa, n_gas=0.00463064 mol
+  v1: pH 4.348 · I = 0.0000 mol/kgw
+  v1: T 298.150 K → 298.172 K (ΔT = +0.022 K)
+  v1 pH meter: 4.3475 pH — This is a model estimate with limited calibration or simplifying assumptions.
+  v1: boundary=swept; inert N2 purge at P=100000.000 Pa, gas inventory external
+  v1: 0.003229 mol nitrogen evolved (open system; mass leaves)
+  v1: 0.000856 mol oxygen evolved (open system; mass leaves)
+  v1: 0.000545 mol carbon dioxide evolved (open system; mass leaves)
+  v1: 0.000457 mol carbon dioxide evolved (open system; mass leaves)
+  v1: pH 7.000 · I = 0.0000 mol/kgw
+  v1: T 298.172 K → 298.150 K (ΔT = -0.022 K)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1 pH meter: 6.9974 pH — This estimate is incomplete: contributing model data are missing.
+  v1 (beaker) — 25.00 °C, 99.7 g, 100.0 mL liquid, nitrogen-swept at 1.000 bar, pH 7.00, I = 0.0000 m
+          5.5343 mol  water              Liquid
+            190 pmol  base equivalents   Aqueous
+      speciation (mol/kgw · activity · γ):
+        H+              1.0061e-7    1.0061e-7   γ=1.000
+        OH-             1.0061e-7    1.0061e-7   γ=1.000

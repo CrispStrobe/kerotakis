@@ -1,0 +1,16 @@
+{
+  "source_checkpoint": "7cd7d10efca744e38fbbcc728333e29236bab979",
+  "source_members_verified": 10,
+  "artifacts": [
+    {
+      "path": "/mnt/storage/kerotakis-maintenance-20261002/source-7cd7d10e.tar",
+      "bytes": 93941760,
+      "sha256": "c6801b9230ae8b8f24f2d91e97ca5fe929c3d0d58b7f9c12f411cee91f7ac3be"
+    },
+    {
+      "path": "/mnt/storage/kerotakis-maintenance-20261002/kero-7cd7d10e",
+      "bytes": 105848688,
+      "sha256": "a77c3793de971b82cca51c1d98735b298b413c3af1fc9a99b6fafe60dfedd56f"
+    }
+  ]
+}

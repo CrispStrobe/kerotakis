@@ -1,0 +1,59 @@
+  v1: +100.000000 g whole milk surrogate; 8 canonical component(s), 12.201490 g unresolved
+  v1: 0.000073 mol octacalcium phosphate precipitated
+  v1: routing → PHREEQC (IPhreeqc, USGS) · minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)
+  v1: pH 6.564 · I = 0.0741 mol/kgw
+  v1: NOT MODELLED: the solution is supersaturated against Hydroxylapatite (SI +6.8), deliberately withheld below the registry's formation-temperature threshold at 25 °C. This is a curated metastability boundary, not a computed nucleation or growth rate
+  v1: reaction heat for octacalcium_phosphate is not priced; the temperature estimate is incomplete
+  v1: net ionic: 4 Ca²⁺(aq) + 3 H₂PO₄⁻(aq) + 3 H₂O(l) → octacalcium_phosphate(s) + 5 H⁺(aq)  (spectator ions: K⁺, Cl⁻, Na⁺, Ca(Citrate)⁻, HPO₄²⁻, Citrate³⁻)
+  v1: +0.010000 mol acetic acid (CH3COOH, M = 60.052 g/mol)
+  v1: 0.000440 mol octacalcium phosphate dissolved
+  v1: pH 4.299 · I = 0.1216 mol/kgw
+  v1: NOT MODELLED: this milk has been acidified to pH 4.30, and only half of its buffer is modelled. Its colloidal calcium phosphate is here and dissolves as the acid arrives; casein's own buffering is not here at all, and that is about a third of milk's buffer capacity. Above pH 5 what is missing costs little; below it the colloid is spent and this beaker has nothing left to resist with, where a real one still has casein — so the number is a lower bound again, and by more than it was. CASEIN IS STILL NOT MODELLED AND ITS BUFFERING IS THEREFORE STILL ABSENT (the recipe's full assumption is in `explain material whole_milk`)
+  v1: bounded acid-curdling response 0.000000 → 0.280000; separation progress 1.000000; curd solids 3.416417 g from 0.010000000 mol acetic acid; conserved aggregate, no casein-speciation or wet-yield claim
+  v1: The liquid is colourless and cloudy. (liquid #FDFDFA, turbidity 0.31)
+  v1 (beaker) — 25.00 °C, 100.6 g, 87.3 mL liquid, open to atmosphere, pH 4.30, I = 0.1216 m
+      temperature estimate is incomplete: reaction heat for octacalcium_phosphate is not priced
+           6.89 mmol  acetic acid        Aqueous
+           3.11 mmol  acetate ion        Aqueous
+           2.46 mmol  calcium ion        Aqueous
+            920 µmol  citrate ion        Aqueous
+           3.00 mmol  chloride ion       Aqueous
+           3.84 mmol  potassium ion      Aqueous
+           1.65 mmol  sodium ion         Aqueous
+           12.0 µmol  phosphoric acid    Aqueous
+           2.18 mmol  dihydrogen phosphate ion Aqueous
+           6.05 µmol  hydrogen phosphate ion Aqueous
+          4.8304 mol  water              Liquid
+           1.27 mmol  hydrogen ion       Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9550e-1   γ=0.018
+        H(Acetate)      7.6170e-2    7.6170e-2   γ=1.000
+        K+              4.3505e-2    3.3518e-2   γ=0.770
+        Cl-             3.4488e-2    2.6571e-2   γ=0.770
+        Acetate-        3.4400e-2    2.6503e-2   γ=0.770
+        H2PO4-          2.2137e-2    1.7189e-2   γ=0.776
+        Na+             1.8720e-2    1.4423e-2   γ=0.770
+        Ca+2            1.6571e-2    5.8389e-3   γ=0.352
+        Ca(Acetate)+    3.5280e-3    2.3420e-3   γ=0.664
+        CaH2PO4+        2.8940e-3    2.2470e-3   γ=0.776
+        Ca(Citrate)-    2.8040e-3    1.8620e-3   γ=0.664
+        H(Citrate)-2    2.7690e-3    5.3830e-4   γ=0.194
+        H2(Citrate)-    2.3520e-3    1.5610e-3   γ=0.664
+        CaH(Citrate)    2.2980e-3    2.2980e-3   γ=1.000
+        K(Acetate)      5.6640e-4    5.6640e-4   γ=1.000
+        O2              2.5470e-4    2.6190e-4   γ=1.028
+        Na(Acetate)     2.5260e-4    2.5260e-4   γ=1.000
+        CaH2(Citrate)+    1.7290e-4    1.1480e-4   γ=0.664
+        H3PO4           1.2154e-4    1.2154e-4   γ=1.000
+        H3(Citrate)     1.0540e-4    1.0540e-4   γ=1.000
+        H+              6.5274e-5    5.0290e-5   γ=0.770
+        HPO4-2          6.1386e-5    2.1665e-5   γ=0.353
+        CaHPO4          5.7820e-5    5.7820e-5   γ=1.000
+        Citrate-3       4.4965e-5    4.3010e-6   γ=0.096
+        NaH(Citrate)-    1.3240e-5    8.7920e-6   γ=0.664
+        K(Citrate)-2    9.3370e-6    1.8150e-6   γ=0.194
+        KHPO4-          7.0940e-6    5.5090e-6   γ=0.777
+        NaHPO4-         4.7280e-6    3.6710e-6   γ=0.776
+        Na(Citrate)-2    3.4200e-6    6.6470e-7   γ=0.194
+        Na2(Citrate)-    4.2610e-8    2.8290e-8   γ=0.664
+        CaPO4-          3.9400e-9    3.0590e-9   γ=0.776

@@ -1,0 +1,359 @@
+[
+  {
+    "time": "2026-10-02T15:38:31Z",
+    "stage": "filtration-before",
+    "state": "running",
+    "available": 5332385792,
+    "swap_free": 10313863168,
+    "load": 2.85400390625,
+    "disk_free": 5542948864
+  },
+  {
+    "time": "2026-10-02T15:38:41Z",
+    "stage": "filtration-before",
+    "state": "failed",
+    "available": 5182971904,
+    "swap_free": 10314125312,
+    "load": 2.95703125,
+    "disk_free": 5542944768,
+    "exit_code": 101
+  },
+  {
+    "time": "2026-10-02T15:38:53Z",
+    "stage": "filtration-after",
+    "state": "running",
+    "available": 5316575232,
+    "swap_free": 10314387456,
+    "load": 3.08984375,
+    "disk_free": 5542936576
+  },
+  {
+    "time": "2026-10-02T15:41:01Z",
+    "stage": "filtration-after",
+    "state": "complete",
+    "available": 5240946688,
+    "swap_free": 10310549504,
+    "load": 3.98046875,
+    "disk_free": 5542748160,
+    "exit_code": 0
+  },
+  {
+    "time": "2026-10-02T15:42:13Z",
+    "stage": "filtration-cli-before",
+    "state": "waiting",
+    "available": 4654571520,
+    "swap_free": 10316578816,
+    "load": 5.59619140625,
+    "disk_free": 5533941760
+  },
+  {
+    "time": "2026-10-02T15:42:43Z",
+    "stage": "filtration-cli-before",
+    "state": "waiting",
+    "available": 5342175232,
+    "swap_free": 10318151680,
+    "load": 4.66796875,
+    "disk_free": 5533913088
+  },
+  {
+    "time": "2026-10-02T15:43:13Z",
+    "stage": "filtration-cli-before",
+    "state": "waiting",
+    "available": 5284253696,
+    "swap_free": 10318938112,
+    "load": 3.57080078125,
+    "disk_free": 5533908992
+  },
+  {
+    "time": "2026-10-02T15:43:43Z",
+    "stage": "filtration-cli-before",
+    "state": "running",
+    "available": 5324931072,
+    "swap_free": 10320248832,
+    "load": 3.04833984375,
+    "disk_free": 5533900800
+  },
+  {
+    "time": "2026-10-02T15:43:45Z",
+    "stage": "filtration-cli-before",
+    "state": "complete",
+    "available": 5332766720,
+    "swap_free": 10320248832,
+    "load": 3.04833984375,
+    "disk_free": 5533900800,
+    "exit_code": 0
+  },
+  {
+    "time": "2026-10-02T15:44:33Z",
+    "stage": "inventory-core",
+    "state": "running",
+    "available": 5341081600,
+    "swap_free": 10322608128,
+    "load": 2.2998046875,
+    "disk_free": 5533671424
+  },
+  {
+    "time": "2026-10-02T15:46:07Z",
+    "stage": "inventory-core",
+    "state": "resource-pause",
+    "available": 3948597248,
+    "swap_free": 10284494848,
+    "load": 6.1767578125,
+    "disk_free": 5243850752,
+    "pid": 1312176
+  },
+  {
+    "time": "2026-10-02T15:48:31Z",
+    "stage": "inventory-core",
+    "state": "resource-resume",
+    "available": 4650119168,
+    "swap_free": 10271469568,
+    "load": 3.39404296875,
+    "disk_free": 5243187200,
+    "pid": 1312176
+  },
+  {
+    "time": "2026-10-02T15:49:52Z",
+    "stage": "inventory-core",
+    "state": "resource-pause",
+    "available": 4812894208,
+    "swap_free": 9980489728,
+    "load": 6.01513671875,
+    "disk_free": 5485256704,
+    "pid": 1312176
+  },
+  {
+    "time": "2026-10-02T15:49:56Z",
+    "stage": "inventory-core",
+    "state": "complete",
+    "available": 4831752192,
+    "swap_free": 10005917696,
+    "load": 6.01513671875,
+    "disk_free": 5485256704,
+    "exit_code": 0
+  },
+  {
+    "time": "2026-10-02T15:50:16Z",
+    "stage": "single-gas-before",
+    "state": "waiting",
+    "available": 5658275840,
+    "swap_free": 10016141312,
+    "load": 5.59326171875,
+    "disk_free": 5484789760
+  },
+  {
+    "time": "2026-10-02T15:50:46Z",
+    "stage": "single-gas-before",
+    "state": "waiting",
+    "available": 5658353664,
+    "swap_free": 10018238464,
+    "load": 3.98291015625,
+    "disk_free": 5484781568
+  },
+  {
+    "time": "2026-10-02T15:51:16Z",
+    "stage": "single-gas-before",
+    "state": "running",
+    "available": 5660262400,
+    "swap_free": 10021122048,
+    "load": 2.859375,
+    "disk_free": 5484781568
+  },
+  {
+    "time": "2026-10-02T15:52:10Z",
+    "stage": "single-gas-before",
+    "state": "failed",
+    "available": 5342605312,
+    "swap_free": 10027675648,
+    "load": 3.232421875,
+    "disk_free": 5336780800,
+    "exit_code": 101
+  },
+  {
+    "time": "2026-10-02T15:52:38Z",
+    "stage": "single-gas-cea",
+    "state": "running",
+    "available": 5625987072,
+    "swap_free": 10031083520,
+    "load": 2.85400390625,
+    "disk_free": 5321203712
+  },
+  {
+    "time": "2026-10-02T15:53:06Z",
+    "stage": "single-gas-cea",
+    "state": "complete",
+    "available": 5560647680,
+    "swap_free": 10032918528,
+    "load": 2.919921875,
+    "disk_free": 5320040448,
+    "exit_code": 0
+  },
+  {
+    "time": "2026-10-02T15:53:07Z",
+    "stage": "inventory-cli",
+    "state": "running",
+    "available": 5565415424,
+    "swap_free": 10032918528,
+    "load": 2.84619140625,
+    "disk_free": 5320040448
+  },
+  {
+    "time": "2026-10-02T15:54:47Z",
+    "stage": "inventory-cli",
+    "state": "resource-pause",
+    "available": 4586987520,
+    "swap_free": 10007375872,
+    "load": 6.15966796875,
+    "disk_free": 5307285504,
+    "pid": 1324365
+  },
+  {
+    "time": "2026-10-02T15:55:57Z",
+    "stage": "inventory-cli",
+    "state": "resource-resume",
+    "available": 5363650560,
+    "swap_free": 10013589504,
+    "load": 3.45654296875,
+    "disk_free": 5306667008,
+    "pid": 1324365
+  },
+  {
+    "time": "2026-10-02T15:56:27Z",
+    "stage": "inventory-cli",
+    "state": "complete",
+    "available": 5638737920,
+    "swap_free": 10016473088,
+    "load": 3.3271484375,
+    "disk_free": 5317001216,
+    "exit_code": 0
+  },
+  {
+    "time": "2026-10-02T15:56:28Z",
+    "stage": "inventory-wasm",
+    "state": "running",
+    "available": 5646381056,
+    "swap_free": 10016473088,
+    "load": 3.3271484375,
+    "disk_free": 5317001216
+  },
+  {
+    "time": "2026-10-02T15:57:02Z",
+    "stage": "inventory-wasm",
+    "state": "complete",
+    "available": 5296107520,
+    "swap_free": 10031939584,
+    "load": 3.60107421875,
+    "disk_free": 5316988928,
+    "exit_code": 0
+  },
+  {
+    "time": "2026-10-02T15:57:02Z",
+    "stage": "filtration-cli-after",
+    "state": "waiting",
+    "available": 5327114240,
+    "swap_free": 10031939584,
+    "load": 3.60107421875,
+    "disk_free": 5316988928
+  },
+  {
+    "time": "2026-10-02T15:57:32Z",
+    "stage": "filtration-cli-after",
+    "state": "waiting",
+    "available": 4538019840,
+    "swap_free": 10035085312,
+    "load": 5.61474609375,
+    "disk_free": 5309390848
+  },
+  {
+    "time": "2026-10-02T15:58:02Z",
+    "stage": "filtration-cli-after",
+    "state": "waiting",
+    "available": 3961012224,
+    "swap_free": 10002477056,
+    "load": 6.705078125,
+    "disk_free": 5306466304
+  },
+  {
+    "time": "2026-10-02T15:58:32Z",
+    "stage": "filtration-cli-after",
+    "state": "waiting",
+    "available": 3976937472,
+    "swap_free": 10017419264,
+    "load": 7.3408203125,
+    "disk_free": 5304414208
+  },
+  {
+    "time": "2026-10-02T15:59:02Z",
+    "stage": "filtration-cli-after",
+    "state": "waiting",
+    "available": 4466888704,
+    "swap_free": 10140626944,
+    "load": 6.33935546875,
+    "disk_free": 5306949632
+  },
+  {
+    "time": "2026-10-02T15:59:32Z",
+    "stage": "filtration-cli-after",
+    "state": "waiting",
+    "available": 4495654912,
+    "swap_free": 10144559104,
+    "load": 6.125,
+    "disk_free": 5305667584
+  },
+  {
+    "time": "2026-10-02T16:00:02Z",
+    "stage": "filtration-cli-after",
+    "state": "waiting",
+    "available": 5608935424,
+    "swap_free": 10150064128,
+    "load": 5.29638671875,
+    "disk_free": 5309984768
+  },
+  {
+    "time": "2026-10-02T16:00:32Z",
+    "stage": "filtration-cli-after",
+    "state": "waiting",
+    "available": 5638377472,
+    "swap_free": 10152685568,
+    "load": 4.013671875,
+    "disk_free": 5309943808
+  },
+  {
+    "time": "2026-10-02T16:01:02Z",
+    "stage": "filtration-cli-after",
+    "state": "running",
+    "available": 5651087360,
+    "swap_free": 10154782720,
+    "load": 2.89892578125,
+    "disk_free": 5309931520
+  },
+  {
+    "time": "2026-10-02T16:01:05Z",
+    "stage": "filtration-cli-after",
+    "state": "complete",
+    "available": 5644152832,
+    "swap_free": 10154782720,
+    "load": 2.89892578125,
+    "disk_free": 5309931520,
+    "exit_code": 0
+  },
+  {
+    "time": "2026-10-02T16:05:17Z",
+    "stage": "inventory-archive",
+    "state": "running",
+    "available": 4964884480,
+    "swap_free": 10208260096,
+    "load": 2.81494140625,
+    "disk_free": 5295263744
+  },
+  {
+    "time": "2026-10-02T16:05:25Z",
+    "stage": "inventory-archive",
+    "state": "complete",
+    "available": 4955426816,
+    "swap_free": 10183360512,
+    "load": 2.990234375,
+    "disk_free": 5294432256,
+    "exit_code": 0
+  }
+]
