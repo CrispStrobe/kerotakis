@@ -5,3 +5,8 @@ vendor/my-basic/my_basic.h -text
 
 # Audit log hashes describe the original process output, including EOF blanks.
 audits/independent-50-20261002/phase-ownership/**/*.log -text whitespace=-blank-at-eof
+
+# Preserve exact captured CLI/log bytes in the new independent audit.
+audits/independent-next-50-20261002/evidence/**/*.stdout -text whitespace=-blank-at-eof
+audits/independent-next-50-20261002/evidence/**/*.stderr -text whitespace=-blank-at-eof
+audits/independent-next-50-20261002/evidence/**/*.log -text whitespace=-blank-at-eof

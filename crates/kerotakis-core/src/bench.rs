@@ -959,11 +959,10 @@ impl Bench {
         }
 
         // Heating first proposes a sensible temperature. If a failed phase
-        // solve leaves observable ice above the model's melting boundary,
+        // transition leaves observable ice above the model's melting boundary,
         // that proposal is not a physical answer. Refuse the complete heat
         // operation instead of publishing hot ice and a delivered-energy claim.
         if heat_start.is_some()
-            && events.iter().any(|event| matches!(event, Event::SolverFailed { .. }))
             && touched.iter().any(|id| {
                 self.vessel(*id).is_ok_and(|vessel| {
                     vessel.temperature.0 > crate::states::WATER_FREEZING_K
@@ -982,7 +981,7 @@ impl Bench {
             self.stock = checkpoint.3;
             self.log.truncate(checkpoint.4);
             return Err(BenchError::InvalidState(
-                "heating was not committed: an unsuccessful phase solve would leave solid water above its melting boundary".into(),
+                "heating was not committed: the available phase model would leave solid water above its melting boundary".into(),
             ));
         }
 
@@ -4584,7 +4583,7 @@ impl Bench {
                                     Phrase::new(
                                         "not-modeled.chromatography-missing-retention",
                                         "the column has no retention prediction for {species}; their elution and contribution to the sample are unresolved, even when other components produce modeled peaks",
-                                        vec![("species".to_string(), Slot::texts(sample.unparameterised.iter().map(|species| species.0.as_str()).collect()))],
+                                        vec![("species".to_string(), Slot::texts(sample.unparameterised.iter().map(|species| species.0.as_str())))],
                                     ),
                                 ));
                             }

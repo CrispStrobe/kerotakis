@@ -92,3 +92,44 @@ fn working_phase_solver_melts_ice_and_commits_heat() {
         .all(|portion| portion.species.0 != "water" || portion.phase != Phase::Solid));
     assert!(vessel.temperature.0 > states::WATER_FREEZING_K);
 }
+
+struct NoPhaseAnswer;
+impl Equilibrator for NoPhaseAnswer {
+    fn name(&self) -> &'static str {
+        "no-phase-answer-test"
+    }
+    fn equilibrate(&mut self, _: &mut Vessel) -> Result<Vec<Event>, SolveError> {
+        Ok(Vec::new())
+    }
+}
+
+#[test]
+fn missing_phase_route_also_refuses_hot_ice_but_allows_subfreezing_sensible_heat() {
+    let mut bench = bench(0.5, Phase::Solid);
+    let before = serde_json::to_value(&bench).unwrap();
+    assert!(bench
+        .step_with(
+            Operator::Heat {
+                vessel: VesselId(0),
+                energy: Joules(5_000.0),
+                source: None
+            },
+            &mut NoPhaseAnswer,
+            &PermissiveScreen
+        )
+        .is_err());
+    assert_eq!(serde_json::to_value(&bench).unwrap(), before);
+    bench
+        .step_with(
+            Operator::Heat {
+                vessel: VesselId(0),
+                energy: Joules(10.0),
+                source: None,
+            },
+            &mut NoPhaseAnswer,
+            &PermissiveScreen,
+        )
+        .unwrap();
+    let vessel = bench.vessel(VesselId(0)).unwrap();
+    assert!(vessel.temperature.0 > 263.15 && vessel.temperature.0 < states::WATER_FREEZING_K);
+}
