@@ -107,6 +107,122 @@ fn balance_residual(
     worst
 }
 
+/// Select independent atom constraints, retaining the original symbols as
+/// components. This removes a multiplier gauge, not a chemical species or
+/// a conservation law: e.g. a CO2-only pool always has O=2C. Verify the
+/// identical relation in the supplied budget before dropping its row.
+/// See NASA RP-1311 I §3.6, "Singularities".
+fn independent_components(
+    pool: &[&Species],
+    elements: &[String],
+    budget: &BTreeMap<String, f64>,
+) -> Option<Vec<usize>> {
+    // Establish rank exactly for the integer atomic compositions used by
+    // these NASA records. A nearly dependent custom fractional pool must
+    // retain the legacy equations rather than lose a real constraint.
+    let mut integer_rows: Vec<(usize, Vec<i128>)> = Vec::new();
+    let mut exact_basis = Vec::new();
+    for (index, element) in elements.iter().enumerate() {
+        let mut row = Vec::new();
+        for species in pool {
+            let value = species.composition.get(element).copied().unwrap_or(0.0);
+            if !value.is_finite() || value < 0.0 || value.fract() != 0.0 || value > 1e6 {
+                return Some((0..elements.len()).collect());
+            }
+            row.push(value as i128);
+        }
+        for (pivot, prior) in &integer_rows {
+            let multiplier = row[*pivot];
+            if multiplier == 0 {
+                continue;
+            }
+            let divisor = prior[*pivot];
+            for (v, previous) in row.iter_mut().zip(prior) {
+                let Some(next) = v.checked_mul(divisor).and_then(|left| {
+                    multiplier
+                        .checked_mul(*previous)
+                        .and_then(|right| left.checked_sub(right))
+                }) else {
+                    // Exact rank unavailable at this size; do not guess.
+                    return Some((0..elements.len()).collect());
+                };
+                if next == i128::MIN {
+                    return Some((0..elements.len()).collect());
+                }
+                *v = next;
+            }
+            let gcd = row.iter().fold(0i128, |mut a, v| {
+                let mut b = v.abs();
+                while b != 0 {
+                    (a, b) = (b, a % b);
+                }
+                a
+            });
+            if gcd > 1 {
+                for v in &mut row {
+                    *v /= gcd;
+                }
+            }
+        }
+        if let Some(pivot) = row.iter().position(|v| *v != 0) {
+            integer_rows.push((pivot, row));
+            exact_basis.push(index);
+        }
+    }
+    if exact_basis.len() == elements.len() {
+        return Some(exact_basis);
+    }
+    let mut basis = Vec::new();
+    let mut orthogonal: Vec<(Vec<f64>, f64)> = Vec::new();
+    for (index, element) in elements.iter().enumerate() {
+        let original: Vec<f64> = pool
+            .iter()
+            .map(|s| s.composition.get(element).copied().unwrap_or(0.0))
+            .collect();
+        let norm = original.iter().map(|v| v * v).sum::<f64>().sqrt();
+        if !norm.is_finite() || norm == 0.0 {
+            return None;
+        }
+        let mut row: Vec<f64> = original.iter().map(|v| v / norm).collect();
+        let target = budget[element] / norm;
+        let mut remaining = target;
+        let mut scale = target.abs();
+        // Reorthogonalize once to distinguish true rank loss from roundoff.
+        for _ in 0..2 {
+            for (q, q_target) in &orthogonal {
+                let projection: f64 = row.iter().zip(q).map(|(a, b)| a * b).sum();
+                for (v, qv) in row.iter_mut().zip(q) {
+                    *v -= projection * qv;
+                }
+                remaining -= projection * q_target;
+                scale += (projection * q_target).abs();
+            }
+        }
+        let residual_norm = row.iter().map(|v| v * v).sum::<f64>().sqrt();
+        if !exact_basis.contains(&index) {
+            // No absolute mole floor: even tiny incompatible inventories
+            // must refuse. The scale covers cancellation in the relation.
+            if residual_norm > 1e-12 || !remaining.is_finite() || remaining.abs() > 1e-12 * scale {
+                return None;
+            }
+        } else {
+            if residual_norm <= 1e-12 {
+                return None;
+            }
+            for v in &mut row {
+                *v /= residual_norm;
+            }
+            let q_target = remaining / residual_norm;
+            if !q_target.is_finite() {
+                return None;
+            }
+            orthogonal.push((row, q_target));
+            basis.push(index);
+        }
+    }
+    Some(basis)
+}
+
 /// Solve the (T, P) equilibrium problem.
 ///
 /// `budget` maps element symbol → total moles of that element; the result
@@ -166,6 +282,16 @@ pub fn equilibrate_tp(
     if pool.is_empty() {
         return Err(CeaError::NoSpecies);
     }
+    // Missing an element carrier is a source-domain boundary, not Newton
+    // stiffness. HP must lower its upper bracket here; component rank
+    // preflight must preserve the existing NoSpecies classification.
+    if elements.iter().any(|element| {
+        !pool
+            .iter()
+            .any(|species| species.composition.get(element).copied().unwrap_or(0.0) > 0.0)
+    }) {
+        return Err(CeaError::NoSpecies);
+    }
 
     // Standard-state chemical potentials, μ°/RT.
     let mut mu0 = Vec::with_capacity(pool.len());
@@ -181,6 +307,15 @@ pub fn equilibrate_tp(
 
     let gas: Vec<usize> = (0..pool.len()).filter(|i| pool[*i].is_gas()).collect();
     let cond: Vec<usize> = (0..pool.len()).filter(|i| !pool[*i].is_gas()).collect();
+
+    let original_elements = elements;
+    let component_indices = independent_components(&pool, &original_elements, budget)
+        .ok_or(CeaError::NotConverged(0))?;
+    let reduced = component_indices.len() != original_elements.len();
+    let elements: Vec<String> = component_indices
+        .into_iter()
+        .map(|i| original_elements[i].clone())
+        .collect();
 
     let a = |i: usize, j: usize| -> f64 {
         pool[i]
@@ -270,7 +405,7 @@ pub fn equilibrate_tp(
         .all(|s| s.intervals.iter().any(|i| (i.t_min..=i.t_max).contains(&t)))
     {
         if let Some((amounts, _)) =
-            certified_condensed_boundary(&pool, &mu0, &elements, budget, &n, ln_p)
+            certified_condensed_boundary(&pool, &mu0, &original_elements, budget, &n, ln_p)
         {
             let eq = finish(&pool, &amounts, t, pressure_bar);
             if !eq.enthalpy.is_finite()
@@ -605,7 +740,20 @@ pub fn equilibrate_tp(
         // sits arbitrarily far from balance. Testing convergence on the
         // step alone silently returned compositions that created matter —
         // heating chalk produced twice the carbon it started with.
-        let residual = balance_residual(&pool, &n, &elements, budget);
+        let mut residual = balance_residual(&pool, &n, &original_elements, budget);
+        if reduced {
+            // Readback must obey every original constraint at its own
+            // inventory scale, including redundant tiny element budgets.
+            for element in &original_elements {
+                let target = budget[element];
+                let have: f64 = pool
+                    .iter()
+                    .zip(&n)
+                    .map(|(s, amount)| s.composition.get(element).copied().unwrap_or(0.0) * amount)
+                    .sum();
+                residual = residual.max((have - target).abs() / target);
+            }
+        }
 
         // Phase management: drop an exhausted condensed phase; admit one
         // whose chemical potential says it should exist.
@@ -1664,6 +1812,117 @@ mod tests {
         assert_eq!(eq.gas_moles, 0.0);
         assert!((eq.moles_of("C2H5OH(L)") - 0.01).abs() < 1e-12);
         assert_conserved(&eq, &b, "in-range liquid ethanol boundary");
+    }
+
+    #[test]
+    fn redundant_components_allow_unique_positive_gas_inventories() {
+        let co2 = crate::db().get("CO2").unwrap();
+        let ethanol = crate::db().get("C2H5OH").unwrap();
+        for (species, amount) in [(co2, 0.07), (ethanol, 0.013), (co2, 1e-10)] {
+            let b: BTreeMap<_, _> = species
+                .composition
+                .iter()
+                .map(|(element, atoms)| (element.clone(), atoms * amount))
+                .collect();
+            for t in [400.0, 1200.0] {
+                for pressure in [0.01, 1.0, 100.0] {
+                    // The represented pool has exactly one gas: conservation
+                    // fixes its amount independently of pressure or G.
+                    let eq = equilibrate_tp(&b, &[species], t, pressure).unwrap();
+                    assert!((eq.gas_moles / amount - 1.0).abs() < BALANCE_TOL);
+                    assert!((eq.moles_of(&species.name) / amount - 1.0).abs() < BALANCE_TOL);
+                    assert!(
+                        (eq.enthalpy / (amount * species.h(t).unwrap()) - 1.0).abs() < BALANCE_TOL
+                    );
+                    assert_conserved(&eq, &b, "unique gas inventory");
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn redundant_components_preserve_binary_gas_inventory_and_pool_order() {
+        let co2 = crate::db().get("CO2").unwrap();
+        let n2 = crate::db().get("N2").unwrap();
+        for scale in [1e-6, 1.0, 1e6] {
+            let b = budget(&[
+                ("C", 0.07 * scale),
+                ("N", 0.24 * scale),
+                ("O", 0.14 * scale),
+            ]);
+            for pool in [[co2, n2], [n2, co2]] {
+                let eq = equilibrate_tp(&b, &pool, 800.0, 3.0).unwrap();
+                assert!((eq.moles_of("CO2") / (0.07 * scale) - 1.0).abs() < BALANCE_TOL);
+                assert!((eq.moles_of("N2") / (0.12 * scale) - 1.0).abs() < BALANCE_TOL);
+                assert!((eq.gas_moles / (0.19 * scale) - 1.0).abs() < BALANCE_TOL);
+                let h = scale * (0.07 * co2.h(800.0).unwrap() + 0.12 * n2.h(800.0).unwrap());
+                assert!((eq.enthalpy / h - 1.0).abs() < BALANCE_TOL);
+                assert_conserved(&eq, &b, "binary gas inventory");
+            }
+        }
+    }
+
+    #[test]
+    fn redundant_components_reject_incompatible_budgets_at_every_scale() {
+        let pool = [crate::db().get("CO2").unwrap()];
+        let elements = vec!["C".into(), "O".into()];
+        for scale in [1e-30, 1e-10, 1.0, 1e20] {
+            let compatible = budget(&[("C", scale), ("O", 2.0 * scale)]);
+            assert_eq!(
+                independent_components(&pool, &elements, &compatible),
+                Some(vec![0])
+            );
+            let incompatible = budget(&[("C", scale), ("O", 2.001 * scale)]);
+            assert!(independent_components(&pool, &elements, &incompatible).is_none());
+            assert!(matches!(
+                equilibrate_tp(&incompatible, &pool, 800.0, 1.0),
+                Err(CeaError::NotConverged(0))
+            ));
+        }
+        let mut nearly_same = pool[0].clone();
+        nearly_same.composition.insert("O".into(), 2.0 + 1e-13);
+        // A real, however small, extra composition direction is never
+        // declared redundant by a floating-point rank threshold.
+        assert_eq!(
+            independent_components(
+                &[pool[0], &nearly_same],
+                &elements,
+                &budget(&[("C", 1.0), ("O", 2.0)])
+            ),
+            Some(vec![0, 1])
+        );
+        assert_eq!(
+            independent_components(
+                &pool,
+                &["O".into(), "C".into()],
+                &budget(&[("C", 1.0), ("O", 2.0)])
+            ),
+            Some(vec![0])
+        );
+    }
+
+    #[test]
+    fn absent_element_carrier_remains_a_representability_ceiling() {
+        let (b, pool) = chalk_in_air();
+        // Above these represented condensed calcium fits the surviving
+        // C/O/N gases cannot carry Ca. HP must search downward, not treat
+        // this refusal as a low-temperature Newton singularity.
+        assert!(matches!(
+            equilibrate_tp(&b, &pool, 3200.0, 1.0),
+            Err(CeaError::NoSpecies)
+        ));
+        assert!(matches!(
+            equilibrate_tp(
+                &budget(&[("C", 0.1), ("N", 0.1)]),
+                &[
+                    crate::db().get("CO2").unwrap(),
+                    crate::db().get("N2").unwrap()
+                ],
+                800.0,
+                1.0
+            ),
+            Err(CeaError::NoSpecies)
+        ));
     }
 
     #[test]
