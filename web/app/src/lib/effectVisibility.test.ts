@@ -75,6 +75,7 @@ const DRAWN_FROM_THE_SCENE: Readonly<Record<string, string>> = {
 const REPORTED_NOT_DRAWN: Readonly<Record<string, string>> = {
   acid_metal_cell_voltage: "the cell rig is a BenchEffect operation; the volts are a readout",
   collision_withstood: "a claim that nothing broke — there is no picture of an absence",
+  heat_unpriced: "the engine renderer reports missing reaction heat in the feed; resultSummary marks an affected temperature estimate unknown",
   inert: "the claim IS that nothing happened",
   inert_in_solvent: "the claim IS that nothing happened",
   // Not a picture, but not silence either: `persistentReadouts.ts` keeps

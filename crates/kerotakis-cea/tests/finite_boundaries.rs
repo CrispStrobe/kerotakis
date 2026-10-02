@@ -11,6 +11,9 @@ fn vessel(boundary: Headspace, oxygen: bool) -> Vessel {
         v.deposit(SpeciesId::new("O2"), Moles(0.03), Phase::Gas);
     }
     v.deposit(SpeciesId::new("N2"), Moles(0.02), Phase::Gas);
+    // The finite gas-only slice is supported; a condensed metal remains an
+    // explicitly unsupported multiphase energy boundary.
+    v.deposit(SpeciesId::new("Mg"), Moles(0.001), Phase::Solid);
     v.refresh_pressure();
     v
 }

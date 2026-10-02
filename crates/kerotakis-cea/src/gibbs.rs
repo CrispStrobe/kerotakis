@@ -600,11 +600,14 @@ pub fn equilibrate_tp(
     Err(CeaError::NotConverged(if decay_guard { 1200 } else { 400 }))
 }
 
-fn finish(pool: &[&Species], n: &[f64], t: f64, pressure_bar: f64) -> Equilibrium {
+pub(crate) fn finish(pool: &[&Species], n: &[f64], t: f64, pressure_bar: f64) -> Equilibrium {
     let mut composition: Vec<(String, f64)> = pool
         .iter()
         .zip(n)
-        .filter(|(_, m)| **m > 1e-10)
+        // A presentation cutoff is not an inventory cutoff. Closed pressure,
+        // energy and boundary-flow readbacks need the same numerical moles
+        // that contributed to the minimisation and its enthalpy below.
+        .filter(|(_, m)| **m > TRACE)
         .map(|(s, m)| (s.name.clone(), *m))
         .collect();
     composition.sort_by(|a, b| b.1.total_cmp(&a.1));
@@ -730,6 +733,23 @@ pub fn equilibrate_hp_open(
     pressure_bar: f64,
     atmosphere: Option<&OpenAtmosphere>,
 ) -> Result<Equilibrium, CeaError> {
+    equilibrate_hp_using(budget, candidates, enthalpy, atmosphere, 250.0, None, |t| {
+        equilibrate_tp(budget, candidates, t, pressure_bar)
+    })
+}
+
+/// The same strict energy root for a scientifically restricted TP model.
+/// Endpoints and latent mixtures still undergo all HP conservation and
+/// common-potential validations; a callback is not an energy fallback.
+pub(crate) fn equilibrate_hp_using(
+    budget: &BTreeMap<String, f64>,
+    candidates: &[&Species],
+    enthalpy: f64,
+    atmosphere: Option<&OpenAtmosphere>,
+    lower_floor: f64,
+    precise_energy_tolerance: Option<f64>,
+    mut tp: impl FnMut(f64) -> Result<Equilibrium, CeaError>,
+) -> Result<Equilibrium, CeaError> {
     // Bisection on T: H(T) rises monotonically, so this is robust where a
     // Newton step on a stiff flame problem is not.
     //
@@ -740,12 +760,13 @@ pub fn equilibrate_hp_open(
     // stall. A convergence failure at a cold bracket point therefore does
     // not doom the flame solve: raise the floor until a temperature
     // converges, and treat a failing midpoint as belonging to the cold,
-    // stiff side. This extends the existing convention — "colder than the
-    // data supports; honest floor" — from data range to convergence range.
+    // stiff side. These bracket heuristics never authorize an unmatched
+    // result: every accepted HP state must close the corrected enthalpy
+    // residual below, or the charge remains unsolved.
     let dbg = std::env::var("KERO_CEA_DEBUG").is_ok();
-    let (mut lo, mut hi) = (250.0f64, 6000.0f64);
+    let (mut lo, mut hi) = (lower_floor, 6000.0f64);
     let mut last = loop {
-        match equilibrate_tp(budget, candidates, lo, pressure_bar) {
+        match tp(lo) {
             Ok(eq) => {
                 if dbg {
                     eprintln!(
@@ -771,21 +792,39 @@ pub fn equilibrate_hp_open(
     // sensible heat is subtracted back out wherever it would be a credit,
     // so the balance the search closes is the vessel's, not the room's.
     if last.enthalpy - atmosphere_credit(atmosphere, &last) > enthalpy {
-        return Ok(last); // colder than the data supports; honest floor
+        // A data/convergence floor is not an adiabatic energy solution.
+        // Leave the charge unchanged when its energy cannot be bracketed.
+        return Err(CeaError::NotConverged(0));
     }
+    let energy_tolerance = precise_energy_tolerance.unwrap_or(1e-6 + enthalpy.abs() * 1e-8);
+    // Deterministic restricted models can resolve source headroom far more
+    // tightly than a noisy general Newton composition. Their numerical
+    // acceptance is conservative: never claim more product H than supplied.
+    let accepted = |eq: &Equilibrium| {
+        let residual = eq.enthalpy - atmosphere_credit(atmosphere, eq) - enthalpy;
+        residual.abs() <= energy_tolerance
+            && (precise_energy_tolerance.is_none() || residual <= 0.0)
+    };
+    let mut lower_state = last.clone();
+    let mut upper_state = None;
     let mut failed_mids = 0u8;
     for _ in 0..60 {
         let mid = 0.5 * (lo + hi);
-        match equilibrate_tp(budget, candidates, mid, pressure_bar) {
+        match tp(mid) {
             Ok(eq) => {
                 if dbg {
                     eprintln!("HP mid {mid:.0} K ok, H={:.3e}", eq.enthalpy);
                 }
                 last = eq;
+                if accepted(&last) {
+                    return Ok(last);
+                }
                 if last.enthalpy - atmosphere_credit(atmosphere, &last) < enthalpy {
                     lo = mid;
+                    lower_state = last.clone();
                 } else {
                     hi = mid;
+                    upper_state = Some(last.clone());
                 }
             }
             Err(e) => {
@@ -808,11 +847,403 @@ pub fn equilibrate_hp_open(
                 }
             }
         }
-        if hi - lo < 0.5 {
+        if hi - lo
+            < if precise_energy_tolerance.is_some() {
+                1e-12
+            } else {
+                1e-8
+            }
+        {
             break;
         }
     }
-    Ok(last)
+    if accepted(&last) {
+        Ok(last)
+    } else if precise_energy_tolerance.is_some() && accepted(&lower_state) {
+        Ok(lower_state)
+    } else if let Some(upper) = upper_state {
+        if precise_energy_tolerance.is_some() {
+            return condensed_coexistence_with_precision(
+                budget,
+                candidates,
+                enthalpy,
+                atmosphere,
+                &lower_state,
+                &upper,
+                energy_tolerance,
+                true,
+            );
+        }
+        condensed_coexistence(
+            budget,
+            candidates,
+            enthalpy,
+            atmosphere,
+            &lower_state,
+            &upper,
+        )
+    } else {
+        Err(CeaError::NotConverged(60))
+    }
+}
+
+/// At a first-order condensed transition H(T) has a latent-heat interval,
+/// not an unattainable gap. Stable phases with equal extensive Gibbs energy
+/// may coexist at one T/P; their lever-rule amounts close assigned enthalpy.
+/// Chemical coexistence additionally requires compatible gas composition
+/// and a common element-potential certificate for every condensed phase.
+fn condensed_coexistence(
+    budget: &BTreeMap<String, f64>,
+    candidates: &[&Species],
+    target: f64,
+    atmosphere: Option<&OpenAtmosphere>,
+    lower: &Equilibrium,
+    upper: &Equilibrium,
+) -> Result<Equilibrium, CeaError> {
+    condensed_coexistence_with_precision(
+        budget,
+        candidates,
+        target,
+        atmosphere,
+        lower,
+        upper,
+        1e-6 + target.abs() * 1e-8,
+        false,
+    )
+}
+
+fn condensed_coexistence_with_precision(
+    budget: &BTreeMap<String, f64>,
+    candidates: &[&Species],
+    target: f64,
+    atmosphere: Option<&OpenAtmosphere>,
+    lower: &Equilibrium,
+    upper: &Equilibrium,
+    energy_tolerance: f64,
+    conservative: bool,
+) -> Result<Equilibrium, CeaError> {
+    let fail = || CeaError::NotConverged(60);
+    if upper.temperature - lower.temperature > 1e-6
+        || upper.temperature < lower.temperature
+        || (upper.pressure_bar - lower.pressure_bar).abs() > lower.pressure_bar * 1e-10
+    {
+        return Err(fail());
+    }
+    let lookup = |name: &str| candidates.iter().copied().find(|s| s.name == name);
+    let changing: Vec<_> = candidates
+        .iter()
+        .copied()
+        .filter(|s| {
+            !s.is_gas() && (lower.moles_of(&s.name) - upper.moles_of(&s.name)).abs() > TRACE
+        })
+        .collect();
+    if changing.is_empty() {
+        return Err(fail());
+    }
+    let mut temperature = 0.5 * (lower.temperature + upper.temperature);
+    // Adjacent solid/liquid data ranges meet at an assigned transition T.
+    // Use that exact common endpoint, so neither phase is extrapolated.
+    for cold in &changing {
+        for hot in &changing {
+            if cold.composition == hot.composition && cold.name != hot.name {
+                if let (Some((_, top)), Some((bottom, _))) = (cold.t_range(), hot.t_range()) {
+                    if (top - bottom).abs() <= 1e-8 && (top - temperature).abs() <= 1e-6 {
+                        temperature = top;
+                    }
+                }
+            }
+        }
+    }
+    let polymorphic = changing.iter().all(|phase| {
+        changing
+            .iter()
+            .any(|other| other.name != phase.name && other.composition == phase.composition)
+    });
+    for phase in &changing {
+        let gp = phase.g(temperature).ok_or_else(fail)?;
+        if !phase
+            .t_range()
+            .is_some_and(|(lo, hi)| temperature >= lo && temperature <= hi)
+        {
+            return Err(fail());
+        }
+        let counterpart = changing.iter().any(|other| {
+            other.name != phase.name
+                && other.composition == phase.composition
+                && (lower.moles_of(&phase.name) - upper.moles_of(&phase.name))
+                    * (lower.moles_of(&other.name) - upper.moles_of(&other.name))
+                    < 0.0
+                && other.g(temperature).is_some_and(|g| {
+                    (g - gp).abs()
+                        <= gibbs_coefficient_rounding(phase, temperature)
+                            + gibbs_coefficient_rounding(other, temperature)
+                })
+        });
+        if polymorphic && !counterpart {
+            return Err(fail());
+        }
+        // A lower-G third polymorph invalidates the proposed coexistence.
+        if candidates.iter().any(|other| {
+            !other.is_gas()
+                && other.composition == phase.composition
+                && other
+                    .t_range()
+                    .is_some_and(|(lo, hi)| temperature >= lo && temperature <= hi)
+                && other.g(temperature).is_some_and(|g| {
+                    g < gp
+                        - gibbs_coefficient_rounding(phase, temperature)
+                        - gibbs_coefficient_rounding(other, temperature)
+                })
+        }) {
+            return Err(fail());
+        }
+    }
+    if polymorphic {
+        let gas_scale = lower.gas_moles.max(upper.gas_moles).max(TRACE);
+        if candidates.iter().any(|s| {
+            s.is_gas()
+                && (lower.moles_of(&s.name) - upper.moles_of(&s.name)).abs() > gas_scale * 1e-8
+        }) {
+            return Err(fail());
+        }
+    } else {
+        certify_chemical_coexistence(budget, candidates, temperature, lower, upper)?;
+    }
+    let pool: Vec<_> = lower
+        .composition
+        .iter()
+        .chain(upper.composition.iter())
+        .map(|(name, _)| name.as_str())
+        .collect::<std::collections::BTreeSet<_>>()
+        .into_iter()
+        .map(|name| lookup(name).ok_or_else(fail))
+        .collect::<Result<_, _>>()?;
+    let elements: Vec<_> = budget.keys().cloned().collect();
+    let mixed = |fraction: f64| -> Result<Equilibrium, CeaError> {
+        let amounts: Vec<_> = pool
+            .iter()
+            .map(|s| {
+                lower.moles_of(&s.name) * (1.0 - fraction) + upper.moles_of(&s.name) * fraction
+            })
+            .collect();
+        if balance_residual(&pool, &amounts, &elements, budget) > BALANCE_TOL {
+            return Err(fail());
+        }
+        Ok(finish(&pool, &amounts, temperature, lower.pressure_bar))
+    };
+    let low = mixed(0.0)?;
+    let high = mixed(1.0)?;
+    let corrected = |eq: &Equilibrium| eq.enthalpy - atmosphere_credit(atmosphere, eq);
+    if corrected(&low) > target || corrected(&high) < target {
+        return Err(fail());
+    }
+    let mut lo = 0.0;
+    let mut hi = 1.0;
+    for _ in 0..64 {
+        let eq = mixed(0.5 * (lo + hi))?;
+        let residual = corrected(&eq) - target;
+        if residual.abs() <= energy_tolerance && (!conservative || residual <= 0.0) {
+            return Ok(eq);
+        }
+        if residual < 0.0 {
+            lo = 0.5 * (lo + hi);
+        } else {
+            hi = 0.5 * (lo + hi);
+        }
+    }
+    Err(fail())
+}
+
+/// A linear combination of TP equilibria is itself an equilibrium only
+/// when the gas chemical potentials agree (same fractions/P) and the
+/// condensed phases share element multipliers. Merely matching atoms/H
+/// would interpolate across arbitrary failed roots and is insufficient.
+fn certify_chemical_coexistence(
+    budget: &BTreeMap<String, f64>,
+    candidates: &[&Species],
+    t: f64,
+    lower: &Equilibrium,
+    upper: &Equilibrium,
+) -> Result<(), CeaError> {
+    let fail = || CeaError::NotConverged(60);
+    let template = if lower.gas_moles > upper.gas_moles {
+        lower
+    } else {
+        upper
+    };
+    if template.gas_moles <= TRACE {
+        return Err(fail());
+    }
+    // A vanishing incipient gas is below the native elemental resolution;
+    // its rounded mole fractions are not a second chemical potential.
+    // The finite endpoint supplies them, and the common-potential and G
+    // certificates below still verify the phase-birth reaction itself.
+    let gas_resolution = template.gas_moles * BALANCE_TOL;
+    if lower.gas_moles > gas_resolution
+        && upper.gas_moles > gas_resolution
+        && candidates.iter().any(|s| {
+            s.is_gas()
+                && (lower.moles_of(&s.name) / lower.gas_moles
+                    - upper.moles_of(&s.name) / upper.gas_moles)
+                    .abs()
+                    > 1e-8
+        })
+    {
+        return Err(fail());
+    }
+    let elements: Vec<_> = budget
+        .iter()
+        .filter(|(_, n)| **n > 0.0)
+        .map(|(e, _)| e)
+        .collect();
+    let active: Vec<_> = candidates
+        .iter()
+        .copied()
+        .filter(|s| {
+            if s.is_gas() {
+                template.moles_of(&s.name) > TRACE
+            } else {
+                lower.moles_of(&s.name).max(upper.moles_of(&s.name)) > TRACE
+            }
+        })
+        .collect();
+    let mu = |s: &Species| -> Option<f64> {
+        let g = s.g(t)?;
+        if s.is_gas() {
+            let y = template.moles_of(&s.name) / template.gas_moles;
+            (y > 0.0).then(|| g + R * t * (y * template.pressure_bar).ln())
+        } else {
+            Some(g)
+        }
+    };
+    let dim = elements.len();
+    let stride = dim + 1;
+    let mut matrix = vec![0.0; dim * stride];
+    for s in &active {
+        let chemical = mu(s).ok_or_else(fail)?;
+        for (i, e) in elements.iter().enumerate() {
+            let a = s.composition.get(*e).copied().unwrap_or(0.0);
+            for (j, f) in elements.iter().enumerate() {
+                matrix[i * stride + j] += a * s.composition.get(*f).copied().unwrap_or(0.0);
+            }
+            matrix[i * stride + dim] += a * chemical;
+        }
+    }
+    // An underdetermined certificate is not proof that every possible
+    // third phase is stable; refuse rather than choose arbitrary potentials.
+    if !solve_flat(&mut matrix, dim, stride) {
+        return Err(fail());
+    }
+    let tolerance = active
+        .iter()
+        .map(|s| gibbs_coefficient_rounding(s, t))
+        .sum::<f64>()
+        + active
+            .iter()
+            .filter_map(|s| s.h(t))
+            .map(f64::abs)
+            .sum::<f64>()
+            * (upper.temperature - lower.temperature)
+            / t
+        + R * t * 1e-8;
+    for s in candidates {
+        if s.composition.is_empty()
+            || !s
+                .composition
+                .keys()
+                .all(|e| budget.get(e).is_some_and(|n| *n > 0.0))
+            || !s.t_range().is_some_and(|(lo, hi)| (lo..=hi).contains(&t))
+        {
+            continue;
+        }
+        let potential: f64 = elements
+            .iter()
+            .enumerate()
+            .map(|(i, e)| s.composition.get(*e).copied().unwrap_or(0.0) * matrix[i * stride + dim])
+            .sum();
+        if active.iter().any(|a| a.name == s.name) {
+            if (mu(s).ok_or_else(fail)? - potential).abs() > tolerance {
+                return Err(fail());
+            }
+        } else if !s.is_gas() && s.g(t).ok_or_else(fail)? < potential - tolerance {
+            return Err(fail());
+        }
+    }
+    let extensive_g = |eq: &Equilibrium| -> Option<f64> {
+        candidates.iter().try_fold(0.0, |sum, s| {
+            let n = eq.moles_of(&s.name);
+            if n <= TRACE {
+                return Some(sum);
+            }
+            let g = s.g(t)?
+                + if s.is_gas() {
+                    R * t * (n / eq.gas_moles * eq.pressure_bar).ln()
+                } else {
+                    0.0
+                };
+            Some(sum + n * g)
+        })
+    };
+    let amount_scale = lower
+        .composition
+        .iter()
+        .chain(&upper.composition)
+        .map(|(_, n)| n)
+        .sum::<f64>();
+    if (extensive_g(lower).ok_or_else(fail)? - extensive_g(upper).ok_or_else(fail)?).abs()
+        > tolerance * amount_scale
+    {
+        return Err(fail());
+    }
+    Ok(())
+}
+
+/// NASA input coefficients are printed with ten significant figures. G is
+/// linear in them; summing half a decimal ULP times each exact sensitivity
+/// bounds representational mismatch between two fits at a shared endpoint.
+/// This is not a tunable phase-stability tolerance.
+fn gibbs_coefficient_rounding(species: &Species, t: f64) -> f64 {
+    let Some(interval) = species
+        .intervals
+        .iter()
+        .find(|i| t >= i.t_min && t <= i.t_max)
+    else {
+        return 0.0;
+    };
+    let weights = [
+        -1.0 / (2.0 * t),
+        t.ln() + 1.0,
+        t * (1.0 - t.ln()),
+        -t * t / 2.0,
+        -t.powi(3) / 6.0,
+        -t.powi(4) / 12.0,
+        -t.powi(5) / 20.0,
+        1.0,
+        -t,
+    ];
+    let decimal = interval
+        .coeffs
+        .iter()
+        .zip(weights)
+        .map(|(a, weight)| {
+            if *a == 0.0 {
+                0.0
+            } else {
+                0.5 * 10_f64.powf(a.abs().log10().floor() - 9.0) * weight.abs()
+            }
+        })
+        .sum::<f64>()
+        * R;
+    let floating = interval
+        .coeffs
+        .iter()
+        .zip(weights)
+        .map(|(a, weight)| (a * weight).abs())
+        .sum::<f64>()
+        * R
+        * 32.0
+        * f64::EPSILON;
+    decimal + floating
 }
 
 /// Gauss-Jordan with partial pivoting on a flat row-major augmented matrix.
@@ -1157,5 +1588,146 @@ mod tests {
         let warm = equilibrate_tp(&b, &pool, 1000.0, 1.0).expect("a reference");
         let eq = equilibrate_hp(&b, &pool, warm.enthalpy, 1.0).expect("a solution");
         assert_conserved(&eq, &b, "adiabatic calcite");
+    }
+
+    #[test]
+    fn assigned_enthalpy_resolves_the_condensed_latent_heat_interval() {
+        let b = budget(&[("Mg", 0.05), ("O", 0.168), ("N", 0.624)]);
+        let pool = pool_of(&["MgO(cr)", "MgO(L)", "O2", "N2"]);
+        let t = 3100.0;
+        let solid = crate::db().get("MgO(cr)").unwrap();
+        let liquid = crate::db().get("MgO(L)").unwrap();
+        let mismatch = (solid.g(t).unwrap() - liquid.g(t).unwrap()).abs();
+        assert!(
+            mismatch
+                <= gibbs_coefficient_rounding(solid, t) + gibbs_coefficient_rounding(liquid, t)
+        );
+        let gas_h = 0.059 * crate::db().get("O2").unwrap().h(t).unwrap()
+            + 0.312 * crate::db().get("N2").unwrap().h(t).unwrap();
+        for liquid_fraction in [0.1, 0.5, 0.9] {
+            let target = gas_h
+                + 0.05
+                    * (solid.h(t).unwrap() * (1.0 - liquid_fraction)
+                        + liquid.h(t).unwrap() * liquid_fraction);
+            let eq = equilibrate_hp(&b, &pool, target, 1.0).expect("latent-heat coexistence");
+            assert!((eq.temperature - t).abs() < 1e-6);
+            assert!((eq.enthalpy - target).abs() < 1e-6 + target.abs() * 1e-8);
+            assert!((eq.moles_of("MgO(L)") - 0.05 * liquid_fraction).abs() < 1e-8);
+            assert!((eq.moles_of("MgO(cr)") - 0.05 * (1.0 - liquid_fraction)).abs() < 1e-8);
+            assert_conserved(&eq, &b, "latent heat coexistence");
+        }
+        for temperature in [3099.0, 3101.0] {
+            let reference = equilibrate_tp(&b, &pool, temperature, 1.0).unwrap();
+            let eq = equilibrate_hp(&b, &pool, reference.enthalpy, 1.0).unwrap();
+            assert!((eq.temperature - temperature).abs() < 1e-4);
+            assert!(eq.moles_of("MgO(cr)").min(eq.moles_of("MgO(L)")) < 1e-12);
+        }
+    }
+
+    #[test]
+    fn carbonate_reaction_coexistence_closes_independent_latent_energy() {
+        let calcite = crate::db().get("CaCO3(cr)").unwrap();
+        let lime = crate::db().get("CaO(cr)").unwrap();
+        let co2 = crate::db().get("CO2").unwrap();
+        let gas_pool = [
+            co2,
+            crate::db().get("CO").unwrap(),
+            crate::db().get("O2").unwrap(),
+        ];
+        let gas_budget = budget(&[("C", 0.1), ("O", 0.2)]);
+        let products = |t| equilibrate_tp(&gas_budget, &gas_pool, t, 1.0).unwrap();
+        // Find chemical equality using NASA standard G plus ideal-gas
+        // partial pressure, independently of the HP/coexistence root.
+        let mut lo = 900.0;
+        let mut hi = 1400.0;
+        for _ in 0..48 {
+            let t = 0.5 * (lo + hi);
+            let gas = products(t);
+            let affinity = lime.g(t).unwrap()
+                + co2.g(t).unwrap()
+                + R * t * (gas.moles_of("CO2") / gas.gas_moles).ln()
+                - calcite.g(t).unwrap();
+            if affinity > 0.0 {
+                lo = t;
+            } else {
+                hi = t;
+            }
+        }
+        let t = 0.5 * (lo + hi);
+        assert!((1000.0..1300.0).contains(&t));
+        let gas = products(t);
+        let pool = [calcite, lime, gas_pool[0], gas_pool[1], gas_pool[2]];
+        let low = finish(&pool, &[0.1, 0.0, 0.0, 0.0, 0.0], t, 1.0);
+        let high = finish(
+            &pool,
+            &[
+                0.0,
+                0.1,
+                gas.moles_of("CO2"),
+                gas.moles_of("CO"),
+                gas.moles_of("O2"),
+            ],
+            t,
+            1.0,
+        );
+        let b = budget(&[("Ca", 0.1), ("C", 0.1), ("O", 0.3)]);
+        for fraction in [0.1, 0.5, 0.9] {
+            let target = low.enthalpy * (1.0 - fraction) + high.enthalpy * fraction;
+            let eq = condensed_coexistence(&b, &pool, target, None, &low, &high).unwrap();
+            assert!((eq.moles_of("CaO(cr)") - 0.1 * fraction).abs() < 1e-8);
+            assert!((eq.enthalpy - target).abs() < 1e-3);
+            assert_conserved(&eq, &b, "carbonate chemical coexistence");
+        }
+        // A supplied pool may be wider than the element budget, exactly as
+        // the TP API permits. Impossible silica is not a competing phase;
+        // an explicit zero silicon budget is equivalent to absent silicon.
+        let silica = crate::db().get("SiO2(b-qz)").unwrap();
+        assert!(silica
+            .t_range()
+            .is_some_and(|(lo, hi)| (lo..=hi).contains(&t)));
+        let mut wide = pool.to_vec();
+        wide.push(silica);
+        let target = 0.5 * (low.enthalpy + high.enthalpy);
+        for zero_entry in [false, true] {
+            let mut broad_budget = b.clone();
+            if zero_entry {
+                broad_budget.insert("Si".into(), 0.0);
+            }
+            let eq =
+                condensed_coexistence(&broad_budget, &wide, target, None, &low, &high).unwrap();
+            assert!((eq.moles_of("CaO(cr)") - 0.05).abs() < 1e-8);
+            assert_eq!(eq.moles_of(&silica.name), 0.0);
+        }
+        let mut wrong = high.clone();
+        wrong.temperature += 1.0;
+        assert!(condensed_coexistence(
+            &b,
+            &pool,
+            0.5 * (low.enthalpy + high.enthalpy),
+            None,
+            &low,
+            &wrong
+        )
+        .is_err());
+    }
+
+    #[test]
+    fn a_phase_record_boundary_without_equal_gibbs_is_not_a_coexistence_root() {
+        let b = budget(&[("Mg", 0.05), ("O", 0.168), ("N", 0.624)]);
+        let solid = crate::db().get("MgO(cr)").unwrap();
+        let mut liquid = crate::db().get("MgO(L)").unwrap().clone();
+        // Same composition and adjacent validity ranges are insufficient.
+        // Raise the liquid's G by 100 J/mol without changing those ranges.
+        liquid.intervals[0].coeffs[7] += 100.0 / R;
+        let pool = [
+            solid,
+            &liquid,
+            crate::db().get("O2").unwrap(),
+            crate::db().get("N2").unwrap(),
+        ];
+        let low = finish(&pool, &[0.05, 0.0, 0.059, 0.312], 3100.0 - 1e-8, 1.0);
+        let high = finish(&pool, &[0.0, 0.05, 0.059, 0.312], 3100.0 + 1e-8, 1.0);
+        let target = 0.5 * (low.enthalpy + high.enthalpy);
+        assert!(condensed_coexistence(&b, &pool, target, None, &low, &high).is_err());
     }
 }

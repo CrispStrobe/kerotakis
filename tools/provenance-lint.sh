@@ -91,7 +91,16 @@ for block in blocks:
                            and fields.get('terms') == 'provenance/parker-1965-kno3-review.md'
                            and re.search(r'^allowed_outputs\s*=\s*\["registry-datum"\]\s*$', block, re.M)
                            and '032a05662c993e3456c3b070e99ca766daef9d9f4940e9ea44c14d97c96d86d7' in block)
-        if not re.match(allowed, licence) and not reviewed_hbr and not reviewed_chris and not reviewed_parker:
+        reviewed_odeh = (sid == 'odeh-2015-olive-oil-density'
+                         and lane == 'runtime-data'
+                         and fields.get('kind') == 'data'
+                         and fields.get('decision') == 'approved'
+                         and licence == 'LicenseRef-Odeh-2015-Attribution-Grant'
+                         and fields.get('origin') == 'https://doi.org/10.4172/2169-0022.1000209'
+                         and fields.get('terms') == 'provenance/odeh-2015-olive-oil-review.md'
+                         and re.search(r'^allowed_outputs\s*=\s*\["registry-datum"\]\s*$', block, re.M)
+                         and '438a660ef46a0a21a14b1b418b27d7443dbd906db3402ceceb82280b0c949d77' in block)
+        if not re.match(allowed, licence) and not reviewed_hbr and not reviewed_chris and not reviewed_parker and not reviewed_odeh:
             print(f"FAIL: runtime source {sid} has non-allowlisted licence: {licence}", file=sys.stderr)
             sys.exit(1)
         else:

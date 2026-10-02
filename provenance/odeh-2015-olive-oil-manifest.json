@@ -1,0 +1,10 @@
+{
+  "schema": 1,
+  "adapter_id": "odeh-2015-olive-oil-density-transcription-v1",
+  "source_id": "literature/odeh-2015-olive-oil-density",
+  "source_revision": "Table 1, S1a, DOI 10.4172/2169-0022.1000209",
+  "retrieved": "2026-10-02",
+  "raw_artifact": "provenance/odeh-2015-olive-oil-transcription.json",
+  "record_count": 1,
+  "sha256": "438a660ef46a0a21a14b1b418b27d7443dbd906db3402ceceb82280b0c949d77"
+}

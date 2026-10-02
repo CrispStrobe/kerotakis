@@ -218,39 +218,101 @@ fn cea_species(registry_key: &str) -> Option<&'static Species> {
     db().get(name).or_else(|| db().get_reactant(name))
 }
 
-fn enthalpy_within_record(species: &Species, temperature: f64) -> Option<f64> {
-    if db().get_reactant(&species.name).is_none() && species.is_gas() {
-        return species.h(temperature);
-    }
-    if db().get_reactant(&species.name).is_none()
+fn formation_anchor(species: &Species, temperature: f64) -> bool {
+    // Some room-standard solids (CaCO3, MgO) start their Cp fit at 300 K,
+    // but their NASA header independently supplies Hf at 298.15 K. Use that
+    // exact reference datum, never clamp/extrapolate the polynomial.
+    temperature == crate::T_REF
         && !species.is_gas()
-        && species
+        && !species.name.ends_with("(L)")
+        && species.t_range().is_some_and(|(lo, _)| lo <= 300.0)
+}
+
+fn record_enthalpy(species: &Species, temperature: f64) -> Option<f64> {
+    if formation_anchor(species, temperature) {
+        Some(species.h_formation)
+    } else {
+        species.h(temperature)
+    }
+}
+
+fn enthalpy_within_record(species: &Species, temperature: f64, phase: Phase) -> Option<f64> {
+    let valid = |candidate: &Species| {
+        candidate
             .t_range()
-            .is_some_and(|(low, high)| temperature >= low && temperature <= high)
-    {
-        return species.h(temperature);
+            .is_some_and(|(lo, hi)| temperature >= lo && temperature <= hi)
+            || formation_anchor(candidate, temperature)
+    };
+    let stem = cea_identity_stem(&species.name);
+    let same_family = |candidate: &Species| {
+        candidate.composition == species.composition && cea_identity_stem(&candidate.name) == stem
+    };
+    let original_matches = if phase == Phase::Gas {
+        species.is_gas()
+    } else {
+        !species.is_gas() && species.name.ends_with("(L)") == (phase == Phase::Liquid)
+    };
+    if original_matches && valid(species) {
+        return record_enthalpy(species, temperature);
     }
-    if species
-        .t_range()
-        .is_some_and(|(_, high)| temperature > high)
-    {
-        // `ignite` represents a small vapour zone brought to flame
-        // temperature. Once a feed-only liquid record ends at its boiling
-        // range, continue with the matching product-side gas polynomial;
-        // evaluating a liquid polynomial hundreds of kelvin beyond its
-        // validity would be worse than either phase model.
-        if let Some(gas) = db().species.values().find(|candidate| {
-            candidate.is_gas()
-                && cea_identity_stem(&candidate.name) == cea_identity_stem(&species.name)
-        }) {
-            return gas.h(temperature);
-        }
+    if phase == Phase::Gas {
+        // Steam and alcohol vapour may be booked under a liquid-standard
+        // registry identity: the actual portion phase owns feed enthalpy.
+        return db()
+            .species
+            .values()
+            .filter(|s| s.is_gas() && same_family(s) && valid(s))
+            .min_by(|a, b| {
+                a.g(temperature)
+                    .unwrap()
+                    .total_cmp(&b.g(temperature).unwrap())
+            })
+            .and_then(|s| record_enthalpy(s, temperature));
     }
-    let t = species
-        .t_range()
-        .map(|(low, high)| temperature.clamp(low, high))
-        .unwrap_or(temperature);
-    species.h(t)
+    let condensed: Vec<_> = db()
+        .species
+        .values()
+        .filter(|s| !s.is_gas() && same_family(s))
+        .chain(std::iter::once(species).filter(|s| !s.is_gas()))
+        .collect();
+    let matches_phase = |s: &&Species| s.name.ends_with("(L)") == (phase == Phase::Liquid);
+    let select = |same_phase: bool| {
+        condensed
+            .iter()
+            .copied()
+            .filter(|s| valid(s) && (!same_phase || matches_phase(s)))
+            .min_by(|a, b| {
+                a.g(temperature)
+                    .unwrap()
+                    .total_cmp(&b.g(temperature).unwrap())
+            })
+    };
+    // Honour an in-range actual phase first. If the booked phase has left
+    // its NASA range, use an in-range condensed sibling at lowest G. This
+    // is a bounded stable-feed assumption, not operator fusion calorimetry;
+    // melting/latent heat in a heat operation still belongs to its owner.
+    if let Some(s) = select(true).or_else(|| select(false)) {
+        return record_enthalpy(s, temperature);
+    }
+    let ceiling = condensed
+        .iter()
+        .filter_map(|s| s.t_range().map(|(_, hi)| hi))
+        .fold(f64::NEG_INFINITY, f64::max);
+    if temperature > ceiling {
+        return db()
+            .species
+            .values()
+            .filter(|s| s.is_gas() && same_family(s) && valid(s))
+            .min_by(|a, b| {
+                a.g(temperature)
+                    .unwrap()
+                    .total_cmp(&b.g(temperature).unwrap())
+            })
+            .and_then(|s| record_enthalpy(s, temperature));
+    }
+    // A gap/below-range state has no verified feed enthalpy. Never clamp a
+    // phase polynomial or borrow its vapour's formation/latent energy.
+    None
 }
 
 fn cea_identity_stem(name: &str) -> &str {
@@ -387,6 +449,80 @@ struct Charge {
     used_feed_thermo: bool,
 }
 
+pub(crate) fn heat_input(
+    vessel: &Vessel,
+) -> Result<Option<&kerotakis_core::vessel::HeatInput>, SolveError> {
+    let Some(input) = vessel.heat_input.as_ref() else {
+        return Ok(None);
+    };
+    if !input.delivered_j.is_finite()
+        || input.delivered_j < 0.0
+        || !input.temperature.0.is_finite()
+        || input.temperature.0 <= 0.0
+    {
+        return Err(SolveError::NotConverged {
+            solver: "cea-thermal".into(),
+            detail: "invalid HEAT source budget".into(),
+        });
+    }
+    if input
+        .contents
+        .iter()
+        .chain(vessel.contents.iter())
+        .any(|p| !p.moles.0.is_finite() || p.moles.0 < 0.0)
+    {
+        return Err(SolveError::NotConverged {
+            solver: "cea-thermal".into(),
+            detail: "invalid HEAT source stock".into(),
+        });
+    }
+    if !matches!(vessel.thermal_mode, ThermalMode::Adiabatic)
+        || !vessel.unpriced_heat.is_empty()
+        || !vessel.unresolved_materials.is_empty()
+        || !vessel.material_objects.is_empty()
+        || !vessel.surfaces.is_empty()
+        || !vessel.exchanges.is_empty()
+        || !vessel.solid_solutions.is_empty()
+        || !vessel.electrodes.is_empty()
+        || !vessel.adsorbed.is_empty()
+        || vessel
+            .step_start
+            .as_ref()
+            .is_some_and(|s| !s.gas_out.is_empty())
+    {
+        return Ok(None);
+    }
+    let stocks = |contents: &[Portion]| {
+        let mut totals = BTreeMap::<SpeciesId, f64>::new();
+        for p in contents {
+            *totals.entry(p.species.clone()).or_default() += p.moles.0;
+        }
+        totals
+    };
+    let before = stocks(&input.contents);
+    let after = stocks(&vessel.contents);
+    if before
+        .values()
+        .chain(after.values())
+        .any(|n| !n.is_finite())
+    {
+        return Err(SolveError::NotConverged {
+            solver: "cea-thermal".into(),
+            detail: "overflowing HEAT source stock".into(),
+        });
+    }
+    if before.len() != after.len()
+        || before.iter().any(|(id, n)| {
+            after
+                .get(id)
+                .is_none_or(|m| (m - n).abs() > n.abs() * 1e-9 + 1e-15)
+        })
+    {
+        return Ok(None);
+    }
+    Ok(Some(input))
+}
+
 fn charge(vessel: &Vessel) -> Option<Charge> {
     // Unresolved materials remain spectators in the vessel. The mapped
     // dry feed may still be answered with explicit partial-coverage notes.
@@ -445,7 +581,15 @@ fn charge(vessel: &Vessel) -> Option<Charge> {
         - budget.get("O").copied().unwrap_or(0.0) / 2.0;
     let air_moles = ((condensed_moles.max(0.01)) * AIR_RATIO).max(stoich_o2.max(0.0) * 1.20 / 0.21);
     let mut air: BTreeMap<String, f64> = BTreeMap::new();
-    for (name, fraction) in AIR.iter().filter(|_| vessel.uses_atmospheric_reservoir()) {
+    // A carbonate crucible releases its own gas. It is not a flame that
+    // entrains a finite air charge: redrawing that arbitrary thermal mass
+    // every numerical burner chunk makes calcination depend on chunk size.
+    // This narrow CaCO3/CaO/CO2 model uses total product-gas pressure 1 bar,
+    // hence (unlike the flame route) no dilution by ambient nitrogen.
+    for (name, fraction) in AIR
+        .iter()
+        .filter(|_| vessel.uses_atmospheric_reservoir() && !carbonate_crucible(vessel))
+    {
         let Some(s) = db().get(name) else { continue };
         *air.entry(s.name.clone()).or_insert(0.0) += fraction * air_moles;
         for (el, count) in &s.composition {
@@ -460,9 +604,32 @@ fn charge(vessel: &Vessel) -> Option<Charge> {
     })
 }
 
+fn carbonate_crucible(vessel: &Vessel) -> bool {
+    !vessel.contents.is_empty()
+        && vessel
+            .contents
+            .iter()
+            .any(|p| p.moles.0 > 0.0 && matches!(p.species.0.as_str(), "CaCO3" | "CaO"))
+        && vessel.unresolved_materials.is_empty()
+        && vessel.material_objects.is_empty()
+        && vessel.surfaces.is_empty()
+        && vessel.exchanges.is_empty()
+        && vessel.solid_solutions.is_empty()
+        && vessel.electrodes.is_empty()
+        && vessel.adsorbed.is_empty()
+        && vessel
+            .contents
+            .iter()
+            .all(|p| matches!(p.species.0.as_str(), "CaCO3" | "CaO" | "CO2"))
+}
+
 impl Equilibrator for ThermalEquilibrator {
     fn name(&self) -> &'static str {
         "cea-thermal"
+    }
+
+    fn element_conservation_tolerance(&self) -> Option<f64> {
+        Some(1e-7)
     }
 
     fn applies(&self, vessel: &Vessel) -> bool {
@@ -496,6 +663,9 @@ impl Equilibrator for ThermalEquilibrator {
                 })
                 .collect());
         }
+        if let Some(result) = crate::closed::equilibrate(vessel) {
+            return result;
+        }
         // This path owns an open-room HP/TP balance and a vented exhaust.
         // Finite and swept boundaries require different energy, pressure and
         // outlet contracts; preserving their inventory is better than posing
@@ -504,7 +674,12 @@ impl Equilibrator for ThermalEquilibrator {
             return Ok(vec![refusal]);
         }
         let elements: Vec<String> = charge.budget.keys().cloned().collect();
-        let mut pool = pool_for(&elements);
+        let carbonate_route = carbonate_crucible(vessel);
+        let mut pool = if carbonate_route {
+            crate::carbonate::pool()
+        } else {
+            pool_for(&elements)
+        };
         if charge.used_feed_thermo {
             let feed_stems = charge
                 .mapped
@@ -544,23 +719,70 @@ impl Equilibrator for ThermalEquilibrator {
             });
         }
         let t = vessel.temperature.0.clamp(200.0, 6000.0);
+        let heat_budget = heat_input(vessel)?;
+        let delivered_heat = heat_budget.map_or(0.0, |input| input.delivered_j);
+        let using_heat_budget = heat_budget.is_some();
         // The spark initiates a small reaction zone; it does not preheat
         // the whole liquid or the incoming atmosphere to 1200 K.
-        let feed_t = vessel
-            .ignition_feed_temperature
-            .map_or(t, |temperature| temperature.0.clamp(200.0, 6000.0));
+        let feed_t = heat_budget.map_or_else(
+            || {
+                vessel
+                    .ignition_feed_temperature
+                    .map_or(t, |temperature| temperature.0.clamp(200.0, 6000.0))
+            },
+            |input| input.temperature.0,
+        );
 
         // Enthalpy the vessel and its share of the atmosphere carry into
         // the problem.
-        let h_before: f64 = charge
-            .mapped
-            .iter()
-            .filter_map(|(sid, moles)| {
-                let s = cea_species(&sid.0)?;
-                Some(enthalpy_within_record(s, feed_t)? * moles)
-            })
-            .sum::<f64>()
-            + air_enthalpy(&charge, feed_t);
+        let mut recovered_condensed_feed = false;
+        let feed_contents = heat_budget.map_or(vessel.contents.as_slice(), |input| {
+            input.contents.as_slice()
+        });
+        let h_before = feed_contents.iter().try_fold(0.0, |h, portion| {
+            let source = cea_species(&portion.species.0);
+            if let Some(source) = source {
+                let actual_phase_supported = db()
+                    .species
+                    .values()
+                    .chain(std::iter::once(source))
+                    .any(|candidate| {
+                        candidate.composition == source.composition
+                            && cea_identity_stem(&candidate.name) == cea_identity_stem(&source.name)
+                            && if portion.phase == Phase::Gas {
+                                candidate.is_gas()
+                            } else {
+                                !candidate.is_gas()
+                                    && candidate.name.ends_with("(L)")
+                                        == (portion.phase == Phase::Liquid)
+                            }
+                            && (candidate
+                                .t_range()
+                                .is_some_and(|(lo, hi)| feed_t >= lo && feed_t <= hi)
+                                || formation_anchor(candidate, feed_t))
+                    });
+                if using_heat_budget && !actual_phase_supported {
+                    return Err(SolveError::NotConverged {
+                        solver: "cea-thermal".into(),
+                        detail: "HEAT prestate has no verified actual-phase thermochemistry".into(),
+                    });
+                }
+                if portion.phase != Phase::Gas && !actual_phase_supported {
+                    recovered_condensed_feed = true;
+                }
+            }
+            let value = source
+                .and_then(|s| enthalpy_within_record(s, feed_t, portion.phase))
+                .ok_or_else(|| SolveError::NotConverged {
+                    solver: "cea-thermal".into(),
+                    detail: format!(
+                        "no in-range feed thermochemistry for {} at {feed_t} K in {:?}",
+                        portion.species, portion.phase
+                    ),
+                })?;
+            Ok::<_, SolveError>(h + value * portion.moles.0)
+        })? + delivered_heat
+            + air_enthalpy(&charge);
 
         // An adiabatic vessel conserves enthalpy, so the products *and*
         // the temperature come out of one solve. Dividing a reaction's ΔH
@@ -580,51 +802,50 @@ impl Equilibrator for ThermalEquilibrator {
         // here lets the adiabatic search refuse to spend it.
         let atmosphere = OpenAtmosphere {
             admitted: charge.air.clone(),
-            inlet_k: feed_t,
+            inlet_k: Kelvin::STANDARD.0,
         };
         let adiabatic = matches!(vessel.thermal_mode, ThermalMode::Adiabatic);
-        let (eq, feed_tp_fallback) = if adiabatic {
-            match crate::gibbs::equilibrate_hp_open(
-                &charge.budget,
-                &pool,
-                h_before,
-                1.0,
-                Some(&atmosphere),
-            ) {
-                Ok(eq) => (eq, false),
-                // HP is the preferred flame calculation. The first liquid-
-                // fuel slice retains a deterministic TP fallback at the
-                // explicit ignition-zone temperature because CEA's
-                // feed-only condensed record can leave the HP iteration
-                // without a feasible initial temperature bracket. The event
-                // provenance says which route was used.
-                Err(_) if charge.used_feed_thermo => (
-                    equilibrate_tp(&charge.budget, &pool, t, 1.0).map_err(|e| {
-                        SolveError::NotConverged {
-                            solver: "cea-thermal".to_string(),
-                            detail: e.to_string(),
-                        }
-                    })?,
-                    true,
-                ),
-                Err(e) => {
-                    return Err(SolveError::NotConverged {
-                        solver: "cea-thermal".to_string(),
-                        detail: e.to_string(),
-                    })
-                }
-            }
+        let eq = if adiabatic {
+            let result = if carbonate_route {
+                crate::gibbs::equilibrate_hp_using(
+                    &charge.budget,
+                    &pool,
+                    h_before,
+                    None,
+                    300.0,
+                    // Deterministic NASA/mass-action arithmetic can close
+                    // below core's 1e-9 J source-headroom stopping scale.
+                    // This is numerical precision, not dataset accuracy.
+                    Some(1e-10),
+                    |t| crate::carbonate::tp(&charge.budget, &pool, t),
+                )
+            } else {
+                crate::gibbs::equilibrate_hp_open(
+                    &charge.budget,
+                    &pool,
+                    h_before,
+                    1.0,
+                    Some(&atmosphere),
+                )
+            };
+            result.map_err(|e| SolveError::NotConverged {
+                solver: "cea-thermal".to_string(),
+                detail: e.to_string(),
+            })?
         } else {
-            (
-                equilibrate_tp(&charge.budget, &pool, t, 1.0).map_err(|e| {
-                    SolveError::NotConverged {
-                        solver: "cea-thermal".to_string(),
-                        detail: e.to_string(),
-                    }
-                })?,
-                false,
-            )
+            (if carbonate_route {
+                crate::carbonate::tp(&charge.budget, &pool, t)
+            } else {
+                equilibrate_tp(&charge.budget, &pool, t, 1.0)
+            })
+            .map_err(|e| SolveError::NotConverged {
+                solver: "cea-thermal".to_string(),
+                detail: e.to_string(),
+            })?
         };
+        if carbonate_route && eq.temperature > 2000.0 {
+            return Err(SolveError::NotConverged { solver: "cea-thermal".into(), detail: "restricted CaCO3/CaO and CO2/CO/O2 crucible model is limited to 2000 K; calcium vapour, graphite and atomic gases are not represented".into() });
+        }
         let t_final = eq.temperature;
 
         // Put the products back at the physical feed temperature and compare
@@ -632,12 +853,27 @@ impl Equilibrator for ThermalEquilibrator {
         // energy the adiabatic solve converted into sensible heat. This uses
         // the same NASA-9 records and exact equilibrium composition as the
         // flame-temperature solve; it is not inferred from a UI animation.
-        let products_at_initial_t: f64 = eq
-            .composition
-            .iter()
-            .filter_map(|(name, moles)| db().get(name)?.h(feed_t).map(|h| h * moles))
-            .sum();
-        let reaction_energy_j = (h_before - products_at_initial_t).max(0.0);
+        let products_at_initial_t = eq.composition.iter().try_fold(0.0, |h, (name, moles)| {
+            let product = db().get(name).ok_or_else(|| SolveError::NotConverged {
+                solver: "cea-thermal".into(),
+                detail: "missing product reference thermochemistry".into(),
+            })?;
+            let phase = if product.is_gas() {
+                Phase::Gas
+            } else if product.name.ends_with("(L)") {
+                Phase::Liquid
+            } else {
+                Phase::Solid
+            };
+            let value = enthalpy_within_record(product, feed_t, phase).ok_or_else(|| {
+                SolveError::NotConverged {
+                    solver: "cea-thermal".into(),
+                    detail: format!("no in-range product reference for {name} at {feed_t} K"),
+                }
+            })?;
+            Ok::<_, SolveError>(h + value * moles)
+        })?;
+        let reaction_energy_j = (h_before - delivered_heat - products_at_initial_t).max(0.0);
         let mut dataset_sources = eq.sources.clone();
         dataset_sources.extend(charge.mapped.iter().filter_map(|(id, _)| {
             let name = cea_name(&id.0)?;
@@ -659,7 +895,7 @@ impl Equilibrator for ThermalEquilibrator {
         let mut contents: Vec<Portion> = Vec::new();
         for (name, moles) in &eq.composition {
             let Some(s) = db().get(name) else { continue };
-            if s.is_gas() || *moles <= 1e-12 {
+            if s.is_gas() || *moles <= 0.0 {
                 continue;
             }
             let reg = registry_row(name)?;
@@ -687,11 +923,11 @@ impl Equilibrator for ThermalEquilibrator {
             if !s.is_gas() {
                 continue;
             }
-            // Air that stayed air is the reservoir's business.
+            // Returned air is balanced against the admitted reservoir below.
             if AIR.iter().any(|(n, _)| n == name) {
                 continue;
             }
-            if *moles < kerotakis_core::OBSERVABLE_MOLES {
+            if *moles <= 0.0 {
                 continue;
             }
             let reg = registry_row(name)?;
@@ -699,6 +935,99 @@ impl Equilibrator for ThermalEquilibrator {
                 vessel: vessel.id,
                 species: SpeciesId::new(reg.key),
                 moles: Moles(*moles),
+            });
+        }
+        // Validate the minimizer and exhaust re-equilibration against the
+        // full numerical charge before closing roundoff in the room's net
+        // N2/O2 transfers. Presentation thresholds must not debit atoms.
+        let mut product_atoms = BTreeMap::<String, f64>::new();
+        for (name, amount) in eq
+            .composition
+            .iter()
+            .filter(|(name, _)| db().get(name).is_some_and(|s| !s.is_gas()))
+            .chain(
+                vented
+                    .iter()
+                    .filter(|(name, _)| db().get(name).is_some_and(|s| s.is_gas())),
+            )
+        {
+            let s = db().get(name).unwrap();
+            for (element, count) in &s.composition {
+                *product_atoms.entry(element.clone()).or_default() += count * amount;
+            }
+        }
+        for (element, before) in &charge.budget {
+            let after = product_atoms.get(element).copied().unwrap_or(0.0);
+            if (after - before).abs() > before.abs() * 1e-7 + 1e-15 {
+                return Err(SolveError::NotConverged { solver: "cea-thermal".into(), detail: format!("minimizer/exhaust elemental residual for {element}: {before:e} -> {after:e}") });
+            }
+        }
+        let before_ledger = kerotakis_core::ledger::ConservedLedger::from_vessel(vessel);
+        let mut retained = vessel.clone();
+        retained.contents = contents.clone();
+        let mut accounted_atoms =
+            kerotakis_core::ledger::ConservedLedger::from_vessel(&retained).elements;
+        for event in &events {
+            if let Event::GasEvolved { species, moles, .. } = event {
+                let row = species::lookup(species).unwrap();
+                let formula = kerotakis_core::stoich::parse_formula(row.formula).map_err(|e| {
+                    SolveError::NotConverged {
+                        solver: "cea-thermal".into(),
+                        detail: e.to_string(),
+                    }
+                })?;
+                for (element, count) in formula.counts {
+                    *accounted_atoms.entry(element).or_default() += count * moles.0;
+                }
+            }
+        }
+        for (name, _) in AIR {
+            let returned = vented
+                .iter()
+                .filter(|(s, _)| s == name)
+                .map(|(_, n)| *n)
+                .sum::<f64>();
+            let raw_net_inlet = charge.air.get(*name).copied().unwrap_or(0.0) - returned;
+            let element = if *name == "O2" { "O" } else { "N" };
+            // Equivalent to admitted-minus-returned to native element
+            // tolerance, but based on actual bookable product atoms. This
+            // prevents native roundoff inventing an unbalanced trace inlet
+            // for an element absent from the owned feed (especially N).
+            let net_inlet = if charge.air.is_empty() {
+                // With no atmospheric inlet, a roundoff correction must
+                // never manufacture an oxygen source. Book the actual
+                // generated gas; the full native atom check above applies.
+                raw_net_inlet
+            } else {
+                (accounted_atoms.get(element).copied().unwrap_or(0.0)
+                    - before_ledger.elements.get(element).copied().unwrap_or(0.0))
+                    / 2.0
+            };
+            if (net_inlet - raw_net_inlet).abs() * 2.0
+                > charge.budget.get(element).copied().unwrap_or(0.0) * 1e-7 + 1e-15
+            {
+                return Err(SolveError::NotConverged {
+                    solver: "cea-thermal".into(),
+                    detail: format!("air roundoff closure exceeded native tolerance for {element}"),
+                });
+            }
+            if net_inlet == 0.0 {
+                continue;
+            }
+            let reg = registry_row(name)?;
+            events.push(if net_inlet > 0.0 {
+                Event::GasAbsorbed {
+                    vessel: vessel.id,
+                    species: SpeciesId::new(reg.key),
+                    moles: Moles(net_inlet),
+                }
+            } else {
+                // Any original finite O2/N2 which left is included here.
+                Event::GasEvolved {
+                    vessel: vessel.id,
+                    species: SpeciesId::new(reg.key),
+                    moles: Moles(-net_inlet),
+                }
             });
         }
 
@@ -811,21 +1140,27 @@ impl Equilibrator for ThermalEquilibrator {
             });
         }
 
-        let changed = !events.is_empty();
+        let changed = !events.is_empty() || using_heat_budget || vessel.contents != contents;
         // Asked before the assignment, because it is a claim about what the
         // burn LEFT: a vessel that had something in it and now has nothing.
         let holds_nothing = contents.is_empty() && !vessel.contents.is_empty();
         vessel.contents = contents;
 
         // The temperature the adiabatic solve found.
-        if changed && adiabatic && (t_final - vessel.temperature.0).abs() > 1.0 {
+        // An accepted HP result is a numerical energy state, even when
+        // chemistry is invisible or the correction is less than 1 K.
+        // Presentation thresholds must never retain the provisional HEAT
+        // temperature instead of the verified delivered-energy solution.
+        if changed && adiabatic {
             let from = vessel.temperature;
             vessel.temperature = Kelvin(t_final);
-            events.push(Event::TemperatureChanged {
-                vessel: vessel.id,
-                from,
-                to: Kelvin(t_final),
-            });
+            if from != vessel.temperature {
+                events.push(Event::TemperatureChanged {
+                    vessel: vessel.id,
+                    from,
+                    to: Kelvin(t_final),
+                });
+            }
         }
 
         if changed {
@@ -839,13 +1174,10 @@ impl Equilibrator for ThermalEquilibrator {
                     // A name, and nothing but a name.
                     "NASA CEA thermo.inp",
                     // `NASA-9` is the polynomial set's name and stays put;
-                    // the rest is a sentence, and the fallback adds a
-                    // second one. Nested rather than flattened so the
-                    // German for "NASA-9 polynomials, ideal gas + pure
-                    // condensed phases" is written once and the fallback
-                    // clause wraps it.
+                    // the rest is a sentence. Ignition-feed and spectator
+                    // clauses preserve their own translation recipes.
                     {
-                        let base = Phrase::new(
+                        let model = Phrase::new(
                             "provenance.model.nasa9-polynomials",
                             "{name} polynomials, ideal gas + pure condensed phases",
                             vec![(
@@ -853,32 +1185,39 @@ impl Equilibrator for ThermalEquilibrator {
                                 Slot::text("NASA-9"),
                             )],
                         );
-                        let model = if feed_tp_fallback {
-                            Phrase::new(
-                                "provenance.model.with-feed-tp-fallback",
-                                "{model}; TP liquid-feed fallback at the explicit ignition-zone temperature",
-                                vec![(
-                                    "model".to_string(),
-                                    Slot::phrase(base),
-                                )],
-                            )
-                        } else {
-                            base
-                        };
-                        let model = if vessel.ignition_trial {
+                        let model = if carbonate_route {
+                            Phrase::new("provenance.model.cea-carbonate-crucible", "{model}; restricted CaCO3/CaO condensed phases and CO2/CO/O2 ideal gases at 1 bar, at most 2000 K; no entrained room-air thermal mass, calcium vapour, graphite or atomic gases", vec![("model".into(), Slot::phrase(model))])
+                        } else if vessel.ignition_trial {
                             Phrase::new(
                                 "provenance.model.ignition-feed-boundary",
-                                "{model}; localized spark zone {zone} K, bulk feed and admitted air {feed} K; open-air allocation {ratio} times the represented feed amount",
+                                "{model}; localized spark zone {zone} K, bulk feed {feed} K, room air {air} K; open-air allocation {ratio} times the represented feed amount",
                                 vec![
                                     ("model".into(), Slot::phrase(model)),
                                     ("zone".into(), Slot::number(format!("{t:.2}"))),
                                     ("feed".into(), Slot::number(format!("{feed_t:.2}"))),
+                                    ("air".into(), Slot::number(format!("{:.2}", Kelvin::STANDARD.0))),
                                     ("ratio".into(), Slot::number(format!("{:.2}", charge.air.values().sum::<f64>() / charge.mapped.iter().map(|(_, amount)| amount).sum::<f64>().max(f64::MIN_POSITIVE)))),
                                 ],
                             )
                         } else {
-                            model
+                            Phrase::new("provenance.model.room-air-reservoir", "{model}; owned bulk feed {feed} K, external room-air inlet {air} K", vec![
+                                ("model".into(), Slot::phrase(model)),
+                                ("feed".into(), Slot::number(format!("{feed_t:.2}"))),
+                                ("air".into(), Slot::number(format!("{:.2}", Kelvin::STANDARD.0))),
+                            ])
                         };
+                        let model = if using_heat_budget {
+                            Phrase::new("provenance.model.cea-heat-budget", "{model}; HEAT uses pre-pass NASA enthalpy at {feed} K plus {heat} J actually delivered; phase latent heat is included in the HP product balance", vec![
+                                ("model".into(), Slot::phrase(model)), ("feed".into(), Slot::number(format!("{feed_t:.2}"))), ("heat".into(), Slot::number(format!("{delivered_heat:.2}"))),
+                            ])
+                        } else { model };
+                        let model = if recovered_condensed_feed {
+                            Phrase::new(
+                                "provenance.model.cea-stable-condensed-feed",
+                                "{model}; an out-of-range booked condensed feed uses an available NASA phase at bulk temperature; preceding dry HEAT phase-change latent energy is not reconstructed",
+                                vec![("model".into(), Slot::phrase(model))],
+                            )
+                        } else { model };
                         if vessel.unresolved_materials.iter().any(|portion| portion.amount > 0.0) {
                             Phrase::new(
                                 "provenance.model.unresolved-spectators",
@@ -890,17 +1229,10 @@ impl Equilibrator for ThermalEquilibrator {
                         }
                     },
                     dataset_sources,
-                    if feed_tp_fallback {
-                        Phrase::bare(
-                            "routing.cea-feed-tp-fallback",
-                            "liquid fuel used CEA's separate feed thermochemistry; HP did not bracket, so composition was solved at the explicit ignition-zone temperature and the reaction energy remains reported separately",
-                        )
-                    } else {
                         Phrase::bare(
                             "routing.dry-solids-and-gases",
                             "chosen because this vessel is dry solids and gases, which the aqueous engine does not model",
-                        )
-                    },
+                        ),
                 ),
             });
         }
@@ -908,15 +1240,78 @@ impl Equilibrator for ThermalEquilibrator {
     }
 }
 
-fn air_enthalpy(charge: &Charge, t: f64) -> f64 {
-    // The air that entered the problem, valued at the vessel's own
-    // temperature. Whether it may still be worth that much once the solve
+fn air_enthalpy(charge: &Charge) -> f64 {
+    // Unowned room air enters at its own standard room temperature, even
+    // when the owned feed has been heated. Whether it may pay heat once the solve
     // lands is `OpenAtmosphere`'s question, not this one's: what stays air
     // has its sensible change taken back out of the balance wherever it
     // would be paying for the chemistry rather than being warmed by it.
     charge
         .air
         .iter()
-        .filter_map(|(name, moles)| Some(db().get(name)?.h(t)? * moles))
+        .filter_map(|(name, moles)| Some(db().get(name)?.h(Kelvin::STANDARD.0)? * moles))
         .sum()
+}
+
+#[cfg(test)]
+mod feed_thermochemistry_contracts {
+    use super::*;
+
+    #[test]
+    fn magnesium_above_its_solid_range_uses_liquid_not_vapour_enthalpy() {
+        let solid = db().get("Mg(cr)").unwrap();
+        let liquid = db().get("Mg(L)").unwrap();
+        let gas = db().get("Mg").unwrap();
+        let t = 991.6;
+        let expected = liquid.h(t).unwrap();
+        assert_eq!(
+            enthalpy_within_record(solid, t, Phase::Solid),
+            Some(expected)
+        );
+        assert_eq!(
+            enthalpy_within_record(solid, t, Phase::Liquid),
+            Some(expected)
+        );
+        assert!((gas.h(t).unwrap() - expected).abs() > 100_000.0);
+        assert_eq!(enthalpy_within_record(solid, t, Phase::Gas), gas.h(t));
+        assert_eq!(
+            enthalpy_within_record(solid, 923.0, Phase::Solid),
+            solid.h(923.0)
+        );
+        assert_eq!(
+            enthalpy_within_record(solid, 923.0, Phase::Liquid),
+            liquid.h(923.0)
+        );
+    }
+
+    #[test]
+    fn feed_phase_outside_every_condensed_record_never_clamps_polynomials() {
+        let solid = db().get("Mg(cr)").unwrap();
+        assert!(enthalpy_within_record(solid, 50.0, Phase::Solid).is_none());
+        assert_eq!(
+            enthalpy_within_record(solid, 7000.0, Phase::Solid),
+            db().get("Mg").unwrap().h(7000.0)
+        );
+        assert!(enthalpy_within_record(solid, 30_000.0, Phase::Solid).is_none());
+    }
+
+    #[test]
+    fn heated_feed_cannot_preheat_unowned_room_air_for_free() {
+        let mut v = Vessel::new(kerotakis_core::VesselId(0), "hot owned magnesium");
+        v.temperature = Kelvin(991.6);
+        v.deposit(SpeciesId::new("Mg"), Moles(0.05), Phase::Liquid);
+        let charge = charge(&v).unwrap();
+        let expected_room = charge
+            .air
+            .iter()
+            .map(|(name, n)| n * db().get(name).unwrap().h(Kelvin::STANDARD.0).unwrap())
+            .sum::<f64>();
+        let fabricated_hot_air = charge
+            .air
+            .iter()
+            .map(|(name, n)| n * db().get(name).unwrap().h(v.temperature.0).unwrap())
+            .sum::<f64>();
+        assert_eq!(air_enthalpy(&charge), expected_room);
+        assert!(fabricated_hot_air - expected_room > 8000.0);
+    }
 }

@@ -17,6 +17,7 @@ use kerotakis_cea::ThermalEquilibrator;
 use kerotakis_core::apparatus::{HeatSource, BUNSEN_CEILING_K};
 use kerotakis_core::render::{render_event, Register};
 use kerotakis_core::*;
+use std::{cell::RefCell, collections::BTreeMap, rc::Rc};
 
 /// Standard enthalpy of the calcination CaCO₃(s) → CaO(s) + CO₂(g) at
 /// 298.15 K, J/mol.
@@ -45,6 +46,37 @@ fn stack() -> SolverStack {
         Box::new(StateEquilibrator),
         Box::new(HonestyEquilibrator),
     ])
+}
+
+/// Capture accepted physical outlet stages before Bench combines events
+/// for presentation. Neither the energy target nor the pricing helper is
+/// read; the independent ledger below uses public NASA records and TP.
+type OutletStages = Rc<RefCell<Vec<(f64, Vec<(SpeciesId, Moles)>)>>>;
+struct ObservedThermal(OutletStages);
+impl Equilibrator for ObservedThermal {
+    fn name(&self) -> &'static str {
+        "cea-thermal"
+    }
+    fn applies(&self, v: &Vessel) -> bool {
+        ThermalEquilibrator.applies(v)
+    }
+    fn element_conservation_tolerance(&self) -> Option<f64> {
+        Some(1e-7)
+    }
+    fn equilibrate(&mut self, v: &mut Vessel) -> Result<Vec<Event>, SolveError> {
+        let events = ThermalEquilibrator.equilibrate(v)?;
+        let gases = events
+            .iter()
+            .filter_map(|e| match e {
+                Event::GasEvolved { species, moles, .. } => Some((species.clone(), *moles)),
+                _ => None,
+            })
+            .collect::<Vec<_>>();
+        if !gases.is_empty() {
+            self.0.borrow_mut().push((v.temperature.0, gases));
+        }
+        Ok(events)
+    }
 }
 
 fn add(
@@ -160,7 +192,13 @@ fn transcript(bench: &Bench, v: VesselId, events: &[Event]) -> String {
 #[test]
 fn ten_grams_of_chalk_and_forty_kilojoules_stop_at_the_flame() {
     let mut bench = Bench::new();
-    let mut s = stack();
+    let stages = OutletStages::default();
+    let mut s = SolverStack::new(vec![
+        Box::new(MixingEquilibrator),
+        Box::new(ObservedThermal(stages.clone())),
+        Box::new(StateEquilibrator),
+        Box::new(HonestyEquilibrator),
+    ]);
     let v = VesselId(0);
     add(&mut bench, &mut s, v, "CaCO3", 0.1);
     let events = heat(&mut bench, &mut s, v, 40.0);
@@ -233,80 +271,53 @@ fn ten_grams_of_chalk_and_forty_kilojoules_stop_at_the_flame() {
         book.sensible_j
     );
 
-    // Energy: the crucible's own books, and there is nothing left outside
-    // them.
-    //
-    // What the crucible costs is three things, and it took two changes to
-    // be able to write all three down:
-    //
-    //     the sensible heat the lime still holds     7 529 J
-    //     0.1 mol x 178.8 kJ/mol                    17 880 J
-    //     the sensible heat the CO2 carried out      7 783 J
-    //                                               --------
-    //                                               33 192 J
-    //
-    // The burner used to book 13 941 J of that - 58 % - and the hole was
-    // one lane away. `ThermalEquilibrator` solved an ADIABATIC charge that
-    // admitted eight times the vessel's own moles of air and let that air's
-    // sensible heat pay for the decomposition, though room air is at 298 K
-    // and `Vessel::heat_capacity()` never held it. Closing that took it to
-    // 22 538 J against a TWO-term ledger of 24 075 J, 93.6 %.
-    //
-    // That 93.6 % was two errors of opposite sign, and both are now named.
-    // `Vessel::heat_capacity()` was a room-temperature constant - 82.3
-    // J/(mol.K) for calcite, 42.0 for lime - while the NASA-9 polynomials
-    // the solver reads rise to about 139 and 53 by 1500 K. The burner was
-    // billed at 25 C prices for a crucible at 1500 C, and BOTH sides of the
-    // ratio were wrong with it: the ledger charged too little to warm the
-    // charge, and `vessel.enthalpy()` under-reported what the charge was
-    // holding. Both integrate the same curves now.
-    //
-    // With that gone, the second error stopped hiding behind it. The carbon
-    // dioxide leaves at the temperature it formed at and takes its sensible
-    // heat with it - a kiln really does pay that - and the two-line ledger
-    // simply never named it. Naming it closes the balance to 99.5 %.
-    //
-    // The 0.5 % that is left has a sign and a reason: the exhaust term here
-    // is charged at the crucible's FINAL temperature, and some of the CO2
-    // left on earlier passes when the crucible was cooler. So the accounted
-    // figure is a slight over-estimate, and `delivered < accounted` below is
-    // an assertion about that direction rather than a formality.
-    let warming = vessel.enthalpy().0;
-    let chemistry = 0.1 * CALCINATION_ENTHALPY_J_PER_MOL;
-    // The gas's own sensible heat, from the same NASA-9 record the
-    // minimiser used. `h` is referenced so that h(298.15) is the formation
-    // enthalpy, which makes the difference a pure sensible heat.
-    let co2 = kerotakis_cea::nasa9::db()
-        .species
-        .get("CO2")
-        .expect("thermo.inp has carbon dioxide");
-    let exhaust = 0.1
-        * (co2
-            .h(vessel.temperature.0)
-            .expect("CO2 enthalpy at the ceiling")
-            - co2.h(298.15).expect("CO2 enthalpy at 298.15 K"));
-    let accounted = warming + chemistry + exhaust;
+    // Decomposition happens mainly on the 1159 K chemical plateau; the
+    // final small carbonate remainder leaves on a hotter pass, before the
+    // empty lime heats to 1773 K. Pricing every gas mole at the final lime
+    // temperature overcharges by several kJ. Read each accepted outlet
+    // stage before presentation combines it, reconstruct its gas at that
+    // stage's flame T, and form an independent extensive NASA H ledger.
+    // Plume events contain the cooled 1000 K composition; their complete
+    // atoms still determine the gas composition at the original flame T.
+    let db = kerotakis_cea::db();
+    let reference_reaction = db.get("CaO(cr)").unwrap().h_formation
+        + db.get("CO2").unwrap().h_formation
+        - db.get("CaCO3(cr)").unwrap().h_formation;
+    assert!((reference_reaction-CALCINATION_ENTHALPY_J_PER_MOL).abs()<1500.0,
+        "NASA room-standard reaction enthalpy agrees with the independent mineral/CODATA reference to the calcite uncertainty: {reference_reaction} J/mol");
+    let gases = [
+        db.get("CO2").unwrap(),
+        db.get("CO").unwrap(),
+        db.get("O2").unwrap(),
+    ];
+    let mut outlets_h = 0.0;
+    let recorded = stages.borrow();
     assert!(
-        exhaust > 7000.0 && exhaust < 8500.0,
-        "0.1 mol of CO2 taken from 25 C to 1500 C carries about 7.8 kJ out \
-         of the crucible, this says {exhaust:.1} J\n{seen}"
+        recorded.iter().any(|(t, _)| (*t - 1159.088).abs() < 0.01),
+        "decomposition plateau must be represented: {recorded:?}"
     );
     assert!(
-        book.delivered_j < accounted,
-        "the burner cannot deliver more than the crucible costs: delivered \
-         {:.1} J against warming {warming:.1} J plus calcination \
-         {chemistry:.1} J plus exhaust {exhaust:.1} J = {accounted:.1} J\n{seen}",
-        book.delivered_j
+        recorded
+            .iter()
+            .any(|(t, _)| *t > 1200.0 && *t < vessel.temperature.0),
+        "the final carbonate remainder leaves before the lime reaches the ceiling: {recorded:?}"
     );
-    assert!(
-        book.delivered_j > 0.99 * accounted,
-        "the burner should pay for what the crucible cost: {accounted:.1} J of \
-         warming, calcination and hot exhaust against {:.1} J booked, which is \
-         {:.1} % and leaves a bigger hole than charging the exhaust at the \
-         final temperature accounts for\n{seen}",
-        book.delivered_j,
-        100.0 * book.delivered_j / accounted
-    );
+    for (t, events) in recorded.iter() {
+        let mut atoms = BTreeMap::<String, f64>::new();
+        for (key, n) in events {
+            let formula = stoich::parse_formula(species::lookup(key).unwrap().formula).unwrap();
+            for (element, count) in formula.counts {
+                *atoms.entry(element).or_default() += count * n.0;
+            }
+        }
+        let flame = kerotakis_cea::equilibrate_tp(&atoms, &gases, *t, 1.0).unwrap();
+        outlets_h += flame.enthalpy;
+    }
+    let initial_h = 0.1 * db.get("CaCO3(cr)").unwrap().h_formation;
+    let final_h = lime * db.get("CaO(cr)").unwrap().h(vessel.temperature.0).unwrap();
+    let accounted = final_h + outlets_h - initial_h;
+    assert!((book.delivered_j-accounted).abs()<0.05,
+        "independent stage-wise NASA energy balance: delivered {:.6} J, retained+outlets-initial {accounted:.6} J; stages {recorded:?}\n{seen}",book.delivered_j);
 
     // The split the event reports is exactly the energy it says arrived.
     assert!(
@@ -361,7 +372,7 @@ fn five_kilojoules_is_delivered_whole_because_the_chalk_stays_cold() {
 #[test]
 fn a_crucible_stopped_half_way_can_be_heated_again() {
     // The state a small dose leaves: some carbonate, some lime, standing in
-    // the same air. Handing THAT back to the Gibbs minimiser failed at
+    // its released CO2 at one bar. Handing THAT back to the Gibbs minimiser failed at
     // every temperature — calcium has no gaseous carrier, so it has to be
     // shared between two solids, and the solve let one of them grow past
     // the whole calcium budget and then dropped both. It was never seen
@@ -373,17 +384,16 @@ fn a_crucible_stopped_half_way_can_be_heated_again() {
     let mut s = stack();
     let v = VesselId(0);
     add(&mut bench, &mut s, v, "CaCO3", 0.1);
-    // 7 kJ rather than 5: on its own heat-capacity curve the crucible costs
-    // about a quarter more to warm than the room-temperature constant said,
-    // and 5 kJ no longer reaches the temperature where the carbonate starts
-    // to go. The state this test needs is a half-calcined crucible, and the
-    // dose that leaves one is now a bigger dose.
-    let first = heat(&mut bench, &mut s, v, 7.0);
+    // Direct NASA G(CaO)+G(CO2)=G(CaCO3) at 1 bar gives 1159.09 K.
+    // For 0.1 mol initially at 298.15 K the corresponding H interval is
+    // 9.738..26.317 kJ; 17 kJ therefore leaves about 44% calcined. The old
+    // 7 kJ fixture depended on an arbitrary air dilution/control volume.
+    let first = heat(&mut bench, &mut s, v, 17.0);
     let half = bench.vessel(v).expect("vessel");
     assert!(
         half.moles_of(&SpeciesId::new("CaCO3")).0 > 0.01
             && half.moles_of(&SpeciesId::new("CaO")).0 > 1e-4,
-        "5 kJ should leave both phases standing: {:?}\n{}",
+        "17 kJ should leave both phases standing: {:?}\n{}",
         half.contents,
         transcript(&bench, v, &first)
     );

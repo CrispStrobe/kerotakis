@@ -799,6 +799,16 @@ fn molar_mass_interval(
 fn export_material_recipes(document: &mut RegistryDocument) {
     const SOURCE: &str = "kerotakis/material-recipes-v1";
     const FERMENTATION_RATE_SOURCE: &str = "kerotakis/fermentation-rate-calibration-v1";
+    const OLIVE_DENSITY_SOURCE: &str = "literature/odeh-2015-olive-oil-density";
+    document.sources.push(SourceRecord {
+        id: OLIVE_DENSITY_SOURCE.to_string(),
+        citation: "Odeh LH, Musameh S, Abdelraziq IR (2015), Influence of Waste Water used in Irrigation on the Physical Properties of Olive Oil in Palestine, J Material Sci Eng 5:209, doi:10.4172/2169-0022.1000209, Table 1 p.2: sample S1a, rain-fed 2013 crop, pycnometer mass density 0.9161 g/cm3 at 20 C; uncertainty not reported; not an all-lot olive-oil specification".to_string(),
+        licence: "LicenseRef-Odeh-2015-Attribution-Grant".to_string(),
+        lane: SourceLane::Runtime,
+        origin: Some("https://doi.org/10.4172/2169-0022.1000209".to_string()),
+        revision: Some("Table 1/S1a".to_string()),
+        retrieved: Some("2026-10-02".to_string()),
+    });
     document.sources.push(SourceRecord {
         id: SOURCE.to_string(),
         citation: "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, teaches that vegetable oil is less dense than water and does not dissolve in it, demonstrates that detergent helps oil and water mix, and its Colors on the Move activity records detergent driving food colouring rapidly across whole milk; a Journal of Chemical Education baker's-yeast gasometer study measures CO2 evolution, induction, steady production and nutrient depletion, while FAO fermentation material gives the balanced hexose-to-ethanol-and-CO2 pathway; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids; USDA ERS reports cow's milk as approximately 87% water with the balance milk fat and skim solids; ACS Making Glue and Mississippi State Extension describe vinegar separating milk casein into heavy white curds and liquid whey; USDA FoodData Central's white all-purpose wheat flour entry reports starch as the large majority of its carbohydrate, with protein, moisture, fibre, lipid and ash making up the rest, and its unsweetened apple-juice entry reports roughly 88% water with the sugars dominated by fructose and glucose rather than sucrose and the acidity carried mainly by malic acid; its raw-lemon-juice entry reports roughly 91% water with citric acid as the dominant acid at about 4.7% and ascorbic acid present at about 0.05%; ordinary flat glass is a soda-lime composition of roughly three quarters silica with soda, lime, magnesia and alumina as network modifiers; solid paraffin candle wax and a sheet of office paper are dispensed against room-temperature bulk densities of 0.90 and 0.80 g/mL; USDA FoodData Central's seedless-raisin entry reports roughly 15% water and 79% carbohydrate of which about 59% is sugars, and a dried grape is denser than water at roughly 1.35 g/mL, which is why raisins sink in it; USDA FoodData Central's Foundation Foods whole-milk entry (FDC 746782, 'Milk, whole, 3.25% milkfat, with added vitamin D', published 2019-12-16, retrieved 2026-09-05) reports per 100 g the analytical values 88.1 g water, 38.0 mg sodium, 150 mg potassium, 123 mg calcium, 101 mg phosphorus, 11.9 mg magnesium, 0.8 g ash and 4.81 g lactose, and those sodium, potassium, calcium and phosphorus totals are what the whole-milk recipe's serum mineral buffer is built from; milk's chloride and citrate are absent from that entry and come as single cited figures from Gaucheron F. (2005), 'The minerals of milk', Reproduction Nutrition Development 45:473-483, whose Table I gives whole milk 772 to 1207 mg/kg of chloride (22 to 34 mmol/kg) and 7 to 11 mmol/kg of citrate and whose Table II gives bulk skim milk pH 6.72, while the share of the calcium the recipe books into the serum is constrained against Le Graet Y. and Brule G. (1993), 'Les equilibres mineraux du lait: influence du pH et de la force ionique', Lait 73:51-60, which measured 27% of total calcium soluble at pH 6.6 - the recipe's own lot assumptions say which of its numbers is which, say that the solver now precipitates part of that calcium back out as octacalcium phosphate, and say that casein's buffering is modelled by nothing".to_string(),
@@ -1722,6 +1732,43 @@ fn export_material_recipes(document: &mut RegistryDocument) {
                 "the oil remains a conserved unresolved triglyceride mixture; crop, refining, age, additives and brand are not guessed".to_string(),
                 "0.92 g/mL is an explicit representative geometry parameter, not a product specification".to_string(),
                 "the bounded role supports an upper oil layer on water; emulsions, oxidation, hydrolysis and combustion remain unmodelled".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
+            id: "household/olive-oil-surrogate".to_string(),
+            version: 1,
+            canonical_key: "olive_oil".to_string(),
+            name: "olive oil".to_string(),
+            aliases: BTreeMap::from([("de".to_string(), vec!["Olivenöl".to_string()])]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(NumericRecord {
+                value: 0.9161,
+                unit: Unit { symbol: "g/mL".to_string(), dimension: Dimension::MassDensity },
+                conditions: Applicability {
+                    temperature: Some(Interval { lower: 293.15, upper: 293.15,
+                        unit: Unit { symbol: "K".to_string(), dimension: Dimension::Temperature } }),
+                    phase: Some(Phase::Liquid),
+                    notes: Some("reference sample S1a, 2013 rain-fed crop; geometry held constant outside 20 C as an estimate, not a thermal-expansion model".to_string()),
+                    ..Applicability::default()
+                },
+                uncertainty: Uncertainty::NotReported,
+                source_id: OLIVE_DENSITY_SOURCE.to_string(),
+                method: Method::Measured("pycnometer at 20 C; Table 1/S1a; g/cm3 equals g/mL".to_string()),
+            }),
+            components: Vec::new(),
+            unresolved_fraction: Some(FractionRange { lower: 1.0, upper: 1.0 }),
+            physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: vec![MaterialRole::AqueousImmiscibleLiquid { srgb: [238, 218, 112], colour_word: "pale yellow".to_string() }],
+            preparation: Some("unresolved olive-oil teaching surrogate with a sample-specific reference density".to_string()),
+            lot_assumptions: vec![
+                "the oil remains a conserved unresolved mixture; grade, cultivar, processing and fatty-acid composition are not inferred".to_string(),
+                "0.9161 g/mL is the measured 20 C density of one published sample, not a specification for every olive oil; uncertainty was not reported".to_string(),
+                "density is held at its 20 C reference as a geometry estimate; thermal expansion and heat capacity are not modelled".to_string(),
+                "water immiscibility and pale-yellow display colour are explicit teaching assumptions; emulsions, partition coefficients, hydrolysis, oxidation and combustion are not calibrated".to_string(),
             ],
             substitutions: Vec::new(),
             confidence: MaterialConfidence::Surrogate,

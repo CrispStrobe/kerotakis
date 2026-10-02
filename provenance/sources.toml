@@ -465,3 +465,29 @@ sha256 = "032a05662c993e3456c3b070e99ca766daef9d9f4940e9ea44c14d97c96d86d7"
 [[source.checksum]]
 path = "provenance/parker-1965-kno3-review.md"
 sha256 = "e5183f8d6c40f01836e10c2e69f35a52b62104a79fcedbb6e239f8c2fdb44b21"
+
+[[source]]
+id = "odeh-2015-olive-oil-density"
+name = "Odeh et al. (2015) olive-oil reference sample mass density"
+kind = "data"
+lane = "runtime-data"
+decision = "approved"
+licence = "LicenseRef-Odeh-2015-Attribution-Grant"
+origin = "https://doi.org/10.4172/2169-0022.1000209"
+terms = "provenance/odeh-2015-olive-oil-review.md"
+copyright = "2015 Odeh LH et al.; explicit unrestricted attribution grant, CC-BY version unspecified"
+retrieved = "2026-10-02"
+attribution = "Odeh LH, Musameh S, Abdelraziq IR (2015), J Material Sci Eng 5:209, Table 1/S1a, DOI 10.4172/2169-0022.1000209"
+paths = ["data/registry/registry-source-v1.json", "provenance/odeh-2015-olive-oil-transcription.json", "provenance/odeh-2015-olive-oil-review.md"]
+allowed_outputs = ["registry-datum"]
+targets = ["native", "web", "ios", "android"]
+reviewer = "Kerotakis independent experiment audit, 2026-10-02"
+notes = "One pycnometer mass-density value at 20 C only; no uncertainty inferred, no relative-density relabeling, no spectrum, composition or rate promotion."
+
+[[source.checksum]]
+path = "provenance/odeh-2015-olive-oil-transcription.json"
+sha256 = "438a660ef46a0a21a14b1b418b27d7443dbd906db3402ceceb82280b0c949d77"
+
+[[source.checksum]]
+path = "provenance/odeh-2015-olive-oil-review.md"
+sha256 = "e45e3ad90478a155f5cd4881d47ef1d16b2d11035adcdc4edd860318da5bc87f"

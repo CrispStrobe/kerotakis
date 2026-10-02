@@ -425,7 +425,7 @@ fn burning_magnesium_makes_white_oxide_and_a_great_deal_of_heat() {
     let vessel = bench.vessel(v).unwrap();
     assert!(
         vessel.moles_of(&SpeciesId::new("MgO")).0 > 0.04,
-        "the ribbon becomes magnesium oxide: {:?}",
+        "the ribbon becomes magnesium oxide: {:?}; solver events: {events:?}",
         vessel.contents
     );
     assert!(
@@ -459,9 +459,13 @@ fn the_thermal_answer_carries_its_provenance() {
             Event::ThermalEquilibrium { provenance, .. } => Some(provenance.clone()),
             _ => None,
         })
-        .expect("thermal equilibrium reported");
+        .unwrap_or_else(|| panic!("thermal equilibrium reported; solver events: {events:?}"));
     assert!(p.dataset.contains("CEA"));
     assert!(p.model.contains("NASA-9"));
+    assert!(
+        p.model.contains("1000.00 J actually delivered"),
+        "the operator's actual heat budget must travel with the answer: {p:?}"
+    );
     assert!(
         !p.dataset_sources.is_empty(),
         "the species' own citations travel with the answer"

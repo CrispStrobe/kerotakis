@@ -78,6 +78,12 @@ pub enum SolverRouteKind {
 /// Re-equilibrates one vessel after an operator touched it.
 pub trait Equilibrator {
     fn name(&self) -> &'static str;
+    /// Opt into element-balance enforcement for routes with complete inventories
+    /// and explicit gas inlet/outlet events. Unsupported ledgers must not claim
+    /// this contract merely because their individual amounts are finite.
+    fn element_conservation_tolerance(&self) -> Option<f64> {
+        None
+    }
     fn route_kind(&self) -> SolverRouteKind {
         SolverRouteKind::Computed
     }
@@ -292,6 +298,17 @@ impl Equilibrator for SolverStack {
             let checkpoint = vessel.clone();
             let result = solver.equilibrate(vessel).and_then(|events| {
                 let mut errors = crate::delta::StateDelta::validate_state(vessel);
+                errors.extend(crate::delta::StateDelta::validate_gas_events(
+                    vessel, &events,
+                ));
+                if let Some(tolerance) = solver.element_conservation_tolerance() {
+                    errors.extend(crate::delta::StateDelta::validate_conservation(
+                        &checkpoint,
+                        vessel,
+                        &events,
+                        tolerance,
+                    ));
+                }
                 if vessel.id != checkpoint.id || vessel.label != checkpoint.label {
                     errors.push(crate::delta::DeltaError::InvalidState {
                         field: "vessel identity".into(),
@@ -380,6 +397,17 @@ impl Equilibrator for SolverStack {
             match solver.mix(vessel, soln_a, frac_a, soln_b, frac_b) {
                 Some(Ok(events)) => {
                     let mut errors = crate::delta::StateDelta::validate_state(vessel);
+                    errors.extend(crate::delta::StateDelta::validate_gas_events(
+                        vessel, &events,
+                    ));
+                    if let Some(tolerance) = solver.element_conservation_tolerance() {
+                        errors.extend(crate::delta::StateDelta::validate_conservation(
+                            &checkpoint,
+                            vessel,
+                            &events,
+                            tolerance,
+                        ));
+                    }
                     if vessel.id != checkpoint.id || vessel.label != checkpoint.label {
                         errors.push(crate::delta::DeltaError::InvalidState {
                             field: "vessel identity".into(),
@@ -521,6 +549,9 @@ pub fn layered_pair(vessel: &Vessel) -> Option<(&'static str, &'static str)> {
 }
 
 impl Equilibrator for MixingEquilibrator {
+    fn element_conservation_tolerance(&self) -> Option<f64> {
+        Some(1e-10)
+    }
     fn name(&self) -> &'static str {
         "mixing-v0"
     }
@@ -1518,6 +1549,9 @@ fn dissolved_particles(vessel: &Vessel) -> (f64, f64) {
 }
 
 impl Equilibrator for StateEquilibrator {
+    fn element_conservation_tolerance(&self) -> Option<f64> {
+        Some(1e-10)
+    }
     fn name(&self) -> &'static str {
         "states"
     }
@@ -2602,6 +2636,9 @@ fn insoluble_verdict(vessel: &Vessel, species: &SpeciesId, name: &str, limit: f6
 pub struct HonestyEquilibrator;
 
 impl Equilibrator for HonestyEquilibrator {
+    fn element_conservation_tolerance(&self) -> Option<f64> {
+        Some(1e-10)
+    }
     fn name(&self) -> &'static str {
         "honesty"
     }

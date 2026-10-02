@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "source_id": "literature/odeh-2015-olive-oil-density",
+  "doi": "10.4172/2169-0022.1000209",
+  "table": "1",
+  "page": 2,
+  "sample": "S1a",
+  "crop_year": 2013,
+  "temperature_C": 20.0,
+  "mass_density": 0.9161,
+  "source_unit": "g/cm3",
+  "uncertainty": "not_reported",
+  "primary_pdf_sha256": "d2ab15429001bffa3b9f39b99d20fde3f6f9194249a774320bbd78a411bf85fa",
+  "primary_pdf_url": "https://www.hilarispublisher.com/open-access/influence-of-waste-water-used-in-irrigation-on-the-physical-properties-of-olive-oil-in-palestine-2169-0022-1000209.pdf",
+  "retrieved_from": "https://pdfs.semanticscholar.org/a3e7/670c8ca352157cfcf6258d1fb53b003d9c2a.pdf",
+  "license": "LicenseRef-Odeh-2015-Attribution-Grant"
+}

@@ -147,3 +147,13 @@ Potassium nitrate dissolution datum
   The evaluated 8340 +/-30 cal/mol datum is converted to kJ/mol using
   4.184 J/cal (2026-10-02); the original government report and this single
   numerical slice are reviewed in provenance/parker-1965-kno3-review.md.
+
+Olive-oil reference density datum
+- Odeh LH, Musameh S, Abdelraziq IR (2015), Influence of Waste Water used
+  in Irrigation on the Physical Properties of Olive Oil in Palestine,
+  J Material Sci Eng 5:209, https://doi.org/10.4172/2169-0022.1000209.
+  Table 1/S1a: 0.9161 g/cm3 at 20 C, represented as g/mL without a numerical
+  change. The authors grant unrestricted use with attribution; no CC-BY
+  version is guessed. This one-sample geometry parameter does not establish
+  all-lot composition, thermal or reaction properties. Review:
+  provenance/odeh-2015-olive-oil-review.md.

@@ -201,7 +201,11 @@ impl ConservedLedger {
             let delta = after_val - before;
             let denom = before.abs().max(floor_moles);
             let relative = delta.abs() / denom;
-            if relative > tolerance {
+            if !before.is_finite()
+                || !after_val.is_finite()
+                || !relative.is_finite()
+                || relative > tolerance
+            {
                 violations.push(Violation {
                     quantity: format!("element:{}", el),
                     before,
@@ -213,10 +217,14 @@ impl ConservedLedger {
         }
 
         // Check mass conservation
-        if self.mass > floor_moles {
+        if !self.mass.is_finite() || !after.mass.is_finite() || self.mass > floor_moles {
             let delta = after.mass - self.mass;
             let relative = delta.abs() / self.mass.max(floor_moles);
-            if relative > tolerance {
+            if !self.mass.is_finite()
+                || !after.mass.is_finite()
+                || !relative.is_finite()
+                || relative > tolerance
+            {
                 violations.push(Violation {
                     quantity: "mass".to_string(),
                     before: self.mass,
@@ -232,7 +240,10 @@ impl ConservedLedger {
             let delta = after.charge - self.charge;
             let denom = self.charge.abs().max(1e-15);
             let relative = delta.abs() / denom;
-            if relative > tolerance && delta.abs() > floor_moles {
+            if !self.charge.is_finite()
+                || !after.charge.is_finite()
+                || (relative > tolerance && delta.abs() > floor_moles)
+            {
                 violations.push(Violation {
                     quantity: "charge".to_string(),
                     before: self.charge,
@@ -378,5 +389,33 @@ mod tests {
         let after = ConservedLedger::from_vessel(&after);
         assert_eq!(before.elements, after.elements);
         assert!((before.mass - after.mass).abs() < 1e-12);
+    }
+}
+
+#[cfg(test)]
+mod nonfinite_tests {
+    use super::*;
+    #[test]
+    fn nonfinite_ledgers_cannot_pass_by_nan_comparison() {
+        let good = ConservedLedger {
+            elements: BTreeMap::from([("H".into(), 1.0)]),
+            mass: 1.0,
+            charge: 0.0,
+            energy: 0.0,
+        };
+        for value in [f64::NAN, f64::INFINITY, f64::NEG_INFINITY] {
+            let mut bad = good.clone();
+            bad.elements.insert("H".into(), value);
+            bad.mass = value;
+            bad.charge = value;
+            for violations in [
+                good.check_against(&bad, 1e-8, 1e-15),
+                bad.check_against(&good, 1e-8, 1e-15),
+            ] {
+                assert!(violations.iter().any(|v| v.quantity == "element:H"));
+                assert!(violations.iter().any(|v| v.quantity == "mass"));
+                assert!(violations.iter().any(|v| v.quantity == "charge"));
+            }
+        }
     }
 }

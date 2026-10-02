@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onMount, untrack } from "svelte";
   import {
     ELEMENTS,
     LAB_ELEMENTS,
@@ -45,7 +45,7 @@
   // The opening selection, not a binding: once the table is up, which
   // element is chosen belongs to whoever is reading it.
   let picked = $state<ElementInfo | null>(
-    element ? (ELEMENTS.find((candidate) => candidate.symbol === element) ?? null) : null,
+    untrack(() => element ? (ELEMENTS.find((candidate) => candidate.symbol === element) ?? null) : null),
   );
   let fullTable = $state(false);
   let query = $state("");

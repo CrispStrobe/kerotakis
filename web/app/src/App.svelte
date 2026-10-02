@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount, tick } from "svelte";
+  import { onMount, tick, untrack } from "svelte";
   import { Session } from "./lib/session.svelte";
   import { WorkerHost, resolvePayloadBase } from "./lib/host/WorkerHost";
   import { TauriHost, isTauri } from "./lib/host/TauriHost";
@@ -980,7 +980,8 @@
   let toolsOpen = $state(false);
   /** The supply room keeps chemicals and reusable equipment distinct. */
   let kidsSandboxBrief = $state<KidsSandboxBrief | null>(labMode === "sandbox" ? takePendingKidsSandbox(appStorage) : null);
-  let catalogScope = $state<CatalogScope>(kidsSandboxBrief ? "mission" : labMode === "sandbox" ? "all" : "unlocked");
+  // The opening scope is a suggestion; later choices belong to the reader.
+  let catalogScope = $state<CatalogScope>(untrack(() => kidsSandboxBrief ? "mission" : labMode === "sandbox" ? "all" : "unlocked"));
   let shelfFocusRequest = $state<{ key: string; nonce: number } | null>(null);
   /** BRD-002: the engine's finite bottles, refreshed with every scene —
    * so the shelf card tracks the ledger through undo and scrub without a

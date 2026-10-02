@@ -163,7 +163,7 @@ fn the_flame_keeps_its_temperature_and_its_energy() {
     assert!(events
         .iter()
         .any(|e| matches!(e, Event::ThermalEquilibrium { provenance, .. }
-        if provenance.model.contains("bulk feed and admitted air 298.15 K"))));
+        if provenance.model.contains("bulk feed 298.15 K") && provenance.model.contains("room air 298.15 K"))));
 }
 
 /// Nothing is left in the beaker, and the bench has to say whose 2496 °C

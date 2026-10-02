@@ -325,11 +325,40 @@ impl StateDelta {
     /// Numerical domain checks shared by cloned and direct solver commits.
     pub(crate) fn validate_state(candidate: &crate::vessel::Vessel) -> Vec<DeltaError> {
         let mut errors = Vec::new();
+        if let Some(input) = &candidate.heat_input {
+            if !input.temperature.0.is_finite()
+                || input.temperature.0 <= 0.0
+                || !input.delivered_j.is_finite()
+                || input.delivered_j < 0.0
+                || input
+                    .contents
+                    .iter()
+                    .any(|p| !p.moles.0.is_finite() || p.moles.0 < 0.0)
+            {
+                errors.push(DeltaError::InvalidState {
+                    field: "heat input proposal".into(),
+                });
+            }
+        }
+        let ledger = crate::ledger::ConservedLedger::from_vessel(candidate);
+        if !candidate.liquid_volume().0.is_finite()
+            || !candidate.heat_capacity().is_finite()
+            || !ledger.mass.is_finite()
+            || !ledger.energy.is_finite()
+            || !ledger.charge.is_finite()
+            || ledger.elements.values().any(|n| !n.is_finite())
+        {
+            errors.push(DeltaError::InvalidState {
+                field: "aggregate inventory/energy".into(),
+            });
+        }
         if candidate
             .ignition_feed_temperature
             .is_some_and(|t| !t.0.is_finite() || t.0 <= 0.0)
             || !candidate.temperature.0.is_finite()
-            || candidate.temperature.0 <= 0.0
+            // COOL exposes zero only as a disclosed mathematical floor.
+            // Native thermochemistry and ignition retain positive domains.
+            || candidate.temperature.0 < 0.0
             || !candidate.pressure.0.is_finite()
             || candidate.pressure.0 < 0.0
         {
@@ -500,6 +529,110 @@ impl StateDelta {
             }
         }
         errors
+    }
+
+    /// Gas narration is also the numeric boundary ledger used by later stages.
+    pub(crate) fn validate_gas_events(
+        vessel: &crate::vessel::Vessel,
+        events: &[crate::ops::Event],
+    ) -> Vec<DeltaError> {
+        events
+            .iter()
+            .filter_map(|event| {
+                let (id, species, moles) = match event {
+                    crate::ops::Event::GasEvolved {
+                        vessel,
+                        species,
+                        moles,
+                        ..
+                    }
+                    | crate::ops::Event::GasAbsorbed {
+                        vessel,
+                        species,
+                        moles,
+                        ..
+                    }
+                    | crate::ops::Event::GasContained {
+                        vessel,
+                        species,
+                        moles,
+                        ..
+                    } => (*vessel, species, moles.0),
+                    _ => return None,
+                };
+                if id != vessel.id || !moles.is_finite() || moles < 0.0 {
+                    return Some(DeltaError::InvalidState {
+                        field: "gas event identity/amount".into(),
+                    });
+                }
+                if crate::species::lookup(species)
+                    .and_then(|data| crate::stoich::parse_formula(data.formula).ok())
+                    .is_none()
+                {
+                    return Some(DeltaError::InvalidState {
+                        field: format!("unaccounted gas {}", species.0),
+                    });
+                }
+                None
+            })
+            .collect()
+    }
+
+    /// Shared element ledger for native and delta solver commits. GasContained
+    /// reports owned matter; only transfers extend the conserved boundary.
+    pub(crate) fn validate_conservation(
+        before: &crate::vessel::Vessel,
+        after: &crate::vessel::Vessel,
+        events: &[crate::ops::Event],
+        tolerance: f64,
+    ) -> Vec<DeltaError> {
+        let mut errors = Self::validate_gas_events(after, events);
+        if !tolerance.is_finite() || tolerance < 0.0 {
+            errors.push(DeltaError::InvalidState {
+                field: "conservation tolerance".into(),
+            });
+        }
+        if !errors.is_empty() {
+            return errors;
+        }
+        let mut ledger_before = crate::ledger::ConservedLedger::from_vessel(before);
+        let mut ledger_after = crate::ledger::ConservedLedger::from_vessel(after);
+        for event in events {
+            let (species, moles) = match event {
+                crate::ops::Event::GasEvolved { species, moles, .. } => (species, moles.0),
+                crate::ops::Event::GasAbsorbed { species, moles, .. } => (species, -moles.0),
+                _ => continue,
+            };
+            let formula = crate::species::lookup(species)
+                .and_then(|data| crate::stoich::parse_formula(data.formula).ok())
+                .expect("gas event validated");
+            for (element, count) in formula.counts {
+                if moles >= 0.0 {
+                    *ledger_after.elements.entry(element).or_default() += moles * count;
+                } else {
+                    *ledger_before.elements.entry(element).or_default() -= moles * count;
+                }
+            }
+        }
+        if ledger_before
+            .elements
+            .values()
+            .chain(ledger_after.elements.values())
+            .any(|v| !v.is_finite())
+        {
+            return vec![DeltaError::InvalidState {
+                field: "aggregate element ledger".into(),
+            }];
+        }
+        ledger_before
+            .check_against(&ledger_after, tolerance, 1e-15)
+            .into_iter()
+            .filter(|v| v.quantity.starts_with("element:"))
+            .map(|v| DeltaError::ElementImbalance {
+                element: v.quantity.strip_prefix("element:").unwrap().into(),
+                net: v.delta,
+            })
+            .collect()
     }
 
     /// Validate this delta against a vessel state.
@@ -1043,7 +1176,6 @@ impl StateDelta {
 
         // Step 2: snapshot before
         let snapshot = vessel.clone();
-        let ledger_before = crate::ledger::ConservedLedger::from_vessel(vessel);
 
         // Step 3: apply
         self.apply(vessel);
@@ -1054,65 +1186,10 @@ impl StateDelta {
             return Err(result_errors);
         }
 
-        // Step 4: check conservation
-        let mut ledger_after = crate::ledger::ConservedLedger::from_vessel(vessel);
-        for event in events {
-            let (id, species, moles, sign) = match event {
-                crate::ops::Event::GasEvolved {
-                    vessel,
-                    species,
-                    moles,
-                    ..
-                } => (*vessel, species, moles.0, 1.0),
-                crate::ops::Event::GasAbsorbed {
-                    vessel,
-                    species,
-                    moles,
-                    ..
-                } => (*vessel, species, moles.0, -1.0),
-                _ => continue,
-            };
-            if id != vessel.id || !moles.is_finite() || moles < 0.0 {
-                *vessel = snapshot;
-                return Err(vec![DeltaError::InvalidState {
-                    field: "gas exchange event".into(),
-                }]);
-            }
-            let Some(formula) = crate::species::lookup(species)
-                .and_then(|data| crate::stoich::parse_formula(data.formula).ok())
-            else {
-                *vessel = snapshot;
-                return Err(vec![DeltaError::InvalidState {
-                    field: format!("unaccounted gas {}", species.0),
-                }]);
-            };
-            for (element, count) in formula.counts {
-                *ledger_after.elements.entry(element).or_default() += sign * moles * count;
-            }
-        }
-        let violations = ledger_before.check_against(&ledger_after, tolerance, 1e-15);
-
-        // Only element violations are conservation errors; mass drift from
-        // molar-mass table precision is expected and not a rollback reason.
-        let element_violations: Vec<_> = violations
-            .iter()
-            .filter(|v| v.quantity.starts_with("element:"))
-            .collect();
-
-        if !element_violations.is_empty() {
-            // Step 5: rollback
+        let errors = Self::validate_conservation(&snapshot, vessel, events, tolerance);
+        if !errors.is_empty() {
             *vessel = snapshot;
-            return Err(element_violations
-                .into_iter()
-                .map(|v| DeltaError::ElementImbalance {
-                    element: v
-                        .quantity
-                        .strip_prefix("element:")
-                        .unwrap_or(&v.quantity)
-                        .to_string(),
-                    net: v.delta,
-                })
-                .collect());
+            return Err(errors);
         }
 
         Ok(())

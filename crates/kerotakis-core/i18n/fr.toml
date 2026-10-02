@@ -1,3 +1,7 @@
+"error.invalid-state" = "L’opération dépasse le domaine numérique du modèle : {detail}"
+"provenance.model.cea-finite-gas" = "Équilibre idéal de gaz identifiables NASA-9 ; matière conservée dans le récipient, sans air ambiant ; sans phases condensées, radicaux, ionisation ni correction de gaz réel ; vapeur d’eau au-dessus de 800 K et pression limitée à 100 bar"
+"routing.cea-finite-gas" = "{route} : équilibre fermé de gaz idéaux avec produits conservés"
+
 [vessel]
 open = ", ouvert sur l'atmosphère"
 sealed-before = ", scellé, "
@@ -13,6 +17,7 @@ redox = "Rédox"
 speciation = "    Spéciation (mol/kgw · activité · γ) :"
 mixed-crystal = "Cristal mixte"
 ph = "pH"
+
 
 [glassware]
 beaker = "bécher"
@@ -258,6 +263,7 @@ hydroxylapatite = "hydroxylapatite"
 "liquid nitrogen" = "azote liquide"
 
 [material]
+"olive oil" = "huile d'olive"
 # Display names for the 132 named materials. NOT new translation work: each
 # value is the recipe's first German alias in
 # `data/registry/registry-source-v1.json`, which the parser has always
@@ -624,8 +630,8 @@ hydroxylapatite = "hydroxylapatite"
 "stock-exhausted.lv3" = "PRÉLÈVEMENT REFUSÉ : {key}, stock restant {remaining} {unit} < demandé {requested} {unit} ; paillasse inchangée"
 "reaction-occurred.lv1" = "Le mélange dans {vessel} change — quelque chose de nouveau apparaît !"
 "reaction-occurred.lv2" = "{vessel} : {equation}"
-"gas-evolved.lv1" = "Des bulles ! Un gaz s'échappe de {vessel}."
-"gas-absorbed.lv1" = "Du gaz entre dans {vessel} et est absorbé par le liquide."
+"gas-evolved.lv1" = "Du gaz quitte {vessel}."
+"gas-absorbed.lv1" = "Du gaz entre dans {vessel} depuis son environnement."
 "gas-contained.lv1" = "Des bulles se forment dans {vessel}, mais le gaz reste à l'intérieur."
 "vessel-sealed.lv1" = "Un couvercle ferme {vessel}. Plus rien de gazeux ne peut s'échapper maintenant."
 "vessel-pressure-controlled.lv1" = "Un piston mobile maintient {vessel} à pression constante."
@@ -1460,8 +1466,8 @@ PVA = "PVA"
 "muscle protein" = "protéine musculaire"
 
 [not-modeled]
-"cea-sealed-energy-boundary" = "Le récipient fermé conserve son inventaire gazeux ; la voie CEA de flamme à l’air libre ne peut pas calculer ses bilans d’énergie à volume fixe et de pression, donc aucune chimie thermique n’a été appliquée"
-"cea-finite-pressure-boundary" = "Le récipient à pression régulée conserve un inventaire gazeux fini ; la voie CEA de flamme à l’air libre ne dispose pas d’un bilan fermé validé d’enthalpie et de travail de volume, donc aucune chimie thermique n’a été appliquée"
+"cea-sealed-energy-boundary" = "Cette charge fermée dépasse le domaine validé des bilans d’énergie et de pression des gaz idéaux ; phases condensées, interfaces, combustible riche en carbone, vapeur d’eau sous 800 K et pressions au-dessus de 100 bar restent non modélisés, donc son inventaire est conservé"
+"cea-finite-pressure-boundary" = "Cette charge à pression régulée dépasse le domaine validé des bilans d’enthalpie et de travail d’expansion des gaz idéaux ; phases condensées, interfaces, combustible riche en carbone, vapeur d’eau sous 800 K et pressions au-dessus de 100 bar restent non modélisés, donc son inventaire est conservé"
 "cea-swept-boundary" = "Le récipient balayé par un gaz n’admet pas d’oxygène ambiant ; la voie CEA de flamme à l’air libre ne dispose pas d’un bilan d’entrée et de sortie du gaz porteur pour cette condition limite, donc aucune chimie thermique n’a été appliquée"
 "hydrogen-overpotential-rate" = "La dissolution de {name} dans cet acide est thermodynamiquement favorisée (force motrice {driving} V), mais sa vitesse n’est pas modélisée : la surtension approximative de l’hydrogène {eta} V dépend de la surface et de la densité de courant. Le modèle laisse le métal inchangé ; cela ne prouve pas son inertie à l’échelle d’une leçon"
 "material-layer-partition" = "La séparation de ce mélange d’huile n’est pas modélisée : partage des solutés neutres, émulsions et autres matériaux non résolus dépassent la simple vidange huile-eau"
@@ -1612,8 +1618,13 @@ malic_acid = "aucune base de données livrée ne définit d'espèce malate, ses 
 whole_milk-casein = "LA CASÉINE N'EST TOUJOURS PAS MODÉLISÉE, SON EFFET TAMPON RESTE DONC ABSENT"
 
 [provenance]
+"model.cea-carbonate-crucible" = "{model} ; phases condensées CaCO3/CaO et gaz idéaux CO2/CO/O2 uniquement, à 1 bar et au plus 2000 K ; sans masse thermique d’air ambiant entraîné, vapeur de calcium, graphite ni gaz atomiques"
 "model.unresolved-spectators" = "{model} ; seules les espèces représentées participent à la combustion ; les matériaux non résolus sont conservés sans modèle de réaction ni de capacité thermique"
-"model.ignition-feed-boundary" = "{model} ; zone d’allumage localisée à {zone} K, charge initiale et air admis à {feed} K ; apport d’air en récipient ouvert : {ratio} fois la quantité de matière de la charge représentée"
+"model.ignition-feed-boundary" = "{model} ; zone d’allumage localisée à {zone} K, charge à {feed} K, air ambiant à {air} K ; apport d’air en récipient ouvert : {ratio} fois la quantité de matière de la charge représentée"
+"model.room-air-reservoir" = "{model} ; charge propre à {feed} K, apport d’air ambiant à {air} K"
+"model.cea-stable-condensed-feed" = "{model} ; une charge condensée hors du domaine des données utilise une phase NASA disponible à la température de la charge ; la chaleur latente du changement de phase lors d’un HEAT sec précédent n’est pas reconstruite"
+"model.cea-heat-budget" = "{model} ; HEAT utilise l’enthalpie NASA avant le calcul à {feed} K plus les {heat} J effectivement apportés ; la chaleur latente des phases est incluse dans le bilan HP des produits"
+"model.cea-finite-heat-budget" = "{model} ; HEAT ajoute {heat} J à l’énergie NASA {energy} avant le calcul à {feed} K"
 # The dataset half. Two levels: a base clause naming what this lab added
 # to the vendored file, wrapped in the clause that is true of all of them.
 # The wrapper is written ONCE here for the same reason it is composed once
@@ -1633,7 +1644,6 @@ whole_milk-casein = "LA CASÉINE N'EST TOUJOURS PAS MODÉLISÉE, SON EFFET TAMPO
 "model.water-autoionisation" = "autoprotolyse de l'eau en dilution idéale (relation {engine} pour log K à six coefficients)"
 "model.curated-complete-combustion" = "combustion complète en CO2 et H2O à chaleur de combustion tabulée, avec une fraction d'oxygène limitante de {fraction} pour une enceinte fermée"
 "model.nasa9-polynomials" = "polynômes {name}, gaz parfait + phases condensées pures"
-"model.with-feed-tp-fallback" = "{model} ; repli TP sur l'alimentation en combustible liquide à la température de zone d'allumage explicitement indiquée"
 
 [routing]
 solvent-relation-only = "aucun acide, aucune base, aucun sel, aucune surface, aucun échangeur, aucun transfert gazeux et aucun soluté aqueux réactif représentés ; la relation du solvant a été évaluée sans appel à IPhreeqc, et tout l'inventaire spectateur est resté conservé"
@@ -1649,7 +1659,6 @@ second-speciation-for-solvent = "{routing} ; l'activité du solvant ne provient 
 electrode-potential = "{routing}. Le potentiel indiqué est celui de l'électrode {reduced}/{oxidised}, par Nernst sur l'activité calculée ({activity} ; E° {e0} V, CRC) — un métal en contact avec son propre ion fixe le potentiel, et non l'air au-dessus du bécher. La spéciation elle-même a été résolue au pe de l'air libre."
 below-the-hydrogen-line = "Cela se situe sous la ligne de l'hydrogène de l'eau elle-même ({line} V à pH {ph}) : {name} n'est pas à l'équilibre avec l'eau dans laquelle il se trouve, et un vrai voltmètre lirait un potentiel mixte fixé par des vitesses que ce laboratoire ne modélise pas"
 curated-fuel-table = "NASA CEA ne porte aucune thermochimie pour ce combustible : la table curatée a donc répondu, au lieu que le récipient atteigne la limite du modèle"
-cea-feed-tp-fallback = "le combustible liquide a utilisé la thermochimie propre de CEA pour l'alimentation ; HP n'a pas convergé, la composition a donc été résolue à la température de zone d'allumage explicitement indiquée, et l'énergie de réaction continue d'être indiquée séparément"
 dry-solids-and-gases = "choisi parce que ce récipient contient des solides secs et des gaz que la machine de calcul aqueuse ne modélise pas"
 
 [spill-site]

@@ -237,8 +237,8 @@ fn every_legacy_field_is_present_and_unchanged() {
             .count(),
         1
     );
-    // The dissolution tranche is one source record too, cited by every
-    // enthalpy of dissolution and by nothing else.
+    // Seventeen legacy dissolution values retain the generic tranche; the
+    // reviewed KNO3 value cites its primary Parker source independently.
     let dissolution = document
         .sources
         .iter()
@@ -253,10 +253,22 @@ fn every_legacy_field_is_present_and_unchanged() {
             .iter()
             .filter(|record| record.quantity.source_id == "kerotakis/dissolution-enthalpies-v1")
             .count(),
+        17
+    );
+    assert_eq!(
+        document
+            .phase_thermodynamics
+            .iter()
+            .filter(|record| record.property == PhaseProperty::EnthalpyOfDissolution)
+            .count(),
+        18
+    );
+    assert_eq!(
         REGISTRY
             .iter()
             .filter(|species| species.dissolution_enthalpy_kj.is_some())
-            .count()
+            .count(),
+        18
     );
     assert_eq!(
         document.optical.len(),
@@ -521,27 +533,51 @@ fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
             assert_eq!(record.quantity.unit.symbol, "kJ/mol");
             assert_eq!(record.quantity.unit.dimension, Dimension::MolarEnergy);
             assert_eq!(record.quantity.conditions.phase, Some(phase));
-            assert_eq!(record.quantity.uncertainty, Uncertainty::Unestablished);
-            assert_eq!(
-                record.quantity.source_id, "kerotakis/dissolution-enthalpies-v1",
-                "{} dissolution enthalpy must cite its own tranche",
-                species.key
-            );
-            assert!(
-                matches!(record.quantity.method, Method::Curated(_)),
-                "{} dissolution enthalpy is curated, not imported",
-                species.key
-            );
-            assert!(
-                record
-                    .quantity
-                    .conditions
-                    .notes
-                    .as_deref()
-                    .is_some_and(|note| !note.trim().is_empty()),
-                "{} dissolution enthalpy has no per-row provenance note",
-                species.key
-            );
+            if species.key == "KNO3" {
+                let reviewed: RegistryDocument = serde_json::from_str(include_str!(
+                    "../../../data/registry/registry-source-v1.json"
+                ))
+                .expect("reviewed source contract parses");
+                let expected = reviewed
+                    .phase_thermodynamics
+                    .iter()
+                    .find(|row| {
+                        row.species_id == "KNO3"
+                            && row.property == PhaseProperty::EnthalpyOfDissolution
+                    })
+                    .expect("reviewed Parker dissolution record exists");
+                // Preserve every reviewed field, including its calibrated
+                // conditions, uncertainty, arithmetic, and provenance note.
+                assert_eq!(record, expected);
+                assert_eq!(record.quantity.source_id, "nbs/parker-1965-kno3");
+                assert!(matches!(record.quantity.method, Method::Derived(_)));
+                assert!(matches!(
+                    record.quantity.uncertainty,
+                    Uncertainty::Interval { .. }
+                ));
+            } else {
+                assert_eq!(record.quantity.uncertainty, Uncertainty::Unestablished);
+                assert_eq!(
+                    record.quantity.source_id, "kerotakis/dissolution-enthalpies-v1",
+                    "{} dissolution enthalpy must cite its own tranche",
+                    species.key
+                );
+                assert!(
+                    matches!(record.quantity.method, Method::Curated(_)),
+                    "{} dissolution enthalpy is curated, not imported",
+                    species.key
+                );
+                assert!(
+                    record
+                        .quantity
+                        .conditions
+                        .notes
+                        .as_deref()
+                        .is_some_and(|note| !note.trim().is_empty()),
+                    "{} dissolution enthalpy has no per-row provenance note",
+                    species.key
+                );
+            }
         }
         None => assert!(document.phase_thermodynamics.iter().all(|record| {
             record.species_id != species.key

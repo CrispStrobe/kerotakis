@@ -12,6 +12,11 @@
 # what shows when a language has no entry for a key. A missing key here is
 # therefore a fallback, never a blank.
 
+
+"error.invalid-state" = "Der Vorgang überschreitet den numerischen Bereich des Modells: {detail}"
+"provenance.model.cea-finite-gas" = "NASA-9-Gleichgewicht benennbarer idealer Gase; Stoff bleibt im Gefäß, keine Umgebungsluft; keine kondensierten Phasen, Radikale, Ionisierung oder Realgaskorrektur; Wasserdampf über 800 K, Druck höchstens 100 bar"
+"routing.cea-finite-gas" = "{route}: geschlossenes ideales Gasgleichgewicht mit zurückgehaltenen Produkten"
+
 [vessel]
 open = ", zur Atmosphäre offen"
 sealed-before = ", verschlossen, "
@@ -278,6 +283,7 @@ hydroxylapatite = "Hydroxylapatit"
 "liquid nitrogen" = "flüssiger Stickstoff"
 
 [material]
+"olive oil" = "Olivenöl"
 # Display names for the 132 named materials. NOT new translation work: each
 # value is the recipe's first German alias in
 # `data/registry/registry-source-v1.json`, which the parser has always
@@ -644,8 +650,8 @@ hydroxylapatite = "Hydroxylapatit"
 "stock-exhausted.lv3" = "ENTNAHME ABGELEHNT: {key}, Restbestand {remaining} {unit} < angefordert {requested} {unit}; Labortisch unverändert"
 "reaction-occurred.lv1" = "Das Gemisch in {vessel} verändert sich — etwas Neues entsteht!"
 "reaction-occurred.lv2" = "{vessel}: {equation}"
-"gas-evolved.lv1" = "Blasen! Ein Gas steigt aus {vessel} auf."
-"gas-absorbed.lv1" = "Gas strömt in {vessel} und wird von der Flüssigkeit aufgenommen."
+"gas-evolved.lv1" = "Gas verlässt {vessel}."
+"gas-absorbed.lv1" = "Gas tritt aus der Umgebung in {vessel} ein."
 "gas-contained.lv1" = "In {vessel} bilden sich Blasen, aber das Gas bleibt drin."
 "vessel-sealed.lv1" = "Ein Deckel verschließt {vessel}. Nichts Gasförmiges kann jetzt mehr entweichen."
 "vessel-pressure-controlled.lv1" = "Ein beweglicher Kolben hält {vessel} auf konstantem Druck."
@@ -1668,8 +1674,8 @@ PVA = "PVA"
 # falls back to `[refusal]`; `tools/engine-locale-lint.py` counts how many
 # of each there are, with the denominator read out of the Rust.
 [not-modeled]
-"cea-sealed-energy-boundary" = "Das geschlossene Gefäß behält sein Gasinventar; der CEA-Pfad für offene Flammen kann seine Energiebilanz bei festem Volumen und seine Druckbilanz nicht berechnen, daher wurde keine thermische Chemie übernommen"
-"cea-finite-pressure-boundary" = "Das druckgeregelte Gefäß behält ein endliches Gasinventar; der CEA-Pfad für offene Flammen besitzt keine validierte geschlossene Enthalpie- und Volumenarbeitsbilanz, daher wurde keine thermische Chemie übernommen"
+"cea-sealed-energy-boundary" = "Diese geschlossene Charge liegt außerhalb des validierten Bereichs der Energie- und Druckbilanz idealer Gase; kondensierte Phasen, Grenzflächen, kohlenstoffreicher Brennstoff, Wasserdampf unter 800 K und Drücke über 100 bar sind nicht unterstützt, daher bleibt ihr Inventar erhalten"
+"cea-finite-pressure-boundary" = "Diese druckgeregelte Charge liegt außerhalb des validierten Bereichs der Enthalpie- und Expansionsarbeitsbilanz idealer Gase; kondensierte Phasen, Grenzflächen, kohlenstoffreicher Brennstoff, Wasserdampf unter 800 K und Drücke über 100 bar sind nicht unterstützt, daher bleibt ihr Inventar erhalten"
 "cea-swept-boundary" = "Das durchströmte Gefäß nimmt keinen Sauerstoff aus der Raumluft auf; der CEA-Pfad für offene Flammen besitzt für diese Randbedingung keine Bilanz für Trägergas-Einlass und -Auslass, daher wurde keine thermische Chemie übernommen"
 "hydrogen-overpotential-rate" = "Die Auflösung von {name} in Säure ist thermodynamisch begünstigt (Triebkraft {driving} V), aber ihre Geschwindigkeit wird nicht modelliert: Die ungefähre Wasserstoff-Überspannung {eta} V hängt von Oberfläche und Stromdichte ab. Das Modell lässt das Metall unverändert; dies belegt keine Inertheit auf der Zeitskala einer Unterrichtsstunde"
 "material-layer-partition" = "Das Trennen dieser Ölmischung wird nicht modelliert: Verteilung neutraler Stoffe, Emulsionen und andere unaufgelöste Materialien liegen außerhalb des einfachen Öl-Wasser-Ablassens"
@@ -1869,8 +1875,13 @@ whole_milk-casein = "KASEIN IST WEITERHIN NICHT MODELLIERT, SEINE PUFFERWIRKUNG 
 # half of this defect a translation of the finished string could never
 # have reached.
 [provenance]
+"model.cea-carbonate-crucible" = "{model}; beschränkte kondensierte CaCO3/CaO-Phasen und ideale CO2/CO/O2-Gase bei 1 bar und höchstens 2000 K; ohne thermische Masse mitgeführter Raumluft, Calciumdampf, Graphit oder atomare Gase"
 "model.unresolved-spectators" = "{model}; nur dargestellte Spezies nehmen an der Verbrennung teil; nicht aufgelöste Materialien bleiben ohne Reaktions- oder Wärmekapazitätsmodell erhalten"
-"model.ignition-feed-boundary" = "{model}; örtlich begrenzte Zündzone bei {zone} K, das gesamte Einsatzmaterial und die zugeführte Luft bei {feed} K; Luftzufuhr im offenen Gefäß: {ratio}-fache Stoffmenge des dargestellten Einsatzmaterials"
+"model.ignition-feed-boundary" = "{model}; örtlich begrenzte Zündzone bei {zone} K, Einsatzmaterial bei {feed} K, Raumluft bei {air} K; Luftzufuhr im offenen Gefäß: {ratio}-fache Stoffmenge des dargestellten Einsatzmaterials"
+"model.room-air-reservoir" = "{model}; eigenes Einsatzmaterial bei {feed} K, zugeführte Raumluft bei {air} K"
+"model.cea-stable-condensed-feed" = "{model}; für kondensiertes Einsatzmaterial außerhalb des Datenbereichs wird eine verfügbare NASA-Phase bei der Materialtemperatur verwendet; latente Wärme eines vorangegangenen trockenen HEAT-Phasenwechsels wird nicht rekonstruiert"
+"model.cea-heat-budget" = "{model}; HEAT verwendet die NASA-Enthalpie vor dem Rechendurchlauf bei {feed} K plus die tatsächlich zugeführten {heat} J; latente Phasenwärme ist in der HP-Produktbilanz enthalten"
+"model.cea-finite-heat-budget" = "{model}; HEAT addiert {heat} J zur NASA-Energie {energy} vor dem Rechendurchlauf bei {feed} K"
 # The dataset half. Two levels: a base clause naming what this lab added
 # to the vendored file, wrapped in the clause that is true of all of them.
 # The wrapper is written ONCE here for the same reason it is composed once
@@ -1890,7 +1901,6 @@ whole_milk-casein = "KASEIN IST WEITERHIN NICHT MODELLIERT, SEINE PUFFERWIRKUNG 
 "model.water-autoionisation" = "ideal verdünnte Autoprotolyse des Wassers ({engine}-Beziehung für log K mit sechs Koeffizienten)"
 "model.curated-complete-combustion" = "vollständige Verbrennung zu CO2 und H2O bei tabellierter Verbrennungswärme, mit einem begrenzenden Sauerstoffanteil von {fraction} für eine geschlossene Grenze"
 "model.nasa9-polynomials" = "{name}-Polynome, ideales Gas + reine kondensierte Phasen"
-"model.with-feed-tp-fallback" = "{model}; TP-Rückgriff auf die Flüssigbrennstoff-Zuführung bei der ausdrücklich angegebenen Zündzonentemperatur"
 
 [routing]
 solvent-relation-only = "keine dargestellte Säure, Base, kein Salz, keine Oberfläche, kein Austauscher, kein Gasübergang und kein reaktiver wässriger Gelöststoff; die Lösungsmittelbeziehung wurde ohne Aufruf von IPhreeqc ausgewertet, das gesamte Zuschauer-Inventar blieb dabei erhalten"
@@ -1906,7 +1916,6 @@ second-speciation-for-solvent = "{routing}; die Aktivität des Lösungsmittels s
 electrode-potential = "{routing}. Das angegebene Potential ist das der Elektrode {reduced}/{oxidised}, nach Nernst über der berechneten Aktivität ({activity}; E° {e0} V, CRC) — ein Metall in Kontakt mit seinem eigenen Ion setzt das Potential, nicht die Luft über dem Becherglas. Die Speziation selbst wurde beim pe der offenen Luft gelöst."
 below-the-hydrogen-line = "Das liegt unterhalb der Wasserstofflinie des Wassers selbst ({line} V bei pH {ph}): {name} steht nicht im Gleichgewicht mit dem Wasser, in dem es steht, und ein echtes Voltmeter läse ein Mischpotential ab, das von Raten gesetzt wird, die dieses Labor nicht modelliert"
 curated-fuel-table = "NASA CEA führt für diesen Brennstoff keine Thermochemie, deshalb hat die kuratierte Tabelle geantwortet, statt dass das Gefäß an die Modellgrenze stößt"
-cea-feed-tp-fallback = "flüssiger Brennstoff nutzte CEAs eigene Thermochemie für die Zuführung; HP hat nicht eingeschlossen, deshalb wurde die Zusammensetzung bei der ausdrücklich angegebenen Zündzonentemperatur gelöst, und die Reaktionsenergie wird weiterhin gesondert angegeben"
 dry-solids-and-gases = "gewählt, weil dieses Gefäß trockene Feststoffe und Gase enthält, die die wässrige Rechenmaschine nicht modelliert"
 
 # Where a spill ended up, by the VARIANT that named it.

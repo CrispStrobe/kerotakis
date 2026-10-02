@@ -72,6 +72,7 @@ pub enum BenchError {
     UnknownMaterial(String),
     MaterialRecipeMismatch,
     NonPositiveAmount,
+    InvalidState(String),
     UnstockableKey(String),
     StockExhausted {
         key: String,
@@ -135,6 +136,11 @@ impl Refuses for BenchError {
                 "error.material-recipe-mismatch",
                 "material recipe identity does not match the pinned operator",
             ),
+            BenchError::InvalidState(detail) => Refusal::new(
+                "error.invalid-state",
+                "operation exceeds the model's numeric domain: {detail}",
+            )
+            .with("detail", detail),
             BenchError::NonPositiveAmount => {
                 Refusal::new("error.non-positive-amount", "amount must be positive")
             }
@@ -821,7 +827,50 @@ impl Bench {
             })
             .collect();
         let mut disposition = ApplyDisposition::Reequilibrate;
-        let mut events = self.apply(&op, screen, &mut disposition)?;
+        // An operation must not leave partial transfers, stock debits, or
+        // overflowing totals behind when its numeric proposal is rejected.
+        // The journal is append-only, so avoid copying the accumulated history.
+        let checkpoint = (
+            self.vessels.clone(),
+            self.spills.clone(),
+            self.broken_vessels.clone(),
+            self.stock.clone(),
+            self.log.len(),
+        );
+        let applied = self
+            .apply(&op, screen, &mut disposition)
+            .and_then(|events| {
+                let errors: Vec<_> = self
+                    .vessels
+                    .iter()
+                    .flat_map(crate::delta::StateDelta::validate_state)
+                    .chain(self.spills.iter().flat_map(|spill| {
+                        crate::delta::StateDelta::validate_state(&spill.as_vessel_probe())
+                    }))
+                    .collect();
+                if errors.is_empty() {
+                    Ok(events)
+                } else {
+                    Err(BenchError::InvalidState(
+                        errors
+                            .iter()
+                            .map(ToString::to_string)
+                            .collect::<Vec<_>>()
+                            .join("; "),
+                    ))
+                }
+            });
+        let mut events = match applied {
+            Ok(events) => events,
+            Err(error) => {
+                self.vessels = checkpoint.0;
+                self.spills = checkpoint.1;
+                self.broken_vessels = checkpoint.2;
+                self.stock = checkpoint.3;
+                self.log.truncate(checkpoint.4);
+                return Err(error);
+            }
+        };
         if disposition == ApplyDisposition::Unchanged {
             self.log.push(LogEntry {
                 step: self.log.len(),
@@ -874,6 +923,7 @@ impl Bench {
                                 events.append(&mut more);
                                 vessel.refresh_pressure();
                                 vessel.step_start = None;
+                                vessel.heat_input = None;
                                 continue;
                             }
                             Err(_) => {
@@ -894,6 +944,7 @@ impl Bench {
                 }
             }
             vessel.step_start = None;
+            vessel.heat_input = None;
             vessel.refresh_pressure();
             // A dose of heat is offered in passes, and the solver above has
             // just had the first of them. What happens next depends on
@@ -1227,7 +1278,7 @@ impl Bench {
             // was not — evaluated.
             let examined = self
                 .vessel(*vessel)
-                .map(|v| solver.chemistry_applies(v))
+                .map(|v| v.is_empty() || solver.chemistry_applies(v))
                 .unwrap_or(false);
             if !caught {
                 if let Ok(v) = self.vessel_mut(*vessel) {
@@ -1258,6 +1309,7 @@ impl Bench {
                         }
                     }
                     v.step_start = None;
+                    v.heat_input = None;
                     v.refresh_pressure();
                 }
                 // It would not burn — but a metal salt still colours the
@@ -1608,6 +1660,11 @@ impl Bench {
                 if room <= 1e-9 {
                     break;
                 }
+                vessel.heat_input = Some(crate::vessel::HeatInput {
+                    contents: vessel.contents.clone(),
+                    temperature: now,
+                    delivered_j: room,
+                });
                 let landed = vessel.temperature_after(room);
                 vessel.temperature = Kelvin(landed);
                 vessel.solution = None;
@@ -1633,6 +1690,7 @@ impl Bench {
             }
             if let Ok(vessel) = self.vessel_mut(id) {
                 vessel.step_start = None;
+                vessel.heat_input = None;
                 vessel.refresh_pressure();
             }
         }
@@ -2011,6 +2069,11 @@ impl Bench {
                 energy,
                 source,
             } => {
+                if !energy.0.is_finite() {
+                    return Err(BenchError::InvalidState(
+                        "heat energy must be finite".into(),
+                    ));
+                }
                 if energy.0 < 0.0 {
                     return Err(BenchError::NonPositiveAmount);
                 }
@@ -2029,6 +2092,12 @@ impl Bench {
                     // more, which is what `deliver_remaining_heat` finds
                     // out — it has the solver, and `apply` does not.
                     let head = source.headroom_for(v).min(energy.0);
+                    // The disclosed COOL floor has no valid native feed record.
+                    v.heat_input = (from.0 > 0.0).then(|| crate::vessel::HeatInput {
+                        contents: v.contents.clone(),
+                        temperature: from,
+                        delivered_j: head,
+                    });
                     let to = Kelvin(v.temperature_after(head));
                     v.temperature = to;
                     events.push(Event::TemperatureChanged {
@@ -2066,6 +2135,11 @@ impl Bench {
                 }
             }
             Operator::Cool { vessel, energy } => {
+                if !energy.0.is_finite() {
+                    return Err(BenchError::InvalidState(
+                        "heat energy must be finite".into(),
+                    ));
+                }
                 if energy.0 < 0.0 {
                     return Err(BenchError::NonPositiveAmount);
                 }
@@ -5593,6 +5667,7 @@ impl Bench {
                 Ok(Vec::new())
             };
             v.step_start = None;
+            v.heat_input = None;
             v.refresh_pressure();
             result.map(|events| (v, events))
         };

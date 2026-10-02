@@ -90,7 +90,7 @@ fn snapshot_scaling_is_explicitly_unsupported() {
 
 #[test]
 fn invalid_thermal_and_snapshot_inventories_never_commit() {
-    for invalid in [f64::NAN, f64::INFINITY, -1.0, 0.0] {
+    for invalid in [f64::NAN, f64::INFINITY, -1.0] {
         let mut v = water();
         let before = key(&v);
         assert!(StateDelta::new("test")
@@ -482,4 +482,302 @@ fn invalid_boundary_and_dependent_numerical_state_never_commits() {
         assert!(matches!(&events[..], [Event::SolverFailed { .. }]));
         assert_eq!(key(&v), before);
     }
+}
+
+struct BalancedRoute {
+    flow: f64,
+    remove: bool,
+    target: VesselId,
+}
+impl Equilibrator for BalancedRoute {
+    fn name(&self) -> &'static str {
+        "balanced-test"
+    }
+    fn element_conservation_tolerance(&self) -> Option<f64> {
+        Some(1e-10)
+    }
+    fn equilibrate(&mut self, v: &mut Vessel) -> Result<Vec<Event>, SolveError> {
+        mark(v);
+        if self.remove {
+            v.withdraw(&SpeciesId::new("water"), Moles(0.25));
+        }
+        Ok(vec![Event::GasEvolved {
+            vessel: self.target,
+            species: SpeciesId::new("water"),
+            moles: Moles(self.flow),
+        }])
+    }
+    fn mix(
+        &mut self,
+        v: &mut Vessel,
+        _a: &Vessel,
+        _fa: f64,
+        _b: &Vessel,
+        _fb: f64,
+    ) -> Option<Result<Vec<Event>, SolveError>> {
+        Some(self.equilibrate(v))
+    }
+}
+
+#[test]
+fn production_stack_enforces_opted_in_balances_and_event_domains_atomically() {
+    for (flow, remove, target, succeeds) in [
+        (0.25, true, VesselId(0), true),
+        (0.25, false, VesselId(0), false),
+        (0.0, true, VesselId(0), false),
+        (f64::NAN, true, VesselId(0), false),
+        (f64::INFINITY, true, VesselId(0), false),
+        (-0.25, true, VesselId(0), false),
+        (0.25, true, VesselId(1), false),
+    ] {
+        let mut v = water();
+        let before = key(&v);
+        let mut stack = SolverStack::new(vec![Box::new(BalancedRoute {
+            flow,
+            remove,
+            target,
+        })]);
+        let events = stack.equilibrate(&mut v).unwrap();
+        assert_eq!(
+            events
+                .iter()
+                .any(|e| matches!(e, Event::SolverFailed { .. })),
+            !succeeds
+        );
+        if !succeeds {
+            assert_eq!(key(&v), before);
+        } else {
+            assert_eq!(v.moles_of(&SpeciesId::new("water")).0, 4.75);
+        }
+    }
+}
+
+#[test]
+fn finite_species_amounts_with_overflowing_aggregate_mass_are_rejected() {
+    let mut v = water();
+    let before = key(&v);
+    let proposal = StateDelta::new("mass overflow").with_moles(
+        SpeciesId::new("water"),
+        Phase::Liquid,
+        f64::MAX / 2.0,
+    );
+    assert!(proposal.commit(&mut v).is_err());
+    assert_eq!(key(&v), before);
+}
+
+#[test]
+fn operator_numeric_refusal_preserves_all_bench_state_and_history() {
+    for amount in [f64::NAN, f64::INFINITY, f64::MAX / 2.0] {
+        let mut bench = Bench::new();
+        let before = format!("{bench:?}");
+        let result = bench.step(Operator::Add {
+            vessel: VesselId(0),
+            species: SpeciesId::new("water"),
+            moles: Moles(amount),
+            at: None,
+        });
+        assert!(result.is_err(), "{amount}: {result:?}");
+        assert_eq!(format!("{bench:?}"), before);
+    }
+}
+
+#[test]
+fn accumulated_waste_overflow_rolls_back_transfer_and_journal() {
+    let mut bench = Bench::new();
+    // Each charge has finite mass and heat capacity; their combined waste mass overflows.
+    bench.vessels[0].deposit(SpeciesId::new("BaSO4"), Moles(5e305), Phase::Solid);
+    assert!(bench.vessels[0].mass().0 > 1e308);
+    assert!(bench.vessels[0].mass().0.is_finite());
+    assert!(bench.vessels[0].heat_capacity().is_finite());
+    bench
+        .step(Operator::Discard {
+            vessel: VesselId(0),
+        })
+        .unwrap();
+    // Each charge has finite mass and heat capacity; their combined waste mass overflows.
+    bench.vessels[0].deposit(SpeciesId::new("BaSO4"), Moles(5e305), Phase::Solid);
+    assert!(bench.vessels[0].mass().0 > 1e308);
+    assert!(bench.vessels[0].mass().0.is_finite());
+    assert!(bench.vessels[0].heat_capacity().is_finite());
+    let before = format!("{bench:?}");
+    assert!(bench
+        .step(Operator::Discard {
+            vessel: VesselId(0)
+        })
+        .is_err());
+    assert_eq!(format!("{bench:?}"), before);
+}
+
+#[test]
+fn production_native_mix_enforces_balances_before_committing() {
+    for (flow, remove, target, succeeds) in [
+        (0.25, true, VesselId(0), true),
+        (0.25, false, VesselId(0), false),
+        (0.0, true, VesselId(0), false),
+        (f64::NAN, true, VesselId(0), false),
+        (0.25, true, VesselId(1), false),
+    ] {
+        let mut v = water();
+        let before = key(&v);
+        let mut stack = SolverStack::new(vec![Box::new(BalancedRoute {
+            flow,
+            remove,
+            target,
+        })]);
+        let result = stack.mix(&mut v, &water(), 0.5, &water(), 0.5).unwrap();
+        assert_eq!(result.is_ok(), succeeds);
+        if !succeeds {
+            assert_eq!(key(&v), before);
+        }
+    }
+}
+
+#[test]
+fn heat_input_prices_only_the_current_delivery_pass_and_is_not_persisted() {
+    use std::{cell::RefCell, rc::Rc};
+    let seen = Rc::new(RefCell::new(Vec::new()));
+    struct Observer(Rc<RefCell<Vec<Option<kerotakis_core::vessel::HeatInput>>>>);
+    impl Equilibrator for Observer {
+        fn name(&self) -> &'static str {
+            "heat-input-observer"
+        }
+        fn equilibrate(&mut self, v: &mut Vessel) -> Result<Vec<Event>, SolveError> {
+            self.0.borrow_mut().push(v.heat_input.clone());
+            Ok(vec![])
+        }
+    }
+    let mut bench = Bench::new();
+    bench.vessels[0].deposit(SpeciesId::new("Mg"), Moles(0.05), Phase::Solid);
+    let original = bench.vessels[0].clone();
+    let mut stack = SolverStack::new(vec![Box::new(Observer(seen.clone()))]);
+    bench
+        .step_with(
+            Operator::Heat {
+                vessel: VesselId(0),
+                energy: Joules(1000.0),
+                source: None,
+            },
+            &mut stack,
+            &PermissiveScreen,
+        )
+        .unwrap();
+    let recorded = seen.borrow()[0].clone().unwrap();
+    assert_eq!(recorded.contents, original.contents);
+    assert_eq!(recorded.temperature, original.temperature);
+    assert_eq!(recorded.delivered_j, 1000.0);
+    assert!(bench.vessels[0].heat_input.is_none());
+    let mut transient = original;
+    transient.heat_input = Some(recorded);
+    assert!(serde_json::to_value(&transient)
+        .unwrap()
+        .get("heat_input")
+        .is_none());
+    let restored: Vessel =
+        serde_json::from_value(serde_json::to_value(&transient).unwrap()).unwrap();
+    assert!(restored.heat_input.is_none());
+    seen.borrow_mut().clear();
+    bench
+        .step_with(
+            Operator::Wait { seconds: 0.0 },
+            &mut stack,
+            &PermissiveScreen,
+        )
+        .unwrap();
+    assert!(bench.vessels[0].heat_input.is_none());
+    assert!(seen.borrow().iter().all(Option::is_none));
+}
+
+#[test]
+fn nonfinite_energy_and_heat_input_proposals_never_commit() {
+    for value in [f64::NAN, f64::INFINITY, f64::NEG_INFINITY] {
+        let mut bench = Bench::new();
+        bench.vessels[0] = water();
+        let before = format!("{bench:?}");
+        for op in [
+            Operator::Heat {
+                vessel: VesselId(0),
+                energy: Joules(value),
+                source: None,
+            },
+            Operator::Cool {
+                vessel: VesselId(0),
+                energy: Joules(value),
+            },
+        ] {
+            assert!(bench.step(op).is_err());
+            assert_eq!(format!("{bench:?}"), before);
+        }
+        let mut v = water();
+        let mut after = v.clone();
+        after.heat_input = Some(kerotakis_core::vessel::HeatInput {
+            contents: v.contents.clone(),
+            temperature: Kelvin(298.15),
+            delivered_j: value,
+        });
+        let before = key(&v);
+        assert!(diff_vessels(&v, &after, "heat-input")
+            .commit(&mut v)
+            .is_err());
+        assert_eq!(key(&v), before);
+    }
+}
+
+#[test]
+fn disclosed_cooling_floor_can_be_reheated_without_invalid_native_context() {
+    let mut bench = Bench::new();
+    bench.vessels[0] = water();
+    let mut stack = SolverStack::new(vec![]);
+    let events = bench
+        .step_with(
+            Operator::Cool {
+                vessel: VesselId(0),
+                energy: Joules(1e6),
+            },
+            &mut stack,
+            &PermissiveScreen,
+        )
+        .unwrap();
+    assert_eq!(bench.vessels[0].temperature.0, 0.0);
+    assert!(events.iter().any(
+        |e| matches!(e, Event::NotYetModeled { what, .. } if what.contains("before absolute zero"))
+    ));
+    assert!(events.iter().any(|e| matches!(e, Event::EnergyTransferred { requested_j, delivered_j, .. } if delivered_j < requested_j)));
+    bench
+        .step_with(
+            Operator::Heat {
+                vessel: VesselId(0),
+                energy: Joules(1000.0),
+                source: None,
+            },
+            &mut stack,
+            &PermissiveScreen,
+        )
+        .unwrap();
+    assert!(bench.vessels[0].temperature.0 > 0.0);
+    assert!(bench.vessels[0].heat_input.is_none());
+}
+
+#[test]
+fn finite_mass_with_overflowed_heat_capacity_is_refused_atomically() {
+    let mut bench = Bench::new();
+    let before = format!("{bench:?}");
+    let mut proposed = water();
+    proposed.contents[0].moles = Moles(8e306);
+    assert!(proposed.mass().0.is_finite());
+    assert!(!proposed.heat_capacity().is_finite());
+    assert!(bench
+        .step(Operator::Add {
+            vessel: VesselId(0),
+            species: SpeciesId::new("water"),
+            moles: Moles(8e306),
+            at: None
+        })
+        .is_err());
+    assert_eq!(format!("{bench:?}"), before);
+    let mut original = water();
+    let before = key(&original);
+    assert!(diff_vessels(&original, &proposed, "overflowed-capacity")
+        .commit(&mut original)
+        .is_err());
+    assert_eq!(key(&original), before);
 }

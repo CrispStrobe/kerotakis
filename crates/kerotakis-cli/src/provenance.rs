@@ -294,9 +294,25 @@ impl Source {
                     && checksum.sha256
                         == "032a05662c993e3456c3b070e99ca766daef9d9f4940e9ea44c14d97c96d86d7"
             });
+        // Unversioned attribution grant is reviewed for this single scalar;
+        // it never becomes a generic direct licence for future data or code.
+        let reviewed_odeh = self.id == "odeh-2015-olive-oil-density"
+            && self.kind == Kind::Data
+            && self.lane == Lane::RuntimeData
+            && self.decision == Decision::Approved
+            && self.licence == "LicenseRef-Odeh-2015-Attribution-Grant"
+            && self.origin == "https://doi.org/10.4172/2169-0022.1000209"
+            && self.terms == "provenance/odeh-2015-olive-oil-review.md"
+            && self.allowed_outputs == ["registry-datum"]
+            && self.checksums.iter().any(|checksum| {
+                checksum.path == "provenance/odeh-2015-olive-oil-transcription.json"
+                    && checksum.sha256
+                        == "438a660ef46a0a21a14b1b418b27d7443dbd906db3402ceceb82280b0c949d77"
+            });
         if self.lane.distributed()
             && !direct_licence_allowed(self.kind, &self.licence)
             && !reviewed_parker
+            && !reviewed_odeh
         {
             problems.push(format!(
                 "{label}: licence '{}' is not directly includable for {:?}",
@@ -582,6 +598,42 @@ sha256 = "0000000000000000000000000000000000000000000000000000000000000000"
         let bytes = std::fs::read(Path::new("../..").join("Cargo.toml")).unwrap();
         manifest.sources[0].checksums[0].sha256 = format!("{:x}", Sha256::digest(bytes));
         manifest
+    }
+
+    #[test]
+    fn olive_oil_approval_is_bound_to_the_single_reviewed_density() {
+        let root = Path::new("../..");
+        let text = std::fs::read_to_string(root.join("provenance/sources.toml")).unwrap();
+        for mutation in 0..8 {
+            let mut manifest = Manifest::parse(&text).unwrap();
+            manifest
+                .sources
+                .retain(|source| source.id == "odeh-2015-olive-oil-density");
+            assert_eq!(manifest.sources.len(), 1);
+            assert!(manifest.problems(root).is_empty());
+            let source = &mut manifest.sources[0];
+            match mutation {
+                0 => source.id = "unreviewed-olive-oil".into(),
+                1 => source.kind = Kind::Code,
+                2 => source.origin = "https://example.invalid/other-study".into(),
+                3 => source.terms = "https://example.invalid/other-terms".into(),
+                4 => source.allowed_outputs.push("runtime-code".into()),
+                5 => source.checksums[0].sha256 = "0".repeat(64),
+                6 => source.licence = "LicenseRef-Unreviewed-Attribution".into(),
+                _ => source.checksums[0].path = "Cargo.toml".into(),
+            }
+            assert!(
+                manifest
+                    .problems(root)
+                    .iter()
+                    .any(|problem| problem.contains("not directly includable")),
+                "mutation {mutation}"
+            );
+        }
+        assert!(!direct_licence_allowed(
+            Kind::Data,
+            "LicenseRef-Odeh-2015-Attribution-Grant"
+        ));
     }
 
     #[test]

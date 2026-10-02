@@ -43,8 +43,10 @@ fn repository_source_manifest_passes_the_live_gate() {
     // manifest under test and accidentally approving lane changes.
     // The independent chemistry audit adds one reviewed Parker KNO3 datum,
     // pinned to its transcription and rights review with no blanket approval.
-    assert!(stdout.contains("15 sources valid"), "{stdout}");
-    assert!(stdout.contains("12 distributed"), "{stdout}");
+    // One additional reviewed olive-oil density scalar, with the original
+    // unversioned attribution grant bound to its transcription checksum.
+    assert!(stdout.contains("16 sources valid"), "{stdout}");
+    assert!(stdout.contains("13 distributed"), "{stdout}");
 }
 
 #[test]

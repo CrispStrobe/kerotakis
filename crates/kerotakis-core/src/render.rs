@@ -4434,7 +4434,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     } else {
                         locale.fill(
                             "event.gas-evolved.lv1",
-                            "Bubbles! A gas rises out of {vessel}.",
+                            "Gas leaves {vessel}.",
                             &[("vessel", &vessel.to_string())],
                         )
                     }
@@ -4464,7 +4464,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             match register.level() {
                 1 => locale.fill(
                     "event.gas-absorbed.lv1",
-                    "Gas bubbles into {vessel} and is taken up by the liquid.",
+                    "Gas enters {vessel} from its surroundings.",
                     &[("vessel", &vessel.to_string())],
                 ),
                 2 => locale.fill(

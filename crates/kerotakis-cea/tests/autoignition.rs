@@ -59,38 +59,38 @@ fn warm_methane_and_oxygen_do_not_burn_without_a_spark() {
 }
 
 #[test]
-fn above_autoignition_a_sealed_mixture_requires_a_closed_energy_route() {
+fn above_autoignition_a_sealed_gas_mixture_uses_closed_uv_without_venting() {
     let mut v = sealed(
         900.0,
         &[("methane", 0.01, Phase::Gas), ("O2", 0.03, Phase::Gas)],
     );
-    let before = format!("{v:?}");
+    let before = kerotakis_core::ledger::ConservedLedger::from_vessel(&v);
     let events = ThermalEquilibrator
         .equilibrate(&mut v)
-        .expect("boundary diagnosis");
+        .expect("closed UV equilibrium");
     assert!(below(&events, "methane").is_none(), "{events:?}");
     assert!(
         events.iter().any(|e| matches!(
             e,
-            Event::NotYetModeled {
-                cause: kerotakis_core::ops::NotModelledCause::BoundaryMismatch,
-                ..
-            }
+            Event::GasContained { species, .. } if species.0 == "CO2"
         )),
         "{events:?}"
     );
     assert!(
         !events.iter().any(|e| matches!(
             e,
-            Event::GasEvolved { .. } | Event::ThermalEquilibrium { .. }
+            Event::GasEvolved { .. } | Event::GasAbsorbed { .. } | Event::NotYetModeled { .. }
         )),
         "{events:?}"
     );
-    assert_eq!(
-        format!("{v:?}"),
-        before,
-        "a declined route retains all finite feed and metadata"
-    );
+    assert!(before
+        .check_against(
+            &kerotakis_core::ledger::ConservedLedger::from_vessel(&v),
+            1e-7,
+            1e-12
+        )
+        .is_empty());
+    assert!(v.temperature.0 > 900.0);
 }
 
 #[test]
