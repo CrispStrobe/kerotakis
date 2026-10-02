@@ -5,6 +5,9 @@ The 50 original scripts and predictions remain frozen. Raw replay results and
 final validation receipts for this pass are in `extended/`; previous stages
 remain in their original directories.
 
+Subsequent conservation and condensed-boundary work is documented in
+[FOLLOWUP-AFTER.md](FOLLOWUP-AFTER.md), with separate replay receipts.
+
 ## Changes
 
 - Production solver commits validate gas-event identity, amount and formula.

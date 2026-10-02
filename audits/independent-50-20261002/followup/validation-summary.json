@@ -1,0 +1,171 @@
+{
+  "source_checkpoint": "caf9ebe997c49c08b29442335c97d30294f31c50",
+  "source_files_sha256": {
+    "crates/kerotakis-cea/src/gibbs.rs": "4880fe60456dbae61b57ba26d42d3cc8b3ce87c32e46e2aa4e9bdd8f90699e06",
+    "crates/kerotakis-cea/src/thermal.rs": "0f1f25d3db3dd8a88726bbe47ba72df1b9b841074cb520066f778cff518fe24c",
+    "crates/kerotakis-core/src/adsorption.rs": "80ccf68cc521bae4a7c2ef93e0cc0fa2bdeb247383dc0b6ae94bc3e21f1b30a4",
+    "crates/kerotakis-core/src/delta.rs": "caa6592d7e2cdc2abff7fba5dded5b4a0f91d3565a6319357b4b803a510e1543",
+    "crates/kerotakis-core/src/hmix.rs": "49a4f8c608fb79a625f5e05c8df7b81e9b4ca0089f977e1e0c15a6f289957319",
+    "crates/kerotakis-core/src/ledger.rs": "55ddb01d42a3d28eb46aaf961309df6f8992af7250036a167457e92c46fd5dcd",
+    "crates/kerotakis-core/src/vessel.rs": "e0f84fbc6068fdaf2ee19cd0b60d1295c5e564f7100ec29e473354f62816753f",
+    "crates/kerotakis-core/src/volatility.rs": "a4c6778970c51e8a9677814c3a288eef61fd2e37d188719e74d3830063a760e0",
+    "crates/kerotakis-core/tests/interface_conservation.rs": "3d314f96e8d7b774544832f9ac87d140950b1185583269d0e8806050ecc94fd7",
+    "crates/kerotakis-core/tests/solver_transactions.rs": "3d885c6f0dbe336923f72bbb1694cfa26642a9c28c3fee84f0b0f5296d90959b",
+    "crates/kerotakis-phreeqc/tests/sealed_mass.rs": "47212b06ca28c74a1d038ff55529d228af6caeda50e2d90c6540114918a6a969"
+  },
+  "predictions_sha256": "0fd6e4831f5da264c892a5718b8619ae267388df0512fe54dab04fff30287064",
+  "rust_suites": [
+    {
+      "log": "/mnt/storage/kerotakis-maintenance-20261002/continuation-core-verified.log",
+      "sha256": "5366442ef0d35f97740f2873e68c7cc099f87485f8d272731a1026cf11509272",
+      "passed": 673,
+      "suite_counts": [
+        606,
+        9,
+        6,
+        7,
+        5,
+        2,
+        6,
+        30,
+        2
+      ]
+    },
+    {
+      "log": "/mnt/storage/kerotakis-maintenance-20261002/continuation-cea-final.log",
+      "sha256": "184a47da8e39e6d0c939fa304597985aabf00a9e420de47d0c61ab9fc68bd11a",
+      "passed": 107,
+      "suite_counts": [
+        36,
+        0,
+        1,
+        5,
+        13,
+        6,
+        1,
+        6,
+        3,
+        7,
+        8,
+        3,
+        6,
+        4,
+        3,
+        5
+      ]
+    },
+    {
+      "log": "/mnt/storage/kerotakis-maintenance-20261002/continuation-cli-final.log",
+      "sha256": "c5833a3df8b4285128bcd555ea73285ec82b931c92c0e45e7c5cda86000973ce",
+      "passed": 62,
+      "suite_counts": [
+        50,
+        1,
+        1,
+        3,
+        2,
+        5
+      ]
+    }
+  ],
+  "rust_tests_passed": 842,
+  "binary_sha256": "60a0a88e9db9f5b2486a77d1067985d4ca874eb97f4197317eda33877ed4d33a",
+  "replay": {
+    "original_subprocesses": 100,
+    "successful_original_commands": 96,
+    "expected_ambiguous_formula_refusals": [
+      [
+        "07",
+        "json",
+        1
+      ],
+      [
+        "07",
+        "text",
+        1
+      ],
+      [
+        "15",
+        "json",
+        1
+      ],
+      [
+        "15",
+        "text",
+        1
+      ]
+    ],
+    "explicit_sucrose_followups": 4,
+    "physical_expectations_passed": 49,
+    "known_unmet_expectation": "35: zinc/acid hydrogen-overpotential rate model missing",
+    "unexpected_physical_failures": 0,
+    "solver_failed_events": 0,
+    "supplemental_assessment_exit_code": 0
+  },
+  "cleanup": [
+    {
+      "receipt": "/mnt/storage/kerotakis-maintenance-20261002/continuation-cli-cache-cleanup.json",
+      "sha256": "4be60307d5c7e76bb5f3cb1f252e4b71c8b982ff69b87c613a2d875873946d09",
+      "bytes_reclaimed": 188360344
+    },
+    {
+      "receipt": "/mnt/storage/kerotakis-maintenance-20261002/continuation-old-core-library-cleanup.json",
+      "sha256": "3d6f294d13447c9c0d290adda4033abc081d8a58dd057692b44cee2c66c82aa9",
+      "bytes_reclaimed": 103676713
+    },
+    {
+      "receipt": "/mnt/storage/kerotakis-maintenance-20261002/continuation-core-initial-cache-cleanup.json",
+      "sha256": "bc8f46e29066afef8476ab69d899382f93220a0f079b40244f8c8d72b77a5144",
+      "bytes_reclaimed": 436408720
+    }
+  ],
+  "reclaimed_ignored_cache_bytes": 728445777,
+  "superseded_failures": [
+    {
+      "log": "/mnt/storage/kerotakis-maintenance-20261002/continuation-core-final.log",
+      "sha256": "b138de2547eb6b875885afca9082fdd6164b3d5a9781503e19971be5b1783c70"
+    },
+    {
+      "log": "/mnt/storage/kerotakis-maintenance-20261002/continuation-cea-verified.log",
+      "sha256": "71f419b878b5eb62bc72c4efa76f3970e0c30550bfb92ba6406f300aaed31561"
+    },
+    {
+      "log": "/mnt/storage/kerotakis-maintenance-20261002/continuation-cea-initial-remainder.log",
+      "sha256": "209c9350194791fa2d4a502b9d87d341401e4313ef91a9feee3cb7cc6e9f9591"
+    },
+    {
+      "log": "/mnt/storage/kerotakis-maintenance-20261002/continuation-cea-verified-final.log",
+      "sha256": "0c373bcf4b6facb03c616b46fa547cd3a1a57e4e9dc4fdefe037b4b3598ee53a"
+    },
+    {
+      "log": "/mnt/storage/kerotakis-maintenance-20261002/continuation-replay-assessment-superseded.log",
+      "sha256": "a42f35870c6ae9c749bf7e6a4c3bd9eda7a3b8b606cb0ff9af8d17fdb8368d7f"
+    }
+  ],
+  "resource_policy": {
+    "cargo_jobs": 1,
+    "test_threads": 1,
+    "replay_workers": 1,
+    "start_min_available_bytes": 2831155200,
+    "start_min_swap_free_bytes": 629145600,
+    "start_max_load1": 12,
+    "start_min_disk_free_bytes": 838860800,
+    "stop_if_available_and_swap_below_bytes": [
+      681574400,
+      134217728
+    ],
+    "stop_if_disk_below_bytes": 262144000,
+    "stop_scope": "own command process group only"
+  },
+  "browser_check": {
+    "status": "passed",
+    "command": "cargo check -p kerotakis-wasm --target wasm32-unknown-unknown -j1",
+    "exit_code": 0,
+    "log": "/mnt/storage/kerotakis-maintenance-20261002/continuation-wasm-check.log",
+    "sha256": "fdd6922e7ac446127899758de6eb04452e53bfba4fdbf80d94147a916aad964a",
+    "scope": "cross-target compilation; no browser runtime test claimed"
+  },
+  "resource_events_sha256": "d7ebab7458af8fe26f36d5e42ec5810edeb8b624536d06e5467b02ea1f08afc8",
+  "assessment_sha256": "584f90859090c2ad87a940e26860a1d624f75f7ab50270d457efa90e0085fc20",
+  "assessor_sha256": "e3437d157b9db86aef177c4f216f849893f437e146820756800f6c7b15ecf54c"
+}

@@ -1,0 +1,33 @@
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: +0.001000 mol barium chloride (BaCl2, M = 208.227 g/mol)
+  v1: 0.001000 mol barium chloride dissolved
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v1: pH 6.988 · I = 0.0301 mol/kgw
+  v1: reaction heat for BaCl2 is not priced; the temperature estimate is incomplete
+  v1: +0.001000 mol sodium sulfate (Na2SO4, M = 142.036 g/mol)
+  v1: 0.000998 mol barium sulfate precipitated
+  v1: 0.001000 mol sodium sulfate dissolved
+  v1: pH 6.994 · I = 0.0201 mol/kgw
+  v1: reaction heat for BaSO4 is not priced; the temperature estimate is incomplete
+  v1: net ionic: Ba²⁺(aq) + SO₄²⁻(aq) → BaSO₄(s)  (spectator ions: Cl⁻, Na⁺)  (complete ionic: Ba²⁺(aq) + SO₄²⁻(aq) + 2 Cl⁻(aq) + 2 Na⁺(aq) → BaSO₄(s) + 2 Cl⁻(aq) + 2 Na⁺(aq))
+  v1 (beaker) — 25.01 °C, 100.1 g, 100.0 mL liquid, open to atmosphere, pH 6.99, pe 13.63 (+0.806 V), I = 0.0201 m
+      temperature estimate is incomplete: reaction heat for BaCl2, BaSO4 is not priced
+      redox — all S as S(VI)
+           1.83 µmol  barium ion         Aqueous
+           2.00 mmol  chloride ion       Aqueous
+           2.00 mmol  sodium ion         Aqueous
+           1.83 µmol  sulfate ion        Aqueous
+            998 µmol  barium sulfate     Solid
+          5.5343 mol  water              Liquid
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9930e-1   γ=0.018
+        Cl-             2.0060e-2    1.7395e-2   γ=0.867
+        Na+             2.0059e-2    1.7492e-2   γ=0.872
+        O2              2.6640e-4    2.6770e-4   γ=1.005
+        Ba+2            1.8294e-5    1.0655e-5   γ=0.582
+        SO4-2           1.7287e-5    1.0050e-5   γ=0.581
+        NaSO4-          1.0070e-6    8.8110e-7   γ=0.875
+        OH-             1.1402e-7    9.8803e-8   γ=0.867
+        H+              1.1391e-7    1.0130e-7   γ=0.889
+        BaSO4           5.3420e-8    5.3670e-8   γ=1.005

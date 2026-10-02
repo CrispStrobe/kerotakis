@@ -94,7 +94,23 @@ assert not any(e.get('computed') and e.get('species')=='Zn' for e in events(35,'
 assert 'hydrogen is not co-evolved' not in (results/'38.text.stdout').read_text()
 v=final(43)[0]
 assert amount(v,'ethanol')<1e-8, 'production stack should route supported ethanol to combustion'
-assert not any(e.get('species')=='ethanol' for e in events(43,'gas_evolved')), 'phase routes must not vent unburned fuel before combustion'
+# Numeric composition retains every positive Newton trace. Distinguish an
+# unacceptable pre-ignition phase-route loss from a bounded residual in the
+# post-combustion exhaust; do not force the numeric ledger to drop that trace.
+feed_step = next(s for s in steps(43) if s['operator']['op'] == 'add')
+ethanol_feed = amount(feed_step['bench']['vessels'][0], 'ethanol')
+assert ethanol_feed > 0
+ignited = False
+ethanol_exhaust = 0.0
+for step in steps(43):
+    for e in step['events']:
+        if e['event'] == 'ignited':
+            ignited = True
+        if e['event'] == 'gas_evolved' and e.get('species') == 'ethanol':
+            assert ignited, 'phase routes must not vent unburned fuel before combustion'
+            ethanol_exhaust += e['moles']
+assert ignited
+assert 0 <= ethanol_exhaust <= 1e-8 * ethanol_feed, 'combustion must consume the represented fuel'
 assert any((e.get('energy_j') or 0)>1000 for e in events(43,'ignited')), 'supported ethanol burns with reported chemical energy'
 assert any(e.get('note_reason',{}).get('key','').startswith('measurement.aqueous-layer')
     for e in events(47,'measured'))

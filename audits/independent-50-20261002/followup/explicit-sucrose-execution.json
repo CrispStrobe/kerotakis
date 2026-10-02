@@ -1,0 +1,26 @@
+[
+  {
+    "id": "07",
+    "mode": "json",
+    "exit_code": 0,
+    "seconds": 1.4201
+  },
+  {
+    "id": "07",
+    "mode": "text",
+    "exit_code": 0,
+    "seconds": 1.4286
+  },
+  {
+    "id": "15",
+    "mode": "json",
+    "exit_code": 0,
+    "seconds": 1.3996
+  },
+  {
+    "id": "15",
+    "mode": "text",
+    "exit_code": 0,
+    "seconds": 1.3987
+  }
+]

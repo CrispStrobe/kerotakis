@@ -1,0 +1,42 @@
+  v1: +5.534277 mol water (H2O, M = 18.015 g/mol)
+  v1: routing → Kerotakis analytic equilibrium evaluator · vendored USGS phreeqc.dat · ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation) — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+  v1: boundary=open → sealed; V_gas=0.010000 L, trapped dry-air approximation=0.00040874 mol
+  v1: finite-volume gas/liquid equilibrium; P=101287.163 Pa, n_gas=0.00040859 mol
+  v1: routing → PHREEQC (IPhreeqc, USGS) · wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice · WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw) — the default inorganic aqueous dataset
+  v1: pH 6.192 · I = 0.0000 mol/kgw
+  v1: T 298.150 K → 298.150 K (ΔT = -0.000 K)
+  v1: +0.001000 mol baking soda (sodium bicarbonate) (NaHCO3, M = 84.007 g/mol)
+  v1: 0.000001 mol carbon dioxide transferred to the finite headspace (closed system; mass retained)
+  v1: 0.001000 mol baking soda (sodium bicarbonate) dissolved
+  v1: finite-volume gas/liquid equilibrium; P=101605.080 Pa, n_gas=0.00040993 mol
+  v1: pH 8.246 · I = 0.0101 mol/kgw
+  v1: T 298.150 K → 298.110 K (ΔT = -0.040 K)
+  HAZARD [Caution] (L0): strong acid and carbonate fizz vigorously, releasing carbon dioxide — the mixture can spatter; Adding acid to chalk or baking soda foams over if the vessel is too small. CO₂ displaces air in enclosed spaces.
+  v1: T 298.110 K → 298.110 K (ΔT = +0.000 K)
+  v1: +0.002000 mol hydrochloric acid (HCl, M = 36.461 g/mol)
+  v1: 0.000107 mol carbon dioxide transferred to the finite headspace (closed system; mass retained)
+  v1: finite-volume gas/liquid equilibrium; P=128016.409 Pa, n_gas=0.00051645 mol
+  v1: pH 2.050 · I = 0.0201 mol/kgw
+  v1: T 298.110 K → 298.127 K (ΔT = +0.017 K)
+  v1: sealed boundary opened to the atmospheric reservoir
+  v1: 0.000323 mol nitrogen evolved (open system; mass leaves)
+  v1: 0.000086 mol oxygen evolved (open system; mass leaves)
+  v1: 0.000108 mol carbon dioxide evolved (open system; mass leaves)
+  v1: 0.000891 mol carbon dioxide evolved (open system; mass leaves)
+  v1: pH 2.050 · I = 0.0201 mol/kgw
+  v1: T 298.127 K → 298.084 K (ΔT = -0.043 K)
+  v1 pressure gauge: 101.3250 kPa
+  v1 (beaker) — 24.93 °C, 99.8 g, 100.0 mL liquid, open to atmosphere, pH 2.05, I = 0.0201 m
+           2.00 mmol  chloride ion       Aqueous
+           1000 µmol  sodium ion         Aqueous
+           1.32 µmol  dissolved carbon dioxide Aqueous
+           75.6 pmol  bicarbonate ion    Aqueous
+          5.5353 mol  water              Liquid
+           1.00 mmol  hydrogen ion       Aqueous
+      speciation (mol/kgw · activity · γ):
+        H2O              5.5510e1    9.9930e-1   γ=0.018
+        Cl-             2.0057e-2    1.7396e-2   γ=0.867
+        H+              1.0028e-2    8.9190e-3   γ=0.889
+        Na+             1.0028e-2    8.7466e-3   γ=0.872
+        O2              2.6680e-4    2.6800e-4   γ=1.004
+        CO2             1.3269e-5    1.3330e-5   γ=1.005
