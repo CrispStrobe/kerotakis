@@ -792,6 +792,332 @@ fn electrode() -> kerotakis_core::compartment::ElectrodeState {
     .unwrap()
 }
 
+fn prefix_stock(kind: &str, amount: f64) -> Vessel {
+    let mut v = water();
+    match kind {
+        "bulk" => v.deposit(SpeciesId::new("Cu"), Moles(amount), Phase::Solid),
+        "adsorbed" => v.adsorbed.push(kerotakis_core::vessel::AdsorbedAmount {
+            sorbent: SpeciesId::new("activated_charcoal"),
+            sorbate: SpeciesId::new("Cu"),
+            moles: Moles(amount),
+        }),
+        _ => {
+            let mut e = electrode();
+            if kind == "substrate" {
+                e.material = "Cu".into();
+                e.substrate_moles = Some(amount);
+                e.deposits.clear();
+            } else {
+                e.deposits[0].moles = amount;
+            }
+            v.electrodes.push(e);
+        }
+    }
+    v
+}
+
+fn prefix_delta(kind: &str, changes: &[f64]) -> StateDelta {
+    use kerotakis_core::delta::ElectrodeInventory;
+    changes.iter().fold(
+        StateDelta::new("ordered reservoir"),
+        |delta, amount| match kind {
+            "bulk" => delta.with_moles(SpeciesId::new("Cu"), Phase::Solid, *amount),
+            "adsorbed" => delta.with_adsorbed(
+                SpeciesId::new("activated_charcoal"),
+                SpeciesId::new("Cu"),
+                *amount,
+            ),
+            _ => delta.with_electrode_moles(
+                "e",
+                if kind == "substrate" {
+                    ElectrodeInventory::Substrate
+                } else {
+                    ElectrodeInventory::Deposit {
+                        species: SpeciesId::new("Cu"),
+                        growth: None,
+                        effect: None,
+                    }
+                },
+                *amount,
+            ),
+        },
+    )
+}
+
+#[test]
+fn ordered_reservoirs_use_current_stock_at_large_dynamic_ranges() {
+    for kind in ["bulk", "adsorbed", "substrate", "deposit"] {
+        let mut v = prefix_stock(kind, 1e20);
+        let before = key(&v);
+        // The first addition is below the original stock's floating-point
+        // resolution. After exhaustion, it cannot finance a withdrawal.
+        let overdraft = prefix_delta(kind, &[1.0, -1e20, -1.0, 1.0]);
+        assert!(!overdraft.validate(&v).is_empty(), "{kind}");
+        assert!(overdraft.commit(&mut v).is_err(), "{kind}");
+        assert_eq!(key(&v), before, "{kind}");
+
+        // Funding after exhaustion is represented at the current scale.
+        prefix_delta(kind, &[-1e20, 1.0, -1.0])
+            .commit(&mut v)
+            .unwrap();
+        assert_eq!(
+            ConservedLedger::from_vessel(&v)
+                .elements
+                .get("Cu")
+                .copied()
+                .unwrap_or(0.0),
+            0.0,
+            "{kind}"
+        );
+    }
+}
+
+#[test]
+fn separate_small_portions_remain_available_after_a_large_portion_is_exhausted() {
+    for kind in ["bulk", "adsorbed"] {
+        let mut v = prefix_stock(kind, 1e20);
+        if kind == "bulk" {
+            // Deliberately keep separately owned portions instead of merging.
+            v.contents.push(kerotakis_core::vessel::Portion {
+                species: SpeciesId::new("Cu"),
+                moles: Moles(1.0),
+                phase: Phase::Solid,
+            });
+        } else {
+            let mut small = v.adsorbed[0].clone();
+            small.moles = Moles(1.0);
+            v.adsorbed.push(small);
+        }
+        // Their aggregate rounds to1e20, but ordered consumption exposes
+        // the separately stored mole, which legitimately funds the last step.
+        prefix_delta(kind, &[-1e20, -1.0]).commit(&mut v).unwrap();
+        assert_eq!(
+            ConservedLedger::from_vessel(&v)
+                .elements
+                .get("Cu")
+                .copied()
+                .unwrap_or(0.0),
+            0.0
+        );
+    }
+}
+
+#[test]
+fn ordered_reservoirs_do_not_grant_absolute_credit_to_empty_or_trace_stock() {
+    for kind in ["bulk", "adsorbed", "substrate", "deposit"] {
+        for available in [0.0, 5e-16] {
+            let mut v = prefix_stock(kind, available);
+            let before = key(&v);
+            let requested = if available == 0.0 {
+                5e-16
+            } else {
+                2.0 * available
+            };
+            assert!(
+                prefix_delta(kind, &[-requested, requested])
+                    .commit(&mut v)
+                    .is_err(),
+                "{kind}, {available}"
+            );
+            assert_eq!(key(&v), before);
+            // The same trace-sized changes are valid in funded order.
+            prefix_delta(kind, &[requested, -requested])
+                .commit(&mut v)
+                .unwrap();
+            let actual = ConservedLedger::from_vessel(&v)
+                .elements
+                .get("Cu")
+                .copied()
+                .unwrap_or(0.0);
+            assert!(
+                (actual - available).abs() <= available.abs() * 8.0 * f64::EPSILON,
+                "{kind}, {actual}"
+            );
+        }
+    }
+}
+
+#[test]
+fn electrode_inventory_prefixes_cannot_borrow_from_later_deposits() {
+    use kerotakis_core::delta::ElectrodeInventory;
+    for substrate in [false, true] {
+        for available in [0.0, 0.001, 5e-16] {
+            let mut v = water();
+            let mut e = electrode();
+            let inventory = if substrate {
+                e.substrate_moles = Some(available);
+                ElectrodeInventory::Substrate
+            } else {
+                e.deposits[0].moles = available;
+                ElectrodeInventory::Deposit {
+                    species: SpeciesId::new("Cu"),
+                    growth: None,
+                    effect: None,
+                }
+            };
+            v.electrodes.push(e);
+            let before = key(&v);
+            let request = if available == 0.0 {
+                5e-16
+            } else {
+                2.0 * available
+            };
+            let delta = StateDelta::new("out-of-order electrode transfer")
+                .with_electrode_moles("e", inventory.clone(), -request)
+                .with_electrode_moles("e", inventory, request);
+            assert!(delta
+                .validate(&v)
+                .iter()
+                .any(|e| matches!(e, DeltaError::ElectrodeNegativity { .. })));
+            assert!(delta.commit(&mut v).is_err());
+            assert_eq!(
+                key(&v),
+                before,
+                "substrate={substrate}, available={available}"
+            );
+        }
+    }
+}
+
+#[test]
+fn electrode_deposit_first_then_withdraw_is_valid_and_conservative() {
+    use kerotakis_core::delta::ElectrodeInventory;
+    let mut v = water();
+    v.electrodes.push(electrode());
+    let before = ConservedLedger::from_vessel(&v);
+    let inventory = ElectrodeInventory::Deposit {
+        species: SpeciesId::new("Cu"),
+        growth: None,
+        effect: None,
+    };
+    StateDelta::new("funded electrode transfer")
+        .with_electrode_moles("e", inventory.clone(), 0.002)
+        .with_electrode_moles("e", inventory, -0.002)
+        .commit_conserved(&mut v, 1e-10)
+        .unwrap();
+    assert!((v.electrodes[0].deposits[0].moles - 0.001).abs() < 1e-18);
+    assert!(before
+        .check_against(&ConservedLedger::from_vessel(&v), 1e-10, 1e-15)
+        .is_empty());
+}
+
+#[test]
+fn ordered_deposit_effects_enrich_once_and_refuse_conflicting_declarations() {
+    use kerotakis_core::{delta::ElectrodeInventory, electrochemistry::PassivationEffect};
+    let inventory = |effect| ElectrodeInventory::Deposit {
+        species: SpeciesId::new("Cu"),
+        growth: None,
+        effect,
+    };
+    for original_layer in [false, true] {
+        let mut v = water();
+        let mut e = electrode();
+        if !original_layer {
+            e.deposits.clear();
+        }
+        v.electrodes.push(e);
+        let before = key(&v);
+        let conflict = StateDelta::new("conflicting layer metadata")
+            .with_electrode_moles("e", inventory(Some(PassivationEffect::Passivating)), 0.001)
+            .with_electrode_moles("e", inventory(Some(PassivationEffect::Conductive)), 0.001);
+        assert!(
+            conflict.validate(&v).iter().any(|e| matches!(e,
+            DeltaError::InvalidElectrodeDelta { reason, .. } if reason.contains("kinetic effect")))
+        );
+        assert!(conflict.commit(&mut v).is_err());
+        assert_eq!(key(&v), before);
+
+        // A declaration can enrich unknown metadata; repeating it or leaving
+        // it unspecified does not discard that established kinetic effect.
+        StateDelta::new("consistent layer metadata")
+            .with_electrode_moles("e", inventory(Some(PassivationEffect::Passivating)), 0.001)
+            .with_electrode_moles("e", inventory(None), 0.001)
+            .with_electrode_moles("e", inventory(Some(PassivationEffect::Passivating)), -0.001)
+            .commit(&mut v)
+            .unwrap();
+        assert_eq!(
+            v.electrodes[0].deposits[0].effect,
+            Some(PassivationEffect::Passivating)
+        );
+        let expected = if original_layer { 0.002 } else { 0.001 };
+        assert!((v.electrodes[0].deposits[0].moles - expected).abs() < 1e-18);
+    }
+}
+
+#[test]
+fn a_fully_removed_deposit_does_not_constrain_new_layer_metadata() {
+    use kerotakis_core::{delta::ElectrodeInventory, electrochemistry::PassivationEffect};
+    let mut v = water();
+    let mut e = electrode();
+    e.deposits[0].effect = Some(PassivationEffect::Passivating);
+    v.electrodes.push(e);
+    let before = ConservedLedger::from_vessel(&v);
+    StateDelta::new("replace a whole layer")
+        .with_electrode_moles(
+            "e",
+            ElectrodeInventory::Deposit {
+                species: SpeciesId::new("Cu"),
+                growth: None,
+                effect: None,
+            },
+            -0.001,
+        )
+        .with_electrode_moles(
+            "e",
+            ElectrodeInventory::Deposit {
+                species: SpeciesId::new("Cu"),
+                growth: None,
+                effect: Some(PassivationEffect::Conductive),
+            },
+            0.001,
+        )
+        .commit_conserved(&mut v, 1e-10)
+        .unwrap();
+    assert_eq!(
+        v.electrodes[0].deposits[0].effect,
+        Some(PassivationEffect::Conductive)
+    );
+    assert!(before
+        .check_against(&ConservedLedger::from_vessel(&v), 1e-10, 1e-15)
+        .is_empty());
+}
+
+#[test]
+fn electrode_updates_refuse_ambiguous_layers_and_overflowing_prefixes() {
+    use kerotakis_core::delta::ElectrodeInventory;
+    let inventory = ElectrodeInventory::Deposit {
+        species: SpeciesId::new("Cu"),
+        growth: None,
+        effect: None,
+    };
+    let mut v = water();
+    let mut e = electrode();
+    let duplicate = e.deposits[0].clone();
+    e.deposits.push(duplicate);
+    v.electrodes.push(e);
+    let before = key(&v);
+    // Availability across two layers is not permission to mutate just one.
+    let delta = StateDelta::new("ambiguous layer withdrawal").with_electrode_moles(
+        "e",
+        inventory.clone(),
+        -0.0015,
+    );
+    assert!(delta.validate(&v).iter().any(|e| matches!(e,
+        DeltaError::InvalidElectrodeDelta { reason, .. } if reason.contains("ambiguous"))));
+    assert!(delta.commit(&mut v).is_err());
+    assert_eq!(key(&v), before);
+
+    v.electrodes[0].deposits.pop();
+    let before = key(&v);
+    let overflow = StateDelta::new("overflowing electrode prefix")
+        .with_electrode_moles("e", inventory.clone(), 1e308)
+        .with_electrode_moles("e", inventory, 1e308);
+    assert!(overflow.validate(&v).iter().any(|e| matches!(e,
+        DeltaError::InvalidElectrodeDelta { reason, .. } if reason.contains("aggregate"))));
+    assert!(overflow.commit(&mut v).is_err());
+    assert_eq!(key(&v), before);
+}
+
 #[test]
 fn snapshot_deposit_geometry_and_aggregate_electrical_overflow_are_atomic() {
     for case in 0..17 {

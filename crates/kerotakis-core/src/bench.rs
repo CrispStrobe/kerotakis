@@ -414,7 +414,7 @@ impl Bench {
                 moved.moles.0 *= fraction;
                 moved
             })
-            .filter(|portion| portion.moles.0 > 1e-15)
+            .filter(|portion| portion.moles.0 > 0.0)
             .collect::<Vec<_>>();
         let unresolved = source
             .unresolved_materials
@@ -425,7 +425,7 @@ impl Bench {
                 moved.amount *= fraction;
                 moved
             })
-            .filter(|portion| portion.amount > 1e-15)
+            .filter(|portion| portion.amount > 0.0)
             .collect::<Vec<_>>();
 
         let mut spill = self
@@ -528,7 +528,7 @@ impl Bench {
                 portion.moles.0 *= 1.0 - fraction;
             }
         }
-        source.contents.retain(|portion| portion.moles.0 > 1e-15);
+        source.contents.retain(|portion| portion.moles.0 > 0.0);
         for portion in &mut source.unresolved_materials {
             if kind.takes_unresolved(portion) {
                 portion.amount *= 1.0 - fraction;
@@ -536,7 +536,7 @@ impl Bench {
         }
         source
             .unresolved_materials
-            .retain(|portion| portion.amount > 1e-15);
+            .retain(|portion| portion.amount > 0.0);
         if let Some(existing) = self
             .spills
             .iter_mut()
@@ -626,13 +626,13 @@ impl Bench {
         }
         self.spills[index]
             .contents
-            .retain(|portion| portion.moles.0 > 1e-15);
+            .retain(|portion| portion.moles.0 > 0.0);
         for portion in &mut self.spills[index].unresolved_materials {
             portion.amount *= 1.0 - fraction;
         }
         self.spills[index]
             .unresolved_materials
-            .retain(|portion| portion.amount > 1e-15);
+            .retain(|portion| portion.amount > 0.0);
         if self.spills[index].contents.is_empty()
             && self.spills[index].unresolved_materials.is_empty()
         {
@@ -2469,7 +2469,7 @@ impl Bench {
                     .contents
                     .iter()
                     .filter(|portion| portion.phase != Phase::Gas)
-                    .filter(|portion| portion.moles.0 > 1e-15)
+                    .filter(|portion| portion.moles.0 > 0.0)
                     .map(|portion| DiscardedPortion {
                         species: portion.species.clone(),
                         moles: portion.moles,
@@ -2489,7 +2489,7 @@ impl Bench {
                 let mut materials: Vec<String> = source
                     .unresolved_materials
                     .iter()
-                    .filter(|portion| portion.amount > 1e-15)
+                    .filter(|portion| portion.amount > 0.0)
                     .map(|portion| portion.material.clone())
                     .collect();
                 materials.sort();
@@ -2661,7 +2661,7 @@ impl Bench {
                             moved.amount *= fraction;
                             moved
                         })
-                        .filter(|portion| portion.amount > 1e-15)
+                        .filter(|portion| portion.amount > 0.0)
                         .collect();
                     (moved, unresolved, src.temperature)
                 };
@@ -2715,14 +2715,14 @@ impl Bench {
                             p.moles = Moles(p.moles.0 * (1.0 - fraction));
                         }
                     }
-                    src.contents.retain(|p| p.moles.0 > 1e-15);
+                    src.contents.retain(|p| p.moles.0 > 0.0);
                     for portion in &mut src.unresolved_materials {
                         if material::unresolved_portion_is_liquid(portion) {
                             portion.amount *= 1.0 - fraction;
                         }
                     }
                     src.unresolved_materials
-                        .retain(|portion| portion.amount > 1e-15);
+                        .retain(|portion| portion.amount > 0.0);
                     would_move
                 };
                 // …and mix it into `to` with the energy balance.
@@ -2791,7 +2791,7 @@ impl Bench {
                             moved.amount *= fraction_a;
                             moved
                         })
-                        .filter(|portion| portion.amount > 1e-15)
+                        .filter(|portion| portion.amount > 0.0)
                         .collect();
                     (moved, unresolved, src.temperature)
                 };
@@ -2815,7 +2815,7 @@ impl Bench {
                             moved.amount *= fraction_b;
                             moved
                         })
-                        .filter(|portion| portion.amount > 1e-15)
+                        .filter(|portion| portion.amount > 0.0)
                         .collect();
                     (moved, unresolved, src.temperature)
                 };
@@ -2871,7 +2871,7 @@ impl Bench {
                             p.moles = Moles(p.moles.0 * (1.0 - fraction_a));
                         }
                     }
-                    src_a.contents.retain(|p| p.moles.0 > 1e-15);
+                    src_a.contents.retain(|p| p.moles.0 > 0.0);
                     for portion in &mut src_a.unresolved_materials {
                         if material::unresolved_portion_is_liquid(portion) {
                             portion.amount *= 1.0 - fraction_a;
@@ -2879,7 +2879,7 @@ impl Bench {
                     }
                     src_a
                         .unresolved_materials
-                        .retain(|portion| portion.amount > 1e-15);
+                        .retain(|portion| portion.amount > 0.0);
                     src_a.solution = None;
                 }
                 {
@@ -2889,7 +2889,7 @@ impl Bench {
                             p.moles = Moles(p.moles.0 * (1.0 - fraction_b));
                         }
                     }
-                    src_b.contents.retain(|p| p.moles.0 > 1e-15);
+                    src_b.contents.retain(|p| p.moles.0 > 0.0);
                     for portion in &mut src_b.unresolved_materials {
                         if material::unresolved_portion_is_liquid(portion) {
                             portion.amount *= 1.0 - fraction_b;
@@ -2897,7 +2897,7 @@ impl Bench {
                     }
                     src_b
                         .unresolved_materials
-                        .retain(|portion| portion.amount > 1e-15);
+                        .retain(|portion| portion.amount > 0.0);
                     src_b.solution = None;
                 }
 

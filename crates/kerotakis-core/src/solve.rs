@@ -1772,12 +1772,9 @@ impl Equilibrator for StateEquilibrator {
                 return Ok(events);
             }
 
-            for p in vessel.contents.iter_mut() {
-                if p.species == solvent && p.phase == Phase::Liquid {
-                    p.moles = Moles((p.moles.0 - freezing).max(0.0));
-                }
-            }
-            vessel.contents.retain(|p| p.moles.0 > 1e-12);
+            // Remove the total across matching portions exactly once;
+            // physical cleanup must retain unrelated positive traces.
+            vessel.withdraw_phase(&solvent, Moles(freezing), Phase::Liquid);
             vessel.deposit(solvent.clone(), Moles(freezing), Phase::Solid);
 
             let settled = if reached_boundary {
@@ -1882,12 +1879,9 @@ impl Equilibrator for StateEquilibrator {
             if melting <= crate::OBSERVABLE_MOLES {
                 return Ok(events);
             }
-            for p in vessel.contents.iter_mut() {
-                if p.species == solvent && p.phase == Phase::Solid {
-                    p.moles = Moles((p.moles.0 - melting).max(0.0));
-                }
-            }
-            vessel.contents.retain(|p| p.moles.0 > 1e-12);
+            // Remove the total across matching portions exactly once;
+            // physical cleanup must retain unrelated positive traces.
+            vessel.withdraw_phase(&solvent, Moles(melting), Phase::Solid);
             vessel.deposit(solvent.clone(), Moles(melting), Phase::Liquid);
 
             let settled = if melting < frozen_moles - 1e-12 {
@@ -1949,12 +1943,9 @@ impl Equilibrator for StateEquilibrator {
             if boiling <= crate::OBSERVABLE_MOLES {
                 return Ok(events);
             }
-            for p in vessel.contents.iter_mut() {
-                if p.species == solvent && p.phase == Phase::Liquid {
-                    p.moles = Moles((p.moles.0 - boiling).max(0.0));
-                }
-            }
-            vessel.contents.retain(|p| p.moles.0 > 1e-12);
+            // Remove the total across matching portions exactly once;
+            // physical cleanup must retain unrelated positive traces.
+            vessel.withdraw_phase(&solvent, Moles(boiling), Phase::Liquid);
             // Sealed, the steam is headspace and the pressure says so; open,
             // it leaves the room and the balance notices. Either way the
             // matter is accounted for rather than left behind as a liquid

@@ -28,18 +28,6 @@ pub enum ElectrodeInventory {
     },
 }
 
-impl ElectrodeInventory {
-    fn same_reservoir(&self, other: &Self) -> bool {
-        match (self, other) {
-            (Self::Substrate, Self::Substrate) => true,
-            (Self::Deposit { species: left, .. }, Self::Deposit { species: right, .. }) => {
-                left == right
-            }
-            _ => false,
-        }
-    }
-}
-
 #[derive(Debug, Clone, PartialEq)]
 pub struct ElectrodeMoleDelta {
     pub electrode: String,
@@ -796,60 +784,91 @@ impl StateDelta {
 
         // Validate each applied prefix; a later deposit cannot repair an
         // earlier withdrawal that would have been silently clamped.
+        // Bulk and bound inventories may have multiple portions. Mirror
+        // first-portion deposits and ordered withdrawals, retaining separate
+        // small portions even when their aggregate is below another's ULP.
+        let advance_portions = |stock: &mut Vec<f64>, change: f64| {
+            if change > 0.0 {
+                if let Some(first) = stock.first_mut() {
+                    *first += change;
+                } else {
+                    stock.push(change);
+                }
+            } else if change < 0.0 {
+                let mut remaining = -change;
+                for amount in stock.iter_mut() {
+                    if remaining <= 0.0 {
+                        break;
+                    }
+                    let take = amount.min(remaining);
+                    *amount -= take;
+                    remaining -= take;
+                }
+                stock.retain(|amount| *amount > 0.0);
+            }
+        };
         let mut bulk_prefix = std::collections::BTreeMap::new();
         for change in &self.mole_changes {
-            let available = vessel
-                .contents
-                .iter()
-                .filter(|p| p.species == change.species && p.phase == change.phase)
-                .map(|p| p.moles.0)
-                .sum::<f64>();
-            let net = bulk_prefix
+            let stock = bulk_prefix
                 .entry((change.species.0.clone(), change.phase))
-                .or_insert(0.0);
-            *net += change.moles;
-            if !net.is_finite() || !available.is_finite() || available + *net < -1e-15 {
+                .or_insert_with(|| {
+                    vessel
+                        .contents
+                        .iter()
+                        .filter(|p| p.species == change.species && p.phase == change.phase)
+                        .map(|p| p.moles.0)
+                        .collect::<Vec<_>>()
+                });
+            let current = stock.iter().sum::<f64>();
+            let proposed = current + change.moles;
+            let roundoff = 8.0 * f64::EPSILON * current.abs().max(change.moles.abs());
+            if !proposed.is_finite() || !current.is_finite() || proposed < -roundoff {
                 errors.push(DeltaError::Negativity {
                     species: change.species.0.clone(),
                     phase: change.phase,
-                    available,
-                    requested: -*net,
+                    available: current,
+                    requested: -change.moles,
                 });
             }
+            advance_portions(stock, change.moles);
         }
 
         // Check every prefix, matching apply order. A later deposit must
         // not mask an earlier withdrawal that apply would otherwise clamp.
         let mut cumulative = std::collections::BTreeMap::new();
         for change in &self.adsorbed_changes {
-            let available: f64 = vessel
-                .adsorbed
-                .iter()
-                .filter(|entry| entry.sorbent == change.sorbent && entry.sorbate == change.sorbate)
-                .map(|entry| entry.moles.0)
-                .sum();
-            let net = cumulative
+            let stock = cumulative
                 .entry((change.sorbent.0.clone(), change.sorbate.0.clone()))
-                .or_insert(0.0);
-            *net += change.moles;
-            if !change.moles.is_finite() || !net.is_finite() || !available.is_finite() {
-                errors.push(DeltaError::Negativity {
-                    species: change.sorbate.0.clone(),
-                    phase: Phase::Aqueous,
-                    available,
-                    requested: f64::NAN,
+                .or_insert_with(|| {
+                    vessel
+                        .adsorbed
+                        .iter()
+                        .filter(|p| p.sorbent == change.sorbent && p.sorbate == change.sorbate)
+                        .map(|p| p.moles.0)
+                        .collect::<Vec<_>>()
                 });
-            } else if available + *net < -1e-15 {
+            let current = stock.iter().sum::<f64>();
+            let proposed = current + change.moles;
+            let roundoff = 8.0 * f64::EPSILON * current.abs().max(change.moles.abs());
+            if !change.moles.is_finite()
+                || !proposed.is_finite()
+                || !current.is_finite()
+                || proposed < -roundoff
+            {
                 errors.push(DeltaError::Negativity {
                     species: change.sorbate.0.clone(),
                     phase: Phase::Aqueous,
-                    available,
-                    requested: -*net,
+                    available: current,
+                    requested: -change.moles,
                 });
             }
+            advance_portions(stock, change.moles);
         }
 
-        let mut checked = std::collections::BTreeSet::new();
+        // Follow the same ordered inventory operations as apply. A later
+        // deposit cannot finance an earlier withdrawal that removes a layer.
+        let mut electrode_prefix = std::collections::BTreeMap::new();
+        let mut electrode_effects = std::collections::BTreeMap::new();
         for change in &self.electrode_changes {
             let matching_count = vessel
                 .electrodes
@@ -897,16 +916,29 @@ impl StateDelta {
                     )
                 }
                 ElectrodeInventory::Deposit {
-                    species,
-                    growth,
-                    effect,
+                    species, effect, ..
                 } => {
+                    if electrode
+                        .deposits
+                        .iter()
+                        .filter(|p| p.species == species.0)
+                        .count()
+                        > 1
+                    {
+                        errors.push(DeltaError::InvalidElectrodeDelta {
+                            electrode: change.electrode.clone(),
+                            reason: format!("deposit {} is ambiguous across layers", species.0),
+                        });
+                        continue;
+                    }
                     let existing = electrode
                         .deposits
                         .iter()
                         .find(|deposit| deposit.species == species.0);
-                    if existing
-                        .and_then(|deposit| deposit.effect)
+                    let effective = electrode_effects
+                        .entry((change.electrode.clone(), species.0.clone()))
+                        .or_insert(existing.and_then(|deposit| deposit.effect));
+                    if effective
                         .zip(*effect)
                         .is_some_and(|(existing, proposed)| existing != proposed)
                     {
@@ -915,19 +947,8 @@ impl StateDelta {
                             reason: format!("deposit {} changes kinetic effect", species.0),
                         });
                     }
-                    if growth.is_some_and(|model| {
-                        model
-                            .geometry(
-                                (existing.map_or(0.0, |deposit| deposit.moles) + change.moles)
-                                    .max(0.0),
-                                electrode.area_m2,
-                            )
-                            .is_err()
-                    }) {
-                        errors.push(DeltaError::InvalidElectrodeDelta {
-                            electrode: change.electrode.clone(),
-                            reason: format!("deposit {} has invalid growth geometry", species.0),
-                        });
+                    if effective.is_none() {
+                        *effective = *effect;
                     }
                     (
                         species.0.clone(),
@@ -941,26 +962,52 @@ impl StateDelta {
                     )
                 }
             };
-            let key = (change.electrode.clone(), inventory_key);
-            if !checked.insert(key) {
+            let stock = electrode_prefix
+                .entry((change.electrode.clone(), inventory_key))
+                .or_insert(available);
+            let current = *stock;
+            let proposed = current + change.moles;
+            if !current.is_finite() || !proposed.is_finite() {
+                errors.push(DeltaError::InvalidElectrodeDelta {
+                    electrode: change.electrode.clone(),
+                    reason: "aggregate electrode inventory must remain finite".into(),
+                });
                 continue;
             }
-            let cumulative_change: f64 = self
-                .electrode_changes
-                .iter()
-                .filter(|candidate| {
-                    candidate.electrode == change.electrode
-                        && candidate.inventory.same_reservoir(&change.inventory)
-                })
-                .map(|candidate| candidate.moles)
-                .sum();
-            if cumulative_change < 0.0 && -cumulative_change > available + 1e-15 {
+            // Only machine roundoff may cross zero. An absolute allowance
+            // would invent the entire stock of an empty or trace reservoir.
+            let roundoff = 8.0 * f64::EPSILON * current.abs().max(change.moles.abs());
+            if proposed < -roundoff {
                 errors.push(DeltaError::ElectrodeNegativity {
                     electrode: change.electrode.clone(),
-                    species,
-                    available,
-                    requested: -cumulative_change,
+                    species: species.clone(),
+                    available: current,
+                    requested: -change.moles,
                 });
+            }
+            *stock = match &change.inventory {
+                ElectrodeInventory::Substrate => proposed,
+                ElectrodeInventory::Deposit { .. } => proposed.max(0.0),
+            };
+            if let ElectrodeInventory::Deposit {
+                species, growth, ..
+            } = &change.inventory
+            {
+                // Apply drops an exhausted layer: its metadata cannot bind
+                // a new layer deposited later in the same transaction.
+                if proposed <= 0.0 {
+                    electrode_effects.insert((change.electrode.clone(), species.0.clone()), None);
+                }
+                if growth.is_some_and(|model| {
+                    model
+                        .geometry(proposed.max(0.0), electrode.area_m2)
+                        .is_err()
+                }) {
+                    errors.push(DeltaError::InvalidElectrodeDelta {
+                        electrode: change.electrode.clone(),
+                        reason: format!("deposit {species} has invalid growth geometry"),
+                    });
+                }
             }
         }
 
@@ -1410,7 +1457,9 @@ mod tests {
             .with_moles(SpeciesId::new("NaCl"), Phase::Aqueous, -0.06);
         assert!(matches!(
             delta.validate(&vessel).as_slice(),
-            [DeltaError::Negativity { requested, .. }] if (*requested - 0.12).abs() < 1e-12
+            [DeltaError::Negativity { available, requested, .. }]
+                if (*available - 0.04).abs() < 1e-12
+                    && (*requested - 0.06).abs() < 1e-12
         ));
     }
 
