@@ -1,0 +1,24 @@
+[1m[92m   Compiling[0m private-gemm-x86 v0.1.20
+[1m[92m   Compiling[0m faer v0.24.4
+[1m[92m   Compiling[0m diffsol-la v0.1.1
+[1m[92m   Compiling[0m getrandom v0.4.3
+[1m[92m   Compiling[0m diffsol-nl v0.1.1
+[1m[92m   Compiling[0m tempfile v3.27.0
+[1m[92m   Compiling[0m wait-timeout v0.2.1
+[1m[92m   Compiling[0m backtrace v0.3.76
+[1m[92m   Compiling[0m rusty-fork v0.3.1
+[1m[92m   Compiling[0m diffsol v0.16.2
+[1m[92m   Compiling[0m parking_lot v0.12.5
+[1m[92m   Compiling[0m rand_xorshift v0.4.0
+[1m[92m   Compiling[0m criterion v0.5.1
+[1m[92m   Compiling[0m proptest v1.11.0
+[1m[92m   Compiling[0m dhat v0.3.3
+[1m[92m   Compiling[0m kerotakis-core v0.0.1 (/home/runner/work/kerotakis/kerotakis/crates/kerotakis-core)
+[1m[91merror[E0433][0m[1m: cannot find type `NotModelledCause` in this scope[0m
+  [1m[94m--> [0mcrates/kerotakis-core/tests/electrolysis_scope.rs:20:89
+   [1m[94m|[0m
+[1m[94m20[0m [1m[94m|[0m [1m[94m...[0ment, Event::NotYetModeled { cause: NotModelledCause::ModelBoundary, what, .. } if what.contains("inert electrodes") && what.conta[1m[94m...[0m
+   [1m[94m|[0m                                       [1m[91m^^^^^^^^^^^^^^^^[0m [1m[91muse of undeclared type `NotModelledCause`[0m
+
+[1mFor more information about this error, try `rustc --explain E0433`.[0m
+[1m[91merror[0m: could not compile `kerotakis-core` (test "electrolysis_scope") due to 1 previous error

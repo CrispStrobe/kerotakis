@@ -18,6 +18,17 @@ Three further controls were frozen before their post-repair replay: canonical pr
 
 Resource handling was part of execution. Agents did light design/source work only when load and available memory allowed. Local CLI execution was stopped before its first experiment because load exceeded the gate. All experiment replays and native/WASM validation were moved to isolated hosted runners. Large executable/test artifacts and temporary downloads stayed on `/mnt/storage`; local disk later fell below 1 GiB and `/tmp` briefly filled. No local compilation was started and no dirty or unmerged worktrees were removed.
 
-The first two validation attempts are retained: one caught private helper use in new tests, and another caught a type-inference mistake in the integration. Both were corrected before the final validation. Final validation and post-repair evidence are recorded below once complete.
+The first three validation attempts are retained: they caught private helper use, ambiguous type inference, and a missing test import. These integration mistakes were corrected before final validation. Final validation and post-repair evidence are recorded below once complete.
 
 Evidence: [frozen forecasts](predictions.json), [original assessment](assessment.json), [raw baseline](evidence/baseline/execution.json), [separate followups](evidence/followups/execution.json), and [resource-gated runner](run.py). Forecast SHA-256: `7dae83c9b7154adfbdecf2ffa19955cabf7f319a9d01c2811e51d2bad077b809`.
+
+The remaining gaps need systematic acceptance criteria, not one-off expected-output adjustments:
+
+| Gap exposed by this batch | Required closure and independent acceptance evidence |
+| --- | --- |
+| Sealed freezing/thawing (097) | Account for accepted and unaccepted energy at every activity-domain boundary; resume speciation from a valid liquid state. Test cooling/heating reciprocity across sample sizes, air inventories, electrolyte concentrations, partial and complete freezing, and solver refusal. Conservation and phase temperature bounds must hold even when convergence fails. |
+| Distillation domain (098) | Extend bubble-point/cascade support only with reviewed vapour-pressure data; sweep composition, pressure, cut size and stage count. Each successful fraction request must complete its mass budget; every domain exit must leave the complete Bench unchanged. |
+| Chromatography and optics (082, 088, 099) | Keep sample-wide coverage separate from the supported response. Missing neutral retention or complex optical bands must remain visible alongside supported peaks/bands; validate parameters against independently sourced measurements before expanding coverage. |
+| Identity and input handling (052–058, 064–066, 079, 083–084, 093) | Separate aliases for an existing substance from genuinely missing species. Preserve canonical stored identities, give actionable input diagnostics, and test alias equivalence without silently substituting a different chemical. |
+| Photochemistry (080–081) | Couple an explicitly supported absorption/quantum-yield mechanism to photon dose; validate wavelength, irradiance, dark and zero-input controls. Equal uncoupled red/UV/dark output is a capability gap, not evidence of photochemical equivalence. |
+| Redox and solid eligibility (085, 095) | Review dataset components, oxidation-state ownership and admissible phases together. Validate both products and electron/atom budgets; do not treat an unoffered supersaturated mineral or persistent indicator colour as a successful reaction. |
